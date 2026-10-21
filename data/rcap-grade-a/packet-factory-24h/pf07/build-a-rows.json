@@ -1,0 +1,55 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-rows/v1",
+  "assignmentId": "PF07",
+  "workerId": "BUILD-A",
+  "lane": "packet-build",
+  "engine": "Claude Code",
+  "shiftBaseSha": "3fcdb0f292f31d1a1bbc5778832d54401ef9c782",
+  "whyThisFileIsNotRowsJson": "data/rcap-grade-a/packet-factory-24h/pf07/ already holds an earlier cohort's return for this lane and it is not overwritten. This file is BUILD-A's return for the one pf07 family in the official_pdf_fill cohort, ne-seal-pre2017-set, which that return does not mention. The two cover disjoint families and do not disagree.",
+  "familiesAssigned": [
+    "ne-seal-pre2017-set"
+  ],
+  "claim": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF07 'ne-seal-pre2017-set' returned CLAIM_OK before any read of family content",
+  "selfVerification": "none",
+  "rows": [
+    {
+      "itemId": "ne-seal-pre2017-set",
+      "status": "STOPPED",
+      "stopClass": "UNBINDABLE_REQUIRED_FACTS",
+      "jurisdiction": "NE",
+      "implementationStrategy": "official_pdf_fill",
+      "overlayDirectoryTouched": false,
+      "overlayDirectoryState": "does not exist; nothing was written and no builder was authored",
+      "whyNotBlockedSource": "every source binds. CC 6:12 at 68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28, CC 6:15.1 at d1fb1340b1ef42bab9da89f9ed6bc8d669057158065bd6bfcb37e762777a6b79 (1 page, 21 fields, 2 hidden) and the CC 6:12a instructions at b76a0931b781a97de38d17d5856996de307e8c3fb9a67fb48e5679bd232da26a.",
+      "theBlocker": {
+        "what": "Nebraska CC 6:12 composes its own caption with form JavaScript, and the two facts that caption needs cannot be bound by the shared semantics.",
+        "measuredFromThePinnedBinary": [
+          "`TYPEOFCOURTRESULTS` ships carrying the source value 'IN THE                   COURT OF' and `fullcountystatementRIGHT` ships carrying '                            COUNTY, NEBRASKA '. Those are the caption scaffolding, drawn from the widgets' own values, and they flatten as ink.",
+          "`enter the type of court` and `enter the county` are BOTH HIDDEN -- annotation flag 2 -- and both carry instructional source text, '(Enter the type of court)' and '(Enter the county name)'. A write into either is invisible ink, and this cohort's builders assert against exactly that.",
+          "the two visible controls that set the caption are dropdowns, `TYPEOFCOURTDROPDOWN` and `DROPDOWNCOUNTY2`, and the form's JavaScript is what copies a choice into the results field."
+        ],
+        "whyTheCountyCannotBeWritten": "`DROPDOWNCOUNTY2` carries all ninety-three Nebraska counties as exact options, so the value exists and would match. But decideBinding refuses it with no_allowlisted_fact_matches: the descriptor for matter.county matches /\\bcounty\\b/ and the name DROPDOWNCOUNTY2 has no word boundary around COUNTY. An explicit mapping cannot rescue it either -- the finalizer requires a descriptor to match the name BEFORE an explicit mapping is consulted, so explicitMappings can only narrow a binding that already exists, never create one.",
+        "whyTheCourtCannotBeWritten": "`TYPEOFCOURTRESULTS` does bind matter.court, but writing into it would replace the printed caption fragment 'IN THE ___ COURT OF' with a bare court name and break the sentence the caption is made of.",
+        "whyTheEmailCannotBeWritten": "`emailaddress` does not bind: the descriptor matches /\\be[-\\s]?mail\\b/ and the name has no word boundary. This is a fact the platform HOLDS, on a field Nebraska Supreme Court Rule 2-208 REQUIRES a self-represented party to complete."
+      },
+      "whatThisLaneDidNotDoAboutIt": [
+        "It did not declare the e-mail address required-before-filing. That disposition's first condition is that the platform holds no value for the fact, and the platform holds this one. The mechanical check would have passed -- no other field on the document carries the label -- and passing it would have been a false statement in the field map.",
+        "It did not add descriptors to scripts/rcap-official-forms/rcap-field-semantics.mjs for `emailaddress`, `DROPDOWNCOUNTY2` or `citystatezip`-style names. That list is shared by every family in the factory and widening a match is how a fact starts binding somewhere nobody looked; it needs its own author and its own mutation tests.",
+        "It did not write into either hidden widget, and did not write the county through the results field."
+      ],
+      "whatWouldUnblockIt": "three descriptor additions in the shared field semantics, made deliberately by its owner with mutation tests: a name-channel match for `emailaddress`, one for `DROPDOWNCOUNTY2` (or an explicit-mapping path that does not require a prior descriptor match), and a decision about whether a JavaScript-composed caption field should be written at all. With those, both Nebraska families in this cohort are straightforward builds.",
+      "counters": null,
+      "allNineCountersZero": false,
+      "rasterState": "NOT_APPLICABLE_NOTHING_RENDERED",
+      "selfVerified": false,
+      "packetsSelfVerified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "routeKeys": [
+        "obligation:track-only:NE:ne-seal-pre2017"
+      ],
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/ne/ne-seal-pre2017-set--official-pdf-fill",
+      "alsoWorthRecording": "CC 6:15.1 carries the same JavaScript caption machinery as CC 6:12 -- the same TYPEOFCOURTRESULTS / TYPEOFCOURTDROPDOWN / hidden-prompt triple, and the same two hidden widgets -- so the two forms in this family share one blocker rather than having two."
+    }
+  ]
+}

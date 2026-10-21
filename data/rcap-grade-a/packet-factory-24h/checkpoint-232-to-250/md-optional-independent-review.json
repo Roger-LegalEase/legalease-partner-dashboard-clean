@@ -1,0 +1,39 @@
+{
+  "schemaVersion": "rcap-md-optional-independent-review/v1",
+  "reviewer": "/root/ar_independent_review",
+  "sessionIdentity": "/root/ar_independent_review",
+  "reviewedAtBase": "3b8740972dde964f2dac21ea3c32507b4f1ce28d",
+  "scope": "Bounded compatibility review of the two MD families whose retained prepared-input binding pins the shared completeness contract.",
+  "contract": {
+    "path": "scripts/rcap-packet-completeness/completeness-contract.mjs",
+    "currentSha256": "1ae9d4188df538a744de52138293c13301554c4ead5509d2faf716d1e30887c4",
+    "changeScope": "OPTIONAL_PARTICIPANT_CONTENT sourceOptional declaration, closed source registry, and fail-closed source path/hash/page/geometry/text/condition verification.",
+    "nonMDBranchUseFound": false,
+    "MDRecordUsesSourceOptionalBranch": false
+  },
+  "compatibilityEvidence": {
+    "path": "data/rcap-grade-a/packet-factory-24h/checkpoint-232-to-250/md-optional-compatibility.json",
+    "sha256": "b822b9ce990977ffe91c0276aea9d6796f7107d297d5818fc84c5ee02fdd3927",
+    "fixturesCompared": 43,
+    "fullRawAuditResultsIdentical": true,
+    "beforeResultsSha256": "adaf1f0de099fd08a5b970558273fcba7d1331babe078bea06ccf9d4cc2ffa86",
+    "afterResultsSha256": "adaf1f0de099fd08a5b970558273fcba7d1331babe078bea06ccf9d4cc2ffa86"
+  },
+  "identityChecks": {
+    "pdfBytesHashedDirectly": true,
+    "md_10110_conviction_set": {
+      "canonical": {"sha256": "5456086653a6f033d2708d534e89593d1065ed6b0e58950664cdcd8418d0b571", "bytes": 773371, "pages": 5},
+      "boundary": {"sha256": "cda8eebad0799ed6924cb10846b1723a734f3929594eec0fc2d440c659f82297", "pages": 5},
+      "sourceIdentityReadFromManifest": ["CC-DC-CR-072B source 3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469"]
+    },
+    "md_cannabis_petition_set": {
+      "canonical": {"sha256": "f23b8e7f426430906318accf3fb77872d698633595f689e6c68e4ff37be6b014", "bytes": 175296, "pages": 6},
+      "boundary": {"sha256": "1451df58551922ba05ad860d71d463c1ecf82420a8390454d8257d1e01bd13de", "pages": 6},
+      "sourceIdentityReadFromManifest": ["CC-DC-CR-072D source 6a5337a5d142c8ae1cc41845bd4c5efb5598e7a64acbda17c9ab70134773f147"]
+    },
+    "sourceQualification": "PDF bytes were independently hashed here. Source SHA identities were cross-read from the current rendered-artifacts manifests and compatibility evidence; source binaries were not independently rehashed in this bounded review."
+  },
+  "finding": "The sourceOptional branch is closed, source-bound and fail-closed. Prepared raw audit semantics are deep-equal before and after across all 43 fixtures. Renewal of the single shared code/input pin is justified for these two MD families.",
+  "explicitNonAdmission": ["This does not admit either MD family.", "This does not establish visual clipping/overlap or terminal counters.", "This does not authorize a national audit, packet rebuild, raster dispatch, or pin mutation."],
+  "evidenceRead": ["data/rcap-grade-a/packet-factory-24h/checkpoint-232-to-250/md-optional-compatibility.json", "/tmp/rcap-tmp/md-optional-baseline-inputs.json", "/tmp/rcap-tmp/md-optional-before-results.json", "scripts/rcap-packet-completeness/completeness-contract.mjs", "scripts/rcap-packet-completeness/verify-source-optional-proof.mjs", "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/reports/rendered-artifacts.json", "data/rcap-all50/overlays/census-v1/md/md-cannabis-petition-set--official-pdf-fill/reports/rendered-artifacts.json"]
+}

@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "ga-fo-active-pre2026-set",
+  "blocking": [],
+  "findings": [
+    {
+      "finding": "No statewide Georgia judiciary form exists for this filing, and the MASTER_QUEUE row binds no official form: officialFormFamily NONE, forms [], boundSources [], sourceStatus CUSTOM_PLEADING_FROM_CODIFIED_TEXT.",
+      "consequence": "The packet is a controlled custom pleading composed from the pinned Georgia legal review's Part 3 specification, the adopted legal-design intake record and the packet-set manifest — caption in the existing criminal case styled State of Georgia v. Defendant, the specified pleading title, the specified citations and nothing else, the proposed order that names GCIC, the OTN and the arrest date, and the certificate of service naming the specified recipients. No form was substituted and none was invented."
+    },
+    {
+      "finding": "The court level is data: a state-law offense may have been tried in a State, Superior, Magistrate, Probate or Municipal court, and the engine must not default to Superior Court.",
+      "consequence": "The caption's court-and-county blank asks for the court's name AND level, its printed label lists the five levels, and nothing defaults to Superior Court."
+    },
+    {
+      "finding": "Fee, fee waiver and e-filing for a filing in an existing Georgia criminal case are unresolved and county-specific in the controlling review (a release blocker there), and no held source states a figure.",
+      "consequence": "The packet quotes no figure, states the unresolved status in terms, and delegates both questions to the clerk of the named court by name. The unresolved questions travel to counsel review in approval-request.json."
+    },
+    {
+      "finding": "Georgia terminology discipline is consumer-harm-grade: the statute says restriction and sealing, neither remedy destroys the record, § 35-3-37(u) lets a restriction still be used in the same manner as a first offender discharge under § 42-8-63.1, and nothing gives a person the right to deny a restricted record.",
+      "consequence": "The composed pages never use the removal vocabulary (asserted over the output bytes on every build), the instructions state the § 35-3-37(u) qualification in terms, and no page tells the participant they may say the record does not exist."
+    },
+    {
+      "finding": "The MASTER_QUEUE row names two content-hash source ids (05e8621c…, 91ff699f…) that the factory's source-custody reconciliation records as named_content_hash_not_in_corpus; hashing every file in the mounted Master Library found neither.",
+      "consequence": "No bytes for either hash exist in this container, which is stated here and in the source receipt rather than guessed around. The queue marks this family source-ready on the codified text alone (boundCount 0, ready true), and the build composes from the pinned Georgia legal review, the adopted intake record and the packet-set manifest."
+    },
+    {
+      "finding": "Act 403 (HB 162, 2026) struck the former preponderance findings from § 42-8-62.1(d): on a properly filed petition the court shall order restriction and sealing within 90 days, with no balancing.",
+      "consequence": "No privacy-harm narrative is pleaded, prompted or formatted on this route, and the petition states the mandatory 90-day order, the 60-day clerk seal and the 30-day agency compliance exactly as the record states them."
+    }
+  ]
+}

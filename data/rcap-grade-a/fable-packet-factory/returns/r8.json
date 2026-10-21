@@ -1,0 +1,167 @@
+{
+  "schemaVersion": "fable-packet-factory-return/v1",
+  "worker": "FABLE-R8",
+  "branch": "fable/r8",
+  "baseCaptainCommit": "1338a0bcf",
+  "generatedAt": "2026-09-01T00:00:00Z",
+  "mission": "Repair exactly the failed proof obligations on eight east-coast families, per the FIX01/FIX03/FIX05/FIX07 ledger grants.",
+  "environment": {
+    "masterLibraryMounted": true,
+    "nationwideRecordClearingMounted": false,
+    "eastHost": "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs (reconciled: r4 closed completeness vocabulary + guidance blocks + ehf Form-XObject overlay writer)"
+  },
+  "rows": [
+    {
+      "familyId": "nj_clean_slate-set",
+      "lane": "FIX01",
+      "claimResult": "CLAIM_OK, released on completion",
+      "defectsReproduced": "FAIL_MISSING_REQUIRED_FACTS, knownRequiredFieldsMissing 88, reproduced by the shared completeness verifier from the committed CN 10557 fixture bytes (pre-merged-host fixtures carry no appearance-stream ink for the allowlist-bound held facts).",
+      "repairsMade": "Rebuild on the merged east host; no per-family config change needed. New participant-instructions guidance block and field-map shape are the reconciled host's established output (identical shape to the already-passed nj_arrest_no_conviction-set).",
+      "bytesChanged": true,
+      "rebuildByteIdentical": true,
+      "checkClean": true,
+      "nineCounters": { "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0 },
+      "verdict": "PASS_COMPLETE (builder-side; independent verification pending)",
+      "rasterReceiptInvalidated": true,
+      "status": "REPAIRED_RELEASED",
+      "commit": "de07ffe3f"
+    },
+    {
+      "familyId": "nj_ordinance-set",
+      "lane": "FIX03",
+      "claimResult": "CLAIM_OK, released on completion",
+      "defectsReproduced": "FAIL_MISSING_REQUIRED_FACTS, knownRequiredFieldsMissing 88, reproduced from committed CN 10557 fixture bytes.",
+      "repairsMade": "Rebuild on the merged east host; no per-family config change needed.",
+      "bytesChanged": true,
+      "rebuildByteIdentical": true,
+      "checkClean": true,
+      "nineCounters": { "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0 },
+      "verdict": "PASS_COMPLETE (builder-side; independent verification pending)",
+      "rasterReceiptInvalidated": true,
+      "status": "REPAIRED_RELEASED",
+      "commit": "b0ee33e94"
+    },
+    {
+      "familyId": "nj_indictable_conviction-set",
+      "lane": "FIX03",
+      "claimResult": "CLAIM_OK, released on completion",
+      "defectsReproduced": "vf17 KNOWN_PREFILLS FAIL_REPAIR_REQUIRED; knownRequiredFieldsMissing 9 reproduced from committed fixture bytes. Per FACTORY_MEMORY these are allowlist-bound HELD facts needing new ink, not disclosure gaps.",
+      "repairsMade": "Rebuild on the merged east host; no per-family config change needed.",
+      "bytesChanged": true,
+      "rebuildByteIdentical": true,
+      "checkClean": true,
+      "nineCounters": { "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0 },
+      "verdict": "PASS_COMPLETE (builder-side; independent verification pending)",
+      "rasterReceiptInvalidated": true,
+      "status": "REPAIRED_RELEASED",
+      "commit": "1c0645d8d"
+    },
+    {
+      "familyId": "ny_mrta_marijuana-set",
+      "lane": "FIX05",
+      "claimResult": "CLAIM_OK, released on completion",
+      "defectsReproduced": "FAIL_MISSING_REQUIRED_FACTS, knownRequiredFieldsMissing 15, reproduced from committed fixture bytes (Court_County and other allowlist-bound held facts unwritten). Merged-host rebuild then failed its own read-back: the finalizer selects the dropdown OPTION the form's printed face offers ('Albany County' -> 'ALBANY'), but proofFromArtifact expected the raw fact string.",
+      "repairsMade": "East-host fix: proofFromArtifact now recomputes the expected value for kind=dropdown writes from the source form's own /Opt list under the finalizer's published match rule (never from the drawn text, so a wrong option still fails). Rebuilt on the merged host. First east-host build failure cleared the family output directory (known east-host hazard); restored from HEAD before repairing.",
+      "bytesChanged": true,
+      "rebuildByteIdentical": true,
+      "checkClean": true,
+      "nineCounters": { "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0 },
+      "verdict": "PASS_COMPLETE (builder-side; independent verification pending)",
+      "rasterReceiptInvalidated": true,
+      "status": "REPAIRED_RELEASED",
+      "commit": "5dab5995b"
+    },
+    {
+      "familyId": "ny_160_59_petition-set",
+      "lane": "FIX05",
+      "claimResult": "CLAIM_OK, released on completion",
+      "defectsReproduced": "vf17 KNOWN_PREFILLS FAIL_REPAIR_REQUIRED; knownRequiredFieldsMissing 6 at current bytes (vf17 measured 7 on the older contract) — same failure class, allowlist-bound held facts with no appearance-stream ink.",
+      "repairsMade": "Rebuild on the merged east host; no per-family config change needed. All four rendered documents changed bytes.",
+      "bytesChanged": true,
+      "rebuildByteIdentical": true,
+      "checkClean": true,
+      "nineCounters": { "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0 },
+      "verdict": "PASS_COMPLETE (builder-side; independent verification pending)",
+      "rasterReceiptInvalidated": true,
+      "status": "REPAIRED_RELEASED",
+      "commit": "96d3add5a"
+    },
+    {
+      "familyId": "pa_summary_conviction-set",
+      "lane": "FIX01",
+      "claimResult": "CLAIM_OK, released on completion",
+      "defectsReproduced": "FAIL_MISSING_REQUIRED_FACTS: knownRequiredFieldsMissing 98, unclassifiedBlanks 2, incompleteRows 1 — the REPEATING_ROWS half-written offence-table row (Statute DescriptionRow1) on both petitions plus pre-merged-host missing ink.",
+      "repairsMade": "The FIX11 worked-example pattern: both petition branches (Rule 490 and Rule 790) moved to PA_PETITION_ALLOW_TABLE_UNTOUCHED (offence table complete-or-untouched, carried to the participant); family guidance block added naming checkable authorities (clerk of the court where the summary conviction was entered; Pennsylvania-licensed lawyer for eligibility/contested hearings); no branch silently chosen; rebuilt on the merged host.",
+      "bytesChanged": true,
+      "rebuildByteIdentical": true,
+      "checkClean": true,
+      "nineCounters": { "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0 },
+      "verdict": "PASS_COMPLETE (builder-side; independent verification pending)",
+      "rasterReceiptInvalidated": true,
+      "status": "REPAIRED_RELEASED",
+      "commit": "f81452293"
+    },
+    {
+      "familyId": "pa_790_nonconviction-set",
+      "lane": "FIX07",
+      "claimResult": "CLAIM_OK, released on completion",
+      "defectsReproduced": "FAIL_MISSING_REQUIRED_FACTS: knownRequiredFieldsMissing 54, unclassifiedBlanks 70 (pre-r4 open vocabulary), incompleteRows 1 (offence-table row), requiredComponentsMissing 1 (old rendered-artifacts shape).",
+      "repairsMade": "Same FIX11 pattern: Rule 790 petition moved to PA_PETITION_ALLOW_TABLE_UNTOUCHED; family guidance block added (clerk of the court where the charges were filed; PA-licensed lawyer; PA-IFP-CCP stays exact source evidence only); rebuilt on the merged host, which also cures the unclassified blanks and the rendered-artifacts component accounting.",
+      "bytesChanged": true,
+      "rebuildByteIdentical": true,
+      "checkClean": true,
+      "nineCounters": { "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0 },
+      "verdict": "PASS_COMPLETE (builder-side; independent verification pending)",
+      "rasterReceiptInvalidated": true,
+      "status": "REPAIRED_RELEASED",
+      "commit": "730b76e7e"
+    },
+    {
+      "familyId": "md_second_chance_shielding-set",
+      "lane": "FIX07",
+      "claimResult": "CLAIM_OK, released on completion",
+      "defectsReproduced": "FAIL_ROUTE_SELECTION, requiredOptionsMissing 2, reproduced from committed fixture bytes: MDJ-008 section 1's RESTRICTED DOCUMENT heading box and its 'Sealing or Shielding Motion' category box declared route-determined and left unmade (finalizeOfficialForm has no selections channel).",
+      "repairsMade": "WA route-election pattern, per-family: both elections answered per the form's own printed face (CC-DC-CR-148 filed under Md. Rule 16-941, printing 'This form contains Restricted Information' and 'This petition is to be shielded by the clerk'; MDJ-008 printing the matching category naming the same rule). New markRouteDeterminedSelections pass in the family's own build script strikes two diagonals strictly inside each court-drawn box on the flattened bytes, using the shared SELECTION_INSET/SELECTION_LINE_WIDTH/participant ink with the shared markSelections guards as hard assertions; each mark proved from the artifact bytes as >=2 added painted paths; map rows carry disposition selected_route_determined_marked_by_build with markProof. No other box marked anywhere; shared finalizer untouched; raster visually confirms both marks inside their boxes and every other checkbox empty.",
+      "bytesChanged": true,
+      "rebuildByteIdentical": true,
+      "checkClean": true,
+      "nineCounters": { "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0 },
+      "verdict": "PASS_COMPLETE (builder-side; independent verification pending); build-status state_built, no promotion past it",
+      "rasterReceiptInvalidated": true,
+      "status": "REPAIRED_RELEASED",
+      "commit": "891fe2191"
+    }
+  ],
+  "sharedHostChanges": [
+    {
+      "file": "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs",
+      "changes": [
+        "proofFromArtifact: dropdown writes now expect the option the source form's own /Opt list offers under the finalizer's published match rule (ny_mrta_marijuana-set repair; a wrong option still fails).",
+        "pa_summary_conviction-set family entry: PA_PETITION_ALLOW_TABLE_UNTOUCHED on both petitions + guidance block.",
+        "pa_790_nonconviction-set family entry: PA_PETITION_ALLOW_TABLE_UNTOUCHED on the petition + guidance block."
+      ],
+      "controls": "nj_arrest_no_conviction-set, pa_490_nonconviction-set and pa_9122_1_limited_access-set all --check PASS after every host change, fixtures byte-identical to the captain branch (git shows no modification)."
+    },
+    {
+      "file": "scripts/build-census-v1-md_second_chance_shielding-set.mjs",
+      "changes": [
+        "markRouteDeterminedSelections post-finalize pass + artifact-derived mark proof; route_determined map rows now selected_route_determined_marked_by_build; instructions, field-map note, visual-review checklist and findings updated to describe the marks."
+      ]
+    }
+  ],
+  "rasterReceiptsInvalidated": [
+    "nj_clean_slate-set", "nj_ordinance-set", "nj_indictable_conviction-set",
+    "ny_mrta_marijuana-set", "ny_160_59_petition-set",
+    "pa_summary_conviction-set", "pa_790_nonconviction-set",
+    "md_second_chance_shielding-set"
+  ],
+  "captainDecisionsNeeded": [
+    "All eight families need central re-raster (fixture bytes changed) and then a fresh independent verification read; none is PASS_COMPLETE_INDEPENDENT from this lane.",
+    "Pre-existing, not mine, reproduced identically before my edits: the east host's --self-test fails at selfTest (protectCategoryOf drift — actual signature_or_date_participant_completion vs expected signature_or_sworn_participant_act). Builds and --check are unaffected; someone who owns the host/self-test contract should reconcile it.",
+    "The MD build-findings advisory stands: a selections channel on finalizeOfficialForm remains the better home for route marks; the MD family's measured rectangles are preserved under routeDeterminedSelections for that migration.",
+    "The task's lane map (FIX01/03/05/07) matches the claim ledger; ACTIVE_ASSIGNMENTS.json still shows the older FIX02/04/06/08 dispatch rows for five of these families — dispatch roster is stale relative to the ledger, which FACTORY_MEMORY says is ground truth."
+  ],
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "grantsNothing": "Repaired packets are review evidence. Nothing here authorizes fulfillment, opens a commercial route, or promotes any family past state_built."
+}

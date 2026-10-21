@@ -1,0 +1,606 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-rows/v1",
+  "lane": "FIX132",
+  "laneKind": "repair",
+  "generatedBy": "lane FIX132, branch fix132b-in-20260910, base bb6cacbd8089d12b3340398cbf439553c79550c0",
+  "whatThisLaneDidNotDo": "Set no verdict, issued no PASS, dispatched no raster, released and transferred no claim, edited no central artifact (MASTER_QUEUE.json, RASTER_QUEUE.json, claim-ledger.json and CLONED_FAMILY_PACKETS.json are all untouched), changed no shared module, and repaired no family it then verified.",
+  "grantsNothing": "Repair-author rows. Independent verification is a different lane; RASTER_PASS comes from the central workflow; commercial authority comes from a Grade-A fulfillment record and from nothing here.",
+  "rows": [
+    {
+      "itemId": "in_arrest_no_charges-set",
+      "lane": "FIX132",
+      "laneKind": "repair",
+      "status": "STOPPED",
+      "stopClass": "SHARED_MODULE_DEFECT_NOT_MINE_TO_CHANGE",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "repairedAtBase": "bb6cacbd8089d12b3340398cbf439553c79550c0",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/in/in-arrest-no-charges-set--official-pdf-fill",
+      "implementationStrategy": "official_pdf_fill",
+      "claimStatus": {
+        "assertedBeforeAnyFamilyContentWasRead": true,
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX132 'in_arrest_no_charges-set'",
+        "result": "CLAIM_OK FIX132 in_arrest_no_charges-set (repair, grant set 76ce128c60713c09)",
+        "released": false,
+        "transferred": false
+      },
+      "whatIRepaired": [
+        "ROUTE_IDENTITY -- the guide stated the SIBLING route's waiting-period rule.",
+        "SERVICE and REQUIRED_BEFORE_FILING -- the refused agency and service-address blanks were disclosed nowhere."
+      ],
+      "whatIDidNotRepair": [
+        "CLIPPING_AND_OVERLAP -- 27,981 erased dark pixels. The defect is in shared modules; I measured it, established its cause, built and measured the caller-side remedy, found it made the page worse, reverted it, and stopped.",
+        "ARTIFACTS / cloned packets -- the two families deliver the same filing. I did not manufacture a difference to satisfy it. See clonedFamilyPackets."
+      ],
+      "receiptBindsTheBytes": {
+        "recomputedWith": "sha256sum and pdfinfo, run in this lane's container on the four fixtures at base bb6cacbd8089d12b3340398cbf439553c79550c0 after the final rebuild",
+        "canonicalSha256": "d24f831d824e29da09683485bfe0eea955d6440f48e581bc4fe8c8380ed9ad4f",
+        "boundarySha256": "0e39d7c6d68902eed95189dd81638ad6e25ac78f1377eb07058a8941963140b9",
+        "insertsCanonicalSha256": "f06f7dbb1733604e4349819a458f07be9c959652301b427ca029c48b820d3343",
+        "insertsBoundarySha256": "f06f7dbb1733604e4349819a458f07be9c959652301b427ca029c48b820d3343",
+        "pageCounts": {
+          "canonical": 15,
+          "boundary": 15,
+          "insertsCanonical": 4,
+          "insertsBoundary": 4
+        },
+        "byteLengths": {
+          "canonical": 251802,
+          "boundary": 250876,
+          "insertsCanonical": 169596,
+          "insertsBoundary": 169596
+        },
+        "pdfBytesUnchangedByThisRepair": true,
+        "pdfBytesUnchangedNote": "All four PDF digests are IDENTICAL to the ones VF26 measured at 03093a923 and to the ones committed at this base. This repair changed participant-instructions.md and reports/blanks-left-for-the-participant.json only. The brief anticipated that the bytes would move; they did not, because the repair I could complete is in generated guidance and the repair that would have moved them is the one I stopped on.",
+        "matchesRasterQueueRow": false,
+        "noReceiptBindsTheseBytes": "RASTER_QUEUE.json carries this family only in .historicalRasterRows, against superseded digests, and lists it in .notEligible. No raster receipt binds these bytes. I dispatched none and edited no central artifact.",
+        "rasterRun": null,
+        "renderedCommitSha": null
+      },
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": null,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 66
+      },
+      "countersHowMeasured": {
+        "knownRequiredFieldsMissing": "0. Every field the production field map declares as a write lands, read back from the finished PDFs by reports/actual-writes.json at each field's own measured /Rect: 5 values in 26 places on the canonical bundle, 2 on the boundary bundle.",
+        "requiredFactsNotCollected": "0. The track's generationRequirements were read from the registry and every required key the packet writes from is present in the canonical fact set.",
+        "unclassifiedBlanks": "0, and this is now enforced rather than asserted. All 140 blanks in reports/blanks-left-for-the-participant.json are classified into one of 14 named disclosure groups by the gate this repair installed, and a blank the builder cannot classify aborts the build before a byte of the guide is written. I proved that by removing one field from the classifier: the build refused with REFUSED_BLANK_THIS_BUILDER_CANNOT_DESCRIBE and named `Prosecutor`.",
+        "incompleteRows": "null, NOT 0. The repeating tables I would have to read to answer this are the FACTS offence grid and Exhibit A's disposition table, and those are precisely the tables whose printed rules are erased from the delivered page. I will not report a row count measured against a grid the delivered page does not draw. A counter I could not measure is null.",
+        "requiredOptionsMissing": "0. Every /Opt list on both sources was enumerated; the packet selects no option anywhere, and the options the court ships are intact in the source. What is missing from the DELIVERED page is the appearance, not an option, and that is scored under visualDefects.",
+        "requiredComponentsMissing": "0. All five declared components are parts of the one published 15-page bundle, and all three insert sets the bundle's own printed pages demand are delivered as the second bound document at 4 pages.",
+        "invisibleWrites": "0. nonWhitespaceGlyphsOutsideMeasuredWriteBoxes is 0 on all four fixtures, and I confirmed on the rendered bytes that added ink falls inside a declared write rect or a source widget rect on every page.",
+        "protectedWrites": "0. Order pages 10, 11, 12, 14 and 15 differ from the pinned source by exactly zero pixels in both directions, so no platform ink reaches the court's findings, decree, agency directions or service list.",
+        "visualDefects": "66, and it is NOT zero. That is the number of source widgets whose court-printed appearance is absent from the delivered page: the bundle's 4 DD-cap-CourtType widgets on pages 1, 3, 7 and 9, and the inserts' 62 dropdown widgets on pages 1 (16), 3 (17) and 4 (29). The queue publishes 0 for this family; the queue is wrong and I did not edit it."
+      },
+      "perArtifactOutputByteGlyphReadings": [
+        {
+          "documentId": "IN-CCA-SECTION1-NONCONVICTION-PETITION-AND-ORDER-BUNDLE",
+          "fixture": "canonical",
+          "sha256": "d24f831d824e29da09683485bfe0eea955d6440f48e581bc4fe8c8380ed9ad4f",
+          "addedGlyphsReadFromOutputBytes": 388,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        },
+        {
+          "documentId": "IN-CCA-SECTION1-NONCONVICTION-PETITION-AND-ORDER-BUNDLE",
+          "fixture": "boundary",
+          "sha256": "0e39d7c6d68902eed95189dd81638ad6e25ac78f1377eb07058a8941963140b9",
+          "addedGlyphsReadFromOutputBytes": 41,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        },
+        {
+          "documentId": "IN-CCA-SECTION1-NONCONVICTION-INSERT-FORMS",
+          "fixture": "canonical",
+          "sha256": "f06f7dbb1733604e4349819a458f07be9c959652301b427ca029c48b820d3343",
+          "addedGlyphsReadFromOutputBytes": 0,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        },
+        {
+          "documentId": "IN-CCA-SECTION1-NONCONVICTION-INSERT-FORMS",
+          "fixture": "boundary",
+          "sha256": "f06f7dbb1733604e4349819a458f07be9c959652301b427ca029c48b820d3343",
+          "addedGlyphsReadFromOutputBytes": 0,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        }
+      ],
+      "perPageDirectionalPixelDifference": {
+        "howIRenderedTheSourceAndHowIProvedTheRenderDrawsTheWidgets": "Both pinned sources were rendered WITH annotations drawn, which is the whole point of this measurement: `pdftoppm -r 200 -gray -png <source>.pdf` on poppler 24.02.0, whose default draws widget annotations and whose -hide-annotations flag is what suppresses them. I PROVED the render draws widget /AP /N ink before trusting any number from it, by rendering each source twice, once with the default and once with -hide-annotations, and differencing: insert page 1 carries 156,815 dark pixels with annotations against 143,307 without (13,508 pixels of widget ink that only an annotated render draws), insert page 3 187,283 against 172,767 (14,516), and bundle page 1 99,554 against 98,566 (988). A render that drew no widgets would show zero on all three. I then confirmed the specific ink at issue: rendering the FACTS offence grid region of insert page 1 from the annotated source shows ruled rows, and the same crop of the delivered page shows a bare box. Delivered fixtures were rendered with the same command; they are flattened and carry no annotations, so the flag is irrelevant to them. Difference is per pixel at a dark threshold of 128 on the 8-bit grey channel: 'removed' is dark in the source render and light in the delivered one, 'added' the reverse. Every differing pixel was then classified against the census's own widget rectangles.",
+        "note": "Identical for both families' inserts, which are one file. The bundle differs between families only in added ink, never in removed.",
+        "canonical": {
+          "bundle": {
+            "p1": {
+              "added": 10789,
+              "removed": 201
+            },
+            "p3": {
+              "added": 7845,
+              "removed": 200
+            },
+            "p5": {
+              "added": 4460,
+              "removed": 0
+            },
+            "p7": {
+              "added": 8052,
+              "removed": 201
+            },
+            "p8": {
+              "added": 1701,
+              "removed": 0
+            },
+            "p9": {
+              "added": 8135,
+              "removed": 200
+            },
+            "p13": {
+              "added": 3191,
+              "removed": 0
+            }
+          },
+          "inserts": {
+            "p1": {
+              "added": 2450,
+              "removed": 10372
+            },
+            "p2": {
+              "added": 0,
+              "removed": 0
+            },
+            "p3": {
+              "added": 4373,
+              "removed": 12656
+            },
+            "p4": {
+              "added": 3242,
+              "removed": 4151
+            }
+          },
+          "totals": {
+            "added": 54238,
+            "removed": 27981
+          }
+        },
+        "boundary": {
+          "bundle": {
+            "p1": {
+              "added": 4127,
+              "removed": 201
+            },
+            "p3": {
+              "added": 292,
+              "removed": 200
+            },
+            "p5": {
+              "added": 2767,
+              "removed": 0
+            },
+            "p7": {
+              "added": 284,
+              "removed": 201
+            },
+            "p9": {
+              "added": 284,
+              "removed": 200
+            }
+          },
+          "inserts": {
+            "p1": {
+              "added": 2450,
+              "removed": 10372
+            },
+            "p2": {
+              "added": 0,
+              "removed": 0
+            },
+            "p3": {
+              "added": 4373,
+              "removed": 12656
+            },
+            "p4": {
+              "added": 3242,
+              "removed": 4151
+            }
+          },
+          "totals": {
+            "added": 17819,
+            "removed": 27981
+          }
+        },
+        "pagesWithZeroDifferenceInBothDirections": "bundle pages 2, 4, 6, 10, 11, 12, 14 and 15 on the canonical fixture, and insert page 2 on both."
+      },
+      "proofObligations": {
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "STILL_FAILING",
+          "repaired": false,
+          "finding": "NOT REPAIRED, AND I STOPPED RATHER THAN CHANGING A SHARED MODULE. I independently reproduce VF26's number exactly: 27,981 dark pixels of the publishers' own printed ink are absent from the delivered pages, 802 on the bundle (201/200/201/200 on pages 1/3/7/9) and 27,179 on the inserts (10,372 on page 1, 12,656 on page 3, 4,151 on page 4). I also establish the CAUSE, which VF26 did not name and which is not where the earlier repair looked. Every one of the 33 /Ch dropdown fields across the two sources -- 66 widgets, 4 on the bundle and 62 on the inserts -- is shipped by the Coalition for Court Access with its /V ALREADY SET to a run of underscores that is one of that field's own /Opt entries. The publisher made the writing rule a selectable option and selected it as the published default; each widget's /AP /N draws exactly that rule (an opaque blank-state fill, a stroked baseline on 34 of the 62, and the underscores in the court's Times Roman) and nothing else. I checked every text-showing operand in all 66 streams: all 66 show only underscores. No prompt, no instruction to the filer, no substantive option word. scripts/rcap-official-forms/rcap-official-form-finalize.mjs then deletes them, at the block whose report key is `promptsSuppressed` (around line 1510): for every unwritten choice field whose selected value satisfies `isChooserPrompt`, it deletes /V AND deletes /AP from every widget. `isChooserPrompt` (scripts/rcap-official-forms/rcap-field-semantics.mjs:740) returns true for any value matching /^[\\s_\\-–—.·•]+$/ -- a pure run of underscores -- so a court's printed writing rule is classified as a chooser prompt and its appearance is destroyed. I ran the shared finalizer directly against each pinned source and it reports promptsSuppressed for all 32 insert dropdown fields and for the bundle's DD-cap-CourtType, by name.",
+          "whyIStopped": "The defect is genuinely in two shared modules and there is no lever at the caller, so my instructions say to say so and stop rather than change them. I did not stop on a guess: I BUILT the caller-side remedy the repository already provides for exactly this defect class, measured it, and reverted it. The appearance semantics registry (data/rcap-all50/shared/field-appearance-semantics.json, family-keyed, byte-neutral for every family without an entry) is the designed place to record that an appearance is the issuer's own, and Colorado JDF 417 already uses it for the same shape of defect -- a dropdown whose issuer-shipped /V is drawn by the form's own /AP and was dropped by the structural rule. I generated 4 family entries covering all 33 fields from the measured bytes (1,748 insertions, 0 deletions, no existing entry touched) and wired both builders to pass appearanceDispositions. IT MADE THE DELIVERED PAGE WORSE, and the measurement is why I reverted rather than shipped. Because `promptsSuppressed` has already deleted /AP before restrictWidgetContributions ever reads a disposition, preserving the field leaves pdf-lib with no appearance to preserve, so it SYNTHESIZES one from /MK /BC: I read the resulting flattened XObject out of the produced PDF and it strokes a full rectangle border and draws `<> Tj`, an empty string, in /Helvetica 11 -- a BOXED FIELD on a filing where the court prints a writing rule, and the court's own /BS /S /U says the border it declares is an UNDERLINE, not a box. Measured: insert page 1 went from added=2,450/removed=10,372 to added=16,134/removed=1,812, and I cropped and looked at the pixels rather than trusting the totals. Turning on suppressSynthesizedWidgetBorders instead only removes /MK /BC, which yields an appearance that paints nothing -- the same blank page by another route. There is no option among the finalizer's thirty that exempts a field from `promptsSuppressed`; the block is unconditional and is not reachable from appearanceDispositions, which is itself the structural defect: the finalizer has a documented caller-supplied mechanism for deciding what an appearance MEANS, and this block destroys the appearance before consulting it. Repairing it means either narrowing isChooserPrompt so a pure writing rule is not a prompt, or gating promptsSuppressed on the disposition registry. Both change bytes for the forty-odd families that share the finalizer, and that is not a repair lane's decision. I changed neither module. The working tree carries no part of the reverted experiment: I re-ran both builders afterwards and both reproduce the committed fixture digests exactly."
+        },
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "REPAIRED",
+          "finding": "This family's guide stated its SIBLING's rule, and I confirm it against the controlling record. data/record-clearing/legal-design-track-registry.json, track in_arrest_no_charges, carries exactly ONE waitingPeriods entry -- {condition: 'The arrest, with no charges pending', duration: 'One year'} -- and a case-insensitive search of that whole track object returns 0 hits for 'whichever is later' and 0 for 'written agreement of the prosecuting attorney'. Both belong to in_section1_petition, whose waitingPeriods carry 'The arrest, charge or allegation, whichever is later' and 'Written agreement of the prosecuting attorney' / 'Early filing permitted', and whose generationRequirements carry a required key prosecutorWrittenAgreementEarlyFiling that this track does not have (I compared the two generationRequirements arrays: 10 keys against 11, that key the only difference). The sentence reached the participant as a statement about when they could file, and contradicted this guide's own eligibility paragraph nineteen lines earlier.",
+          "theCause": "It was one hard-coded sentence in the guide module shared by the two families, so both printed the section-1 rule and only one of them was entitled to it. This is clone contamination between two families built from one body of prose, and it was invisible to every counter because it counts sentences, not blanks.",
+          "theRepair": "The bullet is now GENERATED from the track record the builder reads, via readTrackWaitingPeriods(), and every clause in it is quoted from that record's own words. Where the record states no exception, the guide states none and says so: this family's guide now reads 'The committed record for *this* route states it in its own words: **One year** measured from “The arrest, with no charges pending”. **The record for this route states no exception and no early-filing term**, so this guide states none either.' I wrote no rule the record does not state, and where it is silent I left it unsaid and said that it is silent. The renderer now refuses to produce a guide at all without this route's own waiting-period record.",
+          "verifiedAfter": "The shipped guide contains 0 case-insensitive occurrences of 'whichever is later' and 0 of 'written agreement of the prosecuting attorney'. The sibling family, rebuilt from the same module, still states its own two entries correctly including the exception and the required prosecutor agreement.",
+          "howMeasured": "Read the two guide passages, then queried the registry object for each track directly and compared waitingPeriods and generationRequirements field by field; then grepped the rebuilt guides of both families for both phrases."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "REPAIRED",
+          "finding": "The refusal was right on the bytes and is now disclosed. The build refuses participant.street_address on List-MailingAddresses_LEA, correctly -- the shared binder had been matching the participant's own home address onto a block whose printed label the census reads as the two control characters BEL and ACK, so the order a judge signs named the petitioner's home as a law-enforcement agency's service address. What failed was that nothing told the participant. Before this repair participant-instructions.md contained 0 occurrences of 'Law Enforcement Agencies', 0 of 'page 14', 0 of 'law enforcement' in any case, and no row in its supply table for any page above 8; step 8 told the participant the opposite, that the order's directions to the agencies 'are the court's' and to 'Check those and leave the rest'. After this repair the guide names the block 4 times, page 14 three times, and every one of the box names List-MailingAddresses_LEA, CountyClerkAddress, MailAddressSheriff, Prosecutor, ProsecutorMailingAddress, LEA1, LEA2 and LEA3. Step 8 is rewritten to distinguish the order's findings and decree, which are the court's, from its ADDRESS BLOCKS, which are not findings. A new section, 'The proposed order asks for addresses, and this packet supplies none of them', states the count and the reason for each block.",
+          "whatIRefusedToWrite": "The committed record is SILENT on who completes the order's distribution list and the law-enforcement list. I checked: the track's rules.service says only 'The court serves the prosecuting attorney. The CCA appearance form nonetheless carries a certificate of service to the county prosecutor; follow the form', and a case-insensitive search of the whole track object returns 0 hits for 'distribution', 0 for 'sheriff', 0 for 'law enforcement', 0 for 'agenc' and 0 for 'clerk'. So the guide says the record does not state it, and sends the participant to the clerk. I invented no filing fee, no clerk's practice, no service rule and no deadline.",
+          "howMeasured": "Delivered pages 5, 12, 13 and 14 read with pdftotext -layout from the fixture bytes; the LEA rule count measured by geometry, not typed -- every text run of ten or more underscores whose origin falls inside the census rectangle of List-MailingAddresses_LEA (x 36, y 157.94, 240 x 408.09 pt on page 14), which the build now performs on its own output and refuses to render a sentence around if it cannot measure it."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "REPAIRED",
+          "finding": "Three previously undisclosed blank groups now reach the participant, and a gate keeps them there. (1) The proposed order's law-enforcement service list on page 14: I measure 29 blank printed rules inside the List-MailingAddresses_LEA rectangle by geometry. (2) The petition's WHEREFORE item 1, sub-items (b) to (e) on page 5 -- '________County Sheriff's Department' and three further agency rules, read off the delivered page -- and the same item copied into the order on page 12. The census confirms LEA1, LEA2 and LEA3 each carry a widget on BOTH page 5 and page 12, which the blanks report was hiding because it recorded only the first widget's page; this repair adds a `pages` array carrying all of them. (3) The order's distribution list on page 13 and the county clerk's block on page 14. The guide now also carries a generated ledger, 'Every blank in this packet, counted', rendered from the build's own report and covering all 140 blanks in 13 groups with the page numbers and who fills each.",
+          "theGateAndHowIProvedIt": "Two refusals, both proved by breaking them and both restored afterwards. REFUSED_BLANK_THIS_BUILDER_CANNOT_DESCRIBE fires when a blank cannot be placed in a named group: I removed `Prosecutor` from the classifier and the build refused, naming it, and wrote nothing. REFUSED_BLANK_NOT_DISCLOSED_IN_THE_GUIDE fires when a classified blank reaches the finished markdown neither by its own box name nor through its group's anchor phrase: I pointed the order_service_addresses anchor at a phrase not in the guide and removed the three box names, and the build refused, naming Check Box32, CountyClerkAddress, List-MailingAddresses_LEA, Check Box33 and Check Box34, and wrote nothing -- the committed guide on disk was untouched by that run.",
+          "howMeasured": "Every blank in reports/blanks-left-for-the-participant.json cross-referenced against the rendered markdown by box name and by group anchor, then the delivered pages 5, 12, 13 and 14 read with pdftotext -layout to confirm each disclosed blank really is blank on the bytes."
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "STILL_FAILING",
+          "repaired": false,
+          "finding": "I confirm the finding and I deliberately did NOT manufacture a difference. See clonedFamilyPackets."
+        }
+      },
+      "clonedFamilyPackets": {
+        "measuredHere": "I recomputed all eight fixtures with sha256sum at this base. The two families' packet-boundary-filled.pdf are the same 250,876 bytes, digest 0e39d7c6d68902eed95189dd81638ad6e25ac78f1377eb07058a8941963140b9. All FOUR insert fixtures across both families are one file, f06f7dbb1733604e4349819a458f07be9c959652301b427ca029c48b820d3343, 169,596 bytes. The canonical bundles differ by ONE byte: 251,802 against 251,801.",
+        "whatTheOneByteIs": "Font size in a flattened appearance, over an identical value in an identical rectangle. The arrest builder opts into `fitTextPerWidget`; the section-1 builder instead sorts each field's widgets narrowest-first before handing the census to the finalizer. They are two remedies for the SAME earlier clipping defect, adopted by two lanes, and they round the fitted size differently. pdftotext -layout is character-identical on every page of every fixture.",
+        "whatIDidAboutIt": "Nothing to the bytes, on purpose. My instructions say deciding this by adding a cosmetic variation would be worse than leaving it, and I agree on the evidence: the two tracks are two eligibility pathways over ONE published Coalition for Court Access bundle, and the publisher designed it that way -- the proposed order recites relief 'for an arrest, criminal charge, or juvenile delinquency allegation that did not result in a conviction', which covers both tracks in one sentence. Nothing in either track's registry entry names a field either document has and the other does not. The honest statement is therefore: THE TWO TRACKS GENUINELY PRODUCE THE SAME FILING AND DIFFER ONLY IN GUIDANCE, and after this repair they differ in guidance MORE than before, because the waiting-period paragraph is now generated from each track's own record instead of both carrying the section-1 rule.",
+        "theOwnerQuestionIRaiseRatherThanAnswer": "Should two packet families exist at all where one published bundle serves both tracks? That is a product decision about the family split, not a defect in either builder, and it is not a repair lane's to make. CLONED_FAMILY_PACKETS.json names both families and every digest in it is stale; I did not edit it, as it is a central artifact.",
+        "whatWouldMakeThemDifferAndWhyIDidNotDoIt": "The only difference I could manufacture is to make both builders adopt the SAME clipping remedy, which would make the canonical packets byte-IDENTICAL rather than differing by one byte -- the opposite of what this obligation asks for, and still the right thing on the bytes. I did neither, because changing a fitting strategy to move a digest is changing output to satisfy a counter."
+      },
+      "recordsThatDisagreeWithWhatIMeasured": [
+        {
+          "records": [
+            "data/rcap-grade-a/packet-factory-24h/vf26/rows-vf26-20260910-in.json (SERVICE and REQUIRED_BEFORE_FILING: 'page 14, 32 printed rules')"
+          ],
+          "measuredAgainst": "the delivered page-14 bytes",
+          "what": "I measure 29, not 32. 32 is the number of underscore runs of 15 or more characters on the WHOLE of page 14; 29 of them fall inside the List-MailingAddresses_LEA rectangle, and the other three belong to the county clerk's block above it -- one on the '☐ ______ County Clerk' line and two in CountyClerkAddress. Both counts are of real blanks and both are disclosed by this repair; the guide states 29 for the law-enforcement block because that is the block it is describing, and the number is measured by the build from its own output rather than typed."
+        },
+        {
+          "records": [
+            "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json (counters.visualDefects 0, allNineCountersZero true, completenessStatus PASS_COMPLETE)"
+          ],
+          "measuredAgainst": "the delivered fixture bytes rendered against an annotated render of each pinned source",
+          "what": "27,981 dark pixels of the publishers' own ink are absent from the delivered pages and 66 source widgets deliver with no appearance at all, while the queue publishes a hard zero. I did not edit the queue."
+        },
+        {
+          "records": [
+            "commit 4316fccf2 message: 'Removed ink not accounted to a selection widget: 0. Both directions, against an annotation-free render of each pinned source'"
+          ],
+          "measuredAgainst": "an ANNOTATED render of each pinned source, proved to draw widget ink before being trusted",
+          "what": "The zero was produced by a render that omits the /AP /N streams the difference exists to detect. Against an annotated render the same bytes lose 27,981 pixels. I reproduce the annotation-free blindness directly: rendering insert page 1 with -hide-annotations drops 13,508 dark pixels from the source side alone, which is most of that page's 10,372-pixel removal hidden in the reference."
+        },
+        {
+          "records": [
+            "reports/blanks-left-for-the-participant.json as committed at this base (the `page` field)"
+          ],
+          "measuredAgainst": "the field census's own widget list",
+          "what": "The report recorded only each field's FIRST widget page, so LEA1, LEA2 and LEA3 read as page 12 while each also has a widget on the petition's page 5, and `County` read as page 12 while it reaches pages 5, 12, 13 and 14 in three different roles. That under-disclosed the page where the participant meets the blank on the document they sign. This repair adds a `pages` array to every row."
+        }
+      ],
+      "filesChanged": [
+        "scripts/lib/indiana-cca-section1-guide.mjs (imported by these two families and by nothing else)",
+        "scripts/build-census-v1-in_arrest_no_charges-set.mjs",
+        "data/rcap-all50/overlays/census-v1/in/in-arrest-no-charges-set--official-pdf-fill/participant-instructions.md",
+        "data/rcap-all50/overlays/census-v1/in/in-arrest-no-charges-set--official-pdf-fill/reports/blanks-left-for-the-participant.json"
+      ],
+      "sharedModulesChanged": {
+        "count": 0,
+        "note": "None. scripts/lib/indiana-cca-section1-guide.mjs is imported by these two builders and by no other file in the repository, which I checked. rcap-official-form-finalize.mjs, rcap-active-content.mjs, rcap-field-semantics.mjs, rcap-appearance-semantics.mjs and data/rcap-all50/shared/field-appearance-semantics.json are all unmodified in my working tree."
+      },
+      "governance": {
+        "command": "npm run rcap:verify-governance-preservation",
+        "exitStatus": 0,
+        "result": "GOVERNANCE_PRESERVATION_OK · 16 checks; EVERY_GOVERNANCE_KEY_SURVIVED_WHERE_MEASURABLE (272 not measured, all of them sparse-checkout absences)",
+        "thisFamilyWasMeasured": "Yes. Neither Indiana family appears in the not-measured list, so both were read and their governance keys survived the rebuild.",
+        "carryForwardGovernance": "Not called, and not needed here: neither builder authors product-wiring.json at all -- it is written by a central component -- so this rebuild had no opportunity to erase a governance key, and git confirms product-wiring.json is unmodified for both families. There was also no acceptance receipt to withdraw: binding.acceptanceReceipt is already null on both families and the earlier withdrawal is preserved whole under binding.acceptanceReceiptWithdrawn with both digests. Nothing was deleted and nothing was relabelled. The PDF digests did not move in any case."
+      },
+      "rasterDispatched": false,
+      "centralArtifactsEdited": [],
+      "grantsNothing": "This row is a repair author's report. It sets no verdict, issues no PASS, opens no route and grants no commercial authority. Independent verification is a different lane and RASTER_PASS comes from the central workflow."
+    },
+    {
+      "itemId": "in_section1_petition-set",
+      "lane": "FIX132",
+      "laneKind": "repair",
+      "status": "STOPPED",
+      "stopClass": "SHARED_MODULE_DEFECT_NOT_MINE_TO_CHANGE",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "repairedAtBase": "bb6cacbd8089d12b3340398cbf439553c79550c0",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/in/in-section1-petition-set--official-pdf-fill",
+      "implementationStrategy": "official_pdf_fill",
+      "claimStatus": {
+        "assertedBeforeAnyFamilyContentWasRead": true,
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX132 'in_section1_petition-set'",
+        "result": "CLAIM_OK FIX132 in_section1_petition-set (repair, grant set 76ce128c60713c09)",
+        "released": false,
+        "transferred": false
+      },
+      "whatIRepaired": [
+        "SERVICE and REQUIRED_BEFORE_FILING -- the refused agency and service-address blanks were disclosed nowhere."
+      ],
+      "whatIDidNotRepair": [
+        "CLIPPING_AND_OVERLAP -- 27,981 erased dark pixels. The defect is in shared modules; I measured it, established its cause, built and measured the caller-side remedy, found it made the page worse, reverted it, and stopped.",
+        "ARTIFACTS / cloned packets -- the two families deliver the same filing. I did not manufacture a difference to satisfy it. See clonedFamilyPackets."
+      ],
+      "receiptBindsTheBytes": {
+        "recomputedWith": "sha256sum and pdfinfo, run in this lane's container on the four fixtures at base bb6cacbd8089d12b3340398cbf439553c79550c0 after the final rebuild",
+        "canonicalSha256": "6958a2a2f3537ab4bdc42c0ca61b63f545a20f08486c30075c18e1361a9df620",
+        "boundarySha256": "0e39d7c6d68902eed95189dd81638ad6e25ac78f1377eb07058a8941963140b9",
+        "insertsCanonicalSha256": "f06f7dbb1733604e4349819a458f07be9c959652301b427ca029c48b820d3343",
+        "insertsBoundarySha256": "f06f7dbb1733604e4349819a458f07be9c959652301b427ca029c48b820d3343",
+        "pageCounts": {
+          "canonical": 15,
+          "boundary": 15,
+          "insertsCanonical": 4,
+          "insertsBoundary": 4
+        },
+        "byteLengths": {
+          "canonical": 251801,
+          "boundary": 250876,
+          "insertsCanonical": 169596,
+          "insertsBoundary": 169596
+        },
+        "pdfBytesUnchangedByThisRepair": true,
+        "pdfBytesUnchangedNote": "All four PDF digests are IDENTICAL to the ones VF26 measured at 03093a923 and to the ones committed at this base. This repair changed participant-instructions.md and reports/blanks-left-for-the-participant.json only. The brief anticipated that the bytes would move; they did not, because the repair I could complete is in generated guidance and the repair that would have moved them is the one I stopped on.",
+        "matchesRasterQueueRow": false,
+        "noReceiptBindsTheseBytes": "RASTER_QUEUE.json carries this family only in .historicalRasterRows, against superseded digests, and lists it in .notEligible. No raster receipt binds these bytes. I dispatched none and edited no central artifact.",
+        "rasterRun": null,
+        "renderedCommitSha": null
+      },
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": null,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 66
+      },
+      "countersHowMeasured": {
+        "knownRequiredFieldsMissing": "0. Every field the production field map declares as a write lands, read back from the finished PDFs by reports/actual-writes.json at each field's own measured /Rect: 5 values in 26 places on the canonical bundle, 2 on the boundary bundle.",
+        "requiredFactsNotCollected": "0. The track's generationRequirements were read from the registry and every required key the packet writes from is present in the canonical fact set.",
+        "unclassifiedBlanks": "0, and this is now enforced rather than asserted. All 140 blanks in reports/blanks-left-for-the-participant.json are classified into one of 14 named disclosure groups by the gate this repair installed, and a blank the builder cannot classify aborts the build before a byte of the guide is written. I proved that by removing one field from the classifier: the build refused with REFUSED_BLANK_THIS_BUILDER_CANNOT_DESCRIBE and named `Prosecutor`.",
+        "incompleteRows": "null, NOT 0. The repeating tables I would have to read to answer this are the FACTS offence grid and Exhibit A's disposition table, and those are precisely the tables whose printed rules are erased from the delivered page. I will not report a row count measured against a grid the delivered page does not draw. A counter I could not measure is null.",
+        "requiredOptionsMissing": "0. Every /Opt list on both sources was enumerated; the packet selects no option anywhere, and the options the court ships are intact in the source. What is missing from the DELIVERED page is the appearance, not an option, and that is scored under visualDefects.",
+        "requiredComponentsMissing": "0. All five declared components are parts of the one published 15-page bundle, and all three insert sets the bundle's own printed pages demand are delivered as the second bound document at 4 pages.",
+        "invisibleWrites": "0. nonWhitespaceGlyphsOutsideMeasuredWriteBoxes is 0 on all four fixtures, and I confirmed on the rendered bytes that added ink falls inside a declared write rect or a source widget rect on every page.",
+        "protectedWrites": "0. Order pages 10, 11, 12, 14 and 15 differ from the pinned source by exactly zero pixels in both directions, so no platform ink reaches the court's findings, decree, agency directions or service list.",
+        "visualDefects": "66, and it is NOT zero. That is the number of source widgets whose court-printed appearance is absent from the delivered page: the bundle's 4 DD-cap-CourtType widgets on pages 1, 3, 7 and 9, and the inserts' 62 dropdown widgets on pages 1 (16), 3 (17) and 4 (29). The queue publishes 0 for this family; the queue is wrong and I did not edit it."
+      },
+      "perArtifactOutputByteGlyphReadings": [
+        {
+          "documentId": "IN-CCA-SECTION1-NONCONVICTION-PETITION-AND-ORDER-BUNDLE",
+          "fixture": "canonical",
+          "sha256": "6958a2a2f3537ab4bdc42c0ca61b63f545a20f08486c30075c18e1361a9df620",
+          "addedGlyphsReadFromOutputBytes": 388,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        },
+        {
+          "documentId": "IN-CCA-SECTION1-NONCONVICTION-PETITION-AND-ORDER-BUNDLE",
+          "fixture": "boundary",
+          "sha256": "0e39d7c6d68902eed95189dd81638ad6e25ac78f1377eb07058a8941963140b9",
+          "addedGlyphsReadFromOutputBytes": 41,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        },
+        {
+          "documentId": "IN-CCA-SECTION1-NONCONVICTION-INSERT-FORMS",
+          "fixture": "canonical",
+          "sha256": "f06f7dbb1733604e4349819a458f07be9c959652301b427ca029c48b820d3343",
+          "addedGlyphsReadFromOutputBytes": 0,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        },
+        {
+          "documentId": "IN-CCA-SECTION1-NONCONVICTION-INSERT-FORMS",
+          "fixture": "boundary",
+          "sha256": "f06f7dbb1733604e4349819a458f07be9c959652301b427ca029c48b820d3343",
+          "addedGlyphsReadFromOutputBytes": 0,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        }
+      ],
+      "perPageDirectionalPixelDifference": {
+        "howIRenderedTheSourceAndHowIProvedTheRenderDrawsTheWidgets": "Both pinned sources were rendered WITH annotations drawn, which is the whole point of this measurement: `pdftoppm -r 200 -gray -png <source>.pdf` on poppler 24.02.0, whose default draws widget annotations and whose -hide-annotations flag is what suppresses them. I PROVED the render draws widget /AP /N ink before trusting any number from it, by rendering each source twice, once with the default and once with -hide-annotations, and differencing: insert page 1 carries 156,815 dark pixels with annotations against 143,307 without (13,508 pixels of widget ink that only an annotated render draws), insert page 3 187,283 against 172,767 (14,516), and bundle page 1 99,554 against 98,566 (988). A render that drew no widgets would show zero on all three. I then confirmed the specific ink at issue: rendering the FACTS offence grid region of insert page 1 from the annotated source shows ruled rows, and the same crop of the delivered page shows a bare box. Delivered fixtures were rendered with the same command; they are flattened and carry no annotations, so the flag is irrelevant to them. Difference is per pixel at a dark threshold of 128 on the 8-bit grey channel: 'removed' is dark in the source render and light in the delivered one, 'added' the reverse. Every differing pixel was then classified against the census's own widget rectangles.",
+        "note": "Identical for both families' inserts, which are one file. The bundle differs between families only in added ink, never in removed.",
+        "canonical": {
+          "bundle": {
+            "p1": {
+              "added": 11515,
+              "removed": 201
+            },
+            "p3": {
+              "added": 8181,
+              "removed": 200
+            },
+            "p5": {
+              "added": 4460,
+              "removed": 0
+            },
+            "p7": {
+              "added": 8773,
+              "removed": 201
+            },
+            "p8": {
+              "added": 1701,
+              "removed": 0
+            },
+            "p9": {
+              "added": 8697,
+              "removed": 200
+            },
+            "p13": {
+              "added": 3191,
+              "removed": 0
+            }
+          },
+          "inserts": {
+            "p1": {
+              "added": 2450,
+              "removed": 10372
+            },
+            "p2": {
+              "added": 0,
+              "removed": 0
+            },
+            "p3": {
+              "added": 4373,
+              "removed": 12656
+            },
+            "p4": {
+              "added": 3242,
+              "removed": 4151
+            }
+          },
+          "totals": {
+            "added": 56583,
+            "removed": 27981
+          }
+        },
+        "boundary": {
+          "bundle": {
+            "p1": {
+              "added": 4127,
+              "removed": 201
+            },
+            "p3": {
+              "added": 292,
+              "removed": 200
+            },
+            "p5": {
+              "added": 2767,
+              "removed": 0
+            },
+            "p7": {
+              "added": 284,
+              "removed": 201
+            },
+            "p9": {
+              "added": 284,
+              "removed": 200
+            }
+          },
+          "inserts": {
+            "p1": {
+              "added": 2450,
+              "removed": 10372
+            },
+            "p2": {
+              "added": 0,
+              "removed": 0
+            },
+            "p3": {
+              "added": 4373,
+              "removed": 12656
+            },
+            "p4": {
+              "added": 3242,
+              "removed": 4151
+            }
+          },
+          "totals": {
+            "added": 17819,
+            "removed": 27981
+          }
+        },
+        "pagesWithZeroDifferenceInBothDirections": "bundle pages 2, 4, 6, 10, 11, 12, 14 and 15 on the canonical fixture, and insert page 2 on both."
+      },
+      "proofObligations": {
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "STILL_FAILING",
+          "repaired": false,
+          "finding": "NOT REPAIRED, AND I STOPPED RATHER THAN CHANGING A SHARED MODULE. I independently reproduce VF26's number exactly: 27,981 dark pixels of the publishers' own printed ink are absent from the delivered pages, 802 on the bundle (201/200/201/200 on pages 1/3/7/9) and 27,179 on the inserts (10,372 on page 1, 12,656 on page 3, 4,151 on page 4). I also establish the CAUSE, which VF26 did not name and which is not where the earlier repair looked. Every one of the 33 /Ch dropdown fields across the two sources -- 66 widgets, 4 on the bundle and 62 on the inserts -- is shipped by the Coalition for Court Access with its /V ALREADY SET to a run of underscores that is one of that field's own /Opt entries. The publisher made the writing rule a selectable option and selected it as the published default; each widget's /AP /N draws exactly that rule (an opaque blank-state fill, a stroked baseline on 34 of the 62, and the underscores in the court's Times Roman) and nothing else. I checked every text-showing operand in all 66 streams: all 66 show only underscores. No prompt, no instruction to the filer, no substantive option word. scripts/rcap-official-forms/rcap-official-form-finalize.mjs then deletes them, at the block whose report key is `promptsSuppressed` (around line 1510): for every unwritten choice field whose selected value satisfies `isChooserPrompt`, it deletes /V AND deletes /AP from every widget. `isChooserPrompt` (scripts/rcap-official-forms/rcap-field-semantics.mjs:740) returns true for any value matching /^[\\s_\\-–—.·•]+$/ -- a pure run of underscores -- so a court's printed writing rule is classified as a chooser prompt and its appearance is destroyed. I ran the shared finalizer directly against each pinned source and it reports promptsSuppressed for all 32 insert dropdown fields and for the bundle's DD-cap-CourtType, by name.",
+          "whyIStopped": "The defect is genuinely in two shared modules and there is no lever at the caller, so my instructions say to say so and stop rather than change them. I did not stop on a guess: I BUILT the caller-side remedy the repository already provides for exactly this defect class, measured it, and reverted it. The appearance semantics registry (data/rcap-all50/shared/field-appearance-semantics.json, family-keyed, byte-neutral for every family without an entry) is the designed place to record that an appearance is the issuer's own, and Colorado JDF 417 already uses it for the same shape of defect -- a dropdown whose issuer-shipped /V is drawn by the form's own /AP and was dropped by the structural rule. I generated 4 family entries covering all 33 fields from the measured bytes (1,748 insertions, 0 deletions, no existing entry touched) and wired both builders to pass appearanceDispositions. IT MADE THE DELIVERED PAGE WORSE, and the measurement is why I reverted rather than shipped. Because `promptsSuppressed` has already deleted /AP before restrictWidgetContributions ever reads a disposition, preserving the field leaves pdf-lib with no appearance to preserve, so it SYNTHESIZES one from /MK /BC: I read the resulting flattened XObject out of the produced PDF and it strokes a full rectangle border and draws `<> Tj`, an empty string, in /Helvetica 11 -- a BOXED FIELD on a filing where the court prints a writing rule, and the court's own /BS /S /U says the border it declares is an UNDERLINE, not a box. Measured: insert page 1 went from added=2,450/removed=10,372 to added=16,134/removed=1,812, and I cropped and looked at the pixels rather than trusting the totals. Turning on suppressSynthesizedWidgetBorders instead only removes /MK /BC, which yields an appearance that paints nothing -- the same blank page by another route. There is no option among the finalizer's thirty that exempts a field from `promptsSuppressed`; the block is unconditional and is not reachable from appearanceDispositions, which is itself the structural defect: the finalizer has a documented caller-supplied mechanism for deciding what an appearance MEANS, and this block destroys the appearance before consulting it. Repairing it means either narrowing isChooserPrompt so a pure writing rule is not a prompt, or gating promptsSuppressed on the disposition registry. Both change bytes for the forty-odd families that share the finalizer, and that is not a repair lane's decision. I changed neither module. The working tree carries no part of the reverted experiment: I re-ran both builders afterwards and both reproduce the committed fixture digests exactly."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "REPAIRED",
+          "finding": "The refusal was right on the bytes and is now disclosed. The build refuses participant.street_address on List-MailingAddresses_LEA, correctly -- the shared binder had been matching the participant's own home address onto a block whose printed label the census reads as the two control characters BEL and ACK, so the order a judge signs named the petitioner's home as a law-enforcement agency's service address. What failed was that nothing told the participant. Before this repair participant-instructions.md contained 0 occurrences of 'Law Enforcement Agencies', 0 of 'page 14', 0 of 'law enforcement' in any case, and no row in its supply table for any page above 8; step 8 told the participant the opposite, that the order's directions to the agencies 'are the court's' and to 'Check those and leave the rest'. After this repair the guide names the block 4 times, page 14 three times, and every one of the box names List-MailingAddresses_LEA, CountyClerkAddress, MailAddressSheriff, Prosecutor, ProsecutorMailingAddress, LEA1, LEA2 and LEA3. Step 8 is rewritten to distinguish the order's findings and decree, which are the court's, from its ADDRESS BLOCKS, which are not findings. A new section, 'The proposed order asks for addresses, and this packet supplies none of them', states the count and the reason for each block.",
+          "whatIRefusedToWrite": "The committed record is SILENT on who completes the order's distribution list and the law-enforcement list. I checked: the track's rules.service says only 'The court serves the prosecuting attorney. The CCA appearance form nonetheless carries a certificate of service to the county prosecutor; follow the form', and a case-insensitive search of the whole track object returns 0 hits for 'distribution', 0 for 'sheriff', 0 for 'law enforcement', 0 for 'agenc' and 0 for 'clerk'. So the guide says the record does not state it, and sends the participant to the clerk. I invented no filing fee, no clerk's practice, no service rule and no deadline.",
+          "howMeasured": "Delivered pages 5, 12, 13 and 14 read with pdftotext -layout from the fixture bytes; the LEA rule count measured by geometry, not typed -- every text run of ten or more underscores whose origin falls inside the census rectangle of List-MailingAddresses_LEA (x 36, y 157.94, 240 x 408.09 pt on page 14), which the build now performs on its own output and refuses to render a sentence around if it cannot measure it."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "REPAIRED",
+          "finding": "Three previously undisclosed blank groups now reach the participant, and a gate keeps them there. (1) The proposed order's law-enforcement service list on page 14: I measure 29 blank printed rules inside the List-MailingAddresses_LEA rectangle by geometry. (2) The petition's WHEREFORE item 1, sub-items (b) to (e) on page 5 -- '________County Sheriff's Department' and three further agency rules, read off the delivered page -- and the same item copied into the order on page 12. The census confirms LEA1, LEA2 and LEA3 each carry a widget on BOTH page 5 and page 12, which the blanks report was hiding because it recorded only the first widget's page; this repair adds a `pages` array carrying all of them. (3) The order's distribution list on page 13 and the county clerk's block on page 14. The guide now also carries a generated ledger, 'Every blank in this packet, counted', rendered from the build's own report and covering all 140 blanks in 13 groups with the page numbers and who fills each.",
+          "theGateAndHowIProvedIt": "Two refusals, both proved by breaking them and both restored afterwards. REFUSED_BLANK_THIS_BUILDER_CANNOT_DESCRIBE fires when a blank cannot be placed in a named group: I removed `Prosecutor` from the classifier and the build refused, naming it, and wrote nothing. REFUSED_BLANK_NOT_DISCLOSED_IN_THE_GUIDE fires when a classified blank reaches the finished markdown neither by its own box name nor through its group's anchor phrase: I pointed the order_service_addresses anchor at a phrase not in the guide and removed the three box names, and the build refused, naming Check Box32, CountyClerkAddress, List-MailingAddresses_LEA, Check Box33 and Check Box34, and wrote nothing -- the committed guide on disk was untouched by that run.",
+          "howMeasured": "Every blank in reports/blanks-left-for-the-participant.json cross-referenced against the rendered markdown by box name and by group anchor, then the delivered pages 5, 12, 13 and 14 read with pdftotext -layout to confirm each disclosed blank really is blank on the bytes."
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "STILL_FAILING",
+          "repaired": false,
+          "finding": "I confirm the finding and I deliberately did NOT manufacture a difference. See clonedFamilyPackets."
+        }
+      },
+      "clonedFamilyPackets": {
+        "measuredHere": "I recomputed all eight fixtures with sha256sum at this base. The two families' packet-boundary-filled.pdf are the same 250,876 bytes, digest 0e39d7c6d68902eed95189dd81638ad6e25ac78f1377eb07058a8941963140b9. All FOUR insert fixtures across both families are one file, f06f7dbb1733604e4349819a458f07be9c959652301b427ca029c48b820d3343, 169,596 bytes. The canonical bundles differ by ONE byte: 251,802 against 251,801.",
+        "whatTheOneByteIs": "Font size in a flattened appearance, over an identical value in an identical rectangle. The arrest builder opts into `fitTextPerWidget`; the section-1 builder instead sorts each field's widgets narrowest-first before handing the census to the finalizer. They are two remedies for the SAME earlier clipping defect, adopted by two lanes, and they round the fitted size differently. pdftotext -layout is character-identical on every page of every fixture.",
+        "whatIDidAboutIt": "Nothing to the bytes, on purpose. My instructions say deciding this by adding a cosmetic variation would be worse than leaving it, and I agree on the evidence: the two tracks are two eligibility pathways over ONE published Coalition for Court Access bundle, and the publisher designed it that way -- the proposed order recites relief 'for an arrest, criminal charge, or juvenile delinquency allegation that did not result in a conviction', which covers both tracks in one sentence. Nothing in either track's registry entry names a field either document has and the other does not. The honest statement is therefore: THE TWO TRACKS GENUINELY PRODUCE THE SAME FILING AND DIFFER ONLY IN GUIDANCE, and after this repair they differ in guidance MORE than before, because the waiting-period paragraph is now generated from each track's own record instead of both carrying the section-1 rule.",
+        "theOwnerQuestionIRaiseRatherThanAnswer": "Should two packet families exist at all where one published bundle serves both tracks? That is a product decision about the family split, not a defect in either builder, and it is not a repair lane's to make. CLONED_FAMILY_PACKETS.json names both families and every digest in it is stale; I did not edit it, as it is a central artifact.",
+        "whatWouldMakeThemDifferAndWhyIDidNotDoIt": "The only difference I could manufacture is to make both builders adopt the SAME clipping remedy, which would make the canonical packets byte-IDENTICAL rather than differing by one byte -- the opposite of what this obligation asks for, and still the right thing on the bytes. I did neither, because changing a fitting strategy to move a digest is changing output to satisfy a counter."
+      },
+      "recordsThatDisagreeWithWhatIMeasured": [
+        {
+          "records": [
+            "data/rcap-grade-a/packet-factory-24h/vf26/rows-vf26-20260910-in.json (SERVICE and REQUIRED_BEFORE_FILING: 'page 14, 32 printed rules')"
+          ],
+          "measuredAgainst": "the delivered page-14 bytes",
+          "what": "I measure 29, not 32. 32 is the number of underscore runs of 15 or more characters on the WHOLE of page 14; 29 of them fall inside the List-MailingAddresses_LEA rectangle, and the other three belong to the county clerk's block above it -- one on the '☐ ______ County Clerk' line and two in CountyClerkAddress. Both counts are of real blanks and both are disclosed by this repair; the guide states 29 for the law-enforcement block because that is the block it is describing, and the number is measured by the build from its own output rather than typed."
+        },
+        {
+          "records": [
+            "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json (counters.visualDefects 0, allNineCountersZero true, completenessStatus PASS_COMPLETE)"
+          ],
+          "measuredAgainst": "the delivered fixture bytes rendered against an annotated render of each pinned source",
+          "what": "27,981 dark pixels of the publishers' own ink are absent from the delivered pages and 66 source widgets deliver with no appearance at all, while the queue publishes a hard zero. I did not edit the queue."
+        },
+        {
+          "records": [
+            "commit 4316fccf2 message: 'Removed ink not accounted to a selection widget: 0. Both directions, against an annotation-free render of each pinned source'"
+          ],
+          "measuredAgainst": "an ANNOTATED render of each pinned source, proved to draw widget ink before being trusted",
+          "what": "The zero was produced by a render that omits the /AP /N streams the difference exists to detect. Against an annotated render the same bytes lose 27,981 pixels. I reproduce the annotation-free blindness directly: rendering insert page 1 with -hide-annotations drops 13,508 dark pixels from the source side alone, which is most of that page's 10,372-pixel removal hidden in the reference."
+        },
+        {
+          "records": [
+            "reports/blanks-left-for-the-participant.json as committed at this base (the `page` field)"
+          ],
+          "measuredAgainst": "the field census's own widget list",
+          "what": "The report recorded only each field's FIRST widget page, so LEA1, LEA2 and LEA3 read as page 12 while each also has a widget on the petition's page 5, and `County` read as page 12 while it reaches pages 5, 12, 13 and 14 in three different roles. That under-disclosed the page where the participant meets the blank on the document they sign. This repair adds a `pages` array to every row."
+        }
+      ],
+      "filesChanged": [
+        "scripts/lib/indiana-cca-section1-guide.mjs (imported by these two families and by nothing else)",
+        "scripts/build-census-v1-in_section1_petition-set.mjs",
+        "data/rcap-all50/overlays/census-v1/in/in-section1-petition-set--official-pdf-fill/participant-instructions.md",
+        "data/rcap-all50/overlays/census-v1/in/in-section1-petition-set--official-pdf-fill/reports/blanks-left-for-the-participant.json"
+      ],
+      "sharedModulesChanged": {
+        "count": 0,
+        "note": "None. scripts/lib/indiana-cca-section1-guide.mjs is imported by these two builders and by no other file in the repository, which I checked. rcap-official-form-finalize.mjs, rcap-active-content.mjs, rcap-field-semantics.mjs, rcap-appearance-semantics.mjs and data/rcap-all50/shared/field-appearance-semantics.json are all unmodified in my working tree."
+      },
+      "governance": {
+        "command": "npm run rcap:verify-governance-preservation",
+        "exitStatus": 0,
+        "result": "GOVERNANCE_PRESERVATION_OK · 16 checks; EVERY_GOVERNANCE_KEY_SURVIVED_WHERE_MEASURABLE (272 not measured, all of them sparse-checkout absences)",
+        "thisFamilyWasMeasured": "Yes. Neither Indiana family appears in the not-measured list, so both were read and their governance keys survived the rebuild.",
+        "carryForwardGovernance": "Not called, and not needed here: neither builder authors product-wiring.json at all -- it is written by a central component -- so this rebuild had no opportunity to erase a governance key, and git confirms product-wiring.json is unmodified for both families. There was also no acceptance receipt to withdraw: binding.acceptanceReceipt is already null on both families and the earlier withdrawal is preserved whole under binding.acceptanceReceiptWithdrawn with both digests. Nothing was deleted and nothing was relabelled. The PDF digests did not move in any case."
+      },
+      "rasterDispatched": false,
+      "centralArtifactsEdited": [],
+      "grantsNothing": "This row is a repair author's report. It sets no verdict, issues no PASS, opens no route and grants no commercial authority. Independent verification is a different lane and RASTER_PASS comes from the central workflow."
+    }
+  ]
+}

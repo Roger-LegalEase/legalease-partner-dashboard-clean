@@ -1,0 +1,67 @@
+{
+  "schemaVersion": "rcap-raster-queue/v1",
+  "preparedOn": "2026-09-12",
+  "packetCommitSha": null,
+  "packetCommitShaStatus": "Captain must stamp the scoped commit containing these exact bytes before dispatch",
+  "rows": [
+    {
+      "familyId": "va_exp_nonconviction-set",
+      "currentRasterState": "RASTER_PENDING",
+      "independentPreRasterSemanticReview": "PENDING",
+      "requestedScale": 2.5,
+      "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/va/va-exp-nonconviction-set--official-pdf-fill/fixtures/canonical.pdf",
+      "canonicalPdfSha256": "f593a8dec288bc29cbe8ad67d236c2beb986538fc6b12faa97bfaa7178dcb9e6",
+      "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/va/va-exp-nonconviction-set--official-pdf-fill/fixtures/boundary.pdf",
+      "boundaryPdfSha256": "9348f1069237ddba5adaf20a6a5b272c55196e3b1365f52ef74c792101c137e1",
+      "expectedPages": 9,
+      "documents": [
+        {
+          "role": "canonical",
+          "name": "canonical.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/va/va-exp-nonconviction-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "f593a8dec288bc29cbe8ad67d236c2beb986538fc6b12faa97bfaa7178dcb9e6",
+          "byteLength": 133842,
+          "pageCount": 9,
+          "pageCountBasis": "parsed from exact candidate PDF bytes with pdf-lib 1.17.1",
+          "pageCountEvidence": {
+            "method": "pdf-lib 1.17.1",
+            "pageCount": 9,
+            "sourceSha256": "f593a8dec288bc29cbe8ad67d236c2beb986538fc6b12faa97bfaa7178dcb9e6"
+          }
+        },
+        {
+          "role": "boundary",
+          "name": "boundary.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/va/va-exp-nonconviction-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "9348f1069237ddba5adaf20a6a5b272c55196e3b1365f52ef74c792101c137e1",
+          "byteLength": 134080,
+          "pageCount": 9,
+          "pageCountBasis": "parsed from exact candidate PDF bytes with pdf-lib 1.17.1",
+          "pageCountEvidence": {
+            "method": "pdf-lib 1.17.1",
+            "pageCount": 9,
+            "sourceSha256": "9348f1069237ddba5adaf20a6a5b272c55196e3b1365f52ef74c792101c137e1"
+          }
+        }
+      ],
+      "documentsDigest": "3965d6500805237e0c785a5bb828de7a28a6e1c9ec2915d87417001387b353d3",
+      "coverage": {
+        "complete": true,
+        "basis": "The current canonical and boundary assembled nine-page packets are enrolled by exact path and SHA-256. Standalone CC-1473 primary-filing intermediates are not separate queued delivery documents.",
+        "documents": [
+          "canonical.pdf",
+          "boundary.pdf"
+        ],
+        "rastered": [
+          "canonical.pdf",
+          "boundary.pdf"
+        ],
+        "notRastered": [],
+        "notRenderedByThisGate": [
+          "canonical--CC-1473-primary-filing.pdf",
+          "boundary--CC-1473-primary-filing.pdf"
+        ]
+      }
+    }
+  ]
+}

@@ -432,9 +432,19 @@ function verifySourceWiring() {
 
   // Packet route: partner cap accounting isolated behind partner-sponsorship,
   // idempotent consumption, and pause_at_cap honored.
+  // These markers named `isPartnerSponsoredPacketItem` and
+  // `recordPartnerPacketGeneration`, which the route no longer calls. It did not
+  // lose the gate; it got a stronger one. Sponsorship is now read from
+  // `packet.protectedSponsorship`, derived server-side by the protected
+  // sponsorship authority rather than from a field on the Briefcase item, and
+  // credit consumption moved into `finalizeSponsoredPacketGeneration`, the
+  // atomic RPC that consumes the credit and attaches Ready together so a refusal
+  // leaves no accessible artifact. Asserting the old names failed the build for
+  // the absence of a call whose removal was the improvement.
   const packetRoute = read("src/app/api/expungement-ai/packet/generate/route.ts");
-  assert(packetRoute.includes("isPartnerSponsoredPacketItem"), "Cap accounting must be gated on partner sponsorship.");
-  assert(packetRoute.includes("recordPartnerPacketGeneration"), "Successful partner packets must record cap consumption.");
+  assert(packetRoute.includes("packet.protectedSponsorship"), "Cap accounting must be gated on server-derived partner sponsorship.");
+  assert(packetRoute.includes("finalizeSponsoredPacketGeneration"), "Successful partner packets must consume cap and attach Ready in one atomic finalization.");
+  assert(packetRoute.includes("expectedVerificationHash"), "Sponsored finalization must be bound to the verification it was prepared against.");
   assert(packetRoute.includes("pausedAtCap"), "pause_at_cap must be honored before generating a sponsored packet.");
 
   // Public validation route: rate-limited and minimal.

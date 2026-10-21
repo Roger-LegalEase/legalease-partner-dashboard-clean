@@ -18,25 +18,37 @@ intent rather than missed by the search.
 ## PA — profile 2026-06-19-source-conversion-1
 
 0 of 11 compiled pathways reach a sellable packet under some valid public answer set (1200 randomized participants plus one directed participant per route).
-Every route that is not sellable carries a recorded decision that says why.
+**10 route(s) were not reached and carry no recorded hold that explains it: path-a-non-conviction-expungement, path-b-complete-acquittal-not-guilty-expungement, path-c-summary-conviction-expungement, path-d-ard-expungement, path-e-age-70-expungement, path-f-deceased-person-expungement, path-g-underage-drinking-conviction-expungement, path-h-pardon-based-expungement, path-i-petition-for-limited-access, path-k-human-trafficking-vacatur-expungement.**
 
 ### Terminal outcomes observed across the sweep
 
 | n | pathway | result | paymentAllowed | reasons |
 | --- | --- | --- | --- | --- |
-| 424 | `(none)` | needs_review | false | pa.source_fact_unknown |
-| 73 | `(none)` | needs_review | false | pa.pathway_context_not_matched |
-| 71 | `path-i-petition-for-limited-access` | guidance_only | false | pa.lawrence_hold_guidance_only |
-| 70 | `path-f-deceased-person-expungement` | guidance_only | false | pa.lawrence_hold_guidance_only |
-| 70 | `path-k-human-trafficking-vacatur-expungement` | guidance_only | false | pa.lawrence_hold_guidance_only |
-| 65 | `path-b-complete-acquittal-not-guilty-expungement` | guidance_only | false | pa.lawrence_hold_guidance_only |
-| 63 | `path-j-clean-slate-automatic-limited-access` | guidance_only | false | pa.guidance_only_no_user_filed_court_petition |
-| 62 | `path-d-ard-expungement` | guidance_only | false | pa.lawrence_hold_guidance_only |
-| 62 | `path-h-pardon-based-expungement` | guidance_only | false | pa.lawrence_hold_guidance_only |
-| 62 | `path-c-summary-conviction-expungement` | guidance_only | false | pa.lawrence_hold_guidance_only |
-| 61 | `path-g-underage-drinking-conviction-expungement` | guidance_only | false | pa.lawrence_hold_guidance_only |
-| 60 | `path-e-age-70-expungement` | guidance_only | false | pa.lawrence_hold_guidance_only |
-| 57 | `(none)` | needs_review | false | pa.waiting_anchor_not_determined |
+| 70 | `(none)` | needs_review | false | pa.pathway_context_not_matched |
+| 68 | `path-f-deceased-person-expungement` | guidance_only | false | pa.approved_release_guidance_only |
+| 67 | `path-e-age-70-expungement` | guidance_only | false | pa.approved_release_guidance_only |
+| 66 | `path-h-pardon-based-expungement` | guidance_only | false | pa.approved_release_guidance_only |
+| 66 | `path-i-petition-for-limited-access` | guidance_only | false | pa.approved_release_guidance_only |
+| 65 | `path-b-complete-acquittal-not-guilty-expungement` | guidance_only | false | pa.approved_release_guidance_only |
+| 65 | `path-c-summary-conviction-expungement` | guidance_only | false | pa.approved_release_guidance_only |
+| 64 | `path-k-human-trafficking-vacatur-expungement` | guidance_only | false | pa.approved_release_guidance_only |
+| 62 | `path-g-underage-drinking-conviction-expungement` | guidance_only | false | pa.approved_release_guidance_only |
+| 60 | `path-j-clean-slate-automatic-limited-access` | guidance_only | false | pa.guidance_only_no_user_filed_court_petition |
+| 57 | `path-d-ard-expungement` | guidance_only | false | pa.approved_release_guidance_only |
+| 57 | `path-a-non-conviction-expungement` | needs_review | false | pa.waiting_rule_not_executed |
+| 43 | `path-d-ard-expungement` | needs_review | false | pa.source_fact_unknown |
+| 40 | `path-j-clean-slate-automatic-limited-access` | needs_review | false | pa.source_fact_unknown |
+| 38 | `path-g-underage-drinking-conviction-expungement` | needs_review | false | pa.source_fact_unknown |
+| 36 | `path-k-human-trafficking-vacatur-expungement` | needs_review | false | pa.source_fact_unknown |
+| 35 | `path-c-summary-conviction-expungement` | needs_review | false | pa.source_fact_unknown |
+| 35 | `path-b-complete-acquittal-not-guilty-expungement` | needs_review | false | pa.source_fact_unknown |
+| 34 | `path-a-non-conviction-expungement` | needs_review | false | pa.source_fact_unknown |
+| 34 | `path-i-petition-for-limited-access` | needs_review | false | pa.source_fact_unknown |
+| 34 | `path-h-pardon-based-expungement` | needs_review | false | pa.source_fact_unknown |
+| 33 | `path-e-age-70-expungement` | needs_review | false | pa.source_fact_unknown |
+| 32 | `path-f-deceased-person-expungement` | needs_review | false | pa.source_fact_unknown |
+| 30 | `(none)` | needs_review | false | pa.source_fact_unknown |
+| 9 | `path-a-non-conviction-expungement` | not_yet | false | pa.case_still_open |
 
 ### Per route
 
@@ -51,18 +63,18 @@ Every route that is not sellable carries a recorded decision that says why.
 - route sellable: true
 - route credit-consumable: true
 - route can render: true
-- public question sequence (directed run, in the order the evaluator asked): `case_outcome` → `offense_level`
-- every supplied answer: `{"ownership_scope":"Yes","jurisdiction_scope":"State or local","pending_cases":"No","new_convictions_during_waiting_period":"No","sentence_completion_date":"Yes","financial_obligations":"Yes","special_preconditions_confirmed":"Yes","possible_pathway_context":"Path A — Non-conviction expungement","case_outcome":"Dismissed, no-billed, nolle prosequi, or not prosecuted","offense_level":"Misdemeanor"}`
+- public question sequence (directed run, in the order the evaluator asked): `case_outcome` → `offense_level` → `resolved_timing_bucket`
+- every supplied answer: `{"ownership_scope":"Yes","jurisdiction_scope":"State or local","pending_cases":"No","new_convictions_during_waiting_period":"No","sentence_completion_date":"Yes","financial_obligations":"Yes","court_requirements_completed":"yes","special_preconditions_confirmed":"Yes","possible_pathway_context":"Path A — Non-conviction expungement","case_outcome":"Dismissed, no-billed, nolle prosequi, or not prosecuted","offense_level":"Misdemeanor","resolved_timing_bucket":"lt_1_year"}`
 - still-requested missing facts at the end: none
 - final result code: needs_review
 - final paymentAllowed: false
-- final reason codes: pa.waiting_anchor_not_determined
+- final reason codes: pa.waiting_rule_not_executed
 - waiting rules declared on this pathway (17): `If the person was acquitted of all charges based on the same conduct or criminal episode, Pennsylvania provide…`; `A person may petition to expunge a summary offense conviction if they have been free of arrest or prosecution …`; `Check whether five years have passed since the summary conviction and whether there has been any arrest or pro…`; `Important: Clean Slate may also automatically seal some summary convictions after five years, but sealing is n…`; `Pennsylvania permits expungement when the person is 70 years of age or older and has been free of arrest or pr…`; `Are you 70 or older, and have you had no arrest or prosecution for 10 years after final release from supervisi…`; `Pennsylvania permits expungement when the person has been dead for three years. ("https://www.legis.state.pa.u…`; `Qualifying misdemeanor or ungraded offense with max penalty no more than 5 years Person must be free from conv…`; `Qualifying felony Person must be free from conviction for 10 years for offenses punishable by 1+ years, comple…`; `Eligible M2, M3, or misdemeanor punishable by no more than 2 years Limited access after 7 conviction-free year…`; `Qualifying offense Limited access after 10 conviction-free years for offenses punishable by 1+ years and payme…`; `is an offense under Pennsylvanias Controlled Substance, Drug, Device and Cosmetic Act, or attempt/conspiracy/…`; `[Immediate / 5 years / 7 years / 10 years / age 70 + 10 years / pardon-based / unknown]`; `Summary conviction expungement 5 years free of arrest/prosecution`; `Clean Slate summary sealing 5 years after judgment + restitution`; `Age-based expungement Age 70 + 10 years arrest/prosecution-free after final release`; `320 Summary conviction expungement 5 years free of arrest/prosecution Clean Slate summary sealing 5 years afte…`
-- waiting-rule inputs supplied: `{"sentence_completion_date":"Yes","financial_obligations":"Yes","pending_cases":"No","new_convictions_during_waiting_period":"No","special_preconditions_confirmed":"Yes"}`
-- why waiting_rule_not_executed: not emitted for this route
+- waiting-rule inputs supplied: `{"resolved_timing_bucket":"lt_1_year","court_requirements_completed":"yes","sentence_completion_date":"Yes","financial_obligations":"Yes","pending_cases":"No","new_convictions_during_waiting_period":"No","special_preconditions_confirmed":"Yes"}`
+- why waiting_rule_not_executed: no waiting rule with a selectable duration applied to this packet-like pathway for these answers, so the evaluator returned needs_review rather than guessing a period
 - another valid public answer set reaches packet_ready: false
-- recorded review state: hold_guidance_only
-- classification: **intentionally guidance-only (recorded Lawrence hold: hold_guidance_only)**
+- recorded review state: approved_release_packet
+- classification: **not reached by this search — no recorded hold explains it**
 
 #### path-b-complete-acquittal-not-guilty-expungement
 
@@ -76,17 +88,17 @@ Every route that is not sellable carries a recorded decision that says why.
 - route credit-consumable: true
 - route can render: true
 - public question sequence (directed run, in the order the evaluator asked): `case_outcome` → `offense_level`
-- every supplied answer: `{"ownership_scope":"Yes","jurisdiction_scope":"State or local","pending_cases":"No","new_convictions_during_waiting_period":"No","sentence_completion_date":"Yes","financial_obligations":"Yes","special_preconditions_confirmed":"Yes","possible_pathway_context":"Path B — Complete-acquittal / not-guilty expungement","case_outcome":"Dismissed, no-billed, nolle prosequi, or not prosecuted","offense_level":"Misdemeanor"}`
+- every supplied answer: `{"ownership_scope":"Yes","jurisdiction_scope":"State or local","pending_cases":"No","new_convictions_during_waiting_period":"No","sentence_completion_date":"Yes","financial_obligations":"Yes","court_requirements_completed":"yes","special_preconditions_confirmed":"Yes","possible_pathway_context":"Path B — Complete-acquittal / not-guilty expungement","case_outcome":"Dismissed, no-billed, nolle prosequi, or not prosecuted","offense_level":"Misdemeanor"}`
 - still-requested missing facts at the end: none
 - final result code: guidance_only
 - final paymentAllowed: false
-- final reason codes: pa.lawrence_hold_guidance_only
+- final reason codes: pa.approved_release_guidance_only
 - waiting rules declared on this pathway (17): `If the person was acquitted of all charges based on the same conduct or criminal episode, Pennsylvania provide…`; `A person may petition to expunge a summary offense conviction if they have been free of arrest or prosecution …`; `Check whether five years have passed since the summary conviction and whether there has been any arrest or pro…`; `Important: Clean Slate may also automatically seal some summary convictions after five years, but sealing is n…`; `Pennsylvania permits expungement when the person is 70 years of age or older and has been free of arrest or pr…`; `Are you 70 or older, and have you had no arrest or prosecution for 10 years after final release from supervisi…`; `Pennsylvania permits expungement when the person has been dead for three years. ("https://www.legis.state.pa.u…`; `Qualifying misdemeanor or ungraded offense with max penalty no more than 5 years Person must be free from conv…`; `Qualifying felony Person must be free from conviction for 10 years for offenses punishable by 1+ years, comple…`; `Eligible M2, M3, or misdemeanor punishable by no more than 2 years Limited access after 7 conviction-free year…`; `Qualifying offense Limited access after 10 conviction-free years for offenses punishable by 1+ years and payme…`; `is an offense under Pennsylvanias Controlled Substance, Drug, Device and Cosmetic Act, or attempt/conspiracy/…`; `[Immediate / 5 years / 7 years / 10 years / age 70 + 10 years / pardon-based / unknown]`; `Summary conviction expungement 5 years free of arrest/prosecution`; `Clean Slate summary sealing 5 years after judgment + restitution`; `Age-based expungement Age 70 + 10 years arrest/prosecution-free after final release`; `320 Summary conviction expungement 5 years free of arrest/prosecution Clean Slate summary sealing 5 years afte…`
-- waiting-rule inputs supplied: `{"sentence_completion_date":"Yes","financial_obligations":"Yes","pending_cases":"No","new_convictions_during_waiting_period":"No","special_preconditions_confirmed":"Yes"}`
+- waiting-rule inputs supplied: `{"court_requirements_completed":"yes","sentence_completion_date":"Yes","financial_obligations":"Yes","pending_cases":"No","new_convictions_during_waiting_period":"No","special_preconditions_confirmed":"Yes"}`
 - why waiting_rule_not_executed: not emitted for this route
 - another valid public answer set reaches packet_ready: false
-- recorded review state: hold_guidance_only
-- classification: **intentionally guidance-only (recorded Lawrence hold: hold_guidance_only)**
+- recorded review state: approved_release_guidance_only
+- classification: **not reached by this search — no recorded hold explains it**
 
 #### path-c-summary-conviction-expungement
 
@@ -100,17 +112,17 @@ Every route that is not sellable carries a recorded decision that says why.
 - route credit-consumable: true
 - route can render: true
 - public question sequence (directed run, in the order the evaluator asked): `case_outcome` → `offense_level`
-- every supplied answer: `{"ownership_scope":"Yes","jurisdiction_scope":"State or local","pending_cases":"No","new_convictions_during_waiting_period":"No","sentence_completion_date":"Yes","financial_obligations":"Yes","special_preconditions_confirmed":"Yes","possible_pathway_context":"Path C — Summary-conviction expungement","case_outcome":"Dismissed, no-billed, nolle prosequi, or not prosecuted","offense_level":"Misdemeanor"}`
+- every supplied answer: `{"ownership_scope":"Yes","jurisdiction_scope":"State or local","pending_cases":"No","new_convictions_during_waiting_period":"No","sentence_completion_date":"Yes","financial_obligations":"Yes","court_requirements_completed":"yes","special_preconditions_confirmed":"Yes","possible_pathway_context":"Path C — Summary-conviction expungement","case_outcome":"Dismissed, no-billed, nolle prosequi, or not prosecuted","offense_level":"Misdemeanor"}`
 - still-requested missing facts at the end: none
 - final result code: guidance_only
 - final paymentAllowed: false
-- final reason codes: pa.lawrence_hold_guidance_only
+- final reason codes: pa.approved_release_guidance_only
 - waiting rules declared on this pathway (17): `A person may petition to expunge a summary offense conviction if they have been free of arrest or prosecution …`; `Check whether five years have passed since the summary conviction and whether there has been any arrest or pro…`; `Important: Clean Slate may also automatically seal some summary convictions after five years, but sealing is n…`; `If the person was acquitted of all charges based on the same conduct or criminal episode, Pennsylvania provide…`; `Pennsylvania permits expungement when the person is 70 years of age or older and has been free of arrest or pr…`; `Are you 70 or older, and have you had no arrest or prosecution for 10 years after final release from supervisi…`; `Pennsylvania permits expungement when the person has been dead for three years. ("https://www.legis.state.pa.u…`; `Qualifying misdemeanor or ungraded offense with max penalty no more than 5 years Person must be free from conv…`; `Qualifying felony Person must be free from conviction for 10 years for offenses punishable by 1+ years, comple…`; `Eligible M2, M3, or misdemeanor punishable by no more than 2 years Limited access after 7 conviction-free year…`; `Qualifying offense Limited access after 10 conviction-free years for offenses punishable by 1+ years and payme…`; `is an offense under Pennsylvanias Controlled Substance, Drug, Device and Cosmetic Act, or attempt/conspiracy/…`; `[Immediate / 5 years / 7 years / 10 years / age 70 + 10 years / pardon-based / unknown]`; `Summary conviction expungement 5 years free of arrest/prosecution`; `Clean Slate summary sealing 5 years after judgment + restitution`; `Age-based expungement Age 70 + 10 years arrest/prosecution-free after final release`; `320 Summary conviction expungement 5 years free of arrest/prosecution Clean Slate summary sealing 5 years afte…`
-- waiting-rule inputs supplied: `{"sentence_completion_date":"Yes","financial_obligations":"Yes","pending_cases":"No","new_convictions_during_waiting_period":"No","special_preconditions_confirmed":"Yes"}`
+- waiting-rule inputs supplied: `{"court_requirements_completed":"yes","sentence_completion_date":"Yes","financial_obligations":"Yes","pending_cases":"No","new_convictions_during_waiting_period":"No","special_preconditions_confirmed":"Yes"}`
 - why waiting_rule_not_executed: not emitted for this route
 - another valid public answer set reaches packet_ready: false
-- recorded review state: hold_guidance_only
-- classification: **intentionally guidance-only (recorded Lawrence hold: hold_guidance_only)**
+- recorded review state: approved_release_guidance_only
+- classification: **not reached by this search — no recorded hold explains it**
 
 #### path-d-ard-expungement
 
@@ -124,17 +136,17 @@ Every route that is not sellable carries a recorded decision that says why.
 - route credit-consumable: true
 - route can render: true
 - public question sequence (directed run, in the order the evaluator asked): `case_outcome` → `offense_level`
-- every supplied answer: `{"ownership_scope":"Yes","jurisdiction_scope":"State or local","pending_cases":"No","new_convictions_during_waiting_period":"No","sentence_completion_date":"Yes","financial_obligations":"Yes","special_preconditions_confirmed":"Yes","possible_pathway_context":"Path D — ARD expungement","case_outcome":"Dismissed, no-billed, nolle prosequi, or not prosecuted","offense_level":"Misdemeanor"}`
+- every supplied answer: `{"ownership_scope":"Yes","jurisdiction_scope":"State or local","pending_cases":"No","new_convictions_during_waiting_period":"No","sentence_completion_date":"Yes","financial_obligations":"Yes","court_requirements_completed":"yes","special_preconditions_confirmed":"Yes","possible_pathway_context":"Path D — ARD expungement","case_outcome":"Dismissed, no-billed, nolle prosequi, or not prosecuted","offense_level":"Misdemeanor"}`
 - still-requested missing facts at the end: none
 - final result code: guidance_only
 - final paymentAllowed: false
-- final reason codes: pa.lawrence_hold_guidance_only
-- waiting rules declared on this pathway (17): `If the person was acquitted of all charges based on the same conduct or criminal episode, Pennsylvania provide…`; `A person may petition to expunge a summary offense conviction if they have been free of arrest or prosecution …`; `Check whether five years have passed since the summary conviction and whether there has been any arrest or pro…`; `Important: Clean Slate may also automatically seal some summary convictions after five years, but sealing is n…`; `Pennsylvania permits expungement when the person is 70 years of age or older and has been free of arrest or pr…`; `Are you 70 or older, and have you had no arrest or prosecution for 10 years after final release from supervisi…`; `Pennsylvania permits expungement when the person has been dead for three years. ("https://www.legis.state.pa.u…`; `Qualifying misdemeanor or ungraded offense with max penalty no more than 5 years Person must be free from conv…`; `Qualifying felony Person must be free from conviction for 10 years for offenses punishable by 1+ years, comple…`; `Eligible M2, M3, or misdemeanor punishable by no more than 2 years Limited access after 7 conviction-free year…`; `Qualifying offense Limited access after 10 conviction-free years for offenses punishable by 1+ years and payme…`; `is an offense under Pennsylvanias Controlled Substance, Drug, Device and Cosmetic Act, or attempt/conspiracy/…`; `[Immediate / 5 years / 7 years / 10 years / age 70 + 10 years / pardon-based / unknown]`; `Summary conviction expungement 5 years free of arrest/prosecution`; `Clean Slate summary sealing 5 years after judgment + restitution`; `Age-based expungement Age 70 + 10 years arrest/prosecution-free after final release`; `320 Summary conviction expungement 5 years free of arrest/prosecution Clean Slate summary sealing 5 years afte…`
-- waiting-rule inputs supplied: `{"sentence_completion_date":"Yes","financial_obligations":"Yes","pending_cases":"No","new_convictions_during_waiting_period":"No","special_preconditions_confirmed":"Yes"}`
+- final reason codes: pa.approved_release_guidance_only
+- waiting rules declared on this pathway (1): `unlocked by successful completion of ARD and the resulting dismissal or order; there is no additional generic …`
+- waiting-rule inputs supplied: `{"court_requirements_completed":"yes","sentence_completion_date":"Yes","financial_obligations":"Yes","pending_cases":"No","new_convictions_during_waiting_period":"No","special_preconditions_confirmed":"Yes"}`
 - why waiting_rule_not_executed: not emitted for this route
 - another valid public answer set reaches packet_ready: false
-- recorded review state: hold_guidance_only
-- classification: **intentionally guidance-only (recorded Lawrence hold: hold_guidance_only)**
+- recorded review state: approved_release_guidance_only
+- classification: **not reached by this search — no recorded hold explains it**
 
 #### path-e-age-70-expungement
 
@@ -148,17 +160,17 @@ Every route that is not sellable carries a recorded decision that says why.
 - route credit-consumable: true
 - route can render: true
 - public question sequence (directed run, in the order the evaluator asked): `case_outcome` → `offense_level`
-- every supplied answer: `{"ownership_scope":"Yes","jurisdiction_scope":"State or local","pending_cases":"No","new_convictions_during_waiting_period":"No","sentence_completion_date":"Yes","financial_obligations":"Yes","special_preconditions_confirmed":"Yes","possible_pathway_context":"Path E — Age-70 expungement","case_outcome":"Dismissed, no-billed, nolle prosequi, or not prosecuted","offense_level":"Misdemeanor"}`
+- every supplied answer: `{"ownership_scope":"Yes","jurisdiction_scope":"State or local","pending_cases":"No","new_convictions_during_waiting_period":"No","sentence_completion_date":"Yes","financial_obligations":"Yes","court_requirements_completed":"yes","special_preconditions_confirmed":"Yes","possible_pathway_context":"Path E — Age-70 expungement","case_outcome":"Dismissed, no-billed, nolle prosequi, or not prosecuted","offense_level":"Misdemeanor"}`
 - still-requested missing facts at the end: none
 - final result code: guidance_only
 - final paymentAllowed: false
-- final reason codes: pa.lawrence_hold_guidance_only
+- final reason codes: pa.approved_release_guidance_only
 - waiting rules declared on this pathway (17): `Pennsylvania permits expungement when the person is 70 years of age or older and has been free of arrest or pr…`; `Are you 70 or older, and have you had no arrest or prosecution for 10 years after final release from supervisi…`; `If the person was acquitted of all charges based on the same conduct or criminal episode, Pennsylvania provide…`; `A person may petition to expunge a summary offense conviction if they have been free of arrest or prosecution …`; `Check whether five years have passed since the summary conviction and whether there has been any arrest or pro…`; `Important: Clean Slate may also automatically seal some summary convictions after five years, but sealing is n…`; `Pennsylvania permits expungement when the person has been dead for three years. ("https://www.legis.state.pa.u…`; `Qualifying misdemeanor or ungraded offense with max penalty no more than 5 years Person must be free from conv…`; `Qualifying felony Person must be free from conviction for 10 years for offenses punishable by 1+ years, comple…`; `Eligible M2, M3, or misdemeanor punishable by no more than 2 years Limited access after 7 conviction-free year…`; `Qualifying offense Limited access after 10 conviction-free years for offenses punishable by 1+ years and payme…`; `is an offense under Pennsylvanias Controlled Substance, Drug, Device and Cosmetic Act, or attempt/conspiracy/…`; `[Immediate / 5 years / 7 years / 10 years / age 70 + 10 years / pardon-based / unknown]`; `Summary conviction expungement 5 years free of arrest/prosecution`; `Clean Slate summary sealing 5 years after judgment + restitution`; `Age-based expungement Age 70 + 10 years arrest/prosecution-free after final release`; `320 Summary conviction expungement 5 years free of arrest/prosecution Clean Slate summary sealing 5 years afte…`
-- waiting-rule inputs supplied: `{"sentence_completion_date":"Yes","financial_obligations":"Yes","pending_cases":"No","new_convictions_during_waiting_period":"No","special_preconditions_confirmed":"Yes"}`
+- waiting-rule inputs supplied: `{"court_requirements_completed":"yes","sentence_completion_date":"Yes","financial_obligations":"Yes","pending_cases":"No","new_convictions_during_waiting_period":"No","special_preconditions_confirmed":"Yes"}`
 - why waiting_rule_not_executed: not emitted for this route
 - another valid public answer set reaches packet_ready: false
-- recorded review state: hold_guidance_only
-- classification: **intentionally guidance-only (recorded Lawrence hold: hold_guidance_only)**
+- recorded review state: approved_release_guidance_only
+- classification: **not reached by this search — no recorded hold explains it**
 
 #### path-f-deceased-person-expungement
 
@@ -172,17 +184,17 @@ Every route that is not sellable carries a recorded decision that says why.
 - route credit-consumable: true
 - route can render: true
 - public question sequence (directed run, in the order the evaluator asked): `case_outcome` → `offense_level`
-- every supplied answer: `{"ownership_scope":"Yes","jurisdiction_scope":"State or local","pending_cases":"No","new_convictions_during_waiting_period":"No","sentence_completion_date":"Yes","financial_obligations":"Yes","special_preconditions_confirmed":"Yes","possible_pathway_context":"Path F — Deceased-person expungement","case_outcome":"Dismissed, no-billed, nolle prosequi, or not prosecuted","offense_level":"Misdemeanor"}`
+- every supplied answer: `{"ownership_scope":"Yes","jurisdiction_scope":"State or local","pending_cases":"No","new_convictions_during_waiting_period":"No","sentence_completion_date":"Yes","financial_obligations":"Yes","court_requirements_completed":"yes","special_preconditions_confirmed":"Yes","possible_pathway_context":"Path F — Deceased-person expungement","case_outcome":"Dismissed, no-billed, nolle prosequi, or not prosecuted","offense_level":"Misdemeanor"}`
 - still-requested missing facts at the end: none
 - final result code: guidance_only
 - final paymentAllowed: false
-- final reason codes: pa.lawrence_hold_guidance_only
+- final reason codes: pa.approved_release_guidance_only
 - waiting rules declared on this pathway (17): `Pennsylvania permits expungement when the person has been dead for three years. ("https://www.legis.state.pa.u…`; `If the person was acquitted of all charges based on the same conduct or criminal episode, Pennsylvania provide…`; `A person may petition to expunge a summary offense conviction if they have been free of arrest or prosecution …`; `Check whether five years have passed since the summary conviction and whether there has been any arrest or pro…`; `Important: Clean Slate may also automatically seal some summary convictions after five years, but sealing is n…`; `Pennsylvania permits expungement when the person is 70 years of age or older and has been free of arrest or pr…`; `Are you 70 or older, and have you had no arrest or prosecution for 10 years after final release from supervisi…`; `Qualifying misdemeanor or ungraded offense with max penalty no more than 5 years Person must be free from conv…`; `Qualifying felony Person must be free from conviction for 10 years for offenses punishable by 1+ years, comple…`; `Eligible M2, M3, or misdemeanor punishable by no more than 2 years Limited access after 7 conviction-free year…`; `Qualifying offense Limited access after 10 conviction-free years for offenses punishable by 1+ years and payme…`; `is an offense under Pennsylvanias Controlled Substance, Drug, Device and Cosmetic Act, or attempt/conspiracy/…`; `[Immediate / 5 years / 7 years / 10 years / age 70 + 10 years / pardon-based / unknown]`; `Summary conviction expungement 5 years free of arrest/prosecution`; `Clean Slate summary sealing 5 years after judgment + restitution`; `Age-based expungement Age 70 + 10 years arrest/prosecution-free after final release`; `320 Summary conviction expungement 5 years free of arrest/prosecution Clean Slate summary sealing 5 years afte…`
-- waiting-rule inputs supplied: `{"sentence_completion_date":"Yes","financial_obligations":"Yes","pending_cases":"No","new_convictions_during_waiting_period":"No","special_preconditions_confirmed":"Yes"}`
+- waiting-rule inputs supplied: `{"court_requirements_completed":"yes","sentence_completion_date":"Yes","financial_obligations":"Yes","pending_cases":"No","new_convictions_during_waiting_period":"No","special_preconditions_confirmed":"Yes"}`
 - why waiting_rule_not_executed: not emitted for this route
 - another valid public answer set reaches packet_ready: false
-- recorded review state: hold_guidance_only
-- classification: **intentionally guidance-only (recorded Lawrence hold: hold_guidance_only)**
+- recorded review state: approved_release_guidance_only
+- classification: **not reached by this search — no recorded hold explains it**
 
 #### path-g-underage-drinking-conviction-expungement
 
@@ -196,17 +208,17 @@ Every route that is not sellable carries a recorded decision that says why.
 - route credit-consumable: true
 - route can render: true
 - public question sequence (directed run, in the order the evaluator asked): `case_outcome` → `offense_level`
-- every supplied answer: `{"ownership_scope":"Yes","jurisdiction_scope":"State or local","pending_cases":"No","new_convictions_during_waiting_period":"No","sentence_completion_date":"Yes","financial_obligations":"Yes","special_preconditions_confirmed":"Yes","possible_pathway_context":"Path G — Underage-drinking conviction expungement","case_outcome":"Dismissed, no-billed, nolle prosequi, or not prosecuted","offense_level":"Misdemeanor"}`
+- every supplied answer: `{"ownership_scope":"Yes","jurisdiction_scope":"State or local","pending_cases":"No","new_convictions_during_waiting_period":"No","sentence_completion_date":"Yes","financial_obligations":"Yes","court_requirements_completed":"yes","special_preconditions_confirmed":"Yes","possible_pathway_context":"Path G — Underage-drinking conviction expungement","case_outcome":"Dismissed, no-billed, nolle prosequi, or not prosecuted","offense_level":"Misdemeanor"}`
 - still-requested missing facts at the end: none
 - final result code: guidance_only
 - final paymentAllowed: false
-- final reason codes: pa.lawrence_hold_guidance_only
-- waiting rules declared on this pathway (17): `If the person was acquitted of all charges based on the same conduct or criminal episode, Pennsylvania provide…`; `A person may petition to expunge a summary offense conviction if they have been free of arrest or prosecution …`; `Check whether five years have passed since the summary conviction and whether there has been any arrest or pro…`; `Important: Clean Slate may also automatically seal some summary convictions after five years, but sealing is n…`; `Pennsylvania permits expungement when the person is 70 years of age or older and has been free of arrest or pr…`; `Are you 70 or older, and have you had no arrest or prosecution for 10 years after final release from supervisi…`; `Pennsylvania permits expungement when the person has been dead for three years. ("https://www.legis.state.pa.u…`; `Qualifying misdemeanor or ungraded offense with max penalty no more than 5 years Person must be free from conv…`; `Qualifying felony Person must be free from conviction for 10 years for offenses punishable by 1+ years, comple…`; `Eligible M2, M3, or misdemeanor punishable by no more than 2 years Limited access after 7 conviction-free year…`; `Qualifying offense Limited access after 10 conviction-free years for offenses punishable by 1+ years and payme…`; `is an offense under Pennsylvanias Controlled Substance, Drug, Device and Cosmetic Act, or attempt/conspiracy/…`; `[Immediate / 5 years / 7 years / 10 years / age 70 + 10 years / pardon-based / unknown]`; `Summary conviction expungement 5 years free of arrest/prosecution`; `Clean Slate summary sealing 5 years after judgment + restitution`; `Age-based expungement Age 70 + 10 years arrest/prosecution-free after final release`; `320 Summary conviction expungement 5 years free of arrest/prosecution Clean Slate summary sealing 5 years afte…`
-- waiting-rule inputs supplied: `{"sentence_completion_date":"Yes","financial_obligations":"Yes","pending_cases":"No","new_convictions_during_waiting_period":"No","special_preconditions_confirmed":"Yes"}`
+- final reason codes: pa.approved_release_guidance_only
+- waiting rules declared on this pathway (1): `available when the person is twenty-one or older and has satisfied all terms and conditions of the sentence; n…`
+- waiting-rule inputs supplied: `{"court_requirements_completed":"yes","sentence_completion_date":"Yes","financial_obligations":"Yes","pending_cases":"No","new_convictions_during_waiting_period":"No","special_preconditions_confirmed":"Yes"}`
 - why waiting_rule_not_executed: not emitted for this route
 - another valid public answer set reaches packet_ready: false
-- recorded review state: hold_guidance_only
-- classification: **intentionally guidance-only (recorded Lawrence hold: hold_guidance_only)**
+- recorded review state: approved_release_guidance_only
+- classification: **not reached by this search — no recorded hold explains it**
 
 #### path-h-pardon-based-expungement
 
@@ -220,17 +232,17 @@ Every route that is not sellable carries a recorded decision that says why.
 - route credit-consumable: true
 - route can render: true
 - public question sequence (directed run, in the order the evaluator asked): `case_outcome` → `offense_level`
-- every supplied answer: `{"ownership_scope":"Yes","jurisdiction_scope":"State or local","pending_cases":"No","new_convictions_during_waiting_period":"No","sentence_completion_date":"Yes","financial_obligations":"Yes","special_preconditions_confirmed":"Yes","possible_pathway_context":"Path H — Pardon-based expungement","case_outcome":"Dismissed, no-billed, nolle prosequi, or not prosecuted","offense_level":"Misdemeanor"}`
+- every supplied answer: `{"ownership_scope":"Yes","jurisdiction_scope":"State or local","pending_cases":"No","new_convictions_during_waiting_period":"No","sentence_completion_date":"Yes","financial_obligations":"Yes","court_requirements_completed":"yes","special_preconditions_confirmed":"Yes","possible_pathway_context":"Path H — Pardon-based expungement","case_outcome":"Dismissed, no-billed, nolle prosequi, or not prosecuted","offense_level":"Misdemeanor"}`
 - still-requested missing facts at the end: none
 - final result code: guidance_only
 - final paymentAllowed: false
-- final reason codes: pa.lawrence_hold_guidance_only
+- final reason codes: pa.approved_release_guidance_only
 - waiting rules declared on this pathway (17): `If the person was acquitted of all charges based on the same conduct or criminal episode, Pennsylvania provide…`; `A person may petition to expunge a summary offense conviction if they have been free of arrest or prosecution …`; `Check whether five years have passed since the summary conviction and whether there has been any arrest or pro…`; `Important: Clean Slate may also automatically seal some summary convictions after five years, but sealing is n…`; `Pennsylvania permits expungement when the person is 70 years of age or older and has been free of arrest or pr…`; `Are you 70 or older, and have you had no arrest or prosecution for 10 years after final release from supervisi…`; `Pennsylvania permits expungement when the person has been dead for three years. ("https://www.legis.state.pa.u…`; `Qualifying misdemeanor or ungraded offense with max penalty no more than 5 years Person must be free from conv…`; `Qualifying felony Person must be free from conviction for 10 years for offenses punishable by 1+ years, comple…`; `Eligible M2, M3, or misdemeanor punishable by no more than 2 years Limited access after 7 conviction-free year…`; `Qualifying offense Limited access after 10 conviction-free years for offenses punishable by 1+ years and payme…`; `is an offense under Pennsylvanias Controlled Substance, Drug, Device and Cosmetic Act, or attempt/conspiracy/…`; `[Immediate / 5 years / 7 years / 10 years / age 70 + 10 years / pardon-based / unknown]`; `Summary conviction expungement 5 years free of arrest/prosecution`; `Clean Slate summary sealing 5 years after judgment + restitution`; `Age-based expungement Age 70 + 10 years arrest/prosecution-free after final release`; `320 Summary conviction expungement 5 years free of arrest/prosecution Clean Slate summary sealing 5 years afte…`
-- waiting-rule inputs supplied: `{"sentence_completion_date":"Yes","financial_obligations":"Yes","pending_cases":"No","new_convictions_during_waiting_period":"No","special_preconditions_confirmed":"Yes"}`
+- waiting-rule inputs supplied: `{"court_requirements_completed":"yes","sentence_completion_date":"Yes","financial_obligations":"Yes","pending_cases":"No","new_convictions_during_waiting_period":"No","special_preconditions_confirmed":"Yes"}`
 - why waiting_rule_not_executed: not emitted for this route
 - another valid public answer set reaches packet_ready: false
-- recorded review state: hold_guidance_only
-- classification: **intentionally guidance-only (recorded Lawrence hold: hold_guidance_only)**
+- recorded review state: approved_release_guidance_only
+- classification: **not reached by this search — no recorded hold explains it**
 
 #### path-i-petition-for-limited-access
 
@@ -244,17 +256,17 @@ Every route that is not sellable carries a recorded decision that says why.
 - route credit-consumable: true
 - route can render: true
 - public question sequence (directed run, in the order the evaluator asked): `case_outcome` → `offense_level`
-- every supplied answer: `{"ownership_scope":"Yes","jurisdiction_scope":"State or local","pending_cases":"No","new_convictions_during_waiting_period":"No","sentence_completion_date":"Yes","financial_obligations":"Yes","special_preconditions_confirmed":"Yes","possible_pathway_context":"Path I — Petition for limited access","case_outcome":"Dismissed, no-billed, nolle prosequi, or not prosecuted","offense_level":"Misdemeanor"}`
+- every supplied answer: `{"ownership_scope":"Yes","jurisdiction_scope":"State or local","pending_cases":"No","new_convictions_during_waiting_period":"No","sentence_completion_date":"Yes","financial_obligations":"Yes","court_requirements_completed":"yes","special_preconditions_confirmed":"Yes","possible_pathway_context":"Path I — Petition for limited access","case_outcome":"Dismissed, no-billed, nolle prosequi, or not prosecuted","offense_level":"Misdemeanor"}`
 - still-requested missing facts at the end: none
 - final result code: guidance_only
 - final paymentAllowed: false
-- final reason codes: pa.lawrence_hold_guidance_only
+- final reason codes: pa.approved_release_guidance_only
 - waiting rules declared on this pathway (17): `Qualifying misdemeanor or ungraded offense with max penalty no more than 5 years Person must be free from conv…`; `Qualifying felony Person must be free from conviction for 10 years for offenses punishable by 1+ years, comple…`; `If the person was acquitted of all charges based on the same conduct or criminal episode, Pennsylvania provide…`; `A person may petition to expunge a summary offense conviction if they have been free of arrest or prosecution …`; `Check whether five years have passed since the summary conviction and whether there has been any arrest or pro…`; `Important: Clean Slate may also automatically seal some summary convictions after five years, but sealing is n…`; `Pennsylvania permits expungement when the person is 70 years of age or older and has been free of arrest or pr…`; `Are you 70 or older, and have you had no arrest or prosecution for 10 years after final release from supervisi…`; `Pennsylvania permits expungement when the person has been dead for three years. ("https://www.legis.state.pa.u…`; `Eligible M2, M3, or misdemeanor punishable by no more than 2 years Limited access after 7 conviction-free year…`; `Qualifying offense Limited access after 10 conviction-free years for offenses punishable by 1+ years and payme…`; `is an offense under Pennsylvanias Controlled Substance, Drug, Device and Cosmetic Act, or attempt/conspiracy/…`; `[Immediate / 5 years / 7 years / 10 years / age 70 + 10 years / pardon-based / unknown]`; `Summary conviction expungement 5 years free of arrest/prosecution`; `Clean Slate summary sealing 5 years after judgment + restitution`; `Age-based expungement Age 70 + 10 years arrest/prosecution-free after final release`; `320 Summary conviction expungement 5 years free of arrest/prosecution Clean Slate summary sealing 5 years afte…`
-- waiting-rule inputs supplied: `{"sentence_completion_date":"Yes","financial_obligations":"Yes","pending_cases":"No","new_convictions_during_waiting_period":"No","special_preconditions_confirmed":"Yes"}`
+- waiting-rule inputs supplied: `{"court_requirements_completed":"yes","sentence_completion_date":"Yes","financial_obligations":"Yes","pending_cases":"No","new_convictions_during_waiting_period":"No","special_preconditions_confirmed":"Yes"}`
 - why waiting_rule_not_executed: not emitted for this route
 - another valid public answer set reaches packet_ready: false
-- recorded review state: hold_guidance_only
-- classification: **intentionally guidance-only (recorded Lawrence hold: hold_guidance_only)**
+- recorded review state: approved_release_guidance_only
+- classification: **not reached by this search — no recorded hold explains it**
 
 #### path-j-clean-slate-automatic-limited-access
 
@@ -268,17 +280,17 @@ Every route that is not sellable carries a recorded decision that says why.
 - route credit-consumable: true
 - route can render: true
 - public question sequence (directed run, in the order the evaluator asked): `case_outcome` → `offense_level`
-- every supplied answer: `{"ownership_scope":"Yes","jurisdiction_scope":"State or local","pending_cases":"No","new_convictions_during_waiting_period":"No","sentence_completion_date":"Yes","financial_obligations":"Yes","special_preconditions_confirmed":"Yes","possible_pathway_context":"Path J — Clean Slate automatic limited access","case_outcome":"Dismissed, no-billed, nolle prosequi, or not prosecuted","offense_level":"Misdemeanor"}`
+- every supplied answer: `{"ownership_scope":"Yes","jurisdiction_scope":"State or local","pending_cases":"No","new_convictions_during_waiting_period":"No","sentence_completion_date":"Yes","financial_obligations":"Yes","court_requirements_completed":"yes","special_preconditions_confirmed":"Yes","possible_pathway_context":"Path J — Clean Slate automatic limited access","case_outcome":"Dismissed, no-billed, nolle prosequi, or not prosecuted","offense_level":"Misdemeanor"}`
 - still-requested missing facts at the end: none
 - final result code: guidance_only
 - final paymentAllowed: false
 - final reason codes: pa.guidance_only_no_user_filed_court_petition
 - waiting rules declared on this pathway (17): `If the person was acquitted of all charges based on the same conduct or criminal episode, Pennsylvania provide…`; `A person may petition to expunge a summary offense conviction if they have been free of arrest or prosecution …`; `Check whether five years have passed since the summary conviction and whether there has been any arrest or pro…`; `Important: Clean Slate may also automatically seal some summary convictions after five years, but sealing is n…`; `Pennsylvania permits expungement when the person is 70 years of age or older and has been free of arrest or pr…`; `Are you 70 or older, and have you had no arrest or prosecution for 10 years after final release from supervisi…`; `Pennsylvania permits expungement when the person has been dead for three years. ("https://www.legis.state.pa.u…`; `Qualifying misdemeanor or ungraded offense with max penalty no more than 5 years Person must be free from conv…`; `Qualifying felony Person must be free from conviction for 10 years for offenses punishable by 1+ years, comple…`; `Eligible M2, M3, or misdemeanor punishable by no more than 2 years Limited access after 7 conviction-free year…`; `Qualifying offense Limited access after 10 conviction-free years for offenses punishable by 1+ years and payme…`; `is an offense under Pennsylvanias Controlled Substance, Drug, Device and Cosmetic Act, or attempt/conspiracy/…`; `[Immediate / 5 years / 7 years / 10 years / age 70 + 10 years / pardon-based / unknown]`; `Summary conviction expungement 5 years free of arrest/prosecution`; `Clean Slate summary sealing 5 years after judgment + restitution`; `Age-based expungement Age 70 + 10 years arrest/prosecution-free after final release`; `320 Summary conviction expungement 5 years free of arrest/prosecution Clean Slate summary sealing 5 years afte…`
-- waiting-rule inputs supplied: `{"sentence_completion_date":"Yes","financial_obligations":"Yes","pending_cases":"No","new_convictions_during_waiting_period":"No","special_preconditions_confirmed":"Yes"}`
+- waiting-rule inputs supplied: `{"court_requirements_completed":"yes","sentence_completion_date":"Yes","financial_obligations":"Yes","pending_cases":"No","new_convictions_during_waiting_period":"No","special_preconditions_confirmed":"Yes"}`
 - why waiting_rule_not_executed: not emitted for this route
 - another valid public answer set reaches packet_ready: false
-- recorded review state: hold_guidance_only
-- classification: **intentionally guidance-only (recorded Lawrence hold: hold_guidance_only)**
+- recorded review state: approved_automatic_no_filing
+- classification: **intentionally guidance-only (no user-filed court petition on this route)**
 
 #### path-k-human-trafficking-vacatur-expungement
 
@@ -292,39 +304,61 @@ Every route that is not sellable carries a recorded decision that says why.
 - route credit-consumable: true
 - route can render: true
 - public question sequence (directed run, in the order the evaluator asked): `case_outcome` → `offense_level`
-- every supplied answer: `{"ownership_scope":"Yes","jurisdiction_scope":"State or local","pending_cases":"No","new_convictions_during_waiting_period":"No","sentence_completion_date":"Yes","financial_obligations":"Yes","special_preconditions_confirmed":"Yes","possible_pathway_context":"Path K — Human-trafficking vacatur / expungement","case_outcome":"Dismissed, no-billed, nolle prosequi, or not prosecuted","offense_level":"Misdemeanor"}`
+- every supplied answer: `{"ownership_scope":"Yes","jurisdiction_scope":"State or local","pending_cases":"No","new_convictions_during_waiting_period":"No","sentence_completion_date":"Yes","financial_obligations":"Yes","court_requirements_completed":"yes","special_preconditions_confirmed":"Yes","possible_pathway_context":"Path K — Human-trafficking vacatur / expungement","case_outcome":"Dismissed, no-billed, nolle prosequi, or not prosecuted","offense_level":"Misdemeanor"}`
 - still-requested missing facts at the end: none
 - final result code: guidance_only
 - final paymentAllowed: false
-- final reason codes: pa.lawrence_hold_guidance_only
-- waiting rules declared on this pathway (17): `If the person was acquitted of all charges based on the same conduct or criminal episode, Pennsylvania provide…`; `A person may petition to expunge a summary offense conviction if they have been free of arrest or prosecution …`; `Check whether five years have passed since the summary conviction and whether there has been any arrest or pro…`; `Important: Clean Slate may also automatically seal some summary convictions after five years, but sealing is n…`; `Pennsylvania permits expungement when the person is 70 years of age or older and has been free of arrest or pr…`; `Are you 70 or older, and have you had no arrest or prosecution for 10 years after final release from supervisi…`; `Pennsylvania permits expungement when the person has been dead for three years. ("https://www.legis.state.pa.u…`; `Qualifying misdemeanor or ungraded offense with max penalty no more than 5 years Person must be free from conv…`; `Qualifying felony Person must be free from conviction for 10 years for offenses punishable by 1+ years, comple…`; `Eligible M2, M3, or misdemeanor punishable by no more than 2 years Limited access after 7 conviction-free year…`; `Qualifying offense Limited access after 10 conviction-free years for offenses punishable by 1+ years and payme…`; `is an offense under Pennsylvanias Controlled Substance, Drug, Device and Cosmetic Act, or attempt/conspiracy/…`; `[Immediate / 5 years / 7 years / 10 years / age 70 + 10 years / pardon-based / unknown]`; `Summary conviction expungement 5 years free of arrest/prosecution`; `Clean Slate summary sealing 5 years after judgment + restitution`; `Age-based expungement Age 70 + 10 years arrest/prosecution-free after final release`; `320 Summary conviction expungement 5 years free of arrest/prosecution Clean Slate summary sealing 5 years afte…`
-- waiting-rule inputs supplied: `{"sentence_completion_date":"Yes","financial_obligations":"Yes","pending_cases":"No","new_convictions_during_waiting_period":"No","special_preconditions_confirmed":"Yes"}`
+- final reason codes: pa.approved_release_guidance_only
+- waiting rules declared on this pathway (1): `no ordinary waiting period; relief follows completion of the statutory diversion route, or the offense and dir…`
+- waiting-rule inputs supplied: `{"court_requirements_completed":"yes","sentence_completion_date":"Yes","financial_obligations":"Yes","pending_cases":"No","new_convictions_during_waiting_period":"No","special_preconditions_confirmed":"Yes"}`
 - why waiting_rule_not_executed: not emitted for this route
 - another valid public answer set reaches packet_ready: false
-- recorded review state: hold_guidance_only
-- classification: **intentionally guidance-only (recorded Lawrence hold: hold_guidance_only)**
+- recorded review state: approved_release_guidance_only
+- classification: **not reached by this search — no recorded hold explains it**
 
 ## IL — profile 2026-06-19-source-conversion-1
 
 3 of 9 compiled pathways reach a sellable packet under some valid public answer set (1200 randomized participants plus one directed participant per route).
-**4 route(s) were not reached and carry no recorded hold that explains it: adult-non-conviction-expungement, expungement-after-eligible-supervision-or-qualified-probation, cannabis-specific-automatic-or-petition-expungement, criminal-identity-theft-mistaken-identity-relief.**
+**4 route(s) were not reached and carry no recorded hold that explains it: adult-non-conviction-expungement, expungement-after-eligible-supervision-or-qualified-probation, cannabis-specific-automatic-or-petition-expungement, juvenile-automatic-or-petition-expungement.**
 
 ### Terminal outcomes observed across the sweep
 
 | n | pathway | result | paymentAllowed | reasons |
 | --- | --- | --- | --- | --- |
-| 323 | `(none)` | needs_review | false | il.waiting_anchor_not_determined |
-| 279 | `(none)` | needs_review | false | il.source_fact_unknown |
-| 223 | `(none)` | needs_review | false | il.waiting_rule_not_executed |
-| 93 | `(none)` | needs_review | false | il.pathway_context_not_matched |
-| 92 | `clean-slate-automatic-sealing` | guidance_only | false | il.guidance_only_no_user_filed_court_petition |
-| 72 | `felony-prostitution-relief` | likely_not_eligible | false | il.il_prostitution_felony_required_not_eligible |
-| 42 | `(none)` | not_yet | false | il.case_still_open |
-| 23 | `juvenile-automatic-or-petition-expungement` | packet_ready_with_caution | true | il.compiled_rule_match.rule-06-order-of-supervision-successfully-completed-expungement |
-| 21 | `adult-conviction-sealing` | packet_ready_with_caution | true | il.compiled_rule_match.rule-06-order-of-supervision-successfully-completed-expungement |
-| 18 | `(none)` | not_yet | false | il.timing_bucket_too_recent |
-| 8 | `felony-prostitution-relief` | packet_ready_with_caution | true | il.compiled_rule_match.rule-76-class-4-felony-prostitution-vacatur-expungement-after-c |
-| 6 | `(none)` | needs_review | false | il.compiled_rule_review.rule-54-misdemeanor-felony-conviction-seal-discretionary-waitin |
+| 97 | `human-trafficking-survivor-vacatur-and-expungement` | not_covered_yet | false | il.intentional_unsupported_route |
+| 95 | `(none)` | needs_review | false | il.pathway_context_not_matched |
+| 94 | `clean-slate-automatic-sealing` | guidance_only | false | il.guidance_only_no_user_filed_court_petition |
+| 91 | `juvenile-automatic-or-petition-expungement` | not_covered_yet | false | il.intentional_unsupported_route |
+| 88 | `adult-non-conviction-expungement` | not_covered_yet | false | il.intentional_unsupported_route |
+| 81 | `expungement-after-eligible-supervision-or-qualified-probation` | needs_review | false | il.waiting_rule_not_executed |
+| 81 | `criminal-identity-theft-mistaken-identity-relief` | needs_review | false | il.waiting_rule_not_executed |
+| 71 | `felony-prostitution-relief` | likely_not_eligible | false | il.il_prostitution_felony_required_not_eligible |
+| 66 | `cannabis-specific-automatic-or-petition-expungement` | needs_review | false | il.waiting_rule_not_executed |
+| 50 | `adult-conviction-sealing` | needs_review | false | il.waiting_rule_not_executed |
+| 38 | `cannabis-specific-automatic-or-petition-expungement` | needs_review | false | il.source_fact_unknown |
+| 37 | `adult-conviction-sealing` | needs_review | false | il.source_fact_unknown |
+| 32 | `adult-non-conviction-expungement` | needs_review | false | il.source_fact_unknown |
+| 30 | `expungement-after-eligible-supervision-or-qualified-probation` | needs_review | false | il.source_fact_unknown |
+| 30 | `criminal-identity-theft-mistaken-identity-relief` | needs_review | false | il.source_fact_unknown |
+| 29 | `juvenile-automatic-or-petition-expungement` | needs_review | false | il.source_fact_unknown |
+| 26 | `clean-slate-automatic-sealing` | needs_review | false | il.source_fact_unknown |
+| 26 | `felony-prostitution-relief` | needs_review | false | il.source_fact_unknown |
+| 25 | `(none)` | needs_review | false | il.source_fact_unknown |
+| 23 | `human-trafficking-survivor-vacatur-and-expungement` | needs_review | false | il.source_fact_unknown |
+| 16 | `adult-conviction-sealing` | not_yet | false | il.case_still_open |
+| 15 | `cannabis-specific-automatic-or-petition-expungement` | not_yet | false | il.case_still_open |
+| 13 | `adult-conviction-sealing` | packet_ready_with_caution | true | il.compiled_rule_match.rule-06-order-of-supervision-successfully-completed-expungement |
+| 13 | `felony-prostitution-relief` | packet_ready_with_caution | true | il.compiled_rule_match.route-felony-prostitution-relief |
+| 6 | `criminal-identity-theft-mistaken-identity-relief` | not_yet | false | il.case_still_open |
+| 6 | `expungement-after-eligible-supervision-or-qualified-probation` | not_yet | false | il.case_still_open |
+| 5 | `felony-prostitution-relief` | not_yet | false | il.case_still_open |
+| 5 | `felony-prostitution-relief` | packet_ready_with_caution | true | il.compiled_rule_match.rule-76-class-4-felony-prostitution-vacatur-expungement-after-c |
+| 4 | `adult-conviction-sealing` | not_yet | false | il.timing_bucket_too_recent |
+| 2 | `expungement-after-eligible-supervision-or-qualified-probation` | not_yet | false | il.timing_bucket_too_recent |
+| 2 | `criminal-identity-theft-mistaken-identity-relief` | packet_ready_with_caution | true | il.compiled_rule_match.rule-18-https-www-illinoislegalaid-org-legal-information-expung |
+| 1 | `criminal-identity-theft-mistaken-identity-relief` | not_yet | false | il.timing_bucket_too_recent |
+| 1 | `cannabis-specific-automatic-or-petition-expungement` | not_yet | false | il.timing_bucket_too_recent |
+| 1 | `(none)` | needs_review | false | il.compiled_rule_review.rule-51-qualified-probation-410-710-expunge-discretionary-5-yr- |
 
 ### Per route
 
@@ -342,9 +376,9 @@ Every route that is not sellable carries a recorded decision that says why.
 - public question sequence (directed run, in the order the evaluator asked): `case_outcome` → `offense_level` → `age_at_offense` → `resolved_timing_bucket`
 - every supplied answer: `{"ownership_scope":"Yes","jurisdiction_scope":"State or local","state_exclusion_categories":["None of these"],"pending_cases":"No","new_convictions_during_waiting_period":"No","sentence_completion_date":"Yes","financial_obligations":"Yes","court_requirements_completed":"yes","special_preconditions_confirmed":"Yes","trafficking_status":"No","pardon_status":"No","record_documents":"Yes","possible_pathway_context":"Adult non-conviction expungement","case_outcome":"Arrest or citation with no charge filed","offense_level":"Misdemeanor","age_at_offense":"30","resolved_timing_bucket":"lt_1_year"}`
 - still-requested missing facts at the end: none
-- final result code: needs_review
+- final result code: not_covered_yet
 - final paymentAllowed: false
-- final reason codes: il.waiting_anchor_not_determined
+- final reason codes: il.intentional_unsupported_route
 - waiting rules declared on this pathway (18): `Acquittal Eligible immediately unless excluded`; `Dismissal Eligible immediately unless excluded`; `Released without charging Eligible immediately unless excluded`; `Conviction reversed or vacated Eligible immediately unless excluded`; `Successful supervision Eligible after waiting period`; `Successful qualified probation Eligible after waiting period`; `Adult expungement waiting periods`; `Expungement category Waiting period`; `Most successful supervision 2 years after satisfactory termination`; `Supervision for listed offenses, including certain Vehicle Code and specified criminal-code offenses 5 years a…`; `Successfully completed supervision Seal after waiting period`; `Conviction, including municipal ordinance conviction Seal after waiting period unless excluded`; `First-offender probation under listed drug/cannabis/meth/second-chance routes Seal after waiting period unless…`; `Felony conviction Seal after waiting period unless excluded`; `Sealing waiting periods - current post-Clean Slate Act guidance`; `Sealing category Waiting period`; `Successful supervision / qualified probation / conditional discharge / probation completed without revocation …`; `Misdemeanor convictions and municipal ordinance violations 2 years after completing the sentence`
 - waiting-rule inputs supplied: `{"resolved_timing_bucket":"lt_1_year","court_requirements_completed":"yes","sentence_completion_date":"Yes","financial_obligations":"Yes","pending_cases":"No","new_convictions_during_waiting_period":"No","special_preconditions_confirmed":"Yes"}`
 - why waiting_rule_not_executed: not emitted for this route
@@ -368,10 +402,10 @@ Every route that is not sellable carries a recorded decision that says why.
 - still-requested missing facts at the end: none
 - final result code: needs_review
 - final paymentAllowed: false
-- final reason codes: il.waiting_anchor_not_determined
+- final reason codes: il.waiting_rule_not_executed
 - waiting rules declared on this pathway (18): `Acquittal Eligible immediately unless excluded`; `Dismissal Eligible immediately unless excluded`; `Released without charging Eligible immediately unless excluded`; `Conviction reversed or vacated Eligible immediately unless excluded`; `Successful supervision Eligible after waiting period`; `Successful qualified probation Eligible after waiting period`; `Adult expungement waiting periods`; `Expungement category Waiting period`; `Most successful supervision 2 years after satisfactory termination`; `Supervision for listed offenses, including certain Vehicle Code and specified criminal-code offenses 5 years a…`; `Successfully completed supervision Seal after waiting period`; `Conviction, including municipal ordinance conviction Seal after waiting period unless excluded`; `First-offender probation under listed drug/cannabis/meth/second-chance routes Seal after waiting period unless…`; `Felony conviction Seal after waiting period unless excluded`; `Sealing waiting periods - current post-Clean Slate Act guidance`; `Sealing category Waiting period`; `Successful supervision / qualified probation / conditional discharge / probation completed without revocation …`; `Misdemeanor convictions and municipal ordinance violations 2 years after completing the sentence`
 - waiting-rule inputs supplied: `{"resolved_timing_bucket":"lt_1_year","court_requirements_completed":"yes","sentence_completion_date":"Yes","financial_obligations":"Yes","pending_cases":"No","new_convictions_during_waiting_period":"No","special_preconditions_confirmed":"Yes"}`
-- why waiting_rule_not_executed: not emitted for this route
+- why waiting_rule_not_executed: no waiting rule with a selectable duration applied to this packet-like pathway for these answers, so the evaluator returned needs_review rather than guessing a period
 - another valid public answer set reaches packet_ready: false
 - recorded review state: first_pass_ratified
 - classification: **not reached by this search — no recorded hold explains it**
@@ -396,7 +430,7 @@ Every route that is not sellable carries a recorded decision that says why.
 - waiting rules declared on this pathway (18): `Successfully completed supervision Seal after waiting period`; `Conviction, including municipal ordinance conviction Seal after waiting period unless excluded`; `First-offender probation under listed drug/cannabis/meth/second-chance routes Seal after waiting period unless…`; `Felony conviction Seal after waiting period unless excluded`; `Sealing waiting periods - current post-Clean Slate Act guidance`; `Sealing category Waiting period`; `Successful supervision / qualified probation / conditional discharge / probation completed without revocation …`; `Misdemeanor convictions and municipal ordinance violations 2 years after completing the sentence`; `Felony convictions not in the 2-year group 3 years after completing the last felony sentence`; `Certain 3-year-wait cases where education/career credential was earned during sentence/MSR Waiting period may …`; `Order of supervision successfully completed Expungement or sealing Expungement wait usually 2 years, sometimes…`; `Qualified probation successfully completed Expungement or sealing Expungement wait usually 5 years after succe…`; `Acquittal Eligible immediately unless excluded`; `Dismissal Eligible immediately unless excluded`; `Released without charging Eligible immediately unless excluded`; `Conviction reversed or vacated Eligible immediately unless excluded`; `Successful supervision Eligible after waiting period`; `Successful qualified probation Eligible after waiting period`
 - waiting-rule inputs supplied: `{"resolved_timing_bucket":"lt_1_year","court_requirements_completed":"yes","sentence_completion_date":"Yes","financial_obligations":"Yes","pending_cases":"No","new_convictions_during_waiting_period":"No","special_preconditions_confirmed":"Yes"}`
 - why waiting_rule_not_executed: not emitted for this route
-- another valid public answer set reaches packet_ready: true — `{"ownership_scope":"Yes","jurisdiction_scope":"State or local","state_exclusion_categories":["None of these"],"pending_cases":"No","new_convictions_during_waiting_period":"No","sentence_completion_date":"Yes","financial_obligations":"Yes","court_requirements_completed":"yes","special_preconditions_confirmed":"Yes","trafficking_status":"No","pardon_status":"No","record_documents":"Yes","possible_pathway_context":"Adult conviction sealing","case_outcome":"Arrest or citation with no charge filed","offense_level":"Felony","age_at_offense":"1","resolved_timing_bucket":"gt_10_years"}`
+- another valid public answer set reaches packet_ready: true — `{"ownership_scope":"Yes","jurisdiction_scope":"State or local","state_exclusion_categories":["None of these"],"pending_cases":"No","new_convictions_during_waiting_period":"No","sentence_completion_date":"Yes","financial_obligations":"Yes","court_requirements_completed":"yes","special_preconditions_confirmed":"Yes","trafficking_status":"No","pardon_status":"No","record_documents":"Yes","possible_pathway_context":"Adult conviction sealing","case_outcome":"Juvenile adjudication or offense committed as a minor","offense_level":"Felony","age_at_offense":"2","resolved_timing_bucket":"years_2_to_3"}`
 - recorded review state: first_pass_ratified
 - classification: **reachable and sellable**
 
@@ -416,10 +450,10 @@ Every route that is not sellable carries a recorded decision that says why.
 - still-requested missing facts at the end: none
 - final result code: needs_review
 - final paymentAllowed: false
-- final reason codes: il.waiting_anchor_not_determined
-- waiting rules declared on this pathway (18): `Conviction reversed or vacated Eligible immediately unless excluded`; `Successful supervision Eligible after waiting period`; `Successful qualified probation Eligible after waiting period`; `Most successful supervision 2 years after satisfactory termination`; `Supervision for listed offenses, including certain Vehicle Code and specified criminal-code offenses 5 years a…`; `Successfully completed supervision Seal after waiting period`; `Conviction, including municipal ordinance conviction Seal after waiting period unless excluded`; `First-offender probation under listed drug/cannabis/meth/second-chance routes Seal after waiting period unless…`; `Felony conviction Seal after waiting period unless excluded`; `Successful supervision / qualified probation / conditional discharge / probation completed without revocation …`; `Misdemeanor convictions and municipal ordinance violations 2 years after completing the sentence`; `Felony convictions not in the 2-year group 3 years after completing the last felony sentence`; `Certain 3-year-wait cases where education/career credential was earned during sentence/MSR Waiting period may …`; `Illinois allows a trafficking victim to petition for vacation and expungement or immediate sealing after compl…`; `If a juvenile record is not automatically expunged, a person may petition at no cost. For delinquency adjudica…`; `Automatic sealing will generally cover records already eligible for sealing once the system begins, including …`; `Order of supervision successfully completed Expungement or sealing Expungement wait usually 2 years, sometimes…`; `Qualified probation successfully completed Expungement or sealing Expungement wait usually 5 years after succe…`
+- final reason codes: il.waiting_rule_not_executed
+- waiting rules declared on this pathway (1): `event-specific petition eligibility under the cannabis subsection; not a general sealing wait`
 - waiting-rule inputs supplied: `{"resolved_timing_bucket":"lt_1_year","court_requirements_completed":"yes","sentence_completion_date":"Yes","financial_obligations":"Yes","pending_cases":"No","new_convictions_during_waiting_period":"No","special_preconditions_confirmed":"Yes"}`
-- why waiting_rule_not_executed: not emitted for this route
+- why waiting_rule_not_executed: no waiting rule with a selectable duration applied to this packet-like pathway for these answers, so the evaluator returned needs_review rather than guessing a period
 - another valid public answer set reaches packet_ready: false
 - recorded review state: first_pass_ratified
 - classification: **not reached by this search — no recorded hold explains it**
@@ -438,9 +472,9 @@ Every route that is not sellable carries a recorded decision that says why.
 - public question sequence (directed run, in the order the evaluator asked): `case_outcome` → `offense_level` → `age_at_offense` → `resolved_timing_bucket`
 - every supplied answer: `{"ownership_scope":"Yes","jurisdiction_scope":"State or local","state_exclusion_categories":["None of these"],"pending_cases":"No","new_convictions_during_waiting_period":"No","sentence_completion_date":"Yes","financial_obligations":"Yes","court_requirements_completed":"yes","special_preconditions_confirmed":"Yes","trafficking_status":"No","pardon_status":"No","record_documents":"Yes","possible_pathway_context":"Human-trafficking-survivor vacatur and expungement","case_outcome":"Arrest or citation with no charge filed","offense_level":"Misdemeanor","age_at_offense":"30","resolved_timing_bucket":"lt_1_year"}`
 - still-requested missing facts at the end: none
-- final result code: needs_review
+- final result code: not_covered_yet
 - final paymentAllowed: false
-- final reason codes: il.waiting_anchor_not_determined
+- final reason codes: il.intentional_unsupported_route
 - waiting rules declared on this pathway (18): `Illinois allows a trafficking victim to petition for vacation and expungement or immediate sealing after compl…`; `Acquittal Eligible immediately unless excluded`; `Dismissal Eligible immediately unless excluded`; `Released without charging Eligible immediately unless excluded`; `Conviction reversed or vacated Eligible immediately unless excluded`; `Successful supervision Eligible after waiting period`; `Successful qualified probation Eligible after waiting period`; `Most successful supervision 2 years after satisfactory termination`; `Supervision for listed offenses, including certain Vehicle Code and specified criminal-code offenses 5 years a…`; `Successfully completed supervision Seal after waiting period`; `Conviction, including municipal ordinance conviction Seal after waiting period unless excluded`; `First-offender probation under listed drug/cannabis/meth/second-chance routes Seal after waiting period unless…`; `Felony conviction Seal after waiting period unless excluded`; `Successful supervision / qualified probation / conditional discharge / probation completed without revocation …`; `Misdemeanor convictions and municipal ordinance violations 2 years after completing the sentence`; `Felony convictions not in the 2-year group 3 years after completing the last felony sentence`; `Certain 3-year-wait cases where education/career credential was earned during sentence/MSR Waiting period may …`; `If a juvenile record is not automatically expunged, a person may petition at no cost. For delinquency adjudica…`
 - waiting-rule inputs supplied: `{"resolved_timing_bucket":"lt_1_year","court_requirements_completed":"yes","sentence_completion_date":"Yes","financial_obligations":"Yes","pending_cases":"No","new_convictions_during_waiting_period":"No","special_preconditions_confirmed":"Yes"}`
 - why waiting_rule_not_executed: not emitted for this route
@@ -465,10 +499,10 @@ Every route that is not sellable carries a recorded decision that says why.
 - final result code: likely_not_eligible
 - final paymentAllowed: false
 - final reason codes: il.il_prostitution_felony_required_not_eligible
-- waiting rules declared on this pathway (18): `Acquittal Eligible immediately unless excluded`; `Dismissal Eligible immediately unless excluded`; `Released without charging Eligible immediately unless excluded`; `Conviction reversed or vacated Eligible immediately unless excluded`; `Successful supervision Eligible after waiting period`; `Successful qualified probation Eligible after waiting period`; `Most successful supervision 2 years after satisfactory termination`; `Supervision for listed offenses, including certain Vehicle Code and specified criminal-code offenses 5 years a…`; `Successfully completed supervision Seal after waiting period`; `Conviction, including municipal ordinance conviction Seal after waiting period unless excluded`; `First-offender probation under listed drug/cannabis/meth/second-chance routes Seal after waiting period unless…`; `Felony conviction Seal after waiting period unless excluded`; `Successful supervision / qualified probation / conditional discharge / probation completed without revocation …`; `Misdemeanor convictions and municipal ordinance violations 2 years after completing the sentence`; `Felony convictions not in the 2-year group 3 years after completing the last felony sentence`; `Certain 3-year-wait cases where education/career credential was earned during sentence/MSR Waiting period may …`; `Illinois allows a trafficking victim to petition for vacation and expungement or immediate sealing after compl…`; `If a juvenile record is not automatically expunged, a person may petition at no cost. For delinquency adjudica…`
+- waiting rules declared on this pathway (1): `no extra period after completion of the sentence and the statutory conditions`
 - waiting-rule inputs supplied: `{"resolved_timing_bucket":"lt_1_year","court_requirements_completed":"yes","sentence_completion_date":"Yes","financial_obligations":"Yes","pending_cases":"No","new_convictions_during_waiting_period":"No","special_preconditions_confirmed":"Yes"}`
 - why waiting_rule_not_executed: not emitted for this route
-- another valid public answer set reaches packet_ready: true — `{"ownership_scope":"Yes","jurisdiction_scope":"State or local","state_exclusion_categories":["None of these"],"pending_cases":"No","new_convictions_during_waiting_period":"No","sentence_completion_date":"Yes","financial_obligations":"Yes","court_requirements_completed":"yes","special_preconditions_confirmed":"Yes","trafficking_status":"No","pardon_status":"No","record_documents":"Yes","possible_pathway_context":"Felony-prostitution relief","case_outcome":"Juvenile adjudication or offense committed as a minor","offense_level":"Felony","age_at_offense":"1","resolved_timing_bucket":"gt_10_years"}`
+- another valid public answer set reaches packet_ready: true — `{"ownership_scope":"Yes","jurisdiction_scope":"State or local","state_exclusion_categories":["None of these"],"pending_cases":"No","new_convictions_during_waiting_period":"No","sentence_completion_date":"Yes","financial_obligations":"Yes","court_requirements_completed":"yes","special_preconditions_confirmed":"Yes","trafficking_status":"No","pardon_status":"No","record_documents":"Yes","possible_pathway_context":"Felony-prostitution relief","case_outcome":"Dismissed, no-billed, nolle prosequi, or not prosecuted","offense_level":"Felony","age_at_offense":"72","resolved_timing_bucket":"years_2_to_3"}`
 - recorded review state: hold_guidance_only
 - classification: **reachable and sellable**
 
@@ -488,13 +522,13 @@ Every route that is not sellable carries a recorded decision that says why.
 - still-requested missing facts at the end: none
 - final result code: needs_review
 - final paymentAllowed: false
-- final reason codes: il.waiting_anchor_not_determined
-- waiting rules declared on this pathway (9): `Certain 3-year-wait cases where education/career credential was earned during sentence/MSR Waiting period may …`; `Illinois allows a trafficking victim to petition for vacation and expungement or immediate sealing after compl…`; `If a juvenile record is not automatically expunged, a person may petition at no cost. For delinquency adjudica…`; `Automatic sealing will generally cover records already eligible for sealing once the system begins, including …`; `Route Wait Released without charging No wait for expungement Dismissal / acquittal No wait for expungement Con…`; `Wilma do not say eligible unless& rules Wilma should not say you are eligible unless these are confirmed: For …`; `Start with adult vs juvenile, then disposition.Non-convictions generally expunge immediately unless excluded.S…`; `Most provisions take effect June 1 / June 30, 2026; the shortened sealing waiting period (3 to 2 years for cer…`; `For Illinois, train Wilma with this core logic: Start with adult vs juvenile, then disposition.Non-convictions…`
+- final reason codes: il.waiting_rule_not_executed
+- waiting rules declared on this pathway (1): `no elapsed waiting period; the verified petition may be filed upon learning of the record`
 - waiting-rule inputs supplied: `{"resolved_timing_bucket":"lt_1_year","court_requirements_completed":"yes","sentence_completion_date":"Yes","financial_obligations":"Yes","pending_cases":"No","new_convictions_during_waiting_period":"No","special_preconditions_confirmed":"Yes"}`
-- why waiting_rule_not_executed: not emitted for this route
-- another valid public answer set reaches packet_ready: false
+- why waiting_rule_not_executed: no waiting rule with a selectable duration applied to this packet-like pathway for these answers, so the evaluator returned needs_review rather than guessing a period
+- another valid public answer set reaches packet_ready: true — `{"ownership_scope":"Yes","jurisdiction_scope":"State or local","state_exclusion_categories":["None of these"],"pending_cases":"No","new_convictions_during_waiting_period":"No","sentence_completion_date":"Yes","financial_obligations":"Yes","court_requirements_completed":"yes","special_preconditions_confirmed":"Yes","trafficking_status":"No","pardon_status":"No","record_documents":"Yes","possible_pathway_context":"Criminal identity-theft / mistaken-identity relief","case_outcome":"Arrest or citation with no charge filed","offense_level":"Felony","age_at_offense":"30","resolved_timing_bucket":"years_7_to_10"}`
 - recorded review state: first_pass_ratified
-- classification: **not reached by this search — no recorded hold explains it**
+- classification: **reachable and sellable**
 
 #### juvenile-automatic-or-petition-expungement
 
@@ -510,15 +544,15 @@ Every route that is not sellable carries a recorded decision that says why.
 - public question sequence (directed run, in the order the evaluator asked): `case_outcome` → `offense_level` → `age_at_offense` → `resolved_timing_bucket`
 - every supplied answer: `{"ownership_scope":"Yes","jurisdiction_scope":"State or local","state_exclusion_categories":["None of these"],"pending_cases":"No","new_convictions_during_waiting_period":"No","sentence_completion_date":"Yes","financial_obligations":"Yes","court_requirements_completed":"yes","special_preconditions_confirmed":"Yes","trafficking_status":"No","pardon_status":"No","record_documents":"Yes","possible_pathway_context":"Juvenile automatic or petition expungement","case_outcome":"Arrest or citation with no charge filed","offense_level":"Misdemeanor","age_at_offense":"30","resolved_timing_bucket":"lt_1_year"}`
 - still-requested missing facts at the end: none
-- final result code: not_yet
+- final result code: not_covered_yet
 - final paymentAllowed: false
-- final reason codes: il.timing_bucket_too_recent
+- final reason codes: il.intentional_unsupported_route
 - waiting rules declared on this pathway (18): `If a juvenile record is not automatically expunged, a person may petition at no cost. For delinquency adjudica…`; `Acquittal Eligible immediately unless excluded`; `Dismissal Eligible immediately unless excluded`; `Released without charging Eligible immediately unless excluded`; `Conviction reversed or vacated Eligible immediately unless excluded`; `Successful supervision Eligible after waiting period`; `Successful qualified probation Eligible after waiting period`; `Most successful supervision 2 years after satisfactory termination`; `Supervision for listed offenses, including certain Vehicle Code and specified criminal-code offenses 5 years a…`; `Successfully completed supervision Seal after waiting period`; `Conviction, including municipal ordinance conviction Seal after waiting period unless excluded`; `First-offender probation under listed drug/cannabis/meth/second-chance routes Seal after waiting period unless…`; `Felony conviction Seal after waiting period unless excluded`; `Successful supervision / qualified probation / conditional discharge / probation completed without revocation …`; `Misdemeanor convictions and municipal ordinance violations 2 years after completing the sentence`; `Felony convictions not in the 2-year group 3 years after completing the last felony sentence`; `Certain 3-year-wait cases where education/career credential was earned during sentence/MSR Waiting period may …`; `Illinois allows a trafficking victim to petition for vacation and expungement or immediate sealing after compl…`
 - waiting-rule inputs supplied: `{"resolved_timing_bucket":"lt_1_year","court_requirements_completed":"yes","sentence_completion_date":"Yes","financial_obligations":"Yes","pending_cases":"No","new_convictions_during_waiting_period":"No","special_preconditions_confirmed":"Yes"}`
 - why waiting_rule_not_executed: not emitted for this route
-- another valid public answer set reaches packet_ready: true — `{"ownership_scope":"Yes","jurisdiction_scope":"State or local","state_exclusion_categories":["None of these"],"pending_cases":"No","new_convictions_during_waiting_period":"No","sentence_completion_date":"Yes","financial_obligations":"Yes","court_requirements_completed":"yes","special_preconditions_confirmed":"Yes","trafficking_status":"No","pardon_status":"No","record_documents":"Yes","possible_pathway_context":"Juvenile automatic or petition expungement","case_outcome":"Diversion, deferred disposition, supervision, or similar program","offense_level":"Infraction or violation","age_at_offense":"45","resolved_timing_bucket":"years_7_to_10"}`
+- another valid public answer set reaches packet_ready: false
 - recorded review state: first_pass_ratified
-- classification: **reachable and sellable**
+- classification: **not reached by this search — no recorded hold explains it**
 
 #### clean-slate-automatic-sealing
 
@@ -546,20 +580,79 @@ Every route that is not sellable carries a recorded decision that says why.
 
 ## MS — profile 2026-06-19-source-conversion-1
 
-1 of 13 compiled pathways reach a sellable packet under some valid public answer set (1200 randomized participants plus one directed participant per route).
-**12 route(s) were not reached and carry no recorded hold that explains it: uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59, first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1, additional-justice-or-municipal-court-misdemeanor-relief, eligible-felony-conviction-expungement-99-19-71, nonadjudication-under-99-15-26, pretrial-intervention-or-diversion-expungement, first-offense-controlled-substance-conditional-discharge-relief, intervention-court-completion-expungement, first-offense-dui-expungement, dui-nonadjudication, minor-in-possession-underage-alcohol-expungement, human-trafficking-survivor-vacatur-and-expungement.**
+5 of 23 compiled pathways reach a sellable packet under some valid public answer set (1200 randomized participants plus one directed participant per route).
+**13 route(s) were not reached and carry no recorded hold that explains it: first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1, additional-justice-or-municipal-court-misdemeanor-relief, nonadjudication-under-99-15-26, pretrial-intervention-or-diversion-expungement, first-offense-controlled-substance-conditional-discharge-relief, dui-nonadjudication, human-trafficking-survivor-vacatur-and-expungement, controlled-substance-conditional-discharge-active-case-admission, human-trafficking-survivor-vacatur-97-3-54-6-5, human-trafficking-survivor-expungement-97-3-54-6-6, intervention-court-statutory-result-enforcement-referral, nonadjudication-99-15-26-active-case-admission, pretrial-intervention-active-case-admission.**
 
 ### Terminal outcomes observed across the sweep
 
 | n | pathway | result | paymentAllowed | reasons |
 | --- | --- | --- | --- | --- |
-| 488 | `(none)` | needs_review | false | ms.waiting_rule_not_executed |
-| 349 | `(none)` | needs_review | false | ms.source_fact_unknown |
-| 175 | `(none)` | needs_review | false | ms.waiting_anchor_not_determined |
-| 82 | `(none)` | not_yet | false | ms.case_still_open |
-| 58 | `(none)` | needs_review | false | ms.pathway_context_not_matched |
-| 31 | `non-conviction-expungement-for-dismissal-no-disposition-or-acquittal` | packet_ready_with_caution | true | ms.compiled_rule_match.route-non-conviction-expungement-for-dismissal-no-disposition-or-acquittal |
-| 17 | `non-conviction-expungement-for-dismissal-no-disposition-or-acquittal` | packet_ready_with_caution | true | ms.compiled_rule_match.rule-80-based-on-what-you-shared-you-may-have-a-mississippi-exp |
+| 41 | `(none)` | needs_review | false | ms.pathway_context_not_matched |
+| 39 | `intervention-court-statutory-result-enforcement-referral` | needs_review | false | ms.selected_pathway_rule_not_matched |
+| 38 | `intervention-court-completion-expungement` | guidance_only | false | ms.guidance_only_no_user_filed_court_petition |
+| 38 | `pretrial-intervention-active-case-admission` | needs_review | false | ms.selected_pathway_rule_not_matched |
+| 37 | `human-trafficking-survivor-vacatur-and-expungement` | needs_review | false | ms.legal_authority_referral_required |
+| 37 | `intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4` | guidance_only | false | ms.guidance_only_no_user_filed_court_petition |
+| 36 | `controlled-substance-conditional-discharge-active-case-admission` | needs_review | false | ms.selected_pathway_rule_not_matched |
+| 36 | `additional-municipal-court-misdemeanor-relief-21-23-7-6` | guidance_only | false | ms.guidance_only_no_user_filed_court_petition |
+| 36 | `human-trafficking-survivor-expungement-97-3-54-6-6` | needs_review | false | ms.legal_authority_attorney_review_required |
+| 35 | `additional-justice-court-misdemeanor-relief-9-11-15-3` | guidance_only | false | ms.guidance_only_no_user_filed_court_petition |
+| 34 | `nonadjudication-99-15-26-active-case-admission` | needs_review | false | ms.selected_pathway_rule_not_matched |
+| 33 | `uncharged-misdemeanor-immediate-dismissal-branch-99-15-59` | guidance_only | false | ms.guidance_only_no_user_filed_court_petition |
+| 31 | `first-offense-controlled-substance-conditional-discharge-relief` | needs_review | false | ms.waiting_rule_not_executed |
+| 30 | `pretrial-intervention-or-diversion-expungement` | needs_review | false | ms.waiting_rule_not_executed |
+| 29 | `human-trafficking-survivor-vacatur-97-3-54-6-5` | needs_review | false | ms.legal_authority_attorney_review_required |
+| 28 | `dui-nonadjudication` | needs_review | false | ms.waiting_rule_not_executed |
+| 27 | `additional-justice-or-municipal-court-misdemeanor-relief` | needs_review | false | ms.legal_authority_referral_required |
+| 25 | `nonadjudication-under-99-15-26` | needs_review | false | ms.waiting_rule_not_executed |
+| 24 | `minor-in-possession-underage-alcohol-expungement` | packet_ready_with_caution | true | ms.compiled_rule_match.route-minor-in-possession-underage-alcohol-expungement |
+| 21 | `human-trafficking-survivor-vacatur-97-3-54-6-5` | needs_review | false | ms.source_fact_unknown |
+| 20 | `additional-justice-or-municipal-court-misdemeanor-relief` | needs_review | false | ms.source_fact_unknown |
+| 20 | `non-conviction-expungement-for-dismissal-no-disposition-or-acquittal` | packet_ready_with_caution | true | ms.compiled_rule_match.route-non-conviction-expungement-for-dismissal-no-disposition-or-acquittal |
+| 20 | `nonadjudication-under-99-15-26` | needs_review | false | ms.source_fact_unknown |
+| 19 | `(none)` | needs_review | false | ms.compiled_rule_review.rule-85-additional-justice-municipal-misdemeanors-discretionary |
+| 18 | `uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59` | needs_review | false | ms.source_fact_unknown |
+| 18 | `first-offense-dui-expungement` | packet_ready_with_caution | true | ms.compiled_rule_match.route-first-offense-dui-expungement |
+| 18 | `eligible-felony-conviction-expungement-99-19-71` | needs_review | false | ms.source_fact_unknown |
+| 17 | `first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1` | needs_review | false | ms.source_fact_unknown |
+| 17 | `pretrial-intervention-or-diversion-expungement` | needs_review | false | ms.source_fact_unknown |
+| 17 | `minor-in-possession-underage-alcohol-expungement` | needs_review | false | ms.source_fact_unknown |
+| 17 | `uncharged-misdemeanor-immediate-dismissal-branch-99-15-59` | needs_review | false | ms.source_fact_unknown |
+| 17 | `uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59` | packet_ready_with_caution | true | ms.compiled_rule_match.route-uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59 |
+| 16 | `nonadjudication-99-15-26-active-case-admission` | needs_review | false | ms.source_fact_unknown |
+| 16 | `dui-nonadjudication` | needs_review | false | ms.source_fact_unknown |
+| 15 | `first-offense-dui-expungement` | needs_review | false | ms.source_fact_unknown |
+| 15 | `additional-justice-court-misdemeanor-relief-9-11-15-3` | needs_review | false | ms.source_fact_unknown |
+| 14 | `non-conviction-expungement-for-dismissal-no-disposition-or-acquittal` | needs_review | false | ms.source_fact_unknown |
+| 14 | `human-trafficking-survivor-expungement-97-3-54-6-6` | needs_review | false | ms.source_fact_unknown |
+| 14 | `additional-municipal-court-misdemeanor-relief-21-23-7-6` | needs_review | false | ms.source_fact_unknown |
+| 14 | `controlled-substance-conditional-discharge-active-case-admission` | needs_review | false | ms.source_fact_unknown |
+| 13 | `eligible-felony-conviction-expungement-99-19-71` | packet_ready_with_caution | true | ms.compiled_rule_match.route-eligible-felony-conviction-expungement-99-19-71 |
+| 13 | `first-offense-controlled-substance-conditional-discharge-relief` | needs_review | false | ms.source_fact_unknown |
+| 13 | `non-conviction-expungement-for-dismissal-no-disposition-or-acquittal` | packet_ready_with_caution | true | ms.compiled_rule_match.rule-80-based-on-what-you-shared-you-may-have-a-mississippi-exp |
+| 13 | `human-trafficking-survivor-vacatur-and-expungement` | needs_review | false | ms.source_fact_unknown |
+| 13 | `first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1` | needs_review | false | ms.waiting_rule_not_executed |
+| 13 | `intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4` | needs_review | false | ms.source_fact_unknown |
+| 12 | `pretrial-intervention-active-case-admission` | needs_review | false | ms.source_fact_unknown |
+| 12 | `first-offense-dui-expungement` | not_yet | false | ms.waiting_period_not_satisfied |
+| 12 | `intervention-court-completion-expungement` | needs_review | false | ms.source_fact_unknown |
+| 11 | `intervention-court-statutory-result-enforcement-referral` | needs_review | false | ms.source_fact_unknown |
+| 9 | `uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59` | packet_ready_with_caution | true | ms.compiled_rule_match.rule-52-potential-misdemeanor-non-prosecution-expungement-under |
+| 9 | `(none)` | needs_review | false | ms.source_fact_unknown |
+| 8 | `eligible-felony-conviction-expungement-99-19-71` | not_yet | false | ms.timing_bucket_too_recent |
+| 8 | `eligible-felony-conviction-expungement-99-19-71` | needs_review | false | ms.waiting_rule_not_executed |
+| 6 | `first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1` | not_yet | false | ms.case_still_open |
+| 6 | `first-offense-controlled-substance-conditional-discharge-relief` | not_yet | false | ms.case_still_open |
+| 6 | `minor-in-possession-underage-alcohol-expungement` | needs_review | false | ms.ms_mip_fine_status_uncertain |
+| 6 | `dui-nonadjudication` | not_yet | false | ms.case_still_open |
+| 5 | `nonadjudication-under-99-15-26` | not_yet | false | ms.case_still_open |
+| 4 | `uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59` | not_yet | false | ms.case_still_open |
+| 3 | `eligible-felony-conviction-expungement-99-19-71` | not_yet | false | ms.case_still_open |
+| 3 | `pretrial-intervention-or-diversion-expungement` | not_yet | false | ms.case_still_open |
+| 3 | `non-conviction-expungement-for-dismissal-no-disposition-or-acquittal` | not_yet | false | ms.case_still_open |
+| 3 | `first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1` | not_yet | false | ms.timing_bucket_too_recent |
+| 3 | `additional-justice-or-municipal-court-misdemeanor-relief` | not_yet | false | ms.waiting_period_not_satisfied |
+| 2 | `uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59` | not_yet | false | ms.timing_bucket_too_recent |
 
 ### Per route
 
@@ -580,10 +673,10 @@ Every route that is not sellable carries a recorded decision that says why.
 - final result code: packet_ready_with_caution
 - final paymentAllowed: true
 - final reason codes: ms.compiled_rule_match.route-non-conviction-expungement-for-dismissal-no-disposition-or-acquittal
-- waiting rules declared on this pathway (18): `Path B - Misdemeanor arrest/citation not formally charged or prosecuted within 12 months`; `Under 99-15-59, a person arrested, cited, or held for a misdemeanor and not formally charged or prosecuted wit…`; `Was this a misdemeanor arrest or ticket where no formal charge or prosecution happened within 12 months?`; `Mississippi allows expungement of one felony conviction from public records if the person has paid all crimina…`; `Before July 1, 2026 5 years after successful completion of all sentence terms`; `On or after July 1, 2026 3 years after successful completion of all sentence terms`; `The court may grant the felony petition if it determines, on the record or in writing, that the applicant is r…`; `Mississippi has a special first-offense DUI expungement rule. A person convicted of a first-offense DUI may pe…`; `Under 67-3-70, Mississippi has a special path for underage purchase or possession of light wine, light spirit …`; `[None / 12 months / 2 years good conduct / 5 years / 3 years after July 1, 2026 / 1 year / unknown]`; `Misdemeanor no charge/prosecution Petition after 12 months under 99-15-59`; `Additional justice/municipal misdemeanors Discretionary; 2 years good conduct + rehabilitation`; `Felony waiting period now 5 years after sentence completion`; `Felony waiting period effective July 1, 2026 3 years after sentence completion`; `DA notice for felony 10 days written notice before hearing`; `MIP alcohol Potential petition one year after sentence completion`; `Topic Mississippi Rule Main conviction statute 99-19-71 Dismissed/dropped/no disposition/not guilty Petition; …`; `Misdemeanor arrest/citation not formally charged or prosecuted within 12 months`
+- waiting rules declared on this pathway (1): `relief opens on the qualifying dismissal, dropped charge, closed no-disposition matter, or acquittal; the no-d…`
 - waiting-rule inputs supplied: `{"resolved_timing_bucket":"lt_1_year","court_requirements_completed":"yes","sentence_completion_date":"Yes","financial_obligations":"Yes","pending_cases":"No","new_convictions_during_waiting_period":"No","special_preconditions_confirmed":"Yes"}`
 - why waiting_rule_not_executed: not emitted for this route
-- another valid public answer set reaches packet_ready: true — `{"ownership_scope":"Yes","jurisdiction_scope":"State or local","pending_cases":"No","new_convictions_during_waiting_period":"No","sentence_completion_date":"Yes","financial_obligations":"Yes","court_requirements_completed":"yes","special_preconditions_confirmed":"Yes","possible_pathway_context":"Non-conviction expungement for dismissal, no disposition, or acquittal","case_outcome":"Other conviction or adjudication","offense_level":"Infraction or violation","resolved_timing_bucket":"years_1_to_2"}`
+- another valid public answer set reaches packet_ready: true — `{"ownership_scope":"Yes","jurisdiction_scope":"State or local","pending_cases":"No","new_convictions_during_waiting_period":"No","sentence_completion_date":"Yes","financial_obligations":"Yes","court_requirements_completed":"yes","special_preconditions_confirmed":"Yes","possible_pathway_context":"Non-conviction expungement for dismissal, no disposition, or acquittal","case_outcome":"Other conviction or adjudication","offense_level":"Municipal or ordinance matter","resolved_timing_bucket":"years_2_to_3"}`
 - recorded review state: first_pass_ratified
 - classification: **reachable and sellable**
 
@@ -601,15 +694,15 @@ Every route that is not sellable carries a recorded decision that says why.
 - public question sequence (directed run, in the order the evaluator asked): `case_outcome` → `offense_level` → `resolved_timing_bucket`
 - every supplied answer: `{"ownership_scope":"Yes","jurisdiction_scope":"State or local","pending_cases":"No","new_convictions_during_waiting_period":"No","sentence_completion_date":"Yes","financial_obligations":"Yes","court_requirements_completed":"yes","special_preconditions_confirmed":"Yes","possible_pathway_context":"Uncharged or unprosecuted misdemeanor after 12 months (§ 99-15-59)","case_outcome":"Dismissed, no-billed, nolle prosequi, or not prosecuted","offense_level":"Misdemeanor","resolved_timing_bucket":"lt_1_year"}`
 - still-requested missing facts at the end: none
-- final result code: needs_review
+- final result code: not_yet
 - final paymentAllowed: false
-- final reason codes: ms.waiting_rule_not_executed
-- waiting rules declared on this pathway (18): `Path B - Misdemeanor arrest/citation not formally charged or prosecuted within 12 months`; `Under 99-15-59, a person arrested, cited, or held for a misdemeanor and not formally charged or prosecuted wit…`; `Was this a misdemeanor arrest or ticket where no formal charge or prosecution happened within 12 months?`; `Mississippi allows expungement of one felony conviction from public records if the person has paid all crimina…`; `Before July 1, 2026 5 years after successful completion of all sentence terms`; `On or after July 1, 2026 3 years after successful completion of all sentence terms`; `The court may grant the felony petition if it determines, on the record or in writing, that the applicant is r…`; `Mississippi has a special first-offense DUI expungement rule. A person convicted of a first-offense DUI may pe…`; `Under 67-3-70, Mississippi has a special path for underage purchase or possession of light wine, light spirit …`; `[None / 12 months / 2 years good conduct / 5 years / 3 years after July 1, 2026 / 1 year / unknown]`; `Misdemeanor no charge/prosecution Petition after 12 months under 99-15-59`; `Additional justice/municipal misdemeanors Discretionary; 2 years good conduct + rehabilitation`; `Felony waiting period now 5 years after sentence completion`; `Felony waiting period effective July 1, 2026 3 years after sentence completion`; `DA notice for felony 10 days written notice before hearing`; `MIP alcohol Potential petition one year after sentence completion`; `Topic Mississippi Rule Main conviction statute 99-19-71 Dismissed/dropped/no disposition/not guilty Petition; …`; `Misdemeanor arrest/citation not formally charged or prosecuted within 12 months`
+- final reason codes: ms.timing_bucket_too_recent
+- waiting rules declared on this pathway (1): `twelve months after the arrest or citation date where no formal charge or prosecution has followed`
 - waiting-rule inputs supplied: `{"resolved_timing_bucket":"lt_1_year","court_requirements_completed":"yes","sentence_completion_date":"Yes","financial_obligations":"Yes","pending_cases":"No","new_convictions_during_waiting_period":"No","special_preconditions_confirmed":"Yes"}`
-- why waiting_rule_not_executed: no waiting rule with a selectable duration applied to this packet-like pathway for these answers, so the evaluator returned needs_review rather than guessing a period
-- another valid public answer set reaches packet_ready: false
+- why waiting_rule_not_executed: not emitted for this route
+- another valid public answer set reaches packet_ready: true — `{"ownership_scope":"Yes","jurisdiction_scope":"State or local","pending_cases":"No","new_convictions_during_waiting_period":"No","sentence_completion_date":"Yes","financial_obligations":"Yes","court_requirements_completed":"yes","special_preconditions_confirmed":"Yes","possible_pathway_context":"Uncharged or unprosecuted misdemeanor after 12 months (§ 99-15-59)","case_outcome":"Diversion, deferred disposition, supervision, or similar program","offense_level":"Municipal or ordinance matter","resolved_timing_bucket":"gt_10_years"}`
 - recorded review state: first_pass_ratified
-- classification: **not reached by this search — no recorded hold explains it**
+- classification: **reachable and sellable**
 
 #### first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1
 
@@ -628,7 +721,7 @@ Every route that is not sellable carries a recorded decision that says why.
 - final result code: needs_review
 - final paymentAllowed: false
 - final reason codes: ms.waiting_rule_not_executed
-- waiting rules declared on this pathway (18): `Path B - Misdemeanor arrest/citation not formally charged or prosecuted within 12 months`; `Under 99-15-59, a person arrested, cited, or held for a misdemeanor and not formally charged or prosecuted wit…`; `Was this a misdemeanor arrest or ticket where no formal charge or prosecution happened within 12 months?`; `Mississippi allows expungement of one felony conviction from public records if the person has paid all crimina…`; `Before July 1, 2026 5 years after successful completion of all sentence terms`; `On or after July 1, 2026 3 years after successful completion of all sentence terms`; `The court may grant the felony petition if it determines, on the record or in writing, that the applicant is r…`; `Mississippi has a special first-offense DUI expungement rule. A person convicted of a first-offense DUI may pe…`; `Under 67-3-70, Mississippi has a special path for underage purchase or possession of light wine, light spirit …`; `[None / 12 months / 2 years good conduct / 5 years / 3 years after July 1, 2026 / 1 year / unknown]`; `Misdemeanor no charge/prosecution Petition after 12 months under 99-15-59`; `Additional justice/municipal misdemeanors Discretionary; 2 years good conduct + rehabilitation`; `Felony waiting period now 5 years after sentence completion`; `Felony waiting period effective July 1, 2026 3 years after sentence completion`; `DA notice for felony 10 days written notice before hearing`; `MIP alcohol Potential petition one year after sentence completion`; `Topic Mississippi Rule Main conviction statute 99-19-71 Dismissed/dropped/no disposition/not guilty Petition; …`; `Misdemeanor arrest/citation not formally charged or prosecuted within 12 months`
+- waiting rules declared on this pathway (1): `no numeric waiting period; relief unlocks on the final qualifying first-offender nontraffic misdemeanor convic…`
 - waiting-rule inputs supplied: `{"resolved_timing_bucket":"lt_1_year","court_requirements_completed":"yes","sentence_completion_date":"Yes","financial_obligations":"Yes","pending_cases":"No","new_convictions_during_waiting_period":"No","special_preconditions_confirmed":"Yes"}`
 - why waiting_rule_not_executed: no waiting rule with a selectable duration applied to this packet-like pathway for these answers, so the evaluator returned needs_review rather than guessing a period
 - another valid public answer set reaches packet_ready: false
@@ -646,15 +739,15 @@ Every route that is not sellable carries a recorded decision that says why.
 - route sellable: true
 - route credit-consumable: true
 - route can render: true
-- public question sequence (directed run, in the order the evaluator asked): `case_outcome` → `offense_level` → `resolved_timing_bucket`
-- every supplied answer: `{"ownership_scope":"Yes","jurisdiction_scope":"State or local","pending_cases":"No","new_convictions_during_waiting_period":"No","sentence_completion_date":"Yes","financial_obligations":"Yes","court_requirements_completed":"yes","special_preconditions_confirmed":"Yes","possible_pathway_context":"Additional justice- or municipal-court misdemeanor relief","case_outcome":"Dismissed, no-billed, nolle prosequi, or not prosecuted","offense_level":"Misdemeanor","resolved_timing_bucket":"lt_1_year"}`
+- public question sequence (directed run, in the order the evaluator asked): `case_outcome` → `offense_level` → `resolved_timing_bucket` → `ms_last_conviction_date_any_court`
+- every supplied answer: `{"ownership_scope":"Yes","jurisdiction_scope":"State or local","pending_cases":"No","new_convictions_during_waiting_period":"No","sentence_completion_date":"Yes","financial_obligations":"Yes","court_requirements_completed":"yes","special_preconditions_confirmed":"Yes","possible_pathway_context":"Additional justice- or municipal-court misdemeanor relief","case_outcome":"Dismissed, no-billed, nolle prosequi, or not prosecuted","offense_level":"Misdemeanor","resolved_timing_bucket":"lt_1_year","ms_last_conviction_date_any_court":"2012-06-01"}`
 - still-requested missing facts at the end: none
 - final result code: needs_review
 - final paymentAllowed: false
-- final reason codes: ms.waiting_rule_not_executed
-- waiting rules declared on this pathway (18): `Path B - Misdemeanor arrest/citation not formally charged or prosecuted within 12 months`; `Under 99-15-59, a person arrested, cited, or held for a misdemeanor and not formally charged or prosecuted wit…`; `Was this a misdemeanor arrest or ticket where no formal charge or prosecution happened within 12 months?`; `Mississippi allows expungement of one felony conviction from public records if the person has paid all crimina…`; `Before July 1, 2026 5 years after successful completion of all sentence terms`; `On or after July 1, 2026 3 years after successful completion of all sentence terms`; `The court may grant the felony petition if it determines, on the record or in writing, that the applicant is r…`; `Mississippi has a special first-offense DUI expungement rule. A person convicted of a first-offense DUI may pe…`; `Under 67-3-70, Mississippi has a special path for underage purchase or possession of light wine, light spirit …`; `[None / 12 months / 2 years good conduct / 5 years / 3 years after July 1, 2026 / 1 year / unknown]`; `Misdemeanor no charge/prosecution Petition after 12 months under 99-15-59`; `Additional justice/municipal misdemeanors Discretionary; 2 years good conduct + rehabilitation`; `Felony waiting period now 5 years after sentence completion`; `Felony waiting period effective July 1, 2026 3 years after sentence completion`; `DA notice for felony 10 days written notice before hearing`; `MIP alcohol Potential petition one year after sentence completion`; `Topic Mississippi Rule Main conviction statute 99-19-71 Dismissed/dropped/no disposition/not guilty Petition; …`; `Misdemeanor arrest/citation not formally charged or prosecuted within 12 months`
+- final reason codes: ms.legal_authority_referral_required
+- waiting rules declared on this pathway (1): `two years of good conduct measured from the date of the person's last conviction in any court`
 - waiting-rule inputs supplied: `{"resolved_timing_bucket":"lt_1_year","court_requirements_completed":"yes","sentence_completion_date":"Yes","financial_obligations":"Yes","pending_cases":"No","new_convictions_during_waiting_period":"No","special_preconditions_confirmed":"Yes"}`
-- why waiting_rule_not_executed: no waiting rule with a selectable duration applied to this packet-like pathway for these answers, so the evaluator returned needs_review rather than guessing a period
+- why waiting_rule_not_executed: not emitted for this route
 - another valid public answer set reaches packet_ready: false
 - recorded review state: first_pass_ratified
 - classification: **not reached by this search — no recorded hold explains it**
@@ -673,15 +766,15 @@ Every route that is not sellable carries a recorded decision that says why.
 - public question sequence (directed run, in the order the evaluator asked): `case_outcome` → `offense_level` → `resolved_timing_bucket`
 - every supplied answer: `{"ownership_scope":"Yes","jurisdiction_scope":"State or local","pending_cases":"No","new_convictions_during_waiting_period":"No","sentence_completion_date":"Yes","financial_obligations":"Yes","court_requirements_completed":"yes","special_preconditions_confirmed":"Yes","possible_pathway_context":"Eligible felony-conviction expungement (§ 99-19-71)","case_outcome":"Dismissed, no-billed, nolle prosequi, or not prosecuted","offense_level":"Misdemeanor","resolved_timing_bucket":"lt_1_year"}`
 - still-requested missing facts at the end: none
-- final result code: needs_review
+- final result code: not_yet
 - final paymentAllowed: false
-- final reason codes: ms.waiting_rule_not_executed
-- waiting rules declared on this pathway (18): `Mississippi allows expungement of one felony conviction from public records if the person has paid all crimina…`; `Before July 1, 2026 5 years after successful completion of all sentence terms`; `On or after July 1, 2026 3 years after successful completion of all sentence terms`; `The court may grant the felony petition if it determines, on the record or in writing, that the applicant is r…`; `Path B - Misdemeanor arrest/citation not formally charged or prosecuted within 12 months`; `Under 99-15-59, a person arrested, cited, or held for a misdemeanor and not formally charged or prosecuted wit…`; `Was this a misdemeanor arrest or ticket where no formal charge or prosecution happened within 12 months?`; `Mississippi has a special first-offense DUI expungement rule. A person convicted of a first-offense DUI may pe…`; `Under 67-3-70, Mississippi has a special path for underage purchase or possession of light wine, light spirit …`; `[None / 12 months / 2 years good conduct / 5 years / 3 years after July 1, 2026 / 1 year / unknown]`; `Misdemeanor no charge/prosecution Petition after 12 months under 99-15-59`; `Additional justice/municipal misdemeanors Discretionary; 2 years good conduct + rehabilitation`; `Felony waiting period now 5 years after sentence completion`; `Felony waiting period effective July 1, 2026 3 years after sentence completion`; `DA notice for felony 10 days written notice before hearing`; `MIP alcohol Potential petition one year after sentence completion`; `Topic Mississippi Rule Main conviction statute 99-19-71 Dismissed/dropped/no disposition/not guilty Petition; …`; `Misdemeanor arrest/citation not formally charged or prosecuted within 12 months`
+- final reason codes: ms.timing_bucket_too_recent
+- waiting rules declared on this pathway (4): `three years after court-certified successful completion of all terms, with every fine and cost paid; where rec…`; `This rule governs filings on or after 2026-07-01.`; `Supersedes 5 years: the stale five-year rule that governed filings before 2026-07-01.`; `10-day district attorney notice — a service step inside the petition, not a participant eligibility wait.`
 - waiting-rule inputs supplied: `{"resolved_timing_bucket":"lt_1_year","court_requirements_completed":"yes","sentence_completion_date":"Yes","financial_obligations":"Yes","pending_cases":"No","new_convictions_during_waiting_period":"No","special_preconditions_confirmed":"Yes"}`
-- why waiting_rule_not_executed: no waiting rule with a selectable duration applied to this packet-like pathway for these answers, so the evaluator returned needs_review rather than guessing a period
-- another valid public answer set reaches packet_ready: false
+- why waiting_rule_not_executed: not emitted for this route
+- another valid public answer set reaches packet_ready: true — `{"ownership_scope":"Yes","jurisdiction_scope":"State or local","pending_cases":"No","new_convictions_during_waiting_period":"No","sentence_completion_date":"Yes","financial_obligations":"Yes","court_requirements_completed":"yes","special_preconditions_confirmed":"Yes","possible_pathway_context":"Eligible felony-conviction expungement (§ 99-19-71)","case_outcome":"Misdemeanor conviction","offense_level":"Municipal or ordinance matter","resolved_timing_bucket":"years_5_to_7"}`
 - recorded review state: first_pass_ratified
-- classification: **not reached by this search — no recorded hold explains it**
+- classification: **reachable and sellable**
 
 #### nonadjudication-under-99-15-26
 
@@ -700,7 +793,7 @@ Every route that is not sellable carries a recorded decision that says why.
 - final result code: needs_review
 - final paymentAllowed: false
 - final reason codes: ms.waiting_rule_not_executed
-- waiting rules declared on this pathway (17): `Path B - Misdemeanor arrest/citation not formally charged or prosecuted within 12 months`; `Under 99-15-59, a person arrested, cited, or held for a misdemeanor and not formally charged or prosecuted wit…`; `Was this a misdemeanor arrest or ticket where no formal charge or prosecution happened within 12 months?`; `Mississippi allows expungement of one felony conviction from public records if the person has paid all crimina…`; `Before July 1, 2026 5 years after successful completion of all sentence terms`; `On or after July 1, 2026 3 years after successful completion of all sentence terms`; `The court may grant the felony petition if it determines, on the record or in writing, that the applicant is r…`; `Mississippi has a special first-offense DUI expungement rule. A person convicted of a first-offense DUI may pe…`; `Under 67-3-70, Mississippi has a special path for underage purchase or possession of light wine, light spirit …`; `[None / 12 months / 2 years good conduct / 5 years / 3 years after July 1, 2026 / 1 year / unknown]`; `Misdemeanor no charge/prosecution Petition after 12 months under 99-15-59`; `Additional justice/municipal misdemeanors Discretionary; 2 years good conduct + rehabilitation`; `Felony waiting period now 5 years after sentence completion`; `Felony waiting period effective July 1, 2026 3 years after sentence completion`; `MIP alcohol Potential petition one year after sentence completion`; `Topic Mississippi Rule Main conviction statute 99-19-71 Dismissed/dropped/no disposition/not guilty Petition; …`; `Misdemeanor arrest/citation not formally charged or prosecuted within 12 months`
+- waiting rules declared on this pathway (1): `relief opens on the later of court-certified completion and the dismissal or closure order`
 - waiting-rule inputs supplied: `{"resolved_timing_bucket":"lt_1_year","court_requirements_completed":"yes","sentence_completion_date":"Yes","financial_obligations":"Yes","pending_cases":"No","new_convictions_during_waiting_period":"No","special_preconditions_confirmed":"Yes"}`
 - why waiting_rule_not_executed: no waiting rule with a selectable duration applied to this packet-like pathway for these answers, so the evaluator returned needs_review rather than guessing a period
 - another valid public answer set reaches packet_ready: false
@@ -724,7 +817,7 @@ Every route that is not sellable carries a recorded decision that says why.
 - final result code: needs_review
 - final paymentAllowed: false
 - final reason codes: ms.waiting_rule_not_executed
-- waiting rules declared on this pathway (18): `Path B - Misdemeanor arrest/citation not formally charged or prosecuted within 12 months`; `Under 99-15-59, a person arrested, cited, or held for a misdemeanor and not formally charged or prosecuted wit…`; `Was this a misdemeanor arrest or ticket where no formal charge or prosecution happened within 12 months?`; `Mississippi allows expungement of one felony conviction from public records if the person has paid all crimina…`; `Before July 1, 2026 5 years after successful completion of all sentence terms`; `On or after July 1, 2026 3 years after successful completion of all sentence terms`; `The court may grant the felony petition if it determines, on the record or in writing, that the applicant is r…`; `Mississippi has a special first-offense DUI expungement rule. A person convicted of a first-offense DUI may pe…`; `Under 67-3-70, Mississippi has a special path for underage purchase or possession of light wine, light spirit …`; `[None / 12 months / 2 years good conduct / 5 years / 3 years after July 1, 2026 / 1 year / unknown]`; `Misdemeanor no charge/prosecution Petition after 12 months under 99-15-59`; `Additional justice/municipal misdemeanors Discretionary; 2 years good conduct + rehabilitation`; `Felony waiting period now 5 years after sentence completion`; `Felony waiting period effective July 1, 2026 3 years after sentence completion`; `MIP alcohol Potential petition one year after sentence completion`; `Topic Mississippi Rule Main conviction statute 99-19-71 Dismissed/dropped/no disposition/not guilty Petition; …`; `Misdemeanor arrest/citation not formally charged or prosecuted within 12 months`; `2 Good conduct for 2 years since the last conviction in any court; and`
+- waiting rules declared on this pathway (1): `relief opens on the later of program completion and the dismissal, dropped-charge, or no-disposition event`
 - waiting-rule inputs supplied: `{"resolved_timing_bucket":"lt_1_year","court_requirements_completed":"yes","sentence_completion_date":"Yes","financial_obligations":"Yes","pending_cases":"No","new_convictions_during_waiting_period":"No","special_preconditions_confirmed":"Yes"}`
 - why waiting_rule_not_executed: no waiting rule with a selectable duration applied to this packet-like pathway for these answers, so the evaluator returned needs_review rather than guessing a period
 - another valid public answer set reaches packet_ready: false
@@ -748,7 +841,7 @@ Every route that is not sellable carries a recorded decision that says why.
 - final result code: needs_review
 - final paymentAllowed: false
 - final reason codes: ms.waiting_rule_not_executed
-- waiting rules declared on this pathway (18): `Path B - Misdemeanor arrest/citation not formally charged or prosecuted within 12 months`; `Under 99-15-59, a person arrested, cited, or held for a misdemeanor and not formally charged or prosecuted wit…`; `Was this a misdemeanor arrest or ticket where no formal charge or prosecution happened within 12 months?`; `Mississippi allows expungement of one felony conviction from public records if the person has paid all crimina…`; `Before July 1, 2026 5 years after successful completion of all sentence terms`; `On or after July 1, 2026 3 years after successful completion of all sentence terms`; `The court may grant the felony petition if it determines, on the record or in writing, that the applicant is r…`; `Mississippi has a special first-offense DUI expungement rule. A person convicted of a first-offense DUI may pe…`; `Under 67-3-70, Mississippi has a special path for underage purchase or possession of light wine, light spirit …`; `[None / 12 months / 2 years good conduct / 5 years / 3 years after July 1, 2026 / 1 year / unknown]`; `Misdemeanor no charge/prosecution Petition after 12 months under 99-15-59`; `Additional justice/municipal misdemeanors Discretionary; 2 years good conduct + rehabilitation`; `Felony waiting period now 5 years after sentence completion`; `Felony waiting period effective July 1, 2026 3 years after sentence completion`; `MIP alcohol Potential petition one year after sentence completion`; `Topic Mississippi Rule Main conviction statute 99-19-71 Dismissed/dropped/no disposition/not guilty Petition; …`; `Misdemeanor arrest/citation not formally charged or prosecuted within 12 months`; `2 Good conduct for 2 years since the last conviction in any court; and`
+- waiting rules declared on this pathway (1): `expungement opens on the discharge-and-dismissal order date, after successful probation`
 - waiting-rule inputs supplied: `{"resolved_timing_bucket":"lt_1_year","court_requirements_completed":"yes","sentence_completion_date":"Yes","financial_obligations":"Yes","pending_cases":"No","new_convictions_during_waiting_period":"No","special_preconditions_confirmed":"Yes"}`
 - why waiting_rule_not_executed: no waiting rule with a selectable duration applied to this packet-like pathway for these answers, so the evaluator returned needs_review rather than guessing a period
 - another valid public answer set reaches packet_ready: false
@@ -769,15 +862,15 @@ Every route that is not sellable carries a recorded decision that says why.
 - public question sequence (directed run, in the order the evaluator asked): `case_outcome` → `offense_level` → `resolved_timing_bucket`
 - every supplied answer: `{"ownership_scope":"Yes","jurisdiction_scope":"State or local","pending_cases":"No","new_convictions_during_waiting_period":"No","sentence_completion_date":"Yes","financial_obligations":"Yes","court_requirements_completed":"yes","special_preconditions_confirmed":"Yes","possible_pathway_context":"Intervention-court completion expungement","case_outcome":"Dismissed, no-billed, nolle prosequi, or not prosecuted","offense_level":"Misdemeanor","resolved_timing_bucket":"lt_1_year"}`
 - still-requested missing facts at the end: none
-- final result code: needs_review
+- final result code: guidance_only
 - final paymentAllowed: false
-- final reason codes: ms.waiting_rule_not_executed
-- waiting rules declared on this pathway (18): `Path B - Misdemeanor arrest/citation not formally charged or prosecuted within 12 months`; `Under 99-15-59, a person arrested, cited, or held for a misdemeanor and not formally charged or prosecuted wit…`; `Was this a misdemeanor arrest or ticket where no formal charge or prosecution happened within 12 months?`; `Mississippi allows expungement of one felony conviction from public records if the person has paid all crimina…`; `Before July 1, 2026 5 years after successful completion of all sentence terms`; `On or after July 1, 2026 3 years after successful completion of all sentence terms`; `The court may grant the felony petition if it determines, on the record or in writing, that the applicant is r…`; `Mississippi has a special first-offense DUI expungement rule. A person convicted of a first-offense DUI may pe…`; `Under 67-3-70, Mississippi has a special path for underage purchase or possession of light wine, light spirit …`; `[None / 12 months / 2 years good conduct / 5 years / 3 years after July 1, 2026 / 1 year / unknown]`; `Misdemeanor no charge/prosecution Petition after 12 months under 99-15-59`; `Additional justice/municipal misdemeanors Discretionary; 2 years good conduct + rehabilitation`; `Felony waiting period now 5 years after sentence completion`; `Felony waiting period effective July 1, 2026 3 years after sentence completion`; `MIP alcohol Potential petition one year after sentence completion`; `Topic Mississippi Rule Main conviction statute 99-19-71 Dismissed/dropped/no disposition/not guilty Petition; …`; `Misdemeanor arrest/citation not formally charged or prosecuted within 12 months`; `2 Good conduct for 2 years since the last conviction in any court; and`
+- final reason codes: ms.guidance_only_no_user_filed_court_petition
+- waiting rules declared on this pathway (1): `the statutory result follows court-certified successful completion of every requirement, including nonwaived o…`
 - waiting-rule inputs supplied: `{"resolved_timing_bucket":"lt_1_year","court_requirements_completed":"yes","sentence_completion_date":"Yes","financial_obligations":"Yes","pending_cases":"No","new_convictions_during_waiting_period":"No","special_preconditions_confirmed":"Yes"}`
-- why waiting_rule_not_executed: no waiting rule with a selectable duration applied to this packet-like pathway for these answers, so the evaluator returned needs_review rather than guessing a period
+- why waiting_rule_not_executed: not emitted for this route
 - another valid public answer set reaches packet_ready: false
 - recorded review state: first_pass_ratified
-- classification: **not reached by this search — no recorded hold explains it**
+- classification: **intentionally guidance-only (no user-filed court petition on this route)**
 
 #### first-offense-dui-expungement
 
@@ -790,18 +883,18 @@ Every route that is not sellable carries a recorded decision that says why.
 - route sellable: true
 - route credit-consumable: true
 - route can render: true
-- public question sequence (directed run, in the order the evaluator asked): `case_outcome` → `offense_level` → `resolved_timing_bucket`
-- every supplied answer: `{"ownership_scope":"Yes","jurisdiction_scope":"State or local","pending_cases":"No","new_convictions_during_waiting_period":"No","sentence_completion_date":"Yes","financial_obligations":"Yes","court_requirements_completed":"yes","special_preconditions_confirmed":"Yes","possible_pathway_context":"First-offense DUI expungement","case_outcome":"Dismissed, no-billed, nolle prosequi, or not prosecuted","offense_level":"Misdemeanor","resolved_timing_bucket":"lt_1_year"}`
+- public question sequence (directed run, in the order the evaluator asked): `case_outcome` → `offense_level` → `resolved_timing_bucket` → `ms_successful_sentence_completion_date`
+- every supplied answer: `{"ownership_scope":"Yes","jurisdiction_scope":"State or local","pending_cases":"No","new_convictions_during_waiting_period":"No","sentence_completion_date":"Yes","financial_obligations":"Yes","court_requirements_completed":"yes","special_preconditions_confirmed":"Yes","possible_pathway_context":"First-offense DUI expungement","case_outcome":"Dismissed, no-billed, nolle prosequi, or not prosecuted","offense_level":"Misdemeanor","resolved_timing_bucket":"lt_1_year","ms_successful_sentence_completion_date":"2012-06-01"}`
 - still-requested missing facts at the end: none
-- final result code: needs_review
-- final paymentAllowed: false
-- final reason codes: ms.waiting_rule_not_executed
-- waiting rules declared on this pathway (18): `Mississippi has a special first-offense DUI expungement rule. A person convicted of a first-offense DUI may pe…`; `Under 67-3-70, Mississippi has a special path for underage purchase or possession of light wine, light spirit …`; `Path B - Misdemeanor arrest/citation not formally charged or prosecuted within 12 months`; `Under 99-15-59, a person arrested, cited, or held for a misdemeanor and not formally charged or prosecuted wit…`; `Was this a misdemeanor arrest or ticket where no formal charge or prosecution happened within 12 months?`; `Mississippi allows expungement of one felony conviction from public records if the person has paid all crimina…`; `Before July 1, 2026 5 years after successful completion of all sentence terms`; `On or after July 1, 2026 3 years after successful completion of all sentence terms`; `The court may grant the felony petition if it determines, on the record or in writing, that the applicant is r…`; `[None / 12 months / 2 years good conduct / 5 years / 3 years after July 1, 2026 / 1 year / unknown]`; `Misdemeanor no charge/prosecution Petition after 12 months under 99-15-59`; `Additional justice/municipal misdemeanors Discretionary; 2 years good conduct + rehabilitation`; `Felony waiting period now 5 years after sentence completion`; `Felony waiting period effective July 1, 2026 3 years after sentence completion`; `MIP alcohol Potential petition one year after sentence completion`; `Topic Mississippi Rule Main conviction statute 99-19-71 Dismissed/dropped/no disposition/not guilty Petition; …`; `Mississippi has a special first-offense DUI expungement rule. A person convicted of a first-offense DUI may pe…`; `Misdemeanor arrest/citation not formally charged or prosecuted within 12 months`
+- final result code: packet_ready_with_caution
+- final paymentAllowed: true
+- final reason codes: ms.compiled_rule_match.route-first-offense-dui-expungement
+- waiting rules declared on this pathway (1): `five years after successful completion of every ordered condition`
 - waiting-rule inputs supplied: `{"resolved_timing_bucket":"lt_1_year","court_requirements_completed":"yes","sentence_completion_date":"Yes","financial_obligations":"Yes","pending_cases":"No","new_convictions_during_waiting_period":"No","special_preconditions_confirmed":"Yes"}`
-- why waiting_rule_not_executed: no waiting rule with a selectable duration applied to this packet-like pathway for these answers, so the evaluator returned needs_review rather than guessing a period
-- another valid public answer set reaches packet_ready: false
+- why waiting_rule_not_executed: not emitted for this route
+- another valid public answer set reaches packet_ready: true — `{"ownership_scope":"Yes","jurisdiction_scope":"State or local","pending_cases":"No","new_convictions_during_waiting_period":"No","sentence_completion_date":"Yes","financial_obligations":"Yes","court_requirements_completed":"yes","special_preconditions_confirmed":"Yes","possible_pathway_context":"First-offense DUI expungement","case_outcome":"Misdemeanor conviction","offense_level":"Felony","resolved_timing_bucket":"still_open","ms_successful_sentence_completion_date":"2018-03-15"}`
 - recorded review state: first_pass_ratified
-- classification: **not reached by this search — no recorded hold explains it**
+- classification: **reachable and sellable**
 
 #### dui-nonadjudication
 
@@ -820,7 +913,7 @@ Every route that is not sellable carries a recorded decision that says why.
 - final result code: needs_review
 - final paymentAllowed: false
 - final reason codes: ms.waiting_rule_not_executed
-- waiting rules declared on this pathway (18): `Path B - Misdemeanor arrest/citation not formally charged or prosecuted within 12 months`; `Under 99-15-59, a person arrested, cited, or held for a misdemeanor and not formally charged or prosecuted wit…`; `Was this a misdemeanor arrest or ticket where no formal charge or prosecution happened within 12 months?`; `Mississippi allows expungement of one felony conviction from public records if the person has paid all crimina…`; `Before July 1, 2026 5 years after successful completion of all sentence terms`; `On or after July 1, 2026 3 years after successful completion of all sentence terms`; `The court may grant the felony petition if it determines, on the record or in writing, that the applicant is r…`; `Mississippi has a special first-offense DUI expungement rule. A person convicted of a first-offense DUI may pe…`; `Under 67-3-70, Mississippi has a special path for underage purchase or possession of light wine, light spirit …`; `[None / 12 months / 2 years good conduct / 5 years / 3 years after July 1, 2026 / 1 year / unknown]`; `Misdemeanor no charge/prosecution Petition after 12 months under 99-15-59`; `Additional justice/municipal misdemeanors Discretionary; 2 years good conduct + rehabilitation`; `Felony waiting period now 5 years after sentence completion`; `Felony waiting period effective July 1, 2026 3 years after sentence completion`; `DA notice for felony 10 days written notice before hearing`; `MIP alcohol Potential petition one year after sentence completion`; `Topic Mississippi Rule Main conviction statute 99-19-71 Dismissed/dropped/no disposition/not guilty Petition; …`; `Misdemeanor arrest/citation not formally charged or prosecuted within 12 months`
+- waiting rules declared on this pathway (1): `no elapsed wait; admission occurs while the case is active, and the final order follows court-certified comple…`
 - waiting-rule inputs supplied: `{"resolved_timing_bucket":"lt_1_year","court_requirements_completed":"yes","sentence_completion_date":"Yes","financial_obligations":"Yes","pending_cases":"No","new_convictions_during_waiting_period":"No","special_preconditions_confirmed":"Yes"}`
 - why waiting_rule_not_executed: no waiting rule with a selectable duration applied to this packet-like pathway for these answers, so the evaluator returned needs_review rather than guessing a period
 - another valid public answer set reaches packet_ready: false
@@ -838,18 +931,18 @@ Every route that is not sellable carries a recorded decision that says why.
 - route sellable: true
 - route credit-consumable: true
 - route can render: true
-- public question sequence (directed run, in the order the evaluator asked): `case_outcome` → `offense_level` → `resolved_timing_bucket`
-- every supplied answer: `{"ownership_scope":"Yes","jurisdiction_scope":"State or local","pending_cases":"No","new_convictions_during_waiting_period":"No","sentence_completion_date":"Yes","financial_obligations":"Yes","court_requirements_completed":"yes","special_preconditions_confirmed":"Yes","possible_pathway_context":"Minor-in-possession / underage-alcohol expungement","case_outcome":"Dismissed, no-billed, nolle prosequi, or not prosecuted","offense_level":"Misdemeanor","resolved_timing_bucket":"lt_1_year"}`
+- public question sequence (directed run, in the order the evaluator asked): `case_outcome` → `offense_level` → `resolved_timing_bucket` → `ms_mip_dismissal_or_discharge_date`
+- every supplied answer: `{"ownership_scope":"Yes","jurisdiction_scope":"State or local","pending_cases":"No","new_convictions_during_waiting_period":"No","sentence_completion_date":"Yes","financial_obligations":"Yes","court_requirements_completed":"yes","special_preconditions_confirmed":"Yes","possible_pathway_context":"Minor-in-possession / underage-alcohol expungement","case_outcome":"Dismissed, no-billed, nolle prosequi, or not prosecuted","offense_level":"Misdemeanor","resolved_timing_bucket":"lt_1_year","ms_mip_dismissal_or_discharge_date":"2012-06-01"}`
 - still-requested missing facts at the end: none
-- final result code: needs_review
-- final paymentAllowed: false
-- final reason codes: ms.waiting_rule_not_executed
-- waiting rules declared on this pathway (18): `Mississippi has a special first-offense DUI expungement rule. A person convicted of a first-offense DUI may pe…`; `Under 67-3-70, Mississippi has a special path for underage purchase or possession of light wine, light spirit …`; `Path B - Misdemeanor arrest/citation not formally charged or prosecuted within 12 months`; `Under 99-15-59, a person arrested, cited, or held for a misdemeanor and not formally charged or prosecuted wit…`; `Was this a misdemeanor arrest or ticket where no formal charge or prosecution happened within 12 months?`; `Mississippi allows expungement of one felony conviction from public records if the person has paid all crimina…`; `Before July 1, 2026 5 years after successful completion of all sentence terms`; `On or after July 1, 2026 3 years after successful completion of all sentence terms`; `The court may grant the felony petition if it determines, on the record or in writing, that the applicant is r…`; `[None / 12 months / 2 years good conduct / 5 years / 3 years after July 1, 2026 / 1 year / unknown]`; `Misdemeanor no charge/prosecution Petition after 12 months under 99-15-59`; `Additional justice/municipal misdemeanors Discretionary; 2 years good conduct + rehabilitation`; `Felony waiting period now 5 years after sentence completion`; `Felony waiting period effective July 1, 2026 3 years after sentence completion`; `MIP alcohol Potential petition one year after sentence completion`; `Topic Mississippi Rule Main conviction statute 99-19-71 Dismissed/dropped/no disposition/not guilty Petition; …`; `Mississippi has a special first-offense DUI expungement rule. A person convicted of a first-offense DUI may pe…`; `Misdemeanor arrest/citation not formally charged or prosecuted within 12 months`
+- final result code: packet_ready_with_caution
+- final paymentAllowed: true
+- final reason codes: ms.compiled_rule_match.route-minor-in-possession-underage-alcohol-expungement
+- waiting rules declared on this pathway (1): `one year after the dismissal or discharge date on the dismissal branch, or one year after the later of full co…`
 - waiting-rule inputs supplied: `{"resolved_timing_bucket":"lt_1_year","court_requirements_completed":"yes","sentence_completion_date":"Yes","financial_obligations":"Yes","pending_cases":"No","new_convictions_during_waiting_period":"No","special_preconditions_confirmed":"Yes"}`
-- why waiting_rule_not_executed: no waiting rule with a selectable duration applied to this packet-like pathway for these answers, so the evaluator returned needs_review rather than guessing a period
-- another valid public answer set reaches packet_ready: false
+- why waiting_rule_not_executed: not emitted for this route
+- another valid public answer set reaches packet_ready: true — `{"ownership_scope":"Yes","jurisdiction_scope":"State or local","pending_cases":"No","new_convictions_during_waiting_period":"No","sentence_completion_date":"Yes","financial_obligations":"Yes","court_requirements_completed":"yes","special_preconditions_confirmed":"Yes","possible_pathway_context":"Minor-in-possession / underage-alcohol expungement","case_outcome":"Misdemeanor conviction","offense_level":"Municipal or ordinance matter","resolved_timing_bucket":"years_2_to_3","ms_mip_fine_imposed":"Yes","ms_mip_sentence_completion_date":"2024-11-02","ms_mip_fine_payment_date":"2024-11-02"}`
 - recorded review state: first_pass_ratified
-- classification: **not reached by this search — no recorded hold explains it**
+- classification: **reachable and sellable**
 
 #### human-trafficking-survivor-vacatur-and-expungement
 
@@ -867,10 +960,250 @@ Every route that is not sellable carries a recorded decision that says why.
 - still-requested missing facts at the end: none
 - final result code: needs_review
 - final paymentAllowed: false
-- final reason codes: ms.waiting_rule_not_executed
-- waiting rules declared on this pathway (18): `Path B - Misdemeanor arrest/citation not formally charged or prosecuted within 12 months`; `Under 99-15-59, a person arrested, cited, or held for a misdemeanor and not formally charged or prosecuted wit…`; `Was this a misdemeanor arrest or ticket where no formal charge or prosecution happened within 12 months?`; `Mississippi allows expungement of one felony conviction from public records if the person has paid all crimina…`; `Before July 1, 2026 5 years after successful completion of all sentence terms`; `On or after July 1, 2026 3 years after successful completion of all sentence terms`; `The court may grant the felony petition if it determines, on the record or in writing, that the applicant is r…`; `Mississippi has a special first-offense DUI expungement rule. A person convicted of a first-offense DUI may pe…`; `Under 67-3-70, Mississippi has a special path for underage purchase or possession of light wine, light spirit …`; `[None / 12 months / 2 years good conduct / 5 years / 3 years after July 1, 2026 / 1 year / unknown]`; `Misdemeanor no charge/prosecution Petition after 12 months under 99-15-59`; `Additional justice/municipal misdemeanors Discretionary; 2 years good conduct + rehabilitation`; `Felony waiting period now 5 years after sentence completion`; `Felony waiting period effective July 1, 2026 3 years after sentence completion`; `DA notice for felony 10 days written notice before hearing`; `MIP alcohol Potential petition one year after sentence completion`; `Topic Mississippi Rule Main conviction statute 99-19-71 Dismissed/dropped/no disposition/not guilty Petition; …`; `Misdemeanor arrest/citation not formally charged or prosecuted within 12 months`
+- final reason codes: ms.legal_authority_referral_required
+- waiting rules declared on this pathway (1): `available at any time once the covered offense and the trafficking nexus are established; no elapsed clock`
 - waiting-rule inputs supplied: `{"resolved_timing_bucket":"lt_1_year","court_requirements_completed":"yes","sentence_completion_date":"Yes","financial_obligations":"Yes","pending_cases":"No","new_convictions_during_waiting_period":"No","special_preconditions_confirmed":"Yes"}`
-- why waiting_rule_not_executed: no waiting rule with a selectable duration applied to this packet-like pathway for these answers, so the evaluator returned needs_review rather than guessing a period
+- why waiting_rule_not_executed: not emitted for this route
 - another valid public answer set reaches packet_ready: false
 - recorded review state: first_pass_ratified
 - classification: **not reached by this search — no recorded hold explains it**
+
+#### controlled-substance-conditional-discharge-active-case-admission
+
+- jurisdiction: MS
+- profile version: 2026-06-19-source-conversion-1
+- compiled pathway id: `controlled-substance-conditional-discharge-active-case-admission` (Controlled-substance conditional discharge — admission to deferred adjudication)
+- route id: `MS:Controlled-substance conditional discharge — admission to deferred adjudication`
+- route kind: legacy_verified — MS renders its packet document through the browser-free renderer.
+- renderer kind: packet_document_v1
+- route sellable: true
+- route credit-consumable: true
+- route can render: true
+- public question sequence (directed run, in the order the evaluator asked): `case_outcome` → `offense_level` → `resolved_timing_bucket`
+- every supplied answer: `{"ownership_scope":"Yes","jurisdiction_scope":"State or local","pending_cases":"No","new_convictions_during_waiting_period":"No","sentence_completion_date":"Yes","financial_obligations":"Yes","court_requirements_completed":"yes","special_preconditions_confirmed":"Yes","possible_pathway_context":"Controlled-substance conditional discharge — admission to deferred adjudication","case_outcome":"Dismissed, no-billed, nolle prosequi, or not prosecuted","offense_level":"Misdemeanor","resolved_timing_bucket":"lt_1_year"}`
+- still-requested missing facts at the end: none
+- final result code: needs_review
+- final paymentAllowed: false
+- final reason codes: ms.selected_pathway_rule_not_matched
+- waiting rules declared on this pathway (1): `admission is active-case relief sought while the prosecution is live; no elapsed wait applies`
+- waiting-rule inputs supplied: `{"resolved_timing_bucket":"lt_1_year","court_requirements_completed":"yes","sentence_completion_date":"Yes","financial_obligations":"Yes","pending_cases":"No","new_convictions_during_waiting_period":"No","special_preconditions_confirmed":"Yes"}`
+- why waiting_rule_not_executed: not emitted for this route
+- another valid public answer set reaches packet_ready: false
+- recorded review state: none recorded
+- classification: **not reached by this search — no recorded hold explains it**
+
+#### human-trafficking-survivor-vacatur-97-3-54-6-5
+
+- jurisdiction: MS
+- profile version: 2026-06-19-source-conversion-1
+- compiled pathway id: `human-trafficking-survivor-vacatur-97-3-54-6-5` (Human-trafficking survivor vacatur)
+- route id: `MS:Human-trafficking survivor vacatur`
+- route kind: legacy_verified — MS renders its packet document through the browser-free renderer.
+- renderer kind: packet_document_v1
+- route sellable: true
+- route credit-consumable: true
+- route can render: true
+- public question sequence (directed run, in the order the evaluator asked): `case_outcome` → `offense_level` → `resolved_timing_bucket`
+- every supplied answer: `{"ownership_scope":"Yes","jurisdiction_scope":"State or local","pending_cases":"No","new_convictions_during_waiting_period":"No","sentence_completion_date":"Yes","financial_obligations":"Yes","court_requirements_completed":"yes","special_preconditions_confirmed":"Yes","possible_pathway_context":"Human-trafficking survivor vacatur","case_outcome":"Dismissed, no-billed, nolle prosequi, or not prosecuted","offense_level":"Misdemeanor","resolved_timing_bucket":"lt_1_year"}`
+- still-requested missing facts at the end: none
+- final result code: needs_review
+- final paymentAllowed: false
+- final reason codes: ms.legal_authority_attorney_review_required
+- waiting rules declared on this pathway (1): `available at any time on the conviction or adjudication plus the trafficking nexus; no elapsed clock`
+- waiting-rule inputs supplied: `{"resolved_timing_bucket":"lt_1_year","court_requirements_completed":"yes","sentence_completion_date":"Yes","financial_obligations":"Yes","pending_cases":"No","new_convictions_during_waiting_period":"No","special_preconditions_confirmed":"Yes"}`
+- why waiting_rule_not_executed: not emitted for this route
+- another valid public answer set reaches packet_ready: false
+- recorded review state: none recorded
+- classification: **not reached by this search — no recorded hold explains it**
+
+#### human-trafficking-survivor-expungement-97-3-54-6-6
+
+- jurisdiction: MS
+- profile version: 2026-06-19-source-conversion-1
+- compiled pathway id: `human-trafficking-survivor-expungement-97-3-54-6-6` (Human-trafficking survivor expungement)
+- route id: `MS:Human-trafficking survivor expungement`
+- route kind: legacy_verified — MS renders its packet document through the browser-free renderer.
+- renderer kind: packet_document_v1
+- route sellable: true
+- route credit-consumable: true
+- route can render: true
+- public question sequence (directed run, in the order the evaluator asked): `case_outcome` → `offense_level` → `resolved_timing_bucket`
+- every supplied answer: `{"ownership_scope":"Yes","jurisdiction_scope":"State or local","pending_cases":"No","new_convictions_during_waiting_period":"No","sentence_completion_date":"Yes","financial_obligations":"Yes","court_requirements_completed":"yes","special_preconditions_confirmed":"Yes","possible_pathway_context":"Human-trafficking survivor expungement","case_outcome":"Dismissed, no-billed, nolle prosequi, or not prosecuted","offense_level":"Misdemeanor","resolved_timing_bucket":"lt_1_year"}`
+- still-requested missing facts at the end: none
+- final result code: needs_review
+- final paymentAllowed: false
+- final reason codes: ms.legal_authority_attorney_review_required
+- waiting rules declared on this pathway (1): `available at any time on the covered offense plus the trafficking nexus; no elapsed clock`
+- waiting-rule inputs supplied: `{"resolved_timing_bucket":"lt_1_year","court_requirements_completed":"yes","sentence_completion_date":"Yes","financial_obligations":"Yes","pending_cases":"No","new_convictions_during_waiting_period":"No","special_preconditions_confirmed":"Yes"}`
+- why waiting_rule_not_executed: not emitted for this route
+- another valid public answer set reaches packet_ready: false
+- recorded review state: none recorded
+- classification: **not reached by this search — no recorded hold explains it**
+
+#### intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4
+
+- jurisdiction: MS
+- profile version: 2026-06-19-source-conversion-1
+- compiled pathway id: `intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4` (Intervention-court completion — dismissal-only branch where a record remains)
+- route id: `MS:Intervention-court completion — dismissal-only branch where a record remains`
+- route kind: legacy_verified — MS renders its packet document through the browser-free renderer.
+- renderer kind: packet_document_v1
+- route sellable: true
+- route credit-consumable: true
+- route can render: true
+- public question sequence (directed run, in the order the evaluator asked): `case_outcome` → `offense_level` → `resolved_timing_bucket`
+- every supplied answer: `{"ownership_scope":"Yes","jurisdiction_scope":"State or local","pending_cases":"No","new_convictions_during_waiting_period":"No","sentence_completion_date":"Yes","financial_obligations":"Yes","court_requirements_completed":"yes","special_preconditions_confirmed":"Yes","possible_pathway_context":"Intervention-court completion — dismissal-only branch where a record remains","case_outcome":"Dismissed, no-billed, nolle prosequi, or not prosecuted","offense_level":"Misdemeanor","resolved_timing_bucket":"lt_1_year"}`
+- still-requested missing facts at the end: none
+- final result code: guidance_only
+- final paymentAllowed: false
+- final reason codes: ms.guidance_only_no_user_filed_court_petition
+- waiting rules declared on this pathway (1): `relief opens on the dismissal following court-certified completion, where a record remains`
+- waiting-rule inputs supplied: `{"resolved_timing_bucket":"lt_1_year","court_requirements_completed":"yes","sentence_completion_date":"Yes","financial_obligations":"Yes","pending_cases":"No","new_convictions_during_waiting_period":"No","special_preconditions_confirmed":"Yes"}`
+- why waiting_rule_not_executed: not emitted for this route
+- another valid public answer set reaches packet_ready: false
+- recorded review state: none recorded
+- classification: **intentionally guidance-only (no user-filed court petition on this route)**
+
+#### intervention-court-statutory-result-enforcement-referral
+
+- jurisdiction: MS
+- profile version: 2026-06-19-source-conversion-1
+- compiled pathway id: `intervention-court-statutory-result-enforcement-referral` (Intervention-court completion — enforcement of the statutory result)
+- route id: `MS:Intervention-court completion — enforcement of the statutory result`
+- route kind: legacy_verified — MS renders its packet document through the browser-free renderer.
+- renderer kind: packet_document_v1
+- route sellable: true
+- route credit-consumable: true
+- route can render: true
+- public question sequence (directed run, in the order the evaluator asked): `case_outcome` → `offense_level` → `resolved_timing_bucket`
+- every supplied answer: `{"ownership_scope":"Yes","jurisdiction_scope":"State or local","pending_cases":"No","new_convictions_during_waiting_period":"No","sentence_completion_date":"Yes","financial_obligations":"Yes","court_requirements_completed":"yes","special_preconditions_confirmed":"Yes","possible_pathway_context":"Intervention-court completion — enforcement of the statutory result","case_outcome":"Dismissed, no-billed, nolle prosequi, or not prosecuted","offense_level":"Misdemeanor","resolved_timing_bucket":"lt_1_year"}`
+- still-requested missing facts at the end: none
+- final result code: needs_review
+- final paymentAllowed: false
+- final reason codes: ms.selected_pathway_rule_not_matched
+- waiting rules declared on this pathway (1): `used once completion is certified but the court or agency has not carried out the statutory result`
+- waiting-rule inputs supplied: `{"resolved_timing_bucket":"lt_1_year","court_requirements_completed":"yes","sentence_completion_date":"Yes","financial_obligations":"Yes","pending_cases":"No","new_convictions_during_waiting_period":"No","special_preconditions_confirmed":"Yes"}`
+- why waiting_rule_not_executed: not emitted for this route
+- another valid public answer set reaches packet_ready: false
+- recorded review state: none recorded
+- classification: **not reached by this search — no recorded hold explains it**
+
+#### nonadjudication-99-15-26-active-case-admission
+
+- jurisdiction: MS
+- profile version: 2026-06-19-source-conversion-1
+- compiled pathway id: `nonadjudication-99-15-26-active-case-admission` (Nonadjudication under § 99-15-26 — admission while the case is active)
+- route id: `MS:Nonadjudication under § 99-15-26 — admission while the case is active`
+- route kind: legacy_verified — MS renders its packet document through the browser-free renderer.
+- renderer kind: packet_document_v1
+- route sellable: true
+- route credit-consumable: true
+- route can render: true
+- public question sequence (directed run, in the order the evaluator asked): `case_outcome` → `offense_level` → `resolved_timing_bucket`
+- every supplied answer: `{"ownership_scope":"Yes","jurisdiction_scope":"State or local","pending_cases":"No","new_convictions_during_waiting_period":"No","sentence_completion_date":"Yes","financial_obligations":"Yes","court_requirements_completed":"yes","special_preconditions_confirmed":"Yes","possible_pathway_context":"Nonadjudication under § 99-15-26 — admission while the case is active","case_outcome":"Dismissed, no-billed, nolle prosequi, or not prosecuted","offense_level":"Misdemeanor","resolved_timing_bucket":"lt_1_year"}`
+- still-requested missing facts at the end: none
+- final result code: needs_review
+- final paymentAllowed: false
+- final reason codes: ms.selected_pathway_rule_not_matched
+- waiting rules declared on this pathway (1): `admission is active-case and discretionary; no elapsed wait applies at this stage`
+- waiting-rule inputs supplied: `{"resolved_timing_bucket":"lt_1_year","court_requirements_completed":"yes","sentence_completion_date":"Yes","financial_obligations":"Yes","pending_cases":"No","new_convictions_during_waiting_period":"No","special_preconditions_confirmed":"Yes"}`
+- why waiting_rule_not_executed: not emitted for this route
+- another valid public answer set reaches packet_ready: false
+- recorded review state: none recorded
+- classification: **not reached by this search — no recorded hold explains it**
+
+#### pretrial-intervention-active-case-admission
+
+- jurisdiction: MS
+- profile version: 2026-06-19-source-conversion-1
+- compiled pathway id: `pretrial-intervention-active-case-admission` (Pretrial intervention or diversion — admission while the case is active)
+- route id: `MS:Pretrial intervention or diversion — admission while the case is active`
+- route kind: legacy_verified — MS renders its packet document through the browser-free renderer.
+- renderer kind: packet_document_v1
+- route sellable: true
+- route credit-consumable: true
+- route can render: true
+- public question sequence (directed run, in the order the evaluator asked): `case_outcome` → `offense_level` → `resolved_timing_bucket`
+- every supplied answer: `{"ownership_scope":"Yes","jurisdiction_scope":"State or local","pending_cases":"No","new_convictions_during_waiting_period":"No","sentence_completion_date":"Yes","financial_obligations":"Yes","court_requirements_completed":"yes","special_preconditions_confirmed":"Yes","possible_pathway_context":"Pretrial intervention or diversion — admission while the case is active","case_outcome":"Dismissed, no-billed, nolle prosequi, or not prosecuted","offense_level":"Misdemeanor","resolved_timing_bucket":"lt_1_year"}`
+- still-requested missing facts at the end: none
+- final result code: needs_review
+- final paymentAllowed: false
+- final reason codes: ms.selected_pathway_rule_not_matched
+- waiting rules declared on this pathway (1): `admission is active-case; entry depends on district attorney and program acceptance, not on any elapsed wait`
+- waiting-rule inputs supplied: `{"resolved_timing_bucket":"lt_1_year","court_requirements_completed":"yes","sentence_completion_date":"Yes","financial_obligations":"Yes","pending_cases":"No","new_convictions_during_waiting_period":"No","special_preconditions_confirmed":"Yes"}`
+- why waiting_rule_not_executed: not emitted for this route
+- another valid public answer set reaches packet_ready: false
+- recorded review state: none recorded
+- classification: **not reached by this search — no recorded hold explains it**
+
+#### additional-justice-court-misdemeanor-relief-9-11-15-3
+
+- jurisdiction: MS
+- profile version: 2026-06-19-source-conversion-1
+- compiled pathway id: `additional-justice-court-misdemeanor-relief-9-11-15-3` (Additional justice-court misdemeanor relief)
+- route id: `MS:Additional justice-court misdemeanor relief`
+- route kind: legacy_verified — MS renders its packet document through the browser-free renderer.
+- renderer kind: packet_document_v1
+- route sellable: true
+- route credit-consumable: true
+- route can render: true
+- public question sequence (directed run, in the order the evaluator asked): `case_outcome` → `offense_level` → `resolved_timing_bucket`
+- every supplied answer: `{"ownership_scope":"Yes","jurisdiction_scope":"State or local","pending_cases":"No","new_convictions_during_waiting_period":"No","sentence_completion_date":"Yes","financial_obligations":"Yes","court_requirements_completed":"yes","special_preconditions_confirmed":"Yes","possible_pathway_context":"Additional justice-court misdemeanor relief","case_outcome":"Dismissed, no-billed, nolle prosequi, or not prosecuted","offense_level":"Misdemeanor","resolved_timing_bucket":"lt_1_year"}`
+- still-requested missing facts at the end: none
+- final result code: guidance_only
+- final paymentAllowed: false
+- final reason codes: ms.guidance_only_no_user_filed_court_petition
+- waiting rules declared on this pathway (1): `two years of good conduct measured from the date of the person's last conviction in any court`
+- waiting-rule inputs supplied: `{"resolved_timing_bucket":"lt_1_year","court_requirements_completed":"yes","sentence_completion_date":"Yes","financial_obligations":"Yes","pending_cases":"No","new_convictions_during_waiting_period":"No","special_preconditions_confirmed":"Yes"}`
+- why waiting_rule_not_executed: not emitted for this route
+- another valid public answer set reaches packet_ready: false
+- recorded review state: none recorded
+- classification: **intentionally guidance-only (no user-filed court petition on this route)**
+
+#### additional-municipal-court-misdemeanor-relief-21-23-7-6
+
+- jurisdiction: MS
+- profile version: 2026-06-19-source-conversion-1
+- compiled pathway id: `additional-municipal-court-misdemeanor-relief-21-23-7-6` (Additional municipal-court misdemeanor relief)
+- route id: `MS:Additional municipal-court misdemeanor relief`
+- route kind: legacy_verified — MS renders its packet document through the browser-free renderer.
+- renderer kind: packet_document_v1
+- route sellable: true
+- route credit-consumable: true
+- route can render: true
+- public question sequence (directed run, in the order the evaluator asked): `case_outcome` → `offense_level` → `resolved_timing_bucket`
+- every supplied answer: `{"ownership_scope":"Yes","jurisdiction_scope":"State or local","pending_cases":"No","new_convictions_during_waiting_period":"No","sentence_completion_date":"Yes","financial_obligations":"Yes","court_requirements_completed":"yes","special_preconditions_confirmed":"Yes","possible_pathway_context":"Additional municipal-court misdemeanor relief","case_outcome":"Dismissed, no-billed, nolle prosequi, or not prosecuted","offense_level":"Misdemeanor","resolved_timing_bucket":"lt_1_year"}`
+- still-requested missing facts at the end: none
+- final result code: guidance_only
+- final paymentAllowed: false
+- final reason codes: ms.guidance_only_no_user_filed_court_petition
+- waiting rules declared on this pathway (1): `two years of good conduct measured from the date of the person's last conviction in any court`
+- waiting-rule inputs supplied: `{"resolved_timing_bucket":"lt_1_year","court_requirements_completed":"yes","sentence_completion_date":"Yes","financial_obligations":"Yes","pending_cases":"No","new_convictions_during_waiting_period":"No","special_preconditions_confirmed":"Yes"}`
+- why waiting_rule_not_executed: not emitted for this route
+- another valid public answer set reaches packet_ready: false
+- recorded review state: none recorded
+- classification: **intentionally guidance-only (no user-filed court petition on this route)**
+
+#### uncharged-misdemeanor-immediate-dismissal-branch-99-15-59
+
+- jurisdiction: MS
+- profile version: 2026-06-19-source-conversion-1
+- compiled pathway id: `uncharged-misdemeanor-immediate-dismissal-branch-99-15-59` (Uncharged or unprosecuted misdemeanor — dismissal branch)
+- route id: `MS:Uncharged or unprosecuted misdemeanor — dismissal branch`
+- route kind: legacy_verified — MS renders its packet document through the browser-free renderer.
+- renderer kind: packet_document_v1
+- route sellable: true
+- route credit-consumable: true
+- route can render: true
+- public question sequence (directed run, in the order the evaluator asked): `case_outcome` → `offense_level` → `resolved_timing_bucket`
+- every supplied answer: `{"ownership_scope":"Yes","jurisdiction_scope":"State or local","pending_cases":"No","new_convictions_during_waiting_period":"No","sentence_completion_date":"Yes","financial_obligations":"Yes","court_requirements_completed":"yes","special_preconditions_confirmed":"Yes","possible_pathway_context":"Uncharged or unprosecuted misdemeanor — dismissal branch","case_outcome":"Dismissed, no-billed, nolle prosequi, or not prosecuted","offense_level":"Misdemeanor","resolved_timing_bucket":"lt_1_year"}`
+- still-requested missing facts at the end: none
+- final result code: guidance_only
+- final paymentAllowed: false
+- final reason codes: ms.guidance_only_no_user_filed_court_petition
+- waiting rules declared on this pathway (1): `relief opens immediately upon dismissal; no elapsed wait applies to this branch`
+- waiting-rule inputs supplied: `{"resolved_timing_bucket":"lt_1_year","court_requirements_completed":"yes","sentence_completion_date":"Yes","financial_obligations":"Yes","pending_cases":"No","new_convictions_during_waiting_period":"No","special_preconditions_confirmed":"Yes"}`
+- why waiting_rule_not_executed: not emitted for this route
+- another valid public answer set reaches packet_ready: false
+- recorded review state: none recorded
+- classification: **intentionally guidance-only (no user-filed court petition on this route)**

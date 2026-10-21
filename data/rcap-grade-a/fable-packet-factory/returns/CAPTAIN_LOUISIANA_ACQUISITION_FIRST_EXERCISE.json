@@ -1,0 +1,57 @@
+{
+  "schemaVersion": "rcap-captain-acquisition-note/v1",
+  "what": "The first exercise of the six Louisiana C.Cr.P. article addresses FABLE-COMP1 established and Captain queued.",
+  "run": {
+    "workflowRunId": "33606849268",
+    "workflow": ".github/workflows/rcap-official-source-acquisition-batch.yml",
+    "triggeredBy": "push of commit 3fbd15725efdba4ed1ce3baaacf536845bda763f, the commit that added these six entries to the manifest",
+    "conclusion": "success",
+    "jobs": {
+      "LA-CCRP-ART-987": { "jobId": "100172891554", "conclusion": "success" },
+      "LA-CCRP-ART-988": { "jobId": "100172891591", "conclusion": "success" },
+      "LA-CCRP-ART-989": { "jobId": "100172891572", "conclusion": "success" },
+      "LA-CCRP-ART-991": { "jobId": "100172891491", "conclusion": "success" },
+      "LA-CCRP-ART-992": { "jobId": "100172891707", "conclusion": "success" },
+      "LA-CCRP-ART-994": { "jobId": "100172891607", "conclusion": "success" }
+    }
+  },
+  "readInFullSoFar": {
+    "LA-CCRP-ART-987": {
+      "okLine": "OK acquired LA LA-CCRP-ART-987",
+      "finalResolvedUrl": "https://www.legis.la.gov/legis/LawPrint.aspx?d=919680",
+      "redirected": false,
+      "httpStatus": 200,
+      "contentType": "text/html; charset=utf-8",
+      "observedByteLength": 11364,
+      "sha256": "57ad77ce4802b6a08585cb509bc787cc4d86e83cdc601051a4782a9e8f9e38f4",
+      "observedStructuralClass": "not_a_pdf",
+      "receiptArtifact": { "id": "9837388751", "name": "rcap-source-la-la-ccrp-art-987-statutory-form-print-view", "zipSha256": "sha256:c607f0e6c90b0892c5200195e218508f17963ab724309b9de131f748326f3aeb", "sizeInBytes": 3405 }
+    }
+  },
+  "whatThisEstablishes": [
+    "The address resolves. HTTP 200, no redirect, 11,364 bytes of text/html from www.legis.la.gov — a real statute print view, not an error page and not a stub. The one address of the six that was read in full works exactly as FABLE-COMP1 reasoned it would, and its d= id came from the same memo mapping verified 6/6 against footers in mounted PDFs.",
+    "not_a_pdf is the expected and correct structural class here, not a defect. La. C.Cr.P. art. 986 makes the articles themselves the prescribed forms, so the codified text IS the document; there is no fillable PDF and the owner determination says not to wait for one."
+  ],
+  "whatThisDoesNotEstablish": [
+    "That the page's heading names article 987. Four of the six addresses are not interval-locked and the entries say the runner's one-line heading check is what settles identity for them. That check has not been read here.",
+    "That any Louisiana family can now be built. The bytes are in a workflow artifact; artifact blobs are behind storage this container's proxy denies, so nothing has been read and nothing composed.",
+    "Anything about the other five jobs beyond their green conclusion. Only 987's receipt was read in full."
+  ],
+  "theOneDecisionThisReaches": {
+    "question": "May the acquired text of these six Louisiana Code of Criminal Procedure articles be committed to the repository so the composed pleadings can be built from it?",
+    "whyItIsADecisionAndNotAStep": "The acquisition workflow's own contract says the bytes leave as workflow artifacts and 'a human decides whether they enter the repository, after identity, currentness and intended use are confirmed. That decision is a reviewed commit, not a workflow run.' The standing instruction not to commit source bodies is what that contract enforces.",
+    "whyItIsNarrow": "This is not a private source pack or an agency PDF. It is the public text of codified Louisiana statutes, published by the Louisiana State Legislature, which article 986 makes the prescribed forms themselves. Seven families are blocked on it and COMPOSE_FROM_AUTHORITY cannot proceed without the authority in hand.",
+    "familiesItReleases": [
+      "la-976-arrest-no-conviction-set",
+      "la-977-misdemeanor-conviction-set",
+      "la-977d-marijuana-first-offense-set",
+      "la-978-felony-conviction-set",
+      "la-985-1-interim-expungement-set",
+      "la-985-expungement-by-redaction-set",
+      "la-987-set-aside-and-dismiss-set"
+    ],
+    "whatCaptainDidInstead": "Queued the addresses, exercised them, and recorded the result. Nothing was committed and no family moved."
+  },
+  "commercialRoutesOpened": 0,
+  "productionTouched": false
+}

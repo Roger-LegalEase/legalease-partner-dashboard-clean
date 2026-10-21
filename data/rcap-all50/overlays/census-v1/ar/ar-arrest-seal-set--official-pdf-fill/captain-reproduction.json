@@ -1,0 +1,52 @@
+{
+  "schemaVersion": "rcap-census-v1-captain-reproduction/v1",
+  "familyId": "ar-arrest-seal-set",
+  "reproducedBy": "Captain A",
+  "reproducedAt": "2026-08-30",
+  "question": "Do this family's committed artifacts reproduce from the pinned sources, or are we taking the worker's word for its own output?",
+
+  "method": [
+    "A detached worktree was created at the branch tip ec2e5d8ee2959308bbf89ced3af361c578012a31, so the comparison is against the worker's own committed bytes rather than against a rebuilt tree.",
+    "The verified Master Library was made visible to that worktree; nothing else was changed.",
+    "scripts/build-census-v1-ar-arrest-seal-set.mjs was re-run end to end.",
+    "git status was read across data/ and scripts/. An empty status means every artifact, raster and report regenerated identical to the committed bytes.",
+    "The build was then re-run a second time on the Captain head after integration, to confirm the family is a fixed point there too."
+  ],
+
+  "result": "REPRODUCED_BYTE_IDENTICAL",
+  "diffAgainstCommittedArtifacts": "empty",
+  "filesRegenerated": 27,
+  "artifacts": [
+    { "file": "fixtures/petition-canonical-filled.pdf", "sha256": "bae36dbbfff46baae0431f0a82edf82d3ca8c2c974e51ad1c1a3b9bf64d075a8", "fieldsWritten": 9, "fieldsRefused": 28 },
+    { "file": "fixtures/petition-boundary-filled.pdf", "sha256": "fb32678b598155af6d1436eeb51098cb665fe2f1711bd826ec2b980b1c30a811", "fieldsWritten": 7, "fieldsRefused": 30 },
+    { "file": "fixtures/order-canonical-filled.pdf", "sha256": "b35468e453816b7e9d834cfff9a3aaf276a8a1ad9fcdd86b145d83af88bc5ff6", "fieldsWritten": 4, "fieldsRefused": 25 },
+    { "file": "fixtures/order-boundary-filled.pdf", "sha256": "d633848fda999d95f9fa7e82284b82613af94d36512b1aa8b0914d36a13be194", "fieldsWritten": 2, "fieldsRefused": 27 }
+  ],
+  "sourcesRebound": [
+    { "documentId": "AR-ACIC-PETITION-TO-SEAL-ARREST-UNDER-ACT-1460", "sha256": "f77e17b669bd6e01cc3818329181bb378dd774b1facd9a15c4083d37d380194c", "byteLength": 350326 },
+    { "documentId": "AR-ACIC-ORDER-TO-SEAL-ARREST-UNDER-ACT-1460", "sha256": "5bd4ed5bd1b658295b50c2ea7126e276982fd705045f36adfc1f074923722581", "byteLength": 250709 }
+  ],
+  "chargeCaptionCheck": "18 charge-caption blanks examined across all four fixtures; 0 carrying a participant name. The shared offence-caption semantics fix holds in this family's output.",
+  "citesNoBlockedHash": true,
+
+  "whatReproductionEstablishes": [
+    "The artifacts are the deterministic output of the committed generator applied to the pinned sources. They were not hand-made, and they are not stale relative to their own generator.",
+    "This environment can build an official-form packet end to end: bind, census, map, fill, verify and raster.",
+    "The offence-caption correction is live in newly rendered output, not only in the binder."
+  ],
+
+  "whatReproductionDoesNotEstablish": [
+    "That this family is complete. It still owes ARTIFACT_REVIEW_REQUIRED, OFFICIAL_FORM_MAP_REQUIRED, OFFICIAL_SOURCE_ACQUISITION_REQUIRED and OUTPUT_LEGAL_APPROVAL_REQUIRED, plus the filing-configuration record set the census enumerates.",
+    "That the independent visual review is discharged. The review committed on this branch was performed by the same worker that produced the artifacts, so it is not independent and is not counted as one.",
+    "That the held sources are the current official editions. The petition is REV-2014-08-25 and the order REV-2014-01-01; currency is a separate open question.",
+    "Any commercial authority. This family opens no route, creates no fulfilment record and approves no participant delivery."
+  ],
+
+  "status": "REPRODUCED_NOT_COMPLETE",
+  "remainingWorkTypes": [
+    "ARTIFACT_REVIEW_REQUIRED",
+    "OFFICIAL_FORM_MAP_REQUIRED",
+    "OFFICIAL_SOURCE_ACQUISITION_REQUIRED",
+    "OUTPUT_LEGAL_APPROVAL_REQUIRED"
+  ]
+}

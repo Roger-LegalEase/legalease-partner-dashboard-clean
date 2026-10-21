@@ -21,7 +21,7 @@ export default function HowItWorksPage() {
             </article>
           ))}
         </div>
-        <Link className="mt-8 inline-flex min-h-11 items-center rounded-md bg-[#FF3B00] px-5 text-sm font-bold text-white" href="/expungement-ai/start">Start free</Link>
+        <Link className="mt-8 inline-flex min-h-11 items-center rounded-md bg-[#FF3B00] px-5 text-sm font-bold text-white" href="/expungement-ai/start">Check my options</Link>
       </section>
     </ConsumerPageShell>
   );

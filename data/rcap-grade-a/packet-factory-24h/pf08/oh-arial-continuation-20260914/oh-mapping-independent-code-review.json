@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "oh-build-mapping-code-review/v1",
+  "reviewer": "/root/nc_build",
+  "helperAuthor": "/root/prerequisite",
+  "integrationAuthor": "/root",
+  "reviewScope": "Independent code review of mapping helper and its integration only; reviewer authored OH packets and does not independently verify those packets. Packet semantic review belongs to VFOH1.",
+  "verdict": "PASS",
+  "files": [
+    {
+      "path": "scripts/grade-a-packet-factory-24h/oh-reviewed-build-mapping.mjs",
+      "sha256": "8c2d41beb0042d8850ab30a33a410221ed1a6e8dd0a2f5a9505be1ba2606e1bf"
+    },
+    {
+      "path": "scripts/grade-a-packet-factory-24h/test-oh-reviewed-build-mapping.mjs",
+      "sha256": "c260b6447facbec98b0bb3239db66fabd7715fadead31a2157f0e5bd44c83666"
+    },
+    {
+      "path": "scripts/grade-a-packet-factory-24h/generate.mjs",
+      "sha256": "6e69d8883b3e86ed65ad0ab938a09177796ae96c8b0ecfb471a83d8725cd250a"
+    }
+  ],
+  "test": {
+    "command": "node scripts/grade-a-packet-factory-24h/test-oh-reviewed-build-mapping.mjs",
+    "result": "PASS",
+    "controls": 52
+  },
+  "findings": [
+    "Non-OH family returns null before any evidence read or assertions.",
+    "OH mapping rejects treatment changes, strategy changes, altered owner instructions, unexpected or duplicate routes.",
+    "Six immutable evidence files, all five exact source binaries, eight packet binaries and each declared component binary bind by SHA-256.",
+    "Four exact routes receive their own five adopted component identifiers; existing noncomponent source requirements remain. Sealing identity declares official 96C1; other tracks declare composed applications.",
+    "Existing route metadata is retained; helper sets no commercial, runtime, terminal, raster or measured-counter authority.",
+    "Generator applies mapping before source/component extraction and prefers its resolved exact historical execution hold while leaving all other family reclassification behavior unchanged.",
+    "Current selected OH directory agrees with the pinned saved candidate directory.",
+    "Pinned reviewer/report changes must fail until pins are deliberately refreshed against reviewed evidence."
+  ],
+  "packetBytesModified": false,
+  "nationalIntegrationRun": false,
+  "commercialAuthorityGranted": false,
+  "terminalClosureGranted": false
+}

@@ -1,0 +1,95 @@
+{
+  "schemaVersion": "rcap-blanks-left-for-the-participant/v1",
+  "familyId": "dc_correct_misattributed_arrest-set",
+  "requiredBeforeFiling": [
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.fingerprints_answer",
+      "page": 1,
+      "printedContext": "Whether the agency took fingerprints at that arrest, as far as you know",
+      "disclosureLabel": "Whether the agency took fingerprints at that arrest, as far as you know",
+      "identity": "primary_filing field fingerprints_answer",
+      "why": "the statute's ground exists only where no fingerprints were taken; only the participant can say what they know",
+      "participantMustSupply": "your answer, as far as you know, on whether fingerprints were taken at the arrest - if they were, this route is not yours, so stop"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.misidentification_statement",
+      "page": 1,
+      "printedContext": "Your own sworn statement of why this arrest was wrongly attributed to the movant",
+      "disclosureLabel": "Your own sworn statement of why this arrest was wrongly attributed to the movant",
+      "identity": "primary_filing field misidentification_statement",
+      "why": "the sworn attestation is the movant's own oath; the platform writes none of it",
+      "participantMustSupply": "your own first-hand sworn account of why the arrest was wrongly attributed to you - the packet asserts nothing about who committed any offence, so these lines are yours alone"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.other_identification_answer",
+      "page": 1,
+      "printedContext": "Whether the person arrested presented any other reliable identification, as far as you know",
+      "disclosureLabel": "Whether the person arrested presented any other reliable identification, as far as you know",
+      "identity": "primary_filing field other_identification_answer",
+      "why": "the statute's ground exists only where no other reliable identification was presented; only the participant can say what they know",
+      "participantMustSupply": "your answer, as far as you know, on whether the person arrested presented other reliable identification - if they did, this route is not yours, so stop"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.underlying_case_number",
+      "page": 1,
+      "printedContext": "Case number of the case this motion addresses",
+      "disclosureLabel": "Case number of the case this motion addresses",
+      "identity": "primary_filing field underlying_case_number",
+      "why": "the case lives on records the platform has not seen, so its facts are the participant's to copy from the record itself",
+      "participantMustSupply": "the case number, copied exactly from the court record - the disposition you request in step two of the filing instructions states it"
+    },
+    {
+      "document": "prosecutor_service",
+      "field": "prosecutor_service.prosecuting_office_name_address",
+      "page": 1,
+      "printedContext": "Name and mailing address of the prosecuting office for the case",
+      "disclosureLabel": "Name and mailing address of the prosecuting office for the case",
+      "identity": "prosecutor_service field prosecuting_office_name_address",
+      "why": "no held source states the prosecutor-routing rule or a service address, so the participant obtains both from the named checkable authority",
+      "participantMustSupply": "the name and mailing address of the office that prosecuted your case - the United States Attorney's Office for the District of Columbia or the Office of the Attorney General for the District of Columbia; the Criminal Division clerk's office (202-879-1373) or the Seal Team (criminalmotionsealteam@dcsc.gov) can tell you which, and the address"
+    }
+  ],
+  "protectedBlanks": [
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.motion_case_number",
+      "label": "Motion case number, which the Seal Team assigns at filing",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the instruction sheet's own face states the Seal Team gives the motion a case number at filing"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.movant_signature",
+      "label": "Signature of the movant on the sworn attestation",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "the movant swears and signs the attestation personally; the oath formality is the clerk's to state"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.signature_date",
+      "label": "Date beside the movant's signature on the sworn attestation",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "a date written before the motion is signed would be false"
+    },
+    {
+      "document": "prosecutor_service",
+      "field": "prosecutor_service.service_date",
+      "label": "Date of service of the copy",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "a date written before the copy is actually served would be false"
+    },
+    {
+      "document": "prosecutor_service",
+      "field": "prosecutor_service.movant_signature",
+      "label": "Signature of the movant on the service page",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "the movant signs this page when the copy actually goes out"
+    }
+  ],
+  "everyRequiredBeforeFilingItemIsDisclosed": true,
+  "disclosedIn": "data/rcap-all50/overlays/census-v1/dc/dc-correct-misattributed-arrest-set--custom-pleading/participant-instructions.md"
+}

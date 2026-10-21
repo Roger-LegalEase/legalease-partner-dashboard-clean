@@ -1,0 +1,347 @@
+{
+  "schemaVersion": "rcap-packet-build-return/v1",
+  "lane": "PF02",
+  "laneKind": "packet-build",
+  "baseSha": "d0fc92484a9dfc42a1df6ecc4d3e2d9d64e3a3c1",
+  "branch": "claude/legalease-sprint-captain-utucnw",
+  "worktree": "/workspaces/legalease-partner-dashboard-clean",
+  "isIndependentVerification": false,
+  "rows": [
+    {
+      "itemId": "de_discretionary_family_court-set",
+      "familyId": "de_discretionary_family_court-set",
+      "jurisdiction": "DE",
+      "status": "COMPLETED",
+      "laneKind": "packet-build",
+      "implementedBy": [
+        "sd_caption",
+        "Captain"
+      ],
+      "buildCommit": "eaeb5255f479dda25e95bace6d4f9cd40bf8ebfb",
+      "buildCommitStatus": "COMMITTED_BY_CAPTAIN",
+      "implementationWorkingTree": false,
+      "completion": "Built the complete Delaware Family Court packet from exact held Form 281 and Form 281E sources, with conditional Form 281E overflow exercised in the boundary fixture, and exact held Form 283 copied from source page 15 of the 15-page Form 1021IP PDF. The builder writes held participant identity/contact/charge facts into source-derived rectangles on the petition, continuation and proposed order; preserves county, civil petition number, court decision, signature, jurat, judicial date and other court-owned controls; and supplies participant guidance for the $0.00 Family Court filing schedule, its archive/security exception, the \u00a74372(l) fines/fees waiver condition, the \u00a79414(a)/\u00a79401 victim-contact cross-reference, certified-history/SBI handoffs, and remaining filing gates.",
+      "implementationStrategy": "official_pdf_fill",
+      "renderStrategy": "source_derived_official_form_overlays_with_exact_Form_283_source_page_15",
+      "routeKeys": [
+        "obligation:track-only:DE:de_discretionary_family_court"
+      ],
+      "buildScript": "scripts/build-census-v1-de_discretionary_family_court-set.mjs",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/de/de-discretionary-family-court-set--official-pdf-fill",
+      "componentSet": [
+        "de_discretionary_family_court-primary-filing-1",
+        "de_discretionary_family_court-continuation-2",
+        "de_discretionary_family_court-proposed-order-4",
+        "de_discretionary_family_court-cover-sheet-3"
+      ],
+      "componentCount": 4,
+      "conditionalComponentIds": [
+        "de_discretionary_family_court-continuation-2"
+      ],
+      "sourceBinding": {
+        "sourceReceipt": "data/rcap-all50/overlays/census-v1/de/de-discretionary-family-court-set--official-pdf-fill/source-receipt.json",
+        "sourceReceiptSha256": "3e14c2a4a8bef1b05cf8fa4255b0c8c8860ffeea270f1cced405b78f0d437fed",
+        "custodyRead": "mixed_exact_held_nationwide_recovery_pool_and_master_library",
+        "allSourcesExact": true,
+        "sources": [
+          {
+            "sourceId": "official-form:FORM-281",
+            "documentId": "de_discretionary_family_court-primary-filing-1",
+            "component": "primary_filing",
+            "officialFormId": "FORM-281",
+            "pathInArchive": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Delaware/source-acquisition-2026-09-04/281---petition-for-expungement-of-adult-record-11192025.doc",
+            "sha256": "84300768ad7f0724d6bd85f94bb06a07f18cf512494da9b02492cff838018eda",
+            "byteLength": 97280,
+            "pageCount": 1,
+            "selectedSourcePages": [
+              1
+            ],
+            "derivedPrintSha256": "1254d58f66cb4e600c7184bfce65740c6732fe66a7c3b9452ed8ae56de4d3b35",
+            "derivedPrintByteLength": 103220
+          },
+          {
+            "sourceId": "official-form:FORM-281E",
+            "documentId": "de_discretionary_family_court-continuation-2",
+            "component": "continuation",
+            "officialFormId": "FORM-281E",
+            "pathInArchive": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/DE/02_PACKET_FORMS/DE__FORM__FORM-281E__petition-for-expungement-of-adult-record-charge-sheet__REV-2018-09__EN.docx",
+            "sha256": "aaca121e3bb4ce51ab9ab4ff6d933138bf7a36b6d97269c02cbf3c0290e87b33",
+            "byteLength": 26118,
+            "pageCount": 1,
+            "selectedSourcePages": [
+              1
+            ],
+            "derivedPrintSha256": "bee442f8e00fcc07db10e66c2b622f7c55ecb296787b66ecff76693a50b502da",
+            "derivedPrintByteLength": 82872,
+            "conversionNote": "source DOCX metadata is one page; conversion-only repeated Form 281E Dev 9/18 header page omitted"
+          },
+          {
+            "sourceId": "official-form:FORM-283",
+            "documentId": "de_discretionary_family_court-proposed-order-4",
+            "component": "proposed_order",
+            "officialFormId": "FORM-283",
+            "pathInArchive": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Delaware/reference-only/Form-1021IP__adult-expungement-instruction-packet__rev-2023-10.pdf",
+            "sha256": "f2c8a0b1b8a4b3d82e4041f25b8bbf62a61e8e93b8d243274c06aa1cc11fb602",
+            "byteLength": 630042,
+            "pageCount": 15,
+            "selectedSourcePages": [
+              15
+            ],
+            "sourcePage": 15,
+            "sourcePageSha256": "a58d8bbabb2a304277bc4ccdd53f3bbcc0ecdd179bd600b2015ad96272e059ac",
+            "sourcePageSize": {
+              "width": 612,
+              "height": 792
+            },
+            "renderedPacketPages": {
+              "canonical": 2,
+              "boundary": 3
+            }
+          }
+        ],
+        "legalResolution": {
+          "path": "data/rcap-grade-a/legal-decisions/DE_FAMILY_COURT_SOURCE_FACTS_2026-09-12.json",
+          "sha256": "818ffc3c4dc9c6a4fb9a8328c9a8d7f9620ad58c855f58a7d4666ea1fa95c7a9",
+          "byteLength": 3961,
+          "scope": "Form 283 identity/packet order, current Family Court fee schedule and \u00a74374(e) victim-contact cross-reference; packet acceptance and independent review remain pending."
+        },
+        "sourceAdoptionEvidence": {
+          "path": "data/rcap-grade-a/packet-factory-24h/fix112/de-family-court-form283-source-adoption-20260912.json",
+          "sha256": "416bed5e70f2cba68f4f1a2aa9cdb416980c58e4e7a2cbc5ff95b09c272427d5",
+          "officialFormId": "FORM-283",
+          "selectedSourcePages": [
+            15
+          ]
+        }
+      },
+      "artifacts": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/de/de-discretionary-family-court-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "c8db59fab064a64922b0f861c2b7673ded353d74c65e25203e67094b53327cc8",
+          "byteLength": 215587,
+          "pageCount": 3,
+          "role": "canonical_fixture"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/de/de-discretionary-family-court-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "9a7de241d4ea134cf13c476171f73c05de7422485824f12f2e6d4273a49746e3",
+          "byteLength": 247791,
+          "pageCount": 4,
+          "role": "boundary_fixture_with_Form_281E"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/de/de-discretionary-family-court-set--official-pdf-fill/production-field-map.json",
+          "sha256": "9b514e4f9651b2f8b8e7e42e94ab3bbe9a1b5f49a6d26651cb9e13c083b33559",
+          "byteLength": 204254
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/de/de-discretionary-family-court-set--official-pdf-fill/field-census.census-v1.json",
+          "sha256": "6da33ee27dc6fcdfca12815211dedb36cc4415544e5f3d449c0903f786f5a4f4",
+          "byteLength": 194138
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/de/de-discretionary-family-court-set--official-pdf-fill/reports/actual-writes.json",
+          "sha256": "026b794debe9d73e68fb35c56111aa6e020c4cb08d62a3d1d0e294f5744dbc76",
+          "byteLength": 208199
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/de/de-discretionary-family-court-set--official-pdf-fill/reports/blanks-left-for-the-participant.json",
+          "sha256": "07a146e38c5664c6b6d024df4390b4df0a5752ec5f806dc776b45d2f7642b619",
+          "byteLength": 21957
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/de/de-discretionary-family-court-set--official-pdf-fill/source-receipt.json",
+          "sha256": "3e14c2a4a8bef1b05cf8fa4255b0c8c8860ffeea270f1cced405b78f0d437fed",
+          "byteLength": 10489
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/de/de-discretionary-family-court-set--official-pdf-fill/packet-set-manifest.json",
+          "sha256": "364d55c528ae5fff59148c6a8cffca236f828923de191956edaddf7cbcd9148b",
+          "byteLength": 2681
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/de/de-discretionary-family-court-set--official-pdf-fill/reports/rendered-artifacts.json",
+          "sha256": "ffa0b184089ebd3402290be545d899cded4297552c8ec3ffc40e73b326ca939c",
+          "byteLength": 22472
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/de/de-discretionary-family-court-set--official-pdf-fill/reports/focused-self-test.json",
+          "sha256": "55e229150ac7a280bc047234f714cef791ff8767f6201f6b132f34ef939a053c",
+          "byteLength": 837
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/de/de-discretionary-family-court-set--official-pdf-fill/reports/completeness-counters.json",
+          "sha256": "070ad2db7e9a12533999f0e6d6e137c98eee1cf792904948b058617bd463811b",
+          "byteLength": 587
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/de/de-discretionary-family-court-set--official-pdf-fill/reports/saved-byte-preflight.json",
+          "sha256": "39c48f51e4075fa0239ee5683ef40b9a26d8530f1aca91fe271abdc21f2352d6",
+          "byteLength": 1520
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/de/de-discretionary-family-court-set--official-pdf-fill/reports/build-return.json",
+          "sha256": "06053ad3f60d8bbd08cec0bb2901f9d74af755cde56fd713102fb8d13b804eea",
+          "byteLength": 2984
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/de/de-discretionary-family-court-set--official-pdf-fill/build-findings.json",
+          "sha256": "af17460f872bd937b4b54b255e4049c0a0450a0cb13119334cde478350ae7ab4",
+          "byteLength": 1895
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/de/de-discretionary-family-court-set--official-pdf-fill/build-status.json",
+          "sha256": "b62a42a4534f0013c7bbb08784ed9c93837457f0e0502fb72db7f598922ee7d3",
+          "byteLength": 699
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/de/de-discretionary-family-court-set--official-pdf-fill/participant-instructions.md",
+          "sha256": "554b9748398fd44df15f347d8826dfc7be8510138b869d6db6b8a63a5a37f1af",
+          "byteLength": 9397
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/de/de-discretionary-family-court-set--official-pdf-fill/filing-instructions.md",
+          "sha256": "1f10e6a40397cba5db501a183a447251ee1d094c4554e662526c677dc84a2e75",
+          "byteLength": 4291
+        },
+        {
+          "path": "scripts/build-census-v1-de_discretionary_family_court-set.mjs",
+          "sha256": "bca747729a9cfee911d0fc17599f303043ab5a0a8f711ae8d020bad8b352f54b",
+          "byteLength": 100207
+        },
+        {
+          "path": "scripts/rcap-packet-recovery/de-family-court-current-byte-preflight.py",
+          "sha256": "abd24f0f033fca092e8c3a2db51dbb6705ebe5724b940f8a5e955341a549889c",
+          "byteLength": 11783,
+          "role": "reproducible_saved_byte_preflight"
+        }
+      ],
+      "evidenceFiles": [
+        {
+          "path": "data/rcap-grade-a/legal-decisions/DE_FAMILY_COURT_SOURCE_FACTS_2026-09-12.json",
+          "sha256": "818ffc3c4dc9c6a4fb9a8328c9a8d7f9620ad58c855f58a7d4666ea1fa95c7a9",
+          "byteLength": 3961
+        },
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/fix112/de-family-court-form283-source-adoption-20260912.json",
+          "sha256": "416bed5e70f2cba68f4f1a2aa9cdb416980c58e4e7a2cbc5ff95b09c272427d5",
+          "byteLength": 1088
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/de/de-discretionary-family-court-set--official-pdf-fill/reports/source-text-evidence.json",
+          "sha256": "49b04ef1dc05129a6d34e1e22d7738e814733eda6a66a5daa6a58e35e39ac80d",
+          "byteLength": 3159
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/de/de-discretionary-family-court-set--official-pdf-fill/approval-request.json",
+          "sha256": "bf615fb8ba296ed144e2b6941f44ee0b42bfee52870cbfd298dce84e62041eb3",
+          "byteLength": 849
+        },
+        {
+          "path": "scripts/rcap-packet-recovery/de-family-court-current-byte-preflight.py",
+          "sha256": "abd24f0f033fca092e8c3a2db51dbb6705ebe5724b940f8a5e955341a549889c",
+          "byteLength": 11783
+        }
+      ],
+      "writes": {
+        "canonical": 38,
+        "boundary": 68,
+        "proposedOrderCanonical": 17,
+        "proposedOrderBoundary": 27,
+        "continuationExercisedInBoundary": true,
+        "sourceOwnedFieldsWritten": 0
+      },
+      "mappedRefusals": "Court-owned county/civil petition number/manifest-injustice election/court decision/date/judge/commissioner/signature/jurat fields remain explicit protected or participant handbacks; no protected writes.",
+      "checks": {
+        "claimAssertion": {
+          "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF02 de_discretionary_family_court-set",
+          "result": "CLAIM_OK PF02 de_discretionary_family_court-set (packet-build, grant set c43770a003baa22c)"
+        },
+        "syntax": {
+          "command": "node --check scripts/build-census-v1-de_discretionary_family_court-set.mjs",
+          "result": "PASS"
+        },
+        "builderBuild": {
+          "command": "MASTER_LIBRARY_SOURCE_DIR=\"$PWD/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1\" RCAP_PIKEPDF_PYTHON=/tmp/rcap-tx072-python/bin/python FONTCONFIG_FILE=/tmp/rcap-de-office/fontconfig.conf node scripts/build-census-v1-de_discretionary_family_court-set.mjs --no-raster",
+          "result": "PASS; canonical 3 pages and boundary 4 pages rebuilt from exact sources; all nine builder counters zero."
+        },
+        "builderCheck": {
+          "command": "MASTER_LIBRARY_SOURCE_DIR=\"$PWD/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1\" RCAP_PIKEPDF_PYTHON=/tmp/rcap-tx072-python/bin/python FONTCONFIG_FILE=/tmp/rcap-de-office/fontconfig.conf node scripts/build-census-v1-de_discretionary_family_court-set.mjs --check",
+          "result": "CHECK_PASS; 2 fixtures, exact source identities and 15 required artifacts checked."
+        },
+        "focusedSelfTest": {
+          "path": "data/rcap-all50/overlays/census-v1/de/de-discretionary-family-court-set--official-pdf-fill/reports/focused-self-test.json",
+          "result": "PASS; Form 283 page 15 bound, proposed-order facts/charge rows exercised, continuation and protected-field assertions pass."
+        },
+        "nativeCompleteness": {
+          "command": "MASTER_LIBRARY_SOURCE_DIR=\"$PWD/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1\" RCAP_PIKEPDF_PYTHON=/tmp/rcap-tx072-python/bin/python node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family de_discretionary_family_court-set",
+          "result": "PASS_COMPLETE; 38/69 native terminals written and all nine counters zero.",
+          "exitCode": 0
+        },
+        "governanceSurvival": {
+          "command": "node scripts/rcap-packet-completeness/verify-governance-state-survives-rebuild.mjs --family de_discretionary_family_court-set",
+          "result": "EVERY_GOVERNANCE_KEY_SURVIVED; product-wiring governance state carried forward.",
+          "exitCode": 0
+        },
+        "focusedSavedBytePreflight": {
+          "path": "data/rcap-all50/overlays/census-v1/de/de-discretionary-family-court-set--official-pdf-fill/reports/saved-byte-preflight.json",
+          "sha256": "39c48f51e4075fa0239ee5683ef40b9a26d8530f1aca91fe271abdc21f2352d6",
+          "result": "PASS; 145 current-byte checks, exact Form 283 source-page lineage, source ink preservation outside declared write boxes, protected-write exclusion and participant-guide obligations.",
+          "visualMeasured": false,
+          "independentSemantic": false,
+          "script": "scripts/rcap-packet-recovery/de-family-court-current-byte-preflight.py",
+          "scriptSha256": "abd24f0f033fca092e8c3a2db51dbb6705ebe5724b940f8a5e955341a549889c",
+          "command": "python scripts/rcap-packet-recovery/de-family-court-current-byte-preflight.py --output data/rcap-all50/overlays/census-v1/de/de-discretionary-family-court-set--official-pdf-fill/reports/saved-byte-preflight.json",
+          "sourceBases": "/tmp/rcap-de-office/print-bases/form281.pdf and form281e.pdf (pinned derived hashes recorded by the helper); Form 283 read directly from the exact held 15-page PDF"
+        }
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": null
+      },
+      "allNineCountersZero": true,
+      "nativeCompletenessResult": "PASS_COMPLETE",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "rasterManifest": "data/rcap-grade-a/packet-factory-24h/fix112/de-family-court-current-raster-manifest-20260912.json",
+      "independentVerification": "PENDING_INDEPENDENT_SEMANTIC_REVIEW",
+      "visualReview": {
+        "measured": false,
+        "result": null,
+        "status": "PENDING"
+      },
+      "remainingGates": [
+        "independent semantic packet review",
+        "central current-byte raster acceptance",
+        "independent original visual review"
+      ],
+      "legalLimitations": "The additive DE Family Court source-facts record resolves Form 283 identity/ordering, the current $0.00 Family Court schedule exception and the \u00a74374(e) to \u00a79414(a) cross-reference. This author return does not establish eligibility, court assignment, packet acceptance, external certified-history cost payment, counsel approval, live approval or delivery authority.",
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "grantsNothing": "This PF02 packet-build return records source-bound implementation and current saved-byte checks only; it opens no commercial route and grants no filing, delivery or live authority.",
+      "reproducibleSavedBytePreflight": {
+        "script": "scripts/rcap-packet-recovery/de-family-court-current-byte-preflight.py",
+        "scriptSha256": "abd24f0f033fca092e8c3a2db51dbb6705ebe5724b940f8a5e955341a549889c",
+        "command": "python scripts/rcap-packet-recovery/de-family-court-current-byte-preflight.py --output data/rcap-all50/overlays/census-v1/de/de-discretionary-family-court-set--official-pdf-fill/reports/saved-byte-preflight.json",
+        "output": "data/rcap-all50/overlays/census-v1/de/de-discretionary-family-court-set--official-pdf-fill/reports/saved-byte-preflight.json",
+        "outputSha256": "39c48f51e4075fa0239ee5683ef40b9a26d8530f1aca91fe271abdc21f2352d6",
+        "checks": 145,
+        "result": "PASS",
+        "sourceDerivedBaseHashes": {
+          "FORM-281": "1865ddec131fc77ea353ac3253751877b68fd305639dfc5df9c1bfd05482ba77",
+          "FORM-281E": "43e76bceb54e0707412eebd8efb9008e1de8c91b4d0f82a468fa33e384cef175"
+        }
+      }
+    }
+  ],
+  "historicalEvidencePreserved": true,
+  "independentAcceptanceClaimed": false,
+  "rasterDispatched": false,
+  "claimsReleased": false
+}

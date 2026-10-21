@@ -1,0 +1,119 @@
+{
+  "schemaVersion": "rcap-boundary-fixture/v4",
+  "applied": true,
+  "intent": "longest plausible participant values, so shrink-to-fit and the 6pt readable floor are exercised rather than asserted",
+  "facts": {
+    "participant.full_legal_name": "Maximiliana Konstantina Vasquez-Featherstonehaugh",
+    "participant.date_of_birth": "1968-12-31",
+    "participant.street_address": "18244 Northwest Meadowbrook Terrace Extension Apartment 2201B",
+    "participant.city_state_zip": "Wappingers Falls, Massachusetts 02108-3417",
+    "participant.phone": "1-413-555-0199 ext. 44021",
+    "participant.email": "maximiliana.vasquez.featherstonehaugh@long-domain-example.org",
+    "matter.county": "Salt Lake",
+    "matter.case_number": "249900123456789-CR-EX"
+  },
+  "written": [
+    {
+      "anchor": "FOR THE COUNTY OF",
+      "factId": "matter.county",
+      "fontSize": 10.5,
+      "outcome": "fit"
+    },
+    {
+      "anchor": "Case No:",
+      "factId": "matter.case_number",
+      "fontSize": 10.5,
+      "outcome": "fit"
+    },
+    {
+      "anchor": "Defendant",
+      "factId": "participant.full_legal_name",
+      "fontSize": 9.5,
+      "outcome": "shrunk"
+    },
+    {
+      "anchor": "DOB:",
+      "factId": "participant.date_of_birth",
+      "fontSize": 10.5,
+      "outcome": "fit"
+    },
+    {
+      "anchor": "Name (typed or printed)",
+      "factId": "participant.full_legal_name",
+      "fontSize": 10,
+      "outcome": "shrunk"
+    },
+    {
+      "anchor": "City, State, ZIP",
+      "factId": "participant.city_state_zip",
+      "fontSize": 10.5,
+      "outcome": "fit"
+    }
+  ],
+  "refused": [
+    {
+      "anchor": "Email",
+      "reason": "value_exceeds_widget_width_at_minimum_font",
+      "category": "unfittable"
+    },
+    {
+      "anchor": "Address",
+      "reason": "value_exceeds_widget_width_at_minimum_font",
+      "category": "unfittable"
+    },
+    {
+      "anchor": "Phone",
+      "reason": "value_exceeds_widget_width_at_minimum_font",
+      "category": "unfittable"
+    }
+  ],
+  "unfittable": [
+    {
+      "anchor": "Email",
+      "factId": "participant.email",
+      "outcome": "refused",
+      "reason": "value_exceeds_widget_width_at_minimum_font",
+      "value": "maximiliana.vasquez.featherstonehaugh@long-domain-example.org",
+      "rect": {
+        "x": 74,
+        "y": 343,
+        "width": 176,
+        "height": 12.5
+      },
+      "minFontSize": 6,
+      "requiredWidthAtMin": 180.9
+    },
+    {
+      "anchor": "Address",
+      "factId": "participant.street_address",
+      "outcome": "refused",
+      "reason": "value_exceeds_widget_width_at_minimum_font",
+      "value": "18244 Northwest Meadowbrook Terrace Extension Apartment 2201B",
+      "rect": {
+        "x": 74,
+        "y": 305.44,
+        "width": 174,
+        "height": 12.5
+      },
+      "minFontSize": 6,
+      "requiredWidthAtMin": 182.7
+    },
+    {
+      "anchor": "Phone",
+      "factId": "participant.phone",
+      "outcome": "refused",
+      "reason": "value_exceeds_widget_width_at_minimum_font",
+      "value": "1-413-555-0199 ext. 44021",
+      "rect": {
+        "x": 504,
+        "y": 305.44,
+        "width": 34,
+        "height": 12.5
+      },
+      "minFontSize": 6,
+      "requiredWidthAtMin": 71.8
+    }
+  ],
+  "artifact": "fixtures/boundary-filled.pdf",
+  "reasonNotApplied": null
+}

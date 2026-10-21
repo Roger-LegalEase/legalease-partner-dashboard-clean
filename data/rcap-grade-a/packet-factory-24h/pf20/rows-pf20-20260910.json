@@ -1,0 +1,535 @@
+{
+  "schemaVersion": "rcap-verifier-rows/v2",
+  "lane": "PF20",
+  "laneKind": "packet-build",
+  "isIndependentVerification": false,
+  "worktree": "/home/user/v9b-worktree",
+  "branch": "lane-pf20-20260910",
+  "builtAtBase": "63a28b5fdd25bdce621ec8cfa69dbac08a7d4894",
+  "commits": [
+    {
+      "sha": "e3e601d0e3c0c3e62e7c741b0c77be468b489f75",
+      "familyId": "ks-21-6614-conviction-set",
+      "subject": "PF20: build ks-21-6614-conviction-set from six pinned Kansas binaries"
+    },
+    {
+      "sha": "9e2385baf8f733e0dae4a8fdb054565bf0032d91",
+      "familyId": "ks-21-6614-diversion-set",
+      "subject": "PF20: build ks-21-6614-diversion-set from the same six pinned Kansas binaries"
+    },
+    {
+      "sha": "e3f53c600e373a15ca8a06472934ec3b2b620da8",
+      "familyId": "ks-21-6614-prostitution-coercion-set",
+      "subject": "PF20: build ks-21-6614-prostitution-coercion-set, K.S.A. 21-6614(b)"
+    }
+  ],
+  "theHEADLINE": "Three of the six granted families are built from nothing, on six official Kansas binaries whose pinned digests all recompute. Two of the three return COMPLETED with all nine completeness counters zero. The third, ks-21-6614-conviction-set, returns STOPPED at requiredOptionsMissing 1 and is NOT released: its route election is the box reading \"expungement of my conviction and related arrest records\", the shared disposition_or_hearing protect rule matches the word \"conviction\" in that printed caption, and the channel that would say the caption is one the PARTICIPANT states rather than one the court owns \u2014 PARTICIPANT_STATED_SUBJECT in scripts/rcap-official-forms/rcap-field-semantics.mjs \u2014 carries entries for exact Alabama and Oregon captions and none for Kansas. That module is outside every one of this lane's ownedPaths and forty-odd families import it, so it was not edited, and the caption was not reworded to slip past the rule. The remaining three families are NOT built and NOT released, each for a different and stated reason.",
+  "builtAnything": true,
+  "familiesBuilt": 3,
+  "familiesReachingNineZeroCounters": 2,
+  "familiesNotBuilt": 3,
+  "packetsSelfVerified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "routesChanged": 0,
+  "verdictsSet": 0,
+  "receiptsIssued": 0,
+  "rasterRendered": 0,
+  "sharedManifestsTouched": "None. RASTER_QUEUE.json was NOT edited. MASTER_QUEUE.json was NOT edited. scripts/rcap-official-forms/** and scripts/rcap-packet-completeness/** were NOT edited \u2014 see theSHAREDMODULEGAP. Every commit touches only this lane's three build scripts, its three overlay directories, and pf20/.",
+  "corpusMountUsed": "MASTER_LIBRARY_SOURCE_DIR=/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1 for the one source that lives in the Master Library. The other five resolve through the declared nationwide_recovery_pool_2026_09_02 custody at its committed root.",
+  "sourcesBound": [
+    {
+      "documentId": "KS-CRIMINAL-COVER-SHEET-10-14-2025",
+      "sha256": "6384f934dc431601dfd07d0822c32b83ee8fcd0412cff5496af1481169cdea60",
+      "custody": "nationwide_recovery_pool_2026_09_02",
+      "path": "LegalEase Kansas/Criminal Cover Sheet 102025.pdf",
+      "pages": 1,
+      "fields": 36
+    },
+    {
+      "documentId": "KSJC-PETITION-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022",
+      "sha256": "1113f7b64a57d7ca9568f75d04922d94fabbeea6c7c5839402689ed7fc0db07c",
+      "custody": "nationwide_recovery_pool_2026_09_02",
+      "path": "LegalEase Kansas/Petition for Expungement of Conviction or Diversion 82022.pdf",
+      "pages": 6,
+      "fields": 35
+    },
+    {
+      "documentId": "KSJC-NOTICE-OF-HEARING-12-2016",
+      "sha256": "a960c857ec505a3013e725526718580ad2047aa9b3dd85191a70b8375cc83ffd",
+      "custody": "nationwide_recovery_pool_2026_09_02",
+      "path": "LegalEase Kansas/Notice of Hearing on Petition for Expungement of Conviction or Diversion 122016.pdf",
+      "pages": 1,
+      "fields": 29
+    },
+    {
+      "documentId": "KSJC-ORDER-EXPUNGEMENT-COVER-SHEET-12-2016",
+      "sha256": "d4171396d12f55a50d6c4e0d5a3b694ad982325e7377d74deaa5839d3bfad537",
+      "custody": "nationwide_recovery_pool_2026_09_02",
+      "path": "LegalEase Kansas/Order of Expungement of Conviction or Diversion Cover Sheet 122016.pdf",
+      "pages": 1,
+      "fields": 21
+    },
+    {
+      "documentId": "KSJC-ORDER-FOR-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022",
+      "sha256": "104c40187f530d4a55306550f262ba9eefdec8ba732e2adbb1790dfd9378e683",
+      "custody": "master_library",
+      "path": "STATES/KS/05_SOURCE_GATED/KS__SOURCE-GATED__KSJC__order-for-expungement-of-conviction-or-diversion__REV-2022-08__EN.pdf",
+      "pages": 5,
+      "fields": 55
+    },
+    {
+      "documentId": "KSJC-ORDER-DENYING-EXPUNGEMENT-12-2016",
+      "sha256": "b29254fb58433d496041c185fc69ec864ba1beff1e5e9722738c3b1ebedfe2ba",
+      "custody": "nationwide_recovery_pool_2026_09_02",
+      "path": "LegalEase Kansas/Order Denying Expungement of Conviction or Diversion 122016.pdf",
+      "pages": 3,
+      "fields": 51
+    }
+  ],
+  "sourceCustodyHonesty": "The operational Nationwide Record Clearing tree is NOT mounted in this container. Five of the six binaries resolve through private/source-imports/Nationwide_Recovery_Pool_2026-09-02, which the committed corpus index declares a PARTIAL custody that \"satisfies an individual source obligation and never a completeness assertion\". That is exactly and only what was asked of it: six named documents at six exact digests, each verified byte-for-byte in the run. No completeness claim about the Kansas corpus is made anywhere.",
+  "howEachCounterWasTaken": {
+    "everyCounterIsAMeasurement": "No counter in any of these three families is a literal. Each is the length of a findings list produced by a named pass over this run's own field-map rows and this run's own saved artifact bytes. reports/completeness-counters.json carries howEachCounterWasTaken naming the pass for each of the nine.",
+    "knownRequiredFieldsMissing": "Two passes, and the first one is the one that matters. FIRST: every row this family declared a WRITE for whose value the saved artifact does not carry is counted directly, from the fact of the suppression, before any classification runs. SECOND: classifyBlank from the repository's own scripts/rcap-packet-completeness/completeness-contract.mjs over every refusal row, counting KNOWN_FACT_NOT_WRITTEN.",
+    "requiredFactsNotCollected": "every blank the contract classified REQUIRED_BEFORE_FILING, checked by substring against the GENERATED text of participant-instructions.md \u2014 the same string that is written to disk.",
+    "unclassifiedBlanks": "the same classifyBlank pass, counting UNCLASSIFIED_BLANK.",
+    "incompleteRows": "rowKeyOf over written and blank rows together; a row with any written cell and a REQUIRED_KNOWN blank cell is counted.",
+    "requiredOptionsMissing": "the same classifyBlank pass, counting ROUTE_OPTION_NOT_SELECTED.",
+    "requiredComponentsMissing": "the seven components the committed track registry declares for the family, minus the components this run actually produced bytes for.",
+    "invisibleWrites": "per artifact, the finalizer's own written count against the glyphs and flattened widget appearances READ BACK out of the saved artifact; a document reporting writes with no readable ink is counted.",
+    "protectedWrites": "classifyField over every WRITTEN row's label; a write onto a field the contract classes PROTECTED is counted.",
+    "visualDefects": "per artifact, refused fields found carrying printed text at their own measured rectangle in the saved bytes, plus non-whitespace glyphs measured outside the write boxes."
+  },
+  "rows": [
+    {
+      "itemId": "ks-21-6614-conviction-set",
+      "familyId": "ks-21-6614-conviction-set",
+      "jurisdiction": "KS",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ks/ks-21-6614-conviction-set--official-pdf-fill",
+      "commit": "e3e601d0e3c0c3e62e7c741b0c77be468b489f75",
+      "buildScript": "scripts/build-census-v1-ks-21-6614-conviction-set.mjs",
+      "implementationStrategy": "official_pdf_fill",
+      "artifactStatusBefore": "NOT_RENDERED",
+      "artifactStatusAfter": "RENDERED",
+      "buildStatus": "state_built",
+      "builderReturn": "STOPPED",
+      "headline": "Eight of nine counters zero. requiredOptionsMissing is 1 because the packet cannot state its own route, and the build stops rather than pretend otherwise.",
+      "componentsDeclaredByTheCommittedRegistry": 7,
+      "componentsBuilt": 7,
+      "componentNote": "MASTER_QUEUE lists six packetComponents for this family. The committed legal-design track registry declares seven for the same packetSet, the seventh being the process-guidance hearing-preparation document with requirement required. This build produces all seven and counts requiredComponentsMissing against the registry, which is the controlling record.",
+      "fixtureDigests": {
+        "canonical": {
+          "sha256": "f867314e0797b2289e6923db05cd487929ace7dcb6c59fd35e802d7d2316b89a",
+          "byteLength": 670482,
+          "pageCount": 20
+        },
+        "boundary": {
+          "sha256": "2cd9942fdc014daee55912787b0c85ba2ae2c15d5dcf2154b456051a84ad7129",
+          "byteLength": 671092,
+          "pageCount": 20
+        }
+      },
+      "reproducibility": "Built twice from a clean invocation. Every file under the family directory hashed with sha256sum after each run and the two lists are identical, PDFs included.",
+      "writesMade": 41,
+      "valuesReadBackFromTheSavedBytes": 84,
+      "requiredBeforeFiling": 54,
+      "laterCompletion": 10,
+      "blankDispositions": {
+        "OPTIONAL_PARTICIPANT_CONTENT": 6,
+        "REQUIRED_BEFORE_FILING": 50,
+        "PARTICIPANT_ELECTION_GENUINE": 18,
+        "LATER_COMPLETION": 14,
+        "NOT_APPLICABLE_ON_THIS_ROUTE": 23,
+        "ROUTE_OPTION_NOT_SELECTED": 1,
+        "PROTECTED_FIELD": 74
+      },
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 1,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "allNineZero": false,
+      "nonZeroCounterFindings": [
+        "requiredOptionsMissing: Check Box1"
+      ],
+      "componentArtifactDigests": [
+        {
+          "fixture": "canonical",
+          "componentId": "ks-21-6614-conviction-cover-sheet-1",
+          "sha256": "a3d458900733410dff064480904ec273c09f1e153abb5be55af5fb0042714096",
+          "byteLength": 116581
+        },
+        {
+          "fixture": "canonical",
+          "componentId": "ks-21-6614-conviction-primary-filing-2",
+          "sha256": "72872b2b4762416e9245e1694ba30e1af0278f416ea7bbf1e337f15c71873e10",
+          "byteLength": 222879
+        },
+        {
+          "fixture": "canonical",
+          "componentId": "ks-21-6614-conviction-notice-3",
+          "sha256": "76937de55f70c1666bfe9354fdad35262a9ed11f449abf935d4c3707da0dd245",
+          "byteLength": 16623
+        },
+        {
+          "fixture": "canonical",
+          "componentId": "ks-21-6614-conviction-cover-sheet-4",
+          "sha256": "02a88e33ad85f19d03f8dbb4a3af0f53c0d00f4e4b77fae91425b8ce1bc2a670",
+          "byteLength": 61586
+        },
+        {
+          "fixture": "canonical",
+          "componentId": "ks-21-6614-conviction-proposed-order-5",
+          "sha256": "26670824ffdc1fc7541c84c98816f3a25a9fee7081863624daeacf8203f7c0b5",
+          "byteLength": 113823
+        },
+        {
+          "fixture": "canonical",
+          "componentId": "ks-21-6614-conviction-proposed-order-6",
+          "sha256": "cbec6b30485395518e211e7e3778f42464675322f8c7f1e0821aab4c0132e1dd",
+          "byteLength": 134143
+        },
+        {
+          "fixture": "canonical",
+          "componentId": "ks-21-6614-conviction-process-guidance-7",
+          "sha256": "335b2707a98f6435a835ad20c259b4bf4da201abfd6ddeed73407d6584437b03",
+          "byteLength": 8770
+        }
+      ],
+      "released": false,
+      "whyNotReleased": "The builder returns STOPPED. A route-specific packet that does not state its route is not finished, and the completeness contract is right to say so.",
+      "exactRemedy": "One PARTICIPANT_STATED_SUBJECT entry in scripts/rcap-official-forms/rcap-field-semantics.mjs, exempting disposition_or_hearing for the exact caption of the petition's opening request \u2014 the petitioner's own request under K.S.A. 21-6614, which the petitioner states and no court owns \u2014 in the same shape as the existing al_cr65_participant_charge entry. Rebuilding this family then marks the box and the counter goes to zero. Nothing else about the family changes.",
+      "blastRadiusOfThatRemedy": "Measured, not estimated: 14,231 write and refusal labels across the 295 committed census-v1 production field maps in this tree were scanned for the phrase \"expungement of my\". Three carry it \u2014 the two Kansas boxes and one Vermont label reading \"expungement of my criminal history is in the interests of justice\", which a caption regex anchored on \"and related arrest records\" does not reach. A correctly anchored Kansas entry moves no other family's bytes."
+    },
+    {
+      "itemId": "ks-21-6614-diversion-set",
+      "familyId": "ks-21-6614-diversion-set",
+      "jurisdiction": "KS",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ks/ks-21-6614-diversion-set--official-pdf-fill",
+      "commit": "9e2385baf8f733e0dae4a8fdb054565bf0032d91",
+      "buildScript": "scripts/build-census-v1-ks-21-6614-diversion-set.mjs",
+      "implementationStrategy": "official_pdf_fill",
+      "artifactStatusBefore": "NOT_RENDERED",
+      "artifactStatusAfter": "RENDERED",
+      "buildStatus": "state_built",
+      "builderReturn": "COMPLETED",
+      "headline": "All nine counters zero. The route election IS stated here \u2014 the diversion box on the opening request \u2014 because its printed caption carries no word the shared protect rules match. The asymmetry with the conviction sibling is an accident of vocabulary and is recorded in the family's own build-findings.json so nobody reads these zeros as evidence that the shared-module gap is closed.",
+      "componentsDeclaredByTheCommittedRegistry": 7,
+      "componentsBuilt": 7,
+      "componentNote": "MASTER_QUEUE lists six packetComponents for this family. The committed legal-design track registry declares seven for the same packetSet, the seventh being the process-guidance hearing-preparation document with requirement required. This build produces all seven and counts requiredComponentsMissing against the registry, which is the controlling record.",
+      "fixtureDigests": {
+        "canonical": {
+          "sha256": "66774d0e08591a6a8f8c88aa4786cb12d9550a729ce8727f10843b38d23f42ef",
+          "byteLength": 671148,
+          "pageCount": 20
+        },
+        "boundary": {
+          "sha256": "e574082239eb621cc07bde26951efc2295e21967cc92bfba07a30132c06b7049",
+          "byteLength": 671756,
+          "pageCount": 20
+        }
+      },
+      "reproducibility": "Built twice from a clean invocation. Every file under the family directory hashed with sha256sum after each run and the two lists are identical, PDFs included.",
+      "writesMade": 42,
+      "valuesReadBackFromTheSavedBytes": 86,
+      "requiredBeforeFiling": 54,
+      "laterCompletion": 10,
+      "blankDispositions": {
+        "OPTIONAL_PARTICIPANT_CONTENT": 6,
+        "REQUIRED_BEFORE_FILING": 50,
+        "PARTICIPANT_ELECTION_GENUINE": 18,
+        "LATER_COMPLETION": 14,
+        "NOT_APPLICABLE_ON_THIS_ROUTE": 23,
+        "PROTECTED_FIELD": 74
+      },
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "allNineZero": true,
+      "nonZeroCounterFindings": [],
+      "componentArtifactDigests": [
+        {
+          "fixture": "canonical",
+          "componentId": "ks-21-6614-diversion-cover-sheet-1",
+          "sha256": "a3d458900733410dff064480904ec273c09f1e153abb5be55af5fb0042714096",
+          "byteLength": 116581
+        },
+        {
+          "fixture": "canonical",
+          "componentId": "ks-21-6614-diversion-primary-filing-2",
+          "sha256": "54d55ac33eb63ad168e33d02e65735b0f53cea980319950c53cff30286b88a0b",
+          "byteLength": 222923
+        },
+        {
+          "fixture": "canonical",
+          "componentId": "ks-21-6614-diversion-notice-3",
+          "sha256": "76937de55f70c1666bfe9354fdad35262a9ed11f449abf935d4c3707da0dd245",
+          "byteLength": 16623
+        },
+        {
+          "fixture": "canonical",
+          "componentId": "ks-21-6614-diversion-cover-sheet-4",
+          "sha256": "02a88e33ad85f19d03f8dbb4a3af0f53c0d00f4e4b77fae91425b8ce1bc2a670",
+          "byteLength": 61586
+        },
+        {
+          "fixture": "canonical",
+          "componentId": "ks-21-6614-diversion-proposed-order-5",
+          "sha256": "26670824ffdc1fc7541c84c98816f3a25a9fee7081863624daeacf8203f7c0b5",
+          "byteLength": 113823
+        },
+        {
+          "fixture": "canonical",
+          "componentId": "ks-21-6614-diversion-proposed-order-6",
+          "sha256": "cbec6b30485395518e211e7e3778f42464675322f8c7f1e0821aab4c0132e1dd",
+          "byteLength": 134143
+        },
+        {
+          "fixture": "canonical",
+          "componentId": "ks-21-6614-diversion-process-guidance-7",
+          "sha256": "3e0e6868e6a6ce73c939f9c8754e302342b9cea68b6caa8b38d281c3fe41bc6d",
+          "byteLength": 9378
+        }
+      ],
+      "released": true,
+      "routeSelectionsMade": [
+        "Check Box2 = diversion, on the opening request",
+        "Check Box3 = Option A, at item 8"
+      ]
+    },
+    {
+      "itemId": "ks-21-6614-prostitution-coercion-set",
+      "familyId": "ks-21-6614-prostitution-coercion-set",
+      "jurisdiction": "KS",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ks/ks-21-6614-prostitution-coercion-set--official-pdf-fill",
+      "commit": "e3f53c600e373a15ca8a06472934ec3b2b620da8",
+      "buildScript": "scripts/build-census-v1-ks-21-6614-prostitution-coercion-set.mjs",
+      "implementationStrategy": "official_pdf_fill",
+      "artifactStatusBefore": "NOT_RENDERED",
+      "artifactStatusAfter": "RENDERED",
+      "buildStatus": "state_built",
+      "builderReturn": "COMPLETED",
+      "headline": "All nine counters zero, and the packet marks exactly one box. The coercion assertion at item 8.A.iii \u2014 the whole of what makes K.S.A. 21-6614(b) available \u2014 is left blank as a genuine participant election, because the committed registry says LegalEase must not invent the coercion narrative or decide whether coercion is proved, and because a raster can be re-earned while a sworn election answered on someone's behalf cannot be cured by disclosure.",
+      "componentsDeclaredByTheCommittedRegistry": 7,
+      "componentsBuilt": 7,
+      "componentNote": "MASTER_QUEUE lists six packetComponents for this family. The committed legal-design track registry declares seven for the same packetSet, the seventh being the process-guidance hearing-preparation document with requirement required. This build produces all seven and counts requiredComponentsMissing against the registry, which is the controlling record.",
+      "fixtureDigests": {
+        "canonical": {
+          "sha256": "4a185a80a36b4d544a112dbdf9ae8c5410d939d6b80c921b9afea31f8c992ca3",
+          "byteLength": 672256,
+          "pageCount": 20
+        },
+        "boundary": {
+          "sha256": "a1e15ab2b8e5b454eb87135486f9bce302fb9f02e4cf2548f4128269398b4770",
+          "byteLength": 672861,
+          "pageCount": 20
+        }
+      },
+      "reproducibility": "Built twice from a clean invocation. Every file under the family directory hashed with sha256sum after each run and the two lists are identical, PDFs included.",
+      "writesMade": 41,
+      "valuesReadBackFromTheSavedBytes": 84,
+      "requiredBeforeFiling": 59,
+      "laterCompletion": 10,
+      "blankDispositions": {
+        "OPTIONAL_PARTICIPANT_CONTENT": 6,
+        "REQUIRED_BEFORE_FILING": 55,
+        "PARTICIPANT_ELECTION_GENUINE": 19,
+        "LATER_COMPLETION": 14,
+        "NOT_APPLICABLE_ON_THIS_ROUTE": 18,
+        "PROTECTED_FIELD": 74
+      },
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "allNineZero": true,
+      "nonZeroCounterFindings": [],
+      "componentArtifactDigests": [
+        {
+          "fixture": "canonical",
+          "componentId": "ks-21-6614-prostitution-coercion-cover-sheet-1",
+          "sha256": "a3d458900733410dff064480904ec273c09f1e153abb5be55af5fb0042714096",
+          "byteLength": 116581
+        },
+        {
+          "fixture": "canonical",
+          "componentId": "ks-21-6614-prostitution-coercion-primary-filing-2",
+          "sha256": "72872b2b4762416e9245e1694ba30e1af0278f416ea7bbf1e337f15c71873e10",
+          "byteLength": 222879
+        },
+        {
+          "fixture": "canonical",
+          "componentId": "ks-21-6614-prostitution-coercion-notice-3",
+          "sha256": "76937de55f70c1666bfe9354fdad35262a9ed11f449abf935d4c3707da0dd245",
+          "byteLength": 16623
+        },
+        {
+          "fixture": "canonical",
+          "componentId": "ks-21-6614-prostitution-coercion-cover-sheet-4",
+          "sha256": "02a88e33ad85f19d03f8dbb4a3af0f53c0d00f4e4b77fae91425b8ce1bc2a670",
+          "byteLength": 61586
+        },
+        {
+          "fixture": "canonical",
+          "componentId": "ks-21-6614-prostitution-coercion-proposed-order-5",
+          "sha256": "26670824ffdc1fc7541c84c98816f3a25a9fee7081863624daeacf8203f7c0b5",
+          "byteLength": 113823
+        },
+        {
+          "fixture": "canonical",
+          "componentId": "ks-21-6614-prostitution-coercion-proposed-order-6",
+          "sha256": "cbec6b30485395518e211e7e3778f42464675322f8c7f1e0821aab4c0132e1dd",
+          "byteLength": 134143
+        },
+        {
+          "fixture": "canonical",
+          "componentId": "ks-21-6614-prostitution-coercion-process-guidance-7",
+          "sha256": "3712b913f8d0a760faca10a2953711469c10a876556126d173961d141a8a85b2",
+          "byteLength": 10511
+        }
+      ],
+      "released": true,
+      "routeSelectionsMade": [
+        "Check Box3 = Option A, at item 8, and nothing else"
+      ],
+      "theThingAREVIEWERMUSTWEIGH": "A packet whose route marker may never be marked is not distinguishable from an ordinary K.S.A. 21-6614(a) packet by its marks alone. It is distinguished by its one-year waiting-period treatment, its instructions, its guidance page and its K.S.A. 21-6617 referral. Whether official_pdf_fill on this shared petition is the right vehicle for subsection (b) at all is raised as a counsel question in the family's approval-request.json and is not answered by this lane."
+    }
+  ],
+  "familiesNOTBuilt": [
+    {
+      "familyId": "ks-21-6614-specialty-court-set",
+      "released": false,
+      "why": "ITS DECLARED VEHICLE CONTRADICTS THE CONTROLLING RECORD, AND RESOLVING THAT IS NOT A LANE'S TO DO.",
+      "measured": "MASTER_QUEUE.json gives this family implementationStrategy custom_pleading and the directory ks-21-6614-specialty-court-set--custom-pleading. data/record-clearing/legal-design-track-registry.json gives track ks-21-6614-specialty-court outputStrategy official_pdf_fill and outputStrategyDeclared official_pdf_fill, and its packetSet declares EIGHT components: the same six official forms as the three families built here, a process-guidance document, and a conditional fee_waiver component with outputStrategy custom_pleading \u2014 the K.S.A. 21-6614(a)(3) docket-fee waiver, which the registry records as the only fee waiver in K.S.A. 21-6614. MASTER_QUEUE's packetComponents lists only components 1 through 6.",
+      "whyThisLaneStopped": "Building it as a custom pleading would contradict the registry's declared output strategy and invent a filing vehicle; building it as official_pdf_fill would contradict MASTER_QUEUE's strategy and its own directory name. Choosing between them is a route-to-vehicle decision of exactly the kind PRODUCT_PATH_PENDING_DIAGNOSIS says is not a lane's to invent.",
+      "exactNextAction": "An owner decision in the same shape the diagnosis already records for ne-setaside-noncustodial-set: reconcile MASTER_QUEUE's implementationStrategy and directory with the registry's declared official_pdf_fill, decide whether the conditional fee-waiver component 8 is in the packet set, and release the resulting family. Once that is settled the family is buildable from the same six binaries this lane already bound, and its Option B election at item 8 \u2014 the specialty-court box \u2014 is route-determined and carries no word the shared protect rules match."
+    },
+    {
+      "familyId": "ks-22-2410-arrest-set",
+      "released": false,
+      "why": "TWO OF ITS THREE PINNED SOURCE BINARIES ARE NOT IN THIS CONTAINER.",
+      "measured": "Every file under /home/user/v9b-worktree/private and /home/user/corpus-x was hashed \u2014 501 files \u2014 and neither d13bc7b7b2a9c5367c785c1de4f3a8d6d79410ef29a3c9c86a5b903057d249d5 (KSJC order of expungement of arrest record cover sheet, rev 2016-12) nor bf4b2309f831aa317d235389a6bd1f24bca55075290ddb3d916083c6f64d840d (KSJC petition for expungement of arrest record, rev 2013-02) appears, by digest or by path. data/rcap-all50/local-source-corpus-index.json carries no entry for either. MASTER_QUEUE records both as bound at private/Nationwide Record Clearing/LegalEase Kansas/source-gated/, which is the operational tree this container does not hold. Only the Criminal Cover Sheet, one of the three, is present.",
+      "whyThisLaneStopped": "A field map for a binary nobody in this container can open is an invented field map. No guidance-packet fallback was produced either: the family's declared strategy is official_pdf_fill against two named, existing, currently-published Judicial Council forms, so the absence here is a custody gap and not a source gap, and substituting a composed pleading for a form that exists would be the wrong answer to it.",
+      "exactNextAction": "Mount the operational Nationwide tree, or acquire those two binaries into a declared custody at their exact recorded digests. The family is then buildable on the same pattern as the three built here."
+    },
+    {
+      "familyId": "ks-22-4908-registration-relief-set",
+      "released": false,
+      "why": "TWO OF ITS THREE PINNED SOURCE BINARIES ARE NOT IN THIS CONTAINER.",
+      "measured": "Same 501-file hash sweep. Neither 0c9c5a751086eee0098925e6e7398f2f0b13dd62cc95bcbffab8732d11b6a0bd (KSJC order of relief from offender registration cover sheet, rev 2022-06) nor 9264dc51531cd8eea47fd99b00871ff49205e0f2c9ab10cb0d7420d6ca3cf396 (KSJC petition for relief from offender registration, rev 2022-06) appears by digest or by path, and the corpus index carries no entry for either. Only the KSJC conviction-or-diversion petition, one of the three, is present.",
+      "whyThisLaneStopped": "Identical reasoning. This family additionally carries the only exception to the K.S.A. 21-6614(f) registration bar \u2014 the drug-offender route \u2014 so a packet built on a substituted or invented form would be wrong in the one place it matters most.",
+      "exactNextAction": "Acquire those two binaries into a declared custody at their exact recorded digests, then build."
+    }
+  ],
+  "theSHAREDMODULEGAP": {
+    "what": "scripts/rcap-official-forms/rcap-field-semantics.mjs decides, for every official_pdf_fill family in this corpus, what may be written into a field. A value binds only through FACT_DESCRIPTORS, and its protect rules relax only through PARTICIPANT_STATED_SUBJECT, whose entries are keyed to the exact printed captions of particular Alabama and Oregon forms. Kansas has no entry.",
+    "measuredConsequence": "On these six binaries, with authored labels, the arresting agency, the crime charged, the offence of conviction, the conviction date, the convicting court, the date of final discharge, the arrest county, the arrest date, the year of birth, the sex and the name at the time of the case are all refused. Each is declared REQUIRED_BEFORE_FILING and disclosed to the participant, which is the same treatment 104 committed refusals across this corpus already give an arresting-agency blank. The one place it bites is the conviction family's route election, which cannot be dispositioned that way because the contract requires a route-specific packet to STATE its route.",
+    "whyThisLaneDidNotEditIt": "It is outside every one of this lane's six ownedPaths, forty-odd families import it, and its own comments record that a lane holding a few families does not get to decide what the others' next rebuild produces. An additive, exactly-anchored Kansas entry is measured above as moving no other family's bytes, but making that change is still the module owner's call and not this lane's.",
+    "whatWasNOTDoneInstead": "The printed caption was not reworded until the protect rule stopped matching it. The completeness contract calls that move out by name in the other direction \u2014 \"wording a refusal to match a regex is the thing these counters exist to prevent\" \u2014 and it is the same move whichever way it points."
+  },
+  "theKSJCPERMISSIONHOLD": {
+    "holdName": "Kansas Judicial Council noncommercial-use and republication restriction",
+    "quotedFromTheCommittedRecord": "The Kansas Judicial Council states its forms are for non-commercial use and may not be sold, republished or transferred for value without express permission. Every Kansas official-form route is source-gated on that licence until permission is confirmed.",
+    "recordedIn": [
+      "data/record-clearing/legal-design-track-registry.json, scopeRestrictions on all three tracks",
+      "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json, sourceReconciliation.permissionHold on all six families",
+      "the Master Library's own STATES/KS/STATE_MANIFEST.csv notes column"
+    ],
+    "whatThisLaneDidAboutIt": "Nothing, and it says so in every one of the three source receipts and approval requests. Building a packet is not resolving a permission hold and this lane has no authority to resolve one. The three families carry generationAllowed false, runtimeSelectable false and commercialRoutesOpened 0; they are internal build and review evidence. The hold stands exactly where it stood.",
+    "doNotReadTHESEBUILDSASCLOSINGIT": "MASTER_QUEUE's exactNextAction for all six families is \"Resolve Kansas Judicial Council commercial reuse and republication treatment; all exact current source bytes are held.\" That action is untouched. Three families moving from NOT_RENDERED to RENDERED does not answer it and must not be read as answering it."
+  },
+  "guardsAndTheProofTheyFIRE": [
+    {
+      "guard": "Every official binary must resolve through the committed corpus index AND hash to the digest the family pins, in this run.",
+      "where": "resolveSources, build path",
+      "brokenBy": "one pinned sha256 altered by a single character",
+      "result": "BLOCKED_SOURCE with the failing documentId and both digests named. Proved on all three families."
+    },
+    {
+      "guard": "Every committed record must still carry every statement the build relies on.",
+      "where": "resolveRecords, build path",
+      "brokenBy": "one anchor string altered ($176 to $999 on one family; a clause dropped on another)",
+      "result": "BLOCKED_SOURCE naming the record and the missing anchor. Proved on all three families."
+    },
+    {
+      "guard": "Every field of every binary must be named in the family's own policy table.",
+      "where": "censusOf, build path",
+      "brokenBy": "one policy key misspelled",
+      "result": "AssertionError naming the document and the field. Proved on the conviction family; the same table drives all three."
+    },
+    {
+      "guard": "The held disposition must be the one this route states.",
+      "where": "runFamily, before any render",
+      "brokenBy": "the fixture's held disposition changed to the sibling route's",
+      "result": "AssertionError naming the statute and what the packet would otherwise swear to. Proved on the conviction and diversion families; the coercion family's equivalent is a prostitution-offence guard, proved separately."
+    },
+    {
+      "guard": "K.S.A. 21-6614(f): no packet may be built over a held answer that offender registration is required.",
+      "where": "runFamily, before any render",
+      "brokenBy": "the fixture answer flipped to true",
+      "result": "AssertionError quoting the freeze. Proved."
+    },
+    {
+      "guard": "The platform may hold no coercion determination.",
+      "where": "runFamily, before any render, coercion family only",
+      "brokenBy": "the fixture answer flipped to true",
+      "result": "AssertionError quoting the registry's prohibition. Proved."
+    },
+    {
+      "guard": "Only a box named in SPEC.routeSelectionsMade may ever be marked.",
+      "where": "renderDocument, build path",
+      "brokenBy": "the sworn coercion box at item 8.A.iii turned into a settled selection",
+      "result": "AssertionError naming the field and calling it a pre-answered election on a sworn filing. Proved on all three families. THIS GUARD DID NOT EXIST UNTIL THE BREAK PROVED IT WAS MISSING: the first attempt at this break produced a build that stopped on an unrelated pre-existing counter while the coercion box was in fact markable, which is an ineffective break, and the guard was written and re-broken before being credited.",
+      "howItWasFound": "an ineffective break"
+    },
+    {
+      "guard": "A write this family declared that the saved artifact does not carry is a missing known fact.",
+      "where": "countCompleteness, counted from the run's own outcome before any classification",
+      "brokenBy": "the petition's contact block relabelled back to \"Signature block \u2014 ...\"",
+      "result": "knownRequiredFieldsMissing goes 0 to 1, naming the field and quoting the finalizer's own refusal. Proved. THIS GUARD ALSO CAME OUT OF A REAL DEFECT: the first version of the conviction family labelled that block \"Signature block\", the shared protect rules read the word Signature and suppressed five held writes, and classifyBlank read the same label and called every one of them an allowed PROTECTED_FIELD. The counter said zero while five facts were missing from the paper.",
+      "howItWasFound": "a defect this lane had and fixed"
+    },
+    {
+      "guard": "A refused field that carries printed text in the saved bytes stops the build.",
+      "where": "actualWriteProof, over the flattened appearances of the saved artifact",
+      "result": "refusedFieldsWithInk is empty on all six documents of both fixtures of all three families, asserted rather than reported."
+    },
+    {
+      "guard": "A checkbox mark must be INK in the saved bytes.",
+      "where": "actualWriteProof, appearanceInk",
+      "why": "the mark on these Judicial Council binaries is a path and not a glyph, so the appearance stream's TEXT is the empty string; a proof comparing drawn text would report a marked box and an unmarked one identically. The appearance stream is decoded out of the artifact and its painting operators counted instead.",
+      "result": "6 painting operators per mark, read from the artifact. Proved by the first version of the proof failing with '' !== '4' and being replaced rather than relaxed."
+    }
+  ],
+  "determinismProof": "Each family built twice from a clean invocation, every file under its directory hashed with sha256sum after each run, and the two hash lists compared: identical, PDFs included. After every guard break the builder was restored and rebuilt, and the output hashed identical to the pre-break list a third time. git status --porcelain is clean of anything not intended.",
+  "outOfScopeOBSERVEDNOTACTEDON": [
+    "MASTER_QUEUE's packetComponents for all four 21-6614 families omits the process-guidance component the committed track registry declares required. The registry is the controlling record and these builds follow it; the queue rows are short by one component each. Not edited.",
+    "data/record-clearing/legal-design-specifications.json maps ks-21-6614-specialty-court to the SAME six official forms as the other three families, while MASTER_QUEUE gives that family implementationStrategy custom_pleading. That is the contradiction recorded under familiesNOTBuilt. Not edited.",
+    "The Master Library's STATES/KS/STATE_MANIFEST.csv records only 3 source-gated Kansas assets and 0 packet forms, and its notes column carries the KSJC republication restriction verbatim on the 2022 order. It is consistent with the track registry and with MASTER_QUEUE; nothing was changed.",
+    "With harvested captions and no authored labels, the repository's own decideBinding puts matter.county in the petition's year-of-birth blank, participant.email in both fax blanks, participant.state in the Criminal Cover Sheet's driver's-licence blank, matter.county in the notice's division and room blanks, and participant.full_legal_name in the order's \"was granted a diversion for the crime of\" blank. These three families author every label and are unaffected. Whether other families in this corpus rely on the harvested channel on forms with similar captions was NOT surveyed and is not a claim this lane makes."
+  ],
+  "grantsNothing": "Three families moved from NOT_RENDERED to RENDERED and two of them return nine zero counters. That is a builder's own count over its own bytes and nothing more. It opens no commercial route, creates no fulfillment record, marks no packet proven, grants no output approval, and does not resolve the Kansas Judicial Council permission hold. Nothing in these three directories has been verified by anybody but the lane that built it, which is not verification.",
+  "independentVerificationOwed": "Every family built here owes an independent fifteen-obligation verification by a lane that is not PF20 and did not author these builders, and a central hash-bound raster from the Captain-dispatched workflow. Neither is this lane's and neither was attempted. RASTER_QUEUE.json was not edited.",
+  "grantsReleased": "Two of six. ks-21-6614-diversion-set and ks-21-6614-prostitution-coercion-set released, both COMPLETED with nine zero counters. ks-21-6614-conviction-set left HELD because its builder returns STOPPED. ks-21-6614-specialty-court-set left HELD on an unresolved vehicle contradiction. ks-22-2410-arrest-set and ks-22-4908-registration-relief-set left HELD because four of their six pinned binaries are absent from this container. The ledger edit is left UNCOMMITTED as directed."
+}

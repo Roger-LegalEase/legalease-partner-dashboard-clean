@@ -1,0 +1,246 @@
+{
+  "schemaVersion": "rcap-composed-packet-set/v1",
+  "familyId": "wa_blake_vacatur_and_lfo_refund-set",
+  "jurisdiction": "WA",
+  "routeKeys": [
+    "obligation:track-pathway:WA:wa_blake_vacatur_and_lfo_refund:blake-drug-possession-vacation-and-refund-route"
+  ],
+  "implementationStrategy": "official_pdf_fill",
+  "components": [
+    {
+      "componentId": "wa_blake_vacatur_and_lfo_refund-superior-motion-1",
+      "role": "primary_filing",
+      "requirement": "conditional",
+      "conditionDescription": "Use for a superior-court conviction.",
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "Blake-001",
+      "officialSourceUrl": "https://www.courts.wa.gov/forms/documents/Blake%20001%20SupCt%20Blake%20Motion%20April%202026.pdf",
+      "order": 1
+    },
+    {
+      "componentId": "wa_blake_vacatur_and_lfo_refund-limited-jurisdiction-motion-2",
+      "role": "primary_filing",
+      "requirement": "conditional",
+      "conditionDescription": "Use for a district- or municipal-court conviction.",
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "Blake-002",
+      "officialSourceUrl": "https://www.courts.wa.gov/forms/documents/Blake%20002%20DistMuniCt%20Blake%20Motion%20April%202026.pdf",
+      "order": 2
+    },
+    {
+      "componentId": "wa_blake_vacatur_and_lfo_refund-notice-of-hearing-3",
+      "role": "hearing_notice",
+      "requirement": "conditional",
+      "conditionDescription": "Use when a hearing is requested or scheduled.",
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "Blake-003",
+      "officialSourceUrl": "https://www.courts.wa.gov/forms/documents/Blake%20003%20Blake%20Notice%20of%20Hearing.pdf",
+      "order": 3
+    },
+    {
+      "componentId": "wa_blake_vacatur_and_lfo_refund-proof-of-service-4",
+      "role": "proof_of_service",
+      "requirement": "required",
+      "conditionDescription": null,
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "Blake-004",
+      "officialSourceUrl": "https://www.courts.wa.gov/forms/documents/Blake%20004%20Blake%20Proof%20of%20Service.pdf",
+      "order": 4
+    },
+    {
+      "componentId": "wa_blake_vacatur_and_lfo_refund-clj-full-order-5",
+      "role": "proposed_order",
+      "requirement": "conditional",
+      "conditionDescription": "Use when the case is in a court of limited jurisdiction and all convictions under the cause number are Blake-void.",
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "Blake-005",
+      "officialSourceUrl": "https://www.courts.wa.gov/forms/documents/Blake%20005%20Order_CLJ%20full%20vacate.pdf",
+      "order": 5
+    },
+    {
+      "componentId": "wa_blake_vacatur_and_lfo_refund-clj-partial-order-6",
+      "role": "proposed_order",
+      "requirement": "conditional",
+      "conditionDescription": "Use when the case is in a court of limited jurisdiction and non-Blake counts remain.",
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "Blake-006",
+      "officialSourceUrl": "https://www.courts.wa.gov/forms/documents/Blake%20006%20Order_CLJ%20partial%20vacate.pdf",
+      "order": 6
+    },
+    {
+      "componentId": "wa_blake_vacatur_and_lfo_refund-superior-full-order-7",
+      "role": "proposed_order",
+      "requirement": "conditional",
+      "conditionDescription": "Use when the case is in superior court and all convictions under the cause number are Blake-void.",
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "Blake-007",
+      "officialSourceUrl": "https://www.courts.wa.gov/Forms/documents/Blake%20007%20Order_Superior%20Court%20full%20vacate.pdf",
+      "order": 7
+    },
+    {
+      "componentId": "wa_blake_vacatur_and_lfo_refund-superior-partial-order-8",
+      "role": "proposed_order",
+      "requirement": "conditional",
+      "conditionDescription": "Use when the case is in superior court and non-Blake counts remain.",
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "Blake-008",
+      "officialSourceUrl": "https://www.courts.wa.gov/forms/documents/Blake%20008%20Order_Superior%20Court%20partial%20vacate.pdf",
+      "order": 8
+    },
+    {
+      "componentId": "wa_blake_vacatur_and_lfo_refund-refund-portal-9",
+      "role": "lfo_refund_process",
+      "requirement": "required",
+      "conditionDescription": "Completed after the conviction is vacated and refund eligibility is determined by the court.",
+      "outputStrategy": "process_guidance",
+      "officialFormId": null,
+      "officialSourceUrl": "https://refund.courts.wa.gov/",
+      "order": 9
+    },
+    {
+      "componentId": "wa_blake_vacatur_and_lfo_refund-records-checklist-10",
+      "role": "records_checklist",
+      "requirement": "required",
+      "conditionDescription": null,
+      "outputStrategy": "process_guidance",
+      "officialFormId": null,
+      "officialSourceUrl": null,
+      "order": 10
+    },
+    {
+      "componentId": "wa_blake_vacatur_and_lfo_refund-filing-instructions-11",
+      "role": "filing_instructions",
+      "requirement": "required",
+      "conditionDescription": null,
+      "outputStrategy": "process_guidance",
+      "officialFormId": null,
+      "officialSourceUrl": null,
+      "order": 11
+    }
+  ],
+  "sourceBindings": [
+    {
+      "sourceId": "official-form:Blake-001",
+      "revision": "2026-04",
+      "sha256": "a4d2098f63907b6f0fe1e2c400c0dd960a9d313c5968407d80c88d9ecae05b0f",
+      "formNumber": "BLAKE-001",
+      "path": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/WA/02_PACKET_FORMS/WA__FORM__BLAKE-001__blake-001-record-vacatur-form__REV-2026-04__EN.pdf",
+      "pathInRepository": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/WA/02_PACKET_FORMS/WA__FORM__BLAKE-001__blake-001-record-vacatur-form__REV-2026-04__EN.pdf",
+      "byteLength": 171772,
+      "pageCount": 4,
+      "sha256Exact": true
+    },
+    {
+      "sourceId": "official-form:Blake-002",
+      "formNumber": "BLAKE-002",
+      "revision": "2026-04",
+      "sha256": "f6495869b4fea94e396971aaaf40cc31c9ccab0e79d759cdaf1cc17ded3217cd",
+      "path": "private/source-imports/wa-blake-current-002-20260914/BLAKE-002-current.pdf",
+      "pathInRepository": "private/source-imports/wa-blake-current-002-20260914/BLAKE-002-current.pdf",
+      "byteLength": 157167,
+      "pageCount": 4,
+      "sha256Exact": true
+    },
+    {
+      "sourceId": "official-form:Blake-003",
+      "revision": "2025-12",
+      "sha256": "69c5ba8fadc6123328c3508f8edf38db840c9b0026c75d614a1d9d0b456260e8",
+      "formNumber": "BLAKE-003",
+      "path": "private/wa-blake-author-20260914/sources/STATES/WA/02_PACKET_FORMS/WA__FORM__BLAKE-003__blake-003-record-vacatur-form__REV-2025-12__EN.pdf",
+      "pathInRepository": "private/wa-blake-author-20260914/sources/STATES/WA/02_PACKET_FORMS/WA__FORM__BLAKE-003__blake-003-record-vacatur-form__REV-2025-12__EN.pdf",
+      "byteLength": 174435,
+      "pageCount": 2,
+      "sha256Exact": true
+    },
+    {
+      "sourceId": "official-form:Blake-004",
+      "revision": "2025-12",
+      "sha256": "4fc9b490f332e76fa59104d4bff1458f3bdab53f3f6e139cdf3b66ab1700d0c7",
+      "formNumber": "BLAKE-004",
+      "path": "private/wa-blake-author-20260914/sources/STATES/WA/02_PACKET_FORMS/WA__FORM__BLAKE-004__blake-004-record-vacatur-form__REV-2025-12__EN.pdf",
+      "pathInRepository": "private/wa-blake-author-20260914/sources/STATES/WA/02_PACKET_FORMS/WA__FORM__BLAKE-004__blake-004-record-vacatur-form__REV-2025-12__EN.pdf",
+      "byteLength": 128913,
+      "pageCount": 1,
+      "sha256Exact": true
+    },
+    {
+      "sourceId": "official-form:Blake-005",
+      "revision": "2025-05",
+      "sha256": "b266545459aeb0a0e074755fbf2100118903ab5c20425934d0cf5aba2ac3c635",
+      "formNumber": "BLAKE-005",
+      "path": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/WA/02_PACKET_FORMS/WA__FORM__BLAKE-005__blake-005-record-vacatur-form__REV-2025-05__EN.pdf",
+      "pathInRepository": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/WA/02_PACKET_FORMS/WA__FORM__BLAKE-005__blake-005-record-vacatur-form__REV-2025-05__EN.pdf",
+      "byteLength": 413907,
+      "pageCount": 5,
+      "sha256Exact": true
+    },
+    {
+      "sourceId": "official-form:Blake-006",
+      "revision": "2025-05",
+      "sha256": "85bfbe2da7687db133432b4382aac07156ef7b7b1c1574f65007b607cae74ade",
+      "formNumber": "BLAKE-006",
+      "path": "private/wa-blake-author-20260914/sources/STATES/WA/02_PACKET_FORMS/WA__FORM__BLAKE-006__blake-006-record-vacatur-form__REV-2025-05__EN.pdf",
+      "pathInRepository": "private/wa-blake-author-20260914/sources/STATES/WA/02_PACKET_FORMS/WA__FORM__BLAKE-006__blake-006-record-vacatur-form__REV-2025-05__EN.pdf",
+      "byteLength": 518645,
+      "pageCount": 6,
+      "sha256Exact": true
+    },
+    {
+      "sourceId": "official-form:Blake-007",
+      "revision": "2025-05",
+      "sha256": "6f6d867b882f74048f92c0a734525c597279af792f1468c2f55c6d3cb74de0bc",
+      "formNumber": "BLAKE-007",
+      "path": "private/wa-blake-author-20260914/sources/STATES/WA/02_PACKET_FORMS/WA__FORM__BLAKE-007__blake-007-record-vacatur-form__REV-2025-05__EN.pdf",
+      "pathInRepository": "private/wa-blake-author-20260914/sources/STATES/WA/02_PACKET_FORMS/WA__FORM__BLAKE-007__blake-007-record-vacatur-form__REV-2025-05__EN.pdf",
+      "byteLength": 414585,
+      "pageCount": 5,
+      "sha256Exact": true
+    },
+    {
+      "sourceId": "official-form:Blake-008",
+      "revision": "2025-05",
+      "sha256": "8c861a358be2cdfc38b43a567c030ae4a36b11add031d8cab6e35d7f3b402426",
+      "formNumber": "BLAKE-008",
+      "path": "private/wa-blake-author-20260914/sources/STATES/WA/02_PACKET_FORMS/WA__FORM__BLAKE-008__blake-008-record-vacatur-form__REV-2025-05__EN.pdf",
+      "pathInRepository": "private/wa-blake-author-20260914/sources/STATES/WA/02_PACKET_FORMS/WA__FORM__BLAKE-008__blake-008-record-vacatur-form__REV-2025-05__EN.pdf",
+      "byteLength": 445290,
+      "pageCount": 7,
+      "sha256Exact": true
+    }
+  ],
+  "routeSelections": [
+    {
+      "when": "The conviction was entered in superior court.",
+      "motion": "Blake-001"
+    },
+    {
+      "when": "The conviction was entered in district or municipal court.",
+      "motion": "Blake-002"
+    },
+    {
+      "when": "A hearing is requested or scheduled.",
+      "hearingNotice": "Blake-003"
+    },
+    {
+      "when": "The motion and any notice of hearing are served on the prosecutor.",
+      "proofOfService": "Blake-004"
+    },
+    {
+      "when": "Limited-jurisdiction case and every conviction under the cause number is Blake-void.",
+      "order": "Blake-005"
+    },
+    {
+      "when": "Limited-jurisdiction case and non-Blake counts remain.",
+      "order": "Blake-006"
+    },
+    {
+      "when": "Superior-court case and every conviction under the cause number is Blake-void.",
+      "order": "Blake-007"
+    },
+    {
+      "when": "Superior-court case and non-Blake counts remain.",
+      "order": "Blake-008"
+    }
+  ],
+  "exclusiveBuilder": "scripts/build-census-v1-wa-blake-current.mjs"
+}

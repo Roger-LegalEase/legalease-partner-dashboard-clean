@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "rcap-verifier-return/v1",
+  "lane": "VF62",
+  "laneKind": "independent-verification",
+  "worker": "VF62",
+  "reviewer": "/root/ar_independent_review",
+  "sessionIdentity": "/root/ar_independent_review",
+  "familyId": "ri_nonconviction_sealing-set",
+  "baseSha": "41742156e9aec88a097ed2e9ce173930845a2cfa",
+  "dispatchSha": "41742156e9aec88a097ed2e9ce173930845a2cfa",
+  "verifiedAtBase": "41742156e9aec88a097ed2e9ce173930845a2cfa",
+  "verdict": "PASS",
+  "scope": "Independent pre-raster reread after the family-only report repair. Current RI-DC-33 bytes, exact source custody, field roles, route guidance, and held-but-not-printed explanations were checked. Visual clipping/overlap remains unmeasured; this return does not admit terminal status.",
+  "rows": [
+    {
+      "itemId": "ri_nonconviction_sealing-set",
+      "familyId": "ri_nonconviction_sealing-set",
+      "lane": "VF62",
+      "verdict": "PASS",
+      "proofObligations": {
+        "ROUTE_IDENTITY": {"measured": true, "result": "PASS", "finding": "Both committed route keys are present consistently in the source receipt and family records: the automatic/administrative sealing verification branch and the fallback motion-to-seal branch."},
+        "SOURCE_IDENTITY": {"measured": true, "result": "PASS", "finding": "RI-DC-33 is bound to the exact held source SHA-256 342337451d61e363e03febb384431dba2f9bb08b44ee46380b94fc91901e9908, 307164 bytes, four pages and 77 AcroForm fields."},
+        "COMPONENT_SET": {"measured": true, "result": "PASS", "finding": "The current guide answers all four declared components: primary DC-33 filing, verification instructions, service/notice package and escalation instructions; the committed guide headings and rendered-artifacts manifest agree."},
+        "KNOWN_PREFILLS": {"measured": true, "result": "PASS", "finding": "The actual output writes only participant name, date of birth and case number where fit. The repaired report-only helper reconciles the seven historical contradictions into truthful categories: participant case facts, row-integrity withholding, and unfittable values. It preserves the raw finalizer diagnostic as history and does not change packet bytes. Boundary measurements independently record required widths 118.05pt versus 116pt for Case Number_2 and 215.01pt versus 206pt for the long charge at 6pt, so those held values remain blank with explicit participant instructions."},
+        "REQUIRED_BEFORE_FILING": {"measured": true, "result": "PASS", "finding": "The guide identifies the BCI number, counts, charges, dispositions, court division, notice/certification and applicable affidavit selections as participant work before filing; every held-but-not-printed value has a stated reason and hand-completion direction."},
+        "ROUTE_OPTIONS": {"measured": true, "result": "PASS", "finding": "The guide explicitly preserves the default verification branch and explains that the motion is fallback only when automatic or administrative sealing does not reach the record. Sealed/expunged elections are left to the participant/court as applicable."},
+        "REPEATING_ROWS": {"measured": true, "result": "PASS", "finding": "The DC-33 repeating count, charge and disposition rows remain intact. The repaired reconciliation correctly withholds a whole row when one required cell is unavailable, preventing partial row writes."},
+        "PROTECTED_FIELDS": {"measured": true, "result": "PASS", "finding": "Current actual-writes and field-map roles preserve court, clerk, notice, affidavit, signature and notary fields. The source-owned Group2 Off appearance is retained; no protected ink is introduced by the report-only repair."},
+        "ARTIFACTS": {"measured": true, "result": "PASS", "finding": "Current canonical.pdf is 1aa3581fc9297cc60ad555e6abad34d5c8f5c8028be255abf1ec4cfc96734c3b (280113 bytes) and boundary.pdf is 9853b49eeb385ac8719132831e5dc245c985249fb82e86ff72bf1671a15d7594 (279820 bytes), each four pages. The report repair states packetBytesChanged:false; the exact files were rehashed directly."},
+        "PAGE_ORDER": {"measured": true, "result": "PASS", "finding": "Both fixtures parse as four-page RI-DC-33 documents in the source order; no component or page mutation occurred."},
+        "CLIPPING_AND_OVERLAP": {"measured": false, "result": "NOT_MEASURABLE_HERE", "finding": "No local raster was created and no current central raster receipt binds these bytes."},
+        "FILING_DESTINATION": {"measured": true, "result": "PASS", "finding": "The guide directs the participant to the District Court division where the case was heard and names the clerk's office as the filing destination."},
+        "FEE_AND_WAIVER": {"measured": true, "result": "PASS", "finding": "The guide accurately says the held sources do not establish a filing fee or waiver and directs the participant to ask the relevant clerk; it does not invent a fee answer."},
+        "SERVICE": {"measured": true, "result": "PASS", "finding": "The guide carries the source-backed ten-day notice requirement to the Office of the Attorney General and charging police department, while stating that the service method is unresolved and must be confirmed with the clerk."},
+        "SELF_HELP_STOP": {"measured": true, "result": "PASS", "finding": "The six route self-help stop conditions are carried in the guide, including uncertainty over the applicable sealing route and issues requiring legal assistance."}
+      },
+      "nineCounters": {"knownRequiredFieldsMissing": null, "requiredFactsNotCollected": null, "unclassifiedBlanks": null, "incompleteRows": null, "requiredOptionsMissing": null, "requiredComponentsMissing": null, "invisibleWrites": null, "protectedWrites": null, "visualDefects": null, "allZero": false, "measuredHere": false, "counterNote": "Counters were not copied from builder output. The report helper's reconciliation was read, but no completeness rerun or raster measurement was performed here."},
+      "priorFindingDisposition": {"priorFailure": "Earlier VF62 review found KNOWN_PREFILLS contradictions between refusal categories and actual held-but-not-printed values.", "currentDisposition": "Resolved as a report-only defect: the family-only helper reconciles all seven contradictions, records truthful refusal categories and fit measurements, preserves raw diagnostics as history, and confirms packetBytesChanged:false."},
+      "repairVerification": {"reportRepair": "data/rcap-grade-a/packet-factory-24h/checkpoint-232-to-250/ri-nonconviction-report-repair.log", "tests": "data/rcap-grade-a/packet-factory-24h/checkpoint-232-to-250/ri-nonconviction-tests.log", "packetBytesChanged": false, "canonicalSha256": "1aa3581fc9297cc60ad555e6abad34d5c8f5c8028be255abf1ec4cfc96734c3b", "boundarySha256": "9853b49eeb385ac8719132831e5dc245c985249fb82e86ff72bf1671a15d7594", "sourceSha256": "342337451d61e363e03febb384431dba2f9bb08b44ee46380b94fc91901e9908", "widthChecks": {"longChargeRequiredPt": 215.01, "longChargeUsablePt": 206, "caseNumber2RequiredPt": 118.05, "caseNumber2UsablePt": 116, "minimumFontSize": 6}},
+      "remainingRequirements": ["Fresh central raster acceptance bound to both current PDF hashes.", "Independent visual measurement of clipping and overlap from original raster evidence.", "Direct measurement of invisible/protected/visual counters before terminal family admission."],
+      "evidenceRead": ["data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill/source-receipt.json", "data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill/production-field-map.json", "data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill/reports/actual-writes.json", "data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill/reports/rendered-artifacts.json", "data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill/participant-instructions.md", "data/rcap-grade-a/packet-factory-24h/checkpoint-232-to-250/ri-nonconviction-report-repair.log", "data/rcap-grade-a/packet-factory-24h/checkpoint-232-to-250/ri-nonconviction-tests.log"],
+      "sharedWrites": {"queue": false, "manifests": false, "familyArtifacts": false, "commits": false, "dispatch": false}
+    }
+  ]
+}

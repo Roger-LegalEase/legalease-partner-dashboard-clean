@@ -1,0 +1,102 @@
+{
+  "schemaVersion": "rcap-candidate-freeze-checklist/v1",
+  "generatedBy": "scripts/verify-rcap-candidate-freeze-readiness.mjs",
+  "status": "NOT_READY",
+  "frozen": false,
+  "candidateSha": null,
+  "candidateShaNote": "Deliberately null. Naming a candidate before the gates close would pin a commit that will need superseding, and every artifact keyed to it would then describe a candidate nobody is shipping.",
+  "evaluatedAt": {
+    "captainHead": "4d58b3629ba48ef4f884975ee72b55c9dee6b64a"
+  },
+  "gates": [
+    {
+      "gate": "legal:blocker-4-answers",
+      "owner": "Lawrence (counsel)",
+      "open": false,
+      "state": "all 4 questions answered 2026-08-29; 8 record(s) dispositioned",
+      "why": "A frozen candidate carrying eight records whose provenance nobody has dispositioned is a candidate that cannot be described honestly. The eight are Illinois 1, Kentucky 2, West Virginia 5.",
+      "closeable": "by an answer, not by the captain"
+    },
+    {
+      "gate": "legal:oregon-subsection",
+      "owner": "Lawrence (counsel)",
+      "open": false,
+      "state": "answered 2026-08-29: ORS 137.225(1)(c).",
+      "why": "The subsection decides which routes may exist at all. Freezing before it pins a candidate whose route identity is in question.",
+      "closeable": "by an answer, not by the captain"
+    },
+    {
+      "gate": "legal:oregon-packet-scope",
+      "owner": "Lawrence (counsel)",
+      "open": false,
+      "state": "answered 2026-08-29: SEPARATE PACKET SETS ARE REQUIRED.",
+      "why": "The scope decides how many routes and configurations exist. Freezing before it pins a candidate whose route set is in question.",
+      "closeable": "by an answer, not by the captain"
+    },
+    {
+      "gate": "oregon:artifacts",
+      "owner": "captain",
+      "open": true,
+      "state": "no rendered artifact for: NEVER CHARGED, ACQUITTAL, ORDINARY DISMISSAL",
+      "why": "The legal-design answers settled which routes exist. They did not produce the PDFs those routes deliver, and a candidate is frozen around artifacts, not around intentions.",
+      "closeable": "by rendering and verifying the Option 2 and Option 3 artifacts"
+    },
+    {
+      "gate": "oregon:output-approval",
+      "owner": "Lawrence (counsel)",
+      "open": true,
+      "state": "not requested; the prior package is superseded and the route-specific packages need final artifacts first",
+      "why": "Output-level approval is of an exact artifact for an exact route. The legal-design answers are not that approval and were expressly recorded as not being it.",
+      "closeable": "by an approval, after the artifacts exist"
+    },
+    {
+      "gate": "chain:terminalization",
+      "owner": "follows the Blocker-4 answers",
+      "open": false,
+      "state": "verify-rcap-terminalize-c1 reports 0 drift failure(s)",
+      "why": "Red by design while the eight are held. It is listed as a gate so nobody reads a red chain as an accident, and so the count is checked rather than assumed: 8 is correct, 18 means the ten mechanical repins were lost, 0 means eight records were re-pinned without an answer.",
+      "closeable": "by the Blocker-4 answers, then the prepared bundles"
+    },
+    {
+      "gate": "publication:branch-literal",
+      "owner": "captain",
+      "open": false,
+      "state": "The workflow would accept this candidate.",
+      "why": "The publish workflow refuses any SHA not contained in main or in the branch it pins by literal name. A candidate the workflow would refuse is not a candidate.",
+      "closeable": "by a captain-owned workflow edit, made before dispatch"
+    },
+    {
+      "gate": "commercial:eligibility-zero",
+      "owner": "captain",
+      "open": false,
+      "state": "commerciallyEligible 0, COMPLETE_PACKET_PROVEN 0",
+      "why": "A freeze is a statement about what the candidate contains. It must contain no open route.",
+      "closeable": "already closed; this gate exists to stay closed"
+    },
+    {
+      "gate": "chain:worktree-clean",
+      "owner": "captain",
+      "open": true,
+      "state": "dirty",
+      "why": "A candidate SHA names a commit. Uncommitted work is not in it.",
+      "closeable": "by committing"
+    }
+  ],
+  "openGates": 3,
+  "openGatesOwnedByCounsel": 1,
+  "openGatesOwnedByCaptain": 2,
+  "freezeProcedureWhenTheGatesClose": [
+    "Record every legal answer in its controlling registry first. The decision is the authority; the freeze records a state that already holds.",
+    "Apply only the prepared bundles whose question and answer match what was recorded, then re-run verify-rcap-terminalize-c1 and confirm the failure count fell by exactly the records those bundles name.",
+    "Correct RELEASE_INTEGRATION_BRANCH in the publish workflow, or land the candidate on a branch the workflow already accepts. Not both, and not at dispatch time.",
+    "Run the full chain on the exact candidate commit with no worker mutation harness running.",
+    "Only then write the candidate SHA here, and only as a full 40 characters: the workflow refuses an abbreviated SHA before it fetches anything, because two commits could share an alias.",
+    "Publication is a separate authorization after the freeze, not part of it."
+  ],
+  "whatAFreezeDoesNotAuthorize": [
+    "Publication of the worker image.",
+    "Any Preview deployment.",
+    "Any Production action.",
+    "Any change of commercial status."
+  ]
+}

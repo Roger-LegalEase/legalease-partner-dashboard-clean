@@ -1,0 +1,40 @@
+{
+  "schemaVersion": "rcap-local-product-preparation/v1",
+  "scope": "LOCAL_EPHEMERAL_POSTGRESQL_ONLY",
+  "result": "PASS",
+  "checksPassed": 120,
+  "checksTotal": 120,
+  "inputHead": "c54071b7086abffd9ad68f328fdabbdaf673b7c2",
+  "measuredInputCount": 1406,
+  "measuredInputDrift": [],
+  "fullResultAndInputHashes": {
+    "path": "private/transfers/local-postgres-toolchain/data-rights-attempt2-result.json",
+    "sha256": "261ecac3f59f511d3bbb01df9ee444df0ace92fda64498dff29d4393b2f99ce9"
+  },
+  "log": {
+    "path": "private/transfers/local-postgres-toolchain/data-rights-attempt2.log",
+    "sha256": "fa55f53fec22b5a2fa7b7528dadb6d0643a5fd2e562e27eae5f82ef745837843"
+  },
+  "testOnlyChanges": [
+    {
+      "path": "scripts/lib/participant-privacy-test-doubles.mjs",
+      "sha256": "fdc474e84884ef6f5c2433911f088c66566cb63298184f1539c75c6cc2bb5e50"
+    },
+    {
+      "path": "scripts/verify-participant-data-rights.mjs",
+      "sha256": "c6fa8b4151c928a4cf1d0de431b39210ab1001c3b252dc0994b90e9090e640f8"
+    }
+  ],
+  "cleanupFailureControl": {
+    "injectedFailureObserved": true,
+    "ownedClusterRemoved": true,
+    "log": "private/transfers/local-postgres-toolchain/cleanup-failure-control.log",
+    "logSha256": "dd431d0943dc85d8e6f9f21d225c9b08266af1277bec5ebb271bf92a40132eec"
+  },
+  "applicationAuthOrRlsChanged": false,
+  "systemServiceStarted": false,
+  "networkDatabaseUsed": false,
+  "hostedAcceptance": false,
+  "frozenCandidateAcceptance": false,
+  "productionTouched": false
+}

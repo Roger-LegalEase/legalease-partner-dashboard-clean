@@ -14,6 +14,8 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import { isDeepStrictEqual } from 'node:util';
+import { createWorkerInputPlan } from './rcap-hosted-acceptance-worker-input-plan.mjs';
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const wfPath = '.github/workflows/publish-rcap-render-worker.yml';
@@ -62,9 +64,19 @@ check('the canonical integration history is main',
 // deadlock: the required PR check runs the staging-action gate, which refuses
 // to pass until a worker exists for the current image inputs. The widening is
 // held to one exact branch name so it cannot become "any branch".
+// The expected name is pinned here as well as in the workflow, so the two must
+// be changed together and a silent widening in one is caught by the other. The
+// sprint's release integration moved to the captain branch on 2026-08-29 and the
+// old name, sprint/20260825-full-product-captain, is retired: a candidate on the
+// live branch would have been refused before anything was fetched.
+const EXPECTED_RELEASE_INTEGRATION_BRANCH = 'claude/legalease-sprint-captain-utucnw';
 check('the release-integration branch is pinned to one exact name',
-  /^\s{2}RELEASE_INTEGRATION_BRANCH:\s*claude\/rcap-48h-launch-integration\s*$/m.test(src),
-  'the release-integration branch is absent or is not the exact expected branch');
+  new RegExp(`^\\s{2}RELEASE_INTEGRATION_BRANCH:\\s*${EXPECTED_RELEASE_INTEGRATION_BRANCH.replace(/[/\\-]/g, '\\$&')}\\s*$`, 'm').test(src),
+  `the release-integration branch is absent or is not ${EXPECTED_RELEASE_INTEGRATION_BRANCH}`);
+
+check('the retired integration branch is gone from the publish workflow',
+  !/sprint\/20260825-full-product-captain/.test(src),
+  'the retired sprint/20260825-full-product-captain pin is still present');
 
 check('no wildcard or pattern is accepted as a containment branch',
   !/RELEASE_INTEGRATION_BRANCH:\s*.*[*?\[\]]/.test(src)
@@ -166,8 +178,25 @@ for (const [title, pattern] of [
 // in package.json because package.json is itself an image input: the commit
 // that introduced this gate was forbidden from touching any image-input path,
 // and wiring here keeps both non-skippable without doing so.
+// Release candidates use the canonical COPY-aware plan, independently of the
+// older staging-action freeze. Keep the legacy validation as the default and
+// retain its mutation proof in both modes; neither path changes runtime pins.
+const planIndex = process.argv.indexOf('--worker-input-plan');
+if (planIndex >= 0) {
+  try {
+    const plan = JSON.parse(fs.readFileSync(process.argv[planIndex + 1], 'utf8'));
+    const head = spawnSync('git', ['rev-parse', 'HEAD'], { cwd: rootDir, encoding: 'utf8' });
+    if (head.status !== 0 || plan.candidateSha !== head.stdout.trim()) throw new Error('plan does not name exact HEAD');
+    const current = createWorkerInputPlan({ rootDir, acceptedSourceSha: plan.acceptedSourceSha,
+      acceptedDigest: plan.acceptedDigest, candidateSha: plan.candidateSha });
+    if (!isDeepStrictEqual(plan, current)) throw new Error('plan differs from canonical current COPY inputs');
+    check('exact-source canonical worker input plan is current', true, '');
+  } catch (error) {
+    failures.push(`current worker input plan refused: ${error.message}`);
+  }
+}
 for (const script of [
-  'scripts/verify-rcap-image-input-fingerprint.mjs',
+  ...(planIndex >= 0 ? ['scripts/rcap-worker-input-copy.test.mjs'] : ['scripts/verify-rcap-image-input-fingerprint.mjs']),
   'scripts/test-rcap-image-fingerprint-mutations.mjs',
 ]) {
   const run = spawnSync(process.execPath, [path.join(rootDir, script)], {

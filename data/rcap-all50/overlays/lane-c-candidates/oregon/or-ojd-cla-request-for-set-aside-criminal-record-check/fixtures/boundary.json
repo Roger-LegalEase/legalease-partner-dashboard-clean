@@ -1,0 +1,136 @@
+{
+  "schemaVersion": "rcap-boundary-fixture/v4",
+  "applied": true,
+  "intent": "longest plausible participant values, so shrink-to-fit and the 6pt readable floor are exercised rather than asserted",
+  "facts": {
+    "participant.full_legal_name": "Maximiliana Konstantina Vasquez-Featherstonehaugh",
+    "participant.date_of_birth": "1968-12-31",
+    "participant.phone": "1-413-555-0199 ext. 44021"
+  },
+  "written": [
+    {
+      "field": "NAME",
+      "factId": "participant.full_legal_name",
+      "kind": "text",
+      "fontSize": 11,
+      "outcome": "fit",
+      "lines": 1
+    },
+    {
+      "field": "DATE OF BIRTH",
+      "factId": "participant.date_of_birth",
+      "kind": "text",
+      "fontSize": 11,
+      "outcome": "fit",
+      "lines": 1
+    },
+    {
+      "field": "PHONE NUMBER",
+      "factId": "participant.phone",
+      "kind": "text",
+      "fontSize": 8.5,
+      "outcome": "shrunk",
+      "lines": 1
+    }
+  ],
+  "refused": [
+    {
+      "field": "AREA CODE",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Street, City, State, Zip code",
+      "reason": "explicit_mapping_conflicts_with_field_name",
+      "category": "mapping_conflict"
+    },
+    {
+      "field": "ALIAS NAME1",
+      "reason": "explicit_mapping_conflicts_with_field_name",
+      "category": "mapping_conflict"
+    },
+    {
+      "field": "ALIAS NAME2",
+      "reason": "explicit_mapping_conflicts_with_field_name",
+      "category": "mapping_conflict"
+    },
+    {
+      "field": "ALIAS NAME3",
+      "reason": "explicit_mapping_conflicts_with_field_name",
+      "category": "mapping_conflict"
+    },
+    {
+      "field": "1",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "6",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "7",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "3",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "8",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "4",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "9",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "5",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "10",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "YES",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "NO",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Fingerprint Card Form",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Fee for set aside of CONVICTION Include check or money order in the amount of 3300 payable",
+      "reason": "protected_category",
+      "category": "money"
+    }
+  ],
+  "unfittable": [],
+  "artifact": "fixtures/boundary-filled.pdf",
+  "reasonNotApplied": null
+}

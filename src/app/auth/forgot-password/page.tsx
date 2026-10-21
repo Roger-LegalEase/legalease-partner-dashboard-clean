@@ -10,6 +10,10 @@ import { Card } from "@/components/ui/Card";
 import { authCaptchaFailureMessage, captchaOptions, isAuthCaptchaRequired } from "@/lib/auth/captcha";
 import { createBrowserSupabaseClient } from "@/lib/supabase/browser";
 import { passwordResetRedirectUrl } from "@/lib/app-url";
+import {
+  consumerAuthContinuationFrom,
+  consumerAuthContinuationQuery
+} from "@/lib/expungement-ai/auth-continuation";
 
 const successMessage = "If an account exists for that email, we sent password reset instructions.";
 const invalidEmailMessage = "Enter a valid email address.";
@@ -114,9 +118,11 @@ export default function ForgotPasswordPage() {
 
 function passwordResetRedirectTo() {
   const params = typeof window !== "undefined" ? new URLSearchParams(window.location.search) : new URLSearchParams();
+  const continuation = consumerAuthContinuationFrom(params);
   return passwordResetRedirectUrl({
     product: params.get("product"),
-    hostname: typeof window !== "undefined" ? window.location.hostname : null
+    hostname: typeof window !== "undefined" ? window.location.hostname : null,
+    continuationQuery: consumerAuthContinuationQuery(continuation)
   });
 }
 

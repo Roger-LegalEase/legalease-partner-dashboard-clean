@@ -1,0 +1,58 @@
+{
+  "schemaVersion": "rcap-composed-packet-set/v1",
+  "familyId": "fl-trafficking-set",
+  "jurisdiction": "FL",
+  "routeKey": "obligation:track-pathway:FL:fl-trafficking:human-trafficking-victim-expunction-943-0583",
+  "implementationStrategy": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+  "sourceBinariesRequired": 0,
+  "sourceAcquisitionAuthorized": false,
+  "components": [
+    {
+      "componentId": "FL-RULE-3.989-PETITION",
+      "title": "Petition to Expunge; Human Trafficking Victim",
+      "codifiedSubdivision": "Fla. R. Crim. P. 3.9895(a)",
+      "role": "primary_filing",
+      "outputStrategy": "official_pdf_fill",
+      "order": 1,
+      "required": true
+    },
+    {
+      "componentId": "FL-RULE-3.9895-SWORN-STATEMENT",
+      "title": "Sworn Statement in Support of Petition; Human Trafficking Victim",
+      "codifiedSubdivision": "Fla. R. Crim. P. 3.9895(b)",
+      "role": "affidavit",
+      "outputStrategy": "official_pdf_fill",
+      "order": 2,
+      "required": true
+    },
+    {
+      "componentId": "FL-RULE-3.989-ORDER",
+      "title": "Order to Expunge; Human Trafficking Victim",
+      "codifiedSubdivision": "Fla. R. Crim. P. 3.9895(c)",
+      "role": "proposed_order",
+      "outputStrategy": "official_pdf_fill",
+      "order": 3,
+      "required": true
+    },
+    {
+      "componentId": "fl-trafficking-certificate-of-service-4",
+      "title": "Certificate of Service",
+      "codifiedSubdivision": null,
+      "role": "certificate_of_service",
+      "outputStrategy": "custom_pleading",
+      "order": 4,
+      "required": true
+    },
+    {
+      "componentId": "fl-trafficking-instructions-5",
+      "title": "Florida Human-Trafficking-Victim Expunction Instructions",
+      "codifiedSubdivision": null,
+      "role": "instructions",
+      "outputStrategy": "process_guidance",
+      "order": 5,
+      "required": true
+    }
+  ],
+  "participantInstructions": "data/rcap-all50/overlays/census-v1/fl/fl-trafficking-set--custom-pleading/participant-instructions.md",
+  "filingInstructions": "data/rcap-all50/overlays/census-v1/fl/fl-trafficking-set--custom-pleading/filing-instructions.md"
+}

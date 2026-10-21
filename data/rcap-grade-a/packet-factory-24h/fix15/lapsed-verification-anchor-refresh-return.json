@@ -1,0 +1,1676 @@
+{
+  "schemaVersion": "rcap-packet-factory-lane-return/v1",
+  "workerId": "FIX15",
+  "laneKind": "repair",
+  "assignmentId": "FIX15-lapsed-verification-anchor-refresh",
+  "assignedBase": "cb28b5d1f0c6fc1d7f600c3a45df271edc70fb42",
+  "measuredAtBase": "cb28b5d1f0c6fc1d7f600c3a45df271edc70fb42",
+  "branch": "fix15-lapsed-verifications",
+  "commitWritten": "69bc7cd25",
+  "familiesAssigned": 18,
+  "familiesRepaired": 17,
+  "familiesStopped": 1,
+  "grantsAsserted": 18,
+  "grantsFailed": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "overlayDirectoriesModified": [],
+  "packetsModified": [],
+  "participantFacingBytesModified": 0,
+  "filesWritten": [
+    "17 × <family directory>/source-receipt.json",
+    "data/rcap-grade-a/packet-factory-24h/fix15/lapsed-verification-anchor-refresh-return.json"
+  ],
+  "environmentDefectFoundAndCorrected": {
+    "what": "git worktree add inherited core.sparseCheckout with a cone of /* !/data/* /data/rcap-grade-a/ and further exclusions.",
+    "effect": "4,583 of 15,721 tracked files were on disk. data/rcap-all50 — which holds every census-v1 overlay directory in this dispatch, and therefore every source-receipt.json this lane exists to repair — was ABSENT while tracked in HEAD.",
+    "ifUncorrected": "Every one of the eighteen receipts would have measured as RECEIPT_ABSENT and this lane would have reported a universal negative over files present in HEAD. This is the fifth lane the same cone has caught.",
+    "correction": "core.sparseCheckout disabled outright (not re-coned). Verified tracked-file count 15,721 equals on-disk count 15,721 before any measurement was taken. The PDF corpus was checked out too; nothing in this cohort needed it, but excluding it was not worth a second chance to measure a false absence."
+  },
+  "correctionToTheDispatchCensus": {
+    "dispatchClaimed": "Fifteen lapsed on route-obligation-candidate.json; three on src/lib/legal-authority/routes/single-routes.json.",
+    "thisLaneMeasured": {
+      "receiptsScanned": 18,
+      "pinsFoundByShape": 53,
+      "pinsResolvingToAFileInThisCheckout": 53,
+      "pinsMissingOnDisk": 0,
+      "stalePinsBeforeRepair": 21,
+      "staleByRecord": {
+        "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": 18,
+        "src/lib/legal-authority/routes/single-routes.json": 3
+      }
+    },
+    "theCorrection": "It is not fifteen and three, it is eighteen and three — twenty-one stale pins over eighteen receipts. ALL eighteen carry a stale census pin. The three that lapsed on single-routes.json (two Delaware juvenile branches and Wyoming human-trafficking vacatur) carry a stale census pin AS WELL, because they pin both records.",
+    "whyTheDispatchSawItDifferently": "MASTER_QUEUE.json's verificationLapsedBecause records ONE path per family — generate.mjs's sourceDrift() breaks out of its loop at the first drifted record it finds. The queue row is a first-failure report, not a census of a family's stale pins.",
+    "whyItMatters": "A repair driven off verificationLapsedBecause alone would have refreshed only the single-routes pin on those three families and left their census pin stale. sourceDrift() would have found it on the very next run and all three would have lapsed again immediately, with an identityRefresh block on the receipt asserting the family had been repaired. Reading the queue's lapse field as the work list is how this class produces a repair that looks done and is not.",
+    "pathKeysThisLaneWalked": {
+      "pathInRepository": 53
+    },
+    "containerNamesSeen": {
+      "committedRecords": 53
+    },
+    "walkerNote": "This cohort's receipts are homogeneous — every pin sits in committedRecords under pathInRepository — but the walker keyed on SHAPE (any object carrying a path-like string key and a 64-hex sha256) rather than on that name, so the uniformity is a measured result and not an assumption. FIX13 measured nine path keys over nineteen container names across the whole factory; a named-key walker that happened to work here would fail on the next cohort."
+  },
+  "theRepairApplied": {
+    "operation": "anchor-verified identity refresh",
+    "records": [
+      {
+        "record": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+        "previousPin": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
+        "previousByteLength": 2607149,
+        "previousPinLastSeenAtCommit": "ecd2bde7980de4c5c33c4db956acec6a37102588",
+        "previousPinRecomputedExactlyFromThatBlob": true,
+        "currentPin": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
+        "currentByteLength": 2625273,
+        "driftedBy": "2d01b84f7a57d9bfb2717297783b1951940e506c",
+        "whatThatCommitDidToTheRecord": "708 route rows before and 708 after. Five rows were re-keyed from obligation:track-only:<J>:<track> to obligation:track-pathway:<J>:<track>:<pathway> and given runtimePathwayId and routeContractId (AZ az_wrongful_arrest_clearance, CA ca-1203-4a, CT ct-cannabis-petition, KY ky_void_seal_marijuana_synthetic_salvia, NV nv_repository_removal). Thirteen further rows changed in place (DC ×2, CT ×1, IL ×2, MS ×3, NE ×1, NV ×1, OR ×1, VA ×1, WY wy_fel_1502). Not one of those thirteen is an anchor of any family in this dispatch.",
+        "receiptsRefreshed": 17,
+        "anchorsCompared": 25,
+        "anchorsIdentical": 25
+      },
+      {
+        "record": "src/lib/legal-authority/routes/single-routes.json",
+        "previousPin": "6322c66143f51678de8dc00601517b3115b9575e442799fd2d7be1509f541588",
+        "previousByteLength": 67533,
+        "previousPinLastSeenAtCommit": "38a83db1b67314b449417dab45641d84df07b582",
+        "previousPinRecomputedExactlyFromThatBlob": true,
+        "currentPin": "6ca51b6dbc3a9383636b4b1cbdd19630db401d40c03760b8c91d8ae0357962f8",
+        "currentByteLength": 100125,
+        "driftedBy": "78e79be413c76d31a1bdd52039fb45c2134753b6",
+        "whatThatCommitDidToTheRecord": "27 route contracts before, 32 after. Five appended (AZ, CA, CT, KY, NV — the same five jurisdictions), zero removed, zero existing entries altered in any field. The DE and WY contracts this cohort binds are byte-identical across the drift.",
+        "receiptsRefreshed": 3,
+        "anchorsCompared": 3,
+        "anchorsIdentical": 3
+      }
+    ],
+    "totalPinsRefreshed": 20,
+    "totalAnchorsCompared": 28,
+    "totalAnchorsIdentical": 28,
+    "vacuousComparisonGuard": "The applier throws VACUOUS_ANCHOR_SET when an extractor resolves zero anchors in either blob, and throws ANCHOR_MOVED rather than writing a refresh when compared !== identical. Anchors were resolved by EXACT routeKey equality against a Map, never by substring: the two-letter-jurisdiction substring trap that produced the wrong rows on a previous attempt cannot fire here. Every anchor found was independently confirmed jurisdiction-correct (DE row is DE, WY row is WY, and so on) and the whole-file diff of both records was computed separately and agrees with the per-family result.",
+    "wholeFileDiffCorroboration": "The per-family anchor verdicts were checked against a diff of the entire record computed independently of the extractor. The set of rows that moved is exactly {five re-keyed, thirteen changed in place} for the census and {five added} for single-routes, and the only intersection with this cohort's anchors is Arizona. A silent extractor failure would have had to reproduce that intersection by accident."
+  },
+  "theOneRefusal": {
+    "familyId": "az_wrongful_arrest_clearance-set",
+    "verdict": "ANCHOR_MOVED — refused under rule 4",
+    "short": "Arizona's anchor row did not survive the drift. The receipt binds obligation:track-only:AZ:az_wrongful_arrest_clearance; that key was removed by the same commit and re-created as obligation:track-pathway:AZ:az_wrongful_arrest_clearance:notation-of-clearance-after-a-wrongful-arrest-under-13-4051, with a rewritten participantFacingInstrument, requiredSourceIds, commercial state, legal-decision ids and implementation evidence.",
+    "theIrony": "Arizona is one of the five families the drifting commit was FOR. The commit that broke eighteen verifications on other jurisdictions' bytes broke Arizona's on its own — and Arizona is the only one of the eighteen whose bound content genuinely changed.",
+    "notARename": "The new row is not the old row under a new name. participantFacingInstrument went from the internal component id \"primary_filing: az_wrongful_arrest_clearance-primary-filing-1\" to the named instrument \"Arizona Petition for Notation of Clearance under § 13-4051\", and requiredSourceIds went from one statute URL to four entries naming the compiled AZ profile, LEGAL-DESIGN-2026-07-30-AZ-01 and the new route contract.",
+    "aComplicationTheOwnerShouldSee": "The packet's queue row already carries the NEW route key and the instrument name the census only just adopted, while the receipt still carries the old key and the packet's composed components are still named az_wrongful_arrest_clearance-primary-filing-1. The packet may well be right and the census may simply have caught up to it — but that is a legal-design determination, and recording it as \"anchors identical\" would be a false statement in the one place the guard exists to protect.",
+    "whatIsOwed": "Re-derivation under the new route key, not a re-pin: re-read the anchors, re-state the receipt's routeKeys, confirm the composed components still answer the route as the census now describes it.",
+    "whatWasNotDone": "Nothing was written for this family. Its receipt is untouched, its pin is still stale, and its verification is still lapsed."
+  },
+  "packetBytesHeld": {
+    "claim": "No participant-facing byte moved.",
+    "method": "Every file in all eighteen family directories was hashed before and after this lane's edit, not just the two fixtures. 248 non-receipt files, including all 68 fixture PDFs across the eighteen (three families carry per-route fixtures under fixtures/routes/ in addition to canonical.pdf and boundary.pdf).",
+    "nonReceiptFilesCompared": 248,
+    "nonReceiptFilesChanged": 0,
+    "fixturePdfsCompared": 68,
+    "fixturePdfsChanged": 0,
+    "canonicalAndBoundaryUnchangedOnAllEighteen": true,
+    "soTheStandingRasterReceiptsStand": true,
+    "theOnlyFileKindWritten": "source-receipt.json, which is not delivered."
+  },
+  "completenessRuns": {
+    "auditableByALiveRunAtThisBase": 18,
+    "notAuditableAtThisBase": 0,
+    "note": "All eighteen were run individually with verify-packet-completeness.mjs --family <id>, before and after. No stored matrix row is quoted anywhere in this return as if it were a run. Every family returned PASS_COMPLETE with all nine counters zero on both passes — including az_wrongful_arrest_clearance-set, which this lane did not repair. Completeness was never what these families lost.",
+    "before": {
+      "PASS_COMPLETE": 18,
+      "allNineCountersZero": 18
+    },
+    "after": {
+      "PASS_COMPLETE": 18,
+      "allNineCountersZero": 18
+    }
+  },
+  "generateMjsAcceptance": {
+    "checked": "onlyChangeIsAnIdentityRefresh() from scripts/grade-a-packet-factory-24h/generate.mjs was reproduced exactly against each family's own selectedIndependentVerdict.verifiedAtBase.",
+    "result": "17 of 17 refreshed families are accepted as an identity refresh rather than read as a moved family. az_wrongful_arrest_clearance-set resolves zero refreshedPaths, which is correct: this lane wrote nothing to it.",
+    "alsoChecked": "For every refreshed family, git diff base..HEAD over the family directory excluding source-receipt.json and the generated bookkeeping files is empty, which is the other half of that function's test."
+  },
+  "whatThisReturnDoesNotEstablish": [
+    "that any of the seventeen is approved for participant delivery, or that any commercial route was opened — commercialRoutesOpened is 0 and a pin refresh grants nothing",
+    "that the Arizona packet is wrong — only that its grounding row was re-keyed and rewritten under it, and that a pin refresh must not proceed until someone reads that",
+    "that the seventeen packets are legally correct — this lane re-verified record IDENTITY, not the substance the packets compose from",
+    "that this class will not re-fire; the next regeneration of either record will lapse all seventeen again, and the durable fix below is not built"
+  ],
+  "grants": {
+    "asserted": 18,
+    "allSucceeded": true,
+    "transferredByThisLane": 0,
+    "note": "All eighteen --assert FIX15 <familyId> returned CLAIM_OK against grant set b9705d22750ea43d. No grant was transferred onto this lane and none needed to be.",
+    "released": 18,
+    "releaseReasons": {
+      "seventeenRepaired": "COMPLETED: anchor-verified identity refresh written; anchors compared object-for-object and identical",
+      "azWrongfulArrestClearance": "STOPPED: anchor moved, refused under rule 4; needs re-derivation and a legal-design read, not a pin refresh"
+    },
+    "toolNote": "claim.mjs --release parses --reason off the argv and then discards it: release() takes no reason parameter and ledger.releases carries no reason field, unlike reissue, transfer and grant. The reasons are recorded here instead. Worth a small fix — a release is the only one of the four grant transitions whose stated cause is silently dropped.",
+    "liveGrantsForThisLaneAfterRelease": 0,
+    "releasesRecordedInLedger": 18,
+    "aNoteOnThisLaneName": "The ledger already held one FIX15 release — rcap-ks-custom-pleading at 2026-09-03T02:22:25.781Z, from an earlier assignment against the Kansas municipal right-edge clipping. The lane name has been reused. Nothing is ambiguous, because it is the same grant ROW moving (FIX03 -> FIX15 -> ... -> FIX05 -> FIX15) rather than a second grant. But transfer()'s independence guard looks for a prior write by the destination lane in ledger.claims, and a grant row that merely moved leaves no such trace, so a lane name that has repaired a family before can be handed it again without the guard noticing. Here it is harmless: the earlier FIX15 work was a visual clipping repair and this one touches only source-receipt.json. Flagged because that function's own comment says real independence is a question about workers, and this is one way the lane-level proxy under-reports."
+  },
+  "rows": [
+    {
+      "itemId": "az_wrongful_arrest_clearance-set",
+      "status": "STOPPED",
+      "laneKind": "repair",
+      "repairedByThisLane": false,
+      "jurisdiction": "AZ",
+      "receipt": "data/rcap-all50/overlays/census-v1/az/az-wrongful-arrest-clearance-set--custom-pleading/source-receipt.json",
+      "obligationsRepaired": [],
+      "failedObligationNamesInQueue": [],
+      "failedObligationNamesNote": "This family's failedObligationNames is empty. It did not fail an obligation; it lost SOURCE_IDENTITY as verified when a shared record drifted, and it is stopped here for a substantive reason, not an unfinished repair.",
+      "whyStopped": "ANCHOR_MOVED — refusing the refresh under rule 4.",
+      "lapse": {
+        "lapse": "BOUND_SOURCE_DRIFTED",
+        "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+        "pinned": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
+        "now": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
+        "meaning": "The receipt pins this record by SHA-256 and the bytes on disk no longer match it, so SOURCE_IDENTITY as verified no longer holds. Usually a re-pin; a rebuild when an anchor the packet names has left the source."
+      },
+      "historyCheckedOut": {
+        "record": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+        "previousPin": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
+        "recoveredFromCommit": "ecd2bde7980de4c5c33c4db956acec6a37102588",
+        "recomputedExactly": true,
+        "recomputedSha256": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
+        "recomputedByteLength": 2607149
+      },
+      "anchorsCompared": 1,
+      "anchorsIdentical": 0,
+      "anchorFinding": {
+        "anchorKeyTheReceiptBinds": "obligation:track-only:AZ:az_wrongful_arrest_clearance",
+        "receiptRoleForThisRecord": "the committed route-obligation census: the exact route keys this family serves, their statutory authority and their recorded destinations",
+        "stateAcrossTheDrift": "REMOVED",
+        "replacedBy": "obligation:track-pathway:AZ:az_wrongful_arrest_clearance:notation-of-clearance-after-a-wrongful-arrest-under-13-4051",
+        "movedBy": "2d01b84f7a57d9bfb2717297783b1951940e506c",
+        "whatChangedBesidesTheKey": [
+          "runtimePathwayId: null -> \"notation-of-clearance-after-a-wrongful-arrest-under-13-4051\"",
+          "routeContractId: null -> \"AZ:notation-of-clearance-after-a-wrongful-arrest-under-13-4051\"",
+          "participantFacingInstrument: \"primary_filing: az_wrongful_arrest_clearance-primary-filing-1\" -> \"Arizona Petition for Notation of Clearance under § 13-4051\"",
+          "requiredSourceIds: 1 entry -> 4 entries, now naming the compiled AZ profile, LEGAL-DESIGN-2026-07-30-AZ-01 and the new route contract",
+          "currentServiceDisposition: \"missing_from_compiled_runtime\" -> \"not_recorded_in_sellable_closure\"",
+          "currentCommercialState: \"NO_ROUTE_LEVEL_GRADE_A_AUTHORITY_FROM_TRACK_MEMBERSHIP\" -> \"NO_GRADE_A_FULFILLMENT_RECORD\"",
+          "legalDecisionRecordIds: [] -> [\"LEGAL-DESIGN-2026-07-30-AZ-01\"]",
+          "currentImplementationEvidence: 3 entries -> 8 entries",
+          "missingImplementationWork: lost \"Add an exact runtime representation or record an approved exclusion\", gained \"Wire the exact runtime pathway to its legal-design track and packet family\""
+        ],
+        "whyThisIsNotAnIdentityMove": "The row the receipt names by exact key is gone from the record. An identityRefresh here would assert anchorsCompared === anchorsIdentical over a route that was re-keyed and substantively rewritten, which is the false statement the guard exists to prevent. The receipt's own routeKeys field now disagrees with the queue's routeKeys for this family, and the packet's composed components are still named for the old participantFacingInstrument (az_wrongful_arrest_clearance-primary-filing-1) while the census now names the instrument \"Arizona Petition for Notation of Clearance under § 13-4051\".",
+        "whatIsOwed": "A re-derivation, not a re-pin: re-read the anchors under the new route key, re-state the receipt's routeKeys, and confirm the packet's composed components still answer the route as the census now describes it. That is a legal-design read plus a rebuild, outside an identity refresh."
+      },
+      "countersMeasuredAnyway": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersNote": "verify-packet-completeness.mjs --family ran live at this base and returned PASS_COMPLETE with all nine counters zero, both before and after. That is not a repair and countersAfter is deliberately absent from this row: this lane changed nothing for this family.",
+      "packetBytes": {
+        "canonicalSha256": "6a0c2d807560a619c234a003ce8bf40031a73625aec815e2360ef8ec347506d6",
+        "canonicalByteLength": 9254,
+        "canonicalUnchanged": true,
+        "boundarySha256": "5d62c2e04775223b983cf502af0571f1a77c2bf9e6f1042ea916de4b62adf1bc",
+        "boundaryByteLength": 9480,
+        "boundaryUnchanged": true,
+        "nonReceiptFilesCompared": 12,
+        "everyNonReceiptFileByteIdentical": true,
+        "note": "Measured over the whole family directory before and after this lane's edit. The only file this lane wrote is source-receipt.json, which is not delivered to a participant, so the standing raster receipts stand."
+      },
+      "grantAsserted": true,
+      "grantReleased": true
+    },
+    {
+      "itemId": "composed-treatment:obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "jurisdiction": "NY",
+      "receipt": "data/rcap-all50/overlays/census-v1/ny/composed-treatment:obligation:research-decision-route:ny:ny-160-55-violation:sentencing-court-transmission-correction-request--custom-pleading/source-receipt.json",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "obligationsRepaired": [
+        "SOURCE_IDENTITY"
+      ],
+      "failedObligationNamesInQueue": [],
+      "failedObligationNamesNote": "This family's failedObligationNames is empty, so this row names no failed obligation: it did not fail one. It was COMPLETE_PACKET_PROVEN and lost SOURCE_IDENTITY as verified when a shared multi-tenant record it pins whole-file was rewritten by other jurisdictions' work. Nothing in the nine counters ever moved.",
+      "whatWasRepaired": "BOUND_SOURCE_DRIFTED on a shared committed record, resolved as an anchor-verified identity refresh. No participant-facing byte changed.",
+      "lapse": {
+        "lapse": "BOUND_SOURCE_DRIFTED",
+        "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+        "pinned": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
+        "now": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
+        "meaning": "The receipt pins this record by SHA-256 and the bytes on disk no longer match it, so SOURCE_IDENTITY as verified no longer holds. Usually a re-pin; a rebuild when an anchor the packet names has left the source."
+      },
+      "identityRefreshesWritten": [
+        {
+          "record": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+          "was": {
+            "sha256": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
+            "byteLength": 2607149
+          },
+          "now": {
+            "sha256": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
+            "byteLength": 2625273
+          },
+          "previousPinLastSeenAtCommit": "ecd2bde7980de4c5c33c4db956acec6a37102588",
+          "previousPinRecomputedExactlyFromThatBlob": true,
+          "driftedBy": "2d01b84f7a57d9bfb2717297783b1951940e506c",
+          "anchorsCompared": 1,
+          "anchorsIdentical": 1,
+          "anchorKeys": [
+            "obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request"
+          ]
+        }
+      ],
+      "anchorsCompared": 1,
+      "anchorsIdentical": 1,
+      "verifierBefore": {
+        "result": "PASS_COMPLETE",
+        "allNineCountersZero": true,
+        "ranLiveAtThisBase": true
+      },
+      "verifierAfter": {
+        "result": "PASS_COMPLETE",
+        "allNineCountersZero": true,
+        "ranLiveAtThisBase": true
+      },
+      "generateMjsWouldReadThisAsAnIdentityRefreshNotMovement": true,
+      "packetBytes": {
+        "canonicalSha256": "33b7a79fa4e548efce7fa838619cb75512cf83dce3345e291baa28277d84566f",
+        "canonicalByteLength": 12695,
+        "canonicalUnchanged": true,
+        "boundarySha256": "852ac343783cda7d51a7f4c7850d5402d2663806c6a308138b51caf8737e3991",
+        "boundaryByteLength": 12854,
+        "boundaryUnchanged": true,
+        "nonReceiptFilesCompared": 12,
+        "everyNonReceiptFileByteIdentical": true,
+        "note": "Measured over the whole family directory before and after this lane's edit. The only file this lane wrote is source-receipt.json, which is not delivered to a participant, so the standing raster receipts stand."
+      },
+      "grantAsserted": true,
+      "grantReleased": true
+    },
+    {
+      "itemId": "composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "jurisdiction": "DE",
+      "receipt": "data/rcap-all50/overlays/census-v1/de/composed-treatment:obligation:runtime-contract-cohort:de:juvenile-expungement-under-10-del-c-1017-1019-1017a:section-1017a-automatic-failure-correction--custom-pleading/source-receipt.json",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "obligationsRepaired": [
+        "SOURCE_IDENTITY"
+      ],
+      "failedObligationNamesInQueue": [],
+      "failedObligationNamesNote": "This family's failedObligationNames is empty, so this row names no failed obligation: it did not fail one. It was COMPLETE_PACKET_PROVEN and lost SOURCE_IDENTITY as verified when a shared multi-tenant record it pins whole-file was rewritten by other jurisdictions' work. Nothing in the nine counters ever moved.",
+      "whatWasRepaired": "BOUND_SOURCE_DRIFTED on a shared committed record, resolved as an anchor-verified identity refresh. No participant-facing byte changed.",
+      "lapse": {
+        "lapse": "BOUND_SOURCE_DRIFTED",
+        "path": "src/lib/legal-authority/routes/single-routes.json",
+        "pinned": "6322c66143f51678de8dc00601517b3115b9575e442799fd2d7be1509f541588",
+        "now": "6ca51b6dbc3a9383636b4b1cbdd19630db401d40c03760b8c91d8ae0357962f8",
+        "meaning": "The receipt pins this record by SHA-256 and the bytes on disk no longer match it, so SOURCE_IDENTITY as verified no longer holds. Usually a re-pin; a rebuild when an anchor the packet names has left the source."
+      },
+      "identityRefreshesWritten": [
+        {
+          "record": "src/lib/legal-authority/routes/single-routes.json",
+          "was": {
+            "sha256": "6322c66143f51678de8dc00601517b3115b9575e442799fd2d7be1509f541588",
+            "byteLength": 67533
+          },
+          "now": {
+            "sha256": "6ca51b6dbc3a9383636b4b1cbdd19630db401d40c03760b8c91d8ae0357962f8",
+            "byteLength": 100125
+          },
+          "previousPinLastSeenAtCommit": "38a83db1b67314b449417dab45641d84df07b582",
+          "previousPinRecomputedExactlyFromThatBlob": true,
+          "driftedBy": "78e79be413c76d31a1bdd52039fb45c2134753b6",
+          "anchorsCompared": 1,
+          "anchorsIdentical": 1
+        },
+        {
+          "record": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+          "was": {
+            "sha256": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
+            "byteLength": 2607149
+          },
+          "now": {
+            "sha256": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
+            "byteLength": 2625273
+          },
+          "previousPinLastSeenAtCommit": "ecd2bde7980de4c5c33c4db956acec6a37102588",
+          "previousPinRecomputedExactlyFromThatBlob": true,
+          "driftedBy": "2d01b84f7a57d9bfb2717297783b1951940e506c",
+          "anchorsCompared": 1,
+          "anchorsIdentical": 1,
+          "anchorKeys": [
+            "obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction"
+          ]
+        }
+      ],
+      "anchorsCompared": 2,
+      "anchorsIdentical": 2,
+      "verifierBefore": {
+        "result": "PASS_COMPLETE",
+        "allNineCountersZero": true,
+        "ranLiveAtThisBase": true
+      },
+      "verifierAfter": {
+        "result": "PASS_COMPLETE",
+        "allNineCountersZero": true,
+        "ranLiveAtThisBase": true
+      },
+      "generateMjsWouldReadThisAsAnIdentityRefreshNotMovement": true,
+      "packetBytes": {
+        "canonicalSha256": "beff0335614104209bfb84cdc639e5c1e5d8d7306f362d866447d5b2e62b0161",
+        "canonicalByteLength": 11872,
+        "canonicalUnchanged": true,
+        "boundarySha256": "571b757a63de7aaa36e9e9c473fca00ffa9c61de3c5a5ee439a7b843781113a6",
+        "boundaryByteLength": 12050,
+        "boundaryUnchanged": true,
+        "nonReceiptFilesCompared": 12,
+        "everyNonReceiptFileByteIdentical": true,
+        "note": "Measured over the whole family directory before and after this lane's edit. The only file this lane wrote is source-receipt.json, which is not delivered to a participant, so the standing raster receipts stand."
+      },
+      "grantAsserted": true,
+      "grantReleased": true
+    },
+    {
+      "itemId": "composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1018_discretionary_petition",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "jurisdiction": "DE",
+      "receipt": "data/rcap-all50/overlays/census-v1/de/composed-treatment:obligation:runtime-contract-cohort:de:juvenile-expungement-under-10-del-c-1017-1019-1017a:section-1018-discretionary-petition--custom-pleading/source-receipt.json",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "obligationsRepaired": [
+        "SOURCE_IDENTITY"
+      ],
+      "failedObligationNamesInQueue": [],
+      "failedObligationNamesNote": "This family's failedObligationNames is empty, so this row names no failed obligation: it did not fail one. It was COMPLETE_PACKET_PROVEN and lost SOURCE_IDENTITY as verified when a shared multi-tenant record it pins whole-file was rewritten by other jurisdictions' work. Nothing in the nine counters ever moved.",
+      "whatWasRepaired": "BOUND_SOURCE_DRIFTED on a shared committed record, resolved as an anchor-verified identity refresh. No participant-facing byte changed.",
+      "lapse": {
+        "lapse": "BOUND_SOURCE_DRIFTED",
+        "path": "src/lib/legal-authority/routes/single-routes.json",
+        "pinned": "6322c66143f51678de8dc00601517b3115b9575e442799fd2d7be1509f541588",
+        "now": "6ca51b6dbc3a9383636b4b1cbdd19630db401d40c03760b8c91d8ae0357962f8",
+        "meaning": "The receipt pins this record by SHA-256 and the bytes on disk no longer match it, so SOURCE_IDENTITY as verified no longer holds. Usually a re-pin; a rebuild when an anchor the packet names has left the source."
+      },
+      "identityRefreshesWritten": [
+        {
+          "record": "src/lib/legal-authority/routes/single-routes.json",
+          "was": {
+            "sha256": "6322c66143f51678de8dc00601517b3115b9575e442799fd2d7be1509f541588",
+            "byteLength": 67533
+          },
+          "now": {
+            "sha256": "6ca51b6dbc3a9383636b4b1cbdd19630db401d40c03760b8c91d8ae0357962f8",
+            "byteLength": 100125
+          },
+          "previousPinLastSeenAtCommit": "38a83db1b67314b449417dab45641d84df07b582",
+          "previousPinRecomputedExactlyFromThatBlob": true,
+          "driftedBy": "78e79be413c76d31a1bdd52039fb45c2134753b6",
+          "anchorsCompared": 1,
+          "anchorsIdentical": 1
+        },
+        {
+          "record": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+          "was": {
+            "sha256": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
+            "byteLength": 2607149
+          },
+          "now": {
+            "sha256": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
+            "byteLength": 2625273
+          },
+          "previousPinLastSeenAtCommit": "ecd2bde7980de4c5c33c4db956acec6a37102588",
+          "previousPinRecomputedExactlyFromThatBlob": true,
+          "driftedBy": "2d01b84f7a57d9bfb2717297783b1951940e506c",
+          "anchorsCompared": 1,
+          "anchorsIdentical": 1,
+          "anchorKeys": [
+            "obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1018_discretionary_petition"
+          ]
+        }
+      ],
+      "anchorsCompared": 2,
+      "anchorsIdentical": 2,
+      "verifierBefore": {
+        "result": "PASS_COMPLETE",
+        "allNineCountersZero": true,
+        "ranLiveAtThisBase": true
+      },
+      "verifierAfter": {
+        "result": "PASS_COMPLETE",
+        "allNineCountersZero": true,
+        "ranLiveAtThisBase": true
+      },
+      "generateMjsWouldReadThisAsAnIdentityRefreshNotMovement": true,
+      "packetBytes": {
+        "canonicalSha256": "71db14511deec418f6c4ad4b449caebe650e75947e981d92ba523bec0828558f",
+        "canonicalByteLength": 11549,
+        "canonicalUnchanged": true,
+        "boundarySha256": "3f0aff2854c7234299c2d215279649200d8634f2adcf327cde89b746f6a54178",
+        "boundaryByteLength": 11737,
+        "boundaryUnchanged": true,
+        "nonReceiptFilesCompared": 12,
+        "everyNonReceiptFileByteIdentical": true,
+        "note": "Measured over the whole family directory before and after this lane's edit. The only file this lane wrote is source-receipt.json, which is not delivered to a participant, so the standing raster receipts stand."
+      },
+      "grantAsserted": true,
+      "grantReleased": true
+    },
+    {
+      "itemId": "composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "jurisdiction": "GA",
+      "receipt": "data/rcap-all50/overlays/census-v1/ga/composed-treatment:obligation:runtime-only:ga:youthful-first-offender-restriction-route--custom-pleading/source-receipt.json",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "obligationsRepaired": [
+        "SOURCE_IDENTITY"
+      ],
+      "failedObligationNamesInQueue": [],
+      "failedObligationNamesNote": "This family's failedObligationNames is empty, so this row names no failed obligation: it did not fail one. It was COMPLETE_PACKET_PROVEN and lost SOURCE_IDENTITY as verified when a shared multi-tenant record it pins whole-file was rewritten by other jurisdictions' work. Nothing in the nine counters ever moved.",
+      "whatWasRepaired": "BOUND_SOURCE_DRIFTED on a shared committed record, resolved as an anchor-verified identity refresh. No participant-facing byte changed.",
+      "lapse": {
+        "lapse": "BOUND_SOURCE_DRIFTED",
+        "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+        "pinned": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
+        "now": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
+        "meaning": "The receipt pins this record by SHA-256 and the bytes on disk no longer match it, so SOURCE_IDENTITY as verified no longer holds. Usually a re-pin; a rebuild when an anchor the packet names has left the source."
+      },
+      "identityRefreshesWritten": [
+        {
+          "record": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+          "was": {
+            "sha256": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
+            "byteLength": 2607149
+          },
+          "now": {
+            "sha256": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
+            "byteLength": 2625273
+          },
+          "previousPinLastSeenAtCommit": "ecd2bde7980de4c5c33c4db956acec6a37102588",
+          "previousPinRecomputedExactlyFromThatBlob": true,
+          "driftedBy": "2d01b84f7a57d9bfb2717297783b1951940e506c",
+          "anchorsCompared": 1,
+          "anchorsIdentical": 1,
+          "anchorKeys": [
+            "obligation:runtime-only:GA:youthful-first-offender-restriction-route"
+          ]
+        }
+      ],
+      "anchorsCompared": 1,
+      "anchorsIdentical": 1,
+      "verifierBefore": {
+        "result": "PASS_COMPLETE",
+        "allNineCountersZero": true,
+        "ranLiveAtThisBase": true
+      },
+      "verifierAfter": {
+        "result": "PASS_COMPLETE",
+        "allNineCountersZero": true,
+        "ranLiveAtThisBase": true
+      },
+      "generateMjsWouldReadThisAsAnIdentityRefreshNotMovement": true,
+      "packetBytes": {
+        "canonicalSha256": "61ebc64377ad224630a7a20ced780cc0f6437054614cbe1001d8aab2a0799b61",
+        "canonicalByteLength": 10525,
+        "canonicalUnchanged": true,
+        "boundarySha256": "3c7ea1d4d7a4f492d64623e0b23bbf89b30a1de3651de68f84ba7c679e27a705",
+        "boundaryByteLength": 10708,
+        "boundaryUnchanged": true,
+        "nonReceiptFilesCompared": 12,
+        "everyNonReceiptFileByteIdentical": true,
+        "note": "Measured over the whole family directory before and after this lane's edit. The only file this lane wrote is source-receipt.json, which is not delivered to a participant, so the standing raster receipts stand."
+      },
+      "grantAsserted": true,
+      "grantReleased": true
+    },
+    {
+      "itemId": "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "jurisdiction": "IL",
+      "receipt": "data/rcap-all50/overlays/census-v1/il/composed-treatment:obligation:runtime-only:il:criminal-identity-theft-mistaken-identity-relief--custom-pleading/source-receipt.json",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "obligationsRepaired": [
+        "SOURCE_IDENTITY"
+      ],
+      "failedObligationNamesInQueue": [],
+      "failedObligationNamesNote": "This family's failedObligationNames is empty, so this row names no failed obligation: it did not fail one. It was COMPLETE_PACKET_PROVEN and lost SOURCE_IDENTITY as verified when a shared multi-tenant record it pins whole-file was rewritten by other jurisdictions' work. Nothing in the nine counters ever moved.",
+      "whatWasRepaired": "BOUND_SOURCE_DRIFTED on a shared committed record, resolved as an anchor-verified identity refresh. No participant-facing byte changed.",
+      "lapse": {
+        "lapse": "BOUND_SOURCE_DRIFTED",
+        "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+        "pinned": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
+        "now": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
+        "meaning": "The receipt pins this record by SHA-256 and the bytes on disk no longer match it, so SOURCE_IDENTITY as verified no longer holds. Usually a re-pin; a rebuild when an anchor the packet names has left the source."
+      },
+      "identityRefreshesWritten": [
+        {
+          "record": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+          "was": {
+            "sha256": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
+            "byteLength": 2607149
+          },
+          "now": {
+            "sha256": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
+            "byteLength": 2625273
+          },
+          "previousPinLastSeenAtCommit": "ecd2bde7980de4c5c33c4db956acec6a37102588",
+          "previousPinRecomputedExactlyFromThatBlob": true,
+          "driftedBy": "2d01b84f7a57d9bfb2717297783b1951940e506c",
+          "anchorsCompared": 1,
+          "anchorsIdentical": 1,
+          "anchorKeys": [
+            "obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief"
+          ]
+        }
+      ],
+      "anchorsCompared": 1,
+      "anchorsIdentical": 1,
+      "verifierBefore": {
+        "result": "PASS_COMPLETE",
+        "allNineCountersZero": true,
+        "ranLiveAtThisBase": true
+      },
+      "verifierAfter": {
+        "result": "PASS_COMPLETE",
+        "allNineCountersZero": true,
+        "ranLiveAtThisBase": true
+      },
+      "generateMjsWouldReadThisAsAnIdentityRefreshNotMovement": true,
+      "packetBytes": {
+        "canonicalSha256": "25f0c6a12204671455391f35dc7d1d801eef8266abdf08153190c960e7bd9426",
+        "canonicalByteLength": 10712,
+        "canonicalUnchanged": true,
+        "boundarySha256": "c858109ebd5becf679a4029a3604b41cf3ca27e1b9cea913b3bf8fd1d227a2c6",
+        "boundaryByteLength": 10890,
+        "boundaryUnchanged": true,
+        "nonReceiptFilesCompared": 12,
+        "everyNonReceiptFileByteIdentical": true,
+        "note": "Measured over the whole family directory before and after this lane's edit. The only file this lane wrote is source-receipt.json, which is not delivered to a participant, so the standing raster receipts stand."
+      },
+      "grantAsserted": true,
+      "grantReleased": true
+    },
+    {
+      "itemId": "composed-treatment:obligation:runtime-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "jurisdiction": "MS",
+      "receipt": "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4--custom-pleading/source-receipt.json",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "obligationsRepaired": [
+        "SOURCE_IDENTITY"
+      ],
+      "failedObligationNamesInQueue": [],
+      "failedObligationNamesNote": "This family's failedObligationNames is empty, so this row names no failed obligation: it did not fail one. It was COMPLETE_PACKET_PROVEN and lost SOURCE_IDENTITY as verified when a shared multi-tenant record it pins whole-file was rewritten by other jurisdictions' work. Nothing in the nine counters ever moved.",
+      "whatWasRepaired": "BOUND_SOURCE_DRIFTED on a shared committed record, resolved as an anchor-verified identity refresh. No participant-facing byte changed.",
+      "lapse": {
+        "lapse": "BOUND_SOURCE_DRIFTED",
+        "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+        "pinned": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
+        "now": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
+        "meaning": "The receipt pins this record by SHA-256 and the bytes on disk no longer match it, so SOURCE_IDENTITY as verified no longer holds. Usually a re-pin; a rebuild when an anchor the packet names has left the source."
+      },
+      "identityRefreshesWritten": [
+        {
+          "record": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+          "was": {
+            "sha256": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
+            "byteLength": 2607149
+          },
+          "now": {
+            "sha256": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
+            "byteLength": 2625273
+          },
+          "previousPinLastSeenAtCommit": "ecd2bde7980de4c5c33c4db956acec6a37102588",
+          "previousPinRecomputedExactlyFromThatBlob": true,
+          "driftedBy": "2d01b84f7a57d9bfb2717297783b1951940e506c",
+          "anchorsCompared": 1,
+          "anchorsIdentical": 1,
+          "anchorKeys": [
+            "obligation:runtime-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4"
+          ]
+        }
+      ],
+      "anchorsCompared": 1,
+      "anchorsIdentical": 1,
+      "verifierBefore": {
+        "result": "PASS_COMPLETE",
+        "allNineCountersZero": true,
+        "ranLiveAtThisBase": true
+      },
+      "verifierAfter": {
+        "result": "PASS_COMPLETE",
+        "allNineCountersZero": true,
+        "ranLiveAtThisBase": true
+      },
+      "generateMjsWouldReadThisAsAnIdentityRefreshNotMovement": true,
+      "packetBytes": {
+        "canonicalSha256": "112fb452f4d57f904972db5da930a0753bad25056c1c3d1fd3f16b2ac539f85d",
+        "canonicalByteLength": 13798,
+        "canonicalUnchanged": true,
+        "boundarySha256": "9b6cfca69239cc5a94eb9c77e82b15cf5e0512e543fa617e44459d8a6271cc9d",
+        "boundaryByteLength": 14002,
+        "boundaryUnchanged": true,
+        "nonReceiptFilesCompared": 12,
+        "everyNonReceiptFileByteIdentical": true,
+        "note": "Measured over the whole family directory before and after this lane's edit. The only file this lane wrote is source-receipt.json, which is not delivered to a participant, so the standing raster receipts stand."
+      },
+      "grantAsserted": true,
+      "grantReleased": true
+    },
+    {
+      "itemId": "composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "jurisdiction": "MS",
+      "receipt": "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:nonadjudication-under-99-15-26--custom-pleading/source-receipt.json",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "obligationsRepaired": [
+        "SOURCE_IDENTITY"
+      ],
+      "failedObligationNamesInQueue": [],
+      "failedObligationNamesNote": "This family's failedObligationNames is empty, so this row names no failed obligation: it did not fail one. It was COMPLETE_PACKET_PROVEN and lost SOURCE_IDENTITY as verified when a shared multi-tenant record it pins whole-file was rewritten by other jurisdictions' work. Nothing in the nine counters ever moved.",
+      "whatWasRepaired": "BOUND_SOURCE_DRIFTED on a shared committed record, resolved as an anchor-verified identity refresh. No participant-facing byte changed.",
+      "lapse": {
+        "lapse": "BOUND_SOURCE_DRIFTED",
+        "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+        "pinned": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
+        "now": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
+        "meaning": "The receipt pins this record by SHA-256 and the bytes on disk no longer match it, so SOURCE_IDENTITY as verified no longer holds. Usually a re-pin; a rebuild when an anchor the packet names has left the source."
+      },
+      "identityRefreshesWritten": [
+        {
+          "record": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+          "was": {
+            "sha256": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
+            "byteLength": 2607149
+          },
+          "now": {
+            "sha256": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
+            "byteLength": 2625273
+          },
+          "previousPinLastSeenAtCommit": "ecd2bde7980de4c5c33c4db956acec6a37102588",
+          "previousPinRecomputedExactlyFromThatBlob": true,
+          "driftedBy": "2d01b84f7a57d9bfb2717297783b1951940e506c",
+          "anchorsCompared": 1,
+          "anchorsIdentical": 1,
+          "anchorKeys": [
+            "obligation:runtime-only:MS:nonadjudication-under-99-15-26"
+          ]
+        }
+      ],
+      "anchorsCompared": 1,
+      "anchorsIdentical": 1,
+      "verifierBefore": {
+        "result": "PASS_COMPLETE",
+        "allNineCountersZero": true,
+        "ranLiveAtThisBase": true
+      },
+      "verifierAfter": {
+        "result": "PASS_COMPLETE",
+        "allNineCountersZero": true,
+        "ranLiveAtThisBase": true
+      },
+      "generateMjsWouldReadThisAsAnIdentityRefreshNotMovement": true,
+      "packetBytes": {
+        "canonicalSha256": "b6c18f619f45fbd2cf9a80e805b7a8c6d428427cf88c77c2f05083c758e396b2",
+        "canonicalByteLength": 13425,
+        "canonicalUnchanged": true,
+        "boundarySha256": "c31fa42374b4b6c83b8388d76e6ff556d6e62f7b2f2f2c617ec2bceba3e20e90",
+        "boundaryByteLength": 13627,
+        "boundaryUnchanged": true,
+        "nonReceiptFilesCompared": 12,
+        "everyNonReceiptFileByteIdentical": true,
+        "note": "Measured over the whole family directory before and after this lane's edit. The only file this lane wrote is source-receipt.json, which is not delivered to a participant, so the standing raster receipts stand."
+      },
+      "grantAsserted": true,
+      "grantReleased": true
+    },
+    {
+      "itemId": "composed-treatment:obligation:runtime-only:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "jurisdiction": "MS",
+      "receipt": "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59--custom-pleading/source-receipt.json",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "obligationsRepaired": [
+        "SOURCE_IDENTITY"
+      ],
+      "failedObligationNamesInQueue": [],
+      "failedObligationNamesNote": "This family's failedObligationNames is empty, so this row names no failed obligation: it did not fail one. It was COMPLETE_PACKET_PROVEN and lost SOURCE_IDENTITY as verified when a shared multi-tenant record it pins whole-file was rewritten by other jurisdictions' work. Nothing in the nine counters ever moved.",
+      "whatWasRepaired": "BOUND_SOURCE_DRIFTED on a shared committed record, resolved as an anchor-verified identity refresh. No participant-facing byte changed.",
+      "lapse": {
+        "lapse": "BOUND_SOURCE_DRIFTED",
+        "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+        "pinned": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
+        "now": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
+        "meaning": "The receipt pins this record by SHA-256 and the bytes on disk no longer match it, so SOURCE_IDENTITY as verified no longer holds. Usually a re-pin; a rebuild when an anchor the packet names has left the source."
+      },
+      "identityRefreshesWritten": [
+        {
+          "record": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+          "was": {
+            "sha256": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
+            "byteLength": 2607149
+          },
+          "now": {
+            "sha256": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
+            "byteLength": 2625273
+          },
+          "previousPinLastSeenAtCommit": "ecd2bde7980de4c5c33c4db956acec6a37102588",
+          "previousPinRecomputedExactlyFromThatBlob": true,
+          "driftedBy": "2d01b84f7a57d9bfb2717297783b1951940e506c",
+          "anchorsCompared": 1,
+          "anchorsIdentical": 1,
+          "anchorKeys": [
+            "obligation:runtime-only:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59"
+          ]
+        }
+      ],
+      "anchorsCompared": 1,
+      "anchorsIdentical": 1,
+      "verifierBefore": {
+        "result": "PASS_COMPLETE",
+        "allNineCountersZero": true,
+        "ranLiveAtThisBase": true
+      },
+      "verifierAfter": {
+        "result": "PASS_COMPLETE",
+        "allNineCountersZero": true,
+        "ranLiveAtThisBase": true
+      },
+      "generateMjsWouldReadThisAsAnIdentityRefreshNotMovement": true,
+      "packetBytes": {
+        "canonicalSha256": "606e3c9d5e6b83da8422a9bb01138b5937db3e5726b64975674ffda137c448ac",
+        "canonicalByteLength": 12066,
+        "canonicalUnchanged": true,
+        "boundarySha256": "ed06c2dcd41ee0c4a8692ae32aee8e0afabd2ae0a5c8fd3f6e178434b42e8c8e",
+        "boundaryByteLength": 12273,
+        "boundaryUnchanged": true,
+        "nonReceiptFilesCompared": 12,
+        "everyNonReceiptFileByteIdentical": true,
+        "note": "Measured over the whole family directory before and after this lane's edit. The only file this lane wrote is source-receipt.json, which is not delivered to a participant, so the standing raster receipts stand."
+      },
+      "grantAsserted": true,
+      "grantReleased": true
+    },
+    {
+      "itemId": "composed-treatment:obligation:runtime-only:OK:juvenile-record-expungement",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "jurisdiction": "OK",
+      "receipt": "data/rcap-all50/overlays/census-v1/ok/composed-treatment:obligation:runtime-only:ok:juvenile-record-expungement--custom-pleading/source-receipt.json",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "obligationsRepaired": [
+        "SOURCE_IDENTITY"
+      ],
+      "failedObligationNamesInQueue": [],
+      "failedObligationNamesNote": "This family's failedObligationNames is empty, so this row names no failed obligation: it did not fail one. It was COMPLETE_PACKET_PROVEN and lost SOURCE_IDENTITY as verified when a shared multi-tenant record it pins whole-file was rewritten by other jurisdictions' work. Nothing in the nine counters ever moved.",
+      "whatWasRepaired": "BOUND_SOURCE_DRIFTED on a shared committed record, resolved as an anchor-verified identity refresh. No participant-facing byte changed.",
+      "lapse": {
+        "lapse": "BOUND_SOURCE_DRIFTED",
+        "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+        "pinned": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
+        "now": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
+        "meaning": "The receipt pins this record by SHA-256 and the bytes on disk no longer match it, so SOURCE_IDENTITY as verified no longer holds. Usually a re-pin; a rebuild when an anchor the packet names has left the source."
+      },
+      "identityRefreshesWritten": [
+        {
+          "record": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+          "was": {
+            "sha256": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
+            "byteLength": 2607149
+          },
+          "now": {
+            "sha256": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
+            "byteLength": 2625273
+          },
+          "previousPinLastSeenAtCommit": "ecd2bde7980de4c5c33c4db956acec6a37102588",
+          "previousPinRecomputedExactlyFromThatBlob": true,
+          "driftedBy": "2d01b84f7a57d9bfb2717297783b1951940e506c",
+          "anchorsCompared": 1,
+          "anchorsIdentical": 1,
+          "anchorKeys": [
+            "obligation:runtime-only:OK:juvenile-record-expungement"
+          ]
+        }
+      ],
+      "anchorsCompared": 1,
+      "anchorsIdentical": 1,
+      "verifierBefore": {
+        "result": "PASS_COMPLETE",
+        "allNineCountersZero": true,
+        "ranLiveAtThisBase": true
+      },
+      "verifierAfter": {
+        "result": "PASS_COMPLETE",
+        "allNineCountersZero": true,
+        "ranLiveAtThisBase": true
+      },
+      "generateMjsWouldReadThisAsAnIdentityRefreshNotMovement": true,
+      "packetBytes": {
+        "canonicalSha256": "b126807ef7de8f9c35945d926612bf6b116e99045b307bc9d7535307b9ef3179",
+        "canonicalByteLength": 13424,
+        "canonicalUnchanged": true,
+        "boundarySha256": "7ec9bdeb42a3fb3657aed1d6d1e8eeb01a2ee98935d08f7541174b1a31008359",
+        "boundaryByteLength": 13607,
+        "boundaryUnchanged": true,
+        "nonReceiptFilesCompared": 12,
+        "everyNonReceiptFileByteIdentical": true,
+        "note": "Measured over the whole family directory before and after this lane's edit. The only file this lane wrote is source-receipt.json, which is not delivered to a participant, so the standing raster receipts stand."
+      },
+      "grantAsserted": true,
+      "grantReleased": true
+    },
+    {
+      "itemId": "composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "jurisdiction": "WY",
+      "receipt": "data/rcap-all50/overlays/census-v1/wy/composed-treatment:obligation:runtime-only:wy:human-trafficking-victim-vacatur-w-s-6-2-708--custom-pleading/source-receipt.json",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "obligationsRepaired": [
+        "SOURCE_IDENTITY"
+      ],
+      "failedObligationNamesInQueue": [],
+      "failedObligationNamesNote": "This family's failedObligationNames is empty, so this row names no failed obligation: it did not fail one. It was COMPLETE_PACKET_PROVEN and lost SOURCE_IDENTITY as verified when a shared multi-tenant record it pins whole-file was rewritten by other jurisdictions' work. Nothing in the nine counters ever moved.",
+      "whatWasRepaired": "BOUND_SOURCE_DRIFTED on a shared committed record, resolved as an anchor-verified identity refresh. No participant-facing byte changed.",
+      "lapse": {
+        "lapse": "BOUND_SOURCE_DRIFTED",
+        "path": "src/lib/legal-authority/routes/single-routes.json",
+        "pinned": "6322c66143f51678de8dc00601517b3115b9575e442799fd2d7be1509f541588",
+        "now": "6ca51b6dbc3a9383636b4b1cbdd19630db401d40c03760b8c91d8ae0357962f8",
+        "meaning": "The receipt pins this record by SHA-256 and the bytes on disk no longer match it, so SOURCE_IDENTITY as verified no longer holds. Usually a re-pin; a rebuild when an anchor the packet names has left the source."
+      },
+      "identityRefreshesWritten": [
+        {
+          "record": "src/lib/legal-authority/routes/single-routes.json",
+          "was": {
+            "sha256": "6322c66143f51678de8dc00601517b3115b9575e442799fd2d7be1509f541588",
+            "byteLength": 67533
+          },
+          "now": {
+            "sha256": "6ca51b6dbc3a9383636b4b1cbdd19630db401d40c03760b8c91d8ae0357962f8",
+            "byteLength": 100125
+          },
+          "previousPinLastSeenAtCommit": "38a83db1b67314b449417dab45641d84df07b582",
+          "previousPinRecomputedExactlyFromThatBlob": true,
+          "driftedBy": "78e79be413c76d31a1bdd52039fb45c2134753b6",
+          "anchorsCompared": 1,
+          "anchorsIdentical": 1
+        },
+        {
+          "record": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+          "was": {
+            "sha256": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
+            "byteLength": 2607149
+          },
+          "now": {
+            "sha256": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
+            "byteLength": 2625273
+          },
+          "previousPinLastSeenAtCommit": "ecd2bde7980de4c5c33c4db956acec6a37102588",
+          "previousPinRecomputedExactlyFromThatBlob": true,
+          "driftedBy": "2d01b84f7a57d9bfb2717297783b1951940e506c",
+          "anchorsCompared": 1,
+          "anchorsIdentical": 1,
+          "anchorKeys": [
+            "obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708"
+          ]
+        }
+      ],
+      "anchorsCompared": 2,
+      "anchorsIdentical": 2,
+      "verifierBefore": {
+        "result": "PASS_COMPLETE",
+        "allNineCountersZero": true,
+        "ranLiveAtThisBase": true
+      },
+      "verifierAfter": {
+        "result": "PASS_COMPLETE",
+        "allNineCountersZero": true,
+        "ranLiveAtThisBase": true
+      },
+      "generateMjsWouldReadThisAsAnIdentityRefreshNotMovement": true,
+      "packetBytes": {
+        "canonicalSha256": "6d6e3190303b0aec3a12c009f2e1f3fea579e70a9739c7916536f9119a6b9ecf",
+        "canonicalByteLength": 12283,
+        "canonicalUnchanged": true,
+        "boundarySha256": "61dc959c94e8669b1b7844c1adca0353e66719a822cd97a3af26b8a612538241",
+        "boundaryByteLength": 12478,
+        "boundaryUnchanged": true,
+        "nonReceiptFilesCompared": 12,
+        "everyNonReceiptFileByteIdentical": true,
+        "note": "Measured over the whole family directory before and after this lane's edit. The only file this lane wrote is source-receipt.json, which is not delivered to a participant, so the standing raster receipts stand."
+      },
+      "grantAsserted": true,
+      "grantReleased": true
+    },
+    {
+      "itemId": "ct-decriminalized-set",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "jurisdiction": "CT",
+      "receipt": "data/rcap-all50/overlays/census-v1/ct/ct-decriminalized-set--custom-pleading/source-receipt.json",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "obligationsRepaired": [
+        "SOURCE_IDENTITY"
+      ],
+      "failedObligationNamesInQueue": [],
+      "failedObligationNamesNote": "This family's failedObligationNames is empty, so this row names no failed obligation: it did not fail one. It was COMPLETE_PACKET_PROVEN and lost SOURCE_IDENTITY as verified when a shared multi-tenant record it pins whole-file was rewritten by other jurisdictions' work. Nothing in the nine counters ever moved.",
+      "whatWasRepaired": "BOUND_SOURCE_DRIFTED on a shared committed record, resolved as an anchor-verified identity refresh. No participant-facing byte changed.",
+      "lapse": {
+        "lapse": "BOUND_SOURCE_DRIFTED",
+        "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+        "pinned": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
+        "now": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
+        "meaning": "The receipt pins this record by SHA-256 and the bytes on disk no longer match it, so SOURCE_IDENTITY as verified no longer holds. Usually a re-pin; a rebuild when an anchor the packet names has left the source."
+      },
+      "identityRefreshesWritten": [
+        {
+          "record": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+          "was": {
+            "sha256": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
+            "byteLength": 2607149
+          },
+          "now": {
+            "sha256": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
+            "byteLength": 2625273
+          },
+          "previousPinLastSeenAtCommit": "ecd2bde7980de4c5c33c4db956acec6a37102588",
+          "previousPinRecomputedExactlyFromThatBlob": true,
+          "driftedBy": "2d01b84f7a57d9bfb2717297783b1951940e506c",
+          "anchorsCompared": 1,
+          "anchorsIdentical": 1,
+          "anchorKeys": [
+            "obligation:track-only:CT:ct-decriminalized"
+          ]
+        }
+      ],
+      "anchorsCompared": 1,
+      "anchorsIdentical": 1,
+      "verifierBefore": {
+        "result": "PASS_COMPLETE",
+        "allNineCountersZero": true,
+        "ranLiveAtThisBase": true
+      },
+      "verifierAfter": {
+        "result": "PASS_COMPLETE",
+        "allNineCountersZero": true,
+        "ranLiveAtThisBase": true
+      },
+      "generateMjsWouldReadThisAsAnIdentityRefreshNotMovement": true,
+      "packetBytes": {
+        "canonicalSha256": "9b6667f6ecbe38c2657b100a663727c227b6ce8f4e3244544041239b764218b2",
+        "canonicalByteLength": 10647,
+        "canonicalUnchanged": true,
+        "boundarySha256": "b5134f47d6b55ea57179437561767b8c38c65e8be8d10281224549c2df442d83",
+        "boundaryByteLength": 10835,
+        "boundaryUnchanged": true,
+        "nonReceiptFilesCompared": 12,
+        "everyNonReceiptFileByteIdentical": true,
+        "note": "Measured over the whole family directory before and after this lane's edit. The only file this lane wrote is source-receipt.json, which is not delivered to a participant, so the standing raster receipts stand."
+      },
+      "grantAsserted": true,
+      "grantReleased": true
+    },
+    {
+      "itemId": "dc_yra_set_aside-set",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "jurisdiction": "DC",
+      "receipt": "data/rcap-all50/overlays/census-v1/dc/dc-yra-set-aside-set--custom-pleading/source-receipt.json",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "obligationsRepaired": [
+        "SOURCE_IDENTITY"
+      ],
+      "failedObligationNamesInQueue": [],
+      "failedObligationNamesNote": "This family's failedObligationNames is empty, so this row names no failed obligation: it did not fail one. It was COMPLETE_PACKET_PROVEN and lost SOURCE_IDENTITY as verified when a shared multi-tenant record it pins whole-file was rewritten by other jurisdictions' work. Nothing in the nine counters ever moved.",
+      "whatWasRepaired": "BOUND_SOURCE_DRIFTED on a shared committed record, resolved as an anchor-verified identity refresh. No participant-facing byte changed.",
+      "lapse": {
+        "lapse": "BOUND_SOURCE_DRIFTED",
+        "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+        "pinned": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
+        "now": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
+        "meaning": "The receipt pins this record by SHA-256 and the bytes on disk no longer match it, so SOURCE_IDENTITY as verified no longer holds. Usually a re-pin; a rebuild when an anchor the packet names has left the source."
+      },
+      "identityRefreshesWritten": [
+        {
+          "record": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+          "was": {
+            "sha256": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
+            "byteLength": 2607149
+          },
+          "now": {
+            "sha256": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
+            "byteLength": 2625273
+          },
+          "previousPinLastSeenAtCommit": "ecd2bde7980de4c5c33c4db956acec6a37102588",
+          "previousPinRecomputedExactlyFromThatBlob": true,
+          "driftedBy": "2d01b84f7a57d9bfb2717297783b1951940e506c",
+          "anchorsCompared": 1,
+          "anchorsIdentical": 1,
+          "anchorKeys": [
+            "obligation:track-only:DC:dc_yra_set_aside"
+          ]
+        }
+      ],
+      "anchorsCompared": 1,
+      "anchorsIdentical": 1,
+      "verifierBefore": {
+        "result": "PASS_COMPLETE",
+        "allNineCountersZero": true,
+        "ranLiveAtThisBase": true
+      },
+      "verifierAfter": {
+        "result": "PASS_COMPLETE",
+        "allNineCountersZero": true,
+        "ranLiveAtThisBase": true
+      },
+      "generateMjsWouldReadThisAsAnIdentityRefreshNotMovement": true,
+      "packetBytes": {
+        "canonicalSha256": "d2cf9e833a383310087bc1f5c975d8157777333744202861336b8450277340ca",
+        "canonicalByteLength": 10964,
+        "canonicalUnchanged": true,
+        "boundarySha256": "1d798f375d664ebe85e8c2c76a9a59459a9bc0a4d1d74fe454cab15efe582d63",
+        "boundaryByteLength": 11147,
+        "boundaryUnchanged": true,
+        "nonReceiptFilesCompared": 12,
+        "everyNonReceiptFileByteIdentical": true,
+        "note": "Measured over the whole family directory before and after this lane's edit. The only file this lane wrote is source-receipt.json, which is not delivered to a participant, so the standing raster receipts stand."
+      },
+      "grantAsserted": true,
+      "grantReleased": true
+    },
+    {
+      "itemId": "id_felony_reduction-set",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "jurisdiction": "ID",
+      "receipt": "data/rcap-all50/overlays/census-v1/id/id-felony-reduction-set--custom-pleading/source-receipt.json",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "obligationsRepaired": [
+        "SOURCE_IDENTITY"
+      ],
+      "failedObligationNamesInQueue": [],
+      "failedObligationNamesNote": "This family's failedObligationNames is empty, so this row names no failed obligation: it did not fail one. It was COMPLETE_PACKET_PROVEN and lost SOURCE_IDENTITY as verified when a shared multi-tenant record it pins whole-file was rewritten by other jurisdictions' work. Nothing in the nine counters ever moved.",
+      "whatWasRepaired": "BOUND_SOURCE_DRIFTED on a shared committed record, resolved as an anchor-verified identity refresh. No participant-facing byte changed.",
+      "lapse": {
+        "lapse": "BOUND_SOURCE_DRIFTED",
+        "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+        "pinned": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
+        "now": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
+        "meaning": "The receipt pins this record by SHA-256 and the bytes on disk no longer match it, so SOURCE_IDENTITY as verified no longer holds. Usually a re-pin; a rebuild when an anchor the packet names has left the source."
+      },
+      "identityRefreshesWritten": [
+        {
+          "record": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+          "was": {
+            "sha256": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
+            "byteLength": 2607149
+          },
+          "now": {
+            "sha256": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
+            "byteLength": 2625273
+          },
+          "previousPinLastSeenAtCommit": "ecd2bde7980de4c5c33c4db956acec6a37102588",
+          "previousPinRecomputedExactlyFromThatBlob": true,
+          "driftedBy": "2d01b84f7a57d9bfb2717297783b1951940e506c",
+          "anchorsCompared": 1,
+          "anchorsIdentical": 1,
+          "anchorKeys": [
+            "obligation:track-only:ID:id_felony_reduction"
+          ]
+        }
+      ],
+      "anchorsCompared": 1,
+      "anchorsIdentical": 1,
+      "verifierBefore": {
+        "result": "PASS_COMPLETE",
+        "allNineCountersZero": true,
+        "ranLiveAtThisBase": true
+      },
+      "verifierAfter": {
+        "result": "PASS_COMPLETE",
+        "allNineCountersZero": true,
+        "ranLiveAtThisBase": true
+      },
+      "generateMjsWouldReadThisAsAnIdentityRefreshNotMovement": true,
+      "packetBytes": {
+        "canonicalSha256": "d246f76059f94a3f78286381d3ff6289cae01f5593b11c3625a50d223e33afd1",
+        "canonicalByteLength": 8807,
+        "canonicalUnchanged": true,
+        "boundarySha256": "8c5d84ecc8a8946d5ad51ad38326119f208ae4791775c7aff448af9ef7fabc48",
+        "boundaryByteLength": 9029,
+        "boundaryUnchanged": true,
+        "nonReceiptFilesCompared": 12,
+        "everyNonReceiptFileByteIdentical": true,
+        "note": "Measured over the whole family directory before and after this lane's edit. The only file this lane wrote is source-receipt.json, which is not delivered to a participant, so the standing raster receipts stand."
+      },
+      "grantAsserted": true,
+      "grantReleased": true
+    },
+    {
+      "itemId": "id_set_aside_dismissal-set",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "jurisdiction": "ID",
+      "receipt": "data/rcap-all50/overlays/census-v1/id/id-set-aside-dismissal-set--custom-pleading/source-receipt.json",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "obligationsRepaired": [
+        "SOURCE_IDENTITY"
+      ],
+      "failedObligationNamesInQueue": [],
+      "failedObligationNamesNote": "This family's failedObligationNames is empty, so this row names no failed obligation: it did not fail one. It was COMPLETE_PACKET_PROVEN and lost SOURCE_IDENTITY as verified when a shared multi-tenant record it pins whole-file was rewritten by other jurisdictions' work. Nothing in the nine counters ever moved.",
+      "whatWasRepaired": "BOUND_SOURCE_DRIFTED on a shared committed record, resolved as an anchor-verified identity refresh. No participant-facing byte changed.",
+      "lapse": {
+        "lapse": "BOUND_SOURCE_DRIFTED",
+        "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+        "pinned": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
+        "now": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
+        "meaning": "The receipt pins this record by SHA-256 and the bytes on disk no longer match it, so SOURCE_IDENTITY as verified no longer holds. Usually a re-pin; a rebuild when an anchor the packet names has left the source."
+      },
+      "identityRefreshesWritten": [
+        {
+          "record": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+          "was": {
+            "sha256": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
+            "byteLength": 2607149
+          },
+          "now": {
+            "sha256": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
+            "byteLength": 2625273
+          },
+          "previousPinLastSeenAtCommit": "ecd2bde7980de4c5c33c4db956acec6a37102588",
+          "previousPinRecomputedExactlyFromThatBlob": true,
+          "driftedBy": "2d01b84f7a57d9bfb2717297783b1951940e506c",
+          "anchorsCompared": 1,
+          "anchorsIdentical": 1,
+          "anchorKeys": [
+            "obligation:track-only:ID:id_set_aside_dismissal"
+          ]
+        }
+      ],
+      "anchorsCompared": 1,
+      "anchorsIdentical": 1,
+      "verifierBefore": {
+        "result": "PASS_COMPLETE",
+        "allNineCountersZero": true,
+        "ranLiveAtThisBase": true
+      },
+      "verifierAfter": {
+        "result": "PASS_COMPLETE",
+        "allNineCountersZero": true,
+        "ranLiveAtThisBase": true
+      },
+      "generateMjsWouldReadThisAsAnIdentityRefreshNotMovement": true,
+      "packetBytes": {
+        "canonicalSha256": "7773edfbbad30e588ee71061cd226d6c8385e5b35d3d8fa40d43497507dbddbc",
+        "canonicalByteLength": 10134,
+        "canonicalUnchanged": true,
+        "boundarySha256": "69627731b56805a3b8a37b24c7cfc9b72a9b99d87a09cf85e44e05e0c9cbbf5f",
+        "boundaryByteLength": 10351,
+        "boundaryUnchanged": true,
+        "nonReceiptFilesCompared": 12,
+        "everyNonReceiptFileByteIdentical": true,
+        "note": "Measured over the whole family directory before and after this lane's edit. The only file this lane wrote is source-receipt.json, which is not delivered to a participant, so the standing raster receipts stand."
+      },
+      "grantAsserted": true,
+      "grantReleased": true
+    },
+    {
+      "itemId": "rcap-ks-custom-pleading",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "jurisdiction": "KS",
+      "receipt": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/source-receipt.json",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "obligationsRepaired": [
+        "SOURCE_IDENTITY"
+      ],
+      "failedObligationNamesInQueue": [],
+      "failedObligationNamesNote": "This family's failedObligationNames is empty, so this row names no failed obligation: it did not fail one. It was COMPLETE_PACKET_PROVEN and lost SOURCE_IDENTITY as verified when a shared multi-tenant record it pins whole-file was rewritten by other jurisdictions' work. Nothing in the nine counters ever moved.",
+      "whatWasRepaired": "BOUND_SOURCE_DRIFTED on a shared committed record, resolved as an anchor-verified identity refresh. No participant-facing byte changed.",
+      "lapse": {
+        "lapse": "BOUND_SOURCE_DRIFTED",
+        "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+        "pinned": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
+        "now": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
+        "meaning": "The receipt pins this record by SHA-256 and the bytes on disk no longer match it, so SOURCE_IDENTITY as verified no longer holds. Usually a re-pin; a rebuild when an anchor the packet names has left the source."
+      },
+      "identityRefreshesWritten": [
+        {
+          "record": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+          "was": {
+            "sha256": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
+            "byteLength": 2607149
+          },
+          "now": {
+            "sha256": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
+            "byteLength": 2625273
+          },
+          "previousPinLastSeenAtCommit": "ecd2bde7980de4c5c33c4db956acec6a37102588",
+          "previousPinRecomputedExactlyFromThatBlob": true,
+          "driftedBy": "2d01b84f7a57d9bfb2717297783b1951940e506c",
+          "anchorsCompared": 2,
+          "anchorsIdentical": 2,
+          "anchorKeys": [
+            "obligation:track-pathway:KS:ks-12-4516-municipal:municipal-conviction-or-diversion-expungement-under-12-4516",
+            "obligation:track-pathway:KS:ks-12-4516a-municipal-arrest:municipal-arrest-record-expungement-under-12-4516a"
+          ]
+        }
+      ],
+      "anchorsCompared": 2,
+      "anchorsIdentical": 2,
+      "verifierBefore": {
+        "result": "PASS_COMPLETE",
+        "allNineCountersZero": true,
+        "ranLiveAtThisBase": true
+      },
+      "verifierAfter": {
+        "result": "PASS_COMPLETE",
+        "allNineCountersZero": true,
+        "ranLiveAtThisBase": true
+      },
+      "generateMjsWouldReadThisAsAnIdentityRefreshNotMovement": true,
+      "packetBytes": {
+        "canonicalSha256": "0da4dbab6b7be1f15ebb4ca2e5fa7810f6c8e34f366dc87b4131c311a4d0ec74",
+        "canonicalByteLength": 37304,
+        "canonicalUnchanged": true,
+        "boundarySha256": "e12e30be68deb94e934bb3ab3080b1cc0d0c048810781f8491710c5740cd55c7",
+        "boundaryByteLength": 37721,
+        "boundaryUnchanged": true,
+        "nonReceiptFilesCompared": 16,
+        "everyNonReceiptFileByteIdentical": true,
+        "note": "Measured over the whole family directory before and after this lane's edit. The only file this lane wrote is source-receipt.json, which is not delivered to a participant, so the standing raster receipts stand."
+      },
+      "grantAsserted": true,
+      "grantReleased": true
+    },
+    {
+      "itemId": "rcap-ms-custom-pleading",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "jurisdiction": "MS",
+      "receipt": "data/rcap-all50/overlays/census-v1/ms/rcap-ms-custom-pleading--custom-pleading/source-receipt.json",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "obligationsRepaired": [
+        "SOURCE_IDENTITY"
+      ],
+      "failedObligationNamesInQueue": [],
+      "failedObligationNamesNote": "This family's failedObligationNames is empty, so this row names no failed obligation: it did not fail one. It was COMPLETE_PACKET_PROVEN and lost SOURCE_IDENTITY as verified when a shared multi-tenant record it pins whole-file was rewritten by other jurisdictions' work. Nothing in the nine counters ever moved.",
+      "whatWasRepaired": "BOUND_SOURCE_DRIFTED on a shared committed record, resolved as an anchor-verified identity refresh. No participant-facing byte changed.",
+      "lapse": {
+        "lapse": "BOUND_SOURCE_DRIFTED",
+        "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+        "pinned": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
+        "now": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
+        "meaning": "The receipt pins this record by SHA-256 and the bytes on disk no longer match it, so SOURCE_IDENTITY as verified no longer holds. Usually a re-pin; a rebuild when an anchor the packet names has left the source."
+      },
+      "identityRefreshesWritten": [
+        {
+          "record": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+          "was": {
+            "sha256": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
+            "byteLength": 2607149
+          },
+          "now": {
+            "sha256": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
+            "byteLength": 2625273
+          },
+          "previousPinLastSeenAtCommit": "ecd2bde7980de4c5c33c4db956acec6a37102588",
+          "previousPinRecomputedExactlyFromThatBlob": true,
+          "driftedBy": "2d01b84f7a57d9bfb2717297783b1951940e506c",
+          "anchorsCompared": 3,
+          "anchorsIdentical": 3,
+          "anchorKeys": [
+            "obligation:track-pathway:MS:ms-drug-cd:first-offense-controlled-substance-conditional-discharge-relief",
+            "obligation:track-pathway:MS:ms-dui:first-offense-dui-expungement",
+            "obligation:track-pathway:MS:ms-mip:minor-in-possession-underage-alcohol-expungement"
+          ]
+        }
+      ],
+      "anchorsCompared": 3,
+      "anchorsIdentical": 3,
+      "verifierBefore": {
+        "result": "PASS_COMPLETE",
+        "allNineCountersZero": true,
+        "ranLiveAtThisBase": true
+      },
+      "verifierAfter": {
+        "result": "PASS_COMPLETE",
+        "allNineCountersZero": true,
+        "ranLiveAtThisBase": true
+      },
+      "generateMjsWouldReadThisAsAnIdentityRefreshNotMovement": true,
+      "packetBytes": {
+        "canonicalSha256": "fc9ad883f98d6203f58ab96aa66376e77241ae12197535ce8415a46bb7647d2c",
+        "canonicalByteLength": 74867,
+        "canonicalUnchanged": true,
+        "boundarySha256": "28ee12ccd0e86322e355df6bd6b066dc0ffa58e8f155afcdfbf69f65c89470d4",
+        "boundaryByteLength": 76118,
+        "boundaryUnchanged": true,
+        "nonReceiptFilesCompared": 18,
+        "everyNonReceiptFileByteIdentical": true,
+        "note": "Measured over the whole family directory before and after this lane's edit. The only file this lane wrote is source-receipt.json, which is not delivered to a participant, so the standing raster receipts stand."
+      },
+      "grantAsserted": true,
+      "grantReleased": true
+    },
+    {
+      "itemId": "rcap-tn-custom-pleading",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "jurisdiction": "TN",
+      "receipt": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/source-receipt.json",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "obligationsRepaired": [
+        "SOURCE_IDENTITY"
+      ],
+      "failedObligationNamesInQueue": [],
+      "failedObligationNamesNote": "This family's failedObligationNames is empty, so this row names no failed obligation: it did not fail one. It was COMPLETE_PACKET_PROVEN and lost SOURCE_IDENTITY as verified when a shared multi-tenant record it pins whole-file was rewritten by other jurisdictions' work. Nothing in the nine counters ever moved.",
+      "whatWasRepaired": "BOUND_SOURCE_DRIFTED on a shared committed record, resolved as an anchor-verified identity refresh. No participant-facing byte changed.",
+      "lapse": {
+        "lapse": "BOUND_SOURCE_DRIFTED",
+        "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+        "pinned": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
+        "now": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
+        "meaning": "The receipt pins this record by SHA-256 and the bytes on disk no longer match it, so SOURCE_IDENTITY as verified no longer holds. Usually a re-pin; a rebuild when an anchor the packet names has left the source."
+      },
+      "identityRefreshesWritten": [
+        {
+          "record": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+          "was": {
+            "sha256": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
+            "byteLength": 2607149
+          },
+          "now": {
+            "sha256": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
+            "byteLength": 2625273
+          },
+          "previousPinLastSeenAtCommit": "ecd2bde7980de4c5c33c4db956acec6a37102588",
+          "previousPinRecomputedExactlyFromThatBlob": true,
+          "driftedBy": "2d01b84f7a57d9bfb2717297783b1951940e506c",
+          "anchorsCompared": 11,
+          "anchorsIdentical": 11,
+          "anchorKeys": [
+            "obligation:track-only:TN:tn_arrest_no_court_record",
+            "obligation:track-only:TN:tn_illegal_voting",
+            "obligation:track-only:TN:tn_mistaken_identity",
+            "obligation:track-only:TN:tn_nonconviction_petition",
+            "obligation:track-only:TN:tn_post_pardon",
+            "obligation:track-only:TN:tn_pretrial_diversion",
+            "obligation:track-only:TN:tn_recovery_court",
+            "obligation:track-only:TN:tn_redaction",
+            "obligation:track-pathway:TN:tn_eligible_conviction:pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107",
+            "obligation:track-pathway:TN:tn_judicial_diversion:pathway-2-diversion-expunction-under-40-15-105-40-35-313",
+            "obligation:track-pathway:TN:tn_two_offense:pathway-4-two-offense-expunction-under-40-32-101-k"
+          ]
+        }
+      ],
+      "anchorsCompared": 11,
+      "anchorsIdentical": 11,
+      "verifierBefore": {
+        "result": "PASS_COMPLETE",
+        "allNineCountersZero": true,
+        "ranLiveAtThisBase": true
+      },
+      "verifierAfter": {
+        "result": "PASS_COMPLETE",
+        "allNineCountersZero": true,
+        "ranLiveAtThisBase": true
+      },
+      "generateMjsWouldReadThisAsAnIdentityRefreshNotMovement": true,
+      "packetBytes": {
+        "canonicalSha256": "8648c793f39cd71a5b330f9cb9e2696fd955acb26f1f6851c78c601f11cb5f17",
+        "canonicalByteLength": 220694,
+        "canonicalUnchanged": true,
+        "boundarySha256": "5f826ee4221be5cb88f114f4d49d4d7c4794c3cbc42798d6f684a2c0f27ac902",
+        "boundaryByteLength": 223982,
+        "boundaryUnchanged": true,
+        "nonReceiptFilesCompared": 34,
+        "everyNonReceiptFileByteIdentical": true,
+        "note": "Measured over the whole family directory before and after this lane's edit. The only file this lane wrote is source-receipt.json, which is not delivered to a participant, so the standing raster receipts stand."
+      },
+      "grantAsserted": true,
+      "grantReleased": true
+    }
+  ],
+  "theDurableFixJudgement": {
+    "question": "Is the subtree pin the right fix, what would it cost alongside the whole-file pin, and is there a cheaper change that gets most of the benefit?",
+    "answer": "Yes, with one correction to how it is framed, and yes there is a cheaper change — but the cheaper change is a different thing, not a discount version of the same thing.",
+    "whatDoingItEighteenTimesByHandTaught": [
+      "The comparison is trivial and the ORIENTATION is not. Every one of the twenty-eight anchor comparisons was a Map.get and a canonical-JSON equality — microseconds. What took the work was deciding WHICH rows are the anchors: for the census it is the family's routeKeys, for single-routes it is a key buried in the recordId string as a route-contract: prefix, and for FIX13's corpus-index it was a held form component. Three records, three different extractors. That is the real cost of this class and the subtree pin is exactly what removes it, because the builder knows the answer at build time and currently throws it away.",
+      "The receipt already almost says it. Every entry carries anchorStatementsVerified — a COUNT of the anchors the builder read — and a prose role naming what they were. The builder therefore knew the anchor set precisely, counted it, wrote the count down, and did not write down WHICH ones. anchorStatementsVerified: 2 on the Wyoming census entry is the ghost of a subtree pin. The information loss is at write time, and no amount of cleverness at repair time recovers it: I had to guess the extractor from recordId string shape, and FIX13's first attempt at the same guess matched a two-letter jurisdiction code as a substring and found the wrong rows.",
+      "The whole-file pin was not useless. It is what detected the drift at all, and on Arizona it detected a real change. Seventeen false alarms and one true positive out of eighteen is a bad ratio, but the true positive is the whole point and it must survive the fix.",
+      "The signal-to-noise ratio is the actual harm, not the labour. Eighteen lapses of which one was real means a reader of this queue learns to expect BOUND_SOURCE_DRIFTED to be noise. FIX13 refused three trafficking families for a reclassification hiding inside a wave of identical-looking drift; I refused one Arizona for a re-key hiding inside another. Both were found because a human read every row. Automate the refresh over a whole-file pin and Arizona gets re-pinned silently, which is the failure mode this whole discipline exists to prevent."
+    ],
+    "isTheSubtreePinRight": {
+      "verdict": "Right, and for a stronger reason than cost.",
+      "why": "Cost is the visible argument — repair is O(receipts), breakage is O(1), and FIX13 is correct that this never settles. But the decisive argument is that the whole-file digest answers a question nobody asked. A receipt does not depend on route-obligation-candidate.json; it depends on eleven rows of it. Pinning the file is pinning a superset of the dependency, and every false lapse is that superset being wrong. A subtree digest makes the pin's scope equal to the binding's scope, and then — as the dispatch puts it — a digest that moves is by construction a real change. That converts a signal humans have learned to discount into one they must read.",
+      "theCorrectionToTheFraming": "Call it an ANCHOR SET DIGEST, not a subtree pin. 'Subtree' suggests a structural path — routes[47], or a JSON-pointer prefix — and structural position is exactly what is unstable: Arizona's row kept its content and lost its key, and rows get reordered by regeneration for free. The digest must be over the canonicalised anchor SET selected by identity (routeKey values, form ids, jurisdiction), sorted by that identity, not over a location. Get that wrong and you have rebuilt the same fragility one level down."
+    },
+    "whatItWouldCost": {
+      "summary": "Small to introduce, and the cost is concentrated in one place that is easy to underestimate.",
+      "theCheapParts": [
+        "The receipt schema: one optional field per record — anchorSha256, plus anchorKeys (the identities selected) and anchorSelector (which extractor). Purely additive; every existing receipt stays valid.",
+        "The verifier: sourceDrift() already walks pins by shape. Where anchorSha256 is present, recompute over the selected set and compare that instead; where it is absent, fall back to whole-file exactly as today. Perhaps thirty lines.",
+        "generate.mjs's identityRefresh path: unchanged, and it simply stops being reached for records that carry an anchor digest."
+      ],
+      "theExpensivePart": {
+        "what": "The selector. Every record shape needs a canonical way to say 'these are my rows and this is their identity', and there are more shapes than anyone expects.",
+        "evidence": "In this cohort alone: the census keys on routeKey; single-routes keys on a routeKey that must be parsed out of a recordId's route-contract: prefix; FIX13 met a corpus index keyed on a form id, a counsel manifest keyed on a jurisdiction row, and a track registry whose binding was a named field subset of eleven tracks rather than whole objects.",
+        "theRealCost": "That last one is not a selector problem, it is a semantics problem, and it is the reason FIX13 stopped and asked for an owner rule. Its DET-03 and DET-04 both come down to: is an anchor identical when the OBJECT matches, or when the fields the receipt actually relies on match? A schema migration that adds a field to every entry moves the object and not the reliance. Whichever way the owner answers, the anchor digest has to encode it — over the whole object, or over a declared field projection — and it must be declared per record, because a receipt that binds 'the eleven self-help stopping conditions' is making a genuinely narrower claim than one that binds 'this route row'. Introducing anchor digests without settling that question just relocates the ambiguity from the repair lane into the builder, where it is less visible.",
+        "estimate": "Days, not hours, and most of it is deciding the projection rule rather than writing code."
+      },
+      "migration": "Nothing needs backfilling. New builds write both digests; old receipts keep whole-file pins and keep lapsing until their family is next rebuilt. The class decays instead of being cleared, which is the correct trade — a backfill would mean re-deriving anchor sets for 357 receipts by exactly the guesswork that makes this expensive.",
+      "keepTheWholeFilePin": "Yes, as provenance, marked non-binding — but it should still be RECORDED and REPORTED, just not as a failure. Whole-file drift on a bound record is the cheapest possible tripwire and it is what caught Arizona. Demote it from BOUND_SOURCE_DRIFTED to a note; do not delete it."
+    },
+    "theCheaperChange": {
+      "headline": "Yes — but it buys a different good. It removes the noise; it does not give you the true positive.",
+      "theChange": "Have the builder record the anchor IDENTITIES it read, without a digest over them. anchorKeys: [\"obligation:track-only:ID:id_felony_reduction\"] beside the existing anchorStatementsVerified: 2.",
+      "whatItBuys": "Every expensive part of this repair disappears. No extractor to guess, no recordId string to parse, no substring trap, no vacuous-comparison risk — the vacuous guard becomes unnecessary because a receipt that declares its anchors cannot silently resolve none. The comparison against the historical blob is then fully mechanical and could be run as a check rather than a lane: recover the blob at the previous pin, select the declared keys on both sides, compare, refresh or refuse. Eighteen families would have been minutes of review instead of a shift, and Arizona would still have been caught — its declared key would simply be absent from the current record, which is the loudest possible signal.",
+      "whatItDoesNotBuy": "The pin still lapses. Every receipt still goes stale on every unrelated regeneration, so repair stays O(receipts) even though each repair becomes nearly free. And a refresh still has to be WRITTEN into every receipt, so the churn on the receipts themselves continues.",
+      "cost": "Hours. One field, populated where the builder already computes the count, plus the check script. No schema question to settle, because declaring which rows you read commits you to nothing about how to compare them.",
+      "recommendation": "Do this one first and regardless. It is strictly a prerequisite of the anchor digest — you cannot digest an anchor set you have not declared — and it is the change that would have prevented the specific failures this class keeps producing: the wrong-rows match, the silent zero-anchor pass, and the repair that refreshes the path the queue named while leaving the other one stale. The anchor digest is then a small increment on top, gated only on the owner's projection rule."
+    },
+    "twoSmallerThingsThisLaneWouldAlsoDo": [
+      "Make sourceDrift() report ALL drifted records for a family, not the first. It breaks out of its loop on the first miss, and that single break is why this dispatch was described as fifteen-and-three when it is eighteen-and-three, and why a lane working the queue field alone would have left three families half-repaired and immediately re-lapsing. This is a one-line change with a real correctness consequence and it is independent of everything above.",
+      "Stop letting a receipt pin a record that the factory regenerates as a matter of course. FIX13 found five receipts pinning MASTER_QUEUE.json, which every generate.mjs run rewrites — that pin can never be stable and its drift carries no information at all. A build-time refusal to pin a path on a declared derived-record list costs almost nothing and removes an entire subclass permanently."
+    ],
+    "theHonestCaveat": "This judgement comes from eighteen families across two records in one cohort, all of them homogeneous — every pin in committedRecords under pathInRepository, every anchor a route row keyed by routeKey. FIX13 saw the harder shapes and stopped on the semantics question rather than answering it. I am confident about the direction and about declaring anchor identities first; I would not want the projection rule decided on the strength of a cohort this uniform."
+  }
+}

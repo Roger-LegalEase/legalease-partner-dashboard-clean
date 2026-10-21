@@ -1,0 +1,1183 @@
+{
+  "schemaVersion": "rcap-official-form-field-map/v1-census-v1",
+  "familyId": "ak-courtview-set",
+  "routeKeys": [
+    "track:AK:ak-courtview"
+  ],
+  "routeSelectionId": "ak-courtview-set-tf-810-primary-filing",
+  "renderStrategy": "acroform_fill",
+  "captionBasis": "every printed caption in this map was read from the official form's own content stream at the widget's coordinates; captionReadAt records where, and the build refuses if a caption is no longer there",
+  "dispositionVocabulary": [
+    "signature_or_date_participant_completion",
+    "court_prosecutor_clerk_or_agency_owned",
+    "participant_sworn_narrative_or_legal_election"
+  ],
+  "routeDeterminedSelections": [],
+  "routeSelectionNote": "Administrative Rule 40(a) and AS 22.35.030 are the route and TF-810 is the form for correcting a case the court system should already have removed under them. Which of the ten printed grounds is true is a fact about the requester's own case rather than a consequence of the route, so all ten are left to the participant.",
+  "requiredBeforeFilingCount": 2,
+  "requiredBeforeFiling": [
+    {
+      "document": "TF-810",
+      "field": "partyNames",
+      "page": 1,
+      "printedContext": "Case Name: Case Number:",
+      "disclosureLabel": "Case Name",
+      "identity": "TF-810 field partyNames",
+      "why": "the platform holds no value for this and the participant supplies it before filing: the case name exactly as it appears on your court paperwork — in a criminal case that is usually the State of Alaska against your name",
+      "participantMustSupply": "the case name exactly as it appears on your court paperwork — in a criminal case that is usually the State of Alaska against your name"
+    },
+    {
+      "document": "TF-810",
+      "field": "rule",
+      "page": 1,
+      "printedContext": "[List specific rule or statute number.]",
+      "disclosureLabel": "Ground 10 — the specific rule or statute number",
+      "identity": "TF-810 field rule",
+      "why": "the platform holds no value for this and the participant supplies it before filing: the specific Alaska statute or court rule number that takes your case off the public index, if you ticked ground 10",
+      "participantMustSupply": "the specific Alaska statute or court rule number that takes your case off the public index, if you ticked ground 10"
+    }
+  ],
+  "maps": [
+    {
+      "formNumber": "TF-810",
+      "documentId": "TF-810",
+      "documentRole": "primary_filing",
+      "documentPolicy": {
+        "mode": "participant",
+        "captionOnly": false,
+        "documentAcceptsFill": true,
+        "routeKey": "track:AK:ak-courtview"
+      },
+      "structuralClass": "acroform",
+      "explicitMappings": {
+        "name": "participant.full_legal_name",
+        "email": "participant.email",
+        "address": "participant.street_address",
+        "phoneNo": "participant.phone",
+        "caseNo": "matter.case_number"
+      },
+      "roleRefusals": [],
+      "selectionControls": [
+        {
+          "field": "Check Box1.0",
+          "acroFieldName": "Check Box1.0",
+          "page": 1,
+          "rect": {
+            "x": 90.9,
+            "y": 490.8,
+            "width": 10.5,
+            "height": 10.41
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "1. A criminal case in which 60 days have passed since the date of acquittal or dismissal, and",
+          "printedLine": "1. A criminal case in which 60 days have passed since the date of acquittal or dismissal, and",
+          "regionHeading": "Ground 1 — 60 days have passed since acquittal or dismissal (selection)",
+          "sectionHeading": null,
+          "effectiveLabel": "Ground 1 — 60 days have passed since acquittal or dismissal (selection)",
+          "captionReadAt": {
+            "page": 1,
+            "y": 492
+          },
+          "selectionId": "Check Box1.0",
+          "kind": "selection_control",
+          "type": "checkbox",
+          "document": "TF-810",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 90.9,
+                "y": 490.8,
+                "width": 10.5,
+                "height": 10.41
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
+            }
+          ],
+          "disposition": "explicit_refusal",
+          "reason": "tick this if you were acquitted of all charges, or all charges were dismissed and the dismissal was not part of a plea agreement in another criminal case, or a combination of the two — and 60 days have passed",
+          "category": "participant_sworn_narrative_or_legal_election",
+          "completenessClass": "participant_sworn_narrative_or_legal_election",
+          "class": "participant_sworn_narrative_or_legal_election",
+          "requiredBeforeFiling": false,
+          "routeDetermined": false
+        },
+        {
+          "field": "Check Box2.0",
+          "acroFieldName": "Check Box2.0",
+          "page": 1,
+          "rect": {
+            "x": 90.9,
+            "y": 426.33,
+            "width": 10.5,
+            "height": 10.41
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "2. A criminal case that was dismissed, because",
+          "printedLine": "2. A criminal case that was dismissed, because",
+          "regionHeading": "Ground 2 — a criminal case dismissed for one of the two reasons below (selection)",
+          "sectionHeading": null,
+          "effectiveLabel": "Ground 2 — a criminal case dismissed for one of the two reasons below (selection)",
+          "captionReadAt": {
+            "page": 1,
+            "y": 427
+          },
+          "selectionId": "Check Box2.0",
+          "kind": "selection_control",
+          "type": "checkbox",
+          "document": "TF-810",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 90.9,
+                "y": 426.33,
+                "width": 10.5,
+                "height": 10.41
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
+            }
+          ],
+          "disposition": "explicit_refusal",
+          "reason": "tick this heading if one of the two reasons printed under it is why your case was dismissed",
+          "category": "participant_sworn_narrative_or_legal_election",
+          "completenessClass": "participant_sworn_narrative_or_legal_election",
+          "class": "participant_sworn_narrative_or_legal_election",
+          "requiredBeforeFiling": false,
+          "routeDetermined": false
+        },
+        {
+          "field": "Check Box2.1",
+          "acroFieldName": "Check Box2.1",
+          "page": 1,
+          "rect": {
+            "x": 108.99,
+            "y": 413.01,
+            "width": 10.5,
+            "height": 10.41
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "a judicial officer found no probable cause under Criminal Rule 4(a)(1) or 5(d).",
+          "printedLine": "a judicial officer found no probable cause under Criminal Rule 4(a)(1) or 5(d).",
+          "regionHeading": "Ground 2 — a judicial officer found no probable cause (selection)",
+          "sectionHeading": null,
+          "effectiveLabel": "Ground 2 — a judicial officer found no probable cause (selection)",
+          "captionReadAt": {
+            "page": 1,
+            "y": 414
+          },
+          "selectionId": "Check Box2.1",
+          "kind": "selection_control",
+          "type": "checkbox",
+          "document": "TF-810",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 108.99,
+                "y": 413.01,
+                "width": 10.5,
+                "height": 10.41
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
+            }
+          ],
+          "disposition": "explicit_refusal",
+          "reason": "tick this if a judicial officer found no probable cause under Criminal Rule 4(a)(1) or 5(d)",
+          "category": "participant_sworn_narrative_or_legal_election",
+          "completenessClass": "participant_sworn_narrative_or_legal_election",
+          "class": "participant_sworn_narrative_or_legal_election",
+          "requiredBeforeFiling": false,
+          "routeDetermined": false
+        },
+        {
+          "field": "Check Box2.2",
+          "acroFieldName": "Check Box2.2",
+          "page": 1,
+          "rect": {
+            "x": 108.99,
+            "y": 398.7,
+            "width": 10.5,
+            "height": 11.34
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Defendant was a minor and was wrongly charged in adult court with an offense within",
+          "printedLine": "Defendant was a minor and was wrongly charged in adult court with an offense within",
+          "regionHeading": "Ground 2 — the defendant was a minor wrongly charged in adult court (selection)",
+          "sectionHeading": null,
+          "effectiveLabel": "Ground 2 — the defendant was a minor wrongly charged in adult court (selection)",
+          "captionReadAt": {
+            "page": 1,
+            "y": 400
+          },
+          "selectionId": "Check Box2.2",
+          "kind": "selection_control",
+          "type": "checkbox",
+          "document": "TF-810",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 108.99,
+                "y": 398.7,
+                "width": 10.5,
+                "height": 11.34
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
+            }
+          ],
+          "disposition": "explicit_refusal",
+          "reason": "tick this if the defendant was a minor and was wrongly charged in adult court with an offence within the jurisdiction for delinquency proceedings under AS 47.12.020",
+          "category": "participant_sworn_narrative_or_legal_election",
+          "completenessClass": "participant_sworn_narrative_or_legal_election",
+          "class": "participant_sworn_narrative_or_legal_election",
+          "requiredBeforeFiling": false,
+          "routeDetermined": false
+        },
+        {
+          "field": "Check Box3.0",
+          "acroFieldName": "Check Box3.0",
+          "page": 1,
+          "rect": {
+            "x": 90.9,
+            "y": 372.81,
+            "width": 10.5,
+            "height": 10.41
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "3. A criminal or minor offense case that was dismissed, because",
+          "printedLine": "3. A criminal or minor offense case that was dismissed, because",
+          "regionHeading": "Ground 3 — a criminal or minor offence case dismissed for one of the two reasons below (selection)",
+          "sectionHeading": null,
+          "effectiveLabel": "Ground 3 — a criminal or minor offence case dismissed for one of the two reasons below (selection)",
+          "captionReadAt": {
+            "page": 1,
+            "y": 374
+          },
+          "selectionId": "Check Box3.0",
+          "kind": "selection_control",
+          "type": "checkbox",
+          "document": "TF-810",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 90.9,
+                "y": 372.81,
+                "width": 10.5,
+                "height": 10.41
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
+            }
+          ],
+          "disposition": "explicit_refusal",
+          "reason": "tick this heading if one of the two reasons printed under it is why your case was dismissed",
+          "category": "participant_sworn_narrative_or_legal_election",
+          "completenessClass": "participant_sworn_narrative_or_legal_election",
+          "class": "participant_sworn_narrative_or_legal_election",
+          "requiredBeforeFiling": false,
+          "routeDetermined": false
+        },
+        {
+          "field": "Check Box3.1",
+          "acroFieldName": "Check Box3.1",
+          "page": 1,
+          "rect": {
+            "x": 108.99,
+            "y": 358.8,
+            "width": 10.5,
+            "height": 11.44
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "the prosecutor decided not to file a charging document.",
+          "printedLine": "the prosecutor decided not to file a charging document.",
+          "regionHeading": "Ground 3 — the prosecutor decided not to file a charging document (selection)",
+          "sectionHeading": null,
+          "effectiveLabel": "Ground 3 — the prosecutor decided not to file a charging document (selection)",
+          "captionReadAt": {
+            "page": 1,
+            "y": 360
+          },
+          "selectionId": "Check Box3.1",
+          "kind": "selection_control",
+          "type": "checkbox",
+          "document": "TF-810",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 108.99,
+                "y": 358.8,
+                "width": 10.5,
+                "height": 11.44
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
+            }
+          ],
+          "disposition": "explicit_refusal",
+          "reason": "tick this if the prosecutor decided not to file a charging document",
+          "category": "participant_sworn_narrative_or_legal_election",
+          "completenessClass": "participant_sworn_narrative_or_legal_election",
+          "class": "participant_sworn_narrative_or_legal_election",
+          "requiredBeforeFiling": false,
+          "routeDetermined": false
+        },
+        {
+          "field": "Check Box3.2",
+          "acroFieldName": "Check Box3.2",
+          "page": 1,
+          "rect": {
+            "x": 108.99,
+            "y": 345.51,
+            "width": 10.5,
+            "height": 10.41
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "there was an identity error under Criminal Rule 43(d) or Minor Offense Rule 11(c).",
+          "printedLine": "there was an identity error under Criminal Rule 43(d) or Minor Offense Rule 11(c).",
+          "regionHeading": "Ground 3 — there was an identity error (selection)",
+          "sectionHeading": null,
+          "effectiveLabel": "Ground 3 — there was an identity error (selection)",
+          "captionReadAt": {
+            "page": 1,
+            "y": 346
+          },
+          "selectionId": "Check Box3.2",
+          "kind": "selection_control",
+          "type": "checkbox",
+          "document": "TF-810",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 108.99,
+                "y": 345.51,
+                "width": 10.5,
+                "height": 10.41
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
+            }
+          ],
+          "disposition": "explicit_refusal",
+          "reason": "tick this if there was an identity error under Criminal Rule 43(d) or Minor Offense Rule 11(c)",
+          "category": "participant_sworn_narrative_or_legal_election",
+          "completenessClass": "participant_sworn_narrative_or_legal_election",
+          "class": "participant_sworn_narrative_or_legal_election",
+          "requiredBeforeFiling": false,
+          "routeDetermined": false
+        },
+        {
+          "field": "Check Box4.0",
+          "acroFieldName": "Check Box4.0",
+          "page": 1,
+          "rect": {
+            "x": 90.9,
+            "y": 330.95,
+            "width": 10.5,
+            "height": 11.44
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "4. A criminal case in which Defendant (1) received a suspended imposition of sentence (SIS),",
+          "printedLine": "4. A criminal case in which Defendant (1) received a suspended imposition of sentence (SIS),",
+          "regionHeading": "Ground 4 — a suspended imposition of sentence, completed, with all other charges resolved (selection)",
+          "sectionHeading": null,
+          "effectiveLabel": "Ground 4 — a suspended imposition of sentence, completed, with all other charges resolved (selection)",
+          "captionReadAt": {
+            "page": 1,
+            "y": 333
+          },
+          "selectionId": "Check Box4.0",
+          "kind": "selection_control",
+          "type": "checkbox",
+          "document": "TF-810",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 90.9,
+                "y": 330.95,
+                "width": 10.5,
+                "height": 11.44
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
+            }
+          ],
+          "disposition": "explicit_refusal",
+          "reason": "tick this if you received a suspended imposition of sentence, completed the terms of the sentence, and were acquitted of — or had dismissed or set aside — all other charges in the same case. The form tells you to attach proof of the SIS and any order setting aside",
+          "category": "participant_sworn_narrative_or_legal_election",
+          "completenessClass": "participant_sworn_narrative_or_legal_election",
+          "class": "participant_sworn_narrative_or_legal_election",
+          "requiredBeforeFiling": false,
+          "routeDetermined": false
+        },
+        {
+          "field": "Check Box5.0",
+          "acroFieldName": "Check Box5.0",
+          "page": 1,
+          "rect": {
+            "x": 90.9,
+            "y": 292.36,
+            "width": 10.5,
+            "height": 10.5
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "5. A criminal or minor offense case in which all of the charges were one of the following",
+          "printedLine": "5. A criminal or minor offense case in which all of the charges were one of the following",
+          "regionHeading": "Ground 5 — all charges were underage alcohol offences (selection)",
+          "sectionHeading": null,
+          "effectiveLabel": "Ground 5 — all charges were underage alcohol offences (selection)",
+          "captionReadAt": {
+            "page": 1,
+            "y": 294
+          },
+          "selectionId": "Check Box5.0",
+          "kind": "selection_control",
+          "type": "checkbox",
+          "document": "TF-810",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 90.9,
+                "y": 292.36,
+                "width": 10.5,
+                "height": 10.5
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
+            }
+          ],
+          "disposition": "explicit_refusal",
+          "reason": "tick this if every charge was one of the underage alcohol offences the form lists — AS 04.16.049, AS 04.16.050, AS 04.16.060(g), AS 28.35.280, AS 28.35.285 or AS 28.35.290 — or an equivalent municipal ordinance",
+          "category": "participant_sworn_narrative_or_legal_election",
+          "completenessClass": "participant_sworn_narrative_or_legal_election",
+          "class": "participant_sworn_narrative_or_legal_election",
+          "requiredBeforeFiling": false,
+          "routeDetermined": false
+        },
+        {
+          "field": "Check Box6.0",
+          "acroFieldName": "Check Box6.0",
+          "page": 1,
+          "rect": {
+            "x": 90.9,
+            "y": 252.55,
+            "width": 11.44,
+            "height": 11.44
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "6. A criminal case in which Defendant (1) was convicted for possessing less than one",
+          "printedLine": "6. A criminal case in which Defendant (1) was convicted for possessing less than one",
+          "regionHeading": "Ground 6 — a conviction for possessing less than one ounce of marijuana at 21 or older (selection)",
+          "sectionHeading": null,
+          "effectiveLabel": "Ground 6 — a conviction for possessing less than one ounce of marijuana at 21 or older (selection)",
+          "captionReadAt": {
+            "page": 1,
+            "y": 254
+          },
+          "selectionId": "Check Box6.0",
+          "kind": "selection_control",
+          "type": "checkbox",
+          "document": "TF-810",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 90.9,
+                "y": 252.55,
+                "width": 11.44,
+                "height": 11.44
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
+            }
+          ],
+          "disposition": "explicit_refusal",
+          "reason": "tick this if you were convicted of possessing less than one ounce of marijuana, were at least 21 at the time of the offence, and were not convicted of any other criminal charge in the same case",
+          "category": "participant_sworn_narrative_or_legal_election",
+          "completenessClass": "participant_sworn_narrative_or_legal_election",
+          "class": "participant_sworn_narrative_or_legal_election",
+          "requiredBeforeFiling": false,
+          "routeDetermined": false
+        },
+        {
+          "field": "Check Box7.0",
+          "acroFieldName": "Check Box7.0",
+          "page": 1,
+          "rect": {
+            "x": 90.84,
+            "y": 200.93,
+            "width": 10.5,
+            "height": 10.41
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "7. A domestic violence, stalking, or sexual assault protective order case that is closed, and no",
+          "printedLine": "7. A domestic violence, stalking, or sexual assault protective order case that is closed, and no",
+          "regionHeading": "Ground 7 — a closed protective order case in which no protective order was ever issued (selection)",
+          "sectionHeading": null,
+          "effectiveLabel": "Ground 7 — a closed protective order case in which no protective order was ever issued (selection)",
+          "captionReadAt": {
+            "page": 1,
+            "y": 202
+          },
+          "selectionId": "Check Box7.0",
+          "kind": "selection_control",
+          "type": "checkbox",
+          "document": "TF-810",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 90.84,
+                "y": 200.93,
+                "width": 10.5,
+                "height": 10.41
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
+            }
+          ],
+          "disposition": "explicit_refusal",
+          "reason": "tick this if the protective order case is closed and no protective order was issued at any time in it",
+          "category": "participant_sworn_narrative_or_legal_election",
+          "completenessClass": "participant_sworn_narrative_or_legal_election",
+          "class": "participant_sworn_narrative_or_legal_election",
+          "requiredBeforeFiling": false,
+          "routeDetermined": false
+        },
+        {
+          "field": "Check Box8.0",
+          "acroFieldName": "Check Box8.0",
+          "page": 1,
+          "rect": {
+            "x": 90.9,
+            "y": 173.83,
+            "width": 10.5,
+            "height": 11.44
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "8. A domestic violence protective order issued by a United States (US) federal court, another",
+          "printedLine": "8. A domestic violence protective order issued by a United States (US) federal court, another",
+          "regionHeading": "Ground 8 — a protective order issued by another US court or tribunal (selection)",
+          "sectionHeading": null,
+          "effectiveLabel": "Ground 8 — a protective order issued by another US court or tribunal (selection)",
+          "captionReadAt": {
+            "page": 1,
+            "y": 175
+          },
+          "selectionId": "Check Box8.0",
+          "kind": "selection_control",
+          "type": "checkbox",
+          "document": "TF-810",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 90.9,
+                "y": 173.83,
+                "width": 10.5,
+                "height": 11.44
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
+            }
+          ],
+          "disposition": "explicit_refusal",
+          "reason": "tick this if the protective order was issued by a US federal court, another state or territorial court, a tribal court in the US, or a US military tribunal",
+          "category": "participant_sworn_narrative_or_legal_election",
+          "completenessClass": "participant_sworn_narrative_or_legal_election",
+          "class": "participant_sworn_narrative_or_legal_election",
+          "requiredBeforeFiling": false,
+          "routeDetermined": false
+        },
+        {
+          "field": "Check Box8.1",
+          "acroFieldName": "Check Box8.1",
+          "page": 1,
+          "rect": {
+            "x": 90.9,
+            "y": 147.33,
+            "width": 10.5,
+            "height": 11.44
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "9. Confidential or sealed by judicial order under Admin. Rule 37.6. [Attach copy of order.]",
+          "printedLine": "9. Confidential or sealed by judicial order under Admin. Rule 37.6. [Attach copy of order.]",
+          "regionHeading": "Ground 9 — already confidential or sealed by judicial order under Admin. Rule 37.6 (selection)",
+          "sectionHeading": null,
+          "effectiveLabel": "Ground 9 — already confidential or sealed by judicial order under Admin. Rule 37.6 (selection)",
+          "captionReadAt": {
+            "page": 1,
+            "y": 149
+          },
+          "captionNote": "The widget is numbered 8.1 and the ground it marks is printed as ground 9. TF-810's ninth and tenth boxes carry the eighth box's name with a suffix, so the number in the field name is not the number on the paper.",
+          "selectionId": "Check Box8.1",
+          "kind": "selection_control",
+          "type": "checkbox",
+          "document": "TF-810",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 90.9,
+                "y": 147.33,
+                "width": 10.5,
+                "height": 11.44
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
+            }
+          ],
+          "disposition": "explicit_refusal",
+          "reason": "tick this if a judge has already made the case confidential or sealed under Administrative Rule 37.6. The form tells you to attach a copy of that order",
+          "category": "participant_sworn_narrative_or_legal_election",
+          "completenessClass": "participant_sworn_narrative_or_legal_election",
+          "class": "participant_sworn_narrative_or_legal_election",
+          "requiredBeforeFiling": false,
+          "routeDetermined": false
+        },
+        {
+          "field": "Check Box8.2",
+          "acroFieldName": "Check Box8.2",
+          "page": 1,
+          "rect": {
+            "x": 90.68,
+            "y": 133.36,
+            "width": 10.5,
+            "height": 11.44
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "10. Otherwise subject to removal from the public index by Alaska statute or court rule:",
+          "printedLine": "10. Otherwise subject to removal from the public index by Alaska statute or court rule:",
+          "regionHeading": "Ground 10 — otherwise subject to removal by Alaska statute or court rule (selection)",
+          "sectionHeading": null,
+          "effectiveLabel": "Ground 10 — otherwise subject to removal by Alaska statute or court rule (selection)",
+          "captionReadAt": {
+            "page": 1,
+            "y": 135
+          },
+          "captionNote": "As above: widget 8.2 marks the ground printed as 10.",
+          "selectionId": "Check Box8.2",
+          "kind": "selection_control",
+          "type": "checkbox",
+          "document": "TF-810",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 90.68,
+                "y": 133.36,
+                "width": 10.5,
+                "height": 11.44
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
+            }
+          ],
+          "disposition": "explicit_refusal",
+          "reason": "tick this if some other Alaska statute or court rule takes the case off the public index, and write the rule or statute number on the line below",
+          "category": "participant_sworn_narrative_or_legal_election",
+          "completenessClass": "participant_sworn_narrative_or_legal_election",
+          "class": "participant_sworn_narrative_or_legal_election",
+          "requiredBeforeFiling": false,
+          "routeDetermined": false
+        }
+      ],
+      "canonicalWrites": [
+        {
+          "field": "name",
+          "acroFieldName": "name",
+          "page": 1,
+          "rect": {
+            "x": 105.79,
+            "y": 577.45,
+            "width": 218.62,
+            "height": 16.13
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Name: Email*:",
+          "printedLine": "Name: Email*:",
+          "regionHeading": "Name",
+          "sectionHeading": null,
+          "effectiveLabel": "Name",
+          "captionReadAt": {
+            "page": 1,
+            "y": 579
+          },
+          "factId": "participant.full_legal_name",
+          "kind": "text",
+          "document": "TF-810"
+        },
+        {
+          "field": "email",
+          "acroFieldName": "email",
+          "page": 1,
+          "rect": {
+            "x": 363.24,
+            "y": 576.51,
+            "width": 177.18,
+            "height": 17.06
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Name: Email*:",
+          "printedLine": "Name: Email*:",
+          "regionHeading": "Email",
+          "sectionHeading": null,
+          "effectiveLabel": "Email",
+          "captionReadAt": {
+            "page": 1,
+            "y": 579
+          },
+          "factId": "participant.email",
+          "kind": "text",
+          "document": "TF-810"
+        },
+        {
+          "field": "address",
+          "acroFieldName": "address",
+          "page": 1,
+          "rect": {
+            "x": 115.67,
+            "y": 534.23,
+            "width": 308.5,
+            "height": 15.28
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Address: Phone:",
+          "printedLine": "Address: Phone:",
+          "regionHeading": "Address",
+          "sectionHeading": null,
+          "effectiveLabel": "Address",
+          "captionReadAt": {
+            "page": 1,
+            "y": 537
+          },
+          "factId": "participant.street_address",
+          "kind": "text",
+          "document": "TF-810"
+        },
+        {
+          "field": "phoneNo",
+          "acroFieldName": "phoneNo",
+          "page": 1,
+          "rect": {
+            "x": 461.32,
+            "y": 533.19,
+            "width": 79.63,
+            "height": 15.84
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Address: Phone:",
+          "printedLine": "Address: Phone:",
+          "regionHeading": "Phone",
+          "sectionHeading": null,
+          "effectiveLabel": "Phone",
+          "captionReadAt": {
+            "page": 1,
+            "y": 537
+          },
+          "factId": "participant.phone",
+          "kind": "text",
+          "document": "TF-810"
+        },
+        {
+          "field": "caseNo",
+          "acroFieldName": "caseNo",
+          "page": 1,
+          "rect": {
+            "x": 440.83,
+            "y": 517.36,
+            "width": 98.91,
+            "height": 16.13
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Case Name: Case Number:",
+          "printedLine": "Case Name: Case Number:",
+          "regionHeading": "Case Number",
+          "sectionHeading": null,
+          "effectiveLabel": "Case Number",
+          "captionReadAt": {
+            "page": 1,
+            "y": 521
+          },
+          "factId": "matter.case_number",
+          "kind": "text",
+          "document": "TF-810"
+        }
+      ],
+      "canonicalRefusals": [
+        {
+          "field": "partyNames",
+          "acroFieldName": "partyNames",
+          "page": 1,
+          "rect": {
+            "x": 130.52,
+            "y": 518.36,
+            "width": 238.88,
+            "height": 16.13
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Case Name: Case Number:",
+          "printedLine": "Case Name: Case Number:",
+          "regionHeading": "Case Name",
+          "sectionHeading": null,
+          "effectiveLabel": "Case Name",
+          "captionReadAt": {
+            "page": 1,
+            "y": 521
+          },
+          "captionNote": "The widget is named `partyNames` and the blank is the CASE NAME box: it sits at x=130 under the printed \"Case Name:\" while the case-number box sits at x=440 under \"Case Number:\". The field name is the misleading channel on this form and the printed caption at the widget's own coordinate is the reliable one.",
+          "document": "TF-810",
+          "reason": "the participant supplies this before filing: the case name exactly as it appears on your court paperwork — in a criminal case that is usually the State of Alaska against your name",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "TF-810 field partyNames",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value for this and the participant supplies it before filing: the case name exactly as it appears on your court paperwork — in a criminal case that is usually the State of Alaska against your name",
+          "participantMustSupply": "the case name exactly as it appears on your court paperwork — in a criminal case that is usually the State of Alaska against your name"
+        },
+        {
+          "field": "rule",
+          "acroFieldName": "rule",
+          "page": 1,
+          "rect": {
+            "x": 107.73,
+            "y": 120.89,
+            "width": 261.17,
+            "height": 14.25
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "[List specific rule or statute number.]",
+          "printedLine": "[List specific rule or statute number.]",
+          "regionHeading": "Ground 10 — the specific rule or statute number",
+          "sectionHeading": null,
+          "effectiveLabel": "Ground 10 — the specific rule or statute number",
+          "captionReadAt": {
+            "page": 1,
+            "y": 123
+          },
+          "document": "TF-810",
+          "reason": "the participant supplies this before filing: the specific Alaska statute or court rule number that takes your case off the public index, if you ticked ground 10",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "TF-810 field rule",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value for this and the participant supplies it before filing: the specific Alaska statute or court rule number that takes your case off the public index, if you ticked ground 10",
+          "participantMustSupply": "the specific Alaska statute or court rule number that takes your case off the public index, if you ticked ground 10"
+        },
+        {
+          "field": "dateSigned",
+          "acroFieldName": "dateSigned",
+          "page": 1,
+          "rect": {
+            "x": 71.87,
+            "y": 99.05,
+            "width": 179.91,
+            "height": 15.19
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Date Signature",
+          "printedLine": "Date Signature",
+          "regionHeading": "Date of signature",
+          "sectionHeading": null,
+          "effectiveLabel": "Date of signature",
+          "captionReadAt": {
+            "page": 1,
+            "y": 89
+          },
+          "document": "TF-810",
+          "reason": "you date it when you sign it; a date written in advance would be false",
+          "category": "signature_or_date_participant_completion",
+          "completenessClass": "signature_or_date_participant_completion",
+          "class": "signature_or_date_participant_completion",
+          "requiredBeforeFiling": false,
+          "why": "you date it when you sign it; a date written in advance would be false"
+        },
+        {
+          "field": "signature",
+          "acroFieldName": "signature",
+          "page": 1,
+          "rect": {
+            "x": 287.72,
+            "y": 99.98,
+            "width": 252.37,
+            "height": 14.25
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Date Signature",
+          "printedLine": "Date Signature",
+          "regionHeading": "Signature",
+          "sectionHeading": null,
+          "effectiveLabel": "Signature",
+          "captionReadAt": {
+            "page": 1,
+            "y": 89
+          },
+          "document": "TF-810",
+          "reason": "you sign this yourself",
+          "category": "signature_or_date_participant_completion",
+          "completenessClass": "signature_or_date_participant_completion",
+          "class": "signature_or_date_participant_completion",
+          "requiredBeforeFiling": false,
+          "why": "you sign this yourself"
+        }
+      ],
+      "boundaryWrites": [
+        {
+          "field": "name",
+          "acroFieldName": "name",
+          "page": 1,
+          "rect": {
+            "x": 105.79,
+            "y": 577.45,
+            "width": 218.62,
+            "height": 16.13
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Name: Email*:",
+          "printedLine": "Name: Email*:",
+          "regionHeading": "Name",
+          "sectionHeading": null,
+          "effectiveLabel": "Name",
+          "captionReadAt": {
+            "page": 1,
+            "y": 579
+          },
+          "factId": "participant.full_legal_name",
+          "kind": "text",
+          "document": "TF-810"
+        },
+        {
+          "field": "email",
+          "acroFieldName": "email",
+          "page": 1,
+          "rect": {
+            "x": 363.24,
+            "y": 576.51,
+            "width": 177.18,
+            "height": 17.06
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Name: Email*:",
+          "printedLine": "Name: Email*:",
+          "regionHeading": "Email",
+          "sectionHeading": null,
+          "effectiveLabel": "Email",
+          "captionReadAt": {
+            "page": 1,
+            "y": 579
+          },
+          "factId": "participant.email",
+          "kind": "text",
+          "document": "TF-810"
+        },
+        {
+          "field": "address",
+          "acroFieldName": "address",
+          "page": 1,
+          "rect": {
+            "x": 115.67,
+            "y": 534.23,
+            "width": 308.5,
+            "height": 15.28
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Address: Phone:",
+          "printedLine": "Address: Phone:",
+          "regionHeading": "Address",
+          "sectionHeading": null,
+          "effectiveLabel": "Address",
+          "captionReadAt": {
+            "page": 1,
+            "y": 537
+          },
+          "factId": "participant.street_address",
+          "kind": "text",
+          "document": "TF-810"
+        },
+        {
+          "field": "phoneNo",
+          "acroFieldName": "phoneNo",
+          "page": 1,
+          "rect": {
+            "x": 461.32,
+            "y": 533.19,
+            "width": 79.63,
+            "height": 15.84
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Address: Phone:",
+          "printedLine": "Address: Phone:",
+          "regionHeading": "Phone",
+          "sectionHeading": null,
+          "effectiveLabel": "Phone",
+          "captionReadAt": {
+            "page": 1,
+            "y": 537
+          },
+          "factId": "participant.phone",
+          "kind": "text",
+          "document": "TF-810"
+        },
+        {
+          "field": "caseNo",
+          "acroFieldName": "caseNo",
+          "page": 1,
+          "rect": {
+            "x": 440.83,
+            "y": 517.36,
+            "width": 98.91,
+            "height": 16.13
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Case Name: Case Number:",
+          "printedLine": "Case Name: Case Number:",
+          "regionHeading": "Case Number",
+          "sectionHeading": null,
+          "effectiveLabel": "Case Number",
+          "captionReadAt": {
+            "page": 1,
+            "y": 521
+          },
+          "factId": "matter.case_number",
+          "kind": "text",
+          "document": "TF-810"
+        }
+      ],
+      "boundaryRefusals": [
+        {
+          "field": "partyNames",
+          "acroFieldName": "partyNames",
+          "page": 1,
+          "rect": {
+            "x": 130.52,
+            "y": 518.36,
+            "width": 238.88,
+            "height": 16.13
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Case Name: Case Number:",
+          "printedLine": "Case Name: Case Number:",
+          "regionHeading": "Case Name",
+          "sectionHeading": null,
+          "effectiveLabel": "Case Name",
+          "captionReadAt": {
+            "page": 1,
+            "y": 521
+          },
+          "captionNote": "The widget is named `partyNames` and the blank is the CASE NAME box: it sits at x=130 under the printed \"Case Name:\" while the case-number box sits at x=440 under \"Case Number:\". The field name is the misleading channel on this form and the printed caption at the widget's own coordinate is the reliable one.",
+          "document": "TF-810",
+          "reason": "the participant supplies this before filing: the case name exactly as it appears on your court paperwork — in a criminal case that is usually the State of Alaska against your name",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "TF-810 field partyNames",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value for this and the participant supplies it before filing: the case name exactly as it appears on your court paperwork — in a criminal case that is usually the State of Alaska against your name",
+          "participantMustSupply": "the case name exactly as it appears on your court paperwork — in a criminal case that is usually the State of Alaska against your name"
+        },
+        {
+          "field": "rule",
+          "acroFieldName": "rule",
+          "page": 1,
+          "rect": {
+            "x": 107.73,
+            "y": 120.89,
+            "width": 261.17,
+            "height": 14.25
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "[List specific rule or statute number.]",
+          "printedLine": "[List specific rule or statute number.]",
+          "regionHeading": "Ground 10 — the specific rule or statute number",
+          "sectionHeading": null,
+          "effectiveLabel": "Ground 10 — the specific rule or statute number",
+          "captionReadAt": {
+            "page": 1,
+            "y": 123
+          },
+          "document": "TF-810",
+          "reason": "the participant supplies this before filing: the specific Alaska statute or court rule number that takes your case off the public index, if you ticked ground 10",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "TF-810 field rule",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value for this and the participant supplies it before filing: the specific Alaska statute or court rule number that takes your case off the public index, if you ticked ground 10",
+          "participantMustSupply": "the specific Alaska statute or court rule number that takes your case off the public index, if you ticked ground 10"
+        },
+        {
+          "field": "dateSigned",
+          "acroFieldName": "dateSigned",
+          "page": 1,
+          "rect": {
+            "x": 71.87,
+            "y": 99.05,
+            "width": 179.91,
+            "height": 15.19
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Date Signature",
+          "printedLine": "Date Signature",
+          "regionHeading": "Date of signature",
+          "sectionHeading": null,
+          "effectiveLabel": "Date of signature",
+          "captionReadAt": {
+            "page": 1,
+            "y": 89
+          },
+          "document": "TF-810",
+          "reason": "you date it when you sign it; a date written in advance would be false",
+          "category": "signature_or_date_participant_completion",
+          "completenessClass": "signature_or_date_participant_completion",
+          "class": "signature_or_date_participant_completion",
+          "requiredBeforeFiling": false,
+          "why": "you date it when you sign it; a date written in advance would be false"
+        },
+        {
+          "field": "signature",
+          "acroFieldName": "signature",
+          "page": 1,
+          "rect": {
+            "x": 287.72,
+            "y": 99.98,
+            "width": 252.37,
+            "height": 14.25
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Date Signature",
+          "printedLine": "Date Signature",
+          "regionHeading": "Signature",
+          "sectionHeading": null,
+          "effectiveLabel": "Signature",
+          "captionReadAt": {
+            "page": 1,
+            "y": 89
+          },
+          "document": "TF-810",
+          "reason": "you sign this yourself",
+          "category": "signature_or_date_participant_completion",
+          "completenessClass": "signature_or_date_participant_completion",
+          "class": "signature_or_date_participant_completion",
+          "requiredBeforeFiling": false,
+          "why": "you sign this yourself"
+        }
+      ]
+    }
+  ],
+  "generationAllowed": false,
+  "runtimeSelectable": false,
+  "commercialRoutesOpened": 0
+}

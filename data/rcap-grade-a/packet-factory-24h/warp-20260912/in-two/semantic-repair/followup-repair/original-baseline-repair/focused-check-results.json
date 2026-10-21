@@ -1,0 +1,70 @@
+{
+  "schemaVersion": "rcap-focused-check-results/v1",
+  "preparedOn": "2026-09-12",
+  "result": "PASS",
+  "checks": [
+    {
+      "command": "node scripts/grade-a-packet-factory-24h/test-in-section1-source-rule-baselines.mjs",
+      "result": "PASS",
+      "assertions": 2404,
+      "placementsSwept": 340,
+      "historicalCrossingsRepaired": 171,
+      "uniqueProfiles": 37,
+      "cleanNegativeControls": 2,
+      "log": "data/rcap-grade-a/packet-factory-24h/warp-20260912/in-two/semantic-repair/followup-repair/original-baseline-repair/source-rule-baseline-test.log"
+    },
+    {
+      "command": "node scripts/grade-a-packet-factory-24h/test-in-two-semantic-repair.mjs",
+      "result": "PASS",
+      "assertions": 186,
+      "negativeControls": 5,
+      "log": "data/rcap-grade-a/packet-factory-24h/warp-20260912/in-two/semantic-repair/followup-repair/original-baseline-repair/semantic-regression.log"
+    },
+    {
+      "command": "node scripts/grade-a-packet-factory-24h/test-in-cca-choice-appearance-preservation.mjs",
+      "result": "PASS",
+      "sourceChoiceFieldsPerFamily": 33,
+      "log": "data/rcap-grade-a/packet-factory-24h/warp-20260912/in-two/semantic-repair/followup-repair/original-baseline-repair/source-choice-preservation.log"
+    },
+    {
+      "command": "node scripts/grade-a-packet-factory-24h/test-in-cca-choice-appearance-byte-proof.mjs",
+      "result": "PASS",
+      "sourceChoiceWidgetsChecked": 512,
+      "negativeControls": 4,
+      "log": "data/rcap-grade-a/packet-factory-24h/warp-20260912/in-two/semantic-repair/followup-repair/original-baseline-repair/source-choice-byte-proof.log"
+    },
+    {
+      "command": "node scripts/grade-a-packet-factory-24h/test-in-section1-route-selections.mjs",
+      "result": "PASS",
+      "assertions": 41,
+      "negativeControls": 22,
+      "log": "data/rcap-grade-a/packet-factory-24h/warp-20260912/in-two/semantic-repair/followup-repair/original-baseline-repair/route-selection.log"
+    },
+    {
+      "command": "node scripts/grade-a-packet-factory-24h/test-in-section1-settled-selection-byte-proof.mjs",
+      "result": "PASS",
+      "assertions": 782,
+      "negativeControls": 16,
+      "log": "data/rcap-grade-a/packet-factory-24h/warp-20260912/in-two/semantic-repair/followup-repair/original-baseline-repair/settled-selection.log"
+    },
+    {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family in_arrest_no_charges-set",
+      "result": "PASS_COMPLETE",
+      "countersZero": 9,
+      "log": "data/rcap-grade-a/packet-factory-24h/warp-20260912/in-two/semantic-repair/followup-repair/original-baseline-repair/completeness-arrest.log"
+    },
+    {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family in_section1_petition-set",
+      "result": "PASS_COMPLETE",
+      "countersZero": 9,
+      "log": "data/rcap-grade-a/packet-factory-24h/warp-20260912/in-two/semantic-repair/followup-repair/original-baseline-repair/completeness-section.log"
+    }
+  ],
+  "summary": {
+    "checksPassed": 8,
+    "checksFailed": 0,
+    "assertionsReported": 3413,
+    "negativeControlsReported": 49,
+    "completenessCountersZero": 18
+  }
+}

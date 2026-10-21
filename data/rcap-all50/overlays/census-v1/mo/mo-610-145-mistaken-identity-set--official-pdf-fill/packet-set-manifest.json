@@ -1,0 +1,118 @@
+{
+  "schemaVersion": 1,
+  "source": {
+    "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+    "gitBlob": "cbdd97e1967dbc755c547272eb0a0a2a99ecc744",
+    "ref": "chatgpt/launch-recovery-20260906",
+    "method": "Connected GitHub full Git-blob read; scoped extraction, not a replacement registry"
+  },
+  "packetSetId": "mo-610-145-mistaken-identity-set",
+  "jurisdiction": "MO",
+  "trackId": "mo-610-145-mistaken-identity",
+  "outputStrategy": "official_pdf_fill",
+  "sourceIds": [
+    "official-form:CR301",
+    "official-form:CR311",
+    "official-form:FI-05"
+  ],
+  "components": [
+    {
+      "componentId": "component:mo-610-145-mistaken-identity-primary-filing-1",
+      "order": 1,
+      "role": "primary_filing",
+      "formNumber": "CR301",
+      "sourceId": "official-form:CR301",
+      "title": "Petition for Expungement - Mistaken Identity",
+      "required": true,
+      "conditional": false,
+      "fieldRefs": [
+        "participant.full_legal_name",
+        "court.county",
+        "court.circuit",
+        "case.case_number",
+        "record_holders",
+        "identity_misuse_or_mistaken_identity_basis",
+        "dismissal_or_acquittal"
+      ],
+      "requiredExecutionBlanks": [
+        "petitioner_signature",
+        "verification_date"
+      ]
+    },
+    {
+      "componentId": "component:mo-610-145-mistaken-identity-cover-sheet-2",
+      "order": 2,
+      "role": "cover_sheet",
+      "formNumber": "FI-05",
+      "sourceId": "official-form:FI-05",
+      "title": "Confidential Case Filing Information Sheet - Non-Domestic Relations",
+      "required": false,
+      "conditional": true,
+      "condition": "Include when the filing opens a new civil case or the receiving clerk requires confidential case-filing information.",
+      "confidential": true,
+      "fieldRefs": [
+        "participant.full_legal_name",
+        "participant.date_of_birth",
+        "participant.ssn_last_four",
+        "participant.contact",
+        "party_roles",
+        "case_type",
+        "court.county"
+      ]
+    },
+    {
+      "componentId": "component:mo-610-145-mistaken-identity-proposed-order-3",
+      "order": 3,
+      "role": "proposed_order",
+      "formNumber": "CR311",
+      "sourceId": "official-form:CR311",
+      "title": "Judgment and Order of Expungement - Mistaken Identity",
+      "required": false,
+      "conditional": true,
+      "condition": "Include when required by the court; participant-supplied caption and record-holder identifiers only. Judicial findings, correction directives, date and signature remain for the court.",
+      "fieldRefs": [
+        "participant.full_legal_name",
+        "court.county",
+        "court.circuit",
+        "case.case_number",
+        "record_holders"
+      ],
+      "requiredExecutionBlanks": [
+        "judicial_findings",
+        "correction_directives",
+        "judgment_date",
+        "judge_signature",
+        "clerk_distribution"
+      ]
+    },
+    {
+      "componentId": "component:mo-610-145-mistaken-identity-filing-instructions-4",
+      "order": 4,
+      "role": "filing_and_service_instructions",
+      "title": "Filing and distribution instructions under section 610.145",
+      "required": true,
+      "conditional": false,
+      "sourceId": "statute:MO:610.145",
+      "requirements": [
+        "Tell dismissal-based participants about the prosecutor/court notice mechanism before asking them to prepare a separate petition.",
+        "Identify the court in the county where the matter was last pending for the petition route.",
+        "Preserve later signature, judicial and clerk distribution fields.",
+        "State that the court determines expungement; the petition is not an order."
+      ]
+    }
+  ],
+  "sourceFaceReconciliation": [
+    {
+      "component": "CR301",
+      "item": "verification_date",
+      "finding": "The held OSCA07-17 one-page form has a penalty-of-perjury declaration and signature line, but no separate verification-date field. Preserve the signature; do not draw a new date or notarial act to satisfy a manifest label.",
+      "newFieldInvented": false
+    },
+    {
+      "component": "FI-05",
+      "item": "participant.ssn_last_four",
+      "finding": "The held FI-05 requests full SSN when the party is a person and it is reasonably available. Last four digits do not satisfy that source instruction. This scoped builder accepts only a supplied full SSN; missing availability must be checked before filing, not coerced to a last-four fill.",
+      "sharedRegistryCorrectionPending": true
+    }
+  ]
+}

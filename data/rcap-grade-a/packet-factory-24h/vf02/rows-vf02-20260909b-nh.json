@@ -1,0 +1,118 @@
+{
+  "schemaVersion": "rcap-verifier-lane-return/v1",
+  "lane": "VF02",
+  "shift": "20260909b-nh",
+  "verifiedAtBase": "159c0b5cf25e10a7fad6a7defb60bd6692e52480",
+  "packetCommit": "e0c78f7fa",
+  "independence": "First independent read of this family. It was built today by lane PF11; this lane did not build, repair or raster it and released no grant of its own.",
+  "measurementNote": "Measured in this container from the committed artifact bytes and the controlling records. verify-packet-completeness.mjs returns PASS_COMPLETE with nine zeros for this family; that reading is recorded as necessary and not sufficient. The failure below is real and is NOT expressible in any of the nine counters, which are field-level measures and do not read the instruction documents against the record's own fee rule.",
+  "rows": [
+    {
+      "itemId": "nh_marijuana_annulment-set",
+      "lane": "VF02",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "159c0b5cf25e10a7fad6a7defb60bd6692e52480",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nh/nh-marijuana-annulment-set--official-pdf-fill",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "note": "All nine are genuinely zero and were measured here. The failed obligation is a defect in the delivered instruction documents that no counter in this vocabulary expresses."
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "familyId nh_marijuana_annulment-set agrees across the field map, the source receipt and the MASTER_QUEUE row, on the single route key marijuana-possession-annulment-under-rsa-651-5-b."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "All three declared sources recompute exact against the Master Library, indexed here by SHA-256: NHJB-3124 eee78822..., NHJB-2311 f8b5df13..., NHJB-2328 b4384b41... Each digest resolves to one file which re-hashes to it."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "All declared components render across 7 pages, and the two process components the route needs are delivered as their own sections: the prosecutor copy and the proof of service, which RSA 651:5-b puts on the petitioner rather than the court."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "All 19 canonical and 12 boundary values print complete in the delivered bytes; nothing is ellipsized or shortened. The 7-value difference is the boundary fixture's 33-character case number and 24-character telephone meeting official /MaxLen 17 and 15: six boxes are delivered BLANK rather than cut, each recorded in the byte proof as unfittable with the field, the limit and the value length, and each named in the guide's 'Boxes the form itself is too short to hold' table with an instruction to write it in by hand. The canonical fixture has zero unfittable boxes."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "All 9 items of packetSet.requiredBeforeFiling appear VERBATIM in the delivered instructions, checked string by string. All 80 required-before-filing form blanks are disclosed verbatim in participant-instructions.md, and all 8 participant elections likewise. The offence-date requirement is given first position and correctly framed as the fact that decides whether the route is open at all, RSA 651:5-b reaching only offences before 16 September 2017."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Nothing is ticked anywhere in the packet, by either mechanism: no ZapfDingbats, Wingdings or Webdings glyph runs, and zero vector stroke paths inside any flattened widget. The 17 SymbolMT runs are identical in both fixtures and are the forms' own furniture. The route-critical election, the statutory statement that the amount was three quarters of an ounce or less, is left to the petitioner and disclosed, which is right: it is the sworn fact the statute turns on."
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "No repeating row table is written; the NHJB-2328 schedules are uniformly blank and disclosed line by line."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Read from the artifact bytes, and this family gets a genuinely hard case right twice. First, NHJB-3124 prints a block headed 'COURT COMPLETES: Date sent to Prosecutor / Sent by (initials) / Name of Prosecutor'; it is blank in the bytes, and the filing instructions name every one of those three fields among the things not to complete in advance, alongside the judge's order and the certificate of annulment. Second, NHJB-2328 page 3 carries a real certificate of service, which I confirmed on the source binary ('I state that on this date I am sending a copy of this document as required by the rules of the Circuit Court'), and it is delivered blank with the correct route-specific reason: on THIS route the petitioner does serve, which is exactly why the box waits until the copy has actually gone out. The sibling family nh_conviction_standard-set gives the opposite reason for the same box on a route where the court serves, so the distinction is drawn per route rather than boilerplated. The byte proof records refusedFieldsWithInk empty and zero glyphs outside write boxes for all six artifact-document pairs. The official NHJB-2328's three source-authored '0' totals are removed here as well, leaving the Total lines empty."
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Both artifacts recomputed from the committed bytes and hash and byte-length to the record: canonical 23390b7f9cc6013681dfe40910233737a0410c2bb11454f6c551b4fd1abbbed8, boundary 661ff0044bc4442c7c760fb39b4f5b6c83415b7dd42fc9f61dddcc8d00fd3f1e, both 7 pages."
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The 7 pages follow the manifest exactly: NHJB-3124 pages 1-2, NHJB-2311 pages 1-2, NHJB-2328 pages 1-3."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "No synthesized widget border and no ink the forms do not print. Across all 134 flattened widget appearance streams the ONLY path paint operators are W and n; there is not one S, s, f, B or b among them. scan-synthesized-widget-borders.mjs independently reports the family outside the FIX80 cohort with 0 widgets exposed."
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The record's destination is the Clerk of the court of conviction or arrest, with a copy furnished by the petitioner to the prosecutor of the underlying offence, and the filing instructions carry both."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "FAIL",
+          "detail": "The record's fee rule for this route ends with an instruction about the packet itself: 'Whether the $125.00 filing fee and the $100 Department of Corrections investigation fee apply is recorded below as an open question, SO THE PACKET MUST NOT STATE A PRICE.' Currency figures survive in BOTH delivered instruction documents, eight times: participant-instructions.md lines 51, 78 and 91 and filing-instructions.md lines 19, 41 and 56 each carry '$125.00' and '$100'. That leaves two assurances the delivered guide makes about itself false on their face. It says 'This packet does not state a price for this petition, and that is deliberate' in the same paragraph that prints $125.00; and, of the Circuit Court Filing Fees schedule, it says 'Its figure is deliberately not repeated here' when that schedule's figure is $125.00 and it is repeated twice within eight lines of that sentence and four times in the document. The builder plainly understood the rule as no currency figure reaching the participant -- it went to the trouble of naming the schedule by prefix and URL rather than by its title, because the title carries the amount -- and then did not apply the same rule to the body. Recorded in fairness: every figure is a verbatim quotation of the controlling record, nothing is invented, the packet asserts no price as due, the figures appear as the subject of a declared open question, and the substantive guidance is right -- ask the clerk before you pay, and the waiver papers NHJB-2311 and NHJB-2328 are named and prepared and delivered. The defect is the false self-description plus the leak, not a fabricated fee. The repair is small and does not require giving up verbatim fidelity: elide the two amounts where the record's fee rule is quoted and say that they are elided, or drop the two sentences that claim they are absent."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The record's rule is 'By the petitioner, not the court. This differs from the general rule under RSA 651:5, IX', and the guide carries it and works it through: the petitioner furnishes the copy, the prosecutor may object within 10 days of receipt, the statute does not prescribe how the petitioner proves the copy went out, so nothing here is a required form and the guide instead tells the petitioner to keep a dated note, a posting receipt or a delivery confirmation because the ten-day window runs from receipt. The certificate of service on NHJB-2328 is delivered blank for the correct reason. This is the obligation the family handles best."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The record's stop conditions are carried, including the ones that matter most on this route: any question about the amount, any offence involving sale, distribution or intent, prosecutor objection converting this into an evidentiary hearing, an offence date on or after 16 September 2017 which is outside the section, and the three that correct expectations -- the annulment is not recognised federally or for immigration, RSA 651:5, XVII does not oblige a private background-check database to remove the record, and annulment does not restore firearm rights."
+        }
+      },
+      "failedObligationNames": ["FEE_AND_WAIVER"],
+      "couldNotMeasure": [],
+      "repairNeeded": [
+        "Remove the currency figures from the delivered instruction documents, or stop claiming they are absent. Eight occurrences of '$125.00' and '$100' across participant-instructions.md (lines 51, 78, 91) and filing-instructions.md (lines 19, 41, 56), against a record rule that says the packet must not state a price and against the guide's own sentences 'This packet does not state a price for this petition' and 'Its figure is deliberately not repeated here'."
+      ],
+      "challengesRecorded": [
+        "The leak is structural rather than careless, and worth the coordinator's attention as a policy question: the record's own requiredBeforeFiling item 8 IS the fee rule, figures and all, and this builder's policy -- the policy that makes its guides good -- is to print every required item in the record's own words. Verbatim fidelity and the no-price rule collide inside a single sentence of the record. Whichever way it is repaired here, the same collision will recur wherever a record states an amount in the same breath as forbidding one.",
+        "Recorded and NOT scored: I checked the sibling family nh_conviction_standard-set for the same defect and it does not have one. There the record's rules.fees states the fees affirmatively, so printing $125.00 is correct and required, and that guide makes no claim to be withholding a figure."
+      ]
+    }
+  ]
+}

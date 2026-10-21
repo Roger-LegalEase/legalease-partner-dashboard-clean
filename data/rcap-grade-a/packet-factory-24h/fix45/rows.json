@@ -1,0 +1,257 @@
+{
+  "schemaVersion": "rcap-packet-factory-focused-repair-return/v1",
+  "workerId": "CLAUDE-FIX45-LA-987-PLACEMENT",
+  "assignmentId": "FIX45",
+  "assignedBase": "04ad683fa",
+  "branch": "fix45-la-987-placement",
+  "laneKind": "repair",
+  "grantsConfirmed": [
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX45 la-987-set-aside-and-dismiss-set -> CLAIM_OK FIX45 la-987-set-aside-and-dismiss-set (repair, grant set ec09bb988b762aa7), exit 0. Asserted before any artifact of this family was read or written."
+  ],
+  "scope": "The one failed obligation, CLIPPING_AND_OVERLAP, on the one granted family. Placement only. Not one character of the Motion, the Rule to Show Cause, the Order of Dismissal, the participant instructions or the filing instructions was reworded; no held fact, no captioned blank, no route key text, no component, no page count, no field map, no source pin and no instruction line changed. participant-instructions.md, filing-instructions.md, production-field-map.json, source-receipt.json and every report but rendered-artifacts.json are byte-identical to the base.",
+  "preflight": {
+    "worktree": "/home/user/fix45-worktree, branch fix45-la-987-placement from 04ad683fa on claude/legalease-sprint-captain-utucnw",
+    "coreSparseCheckout": "false",
+    "skipWorktreeBits": 0,
+    "privateCorpus": "symlinked to /home/user/legalease-partner-dashboard-clean/private, read only; nothing under it was written.",
+    "nodeModules": "symlinked to /home/user/captain-worktree/node_modules; node 22.22.2, pdf-lib 1.17.1",
+    "masterLibrarySourceDir": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1, exported as scripts/verify-packet-build-environment.mjs resolves it",
+    "command": "node scripts/verify-packet-build-environment.mjs --family la-987-set-aside-and-dismiss-set, run after the repair",
+    "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 10/13 passed, 3 failed, 4 not applicable. Recorded as it ran rather than rounded up.",
+    "theThreeFailures": [
+      "worktree_clean: the paths this repair itself changed. Expected state of a repair lane mid-flight, not an environment defect.",
+      "private_is_git_ignored: private/ is mounted as a SYMLINK, which the .gitignore directory pattern 'private/' does not match the way the checker tests it. git status never listed it and nothing under it was staged or committed.",
+      "corpus_matches_committed_index: 1 absent, 0 mismatched of 24 sampled - 'LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf'. An Alabama pardon-board form, no source of this family, and the same pre-existing corpus gap VF02, FIX24 and FIX41 recorded at their own bases."
+    ],
+    "whatPassedThatMatters": "family_sources_bind (zero-source composition, CUSTOM_PLEADING_FROM_CODIFIED_TEXT), master_library_complete at 499 files / 329 PDFs / 51 jurisdictions, stale_artifact_block_consulted with 0 artifacts of this family clear, absent_is_not_empty.",
+    "throwawayCheckout": "/home/user/fix45-throwaway, detached at 04ad683fa, used for the control rebuild. Nothing there was committed and it was deleted when the repair was done.",
+    "otherWorktreesTouched": 0,
+    "subagentsCreated": 0
+  },
+  "hostChanged": {
+    "file": "scripts/build-census-v1-la-987-set-aside-and-dismiss-set.mjs",
+    "familiesReached": 1,
+    "changes": [
+      "primaryBody(): the three `Assigned component identity: ${PRIMARY}` header lines deleted from the composed body of the Motion, the Rule to Show Cause and the Order of Dismissal.",
+      "primaryBody(): the `Route: ${ROUTE_KEY}` trailer deleted from the Rule to Show Cause section and from the Order of Dismissal section - the two court-completed sections. The trailer on the Motion, which is the preparer's part, is untouched and still prints in the same place and register.",
+      "instructionsBody(): the `Assigned component identity: ${INSTRUCTIONS}` header line deleted, and the trailing `Route: ${ROUTE_KEY}` deleted because markdownToPlain(filingText) already ends with that exact line - that duplication is what printed the key twice on page 5.",
+      "renderDocument(text, title, componentIdentity): after the composed rows are drawn, every page of the component gets page-foot chrome - a 0.5pt rule in rgb(0.72) across the column at y=44 and `Assigned component identity: <componentId>` at 7pt in rgb(0.38) at x=60, y=32 - with two assertions: the identity must be present, and the footer must fit the column on one line."
+    ],
+    "whatWasNotChanged": "The renderer's geometry, its 10.25pt Times-Roman body, its 13.25pt line height, its 60pt margins, its splitToken, its wrap(), its PAGE_BREAK handling, its y < margin page break, stampDeterministic and its save options are untouched. No pagination scheme was added and no legal text was authored, moved or reworded.",
+    "diffSize": "35 insertions, 11 deletions in one file; 14 of the insertions are the comment that says why the page foot is chrome."
+  },
+  "otherFamiliesOnThisHost": {
+    "gate": "Every family this builder reaches must stay byte-identical or be reported and left uncommitted.",
+    "finding": "THIS BUILDER IS A SINGLE-FAMILY HOST. It reaches no other family, so no other family can move.",
+    "howThatWasEstablished": "(1) No file in the repository imports it: grep for 'build-census-v1-la-987-set-aside-and-dismiss-set' across scripts/, src/ and data/ returns the file itself and records that name it as this family's builder. (2) It declares one FAMILY_ID ('la-987-set-aside-and-dismiss-set') and one output root (OUT = data/rcap-all50/overlays/census-v1/la/la-987-set-aside-and-dismiss-set--official-pdf-fill); every write in the script goes under OUT. (3) After the rebuild, git status listed only paths under that one directory plus the builder itself.",
+    "corpusWideConfirmation": "SCAN01 was run whole-corpus (249 family directories) at the base and again after the repair. The two raw sweeps are IDENTICAL as JSON - D_census 39, B_page_content 61, A_hard_split 20, C_block_integrity 11 before and after, and not one family's defect list moved. Whole-corpus verify-packet-completeness.mjs is also unchanged: 241 audited, 240 PASS_COMPLETE, one pre-existing FAIL_MISSING_PREFILLS in another family with its 6 unclassifiedBlanks, before and after.",
+    "control": "Before anything was changed, the family was rebuilt at 04ad683fa in the throwaway checkout with the builder unmodified. It reproduced its committed bytes exactly - git status in the throwaway showed no modified tracked path - so every digest movement below is attributable to this edit and not to build noise. preserveIdentityRefresh keeps the source receipt's identityRefresh block across the rebuild; source-receipt.json did not move."
+  },
+  "rows": [
+    {
+      "itemId": "la-987-set-aside-and-dismiss-set",
+      "familyId": "la-987-set-aside-and-dismiss-set",
+      "jurisdiction": "LA",
+      "implementationStrategy": "official_pdf_fill",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/la/la-987-set-aside-and-dismiss-set--official-pdf-fill",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "buildHost": "scripts/build-census-v1-la-987-set-aside-and-dismiss-set.mjs",
+      "verdictRepaired": {
+        "lane": "vf02",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "97be5bcda",
+        "failedObligationNames": [
+          "CLIPPING_AND_OVERLAP"
+        ]
+      },
+      "obligationsRepaired": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "obligationsThisRowDoesNotDischarge": [
+        "RASTER. The RASTER_PASS receipt for workflow run 33964023600 / job 101301118940 is bound to canonical e3cf9c7c.. and boundary df7bc150.., digests this repair supersedes. It stops binding and a fresh central raster is owed on the new bytes. RASTER_QUEUE.json and MASTER_QUEUE.json were NOT edited by this lane, and the local rasters below are not the central pixel gate.",
+        "INDEPENDENT VERIFICATION. This lane built these bytes and verifies none of them. product-wiring.json binding.acceptanceReceipt is null and no verdict was written; VF02's row stands until an independent lane re-measures these bytes.",
+        "THE COUNSEL INPUT ON THE OFFENCE AND THE STATUTE. VF02 scored KNOWN_PREFILLS BLOCKED_LEGAL_INPUT because the delivered Motion names no offence of conviction and cites no statute of conviction, no committed record under data/record-clearing/ supplies either, and LA.memo.json's own primary_filing note lists them among the neutral case fields LegalEase completes. That is legal-design authority's to settle, not a repair lane's. Both fields remain declared REQUIRED_BEFORE_FILING captioned dotted blanks on page 1 exactly as FIX32 left them; this lane did not touch them, did not invent a value and did not read LA.memo.json as authority to."
+      ],
+      "whatChanged": "Placement only, in one file, and every line of legal text stayed where and as it was.\n\nWHAT PAGES 2 AND 3 CARRIED BEFORE, READ OFF THE DELIVERED BYTES: page 2 is wholly the court's section, headed 'PROPOSED RULE - COURT COMPLETES AND ISSUES THIS SECTION', and page 3 is wholly the court's section, headed 'COURT USE ONLY - UNEXECUTED PROPOSED ORDER'. Each carried 'Assigned component identity: la-987-set-aside-and-dismiss-primary-filing-1' at y=705.50 in the header (page 1's sat at y=679.00), and each carried 'Route: obligation:track-only:LA:la-987-set-aside-and-dismiss' in body face - page 2 at y=427.30 and page 3 at y=321.30 in both fixtures - one blank line under the court section's closing sentence, in the same Times-Roman 10.25pt at the same x=60 as the court's own lines, with hundreds of points of empty page beneath. Page 5 printed the route key twice in succession, canonical at y=268.30 and y=228.50, boundary at y=255.00 and y=215.30.\n\nWHAT THEY CARRY NOW. (1) THE COMPONENT IDENTITY IS PAGE-FOOT CHROME. It no longer exists as a composed body line anywhere. renderDocument draws it once on every page of every component after the body is laid out: 'Assigned component identity: <componentId>' at 7pt against the body's 10.25pt, in rgb(0.38,0.38,0.38) against the body's black, at x=60, y=32, under a 0.5pt rgb(0.72) rule spanning x=60 to x=552 at y=44 - the whole of it inside the 60pt band beneath the body's bottom margin that no composed line can reach, because the renderer breaks a page at y < 60. It is now on all five pages of both fixtures instead of four, and page 5 - which carried no identity at all - carries one. (2) THE ROUTE TRAILER LEFT THE COURT'S BLOCKS. It is deleted from the Rule to Show Cause section and from the Order of Dismissal section and prints in neither. It is unchanged, in the same words and the same body register the passing families use, in the preparer's parts of the packet: page 1 at y=162.30 in both fixtures, closing the Motion under the unrepresented-mover block, and page 5 at y=281.50 canonical / y=268.30 boundary, closing the filing instructions. (3) THE DUPLICATE IS GONE. instructionsBody appended a route trailer to text whose last line was already that trailer, from filingInstructions(); the appended copy is removed, so the key prints once on page 5. 'Route: obligation:track-only:LA:la-987-set-aside-and-dismiss' occurrences per fixture fall from 5 to 2 and no page carries it, or any other identifier, twice.\n\nTHE WHOLE TEXT DIFF, BOTH FIXTURES. pdftotext -layout over all five pages, compared as a sorted multiset of printed lines, shows exactly two kinds of change and nothing else: three 'Route: ...' lines removed per fixture, and one further 'Assigned component identity: la-987-set-aside-and-dismiss-instructions-2' present (four body identity lines became five footer identity lines). Every other printed line is character-identical.",
+      "placementDiff": {
+        "method": "extractTextItems + groupIntoLines from scripts/rcap-official-forms/rcap-pdf-anchor-capture.mjs over the composed content stream of every page of both fixtures, base bytes from the throwaway checkout at 04ad683fa against the rebuilt bytes here, with Tf size and Tm placement read from the decoded object graph; plus pdftotext -layout per page, md5 per page.",
+        "pageCountBefore": 5,
+        "pageCountAfter": 5,
+        "noPageAddedOrRemoved": true,
+        "identifierLinesBefore": {
+          "AssignedComponentIdentity": "4 per fixture, all body face 10.25pt at x=60: page 1 y=679.00, page 2 y=705.50, page 3 y=705.50, page 4 y=718.80",
+          "Route": "5 per fixture: page 1 y=149.00, page 2 y=427.30, page 3 y=321.30, and page 5 twice - canonical y=268.30 and y=228.50, boundary y=255.00 and y=215.30"
+        },
+        "identifierLinesAfter": {
+          "AssignedComponentIdentity": "5 per fixture, all page-foot chrome 7pt rgb(0.38) at x=60, y=32.00, under a 0.5pt rgb(0.72) rule at y=44 - one on each of pages 1, 2, 3, 4 and 5",
+          "Route": "2 per fixture, both body face 10.25pt at x=60 and both outside every court-completed section: page 1 y=162.30 in both fixtures, and page 5 y=281.50 canonical / y=268.30 boundary"
+        },
+        "perPage": {
+          "page1": "37 printed lines before, 37 after. The identity header left the body and the route trailer moved up one line height with the text above it; the Motion's own lines are character-identical.",
+          "page2": "18 -> 17 printed lines. Both identifiers gone from the court's Rule section; every remaining line is the court's, character-identical, each 13.25pt higher.",
+          "page3": "25 -> 24 printed lines. Same, for the court's Order section.",
+          "page4": "39 -> 40 printed lines. The identity header left the body, which pulled one instruction line up from page 5: page 4 now ends on the complete line '- Leave every finding, granting or denying paragraph, date, place, and judge signature in the Order of Dismissal blank.' and page 5 opens on its continuation 'Those fields are the court's judgment.' No wording changed; this is the page break moving one line, and it is the only page-composition consequence of the repair.",
+          "page5": "30 -> 29 printed lines in canonical, 31 -> 30 in boundary. The duplicated route trailer is gone; the remaining trailer is the one filingInstructions() has always written."
+        },
+        "identicalInBothFixtures": true
+      },
+      "artifacts": {
+        "canonical": {
+          "path": "data/rcap-all50/overlays/census-v1/la/la-987-set-aside-and-dismiss-set--official-pdf-fill/fixtures/canonical.pdf",
+          "oldSha256": "e3cf9c7c97c61d68a90baf983a8b0f22d5e5555df9cb49c46e59123b714a593c",
+          "oldByteLength": 14924,
+          "newSha256": "8b931df1a91a68f0313e8ec51f9cdd8aa3478695efe80a825513b59a28a624ca",
+          "newByteLength": 15011,
+          "pagesBefore": 5,
+          "pagesAfter": 5
+        },
+        "boundary": {
+          "path": "data/rcap-all50/overlays/census-v1/la/la-987-set-aside-and-dismiss-set--official-pdf-fill/fixtures/boundary.pdf",
+          "oldSha256": "df7bc15003233c72d81ee9b0dfdd7b4f3e63705308caa26e5958eae2cbc9be1c",
+          "oldByteLength": 15146,
+          "newSha256": "8e967c9dfc1c41c0c41f851759d773360e001efb01574de1698774f4de9cec36",
+          "newByteLength": 15249,
+          "pagesBefore": 5,
+          "pagesAfter": 5
+        },
+        "digestsMovedInThisLane": true,
+        "renderedArtifactsAgrees": "reports/rendered-artifacts.json and component-page-manifest.json name the two new digests and byte lengths and both recompute from disk; product-wiring.json re-pins the canonical component digest e3cf9c7c97c6 -> 8b931df1a91a in both proposedRepresentation components."
+      },
+      "deterministicRebuild": "Built with --no-raster, then built again with no other change: the SHA-256 of both fixtures and the md5 of every JSON and Markdown file under the family directory are identical across the two runs.",
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersNote": "Nine zeros before and nine zeros after, both measured here with node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family la-987-set-aside-and-dismiss-set: PASS_COMPLETE, 13/33 written, exit 0. They are the starting condition, not the evidence. VF02 said it plainly and it holds after the repair as well: no counter can see a machine identifier printed as body text of a composed page, because it is composed content rather than a write into a measured box, and nonWhitespaceGlyphsOutsideMeasuredWriteBoxes stays 0. The repair is proved at content-stream and appearance level instead.",
+      "scan01": {
+        "instrument": "node scripts/rcap-scan01-composed-pdf-text-integrity.mjs, whole corpus, 249 family directories, run at the base in the throwaway and again here after the rebuild. Its raw-sweep.json output was NOT committed; the file it writes under data/rcap-grade-a/packet-factory-24h/scan01/ was removed from the worktree after each run.",
+        "thisFamilyBefore": {
+          "defects": 0
+        },
+        "thisFamilyAfter": {
+          "defects": 0
+        },
+        "corpusBefore": {
+          "D_census": 39,
+          "B_page_content": 61,
+          "A_hard_split": 20,
+          "C_block_integrity": 11
+        },
+        "corpusAfter": {
+          "D_census": 39,
+          "B_page_content": 61,
+          "A_hard_split": 20,
+          "C_block_integrity": 11
+        },
+        "readHonestly": "The two sweeps are identical as JSON, family for family and field for field, so nothing anywhere in the corpus moved and this family gained no defect class. SCAN01 records zero defects for this family before and after, and it is honest to say why that is weak evidence: SCAN01 classes this family shipsComposedPdf=false and measures no composed line of it, so it could not have seen the defect VF02 found and cannot see its repair either. It is run here to prove the other 248 families did not move, not to prove this one did."
+      },
+      "appearanceCheck": {
+        "method": "Four ways, on the delivered bytes. (1) The composed content stream of every page decoded from the PDF object graph - Tf sizes, Tm placement, the rg/RG colour operators and the hex Tj strings - read directly rather than through a text extractor. (2) pdftotext -bbox-layout word boxes for every page of both fixtures, tested pairwise for overlap and against the 612x792 media box for clipping. (3) pdftotext -layout page by page, base bytes against new bytes, per-page md5 and a sorted multiset diff of every printed line. (4) 110 dpi local rasters of pages 2, 3 and 5 of the canonical fixture, page 5 of the boundary fixture and page 4 of the canonical fixture written to /tmp/fix45-raster and read as images; the /tmp rasters were deleted after they were read.",
+        "geometryAfter": {
+          "canonical": {
+            "words": 1391,
+            "overlappingWordPairs": 0,
+            "wordsOutsideTheMediaBox": 0
+          },
+          "boundary": {
+            "words": 1392,
+            "overlappingWordPairs": 0,
+            "wordsOutsideTheMediaBox": 0
+          },
+          "geometryBefore": {
+            "canonicalWords": 1393,
+            "boundaryWords": 1394,
+            "overlappingWordPairs": 0,
+            "wordsOutsideTheMediaBox": 0
+          },
+          "wordArithmetic": "1393 - 16 (four body identity lines, four words each) - 6 (three route lines, two words each) + 20 (five footer identity lines) = 1391, exactly what is measured. Nothing else was added or lost."
+        },
+        "contentStream": "Page 2 of the canonical fixture, decoded: the body ends on the court's own closing sentence, and the only ink below it is 'q 0.72 0.72 0.72 RG 0.5 w 60 44 m 552 44 l S Q' and then 'BT 0.38 0.38 0.38 rg /Times-Roman 7 Tf 1 0 0 1 60 32 Tm <...>Tj ET'. No 10.25pt operator appears after the court's last line, and no route key appears on the page at all.",
+        "whatTheRasterShows": "Page 2 reads, in order: LA-CCRP-ART-987, RULE TO SHOW CAUSE, the caption, 'PROPOSED RULE - COURT COMPLETES AND ISSUES THIS SECTION', the show-cause paragraph, the three clerk-set lines, the judge signature line, and the 'Leave every line above blank for the court' sentence - and then nothing at all until a thin grey rule and one small grey line at the very foot of the sheet. Page 3 reads the same way for the Order, ending on 'The participant leaves every finding, ruling, date, place, decretal paragraph, and judicial signature blank.' with the same foot chrome and nothing between. Nothing in either court section can be mistaken for a line the court is meant to read or complete. Page 5 carries the filing instructions and one route trailer under them, and the same foot chrome. On every page the chrome is visibly a different size and a different colour from every body line, sits below a rule, and is separated from the lowest body line by at least 25pt.",
+        "rasteredLocally": "/tmp/fix45-raster, deleted after measuring. Nothing was rastered into the delivered tree and no rasterState was set."
+      },
+      "everythingElseHeldStill": {
+        "theThirteenWrites": "13 declared writes read back from the delivered bytes in each fixture, unchanged, and the builder's own proveWrites assertion passed for both. Every value VF02 listed still prints on page 1, including the boundary fixture's 'Maria-Alejandra O'Shaughnessy-Whitfield' and 'TEST-BOUNDARY-2026-0000000000000001' as whole tokens.",
+        "theCourtSections": "Character-identical. The Rule's show-cause paragraph, its three clerk-set lines, its judge signature line and its 'Leave every line above blank for the court' sentence; the Order's 'COURT USE ONLY - UNEXECUTED PROPOSED ORDER' heading, its no-finding sentence, its findings and decretal dotted rules, its date, place and judge signature lines and its closing sentence - all present, all in the same order, all in the same words.",
+        "theProtectedBlanks": "All still blank and all still captioned: the five attorney fields, the unrepresented mover signature and its date, the rule return date, time and place, the judge signature on the rule, the order findings, the granting and decretal paragraphs, the order date, the order place and the judge signature on the order. /Annots is empty on all five pages of both fixtures, there is no AcroForm and there are no flattened widget appearances, before or after.",
+        "theFourRequiredBeforeFilingItems": "Unchanged, and participant-instructions.md is byte-identical to the base, lead-in sentence included.",
+        "theTwoCaptionedBlanksCounselOwns": "'Conviction offense wording:' and 'Conviction statute:' still print on page 1 of both fixtures as captioned dotted blanks exactly as FIX32 left them.",
+        "theRouteKeyText": "Unchanged, character for character, wherever it prints: obligation:track-only:LA:la-987-set-aside-and-dismiss.",
+        "filesUnderTheFamilyThatDidNotMove": [
+          "participant-instructions.md",
+          "filing-instructions.md",
+          "production-field-map.json",
+          "source-receipt.json",
+          "reports/actual-writes.json",
+          "reports/blanks-left-for-the-participant.json",
+          "reports/completeness-counters.json"
+        ]
+      },
+      "verifiersRun": {
+        "verifyPacketCompleteness": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family la-987-set-aside-and-dismiss-set: PASS_COMPLETE, 13/33 written, nine counters zero, exit 0 - before and after. Whole-corpus run also before and after: 241 audited, 240 PASS_COMPLETE, 1 pre-existing FAIL_MISSING_PREFILLS in another family, unclassifiedBlanks 6 in that family both times, every other counter zero both times.",
+        "verifyIdentityRefreshSurvivesRebuild": "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs: EVERY_IDENTITY_REFRESH_SURVIVED - 249 receipts compared against HEAD, 53 carrying an identityRefresh - before and after.",
+        "scan01": "whole-corpus before and after; the two sweeps are identical JSON. See scan01 above.",
+        "buildAssertions": "The builder's own gates all passed on the rebuild: the three-page Article 987 instrument assertion, the page-manifest-describes-every-page assertion, proveWrites for both fixtures, the nine-counters-zero assertion, and the two new page-foot assertions (an identity is present for every component; the footer fits the column on one line).",
+        "buildEnvironmentPreflight": "PACKET_BUILD_ENVIRONMENT_NOT_READY, 10/13, the three failures named in preflight above."
+      },
+      "productWiring": {
+        "regeneratedBy": "node scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs --family la-987-set-aside-and-dismiss-set",
+        "result": "1 record refreshed; both proposedRepresentation component digests re-pinned e3cf9c7c97c6 -> 8b931df1a91a and binding.acceptanceReceipt set to null, because the RASTER_PASS receipt it carried is bound to superseded bytes.",
+        "acceptanceReceipt": null,
+        "routeKeysUnchanged": "the same single route key, obligation:track-only:LA:la-987-set-aside-and-dismiss"
+      },
+      "filesChanged": [
+        "scripts/build-census-v1-la-987-set-aside-and-dismiss-set.mjs",
+        "data/rcap-all50/overlays/census-v1/la/la-987-set-aside-and-dismiss-set--official-pdf-fill/fixtures/canonical.pdf",
+        "data/rcap-all50/overlays/census-v1/la/la-987-set-aside-and-dismiss-set--official-pdf-fill/fixtures/boundary.pdf",
+        "data/rcap-all50/overlays/census-v1/la/la-987-set-aside-and-dismiss-set--official-pdf-fill/component-page-manifest.json",
+        "data/rcap-all50/overlays/census-v1/la/la-987-set-aside-and-dismiss-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "data/rcap-all50/overlays/census-v1/la/la-987-set-aside-and-dismiss-set--official-pdf-fill/product-wiring.json",
+        "data/rcap-grade-a/packet-factory-24h/fix45/rows.json",
+        "data/rcap-grade-a/packet-factory-24h/claim-ledger.json"
+      ],
+      "rasterOwed": true,
+      "acceptanceReceipt": null,
+      "selfVerified": false,
+      "selfVerificationPerformed": 0,
+      "routesOpened": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "grantsNothing": "A repair. It approves nothing, promotes nothing, sets no price and opens no commercial route."
+    }
+  ],
+  "notDone": [
+    "The central raster. The new bytes carry no acceptance receipt; RASTER_QUEUE.json and MASTER_QUEUE.json were deliberately not touched.",
+    "Independent verification of these bytes. This lane built them and verifies none of them; VF02's verdict is answered on the one obligation it failed, not re-issued.",
+    "The offence and statute of conviction. Still absent from the delivered Motion, still declared captioned blanks, still an open legal-design input for counsel. No record was edited and no value was invented.",
+    "No specification, legal record, queue, census, compiled runtime or route was touched. data/record-clearing/legal-design-intake/LA.memo.json was read and not edited."
+  ],
+  "packetBytesChanged": 2,
+  "overlayDirectoriesModified": 1,
+  "buildersModified": 1,
+  "centralStateEdits": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "selfVerificationPerformed": 0,
+  "grantsNothing": "This return is a repair record. It promotes nothing, approves no output and opens no commercial route. Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and this is not that record."
+}

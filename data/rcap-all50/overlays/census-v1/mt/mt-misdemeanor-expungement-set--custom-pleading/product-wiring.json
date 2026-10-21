@@ -1,0 +1,377 @@
+{
+  "schemaVersion": "rcap-census-v1-product-wiring/v1",
+  "family": "mt_misdemeanor_expungement-set",
+  "routeKey": "obligation:unit:MT:mt_misdemeanor_expungement:mt-misdemeanor-criss-implementation",
+  "routeKeys": [
+    "obligation:unit:MT:mt_misdemeanor_expungement:mt-misdemeanor-criss-implementation",
+    "obligation:unit:MT:mt_misdemeanor_expungement:mt-misdemeanor-district-court-relief"
+  ],
+  "workType": "PRODUCT_WIRING_REQUIRED",
+  "status": "DECLARED_NOT_INSTALLED",
+  "authorityCreated": "none",
+  "generatedBy": "scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs",
+  "derivedFrom": "data/rcap-all50/overlays/census-v1/mt/mt-misdemeanor-expungement-set--custom-pleading/reports/rendered-artifacts.json",
+  "explicitNonGrants": [
+    "This document opens no commercial route.",
+    "It creates no fulfillment record and consumes no packet credit.",
+    "It marks no packet proven and grants no output approval.",
+    "It does not add this track to compiled runtime. src/lib/rcap-engine/compiled/** is untouched.",
+    "It does not change any live RCAP route.",
+    "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This is not that record."
+  ],
+  "currentState": {
+    "serviceDisposition": "missing_from_compiled_runtime",
+    "commercialState": "NO_ROUTE_LEVEL_GRADE_A_AUTHORITY_FROM_TRACK_MEMBERSHIP",
+    "existingArtifactIds": [],
+    "generationAllowed": false
+  },
+  "binding": {
+    "family": "mt_misdemeanor_expungement-set",
+    "jurisdiction": "MT",
+    "routeKeys": [
+      "obligation:unit:MT:mt_misdemeanor_expungement:mt-misdemeanor-criss-implementation",
+      "obligation:unit:MT:mt_misdemeanor_expungement:mt-misdemeanor-district-court-relief"
+    ],
+    "deliveryType": "custom_pleading",
+    "instrumentKinds": [
+      "DOJ CRISS expungement submission after the court order (official_pdf_fill)",
+      "District-court petition for expungement of misdemeanor records (custom_pleading)"
+    ],
+    "packetComponents": [
+      "component:mt_misdemeanor_expungement-primary-filing-5"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/mt/mt-misdemeanor-expungement-set--custom-pleading/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/mt/mt-misdemeanor-expungement-set--custom-pleading/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/mt/mt-misdemeanor-expungement-set--custom-pleading/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/mt/mt-misdemeanor-expungement-set--custom-pleading/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+        "sha256": "4606815523c3d2a77d1874ca3de8909250abd9349f2973230473116c962109a7",
+        "tier": "exact_content_hash"
+      }
+    ],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "34783921430",
+      "jobId": "103796401040",
+      "artifactId": "10326207064",
+      "boundToCanonicalSha256": "82a512f6eaa9f650fe4b69f6534f85be640fde3d968fcd70319658a90ed71289",
+      "coversTheWholeFamily": true
+    },
+    "lastIndependentVerification": {
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vfmtmisfinal1",
+      "verifiedAtBase": "3bd5e99f0d63938dcdaf739deca3c546d5327a48"
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-mt_misdemeanor_expungement-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  },
+  "proposedRepresentation": {
+    "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
+    "packetSetId": "mt_misdemeanor_expungement-set",
+    "outputStrategy": "custom_pleading",
+    "components": [
+      {
+        "componentId": "mt_misdemeanor_expungement-primary-filing-1",
+        "role": "primary_filing",
+        "requirement": "required",
+        "conditionDescription": null,
+        "outputStrategy": "custom_pleading",
+        "officialFormId": null,
+        "officialSourceUrl": null,
+        "order": 1,
+        "documentId": "mt_misdemeanor_expungement-primary-filing-1",
+        "file": "data/rcap-all50/overlays/census-v1/mt/mt-misdemeanor-expungement-set--custom-pleading/fixtures/canonical.pdf",
+        "sha256": "82a512f6eaa9f650fe4b69f6534f85be640fde3d968fcd70319658a90ed71289",
+        "fixtureBindings": [
+          {
+            "fixture": "canonical",
+            "file": "data/rcap-all50/overlays/census-v1/mt/mt-misdemeanor-expungement-set--custom-pleading/fixtures/canonical.pdf",
+            "sha256": "82a512f6eaa9f650fe4b69f6534f85be640fde3d968fcd70319658a90ed71289",
+            "byteLength": 90073,
+            "pages": [
+              1,
+              2
+            ],
+            "syntheticNonfilingFixture": true
+          },
+          {
+            "fixture": "boundary",
+            "file": "data/rcap-all50/overlays/census-v1/mt/mt-misdemeanor-expungement-set--custom-pleading/fixtures/boundary.pdf",
+            "sha256": "1e323f110fdd900db1b22416c35956a51c2107d43408b0d83790e5ce475c9607",
+            "byteLength": 96723,
+            "pages": [
+              1,
+              2
+            ],
+            "syntheticNonfilingFixture": true
+          },
+          {
+            "fixture": "military",
+            "file": "data/rcap-all50/overlays/census-v1/mt/mt-misdemeanor-expungement-set--custom-pleading/fixtures/military.pdf",
+            "sha256": "94fb4b6ed7ab60269bea2e21ff2a06a0d6e364c5345f0114dfbf218e264c20af",
+            "byteLength": 90843,
+            "pages": [
+              1,
+              2
+            ],
+            "syntheticNonfilingFixture": true
+          }
+        ]
+      },
+      {
+        "componentId": "mt_misdemeanor_expungement-certificate-of-service-2",
+        "role": "certificate_of_service",
+        "requirement": "required",
+        "conditionDescription": null,
+        "outputStrategy": "custom_pleading",
+        "officialFormId": null,
+        "officialSourceUrl": null,
+        "order": 2,
+        "documentId": "mt_misdemeanor_expungement-certificate-of-service-2",
+        "file": "data/rcap-all50/overlays/census-v1/mt/mt-misdemeanor-expungement-set--custom-pleading/fixtures/canonical.pdf",
+        "sha256": "82a512f6eaa9f650fe4b69f6534f85be640fde3d968fcd70319658a90ed71289",
+        "fixtureBindings": [
+          {
+            "fixture": "canonical",
+            "file": "data/rcap-all50/overlays/census-v1/mt/mt-misdemeanor-expungement-set--custom-pleading/fixtures/canonical.pdf",
+            "sha256": "82a512f6eaa9f650fe4b69f6534f85be640fde3d968fcd70319658a90ed71289",
+            "byteLength": 90073,
+            "pages": [
+              3
+            ],
+            "syntheticNonfilingFixture": true
+          },
+          {
+            "fixture": "boundary",
+            "file": "data/rcap-all50/overlays/census-v1/mt/mt-misdemeanor-expungement-set--custom-pleading/fixtures/boundary.pdf",
+            "sha256": "1e323f110fdd900db1b22416c35956a51c2107d43408b0d83790e5ce475c9607",
+            "byteLength": 96723,
+            "pages": [
+              3
+            ],
+            "syntheticNonfilingFixture": true
+          },
+          {
+            "fixture": "military",
+            "file": "data/rcap-all50/overlays/census-v1/mt/mt-misdemeanor-expungement-set--custom-pleading/fixtures/military.pdf",
+            "sha256": "94fb4b6ed7ab60269bea2e21ff2a06a0d6e364c5345f0114dfbf218e264c20af",
+            "byteLength": 90843,
+            "pages": [
+              3
+            ],
+            "syntheticNonfilingFixture": true
+          }
+        ]
+      },
+      {
+        "componentId": "mt_misdemeanor_expungement-proposed-order-3",
+        "role": "proposed_order",
+        "requirement": "required",
+        "conditionDescription": null,
+        "outputStrategy": "custom_pleading",
+        "officialFormId": null,
+        "officialSourceUrl": null,
+        "order": 3,
+        "documentId": "mt_misdemeanor_expungement-proposed-order-3",
+        "file": "data/rcap-all50/overlays/census-v1/mt/mt-misdemeanor-expungement-set--custom-pleading/fixtures/canonical.pdf",
+        "sha256": "82a512f6eaa9f650fe4b69f6534f85be640fde3d968fcd70319658a90ed71289",
+        "fixtureBindings": [
+          {
+            "fixture": "canonical",
+            "file": "data/rcap-all50/overlays/census-v1/mt/mt-misdemeanor-expungement-set--custom-pleading/fixtures/canonical.pdf",
+            "sha256": "82a512f6eaa9f650fe4b69f6534f85be640fde3d968fcd70319658a90ed71289",
+            "byteLength": 90073,
+            "pages": [
+              4
+            ],
+            "syntheticNonfilingFixture": true
+          },
+          {
+            "fixture": "boundary",
+            "file": "data/rcap-all50/overlays/census-v1/mt/mt-misdemeanor-expungement-set--custom-pleading/fixtures/boundary.pdf",
+            "sha256": "1e323f110fdd900db1b22416c35956a51c2107d43408b0d83790e5ce475c9607",
+            "byteLength": 96723,
+            "pages": [
+              4
+            ],
+            "syntheticNonfilingFixture": true
+          },
+          {
+            "fixture": "military",
+            "file": "data/rcap-all50/overlays/census-v1/mt/mt-misdemeanor-expungement-set--custom-pleading/fixtures/military.pdf",
+            "sha256": "94fb4b6ed7ab60269bea2e21ff2a06a0d6e364c5345f0114dfbf218e264c20af",
+            "byteLength": 90843,
+            "pages": [
+              4
+            ],
+            "syntheticNonfilingFixture": true
+          }
+        ]
+      },
+      {
+        "componentId": "mt_misdemeanor_expungement-continuation-4",
+        "role": "continuation",
+        "requirement": "conditional",
+        "conditionDescription": "Generated where there are more than five convictions or more than two prosecuting offices.",
+        "outputStrategy": "custom_pleading",
+        "officialFormId": null,
+        "officialSourceUrl": null,
+        "order": 4,
+        "documentId": "mt_misdemeanor_expungement-continuation-4",
+        "file": "data/rcap-all50/overlays/census-v1/mt/mt-misdemeanor-expungement-set--custom-pleading/fixtures/boundary.pdf",
+        "sha256": "1e323f110fdd900db1b22416c35956a51c2107d43408b0d83790e5ce475c9607",
+        "fixtureBindings": [
+          {
+            "fixture": "boundary",
+            "file": "data/rcap-all50/overlays/census-v1/mt/mt-misdemeanor-expungement-set--custom-pleading/fixtures/boundary.pdf",
+            "sha256": "1e323f110fdd900db1b22416c35956a51c2107d43408b0d83790e5ce475c9607",
+            "byteLength": 96723,
+            "pages": [
+              5
+            ],
+            "syntheticNonfilingFixture": true
+          }
+        ]
+      },
+      {
+        "componentId": "mt_misdemeanor_expungement-primary-filing-5",
+        "role": "primary_filing",
+        "requirement": "required",
+        "conditionDescription": null,
+        "outputStrategy": "official_pdf_fill",
+        "officialFormId": "EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+        "officialSourceUrl": "https://dojmt.gov/wp-content/uploads/20240429-Updated-ExpungementRemovalRequestForm.docx",
+        "order": 5,
+        "documentId": "mt_misdemeanor_expungement-primary-filing-5",
+        "file": "data/rcap-all50/overlays/census-v1/mt/mt-misdemeanor-expungement-set--custom-pleading/fixtures/canonical.pdf",
+        "sha256": "82a512f6eaa9f650fe4b69f6534f85be640fde3d968fcd70319658a90ed71289",
+        "fixtureBindings": [
+          {
+            "fixture": "canonical",
+            "file": "data/rcap-all50/overlays/census-v1/mt/mt-misdemeanor-expungement-set--custom-pleading/fixtures/canonical.pdf",
+            "sha256": "82a512f6eaa9f650fe4b69f6534f85be640fde3d968fcd70319658a90ed71289",
+            "byteLength": 90073,
+            "pages": [
+              5,
+              6
+            ],
+            "syntheticNonfilingFixture": true
+          },
+          {
+            "fixture": "boundary",
+            "file": "data/rcap-all50/overlays/census-v1/mt/mt-misdemeanor-expungement-set--custom-pleading/fixtures/boundary.pdf",
+            "sha256": "1e323f110fdd900db1b22416c35956a51c2107d43408b0d83790e5ce475c9607",
+            "byteLength": 96723,
+            "pages": [
+              6,
+              7
+            ],
+            "syntheticNonfilingFixture": true
+          },
+          {
+            "fixture": "military",
+            "file": "data/rcap-all50/overlays/census-v1/mt/mt-misdemeanor-expungement-set--custom-pleading/fixtures/military.pdf",
+            "sha256": "94fb4b6ed7ab60269bea2e21ff2a06a0d6e364c5345f0114dfbf218e264c20af",
+            "byteLength": 90843,
+            "pages": [
+              5,
+              6
+            ],
+            "syntheticNonfilingFixture": true
+          }
+        ]
+      },
+      {
+        "componentId": "mt_misdemeanor_expungement-instructions-6",
+        "role": "instructions",
+        "requirement": "required",
+        "conditionDescription": null,
+        "outputStrategy": "process_guidance",
+        "officialFormId": null,
+        "officialSourceUrl": null,
+        "order": 6,
+        "documentId": "mt_misdemeanor_expungement-instructions-6",
+        "file": "data/rcap-all50/overlays/census-v1/mt/mt-misdemeanor-expungement-set--custom-pleading/fixtures/canonical.pdf",
+        "sha256": "82a512f6eaa9f650fe4b69f6534f85be640fde3d968fcd70319658a90ed71289",
+        "fixtureBindings": [
+          {
+            "fixture": "canonical",
+            "file": "data/rcap-all50/overlays/census-v1/mt/mt-misdemeanor-expungement-set--custom-pleading/fixtures/canonical.pdf",
+            "sha256": "82a512f6eaa9f650fe4b69f6534f85be640fde3d968fcd70319658a90ed71289",
+            "byteLength": 90073,
+            "pages": [
+              7,
+              8,
+              9
+            ],
+            "syntheticNonfilingFixture": true
+          },
+          {
+            "fixture": "boundary",
+            "file": "data/rcap-all50/overlays/census-v1/mt/mt-misdemeanor-expungement-set--custom-pleading/fixtures/boundary.pdf",
+            "sha256": "1e323f110fdd900db1b22416c35956a51c2107d43408b0d83790e5ce475c9607",
+            "byteLength": 96723,
+            "pages": [
+              8,
+              9,
+              10,
+              11
+            ],
+            "syntheticNonfilingFixture": true
+          },
+          {
+            "fixture": "military",
+            "file": "data/rcap-all50/overlays/census-v1/mt/mt-misdemeanor-expungement-set--custom-pleading/fixtures/military.pdf",
+            "sha256": "94fb4b6ed7ab60269bea2e21ff2a06a0d6e364c5345f0114dfbf218e264c20af",
+            "byteLength": 90843,
+            "pages": [
+              7,
+              8,
+              9
+            ],
+            "syntheticNonfilingFixture": true
+          }
+        ]
+      }
+    ],
+    "sequentialUnits": [
+      {
+        "unitId": "mt-misdemeanor-district-court-relief",
+        "sequence": 1,
+        "components": [
+          "mt_misdemeanor_expungement-primary-filing-1",
+          "mt_misdemeanor_expungement-certificate-of-service-2",
+          "mt_misdemeanor_expungement-proposed-order-3",
+          "mt_misdemeanor_expungement-continuation-4"
+        ],
+        "continuationCondition": "More than five convictions OR more than two prosecution offices; all recipient/case rows remain bound when applicable"
+      },
+      {
+        "unitId": "mt-misdemeanor-criss-implementation",
+        "sequence": 2,
+        "onlyAfter": "Court order issued; reconcile all/some/none granted scope before signing/mailing",
+        "components": [
+          "mt_misdemeanor_expungement-primary-filing-5",
+          "mt_misdemeanor_expungement-instructions-6"
+        ],
+        "requestSelection": "Misdemeanor Conviction Expungement - first checkbox only",
+        "physicalPrerequisite": "FD-258 prints required before DOJ submission; never generation gate"
+      }
+    ]
+  },
+  "scopeCompletion": {
+    "generatedBase": "Existing native generator produced canonical primary5; author completed exact adopted6-component conditional scope against actual saved fixture page manifests",
+    "completionAuthority": "Current adopted MT misdemeanor track/manifest and matching two worklist unit projections",
+    "commercialAuthorityCreated": false,
+    "independentAcceptance": false
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-worker-checkpoints/v1",
+  "assignmentId": "PF10",
+  "workerBranch": "pfa-20260909",
+  "returnFilename": "checkpoints-pf10-20260909.json",
+  "writtenAlongsideRatherThanOver": "This lane's own checkpoints file. No other lane's file is written by PF10.",
+  "note": "One checkpoint per family, closed as that family was committed and pushed, rather than one batch at the end. The head SHA on each checkpoint is the commit that carried that family.",
+  "checkpoints": [
+    {
+      "checkpoint": 1,
+      "closedAt": "2026-09-09T21:02:37Z",
+      "familyInThisCheckpoint": "md_10105_early-set",
+      "whatWasUnmet": "SOURCE_READY with every bound source held, and no build script",
+      "whatThisLaneDid": "Wrote scripts/build-census-v1-md_10105_early-set.mjs and built the family: two Maryland Judiciary forms bound by exact digest, 73 censused widgets, 14 writes, 20 required-before-filing items, both glyph readings measured from the output bytes.",
+      "status": "COMPLETED",
+      "nineCountersZero": true,
+      "rasterState": "BUILT_RASTER_PENDING",
+      "canonicalSha256": "4258591d9ca8a8b14b167102ec868649888375701067468eae74da5528fee938",
+      "boundarySha256": "20e877b099b7c2742c75e873944f5f62a610cfbd1ae84acdd9875e0ee6e93522",
+      "pushedTo": "origin/pfa-20260909",
+      "packetsSelfVerified": 0,
+      "verdictIssued": null,
+      "commitThatCarriedThisFamily": "cb032c1bc67212208157c6e2217af60b06284664",
+      "note": "Rebuilt after the Captain symlinked private/ into this worktree mid-shift. The custodiesSearched list in the source receipt grew to name the newly mounted local paths; both fixture digests and both bound source digests are unchanged, because this lane's resolver already reached the same bytes through the main working tree of the same repository. No family was stopped for a source reason."
+    },
+    {
+      "checkpoint": 2,
+      "closedAt": "2026-09-09T21:17:14Z",
+      "familyInThisCheckpoint": "rcap-in-custom-pleading",
+      "whatWasUnmet": "SOURCE_READY with every bound source held, and no build script",
+      "whatThisLaneDid": "Wrote scripts/build-census-v1-rcap-in-custom-pleading.mjs and built the family: three documents sliced by proved page markers out of one 15-page Coalition for Court Access bundle bound at one digest, 39 censused fields, 8 writes including one composed address block, 23 required-before-filing items, both glyph readings measured on the delivered packet.",
+      "status": "COMPLETED",
+      "nineCountersZero": true,
+      "rasterState": "BUILT_RASTER_PENDING",
+      "canonicalSha256": "9f45fa05888e1c8a3b5e51bf0a406bab9e3a5561aa0c41eaa25075cb0d783131",
+      "boundarySha256": "46a8741e935498111a9940106342391e82722310f1684aff4663deb897cd07f8",
+      "pushedTo": "origin/pfa-20260909",
+      "packetsSelfVerified": 0,
+      "verdictIssued": null,
+      "commitThatCarriedThisFamily": "a16e37fae55a42265c1564caa1849a0ae33b7459"
+    },
+    {
+      "checkpoint": 3,
+      "closedAt": "2026-09-09T21:31:16Z",
+      "familyInThisCheckpoint": "co_municipal_conviction_seal-set",
+      "whatWasUnmet": "SOURCE_READY with every bound source held, and no build script",
+      "whatThisLaneDid": "Wrote scripts/build-census-v1-co_municipal_conviction_seal-set.mjs and built the family: two flat Colorado forms with no AcroForm field between them, 59 measured printed rules used as write boxes, 16 writes, 28 required-before-filing items, 22 printed tick boxes that cannot be measured and are not marked, and both glyph readings measured from the output bytes.",
+      "status": "COMPLETED",
+      "nineCountersZero": true,
+      "rasterState": "BUILT_RASTER_PENDING",
+      "canonicalSha256": "676d922f062ce75605d4aa1bd57cf16d6fe917ef408cfc82c49ae4863d3cb022",
+      "boundarySha256": "1c483f89703a4547c4a4ae1689ff3efa1b0be92c1aca12b17454138994a9e2b5",
+      "pushedTo": "origin/pfa-20260909",
+      "packetsSelfVerified": 0,
+      "verdictIssued": null,
+      "commitThatCarriedThisFamily": "56244423ff2f303fdd1566e6e32a2fda8f1a1beb"
+    }
+  ],
+  "howTheCommitShaIsRecorded": "A commit cannot contain its own SHA. Each checkpoint is written with commitThatCarriedThisFamily null in the commit that carries the family, and the following commit fills it in. A checkpoint still showing null is one whose commit is the current head.",
+  "shiftClosed": true,
+  "allThreeAssignedFamiliesReturned": true
+}

@@ -1,0 +1,130 @@
+{
+  "schemaVersion": "rcap-session10-worker-freeze-preflight/v1",
+  "reviewer": "/root/release_path_review",
+  "recordedAtUtc": "2026-09-08T16:43:07.492902+00:00",
+  "sourceSha": "5404fb472c54bdc3bae3a9d42ac46d1b9139e564",
+  "execution": {
+    "command": [
+      "node",
+      "scripts/verify-rcap-image-input-fingerprint.mjs"
+    ],
+    "head": "5404fb472c54bdc3bae3a9d42ac46d1b9139e564",
+    "exitCode": 1,
+    "elapsedSeconds": 0.319,
+    "logSha256": "860adc42641dda81e5d4211ed7b9e33c67731157876d0070e5825e74714747d8",
+    "logBytes": 3127
+  },
+  "outcome": "BLOCKED_ON_REPLACEMENT_PUBLICATION_AND_STALE_RUNTIME_MANIFEST",
+  "actualFingerprintFailures": {
+    "changedPinnedInputs": [
+      "scripts/rcap-render-worker.mjs",
+      "deploy/rcap-render-worker/Dockerfile",
+      "scripts/lib tree",
+      "src tree"
+    ],
+    "recordedBase": "3285b6606605549c4ea730610f2c3e55c1e32859",
+    "changedInputPaths": [
+      "deploy/rcap-render-worker/Dockerfile",
+      "scripts/lib/il-prostitution-j-vacate-composition.mjs",
+      "scripts/lib/indiana-cca-section1-guide.mjs",
+      "scripts/lib/route-artifact-scope.mjs",
+      "scripts/rcap-render-worker.mjs",
+      "src/app/api/expungement-ai/packet/artifacts/[itemId]/route.ts",
+      "src/app/api/rcap/packets/[jobId]/download/route.ts",
+      "src/components/expungement-ai/ConsumerSignInForm.tsx",
+      "src/lib/clinic-mode/result-follow-up.ts",
+      "src/lib/expungement-ai/consumer-render-request.ts",
+      "src/lib/expungement-ai/packet-fulfillment-authority.ts",
+      "src/lib/expungement-ai/packet-generation.ts",
+      "src/lib/expungement-ai/payment-adapter.ts",
+      "src/lib/legal-authority/authority.json",
+      "src/lib/legal-authority/routes/single-routes.json",
+      "src/lib/rcap-engine/compiled/profiles/AZ-arizona.json",
+      "src/lib/rcap-engine/compiled/profiles/CA-california.json",
+      "src/lib/rcap-engine/compiled/profiles/CT-connecticut.json",
+      "src/lib/rcap-engine/compiled/profiles/KY-kentucky.json",
+      "src/lib/rcap-engine/compiled/profiles/LA-louisiana.json",
+      "src/lib/rcap-engine/compiled/profiles/MA-massachusetts.json",
+      "src/lib/rcap-engine/compiled/profiles/MD-maryland.json",
+      "src/lib/rcap-engine/compiled/profiles/MT-montana.json",
+      "src/lib/rcap-engine/compiled/profiles/NE-nebraska.json",
+      "src/lib/rcap-engine/compiled/profiles/NJ-new-jersey.json",
+      "src/lib/rcap-engine/compiled/profiles/NV-nevada.json",
+      "src/lib/rcap-engine/compiled/profiles/OR-oregon.json",
+      "src/lib/rcap-engine/compiled/profiles/PA-pennsylvania.json",
+      "src/lib/rcap-engine/compiled/profiles/RI-rhode-island.json",
+      "src/lib/rcap-engine/compiled/profiles/SC-south-carolina.json",
+      "src/lib/rcap-engine/compiled/profiles/SD-south-dakota.json",
+      "src/lib/rcap-engine/compiled/profiles/UT-utah.json",
+      "src/lib/rcap/documents/factory-v2-registry.ts",
+      "src/lib/rcap/documents/packet-route-resolver.ts",
+      "src/lib/rcap/fulfillment/consumer-specification-binding.ts",
+      "src/lib/rcap/grade-a/composer.ts",
+      "src/lib/rcap/grade-a/families/il-prostitution-j-vacate-set.ts",
+      "src/lib/rcap/grade-a/packet-specification.ts",
+      "src/lib/rcap/grade-a/participant-packet.ts",
+      "src/lib/rcap/grade-a/renderer.ts",
+      "src/lib/rcap/render/commercial-admission.ts",
+      "src/lib/rcap/render/job-queue.ts",
+      "src/lib/rcap/render/packet-delivery.ts",
+      "src/lib/rcap/render/personalized-packet.ts",
+      "src/lib/rcap/render/sponsored-packet.ts"
+    ],
+    "generatorCheckFailed": true,
+    "mutationOnImageInputsReported": false
+  },
+  "runtimeManifest": {
+    "method": "Read only git-show comparison of exactly the existing manifest122 declared paths; no generator, filesystem mutation or module runtime. New files outside the declared manifest are not assessed.",
+    "declaredPinsChecked": 122,
+    "stalePins": [
+      "data/rcap-grade-a/fulfillment-authority-registry.json",
+      "data/record-clearing/legal-design-packet-set-manifests.json"
+    ],
+    "generationExecuted": false
+  },
+  "minimalPreparationBeforeSourceFreeze": {
+    "exactNextCommand": "node deploy/rcap-render-worker/build-runtime-data-manifest.mjs",
+    "when": "Captain completes current Nevada derivation and freezes all intended worker inputs. Run once for that input change, then --check and independently review exactly the runtime-data-manifest.json delta. Commit it before declaring the final worker source SHA, because the Dockerfile copies the manifest.",
+    "expectedExistingOutput": "deploy/rcap-render-worker/runtime-data-manifest.json",
+    "unchangedSourcePublicationIsNotEnough": "A worker for an older allowed Captain SHA is not a worker for this recovery candidate."
+  },
+  "stagingFingerprintDependency": {
+    "generator": "scripts/generate-rcap-staging-action.mjs",
+    "checkRead": true,
+    "writeModeExecuted": false,
+    "writeModeInputs": "HEAD becomes imageInputFingerprintBaseSha; all seven image-input paths must be committed and clean; securityCheckpointSha is preserved; authorized migration paths/hashes remain checked.",
+    "blockingCode": "When worker-publication-evidence.json exists, generation requires its sourceSha to be image-input-equivalent to the fingerprint base and its visibility/latest/publish-only fields valid. Retained source b680a4e4 is not equivalent to current source; merely running generation cannot repair that.",
+    "minimalSuccessfulOrder": [
+      "Commit and review the final source including current runtime-data-manifest.json.",
+      "Use the existing authorized publication workflow for that full SHA after allowed-branch integration and source freeze; preserve tag guard, empty replacement authorization and exact source containment.",
+      "Import the actual successful publication artifact into the existing worker-publication-evidence.json, preserving the superseded digest and its history; commit the evidence.",
+      "Run node scripts/generate-rcap-staging-action.mjs once against committed source/evidence, review its existing staging-action output and commit. The generated record remains nonauthorizing; no environment values or approvals are fabricated.",
+      "Run node scripts/generate-rcap-staging-action.mjs --check and node scripts/verify-rcap-image-input-fingerprint.mjs on the resulting coherent committed candidate. Then run the required publication verifier and actual image acceptance before release."
+    ],
+    "documentationDependencyConflict": "The historical LaneJ runbook lists the fingerprint generator check before publication, while the current generator necessarily refuses stale existing publication. This literal ordering is circular. The runtime workflow itself performs exact-source/tag/branch checks and does not run the fingerprint verifier. Captain must reconcile the established sequence explicitly; a red fingerprint must never be called passed or waived, and deleting/renaming publication evidence to hide the dependency is not a remedy."
+  },
+  "requiredPublicationVerifier": {
+    "path": "scripts/verify-rcap-worker-publication-workflow.mjs",
+    "executed": false,
+    "reason": "It automatically invokes test-rcap-image-fingerprint-mutations.mjs, which writes staging action/package/tsconfig and scratch canaries. This bounded task forbids shared edits, and root is deriving state. Run only after the fingerprint is genuinely current, in the existing isolated committed candidate checkout with one mutation writer.",
+    "children": [
+      "scripts/verify-rcap-image-input-fingerprint.mjs",
+      "scripts/test-rcap-image-fingerprint-mutations.mjs"
+    ]
+  },
+  "dispatchPath": {
+    "workflow": ".github/workflows/publish-rcap-render-worker.yml",
+    "input": "integration_sha = final full 40-character committed source SHA",
+    "tag_replacement_authorization": "empty",
+    "allowedHistories": [
+      "main",
+      "claude/legalease-sprint-captain-utucnw"
+    ],
+    "currentRecoveryBranch": "chatgpt/launch-recovery-20260906",
+    "requiredIntegration": "Recovery source must become contained in the already allowed Captain integration history through the established integration process; do not weaken the branch literal or substitute an older source.",
+    "surface": "Use the existing authorized Actions-capable surface; prior direct local dispatch returned403, not retried here. Confirm exact source has no active/successful identical publication before one dispatch.",
+    "effect": "Image publication only; acceptance, environment binding and production deployment remain separately required."
+  },
+  "evidencePreservation": "All existing source, published-image evidence, runtime manifest and staging-action files remain unchanged by this review. Only this evidence directory was written.",
+  "noBroadWork": "No generator write, image pull, image build, workflow dispatch, branch mutation, dependency installation or database operation."
+}

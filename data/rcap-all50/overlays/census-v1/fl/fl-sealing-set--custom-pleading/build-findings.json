@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "fl-sealing-set",
+  "blocking": [],
+  "findings": [
+    {
+      "finding": "The exact held FDLE40-021 byte is a six-page flat PDF with Request Type: Seal printed on page 1.",
+      "consequence": "The build uses a measured text overlay and preserves all six pages."
+    },
+    {
+      "finding": "Owner determination FL-RULE-3989 authorizes composition of the Rule 3.989 petition, sworn statement, and order from rule text.",
+      "consequence": "Those components are clearly recorded as composed, not official source PDFs."
+    },
+    {
+      "finding": "The sealing packet-set record requires a certificate of service at Stage 2; it specifies no recipient count.",
+      "consequence": "The build includes a separate custom certificate component with recipient slots and leaves names and method for filing-clerk confirmation."
+    },
+    {
+      "finding": "The State Attorney certified-statement body, fingerprint-official fields, signatures, notarization, and judicial order fields are protected.",
+      "consequence": "The build leaves them blank and participant instructions name the completion owner."
+    },
+    {
+      "finding": "Notarised signature on the FDLE application; sworn affidavit at Stage 2.",
+      "consequence": "The instructions distinguish the petition declaration from the separately required Rule 3.989 sworn statement and preserve the five-component packet."
+    },
+    {
+      "finding": "Certificate of service at Stage 2.",
+      "consequence": "The certificate-of-service component has recipient slots and is completed only after actual service."
+    },
+    {
+      "finding": "Any hearing.",
+      "consequence": "The participant instructions require an attorney-review stop when a hearing is required or set."
+    }
+  ]
+}

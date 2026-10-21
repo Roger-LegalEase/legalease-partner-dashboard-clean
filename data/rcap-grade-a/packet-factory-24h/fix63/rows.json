@@ -1,0 +1,1029 @@
+{
+ "schemaVersion": 1,
+ "lane": "FIX63",
+ "laneKind": "repair",
+ "generatedBy": "FIX63 (repair lane; opted three Virginia families into the FIX50 shared-machinery fix through their shared host)",
+ "baseSha": "9c20f8c7c",
+ "branch": "fix63-va-optin",
+ "grantSet": "f3cecafde90df221",
+ "obligationSet": [
+  "CLIPPING_AND_OVERLAP"
+ ],
+ "hostFamilyNotGranted": "va_seal_petition_misdemeanor-set",
+ "everyFamilyDirectoryOutsideTheseThreeIsByteIdentical": "Confirmed. git status over data/rcap-all50/overlays reports 47 changed paths and every one of them is inside the three family directories this lane holds: 0 changed paths anywhere else under overlays, the host family va-seal-petition-misdemeanor-set--official-pdf-fill included. The only other change in the tree is the shared host script and this lane's own return file.",
+ "rows": [
+  {
+   "itemId": "va_seal_ancillary_matter_only-set",
+   "familyId": "va_seal_ancillary_matter_only-set",
+   "jurisdiction": "VA",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/va/va-seal-ancillary-matter-only-set--official-pdf-fill",
+   "status": "COMPLETED",
+   "laneKind": "repair",
+   "repairedByThisLane": true,
+   "obligationsRepaired": [
+    "CLIPPING_AND_OVERLAP"
+   ],
+   "obligationsRepairedNote": "Delivered on these bytes and measured at every widget rect VF08 counted. It is repaired here, not verified here: this lane changed the host, opted the family in and rebuilt the fixtures, so a central raster on the new bytes and an independent read are both still owed and are listed below.",
+   "obligationsThisRowDoesNotDischarge": [
+    "A central raster on the new bytes. The standing receipt in the central raster queue file (data/rcap-grade-a/packet-factory-24h/raster queue) for this family was bound to canonical 0ca22f4c4720d2d5325d67fa67657746292923fbfb45580ef94094d5e94ad893 and boundary fcc5c9df64bd93e04cd5c6143cbb00f38a8895a965dd76ca00e62f3235d4c0a5, and this rebuild supersedes both, so that receipt stops binding and a fresh central run is owed. the central raster queue file (data/rcap-grade-a/packet-factory-24h/raster queue) and the master queue file were read and never opened for writing. The rasters this lane took are local, measurement only, and were deleted.",
+    "Independent verification. This lane edited the shared host, opted this family in and produced these bytes, so it verifies none of them. No verdict was written or replaced, VF08's row was not edited, and product-wiring binding.acceptanceReceipt is null.",
+    "The host family va_seal_petition_misdemeanor-set. It is not in this lane's grant. Its configuration entry was not given the new flag, its directory was not rebuilt, opened for writing or measured, and its bytes on disk are byte-identical to base 9c20f8c7c.",
+    "The other 45 families the fix50 cohort scan found exposed to the same shared default. None was claimed, opened, rebuilt or measured here.",
+    "The pre-existing packet-date drift described in whatChanged.preExistingDriftFoundInPassing. It is reported, not repaired, and it is not this lane's to close.",
+    "Counsel review, visual review and source freshness review, which no build lane discharges."
+   ],
+   "grantConfirmed": {
+    "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX63 va_seal_ancillary_matter_only-set",
+    "exitCode": 0,
+    "output": "CLAIM_OK FIX63 va_seal_ancillary_matter_only-set (repair, grant set f3cecafde90df221)",
+    "assertedBeforeAnyFamilyArtifactWasOpened": true
+   },
+   "fixtureHashCheckAgainstVF08": {
+    "recordedBy": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json and vf08/COHORT_MEASUREMENT.json",
+    "canonicalRecorded": "0ca22f4c4720d2d5325d67fa67657746292923fbfb45580ef94094d5e94ad893",
+    "boundaryRecorded": "fcc5c9df64bd93e04cd5c6143cbb00f38a8895a965dd76ca00e62f3235d4c0a5",
+    "recomputedFromDiskBeforeTheHostWasTouched": true,
+    "canonicalMatches": true,
+    "boundaryMatches": true
+   },
+   "buildHost": "scripts/build-census-v1-va_seal_petition_misdemeanor-set.mjs (FAMILY_CONFIGS / renderDocument / runFamilyById)",
+   "builderEntryPoint": "scripts/build-census-v1-va_seal_ancillary_matter_only-set.mjs",
+   "boundDocument": {
+    "formNumber": "CC-1203",
+    "sha256": "25d08cb32e0b0bed778465d91b869f43d8f94ce6986c5036c5de7e307a31d35a",
+    "selectionWidgetsInThePinnedForm": 76,
+    "widgetsShippingTheirOwnAppearanceForTheirCurrentState": 0,
+    "everyWidgetIsAtSlashOffWithSlash1AloneUnderApN": true
+   },
+   "whatChanged": {
+    "theHostChange": "scripts/build-census-v1-va_seal_petition_misdemeanor-set.mjs gains one option threaded from FAMILY_CONFIGS to its single finalizeOfficialForm call: renderDocument now takes the family config and passes suppressSynthesizedAppearances: config.suppressSynthesizedAppearances === true. Three of the four families it builds carry suppressSynthesizedAppearances: true in their config entry; the fourth does not and passes false, which is the FIX50 default.",
+    "whyItIsSetPerFamilyAndNotOnTheHost": "This host builds four families and only three are in this lane's grant. A flag on the host would decide what the fourth produces on its next rebuild, which is not this lane's to decide.",
+    "theFIX57QuestionAnsweredForThisHost": "NO. This host does not bake the square in before the finalizer. resolveSources reads the pinned bytes with fs.readFileSync and renderDocument hands those exact bytes to finalizeOfficialForm as sourceBytes; there is no intermediate sourceDoc.save() between them, so pdf-lib's default updateFieldAppearances never runs on the source before sanitizeAndFlatten. The square is born inside sanitizeAndFlatten, which is where the FIX50 opt-in acts, so the one option reaches it and no updateFieldAppearances: false repair was needed or made. The host's other three save() calls all run AFTER flatten (markRouteSelections, the composed pages and the assembled packet) and none of them touches an AcroForm widget.",
+    "whatTheHostChangeMeansForTheUngrantedHostFamily": "va_seal_petition_misdemeanor-set would produce EXACTLY the bytes it produces today. Its config entry was not given the flag, so it passes suppressSynthesizedAppearances: false, which is the value finalizeOfficialForm already defaulted to; the option is inert for it and no other line on its path changed. Its directory was not rebuilt or opened for writing here, and it is byte-identical to base. Two cautions that belong to it rather than to this lane: it is built from CC-1201, whose 63 widgets all sit at /AS /Off with no /Off stream, so the same synthesized square is expected on its delivered pages and is NOT cleared by this row; and its committed fixtures carry the same pre-existing packet-date drift described below, so its next rebuild for any reason will move its bytes.",
+    "whatWasNotTouched": "No default anywhere. Nothing in rcap-active-content.mjs or rcap-official-form-finalize.mjs. No field map, no fact, no participant text, no route election, no other host, no other family's configuration. MASTER_QUEUE.json, RASTER_QUEUE.json, the legal-decision records and VF08's rows were read and never opened for writing.",
+    "preExistingDriftFoundInPassing": "Reproduced with the working tree clean at base 9c20f8c7c, before this lane edited anything: rebuilding va_seal_ancillary_matter_only-set with no source change at all rewrites canonical.pdf and boundary.pdf. The committed bytes carry a wall-clock /CreationDate and /ModDate (D:20260901081329Z canonical, D:20260901081528Z boundary) and the current host stamps the fixed D:20260829000000Z that stampDeterministic supplies. Exactly 16 bytes differ in each fixture, the file length is unchanged, every raster page is byte-identical and both per-form primary-filing artifacts are byte-identical. So the committed fixtures predate the host's own determinism fix. It is reported, not repaired: the after digests below therefore differ from the before digests for two reasons, the square this lane removed and those 16 date bytes, and the raster measurement is what separates them."
+   },
+   "rebuild": {
+    "command": "MASTER_LIBRARY_SOURCE_DIR=<mounted Master Library> node scripts/build-census-v1-va_seal_ancillary_matter_only-set.mjs",
+    "exitCode": 0,
+    "rasterFlag": "none; the builder's own local raster ran, as it did for the committed bytes",
+    "runTwice": "Built twice from identical inputs; the first build's whole family directory was copied aside and diffed against the second with diff -r. Zero differences across every file, fixtures, reports and all sixteen raster pages included."
+   },
+   "digests": {
+    "before": {
+     "canonical": {
+      "sha256": "0ca22f4c4720d2d5325d67fa67657746292923fbfb45580ef94094d5e94ad893",
+      "bytes": 206660,
+      "pages": 10
+     },
+     "boundary": {
+      "sha256": "fcc5c9df64bd93e04cd5c6143cbb00f38a8895a965dd76ca00e62f3235d4c0a5",
+      "bytes": 206933,
+      "pages": 10
+     }
+    },
+    "after": {
+     "canonical": {
+      "sha256": "0d538027a6945c50b562193222a6c17b22b1582e720931a2e36ed9b9b027dbf8",
+      "bytes": 202640,
+      "pages": 10
+     },
+     "boundary": {
+      "sha256": "3fdd85e7ac3344fa235c9d7f8bcb775660fe058a502115e9f2c7d5a36ad86a9e",
+      "bytes": 202913,
+      "pages": 10
+     }
+    },
+    "pageCountUnchanged": "10 -> 10 in both fixtures",
+    "whyTheFilesGotSmaller": "an empty appearance stream replaces a generated one carrying a rectangle path, a stroke and a graphics-state block, at every one of the widgets"
+   },
+   "perWidgetMeasurement": {
+    "method": "Every page of both fixtures was rastered with pdftoppm at 150 dpi, greyscale, into /tmp, from the committed bytes before the host was touched and again from the rebuilt bytes; a pixel is ink below 200. The widget rectangles were read first-hand from the pinned CC-1203 by content hash (25d08cb32e0b0bed778465d91b869f43d8f94ce6986c5036c5de7e307a31d35a), and the pinned form was rastered at the same settings so every rect is read against the FORM'S OWN ink rather than against a threshold. The packet's first 6 pages are that form's 6 pages, so a widget's source page is its delivered page. A 2px pad is added around each rect so a border pixel cannot fall outside the window that is supposed to catch it. Rasters deleted after measuring.",
+    "widgetsVF08Counted": 152,
+    "fourTestsAtEveryRect": [
+     "no pixel is ink in the rebuilt page that was not ink in the delivered page before (nothing was added)",
+     "no pixel that is ink in the pinned form is missing from the rebuilt page (the form's own ink is intact)",
+     "no removed pixel was the form's own ink",
+     "every removed pixel lies on the widget's own rectangle boundary, which is where the synthesized square is drawn"
+    ],
+    "resultAllFourTests": "every widget rect in both fixtures passes all four",
+    "perFixture": {
+     "canonical": {
+      "widgetRectsMeasured": 76,
+      "widgetsWhereTheDeliveredPageNowCarriesExactlyThePinnedFormsOwnInk": 69,
+      "widgetsCarryingThePacketsOwnIntendedMarkAboveTheFormsInk": 7,
+      "pixelsAddedAnywhereInAnyWidgetRect": 0,
+      "formInkLostAtAnyWidgetRect": 0,
+      "pixelsRemoved": 5753,
+      "removedPixelsThatWereTheFormsOwnInk": 0,
+      "removedPixelsNotOnTheWidgetBoundary": 0,
+      "everyResidualAboveTheFormWasAlreadyPresentBefore": true,
+      "theMarkedWidgets": [
+       {
+        "field": "User.AdditionCharge2",
+        "page": 1,
+        "formInk": 132,
+        "beforeInk": 333,
+        "afterInk": 253
+       },
+       {
+        "field": "User.SignaturePetitioner1",
+        "page": 6,
+        "formInk": 81,
+        "beforeInk": 256,
+        "afterInk": 173
+       },
+       {
+        "field": "User.NamePetitioner",
+        "page": 6,
+        "formInk": 75,
+        "beforeInk": 247,
+        "afterInk": 167
+       },
+       {
+        "field": "User.AddressPetitioner",
+        "page": 6,
+        "formInk": 74,
+        "beforeInk": 247,
+        "afterInk": 165
+       },
+       {
+        "field": "User.TelephonePetitioner",
+        "page": 6,
+        "formInk": 76,
+        "beforeInk": 253,
+        "afterInk": 171
+       },
+       {
+        "field": "User.CityPetitioner",
+        "page": 6,
+        "formInk": 75,
+        "beforeInk": 256,
+        "afterInk": 171
+       },
+       {
+        "field": "User.EmailPetitioner",
+        "page": 6,
+        "formInk": 82,
+        "beforeInk": 281,
+        "afterInk": 178
+       }
+      ]
+     },
+     "boundary": {
+      "widgetRectsMeasured": 76,
+      "widgetsWhereTheDeliveredPageNowCarriesExactlyThePinnedFormsOwnInk": 69,
+      "widgetsCarryingThePacketsOwnIntendedMarkAboveTheFormsInk": 7,
+      "pixelsAddedAnywhereInAnyWidgetRect": 0,
+      "formInkLostAtAnyWidgetRect": 0,
+      "pixelsRemoved": 5753,
+      "removedPixelsThatWereTheFormsOwnInk": 0,
+      "removedPixelsNotOnTheWidgetBoundary": 0,
+      "everyResidualAboveTheFormWasAlreadyPresentBefore": true,
+      "theMarkedWidgets": [
+       {
+        "field": "User.AdditionCharge2",
+        "page": 1,
+        "formInk": 132,
+        "beforeInk": 333,
+        "afterInk": 253
+       },
+       {
+        "field": "User.SignaturePetitioner1",
+        "page": 6,
+        "formInk": 81,
+        "beforeInk": 256,
+        "afterInk": 173
+       },
+       {
+        "field": "User.NamePetitioner",
+        "page": 6,
+        "formInk": 75,
+        "beforeInk": 247,
+        "afterInk": 167
+       },
+       {
+        "field": "User.AddressPetitioner",
+        "page": 6,
+        "formInk": 74,
+        "beforeInk": 247,
+        "afterInk": 165
+       },
+       {
+        "field": "User.TelephonePetitioner",
+        "page": 6,
+        "formInk": 76,
+        "beforeInk": 253,
+        "afterInk": 171
+       },
+       {
+        "field": "User.CityPetitioner",
+        "page": 6,
+        "formInk": 75,
+        "beforeInk": 256,
+        "afterInk": 171
+       },
+       {
+        "field": "User.EmailPetitioner",
+        "page": 6,
+        "formInk": 82,
+        "beforeInk": 281,
+        "afterInk": 178
+       }
+      ]
+     }
+    },
+    "theWidgetsThatDoNotEqualTheFormExactly": "They carry the packet's own route-election mark, two diagonals struck strictly inside the court's box by markRouteSelections as page content after flatten, at widgets the field map records with disposition selected_by_route. The mark was present before and is pixel-for-pixel present after: nothing was added at those rects and nothing but boundary pixels was removed.",
+    "pageLevel": {
+     "canonical": {
+      "changedPixelsPerPage": {
+       "1": 176,
+       "2": 1806,
+       "3": 1090,
+       "4": 1129,
+       "5": 1043,
+       "6": 1384,
+       "7": 0,
+       "8": 0,
+       "9": 0,
+       "10": 0
+      },
+      "changedOutsideWidgetRects": 0
+     },
+     "boundary": {
+      "changedPixelsPerPage": {
+       "1": 176,
+       "2": 1806,
+       "3": 1090,
+       "4": 1129,
+       "5": 1043,
+       "6": 1384,
+       "7": 0,
+       "8": 0,
+       "9": 0,
+       "10": 0
+      },
+      "changedOutsideWidgetRects": 0
+     },
+     "note": "pages 1-6 are the pinned CC-1203; pages 7-10 are the composed components and are pixel-identical."
+    },
+    "changedPixelsOutsideEveryWidgetRect": 0,
+    "participantWritesUnchanged": "pdftotext -layout over every page of both fixtures is character-identical before and after, and reports/actual-writes.json is byte-identical. The composed pages are pixel-identical.",
+    "rastersDeleted": true
+   },
+   "countersBefore": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "countersAfter": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "countersNote": "Nine zeros before and nine zeros after, and that is not the evidence for this repair. The counters read the field map, and the synthesized square was never a declared write, so no counter could ever have seen it. The raster is the evidence.",
+   "verifiers": {
+    "verify-packet-completeness.mjs": {
+     "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <familyId>",
+     "before": "PASS_COMPLETE, nine counters zero",
+     "after": "PASS_COMPLETE, nine counters zero",
+     "exitCode": 0
+    },
+    "verify-identity-refresh-survives-rebuild.mjs": {
+     "command": "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs",
+     "result": "EVERY_IDENTITY_REFRESH_SURVIVED, 249 receipts compared against HEAD, 53 carrying an identityRefresh",
+     "exitCode": 0,
+     "runAfterTheRebuild": true
+    },
+    "verify-source-carried-values-are-dispositioned.mjs": {
+     "command": "node scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs",
+     "result": "EVERY_SOURCE_CARRIED_VALUE_IS_DISPOSITIONED, 0 UNDISPOSITIONED, 0 not examinable",
+     "exitCode": 0,
+     "runAfterTheRebuild": true
+    },
+    "test-synthesized-off-appearances.mjs": {
+     "command": "node scripts/rcap-official-forms/test-synthesized-off-appearances.mjs",
+     "result": "5 controls PASS (FIX50's own test, unchanged by this lane)",
+     "exitCode": 0
+    },
+    "verify-rcap-appearance-semantics.mjs": {
+     "command": "node scripts/verify-rcap-appearance-semantics.mjs",
+     "result": "OK appearance semantics",
+     "exitCode": 0
+    }
+   },
+   "preflight": {
+    "command": "MASTER_LIBRARY_SOURCE_DIR=<mounted Master Library> node scripts/verify-packet-build-environment.mjs --family va_seal_ancillary_matter_only-set",
+    "result": "11/13 passed, 2 failed, 4 not applicable",
+    "passed": [
+     "repo_identity",
+     "clone_is_complete",
+     "worktree_clean",
+     "node_toolchain",
+     "pdf_lib_importable",
+     "master_library_mounted",
+     "master_library_complete",
+     "family_sources_bind",
+     "master_library_not_at_operational_path",
+     "absent_is_not_empty",
+     "stale_artifact_block_consulted"
+    ],
+    "theTwoFailuresAndWhyTheyDidNotStopTheBuild": [
+     "private_is_git_ignored FAILED because private/ in this worktree is a read-only SYMLINK to the sibling checkout and the repo's own .gitignore line is 'private/' with a trailing slash, which does not match a symlink. git check-ignore confirms the path is ignored in this environment and git status stayed clean throughout; no private byte is staged or committed.",
+     "corpus_matches_committed_index FAILED with 1 absent of 24 sampled, in a custody that is not mounted in this container. The check that decides whether THIS family may be built, family_sources_bind, passed 1/1 by exact SHA-256, and the pinned form's hash was recomputed here and equals the digest VF08 recorded."
+    ],
+    "sourceBinding": "CC-1203 bound by exact SHA-256 25d08cb32e0b0bed778465d91b869f43d8f94ce6986c5036c5de7e307a31d35a, equal to the declaredSha256 in vf08/COHORT_MEASUREMENT.json"
+   },
+   "acceptanceReceipt": null,
+   "whatWasNotDone": [
+    "No central raster was run on the new bytes and none was requested; the local rasters were measurement only and are deleted.",
+    "No independent verification of anything in this row. Every measurement here was made by the lane that produced the bytes.",
+    "The host family va_seal_petition_misdemeanor-set was not rebuilt, not committed, not measured and not opted in.",
+    "No verdict, no acceptance receipt, no queue entry, no ledger row other than this lane's own release, and no route promotion.",
+    "The pre-existing packet-date drift was reported and left in place."
+   ]
+  },
+  {
+   "itemId": "va_seal_enumerated_seven_year-set",
+   "familyId": "va_seal_enumerated_seven_year-set",
+   "jurisdiction": "VA",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/va/va-seal-enumerated-seven-year-set--official-pdf-fill",
+   "status": "COMPLETED",
+   "laneKind": "repair",
+   "repairedByThisLane": true,
+   "obligationsRepaired": [
+    "CLIPPING_AND_OVERLAP"
+   ],
+   "obligationsRepairedNote": "Delivered on these bytes and measured at every widget rect VF08 counted. It is repaired here, not verified here: this lane changed the host, opted the family in and rebuilt the fixtures, so a central raster on the new bytes and an independent read are both still owed and are listed below.",
+   "obligationsThisRowDoesNotDischarge": [
+    "A central raster on the new bytes. The standing receipt in the central raster queue file (data/rcap-grade-a/packet-factory-24h/raster queue) for this family was bound to canonical 859656e4ae155c94ad78cef9a1f017b6411bde531a86f15cd01c749c2d452ee6 and boundary 7e68919e56c3e4b789e376fdd7e4fad8cdfc27b0191ca7e5be388118c9686669, and this rebuild supersedes both, so that receipt stops binding and a fresh central run is owed. the central raster queue file (data/rcap-grade-a/packet-factory-24h/raster queue) and the master queue file were read and never opened for writing. The rasters this lane took are local, measurement only, and were deleted.",
+    "Independent verification. This lane edited the shared host, opted this family in and produced these bytes, so it verifies none of them. No verdict was written or replaced, VF08's row was not edited, and product-wiring binding.acceptanceReceipt is null.",
+    "The host family va_seal_petition_misdemeanor-set. It is not in this lane's grant. Its configuration entry was not given the new flag, its directory was not rebuilt, opened for writing or measured, and its bytes on disk are byte-identical to base 9c20f8c7c.",
+    "The other 45 families the fix50 cohort scan found exposed to the same shared default. None was claimed, opened, rebuilt or measured here.",
+    "The pre-existing packet-date drift described in whatChanged.preExistingDriftFoundInPassing. It is reported, not repaired, and it is not this lane's to close.",
+    "Counsel review, visual review and source freshness review, which no build lane discharges."
+   ],
+   "grantConfirmed": {
+    "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX63 va_seal_enumerated_seven_year-set",
+    "exitCode": 0,
+    "output": "CLAIM_OK FIX63 va_seal_enumerated_seven_year-set (repair, grant set f3cecafde90df221)",
+    "assertedBeforeAnyFamilyArtifactWasOpened": true
+   },
+   "fixtureHashCheckAgainstVF08": {
+    "recordedBy": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json and vf08/COHORT_MEASUREMENT.json",
+    "canonicalRecorded": "859656e4ae155c94ad78cef9a1f017b6411bde531a86f15cd01c749c2d452ee6",
+    "boundaryRecorded": "7e68919e56c3e4b789e376fdd7e4fad8cdfc27b0191ca7e5be388118c9686669",
+    "recomputedFromDiskBeforeTheHostWasTouched": true,
+    "canonicalMatches": true,
+    "boundaryMatches": true
+   },
+   "buildHost": "scripts/build-census-v1-va_seal_petition_misdemeanor-set.mjs (FAMILY_CONFIGS / renderDocument / runFamilyById)",
+   "builderEntryPoint": "scripts/build-census-v1-va_seal_enumerated_seven_year-set.mjs",
+   "boundDocument": {
+    "formNumber": "CC-1203",
+    "sha256": "25d08cb32e0b0bed778465d91b869f43d8f94ce6986c5036c5de7e307a31d35a",
+    "selectionWidgetsInThePinnedForm": 76,
+    "widgetsShippingTheirOwnAppearanceForTheirCurrentState": 0,
+    "everyWidgetIsAtSlashOffWithSlash1AloneUnderApN": true
+   },
+   "whatChanged": {
+    "theHostChange": "scripts/build-census-v1-va_seal_petition_misdemeanor-set.mjs gains one option threaded from FAMILY_CONFIGS to its single finalizeOfficialForm call: renderDocument now takes the family config and passes suppressSynthesizedAppearances: config.suppressSynthesizedAppearances === true. Three of the four families it builds carry suppressSynthesizedAppearances: true in their config entry; the fourth does not and passes false, which is the FIX50 default.",
+    "whyItIsSetPerFamilyAndNotOnTheHost": "This host builds four families and only three are in this lane's grant. A flag on the host would decide what the fourth produces on its next rebuild, which is not this lane's to decide.",
+    "theFIX57QuestionAnsweredForThisHost": "NO. This host does not bake the square in before the finalizer. resolveSources reads the pinned bytes with fs.readFileSync and renderDocument hands those exact bytes to finalizeOfficialForm as sourceBytes; there is no intermediate sourceDoc.save() between them, so pdf-lib's default updateFieldAppearances never runs on the source before sanitizeAndFlatten. The square is born inside sanitizeAndFlatten, which is where the FIX50 opt-in acts, so the one option reaches it and no updateFieldAppearances: false repair was needed or made. The host's other three save() calls all run AFTER flatten (markRouteSelections, the composed pages and the assembled packet) and none of them touches an AcroForm widget.",
+    "whatTheHostChangeMeansForTheUngrantedHostFamily": "va_seal_petition_misdemeanor-set would produce EXACTLY the bytes it produces today. Its config entry was not given the flag, so it passes suppressSynthesizedAppearances: false, which is the value finalizeOfficialForm already defaulted to; the option is inert for it and no other line on its path changed. Its directory was not rebuilt or opened for writing here, and it is byte-identical to base. Two cautions that belong to it rather than to this lane: it is built from CC-1201, whose 63 widgets all sit at /AS /Off with no /Off stream, so the same synthesized square is expected on its delivered pages and is NOT cleared by this row; and its committed fixtures carry the same pre-existing packet-date drift described below, so its next rebuild for any reason will move its bytes.",
+    "whatWasNotTouched": "No default anywhere. Nothing in rcap-active-content.mjs or rcap-official-form-finalize.mjs. No field map, no fact, no participant text, no route election, no other host, no other family's configuration. MASTER_QUEUE.json, RASTER_QUEUE.json, the legal-decision records and VF08's rows were read and never opened for writing.",
+    "preExistingDriftFoundInPassing": "Reproduced with the working tree clean at base 9c20f8c7c, before this lane edited anything: rebuilding va_seal_ancillary_matter_only-set with no source change at all rewrites canonical.pdf and boundary.pdf. The committed bytes carry a wall-clock /CreationDate and /ModDate (D:20260901081329Z canonical, D:20260901081528Z boundary) and the current host stamps the fixed D:20260829000000Z that stampDeterministic supplies. Exactly 16 bytes differ in each fixture, the file length is unchanged, every raster page is byte-identical and both per-form primary-filing artifacts are byte-identical. So the committed fixtures predate the host's own determinism fix. It is reported, not repaired: the after digests below therefore differ from the before digests for two reasons, the square this lane removed and those 16 date bytes, and the raster measurement is what separates them."
+   },
+   "rebuild": {
+    "command": "MASTER_LIBRARY_SOURCE_DIR=<mounted Master Library> node scripts/build-census-v1-va_seal_enumerated_seven_year-set.mjs",
+    "exitCode": 0,
+    "rasterFlag": "none; the builder's own local raster ran, as it did for the committed bytes",
+    "runTwice": "Built twice from identical inputs; the first build's whole family directory was copied aside and diffed against the second with diff -r. Zero differences across every file, fixtures, reports and all twenty raster pages included."
+   },
+   "digests": {
+    "before": {
+     "canonical": {
+      "sha256": "859656e4ae155c94ad78cef9a1f017b6411bde531a86f15cd01c749c2d452ee6",
+      "bytes": 206599,
+      "pages": 10
+     },
+     "boundary": {
+      "sha256": "7e68919e56c3e4b789e376fdd7e4fad8cdfc27b0191ca7e5be388118c9686669",
+      "bytes": 206878,
+      "pages": 10
+     }
+    },
+    "after": {
+     "canonical": {
+      "sha256": "34d42262da86edae01a0c3bef54add2789e9084ab72d7f49c6d8c25d67a80aff",
+      "bytes": 202579,
+      "pages": 10
+     },
+     "boundary": {
+      "sha256": "eb4632d4bb8ffb4a5d88c154d965b10c08d7848b12807dfd46e21283bf23d671",
+      "bytes": 202858,
+      "pages": 10
+     }
+    },
+    "pageCountUnchanged": "10 -> 10 in both fixtures",
+    "whyTheFilesGotSmaller": "an empty appearance stream replaces a generated one carrying a rectangle path, a stroke and a graphics-state block, at every one of the widgets"
+   },
+   "perWidgetMeasurement": {
+    "method": "Every page of both fixtures was rastered with pdftoppm at 150 dpi, greyscale, into /tmp, from the committed bytes before the host was touched and again from the rebuilt bytes; a pixel is ink below 200. The widget rectangles were read first-hand from the pinned CC-1203 by content hash (25d08cb32e0b0bed778465d91b869f43d8f94ce6986c5036c5de7e307a31d35a), and the pinned form was rastered at the same settings so every rect is read against the FORM'S OWN ink rather than against a threshold. The packet's first 6 pages are that form's 6 pages, so a widget's source page is its delivered page. A 2px pad is added around each rect so a border pixel cannot fall outside the window that is supposed to catch it. Rasters deleted after measuring.",
+    "widgetsVF08Counted": 152,
+    "fourTestsAtEveryRect": [
+     "no pixel is ink in the rebuilt page that was not ink in the delivered page before (nothing was added)",
+     "no pixel that is ink in the pinned form is missing from the rebuilt page (the form's own ink is intact)",
+     "no removed pixel was the form's own ink",
+     "every removed pixel lies on the widget's own rectangle boundary, which is where the synthesized square is drawn"
+    ],
+    "resultAllFourTests": "every widget rect in both fixtures passes all four",
+    "perFixture": {
+     "canonical": {
+      "widgetRectsMeasured": 76,
+      "widgetsWhereTheDeliveredPageNowCarriesExactlyThePinnedFormsOwnInk": 69,
+      "widgetsCarryingThePacketsOwnIntendedMarkAboveTheFormsInk": 7,
+      "pixelsAddedAnywhereInAnyWidgetRect": 0,
+      "formInkLostAtAnyWidgetRect": 0,
+      "pixelsRemoved": 5753,
+      "removedPixelsThatWereTheFormsOwnInk": 0,
+      "removedPixelsNotOnTheWidgetBoundary": 0,
+      "everyResidualAboveTheFormWasAlreadyPresentBefore": true,
+      "theMarkedWidgets": [
+       {
+        "field": "User.AdditionCharge1",
+        "page": 1,
+        "formInk": 115,
+        "beforeInk": 316,
+        "afterInk": 234
+       },
+       {
+        "field": "User.SignaturePetitioner1",
+        "page": 6,
+        "formInk": 81,
+        "beforeInk": 256,
+        "afterInk": 173
+       },
+       {
+        "field": "User.NamePetitioner",
+        "page": 6,
+        "formInk": 75,
+        "beforeInk": 247,
+        "afterInk": 167
+       },
+       {
+        "field": "User.AddressPetitioner",
+        "page": 6,
+        "formInk": 74,
+        "beforeInk": 247,
+        "afterInk": 165
+       },
+       {
+        "field": "User.TelephonePetitioner",
+        "page": 6,
+        "formInk": 76,
+        "beforeInk": 253,
+        "afterInk": 171
+       },
+       {
+        "field": "User.CityPetitioner",
+        "page": 6,
+        "formInk": 75,
+        "beforeInk": 256,
+        "afterInk": 171
+       },
+       {
+        "field": "User.EmailPetitioner",
+        "page": 6,
+        "formInk": 82,
+        "beforeInk": 281,
+        "afterInk": 178
+       }
+      ]
+     },
+     "boundary": {
+      "widgetRectsMeasured": 76,
+      "widgetsWhereTheDeliveredPageNowCarriesExactlyThePinnedFormsOwnInk": 69,
+      "widgetsCarryingThePacketsOwnIntendedMarkAboveTheFormsInk": 7,
+      "pixelsAddedAnywhereInAnyWidgetRect": 0,
+      "formInkLostAtAnyWidgetRect": 0,
+      "pixelsRemoved": 5753,
+      "removedPixelsThatWereTheFormsOwnInk": 0,
+      "removedPixelsNotOnTheWidgetBoundary": 0,
+      "everyResidualAboveTheFormWasAlreadyPresentBefore": true,
+      "theMarkedWidgets": [
+       {
+        "field": "User.AdditionCharge1",
+        "page": 1,
+        "formInk": 115,
+        "beforeInk": 316,
+        "afterInk": 234
+       },
+       {
+        "field": "User.SignaturePetitioner1",
+        "page": 6,
+        "formInk": 81,
+        "beforeInk": 256,
+        "afterInk": 173
+       },
+       {
+        "field": "User.NamePetitioner",
+        "page": 6,
+        "formInk": 75,
+        "beforeInk": 247,
+        "afterInk": 167
+       },
+       {
+        "field": "User.AddressPetitioner",
+        "page": 6,
+        "formInk": 74,
+        "beforeInk": 247,
+        "afterInk": 165
+       },
+       {
+        "field": "User.TelephonePetitioner",
+        "page": 6,
+        "formInk": 76,
+        "beforeInk": 253,
+        "afterInk": 171
+       },
+       {
+        "field": "User.CityPetitioner",
+        "page": 6,
+        "formInk": 75,
+        "beforeInk": 256,
+        "afterInk": 171
+       },
+       {
+        "field": "User.EmailPetitioner",
+        "page": 6,
+        "formInk": 82,
+        "beforeInk": 281,
+        "afterInk": 178
+       }
+      ]
+     }
+    },
+    "theWidgetsThatDoNotEqualTheFormExactly": "They carry the packet's own route-election mark, two diagonals struck strictly inside the court's box by markRouteSelections as page content after flatten, at widgets the field map records with disposition selected_by_route. The mark was present before and is pixel-for-pixel present after: nothing was added at those rects and nothing but boundary pixels was removed.",
+    "pageLevel": {
+     "canonical": {
+      "changedPixelsPerPage": {
+       "1": 176,
+       "2": 1806,
+       "3": 1090,
+       "4": 1129,
+       "5": 1043,
+       "6": 1384,
+       "7": 0,
+       "8": 0,
+       "9": 0,
+       "10": 0
+      },
+      "changedOutsideWidgetRects": 0
+     },
+     "boundary": {
+      "changedPixelsPerPage": {
+       "1": 176,
+       "2": 1806,
+       "3": 1090,
+       "4": 1129,
+       "5": 1043,
+       "6": 1384,
+       "7": 0,
+       "8": 0,
+       "9": 0,
+       "10": 0
+      },
+      "changedOutsideWidgetRects": 0
+     },
+     "note": "pages 1-6 are the pinned CC-1203; pages 7-10 are the composed components and are pixel-identical."
+    },
+    "changedPixelsOutsideEveryWidgetRect": 0,
+    "participantWritesUnchanged": "pdftotext -layout over every page of both fixtures is character-identical before and after, and reports/actual-writes.json is byte-identical. The composed pages are pixel-identical.",
+    "rastersDeleted": true
+   },
+   "countersBefore": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "countersAfter": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "countersNote": "Nine zeros before and nine zeros after, and that is not the evidence for this repair. The counters read the field map, and the synthesized square was never a declared write, so no counter could ever have seen it. The raster is the evidence.",
+   "verifiers": {
+    "verify-packet-completeness.mjs": {
+     "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <familyId>",
+     "before": "PASS_COMPLETE, nine counters zero",
+     "after": "PASS_COMPLETE, nine counters zero",
+     "exitCode": 0
+    },
+    "verify-identity-refresh-survives-rebuild.mjs": {
+     "command": "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs",
+     "result": "EVERY_IDENTITY_REFRESH_SURVIVED, 249 receipts compared against HEAD, 53 carrying an identityRefresh",
+     "exitCode": 0,
+     "runAfterTheRebuild": true
+    },
+    "verify-source-carried-values-are-dispositioned.mjs": {
+     "command": "node scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs",
+     "result": "EVERY_SOURCE_CARRIED_VALUE_IS_DISPOSITIONED, 0 UNDISPOSITIONED, 0 not examinable",
+     "exitCode": 0,
+     "runAfterTheRebuild": true
+    },
+    "test-synthesized-off-appearances.mjs": {
+     "command": "node scripts/rcap-official-forms/test-synthesized-off-appearances.mjs",
+     "result": "5 controls PASS (FIX50's own test, unchanged by this lane)",
+     "exitCode": 0
+    },
+    "verify-rcap-appearance-semantics.mjs": {
+     "command": "node scripts/verify-rcap-appearance-semantics.mjs",
+     "result": "OK appearance semantics",
+     "exitCode": 0
+    }
+   },
+   "preflight": {
+    "command": "MASTER_LIBRARY_SOURCE_DIR=<mounted Master Library> node scripts/verify-packet-build-environment.mjs --family va_seal_enumerated_seven_year-set",
+    "result": "11/13 passed, 2 failed, 4 not applicable",
+    "passed": [
+     "repo_identity",
+     "clone_is_complete",
+     "worktree_clean",
+     "node_toolchain",
+     "pdf_lib_importable",
+     "master_library_mounted",
+     "master_library_complete",
+     "family_sources_bind",
+     "master_library_not_at_operational_path",
+     "absent_is_not_empty",
+     "stale_artifact_block_consulted"
+    ],
+    "theTwoFailuresAndWhyTheyDidNotStopTheBuild": [
+     "private_is_git_ignored FAILED because private/ in this worktree is a read-only SYMLINK to the sibling checkout and the repo's own .gitignore line is 'private/' with a trailing slash, which does not match a symlink. git check-ignore confirms the path is ignored in this environment and git status stayed clean throughout; no private byte is staged or committed.",
+     "corpus_matches_committed_index FAILED with 1 absent of 24 sampled, in a custody that is not mounted in this container. The check that decides whether THIS family may be built, family_sources_bind, passed 1/1 by exact SHA-256, and the pinned form's hash was recomputed here and equals the digest VF08 recorded."
+    ],
+    "sourceBinding": "CC-1203 bound by exact SHA-256 25d08cb32e0b0bed778465d91b869f43d8f94ce6986c5036c5de7e307a31d35a, equal to the declaredSha256 in vf08/COHORT_MEASUREMENT.json"
+   },
+   "acceptanceReceipt": null,
+   "whatWasNotDone": [
+    "No central raster was run on the new bytes and none was requested; the local rasters were measurement only and are deleted.",
+    "No independent verification of anything in this row. Every measurement here was made by the lane that produced the bytes.",
+    "The host family va_seal_petition_misdemeanor-set was not rebuilt, not committed, not measured and not opted in.",
+    "No verdict, no acceptance receipt, no queue entry, no ledger row other than this lane's own release, and no route promotion.",
+    "The pre-existing packet-date drift was reported and left in place."
+   ]
+  },
+  {
+   "itemId": "va_seal_petition_felony-set",
+   "familyId": "va_seal_petition_felony-set",
+   "jurisdiction": "VA",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/va/va-seal-petition-felony-set--official-pdf-fill",
+   "status": "COMPLETED",
+   "laneKind": "repair",
+   "repairedByThisLane": true,
+   "obligationsRepaired": [
+    "CLIPPING_AND_OVERLAP"
+   ],
+   "obligationsRepairedNote": "Delivered on these bytes and measured at every widget rect VF08 counted. It is repaired here, not verified here: this lane changed the host, opted the family in and rebuilt the fixtures, so a central raster on the new bytes and an independent read are both still owed and are listed below.",
+   "obligationsThisRowDoesNotDischarge": [
+    "A central raster on the new bytes. The standing receipt in the central raster queue file (data/rcap-grade-a/packet-factory-24h/raster queue) for this family was bound to canonical c653f0a41319bbee6133a17c418666eaccb31f329abfd465d0de55b9dd4e2636 and boundary b7095073a0cb0683ff5efc7575d903e9faa9b19d82ccd6c29e2dbe5e6e35b7ab, and this rebuild supersedes both, so that receipt stops binding and a fresh central run is owed. the central raster queue file (data/rcap-grade-a/packet-factory-24h/raster queue) and the master queue file were read and never opened for writing. The rasters this lane took are local, measurement only, and were deleted.",
+    "Independent verification. This lane edited the shared host, opted this family in and produced these bytes, so it verifies none of them. No verdict was written or replaced, VF08's row was not edited, and product-wiring binding.acceptanceReceipt is null.",
+    "The host family va_seal_petition_misdemeanor-set. It is not in this lane's grant. Its configuration entry was not given the new flag, its directory was not rebuilt, opened for writing or measured, and its bytes on disk are byte-identical to base 9c20f8c7c.",
+    "The other 45 families the fix50 cohort scan found exposed to the same shared default. None was claimed, opened, rebuilt or measured here.",
+    "The pre-existing packet-date drift described in whatChanged.preExistingDriftFoundInPassing. It is reported, not repaired, and it is not this lane's to close.",
+    "Counsel review, visual review and source freshness review, which no build lane discharges."
+   ],
+   "grantConfirmed": {
+    "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX63 va_seal_petition_felony-set",
+    "exitCode": 0,
+    "output": "CLAIM_OK FIX63 va_seal_petition_felony-set (repair, grant set f3cecafde90df221)",
+    "assertedBeforeAnyFamilyArtifactWasOpened": true
+   },
+   "fixtureHashCheckAgainstVF08": {
+    "recordedBy": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json and vf08/COHORT_MEASUREMENT.json",
+    "canonicalRecorded": "c653f0a41319bbee6133a17c418666eaccb31f329abfd465d0de55b9dd4e2636",
+    "boundaryRecorded": "b7095073a0cb0683ff5efc7575d903e9faa9b19d82ccd6c29e2dbe5e6e35b7ab",
+    "recomputedFromDiskBeforeTheHostWasTouched": true,
+    "canonicalMatches": true,
+    "boundaryMatches": true
+   },
+   "buildHost": "scripts/build-census-v1-va_seal_petition_misdemeanor-set.mjs (FAMILY_CONFIGS / renderDocument / runFamilyById)",
+   "builderEntryPoint": "scripts/build-census-v1-va_seal_petition_felony-set.mjs",
+   "boundDocument": {
+    "formNumber": "CC-1201",
+    "sha256": "7b56d8e167f610739da1578ec96e8bc7925ae029141857e7350bd7482c8e7e78",
+    "selectionWidgetsInThePinnedForm": 63,
+    "widgetsShippingTheirOwnAppearanceForTheirCurrentState": 0,
+    "everyWidgetIsAtSlashOffWithSlash1AloneUnderApN": true
+   },
+   "whatChanged": {
+    "theHostChange": "scripts/build-census-v1-va_seal_petition_misdemeanor-set.mjs gains one option threaded from FAMILY_CONFIGS to its single finalizeOfficialForm call: renderDocument now takes the family config and passes suppressSynthesizedAppearances: config.suppressSynthesizedAppearances === true. Three of the four families it builds carry suppressSynthesizedAppearances: true in their config entry; the fourth does not and passes false, which is the FIX50 default.",
+    "whyItIsSetPerFamilyAndNotOnTheHost": "This host builds four families and only three are in this lane's grant. A flag on the host would decide what the fourth produces on its next rebuild, which is not this lane's to decide.",
+    "theFIX57QuestionAnsweredForThisHost": "NO. This host does not bake the square in before the finalizer. resolveSources reads the pinned bytes with fs.readFileSync and renderDocument hands those exact bytes to finalizeOfficialForm as sourceBytes; there is no intermediate sourceDoc.save() between them, so pdf-lib's default updateFieldAppearances never runs on the source before sanitizeAndFlatten. The square is born inside sanitizeAndFlatten, which is where the FIX50 opt-in acts, so the one option reaches it and no updateFieldAppearances: false repair was needed or made. The host's other three save() calls all run AFTER flatten (markRouteSelections, the composed pages and the assembled packet) and none of them touches an AcroForm widget.",
+    "whatTheHostChangeMeansForTheUngrantedHostFamily": "va_seal_petition_misdemeanor-set would produce EXACTLY the bytes it produces today. Its config entry was not given the flag, so it passes suppressSynthesizedAppearances: false, which is the value finalizeOfficialForm already defaulted to; the option is inert for it and no other line on its path changed. Its directory was not rebuilt or opened for writing here, and it is byte-identical to base. Two cautions that belong to it rather than to this lane: it is built from CC-1201, whose 63 widgets all sit at /AS /Off with no /Off stream, so the same synthesized square is expected on its delivered pages and is NOT cleared by this row; and its committed fixtures carry the same pre-existing packet-date drift described below, so its next rebuild for any reason will move its bytes.",
+    "whatWasNotTouched": "No default anywhere. Nothing in rcap-active-content.mjs or rcap-official-form-finalize.mjs. No field map, no fact, no participant text, no route election, no other host, no other family's configuration. MASTER_QUEUE.json, RASTER_QUEUE.json, the legal-decision records and VF08's rows were read and never opened for writing.",
+    "preExistingDriftFoundInPassing": "Reproduced with the working tree clean at base 9c20f8c7c, before this lane edited anything: rebuilding va_seal_ancillary_matter_only-set with no source change at all rewrites canonical.pdf and boundary.pdf. The committed bytes carry a wall-clock /CreationDate and /ModDate (D:20260901081329Z canonical, D:20260901081528Z boundary) and the current host stamps the fixed D:20260829000000Z that stampDeterministic supplies. Exactly 16 bytes differ in each fixture, the file length is unchanged, every raster page is byte-identical and both per-form primary-filing artifacts are byte-identical. So the committed fixtures predate the host's own determinism fix. It is reported, not repaired: the after digests below therefore differ from the before digests for two reasons, the square this lane removed and those 16 date bytes, and the raster measurement is what separates them."
+   },
+   "rebuild": {
+    "command": "MASTER_LIBRARY_SOURCE_DIR=<mounted Master Library> node scripts/build-census-v1-va_seal_petition_felony-set.mjs",
+    "exitCode": 0,
+    "rasterFlag": "none; the builder's own local raster ran, as it did for the committed bytes",
+    "runTwice": "Built twice from identical inputs; the first build's whole family directory was copied aside and diffed against the second with diff -r. Zero differences across every file, fixtures, reports and all sixteen raster pages included."
+   },
+   "digests": {
+    "before": {
+     "canonical": {
+      "sha256": "c653f0a41319bbee6133a17c418666eaccb31f329abfd465d0de55b9dd4e2636",
+      "bytes": 231931,
+      "pages": 8
+     },
+     "boundary": {
+      "sha256": "b7095073a0cb0683ff5efc7575d903e9faa9b19d82ccd6c29e2dbe5e6e35b7ab",
+      "bytes": 232199,
+      "pages": 8
+     }
+    },
+    "after": {
+     "canonical": {
+      "sha256": "df2d104009b72d410d037eba14f632ccb39424ccb2b5b9738bda4c44d9056bdd",
+      "bytes": 228592,
+      "pages": 8
+     },
+     "boundary": {
+      "sha256": "6b9c71ab019ff408cbba9e2226e46e6c86133358f1b704c7eccfacd48a42352b",
+      "bytes": 228860,
+      "pages": 8
+     }
+    },
+    "pageCountUnchanged": "8 -> 8 in both fixtures",
+    "whyTheFilesGotSmaller": "an empty appearance stream replaces a generated one carrying a rectangle path, a stroke and a graphics-state block, at every one of the widgets"
+   },
+   "perWidgetMeasurement": {
+    "method": "Every page of both fixtures was rastered with pdftoppm at 150 dpi, greyscale, into /tmp, from the committed bytes before the host was touched and again from the rebuilt bytes; a pixel is ink below 200. The widget rectangles were read first-hand from the pinned CC-1201 by content hash (7b56d8e167f610739da1578ec96e8bc7925ae029141857e7350bd7482c8e7e78), and the pinned form was rastered at the same settings so every rect is read against the FORM'S OWN ink rather than against a threshold. The packet's first 4 pages are that form's 4 pages, so a widget's source page is its delivered page. A 2px pad is added around each rect so a border pixel cannot fall outside the window that is supposed to catch it. Rasters deleted after measuring.",
+    "widgetsVF08Counted": 126,
+    "fourTestsAtEveryRect": [
+     "no pixel is ink in the rebuilt page that was not ink in the delivered page before (nothing was added)",
+     "no pixel that is ink in the pinned form is missing from the rebuilt page (the form's own ink is intact)",
+     "no removed pixel was the form's own ink",
+     "every removed pixel lies on the widget's own rectangle boundary, which is where the synthesized square is drawn"
+    ],
+    "resultAllFourTests": "every widget rect in both fixtures passes all four",
+    "perFixture": {
+     "canonical": {
+      "widgetRectsMeasured": 63,
+      "widgetsWhereTheDeliveredPageNowCarriesExactlyThePinnedFormsOwnInk": 57,
+      "widgetsCarryingThePacketsOwnIntendedMarkAboveTheFormsInk": 6,
+      "pixelsAddedAnywhereInAnyWidgetRect": 0,
+      "formInkLostAtAnyWidgetRect": 0,
+      "pixelsRemoved": 5370,
+      "removedPixelsThatWereTheFormsOwnInk": 0,
+      "removedPixelsNotOnTheWidgetBoundary": 0,
+      "everyResidualAboveTheFormWasAlreadyPresentBefore": true,
+      "theMarkedWidgets": [
+       {
+        "field": "User.SignaturePetitioner1",
+        "page": 4,
+        "formInk": 74,
+        "beforeInk": 250,
+        "afterInk": 168
+       },
+       {
+        "field": "User.NamePetitioner",
+        "page": 4,
+        "formInk": 74,
+        "beforeInk": 253,
+        "afterInk": 169
+       },
+       {
+        "field": "User.AddressPetitioner",
+        "page": 4,
+        "formInk": 74,
+        "beforeInk": 251,
+        "afterInk": 168
+       },
+       {
+        "field": "User.TelephonePetitioner",
+        "page": 4,
+        "formInk": 76,
+        "beforeInk": 251,
+        "afterInk": 168
+       },
+       {
+        "field": "User.CityPetitioner",
+        "page": 4,
+        "formInk": 83,
+        "beforeInk": 262,
+        "afterInk": 177
+       },
+       {
+        "field": "User.EmailPetitioner",
+        "page": 4,
+        "formInk": 74,
+        "beforeInk": 252,
+        "afterInk": 168
+       }
+      ]
+     },
+     "boundary": {
+      "widgetRectsMeasured": 63,
+      "widgetsWhereTheDeliveredPageNowCarriesExactlyThePinnedFormsOwnInk": 57,
+      "widgetsCarryingThePacketsOwnIntendedMarkAboveTheFormsInk": 6,
+      "pixelsAddedAnywhereInAnyWidgetRect": 0,
+      "formInkLostAtAnyWidgetRect": 0,
+      "pixelsRemoved": 5370,
+      "removedPixelsThatWereTheFormsOwnInk": 0,
+      "removedPixelsNotOnTheWidgetBoundary": 0,
+      "everyResidualAboveTheFormWasAlreadyPresentBefore": true,
+      "theMarkedWidgets": [
+       {
+        "field": "User.SignaturePetitioner1",
+        "page": 4,
+        "formInk": 74,
+        "beforeInk": 250,
+        "afterInk": 168
+       },
+       {
+        "field": "User.NamePetitioner",
+        "page": 4,
+        "formInk": 74,
+        "beforeInk": 253,
+        "afterInk": 169
+       },
+       {
+        "field": "User.AddressPetitioner",
+        "page": 4,
+        "formInk": 74,
+        "beforeInk": 251,
+        "afterInk": 168
+       },
+       {
+        "field": "User.TelephonePetitioner",
+        "page": 4,
+        "formInk": 76,
+        "beforeInk": 251,
+        "afterInk": 168
+       },
+       {
+        "field": "User.CityPetitioner",
+        "page": 4,
+        "formInk": 83,
+        "beforeInk": 262,
+        "afterInk": 177
+       },
+       {
+        "field": "User.EmailPetitioner",
+        "page": 4,
+        "formInk": 74,
+        "beforeInk": 252,
+        "afterInk": 168
+       }
+      ]
+     }
+    },
+    "theWidgetsThatDoNotEqualTheFormExactly": "They carry the packet's own route-election mark, two diagonals struck strictly inside the court's box by markRouteSelections as page content after flatten, at widgets the field map records with disposition selected_by_route. The mark was present before and is pixel-for-pixel present after: nothing was added at those rects and nothing but boundary pixels was removed.",
+    "pageLevel": {
+     "canonical": {
+      "changedPixelsPerPage": {
+       "1": 839,
+       "2": 1887,
+       "3": 1788,
+       "4": 1136,
+       "5": 0,
+       "6": 0,
+       "7": 0,
+       "8": 0
+      },
+      "changedOutsideWidgetRects": 0
+     },
+     "boundary": {
+      "changedPixelsPerPage": {
+       "1": 839,
+       "2": 1887,
+       "3": 1788,
+       "4": 1136,
+       "5": 0,
+       "6": 0,
+       "7": 0,
+       "8": 0
+      },
+      "changedOutsideWidgetRects": 0
+     },
+     "note": "pages 1-4 are the pinned CC-1201; pages 5-8 are the composed components and are pixel-identical."
+    },
+    "changedPixelsOutsideEveryWidgetRect": 0,
+    "participantWritesUnchanged": "pdftotext -layout over every page of both fixtures is character-identical before and after, and reports/actual-writes.json is byte-identical. The composed pages are pixel-identical.",
+    "rastersDeleted": true
+   },
+   "countersBefore": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "countersAfter": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "countersNote": "Nine zeros before and nine zeros after, and that is not the evidence for this repair. The counters read the field map, and the synthesized square was never a declared write, so no counter could ever have seen it. The raster is the evidence.",
+   "verifiers": {
+    "verify-packet-completeness.mjs": {
+     "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <familyId>",
+     "before": "PASS_COMPLETE, nine counters zero",
+     "after": "PASS_COMPLETE, nine counters zero",
+     "exitCode": 0
+    },
+    "verify-identity-refresh-survives-rebuild.mjs": {
+     "command": "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs",
+     "result": "EVERY_IDENTITY_REFRESH_SURVIVED, 249 receipts compared against HEAD, 53 carrying an identityRefresh",
+     "exitCode": 0,
+     "runAfterTheRebuild": true
+    },
+    "verify-source-carried-values-are-dispositioned.mjs": {
+     "command": "node scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs",
+     "result": "EVERY_SOURCE_CARRIED_VALUE_IS_DISPOSITIONED, 0 UNDISPOSITIONED, 0 not examinable",
+     "exitCode": 0,
+     "runAfterTheRebuild": true
+    },
+    "test-synthesized-off-appearances.mjs": {
+     "command": "node scripts/rcap-official-forms/test-synthesized-off-appearances.mjs",
+     "result": "5 controls PASS (FIX50's own test, unchanged by this lane)",
+     "exitCode": 0
+    },
+    "verify-rcap-appearance-semantics.mjs": {
+     "command": "node scripts/verify-rcap-appearance-semantics.mjs",
+     "result": "OK appearance semantics",
+     "exitCode": 0
+    }
+   },
+   "preflight": {
+    "command": "MASTER_LIBRARY_SOURCE_DIR=<mounted Master Library> node scripts/verify-packet-build-environment.mjs --family va_seal_petition_felony-set",
+    "result": "11/13 passed, 2 failed, 4 not applicable",
+    "passed": [
+     "repo_identity",
+     "clone_is_complete",
+     "worktree_clean",
+     "node_toolchain",
+     "pdf_lib_importable",
+     "master_library_mounted",
+     "master_library_complete",
+     "family_sources_bind",
+     "master_library_not_at_operational_path",
+     "absent_is_not_empty",
+     "stale_artifact_block_consulted"
+    ],
+    "theTwoFailuresAndWhyTheyDidNotStopTheBuild": [
+     "private_is_git_ignored FAILED because private/ in this worktree is a read-only SYMLINK to the sibling checkout and the repo's own .gitignore line is 'private/' with a trailing slash, which does not match a symlink. git check-ignore confirms the path is ignored in this environment and git status stayed clean throughout; no private byte is staged or committed.",
+     "corpus_matches_committed_index FAILED with 1 absent of 24 sampled, in a custody that is not mounted in this container. The check that decides whether THIS family may be built, family_sources_bind, passed 1/1 by exact SHA-256, and the pinned form's hash was recomputed here and equals the digest VF08 recorded."
+    ],
+    "sourceBinding": "CC-1201 bound by exact SHA-256 7b56d8e167f610739da1578ec96e8bc7925ae029141857e7350bd7482c8e7e78, equal to the declaredSha256 in vf08/COHORT_MEASUREMENT.json"
+   },
+   "acceptanceReceipt": null,
+   "whatWasNotDone": [
+    "No central raster was run on the new bytes and none was requested; the local rasters were measurement only and are deleted.",
+    "No independent verification of anything in this row. Every measurement here was made by the lane that produced the bytes.",
+    "The host family va_seal_petition_misdemeanor-set was not rebuilt, not committed, not measured and not opted in.",
+    "No verdict, no acceptance receipt, no queue entry, no ledger row other than this lane's own release, and no route promotion.",
+    "The pre-existing packet-date drift was reported and left in place."
+   ]
+  }
+ ],
+ "hostFamilyRebuildFinding": "va_seal_petition_misdemeanor-set would rebuild to exactly the bytes it has today as far as this change is concerned: its config entry does not carry suppressSynthesizedAppearances, so renderDocument passes false, which is what finalizeOfficialForm already defaulted to. It was not rebuilt, committed or measured here. Two things about it that this lane found and did not fix: it is built from CC-1201, all 63 of whose widgets sit at /AS /Off with no /Off stream, so the same synthesized square is expected on its pages and is not cleared; and its committed fixtures carry the same pre-existing packet-date drift, so any rebuild of it for any reason will move its bytes by those 16 date bytes.",
+ "rastersDeleted": true
+}

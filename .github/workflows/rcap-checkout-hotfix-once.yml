@@ -1,0 +1,77 @@
+name: Open one ordinary payable Production checkout once (identity-resolved filler)
+
+on:
+  push:
+    branches:
+      - claude/legalease-sprint-captain-utucnw
+    paths:
+      - .github/workflows/rcap-checkout-hotfix-once.yml
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  open_payable_checkout:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      TOOLS_SHA: c180bbe8e418bc6b738924a3c8d69b2fa270ffda
+      PRODUCTION_DEPLOYMENT_ID: dpl_5rpkFUKgmp5cGwPaLAzHxx1nUuPK
+    steps:
+      - name: Check out repository history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify tools commit is canonical and check it out
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin claude/legalease-sprint-captain-utucnw
+          git cat-file -e "$TOOLS_SHA^{commit}"
+          git merge-base --is-ancestor "$TOOLS_SHA" origin/claude/legalease-sprint-captain-utucnw
+          git checkout --detach "$TOOLS_SHA"
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install frozen dependencies
+        run: npm ci
+
+      - name: Prove the builder filler against the real control shapes
+        env:
+          RCAP_BROWSER_CHROMIUM: /usr/bin/google-chrome
+        run: node scripts/test-rcap-packet-builder-filler.mjs
+
+      - name: Open exactly one ordinary payable checkout
+        env:
+          RCAP_PRODUCTION_PHASE: live_open_payable_checkout
+          RCAP_PUBLIC_ORIGIN: https://expungement.ai
+          RCAP_PRODUCTION_PROJECT_REF: wwtwtsmywnckfkdaqqeg
+          RCAP_PRODUCTION_SUPABASE_URL: https://wwtwtsmywnckfkdaqqeg.supabase.co
+          RCAP_BROWSER_CHROMIUM: /usr/bin/google-chrome
+          RCAP_PROBE_BROWSERS: chromium
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          RCAP_PRODUCTION_DEPLOYMENT_ID: ${{ env.PRODUCTION_DEPLOYMENT_ID }}
+          RCAP_PRODUCTION_DEPLOYMENT_READ_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: node scripts/rcap-production-save-transition-probe.mjs
+
+      # Read-only. The probe stops with Stripe's page open and never reads the
+      # Session's own shape; Stripe's view of what it is selling and for how
+      # much comes from Stripe, through GETs with a restricted read key.
+      - name: Read the opened Session back from Stripe
+        if: always()
+        env:
+          RCAP_STRIPE_READ_KEY: ${{ secrets.RCAP_STRIPE_READ_KEY }}
+        run: node scripts/rcap-stripe-coupon-object-diagnosis.mjs
+
+      - name: Upload evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: payable-checkout-open-${{ github.run_id }}
+          path: production-canary-evidence/
+          if-no-files-found: error

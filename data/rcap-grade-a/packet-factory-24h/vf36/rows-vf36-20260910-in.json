@@ -1,0 +1,762 @@
+{
+  "schemaVersion": "rcap-verifier-lane-rows/v1",
+  "lane": "VF36",
+  "laneKind": "independent-verification",
+  "generatedBy": "VF36 first independent read of the three Indiana conviction families after FIX03's repair, at base 94bb1eedd876817db87574ec87311a68786aac83 in /home/user/vfa-worktree on branch lane-vfa-20260910. FIX03 may not verify its own repair; this lane wrote none of these bytes.",
+  "vocabulary": [
+    "PASS",
+    "FAIL",
+    "NOT_MEASURABLE_HERE",
+    "BLOCKED_LEGAL_INPUT"
+  ],
+  "custodyBoundary": "private/ does not exist in this worktree. No source bundle was reachable, so SOURCE_IDENTITY's custody limb is NOT_MEASURABLE_HERE on all three rows and is marked as such rather than being passed on the records agreeing with each other.",
+  "whatThisLaneDidNotDo": "Built nothing, repaired nothing, ran no build script, edited no packet byte, edited no central artifact, released no claim, entered no other worktree.",
+  "grantsNothing": "Independent verification approves no output, promotes no route and opens no commercial path.",
+  "rows": [
+    {
+      "itemId": "in_conviction_d6-set",
+      "lane": "VF36",
+      "laneKind": "independent-verification",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "94bb1eedd876817db87574ec87311a68786aac83",
+      "verifiedAtBaseObtainedBy": "git rev-parse HEAD in /home/user/vfa-worktree on branch lane-vfa-20260910",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/in/in-conviction-d6-set--custom-pleading",
+      "implementationStrategy": "custom_pleading",
+      "postRepairReread": true,
+      "firstIndependentReadOfTheRepairedBytes": true,
+      "theRepairThisReads": {
+        "repairLane": "FIX03",
+        "dispatchNamedCommit": "175f823dc20df0241e000e3f82831cd0fab86a8a",
+        "commitThatActuallyMovedTheBytes": "fe07c3d2c",
+        "howIEstablishedThat": "git log on the fixture PDFs, the builder script, participant-instructions.md and filing-instructions.md: all four last changed at fe07c3d2c. 175f823 touches only product-wiring.json in the three family directories plus lane documentation.",
+        "fix03MayNotVerifyItsOwnRepair": "It did not. This lane wrote none of these bytes, ran no build script, and repaired nothing."
+      },
+      "claimStatus": {
+        "assertedBeforeAnyRead": true,
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF36 in_conviction_d6-set",
+        "result": "CLAIM_OK VF36 in_conviction_d6-set (independent-verification, grant set b7ae3c07bdae86ba)",
+        "exitStatus": 0,
+        "released": false,
+        "whoReleases": "the dispatching lane, on integration"
+      },
+      "receiptBindsTheBytes": {
+        "recomputedWith": "sha256sum and stat -c%s on the four committed fixtures in /home/user/vfa-worktree at 94bb1eedd876817db87574ec87311a68786aac83, and pdfinfo for page counts",
+        "canonicalSha256": "28f06217b1650ecebb0c20feef875cdff77d48a42674eab9fb94959893ac8737",
+        "canonicalByteLength": 1727201,
+        "canonicalPages": 10,
+        "boundarySha256": "b385fefcd4b24ee67be14adb6ac052ca6975d8286c1769b50bce00e4381c1573",
+        "boundaryByteLength": 1727703,
+        "boundaryPages": 10,
+        "participantGuidanceCanonicalSha256": "267fa30600e54dca86f18e7b1ec8d378de799037ba903d3e198473ec740ca69a",
+        "participantGuidanceBoundarySha256": "62640f1353c12e1326fa611fc5c98e1ef98a06f1ab1eaf8c7dd10c87367a529e",
+        "guidancePages": 7,
+        "agreesWith": "component-page-manifest.json and reports/rendered-artifacts.json, on every digest, byte length and page count"
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 5
+      },
+      "countersHowMeasured": {
+        "knownRequiredFieldsMissing": "0, measured. production-field-map.json declares 41 terminal fields across the two composed documents; 24 are written and 17 are classified blank (6 REQUIRED_BEFORE_FILING + 11 PROTECTED_FIELD). All 24 declared writes were located in the extracted text of BOTH delivered fixtures - 24/24 found, 0 missing, in all six pleading PDFs. No field the map declares is absent from the delivered page.",
+        "requiredFactsNotCollected": "0, measured. Every fact the two composed documents need is either written from the fixture or classified as a disclosed blank carrying what the participant must supply and why. The packet collects no Social Security number at all and says on the petition's face that only the last four digits belong there.",
+        "unclassifiedBlanks": "0, measured. 41 terminal fields - 24 written = 17 blank, and reports/blanks-left-for-the-participant.json classifies exactly 17 (6 + 11). Every classification was checked against the delivered page.",
+        "incompleteRows": "0, measured. The two composed documents contain no repeating row structure - the multi-conviction and additional-information areas are free-text leader blocks, not numbered rows. Every row table in the packet is on a retained official form, and all four retained forms are delivered entirely blank, so no row is partly completed. This is a measurement, not a default: the builder's own report publishes incompleteRows 0 beside rowsInspected 0, which is a zero for something not inspected; the 0 here is mine.",
+        "requiredOptionsMissing": "0, measured. The two composed documents declare no selection control (production-field-map.json selectionControls is empty for both) and none is drawn on the delivered pages. Every option control in the packet belongs to a retained official form and is delivered blank, disclosed in three places as completed by hand.",
+        "requiredComponentsMissing": "0, measured. Six components declared in component-page-manifest.json componentOrder, six delivered, each on the packet page the manifest names, confirmed by reading the first printed line of every one of the ten delivered pages of both fixtures.",
+        "invisibleWrites": "0, measured from pixels rather than from the build report. Every extracted word box on every composed page of every canonical fixture was rendered at 300 dpi and counted: 0 word boxes with zero dark ink at threshold 128, on 316+326+234 (d6), 365+326+241 (felony) and 304+326+234 (misd) words. The caption identifier itself is real ink - 6,579 dark pixels at 300 dpi/128 - which is why it is scored as a defect and not as a phantom.",
+        "protectedWrites": "0, measured. All 11 PROTECTED_FIELD blanks - the petitioner's verification signature and its date, the clerk's XP cause number and filed-on stamp, and all seven lines of the proposed order - carry only leader dots on the delivered pages of both fixtures. No judicial finding, no granted-or-denied election, no decretal paragraph, no sealing directive, no order date, no judge's signature and no clerk distribution list is written anywhere in any of the six pleading PDFs.",
+        "visualDefects": "see visualDefects below; each entry was confirmed on a delivered page, by bbox and by rendered pixels."
+      },
+      "noCounterIsADefault": "Every one of the nine is a measurement taken in this lane on these bytes. None was copied from reports/completeness-counters.json, which publishes all nine as zero for these families and which I disagree with on visualDefects. Nothing here is null, because nothing here went unmeasured - the one thing I could not measure is an obligation, SOURCE_IDENTITY, and it is marked NOT_MEASURABLE_HERE rather than being folded into a counter as a zero.",
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "finding": "PASS. Exactly one route key, and it resolves consistently. obligation:track-pathway:IN:in_conviction_d6:conviction-expungement-with-sealed-confidential-access is carried identically by source-receipt.json, packet-set-manifest.json, production-field-map.json, product-wiring.json, reports/rendered-artifacts.json and MASTER_QUEUE.json families[familyId=in_conviction_d6-set].routeKeys - a grep across the whole family directory returns that string and no other obligation:track-pathway key. The delivered petition states 'Statutory section this petition is brought under: I.C. 35-38-9-3' on its own face, page 1 and page 3, in both fixtures, and the filing instructions, the participant instructions and the guidance PDF all describe the same section and the same relief. The route key is NOT printed on any of the three composed filing pages, which is correct; it IS printed on guidance page 1, recorded under ARTIFACTS at the lower severity guidance carries."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "NOT_MEASURABLE_HERE",
+          "finding": "NOT_MEASURABLE_HERE, and the reason is custody, not method. private/ does not exist in this worktree - `ls private/` and `find private` both return nothing at /home/user/vfa-worktree - and the source bundles live only in worktrees I am forbidden to enter. I therefore cannot bind the four pinned sourceSha256 values to any bytes in custody, which is the limb this obligation exists to test. I did NOT report that limb as a pass on the strength of the records agreeing with each other.\n\nWhat I did measure, and what it is worth: every retained page of every delivered fixture was re-isolated from the DELIVERED packet using the builder's own published method (PDFDocument.create, stampDeterministic, copyPages([n-1]), addPage, save({useObjectStreams:false, updateMetadata:false}), sha256 of the bytes - scripts/build-census-v1-in_conviction_<family>-set.mjs:923-928) and every one reproduces the pageIsolatedSha256 the manifest pins, exactly: 7 pages x 2 fixtures x 3 families = 42 of 42 MATCH, 0 DIFFER. That proves the delivered retained pages are object-identical to the pages the manifest pins, so nothing was substituted, refilled or flattened between the pinning and the delivery, and it independently confirms the 'retained pages are untouched' limb of FIX03's return by a different method (object bytes rather than rasters). What it cannot prove is that the pinned bundle is the document the issuer published. The four sourceSha256 values are also carried identically across source-receipt.json, packet-set-manifest.json, component-page-manifest.json and reports/rendered-artifacts.json in each family - internal agreement only.\n\nA lane holding custody should re-read this obligation; it is the only one of the fifteen I could not close."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "finding": "PASS. Six components declared in componentOrder, six delivered, each on the page component-page-manifest.json names, in both fixtures: primary filing on packet pages 1-2, proposed order on page 3, the section's own conviction insert on pages 4-6, the Appearance by Unrepresented Person on pages 7-8, Form ACR on page 9 and the Confidential Information Form on page 10. Confirmed by reading the first printed line of each of the ten delivered pages, not from the manifest. The one conditional component - the Appearance by Unrepresented Person - has its condition stated in the packet set manifest (a self-represented filer), both fixtures are self-represented, so the condition is met and the component is delivered. Nothing is delivered that is not declared."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "FAIL",
+          "finding": "FAIL, on the BOUNDARY fixture, and this is the mirror-image defect FIX03 found and correctly declined to repair. I measured it and it is worse than the token argument alone.\n\nboundary.pdf prints, in the caption of the verified petition on page 1 and again in the caption of the proposed order on page 3, 'Cause number of the conviction: 45C01-0812-FB-00000000000123456', and three lines below it 'Offense level as it appears on the court record: Class D felony under the pre-2014 sentencing scheme, treated as a Level 6 felony conviction'. So the same page states a Class D felony and carries a charge-level token bound, inside this repository, to a Class B felony.\n\nTHE DECISIVE GROUND IS NOT THE TOKEN TABLE. That string is byte-identical to the cause number in in_conviction_felony-set's BOUNDARY fixture, which pairs it with 'Class B felony under the pre-2014 sentencing scheme' and is brought under I.C. 35-38-9-4 while this one is brought under I.C. 35-38-9-3. Two petitions in this repository assert one cause number for two different convictions at two different offence levels under two different statutory sections. That is a contradiction that needs no external authority to see, and it is exactly the ground on which VF30 withdrew its PASS from the felony family's CANONICAL fixture. It is the same defect, one family over and one fixture over, and it is unrepaired at this base.\n\nAND THERE IS A THIRD INSTANCE NOBODY HAS RECORDED. All three families' boundary fixtures use 45C01-0812-<token>-00000000000123456 - the same court, the same year-month and the same sequence number 00000000000123456 - differing only in the two-character token (FB, FB, CM). And after FIX03's repair all three CANONICAL fixtures still use 49D01-1503-<token>-011234, sharing the sequence 011234 across three different convictions. A sequence number is what distinguishes one cause from another within a court and period, so the fixture set is inconsistent as a set even where each row is internally consistent. FIX03's repair removed a same-page contradiction; it did not touch the shared sequence, and neither VF30 nor FIX03 named it.\n\nEVERYTHING ELSE ABOUT THE PREFILLS IS SOUND. 24 declared writes, 24 actual writes, no divergence in either direction, all 24 located in the extracted text of both fixtures, and every one visible ink (0 word boxes with zero dark pixels at 300 dpi / cut 128). Every value lands in a field about the petitioner or about this conviction; none is written into a field about anyone else; the four retained official forms carry no fixture value at all; and no Social Security number is held or written anywhere.\n\nBOUNDED REPAIR, and it is bounded. One fixture fact, in one builder: FIXTURES.boundary['matter.cause_number'] in scripts/build-census-v1-in_conviction_d6-set.mjs, token FB -> the token that agrees with the offence level the same page states, moving nothing else. Do NOT move the offence level to fit the identifier. Whoever repairs it should decide at the same time whether the shared sequence number across the three families is intended, because repairing the token alone leaves d6 boundary and felony boundary still differing by one two-character token in an identifier that is supposed to be unique."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "finding": "PASS. Eleven PROTECTED_FIELD blanks and every one is blank on the delivered page. On the petition: the petitioner's verification signature and its date, and the two clerk lines under the heading 'FOR THE CLERK - LEAVE BLANK' (the XP cause number and the filed-on stamp). On the proposed order: findings, granted-or-denied, decretal paragraphs, sealing directives, the order date, the judge's signature and the clerk's distribution list. Each prints its label followed by leader dots and nothing else, in both fixtures of all three families. No judicial finding, no signature, no notarization, no clerk act and no prosecutor act is fabricated anywhere in this packet. reports/actual-writes.json declares refusedFieldsWithInk empty and I confirmed that independently from the delivered text and from the rendered pixels rather than accepting it."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "finding": "PASS. Measured from word boxes at 612x792, with the render used to confirm ink. On the three COMPOSED pages of both fixtures: 0 words off the page, 0 words within 36 pt of any margin, 0 same-baseline overlaps. On the guidance PDFs: 0, 0 and 0 across all seven pages of both fixtures. On the retained pages: 20 near-margin words on each of pages 4, 5 and 6, 2 on each of pages 7 and 8, 10 on page 9, 0 on page 10, and 0 same-baseline overlaps anywhere. Every such word is on a retained official page, and those pages are proved object-identical to the pinned source pages by the isolation digests under SOURCE_IDENTITY, so the tight margins are the issuer's own typography and were not introduced here. The annotations-on render also shows widget appearance ink over-painting form ink inside widget rects (d6 12,359, felony 5,167, misd 11,336 dark pixels lost at cut 128, ZERO outside any widget rect at any of five cuts) - again a property of the issuer's own pages, on bytes this build did not move."
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "finding": "PASS. All 13 stop conditions the record holds are carried verbatim and numbered, under the heading 'Stop self-help and get legal help (all 13 stop conditions the record holds)', printed 'Stop 1 of 13' through 'Stop 13 of 13' so short carriage would be visible on the page; I counted 13 on the delivered guidance PDF. They include the Chastain trap (Stop 5), the one-petition rule (Stop 6), the section-classification and serious-bodily-injury question (Stop 7), and the CDL and immigration consequences (Stops 11 and 12). The 4 hard eligibility exclusions follow under their own heading with their count printed. The petition's own face also carries a stop instruction: 'if that classification is not clear on your own record, stop and get legal help before filing.'"
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "finding": "PASS. One destination and it is consistent everywhere it is stated: a circuit or superior court in the county of conviction, opened as case type XP under Administrative Rule 8(B)(3). The same destination appears in filing-instructions.md (Filing, Where and Venue), in participant-instructions.md, on guidance page 5, and on the face of the petition itself, which prints 'The expungement case is opened as case type XP under Administrative Rule 8(B)(3), and the clerk assigns its cause number at filing.' The multi-county rule and its 365-day window are stated with it. No specific courthouse, address or division is invented."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "finding": "PASS. Service on the prosecuting attorney under the Trial Rules, stated identically in filing-instructions.md, participant-instructions.md and the guidance PDF, with the correct pointer that the CCA appearance form carries the certificate of service to the county prosecutor and that the participant follows that form. Where the record is silent the packet says so instead of supplying a number: 'The record held here does not state a deadline for the prosecuting attorney's response or a number of days between service and any hearing.' The victim's right to submit an oral or written statement is carried. No deadline, no server, no method and no return of service is fabricated."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "finding": "PASS, and this is the obligation VF30 failed - the repair holds on the delivered bytes. Six REQUIRED_BEFORE_FILING items, each named in participant-instructions.md and on the guidance PDF with what the participant must supply and why. The contradiction VF30 caught is gone: filing-instructions.md now reads 'Order on the Verified Petition for Expungement of Conviction Records (<component>), from this packet, tendered unsigned and otherwise blank. Its page prints \"COURT USE ONLY - UNEXECUTED PROPOSED ORDER. Nothing on this page has been decided.\" Do not sign it, do not date it and do not fill in any of its lines; the participant instructions list every one of them and each belongs to the court or the clerk.' That quotes the banner the delivered page actually prints - I checked the page, not the instruction - so the guide and the page can no longer drift. All SEVEN order blanks now reach the guide under the label the order itself prints, including 'Distribution list completed by the clerk', which the superseded paraphrase omitted; I matched all seven strings between page 3 of the delivered PDF and both the guidance PDF and participant-instructions.md. The petition's own directions are consistent: 'FOR THE CLERK - LEAVE BLANK' above the two clerk lines, and only the last four SSN digits on the petition with the full number directed to the Confidential Information Form."
+        },
+        "ARTIFACTS": {
+          "result": "FAIL",
+          "finding": "FAIL. The artifact accounting itself is exact and I recomputed all of it: canonical.pdf sha256 28f06217b1650ecebb0c20feef875cdff77d48a42674eab9fb94959893ac8737 / 1,727,201 bytes / 10 pages, boundary.pdf sha256 b385fefcd4b24ee67be14adb6ac052ca6975d8286c1769b50bce00e4381c1573 / 1,727,703 bytes / 10 pages, participant-guidance-canonical.pdf 267fa30600e54dca86f18e7b1ec8d378de799037ba903d3e198473ec740ca69a / 7 pages, participant-guidance-boundary.pdf 62640f1353c12e1326fa611fc5c98e1ef98a06f1ab1eaf8c7dd10c87367a529e / 7 pages, each equal to what component-page-manifest.json and reports/rendered-artifacts.json declare. What fails is what the artifacts carry on their faces, and there are two distinct things.\n\nFIRST, the caption identifier. The first printed line of packet page 1 is 'IN-CONVICTION-EXPUNGEMENT-PETITION', set in the same face and size as the document title directly beneath it, at x 60.0-267.8, y 53.0-62.2 on a 612x792 page - above 'VERIFIED PETITION FOR EXPUNGEMENT OF CONVICTION RECORDS'. The same string is the continuation header inside page 2 (y 410.7-420.0). Page 3 opens with 'IN-CONVICTION-EXPUNGEMENT-ORDER' above the order's title. That string is this factory's own document identifier. It is defined as a const at scripts/build-census-v1-in_conviction_<family>-set.mjs:92-93, it is carried as documentId in component-page-manifest.json, and grep finds it in no source record and in no issuer publication - only in this repository's own build scripts and lane artifacts. The builder assigns it to the field literally named formNumber (line 464 for the petition, 501 for the order) and captionBlock() prints it as the first line of the caption. So a document to be filed with an Indiana court carries, in the form-number position, a form number no issuer published. It is also non-discriminating: the identical string prints on all three families, which file under three different statutory sections (I.C. 35-38-9-2, -9-3 and -9-4), so as an identifier it identifies nothing. This is a narrower instance of the same class VF30 withdrew a PASS for at this exact location - DEFECTS_NO_COUNTER_CAN_SEE 'internal-record-text-printed-on-a-filing', whose recorded standard is 'Filings recite statute citations and rule text only.' FIX03 removed the 'Assigned component identity: <componentId>' line and the builder-facing sentence from the order, and it DISCLOSED keeping the rest: its own return says 'The caption keeps the document identifier and the document title.' So this is a declared retained decision, not a missed repair. I am the first independent reader of it and I disagree with the retention, on the two grounds above. Materially milder. 'Assigned component identity: in_conviction_d6-primary-filing-1' was self-evidently internal; 'IN-CONVICTION-EXPUNGEMENT-PETITION' could be misread by a clerk as a heading rather than a code. It is scored as a defect because of where the builder puts it - the form-number slot - not because of how it reads. captionBlock() is not gated on the fixture, so this is what the route would print at runtime with a real participant's facts. Bounded repair: Drop the documentId argument from captionBlock() in all three builders (scripts/build-census-v1-in_conviction_{d6,felony,misd}-set.mjs, captionBlock at ~line 561, and the continuation-header emitter), so the caption opens with the document title. The corpus already contains composed pleadings whose caption opens with the title and carries no slug - data/rcap-all50/overlays/census-v1/vt/vt-seal-under-25-set--custom-pleading/fixtures/canonical.pdf page 1 begins 'APPLICATION FOR SEALING UNDER 33 V.S.A. SEC. 5119(G)'. Do not substitute an invented form number.\n\nSECOND, the source digest on the guidance page. Page 1 of both participant-guidance PDFs prints, for three different components, the same SHA-256 beside three different page counts: '... 2 page(s), SHA-256 b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5', then '... 1 page(s), SHA-256 b04f2941...', then '... 1 page(s), SHA-256 b04f2941...'. The sentence reads 'Delivered exactly as Indiana Coalition for Court Access published it, N page(s), SHA-256 <digest>', so the digest reads as identifying the N-page document delivered. It does not: b04f2941... is the digest of a 15-page published bundle from which pages 1-2, 7 and 8 were taken. A reader who tries to verify any of the three by that digest cannot, and the three identical digests beside three different page counts make the claim visibly self-inconsistent on the page. The underlying relationship is honest and is recorded correctly in component-page-manifest.json, which carries a per-page pageIsolatedSha256 for each; it is the delivered guidance that states it in a way that cannot be verified as it reads. Bounded repair: On the guidance page, label the digest as the digest of the published source bundle and state the source page range, or print the component's own pageIsolatedSha256 values instead. Assert nothing new; both facts are already in the manifest.\n\nWHAT PASSES, AND IT IS MOST OF IT. The three defects VF30 named on the filings are gone from the delivered bytes and I confirmed each on the page rather than by grep: 'Assigned component identity:' appears 0 times on any of the ten pages of either fixture; the sentence 'The petitioner supplies the caption and the identifiers of the conviction and nothing else' is gone from the proposed order, whose court-use banner now reads exactly 'COURT USE ONLY - UNEXECUTED PROPOSED ORDER. Nothing on this page has been decided.'; and 'READ THIS FIRST' appears 0 times in either guidance PDF while the labelled copy survives verbatim below under 'What the committed record requires this packet to say', tagged [scope_restriction]. The machine route key and the component identities still print on guidance page 1 and in filing-instructions.md; those are guidance rather than filings, which is the lower-severity treatment VF30 recorded and I record it the same way rather than re-scoring it."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "finding": "PASS. Delivered order equals declared order equals filing order. component-page-manifest.json lists packet pages 1-10 as petition, petition, order, insert x3, appearance x2, Form ACR, Confidential Information Form; reading the first printed line of each delivered page of both fixtures gives exactly that sequence; and filing-instructions.md's 'What you file, in order' lists the same six documents in the same order. The primary filing precedes the proposed order, and the proposed order precedes every attachment."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "finding": "PASS - the obligation arises and is met, rather than not arising. The two composed documents this build authored declare no selection control at all (production-field-map.json selectionControls is empty for both) and none is drawn on the delivered pages: every fact on them is either a written value or a leader-dot blank, and I confirmed that from the delivered text of both fixtures. Every option control in the packet - checkboxes and radio groups on the four retained official forms - is delivered blank and unset, which is the declared treatment, and the packet says so in three places, including on the petition's own face: 'They arrive blank and you complete them by hand.' No option is pre-selected, and no option list is narrowed or reordered by this build."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "finding": "PASS - measured, and it does not arise on the documents this build authored. The two composed documents contain no repeating row structure: the multi-conviction area is a free-text leader block ('Every Indiana conviction in any county, and whether each is eligible yet') and so is the additional-information area, and neither is a numbered table with an index that could be mismatched to a printed row. Every row table in the delivered packet is on a retained official form, all four of which are delivered entirely blank, so no row is partly completed and no AcroForm index is written to a row it does not name. I record this as a measurement and not as an inherited zero: the builder's own report publishes incompleteRows 0 beside rowsInspected 0."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "finding": "PASS, and it passes because the packet refuses to invent rather than because the record is complete. The committed record does not settle the civil filing fee, whether it is charged per county, or whether an indigency waiver exists, and the delivered packet says exactly that in every place it comes up: filing-instructions.md ('A civil filing fee applies to Sections 2 through 5. The amount, whether it is per county, and indigency waiver availability are unresolved.' / 'Fee waiver: Unresolved. Indigency waiver availability has not been confirmed.'), the guidance PDF under Fees, Fee waiver and again under the open-questions list where it is marked impact release_blocker, and participant-instructions.md. It names the clerk of the filing court as the place to ask. No figure, no waiver form number and no eligibility threshold is stated anywhere. A blank where an amount would go is disclosed as unresolved rather than left as an unexplained blank."
+        }
+      },
+      "failedObligationNames": [
+        "ARTIFACTS",
+        "KNOWN_PREFILLS"
+      ],
+      "obligationsNotMeasurableHere": [
+        "SOURCE_IDENTITY"
+      ],
+      "whyNotPassCompleteIndependent": "Two reasons, either sufficient. ARTIFACTS is FAIL and KNOWN_PREFILLS is FAIL; and SOURCE_IDENTITY is NOT_MEASURABLE_HERE, which refuses PASS_COMPLETE_INDEPENDENT on its own.",
+      "renderMethod": {
+        "engine": "poppler pdftoppm 24.02.0",
+        "command": "pdftoppm -r 300 -gray -png -f <page> -l <page> <pdf> <out>  (annotations ON; -hide-annotations used ONLY to build the control image for the difference decomposition, never as a measuring render)",
+        "dpi": 300,
+        "greyThresholdsSwept": [
+          96,
+          112,
+          128,
+          144,
+          160
+        ],
+        "primaryThresholdForQuotedPixelCounts": 128,
+        "darkPredicate": "8-bit grey value < threshold",
+        "howTheRenderWasProvedToDrawWidgetAppearanceInk": "For each family's own conviction insert (packet page 4) the annotations-ON and annotations-OFF rasters were differenced at 300 dpi and the difference decomposed onto every /Widget /Rect on that page, padded 1 px and normalised for inverted corners. At EVERY one of the five thresholds, 100% of gained dark pixels and 100% of lost dark pixels fall inside widget rects and ZERO fall outside them. Gained at cut 128: d6 13,950 px over 45 widgets; felony 10,250 px over 46; misd 15,842 px over 49. Lost ink is also entirely inside widget rects (d6 12,359 px, felony 5,167 px, misd 11,336 px at cut 128): widget appearance streams paint an opaque ground over form ink beneath them. That over-paint is a property of the issuer's own pages, not of this build - see SOURCE_IDENTITY, where every retained page is proved object-identical to the page the manifest pins.",
+        "geometryMethod": "pdftotext -bbox-layout word boxes; off-page = any word box outside 0..612 x 0..792; near-margin = any word box within 36 pt of a page edge; same-baseline overlap = two words sharing a yMin (0.1 pt) whose x extents overlap by more than 0.5 pt.",
+        "inkMethod": "every extracted word box on every composed page rendered at 300 dpi and counted for dark pixels at threshold 128; a word box with zero dark pixels is an invisible write."
+      },
+      "renderProofForThisFamily": {
+        "pageProvedOn": "packet page 4, this family's own conviction insert CCA-XP-0220-7009",
+        "widgetsOnThatPage": 45,
+        "gainedDarkPixelsAtCut128": 13950,
+        "gainedOutsideWidgetRects": 0,
+        "lostDarkPixelsAtCut128": 12359,
+        "lostOutsideWidgetRects": 0,
+        "atEveryThreshold": "0 gained and 0 lost outside widget rects at grey cuts 96, 112, 128, 144 and 160",
+        "whatThisEstablishes": "the measuring render draws widget /AP /N ink, so a zero measured from it is a zero in the bytes and not a blinding"
+      },
+      "retainedPageIntegrity": {
+        "method": "each retained page of each delivered fixture re-isolated from the DELIVERED packet with the builder's own published method and hashed",
+        "pagesChecked": 14,
+        "matches": 14,
+        "differs": 0,
+        "corpusTotal": "42 of 42 across the three families",
+        "widgetsOnRetainedPages": 182,
+        "widgetsCarryingAPN": 126,
+        "widgetsOnComposedPages": 0
+      },
+      "flattenedWidgetAppearances": {
+        "builderPublishes": "reports/actual-writes.json publishes flattenedWidgetAppearancesReadFromOutputBytes: 0 for both fixtures, and scripts/build-census-v1-in_conviction_<family>.mjs line 1310 emits it as a hardcoded literal 0 beside addedGlyphsReadFromOutputBytes and nonWhitespaceGlyphsOutsideMeasuredWriteBoxes, which are real readings. FIX03 recorded this and did not repair it; it is unrepaired at this base.",
+        "notInherited": "The zero was not inherited. It was measured three independent ways and it is TRUE. (1) Every content stream in both fixtures was inflated and scanned for the finalizer's own names: /FlatWidget-N Do and /ExactFactOverlay-N Do occur 0 times. A scanned page drawn q <cm> /ImageN Do Q was deliberately NOT counted. (2) The three composed pages carry zero /Widget annotations at all, so there is nothing on them to flatten. (3) Every retained page isolates to the pinned pageIsolatedSha256, and a flatten would have changed those bytes.",
+        "theRiskIsLatent": "Nothing delivered here is wrong. The exposure is that the next family built from this script whose finalizer does flatten will publish 0 without measuring it."
+      },
+      "visualDefects": [
+        {
+          "artifact": "canonical.pdf and boundary.pdf",
+          "page": 1,
+          "what": "'IN-CONVICTION-EXPUNGEMENT-PETITION' printed as the first line of the caption of the VERIFIED PETITION, above its title - this factory's own document identifier, assigned by the builder to the field named formNumber",
+          "confirmedHow": "pdftotext -bbox-layout puts it at x 60.0-267.8, y 53.0-62.2 on a 612x792 page; rendered at 300 dpi it is 6,579 dark pixels at grey cut 128"
+        },
+        {
+          "artifact": "canonical.pdf and boundary.pdf",
+          "page": 2,
+          "what": "the same identifier printed again as the petition's continuation header",
+          "confirmedHow": "pdftotext -bbox-layout at x 60.0-267.8, y 410.7-420.0; 6,579 dark pixels at 300 dpi / cut 128"
+        },
+        {
+          "artifact": "canonical.pdf and boundary.pdf",
+          "page": 3,
+          "what": "'IN-CONVICTION-EXPUNGEMENT-ORDER' printed as the first line of the caption of the PROPOSED ORDER, above its title",
+          "confirmedHow": "pdftotext -layout of the delivered page; the page's court-use banner two lines below it is correct and unmodified"
+        },
+        {
+          "artifact": "participant-guidance-canonical.pdf and participant-guidance-boundary.pdf",
+          "page": 1,
+          "what": "one source SHA-256 (b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5) printed against three different components beside three different page counts - '2 page(s)', '1 page(s)', '1 page(s)' - in a sentence that reads as though the digest identifies the delivered document. It identifies a 15-page published bundle.",
+          "confirmedHow": "pdftotext -layout of the delivered guidance PDF; the three page counts and the one digest are on the same page, and the digest matches no page count printed beside it"
+        },
+        {
+          "artifact": "boundary.pdf only",
+          "page": "1 and 3",
+          "what": "'Cause number of the conviction: 45C01-0812-FB-00000000000123456' printed in the caption of both the verified petition and the proposed order, three lines above 'Offense level as it appears on the court record: Class D felony under the pre-2014 sentencing scheme, treated as a Level 6 felony conviction'. FB is bound inside this repository to Class B, and the identical cause-number string is asserted by in_conviction_felony-set's boundary fixture for a Class B felony under a different statutory section.",
+          "confirmedHow": "pdftotext -layout of both delivered pages of this family's boundary.pdf and of in_conviction_felony-set's boundary.pdf; the two strings are byte-identical"
+        }
+      ],
+      "recordsThatDisagree": [
+        {
+          "record": "reports/completeness-counters.json in all three family directories",
+          "whatItSays": "counters.visualDefects 0 and allNineZero true, over 'the two documents this build authored'",
+          "whatIMeasured": "visual defects on the delivered pages, in that same scope, are not zero - the caption identifier prints on all three composed pages of both fixtures. The file also publishes incompleteRows 0 beside totals.rowsInspected 0, which is a zero for a thing not inspected.",
+          "disposition": "Recorded, not edited. The scope note on its face is honest; the number inside that scope is not one I can reproduce."
+        },
+        {
+          "record": "MASTER_QUEUE.json families[familyId=<family>]",
+          "whatItSays": "completenessStatus PASS_COMPLETE and allNineCountersZero true, beside state FAIL_REPAIR_REQUIRED and selectedIndependentVerdict FAIL_REPAIR_REQUIRED from vf30 at base 4761ef4fd",
+          "whatIMeasured": "Both counter claims were computed on bytes that were superseded at fe07c3d2c. The fixture digests they were derived from no longer exist in the tree. FIX03 recorded this and did not edit it; it is unchanged at this base.",
+          "disposition": "Recorded, not edited. selectedIndependentVerdict correctly still points at VF30's pre-repair read, because this row is the first post-repair independent read."
+        },
+        {
+          "record": "FIX03 commit 175f823dc20df0241e000e3f82831cd0fab86a8a, subject line",
+          "whatItSays": "'Indiana's three: no component identifier on any filed page'",
+          "whatIMeasured": "The claim proved in the body is narrower and is true: the strings 'component identity' and 'supplies the caption' match zero times on all ten pages of each. The subject generalises it. A factory-authored document identifier - IN-CONVICTION-EXPUNGEMENT-PETITION / -ORDER, assigned by the builder to the field named formNumber - is still the first printed line of every composed filed page. FIX03's own return discloses this ('The caption keeps the document identifier and the document title'), so the body and the subject disagree with each other, not with the bytes.",
+          "disposition": "Recorded, not edited. Scored under ARTIFACTS."
+        },
+        {
+          "record": "The repair commit's identity",
+          "whatItSays": "The dispatch names 175f823dc20df0241e000e3f82831cd0fab86a8a as where FIX03 repaired all three families.",
+          "whatIMeasured": "175f823 touches only product-wiring.json in the three family directories, adding \"acceptanceReceipt\": null, plus lane documentation. The fixture PDFs, the three builder scripts, participant-instructions.md and filing-instructions.md all last changed at fe07c3d2c 'FIX03: in_conviction_d6-set, internal record text off both filings and the order-signing contradiction out of the instructions' and its two siblings. 175f823 is FIX03's return commit; fe07c3d2c is the repair.",
+          "disposition": "Recorded, not edited. It matters only because a lane diffing against 175f823^ sees no change and would wrongly conclude the repair never landed. I made that mistake first and then checked the file history."
+        }
+      ],
+      "defectsNoCounterCanSee": "Checked deliberately against every class in DEFECTS_NO_COUNTER_CAN_SEE.json. 'internal-record-text-printed-on-a-filing': PRESENT and decisive - the caption identifier, scored under ARTIFACTS. 'map-honest-writes-not': absent - the field map declares 41 terminal fields, 24 written, 17 blank, and the delivered pages carry exactly those 24 and no more. 'a-participant-fact-written-into-a-field-about-someone-else': absent - every write is about the petitioner or about this conviction; no victim, prosecutor, judge or clerk field carries a participant fact. 'acroform-index-is-not-the-printed-row' and 'extracted-line-order-is-not-column-order': no row table and no multi-column grid is written into; the composed pages are single-column and were read by x-position. 'a-published-zero-where-a-measurement-existed': PRESENT in the builder's report and NOT inherited - flattenedWidgetAppearancesReadFromOutputBytes is a hardcoded literal 0 at builder line 1310, and incompleteRows 0 sits beside rowsInspected 0; I measured both myself and both are true here. 'a-geometry-counter-with-no-teeth': not relied on - clipping and overlap were measured from word boxes and confirmed from rendered pixels, not from nonWhitespaceGlyphsOutsideMeasuredWriteBoxes. 'two-families-one-filing': the three Indiana families deliver different inserts (7009 / 7010 / 7008) and different statutory sections, and their pleading binaries differ - but their fixture cause numbers share a sequence number across all three, which is recorded under KNOWN_PREFILLS on in_conviction_d6-set. 'an-inverted-widget-rectangle': every widget rectangle in both delivered fixtures was read with its corners normalised; the difference decomposition would have shown ink outside a rect if any were stored inverted, and it shows none at any of five thresholds.",
+      "thingsFoundThatNoCounterCanSee": [
+        "The caption identifier survives the repair because FIX03 decided to keep it, and said so. This is not a missed repair, it is a declared judgment call, and it is the first thing a reader of these three families sees.",
+        "The delivered guidance page prints one source digest against three components with three different page counts. No counter looks at what a guidance page claims about identity.",
+        "All six pleading PDFs write the offence description as a self-describing placeholder - 'Offense as it appears on the canonical fixture court record', and on the boundary fixtures 'Offense exactly as it appears on the boundary fixture court record, including ...'. The write is declared, present, visible and in its box, so every counter passes it. The consequence is that the exemplar a visual reviewer or counsel is handed has a tautology on the offence line of a VERIFIED PETITION, and the three families' canonical fixtures are indistinguishable there. Not scored - it is fixture data, correctly classified as a participant fact, and it asserts no legal claim - but it should be fixed before these fixtures are used as review specimens.",
+        "The three families' fixture cause numbers share a sequence number across families - 011234 on all three canonicals, 00000000000123456 on all three boundaries - so the identifiers differ only by the two-character charge-level token. The factory has already ruled that cross-family cause-number identity matters (it is half the ground VF30 gave for withdrawing its felony PASS), and the ruling has been applied to one pair and not to the set.",
+        "The builder never checks a cause number's charge-level token against the offence level printed three lines below it. Every instance of this defect class found so far was found by a human-shaped reading of one page, never by the build."
+      ],
+      "toolsRun": [
+        "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF36 <family> (three times, all exit 0, before any read)",
+        "git rev-parse HEAD; git log on the fixtures, builders and instruction files; git show on the repair commits",
+        "sha256sum, stat -c%s, pdfinfo",
+        "pdftotext -layout and pdftotext -bbox-layout on all twelve delivered PDFs",
+        "pdftoppm -r 300 -gray -png (annotations ON) with a -hide-annotations control, differenced and decomposed onto widget rects at five grey cuts",
+        "pdftoppm -r 110 -gray -png of composed page 1, read as an image",
+        "pdf-lib page isolation reproducing the builder's published method, on the delivered packets",
+        "zlib inflation of every content stream, scanned for /FlatWidget-N Do and /ExactFactOverlay-N Do"
+      ],
+      "whatThisLaneDidNotDo": "Built nothing, repaired nothing, re-rendered nothing into the tree, ran no family build script, edited no overlay directory, edited no central artifact, edited no record that disagrees with it, dispatched nothing, created no subagent, released no claim and transferred no claim. It entered no worktree other than /home/user/vfa-worktree.",
+      "grantsNothing": "Independent verification approves no output, promotes no route, opens no commercial path and authorises no fulfillment. These three families remain FAIL_REPAIR_REQUIRED."
+    },
+    {
+      "itemId": "in_conviction_felony-set",
+      "lane": "VF36",
+      "laneKind": "independent-verification",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "94bb1eedd876817db87574ec87311a68786aac83",
+      "verifiedAtBaseObtainedBy": "git rev-parse HEAD in /home/user/vfa-worktree on branch lane-vfa-20260910",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/in/in-conviction-felony-set--custom-pleading",
+      "implementationStrategy": "custom_pleading",
+      "postRepairReread": true,
+      "firstIndependentReadOfTheRepairedBytes": true,
+      "theRepairThisReads": {
+        "repairLane": "FIX03",
+        "dispatchNamedCommit": "175f823dc20df0241e000e3f82831cd0fab86a8a",
+        "commitThatActuallyMovedTheBytes": "fe07c3d2c",
+        "howIEstablishedThat": "git log on the fixture PDFs, the builder script, participant-instructions.md and filing-instructions.md: all four last changed at fe07c3d2c. 175f823 touches only product-wiring.json in the three family directories plus lane documentation.",
+        "fix03MayNotVerifyItsOwnRepair": "It did not. This lane wrote none of these bytes, ran no build script, and repaired nothing."
+      },
+      "claimStatus": {
+        "assertedBeforeAnyRead": true,
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF36 in_conviction_felony-set",
+        "result": "CLAIM_OK VF36 in_conviction_felony-set (independent-verification, grant set b7ae3c07bdae86ba)",
+        "exitStatus": 0,
+        "released": false,
+        "whoReleases": "the dispatching lane, on integration"
+      },
+      "receiptBindsTheBytes": {
+        "recomputedWith": "sha256sum and stat -c%s on the four committed fixtures in /home/user/vfa-worktree at 94bb1eedd876817db87574ec87311a68786aac83, and pdfinfo for page counts",
+        "canonicalSha256": "e2c8b5fc5e294a63f1938d4cf2d40d910814cf45d547e9b155068c57a6156e9f",
+        "canonicalByteLength": 987794,
+        "canonicalPages": 10,
+        "boundarySha256": "19dc77fd73e3459e519c4d56cd3329b61bab6a3e06db1070e75eb3e16dd15842",
+        "boundaryByteLength": 988258,
+        "boundaryPages": 10,
+        "participantGuidanceCanonicalSha256": "edeac77047af3c50f7a5fdf390c28cd783412412212d863bbb59de7cf6c87d9f",
+        "participantGuidanceBoundarySha256": "498c1a5e12edb69fde6b69361b2c16a5d9bdb321dfb1f0a89b9931a60265f867",
+        "guidancePages": 7,
+        "agreesWith": "component-page-manifest.json and reports/rendered-artifacts.json, on every digest, byte length and page count"
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 4
+      },
+      "countersHowMeasured": {
+        "knownRequiredFieldsMissing": "0, measured. production-field-map.json declares 41 terminal fields across the two composed documents; 24 are written and 17 are classified blank (6 REQUIRED_BEFORE_FILING + 11 PROTECTED_FIELD). All 24 declared writes were located in the extracted text of BOTH delivered fixtures - 24/24 found, 0 missing, in all six pleading PDFs. No field the map declares is absent from the delivered page.",
+        "requiredFactsNotCollected": "0, measured. Every fact the two composed documents need is either written from the fixture or classified as a disclosed blank carrying what the participant must supply and why. The packet collects no Social Security number at all and says on the petition's face that only the last four digits belong there.",
+        "unclassifiedBlanks": "0, measured. 41 terminal fields - 24 written = 17 blank, and reports/blanks-left-for-the-participant.json classifies exactly 17 (6 + 11). Every classification was checked against the delivered page.",
+        "incompleteRows": "0, measured. The two composed documents contain no repeating row structure - the multi-conviction and additional-information areas are free-text leader blocks, not numbered rows. Every row table in the packet is on a retained official form, and all four retained forms are delivered entirely blank, so no row is partly completed. This is a measurement, not a default: the builder's own report publishes incompleteRows 0 beside rowsInspected 0, which is a zero for something not inspected; the 0 here is mine.",
+        "requiredOptionsMissing": "0, measured. The two composed documents declare no selection control (production-field-map.json selectionControls is empty for both) and none is drawn on the delivered pages. Every option control in the packet belongs to a retained official form and is delivered blank, disclosed in three places as completed by hand.",
+        "requiredComponentsMissing": "0, measured. Six components declared in component-page-manifest.json componentOrder, six delivered, each on the packet page the manifest names, confirmed by reading the first printed line of every one of the ten delivered pages of both fixtures.",
+        "invisibleWrites": "0, measured from pixels rather than from the build report. Every extracted word box on every composed page of every canonical fixture was rendered at 300 dpi and counted: 0 word boxes with zero dark ink at threshold 128, on 316+326+234 (d6), 365+326+241 (felony) and 304+326+234 (misd) words. The caption identifier itself is real ink - 6,579 dark pixels at 300 dpi/128 - which is why it is scored as a defect and not as a phantom.",
+        "protectedWrites": "0, measured. All 11 PROTECTED_FIELD blanks - the petitioner's verification signature and its date, the clerk's XP cause number and filed-on stamp, and all seven lines of the proposed order - carry only leader dots on the delivered pages of both fixtures. No judicial finding, no granted-or-denied election, no decretal paragraph, no sealing directive, no order date, no judge's signature and no clerk distribution list is written anywhere in any of the six pleading PDFs.",
+        "visualDefects": "see visualDefects below; each entry was confirmed on a delivered page, by bbox and by rendered pixels."
+      },
+      "noCounterIsADefault": "Every one of the nine is a measurement taken in this lane on these bytes. None was copied from reports/completeness-counters.json, which publishes all nine as zero for these families and which I disagree with on visualDefects. Nothing here is null, because nothing here went unmeasured - the one thing I could not measure is an obligation, SOURCE_IDENTITY, and it is marked NOT_MEASURABLE_HERE rather than being folded into a counter as a zero.",
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "finding": "PASS. Exactly one route key, and it resolves consistently. obligation:track-pathway:IN:in_conviction_felony:conviction-expungement-with-records-marked-expunged is carried identically by source-receipt.json, packet-set-manifest.json, production-field-map.json, product-wiring.json, reports/rendered-artifacts.json and MASTER_QUEUE.json families[familyId=in_conviction_felony-set].routeKeys - a grep across the whole family directory returns that string and no other obligation:track-pathway key. The delivered petition states 'Statutory section this petition is brought under: I.C. 35-38-9-4' on its own face, page 1 and page 3, in both fixtures, and the filing instructions, the participant instructions and the guidance PDF all describe the same section and the same relief. The route key is NOT printed on any of the three composed filing pages, which is correct; it IS printed on guidance page 1, recorded under ARTIFACTS at the lower severity guidance carries."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "NOT_MEASURABLE_HERE",
+          "finding": "NOT_MEASURABLE_HERE, and the reason is custody, not method. private/ does not exist in this worktree - `ls private/` and `find private` both return nothing at /home/user/vfa-worktree - and the source bundles live only in worktrees I am forbidden to enter. I therefore cannot bind the four pinned sourceSha256 values to any bytes in custody, which is the limb this obligation exists to test. I did NOT report that limb as a pass on the strength of the records agreeing with each other.\n\nWhat I did measure, and what it is worth: every retained page of every delivered fixture was re-isolated from the DELIVERED packet using the builder's own published method (PDFDocument.create, stampDeterministic, copyPages([n-1]), addPage, save({useObjectStreams:false, updateMetadata:false}), sha256 of the bytes - scripts/build-census-v1-in_conviction_<family>-set.mjs:923-928) and every one reproduces the pageIsolatedSha256 the manifest pins, exactly: 7 pages x 2 fixtures x 3 families = 42 of 42 MATCH, 0 DIFFER. That proves the delivered retained pages are object-identical to the pages the manifest pins, so nothing was substituted, refilled or flattened between the pinning and the delivery, and it independently confirms the 'retained pages are untouched' limb of FIX03's return by a different method (object bytes rather than rasters). What it cannot prove is that the pinned bundle is the document the issuer published. The four sourceSha256 values are also carried identically across source-receipt.json, packet-set-manifest.json, component-page-manifest.json and reports/rendered-artifacts.json in each family - internal agreement only.\n\nA lane holding custody should re-read this obligation; it is the only one of the fifteen I could not close."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "finding": "PASS. Six components declared in componentOrder, six delivered, each on the page component-page-manifest.json names, in both fixtures: primary filing on packet pages 1-2, proposed order on page 3, the section's own conviction insert on pages 4-6, the Appearance by Unrepresented Person on pages 7-8, Form ACR on page 9 and the Confidential Information Form on page 10. Confirmed by reading the first printed line of each of the ten delivered pages, not from the manifest. The one conditional component - the Appearance by Unrepresented Person - has its condition stated in the packet set manifest (a self-represented filer), both fixtures are self-represented, so the condition is met and the component is delivered. Nothing is delivered that is not declared."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "finding": "PASS. 24 declared writes, 24 actual writes, no divergence in either direction, and all 24 located in the extracted text of BOTH delivered fixtures - 24/24, 0 missing. Every one is visible ink: 0 word boxes with zero dark pixels at 300 dpi / grey cut 128 across all three composed pages. Every value lands in a field about the petitioner or about this conviction and none in a field about anyone else; the four retained official forms carry no fixture value at all; and this build holds and writes no Social Security number.\n\nThe caption facts are internally consistent on both fixtures: canonical pairs '49D01-1503-F5-011234' with 'Level 5 felony not covered by I.C. 35-38-9-2 or 35-38-9-3', and boundary pairs '45C01-0812-FB-00000000000123456' with 'Class B felony under the pre-2014 sentencing scheme, not covered by I.C. 35-38-9-2 or 35-38-9-3'. THE REPAIR VF30's WITHDRAWAL TURNED ON. This family's canonical cause number was 49D01-1503-F6-011234 beside 'Level 5 felony', byte-identical to in_conviction_d6-set's canonical cause number, whose stated level IS Level 6. FIX03 moved the two-character token to F5 and moved nothing else - not the court prefix, not the year-month, not the sequence, and not the offence level. I confirmed on the delivered bytes that the token now agrees with the level the same page states, that the string is no longer byte-identical to any other family's canonical cause number, and that the boundary fixture was left untouched.\n\nIS THE CHANGE SOUND, AND DOES THE PACKET NOW ASSERT ANYTHING IT CANNOT SOURCE? Yes and no, in that order, and the reasoning matters more than the answer.\n\nFIX03's stated ground was internal consistency against 'the five other Indiana fixture cause numbers that already pair F6 to Level 6, FB to Class B and CM to Class A misdemeanor'. That ground is weaker than it reads, and I say so as the independent reader: those five strings were authored by the same three builder scripts, so the 'token table' they form is the builder agreeing with itself, not independent evidence. It is also self-contradicting - the FB->Class B binding rests on the felony boundary and is contradicted by the d6 boundary, which pairs FB with Class D. I verified FIX03's negative claim and it holds: there is no Indiana charge-level token table anywhere in this repository, and private/ does not exist in this worktree at all, so there is none in reachable custody either.\n\nThe change is nevertheless SOUND, on a ground that needs no token table: before the repair one string, 49D01-1503-F6-011234, was asserted as the cause number of two different convictions in two different families at two different offence levels under two different statutory sections. One cause number cannot be two convictions. The repair removed a same-page contradiction and a cross-family collision at once, and it did so by moving the identifier rather than the legal classification - which is the right direction, because the offence level is what the participant's own record states and the identifier is what encodes it.\n\nAND THE PACKET ASSERTS NOTHING IT CANNOT SOURCE. matter.cause_number is echoed verbatim - write(document, 'cause_number', 'Cause number of the conviction', 'matter.cause_number') at line 416, printed by captionBlock at line 573. The builder derives no token, validates no token and infers no offence level from any identifier, at build time or at runtime. The cause number is a participant fact that the guidance tells the participant to check ('Check every prefilled fact against your own court record and your certified limited criminal history, and correct the packet where they disagree'). So the repair changed test data and nothing else; no clerk practice, no charging convention and no statutory classification entered the packet as a record fact. FIX03's own framing - that this is 'the right way to make a change you cannot source' - is the correct description of what it did.\n\nONE FORWARD-LOOKING OBSERVATION, not scored. Because the builder never checks the token against the stated offence level, the precise contradiction VF30 caught would reach a real filing unnoticed if a participant mistranscribed their cause number. The guide's generic instruction to check every prefilled fact covers it, and nothing in the delivered packet is wrong today.\n\nCROSS-REFERENCE, recorded not scored on this family: this family's BOUNDARY cause number 45C01-0812-FB-00000000000123456 is byte-identical to in_conviction_d6-set's boundary cause number, and this family's is the internally consistent one of the pair (FB beside 'Class B felony'). The defect is scored against in_conviction_d6-set, where the same token sits beside 'Class D felony'."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "finding": "PASS. Eleven PROTECTED_FIELD blanks and every one is blank on the delivered page. On the petition: the petitioner's verification signature and its date, and the two clerk lines under the heading 'FOR THE CLERK - LEAVE BLANK' (the XP cause number and the filed-on stamp). On the proposed order: findings, granted-or-denied, decretal paragraphs, sealing directives, the order date, the judge's signature and the clerk's distribution list. Each prints its label followed by leader dots and nothing else, in both fixtures of all three families. No judicial finding, no signature, no notarization, no clerk act and no prosecutor act is fabricated anywhere in this packet. reports/actual-writes.json declares refusedFieldsWithInk empty and I confirmed that independently from the delivered text and from the rendered pixels rather than accepting it."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "finding": "PASS. Measured from word boxes at 612x792, with the render used to confirm ink. On the three COMPOSED pages of both fixtures: 0 words off the page, 0 words within 36 pt of any margin, 0 same-baseline overlaps. On the guidance PDFs: 0, 0 and 0 across all seven pages of both fixtures. On the retained pages: 22 near-margin words on page 4, 22 on page 5, 21 on page 6, 2 on each of pages 7 and 8, 10 on page 9, 0 on page 10, and 0 same-baseline overlaps anywhere. Every such word is on a retained official page, and those pages are proved object-identical to the pinned source pages by the isolation digests under SOURCE_IDENTITY, so the tight margins are the issuer's own typography and were not introduced here. The annotations-on render also shows widget appearance ink over-painting form ink inside widget rects (d6 12,359, felony 5,167, misd 11,336 dark pixels lost at cut 128, ZERO outside any widget rect at any of five cuts) - again a property of the issuer's own pages, on bytes this build did not move."
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "finding": "PASS. All 13 stop conditions the record holds are carried verbatim and numbered, under the heading 'Stop self-help and get legal help (all 13 stop conditions the record holds)', printed 'Stop 1 of 13' through 'Stop 13 of 13' so short carriage would be visible on the page; I counted 13 on the delivered guidance PDF. They include the Chastain trap (Stop 5), the one-petition rule (Stop 6), the section-classification and serious-bodily-injury question (Stop 7), and the CDL and immigration consequences (Stops 11 and 12). The 4 hard eligibility exclusions follow under their own heading with their count printed. The petition's own face also carries a stop instruction: 'if that classification is not clear on your own record, stop and get legal help before filing.'"
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "finding": "PASS. One destination and it is consistent everywhere it is stated: a circuit or superior court in the county of conviction, opened as case type XP under Administrative Rule 8(B)(3). The same destination appears in filing-instructions.md (Filing, Where and Venue), in participant-instructions.md, on guidance page 5, and on the face of the petition itself, which prints 'The expungement case is opened as case type XP under Administrative Rule 8(B)(3), and the clerk assigns its cause number at filing.' The multi-county rule and its 365-day window are stated with it. No specific courthouse, address or division is invented."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "finding": "PASS. Service on the prosecuting attorney under the Trial Rules, stated identically in filing-instructions.md, participant-instructions.md and the guidance PDF, with the correct pointer that the CCA appearance form carries the certificate of service to the county prosecutor and that the participant follows that form. Where the record is silent the packet says so instead of supplying a number: 'The record held here does not state a deadline for the prosecuting attorney's response or a number of days between service and any hearing.' The victim's right to submit an oral or written statement is carried. No deadline, no server, no method and no return of service is fabricated."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "finding": "PASS, and this is the obligation VF30 failed - the repair holds on the delivered bytes. Six REQUIRED_BEFORE_FILING items, each named in participant-instructions.md and on the guidance PDF with what the participant must supply and why. The contradiction VF30 caught is gone: filing-instructions.md now reads 'Order on the Verified Petition for Expungement of Conviction Records (<component>), from this packet, tendered unsigned and otherwise blank. Its page prints \"COURT USE ONLY - UNEXECUTED PROPOSED ORDER. Nothing on this page has been decided.\" Do not sign it, do not date it and do not fill in any of its lines; the participant instructions list every one of them and each belongs to the court or the clerk.' That quotes the banner the delivered page actually prints - I checked the page, not the instruction - so the guide and the page can no longer drift. All SEVEN order blanks now reach the guide under the label the order itself prints, including 'Distribution list completed by the clerk', which the superseded paraphrase omitted; I matched all seven strings between page 3 of the delivered PDF and both the guidance PDF and participant-instructions.md. The petition's own directions are consistent: 'FOR THE CLERK - LEAVE BLANK' above the two clerk lines, and only the last four SSN digits on the petition with the full number directed to the Confidential Information Form."
+        },
+        "ARTIFACTS": {
+          "result": "FAIL",
+          "finding": "FAIL. The artifact accounting itself is exact and I recomputed all of it: canonical.pdf sha256 e2c8b5fc5e294a63f1938d4cf2d40d910814cf45d547e9b155068c57a6156e9f / 987,794 bytes / 10 pages, boundary.pdf sha256 19dc77fd73e3459e519c4d56cd3329b61bab6a3e06db1070e75eb3e16dd15842 / 988,258 bytes / 10 pages, participant-guidance-canonical.pdf edeac77047af3c50f7a5fdf390c28cd783412412212d863bbb59de7cf6c87d9f / 7 pages, participant-guidance-boundary.pdf 498c1a5e12edb69fde6b69361b2c16a5d9bdb321dfb1f0a89b9931a60265f867 / 7 pages, each equal to what component-page-manifest.json and reports/rendered-artifacts.json declare. What fails is what the artifacts carry on their faces, and there are two distinct things.\n\nFIRST, the caption identifier. The first printed line of packet page 1 is 'IN-CONVICTION-EXPUNGEMENT-PETITION', set in the same face and size as the document title directly beneath it, at x 60.0-267.8, y 53.0-62.2 on a 612x792 page - above 'VERIFIED PETITION FOR EXPUNGEMENT OF CONVICTION RECORDS'. The same string is the continuation header inside page 2 (y 410.7-420.0). Page 3 opens with 'IN-CONVICTION-EXPUNGEMENT-ORDER' above the order's title. That string is this factory's own document identifier. It is defined as a const at scripts/build-census-v1-in_conviction_<family>-set.mjs:92-93, it is carried as documentId in component-page-manifest.json, and grep finds it in no source record and in no issuer publication - only in this repository's own build scripts and lane artifacts. The builder assigns it to the field literally named formNumber (line 464 for the petition, 501 for the order) and captionBlock() prints it as the first line of the caption. So a document to be filed with an Indiana court carries, in the form-number position, a form number no issuer published. It is also non-discriminating: the identical string prints on all three families, which file under three different statutory sections (I.C. 35-38-9-2, -9-3 and -9-4), so as an identifier it identifies nothing. This is a narrower instance of the same class VF30 withdrew a PASS for at this exact location - DEFECTS_NO_COUNTER_CAN_SEE 'internal-record-text-printed-on-a-filing', whose recorded standard is 'Filings recite statute citations and rule text only.' FIX03 removed the 'Assigned component identity: <componentId>' line and the builder-facing sentence from the order, and it DISCLOSED keeping the rest: its own return says 'The caption keeps the document identifier and the document title.' So this is a declared retained decision, not a missed repair. I am the first independent reader of it and I disagree with the retention, on the two grounds above. Materially milder. 'Assigned component identity: in_conviction_d6-primary-filing-1' was self-evidently internal; 'IN-CONVICTION-EXPUNGEMENT-PETITION' could be misread by a clerk as a heading rather than a code. It is scored as a defect because of where the builder puts it - the form-number slot - not because of how it reads. captionBlock() is not gated on the fixture, so this is what the route would print at runtime with a real participant's facts. Bounded repair: Drop the documentId argument from captionBlock() in all three builders (scripts/build-census-v1-in_conviction_{d6,felony,misd}-set.mjs, captionBlock at ~line 561, and the continuation-header emitter), so the caption opens with the document title. The corpus already contains composed pleadings whose caption opens with the title and carries no slug - data/rcap-all50/overlays/census-v1/vt/vt-seal-under-25-set--custom-pleading/fixtures/canonical.pdf page 1 begins 'APPLICATION FOR SEALING UNDER 33 V.S.A. SEC. 5119(G)'. Do not substitute an invented form number.\n\nSECOND, the source digest on the guidance page. Page 1 of both participant-guidance PDFs prints, for three different components, the same SHA-256 beside three different page counts: '... 2 page(s), SHA-256 b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5', then '... 1 page(s), SHA-256 b04f2941...', then '... 1 page(s), SHA-256 b04f2941...'. The sentence reads 'Delivered exactly as Indiana Coalition for Court Access published it, N page(s), SHA-256 <digest>', so the digest reads as identifying the N-page document delivered. It does not: b04f2941... is the digest of a 15-page published bundle from which pages 1-2, 7 and 8 were taken. A reader who tries to verify any of the three by that digest cannot, and the three identical digests beside three different page counts make the claim visibly self-inconsistent on the page. The underlying relationship is honest and is recorded correctly in component-page-manifest.json, which carries a per-page pageIsolatedSha256 for each; it is the delivered guidance that states it in a way that cannot be verified as it reads. Bounded repair: On the guidance page, label the digest as the digest of the published source bundle and state the source page range, or print the component's own pageIsolatedSha256 values instead. Assert nothing new; both facts are already in the manifest.\n\nWHAT PASSES, AND IT IS MOST OF IT. The three defects VF30 named on the filings are gone from the delivered bytes and I confirmed each on the page rather than by grep: 'Assigned component identity:' appears 0 times on any of the ten pages of either fixture; the sentence 'The petitioner supplies the caption and the identifiers of the conviction and nothing else' is gone from the proposed order, whose court-use banner now reads exactly 'COURT USE ONLY - UNEXECUTED PROPOSED ORDER. Nothing on this page has been decided.'; and 'READ THIS FIRST' appears 0 times in either guidance PDF while the labelled copy survives verbatim below under 'What the committed record requires this packet to say', tagged [scope_restriction]. The machine route key and the component identities still print on guidance page 1 and in filing-instructions.md; those are guidance rather than filings, which is the lower-severity treatment VF30 recorded and I record it the same way rather than re-scoring it."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "finding": "PASS. Delivered order equals declared order equals filing order. component-page-manifest.json lists packet pages 1-10 as petition, petition, order, insert x3, appearance x2, Form ACR, Confidential Information Form; reading the first printed line of each delivered page of both fixtures gives exactly that sequence; and filing-instructions.md's 'What you file, in order' lists the same six documents in the same order. The primary filing precedes the proposed order, and the proposed order precedes every attachment."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "finding": "PASS - the obligation arises and is met, rather than not arising. The two composed documents this build authored declare no selection control at all (production-field-map.json selectionControls is empty for both) and none is drawn on the delivered pages: every fact on them is either a written value or a leader-dot blank, and I confirmed that from the delivered text of both fixtures. Every option control in the packet - checkboxes and radio groups on the four retained official forms - is delivered blank and unset, which is the declared treatment, and the packet says so in three places, including on the petition's own face: 'They arrive blank and you complete them by hand.' No option is pre-selected, and no option list is narrowed or reordered by this build."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "finding": "PASS - measured, and it does not arise on the documents this build authored. The two composed documents contain no repeating row structure: the multi-conviction area is a free-text leader block ('Every Indiana conviction in any county, and whether each is eligible yet') and so is the additional-information area, and neither is a numbered table with an index that could be mismatched to a printed row. Every row table in the delivered packet is on a retained official form, all four of which are delivered entirely blank, so no row is partly completed and no AcroForm index is written to a row it does not name. I record this as a measurement and not as an inherited zero: the builder's own report publishes incompleteRows 0 beside rowsInspected 0."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "finding": "PASS, and it passes because the packet refuses to invent rather than because the record is complete. The committed record does not settle the civil filing fee, whether it is charged per county, or whether an indigency waiver exists, and the delivered packet says exactly that in every place it comes up: filing-instructions.md ('A civil filing fee applies to Sections 2 through 5. The amount, whether it is per county, and indigency waiver availability are unresolved.' / 'Fee waiver: Unresolved. Indigency waiver availability has not been confirmed.'), the guidance PDF under Fees, Fee waiver and again under the open-questions list where it is marked impact release_blocker, and participant-instructions.md. It names the clerk of the filing court as the place to ask. No figure, no waiver form number and no eligibility threshold is stated anywhere. A blank where an amount would go is disclosed as unresolved rather than left as an unexplained blank."
+        }
+      },
+      "failedObligationNames": [
+        "ARTIFACTS"
+      ],
+      "obligationsNotMeasurableHere": [
+        "SOURCE_IDENTITY"
+      ],
+      "whyNotPassCompleteIndependent": "Two reasons, either sufficient. ARTIFACTS is FAIL; and SOURCE_IDENTITY is NOT_MEASURABLE_HERE, which refuses PASS_COMPLETE_INDEPENDENT on its own.",
+      "renderMethod": {
+        "engine": "poppler pdftoppm 24.02.0",
+        "command": "pdftoppm -r 300 -gray -png -f <page> -l <page> <pdf> <out>  (annotations ON; -hide-annotations used ONLY to build the control image for the difference decomposition, never as a measuring render)",
+        "dpi": 300,
+        "greyThresholdsSwept": [
+          96,
+          112,
+          128,
+          144,
+          160
+        ],
+        "primaryThresholdForQuotedPixelCounts": 128,
+        "darkPredicate": "8-bit grey value < threshold",
+        "howTheRenderWasProvedToDrawWidgetAppearanceInk": "For each family's own conviction insert (packet page 4) the annotations-ON and annotations-OFF rasters were differenced at 300 dpi and the difference decomposed onto every /Widget /Rect on that page, padded 1 px and normalised for inverted corners. At EVERY one of the five thresholds, 100% of gained dark pixels and 100% of lost dark pixels fall inside widget rects and ZERO fall outside them. Gained at cut 128: d6 13,950 px over 45 widgets; felony 10,250 px over 46; misd 15,842 px over 49. Lost ink is also entirely inside widget rects (d6 12,359 px, felony 5,167 px, misd 11,336 px at cut 128): widget appearance streams paint an opaque ground over form ink beneath them. That over-paint is a property of the issuer's own pages, not of this build - see SOURCE_IDENTITY, where every retained page is proved object-identical to the page the manifest pins.",
+        "geometryMethod": "pdftotext -bbox-layout word boxes; off-page = any word box outside 0..612 x 0..792; near-margin = any word box within 36 pt of a page edge; same-baseline overlap = two words sharing a yMin (0.1 pt) whose x extents overlap by more than 0.5 pt.",
+        "inkMethod": "every extracted word box on every composed page rendered at 300 dpi and counted for dark pixels at threshold 128; a word box with zero dark pixels is an invisible write."
+      },
+      "renderProofForThisFamily": {
+        "pageProvedOn": "packet page 4, this family's own conviction insert CCA-XP-0220-7010",
+        "widgetsOnThatPage": 46,
+        "gainedDarkPixelsAtCut128": 10250,
+        "gainedOutsideWidgetRects": 0,
+        "lostDarkPixelsAtCut128": 5167,
+        "lostOutsideWidgetRects": 0,
+        "atEveryThreshold": "0 gained and 0 lost outside widget rects at grey cuts 96, 112, 128, 144 and 160",
+        "whatThisEstablishes": "the measuring render draws widget /AP /N ink, so a zero measured from it is a zero in the bytes and not a blinding"
+      },
+      "retainedPageIntegrity": {
+        "method": "each retained page of each delivered fixture re-isolated from the DELIVERED packet with the builder's own published method and hashed",
+        "pagesChecked": 14,
+        "matches": 14,
+        "differs": 0,
+        "corpusTotal": "42 of 42 across the three families",
+        "widgetsOnRetainedPages": 185,
+        "widgetsCarryingAPN": 146,
+        "widgetsOnComposedPages": 0
+      },
+      "flattenedWidgetAppearances": {
+        "builderPublishes": "reports/actual-writes.json publishes flattenedWidgetAppearancesReadFromOutputBytes: 0 for both fixtures, and scripts/build-census-v1-in_conviction_<family>.mjs line 1310 emits it as a hardcoded literal 0 beside addedGlyphsReadFromOutputBytes and nonWhitespaceGlyphsOutsideMeasuredWriteBoxes, which are real readings. FIX03 recorded this and did not repair it; it is unrepaired at this base.",
+        "notInherited": "The zero was not inherited. It was measured three independent ways and it is TRUE. (1) Every content stream in both fixtures was inflated and scanned for the finalizer's own names: /FlatWidget-N Do and /ExactFactOverlay-N Do occur 0 times. A scanned page drawn q <cm> /ImageN Do Q was deliberately NOT counted. (2) The three composed pages carry zero /Widget annotations at all, so there is nothing on them to flatten. (3) Every retained page isolates to the pinned pageIsolatedSha256, and a flatten would have changed those bytes.",
+        "theRiskIsLatent": "Nothing delivered here is wrong. The exposure is that the next family built from this script whose finalizer does flatten will publish 0 without measuring it."
+      },
+      "visualDefects": [
+        {
+          "artifact": "canonical.pdf and boundary.pdf",
+          "page": 1,
+          "what": "'IN-CONVICTION-EXPUNGEMENT-PETITION' printed as the first line of the caption of the VERIFIED PETITION, above its title - this factory's own document identifier, assigned by the builder to the field named formNumber",
+          "confirmedHow": "pdftotext -bbox-layout puts it at x 60.0-267.8, y 53.0-62.2 on a 612x792 page; rendered at 300 dpi it is 6,579 dark pixels at grey cut 128"
+        },
+        {
+          "artifact": "canonical.pdf and boundary.pdf",
+          "page": 2,
+          "what": "the same identifier printed again as the petition's continuation header",
+          "confirmedHow": "pdftotext -bbox-layout at x 60.0-267.8, y 410.7-420.0; 6,579 dark pixels at 300 dpi / cut 128"
+        },
+        {
+          "artifact": "canonical.pdf and boundary.pdf",
+          "page": 3,
+          "what": "'IN-CONVICTION-EXPUNGEMENT-ORDER' printed as the first line of the caption of the PROPOSED ORDER, above its title",
+          "confirmedHow": "pdftotext -layout of the delivered page; the page's court-use banner two lines below it is correct and unmodified"
+        },
+        {
+          "artifact": "participant-guidance-canonical.pdf and participant-guidance-boundary.pdf",
+          "page": 1,
+          "what": "one source SHA-256 (b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5) printed against three different components beside three different page counts - '2 page(s)', '1 page(s)', '1 page(s)' - in a sentence that reads as though the digest identifies the delivered document. It identifies a 15-page published bundle.",
+          "confirmedHow": "pdftotext -layout of the delivered guidance PDF; the three page counts and the one digest are on the same page, and the digest matches no page count printed beside it"
+        }
+      ],
+      "recordsThatDisagree": [
+        {
+          "record": "reports/completeness-counters.json in all three family directories",
+          "whatItSays": "counters.visualDefects 0 and allNineZero true, over 'the two documents this build authored'",
+          "whatIMeasured": "visual defects on the delivered pages, in that same scope, are not zero - the caption identifier prints on all three composed pages of both fixtures. The file also publishes incompleteRows 0 beside totals.rowsInspected 0, which is a zero for a thing not inspected.",
+          "disposition": "Recorded, not edited. The scope note on its face is honest; the number inside that scope is not one I can reproduce."
+        },
+        {
+          "record": "MASTER_QUEUE.json families[familyId=<family>]",
+          "whatItSays": "completenessStatus PASS_COMPLETE and allNineCountersZero true, beside state FAIL_REPAIR_REQUIRED and selectedIndependentVerdict FAIL_REPAIR_REQUIRED from vf30 at base 4761ef4fd",
+          "whatIMeasured": "Both counter claims were computed on bytes that were superseded at fe07c3d2c. The fixture digests they were derived from no longer exist in the tree. FIX03 recorded this and did not edit it; it is unchanged at this base.",
+          "disposition": "Recorded, not edited. selectedIndependentVerdict correctly still points at VF30's pre-repair read, because this row is the first post-repair independent read."
+        },
+        {
+          "record": "FIX03 commit 175f823dc20df0241e000e3f82831cd0fab86a8a, subject line",
+          "whatItSays": "'Indiana's three: no component identifier on any filed page'",
+          "whatIMeasured": "The claim proved in the body is narrower and is true: the strings 'component identity' and 'supplies the caption' match zero times on all ten pages of each. The subject generalises it. A factory-authored document identifier - IN-CONVICTION-EXPUNGEMENT-PETITION / -ORDER, assigned by the builder to the field named formNumber - is still the first printed line of every composed filed page. FIX03's own return discloses this ('The caption keeps the document identifier and the document title'), so the body and the subject disagree with each other, not with the bytes.",
+          "disposition": "Recorded, not edited. Scored under ARTIFACTS."
+        },
+        {
+          "record": "The repair commit's identity",
+          "whatItSays": "The dispatch names 175f823dc20df0241e000e3f82831cd0fab86a8a as where FIX03 repaired all three families.",
+          "whatIMeasured": "175f823 touches only product-wiring.json in the three family directories, adding \"acceptanceReceipt\": null, plus lane documentation. The fixture PDFs, the three builder scripts, participant-instructions.md and filing-instructions.md all last changed at fe07c3d2c 'FIX03: in_conviction_d6-set, internal record text off both filings and the order-signing contradiction out of the instructions' and its two siblings. 175f823 is FIX03's return commit; fe07c3d2c is the repair.",
+          "disposition": "Recorded, not edited. It matters only because a lane diffing against 175f823^ sees no change and would wrongly conclude the repair never landed. I made that mistake first and then checked the file history."
+        }
+      ],
+      "defectsNoCounterCanSee": "Checked deliberately against every class in DEFECTS_NO_COUNTER_CAN_SEE.json. 'internal-record-text-printed-on-a-filing': PRESENT and decisive - the caption identifier, scored under ARTIFACTS. 'map-honest-writes-not': absent - the field map declares 41 terminal fields, 24 written, 17 blank, and the delivered pages carry exactly those 24 and no more. 'a-participant-fact-written-into-a-field-about-someone-else': absent - every write is about the petitioner or about this conviction; no victim, prosecutor, judge or clerk field carries a participant fact. 'acroform-index-is-not-the-printed-row' and 'extracted-line-order-is-not-column-order': no row table and no multi-column grid is written into; the composed pages are single-column and were read by x-position. 'a-published-zero-where-a-measurement-existed': PRESENT in the builder's report and NOT inherited - flattenedWidgetAppearancesReadFromOutputBytes is a hardcoded literal 0 at builder line 1310, and incompleteRows 0 sits beside rowsInspected 0; I measured both myself and both are true here. 'a-geometry-counter-with-no-teeth': not relied on - clipping and overlap were measured from word boxes and confirmed from rendered pixels, not from nonWhitespaceGlyphsOutsideMeasuredWriteBoxes. 'two-families-one-filing': the three Indiana families deliver different inserts (7009 / 7010 / 7008) and different statutory sections, and their pleading binaries differ - but their fixture cause numbers share a sequence number across all three, which is recorded under KNOWN_PREFILLS on in_conviction_d6-set. 'an-inverted-widget-rectangle': every widget rectangle in both delivered fixtures was read with its corners normalised; the difference decomposition would have shown ink outside a rect if any were stored inverted, and it shows none at any of five thresholds.",
+      "thingsFoundThatNoCounterCanSee": [
+        "The caption identifier survives the repair because FIX03 decided to keep it, and said so. This is not a missed repair, it is a declared judgment call, and it is the first thing a reader of these three families sees.",
+        "The delivered guidance page prints one source digest against three components with three different page counts. No counter looks at what a guidance page claims about identity.",
+        "All six pleading PDFs write the offence description as a self-describing placeholder - 'Offense as it appears on the canonical fixture court record', and on the boundary fixtures 'Offense exactly as it appears on the boundary fixture court record, including ...'. The write is declared, present, visible and in its box, so every counter passes it. The consequence is that the exemplar a visual reviewer or counsel is handed has a tautology on the offence line of a VERIFIED PETITION, and the three families' canonical fixtures are indistinguishable there. Not scored - it is fixture data, correctly classified as a participant fact, and it asserts no legal claim - but it should be fixed before these fixtures are used as review specimens.",
+        "The three families' fixture cause numbers share a sequence number across families - 011234 on all three canonicals, 00000000000123456 on all three boundaries - so the identifiers differ only by the two-character charge-level token. The factory has already ruled that cross-family cause-number identity matters (it is half the ground VF30 gave for withdrawing its felony PASS), and the ruling has been applied to one pair and not to the set.",
+        "The builder never checks a cause number's charge-level token against the offence level printed three lines below it. Every instance of this defect class found so far was found by a human-shaped reading of one page, never by the build."
+      ],
+      "toolsRun": [
+        "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF36 <family> (three times, all exit 0, before any read)",
+        "git rev-parse HEAD; git log on the fixtures, builders and instruction files; git show on the repair commits",
+        "sha256sum, stat -c%s, pdfinfo",
+        "pdftotext -layout and pdftotext -bbox-layout on all twelve delivered PDFs",
+        "pdftoppm -r 300 -gray -png (annotations ON) with a -hide-annotations control, differenced and decomposed onto widget rects at five grey cuts",
+        "pdftoppm -r 110 -gray -png of composed page 1, read as an image",
+        "pdf-lib page isolation reproducing the builder's published method, on the delivered packets",
+        "zlib inflation of every content stream, scanned for /FlatWidget-N Do and /ExactFactOverlay-N Do"
+      ],
+      "whatThisLaneDidNotDo": "Built nothing, repaired nothing, re-rendered nothing into the tree, ran no family build script, edited no overlay directory, edited no central artifact, edited no record that disagrees with it, dispatched nothing, created no subagent, released no claim and transferred no claim. It entered no worktree other than /home/user/vfa-worktree.",
+      "grantsNothing": "Independent verification approves no output, promotes no route, opens no commercial path and authorises no fulfillment. These three families remain FAIL_REPAIR_REQUIRED."
+    },
+    {
+      "itemId": "in_conviction_misd-set",
+      "lane": "VF36",
+      "laneKind": "independent-verification",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "94bb1eedd876817db87574ec87311a68786aac83",
+      "verifiedAtBaseObtainedBy": "git rev-parse HEAD in /home/user/vfa-worktree on branch lane-vfa-20260910",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/in/in-conviction-misd-set--custom-pleading",
+      "implementationStrategy": "custom_pleading",
+      "postRepairReread": true,
+      "firstIndependentReadOfTheRepairedBytes": true,
+      "theRepairThisReads": {
+        "repairLane": "FIX03",
+        "dispatchNamedCommit": "175f823dc20df0241e000e3f82831cd0fab86a8a",
+        "commitThatActuallyMovedTheBytes": "fe07c3d2c",
+        "howIEstablishedThat": "git log on the fixture PDFs, the builder script, participant-instructions.md and filing-instructions.md: all four last changed at fe07c3d2c. 175f823 touches only product-wiring.json in the three family directories plus lane documentation.",
+        "fix03MayNotVerifyItsOwnRepair": "It did not. This lane wrote none of these bytes, ran no build script, and repaired nothing."
+      },
+      "claimStatus": {
+        "assertedBeforeAnyRead": true,
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF36 in_conviction_misd-set",
+        "result": "CLAIM_OK VF36 in_conviction_misd-set (independent-verification, grant set b7ae3c07bdae86ba)",
+        "exitStatus": 0,
+        "released": false,
+        "whoReleases": "the dispatching lane, on integration"
+      },
+      "receiptBindsTheBytes": {
+        "recomputedWith": "sha256sum and stat -c%s on the four committed fixtures in /home/user/vfa-worktree at 94bb1eedd876817db87574ec87311a68786aac83, and pdfinfo for page counts",
+        "canonicalSha256": "8babb053d83bb4fd89e4b58c8f36192c17896f626d06e4138ccbb3e69175eb73",
+        "canonicalByteLength": 1791186,
+        "canonicalPages": 10,
+        "boundarySha256": "5dad12059b4b4802870a2a00eefea94d0cb2894452a971b5182d6c47b73c28ee",
+        "boundaryByteLength": 1791666,
+        "boundaryPages": 10,
+        "participantGuidanceCanonicalSha256": "78fb64ceefe6a97ee088098f34defebcb972d71a58d3f6985b6370f04a36ca15",
+        "participantGuidanceBoundarySha256": "8b9d9ddee9f5a29719f461298160ab671d65cc533180514ea7d46f40032fd22b",
+        "guidancePages": 7,
+        "agreesWith": "component-page-manifest.json and reports/rendered-artifacts.json, on every digest, byte length and page count"
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 4
+      },
+      "countersHowMeasured": {
+        "knownRequiredFieldsMissing": "0, measured. production-field-map.json declares 41 terminal fields across the two composed documents; 24 are written and 17 are classified blank (6 REQUIRED_BEFORE_FILING + 11 PROTECTED_FIELD). All 24 declared writes were located in the extracted text of BOTH delivered fixtures - 24/24 found, 0 missing, in all six pleading PDFs. No field the map declares is absent from the delivered page.",
+        "requiredFactsNotCollected": "0, measured. Every fact the two composed documents need is either written from the fixture or classified as a disclosed blank carrying what the participant must supply and why. The packet collects no Social Security number at all and says on the petition's face that only the last four digits belong there.",
+        "unclassifiedBlanks": "0, measured. 41 terminal fields - 24 written = 17 blank, and reports/blanks-left-for-the-participant.json classifies exactly 17 (6 + 11). Every classification was checked against the delivered page.",
+        "incompleteRows": "0, measured. The two composed documents contain no repeating row structure - the multi-conviction and additional-information areas are free-text leader blocks, not numbered rows. Every row table in the packet is on a retained official form, and all four retained forms are delivered entirely blank, so no row is partly completed. This is a measurement, not a default: the builder's own report publishes incompleteRows 0 beside rowsInspected 0, which is a zero for something not inspected; the 0 here is mine.",
+        "requiredOptionsMissing": "0, measured. The two composed documents declare no selection control (production-field-map.json selectionControls is empty for both) and none is drawn on the delivered pages. Every option control in the packet belongs to a retained official form and is delivered blank, disclosed in three places as completed by hand.",
+        "requiredComponentsMissing": "0, measured. Six components declared in component-page-manifest.json componentOrder, six delivered, each on the packet page the manifest names, confirmed by reading the first printed line of every one of the ten delivered pages of both fixtures.",
+        "invisibleWrites": "0, measured from pixels rather than from the build report. Every extracted word box on every composed page of every canonical fixture was rendered at 300 dpi and counted: 0 word boxes with zero dark ink at threshold 128, on 316+326+234 (d6), 365+326+241 (felony) and 304+326+234 (misd) words. The caption identifier itself is real ink - 6,579 dark pixels at 300 dpi/128 - which is why it is scored as a defect and not as a phantom.",
+        "protectedWrites": "0, measured. All 11 PROTECTED_FIELD blanks - the petitioner's verification signature and its date, the clerk's XP cause number and filed-on stamp, and all seven lines of the proposed order - carry only leader dots on the delivered pages of both fixtures. No judicial finding, no granted-or-denied election, no decretal paragraph, no sealing directive, no order date, no judge's signature and no clerk distribution list is written anywhere in any of the six pleading PDFs.",
+        "visualDefects": "see visualDefects below; each entry was confirmed on a delivered page, by bbox and by rendered pixels."
+      },
+      "noCounterIsADefault": "Every one of the nine is a measurement taken in this lane on these bytes. None was copied from reports/completeness-counters.json, which publishes all nine as zero for these families and which I disagree with on visualDefects. Nothing here is null, because nothing here went unmeasured - the one thing I could not measure is an obligation, SOURCE_IDENTITY, and it is marked NOT_MEASURABLE_HERE rather than being folded into a counter as a zero.",
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "finding": "PASS. Exactly one route key, and it resolves consistently. obligation:track-pathway:IN:in_conviction_misd:conviction-expungement-with-sealed-confidential-access is carried identically by source-receipt.json, packet-set-manifest.json, production-field-map.json, product-wiring.json, reports/rendered-artifacts.json and MASTER_QUEUE.json families[familyId=in_conviction_misd-set].routeKeys - a grep across the whole family directory returns that string and no other obligation:track-pathway key. The delivered petition states 'Statutory section this petition is brought under: I.C. 35-38-9-2' on its own face, page 1 and page 3, in both fixtures, and the filing instructions, the participant instructions and the guidance PDF all describe the same section and the same relief. The route key is NOT printed on any of the three composed filing pages, which is correct; it IS printed on guidance page 1, recorded under ARTIFACTS at the lower severity guidance carries."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "NOT_MEASURABLE_HERE",
+          "finding": "NOT_MEASURABLE_HERE, and the reason is custody, not method. private/ does not exist in this worktree - `ls private/` and `find private` both return nothing at /home/user/vfa-worktree - and the source bundles live only in worktrees I am forbidden to enter. I therefore cannot bind the four pinned sourceSha256 values to any bytes in custody, which is the limb this obligation exists to test. I did NOT report that limb as a pass on the strength of the records agreeing with each other.\n\nWhat I did measure, and what it is worth: every retained page of every delivered fixture was re-isolated from the DELIVERED packet using the builder's own published method (PDFDocument.create, stampDeterministic, copyPages([n-1]), addPage, save({useObjectStreams:false, updateMetadata:false}), sha256 of the bytes - scripts/build-census-v1-in_conviction_<family>-set.mjs:923-928) and every one reproduces the pageIsolatedSha256 the manifest pins, exactly: 7 pages x 2 fixtures x 3 families = 42 of 42 MATCH, 0 DIFFER. That proves the delivered retained pages are object-identical to the pages the manifest pins, so nothing was substituted, refilled or flattened between the pinning and the delivery, and it independently confirms the 'retained pages are untouched' limb of FIX03's return by a different method (object bytes rather than rasters). What it cannot prove is that the pinned bundle is the document the issuer published. The four sourceSha256 values are also carried identically across source-receipt.json, packet-set-manifest.json, component-page-manifest.json and reports/rendered-artifacts.json in each family - internal agreement only.\n\nA lane holding custody should re-read this obligation; it is the only one of the fifteen I could not close."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "finding": "PASS. Six components declared in componentOrder, six delivered, each on the page component-page-manifest.json names, in both fixtures: primary filing on packet pages 1-2, proposed order on page 3, the section's own conviction insert on pages 4-6, the Appearance by Unrepresented Person on pages 7-8, Form ACR on page 9 and the Confidential Information Form on page 10. Confirmed by reading the first printed line of each of the ten delivered pages, not from the manifest. The one conditional component - the Appearance by Unrepresented Person - has its condition stated in the packet set manifest (a self-represented filer), both fixtures are self-represented, so the condition is met and the component is delivered. Nothing is delivered that is not declared."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "finding": "PASS. 24 declared writes, 24 actual writes, no divergence in either direction, and all 24 located in the extracted text of BOTH delivered fixtures - 24/24, 0 missing. Every one is visible ink: 0 word boxes with zero dark pixels at 300 dpi / grey cut 128 across all three composed pages. Every value lands in a field about the petitioner or about this conviction and none in a field about anyone else; the four retained official forms carry no fixture value at all; and this build holds and writes no Social Security number.\n\nThe caption facts are internally consistent on both fixtures: canonical pairs '49D01-1503-CM-011234' with 'Class A misdemeanor', and boundary pairs '45C01-0812-CM-00000000000123456' with 'Class A misdemeanor reduced from a Class D felony under I.C. 35-50-2-7'. THE ONE FIX03 NAMED AS THE LIMIT OF ITS OWN CONVENTION, measured. The boundary fixture pairs 45C01-0812-CM-00000000000123456 with 'Class A misdemeanor reduced from a Class D felony under I.C. 35-50-2-7'. Under a 'the token matches the level the record states' reading, CM is right, because the level the page states IS a Class A misdemeanor. Under a 'cause numbers are assigned at charging' reading it would have been assigned when the case was charged as a felony, and CM would be wrong. Nothing held here settles which reading applies: there is no Indiana charge-level token table in this repository and private/ does not exist in this worktree, so I could not resolve it from custody either. I record it as unresolved rather than scoring it, because on the face of the delivered page the token and the stated level agree, and because the packet asserts nothing about how the identifier was assigned. This is the same treatment VF08 gave an unruled corpus convention on the Texas family: recorded, not counted. It should be ruled on before it is repaired, and it must NOT be 'fixed' by changing the stated offence level.\n\nCROSS-REFERENCE, recorded not scored on this family: this family's boundary cause number shares the court prefix 45C01, the year-month 0812 and the sequence 00000000000123456 with both other Indiana families' boundary fixtures, and its canonical shares 49D01-1503 and the sequence 011234 with both other canonicals. The shared sequence across three different convictions is recorded in full under in_conviction_d6-set."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "finding": "PASS. Eleven PROTECTED_FIELD blanks and every one is blank on the delivered page. On the petition: the petitioner's verification signature and its date, and the two clerk lines under the heading 'FOR THE CLERK - LEAVE BLANK' (the XP cause number and the filed-on stamp). On the proposed order: findings, granted-or-denied, decretal paragraphs, sealing directives, the order date, the judge's signature and the clerk's distribution list. Each prints its label followed by leader dots and nothing else, in both fixtures of all three families. No judicial finding, no signature, no notarization, no clerk act and no prosecutor act is fabricated anywhere in this packet. reports/actual-writes.json declares refusedFieldsWithInk empty and I confirmed that independently from the delivered text and from the rendered pixels rather than accepting it."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "finding": "PASS. Measured from word boxes at 612x792, with the render used to confirm ink. On the three COMPOSED pages of both fixtures: 0 words off the page, 0 words within 36 pt of any margin, 0 same-baseline overlaps. On the guidance PDFs: 0, 0 and 0 across all seven pages of both fixtures. On the retained pages: 22 near-margin words on each of pages 4 and 5, 21 on page 6, 2 on each of pages 7 and 8, 10 on page 9, 0 on page 10. Pages 4 and 5 also carry 4 same-baseline word overlaps each, 8 in the packet, and none is on a composed page. Every such word is on a retained official page, and those pages are proved object-identical to the pinned source pages by the isolation digests under SOURCE_IDENTITY, so the tight margins are the issuer's own typography and were not introduced here. The annotations-on render also shows widget appearance ink over-painting form ink inside widget rects (d6 12,359, felony 5,167, misd 11,336 dark pixels lost at cut 128, ZERO outside any widget rect at any of five cuts) - again a property of the issuer's own pages, on bytes this build did not move."
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "finding": "PASS. All 13 stop conditions the record holds are carried verbatim and numbered, under the heading 'Stop self-help and get legal help (all 13 stop conditions the record holds)', printed 'Stop 1 of 13' through 'Stop 13 of 13' so short carriage would be visible on the page; I counted 13 on the delivered guidance PDF. They include the Chastain trap (Stop 5), the one-petition rule (Stop 6), the section-classification and serious-bodily-injury question (Stop 7), and the CDL and immigration consequences (Stops 11 and 12). The 4 hard eligibility exclusions follow under their own heading with their count printed. The petition's own face also carries a stop instruction: 'if that classification is not clear on your own record, stop and get legal help before filing.'"
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "finding": "PASS. One destination and it is consistent everywhere it is stated: a circuit or superior court in the county of conviction, opened as case type XP under Administrative Rule 8(B)(3). The same destination appears in filing-instructions.md (Filing, Where and Venue), in participant-instructions.md, on guidance page 5, and on the face of the petition itself, which prints 'The expungement case is opened as case type XP under Administrative Rule 8(B)(3), and the clerk assigns its cause number at filing.' The multi-county rule and its 365-day window are stated with it. No specific courthouse, address or division is invented."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "finding": "PASS. Service on the prosecuting attorney under the Trial Rules, stated identically in filing-instructions.md, participant-instructions.md and the guidance PDF, with the correct pointer that the CCA appearance form carries the certificate of service to the county prosecutor and that the participant follows that form. Where the record is silent the packet says so instead of supplying a number: 'The record held here does not state a deadline for the prosecuting attorney's response or a number of days between service and any hearing.' The victim's right to submit an oral or written statement is carried. No deadline, no server, no method and no return of service is fabricated."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "finding": "PASS, and this is the obligation VF30 failed - the repair holds on the delivered bytes. Six REQUIRED_BEFORE_FILING items, each named in participant-instructions.md and on the guidance PDF with what the participant must supply and why. The contradiction VF30 caught is gone: filing-instructions.md now reads 'Order on the Verified Petition for Expungement of Conviction Records (<component>), from this packet, tendered unsigned and otherwise blank. Its page prints \"COURT USE ONLY - UNEXECUTED PROPOSED ORDER. Nothing on this page has been decided.\" Do not sign it, do not date it and do not fill in any of its lines; the participant instructions list every one of them and each belongs to the court or the clerk.' That quotes the banner the delivered page actually prints - I checked the page, not the instruction - so the guide and the page can no longer drift. All SEVEN order blanks now reach the guide under the label the order itself prints, including 'Distribution list completed by the clerk', which the superseded paraphrase omitted; I matched all seven strings between page 3 of the delivered PDF and both the guidance PDF and participant-instructions.md. The petition's own directions are consistent: 'FOR THE CLERK - LEAVE BLANK' above the two clerk lines, and only the last four SSN digits on the petition with the full number directed to the Confidential Information Form."
+        },
+        "ARTIFACTS": {
+          "result": "FAIL",
+          "finding": "FAIL. The artifact accounting itself is exact and I recomputed all of it: canonical.pdf sha256 8babb053d83bb4fd89e4b58c8f36192c17896f626d06e4138ccbb3e69175eb73 / 1,791,186 bytes / 10 pages, boundary.pdf sha256 5dad12059b4b4802870a2a00eefea94d0cb2894452a971b5182d6c47b73c28ee / 1,791,666 bytes / 10 pages, participant-guidance-canonical.pdf 78fb64ceefe6a97ee088098f34defebcb972d71a58d3f6985b6370f04a36ca15 / 7 pages, participant-guidance-boundary.pdf 8b9d9ddee9f5a29719f461298160ab671d65cc533180514ea7d46f40032fd22b / 7 pages, each equal to what component-page-manifest.json and reports/rendered-artifacts.json declare. What fails is what the artifacts carry on their faces, and there are two distinct things.\n\nFIRST, the caption identifier. The first printed line of packet page 1 is 'IN-CONVICTION-EXPUNGEMENT-PETITION', set in the same face and size as the document title directly beneath it, at x 60.0-267.8, y 53.0-62.2 on a 612x792 page - above 'VERIFIED PETITION FOR EXPUNGEMENT OF CONVICTION RECORDS'. The same string is the continuation header inside page 2 (y 410.7-420.0). Page 3 opens with 'IN-CONVICTION-EXPUNGEMENT-ORDER' above the order's title. That string is this factory's own document identifier. It is defined as a const at scripts/build-census-v1-in_conviction_<family>-set.mjs:92-93, it is carried as documentId in component-page-manifest.json, and grep finds it in no source record and in no issuer publication - only in this repository's own build scripts and lane artifacts. The builder assigns it to the field literally named formNumber (line 464 for the petition, 501 for the order) and captionBlock() prints it as the first line of the caption. So a document to be filed with an Indiana court carries, in the form-number position, a form number no issuer published. It is also non-discriminating: the identical string prints on all three families, which file under three different statutory sections (I.C. 35-38-9-2, -9-3 and -9-4), so as an identifier it identifies nothing. This is a narrower instance of the same class VF30 withdrew a PASS for at this exact location - DEFECTS_NO_COUNTER_CAN_SEE 'internal-record-text-printed-on-a-filing', whose recorded standard is 'Filings recite statute citations and rule text only.' FIX03 removed the 'Assigned component identity: <componentId>' line and the builder-facing sentence from the order, and it DISCLOSED keeping the rest: its own return says 'The caption keeps the document identifier and the document title.' So this is a declared retained decision, not a missed repair. I am the first independent reader of it and I disagree with the retention, on the two grounds above. Materially milder. 'Assigned component identity: in_conviction_d6-primary-filing-1' was self-evidently internal; 'IN-CONVICTION-EXPUNGEMENT-PETITION' could be misread by a clerk as a heading rather than a code. It is scored as a defect because of where the builder puts it - the form-number slot - not because of how it reads. captionBlock() is not gated on the fixture, so this is what the route would print at runtime with a real participant's facts. Bounded repair: Drop the documentId argument from captionBlock() in all three builders (scripts/build-census-v1-in_conviction_{d6,felony,misd}-set.mjs, captionBlock at ~line 561, and the continuation-header emitter), so the caption opens with the document title. The corpus already contains composed pleadings whose caption opens with the title and carries no slug - data/rcap-all50/overlays/census-v1/vt/vt-seal-under-25-set--custom-pleading/fixtures/canonical.pdf page 1 begins 'APPLICATION FOR SEALING UNDER 33 V.S.A. SEC. 5119(G)'. Do not substitute an invented form number.\n\nSECOND, the source digest on the guidance page. Page 1 of both participant-guidance PDFs prints, for three different components, the same SHA-256 beside three different page counts: '... 2 page(s), SHA-256 b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5', then '... 1 page(s), SHA-256 b04f2941...', then '... 1 page(s), SHA-256 b04f2941...'. The sentence reads 'Delivered exactly as Indiana Coalition for Court Access published it, N page(s), SHA-256 <digest>', so the digest reads as identifying the N-page document delivered. It does not: b04f2941... is the digest of a 15-page published bundle from which pages 1-2, 7 and 8 were taken. A reader who tries to verify any of the three by that digest cannot, and the three identical digests beside three different page counts make the claim visibly self-inconsistent on the page. The underlying relationship is honest and is recorded correctly in component-page-manifest.json, which carries a per-page pageIsolatedSha256 for each; it is the delivered guidance that states it in a way that cannot be verified as it reads. Bounded repair: On the guidance page, label the digest as the digest of the published source bundle and state the source page range, or print the component's own pageIsolatedSha256 values instead. Assert nothing new; both facts are already in the manifest.\n\nWHAT PASSES, AND IT IS MOST OF IT. The three defects VF30 named on the filings are gone from the delivered bytes and I confirmed each on the page rather than by grep: 'Assigned component identity:' appears 0 times on any of the ten pages of either fixture; the sentence 'The petitioner supplies the caption and the identifiers of the conviction and nothing else' is gone from the proposed order, whose court-use banner now reads exactly 'COURT USE ONLY - UNEXECUTED PROPOSED ORDER. Nothing on this page has been decided.'; and 'READ THIS FIRST' appears 0 times in either guidance PDF while the labelled copy survives verbatim below under 'What the committed record requires this packet to say', tagged [scope_restriction]. The machine route key and the component identities still print on guidance page 1 and in filing-instructions.md; those are guidance rather than filings, which is the lower-severity treatment VF30 recorded and I record it the same way rather than re-scoring it."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "finding": "PASS. Delivered order equals declared order equals filing order. component-page-manifest.json lists packet pages 1-10 as petition, petition, order, insert x3, appearance x2, Form ACR, Confidential Information Form; reading the first printed line of each delivered page of both fixtures gives exactly that sequence; and filing-instructions.md's 'What you file, in order' lists the same six documents in the same order. The primary filing precedes the proposed order, and the proposed order precedes every attachment."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "finding": "PASS - the obligation arises and is met, rather than not arising. The two composed documents this build authored declare no selection control at all (production-field-map.json selectionControls is empty for both) and none is drawn on the delivered pages: every fact on them is either a written value or a leader-dot blank, and I confirmed that from the delivered text of both fixtures. Every option control in the packet - checkboxes and radio groups on the four retained official forms - is delivered blank and unset, which is the declared treatment, and the packet says so in three places, including on the petition's own face: 'They arrive blank and you complete them by hand.' No option is pre-selected, and no option list is narrowed or reordered by this build."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "finding": "PASS - measured, and it does not arise on the documents this build authored. The two composed documents contain no repeating row structure: the multi-conviction area is a free-text leader block ('Every Indiana conviction in any county, and whether each is eligible yet') and so is the additional-information area, and neither is a numbered table with an index that could be mismatched to a printed row. Every row table in the delivered packet is on a retained official form, all four of which are delivered entirely blank, so no row is partly completed and no AcroForm index is written to a row it does not name. I record this as a measurement and not as an inherited zero: the builder's own report publishes incompleteRows 0 beside rowsInspected 0."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "finding": "PASS, and it passes because the packet refuses to invent rather than because the record is complete. The committed record does not settle the civil filing fee, whether it is charged per county, or whether an indigency waiver exists, and the delivered packet says exactly that in every place it comes up: filing-instructions.md ('A civil filing fee applies to Sections 2 through 5. The amount, whether it is per county, and indigency waiver availability are unresolved.' / 'Fee waiver: Unresolved. Indigency waiver availability has not been confirmed.'), the guidance PDF under Fees, Fee waiver and again under the open-questions list where it is marked impact release_blocker, and participant-instructions.md. It names the clerk of the filing court as the place to ask. No figure, no waiver form number and no eligibility threshold is stated anywhere. A blank where an amount would go is disclosed as unresolved rather than left as an unexplained blank."
+        }
+      },
+      "failedObligationNames": [
+        "ARTIFACTS"
+      ],
+      "obligationsNotMeasurableHere": [
+        "SOURCE_IDENTITY"
+      ],
+      "whyNotPassCompleteIndependent": "Two reasons, either sufficient. ARTIFACTS is FAIL; and SOURCE_IDENTITY is NOT_MEASURABLE_HERE, which refuses PASS_COMPLETE_INDEPENDENT on its own.",
+      "renderMethod": {
+        "engine": "poppler pdftoppm 24.02.0",
+        "command": "pdftoppm -r 300 -gray -png -f <page> -l <page> <pdf> <out>  (annotations ON; -hide-annotations used ONLY to build the control image for the difference decomposition, never as a measuring render)",
+        "dpi": 300,
+        "greyThresholdsSwept": [
+          96,
+          112,
+          128,
+          144,
+          160
+        ],
+        "primaryThresholdForQuotedPixelCounts": 128,
+        "darkPredicate": "8-bit grey value < threshold",
+        "howTheRenderWasProvedToDrawWidgetAppearanceInk": "For each family's own conviction insert (packet page 4) the annotations-ON and annotations-OFF rasters were differenced at 300 dpi and the difference decomposed onto every /Widget /Rect on that page, padded 1 px and normalised for inverted corners. At EVERY one of the five thresholds, 100% of gained dark pixels and 100% of lost dark pixels fall inside widget rects and ZERO fall outside them. Gained at cut 128: d6 13,950 px over 45 widgets; felony 10,250 px over 46; misd 15,842 px over 49. Lost ink is also entirely inside widget rects (d6 12,359 px, felony 5,167 px, misd 11,336 px at cut 128): widget appearance streams paint an opaque ground over form ink beneath them. That over-paint is a property of the issuer's own pages, not of this build - see SOURCE_IDENTITY, where every retained page is proved object-identical to the page the manifest pins.",
+        "geometryMethod": "pdftotext -bbox-layout word boxes; off-page = any word box outside 0..612 x 0..792; near-margin = any word box within 36 pt of a page edge; same-baseline overlap = two words sharing a yMin (0.1 pt) whose x extents overlap by more than 0.5 pt.",
+        "inkMethod": "every extracted word box on every composed page rendered at 300 dpi and counted for dark pixels at threshold 128; a word box with zero dark pixels is an invisible write."
+      },
+      "renderProofForThisFamily": {
+        "pageProvedOn": "packet page 4, this family's own conviction insert CCA-XP-0220-7008",
+        "widgetsOnThatPage": 49,
+        "gainedDarkPixelsAtCut128": 15842,
+        "gainedOutsideWidgetRects": 0,
+        "lostDarkPixelsAtCut128": 11336,
+        "lostOutsideWidgetRects": 0,
+        "atEveryThreshold": "0 gained and 0 lost outside widget rects at grey cuts 96, 112, 128, 144 and 160",
+        "whatThisEstablishes": "the measuring render draws widget /AP /N ink, so a zero measured from it is a zero in the bytes and not a blinding"
+      },
+      "retainedPageIntegrity": {
+        "method": "each retained page of each delivered fixture re-isolated from the DELIVERED packet with the builder's own published method and hashed",
+        "pagesChecked": 14,
+        "matches": 14,
+        "differs": 0,
+        "corpusTotal": "42 of 42 across the three families",
+        "widgetsOnRetainedPages": 191,
+        "widgetsCarryingAPN": 153,
+        "widgetsOnComposedPages": 0
+      },
+      "flattenedWidgetAppearances": {
+        "builderPublishes": "reports/actual-writes.json publishes flattenedWidgetAppearancesReadFromOutputBytes: 0 for both fixtures, and scripts/build-census-v1-in_conviction_<family>.mjs line 1310 emits it as a hardcoded literal 0 beside addedGlyphsReadFromOutputBytes and nonWhitespaceGlyphsOutsideMeasuredWriteBoxes, which are real readings. FIX03 recorded this and did not repair it; it is unrepaired at this base.",
+        "notInherited": "The zero was not inherited. It was measured three independent ways and it is TRUE. (1) Every content stream in both fixtures was inflated and scanned for the finalizer's own names: /FlatWidget-N Do and /ExactFactOverlay-N Do occur 0 times. A scanned page drawn q <cm> /ImageN Do Q was deliberately NOT counted. (2) The three composed pages carry zero /Widget annotations at all, so there is nothing on them to flatten. (3) Every retained page isolates to the pinned pageIsolatedSha256, and a flatten would have changed those bytes.",
+        "theRiskIsLatent": "Nothing delivered here is wrong. The exposure is that the next family built from this script whose finalizer does flatten will publish 0 without measuring it."
+      },
+      "visualDefects": [
+        {
+          "artifact": "canonical.pdf and boundary.pdf",
+          "page": 1,
+          "what": "'IN-CONVICTION-EXPUNGEMENT-PETITION' printed as the first line of the caption of the VERIFIED PETITION, above its title - this factory's own document identifier, assigned by the builder to the field named formNumber",
+          "confirmedHow": "pdftotext -bbox-layout puts it at x 60.0-267.8, y 53.0-62.2 on a 612x792 page; rendered at 300 dpi it is 6,579 dark pixels at grey cut 128"
+        },
+        {
+          "artifact": "canonical.pdf and boundary.pdf",
+          "page": 2,
+          "what": "the same identifier printed again as the petition's continuation header",
+          "confirmedHow": "pdftotext -bbox-layout at x 60.0-267.8, y 410.7-420.0; 6,579 dark pixels at 300 dpi / cut 128"
+        },
+        {
+          "artifact": "canonical.pdf and boundary.pdf",
+          "page": 3,
+          "what": "'IN-CONVICTION-EXPUNGEMENT-ORDER' printed as the first line of the caption of the PROPOSED ORDER, above its title",
+          "confirmedHow": "pdftotext -layout of the delivered page; the page's court-use banner two lines below it is correct and unmodified"
+        },
+        {
+          "artifact": "participant-guidance-canonical.pdf and participant-guidance-boundary.pdf",
+          "page": 1,
+          "what": "one source SHA-256 (b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5) printed against three different components beside three different page counts - '2 page(s)', '1 page(s)', '1 page(s)' - in a sentence that reads as though the digest identifies the delivered document. It identifies a 15-page published bundle.",
+          "confirmedHow": "pdftotext -layout of the delivered guidance PDF; the three page counts and the one digest are on the same page, and the digest matches no page count printed beside it"
+        }
+      ],
+      "recordsThatDisagree": [
+        {
+          "record": "reports/completeness-counters.json in all three family directories",
+          "whatItSays": "counters.visualDefects 0 and allNineZero true, over 'the two documents this build authored'",
+          "whatIMeasured": "visual defects on the delivered pages, in that same scope, are not zero - the caption identifier prints on all three composed pages of both fixtures. The file also publishes incompleteRows 0 beside totals.rowsInspected 0, which is a zero for a thing not inspected.",
+          "disposition": "Recorded, not edited. The scope note on its face is honest; the number inside that scope is not one I can reproduce."
+        },
+        {
+          "record": "MASTER_QUEUE.json families[familyId=<family>]",
+          "whatItSays": "completenessStatus PASS_COMPLETE and allNineCountersZero true, beside state FAIL_REPAIR_REQUIRED and selectedIndependentVerdict FAIL_REPAIR_REQUIRED from vf30 at base 4761ef4fd",
+          "whatIMeasured": "Both counter claims were computed on bytes that were superseded at fe07c3d2c. The fixture digests they were derived from no longer exist in the tree. FIX03 recorded this and did not edit it; it is unchanged at this base.",
+          "disposition": "Recorded, not edited. selectedIndependentVerdict correctly still points at VF30's pre-repair read, because this row is the first post-repair independent read."
+        },
+        {
+          "record": "FIX03 commit 175f823dc20df0241e000e3f82831cd0fab86a8a, subject line",
+          "whatItSays": "'Indiana's three: no component identifier on any filed page'",
+          "whatIMeasured": "The claim proved in the body is narrower and is true: the strings 'component identity' and 'supplies the caption' match zero times on all ten pages of each. The subject generalises it. A factory-authored document identifier - IN-CONVICTION-EXPUNGEMENT-PETITION / -ORDER, assigned by the builder to the field named formNumber - is still the first printed line of every composed filed page. FIX03's own return discloses this ('The caption keeps the document identifier and the document title'), so the body and the subject disagree with each other, not with the bytes.",
+          "disposition": "Recorded, not edited. Scored under ARTIFACTS."
+        },
+        {
+          "record": "The repair commit's identity",
+          "whatItSays": "The dispatch names 175f823dc20df0241e000e3f82831cd0fab86a8a as where FIX03 repaired all three families.",
+          "whatIMeasured": "175f823 touches only product-wiring.json in the three family directories, adding \"acceptanceReceipt\": null, plus lane documentation. The fixture PDFs, the three builder scripts, participant-instructions.md and filing-instructions.md all last changed at fe07c3d2c 'FIX03: in_conviction_d6-set, internal record text off both filings and the order-signing contradiction out of the instructions' and its two siblings. 175f823 is FIX03's return commit; fe07c3d2c is the repair.",
+          "disposition": "Recorded, not edited. It matters only because a lane diffing against 175f823^ sees no change and would wrongly conclude the repair never landed. I made that mistake first and then checked the file history."
+        }
+      ],
+      "defectsNoCounterCanSee": "Checked deliberately against every class in DEFECTS_NO_COUNTER_CAN_SEE.json. 'internal-record-text-printed-on-a-filing': PRESENT and decisive - the caption identifier, scored under ARTIFACTS. 'map-honest-writes-not': absent - the field map declares 41 terminal fields, 24 written, 17 blank, and the delivered pages carry exactly those 24 and no more. 'a-participant-fact-written-into-a-field-about-someone-else': absent - every write is about the petitioner or about this conviction; no victim, prosecutor, judge or clerk field carries a participant fact. 'acroform-index-is-not-the-printed-row' and 'extracted-line-order-is-not-column-order': no row table and no multi-column grid is written into; the composed pages are single-column and were read by x-position. 'a-published-zero-where-a-measurement-existed': PRESENT in the builder's report and NOT inherited - flattenedWidgetAppearancesReadFromOutputBytes is a hardcoded literal 0 at builder line 1310, and incompleteRows 0 sits beside rowsInspected 0; I measured both myself and both are true here. 'a-geometry-counter-with-no-teeth': not relied on - clipping and overlap were measured from word boxes and confirmed from rendered pixels, not from nonWhitespaceGlyphsOutsideMeasuredWriteBoxes. 'two-families-one-filing': the three Indiana families deliver different inserts (7009 / 7010 / 7008) and different statutory sections, and their pleading binaries differ - but their fixture cause numbers share a sequence number across all three, which is recorded under KNOWN_PREFILLS on in_conviction_d6-set. 'an-inverted-widget-rectangle': every widget rectangle in both delivered fixtures was read with its corners normalised; the difference decomposition would have shown ink outside a rect if any were stored inverted, and it shows none at any of five thresholds.",
+      "thingsFoundThatNoCounterCanSee": [
+        "The caption identifier survives the repair because FIX03 decided to keep it, and said so. This is not a missed repair, it is a declared judgment call, and it is the first thing a reader of these three families sees.",
+        "The delivered guidance page prints one source digest against three components with three different page counts. No counter looks at what a guidance page claims about identity.",
+        "All six pleading PDFs write the offence description as a self-describing placeholder - 'Offense as it appears on the canonical fixture court record', and on the boundary fixtures 'Offense exactly as it appears on the boundary fixture court record, including ...'. The write is declared, present, visible and in its box, so every counter passes it. The consequence is that the exemplar a visual reviewer or counsel is handed has a tautology on the offence line of a VERIFIED PETITION, and the three families' canonical fixtures are indistinguishable there. Not scored - it is fixture data, correctly classified as a participant fact, and it asserts no legal claim - but it should be fixed before these fixtures are used as review specimens.",
+        "The three families' fixture cause numbers share a sequence number across families - 011234 on all three canonicals, 00000000000123456 on all three boundaries - so the identifiers differ only by the two-character charge-level token. The factory has already ruled that cross-family cause-number identity matters (it is half the ground VF30 gave for withdrawing its felony PASS), and the ruling has been applied to one pair and not to the set.",
+        "The builder never checks a cause number's charge-level token against the offence level printed three lines below it. Every instance of this defect class found so far was found by a human-shaped reading of one page, never by the build."
+      ],
+      "toolsRun": [
+        "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF36 <family> (three times, all exit 0, before any read)",
+        "git rev-parse HEAD; git log on the fixtures, builders and instruction files; git show on the repair commits",
+        "sha256sum, stat -c%s, pdfinfo",
+        "pdftotext -layout and pdftotext -bbox-layout on all twelve delivered PDFs",
+        "pdftoppm -r 300 -gray -png (annotations ON) with a -hide-annotations control, differenced and decomposed onto widget rects at five grey cuts",
+        "pdftoppm -r 110 -gray -png of composed page 1, read as an image",
+        "pdf-lib page isolation reproducing the builder's published method, on the delivered packets",
+        "zlib inflation of every content stream, scanned for /FlatWidget-N Do and /ExactFactOverlay-N Do"
+      ],
+      "whatThisLaneDidNotDo": "Built nothing, repaired nothing, re-rendered nothing into the tree, ran no family build script, edited no overlay directory, edited no central artifact, edited no record that disagrees with it, dispatched nothing, created no subagent, released no claim and transferred no claim. It entered no worktree other than /home/user/vfa-worktree.",
+      "grantsNothing": "Independent verification approves no output, promotes no route, opens no commercial path and authorises no fulfillment. These three families remain FAIL_REPAIR_REQUIRED."
+    }
+  ]
+}

@@ -1,0 +1,439 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-worker-return/v1",
+  "assignmentId": "PF05",
+  "workerId": "PF05",
+  "lane": "packet-build",
+  "workerBranch": "pfc-20260909",
+  "engine": "Claude Opus 5 (Claude Code)",
+  "returnFilename": "rows-pf05-20260909.json",
+  "writtenAlongsideRatherThanOver": "rows.json, LANE_NOT_EXECUTED.json and PFB_SHIFT_RETURN.json (earlier PF05 material) survive byte-for-byte; this return is a distinct file.",
+  "shiftBaseSha": "52988d70533ae3f8d9cbc34f6915db2ead3b65db",
+  "headShaAtReturn": "ea1eb64dad63aa41180c89975b6b7a21a9f4e5b7",
+  "headShaAtReturnIs": "the parent of the commit that carries this file, read with git rev-parse HEAD before committing. It is not the sha of that commit, which cannot be known before it exists, and it is not transcribed by hand.",
+  "worktree": "/home/user/pfc-worktree",
+  "familiesAssignedByPrompt": 4,
+  "familiesGrantedByClaimLedger": 4,
+  "rowsReturned": 4,
+  "familiesCompleted": 1,
+  "familiesStopped": 3,
+  "blockedSource": [
+    "nh_conviction_streamlined-set",
+    "nc_auto_146_a4_agency_followup-set"
+  ],
+  "blockedLegalInput": [],
+  "blockedBeforeClaim": [],
+  "overlayDirectoriesTouchedByAStoppedFamily": 0,
+  "shiftIsIncomplete": null,
+  "rasterState": "BUILT_RASTER_PENDING",
+  "rasterNote": "No packet was built in this return, so there is nothing to raster and no digest to bind. rasterState is carried for schema continuity and zeroes nothing.",
+  "packetsSelfVerified": 0,
+  "otherPfPromptsExecutedInThisWorktree": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "sharedCentralArtifactsRegenerated": "none - MASTER_QUEUE.json, SOURCE_READY_BUILDABILITY.json, RASTER_QUEUE.json, VERIFIER_RETURNS.json and every script under scripts/grade-a-packet-factory-24h/ are untouched by this lane.",
+  "grantsNothing": "This lane built nothing here, verified nothing and set no verdict. A STOPPED row opens no route and authorizes no promotion.",
+  "rows": [
+    {
+      "itemId": "nh_conviction_streamlined-set",
+      "status": "STOPPED",
+      "stopReason": "BLOCKED_SOURCE",
+      "stopClass": "BLOCKED_SOURCE",
+      "verdict": null,
+      "jurisdiction": "NH",
+      "implementationStrategy": "official_pdf_fill",
+      "routeKeys": [
+        "obligation:track-only:NH:nh_conviction_streamlined"
+      ],
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/nh/nh-conviction-streamlined-set--official-pdf-fill",
+      "overlayDirectoryTouched": false,
+      "overlayDirectoryExists": false,
+      "counters": null,
+      "countersAreNullBecause": "no packet was built, so no counter was measured. A zero here would be a claim about a packet that does not exist.",
+      "claimAssertion": "CLAIM_OK PF05 nh_conviction_streamlined-set (packet-build, grant set 98f7d891ebf0ea2d)",
+      "allFourDeclaredSourcesResolvedByContentDigest": true,
+      "sourceDigestsVerifiedFromBytes": [
+        {
+          "sourceId": "official-form:NHJB-3057-DSe",
+          "component": "primary_filing",
+          "sha256": "02310e85cd02e3a8a5ff9c486f6729e85363146ccc07d6e8226e4f1259d1b520",
+          "byteLength": 87550,
+          "pages": 4
+        },
+        {
+          "sourceId": "official-form:NHJB-2311",
+          "component": "fee_waiver_motion",
+          "sha256": "f8b5df1366a91a9fd177612c0519f941b8d4f60e1f8f84c2a6c0c064ba7da58e",
+          "byteLength": 64896,
+          "pages": 2
+        },
+        {
+          "sourceId": "official-form:NHJB-2328",
+          "component": "fee_waiver_financial_statement",
+          "sha256": "b4384b41efb472951c28b1289e46b05dfcc9463147aa490597f541f5291ce919",
+          "byteLength": 66063,
+          "pages": 3
+        },
+        {
+          "sourceId": "official-form:NHJB-2956",
+          "component": "criminal_history_request",
+          "sha256": "c8e5e9fead600ad30a956eac98c43d30d9ca3a3b8b4bc619713e50c83524f569",
+          "byteLength": 62291,
+          "pages": 1
+        }
+      ],
+      "whyBlockedSourceDespiteEverySourceBeingHeld": "The stop is not a missing binary. All four declared digests resolve under the master library and were re-hashed from bytes by this lane. The stop is that the four held binaries are editions of DIFFERENT New Hampshire courts and cannot name one filing court between them.",
+      "why": "A packet is filed in one court. NHJB-3057-DSe, the petition, names its court through the drop-down court.district/su, whose 43 options are 11 Superior Courts and 31 Circuit Court District Divisions, so this route files in one of those two tiers. NHJB-2311-Se names its court through court.superior, whose 12 options are a blank and 11 Superior Courts and no Circuit Court division at all. NHJB-2328-DFPe names its court through court.district/family/probate - both, whose 74 options are District, Family and Probate divisions and include no Superior Court at all. In a Superior Court annulment the financial statement cannot name the court; in a District Division annulment the fee-waiver motion cannot. Neither form carries a free-text court field, so neither gap can be filled with text. The suffixes agree with the drop-downs: -Se is the Superior court edition, -DFPe the District, Family and Probate edition, -DSe the District edition of the petition. Filling the Superior motion for a Circuit Court annulment would deliver the wrong court's motion, and leaving its court blank would deliver a motion that does not say where it is filed. Neither is a defect a build can absorb.",
+      "measuredByThisLaneIndependentlyOfTheBuildScript": "Every drop-down and every field of all four binaries was enumerated directly from the master-library bytes with pdf-lib, not read back from the build script's own summary. The court-list measurement reproduced exactly.",
+      "additionalDefectThisLaneFoundAndTheScriptHadMissed": {
+        "form": "NHJB-2956-FPe",
+        "component": "criminal_history_request",
+        "chooserField": "court.family/probate1 CUSTOM",
+        "optionCount": 43,
+        "offersASuperiorCourt": false,
+        "offersACircuitDistrictDivision": false,
+        "finding": "Its 43 options are Family Division and Probate Division entries exclusively. It reaches NEITHER tier this route files in, so unlike the two fee-waiver components - each of which can at least name a court in one tier - this component cannot name the filing court in any case this route can produce. It is blocked in every tier.",
+        "priorClaimCorrected": "The build script previously returned componentsBuildable: [primary_filing, criminal_history_request] as a hardcoded literal. That named this component buildable and was wrong. This lane replaced both lists with a value computed from each binary's own chooser against the petition's own tiers, and added whichComponentsCanNameTheSameCourt, which resolves the question per tier rather than per component.",
+        "scriptEditedByThisLane": "scripts/build-census-v1-nh_conviction_streamlined-set.mjs, which the assignment names as this lane's to fix. The refusal, its stopClass and its null counters are unchanged; only the component classification became measured rather than asserted."
+      },
+      "otherSourceDefectsMeasuredSoTheNextLaneNeedNotResurvey": [
+        {
+          "form": "NHJB-2328-DFPe",
+          "fields": [
+            "12.total",
+            "money.total",
+            "monthly.total"
+          ],
+          "sourceCarriedValue": "0",
+          "consequence": "delivered unchanged these state that the filer has no income, no cash and no monthly expenses. Any build of this form must clear them."
+        },
+        {
+          "form": "NHJB-2956-FPe",
+          "field": "court.family/probate1 CUSTOM",
+          "sourceCarriedValue": "1",
+          "isOneOfItsOwnOptions": false,
+          "consequence": "the binary ships a stored drop-down value that is not among that drop-down's own options."
+        },
+        {
+          "form": "NHJB-2956-FPe",
+          "field": "address",
+          "sourceCarriedValue": " ",
+          "consequence": "a stored single-space text value."
+        },
+        {
+          "forms": [
+            "NHJB-3057-DSe",
+            "NHJB-2311-Se",
+            "NHJB-2328-DFPe",
+            "NHJB-2956-FPe"
+          ],
+          "pushButtonCounts": {
+            "NHJB-3057-DSe": 4,
+            "NHJB-2311-Se": 4,
+            "NHJB-2328-DFPe": 4,
+            "NHJB-2956-FPe": 3
+          },
+          "consequence": "Clear Form, Lock and Save Form, Top of Page and Form Guide push buttons must be detached before flattening or their captions are drawn onto the filed page."
+        }
+      ],
+      "purposeOfRecordLineIsAnOwnerDetermination": "NHJB-2956 prints PURPOSE OF RECORD: Housing / Employment / Annulment/Expungement / Other ______. The route's identity answers it, but the binary draws no control beside the printed options - no AcroForm widget, no stroked box - so marking it would put ink at a hand-entered coordinate in white space, and writing the purpose into the Other rule would state that the purpose is Other, which is false. Not the stop; recorded for the owner.",
+      "whatWouldUnblockIt": [
+        "binding the Circuit Court District Division fee-waiver motion that matches NHJB-3057-DSe and NHJB-2328-DFPe, rather than the Superior Court NHJB-2311-Se",
+        "or binding the Superior Court financial statement that matches NHJB-2311-Se and scoping this family to Superior Court annulments",
+        "and in either case binding a criminal-history release whose court chooser reaches the tier the packet is filed in, because NHJB-2956-FPe reaches neither",
+        "or an owner determination that the fee-waiver and criminal-history components may be dropped and replaced by a pointer to whichever forms the filing court actually uses"
+      ],
+      "artifactsRead": 4,
+      "artifactsWritten": 0,
+      "independentVerificationStatus": null,
+      "selfVerified": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "nc_auto_146_a4_agency_followup-set",
+      "status": "STOPPED",
+      "stopReason": "BLOCKED_SOURCE",
+      "stopClass": "BLOCKED_SOURCE",
+      "verdict": null,
+      "jurisdiction": "NC",
+      "implementationStrategy": "custom_pleading",
+      "routeKeys": [
+        "obligation:track-only:NC:nc_auto_146_a4_agency_followup"
+      ],
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/nc/nc-auto-146-a4-agency-followup-set--custom-pleading",
+      "overlayDirectoryTouched": false,
+      "overlayDirectoryExists": false,
+      "counters": null,
+      "countersAreNullBecause": "the one document source of this family could not be resolved to held bytes, so no packet was built and no counter was measured.",
+      "claimAssertion": "CLAIM_OK PF05 nc_auto_146_a4_agency_followup-set (packet-build, grant set 98f7d891ebf0ea2d)",
+      "failedSourceIdentity": {
+        "sourceId": "official-form:AOC-G-260",
+        "declaredPath": "LegalEase North Carolina/AOC-G-260_Rev-5-24.pdf",
+        "sha256": "cf998cecefea090e4b3fce260b330b6f3896d66ae65ab9f9e7a698e6586a1817",
+        "tier": "exact_form_number",
+        "resolvedAnywhere": false
+      },
+      "why": "The single bound source of this family does not resolve. Its digest was searched for by content across every mounted custody root - 6051 files in one pass and the whole main repository, 5939 files, in a second - and returned zero hits. No file named AOC-G-260 exists anywhere under any mounted root, so there was nothing to substitute even if substitution were permitted, and it is not: a different revision of the same form number is a different document.",
+      "whereTheIndexSaysItLives": {
+        "custody": "src05_worker_materialization_2026_09_02",
+        "path": "LegalEase North Carolina/AOC-G-260_Rev-5-24.pdf",
+        "acroFieldCount": 91,
+        "structuralClassObserved": "acroform",
+        "custodyType": "EPHEMERAL_WORKER_MATERIALIZATION_NOT_PERSISTED",
+        "bytesHeldByAnyMountedCustody": false,
+        "custodySelfDescription": "The committed corpus index declares of this custody that the bytes were never staged, committed, or added to any release, that no mounted custody holds them, and that declaring the custody rather than deleting it leaves every source obligation keyed to them refusing rather than silently resolving. This family is one of those obligations, and it is refusing exactly as the index says it should.",
+        "reacquisitionIsExecutable": "The index records that the src05 return carries the Google Drive fileId and owner-only visibility of each of these binaries, so re-acquisition by the owner is executable. Three of the fourteen were later found in the repository at their exact digest; AOC-G-260 is not one of the three."
+      },
+      "centralRecordDisagreement": "MASTER_QUEUE.json carries sourceStatus SOURCE_BOUND_BY_HELD_BYTES, sourceBound true, sourceReadiness.ready true, custodyClass SOURCE_ALREADY_HELD and state SOURCE_READY for this family. SOURCE_READY_BUILDABILITY.json carries documentSourcesNamed 1, documentSourcesResolved 1 and custodyClass SOURCE_ALREADY_HELD. None of that is true of these bytes. The same buildability row contradicts its own summary in its per-source array, where this source reads kind not_present_in_a_custody_mounted_here and the row verdict reads NOT_MEASURABLE_HERE. The per-source measurement is right and the three summary scalars are wrong. Reported, not corrected: those are shared central artifacts and not this lane to edit.",
+      "artifactsRead": 0,
+      "artifactsWritten": 0,
+      "independentVerificationStatus": null,
+      "selfVerified": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "ut_pet_cannabis-set",
+      "status": "STOPPED",
+      "stopReason": "SOURCE_DRAWS_NO_WRITE_BOX_FOR_THE_FIELDS_THE_FILING_REQUIRES",
+      "stopClass": "SOURCE_DRAWS_NO_WRITE_BOX_FOR_THE_FIELDS_THE_FILING_REQUIRES",
+      "stopClassIsNewHere": "It is deliberately NOT BLOCKED_SOURCE. All five declared digests resolve and were re-hashed from the custody bytes by this lane, so calling it a source block would misdescribe it and would send an acquisition lane after bytes that are already held. It is also not a strategy mismatch: ca-1203-4-set is declared official_pdf_fill over flat sources and renders through finalizeFlatOverlay, and these five draw rules the same way, so the flat path is legitimately available here. The blocker is narrower than either and this string names it.",
+      "verdict": null,
+      "jurisdiction": "UT",
+      "implementationStrategy": "official_pdf_fill",
+      "routeKeys": [
+        "obligation:track-pathway:UT:ut_pet_cannabis:path-j-cannabis-possession-petition-without-a-bci-certificate"
+      ],
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill",
+      "overlayDirectoryTouched": false,
+      "overlayDirectoryExists": false,
+      "counters": null,
+      "countersAreNullBecause": "no packet was built, so no counter was measured. A zero here would be a claim about a packet that does not exist.",
+      "claimAssertion": "CLAIM_OK PF05 ut_pet_cannabis-set (packet-build, grant set 98f7d891ebf0ea2d)",
+      "allFiveDeclaredSourcesResolvedByContentDigest": true,
+      "sourceDigestsVerifiedFromBytes": [
+        {
+          "sourceId": "official-form:1044XX",
+          "component": "civil_cover_sheet",
+          "sha256": "b99586289df6304da5b34181bee95ec2b7f098806c1c949a0f112daeb0244a52",
+          "byteLength": 119736,
+          "pages": 2
+        },
+        {
+          "sourceId": "official-form:1003EX",
+          "component": "petition",
+          "sha256": "a8432deaa902e26c18a215d20fcc0f90eaedd5a62c28d0cec79f3f65d17c4352",
+          "byteLength": 129711,
+          "pages": 4
+        },
+        {
+          "sourceId": "official-form:1023EX",
+          "component": "proposed_order",
+          "sha256": "24868a504130440532dd51f47b212e925815abc91c086a3bf67d5c014b5d002a",
+          "byteLength": 110830,
+          "pages": 3,
+          "note": "held in the Nationwide recovery pool custody, which is mounted in the main clone and not at this sparse worktree repoRoot. Resolved by content hash against that root and re-hashed from the bytes; not resolved by path and not substituted."
+        },
+        {
+          "sourceId": "official-form:1146XX",
+          "component": "acceptance_of_service",
+          "sha256": "39f1205f48bd73fc7b9686a101369be74a988b419697ea964c2ff5a5c0ce63ad",
+          "byteLength": 192790,
+          "pages": 1
+        },
+        {
+          "sourceId": "official-form:1148XX",
+          "component": "consent_and_waiver_of_hearing",
+          "sha256": "43c6d4fd232f67453357b342794cac209da82373ce4e93c686c285b42e553288",
+          "byteLength": 191518,
+          "pages": 2
+        }
+      ],
+      "why": "Not one of the five carries a fillable control. Each has no /AcroForm in its catalog, no /XFA and zero annotations on every page, measured from the bytes; the committed corpus index agrees, recording all five as structuralClassObserved flat_pdf with acroFieldCount 0. That alone is not a stop, because the factory has a sanctioned flat path. The stop is what that path can reach. Applied to 1003EX, the petition, it places the participant name, street address, phone and email in the top-left contact block and refuses Case Number, Judicial District and County, Court Address and the caption Petitioner name, each for want of a drawn rule. Utah writes those blanks as typed underscore leaders in the text layer rather than as rectangles, and the method gives a caption with no rule no coordinate. A cannabis-expungement petition that does not state its case number, its court or the petitioner name is not a filing, so what the method can place is not a packet.",
+      "noFillableUtahEditionIsHeld": "Zero of the 59 UT entries in the committed corpus index carry an AcroForm, so there is no fillable edition of any of these five to bind instead.",
+      "wrongPartyHazardMeasuredNotAsserted": {
+        "whatWasMeasured": "Every anchor the shared derivation keeps was classified against the printed HEADINGS of its own page - located by matching the heading text and then by column x or by distance below it - rather than against its caption string. 15 of the 36 kept anchors across the five documents land inside a block the form says belongs to somebody else.",
+        "perDocument": {
+          "1044XX": 9,
+          "1003EX": 0,
+          "1023EX": 2,
+          "1146XX": 2,
+          "1148XX": 2
+        },
+        "examples": [
+          "1044XX is a two-column cover sheet with Defendant/Respondent governing from x=310. Seven anchors carrying participant.full_legal_name, participant.street_address and participant.phone start at x=320.1, which would name the participant as the opposing party, and two more sit ~26pt below the Attorney or Licensed Paralegal Practitioner headings, which would state the participant is counsel.",
+          "1146XX and 1148XX print the participant contact block at the top and the prosecutor block lower down. participant.street_address lands 30.7pt and participant.phone 78.8pt below the printed heading Prosecutor (print name), on an Acceptance of Service.",
+          "1003EX gives a 474pt participant.full_legal_name box to the line I am [ ] Plaintiff/Petitioner [ ] Plaintiff/Petitioners Attorney (Utah Bar #:____), which is an election and a bar number, not a name blank."
+        ],
+        "whyThisIsInTheReturn": "It is not the stop and it does not become one, because a curated anchor set fixes it. It is here so the next lane does not run the shared derivation over these five and ship its output."
+      },
+      "captionChannelDefectOnTheseBytes": {
+        "finding": "The caption channel misreads these bytes. Kerned runs come back transposed - PlaintiffP/etitioner, Check your email.ou wY, Judicial District C ounty - and the shared captionIsUndecodable test looks only for control characters and replacement glyphs above a 15% share, so transposition passes it.",
+        "measured": "2 of the 5 anchors the method keeps on the petition were bound off a caption that was never correctly read.",
+        "status": "Reported, not corrected. scripts/generate-rcap-flat-overlay-profiles.mjs and scripts/rcap-official-forms/ are shared and are not this lane to edit. That generator writes overlay-profile.derived.json for review rather than a filed packet, so the exposure is bounded, but the same caption channel is what a build lane would reach for."
+      },
+      "whatWouldUnblockIt": [
+        "binding a fillable Utah edition of 1003EX, 1023EX, 1044XX, 1146XX and 1148XX if the courts publish one, so the case number, court and caption blanks have controls to write into",
+        "or a reviewed extension of the flat-overlay method that measures a typed underscore leader in the text layer as a write box - these forms use that device for every blank that matters, and the present method refuses to guess at it by design, which is the correct default and also the thing that blocks this family",
+        "and in either case a curated anchor set for this family, because run uncurated the shared derivation places 15 anchors inside a block another party owns"
+      ],
+      "reproducedBy": "scripts/build-census-v1-ut_pet_cannabis-set.mjs, written by this lane. It resolves the five digests, re-hashes them, measures fillability from the bytes, reproduces the sanctioned derivation, classifies each anchor against the printed headings and returns this refusal with null counters. It creates no overlay directory and writes no file.",
+      "artifactsRead": 5,
+      "artifactsWritten": 0,
+      "independentVerificationStatus": null,
+      "selfVerified": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "ar-misdemeanor-seal-set",
+      "status": "COMPLETED",
+      "stopReason": null,
+      "stopClass": null,
+      "verdict": null,
+      "jurisdiction": "AR",
+      "implementationStrategy": "official_pdf_fill",
+      "routeKeys": [
+        "obligation:track-only:AR:ar-misdemeanor-seal"
+      ],
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/ar/ar-misdemeanor-seal-set--official-pdf-fill",
+      "overlayDirectoryTouched": true,
+      "addedMidShiftBy": "the Captain, after a content sweep proved both sources held. This lane verified that independently before building: both digests were content-hash searched and re-hashed from the custody bytes.",
+      "claimAssertion": "CLAIM_OK PF05 ar-misdemeanor-seal-set (packet-build, grant set 98f7d891ebf0ea2d)",
+      "buildScript": "scripts/build-census-v1-ar-misdemeanor-seal-set.mjs",
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 6,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "allNineCountersZero": false,
+      "whyUnclassifiedBlanksIsSix": "Six blanks classify UNCLASSIFIED_BLANK under the shared completeness contract and the count is left standing. Five are continuation rules of a multi-line free-text list whose first rule is written or declared required - paragraph 1 second offence rule, paragraph 2 second and third, and the second line of the page 3 address block. The sixth, on each document, is the identification block FBI number that the FORM ITSELF marks (if known). Each is genuinely optional participant content and each is declared with disposition OPTIONAL_PARTICIPANT_CONTENT and a stated reason, but the contract reaches that disposition only from an APPROVED_REASONS prose match or a field label containing the word optional, and these labels are runs of underscores or the phrase (if known). This build did NOT reword its reasons to match the regex: the contract own comment names that as the abuse the counters exist to prevent. Reported as a shared-module gap rather than papered over. Because of it this family does not claim PASS_COMPLETE.",
+      "sourceDigestsVerifiedFromBytes": [
+        {
+          "sourceId": "official-form:ACIC-UNIFORM-PETITION-TO-SEAL",
+          "documentId": "ACIC-PETITION-TO-SEAL-MISDEMEANORS-ACT-1460",
+          "sha256": "63a308c4fd36a35918249574675c3e83ed47e677cffeae30e09c7e344cfcda23",
+          "byteLength": 775618,
+          "pages": 5,
+          "acroFields": 53,
+          "custody": "nationwide_recovery_pool_2026_09_02",
+          "pathInCustody": "LegalEase Arkanasa/3-Misdemeanor-Petition-8_01_2023.pdf",
+          "note": "the custody directory name is misspelled (Arkanasa), which is why a path-shaped gate reported a held source as unresolved. Found by content hash."
+        },
+        {
+          "sourceId": "official-form:ACIC-UNIFORM-ORDER-TO-SEAL",
+          "documentId": "ACIC-ORDER-TO-SEAL-MISDEMEANORS-ACT-1460",
+          "sha256": "4d6bc578c6a40a58d1234315939d46579862b5d382c85359ae4334763e7bbcc8",
+          "byteLength": 327235,
+          "pages": 3,
+          "acroFields": 37,
+          "custody": "master_library",
+          "pathInCustody": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-SEAL-MISDEMEANORS-UNDER-ACT-1460__order-to-seal-misdemeanors-under-act-1460-of-2013__REV-2019-08-01__EN.pdf"
+        }
+      ],
+      "artifacts": [
+        {
+          "document": "ACIC-PETITION-TO-SEAL-MISDEMEANORS-ACT-1460",
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/ar/ar-misdemeanor-seal-set--official-pdf-fill/fixtures/petition-canonical-filled.pdf",
+          "sha256": "e1063b2d1846c5372847ecacc7c597943d64f75abefc51dee647c4f9f5b01b41",
+          "byteLength": 758469,
+          "pages": 5,
+          "fieldsWritten": 11,
+          "fieldsRefused": 42,
+          "addedGlyphsReadFromOutputBytes": 0,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 53,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        },
+        {
+          "document": "ACIC-PETITION-TO-SEAL-MISDEMEANORS-ACT-1460",
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/ar/ar-misdemeanor-seal-set--official-pdf-fill/fixtures/petition-boundary-filled.pdf",
+          "sha256": "ccfad986cb615a9679a5edabd15a55faba8118fdf3809926e3c95bf3b9313d23",
+          "byteLength": 757887,
+          "pages": 5,
+          "fieldsWritten": 7,
+          "fieldsRefused": 46,
+          "addedGlyphsReadFromOutputBytes": 0,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 53,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        },
+        {
+          "document": "ACIC-ORDER-TO-SEAL-MISDEMEANORS-ACT-1460",
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/ar/ar-misdemeanor-seal-set--official-pdf-fill/fixtures/order-canonical-filled.pdf",
+          "sha256": "1dcb3519e63f783957254b9a45b55ab0bbbf693857b9947b95286adfaa824a17",
+          "byteLength": 317484,
+          "pages": 3,
+          "fieldsWritten": 4,
+          "fieldsRefused": 33,
+          "addedGlyphsReadFromOutputBytes": 0,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 37,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        },
+        {
+          "document": "ACIC-ORDER-TO-SEAL-MISDEMEANORS-ACT-1460",
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/ar/ar-misdemeanor-seal-set--official-pdf-fill/fixtures/order-boundary-filled.pdf",
+          "sha256": "5e663e1986dcdba4fe888b51d3fc48b4a3a15ff6bc354db70221cf94e40e756b",
+          "byteLength": 316860,
+          "pages": 3,
+          "fieldsWritten": 1,
+          "fieldsRefused": 36,
+          "addedGlyphsReadFromOutputBytes": 0,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 37,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        }
+      ],
+      "glyphReadingNote": "addedGlyphsReadFromOutputBytes is 0 by construction and the artifact record says so in its own words: this family writes through AcroForm widgets rather than by drawing into page content, so every mark it makes is a widget appearance and is counted in flattenedWidgetAppearancesReadFromOutputBytes, which is read back at each field own measured /Rect from the finished PDF. nonWhitespaceGlyphsOutsideMeasuredWriteBoxes is measured, not assumed, and is 0 on all four.",
+      "defectsFoundByReadingTheOutputRatherThanTheCounters": [
+        "The street address was written TWICE on the petition, on both rules of the page 3 address block, because the role refusal named the field Defendant Address  02 with two spaces and the real name has one. The counters were green while the paper carried the duplicate. Found by reading back every non-empty widget from the delivered PDF and fixed.",
+        "The order declared, in its own completeness record, that the packet writes nothing below its caption, while it wrote the date of birth into the page 3 identification block. The declaration was corrected and that block six blanks are now declared individually - race, sex and SID as the participant to state, ATN as the agency to state, FBI number as optional - rather than swept into a court-owned default they do not belong to.",
+        "The source receipt named a single sourceArchive for both documents. The two are in different custodies, so it now names none and each document records its own custody and the absolute path the bytes were read from."
+      ],
+      "nearMissesRefusedByRoleBeforeAnythingWasRendered": [
+        "Petitioner - the page 4 verification SIGNATURE line, whose field name the shared binder resolves to participant.full_legal_name. Writing it would have printed the participant name on the signature line of a sworn verification.",
+        "Date_2 - the page 5 certificate of service DATE line, whose harvested caption bled from the signature line above it and reads Defendant orDefendants, so the binder resolved it to participant.full_legal_name and would have printed a NAME on a DATE line.",
+        "COUNTY OF - the page 4 verification county, which the binder resolves to matter.county. That is the county where the oath is sworn, wherever the notary is, not the county of the case.",
+        "Defendant on the order - the defendant name inside the court DECREE sentence, distinct from the order caption."
+      ],
+      "captionGeometryFinding": "The three caption widgets on page 1 of both forms are named IN THE, COURT OF and DIVISION and the names do not describe the blanks. Measured from the page own text runs, the widget named COURT OF covers the COUNTY blank (318.70-434.40, between the printed OF at 318.0 and the _, at 427.2) and the widget named IN THE covers the COURT TYPE blank (142.40-243.70). The county binds through a printedLabelCorrection; the court type is left to the participant. Trusting the names would have printed the county where the court name belongs. reports/caption-evidence.json carries the measurement.",
+      "boundaryFixtureBehaviour": "The boundary fixtures deliberately drop caption writes that do not fit: county, case number and both name blanks on the petition, and county, case number and the caption name on the order. Every drop is a recorded refusal carrying the value, the widget rect, the minimum font size and the required width at that size - none is silent - and the participant guide warns that an over-long value leaves its blank empty rather than being drawn over the form rule.",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "rasterNote": "No page was rastered by this lane and no raster is committed. The central hash-bound workflow is the authority, on the four digests above.",
+      "selfVerified": false,
+      "independentVerificationStatus": null,
+      "packetsSelfVerified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "grantsNothing": "A rendered packet is review evidence. It authorizes no fulfillment, opens no commercial route and sets no verdict."
+    }
+  ],
+  "orderDeviation": "PF05.md orders the families NH, UT, NC on a cheapest-first rationale. NC turned out to be the cheapest of the three - its single bound source does not resolve anywhere, which is a measurement, not a build - so it was measured and returned before UT rather than after. Nothing about UT was skipped or pre-judged to do it.",
+  "custodyVerification": {
+    "method": "every declared digest searched for by CONTENT HASH across every mounted custody root, not by declared path and not by any central record custodyClass scalar",
+    "mountsSearched": [
+      "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1",
+      "/home/user/legalease-partner-dashboard-clean (whole tree, including private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1, private/source-imports/Nationwide_Recovery_Pool_2026-09-02, private/source-imports/rcap-d-source-packs-2026-08-12, private/human-source-returns and reference/)",
+      "/home/user/pfc-worktree"
+    ],
+    "filesHashedAcrossPasses": "6051 in the four-root pass and 5939 in the whole-main-repo pass",
+    "networkAcquisitions": 0
+  },
+  "stoppedForOtherReasons": [
+    "ut_pet_cannabis-set"
+  ],
+  "captainMidShiftInstruction": {
+    "received": "Add ar-misdemeanor-seal-set as a fourth family; both its sources are held byte-exact. Before stopping any family for a source reason, read data/rcap-grade-a/source-wave-integration/SOURCE_IDENTITY_RESOLUTION_SWEEP.json and bind by the digest it carries.",
+    "sweepFileNotAvailableToThisLane": "SOURCE_IDENTITY_RESOLUTION_SWEEP.json is not in this worktree and is not present on ANY pushed branch of origin - checked with git ls-tree across every remote branch after a full fetch. It exists only inside other agents active worktrees (src1, pf14, pf23, captain), which the lane brief forbids this lane to read. So no family here was bound by the sweep, and where a source question arose this lane answered it with its own content-hash sweep, which is the same method.",
+    "whatThisLaneDidInstead": "Hashed every file under every custody root reachable to it - the master library at /home/user/corpus-x, the whole main clone including private/source-imports (master library, Nationwide recovery pool, D source packs, human source returns) and reference/, and the remaining non-worktree mounts corpus-dl, vf-g-ro, fix96-scratch, pf27-scratch, vf-g-scratch - and compared by digest, never by filename.",
+    "privateMountArrived": "A second message reported that private/ was missing from every sparse lane and symlinked it in. It resolves to /home/user/legalease-partner-dashboard-clean/private - the same tree this lane had already content-hash searched in full - so no stop here was a resolver artefact. NC was re-checked through the new mount after it arrived and its digest still returns zero hits; UT was re-run with everything mounted and its refusal is unchanged and no longer needs an env fallback to resolve 1023EX. AR resolves natively through the shared resolver now."
+  },
+  "shiftComplete": "All four families assigned to PF05 are returned: three STOPPED and one COMPLETED."
+}

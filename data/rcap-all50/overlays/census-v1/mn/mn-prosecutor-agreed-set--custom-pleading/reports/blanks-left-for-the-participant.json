@@ -1,0 +1,104 @@
+{
+  "schemaVersion": "rcap-blanks-left-for-the-participant/v1",
+  "familyId": "mn_prosecutor_agreed-set",
+  "requiredBeforeFiling": [
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.case_county",
+      "page": 1,
+      "printedContext": "Minnesota county of the case, in paragraph 2 of the request",
+      "disclosureLabel": "Minnesota county of the case, in paragraph 2 of the request",
+      "identity": "primary_filing field case_county",
+      "why": "no case fact is held for a record the platform has not seen",
+      "participantMustSupply": "the county where the case was, from your court records"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.court_file_number",
+      "page": 1,
+      "printedContext": "Court file number, in paragraph 2 of the request",
+      "disclosureLabel": "Court file number, in paragraph 2 of the request",
+      "identity": "primary_filing field court_file_number",
+      "why": "no case identifier is held for a record the platform has not seen",
+      "participantMustSupply": "the court file number, from Minnesota Court Records Online or the court's own papers"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.disposition",
+      "page": 1,
+      "printedContext": "How the case ended (the disposition), in paragraph 2 of the request",
+      "disclosureLabel": "How the case ended (the disposition), in paragraph 2 of the request",
+      "identity": "primary_filing field disposition",
+      "why": "no disposition fact is held for a record the platform has not seen",
+      "participantMustSupply": "the disposition, exactly as the court record states it, checked against your BCA record"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.participant_account",
+      "page": 1,
+      "printedContext": "The requester's own statement of why they are asking, in paragraph 3 of the request",
+      "disclosureLabel": "The requester's own statement of why they are asking, in paragraph 3 of the request",
+      "identity": "primary_filing field participant_account",
+      "why": "the platform prints the participant's own account and writes none of it",
+      "participantMustSupply": "your own words: why you are asking the prosecutor to agree - these lines are yours alone"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.prosecuted_by",
+      "page": 1,
+      "printedContext": "Prosecuted by - the county attorney, or which city attorney - in paragraph 2 of the request",
+      "disclosureLabel": "Prosecuted by - the county attorney, or which city attorney - in paragraph 2 of the request",
+      "identity": "primary_filing field prosecuted_by",
+      "why": "which authority prosecuted lives on the record, not in the platform",
+      "participantMustSupply": "whether the county attorney or a city attorney prosecuted, from the court papers"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.prosecuting_authority_address",
+      "page": 1,
+      "printedContext": "Office name and mailing address of the prosecuting authority, in the addressee block of the request",
+      "disclosureLabel": "Office name and mailing address of the prosecuting authority, in the addressee block of the request",
+      "identity": "primary_filing field prosecuting_authority_address",
+      "why": "which authority prosecuted and where it receives mail varies by county and city; no directory is held",
+      "participantMustSupply": "the county attorney or city attorney that prosecuted the case, and that office's mailing address - the Minnesota Attorney General's expungement page is the statewide entry point for identifying it"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.subd3_ground",
+      "page": 1,
+      "printedContext": "The Sec. 609A.02, subd. 3 ground the requester believes applies, and why, in paragraph 2 of the request",
+      "disclosureLabel": "The Sec. 609A.02, subd. 3 ground the requester believes applies, and why, in paragraph 2 of the request",
+      "identity": "primary_filing field subd3_ground",
+      "why": "which statutory ground fits is a judgment about the participant's own record that the platform does not make",
+      "participantMustSupply": "which subd. 3 ground you believe applies and why - the statute's own grounds list is where to look, and a lawyer or legal-aid office is the place to take a doubtful one"
+    },
+    {
+      "document": "attachment",
+      "field": "attachment.rehabilitation_material_list",
+      "page": 1,
+      "printedContext": "The participant's own list of attached rehabilitation material",
+      "disclosureLabel": "The participant's own list of attached rehabilitation material",
+      "identity": "attachment field rehabilitation_material_list",
+      "why": "rehabilitation material is participant-authored; the packet formats it and does not assess it",
+      "participantMustSupply": "your own list, in your own hand, of the material you are attaching - programmes completed, work history, education, community involvement - with the documents themselves behind this page"
+    }
+  ],
+  "protectedBlanks": [
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.requester_signature",
+      "label": "Signature on the written request",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "the request is the participant's own; the participant signs it personally"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.signature_date",
+      "label": "Date beside the signature on the written request",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "a date written before the request is signed would be false"
+    }
+  ],
+  "everyRequiredBeforeFilingItemIsDisclosed": true,
+  "disclosedIn": "data/rcap-all50/overlays/census-v1/mn/mn-prosecutor-agreed-set--custom-pleading/participant-instructions.md"
+}

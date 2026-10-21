@@ -22,8 +22,9 @@ const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../.
 // from an empty corpus manufactures a defect rather than finding one.
 //
 // So the run first decides, explicitly, which of three states it is in.
+const EXPLICIT_CORPUS_ROOT = process.env.OFFICIAL_FORMS_SOURCE_DIR || null;
 export const CONFIGURED_CORPUS_ROOTS = [
-  process.env.OFFICIAL_FORMS_SOURCE_DIR || null,
+  EXPLICIT_CORPUS_ROOT,
   path.join(rootDir, "private/source-imports"),
   path.join(rootDir, "private/Nationwide Record Clearing")
 ].filter(Boolean);
@@ -72,6 +73,27 @@ function locateExpectedSource(relativePath) {
  *                           corpus is exactly the situation in which silent
  *                           demotion would look like a finding.
  */
+/**
+ * Which corpus package a reviewed source declares it lives in.
+ *
+ * The configured roots are separate SOURCE PACKAGES, not interchangeable
+ * mount points: private/source-imports holds the Edition 1 master library and
+ * private/Nationwide Record Clearing holds the nationwide inventory. A reviewed
+ * source names one of them in its resolvedPath and exists in that one only.
+ */
+function declaredRootFor(relativePath) {
+  // An explicit test/CI mount claims to provide the reviewed corpus as a
+  // whole. If it exists but is incomplete, that is a partial mount and must
+  // fail closed rather than being mistaken for an unrelated mounted package.
+  if (EXPLICIT_CORPUS_ROOT) return EXPLICIT_CORPUS_ROOT;
+  const normalized = relativePath.replaceAll("\\", "/");
+  for (const root of CONFIGURED_CORPUS_ROOTS) {
+    const suffix = path.relative(rootDir, root).replaceAll("\\", "/");
+    if (suffix && normalized.startsWith(`${suffix}/`)) return root;
+  }
+  return null;
+}
+
 export function sourceValidationMode() {
   if (PRESENT_CORPUS_ROOTS.length === 0) return { mode: "committed_promotion_proof", missing: [] };
   const resolution = readJsonAt(RESOLUTION_PATH);
@@ -80,10 +102,36 @@ export function sourceValidationMode() {
   }
   const expected = resolution.rows.filter((r) => typeof r.resolvedPath === "string" && r.resolvedPath !== "");
   const missing = [];
+  const notMaterialized = [];
   for (const row of expected) {
-    if (!locateExpectedSource(row.resolvedPath)) missing.push(`${row.familyId} -> ${row.resolvedPath}`);
+    if (locateExpectedSource(row.resolvedPath)) continue;
+    /**
+     * Absent because its own package is not mounted, or absent from a package
+     * that IS mounted. Those are different facts and only the second is a
+     * finding.
+     *
+     * Mounting the nationwide inventory used to put this run in
+     * partial_or_invalid_source_mount for forty-five Edition 1 sources, purely
+     * because a DIFFERENT package had appeared. "A root is mounted" was standing
+     * in for "the root these sources live under is mounted", and the two are not
+     * the same statement. A package nobody mounted is not evidence about the
+     * sources inside it.
+     */
+    const declared = declaredRootFor(row.resolvedPath);
+    if (declared && !PRESENT_CORPUS_ROOTS.includes(declared)) {
+      notMaterialized.push(`${row.familyId} -> ${row.resolvedPath}`);
+      continue;
+    }
+    missing.push(`${row.familyId} -> ${row.resolvedPath}`);
   }
-  if (missing.length > 0) return { mode: "partial_or_invalid_source_mount", missing };
+  if (missing.length > 0) return { mode: "partial_or_invalid_source_mount", missing, notMaterialized };
+  // Every remaining absence is a package that was never mounted here. The
+  // committed promotion proof is validated rather than recomputed from absence,
+  // which is the same treatment an entirely unmounted run gets and for the same
+  // reason.
+  if (notMaterialized.length > 0) {
+    return { mode: "committed_promotion_proof", missing: [], notMaterialized };
+  }
   return { mode: "mounted_corpus", missing: [], expected };
 }
 

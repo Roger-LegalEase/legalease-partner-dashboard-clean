@@ -1,0 +1,117 @@
+{
+  "schemaVersion": "rcap-independent-verification-rows/v1",
+  "lane": "CURRENT-BYTE-INDEPENDENT-VERIFICATION-UT-PET-TRAFFIC-C28D49571",
+  "laneKind": "independent-verification",
+  "worker": "CODEX-GA-ROUTE-VERIFY",
+  "baseSha": "c28d49571e86efb3dee1fa46d45369ed8f7528fa",
+  "claimsReissued": 0,
+  "claimHandling": "This focused reread used the released family's current bytes without asserting or reissuing a claim.",
+  "independence": "The verifier did not build or repair this family and generated no packet or raster artifact.",
+  "verdictSummary": {
+    "PASS_COMPLETE_INDEPENDENT": 1,
+    "PASS": 0,
+    "FAIL_REPAIR_REQUIRED": 0,
+    "BLOCKED_SOURCE": 0,
+    "BLOCKED_LEGAL_INPUT": 0,
+    "BLOCKED_BEFORE_CLAIM": 0,
+    "STOPPED": 0
+  },
+  "rows": [
+    {
+      "itemId": "ut_pet_traffic-set",
+      "lane": "CURRENT-BYTE-INDEPENDENT-VERIFICATION-UT-PET-TRAFFIC-C28D49571",
+      "verifiedAtBase": "c28d49571e86efb3dee1fa46d45369ed8f7528fa",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ut/ut-pet-traffic-set--official-pdf-fill",
+      "currentByteBinding": {
+        "familyTreeGitOid": "95c1a178c0f17d8d52845d66d2d448093bec8253",
+        "entryBuildScript": {
+          "path": "scripts/build-census-v1-ut_pet_traffic-set.mjs",
+          "gitBlobOid": "e27e8c21208c8c63c2e01701fdd75ab3ac0ec2d4",
+          "sha256": "89cd1092c66f42d0c827205b9d8d1501559473b1652c39305ff7144ad64e38eb",
+          "byteLength": 163
+        },
+        "sharedBuildHost": {
+          "path": "scripts/build-census-v1-ut_pet_acquittal-set.mjs",
+          "gitBlobOid": "5450e850a3e275ef65757c0ac8ba29574736da3a",
+          "sha256": "52a801aa00b577c02f18a3d6389ba014a5da23b572aee94348e81e9a7ebe20c1",
+          "byteLength": 149756
+        }
+      },
+      "sourceBinding": {
+        "corpusMounted": true,
+        "boundDocumentsRehashed": 5,
+        "citedSupportingSourcesRehashed": 2,
+        "allHashesAndByteLengthsMatch": true,
+        "documents": [
+          {"id": "1002EX", "sha256": "fab0ba66e2ef50acf0e30ae781e8e38202da0cf39c788a0b1652c99fc6b0b0cd", "byteLength": 108871},
+          {"id": "1022EX", "sha256": "b0d9c6f1100c7d40e63c1261fa55cc868f91d2fe7cc8df05b6ba0036ff37f952", "byteLength": 108785},
+          {"id": "1044XX", "sha256": "b99586289df6304da5b34181bee95ec2b7f098806c1c949a0f112daeb0244a52", "byteLength": 119736},
+          {"id": "UT-BCI-EXP-INSTRUCTIONS", "sha256": "9e03980f512fe3aa89418539407f542a34d734a8c12516b40682dd50b9dadefa", "byteLength": 558045},
+          {"id": "1305GE", "sha256": "c184a242f8c7c1d06f55998de4b611bcf8bd5ec959896b3b37e6b5d48319b597", "byteLength": 171816},
+          {"id": "1146XX", "sha256": "39f1205f48bd73fc7b9686a101369be74a988b419697ea964c2ff5a5c0ce63ad", "byteLength": 192790},
+          {"id": "1148XX", "sha256": "43c6d4fd232f67453357b342794cac209da82373ce4e93c686c285b42e553288", "byteLength": 191518}
+        ]
+      },
+      "artifacts": [
+        {"fixture": "canonical", "sha256": "b5fcdd1601c823f3ebc6b18f74f5b639789220ec9e8363202c6e1492f9d90909", "byteLength": 671686, "pageCount": 9},
+        {"fixture": "boundary", "sha256": "ef8b488fe1f78f87a47419ddf2123ad9909b88612931a8c031ade0299a8d6e03", "byteLength": 672193, "pageCount": 9}
+      ],
+      "rasterEvidence": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "33850403312",
+        "renderedCommitSha": "b61e502996185ac1e23da4d0ae3f6b5b0a092a16",
+        "jobId": "100953975737",
+        "artifactId": "9928590115",
+        "boundToCanonicalSha256": "b5fcdd1601c823f3ebc6b18f74f5b639789220ec9e8363202c6e1492f9d90909",
+        "boundToBoundarySha256": "ef8b488fe1f78f87a47419ddf2123ad9909b88612931a8c031ade0299a8d6e03",
+        "documentsMeasured": 2,
+        "pagesMeasured": 18,
+        "problemsFound": 0,
+        "coversTheWholeFamily": true
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {"measured": true, "result": "PASS", "finding": "The field map and product wiring carry only the Utah traffic route obligation:track-pathway:UT:ut_pet_traffic:path-i-traffic-offense-expungement-or-deletion and route selection ut-traffic-direct-court-no-bci."},
+        "SOURCE_IDENTITY": {"measured": true, "result": "PASS", "finding": "All five bound official forms and both additional cited authorities were rehashed from the mounted source bytes; every digest and byte length matches the current receipt or build finding."},
+        "COMPONENT_SET": {"measured": true, "result": "PASS", "finding": "Both nine-page manifests contain the complete five-form sequence: 1002EX, 1022EX, 1044XX, 1146XX and 1148XX."},
+        "KNOWN_PREFILLS": {"measured": true, "result": "PASS", "finding": "The focused current-byte completeness reread found all declared writes present; knownRequiredFieldsMissing and invisibleWrites are zero."},
+        "REQUIRED_BEFORE_FILING": {"measured": true, "result": "PASS", "finding": "The instructions disclose the participant-supplied court details, public-interest explanation, signatures and dates, conditional recipient material, and post-service facts; requiredFactsNotCollected and unclassifiedBlanks are zero."},
+        "ROUTE_OPTIONS": {"measured": true, "result": "PASS", "finding": "The direct traffic route and its route-determined selections remain explicit; requiredOptionsMissing is zero."},
+        "REPEATING_ROWS": {"measured": true, "result": "PASS", "finding": "The current-byte completeness reread found no incomplete repeating row."},
+        "PROTECTED_FIELDS": {"measured": true, "result": "PASS", "finding": "Signature, service-event, court, agency, prosecutor, victim and third-party fields remain protected; protectedWrites is zero."},
+        "ARTIFACTS": {"measured": true, "result": "PASS", "finding": "Canonical and boundary PDFs independently match their current SHA-256 values, byte lengths and nine-page parser counts."},
+        "PAGE_ORDER": {"measured": true, "result": "PASS", "finding": "Both manifests are contiguous from pages 1 through 9 and preserve the five-form source-page order."},
+        "CLIPPING_AND_OVERLAP": {"measured": true, "result": "PASS", "finding": "Admitted run 33850403312 binds both current PDFs, measures all 18 pages, reports zero problems and covers the whole family."},
+        "FILING_DESTINATION": {"measured": true, "result": "PASS", "finding": "The instructions direct filing with the Utah district court for the county where the case was heard and identify the court clerk as the authority for the remaining venue details."},
+        "FEE_AND_WAIVER": {"measured": true, "result": "PASS", "finding": "The unsupported fee assertion is absent: the instructions expressly say the packet does not publish a filing fee and direct the participant to the named district-court clerk for the current amount. The only $150 reference is attributed to the exact printed row on enclosed official form 1044XX rev. 2026-05-06 and expressly disclaimed as a certification of the current fee. The 1305GE waiver route is preserved."},
+        "SERVICE": {"measured": true, "result": "PASS", "finding": "The prosecutor recipient, mail-or-email guidance, post-service completion rule and clerk or Utah Courts Self-Help confirmation instruction are preserved."},
+        "SELF_HELP_STOP": {"measured": true, "result": "PASS", "finding": "The packet states that it is not legal advice, is not filed for the participant and does not decide whether the court will grant expungement; protected acts remain assigned to their authorized actors."}
+      },
+      "failedProofObligations": [],
+      "unmeasuredObligations": [],
+      "evidenceRead": [
+        "current family tree and both exact PDF artifacts at c28d49571e86efb3dee1fa46d45369ed8f7528fa",
+        "entry build script and shared Utah build host at the same base",
+        "source-receipt.json plus all five bound source files and two additional cited source files",
+        "production-field-map.json, product-wiring.json, actual-writes.json and the focused nine-counter completeness result",
+        "participant-instructions.md and admitted RASTER_PASS run 33850403312"
+      ]
+    }
+  ],
+  "packetOrRasterBytesModified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false
+}

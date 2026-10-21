@@ -1,0 +1,928 @@
+{
+  "schemaVersion": "rcap-grade-a-packet-factory-24h-repair-return/v1",
+  "assignmentId": "FIX10",
+  "worker": "FABLE-R21",
+  "laneKind": "repair",
+  "baseSha": "8cc629cff07644435d85e3e1de7571055f885512",
+  "familiesAssigned": 7,
+  "familiesRepaired": 7,
+  "familiesReleased": [
+    "wa_vac_cannabis-set",
+    "wa_vac_misdemeanor_ordinary-set",
+    "wa_vac_survivor_felony-set",
+    "wa_vac_survivor_misdemeanor-set"
+  ],
+  "familiesHeld": [
+    "wa_vac_homicide_victim_prostitution-set",
+    "wa_vac_substance_use_disorder-set",
+    "wa_vac_treaty_fishing-set"
+  ],
+  "nineCountersZeroOn": [
+    "wa_vac_cannabis-set",
+    "wa_vac_homicide_victim_prostitution-set",
+    "wa_vac_misdemeanor_ordinary-set",
+    "wa_vac_substance_use_disorder-set",
+    "wa_vac_survivor_felony-set",
+    "wa_vac_survivor_misdemeanor-set",
+    "wa_vac_treaty_fishing-set"
+  ],
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "packetPdfBytesModified": 0,
+  "sharedHostWriters": "This lane was the only writer on scripts/build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs.",
+  "preflight": "Master Library restored from the pinned release asset; archive sha256 matches the pin. verify-packet-build-environment.mjs: master_library_mounted ok, master_library_complete ok (501 files, 329 PDFs, 51 jurisdictions), corpus_matches_committed_index ok (24 sampled entries byte-exact), family_sources_bind ok 2/2 by exact SHA-256.",
+  "laneSummary": "One correction to one shared host repaired the same defect in all seven families. The host used to end its participant instructions with a sentence that named no court, no fee, no waiver route, no service recipient and no method, and that told the participant the route controls recorded as unresolved three facts those controls record. It now derives the three obligations from the committed route obligation census, the committed worklist and the route's own pinned official instruction sheet: it STATES the filing destination and the service recipient, method and timing, because the repository holds them, and for the filing fee and any waiver route it states that nothing held answers the question and names the clerk of the stated court. Not one fee figure was invented, and the searches that found nothing are recorded per family with what was found and why it does not answer this route. Two families are held on route-election legal inputs this lane found and recorded rather than repaired away, and one on the fact that its route's own official instruments are not pinned.",
+  "theTwoControlFamilies": {
+    "families": [
+      "wa_vac_domestic_violence-set",
+      "wa_vac_felony-set"
+    ],
+    "whyTheyAreHere": "Both import the same host and neither is this lane's to move. Both were rebuilt off the corrected host and their rendered PDF artifact SHA-256s were recomputed from disk and compared to the committed reports/rendered-artifacts.json.",
+    "result": "UNCHANGED. All eight PDF artifacts across the two families hash identically before and after. wa_vac_felony-set's hash-bound raster receipt still binds: its pinned canonical and boundary PDFs hash to the bytes on disk, and its queue row remains RASTER_PASS.",
+    "domesticViolence": [
+      "CRRLJ-09.0100 canonical 42e4e3447e6f49cc925cf52485e0861261e5de714c91c672d5d71014d624d48e (unchanged)",
+      "CRRLJ-09.0100 boundary fd2d21f7ca98376dd4c6ce63af548002b808b04ab388bc477f093370df5ea445 (unchanged)",
+      "CRRLJ-09.0200 canonical 3abc2475b78da8cff2445a99a78fa7aa18641d4c27f17d0c5eea3d6f07e40ce7 (unchanged)",
+      "CRRLJ-09.0200 boundary 4d844aece78a8ae1c1e97407edd305f45dbdaa2c509f8e55ef51fef03bcb3a55 (unchanged)"
+    ],
+    "felony": [
+      "CR-08.0900 canonical 5cf52336e302beedc601c9bb7ad947955b5a123a187fcad32d4635ebaf593010 (unchanged)",
+      "CR-08.0900 boundary 1569728067f189c0b6da9bbf4d06ff1305fb8ce3adbb59a586f0cdac0a19ae3b (unchanged)",
+      "CR-08.0920 canonical 1c715d2be4cfa5398a82fad6999570e1502a607a3f939061f01710f443d5e6eb (unchanged)",
+      "CR-08.0920 boundary e5014e2e979599132c6232fae1b94fe8dd271eef6a63c113e42a886377840721 (unchanged)"
+    ],
+    "whatDidChangeForThem": "Their participant-facing records only: participant-completion-instructions.json, build-findings.json and a new filing-obligations.json. Their verified state is untouched and this lane does not restate it."
+  },
+  "rasterPngDrift": {
+    "finding": "Rebuilding on this runner reproduces every PDF byte-for-byte but re-renders some raster PNGs differently: same dimensions, same DPI, roughly 8% of pixel bytes differing at glyph edges. It affects the seven repaired families and neither control.",
+    "provedEnvironmental": "Reproduced with the UNMODIFIED host at the base commit before any edit was kept, so it is this runner's Poppler (pdftoppm 24.02.0), not this repair.",
+    "whatWasDone": "The re-rendered PNGs and the raster rows of reports/rendered-artifacts.json were discarded and the committed bytes restored, so the branch keeps exactly the pixels the visual gate proved. Committing them would have churned 74 receipts for no change in what the packet delivers.",
+    "forCaptain": "Worth pinning the rasterizer version the way the corpus is pinned, or the next lane on a different runner will silently rewrite receipts."
+  },
+  "boundariesRaisedNotDecided": [
+    {
+      "question": "Does an official instruction sheet that the family does not BIND, but that is pinned by SHA-256 in the committed corpus index, count as held under DET-FEE-AND-WAIVER-001-A2?",
+      "whyItMatters": "SERVICE method and timing for all nine families rests on it. A2's whatCountsAsHeld lists the bound sources, the compiled profile, the track registry, the packet-set manifest and anything the route census names as a requiredSourceId. CrRLJ 09.0300 and CR 08.0930 are none of those by name, but they are the court system's own instructions for these exact routes, they are pinned in the committed corpus index, and this lane re-hashed their bytes before quoting them.",
+      "whatThisLaneDid": "Treated them as held and said so in the open, in every filing-obligations.json. If Captain reads A2's list as closed, SERVICE method and timing on all nine falls back to naming the clerk, which is a one-line change to one function in the host and no change to any packet byte.",
+      "raisedNotAssumed": true
+    },
+    {
+      "question": "wa_vac_treaty_fishing-set's worklist records that its route reaches felonies as well as misdemeanours, so the destination may be a superior court. The family binds the CrRLJ courts-of-limited-jurisdiction forms and this lane therefore cites the CrRLJ instruction sheet for its service rule.",
+      "whyItMatters": "Under A3 the CrRLJ sheet does not answer a superior-court felony filing. The packet's stated service rule is right for the misdemeanour case and unestablished for the felony case.",
+      "whatThisLaneDid": "Recorded it here and in the family's route-options-block.json rather than papering it over. It is one more reason the family is held.",
+      "raisedNotAssumed": true
+    }
+  ],
+  "whatCouldNotBeEstablished": [
+    "No court filing fee and no fee-waiver route for any of the seven routes. Nothing in the bound forms, the official instruction sheets, the compiled Washington profile, the state pack or the committed worklist states one. The state pack calls it a source gap in those words. This lane did not close it and did not pretend to.",
+    "Whether CrRLJ 09.0100's printed grounds reach RCW 9.96.060(4), (6) or (7). Three families turn on it and it is a counsel question.",
+    "Whether CR 09.0500/09.0600/09.0700 can be acquired as official PDFs. They exist in the corpus only as revision-UNKNOWN .doc files outside the committed index.",
+    "The raster PNG receipts themselves were not read; this lane checked the receipt chain and the hash binding, not the pixels."
+  ],
+  "grantsNothing": "A repair is not a promotion. No family here is proven, no route is opened, and the four PASS verdicts are a repairer's reading awaiting an independent one.",
+  "rows": [
+    {
+      "itemId": "wa_vac_cannabis-set",
+      "verdict": "PASS",
+      "laneKind": "repair",
+      "obligationsAssigned": [
+        "ROUTE_OPTIONS",
+        "FILING_DESTINATION",
+        "FEE_AND_WAIVER",
+        "SERVICE"
+      ],
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "evidence": "The family's route key obligation:track-pathway:WA:wa_vac_cannabis:misdemeanor-cannabis-conviction-vacation resolves in the committed route obligation census, and the build refuses to derive any obligation for a route the census does not carry. The packet's own instructions name the same route key and statute."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "evidence": "Both bound sources hash byte-exact against the committed custody record and the committed corpus index, checked twice: verify-packet-build-environment.mjs --family reports 2/2 source(s) bind by exact SHA-256, and loadDocuments re-hashes and re-counts pages on every build. CRRLJ-09.0800 260367f6930cacc89727fc8a48aa0591b07ad5c7183b6412aa247b1810503d7b; CRRLJ-09.0870 a69335fbbf311f4c92357db5ecb38f931b3409e14f987810247faae2f6295cc3. The Master Library itself was restored from the pinned release asset and its archive hashes to a26e3ca7d52db4460e53c2eddd893109037702f5c8035f2c698a7e16bad84e89, the digest scripts/codex-cloud/setup-packet-factory.sh pins."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "evidence": "Declared and rendered sets are identical (CRRLJ-09.0800, CRRLJ-09.0870), and assertCompleteRenderInventory refuses any fixture, artifact, report or raster row that is not exactly one per document per fixture. Verifier requiredComponentsMissing 0."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "evidence": "Focused verifier returns PASS_COMPLETE with knownRequiredFieldsMissing 0 and requiredFactsNotCollected 0; every written value is re-read out of the finalized artifact's own glyphs and compared to the fixture fact before the build is allowed to finish."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "evidence": "Zero of the 22 withheld blanks are classified REQUIRED_BEFORE_FILING ({\"PROTECTED_FIELD\":22}), so no participant-disclosure obligation arises from a blank; this was read from the dispositions rather than inferred from the counter. The packet separately tells the participant what to do before filing: schedule the hearing first, make copies, and check local attachment rules."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "evidence": "CrRLJ 09.0800 is the dedicated cannabis petition and its face carries no ground checkbox and no blank naming an RCW ground, so choosing this form IS the route election. The packet says so and cites the official instruction sheet's own direction (CrRLJ 09.0300 section 2.a, 'If you qualify for vacating a cannabis conviction, use form CrRLJ 09.0800'). Verifier requiredOptionsMissing is 0."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "evidence": "Verifier incompleteRows 0. The charge/count/statute rows are written whole or not at all; the build compares every written row cell against the artifact's own glyphs."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "evidence": "protection-report.json records signatureAndCourtFieldsWritten false and selectionControlsMarked false. Verifier protectedWrites 0 and invisibleWrites 0. Added vector paths are multiset-diffed against the source and any unaccounted path is blocking."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "evidence": "All 4 rendered PDFs re-hash from disk to their declared sha256 and byteLength, and each artifact's deterministicSecondRenderSha256 equals its own hash. Recomputed independently by this lane after the repair: CRRLJ-09.0800/canonical 9ccebef430b4a7de3614df3a9796d57524385147e01e82a4e7c186b1cc7088ad; CRRLJ-09.0800/boundary 22c9ec04f47a5ae0222cc4d84e859cf402c7585379fa7337d0243d57c41c8942; CRRLJ-09.0870/canonical 05e54d039621b60c26af09cfc106485a17289ebfbc998774c013d1a2380dedbc; CRRLJ-09.0870/boundary 73a23e0f22cebf5cde9af115504e81118b22ac1f688f0482646159627d758e4e."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "evidence": "Every raster row's page list is 1..n contiguous and its length equals the artifact's page count, which equals the source census page count; the build fails on any gap or reorder."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "evidence": "Verifier visualDefects 0, and the central raster gate's receipt for this family is RASTER_PASS with its pinned canonical and boundary PDFs still hashing to the bytes on disk after this repair (checked in this lane). Ceiling, stated rather than glossed: this lane did not read the PNG receipts inside the workflow artifact, and the raster receipt covers the pinned document pair, not every component."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "evidence": "HELD, so STATED, per A1. The committed route obligation census carries destination {kind: court, name: \"Clerk of the sentencing district or municipal court\"} for this route, and the committed worklist records it a second time. The packet now states it in participant-completion-instructions.json and in participant-instructions.md, and CrRLJ 09.0300 corroborates it. No authority stands in, because the record is not empty."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "evidence": "NOT HELD, so a NAMED CHECKABLE AUTHORITY stands in, per A1 as widened by A2 and bounded by A3. Searched: both bound sources (money language measured at build time from their content streams: 0 lines each); CrRLJ 09.0300, Instructions for Vacating Misdemeanor and Gross Misdemeanor Convictions (07/2022), sha256 42ac9ccb16474172ee3b4076b416e9d949c2dfdbb43edc0cdc734eca299f4176 (0 money lines, measured at build time); the compiled WA profile, whose only fee statements are Washington State Patrol criminal-history record charges ($11 WATCH, $32 mail CHRI, $58 fingerprint card, +$15 notarized, +$12 non-conviction copy, no fee in person) — a different transaction, so A3 bars reading them as this route's filing fee; src/lib/rcap/state-packs/washington/fee-notes.ts, which records the gap explicitly; and the committed worklist, where filingFee and feeWaiverTreatment are both not_recorded. Named instead: Clerk of the sentencing district or municipal court, the clerk's office of the court stated under FILING_DESTINATION, answering whether a fee applies, the amount, and whether a waiver is available. No amount is stated because none is held."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "evidence": "Recipient HELD and STATED: the committed worklist records [\"Serve the prosecuting attorney for the sentencing court\",\"Serve the prosecutor's office for the sentencing court and file proof of service\"]. Method and timing HELD and STATED from the route's own official instruction sheet, CrRLJ 09.0300, Instructions for Vacating Misdemeanor and Gross Misdemeanor Convictions (07/2022), sha256 42ac9ccb16474172ee3b4076b416e9d949c2dfdbb43edc0cdc734eca299f4176, re-hashed against the committed corpus index at build time and quoted verbatim: \"On the same day that you file those documents with the clerk of the court, you must also provide a copy of each document (the petition and declaration, and the scheduling notice) to the prosecuting attorney’s office that prosecuted you.\" No prosecutor directory is carried on this series, because the CrRLJ sheet does not print one and A3 bars importing the felony sheet's. The worklist's serviceMethod and serviceTiming are not_recorded, so before this repair the packet named nothing; the sheet holds both, so an authority does not stand in here."
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "evidence": "participant-instructions.md carries a \"Where self-help ends\" section: four named stops: wrong route or court, under 21 at the offence or unsure the offence qualifies, prosecutor objection, and any mismatch with the court record. The build now refuses to finish if the committed instructions stop stating any of these four obligations, so the section cannot silently disappear on a rebuild."
+        }
+      },
+      "whatWasRepaired": {
+        "theOneSharedCorrection": "scripts/build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs",
+        "before": "participant-completion-instructions.json ended with \"Confirm local filing, notice, service, fee, and hearing requirements with the sentencing court before filing. The route controls record local variation as unresolved.\" — the verbatim sentence every verifier matched. It named no court, no fee, no waiver route, no recipient and no method, and it told the participant the route controls record as unresolved three facts those controls in fact record.",
+        "after": "The host derives FILING_DESTINATION, FEE_AND_WAIVER and SERVICE from the committed route obligation census, the committed worklist and the route's own pinned official instruction sheet, writes them to a new filing-obligations.json, and writes them as participant-facing sentences. One derivation for all nine families; nothing is keyed to a family id and there is no per-family whitelist.",
+        "alsoCorrected": "build-findings.json carried the same A4 denial in its advisories — it asserted the worklist recorded filing, notice, service, fee and hearing variation as unresolved. It now says which of those the packet states and which is genuinely open.",
+        "theSilentForm": "The host preserved participant-instructions.md when it existed and wrote none when it did not, so a family could ship no instructions at all and no gate noticed. It now generates one from the same derived data when none exists, and verifies a committed one against the four obligations instead of overwriting it — so an earlier lane's better, source-cited prose survives a rebuild and a rebuild cannot quietly drop an obligation.",
+        "whatWasNotInvented": "No fee figure, no waiver rule and no service recipient was written that is not read out of a committed record or measured from pinned source bytes in this run. Where nothing is held, the packet says nothing is held and names an office."
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "completenessResult": "PASS_COMPLETE",
+      "countersNote": "Nine counters at zero is necessary and not sufficient: none of FILING_DESTINATION, FEE_AND_WAIVER, SERVICE or SELF_HELP_STOP is a counter, and all four were failing while all nine were already zero.",
+      "pdfArtifactHashes": [
+        {
+          "document": "CRRLJ-09.0800",
+          "fixture": "canonical",
+          "sha256": "9ccebef430b4a7de3614df3a9796d57524385147e01e82a4e7c186b1cc7088ad"
+        },
+        {
+          "document": "CRRLJ-09.0800",
+          "fixture": "boundary",
+          "sha256": "22c9ec04f47a5ae0222cc4d84e859cf402c7585379fa7337d0243d57c41c8942"
+        },
+        {
+          "document": "CRRLJ-09.0870",
+          "fixture": "canonical",
+          "sha256": "05e54d039621b60c26af09cfc106485a17289ebfbc998774c013d1a2380dedbc"
+        },
+        {
+          "document": "CRRLJ-09.0870",
+          "fixture": "boundary",
+          "sha256": "73a23e0f22cebf5cde9af115504e81118b22ac1f688f0482646159627d758e4e"
+        }
+      ],
+      "pdfBytesMoved": false,
+      "pdfBytesNote": "This repair writes JSON and Markdown beside the packet. No overlay geometry, no fact, no election and no rendered PDF byte changed; every artifact hash is identical to the committed one.",
+      "claimReleased": true,
+      "ceiling": "This is a repairer's reading of its own work. It is not an independent verification, it promotes nothing, and it opens no commercial route. An independent lane reads these families afterwards."
+    },
+    {
+      "itemId": "wa_vac_misdemeanor_ordinary-set",
+      "verdict": "PASS",
+      "laneKind": "repair",
+      "obligationsAssigned": [
+        "FILING_DESTINATION",
+        "FEE_AND_WAIVER",
+        "SERVICE",
+        "SELF_HELP_STOP"
+      ],
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "evidence": "The family's route key obligation:track-only:WA:wa_vac_misdemeanor_ordinary resolves in the committed route obligation census, and the build refuses to derive any obligation for a route the census does not carry. The packet's own instructions name the same route key and statute."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "evidence": "Both bound sources hash byte-exact against the committed custody record and the committed corpus index, checked twice: verify-packet-build-environment.mjs --family reports 2/2 source(s) bind by exact SHA-256, and loadDocuments re-hashes and re-counts pages on every build. CRRLJ-09.0100 1f72e901e93d576cf6c7ecad910d253da65b6af1a89ca75304c9739fa159909b; CRRLJ-09.0200 b53035ddc5ea31aa9bd6816d5f157a58c8c8201db8e4a2cbb15f9874b4c851f2. The Master Library itself was restored from the pinned release asset and its archive hashes to a26e3ca7d52db4460e53c2eddd893109037702f5c8035f2c698a7e16bad84e89, the digest scripts/codex-cloud/setup-packet-factory.sh pins."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "evidence": "Declared and rendered sets are identical (CRRLJ-09.0100, CRRLJ-09.0200), and assertCompleteRenderInventory refuses any fixture, artifact, report or raster row that is not exactly one per document per fixture. Verifier requiredComponentsMissing 0."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "evidence": "Focused verifier returns PASS_COMPLETE with knownRequiredFieldsMissing 0 and requiredFactsNotCollected 0; every written value is re-read out of the finalized artifact's own glyphs and compared to the fixture fact before the build is allowed to finish."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "evidence": "Zero of the 43 withheld blanks are classified REQUIRED_BEFORE_FILING ({\"PROTECTED_FIELD\":37,\"PARTICIPANT_ELECTION_GENUINE\":6}), so no participant-disclosure obligation arises from a blank; this was read from the dispositions rather than inferred from the counter. The packet separately tells the participant what to do before filing: schedule the hearing first, make copies, and check local attachment rules."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "evidence": "The petition's four printed grounds are sections 3, 5, 6 and 7, read first-hand from the pinned bytes. The packet names section 7 (offenses not otherwise specified) as this route's declaration, cites CrRLJ 09.0300 section 2.c, and marks nothing. Verifier requiredOptionsMissing is 0."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "evidence": "Verifier incompleteRows 0. The charge/count/statute rows are written whole or not at all; the build compares every written row cell against the artifact's own glyphs."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "evidence": "protection-report.json records signatureAndCourtFieldsWritten false and selectionControlsMarked false. Verifier protectedWrites 0 and invisibleWrites 0. Added vector paths are multiset-diffed against the source and any unaccounted path is blocking."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "evidence": "All 4 rendered PDFs re-hash from disk to their declared sha256 and byteLength, and each artifact's deterministicSecondRenderSha256 equals its own hash. Recomputed independently by this lane after the repair: CRRLJ-09.0100/canonical 846360e75578ce6233dba77b03b25545a529b50cd553ad31f88d3008b429a6ad; CRRLJ-09.0100/boundary 75fac347051d6b710015ef5bbcc10b43df0a1de59078195ede75a744f4c42b77; CRRLJ-09.0200/canonical 3abc2475b78da8cff2445a99a78fa7aa18641d4c27f17d0c5eea3d6f07e40ce7; CRRLJ-09.0200/boundary 4d844aece78a8ae1c1e97407edd305f45dbdaa2c509f8e55ef51fef03bcb3a55."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "evidence": "Every raster row's page list is 1..n contiguous and its length equals the artifact's page count, which equals the source census page count; the build fails on any gap or reorder."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "evidence": "Verifier visualDefects 0, and the central raster gate's receipt for this family is RASTER_PASS with its pinned canonical and boundary PDFs still hashing to the bytes on disk after this repair (checked in this lane). Ceiling, stated rather than glossed: this lane did not read the PNG receipts inside the workflow artifact, and the raster receipt covers the pinned document pair, not every component."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "evidence": "HELD, so STATED, per A1. The committed route obligation census carries destination {kind: court, name: \"Clerk of the sentencing district or municipal court\"} for this route, and the committed worklist records it a second time. The packet now states it in participant-completion-instructions.json and in participant-instructions.md, and CrRLJ 09.0300 corroborates it. No authority stands in, because the record is not empty."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "evidence": "NOT HELD, so a NAMED CHECKABLE AUTHORITY stands in, per A1 as widened by A2 and bounded by A3. Searched: both bound sources (money language measured at build time from their content streams: 0 lines each); CrRLJ 09.0300, Instructions for Vacating Misdemeanor and Gross Misdemeanor Convictions (07/2022), sha256 42ac9ccb16474172ee3b4076b416e9d949c2dfdbb43edc0cdc734eca299f4176 (0 money lines, measured at build time); the compiled WA profile, whose only fee statements are Washington State Patrol criminal-history record charges ($11 WATCH, $32 mail CHRI, $58 fingerprint card, +$15 notarized, +$12 non-conviction copy, no fee in person) — a different transaction, so A3 bars reading them as this route's filing fee; src/lib/rcap/state-packs/washington/fee-notes.ts, which records the gap explicitly; and the committed worklist, where filingFee and feeWaiverTreatment are both not_recorded. Named instead: Clerk of the sentencing district or municipal court, the clerk's office of the court stated under FILING_DESTINATION, answering whether a fee applies, the amount, and whether a waiver is available. No amount is stated because none is held."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "evidence": "Recipient HELD and STATED: the committed worklist records [\"Serve the prosecuting attorney for the sentencing court\",\"Serve the prosecutor's office for the sentencing court and file proof of service\"]. Method and timing HELD and STATED from the route's own official instruction sheet, CrRLJ 09.0300, Instructions for Vacating Misdemeanor and Gross Misdemeanor Convictions (07/2022), sha256 42ac9ccb16474172ee3b4076b416e9d949c2dfdbb43edc0cdc734eca299f4176, re-hashed against the committed corpus index at build time and quoted verbatim: \"On the same day that you file those documents with the clerk of the court, you must also provide a copy of each document (the petition and declaration, and the scheduling notice) to the prosecuting attorney’s office that prosecuted you.\" No prosecutor directory is carried on this series, because the CrRLJ sheet does not print one and A3 bars importing the felony sheet's. The worklist's serviceMethod and serviceTiming are not_recorded, so before this repair the packet named nothing; the sheet holds both, so an authority does not stand in here."
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "evidence": "participant-instructions.md carries a \"Where self-help ends\" section: named stops including wrong route or court, prosecutor objection and record mismatch, alongside the section-7 explanation. The build now refuses to finish if the committed instructions stop stating any of these four obligations, so the section cannot silently disappear on a rebuild."
+        }
+      },
+      "whatWasRepaired": {
+        "theOneSharedCorrection": "scripts/build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs",
+        "before": "participant-completion-instructions.json ended with \"Confirm local filing, notice, service, fee, and hearing requirements with the sentencing court before filing. The route controls record local variation as unresolved.\" — the verbatim sentence every verifier matched. It named no court, no fee, no waiver route, no recipient and no method, and it told the participant the route controls record as unresolved three facts those controls in fact record.",
+        "after": "The host derives FILING_DESTINATION, FEE_AND_WAIVER and SERVICE from the committed route obligation census, the committed worklist and the route's own pinned official instruction sheet, writes them to a new filing-obligations.json, and writes them as participant-facing sentences. One derivation for all nine families; nothing is keyed to a family id and there is no per-family whitelist.",
+        "alsoCorrected": "build-findings.json carried the same A4 denial in its advisories — it asserted the worklist recorded filing, notice, service, fee and hearing variation as unresolved. It now says which of those the packet states and which is genuinely open.",
+        "theSilentForm": "The host preserved participant-instructions.md when it existed and wrote none when it did not, so a family could ship no instructions at all and no gate noticed. It now generates one from the same derived data when none exists, and verifies a committed one against the four obligations instead of overwriting it — so an earlier lane's better, source-cited prose survives a rebuild and a rebuild cannot quietly drop an obligation.",
+        "whatWasNotInvented": "No fee figure, no waiver rule and no service recipient was written that is not read out of a committed record or measured from pinned source bytes in this run. Where nothing is held, the packet says nothing is held and names an office."
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "completenessResult": "PASS_COMPLETE",
+      "countersNote": "Nine counters at zero is necessary and not sufficient: none of FILING_DESTINATION, FEE_AND_WAIVER, SERVICE or SELF_HELP_STOP is a counter, and all four were failing while all nine were already zero.",
+      "pdfArtifactHashes": [
+        {
+          "document": "CRRLJ-09.0100",
+          "fixture": "canonical",
+          "sha256": "846360e75578ce6233dba77b03b25545a529b50cd553ad31f88d3008b429a6ad"
+        },
+        {
+          "document": "CRRLJ-09.0100",
+          "fixture": "boundary",
+          "sha256": "75fac347051d6b710015ef5bbcc10b43df0a1de59078195ede75a744f4c42b77"
+        },
+        {
+          "document": "CRRLJ-09.0200",
+          "fixture": "canonical",
+          "sha256": "3abc2475b78da8cff2445a99a78fa7aa18641d4c27f17d0c5eea3d6f07e40ce7"
+        },
+        {
+          "document": "CRRLJ-09.0200",
+          "fixture": "boundary",
+          "sha256": "4d844aece78a8ae1c1e97407edd305f45dbdaa2c509f8e55ef51fef03bcb3a55"
+        }
+      ],
+      "pdfBytesMoved": false,
+      "pdfBytesNote": "This repair writes JSON and Markdown beside the packet. No overlay geometry, no fact, no election and no rendered PDF byte changed; every artifact hash is identical to the committed one.",
+      "claimReleased": true,
+      "ceiling": "This is a repairer's reading of its own work. It is not an independent verification, it promotes nothing, and it opens no commercial route. An independent lane reads these families afterwards."
+    },
+    {
+      "itemId": "wa_vac_survivor_felony-set",
+      "verdict": "PASS",
+      "laneKind": "repair",
+      "obligationsAssigned": [
+        "FILING_DESTINATION",
+        "FEE_AND_WAIVER",
+        "SERVICE",
+        "SELF_HELP_STOP"
+      ],
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "evidence": "The family's route key obligation:track-pathway:WA:wa_vac_survivor_felony:victim-survivor-conviction-vacation-route resolves in the committed route obligation census, and the build refuses to derive any obligation for a route the census does not carry. The packet's own instructions name the same route key and statute."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "evidence": "Both bound sources hash byte-exact against the committed custody record and the committed corpus index, checked twice: verify-packet-build-environment.mjs --family reports 2/2 source(s) bind by exact SHA-256, and loadDocuments re-hashes and re-counts pages on every build. CR-08.0900 ec8b175e3a2ccfdf247328822b7ed8ac570dacd27c8b728d09a10eca05c6559e; CR-08.0920 e5ccd2e0847fc9b0c2b54ef4ff75fd8d500b7b2af5a9eed963dd3855bb0226db. The Master Library itself was restored from the pinned release asset and its archive hashes to a26e3ca7d52db4460e53c2eddd893109037702f5c8035f2c698a7e16bad84e89, the digest scripts/codex-cloud/setup-packet-factory.sh pins."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "evidence": "Declared and rendered sets are identical (CR-08.0900, CR-08.0920), and assertCompleteRenderInventory refuses any fixture, artifact, report or raster row that is not exactly one per document per fixture. Verifier requiredComponentsMissing 0."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "evidence": "Focused verifier returns PASS_COMPLETE with knownRequiredFieldsMissing 0 and requiredFactsNotCollected 0; every written value is re-read out of the finalized artifact's own glyphs and compared to the fixture fact before the build is allowed to finish."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "evidence": "Zero of the 33 withheld blanks are classified REQUIRED_BEFORE_FILING ({\"PROTECTED_FIELD\":21,\"PARTICIPANT_ELECTION_GENUINE\":12}), so no participant-disclosure obligation arises from a blank; this was read from the dispositions rather than inferred from the counter. The packet separately tells the participant what to do before filing: schedule the hearing first, make copies, and check local attachment rules."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "evidence": "CR 08.0900 section 6 offers three alternatives and the packet names the third, 'Victim of certain crimes', as this route's ground, with the eligibility conditions quoted from CR 08.0930. It marks nothing; twelve controls stay PARTICIPANT_ELECTION_GENUINE."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "evidence": "Verifier incompleteRows 0. The charge/count/statute rows are written whole or not at all; the build compares every written row cell against the artifact's own glyphs."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "evidence": "protection-report.json records signatureAndCourtFieldsWritten false and selectionControlsMarked false. Verifier protectedWrites 0 and invisibleWrites 0. Added vector paths are multiset-diffed against the source and any unaccounted path is blocking."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "evidence": "All 4 rendered PDFs re-hash from disk to their declared sha256 and byteLength, and each artifact's deterministicSecondRenderSha256 equals its own hash. Recomputed independently by this lane after the repair: CR-08.0900/canonical 3c40568209578ca04893ce46b64539a44af355dc11bd75b7daee75d215eda37f; CR-08.0900/boundary 2da76cc75f1ccd72cc12fdefef71edb90f477199877714e3263d9b46a4fccc8d; CR-08.0920/canonical 1c715d2be4cfa5398a82fad6999570e1502a607a3f939061f01710f443d5e6eb; CR-08.0920/boundary e5014e2e979599132c6232fae1b94fe8dd271eef6a63c113e42a886377840721."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "evidence": "Every raster row's page list is 1..n contiguous and its length equals the artifact's page count, which equals the source census page count; the build fails on any gap or reorder."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "evidence": "Verifier visualDefects 0, and the central raster gate's receipt for this family is RASTER_PASS with its pinned canonical and boundary PDFs still hashing to the bytes on disk after this repair (checked in this lane). Ceiling, stated rather than glossed: this lane did not read the PNG receipts inside the workflow artifact, and the raster receipt covers the pinned document pair, not every component."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "evidence": "HELD, so STATED, per A1. The committed route obligation census carries destination {kind: court, name: \"Clerk of the sentencing superior court\"} for this route, and the committed worklist records it a second time. The packet now states it in participant-completion-instructions.json and in participant-instructions.md, and CR 08.0930 corroborates it. No authority stands in, because the record is not empty."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "evidence": "NOT HELD, so a NAMED CHECKABLE AUTHORITY stands in, per A1 as widened by A2 and bounded by A3. Searched: both bound sources (money language measured at build time from their content streams: 0 lines each); CR 08.0930, Vacating Record of Felony Conviction information sheet (01/2023), sha256 17e2fdfceb0823387f25dd285276c2b06778f73e10d76180dfb2ee2d6f030a00 (0 money lines, measured at build time); the compiled WA profile, whose only fee statements are Washington State Patrol criminal-history record charges ($11 WATCH, $32 mail CHRI, $58 fingerprint card, +$15 notarized, +$12 non-conviction copy, no fee in person) — a different transaction, so A3 bars reading them as this route's filing fee; src/lib/rcap/state-packs/washington/fee-notes.ts, which records the gap explicitly; and the committed worklist, where filingFee and feeWaiverTreatment are both not_recorded. Named instead: Clerk of the sentencing superior court, the clerk's office of the court stated under FILING_DESTINATION, answering whether a fee applies, the amount, and whether a waiver is available. No amount is stated because none is held."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "evidence": "Recipient HELD and STATED: the committed worklist records [\"Serve the prosecuting attorney for the sentencing court\",\"Serve the prosecutor's office for the sentencing court and file proof of service\"]. Method and timing HELD and STATED from the route's own official instruction sheet, CR 08.0930, Vacating Record of Felony Conviction information sheet (01/2023), sha256 17e2fdfceb0823387f25dd285276c2b06778f73e10d76180dfb2ee2d6f030a00, re-hashed against the committed corpus index at build time and quoted verbatim: \"On the same day that you file those documents with the clerk of the court, you must also provide a copy of the motion and notice documents to the prosecuting attorney’s office that prosecuted you.\" The same sheet prints a directory for reaching the office, which this packet passes on: https://waprosecutors.org/prosecutordirectory/. Under A3 that directory is carried only on the form series whose own sheet prints it. The worklist's serviceMethod and serviceTiming are not_recorded, so before this repair the packet named nothing; the sheet holds both, so an authority does not stand in here."
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "evidence": "participant-instructions.md carries a \"Where self-help ends\" section: named stops plus the victim-facts statement the participant must write and the certificate-of-discharge question. The build now refuses to finish if the committed instructions stop stating any of these four obligations, so the section cannot silently disappear on a rebuild."
+        }
+      },
+      "whatWasRepaired": {
+        "theOneSharedCorrection": "scripts/build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs",
+        "before": "participant-completion-instructions.json ended with \"Confirm local filing, notice, service, fee, and hearing requirements with the sentencing court before filing. The route controls record local variation as unresolved.\" — the verbatim sentence every verifier matched. It named no court, no fee, no waiver route, no recipient and no method, and it told the participant the route controls record as unresolved three facts those controls in fact record.",
+        "after": "The host derives FILING_DESTINATION, FEE_AND_WAIVER and SERVICE from the committed route obligation census, the committed worklist and the route's own pinned official instruction sheet, writes them to a new filing-obligations.json, and writes them as participant-facing sentences. One derivation for all nine families; nothing is keyed to a family id and there is no per-family whitelist.",
+        "alsoCorrected": "build-findings.json carried the same A4 denial in its advisories — it asserted the worklist recorded filing, notice, service, fee and hearing variation as unresolved. It now says which of those the packet states and which is genuinely open.",
+        "theSilentForm": "The host preserved participant-instructions.md when it existed and wrote none when it did not, so a family could ship no instructions at all and no gate noticed. It now generates one from the same derived data when none exists, and verifies a committed one against the four obligations instead of overwriting it — so an earlier lane's better, source-cited prose survives a rebuild and a rebuild cannot quietly drop an obligation.",
+        "whatWasNotInvented": "No fee figure, no waiver rule and no service recipient was written that is not read out of a committed record or measured from pinned source bytes in this run. Where nothing is held, the packet says nothing is held and names an office."
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "completenessResult": "PASS_COMPLETE",
+      "countersNote": "Nine counters at zero is necessary and not sufficient: none of FILING_DESTINATION, FEE_AND_WAIVER, SERVICE or SELF_HELP_STOP is a counter, and all four were failing while all nine were already zero.",
+      "pdfArtifactHashes": [
+        {
+          "document": "CR-08.0900",
+          "fixture": "canonical",
+          "sha256": "3c40568209578ca04893ce46b64539a44af355dc11bd75b7daee75d215eda37f"
+        },
+        {
+          "document": "CR-08.0900",
+          "fixture": "boundary",
+          "sha256": "2da76cc75f1ccd72cc12fdefef71edb90f477199877714e3263d9b46a4fccc8d"
+        },
+        {
+          "document": "CR-08.0920",
+          "fixture": "canonical",
+          "sha256": "1c715d2be4cfa5398a82fad6999570e1502a607a3f939061f01710f443d5e6eb"
+        },
+        {
+          "document": "CR-08.0920",
+          "fixture": "boundary",
+          "sha256": "e5014e2e979599132c6232fae1b94fe8dd271eef6a63c113e42a886377840721"
+        }
+      ],
+      "pdfBytesMoved": false,
+      "pdfBytesNote": "This repair writes JSON and Markdown beside the packet. No overlay geometry, no fact, no election and no rendered PDF byte changed; every artifact hash is identical to the committed one.",
+      "claimReleased": true,
+      "ceiling": "This is a repairer's reading of its own work. It is not an independent verification, it promotes nothing, and it opens no commercial route. An independent lane reads these families afterwards."
+    },
+    {
+      "itemId": "wa_vac_survivor_misdemeanor-set",
+      "verdict": "PASS",
+      "laneKind": "repair",
+      "obligationsAssigned": [
+        "FILING_DESTINATION",
+        "FEE_AND_WAIVER",
+        "SERVICE",
+        "SELF_HELP_STOP"
+      ],
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "evidence": "The family's route key obligation:track-pathway:WA:wa_vac_survivor_misdemeanor:victim-survivor-conviction-vacation-route resolves in the committed route obligation census, and the build refuses to derive any obligation for a route the census does not carry. The packet's own instructions name the same route key and statute."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "evidence": "Both bound sources hash byte-exact against the committed custody record and the committed corpus index, checked twice: verify-packet-build-environment.mjs --family reports 2/2 source(s) bind by exact SHA-256, and loadDocuments re-hashes and re-counts pages on every build. CRRLJ-09.0100 1f72e901e93d576cf6c7ecad910d253da65b6af1a89ca75304c9739fa159909b; CRRLJ-09.0200 b53035ddc5ea31aa9bd6816d5f157a58c8c8201db8e4a2cbb15f9874b4c851f2. The Master Library itself was restored from the pinned release asset and its archive hashes to a26e3ca7d52db4460e53c2eddd893109037702f5c8035f2c698a7e16bad84e89, the digest scripts/codex-cloud/setup-packet-factory.sh pins."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "evidence": "Declared and rendered sets are identical (CRRLJ-09.0100, CRRLJ-09.0200), and assertCompleteRenderInventory refuses any fixture, artifact, report or raster row that is not exactly one per document per fixture. Verifier requiredComponentsMissing 0."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "evidence": "Focused verifier returns PASS_COMPLETE with knownRequiredFieldsMissing 0 and requiredFactsNotCollected 0; every written value is re-read out of the finalized artifact's own glyphs and compared to the fixture fact before the build is allowed to finish."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "evidence": "Zero of the 43 withheld blanks are classified REQUIRED_BEFORE_FILING ({\"PROTECTED_FIELD\":37,\"PARTICIPANT_ELECTION_GENUINE\":6}), so no participant-disclosure obligation arises from a blank; this was read from the dispositions rather than inferred from the counter. The packet separately tells the participant what to do before filing: schedule the hearing first, make copies, and check local attachment rules."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "evidence": "The packet names section 3 (Conviction as Victim) as this route's ground and quotes CrRLJ 09.0300 section 2.b directing exactly that, including that the participant may request assistance from the prosecuting authority. It marks nothing; the six ground controls stay PARTICIPANT_ELECTION_GENUINE."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "evidence": "Verifier incompleteRows 0. The charge/count/statute rows are written whole or not at all; the build compares every written row cell against the artifact's own glyphs."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "evidence": "protection-report.json records signatureAndCourtFieldsWritten false and selectionControlsMarked false. Verifier protectedWrites 0 and invisibleWrites 0. Added vector paths are multiset-diffed against the source and any unaccounted path is blocking."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "evidence": "All 4 rendered PDFs re-hash from disk to their declared sha256 and byteLength, and each artifact's deterministicSecondRenderSha256 equals its own hash. Recomputed independently by this lane after the repair: CRRLJ-09.0100/canonical 846360e75578ce6233dba77b03b25545a529b50cd553ad31f88d3008b429a6ad; CRRLJ-09.0100/boundary 75fac347051d6b710015ef5bbcc10b43df0a1de59078195ede75a744f4c42b77; CRRLJ-09.0200/canonical 3abc2475b78da8cff2445a99a78fa7aa18641d4c27f17d0c5eea3d6f07e40ce7; CRRLJ-09.0200/boundary 4d844aece78a8ae1c1e97407edd305f45dbdaa2c509f8e55ef51fef03bcb3a55."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "evidence": "Every raster row's page list is 1..n contiguous and its length equals the artifact's page count, which equals the source census page count; the build fails on any gap or reorder."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "evidence": "Verifier visualDefects 0, and the central raster gate's receipt for this family is RASTER_PASS with its pinned canonical and boundary PDFs still hashing to the bytes on disk after this repair (checked in this lane). Ceiling, stated rather than glossed: this lane did not read the PNG receipts inside the workflow artifact, and the raster receipt covers the pinned document pair, not every component."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "evidence": "HELD, so STATED, per A1. The committed route obligation census carries destination {kind: court, name: \"Clerk of the sentencing district or municipal court\"} for this route, and the committed worklist records it a second time. The packet now states it in participant-completion-instructions.json and in participant-instructions.md, and CrRLJ 09.0300 corroborates it. No authority stands in, because the record is not empty."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "evidence": "NOT HELD, so a NAMED CHECKABLE AUTHORITY stands in, per A1 as widened by A2 and bounded by A3. Searched: both bound sources (money language measured at build time from their content streams: 0 lines each); CrRLJ 09.0300, Instructions for Vacating Misdemeanor and Gross Misdemeanor Convictions (07/2022), sha256 42ac9ccb16474172ee3b4076b416e9d949c2dfdbb43edc0cdc734eca299f4176 (0 money lines, measured at build time); the compiled WA profile, whose only fee statements are Washington State Patrol criminal-history record charges ($11 WATCH, $32 mail CHRI, $58 fingerprint card, +$15 notarized, +$12 non-conviction copy, no fee in person) — a different transaction, so A3 bars reading them as this route's filing fee; src/lib/rcap/state-packs/washington/fee-notes.ts, which records the gap explicitly; and the committed worklist, where filingFee and feeWaiverTreatment are both not_recorded. Named instead: Clerk of the sentencing district or municipal court, the clerk's office of the court stated under FILING_DESTINATION, answering whether a fee applies, the amount, and whether a waiver is available. No amount is stated because none is held."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "evidence": "Recipient HELD and STATED: the committed worklist records [\"Serve the prosecuting attorney for the sentencing court, or work through that office where it files on behalf of the state\",\"Serve the prosecutor's office for the sentencing court and file proof of service\"]. Method and timing HELD and STATED from the route's own official instruction sheet, CrRLJ 09.0300, Instructions for Vacating Misdemeanor and Gross Misdemeanor Convictions (07/2022), sha256 42ac9ccb16474172ee3b4076b416e9d949c2dfdbb43edc0cdc734eca299f4176, re-hashed against the committed corpus index at build time and quoted verbatim: \"On the same day that you file those documents with the clerk of the court, you must also provide a copy of each document (the petition and declaration, and the scheduling notice) to the prosecuting attorney’s office that prosecuted you.\" No prosecutor directory is carried on this series, because the CrRLJ sheet does not print one and A3 bars importing the felony sheet's. The worklist's serviceMethod and serviceTiming are not_recorded, so before this repair the packet named nothing; the sheet holds both, so an authority does not stand in here."
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "evidence": "participant-instructions.md carries a \"Where self-help ends\" section: named stops plus the sworn victim narrative the packet never writes. The build now refuses to finish if the committed instructions stop stating any of these four obligations, so the section cannot silently disappear on a rebuild."
+        }
+      },
+      "whatWasRepaired": {
+        "theOneSharedCorrection": "scripts/build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs",
+        "before": "participant-completion-instructions.json ended with \"Confirm local filing, notice, service, fee, and hearing requirements with the sentencing court before filing. The route controls record local variation as unresolved.\" — the verbatim sentence every verifier matched. It named no court, no fee, no waiver route, no recipient and no method, and it told the participant the route controls record as unresolved three facts those controls in fact record.",
+        "after": "The host derives FILING_DESTINATION, FEE_AND_WAIVER and SERVICE from the committed route obligation census, the committed worklist and the route's own pinned official instruction sheet, writes them to a new filing-obligations.json, and writes them as participant-facing sentences. One derivation for all nine families; nothing is keyed to a family id and there is no per-family whitelist.",
+        "alsoCorrected": "build-findings.json carried the same A4 denial in its advisories — it asserted the worklist recorded filing, notice, service, fee and hearing variation as unresolved. It now says which of those the packet states and which is genuinely open.",
+        "theSilentForm": "The host preserved participant-instructions.md when it existed and wrote none when it did not, so a family could ship no instructions at all and no gate noticed. It now generates one from the same derived data when none exists, and verifies a committed one against the four obligations instead of overwriting it — so an earlier lane's better, source-cited prose survives a rebuild and a rebuild cannot quietly drop an obligation.",
+        "whatWasNotInvented": "No fee figure, no waiver rule and no service recipient was written that is not read out of a committed record or measured from pinned source bytes in this run. Where nothing is held, the packet says nothing is held and names an office."
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "completenessResult": "PASS_COMPLETE",
+      "countersNote": "Nine counters at zero is necessary and not sufficient: none of FILING_DESTINATION, FEE_AND_WAIVER, SERVICE or SELF_HELP_STOP is a counter, and all four were failing while all nine were already zero.",
+      "pdfArtifactHashes": [
+        {
+          "document": "CRRLJ-09.0100",
+          "fixture": "canonical",
+          "sha256": "846360e75578ce6233dba77b03b25545a529b50cd553ad31f88d3008b429a6ad"
+        },
+        {
+          "document": "CRRLJ-09.0100",
+          "fixture": "boundary",
+          "sha256": "75fac347051d6b710015ef5bbcc10b43df0a1de59078195ede75a744f4c42b77"
+        },
+        {
+          "document": "CRRLJ-09.0200",
+          "fixture": "canonical",
+          "sha256": "3abc2475b78da8cff2445a99a78fa7aa18641d4c27f17d0c5eea3d6f07e40ce7"
+        },
+        {
+          "document": "CRRLJ-09.0200",
+          "fixture": "boundary",
+          "sha256": "4d844aece78a8ae1c1e97407edd305f45dbdaa2c509f8e55ef51fef03bcb3a55"
+        }
+      ],
+      "pdfBytesMoved": false,
+      "pdfBytesNote": "This repair writes JSON and Markdown beside the packet. No overlay geometry, no fact, no election and no rendered PDF byte changed; every artifact hash is identical to the committed one.",
+      "claimReleased": true,
+      "ceiling": "This is a repairer's reading of its own work. It is not an independent verification, it promotes nothing, and it opens no commercial route. An independent lane reads these families afterwards."
+    },
+    {
+      "itemId": "wa_vac_homicide_victim_prostitution-set",
+      "verdict": "BLOCKED_LEGAL_INPUT",
+      "laneKind": "repair",
+      "obligationsAssigned": [
+        "ROUTE_OPTIONS",
+        "FILING_DESTINATION",
+        "FEE_AND_WAIVER",
+        "SERVICE"
+      ],
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "evidence": "The family's route key obligation:track-only:WA:wa_vac_homicide_victim_prostitution resolves in the committed route obligation census, and the build refuses to derive any obligation for a route the census does not carry. The packet's own instructions name the same route key and statute."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "evidence": "Both bound sources hash byte-exact against the committed custody record and the committed corpus index, checked twice: verify-packet-build-environment.mjs --family reports 2/2 source(s) bind by exact SHA-256, and loadDocuments re-hashes and re-counts pages on every build. CRRLJ-09.0100 1f72e901e93d576cf6c7ecad910d253da65b6af1a89ca75304c9739fa159909b; CRRLJ-09.0200 b53035ddc5ea31aa9bd6816d5f157a58c8c8201db8e4a2cbb15f9874b4c851f2. The Master Library itself was restored from the pinned release asset and its archive hashes to a26e3ca7d52db4460e53c2eddd893109037702f5c8035f2c698a7e16bad84e89, the digest scripts/codex-cloud/setup-packet-factory.sh pins."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "evidence": "Declared and rendered sets are identical (CRRLJ-09.0100, CRRLJ-09.0200), and assertCompleteRenderInventory refuses any fixture, artifact, report or raster row that is not exactly one per document per fixture. Verifier requiredComponentsMissing 0."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "evidence": "Focused verifier returns PASS_COMPLETE with knownRequiredFieldsMissing 0 and requiredFactsNotCollected 0; every written value is re-read out of the finalized artifact's own glyphs and compared to the fixture fact before the build is allowed to finish."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "evidence": "Zero of the 43 withheld blanks are classified REQUIRED_BEFORE_FILING ({\"PROTECTED_FIELD\":37,\"PARTICIPANT_ELECTION_GENUINE\":6}), so no participant-disclosure obligation arises from a blank; this was read from the dispositions rather than inferred from the counter. The packet separately tells the participant what to do before filing: schedule the hearing first, make copies, and check local attachment rules."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "BLOCKED_LEGAL_INPUT",
+          "evidence": "Recorded before this lane, at route-options-block.json, and re-read here rather than inherited: CrRLJ 09.0100 rev. 11/2024 carries four printed grounds and none names RCW 9.96.060(7); every printed ground is a first-person declaration a family-member applicant cannot truthfully sign for a deceased victim. Confirmed first-hand from the pinned bytes in this lane. Not repairable as bytes."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "evidence": "Verifier incompleteRows 0. The charge/count/statute rows are written whole or not at all; the build compares every written row cell against the artifact's own glyphs."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "evidence": "protection-report.json records signatureAndCourtFieldsWritten false and selectionControlsMarked false. Verifier protectedWrites 0 and invisibleWrites 0. Added vector paths are multiset-diffed against the source and any unaccounted path is blocking."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "evidence": "All 4 rendered PDFs re-hash from disk to their declared sha256 and byteLength, and each artifact's deterministicSecondRenderSha256 equals its own hash. Recomputed independently by this lane after the repair: CRRLJ-09.0100/canonical 846360e75578ce6233dba77b03b25545a529b50cd553ad31f88d3008b429a6ad; CRRLJ-09.0100/boundary 75fac347051d6b710015ef5bbcc10b43df0a1de59078195ede75a744f4c42b77; CRRLJ-09.0200/canonical 3abc2475b78da8cff2445a99a78fa7aa18641d4c27f17d0c5eea3d6f07e40ce7; CRRLJ-09.0200/boundary 4d844aece78a8ae1c1e97407edd305f45dbdaa2c509f8e55ef51fef03bcb3a55."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "evidence": "Every raster row's page list is 1..n contiguous and its length equals the artifact's page count, which equals the source census page count; the build fails on any gap or reorder."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "evidence": "Verifier visualDefects 0, and the central raster gate's receipt for this family is RASTER_PASS with its pinned canonical and boundary PDFs still hashing to the bytes on disk after this repair (checked in this lane). Ceiling, stated rather than glossed: this lane did not read the PNG receipts inside the workflow artifact, and the raster receipt covers the pinned document pair, not every component."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "evidence": "HELD, so STATED, per A1. The committed route obligation census carries destination {kind: court, name: \"Clerk of the sentencing court\"} for this route, and the committed worklist records it a second time. The packet now states it in participant-completion-instructions.json and in participant-instructions.md, and CrRLJ 09.0300 corroborates it. No authority stands in, because the record is not empty."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "evidence": "NOT HELD, so a NAMED CHECKABLE AUTHORITY stands in, per A1 as widened by A2 and bounded by A3. Searched: both bound sources (money language measured at build time from their content streams: 0 lines each); CrRLJ 09.0300, Instructions for Vacating Misdemeanor and Gross Misdemeanor Convictions (07/2022), sha256 42ac9ccb16474172ee3b4076b416e9d949c2dfdbb43edc0cdc734eca299f4176 (0 money lines, measured at build time); the compiled WA profile, whose only fee statements are Washington State Patrol criminal-history record charges ($11 WATCH, $32 mail CHRI, $58 fingerprint card, +$15 notarized, +$12 non-conviction copy, no fee in person) — a different transaction, so A3 bars reading them as this route's filing fee; src/lib/rcap/state-packs/washington/fee-notes.ts, which records the gap explicitly; and the committed worklist, where filingFee and feeWaiverTreatment are both not_recorded. Named instead: Clerk of the sentencing court, the clerk's office of the court stated under FILING_DESTINATION, answering whether a fee applies, the amount, and whether a waiver is available. No amount is stated because none is held."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "evidence": "Recipient HELD and STATED: the committed worklist records [\"Serve the prosecuting attorney for the sentencing court\",\"Serve the prosecutor's office for the sentencing court and file proof of service\"]. Method and timing HELD and STATED from the route's own official instruction sheet, CrRLJ 09.0300, Instructions for Vacating Misdemeanor and Gross Misdemeanor Convictions (07/2022), sha256 42ac9ccb16474172ee3b4076b416e9d949c2dfdbb43edc0cdc734eca299f4176, re-hashed against the committed corpus index at build time and quoted verbatim: \"On the same day that you file those documents with the clerk of the court, you must also provide a copy of each document (the petition and declaration, and the scheduling notice) to the prosecuting attorney’s office that prosecuted you.\" No prosecutor directory is carried on this series, because the CrRLJ sheet does not print one and A3 bars importing the felony sheet's. The worklist's serviceMethod and serviceTiming are not_recorded, so before this repair the packet named nothing; the sheet holds both, so an authority does not stand in here."
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "evidence": "participant-instructions.md carries a \"Where self-help ends\" section: named stops including the family-member applicant question this route turns on. The build now refuses to finish if the committed instructions stop stating any of these four obligations, so the section cannot silently disappear on a rebuild."
+        }
+      },
+      "whatWasRepaired": {
+        "theOneSharedCorrection": "scripts/build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs",
+        "before": "participant-completion-instructions.json ended with \"Confirm local filing, notice, service, fee, and hearing requirements with the sentencing court before filing. The route controls record local variation as unresolved.\" — the verbatim sentence every verifier matched. It named no court, no fee, no waiver route, no recipient and no method, and it told the participant the route controls record as unresolved three facts those controls in fact record.",
+        "after": "The host derives FILING_DESTINATION, FEE_AND_WAIVER and SERVICE from the committed route obligation census, the committed worklist and the route's own pinned official instruction sheet, writes them to a new filing-obligations.json, and writes them as participant-facing sentences. One derivation for all nine families; nothing is keyed to a family id and there is no per-family whitelist.",
+        "alsoCorrected": "build-findings.json carried the same A4 denial in its advisories — it asserted the worklist recorded filing, notice, service, fee and hearing variation as unresolved. It now says which of those the packet states and which is genuinely open.",
+        "theSilentForm": "The host preserved participant-instructions.md when it existed and wrote none when it did not, so a family could ship no instructions at all and no gate noticed. It now generates one from the same derived data when none exists, and verifies a committed one against the four obligations instead of overwriting it — so an earlier lane's better, source-cited prose survives a rebuild and a rebuild cannot quietly drop an obligation.",
+        "whatWasNotInvented": "No fee figure, no waiver rule and no service recipient was written that is not read out of a committed record or measured from pinned source bytes in this run. Where nothing is held, the packet says nothing is held and names an office."
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "completenessResult": "PASS_COMPLETE",
+      "countersNote": "Nine counters at zero is necessary and not sufficient: none of FILING_DESTINATION, FEE_AND_WAIVER, SERVICE or SELF_HELP_STOP is a counter, and all four were failing while all nine were already zero.",
+      "pdfArtifactHashes": [
+        {
+          "document": "CRRLJ-09.0100",
+          "fixture": "canonical",
+          "sha256": "846360e75578ce6233dba77b03b25545a529b50cd553ad31f88d3008b429a6ad"
+        },
+        {
+          "document": "CRRLJ-09.0100",
+          "fixture": "boundary",
+          "sha256": "75fac347051d6b710015ef5bbcc10b43df0a1de59078195ede75a744f4c42b77"
+        },
+        {
+          "document": "CRRLJ-09.0200",
+          "fixture": "canonical",
+          "sha256": "3abc2475b78da8cff2445a99a78fa7aa18641d4c27f17d0c5eea3d6f07e40ce7"
+        },
+        {
+          "document": "CRRLJ-09.0200",
+          "fixture": "boundary",
+          "sha256": "4d844aece78a8ae1c1e97407edd305f45dbdaa2c509f8e55ef51fef03bcb3a55"
+        }
+      ],
+      "pdfBytesMoved": false,
+      "pdfBytesNote": "This repair writes JSON and Markdown beside the packet. No overlay geometry, no fact, no election and no rendered PDF byte changed; every artifact hash is identical to the committed one.",
+      "claimReleased": false,
+      "claimHeldBecause": "ROUTE_OPTIONS was one of this family's four assigned obligations and it is not repairable as bytes. The claim stays held so the family is not routed to verification while an obligation it was dispatched on is open. It needs counsel, not a repairer.",
+      "ceiling": "This is a repairer's reading of its own work. It is not an independent verification, it promotes nothing, and it opens no commercial route. An independent lane reads these families afterwards."
+    },
+    {
+      "itemId": "wa_vac_substance_use_disorder-set",
+      "verdict": "BLOCKED_LEGAL_INPUT",
+      "laneKind": "repair",
+      "obligationsAssigned": [
+        "FILING_DESTINATION",
+        "FEE_AND_WAIVER",
+        "SERVICE",
+        "SELF_HELP_STOP"
+      ],
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "evidence": "The family's route key obligation:track-only:WA:wa_vac_substance_use_disorder resolves in the committed route obligation census, and the build refuses to derive any obligation for a route the census does not carry. The packet's own instructions name the same route key and statute."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "evidence": "Both bound sources hash byte-exact against the committed custody record and the committed corpus index, checked twice: verify-packet-build-environment.mjs --family reports 2/2 source(s) bind by exact SHA-256, and loadDocuments re-hashes and re-counts pages on every build. CRRLJ-09.0100 1f72e901e93d576cf6c7ecad910d253da65b6af1a89ca75304c9739fa159909b; CRRLJ-09.0200 b53035ddc5ea31aa9bd6816d5f157a58c8c8201db8e4a2cbb15f9874b4c851f2. The Master Library itself was restored from the pinned release asset and its archive hashes to a26e3ca7d52db4460e53c2eddd893109037702f5c8035f2c698a7e16bad84e89, the digest scripts/codex-cloud/setup-packet-factory.sh pins."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "evidence": "Declared and rendered sets are identical (CRRLJ-09.0100, CRRLJ-09.0200), and assertCompleteRenderInventory refuses any fixture, artifact, report or raster row that is not exactly one per document per fixture. Verifier requiredComponentsMissing 0."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "evidence": "Focused verifier returns PASS_COMPLETE with knownRequiredFieldsMissing 0 and requiredFactsNotCollected 0; every written value is re-read out of the finalized artifact's own glyphs and compared to the fixture fact before the build is allowed to finish."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "evidence": "Zero of the 43 withheld blanks are classified REQUIRED_BEFORE_FILING ({\"PROTECTED_FIELD\":37,\"PARTICIPANT_ELECTION_GENUINE\":6}), so no participant-disclosure obligation arises from a blank; this was read from the dispositions rather than inferred from the counter. The packet separately tells the participant what to do before filing: schedule the hearing first, make copies, and check local attachment rules."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "BLOCKED_LEGAL_INPUT",
+          "evidence": "Found and recorded by this lane at route-options-block.json. No printed section of CrRLJ 09.0100 rev. 11/2024 names RCW 9.96.060(6). The form's only 'substance use disorder' text sits inside section 5's DUI deferred-prosecution list keyed to RCW 46.61.5055(14)(a)(xvi) — the A3 trap, and not this route's ground. The packet states the limit and marks nothing. This family had the same defect as the homicide family and no block recorded against it; that inconsistency is what this lane closed."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "evidence": "Verifier incompleteRows 0. The charge/count/statute rows are written whole or not at all; the build compares every written row cell against the artifact's own glyphs."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "evidence": "protection-report.json records signatureAndCourtFieldsWritten false and selectionControlsMarked false. Verifier protectedWrites 0 and invisibleWrites 0. Added vector paths are multiset-diffed against the source and any unaccounted path is blocking."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "evidence": "All 4 rendered PDFs re-hash from disk to their declared sha256 and byteLength, and each artifact's deterministicSecondRenderSha256 equals its own hash. Recomputed independently by this lane after the repair: CRRLJ-09.0100/canonical 846360e75578ce6233dba77b03b25545a529b50cd553ad31f88d3008b429a6ad; CRRLJ-09.0100/boundary 75fac347051d6b710015ef5bbcc10b43df0a1de59078195ede75a744f4c42b77; CRRLJ-09.0200/canonical 3abc2475b78da8cff2445a99a78fa7aa18641d4c27f17d0c5eea3d6f07e40ce7; CRRLJ-09.0200/boundary 4d844aece78a8ae1c1e97407edd305f45dbdaa2c509f8e55ef51fef03bcb3a55."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "evidence": "Every raster row's page list is 1..n contiguous and its length equals the artifact's page count, which equals the source census page count; the build fails on any gap or reorder."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "evidence": "Verifier visualDefects 0, and the central raster gate's receipt for this family is RASTER_PASS with its pinned canonical and boundary PDFs still hashing to the bytes on disk after this repair (checked in this lane). Ceiling, stated rather than glossed: this lane did not read the PNG receipts inside the workflow artifact, and the raster receipt covers the pinned document pair, not every component."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "evidence": "HELD, so STATED, per A1. The committed route obligation census carries destination {kind: court, name: \"Clerk of the sentencing court\"} for this route, and the committed worklist records it a second time. The packet now states it in participant-completion-instructions.json and in participant-instructions.md, and CrRLJ 09.0300 corroborates it. No authority stands in, because the record is not empty."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "evidence": "NOT HELD, so a NAMED CHECKABLE AUTHORITY stands in, per A1 as widened by A2 and bounded by A3. Searched: both bound sources (money language measured at build time from their content streams: 0 lines each); CrRLJ 09.0300, Instructions for Vacating Misdemeanor and Gross Misdemeanor Convictions (07/2022), sha256 42ac9ccb16474172ee3b4076b416e9d949c2dfdbb43edc0cdc734eca299f4176 (0 money lines, measured at build time); the compiled WA profile, whose only fee statements are Washington State Patrol criminal-history record charges ($11 WATCH, $32 mail CHRI, $58 fingerprint card, +$15 notarized, +$12 non-conviction copy, no fee in person) — a different transaction, so A3 bars reading them as this route's filing fee; src/lib/rcap/state-packs/washington/fee-notes.ts, which records the gap explicitly; and the committed worklist, where filingFee and feeWaiverTreatment are both not_recorded. Named instead: Clerk of the sentencing court, the clerk's office of the court stated under FILING_DESTINATION, answering whether a fee applies, the amount, and whether a waiver is available. No amount is stated because none is held."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "evidence": "Recipient HELD and STATED: the committed worklist records [\"Serve the prosecutor for the sentencing court\",\"Serve the prosecutor's office for the sentencing court and file proof of service\"]. Method and timing HELD and STATED from the route's own official instruction sheet, CrRLJ 09.0300, Instructions for Vacating Misdemeanor and Gross Misdemeanor Convictions (07/2022), sha256 42ac9ccb16474172ee3b4076b416e9d949c2dfdbb43edc0cdc734eca299f4176, re-hashed against the committed corpus index at build time and quoted verbatim: \"On the same day that you file those documents with the clerk of the court, you must also provide a copy of each document (the petition and declaration, and the scheduling notice) to the prosecuting attorney’s office that prosecuted you.\" No prosecutor directory is carried on this series, because the CrRLJ sheet does not print one and A3 bars importing the felony sheet's. The worklist's serviceMethod and serviceTiming are not_recorded, so before this repair the packet named nothing; the sheet holds both, so an authority does not stand in here."
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "evidence": "participant-instructions.md carries a \"Where self-help ends\" section: names the unresolved-section limit as its first stop and directs the reader to a lawyer or court facilitator before filing, plus the standing stops. The build now refuses to finish if the committed instructions stop stating any of these four obligations, so the section cannot silently disappear on a rebuild."
+        }
+      },
+      "whatWasRepaired": {
+        "theOneSharedCorrection": "scripts/build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs",
+        "before": "participant-completion-instructions.json ended with \"Confirm local filing, notice, service, fee, and hearing requirements with the sentencing court before filing. The route controls record local variation as unresolved.\" — the verbatim sentence every verifier matched. It named no court, no fee, no waiver route, no recipient and no method, and it told the participant the route controls record as unresolved three facts those controls in fact record.",
+        "after": "The host derives FILING_DESTINATION, FEE_AND_WAIVER and SERVICE from the committed route obligation census, the committed worklist and the route's own pinned official instruction sheet, writes them to a new filing-obligations.json, and writes them as participant-facing sentences. One derivation for all nine families; nothing is keyed to a family id and there is no per-family whitelist.",
+        "alsoCorrected": "build-findings.json carried the same A4 denial in its advisories — it asserted the worklist recorded filing, notice, service, fee and hearing variation as unresolved. It now says which of those the packet states and which is genuinely open.",
+        "theSilentForm": "The host preserved participant-instructions.md when it existed and wrote none when it did not, so a family could ship no instructions at all and no gate noticed. It now generates one from the same derived data when none exists, and verifies a committed one against the four obligations instead of overwriting it — so an earlier lane's better, source-cited prose survives a rebuild and a rebuild cannot quietly drop an obligation.",
+        "whatWasNotInvented": "No fee figure, no waiver rule and no service recipient was written that is not read out of a committed record or measured from pinned source bytes in this run. Where nothing is held, the packet says nothing is held and names an office."
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "completenessResult": "PASS_COMPLETE",
+      "countersNote": "Nine counters at zero is necessary and not sufficient: none of FILING_DESTINATION, FEE_AND_WAIVER, SERVICE or SELF_HELP_STOP is a counter, and all four were failing while all nine were already zero.",
+      "pdfArtifactHashes": [
+        {
+          "document": "CRRLJ-09.0100",
+          "fixture": "canonical",
+          "sha256": "846360e75578ce6233dba77b03b25545a529b50cd553ad31f88d3008b429a6ad"
+        },
+        {
+          "document": "CRRLJ-09.0100",
+          "fixture": "boundary",
+          "sha256": "75fac347051d6b710015ef5bbcc10b43df0a1de59078195ede75a744f4c42b77"
+        },
+        {
+          "document": "CRRLJ-09.0200",
+          "fixture": "canonical",
+          "sha256": "3abc2475b78da8cff2445a99a78fa7aa18641d4c27f17d0c5eea3d6f07e40ce7"
+        },
+        {
+          "document": "CRRLJ-09.0200",
+          "fixture": "boundary",
+          "sha256": "4d844aece78a8ae1c1e97407edd305f45dbdaa2c509f8e55ef51fef03bcb3a55"
+        }
+      ],
+      "pdfBytesMoved": false,
+      "pdfBytesNote": "This repair writes JSON and Markdown beside the packet. No overlay geometry, no fact, no election and no rendered PDF byte changed; every artifact hash is identical to the committed one.",
+      "claimReleased": false,
+      "claimHeldBecause": "Its four assigned obligations are repaired, but this lane found and recorded a ROUTE_OPTIONS legal input that was not in its dispatch. Releasing it would send a family to verification carrying a block this lane wrote an hour earlier. Held for Captain to route to counsel.",
+      "ceiling": "This is a repairer's reading of its own work. It is not an independent verification, it promotes nothing, and it opens no commercial route. An independent lane reads these families afterwards."
+    },
+    {
+      "itemId": "wa_vac_treaty_fishing-set",
+      "verdict": "BLOCKED_SOURCE",
+      "laneKind": "repair",
+      "obligationsAssigned": [
+        "FILING_DESTINATION",
+        "FEE_AND_WAIVER",
+        "SERVICE",
+        "SELF_HELP_STOP"
+      ],
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "evidence": "The family's route key obligation:track-only:WA:wa_vac_treaty_fishing resolves in the committed route obligation census, and the build refuses to derive any obligation for a route the census does not carry. The packet's own instructions name the same route key and statute."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "evidence": "Both bound sources hash byte-exact against the committed custody record and the committed corpus index, checked twice: verify-packet-build-environment.mjs --family reports 2/2 source(s) bind by exact SHA-256, and loadDocuments re-hashes and re-counts pages on every build. CRRLJ-09.0100 1f72e901e93d576cf6c7ecad910d253da65b6af1a89ca75304c9739fa159909b; CRRLJ-09.0200 b53035ddc5ea31aa9bd6816d5f157a58c8c8201db8e4a2cbb15f9874b4c851f2. The Master Library itself was restored from the pinned release asset and its archive hashes to a26e3ca7d52db4460e53c2eddd893109037702f5c8035f2c698a7e16bad84e89, the digest scripts/codex-cloud/setup-packet-factory.sh pins."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "evidence": "Declared and rendered sets are identical (CRRLJ-09.0100, CRRLJ-09.0200), and assertCompleteRenderInventory refuses any fixture, artifact, report or raster row that is not exactly one per document per fixture. Verifier requiredComponentsMissing 0."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "evidence": "Focused verifier returns PASS_COMPLETE with knownRequiredFieldsMissing 0 and requiredFactsNotCollected 0; every written value is re-read out of the finalized artifact's own glyphs and compared to the fixture fact before the build is allowed to finish."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "evidence": "Zero of the 43 withheld blanks are classified REQUIRED_BEFORE_FILING ({\"PROTECTED_FIELD\":37,\"PARTICIPANT_ELECTION_GENUINE\":6}), so no participant-disclosure obligation arises from a blank; this was read from the dispositions rather than inferred from the counter. The packet separately tells the participant what to do before filing: schedule the hearing first, make copies, and check local attachment rules."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "BLOCKED_LEGAL_INPUT",
+          "evidence": "Found and recorded by this lane at route-options-block.json. No printed section names RCW 9.96.060(4) and the words 'treaty' and 'fishing' do not appear on the form's face. Compounded by the source finding below: this route has its own Washington Courts instruments (CR 09.0500/09.0600/09.0700), held in the corpus only as legacy .doc files at revision UNKNOWN under 05_SOURCE_GATED and absent from the committed corpus index, so the family binds the general petition instead."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "evidence": "Verifier incompleteRows 0. The charge/count/statute rows are written whole or not at all; the build compares every written row cell against the artifact's own glyphs."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "evidence": "protection-report.json records signatureAndCourtFieldsWritten false and selectionControlsMarked false. Verifier protectedWrites 0 and invisibleWrites 0. Added vector paths are multiset-diffed against the source and any unaccounted path is blocking."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "evidence": "All 4 rendered PDFs re-hash from disk to their declared sha256 and byteLength, and each artifact's deterministicSecondRenderSha256 equals its own hash. Recomputed independently by this lane after the repair: CRRLJ-09.0100/canonical 846360e75578ce6233dba77b03b25545a529b50cd553ad31f88d3008b429a6ad; CRRLJ-09.0100/boundary 75fac347051d6b710015ef5bbcc10b43df0a1de59078195ede75a744f4c42b77; CRRLJ-09.0200/canonical 3abc2475b78da8cff2445a99a78fa7aa18641d4c27f17d0c5eea3d6f07e40ce7; CRRLJ-09.0200/boundary 4d844aece78a8ae1c1e97407edd305f45dbdaa2c509f8e55ef51fef03bcb3a55."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "evidence": "Every raster row's page list is 1..n contiguous and its length equals the artifact's page count, which equals the source census page count; the build fails on any gap or reorder."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "evidence": "Verifier visualDefects 0, and the central raster gate's receipt for this family is RASTER_PASS with its pinned canonical and boundary PDFs still hashing to the bytes on disk after this repair (checked in this lane). Ceiling, stated rather than glossed: this lane did not read the PNG receipts inside the workflow artifact, and the raster receipt covers the pinned document pair, not every component."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "evidence": "HELD, so STATED, per A1. The committed route obligation census carries destination {kind: court, name: \"Clerk of the sentencing court\"} for this route, and the committed worklist records it a second time. The packet now states it in participant-completion-instructions.json and in participant-instructions.md, and CrRLJ 09.0300 corroborates it. No authority stands in, because the record is not empty."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "evidence": "NOT HELD, so a NAMED CHECKABLE AUTHORITY stands in, per A1 as widened by A2 and bounded by A3. Searched: both bound sources (money language measured at build time from their content streams: 0 lines each); CrRLJ 09.0300, Instructions for Vacating Misdemeanor and Gross Misdemeanor Convictions (07/2022), sha256 42ac9ccb16474172ee3b4076b416e9d949c2dfdbb43edc0cdc734eca299f4176 (0 money lines, measured at build time); the compiled WA profile, whose only fee statements are Washington State Patrol criminal-history record charges ($11 WATCH, $32 mail CHRI, $58 fingerprint card, +$15 notarized, +$12 non-conviction copy, no fee in person) — a different transaction, so A3 bars reading them as this route's filing fee; src/lib/rcap/state-packs/washington/fee-notes.ts, which records the gap explicitly; and the committed worklist, where filingFee and feeWaiverTreatment are both not_recorded. Named instead: Clerk of the sentencing court, the clerk's office of the court stated under FILING_DESTINATION, answering whether a fee applies, the amount, and whether a waiver is available. No amount is stated because none is held."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "evidence": "Recipient HELD and STATED: the committed worklist records [\"Serve the prosecuting attorney for the sentencing court\",\"Serve the prosecutor's office for the sentencing court and file proof of service\"]. Method and timing HELD and STATED from the route's own official instruction sheet, CrRLJ 09.0300, Instructions for Vacating Misdemeanor and Gross Misdemeanor Convictions (07/2022), sha256 42ac9ccb16474172ee3b4076b416e9d949c2dfdbb43edc0cdc734eca299f4176, re-hashed against the committed corpus index at build time and quoted verbatim: \"On the same day that you file those documents with the clerk of the court, you must also provide a copy of each document (the petition and declaration, and the scheduling notice) to the prosecuting attorney’s office that prosecuted you.\" No prosecutor directory is carried on this series, because the CrRLJ sheet does not print one and A3 bars importing the felony sheet's. The worklist's serviceMethod and serviceTiming are not_recorded, so before this repair the packet named nothing; the sheet holds both, so an authority does not stand in here."
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "evidence": "participant-instructions.md carries a \"Where self-help ends\" section: named stops including the unresolved RCW 9.96.060(4) section question, a sentencing court that no longer exists, and a tribal legal aid office among the places to get help. The build now refuses to finish if the committed instructions stop stating any of these four obligations, so the section cannot silently disappear on a rebuild."
+        }
+      },
+      "whatWasRepaired": {
+        "theOneSharedCorrection": "scripts/build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs",
+        "before": "participant-completion-instructions.json ended with \"Confirm local filing, notice, service, fee, and hearing requirements with the sentencing court before filing. The route controls record local variation as unresolved.\" — the verbatim sentence every verifier matched. It named no court, no fee, no waiver route, no recipient and no method, and it told the participant the route controls record as unresolved three facts those controls in fact record.",
+        "after": "The host derives FILING_DESTINATION, FEE_AND_WAIVER and SERVICE from the committed route obligation census, the committed worklist and the route's own pinned official instruction sheet, writes them to a new filing-obligations.json, and writes them as participant-facing sentences. One derivation for all nine families; nothing is keyed to a family id and there is no per-family whitelist.",
+        "alsoCorrected": "build-findings.json carried the same A4 denial in its advisories — it asserted the worklist recorded filing, notice, service, fee and hearing variation as unresolved. It now says which of those the packet states and which is genuinely open.",
+        "theSilentForm": "The host preserved participant-instructions.md when it existed and wrote none when it did not, so a family could ship no instructions at all and no gate noticed. It now generates one from the same derived data when none exists, and verifies a committed one against the four obligations instead of overwriting it — so an earlier lane's better, source-cited prose survives a rebuild and a rebuild cannot quietly drop an obligation.",
+        "whatWasNotInvented": "No fee figure, no waiver rule and no service recipient was written that is not read out of a committed record or measured from pinned source bytes in this run. Where nothing is held, the packet says nothing is held and names an office."
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "completenessResult": "PASS_COMPLETE",
+      "countersNote": "Nine counters at zero is necessary and not sufficient: none of FILING_DESTINATION, FEE_AND_WAIVER, SERVICE or SELF_HELP_STOP is a counter, and all four were failing while all nine were already zero.",
+      "pdfArtifactHashes": [
+        {
+          "document": "CRRLJ-09.0100",
+          "fixture": "canonical",
+          "sha256": "846360e75578ce6233dba77b03b25545a529b50cd553ad31f88d3008b429a6ad"
+        },
+        {
+          "document": "CRRLJ-09.0100",
+          "fixture": "boundary",
+          "sha256": "75fac347051d6b710015ef5bbcc10b43df0a1de59078195ede75a744f4c42b77"
+        },
+        {
+          "document": "CRRLJ-09.0200",
+          "fixture": "canonical",
+          "sha256": "3abc2475b78da8cff2445a99a78fa7aa18641d4c27f17d0c5eea3d6f07e40ce7"
+        },
+        {
+          "document": "CRRLJ-09.0200",
+          "fixture": "boundary",
+          "sha256": "4d844aece78a8ae1c1e97407edd305f45dbdaa2c509f8e55ef51fef03bcb3a55"
+        }
+      ],
+      "pdfBytesMoved": false,
+      "pdfBytesNote": "This repair writes JSON and Markdown beside the packet. No overlay geometry, no fact, no election and no rendered PDF byte changed; every artifact hash is identical to the committed one.",
+      "claimReleased": false,
+      "claimHeldBecause": "Its four assigned obligations are repaired, but this lane found that the route's own official instruments are unpinned, so the packet is built on the general petition. That is a source-acquisition obligation. Held rather than released into verification.",
+      "ceiling": "This is a repairer's reading of its own work. It is not an independent verification, it promotes nothing, and it opens no commercial route. An independent lane reads these families afterwards."
+    }
+  ]
+}

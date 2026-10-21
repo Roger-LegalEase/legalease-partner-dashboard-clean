@@ -1,0 +1,173 @@
+{
+  "schemaVersion": "rcap-wv-loader-product-wiring-independent-review-recheck/v1",
+  "reviewType": "additive-independent-recheck-of-WV-product-wiring-test-only-repair",
+  "reviewer": "/root/resume_vfar1",
+  "reviewedAt": "2026-09-13T08:14:02.479Z",
+  "verifiedAtBase": "fd5da8a40a5c695828f561ca89d8416a4006b66b",
+  "currentHead": "fd5da8a40a5c695828f561ca89d8416a4006b",
+  "verdict": "PASS",
+  "status": "PASS_INDEPENDENT_RECHECK_OWNER_COMPLETION_READY",
+  "scope": "Focused recheck of the test-only repair for the already independently accepted WV family-specific product-wiring binder and materialized wiring. No generator execution, shared-record mutation, owner-row transition, packet/source/raster change or legal re-review was performed.",
+  "independence": {
+    "independentOfRepairAuthor": true,
+    "independentOfPacketImplementer": true,
+    "independentOfOwnerAdoptionAuthor": true,
+    "implementationAndCurrentWiringReviewConsumedFromPriorReturn": "data/rcap-grade-a/packet-factory-24h/pf08/wv-loader-product-wiring-independent-review-final-20260913.json",
+    "priorReviewSha256": "942081c6ed29c90de77e524a9b1662a9f886b9367d48ac6e6d06f37d3623d34a",
+    "reviewerEditedImplementation": false,
+    "reviewerEditedCurrentWiring": false,
+    "reviewerAppliedOwnerTransition": false,
+    "reviewOnlyWrite": "data/rcap-grade-a/packet-factory-24h/pf08/wv-loader-product-wiring-independent-review-recheck-20260913.json"
+  },
+  "priorIndependentImplementationPass": {
+    "returnPath": "data/rcap-grade-a/packet-factory-24h/pf08/wv-loader-product-wiring-independent-review-final-20260913.json",
+    "returnSha256": "942081c6ed29c90de77e524a9b1662a9f886b9367d48ac6e6d06f37d3623d34a",
+    "implementationResult": "PASS",
+    "currentBindingResult": "PASS",
+    "centralGenerator": {
+      "path": "scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs",
+      "sha256": "bd1cad9fce688d92eec3541231361f53011195c3aff2ffd75f6511243a931acb",
+      "byteLength": 41885
+    },
+    "declaredDeliveryHelper": {
+      "path": "scripts/grade-a-packet-factory-24h/wv-nc-acquittal-dismissal-declared-delivery.mjs",
+      "sha256": "d2c9138199557d79110dc254c56d00c3cde1c6423568b1282b4b054e6fb26dda",
+      "byteLength": 5436
+    },
+    "materializedWiring": {
+      "path": "data/rcap-all50/overlays/census-v1/wv/wv-nc-acquittal-dismissal-set--official-pdf-fill/product-wiring.json",
+      "sha256": "3d2857e389f251d08f01c2b9986ac3605a580255348b9046ed707aeecffa3ce9",
+      "byteLength": 4641,
+      "branchRoutes": {
+        "DISMISSED_STRAIGHT": "wv_nc_acquittal_dismissal-primary-filing-1",
+        "ACQUITTED_OR_FOUND_NOT_GUILTY": "wv_nc_acquittal_dismissal-acquittal-civil-petition-4"
+      },
+      "pageBackedPacketComponents": [
+        "component:wv_nc_acquittal_dismissal-certificate-of-service-2",
+        "component:wv_nc_acquittal_dismissal-primary-filing-1",
+        "component:wv_nc_acquittal_dismissal-acquittal-civil-petition-4"
+      ],
+      "declaredComponentSetIncludesTextOnlyInstructions": true,
+      "failClosed": {
+        "generationAllowed": false,
+        "runtimeSelectable": false,
+        "commercialRoutesOpened": 0,
+        "productionTouched": false,
+        "acceptanceReceipt": null,
+        "paymentEligible": false,
+        "sponsorshipEligible": false
+      }
+    }
+  },
+  "focusedTestRecheck": {
+    "path": "scripts/grade-a-packet-factory-24h/wv-nc-acquittal-dismissal-declared-delivery.test.mjs",
+    "sha256": "787665f87e3f0a3ba6d1ee328fb92be4a23ecf037e0f57a2da3d39faaf06f089",
+    "byteLength": 5574,
+    "repair": "The test now passes an explicit stale cloned wiring with the old two-component list to the binder, while asserting that the actual current repaired wiring remains the three-component list including the acquittal petition.",
+    "syntaxChecks": {
+      "command": "node --check scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs && node --check scripts/grade-a-packet-factory-24h/wv-nc-acquittal-dismissal-declared-delivery.mjs && node --check scripts/grade-a-packet-factory-24h/wv-nc-acquittal-dismissal-declared-delivery.test.mjs",
+      "result": "PASS"
+    },
+    "execution": {
+      "command": "node scripts/grade-a-packet-factory-24h/wv-nc-acquittal-dismissal-declared-delivery.test.mjs",
+      "result": "PASS",
+      "observed": {
+        "branches": 2,
+        "declaredComponents": 4,
+        "pageBackedPacketComponents": 3,
+        "textOnlyInstructionsExplicitlyRepresented": true,
+        "sourceOrPdfMutation": false,
+        "rasterDispatched": false
+      }
+    }
+  },
+  "currentDependencyBindings": {
+    "sourceReceipt": {
+      "path": "data/rcap-all50/overlays/census-v1/wv/wv-nc-acquittal-dismissal-set--official-pdf-fill/source-receipt.json",
+      "sha256": "91bd83f6ebdcb8b91ad5ce40f1526e52f7b1449ce2480142d73c0e70642893cf",
+      "byteLength": 4933,
+      "selectedSourceId": "official-form:SCA-C903",
+      "selectedSha256": "bbfcd767b02230300e2164a40cc2d81967c87fb9b7ddf4f0677622e1319fe878",
+      "selectedByteLength": 23275,
+      "historicalComparisonOnlySha256": "242048f1ff5b2e795ca43900bec6d9c353c59950bffd3c7776374ff1cc6c7035"
+    },
+    "productionFieldMap": {
+      "path": "data/rcap-all50/overlays/census-v1/wv/wv-nc-acquittal-dismissal-set--official-pdf-fill/production-field-map.json",
+      "sha256": "259e74988d3f3be1b36692d41e9cb6c213ec7ff86a27d0932706dd6751c9d6eb",
+      "byteLength": 218124,
+      "branchSet": [
+        "DISMISSED_STRAIGHT",
+        "ACQUITTED_OR_FOUND_NOT_GUILTY"
+      ]
+    },
+    "participantInstructions": {
+      "path": "data/rcap-all50/overlays/census-v1/wv/wv-nc-acquittal-dismissal-set--official-pdf-fill/participant-instructions.md",
+      "sha256": "3a29a2624f554170d7005f3622876658f5944207bd93fe620173f2bdd8b6a9c1",
+      "byteLength": 13055
+    },
+    "renderedArtifacts": {
+      "path": "data/rcap-all50/overlays/census-v1/wv/wv-nc-acquittal-dismissal-set--official-pdf-fill/reports/rendered-artifacts.json",
+      "sha256": "0cf753e46748444628d59b6344c68e12a8cb3ef78a94497b45646767492d051d",
+      "byteLength": 13907,
+      "branchFixtureCount": 4
+    },
+    "branchFixtureCoverage": {
+      "path": "data/rcap-all50/overlays/census-v1/wv/wv-nc-acquittal-dismissal-set--official-pdf-fill/reports/branch-fixture-coverage.json",
+      "sha256": "decdd42e448f21ede3f777826a54ad95af8732060c519498f19a1ff8caa4f7ad",
+      "byteLength": 5554,
+      "bothBranchesCanonicalAndBoundary": true
+    }
+  },
+  "semanticDependencyComparison": {
+    "priorSemanticReturn": {
+      "path": "data/rcap-grade-a/packet-factory-24h/pf08/rows-wv-two-branch-independent-semantic-20260913.json",
+      "sha256": "7d84bffb905e6d734be39556b8f54d1a0fbd723353b7ca4d5bd8c043334122e0",
+      "byteLength": 60581,
+      "status": "PASS_PRE_RASTER_SEMANTIC",
+      "verdict": "PASS",
+      "visualMeasured": false,
+      "priorWiringSha256": "236980ef8551cbf760fca556ff0cd2f076f329e56ba3a6cc4e1419d7844247ab"
+    },
+    "currentWiringChangedOnlyAfterPriorSemanticReview": true,
+    "packetAndLegalInputsStillBound": true,
+    "finding": "The test-only repair changed no packet, source, field-map, instructions, rendered-evidence, owner-adoption or fixture bytes. The prior semantic PASS remains the dependency comparison for the 14 measured nonvisual obligations; the current repaired wiring and test are independently PASS here. CLIPPING_AND_OVERLAP remains unmeasured and no final packet acceptance is asserted."
+  },
+  "ownerCompletionReadiness": {
+    "ready": true,
+    "transitionApplied": false,
+    "ownerCorrectionsPath": "data/rcap-grade-a/legal-decisions/OWNER_CORRECTIONS_REQUIRED.json",
+    "ownerCorrectionsSha256": "fbb775ef09986af8a8b543a8a8c916464c94403b672753e0f69f41968e1f6c2a",
+    "ownerCorrectionRow": {
+      "familyId": "wv_nc_acquittal_dismissal-set",
+      "stateOverride": "PRODUCT_PATH_PENDING",
+      "executionOwner": "CAPTAIN",
+      "nextExecutableAction": "Map the exact disposition fact to the correct SCA-C903 ground, refuse unclear records, and release the official-form build.",
+      "ownerDecision": "This is route and field-election mapping."
+    },
+    "completionConvention": {
+      "sourceHandoff": "data/rcap-grade-a/packet-factory-24h/pf08/wv-route-mapping-completion-handoff-20260913.json",
+      "sourceHandoffSha256": "ae71a67a1695780e1684e4041aebed54e588760489aa8db958fab095bce78a3f",
+      "before": {
+        "stateOverride": "PRODUCT_PATH_PENDING",
+        "routeMappingStatus": "OWNER_DIRECTED_MAPPING_PENDING"
+      },
+      "permittedAfterThisPASS": {
+        "stateOverride": null,
+        "completedStateOverride": "PRODUCT_PATH_PENDING",
+        "completionEvidence": "data/rcap-grade-a/packet-factory-24h/pf08/wv-route-mapping-completion-handoff-20260913.json"
+      },
+      "scope": "Clear only the owner-directed mapping hold; preserve packet, current-byte, raster, original-page, terminal, route-release, commercial and production gates."
+    }
+  },
+  "preservedControls": {
+    "ownerDecisionChanged": false,
+    "ownerTransitionApplied": false,
+    "packetPass": false,
+    "rasterPass": false,
+    "terminalPromotion": false,
+    "commercialAuthority": false,
+    "productionAuthorization": false,
+    "runtimeSelectionOpened": false
+  },
+  "conclusion": "PASS: the corrected focused test proves the repaired family-specific binding against an explicit stale input while preserving the materialized three-component current wiring. The prior implementation/current-wiring PASS is confirmed, and the existing owner-correction completion transition is ready for Captain to apply within its bounded scope."
+}

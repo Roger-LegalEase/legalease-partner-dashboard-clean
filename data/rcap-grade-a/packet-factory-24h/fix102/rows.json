@@ -1,0 +1,149 @@
+{
+  "schemaVersion": "rcap-packet-factory-lane-return/v1",
+  "lane": "FIX102",
+  "laneKind": "repair",
+  "worker": "FIX102 single-family repair lane, ne-setaside-custodial-set",
+  "status": "COMPLETED",
+  "repairedByThisLane": true,
+  "assignmentId": "VF06-REPAIR-NE-SETASIDE-CUSTODIAL-DISCLOSURE-AND-HELD-FACTS",
+  "arrayKey": "rows",
+  "itemKeyField": "itemId",
+  "grantReleased": false,
+  "claimLedgerCommitted": false,
+  "rows": [
+    {
+      "itemId": "ne-setaside-custodial-set",
+      "lane": "FIX102",
+      "laneKind": "repair",
+      "status": "COMPLETED",
+      "repairedByThisLane": true,
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill",
+      "repairedAtBase": "e0df09b1aeecf661ae69bceb60364f564f329c0f",
+      "respondsTo": "VF06 FAIL_REPAIR_REQUIRED at verifiedAtBase b70ec78ef",
+      "obligationsRepaired": ["KNOWN_PREFILLS", "REQUIRED_BEFORE_FILING"],
+
+      "grant": "CLAIM_OK FIX102 ne-setaside-custodial-set (repair, grant set 79976c45ef039361), asserted inside this worktree before any work",
+
+      "preflight": "node scripts/verify-packet-build-environment.mjs --family ne-setaside-custodial-set: 11/13 passed, 2 failed, 4 not applicable. family_sources_bind PASSED 4/4 by exact SHA-256 (CC-6-11 c0dcc5c0, CC-6-11.2 8bfa884d, CC-6-11a 615c64b4, DC-1-15 43675986), which is the gate this lane was told sources must clear. The two failures are the same two VF06 recorded and neither touches this family: private_is_git_ignored fails only because the assignment mandates a `private` SYMLINK and `git check-ignore private/` refuses a pathspec beyond a symbolic link (git ls-files private/ returns 0 tracked paths, so no source binary can enter a commit); corpus_matches_committed_index is 1 absent of 24 sampled, the absent entry being 'LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf', which this family does not bind.",
+
+      "newDigests": {
+        "canonicalPdfSha256": "dd1cde67dd6ccef07c3f923b63c99ba4ff589296fa47375fb6a7e0bfb0a29cbb",
+        "boundaryPdfSha256": "07a9b4ab7f1165cb3bae77e2e2f9f5ff21c86f00a3bb6bb5051a5868067298b2",
+        "previousCanonicalPdfSha256": "dd6825cc8dea9ad107d22058743c722799ae07ebcd57dec45edc01abe8c3bfcc",
+        "previousBoundaryPdfSha256": "a9f3627451b4b9b3bdb1c9d42e436d22f0c516c0e3ce24296c8208550f57e695",
+        "rasterPagesRewritten": {
+          "raster/canonical/page-04.png": "3525ab9ea90ed377e52da2a9b0c4dac375b092f23fa10b1db4716864bef54d37",
+          "raster/boundary/page-04.png": "777e609ab9d1c3094a3ffcb621f1f26fecfd48491748b5ad04c651423e3e2a8e"
+        },
+        "rasterPagesUnchanged": "pages 1, 2, 3 and 5 of both fixtures re-render to their committed bytes; only DC 1:15 page 1 (packet page 4) moved, which is the only page this repair puts ink on"
+      },
+
+      "determinism": "Built twice in succession in this worktree; sha256 of every one of the 21 files under the family directory is identical across the two runs, fixtures and all ten raster PNGs included. `--check` re-renders live from the pinned sources and re-derives the disclosure, the withheld record and participant-instructions.md from the committed field map: ne-setaside-custodial-set: --check OK (10 raster pages).",
+
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersMeasuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ne-setaside-custodial-set, run without --write on the committed bytes: PASS_COMPLETE, 20/162 written (19 before this repair; the twentieth is the DC 1:15 plaintiff caption).",
+
+      "vf06FindingDisposition": [
+        {
+          "finding": "KNOWN_PREFILLS (1) - matter.case_number refused as unfittable on CC-6-11 Text2, CC-6-11.2 Text2 and DC-1-15 Text38 in the boundary fixture, and disclosed nowhere at all",
+          "disposition": "REPAIRED",
+          "how": "The shared fitter already refused the value WHOLE and pushed the refusal onto report.unfittable; nothing on this host ever read that array. reports/actual-writes.json now carries an `unfittableWrites` entry per refusal with the arithmetic behind it - heldValue '2026-CR-900123-EXTENDED-CASE-IDENTIFIER', font Helvetica, minimumReadableFontSize 6, widthNeededAtMinimumSize 134.36pt, rectWidth 129.34pt, usableWidth 125.34pt, largestSizeThatWouldFit 5.59pt, linesAvailable 1, linesNeededAtMinimumSize 2 - plus the same measurement at CC-6-11.2 Text2 (129.60/125.60, 5.60pt) and DC-1-15 Text38 (99.00/95.00, 4.24pt). Every row carries written:false, neverTruncated:true and disposition REFUSED_UNFITTABLE_AT_THE_LEGIBILITY_FLOOR, and proofSummary.unfittableRefusals counts them. production-field-map.json keeps the three refusal rows and now DECLARES them: all three are in the requiredBeforeFiling array. participant-instructions.md names the case-number blank on all three documents and says why it is blank: 'The platform holds this fact, but at this length the printed line cannot carry it at a legible size. Nothing is shortened or cut: the blank is left for you.' Read at 300 dpi: the Case No. line is empty on boundary pages 1, 2 and 4 - refused, not truncated, and never described as filled.",
+          "evidence": "reports/actual-writes.json unfittableWrites; production-field-map.json requiredBeforeFiling; participant-instructions.md; pdftoppm -r 300 of boundary pages 1, 2, 4"
+        },
+        {
+          "finding": "KNOWN_PREFILLS (2) - DC 1:15 field `plaintiff`, the Plaintiff/Petitioner caption line on packet page 4, blank in both fixtures although the packet prints STATE OF NEBRASKA twice",
+          "disposition": "REPAIRED",
+          "how": "Written through the builder's existing named-fact mechanism and no other: a `matter.plaintiff` entry added to namedFactWrites['DC-1-15'], resolved by the shared narrativeAcrossFields channel from the fact set, fitted to the widget's own /Rect x 106.32 y 627.25 w 189.00 h 14.40. The value is not this builder's invention: assertPlaintiffIsTheSourcesOwnCaption re-reads the pinned CC 6:11 and CC 6:11.2 bytes on every build and throws unless BOTH print it, with a live negative case in the self-tests. The fact is scoped to this family through a new per-family `additionalFacts` key, so no other family on this 13-family build host gains a fact or moves a byte. actual-writes.json records the write visible at every measured widget in both fixtures; at 300 dpi packet page 4 now reads 'STATE OF NEBRASKA / Plaintiff/Petitioner, vs. <name> / Defendant/Respondent.'",
+          "evidence": "reports/actual-writes.json DC-1-15 plaintiff, everyWidgetVisibleInArtifactBytes true in both fixtures; 300 dpi read of packet page 4"
+        },
+        {
+          "finding": "KNOWN_PREFILLS (3) - the county caption marker: the build erased the source hint 'Choose the county' at x 291.79-351.35, 11.86pt beyond the right edge of its declared write box",
+          "disposition": "REPAIRED AS A DISPOSITION, NOT AS INK - and the measurement corrects part of the finding",
+          "how": "Measured on the pinned bytes, the erased hint is the appearance of DROPDOWNCOUNTY2, whose annotation flags are /F 0 - the Print bit is CLEAR. It is a screen control that no printed copy of the official CC 6:11 shows, so a flatten that does not carry it forward is correct and the packet must not print it; restoring it would put ink on the filing that the official form does not carry, and the builder's own preservation guard refuses it ((F & 7) === 4 required). There is also no erasure: measured across every page of both fixtures, 0 added words fall outside a declared write box and no white or opaque path is painted at that position. The build's footprint does not reach outside its box; it simply declines to flatten a non-printing control. What IS genuinely lost is a different widget - `enter the county`, /Ff read-only, /F 36 (Print AND NoView), carrying the form's own printed prompt '(Enter the county name)'. That one does print on the official form, and the shared step drops every NoView widget before any per-family disposition is consulted (scripts/rcap-official-forms/rcap-active-content.mjs, dropNonDisplayedWidgets, which this lane is forbidden to edit). All of this is now recorded per document in production-field-map.json under countyCaptionPositionDisposition - each source control with its flags read first hand from the binary, its rect, its carried value, and what became of it - and stated to the participant: the guide now says where the county goes, that DC 1:15 prints a ruled line there while CC 6:11 and CC 6:11.2 print nothing at all, and that the on-screen prompt is absent because it is absent from any printed copy.",
+          "correctionToTheFinding": "VF06 characterised this as the build erasing outside its write box. Measured here, no ink is added and nothing is painted over: the hint is a non-printing screen control that flattening correctly leaves behind. The participant-facing defect VF06 identified is real and is repaired; the mechanism named in the finding is not what the bytes show.",
+          "residual": "OPEN AND OUT OF THIS LANE'S BOUNDARY: the print-flagged NoView prompt '(Enter the county name)' cannot be carried forward without changing dropNonDisplayedWidgets, which treats Hidden and NoView alike. NoView+Print means invisible on screen and printed - the opposite of what the rule assumes - and this is a print deliverable. Recorded for the lane that owns scripts/rcap-official-forms/**."
+        },
+        {
+          "finding": "REQUIRED_BEFORE_FILING (1) - four of the eleven manifest-declared required-before-filing items named nowhere in participant-instructions.md (State Patrol criminal-history confirm step, court case-search confirm step, probation-discharge confirm step, and the date and judge lines on CC 6:11.2)",
+          "disposition": "REPAIRED",
+          "how": "All ELEVEN items are now rendered into participant-instructions.md under 'Everything this route requires before filing', read straight from data/record-clearing/legal-design-packet-set-manifests.json rather than restated, so they cannot drift from the record. assertManifestRequiredBeforeFilingIsCarried throws unless every declared item appears in the delivered file, with a live negative case in the self-tests, and --check re-runs it against the committed file. Term counts in the delivered guide, all previously zero: 'State Patrol' 1, 'case search' 1, 'Check your answer' 3, 'correct the packet' 3, '6:11.2' 2, 'probation' 2.",
+          "evidence": "participant-instructions.md; production-field-map.json manifestRequiredBeforeFiling (11 items)"
+        },
+        {
+          "finding": "REQUIRED_BEFORE_FILING (2) - nine requiredBeforeFiling rows carried by the field map and disclosed nowhere; the printed count understated the canonical fixture by three and the boundary fixture by six",
+          "disposition": "REPAIRED",
+          "how": "Two distinct causes, both fixed in requiredBeforeFilingItems. (a) Identity was formNumber+harvested label, and these content streams harvest out of order: DC 1:15 gives Text50 and Text52 the same fragment, Text59.0 and Text64 the same fragment, Text60.0 and Text65 the same fragment, so three real blanks were deduplicated out of existence. The key is now the PDF field name. (b) Only canonicalRefusals was scanned, so the three boundary-only case-number refusals reached no reader; both personas are now scanned and each row records which personas it appears on. The map reconciles exactly: 21 declared rows, 21 rows carrying requiredBeforeFiling true across canonicalRefusals, boundaryRefusals, roleRefusals and selectionControls, zero undisclosed and zero orphaned. Both causes have live negative cases in the self-tests.",
+          "evidence": "production-field-map.json requiredBeforeFiling vs every rbf=true row: undisclosed 0, orphaned 0"
+        },
+        {
+          "finding": "REQUIRED_BEFORE_FILING (3) - two role-protected fields (DC-1-15 Text59.0 and Text64) declared requiredBeforeFiling, which the contract's PARTICIPANT-COMPLETABLE condition forbids outright",
+          "disposition": "REPAIRED, AND WIDER THAN THE FINDING",
+          "how": "The condition is applied as a rule rather than to two named rows: no row the build refused BY ROLE may also be declared required-before-filing. That catches the two VF06 named AND three more it did not - DC-1-15 Text47, Text48 and Text49, all likewise classified_unwritable_by_role with requiredBeforeFiling true, all equally in breach. Five rows in total lose the flag. Losing a flag is not enough on its own: cleared alone, the rows kept their old required-before-filing prose and no class, and the completeness reader then scored the very fields this repair protects as knownRequiredFieldsMissing 4 and unclassifiedBlanks 3. Each withheld row is therefore also given the closed-vocabulary class court_prosecutor_clerk_or_agency_owned (PROTECTED_FIELD) - the class this host already uses for DC 1:15 Text44 and Text46 - and the court-owned reason. The decision is made per FIELD and applied to every array, because the same blank is written down under different words (Text64 is classified_unwritable_by_role in the canonical and boundary rows and binding_not_approved_by_exact_caption_gate in the role-refusal rows); a first attempt that judged each row on its own words cleared two of three and the third put the field straight back on the list. Rows that already carry a settled sourcePresentation are never touched - skipping that guard re-classified TYPEOFCOURTDROPDOWN, both county caption templates and both DC 1:15 caption templates and turned 21 settled rows into unclassified blanks.",
+          "notHidden": "Nothing is dropped silently. All five appear in participant-instructions.md under 'Blanks this packet does not fill, and does not ask you to supply', each named by its plain meaning and told who supplies the value, and in production-field-map.json under blanksWithheldFromParticipantTasks.",
+          "deltaFromTheAssignment": "The assignment named two fields; three more (Text47, Text48, Text49) were in the identical breach and are corrected with them. Called out here rather than buried."
+        },
+        {
+          "finding": "REQUIRED_BEFORE_FILING (4) - disclosed labels fail the IDENTIFIED condition: 'CRIMINAL CONVICTION - r', 'SERVICE - To', 'same may be heard', 'changes, you must complete a Change of Contact Information F', and 'DC1:15 NEW 08/19' (the form's own revision stamp) for DC-1-15 `plaintiff`",
+          "disposition": "REPAIRED",
+          "how": "Every disclosed blank is now named by what it IS, read off the pinned form's own printed line with the form's wording quoted so the participant can find it on the page, declared per field in a new plainFieldMeanings config block. assertEveryDisclosedBlankIsNamed throws if any disclosed blank has no entry, so a new blank cannot reach a participant carrying a stream fragment for a name; live negative case in the self-tests. 'CRIMINAL CONVICTION - r' is now 'Why you cannot receive email, second line'; 'same may be heard' is now 'The hearing time - the blank after \"at\"'; the revision stamp is gone entirely because `plaintiff` is written and is no longer a blank at all. The PDF field id is printed after each plain meaning so the guide can still be tied back to the field map.",
+          "evidence": "participant-instructions.md; plainFieldMeanings in scripts/build-census-v1-ne-setaside-custodial-set.mjs"
+        },
+        {
+          "finding": "VF06 standing item - KNOWN_PREFILLS TYPEOFCOURTDROPDOWN: all four delivered caption instances print the court type from matter.court",
+          "disposition": "STILL HOLDS",
+          "how": "'IN THE DISTRICT COURT OF' present exactly once on CC 6:11 p1, CC 6:11.2 p1 and DC 1:15 p1 in BOTH fixtures, re-read from the new bytes."
+        },
+        {
+          "finding": "VF06 standing item - REQUIRED_BEFORE_FILING false CC 6:11a blanks and interactive-dropdown direction",
+          "disposition": "STILL HOLDS",
+          "how": "No CC-6-11A section in the guide (0 occurrences); 'CC 6:11a is an instruction sheet, not a filing to complete' present; 'These PDFs have no interactive form fields' present; 'The delivered PDF is flattened and has no interactive dropdown' present on all three county entries; pdfinfo reports Form: none on both fixtures; CC-6-11A carries 0 actual writes."
+        },
+        {
+          "finding": "Earlier repairs that had to keep holding - CC 6:11a blanks and dropdown direction (fix91 / Codex 2ff6e5918), the local-rules check (FIX81), execution dates out of the checklist",
+          "disposition": "STILL HOLDS",
+          "how": "Local-rules section present once and still carrying NE.memo.json components[5] character for character (assertLocalRulesCheckIsTheMemos passes); 'local practice varies' twice; the signature/signature-date/certificate-of-mailing exclusion note intact; `datesigned` appears nowhere in the guide as a task; assertComponentDispositionMatchesTheManifest still passes on all six components."
+        }
+      ],
+
+      "obligationsThisRowDoesNotDischarge": [
+        "RASTER_ACCEPTANCE - the fixture bytes moved, so the acceptance receipt bound to canonical dd6825cc is void. product-wiring.json now records acceptanceReceipt: null with the reason, which is the builder's own honesty mechanism, not a claim by this lane. A central raster acceptance run against dd1cde67 / 07a9b4ab is owed. The 300 dpi reads in this row were made on this machine and are a repair-lane inspection, not the central gate.",
+        "INDEPENDENT_VERIFICATION - this lane built the repair and may not verify it. Every proof obligation this row touches needs an independent reader on the new bytes.",
+        "COMMERCIAL_AUTHORITY - no route opened, generationAllowed and runtimeSelectable remain false, commercialRoutesOpened 0, createsFulfillmentRecord false. The family remains BUILT_REVIEW_PENDING.",
+        "COUNSEL_REVIEW and VISUAL_REVIEW - untouched by this lane."
+      ],
+
+      "alsoObservedNotRepaired": [
+        "DC 1:15 Text64 (the served party's NAME) is classified_unwritable_by_role while its twin Text65 (the served party's ADDRESS) is refused only as no_allowlisted_fact_matches, though they are one visual block on the same two pages and both are /FT /Tx, not read-only, /F 4. The classifier is inconsistent across a matched pair. This lane followed VF06 and withheld Text64, then removed the contradiction the split would have created for the participant: Text65's entry no longer promises the name line and points at the withheld list and the service section instead. Correcting the classifier itself is a shared-semantics change outside this lane's boundary.",
+        "DC 1:15 Text60.0 is READ-ONLY in the pinned source (/Ff 8388609-class, value a rule of underscores) and still carries requiredBeforeFiling true. A read-only widget is a printed rule, not a blank. A first pass withheld it on that basis and it destabilised a row VF06 had passed, so it is left as VF06 found it and reported here instead. Its plain meaning now points the participant at the single physical address blank it shares with Text65 rather than reading as a second task.",
+        "product-wiring.json packetComponents: the builder re-adds 'component:ne-setaside-custodial-local-rules-check-6', which Captain commit 81517969b removed by hand. This is a standing divergence between the committed tree and what the builder produces at base e0df09b1a - any rebuild of this family by any lane reproduces it - and the manifest does declare six components, of which the local-rules check is delivered as process guidance. Left as the builder writes it rather than hand-edited back, because hand-editing generated output to conceal a divergence is the worse error. Flagged for the Captain.",
+        "Appearance, not a failed obligation: every value this build writes is non-embedded Helvetica while the source pages are embedded Times New Roman, so the new plaintiff caption reads in a different typeface from 'Plaintiff/Petitioner,' beneath it - the same mismatch VF06 recorded for every other written value in this packet."
+      ],
+
+      "filesChanged": [
+        "scripts/build-census-v1-ne-setaside-custodial-set.mjs",
+        "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/fixtures/canonical.pdf",
+        "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/fixtures/boundary.pdf",
+        "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/participant-instructions.md",
+        "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/production-field-map.json",
+        "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/product-wiring.json",
+        "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/reports/actual-writes.json",
+        "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/raster/canonical/page-04.png",
+        "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/raster/boundary/page-04.png"
+      ],
+      "blastRadius": "git status in this worktree lists exactly these ten paths and nothing else. No other family directory under data/rcap-all50/overlays/census-v1/ is modified; all are byte-identical to base e0df09b1a. Nothing under scripts/rcap-official-forms/** was edited. No file was created outside the family directory and this return. The claim ledger is untouched and the grant is NOT released.",
+
+      "visualInspection": "Every page of both fixtures rastered at 300 dpi with pdftoppm and read. All ten pages carry ink and none is blank. Captions complete on CC 6:11 p1, CC 6:11.2 p1 and DC 1:15 p1 in both fixtures - court type written, plaintiff written, defendant written, case number written on the canonical persona and correctly blank on the boundary persona. Protected areas clean in both fixtures: CC 6:11 Signature and Date blank; CC 6:11.2 'Dated:' and the BY THE COURT / JUDGE block blank; DC 1:15 the 'I ___ verify that on ___ (date)' line, the served party's name and address, and both signature and date blocks blank. CC 6:11a is delivered unfilled, 0 writes, identical in both fixtures. Long boundary values (a 62-character name, an 88-character email, a 76-character street address) all sit legibly on their lines with no overflow. Containment measured, not eyeballed: pdftotext -bbox-layout word extraction of every page of both fixtures, each output word matched against its own pinned source page to isolate the added words, each added word tested for containment in a write box declared in reports/actual-writes.json - 0 added words outside a declared write box on either fixture."
+    }
+  ]
+}

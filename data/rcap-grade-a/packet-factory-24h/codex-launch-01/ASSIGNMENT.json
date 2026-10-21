@@ -1,0 +1,233 @@
+{
+  "schemaVersion": "rcap-launch-engineering-assignment/v1",
+  "assignmentId": "codex-launch-01-il-felony-prostitution-relief-delivery-v1",
+  "lane": "CODEX-LAUNCH-01",
+  "laneKind": "launch-engineering",
+  "executor": "Codex (OpenAI) Cloud task, launched by the owner; not a Claude worker",
+  "authorizedBy": "Owner instruction of 2026-09-05: Codex is authorized for one bounded non-packet launch-engineering assignment when Codex capacity is available; the Captain remains sole integrator.",
+  "recordedBy": "Claude Code Captain",
+  "recordedOn": "2026-09-05",
+  "status": "RETURN_INTEGRATED_CONTINUATION_ASSIGNED",
+  "whyNotLaunchedFromHere": "This container has no Codex CLI, API credential or Codex Cloud session control. The only launch path is the owner starting a Codex Cloud task from the prompt in ASSIGNMENT.md on the branch named below. Nothing here waits on that: every packet track continues.",
+  "necessaryOwnerAction": "Start one Codex Cloud task on Roger-LegalEase/legalease-partner-dashboard-clean with branch codex/launch-01-il-delivery created from the current tip of claude/legalease-sprint-captain-utucnw (not main), with data/rcap-grade-a/packet-factory-24h/codex-launch-01/ASSIGNMENT.md as the whole prompt.",
+  "codeBase": "d7e293f81 on claude/legalease-sprint-captain-utucnw (Codex branches from the current captain tip, which carries this record and is a descendant of that commit)",
+  "route": {
+    "runtimeRouteId": "IL:felony-prostitution-relief",
+    "obligationRouteKey": "obligation:track-pathway:IL:il-prostitution-j-vacate:felony-prostitution-relief",
+    "registryTrackId": "il-prostitution-j-vacate",
+    "packetFamilyId": "il-prostitution-j-vacate-set",
+    "automaticSibling": {
+      "trackId": "il-prostitution-j-auto",
+      "admitted": false,
+      "mustStayClosed": true
+    },
+    "fulfillmentRecordId": "grade-a-il-felony-prostitution-relief-v1",
+    "commercialStatus": "commercially_eligible",
+    "whyChosen": "The owner named it. It holds a Grade-A fulfillment record, an owner-bound v2 specification (bc9050e0...), a current-byte independent PASS, a hash-bound RASTER_PASS (run 33574304514), and a productization return (data/rcap-grade-a/codex-cloud/cs2-productize-il-prostitution-1293/RETURN.json, status READY_FOR_GRADE_A_FULFILLMENT_RECORD_GENERATION). No Claude worker owns it."
+  },
+  "measuredStartingState": {
+    "launchGraphRow": "data/rcap-ledger/launch-graph.json pathwayKey IL:felony-prostitution-relief: availability MAINTENANCE_HOLD; renderer.routeKind legacy_retired; artifactResult null; operationalGates.deterministicArtifactProven false; paymentAllowed false; dtcResult.deliverable false; rcapResult.creditConsumable false; fulfillmentAuthorityAdmitted true; unmetOperationalGates [paymentAllowed, deterministicArtifactProven]",
+    "whyLegacyRetired": "scripts/generate-rcap-launch-graph.mjs line 239 resolves the pathway with resolvePacketRoute({ state, pathway }) and no trackId. src/lib/rcap/documents/packet-route-resolver.ts fences LEGACY_VERIFIED jurisdictions (MS, IL, DC, PA, TX) behind factoryV2RouteMigrationFor / factoryV2RouteProductizationFor, both track-exact, so the pathway-level resolution has no track and stays legacy_retired; factoryResolves is then false, probeArtifact never runs and artifactResult is null.",
+    "disposition": "data/rcap-grade-a/route-productization/ROUTE_PRODUCTIZATION_DISPOSITION.json nearestRoutes: exactCurrentBlocker = no hosted consumer canary and no hosted sponsored canary, hosted workflow undispatchable from this repository (credentials named, not carried)"
+  },
+  "task": "Complete the existing consumer/sponsored delivery path for IL:felony-prostitution-relief so that a participant whose screening lands on registry track il-prostitution-j-vacate is served, end to end, by the factory_v2 renderer bound to the server-owned specification: (1) the runtime route resolves through the exact productized track (the automatic sibling il-prostitution-j-auto stays closed; the trackless aggregate route is never admitted); (2) the launch graph reads a route-scoped deterministic artifact for the route (operationalGates.deterministicArtifactProven true, artifactResult.rendered and .deterministic true) produced by the existing probe, not by a bypass; (3) consumer checkout -> render job -> authorized download, and the sponsored (partner/clinic) entitlement path, bind to that exact route and family through the existing delivery core (authorizePacketDownload / streamAuthorizedPacket, runWorkerCycle, commercial-admission, consumer-delivery-control); (4) every existing delivery verifier covers the exact route. paymentAllowed, sellable and creditConsumable stay false at the resolver and the evaluator: commercial authority comes only from the fulfillment record and the launch gates, and this assignment opens nothing. Production, Vercel, Supabase auth/RLS/session, Stripe live mode and environment variables are untouched.",
+  "writablePaths": [
+    "src/lib/rcap/documents/packet-route-resolver.ts",
+    "src/lib/rcap/documents/factory-v2-registry.ts",
+    "src/lib/rcap/render/**",
+    "src/lib/rcap/fulfillment/**",
+    "src/app/api/**/rcap*/** (route handlers for checkout, render jobs, delivery and sponsored entitlement only)",
+    "scripts/generate-rcap-launch-graph.mjs",
+    "scripts/verify-rcap-*.mjs and scripts/test-rcap-*.mjs for the delivery path (extend or add cases; never weaken an assertion)",
+    "data/rcap-ledger/launch-graph.json, data/rcap-ledger/public-witness-*.json, data/record-clearing/factory-v2-route-registry.json (regenerated with their generators only, never hand-edited)"
+  ],
+  "prohibitedPaths": [
+    "data/rcap-all50/** (packet families, fixtures, field maps, receipts)",
+    "data/rcap-grade-a/packet-factory-24h/** except this lane's own return directory",
+    "data/rcap-grade-a/legal-decisions/**, data/record-clearing/legal-design-*/**, data/record-clearing/packet-specifications/**",
+    "data/rcap-grade-a/fulfillment-authority-registry.json and scripts/generate-rcap-grade-a-fulfillment-authority.mjs",
+    "supabase/**, migrations, RLS, auth or session code; Stripe configuration; .env*, vercel.json, .github/workflows/**",
+    "scripts/build-census-v1-*.mjs and every packet builder or host"
+  ],
+  "acceptance": {
+    "mustPass": [
+      "node scripts/verify-route-resolution.mjs",
+      "node scripts/verify-rcap-factory-v2-route.mjs && node scripts/verify-rcap-factory-v2-route.mjs --mutations",
+      "node scripts/generate-rcap-factory-v2-registry.mjs --check",
+      "node scripts/generate-rcap-launch-graph.mjs --check && node scripts/verify-rcap-launch-graph.mjs && node scripts/verify-rcap-launch-graph.mjs --mutations",
+      "node scripts/verify-rcap-no-checkout-on-automatic-routes.mjs",
+      "node scripts/verify-rcap-sellable-pathway-closure.mjs --governance-only && node scripts/verify-rcap-sellable-pathway-closure.mjs --mutations",
+      "node scripts/verify-rcap-money-gate-delivery-binding.mjs && node scripts/verify-rcap-money-gate-delivery-binding.mjs --mutations",
+      "node scripts/verify-rcap-lane-f-commercial-admission.mjs",
+      "node scripts/verify-rcap-consumer-delivery-environment.mjs",
+      "node scripts/verify-rcap-packet-render-path.mjs && node scripts/verify-rcap-packet-render-jobs.mjs && node scripts/verify-rcap-packet-delivery-contract.mjs && node scripts/verify-rcap-render-job-contract.mjs",
+      "node scripts/verify-rcap-render-worker-delivery.mjs and node scripts/verify-rcap-packet-delivery-e2e.mjs (both against the ephemeral database and the filesystem storage adapter they already use)",
+      "npx tsc --noEmit -p . and eslint on every changed file"
+    ],
+    "mustBeTrueAfter": [
+      "launch-graph row IL:felony-prostitution-relief: renderer.routeKind factory_v2 for the productized track, artifactResult.rendered true, artifactResult.deterministic true, operationalGates.deterministicArtifactProven true",
+      "no payment permission or commercial-enablement flag changes anywhere: for every launch-graph row, paymentAllowed, operationallySellable, sellable and creditConsumable read exactly what they read at the base (the committed baseline counts 28 paymentAllowed=true rows and 0 operationallySellable=true rows; both counts and every per-row value are unchanged), and the assigned Illinois route and its automatic sibling stay closed as specified",
+      "unrelated route values and behaviour are preserved: every other launch-graph row is unchanged except where a generator-only output legitimately re-derives it from the renderer/artifact-resolution change, and any such change is listed in the return with the row and the field",
+      "resolver: IL:felony-prostitution-relief with trackId il-prostitution-j-auto resolves to no factory route and no checkout; with trackId il-prostitution-j-vacate resolves factory_v2 with sellable false and creditConsumable false",
+      "a focused delivery test proves a consumer job and a sponsored entitlement for the exact route bind to family il-prostitution-j-vacate-set and refuse the automatic sibling, a wrong family, and a wildcard route scope",
+      "Production delivery stays disabled; only the assigned renderer/artifact-resolution improvements are made",
+      "no packet byte, receipt, claim ledger, queue, legal record or specification changed (git diff --stat against the base shows only the writable paths); the generator-only outputs listed under writablePaths are the sole exception to that sentence and are regenerated with their generators, never hand-edited"
+    ],
+    "notAcceptance": "A green verifier is not the outcome; the outcome is that the delivery core serves this exact route from the factory_v2 renderer with commercial authority still fail-closed. Say plainly what remains (the hosted consumer and sponsored canaries need credentials only the owner holds; paymentAllowed opens only through the fulfillment record and launch gates)."
+  },
+  "returnLocation": "data/rcap-grade-a/packet-factory-24h/codex-launch-01/RETURN.json on branch codex/launch-01-il-delivery: {schemaVersion 'rcap-launch-engineering-return/v1', lane, base, branch, commit, changedPaths, verifiersBefore, verifiersAfter (command and exit code), launchGraphRowBefore/After for the IL route, resolutionOutcomesChanged (list), routesOpened 0, paymentTouched false, productionTouched false, whatRemains}",
+  "integration": {
+    "rule": "The Captain reads the return, re-runs the acceptance list on the captain branch, treats any change to worker inputs (resolver, renderer, delivery core) as requiring the existing publication/equivalence process before any worker digest is reused, and integrates by copying the exact commit's files or merging; Codex never pushes to the captain branch or main.",
+    "integratedOn": "2026-09-05",
+    "workerCommits": {
+      "implementation": "fbee9d12f38f8f834e440cd3d17ad00470f7365b",
+      "return": "fb462a3c1544d4a23a077ea61f245e691bfd07dd"
+    },
+    "captainCommits": {
+      "implementation": "a5dc95d0a",
+      "return": "eaa9b6193",
+      "launchGraphRegenerated": "73375e9a6"
+    },
+    "howIntegrated": "Both worker commits were cherry-picked onto the Captain branch unchanged (no Captain change had touched any of their paths since the worker base cf6b9f05c). The launch graph was regenerated from the current inputs with the default generator: the JSON was byte-identical to the worker snapshot and only docs/record-clearing/LAUNCH_GRAPH.md, which the assignment omitted from its writable paths, was stale; it is committed and the default --check passes with both outputs.",
+    "captainReview": "Exact-track behaviour: the launch graph resolves IL:felony-prostitution-relief only through the track the server-owned specification names (il-prostitution-j-vacate) and probes the artifact for that packet set alone; the automatic sibling stays in the source inventory and never enters the artifact scope. Sibling denial: finalVerificationSnapshotFrom leaves boundPacketFamilyId null when the verified track does not map to the requested family, so the existing admission authority refuses trackless, wildcard and automatic-track verifications at consumer checkout, sponsored entitlement, generation, dispatch and download. Current-verification binding: authorizePacketDownload requires a current verification for the exact IL route on consumer and sponsored jobs, checks route and matter against the job, and the route handler supplies it through the existing protected readers under the unchanged consumer-delivery control. Payment and commercial flags: 28 rows paymentAllowed true and 0 operationally sellable before and after, every per-row value unchanged, IL paymentAllowed/sellable/creditConsumable false. One reviewer note, not a defect: packet-delivery.ts and the download route name the Illinois route id literally; that is the exact-route binding the assignment asked for, and the continuation must not generalise it into a route table.",
+    "acceptanceRerunByCaptainAt": "73375e9a6",
+    "acceptanceResults": "All 23 commands exit 0 on the integrated tree: verify-route-resolution; verify-rcap-factory-v2-route (and --mutations); generate-rcap-factory-v2-registry --check; generate-rcap-launch-graph --check; verify-rcap-launch-graph (and --mutations); verify-rcap-no-checkout-on-automatic-routes; verify-rcap-sellable-pathway-closure --governance-only and --mutations; verify-rcap-money-gate-delivery-binding (and --mutations); verify-rcap-lane-f-commercial-admission; verify-rcap-consumer-delivery-environment; verify-rcap-packet-render-path; verify-rcap-packet-render-jobs; verify-rcap-packet-delivery-contract; verify-rcap-render-job-contract; verify-rcap-il-delivery-binding; verify-rcap-render-worker-delivery and verify-rcap-packet-delivery-e2e (ephemeral PostgreSQL 16 and the filesystem storage adapter, in this container); npx tsc --noEmit; eslint on every changed file. Local only: no hosted identity, no Stripe, no deployed environment.",
+    "workerInputsChanged": "The changed files are launch-graph, delivery-core and verifier code plus the download route handler. No packet builder, host, finalizer, splitter or family byte changed, so no packet-worker digest is affected; the publication/equivalence check applies to the render worker image only when the continuation changes scripts/rcap-render-worker.mjs or the renderer it invokes, and is run then, before any image executes under a claimed current digest.",
+    "acceptanceAfterRevocation": "Re-run at 29d4ae772, after the canonical registry revoked grade-a-il-felony-prostitution-relief-v1 (version 2, il-prostitution-j-vacate-set failed a fresh independent read): 18 of the 23 commands exit 1, every one for the same reason. scripts/verify-rcap-il-delivery-binding.mjs, which the other delivery verifiers import, asserts governCommercialAdmission(...).admitted === true for consumer_checkout, sponsored_entitlement, generation_admission, provider_dispatch, private_download and repeat_download using the LIVE registry, and the live answer is now denialCode fulfillment_revoked. That is the authority working, not a defect in the binding: the same code passed at 73375e9a6 with the record at version 1. Green again when the family is re-proven and the generator reinstates the record. eslint, tsc and the verifiers that do not import the binding file still pass."
+  },
+  "ownership": "This record is the ownership record: the writable paths above are owned by CODEX-LAUNCH-01 until its return is integrated or the assignment is withdrawn; no Claude lane is dispatched onto them meanwhile. No packet-family claim is minted because no packet family is written.",
+  "captainBranch": "claude/legalease-sprint-captain-utucnw",
+  "branchFrom": "the current tip of claude/legalease-sprint-captain-utucnw (never main); the Codex branch codex/launch-01-il-delivery is created from that tip and its return is integrated by the Captain into that branch",
+  "clarifications": [
+    {
+      "on": "2026-09-05",
+      "by": "owner instruction, recorded by the Captain",
+      "what": [
+        "The assignment branches from and returns to the canonical Captain branch claude/legalease-sprint-captain-utucnw, never main.",
+        "The earlier acceptance sentence requiring every launch-graph row to read paymentAllowed=false was wrong: the committed baseline counts 28 paymentAllowed=true rows. The constraint is: change no payment permission or commercial-enablement flag; preserve unrelated route values and behaviour; keep the assigned Illinois route and its automatic sibling closed as specified; keep Production delivery disabled; permit only the assigned renderer/artifact-resolution improvements.",
+        "The generator-only outputs listed under writablePaths (data/rcap-ledger/launch-graph.json, data/rcap-ledger/public-witness-*.json, data/record-clearing/factory-v2-route-registry.json) are the exceptions to the generic no-ledger-changes sentence; those exceptions are not broadened. The claim ledger, queues, receipts, legal records and specifications stay prohibited.",
+        "One assignment only: no second Codex assignment is created for this route."
+      ]
+    }
+  ],
+  "continuation": {
+    "continuationId": "codex-launch-01-continuation-v1",
+    "authorizedBy": "Owner instruction of 2026-09-05 (CONSUME CODEX-LAUNCH-01 AND CONTINUE THE SAME DELIVERY TASK): one narrow Codex continuation completing the existing Illinois delivery assignment's two documented application dependencies. No second assignment, no new framework, no second delivery architecture.",
+    "executor": "The same Codex task and context where available; otherwise a Codex Cloud task continuing branch codex/launch-01-il-delivery.",
+    "continueFrom": "Merge origin/claude/legalease-sprint-captain-utucnw at or after 73375e9a6 into codex/launch-01-il-delivery with an ordinary merge (that tip already carries both worker commits, the regenerated launch graph and its Markdown). Never rebase, force-push or recreate completed work; never push to the Captain branch or main; never open a pull request.",
+    "ownershipCheck": "Captain checked on 2026-09-05 before assigning: no Claude lane holds or edits any path below. Every running packet lane writes only under data/rcap-all50/**, its own scripts/build-census-v1-*.mjs builder, scripts/rcap-official-forms/rcap-official-form-finalize.mjs (FIX33 only) and its lane return directory. These paths are owned by CODEX-LAUNCH-01 until the continuation return is integrated or withdrawn; no Claude lane is dispatched onto them meanwhile.",
+    "writablePaths": [
+      "src/lib/expungement-ai/packet-fulfillment-authority.ts",
+      "src/lib/expungement-ai/payment-adapter.ts",
+      "src/lib/expungement-ai/packet-generation.ts",
+      "scripts/rcap-render-worker.mjs",
+      "src/lib/rcap/render/** (job-queue, packet-delivery, commercial-admission, consumer-delivery-control, job-contract, artifact-storage; only where the two outcomes need it)",
+      "src/lib/rcap/fulfillment/** (readers only: consume grade-a-registry, grade-a-authority and grade-a-admission; never write the registry)",
+      "src/app/api/**/rcap*/** route handlers for checkout, render jobs, delivery and sponsored entitlement only",
+      "scripts/verify-rcap-*.mjs and scripts/test-rcap-*.mjs for the delivery path (extend or add cases; never weaken an assertion)",
+      "data/rcap-ledger/launch-graph.json, docs/record-clearing/LAUNCH_GRAPH.md, data/rcap-ledger/public-witness-*.json, data/record-clearing/factory-v2-route-registry.json (regenerated with their generators only)",
+      "data/rcap-grade-a/packet-factory-24h/codex-launch-01/RETURN-02.json (the continuation return)"
+    ],
+    "prohibitedPaths": [
+      "data/rcap-grade-a/fulfillment-authority-registry.json, fulfillment-authority-projection.json, fulfillment-authority-observation.json and scripts/generate-rcap-grade-a-fulfillment-authority.mjs (the canonical authority; consume it, never edit or regenerate it)",
+      "data/rcap-ledger/packet-fulfillment-records.json (the older consumer ledger: do not populate it as a competing approval ledger; do not delete it)",
+      "data/rcap-grade-a/legal-decisions/**, data/record-clearing/legal-design-*/**, data/record-clearing/packet-specifications/**, every packet family under data/rcap-all50/**, every builder or host",
+      "supabase/** and migrations, RLS, auth or session code; Stripe configuration; .env*, vercel.json, .github/workflows/**; Production"
+    ],
+    "currentAuthorityFact": "As of this base the canonical registry carries grade-a-il-felony-prostitution-relief-v1 at version 2 with revocation.revoked = true: il-prostitution-j-vacate-set failed a fresh independent read on 2026-09-05 (VF07: the machine route key prints inside the court's block on page 3 of the proposed order). Repair lane FIX02 is in flight; when the family passes a fresh read on a current raster receipt the generator reinstates the record on the same history chain. The runtime answer for IL is therefore REVOKED / not commercially eligible at this base, and that answer is correct. Do not work around it.",
+    "outcomeA": {
+      "goal": "packetFulfillmentAuthority (src/lib/expungement-ai/packet-fulfillment-authority.ts) and the checkout/generation callers that consult it consume the canonical Grade-A route authority (src/lib/rcap/fulfillment/grade-a-registry.ts loader, grade-a-authority.ts evaluateFulfillmentAuthority, grade-a-admission.ts observation) together with the existing provider and specification information for the exact route, track and family.",
+      "mustHold": [
+        "A valid canonical record is never rejected merely because data/rcap-ledger/packet-fulfillment-records.json lacks a duplicate entry.",
+        "A route with no canonical record, a REVOKED, STALE, INCOMPLETE or SUPERSEDED record, or a record for a different track or family, stays denied: missing-record protection is preserved, not removed globally.",
+        "Genuine approval, ownership, entitlement, rollout and payment gates are unchanged; no new approval ledger is created or populated by hand.",
+        "Proof: a focused test loads a test registry fixture (through the same loader) carrying a synthetic COMPLETE_PACKET_PROVEN record for IL:felony-prostitution-relief / il-prostitution-j-vacate / il-prostitution-j-vacate-set and shows allowed=true with the provider and specification resolved; the same test against the committed live registry shows allowed=false with the REVOKED reason; wrong-track, wrong-family and wildcard records are refused."
+      ]
+    },
+    "outcomeB": {
+      "goal": "The assigned Illinois consumer path (checkout -> generation -> durable render job -> authorized download) and the sponsored path (partner/clinic entitlement -> durable render job -> participant-owned Briefcase download) reach the existing durable job system (phase-49/50/51 tables, claim_packet_render_job, runWorkerCycle) and an actual renderer through scripts/rcap-render-worker.mjs and packet-generation.ts, using server-owned verified participant facts and the exact track, family and specification.",
+      "mustHold": [
+        "The fixed canonical-PDF adapter used by the existing tests stays test-only; it is never the production renderer and is never presented as proof of personalisation.",
+        "The existing queue, renderer and storage mechanisms are used; no second delivery architecture, router, framework or abstraction.",
+        "For approved fixture inputs the applicable deterministic-artifact regression is preserved; different participants' personalised PDFs are not required to hash to the canonical fixture."
+      ]
+    },
+    "proofRequired": [
+      "the actual assigned generation entry point and the actual worker/provider adapter run in an isolated local environment (ephemeral PostgreSQL, filesystem storage) and correct participant facts reach the generated document",
+      "changing synthetic participant facts changes the appropriate output",
+      "the resulting artifact binds to the correct matter and verification",
+      "consumer and sponsored accounting retain their existing semantics (consumer zero_charge/consumed as designed; sponsored consumed)",
+      "retries do not duplicate jobs, delivery, or credit/payment consumption",
+      "owner download and repeat download work; repeat download consumes nothing",
+      "other-user, wrong-track, wrong-family and stale-verification requests fail",
+      "unit results, local integration results and hosted results are reported separately; an authentication or Stripe boundary replaced by a test double is never reported as passed"
+    ],
+    "acceptance": {
+      "mustPass": [
+        "node scripts/verify-route-resolution.mjs",
+        "node scripts/verify-rcap-factory-v2-route.mjs && node scripts/verify-rcap-factory-v2-route.mjs --mutations",
+        "node scripts/generate-rcap-factory-v2-registry.mjs --check",
+        "node scripts/generate-rcap-launch-graph.mjs --check && node scripts/verify-rcap-launch-graph.mjs && node scripts/verify-rcap-launch-graph.mjs --mutations",
+        "node scripts/verify-rcap-no-checkout-on-automatic-routes.mjs",
+        "node scripts/verify-rcap-sellable-pathway-closure.mjs --governance-only && node scripts/verify-rcap-sellable-pathway-closure.mjs --mutations",
+        "node scripts/verify-rcap-money-gate-delivery-binding.mjs && node scripts/verify-rcap-money-gate-delivery-binding.mjs --mutations",
+        "node scripts/verify-rcap-lane-f-commercial-admission.mjs",
+        "node scripts/verify-rcap-consumer-delivery-environment.mjs",
+        "node scripts/verify-rcap-packet-render-path.mjs && node scripts/verify-rcap-packet-render-jobs.mjs && node scripts/verify-rcap-packet-delivery-contract.mjs && node scripts/verify-rcap-render-job-contract.mjs",
+        "node scripts/verify-rcap-render-worker-delivery.mjs and node scripts/verify-rcap-packet-delivery-e2e.mjs (both against the ephemeral database and the filesystem storage adapter they already use)",
+        "npx tsc --noEmit -p . and eslint on every changed file",
+        "node scripts/verify-rcap-il-delivery-binding.mjs",
+        "the focused tests added for outcome A and outcome B"
+      ],
+      "notAcceptance": "A green verifier is not the outcome. The outcome is that the consumer and sponsored paths for this exact route run end to end on the real job system and renderer locally with commercial authority still fail-closed, and the return says exactly which boundaries were test doubles."
+    },
+    "afterwards": "The Captain checks whether the integrated changes alter worker inputs (scripts/rcap-render-worker.mjs or the renderer) and runs the existing publication/equivalence process before any image executes under a claimed current digest; then runs the hosted consumer and sponsored canaries through the actual authenticated endpoints in the approved nonproduction environment. If those need credentials only the owner holds, one exact protected-workflow action is named for Roger and everything else continues.",
+    "returnLocation": "data/rcap-grade-a/packet-factory-24h/codex-launch-01/RETURN-02.json on codex/launch-01-il-delivery: {schemaVersion 'rcap-launch-engineering-return/v1', lane, continuationId, base (the merged Captain tip), branch, commit, changedPaths, verifiersBefore/After (command and exit code), outcomeA {closed true/false, evidence}, outcomeB {closed true/false, evidence}, proofs (one entry per item above with the test name and result), testDoubles (every boundary replaced), workerInputsChanged (paths), routesOpened 0, paymentTouched false, productionTouched false, whatRemains}",
+    "doNot": [
+      "open Illinois or change any unrelated commercial flag to make a test pass",
+      "change Production, live Stripe, legal decisions, packet specifications or approved packet content",
+      "regenerate or edit the canonical authority registry",
+      "grant yourself paths beyond the list above"
+    ],
+    "verifierDesignCorrection": "The binding verifier conflates two facts: whether the delivery binding admits an exact, verified request (logic) and whether the live registry currently authorizes the route (state). Under this continuation, keep every assertion but split them: prove the binding logic against a test registry fixture loaded through the same loader (a synthetic COMPLETE_PACKET_PROVEN record for the exact route, track and family, the same fixture outcome A uses), and assert the live registry's answer separately as whatever the committed registry says (REVOKED denies at this base; COMPLETE admits once reinstated), so the acceptance list reports the binding as green or red on its own merits and the commercial state as a fact. Never weaken an assertion; never edit the live registry to make the fixture case pass."
+  },
+  "continuation2": {
+    "continuationId": "codex-launch-01-continuation-v2",
+    "recordedBy": "Captain",
+    "recordedOn": "2026-09-06T00:50:00Z",
+    "authorizedBy": "Owner instruction of 2026-09-06 (CONSUME RETURN-02 AND CLOSE THE DELIVERY DEPENDENCIES), item 6: after the two dependencies land, Codex connects at its refusal point and reruns the integration chain. No second assignment, no new architecture; Outcome B stays explicitly incomplete until this return closes it.",
+    "executor": "The same Codex task continuing branch codex/launch-01-il-delivery (tip 198ac6191 at recording).",
+    "continueFrom": "Merge origin/claude/legalease-sprint-captain-utucnw at or after 7307b0e34 into codex/launch-01-il-delivery with an ordinary merge (that tip carries RETURN-02's integration as 65851c3d1, 91ede5943, ed33ddf4a and b7fca6bb2, the DEL-A entry point at 0fcedd773 and the DEL-B migration at 7307b0e34). Never rebase, force-push or recreate completed work; never push to the Captain branch or main; never open a pull request.",
+    "return02Disposition": "Integrated in full, including the final handoff commit's test-only Buffer-hashing fix. Outcome A accepted complete. Outcome B accepted incomplete for the two reasons RETURN-02 named: the renderer refused the pleading caption, and the sponsored route had no protected enqueue/finalization. Both are now landed by Claude lanes; nothing from RETURN-02 was sent back.",
+    "dependencyA_rendererEntryPoint": {
+      "landedAt": "0fcedd773 (DEL-A)",
+      "diagnosis": "The IL specification declares both documents presentation: pleading but its sections are generic caption/static/signature_block, so composeGradeAPacket emits guidance blocks and renderer.ts correctly refuses them; the approved documents were never composed through that composer. The pleading-caption guard stays.",
+      "entryPoint": "composeParticipantDeliveryPacket(specification, matter) exported from src/lib/rcap/grade-a/participant-packet.ts (import '@/lib/rcap/grade-a/participant-packet'); signature-compatible with composeGradeAPacket; returns a GradeAPacket whose pleadings carry pleading_caption; unregistered families fall through to composeGradeAPacket.",
+      "whereToConnect": "src/lib/rcap/render/personalized-packet.ts: replace the composeGradeAPacket import and the single call near line 49 with composeParticipantDeliveryPacket; leave renderGradeAPacketPdf near line 117 as is.",
+      "proof": "scripts/test-rcap-il-participant-renderer.mjs (exit 0, 14 checks: two synthetic participants, distinct bytes, no cross-contamination, byte-deterministic repeats, real PDFs). Captain-owned: src/lib/rcap/grade-a/participant-packet.ts, src/lib/rcap/grade-a/families/**, scripts/lib/il-prostitution-j-vacate-composition.mjs, the family builder. Report any defect there in the return instead of editing."
+    },
+    "dependencyB_sponsoredTransaction": {
+      "landedAt": "7307b0e34 (DEL-B): supabase/migrations/20260906120000_sponsored_route_render_transaction.sql",
+      "design": "A service-only registration table sponsored_packet_render_routes whose first row restates the Mississippi literals of 20260903130000 and whose second row is IL:felony-prostitution-relief / il-prostitution-j-vacate / il-prostitution-j-vacate-set / specification content sha bc9050e0…; the automatic sibling is not registered. Set-once sponsored_* columns on packet_render_jobs carry participant, verification, session and event; the worker guard admits and checks sponsored jobs; finalize_sponsored_packet_generation_if_verified is unchanged and delegates. enqueue_packet_render_job and every consumer function are unedited.",
+      "operations": [
+        "sponsored_packet_render_authority(text,uuid,uuid,uuid) -> read-only pre-check (service_role)",
+        "enqueue_verified_sponsored_packet_render(text,uuid,uuid,text,text,text,text,text,text,text,uuid,uuid,uuid,integer,uuid,text,jsonb,jsonb) -> setof packet_render_jobs (service_role)",
+        "finalize_sponsored_packet_generation_for_route(text,uuid,uuid,text,jsonb,uuid) -> (ok, recorded, counted_as, reason) (service_role)"
+      ],
+      "whereToConnect": "src/lib/expungement-ai/packet-generation.ts at the sponsored refusal ('Verified sponsored render enqueue is unavailable for this route.', near lines 205-208): call enqueue_verified_sponsored_packet_render with the server-owned participant, current verification, program/event scope and immutable input; after the worker validates, call finalize_sponsored_packet_generation_for_route with the job id. Read the migration's own header for argument order and refusal codes.",
+      "proof": "scripts/test-rcap-il-sponsored-transaction.mjs, 69/69 on the Captain branch at 7307b0e34 (happy path, retry, concurrency, wrong owner, wrong event, stale verification, unregistered route, Mississippi matrix preserved) on a local ephemeral PostgreSQL only. No hosted or Production migration has been applied; the exact-path authorization for the migration file and the FORWARD_CHAIN list in scripts/verify-rcap-production-schema-upgrade.mjs are Captain/owner acts still outstanding, and neither is needed for the local chain."
+    },
+    "pinFact": "The verifier pins 7daaa389…/714832a8… are the owner-approved bytes (adoption 2026-09-02); FIX02 moved the committed fixtures to d4cb7659…/ea728bba… on 2026-09-05 without approval, so the live route stays REVOKED and every live-registry assertion must keep answering denied. Prove positive paths only through the isolated test authority (scripts/test-rcap-il-authority-fixture.mjs) as RETURN-02 already does; never bind d4cb7659 as approved and never edit a verifier pin (DEL-C owns the pin disposition).",
+    "task": "Connect the two dependencies at the two named points and rerun the integration chain end to end in the isolated local environment (ephemeral PostgreSQL, filesystem storage, the real render worker and the real personalized-packet adapter): (1) two synthetic participants produce two distinct personalized PDFs and correct facts reach each document; (2) a fact change changes the appropriate output; (3) the same inputs render byte-identical twice; (4) each artifact binds to the right matter and current verification; (5) consumer accounting keeps zero_charge/consumed semantics and sponsored consumption records exactly once; (6) retries duplicate no job, delivery or consumption; (7) owner and repeat download work and repeat download consumes nothing; (8) other-user, wrong-track, wrong-family, wrong-event and stale-verification requests fail; (9) a changed verification regenerates rather than serving the stale artifact. scripts/test-rcap-il-personalization.mjs must exit 0 once the adapter is connected; keep it and extend it rather than replacing it.",
+    "writablePaths": "As continuation-v1, plus src/lib/rcap/render/personalized-packet.ts (already within src/lib/rcap/render/**) and the return data/rcap-grade-a/packet-factory-24h/codex-launch-01/RETURN-03.json. Still prohibited: the migration files, the canonical registry, specifications, packet families, participant-packet.ts and the family composition modules, verifier pins, .env*, workflows, Stripe, Production.",
+    "acceptance": "continuation-v1 acceptance.mustPass plus scripts/test-rcap-il-participant-renderer.mjs, scripts/test-rcap-il-sponsored-transaction.mjs, scripts/test-rcap-il-personalization.mjs, scripts/verify-rcap-il-consumer-authority.mjs and scripts/verify-rcap-il-delivery-binding.mjs; record every exit code before and after. The three commands RETURN-02 reported red for the caption and the missing sponsored operation must be green; any command red at the base for an unrelated reason stays reported with its cause, never fixed by weakening an assertion.",
+    "returnLocation": "data/rcap-grade-a/packet-factory-24h/codex-launch-01/RETURN-03.json on codex/launch-01-il-delivery, shape as RETURN-02 with continuationId codex-launch-01-continuation-v2, plus deliveryResults: one entry per numbered chain item above with the test name, the artifacts' digests and the result; testDoubles listing every boundary replaced; hostedResults 'not run' unless an owner-authorized nonproduction environment was actually used.",
+    "doNot": [
+      "remove or weaken the pleading-caption guard",
+      "return a fixed canonical PDF as a personalized render",
+      "edit the migration, the registry, the pins or any Captain-owned module",
+      "open Illinois or change any commercial flag",
+      "claim a hosted result from a local double"
+    ]
+  }
+}

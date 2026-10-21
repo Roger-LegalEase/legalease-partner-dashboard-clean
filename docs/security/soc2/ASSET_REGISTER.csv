@@ -1,0 +1,6 @@
+asset_id,asset_name,asset_type,environment,owner,criticality,data_classes_processed,access_model,mfa_enforced,offboarding_step_required,review_frequency,evidence_location,status,notes
+AST-SYS-001,GitHub — Roger-LegalEase/legalease-partner-dashboard-clean,Source control,Production-adjacent,Roger Roman,Critical,"Source, CI config",TO_VERIFY,TO_VERIFY,Yes,Quarterly,Secureframe,UNVERIFIED,Repository confirmed in use. Access model and MFA require EA-10/EA-11.
+AST-SYS-002,Supabase,"Database, auth, storage",Production,Roger Roman,Critical,"Participant PII, criminal-record facts, packets",TO_VERIFY,TO_VERIFY,Yes,Quarterly,Secureframe,UNVERIFIED,17 migrations and 73 RLS policies in repo. Console access unverified — EA-12.
+AST-SYS-003,Vercel,Application hosting,Production,Roger Roman,Critical,"Request data, logs",TO_VERIFY,TO_VERIFY,Yes,Quarterly,Secureframe,UNVERIFIED,Referenced by scripts/rcap-vercel-failure-audit.mjs. EA-13.
+AST-SYS-004,Stripe,Payments,Production,Roger Roman,Critical,Payment data,TO_VERIFY,TO_VERIFY,Yes,Quarterly,Secureframe,UNVERIFIED,CONSUMER_PACKET_PRICE_CENTS=5000 in code. EA-14.
+AST-SYS-005,Secureframe,Compliance evidence,Corporate,Faith Walls,High,Employee and compliance evidence,TO_VERIFY,TO_VERIFY,Yes,Quarterly,Secureframe,UNVERIFIED,Intended system of record. EA-16.

@@ -1,0 +1,1000 @@
+{
+  "schemaVersion": "vf62-complete-pa-defect-pass/v1",
+  "familyId": "pa_6308_underage-set",
+  "reviewer": "/root/pa_ri_independent_acceptance",
+  "reviewedAtBase": "75f6e416d892f82ab5ceb8c826dc6842ec7b6ca5",
+  "oneCompletePass": true,
+  "defects": [
+    {
+      "id": "PA-VF62-01",
+      "obligations": [
+        "KNOWN_PREFILLS"
+      ],
+      "finding": "Known facts are omitted or falsely described as unavailable. Both proposed orders print only participant.street_address in Petitioner\u2019s Address, dropping the already-held apartment, city, state and ZIP. Both DateAndArrestingAgency boxes are blank and declared no exact fact even though the companion petition prints the held arrest date and arresting agency. The 790 order Text15 charge/disposition box is blank with the same no-fact claim although matter.charge is held; if its missing disposition requires withholding, that must be described truthfully. Both petition row-1 charge cells are correctly withheld with the whole row but falsely say no exact fact is held, instead of identifying the held charge and row-integrity reason.",
+      "evidence": [
+        {
+          "documentId": "PA-RCRIM-P-490-ORDER",
+          "fields": [
+            {
+              "field": "PetitionersAddress",
+              "decision": "candidate_write",
+              "factId": "participant.street_address",
+              "widgets": [
+                {
+                  "widgetIndex": 0,
+                  "page": 2,
+                  "rect": {
+                    "x": 213.674,
+                    "y": 657.86,
+                    "width": 320.41,
+                    "height": 16.062
+                  },
+                  "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
+                }
+              ]
+            },
+            {
+              "field": "DateAndArrestingAgency",
+              "decision": "refuse",
+              "factId": null,
+              "blankTreatment": "REQUIRED_BEFORE_FILING",
+              "requiredBeforeFiling": true,
+              "routeDetermined": false,
+              "effectiveLabel": "justice agency that made the arrest",
+              "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+              "widgets": [
+                {
+                  "widgetIndex": 0,
+                  "page": 2,
+                  "rect": {
+                    "x": 105.279,
+                    "y": 371.844,
+                    "width": 427.88,
+                    "height": 27.979
+                  },
+                  "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "documentId": "PA-RCRIM-P-790-ORDER",
+          "fields": [
+            {
+              "field": "PetitionersAddress",
+              "decision": "candidate_write",
+              "factId": "participant.street_address",
+              "widgets": [
+                {
+                  "widgetIndex": 0,
+                  "page": 2,
+                  "rect": {
+                    "x": 214.015,
+                    "y": 657.518,
+                    "width": 320.41,
+                    "height": 16.062
+                  },
+                  "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
+                }
+              ]
+            },
+            {
+              "field": "DateAndArrestingAgency",
+              "decision": "refuse",
+              "factId": null,
+              "blankTreatment": "REQUIRED_BEFORE_FILING",
+              "requiredBeforeFiling": true,
+              "routeDetermined": false,
+              "effectiveLabel": "agency that made the arrest",
+              "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+              "widgets": [
+                {
+                  "widgetIndex": 0,
+                  "page": 2,
+                  "rect": {
+                    "x": 106.62,
+                    "y": 362.502,
+                    "width": 427.88,
+                    "height": 27.979
+                  },
+                  "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
+                }
+              ]
+            },
+            {
+              "field": "Text15",
+              "decision": "refuse",
+              "factId": null,
+              "blankTreatment": "REQUIRED_BEFORE_FILING",
+              "requiredBeforeFiling": true,
+              "routeDetermined": false,
+              "effectiveLabel": "applicable dispositions (attach additional sheets if needed)",
+              "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+              "widgets": [
+                {
+                  "widgetIndex": 0,
+                  "page": 2,
+                  "rect": {
+                    "x": 106.686,
+                    "y": 277.06,
+                    "width": 427.378,
+                    "height": 57.065
+                  },
+                  "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "documentId": "PA-RCRIM-P-490-PETITION",
+          "fields": [
+            {
+              "field": "Statute DescriptionRow1",
+              "decision": "refuse",
+              "factId": null,
+              "blankTreatment": "REQUIRED_BEFORE_FILING",
+              "requiredBeforeFiling": true,
+              "routeDetermined": false,
+              "effectiveLabel": "Section Subsection Statute Description Counts Grade Disposit",
+              "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+              "widgets": [
+                {
+                  "widgetIndex": 0,
+                  "page": 1,
+                  "rect": {
+                    "x": 199.56,
+                    "y": 337.68,
+                    "width": 169.68,
+                    "height": 11.64
+                  },
+                  "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "documentId": "PA-RCRIM-P-790-PETITION",
+          "fields": [
+            {
+              "field": "Statute DescriptionRow1",
+              "decision": "refuse",
+              "factId": null,
+              "blankTreatment": "REQUIRED_BEFORE_FILING",
+              "requiredBeforeFiling": true,
+              "routeDetermined": false,
+              "effectiveLabel": "Section Subsection Statute Description Counts Grade Disposit",
+              "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+              "widgets": [
+                {
+                  "widgetIndex": 0,
+                  "page": 1,
+                  "rect": {
+                    "x": 195.12,
+                    "y": 328.2,
+                    "width": 178.68,
+                    "height": 11.88
+                  },
+                  "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "currentByteCounterexamples": [
+        "490 canonical order page 2: address reads 118 Maple Street, while canonical petition reads Apartment 4B / Harrisburg / PA / 17101. Item 10 is blank while petition prints Example Police Department and 2019-03-08.",
+        "790 boundary order page 2: only street/building at item 3; item 10 and item 11 are blank. The held long charge is not in the held-but-not-printed disclosure."
+      ],
+      "repairRequirement": "Carry each complete composite held fact where it fits, or preserve a measured, truthful reason and exact manual-completion instruction. Preserve whole-row withholding until all required row facts are available.",
+      "status": "OPEN",
+      "measuredAgainstBase": "75f6e416d892f82ab5ceb8c826dc6842ec7b6ca5"
+    },
+    {
+      "id": "PA-VF62-02",
+      "obligations": [
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "finding": "Ordinary historical case facts are incorrectly assigned to court/agency ownership, suppressing required participant completion. The source asks for the judge and address of the court that heard the old case and the affiant as shown on the complaint/citation; those are facts copied from the record, not new judicial or agency acts. ReasonForMissingHistory is the petitioner\u2019s reason for not attaching the report, not an agency-owned field. Conversely, both orders\u2019 future judicial Disposition is explicitly demanded before filing even though the source says it is ORDERED that the Petition/Motion is [blank].",
+      "evidence": [
+        {
+          "documentId": "PA-RCRIM-P-490-PETITION",
+          "fields": [
+            {
+              "field": "Judge",
+              "decision": "refuse",
+              "factId": null,
+              "blankTreatment": null,
+              "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+              "effectiveLabel": "Judge",
+              "reason": "The field remains blank under its recorded participant, later-act, or protected-owner treatment.",
+              "widgets": [
+                {
+                  "widgetIndex": 0,
+                  "page": 1,
+                  "rect": {
+                    "x": 80.316,
+                    "y": 495.526,
+                    "width": 219.501,
+                    "height": 13.223
+                  },
+                  "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
+                }
+              ]
+            },
+            {
+              "field": "JudgeAddr1",
+              "decision": "refuse",
+              "factId": null,
+              "blankTreatment": null,
+              "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+              "effectiveLabel": "Address",
+              "reason": "The field remains blank under its recorded participant, later-act, or protected-owner treatment.",
+              "widgets": [
+                {
+                  "widgetIndex": 0,
+                  "page": 1,
+                  "rect": {
+                    "x": 343.473,
+                    "y": 500.868,
+                    "width": 228.24,
+                    "height": 10.8
+                  },
+                  "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
+                }
+              ]
+            },
+            {
+              "field": "JudgeAddr2",
+              "decision": "refuse",
+              "factId": null,
+              "blankTreatment": null,
+              "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+              "effectiveLabel": "Address",
+              "reason": "The field remains blank under its recorded participant, later-act, or protected-owner treatment.",
+              "widgets": [
+                {
+                  "widgetIndex": 0,
+                  "page": 1,
+                  "rect": {
+                    "x": 343.473,
+                    "y": 490.003,
+                    "width": 228.24,
+                    "height": 11.127
+                  },
+                  "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
+                }
+              ]
+            },
+            {
+              "field": "JudgeAddrCity",
+              "decision": "refuse",
+              "factId": null,
+              "blankTreatment": null,
+              "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+              "effectiveLabel": "Address",
+              "reason": "The field remains blank under its recorded participant, later-act, or protected-owner treatment.",
+              "widgets": [
+                {
+                  "widgetIndex": 0,
+                  "page": 1,
+                  "rect": {
+                    "x": 343.473,
+                    "y": 479.566,
+                    "width": 171.507,
+                    "height": 10.146
+                  },
+                  "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
+                }
+              ]
+            },
+            {
+              "field": "JudgeAddrState",
+              "decision": "refuse",
+              "factId": null,
+              "blankTreatment": null,
+              "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+              "effectiveLabel": "JudgeAddrState",
+              "reason": "The field remains blank under its recorded participant, later-act, or protected-owner treatment.",
+              "widgets": [
+                {
+                  "widgetIndex": 0,
+                  "page": 1,
+                  "rect": {
+                    "x": 516.582,
+                    "y": 479.614,
+                    "width": 20.854,
+                    "height": 10.589
+                  },
+                  "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
+                }
+              ]
+            },
+            {
+              "field": "JudgeAddrZip",
+              "decision": "refuse",
+              "factId": null,
+              "blankTreatment": null,
+              "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+              "effectiveLabel": "JudgeAddrZip",
+              "reason": "The field remains blank under its recorded participant, later-act, or protected-owner treatment.",
+              "widgets": [
+                {
+                  "widgetIndex": 0,
+                  "page": 1,
+                  "rect": {
+                    "x": 539.585,
+                    "y": 479.614,
+                    "width": 31.855,
+                    "height": 10.589
+                  },
+                  "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
+                }
+              ]
+            },
+            {
+              "field": "Name of Affiant",
+              "decision": "refuse",
+              "factId": null,
+              "blankTreatment": null,
+              "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+              "effectiveLabel": "Name of Affiant: Address",
+              "reason": "The field remains blank under its recorded participant, later-act, or protected-owner treatment.",
+              "widgets": [
+                {
+                  "widgetIndex": 0,
+                  "page": 1,
+                  "rect": {
+                    "x": 78.394,
+                    "y": 399.732,
+                    "width": 221.997,
+                    "height": 16.388
+                  },
+                  "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
+                }
+              ]
+            },
+            {
+              "field": "AffiantAddr2",
+              "decision": "refuse",
+              "factId": null,
+              "blankTreatment": null,
+              "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+              "effectiveLabel": "Name of Affiant: Address",
+              "reason": "The field remains blank under its recorded participant, later-act, or protected-owner treatment.",
+              "widgets": [
+                {
+                  "widgetIndex": 0,
+                  "page": 1,
+                  "rect": {
+                    "x": 344.825,
+                    "y": 407.085,
+                    "width": 224.703,
+                    "height": 11.633
+                  },
+                  "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
+                }
+              ]
+            },
+            {
+              "field": "AffiantAddrCity",
+              "decision": "refuse",
+              "factId": null,
+              "blankTreatment": null,
+              "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+              "effectiveLabel": "Name of Affiant: Address",
+              "reason": "The field remains blank under its recorded participant, later-act, or protected-owner treatment.",
+              "widgets": [
+                {
+                  "widgetIndex": 0,
+                  "page": 1,
+                  "rect": {
+                    "x": 344.825,
+                    "y": 397.662,
+                    "width": 170.9,
+                    "height": 10.605
+                  },
+                  "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
+                }
+              ]
+            },
+            {
+              "field": "AffiantAddrState",
+              "decision": "refuse",
+              "factId": null,
+              "blankTreatment": null,
+              "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+              "effectiveLabel": "List specific charges, as they appear on the charging docume",
+              "reason": "The field remains blank under its recorded participant, later-act, or protected-owner treatment.",
+              "widgets": [
+                {
+                  "widgetIndex": 0,
+                  "page": 1,
+                  "rect": {
+                    "x": 519.395,
+                    "y": 396.369,
+                    "width": 22.339,
+                    "height": 10.96
+                  },
+                  "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
+                }
+              ]
+            },
+            {
+              "field": "AffiantAddrZip",
+              "decision": "refuse",
+              "factId": null,
+              "blankTreatment": null,
+              "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+              "effectiveLabel": "List specific charges, as they appear on the charging docume",
+              "reason": "The field remains blank under its recorded participant, later-act, or protected-owner treatment.",
+              "widgets": [
+                {
+                  "widgetIndex": 0,
+                  "page": 1,
+                  "rect": {
+                    "x": 539.694,
+                    "y": 396.282,
+                    "width": 29.834,
+                    "height": 11.331
+                  },
+                  "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
+                }
+              ]
+            },
+            {
+              "field": "ReasonForMissingHistory",
+              "decision": "refuse",
+              "factId": null,
+              "blankTreatment": null,
+              "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+              "effectiveLabel": "I have not attached a copy of my Pennsylvania State Police C",
+              "reason": "The field remains blank under its recorded participant, later-act, or protected-owner treatment.",
+              "widgets": [
+                {
+                  "widgetIndex": 0,
+                  "page": 1,
+                  "rect": {
+                    "x": 47.261,
+                    "y": 140.518,
+                    "width": 525.521,
+                    "height": 24.262
+                  },
+                  "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "documentId": "PA-RCRIM-P-790-PETITION",
+          "fields": [
+            {
+              "field": "Judge",
+              "decision": "refuse",
+              "factId": null,
+              "blankTreatment": null,
+              "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+              "effectiveLabel": "Judge",
+              "reason": "The field remains blank under its recorded participant, later-act, or protected-owner treatment.",
+              "widgets": [
+                {
+                  "widgetIndex": 0,
+                  "page": 1,
+                  "rect": {
+                    "x": 78.884,
+                    "y": 480.362,
+                    "width": 219.5,
+                    "height": 20.803
+                  },
+                  "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
+                }
+              ]
+            },
+            {
+              "field": "Name of Affiant",
+              "decision": "refuse",
+              "factId": null,
+              "blankTreatment": null,
+              "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+              "effectiveLabel": "Name of Affiant: Address",
+              "reason": "The field remains blank under its recorded participant, later-act, or protected-owner treatment.",
+              "widgets": [
+                {
+                  "widgetIndex": 0,
+                  "page": 1,
+                  "rect": {
+                    "x": 77.467,
+                    "y": 391.138,
+                    "width": 221.997,
+                    "height": 16.388
+                  },
+                  "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
+                }
+              ]
+            },
+            {
+              "field": "JudgeAddr1",
+              "decision": "refuse",
+              "factId": null,
+              "blankTreatment": null,
+              "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+              "effectiveLabel": "JudgeAddr1",
+              "reason": "The field remains blank under its recorded participant, later-act, or protected-owner treatment.",
+              "widgets": [
+                {
+                  "widgetIndex": 0,
+                  "page": 1,
+                  "rect": {
+                    "x": 344.062,
+                    "y": 498.338,
+                    "width": 228.24,
+                    "height": 10.8
+                  },
+                  "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
+                }
+              ]
+            },
+            {
+              "field": "JudgeAddr2",
+              "decision": "refuse",
+              "factId": null,
+              "blankTreatment": null,
+              "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+              "effectiveLabel": "Judge: Address",
+              "reason": "The field remains blank under its recorded participant, later-act, or protected-owner treatment.",
+              "widgets": [
+                {
+                  "widgetIndex": 0,
+                  "page": 1,
+                  "rect": {
+                    "x": 344.062,
+                    "y": 487.473,
+                    "width": 228.24,
+                    "height": 11.127
+                  },
+                  "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
+                }
+              ]
+            },
+            {
+              "field": "JudgeAddrCity",
+              "decision": "refuse",
+              "factId": null,
+              "blankTreatment": null,
+              "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+              "effectiveLabel": "Judge: Address",
+              "reason": "The field remains blank under its recorded participant, later-act, or protected-owner treatment.",
+              "widgets": [
+                {
+                  "widgetIndex": 0,
+                  "page": 1,
+                  "rect": {
+                    "x": 344.062,
+                    "y": 477.036,
+                    "width": 171.507,
+                    "height": 10.146
+                  },
+                  "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
+                }
+              ]
+            },
+            {
+              "field": "JudgeAddrState",
+              "decision": "refuse",
+              "factId": null,
+              "blankTreatment": null,
+              "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+              "effectiveLabel": "JudgeAddrState",
+              "reason": "The field remains blank under its recorded participant, later-act, or protected-owner treatment.",
+              "widgets": [
+                {
+                  "widgetIndex": 0,
+                  "page": 1,
+                  "rect": {
+                    "x": 517.171,
+                    "y": 477.084,
+                    "width": 20.854,
+                    "height": 10.589
+                  },
+                  "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
+                }
+              ]
+            },
+            {
+              "field": "JudgeAddrZip",
+              "decision": "refuse",
+              "factId": null,
+              "blankTreatment": null,
+              "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+              "effectiveLabel": "JudgeAddrZip",
+              "reason": "The field remains blank under its recorded participant, later-act, or protected-owner treatment.",
+              "widgets": [
+                {
+                  "widgetIndex": 0,
+                  "page": 1,
+                  "rect": {
+                    "x": 540.174,
+                    "y": 477.084,
+                    "width": 31.855,
+                    "height": 10.589
+                  },
+                  "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
+                }
+              ]
+            },
+            {
+              "field": "AffiantAddr2",
+              "decision": "refuse",
+              "factId": null,
+              "blankTreatment": null,
+              "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+              "effectiveLabel": "Name of Affiant: Address",
+              "reason": "The field remains blank under its recorded participant, later-act, or protected-owner treatment.",
+              "widgets": [
+                {
+                  "widgetIndex": 0,
+                  "page": 1,
+                  "rect": {
+                    "x": 343.898,
+                    "y": 395.458,
+                    "width": 228.24,
+                    "height": 11.128
+                  },
+                  "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
+                }
+              ]
+            },
+            {
+              "field": "AffiantAddrCity",
+              "decision": "refuse",
+              "factId": null,
+              "blankTreatment": null,
+              "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+              "effectiveLabel": "List specific charges, as they appear on the charging docume",
+              "reason": "The field remains blank under its recorded participant, later-act, or protected-owner treatment.",
+              "widgets": [
+                {
+                  "widgetIndex": 0,
+                  "page": 1,
+                  "rect": {
+                    "x": 344.64,
+                    "y": 384.519,
+                    "width": 170.394,
+                    "height": 10.605
+                  },
+                  "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
+                }
+              ]
+            },
+            {
+              "field": "AffiantAddrState",
+              "decision": "refuse",
+              "factId": null,
+              "blankTreatment": null,
+              "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+              "effectiveLabel": "List specific charges, as they appear on the charging docume",
+              "reason": "The field remains blank under its recorded participant, later-act, or protected-owner treatment.",
+              "widgets": [
+                {
+                  "widgetIndex": 0,
+                  "page": 1,
+                  "rect": {
+                    "x": 518.468,
+                    "y": 384.742,
+                    "width": 22.339,
+                    "height": 10.96
+                  },
+                  "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
+                }
+              ]
+            },
+            {
+              "field": "AffiantAddrZip",
+              "decision": "refuse",
+              "factId": null,
+              "blankTreatment": null,
+              "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+              "effectiveLabel": "List specific charges, as they appear on the charging docume",
+              "reason": "The field remains blank under its recorded participant, later-act, or protected-owner treatment.",
+              "widgets": [
+                {
+                  "widgetIndex": 0,
+                  "page": 1,
+                  "rect": {
+                    "x": 540.752,
+                    "y": 384.655,
+                    "width": 31.855,
+                    "height": 11.331
+                  },
+                  "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
+                }
+              ]
+            },
+            {
+              "field": "ReasonForMissingHistory",
+              "decision": "refuse",
+              "factId": null,
+              "blankTreatment": null,
+              "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+              "effectiveLabel": "I have not attached a copy of my Pennsylvania State Police C",
+              "reason": "The field remains blank under its recorded participant, later-act, or protected-owner treatment.",
+              "widgets": [
+                {
+                  "widgetIndex": 0,
+                  "page": 1,
+                  "rect": {
+                    "x": 47.323,
+                    "y": 142.498,
+                    "width": 525.522,
+                    "height": 24.151
+                  },
+                  "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "documentId": "PA-RCRIM-P-490-ORDER",
+          "fields": [
+            {
+              "field": "Disposition",
+              "decision": "refuse",
+              "factId": null,
+              "blankTreatment": "REQUIRED_BEFORE_FILING",
+              "requiredBeforeFiling": true,
+              "routeDetermined": false,
+              "effectiveLabel": "it is ORDERED that the Petition/Motion is",
+              "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+              "widgets": [
+                {
+                  "widgetIndex": 0,
+                  "page": 1,
+                  "rect": {
+                    "x": 287.986,
+                    "y": 539.656,
+                    "width": 128.28,
+                    "height": 13.92
+                  },
+                  "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
+                }
+              ]
+            },
+            {
+              "field": "NameAddrOfJudge",
+              "decision": "refuse",
+              "factId": null,
+              "blankTreatment": null,
+              "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+              "effectiveLabel": "Municipal Court who accepted the guilty plea or heard the ca",
+              "reason": "The field remains blank under its recorded participant, later-act, or protected-owner treatment.",
+              "widgets": [
+                {
+                  "widgetIndex": 0,
+                  "page": 2,
+                  "rect": {
+                    "x": 105.513,
+                    "y": 531.815,
+                    "width": 428.376,
+                    "height": 36.726
+                  },
+                  "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
+                }
+              ]
+            },
+            {
+              "field": "NameAddressOfAffiant",
+              "decision": "refuse",
+              "factId": null,
+              "blankTreatment": null,
+              "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+              "effectiveLabel": "available",
+              "reason": "The field remains blank under its recorded participant, later-act, or protected-owner treatment.",
+              "widgets": [
+                {
+                  "widgetIndex": 0,
+                  "page": 2,
+                  "rect": {
+                    "x": 105.901,
+                    "y": 466.548,
+                    "width": 428.617,
+                    "height": 37.709
+                  },
+                  "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "documentId": "PA-RCRIM-P-790-ORDER",
+          "fields": [
+            {
+              "field": "Disposition",
+              "decision": "refuse",
+              "factId": null,
+              "blankTreatment": "REQUIRED_BEFORE_FILING",
+              "requiredBeforeFiling": true,
+              "routeDetermined": false,
+              "effectiveLabel": "it is ORDERED that the Petition/Motion is",
+              "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+              "widgets": [
+                {
+                  "widgetIndex": 0,
+                  "page": 1,
+                  "rect": {
+                    "x": 287.88,
+                    "y": 540.84,
+                    "width": 128.28,
+                    "height": 13.92
+                  },
+                  "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
+                }
+              ]
+            },
+            {
+              "field": "NameAddrOfJudge",
+              "decision": "refuse",
+              "factId": null,
+              "blankTreatment": null,
+              "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+              "effectiveLabel": "Municipal Court who accepted the guilty plea or heard the ca",
+              "reason": "The field remains blank under its recorded participant, later-act, or protected-owner treatment.",
+              "widgets": [
+                {
+                  "widgetIndex": 0,
+                  "page": 2,
+                  "rect": {
+                    "x": 105.854,
+                    "y": 523.019,
+                    "width": 428.376,
+                    "height": 41.18
+                  },
+                  "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "repairRequirement": "Classify record-copying facts by the source\u2019s actual actor and stage; disclose applicable missing facts. Keep future court decisions with the court and remove them from participant before-filing tasks. Do not infer authority from field-name keywords.",
+      "status": "OPEN",
+      "measuredAgainstBase": "75f6e416d892f82ab5ceb8c826dc6842ec7b6ca5"
+    },
+    {
+      "id": "PA-VF62-03",
+      "obligations": [
+        "KNOWN_PREFILLS"
+      ],
+      "finding": "The petition field Date on Complaint is fed matter.offense_date in both current artifacts. The source caption asks for the complaint/citation date, a different event from the date of the alleged offense. The fixtures assign the same date to offense and arrest and therefore do not prove that this semantic mapping is correct. No held complaint-date fact or source-backed equivalence is supplied.",
+      "evidence": [
+        {
+          "documentId": "PA-RCRIM-P-490-PETITION",
+          "fields": [
+            {
+              "field": "Date on Complaint",
+              "decision": "candidate_write",
+              "factId": "matter.offense_date",
+              "widgets": [
+                {
+                  "widgetIndex": 0,
+                  "page": 1,
+                  "rect": {
+                    "x": 458.033,
+                    "y": 443.583,
+                    "width": 93.647,
+                    "height": 10.026
+                  },
+                  "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "documentId": "PA-RCRIM-P-790-PETITION",
+          "fields": [
+            {
+              "field": "Date on Complaint",
+              "decision": "candidate_write",
+              "factId": "matter.offense_date",
+              "widgets": [
+                {
+                  "widgetIndex": 0,
+                  "page": 1,
+                  "rect": {
+                    "x": 464.181,
+                    "y": 432.462,
+                    "width": 93.647,
+                    "height": 10.026
+                  },
+                  "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "repairRequirement": "Use an independently collected exact complaint/citation date, or withhold with the correct source requirement; do not substitute offense_date merely because the fixture dates coincide.",
+      "status": "OPEN",
+      "measuredAgainstBase": "75f6e416d892f82ab5ceb8c826dc6842ec7b6ca5"
+    },
+    {
+      "id": "PA-VF62-04",
+      "obligations": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "finding": "The guide does not carry the route\u2019s declared pre-filing participant evidence: conditional PennDOT driver history establishing completed suspension and checking/correcting that answer, and the Pennsylvania State Police report obtained within 60 days with acquisition/attachment instructions. It also does not collect or disclose the route\u2019s current-age, age-at-offense, complete-sentence and license-suspension questions. The official petition\u2019s attachment statement survives visually, but that does not satisfy the requirement to name every declared item in participant-instructions.md. Preserving 116 existing field-map declarations does not establish whole-route completeness.",
+      "source": "data/rcap-grade-a/packet-factory-24h/vf62/pa-ri-current-20260911/pa-route-source-readings.json",
+      "repairRequirement": "Carry the existing governed questions and required/conditional evidence into the participant flow and guide, preserving conditionality and LegalEase\u2019s no-authentication role for the outside record.",
+      "status": "OPEN",
+      "measuredAgainstBase": "75f6e416d892f82ab5ceb8c826dc6842ec7b6ca5"
+    },
+    {
+      "id": "PA-VF62-05",
+      "obligations": [
+        "FILING_DESTINATION"
+      ],
+      "finding": "The guide says to confirm filing destination and discusses court level, but never states the governed destination: clerk of the courts of the judicial district in which the charges were disposed. A passing vehicle selection does not tell the participant where to file.",
+      "source": "data/rcap-grade-a/packet-factory-24h/vf62/pa-ri-current-20260911/pa-route-source-readings.json",
+      "repairRequirement": "State the named clerk and disposed-case judicial district from the existing route record; retain the documented court-level selection and unknown-court stop.",
+      "status": "OPEN",
+      "measuredAgainstBase": "75f6e416d892f82ab5ceb8c826dc6842ec7b6ca5"
+    },
+    {
+      "id": "PA-VF62-06",
+      "obligations": [
+        "FEE_AND_WAIVER"
+      ],
+      "finding": "The guide only says to confirm fees. It omits both already-governed answers: county filing fees vary with no confirmed statewide schedule, and in forma pauperis relief is available on statewide forms. This is missing existing source-backed guidance, not an invitation to invent a fee amount.",
+      "source": "data/rcap-grade-a/packet-factory-24h/vf62/pa-ri-current-20260911/pa-route-source-readings.json",
+      "repairRequirement": "State county variability and the IFP waiver route, with local clerk confirmation for the amount and procedure.",
+      "status": "OPEN",
+      "measuredAgainstBase": "75f6e416d892f82ab5ceb8c826dc6842ec7b6ca5"
+    },
+    {
+      "id": "PA-VF62-07",
+      "obligations": [
+        "SELF_HELP_STOP"
+      ],
+      "finding": "None of the three governed stop conditions appears in the guide: unfinished license suspension, any other unsatisfied sentence condition, or participant under 21. The guide\u2019s correct unknown-court-level stop is retained but does not replace these conditions.",
+      "source": "data/rcap-grade-a/packet-factory-24h/vf62/pa-ri-current-20260911/pa-route-source-readings.json",
+      "repairRequirement": "Carry all three existing route stops into participant-facing instructions, including the commonly overlooked license suspension.",
+      "status": "OPEN",
+      "measuredAgainstBase": "75f6e416d892f82ab5ceb8c826dc6842ec7b6ca5"
+    }
+  ],
+  "secondaryFindings": [
+    {
+      "id": "PA-VF62-S1",
+      "kind": "fixture_representativeness_limit",
+      "finding": "The canonical proposed order\u2019s SpecificCharges field visibly says Possession of a controlled substance, and the boundary facts carry a longer version of that drug charge. These are generic layout fixtures, not demonstrations of a qualifying \u00a76308 alcohol conviction. Court-level vehicle selection is tested, but no valid underage-route factual example or satisfaction of its eligibility conditions is established. This limitation is not treated as a new legal conclusion about a real participant."
+    },
+    {
+      "id": "PA-VF62-S2",
+      "kind": "stale_nonruntime_metadata",
+      "finding": "product-wiring.json is DECLARED_NOT_INSTALLED and still lists the old canonical hashes (1048b627..., a7b5f371..., 79101f2b...) and a custom_pleading delivery representation. Current rendered-artifacts.json correctly binds all six new PDFs and the route-vehicle map controls the review. The stale nonruntime descriptor cannot be used as an acceptance or delivery identity. Captain owns shared/generated integration; this reviewer did not change it."
+    },
+    {
+      "id": "PA-VF62-S3",
+      "kind": "source_freshness_limit",
+      "finding": "Exact held PDF custody is established; current form freshness and local practice are not. Archive revision tags for the two petitions and 490 order differ from their visible footers (03/09/12, 03/06/14); they are retained archive labels, not a newly verified current-edition claim. The 790 order footer is 07/21/21. No official-site lookup or new freshness conclusion was made."
+    }
+  ],
+  "existingRepairAccepted": {
+    "caption": {
+      "faultyContextsCorrected": 10,
+      "conservativePriorCensusDifferences": 18,
+      "remeasurementMatchesCommittedEvidence": true
+    },
+    "officialFieldMapRowsPreserved": 210,
+    "officialRequiredDeclarationsPreserved": 116,
+    "serviceCertificate": "All 3 performed-service facts required and blank; signature and signature date protected and blank; recipient and timing are source-backed."
+  },
+  "noRepairPerformed": true,
+  "heldSourceCaptionEvidence": "data/rcap-grade-a/packet-factory-24h/vf62/pa-ri-current-20260911/pa-held-source-text-readings.json"
+}

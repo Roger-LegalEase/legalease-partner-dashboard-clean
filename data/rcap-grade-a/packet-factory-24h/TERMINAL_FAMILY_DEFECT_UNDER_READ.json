@@ -1,0 +1,62 @@
+{
+ "schemaVersion": "rcap-terminal-family-defect-under-read/v1",
+ "generatedBy": "Captain, reproducing FIX05's finding independently on the delivered participant-instructions.md of all seven Vermont official-pdf-fill families",
+ "generatedAt": "2026-09-10T08:23:45.987964Z",
+ "atCommit": "4abd993e2473bc3425292d7096e7673f8e9e4efe",
+ "family": "vt_seal_nonconviction-set",
+ "itsCurrentState": "COMPLETE_PACKET_PROVEN -- terminal, on a live RASTER_PASS from run 34439698619",
+ "theDefect": "Its delivered participant table names blanks the participant cannot tell apart: three rows each reading \"Description of Offense\", three \"Year\", three \"Docket Number (If Any)\", with no locator on any of them.",
+ "theMeasurement": {
+  "method": "the table headed \"| Page | The blank on the form | What to write |\" read out of each family's committed participant-instructions.md; a colliding group is one (page, blank) naming more than one row",
+  "perFamily": {
+   "vt_seal_nonconviction-set": {
+    "items": 28,
+    "collidingGroups": 9,
+    "locators": 0
+   },
+   "vt_exp_decriminalized-set": {
+    "items": 30,
+    "collidingGroups": 0,
+    "locators": 25,
+    "note": "repaired by FIX05 at 6ddd19802; was 15 groups before"
+   },
+   "vt_seal_18_to_21-set": {
+    "items": 30,
+    "collidingGroups": 0,
+    "locators": 25
+   },
+   "vt_seal_dui-set": {
+    "items": 30,
+    "collidingGroups": 0,
+    "locators": 25
+   },
+   "vt_seal_felony-set": {
+    "items": 30,
+    "collidingGroups": 0,
+    "locators": 25
+   },
+   "vt_seal_misdemeanor-set": {
+    "items": 30,
+    "collidingGroups": 0,
+    "locators": 25
+   },
+   "vt_seal_pardon-set": {
+    "items": 30,
+    "collidingGroups": 0,
+    "locators": 25
+   }
+  },
+  "soItIsTheOnlyOneOfSeven": true
+ },
+ "twoIndependentMeasurementsAgreeItIsDefectiveAndDisagreeOnTheCount": "FIX05 reported 15 colliding groups counting across all of the family's forms and pages; I count 9 on the participant table as delivered. Both are non-zero and both describe the same condition. I have NOT reconciled the two numbers and I am not publishing either as the count -- the read will establish it.",
+ "whyItWasMissed": "FIX130 scoped its repair with an opt-in Set inside ONE host, build-census-v1-vt_seal_misdemeanor-set.mjs, which builds exactly the five families that now read 0. The other two Vermont families have their own hosts and neither was reached. vt_exp_decriminalized-set was caught because VF25 read it; vt_seal_nonconviction-set was not, because VF25 listed it under notThisLanes and never ran the query against it.",
+ "thisIsTheConditionThatFailedASibling": "VF25 failed vt_exp_decriminalized-set on REQUIRED_BEFORE_FILING for exactly this, and FIX05 has now repaired it. The same condition cannot be a FAIL on one family and invisible on another.",
+ "whatIHaveDoneAboutIt": "Reissued the independent-verification grant on VF25 and dispatched the read. The finding is recorded here NOW rather than after the repair, so the family is not sitting terminal on a defect nobody has written down.",
+ "whatIHaveNotDone": [
+  "I have not edited MASTER_QUEUE, the completeness matrix or any generated count. A downward status correction goes through the verifier and admission mechanism or it does not happen.",
+  "I have not withdrawn the raster receipt. The defect is in the participant guide, not in the PDF bytes, and run 34439698619 still describes those bytes correctly. Whether the packet is proven is a different question from whether its pages rendered.",
+  "I have not repaired it. FIX05 declined for being out of grant and I am not widening my own."
+ ],
+ "theBytesQuestionForWhoeverReadsIt": "FIX05 repaired the sibling with the delivered PDF bytes unmoved, both digests identical. If the same repair here also moves no byte, this family's existing RASTER_PASS still binds and no fresh raster is owed.",
+ "grantsNothing": "This records a measurement and a dispatch. It withdraws nothing, promotes nothing and approves nothing."
+}

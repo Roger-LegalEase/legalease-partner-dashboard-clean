@@ -1,0 +1,124 @@
+{
+  "schemaVersion": "rcap-packet-factory-focused-repair-return/v1",
+  "workerId": "CLAUDE-FIX21-SPLITTER-AND-RULE-1B",
+  "assignmentId": "FIX21",
+  "assignedBase": "25a7ee682b32bf83b3214f13c211e078e3c99545",
+  "branch": "fix21-splitter-and-rule1b",
+  "laneKind": "repair",
+  "status": "BLOCKED_BEFORE_CLAIM",
+
+  "summary": "This lane was sent to do two repairs and holds no grant for either. Every --assert it made was refused, so no family's delivered bytes were changed and no row here claims a repair. What it could do without a grant, it did and proved: the one correct splitToken now lives in a shared module, two of the seven hosts import it, and the eleven families they reach rebuild byte-identical - proven by rebuild, not argued. Part one (Rule 1b into Oklahoma and Washington) is blocked on a released grant that only Captain may move.",
+
+  "claimsHeld": [],
+  "claimsAsserted": [
+    { "familyId": "rcap-ok-custom-pleading", "result": "GRANTED_ELSEWHERE_BUT_RELEASED", "exit": 8, "heldBy": "FIX16", "releasedAt": "2026-09-05T04:52:27.326Z", "readAs": "The grant is free. Captain can hand it over; this lane did not transfer it onto itself, because choosing a released grant's destination is a dispatch act." },
+    { "familyId": "rcap-wa-custom-pleading-clean-tracks", "result": "GRANTED_ELSEWHERE_BUT_RELEASED", "exit": 8, "heldBy": "FIX16", "releasedAt": "2026-09-05T04:52:39.096Z", "readAs": "Same. Free, and Captain's to move." },
+    { "familyId": "de_mandatory_expungement-set", "result": "GRANTED_ELSEWHERE", "exit": 8, "heldBy": "FIX02", "live": true, "readAs": "A LIVE grant. Another lane is working this family now. This is the one hard collision in the set and it is exactly what the ledger exists to prevent." },
+    { "familyId": "ms-nonconv-set", "result": "NOT_GRANTED", "exit": 6 },
+    { "familyId": "ms-misd-1st-set", "result": "NOT_GRANTED", "exit": 6 },
+    { "familyId": "dc_seal_conviction-set", "result": "NOT_GRANTED", "exit": 6 },
+    { "familyId": "ri_multiple_misdemeanors-set", "result": "NOT_GRANTED", "exit": 6 },
+    { "familyId": "ri_first_offender_felony-set", "result": "NOT_GRANTED", "exit": 6 },
+    { "familyId": "ri_first_offender_misdemeanor-set", "result": "NOT_GRANTED", "exit": 6 },
+    { "familyId": "ri_deferred_sentence-set", "result": "NOT_GRANTED", "exit": 6 }
+  ],
+  "claimsReleased": [],
+  "whyNothingWasReleased": "Nothing was asserted successfully, so there is nothing to release. A release of a grant this lane never held would be a false entry in the ledger.",
+
+  "partOne_rule1b": {
+    "status": "BLOCKED_BEFORE_CLAIM",
+    "targets": ["rcap-ok-custom-pleading", "rcap-wa-custom-pleading-clean-tracks"],
+    "failedObligationNames": ["CLIPPING_AND_OVERLAP"],
+    "obligationNotRepaired": "CLIPPING_AND_OVERLAP",
+    "theBriefWasRightAndItWasConfirmed": "Both families were reported repaired and rastered by FIX16 and both still ship the defect. Measured on the delivered bytes at the assigned base: rcap-ok-custom-pleading ships 8 orphaned execution blocks (boundary pages 15, 27, 39, 51 and canonical pages 15, 27, 39, 51) and rcap-wa-custom-pleading-clean-tracks ships 2 (boundary page 12 and canonical page 12). Every one opens on 'PRINTED NAME: ...' while the signature line it executes sits on the page before.",
+    "whyRule1bIsWhatIsMissing": "Both builders classify as 'G2 splitter repaired, no Rule 1b' and carry the pagination marker fix16-trailer-sole-occupant-pulldown and no nd-block-rule-1b marker. They have FIX16's separator-aware splitToken and its soleOccupant trailer pull-down; neither reaches this defect. FIX16's Rule 1 gathers the contact run into one block and pushes the whole block to a fresh page, where it arrives alone; soleOccupant only fires on a page whose every row is a trailer row or blank, and these pages carry four participant-facing contact lines, so the predicate matches none of them. That is precisely the gap FIX17's Rule 1b closes.",
+    "whatWasNotDone": "The port was not written. Writing it means rebuilding both families, and a rebuild changes their delivered bytes; this lane may not change the bytes of a family it cannot claim. No partial edit was left in the tree either: a builder changed without its fixtures rebuilt is worse than an unrepaired builder, because the committed bytes would then no longer be what the builder produces.",
+    "whatCaptainNeedsToDo": "Transfer both released grants from FIX16 to whichever lane takes this on: node scripts/grade-a-packet-factory-24h/claim.mjs --transfer FIX16 <LANE> rcap-ok-custom-pleading --reason \"...\" and the same for rcap-wa-custom-pleading-clean-tracks.",
+    "carryTheConditionality": "FIX17 made Rule 1b conditional deliberately and the next lane must keep it that way. An unconditional first version added an eighth page to the pardoned boundary packet for nothing. The rule settles the layout first, exactly as before, and applies only where that settled layout actually divides the closing execution unit; an assertion in the renderer proves the unit is whole rather than intending it.",
+    "digestsWillMoveAgain": "Both families are BUILT_RASTER_PENDING at digests that will change again when this is done. This lane claims no standing receipt for either and asserts no raster.",
+    "rasterOwed": true
+  },
+
+  "partTwo_sharedSplitter": {
+    "status": "PARTIAL_BY_DESIGN",
+    "whatLanded": "scripts/rcap-custom-pleading/split-token.mjs - one separator-aware splitToken, imported rather than copied, with a test alongside it.",
+    "whichImplementationAndWhy": "FIX16's and FIX17's copies are the SAME implementation: normalised for whitespace they hash identically, and they sit in five builders (OK, WA, ND, OK-trafficking, AZ). There was no better-of-two to choose and no union to write. The shared module is that implementation moved, not rewritten.",
+    "butTheCorpusHasEightVariantsNotTwo": "Read as code there are 8 distinct splitToken bodies across 100 definitions, not 2. Ten are separator-aware and they are TWO DIFFERENT repairs, which the sweep's binary classification hides: FIX16/FIX17's (5 copies, uses a fits() closure) and an Indiana/Louisiana one (5 copies: in_conviction_d6, in_conviction_felony, in_conviction_misd, la-977, la-978) that splits at separators and then hard-splits oversized chunks in a second pass. They are not equivalent. FIX16/FIX17's keeps the remainder of a hard split in the accumulator so it can absorb the following separator-piece; the Indiana/Louisiana one pushes the oversized chunk out whole and starts the next piece fresh, which packs worse. FIX16/FIX17's is the better of the two and is what was shared. The useful half of the Indiana/Louisiana version - its hardSplits counter - was kept, as instrumentation.",
+    "theOtherSixVariantsAreAllTheSameFault": "82 + 4 + 1 + 1 + 1 + 1 = 90 faulty copies in six spellings. They differ only in how they ASK about width - font.widthOfTextAtSize(s, fontSize) > maxWidth; the same with FONT_SIZE/MAX_WIDTH; the same with size/maxW; body.widthOfTextAtSize; renderedWidth(s) - never in what they do with the answer.",
+    "howTheRemaining89AreMigrated": "The same way, with no second design. The module takes a fits(text) predicate rather than a font, so every one of the eight shapes migrates by supplying a one-line predicate and deleting its private copy. fitsByFontMetrics(font, fontSize, maxWidth) covers 97 of the 100 definitions mechanically; fitsByWidthFn(widthOf, maxWidth) covers Kansas's renderedWidth. No cohort needs a different module.",
+    "hostsMigrated": [
+      { "host": "scripts/build-census-v1-ga-host.mjs", "familiesReached": 9, "bytesMoved": 0 },
+      { "host": "scripts/build-census-v1-ky_void_seal_controlled_substance-set.mjs", "familiesReached": 2, "bytesMoved": 0 }
+    ],
+    "hostsNotMigratedAndWhy": [
+      { "host": "scripts/rcap-custom-pleading/composed-family-host.mjs", "familiesReached": 13, "blocked": true, "why": "Three of its 13 families ship a hard split and their bytes would move: ms-nonconv-set (467.03pt), ms-misd-1st-set (466.44pt) and de_mandatory_expungement-set (466.92pt). The first two are NOT_GRANTED and the third is LIVE on FIX02. The other 10 are below the band floor and would not have moved." },
+      { "host": "scripts/build-census-v1-ri_decriminalized-set.mjs", "familiesReached": 5, "blocked": true, "why": "Three families ship a hard split and would move - ri_multiple_misdemeanors-set (467.30pt), ri_first_offender_felony-set (466.78pt), ri_first_offender_misdemeanor-set (464.08pt) - and all are NOT_GRANTED. ri_deferred_sentence-set sits above the floor at 459.74pt but is a whole unsplit route key, so it would not have moved; ri_decriminalized-set is below the floor." },
+      { "host": "scripts/build-census-v1-dc_seal_nonconviction-set.mjs", "familiesReached": 5, "blocked": true, "why": "dc_seal_conviction-set ships a hard split at 463.97pt and would move; it is NOT_GRANTED. The other 4 are below the floor." },
+      { "host": "scripts/build-census-v1-va_seal_petition_misdemeanor-set.mjs", "familiesReached": 4, "blocked": true, "why": "All four are below the band floor, so the edit would have been provably inert for every one of them - but the host module IS the builder of va_seal_petition_misdemeanor-set, which is LIVE on FIX07. Editing it would be editing another lane's active file. Blocked on worktree separation, not on byte movement." },
+      { "host": "(no composer module resolved)", "familiesReached": 3, "blocked": false, "why": "Not a host at all. This is the sweep's GX bucket - ak-tf800-set, ak-tf805-set and co_motion_seal_nonconviction-set have no resolvable composer module and there is nothing to edit. The seven-host figure is therefore six real modules reaching 38 families, plus a 3-family bucket that is not a module. 41 = 38 + 3." }
+    ],
+    "theGateAndHowItWasMet": "The gate was that no clean family moves a byte. Nothing moved at all, clean or otherwise. For each of the 11 migrated families the whole family directory was rebuilt and compared recursively against a control rebuild of the same family at the same base with the host unmodified: identical, every file, including all 26 delivered PDFs. The control was itself run twice and was deterministic, so the comparison attributes to the edit rather than to build noise.",
+    "andTheDirectProof": "FIX17's inertness argument was reproduced rather than borrowed. An instrumented build counted splitToken calls across all 98 composed documents in the 11 families: calls=0 and hardSplits=0 in every one. The splitter cannot have moved a byte because it never ran. SCAN01 predicted exactly this - the widest delivered token in the Georgia cohort is 428.05pt and in the Kentucky pair 297.97pt, both under the 457.62pt band floor.",
+    "assertionsAdded": "Both hosts now assert splitToken.hardSplits === 0 after composing each document, so a future edit that lengthens a route key past the 468pt column fails loudly at build time instead of shipping a line a participant cannot read. The assertion was negative-controlled: a separatorless 300-character run reports 6 hard splits and would fire it; a real Rhode Island route key reports 0 and would not."
+  },
+
+  "instrumentChange": {
+    "file": "scripts/rcap-scan01-composed-pdf-text-integrity.mjs",
+    "why": "The sweep classifies splitToken by matching the inline .split(/(?<=[:_/.-])/) literal in the builder's own text. With the splitter imported, all 11 migrated families read as 'unclassified' - which would look like a regression in the very families that had just been made correct - and Kentucky's composerModule was mis-resolved to split-token.mjs, growing a phantom eighth host. Both were fixed: createTokenSplitter now counts as separator-aware, and the shared splitter is excluded from the composer-host census because it is a splitter, not a composer host.",
+    "measurementUnchanged": "This changes only the code-classification arm. Every measured field - widest token, defects, page counts, token counts - is identical for all 123 families before and after. Verified field by field.",
+    "hostCensusUnchanged": "38 families reached by shared hosts before and after, with an identical per-host breakdown."
+  },
+
+  "sweepBeforeAndAfter": {
+    "instrumentIsTheBaseline": "Re-run at the assigned base before anything was touched and again after everything.",
+    "before": { "familiesShippingComposed": 123, "affected": 40, "clean": 83, "tokensMeasured": 525208, "byKind": { "hard_split_token": 112, "fragment_page": 52, "route_key_only_page": 17, "orphaned_execution_block": 20, "widowed_labelled_value": 1 } },
+    "after":  { "familiesShippingComposed": 123, "affected": 40, "clean": 83, "tokensMeasured": 525208, "byKind": { "hard_split_token": 112, "fragment_page": 52, "route_key_only_page": 17, "orphaned_execution_block": 20, "widowed_labelled_value": 1 } },
+    "readThisHonestly": "The sweep is unmoved because no family's delivered bytes were changed. That is the correct result for a lane that repaired nothing, not evidence that a repair worked. The 83 clean families are still clean and the 40 affected are still affected.",
+    "whyTheseDifferFromThePublishedSweep": "The published sweep records 122 shipping / 40 affected / 82 clean / 524,791 tokens, captured at 77848f5a. At the assigned base 25a7ee68 one further family ships a composed PDF, giving 123 / 40 / 83 / 525,208. The affected count is identical and every family the published sweep names is reproduced, so the instrument is calibrated against its own report.",
+    "splitterCensusMoved": { "separatorAwareBefore": 5, "separatorAwareAfter": 16, "charByCharBefore": 115, "charByCharAfter": 104, "note": "The 11 migrated families moved from G0 to G2. This is a code-census movement only; no delivered byte moved with it." }
+  },
+
+  "gatesRun": {
+    "verifyPacketCompleteness": "Run --family for all 11 migrated families before and after: 11/11 PASS_COMPLETE, nine counters zero. Stated as the starting condition, not as evidence - the nine counters cannot see a hard split, which is the whole reason SCAN01 exists.",
+    "verifyIdentityRefreshSurvivesRebuild": "EVERY_IDENTITY_REFRESH_SURVIVED across 248 receipts, 52 carrying an identityRefresh. No annotation was erased because no receipt was left rebuilt.",
+    "aRebuildTrapWorthRecording": "A plain rebuild of any of these 11 families - with no source change at all - erases the identityRefresh annotation FIX15 wrote into its source-receipt and drops byteLength, and rewrites a manifest sha in reports/rendered-artifacts.json. This is pre-existing and not caused by the splitter: it reproduces exactly on an unmodified checkout. It is why every rebuild in this lane was snapshotted and then reverted, and why a future lane rebuilding any of these families must restore the annotation verbatim from HEAD as the brief instructs. The delivered PDFs themselves are deterministic and did not move."
+  },
+
+  "countersAfter": {
+    "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0,
+    "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0,
+    "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0
+  },
+  "countersAfterAppliesTo": "The 11 families reached by the two migrated hosts. They were nine zeros before this lane and are nine zeros after, because their bytes are unchanged.",
+
+  "changedPaths": [
+    "scripts/rcap-custom-pleading/split-token.mjs",
+    "scripts/rcap-custom-pleading/split-token.test.mjs",
+    "scripts/build-census-v1-ga-host.mjs",
+    "scripts/build-census-v1-ky_void_seal_controlled_substance-set.mjs",
+    "scripts/rcap-scan01-composed-pdf-text-integrity.mjs",
+    "data/rcap-grade-a/packet-factory-24h/fix21/shared-splitter-and-rule-1b-return.json"
+  ],
+  "familiesModified": [],
+  "buildersModified": [
+    "scripts/build-census-v1-ga-host.mjs",
+    "scripts/build-census-v1-ky_void_seal_controlled_substance-set.mjs"
+  ],
+  "centralStateEdits": "None. The claim ledger is untouched: no grant was asserted, transferred, reissued or released.",
+  "rasterOwed": false,
+  "rasterOwedNote": "No delivered byte changed, so no family owes a fresh raster on account of this lane. rcap-ok-custom-pleading and rcap-wa-custom-pleading-clean-tracks will owe one when Rule 1b is actually ported, and both are BUILT_RASTER_PENDING now.",
+  "selfVerificationPerformed": 0,
+  "routesOpened": 0,
+  "productionTouched": false,
+  "commercialRoutesOpened": 0,
+
+  "rows": [],
+  "whyThereAreNoRows": "A row with status COMPLETED and repairedByThisLane true asserts that this lane repaired that family's delivered bytes. This lane repaired none. Eleven families were rebuilt byte-identical, which is the opposite of a repair, and the two families it was sent to repair are blocked on a grant. Writing a COMPLETED row for any of them would put a false receipt in the factory record, and the corpus sweep exists because a family was reported repaired and was not.",
+
+  "whatThisReturnDoesNotEstablish": [
+    "That any family was repaired. None was.",
+    "That the shared splitter repairs anything yet. It is correct and it is proven inert where it now runs; it has not yet been carried to a single family that actually ships a hard split, because every one of those is blocked on a grant.",
+    "That Oklahoma or Washington is fixed. Both still ship the orphaned execution blocks, 8 and 2, exactly as the brief said.",
+    "Any verdict, any promotion, any raster receipt, any commercial authority."
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "schemaVersion": "rcap-rendered-artifacts/v1",
+  "familyId": "agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge",
+  "deliverableType": "participant_agency_application_guidance",
+  "renderedFresh": true,
+  "derivedFromBytes": true,
+  "byteDerivedHashes": true,
+  "componentSet": [
+    "participant_instructions",
+    "criminal_history_review_application"
+  ],
+  "pdfs": [],
+  "artifacts": [
+    {
+      "file": "data/rcap-all50/overlays/census-v1/al/al-uncharged-arrest-record-challenge--agency-application/participant-instructions.md",
+      "documentId": "participant_instructions",
+      "role": "participant_instructions",
+      "sha256": "e7edb21f8272a58a0fecfe71124bd01bab9508af3a1f6c9f0f82ae5a6a6c8163",
+      "byteLength": 5509
+    }
+  ],
+  "heldFormComponents": [
+    {
+      "componentRole": "criminal_history_review_application",
+      "formNumber": "SBI-FORM-46",
+      "officialTitle": "Application to Review Alabama Criminal History Record Information",
+      "revision": "REV-2017-10-01",
+      "state": "AL",
+      "pathInArchive": "STATES/AL/04_SUPPORTING_PROCESS/AL__SUPPORT__SBI-FORM-46__application-to-review-alabama-criminal-history-record-information__REV-2017-10-01__EN.pdf",
+      "sha256": "02ce19decc585903f73456371c2f51f8c01b39befa9b9b80560454e901bfb5e7",
+      "byteLength": 438712,
+      "binding": "exact form number + committed corpus-index SHA-256 + committed byte length; recomputed and asserted against the mounted Master Library bytes whenever MASTER_LIBRARY_SOURCE_DIR is present, with any mismatch refusing the build",
+      "includedAsBytes": false,
+      "whyReferencedNotEmbedded": "the participant obtains and completes the agency's own current document; this packet binds the held edition by hash as the identified instrument and never redistributes or modifies the official bytes"
+    }
+  ],
+  "rasterEngine": null,
+  "rasterSkipped": true,
+  "rasterPages": [],
+  "whyNoRaster": "the deliverable is a guidance instruction document; no PDF page exists to rasterize",
+  "completenessAudit": {
+    "fieldMapAuditable": false,
+    "whatTheCompletenessVerifierCannotMeasureHere": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs counts owed writes against made writes over a production field map and fixture PDFs; this family renders no paper instrument, so the nine field-level counters are undefined for it and the verifier does not audit it. The verifier is not weakened to pretend otherwise.",
+    "whatIsMeasurableInstead": [
+      "every pinned evidence file re-hashes to its recorded SHA-256 on every build",
+      "every literal anchor quote is still present in its evidence file's bytes",
+      "held agency documents re-verify against the committed corpus index (and against mounted bytes when present)",
+      "two builds produce byte-identical output trees",
+      "every declared self-help stop and lookup delegation is present in the rendered instruction bytes",
+      "no undeclared dollar figure and no signature line appears in the instruction bytes"
+    ]
+  },
+  "independentVerificationPending": true
+}

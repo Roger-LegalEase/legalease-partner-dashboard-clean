@@ -1,0 +1,819 @@
+{
+  "schemaVersion": "rcap-independent-guard-evidence/v1",
+  "familyId": "composed-treatment:nd-nonconviction-auto-close-verify",
+  "productionCalls": [
+    "computeNdNonconvictionDeadline",
+    "evaluateNdNonconvictionFailureBranch",
+    "prepareNdNonconvictionPacketFacts"
+  ],
+  "renderingPerformed": false,
+  "tests": 89,
+  "passed": 89,
+  "failed": 0,
+  "results": [
+    {
+      "name": "Cutoff and clock are entry-based even when generic disposition and mail facts disagree",
+      "result": "PASS",
+      "evidence": {
+        "eligible": true,
+        "code": "ELIGIBLE_FAILURE_BRANCH",
+        "orderEntryDate": "2025-08-01",
+        "rawDay61": "2025-10-01",
+        "adjustedExpiration": "2025-10-01",
+        "firstAdministrativeCheckDate": "2025-10-02",
+        "computationMethod": "CALLER_SUPPLIED_COMPLETE_ND_CALENDAR",
+        "calendarVerificationSource": "Independent synthetic verified calendar; test input, not new legal research",
+        "entryDateExcluded": true,
+        "daysCounted": 61,
+        "mailServiceDaysAdded": 0,
+        "firstCheckIsProductStep": true,
+        "wholeCaseDisposition": "ALL_CHARGES_DISMISSED",
+        "wholeCaseStatement": "All criminal charges in this case were dismissed.",
+        "appealHistoryStatement": "The case was never appealed.",
+        "statutoryExceptionsStatement": "The disposition was not a dismissal in a plea agreement involving another conviction, was not based on unfitness to proceed, and was not an acquittal based on lack of criminal responsibility.",
+        "publicAccessCheckedOn": "2025-10-02",
+        "publicAccessEvidence": "2025-10-02 observed public index: test evidence"
+      }
+    },
+    {
+      "name": "Old entered order cannot be rescued by a later generic disposition",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "PRE_EFFECTIVE_ORDER",
+        "helperCode": "PRE_EFFECTIVE_ORDER",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "All-charges acquittal independently enters and produces the acquittal statement",
+      "result": "PASS",
+      "evidence": null
+    },
+    {
+      "name": "Unknown whole case: null",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "UNKNOWN_WHOLE_CASE_DISPOSITION",
+        "helperCode": "UNKNOWN_WHOLE_CASE_DISPOSITION",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "Unknown whole case: undefined",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "UNKNOWN_WHOLE_CASE_DISPOSITION",
+        "helperCode": "UNKNOWN_WHOLE_CASE_DISPOSITION",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "Excluded whole case: \"MIXED_OR_PARTIAL\"",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "WHOLE_CASE_NOT_QUALIFYING",
+        "helperCode": "WHOLE_CASE_NOT_QUALIFYING",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "Excluded whole case: \"PARTIAL_DISMISSAL\"",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "WHOLE_CASE_NOT_QUALIFYING",
+        "helperCode": "WHOLE_CASE_NOT_QUALIFYING",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "Excluded whole case: \"DISMISSED_AND_ACQUITTED\"",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "WHOLE_CASE_NOT_QUALIFYING",
+        "helperCode": "WHOLE_CASE_NOT_QUALIFYING",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "Excluded whole case: \"CONVICTED\"",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "WHOLE_CASE_NOT_QUALIFYING",
+        "helperCode": "WHOLE_CASE_NOT_QUALIFYING",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "Excluded whole case: true",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "WHOLE_CASE_NOT_QUALIFYING",
+        "helperCode": "WHOLE_CASE_NOT_QUALIFYING",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "Excluded whole case: false",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "WHOLE_CASE_NOT_QUALIFYING",
+        "helperCode": "WHOLE_CASE_NOT_QUALIFYING",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "Excluded whole case: \"\"",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "WHOLE_CASE_NOT_QUALIFYING",
+        "helperCode": "WHOLE_CASE_NOT_QUALIFYING",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "Unknown any-appeal history: null",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "UNKNOWN_APPEAL_HISTORY",
+        "helperCode": "UNKNOWN_APPEAL_HISTORY",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "Unknown any-appeal history: undefined",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "UNKNOWN_APPEAL_HISTORY",
+        "helperCode": "UNKNOWN_APPEAL_HISTORY",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "Any appeal must be boolean false: true",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "ANY_APPEAL_HISTORY_EXCLUDED",
+        "helperCode": "ANY_APPEAL_HISTORY_EXCLUDED",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "Any appeal must be boolean false: \"false\"",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "ANY_APPEAL_HISTORY_EXCLUDED",
+        "helperCode": "ANY_APPEAL_HISTORY_EXCLUDED",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "Any appeal must be boolean false: 0",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "ANY_APPEAL_HISTORY_EXCLUDED",
+        "helperCode": "ANY_APPEAL_HISTORY_EXCLUDED",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "Any appeal must be boolean false: \"APPEAL_DISMISSED\"",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "ANY_APPEAL_HISTORY_EXCLUDED",
+        "helperCode": "ANY_APPEAL_HISTORY_EXCLUDED",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "Any appeal must be boolean false: \"APPEAL_WITHDRAWN\"",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "ANY_APPEAL_HISTORY_EXCLUDED",
+        "helperCode": "ANY_APPEAL_HISTORY_EXCLUDED",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "dismissalInPleaAgreementInvolvingConviction unknown: null",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "UNKNOWN_PLEA_AGREEMENT_CONVICTION_EXCEPTION",
+        "helperCode": "UNKNOWN_PLEA_AGREEMENT_CONVICTION_EXCEPTION",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "dismissalInPleaAgreementInvolvingConviction unknown: undefined",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "UNKNOWN_PLEA_AGREEMENT_CONVICTION_EXCEPTION",
+        "helperCode": "UNKNOWN_PLEA_AGREEMENT_CONVICTION_EXCEPTION",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "dismissalInPleaAgreementInvolvingConviction excludes: true",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "PLEA_AGREEMENT_CONVICTION_EXCEPTION",
+        "helperCode": "PLEA_AGREEMENT_CONVICTION_EXCEPTION",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "dismissalInPleaAgreementInvolvingConviction excludes: \"false\"",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "PLEA_AGREEMENT_CONVICTION_EXCEPTION",
+        "helperCode": "PLEA_AGREEMENT_CONVICTION_EXCEPTION",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "dismissalInPleaAgreementInvolvingConviction excludes: 0",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "PLEA_AGREEMENT_CONVICTION_EXCEPTION",
+        "helperCode": "PLEA_AGREEMENT_CONVICTION_EXCEPTION",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "unfitToProceedDisposition unknown: null",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "UNKNOWN_UNFIT_TO_PROCEED_EXCEPTION",
+        "helperCode": "UNKNOWN_UNFIT_TO_PROCEED_EXCEPTION",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "unfitToProceedDisposition unknown: undefined",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "UNKNOWN_UNFIT_TO_PROCEED_EXCEPTION",
+        "helperCode": "UNKNOWN_UNFIT_TO_PROCEED_EXCEPTION",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "unfitToProceedDisposition excludes: true",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "UNFIT_TO_PROCEED_EXCEPTION",
+        "helperCode": "UNFIT_TO_PROCEED_EXCEPTION",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "unfitToProceedDisposition excludes: \"false\"",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "UNFIT_TO_PROCEED_EXCEPTION",
+        "helperCode": "UNFIT_TO_PROCEED_EXCEPTION",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "unfitToProceedDisposition excludes: 0",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "UNFIT_TO_PROCEED_EXCEPTION",
+        "helperCode": "UNFIT_TO_PROCEED_EXCEPTION",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "lackCriminalResponsibilityAcquittal unknown: null",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "UNKNOWN_LACK_CRIMINAL_RESPONSIBILITY_EXCEPTION",
+        "helperCode": "UNKNOWN_LACK_CRIMINAL_RESPONSIBILITY_EXCEPTION",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "lackCriminalResponsibilityAcquittal unknown: undefined",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "UNKNOWN_LACK_CRIMINAL_RESPONSIBILITY_EXCEPTION",
+        "helperCode": "UNKNOWN_LACK_CRIMINAL_RESPONSIBILITY_EXCEPTION",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "lackCriminalResponsibilityAcquittal excludes: true",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "LACK_CRIMINAL_RESPONSIBILITY_EXCEPTION",
+        "helperCode": "LACK_CRIMINAL_RESPONSIBILITY_EXCEPTION",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "lackCriminalResponsibilityAcquittal excludes: \"false\"",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "LACK_CRIMINAL_RESPONSIBILITY_EXCEPTION",
+        "helperCode": "LACK_CRIMINAL_RESPONSIBILITY_EXCEPTION",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "lackCriminalResponsibilityAcquittal excludes: 0",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "LACK_CRIMINAL_RESPONSIBILITY_EXCEPTION",
+        "helperCode": "LACK_CRIMINAL_RESPONSIBILITY_EXCEPTION",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "orderEntryDate rejects invalid date \"\"",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "INVALID_ORDER_ENTRY_DATE",
+        "helperCode": "INVALID_ORDER_ENTRY_DATE",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "orderEntryDate rejects invalid date \"2025-02-29\"",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "INVALID_ORDER_ENTRY_DATE",
+        "helperCode": "INVALID_ORDER_ENTRY_DATE",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "orderEntryDate rejects invalid date \"2025-13-01\"",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "INVALID_ORDER_ENTRY_DATE",
+        "helperCode": "INVALID_ORDER_ENTRY_DATE",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "orderEntryDate rejects invalid date \"2025-10-02T00:00:00Z\"",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "INVALID_ORDER_ENTRY_DATE",
+        "helperCode": "INVALID_ORDER_ENTRY_DATE",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "orderEntryDate rejects invalid date \"2025-1-02\"",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "INVALID_ORDER_ENTRY_DATE",
+        "helperCode": "INVALID_ORDER_ENTRY_DATE",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "asOfDate rejects invalid date \"\"",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "INVALID_AS_OF_DATE",
+        "helperCode": "INVALID_AS_OF_DATE",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "asOfDate rejects invalid date \"2025-02-29\"",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "INVALID_AS_OF_DATE",
+        "helperCode": "INVALID_AS_OF_DATE",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "asOfDate rejects invalid date \"2025-13-01\"",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "INVALID_AS_OF_DATE",
+        "helperCode": "INVALID_AS_OF_DATE",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "asOfDate rejects invalid date \"2025-10-02T00:00:00Z\"",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "INVALID_AS_OF_DATE",
+        "helperCode": "INVALID_AS_OF_DATE",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "asOfDate rejects invalid date \"2025-1-02\"",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "INVALID_AS_OF_DATE",
+        "helperCode": "INVALID_AS_OF_DATE",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "publicAccessCheckedOn rejects invalid date \"\"",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "INVALID_PUBLIC_ACCESS_CHECK_DATE",
+        "helperCode": "INVALID_PUBLIC_ACCESS_CHECK_DATE",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "publicAccessCheckedOn rejects invalid date \"2025-02-29\"",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "INVALID_PUBLIC_ACCESS_CHECK_DATE",
+        "helperCode": "INVALID_PUBLIC_ACCESS_CHECK_DATE",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "publicAccessCheckedOn rejects invalid date \"2025-13-01\"",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "INVALID_PUBLIC_ACCESS_CHECK_DATE",
+        "helperCode": "INVALID_PUBLIC_ACCESS_CHECK_DATE",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "publicAccessCheckedOn rejects invalid date \"2025-10-02T00:00:00Z\"",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "INVALID_PUBLIC_ACCESS_CHECK_DATE",
+        "helperCode": "INVALID_PUBLIC_ACCESS_CHECK_DATE",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "publicAccessCheckedOn rejects invalid date \"2025-1-02\"",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "INVALID_PUBLIC_ACCESS_CHECK_DATE",
+        "helperCode": "INVALID_PUBLIC_ACCESS_CHECK_DATE",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "Entry after evaluation refuses",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "FUTURE_ORDER_ENTRY_DATE",
+        "helperCode": "FUTURE_ORDER_ENTRY_DATE",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "Observation after evaluation refuses",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "FUTURE_PUBLIC_ACCESS_CHECK",
+        "helperCode": "FUTURE_PUBLIC_ACCESS_CHECK",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "Check on expiration is premature",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "PREMATURE_PUBLIC_ACCESS_CHECK",
+        "helperCode": "PREMATURE_PUBLIC_ACCESS_CHECK",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "Check before day 61 is premature",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "PREMATURE_PUBLIC_ACCESS_CHECK",
+        "helperCode": "PREMATURE_PUBLIC_ACCESS_CHECK",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "Unknown access status null",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "UNKNOWN_PUBLIC_ACCESS_STATUS",
+        "helperCode": "UNKNOWN_PUBLIC_ACCESS_STATUS",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "Unknown access status undefined",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "UNKNOWN_PUBLIC_ACCESS_STATUS",
+        "helperCode": "UNKNOWN_PUBLIC_ACCESS_STATUS",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "Access must be boolean true false",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "RECORD_NOT_PUBLIC_AFTER_PERIOD",
+        "helperCode": "RECORD_NOT_PUBLIC_AFTER_PERIOD",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "Access must be boolean true \"true\"",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "RECORD_NOT_PUBLIC_AFTER_PERIOD",
+        "helperCode": "RECORD_NOT_PUBLIC_AFTER_PERIOD",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "Access must be boolean true 1",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "RECORD_NOT_PUBLIC_AFTER_PERIOD",
+        "helperCode": "RECORD_NOT_PUBLIC_AFTER_PERIOD",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "Missing evidence null",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "MISSING_PUBLIC_ACCESS_EVIDENCE",
+        "helperCode": "MISSING_PUBLIC_ACCESS_EVIDENCE",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "Missing evidence undefined",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "MISSING_PUBLIC_ACCESS_EVIDENCE",
+        "helperCode": "MISSING_PUBLIC_ACCESS_EVIDENCE",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "Missing evidence \"\"",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "MISSING_PUBLIC_ACCESS_EVIDENCE",
+        "helperCode": "MISSING_PUBLIC_ACCESS_EVIDENCE",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "Missing evidence \"  \"",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "MISSING_PUBLIC_ACCESS_EVIDENCE",
+        "helperCode": "MISSING_PUBLIC_ACCESS_EVIDENCE",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "Missing evidence 23",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "MISSING_PUBLIC_ACCESS_EVIDENCE",
+        "helperCode": "MISSING_PUBLIC_ACCESS_EVIDENCE",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "No calendar and no verified dates refuses",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "MISSING_VERIFIED_CALENDAR_OR_DEADLINES",
+        "helperCode": "MISSING_VERIFIED_CALENDAR_OR_DEADLINES",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "Calendar unconfirmed refuses",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "MISSING_VERIFIED_CALENDAR_OR_DEADLINES",
+        "helperCode": "MISSING_VERIFIED_CALENDAR_OR_DEADLINES",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "Calendar wrong jurisdiction refuses",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "MISSING_VERIFIED_CALENDAR_OR_DEADLINES",
+        "helperCode": "MISSING_VERIFIED_CALENDAR_OR_DEADLINES",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "Calendar missing source refuses",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "MISSING_VERIFIED_CALENDAR_OR_DEADLINES",
+        "helperCode": "MISSING_VERIFIED_CALENDAR_OR_DEADLINES",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "Calendar starts too late refuses",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "MISSING_VERIFIED_CALENDAR_OR_DEADLINES",
+        "helperCode": "MISSING_VERIFIED_CALENDAR_OR_DEADLINES",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "Calendar bad holiday refuses",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "MISSING_VERIFIED_CALENDAR_OR_DEADLINES",
+        "helperCode": "MISSING_VERIFIED_CALENDAR_OR_DEADLINES",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "Calendar unbounded missing holiday array refuses",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "MISSING_VERIFIED_CALENDAR_OR_DEADLINES",
+        "helperCode": "MISSING_VERIFIED_CALENDAR_OR_DEADLINES",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "Coverage ending at expiration cannot establish product check",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "CALENDAR_COVERAGE_ENDS_BEFORE_FIRST_CHECK",
+        "helperCode": "CALENDAR_COVERAGE_ENDS_BEFORE_FIRST_CHECK",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "Weekend coverage ending before adjusted expiration refuses",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "CALENDAR_COVERAGE_ENDS_BEFORE_ADJUSTED_EXPIRATION",
+        "helperCode": "CALENDAR_COVERAGE_ENDS_BEFORE_ADJUSTED_EXPIRATION",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "Explicit verified alternative reaches actual adapter without invented calendar",
+      "result": "PASS",
+      "evidence": null
+    },
+    {
+      "name": "Explicit dates missing expiration",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "INVALID_VERIFIED_ADJUSTED_EXPIRATION",
+        "helperCode": "INVALID_VERIFIED_ADJUSTED_EXPIRATION",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "Explicit dates missing check",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "INVALID_VERIFIED_FIRST_CHECK_DATE",
+        "helperCode": "INVALID_VERIFIED_FIRST_CHECK_DATE",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "Explicit dates missing source",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "MISSING_DEADLINE_VERIFICATION_SOURCE",
+        "helperCode": "MISSING_DEADLINE_VERIFICATION_SOURCE",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "Explicit dates before day 61",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "VERIFIED_ADJUSTED_EXPIRATION_BEFORE_DAY_61",
+        "helperCode": "VERIFIED_ADJUSTED_EXPIRATION_BEFORE_DAY_61",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "Explicit dates same-day check",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "VERIFIED_FIRST_CHECK_NOT_AFTER_EXPIRATION",
+        "helperCode": "VERIFIED_FIRST_CHECK_NOT_AFTER_EXPIRATION",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "Explicit dates Saturday expiration",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "VERIFIED_ADJUSTED_EXPIRATION_IS_WEEKEND",
+        "helperCode": "VERIFIED_ADJUSTED_EXPIRATION_IS_WEEKEND",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "Explicit dates Sunday expiration",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "VERIFIED_ADJUSTED_EXPIRATION_IS_WEEKEND",
+        "helperCode": "VERIFIED_ADJUSTED_EXPIRATION_IS_WEEKEND",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "Explicit dates Saturday check",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "VERIFIED_FIRST_CHECK_IS_WEEKEND",
+        "helperCode": "VERIFIED_FIRST_CHECK_IS_WEEKEND",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "Explicit dates Sunday check",
+      "result": "PASS",
+      "evidence": {
+        "expectedCode": "VERIFIED_FIRST_CHECK_IS_WEEKEND",
+        "helperCode": "VERIFIED_FIRST_CHECK_IS_WEEKEND",
+        "productionAdapter": "REFUSED"
+      }
+    },
+    {
+      "name": "Independent date oracle: 366 entry days, 61 calendar days, supplied holiday chains, weekend boundaries",
+      "result": "PASS",
+      "evidence": {
+        "cases": 366,
+        "first": {
+          "entered": "2025-08-01",
+          "raw": "2025-10-01",
+          "expiration": "2025-10-06",
+          "first": "2025-10-07",
+          "holidays": [
+            "2025-10-01",
+            "2025-10-02",
+            "2025-10-03"
+          ]
+        },
+        "last": {
+          "entered": "2026-08-01",
+          "raw": "2026-10-01",
+          "expiration": "2026-10-01",
+          "first": "2026-10-02",
+          "holidays": []
+        },
+        "allMatched": true
+      }
+    },
+    {
+      "name": "UTC default refuses a future order and future observation without explicit as-of",
+      "result": "PASS",
+      "evidence": {
+        "evaluationDateUsed": "2026-09-11",
+        "future": "2026-09-12"
+      }
+    },
+    {
+      "name": "Full four-component packet refuses absent collected case.court_name",
+      "result": "PASS",
+      "evidence": null
+    },
+    {
+      "name": "Full four-component packet refuses absent collected case.court_location",
+      "result": "PASS",
+      "evidence": null
+    },
+    {
+      "name": "Full four-component packet refuses absent collected case.number",
+      "result": "PASS",
+      "evidence": null
+    },
+    {
+      "name": "Full four-component packet refuses absent collected case.clerk_response",
+      "result": "PASS",
+      "evidence": null
+    },
+    {
+      "name": "Caller-supplied derived values cannot override evaluator conclusions",
+      "result": "PASS",
+      "evidence": null
+    }
+  ]
+}

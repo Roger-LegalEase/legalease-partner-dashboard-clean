@@ -1,0 +1,186 @@
+{
+  "schemaVersion": "rcap-fable-repair-return/v1",
+  "worker": "FABLE-R6",
+  "branch": "fable/r6",
+  "mergedCaptainHead": "1338a0bcf",
+  "corpus": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (mounted; every cited source re-hashed against data/rcap-all50/local-source-corpus-index.json)",
+  "method": "Every failed obligation was reproduced from packet bytes or held source bytes before any file was edited. No verifier finding was taken on trust, and none was found wrong. Facts come only from held sources verified by SHA-256 against the committed corpus index. No signature, notary, judicial, clerk, prosecutor or court-date field is written anywhere in this diff.",
+  "rows": [
+    {
+      "familyId": "ut_pet_no_charges-set",
+      "lane": "FIX01",
+      "claimResult": "CLAIM_OK (repair, grant set 68649c13ab76b741); RELEASED on completion",
+      "defectsReproduced": [
+        "requiredBeforeFiling — UT-BCI-EXP-APPLICATION p2-y37.35-x188.34 (\"SID#R&F\") was one of 17 blanks declared REQUIRED_BEFORE_FILING. Reproduced from the held source bytes: the form prints \"BUREAU USE ONLY\" at page 2 y=50.96 x=26.93 and the blank sits at y=37.35, inside that box; the committed census independently marks it protectCategory \"government_identifier\".",
+        "filingDestination — participant-instructions.md named no court and no agency, and listed the venue as a blank the participant supplies.",
+        "feeAndWaiver — the packet marks the $150 cover-sheet row but no text stated a fee, and no waiver route was named or referenced.",
+        "service — the only service line handed the participant the recipient and the method as blanks."
+      ],
+      "repairsMade": [
+        "The build host now measures each page's agency-use-only heading off the census and protects every blank at or below it. Geometric, names no form; the SSN and driver-licence blanks the participant does supply sit hundreds of points higher and are untouched. REQUIRED_BEFORE_FILING 17 -> 16, PROTECTED_FIELD 45 -> 46, no other disposition moved.",
+        "Instructions now state the two destinations in order (BCI for the certificate of eligibility, then the Utah district court for the county where the case was heard) with BCI's own 180-day deadline between them.",
+        "Instructions state the $150 court filing fee printed on 1044XX page 2 and selected by this packet, and name the waiver route: Utah form 1305GE, Motion to Waive Fees for Expungement - Criminal, under Utah Code 78A-2-302 and CJA Rule 4-508.",
+        "Instructions state the service recipient (the prosecutor) and the method (mail or email copies of what you file), with 1146XX in this packet for the acknowledgement.",
+        "The BCI certificate fee is deliberately NOT stated: BCI sets it per applicant in its own letter. The instruction says so and names BCI as the office that answers it — a self-help stop on a checkable authority rather than a guessed amount."
+      ],
+      "citedAuthorities": [
+        "UT-BCI-EXP-INSTRUCTIONS 9e03980f512fe3aa89418539407f542a34d734a8c12516b40682dd50b9dadefa",
+        "UT-BCI-INDIGENT-INSTRUCTIONS 862e058f91200020f1f00752b05e52c955ea3972264a82915a4ed5da7664b9e0",
+        "1044XX b99586289df6304da5b34181bee95ec2b7f098806c1c949a0f112daeb0244a52",
+        "1305GE c184a242f8c7c1d06f55998de4b611bcf8bd5ec959896b3b37e6b5d48319b597",
+        "1146XX 39f1205f48bd73fc7b9686a101369be74a988b419697ea964c2ff5a5c0ce63ad"
+      ],
+      "bytesChanged": false,
+      "bytesChangedDetail": "Fixtures and rasters are byte-identical to HEAD. This repair changes dispositions and instructions, not ink. Raster receipt stands; no re-raster needed.",
+      "rebuildByteIdentical": true,
+      "nineCounters": "PASS_COMPLETE — knownRequiredFieldsMissing 0, requiredFactsNotCollected 0, unclassifiedBlanks 0, incompleteRows 0, requiredOptionsMissing 0, requiredComponentsMissing 0, invisibleWrites 0, protectedWrites 0, visualDefects 0",
+      "status": "REPAIRED",
+      "commit": "ad6056be52db114905ee0fc4bfb4d3530cdfce09"
+    },
+    {
+      "familyId": "ut_pet_traffic-set",
+      "lane": "FIX02",
+      "claimResult": "CLAIM_OK (repair, grant set 68649c13ab76b741); RELEASED on completion",
+      "defectsReproduced": [
+        "requiredBeforeFiling — 1002EX p1-y296.76-x65.88, captioned \"1. Certificate of eligibility is not required\", was declared REQUIRED_BEFORE_FILING. Reproduced from the held source bytes: nothing is printed at that position. The nearest printed lines are the numbered heading at y=273.5 and \"Judge\" at y=305.4, and the census records captionBasis \"nearest_overlapping_printed_line\". The measured rule is the bottom border of the caption table's left cell, and this route obtains no certificate of eligibility at all.",
+        "filingDestination, feeAndWaiver, service — as for the other three Utah families."
+      ],
+      "repairsMade": [
+        "The bogus blank is now NOT_APPLICABLE_ON_THIS_ROUTE as a source-layout artifact, with the route note recorded. The branch is guarded on the traffic route only, so the non-traffic families' genuine certificate-number blank keeps REQUIRED_BEFORE_FILING, and the \"interests of the public\" alternative in the same test is untouched. REQUIRED_BEFORE_FILING 5 -> 4, NOT_APPLICABLE_ON_THIS_ROUTE 103 -> 104.",
+        "Instructions state the destination (the Utah district court for the county where the case was heard), quoting 1002EX's own printed \"Certificate of eligibility is not required\" for why there is no BCI step here.",
+        "Instructions state the $150 fee and the 1305GE waiver route.",
+        "Instructions name the service recipient (the prosecutor, evidenced by 1146XX in this packet acknowledging receipt of a copy of the petition) and the published mail-or-email method, and — because that method is published for the BCI route rather than this one — send the reader to the clerk of the filing court or the Utah State Courts Self-Help Center on 888-583-0009 to confirm it before serving."
+      ],
+      "bytesChanged": false,
+      "bytesChangedDetail": "Fixtures and rasters byte-identical to HEAD. Raster receipt stands; no re-raster needed.",
+      "rebuildByteIdentical": true,
+      "nineCounters": "PASS_COMPLETE — all nine zero",
+      "status": "REPAIRED",
+      "commit": "1c800743525b182323dc521d996127b488d45288"
+    },
+    {
+      "familyId": "ut_pet_dismissed_without_prejudice-set",
+      "lane": "FIX07",
+      "claimResult": "CLAIM_OK (repair, grant set 68649c13ab76b741); RELEASED on completion",
+      "defectsReproduced": [
+        "requiredBeforeFiling — the same SID#R&F blank inside the printed BUREAU USE ONLY box, one of 13 declared REQUIRED_BEFORE_FILING.",
+        "filingDestination, feeAndWaiver, service — instructions named no court, no fee, no waiver route, no recipient and no method."
+      ],
+      "repairsMade": [
+        "SID#R&F is PROTECTED_FIELD by the measured agency-use-region rule. REQUIRED_BEFORE_FILING 13 -> 12, PROTECTED_FIELD 45 -> 46.",
+        "Instructions state the BCI-then-district-court destinations with the 180-day deadline, the $150 fee and the 1305GE waiver route, and prosecutor service by mail or email with 1146XX for the acknowledgement. The BCI certificate fee is left unstated and delegated to BCI by name."
+      ],
+      "bytesChanged": false,
+      "bytesChangedDetail": "Fixtures and rasters byte-identical to HEAD. Raster receipt stands; no re-raster needed.",
+      "rebuildByteIdentical": true,
+      "nineCounters": "PASS_COMPLETE — all nine zero",
+      "status": "REPAIRED",
+      "commit": "45763a7152ee4debf1bdde07bb2f98fdca695e70"
+    },
+    {
+      "familyId": "ut_pet_limitations-set",
+      "lane": "FIX08",
+      "claimResult": "CLAIM_OK (repair, grant set 68649c13ab76b741); RELEASED on completion",
+      "defectsReproduced": [
+        "requiredBeforeFiling — the same SID#R&F blank inside the printed BUREAU USE ONLY box, one of 13 declared REQUIRED_BEFORE_FILING.",
+        "filingDestination, feeAndWaiver, service — instructions named no court, no fee, no waiver route, no recipient and no method."
+      ],
+      "repairsMade": [
+        "SID#R&F is PROTECTED_FIELD by the measured agency-use-region rule. REQUIRED_BEFORE_FILING 13 -> 12, PROTECTED_FIELD 45 -> 46.",
+        "Instructions state the BCI-then-district-court destinations with the 180-day deadline, the $150 fee and the 1305GE waiver route, and prosecutor service by mail or email with 1146XX for the acknowledgement. The BCI certificate fee is left unstated and delegated to BCI by name."
+      ],
+      "bytesChanged": false,
+      "bytesChangedDetail": "Fixtures and rasters byte-identical to HEAD. Raster receipt stands; no re-raster needed.",
+      "rebuildByteIdentical": true,
+      "nineCounters": "PASS_COMPLETE — all nine zero",
+      "status": "REPAIRED",
+      "commit": "5641cb20d16698fd554b619ea9f9c278593c4299"
+    },
+    {
+      "familyId": "vt_seal_18_to_21-set",
+      "lane": "FIX03",
+      "claimResult": "CLAIM_OK (repair, grant set 68649c13ab76b741); RELEASED on completion",
+      "defectsReproduced": [
+        "knownPrefills — participant.email mapped to 200-00132 field 34i is absent from the boundary artifact. Reproduced from the bytes: the flattened appearance XObject at rect x395.69 y120.55 exists in both fixtures; in the boundary artifact it draws `<> Tj` at /Helvetica 11 Tf. Root cause located in the shared fitter: the descending ladder starts at min(maxFontSize, rect.height - 2) = 10.96 on this 12.96pt-high widget and steps by 0.5, ending at 6.46, so 6.0 — the minimum readable size the module declares — is never evaluated. The value needs 165.6pt at 6.0 in a 170.7pt box and fits with five points to spare.",
+        "feeAndWaiver — no fee amount and no established waiver route; the instructions said so themselves.",
+        "service — no recipient and no method stated."
+      ],
+      "repairsMade": [
+        "fitTextToWidget takes a new evaluateDeclaredMinimumSize option that tries the declared minimum as a final rung. Opt-in, defaulting to the existing ladder so no family outside this repair can change on its next rebuild. Characterised over 7,380 rect/value/multiline combinations: 41 outcomes change and every one is a refusal becoming a write at exactly 6.0pt; no value that already fits changes in any way.",
+        "The VT shared host opts in. The boundary email is now read back from the artifact's own bytes at 395.69,120.55 on packet page 3.",
+        "The byte proof now lists every mapped write the artifact does not carry, with the finalizer's reason, and the build ASSERTS that list is empty. The old build recorded the refusal only inside the finalizer's report, so the family's actual-writes.json claimed 8 values for a document holding 7 and the loss was invisible downstream.",
+        "feeAndWaiver and service are quoted from the Vermont Judiciary's own filing instructions, form 200-00130A (07/2025), held in the committed corpus: filing is free except a $90 fee to seal a conviction for a violation of 23 V.S.A. § 1201(a), waivable on the Application to Waive Filing Fees — which is 600-00228, already in this packet and filled; and the court, not the participant, provides the copy to the prosecutor who brought the criminal case once the petition is filed. Whether a given conviction falls under § 1201(a) is a docket fact and is delegated to the clerk rather than decided here.",
+        "Also fixed: corpusRoot() returned MASTER_LIBRARY_SOURCE_DIR unresolved and a caller joined it onto ROOT, so the absolute path the preflight exports produced ROOT + /abs/path and all three sources reported BLOCKED_SOURCE while sitting on disk."
+      ],
+      "citedAuthorities": [
+        "VT 200-00130A 8a44b91cd2f48af494cefcadb557c3c0f5a35b0bdeef06272ee54c66f9ca8078 (not a packet component; re-hashed against the committed corpus index on every build)"
+      ],
+      "bytesChanged": true,
+      "bytesChangedDetail": "Both fixtures changed. RASTER RECEIPT INVALIDATED — captain must re-raster. One page of ink moved: boundary page 3, the email. Everything else is the deterministic date stamp finally landing, because these fixtures were last built at a5d8c2678, before fc1478301 stopped the wall clock getting into packet bytes. The canonical fixture's appearance set is identical to HEAD's — 161 appearances matching exactly — and differs only in /CreationDate and /ModDate.",
+      "rebuildByteIdentical": true,
+      "nineCounters": "PASS_COMPLETE — all nine zero",
+      "status": "REPAIRED",
+      "commit": "b9ecbd225f538f1c5803cc88812e9467fdbd4eda"
+    },
+    {
+      "familyId": "vt_seal_dui-set",
+      "lane": "FIX04",
+      "claimResult": "CLAIM_OK (repair, grant set 68649c13ab76b741); RELEASED on completion",
+      "defectsReproduced": [
+        "knownPrefills — participant.email absent from the boundary artifact at 200-00132 field 34i, same root cause as vt_seal_18_to_21-set.",
+        "feeAndWaiver — no fee amount and no established waiver route.",
+        "service — no recipient and no method stated."
+      ],
+      "repairsMade": [
+        "Repaired by the shared-host opt-in landed with FIX03; the boundary email is read back from this family's own bytes.",
+        "feeAndWaiver and service quoted from VT 200-00130A as above. 23 V.S.A. § 1201(a) is Vermont's DUI offence, so on this route the $90 fee is the one most likely to apply; the instructions state the rule as the judiciary states it and send the docket question to the clerk rather than deciding a participant's record for them.",
+        "Byte proof records mapped writes not in the bytes: 6 documents across both fixtures, 8 values each, none missing."
+      ],
+      "bytesChanged": true,
+      "bytesChangedDetail": "Both fixtures changed. RASTER RECEIPT INVALIDATED — captain must re-raster. Boundary page 3 gained the email; both fixtures picked up the deterministic date stamp for the same reason as vt_seal_18_to_21-set.",
+      "rebuildByteIdentical": true,
+      "nineCounters": "PASS_COMPLETE — all nine zero",
+      "status": "REPAIRED",
+      "commit": "80bd5405b5905a51bceba23b04428cf5a1c52554"
+    }
+  ],
+  "sharedHostImpact": {
+    "utHost": {
+      "file": "scripts/build-census-v1-ut_pet_acquittal-set.mjs",
+      "servesFamilies": 7,
+      "familiesIRepaired": ["ut_pet_no_charges-set", "ut_pet_traffic-set", "ut_pet_dismissed_without_prejudice-set", "ut_pet_limitations-set"],
+      "familiesNotRebuilt": ["ut_pet_acquittal-set", "ut_pet_conviction-set", "ut_pet_dismissed_with_prejudice-set"],
+      "verifiedUnaffected": "All three still return PASS_COMPLETE with nine counters zero on their committed artifacts, and no file of theirs is touched by this branch. The host refuses --check by design (it declines to self-verify), so the completeness verifier is the check that was run.",
+      "captainDecision": "Those three carry the same SID#R&F misdisposition and the same instruction gaps in their committed artifacts. Rebuilding them applies both repairs; their fixture bytes will NOT change (the Utah repairs move dispositions and instructions, not ink), so their raster receipts survive a rebuild. They currently hold PASS_COMPLETE_INDEPENDENT from codex-cloud lane s2-continuation-verify-01, but that row's own evidence reads '0 REQUIRED_BEFORE_FILING blanks; instruction-name obligation is vacuously satisfied' and it scored only the nine counters, not the fifteen obligations — so it is a nine-counter pass over a pre-repair artifact state, not a filingDestination/feeAndWaiver/service pass."
+    },
+    "vtHost": {
+      "file": "scripts/build-census-v1-vt_seal_misdemeanor-set.mjs",
+      "servesFamilies": 5,
+      "familiesIRepaired": ["vt_seal_18_to_21-set", "vt_seal_dui-set"],
+      "familiesNotRebuilt": ["vt_seal_felony-set", "vt_seal_misdemeanor-set", "vt_seal_pardon-set"],
+      "verifiedUnaffected": "All three return CHECK_ONLY cleanly on the repaired host (24 writes, 112 supply each) and PASS_COMPLETE with nine counters zero on their committed artifacts. No file of theirs is touched by this branch.",
+      "captainDecision": "All three carry the identical missing boundary email — verified from their committed bytes, the 34i appearance at page 3 draws empty in every one — and the identical unsourced fee and service text. Rebuilding them fixes both and WILL change their fixture bytes twice over: the email lands, and the deterministic date stamp lands, since their fixtures also predate fc1478301. Their raster receipts will need reissuing when they are rebuilt. vt_seal_nonconviction-set and vt_exp_decriminalized-set have the same empty 34i appearance but are built by their own scripts, not this host; they are outside my claims and untouched."
+    },
+    "sharedFitter": {
+      "file": "scripts/rcap-official-forms/rcap-text-fitting.mjs",
+      "callers": "~48 builders",
+      "changeShape": "A new evaluateDeclaredMinimumSize option, defaulting FALSE so every existing caller keeps the exact current ladder. scripts/rcap-official-forms/rcap-official-form-finalize.mjs passes it through, also defaulting false.",
+      "provedSafe": "7,380 rect/value/multiline combinations swept: with the option off, output is identical in every case; with it on, 41 outcomes change and all 41 are a refusal becoming a write at exactly the declared minimum. verify-rcap-shared-pdf-contract.mjs and verify-rcap-finalizer-widget-contribution.mjs both pass (14 controls, 4 mutations).",
+      "captainDecision": "The default should flip to true once every family can be rebuilt together, so the declared 6.0pt floor is the real floor everywhere rather than 6.46pt on a widget whose height makes the ladder miss. Flipping it will silently add ink to any family currently carrying a value in that band, so it wants a coordinated rebuild rather than a drive-by change. Left opt-in here because a repair lane holding six families does not get to change what another worker's next rebuild produces."
+    }
+  },
+  "invalidatedRasterReceipts": ["vt_seal_18_to_21-set", "vt_seal_dui-set"],
+  "rasterReceiptsIntact": ["ut_pet_no_charges-set", "ut_pet_traffic-set", "ut_pet_dismissed_without_prejudice-set", "ut_pet_limitations-set"],
+  "captainDecisionsNeeded": [
+    "Re-raster vt_seal_18_to_21-set and vt_seal_dui-set: both fixtures of both families changed.",
+    "Dispatch rebuilds of vt_seal_felony-set, vt_seal_misdemeanor-set and vt_seal_pardon-set to their claim holders — they carry the same missing boundary email and the same unsourced fee and service text, and their rebuilds will need fresh raster receipts.",
+    "Dispatch rebuilds of ut_pet_acquittal-set, ut_pet_conviction-set and ut_pet_dismissed_with_prejudice-set — same SID#R&F misdisposition and same instruction gaps; their fixture bytes will not change, so their raster receipts survive.",
+    "vt_seal_nonconviction-set and vt_exp_decriminalized-set show the same empty 34i appearance in their committed bytes but are built by their own scripts; they need their own repair dispatch.",
+    "Decide when to flip evaluateDeclaredMinimumSize to the default for every family.",
+    "Every VT fixture in the repository that predates fc1478301 still carries a wall-clock date and is therefore not reproducible from its own builder; the two I rebuilt now are. Worth a sweep."
+  ],
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "promotedPastStateBuilt": false,
+  "grantsNothing": "A repaired packet is review evidence. It authorizes no fulfillment, opens no commercial route, and promotes no family past state_built."
+}

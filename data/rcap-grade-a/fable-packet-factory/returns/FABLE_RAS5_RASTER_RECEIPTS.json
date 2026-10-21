@@ -1,0 +1,2528 @@
+{
+  "schemaVersion": "fable-raster-receipts/v1",
+  "lane": "FABLE-RAS5",
+  "generatedBy": "FABLE-RAS5, harvesting GitHub Actions run 33605354695 through the GitHub MCP server",
+  "generatedOn": "2026-09-02",
+  "workflow": "RCAP Packet Raster Acceptance (batch)",
+  "workflowFile": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+  "workflowRunId": "33605354695",
+  "workflowRunUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/33605354695",
+  "renderedCommitSha": "7edb05f621e6209c3660c66fd60e4f4b283faf1f",
+  "renderedCommitSubject": "Re-pin the dispatch onto the commit that carries PA's directories",
+  "requestedScale": "2.5",
+  "rasterManifestPath": "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+  "theBytesWereNotRead": "No PNG from this run was inspected by this lane. Artifact downloads redirect to blob storage the egress proxy denies, so not one pixel was looked at here. Every statement in this file about what the render found is a report of what the runner printed, joined to what the artifact listing records - artifact id, zip SHA-256, size, expiry. Nothing in it is a claim that a rendered page was viewed. A reader who needs the pixels must download the receipt artifacts from GitHub before the 14-day retention window closes.",
+  "whatThisFileIsAndIsNot": {
+    "isA": "A harvest of one workflow run's per-family raster verdicts, joined to the queue rows those verdicts name and to a fresh SHA-256 of the fixture files on disk.",
+    "isNotA": "A promotion, a claim, a build-status change, or authority for any commercial route. This lane asserted, released, transferred and reissued no claim, and modified no file but this one.",
+    "aGreenJobIsNotAPass": "Job conclusion and verdict line are recorded separately on purpose. All 39 family jobs are green AND all 39 printed a RASTER_PASS line; a green job that had printed no line would carry noVerdictLine here and no verdict would have been invented for it.",
+    "problemsGreaterThanZeroIsNotAPass": "problemsFound is recorded exactly as printed. Any family with a non-zero count is named in familiesWithProblems whatever its job conclusion says."
+  },
+  "canary": {
+    "jobId": 100167962659,
+    "jobName": "Synthetic canary and live negative controls",
+    "conclusion": "success",
+    "syntheticVerdict": "CANARY_PASSED",
+    "syntheticMarkerLine": "RCAP_RASTER_CANARY_PASSED",
+    "calibrationResidualPx": 0,
+    "inkFractionInsidePaper": 0.020409982174688056,
+    "browserExecutable": "/home/runner/.cache/ms-playwright/chromium-1223/chrome-linux64/chrome",
+    "operatingSystem": "Linux 6.17.0-1022-azure x64",
+    "nodeVersion": "v22.23.2",
+    "negativeControls": {
+      "markerLine": "RCAP_RASTER_NEGATIVE_CONTROLS_HELD",
+      "summaryLine": "5 refused, 0 missed, 1 not exercised on this runner.",
+      "refused": [
+        "no_browser_refused - an environment with no browser must resolve nothing",
+        "non_executable_refused - a non-executable file must not resolve as a browser",
+        "directory_refused - a directory must not resolve as a browser",
+        "headless_shell_path_refused - an executable at a headless_shell path must not resolve as a browser",
+        "blank_page_is_detectable - paper found, ink fraction 0.00e+0"
+      ],
+      "notExercised": [
+        "headless_shell_render_refused - not exercised: no real headless_shell on this runner. The resolver-level refusal is proven by headless_shell_path_refused."
+      ],
+      "missed": 0
+    },
+    "familyMatrixDependsOnThisJob": true,
+    "verdict": "The canary passed and the live negative controls held, so the family verdicts from this run are usable. One of the six negative controls, headless_shell_render_refused, was not exercised because no real headless_shell existed on the runner; the runner reported that itself rather than counting it as refused, and the resolver-level refusal of a headless_shell path was exercised."
+  },
+  "planJob": {
+    "jobId": 100168420787,
+    "conclusion": "success",
+    "pinnedCommitConfirmedLine": "pinned commit confirmed: 7edb05f621e6209c3660c66fd60e4f4b283faf1f"
+  },
+  "jobCounts": {
+    "totalJobsInRun": 41,
+    "canaryJobs": 1,
+    "planJobs": 1,
+    "familyJobs": 39,
+    "familyJobsGreen": 39,
+    "familyJobsWithAVerdictLine": 39,
+    "familyJobsWithNoVerdictLine": 0,
+    "expectedFamilies": 39,
+    "familiesFound": 39,
+    "familyCountMatchesExpectation": true
+  },
+  "artifactCounts": {
+    "artifactsInRun": 40,
+    "familyReceiptArtifacts": 39,
+    "canaryArtifacts": 1,
+    "familiesWithoutAReceiptArtifact": [],
+    "receiptArtifactsWithoutAFamily": [],
+    "howArtifactsWereMatchedToFamilies": "By the workflow's own slug rule - the family id with every character outside [A-Za-z0-9._-] replaced by '_', prefixed 'rcap-raster-' and suffixed with the run id. The mapping is one-to-one across all 39; the only artifact left over is 'rcap-raster-canary'. Each family job's own upload step also printed the artifact id and zip SHA-256 recorded here, and those agree with the run's artifact listing."
+  },
+  "familiesWithProblems": [],
+  "familiesWithNoVerdictLine": [],
+  "fixturesWhoseBytesNoLongerMatch": [],
+  "bytesStillMatchSummary": {
+    "familiesChecked": 39,
+    "filesChecked": 78,
+    "filesMatching": 78,
+    "filesMismatchedOrMissing": 0,
+    "checkedAtCommitSha": "84045d06c9f14b29c8fb822343e0f390d5be98c3",
+    "method": "SHA-256 recomputed from each fixture file in this lane's worktree and compared to the queue row's recorded canonicalPdfSha256 and boundaryPdfSha256",
+    "whyThisIsTheMostImportantFieldHere": "A raster verdict names specific bytes. If a fixture had moved since the render, the verdict would no longer describe what is on disk and must not be ingested as if it did. All 78 fixture files still hash to the value the queue recorded, so every verdict below still describes the bytes it was measured on.",
+    "caveat": "The recomputation was done at commit 84045d06c9f14b29c8fb822343e0f390d5be98c3, this lane's base, not at the rendered commit 7edb05f621e6209c3660c66fd60e4f4b283faf1f. The check therefore says the pinned bytes are unchanged between the queue's record and the tree as it stands now, which is the question that matters for ingestion."
+  },
+  "crossChecksAgainstTheRepository": {
+    "everyFamilyHasAQueueRow": true,
+    "runnerDocumentAndPageCountsAgreeWithTheQueue": "For all 39 families the runner's 'N document(s), M page(s)' equals the number of entries in the queue row's documents array and the sum of their pageCount fields. No family disagrees.",
+    "queueStateOfTheseRowsAtThisLanesBaseCommit": "All 39 rows are currentRasterState RASTER_PENDING in the committed RASTER_QUEUE.json. This lane changed none of them; Captain ingests.",
+    "coverageCompleteForAllThirtyNine": true,
+    "packetCommitShaVsRenderedCommitSha": "The queue records packetCommitSha a3ac6627b6076c091feb38f09b97780525742f96 while this run was dispatched at 7edb05f621e6209c3660c66fd60e4f4b283faf1f. Two different commits, and not in itself a contradiction: the batch re-verifies each fixture's SHA-256 from disk and refuses on mismatch, and the same hashes still hold here. Recorded so that nobody later reads renderedCommitSha as the packet commit.",
+    "lastBatchBlockStillDescribesTheEarlierRun": "RASTER_QUEUE.json's lastBatch block still names workflowRunId 33497786539 and 11 families rendered at 422ccb49e37966a14b5b4026a0054ce97c3af974. That is the previous batch, not this one. This file does not update it.",
+    "nothingFoundThatContradictsARecordInTheRepository": true
+  },
+  "grantsNothing": "A RASTER_PASS is a visual-gate measurement of specific bytes and nothing else. It is not a Grade-A fulfillment record, it opens no commercial route, it promotes no family, and it does not by itself make any packet deliverable.",
+  "packetPdfsModified": 0,
+  "bodiesCommitted": 0,
+  "commercialRoutesOpened": 0,
+  "claimsAssertedReleasedTransferredOrReissued": 0,
+  "productionTouched": false,
+  "receiptCount": 39,
+  "receipts": [
+    {
+      "familyId": "ar-act531-set",
+      "jobId": 100168605514,
+      "jobConclusion": "success",
+      "renderedCommitSha": "7edb05f621e6209c3660c66fd60e4f4b283faf1f",
+      "pinnedCommitVerified": true,
+      "pinnedCommitReadVerbatimInThisJobsLog": false,
+      "howThePinWasVerified": "the job's \"Refuse a movable ref and prove the checkout is the pinned commit\" step asserts git rev-parse HEAD equals inputs.commit_sha and exits 1 otherwise; the job is green, so the assertion held. The literal value 7edb05f621e6209c3660c66fd60e4f4b283faf1f was read verbatim from the run's shared workflow_dispatch input: in the plan job's log (actions/checkout `ref:`, `HEAD is now at 7edb05f`, `git log -1 --format=%H` -> 7edb05f621e6209c3660c66fd60e4f4b283faf1f, `REF: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`, and `pinned commit confirmed: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`), and again as COMMIT_SHA in the \"Render and measure\" step env of the five family jobs whose tail-of-log read reached that far (rcap-tn-custom-pleading, rcap-sc-custom-pleading, rcap-wv-custom-pleading, rcap-wa-custom-pleading-clean-tracks, rcap-wi-custom-pleading). For the other 34 family jobs the tail-only read did not reach that line; every job in the run resolves the same single ${{ inputs.commit_sha }} and every job's guard passed, so no job checked out a different commit. For those 34 that is a structural proof, not a verbatim read.",
+      "verdictLine": "RASTER_PASS ar-act531-set — 4 document(s), 14 page(s) measured, 0 problem(s)",
+      "documentsMeasured": 4,
+      "pagesMeasured": 14,
+      "problemsFound": 0,
+      "receiptArtifact": {
+        "id": 9836969598,
+        "name": "rcap-raster-ar-act531-set-33605354695",
+        "zipSha256": "sha256:80d7d58340d0fb3498699e760e3e9bf70340da4dc3bf63f850eea75656ea1331",
+        "sizeInBytes": 6342763,
+        "expiresAt": "2026-09-16T07:53:58Z"
+      },
+      "queueRow": {
+        "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/ar/ar-act531-set--official-pdf-fill/fixtures/petition-canonical-filled.pdf",
+        "canonicalPdfSha256": "9a46ded37138089a56217629bb2ecbc51075f209bbeef308a6f9bb9cc464d7f8",
+        "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/ar/ar-act531-set--official-pdf-fill/fixtures/petition-boundary-filled.pdf",
+        "boundaryPdfSha256": "909ae1530fe07a57fb1a75d65d5ec4dcc0d3edcf5b1a7528509770cb9a717d9c",
+        "documentsDigest": "5156bcf7db133ebc69bca654ec49e77979d8df3218e5850062fc83b102b11ef9",
+        "coverage": {
+          "documents": [
+            "order-canonical-filled.pdf",
+            "petition-canonical-filled.pdf"
+          ],
+          "rastered": [
+            "order-canonical-filled.pdf",
+            "petition-canonical-filled.pdf"
+          ],
+          "notRastered": [],
+          "complete": true,
+          "basis": "the family ships 2 canonical document(s) with no assembled packet, and the row renders all of them"
+        },
+        "expectedPages": 4,
+        "currentRasterStateInQueue": "RASTER_PENDING",
+        "builderAssignment": "VF05",
+        "packetCommitSha": "a3ac6627b6076c091feb38f09b97780525742f96"
+      },
+      "bytesStillMatch": {
+        "method": "SHA-256 recomputed from the file on disk in this lane's worktree and compared to the queue's recorded hash",
+        "checkedAtCommitSha": "84045d06c9f14b29c8fb822343e0f390d5be98c3",
+        "canonical": {
+          "path": "data/rcap-all50/overlays/census-v1/ar/ar-act531-set--official-pdf-fill/fixtures/petition-canonical-filled.pdf",
+          "recordedSha256": "9a46ded37138089a56217629bb2ecbc51075f209bbeef308a6f9bb9cc464d7f8",
+          "onDiskSha256": "9a46ded37138089a56217629bb2ecbc51075f209bbeef308a6f9bb9cc464d7f8",
+          "present": true,
+          "matches": true
+        },
+        "boundary": {
+          "path": "data/rcap-all50/overlays/census-v1/ar/ar-act531-set--official-pdf-fill/fixtures/petition-boundary-filled.pdf",
+          "recordedSha256": "909ae1530fe07a57fb1a75d65d5ec4dcc0d3edcf5b1a7528509770cb9a717d9c",
+          "onDiskSha256": "909ae1530fe07a57fb1a75d65d5ec4dcc0d3edcf5b1a7528509770cb9a717d9c",
+          "present": true,
+          "matches": true
+        },
+        "bothMatch": true,
+        "whatThisMeans": "true means the exact bytes the queue pinned, and therefore the bytes this raster verdict describes, are still the bytes on disk. false would mean the verdict no longer describes what is on disk and must not be ingested as if it did."
+      }
+    },
+    {
+      "familyId": "ar-cs-possession-seal-set",
+      "jobId": 100168605539,
+      "jobConclusion": "success",
+      "renderedCommitSha": "7edb05f621e6209c3660c66fd60e4f4b283faf1f",
+      "pinnedCommitVerified": true,
+      "pinnedCommitReadVerbatimInThisJobsLog": false,
+      "howThePinWasVerified": "the job's \"Refuse a movable ref and prove the checkout is the pinned commit\" step asserts git rev-parse HEAD equals inputs.commit_sha and exits 1 otherwise; the job is green, so the assertion held. The literal value 7edb05f621e6209c3660c66fd60e4f4b283faf1f was read verbatim from the run's shared workflow_dispatch input: in the plan job's log (actions/checkout `ref:`, `HEAD is now at 7edb05f`, `git log -1 --format=%H` -> 7edb05f621e6209c3660c66fd60e4f4b283faf1f, `REF: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`, and `pinned commit confirmed: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`), and again as COMMIT_SHA in the \"Render and measure\" step env of the five family jobs whose tail-of-log read reached that far (rcap-tn-custom-pleading, rcap-sc-custom-pleading, rcap-wv-custom-pleading, rcap-wa-custom-pleading-clean-tracks, rcap-wi-custom-pleading). For the other 34 family jobs the tail-only read did not reach that line; every job in the run resolves the same single ${{ inputs.commit_sha }} and every job's guard passed, so no job checked out a different commit. For those 34 that is a structural proof, not a verbatim read.",
+      "verdictLine": "RASTER_PASS ar-cs-possession-seal-set — 4 document(s), 16 page(s) measured, 0 problem(s)",
+      "documentsMeasured": 4,
+      "pagesMeasured": 16,
+      "problemsFound": 0,
+      "receiptArtifact": {
+        "id": 9836989450,
+        "name": "rcap-raster-ar-cs-possession-seal-set-33605354695",
+        "zipSha256": "sha256:07e9ac8f5bd6859e63ae4722f43b45240289cb62eb3045bdaa87780135e9f360",
+        "sizeInBytes": 6147756,
+        "expiresAt": "2026-09-16T07:54:35Z"
+      },
+      "queueRow": {
+        "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/ar/ar-cs-possession-seal-set--official-pdf-fill/fixtures/petition-canonical-filled.pdf",
+        "canonicalPdfSha256": "b2b487cc7dd10b3ce9e7f5b41a115859bb3d1ac6be6932ea1f6503219d6c530e",
+        "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/ar/ar-cs-possession-seal-set--official-pdf-fill/fixtures/petition-boundary-filled.pdf",
+        "boundaryPdfSha256": "046fbedea2db1dc1afa4895b13f279e7fabf626a1e0172e705a676fc769bc6f8",
+        "documentsDigest": "15b5bca899962303c7a2f6147e27f60b508fc9667d38cb1319f51bf83589f7ff",
+        "coverage": {
+          "documents": [
+            "order-canonical-filled.pdf",
+            "petition-canonical-filled.pdf"
+          ],
+          "rastered": [
+            "order-canonical-filled.pdf",
+            "petition-canonical-filled.pdf"
+          ],
+          "notRastered": [],
+          "complete": true,
+          "basis": "the family ships 2 canonical document(s) with no assembled packet, and the row renders all of them"
+        },
+        "expectedPages": 5,
+        "currentRasterStateInQueue": "RASTER_PENDING",
+        "builderAssignment": "VF07",
+        "packetCommitSha": "a3ac6627b6076c091feb38f09b97780525742f96"
+      },
+      "bytesStillMatch": {
+        "method": "SHA-256 recomputed from the file on disk in this lane's worktree and compared to the queue's recorded hash",
+        "checkedAtCommitSha": "84045d06c9f14b29c8fb822343e0f390d5be98c3",
+        "canonical": {
+          "path": "data/rcap-all50/overlays/census-v1/ar/ar-cs-possession-seal-set--official-pdf-fill/fixtures/petition-canonical-filled.pdf",
+          "recordedSha256": "b2b487cc7dd10b3ce9e7f5b41a115859bb3d1ac6be6932ea1f6503219d6c530e",
+          "onDiskSha256": "b2b487cc7dd10b3ce9e7f5b41a115859bb3d1ac6be6932ea1f6503219d6c530e",
+          "present": true,
+          "matches": true
+        },
+        "boundary": {
+          "path": "data/rcap-all50/overlays/census-v1/ar/ar-cs-possession-seal-set--official-pdf-fill/fixtures/petition-boundary-filled.pdf",
+          "recordedSha256": "046fbedea2db1dc1afa4895b13f279e7fabf626a1e0172e705a676fc769bc6f8",
+          "onDiskSha256": "046fbedea2db1dc1afa4895b13f279e7fabf626a1e0172e705a676fc769bc6f8",
+          "present": true,
+          "matches": true
+        },
+        "bothMatch": true,
+        "whatThisMeans": "true means the exact bytes the queue pinned, and therefore the bytes this raster verdict describes, are still the bytes on disk. false would mean the verdict no longer describes what is on disk and must not be ingested as if it did."
+      }
+    },
+    {
+      "familyId": "az_wrongful_arrest_clearance-set",
+      "jobId": 100168605661,
+      "jobConclusion": "success",
+      "renderedCommitSha": "7edb05f621e6209c3660c66fd60e4f4b283faf1f",
+      "pinnedCommitVerified": true,
+      "pinnedCommitReadVerbatimInThisJobsLog": false,
+      "howThePinWasVerified": "the job's \"Refuse a movable ref and prove the checkout is the pinned commit\" step asserts git rev-parse HEAD equals inputs.commit_sha and exits 1 otherwise; the job is green, so the assertion held. The literal value 7edb05f621e6209c3660c66fd60e4f4b283faf1f was read verbatim from the run's shared workflow_dispatch input: in the plan job's log (actions/checkout `ref:`, `HEAD is now at 7edb05f`, `git log -1 --format=%H` -> 7edb05f621e6209c3660c66fd60e4f4b283faf1f, `REF: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`, and `pinned commit confirmed: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`), and again as COMMIT_SHA in the \"Render and measure\" step env of the five family jobs whose tail-of-log read reached that far (rcap-tn-custom-pleading, rcap-sc-custom-pleading, rcap-wv-custom-pleading, rcap-wa-custom-pleading-clean-tracks, rcap-wi-custom-pleading). For the other 34 family jobs the tail-only read did not reach that line; every job in the run resolves the same single ${{ inputs.commit_sha }} and every job's guard passed, so no job checked out a different commit. For those 34 that is a structural proof, not a verbatim read.",
+      "verdictLine": "RASTER_PASS az_wrongful_arrest_clearance-set — 2 document(s), 8 page(s) measured, 0 problem(s)",
+      "documentsMeasured": 2,
+      "pagesMeasured": 8,
+      "problemsFound": 0,
+      "receiptArtifact": {
+        "id": 9836928881,
+        "name": "rcap-raster-az_wrongful_arrest_clearance-set-33605354695",
+        "zipSha256": "sha256:182d5434c5310a964dc5caccb9df39cda762c868dd26f8f4371d5130e096269d",
+        "sizeInBytes": 1753720,
+        "expiresAt": "2026-09-16T07:52:44Z"
+      },
+      "queueRow": {
+        "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/az/az-wrongful-arrest-clearance-set--custom-pleading/fixtures/canonical.pdf",
+        "canonicalPdfSha256": "ae9d2adfcc34c4aa45012493466e0b86e49ace944aa552998ffec4c2a36166ee",
+        "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/az/az-wrongful-arrest-clearance-set--custom-pleading/fixtures/boundary.pdf",
+        "boundaryPdfSha256": "9ff414dfc5ee70776d55cf44400479680d1b3043789d189232c879e0e8eb36f9",
+        "documentsDigest": "af02c6b1e99fcaf615ee61d263ee8183bb151ab6f7da107e66c645724a3a5658",
+        "coverage": {
+          "documents": [
+            "canonical.pdf"
+          ],
+          "rastered": [
+            "canonical.pdf"
+          ],
+          "notRastered": [],
+          "complete": true,
+          "basis": "the family ships one assembled packet, so rendering it covers the family"
+        },
+        "expectedPages": 4,
+        "currentRasterStateInQueue": "RASTER_PENDING",
+        "builderAssignment": "VF10",
+        "packetCommitSha": "a3ac6627b6076c091feb38f09b97780525742f96"
+      },
+      "bytesStillMatch": {
+        "method": "SHA-256 recomputed from the file on disk in this lane's worktree and compared to the queue's recorded hash",
+        "checkedAtCommitSha": "84045d06c9f14b29c8fb822343e0f390d5be98c3",
+        "canonical": {
+          "path": "data/rcap-all50/overlays/census-v1/az/az-wrongful-arrest-clearance-set--custom-pleading/fixtures/canonical.pdf",
+          "recordedSha256": "ae9d2adfcc34c4aa45012493466e0b86e49ace944aa552998ffec4c2a36166ee",
+          "onDiskSha256": "ae9d2adfcc34c4aa45012493466e0b86e49ace944aa552998ffec4c2a36166ee",
+          "present": true,
+          "matches": true
+        },
+        "boundary": {
+          "path": "data/rcap-all50/overlays/census-v1/az/az-wrongful-arrest-clearance-set--custom-pleading/fixtures/boundary.pdf",
+          "recordedSha256": "9ff414dfc5ee70776d55cf44400479680d1b3043789d189232c879e0e8eb36f9",
+          "onDiskSha256": "9ff414dfc5ee70776d55cf44400479680d1b3043789d189232c879e0e8eb36f9",
+          "present": true,
+          "matches": true
+        },
+        "bothMatch": true,
+        "whatThisMeans": "true means the exact bytes the queue pinned, and therefore the bytes this raster verdict describes, are still the bytes on disk. false would mean the verdict no longer describes what is on disk and must not be ingested as if it did."
+      }
+    },
+    {
+      "familyId": "composed-treatment:obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request",
+      "jobId": 100168605612,
+      "jobConclusion": "success",
+      "renderedCommitSha": "7edb05f621e6209c3660c66fd60e4f4b283faf1f",
+      "pinnedCommitVerified": true,
+      "pinnedCommitReadVerbatimInThisJobsLog": false,
+      "howThePinWasVerified": "the job's \"Refuse a movable ref and prove the checkout is the pinned commit\" step asserts git rev-parse HEAD equals inputs.commit_sha and exits 1 otherwise; the job is green, so the assertion held. The literal value 7edb05f621e6209c3660c66fd60e4f4b283faf1f was read verbatim from the run's shared workflow_dispatch input: in the plan job's log (actions/checkout `ref:`, `HEAD is now at 7edb05f`, `git log -1 --format=%H` -> 7edb05f621e6209c3660c66fd60e4f4b283faf1f, `REF: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`, and `pinned commit confirmed: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`), and again as COMMIT_SHA in the \"Render and measure\" step env of the five family jobs whose tail-of-log read reached that far (rcap-tn-custom-pleading, rcap-sc-custom-pleading, rcap-wv-custom-pleading, rcap-wa-custom-pleading-clean-tracks, rcap-wi-custom-pleading). For the other 34 family jobs the tail-only read did not reach that line; every job in the run resolves the same single ${{ inputs.commit_sha }} and every job's guard passed, so no job checked out a different commit. For those 34 that is a structural proof, not a verbatim read.",
+      "verdictLine": "RASTER_PASS composed-treatment:obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request — 2 document(s), 8 page(s) measured, 0 problem(s)",
+      "documentsMeasured": 2,
+      "pagesMeasured": 8,
+      "problemsFound": 0,
+      "receiptArtifact": {
+        "id": 9836959455,
+        "name": "rcap-raster-composed-treatment_obligation_research-decision-route_NY_ny_160_55_violation_sentencing_court_transmission_correction_request-33605354695",
+        "zipSha256": "sha256:edda602658956c84023f2c5bd03aded4578b6c857b3bfc8b35a4e4c47119d9d6",
+        "sizeInBytes": 3315149,
+        "expiresAt": "2026-09-16T07:53:40Z"
+      },
+      "queueRow": {
+        "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/ny/composed-treatment:obligation:research-decision-route:ny:ny-160-55-violation:sentencing-court-transmission-correction-request--custom-pleading/fixtures/canonical.pdf",
+        "canonicalPdfSha256": "9a3e8f36ad9c4f83bdd11f4771d4bcb84dcecd6c5eeb407c3319ab0d0ef6fd5a",
+        "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/ny/composed-treatment:obligation:research-decision-route:ny:ny-160-55-violation:sentencing-court-transmission-correction-request--custom-pleading/fixtures/boundary.pdf",
+        "boundaryPdfSha256": "f623426b5f191878a1d01c0531e43df28edceb9c42b3f3bef2617ecbd3b1acf2",
+        "documentsDigest": "a9f8e2a05b9ad40b6a87c8540506557d2cb59d2edd5aa385c54f0310df8f1205",
+        "coverage": {
+          "documents": [
+            "canonical.pdf"
+          ],
+          "rastered": [
+            "canonical.pdf"
+          ],
+          "notRastered": [],
+          "complete": true,
+          "basis": "the family ships one assembled packet, so rendering it covers the family"
+        },
+        "expectedPages": 4,
+        "currentRasterStateInQueue": "RASTER_PENDING",
+        "builderAssignment": "VF01",
+        "packetCommitSha": "a3ac6627b6076c091feb38f09b97780525742f96"
+      },
+      "bytesStillMatch": {
+        "method": "SHA-256 recomputed from the file on disk in this lane's worktree and compared to the queue's recorded hash",
+        "checkedAtCommitSha": "84045d06c9f14b29c8fb822343e0f390d5be98c3",
+        "canonical": {
+          "path": "data/rcap-all50/overlays/census-v1/ny/composed-treatment:obligation:research-decision-route:ny:ny-160-55-violation:sentencing-court-transmission-correction-request--custom-pleading/fixtures/canonical.pdf",
+          "recordedSha256": "9a3e8f36ad9c4f83bdd11f4771d4bcb84dcecd6c5eeb407c3319ab0d0ef6fd5a",
+          "onDiskSha256": "9a3e8f36ad9c4f83bdd11f4771d4bcb84dcecd6c5eeb407c3319ab0d0ef6fd5a",
+          "present": true,
+          "matches": true
+        },
+        "boundary": {
+          "path": "data/rcap-all50/overlays/census-v1/ny/composed-treatment:obligation:research-decision-route:ny:ny-160-55-violation:sentencing-court-transmission-correction-request--custom-pleading/fixtures/boundary.pdf",
+          "recordedSha256": "f623426b5f191878a1d01c0531e43df28edceb9c42b3f3bef2617ecbd3b1acf2",
+          "onDiskSha256": "f623426b5f191878a1d01c0531e43df28edceb9c42b3f3bef2617ecbd3b1acf2",
+          "present": true,
+          "matches": true
+        },
+        "bothMatch": true,
+        "whatThisMeans": "true means the exact bytes the queue pinned, and therefore the bytes this raster verdict describes, are still the bytes on disk. false would mean the verdict no longer describes what is on disk and must not be ingested as if it did."
+      }
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction",
+      "jobId": 100168605475,
+      "jobConclusion": "success",
+      "renderedCommitSha": "7edb05f621e6209c3660c66fd60e4f4b283faf1f",
+      "pinnedCommitVerified": true,
+      "pinnedCommitReadVerbatimInThisJobsLog": false,
+      "howThePinWasVerified": "the job's \"Refuse a movable ref and prove the checkout is the pinned commit\" step asserts git rev-parse HEAD equals inputs.commit_sha and exits 1 otherwise; the job is green, so the assertion held. The literal value 7edb05f621e6209c3660c66fd60e4f4b283faf1f was read verbatim from the run's shared workflow_dispatch input: in the plan job's log (actions/checkout `ref:`, `HEAD is now at 7edb05f`, `git log -1 --format=%H` -> 7edb05f621e6209c3660c66fd60e4f4b283faf1f, `REF: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`, and `pinned commit confirmed: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`), and again as COMMIT_SHA in the \"Render and measure\" step env of the five family jobs whose tail-of-log read reached that far (rcap-tn-custom-pleading, rcap-sc-custom-pleading, rcap-wv-custom-pleading, rcap-wa-custom-pleading-clean-tracks, rcap-wi-custom-pleading). For the other 34 family jobs the tail-only read did not reach that line; every job in the run resolves the same single ${{ inputs.commit_sha }} and every job's guard passed, so no job checked out a different commit. For those 34 that is a structural proof, not a verbatim read.",
+      "verdictLine": "RASTER_PASS composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction — 2 document(s), 8 page(s) measured, 0 problem(s)",
+      "documentsMeasured": 2,
+      "pagesMeasured": 8,
+      "problemsFound": 0,
+      "receiptArtifact": {
+        "id": 9836933619,
+        "name": "rcap-raster-composed-treatment_obligation_runtime-contract-cohort_DE_juvenile-expungement-under-10-del-c-1017-1019-1017a_section_1017a_automatic_failure_correction-33605354695",
+        "zipSha256": "sha256:3fb1dd1a7050bcd22765ddbe8db9d6e2faac817fe9d7d5032048e7ea26947607",
+        "sizeInBytes": 2721048,
+        "expiresAt": "2026-09-16T07:52:52Z"
+      },
+      "queueRow": {
+        "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/de/composed-treatment:obligation:runtime-contract-cohort:de:juvenile-expungement-under-10-del-c-1017-1019-1017a:section-1017a-automatic-failure-correction--custom-pleading/fixtures/canonical.pdf",
+        "canonicalPdfSha256": "4357f7181b06cd732c158bd529ffa200976a88f9222c8d73736b5992122d209a",
+        "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/de/composed-treatment:obligation:runtime-contract-cohort:de:juvenile-expungement-under-10-del-c-1017-1019-1017a:section-1017a-automatic-failure-correction--custom-pleading/fixtures/boundary.pdf",
+        "boundaryPdfSha256": "6a33192824bf7fcecbb4d043d1c6daae4f84045cbb79a956d3cfb47781d69e34",
+        "documentsDigest": "1d6996a3b71361354eb2812ae7b5ea2db345a126bc02fc09cfe5bd98a3428b3f",
+        "coverage": {
+          "documents": [
+            "canonical.pdf"
+          ],
+          "rastered": [
+            "canonical.pdf"
+          ],
+          "notRastered": [],
+          "complete": true,
+          "basis": "the family ships one assembled packet, so rendering it covers the family"
+        },
+        "expectedPages": 4,
+        "currentRasterStateInQueue": "RASTER_PENDING",
+        "builderAssignment": "VF02",
+        "packetCommitSha": "a3ac6627b6076c091feb38f09b97780525742f96"
+      },
+      "bytesStillMatch": {
+        "method": "SHA-256 recomputed from the file on disk in this lane's worktree and compared to the queue's recorded hash",
+        "checkedAtCommitSha": "84045d06c9f14b29c8fb822343e0f390d5be98c3",
+        "canonical": {
+          "path": "data/rcap-all50/overlays/census-v1/de/composed-treatment:obligation:runtime-contract-cohort:de:juvenile-expungement-under-10-del-c-1017-1019-1017a:section-1017a-automatic-failure-correction--custom-pleading/fixtures/canonical.pdf",
+          "recordedSha256": "4357f7181b06cd732c158bd529ffa200976a88f9222c8d73736b5992122d209a",
+          "onDiskSha256": "4357f7181b06cd732c158bd529ffa200976a88f9222c8d73736b5992122d209a",
+          "present": true,
+          "matches": true
+        },
+        "boundary": {
+          "path": "data/rcap-all50/overlays/census-v1/de/composed-treatment:obligation:runtime-contract-cohort:de:juvenile-expungement-under-10-del-c-1017-1019-1017a:section-1017a-automatic-failure-correction--custom-pleading/fixtures/boundary.pdf",
+          "recordedSha256": "6a33192824bf7fcecbb4d043d1c6daae4f84045cbb79a956d3cfb47781d69e34",
+          "onDiskSha256": "6a33192824bf7fcecbb4d043d1c6daae4f84045cbb79a956d3cfb47781d69e34",
+          "present": true,
+          "matches": true
+        },
+        "bothMatch": true,
+        "whatThisMeans": "true means the exact bytes the queue pinned, and therefore the bytes this raster verdict describes, are still the bytes on disk. false would mean the verdict no longer describes what is on disk and must not be ingested as if it did."
+      }
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1018_discretionary_petition",
+      "jobId": 100168605501,
+      "jobConclusion": "success",
+      "renderedCommitSha": "7edb05f621e6209c3660c66fd60e4f4b283faf1f",
+      "pinnedCommitVerified": true,
+      "pinnedCommitReadVerbatimInThisJobsLog": false,
+      "howThePinWasVerified": "the job's \"Refuse a movable ref and prove the checkout is the pinned commit\" step asserts git rev-parse HEAD equals inputs.commit_sha and exits 1 otherwise; the job is green, so the assertion held. The literal value 7edb05f621e6209c3660c66fd60e4f4b283faf1f was read verbatim from the run's shared workflow_dispatch input: in the plan job's log (actions/checkout `ref:`, `HEAD is now at 7edb05f`, `git log -1 --format=%H` -> 7edb05f621e6209c3660c66fd60e4f4b283faf1f, `REF: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`, and `pinned commit confirmed: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`), and again as COMMIT_SHA in the \"Render and measure\" step env of the five family jobs whose tail-of-log read reached that far (rcap-tn-custom-pleading, rcap-sc-custom-pleading, rcap-wv-custom-pleading, rcap-wa-custom-pleading-clean-tracks, rcap-wi-custom-pleading). For the other 34 family jobs the tail-only read did not reach that line; every job in the run resolves the same single ${{ inputs.commit_sha }} and every job's guard passed, so no job checked out a different commit. For those 34 that is a structural proof, not a verbatim read.",
+      "verdictLine": "RASTER_PASS composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1018_discretionary_petition — 2 document(s), 8 page(s) measured, 0 problem(s)",
+      "documentsMeasured": 2,
+      "pagesMeasured": 8,
+      "problemsFound": 0,
+      "receiptArtifact": {
+        "id": 9836933582,
+        "name": "rcap-raster-composed-treatment_obligation_runtime-contract-cohort_DE_juvenile-expungement-under-10-del-c-1017-1019-1017a_section_1018_discretionary_petition-33605354695",
+        "zipSha256": "sha256:8d6079bcd66064c5e874e3cd21794ae08e613cdc07be1a1598ffdd1b1e15dceb",
+        "sizeInBytes": 2599994,
+        "expiresAt": "2026-09-16T07:52:52Z"
+      },
+      "queueRow": {
+        "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/de/composed-treatment:obligation:runtime-contract-cohort:de:juvenile-expungement-under-10-del-c-1017-1019-1017a:section-1018-discretionary-petition--custom-pleading/fixtures/canonical.pdf",
+        "canonicalPdfSha256": "d6b4097679fc575096728708f3ee31b35a834ec7eb9f40d8105df02bc9f24a82",
+        "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/de/composed-treatment:obligation:runtime-contract-cohort:de:juvenile-expungement-under-10-del-c-1017-1019-1017a:section-1018-discretionary-petition--custom-pleading/fixtures/boundary.pdf",
+        "boundaryPdfSha256": "c67cee6f0abf6f42a76f09c6ab5d57152a5486dcd88d9c7a1590a9565d56dea0",
+        "documentsDigest": "cc537005e6dbc600c7c1cbbb9805849818fac43395df4f395168008c0523e3fe",
+        "coverage": {
+          "documents": [
+            "canonical.pdf"
+          ],
+          "rastered": [
+            "canonical.pdf"
+          ],
+          "notRastered": [],
+          "complete": true,
+          "basis": "the family ships one assembled packet, so rendering it covers the family"
+        },
+        "expectedPages": 4,
+        "currentRasterStateInQueue": "RASTER_PENDING",
+        "builderAssignment": "VF03",
+        "packetCommitSha": "a3ac6627b6076c091feb38f09b97780525742f96"
+      },
+      "bytesStillMatch": {
+        "method": "SHA-256 recomputed from the file on disk in this lane's worktree and compared to the queue's recorded hash",
+        "checkedAtCommitSha": "84045d06c9f14b29c8fb822343e0f390d5be98c3",
+        "canonical": {
+          "path": "data/rcap-all50/overlays/census-v1/de/composed-treatment:obligation:runtime-contract-cohort:de:juvenile-expungement-under-10-del-c-1017-1019-1017a:section-1018-discretionary-petition--custom-pleading/fixtures/canonical.pdf",
+          "recordedSha256": "d6b4097679fc575096728708f3ee31b35a834ec7eb9f40d8105df02bc9f24a82",
+          "onDiskSha256": "d6b4097679fc575096728708f3ee31b35a834ec7eb9f40d8105df02bc9f24a82",
+          "present": true,
+          "matches": true
+        },
+        "boundary": {
+          "path": "data/rcap-all50/overlays/census-v1/de/composed-treatment:obligation:runtime-contract-cohort:de:juvenile-expungement-under-10-del-c-1017-1019-1017a:section-1018-discretionary-petition--custom-pleading/fixtures/boundary.pdf",
+          "recordedSha256": "c67cee6f0abf6f42a76f09c6ab5d57152a5486dcd88d9c7a1590a9565d56dea0",
+          "onDiskSha256": "c67cee6f0abf6f42a76f09c6ab5d57152a5486dcd88d9c7a1590a9565d56dea0",
+          "present": true,
+          "matches": true
+        },
+        "bothMatch": true,
+        "whatThisMeans": "true means the exact bytes the queue pinned, and therefore the bytes this raster verdict describes, are still the bytes on disk. false would mean the verdict no longer describes what is on disk and must not be ingested as if it did."
+      }
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route",
+      "jobId": 100168605484,
+      "jobConclusion": "success",
+      "renderedCommitSha": "7edb05f621e6209c3660c66fd60e4f4b283faf1f",
+      "pinnedCommitVerified": true,
+      "pinnedCommitReadVerbatimInThisJobsLog": false,
+      "howThePinWasVerified": "the job's \"Refuse a movable ref and prove the checkout is the pinned commit\" step asserts git rev-parse HEAD equals inputs.commit_sha and exits 1 otherwise; the job is green, so the assertion held. The literal value 7edb05f621e6209c3660c66fd60e4f4b283faf1f was read verbatim from the run's shared workflow_dispatch input: in the plan job's log (actions/checkout `ref:`, `HEAD is now at 7edb05f`, `git log -1 --format=%H` -> 7edb05f621e6209c3660c66fd60e4f4b283faf1f, `REF: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`, and `pinned commit confirmed: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`), and again as COMMIT_SHA in the \"Render and measure\" step env of the five family jobs whose tail-of-log read reached that far (rcap-tn-custom-pleading, rcap-sc-custom-pleading, rcap-wv-custom-pleading, rcap-wa-custom-pleading-clean-tracks, rcap-wi-custom-pleading). For the other 34 family jobs the tail-only read did not reach that line; every job in the run resolves the same single ${{ inputs.commit_sha }} and every job's guard passed, so no job checked out a different commit. For those 34 that is a structural proof, not a verbatim read.",
+      "verdictLine": "RASTER_PASS composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route — 2 document(s), 8 page(s) measured, 0 problem(s)",
+      "documentsMeasured": 2,
+      "pagesMeasured": 8,
+      "problemsFound": 0,
+      "receiptArtifact": {
+        "id": 9836950669,
+        "name": "rcap-raster-composed-treatment_obligation_runtime-only_GA_youthful-first-offender-restriction-route-33605354695",
+        "zipSha256": "sha256:0fe71559df35c5a45e2775fa093c6d7bcce2045a75dcf7c206e63b2f1dc836d5",
+        "sizeInBytes": 2304072,
+        "expiresAt": "2026-09-16T07:53:23Z"
+      },
+      "queueRow": {
+        "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/ga/composed-treatment:obligation:runtime-only:ga:youthful-first-offender-restriction-route--custom-pleading/fixtures/canonical.pdf",
+        "canonicalPdfSha256": "b35a0f04979f25912049b4d2d39f27c0b23223b497f30b78b4f0afa7c9eca5de",
+        "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/ga/composed-treatment:obligation:runtime-only:ga:youthful-first-offender-restriction-route--custom-pleading/fixtures/boundary.pdf",
+        "boundaryPdfSha256": "e3352f6da6302d0074372e3a9d3bab0adbe64b4e42096470cb3ade5ad2f45539",
+        "documentsDigest": "7ff4236c27441f03b7f0319c5fea5a6698618ecec7085c7ef3e92527411e4484",
+        "coverage": {
+          "documents": [
+            "canonical.pdf"
+          ],
+          "rastered": [
+            "canonical.pdf"
+          ],
+          "notRastered": [],
+          "complete": true,
+          "basis": "the family ships one assembled packet, so rendering it covers the family"
+        },
+        "expectedPages": 4,
+        "currentRasterStateInQueue": "RASTER_PENDING",
+        "builderAssignment": "VF05",
+        "packetCommitSha": "a3ac6627b6076c091feb38f09b97780525742f96"
+      },
+      "bytesStillMatch": {
+        "method": "SHA-256 recomputed from the file on disk in this lane's worktree and compared to the queue's recorded hash",
+        "checkedAtCommitSha": "84045d06c9f14b29c8fb822343e0f390d5be98c3",
+        "canonical": {
+          "path": "data/rcap-all50/overlays/census-v1/ga/composed-treatment:obligation:runtime-only:ga:youthful-first-offender-restriction-route--custom-pleading/fixtures/canonical.pdf",
+          "recordedSha256": "b35a0f04979f25912049b4d2d39f27c0b23223b497f30b78b4f0afa7c9eca5de",
+          "onDiskSha256": "b35a0f04979f25912049b4d2d39f27c0b23223b497f30b78b4f0afa7c9eca5de",
+          "present": true,
+          "matches": true
+        },
+        "boundary": {
+          "path": "data/rcap-all50/overlays/census-v1/ga/composed-treatment:obligation:runtime-only:ga:youthful-first-offender-restriction-route--custom-pleading/fixtures/boundary.pdf",
+          "recordedSha256": "e3352f6da6302d0074372e3a9d3bab0adbe64b4e42096470cb3ade5ad2f45539",
+          "onDiskSha256": "e3352f6da6302d0074372e3a9d3bab0adbe64b4e42096470cb3ade5ad2f45539",
+          "present": true,
+          "matches": true
+        },
+        "bothMatch": true,
+        "whatThisMeans": "true means the exact bytes the queue pinned, and therefore the bytes this raster verdict describes, are still the bytes on disk. false would mean the verdict no longer describes what is on disk and must not be ingested as if it did."
+      }
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
+      "jobId": 100168605645,
+      "jobConclusion": "success",
+      "renderedCommitSha": "7edb05f621e6209c3660c66fd60e4f4b283faf1f",
+      "pinnedCommitVerified": true,
+      "pinnedCommitReadVerbatimInThisJobsLog": false,
+      "howThePinWasVerified": "the job's \"Refuse a movable ref and prove the checkout is the pinned commit\" step asserts git rev-parse HEAD equals inputs.commit_sha and exits 1 otherwise; the job is green, so the assertion held. The literal value 7edb05f621e6209c3660c66fd60e4f4b283faf1f was read verbatim from the run's shared workflow_dispatch input: in the plan job's log (actions/checkout `ref:`, `HEAD is now at 7edb05f`, `git log -1 --format=%H` -> 7edb05f621e6209c3660c66fd60e4f4b283faf1f, `REF: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`, and `pinned commit confirmed: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`), and again as COMMIT_SHA in the \"Render and measure\" step env of the five family jobs whose tail-of-log read reached that far (rcap-tn-custom-pleading, rcap-sc-custom-pleading, rcap-wv-custom-pleading, rcap-wa-custom-pleading-clean-tracks, rcap-wi-custom-pleading). For the other 34 family jobs the tail-only read did not reach that line; every job in the run resolves the same single ${{ inputs.commit_sha }} and every job's guard passed, so no job checked out a different commit. For those 34 that is a structural proof, not a verbatim read.",
+      "verdictLine": "RASTER_PASS composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief — 2 document(s), 8 page(s) measured, 0 problem(s)",
+      "documentsMeasured": 2,
+      "pagesMeasured": 8,
+      "problemsFound": 0,
+      "receiptArtifact": {
+        "id": 9836946663,
+        "name": "rcap-raster-composed-treatment_obligation_runtime-only_IL_criminal-identity-theft-mistaken-identity-relief-33605354695",
+        "zipSha256": "sha256:6598664c800c3d1c1a8312e55e500b317f6c961ef36441ee0305cd74adcdb7ae",
+        "sizeInBytes": 2127997,
+        "expiresAt": "2026-09-16T07:53:16Z"
+      },
+      "queueRow": {
+        "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/il/composed-treatment:obligation:runtime-only:il:criminal-identity-theft-mistaken-identity-relief--custom-pleading/fixtures/canonical.pdf",
+        "canonicalPdfSha256": "25f0c6a12204671455391f35dc7d1d801eef8266abdf08153190c960e7bd9426",
+        "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/il/composed-treatment:obligation:runtime-only:il:criminal-identity-theft-mistaken-identity-relief--custom-pleading/fixtures/boundary.pdf",
+        "boundaryPdfSha256": "c858109ebd5becf679a4029a3604b41cf3ca27e1b9cea913b3bf8fd1d227a2c6",
+        "documentsDigest": "82a6a681c5eb5bb9c9084229b15daf85397f6b30afceeceb5bca67044b91abe6",
+        "coverage": {
+          "documents": [
+            "canonical.pdf"
+          ],
+          "rastered": [
+            "canonical.pdf"
+          ],
+          "notRastered": [],
+          "complete": true,
+          "basis": "the family ships one assembled packet, so rendering it covers the family"
+        },
+        "expectedPages": 4,
+        "currentRasterStateInQueue": "RASTER_PENDING",
+        "builderAssignment": "VF06",
+        "packetCommitSha": "a3ac6627b6076c091feb38f09b97780525742f96"
+      },
+      "bytesStillMatch": {
+        "method": "SHA-256 recomputed from the file on disk in this lane's worktree and compared to the queue's recorded hash",
+        "checkedAtCommitSha": "84045d06c9f14b29c8fb822343e0f390d5be98c3",
+        "canonical": {
+          "path": "data/rcap-all50/overlays/census-v1/il/composed-treatment:obligation:runtime-only:il:criminal-identity-theft-mistaken-identity-relief--custom-pleading/fixtures/canonical.pdf",
+          "recordedSha256": "25f0c6a12204671455391f35dc7d1d801eef8266abdf08153190c960e7bd9426",
+          "onDiskSha256": "25f0c6a12204671455391f35dc7d1d801eef8266abdf08153190c960e7bd9426",
+          "present": true,
+          "matches": true
+        },
+        "boundary": {
+          "path": "data/rcap-all50/overlays/census-v1/il/composed-treatment:obligation:runtime-only:il:criminal-identity-theft-mistaken-identity-relief--custom-pleading/fixtures/boundary.pdf",
+          "recordedSha256": "c858109ebd5becf679a4029a3604b41cf3ca27e1b9cea913b3bf8fd1d227a2c6",
+          "onDiskSha256": "c858109ebd5becf679a4029a3604b41cf3ca27e1b9cea913b3bf8fd1d227a2c6",
+          "present": true,
+          "matches": true
+        },
+        "bothMatch": true,
+        "whatThisMeans": "true means the exact bytes the queue pinned, and therefore the bytes this raster verdict describes, are still the bytes on disk. false would mean the verdict no longer describes what is on disk and must not be ingested as if it did."
+      }
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
+      "jobId": 100168605588,
+      "jobConclusion": "success",
+      "renderedCommitSha": "7edb05f621e6209c3660c66fd60e4f4b283faf1f",
+      "pinnedCommitVerified": true,
+      "pinnedCommitReadVerbatimInThisJobsLog": false,
+      "howThePinWasVerified": "the job's \"Refuse a movable ref and prove the checkout is the pinned commit\" step asserts git rev-parse HEAD equals inputs.commit_sha and exits 1 otherwise; the job is green, so the assertion held. The literal value 7edb05f621e6209c3660c66fd60e4f4b283faf1f was read verbatim from the run's shared workflow_dispatch input: in the plan job's log (actions/checkout `ref:`, `HEAD is now at 7edb05f`, `git log -1 --format=%H` -> 7edb05f621e6209c3660c66fd60e4f4b283faf1f, `REF: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`, and `pinned commit confirmed: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`), and again as COMMIT_SHA in the \"Render and measure\" step env of the five family jobs whose tail-of-log read reached that far (rcap-tn-custom-pleading, rcap-sc-custom-pleading, rcap-wv-custom-pleading, rcap-wa-custom-pleading-clean-tracks, rcap-wi-custom-pleading). For the other 34 family jobs the tail-only read did not reach that line; every job in the run resolves the same single ${{ inputs.commit_sha }} and every job's guard passed, so no job checked out a different commit. For those 34 that is a structural proof, not a verbatim read.",
+      "verdictLine": "RASTER_PASS composed-treatment:obligation:runtime-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4 — 2 document(s), 10 page(s) measured, 0 problem(s)",
+      "documentsMeasured": 2,
+      "pagesMeasured": 10,
+      "problemsFound": 0,
+      "receiptArtifact": {
+        "id": 9836953330,
+        "name": "rcap-raster-composed-treatment_obligation_runtime-only_MS_intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4-33605354695",
+        "zipSha256": "sha256:6fc3ee34cbd6104228b9dca5db6f334c993db481b4a64d9d2ebe86804f4618aa",
+        "sizeInBytes": 2445255,
+        "expiresAt": "2026-09-16T07:53:28Z"
+      },
+      "queueRow": {
+        "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4--custom-pleading/fixtures/canonical.pdf",
+        "canonicalPdfSha256": "cb8c7e2d0d6072e1a97fa634456cd509b798fe6a1917548eec8e53ce6b6f2839",
+        "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4--custom-pleading/fixtures/boundary.pdf",
+        "boundaryPdfSha256": "aae4a363e15f32127ee1c5fc205cf1de2101cdd4cd2d4dee47b355c61c2e7e96",
+        "documentsDigest": "88525e879222a013c92c5b72f45351979e44a46fe849b0d187185b12e9b7daa9",
+        "coverage": {
+          "documents": [
+            "canonical.pdf"
+          ],
+          "rastered": [
+            "canonical.pdf"
+          ],
+          "notRastered": [],
+          "complete": true,
+          "basis": "the family ships one assembled packet, so rendering it covers the family"
+        },
+        "expectedPages": 5,
+        "currentRasterStateInQueue": "RASTER_PENDING",
+        "builderAssignment": "VF07",
+        "packetCommitSha": "a3ac6627b6076c091feb38f09b97780525742f96"
+      },
+      "bytesStillMatch": {
+        "method": "SHA-256 recomputed from the file on disk in this lane's worktree and compared to the queue's recorded hash",
+        "checkedAtCommitSha": "84045d06c9f14b29c8fb822343e0f390d5be98c3",
+        "canonical": {
+          "path": "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4--custom-pleading/fixtures/canonical.pdf",
+          "recordedSha256": "cb8c7e2d0d6072e1a97fa634456cd509b798fe6a1917548eec8e53ce6b6f2839",
+          "onDiskSha256": "cb8c7e2d0d6072e1a97fa634456cd509b798fe6a1917548eec8e53ce6b6f2839",
+          "present": true,
+          "matches": true
+        },
+        "boundary": {
+          "path": "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4--custom-pleading/fixtures/boundary.pdf",
+          "recordedSha256": "aae4a363e15f32127ee1c5fc205cf1de2101cdd4cd2d4dee47b355c61c2e7e96",
+          "onDiskSha256": "aae4a363e15f32127ee1c5fc205cf1de2101cdd4cd2d4dee47b355c61c2e7e96",
+          "present": true,
+          "matches": true
+        },
+        "bothMatch": true,
+        "whatThisMeans": "true means the exact bytes the queue pinned, and therefore the bytes this raster verdict describes, are still the bytes on disk. false would mean the verdict no longer describes what is on disk and must not be ingested as if it did."
+      }
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26",
+      "jobId": 100168605584,
+      "jobConclusion": "success",
+      "renderedCommitSha": "7edb05f621e6209c3660c66fd60e4f4b283faf1f",
+      "pinnedCommitVerified": true,
+      "pinnedCommitReadVerbatimInThisJobsLog": false,
+      "howThePinWasVerified": "the job's \"Refuse a movable ref and prove the checkout is the pinned commit\" step asserts git rev-parse HEAD equals inputs.commit_sha and exits 1 otherwise; the job is green, so the assertion held. The literal value 7edb05f621e6209c3660c66fd60e4f4b283faf1f was read verbatim from the run's shared workflow_dispatch input: in the plan job's log (actions/checkout `ref:`, `HEAD is now at 7edb05f`, `git log -1 --format=%H` -> 7edb05f621e6209c3660c66fd60e4f4b283faf1f, `REF: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`, and `pinned commit confirmed: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`), and again as COMMIT_SHA in the \"Render and measure\" step env of the five family jobs whose tail-of-log read reached that far (rcap-tn-custom-pleading, rcap-sc-custom-pleading, rcap-wv-custom-pleading, rcap-wa-custom-pleading-clean-tracks, rcap-wi-custom-pleading). For the other 34 family jobs the tail-only read did not reach that line; every job in the run resolves the same single ${{ inputs.commit_sha }} and every job's guard passed, so no job checked out a different commit. For those 34 that is a structural proof, not a verbatim read.",
+      "verdictLine": "RASTER_PASS composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26 — 2 document(s), 10 page(s) measured, 0 problem(s)",
+      "documentsMeasured": 2,
+      "pagesMeasured": 10,
+      "problemsFound": 0,
+      "receiptArtifact": {
+        "id": 9836946746,
+        "name": "rcap-raster-composed-treatment_obligation_runtime-only_MS_nonadjudication-under-99-15-26-33605354695",
+        "zipSha256": "sha256:54b18538a77163e84e8e54a1ed9d8502e78b6568137e9b9f63eeff8b718f08d1",
+        "sizeInBytes": 2470780,
+        "expiresAt": "2026-09-16T07:53:16Z"
+      },
+      "queueRow": {
+        "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:nonadjudication-under-99-15-26--custom-pleading/fixtures/canonical.pdf",
+        "canonicalPdfSha256": "d5e8da5c23d54c03c6831d57c8750f9174737adbc897b47fd149215b418a46ae",
+        "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:nonadjudication-under-99-15-26--custom-pleading/fixtures/boundary.pdf",
+        "boundaryPdfSha256": "8b050b543e50e05a6d7d3765d717dbb90eb286038714f692cb0a6e0c8fd6cfc7",
+        "documentsDigest": "3d5a45eba6c948b1ca01c7da07eaa0e184bce6dba8a1479d5a21db7d4cfb09da",
+        "coverage": {
+          "documents": [
+            "canonical.pdf"
+          ],
+          "rastered": [
+            "canonical.pdf"
+          ],
+          "notRastered": [],
+          "complete": true,
+          "basis": "the family ships one assembled packet, so rendering it covers the family"
+        },
+        "expectedPages": 5,
+        "currentRasterStateInQueue": "RASTER_PENDING",
+        "builderAssignment": "VF08",
+        "packetCommitSha": "a3ac6627b6076c091feb38f09b97780525742f96"
+      },
+      "bytesStillMatch": {
+        "method": "SHA-256 recomputed from the file on disk in this lane's worktree and compared to the queue's recorded hash",
+        "checkedAtCommitSha": "84045d06c9f14b29c8fb822343e0f390d5be98c3",
+        "canonical": {
+          "path": "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:nonadjudication-under-99-15-26--custom-pleading/fixtures/canonical.pdf",
+          "recordedSha256": "d5e8da5c23d54c03c6831d57c8750f9174737adbc897b47fd149215b418a46ae",
+          "onDiskSha256": "d5e8da5c23d54c03c6831d57c8750f9174737adbc897b47fd149215b418a46ae",
+          "present": true,
+          "matches": true
+        },
+        "boundary": {
+          "path": "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:nonadjudication-under-99-15-26--custom-pleading/fixtures/boundary.pdf",
+          "recordedSha256": "8b050b543e50e05a6d7d3765d717dbb90eb286038714f692cb0a6e0c8fd6cfc7",
+          "onDiskSha256": "8b050b543e50e05a6d7d3765d717dbb90eb286038714f692cb0a6e0c8fd6cfc7",
+          "present": true,
+          "matches": true
+        },
+        "bothMatch": true,
+        "whatThisMeans": "true means the exact bytes the queue pinned, and therefore the bytes this raster verdict describes, are still the bytes on disk. false would mean the verdict no longer describes what is on disk and must not be ingested as if it did."
+      }
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
+      "jobId": 100168605478,
+      "jobConclusion": "success",
+      "renderedCommitSha": "7edb05f621e6209c3660c66fd60e4f4b283faf1f",
+      "pinnedCommitVerified": true,
+      "pinnedCommitReadVerbatimInThisJobsLog": false,
+      "howThePinWasVerified": "the job's \"Refuse a movable ref and prove the checkout is the pinned commit\" step asserts git rev-parse HEAD equals inputs.commit_sha and exits 1 otherwise; the job is green, so the assertion held. The literal value 7edb05f621e6209c3660c66fd60e4f4b283faf1f was read verbatim from the run's shared workflow_dispatch input: in the plan job's log (actions/checkout `ref:`, `HEAD is now at 7edb05f`, `git log -1 --format=%H` -> 7edb05f621e6209c3660c66fd60e4f4b283faf1f, `REF: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`, and `pinned commit confirmed: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`), and again as COMMIT_SHA in the \"Render and measure\" step env of the five family jobs whose tail-of-log read reached that far (rcap-tn-custom-pleading, rcap-sc-custom-pleading, rcap-wv-custom-pleading, rcap-wa-custom-pleading-clean-tracks, rcap-wi-custom-pleading). For the other 34 family jobs the tail-only read did not reach that line; every job in the run resolves the same single ${{ inputs.commit_sha }} and every job's guard passed, so no job checked out a different commit. For those 34 that is a structural proof, not a verbatim read.",
+      "verdictLine": "RASTER_PASS composed-treatment:obligation:runtime-only:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59 — 2 document(s), 10 page(s) measured, 0 problem(s)",
+      "documentsMeasured": 2,
+      "pagesMeasured": 10,
+      "problemsFound": 0,
+      "receiptArtifact": {
+        "id": 9836953152,
+        "name": "rcap-raster-composed-treatment_obligation_runtime-only_MS_uncharged-misdemeanor-immediate-dismissal-branch-99-15-59-33605354695",
+        "zipSha256": "sha256:1a59312eeca6d0f508d54db805d2a2352b9457789531d2dcb79f97cfe830150a",
+        "sizeInBytes": 2271067,
+        "expiresAt": "2026-09-16T07:53:28Z"
+      },
+      "queueRow": {
+        "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59--custom-pleading/fixtures/canonical.pdf",
+        "canonicalPdfSha256": "363c87d1654b8e3619e4491d8a12ed9b480bf1fa2fb85655b8fdd195bbb831eb",
+        "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59--custom-pleading/fixtures/boundary.pdf",
+        "boundaryPdfSha256": "2d68800280ab7c360b93a371f13cb9a6651175e8555fab5601cda2d25cbee758",
+        "documentsDigest": "8152921e2c73ad2527aaddfdb23ca10d110f1a7bcf729cc6e99f49c89825ae4b",
+        "coverage": {
+          "documents": [
+            "canonical.pdf"
+          ],
+          "rastered": [
+            "canonical.pdf"
+          ],
+          "notRastered": [],
+          "complete": true,
+          "basis": "the family ships one assembled packet, so rendering it covers the family"
+        },
+        "expectedPages": 5,
+        "currentRasterStateInQueue": "RASTER_PENDING",
+        "builderAssignment": "VF09",
+        "packetCommitSha": "a3ac6627b6076c091feb38f09b97780525742f96"
+      },
+      "bytesStillMatch": {
+        "method": "SHA-256 recomputed from the file on disk in this lane's worktree and compared to the queue's recorded hash",
+        "checkedAtCommitSha": "84045d06c9f14b29c8fb822343e0f390d5be98c3",
+        "canonical": {
+          "path": "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59--custom-pleading/fixtures/canonical.pdf",
+          "recordedSha256": "363c87d1654b8e3619e4491d8a12ed9b480bf1fa2fb85655b8fdd195bbb831eb",
+          "onDiskSha256": "363c87d1654b8e3619e4491d8a12ed9b480bf1fa2fb85655b8fdd195bbb831eb",
+          "present": true,
+          "matches": true
+        },
+        "boundary": {
+          "path": "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59--custom-pleading/fixtures/boundary.pdf",
+          "recordedSha256": "2d68800280ab7c360b93a371f13cb9a6651175e8555fab5601cda2d25cbee758",
+          "onDiskSha256": "2d68800280ab7c360b93a371f13cb9a6651175e8555fab5601cda2d25cbee758",
+          "present": true,
+          "matches": true
+        },
+        "bothMatch": true,
+        "whatThisMeans": "true means the exact bytes the queue pinned, and therefore the bytes this raster verdict describes, are still the bytes on disk. false would mean the verdict no longer describes what is on disk and must not be ingested as if it did."
+      }
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247",
+      "jobId": 100168605631,
+      "jobConclusion": "success",
+      "renderedCommitSha": "7edb05f621e6209c3660c66fd60e4f4b283faf1f",
+      "pinnedCommitVerified": true,
+      "pinnedCommitReadVerbatimInThisJobsLog": false,
+      "howThePinWasVerified": "the job's \"Refuse a movable ref and prove the checkout is the pinned commit\" step asserts git rev-parse HEAD equals inputs.commit_sha and exits 1 otherwise; the job is green, so the assertion held. The literal value 7edb05f621e6209c3660c66fd60e4f4b283faf1f was read verbatim from the run's shared workflow_dispatch input: in the plan job's log (actions/checkout `ref:`, `HEAD is now at 7edb05f`, `git log -1 --format=%H` -> 7edb05f621e6209c3660c66fd60e4f4b283faf1f, `REF: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`, and `pinned commit confirmed: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`), and again as COMMIT_SHA in the \"Render and measure\" step env of the five family jobs whose tail-of-log read reached that far (rcap-tn-custom-pleading, rcap-sc-custom-pleading, rcap-wv-custom-pleading, rcap-wa-custom-pleading-clean-tracks, rcap-wi-custom-pleading). For the other 34 family jobs the tail-only read did not reach that line; every job in the run resolves the same single ${{ inputs.commit_sha }} and every job's guard passed, so no job checked out a different commit. For those 34 that is a structural proof, not a verbatim read.",
+      "verdictLine": "RASTER_PASS composed-treatment:obligation:runtime-only:NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247 — 2 document(s), 8 page(s) measured, 0 problem(s)",
+      "documentsMeasured": 2,
+      "pagesMeasured": 8,
+      "problemsFound": 0,
+      "receiptArtifact": {
+        "id": 9836935799,
+        "name": "rcap-raster-composed-treatment_obligation_runtime-only_NV_trafficking-victim-vacatur-and-sealing-under-nrs-179-247-33605354695",
+        "zipSha256": "sha256:25ad15a82c1bf65134dc7e0a007bdc45fda1a845b4dd485cc08ee9c3c4e92b47",
+        "sizeInBytes": 2825586,
+        "expiresAt": "2026-09-16T07:52:56Z"
+      },
+      "queueRow": {
+        "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/nv/composed-treatment:obligation:runtime-only:nv:trafficking-victim-vacatur-and-sealing-under-nrs-179-247--custom-pleading/fixtures/canonical.pdf",
+        "canonicalPdfSha256": "ace550b2facfe49073b96b693f687da88ef69294a1654be2b253424913eb4364",
+        "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/nv/composed-treatment:obligation:runtime-only:nv:trafficking-victim-vacatur-and-sealing-under-nrs-179-247--custom-pleading/fixtures/boundary.pdf",
+        "boundaryPdfSha256": "cbae759020043282ceb3213a052dae9271c263a87e81a3a7e6cd5404c5b7cae0",
+        "documentsDigest": "87b043d6c9af011ae5e5e28f4756bb5bb96f9ce5781fd4c8eaf59a605751a482",
+        "coverage": {
+          "documents": [
+            "canonical.pdf"
+          ],
+          "rastered": [
+            "canonical.pdf"
+          ],
+          "notRastered": [],
+          "complete": true,
+          "basis": "the family ships one assembled packet, so rendering it covers the family"
+        },
+        "expectedPages": 4,
+        "currentRasterStateInQueue": "RASTER_PENDING",
+        "builderAssignment": "VF11",
+        "packetCommitSha": "a3ac6627b6076c091feb38f09b97780525742f96"
+      },
+      "bytesStillMatch": {
+        "method": "SHA-256 recomputed from the file on disk in this lane's worktree and compared to the queue's recorded hash",
+        "checkedAtCommitSha": "84045d06c9f14b29c8fb822343e0f390d5be98c3",
+        "canonical": {
+          "path": "data/rcap-all50/overlays/census-v1/nv/composed-treatment:obligation:runtime-only:nv:trafficking-victim-vacatur-and-sealing-under-nrs-179-247--custom-pleading/fixtures/canonical.pdf",
+          "recordedSha256": "ace550b2facfe49073b96b693f687da88ef69294a1654be2b253424913eb4364",
+          "onDiskSha256": "ace550b2facfe49073b96b693f687da88ef69294a1654be2b253424913eb4364",
+          "present": true,
+          "matches": true
+        },
+        "boundary": {
+          "path": "data/rcap-all50/overlays/census-v1/nv/composed-treatment:obligation:runtime-only:nv:trafficking-victim-vacatur-and-sealing-under-nrs-179-247--custom-pleading/fixtures/boundary.pdf",
+          "recordedSha256": "cbae759020043282ceb3213a052dae9271c263a87e81a3a7e6cd5404c5b7cae0",
+          "onDiskSha256": "cbae759020043282ceb3213a052dae9271c263a87e81a3a7e6cd5404c5b7cae0",
+          "present": true,
+          "matches": true
+        },
+        "bothMatch": true,
+        "whatThisMeans": "true means the exact bytes the queue pinned, and therefore the bytes this raster verdict describes, are still the bytes on disk. false would mean the verdict no longer describes what is on disk and must not be ingested as if it did."
+      }
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief",
+      "jobId": 100168605581,
+      "jobConclusion": "success",
+      "renderedCommitSha": "7edb05f621e6209c3660c66fd60e4f4b283faf1f",
+      "pinnedCommitVerified": true,
+      "pinnedCommitReadVerbatimInThisJobsLog": false,
+      "howThePinWasVerified": "the job's \"Refuse a movable ref and prove the checkout is the pinned commit\" step asserts git rev-parse HEAD equals inputs.commit_sha and exits 1 otherwise; the job is green, so the assertion held. The literal value 7edb05f621e6209c3660c66fd60e4f4b283faf1f was read verbatim from the run's shared workflow_dispatch input: in the plan job's log (actions/checkout `ref:`, `HEAD is now at 7edb05f`, `git log -1 --format=%H` -> 7edb05f621e6209c3660c66fd60e4f4b283faf1f, `REF: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`, and `pinned commit confirmed: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`), and again as COMMIT_SHA in the \"Render and measure\" step env of the five family jobs whose tail-of-log read reached that far (rcap-tn-custom-pleading, rcap-sc-custom-pleading, rcap-wv-custom-pleading, rcap-wa-custom-pleading-clean-tracks, rcap-wi-custom-pleading). For the other 34 family jobs the tail-only read did not reach that line; every job in the run resolves the same single ${{ inputs.commit_sha }} and every job's guard passed, so no job checked out a different commit. For those 34 that is a structural proof, not a verbatim read.",
+      "verdictLine": "RASTER_PASS composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief — 2 document(s), 10 page(s) measured, 0 problem(s)",
+      "documentsMeasured": 2,
+      "pagesMeasured": 10,
+      "problemsFound": 0,
+      "receiptArtifact": {
+        "id": 9836948699,
+        "name": "rcap-raster-composed-treatment_obligation_runtime-only_OK_human-trafficking-survivor-relief-33605354695",
+        "zipSha256": "sha256:b7fd7d82c41eb31ba7e3e7ad8c9602419b4a08650232197830bbc0b2a2d866b2",
+        "sizeInBytes": 2535807,
+        "expiresAt": "2026-09-16T07:53:19Z"
+      },
+      "queueRow": {
+        "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/ok/composed-treatment:obligation:runtime-only:ok:human-trafficking-survivor-relief--custom-pleading/fixtures/canonical.pdf",
+        "canonicalPdfSha256": "e9b1fc1415fd36617490519b7e3b10200d2d0486fc6f13bce37518ebf1ebe101",
+        "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/ok/composed-treatment:obligation:runtime-only:ok:human-trafficking-survivor-relief--custom-pleading/fixtures/boundary.pdf",
+        "boundaryPdfSha256": "8b91a6ab9335e30b73fda34c0ab767692137ad58711860e3a96f7b47803c5f17",
+        "documentsDigest": "0b3bd69e49e44b0a6e24e88f8e65f76138308a5667ffd80edca60012c27c66ac",
+        "coverage": {
+          "documents": [
+            "canonical.pdf"
+          ],
+          "rastered": [
+            "canonical.pdf"
+          ],
+          "notRastered": [],
+          "complete": true,
+          "basis": "the family ships one assembled packet, so rendering it covers the family"
+        },
+        "expectedPages": 5,
+        "currentRasterStateInQueue": "RASTER_PENDING",
+        "builderAssignment": "VF12",
+        "packetCommitSha": "a3ac6627b6076c091feb38f09b97780525742f96"
+      },
+      "bytesStillMatch": {
+        "method": "SHA-256 recomputed from the file on disk in this lane's worktree and compared to the queue's recorded hash",
+        "checkedAtCommitSha": "84045d06c9f14b29c8fb822343e0f390d5be98c3",
+        "canonical": {
+          "path": "data/rcap-all50/overlays/census-v1/ok/composed-treatment:obligation:runtime-only:ok:human-trafficking-survivor-relief--custom-pleading/fixtures/canonical.pdf",
+          "recordedSha256": "e9b1fc1415fd36617490519b7e3b10200d2d0486fc6f13bce37518ebf1ebe101",
+          "onDiskSha256": "e9b1fc1415fd36617490519b7e3b10200d2d0486fc6f13bce37518ebf1ebe101",
+          "present": true,
+          "matches": true
+        },
+        "boundary": {
+          "path": "data/rcap-all50/overlays/census-v1/ok/composed-treatment:obligation:runtime-only:ok:human-trafficking-survivor-relief--custom-pleading/fixtures/boundary.pdf",
+          "recordedSha256": "8b91a6ab9335e30b73fda34c0ab767692137ad58711860e3a96f7b47803c5f17",
+          "onDiskSha256": "8b91a6ab9335e30b73fda34c0ab767692137ad58711860e3a96f7b47803c5f17",
+          "present": true,
+          "matches": true
+        },
+        "bothMatch": true,
+        "whatThisMeans": "true means the exact bytes the queue pinned, and therefore the bytes this raster verdict describes, are still the bytes on disk. false would mean the verdict no longer describes what is on disk and must not be ingested as if it did."
+      }
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:OK:juvenile-record-expungement",
+      "jobId": 100168605517,
+      "jobConclusion": "success",
+      "renderedCommitSha": "7edb05f621e6209c3660c66fd60e4f4b283faf1f",
+      "pinnedCommitVerified": true,
+      "pinnedCommitReadVerbatimInThisJobsLog": false,
+      "howThePinWasVerified": "the job's \"Refuse a movable ref and prove the checkout is the pinned commit\" step asserts git rev-parse HEAD equals inputs.commit_sha and exits 1 otherwise; the job is green, so the assertion held. The literal value 7edb05f621e6209c3660c66fd60e4f4b283faf1f was read verbatim from the run's shared workflow_dispatch input: in the plan job's log (actions/checkout `ref:`, `HEAD is now at 7edb05f`, `git log -1 --format=%H` -> 7edb05f621e6209c3660c66fd60e4f4b283faf1f, `REF: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`, and `pinned commit confirmed: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`), and again as COMMIT_SHA in the \"Render and measure\" step env of the five family jobs whose tail-of-log read reached that far (rcap-tn-custom-pleading, rcap-sc-custom-pleading, rcap-wv-custom-pleading, rcap-wa-custom-pleading-clean-tracks, rcap-wi-custom-pleading). For the other 34 family jobs the tail-only read did not reach that line; every job in the run resolves the same single ${{ inputs.commit_sha }} and every job's guard passed, so no job checked out a different commit. For those 34 that is a structural proof, not a verbatim read.",
+      "verdictLine": "RASTER_PASS composed-treatment:obligation:runtime-only:OK:juvenile-record-expungement — 2 document(s), 10 page(s) measured, 0 problem(s)",
+      "documentsMeasured": 2,
+      "pagesMeasured": 10,
+      "problemsFound": 0,
+      "receiptArtifact": {
+        "id": 9836944578,
+        "name": "rcap-raster-composed-treatment_obligation_runtime-only_OK_juvenile-record-expungement-33605354695",
+        "zipSha256": "sha256:1bb7fdfe1cffb73470187225790445e57e7edff999b51ce88577e3a2d23b96d0",
+        "sizeInBytes": 2552593,
+        "expiresAt": "2026-09-16T07:53:12Z"
+      },
+      "queueRow": {
+        "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/ok/composed-treatment:obligation:runtime-only:ok:juvenile-record-expungement--custom-pleading/fixtures/canonical.pdf",
+        "canonicalPdfSha256": "4dc8c667c8b0f963e4e7aa246b4a8fce930b4f99eece1534bfd9188828d1e2d3",
+        "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/ok/composed-treatment:obligation:runtime-only:ok:juvenile-record-expungement--custom-pleading/fixtures/boundary.pdf",
+        "boundaryPdfSha256": "6653d65c5072edb18464b0b31464562d9398d76d916c293169109a60cb912e00",
+        "documentsDigest": "77ff89507edb2b05423382e88bcc444d60b5d137b6413606e37582f2dfb804de",
+        "coverage": {
+          "documents": [
+            "canonical.pdf"
+          ],
+          "rastered": [
+            "canonical.pdf"
+          ],
+          "notRastered": [],
+          "complete": true,
+          "basis": "the family ships one assembled packet, so rendering it covers the family"
+        },
+        "expectedPages": 5,
+        "currentRasterStateInQueue": "RASTER_PENDING",
+        "builderAssignment": "VF01",
+        "packetCommitSha": "a3ac6627b6076c091feb38f09b97780525742f96"
+      },
+      "bytesStillMatch": {
+        "method": "SHA-256 recomputed from the file on disk in this lane's worktree and compared to the queue's recorded hash",
+        "checkedAtCommitSha": "84045d06c9f14b29c8fb822343e0f390d5be98c3",
+        "canonical": {
+          "path": "data/rcap-all50/overlays/census-v1/ok/composed-treatment:obligation:runtime-only:ok:juvenile-record-expungement--custom-pleading/fixtures/canonical.pdf",
+          "recordedSha256": "4dc8c667c8b0f963e4e7aa246b4a8fce930b4f99eece1534bfd9188828d1e2d3",
+          "onDiskSha256": "4dc8c667c8b0f963e4e7aa246b4a8fce930b4f99eece1534bfd9188828d1e2d3",
+          "present": true,
+          "matches": true
+        },
+        "boundary": {
+          "path": "data/rcap-all50/overlays/census-v1/ok/composed-treatment:obligation:runtime-only:ok:juvenile-record-expungement--custom-pleading/fixtures/boundary.pdf",
+          "recordedSha256": "6653d65c5072edb18464b0b31464562d9398d76d916c293169109a60cb912e00",
+          "onDiskSha256": "6653d65c5072edb18464b0b31464562d9398d76d916c293169109a60cb912e00",
+          "present": true,
+          "matches": true
+        },
+        "bothMatch": true,
+        "whatThisMeans": "true means the exact bytes the queue pinned, and therefore the bytes this raster verdict describes, are still the bytes on disk. false would mean the verdict no longer describes what is on disk and must not be ingested as if it did."
+      }
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:PA:path-k-human-trafficking-vacatur-expungement",
+      "jobId": 100168605555,
+      "jobConclusion": "success",
+      "renderedCommitSha": "7edb05f621e6209c3660c66fd60e4f4b283faf1f",
+      "pinnedCommitVerified": true,
+      "pinnedCommitReadVerbatimInThisJobsLog": false,
+      "howThePinWasVerified": "the job's \"Refuse a movable ref and prove the checkout is the pinned commit\" step asserts git rev-parse HEAD equals inputs.commit_sha and exits 1 otherwise; the job is green, so the assertion held. The literal value 7edb05f621e6209c3660c66fd60e4f4b283faf1f was read verbatim from the run's shared workflow_dispatch input: in the plan job's log (actions/checkout `ref:`, `HEAD is now at 7edb05f`, `git log -1 --format=%H` -> 7edb05f621e6209c3660c66fd60e4f4b283faf1f, `REF: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`, and `pinned commit confirmed: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`), and again as COMMIT_SHA in the \"Render and measure\" step env of the five family jobs whose tail-of-log read reached that far (rcap-tn-custom-pleading, rcap-sc-custom-pleading, rcap-wv-custom-pleading, rcap-wa-custom-pleading-clean-tracks, rcap-wi-custom-pleading). For the other 34 family jobs the tail-only read did not reach that line; every job in the run resolves the same single ${{ inputs.commit_sha }} and every job's guard passed, so no job checked out a different commit. For those 34 that is a structural proof, not a verbatim read.",
+      "verdictLine": "RASTER_PASS composed-treatment:obligation:runtime-only:PA:path-k-human-trafficking-vacatur-expungement — 2 document(s), 8 page(s) measured, 0 problem(s)",
+      "documentsMeasured": 2,
+      "pagesMeasured": 8,
+      "problemsFound": 0,
+      "receiptArtifact": {
+        "id": 9836930809,
+        "name": "rcap-raster-composed-treatment_obligation_runtime-only_PA_path-k-human-trafficking-vacatur-expungement-33605354695",
+        "zipSha256": "sha256:d24a7d5b29541c517ce917b9462a99850a35355b3da445fdb9273dedf69f0a61",
+        "sizeInBytes": 2455946,
+        "expiresAt": "2026-09-16T07:52:47Z"
+      },
+      "queueRow": {
+        "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/pa/composed-treatment:obligation:runtime-only:pa:path-k-human-trafficking-vacatur-expungement--custom-pleading/fixtures/canonical.pdf",
+        "canonicalPdfSha256": "ed70579671b2b948b32fdd2854bbf4082b9f5013e591164dd0a77c0387710f4e",
+        "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/pa/composed-treatment:obligation:runtime-only:pa:path-k-human-trafficking-vacatur-expungement--custom-pleading/fixtures/boundary.pdf",
+        "boundaryPdfSha256": "7609ccbb635efa704dd57886a3e773b7eca7534691561fc11d288e19780232a8",
+        "documentsDigest": "6fc22b09c8e1495b4f9fcae9a87f2fc59a742b89fd235c6c2659762a380c9089",
+        "coverage": {
+          "documents": [
+            "canonical.pdf"
+          ],
+          "rastered": [
+            "canonical.pdf"
+          ],
+          "notRastered": [],
+          "complete": true,
+          "basis": "the family ships one assembled packet, so rendering it covers the family"
+        },
+        "expectedPages": 4,
+        "currentRasterStateInQueue": "RASTER_PENDING",
+        "builderAssignment": "VF02",
+        "packetCommitSha": "a3ac6627b6076c091feb38f09b97780525742f96"
+      },
+      "bytesStillMatch": {
+        "method": "SHA-256 recomputed from the file on disk in this lane's worktree and compared to the queue's recorded hash",
+        "checkedAtCommitSha": "84045d06c9f14b29c8fb822343e0f390d5be98c3",
+        "canonical": {
+          "path": "data/rcap-all50/overlays/census-v1/pa/composed-treatment:obligation:runtime-only:pa:path-k-human-trafficking-vacatur-expungement--custom-pleading/fixtures/canonical.pdf",
+          "recordedSha256": "ed70579671b2b948b32fdd2854bbf4082b9f5013e591164dd0a77c0387710f4e",
+          "onDiskSha256": "ed70579671b2b948b32fdd2854bbf4082b9f5013e591164dd0a77c0387710f4e",
+          "present": true,
+          "matches": true
+        },
+        "boundary": {
+          "path": "data/rcap-all50/overlays/census-v1/pa/composed-treatment:obligation:runtime-only:pa:path-k-human-trafficking-vacatur-expungement--custom-pleading/fixtures/boundary.pdf",
+          "recordedSha256": "7609ccbb635efa704dd57886a3e773b7eca7534691561fc11d288e19780232a8",
+          "onDiskSha256": "7609ccbb635efa704dd57886a3e773b7eca7534691561fc11d288e19780232a8",
+          "present": true,
+          "matches": true
+        },
+        "bothMatch": true,
+        "whatThisMeans": "true means the exact bytes the queue pinned, and therefore the bytes this raster verdict describes, are still the bytes on disk. false would mean the verdict no longer describes what is on disk and must not be ingested as if it did."
+      }
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:SD:juvenile-trafficking-expungement",
+      "jobId": 100168605721,
+      "jobConclusion": "success",
+      "renderedCommitSha": "7edb05f621e6209c3660c66fd60e4f4b283faf1f",
+      "pinnedCommitVerified": true,
+      "pinnedCommitReadVerbatimInThisJobsLog": false,
+      "howThePinWasVerified": "the job's \"Refuse a movable ref and prove the checkout is the pinned commit\" step asserts git rev-parse HEAD equals inputs.commit_sha and exits 1 otherwise; the job is green, so the assertion held. The literal value 7edb05f621e6209c3660c66fd60e4f4b283faf1f was read verbatim from the run's shared workflow_dispatch input: in the plan job's log (actions/checkout `ref:`, `HEAD is now at 7edb05f`, `git log -1 --format=%H` -> 7edb05f621e6209c3660c66fd60e4f4b283faf1f, `REF: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`, and `pinned commit confirmed: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`), and again as COMMIT_SHA in the \"Render and measure\" step env of the five family jobs whose tail-of-log read reached that far (rcap-tn-custom-pleading, rcap-sc-custom-pleading, rcap-wv-custom-pleading, rcap-wa-custom-pleading-clean-tracks, rcap-wi-custom-pleading). For the other 34 family jobs the tail-only read did not reach that line; every job in the run resolves the same single ${{ inputs.commit_sha }} and every job's guard passed, so no job checked out a different commit. For those 34 that is a structural proof, not a verbatim read.",
+      "verdictLine": "RASTER_PASS composed-treatment:obligation:runtime-only:SD:juvenile-trafficking-expungement — 2 document(s), 9 page(s) measured, 0 problem(s)",
+      "documentsMeasured": 2,
+      "pagesMeasured": 9,
+      "problemsFound": 0,
+      "receiptArtifact": {
+        "id": 9836939293,
+        "name": "rcap-raster-composed-treatment_obligation_runtime-only_SD_juvenile-trafficking-expungement-33605354695",
+        "zipSha256": "sha256:07813e12e2efcb633cd22b9f31e23431e19cc6e4a3488cf5e08075a4a32d6f6c",
+        "sizeInBytes": 2557132,
+        "expiresAt": "2026-09-16T07:53:02Z"
+      },
+      "queueRow": {
+        "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/sd/composed-treatment:obligation:runtime-only:sd:juvenile-trafficking-expungement--custom-pleading/fixtures/canonical.pdf",
+        "canonicalPdfSha256": "d292e9b4f2d0c9b11dd90ca0f662c24544d53a1e10cd7dc5ee241cd720c05655",
+        "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/sd/composed-treatment:obligation:runtime-only:sd:juvenile-trafficking-expungement--custom-pleading/fixtures/boundary.pdf",
+        "boundaryPdfSha256": "4a4cd512bf4a30df9fb527c9aafeb3836c30a852c34648e91be7bb2a9ab4e401",
+        "documentsDigest": "379b710b3d2e83a90ae79b810733b44fdd88a7dfe8464e1db7b140d3f3fe5f82",
+        "coverage": {
+          "documents": [
+            "canonical.pdf"
+          ],
+          "rastered": [
+            "canonical.pdf"
+          ],
+          "notRastered": [],
+          "complete": true,
+          "basis": "the family ships one assembled packet, so rendering it covers the family"
+        },
+        "expectedPages": 4,
+        "currentRasterStateInQueue": "RASTER_PENDING",
+        "builderAssignment": "VF03",
+        "packetCommitSha": "a3ac6627b6076c091feb38f09b97780525742f96"
+      },
+      "bytesStillMatch": {
+        "method": "SHA-256 recomputed from the file on disk in this lane's worktree and compared to the queue's recorded hash",
+        "checkedAtCommitSha": "84045d06c9f14b29c8fb822343e0f390d5be98c3",
+        "canonical": {
+          "path": "data/rcap-all50/overlays/census-v1/sd/composed-treatment:obligation:runtime-only:sd:juvenile-trafficking-expungement--custom-pleading/fixtures/canonical.pdf",
+          "recordedSha256": "d292e9b4f2d0c9b11dd90ca0f662c24544d53a1e10cd7dc5ee241cd720c05655",
+          "onDiskSha256": "d292e9b4f2d0c9b11dd90ca0f662c24544d53a1e10cd7dc5ee241cd720c05655",
+          "present": true,
+          "matches": true
+        },
+        "boundary": {
+          "path": "data/rcap-all50/overlays/census-v1/sd/composed-treatment:obligation:runtime-only:sd:juvenile-trafficking-expungement--custom-pleading/fixtures/boundary.pdf",
+          "recordedSha256": "4a4cd512bf4a30df9fb527c9aafeb3836c30a852c34648e91be7bb2a9ab4e401",
+          "onDiskSha256": "4a4cd512bf4a30df9fb527c9aafeb3836c30a852c34648e91be7bb2a9ab4e401",
+          "present": true,
+          "matches": true
+        },
+        "bothMatch": true,
+        "whatThisMeans": "true means the exact bytes the queue pinned, and therefore the bytes this raster verdict describes, are still the bytes on disk. false would mean the verdict no longer describes what is on disk and must not be ingested as if it did."
+      }
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement",
+      "jobId": 100168605632,
+      "jobConclusion": "success",
+      "renderedCommitSha": "7edb05f621e6209c3660c66fd60e4f4b283faf1f",
+      "pinnedCommitVerified": true,
+      "pinnedCommitReadVerbatimInThisJobsLog": false,
+      "howThePinWasVerified": "the job's \"Refuse a movable ref and prove the checkout is the pinned commit\" step asserts git rev-parse HEAD equals inputs.commit_sha and exits 1 otherwise; the job is green, so the assertion held. The literal value 7edb05f621e6209c3660c66fd60e4f4b283faf1f was read verbatim from the run's shared workflow_dispatch input: in the plan job's log (actions/checkout `ref:`, `HEAD is now at 7edb05f`, `git log -1 --format=%H` -> 7edb05f621e6209c3660c66fd60e4f4b283faf1f, `REF: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`, and `pinned commit confirmed: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`), and again as COMMIT_SHA in the \"Render and measure\" step env of the five family jobs whose tail-of-log read reached that far (rcap-tn-custom-pleading, rcap-sc-custom-pleading, rcap-wv-custom-pleading, rcap-wa-custom-pleading-clean-tracks, rcap-wi-custom-pleading). For the other 34 family jobs the tail-only read did not reach that line; every job in the run resolves the same single ${{ inputs.commit_sha }} and every job's guard passed, so no job checked out a different commit. For those 34 that is a structural proof, not a verbatim read.",
+      "verdictLine": "RASTER_PASS composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement — 2 document(s), 8 page(s) measured, 0 problem(s)",
+      "documentsMeasured": 2,
+      "pagesMeasured": 8,
+      "problemsFound": 0,
+      "receiptArtifact": {
+        "id": 9836931580,
+        "name": "rcap-raster-composed-treatment_obligation_runtime-only_WV_sex-trafficking-victim-vacatur-and-expungement-33605354695",
+        "zipSha256": "sha256:34dd9e932c24847e8e0d8a0e312f02e22d79f3b89ef04111b023acc4779879e2",
+        "sizeInBytes": 2778770,
+        "expiresAt": "2026-09-16T07:52:49Z"
+      },
+      "queueRow": {
+        "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/wv/composed-treatment:obligation:runtime-only:wv:sex-trafficking-victim-vacatur-and-expungement--custom-pleading/fixtures/canonical.pdf",
+        "canonicalPdfSha256": "3e03c986c9206924e508d905ee69be9aac4b9f645676c9a9ce0439316e7b7bc7",
+        "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/wv/composed-treatment:obligation:runtime-only:wv:sex-trafficking-victim-vacatur-and-expungement--custom-pleading/fixtures/boundary.pdf",
+        "boundaryPdfSha256": "b5ea1808612bcee2b3a6de83aa9b536610c4570054f816d13e9643509486b78c",
+        "documentsDigest": "2bf860ce58f0a1b5adb582b4526e21530be4ff220abe4650d4a4e65a0f4c9de4",
+        "coverage": {
+          "documents": [
+            "canonical.pdf"
+          ],
+          "rastered": [
+            "canonical.pdf"
+          ],
+          "notRastered": [],
+          "complete": true,
+          "basis": "the family ships one assembled packet, so rendering it covers the family"
+        },
+        "expectedPages": 4,
+        "currentRasterStateInQueue": "RASTER_PENDING",
+        "builderAssignment": "VF04",
+        "packetCommitSha": "a3ac6627b6076c091feb38f09b97780525742f96"
+      },
+      "bytesStillMatch": {
+        "method": "SHA-256 recomputed from the file on disk in this lane's worktree and compared to the queue's recorded hash",
+        "checkedAtCommitSha": "84045d06c9f14b29c8fb822343e0f390d5be98c3",
+        "canonical": {
+          "path": "data/rcap-all50/overlays/census-v1/wv/composed-treatment:obligation:runtime-only:wv:sex-trafficking-victim-vacatur-and-expungement--custom-pleading/fixtures/canonical.pdf",
+          "recordedSha256": "3e03c986c9206924e508d905ee69be9aac4b9f645676c9a9ce0439316e7b7bc7",
+          "onDiskSha256": "3e03c986c9206924e508d905ee69be9aac4b9f645676c9a9ce0439316e7b7bc7",
+          "present": true,
+          "matches": true
+        },
+        "boundary": {
+          "path": "data/rcap-all50/overlays/census-v1/wv/composed-treatment:obligation:runtime-only:wv:sex-trafficking-victim-vacatur-and-expungement--custom-pleading/fixtures/boundary.pdf",
+          "recordedSha256": "b5ea1808612bcee2b3a6de83aa9b536610c4570054f816d13e9643509486b78c",
+          "onDiskSha256": "b5ea1808612bcee2b3a6de83aa9b536610c4570054f816d13e9643509486b78c",
+          "present": true,
+          "matches": true
+        },
+        "bothMatch": true,
+        "whatThisMeans": "true means the exact bytes the queue pinned, and therefore the bytes this raster verdict describes, are still the bytes on disk. false would mean the verdict no longer describes what is on disk and must not be ingested as if it did."
+      }
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
+      "jobId": 100168605549,
+      "jobConclusion": "success",
+      "renderedCommitSha": "7edb05f621e6209c3660c66fd60e4f4b283faf1f",
+      "pinnedCommitVerified": true,
+      "pinnedCommitReadVerbatimInThisJobsLog": false,
+      "howThePinWasVerified": "the job's \"Refuse a movable ref and prove the checkout is the pinned commit\" step asserts git rev-parse HEAD equals inputs.commit_sha and exits 1 otherwise; the job is green, so the assertion held. The literal value 7edb05f621e6209c3660c66fd60e4f4b283faf1f was read verbatim from the run's shared workflow_dispatch input: in the plan job's log (actions/checkout `ref:`, `HEAD is now at 7edb05f`, `git log -1 --format=%H` -> 7edb05f621e6209c3660c66fd60e4f4b283faf1f, `REF: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`, and `pinned commit confirmed: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`), and again as COMMIT_SHA in the \"Render and measure\" step env of the five family jobs whose tail-of-log read reached that far (rcap-tn-custom-pleading, rcap-sc-custom-pleading, rcap-wv-custom-pleading, rcap-wa-custom-pleading-clean-tracks, rcap-wi-custom-pleading). For the other 34 family jobs the tail-only read did not reach that line; every job in the run resolves the same single ${{ inputs.commit_sha }} and every job's guard passed, so no job checked out a different commit. For those 34 that is a structural proof, not a verbatim read.",
+      "verdictLine": "RASTER_PASS composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708 — 2 document(s), 8 page(s) measured, 0 problem(s)",
+      "documentsMeasured": 2,
+      "pagesMeasured": 8,
+      "problemsFound": 0,
+      "receiptArtifact": {
+        "id": 9836930134,
+        "name": "rcap-raster-composed-treatment_obligation_runtime-only_WY_human-trafficking-victim-vacatur-w-s-6-2-708-33605354695",
+        "zipSha256": "sha256:d15dc4ccd563e401ed499cf1b1cd88aec6f49572aecdebf0ea462eb97f58bf05",
+        "sizeInBytes": 2540111,
+        "expiresAt": "2026-09-16T07:52:45Z"
+      },
+      "queueRow": {
+        "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/wy/composed-treatment:obligation:runtime-only:wy:human-trafficking-victim-vacatur-w-s-6-2-708--custom-pleading/fixtures/canonical.pdf",
+        "canonicalPdfSha256": "5bda53316d7754e6c4b538aee582218516a0d50290aa5391346068f8d6d43880",
+        "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/wy/composed-treatment:obligation:runtime-only:wy:human-trafficking-victim-vacatur-w-s-6-2-708--custom-pleading/fixtures/boundary.pdf",
+        "boundaryPdfSha256": "0640a1b57e2480fb7d3f8fe473d04ec3c97cad788df7cfd4e9daf2c0b119071c",
+        "documentsDigest": "4351101f9a6dd446c1ee4e295c04987ccb55951e510f5914f57c374271a14ebb",
+        "coverage": {
+          "documents": [
+            "canonical.pdf"
+          ],
+          "rastered": [
+            "canonical.pdf"
+          ],
+          "notRastered": [],
+          "complete": true,
+          "basis": "the family ships one assembled packet, so rendering it covers the family"
+        },
+        "expectedPages": 4,
+        "currentRasterStateInQueue": "RASTER_PENDING",
+        "builderAssignment": "VF05",
+        "packetCommitSha": "a3ac6627b6076c091feb38f09b97780525742f96"
+      },
+      "bytesStillMatch": {
+        "method": "SHA-256 recomputed from the file on disk in this lane's worktree and compared to the queue's recorded hash",
+        "checkedAtCommitSha": "84045d06c9f14b29c8fb822343e0f390d5be98c3",
+        "canonical": {
+          "path": "data/rcap-all50/overlays/census-v1/wy/composed-treatment:obligation:runtime-only:wy:human-trafficking-victim-vacatur-w-s-6-2-708--custom-pleading/fixtures/canonical.pdf",
+          "recordedSha256": "5bda53316d7754e6c4b538aee582218516a0d50290aa5391346068f8d6d43880",
+          "onDiskSha256": "5bda53316d7754e6c4b538aee582218516a0d50290aa5391346068f8d6d43880",
+          "present": true,
+          "matches": true
+        },
+        "boundary": {
+          "path": "data/rcap-all50/overlays/census-v1/wy/composed-treatment:obligation:runtime-only:wy:human-trafficking-victim-vacatur-w-s-6-2-708--custom-pleading/fixtures/boundary.pdf",
+          "recordedSha256": "0640a1b57e2480fb7d3f8fe473d04ec3c97cad788df7cfd4e9daf2c0b119071c",
+          "onDiskSha256": "0640a1b57e2480fb7d3f8fe473d04ec3c97cad788df7cfd4e9daf2c0b119071c",
+          "present": true,
+          "matches": true
+        },
+        "bothMatch": true,
+        "whatThisMeans": "true means the exact bytes the queue pinned, and therefore the bytes this raster verdict describes, are still the bytes on disk. false would mean the verdict no longer describes what is on disk and must not be ingested as if it did."
+      }
+    },
+    {
+      "familyId": "ct-decriminalized-set",
+      "jobId": 100168605569,
+      "jobConclusion": "success",
+      "renderedCommitSha": "7edb05f621e6209c3660c66fd60e4f4b283faf1f",
+      "pinnedCommitVerified": true,
+      "pinnedCommitReadVerbatimInThisJobsLog": false,
+      "howThePinWasVerified": "the job's \"Refuse a movable ref and prove the checkout is the pinned commit\" step asserts git rev-parse HEAD equals inputs.commit_sha and exits 1 otherwise; the job is green, so the assertion held. The literal value 7edb05f621e6209c3660c66fd60e4f4b283faf1f was read verbatim from the run's shared workflow_dispatch input: in the plan job's log (actions/checkout `ref:`, `HEAD is now at 7edb05f`, `git log -1 --format=%H` -> 7edb05f621e6209c3660c66fd60e4f4b283faf1f, `REF: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`, and `pinned commit confirmed: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`), and again as COMMIT_SHA in the \"Render and measure\" step env of the five family jobs whose tail-of-log read reached that far (rcap-tn-custom-pleading, rcap-sc-custom-pleading, rcap-wv-custom-pleading, rcap-wa-custom-pleading-clean-tracks, rcap-wi-custom-pleading). For the other 34 family jobs the tail-only read did not reach that line; every job in the run resolves the same single ${{ inputs.commit_sha }} and every job's guard passed, so no job checked out a different commit. For those 34 that is a structural proof, not a verbatim read.",
+      "verdictLine": "RASTER_PASS ct-decriminalized-set — 2 document(s), 8 page(s) measured, 0 problem(s)",
+      "documentsMeasured": 2,
+      "pagesMeasured": 8,
+      "problemsFound": 0,
+      "receiptArtifact": {
+        "id": 9836931409,
+        "name": "rcap-raster-ct-decriminalized-set-33605354695",
+        "zipSha256": "sha256:5710661f271865630d1c1185fc5674b369489d8a42aa601d836c3c0cbbe3c1b7",
+        "sizeInBytes": 2256789,
+        "expiresAt": "2026-09-16T07:52:48Z"
+      },
+      "queueRow": {
+        "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/ct/ct-decriminalized-set--custom-pleading/fixtures/canonical.pdf",
+        "canonicalPdfSha256": "089d79430041befc86af2d2480e51302ce1e150cdf8b6850739ae9fcfaf71955",
+        "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/ct/ct-decriminalized-set--custom-pleading/fixtures/boundary.pdf",
+        "boundaryPdfSha256": "7afffea3a27b5527be354e8a14efcf1bc3639a7ea39d3925c79ec97dffdf5a73",
+        "documentsDigest": "96fa135d0b6aa50bcdf6d65335e495e33c4a5912e43711fcc82af02fe9d8f0c0",
+        "coverage": {
+          "documents": [
+            "canonical.pdf"
+          ],
+          "rastered": [
+            "canonical.pdf"
+          ],
+          "notRastered": [],
+          "complete": true,
+          "basis": "the family ships one assembled packet, so rendering it covers the family"
+        },
+        "expectedPages": 4,
+        "currentRasterStateInQueue": "RASTER_PENDING",
+        "builderAssignment": "VF06",
+        "packetCommitSha": "a3ac6627b6076c091feb38f09b97780525742f96"
+      },
+      "bytesStillMatch": {
+        "method": "SHA-256 recomputed from the file on disk in this lane's worktree and compared to the queue's recorded hash",
+        "checkedAtCommitSha": "84045d06c9f14b29c8fb822343e0f390d5be98c3",
+        "canonical": {
+          "path": "data/rcap-all50/overlays/census-v1/ct/ct-decriminalized-set--custom-pleading/fixtures/canonical.pdf",
+          "recordedSha256": "089d79430041befc86af2d2480e51302ce1e150cdf8b6850739ae9fcfaf71955",
+          "onDiskSha256": "089d79430041befc86af2d2480e51302ce1e150cdf8b6850739ae9fcfaf71955",
+          "present": true,
+          "matches": true
+        },
+        "boundary": {
+          "path": "data/rcap-all50/overlays/census-v1/ct/ct-decriminalized-set--custom-pleading/fixtures/boundary.pdf",
+          "recordedSha256": "7afffea3a27b5527be354e8a14efcf1bc3639a7ea39d3925c79ec97dffdf5a73",
+          "onDiskSha256": "7afffea3a27b5527be354e8a14efcf1bc3639a7ea39d3925c79ec97dffdf5a73",
+          "present": true,
+          "matches": true
+        },
+        "bothMatch": true,
+        "whatThisMeans": "true means the exact bytes the queue pinned, and therefore the bytes this raster verdict describes, are still the bytes on disk. false would mean the verdict no longer describes what is on disk and must not be ingested as if it did."
+      }
+    },
+    {
+      "familyId": "dc_yra_set_aside-set",
+      "jobId": 100168605617,
+      "jobConclusion": "success",
+      "renderedCommitSha": "7edb05f621e6209c3660c66fd60e4f4b283faf1f",
+      "pinnedCommitVerified": true,
+      "pinnedCommitReadVerbatimInThisJobsLog": false,
+      "howThePinWasVerified": "the job's \"Refuse a movable ref and prove the checkout is the pinned commit\" step asserts git rev-parse HEAD equals inputs.commit_sha and exits 1 otherwise; the job is green, so the assertion held. The literal value 7edb05f621e6209c3660c66fd60e4f4b283faf1f was read verbatim from the run's shared workflow_dispatch input: in the plan job's log (actions/checkout `ref:`, `HEAD is now at 7edb05f`, `git log -1 --format=%H` -> 7edb05f621e6209c3660c66fd60e4f4b283faf1f, `REF: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`, and `pinned commit confirmed: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`), and again as COMMIT_SHA in the \"Render and measure\" step env of the five family jobs whose tail-of-log read reached that far (rcap-tn-custom-pleading, rcap-sc-custom-pleading, rcap-wv-custom-pleading, rcap-wa-custom-pleading-clean-tracks, rcap-wi-custom-pleading). For the other 34 family jobs the tail-only read did not reach that line; every job in the run resolves the same single ${{ inputs.commit_sha }} and every job's guard passed, so no job checked out a different commit. For those 34 that is a structural proof, not a verbatim read.",
+      "verdictLine": "RASTER_PASS dc_yra_set_aside-set — 2 document(s), 8 page(s) measured, 0 problem(s)",
+      "documentsMeasured": 2,
+      "pagesMeasured": 8,
+      "problemsFound": 0,
+      "receiptArtifact": {
+        "id": 9836931310,
+        "name": "rcap-raster-dc_yra_set_aside-set-33605354695",
+        "zipSha256": "sha256:6f52351a218fab4f7cb884f543ac485573b34f00749dcb8d269e241350afe2d3",
+        "sizeInBytes": 2385807,
+        "expiresAt": "2026-09-16T07:52:48Z"
+      },
+      "queueRow": {
+        "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/dc/dc-yra-set-aside-set--custom-pleading/fixtures/canonical.pdf",
+        "canonicalPdfSha256": "302ebea7e9fb4dd9944fc786e33e190117a5fee31dac7bab3e28a063b855b9fc",
+        "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/dc/dc-yra-set-aside-set--custom-pleading/fixtures/boundary.pdf",
+        "boundaryPdfSha256": "3fb8f39c556160cf1c099a706d7e54215ca57336e01c6d67da8f65e56a20f848",
+        "documentsDigest": "371b5daa9c1cf2314b071d2c3c1dc6324e2aa9f7405d5d63cc5cbf84b3f1863b",
+        "coverage": {
+          "documents": [
+            "canonical.pdf"
+          ],
+          "rastered": [
+            "canonical.pdf"
+          ],
+          "notRastered": [],
+          "complete": true,
+          "basis": "the family ships one assembled packet, so rendering it covers the family"
+        },
+        "expectedPages": 4,
+        "currentRasterStateInQueue": "RASTER_PENDING",
+        "builderAssignment": "VF08",
+        "packetCommitSha": "a3ac6627b6076c091feb38f09b97780525742f96"
+      },
+      "bytesStillMatch": {
+        "method": "SHA-256 recomputed from the file on disk in this lane's worktree and compared to the queue's recorded hash",
+        "checkedAtCommitSha": "84045d06c9f14b29c8fb822343e0f390d5be98c3",
+        "canonical": {
+          "path": "data/rcap-all50/overlays/census-v1/dc/dc-yra-set-aside-set--custom-pleading/fixtures/canonical.pdf",
+          "recordedSha256": "302ebea7e9fb4dd9944fc786e33e190117a5fee31dac7bab3e28a063b855b9fc",
+          "onDiskSha256": "302ebea7e9fb4dd9944fc786e33e190117a5fee31dac7bab3e28a063b855b9fc",
+          "present": true,
+          "matches": true
+        },
+        "boundary": {
+          "path": "data/rcap-all50/overlays/census-v1/dc/dc-yra-set-aside-set--custom-pleading/fixtures/boundary.pdf",
+          "recordedSha256": "3fb8f39c556160cf1c099a706d7e54215ca57336e01c6d67da8f65e56a20f848",
+          "onDiskSha256": "3fb8f39c556160cf1c099a706d7e54215ca57336e01c6d67da8f65e56a20f848",
+          "present": true,
+          "matches": true
+        },
+        "bothMatch": true,
+        "whatThisMeans": "true means the exact bytes the queue pinned, and therefore the bytes this raster verdict describes, are still the bytes on disk. false would mean the verdict no longer describes what is on disk and must not be ingested as if it did."
+      }
+    },
+    {
+      "familyId": "id_clean_slate_shield-set",
+      "jobId": 100168605577,
+      "jobConclusion": "success",
+      "renderedCommitSha": "7edb05f621e6209c3660c66fd60e4f4b283faf1f",
+      "pinnedCommitVerified": true,
+      "pinnedCommitReadVerbatimInThisJobsLog": false,
+      "howThePinWasVerified": "the job's \"Refuse a movable ref and prove the checkout is the pinned commit\" step asserts git rev-parse HEAD equals inputs.commit_sha and exits 1 otherwise; the job is green, so the assertion held. The literal value 7edb05f621e6209c3660c66fd60e4f4b283faf1f was read verbatim from the run's shared workflow_dispatch input: in the plan job's log (actions/checkout `ref:`, `HEAD is now at 7edb05f`, `git log -1 --format=%H` -> 7edb05f621e6209c3660c66fd60e4f4b283faf1f, `REF: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`, and `pinned commit confirmed: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`), and again as COMMIT_SHA in the \"Render and measure\" step env of the five family jobs whose tail-of-log read reached that far (rcap-tn-custom-pleading, rcap-sc-custom-pleading, rcap-wv-custom-pleading, rcap-wa-custom-pleading-clean-tracks, rcap-wi-custom-pleading). For the other 34 family jobs the tail-only read did not reach that line; every job in the run resolves the same single ${{ inputs.commit_sha }} and every job's guard passed, so no job checked out a different commit. For those 34 that is a structural proof, not a verbatim read.",
+      "verdictLine": "RASTER_PASS id_clean_slate_shield-set — 2 document(s), 4 page(s) measured, 0 problem(s)",
+      "documentsMeasured": 2,
+      "pagesMeasured": 4,
+      "problemsFound": 0,
+      "receiptArtifact": {
+        "id": 9837008020,
+        "name": "rcap-raster-id_clean_slate_shield-set-33605354695",
+        "zipSha256": "sha256:077f42aaa10bf08ac68e0e2f3fc714b331fb0c4839c2c33bb858c7f129e04e38",
+        "sizeInBytes": 1631967,
+        "expiresAt": "2026-09-16T07:55:08Z"
+      },
+      "queueRow": {
+        "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/id/id-clean-slate-shield-set--official-pdf-fill/fixtures/petition-canonical-filled.pdf",
+        "canonicalPdfSha256": "fd888d5f7773d9a2c645dc38fc594d2c95f43e263ba9f35ca81b17ad8f24aa80",
+        "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/id/id-clean-slate-shield-set--official-pdf-fill/fixtures/petition-boundary-filled.pdf",
+        "boundaryPdfSha256": "ccfdf3fb1bf9e0ba3cd5b0e31bc44b7dd2ddd71da9b7984fb17e8d0ffa8afedf",
+        "documentsDigest": "e412e780d91bf6c8bd4e8b6bf7b4fe1f547f3700016dbe9e91b0144d261eb599",
+        "coverage": {
+          "documents": [
+            "petition-canonical-filled.pdf"
+          ],
+          "rastered": [
+            "petition-canonical-filled.pdf"
+          ],
+          "notRastered": [],
+          "complete": true,
+          "basis": "the family ships 1 canonical document(s) with no assembled packet, and the row renders all of them"
+        },
+        "expectedPages": 2,
+        "currentRasterStateInQueue": "RASTER_PENDING",
+        "builderAssignment": "VF09",
+        "packetCommitSha": "a3ac6627b6076c091feb38f09b97780525742f96"
+      },
+      "bytesStillMatch": {
+        "method": "SHA-256 recomputed from the file on disk in this lane's worktree and compared to the queue's recorded hash",
+        "checkedAtCommitSha": "84045d06c9f14b29c8fb822343e0f390d5be98c3",
+        "canonical": {
+          "path": "data/rcap-all50/overlays/census-v1/id/id-clean-slate-shield-set--official-pdf-fill/fixtures/petition-canonical-filled.pdf",
+          "recordedSha256": "fd888d5f7773d9a2c645dc38fc594d2c95f43e263ba9f35ca81b17ad8f24aa80",
+          "onDiskSha256": "fd888d5f7773d9a2c645dc38fc594d2c95f43e263ba9f35ca81b17ad8f24aa80",
+          "present": true,
+          "matches": true
+        },
+        "boundary": {
+          "path": "data/rcap-all50/overlays/census-v1/id/id-clean-slate-shield-set--official-pdf-fill/fixtures/petition-boundary-filled.pdf",
+          "recordedSha256": "ccfdf3fb1bf9e0ba3cd5b0e31bc44b7dd2ddd71da9b7984fb17e8d0ffa8afedf",
+          "onDiskSha256": "ccfdf3fb1bf9e0ba3cd5b0e31bc44b7dd2ddd71da9b7984fb17e8d0ffa8afedf",
+          "present": true,
+          "matches": true
+        },
+        "bothMatch": true,
+        "whatThisMeans": "true means the exact bytes the queue pinned, and therefore the bytes this raster verdict describes, are still the bytes on disk. false would mean the verdict no longer describes what is on disk and must not be ingested as if it did."
+      }
+    },
+    {
+      "familyId": "id_felony_reduction-set",
+      "jobId": 100168605493,
+      "jobConclusion": "success",
+      "renderedCommitSha": "7edb05f621e6209c3660c66fd60e4f4b283faf1f",
+      "pinnedCommitVerified": true,
+      "pinnedCommitReadVerbatimInThisJobsLog": false,
+      "howThePinWasVerified": "the job's \"Refuse a movable ref and prove the checkout is the pinned commit\" step asserts git rev-parse HEAD equals inputs.commit_sha and exits 1 otherwise; the job is green, so the assertion held. The literal value 7edb05f621e6209c3660c66fd60e4f4b283faf1f was read verbatim from the run's shared workflow_dispatch input: in the plan job's log (actions/checkout `ref:`, `HEAD is now at 7edb05f`, `git log -1 --format=%H` -> 7edb05f621e6209c3660c66fd60e4f4b283faf1f, `REF: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`, and `pinned commit confirmed: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`), and again as COMMIT_SHA in the \"Render and measure\" step env of the five family jobs whose tail-of-log read reached that far (rcap-tn-custom-pleading, rcap-sc-custom-pleading, rcap-wv-custom-pleading, rcap-wa-custom-pleading-clean-tracks, rcap-wi-custom-pleading). For the other 34 family jobs the tail-only read did not reach that line; every job in the run resolves the same single ${{ inputs.commit_sha }} and every job's guard passed, so no job checked out a different commit. For those 34 that is a structural proof, not a verbatim read.",
+      "verdictLine": "RASTER_PASS id_felony_reduction-set — 2 document(s), 8 page(s) measured, 0 problem(s)",
+      "documentsMeasured": 2,
+      "pagesMeasured": 8,
+      "problemsFound": 0,
+      "receiptArtifact": {
+        "id": 9837021098,
+        "name": "rcap-raster-id_felony_reduction-set-33605354695",
+        "zipSha256": "sha256:d175b86ca273295aa5b076b424f892f1bb6a71f1b35c2406fff41161d6908058",
+        "sizeInBytes": 1681369,
+        "expiresAt": "2026-09-16T07:55:33Z"
+      },
+      "queueRow": {
+        "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/id/id-felony-reduction-set--custom-pleading/fixtures/canonical.pdf",
+        "canonicalPdfSha256": "d246f76059f94a3f78286381d3ff6289cae01f5593b11c3625a50d223e33afd1",
+        "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/id/id-felony-reduction-set--custom-pleading/fixtures/boundary.pdf",
+        "boundaryPdfSha256": "8c5d84ecc8a8946d5ad51ad38326119f208ae4791775c7aff448af9ef7fabc48",
+        "documentsDigest": "0525d7041f99d9d07a618a90ed198494a2ed4053336fc6f131d31f34d4bfcc26",
+        "coverage": {
+          "documents": [
+            "canonical.pdf"
+          ],
+          "rastered": [
+            "canonical.pdf"
+          ],
+          "notRastered": [],
+          "complete": true,
+          "basis": "the family ships one assembled packet, so rendering it covers the family"
+        },
+        "expectedPages": 4,
+        "currentRasterStateInQueue": "RASTER_PENDING",
+        "builderAssignment": "VF10",
+        "packetCommitSha": "a3ac6627b6076c091feb38f09b97780525742f96"
+      },
+      "bytesStillMatch": {
+        "method": "SHA-256 recomputed from the file on disk in this lane's worktree and compared to the queue's recorded hash",
+        "checkedAtCommitSha": "84045d06c9f14b29c8fb822343e0f390d5be98c3",
+        "canonical": {
+          "path": "data/rcap-all50/overlays/census-v1/id/id-felony-reduction-set--custom-pleading/fixtures/canonical.pdf",
+          "recordedSha256": "d246f76059f94a3f78286381d3ff6289cae01f5593b11c3625a50d223e33afd1",
+          "onDiskSha256": "d246f76059f94a3f78286381d3ff6289cae01f5593b11c3625a50d223e33afd1",
+          "present": true,
+          "matches": true
+        },
+        "boundary": {
+          "path": "data/rcap-all50/overlays/census-v1/id/id-felony-reduction-set--custom-pleading/fixtures/boundary.pdf",
+          "recordedSha256": "8c5d84ecc8a8946d5ad51ad38326119f208ae4791775c7aff448af9ef7fabc48",
+          "onDiskSha256": "8c5d84ecc8a8946d5ad51ad38326119f208ae4791775c7aff448af9ef7fabc48",
+          "present": true,
+          "matches": true
+        },
+        "bothMatch": true,
+        "whatThisMeans": "true means the exact bytes the queue pinned, and therefore the bytes this raster verdict describes, are still the bytes on disk. false would mean the verdict no longer describes what is on disk and must not be ingested as if it did."
+      }
+    },
+    {
+      "familyId": "id_isp_expungement-set",
+      "jobId": 100168605583,
+      "jobConclusion": "success",
+      "renderedCommitSha": "7edb05f621e6209c3660c66fd60e4f4b283faf1f",
+      "pinnedCommitVerified": true,
+      "pinnedCommitReadVerbatimInThisJobsLog": false,
+      "howThePinWasVerified": "the job's \"Refuse a movable ref and prove the checkout is the pinned commit\" step asserts git rev-parse HEAD equals inputs.commit_sha and exits 1 otherwise; the job is green, so the assertion held. The literal value 7edb05f621e6209c3660c66fd60e4f4b283faf1f was read verbatim from the run's shared workflow_dispatch input: in the plan job's log (actions/checkout `ref:`, `HEAD is now at 7edb05f`, `git log -1 --format=%H` -> 7edb05f621e6209c3660c66fd60e4f4b283faf1f, `REF: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`, and `pinned commit confirmed: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`), and again as COMMIT_SHA in the \"Render and measure\" step env of the five family jobs whose tail-of-log read reached that far (rcap-tn-custom-pleading, rcap-sc-custom-pleading, rcap-wv-custom-pleading, rcap-wa-custom-pleading-clean-tracks, rcap-wi-custom-pleading). For the other 34 family jobs the tail-only read did not reach that line; every job in the run resolves the same single ${{ inputs.commit_sha }} and every job's guard passed, so no job checked out a different commit. For those 34 that is a structural proof, not a verbatim read.",
+      "verdictLine": "RASTER_PASS id_isp_expungement-set — 2 document(s), 4 page(s) measured, 0 problem(s)",
+      "documentsMeasured": 2,
+      "pagesMeasured": 4,
+      "problemsFound": 0,
+      "receiptArtifact": {
+        "id": 9837003752,
+        "name": "rcap-raster-id_isp_expungement-set-33605354695",
+        "zipSha256": "sha256:1a3532c4093afcd05bb2b5b38fac9a73d207492459f1d403be3b10a9e832b0f0",
+        "sizeInBytes": 2149723,
+        "expiresAt": "2026-09-16T07:55:01Z"
+      },
+      "queueRow": {
+        "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/id/id-isp-expungement-set--official-pdf-fill/fixtures/application-canonical-filled.pdf",
+        "canonicalPdfSha256": "c68600571515ebf2132b7879ceea6f61ea18c30e0edecb9ee8405c36ec723da6",
+        "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/id/id-isp-expungement-set--official-pdf-fill/fixtures/application-boundary-filled.pdf",
+        "boundaryPdfSha256": "48d435eaf962cf4020b4858038c7e5d45175a63534b31664d2afc002c8db57d9",
+        "documentsDigest": "0de371bfc3064ff2036a5ad87b7d5f226609bbc30656caec2a83848f755ca22d",
+        "coverage": {
+          "documents": [
+            "application-canonical-filled.pdf"
+          ],
+          "rastered": [
+            "application-canonical-filled.pdf"
+          ],
+          "notRastered": [],
+          "complete": true,
+          "basis": "the family ships 1 canonical document(s) with no assembled packet, and the row renders all of them"
+        },
+        "expectedPages": 2,
+        "currentRasterStateInQueue": "RASTER_PENDING",
+        "builderAssignment": "VF11",
+        "packetCommitSha": "a3ac6627b6076c091feb38f09b97780525742f96"
+      },
+      "bytesStillMatch": {
+        "method": "SHA-256 recomputed from the file on disk in this lane's worktree and compared to the queue's recorded hash",
+        "checkedAtCommitSha": "84045d06c9f14b29c8fb822343e0f390d5be98c3",
+        "canonical": {
+          "path": "data/rcap-all50/overlays/census-v1/id/id-isp-expungement-set--official-pdf-fill/fixtures/application-canonical-filled.pdf",
+          "recordedSha256": "c68600571515ebf2132b7879ceea6f61ea18c30e0edecb9ee8405c36ec723da6",
+          "onDiskSha256": "c68600571515ebf2132b7879ceea6f61ea18c30e0edecb9ee8405c36ec723da6",
+          "present": true,
+          "matches": true
+        },
+        "boundary": {
+          "path": "data/rcap-all50/overlays/census-v1/id/id-isp-expungement-set--official-pdf-fill/fixtures/application-boundary-filled.pdf",
+          "recordedSha256": "48d435eaf962cf4020b4858038c7e5d45175a63534b31664d2afc002c8db57d9",
+          "onDiskSha256": "48d435eaf962cf4020b4858038c7e5d45175a63534b31664d2afc002c8db57d9",
+          "present": true,
+          "matches": true
+        },
+        "bothMatch": true,
+        "whatThisMeans": "true means the exact bytes the queue pinned, and therefore the bytes this raster verdict describes, are still the bytes on disk. false would mean the verdict no longer describes what is on disk and must not be ingested as if it did."
+      }
+    },
+    {
+      "familyId": "id_set_aside_dismissal-set",
+      "jobId": 100168605472,
+      "jobConclusion": "success",
+      "renderedCommitSha": "7edb05f621e6209c3660c66fd60e4f4b283faf1f",
+      "pinnedCommitVerified": true,
+      "pinnedCommitReadVerbatimInThisJobsLog": false,
+      "howThePinWasVerified": "the job's \"Refuse a movable ref and prove the checkout is the pinned commit\" step asserts git rev-parse HEAD equals inputs.commit_sha and exits 1 otherwise; the job is green, so the assertion held. The literal value 7edb05f621e6209c3660c66fd60e4f4b283faf1f was read verbatim from the run's shared workflow_dispatch input: in the plan job's log (actions/checkout `ref:`, `HEAD is now at 7edb05f`, `git log -1 --format=%H` -> 7edb05f621e6209c3660c66fd60e4f4b283faf1f, `REF: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`, and `pinned commit confirmed: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`), and again as COMMIT_SHA in the \"Render and measure\" step env of the five family jobs whose tail-of-log read reached that far (rcap-tn-custom-pleading, rcap-sc-custom-pleading, rcap-wv-custom-pleading, rcap-wa-custom-pleading-clean-tracks, rcap-wi-custom-pleading). For the other 34 family jobs the tail-only read did not reach that line; every job in the run resolves the same single ${{ inputs.commit_sha }} and every job's guard passed, so no job checked out a different commit. For those 34 that is a structural proof, not a verbatim read.",
+      "verdictLine": "RASTER_PASS id_set_aside_dismissal-set — 2 document(s), 8 page(s) measured, 0 problem(s)",
+      "documentsMeasured": 2,
+      "pagesMeasured": 8,
+      "problemsFound": 0,
+      "receiptArtifact": {
+        "id": 9837134404,
+        "name": "rcap-raster-id_set_aside_dismissal-set-33605354695",
+        "zipSha256": "sha256:ea9f994e269a9b80052f820285f713d7513b49dc0c3acdcd092e9f35592fa398",
+        "sizeInBytes": 2081466,
+        "expiresAt": "2026-09-16T07:58:57Z"
+      },
+      "queueRow": {
+        "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/id/id-set-aside-dismissal-set--custom-pleading/fixtures/canonical.pdf",
+        "canonicalPdfSha256": "7773edfbbad30e588ee71061cd226d6c8385e5b35d3d8fa40d43497507dbddbc",
+        "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/id/id-set-aside-dismissal-set--custom-pleading/fixtures/boundary.pdf",
+        "boundaryPdfSha256": "69627731b56805a3b8a37b24c7cfc9b72a9b99d87a09cf85e44e05e0c9cbbf5f",
+        "documentsDigest": "69f99ac30ba5a072c505d7b8a77a66f63c34d2734634e64dc20bc4d7aafd8f81",
+        "coverage": {
+          "documents": [
+            "canonical.pdf"
+          ],
+          "rastered": [
+            "canonical.pdf"
+          ],
+          "notRastered": [],
+          "complete": true,
+          "basis": "the family ships one assembled packet, so rendering it covers the family"
+        },
+        "expectedPages": 4,
+        "currentRasterStateInQueue": "RASTER_PENDING",
+        "builderAssignment": "VF12",
+        "packetCommitSha": "a3ac6627b6076c091feb38f09b97780525742f96"
+      },
+      "bytesStillMatch": {
+        "method": "SHA-256 recomputed from the file on disk in this lane's worktree and compared to the queue's recorded hash",
+        "checkedAtCommitSha": "84045d06c9f14b29c8fb822343e0f390d5be98c3",
+        "canonical": {
+          "path": "data/rcap-all50/overlays/census-v1/id/id-set-aside-dismissal-set--custom-pleading/fixtures/canonical.pdf",
+          "recordedSha256": "7773edfbbad30e588ee71061cd226d6c8385e5b35d3d8fa40d43497507dbddbc",
+          "onDiskSha256": "7773edfbbad30e588ee71061cd226d6c8385e5b35d3d8fa40d43497507dbddbc",
+          "present": true,
+          "matches": true
+        },
+        "boundary": {
+          "path": "data/rcap-all50/overlays/census-v1/id/id-set-aside-dismissal-set--custom-pleading/fixtures/boundary.pdf",
+          "recordedSha256": "69627731b56805a3b8a37b24c7cfc9b72a9b99d87a09cf85e44e05e0c9cbbf5f",
+          "onDiskSha256": "69627731b56805a3b8a37b24c7cfc9b72a9b99d87a09cf85e44e05e0c9cbbf5f",
+          "present": true,
+          "matches": true
+        },
+        "bothMatch": true,
+        "whatThisMeans": "true means the exact bytes the queue pinned, and therefore the bytes this raster verdict describes, are still the bytes on disk. false would mean the verdict no longer describes what is on disk and must not be ingested as if it did."
+      }
+    },
+    {
+      "familyId": "in_arrest_no_charges-set",
+      "jobId": 100168605502,
+      "jobConclusion": "success",
+      "renderedCommitSha": "7edb05f621e6209c3660c66fd60e4f4b283faf1f",
+      "pinnedCommitVerified": true,
+      "pinnedCommitReadVerbatimInThisJobsLog": false,
+      "howThePinWasVerified": "the job's \"Refuse a movable ref and prove the checkout is the pinned commit\" step asserts git rev-parse HEAD equals inputs.commit_sha and exits 1 otherwise; the job is green, so the assertion held. The literal value 7edb05f621e6209c3660c66fd60e4f4b283faf1f was read verbatim from the run's shared workflow_dispatch input: in the plan job's log (actions/checkout `ref:`, `HEAD is now at 7edb05f`, `git log -1 --format=%H` -> 7edb05f621e6209c3660c66fd60e4f4b283faf1f, `REF: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`, and `pinned commit confirmed: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`), and again as COMMIT_SHA in the \"Render and measure\" step env of the five family jobs whose tail-of-log read reached that far (rcap-tn-custom-pleading, rcap-sc-custom-pleading, rcap-wv-custom-pleading, rcap-wa-custom-pleading-clean-tracks, rcap-wi-custom-pleading). For the other 34 family jobs the tail-only read did not reach that line; every job in the run resolves the same single ${{ inputs.commit_sha }} and every job's guard passed, so no job checked out a different commit. For those 34 that is a structural proof, not a verbatim read.",
+      "verdictLine": "RASTER_PASS in_arrest_no_charges-set — 2 document(s), 30 page(s) measured, 0 problem(s)",
+      "documentsMeasured": 2,
+      "pagesMeasured": 30,
+      "problemsFound": 0,
+      "receiptArtifact": {
+        "id": 9837157890,
+        "name": "rcap-raster-in_arrest_no_charges-set-33605354695",
+        "zipSha256": "sha256:4713c2d461cb06340f1dc871f6e24e3b10c8c11f4f31378259641298ae7bcbbb",
+        "sizeInBytes": 6847778,
+        "expiresAt": "2026-09-16T07:59:41Z"
+      },
+      "queueRow": {
+        "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/in/in-arrest-no-charges-set--official-pdf-fill/fixtures/packet-canonical-filled.pdf",
+        "canonicalPdfSha256": "a39f4c3ba8d635c3828af504dc2762127b6f4afd48abe398a805417d1cc70271",
+        "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/in/in-arrest-no-charges-set--official-pdf-fill/fixtures/packet-boundary-filled.pdf",
+        "boundaryPdfSha256": "4e9aeda66690545d2fd412be257f31e190e8a39b8c22ce08e6f630a6c4462f23",
+        "documentsDigest": "861e61b40a92a79220aa27aa4d5189c522525245904abc0ef0135f76a8dba288",
+        "coverage": {
+          "documents": [
+            "packet-canonical-filled.pdf"
+          ],
+          "rastered": [
+            "packet-canonical-filled.pdf"
+          ],
+          "notRastered": [],
+          "complete": true,
+          "basis": "the family ships 1 canonical document(s) with no assembled packet, and the row renders all of them"
+        },
+        "expectedPages": 15,
+        "currentRasterStateInQueue": "RASTER_PENDING",
+        "builderAssignment": "VF01",
+        "packetCommitSha": "a3ac6627b6076c091feb38f09b97780525742f96"
+      },
+      "bytesStillMatch": {
+        "method": "SHA-256 recomputed from the file on disk in this lane's worktree and compared to the queue's recorded hash",
+        "checkedAtCommitSha": "84045d06c9f14b29c8fb822343e0f390d5be98c3",
+        "canonical": {
+          "path": "data/rcap-all50/overlays/census-v1/in/in-arrest-no-charges-set--official-pdf-fill/fixtures/packet-canonical-filled.pdf",
+          "recordedSha256": "a39f4c3ba8d635c3828af504dc2762127b6f4afd48abe398a805417d1cc70271",
+          "onDiskSha256": "a39f4c3ba8d635c3828af504dc2762127b6f4afd48abe398a805417d1cc70271",
+          "present": true,
+          "matches": true
+        },
+        "boundary": {
+          "path": "data/rcap-all50/overlays/census-v1/in/in-arrest-no-charges-set--official-pdf-fill/fixtures/packet-boundary-filled.pdf",
+          "recordedSha256": "4e9aeda66690545d2fd412be257f31e190e8a39b8c22ce08e6f630a6c4462f23",
+          "onDiskSha256": "4e9aeda66690545d2fd412be257f31e190e8a39b8c22ce08e6f630a6c4462f23",
+          "present": true,
+          "matches": true
+        },
+        "bothMatch": true,
+        "whatThisMeans": "true means the exact bytes the queue pinned, and therefore the bytes this raster verdict describes, are still the bytes on disk. false would mean the verdict no longer describes what is on disk and must not be ingested as if it did."
+      }
+    },
+    {
+      "familyId": "in_section1_petition-set",
+      "jobId": 100168605711,
+      "jobConclusion": "success",
+      "renderedCommitSha": "7edb05f621e6209c3660c66fd60e4f4b283faf1f",
+      "pinnedCommitVerified": true,
+      "pinnedCommitReadVerbatimInThisJobsLog": false,
+      "howThePinWasVerified": "the job's \"Refuse a movable ref and prove the checkout is the pinned commit\" step asserts git rev-parse HEAD equals inputs.commit_sha and exits 1 otherwise; the job is green, so the assertion held. The literal value 7edb05f621e6209c3660c66fd60e4f4b283faf1f was read verbatim from the run's shared workflow_dispatch input: in the plan job's log (actions/checkout `ref:`, `HEAD is now at 7edb05f`, `git log -1 --format=%H` -> 7edb05f621e6209c3660c66fd60e4f4b283faf1f, `REF: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`, and `pinned commit confirmed: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`), and again as COMMIT_SHA in the \"Render and measure\" step env of the five family jobs whose tail-of-log read reached that far (rcap-tn-custom-pleading, rcap-sc-custom-pleading, rcap-wv-custom-pleading, rcap-wa-custom-pleading-clean-tracks, rcap-wi-custom-pleading). For the other 34 family jobs the tail-only read did not reach that line; every job in the run resolves the same single ${{ inputs.commit_sha }} and every job's guard passed, so no job checked out a different commit. For those 34 that is a structural proof, not a verbatim read.",
+      "verdictLine": "RASTER_PASS in_section1_petition-set — 2 document(s), 30 page(s) measured, 0 problem(s)",
+      "documentsMeasured": 2,
+      "pagesMeasured": 30,
+      "problemsFound": 0,
+      "receiptArtifact": {
+        "id": 9837159165,
+        "name": "rcap-raster-in_section1_petition-set-33605354695",
+        "zipSha256": "sha256:5eba7da17702342e2a9533453f66bf9aa1dd10319e20679492a4fc3f713ab1c1",
+        "sizeInBytes": 6847780,
+        "expiresAt": "2026-09-16T07:59:43Z"
+      },
+      "queueRow": {
+        "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/in/in-section1-petition-set--official-pdf-fill/fixtures/packet-canonical-filled.pdf",
+        "canonicalPdfSha256": "a39f4c3ba8d635c3828af504dc2762127b6f4afd48abe398a805417d1cc70271",
+        "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/in/in-section1-petition-set--official-pdf-fill/fixtures/packet-boundary-filled.pdf",
+        "boundaryPdfSha256": "4e9aeda66690545d2fd412be257f31e190e8a39b8c22ce08e6f630a6c4462f23",
+        "documentsDigest": "7015a0b83ae76771340e9d65811719b2aab3a9d16d68179e6350192ef2c13447",
+        "coverage": {
+          "documents": [
+            "packet-canonical-filled.pdf"
+          ],
+          "rastered": [
+            "packet-canonical-filled.pdf"
+          ],
+          "notRastered": [],
+          "complete": true,
+          "basis": "the family ships 1 canonical document(s) with no assembled packet, and the row renders all of them"
+        },
+        "expectedPages": 15,
+        "currentRasterStateInQueue": "RASTER_PENDING",
+        "builderAssignment": "VF02",
+        "packetCommitSha": "a3ac6627b6076c091feb38f09b97780525742f96"
+      },
+      "bytesStillMatch": {
+        "method": "SHA-256 recomputed from the file on disk in this lane's worktree and compared to the queue's recorded hash",
+        "checkedAtCommitSha": "84045d06c9f14b29c8fb822343e0f390d5be98c3",
+        "canonical": {
+          "path": "data/rcap-all50/overlays/census-v1/in/in-section1-petition-set--official-pdf-fill/fixtures/packet-canonical-filled.pdf",
+          "recordedSha256": "a39f4c3ba8d635c3828af504dc2762127b6f4afd48abe398a805417d1cc70271",
+          "onDiskSha256": "a39f4c3ba8d635c3828af504dc2762127b6f4afd48abe398a805417d1cc70271",
+          "present": true,
+          "matches": true
+        },
+        "boundary": {
+          "path": "data/rcap-all50/overlays/census-v1/in/in-section1-petition-set--official-pdf-fill/fixtures/packet-boundary-filled.pdf",
+          "recordedSha256": "4e9aeda66690545d2fd412be257f31e190e8a39b8c22ce08e6f630a6c4462f23",
+          "onDiskSha256": "4e9aeda66690545d2fd412be257f31e190e8a39b8c22ce08e6f630a6c4462f23",
+          "present": true,
+          "matches": true
+        },
+        "bothMatch": true,
+        "whatThisMeans": "true means the exact bytes the queue pinned, and therefore the bytes this raster verdict describes, are still the bytes on disk. false would mean the verdict no longer describes what is on disk and must not be ingested as if it did."
+      }
+    },
+    {
+      "familyId": "nd-nonconviction-close-petition-set",
+      "jobId": 100168605702,
+      "jobConclusion": "success",
+      "renderedCommitSha": "7edb05f621e6209c3660c66fd60e4f4b283faf1f",
+      "pinnedCommitVerified": true,
+      "pinnedCommitReadVerbatimInThisJobsLog": false,
+      "howThePinWasVerified": "the job's \"Refuse a movable ref and prove the checkout is the pinned commit\" step asserts git rev-parse HEAD equals inputs.commit_sha and exits 1 otherwise; the job is green, so the assertion held. The literal value 7edb05f621e6209c3660c66fd60e4f4b283faf1f was read verbatim from the run's shared workflow_dispatch input: in the plan job's log (actions/checkout `ref:`, `HEAD is now at 7edb05f`, `git log -1 --format=%H` -> 7edb05f621e6209c3660c66fd60e4f4b283faf1f, `REF: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`, and `pinned commit confirmed: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`), and again as COMMIT_SHA in the \"Render and measure\" step env of the five family jobs whose tail-of-log read reached that far (rcap-tn-custom-pleading, rcap-sc-custom-pleading, rcap-wv-custom-pleading, rcap-wa-custom-pleading-clean-tracks, rcap-wi-custom-pleading). For the other 34 family jobs the tail-only read did not reach that line; every job in the run resolves the same single ${{ inputs.commit_sha }} and every job's guard passed, so no job checked out a different commit. For those 34 that is a structural proof, not a verbatim read.",
+      "verdictLine": "RASTER_PASS nd-nonconviction-close-petition-set — 2 document(s), 12 page(s) measured, 0 problem(s)",
+      "documentsMeasured": 2,
+      "pagesMeasured": 12,
+      "problemsFound": 0,
+      "receiptArtifact": {
+        "id": 9837056470,
+        "name": "rcap-raster-nd-nonconviction-close-petition-set-33605354695",
+        "zipSha256": "sha256:b246c28ed62011ab68a074c6bfb044edcf1a01573baeda293c568732dce3c970",
+        "sizeInBytes": 4300288,
+        "expiresAt": "2026-09-16T07:56:37Z"
+      },
+      "queueRow": {
+        "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/nd/nd-nonconviction-close-petition-set--official-pdf-fill/fixtures/packet-canonical-filled.pdf",
+        "canonicalPdfSha256": "2211ad2f8597d79a79151bc5850b222a664ba1ab935abb2d916c43612dddea58",
+        "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/nd/nd-nonconviction-close-petition-set--official-pdf-fill/fixtures/packet-boundary-filled.pdf",
+        "boundaryPdfSha256": "7f178d4a93edc84c72ea8123715f51da16b7bc1c91d709f575451101052ae747",
+        "documentsDigest": "2b8b594553dfaa5c03b63d5dc4d82ac1adbff60d262a166729853c0c6b693083",
+        "coverage": {
+          "documents": [
+            "packet-canonical-filled.pdf"
+          ],
+          "rastered": [
+            "packet-canonical-filled.pdf"
+          ],
+          "notRastered": [],
+          "complete": true,
+          "basis": "the family ships 1 canonical document(s) with no assembled packet, and the row renders all of them"
+        },
+        "expectedPages": 6,
+        "currentRasterStateInQueue": "RASTER_PENDING",
+        "builderAssignment": "VF08",
+        "packetCommitSha": "a3ac6627b6076c091feb38f09b97780525742f96"
+      },
+      "bytesStillMatch": {
+        "method": "SHA-256 recomputed from the file on disk in this lane's worktree and compared to the queue's recorded hash",
+        "checkedAtCommitSha": "84045d06c9f14b29c8fb822343e0f390d5be98c3",
+        "canonical": {
+          "path": "data/rcap-all50/overlays/census-v1/nd/nd-nonconviction-close-petition-set--official-pdf-fill/fixtures/packet-canonical-filled.pdf",
+          "recordedSha256": "2211ad2f8597d79a79151bc5850b222a664ba1ab935abb2d916c43612dddea58",
+          "onDiskSha256": "2211ad2f8597d79a79151bc5850b222a664ba1ab935abb2d916c43612dddea58",
+          "present": true,
+          "matches": true
+        },
+        "boundary": {
+          "path": "data/rcap-all50/overlays/census-v1/nd/nd-nonconviction-close-petition-set--official-pdf-fill/fixtures/packet-boundary-filled.pdf",
+          "recordedSha256": "7f178d4a93edc84c72ea8123715f51da16b7bc1c91d709f575451101052ae747",
+          "onDiskSha256": "7f178d4a93edc84c72ea8123715f51da16b7bc1c91d709f575451101052ae747",
+          "present": true,
+          "matches": true
+        },
+        "bothMatch": true,
+        "whatThisMeans": "true means the exact bytes the queue pinned, and therefore the bytes this raster verdict describes, are still the bytes on disk. false would mean the verdict no longer describes what is on disk and must not be ingested as if it did."
+      }
+    },
+    {
+      "familyId": "official-form-treatment:obligation:research-decision-route:AL:al-olr",
+      "jobId": 100168605508,
+      "jobConclusion": "success",
+      "renderedCommitSha": "7edb05f621e6209c3660c66fd60e4f4b283faf1f",
+      "pinnedCommitVerified": true,
+      "pinnedCommitReadVerbatimInThisJobsLog": false,
+      "howThePinWasVerified": "the job's \"Refuse a movable ref and prove the checkout is the pinned commit\" step asserts git rev-parse HEAD equals inputs.commit_sha and exits 1 otherwise; the job is green, so the assertion held. The literal value 7edb05f621e6209c3660c66fd60e4f4b283faf1f was read verbatim from the run's shared workflow_dispatch input: in the plan job's log (actions/checkout `ref:`, `HEAD is now at 7edb05f`, `git log -1 --format=%H` -> 7edb05f621e6209c3660c66fd60e4f4b283faf1f, `REF: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`, and `pinned commit confirmed: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`), and again as COMMIT_SHA in the \"Render and measure\" step env of the five family jobs whose tail-of-log read reached that far (rcap-tn-custom-pleading, rcap-sc-custom-pleading, rcap-wv-custom-pleading, rcap-wa-custom-pleading-clean-tracks, rcap-wi-custom-pleading). For the other 34 family jobs the tail-only read did not reach that line; every job in the run resolves the same single ${{ inputs.commit_sha }} and every job's guard passed, so no job checked out a different commit. For those 34 that is a structural proof, not a verbatim read.",
+      "verdictLine": "RASTER_PASS official-form-treatment:obligation:research-decision-route:AL:al-olr — 2 document(s), 6 page(s) measured, 0 problem(s)",
+      "documentsMeasured": 2,
+      "pagesMeasured": 6,
+      "problemsFound": 0,
+      "receiptArtifact": {
+        "id": 9837013098,
+        "name": "rcap-raster-official-form-treatment_obligation_research-decision-route_AL_al-olr-33605354695",
+        "zipSha256": "sha256:c845c34c974a6cb3a2ac7f5fbca2cf8474db5287c8073755aa26e16a4ca0b5a1",
+        "sizeInBytes": 2079387,
+        "expiresAt": "2026-09-16T07:55:18Z"
+      },
+      "queueRow": {
+        "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/al/official-form-treatment:obligation:research-decision-route:al:al-olr--official-pdf-fill/fixtures/petition-canonical-filled.pdf",
+        "canonicalPdfSha256": "9414ff9d97234b9d98f6362c198acec77d7921c789a273f990a927bb487e8449",
+        "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/al/official-form-treatment:obligation:research-decision-route:al:al-olr--official-pdf-fill/fixtures/petition-boundary-filled.pdf",
+        "boundaryPdfSha256": "6b04f5d39f52f7cdea4c5771b7df24c43a2f266b67c986514d9e490d5afdc6bc",
+        "documentsDigest": "b9b9217d3468b9113b55d23bcf646c08651dfdbad792c1bb88f994af0bd43b02",
+        "coverage": {
+          "documents": [
+            "petition-canonical-filled.pdf"
+          ],
+          "rastered": [
+            "petition-canonical-filled.pdf"
+          ],
+          "notRastered": [],
+          "complete": true,
+          "basis": "the family ships 1 canonical document(s) with no assembled packet, and the row renders all of them"
+        },
+        "expectedPages": 3,
+        "currentRasterStateInQueue": "RASTER_PENDING",
+        "builderAssignment": "VF11",
+        "packetCommitSha": "a3ac6627b6076c091feb38f09b97780525742f96"
+      },
+      "bytesStillMatch": {
+        "method": "SHA-256 recomputed from the file on disk in this lane's worktree and compared to the queue's recorded hash",
+        "checkedAtCommitSha": "84045d06c9f14b29c8fb822343e0f390d5be98c3",
+        "canonical": {
+          "path": "data/rcap-all50/overlays/census-v1/al/official-form-treatment:obligation:research-decision-route:al:al-olr--official-pdf-fill/fixtures/petition-canonical-filled.pdf",
+          "recordedSha256": "9414ff9d97234b9d98f6362c198acec77d7921c789a273f990a927bb487e8449",
+          "onDiskSha256": "9414ff9d97234b9d98f6362c198acec77d7921c789a273f990a927bb487e8449",
+          "present": true,
+          "matches": true
+        },
+        "boundary": {
+          "path": "data/rcap-all50/overlays/census-v1/al/official-form-treatment:obligation:research-decision-route:al:al-olr--official-pdf-fill/fixtures/petition-boundary-filled.pdf",
+          "recordedSha256": "6b04f5d39f52f7cdea4c5771b7df24c43a2f266b67c986514d9e490d5afdc6bc",
+          "onDiskSha256": "6b04f5d39f52f7cdea4c5771b7df24c43a2f266b67c986514d9e490d5afdc6bc",
+          "present": true,
+          "matches": true
+        },
+        "bothMatch": true,
+        "whatThisMeans": "true means the exact bytes the queue pinned, and therefore the bytes this raster verdict describes, are still the bytes on disk. false would mean the verdict no longer describes what is on disk and must not be ingested as if it did."
+      }
+    },
+    {
+      "familyId": "rcap-ga-guidance-implementation",
+      "jobId": 100168605630,
+      "jobConclusion": "success",
+      "renderedCommitSha": "7edb05f621e6209c3660c66fd60e4f4b283faf1f",
+      "pinnedCommitVerified": true,
+      "pinnedCommitReadVerbatimInThisJobsLog": false,
+      "howThePinWasVerified": "the job's \"Refuse a movable ref and prove the checkout is the pinned commit\" step asserts git rev-parse HEAD equals inputs.commit_sha and exits 1 otherwise; the job is green, so the assertion held. The literal value 7edb05f621e6209c3660c66fd60e4f4b283faf1f was read verbatim from the run's shared workflow_dispatch input: in the plan job's log (actions/checkout `ref:`, `HEAD is now at 7edb05f`, `git log -1 --format=%H` -> 7edb05f621e6209c3660c66fd60e4f4b283faf1f, `REF: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`, and `pinned commit confirmed: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`), and again as COMMIT_SHA in the \"Render and measure\" step env of the five family jobs whose tail-of-log read reached that far (rcap-tn-custom-pleading, rcap-sc-custom-pleading, rcap-wv-custom-pleading, rcap-wa-custom-pleading-clean-tracks, rcap-wi-custom-pleading). For the other 34 family jobs the tail-only read did not reach that line; every job in the run resolves the same single ${{ inputs.commit_sha }} and every job's guard passed, so no job checked out a different commit. For those 34 that is a structural proof, not a verbatim read.",
+      "verdictLine": "RASTER_PASS rcap-ga-guidance-implementation — 2 document(s), 8 page(s) measured, 0 problem(s)",
+      "documentsMeasured": 2,
+      "pagesMeasured": 8,
+      "problemsFound": 0,
+      "receiptArtifact": {
+        "id": 9837039993,
+        "name": "rcap-raster-rcap-ga-guidance-implementation-33605354695",
+        "zipSha256": "sha256:3e9642c8989f9a52089c619d5b338595938c01467f304a18c9743ba83e245e88",
+        "sizeInBytes": 3126341,
+        "expiresAt": "2026-09-16T07:56:06Z"
+      },
+      "queueRow": {
+        "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/ga/rcap-ga-guidance-implementation--custom-pleading/fixtures/canonical.pdf",
+        "canonicalPdfSha256": "ecfb488b8adf6cdadbbe1489d4a7fb9a982a18d7e9bebe90b0c019b80a756914",
+        "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/ga/rcap-ga-guidance-implementation--custom-pleading/fixtures/boundary.pdf",
+        "boundaryPdfSha256": "6866fd683dad67e2a3b4be8db3773e424411850487748f2692ecaf9253d12e24",
+        "documentsDigest": "4c20e82e99457ecc2d01d9bb5ac505338fa9cae449e43ce2530f1fec88e884df",
+        "coverage": {
+          "documents": [
+            "canonical.pdf"
+          ],
+          "rastered": [
+            "canonical.pdf"
+          ],
+          "notRastered": [],
+          "complete": true,
+          "basis": "the family ships one assembled packet, so rendering it covers the family"
+        },
+        "expectedPages": 4,
+        "currentRasterStateInQueue": "RASTER_PENDING",
+        "builderAssignment": "VF02",
+        "packetCommitSha": "a3ac6627b6076c091feb38f09b97780525742f96"
+      },
+      "bytesStillMatch": {
+        "method": "SHA-256 recomputed from the file on disk in this lane's worktree and compared to the queue's recorded hash",
+        "checkedAtCommitSha": "84045d06c9f14b29c8fb822343e0f390d5be98c3",
+        "canonical": {
+          "path": "data/rcap-all50/overlays/census-v1/ga/rcap-ga-guidance-implementation--custom-pleading/fixtures/canonical.pdf",
+          "recordedSha256": "ecfb488b8adf6cdadbbe1489d4a7fb9a982a18d7e9bebe90b0c019b80a756914",
+          "onDiskSha256": "ecfb488b8adf6cdadbbe1489d4a7fb9a982a18d7e9bebe90b0c019b80a756914",
+          "present": true,
+          "matches": true
+        },
+        "boundary": {
+          "path": "data/rcap-all50/overlays/census-v1/ga/rcap-ga-guidance-implementation--custom-pleading/fixtures/boundary.pdf",
+          "recordedSha256": "6866fd683dad67e2a3b4be8db3773e424411850487748f2692ecaf9253d12e24",
+          "onDiskSha256": "6866fd683dad67e2a3b4be8db3773e424411850487748f2692ecaf9253d12e24",
+          "present": true,
+          "matches": true
+        },
+        "bothMatch": true,
+        "whatThisMeans": "true means the exact bytes the queue pinned, and therefore the bytes this raster verdict describes, are still the bytes on disk. false would mean the verdict no longer describes what is on disk and must not be ingested as if it did."
+      }
+    },
+    {
+      "familyId": "rcap-ks-custom-pleading",
+      "jobId": 100168605634,
+      "jobConclusion": "success",
+      "renderedCommitSha": "7edb05f621e6209c3660c66fd60e4f4b283faf1f",
+      "pinnedCommitVerified": true,
+      "pinnedCommitReadVerbatimInThisJobsLog": false,
+      "howThePinWasVerified": "the job's \"Refuse a movable ref and prove the checkout is the pinned commit\" step asserts git rev-parse HEAD equals inputs.commit_sha and exits 1 otherwise; the job is green, so the assertion held. The literal value 7edb05f621e6209c3660c66fd60e4f4b283faf1f was read verbatim from the run's shared workflow_dispatch input: in the plan job's log (actions/checkout `ref:`, `HEAD is now at 7edb05f`, `git log -1 --format=%H` -> 7edb05f621e6209c3660c66fd60e4f4b283faf1f, `REF: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`, and `pinned commit confirmed: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`), and again as COMMIT_SHA in the \"Render and measure\" step env of the five family jobs whose tail-of-log read reached that far (rcap-tn-custom-pleading, rcap-sc-custom-pleading, rcap-wv-custom-pleading, rcap-wa-custom-pleading-clean-tracks, rcap-wi-custom-pleading). For the other 34 family jobs the tail-only read did not reach that line; every job in the run resolves the same single ${{ inputs.commit_sha }} and every job's guard passed, so no job checked out a different commit. For those 34 that is a structural proof, not a verbatim read.",
+      "verdictLine": "RASTER_PASS rcap-ks-custom-pleading — 2 document(s), 25 page(s) measured, 0 problem(s)",
+      "documentsMeasured": 2,
+      "pagesMeasured": 25,
+      "problemsFound": 0,
+      "receiptArtifact": {
+        "id": 9837138968,
+        "name": "rcap-raster-rcap-ks-custom-pleading-33605354695",
+        "zipSha256": "sha256:944b00e00272daeef3963633a7d887fc839d4a3a37c5cef1ffdbd099dbd02e2b",
+        "sizeInBytes": 7409255,
+        "expiresAt": "2026-09-16T07:59:05Z"
+      },
+      "queueRow": {
+        "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/canonical.pdf",
+        "canonicalPdfSha256": "6a4ce684338f15386c42d19f53e56ed828ca51dcb748c64e5943ef01e483bfc8",
+        "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/boundary.pdf",
+        "boundaryPdfSha256": "682a6a4b1d64f6998135325d264af837fab045ae4828fa6a0b4a5e6bc88cdb67",
+        "documentsDigest": "3c558b177a66194dee358fa07d15d0a357c1024dd140b30ec2b3e37afa6c08e1",
+        "coverage": {
+          "documents": [
+            "canonical.pdf"
+          ],
+          "rastered": [
+            "canonical.pdf"
+          ],
+          "notRastered": [],
+          "complete": true,
+          "basis": "the family ships one assembled packet, so rendering it covers the family"
+        },
+        "expectedPages": 12,
+        "currentRasterStateInQueue": "RASTER_PENDING",
+        "builderAssignment": "VF03",
+        "packetCommitSha": "a3ac6627b6076c091feb38f09b97780525742f96"
+      },
+      "bytesStillMatch": {
+        "method": "SHA-256 recomputed from the file on disk in this lane's worktree and compared to the queue's recorded hash",
+        "checkedAtCommitSha": "84045d06c9f14b29c8fb822343e0f390d5be98c3",
+        "canonical": {
+          "path": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/canonical.pdf",
+          "recordedSha256": "6a4ce684338f15386c42d19f53e56ed828ca51dcb748c64e5943ef01e483bfc8",
+          "onDiskSha256": "6a4ce684338f15386c42d19f53e56ed828ca51dcb748c64e5943ef01e483bfc8",
+          "present": true,
+          "matches": true
+        },
+        "boundary": {
+          "path": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/boundary.pdf",
+          "recordedSha256": "682a6a4b1d64f6998135325d264af837fab045ae4828fa6a0b4a5e6bc88cdb67",
+          "onDiskSha256": "682a6a4b1d64f6998135325d264af837fab045ae4828fa6a0b4a5e6bc88cdb67",
+          "present": true,
+          "matches": true
+        },
+        "bothMatch": true,
+        "whatThisMeans": "true means the exact bytes the queue pinned, and therefore the bytes this raster verdict describes, are still the bytes on disk. false would mean the verdict no longer describes what is on disk and must not be ingested as if it did."
+      }
+    },
+    {
+      "familyId": "rcap-ms-custom-pleading",
+      "jobId": 100168606950,
+      "jobConclusion": "success",
+      "renderedCommitSha": "7edb05f621e6209c3660c66fd60e4f4b283faf1f",
+      "pinnedCommitVerified": true,
+      "pinnedCommitReadVerbatimInThisJobsLog": false,
+      "howThePinWasVerified": "the job's \"Refuse a movable ref and prove the checkout is the pinned commit\" step asserts git rev-parse HEAD equals inputs.commit_sha and exits 1 otherwise; the job is green, so the assertion held. The literal value 7edb05f621e6209c3660c66fd60e4f4b283faf1f was read verbatim from the run's shared workflow_dispatch input: in the plan job's log (actions/checkout `ref:`, `HEAD is now at 7edb05f`, `git log -1 --format=%H` -> 7edb05f621e6209c3660c66fd60e4f4b283faf1f, `REF: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`, and `pinned commit confirmed: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`), and again as COMMIT_SHA in the \"Render and measure\" step env of the five family jobs whose tail-of-log read reached that far (rcap-tn-custom-pleading, rcap-sc-custom-pleading, rcap-wv-custom-pleading, rcap-wa-custom-pleading-clean-tracks, rcap-wi-custom-pleading). For the other 34 family jobs the tail-only read did not reach that line; every job in the run resolves the same single ${{ inputs.commit_sha }} and every job's guard passed, so no job checked out a different commit. For those 34 that is a structural proof, not a verbatim read.",
+      "verdictLine": "RASTER_PASS rcap-ms-custom-pleading — 2 document(s), 52 page(s) measured, 0 problem(s)",
+      "documentsMeasured": 2,
+      "pagesMeasured": 52,
+      "problemsFound": 0,
+      "receiptArtifact": {
+        "id": 9837306985,
+        "name": "rcap-raster-rcap-ms-custom-pleading-33605354695",
+        "zipSha256": "sha256:10ffe02c7d7ab8df84b7163c6b7b8fd82633677e7b8577d638e8bfcce03a3f90",
+        "sizeInBytes": 13466739,
+        "expiresAt": "2026-09-16T08:04:13Z"
+      },
+      "queueRow": {
+        "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/ms/rcap-ms-custom-pleading--custom-pleading/fixtures/canonical.pdf",
+        "canonicalPdfSha256": "38a01f9a2c6d30b549b9f6365bbe03e34e27a9470f1d820f3d3545e3cf93713c",
+        "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/ms/rcap-ms-custom-pleading--custom-pleading/fixtures/boundary.pdf",
+        "boundaryPdfSha256": "9f5dd99ccd4e50094d00abe758cc34e1955df9a709d0da26ce21722b99a07c66",
+        "documentsDigest": "954670538b3ae14e71f5f1716162598ff681ae13ce8aff97dd5f1453d6c49825",
+        "coverage": {
+          "documents": [
+            "canonical.pdf"
+          ],
+          "rastered": [
+            "canonical.pdf"
+          ],
+          "notRastered": [],
+          "complete": true,
+          "basis": "the family ships one assembled packet, so rendering it covers the family"
+        },
+        "expectedPages": 26,
+        "currentRasterStateInQueue": "RASTER_PENDING",
+        "builderAssignment": "VF04",
+        "packetCommitSha": "a3ac6627b6076c091feb38f09b97780525742f96"
+      },
+      "bytesStillMatch": {
+        "method": "SHA-256 recomputed from the file on disk in this lane's worktree and compared to the queue's recorded hash",
+        "checkedAtCommitSha": "84045d06c9f14b29c8fb822343e0f390d5be98c3",
+        "canonical": {
+          "path": "data/rcap-all50/overlays/census-v1/ms/rcap-ms-custom-pleading--custom-pleading/fixtures/canonical.pdf",
+          "recordedSha256": "38a01f9a2c6d30b549b9f6365bbe03e34e27a9470f1d820f3d3545e3cf93713c",
+          "onDiskSha256": "38a01f9a2c6d30b549b9f6365bbe03e34e27a9470f1d820f3d3545e3cf93713c",
+          "present": true,
+          "matches": true
+        },
+        "boundary": {
+          "path": "data/rcap-all50/overlays/census-v1/ms/rcap-ms-custom-pleading--custom-pleading/fixtures/boundary.pdf",
+          "recordedSha256": "9f5dd99ccd4e50094d00abe758cc34e1955df9a709d0da26ce21722b99a07c66",
+          "onDiskSha256": "9f5dd99ccd4e50094d00abe758cc34e1955df9a709d0da26ce21722b99a07c66",
+          "present": true,
+          "matches": true
+        },
+        "bothMatch": true,
+        "whatThisMeans": "true means the exact bytes the queue pinned, and therefore the bytes this raster verdict describes, are still the bytes on disk. false would mean the verdict no longer describes what is on disk and must not be ingested as if it did."
+      }
+    },
+    {
+      "familyId": "rcap-nd-custom-pleading",
+      "jobId": 100168607030,
+      "jobConclusion": "success",
+      "renderedCommitSha": "7edb05f621e6209c3660c66fd60e4f4b283faf1f",
+      "pinnedCommitVerified": true,
+      "pinnedCommitReadVerbatimInThisJobsLog": false,
+      "howThePinWasVerified": "the job's \"Refuse a movable ref and prove the checkout is the pinned commit\" step asserts git rev-parse HEAD equals inputs.commit_sha and exits 1 otherwise; the job is green, so the assertion held. The literal value 7edb05f621e6209c3660c66fd60e4f4b283faf1f was read verbatim from the run's shared workflow_dispatch input: in the plan job's log (actions/checkout `ref:`, `HEAD is now at 7edb05f`, `git log -1 --format=%H` -> 7edb05f621e6209c3660c66fd60e4f4b283faf1f, `REF: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`, and `pinned commit confirmed: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`), and again as COMMIT_SHA in the \"Render and measure\" step env of the five family jobs whose tail-of-log read reached that far (rcap-tn-custom-pleading, rcap-sc-custom-pleading, rcap-wv-custom-pleading, rcap-wa-custom-pleading-clean-tracks, rcap-wi-custom-pleading). For the other 34 family jobs the tail-only read did not reach that line; every job in the run resolves the same single ${{ inputs.commit_sha }} and every job's guard passed, so no job checked out a different commit. For those 34 that is a structural proof, not a verbatim read.",
+      "verdictLine": "RASTER_PASS rcap-nd-custom-pleading — 2 document(s), 69 page(s) measured, 0 problem(s)",
+      "documentsMeasured": 2,
+      "pagesMeasured": 69,
+      "problemsFound": 0,
+      "receiptArtifact": {
+        "id": 9837405327,
+        "name": "rcap-raster-rcap-nd-custom-pleading-33605354695",
+        "zipSha256": "sha256:9b4f1da69f4c4d602f520a90b0ce9f554158f2fd3730c9bfcf8edeb3956dd9e1",
+        "sizeInBytes": 15796538,
+        "expiresAt": "2026-09-16T08:07:07Z"
+      },
+      "queueRow": {
+        "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/nd/rcap-nd-custom-pleading--custom-pleading/fixtures/canonical.pdf",
+        "canonicalPdfSha256": "6baff02e7853275b0d98bc41d66a3e1a1144a8db621d76c547e317dc7f5cc703",
+        "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/nd/rcap-nd-custom-pleading--custom-pleading/fixtures/boundary.pdf",
+        "boundaryPdfSha256": "4831082c06b563cba1760b6ec9543aac781624370adac848e0f754d460a81d11",
+        "documentsDigest": "61821a0376a1726aca8ffa7ed3200219a71405fa0325b47c2455f4a46b99bc54",
+        "coverage": {
+          "documents": [
+            "canonical.pdf"
+          ],
+          "rastered": [
+            "canonical.pdf"
+          ],
+          "notRastered": [],
+          "complete": true,
+          "basis": "the family ships one assembled packet, so rendering it covers the family"
+        },
+        "expectedPages": 34,
+        "currentRasterStateInQueue": "RASTER_PENDING",
+        "builderAssignment": "VF05",
+        "packetCommitSha": "a3ac6627b6076c091feb38f09b97780525742f96"
+      },
+      "bytesStillMatch": {
+        "method": "SHA-256 recomputed from the file on disk in this lane's worktree and compared to the queue's recorded hash",
+        "checkedAtCommitSha": "84045d06c9f14b29c8fb822343e0f390d5be98c3",
+        "canonical": {
+          "path": "data/rcap-all50/overlays/census-v1/nd/rcap-nd-custom-pleading--custom-pleading/fixtures/canonical.pdf",
+          "recordedSha256": "6baff02e7853275b0d98bc41d66a3e1a1144a8db621d76c547e317dc7f5cc703",
+          "onDiskSha256": "6baff02e7853275b0d98bc41d66a3e1a1144a8db621d76c547e317dc7f5cc703",
+          "present": true,
+          "matches": true
+        },
+        "boundary": {
+          "path": "data/rcap-all50/overlays/census-v1/nd/rcap-nd-custom-pleading--custom-pleading/fixtures/boundary.pdf",
+          "recordedSha256": "4831082c06b563cba1760b6ec9543aac781624370adac848e0f754d460a81d11",
+          "onDiskSha256": "4831082c06b563cba1760b6ec9543aac781624370adac848e0f754d460a81d11",
+          "present": true,
+          "matches": true
+        },
+        "bothMatch": true,
+        "whatThisMeans": "true means the exact bytes the queue pinned, and therefore the bytes this raster verdict describes, are still the bytes on disk. false would mean the verdict no longer describes what is on disk and must not be ingested as if it did."
+      }
+    },
+    {
+      "familyId": "rcap-nv-custom-pleading",
+      "jobId": 100168606894,
+      "jobConclusion": "success",
+      "renderedCommitSha": "7edb05f621e6209c3660c66fd60e4f4b283faf1f",
+      "pinnedCommitVerified": true,
+      "pinnedCommitReadVerbatimInThisJobsLog": false,
+      "howThePinWasVerified": "the job's \"Refuse a movable ref and prove the checkout is the pinned commit\" step asserts git rev-parse HEAD equals inputs.commit_sha and exits 1 otherwise; the job is green, so the assertion held. The literal value 7edb05f621e6209c3660c66fd60e4f4b283faf1f was read verbatim from the run's shared workflow_dispatch input: in the plan job's log (actions/checkout `ref:`, `HEAD is now at 7edb05f`, `git log -1 --format=%H` -> 7edb05f621e6209c3660c66fd60e4f4b283faf1f, `REF: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`, and `pinned commit confirmed: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`), and again as COMMIT_SHA in the \"Render and measure\" step env of the five family jobs whose tail-of-log read reached that far (rcap-tn-custom-pleading, rcap-sc-custom-pleading, rcap-wv-custom-pleading, rcap-wa-custom-pleading-clean-tracks, rcap-wi-custom-pleading). For the other 34 family jobs the tail-only read did not reach that line; every job in the run resolves the same single ${{ inputs.commit_sha }} and every job's guard passed, so no job checked out a different commit. For those 34 that is a structural proof, not a verbatim read.",
+      "verdictLine": "RASTER_PASS rcap-nv-custom-pleading — 2 document(s), 100 page(s) measured, 0 problem(s)",
+      "documentsMeasured": 2,
+      "pagesMeasured": 100,
+      "problemsFound": 0,
+      "receiptArtifact": {
+        "id": 9837605349,
+        "name": "rcap-raster-rcap-nv-custom-pleading-33605354695",
+        "zipSha256": "sha256:543a02b7d0d8aac4f085f8b0ef81b376c1067998d2546375f23cf19ff8d0d187",
+        "sizeInBytes": 26331947,
+        "expiresAt": "2026-09-16T08:13:03Z"
+      },
+      "queueRow": {
+        "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/nv/rcap-nv-custom-pleading--custom-pleading/fixtures/canonical.pdf",
+        "canonicalPdfSha256": "d73ee75c132da59a063994a5db8da429460d5c79ddf78af06634a80691516fad",
+        "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/nv/rcap-nv-custom-pleading--custom-pleading/fixtures/boundary.pdf",
+        "boundaryPdfSha256": "eea01e78026c6ea9a53398feba3fec6bea43ecf838b5eea49a3cbab4d5172b01",
+        "documentsDigest": "12092d56755b19972de681e07b00023fa5f638fdeaa72be33ce20d7f3f0001e4",
+        "coverage": {
+          "documents": [
+            "canonical.pdf"
+          ],
+          "rastered": [
+            "canonical.pdf"
+          ],
+          "notRastered": [],
+          "complete": true,
+          "basis": "the family ships one assembled packet, so rendering it covers the family"
+        },
+        "expectedPages": 50,
+        "currentRasterStateInQueue": "RASTER_PENDING",
+        "builderAssignment": "VF06",
+        "packetCommitSha": "a3ac6627b6076c091feb38f09b97780525742f96"
+      },
+      "bytesStillMatch": {
+        "method": "SHA-256 recomputed from the file on disk in this lane's worktree and compared to the queue's recorded hash",
+        "checkedAtCommitSha": "84045d06c9f14b29c8fb822343e0f390d5be98c3",
+        "canonical": {
+          "path": "data/rcap-all50/overlays/census-v1/nv/rcap-nv-custom-pleading--custom-pleading/fixtures/canonical.pdf",
+          "recordedSha256": "d73ee75c132da59a063994a5db8da429460d5c79ddf78af06634a80691516fad",
+          "onDiskSha256": "d73ee75c132da59a063994a5db8da429460d5c79ddf78af06634a80691516fad",
+          "present": true,
+          "matches": true
+        },
+        "boundary": {
+          "path": "data/rcap-all50/overlays/census-v1/nv/rcap-nv-custom-pleading--custom-pleading/fixtures/boundary.pdf",
+          "recordedSha256": "eea01e78026c6ea9a53398feba3fec6bea43ecf838b5eea49a3cbab4d5172b01",
+          "onDiskSha256": "eea01e78026c6ea9a53398feba3fec6bea43ecf838b5eea49a3cbab4d5172b01",
+          "present": true,
+          "matches": true
+        },
+        "bothMatch": true,
+        "whatThisMeans": "true means the exact bytes the queue pinned, and therefore the bytes this raster verdict describes, are still the bytes on disk. false would mean the verdict no longer describes what is on disk and must not be ingested as if it did."
+      }
+    },
+    {
+      "familyId": "rcap-ok-custom-pleading",
+      "jobId": 100168607212,
+      "jobConclusion": "success",
+      "renderedCommitSha": "7edb05f621e6209c3660c66fd60e4f4b283faf1f",
+      "pinnedCommitVerified": true,
+      "pinnedCommitReadVerbatimInThisJobsLog": false,
+      "howThePinWasVerified": "the job's \"Refuse a movable ref and prove the checkout is the pinned commit\" step asserts git rev-parse HEAD equals inputs.commit_sha and exits 1 otherwise; the job is green, so the assertion held. The literal value 7edb05f621e6209c3660c66fd60e4f4b283faf1f was read verbatim from the run's shared workflow_dispatch input: in the plan job's log (actions/checkout `ref:`, `HEAD is now at 7edb05f`, `git log -1 --format=%H` -> 7edb05f621e6209c3660c66fd60e4f4b283faf1f, `REF: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`, and `pinned commit confirmed: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`), and again as COMMIT_SHA in the \"Render and measure\" step env of the five family jobs whose tail-of-log read reached that far (rcap-tn-custom-pleading, rcap-sc-custom-pleading, rcap-wv-custom-pleading, rcap-wa-custom-pleading-clean-tracks, rcap-wi-custom-pleading). For the other 34 family jobs the tail-only read did not reach that line; every job in the run resolves the same single ${{ inputs.commit_sha }} and every job's guard passed, so no job checked out a different commit. For those 34 that is a structural proof, not a verbatim read.",
+      "verdictLine": "RASTER_PASS rcap-ok-custom-pleading — 2 document(s), 98 page(s) measured, 0 problem(s)",
+      "documentsMeasured": 2,
+      "pagesMeasured": 98,
+      "problemsFound": 0,
+      "receiptArtifact": {
+        "id": 9837602855,
+        "name": "rcap-raster-rcap-ok-custom-pleading-33605354695",
+        "zipSha256": "sha256:79fb65788c7e9c8222626b10c09dd26c5991562b3b728807db349494a69e1f4e",
+        "sizeInBytes": 28155292,
+        "expiresAt": "2026-09-16T08:12:59Z"
+      },
+      "queueRow": {
+        "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading/fixtures/canonical.pdf",
+        "canonicalPdfSha256": "fa2557d25d6b462561014851bc9701847e25d0b6e129032a28fff77b4fea8356",
+        "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading/fixtures/boundary.pdf",
+        "boundaryPdfSha256": "43af734a9af88a1a4002201b365a6f1c9546874c340cc90984280ea61a838316",
+        "documentsDigest": "548ef18a8739f774ead8cceda6a80c0062a7490fbc36a03226e72cfce6d00849",
+        "coverage": {
+          "documents": [
+            "canonical.pdf"
+          ],
+          "rastered": [
+            "canonical.pdf"
+          ],
+          "notRastered": [],
+          "complete": true,
+          "basis": "the family ships one assembled packet, so rendering it covers the family"
+        },
+        "expectedPages": 49,
+        "currentRasterStateInQueue": "RASTER_PENDING",
+        "builderAssignment": "VF08",
+        "packetCommitSha": "a3ac6627b6076c091feb38f09b97780525742f96"
+      },
+      "bytesStillMatch": {
+        "method": "SHA-256 recomputed from the file on disk in this lane's worktree and compared to the queue's recorded hash",
+        "checkedAtCommitSha": "84045d06c9f14b29c8fb822343e0f390d5be98c3",
+        "canonical": {
+          "path": "data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading/fixtures/canonical.pdf",
+          "recordedSha256": "fa2557d25d6b462561014851bc9701847e25d0b6e129032a28fff77b4fea8356",
+          "onDiskSha256": "fa2557d25d6b462561014851bc9701847e25d0b6e129032a28fff77b4fea8356",
+          "present": true,
+          "matches": true
+        },
+        "boundary": {
+          "path": "data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading/fixtures/boundary.pdf",
+          "recordedSha256": "43af734a9af88a1a4002201b365a6f1c9546874c340cc90984280ea61a838316",
+          "onDiskSha256": "43af734a9af88a1a4002201b365a6f1c9546874c340cc90984280ea61a838316",
+          "present": true,
+          "matches": true
+        },
+        "bothMatch": true,
+        "whatThisMeans": "true means the exact bytes the queue pinned, and therefore the bytes this raster verdict describes, are still the bytes on disk. false would mean the verdict no longer describes what is on disk and must not be ingested as if it did."
+      }
+    },
+    {
+      "familyId": "rcap-sc-custom-pleading",
+      "jobId": 100168607348,
+      "jobConclusion": "success",
+      "renderedCommitSha": "7edb05f621e6209c3660c66fd60e4f4b283faf1f",
+      "pinnedCommitVerified": true,
+      "pinnedCommitReadVerbatimInThisJobsLog": true,
+      "howThePinWasVerified": "the job's \"Refuse a movable ref and prove the checkout is the pinned commit\" step asserts git rev-parse HEAD equals inputs.commit_sha and exits 1 otherwise; the job is green, so the assertion held. The literal value 7edb05f621e6209c3660c66fd60e4f4b283faf1f was read verbatim from the run's shared workflow_dispatch input: in the plan job's log (actions/checkout `ref:`, `HEAD is now at 7edb05f`, `git log -1 --format=%H` -> 7edb05f621e6209c3660c66fd60e4f4b283faf1f, `REF: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`, and `pinned commit confirmed: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`), and again as COMMIT_SHA in the \"Render and measure\" step env of the five family jobs whose tail-of-log read reached that far (rcap-tn-custom-pleading, rcap-sc-custom-pleading, rcap-wv-custom-pleading, rcap-wa-custom-pleading-clean-tracks, rcap-wi-custom-pleading). For the other 34 family jobs the tail-only read did not reach that line; every job in the run resolves the same single ${{ inputs.commit_sha }} and every job's guard passed, so no job checked out a different commit. For those 34 that is a structural proof, not a verbatim read.",
+      "verdictLine": "RASTER_PASS rcap-sc-custom-pleading — 2 document(s), 129 page(s) measured, 0 problem(s)",
+      "documentsMeasured": 2,
+      "pagesMeasured": 129,
+      "problemsFound": 0,
+      "receiptArtifact": {
+        "id": 9837817388,
+        "name": "rcap-raster-rcap-sc-custom-pleading-33605354695",
+        "zipSha256": "sha256:0684ac0a1f25415de3d29032a15d75295ea15fa80a498e9050ff22b9ece0ac8c",
+        "sizeInBytes": 36308508,
+        "expiresAt": "2026-09-16T08:19:14Z"
+      },
+      "queueRow": {
+        "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/sc/rcap-sc-custom-pleading--custom-pleading/fixtures/canonical.pdf",
+        "canonicalPdfSha256": "be6c8dd75e58feaff3d5049c3c4986b99fd39286bfd150855f2cd54eb9551f9b",
+        "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/sc/rcap-sc-custom-pleading--custom-pleading/fixtures/boundary.pdf",
+        "boundaryPdfSha256": "b808c99ade96a876097f1086585818b63824cd79b20f0407cc8169fe6ce1f6a5",
+        "documentsDigest": "24a1bdbc689eada4a2d58cc7be6d6d0ab4d878a833ea8449a784028f5ac2d87e",
+        "coverage": {
+          "documents": [
+            "canonical.pdf"
+          ],
+          "rastered": [
+            "canonical.pdf"
+          ],
+          "notRastered": [],
+          "complete": true,
+          "basis": "the family ships one assembled packet, so rendering it covers the family"
+        },
+        "expectedPages": 64,
+        "currentRasterStateInQueue": "RASTER_PENDING",
+        "builderAssignment": "VF09",
+        "packetCommitSha": "a3ac6627b6076c091feb38f09b97780525742f96"
+      },
+      "bytesStillMatch": {
+        "method": "SHA-256 recomputed from the file on disk in this lane's worktree and compared to the queue's recorded hash",
+        "checkedAtCommitSha": "84045d06c9f14b29c8fb822343e0f390d5be98c3",
+        "canonical": {
+          "path": "data/rcap-all50/overlays/census-v1/sc/rcap-sc-custom-pleading--custom-pleading/fixtures/canonical.pdf",
+          "recordedSha256": "be6c8dd75e58feaff3d5049c3c4986b99fd39286bfd150855f2cd54eb9551f9b",
+          "onDiskSha256": "be6c8dd75e58feaff3d5049c3c4986b99fd39286bfd150855f2cd54eb9551f9b",
+          "present": true,
+          "matches": true
+        },
+        "boundary": {
+          "path": "data/rcap-all50/overlays/census-v1/sc/rcap-sc-custom-pleading--custom-pleading/fixtures/boundary.pdf",
+          "recordedSha256": "b808c99ade96a876097f1086585818b63824cd79b20f0407cc8169fe6ce1f6a5",
+          "onDiskSha256": "b808c99ade96a876097f1086585818b63824cd79b20f0407cc8169fe6ce1f6a5",
+          "present": true,
+          "matches": true
+        },
+        "bothMatch": true,
+        "whatThisMeans": "true means the exact bytes the queue pinned, and therefore the bytes this raster verdict describes, are still the bytes on disk. false would mean the verdict no longer describes what is on disk and must not be ingested as if it did."
+      }
+    },
+    {
+      "familyId": "rcap-tn-custom-pleading",
+      "jobId": 100168607317,
+      "jobConclusion": "success",
+      "renderedCommitSha": "7edb05f621e6209c3660c66fd60e4f4b283faf1f",
+      "pinnedCommitVerified": true,
+      "pinnedCommitReadVerbatimInThisJobsLog": true,
+      "howThePinWasVerified": "the job's \"Refuse a movable ref and prove the checkout is the pinned commit\" step asserts git rev-parse HEAD equals inputs.commit_sha and exits 1 otherwise; the job is green, so the assertion held. The literal value 7edb05f621e6209c3660c66fd60e4f4b283faf1f was read verbatim from the run's shared workflow_dispatch input: in the plan job's log (actions/checkout `ref:`, `HEAD is now at 7edb05f`, `git log -1 --format=%H` -> 7edb05f621e6209c3660c66fd60e4f4b283faf1f, `REF: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`, and `pinned commit confirmed: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`), and again as COMMIT_SHA in the \"Render and measure\" step env of the five family jobs whose tail-of-log read reached that far (rcap-tn-custom-pleading, rcap-sc-custom-pleading, rcap-wv-custom-pleading, rcap-wa-custom-pleading-clean-tracks, rcap-wi-custom-pleading). For the other 34 family jobs the tail-only read did not reach that line; every job in the run resolves the same single ${{ inputs.commit_sha }} and every job's guard passed, so no job checked out a different commit. For those 34 that is a structural proof, not a verbatim read.",
+      "verdictLine": "RASTER_PASS rcap-tn-custom-pleading — 2 document(s), 124 page(s) measured, 0 problem(s)",
+      "documentsMeasured": 2,
+      "pagesMeasured": 124,
+      "problemsFound": 0,
+      "receiptArtifact": {
+        "id": 9837765344,
+        "name": "rcap-raster-rcap-tn-custom-pleading-33605354695",
+        "zipSha256": "sha256:b2277228676811d41ce1c7fa4e3fbe09e02cc5f22c417816d69ee7df044fc5a7",
+        "sizeInBytes": 38145637,
+        "expiresAt": "2026-09-16T08:17:42Z"
+      },
+      "queueRow": {
+        "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/canonical.pdf",
+        "canonicalPdfSha256": "4bfc82385dee12229041fd0627335373210e632a5be2d9b002153e1444fe732b",
+        "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/boundary.pdf",
+        "boundaryPdfSha256": "be3ec3eeb060fdb4c560f2fc080c6933b86bacc227191040b23b7afb6687506a",
+        "documentsDigest": "099cf49e38e8e83969c5b403306290d575f111b18f382c86603fa29e723831ae",
+        "coverage": {
+          "documents": [
+            "canonical.pdf"
+          ],
+          "rastered": [
+            "canonical.pdf"
+          ],
+          "notRastered": [],
+          "complete": true,
+          "basis": "the family ships one assembled packet, so rendering it covers the family"
+        },
+        "expectedPages": 62,
+        "currentRasterStateInQueue": "RASTER_PENDING",
+        "builderAssignment": "VF10",
+        "packetCommitSha": "a3ac6627b6076c091feb38f09b97780525742f96"
+      },
+      "bytesStillMatch": {
+        "method": "SHA-256 recomputed from the file on disk in this lane's worktree and compared to the queue's recorded hash",
+        "checkedAtCommitSha": "84045d06c9f14b29c8fb822343e0f390d5be98c3",
+        "canonical": {
+          "path": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/canonical.pdf",
+          "recordedSha256": "4bfc82385dee12229041fd0627335373210e632a5be2d9b002153e1444fe732b",
+          "onDiskSha256": "4bfc82385dee12229041fd0627335373210e632a5be2d9b002153e1444fe732b",
+          "present": true,
+          "matches": true
+        },
+        "boundary": {
+          "path": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/boundary.pdf",
+          "recordedSha256": "be3ec3eeb060fdb4c560f2fc080c6933b86bacc227191040b23b7afb6687506a",
+          "onDiskSha256": "be3ec3eeb060fdb4c560f2fc080c6933b86bacc227191040b23b7afb6687506a",
+          "present": true,
+          "matches": true
+        },
+        "bothMatch": true,
+        "whatThisMeans": "true means the exact bytes the queue pinned, and therefore the bytes this raster verdict describes, are still the bytes on disk. false would mean the verdict no longer describes what is on disk and must not be ingested as if it did."
+      }
+    },
+    {
+      "familyId": "rcap-wa-custom-pleading-clean-tracks",
+      "jobId": 100168607543,
+      "jobConclusion": "success",
+      "renderedCommitSha": "7edb05f621e6209c3660c66fd60e4f4b283faf1f",
+      "pinnedCommitVerified": true,
+      "pinnedCommitReadVerbatimInThisJobsLog": true,
+      "howThePinWasVerified": "the job's \"Refuse a movable ref and prove the checkout is the pinned commit\" step asserts git rev-parse HEAD equals inputs.commit_sha and exits 1 otherwise; the job is green, so the assertion held. The literal value 7edb05f621e6209c3660c66fd60e4f4b283faf1f was read verbatim from the run's shared workflow_dispatch input: in the plan job's log (actions/checkout `ref:`, `HEAD is now at 7edb05f`, `git log -1 --format=%H` -> 7edb05f621e6209c3660c66fd60e4f4b283faf1f, `REF: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`, and `pinned commit confirmed: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`), and again as COMMIT_SHA in the \"Render and measure\" step env of the five family jobs whose tail-of-log read reached that far (rcap-tn-custom-pleading, rcap-sc-custom-pleading, rcap-wv-custom-pleading, rcap-wa-custom-pleading-clean-tracks, rcap-wi-custom-pleading). For the other 34 family jobs the tail-only read did not reach that line; every job in the run resolves the same single ${{ inputs.commit_sha }} and every job's guard passed, so no job checked out a different commit. For those 34 that is a structural proof, not a verbatim read.",
+      "verdictLine": "RASTER_PASS rcap-wa-custom-pleading-clean-tracks — 2 document(s), 24 page(s) measured, 0 problem(s)",
+      "documentsMeasured": 2,
+      "pagesMeasured": 24,
+      "problemsFound": 0,
+      "receiptArtifact": {
+        "id": 9837134622,
+        "name": "rcap-raster-rcap-wa-custom-pleading-clean-tracks-33605354695",
+        "zipSha256": "sha256:b0ac26a3fd0a7ee608ef8fbcb8559d87eb28cd3b2a1e6ff84310270fcd83e26a",
+        "sizeInBytes": 6743667,
+        "expiresAt": "2026-09-16T07:58:57Z"
+      },
+      "queueRow": {
+        "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/wa/rcap-wa-custom-pleading-clean-tracks--custom-pleading/fixtures/canonical.pdf",
+        "canonicalPdfSha256": "f607a12a523cefcf8255afa9afdb63fe121df4ce210aa50fef305ffefb0c37e6",
+        "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/wa/rcap-wa-custom-pleading-clean-tracks--custom-pleading/fixtures/boundary.pdf",
+        "boundaryPdfSha256": "b20845e1370a89377390a2dc56597dc9ef39bf91e692bd4c54d60e0e71d13da8",
+        "documentsDigest": "cf5103eed027b7b59dd44b905fe163ecc36ff698cc2b88afc7c4ad2bad48c452",
+        "coverage": {
+          "documents": [
+            "canonical.pdf"
+          ],
+          "rastered": [
+            "canonical.pdf"
+          ],
+          "notRastered": [],
+          "complete": true,
+          "basis": "the family ships one assembled packet, so rendering it covers the family"
+        },
+        "expectedPages": 12,
+        "currentRasterStateInQueue": "RASTER_PENDING",
+        "builderAssignment": "VF12",
+        "packetCommitSha": "a3ac6627b6076c091feb38f09b97780525742f96"
+      },
+      "bytesStillMatch": {
+        "method": "SHA-256 recomputed from the file on disk in this lane's worktree and compared to the queue's recorded hash",
+        "checkedAtCommitSha": "84045d06c9f14b29c8fb822343e0f390d5be98c3",
+        "canonical": {
+          "path": "data/rcap-all50/overlays/census-v1/wa/rcap-wa-custom-pleading-clean-tracks--custom-pleading/fixtures/canonical.pdf",
+          "recordedSha256": "f607a12a523cefcf8255afa9afdb63fe121df4ce210aa50fef305ffefb0c37e6",
+          "onDiskSha256": "f607a12a523cefcf8255afa9afdb63fe121df4ce210aa50fef305ffefb0c37e6",
+          "present": true,
+          "matches": true
+        },
+        "boundary": {
+          "path": "data/rcap-all50/overlays/census-v1/wa/rcap-wa-custom-pleading-clean-tracks--custom-pleading/fixtures/boundary.pdf",
+          "recordedSha256": "b20845e1370a89377390a2dc56597dc9ef39bf91e692bd4c54d60e0e71d13da8",
+          "onDiskSha256": "b20845e1370a89377390a2dc56597dc9ef39bf91e692bd4c54d60e0e71d13da8",
+          "present": true,
+          "matches": true
+        },
+        "bothMatch": true,
+        "whatThisMeans": "true means the exact bytes the queue pinned, and therefore the bytes this raster verdict describes, are still the bytes on disk. false would mean the verdict no longer describes what is on disk and must not be ingested as if it did."
+      }
+    },
+    {
+      "familyId": "rcap-wi-custom-pleading",
+      "jobId": 100168607566,
+      "jobConclusion": "success",
+      "renderedCommitSha": "7edb05f621e6209c3660c66fd60e4f4b283faf1f",
+      "pinnedCommitVerified": true,
+      "pinnedCommitReadVerbatimInThisJobsLog": true,
+      "howThePinWasVerified": "the job's \"Refuse a movable ref and prove the checkout is the pinned commit\" step asserts git rev-parse HEAD equals inputs.commit_sha and exits 1 otherwise; the job is green, so the assertion held. The literal value 7edb05f621e6209c3660c66fd60e4f4b283faf1f was read verbatim from the run's shared workflow_dispatch input: in the plan job's log (actions/checkout `ref:`, `HEAD is now at 7edb05f`, `git log -1 --format=%H` -> 7edb05f621e6209c3660c66fd60e4f4b283faf1f, `REF: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`, and `pinned commit confirmed: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`), and again as COMMIT_SHA in the \"Render and measure\" step env of the five family jobs whose tail-of-log read reached that far (rcap-tn-custom-pleading, rcap-sc-custom-pleading, rcap-wv-custom-pleading, rcap-wa-custom-pleading-clean-tracks, rcap-wi-custom-pleading). For the other 34 family jobs the tail-only read did not reach that line; every job in the run resolves the same single ${{ inputs.commit_sha }} and every job's guard passed, so no job checked out a different commit. For those 34 that is a structural proof, not a verbatim read.",
+      "verdictLine": "RASTER_PASS rcap-wi-custom-pleading — 2 document(s), 12 page(s) measured, 0 problem(s)",
+      "documentsMeasured": 2,
+      "pagesMeasured": 12,
+      "problemsFound": 0,
+      "receiptArtifact": {
+        "id": 9837066210,
+        "name": "rcap-raster-rcap-wi-custom-pleading-33605354695",
+        "zipSha256": "sha256:d916e701b38e55edf0e7537c766711a4509aae9ab9d50a06baccc7510dd9a892",
+        "sizeInBytes": 3663799,
+        "expiresAt": "2026-09-16T07:56:54Z"
+      },
+      "queueRow": {
+        "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/wi/rcap-wi-custom-pleading--custom-pleading/fixtures/canonical.pdf",
+        "canonicalPdfSha256": "f9a42673729123d2a2dc12fd8a5da09bcc35413d8e556e099b0019f98c5a52d3",
+        "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/wi/rcap-wi-custom-pleading--custom-pleading/fixtures/boundary.pdf",
+        "boundaryPdfSha256": "7c1e52f127061f51029ba167c08f0f9436ee7885000daa8abedcfbd42b71b4e2",
+        "documentsDigest": "d10aa846f5104be6def74210c1a3351ba02f31b3e8d4bbd0963b7a1811e75c2b",
+        "coverage": {
+          "documents": [
+            "canonical.pdf"
+          ],
+          "rastered": [
+            "canonical.pdf"
+          ],
+          "notRastered": [],
+          "complete": true,
+          "basis": "the family ships one assembled packet, so rendering it covers the family"
+        },
+        "expectedPages": 6,
+        "currentRasterStateInQueue": "RASTER_PENDING",
+        "builderAssignment": "VF01",
+        "packetCommitSha": "a3ac6627b6076c091feb38f09b97780525742f96"
+      },
+      "bytesStillMatch": {
+        "method": "SHA-256 recomputed from the file on disk in this lane's worktree and compared to the queue's recorded hash",
+        "checkedAtCommitSha": "84045d06c9f14b29c8fb822343e0f390d5be98c3",
+        "canonical": {
+          "path": "data/rcap-all50/overlays/census-v1/wi/rcap-wi-custom-pleading--custom-pleading/fixtures/canonical.pdf",
+          "recordedSha256": "f9a42673729123d2a2dc12fd8a5da09bcc35413d8e556e099b0019f98c5a52d3",
+          "onDiskSha256": "f9a42673729123d2a2dc12fd8a5da09bcc35413d8e556e099b0019f98c5a52d3",
+          "present": true,
+          "matches": true
+        },
+        "boundary": {
+          "path": "data/rcap-all50/overlays/census-v1/wi/rcap-wi-custom-pleading--custom-pleading/fixtures/boundary.pdf",
+          "recordedSha256": "7c1e52f127061f51029ba167c08f0f9436ee7885000daa8abedcfbd42b71b4e2",
+          "onDiskSha256": "7c1e52f127061f51029ba167c08f0f9436ee7885000daa8abedcfbd42b71b4e2",
+          "present": true,
+          "matches": true
+        },
+        "bothMatch": true,
+        "whatThisMeans": "true means the exact bytes the queue pinned, and therefore the bytes this raster verdict describes, are still the bytes on disk. false would mean the verdict no longer describes what is on disk and must not be ingested as if it did."
+      }
+    },
+    {
+      "familyId": "rcap-wv-custom-pleading",
+      "jobId": 100168607479,
+      "jobConclusion": "success",
+      "renderedCommitSha": "7edb05f621e6209c3660c66fd60e4f4b283faf1f",
+      "pinnedCommitVerified": true,
+      "pinnedCommitReadVerbatimInThisJobsLog": true,
+      "howThePinWasVerified": "the job's \"Refuse a movable ref and prove the checkout is the pinned commit\" step asserts git rev-parse HEAD equals inputs.commit_sha and exits 1 otherwise; the job is green, so the assertion held. The literal value 7edb05f621e6209c3660c66fd60e4f4b283faf1f was read verbatim from the run's shared workflow_dispatch input: in the plan job's log (actions/checkout `ref:`, `HEAD is now at 7edb05f`, `git log -1 --format=%H` -> 7edb05f621e6209c3660c66fd60e4f4b283faf1f, `REF: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`, and `pinned commit confirmed: 7edb05f621e6209c3660c66fd60e4f4b283faf1f`), and again as COMMIT_SHA in the \"Render and measure\" step env of the five family jobs whose tail-of-log read reached that far (rcap-tn-custom-pleading, rcap-sc-custom-pleading, rcap-wv-custom-pleading, rcap-wa-custom-pleading-clean-tracks, rcap-wi-custom-pleading). For the other 34 family jobs the tail-only read did not reach that line; every job in the run resolves the same single ${{ inputs.commit_sha }} and every job's guard passed, so no job checked out a different commit. For those 34 that is a structural proof, not a verbatim read.",
+      "verdictLine": "RASTER_PASS rcap-wv-custom-pleading — 2 document(s), 20 page(s) measured, 0 problem(s)",
+      "documentsMeasured": 2,
+      "pagesMeasured": 20,
+      "problemsFound": 0,
+      "receiptArtifact": {
+        "id": 9837149728,
+        "name": "rcap-raster-rcap-wv-custom-pleading-33605354695",
+        "zipSha256": "sha256:b0fc98c4a8708279945fcb40de1ada683c9fc45f48b0b4aeec207cf58e307d96",
+        "sizeInBytes": 5526757,
+        "expiresAt": "2026-09-16T07:59:25Z"
+      },
+      "queueRow": {
+        "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/wv/rcap-wv-custom-pleading--custom-pleading/fixtures/canonical.pdf",
+        "canonicalPdfSha256": "3f111978bb89b9d1bb6e000b8c100e250f1617194a710ade3c7db0526fc7e15f",
+        "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/wv/rcap-wv-custom-pleading--custom-pleading/fixtures/boundary.pdf",
+        "boundaryPdfSha256": "58ccfe05e717ed4f5713db39cac40d07c30ace1ff12b882ccd61e642eabd9e9e",
+        "documentsDigest": "9f180de26a6644ea43ce11b56ec4934d1670193a192c15aa781ad1b69a7121ca",
+        "coverage": {
+          "documents": [
+            "canonical.pdf"
+          ],
+          "rastered": [
+            "canonical.pdf"
+          ],
+          "notRastered": [],
+          "complete": true,
+          "basis": "the family ships one assembled packet, so rendering it covers the family"
+        },
+        "expectedPages": 10,
+        "currentRasterStateInQueue": "RASTER_PENDING",
+        "builderAssignment": "VF02",
+        "packetCommitSha": "a3ac6627b6076c091feb38f09b97780525742f96"
+      },
+      "bytesStillMatch": {
+        "method": "SHA-256 recomputed from the file on disk in this lane's worktree and compared to the queue's recorded hash",
+        "checkedAtCommitSha": "84045d06c9f14b29c8fb822343e0f390d5be98c3",
+        "canonical": {
+          "path": "data/rcap-all50/overlays/census-v1/wv/rcap-wv-custom-pleading--custom-pleading/fixtures/canonical.pdf",
+          "recordedSha256": "3f111978bb89b9d1bb6e000b8c100e250f1617194a710ade3c7db0526fc7e15f",
+          "onDiskSha256": "3f111978bb89b9d1bb6e000b8c100e250f1617194a710ade3c7db0526fc7e15f",
+          "present": true,
+          "matches": true
+        },
+        "boundary": {
+          "path": "data/rcap-all50/overlays/census-v1/wv/rcap-wv-custom-pleading--custom-pleading/fixtures/boundary.pdf",
+          "recordedSha256": "58ccfe05e717ed4f5713db39cac40d07c30ace1ff12b882ccd61e642eabd9e9e",
+          "onDiskSha256": "58ccfe05e717ed4f5713db39cac40d07c30ace1ff12b882ccd61e642eabd9e9e",
+          "present": true,
+          "matches": true
+        },
+        "bothMatch": true,
+        "whatThisMeans": "true means the exact bytes the queue pinned, and therefore the bytes this raster verdict describes, are still the bytes on disk. false would mean the verdict no longer describes what is on disk and must not be ingested as if it did."
+      }
+    }
+  ]
+}

@@ -1,0 +1,164 @@
+{
+  "schemaVersion": "rcap-independent-native-admission-review/v1",
+  "familyId": "rcap-sc-custom-pleading",
+  "lane": "VFSCADMISSION1",
+  "reviewerSession": "/root/ut_original_acceptance:VFSCADMISSION1",
+  "implementationAuthor": "/root",
+  "guidanceAuthor": "/root/mt_serving_build",
+  "grantSet": "417f5fdf4470853c",
+  "verdict": "PASS_COMPLETE_INDEPENDENT",
+  "acceptanceGranted": true,
+  "acceptedTreatment": "GUIDANCE_READY",
+  "scope": "Additive SC native admission only; preserves prior bilingual semantic PASS; no packet/raster acceptance claimed or required for rendererKind none.",
+  "reviewedBindings": [
+    {
+      "path": "scripts/grade-a-packet-factory-24h/sc-reviewed-guidance.mjs",
+      "sha256": "f715571a44665c9c712919e3b3a384cf48b0315179ed1c239114d13f0f4ead4c",
+      "byteLength": 5410
+    },
+    {
+      "path": "scripts/grade-a-packet-factory-24h/generate.mjs",
+      "sha256": "036d7ff1c4bae3395c4d15d372172183a24a09f2eb2ae390d868d61e861d650f",
+      "byteLength": 306675
+    },
+    {
+      "path": "data/rcap-grade-a/legal-decisions/SC_SOLICITOR_GUIDANCE_ADMISSION_2026-09-14.json",
+      "sha256": "bff4646da6eb4072bf4f9e167af4fc60ffbd2d33d8cf02f6721590fa16f9af0f",
+      "byteLength": 1095
+    },
+    {
+      "path": "data/rcap-grade-a/packet-factory-24h/vfscguidance1/sc-guidance-native-binding-20260914.json",
+      "sha256": "addf02ba06911dc7a13f4052454ebffdab372a4fa50dd2ef90dd7b5a72bf08e5",
+      "byteLength": 8707
+    },
+    {
+      "path": "data/rcap-grade-a/packet-factory-24h/vfscguidance1/sc-guidance-independent-pass-20260914.json",
+      "sha256": "1f38bb34323f4b581fe111086e6327c74c0c8d1bc852cce7f963dbaac94e6d00",
+      "byteLength": 5440
+    },
+    {
+      "path": "data/rcap-all50/terminalization-treatments/sc_solicitor_guidance_20260914.json",
+      "sha256": "d34b3f6d9ac32b92cc586758329964fa7f7032d992a6db2b021d0172513190fe",
+      "byteLength": 156071
+    },
+    {
+      "path": "data/rcap-grade-a/packet-factory-24h/vfscadmission1/sc-native-admission-mutations.mjs",
+      "sha256": "3549c65a7eda6237f5d85c74157ec031031304f88ef541890413c2821fe10358",
+      "byteLength": 3740
+    },
+    {
+      "path": "data/rcap-grade-a/packet-factory-24h/vfscadmission1/sc-native-admission-mutation-results-20260914.json",
+      "sha256": "2c346dd725f0d44db6ff6e3061555f0b093f162a782c13677f2910e797af343b",
+      "byteLength": 3745
+    }
+  ],
+  "candidateAndSourceBindingsExact": true,
+  "acceptedCandidateBindings": 7,
+  "measuredSourceAndRetiredBindings": 27,
+  "runtimeConsumerBindings": [
+    {
+      "path": "src/lib/rcap/documents/guidance-packet-registry.ts",
+      "sha256": "9fe8b8654c068d3d2a6ecdafdd403b58cd28f7239b53e5987c00c4124d494c1f",
+      "byteLength": 56697
+    },
+    {
+      "path": "src/lib/rcap/documents/packet-route-resolver.ts",
+      "sha256": "45640b0c276a183fc2e80f0731a68dbdff124d10b8150b430ae698f6b1010a96",
+      "byteLength": 41755
+    },
+    {
+      "path": "src/lib/rcap/render/job-contract.ts",
+      "sha256": "e5c62b7812e00efe51df76c24973d5e99fea0e58adacd90dcbc7eb36595ee18d",
+      "byteLength": 22968
+    },
+    {
+      "path": "src/lib/expungement-ai/payment-adapter.ts",
+      "sha256": "b1aa3391a324cca529f46f03298a82734c538f7d1e2788594b2df6dc1e056d2f",
+      "byteLength": 29885
+    }
+  ],
+  "runtimeProofPreservation": {
+    "prior": {
+      "path": "data/rcap-grade-a/packet-factory-24h/vfscadmission1/sc-native-binding-before-admission-repair-20260914.json",
+      "sha256": "0540be1ebc3c7e2693a197d9a5f4a28853fbf7ef294465672733a41c8cccfcc3",
+      "byteLength": 7942
+    },
+    "existing10Route20BundleResultsUnchanged": true,
+    "newConsumerBindingsExact": true
+  },
+  "checks": [
+    {
+      "name": "current exact admission",
+      "passed": true
+    },
+    {
+      "name": "valid isolated evidence copy",
+      "passed": true,
+      "error": null
+    },
+    {
+      "name": "later-sorted runtime override",
+      "passed": true,
+      "error": "Expected values to be strictly deep-equal:\n+ actual - expected\n... Skipped lines\n\n  {\n    afterNextStep: {\n      en: 'Follow the office\u2019s required verification and attestation sequence. The solicitor handles filing and distribution of the signed order. Ask for confirmation and your available copy after completion; do not assume every record has changed immediately.',\n      es: 'Siga la secuencia de verificaci\u00f3n y atestaci\u00f3n de la oficina. El solicitor se encarga de presentar y distribuir la orden firmada. Pida confirmaci\u00f3n y la copia disponible al terminar; no suponga que todos los registros cambian de inmediato.'\n    },\n...\n    nextStep: {\n+     en: 'changed',\n-     en: 'Request your SLED criminal history and the court docket and disposition. Then contact the circuit solicitor\u2019s expungement staff with the county, exact charge, case number and disposition.',\n      es: 'Solicite su historial de SLED y el registro de actuaciones y resoluci\u00f3n judicial. Despu\u00e9s contacte al personal de eliminaci\u00f3n de registros del solicitor de circuito con el condado, cargo exacto, n\u00famero de caso y resoluci\u00f3n.'\n    },\n    nextSteps: {\n      en: [\n        'Gather the records listed above.',\n"
+    },
+    {
+      "name": "changed payment consumer",
+      "passed": true,
+      "error": "SC: stale src/lib/expungement-ai/payment-adapter.ts\n+ actual - expected\n\n+ '4762e044bdb9ea11cdd4b9395cb147d810ba67db31ab5fd1368990150561696d'\n- 'b1aa3391a324cca529f46f03298a82734c538f7d1e2788594b2df6dc1e056d2f'\n"
+    },
+    {
+      "name": "stale accepted guidance bytes",
+      "passed": true,
+      "error": "SC: stale data/rcap-all50/terminalization-treatments/sc_solicitor_guidance_20260914.json\n+ actual - expected\n\n+ '3c1396b4492223cb6f3777c9b86375ceef1f7fdff47f7b1826e84c297603ae8f'\n- 'd34b3f6d9ac32b92cc586758329964fa7f7032d992a6db2b021d0172513190fe'\n"
+    },
+    {
+      "name": "missing installed bytes",
+      "passed": true,
+      "error": "ENOENT: no such file or directory, open '/tmp/sc-native-review-nDrume/data/rcap-all50/terminalization-treatments/sc_solicitor_guidance_20260914.json'"
+    },
+    {
+      "name": "stale source bytes",
+      "passed": true,
+      "error": "SC: stale private/transfers/sc-223a1-current-custody-20260914/STATES/SC/02_PACKET_FORMS/SC__FORM__SCCA-223A1__order-for-destruction-of-arrest-records__REV-2026-04__EN.pdf\n+ actual - expected\n\n+ '70e36a2483175261fc44783519af970d9ee5972b4cce222db986633d4b243dd3'\n- '3c3daacf4c246fe5f33f09b971948c489e1343076b5d0ddc47babf9a12cf15b7'\n"
+    },
+    {
+      "name": "review author same session",
+      "passed": true,
+      "error": "The expression evaluated to a falsy value:\n\n  assert.ok(review.reviewerSession && review.authorSession && review.reviewerSession !== review.authorSession)\n"
+    },
+    {
+      "name": "runtime renderer enabled",
+      "passed": true,
+      "error": "The expression evaluated to a falsy value:\n\n  assert.ok(runtime.rows.every(r => r.savedGuidanceExact && r.bothLocaleBundlesExact\n"
+    },
+    {
+      "name": "installed removed and ref redirected to accepted staging",
+      "passed": true,
+      "error": "Expected values to be strictly equal:\n+ actual - expected\n\n+ 'data/rcap-grade-a/packet-factory-24h/pf01/sc-guidance-repair-20260914/guidance.json'\n- 'data/rcap-all50/terminalization-treatments/sc_solicitor_guidance_20260914.json'\n"
+    }
+  ],
+  "passed": [
+    "Owner branch B exact quoted owner record equals current adopted refusal; previous refusal retained.",
+    "Minimal generator change only imports family-scoped loader and adds accepted SC treatment to existing map.",
+    "Exact accepted installed guidance must occupy its runtime path and win existing sorted registry selection for every ten tracks.",
+    "Bound runtime proves ten actual route/render/payment/checkout refusals and twenty exact language bundles; changed registry/route/render/payment code invalidates admission.",
+    "All seven accepted candidate files, all twenty-seven source/retired bindings, installed bytes and independent review hashes match.",
+    "No self-review; no commercial permission created.",
+    "Reviewed final INPUTS.scSolicitorGuidanceAdmission provenance entry: existing native input-hash projection now records additive admission; no runtime behavior or mutation-test dependency changed."
+  ],
+  "failures": [],
+  "preservation": {
+    "baseline": "0fb850994a",
+    "priorTerminalCount": 334,
+    "allPriorTerminalStatesRetained": true,
+    "retiredSCAndPinnedAuthorityBytesExact": true,
+    "globalConvergenceNotRunByReviewer": true
+  },
+  "priorFailurePreserved": {
+    "path": "data/rcap-grade-a/packet-factory-24h/vfscadmission1/sc-native-admission-independent-fail-20260914.json",
+    "sha256": "f2605bbb60d223d817a4b0ea1cc36c83e520737339444506f2ee3b4020dc30b8",
+    "byteLength": 4592
+  },
+  "sharedInputsMutated": false,
+  "nextAction": "Captain may perform stable native convergence/preservation and integrate this exact scoped admission."
+}

@@ -1,0 +1,1052 @@
+{
+  "tracks": [
+    {
+      "trackId": "oh_2953_33_nonconviction",
+      "generationRequirements": [
+        {
+          "key": "ncvFullLegalName",
+          "question": "What is your full legal name, and have you used any other names?",
+          "requirement": "required"
+        },
+        {
+          "key": "ncvDateOfBirth",
+          "question": "What is your date of birth?",
+          "requirement": "required"
+        },
+        {
+          "key": "ncvCourt",
+          "question": "Which Ohio court handled the case, and in which county?",
+          "requirement": "required"
+        },
+        {
+          "key": "ncvCaseNumber",
+          "question": "What is the case number?",
+          "requirement": "required"
+        },
+        {
+          "key": "ncvOffenceDetails",
+          "question": "What was the charge called, which Revised Code section was cited, and on what date did it happen?",
+          "requirement": "required"
+        },
+        {
+          "key": "ncvAllChargesFromIncident",
+          "question": "What every charge was that came out of the same incident, and how each one ended.",
+          "requirement": "required",
+          "conditionDescription": "Asked because ORC 2953.61 generally prevents sealing or expunging only part of a record where two or more charges arose from the same act and at least one ended differently. This is Ohio's most common eligibility failure."
+        },
+        {
+          "key": "ncvPendingProceedings",
+          "question": "Is any criminal case pending against you now, anywhere?",
+          "requirement": "required"
+        },
+        {
+          "key": "ncvOtherOhioCases",
+          "question": "What other Ohio cases do you have, in any court?",
+          "requirement": "required",
+          "conditionDescription": "Asked because the docket must be assembled across every court before eligibility can be assessed."
+        },
+        {
+          "key": "ncvDispositionType",
+          "question": "How did the case end \u2014 found not guilty, dismissed, a grand jury no bill, or a pardon?",
+          "requirement": "required"
+        },
+        {
+          "key": "ncvDismissalPrejudice",
+          "question": "If it was dismissed, was it with prejudice or without prejudice, and on what date?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked because a dismissal without prejudice where the limitations period has not run is not ready, and the court must make that determination."
+        },
+        {
+          "key": "ncvNoBillDate",
+          "question": "If a grand jury returned a no bill, on what date was it reported?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked because the two years runs from the date the foreperson or deputy foreperson reported the no bill."
+        },
+        {
+          "key": "ncvRemedyChoice",
+          "question": "Do you want the record sealed or expunged, if both are available to you?",
+          "requirement": "required",
+          "conditionDescription": "Asked because ORC 2953.33 allows an application to seal or expunge except as division (C) provides, and choosing between them is a legal judgment the packet does not make for the participant."
+        }
+      ],
+      "packetSet": {
+        "packetSetId": "oh_2953_33_nonconviction-set",
+        "version": "1.0.0",
+        "components": [
+          {
+            "componentId": "oh_2953_33_nonconviction-primary-filing-1",
+            "role": "primary_filing",
+            "requirement": "required",
+            "conditionDescription": null,
+            "outputStrategy": "custom_pleading",
+            "officialFormId": null,
+            "officialSourceUrl": null,
+            "order": 1
+          },
+          {
+            "componentId": "oh_2953_33_nonconviction-local-form-instructions-2",
+            "role": "local_form_instructions",
+            "requirement": "required",
+            "conditionDescription": null,
+            "outputStrategy": "process_guidance",
+            "officialFormId": null,
+            "officialSourceUrl": null,
+            "order": 2
+          },
+          {
+            "componentId": "oh_2953_33_nonconviction-record-gathering-instructions-3",
+            "role": "record_gathering_instructions",
+            "requirement": "required",
+            "conditionDescription": null,
+            "outputStrategy": "process_guidance",
+            "officialFormId": null,
+            "officialSourceUrl": null,
+            "order": 3
+          },
+          {
+            "componentId": "oh_2953_33_nonconviction-hearing-and-objection-instructions-4",
+            "role": "hearing_and_objection_instructions",
+            "requirement": "required",
+            "conditionDescription": null,
+            "outputStrategy": "process_guidance",
+            "officialFormId": null,
+            "officialSourceUrl": null,
+            "order": 4
+          },
+          {
+            "componentId": "oh_2953_33_nonconviction-bci-transmission-5",
+            "role": "bci_transmission",
+            "requirement": "required",
+            "conditionDescription": null,
+            "outputStrategy": "official_pdf_fill",
+            "officialFormId": "OH-BCI-SEALING-EXPUNGEMENT-REQUEST",
+            "officialSourceUrl": null,
+            "order": 5
+          }
+        ],
+        "participantActionRequired": [
+          {
+            "kind": "obtain_document",
+            "description": "Obtain BCI criminal history record. Request a criminal history record from BCI. It is not a statutory attachment but it is the only practical way to assemble the full docket that ORC 2953.61 makes decisive.",
+            "obtainedFrom": "Ohio Bureau of Criminal Identification and Investigation",
+            "requirement": "required",
+            "requiredBeforeFiling": false
+          },
+          {
+            "kind": "confirm_answer",
+            "description": "Check your answer to \"What other Ohio cases do you have, in any court?\" against BCI criminal history record, and correct the packet if they disagree.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "obtain_document",
+            "description": "Obtain Certified disposition for each charge from the incident. Ask the clerk of each court for a certified copy of the disposition. Every charge from the incident is needed, not only the one the participant wants cleared.",
+            "obtainedFrom": "The clerk of each court that handled a charge",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "confirm_answer",
+            "description": "Check your answer to \"What every charge was that came out of the same incident, and how each one ended.\" against Certified disposition for each charge from the incident, and correct the packet if they disagree.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "complete_field",
+            "description": "Signature on the application \u2014 The court's application to seal or expunge.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "complete_field",
+            "description": "Transcribing the drafted content onto the court's own application \u2014 The local court packet.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "complete_field",
+            "description": "Attending the hearing \u2014 The sentencing or trial court, 45 to 90 days after filing.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "complete_field",
+            "description": "Sending the signed order to BCI with the Sealings and Expungements Request \u2014 After the order, to BCI.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "sign",
+            "description": "The participant signs the application.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "notarize",
+            "description": "Not identified; local practice may require it.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "pay_fee",
+            "description": "The review records that no fee is charged for non-conviction sealing, citing Ohio Legal Help rather than the statute. That is recorded below as an open question and the packet does not state a price.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "apply_fee_waiver",
+            "description": "Not applicable if no fee is charged; the general indigency exemption applies where one is.",
+            "requirement": "conditional",
+            "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "serve_party",
+            "description": "None by the participant. The court gives notice.",
+            "requirement": "required",
+            "requiredBeforeFiling": false
+          },
+          {
+            "kind": "file",
+            "description": "File with the clerk of the court where the case was pending, dismissed or tried, or where the no bill was reported, on that court's application.",
+            "requirement": "required",
+            "requiredBeforeFiling": false
+          }
+        ],
+        "requiredBeforeFiling": [
+          "Check your answer to \"What other Ohio cases do you have, in any court?\" against BCI criminal history record, and correct the packet if they disagree.",
+          "Obtain Certified disposition for each charge from the incident. Ask the clerk of each court for a certified copy of the disposition. Every charge from the incident is needed, not only the one the participant wants cleared.",
+          "Check your answer to \"What every charge was that came out of the same incident, and how each one ended.\" against Certified disposition for each charge from the incident, and correct the packet if they disagree.",
+          "Signature on the application \u2014 The court's application to seal or expunge.",
+          "Transcribing the drafted content onto the court's own application \u2014 The local court packet.",
+          "Attending the hearing \u2014 The sentencing or trial court, 45 to 90 days after filing.",
+          "Sending the signed order to BCI with the Sealings and Expungements Request \u2014 After the order, to BCI.",
+          "The participant signs the application.",
+          "Not identified; local practice may require it.",
+          "The review records that no fee is charged for non-conviction sealing, citing Ohio Legal Help rather than the statute. That is recorded below as an open question and the packet does not state a price.",
+          "Not applicable if no fee is charged; the general indigency exemption applies where one is."
+        ]
+      },
+      "packetInstructions": [
+        "Build this first. Screen \u00a7 2953.61 before anything else.",
+        "\"Sentence\" does not include payment of court costs, so unpaid court costs do not delay eligibility. That is a common and expensive misunderstanding and it is worth telling participants explicitly."
+      ],
+      "selfHelpStopConditions": [
+        "Any dismissal without prejudice where the limitations period has not expired.",
+        "Any incident that produced more than one charge with different dispositions, which triggers ORC 2953.61.",
+        "Pending criminal proceedings or open warrants.",
+        "Prosecutor objection, and any victim objection where applicable.",
+        "Choosing between sealing and expungement, which is a legal judgment with different waits and different exclusions.",
+        "Immigration exposure."
+      ],
+      "scopeRestrictions": [
+        "Ohio has both sealing and expungement and they are different remedies. Do not say \"completely gone from everywhere\".",
+        "\"Eligible offender\" no longer exists. SB 288 removed that definition from ORC 2953.31 and with it the numeric cap on how many convictions a person could seal. Any product logic inherited from pre-2023 Ohio is wrong."
+      ]
+    },
+    {
+      "trackId": "oh_2953_32_sealing",
+      "generationRequirements": [
+        {
+          "key": "slsFullLegalName",
+          "question": "What is your full legal name, and have you used any other names?",
+          "requirement": "required"
+        },
+        {
+          "key": "slsDateOfBirth",
+          "question": "What is your date of birth?",
+          "requirement": "required"
+        },
+        {
+          "key": "slsCourt",
+          "question": "Which Ohio court sentenced you, and in which county?",
+          "requirement": "required"
+        },
+        {
+          "key": "slsCaseNumber",
+          "question": "What is the case number?",
+          "requirement": "required"
+        },
+        {
+          "key": "slsOffenceDetails",
+          "question": "What was the offence called, which Revised Code section was cited, and what degree was it?",
+          "requirement": "required",
+          "conditionDescription": "Asked because the degree and the chapter drive both the exclusions and the waiting period, and both are taken from the official record."
+        },
+        {
+          "key": "slsFinalDischarge",
+          "question": "When did you finish the sentence, including any parole, all fines and all restitution?",
+          "requirement": "required",
+          "conditionDescription": "Asked because the waiting period runs from final discharge. Court costs are not part of the sentence for this purpose, so unpaid court costs do not delay eligibility."
+        },
+        {
+          "key": "slsCourtCostsOnly",
+          "question": "Do you still owe court costs, as opposed to fines or restitution?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked so the participant is told the useful thing: unpaid court costs do not delay eligibility, which is a common and expensive misunderstanding."
+        },
+        {
+          "key": "slsAllChargesFromIncident",
+          "question": "What every charge was that came out of the same incident, and how each one ended.",
+          "requirement": "required",
+          "conditionDescription": "Asked because ORC 2953.61 generally prevents clearing only part of a record where charges from the same act ended differently."
+        },
+        {
+          "key": "slsOtherConvictions",
+          "question": "What other convictions do you have, in Ohio or anywhere else, with the degree and the date?",
+          "requirement": "required",
+          "conditionDescription": "Asked because the same-act and same-proceeding counting rules can collapse several convictions into one, and because the third-degree-felony counting rule can bar relief."
+        },
+        {
+          "key": "slsRegistrationHistory",
+          "question": "Have you ever had to register under Chapter 2950?",
+          "requirement": "required",
+          "conditionDescription": "Asked because a sexually oriented offence committed while subject to registration is excluded, and a person formerly subject to registration has a five-year clock that runs from the end of the requirement."
+        },
+        {
+          "key": "slsExclusionScreen",
+          "question": "Was the offence a traffic or OVI matter, a felony of violence, a sexually oriented offence, an offence against a child under 13, theft in office, a first or second degree felony, or first or second degree domestic violence?",
+          "requirement": "required",
+          "conditionDescription": "Asked as a routing screen only. A yes or an unclear answer stops the track."
+        },
+        {
+          "key": "slsPendingProceedings",
+          "question": "Is any criminal case pending against you now, anywhere?",
+          "requirement": "required"
+        },
+        {
+          "key": "slsOutOfState",
+          "question": "Do you have any out-of-state or federal convictions you want cleared?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked because Ohio common pleas courts can reach out-of-state and federal convictions for sealing purposes, which changes the venue and complicates the analysis."
+        },
+        {
+          "key": "slsIndigent",
+          "question": "Do you need to ask the court to excuse the fifty dollar application fee?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked because the fee is fifty dollars unless indigent, plus a possible local court fee of not more than fifty dollars."
+        }
+      ],
+      "packetSet": {
+        "packetSetId": "oh_2953_32_sealing-set",
+        "version": "1.0.0",
+        "components": [
+          {
+            "componentId": "oh_2953_32_sealing-primary-filing-1",
+            "role": "primary_filing",
+            "requirement": "required",
+            "conditionDescription": null,
+            "outputStrategy": "official_pdf_fill",
+            "officialFormId": "Form 96-C1",
+            "officialSourceUrl": "https://www.supremecourt.ohio.gov/docs/LegalResources/Rules/superintendence/Superintendence.pdf",
+            "order": 1
+          },
+          {
+            "componentId": "oh_2953_32_sealing-local-form-instructions-2",
+            "role": "local_form_instructions",
+            "requirement": "required",
+            "conditionDescription": null,
+            "outputStrategy": "process_guidance",
+            "officialFormId": null,
+            "officialSourceUrl": null,
+            "order": 2
+          },
+          {
+            "componentId": "oh_2953_32_sealing-record-gathering-instructions-3",
+            "role": "record_gathering_instructions",
+            "requirement": "required",
+            "conditionDescription": null,
+            "outputStrategy": "process_guidance",
+            "officialFormId": null,
+            "officialSourceUrl": null,
+            "order": 3
+          },
+          {
+            "componentId": "oh_2953_32_sealing-hearing-and-objection-instructions-4",
+            "role": "hearing_and_objection_instructions",
+            "requirement": "required",
+            "conditionDescription": null,
+            "outputStrategy": "process_guidance",
+            "officialFormId": null,
+            "officialSourceUrl": null,
+            "order": 4
+          },
+          {
+            "componentId": "oh_2953_32_sealing-bci-transmission-5",
+            "role": "bci_transmission",
+            "requirement": "required",
+            "conditionDescription": null,
+            "outputStrategy": "official_pdf_fill",
+            "officialFormId": "OH-BCI-SEALING-EXPUNGEMENT-REQUEST",
+            "officialSourceUrl": null,
+            "order": 5
+          }
+        ],
+        "participantActionRequired": [
+          {
+            "kind": "obtain_document",
+            "description": "Obtain BCI criminal history record. Request a criminal history record from BCI. It is the only practical way to assemble the full docket that ORC 2953.61 and the counting rules make decisive.",
+            "obtainedFrom": "Ohio Bureau of Criminal Identification and Investigation",
+            "requirement": "required",
+            "requiredBeforeFiling": false
+          },
+          {
+            "kind": "confirm_answer",
+            "description": "Check your answer to \"What other convictions do you have, in Ohio or anywhere else, with the degree and the date?\" against BCI criminal history record, and correct the packet if they disagree.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "obtain_document",
+            "description": "Obtain Certified disposition for each charge from the incident. Ask the clerk of each court for a certified copy of the disposition. Every charge from the incident is needed.",
+            "obtainedFrom": "The clerk of each court that handled a charge",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "confirm_answer",
+            "description": "Check your answer to \"What every charge was that came out of the same incident, and how each one ended.\" against Certified disposition for each charge from the incident, and correct the packet if they disagree.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "obtain_document",
+            "description": "Obtain Proof of final discharge. Gather the termination of supervision, the release, and receipts or a zero-balance statement for fines and restitution. Court costs are not part of the sentence for this purpose.",
+            "obtainedFrom": "The sentencing court, the Adult Parole Authority, and whoever collected fines and restitution",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "confirm_answer",
+            "description": "Check your answer to \"When did you finish the sentence, including any parole, all fines and all restitution?\" against Proof of final discharge, and correct the packet if they disagree.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "complete_field",
+            "description": "Signature on the application \u2014 The court's application.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "complete_field",
+            "description": "Transcribing the drafted content onto the court's own application \u2014 The local court packet.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "complete_field",
+            "description": "Payment of the fifty dollar application fee and any local fee, or the indigency showing \u2014 Presented to the clerk at filing.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "complete_field",
+            "description": "Attending the hearing \u2014 The sentencing court, 45 to 90 days after filing.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "complete_field",
+            "description": "Sending the signed order to BCI with the Sealings and Expungements Request \u2014 After the order, to BCI.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "sign",
+            "description": "The participant signs the application.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "notarize",
+            "description": "Not identified; local practice may require it.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "pay_fee",
+            "description": "Fifty dollars unless indigent, plus a possible local court fee of not more than fifty dollars.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "apply_fee_waiver",
+            "description": "Indigency excuses the application fee.",
+            "requirement": "conditional",
+            "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "serve_party",
+            "description": "None by the participant. The court gives notice.",
+            "requirement": "required",
+            "requiredBeforeFiling": false
+          },
+          {
+            "kind": "file",
+            "description": "File with the clerk of the sentencing court on that court's application, once the applicable period has run from final discharge.",
+            "requirement": "required",
+            "requiredBeforeFiling": false
+          }
+        ],
+        "requiredBeforeFiling": [
+          "Check your answer to \"What other convictions do you have, in Ohio or anywhere else, with the degree and the date?\" against BCI criminal history record, and correct the packet if they disagree.",
+          "Obtain Certified disposition for each charge from the incident. Ask the clerk of each court for a certified copy of the disposition. Every charge from the incident is needed.",
+          "Check your answer to \"What every charge was that came out of the same incident, and how each one ended.\" against Certified disposition for each charge from the incident, and correct the packet if they disagree.",
+          "Obtain Proof of final discharge. Gather the termination of supervision, the release, and receipts or a zero-balance statement for fines and restitution. Court costs are not part of the sentence for this purpose.",
+          "Check your answer to \"When did you finish the sentence, including any parole, all fines and all restitution?\" against Proof of final discharge, and correct the packet if they disagree.",
+          "Signature on the application \u2014 The court's application.",
+          "Transcribing the drafted content onto the court's own application \u2014 The local court packet.",
+          "Payment of the fifty dollar application fee and any local fee, or the indigency showing \u2014 Presented to the clerk at filing.",
+          "Attending the hearing \u2014 The sentencing court, 45 to 90 days after filing.",
+          "Sending the signed order to BCI with the Sealings and Expungements Request \u2014 After the order, to BCI.",
+          "The participant signs the application.",
+          "Not identified; local practice may require it.",
+          "Fifty dollars unless indigent, plus a possible local court fee of not more than fifty dollars.",
+          "Indigency excuses the application fee."
+        ]
+      },
+      "packetInstructions": [
+        "For \u00a7 2953.32 conviction expungements, BCI keeps a limited record for law-enforcement employment qualification and disqualification, while other entities receiving notice must destroy, delete and erase. This is the single most important disclosure in Ohio expungement copy.",
+        "\"Sentence\" does not include payment of court costs, so unpaid court costs do not delay eligibility. That is a common and expensive misunderstanding and it is worth telling participants explicitly."
+      ],
+      "selfHelpStopConditions": [
+        "Any first or second degree felony, any felony offence of violence, any sexually oriented offence, any registration history.",
+        "Any traffic or motor vehicle chapter offence, including OVI.",
+        "Any offence where the victim was under 13.",
+        "Theft in office.",
+        "First or second degree domestic violence.",
+        "Any third degree felony where the counting rule may bite.",
+        "Out-of-state or federal convictions, which move the venue to common pleas.",
+        "Any incident that produced more than one charge with different dispositions, which triggers ORC 2953.61.",
+        "Pending criminal proceedings or open warrants.",
+        "Prosecutor objection, and any victim objection where applicable.",
+        "Choosing between sealing and expungement, which is a legal judgment with different waits and different exclusions.",
+        "Immigration exposure."
+      ],
+      "scopeRestrictions": [
+        "Sealable but not expungeable: third and fourth degree misdemeanour domestic violence under ORC 2919.25, and protection order violations under ORC 2919.27 or substantially similar municipal ordinances. This split matters and is easy to miss.",
+        "Ohio has both sealing and expungement and they are different remedies. Do not say \"completely gone from everywhere\".",
+        "\"Eligible offender\" no longer exists. SB 288 removed that definition from ORC 2953.31 and with it the numeric cap on how many convictions a person could seal. Any product logic inherited from pre-2023 Ohio is wrong."
+      ]
+    },
+    {
+      "trackId": "oh_2953_32_expungement",
+      "generationRequirements": [
+        {
+          "key": "expFullLegalName",
+          "question": "What is your full legal name, and have you used any other names?",
+          "requirement": "required"
+        },
+        {
+          "key": "expDateOfBirth",
+          "question": "What is your date of birth?",
+          "requirement": "required"
+        },
+        {
+          "key": "expCourt",
+          "question": "Which Ohio court sentenced you, and in which county?",
+          "requirement": "required"
+        },
+        {
+          "key": "expCaseNumber",
+          "question": "What is the case number?",
+          "requirement": "required"
+        },
+        {
+          "key": "expOffenceDetails",
+          "question": "What was the offence called, which Revised Code section was cited, and what degree was it?",
+          "requirement": "required",
+          "conditionDescription": "Asked because the degree and the chapter drive both the exclusions and the waiting period, and both are taken from the official record."
+        },
+        {
+          "key": "expFinalDischarge",
+          "question": "When did you finish the sentence, including any parole, all fines and all restitution?",
+          "requirement": "required",
+          "conditionDescription": "Asked because the waiting period runs from final discharge. Court costs are not part of the sentence for this purpose, so unpaid court costs do not delay eligibility."
+        },
+        {
+          "key": "expCourtCostsOnly",
+          "question": "Do you still owe court costs, as opposed to fines or restitution?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked so the participant is told the useful thing: unpaid court costs do not delay eligibility, which is a common and expensive misunderstanding."
+        },
+        {
+          "key": "expAllChargesFromIncident",
+          "question": "What every charge was that came out of the same incident, and how each one ended.",
+          "requirement": "required",
+          "conditionDescription": "Asked because ORC 2953.61 generally prevents clearing only part of a record where charges from the same act ended differently."
+        },
+        {
+          "key": "expOtherConvictions",
+          "question": "What other convictions do you have, in Ohio or anywhere else, with the degree and the date?",
+          "requirement": "required",
+          "conditionDescription": "Asked because the same-act and same-proceeding counting rules can collapse several convictions into one, and because the third-degree-felony counting rule can bar relief."
+        },
+        {
+          "key": "expRegistrationHistory",
+          "question": "Have you ever had to register under Chapter 2950?",
+          "requirement": "required",
+          "conditionDescription": "Asked because a sexually oriented offence committed while subject to registration is excluded, and a person formerly subject to registration has a five-year clock that runs from the end of the requirement."
+        },
+        {
+          "key": "expExclusionScreen",
+          "question": "Was the offence a traffic or OVI matter, a felony of violence, a sexually oriented offence, an offence against a child under 13, theft in office, a first or second degree felony, or first or second degree domestic violence?",
+          "requirement": "required",
+          "conditionDescription": "Asked as a routing screen only. A yes or an unclear answer stops the track."
+        },
+        {
+          "key": "expPendingProceedings",
+          "question": "Is any criminal case pending against you now, anywhere?",
+          "requirement": "required"
+        },
+        {
+          "key": "expOutOfState",
+          "question": "Do you have any out-of-state or federal convictions you want cleared?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked because Ohio common pleas courts can reach out-of-state and federal convictions for sealing purposes, which changes the venue and complicates the analysis."
+        },
+        {
+          "key": "expIndigent",
+          "question": "Do you need to ask the court to excuse the fifty dollar application fee?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked because the fee is fifty dollars unless indigent, plus a possible local court fee of not more than fifty dollars."
+        }
+      ],
+      "packetSet": {
+        "packetSetId": "oh_2953_32_expungement-set",
+        "version": "1.0.0",
+        "components": [
+          {
+            "componentId": "oh_2953_32_expungement-primary-filing-1",
+            "role": "primary_filing",
+            "requirement": "required",
+            "conditionDescription": null,
+            "outputStrategy": "custom_pleading",
+            "officialFormId": null,
+            "officialSourceUrl": null,
+            "order": 1
+          },
+          {
+            "componentId": "oh_2953_32_expungement-local-form-instructions-2",
+            "role": "local_form_instructions",
+            "requirement": "required",
+            "conditionDescription": null,
+            "outputStrategy": "process_guidance",
+            "officialFormId": null,
+            "officialSourceUrl": null,
+            "order": 2
+          },
+          {
+            "componentId": "oh_2953_32_expungement-record-gathering-instructions-3",
+            "role": "record_gathering_instructions",
+            "requirement": "required",
+            "conditionDescription": null,
+            "outputStrategy": "process_guidance",
+            "officialFormId": null,
+            "officialSourceUrl": null,
+            "order": 3
+          },
+          {
+            "componentId": "oh_2953_32_expungement-hearing-and-objection-instructions-4",
+            "role": "hearing_and_objection_instructions",
+            "requirement": "required",
+            "conditionDescription": null,
+            "outputStrategy": "process_guidance",
+            "officialFormId": null,
+            "officialSourceUrl": null,
+            "order": 4
+          },
+          {
+            "componentId": "oh_2953_32_expungement-bci-transmission-5",
+            "role": "bci_transmission",
+            "requirement": "required",
+            "conditionDescription": null,
+            "outputStrategy": "official_pdf_fill",
+            "officialFormId": "OH-BCI-SEALING-EXPUNGEMENT-REQUEST",
+            "officialSourceUrl": null,
+            "order": 5
+          }
+        ],
+        "participantActionRequired": [
+          {
+            "kind": "obtain_document",
+            "description": "Obtain BCI criminal history record. Request a criminal history record from BCI. It is the only practical way to assemble the full docket that ORC 2953.61 and the counting rules make decisive.",
+            "obtainedFrom": "Ohio Bureau of Criminal Identification and Investigation",
+            "requirement": "required",
+            "requiredBeforeFiling": false
+          },
+          {
+            "kind": "confirm_answer",
+            "description": "Check your answer to \"What other convictions do you have, in Ohio or anywhere else, with the degree and the date?\" against BCI criminal history record, and correct the packet if they disagree.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "obtain_document",
+            "description": "Obtain Certified disposition for each charge from the incident. Ask the clerk of each court for a certified copy of the disposition. Every charge from the incident is needed.",
+            "obtainedFrom": "The clerk of each court that handled a charge",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "confirm_answer",
+            "description": "Check your answer to \"What every charge was that came out of the same incident, and how each one ended.\" against Certified disposition for each charge from the incident, and correct the packet if they disagree.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "obtain_document",
+            "description": "Obtain Proof of final discharge. Gather the termination of supervision, the release, and receipts or a zero-balance statement for fines and restitution. Court costs are not part of the sentence for this purpose.",
+            "obtainedFrom": "The sentencing court, the Adult Parole Authority, and whoever collected fines and restitution",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "confirm_answer",
+            "description": "Check your answer to \"When did you finish the sentence, including any parole, all fines and all restitution?\" against Proof of final discharge, and correct the packet if they disagree.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "complete_field",
+            "description": "Signature on the application \u2014 The court's application.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "complete_field",
+            "description": "Transcribing the drafted content onto the court's own application \u2014 The local court packet.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "complete_field",
+            "description": "Payment of the fifty dollar application fee and any local fee, or the indigency showing \u2014 Presented to the clerk at filing.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "complete_field",
+            "description": "Attending the hearing \u2014 The sentencing court, 45 to 90 days after filing.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "complete_field",
+            "description": "Sending the signed order to BCI with the Sealings and Expungements Request \u2014 After the order, to BCI.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "sign",
+            "description": "The participant signs the application.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "notarize",
+            "description": "Not identified; local practice may require it.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "pay_fee",
+            "description": "Fifty dollars unless indigent, plus a possible local court fee of not more than fifty dollars.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "apply_fee_waiver",
+            "description": "Indigency excuses the application fee.",
+            "requirement": "conditional",
+            "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "serve_party",
+            "description": "None by the participant. The court gives notice.",
+            "requirement": "required",
+            "requiredBeforeFiling": false
+          },
+          {
+            "kind": "file",
+            "description": "File with the clerk of the sentencing court on that court's application, once the applicable period has run from final discharge.",
+            "requirement": "required",
+            "requiredBeforeFiling": false
+          }
+        ],
+        "requiredBeforeFiling": [
+          "Check your answer to \"What other convictions do you have, in Ohio or anywhere else, with the degree and the date?\" against BCI criminal history record, and correct the packet if they disagree.",
+          "Obtain Certified disposition for each charge from the incident. Ask the clerk of each court for a certified copy of the disposition. Every charge from the incident is needed.",
+          "Check your answer to \"What every charge was that came out of the same incident, and how each one ended.\" against Certified disposition for each charge from the incident, and correct the packet if they disagree.",
+          "Obtain Proof of final discharge. Gather the termination of supervision, the release, and receipts or a zero-balance statement for fines and restitution. Court costs are not part of the sentence for this purpose.",
+          "Check your answer to \"When did you finish the sentence, including any parole, all fines and all restitution?\" against Proof of final discharge, and correct the packet if they disagree.",
+          "Signature on the application \u2014 The court's application.",
+          "Transcribing the drafted content onto the court's own application \u2014 The local court packet.",
+          "Payment of the fifty dollar application fee and any local fee, or the indigency showing \u2014 Presented to the clerk at filing.",
+          "Attending the hearing \u2014 The sentencing court, 45 to 90 days after filing.",
+          "Sending the signed order to BCI with the Sealings and Expungements Request \u2014 After the order, to BCI.",
+          "The participant signs the application.",
+          "Not identified; local practice may require it.",
+          "Fifty dollars unless indigent, plus a possible local court fee of not more than fifty dollars.",
+          "Indigency excuses the application fee."
+        ]
+      },
+      "packetInstructions": [
+        "For \u00a7 2953.32 conviction expungements, BCI keeps a limited record for law-enforcement employment qualification and disqualification, while other entities receiving notice must destroy, delete and erase. This is the single most important disclosure in Ohio expungement copy.",
+        "\"Sentence\" does not include payment of court costs, so unpaid court costs do not delay eligibility. That is a common and expensive misunderstanding and it is worth telling participants explicitly."
+      ],
+      "selfHelpStopConditions": [
+        "The sealing-versus-expungement election, which is a legal choice with different waits and different exclusions.",
+        "Any first or second degree felony, any felony offence of violence, any sexually oriented offence, any registration history.",
+        "Any traffic or motor vehicle chapter offence, including OVI.",
+        "Any offence where the victim was under 13.",
+        "Theft in office.",
+        "First or second degree domestic violence.",
+        "Any third degree felony where the counting rule may bite.",
+        "Out-of-state or federal convictions, which move the venue to common pleas.",
+        "Any incident that produced more than one charge with different dispositions, which triggers ORC 2953.61.",
+        "Pending criminal proceedings or open warrants.",
+        "Prosecutor objection, and any victim objection where applicable.",
+        "Choosing between sealing and expungement, which is a legal judgment with different waits and different exclusions.",
+        "Immigration exposure."
+      ],
+      "scopeRestrictions": [
+        "Sealable but not expungeable: third and fourth degree misdemeanour domestic violence under ORC 2919.25, and protection order violations under ORC 2919.27 or substantially similar municipal ordinances. This split matters and is easy to miss.",
+        "Ohio has both sealing and expungement and they are different remedies. Do not say \"completely gone from everywhere\".",
+        "\"Eligible offender\" no longer exists. SB 288 removed that definition from ORC 2953.31 and with it the numeric cap on how many convictions a person could seal. Any product logic inherited from pre-2023 Ohio is wrong."
+      ]
+    },
+    {
+      "trackId": "oh_2953_35_firearm",
+      "generationRequirements": [
+        {
+          "key": "frmFullLegalName",
+          "question": "What is your full legal name, and have you used any other names?",
+          "requirement": "required"
+        },
+        {
+          "key": "frmDateOfBirth",
+          "question": "What is your date of birth?",
+          "requirement": "required"
+        },
+        {
+          "key": "frmCourt",
+          "question": "Which Ohio court sentenced you, and in which county?",
+          "requirement": "required"
+        },
+        {
+          "key": "frmCaseNumber",
+          "question": "What is the case number?",
+          "requirement": "required"
+        },
+        {
+          "key": "frmOffenceDetails",
+          "question": "Which Revised Code section were you convicted under, and on what date?",
+          "requirement": "required",
+          "conditionDescription": "Asked because the section reaches specific former versions of ORC 2923.16 and ORC 2923.12 only, and the version depends on the date."
+        },
+        {
+          "key": "frmConduct",
+          "question": "What were you actually accused of doing?",
+          "requirement": "required",
+          "conditionDescription": "Asked because the court's question is whether the conduct would still violate the provision today, and a licensee's failure to notify during a stop is the conduct the section is about."
+        },
+        {
+          "key": "frmLicensee",
+          "question": "Did you hold a concealed handgun licence at the time?",
+          "requirement": "required"
+        },
+        {
+          "key": "frmAllChargesFromIncident",
+          "question": "What every charge was that came out of the same incident, and how each one ended.",
+          "requirement": "required",
+          "conditionDescription": "Asked because ORC 2953.61 applies."
+        },
+        {
+          "key": "frmIndigent",
+          "question": "Do you need to ask the court to excuse the fifty dollar fee?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked only where the participant cannot pay, because the fee is fifty dollars unless the applicant is indigent."
+        }
+      ],
+      "packetSet": {
+        "packetSetId": "oh_2953_35_firearm-set",
+        "version": "1.0.0",
+        "components": [
+          {
+            "componentId": "oh_2953_35_firearm-primary-filing-1",
+            "role": "primary_filing",
+            "requirement": "required",
+            "conditionDescription": null,
+            "outputStrategy": "custom_pleading",
+            "officialFormId": null,
+            "officialSourceUrl": null,
+            "order": 1
+          },
+          {
+            "componentId": "oh_2953_35_firearm-local-form-instructions-2",
+            "role": "local_form_instructions",
+            "requirement": "required",
+            "conditionDescription": null,
+            "outputStrategy": "process_guidance",
+            "officialFormId": null,
+            "officialSourceUrl": null,
+            "order": 2
+          },
+          {
+            "componentId": "oh_2953_35_firearm-record-gathering-instructions-3",
+            "role": "record_gathering_instructions",
+            "requirement": "required",
+            "conditionDescription": null,
+            "outputStrategy": "process_guidance",
+            "officialFormId": null,
+            "officialSourceUrl": null,
+            "order": 3
+          },
+          {
+            "componentId": "oh_2953_35_firearm-hearing-and-objection-instructions-4",
+            "role": "hearing_and_objection_instructions",
+            "requirement": "required",
+            "conditionDescription": null,
+            "outputStrategy": "process_guidance",
+            "officialFormId": null,
+            "officialSourceUrl": null,
+            "order": 4
+          },
+          {
+            "componentId": "oh_2953_35_firearm-bci-transmission-5",
+            "role": "bci_transmission",
+            "requirement": "required",
+            "conditionDescription": null,
+            "outputStrategy": "official_pdf_fill",
+            "officialFormId": "OH-BCI-SEALING-EXPUNGEMENT-REQUEST",
+            "officialSourceUrl": null,
+            "order": 5
+          }
+        ],
+        "participantActionRequired": [
+          {
+            "kind": "obtain_document",
+            "description": "Obtain Certified disposition and the charging document. Ask the clerk for a certified copy of the disposition and of the complaint or indictment. Which former version of the statute applied depends on the date and the charging language.",
+            "obtainedFrom": "The clerk of the sentencing court",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "confirm_answer",
+            "description": "Check your answer to \"Which Revised Code section were you convicted under, and on what date?\" against Certified disposition and the charging document, and correct the packet if they disagree.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "obtain_document",
+            "description": "Obtain BCI criminal history record. Request a criminal history record from BCI to assemble the full docket.",
+            "obtainedFrom": "Ohio Bureau of Criminal Identification and Investigation",
+            "requirement": "required",
+            "requiredBeforeFiling": false
+          },
+          {
+            "kind": "confirm_answer",
+            "description": "Check your answer to \"What every charge was that came out of the same incident, and how each one ended.\" against BCI criminal history record, and correct the packet if they disagree.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "complete_field",
+            "description": "Signature on the application \u2014 The court's application.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "complete_field",
+            "description": "Transcribing the drafted content onto the court's own application \u2014 The local court packet.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "complete_field",
+            "description": "Payment of the fifty dollar fee, or the indigency showing \u2014 Presented to the clerk at filing.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "complete_field",
+            "description": "Sending the signed order to BCI with the Sealings and Expungements Request \u2014 After the order, to BCI.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "sign",
+            "description": "The participant signs the application.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "notarize",
+            "description": "Not identified.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "pay_fee",
+            "description": "Fifty dollars unless indigent.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "apply_fee_waiver",
+            "description": "Indigency excuses the fee.",
+            "requirement": "conditional",
+            "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "serve_party",
+            "description": "None by the participant.",
+            "requirement": "required",
+            "requiredBeforeFiling": false
+          },
+          {
+            "kind": "file",
+            "description": "Apply in the sentencing court on that court's application.",
+            "requirement": "required",
+            "requiredBeforeFiling": false
+          }
+        ],
+        "requiredBeforeFiling": [
+          "Obtain Certified disposition and the charging document. Ask the clerk for a certified copy of the disposition and of the complaint or indictment. Which former version of the statute applied depends on the date and the charging language.",
+          "Check your answer to \"Which Revised Code section were you convicted under, and on what date?\" against Certified disposition and the charging document, and correct the packet if they disagree.",
+          "Check your answer to \"What every charge was that came out of the same incident, and how each one ended.\" against BCI criminal history record, and correct the packet if they disagree.",
+          "Signature on the application \u2014 The court's application.",
+          "Transcribing the drafted content onto the court's own application \u2014 The local court packet.",
+          "Payment of the fifty dollar fee, or the indigency showing \u2014 Presented to the clerk at filing.",
+          "Sending the signed order to BCI with the Sealings and Expungements Request \u2014 After the order, to BCI.",
+          "The participant signs the application.",
+          "Not identified.",
+          "Fifty dollars unless indigent.",
+          "Indigency excuses the fee."
+        ]
+      },
+      "packetInstructions": [
+        "\"Sentence\" does not include payment of court costs, so unpaid court costs do not delay eligibility. That is a common and expensive misunderstanding and it is worth telling participants explicitly."
+      ],
+      "selfHelpStopConditions": [
+        "Any firearm conviction that is not the obsolete notification offence. This is not a general firearm expungement.",
+        "Any question about which former version of ORC 2923.16 or ORC 2923.12 applied.",
+        "Any incident that produced more than one charge with different dispositions, which triggers ORC 2953.61.",
+        "Pending criminal proceedings or open warrants.",
+        "Prosecutor objection, and any victim objection where applicable.",
+        "Choosing between sealing and expungement, which is a legal judgment with different waits and different exclusions.",
+        "Immigration exposure."
+      ],
+      "scopeRestrictions": [
+        "This is not a general firearm expungement. It is tied to specific old statutory versions and authorization language, and any other firearm conviction is outside it.",
+        "Ohio has both sealing and expungement and they are different remedies. Do not say \"completely gone from everywhere\".",
+        "\"Eligible offender\" no longer exists. SB 288 removed that definition from ORC 2953.31 and with it the numeric cap on how many convictions a person could seal. Any product logic inherited from pre-2023 Ohio is wrong."
+      ]
+    }
+  ]
+}

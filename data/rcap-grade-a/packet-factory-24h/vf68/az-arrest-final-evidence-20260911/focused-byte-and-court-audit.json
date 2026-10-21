@@ -1,0 +1,171 @@
+{
+  "familyId": "az_record_sealing_arrest_no_charges-set",
+  "method": "Read-only calls against held source and current output bytes; no build or raster",
+  "documents": [
+    {
+      "fixture": "canonical",
+      "role": "petition",
+      "pdfSha256": "0c0d3e2a3fc21194a90c487157cceaf7d96696a88db191e756728180bf5f9f2e",
+      "sourceCensusFields": 71,
+      "sourceGeometryMatches": true,
+      "proofMatchesSavedReport": true,
+      "actualChars": 355,
+      "outsideCount": 0,
+      "metricsExact": true,
+      "measuredTextFields": 17,
+      "measuredTextWidgets": 18,
+      "outputPageCount": 5,
+      "remainingFields": 0
+    },
+    {
+      "fixture": "canonical",
+      "role": "order",
+      "pdfSha256": "152fe92b232a9a96a5be8aceaffd79d6f6f281887e91fdb27fd43227ad8264a0",
+      "sourceCensusFields": 41,
+      "sourceGeometryMatches": true,
+      "proofMatchesSavedReport": true,
+      "actualChars": 75,
+      "outsideCount": 0,
+      "metricsExact": true,
+      "measuredTextFields": 5,
+      "measuredTextWidgets": 5,
+      "outputPageCount": 3,
+      "remainingFields": 0
+    },
+    {
+      "fixture": "boundary",
+      "role": "petition",
+      "pdfSha256": "86a413597d060d97bb1cb6241fd6d05f012e7ef3b4ed26d83330cc5678573069",
+      "sourceCensusFields": 71,
+      "sourceGeometryMatches": true,
+      "proofMatchesSavedReport": true,
+      "actualChars": 533,
+      "outsideCount": 0,
+      "metricsExact": true,
+      "measuredTextFields": 17,
+      "measuredTextWidgets": 18,
+      "outputPageCount": 5,
+      "remainingFields": 0
+    },
+    {
+      "fixture": "boundary",
+      "role": "order",
+      "pdfSha256": "9b030ea1d81736c83e0a7684e5fa8998ac556c3fe435bd283d94d29e3a9fcb88",
+      "sourceCensusFields": 41,
+      "sourceGeometryMatches": true,
+      "proofMatchesSavedReport": true,
+      "actualChars": 121,
+      "outsideCount": 0,
+      "metricsExact": true,
+      "measuredTextFields": 5,
+      "measuredTextWidgets": 5,
+      "outputPageCount": 3,
+      "remainingFields": 0
+    }
+  ],
+  "courtCases": [
+    {
+      "label": "no appearance Pima",
+      "record": {
+        "noChargesFiled": true,
+        "initialAppearanceOccurred": false,
+        "countyOfArrest": "Pima"
+      },
+      "expect": "ROUTED",
+      "court": "Superior Court of Pima County",
+      "actual": {
+        "status": "ROUTED",
+        "court": "Superior Court of Pima County",
+        "basis": "record establishes no initial appearance and county of arrest"
+      },
+      "passed": true
+    },
+    {
+      "label": "appearance Maricopa",
+      "record": {
+        "noChargesFiled": true,
+        "initialAppearanceOccurred": true,
+        "initialAppearanceCourt": "MARICOPA COUNTY SUPERIOR COURT"
+      },
+      "expect": "ROUTED",
+      "court": "MARICOPA COUNTY SUPERIOR COURT",
+      "actual": {
+        "status": "ROUTED",
+        "court": "MARICOPA COUNTY SUPERIOR COURT",
+        "basis": "initial-appearance record identifies the court"
+      },
+      "passed": true
+    },
+    {
+      "label": "charges contradict route",
+      "record": {
+        "noChargesFiled": false,
+        "initialAppearanceOccurred": false,
+        "countyOfArrest": "Pima"
+      },
+      "expect": "AMBIGUOUS",
+      "actual": {
+        "status": "AMBIGUOUS",
+        "court": null,
+        "reason": "arrest route record contradicts the no-charges route"
+      },
+      "passed": true
+    },
+    {
+      "label": "charging history missing",
+      "record": {
+        "initialAppearanceOccurred": false,
+        "countyOfArrest": "Pima"
+      },
+      "expect": "AMBIGUOUS",
+      "actual": {
+        "status": "AMBIGUOUS",
+        "court": null,
+        "reason": "no-charges record is not established"
+      },
+      "passed": true
+    },
+    {
+      "label": "appearance history missing",
+      "record": {
+        "noChargesFiled": true,
+        "countyOfArrest": "Pima"
+      },
+      "expect": "AMBIGUOUS",
+      "actual": {
+        "status": "AMBIGUOUS",
+        "court": null,
+        "reason": "initial-appearance occurrence is not established by the record"
+      },
+      "passed": true
+    },
+    {
+      "label": "appearance court missing",
+      "record": {
+        "noChargesFiled": true,
+        "initialAppearanceOccurred": true
+      },
+      "expect": "AMBIGUOUS",
+      "actual": {
+        "status": "AMBIGUOUS",
+        "court": null,
+        "reason": "initial appearance is recorded, but its court is absent"
+      },
+      "passed": true
+    },
+    {
+      "label": "arrest county missing",
+      "record": {
+        "noChargesFiled": true,
+        "initialAppearanceOccurred": false
+      },
+      "expect": "AMBIGUOUS",
+      "actual": {
+        "status": "AMBIGUOUS",
+        "court": null,
+        "reason": "no initial appearance is recorded, but county of arrest is absent"
+      },
+      "passed": true
+    }
+  ]
+}

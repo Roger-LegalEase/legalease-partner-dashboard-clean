@@ -1,0 +1,66 @@
+# Nightly official-source monitor.
+#
+# Every pinned official source URL (the acquisition manifest's 40 exact-URL
+# entries, plus every official-source-registry row that resolves to an exact
+# URL and expected hash) is fetched from the runner and compared to its pin.
+# URLs are filtered through scripts/lib/official-host-policy.mjs — the same
+# single module the acquisition path uses; a non-allowlisted host is never
+# fetched and an off-allowlist redirect is never followed.
+#
+# What a run produces:
+#   - a dated report artifact for every run;
+#   - ONLY when a source changed or vanished: review-task JSON files in the
+#     artifact, and one GitHub issue per changed source (label
+#     source-change-review, deduped by title).
+#
+# What it does not do, ever:
+#   - commit anything (review tasks reach the repo only through a person's
+#     reviewed commit);
+#   - approve, adopt, or invalidate any source;
+#   - place a hold or touch any route state, registry, or production resource.
+# A changed hash CREATES A REVIEW TASK; the response procedure is
+# docs/rcap/EVERGREEN_ROUTE_MAINTENANCE.md.
+name: RCAP Nightly Source Monitor
+
+on:
+  schedule:
+    - cron: "17 6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: rcap-nightly-source-monitor
+  cancel-in-progress: false
+
+jobs:
+  monitor:
+    name: Observe every pinned official source
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Validate the plan without touching the network
+        run: node scripts/rcap-source-monitor.mjs --dry-run --out source-monitor
+
+      - name: Monitor pinned sources and open review issues for changes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node scripts/rcap-source-monitor.mjs --open-issues --out source-monitor
+
+      - name: Upload report and review tasks
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rcap-source-monitor-${{ github.run_id }}
+          path: source-monitor/
+          if-no-files-found: error
+          retention-days: 90

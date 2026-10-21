@@ -1,0 +1,228 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-rows/v1",
+  "lane": "FIX07",
+  "laneKind": "repair",
+  "generatedBy": "FIX07 repair worker in /home/user/pfc-worktree",
+  "repairedAtBase": "181ac2ece03f417076170e7227a76f4f5f6116b5",
+  "branch": "pfc-fix-20260909",
+  "worktree": "/home/user/pfc-worktree",
+  "writtenAlongsideNotOver": "data/rcap-grade-a/packet-factory-24h/fix07/rows-fix07-20260909.json already existed under the name this lane would otherwise have used. It belongs to a different FIX07 dispatch (branch fix-il-artifacts-20260909, worktree /home/user/v9a-worktree) and was not read for content, edited or overwritten.",
+  "sharedCentralArtifactsNotWritten": "MASTER_QUEUE.json, RASTER_QUEUE.json, VERIFIER_RETURNS.json, ACTIVE_ASSIGNMENTS.json, CHECKPOINT.json, claim-ledger.json and CLAIM_LEDGER_REPAIR.json are untouched by this lane. No claim was released or transferred.",
+  "rows": [
+    {
+      "itemId": "de_pardon_expungement-set",
+      "status": "COMPLETED",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "repairedByThisLane": true,
+      "laneKind": "repair",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/de/de-pardon-expungement-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-de_pardon_expungement-set.mjs",
+      "sharedModulesChanged": [
+        "scripts/census-v1-de-expungement/de-expungement-core.mjs",
+        "scripts/census-v1-de-expungement/de-superior-court-forms.mjs"
+      ],
+      "claim": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 de_pardon_expungement-set returned CLAIM_OK FIX07 de_pardon_expungement-set (repair, grant set 914af21a28d51a60), exit 0.",
+      "failedObligationNames": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "obligationsRepaired": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersMeasuredBy": "the repository's own contract functions in scripts/rcap-packet-completeness/completeness-contract.mjs, run by the builder over the rebuilt field map, the byte-derived write proof and the rebuilt participant-instructions.md; published at reports/completeness-counters.json.",
+      "visualDefectsCaveat": "visualDefects is 0 as the contract computes it, which here means nonWhitespaceGlyphsOutsideMeasuredWriteBoxes is 0 on both delivered fixtures. It does not mean a human looked at a page image. This lane rastered nothing.",
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "path": "data/rcap-all50/overlays/census-v1/de/de-pardon-expungement-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "7bce0bddd5eef1c0f23f264da8146805c52d4cc8dff16b8871ef78bfe1a97fe9",
+          "byteLength": 1202521,
+          "pageCount": 3,
+          "addedGlyphsReadFromOutputBytes": 290,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        },
+        {
+          "fixture": "boundary",
+          "path": "data/rcap-all50/overlays/census-v1/de/de-pardon-expungement-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "68f209017dc63ff37828c0bfb35e4f162a380a533ad821274b8beee0ad34dfb9",
+          "byteLength": 1202719,
+          "pageCount": 3,
+          "addedGlyphsReadFromOutputBytes": 456,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        }
+      ],
+      "artifactBytesUnchangedByThisRepair": "TRUE, and intentionally so. Both fixtures hash to exactly the digests they carried at base 181ac2ece. The defect was a misclassification and a missing disclosure, not ink: nothing was written onto the petition, the assertion box is still the participant's to tick, and a repair that changed the page would have been a repair that made the assertion for them.",
+      "requiredBeforeFilingDefect": {
+        "carriedFinding": "VF03: CIV_EXP_02_A prints, in bold on the delivered page, \"The following information MUST be completed for the Court to consider the petition\" directly above a manifest-injustice assertion checkbox. The box was unticked on both fixtures, flagged requiredBeforeFiling false in the field map, and named nowhere in participant-instructions.md. Of the 24 non-required refusals, 23 were named in the guide; this one was not, and it is the one the form itself marks MUST.",
+        "reproducedAtBase": "TRUE, measured three ways at base. (1) pdftotext -layout page 1 of both committed fixtures prints the MUST sentence at line 29 and \"□ The continued existence...\" at line 30 -- an empty box under a sentence saying it must be completed. (2) reports/field-census.json records the field as type checkbox, one widget, page 1, rect x 46.68 y 400.56 w 8.76 h 8.76, inFieldMapAs disposition participant_sworn_narrative_or_legal_election with requiredBeforeFiling false. (3) grep of participant-instructions.md for the printed caption returned only the four ruled narrative lines beneath the box, never the box.",
+        "cause": "SHARED DELAWARE WIRING, not this family's own map. The row is produced by petitionMap() in scripts/census-v1-de-expungement/de-superior-court-forms.mjs through the h.election() helper in mapHelpers() in scripts/census-v1-de-expungement/de-expungement-core.mjs, and that helper hardcodes requiredBeforeFiling: false. petitionMap() is imported by BOTH scripts/build-census-v1-de_pardon_expungement-set.mjs and scripts/build-census-v1-de_discretionary_superior_court-set.mjs, which is why the same blank failed the Superior Court sibling.",
+        "whyTheHelperWasWrongHere": "h.election() is the right classification for a control the route leaves open AND the form leaves optional -- the three county venue boxes and the two interpreter boxes, which VF03 confirmed sound and which this repair does not touch. It is the wrong classification for a blank the printed page marks MUST. requiredBeforeFiling false is also what keeps a blank out of the participant guide's \"items you must supply\" table, so one wrong flag produced both halves of the defect: the misclassification and the silence.",
+        "repair": "A new helper, h.requiredElection(), was added beside h.election() in de-expungement-core.mjs for a control the FORM ITSELF marks required. It carries requiredBeforeFiling true, disposition REQUIRED_BEFORE_FILING, identity and participantMustSupply, and keeps isSelectionControl true because the blank is a checkbox. petitionMap() now declares the manifest-injustice box through it. Nothing else in either module changed classification.",
+        "contractPathTakenAndWhy": "classifyField() reads a selection control as fieldClass SELECTION_CONTROL / requirement PARTICIPANT_ELECTION, which is not in PARTICIPANT_COMPLETABLE_REQUIREMENTS, so a bare requiredBeforeFiling declaration on a checkbox returns UNCLASSIFIED_BLANK. The helper therefore reaches REQUIRED_BEFORE_FILING through the contract's own case-determined exception (determinedByTheCaseNotTheRoute with a stated whyTheRouteCannotDetermineIt), which exists for exactly this shape: an election the CASE and not the ROUTE decides. Verified in isolation against scripts/rcap-packet-completeness/completeness-contract.mjs before rebuilding -- classifyBlank returned disposition REQUIRED_BEFORE_FILING, fieldClass SELECTION_CONTROL, requiresParticipantDisclosure true.",
+        "secondCauseFoundWhileRepairing": "countCompleteness()'s row() in de-expungement-core.mjs projected only disposition, requiredBeforeFiling, routeDetermined, identity and factId onto the declared channel classifyBlank reads. determinedByTheCaseNotTheRoute and whyTheRouteCannotDetermineIt were dropped, which would have silently converted the corrected declaration back into an unclassified blank. Both keys are now passed through. This is a latent defect for ANY family on this core that ever needs the case-determined exception, not only Delaware.",
+        "disclosureAdded": "Exactly one line was added to participant-instructions.md, in the \"items you must supply\" table for primary_filing. It names the printed caption, says what ticking the box asserts, says the form prints the MUST sentence directly above it so the Court will not consider the petition with it blank, and says this packet does not tick it and does not decide it for the participant. The four ruled lines beneath it keep their existing four rows.",
+        "declarationMoved": "The box is now declared after the charge-table loop and before the four ruled lines, because de-superior-court-forms.mjs states that declaration order is down-page order for the guide and the widget sits at y 400-409, between the table at y 431-490 and the ruled lines at y 308-359. The guide diff is a single added line in that position.",
+        "countsBeforeAndAfter": "requiredBeforeFilingCount 44 -> 45. blankDispositions PARTICIPANT_ELECTION_GENUINE 11 -> 10, REQUIRED_BEFORE_FILING 44 -> 45. All nine counters remain 0."
+      },
+      "recordDescriptionDefectCorrected": {
+        "what": "source-receipt.json documents[].byteLength stated each official document's size as the TRANSPORT DERIVATIVE's -- 178713 against the official 179445 for CIV_EXP_02_A, and 1123088 against the official 1128070 for CIV_EXP_08_A -- beside the official binary's SHA-256.",
+        "insideOwnedPaths": true,
+        "cause": "de-expungement-core.mjs reassigns b.bytes to the decrypted pikepdf derivative after the equivalence proof (b.officialBytes = b.bytes; b.bytes = readFileSync(derivedPath)). Three later sites that DESCRIBE the bound identity kept reading b.bytes.length.",
+        "repair": "b.officialByteLength is captured at the swap and the three description sites now read it: documents[].byteLength, conditionalDocumentsBoundButNotExercised[].byteLength, and the corpusIndexAgrees comparison. Everything that MEASURES the page still reads the derivative. No digest anywhere was changed.",
+        "measuredOfficialLengths": "sha256sum and ls -l on the two custody files: private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Delaware/download.aspx.pdf is 179445 bytes at f2820f713b9f8e0fb1c0095886e7184d56fda06eef7f65af014ab48922b7839a; .../source-acquisition-2026-09-04/civ_exp_08_a-sc-new-order-granting-expungement-after-pardon-form.pdf is 1128070 bytes at 0f7666ac6877b4d482a71c5303ecb199792f713e3c728adb2308b86945505d5b. Both digests match the pinned values exactly.",
+        "sideEffect": "corpusIndexAgrees flipped false -> true for both documents, and the new value is the true one. data/rcap-all50/local-source-corpus-index.json records byteLength 179445 and 1128070 for those two digests; the previous false was the same derivative-length bug comparing the index's official length against the derivative's.",
+        "reachesTheSibling": "The same three code paths serve de_discretionary_superior_court-set. Its committed source-receipt.json carries the same description defect on its three documents until FIX06 rebuilds it on this core."
+      },
+      "notTouchedBecauseVF03VerifiedThemSound": [
+        "Both bound identities: the official AES-256 binaries f2820f71... (179445) and 0f7666ac... (1128070), both still carrying /Encrypt /CFM /AESV3. Neither was re-pinned, re-hashed by hand or substituted.",
+        "data/rcap-all50/overlays/rescued-encrypted-pdfs/delaware-download-aspx-rescued.pdf: cited nowhere by this family and the same revision anyway. Left alone.",
+        "COMPONENT_SET, which passes 3/3.",
+        "The SBI cover letter. DE.memo.json names it only as a bare note with no addressee and no content, so the builder is right not to build it and this lane built nothing for it.",
+        "ISO dates: neither form prints a date order.",
+        "The six county boxes, six interpreter/language blanks, two attorney blanks, two P.O. Box blanks, three jurat blanks, two court-assigned numbers, paragraph 5 and the judicial signature -- the 23 non-required refusals VF03 confirmed are named. All keep their existing classification."
+      ],
+      "obligationsThisRowDoesNotDischarge": [
+        "RASTER_PASS. This lane rastered nothing; the build was run --no-raster. Poppler (pdftotext, pdfinfo) was used as a structural and text reader only. No page image was produced, admitted or claimed. Both fixtures hash to the same digests they carried at base, so any raster receipt already bound to those exact bytes still applies to them.",
+        "Independent verification. This lane built the repair and may not verify it.",
+        "ROUTE_IDENTITY, which is BLOCKED_LEGAL_INPUT on DE-5 and stays there. That is counsel's. Measured on the delivered bytes and left exactly as found: page 1 reads \"Pursuant to 11 Del. C. § 4374, Marcus Elijah Whitfield (Petitioner), hereby petitions Superior Court for expungement of the following case(s)...\", the build's write completes that § 4374 sentence, and no § 4375 recital appears anywhere on the petition. None was fabricated.",
+        "The sibling family de_discretionary_superior_court-set. Not claimed, not read for repair, not built, not touched. Its committed artifacts still carry both defects.",
+        "Counsel review, visual review and source-freshness review. This row opens no commercial route and promotes no route."
+      ],
+      "verification": {
+        "deterministicReproductionCheckedFirst": "The family was rebuilt at base BEFORE any edit and reproduced both fixtures byte for byte with a clean git status, so every later byte difference is attributable to this repair.",
+        "reMeasuredAfterRepairFromDeliveredBytes": [
+          "sha256sum and node crypto.createHash('sha256') over fixtures/canonical.pdf and fixtures/boundary.pdf -- both agree with each other and with the values above.",
+          "pdfinfo: 3 pages, Encrypted: no, File size 1202521 and 1202719, matching the byte lengths above.",
+          "pdftotext -f 1 -l 1 -layout on BOTH fixtures: line 29 \"The following information MUST be completed for the Court to consider the petition\", line 30 \"□ The continued existence...\". The box is still an empty □ on both. The packet still makes no manifest-injustice assertion.",
+          "reports/field-census.json read back: the checkbox now shows inFieldMapAs disposition REQUIRED_BEFORE_FILING, requiredBeforeFiling true, isSelectionControl true, at the same measured rect.",
+          "git diff of participant-instructions.md: exactly one line added, nothing else changed."
+        ],
+        "toolsUsed": "sha256sum, node crypto.createHash, pdftotext (poppler), pdfinfo (poppler), git diff, and the repository's own completeness-contract.mjs."
+      }
+    },
+    {
+      "itemId": "mn_petition_15218-set",
+      "status": "COMPLETED",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "repairedByThisLane": true,
+      "laneKind": "repair",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/mn/mn-petition-15218-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-mn_petition_15218-set.mjs",
+      "sharedModulesChanged": [],
+      "claim": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 mn_petition_15218-set returned CLAIM_OK FIX07 mn_petition_15218-set (repair, grant set 914af21a28d51a60), exit 0.",
+      "failedObligationNames": [
+        "KNOWN_PREFILLS",
+        "ROUTE_OPTIONS",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "obligationsRepaired": [
+        "KNOWN_PREFILLS",
+        "ROUTE_OPTIONS",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersMeasuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mn_petition_15218-set, run WITHOUT --write over the repaired overlay directory, so it computed and printed the nine counters and wrote no shared artifact (git status confirmed no central file changed). This builder does not compute the counters itself and emits no completeness-counters.json, which is why the shared verifier was used to measure them.",
+      "noVerdictIsSetByThisLane": "The verifier prints a result class of its own on the same line as the counters. That line is the tool's output, not this lane's verdict, and it is not carried into this row: this lane built the repair and may not verify it, and PASS_COMPLETE additionally requires a hash-bound RASTER_PASS from the central workflow.",
+      "visualDefectsCaveat": "visualDefects is 0 as the contract computes it, which here means nonWhitespaceGlyphsOutsideMeasuredWriteBoxes is 0 on both delivered fixtures. Nobody rastered or looked at a page image in this lane.",
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "path": "data/rcap-all50/overlays/census-v1/mn/mn-petition-15218-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "cbdea2b8edd3e7151fc376273ac59832c2dbbb0486ad04b7cb08073fce5b3346",
+          "byteLength": 909398,
+          "pageCount": 17,
+          "addedGlyphsReadFromOutputBytes": 398,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        },
+        {
+          "fixture": "boundary",
+          "path": "data/rcap-all50/overlays/census-v1/mn/mn-petition-15218-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "9ef91d9772ab7307e8877fc52e4db7878b1c4c2a2bf0106d8d63ce10fa7deeda",
+          "byteLength": 909804,
+          "pageCount": 17,
+          "addedGlyphsReadFromOutputBytes": 950,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        }
+      ],
+      "artifactBytesUnchangedByThisRepair": "TRUE, and intentionally so. Both fixtures hash to exactly the digests they carried at base 181ac2ece. All three defects were classification and disclosure: nothing new was drawn on any page, no mark was added, and no mark was removed. The existing acceptance receipt in product-wiring.json is bound to canonical cbdea2b8..., which is still the delivered canonical.",
+      "knownPrefillsDefect": {
+        "carriedFinding": "VF02: the packet marks FEE102 item 2's first branch, \"I am including my pleadings with this Affidavit\" -- a sworn statement on a Minn. Stat. § 563.01 affidavit. The guide's disclosure section, \"What this packet already says for you\", named only the EXP102 item 9 mark. The FEE102 mark was disclosed nowhere in either guide.",
+        "reproducedAtBase": "TRUE, measured on the delivered bytes. extractPathSegments over packet page 12 (FEE102 page 1) returns two vector strokes at x 110.08 y 351.20, 5.29 by 5.29 -- the X inside the first branch's ballot box at p1-cb-y350-x108 -- and nothing inside the second branch's box at y 266.6. pdftotext shows both branches as an empty printed box because the mark is drawn as strokes, not text, which is exactly why a byte-level read was needed. grep of both guides for the FEE102 item 2 text returned nothing outside the elections list.",
+        "cause": "The disclosure section was hand-written prose naming one mark, while the build makes two. A sentence maintained beside the marks goes stale the moment a second mark is added; this one had.",
+        "repair": "The section is now GENERATED from the marks the build actually made. selectionDispositions rows with marked true are collected into a `marks` array in packet order and rendered one bullet each, carrying each mark's own recorded reason, under a sentence that states how many boxes are marked and that no others are. A future third mark discloses itself.",
+        "whatTheGuideNowSays": "Two bullets: EXP102 page 4 item 9 box 1 with the § 152.18 route reason, and FEE102 page 1 item 2 branch 1 with its own reason, which now also states that the other branch of the same choose-one is left empty, that marking both would swear to two contradictory statements on one § 563.01 affidavit, and what to do instead if the affidavit is filed without the petition. The § 152.18 wrong-packet warning is kept."
+      },
+      "routeOptionsDefect": {
+        "carriedFinding": "VF02: FEE102 item 2 prints \"Choose one:\". Its first branch is marked (ROUTE_ELECTION_MADE); its second, p1-cb-y266.6-x108, was classified PARTICIPANT_ELECTION_GENUINE and offered to the participant under \"Choices only you can make\". Following the packet's own instructions files a sworn affidavit with both branches of a choose-one marked.",
+        "reproducedAtBase": "TRUE. The base participant-instructions.md carried the line \"- **FEE102 page 1 -- Fee-waiver affidavit sworn statement -- I only want to have copy fees waived. I do not have any pleadings to file at this time.**\" under \"Choices only you can make\", while the base field census recorded p1-cb-y350-x108 as marked. The printed instruction \"Choose one:\" was read back from FEE102 page 1 at y 373.9.",
+        "whichTreatmentWentAndWhy": "The offer went; the mark stayed. Which branch is true is a fact about what is in the envelope, not about the person: this packet carries EXP102, EXP104 and EXP106, so the pleadings ARE being filed with the affidavit and the first branch is the true one. The builder's own stated reason for marking it says exactly that. Unmarking it instead would have handed back a question the packet's own contents already answer, and left the affidavit silent on an item the form requires an answer to.",
+        "repair": "The unelected branch is now classified NOT_APPLICABLE_ON_THIS_ROUTE with a named routeConditionThatMakesItInapplicable -- that item 2 prints \"Choose one:\", that this packet carries the three named pleadings so the first branch is marked, and that this branch says the opposite and is not reachable while the first is marked. It therefore leaves the elections list, and the reader is told in the disclosure section to leave it empty and what would change if they filed the affidavit alone.",
+        "conditionIsAFactNotAPolicy": "The named condition states what the packet contains and what the form prints. It matches none of the contract's POLICY_SHAPED_REASONS patterns, and it does not declare routeDetermined, so it cannot be read as an unmade route election wearing a softer word.",
+        "assertionsAdded": "The two branches and the printed \"Choose one:\" instruction are now a frozen FEE102_ITEM_2 constant, and the build refuses to run unless it can still read all three off the bound bytes. The existing assertion for the first branch was rewired onto the same constant instead of repeating its regex. Verified by the build failing closed on a first attempt when the instruction comparison did not account for cleanText() stripping the trailing colon."
+      },
+      "requiredBeforeFilingDefect": {
+        "carriedFinding": "VF02: EXP104 page 1's \"Judicial District\" rule (p1-y690.24-x418.56, x0 418.56 -> x1 534.96) is unwritten, in none of the six disposition sets, and named in neither guide, while the same blank on the other three forms is requiredBeforeFiling with mncourts.gov lookup instructions. Second instance: FEE102 page 1's \"Case Type\" rule (p1-y637.38-x361.02), blank and unnamed, though the guide applies the exact parallel reasoning to FEE102's Plaintiff/Petitioner line. filing-instructions.md compounded it by telling the reader the packet \"leaves EXP104 entirely blank below its caption\", which implies the caption is complete.",
+        "reproducedAtBase": "TRUE for both, and the cause was measured rather than guessed. Enumerating the four forms' page-1 caption rules from the committed census: Judicial District -- EXP102 ink 0.00 REQUIRED_BEFORE_FILING, EXP106 ink 0.00 REQUIRED_BEFORE_FILING, FEE102 ink 0.00 REQUIRED_BEFORE_FILING, EXP104 ink 0.70 NOT_A_FIELD. Case Type -- EXP102 ink 0.23, EXP104 ink 0.34, EXP106 ink 0.25 (all print \"Criminal\"), FEE102 ink 0.00 (prints nothing) yet all four carried the same NOT_A_FIELD reason. The delivered bytes agree: packet page 7 prints \"Judicial District:\" with nothing after it, and packet page 12 prints \"Case Type:\" with nothing after it.",
+        "causeOfTheEXP104Instance": "inkOnRule() decides a rule is an underline when a printed line inside its vertical window covers half its width, and the window scales with that line's own font size (line.y <= rule.y + size * 1.3). EXP104 page 1's 14.04-point heading \"State of Minnesota   District Court\" reaches 18.25 points down, and TWO rules sit inside that reach: the one 3.46 points below it, which it genuinely underlines, and the Judicial District rule 16.66 points below it, which it does not. The heading's words \"District Court\" span x 418-535, the same span as the Judicial District rule, giving 81.82 points of ink over a 116.4-point rule = 0.703. Over 0.5 the blank becomes underlined_printed_text, and decideBlank() returns NOT_A_FIELD on construction BEFORE the caption band is ever consulted. Measured directly with the builder's own rulesOfPage and groupIntoLines against the bound EXP104 source.",
+        "repairOfTheEXP104Instance": "A rule cannot underline text that has another rule between it and the text. inkOnRule() now ignores a candidate line when a second horizontal rule lies between the two and overlaps this rule's x span. It can only ever remove a false underline, never a true one, because a true underline has nothing between it and its text.",
+        "causeOfTheFEE102Instance": "captionBandDecision() matched on the printed caption alone, so /^case type$/ returned the same NOT_A_FIELD sentence -- \"the form prints its own answer, Criminal, on this rule\" -- for all four forms. On FEE102 that sentence is contradicted by the build's own measurement of the same rule: ink 0.00, nothing printed there.",
+        "repairOfTheFEE102Instance": "The Case Type decision now reads the measured ink. A rule that carries printed ink keeps NOT_A_FIELD with the unchanged reason; a rule that carries none becomes REQUIRED_BEFORE_FILING with the same shape of instruction the Plaintiff/Petitioner line on the same caption already uses: FEE102 prints no case type, the three court forms all print Criminal on their own faces, copy it exactly as EXP102 prints it.",
+        "repairOfTheFilingInstructionsSentence": "filing-instructions.md now adds, after the existing paragraph, that EXP104's caption is not finished either: this packet writes the county and the court file number onto it, the Judicial District line is blank and is the reader's to fill on EXP104 exactly as on the other three forms, and that \"blank below its caption\" means below it and not including it. The original sentence is kept because it is true of everything below the caption and it carries the perjury reasoning.",
+        "everyClassificationChangeInTheWholeFamily": "Four, and only four, measured by diffing the base field census against the rebuilt one across all four forms and every blank and selection control: (1) EXP104 p1-y690.24-x418.56 Judicial District, underlined_printed_text/ink 0.70/NOT_A_FIELD -> drawn_horizontal_rule/ink 0.00/REQUIRED_BEFORE_FILING; (2) FEE102 p1-y637.38-x361.02 Case Type, NOT_A_FIELD -> REQUIRED_BEFORE_FILING; (3) FEE102 p1-cb-y266.6-x108, PARTICIPANT_ELECTION_GENUINE -> NOT_APPLICABLE_ON_THIS_ROUTE; (4) EXP104 p1-y447.12-x253.8, printedInkFractionOnTheRule 0.02 -> 0.00 with construction and disposition BOTH UNCHANGED at drawn_horizontal_rule / PROTECTED_FIELD. The fourth is a reported side effect of the occlusion test on a recorded number, not a classification change. Nothing else on any of the four forms moved.",
+        "countsBeforeAndAfter": "requiredBeforeFiling 10 -> 12, participantElections 36 -> 35, laterCompletion 4 (unchanged), routeSelectionsMade 2 (unchanged), unclassified 0 (unchanged)."
+      },
+      "notTouchedBecauseVF02VerifiedThemSound": [
+        "ROUTE_IDENTITY and the elected ground. Re-measured on the repaired canonical: the only added mark on packet page 4 is the pair of diagonal strokes at x 93.19 y 661.20, 6.46 by 6.41 -- x 93.19-99.65, y 661.20-667.61 -- exactly where VF02 found it, inside item 9 box 1 and inside no other cell. The tick was not moved toward subd. 3, item 9 box 1 keeps its own § 152.18 -> § 609A.02 subd. 1 citation, and the proposed order EXP106 is unchanged.",
+        "Item 6, blank by design. It is still assigned to the participant as a sworn narrative under \"Choices only you can make\", with the instruction that it must carry the legal authority. Untouched.",
+        "Service. EXP104 still prints exactly six (Required) markers -- counted 6 on the repaired canonical, packet pages 7-8 -- and filing-instructions.md still says six and names the same six. No conditional box was called required. The service paragraph gained one paragraph about the caption and lost nothing.",
+        "Every other selection control on all four forms, including the eight EXP102 item 9 boxes already classified NOT_APPLICABLE_ON_THIS_ROUTE and the 34 remaining FEE102 financial elections."
+      ],
+      "recordDefectFoundNotCorrected": {
+        "what": "Rebuilding this family REWRITES product-wiring.json and destroys records a later lane wrote into it: an acceptanceReceipt (verdict RASTER_PASS, workflowRunId 34413372916, jobId 102673422663, artifactId 10128419544, boundToCanonicalSha256 cbdea2b8edd3e7151fc376273ac59832c2dbbb0486ad04b7cb08073fce5b3346, coversTheWholeFamily true), a lastIndependentVerification block (verdict FAIL_REPAIR_REQUIRED, lane vf02, verifiedAtBase 7d6453f51dacd9064f9a2b2d4d16618d0669add8), paymentEligible, sponsorshipEligible, whyPaymentIsClosed and maintenanceRelationship. It also downgrades the FEE102 source tier from exact_content_hash to exact_form_number.",
+        "howItWasFound": "The family was rebuilt at base BEFORE any edit. The fixtures reproduced byte for byte and product-wiring.json was the only file that changed, so the loss is attributable to the builder and not to this repair.",
+        "whatThisLaneDid": "Restored product-wiring.json with git checkout after every build and committed no change to it, so the acceptance receipt and the verifier's record survive this repair intact.",
+        "whyNotFixedHere": "The DE core this lane also worked in solves the same problem with preserveIdentityRefresh(), which merges rather than overwrites. Porting that into the Minnesota builder is a change to how a product-wiring record is written for a whole family and reaches fields -- paymentEligible, sponsorshipEligible, acceptance receipts -- that decide commercial authority. That is not this lane's grant, which is three named obligations. Reported rather than done.",
+        "riskIfLeft": "Any future rebuild of mn_petition_15218-set by a lane that does not know to restore the file silently deletes a hash-bound RASTER_PASS and an independent verification record."
+      },
+      "obligationsThisRowDoesNotDischarge": [
+        "RASTER_PASS. This lane rastered nothing. Poppler (pdftotext, pdfinfo) and the repository's own pdf-lib readers were used as structural, text and vector-path readers only; no page image was produced, admitted or claimed.",
+        "Independent verification. This lane built the repair and may not verify it. The shared completeness verifier was run read-only to MEASURE the nine counters, which this builder does not compute for itself; its own result line is not this lane's verdict and is not recorded as one.",
+        "The ballot-box CID decoding defect the build already observes: the shared anchor-capture path reports the two-byte CID as two one-byte characters and marks metricsExact false. Geometry holds, decoding does not. Left as the build found it and still reported to the Captain in build-findings.json.",
+        "Counsel review, visual review and source-freshness review. This row opens no commercial route and promotes no route."
+      ],
+      "verification": {
+        "deterministicReproductionCheckedFirst": "TRUE. Rebuilt at base before editing: both fixtures reproduced byte for byte.",
+        "reMeasuredAfterRepairFromDeliveredBytes": [
+          "sha256sum over both fixtures: canonical cbdea2b8edd3e7151fc376273ac59832c2dbbb0486ad04b7cb08073fce5b3346, boundary 9ef91d9772ab7307e8877fc52e4db7878b1c4c2a2bf0106d8d63ce10fa7deeda -- identical to base.",
+          "pdfinfo: 17 pages, Encrypted: no, File size 909398 and 909804.",
+          "extractPathSegments over packet page 4: the single added mark at x 93.19 y 661.20 is unmoved.",
+          "extractPathSegments over packet page 12: the FEE102 item 2 mark is still on branch 1 at x 110.08 y 351.20 and branch 2 at y 266.6 is still unmarked.",
+          "pdftotext -layout over packet pages 7-8: exactly six (Required) markers on EXP104.",
+          "Field-census diff, base against rebuilt, over every blank and every selection control of all four forms: four changes, listed above.",
+          "The nine counters, computed by scripts/rcap-packet-completeness/verify-packet-completeness.mjs over the repaired directory."
+        ],
+        "toolsUsed": "sha256sum, pdftotext and pdfinfo (poppler), the repository's own rcap-pdf-anchor-capture.mjs (extractTextItems, extractPathSegments, groupIntoLines) and rcap-pdf-rule-lines.mjs (rulesOfPage) via pdf-lib, git diff, and scripts/rcap-packet-completeness/verify-packet-completeness.mjs run without --write."
+      }
+    }
+  ]
+}

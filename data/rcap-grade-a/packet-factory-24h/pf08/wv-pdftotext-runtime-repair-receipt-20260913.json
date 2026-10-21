@@ -1,0 +1,69 @@
+{
+  "schemaVersion": "rcap-runtime-repair-receipt/v1",
+  "workerId": "rcap-finish-worker-77jr7gx76jq3rg65",
+  "workerBranch": "pf20-ks-22-2410-arrest-20260912b",
+  "repairScope": "single missing pdftotext runtime required by the existing WV builder",
+  "previousObservation": {
+    "command": "command -v pdftotext",
+    "result": "not found"
+  },
+  "repair": {
+    "packageManager": "apt-get",
+    "os": "Ubuntu 24.04.4 LTS (noble)",
+    "repository": "Ubuntu noble-updates",
+    "updateCommand": "sudo apt-get update",
+    "installCommand": "sudo apt-get install -y --no-install-recommends poppler-utils",
+    "package": "poppler-utils",
+    "packageVersion": "24.02.0-1ubuntu9.9",
+    "packageArchitecture": "amd64",
+    "status": "INSTALLED"
+  },
+  "installedRuntimePackages": [
+    {
+      "package": "liblcms2-2",
+      "version": "2.14-2ubuntu0.1",
+      "architecture": "amd64"
+    },
+    {
+      "package": "libopenjp2-7",
+      "version": "2.5.0-2ubuntu0.5",
+      "architecture": "amd64"
+    },
+    {
+      "package": "libpoppler134",
+      "version": "24.02.0-1ubuntu9.9",
+      "architecture": "amd64"
+    },
+    {
+      "package": "poppler-utils",
+      "version": "24.02.0-1ubuntu9.9",
+      "architecture": "amd64"
+    }
+  ],
+  "tool": {
+    "name": "pdftotext",
+    "path": "/usr/bin/pdftotext",
+    "version": "24.02.0",
+    "sha256": "0fb98ea179e19154a90202608c164f2a319b79f16576fa6534b2d601033565e"
+  },
+  "builderRerun": {
+    "command": "node scripts/build-census-v1-wv_nc_diversion_deferred-set.mjs",
+    "sourceReadability": "pdftotext read the exact bound source",
+    "printedTextReaderVersion": "24.02.0",
+    "result": "STOPPED",
+    "stopClass": "BLOCKED_SOURCE",
+    "overlayDirectoryTouched": false,
+    "counters": null,
+    "exactSource": {
+      "sourceId": "official-form:SCA-C903",
+      "sha256": "bbfcd767b02230300e2164a40cc2d81967c87fb9b7ddf4f0677622e1319fe878",
+      "byteLength": 23275
+    },
+    "blocker": "SCA-C903 is stale for the deferred-adjudication branch and the route's current-law supplemental pleading has no bound source; the builder's native refusal is document-level, not custody-related."
+  },
+  "filesChangedInWorker": [
+    "data/rcap-grade-a/packet-factory-24h/pf08/wv-pdftotext-runtime-repair-receipt-20260913.json"
+  ],
+  "sourceCustodyModified": false,
+  "sharedManifestsModified": false
+}

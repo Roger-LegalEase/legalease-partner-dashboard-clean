@@ -1,0 +1,241 @@
+{
+  "schemaVersion": "rcap-rendered-artifacts/v1",
+  "familyId": "composed-treatment:nd-nonconviction-auto-close-verify",
+  "renderedFresh": true,
+  "derivedFromBytes": true,
+  "componentSet": [
+    "clerk_correction_request",
+    "enforcement_motion",
+    "proposed_order",
+    "filing_instructions"
+  ],
+  "componentConditions": {
+    "enforcement_motion": "Used only AFTER the written request: the recorded sequence is a written request to the office of the original court first, and the motion to enforce in the original criminal case only if that office states that judicial action is required or does not correct the record.",
+    "proposed_order": "Travels with the enforcement motion only; nothing on it is decided, signed or dated by the participant."
+  },
+  "eligibilityGate": {
+    "controllingDecision": "ND-NONCONVICTION-61-DAY-AUTO-CLOSE",
+    "cutoff": {
+      "field": "case.order_entry_date",
+      "onOrAfter": "2025-08-01",
+      "olderRoute": "separate official petition mechanism"
+    },
+    "timing": {
+      "anchor": "entry of the order of nonconviction",
+      "excludeEntryDate": true,
+      "calendarDays": 61,
+      "extendWeekendOrVerifiedLegalHoliday": true,
+      "mailServiceDays": 0,
+      "firstPublicAccessCheck": "next business day after adjusted expiration",
+      "firstCheckClassification": "LegalEase product step; not additional statutory time",
+      "automaticCalculationRequires": "caller-supplied complete verified North Dakota calendar coverage",
+      "alternative": "explicitly collected verified adjusted expiration and first-check date"
+    },
+    "wholeCaseAllowed": [
+      "ALL_CHARGES_DISMISSED",
+      "ALL_CHARGES_ACQUITTED"
+    ],
+    "appealAllowed": "case.was_ever_appealed must be exactly false; any appeal history stops",
+    "statutoryExceptionsMustBeFalse": [
+      "case.dismissal_in_plea_involving_conviction",
+      "case.unfit_to_proceed_disposition",
+      "case.lack_criminal_responsibility_acquittal"
+    ],
+    "failureBranchRequires": [
+      "case.public_access_checked_on at or after derived.first_check_date",
+      "case.record_still_public exactly true",
+      "dated case.public_access_evidence"
+    ],
+    "unknownGateBehavior": "STOP_NO_PACKET",
+    "participantInstruction": "Obtain the entered order and use its entry date. Confirm that every criminal charge in the case was dismissed or every charge was acquitted, that the case was never appealed, and that none of the listed statutory exceptions applies. For the deadline, supply a complete verified North Dakota court-calendar window covering day 61 through the next business day, or supply both a verified adjusted expiration and verified first-check date. Do not add mail-service days. Check public access on or after that first-check date and keep dated evidence."
+  },
+  "boundReferenceSource": null,
+  "pdfs": [
+    {
+      "file": "data/rcap-all50/overlays/census-v1/nd/composed-treatment:nd-nonconviction-auto-close-verify--custom-pleading/fixtures/canonical.pdf",
+      "documentId": "assembled_packet",
+      "role": "assembled_packet_of_composed_pleadings",
+      "fixture": "canonical",
+      "sha256": "042abebbea6753740dab0b232722e76f715490cea12c634196fa6a337ad742a2",
+      "byteLength": 17097,
+      "pageCount": 7
+    },
+    {
+      "file": "data/rcap-all50/overlays/census-v1/nd/composed-treatment:nd-nonconviction-auto-close-verify--custom-pleading/fixtures/boundary.pdf",
+      "documentId": "assembled_packet",
+      "role": "assembled_packet_of_composed_pleadings",
+      "fixture": "boundary",
+      "sha256": "db085007df35154ef81207938a75181b8a8e3c5cc2d874789aac92c4c9b0546d",
+      "byteLength": 17490,
+      "pageCount": 7
+    }
+  ],
+  "artifacts": [
+    {
+      "fixture": "canonical",
+      "file": "data/rcap-all50/overlays/census-v1/nd/composed-treatment:nd-nonconviction-auto-close-verify--custom-pleading/fixtures/canonical.pdf",
+      "sha256": "042abebbea6753740dab0b232722e76f715490cea12c634196fa6a337ad742a2",
+      "byteLength": 17097,
+      "pageCount": 7,
+      "pageManifest": [
+        {
+          "packetPage": 1,
+          "component": "clerk_correction_request",
+          "documentId": "clerk_correction_request",
+          "sourcePage": 1,
+          "sourceSha256": null
+        },
+        {
+          "packetPage": 2,
+          "component": "clerk_correction_request",
+          "documentId": "clerk_correction_request",
+          "sourcePage": 2,
+          "sourceSha256": null
+        },
+        {
+          "packetPage": 3,
+          "component": "enforcement_motion",
+          "documentId": "enforcement_motion",
+          "sourcePage": 1,
+          "sourceSha256": null
+        },
+        {
+          "packetPage": 4,
+          "component": "enforcement_motion",
+          "documentId": "enforcement_motion",
+          "sourcePage": 2,
+          "sourceSha256": null
+        },
+        {
+          "packetPage": 5,
+          "component": "proposed_order",
+          "documentId": "proposed_order",
+          "sourcePage": 1,
+          "sourceSha256": null
+        },
+        {
+          "packetPage": 6,
+          "component": "filing_instructions",
+          "documentId": "filing_instructions",
+          "sourcePage": 1,
+          "sourceSha256": null
+        },
+        {
+          "packetPage": 7,
+          "component": "filing_instructions",
+          "documentId": "filing_instructions",
+          "sourcePage": 2,
+          "sourceSha256": null
+        }
+      ],
+      "documents": [
+        "clerk_correction_request",
+        "enforcement_motion",
+        "proposed_order",
+        "filing_instructions"
+      ],
+      "components": [
+        "clerk_correction_request",
+        "enforcement_motion",
+        "proposed_order",
+        "filing_instructions"
+      ]
+    },
+    {
+      "fixture": "boundary",
+      "file": "data/rcap-all50/overlays/census-v1/nd/composed-treatment:nd-nonconviction-auto-close-verify--custom-pleading/fixtures/boundary.pdf",
+      "sha256": "db085007df35154ef81207938a75181b8a8e3c5cc2d874789aac92c4c9b0546d",
+      "byteLength": 17490,
+      "pageCount": 7,
+      "pageManifest": [
+        {
+          "packetPage": 1,
+          "component": "clerk_correction_request",
+          "documentId": "clerk_correction_request",
+          "sourcePage": 1,
+          "sourceSha256": null
+        },
+        {
+          "packetPage": 2,
+          "component": "clerk_correction_request",
+          "documentId": "clerk_correction_request",
+          "sourcePage": 2,
+          "sourceSha256": null
+        },
+        {
+          "packetPage": 3,
+          "component": "enforcement_motion",
+          "documentId": "enforcement_motion",
+          "sourcePage": 1,
+          "sourceSha256": null
+        },
+        {
+          "packetPage": 4,
+          "component": "enforcement_motion",
+          "documentId": "enforcement_motion",
+          "sourcePage": 2,
+          "sourceSha256": null
+        },
+        {
+          "packetPage": 5,
+          "component": "proposed_order",
+          "documentId": "proposed_order",
+          "sourcePage": 1,
+          "sourceSha256": null
+        },
+        {
+          "packetPage": 6,
+          "component": "filing_instructions",
+          "documentId": "filing_instructions",
+          "sourcePage": 1,
+          "sourceSha256": null
+        },
+        {
+          "packetPage": 7,
+          "component": "filing_instructions",
+          "documentId": "filing_instructions",
+          "sourcePage": 2,
+          "sourceSha256": null
+        }
+      ],
+      "documents": [
+        "clerk_correction_request",
+        "enforcement_motion",
+        "proposed_order",
+        "filing_instructions"
+      ],
+      "components": [
+        "clerk_correction_request",
+        "enforcement_motion",
+        "proposed_order",
+        "filing_instructions"
+      ]
+    }
+  ],
+  "packets": [
+    {
+      "fixture": "canonical",
+      "documents": [
+        "clerk_correction_request",
+        "enforcement_motion",
+        "proposed_order",
+        "filing_instructions"
+      ]
+    },
+    {
+      "fixture": "boundary",
+      "documents": [
+        "clerk_correction_request",
+        "enforcement_motion",
+        "proposed_order",
+        "filing_instructions"
+      ]
+    }
+  ],
+  "everyPageRastered": false,
+  "byteDerivedHashes": true,
+  "rasterEngine": null,
+  "rasterSkipped": true,
+  "rasterPages": [],
+  "independentVerificationPending": true
+}

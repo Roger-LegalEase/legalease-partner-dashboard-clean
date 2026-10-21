@@ -1,0 +1,81 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-worker-rows/v1",
+  "assignmentId": "FIX07",
+  "workerId": "FIX07",
+  "lane": "current-guidance-compatibility",
+  "engine": "gpt-5.6-sol",
+  "reasoningEffort": "high",
+  "shiftBaseSha": "4328c56318fb26ebd864221ac5d913f2189f481a",
+  "returnFilename": "rows-fix07-20260911-de-current-guidance.json",
+  "packetsSelfVerified": 0,
+  "verdictsIssued": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "rows": [
+    {
+      "itemId": "de_mandatory_expungement-set",
+      "status": "COMPLETED",
+      "verdict": null,
+      "verdictIsNotMineToIssue": "The adapter is ready to consume a future fully bound independent v2 review. Current review and raster gates remain pending.",
+      "jurisdiction": "DE",
+      "routeKeys": [
+        "obligation:track-pathway:DE:de_mandatory_expungement:mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a"
+      ],
+      "implementationStrategy": "process_guidance",
+      "packetComponents": [
+        "component:agency_preparation_guide"
+      ],
+      "instrumentKinds": [
+        "no filing — process guidance"
+      ],
+      "filingPermitted": false,
+      "currentState": "BUILT_RASTER_PENDING",
+      "sourceStatus": "GUIDANCE_AUTHORITY_BOUND",
+      "legalDecision": "DE-MANDATORY-SBI-ADMINISTRATIVE-PATHWAY / LEGAL_CLEAR",
+      "adapterCoverage": {
+        "fullV2IndependentReview": true,
+        "actualPdfPageCounts": true,
+        "reportAndManifestCoverage": true,
+        "allCurrentCompositionSources": true,
+        "decisionAtReviewBase": true,
+        "acceptedWholeFamilyRaster": true,
+        "legacyThreePageCompatibilityRetained": true
+      },
+      "currentGates": {
+        "reviewPresent": false,
+        "rasterProven": false,
+        "admissionCreated": false
+      },
+      "tests": {
+        "reviewAdapter": "1 accepted, 18 refused",
+        "binding": "3 positive, 24 refused",
+        "allTreatmentIdentitiesPreserved": 346
+      },
+      "pdfs": [
+        {
+          "fixture": "canonical",
+          "path": "data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "fe6116767ab21cd12f5448c6cb389072f32e4650e3a3b7f8d8bb82168e124f00",
+          "byteLength": 13688,
+          "pageCount": 4
+        },
+        {
+          "fixture": "boundary",
+          "path": "data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "45f57fe5ba073034ce2f3e3411c1b87410123ae51a56f235fbbb4e1d8656d3bb",
+          "byteLength": 13761,
+          "pageCount": 4
+        }
+      ],
+      "identityRefresh": {
+        "was": "a5c912e7e2d472f3d2b7357cf405ecf317da3d9221563e23ca0f089eb4b9756a",
+        "current": "37e5c719239a3e91a98b4e32398e6244519baadb5515e2a0d81e9de82704cf7b",
+        "changedOnly": [
+          "de_pardon_expungement-set",
+          "UT PCRA reconciliation"
+        ]
+      },
+      "evidence": "data/rcap-grade-a/packet-factory-24h/fix07/de-current-guidance-20260911/verification.json"
+    }
+  ]
+}

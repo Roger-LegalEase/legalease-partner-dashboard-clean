@@ -1,0 +1,210 @@
+{
+  "schemaVersion": "rcap-native-verifier-returns/v1",
+  "preparedOn": "2026-09-12",
+  "laneId": "FIXCA17",
+  "rows": [
+    {
+      "itemId": "ca-17b-reduction-set",
+      "familyId": "ca-17b-reduction-set",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "claim": {
+        "workerId": "FIXCA17",
+        "grantSetId": "6e9ae81a7522046d"
+      },
+      "obligationsRepaired": [
+        "ROUTE_OPTIONS"
+      ],
+      "historicalVerdict": {
+        "path": "data/rcap-grade-a/packet-factory-24h/vfcg1/rows-vfcg1-20260911-ca17-preraster.json",
+        "sha256": "52f6fffd6e6c1ccf2cdfedc87c7aaf43b94512fa81e241c3f2b4893cae0849f1",
+        "preserved": true,
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "failedObligation": "ROUTE_OPTIONS"
+      },
+      "actualDefect": "The builder modeled Penal Code sections 17(b) and 17(d)(2) as two global evidence variants, then withdrew their only row answers. Both variants delivered identical CR-180 forms with all ten per-offense eligibility cells blank and no governed input model for complete conviction rows.",
+      "correction": "The binding CA-17B-17D2-OFFENSE-BY-OFFENSE rule now drives one packet variant. The family collects a complete five-value bundle per listed offense (code, section, type, 17(b) yes/no, 17(d)(2) yes/no), writes all five cells of each used row together, requests every supported applicable reduction through item 8, and fails closed on missing/partial inputs without classifying an offense. Canonical and boundary fixture rows are explicitly synthetic review data.",
+      "packetBytesChanged": true,
+      "packetByteChangeScope": {
+        "changed": [
+          "canonical-cr-180.pdf",
+          "boundary-cr-180.pdf"
+        ],
+        "exactOfficialUnchangedComponents": [
+          "canonical-cr-106.pdf",
+          "canonical-cr-181.pdf",
+          "boundary-cr-106.pdf",
+          "boundary-cr-181.pdf"
+        ],
+        "retiredIncorrectGlobalVariantDirectories": [
+          "pc-17b-felony-to-misdemeanor-*",
+          "pc-17d2-misdemeanor-to-infraction-*"
+        ]
+      },
+      "artifacts": {
+        "documents": [
+          {
+            "role": "canonical-cr-106",
+            "name": "canonical-cr-106.pdf",
+            "path": "data/rcap-all50/overlays/census-v1/ca/ca-17b-reduction-set--official-pdf-fill/fixtures/pc-17b-17d2-offense-by-offense-canonical/cr-106-unchanged-official.pdf",
+            "sha256": "f8a37a9a8c30a016b432bb39fd67407717c3dee7be74bc3e3d471127bf190c5a",
+            "byteLength": 104278,
+            "pageCount": 2,
+            "pageCountBasis": "builder exact-source census cross-checked against the current parsed PDF",
+            "pageCountEvidence": {
+              "method": "pdf-lib 1.17.1 and exact-source pikepdf census",
+              "pageCount": 2,
+              "sourceSha256": "f8a37a9a8c30a016b432bb39fd67407717c3dee7be74bc3e3d471127bf190c5a"
+            }
+          },
+          {
+            "role": "canonical-cr-180",
+            "name": "canonical-cr-180.pdf",
+            "path": "data/rcap-all50/overlays/census-v1/ca/ca-17b-reduction-set--official-pdf-fill/fixtures/pc-17b-17d2-offense-by-offense-canonical/cr-180-filled.pdf",
+            "sha256": "0389c0a8004ff4feaa685e7f8d0abd5e652b53166a25f384565d25adcac87e7a",
+            "byteLength": 64269,
+            "pageCount": 3,
+            "pageCountBasis": "builder exact-source census cross-checked against the current parsed PDF",
+            "pageCountEvidence": {
+              "method": "pdf-lib 1.17.1 and exact-source pikepdf census",
+              "pageCount": 3,
+              "sourceSha256": "0389c0a8004ff4feaa685e7f8d0abd5e652b53166a25f384565d25adcac87e7a"
+            }
+          },
+          {
+            "role": "canonical-cr-181",
+            "name": "canonical-cr-181.pdf",
+            "path": "data/rcap-all50/overlays/census-v1/ca/ca-17b-reduction-set--official-pdf-fill/fixtures/pc-17b-17d2-offense-by-offense-canonical/cr-181-unchanged-official.pdf",
+            "sha256": "f737503a89465d40206b11b1123e815e44a249d324bad16d313c337a695ce504",
+            "byteLength": 110123,
+            "pageCount": 2,
+            "pageCountBasis": "builder exact-source census cross-checked against the current parsed PDF",
+            "pageCountEvidence": {
+              "method": "pdf-lib 1.17.1 and exact-source pikepdf census",
+              "pageCount": 2,
+              "sourceSha256": "f737503a89465d40206b11b1123e815e44a249d324bad16d313c337a695ce504"
+            }
+          },
+          {
+            "role": "boundary-cr-106",
+            "name": "boundary-cr-106.pdf",
+            "path": "data/rcap-all50/overlays/census-v1/ca/ca-17b-reduction-set--official-pdf-fill/fixtures/pc-17b-17d2-offense-by-offense-boundary/cr-106-unchanged-official.pdf",
+            "sha256": "f8a37a9a8c30a016b432bb39fd67407717c3dee7be74bc3e3d471127bf190c5a",
+            "byteLength": 104278,
+            "pageCount": 2,
+            "pageCountBasis": "builder exact-source census cross-checked against the current parsed PDF",
+            "pageCountEvidence": {
+              "method": "pdf-lib 1.17.1 and exact-source pikepdf census",
+              "pageCount": 2,
+              "sourceSha256": "f8a37a9a8c30a016b432bb39fd67407717c3dee7be74bc3e3d471127bf190c5a"
+            }
+          },
+          {
+            "role": "boundary-cr-180",
+            "name": "boundary-cr-180.pdf",
+            "path": "data/rcap-all50/overlays/census-v1/ca/ca-17b-reduction-set--official-pdf-fill/fixtures/pc-17b-17d2-offense-by-offense-boundary/cr-180-filled.pdf",
+            "sha256": "6b32046f9c2a9e88d1f7d29b2cd2b5b133de3541d99e8588a328024cf5dbd628",
+            "byteLength": 64572,
+            "pageCount": 3,
+            "pageCountBasis": "builder exact-source census cross-checked against the current parsed PDF",
+            "pageCountEvidence": {
+              "method": "pdf-lib 1.17.1 and exact-source pikepdf census",
+              "pageCount": 3,
+              "sourceSha256": "6b32046f9c2a9e88d1f7d29b2cd2b5b133de3541d99e8588a328024cf5dbd628"
+            }
+          },
+          {
+            "role": "boundary-cr-181",
+            "name": "boundary-cr-181.pdf",
+            "path": "data/rcap-all50/overlays/census-v1/ca/ca-17b-reduction-set--official-pdf-fill/fixtures/pc-17b-17d2-offense-by-offense-boundary/cr-181-unchanged-official.pdf",
+            "sha256": "f737503a89465d40206b11b1123e815e44a249d324bad16d313c337a695ce504",
+            "byteLength": 110123,
+            "pageCount": 2,
+            "pageCountBasis": "builder exact-source census cross-checked against the current parsed PDF",
+            "pageCountEvidence": {
+              "method": "pdf-lib 1.17.1 and exact-source pikepdf census",
+              "pageCount": 2,
+              "sourceSha256": "f737503a89465d40206b11b1123e815e44a249d324bad16d313c337a695ce504"
+            }
+          }
+        ],
+        "documentsDigest": "41b5472359a514425ea49282f2db0f4d37434ba4a7f822023f08cecdfabc9cbf"
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true
+      },
+      "preservedPassingObligations": [
+        "ROUTE_IDENTITY",
+        "SOURCE_IDENTITY",
+        "COMPONENT_SET",
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "REPEATING_ROWS",
+        "PROTECTED_FIELDS",
+        "ARTIFACTS",
+        "PAGE_ORDER",
+        "FILING_DESTINATION",
+        "FEE_AND_WAIVER",
+        "SERVICE",
+        "SELF_HELP_STOP"
+      ],
+      "validation": [
+        {
+          "command": "node scripts/test-ca-17b-offense-by-offense.mjs",
+          "result": "PASS",
+          "assertions": 39
+        },
+        {
+          "command": "node scripts/build-census-v1-ca-17b-reduction-set.mjs --self-test",
+          "result": "PASS"
+        },
+        {
+          "command": "node scripts/build-census-v1-ca-17b-reduction-set.mjs --check",
+          "result": "PASS"
+        },
+        {
+          "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ca-17b-reduction-set",
+          "result": "PASS_COMPLETE",
+          "assertions": "33/187 written; all nine counters zero"
+        }
+      ],
+      "raster": {
+        "state": "RASTER_PENDING",
+        "manifest": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ca17-offense-by-offense/raster-manifest.json",
+        "independentReview": "PENDING"
+      },
+      "bindingDecision": {
+        "decisionId": "CA-17B-17D2-OFFENSE-BY-OFFENSE",
+        "path": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json"
+      },
+      "sourcePins": [
+        {
+          "formNumber": "CR-180",
+          "sha256": "06c1b64315ebd5c7f8260d7169abc2392d6373a202dc39f4788cb8a8c98bbdbe",
+          "byteLength": 110684
+        },
+        {
+          "formNumber": "CR-181",
+          "sha256": "f737503a89465d40206b11b1123e815e44a249d324bad16d313c337a695ce504",
+          "byteLength": 110123
+        },
+        {
+          "formNumber": "CR-106",
+          "sha256": "f8a37a9a8c30a016b432bb39fd67407717c3dee7be74bc3e3d471127bf190c5a",
+          "byteLength": 104278
+        }
+      ]
+    }
+  ]
+}

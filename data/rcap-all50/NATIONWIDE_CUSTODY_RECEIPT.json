@@ -1,0 +1,63 @@
+{
+ "schemaVersion": "rcap-nationwide-custody-receipt/v1",
+ "producedBy": "Captain",
+ "producedOn": "2026-09-02T10:34:53.276Z",
+ "atCommit": "3858494e77ce260e85ed5c62d909be01c9eae69b",
+ "authorization": "Roger authorized recovering or republishing the operational Nationwide corpus as a private source-artifacts release, mounting it, and extending the bootstrap to restore it reproducibly — committing only manifests, hashes, custody receipts, bootstrap configuration and route-to-source bindings, never source bodies.",
+ "status": "BLOCKED ON BYTES THAT EXIST NOWHERE THIS SESSION CAN REACH. The bootstrap, the verification manifest and the refusal paths are built and tested; the corpus itself cannot be recovered from here.",
+ "whatWasSearchedAndWhatWasFound": [
+  {
+   "where": "The private release Roger-LegalEase/legalease-source-artifacts@source-corpus-2026-08-28",
+   "found": "Four assets: the Master Library zip (143MB), its .sha256 sidecar, Oregon_Grade_A_Source_Pack.zip, and SOURCE_RECOVERY_REPORT.md. No Nationwide asset."
+  },
+  {
+   "where": "Every release in that repository",
+   "found": "Exactly one release exists. There is no other tag to look in."
+  },
+  {
+   "where": "This container, under private/",
+   "found": "Two custodies: the Master Library and the D source packs. No \"LegalEase <State>\" directory anywhere at any depth."
+  },
+  {
+   "where": "Every repository this session can reach (7 listed)",
+   "found": "No legalease-partner-dashboard-clean-document-delivery. The inventory records that the corpus was read from a Codespace of that repository on 2026-07-31; it is not among the accessible repositories."
+  },
+  {
+   "where": "SOURCE_RECOVERY_REPORT.md in the release",
+   "found": "It documents recovering the MASTER LIBRARY from a ChatGPT Library bootstrap and 11 source shards after an external drive became unavailable. It records no recovery path for the operational tree."
+  }
+ ],
+ "whyThisCannotBeSynthesised": "212 of the 583 inventoried files are byte-identical to files already held, and a tree could be assembled from them — that was built and deliberately destroyed during testing. It would be a partial corpus wearing the operational name, and both the bootstrap and scripts/rcap-official-forms/operational-corpus-precondition.mjs refuse exactly that substitution. A corpus that looks recovered and is not is worse than none: every field map, census and fixture keyed to the missing 371 would describe documents that are not there.",
+ "whatRogerMustSupply": {
+  "the": "The operational Nationwide Record Clearing tree, as it stood when inventoried on 2026-07-31T14:00:00.000Z",
+  "from": "The external drive, a surviving Codespace, or any backup of /workspaces/legalease-partner-dashboard-clean-document-delivery/private/Nationwide Record Clearing",
+  "publishAs": {
+   "repo": "Roger-LegalEase/legalease-source-artifacts",
+   "tag": "source-corpus-2026-08-28 (or any tag, passed as NATIONWIDE_TAG)",
+   "asset": "Nationwide_Record_Clearing.zip (or any name, passed as NATIONWIDE_ASSET)"
+  },
+  "thenRun": "bash scripts/rcap-corpus/bootstrap-private-corpus.sh",
+  "whatHappensThen": "The archive is downloaded, extracted, and every one of the 583 recorded path-and-hash pairs is verified. A tree that misses a file or carries one at the wrong hash is refused and removed; a correct tree is installed at private/Nationwide Record Clearing and OFFICIAL_FORMS_SOURCE_DIR is exported live in private/source-corpus-environment.txt."
+ },
+ "howToCheckTheRightTreeBeforePublishing": {
+  "expectedFiles": 583,
+  "expectedJurisdictions": 51,
+  "topLevelShape": "Directories named \"LegalEase <State>\". A STATES/-shaped tree is the Master Library or a D pack and will be refused.",
+  "perStateFileCounts": "data/rcap-all50/nationwide-restore-manifest.json -> perState",
+  "everyHash": "data/rcap-all50/nationwide-restore-manifest.json -> files[] carries relativePath and sha256 for all 583 files."
+ },
+ "whatItUnblocks": {
+  "filesHeldNowhereElse": 371,
+  "ofThoseFormShaped": 237,
+  "sourceBlockedFamiliesInAnAffectedJurisdiction": 99,
+  "ofHowMany": 111,
+  "caveat": "That is an UPPER BOUND. The link measured is jurisdictional, not per-obligation, so it says which families could be helped and not which will be."
+ },
+ "whatWasBuiltAndTested": [
+  "data/rcap-all50/nationwide-restore-manifest.json — 583 path-and-hash pairs, 51 jurisdictions, per-state counts. Hashes and paths only; no body, no archive, no court PDF.",
+  "A Nationwide stanza in scripts/rcap-corpus/bootstrap-private-corpus.sh: pinned, private-token, content-verified, fail-closed, best-effort so a session without the asset still finishes with a working Master Library.",
+  "Tested four ways: no asset published -> clean actionable refusal, nothing installed; a tree assembled from the 212 genuinely held files -> 212 verified / 371 absent -> REFUSED; one byte flipped in a verified file -> MISMATCH caught; a tree without \"LegalEase <State>\" directories -> refused as a substitution."
+ ],
+ "nothingWasCommittedThatShouldNotBe": "No court PDF, no source archive, no source body. private/ is git-ignored and the bootstrap refuses to run if it is not, and refuses to finish if git tracks a byte under any install root.",
+ "grantsNothing": "This receipt restores nothing, binds no source, promotes no family and opens no route."
+}

@@ -1,0 +1,61 @@
+{
+  "schemaVersion": "rcap-deliverable-determination/v1",
+  "determinedOn": "2026-09-09",
+  "question": "For the four families the raster queue declines or under-covers, what does each actually deliver?",
+  "readFrom": [
+    "data/record-clearing/legal-design-packet-set-manifests.json — the packet-set manifest",
+    "<family>/reports/rendered-artifacts.json — the delivery path's own declaration"
+  ],
+  "notReadFrom": "filenames. Where a file exists in fixtures/ that nothing declares, that is recorded as an undeclared file rather than resolved into a product decision.",
+  "families": {
+    "al-trafficking-set": {
+      "manifestComponents": 3,
+      "declares": "4 fixtures, each with its own file: canonical--misdemeanor, boundary--misdemeanor, canonical--felony, boundary--felony",
+      "eachFixtureAssembles": ["CR-65 (primary_filing, certificate_of_service)", "C-10-CRIMINAL (fee_waiver)"],
+      "determination": "FOUR DELIVERABLES. Two route variants, misdemeanour and felony, each delivered canonical and boundary. Every one is declared with a path, so every one is a delivered PDF rather than a component.",
+      "applicableCoverage": "all four, rendered and measured"
+    },
+    "ne-seal-pre2017-set": {
+      "manifestComponents": 5,
+      "declares": "6 fixtures, each with its own file: canonical and boundary for dismissed-prosecutor-motion, dismissed-problem-solving-court and acquitted",
+      "eachFixtureAssembles": ["CC-6-12 (primary_filing)", "CC-6-15.1 (alternate_primary_filing)", "CC-6-12a (instructions)"],
+      "determination": "SIX DELIVERABLES. Three disposition variants, each canonical and boundary. The manifest's fee-waiver-4 and hearing-instructions-5 components are reported unrendered by PF09 rather than delivered, which is a separate open item and not a coverage question.",
+      "applicableCoverage": "all six, rendered and measured"
+    },
+    "rcap-or-official-pdf-fill": {
+      "manifestComponents": null,
+      "manifestNote": "no packetSet exists under this id in legal-design-packet-set-manifests.json",
+      "declares": "4 fixtures with files: canonical and boundary for arrest-no-charges and dismissed-charge",
+      "eachFixtureAssembles": ["motion_and_declaration", "OR-OJD-ADULT-SET-ASIDE-PACKET", "criminal_history_request", "OR-OSP-SET-ASIDE-CCH", "filing_instructions"],
+      "undeclaredFilesInTheDeliveryDirectory": [
+        "canonical--arrest-no-charges--motion-and-declaration.pdf",
+        "boundary--arrest-no-charges--motion-and-declaration.pdf",
+        "canonical--dismissed-charge--motion-and-declaration.pdf",
+        "boundary--dismissed-charge--motion-and-declaration.pdf"
+      ],
+      "determination": "FOUR DECLARED DELIVERABLES, and four more PDFs in the delivery directory that the report does not declare. Whether those four are separately delivered or are the motion component of the assembled variant is not settled by either record read here, so it is not settled here.",
+      "applicableCoverage": "the four declared; the undeclared four need the builder to declare or stop writing them"
+    },
+    "pa_pardon_expungement-set": {
+      "manifestComponents": 3,
+      "declares": "2 fixtures, canonical and boundary, as a COMPOSITION report naming no path: each assembles process_guidance, primary_filing, PA-RCRIM-P-790-PETITION, proposed_order and PA-RCRIM-P-790-ORDER",
+      "undeclaredFilesInTheDeliveryDirectory": [
+        "canonical--PA-RCRIM-P-790-PETITION.pdf",
+        "canonical--PA-RCRIM-P-790-ORDER.pdf",
+        "boundary--PA-RCRIM-P-790-PETITION.pdf",
+        "boundary--PA-RCRIM-P-790-ORDER.pdf"
+      ],
+      "determination": "TWO DELIVERABLES, not six. The report declares two assembled fixtures and names the five documents composed into each; the four per-document PDFs are components of that assembly and nothing declares them as outputs. The earlier refusal of this family's receipt read the fixtures directory rather than the declaration, and counted components as deliverables.",
+      "applicableCoverage": "the two assembled fixtures, which is what its queue row already carries",
+      "whatStillBlocksIt": "the importer's composition branch compares the declared set against every PDF in fixtures/, so the four component files still read as undeclared extras. The fix is on the family's side — components do not belong in the delivery directory, or the report must say they are components — not in the importer, which is asking the right question."
+    }
+  },
+  "queueEnrolment": {
+    "attempted": "reading the builder's declared fixture set so the three variant families could enrol",
+    "result": "REVERTED, not landed.",
+    "why": "Measured against the current queue, every version of that change cost nineteen standing RASTER_PASS receipts. Seventeen were families whose document SETS were identical and only re-ordered — documentsDigest hashes the documents in order, so each went stale for nothing. dc_seal_conviction-set narrowed from four documents to two, because its report declares the misdemeanour variant and not the felony one while both are on disk and both have been rendering and passing. Unblocking three families is not worth invalidating nineteen, and the instruction was not to make unrelated families wait.",
+    "whatWouldMakeItSafe": "an enrolment change that is a no-op for every family that already enrols, proven family by family against the current queue before it lands, and a documentsDigest that does not depend on document order."
+  },
+  "terminalPromotions": 0,
+  "packetBytesChanged": 0
+}

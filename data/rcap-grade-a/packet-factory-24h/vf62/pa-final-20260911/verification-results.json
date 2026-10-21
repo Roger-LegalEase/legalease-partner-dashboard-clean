@@ -1,0 +1,45 @@
+{
+  "familyId": "pa_6308_underage-set",
+  "verdict": "FAIL_REPAIR_REQUIRED",
+  "commands": [
+    {
+      "command": "MASTER_LIBRARY_SOURCE_DIR=<assigned exact held library> RCAP_NO_LOCAL_RASTER=1 node scripts/build-census-v1-pa_6308_underage-set.mjs --check-nonvisual",
+      "exitCode": 0,
+      "result": "NONVISUAL CHECK PASS;6PDFs;saved-byte proof",
+      "evidence": "data/rcap-grade-a/packet-factory-24h/vf62/pa-final-20260911/nonvisual.log"
+    },
+    {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family pa_6308_underage-set",
+      "exitCode": 0,
+      "result": "PASS_COMPLETE;45/217written;generic counters zero",
+      "evidence": "data/rcap-grade-a/packet-factory-24h/vf62/pa-final-20260911/completeness.log"
+    },
+    {
+      "command": "node --test scripts/rcap-packet-recovery/pa-6308-complete-semantics.test.mjs",
+      "exitCode": 0,
+      "result": "4passed,0failed;author assertions do not provide independent approval",
+      "evidence": "data/rcap-grade-a/packet-factory-24h/vf62/pa-final-20260911/focused-tests.log"
+    },
+    {
+      "command": "node data/rcap-grade-a/packet-factory-24h/vf62/pa-final-20260911/measure-current-evidence.mjs",
+      "exitCode": 0,
+      "result": "4sources/6PDFs/8originalPNG identities matched;34changed writes measured,4unchanged certificate writes reused",
+      "evidence": "data/rcap-grade-a/packet-factory-24h/vf62/pa-final-20260911/current-evidence-measurements.json"
+    }
+  ],
+  "readOnlyEntrypoint": "runEastFamily --check-nonvisual -> checkOfficial(replayRaster:false), lines8498\u20138521/6889\u20137240. Certificate determinism recomputed in memory; no file write or raster replay.",
+  "sourceAndCandidateHashesUnchangedAfterChecks": true,
+  "sevenPreviousGroupsRepaired": true,
+  "remainingDefectGroups": 1,
+  "allObligations": {
+    "PASS": 13,
+    "FAIL": 2,
+    "NOT_MEASURABLE_HERE": 0,
+    "BLOCKED_LEGAL_INPUT": 0
+  },
+  "measurementLimitations": [
+    "Poppler emitted XObject subtype diagnostics; all expected changed values read at their source coordinates and all6original pages intact.",
+    "Initial verdict-assembly script had a syntax error before writing records; corrected before final validation."
+  ],
+  "approvalMeaning": "Evidence status only; no admission or commercial authority."
+}

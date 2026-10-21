@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "session10-md-conviction-discovery-review/v1",
+  "reviewer": "/root/session10_admission_review",
+  "implementationAuthor": "/root",
+  "result": "PASS",
+  "scope": "Only exact two-line discovery addition. Discovery is not approval; unchanged native audit authenticates maps/source/output.",
+  "positiveControls": 1,
+  "negativeControls": [
+    {
+      "name": "wrong directory",
+      "refused": true
+    },
+    {
+      "name": "missing map",
+      "refused": true
+    },
+    {
+      "name": "missing status",
+      "refused": true
+    },
+    {
+      "name": "different status family",
+      "refused": true
+    },
+    {
+      "name": "cannabis directory",
+      "refused": true
+    }
+  ],
+  "actualCli": {
+    "command": [
+      "node",
+      "scripts/rcap-packet-completeness/verify-packet-completeness.mjs",
+      "--family",
+      "md_10110_conviction-set"
+    ],
+    "exitCode": 0,
+    "elapsedSeconds": 0.904,
+    "childMaxRSSKiB": 173092,
+    "matrixUnchanged": true,
+    "writeFlagAbsent": true
+  },
+  "implementation": {
+    "file": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs",
+    "sha256": "6aa3f8578ecd0b847f4668f8bde496955a06b82ff04af881df89a318855c1c3b"
+  },
+  "cannabisEnrolled": false,
+  "sharedEdits": false
+}

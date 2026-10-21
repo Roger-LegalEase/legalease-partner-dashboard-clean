@@ -1,0 +1,135 @@
+{
+  "schemaVersion": "rcap-packet-factory-focused-repair-return/v1",
+  "workerId": "REPAIR-D-FIX06-LA-SOURCE-IDENTITY",
+  "assignmentId": "FIX06",
+  "laneKind": "repair",
+  "assignedBase": "6351836b1f53cb143cc6afb08a4bf0bc28dde7b1",
+  "measuredAtBase": "47a46baaa37c75a7e5a400e86b5a22285f3736cd",
+  "branch": "repair-d-cluster",
+  "writtenAlongside": "rows.json and rows-fable-fix06.json in this directory already hold earlier lanes' returns and are not touched; this return is a separate file, found by shape rather than by filename.",
+  "rows": [
+    {
+      "itemId": "la-987-set-aside-and-dismiss-set",
+      "familyId": "la-987-set-aside-and-dismiss-set",
+      "laneKind": "repair",
+      "status": "COMPLETED",
+      "repairedByThisLane": true,
+      "result": "BUILT_RASTER_PENDING",
+      "route": "obligation:track-only:LA:la-987-set-aside-and-dismiss",
+      "directory": "data/rcap-all50/overlays/census-v1/la/la-987-set-aside-and-dismiss-set--official-pdf-fill",
+      "failedObligationNames": ["SOURCE_IDENTITY"],
+      "failedObligationRepaired": "SOURCE_IDENTITY",
+      "answersVerdict": {
+        "lane": "vf01",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "5b74dd31bc55c95b87fe46a840902d6772eb7068",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfterMeasuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family la-987-set-aside-and-dismiss-set, run at 47a46baaa37c75a7e5a400e86b5a22285f3736cd => PASS_COMPLETE, 15/33 written, all nine counters zero",
+
+      "whatWasWrong": "SOURCE_IDENTITY. The receipt bound eight grounding records and one would not re-bind: data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json, pinned at 484a8944f48431cfa33deafdaeea863b76d05a5a4fee04d13fece32c8e5aa078 / 2010084 B. It hashed 3a37b3f9cb02bd15cb6aea11639d0f084ac18cb7f022fb7bb9f28732301c23cc / 2016844 B when the verifier read it and 36f98da3c5b37a9be7157b08d049f680fd0df9585249b1650838d5831aeb10de / 2027801 B when this repair ran -- three distinct values in as many reads.",
+      "whyRepinningWasNotTheAnswer": "The pinned blob was recovered at commit b45f5131 and Louisiana's own node compared. It is not byte-identical and it did not merely move inside a rewritten file: it changed meaning. At the pin it read SOURCE_READY / NOT_RENDERED / NOT_BUILT; it now reads FAIL_REPAIR_REQUIRED / RENDERED / FAIL_VISIBLE_APPEARANCE. No identityRefresh asserting an unchanged node could honestly cure that, and the earlier sweep was right to withhold one.",
+      "theActualDefect": "A packet grounded itself in that file at all. MASTER_QUEUE.json is a generated file describing this packet's own build state; a record that binds its own output proves nothing about the packet's legal content, and it will go stale on every regeneration forever.",
+      "exactRepair": "The queue is removed from the family's grounding records and is now read by nobody in this builder. Every assertion it carried was either restated by a record that actually carries legal content -- the route census assigns the route to this packet set, the LA memo and the track registry both declare the output strategy, and the owner determination together with the component-source relationship establish an authority-only composition owing no binary -- or was the build confirming its own output directory against a file generated from that same build, which is the one assertion with no replacement and none owed. The receipt now carries a `notGroundedIn` block saying why the queue must not come back. `legalInputStatus`, the single value only the queue supplied, is now derived from the track registry's own dating for this track -- an effectiveFrom, a null effectiveTo, and no blocker raised against the governing mechanism -- and asserted, so drift in the authority stops the build instead of being copied. Each of the seven remaining records is now pinned twice: the whole file, and this family's own entry inside it hashed over key-ordered canonical JSON. No fact, mapping, blank disposition, refusal, component, legal theory or instruction changed, and MASTER_QUEUE.json itself was not edited.",
+
+      "instrument": {
+        "name": "grounding-pin rebinding audit",
+        "reads": "every record the receipt says it is grounded in is re-read and re-hashed, whole-file and -- where the receipt carries one -- the family's own entry over key-ordered canonical JSON, and each pin is reported as rebinding or not",
+        "before": { "records": 8, "wholeFilePinsRebinding": 7, "wholeFilePinsFailing": 1, "entryPinsRebinding": 0, "entryPinsFailing": 0, "entryPinsAbsent": 8, "groundedInMasterQueue": true },
+        "after": { "records": 7, "wholeFilePinsRebinding": 7, "wholeFilePinsFailing": 0, "entryPinsRebinding": 7, "entryPinsFailing": 0, "entryPinsAbsent": 0, "groundedInMasterQueue": false },
+        "theOnlyFailingPinBefore": "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+        "positiveControl": {
+          "record": "data/record-clearing/legal-design-packet-set-manifests.json",
+          "what": "the shared record whose move forced an earlier lane to write an identityRefresh note by hand",
+          "wholeFileWas": "713ed7abbd38a0faf32f4085eeefe55e6b14fd80879774604d0741cb1fd04572",
+          "wholeFileNow": "6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec",
+          "familyEntryOnBothBlobs": "fb0fd26e9c2cb1aadeb33496a72adfaa5cfeaaf5f67292b1b40b954debc78222",
+          "meaning": "the whole file moved while this family's entry did not, so the new entry pin settles that case by measurement instead of by argument, and a future rewrite around this family will not need a hand-written note"
+        },
+        "negativeControl": {
+          "record": "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+          "familyEntryAtPinnedBlob": "ed3ce6381839c76acbfa0c48f8b8d1084b429698b0a7ee2b42ffa859c8e02661",
+          "familyEntryNow": "c40486f354a21fc85ce98e2c871a25a86ab16401bf270a3d513a7e95e7f0f201",
+          "meaning": "the entry pin moves where the content genuinely changed, so the instrument is not vacuous, and it independently confirms the verifier's finding that the queue node changed rather than moved"
+        },
+        "groundingRecordsAfter": [
+          { "path": "data/rcap-grade-a/legal-decisions/OWNER_DETERMINATIONS_2026-09-02.json", "entryPointer": "determinations[id=LA-STATUTORY-FORMS]" },
+          { "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json", "entryPointer": "routes[routeKey=obligation:track-only:LA:la-987-set-aside-and-dismiss]" },
+          { "path": "data/record-clearing/legal-design-intake/LA.memo.json", "entryPointer": "tracks[trackId=la-987-set-aside-and-dismiss]" },
+          { "path": "data/record-clearing/legal-design-track-registry.json", "entryPointer": "tracks[trackId=la-987-set-aside-and-dismiss]" },
+          { "path": "data/record-clearing/legal-design-specifications.json", "entryPointer": "officialFormAssignments[trackId=la-987-set-aside-and-dismiss]" },
+          { "path": "data/record-clearing/legal-design-packet-set-manifests.json", "entryPointer": "packetSets[packetSetId=la-987-set-aside-and-dismiss-set]" },
+          { "path": "data/record-clearing/legal-design-track-source-relationships.json", "entryPointer": "relationships[trackId=la-987-set-aside-and-dismiss]" }
+        ]
+      },
+
+      "aboutTheVisualDefectsCounter": "The family's completeness reading moved FAIL_VISIBLE_APPEARANCE -> PASS_COMPLETE, visualDefects 1 -> 0. That counter came from `allSourcesExact`, which the completeness contract reads directly. An earlier pin sweep lowered it to false by hand -- correctly at the time, because a grounding record did not bind. The builder has always emitted true and still does; the value is restored by rebuilding the family, not by this lane editing the flag, and the reason it was lowered is gone. The receipt now states that history in `allSourcesExactNote` rather than leaving a reader to reconstruct it.",
+
+      "fixturesMoved": false,
+      "oldArtifacts": [
+        { "fixture": "canonical", "sha256": "9e06893a923609beb34e285c6a1bf68044feb518f37cd8a1422a833ef8ca5450", "byteLength": 14642, "pageCount": 5 },
+        { "fixture": "boundary", "sha256": "a8412820377682280b6646600860ec4a1cb3316143137331791d64997b79bc02", "byteLength": 14980, "pageCount": 5 }
+      ],
+      "newArtifacts": [
+        { "fixture": "canonical", "sha256": "9e06893a923609beb34e285c6a1bf68044feb518f37cd8a1422a833ef8ca5450", "byteLength": 14642, "pageCount": 5 },
+        { "fixture": "boundary", "sha256": "a8412820377682280b6646600860ec4a1cb3316143137331791d64997b79bc02", "byteLength": 14980, "pageCount": 5 }
+      ],
+      "rasterOwed": false,
+      "rasterNote": "No fixture moved, so the RASTER_PASS this family carries -- bound to canonical 9e06893a... -- is still bound to the current bytes and is intact. Nothing about the raster was touched by this repair. rasterState remains BUILT_RASTER_PENDING with zero raster pages committed, exactly as before.",
+
+      "determinism": {
+        "builds": 4,
+        "command": "node scripts/build-census-v1-la-987-set-aside-and-dismiss-set.mjs --no-raster",
+        "hashesIdentical": true,
+        "byteLengthsIdentical": true,
+        "pageCountsIdentical": true,
+        "sourceReceiptIdentical": true,
+        "rasterPerformed": false,
+        "note": "Three consecutive runs during the repair and one more at 47a46baaa37c75a7e5a400e86b5a22285f3736cd, all producing the same two fixture hashes and the same receipt, and leaving the tree clean."
+      },
+      "focusedTests": [
+        "node scripts/build-census-v1-la-987-set-aside-and-dismiss-set.mjs --no-raster => nineCountersZero true, both fixtures byte-identical to the committed artifacts at the measured base",
+        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family la-987-set-aside-and-dismiss-set => PASS_COMPLETE, 15/33 written, all nine counters zero (was FAIL_VISIBLE_APPEARANCE, visualDefects 1)",
+        "grounding-pin rebinding audit over the receipt => 7/7 whole-file and 7/7 entry pins rebind, down from 7/8 whole-file and no entry pins",
+        "historical controls: manifests entry hash identical across the 713ed7ab and 6076f734 blobs; queue entry hash different across the 484a8944 blob and the current file",
+        "TRUTH4 checks A and C pass and D is not measurable, all unchanged before and after; check B fails identically before and after and is untouched by this repair"
+      ],
+      "notFixedAndWhy": [
+        "TRUTH4 check B fails for this family both before and after the repair. It is a pre-existing failure on a different obligation and was not in this lane's assignment."
+      ],
+      "scope": {
+        "sharedHostsEdited": 0,
+        "sharedHostContainmentSweepOwed": false,
+        "whyNoSweep": "No shared host was modified, and this builder is imported by no other script, so no other family's next rebuild can move.",
+        "centralStateEdits": 0,
+        "masterQueueEdited": false,
+        "claimsReleased": 0,
+        "selfVerificationPerformed": 0,
+        "verdictsIssued": 0,
+        "routesOpened": 0,
+        "productionTouched": false
+      },
+      "changedPaths": [
+        "scripts/build-census-v1-la-987-set-aside-and-dismiss-set.mjs",
+        "data/rcap-all50/overlays/census-v1/la/la-987-set-aside-and-dismiss-set--official-pdf-fill/source-receipt.json"
+      ],
+      "whatThisRowDoesNotEstablish": [
+        "independent verification -- this family goes to a verifier that is neither its builder nor this repairer",
+        "raster acceptance, visual acceptance, counsel approval, or approval for participant delivery",
+        "that the deferred-sentence period has run or that probation was successfully completed",
+        "that any commercial route is open"
+      ]
+    }
+  ]
+}

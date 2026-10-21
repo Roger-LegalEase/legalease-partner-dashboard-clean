@@ -1,0 +1,218 @@
+{
+  "schemaVersion": "rcap-packet-factory-focused-repair-return/v1",
+  "workerId": "CLAUDE-FIX31-NH-PETITION-NONCONVICTION-PRE2019",
+  "assignmentId": "FIX31",
+  "assignedBase": "5e9951951ef06ffb57583bccc15be879962068d2",
+  "branch": "fix31-nh-nonconviction",
+  "laneKind": "repair",
+  "verdictRepaired": {
+    "lane": "VF02",
+    "verdict": "FAIL_REPAIR_REQUIRED",
+    "verifiedAtBase": "c9bbb6ecd",
+    "row": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json#nh_petition_nonconviction_pre2019-set",
+    "failedObligationNames": [
+      "PROTECTED_FIELDS",
+      "SELF_HELP_STOP"
+    ]
+  },
+  "scope": "Exactly the two failed obligations. The thirteen obligations VF02 passed were not touched: no field-map row changed, no refusal was added or removed, the 17 held-value writes per packet are byte-identical, and the whole-page raster diff over all nine pages of both fixtures is zero outside the two rectangles named below.",
+  "preflight": {
+    "worktree": "/home/user/fix31-worktree, created from /home/user/captain-worktree at 5e9951951 on branch fix31-nh-nonconviction",
+    "coreSparseCheckout": "false; git ls-files -v carries zero skip-worktree bits",
+    "privateCorpus": "/home/user/captain-worktree holds no private/, so it was copied from /home/user/legalease-partner-dashboard-clean/private (157M, git-ignored). Nothing in it was edited and both pinned NH binaries rehash to their receipt digests after the repair.",
+    "masterLibrary": "MASTER_LIBRARY_SOURCE_DIR exported to <worktree>/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1; both NH sources resolved there by exact SHA-256",
+    "nodeModules": "symlinked to /home/user/captain-worktree/node_modules; pdf-lib importable",
+    "gitStatusBeforeAnyChange": "empty",
+    "otherWorktreesTouched": 0,
+    "subagentsCreated": 0
+  },
+  "productionTouched": false,
+  "commercialRoutesOpened": 0,
+  "selfVerified": false,
+  "rows": [
+    {
+      "itemId": "nh_petition_nonconviction_pre2019-set",
+      "familyId": "nh_petition_nonconviction_pre2019-set",
+      "jurisdiction": "NH",
+      "implementationStrategy": "official_pdf_fill",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nh/nh-petition-nonconviction-pre2019-set--official-pdf-fill",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "selfVerified": false,
+      "verdictNote": "Repair completion only. This lane built nothing it verified and verified nothing it built beyond the measurements recorded here. Independent verification and a fresh central raster acceptance both remain owed, and this row claims neither.",
+      "routeKeys": [
+        "obligation:track-only:NH:nh_petition_nonconviction_pre2019"
+      ],
+      "obligationsRepaired": [
+        "PROTECTED_FIELDS",
+        "SELF_HELP_STOP"
+      ],
+      "obligationsThisRowDoesNotDischarge": {
+        "independentVerification": "VF02's FAIL_REPAIR_REQUIRED at c9bbb6ecd stands until an independent lane re-verifies these bytes. product-wiring.json lastIndependentVerification still records it and was not edited; that verdict was read over superseded bytes and no verdict was fabricated to replace it.",
+        "centralRasterAcceptance": "Owed on canonical efb8c5486ce521466e3ac1edd454f92aa1e9f2e54dfe4b68f56e5a6023798ff2 and boundary 749404b0b40cc2dd83e29f96aee7aadcec8b423fe0dc55ecd1bbb75f058ff74c. No raster of any kind covers the current bytes.",
+        "theSiblingFamily": "nh_petition_vacated-set carries the identical defect class in its own delivered bytes and is another lane's repair. Nothing about it was changed or committed here. See siblingHost below.",
+        "theStaleLocalRasterPngs": "The 18 committed page PNGs under raster/ depict the superseded bytes, including the grey placeholder on page 4. The build ran --no-raster as instructed, so nothing re-rendered them; reports/rendered-artifacts.json and reports/independent-visual-review.json no longer list any raster page and build-status.json records rasterPages 0, so no record now binds them. Deleting them was not this lane's call and re-rendering them locally would have set a raster state on bytes no central raster has read. Replacing them is the central raster's job."
+      },
+      "grantConfirmed": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX31 nh_petition_nonconviction_pre2019-set returned CLAIM_OK FIX31 nh_petition_nonconviction_pre2019-set (repair, grant set 00d9f8297933ec66), exit 0, before anything was read or written.",
+      "baseSha": "5e9951951ef06ffb57583bccc15be879962068d2",
+      "branch": "fix31-nh-nonconviction",
+      "whatChanged": {
+        "files": [
+          "data/rcap-all50/shared/field-appearance-semantics.json - two new family:component entries, nh_petition_nonconviction_pre2019-set:NHJB-2311 (sig.8) and nh_petition_nonconviction_pre2019-set:NHJB-2328 (12.total, money.total, monthly.total), all four disposition render_participant_value_only_when_written. Edited as text, never round-tripped through JSON.parse/stringify, so no sibling entry's bytes moved and no float literal was renumbered: git diff reports 61 insertions and 0 deletions in one hunk at the end of the families object. The file re-parses as valid JSON and loadAppearanceSemantics() accepts it.",
+          "scripts/build-census-v1-nh_petition_nonconviction_pre2019-set.mjs - this family's exclusive builder. (1) imports loadAppearanceSemantics/dispositionsForFamily and passes appearanceDispositions: dispositionsForFamily(APPEARANCE_SEMANTICS, `${FAMILY_ID}:${source.formNumber}`) into finalizeOfficialForm, which is the wiring this builder never had; (2) emits documents[].rows[] in the field census carrying sourceValuePresentInBlankForm, so the corpus-wide source-carried check can see this family at all; (3) loads the eight selfHelpStopConditions from the committed record, asserts the count and asserts the intake memo agrees, and prints all eight verbatim in participant-instructions.md under a new 'Where self-help ends' section; (4) rewrites instruction steps 6 and 7, which described the two appearances that no longer exist; (5) binds the track registry as a second grounding record in source-receipt.json, because the packet now prints out of it.",
+          "data/rcap-all50/overlays/census-v1/nh/.../fixtures/canonical.pdf - rebuilt; four flattened appearances emptied and nothing else",
+          "data/rcap-all50/overlays/census-v1/nh/.../fixtures/boundary.pdf - rebuilt; the identical four",
+          "data/rcap-all50/overlays/census-v1/nh/.../participant-instructions.md - steps 6 and 7 rewritten; 'Where self-help ends' added carrying all eight conditions verbatim",
+          "data/rcap-all50/overlays/census-v1/nh/.../field-census.census-v1.json - a rows[] array added per document. Proved purely additive: every pre-existing key of every document, and every top-level key, is deep-equal to HEAD; 'rows' is the only new key on any of the four documents.",
+          "data/rcap-all50/overlays/census-v1/nh/.../source-receipt.json - the track registry added to groundingRecords, bound at sha256 232466b66958cea78b6595cbbe4824f08216de42516d4afcef17f698140719ee / 16586150 bytes, with selfHelpStopConditionsCarriedVerbatim 8",
+          "data/rcap-all50/overlays/census-v1/nh/.../reports/actual-writes.json - documentAuthoredAppearances emptied. It held 4 entries per fixture (NHJB-2311 sig.8; NHJB-2328 12.total, money.total, monthly.total), which is the build's own committed record that it had measured this defect all along and nothing read it. The 17 actualWrites per packet are unchanged.",
+          "data/rcap-all50/overlays/census-v1/nh/.../reports/rendered-artifacts.json - new fixture digests; the 18 stale rasterPages entries dropped and everyPageRastered false, because the build ran --no-raster as instructed",
+          "data/rcap-all50/overlays/census-v1/nh/.../reports/independent-visual-review.json - new fixture digests; the same 18 raster page rows dropped",
+          "data/rcap-all50/overlays/census-v1/nh/.../build-status.json - builder-owned raster fields only: rasterEngine chromium_calibrated -> 'not rendered in this run', rasterPages 18 -> 0. buildStatus state_built, reviewStatus qa_review_pending, selfVerified false, generationAllowed false, runtimeSelectable false and commercialRoutesOpened 0 are unchanged.",
+          "data/rcap-all50/overlays/census-v1/nh/.../product-wiring.json - refreshed by its own generator, scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs --family nh_petition_nonconviction_pre2019-set. It set binding.acceptanceReceipt to null (the standing RASTER_PASS receipt, workflow run 33931424370 / job 101211130843 / artifact 9958813660, was bound to canonical baca3acf..., which the family no longer ships) and re-pinned all four component digests to the bytes on disk. No digest was hand-edited.",
+          "data/rcap-grade-a/packet-factory-24h/fix31/rows.json - this return",
+          "data/rcap-grade-a/packet-factory-24h/GRANT_LEDGER.json - written by claim.mjs on assert and on release"
+        ],
+        "notChanged": [
+          "production-field-map.json and reports/completeness-counters.json and reports/blanks-left-for-the-participant.json - byte-identical to HEAD. No refusal was added or removed and no counter moved; the repair is entirely on the flatten path and in the instructions.",
+          "the issuer-original PDFs - never opened for writing. All four still rehash to the digests source-receipt.json pins.",
+          "RASTER_QUEUE.json and MASTER_QUEUE.json - not opened for writing, as instructed. RASTER_QUEUE's row for this family is still hash-bound to the superseded digests baca3acf.../b983b717... That disagreement with the now-null acceptanceReceipt is real and is reported here rather than papered over; enrolling the new digests is Captain's.",
+          "data/rcap-grade-a/truth-checks/TRUTH4_FINDINGS.json - the truth-check scripts write it, and running them here rewrote 7882 lines because this checkout is full while the committed run's was sparse. It was restored with git checkout and is byte-identical to HEAD."
+        ]
+      },
+      "obligationsAddressed": {
+        "PROTECTED_FIELDS": {
+          "findingAsWritten": "Packet page 4 (NHJB-2311 page 1) field sig.8, /Rect lower-left [322.444, 303.983] 189.297 x 15.84, carried the source's own placeholder 'Enter /s/ before name' in /TiBo 12 at fill 0.75 g in BOTH fixtures, legible grey text on the Signature of Filer rule. And packet pages 6-7 (NHJB-2328 source pages 1-2) fields 12.total, money.total and monthly.total each carried the source's '(0.00) Tj' at fill 1 g - white, invisible on paper, present in the text layer - on a sworn financial affidavit whose every contributing line is blank.",
+          "repaired": true,
+          "remedyChosen": "A - the appearance registry, classified per family:component exactly as FIX24 did for the Texas Statement of Inability.",
+          "whyThatRemedy": "Remedy B, clearSourceCarriedTextValues, deletes /V and every widget /AP before flatten and cannot distinguish the court's own printed ink from a source-carried default, so it cannot satisfy 'do not remove unrelated printed text' by construction. It also could not have reached NHJB-2311 at all: sig.8 has NO /V. The registry names four fields and states, per field, why each is a participant input rather than the court's ink, and leaves every other appearance preserved. NHJB-2317 and NHJB-2956 have no registry entry, are handed an empty map, and keep the structural default.",
+          "twoDoorsForTheSameDefect": "NHJB-2328 carries its zeros in /V, the way Texas does. NHJB-2311 carries its placeholder ONLY in the widget appearance stream: /V is absent and the /AP /N stream draws the text. A reader that looked at /V alone would have called NHJB-2311 clean. The disposition settles both, because the finalizer drops the value AND every widget appearance of an unwritten field it is told is a participant input.",
+          "sourceMeasuredFirstHand": "Both binaries read directly by this lane, resolved by SHA-256 under MASTER_LIBRARY_SOURCE_DIR, not copied from a sibling. NHJB-2311 (f8b5df13..., 64896 B, 2 pages, 20 fields): sig.8 /V absent, /TU 'If filing electronically, please type /s/ then your name to sign this document.  Ex.  /s/ John Doe', /DA '/TiBo 12 Tf 0.75 g', /AP /N draws 'Enter ' '/s/ ' 'before ' 'name', widget on source page 1 at [322.444, 303.983, 189.297 x 15.84], no /F entry so neither Hidden nor NoView. NHJB-2328 (b4384b41..., 66063 B, 3 pages, 90 fields): 12.total /V '0' /DA '/TiBo 12 Tf 1 g' /AP draws '(0.00)' at [494.319, 132.185, 83.066 x 13.492] source page 1; money.total identically at [494.87, 36.356, 85.066 x 12.492] source page 1; monthly.total identically at [205.975, 583.732, 93.067 x 12.492] source page 2; all three /F 4.",
+          "aFifthFieldWasReadAndDeliberatelyNotClassified": "NHJB-2328 carries its own sig.8 on source page 3, named identically to NHJB-2311's. It ships no /V and no drawing appearance and flattens to nothing, so there is nothing to disposition and it is absent from the registry entry, which says so in terms.",
+          "noParticipantAnswerWasRemoved": "Proved from both ends. From the source: the values are present in the BLANK issuer-original form before any participant sees it. From the build: this family's own production-field-map.json refuses all four - sig.8 with category signature_or_date_participant_completion and the reason 'you sign this yourself', and the three totals as REQUIRED_BEFORE_FILING with requiredBeforeFiling true - so the build never wrote them, and reports/actual-writes.json listed all four under documentAuthoredAppearances rather than under actualWrites. The 17 actualWrites per packet are byte-identical before and after.",
+          "measurementInstrument": "flattenedWidgets() from scripts/rcap-official-forms/pdf-flattened-widgets.mjs over the delivered bytes; pdftotext -layout over both fixtures; and pdftoppm at 150 dpi into /tmp only.",
+          "appearanceLevelCheck": {
+            "flattenedAppearances": "canonical 159 -> 159, boundary 159 -> 159. Keyed by (page, x, y): 0 removed, 0 added, 4 CHANGED, 155 identical survivors, in EACH fixture. The four changed are p4@322.44,303.98 'Enter /s/ before name' -> '', p6@494.32,132.19 '0.00' -> '', p6@494.87,36.36 '0.00' -> '', p7@205.97,583.73 '0.00' -> ''. Non-empty appearances 24 -> 20 in canonical and 16 -> 12 in boundary.",
+            "textLayer": "pdftotext -layout over the delivered canonical and boundary: '0.00' 0 hits and 'Enter /s/' 0 hits in both, against 3 and 1 respectively before. The three Total $ lines print as 'Total $' with nothing after them.",
+            "raster": "pdftoppm -r 150 -png into /tmp only, all nine pages of both fixtures, old bytes against new, pixel-differenced. The sig.8 rectangle crop went from 916 ink pixels (<200 grey) and 1767 non-white to 0 and 0, minimum grey 191 -> 255: the box is now pure white. Whole-page diffs: pages 1, 2, 3, 5, 7, 8 and 9 differ by ZERO pixels; page 4 differs by 1875 pixels whose bounding box is x 324.48..434.40, y 307.20..316.32 in PDF points, entirely inside sig.8's own rectangle; page 6 differs by 14 pixels at x 559.20..576.00, y 37.92..38.40, entirely inside money.total's rectangle - the hairline of the form's own rule that the white '0.00' had been painting over, restored. Identical result on both fixtures. Nothing else moved.",
+            "nothingWasRasteredIntoTheDeliveredTree": true
+          },
+          "issuerOriginalBytesPreserved": "Neither pinned binary was opened for writing. Both rehash after the repair to the digests source-receipt.json pins: NHJB-2311 f8b5df1366a91a9fd177612c0519f941b8d4f60e1f8f84c2a6c0c064ba7da58e and NHJB-2328 b4384b41efb472951c28b1289e46b05dfcc9463147aa490597f541f5291ce919.",
+          "theEnforcingCheckNowCountsThisFamily": "At the base, scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs reported 96 families examined / 7 carrying / 21 values / 21 dispositioned / 0 undispositioned - green, and blind to New Hampshire, because it reads documents[].rows[].sourceValuePresentInBlankForm and this census carried no rows[] at all. It now reports 96 / 8 / 25 / 25 / 0, exit 0, EVERY_SOURCE_CARRIED_VALUE_IS_DISPOSITIONED, with the appearance-registry count moving 18 -> 22. Those four are exactly this lane's four fields. Corpus-green before and after, and no longer green by omission here.",
+          "whatWasDeliberatelyNotEmittedAsACarriedValue": "Sixteen pushbutton captions the source draws ('Clear Form', 'Lock & Save Form', 'Top of Page', 'Instructions') and one dropdown shipping a selected option on a section this route does not use. The finalizer removes a pushbutton as chrome and drops an unanswered chooser's prompt without consulting any registry, so none can reach a filing and none is the defect this check exists to catch; recording them would have manufactured seventeen findings asking a human to disposition appearances that are already gone. They are recorded in the census under sourceAppearanceOnAControlTheStructuralRuleAlreadyAnswers, with the disposition that removes each one named, so the exclusion is visible rather than silent."
+        },
+        "SELF_HELP_STOP": {
+          "findingAsWritten": "The committed legal-design record holds eight selfHelpStopConditions for track nh_petition_nonconviction_pre2019 and none of the eight reached the packet - 0 of 8, against the comparative controls the verifier cited at IN 13/13, RI 5/5 and TX 7/7. participant-instructions.md had no stop section at all.",
+          "repaired": true,
+          "howItWasRepaired": "The builder now reads the eight from data/record-clearing/legal-design-track-registry.json, the record independent verification named, asserts there are exactly eight and asserts that the already-bound intake memo NH.memo.json holds the identical eight, and refuses to build if either assertion fails. All eight are printed word for word, as a list, in a new 'Where self-help ends' section of participant-instructions.md, in the shape the Indiana and Rhode Island families use. Four are then restated with their consequence, because they cost money or they mislead: the RSA 651:5, IV three-year bar on a further petition, that the annulment is not recognised federally or for immigration, that RSA 651:5, XVII does not oblige a private background-check database to remove the record, and that annulment does not restore firearm rights.",
+          "verbatim": "Checked as an exact-string comparison of each printed bullet against the record's own array, not by eye. 8 of 8 present verbatim.",
+          "twoRecordsAssertedIdentical": "The registry and the intake memo hold the same eight strings; the build asserts deepEqual before printing any of them, so the packet cannot print a list only one record holds.",
+          "aResourceWasNotInvented": "The section names a lawyer licensed in New Hampshire and the clerk of the court for procedural questions, and states in terms that it names no legal-aid organisation or referral line because the platform holds no sourced New Hampshire directory - the same reasoning the packet already gives for printing no courthouse address. A search of the bound NH memo returns no legal-aid or referral resource. An unsourced one in a filing instruction is worse than none.",
+          "measuredBeforeAndAfter": "node scripts/rcap-truth-checks/check-b-self-help-stop-coverage.mjs --family nh_petition_nonconviction_pre2019-set, run against this working tree with only participant-instructions.md reverted and then restored: BEFORE 'failing families: 1 (not represented at all: 1) passing: 0', AFTER 'failing families: 0 passing: 1'. TRUTH4_FINDINGS.json, which that script writes, was restored to HEAD afterwards."
+        }
+      },
+      "siblingHost": {
+        "sibling": "nh_petition_vacated-set",
+        "sharesTheHost": false,
+        "whatWasChecked": "The two families are separate builders - scripts/build-census-v1-nh_petition_vacated-set.mjs is its own file, imports no appearance-semantics module and passes no appearanceDispositions - and the registry keys this lane added both begin nh_petition_nonconviction_pre2019-set:, so neither reaches it. That was not left as an argument: the sibling was rebuilt with --no-raster in this worktree WITH this lane's changes in place.",
+        "byteIdentical": true,
+        "proof": "Before and after, sibling canonical.pdf = baca3acfdda3d752ab52c95b636a1015d6eeabcc0027c94f553e79b2b06bd3ae and boundary.pdf = b983b71779da56befbda8f9679aa3f3d69b0e6b19b7424d05880d09bf343781f. Unchanged by the rebuild. The only files the rebuild touched were build-status.json, reports/rendered-artifacts.json and reports/independent-visual-review.json, and every one of those changes was the --no-raster consequence (rasterPages 18 -> 0) rather than anything this lane did. All three were restored with git checkout and the sibling directory is byte-identical to HEAD; nothing of it is committed.",
+        "theSiblingCarriesTheSameDefectClass": "Yes, and it is another lane's to repair. Its committed fixtures hash to exactly the digests this family shipped before the repair - baca3acf... and b983b717... - so the two families were delivering byte-identical packets, and the sibling therefore still ships all four of the same appearances: NHJB-2311 sig.8 'Enter /s/ before name' at packet page 4 in grey 0.75 g, and NHJB-2328 12.total / money.total / monthly.total drawing '0.00' at white 1 g on packet pages 6 and 7. Its repair needs the same two registry entries under the key nh_petition_vacated-set:NHJB-2311 and nh_petition_vacated-set:NHJB-2328, and the same one-line appearanceDispositions wiring in its own builder. This lane did neither and committed neither."
+      },
+      "deterministicRebuild": {
+        "command": "MASTER_LIBRARY_SOURCE_DIR=<worktree>/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 node scripts/build-census-v1-nh_petition_nonconviction_pre2019-set.mjs --no-raster",
+        "controlBuildsAtTheUnrepairedBase": "Two, byte-identical to each other AND to the committed bytes: canonical baca3acfdda3d752ab52c95b636a1015d6eeabcc0027c94f553e79b2b06bd3ae, boundary b983b71779da56befbda8f9679aa3f3d69b0e6b19b7424d05880d09bf343781f. The committed fixtures were NOT stale, so every later difference is attributable to this repair.",
+        "buildsAfterTheRepair": "Two, --no-raster, byte-identical to each other. The whole family directory was copied after the first and diff -r against it after the second returned no differences at all - both PDFs and every record.",
+        "runs": 4
+      },
+      "artifacts": {
+        "canonical": {
+          "path": "data/rcap-all50/overlays/census-v1/nh/nh-petition-nonconviction-pre2019-set--official-pdf-fill/fixtures/canonical.pdf",
+          "oldSha256": "baca3acfdda3d752ab52c95b636a1015d6eeabcc0027c94f553e79b2b06bd3ae",
+          "oldByteLength": 186224,
+          "newSha256": "efb8c5486ce521466e3ac1edd454f92aa1e9f2e54dfe4b68f56e5a6023798ff2",
+          "newByteLength": 183524,
+          "pagesBefore": 9,
+          "pagesAfter": 9
+        },
+        "boundary": {
+          "path": "data/rcap-all50/overlays/census-v1/nh/nh-petition-nonconviction-pre2019-set--official-pdf-fill/fixtures/boundary.pdf",
+          "oldSha256": "b983b71779da56befbda8f9679aa3f3d69b0e6b19b7424d05880d09bf343781f",
+          "oldByteLength": 186227,
+          "newSha256": "749404b0b40cc2dd83e29f96aee7aadcec8b423fe0dc55ecd1bbb75f058ff74c",
+          "newByteLength": 183527,
+          "pagesBefore": 9,
+          "pagesAfter": 9
+        },
+        "digestsMovedInThisLane": true,
+        "byteLengthDrop": "2700 bytes on each fixture, from four appearance streams whose text operators and font references are gone. No page was lost: 9 before and 9 after in both fixtures, and the page manifest still carries nine entries in the same order."
+      },
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersMeanLittleHere": "All nine were zero before this repair and all nine are zero after it, while the family was shipping a grey placeholder on a signature line and three white sworn zeros. The nine cannot see this class: each asks what the BUILD wrote, what it left blank, or what it failed to classify. None of this ink was written, all four blanks are correctly classified as the participant's to supply, and the value arrives from the source binary during flatten. VF02 said the same thing in its own terms - it measured invisibleWrites at 3 on the delivered bytes while the script reported 0. Measured the same way on the repaired bytes, that figure is now 0: pdftotext returns no '0.00' anywhere in either fixture. The nine are recorded because the bar asks for them, not because they witness the repair.",
+      "verifierResults": {
+        "verifyPacketCompleteness": {
+          "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs (read-only, no --write)",
+          "family": "PASS_COMPLETE, 17/168 written, all nine counters 0 - before and after",
+          "corpusWide": "241 families audited, 240 PASS_COMPLETE, 1 FAIL_MISSING_PREFILLS (pa_6308_underage-set, 43/218). That failure is another family and is pre-existing: it was reproduced at the unrepaired base by stashing this lane's two source changes, and it reports identically. Corpus counters: unclassifiedBlanks 6, all eight others 0, all of them PA's.",
+          "exitCode": 0
+        },
+        "verifyIdentityRefreshSurvivesRebuild": {
+          "command": "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs",
+          "result": "EVERY_IDENTITY_REFRESH_SURVIVED - 249 receipts compared against HEAD, 52 carrying an identityRefresh, exit 0",
+          "note": "run after the repair; this family's receipt carries no identityRefresh, so the rebuild restored nothing and destroyed nothing"
+        },
+        "verifySourceCarriedValuesAreDispositioned": {
+          "command": "node scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs",
+          "before": "EVERY_SOURCE_CARRIED_VALUE_IS_DISPOSITIONED, 96 examined / 7 carrying / 21 values / 21 dispositioned / 0 undispositioned / 0 not examinable, exit 0 - green, and not counting this family",
+          "after": "EVERY_SOURCE_CARRIED_VALUE_IS_DISPOSITIONED, 96 examined / 8 carrying / 25 values / 25 dispositioned / 0 undispositioned / 0 not examinable, exit 0; by remedy, 22 appearance-registry (was 18) and 3 clearSourceCarriedTextValues (unchanged)",
+          "exitCode": 0
+        },
+        "checkBSelfHelpStopCoverage": {
+          "command": "node scripts/rcap-truth-checks/check-b-self-help-stop-coverage.mjs --family nh_petition_nonconviction_pre2019-set",
+          "before": "failing 1 (not represented at all: 1), passing 0",
+          "after": "failing 0, passing 1",
+          "note": "TRUTH4_FINDINGS.json, which this script writes, was restored to HEAD and is not committed"
+        },
+        "checkADeclaredDeliveryArtifact": {
+          "command": "node scripts/rcap-truth-checks/check-a-declared-delivery-artifact.mjs",
+          "result": "19 failing / 225 passing / 102 not measurable corpus-wide; this family is among the passing, so the refreshed product-wiring pin describes the bytes on disk",
+          "note": "TRUTH4_FINDINGS.json restored to HEAD and not committed"
+        },
+        "appearanceLevelCheck": {
+          "command": "flattenedWidgets() over both fixtures + pdftotext -layout + pdftoppm -r 150 into /tmp",
+          "result": "sig.8 is empty ink (0 of 13035 pixels below 250 grey, minimum 255); no '0.00' anywhere in either text layer; placement diff shows 0 removed, 0 added, 4 changed to empty, 155 identical survivors per fixture, and whole-page rasters differ only inside the sig.8 and money.total rectangles"
+        }
+      },
+      "rasterState": "BUILT_RASTER_PENDING - a fresh central raster is owed on canonical efb8c5486ce5... and boundary 749404b0b40c... No raster of any kind covers the current bytes. RASTER_QUEUE.json and MASTER_QUEUE.json were not touched and still name the superseded digests; enrolling the new ones is Captain's.",
+      "productWiringAcceptanceReceipt": null,
+      "routesOpened": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "subagentsCreated": 0,
+      "otherWorktreesTouched": 0,
+      "grantsNothing": "A repaired packet is review evidence. It authorizes no fulfillment, opens no commercial route and proves nothing about any other family."
+    }
+  ]
+}

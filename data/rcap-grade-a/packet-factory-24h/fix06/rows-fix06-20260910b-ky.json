@@ -1,0 +1,262 @@
+{
+  "schemaVersion": "rcap-packet-factory-lane-rows/v1",
+  "lane": "FIX06",
+  "laneKind": "repair",
+  "shift": "20260910b-ky",
+  "worktree": "/home/user/pfc-worktree",
+  "branch": "pfc-ky2-20260910",
+  "baseSha": "52ce39dd30ebfdc383dc904a509c49bbd5ac2a0c",
+  "headSha": null,
+  "headShaNote": "null until this file is committed; the commit that carries it is the head. Not transcribed by hand.",
+  "writtenAlongsideRatherThanOver": "data/rcap-grade-a/packet-factory-24h/fix06/ already holds rows.json, rows-fix06-20260909.json, rows-fix06-20260909b.json, rows-fix06-20260910-ky.json, rows-fable-fix06.json, two checkpoints files, the attribution survey and two named returns. None was overwritten; this is a new file under a distinct name.",
+  "independence": "This lane repaired the family in this file and does not read it independently. No verdict is set and no PASS is issued.",
+  "measurementNote": "visualDefects is null, not zero, in every row here. Every other counter is a number this lane measured; a counter it could not measure would be null too, never 0.",
+  "grantsAsserted": [
+    "CLAIM_OK FIX06 ky_protective_order_record_expungement-set (repair, grant set aa0782a09b6186ce)",
+    "CLAIM_OK FIX06 wv_conv_nonviolent_felony-set (repair, grant set aa0782a09b6186ce)"
+  ],
+  "notTouchedThisShift": "No other family, no other lane's worktree, no shared manifest, no queue row, no admitted raster verdict, no legal-design record and no legacy generator. The only paths outside the family directory this row changed are the family's own builder script and this lane's own returns. The sparse checkout was not widened.",
+  "contradictionsFound": [
+    {
+      "what": "MASTER_QUEUE.json publishes sourceStatus SOURCE_BOUND_BY_HELD_BYTES, sourceBound true and sourceReadiness.ready true for this family, while the SAME row's sourceReadiness.custodyClass reads SOURCE_GENUINELY_MISSING.",
+      "measured": "The source is present and resolves. The builder loaded it through the committed corpus index, re-hashed the bytes and matched the pinned digest b3d8278a85a56c5ac81ed9fedaf9081f5e6f5141d0f561ed6aa6ff4103d2cb51, the byte length (192243) and the page count (1) on every run of this shift.",
+      "whichIsRight": "The measurement. custodyClass SOURCE_GENUINELY_MISSING is stale for this family — the family's own source-receipt.json already records custodyClass SOURCE_RECOVERED_INTO_CUSTODY and explains the 2026-09-04 recovery. Two custody classifications for one family disagree in the repository."
+    },
+    {
+      "what": "VF24 predicted that the composed boundary legal name 'would have been REFUSED, leaving the movant line blank', at about 380pt against the 315.36pt widget.",
+      "measured": "It is written, not refused: 9.5pt, width 303.04pt, x 101.06, y 549.77, read out of the delivered boundary.pdf. The ~380pt figure holds only before the finalizer's fit ladder; at 9.5pt — 3.5pt above the 6pt MIN_READABLE_FONT_SIZE floor — it clears the widget with 12.32pt to spare.",
+      "whichIsRight": "The measurement, and it is the better outcome: the full legal name is on the page, legible, and no disclosure of a blank line is needed. VF24's direction to measure before widening was right; only its prediction of the result was not."
+    },
+    {
+      "what": "The repair brief names the inverted-rect normalizer as normalizeInvertedWidgetRects.",
+      "measured": "scripts/rcap-official-forms/rcap-active-content.mjs exports it as normalizeInvertedWidgetRectangles. Recorded so the West Virginia lane does not import a name that does not exist.",
+      "whichIsRight": "The module. Not a defect, a naming correction."
+    }
+  ],
+  "rows": [
+    {
+      "itemId": "ky_protective_order_record_expungement-set",
+      "lane": "FIX06",
+      "laneKind": "repair",
+      "status": "STOPPED",
+      "whyStoppedAndNotCompleted": "Two of the three obligations VF24 failed are repaired and measured from the delivered bytes. The third, COMPONENT_SET, is a STOP rather than a repair. The controlling record's components[2] (service_instructions, requirement 'required') says in its own note that the packet 'provides the certificate'. Building a certificate of service here would require a form no held source carries and three facts this record does not supply, so this lane refused to author one — that is a stop, not a gap a repair lane may fill. What this lane could do it did: the gap is now disclosed in the participant's own guide, in build-findings.json and in the family's own manifest, and requiredComponentsMissing is 1 rather than 0. The family is not clean and is not reported clean.",
+      "repairedByThisLane": true,
+      "rasterState": "BUILT_RASTER_PENDING",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill",
+      "implementationStrategy": "official_pdf_fill",
+      "claim": "CLAIM_OK FIX06 ky_protective_order_record_expungement-set (repair, grant set aa0782a09b6186ce)",
+      "obligationRepaired": [
+        "FEE_AND_WAIVER",
+        "KNOWN_PREFILLS"
+      ],
+      "obligationStopped": [
+        "COMPONENT_SET"
+      ],
+      "failedObligationNamesAnswered": [
+        "FEE_AND_WAIVER",
+        "KNOWN_PREFILLS",
+        "COMPONENT_SET"
+      ],
+      "verdictThisAnswers": {
+        "lane": "VF24",
+        "file": "data/rcap-grade-a/packet-factory-24h/vf24/rows-vf24-20260910-ky.json",
+        "verifiedAtBase": "7d072beb5f4a6cdddbd204a1d9cf410edca7b494",
+        "verdict": "FAIL_REPAIR_REQUIRED"
+      },
+      "whatVf24SettledAndThisLaneDidNotMove": [
+        "The party role: the memo establishes the respondent in five nodes and the builder reaches all five. Untouched.",
+        "The guide's quoted record digest 157d7de3… recomputes. Untouched — the memo was not edited by this lane.",
+        "The petitioner caption block delivers zero participant ink in both fixtures. Re-measured here and still zero: reading the PETITIONER band y 625-660 in both delivered files returns only the source's own printed 'PETITIONER' label at x 469.50 and a whitespace-only six-space run at x 38.00 that is present in the source too.",
+        "The Case.County '000' shipped default: not touched. /Opt[0] and the widget /AP were not altered and the chooser is displaced only by this build writing a real county over it, exactly as before."
+      ],
+      "whatWasWrong": [
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "filing-instructions.md told the participant, in the record's own voice, that the record 'does not record a fee-waiver treatment'. rules.feeWaiver exists and reads 'not applicable; no fee is identified.' loadControllingRecord() captured fees, service, notarization and participantSignature and never opened feeWaiver, so nothing in the build reached the node the sentence described. Confirmed independently before it was acted on: `grep -n 'RECORD\\.\\(fees\\|service\\|notarization\\|participantSignature\\|clerkDuties\\)'` over the builder returned NOTHING — all five loaded fields were unused by every document, and the whole of filing-instructions.md was lines.push() literals."
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "The same file's second negative claim — 'The record does not state a service deadline or a filing deadline' — was also a literal asserted by a document that had not read the node. It happens to be true of rules, but it was true by luck rather than by measurement, and the record's waitingPeriods node (the six-month gate that is the whole eligibility test of this route) was never read at all.",
+          "alsoWrong": "rules.filing, rules.notice, destination.name and geography.venue were likewise unread while sentences paraphrasing each of them were shipped as literals. Same defect class, four more fields."
+        },
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "The BOUNDARY persona held participant.last_name 'Fitzwilliam III' beside a hand-typed participant.full_legal_name that omitted it, so boundary.pdf's operative sworn sentence named the movant 'Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran' while the caption two lines below named the same person 'Alexandrina-Katharine | Montgomery-Vandenberg-Oyelaran | Fitzwilliam III'."
+        },
+        {
+          "obligation": "COMPONENT_SET",
+          "finding": "The record's components[2] (service_instructions, required) says the packet 'provides the certificate'. There is no certificate of service in this family; `grep -rin certificate` over the directory returns nothing. build-findings.json published blocking [] and findingCount 0 and did not mention it, and product-wiring.json binding.instrumentKinds advertised ['court_order','primary_filing','service_instructions'] beside a packetComponents list of one. No artifact in the family disclosed the gap."
+        }
+      ],
+      "whatWasDone": [
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "change": "loadControllingRecord() now carries the WHOLE rules node rather than a hand-picked four of its keys, plus destination.name, geography.venue, waitingPeriods, components and manualCompletionItems. renderFilingInstructions() was rewritten from literals to quotation: every sentence that speaks for the record quotes its node verbatim and names the key it came from.",
+          "whyThisShapeAndNotAFifthNamedKey": "The survey that classified this builder DERIVES_FROM_THE_RECORD was right about the role and wrong about the fee waiver because its granularity is per-builder and the defect is per-field. So the guard is per-field: after rendering, the function asserts that every key present in the record's rules node was quoted in the delivered document, and fails naming the ones that were not. A rule the record grows tomorrow stops this build instead of being silently omitted, and no sentence can describe a key the loader does not reach.",
+          "verifiedBy": "All 7 rules keys (filing, fees, feeWaiver, notice, service, participantSignature, notarization) are now quoted verbatim in the delivered filing-instructions.md. The false sentence is gone; in its place the file reads: “Its fee-waiver rule reads, in full: “not applicable; no fee is identified.”” No fee amount and no waiver procedure is stated, because the record supplies neither."
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "change": "The deadline sentence is now DERIVED: every value in the rules node is tested for deadline vocabulary (deadline / no later than / within N / N days / days of|after|before) and the sentence is produced from the result. Zero matches today, so the packet states no deadline and says how it decided. A deadline the record grows is printed rather than denied. The waitingPeriods node is now rendered too, labelled as an eligibility gate and explicitly not as a filing or service deadline."
+        },
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "change": "participant.full_legal_name is no longer typed in either fixture. It is COMPOSED from first + middle + last and then asserted against them, for both personas, at module load. The literal is gone, so the two can no longer disagree whatever a future fixture holds.",
+          "measuredBeforeDeciding": "VF24 predicted the composed value would run about 380pt against the 315.36pt movant widget and be REFUSED, leaving the line blank, and directed that this be measured rather than assumed. It was measured from the delivered boundary bytes and VF24's prediction does not hold: the finalizer's fit ladder places the full 68-character name at 9.5pt occupying 303.04pt of the 315.36pt widget — 12.32pt to spare, and 3.5pt above the 6pt MIN_READABLE_FONT_SIZE floor. It is written, not refused, and not clipped.",
+          "verifiedBy": "Read from boundary.pdf, movant band x 95-420 / y 540-562: a single run 'Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran Fitzwilliam III' at x 101.06, y 549.77, size 9.5, width 303.04. The caption band y 580-612 of the same file reads 'Alexandrina-Katharine' (x 39.30, 11pt) | 'Montgomery-Vandenberg-Oyelaran' (x 204.38, 8.5pt) | 'Fitzwilliam III' (x 346.25, 11pt) — resolved by x-position, not by extracted line order. The delivered page now names one person one way. boundaryTooLongToFit still contains only 'Case  No', unchanged.",
+          "whatWouldHaveHappenedOtherwise": "Had it not fitted, this lane would have taken the blank line and disclosed it. A blank movant line on a filing, disclosed, is an honest gap; a silently shortened legal name on a sworn filing is a misstatement. It did fit, so neither cost was paid."
+        },
+        {
+          "obligation": "COMPONENT_SET",
+          "change": "A new auditDeclaredComponents() reads the record's component rows and decides, per component, what this build delivers for it and what the component's own note promises that this build does not. The promised instrument is found by testing the note's own words (/\\bcertificate\\b/), not by a list typed in the builder, so a note that grows a second promise is caught the same way. The result reaches four places at once: build-findings.json (findingCount is now 1, with the full component set and the verbatim note); product-wiring.json (binding.instrumentKinds now lists only ['primary_filing'], what this family actually delivers, with declaredComponentsNotDeliveredInFull and instrumentKindsDeclaredByTheRecordButNotDeliveredHere carrying the rest and the reason); filing-instructions.md (a participant-facing section 'What this packet does not contain'); and this lane's counters.",
+          "whyTheCertificateWasNotBuilt": "Because building it would have required inventing. Measured, not assumed: (1) NO FORM. This family binds exactly one binary — AOC-275.18 Rev. 1-16, one page, 16 AcroForm fields, sha256 b3d8278a…cb51 — and its extracted page text contains the word 'certificate' nowhere. What it prints instead is the CLERK's distribution list ('Copies to: Court file / Petitioner / Respondent') inside the NOTIFICATION OF EXPUNGEMENT HEARING block, above a '_____ Clerk' and 'By: _____ D.C.' signature pair. The only other form the record names, AOC-275.19, was never retrieved and is itself carried as a release blocker in unresolvedQuestions[1]. (2) NO FACTS. A certificate recites who was served, at what address, by what means and on what date. The petitioner's name and address is the third person this packet deliberately leaves blank throughout — that withholding is the family's own settled position and VF24 re-confirmed zero ink in that block. The hearing date is set by the clerk AFTER filing (rules.notice: 'The clerk completes the notification-of-hearing section on the form and creates the scheduled event.'), and the mailing date is after that. A certificate reciting facts nobody holds is a fabricated service record on a sworn filing. The builder now asserts the 'no form' half at build time: if a future revision of AOC-275.18 ever prints a certificate, the build stops and the question is decided again rather than inherited.",
+          "whatWouldUnblockIt": [
+            "a certificate-of-service form bound into custody for this route by content digest, OR",
+            "counsel striking the clause 'and provides the certificate' from components[2].notes of data/record-clearing/legal-design-intake/KY.memo.json."
+          ]
+        }
+      ],
+      "whatWasDeliberatelyNotDone": [
+        "No certificate of service was authored. See whyTheCertificateWasNotBuilt — it needs a form no held source carries and three facts the record does not supply.",
+        "data/record-clearing/legal-design-intake/KY.memo.json was NOT edited. Striking a counsel-authored clause from a controlling legal record to make a build report clean is not an implementation repair and is not this lane's to make. The memo's SHA-256 is unchanged at 157d7de303a0d14bb7232575c34856e1f15ee7a3ffa9cf267cd65b79e4ccd8c2, which is why the guide's quoted digest still recomputes.",
+        "MASTER_QUEUE.json was NOT hand-edited. Its instrumentKinds are not authored by this family: scripts/grade-a-packet-factory-24h/generate.mjs line 2003 derives them from routes[].participantFacingInstrument in data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json, a shared Captain input this lane does not own. Editing the derived file would be overwritten on the next generate and would collide with every other lane. The family's OWN manifest, product-wiring.json, has stopped advertising the undelivered kinds; the upstream field is named here for the Captain to decide. That candidate file is also not in this sparse checkout and the checkout was not widened to reach it.",
+        "The Case.County '000' shipped default was not touched, per the assignment.",
+        "No verdict was set, no PASS issued, no receipt written, no route opened, no commercial guard changed. No other family, no other lane's worktree, no queue row and no admitted raster verdict was modified."
+      ],
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersBeforeHowMeasured": "As published by MASTER_QUEUE.json for this family before this shift, where allNineCountersZero was true beside three failed obligations. requiredComponentsMissing 0 was the published zero VF24 failed the family on; it is corrected below.",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 1,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": null
+      },
+      "countersAfterHowMeasured": {
+        "knownRequiredFieldsMissing": "0. Every writable field of the 16-field AcroForm carries a fact in the canonical fixture and is proven to carry glyphs in the delivered bytes; the rest are classified REQUIRED_BEFORE_FILING (5) or PARTICIPANT_ELECTION_GENUINE (3) or NOT_A_FIELD, and each is named in reports/blanks.json.",
+        "requiredFactsNotCollected": "0. Both personas supply every fact the map declares.",
+        "unclassifiedBlanks": "0. reports/blanks.json accounts for every unwritten AcroForm field and, separately, for the four printed lines the form draws with no widget behind them; each of those four is asserted present in the extracted page text at build time.",
+        "incompleteRows": "0. This form has no row table.",
+        "requiredOptionsMissing": "0. The one choice field is Case.County; the delivered bytes of both fixtures are re-read and asserted to carry no choice value outside its own 121-option list.",
+        "requiredComponentsMissing": "1, and this is the correction. The record declares 3 components, 2 of them requirement 'required'. components[0] primary_filing is delivered (AOC-275.18, bound by exact content hash). components[1] court_order is 'conditional' and the record scopes it out itself ('Reference only. The court enters the order.'), so it is not missing. components[2] service_instructions is 'required': its process guidance IS delivered in filing-instructions.md, but the instrument its own note promises — the certificate of service — is not, and cannot be built from what is held. The component is therefore not delivered as the record describes it and it is counted, not rounded down. Under-counting this is exactly the published zero the family was failed for.",
+        "invisibleWrites": "0. Every reported write is proven to carry at least one non-whitespace glyph inside its own widget rectangle in the delivered bytes; findingsFor() raises reported_write_has_no_glyph_in_its_widget_rectangle otherwise and raised none.",
+        "protectedWrites": "0. No read-only or signature field is written. Print and Reset push buttons are suppressed before the flatten and the delivered bytes are asserted to carry neither caption.",
+        "visualDefects": "null, not zero — see visualDefectsIsNullNotZero."
+      },
+      "visualDefectsIsNullNotZero": "Geometry and appearance were measured from the delivered PDF bytes and the numbers are in this row — the movant run at 9.5pt/303.04pt inside a 315.36pt widget, the three caption runs resolved by x-position, zero non-whitespace glyphs outside every measured write box in both fixtures, zero inverted or degenerate rects across all 16 widgets. But a repair lane's own reading of its own repair is measurement, not a receipt, and RASTER_PASS comes only from the central workflow. rasterState is BUILT_RASTER_PENDING.",
+      "outputByteGlyphReadings": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "dd797c6d4783f58979d964d0d483a9270261a1832177fe9b0a0150e2ef04d63e",
+          "byteLength": 163791,
+          "pageCount": 1,
+          "addedGlyphsReadFromOutputBytes": 54,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 14,
+          "note": "Byte-identical to the canonical this family already carried. The canonical persona's composed name equals its previous literal ('Jordan' + 'Avery' + 'Reyes'), so no canonical byte moved and the existing withdrawn acceptance receipt needed no second withdrawal."
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "b219565f8e930db532f7613a3302e8433b4a933c32c679aab3eb1edb7df6a97d",
+          "byteLength": 163890,
+          "pageCount": 1,
+          "addedGlyphsReadFromOutputBytes": 142,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 14,
+          "note": "Was 163875 bytes / 128 added glyphs at sha256 a225cbe6a35b8a07325142e1839f0bddb3be2ac150f2f123a99c50ebcdf0d29a (read from the committed blob at 52ce39dd3 with sha256sum, not transcribed). The +14 glyphs are 'Fitzwilliam III', now present on the movant line."
+        }
+      ],
+      "artifacts": {
+        "canonicalSha256": "dd797c6d4783f58979d964d0d483a9270261a1832177fe9b0a0150e2ef04d63e",
+        "boundarySha256": "b219565f8e930db532f7613a3302e8433b4a933c32c679aab3eb1edb7df6a97d",
+        "canonicalPageCount": 1,
+        "boundaryPageCount": 1,
+        "digestsTakenWith": "sha256sum on the files on disk after the final build, and independently by crypto.createHash inside the builder. Neither was transcribed by hand.",
+        "sourceSha256": "b3d8278a85a56c5ac81ed9fedaf9081f5e6f5141d0f561ed6aa6ff4103d2cb51",
+        "controllingRecordSha256": "157d7de303a0d14bb7232575c34856e1f15ee7a3ffa9cf267cd65b79e4ccd8c2",
+        "changedPaths": [
+          "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/build-findings.json",
+          "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/filing-instructions.md",
+          "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/fixtures/boundary.pdf",
+          "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/product-wiring.json",
+          "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/production-field-map.json",
+          "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/reports/actual-writes.json",
+          "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/reports/rendered-artifacts.json",
+          "scripts/build-census-v1-ky_protective_order_record_expungement-set.mjs"
+        ]
+      },
+      "governanceState": {
+        "preserveGovernanceStateWiredBeforeTheFirstRebuild": true,
+        "checkedBeforeBuilding": "governance-preservation.mjs was already wired into this builder by the previous FIX06 shift and was confirmed present before the first rebuild of this shift.",
+        "carriedVerbatim": [
+          "lastIndependentVerification",
+          "paymentEligible",
+          "sponsorshipEligible",
+          "whyPaymentIsClosed",
+          "maintenanceRelationship"
+        ],
+        "acceptanceReceipt": null,
+        "acceptanceReceiptWithdrawnEntries": 1,
+        "noNewWithdrawalWasNeeded": "The canonical bytes did not move, so the single existing withdrawal (bound 30dc6109…4130d1, replaced by dd797c6d…04d63e, carrying the full withdrawn RASTER_PASS receipt with both digests) still describes the state correctly. Nothing was deleted.",
+        "verifierRun": "npm run rcap:verify-governance-preservation — GOVERNANCE_PRESERVATION_OK, 16 checks, EVERY_GOVERNANCE_KEY_SURVIVED_WHERE_MEASURABLE (279 not measured, sparse checkout)."
+      },
+      "defectsNoCounterCanSeeChecked": [
+        {
+          "id": "map-honest-writes-not",
+          "result": "clear, and structurally so now. The map declares participant.full_legal_name and the finalizer writes exactly that fact; the fact is composed from the persona's own parts and asserted against them, so map, fact and caption cannot diverge."
+        },
+        {
+          "id": "a-participant-fact-written-into-a-field-about-someone-else",
+          "result": "clear. Re-measured this shift: the PETITIONER band of both delivered fixtures carries only the source's own printed label and a whitespace-only run present in the source."
+        },
+        {
+          "id": "acroform-index-is-not-the-printed-row",
+          "result": "not applicable — this form has no row table."
+        },
+        {
+          "id": "extracted-line-order-is-not-column-order",
+          "result": "clear. The caption blocks were resolved by x-position (39.30 / 204.38 / 346.25 = first / middle / last), not by extracted line order."
+        },
+        {
+          "id": "internal-record-text-printed-on-a-filing",
+          "result": "clear on the filing, and deliberately handled in the guide. Nothing from the record is written into either PDF; the only added ink is the six mapped facts, all inside their own widget rectangles. The new disclosure section quotes components[2].notes verbatim in filing-instructions.md — a guide, not a filing — and attributes it explicitly as the record speaking about the packet, because the quotation IS the disclosure."
+        },
+        {
+          "id": "a-published-zero-where-a-measurement-existed",
+          "result": "this was the defect. build-findings.json published findingCount 0 and MASTER_QUEUE published requiredComponentsMissing 0 over a required component the packet does not deliver. Both are now 1."
+        },
+        {
+          "id": "a-geometry-counter-with-no-teeth",
+          "result": "clear. nonWhitespaceGlyphsOutsideMeasuredWriteBoxes is computed by attributing every added glyph in the output bytes to a measured widget rectangle, and flattenedWidgetAppearancesReadFromOutputBytes (14) is read from the output bytes rather than declared by construction."
+        },
+        {
+          "id": "two-families-one-filing",
+          "result": "not applicable — one family, one form, one page."
+        },
+        {
+          "id": "an-inverted-widget-rectangle-places-the-appearance-a-box-away",
+          "result": "clear. All 16 widgets of AOC-275.18 carry positive width and height; none is inverted or degenerate."
+        }
+      ],
+      "independence": "This lane repaired the family described in this file and does not verify it. No verdict is set, no PASS is issued, and the status above is a report of what this lane finished, not an acceptance.",
+      "rasterOwed": "Yes, for the boundary fixture, whose bytes moved. The canonical is byte-identical to the one already carried. Rasterization is central (.github/workflows/rcap-packet-raster-acceptance-batch.yml); this lane produced none and a local render would not be a receipt.",
+      "grantsNothing": "generationAllowed false, runtimeSelectable false, commercialRoutesOpened 0, createsFulfillmentRecord false, paymentEligible false, sponsorshipEligible false — all carried verbatim from the committed binding, none authored by this write."
+    }
+  ]
+}

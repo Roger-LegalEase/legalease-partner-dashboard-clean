@@ -1,0 +1,63 @@
+{
+  "schemaVersion": "rcap-raster-queue/v1",
+  "preparedOn": "2026-09-12",
+  "packetCommitSha": null,
+  "packetCommitShaStatus": "Captain must stamp the scoped commit containing these exact bytes before dispatch",
+  "rows": [
+    {
+      "familyId": "ri_first_offender_felony-set",
+      "currentRasterState": "RASTER_PENDING",
+      "independentPreRasterSemanticReview": "PENDING",
+      "requestedScale": 2.5,
+      "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-felony-set--official-pdf-fill/fixtures/canonical.pdf",
+      "canonicalPdfSha256": "367459ad94553cb6a924ac739362d6605ea56ca3667755d53b4a3daa8c098048",
+      "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-felony-set--official-pdf-fill/fixtures/boundary.pdf",
+      "boundaryPdfSha256": "31e5ed43099b7885ef89ab629de296330f69448d049abd7dc10badb265bfac3e",
+      "expectedPages": 13,
+      "documents": [
+        {
+          "role": "canonical",
+          "name": "canonical.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-felony-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "367459ad94553cb6a924ac739362d6605ea56ca3667755d53b4a3daa8c098048",
+          "byteLength": 306410,
+          "pageCount": 13,
+          "pageCountBasis": "Parsed from exact current PDF with PyMuPDF",
+          "pageCountEvidence": {
+            "method": "PyMuPDF",
+            "pageCount": 13,
+            "sourceSha256": "367459ad94553cb6a924ac739362d6605ea56ca3667755d53b4a3daa8c098048"
+          }
+        },
+        {
+          "role": "boundary",
+          "name": "boundary.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-felony-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "31e5ed43099b7885ef89ab629de296330f69448d049abd7dc10badb265bfac3e",
+          "byteLength": 306598,
+          "pageCount": 13,
+          "pageCountBasis": "Parsed from exact current PDF with PyMuPDF",
+          "pageCountEvidence": {
+            "method": "PyMuPDF",
+            "pageCount": 13,
+            "sourceSha256": "31e5ed43099b7885ef89ab629de296330f69448d049abd7dc10badb265bfac3e"
+          }
+        }
+      ],
+      "documentsDigest": "2d2e6ddbb286c624ebecb8cffe3d5a31626790d2766678c4e1481b7bb47f9f47",
+      "coverage": {
+        "complete": true,
+        "basis": "The exact current canonical and boundary assembled thirteen-page packets are the family's complete delivered fixture set and are both enrolled by path and SHA-256.",
+        "documents": [
+          "canonical.pdf",
+          "boundary.pdf"
+        ],
+        "rastered": [
+          "canonical.pdf",
+          "boundary.pdf"
+        ],
+        "notRastered": []
+      }
+    }
+  ]
+}

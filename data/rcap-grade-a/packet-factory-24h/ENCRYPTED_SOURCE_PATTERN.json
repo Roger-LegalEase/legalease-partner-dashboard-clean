@@ -1,0 +1,29 @@
+{
+  "schemaVersion": "rcap-encrypted-source-pattern/v1",
+  "recordedBy": "Captain, 2026-09-09",
+  "why": "A build lane spent a shift stopping three Delaware families as BLOCKED_SOURCE on AES-256 encryption and concluded that 'this factory has never built from an encrypted source and holds no code path that could'. Both halves are wrong. The pattern exists, three builders use it, and it has already produced a COMPLETE_PACKET_PROVEN family. Recorded here so the next lane does not lose the same shift.",
+  "theSymptomToRecognise": "pdf-lib has no security handler. Every finalize path passes ignoreEncryption: true, which suppresses the throw and then parses ciphertext as plaintext. So an encrypted source does NOT fail with an encryption error -- it fails with 'Expected instance of PDFDict, but got instance of undefined', or with 'Invalid object ref' noise from an xref naming objects that do not resolve. Check for /Encrypt in the bytes before concluding anything about a source.",
+  "thePattern": {
+    "renderStrategy": "pikepdf_unlocked_derivative_then_official_form_finalizer",
+    "statedIn": "scripts/build-census-v1-me-seal-gen-set.mjs, lines 20-60",
+    "provenOn": "five encrypted California forms in scripts/build-census-v1-ca-1203-4-set.mjs",
+    "alsoUsedBy": ["scripts/build-census-v1-me-seal-gen-set.mjs", "scripts/build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs"],
+    "equivalenceProof": "scripts/census-v1-ca-1203-4-set/compare-official-vs-rescued.py",
+    "toolAvailableHere": "pikepdf 10.12.0",
+    "steps": [
+      "The bound identity stays the pinned official encrypted binary, byte for byte. Its SHA-256 is recomputed from those bytes before and after the read.",
+      "At build time the module opens the exact pinned bytes with pikepdf (libqpdf) and saves a decrypted derivative with deterministic_id, so two builds of the same pinned source produce the same derivative.",
+      "The derivative is proven equivalent to the official binary: page count, page geometry, terminal field set, every field difference, the page content streams and XFA.",
+      "If any of those differ the family STOPS with stopClass UNLOCKED_DERIVATIVE_IS_NOT_EQUIVALENT_TO_THE_OFFICIAL_BINARY and nothing is rendered.",
+      "The derivative is a transport step. It is not committed, it is deleted when the build ends, and it is never the bound identity."
+    ]
+  },
+  "theTrap": "data/rcap-all50/overlays/rescued-encrypted-pdfs/ holds eleven decrypted REVIEW derivatives -- five California, two Maine, and one each for Delaware, Nevada, Pennsylvania and West Virginia. Do not bind any of them. Their digests appear in no committed source record and no corpus-index entry, and binding one satisfies one identity with the bytes of another. Generate a derivative from the pinned bytes at build time instead.",
+  "howIVerifiedThisRatherThanRepeatingIt": "MJB-Form-cr-218.pdf reads /Encrypt with V 5, R 6 and StdCF for both StmF and StrF, and pdf-lib fails to load it here exactly as the lane described. me-seal-gen-set is COMPLETE_PACKET_PROVEN and its delivered fixtures carry the form's real printed text -- 'MAINE JUDICIAL BRANCH ... Superior Court District Court Unified Criminal Docket'. So the path exists, it works, and it has already produced a terminal family.",
+  "encryptedSourcesBoundByAlreadyBuiltFamilies": [
+    {"sha256Prefix": "82a9e8084346aa73", "file": "MJB-Form-cr-218.pdf", "family": "me-seal-gen-set", "state": "COMPLETE_PACKET_PROVEN", "handled": true},
+    {"sha256Prefix": "79d0e40df56d060a", "file": "MJB-Form-jv-043.pdf", "family": "census-pending-family:ME:juvenile-sealing", "state": "built this shift", "handled": "to be confirmed at its raster"}
+  ],
+  "whatThisDoesNotSettle": "Whether a court's published bytes may be decrypted for FILLING is a question the pattern answers by never binding the derivative and by refusing on any structural difference. It does not answer the separate question of a source published only as a Word document, which has no rescue and needs an owner decision: de_discretionary_family_court-set binds a .doc primary filing and a .docx continuation and no PDF at all.",
+  "notAProductionClaim": "This is a build-time transport pattern. It promotes nothing and opens no route."
+}

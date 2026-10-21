@@ -1,0 +1,131 @@
+{
+  "schemaVersion": "rcap-composed-packet-set/v1",
+  "familyId": "la-977-misdemeanor-conviction-set",
+  "jurisdiction": "LA",
+  "trackId": "la-977-misdemeanor-conviction",
+  "packetSetVersion": "1.0.0",
+  "routeKeys": [
+    "obligation:track-pathway:LA:la-977-misdemeanor-conviction:human-trafficking-survivor-expungement-fee-exempt-route",
+    "obligation:track-pathway:LA:la-977-misdemeanor-conviction:misdemeanor-article-894-b-set-aside-followed-by-expungement",
+    "obligation:track-pathway:LA:la-977-misdemeanor-conviction:misdemeanor-five-year-clean-period-expungement"
+  ],
+  "implementationStrategy": "custom_pleading",
+  "custodyClass": "SOURCE_BOUND_BY_HELD_BYTES",
+  "authorityDecision": "LA-STATUTORY-FORMS",
+  "composedFromAuthority": [
+    "LA-CCRP-ART-988",
+    "LA-CCRP-ART-989",
+    "LA-CCRP-ART-991",
+    "LA-CCRP-ART-992"
+  ],
+  "components": [
+    {
+      "componentId": "la-977-misdemeanor-conviction-primary-filing-1",
+      "documentId": "LA-CCRP-ART-989",
+      "title": "Article 989 Motion for Expungement of a Record of Arrest and Conviction of a Misdemeanor",
+      "role": "primary_filing",
+      "requirement": "required",
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "LA-CCRP-ART-989",
+      "order": 1,
+      "generated": true
+    },
+    {
+      "componentId": "la-977-misdemeanor-conviction-proposed-order-2",
+      "documentId": "LA-CCRP-ART-991",
+      "title": "Article 991 Order",
+      "role": "proposed_order",
+      "requirement": "required",
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "LA-CCRP-ART-991",
+      "order": 2,
+      "generated": true
+    },
+    {
+      "componentId": "la-977-misdemeanor-conviction-proposed-order-3",
+      "documentId": "LA-CCRP-ART-992",
+      "title": "Article 992 Order of Expungement",
+      "role": "proposed_order",
+      "requirement": "required",
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "LA-CCRP-ART-992",
+      "order": 3,
+      "generated": true
+    },
+    {
+      "componentId": "la-977-misdemeanor-conviction-fee-waiver-4",
+      "documentId": "LA-CCRP-ART-988",
+      "title": null,
+      "role": "fee_waiver",
+      "requirement": "conditional",
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "LA-CCRP-ART-988",
+      "order": 4,
+      "generated": false
+    },
+    {
+      "componentId": "la-977-misdemeanor-conviction-continuation-5",
+      "documentId": "LA-CCRP-ART-993",
+      "title": null,
+      "role": "continuation",
+      "requirement": "conditional",
+      "outputStrategy": "custom_pleading",
+      "officialFormId": "LA-CCRP-ART-993",
+      "order": 5,
+      "generated": false
+    },
+    {
+      "componentId": "la-977-misdemeanor-conviction-instructions-6",
+      "documentId": "LA-CCRP-ART-984",
+      "title": null,
+      "role": "instructions",
+      "requirement": "conditional",
+      "outputStrategy": "process_guidance",
+      "officialFormId": "LA-CCRP-ART-984",
+      "order": 6,
+      "generated": false
+    },
+    {
+      "componentId": "la-977-misdemeanor-conviction-instructions-7",
+      "documentId": "la-977-misdemeanor-conviction-instructions-7",
+      "title": "Article 977 Participant and Filing Instructions",
+      "role": "instructions",
+      "requirement": "required",
+      "outputStrategy": "process_guidance",
+      "officialFormId": null,
+      "order": 7,
+      "generated": true
+    }
+  ],
+  "componentsNotGenerated": [
+    {
+      "componentId": "la-977-misdemeanor-conviction-fee-waiver-4",
+      "role": "fee_waiver",
+      "requirement": "conditional",
+      "officialFormId": "LA-CCRP-ART-988",
+      "conditionTheRecordStates": "Generated only where the participant may qualify for the Article 983(F) exemption. The exemption's grounds are non-conviction grounds, so it reaches this conviction track far less often than Track A.",
+      "generated": false,
+      "whyNotGenerated": "the condition is a participant fact the platform does not hold on either fixture: nothing establishes that the participant may qualify for the Article 983(F) exemption, whose grounds are non-conviction grounds"
+    },
+    {
+      "componentId": "la-977-misdemeanor-conviction-continuation-5",
+      "role": "continuation",
+      "requirement": "conditional",
+      "officialFormId": "LA-CCRP-ART-993",
+      "conditionTheRecordStates": "Used only where the arrest carries more charges or counts than the Article 989 motion's own fields hold.",
+      "generated": false,
+      "whyNotGenerated": "both fixtures are single-arrest and single-count, so the stated condition is not met; independently, Article 993 is not in this family's composedFromAuthority grant and the committed legal-design note states that no template exists, none is counsel-approved and no implementation is authorized"
+    },
+    {
+      "componentId": "la-977-misdemeanor-conviction-instructions-6",
+      "role": "instructions",
+      "requirement": "conditional",
+      "officialFormId": "LA-CCRP-ART-984",
+      "conditionTheRecordStates": "Applies only where the misdemeanour conviction is for operating a vehicle while intoxicated.",
+      "generated": false,
+      "whyNotGenerated": "neither fixture is a conviction for operating a vehicle while intoxicated, so the stated condition is not met; Article 984's controlling requirements are quoted in the participant instructions for a participant on that branch"
+    }
+  ],
+  "participantInstructions": "data/rcap-all50/overlays/census-v1/la/la-977-misdemeanor-conviction-set--custom-pleading/participant-instructions.md",
+  "filingInstructions": "data/rcap-all50/overlays/census-v1/la/la-977-misdemeanor-conviction-set--custom-pleading/filing-instructions.md"
+}

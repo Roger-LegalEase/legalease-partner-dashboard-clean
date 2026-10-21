@@ -1,0 +1,23 @@
+name: Captain one-shot Kansas split closeout
+on:
+  push:
+    branches: [claude/legalease-sprint-captain-utucnw]
+    paths: [.github/workflows/captain-ks-split-closeout-20260912.yml]
+permissions:
+  actions: write
+  contents: read
+jobs:
+  raster:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.actions.createWorkflowDispatch({"owner": "Roger-LegalEase", "repo": "legalease-partner-dashboard-clean", "workflow_id": "rcap-packet-raster-acceptance-batch.yml", "ref": "claude/legalease-sprint-captain-utucnw", "inputs": {"commit_sha": "b55d13e28dc33af73ac0a8d5b63fe5ed1f46935f", "raster_manifest_path": "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/raster-manifest.json", "family_batch": "ks-21-6614-conviction-set,ks-21-6614-diversion-set,ks-21-6614-prostitution-coercion-set,ks-21-6614-specialty-court-set", "requested_scale": "2.5"}});
+  source:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.actions.createWorkflowDispatch({"owner": "Roger-LegalEase", "repo": "legalease-partner-dashboard-clean", "workflow_id": "rcap-official-source-acquisition-batch.yml", "ref": "claude/legalease-sprint-captain-utucnw", "inputs": {"manifest": "data/rcap-grade-a/packet-factory-24h/pf20/kansas-six-20260912/SOURCE_REACQUISITION_MANIFEST.json", "jurisdiction": "KS", "limit": "4"}});

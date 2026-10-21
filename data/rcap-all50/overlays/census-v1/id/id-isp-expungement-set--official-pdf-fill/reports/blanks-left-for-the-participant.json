@@ -1,0 +1,44 @@
+{
+  "schemaVersion": "rcap-participant-blanks/v1",
+  "familyId": "id_isp_expungement-set",
+  "note": "Every blank this family does not fill, and why. A blank here is not an omission to be closed later by widening the map: each is either the participant's to complete, the court's, or a value the platform does not hold.",
+  "count": 4,
+  "blanks": [
+    {
+      "document": "ISP-BCI-EXPUNGEMENT-APPLICATION",
+      "field": "County of Court Case Number 2",
+      "page": 1,
+      "effectiveLabel": "Charge(s) applicant seeks to have expunged — second printed rule",
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "why": "The second printed rule of \"Charge(s) applicant seeks to have expunged\". Its own name says county; the shared binder would have written matter.county onto the offence list."
+    },
+    {
+      "document": "ISP-BCI-EXPUNGEMENT-APPLICATION",
+      "field": "Applicants Date of Acquittal or Dismissal",
+      "page": 1,
+      "effectiveLabel": "Applicant's Date of Acquittal or Dismissal",
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "why": "The date of acquittal or dismissal. Two separate reasons. First, the shared binder matched \"Applicant\" in the field's own name and would have printed the applicant's full legal name here. Second, the platform holds matter.disposition_date as a generic disposition date and does not establish that it is a date of ACQUITTAL or DISMISSAL — on this non-conviction route that is the whole question, and writing a disposition date under that caption would assert an acquittal the platform has not established."
+    },
+    {
+      "document": "ISP-BCI-EXPUNGEMENT-APPLICATION",
+      "field": "Date",
+      "page": 2,
+      "effectiveLabel": "Signature of Requestor_____________________________Dat",
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "why": "The date beside \"Signature of Requestor\" on page 2. Dating a signature that has not been made asserts the application was signed on a day it was not."
+    },
+    {
+      "document": "ISP-BCI-EXPUNGEMENT-APPLICATION",
+      "field": "MI",
+      "page": 1,
+      "effectiveLabel": "middle initial",
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "why": "The \"(middle initial)\" box of the Applicant Name rule. Two reasons, and either alone is enough. The shared binder reads the field's own NAME first and \"MI\" matches its surname descriptor, so left alone it writes the applicant's LAST name into the middle box beside the last name already written to its left. And the platform holds a middle NAME, not an initial: this build writes held facts verbatim and does not derive a new fact from one it holds. With the printed caption corrected, the shared protect rules also refuse the blank, reading \"initial\" as an initialling field."
+    }
+  ]
+}

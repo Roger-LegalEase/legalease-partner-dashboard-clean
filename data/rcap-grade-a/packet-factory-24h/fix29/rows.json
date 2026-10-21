@@ -1,0 +1,173 @@
+{
+  "schemaVersion": "rcap-packet-factory-focused-repair-return/v1",
+  "workerId": "CLAUDE-FIX29-TX-CUSTOM-PLEADING",
+  "assignmentId": "FIX29",
+  "assignedBase": "dd3a1e101c3ce64724cd07b4235679bca725348a",
+  "branch": "fix29-tx-custom-pleading",
+  "laneKind": "repair",
+  "selfVerificationPerformed": 0,
+  "notAPass": "This lane repaired a family it holds a grant over. Nothing here is a PASS. Independent verification is owed at this tip, and a fresh central raster is owed on the new bytes.",
+  "grantConfirmed": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX29 rcap-tx-custom-pleading returned CLAIM_OK FIX29 rcap-tx-custom-pleading (repair, grant set bae6703c6ea251ea), exit 0, before anything was read or written.",
+  "resumedWork": "This lane resumed an interrupted worker. Twelve uncommitted files were present at start. Every one was read in full and kept, reverted or extended on its merits; what was kept and why is in whatChanged.inheritedDiff below.",
+  "buildEnvironment": {
+    "masterLibrarySourceDir": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (already mounted in this worktree; nothing was copied in)",
+    "humanSourceReturn": "private/human-source-returns/TX/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf, re-hashed first-hand to bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d, matching the family's pin. The binary was never written to.",
+    "nodeModules": "pre-existing symlink to /home/user/captain-worktree/node_modules; pdf-lib 1.17.1; node 22.22.2",
+    "preflight": "node scripts/verify-packet-build-environment.mjs --family rcap-tx-custom-pleading => 11/13 passed. The two failures are worktree_clean (the twelve inherited uncommitted files this lane was sent to adjudicate) and corpus_matches_committed_index (1 absent of 24 sampled: LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf, a pre-existing host-wide corpus gap FIX24 already recorded, not this family). family_sources_bind reports 1/1 binding by exact SHA-256.",
+    "noOtherWorktreeTouched": true
+  },
+  "verdictRepaired": {
+    "lane": "VF10",
+    "verdict": "FAIL_REPAIR_REQUIRED",
+    "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
+    "failedObligationNames": ["KNOWN_PREFILLS", "REQUIRED_BEFORE_FILING", "SELF_HELP_STOP"]
+  },
+  "predecessorPreserved": {
+    "fix24": "The two sworn zeros FIX24 cleared are still cleared. Measured at appearance level on the bytes this lane emitted, not inferred: flattenedWidgets() finds NO appearance at all at packet page 7 (313.44, 131.32) or page 8 (318.22, 91.2) in either fixture. FIX24's base fixtures 33e1fbd0.. / 9d28d0d7.. are the bytes this repair started from.",
+    "fix24RegistryEntries": "data/rcap-all50/shared/field-appearance-semantics.json was not opened for writing by this lane and is not in this commit. verify-source-carried-values-are-dispositioned.mjs still counts 18 dispositions by appearance-registry, which is FIX24's post-repair number."
+  },
+  "rows": [
+    {
+      "itemId": "rcap-tx-custom-pleading",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "baseSha": "dd3a1e101c3ce64724cd07b4235679bca725348a",
+      "factoryState": "BUILT_RASTER_PENDING",
+      "masterQueueStateUnchanged": "FAIL_REPAIR_REQUIRED before and after. This lane promoted nothing, opened no commercial route, and set no price. MASTER_QUEUE.json and RASTER_QUEUE.json were not edited.",
+      "obligationsRepaired": ["KNOWN_PREFILLS", "REQUIRED_BEFORE_FILING"],
+      "obligationsThisRowDoesNotDischarge": ["SELF_HELP_STOP"],
+      "whySelfHelpStopIsNotClaimed": "It did not need repairing at this base and this lane did not repair it. VF10 read it at 88d688b8 and was right there: the fixture committed at that base carries seven paraphrased stops and none of the seventeen route-specific ones. Commit a8931f0e0 (FIX01) then added registryStopConditions() to this family's builder, and FIX24's rebuild carried the result into the committed bytes. Measured on the CURRENT committed tree rather than assumed: all 26 unique selfHelpStopConditions across the eight TX tracks in data/record-clearing/legal-design-track-registry.json appear verbatim, whitespace-normalised, in canonical.pdf, in boundary.pdf and in participant-instructions.md; 26/26 present, 0 missing, each tagged with the track ids it comes from. The obligation is satisfied in the delivered output; it is simply not this lane's repair, and this row will not take credit for another lane's work.",
+      "obligationDetail": {
+        "KNOWN_PREFILLS": {
+          "limb1_isoDateOnAMonthDayYearLine": {
+            "repaired": true,
+            "before": "Packet page 2 drew the raw ISO strings 1994-04-17 (canonical) and 1972-12-31 (boundary) into the date-of-birth blank. The rule printed directly beneath that blank reads \"Month Day Year / Mes Dia Ano\" at y 558 on source page 2, so read in the order the form names, the ink said month 1994, day 04, year 17.",
+            "after": "Packet page 2 now draws 04/17/1994 and 12/31/1972, read back at appearance level from the emitted bytes at p2@114.57,569.24 in each fixture.",
+            "how": "A new opt-in printedDateOrderByField option on the shared finalizer, and a per-field order named in this family's builder because this file is the one that has read the form's printed rule. The finalizer never infers an order from a field name, a locale or a jurisdiction.",
+            "guardAgainstFormRevision": "PRINTED_DATE_ORDER_EVIDENCE asserts at build time that /month\\s+day\\s+year/i is still printed on page 2 of the pinned binary, and that the named field still exists and is still a field this build writes. A revision that reworded that rule fails the build instead of silently reordering a date."
+          },
+          "limb2_page11DateOfBirthBlank": {
+            "inkStillAbsent": true,
+            "resolvedBy": "declaration with the form's own printed caption, not by ink, and the reason is structural rather than editorial",
+            "measuredFirstHandFromThePinnedBinary": "Source page 11 carries three date widgets on the \"________/________/________\" rule under the printed caption \"My date of birth is / Mi fecha de nacimiento es\": \"Month / Mes\" at [79.73, 495.56], \"Day / Dia\" at [134.54, 495.51] and \"Year / Ano\" at [193.40, 495.61]. \"Month / Mes\" is ONE AcroForm field with TWO widgets: the second is at [135.24, 265.17] on page 12, which is the month blank on the \"____________, 20____\" line inside the block the form itself headlines \"The notary fills out this section. / El Notario llena esta seccion.\"",
+            "whyTheHeldFactIsNotWrittenThere": "This factory writes a FIELD, not a widget. Writing the participant's birth month into \"Month / Mes\" would also print it in the notary's own blank on page 12 — ink in a jurat block the participant may not complete, which is a protected write and a worse defect than the blank it would close. Writing only Day and Year would deliver a date two-thirds machine-filled on a declaration sworn under penalty of perjury, and the completeness contract reads that as an incomplete row.",
+            "whatWasDoneInstead": "All three boxes are declared REQUIRED_BEFORE_FILING and carry the form's own printed caption; the packet tells the participant, on the instruction page and in the markdown, to copy the date already printed on page 2, and says plainly why the platform did not fill it. The previous instruction text, which told the participant the date of birth had already been filled in, is gone.",
+            "honestLimit": "An independent verifier applying VF10's exact page-11 test will still find that line blank. It is blank on purpose, with a first-hand reason recorded here and in the field map, and this row does not pretend otherwise. If the owner wants ink there, the fix is per-widget writing in the shared finalizer, which is a factory-wide change and not this lane's to make under a focused-repair grant."
+          }
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "repaired": true,
+          "before": "96 inventoried items. The page-11 Option 1 date-of-birth boxes were swept up by a rule that matched \"Day / Dia\", \"Month / Mes\", \"Year / Ano\", \"Today\" and \"Year\" together and called all five parts of the sworn declaration date, protected because \"a date written before the Statement is actually sworn would be false\". That reason is right for the day the participant signs and wrong for the day they were born, so three participant blanks on a delivered page were in no list.",
+          "after": "99 inventoried items. The declaration_date rule now matches only \"Today\" and page 12's \"Year\"; the three page-11 boxes are their own two rules, disposition REQUIRED_BEFORE_FILING, requiredBeforeFiling true, and they appear in production-field-map.json, in blanks-left-for-the-participant.json and in the participant's \"items you must supply\" table. Blank dispositions moved REQUIRED_BEFORE_FILING 96 -> 99 and PROTECTED_FIELD 9 -> 6; nothing else moved.",
+          "declaredWithItsPrintedCaption": "This lane added what the previous worker did not. The builder already had a caption/captionAt mechanism that re-reads the pinned binary and fails the build if a recorded caption is no longer printed where the dictionary says — and NOT ONE rule used it, so the check had never had anything to check. The three page-11 rules now carry the form's own printed line, \"My date of birth is / Mi fecha de nacimiento es\", pinned at page 11 y 521, and it flows through to printedLabel, printedLine and the field map's printedContext for all three rows. The descriptive text stays as the disclosure label, so a reader gets both the words on the paper and the words that say which box.",
+          "theCaptionCheckIsNotVacuous": "Proved by breaking it. With captionAt moved to y 585 (the \"My name is / Mi nombre es\" line, 64 points away) the build fails: AssertionError, \"a recorded caption is no longer printed where the dictionary says: Month / Mes@p11\". It was restored and the fixtures rebuilt to the same bytes. A tolerance test also ran: y 522 passes, because captionDrift allows +/- 3 points.",
+          "inventoryIsNowCheckedAgainstThePageNotTheFieldList": "requiredBeforeFilingItems() counts field-map rows, and the field map holds one row per AcroForm field NAME, so a field appearing on two pages is counted once. A new build-time assertion walks the census WIDGETS instead — 126 participant-completed blank appearances, read from the pinned binary with their own page and rectangle — and fails the build if any is reachable from neither the required-before-filing list nor a declared participant election. Page 11 contributes 4. The one appearance excluded is page 12's \"Month / Mes\" widget, named in the report with who completes it (the notary) and why."
+        }
+      },
+      "whatChanged": {
+        "inheritedDiff": {
+          "verdict": "Eleven of the twelve inherited files were kept; none was reverted. The twelfth, the shared finalizer, was kept only after its neutrality for every other family was proved rather than argued. Two files were extended by this lane.",
+          "kept_scripts/rcap-official-forms/rcap-official-form-finalize.mjs": "KEPT (+78 lines). It adds PRINTED_DATE_ORDERS, isoDateInPrintedOrder() and an opt-in printedDateOrderByField option defaulting to {}. Gated by construction: with the default, printedDateOrderByField[field.name] is undefined, the reorder branch is skipped, and the report spread contributes nothing. Proved three ways rather than asserted. (1) Static: grep over scripts/ finds no caller other than this family's builder passing printedDateOrderByField, and none importing isoDateInPrintedOrder or PRINTED_DATE_ORDERS. (2) Empirical A/B on real sibling families that import this module: tx_nd_dwi_probation-set (which shares the very same TX Statement binary) and ar-misdemeanor-dwi-seal-set (which the new option's own comment names as a family with the same latent date question) were each built --no-raster against the HEAD finalizer and then against the modified one. All six fixture PDFs are byte-identical across the two module versions; both sibling directories were then restored with git checkout and are not in this commit. (3) Behavioural: an order named for a field that does not bind a date fact throws rather than being silently ignored, so a caller cannot half-apply it. It follows the module's four existing opt-in flags exactly and carries the same CAPTAIN DECISION note about a single rebuild-everything moment.",
+          "kept_scripts/build-census-v1-rcap-tx-custom-pleading.mjs": "KEPT and EXTENDED. Kept: the split of declaration_date into the page-11 date-of-birth rules plus Today/Year; PRINTED_DATE_ORDER_BY_FIELD and its build-time printed-line evidence; the widget-level inventory assertion and its named exclusion for the notary's page-12 month; the rewritten instruction text on both the composed page and the markdown. Added by this lane: caption/captionAt on the three page-11 rules, and propagation of caption/captionAt through statementFields() so the existing captionDrift check can see them. That is the whole of this lane's edit to the file.",
+          "kept_data/.../production-field-map.json": "KEPT, regenerated. 96 -> 99 required-before-filing rows; the three page-11 rows now carry the form's printed caption as printedContext.",
+          "kept_data/.../participant-instructions.md": "KEPT, regenerated. Three new rows in the items-you-must-supply table, a new bullet in the list of what is left blank, and the page-2 / page-11 date-of-birth explanation replacing the sentence that told the participant the date of birth had already been filled in.",
+          "kept_data/.../field-census.census-v1.json": "KEPT, regenerated. Now records printedCaption on the three page-11 rows.",
+          "kept_data/.../reports/actual-writes.json": "KEPT, regenerated. drawnText for the page-2 date of birth moves 1994-04-17 -> 04/17/1994 and 1972-12-31 -> 12/31/1972, read back from the flattened widget appearance of the assembled bytes. Nine writes per fixture, unchanged in number.",
+          "kept_data/.../reports/blanks-left-for-the-participant.json": "KEPT, regenerated. Adds the widget-level count (126), the per-page breakdown, and the named page-12 notary exclusion.",
+          "kept_data/.../reports/completeness-counters.json": "KEPT, regenerated. Nine counters zero before and after; blankDispositions 96/19/9 -> 99/19/6.",
+          "kept_data/.../reports/rendered-artifacts.json": "KEPT, regenerated with the new hashes, byte lengths and 16-page counts.",
+          "kept_data/.../fixtures/canonical.pdf and boundary.pdf": "KEPT as rebuilt. This lane's own two rebuilds reproduce exactly the hashes the previous worker had left on disk, which is independent evidence that its build was deterministic and complete.",
+          "kept_data/.../product-wiring.json": "KEPT. One line: the canonical component digest re-pinned to the new bytes. Re-run of scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs --family rcap-tx-custom-pleading reports 1 unchanged, i.e. the inherited file is exactly what the generator produces. acceptanceReceipt is null and lastIndependentVerification is null, both as they were at HEAD."
+        },
+        "filesInThisCommit": [
+          "data/rcap-all50/overlays/census-v1/tx/rcap-tx-custom-pleading--custom-pleading/field-census.census-v1.json",
+          "data/rcap-all50/overlays/census-v1/tx/rcap-tx-custom-pleading--custom-pleading/fixtures/boundary.pdf",
+          "data/rcap-all50/overlays/census-v1/tx/rcap-tx-custom-pleading--custom-pleading/fixtures/canonical.pdf",
+          "data/rcap-all50/overlays/census-v1/tx/rcap-tx-custom-pleading--custom-pleading/participant-instructions.md",
+          "data/rcap-all50/overlays/census-v1/tx/rcap-tx-custom-pleading--custom-pleading/product-wiring.json",
+          "data/rcap-all50/overlays/census-v1/tx/rcap-tx-custom-pleading--custom-pleading/production-field-map.json",
+          "data/rcap-all50/overlays/census-v1/tx/rcap-tx-custom-pleading--custom-pleading/reports/actual-writes.json",
+          "data/rcap-all50/overlays/census-v1/tx/rcap-tx-custom-pleading--custom-pleading/reports/blanks-left-for-the-participant.json",
+          "data/rcap-all50/overlays/census-v1/tx/rcap-tx-custom-pleading--custom-pleading/reports/completeness-counters.json",
+          "data/rcap-all50/overlays/census-v1/tx/rcap-tx-custom-pleading--custom-pleading/reports/rendered-artifacts.json",
+          "scripts/build-census-v1-rcap-tx-custom-pleading.mjs",
+          "scripts/rcap-official-forms/rcap-official-form-finalize.mjs",
+          "data/rcap-grade-a/packet-factory-24h/fix29/rows.json",
+          "data/rcap-grade-a/packet-factory-24h/claim-ledger.json"
+        ],
+        "deliberatelyNotTouched": [
+          "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+          "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+          "data/rcap-all50/shared/field-appearance-semantics.json",
+          "data/rcap-all50/overlays/census-v1/tx/rcap-tx-custom-pleading--custom-pleading/build-status.json",
+          "every other family's overlay directory and builder"
+        ]
+      },
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersWitnessLittleHere": "All nine were zero before this repair and are zero after it, while the packet was printing a date of birth that disagreed with the printed line it sat on and leaving three participant blanks out of the inventory. The nine ask what the build wrote, left blank or failed to classify; none of them reads a date against the rule under it, and a per-field-name inventory cannot see a second widget. They are recorded because the bar asks for them, not because they witness the repair. The two new build-time assertions — the printed-line evidence check and the widget-level inventory check — are what would now catch these two defects.",
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "old": { "sha256": "33e1fbd056ae492516b3e2c2d36f1cd7c8d975f87a462e3c5c83cb771260b677", "byteLength": 385141, "pageCount": 16 },
+          "new": { "sha256": "a2f87783f7f1d993be0668f25dc2d42dfa5c14863848b24c60d50b19230c2957", "byteLength": 385717, "pageCount": 16 },
+          "flattenedAppearances": 138,
+          "nonEmptyAppearances": 8,
+          "movedThisLane": true
+        },
+        {
+          "fixture": "boundary",
+          "old": { "sha256": "9d28d0d7794ad6d336282b3c81e71c3298d6425260714c1d94fa42e98d8e5bdb", "byteLength": 385375, "pageCount": 16 },
+          "new": { "sha256": "a037710fc690fea8ea63a5dc7b1304863206cc4144a9caa0b843b071898699df", "byteLength": 385952, "pageCount": 16 },
+          "flattenedAppearances": 138,
+          "nonEmptyAppearances": 8,
+          "movedThisLane": true
+        }
+      ],
+      "otherByteIdentity": {
+        "buildScript": { "path": "scripts/build-census-v1-rcap-tx-custom-pleading.mjs", "sha256": "29d5e2c8d9024b911e50047771e7ee202aca26eab2d6bc53a5b874901a9dc71f" },
+        "sharedFinalizer": { "path": "scripts/rcap-official-forms/rcap-official-form-finalize.mjs", "sha256": "108b4dada42f60d79ee41bbf387549d1b4169db1334b77787fa3e17499804068" },
+        "productionFieldMap": { "old": "f1566e1d98eb322e8aac8f69714dcabada8f3562edf72bfbf1a9f3c3242fc2e1", "new": "6b411aafe367b81e23632f1360671bd204d39f66fc5ded4d1f32556bff07ddb2" }
+      },
+      "deterministicRebuild": "Built twice with --no-raster in this worktree. cmp reports the two canonical PDFs, the two boundary PDFs and the two production-field-map.json files byte-identical across the two runs. A third and fourth build ran either side of the caption-drift negative test and returned to the same canonical hash.",
+      "verifierResults": {
+        "verify-packet-completeness.mjs --family rcap-tx-custom-pleading": "PASS_COMPLETE, 9/152 written, exit 0. All nine counters zero: knownRequiredFieldsMissing 0, requiredFactsNotCollected 0, unclassifiedBlanks 0, incompleteRows 0, requiredOptionsMissing 0, requiredComponentsMissing 0, invisibleWrites 0, protectedWrites 0, visualDefects 0.",
+        "verify-source-carried-values-are-dispositioned.mjs": "EVERY_SOURCE_CARRIED_VALUE_IS_DISPOSITIONED, exit 0, corpus-wide: 7 families carrying, 21 values examined, 21 dispositioned, 0 undispositioned, 0 not examinable. 18 by appearance-registry and 3 by clearSourceCarriedTextValues, unchanged from FIX24's post-repair split.",
+        "verify-identity-refresh-survives-rebuild.mjs": "EVERY_IDENTITY_REFRESH_SURVIVED, exit 0, 249 receipts compared against HEAD, 52 carrying an identityRefresh.",
+        "appearanceLevelCheckOfTheTwoClearedZeros": "flattenedWidgets() over the bytes this lane emitted: no appearance exists at packet page 7 (313.44, 131.32) or page 8 (318.22, 91.2) in either fixture. Each fixture holds 138 flattened appearances and exactly 8 non-empty ones — name, address, date of birth, phone and email on page 2; name and address on page 11; name on page 12 — every one a fact the platform holds about the participant. The three page-11 date-of-birth boxes draw an empty appearance, like every other unanswered blank on that page.",
+        "selfHelpStopTextCheck": "26 of 26 registry stop conditions found verbatim, whitespace-normalised, in canonical.pdf, boundary.pdf and participant-instructions.md.",
+        "captionDriftNegativeTest": "Build fails with the recorded caption position moved 64 points, passes when restored. The check is live, not vacuous.",
+        "siblingFamilyByteNeutrality": "tx_nd_dwi_probation-set (2 fixtures) and ar-misdemeanor-dwi-seal-set (4 fixtures) built --no-raster against the HEAD finalizer and against the modified finalizer: all 6 SHA-256 values identical across the two module versions."
+      },
+      "issuerOriginalBytesPreserved": "The pinned binary was never written to and re-hashes to bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d after the repair. No legitimate printed text was removed: the placement set is unchanged at 138 appearances per fixture and the only ink that changed is the page-2 date of birth, which changed order and not content.",
+      "aFreshRasterIsOwed": "Yes. Central raster acceptance is owed on canonical a2f87783.. and boundary a037710f... No raster of any kind covers these bytes; product-wiring acceptanceReceipt is null and build-status.json still reads rasterState BUILT_RASTER_PENDING, rasterPages 0, selfVerified false, generationAllowed false, runtimeSelectable false.",
+      "notDone": [
+        "The page-11 Option 1 date-of-birth line is still blank ink. It is declared, captioned and explained rather than written, for the structural reason recorded above.",
+        "SELF_HELP_STOP was already satisfied at this base by FIX01 and is verified, not repaired, here.",
+        "No independent verification and no central raster. Both are owed at this tip and neither is claimed."
+      ],
+      "grantsNothing": "This repair approves no output, promotes no route, sets no price, opens no commercial route and touched no production surface."
+    }
+  ]
+}

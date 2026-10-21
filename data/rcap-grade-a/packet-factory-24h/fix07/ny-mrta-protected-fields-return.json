@@ -1,0 +1,149 @@
+{
+  "schemaVersion": "rcap-grade-a-packet-factory-24h/repair-return/v1",
+  "worker": "CODEX-CS2-FIX07-NY-MRTA-PROTECTED",
+  "fixId": "FIX07",
+  "familyId": "ny_mrta_marijuana-set",
+  "base": "7fdbcb4acf9d49b42a7b3b309f81923c8267fabd",
+  "branch": "codex/cs2-fix07-ny-mrta-protected-7fdb",
+  "status": "COMPLETED",
+  "repairedByThisLane": true,
+  "routeKeys": [
+    "obligation:unit:NY:ny_mrta_marijuana:ny-mrta-automatic-expungement",
+    "obligation:unit:NY:ny_mrta_marijuana:ny-mrta-destruction-request"
+  ],
+  "printedBoundary": "***FOR COURT USE ONLY - DO NOT WRITE BELOW THIS LINE***",
+  "protectedClassification": "6/6",
+  "classifications": [
+    {
+      "field": "Proper_ID",
+      "before": "participant_sworn_narrative_or_legal_election",
+      "after": "court_prosecutor_clerk_or_agency_owned",
+      "page": 1,
+      "x": 44.657,
+      "y": 118.412,
+      "protected": true,
+      "blank": true
+    },
+    {
+      "field": "Application_Complete",
+      "before": "court_prosecutor_clerk_or_agency_owned",
+      "after": "court_prosecutor_clerk_or_agency_owned",
+      "page": 1,
+      "x": 44.657,
+      "y": 104.817,
+      "protected": true,
+      "blank": true
+    },
+    {
+      "field": "Charge_Sealed",
+      "before": "participant_sworn_narrative_or_legal_election",
+      "after": "court_prosecutor_clerk_or_agency_owned",
+      "page": 1,
+      "x": 44.657,
+      "y": 78.793,
+      "protected": true,
+      "blank": true
+    },
+    {
+      "field": "Comment_Entered",
+      "before": "participant_sworn_narrative_or_legal_election",
+      "after": "court_prosecutor_clerk_or_agency_owned",
+      "page": 1,
+      "x": 44.657,
+      "y": 53.933,
+      "protected": true,
+      "blank": true
+    },
+    {
+      "field": "File_Copy",
+      "before": "court_prosecutor_clerk_or_agency_owned",
+      "after": "court_prosecutor_clerk_or_agency_owned",
+      "page": 1,
+      "x": 44.657,
+      "y": 40.338,
+      "protected": true,
+      "blank": true
+    },
+    {
+      "field": "Copies_Sent",
+      "before": "court_prosecutor_clerk_or_agency_owned",
+      "after": "court_prosecutor_clerk_or_agency_owned",
+      "page": 1,
+      "x": 44.657,
+      "y": 27.132,
+      "protected": true,
+      "blank": true
+    }
+  ],
+  "packetArtifacts": [
+    {
+      "fixture": "canonical",
+      "sha256Before": "37d456b6c2b79c3801bb9c07030072d5b0487a95f711a92a3fd8ef14e99b05ff",
+      "sha256After": "37d456b6c2b79c3801bb9c07030072d5b0487a95f711a92a3fd8ef14e99b05ff",
+      "hashUnchanged": true,
+      "byteLength": 247978,
+      "pageCount": 1,
+      "protectedControlsBlank": "6/6"
+    },
+    {
+      "fixture": "boundary",
+      "sha256Before": "5f61e8f23675070c7691b16c6522745f5fa033083725f1eefb9caccc32cb3457",
+      "sha256After": "5f61e8f23675070c7691b16c6522745f5fa033083725f1eefb9caccc32cb3457",
+      "hashUnchanged": true,
+      "byteLength": 247265,
+      "pageCount": 1,
+      "protectedControlsBlank": "6/6"
+    }
+  ],
+  "sourceAndBuild": {
+    "officialSourceMounted": false,
+    "sourceBlocked": false,
+    "sourceAcquisitionAttempted": false,
+    "pdfBuildsRun": 0,
+    "pathTaken": "metadata repair plus check/self-test against pinned delivered PDF bytes"
+  },
+  "tests": [
+    {
+      "command": "node --check scripts/build-census-v1-ny_mrta_marijuana-set.mjs",
+      "result": "PASS"
+    },
+    {
+      "command": "node scripts/build-census-v1-ny_mrta_marijuana-set.mjs --repair-field-map-only (two runs)",
+      "result": "PASS",
+      "fieldMapByteIdentical": true,
+      "protectedReportByteIdentical": true
+    },
+    {
+      "command": "node scripts/build-census-v1-ny_mrta_marijuana-set.mjs --check-protected-controls (two runs)",
+      "result": "PASS",
+      "assertion": "NY_MRTA_PROTECTED_CONTROLS_OK 6/6 protected and blank in 2/2 artifacts"
+    },
+    {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ny_mrta_marijuana-set",
+      "result": "PASS_COMPLETE",
+      "written": "12/33"
+    }
+  ],
+  "counters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+  },
+  "changedPaths": [
+    "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/production-field-map.json",
+    "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/reports/protected-controls.json",
+    "scripts/build-census-v1-ny_mrta_marijuana-set.mjs",
+    "data/rcap-grade-a/packet-factory-24h/fix07/ny-mrta-protected-fields-return.json"
+  ],
+  "centralEdits": 0,
+  "claimsReleased": 0,
+  "selfVerification": 0,
+  "routesOpened": 0,
+  "Production": false
+}

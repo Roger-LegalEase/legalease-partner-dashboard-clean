@@ -1,6 +1,6 @@
 import "server-only";
 
-import { selectComposedRoute } from "@/lib/rcap-engine/composed-route-selector";
+import { dispositionFromAnswers, selectComposedRoute } from "@/lib/rcap-engine/composed-route-selector";
 import type {
   EngineProfile,
   ScreeningAnswerValue,
@@ -39,7 +39,11 @@ export function evaluateAuthoritativeScreeningResult(input: {
   const firstPass = evaluateExpungementAiMatter(request);
   const selection = selectComposedRoute({
     jurisdiction: firstPass.jurisdiction,
-    pathwayId: firstPass.pathwayId ?? null
+    pathwayId: firstPass.pathwayId ?? null,
+    // Derived from the answers the server just evaluated, so a track whose
+    // adopted record covers only one record class cannot be reached by a
+    // participant whose record is a different one.
+    disposition: dispositionFromAnswers(input.answers as Record<string, unknown> | undefined)
   });
 
   const evaluation: ScreeningEvaluation = selection.status === "identity_unavailable"
@@ -54,9 +58,25 @@ export function evaluateAuthoritativeScreeningResult(input: {
         "This route's identity could not be resolved on the server, so it is served as guidance with payment closed."
       ]
     }
-    : selection.status === "selected"
-      ? evaluateExpungementAiMatter({ ...request, selectedTrackId: selection.trackId })
-      : firstPass;
+    // The compiled pathway matched, but the composed route adopted for it covers
+    // a narrower record class than the pathway does. This is an accurate
+    // eligibility refusal rather than a missing mapping: there is relief here,
+    // and it simply is not something this participant files.
+    : selection.status === "route_conditions_unmet"
+      ? {
+        ...firstPass,
+        resultCode: "guidance_only",
+        paymentAllowed: false,
+        packetPlan: undefined,
+        selectedTrackId: null,
+        cautions: [
+          ...firstPass.cautions,
+          `This record does not reach the filing route adopted for this pathway: ${selection.reason}. It is served as guidance with payment closed.`
+        ]
+      }
+      : selection.status === "selected"
+        ? evaluateExpungementAiMatter({ ...request, selectedTrackId: selection.trackId })
+        : firstPass;
 
   const profile = getProfileByJurisdiction(evaluation.jurisdiction);
   if (!profile) {

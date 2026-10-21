@@ -1,0 +1,69 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-rows/v1",
+  "assignmentId": "PF16",
+  "workerId": "BUILD-B",
+  "lane": "packet-build",
+  "engine": "remote agent session",
+  "shiftBaseSha": "3fcdb0f292f31d1a1bbc5778832d54401ef9c782",
+  "workerBranch": "claude/build-b-custom-pleading-cohort",
+  "writtenAlongsideNotOverIt": {
+    "existingFile": "data/rcap-grade-a/packet-factory-24h/pf16/rows.json",
+    "existingWorker": "PF-C",
+    "existingBase": "09b741ad00be0d630bd73a72f66640294abab397",
+    "existingItems": [
+      "mi_setaside_marihuana-set",
+      "ak-courtview-set"
+    ],
+    "whyThisFileExists": "this lane directory already held a rows.json from an earlier cohort, and overwriting it would erase that cohort's return. This file is written beside it.",
+    "itemsInBoth": [],
+    "whereTheTwoDisagree": "nowhere. The two files describe disjoint sets of families, so neither contradicts the other on any family, counter, hash or verdict."
+  },
+  "familiesAssigned": 1,
+  "familiesBuilt": 0,
+  "familiesStopped": 1,
+  "preflight": {
+    "command": "not run: scripts/verify-packet-build-environment.mjs is the Codex Cloud lane gate and this lane runs in a different container",
+    "environmentFactsEstablishedInstead": [
+      "only two of the five source custodies are mounted: the Master Library and human-source-returns",
+      "no browser resolves here, so every family is returned BUILT_RASTER_PENDING with its exact canonical and boundary hashes"
+    ]
+  },
+  "selfVerification": 0,
+  "rows": [
+    {
+      "itemId": "la-985-1-interim-expungement-set",
+      "status": "STOPPED_NO_AUTHORITY_FOR_THE_REQUIRED_PROPOSED_ORDER",
+      "familyId": "la-985-1-interim-expungement-set",
+      "blockerClass": "legal_input_authorization",
+      "blocker": "The family's REQUIRED proposed_order component is the Article 995 Order of Expungement of Interim Arrest Record, and nothing in the repository authorizes composing it for this family.",
+      "theRecordsThatSaySo": [
+        {
+          "record": "data/rcap-grade-a/legal-decisions/OWNER_DETERMINATIONS_2026-09-02.json",
+          "entry": "determinations[id=LA-STATUTORY-FORMS].families[familyId=la-985-1-interim-expungement-set]",
+          "whatItHolds": "composedFromAuthority is exactly [LA-CCRP-ART-988, LA-CCRP-ART-994] and remainOfficialAndMustBeHeld is empty. LA-CCRP-ART-995 appears in neither list, so the family-scoped grant covers the motion and not the order it must be filed with."
+        },
+        {
+          "record": "data/record-clearing/legal-design-intake/LA.memo.json",
+          "entry": "tracks[trackId=la-985-1-interim-expungement].components[role=proposed_order]",
+          "whatItHolds": "\"Article 986(A) makes the statutory forms exclusive, so the rendering must reproduce the Legislature's own words rather than paraphrase them ... No template exists yet, none is counsel-approved, and no implementation is authorized here.\""
+        }
+      ],
+      "sourceStatus": "NOT_A_SOURCE_PROBLEM",
+      "sourcesResolved": [
+        {
+          "sourceId": "source-sha256:13396bb180962be61788f0f7dd965fe4095d2262506b097623a86a6268e7a65a",
+          "sha256": "13396bb180962be61788f0f7dd965fe4095d2262506b097623a86a6268e7a65a",
+          "resolvedPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/LA/05_SOURCE_GATED/LA__SOURCE-GATED__LA-CCRP-ART-990__article-990-affidavit-of-response__SOURCE-2026-07-31__EN.pdf"
+        },
+        {
+          "sourceId": "source-sha256:b90e8cc62a2762c7d52b0a2b0f712147ca2ead4703fe091e26e9927cbab71c39",
+          "sha256": "b90e8cc62a2762c7d52b0a2b0f712147ca2ead4703fe091e26e9927cbab71c39",
+          "resolvedPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/LA/05_SOURCE_GATED/LA__SOURCE-GATED__LA-CCRP-ART-995__article-995-order-of-expungement-of-interim-arrest-record__SOURCE-2026-07-31__EN.pdf"
+        }
+      ],
+      "whatWouldUnblockIt": "an owner determination that names la-985-1-interim-expungement-set and lists LA-CCRP-ART-995 under composedFromAuthority, or a counsel-approved Article 995 template. Neither exists in this checkout.",
+      "whatWasNotDone": "no Article 995 order was composed, no packet was rendered, and no file was written under this family's directory."
+    }
+  ],
+  "laneNote": "BUILD-B, custom_pleading cohort. Five families built and returned BUILT_RASTER_PENDING, three stopped and named. No verdict is issued on this lane's own work, no commercial route is opened, and nothing in production is touched."
+}

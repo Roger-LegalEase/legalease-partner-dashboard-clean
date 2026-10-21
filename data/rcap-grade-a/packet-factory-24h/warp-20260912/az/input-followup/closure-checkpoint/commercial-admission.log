@@ -1,0 +1,70 @@
+Illinois delivery binding: exact track/family/job and consumer/sponsored denials PASS (local only)
+Illinois committed registry: REVOKED; admitted=false
+Lane F — commercial admission wiring
+
+  ok   the point list is imported from the authority, not restated in this file
+  ok   the authority exports at least one admission point
+  ok   the context requirement table covers exactly the exported points
+  ok   consumer_checkout: exactly one governed call site
+  ok   sponsored_entitlement: exactly one governed call site
+  ok   packet_credit_admission: exactly one governed call site
+  ok   generation_admission: exactly one governed call site
+  ok   provider_dispatch: exactly one governed call site
+  ok   artifact_commercial_attachment: exactly one governed call site
+  ok   briefcase_ready: exactly one governed call site
+  ok   private_download: exactly one governed call site
+  ok   repeat_download: exactly one governed call site
+  ok   launch_graph_commercial_status: exactly one governed call site
+  ok   no module outside the authority calls evaluateFulfillmentAuthority
+  ok   no module outside the authority calls admitCommercialAction
+  ok   the wiring module states no eligibility rule of its own
+  ok   consumer_checkout: consumer and sponsored reach the same answer
+  ok   sponsored_entitlement: consumer and sponsored reach the same answer
+  ok   packet_credit_admission: consumer and sponsored reach the same answer
+  ok   generation_admission: consumer and sponsored reach the same answer
+  ok   provider_dispatch: consumer and sponsored reach the same answer
+  ok   artifact_commercial_attachment: consumer and sponsored reach the same answer
+  ok   briefcase_ready: consumer and sponsored reach the same answer
+  ok   private_download: consumer and sponsored reach the same answer
+  ok   repeat_download: consumer and sponsored reach the same answer
+  ok   launch_graph_commercial_status: consumer and sponsored reach the same answer
+  ok   no route is commercially eligible at this base, so every point denies
+  ok   an unknown route denies rather than throwing an unhandled error
+  ok   a refusal body carries only a denial code and one sentence
+  ok   a refusal body never carries context denials
+  ok   a two-page PDF validates and reports its pages
+  ok   a non-PDF is refused as a deliverable packet
+  ok   a PDF declared but not delivered is refused
+  ok   an empty artifact is refused
+  ok   a substituted object is refused against the recorded digest
+  ok   the same bytes reproduce the same digest, so repeat download is possible
+  ok   a page-count change is refused even when the digest is not checked
+  ok   the route is judged before the participant, so an unproven route refuses identically for everyone
+  ok   an anonymous participant is denied on ownership
+  ok   the wrong user is denied on ownership
+  ok   a verification bound to another matter is denied
+  ok   a verification bound to another route is denied
+  ok   an entitlement with no idempotency key cannot charge or consume
+  ok   an entitlement the server did not verify is denied
+  ok   sponsored_entitlement: a spent entitlement is refused as a double charge
+  ok   packet_credit_admission: a spent entitlement is refused as a double charge
+  ok   generation_admission: a spent entitlement is refused as a double charge
+  ok   provider_dispatch: a spent entitlement is tolerated, so a failed render retries without a second credit
+  ok   a publicly reachable artifact is not deliverable
+  ok   an artifact with no recorded digest cannot bind delivery
+  ok   repeat download is refused for an artifact with no prior download
+  ok   repeat download requires no entitlement, so it costs no second payment or credit
+
+Admission point wiring:
+  consumer_checkout                  src/lib/expungement-ai/payment-adapter.ts:236
+  sponsored_entitlement              src/lib/expungement-ai/rcap-slot-lifecycle.ts:282
+  packet_credit_admission            src/lib/expungement-ai/rcap-slot-lifecycle.ts:141
+  generation_admission               src/lib/rcap/render/commercial-admission.ts:159
+  provider_dispatch                  src/lib/rcap/render/commercial-admission.ts:163
+  artifact_commercial_attachment     src/lib/rcap/render/commercial-admission.ts:167
+  briefcase_ready                    src/lib/expungement-ai/packet-generation.ts:327
+  private_download                   src/lib/rcap/render/commercial-admission.ts:441
+  repeat_download                    src/lib/rcap/render/commercial-admission.ts:439
+  launch_graph_commercial_status     src/lib/rcap/render/commercial-admission.ts:359
+
+verify-rcap-lane-f-commercial-admission passed: 52/52 checks, 10 admission points each governed exactly once.

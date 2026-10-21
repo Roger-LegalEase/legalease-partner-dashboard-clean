@@ -1,0 +1,124 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-shift-return/v1",
+  "whatThisFileIs": "One packet-build shift's return for lane PF06. It is DELIBERATELY NOT rows.json: this lane directory already carries rows.json from the FABLE-PA shift at base ee5bdb5b56d69c00750663087e5e8c5a6d144acf describing four different families, and overwriting it would silently delete a completed return.",
+  "assignmentId": "PF06",
+  "workerId": "PFB-PACKET-BUILD-COHORT",
+  "lane": "packet-build",
+  "captainBranch": "claude/legalease-sprint-captain-utucnw",
+  "shiftBaseSha": "d6f430105dfc942be321b64243a77b666992547a",
+  "workerBranch": "worktree-agent-a0f336fc7747058d8",
+  "pushed": false,
+  "familiesAssigned": 5,
+  "rows": [
+    {
+      "itemId": "nc_145_5_felony-set",
+      "status": "COMPLETED",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "directory": "data/rcap-all50/overlays/census-v1/nc/nc-145-5-felony-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-nc_145_5_felony-set.mjs",
+      "implementationStrategy": "official_pdf_fill",
+      "documentsBound": [
+        {
+          "sourceId": "official-form:AOC-CR-297",
+          "sha256": "99c17942a23c80d4e6e66615bc0dca5630fbfe5c5982540cc577da8d89e1eb7c",
+          "custody": "master_library"
+        },
+        {
+          "sourceId": "official-form:AOC-CR-297-INSTRUCTIONS",
+          "sha256": "689301e080796f9c0c9e8f15c5cd055a47b40034ab58f1fc7b91ab1143f8a484",
+          "custody": "master_library"
+        },
+        {
+          "sourceId": "official-form:AOC-CV-226",
+          "sha256": "74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f",
+          "custody": "master_library"
+        }
+      ],
+      "committedRecordsBound": 2,
+      "anchorStatementsVerified": 13,
+      "terminalFields": 188,
+      "written": 14,
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "path": "data/rcap-all50/overlays/census-v1/nc/nc-145-5-felony-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "04557c4100281bef2b1d1475e06cf4514f831e9bf45212fbb5fcf2f4e440ebd2"
+        },
+        {
+          "fixture": "boundary",
+          "path": "data/rcap-all50/overlays/census-v1/nc/nc-145-5-felony-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "88dc2fd4d9eebad4d6136409ed6dcc831d0cf14025f43e4b08716f7fe52694d5"
+        }
+      ],
+      "determinism": "BYTE_IDENTICAL_ON_REBUILD_FROM_UNCHANGED_INPUTS",
+      "focusedCheck": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nc_145_5_felony-set \u2192 PASS_COMPLETE, 14/188 written, all nine counters zero",
+      "headlineFinding": "Six writes on a 110-field petition, and the ratio is the finding. An entire side belongs to the SBI, the AOC records officer, the court and the clerk; Side One additionally carries a CERTIFICATE OF SERVICE left blank in full on the contract's own ground that a certificate of mailing before mailing must stay blank, and a REQUEST BY JUDGE block. Paragraph 2's ten-year and twenty-year branches are classified as genuine participant elections rather than route selections, because the committed track registry records that the same-session question can move a petitioner between tiers or between ineligible and eligible.",
+      "commit": "5360db02e",
+      "claimReleased": true
+    },
+    {
+      "itemId": "ne-seal-pardoned-set",
+      "status": "STOPPED",
+      "stopClass": "COMPLETENESS_COUNTER_NOT_ZERO",
+      "counterThatIsNotZero": "requiredOptionsMissing",
+      "blocker": "CC-6-12's paragraph 2 offers four branches under 'All charges against me in this matter (select one)': were dismissed; resulted in an acquittal; resulted in a conviction that was later pardoned; resulted in a conviction that was later set aside because I was a victim of sex trafficking. This family IS the pardoned branch, so the route determines that election and the packet must state it. The shared official-form finalizer refuses every non-text field by type guard ('non_text_field_type / type_guard'), so it cannot mark the box; the completeness contract names exactly this as a policy-shaped reason that yields ROUTE_OPTION_NOT_SELECTED, and a packet built for one statutory route may not hand the election back to the participant. Building the family without marking it would have shipped that defect.",
+      "whatWouldUnblockIt": "A selection-mark path in this builder's core, of the kind scripts/build-census-v1-wv_conv_multiple_misdemeanors-set.mjs carries (kind 'selection_mark', drawn as path segments and proved from the artifact bytes). Porting it means extending the ink audit so a drawn mark is not counted as a glyph outside a measured write box, which has visual-gate consequences and belongs to a lane that owns that decision rather than to a family build.",
+      "sourceBinding": "BOTH BIND. official-form:CC-6-12 and official-form:CC-6-12a are pinned to d_source_packs paths this container does not mount, and both digests are matched byte-exact in the mounted Master Library.",
+      "alsoObserved": "On CC-6-12 the page-2 contact block's caption capture is one blank out of step \u2014 'citystatezip' is captured as 'Street Address/P.O. B' and 'telephone number' as 'City/State/ZIP Code'. The phone write lands correctly because the binding follows the field name, but the captions are not trustworthy on that block and a builder should not rely on them.",
+      "overlayDirectoryTouched": false,
+      "counters": null,
+      "commit": null
+    },
+    {
+      "itemId": "al-trafficking-set",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_SOURCE",
+      "blocker": "official-form:CR-65, the Alabama expungement petition itself, is pinned at sha256 c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39 to 'LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf' and matches nothing in the mounted corpus. Its companion, official-form:C-10-CRIMINAL (the affidavit of substantial hardship), binds byte-exact.",
+      "note": "The missing document is the petition, not a companion.",
+      "overlayDirectoryTouched": false,
+      "counters": null,
+      "commit": null
+    },
+    {
+      "itemId": "de_pardon_expungement-set",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_SOURCE",
+      "blocker": "Both sources are absent. official-form:CIV_EXP_02_A is pinned at sha256 f2820f713b9f8e0fb1c0095886e7184d56fda06eef7f65af014ab48922b7839a to 'LegalEase Delaware/download.aspx.pdf'; official-form:CIV_EXP_08_A at sha256 0f7666ac6877b4d482a71c5303ecb199792f713e3c728adb2308b86945505d5b to 'LegalEase Delaware/source-acquisition-2026-09-04/civ_exp_08_a-sc-new-order-granting-expungement-after-pardon-form.pdf'. Neither digest is matched anywhere in the mounted corpus, and the family's own source-custody reconciliation still records both as unresolved with custodyClass SOURCE_GENUINELY_MISSING and commissionAcquisition true.",
+      "overlayDirectoryTouched": false,
+      "counters": null,
+      "commit": null
+    },
+    {
+      "itemId": "ia-901c3-set",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_SOURCE",
+      "blocker": "Its one effective official source, official-form:Rule 2.86 Form 2, is pinned at sha256 5a1c67004e4ff551cefca4ced50f8f48c77586b25e7e32384defda7726d4f963 to the governed remote custody path 'google-drive:1w5SQ5CIpGUSUyBO-vRt5LGNPdsjhBwpc' (evidence data/rcap-grade-a/packet-factory-24h/disc03/CODEX_CS2_SRC2_ACQUISITION.json). No local bytes hash to that digest. Its two other obligations \u2014 the Certification of Service by Mailing or Delivery and the Rule 2.86 Form 2 attached sheet \u2014 are satisfied by relationship as embedded components and need no standalone binary; the family's source-custody reconciliation records custodyClass SOURCE_IDENTITY_UNRESOLVED with commissionAcquisition true.",
+      "overlayDirectoryTouched": false,
+      "counters": null,
+      "commit": null
+    }
+  ],
+  "rowsReturned": 5,
+  "familiesCompleted": 1,
+  "familiesStopped": 4,
+  "overlayDirectoriesTouchedByAStoppedFamily": 0,
+  "packetsSelfVerified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "fixturePdfsOfOtherFamiliesChanged": 0,
+  "claimsHeldAtEndOfShift": [
+    "ne-seal-pardoned-set"
+  ],
+  "claimPolicy": "The claim on ne-seal-pardoned-set is deliberately still asserted to PF06. It is a real STOPPED with a finding the Captain must read before another lane starts the family, and the lane brief reserves the release of a stopped family to the Captain. The completed family's claim was released after its commit."
+}

@@ -1,0 +1,307 @@
+{
+  "families": [
+    {
+      "familyId": "de_mandatory_expungement-set",
+      "worklistGroupId": "de_mandatory_expungement-set",
+      "jurisdiction": "DE",
+      "routeKeys": [
+        "obligation:track-pathway:DE:de_mandatory_expungement:mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a"
+      ],
+      "routeCount": 1,
+      "implementationStrategy": "participant_agency_application",
+      "packetComponents": [
+        "component:de_mandatory_expungement-primary-filing-1"
+      ],
+      "instrumentKinds": [
+        "primary_filing"
+      ],
+      "officialFormFamily": "NONE",
+      "forms": [],
+      "sourceIds": [
+        "official-form:DE-SBI-MANDATORY-EXPUNGEMENT-APPLICATION",
+        "official-authority:DE-SBI-MANDATORY-EXPUNGEMENT-PROCESS"
+      ],
+      "sourceHashes": [],
+      "sourceStatus": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+      "sourceBound": true,
+      "sourceReadiness": {
+        "ready": true,
+        "reasons": [],
+        "satisfiedByRelationship": [
+          "official-form:DE-SBI-MANDATORY-EXPUNGEMENT-APPLICATION"
+        ],
+        "whatThatMeansForSourceIdentity": "These obligations are embedded sections, parent-document components, phantom published documents, nonofficial templates replaced by the governed composition strategy, or a product-time conditional choice. They do not require a standalone source binary.",
+        "boundSources": [],
+        "boundAuthorities": [
+          {
+            "sourceId": "official-authority:DE-SBI-MANDATORY-EXPUNGEMENT-PROCESS",
+            "title": "Delaware State Bureau of Identification expungement process",
+            "issuingAuthority": "Delaware State Police, State Bureau of Identification",
+            "officialUrl": "https://dsp.delaware.gov/expungements/"
+          }
+        ],
+        "boundAuthorityCount": 1,
+        "supersededSourceIds": [],
+        "namedOfficialForms": 0,
+        "effectiveOfficialSourceIds": [],
+        "boundCount": 0,
+        "custodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+        "directAttachment": true
+      },
+      "sourceReconciliation": {
+        "group": "D",
+        "disposition": "SOURCE_READY",
+        "unresolvedObligations": [],
+        "exactNextAction": "Build the SBI contact and eligibility-letter process treatment; do not invent or substitute an application PDF.",
+        "exactResidual": null,
+        "permissionHold": null,
+        "productQuestion": null,
+        "sourceReplacements": null,
+        "determinationInput": "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json"
+      },
+      "verifierSourceHold": null,
+      "selectedIndependentVerdict": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "de-current-review-reconciliation",
+        "verifiedAtBase": "9e22d30b852d5797e34835b3addcb48cc125d917",
+        "evidencePath": "data/rcap-grade-a/chat-parallel-2026-09-07/review/de-current-review-reconciliation.json"
+      },
+      "reviewedGuidanceAdmission": {
+        "eligible": false,
+        "reason": "existing source determination changed\n+ actual - expected\n... Skipped lines\n\n  [\n+   'data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session08/ut-me-source-adoption.json',\n    'data/rcap-grade-a/packet-factory-24h/src01/CODEX_CS1_SRC1_ACQUISITION.json',\n    'data/rcap-grade-a/packet-factory-24h/disc01/CODEX_CS2_SRC1_ACQUISITION.json',\n    'data/rcap-grade-a/packet-factory-24h/disc02/CODEX_CS2_SRC3_ACQUISITION.json',\n    'data/rcap-grade-a/packet-factory-24h/disc03/CODEX_CS2_SRC2_ACQUISITION.json',\n    'data/rcap-grade-a/packet-factory-24h/disc04/CODEX_CS2_SRC4_ACQUISITION.json',\n...\n    'data/rcap-codex/source-acquisition-2026-09-04/results/supplement-ledger/acquisition-summary.json',\n-   'data/rcap-codex/source-acquisition-2026-09-04/results/supplement-ledger/supplement-disposition-summary.json'\n  ]\n",
+        "reviewPath": "data/rcap-grade-a/chat-parallel-2026-09-07/review/de-current-review-reconciliation.json"
+      },
+      "rasterEnrolmentRefusal": null,
+      "legalInputStatus": "SETTLED",
+      "ownerDeliveryTypeRefusal": null,
+      "verificationLapsedBecause": null,
+      "terminalTreatment": null,
+      "legalInputBasis": null,
+      "wave2LegalBlock": null,
+      "ownerCorrectionRequired": null,
+      "legalHoldReclassification": null,
+      "laneReturnLegalHold": null,
+      "executionReclassification": null,
+      "executionOwner": null,
+      "nextExecutableAction": null,
+      "routeMappingStatus": "BOUND",
+      "artifactStatus": "RENDERED",
+      "completenessStatus": "PASS_COMPLETE",
+      "allNineCountersZero": true,
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
+      "continuationResult": null,
+      "c11Stopped": false,
+      "state": "VERIFY_PENDING",
+      "activeOwner": null,
+      "activeOwnerLane": null,
+      "buildScript": "scripts/build-census-v1-de_mandatory_expungement-set.mjs",
+      "buildScriptExists": true,
+      "sharedBuildHost": "build-census-v1-agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge.mjs",
+      "directory": "data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill",
+      "ownedPaths": [
+        "data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill/**",
+        "scripts/build-census-v1-de_mandatory_expungement-set.mjs"
+      ],
+      "prohibitedPaths": [],
+      "importedBy": [],
+      "exclusiveScript": true
+    },
+    {
+      "familyId": "md_10105_favorable-set",
+      "worklistGroupId": "md_10105_favorable-set",
+      "jurisdiction": "MD",
+      "routeKeys": [
+        "obligation:track-pathway:MD:md_10105_favorable:adult-non-conviction-expungement-under-crim-proc-10-105"
+      ],
+      "routeCount": 1,
+      "implementationStrategy": "official_pdf_fill",
+      "packetComponents": [
+        "component:md_10105_favorable-primary-filing-1"
+      ],
+      "instrumentKinds": [
+        "primary_filing"
+      ],
+      "officialFormFamily": "CC-DC-CR-072A",
+      "forms": [
+        "CC-DC-CR-072A"
+      ],
+      "sourceIds": [
+        "official-form:CC-DC-CR-072A"
+      ],
+      "sourceHashes": [
+        {
+          "sourceId": "official-form:CC-DC-CR-072A",
+          "path": "LegalEase Maryland/LegalEase Maryland forms /ccdccr072A.pdf",
+          "sha256": "8dcb7b177cfb8900edc03158b064a57121170761e6f34e2456f08fdc68f82db2",
+          "tier": "exact_identity_confirmed_from_document_text"
+        }
+      ],
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
+      "sourceReadiness": {
+        "ready": true,
+        "reasons": [],
+        "boundSources": [
+          {
+            "sourceId": "official-form:CC-DC-CR-072A",
+            "path": "LegalEase Maryland/LegalEase Maryland forms /ccdccr072A.pdf",
+            "sha256": "8dcb7b177cfb8900edc03158b064a57121170761e6f34e2456f08fdc68f82db2",
+            "tier": "exact_identity_confirmed_from_document_text",
+            "resolvedBy": "custody_reconciliation"
+          }
+        ],
+        "boundAuthorities": [],
+        "boundAuthorityCount": 0,
+        "supersededSourceIds": [],
+        "namedOfficialForms": 1,
+        "effectiveOfficialSourceIds": [
+          "official-form:CC-DC-CR-072A"
+        ],
+        "boundCount": 1,
+        "custodyClass": "SOURCE_ALREADY_HELD",
+        "directAttachment": true
+      },
+      "sourceReconciliation": null,
+      "verifierSourceHold": null,
+      "selectedIndependentVerdict": {
+        "verdict": "PASS",
+        "lane": "md-guard-delta-03",
+        "verifiedAtBase": "9ed7923a7e2008633e2f5ca1a44cfb6861099511",
+        "evidencePath": "data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/md-guard-delta-03.json"
+      },
+      "rasterEnrolmentRefusal": null,
+      "legalInputStatus": "SETTLED",
+      "ownerDeliveryTypeRefusal": null,
+      "verificationLapsedBecause": null,
+      "terminalTreatment": null,
+      "legalInputBasis": null,
+      "wave2LegalBlock": null,
+      "ownerCorrectionRequired": null,
+      "legalHoldReclassification": null,
+      "laneReturnLegalHold": null,
+      "executionReclassification": null,
+      "executionOwner": null,
+      "nextExecutableAction": null,
+      "routeMappingStatus": "BOUND",
+      "artifactStatus": "RENDERED",
+      "completenessStatus": "PASS_COMPLETE",
+      "allNineCountersZero": true,
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "failingCounters": [],
+      "failedObligationNames": [],
+      "failedObligations": [],
+      "continuationResult": null,
+      "c11Stopped": false,
+      "state": "BUILT_RASTER_PENDING",
+      "activeOwner": null,
+      "activeOwnerLane": null,
+      "buildScript": "scripts/build-census-v1-md_10105_favorable-set.mjs",
+      "buildScriptExists": true,
+      "sharedBuildHost": null,
+      "directory": "data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill",
+      "ownedPaths": [
+        "data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill/**",
+        "scripts/build-census-v1-md_10105_favorable-set.mjs"
+      ],
+      "prohibitedPaths": [],
+      "importedBy": [],
+      "exclusiveScript": true
+    }
+  ],
+  "mdReturns": [
+    {
+      "familyId": "md_10105_favorable-set",
+      "verdict": "PASS",
+      "lane": "md-guard-delta-03",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "9ed7923a7e2008633e2f5ca1a44cfb6861099511",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/md-guard-delta-03.json",
+      "evidenceSha256": "723f602652a2e9c3b23513f98888fa3ec84b3176e4b913c5241cf46542d6ec78",
+      "reviewer": "ChatGPT, GPT-6 Astra Pro, independent Chat4 review session",
+      "sessionIdentity": "chat4-20260907-delta-ga-independent-03",
+      "reviewScope": null,
+      "candidateCodeCommit": null,
+      "packetPublicationCommit": null,
+      "supersedesEvidencePath": null,
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family md_10105_favorable-set",
+      "superseded": false
+    },
+    {
+      "familyId": "md_10105_favorable-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "md-independent-review",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "362694c4fea3872e80778533fd477c6212f63791",
+      "failedObligations": [
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": "All supplied selections and clocks are correct, and all 46 declared marks have ink. Mixed basis/date, pending case, future discharge, protected signature, early-release and wrong-instrument probes behave correctly. CHAT4-MD-01 independently demonstrates contradictory PBJ entry/discharge dates can still authorize a mark.",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "ROUTE_OPTIONS"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/md-independent-review.json",
+      "evidenceSha256": "32a5c9cca6abdac4fa0e3289ed88362f064228920a228044eb636324b08910f5",
+      "reviewer": "ChatGPT, GPT-6 Astra Pro, independent Chat 4 review session",
+      "sessionIdentity": "chat4-20260907-md-ky-independent-02",
+      "reviewScope": null,
+      "candidateCodeCommit": null,
+      "packetPublicationCommit": null,
+      "supersedesEvidencePath": null,
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family md_10105_favorable-set",
+      "superseded": true
+    },
+    {
+      "familyId": "md_10105_favorable-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "md-session08-acceptance",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "32b4cd6639edb8fc43cb9e9b3afdb92371111a78",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/md-session08-acceptance.json",
+      "evidenceSha256": "7d1b7fa48b4262570a9bf397b8e126ee21b78eeee70f9d0d2da14d97409859b3",
+      "reviewer": "Codex /root/receipt_hooks, independent of the Maryland native-importer author",
+      "sessionIdentity": "session08-md-independent-static-acceptance-20260908",
+      "reviewScope": null,
+      "candidateCodeCommit": null,
+      "packetPublicationCommit": "32b4cd6639edb8fc43cb9e9b3afdb92371111a78",
+      "supersedesEvidencePath": null,
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family md_10105_favorable-set",
+      "superseded": true
+    }
+  ]
+}

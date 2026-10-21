@@ -1,0 +1,257 @@
+{
+  "schemaVersion": 2,
+  "note": "The canonical Grade-A fulfillment record set. A route has commercial authority only if it appears here with every field satisfied AND the posture for the surface in question is open. An empty set is universal refusal, and a record with a held posture proves a packet exists without opening a sale. Authority for the model: ADR-0004 and data/record-clearing/legal-decisions/2026-08-28-legacy-generator-retirement.json.",
+  "postureVocabulary": {
+    "open": "The surface may proceed for this route.",
+    "held": "The packet is proven but this surface stays closed. A hold is a decision with a named reason, not an absence."
+  },
+  "records": [
+    {
+      "routeKey": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+      "jurisdiction": "MS",
+      "pathwayId": "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+      "packetFamily": "ms-nonconv-set",
+      "packetFamilyLabel": "Mississippi Non-Conviction Expungement Packet under Miss. Code Ann. Section 99-19-71(4)",
+      "packetSpecificationId": "ms-nonconviction-expungement-99-19-71-4",
+      "packetSpecificationVersion": "2.0.0",
+      "packetSpecificationPath": "data/record-clearing/packet-specifications/MS-nonconviction-expungement-99-19-71-4.v1.json",
+      "packetSpecificationSha256": "3a1bed79e3760feb84563a638893942ab557683f6bbe7fb0fddec7e74723257f",
+      "packetComponents": [
+        "primary filing or application",
+        "proposed order where required",
+        "certificate of service",
+        "attachments or schedules",
+        "filing destination",
+        "fee or waiver instructions",
+        "service or notice",
+        "post-filing steps"
+      ],
+      "sourceIdentities": [
+        {
+          "sourceId": "ms-nonconv-set@1.0.0",
+          "kind": "owner_approved_packet_set_manifest",
+          "verification": "present_in_repository",
+          "location": "data/record-clearing/legal-design-packet-set-manifests.json",
+          "note": "Owner-approved packet structure under auth-2026-08-19-owner-legal-approval-completed-output."
+        },
+        {
+          "sourceId": "ms-nonconv-set-production-field-map@census-v1",
+          "kind": "production_field_map",
+          "verification": "present_in_repository",
+          "location": "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading/production-field-map.json"
+        },
+        {
+          "sourceId": "ms-nonconv-set-participant-instructions@census-v1",
+          "kind": "participant_instructions",
+          "verification": "present_in_repository",
+          "location": "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading/participant-instructions.md"
+        },
+        {
+          "sourceId": "MS.memo:ms-nonconv",
+          "kind": "legal_design_intake_track",
+          "verification": "present_in_repository",
+          "location": "data/record-clearing/legal-design-intake/MS.memo.json"
+        },
+        {
+          "sourceId": "ms-clinic-filing-review-2026-09-03",
+          "kind": "filing_readiness_review",
+          "verification": "present_in_repository",
+          "location": "docs/rcap/grade-a/MS_CLINIC_DEMO_LAWRENCE_REVISION_DESIGN.md",
+          "note": "Route-specific correction of caption, arrest-and-release, MCIC, fingerprint, service, exhibit, pro-se, and order requirements. Review input SHA-256 c267b8454beca090a828bfc31037aab959bac91130aec149150d5307fe18b8ee."
+        },
+        {
+          "sourceId": "lawrence-format-direction-2026-09-03",
+          "kind": "owner_approved_format_and_verification_direction",
+          "verification": "present_in_repository",
+          "location": "docs/rcap/grade-a/MS_CLINIC_DEMO_LAWRENCE_REVISION_DESIGN.md",
+          "note": "The six-page sample, SHA-256 56f5d9bdc8e108fce0d47f818040ed09f9e08e22f7442d93de6d49c1f0a1117e, controls practical pleading structure only. Owner direction SHA-256 88497978c1411950ea3977a7ae32087e29fc375017cadc87b20d700c60623866."
+        },
+        {
+          "sourceId": "mississippi-mcic-administrative-code-title-31-part-2-chapter-6",
+          "kind": "official_administrative_rule",
+          "verification": "asserted_by_ingestion",
+          "note": "Requires identifying information, court certification and seal, forwarding to CIC, and processing of state and FBI records."
+        },
+        {
+          "sourceId": "mississippi-revised-notary-act-and-rules",
+          "kind": "official_notary_rule",
+          "verification": "asserted_by_ingestion",
+          "note": "Controls the LegalEase verification-on-oath workflow, personal appearance, identification, signing in the notary's presence, certificate, and stamp fields."
+        }
+      ],
+      "artifactProvider": "rcap_grade_a_composer_v1",
+      "artifactProviderVersion": "2.0.0",
+      "renderer": "rcap_grade_a_document_v1",
+      "rendererVersion": "2.0.0",
+      "contentType": "application/pdf",
+      "requiredFacts": [
+        "participant_full_legal_name",
+        "case_caption_plaintiff_name",
+        "case_caption_defendant_name",
+        "name_used_at_arrest",
+        "aliases",
+        "date_of_birth",
+        "social_security_number",
+        "social_security_number_last_four",
+        "race",
+        "sex",
+        "mailing_address",
+        "phone_number",
+        "email_address",
+        "court_type",
+        "court_name",
+        "filing_location",
+        "case_number",
+        "charge",
+        "charge_legal_citation",
+        "charge_classification",
+        "offense_date",
+        "actual_arrest",
+        "arrest_date",
+        "arrest_location",
+        "arresting_agency",
+        "agency_case_number",
+        "release_confirmed",
+        "release_date_or_record_source",
+        "disposition_date",
+        "statutory_disposition_category",
+        "prosecuting_authority_name",
+        "prosecuting_authority_service_address",
+        "service_address_confirmation_status",
+        "other_recordkeeping_agencies",
+        "mcic_identifier_delivery_method",
+        "mcic_identifier_method_confirmation_source",
+        "personal_impact_confirmed",
+        "personal_impact_statement",
+        "certified_disposition_exhibit_status",
+        "docket_sheet_exhibit_status",
+        "case_outcome",
+        "pending_cases",
+        "record_type",
+        "trafficking_status",
+        "disposition_record_wording",
+        "nonadjudication_or_diversion",
+        "open_co_defendant_matter"
+      ],
+      "finalVerificationRequirements": [
+        "The participant copies the exact plaintiff, defendant, court, filing location, and case number from the original docket and certified disposition.",
+        "The participant confirms an actual arrest and subsequent release from an official record; citation-only matters stop for legal review.",
+        "The participant confirms the exact charge, statute or ordinance, misdemeanor classification, name used at arrest, aliases, agency identifier, and exact disposition wording.",
+        "The participant selects exactly one statutory disposition category shown by the certified record and stops for an ambiguous docket entry.",
+        "The participant confirms the court-approved MCIC identifier channel; full Social Security information appears only in that protected channel.",
+        "The participant inserts the certified disposition as Exhibit A and docket sheet as Exhibit B before the packet is filing-ready.",
+        "The participant confirms the prosecuting authority and does not represent its service address as confirmed until the court or prosecutor verifies it.",
+        "The participant signs the petition and verification in the notary's physical presence after the notary administers an oath or affirmation.",
+        "Participant, notary, service-time, prosecutor, judge, clerk, and seal fields remain blank for the person or office that owns each act."
+      ],
+      "verificationBinding": "The Grade A packet is a deterministic function of the exact specification and the participant's protected final-verification snapshot. Any material fact edit invalidates the binding and requires verification and generation again.",
+      "privateDelivery": true,
+      "repeatDownload": true,
+      "artifactApprovalStatus": "participant_delivery_exact_hashes_approved_held_for_technical_preview_acceptance",
+      "consumerPosture": "held",
+      "sponsoredPosture": "held",
+      "holdReason": "Lawrence Blackmon approved the two exact participant-delivery hashes without qualifications. Sponsored delivery remains held for a corrected immutable worker, the bounded nonproduction migrations, a current Preview, two-participant staging scope, and the complete hosted acceptance journey. The historical internal-review approval remains separate and was not reused. Consumer launch and Production remain held.",
+      "provenBy": "scripts/verify-ms-clinic-mode-demo.mjs",
+      "provenOn": "2026-09-03",
+      "proofSummary": "Five participant-delivery documents render as 12 canonical pages and 13 boundary pages from the same guarded composer path used by the hosted journey. Both fixtures carry court-confirmed MCIC channels, confirmed service addresses, and inserted Exhibit A/B states while preserving participant and official signature blanks.",
+      "artifacts": [
+        {
+          "fixture": "participant_delivery_canonical",
+          "file": "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-clinic-demo-participant-a-canonical.pdf",
+          "sha256": "413f6226500a5dc13cbad2ce7ec664a55dcdb48d80cd8bef9fa746f369c6553f",
+          "bytes": 33774,
+          "pages": 12
+        },
+        {
+          "fixture": "participant_delivery_boundary",
+          "file": "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-clinic-demo-participant-b-boundary.pdf",
+          "sha256": "9f766f22524dcac9edfc340e1a77efda8e7cc821cce8672bc8daf9e853c738e1",
+          "bytes": 37430,
+          "pages": 13
+        }
+      ],
+      "artifactIsDeterministic": true,
+      "visualReview": {
+        "status": "participant_delivery_all_pages_raster_review_pass",
+        "receipt": "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.participant-delivery.raster-review.json",
+        "pagesReviewed": 25
+      },
+      "independentReview": {
+        "status": "participant_delivery_all_pages_reviewed",
+        "externalDeliveryHolds": [
+          "corrected_immutable_worker_publication_and_ingestion",
+          "bounded_nonproduction_migration_application",
+          "current_preview_and_two_participant_staging_scope",
+          "complete_nonproduction_hosted_acceptance"
+        ]
+      },
+      "outputLegalReview": {
+        "status": "approved_exact_participant_delivery_hashes",
+        "state": "passed",
+        "reviewerId": "Lawrence Blackmon",
+        "decision": "APPROVE",
+        "decidedAt": "2026-09-03",
+        "qualifications": [],
+        "authenticationKind": "owner_attestation",
+        "authenticatedApprovalReference": "Owner attestation by Roger Roman that Lawrence Blackmon reviewed the actual final participant-delivery canonical and boundary PDFs identified by exact SHA-256 in the current Mississippi Volunteer Lawyers counsel-review package and approved both artifacts for the bounded sponsored Clinic Mode Preview without qualifications.",
+        "routeId": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+        "packetFamily": "ms-nonconv-set",
+        "previewPartnerSlug": "mvl-demo",
+        "canonical": {
+          "sha256": "413f6226500a5dc13cbad2ce7ec664a55dcdb48d80cd8bef9fa746f369c6553f",
+          "byteLength": 33774,
+          "pageCount": 12
+        },
+        "boundary": {
+          "sha256": "9f766f22524dcac9edfc340e1a77efda8e7cc821cce8672bc8daf9e853c738e1",
+          "byteLength": 37430,
+          "pageCount": 13
+        },
+        "approvedArtifactHashes": [
+          "413f6226500a5dc13cbad2ce7ec664a55dcdb48d80cd8bef9fa746f369c6553f",
+          "9f766f22524dcac9edfc340e1a77efda8e7cc821cce8672bc8daf9e853c738e1"
+        ],
+        "packetSpecificationId": "ms-nonconviction-expungement-99-19-71-4",
+        "packetSpecificationVersion": "2.0.0",
+        "packetSpecificationSha256": "3a1bed79e3760feb84563a638893942ab557683f6bbe7fb0fddec7e74723257f",
+        "rendererIdentity": "rcap_grade_a_document_v1",
+        "rendererVersion": "2.0.0",
+        "workerSourceSha": "b680a4e4dd92e7422bc7030aa2189026929782a1",
+        "deliveryScope": "sponsored_preview_only_two_synthetic_staging_participants_after_all_technical_gates_pass",
+        "documentCount": 5,
+        "approvalRecorded": true,
+        "scope": "The exact participant-delivery canonical and boundary PDFs for the two synthetic mvl-demo Preview participants; sponsored Preview only after every technical predicate passes.",
+        "consumerPaidAuthorized": false,
+        "productionAuthorized": false,
+        "invalidationRule": "Any packet-byte, specification-digest, document-set, renderer-input, or approved-fact change invalidates this approval and requires a new review.",
+        "priorApprovalReused": false,
+        "historicalInternalReviewApproval": {
+          "reviewerId": "Lawrence Blackmon",
+          "decidedAt": "2026-09-03",
+          "approvedArtifactHashes": [
+            "294e871e192719fa2c542947f8177be1621ea8ce13429f2186df63d8daff9c40",
+            "fe639ff544055e1440d069417d9e8c9fc5a7b366499c51111bd6d3377f7615b4"
+          ]
+        }
+      },
+      "historicalInternalReviewArtifacts": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-clinic-demo-canonical.pdf",
+          "sha256": "294e871e192719fa2c542947f8177be1621ea8ce13429f2186df63d8daff9c40",
+          "bytes": 33848,
+          "pages": 12,
+          "counselApproval": "historical_exact_hash_approval_not_reused"
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-clinic-demo-boundary.pdf",
+          "sha256": "fe639ff544055e1440d069417d9e8c9fc5a7b366499c51111bd6d3377f7615b4",
+          "bytes": 37542,
+          "pages": 13,
+          "counselApproval": "historical_exact_hash_approval_not_reused"
+        }
+      ]
+    }
+  ]
+}

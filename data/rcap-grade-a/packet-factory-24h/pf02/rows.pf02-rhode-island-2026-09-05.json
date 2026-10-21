@@ -1,0 +1,746 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-return/v1",
+  "lane": "PF02",
+  "laneKind": "packet-build",
+  "returnId": "PF02-RHODE-ISLAND-2026-09-05",
+  "writtenBy": "PF02 packet-build lane, Rhode Island cohort",
+  "writtenOn": "2026-09-05",
+  "branch": "pf02-rhode-island",
+  "baseSha": "1dabf8cc671c96e24ce679e96fba60b6d1bcfdc9",
+  "baseBranch": "claude/legalease-sprint-captain-utucnw",
+  "whyThisFilenameAndNotRowsJson": "data/rcap-grade-a/packet-factory-24h/pf02/rows.json already exists from an earlier PF02 cohort. Two lanes ran under one name last shift and one return destroyed the other, so this return is written under a name unique to this lane and this cohort. Returns are found by shape, not by filename.",
+  "familiesAssigned": [
+    "ri_decriminalized-set",
+    "ri_first_offender_misdemeanor-set",
+    "ri_multiple_misdemeanors-set",
+    "ri_first_offender_felony-set",
+    "ri_deferred_sentence-set"
+  ],
+  "rowsReturned": 5,
+  "familiesCompleted": [
+    "ri_decriminalized-set",
+    "ri_first_offender_misdemeanor-set",
+    "ri_multiple_misdemeanors-set",
+    "ri_first_offender_felony-set",
+    "ri_deferred_sentence-set"
+  ],
+  "familiesStopped": [],
+  "blockedSource": [],
+  "blockedLegalInput": [],
+  "overlayDirectoriesTouchedByAStoppedFamily": 0,
+  "rows": [
+    {
+      "itemId": "ri_decriminalized-set",
+      "status": "COMPLETED",
+      "lane": "PF02",
+      "jurisdiction": "RI",
+      "implementationStrategy": "official_pdf_fill",
+      "directory": "data/rcap-all50/overlays/census-v1/ri/ri-decriminalized-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-ri_decriminalized-set.mjs",
+      "buildHost": "scripts/build-census-v1-ri_decriminalized-set.mjs",
+      "components": [
+        "ri_decriminalized-primary-filing-1",
+        "ri_decriminalized-decriminalization-affidavit-3",
+        "ri_decriminalized-proposed-order-2",
+        "ri_decriminalized-filing-instructions-4"
+      ],
+      "componentRoles": {
+        "ri_decriminalized-primary-filing-1": "primary_filing",
+        "ri_decriminalized-decriminalization-affidavit-3": "decriminalization_affidavit",
+        "ri_decriminalized-proposed-order-2": "proposed_order",
+        "ri_decriminalized-filing-instructions-4": "filing_instructions"
+      },
+      "componentCount": 4,
+      "everyMappedComponentIsRendered": true,
+      "boundSourceDigests": [
+        {
+          "sourceId": "official-form:DC-33",
+          "formNumber": "DC-33",
+          "sha256": "342337451d61e363e03febb384431dba2f9bb08b44ee46380b94fc91901e9908",
+          "byteLength": 307164,
+          "pageCount": 4,
+          "acroFieldCount": 77,
+          "custody": "master_library",
+          "pathInArchive": "STATES/RI/02_PACKET_FORMS/RI__FORM__DC-33__district-court-motion-affidavit-and-instructions-to-expunge-or-seal-record__REV-2025-02__EN.pdf",
+          "resolvedBy": "sha256 lookup in a content index of every mounted custody",
+          "committedCorpusIndexAgrees": true
+        }
+      ],
+      "sourcesBoundByPathResolution": 0,
+      "contentIndex": {
+        "filesIndexed": 500,
+        "custodiesMounted": [
+          "master_library",
+          "human_source_returns"
+        ],
+        "custodiesNotMounted": [],
+        "committedIndexConsulted": "data/rcap-all50/local-source-corpus-index.json"
+      },
+      "affidavitPartOnThisRoute": "Part Two: Decriminalized Offense",
+      "proposedOrderVariant": "ri-district-court-proposed-order",
+      "proposedOrderBindsASourceBinary": false,
+      "routeSelectionsMade": [
+        "Box electing EXPUNGEMENT of the record rather than sealing",
+        "Box asking that all records and records of conviction in the case be expunged and every index and other reference removed from public inspection under G.L. 1956 Sec. 12-1.3-3(c) or (e)"
+      ],
+      "affidavitBoxesMarked": 0,
+      "requiredBeforeFilingCount": 25,
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "allNineCountersZero": true,
+      "verifier": {
+        "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'ri_decriminalized-set'",
+        "result": "PASS_COMPLETE"
+      },
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/ri/ri-decriminalized-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "912b6c385b91b87a54687e14d2562d7e23ef201ff9977f1abc708df88da02252",
+          "pageCount": 10,
+          "byteLength": 459333
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/ri/ri-decriminalized-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "e2afb606c3023f139cca94ac94550be3b309fd7d1ba5a946c286e8ad1696c649",
+          "pageCount": 10,
+          "byteLength": 459494
+        }
+      ],
+      "canonicalSha256": "912b6c385b91b87a54687e14d2562d7e23ef201ff9977f1abc708df88da02252",
+      "canonicalPageCount": 10,
+      "boundarySha256": "e2afb606c3023f139cca94ac94550be3b309fd7d1ba5a946c286e8ad1696c649",
+      "boundaryPageCount": 10,
+      "determinism": {
+        "method": "rebuilt from unchanged inputs and the whole family directory compared recursively with diff -r",
+        "result": "BYTE_IDENTICAL",
+        "comparedAt": "2026-09-05"
+      },
+      "writeProof": [
+        {
+          "fixture": "canonical",
+          "valuesReportedByFinalizer": 4,
+          "addedGlyphsReadFromOutputBytes": 94,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 7,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "refusedFieldsWithInk": []
+        },
+        {
+          "fixture": "boundary",
+          "valuesReportedByFinalizer": 4,
+          "addedGlyphsReadFromOutputBytes": 182,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 7,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "refusedFieldsWithInk": []
+        }
+      ],
+      "rasterState": "BUILT_RASTER_PENDING",
+      "rasterNote": "The committed run is --no-raster, matching the current cohort's convention. Chromium IS available in this container and the produced fixtures were rasterized locally through scripts/raster/pdf-page-raster.mjs as a visual sanity check (calibration residual 0 px, no blank page, marks and writes read correctly); no raster bytes are committed and no raster verdict is claimed. The central raster workflow renders against the exact hashes above.",
+      "selfVerified": false,
+      "packetsSelfVerified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "ri_first_offender_misdemeanor-set",
+      "status": "COMPLETED",
+      "lane": "PF02",
+      "jurisdiction": "RI",
+      "implementationStrategy": "official_pdf_fill",
+      "directory": "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-misdemeanor-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-ri_first_offender_misdemeanor-set.mjs",
+      "buildHost": "scripts/build-census-v1-ri_decriminalized-set.mjs",
+      "components": [
+        "ri_first_offender_misdemeanor-primary-filing-1",
+        "ri_first_offender_misdemeanor-proposed-order-2",
+        "ri_first_offender_misdemeanor-notice-package-3",
+        "ri_first_offender_misdemeanor-filing-instructions-4",
+        "ri_first_offender_misdemeanor-certified-copy-delivery-checklist-5"
+      ],
+      "componentRoles": {
+        "ri_first_offender_misdemeanor-primary-filing-1": "primary_filing",
+        "ri_first_offender_misdemeanor-proposed-order-2": "proposed_order",
+        "ri_first_offender_misdemeanor-notice-package-3": "notice_package",
+        "ri_first_offender_misdemeanor-filing-instructions-4": "filing_instructions",
+        "ri_first_offender_misdemeanor-certified-copy-delivery-checklist-5": "certified_copy_delivery_checklist"
+      },
+      "componentCount": 5,
+      "everyMappedComponentIsRendered": true,
+      "boundSourceDigests": [
+        {
+          "sourceId": "official-form:DC-33",
+          "formNumber": "DC-33",
+          "sha256": "342337451d61e363e03febb384431dba2f9bb08b44ee46380b94fc91901e9908",
+          "byteLength": 307164,
+          "pageCount": 4,
+          "acroFieldCount": 77,
+          "custody": "master_library",
+          "pathInArchive": "STATES/RI/02_PACKET_FORMS/RI__FORM__DC-33__district-court-motion-affidavit-and-instructions-to-expunge-or-seal-record__REV-2025-02__EN.pdf",
+          "resolvedBy": "sha256 lookup in a content index of every mounted custody",
+          "committedCorpusIndexAgrees": true
+        }
+      ],
+      "sourcesBoundByPathResolution": 0,
+      "contentIndex": {
+        "filesIndexed": 500,
+        "custodiesMounted": [
+          "master_library",
+          "human_source_returns"
+        ],
+        "custodiesNotMounted": [],
+        "committedIndexConsulted": "data/rcap-all50/local-source-corpus-index.json"
+      },
+      "affidavitPartOnThisRoute": "Part Three A: Single Conviction",
+      "proposedOrderVariant": "ri-district-court-proposed-order",
+      "proposedOrderBindsASourceBinary": false,
+      "routeSelectionsMade": [
+        "Box electing EXPUNGEMENT of the record rather than sealing",
+        "Box asking that all records and records of conviction in the case be expunged and every index and other reference removed from public inspection under G.L. 1956 Sec. 12-1.3-3(c) or (e)"
+      ],
+      "affidavitBoxesMarked": 0,
+      "requiredBeforeFilingCount": 25,
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "allNineCountersZero": true,
+      "verifier": {
+        "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'ri_first_offender_misdemeanor-set'",
+        "result": "PASS_COMPLETE"
+      },
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-misdemeanor-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "e3d8ea1cdd5d9c1a611c3f13907fb3b3ca454171443947c0308c09b5b8b2d457",
+          "pageCount": 13,
+          "byteLength": 307611
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-misdemeanor-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "097f94e957f9ccb5320f5ccd2259fe5be53d38ca9ba05fedeba0522567c0abd8",
+          "pageCount": 13,
+          "byteLength": 307813
+        }
+      ],
+      "canonicalSha256": "e3d8ea1cdd5d9c1a611c3f13907fb3b3ca454171443947c0308c09b5b8b2d457",
+      "canonicalPageCount": 13,
+      "boundarySha256": "097f94e957f9ccb5320f5ccd2259fe5be53d38ca9ba05fedeba0522567c0abd8",
+      "boundaryPageCount": 13,
+      "determinism": {
+        "method": "rebuilt from unchanged inputs and the whole family directory compared recursively with diff -r",
+        "result": "BYTE_IDENTICAL",
+        "comparedAt": "2026-09-05"
+      },
+      "writeProof": [
+        {
+          "fixture": "canonical",
+          "valuesReportedByFinalizer": 4,
+          "addedGlyphsReadFromOutputBytes": 126,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 9,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "refusedFieldsWithInk": []
+        },
+        {
+          "fixture": "boundary",
+          "valuesReportedByFinalizer": 4,
+          "addedGlyphsReadFromOutputBytes": 258,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 9,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "refusedFieldsWithInk": []
+        }
+      ],
+      "rasterState": "BUILT_RASTER_PENDING",
+      "rasterNote": "The committed run is --no-raster, matching the current cohort's convention. Chromium IS available in this container and the produced fixtures were rasterized locally through scripts/raster/pdf-page-raster.mjs as a visual sanity check (calibration residual 0 px, no blank page, marks and writes read correctly); no raster bytes are committed and no raster verdict is claimed. The central raster workflow renders against the exact hashes above.",
+      "selfVerified": false,
+      "packetsSelfVerified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "ri_multiple_misdemeanors-set",
+      "status": "COMPLETED",
+      "lane": "PF02",
+      "jurisdiction": "RI",
+      "implementationStrategy": "official_pdf_fill",
+      "directory": "data/rcap-all50/overlays/census-v1/ri/ri-multiple-misdemeanors-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-ri_multiple_misdemeanors-set.mjs",
+      "buildHost": "scripts/build-census-v1-ri_decriminalized-set.mjs",
+      "components": [
+        "ri_multiple_misdemeanors-primary-filing-1",
+        "ri_multiple_misdemeanors-proposed-order-2",
+        "ri_multiple_misdemeanors-notice-package-3",
+        "ri_multiple_misdemeanors-filing-instructions-4",
+        "ri_multiple_misdemeanors-certified-copy-delivery-checklist-5"
+      ],
+      "componentRoles": {
+        "ri_multiple_misdemeanors-primary-filing-1": "primary_filing",
+        "ri_multiple_misdemeanors-proposed-order-2": "proposed_order",
+        "ri_multiple_misdemeanors-notice-package-3": "notice_package",
+        "ri_multiple_misdemeanors-filing-instructions-4": "filing_instructions",
+        "ri_multiple_misdemeanors-certified-copy-delivery-checklist-5": "certified_copy_delivery_checklist"
+      },
+      "componentCount": 5,
+      "everyMappedComponentIsRendered": true,
+      "boundSourceDigests": [
+        {
+          "sourceId": "official-form:DC-33",
+          "formNumber": "DC-33",
+          "sha256": "342337451d61e363e03febb384431dba2f9bb08b44ee46380b94fc91901e9908",
+          "byteLength": 307164,
+          "pageCount": 4,
+          "acroFieldCount": 77,
+          "custody": "master_library",
+          "pathInArchive": "STATES/RI/02_PACKET_FORMS/RI__FORM__DC-33__district-court-motion-affidavit-and-instructions-to-expunge-or-seal-record__REV-2025-02__EN.pdf",
+          "resolvedBy": "sha256 lookup in a content index of every mounted custody",
+          "committedCorpusIndexAgrees": true
+        }
+      ],
+      "sourcesBoundByPathResolution": 0,
+      "contentIndex": {
+        "filesIndexed": 500,
+        "custodiesMounted": [
+          "master_library",
+          "human_source_returns"
+        ],
+        "custodiesNotMounted": [],
+        "committedIndexConsulted": "data/rcap-all50/local-source-corpus-index.json"
+      },
+      "affidavitPartOnThisRoute": "Part Three B: Multiple Convictions",
+      "proposedOrderVariant": "ri-district-court-proposed-order",
+      "proposedOrderBindsASourceBinary": false,
+      "routeSelectionsMade": [
+        "Box electing EXPUNGEMENT of the record rather than sealing",
+        "Box asking that all records and records of conviction in the case be expunged and every index and other reference removed from public inspection under G.L. 1956 Sec. 12-1.3-3(c) or (e)"
+      ],
+      "affidavitBoxesMarked": 0,
+      "requiredBeforeFilingCount": 25,
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "allNineCountersZero": true,
+      "verifier": {
+        "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'ri_multiple_misdemeanors-set'",
+        "result": "PASS_COMPLETE"
+      },
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/ri/ri-multiple-misdemeanors-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "be2b21a030d40a9729cd0029aeae04f5e657962001ef51cd306bed11469590b1",
+          "pageCount": 13,
+          "byteLength": 308197
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/ri/ri-multiple-misdemeanors-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "ca248b8836b0c0caef73081d96e15fbcf30237ad7988a75be9eb0f00e0781a48",
+          "pageCount": 13,
+          "byteLength": 308401
+        }
+      ],
+      "canonicalSha256": "be2b21a030d40a9729cd0029aeae04f5e657962001ef51cd306bed11469590b1",
+      "canonicalPageCount": 13,
+      "boundarySha256": "ca248b8836b0c0caef73081d96e15fbcf30237ad7988a75be9eb0f00e0781a48",
+      "boundaryPageCount": 13,
+      "determinism": {
+        "method": "rebuilt from unchanged inputs and the whole family directory compared recursively with diff -r",
+        "result": "BYTE_IDENTICAL",
+        "comparedAt": "2026-09-05"
+      },
+      "writeProof": [
+        {
+          "fixture": "canonical",
+          "valuesReportedByFinalizer": 4,
+          "addedGlyphsReadFromOutputBytes": 126,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 9,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "refusedFieldsWithInk": []
+        },
+        {
+          "fixture": "boundary",
+          "valuesReportedByFinalizer": 4,
+          "addedGlyphsReadFromOutputBytes": 258,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 9,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "refusedFieldsWithInk": []
+        }
+      ],
+      "rasterState": "BUILT_RASTER_PENDING",
+      "rasterNote": "The committed run is --no-raster, matching the current cohort's convention. Chromium IS available in this container and the produced fixtures were rasterized locally through scripts/raster/pdf-page-raster.mjs as a visual sanity check (calibration residual 0 px, no blank page, marks and writes read correctly); no raster bytes are committed and no raster verdict is claimed. The central raster workflow renders against the exact hashes above.",
+      "selfVerified": false,
+      "packetsSelfVerified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "ri_first_offender_felony-set",
+      "status": "COMPLETED",
+      "lane": "PF02",
+      "jurisdiction": "RI",
+      "implementationStrategy": "official_pdf_fill",
+      "directory": "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-felony-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-ri_first_offender_felony-set.mjs",
+      "buildHost": "scripts/build-census-v1-ri_decriminalized-set.mjs",
+      "components": [
+        "ri_first_offender_felony-primary-filing-1",
+        "ri_first_offender_felony-proposed-order-2",
+        "ri_first_offender_felony-notice-package-3",
+        "ri_first_offender_felony-filing-instructions-4",
+        "ri_first_offender_felony-certified-copy-delivery-checklist-5"
+      ],
+      "componentRoles": {
+        "ri_first_offender_felony-primary-filing-1": "primary_filing",
+        "ri_first_offender_felony-proposed-order-2": "proposed_order",
+        "ri_first_offender_felony-notice-package-3": "notice_package",
+        "ri_first_offender_felony-filing-instructions-4": "filing_instructions",
+        "ri_first_offender_felony-certified-copy-delivery-checklist-5": "certified_copy_delivery_checklist"
+      },
+      "componentCount": 5,
+      "everyMappedComponentIsRendered": true,
+      "boundSourceDigests": [
+        {
+          "sourceId": "official-form:Superior-55",
+          "formNumber": "Superior-55",
+          "sha256": "e5805c5482e61ef39a88d8b50ea5a3556b5ffc40d3abb2200973016af4a9afca",
+          "byteLength": 301833,
+          "pageCount": 4,
+          "acroFieldCount": 74,
+          "custody": "master_library",
+          "pathInArchive": "STATES/RI/02_PACKET_FORMS/RI__FORM__SUPERIOR-55__superior-court-motion-affidavit-and-instructions-to-expunge-or-seal-record-felony__REV-2025-02__EN.pdf",
+          "resolvedBy": "sha256 lookup in a content index of every mounted custody",
+          "committedCorpusIndexAgrees": true
+        }
+      ],
+      "sourcesBoundByPathResolution": 0,
+      "contentIndex": {
+        "filesIndexed": 500,
+        "custodiesMounted": [
+          "master_library",
+          "human_source_returns"
+        ],
+        "custodiesNotMounted": [],
+        "committedIndexConsulted": "data/rcap-all50/local-source-corpus-index.json"
+      },
+      "affidavitPartOnThisRoute": "Part Two: Single Conviction",
+      "proposedOrderVariant": "ri-superior-court-felony-and-deferred-sentence-proposed-order",
+      "proposedOrderBindsASourceBinary": false,
+      "routeSelectionsMade": [
+        "Box electing EXPUNGEMENT of the record rather than sealing",
+        "Box asking that all records and records of conviction in the case be expunged and every index and other reference removed from public inspection under G.L. 1956 Sec. 12-1.3-3(c) or (e)"
+      ],
+      "affidavitBoxesMarked": 0,
+      "requiredBeforeFilingCount": 25,
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "allNineCountersZero": true,
+      "verifier": {
+        "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'ri_first_offender_felony-set'",
+        "result": "PASS_COMPLETE"
+      },
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-felony-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "cb1b7c24cece262c11199507adbcd33b623ea03fc3e14d06b422ff4170b8b020",
+          "pageCount": 14,
+          "byteLength": 306851
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-felony-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "089e99b51a4efd875d74fede00a86a42a838a6b0c1166197762c97108b2c96b4",
+          "pageCount": 14,
+          "byteLength": 307051
+        }
+      ],
+      "canonicalSha256": "cb1b7c24cece262c11199507adbcd33b623ea03fc3e14d06b422ff4170b8b020",
+      "canonicalPageCount": 14,
+      "boundarySha256": "089e99b51a4efd875d74fede00a86a42a838a6b0c1166197762c97108b2c96b4",
+      "boundaryPageCount": 14,
+      "determinism": {
+        "method": "rebuilt from unchanged inputs and the whole family directory compared recursively with diff -r",
+        "result": "BYTE_IDENTICAL",
+        "comparedAt": "2026-09-05"
+      },
+      "writeProof": [
+        {
+          "fixture": "canonical",
+          "valuesReportedByFinalizer": 4,
+          "addedGlyphsReadFromOutputBytes": 126,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 9,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "refusedFieldsWithInk": []
+        },
+        {
+          "fixture": "boundary",
+          "valuesReportedByFinalizer": 4,
+          "addedGlyphsReadFromOutputBytes": 258,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 9,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "refusedFieldsWithInk": []
+        }
+      ],
+      "rasterState": "BUILT_RASTER_PENDING",
+      "rasterNote": "The committed run is --no-raster, matching the current cohort's convention. Chromium IS available in this container and the produced fixtures were rasterized locally through scripts/raster/pdf-page-raster.mjs as a visual sanity check (calibration residual 0 px, no blank page, marks and writes read correctly); no raster bytes are committed and no raster verdict is claimed. The central raster workflow renders against the exact hashes above.",
+      "selfVerified": false,
+      "packetsSelfVerified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "ri_deferred_sentence-set",
+      "status": "COMPLETED",
+      "lane": "PF02",
+      "jurisdiction": "RI",
+      "implementationStrategy": "official_pdf_fill",
+      "directory": "data/rcap-all50/overlays/census-v1/ri/ri-deferred-sentence-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-ri_deferred_sentence-set.mjs",
+      "buildHost": "scripts/build-census-v1-ri_decriminalized-set.mjs",
+      "components": [
+        "ri_deferred_sentence-primary-filing-1",
+        "ri_deferred_sentence-proposed-order-2",
+        "ri_deferred_sentence-notice-package-3",
+        "ri_deferred_sentence-filing-instructions-4",
+        "ri_deferred_sentence-certified-copy-delivery-checklist-5"
+      ],
+      "componentRoles": {
+        "ri_deferred_sentence-primary-filing-1": "primary_filing",
+        "ri_deferred_sentence-proposed-order-2": "proposed_order",
+        "ri_deferred_sentence-notice-package-3": "notice_package",
+        "ri_deferred_sentence-filing-instructions-4": "filing_instructions",
+        "ri_deferred_sentence-certified-copy-delivery-checklist-5": "certified_copy_delivery_checklist"
+      },
+      "componentCount": 5,
+      "everyMappedComponentIsRendered": true,
+      "boundSourceDigests": [
+        {
+          "sourceId": "official-form:Superior-55",
+          "formNumber": "Superior-55",
+          "sha256": "e5805c5482e61ef39a88d8b50ea5a3556b5ffc40d3abb2200973016af4a9afca",
+          "byteLength": 301833,
+          "pageCount": 4,
+          "acroFieldCount": 74,
+          "custody": "master_library",
+          "pathInArchive": "STATES/RI/02_PACKET_FORMS/RI__FORM__SUPERIOR-55__superior-court-motion-affidavit-and-instructions-to-expunge-or-seal-record-felony__REV-2025-02__EN.pdf",
+          "resolvedBy": "sha256 lookup in a content index of every mounted custody",
+          "committedCorpusIndexAgrees": true
+        }
+      ],
+      "sourcesBoundByPathResolution": 0,
+      "contentIndex": {
+        "filesIndexed": 500,
+        "custodiesMounted": [
+          "master_library",
+          "human_source_returns"
+        ],
+        "custodiesNotMounted": [],
+        "committedIndexConsulted": "data/rcap-all50/local-source-corpus-index.json"
+      },
+      "affidavitPartOnThisRoute": "Part Three: Deferred Sentence",
+      "proposedOrderVariant": "ri-superior-court-felony-and-deferred-sentence-proposed-order",
+      "proposedOrderBindsASourceBinary": false,
+      "routeSelectionsMade": [
+        "Box electing EXPUNGEMENT of the record rather than sealing",
+        "Box asking that all records and records of conviction in the case be expunged and every index and other reference removed from public inspection under G.L. 1956 Sec. 12-1.3-3(c) or (e)"
+      ],
+      "affidavitBoxesMarked": 0,
+      "requiredBeforeFilingCount": 25,
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "allNineCountersZero": true,
+      "verifier": {
+        "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'ri_deferred_sentence-set'",
+        "result": "PASS_COMPLETE"
+      },
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/ri/ri-deferred-sentence-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "757582d8721aa4ed71a6e94e95418328effc80877121367d5f054290af28242a",
+          "pageCount": 14,
+          "byteLength": 305718
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/ri/ri-deferred-sentence-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "e2ba9a57686a32f9cc1d9be2c55872aa59d8043002658482f3c12f2166787dd6",
+          "pageCount": 14,
+          "byteLength": 305931
+        }
+      ],
+      "canonicalSha256": "757582d8721aa4ed71a6e94e95418328effc80877121367d5f054290af28242a",
+      "canonicalPageCount": 14,
+      "boundarySha256": "e2ba9a57686a32f9cc1d9be2c55872aa59d8043002658482f3c12f2166787dd6",
+      "boundaryPageCount": 14,
+      "determinism": {
+        "method": "rebuilt from unchanged inputs and the whole family directory compared recursively with diff -r",
+        "result": "BYTE_IDENTICAL",
+        "comparedAt": "2026-09-05"
+      },
+      "writeProof": [
+        {
+          "fixture": "canonical",
+          "valuesReportedByFinalizer": 4,
+          "addedGlyphsReadFromOutputBytes": 126,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 9,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "refusedFieldsWithInk": []
+        },
+        {
+          "fixture": "boundary",
+          "valuesReportedByFinalizer": 4,
+          "addedGlyphsReadFromOutputBytes": 258,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 9,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "refusedFieldsWithInk": []
+        }
+      ],
+      "rasterState": "BUILT_RASTER_PENDING",
+      "rasterNote": "The committed run is --no-raster, matching the current cohort's convention. Chromium IS available in this container and the produced fixtures were rasterized locally through scripts/raster/pdf-page-raster.mjs as a visual sanity check (calibration residual 0 px, no blank page, marks and writes read correctly); no raster bytes are committed and no raster verdict is claimed. The central raster workflow renders against the exact hashes above.",
+      "selfVerified": false,
+      "packetsSelfVerified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    }
+  ],
+  "theThirdProposedOrderVariant": {
+    "question": "The owner decision OWN-RI-PROPOSED-ORDER-2026-09-05 requires three court-specific variants: District Court; Superior Court felony and deferred-sentence; Superior Court misdemeanor.",
+    "built": [
+      "ri-district-court-proposed-order",
+      "ri-superior-court-felony-and-deferred-sentence-proposed-order"
+    ],
+    "notBuilt": "ri-superior-court-misdemeanor-proposed-order",
+    "why": "NO FAMILY ON THIS ROSTER TAKES IT. All three misdemeanor families here bind DC-33 and are District Court routes: ri_decriminalized (DC-33 Part Two), ri_first_offender_misdemeanor (DC-33 Part Three A) and ri_multiple_misdemeanors (DC-33 Part Three B). The two Superior Court families bind Superior-55 and take the felony-and-deferred-sentence variant: ri_first_offender_felony (Superior-55 Part Two) and ri_deferred_sentence (Superior-55 Part Three). Rhode Island's Superior Court MISDEMEANOR route runs on a different published form, Superior-27 (superior-court-motion-affidavit-and-instructions-to-expunge-or-seal-record-misdemeanor, REV-2025-07, SHA-256 6a948b731d63dba93061f95786359c5ccd7df6b5eb5c88791c5efc29aafe1119, held in the Master Library), which no family on this roster binds. Composing an order nothing uses would put an unreviewed participant document in the tree with no route to check it against.",
+    "whatWouldChangeThis": "A family that binds Superior-27. If one is dispatched, the Superior Court misdemeanor variant should be composed on the same host, beside the two that exist."
+  },
+  "findingsThatOutliveThisCohort": [
+    {
+      "id": "PF02-RI-FINDING-1",
+      "severity": "defect in shared machinery, reported not patched",
+      "finding": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs cannot reach the completeness contract's declared NOT_APPLICABLE_ON_THIS_ROUTE gate. classifyBlank enters that gate only when dec.routeConditionThatMakesItInapplicable is present (completeness-contract.mjs line 353), and normalizeRow in the verifier builds `dec` from a fixed list of keys that does not include it. A packet that declares the disposition and names its route condition therefore falls past the gate and lands on UNCLASSIFIED_BLANK, which is a defect counter.",
+      "evidence": "grep -rn routeConditionThatMakesItInapplicable scripts/ returns the contract's condition list, the contract's gate, and this lane's builder - and nothing in the verifier.",
+      "shape": "It is the same gap the verifier's own comments record for determinedByTheCaseNotTheRoute: the exception was reachable from the unit test and from no packet at all.",
+      "whatThisLaneDid": "Every off-route row in these five families carries the declaration AND the named route condition, so it starts working the day the reader forwards the key, and it also carries the trusted refusal class for what the control actually is - a legal election on a document the participant signs, and on the affidavit a statement sworn under oath. PF02 may not write in scripts/rcap-packet-completeness/**, so the gap is reported rather than patched.",
+      "whoShouldFixIt": "A lane that owns scripts/rcap-packet-completeness/**. The fix is one key in normalizeRow's `declared` object. 26 rows in ri_decriminalized-set alone declare the disposition and would change classification from PARTICIPANT_ELECTION_GENUINE to NOT_APPLICABLE_ON_THIS_ROUTE; the counters stay at zero either way."
+    },
+    {
+      "id": "PF02-RI-FINDING-2",
+      "severity": "defect in shared machinery, reported not patched",
+      "finding": "scripts/rcap-official-forms/rcap-field-semantics.mjs resolves the AcroForm field named \"State of Rhode Island v Defendant\" to participant.state. That field is the DEFENDANT'S NAME blank in the caption of both Rhode Island court forms - the printed word \"Defendant\" sits directly above it - and it appears on the motion and again on the sworn affidavit of DC-33, Superior-55, Superior-27 and FC-85. Left to the shared descriptor channel, the finalizer writes the participant's state of residence on the line that holds their name.",
+      "whyExplicitMappingCannotFixIt": "decideBinding tries the field NAME channel first, and refuses an explicit mapping that disagrees with it (\"explicit_mapping_conflicts_with_field_name\").",
+      "whatThisLaneDid": "Classified every field on the binary unwritable by role, so the shared finalizer writes nothing and only sanitizes and flattens, and placed the two held facts as Form XObject appearances inside the widget rectangles measured off the pinned binary - the same construction flatten emits, and the one every evidence reader on this host decodes. Each placement is required to pass protectCategoryOf first, so the protection channel still governs.",
+      "whoShouldFixIt": "A lane that owns scripts/rcap-official-forms/**. The vocabulary is shared with families outside this lane's grant and changing it would move their bytes."
+    },
+    {
+      "id": "PF02-RI-FINDING-3",
+      "severity": "discrepancy on a state's published form",
+      "finding": "Superior-55 disagrees with itself about Part Two. Page 1: \"Part Two: If you were convicted of a single FELONY offense and have not been previously convicted of or placed on probation for a felony or a misdemeanor.\" The fourth box of Part Two on page 3: \"That I was convicted of a single MISDEMEANOR offense, and I have not been previously convicted of or placed on probation for a felony or a misdemeanor.\"",
+      "context": "The rest of Part Two carries the TEN-year period, which is the felony period, and Rhode Island publishes a separate Superior Court misdemeanor form, so the box reads like a drafting error carried over from the District Court form. This build does not decide it.",
+      "whatThisLaneDid": "Marked nothing, reproduced the form as published, and told the participant in ri_first_offender_felony-set exactly what the two texts say, that they must not swear to a statement untrue of their case, and to ask the clerk or a lawyer which text that court applies. Raised as a counsel question in approval-request.json.",
+      "affects": [
+        "ri_first_offender_felony-set"
+      ]
+    },
+    {
+      "id": "PF02-RI-FINDING-4",
+      "severity": "discrepancy on a state's published form",
+      "finding": "DC-33 disagrees with itself about how many misdemeanors Part Three B reaches. Page 1: \"more than one (1) but less than six (6) misdemeanor offenses\". The sixth box of Part Three B on page 4: \"That I have not been convicted of more than six (6) misdemeanors preceding the filing of this motion\". More than one and fewer than six is at most five; not more than six is six.",
+      "context": "The committed track registry already records the ceiling as unresolved and names any count near it as a point where self-help ends, together with the separate unresolved question of whether the count includes convictions not being expunged. MASTER_QUEUE's exactNextAction for this family says the fewer-than-six limit still has to be reconciled against the current form wording.",
+      "whatThisLaneDid": "Carried both texts to the participant with the stop condition, and raised it as a counsel question.",
+      "affects": [
+        "ri_multiple_misdemeanors-set"
+      ]
+    },
+    {
+      "id": "PF02-RI-FINDING-5",
+      "severity": "inconsistency inside a committed record",
+      "finding": "data/record-clearing/legal-design-track-registry.json, track ri_first_offender_felony, carries the exclusion \"Any felony or misdemeanor arrest or conviction during the five-year lookback\" while the same track's waitingPeriods say ten years from completion of sentence and a ten-year clean lookback - and Superior-55 Part Two says ten years in both of its own boxes. The exclusion sentence reads as a copy of the misdemeanor track's exclusions.",
+      "whatThisLaneDid": "Printed the registry's exclusions verbatim, as the packet does for every route, and printed a correction immediately beside them naming ten years as the period the form asks the participant to swear to. Raised as a counsel question. The registry is not edited by this lane.",
+      "affects": [
+        "ri_first_offender_felony-set"
+      ]
+    },
+    {
+      "id": "PF02-RI-FINDING-6",
+      "severity": "open legal question, disclosed to the participant, not answered",
+      "finding": "The Superior Court motion page offers two forms of relief and a deferred-sentence movant must mark one. The second - the one this build marks - reads \"All records and records of conviction relating to the CONVICTION of the above-referenced case be expunged ... pursuant to G.L. 1956 Sec. 12-1.3-3(c) or (e)\". A completed deferred sentence follows a plea, and whether it is a \"conviction\" for Chapter 12-1.3 is a question of Rhode Island law no held record in this repository answers.",
+      "whyItWasMarkedAnyway": "It is the only one of the two bullets that cites Chapter 12-1.3, which is the chapter this route runs on through Sec. 12-1.3-2(e); the other is the Sec. 12-1-12 destruction-of-identification-records branch for a case that did not end in a conviction. A packet built for one statutory route states which route it is.",
+      "whatThisLaneDid": "Marked it, and said so on the packet's own face: the participant is told which bullet is marked, why, that no held record states which bullet a Rhode Island Superior Court expects on a deferred-sentence motion, and that it is a mark on their own motion which they should change if the clerk of the division says otherwise. Raised as a counsel question.",
+      "affects": [
+        "ri_deferred_sentence-set"
+      ]
+    },
+    {
+      "id": "PF02-RI-FINDING-7",
+      "severity": "manifest reconciliation, for Captain",
+      "finding": "The five families' MASTER_QUEUE rows carry exclusiveScript true, sharedBuildHost null and importedBy [], and this build puts one host inside an owned family script - scripts/build-census-v1-ri_decriminalized-set.mjs - which the other four import.",
+      "why": "Rhode Island publishes one motion-and-affidavit form per court and carries every statutory branch as a numbered Part of one affidavit, and the owner's decision requires each court-specific proposed order to be composed ONCE and shared by the families that use it. Every family on the host is granted to PF02 alone, so the objection the Texas builder records against a shared host - that it could not be changed without moving the bytes of families outside the grant - does not arise. The precedent is scripts/build-census-v1-ri_nonconviction_sealing-set.mjs, which already imports its engine from a sibling family script.",
+      "whatCaptainShouldReconcile": "MASTER_QUEUE should record sharedBuildHost scripts/build-census-v1-ri_decriminalized-set.mjs and importedBy for the other four, so F23 (one shared host, one writer) measures the real shape."
+    },
+    {
+      "id": "PF02-RI-FINDING-8",
+      "severity": "note on the packet specification",
+      "finding": "The route-obligation census names two components for each of the four multi-stage families (primary-filing-1 and proposed-order-2) because those are the only two with source relationships, while the committed track registry's packetSet names FIVE - adding notice-package-3, filing-instructions-4 and certified-copy-delivery-checklist-5, all process_guidance. This build ships the registry's full set, because a component the map names and the packet never delivers is the missing-companion-form defect, and because the census's own instrumentKinds for those families include \"no filing - process guidance\" for stages 1 and 3.",
+      "affects": [
+        "ri_first_offender_misdemeanor-set",
+        "ri_multiple_misdemeanors-set",
+        "ri_first_offender_felony-set",
+        "ri_deferred_sentence-set"
+      ]
+    }
+  ],
+  "whatThisReturnDoesNotEstablish": [
+    "that any of these five packets is verified - this lane does not verify its own packets and issues no verdict",
+    "that any of them has a RASTER_PASS; the committed run is --no-raster and no raster verdict is claimed",
+    "that counsel has read the exact generated proposed orders, which the owner decision requires before any route opens commercially",
+    "that any Rhode Island route may be promoted, opened or sold"
+  ],
+  "packetsSelfVerified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false
+}

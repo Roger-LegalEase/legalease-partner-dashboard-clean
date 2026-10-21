@@ -8,33 +8,33 @@ Terminalizing a track around a broken PDF is a legitimate product decision. It i
 
 | Measure | Count |
 | --- | ---: |
-| Problematic Pdfs Total | 71 |
+| Problematic Pdfs Total | 96 |
 | Launch Safely Terminal | 12 |
 | Platform Ready | 5 |
 | Retired From Operational Inventory | 40 |
 | Retired Family Directories | 45 |
-| Active Track Problematic Pdfs | 45 |
-| Orphaned Or Optional Pdfs | 10 |
+| Active Track Problematic Pdfs | 58 |
+| Orphaned Or Optional Pdfs | 22 |
 | Missing Pdf Binaries | 33 |
 | Assets With At Least One Technical Finding | 61 |
-| Assets With At Least One Visual Finding | 52 |
-| Assets With At Least One Source Finding | 75 |
+| Assets With At Least One Visual Finding | 58 |
+| Assets With At Least One Source Finding | 100 |
 | Unique Systemic Technical Root Causes | 0 |
 | Unique Family Specific Technical Defects | 69 |
 | Unique Systemic Visual Root Causes | 2 |
-| Unique Family Specific Visual Defects | 32 |
+| Unique Family Specific Visual Defects | 38 |
 | Unique Systemic Source Root Causes | 2 |
-| Unique Family Specific Source Defects | 5 |
+| Unique Family Specific Source Defects | 7 |
 | Unique Root Causes In Play | 14 |
 | Technical Defects | 61 |
-| Visual Defects | 52 |
+| Visual Defects | 58 |
 | Unfinalized Rendered Artifacts | 0 |
 | Rendered Artifacts Not Byte Inspectable | 0 |
 | Contact Sheets Showing No Fill | 4 |
 | Protected Fields Populated By The Factory | 0 |
-| Source Or Currentness Defects | 75 |
-| Legal Design Or Adoption Holds | 88 |
-| Tracks Safely Terminalized Around A Problem Pdf | 34 |
+| Source Or Currentness Defects | 100 |
+| Legal Design Or Adoption Holds | 113 |
+| Tracks Safely Terminalized Around A Problem Pdf | 42 |
 | Problem Pdf Routes Still Sellable | 0 |
 | Problem Pdf Routes Still Public | 0 |
 | Post Launch High Priority Pdf Fixes | 5 |
@@ -215,6 +215,418 @@ Defects:
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
 | AK:ak-courtview | true | — | factory_v2 | false | false |
+
+### CO JDF-2363 — Request for a Hearing - Automatic Conviction Sealing
+
+- **Family ids**: CO:jdf-2363-form-form-en
+- **Source SHA**: abec6d716d028670a3b1e26c2a1b512ce320421253e6b85ec40e636d05577e33 (revision REV-2024-02-01)
+- **Binary present**: true
+- **Structural class**: acroform; participant fillable: true
+- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, visually_unsafe
+- **Technical disposition**: no_implementation_record
+- **Legal disposition**: no_independent_approval
+- **Owner**: Terminal A route owner
+- **Post-launch priority**: medium
+- **Exact next action**: Confirm that revision REV-2024-02-01 of CO JDF-2363 is the currently published form, against the issuing body's own publication.
+
+Defects:
+
+- `currentness_unverified` — Revision REV-2024-02-01 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
+- `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
+- `held_on_source_or_design` — d3a_lane_output_not_self_approved _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_legal_review_missing_from_supplied_corpus _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_open_item_release_blocker _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — track_level_import_mapping_required _(source-record.json:productionHolds)_
+- `visually_unsafe` — Field "Case Number" fails the refused_below_readable_floor check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+
+| Affected track | Terminal | Treatment | Route | Sellable | Credit |
+| --- | --- | --- | --- | --- | --- |
+| CO:co_clean_slate | true | — | guidance_only | false | false |
+
+### CO JDF-2371 — Motion to Seal Conviction Records - Conduct No Longer Prohibited
+
+- **Family ids**: CO:jdf-2371-form-motion-en
+- **Source SHA**: 642558b85e3f3df8c15808369685bbe56398523c7794b6a949d20fd7b4f8b6d6 (revision REV-2025-07-01)
+- **Binary present**: true
+- **Structural class**: acroform; participant fillable: true
+- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, visually_unsafe
+- **Technical disposition**: no_implementation_record
+- **Legal disposition**: no_independent_approval
+- **Owner**: Terminal A route owner
+- **Post-launch priority**: medium
+- **Exact next action**: Confirm that revision REV-2025-07-01 of CO JDF-2371 is the currently published form, against the issuing body's own publication.
+
+Defects:
+
+- `currentness_unverified` — Revision REV-2025-07-01 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
+- `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
+- `held_on_source_or_design` — d3a_lane_output_not_self_approved _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_legal_review_missing_from_supplied_corpus _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_open_item_release_blocker _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — track_level_import_mapping_required _(source-record.json:productionHolds)_
+- `visually_unsafe` — Field "Case Number" fails the refused_below_readable_floor check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "∆ Street Address" fails the shrink_to_fit_applied check under the boundary fixture: text width undefined exceeds widget width undefined at font size 9.5. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "∆ Email" fails the shrink_to_fit_applied check under the boundary fixture: text width undefined exceeds widget width undefined at font size 10. _(reports/overflow-and-clipping.json)_
+- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+
+| Affected track | Terminal | Treatment | Route | Sellable | Credit |
+| --- | --- | --- | --- | --- | --- |
+| CO:co_decriminalized_conduct_seal | true | exact_supported_deferral | exact_supported_deferral | false | false |
+
+### CO JDF-2374 — Order to Seal Conviction Records - Conduct No Longer Prohibited
+
+- **Family ids**: CO:jdf-2374-form-order-en
+- **Source SHA**: 36a7ad4767ac8333183cd26775265697d1c6574029f7f722462f09d382990a72 (revision REV-2025-07-01)
+- **Binary present**: true
+- **Structural class**: acroform; participant fillable: false
+- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved
+- **Technical disposition**: no_implementation_record
+- **Legal disposition**: no_independent_approval
+- **Owner**: Terminal A route owner
+- **Post-launch priority**: medium
+- **Exact next action**: Confirm that revision REV-2025-07-01 of CO JDF-2374 is the currently published form, against the issuing body's own publication.
+
+Defects:
+
+- `currentness_unverified` — Revision REV-2025-07-01 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
+- `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
+- `held_on_source_or_design` — d3a_lane_output_not_self_approved _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_legal_review_missing_from_supplied_corpus _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_open_item_release_blocker _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — track_level_import_mapping_required _(source-record.json:productionHolds)_
+- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+
+| Affected track | Terminal | Treatment | Route | Sellable | Credit |
+| --- | --- | --- | --- | --- | --- |
+| CO:co_decriminalized_conduct_seal | true | exact_supported_deferral | exact_supported_deferral | false | false |
+
+### CO JDF-417 — Petition to Seal Arrest Records - No Charges Filed
+
+- **Family ids**: CO:jdf-417-form-petition-en
+- **Source SHA**: e0e1aefac85269087ca0f69252c501b14020a301d2cf6e5fbcc26aa5338f6dd4 (revision REV-2025-07-01)
+- **Binary present**: true
+- **Structural class**: acroform; participant fillable: true
+- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, visually_unsafe
+- **Technical disposition**: no_implementation_record
+- **Legal disposition**: no_independent_approval
+- **Owner**: Terminal A route owner
+- **Post-launch priority**: medium
+- **Exact next action**: Confirm that revision REV-2025-07-01 of CO JDF-417 is the currently published form, against the issuing body's own publication.
+
+Defects:
+
+- `currentness_unverified` — Revision REV-2025-07-01 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
+- `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
+- `held_on_source_or_design` — d3a_lane_output_not_self_approved _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_legal_review_missing_from_supplied_corpus _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_open_item_release_blocker _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — track_level_import_mapping_required _(source-record.json:productionHolds)_
+- `visually_unsafe` — Field "Case Number" fails the refused_below_readable_floor check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "∆ Street Address" fails the shrink_to_fit_applied check under the boundary fixture: text width undefined exceeds widget width undefined at font size 8.5. _(reports/overflow-and-clipping.json)_
+- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+
+| Affected track | Terminal | Treatment | Route | Sellable | Credit |
+| --- | --- | --- | --- | --- | --- |
+| CO:co_petition_seal_arrest | true | — | factory_v2 | false | false |
+
+### CO JDF-477 — Motion to Seal Non-Conviction Records
+
+- **Family ids**: CO:jdf-477-form-motion-en
+- **Source SHA**: b9cbad7f3a66a1a952e10ad15e59d77afb9b68714465fe0e88333cf2c3159643 (revision REV-2024-08-07)
+- **Binary present**: true
+- **Structural class**: acroform; participant fillable: true
+- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, visually_unsafe
+- **Technical disposition**: no_implementation_record
+- **Legal disposition**: no_independent_approval
+- **Owner**: Terminal A route owner
+- **Post-launch priority**: medium
+- **Exact next action**: Confirm that revision REV-2024-08-07 of CO JDF-477 is the currently published form, against the issuing body's own publication.
+
+Defects:
+
+- `currentness_unverified` — Revision REV-2024-08-07 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
+- `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
+- `held_on_source_or_design` — d3a_lane_output_not_self_approved _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_legal_review_missing_from_supplied_corpus _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_open_item_release_blocker _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — track_level_import_mapping_required _(source-record.json:productionHolds)_
+- `visually_unsafe` — Field "Case Number" fails the refused_below_readable_floor check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "Address" fails the shrink_to_fit_applied check under the boundary fixture: text width undefined exceeds widget width undefined at font size 6.24. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "Email" fails the shrink_to_fit_applied check under the boundary fixture: text width undefined exceeds widget width undefined at font size 6.74. _(reports/overflow-and-clipping.json)_
+- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+
+| Affected track | Terminal | Treatment | Route | Sellable | Credit |
+| --- | --- | --- | --- | --- | --- |
+| CO:co_motion_seal_nonconviction | true | exact_supported_deferral | exact_supported_deferral | false | false |
+
+### CO JDF-478 — Order to Seal Non-Conviction Records
+
+- **Family ids**: CO:jdf-478-form-order-en
+- **Source SHA**: 8208caab3019164f8f0671aea1f0dbcf460805d61455346887cfd1d133c0e159 (revision REV-2024-08-07)
+- **Binary present**: true
+- **Structural class**: acroform; participant fillable: false
+- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved
+- **Technical disposition**: no_implementation_record
+- **Legal disposition**: no_independent_approval
+- **Owner**: Terminal A route owner
+- **Post-launch priority**: medium
+- **Exact next action**: Confirm that revision REV-2024-08-07 of CO JDF-478 is the currently published form, against the issuing body's own publication.
+
+Defects:
+
+- `currentness_unverified` — Revision REV-2024-08-07 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
+- `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
+- `held_on_source_or_design` — d3a_lane_output_not_self_approved _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_legal_review_missing_from_supplied_corpus _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_open_item_release_blocker _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — track_level_import_mapping_required _(source-record.json:productionHolds)_
+- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+
+| Affected track | Terminal | Treatment | Route | Sellable | Credit |
+| --- | --- | --- | --- | --- | --- |
+| CO:co_motion_seal_nonconviction | true | exact_supported_deferral | exact_supported_deferral | false | false |
+
+### CO JDF-612 — Motion to Seal Conviction Records - District or County Court Conviction
+
+- **Family ids**: CO:jdf-612-form-motion-en
+- **Source SHA**: 8600b4b9a4b27fe821e843cf6bfc21f45325f0791bb9d1e62a0326d7261f927e (revision REV-2024-08-07)
+- **Binary present**: true
+- **Structural class**: acroform; participant fillable: true
+- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, visually_unsafe
+- **Technical disposition**: no_implementation_record
+- **Legal disposition**: no_independent_approval
+- **Owner**: Terminal A route owner
+- **Post-launch priority**: medium
+- **Exact next action**: Confirm that revision REV-2024-08-07 of CO JDF-612 is the currently published form, against the issuing body's own publication.
+
+Defects:
+
+- `currentness_unverified` — Revision REV-2024-08-07 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
+- `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
+- `held_on_source_or_design` — d3a_lane_output_not_self_approved _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_legal_review_missing_from_supplied_corpus _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_open_item_release_blocker _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — track_level_import_mapping_required _(source-record.json:productionHolds)_
+- `visually_unsafe` — Field "Case Number" fails the refused_below_readable_floor check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "Address" fails the shrink_to_fit_applied check under the boundary fixture: text width undefined exceeds widget width undefined at font size 7.24. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "Email" fails the shrink_to_fit_applied check under the boundary fixture: text width undefined exceeds widget width undefined at font size 6.74. _(reports/overflow-and-clipping.json)_
+- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+
+| Affected track | Terminal | Treatment | Route | Sellable | Credit |
+| --- | --- | --- | --- | --- | --- |
+| CO:co_motion_seal_conviction | true | — | factory_v2 | false | false |
+
+### CO JDF-615 — Order to Seal Conviction Records
+
+- **Family ids**: CO:jdf-615-form-order-en
+- **Source SHA**: 106cbd5edad2272f3f6f1378450b007507da879e6a917437d2cc3bb062d87647 (revision REV-2024-08-07)
+- **Binary present**: true
+- **Structural class**: acroform; participant fillable: false
+- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved
+- **Technical disposition**: no_implementation_record
+- **Legal disposition**: no_independent_approval
+- **Owner**: Terminal A route owner
+- **Post-launch priority**: medium
+- **Exact next action**: Confirm that revision REV-2024-08-07 of CO JDF-615 is the currently published form, against the issuing body's own publication.
+
+Defects:
+
+- `currentness_unverified` — Revision REV-2024-08-07 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
+- `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
+- `held_on_source_or_design` — d3a_lane_output_not_self_approved _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_legal_review_missing_from_supplied_corpus _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_open_item_release_blocker _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — track_level_import_mapping_required _(source-record.json:productionHolds)_
+- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+
+| Affected track | Terminal | Treatment | Route | Sellable | Credit |
+| --- | --- | --- | --- | --- | --- |
+| CO:co_motion_seal_conviction | true | — | factory_v2 | false | false |
+
+### CO JDF-641 — Motion to Seal Multiple Conviction Records
+
+- **Family ids**: CO:jdf-641-form-motion-en
+- **Source SHA**: 6ad1d7c43b454b3b50c9c77313528b9660ada8a730d9ed5c384479809173ab02 (revision REV-2025-07-01)
+- **Binary present**: true
+- **Structural class**: acroform; participant fillable: true
+- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, visually_unsafe
+- **Technical disposition**: no_implementation_record
+- **Legal disposition**: no_independent_approval
+- **Owner**: Terminal A route owner
+- **Post-launch priority**: medium
+- **Exact next action**: Confirm that revision REV-2025-07-01 of CO JDF-641 is the currently published form, against the issuing body's own publication.
+
+Defects:
+
+- `currentness_unverified` — Revision REV-2025-07-01 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
+- `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
+- `held_on_source_or_design` — d3a_lane_output_not_self_approved _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_legal_review_missing_from_supplied_corpus _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_open_item_release_blocker _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — track_level_import_mapping_required _(source-record.json:productionHolds)_
+- `visually_unsafe` — Field "Case Number" fails the refused_below_readable_floor check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "∆ Street Address" fails the shrink_to_fit_applied check under the boundary fixture: text width undefined exceeds widget width undefined at font size 9.5. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "∆ Email" fails the shrink_to_fit_applied check under the boundary fixture: text width undefined exceeds widget width undefined at font size 10. _(reports/overflow-and-clipping.json)_
+- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+
+| Affected track | Terminal | Treatment | Route | Sellable | Credit |
+| --- | --- | --- | --- | --- | --- |
+| CO:co_multiple_conviction_seal | true | exact_supported_deferral | exact_supported_deferral | false | false |
+
+### CO JDF-642 — Order to Seal Multiple Conviction Records
+
+- **Family ids**: CO:jdf-642-form-order-en
+- **Source SHA**: 584708616e982657f341b17bd58166a73ca05529a73bae715ce5f38168f0c52c (revision REV-2025-07-01)
+- **Binary present**: true
+- **Structural class**: acroform; participant fillable: false
+- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved
+- **Technical disposition**: no_implementation_record
+- **Legal disposition**: no_independent_approval
+- **Owner**: Terminal A route owner
+- **Post-launch priority**: medium
+- **Exact next action**: Confirm that revision REV-2025-07-01 of CO JDF-642 is the currently published form, against the issuing body's own publication.
+
+Defects:
+
+- `currentness_unverified` — Revision REV-2025-07-01 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
+- `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
+- `held_on_source_or_design` — d3a_lane_output_not_self_approved _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_legal_review_missing_from_supplied_corpus _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_open_item_release_blocker _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — track_level_import_mapping_required _(source-record.json:productionHolds)_
+- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+
+| Affected track | Terminal | Treatment | Route | Sellable | Credit |
+| --- | --- | --- | --- | --- | --- |
+| CO:co_multiple_conviction_seal | true | exact_supported_deferral | exact_supported_deferral | false | false |
+
+### CO JDF-680 — Motion to Seal Conviction Records - Pardoned
+
+- **Family ids**: CO:jdf-680-form-motion-en
+- **Source SHA**: ae3d5f1c345394dcc104fd5cc0ac72b636068e52985cb38edf4592688d8ac0ae (revision REV-2022-08-10)
+- **Binary present**: true
+- **Structural class**: flat_pdf; participant fillable: false
+- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved
+- **Technical disposition**: no_implementation_record
+- **Legal disposition**: no_independent_approval
+- **Owner**: Terminal A route owner
+- **Post-launch priority**: medium
+- **Exact next action**: Confirm that revision REV-2022-08-10 of CO JDF-680 is the currently published form, against the issuing body's own publication.
+
+Defects:
+
+- `currentness_unverified` — Revision REV-2022-08-10 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
+- `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
+- `held_on_source_or_design` — d3a_lane_output_not_self_approved _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — flat_overlay_anchors_reviewed_and_withheld _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_legal_review_missing_from_supplied_corpus _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_open_item_release_blocker _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — track_level_import_mapping_required _(source-record.json:productionHolds)_
+- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+
+| Affected track | Terminal | Treatment | Route | Sellable | Credit |
+| --- | --- | --- | --- | --- | --- |
+| CO:co_pardoned_conviction_seal | true | exact_supported_deferral | exact_supported_deferral | false | false |
+
+### CO JDF-681 — Order to Seal Pardoned Conviction Records
+
+- **Family ids**: CO:jdf-681-form-order-en
+- **Source SHA**: cf20dc0fdcbd71b49c2a43a6a11b1c952fd65943a5d0755f50299a10447a799d (revision REV-2024-03-20)
+- **Binary present**: true
+- **Structural class**: acroform; participant fillable: false
+- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved
+- **Technical disposition**: no_implementation_record
+- **Legal disposition**: no_independent_approval
+- **Owner**: Terminal A route owner
+- **Post-launch priority**: medium
+- **Exact next action**: Confirm that revision REV-2024-03-20 of CO JDF-681 is the currently published form, against the issuing body's own publication.
+
+Defects:
+
+- `currentness_unverified` — Revision REV-2024-03-20 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
+- `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
+- `held_on_source_or_design` — d3a_lane_output_not_self_approved _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_legal_review_missing_from_supplied_corpus _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_open_item_release_blocker _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — track_level_import_mapping_required _(source-record.json:productionHolds)_
+- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+
+| Affected track | Terminal | Treatment | Route | Sellable | Credit |
+| --- | --- | --- | --- | --- | --- |
+| CO:co_pardoned_conviction_seal | true | exact_supported_deferral | exact_supported_deferral | false | false |
+
+### CO JDF-683 — Petition to Seal Municipal Conviction Records
+
+- **Family ids**: CO:jdf-683-form-petition-en
+- **Source SHA**: 6b451ae32c01ef1e637a460df627d246e1b4a61d4ac4f166005a7349fa87202e (revision REV-2023-02-08)
+- **Binary present**: true
+- **Structural class**: flat_pdf; participant fillable: false
+- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved
+- **Technical disposition**: no_implementation_record
+- **Legal disposition**: no_independent_approval
+- **Owner**: Terminal A route owner
+- **Post-launch priority**: medium
+- **Exact next action**: Confirm that revision REV-2023-02-08 of CO JDF-683 is the currently published form, against the issuing body's own publication.
+
+Defects:
+
+- `currentness_unverified` — Revision REV-2023-02-08 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
+- `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
+- `held_on_source_or_design` — d3a_lane_output_not_self_approved _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — flat_overlay_anchors_reviewed_and_withheld _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_legal_review_missing_from_supplied_corpus _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_open_item_release_blocker _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — track_level_import_mapping_required _(source-record.json:productionHolds)_
+- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+
+| Affected track | Terminal | Treatment | Route | Sellable | Credit |
+| --- | --- | --- | --- | --- | --- |
+| CO:co_municipal_conviction_seal | true | exact_supported_deferral | exact_supported_deferral | false | false |
 
 ### KY AOC-334 — is hereby void; and all records pertaining thereto that are in custody of the court and any records in the custody of
 
@@ -3864,6 +4276,352 @@ Defects:
 
 _No active launch track is proven to require this asset._
 
+### CO JDF-2370 — Guide to Sealing Conviction Records - Conduct No Longer Prohibited
+
+- **Family ids**: CO:jdf-2370-instructions-instructions-en
+- **Source SHA**: cc0b5737ef0598f9e667e50b00aecbd95f53fdb9aa2bc546f8aaa910da480149 (revision REV-2025-07-01)
+- **Binary present**: true
+- **Structural class**: acroform; participant fillable: false
+- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved
+- **Technical disposition**: no_implementation_record
+- **Legal disposition**: no_independent_approval
+- **Owner**: Terminal A route owner
+- **Post-launch priority**: low
+- **Exact next action**: Confirm that revision REV-2025-07-01 of CO JDF-2370 is the currently published form, against the issuing body's own publication.
+
+Defects:
+
+- `currentness_unverified` — Revision REV-2025-07-01 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
+- `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
+- `held_on_source_or_design` — d3a_lane_output_not_self_approved _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — manifest_not_a_packet_candidate _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_legal_review_missing_from_supplied_corpus _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_open_item_release_blocker _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — track_level_import_mapping_required _(source-record.json:productionHolds)_
+- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+
+_No active launch track is proven to require this asset._
+
+### CO JDF-416 — Guide to Sealing Arrest Records - No Charges Filed
+
+- **Family ids**: CO:jdf-416-instructions-instructions-en
+- **Source SHA**: 26b07edc2300b2fd9dc8a5114fa3738fb4b377a7aa1ea089cecf6861b96235af (revision REV-2025-07-01)
+- **Binary present**: true
+- **Structural class**: acroform; participant fillable: false
+- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved
+- **Technical disposition**: no_implementation_record
+- **Legal disposition**: no_independent_approval
+- **Owner**: Terminal A route owner
+- **Post-launch priority**: low
+- **Exact next action**: Confirm that revision REV-2025-07-01 of CO JDF-416 is the currently published form, against the issuing body's own publication.
+
+Defects:
+
+- `currentness_unverified` — Revision REV-2025-07-01 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
+- `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
+- `held_on_source_or_design` — d3a_lane_output_not_self_approved _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — manifest_not_a_packet_candidate _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_legal_review_missing_from_supplied_corpus _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_open_item_release_blocker _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — track_level_import_mapping_required _(source-record.json:productionHolds)_
+- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+
+_No active launch track is proven to require this asset._
+
+### CO JDF-418 — Order to Seal Arrest and Criminal Records
+
+- **Family ids**: CO:jdf-418-form-order-en
+- **Source SHA**: b027be364d93a1f5b879916c144260e7aeeaadc46309bf69c9478d6ad70c7993 (revision REV-2024-03-20)
+- **Binary present**: true
+- **Structural class**: acroform; participant fillable: false
+- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved
+- **Technical disposition**: no_implementation_record
+- **Legal disposition**: no_independent_approval
+- **Owner**: Terminal A route owner
+- **Post-launch priority**: low
+- **Exact next action**: Confirm that revision REV-2024-03-20 of CO JDF-418 is the currently published form, against the issuing body's own publication.
+
+Defects:
+
+- `currentness_unverified` — Revision REV-2024-03-20 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
+- `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
+- `held_on_source_or_design` — d3a_lane_output_not_self_approved _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_legal_review_missing_from_supplied_corpus _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_open_item_release_blocker _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — track_level_import_mapping_required _(source-record.json:productionHolds)_
+- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+
+_No active launch track is proven to require this asset._
+
+### CO JDF-419 — Order and Notice of Hearing (Sealing of Arrest and Criminal Records When No Charges Filed)
+
+- **Family ids**: CO:jdf-419-form-notice-en
+- **Source SHA**: 64012a2a3ef643f5b9a587e5181c3332f788764324003709913688d2f9bd86a2 (revision REV-2019-08)
+- **Binary present**: true
+- **Structural class**: flat_pdf; participant fillable: true
+- **Defect categories**: held_on_source_or_design, never_independently_approved, stale_or_superseded
+- **Technical disposition**: no_implementation_record
+- **Legal disposition**: no_independent_approval
+- **Owner**: Terminal A route owner
+- **Post-launch priority**: low
+- **Exact next action**: Resolve the recorded source or design hold on CO JDF-419 and obtain a fresh independent technical and visual approval.
+
+Defects:
+
+- `stale_or_superseded` — Freshness is recorded as revision_confirmation_required. _(source-record.json:freshnessStatus)_
+- `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
+- `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — source_currency_review_required_issuer_unreachable _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_legal_review_missing_from_supplied_corpus _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_open_item_release_blocker _(source-record.json:productionHolds)_
+- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+
+_No active launch track is proven to require this asset._
+
+### CO JDF-435 — Order Denying Petition to Seal Arrest and Criminal Records When No Charges Filed
+
+- **Family ids**: CO:jdf-435-form-order-en
+- **Source SHA**: 59026b6ad9809e21fd9cb071adb5725329ac7a65f4a7c3055b11ac57b9f2dd15 (revision REV-2019-08)
+- **Binary present**: true
+- **Structural class**: flat_pdf; participant fillable: true
+- **Defect categories**: held_on_source_or_design, never_independently_approved, stale_or_superseded
+- **Technical disposition**: no_implementation_record
+- **Legal disposition**: no_independent_approval
+- **Owner**: Terminal A route owner
+- **Post-launch priority**: low
+- **Exact next action**: Resolve the recorded source or design hold on CO JDF-435 and obtain a fresh independent technical and visual approval.
+
+Defects:
+
+- `stale_or_superseded` — Freshness is recorded as revision_confirmation_required. _(source-record.json:freshnessStatus)_
+- `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
+- `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — source_currency_review_required_issuer_unreachable _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_legal_review_missing_from_supplied_corpus _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_open_item_release_blocker _(source-record.json:productionHolds)_
+- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+
+_No active launch track is proven to require this asset._
+
+### CO JDF-491 — Guide to Sealing Non-Conviction Records
+
+- **Family ids**: CO:jdf-491-instructions-instructions-en
+- **Source SHA**: 79dca4e720161b68ae74a8973392bbe22c05f565f704c609ec7cc7da0fcd3685 (revision REV-2024-08-07)
+- **Binary present**: true
+- **Structural class**: acroform; participant fillable: false
+- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved
+- **Technical disposition**: no_implementation_record
+- **Legal disposition**: no_independent_approval
+- **Owner**: Terminal A route owner
+- **Post-launch priority**: low
+- **Exact next action**: Confirm that revision REV-2024-08-07 of CO JDF-491 is the currently published form, against the issuing body's own publication.
+
+Defects:
+
+- `currentness_unverified` — Revision REV-2024-08-07 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
+- `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
+- `held_on_source_or_design` — d3a_lane_output_not_self_approved _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — manifest_not_a_packet_candidate _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_legal_review_missing_from_supplied_corpus _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_open_item_release_blocker _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — track_level_import_mapping_required _(source-record.json:productionHolds)_
+- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+
+_No active launch track is proven to require this asset._
+
+### CO JDF-611 — Guide to Sealing Conviction Records - Single Case
+
+- **Family ids**: CO:jdf-611-instructions-instructions-en
+- **Source SHA**: b628ee77cfdbb1e02208a74b04f6a03083e2843505f4bb4a7c3e0f2b3503843e (revision REV-2024-08-07)
+- **Binary present**: true
+- **Structural class**: acroform; participant fillable: false
+- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved
+- **Technical disposition**: no_implementation_record
+- **Legal disposition**: no_independent_approval
+- **Owner**: Terminal A route owner
+- **Post-launch priority**: low
+- **Exact next action**: Confirm that revision REV-2024-08-07 of CO JDF-611 is the currently published form, against the issuing body's own publication.
+
+Defects:
+
+- `currentness_unverified` — Revision REV-2024-08-07 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
+- `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
+- `held_on_source_or_design` — d3a_lane_output_not_self_approved _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — manifest_not_a_packet_candidate _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_legal_review_missing_from_supplied_corpus _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_open_item_release_blocker _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — track_level_import_mapping_required _(source-record.json:productionHolds)_
+- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+
+_No active launch track is proven to require this asset._
+
+### CO JDF-613 — Order Denying Request to Seal Conviction Records
+
+- **Family ids**: CO:jdf-613-form-order-en
+- **Source SHA**: 0745d99f233c7df13286c581c912d9f87b15187270e3d1773455c1ed51848677 (revision REV-2024-08-07)
+- **Binary present**: true
+- **Structural class**: acroform; participant fillable: true
+- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved
+- **Technical disposition**: no_implementation_record
+- **Legal disposition**: no_independent_approval
+- **Owner**: Terminal A route owner
+- **Post-launch priority**: low
+- **Exact next action**: Confirm that revision REV-2024-08-07 of CO JDF-613 is the currently published form, against the issuing body's own publication.
+
+Defects:
+
+- `currentness_unverified` — Revision REV-2024-08-07 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
+- `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
+- `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — source_currency_review_required_issuer_unreachable _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_legal_review_missing_from_supplied_corpus _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_open_item_release_blocker _(source-record.json:productionHolds)_
+- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+
+_No active launch track is proven to require this asset._
+
+### CO JDF-614 — Order and Notice of Hearing (re sealing conviction records)
+
+- **Family ids**: CO:jdf-614-form-notice-en
+- **Source SHA**: 08f0a13f9aa7f5036f6f28748648fdee56aed9ee1f511f6f10e183e0bfa5e08b (revision REV-2024-08-07)
+- **Binary present**: true
+- **Structural class**: acroform; participant fillable: true
+- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved
+- **Technical disposition**: no_implementation_record
+- **Legal disposition**: no_independent_approval
+- **Owner**: Terminal A route owner
+- **Post-launch priority**: low
+- **Exact next action**: Confirm that revision REV-2024-08-07 of CO JDF-614 is the currently published form, against the issuing body's own publication.
+
+Defects:
+
+- `currentness_unverified` — Revision REV-2024-08-07 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
+- `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
+- `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — source_currency_review_required_issuer_unreachable _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_legal_review_missing_from_supplied_corpus _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_open_item_release_blocker _(source-record.json:productionHolds)_
+- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+
+_No active launch track is proven to require this asset._
+
+### CO JDF-640 — How to Seal Multiple Conviction Records
+
+- **Family ids**: CO:jdf-640-instructions-instructions-en
+- **Source SHA**: 1e47a0aa5ed8de4c36eff44d8fd88c4cfb62e77a44c136930165abe633efa07f (revision REV-2022-09-06)
+- **Binary present**: true
+- **Structural class**: flat_pdf; participant fillable: false
+- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved
+- **Technical disposition**: no_implementation_record
+- **Legal disposition**: no_independent_approval
+- **Owner**: Terminal A route owner
+- **Post-launch priority**: low
+- **Exact next action**: Confirm that revision REV-2022-09-06 of CO JDF-640 is the currently published form, against the issuing body's own publication.
+
+Defects:
+
+- `currentness_unverified` — Revision REV-2022-09-06 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
+- `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
+- `held_on_source_or_design` — d3a_lane_output_not_self_approved _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — manifest_not_a_packet_candidate _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_legal_review_missing_from_supplied_corpus _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_open_item_release_blocker _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — track_level_import_mapping_required _(source-record.json:productionHolds)_
+- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+
+_No active launch track is proven to require this asset._
+
+### CO JDF-682 — How to Seal Municipal Conviction Records
+
+- **Family ids**: CO:jdf-682-instructions-instructions-en
+- **Source SHA**: 5a05097b1c2b0a22beb3c44fca7b15fc0bf40911c6590bcd6c46546e1006f0fb (revision REV-2024-08-07)
+- **Binary present**: true
+- **Structural class**: flat_pdf; participant fillable: false
+- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved
+- **Technical disposition**: no_implementation_record
+- **Legal disposition**: no_independent_approval
+- **Owner**: Terminal A route owner
+- **Post-launch priority**: low
+- **Exact next action**: Confirm that revision REV-2024-08-07 of CO JDF-682 is the currently published form, against the issuing body's own publication.
+
+Defects:
+
+- `currentness_unverified` — Revision REV-2024-08-07 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
+- `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
+- `held_on_source_or_design` — d3a_lane_output_not_self_approved _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — manifest_not_a_packet_candidate _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_legal_review_missing_from_supplied_corpus _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_open_item_release_blocker _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — track_level_import_mapping_required _(source-record.json:productionHolds)_
+- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+
+_No active launch track is proven to require this asset._
+
+### CO JDF-686 — Order to Seal Municipal Conviction Records
+
+- **Family ids**: CO:jdf-686-form-order-en
+- **Source SHA**: abf997d8e701df0c74b1eb7833b35f30c006b50bf71b019abf7754d898433200 (revision REV-2023-02-08)
+- **Binary present**: true
+- **Structural class**: flat_pdf; participant fillable: false
+- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved
+- **Technical disposition**: no_implementation_record
+- **Legal disposition**: no_independent_approval
+- **Owner**: Terminal A route owner
+- **Post-launch priority**: low
+- **Exact next action**: Confirm that revision REV-2023-02-08 of CO JDF-686 is the currently published form, against the issuing body's own publication.
+
+Defects:
+
+- `currentness_unverified` — Revision REV-2023-02-08 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
+- `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
+- `held_on_source_or_design` — d3a_lane_output_not_self_approved _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_legal_review_missing_from_supplied_corpus _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_open_item_release_blocker _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — track_level_import_mapping_required _(source-record.json:productionHolds)_
+- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+
+_No active launch track is proven to require this asset._
+
 ### KY Kentucky-Expungement-Forms.html — Kentucky-Expungement-Forms.html
 
 - **Family ids**: KY:kentucky-expungement-forms
@@ -5292,6 +6050,418 @@ Defects:
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
 | AK:ak-courtview | true | — | factory_v2 | false | false |
+
+### CO JDF-2363 — Request for a Hearing - Automatic Conviction Sealing
+
+- **Family ids**: CO:jdf-2363-form-form-en
+- **Source SHA**: abec6d716d028670a3b1e26c2a1b512ce320421253e6b85ec40e636d05577e33 (revision REV-2024-02-01)
+- **Binary present**: true
+- **Structural class**: acroform; participant fillable: true
+- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, visually_unsafe
+- **Technical disposition**: no_implementation_record
+- **Legal disposition**: no_independent_approval
+- **Owner**: Terminal A route owner
+- **Post-launch priority**: medium
+- **Exact next action**: Confirm that revision REV-2024-02-01 of CO JDF-2363 is the currently published form, against the issuing body's own publication.
+
+Defects:
+
+- `currentness_unverified` — Revision REV-2024-02-01 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
+- `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
+- `held_on_source_or_design` — d3a_lane_output_not_self_approved _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_legal_review_missing_from_supplied_corpus _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_open_item_release_blocker _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — track_level_import_mapping_required _(source-record.json:productionHolds)_
+- `visually_unsafe` — Field "Case Number" fails the refused_below_readable_floor check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+
+| Affected track | Terminal | Treatment | Route | Sellable | Credit |
+| --- | --- | --- | --- | --- | --- |
+| CO:co_clean_slate | true | — | guidance_only | false | false |
+
+### CO JDF-2371 — Motion to Seal Conviction Records - Conduct No Longer Prohibited
+
+- **Family ids**: CO:jdf-2371-form-motion-en
+- **Source SHA**: 642558b85e3f3df8c15808369685bbe56398523c7794b6a949d20fd7b4f8b6d6 (revision REV-2025-07-01)
+- **Binary present**: true
+- **Structural class**: acroform; participant fillable: true
+- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, visually_unsafe
+- **Technical disposition**: no_implementation_record
+- **Legal disposition**: no_independent_approval
+- **Owner**: Terminal A route owner
+- **Post-launch priority**: medium
+- **Exact next action**: Confirm that revision REV-2025-07-01 of CO JDF-2371 is the currently published form, against the issuing body's own publication.
+
+Defects:
+
+- `currentness_unverified` — Revision REV-2025-07-01 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
+- `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
+- `held_on_source_or_design` — d3a_lane_output_not_self_approved _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_legal_review_missing_from_supplied_corpus _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_open_item_release_blocker _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — track_level_import_mapping_required _(source-record.json:productionHolds)_
+- `visually_unsafe` — Field "Case Number" fails the refused_below_readable_floor check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "∆ Street Address" fails the shrink_to_fit_applied check under the boundary fixture: text width undefined exceeds widget width undefined at font size 9.5. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "∆ Email" fails the shrink_to_fit_applied check under the boundary fixture: text width undefined exceeds widget width undefined at font size 10. _(reports/overflow-and-clipping.json)_
+- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+
+| Affected track | Terminal | Treatment | Route | Sellable | Credit |
+| --- | --- | --- | --- | --- | --- |
+| CO:co_decriminalized_conduct_seal | true | exact_supported_deferral | exact_supported_deferral | false | false |
+
+### CO JDF-2374 — Order to Seal Conviction Records - Conduct No Longer Prohibited
+
+- **Family ids**: CO:jdf-2374-form-order-en
+- **Source SHA**: 36a7ad4767ac8333183cd26775265697d1c6574029f7f722462f09d382990a72 (revision REV-2025-07-01)
+- **Binary present**: true
+- **Structural class**: acroform; participant fillable: false
+- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved
+- **Technical disposition**: no_implementation_record
+- **Legal disposition**: no_independent_approval
+- **Owner**: Terminal A route owner
+- **Post-launch priority**: medium
+- **Exact next action**: Confirm that revision REV-2025-07-01 of CO JDF-2374 is the currently published form, against the issuing body's own publication.
+
+Defects:
+
+- `currentness_unverified` — Revision REV-2025-07-01 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
+- `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
+- `held_on_source_or_design` — d3a_lane_output_not_self_approved _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_legal_review_missing_from_supplied_corpus _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_open_item_release_blocker _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — track_level_import_mapping_required _(source-record.json:productionHolds)_
+- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+
+| Affected track | Terminal | Treatment | Route | Sellable | Credit |
+| --- | --- | --- | --- | --- | --- |
+| CO:co_decriminalized_conduct_seal | true | exact_supported_deferral | exact_supported_deferral | false | false |
+
+### CO JDF-417 — Petition to Seal Arrest Records - No Charges Filed
+
+- **Family ids**: CO:jdf-417-form-petition-en
+- **Source SHA**: e0e1aefac85269087ca0f69252c501b14020a301d2cf6e5fbcc26aa5338f6dd4 (revision REV-2025-07-01)
+- **Binary present**: true
+- **Structural class**: acroform; participant fillable: true
+- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, visually_unsafe
+- **Technical disposition**: no_implementation_record
+- **Legal disposition**: no_independent_approval
+- **Owner**: Terminal A route owner
+- **Post-launch priority**: medium
+- **Exact next action**: Confirm that revision REV-2025-07-01 of CO JDF-417 is the currently published form, against the issuing body's own publication.
+
+Defects:
+
+- `currentness_unverified` — Revision REV-2025-07-01 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
+- `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
+- `held_on_source_or_design` — d3a_lane_output_not_self_approved _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_legal_review_missing_from_supplied_corpus _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_open_item_release_blocker _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — track_level_import_mapping_required _(source-record.json:productionHolds)_
+- `visually_unsafe` — Field "Case Number" fails the refused_below_readable_floor check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "∆ Street Address" fails the shrink_to_fit_applied check under the boundary fixture: text width undefined exceeds widget width undefined at font size 8.5. _(reports/overflow-and-clipping.json)_
+- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+
+| Affected track | Terminal | Treatment | Route | Sellable | Credit |
+| --- | --- | --- | --- | --- | --- |
+| CO:co_petition_seal_arrest | true | — | factory_v2 | false | false |
+
+### CO JDF-477 — Motion to Seal Non-Conviction Records
+
+- **Family ids**: CO:jdf-477-form-motion-en
+- **Source SHA**: b9cbad7f3a66a1a952e10ad15e59d77afb9b68714465fe0e88333cf2c3159643 (revision REV-2024-08-07)
+- **Binary present**: true
+- **Structural class**: acroform; participant fillable: true
+- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, visually_unsafe
+- **Technical disposition**: no_implementation_record
+- **Legal disposition**: no_independent_approval
+- **Owner**: Terminal A route owner
+- **Post-launch priority**: medium
+- **Exact next action**: Confirm that revision REV-2024-08-07 of CO JDF-477 is the currently published form, against the issuing body's own publication.
+
+Defects:
+
+- `currentness_unverified` — Revision REV-2024-08-07 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
+- `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
+- `held_on_source_or_design` — d3a_lane_output_not_self_approved _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_legal_review_missing_from_supplied_corpus _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_open_item_release_blocker _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — track_level_import_mapping_required _(source-record.json:productionHolds)_
+- `visually_unsafe` — Field "Case Number" fails the refused_below_readable_floor check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "Address" fails the shrink_to_fit_applied check under the boundary fixture: text width undefined exceeds widget width undefined at font size 6.24. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "Email" fails the shrink_to_fit_applied check under the boundary fixture: text width undefined exceeds widget width undefined at font size 6.74. _(reports/overflow-and-clipping.json)_
+- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+
+| Affected track | Terminal | Treatment | Route | Sellable | Credit |
+| --- | --- | --- | --- | --- | --- |
+| CO:co_motion_seal_nonconviction | true | exact_supported_deferral | exact_supported_deferral | false | false |
+
+### CO JDF-478 — Order to Seal Non-Conviction Records
+
+- **Family ids**: CO:jdf-478-form-order-en
+- **Source SHA**: 8208caab3019164f8f0671aea1f0dbcf460805d61455346887cfd1d133c0e159 (revision REV-2024-08-07)
+- **Binary present**: true
+- **Structural class**: acroform; participant fillable: false
+- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved
+- **Technical disposition**: no_implementation_record
+- **Legal disposition**: no_independent_approval
+- **Owner**: Terminal A route owner
+- **Post-launch priority**: medium
+- **Exact next action**: Confirm that revision REV-2024-08-07 of CO JDF-478 is the currently published form, against the issuing body's own publication.
+
+Defects:
+
+- `currentness_unverified` — Revision REV-2024-08-07 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
+- `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
+- `held_on_source_or_design` — d3a_lane_output_not_self_approved _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_legal_review_missing_from_supplied_corpus _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_open_item_release_blocker _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — track_level_import_mapping_required _(source-record.json:productionHolds)_
+- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+
+| Affected track | Terminal | Treatment | Route | Sellable | Credit |
+| --- | --- | --- | --- | --- | --- |
+| CO:co_motion_seal_nonconviction | true | exact_supported_deferral | exact_supported_deferral | false | false |
+
+### CO JDF-612 — Motion to Seal Conviction Records - District or County Court Conviction
+
+- **Family ids**: CO:jdf-612-form-motion-en
+- **Source SHA**: 8600b4b9a4b27fe821e843cf6bfc21f45325f0791bb9d1e62a0326d7261f927e (revision REV-2024-08-07)
+- **Binary present**: true
+- **Structural class**: acroform; participant fillable: true
+- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, visually_unsafe
+- **Technical disposition**: no_implementation_record
+- **Legal disposition**: no_independent_approval
+- **Owner**: Terminal A route owner
+- **Post-launch priority**: medium
+- **Exact next action**: Confirm that revision REV-2024-08-07 of CO JDF-612 is the currently published form, against the issuing body's own publication.
+
+Defects:
+
+- `currentness_unverified` — Revision REV-2024-08-07 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
+- `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
+- `held_on_source_or_design` — d3a_lane_output_not_self_approved _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_legal_review_missing_from_supplied_corpus _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_open_item_release_blocker _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — track_level_import_mapping_required _(source-record.json:productionHolds)_
+- `visually_unsafe` — Field "Case Number" fails the refused_below_readable_floor check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "Address" fails the shrink_to_fit_applied check under the boundary fixture: text width undefined exceeds widget width undefined at font size 7.24. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "Email" fails the shrink_to_fit_applied check under the boundary fixture: text width undefined exceeds widget width undefined at font size 6.74. _(reports/overflow-and-clipping.json)_
+- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+
+| Affected track | Terminal | Treatment | Route | Sellable | Credit |
+| --- | --- | --- | --- | --- | --- |
+| CO:co_motion_seal_conviction | true | — | factory_v2 | false | false |
+
+### CO JDF-615 — Order to Seal Conviction Records
+
+- **Family ids**: CO:jdf-615-form-order-en
+- **Source SHA**: 106cbd5edad2272f3f6f1378450b007507da879e6a917437d2cc3bb062d87647 (revision REV-2024-08-07)
+- **Binary present**: true
+- **Structural class**: acroform; participant fillable: false
+- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved
+- **Technical disposition**: no_implementation_record
+- **Legal disposition**: no_independent_approval
+- **Owner**: Terminal A route owner
+- **Post-launch priority**: medium
+- **Exact next action**: Confirm that revision REV-2024-08-07 of CO JDF-615 is the currently published form, against the issuing body's own publication.
+
+Defects:
+
+- `currentness_unverified` — Revision REV-2024-08-07 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
+- `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
+- `held_on_source_or_design` — d3a_lane_output_not_self_approved _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_legal_review_missing_from_supplied_corpus _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_open_item_release_blocker _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — track_level_import_mapping_required _(source-record.json:productionHolds)_
+- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+
+| Affected track | Terminal | Treatment | Route | Sellable | Credit |
+| --- | --- | --- | --- | --- | --- |
+| CO:co_motion_seal_conviction | true | — | factory_v2 | false | false |
+
+### CO JDF-641 — Motion to Seal Multiple Conviction Records
+
+- **Family ids**: CO:jdf-641-form-motion-en
+- **Source SHA**: 6ad1d7c43b454b3b50c9c77313528b9660ada8a730d9ed5c384479809173ab02 (revision REV-2025-07-01)
+- **Binary present**: true
+- **Structural class**: acroform; participant fillable: true
+- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, visually_unsafe
+- **Technical disposition**: no_implementation_record
+- **Legal disposition**: no_independent_approval
+- **Owner**: Terminal A route owner
+- **Post-launch priority**: medium
+- **Exact next action**: Confirm that revision REV-2025-07-01 of CO JDF-641 is the currently published form, against the issuing body's own publication.
+
+Defects:
+
+- `currentness_unverified` — Revision REV-2025-07-01 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
+- `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
+- `held_on_source_or_design` — d3a_lane_output_not_self_approved _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_legal_review_missing_from_supplied_corpus _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_open_item_release_blocker _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — track_level_import_mapping_required _(source-record.json:productionHolds)_
+- `visually_unsafe` — Field "Case Number" fails the refused_below_readable_floor check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "∆ Street Address" fails the shrink_to_fit_applied check under the boundary fixture: text width undefined exceeds widget width undefined at font size 9.5. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "∆ Email" fails the shrink_to_fit_applied check under the boundary fixture: text width undefined exceeds widget width undefined at font size 10. _(reports/overflow-and-clipping.json)_
+- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+
+| Affected track | Terminal | Treatment | Route | Sellable | Credit |
+| --- | --- | --- | --- | --- | --- |
+| CO:co_multiple_conviction_seal | true | exact_supported_deferral | exact_supported_deferral | false | false |
+
+### CO JDF-642 — Order to Seal Multiple Conviction Records
+
+- **Family ids**: CO:jdf-642-form-order-en
+- **Source SHA**: 584708616e982657f341b17bd58166a73ca05529a73bae715ce5f38168f0c52c (revision REV-2025-07-01)
+- **Binary present**: true
+- **Structural class**: acroform; participant fillable: false
+- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved
+- **Technical disposition**: no_implementation_record
+- **Legal disposition**: no_independent_approval
+- **Owner**: Terminal A route owner
+- **Post-launch priority**: medium
+- **Exact next action**: Confirm that revision REV-2025-07-01 of CO JDF-642 is the currently published form, against the issuing body's own publication.
+
+Defects:
+
+- `currentness_unverified` — Revision REV-2025-07-01 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
+- `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
+- `held_on_source_or_design` — d3a_lane_output_not_self_approved _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_legal_review_missing_from_supplied_corpus _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_open_item_release_blocker _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — track_level_import_mapping_required _(source-record.json:productionHolds)_
+- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+
+| Affected track | Terminal | Treatment | Route | Sellable | Credit |
+| --- | --- | --- | --- | --- | --- |
+| CO:co_multiple_conviction_seal | true | exact_supported_deferral | exact_supported_deferral | false | false |
+
+### CO JDF-680 — Motion to Seal Conviction Records - Pardoned
+
+- **Family ids**: CO:jdf-680-form-motion-en
+- **Source SHA**: ae3d5f1c345394dcc104fd5cc0ac72b636068e52985cb38edf4592688d8ac0ae (revision REV-2022-08-10)
+- **Binary present**: true
+- **Structural class**: flat_pdf; participant fillable: false
+- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved
+- **Technical disposition**: no_implementation_record
+- **Legal disposition**: no_independent_approval
+- **Owner**: Terminal A route owner
+- **Post-launch priority**: medium
+- **Exact next action**: Confirm that revision REV-2022-08-10 of CO JDF-680 is the currently published form, against the issuing body's own publication.
+
+Defects:
+
+- `currentness_unverified` — Revision REV-2022-08-10 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
+- `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
+- `held_on_source_or_design` — d3a_lane_output_not_self_approved _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — flat_overlay_anchors_reviewed_and_withheld _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_legal_review_missing_from_supplied_corpus _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_open_item_release_blocker _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — track_level_import_mapping_required _(source-record.json:productionHolds)_
+- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+
+| Affected track | Terminal | Treatment | Route | Sellable | Credit |
+| --- | --- | --- | --- | --- | --- |
+| CO:co_pardoned_conviction_seal | true | exact_supported_deferral | exact_supported_deferral | false | false |
+
+### CO JDF-681 — Order to Seal Pardoned Conviction Records
+
+- **Family ids**: CO:jdf-681-form-order-en
+- **Source SHA**: cf20dc0fdcbd71b49c2a43a6a11b1c952fd65943a5d0755f50299a10447a799d (revision REV-2024-03-20)
+- **Binary present**: true
+- **Structural class**: acroform; participant fillable: false
+- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved
+- **Technical disposition**: no_implementation_record
+- **Legal disposition**: no_independent_approval
+- **Owner**: Terminal A route owner
+- **Post-launch priority**: medium
+- **Exact next action**: Confirm that revision REV-2024-03-20 of CO JDF-681 is the currently published form, against the issuing body's own publication.
+
+Defects:
+
+- `currentness_unverified` — Revision REV-2024-03-20 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
+- `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
+- `held_on_source_or_design` — d3a_lane_output_not_self_approved _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_legal_review_missing_from_supplied_corpus _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_open_item_release_blocker _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — track_level_import_mapping_required _(source-record.json:productionHolds)_
+- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+
+| Affected track | Terminal | Treatment | Route | Sellable | Credit |
+| --- | --- | --- | --- | --- | --- |
+| CO:co_pardoned_conviction_seal | true | exact_supported_deferral | exact_supported_deferral | false | false |
+
+### CO JDF-683 — Petition to Seal Municipal Conviction Records
+
+- **Family ids**: CO:jdf-683-form-petition-en
+- **Source SHA**: 6b451ae32c01ef1e637a460df627d246e1b4a61d4ac4f166005a7349fa87202e (revision REV-2023-02-08)
+- **Binary present**: true
+- **Structural class**: flat_pdf; participant fillable: false
+- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved
+- **Technical disposition**: no_implementation_record
+- **Legal disposition**: no_independent_approval
+- **Owner**: Terminal A route owner
+- **Post-launch priority**: medium
+- **Exact next action**: Confirm that revision REV-2023-02-08 of CO JDF-683 is the currently published form, against the issuing body's own publication.
+
+Defects:
+
+- `currentness_unverified` — Revision REV-2023-02-08 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
+- `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
+- `held_on_source_or_design` — d3a_lane_output_not_self_approved _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — flat_overlay_anchors_reviewed_and_withheld _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_legal_review_missing_from_supplied_corpus _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_open_item_release_blocker _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — track_level_import_mapping_required _(source-record.json:productionHolds)_
+- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+
+| Affected track | Terminal | Treatment | Route | Sellable | Credit |
+| --- | --- | --- | --- | --- | --- |
+| CO:co_municipal_conviction_seal | true | exact_supported_deferral | exact_supported_deferral | false | false |
 
 ### KY AOC-334 — is hereby void; and all records pertaining thereto that are in custody of the court and any records in the custody of
 

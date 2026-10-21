@@ -1,0 +1,23 @@
+
+> legalease-partner-dashboard-clean@0.1.0 rcap:integrate-packet-factory
+> node scripts/grade-a-packet-factory-24h/integrate.mjs
+
+
+== identity-refresh annotations survive
+   121 annotations across 76 families are what keep drifted shared-record pins honest. A build that failed after wiping its output directory can destroy one, and the next successful build reports zeros over the gap.
+
+FAILED at "identity-refresh annotations survive" (exit 1)
+  command: node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs
+receipts compared against HEAD: 306 · carrying an identityRefresh: 76
+
+ERASED BY A REBUILD: 1 receipt(s)
+  data/rcap-all50/overlays/census-v1/ga/rcap-ga-guidance-implementation--custom-pleading/source-receipt.json
+    2 of 2 identityRefresh annotation(s) dropped
+    lost: data/record-clearing/legal-design-specifications.json (was cc0c79598a8406e0)
+    lost: data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json (was 0936833332542f8e)
+
+Each one is a repair undone in silence. Restore the annotation verbatim from the ref above, or re-do the anchor comparison and write a fresh one -- do not leave the receipt without it.
+
+
+No later step ran and NO TRANSITION IS REPORTED. The counts in the queue are from before this run
+and reporting them now would be reporting a checkpoint that did not happen.

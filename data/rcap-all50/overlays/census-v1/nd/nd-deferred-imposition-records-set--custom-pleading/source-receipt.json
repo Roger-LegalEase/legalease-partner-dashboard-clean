@@ -1,0 +1,70 @@
+{
+  "schemaVersion": "rcap-family-source-receipt/v1",
+  "familyId": "nd-deferred-imposition-records-set",
+  "worklistGroupId": "nd-deferred-imposition-records-set",
+  "jurisdiction": "ND",
+  "implementationStrategy": "custom_pleading",
+  "custodyClass": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+  "acquisitionCommissioned": false,
+  "bindingMethod": "no official form exists for this route and the MASTER_QUEUE row binds no corpus bytes; every composed page is grounded on the family's committed legal-design records, hashed below at build time",
+  "routeKeys": [
+    "obligation:unit:ND:nd-deferred-imposition-records:nd_deferred_dismissal_motion",
+    "obligation:unit:ND:nd-deferred-imposition-records:nd_deferred_verify_automatic_seal"
+  ],
+  "statutoryAuthority": [
+    "N.D.R.Crim.P. 32.1",
+    "N.D.C.C. § 12.1-32-07.1",
+    "N.D.C.C. § 12.1-32-07.2",
+    "N.D.C.C. § 12.1-32-02(4)",
+    "N.D.C.C. § 62.1-02-01(2)"
+  ],
+  "legalName": "Deferred Imposition of Sentence: Automatic Withdrawal, Dismissal and Sealing, and the Fallback Motion (N.D.R.Crim.P. 32.1; N.D.C.C. §§ 12.1-32-07.1, 12.1-32-07.2)",
+  "allSourcesExact": true,
+  "compositionSources": [
+    {
+      "path": "data/record-clearing/legal-design-intake/ND.memo.json",
+      "sha256": "b39b420c37ac318ca070cb13eaf402ece23d6af90755827bba0647410276e8a0",
+      "byteLength": 218868
+    },
+    {
+      "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+      "sha256": "b28edfb93eb2e3953dea5bdbe2915476c9752c12df2a46cb61f98e786a77cc5c",
+      "byteLength": 3708050,
+      "identityRefresh": {
+        "refreshedOn": "2026-09-10",
+        "was": {
+          "sha256": "6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec",
+          "byteLength": 3683419
+        },
+        "why": "data/record-clearing/legal-design-packet-set-manifests.json was rewritten around this receipt's anchors. This receipt binds no part of it that moved: the entry for nd-deferred-imposition-records-set and the record's global authority fields were recovered from the blob carrying the previous pin (d798dc66bb305d0ccdc79d7f0450dd4e4f333d9c) and compared object-for-object, order-independent, against the current record, and all 2 were identical.",
+        "recoveredFromCommit": "d798dc66bb305d0ccdc79d7f0450dd4e4f333d9c",
+        "anchorsCompared": 2,
+        "anchorDetail": [
+          "recordGlobalMetadata: identical",
+          "packetSet:nd-deferred-imposition-records-set: identical"
+        ],
+        "anchorsIdentical": 2,
+        "identicalAnchorSha256": {
+          "recordGlobalMetadata": "eb4a53fc38ac633369b073f1e43e3d322389a4add7a0f3deec0f0ef90a145ead",
+          "packetSet:nd-deferred-imposition-records-set": "c3ae8b4ad7f87346f71d71e3f5fe7ee8baa5591bb219e8911c84765df21eed99"
+        },
+        "canonicalisation": "keys sorted recursively, JSON.stringify with no spacing, UTF-8",
+        "whatThisDoesNotEstablish": "It re-anchors a whole-file pin whose bound content did not move. It renews no independent verification, no raster acceptance and no approval, and it opens no route."
+      }
+    }
+  ],
+  "formIdentityNote": "No official North Dakota form exists for a motion under N.D.C.C. § 12.1-32-07.1, and the verification unit files nothing at all because N.D.R.Crim.P. 32.1 makes the withdrawal, dismissal and sealing a mandatory term of the court's own deferral order. The MASTER_QUEUE row binds no source (sourceStatus CUSTOM_PLEADING_FROM_CODIFIED_TEXT) and the legal-design record resolves the motion unit to custom_pleading.",
+  "composedComponentsAuthoredByThisBuild": [
+    "verification_instructions",
+    "primary_filing",
+    "legal_effect_explanation"
+  ],
+  "sourceBinaryCommitted": false,
+  "commercialRoutesOpened": 0,
+  "whatThisReceiptDoesNotEstablish": [
+    "that any output is approved for participant delivery",
+    "that the automatic sixty-one-day term operated, or failed to operate, in any particular case",
+    "whether a deferral order entered before 1 March 2019 on a felony ever carried the sixty-one-day seal term — a recorded open question",
+    "any filing fee, since none is identified in the family's own record"
+  ]
+}

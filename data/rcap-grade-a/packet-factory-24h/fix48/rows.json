@@ -1,0 +1,469 @@
+{
+  "schemaVersion": "rcap-packet-factory-focused-repair-return/v1",
+  "workerId": "CLAUDE-FIX48-AZ-NC-DE",
+  "assignmentId": "FIX48",
+  "laneKind": "repair",
+  "assignedBase": "9ca849dd1",
+  "branch": "fix48-az-nc-de",
+  "grantsConfirmed": [
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX48 az_marijuana_expungement_limited_jurisdiction-set -> CLAIM_OK FIX48 az_marijuana_expungement_limited_jurisdiction-set (repair, grant set c98d69bd0917851c), exit 0",
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX48 nc_146_acquittal_petition-set -> CLAIM_OK FIX48 nc_146_acquittal_petition-set (repair, grant set c98d69bd0917851c), exit 0",
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX48 de_mandatory_expungement-set -> CLAIM_OK FIX48 de_mandatory_expungement-set (repair, grant set c98d69bd0917851c), exit 0"
+  ],
+  "allThreeAssertedBeforeAnythingWasReadOrWritten": true,
+  "theHeadlineThisReturnRefusesToBury": "Two of the three assigned verdicts were already repaired in this tree before this lane's base. az_marijuana_expungement_limited_jurisdiction-set was repaired at 5f11a4044 (2026-09-05 00:50 UTC), one hour after VF07 measured it at 9e7582a9d; nc_146_acquittal_petition-set was repaired at 7f707619f (2026-09-05 01:11 UTC), after VF02 measured it at 21d53521f. Both repairs are ancestors of 9ca849dd1. This lane measured both from the committed tree rather than trusting the commit messages, rebuilt each twice, and found the delivered bytes byte-identical to what is committed. It authored no repair for either and says so; obligationsRepaired for those two rows records what is discharged, and repairedByThisLane records who discharged it. Only Delaware needed work from this lane, and what it needed was the rebuild on the host FIX36 repaired.",
+  "preflight": {
+    "worktree": "/home/user/fix48-worktree, branch fix48-az-nc-de from 9ca849dd1 on claude/legalease-sprint-captain-utucnw",
+    "coreSparseCheckout": "false",
+    "skipWorktreeBits": 0,
+    "privateCorpus": "symlinked to /home/user/legalease-partner-dashboard-clean/private, read only. Nothing under it was opened for writing and no pinned source binary moved.",
+    "nodeModules": "symlinked to /home/user/captain-worktree/node_modules",
+    "masterLibrarySourceDir": "/home/user/fix48-worktree/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1, exported on every build and verifier invocation as scripts/verify-packet-build-environment.mjs resolves it (masterLibraryRoot(), line 212)",
+    "throwawayCheckoutsCreated": 0,
+    "whyNoThrowawayCheckout": "This lane changed no builder, no shared helper and no host, so there was no helper whose blast radius needed a control rebuild in a separate tree. The pre-repair Delaware bytes were taken from the committed tree itself before the rebuild, which is the same evidence a control run would have produced.",
+    "otherWorktreesTouched": 0,
+    "subagentsCreated": 0,
+    "rastersWrittenIntoTheDeliveredTree": 0,
+    "localRasters": "/tmp/de-raster and /tmp/fix48-raster, 150 dpi, read by eye during the appearance check and deleted afterwards"
+  },
+  "scope": "The three failed obligations on the three granted families and nothing wider. No route key, source pin, component, protected court field, decretal text, field map or instruction line was changed by this lane in any family. The only files this lane committed under an overlay directory are Delaware's five, and every one of them is the mechanical consequence of rebuilding that family.",
+  "hostsAndHelpersChanged": {
+    "count": 0,
+    "detail": "scripts/rcap-custom-pleading/composed-family-host.mjs was read and not edited; FIX36 already repaired it. scripts/rcap-custom-pleading/split-token.mjs, scripts/build-census-v1-agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge.mjs (which exports makeAgencyGuidanceFamily, the composer Delaware's builder configures) and all three family builders are byte-identical to HEAD.",
+    "whyNoSiblingByteProofIsOwed": "The sibling obligation attaches to a lane that CHANGES a shared helper. This lane changed none, so no other family reading the host or the guidance composer can have moved. That was not left as an argument: SCAN01 was run over all 249 family directories before and after, and exactly one family's numbers moved (Delaware's), while git status shows no file outside Delaware's directory modified."
+  },
+  "centralStateEdits": {
+    "RASTER_QUEUE.json": "not opened for writing",
+    "MASTER_QUEUE.json": "not opened for writing",
+    "specifications": "none opened for writing",
+    "legalRecords": "none opened for writing. data/record-clearing/legal-design-track-registry.json, data/record-clearing/legal-design-packet-set-manifests.json and data/record-clearing/legal-design-intake/DE.memo.json were read only.",
+    "scan01RawSweep": "scripts/rcap-scan01-composed-pdf-text-integrity.mjs writes data/rcap-grade-a/packet-factory-24h/scan01/raw-sweep.json as a side effect. It was untracked, was used for the before/after comparison, and was deleted rather than committed. The committed composed-pdf-text-integrity-sweep.json in that directory was not touched."
+  },
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "selfVerificationPerformed": false,
+  "grantsNothing": "This return is a repair record. It opens no route, promotes no build status, sets no raster state and supplies no independent verdict. The three MASTER_QUEUE verdicts stand until an independent lane re-reads these bytes.",
+  "rows": [
+    {
+      "itemId": "az_marijuana_expungement_limited_jurisdiction-set",
+      "familyId": "az_marijuana_expungement_limited_jurisdiction-set",
+      "jurisdiction": "AZ",
+      "implementationStrategy": "official_pdf_fill",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-limited-jurisdiction-set--official-pdf-fill",
+      "builder": "scripts/build-census-v1-az_marijuana_expungement_limited_jurisdiction-set.mjs",
+      "buildHost": "none; this builder owns its own renderer",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": false,
+      "repairAlreadyPresentAtBase": {
+        "commit": "5f11a4044ff74b718fcc2417ea813943c4064c5c",
+        "subject": "Arizona limited-jurisdiction marijuana expungement: print all eight registry self-help stops",
+        "committed": "2026-09-05 00:50:19 +0000",
+        "isDescendantOfTheVerdictBase": true,
+        "isAncestorOfThisLanesBase": true,
+        "whyThisRowIsStillCOMPLETED": "The obligation VF07 failed is discharged in the committed tree. This lane measured that from the tree rather than from the commit message, and changed nothing because there was nothing left to change. Reporting it as this lane's repair would be a false claim of authorship; reporting it as unrepaired would be a false claim about the packet."
+      },
+      "verdictRepaired": {
+        "lane": "vf07",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "9e7582a9d1cec2bf96aad25d8071b10603282f0b",
+        "failedObligationNames": ["SELF_HELP_STOP"]
+      },
+      "obligationsRepaired": ["SELF_HELP_STOP"],
+      "howEachObligationIsDischarged": {
+        "SELF_HELP_STOP": "All eight selfHelpStopConditions the registry records for track az_marijuana_expungement_limited_jurisdiction reach participant-instructions.md verbatim, as eight bullets under 'When to stop and get help', and the registry's one postGenerationHandoffs sentence is quoted in full beside them. Verified string-for-string against data/record-clearing/legal-design-track-registry.json in this tree: 8 of 8 present as an exact '- <condition>' line, handoff sentence present exactly. Each of the five VF07 named as omitted is there, including both eligibility boundaries ('Conduct date is on or after July 12, 2021.' and 'The offense is a sale or any other non-listed marijuana offense.') and the immigration warning. The instructions also print, separately, that those two are also recorded as registry exclusions, which is what VF07 said a self-represented petitioner could not be expected to know. The builder carries the eight in a frozen PINNED_STOPS array and readTrack() refuses to build if the registry no longer says exactly this (assert.deepEqual, line 66), and a second assertion at line 307 refuses if the count is not 8 or a condition is missing from the composed instructions, so the packet cannot silently drift back."
+      },
+      "obligationsThisRowDoesNotDischarge": [
+        "RASTER. The standing RASTER_PASS receipt (workflow run 33923497915) binds canonical f6151d95f9e0c81c41792ba0a93d5803abacec253494eca2c89398c20eb6725e, which is still the byte on disk, so it is not superseded by anything this lane did. Central raster acceptance of the current bytes is nonetheless not this lane's to assert and this row asserts none. RASTER_QUEUE.json was not touched.",
+        "INDEPENDENT VERIFICATION. VF07's FAIL_REPAIR_REQUIRED at 9e7582a9d still stands in MASTER_QUEUE.json and in this family's product-wiring.json, both unedited. It was measured over bytes and instructions that predate 5f11a4044. Only an independent lane can retire it; this lane wrote no verdict.",
+        "LEGAL INPUT. Nothing on this route is blocked on legal input. The registry marks the track SETTLED and settles every stop condition the packet prints."
+      ],
+      "whatChanged": {
+        "filesChangedByThisLane": [],
+        "summary": "Nothing. The rebuild reproduced every committed byte of the family, so there was nothing to commit.",
+        "oneTransientWriteThatWasReverted": "Running the builder rewrites product-wiring.json from the builder's own short template, which drops the whole binding block the packet-factory generator later added (routeKeys, source version, acceptance receipt, last independent verification, maintenance relationship). That is a builder side effect, not a repair, and it was reverted with git checkout so the committed record is byte-identical to HEAD. It is reported rather than silently reverted because any future lane that rebuilds this family will hit it: the builder and scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs disagree about who owns that file, and the builder's version is the poorer of the two. Fixing that disagreement is outside this lane's grant."
+      },
+      "artifacts": {
+        "canonical": {
+          "path": "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-limited-jurisdiction-set--official-pdf-fill/fixtures/canonical.pdf",
+          "oldSha256": "f6151d95f9e0c81c41792ba0a93d5803abacec253494eca2c89398c20eb6725e",
+          "newSha256": "f6151d95f9e0c81c41792ba0a93d5803abacec253494eca2c89398c20eb6725e",
+          "oldByteLength": 91386,
+          "newByteLength": 91386,
+          "pagesBefore": 3,
+          "pagesAfter": 3
+        },
+        "boundary": {
+          "path": "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-limited-jurisdiction-set--official-pdf-fill/fixtures/boundary.pdf",
+          "oldSha256": "61118f0203f15a628a958d750ee0ba1d8b2211b9d8fa6cca6a5bc1ff2edd9058",
+          "newSha256": "61118f0203f15a628a958d750ee0ba1d8b2211b9d8fa6cca6a5bc1ff2edd9058",
+          "oldByteLength": 91479,
+          "newByteLength": 91479,
+          "pagesBefore": 3,
+          "pagesAfter": 3
+        },
+        "digestsMovedInThisLane": false
+      },
+      "deterministicRebuild": {
+        "command": "MASTER_LIBRARY_SOURCE_DIR=<worktree>/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 node scripts/build-census-v1-az_marijuana_expungement_limited_jurisdiction-set.mjs --no-raster",
+        "runs": 2,
+        "byteIdenticalToEachOther": true,
+        "byteIdenticalToTheCommittedFixtures": true,
+        "whatThatProves": "The committed fixtures are not stale: the builder in this tree reproduces them exactly, so the eight stop conditions in the delivered instructions are the ones this builder writes and not a hand edit somebody made to the file."
+      },
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersNote": "Zero on both sides, and they were zero while the packet was omitting five stop conditions too. No counter asks whether the participant was told where self-help ends.",
+      "scan01": {
+        "coversThisFamily": true,
+        "shipsComposedPdf": false,
+        "defectsBefore": 0,
+        "defectsAfter": 0,
+        "note": "SCAN01 walks all 249 family directories and reads this one as official-pdf-fill with no composed page, so it measures the family and finds nothing. Recorded as a measured zero, not as coverage this family lacks."
+      },
+      "appearanceCheck": {
+        "method": "pdftotext -layout over both fixtures, then canonical page 1 rastered locally at 150 dpi with pdftoppm into /tmp/fix48-raster and read by eye.",
+        "whatTheRasterShows": "The AOC CREM2F petition as the court publishes it. The five contact writes, the caption case number, the defendant name, the date of birth and the paragraph-3 case number sit on their own rules; the attorney-only block, the court and county rules, the three eligible-charge checkboxes, the agency and prosecutor blanks and the signature band are empty. Page 1 of 3 in the AOC's own footer.",
+        "noStopTextIsDrawnOnTheCourtForm": "Correct and deliberate. The eight conditions belong in participant-instructions.md; printing them onto the AOC binary would be a foreign mark on a court form, and VF07 itself recorded that this family carries no printed route footer for the same reason.",
+        "placementDiff": "Empty. Both fixtures are byte-identical before and after, so no glyph moved and no page changed."
+      },
+      "verifiersRun": {
+        "verifyPacketCompleteness": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs (read-only). This family PASS_COMPLETE, 12/42 written, nine counters zero, before and after. Corpus 241 audited / 240 PASS_COMPLETE / 1 FAIL_MISSING_PREFILLS (pa_6308_underage-set, 43/218) and corpus unclassifiedBlanks 6, both pre-existing and both PA's, identical before and after. exit 0.",
+        "verifyIdentityRefreshSurvivesRebuild": "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs -> EVERY_IDENTITY_REFRESH_SURVIVED, 249 receipts compared against HEAD, 53 carrying an identityRefresh, exit 0.",
+        "scan01": "node scripts/rcap-scan01-composed-pdf-text-integrity.mjs, whole corpus, before and after; see scan01 above and corpusWideEffect below."
+      },
+      "productWiring": {
+        "regenerated": false,
+        "whyNot": "No digest moved, so nothing needed re-pinning and the standing acceptance receipt still binds the bytes on disk. The file is byte-identical to HEAD.",
+        "acceptanceReceipt": "unchanged from HEAD: RASTER_PASS, workflow run 33923497915, bound to canonical f6151d95f9e0",
+        "acceptanceReceiptSetToNullByThisLane": false
+      },
+      "rasterOwed": false,
+      "rasterNote": "No new raster is owed on account of this lane, because no byte moved. The existing receipt binds the current canonical hash.",
+      "selfVerified": false,
+      "routesOpened": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "nc_146_acquittal_petition-set",
+      "familyId": "nc_146_acquittal_petition-set",
+      "jurisdiction": "NC",
+      "implementationStrategy": "official_pdf_fill",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nc/nc-146-acquittal-petition-set--official-pdf-fill",
+      "builder": "scripts/build-census-v1-nc_146_acquittal_petition-set.mjs",
+      "buildHost": "none; this builder owns its own composer",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": false,
+      "repairAlreadyPresentAtBase": {
+        "commit": "7f707619f2a49be0a7a54ea61cca6c852db84fd1",
+        "subject": "Name the North Carolina not-guilty expunction route the way the canonical universe names it",
+        "committed": "2026-09-05 01:11:53 +0000",
+        "isDescendantOfTheVerdictBase": true,
+        "isAncestorOfThisLanesBase": true,
+        "whyThisRowIsStillCOMPLETED": "Same reason as Arizona: the obligation VF02 failed is discharged in the committed tree, this lane measured that from the tree, and there was nothing left to change."
+      },
+      "verdictRepaired": {
+        "lane": "vf02",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "21d53521ff4d6a1dd24f9d5fb0fd56a6258a6f14",
+        "failedObligationNames": ["ROUTE_IDENTITY"]
+      },
+      "obligationsRepaired": ["ROUTE_IDENTITY"],
+      "howEachObligationIsDischarged": {
+        "ROUTE_IDENTITY": "One key, everywhere, and it is the one the canonical universe carries. VF02 found production-field-map.json, source-receipt.json and the printed route line saying obligation:track-only:NC:nc_146_acquittal_petition while MASTER_QUEUE, the worklist, the census candidate and product-wiring.json said obligation:track-pathway:NC:nc_146_acquittal_petition:dismissal-and-not-guilty-expunction-under-g-s-15a-146. Measured now across the whole family directory, the track-only string appears in no file at all, and the track-pathway key appears in production-field-map.json (routeKeys and both per-document routeKey entries), source-receipt.json, product-wiring.json (routeKey, routeKeys and binding.routeKeys) and the printed route line of participant-instructions.md. data/rcap-grade-a/route-obligation-census-candidate/canonical-route-universe.json carries exactly that key for this track and carries no track-only key for it; the sibling obligation:track-only:NC:nc_146_dismissal_petition it does carry belongs to the dismissal track, which genuinely has no mapped pathway. The key is also the right one for the packet this family actually ships: the registry track nc_146_acquittal_petition is 'Petition and Order of Expunction of a Finding of Not Guilty or Not Responsible under G.S. 15A-146(a2)', and the delivered binary is AOC-CR-288 Rev. 3/25, whose printed caption is PETITION AND ORDER OF EXPUNCTION UNDER G.S. 15A-146(a2) (NOT GUILTY OR NOT RESPONSIBLE). The route identity the packet prints and the track it serves are the same thing."
+      },
+      "obligationsThisRowDoesNotDischarge": [
+        "RASTER. Central raster acceptance is not this lane's to assert and this row asserts none. No fixture byte moved, so nothing this lane did supersedes any standing receipt, and RASTER_QUEUE.json was not touched.",
+        "INDEPENDENT VERIFICATION. VF02's FAIL_REPAIR_REQUIRED at 21d53521f still stands in MASTER_QUEUE.json and in product-wiring.json, both unedited. It was measured before 7f707619f. Only an independent lane can retire it; this lane wrote no verdict.",
+        "LEGAL INPUT. Nothing on this route is blocked on legal input; MASTER_QUEUE records the family SETTLED and the route key question was a naming defect, not a legal one."
+      ],
+      "whatChanged": {
+        "filesChangedByThisLane": [],
+        "summary": "Nothing. The rebuild reproduced the whole family directory byte for byte, product-wiring.json included, so there was nothing to commit and nothing to revert."
+      },
+      "artifacts": {
+        "canonical": {
+          "path": "data/rcap-all50/overlays/census-v1/nc/nc-146-acquittal-petition-set--official-pdf-fill/fixtures/canonical.pdf",
+          "oldSha256": "f3859799a675bf55b98239d0f2c9128ce0a003d4dc1fb9b7c787897549741151",
+          "newSha256": "f3859799a675bf55b98239d0f2c9128ce0a003d4dc1fb9b7c787897549741151",
+          "oldByteLength": 487245,
+          "newByteLength": 487245,
+          "pagesBefore": 3,
+          "pagesAfter": 3
+        },
+        "boundary": {
+          "path": "data/rcap-all50/overlays/census-v1/nc/nc-146-acquittal-petition-set--official-pdf-fill/fixtures/boundary.pdf",
+          "oldSha256": "e13fb2da03898b7e54f04263112160cb827afb9eafe92fa595e4c4965e300b09",
+          "newSha256": "e13fb2da03898b7e54f04263112160cb827afb9eafe92fa595e4c4965e300b09",
+          "oldByteLength": 487337,
+          "newByteLength": 487337,
+          "pagesBefore": 3,
+          "pagesAfter": 3
+        },
+        "digestsMovedInThisLane": false,
+        "whyTheRouteKeyCorrectionMovedNoByte": "The route key is not drawn into these fixtures. It is printed in participant-instructions.md and recorded in the JSON records, so correcting it moved records and text, not packet pages. That is consistent with VF02, which read the route line out of the records and the instructions rather than out of the PDF."
+      },
+      "deterministicRebuild": {
+        "command": "MASTER_LIBRARY_SOURCE_DIR=<worktree>/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 node scripts/build-census-v1-nc_146_acquittal_petition-set.mjs --no-raster",
+        "runs": 2,
+        "byteIdenticalToEachOther": true,
+        "byteIdenticalToTheCommittedFixtures": true,
+        "wholeDirectoryUnchanged": true,
+        "whatThatProves": "git status was empty after both runs. The committed records carry the canonical key because this builder writes it, not because someone edited the JSON by hand."
+      },
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersNote": "Zero on both sides. A packet can name itself with a key that exists nowhere in the route universe and every counter still reads zero; VF02 said the same thing in its own words.",
+      "scan01": {
+        "coversThisFamily": true,
+        "shipsComposedPdf": false,
+        "defectsBefore": 0,
+        "defectsAfter": 0,
+        "note": "Measured in both whole-corpus runs and zero in both. SCAN01 records this builder's profile as 'G0 original row-by-row, original splitter' with a char-by-char split variant, but the family ships no composed page, so that splitter draws nothing here. It is named so the G0 label is not mistaken for an unmeasured defect."
+      },
+      "appearanceCheck": {
+        "method": "pdftotext -layout over both fixtures, a whole-fixture search for 'obligation:' in the extracted text, and canonical page 1 rastered locally at 150 dpi with pdftoppm into /tmp/fix48-raster and read by eye.",
+        "printedRouteKeyInThePdf": "absent from all 3 pages of both fixtures, which is the official_pdf_fill convention VF07 recorded for this cohort; the AOC binary carries no foreign mark",
+        "printedRouteLine": "participant-instructions.md line 143, '_Route(s): obligation:track-pathway:NC:nc_146_acquittal_petition:dismissal-and-not-guilty-expunction-under-g-s-15a-146_', on one line, unwrapped and unsplit",
+        "whatTheRasterShows": "AOC-CR-288 Rev. 3/25 as the AOC publishes it, captioned PETITION AND ORDER OF EXPUNCTION UNDER G.S. 15A-146(a2) (NOT GUILTY OR NOT RESPONSIBLE). County, file number, petitioner name and address are written; the driver's licence, race, sex, date of birth, full social security number, age, attorney block, agency blocks, the offence table and the whole certificate and signature band are blank. Nothing is drawn outside a rule and no value overlaps a caption.",
+        "placementDiff": "Empty. Both fixtures are byte-identical before and after."
+      },
+      "verifiersRun": {
+        "verifyPacketCompleteness": "This family PASS_COMPLETE, 6/128 written, nine counters zero, before and after. Same corpus figures as the Arizona row. exit 0.",
+        "verifyIdentityRefreshSurvivesRebuild": "EVERY_IDENTITY_REFRESH_SURVIVED, 249 receipts compared against HEAD, 53 carrying an identityRefresh, exit 0.",
+        "scan01": "whole corpus, before and after; see scan01 above."
+      },
+      "productWiring": {
+        "regenerated": false,
+        "whyNot": "No digest moved and the builder reproduced the file byte for byte.",
+        "acceptanceReceiptSetToNullByThisLane": false,
+        "routeKeysUnchanged": "the one canonical track-pathway key, as committed"
+      },
+      "rasterOwed": false,
+      "rasterNote": "No byte moved, so no new central raster is owed on account of this lane.",
+      "selfVerified": false,
+      "routesOpened": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "de_mandatory_expungement-set",
+      "familyId": "de_mandatory_expungement-set",
+      "jurisdiction": "DE",
+      "implementationStrategy": "process_guidance composed through the shared composed-family host (MASTER_QUEUE records the family as official_pdf_fill; the delivered component is an agency_preparation_guide)",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill",
+      "builder": "scripts/build-census-v1-de_mandatory_expungement-set.mjs",
+      "buildHost": "scripts/rcap-custom-pleading/composed-family-host.mjs, via makeAgencyGuidanceFamily exported from scripts/build-census-v1-agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge.mjs. Neither was edited by this lane.",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "whatThisLaneActuallyDidHere": "The rebuild. FEE_AND_WAIVER, the obligation VF01 failed, was already discharged at 67caa7d56 ('Delaware mandatory expungement: state the held filing fee and the Sec. 4372(l) waiver limb'), an ancestor of this base, and this lane verified that from the delivered bytes rather than from the commit message. What was still outstanding is that FIX36 repaired the shared host after those bytes were built and held no grant for this family, so Delaware's committed fixtures were the last packets the old character-accumulating splitter produced and its builder no longer reproduced them. This lane holds the grant, rebuilt, and committed the result.",
+      "verdictRepaired": {
+        "lane": "vf01",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "21d53521ff4d6a1dd24f9d5fb0fd56a6258a6f14",
+        "failedObligationNames": ["FEE_AND_WAIVER"]
+      },
+      "obligationsRepaired": ["FEE_AND_WAIVER"],
+      "howEachObligationIsDischarged": {
+        "FEE_AND_WAIVER": {
+          "amount": "'the court instructions state a $75 filing fee on the mandatory path after the SBI letter' — the packet-set manifest's pay_fee description word for word, and the same sentence the Delaware memo records at tracks[1].rules.fees. Printed twice in the delivered guide: on page 1 under EXACT SBI DESTINATION AND NEXT STEPS, and again in the instruction list, and in participant-instructions.md line 25.",
+          "theFeeTheRecordDoesNotApprove": "'The SBI's own current fee is not source-approved and is not stated here; confirm it with SBI.' The record marks the SBI's own fee unresolved (DE.memo.json: 'The current form, fee, service code and submission requirements are not yet source-approved'), and the guide defers it explicitly instead of inventing a number. VF01 agreed that deferral was correct; its complaint was the missing $75 and the missing 4372(l), and both are now printed.",
+          "waiverFormOrAffidavit": "The record names none, and the packet invents none. What the record settles is a statutory limb, not a form: 11 Del. C. Sec. 4372(l), printed in the guide as 'if an outstanding fine or fee is unpaid for reasons other than wilful noncompliance and the person is otherwise eligible, the court may grant the expungement and waive the fines or fees or convert them to a civil judgment' — the manifest's apply_fee_waiver description and the memo's tracks[1].rules.feeWaiver, both verbatim. No fee-waiver form, affidavit, in-forma-pauperis petition or application number appears anywhere in data/record-clearing for this track, and the packet asserts no filing mechanism for the waiver.",
+          "whereItGoes": "The guide sends the participant to the Delaware State Police State Bureau of Identification, Expungement Section, 302-739-5884, https://dsp.delaware.gov/expungements/, which is the destination the memo records for this track, and tells them to wait for SBI's eligibility letter and follow only its current directions. The $75 is attributed exactly as the record attributes it, to the court instructions on the mandatory path after the SBI letter.",
+          "whatTheRecordDoesNotSettleAndThePacketDoesNotInvent": "Two things, both stated as unsettled rather than filled in. (1) The payee and mechanism of the $75: the record says the court instructions state it and that the destination for the application is SBI, and never says to whom or when it is tendered. The guide reproduces the record and adds no payee. (2) The SBI's own fee, expressly not source-approved. Neither gap is dispositioned BLOCKED_LEGAL_INPUT in the instructions, and deliberately so: the verdict asked for the amount, the waiver route and where it goes, the record settles all three at the level it speaks, and the guide already carries an explicit 'not source-approved, confirm it with SBI' disclosure plus 'Do not send this guide, invent an application, or send a payment based on this guide.' Adding a BLOCKED_LEGAL_INPUT line would have been a new participant-facing disposition wider than the verdict names. The residual is recorded here instead, in obligationsThisRowDoesNotDischarge, so nobody reads this row as a claim that Delaware's fee mechanics are fully source-approved.",
+          "alsoCheckedBecauseVF01RaisedIt": "VF01 objected that the guide asks about 'Fines, fees, and restitution status' without telling the participant the waiver exists. It now does, in the same section and again in the instruction list, and adds that unpaid fines, fees or restitution needing that waiver or conversion is a stop condition on this route rather than a step to take from the guide."
+        }
+      },
+      "obligationsThisRowDoesNotDischarge": [
+        "RASTER. The digests moved, so any raster receipt over the old bytes stops binding and a fresh central raster is owed on canonical fa51ea79d5bc37f3be15485cb54441dee8e4d5baef142ffe4e31e3bc307949e4 and boundary c7c80a2a47d11c9b02004decbaba27cdd8033876d00e10d23bda0a6775cadf66. No raster of any kind covers the current bytes. product-wiring.json binding.acceptanceReceipt is null. RASTER_QUEUE.json and MASTER_QUEUE.json were not opened for writing and still name the superseded digests; enrolling the new ones is Captain's.",
+        "INDEPENDENT VERIFICATION. This lane rebuilt these bytes and verifies none of them. VF01's FAIL_REPAIR_REQUIRED at 21d53521f still stands in MASTER_QUEUE.json and in product-wiring.json binding.lastIndependentVerification, both unedited, and no verdict was fabricated to replace it.",
+        "LEGAL INPUT. Two things on this route are unresolved in the record and stay unresolved here: the SBI's own current application fee, form and submission requirements, which DE.memo.json marks not source-approved and treats as a source-release gate before DE-2; and the payee and tender mechanics of the $75 court filing fee, which no committed record states. This lane invented neither and asserts neither. Whether the guide should carry an explicit BLOCKED_LEGAL_INPUT disposition for them is an owner and counsel call, not this lane's."
+      ],
+      "whatChanged": {
+        "files": [
+          "fixtures/canonical.pdf and fixtures/boundary.pdf - rebuilt on the repaired host. The only printed difference is the route-key break point; see routeKeyBreak and placementDiff.",
+          "reports/rendered-artifacts.json - the four fixture digests and two byte lengths re-recorded. pageCount stays 3 for both and both pageManifests are otherwise unchanged.",
+          "source-receipt.json - two compositionSources re-pinned to their current committed bytes: CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json cda4420e55b6 / 61590 -> 920b0c02a142 / 78277 and route-obligation-candidate.json 9816a479e532 / 2607149 -> 4d0eb74bbafe / 2625273. Both records have grown in the repository since this family was last built; the receipt now describes the tree as it is. No source binary changed, no source binary is bound by this family at all (the route exposes no public application PDF), and the other four compositionSources re-pinned to identical hashes.",
+          "product-wiring.json - regenerated by node scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs --family de_mandatory_expungement-set. It re-pinned the one component digest dccf986f5051 -> fa51ea79d5bc and left binding.acceptanceReceipt null. No digest was hand-edited."
+        ],
+        "notChanged": [
+          "scripts/build-census-v1-de_mandatory_expungement-set.mjs - byte-identical to HEAD. The fee sentence, the 4372(l) sentence, the SBI destination, the route key, the self-help stops, the seven required facts and the four instruction lines are exactly as 67caa7d56 left them. This lane wrote no participant-facing text for Delaware.",
+          "scripts/rcap-custom-pleading/composed-family-host.mjs and scripts/rcap-custom-pleading/split-token.mjs - read, not edited.",
+          "the guidance composer at scripts/build-census-v1-agency-application-treatment:...:agency_record_challenge.mjs - read, not edited.",
+          "participant-instructions.md, production-field-map.json, build-status.json, build-findings.json, approval-request.json, field-census.census-v1.json and everything under reports/ except rendered-artifacts.json - byte-identical to HEAD. The rebuild rewrote them with identical content."
+        ]
+      },
+      "routeKeyBreak": {
+        "whyItMoved": "FIX36 replaced renderComposedPdf's private character-accumulating splitToken with createTokenSplitter({ fits: fitsByFontMetrics(...) }) from the shared split-token module. The old splitter appended one character at a time and cut wherever the 468pt column ran out; the shared one breaks on the token's own separator. Delaware's key is long enough to need a break on two pages of each fixture, so rebuilding on the repaired host moves all four.",
+        "before": "obligation:track-pathway:DE:de_mandatory_expungement:mandatory-and-automatic-expungement-under ⁄ -11-del-c-4373-and-4373a",
+        "after": "obligation:track-pathway:DE:de_mandatory_expungement:mandatory-and-automatic-expungement- ⁄ under-11-del-c-4373-and-4373a",
+        "character": "The hyphen moves from the head of the continuation line to the tail of the broken line. Neither form severs a word: the old break fell after the whole word 'under' and the new one falls after the whole word 'expungement'. SCAN01 nonetheless read the old break as a hard split, because the first fragment measured 466.92pt against a 468pt column and the next glyph would have overflowed at 470.36pt, which is the signature of a cut at the margin rather than a chosen break. That is exactly the class the shared splitter exists to remove, and it is now gone.",
+        "occurrences": "4 - page 1 and page 3 of both canonical and boundary",
+        "pageCountBefore": 3,
+        "pageCountAfter": 3,
+        "predictedByFix36": "Yes, to the digest. FIX36's throwaway run recorded canonical dccf986f5051 -> fa51ea79d5bc and boundary 8a58177069 -> c7c80a2a47 under the repaired host, and this lane's committed rebuild produced exactly those two hashes. Its byte lengths agree too, canonical 8712 -> 8711 and boundary 8845 -> 8848.",
+        "oneDisagreementWithFix36ReportedRatherThanSmoothedOver": "FIX36's row says 'SCAN01 records 0 defects for this family in both states'. Measured here at 9ca849dd1 with the committed scan01 script over the committed bytes, SCAN01 records 4 hard_split_token for this family before the rebuild and 0 after. The direction of the repair is the same and the printed text FIX36 quotes is exactly what is on the page; only the defect count differs. This row reports what this lane measured."
+      },
+      "placementDiff": {
+        "method": "pdftotext -layout over the committed pre-rebuild bytes (copied out of the tree before the build) against the rebuilt bytes, whole-file line diff per fixture.",
+        "canonicalLinesChanged": "2 of 108 - lines 4-5 (page 1) and lines 94-95 (page 3), both of them the two halves of the route key",
+        "boundaryLinesChanged": "2 of 109 - the same two break points",
+        "everythingElseCharacterIdentical": true,
+        "pagesAddedOrRemoved": 0,
+        "whatDidNotMove": "The title, the ROUTE label, the agency-application-guide disclaimer, the five prepared-for facts, WHAT THIS GUIDE IS - AND IS NOT, EXACT SBI DESTINATION AND NEXT STEPS including both fee paragraphs, SELF-HELP STOP, the seven required-fact rows, the do-not-sign line and the no-court-field line are character-identical in both fixtures."
+      },
+      "appearanceCheck": {
+        "method": "Composed content-stream text read page by page with pdftotext -layout in both fixtures, then the two changed pages of each fixture - page 1 and page 3 - rastered locally at 150 dpi with pdftoppm into /tmp/de-raster, before and after, and read by eye. Rasters deleted after measuring; nothing was rastered into the delivered tree and no rasterState was set.",
+        "whatTheRasterShowsOnPage1": "The route key under the ROUTE: label wraps onto two lines breaking after 'expungement-', and the continuation line reads 'under-11-del-c-4373-and-4373a'. Below it the guide prints the fee paragraph in full - 'the court instructions state a $75 filing fee on the mandatory path after the SBI letter. The SBI's own current fee is not source-approved and is not stated here; confirm it with SBI.' - and then the waiver paragraph naming 11 Del. C. Sec. 4372(l) and the waive-or-convert limb, ending with the stop-condition sentence. Both paragraphs are fully on the page, unclipped, inside the column.",
+        "whatTheRasterShowsOnPage3": "Two closing lines, the no-court-field line, then the Route: trailer breaking at the same separator. The page is short - five drawn lines canonical, six boundary - and was short before the rebuild too.",
+        "inkOutsideTheColumn": 0,
+        "linesOverlapping": 0,
+        "hardSplitsAfter": 0
+      },
+      "artifacts": {
+        "canonical": {
+          "path": "data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill/fixtures/canonical.pdf",
+          "oldSha256": "dccf986f5051559312d86b794a02174756a843dfce41474ff9cd0a68ae9b752f",
+          "newSha256": "fa51ea79d5bc37f3be15485cb54441dee8e4d5baef142ffe4e31e3bc307949e4",
+          "oldByteLength": 8712,
+          "newByteLength": 8711,
+          "pagesBefore": 3,
+          "pagesAfter": 3
+        },
+        "boundary": {
+          "path": "data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill/fixtures/boundary.pdf",
+          "oldSha256": "8a58177069960152ae1ae2b9f76d93dfc895ea6e876fc91602af52c2883f9266",
+          "newSha256": "c7c80a2a47d11c9b02004decbaba27cdd8033876d00e10d23bda0a6775cadf66",
+          "oldByteLength": 8845,
+          "newByteLength": 8848,
+          "pagesBefore": 3,
+          "pagesAfter": 3
+        },
+        "digestsMovedInThisLane": true,
+        "byteLengthNote": "One byte shorter canonical, three longer boundary. The break moves a hyphen across a line boundary and the two line strings change length by a character or two; no content stream gained or lost a line."
+      },
+      "deterministicRebuild": {
+        "command": "MASTER_LIBRARY_SOURCE_DIR=<worktree>/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 node scripts/build-census-v1-de_mandatory_expungement-set.mjs --no-raster",
+        "runs": 2,
+        "byteIdenticalToEachOther": true,
+        "proof": "The whole family directory was copied after the first build and diff -r against it after the second returned no differences at all - both PDFs and every record.",
+        "preRebuildBytesReproducible": "Not attempted at this base and it could not be: the host in this tree is the repaired one, so no build here can produce the old bytes. Their provenance is instead established two ways - the committed digests are exactly what FIX36's control run at 831b93cf4 reproduced with the unmodified host, and they are exactly what this tree carried before the rebuild."
+      },
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersNote": "Zero on both sides, and zero while the family was shipping a route key cut at the margin and, before 67caa7d56, no fee and no waiver at all. Not one of the nine asks whether the participant was told the price or the way out of it.",
+      "scan01": {
+        "coversThisFamily": true,
+        "shipsComposedPdf": true,
+        "thisFamilyBefore": { "hard_split_token": 4, "fragment_page": 1, "thin_page": 1, "route_key_only_page": 0 },
+        "thisFamilyAfter": { "hard_split_token": 0, "fragment_page": 1, "thin_page": 1, "route_key_only_page": 0 },
+        "corpusBefore": { "A_hard_split": 20, "B_page_content": 61, "C_block_integrity": 11, "D_census": 39 },
+        "corpusAfter": { "A_hard_split": 16, "B_page_content": 61, "C_block_integrity": 11, "D_census": 39 },
+        "readHonestly": "All four hard splits that disappeared corpus-wide are this family's. Nothing else moved in any class, no other family's defect count changed at all across the 249 directories, and no page changed class here: the page-3 fragment_page (canonical, 5 drawn lines) and thin_page (boundary, 6 drawn lines) are recorded before and after alike. They are a short closing page, they predate this lane, no verdict names them, and adopting a pagination rule to pull content onto page 3 would have moved pages this lane holds no grant to move.",
+        "outputNotCommitted": "The script writes data/rcap-grade-a/packet-factory-24h/scan01/raw-sweep.json as a side effect. It was untracked, was used only for this comparison, and was deleted."
+      },
+      "verifiersRun": {
+        "verifyPacketCompleteness": "This family PASS_COMPLETE, 5/12 written, nine counters zero, before and after the rebuild. Corpus 241 audited / 240 PASS_COMPLETE / 1 FAIL_MISSING_PREFILLS (pa_6308_underage-set) and corpus unclassifiedBlanks 6, identical before and after; both pre-existing and both PA's. exit 0.",
+        "verifyIdentityRefreshSurvivesRebuild": "EVERY_IDENTITY_REFRESH_SURVIVED, 249 receipts compared against HEAD, 53 carrying an identityRefresh, exit 0, run after the rebuild. This family's receipt carries no identityRefresh, so the rebuild restored nothing and destroyed nothing.",
+        "scan01": "whole corpus, 249 directories, before and after; see scan01 above."
+      },
+      "productWiring": {
+        "regeneratedBy": "node scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs --family de_mandatory_expungement-set",
+        "result": "1 record refreshed; 1 component digest re-pinned dccf986f5051 -> fa51ea79d5bc",
+        "acceptanceReceipt": null,
+        "routeKeysUnchanged": "the one track-pathway key, unchanged",
+        "lastIndependentVerificationLeftAsIs": "FAIL_REPAIR_REQUIRED, vf01, 21d53521f"
+      },
+      "rasterOwed": true,
+      "selfVerified": false,
+      "routesOpened": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    }
+  ],
+  "corpusWideEffect": {
+    "familyDirectoriesModified": 1,
+    "filesModifiedOutsideDelawaresDirectory": 0,
+    "instrument": "git status over the whole worktree after every build, plus SCAN01 over all 249 family directories before and after, plus verify-packet-completeness over all 241 audited families before and after, plus verify-identity-refresh-survives-rebuild over all 249 receipts against HEAD.",
+    "result": "Delaware's five files and nothing else. Arizona and North Carolina rebuilt byte-identical; the other twelve builders on the composed-family host were not rebuilt and could not have moved, because no host or helper was edited."
+  },
+  "filesCommittedByThisLane": [
+    "data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill/fixtures/canonical.pdf",
+    "data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill/fixtures/boundary.pdf",
+    "data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill/source-receipt.json",
+    "data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill/product-wiring.json",
+    "data/rcap-grade-a/packet-factory-24h/fix48/rows.json",
+    "data/rcap-grade-a/packet-factory-24h/claim-ledger.json"
+  ],
+  "notDone": [
+    "No builder was edited. All three families' builders are byte-identical to HEAD.",
+    "No central raster was run and no rasterState was set. Delaware owes one on canonical fa51ea79d5bc and boundary c7c80a2a47d1.",
+    "No verdict was written, retired or edited. All three MASTER_QUEUE verdicts still read FAIL_REPAIR_REQUIRED and all three product-wiring.json records still carry them.",
+    "The Arizona builder's habit of overwriting product-wiring.json with a binding-less template was observed, reverted, and left unfixed; it is outside this lane's grant.",
+    "Delaware's page-3 fragment_page and thin_page census entries were left alone; no verdict names them and fixing them would move pages."
+  ]
+}

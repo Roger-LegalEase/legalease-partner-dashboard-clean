@@ -1,0 +1,199 @@
+{
+  "schemaVersion": "rcap-fable-verifier-return/v1",
+  "worker": "FABLE-VT11",
+  "role": "independent verification",
+  "lanes": ["VF07", "VF08"],
+  "branch": "none — see gitPosture",
+  "baseSha": "ebc44031ec7eab29058bfc79a7bc5e1cff089414",
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "grantsNothing": "This return records what fifteen proof obligations measured on five packet families. It promotes no family, opens no commercial route, grants no approval, and changes no live RCAP route. Every verdict below is a reading, not an authorization.",
+
+  "gitPosture": {
+    "instruction": "Mid-task the Captain revoked the git portion of the brief: this container shares one working tree with six other agents and no isolated worktrees were provisioned, so no branch, stage, commit, stash, reset or push was to be performed.",
+    "whatIComplied": "From that message onward I ran no git write command. fable/vt11 was not pushed and no commit was created. All of my output is left uncommitted in the working tree for the Captain to stage by named path.",
+    "whatHadAlreadyHappened": "Before the correction arrived I had run `git checkout -b fable/vt11 ebc44031ec7eab29058bfc79a7bc5e1cff089414`. HEAD was already at that exact commit at the time, so the checkout changed no file content and swept up no other agent's work. The tree has since been moved to fable/r13 by another agent and the in-progress Pennsylvania repair is intact and still uncommitted. The only residue is a local branch ref named fable/vt11 pointing at the base commit, which the Captain may delete at leisure.",
+    "verifiedAfterTheFact": "git status --porcelain (read-only) showed the pa-pardon-expungement-set repair and the external-worker-control edits present and unmodified by me."
+  },
+
+  "filesWritten": [
+    "data/rcap-grade-a/packet-factory-24h/vf07/rows.json (appended 2 rows; 7 -> 9; every prior row preserved byte-for-byte, verified by comparison against a pre-edit copy)",
+    "data/rcap-grade-a/packet-factory-24h/vf08/rows.json (appended 3 rows; 14 -> 17; every prior row preserved byte-for-byte, verified the same way)",
+    "data/rcap-grade-a/packet-factory-24h/claim-ledger.json (five assertions and five matching releases, via scripts/grade-a-packet-factory-24h/claim.mjs only)",
+    "data/rcap-grade-a/fable-packet-factory/returns/vt11.json (this file)"
+  ],
+  "filesNotTouched": [
+    "MASTER_QUEUE.json", "RASTER_QUEUE.json", "ACTIVE_ASSIGNMENTS.json", "VERIFIER_RETURNS.json",
+    "any other lane's rows.json", "any packet, overlay, fixture, field map or build script",
+    "Production, Supabase, Stripe, secrets, migrations"
+  ],
+
+  "claimDiscipline": {
+    "asserted": 5,
+    "refused": 0,
+    "released": 5,
+    "reissuesUsed": 0,
+    "transfersUsed": 0,
+    "note": "Every family was claimed with --assert before any artifact of that family was read, and released with --release when finished. After the Captain's correction the release calls were run strictly one at a time, never in parallel, because claim.mjs is a read-modify-write on a file other agents are also writing. scripts/grade-a-packet-factory-24h/verify-claim-ledger.mjs returned CLAIM_LEDGER_OK afterwards."
+  },
+
+  "environment": {
+    "corpusMounted": true,
+    "corpusEvidence": "bash scripts/rcap-corpus/bootstrap-private-corpus.sh succeeded: Expungement_AI_RCAP_Master_Library_Edition_1, archive SHA-256 a26e3ca7d52db4460e53c2eddd893109037702f5c8035f2c698a7e16bad84e89, 51 jurisdictions / 499 files / 329 pdfs, governance checksums verified.",
+    "consequence": "SOURCE_IDENTITY was scored against held bytes on all five families rather than returned NOT_MEASURABLE_HERE. Nothing in this return was guessed.",
+    "completenessVerifier": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id>, run in this container on each of the five families; all five returned PASS_COMPLETE with all nine counters zero.",
+    "laneContracts": "node scripts/grade-a-packet-factory-24h/verify-lane-contracts.mjs → 9/9 passed after my rows were written, including L4 (no family proven without a hash-bound central RASTER_PASS) and L9 (no PASS_COMPLETE_INDEPENDENT over a subset of obligations)."
+  },
+
+  "obligationSet": [
+    "ROUTE_IDENTITY", "SOURCE_IDENTITY", "COMPONENT_SET", "KNOWN_PREFILLS", "REQUIRED_BEFORE_FILING",
+    "ROUTE_OPTIONS", "REPEATING_ROWS", "PROTECTED_FIELDS", "ARTIFACTS", "PAGE_ORDER",
+    "CLIPPING_AND_OVERLAP", "FILING_DESTINATION", "FEE_AND_WAIVER", "SERVICE", "SELF_HELP_STOP"
+  ],
+  "obligationSetNote": "All fifteen were scored on all five families. There is no subset anywhere in this return: 75 of 75 obligation slots carry a result and a detail string describing what was actually measured.",
+
+  "feeAndServiceStandard": {
+    "read": "data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json, including amendment DET-FEE-AND-WAIVER-001-A1, read in full before FEE_AND_WAIVER or SERVICE was scored on any family.",
+    "howIApplied": "For each family I asked A1's question first — does the repository establish the answer? Where it did, I required the packet to state it and checked the PDF bytes, not just participant-instructions.md. Where it did not, I required a NAMED office reachable in practice, and I checked that the held source really is silent rather than taking the packet's word for it. No family in this batch reached the true-silence failure case.",
+    "perFamily": {
+      "ct-cannabis-petition-set": "Fee: repository holds it (no fee, § 54-142v(a)(4)) and the packet states it on the petition's face and in the ordered steps. Service: repository explicitly records it as unresolved, and the packet names the G.A. or Judicial District office whose direction controls. Both PASS.",
+      "ne-seal-enforcement-set": "Fee: split three ways and all three answered — demand letter costs nothing (held, stated), action's filing fee not established (held as not established, stated as such, office named), waiver available under § 25-2301.01 (held, stated with statute and routed to the same office). Service: repository records the rule as not surveyed, and the packet names two reachable authorities. Both PASS.",
+      "wv_dui_deferral_expungement-set": "Fee: repository holds both limbs — no fee for either motion, AND § 17C-5-2b(h) court costs payable as on conviction — and the packet states both, including the awkward second one that a 'no fee' statement alone would have made misleading. Service: repository HOLDS the rule here, so no authority could stand in; the packet states it in full with a per-unit certificate of service and both 30-day objection windows. Both PASS.",
+      "composed-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_court_petition_after_90_days": "Fee: the bound decision holds it (no filing fee or other expungement cost may be charged) and the packet states it four times, sourced. Service: the bound decision's serviceWorkflow section is empty, and the packet names the district court office of the judicial district of arrest under its own heading rather than gesturing. Both PASS.",
+      "composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085": "Fee: neither bound record states one — I confirmed the silence by reading both — and the packet says exactly that and names the sentencing court's office. Service: WHO is held (SERVICE: PROSECUTOR) and stated with a dedicated component; HOW is not held and is named to the sentencing court's office, with the packet's own line that 'a guessed mechanic in a filing instruction is worse than none'. Both PASS."
+    }
+  },
+
+  "perFamilyVerdicts": [
+    {
+      "familyId": "ct-cannabis-petition-set",
+      "lane": "VF07",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "rasterState": "RASTER_PASS",
+      "obligationsPassed": 15,
+      "obligationsFailed": 0,
+      "obligationsUnmeasured": 0,
+      "why": "Fifteen of fifteen measured and passed, nine counters zero on my own run, and a central RASTER_PASS receipt (run 33574304514, job 100075268077) hash-bound to the exact fixture bytes I rehashed here."
+    },
+    {
+      "familyId": "composed-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_court_petition_after_90_days",
+      "lane": "VF07",
+      "verdict": "PASS",
+      "rasterState": "RASTER_PENDING",
+      "rasterCeiling": "BUILT_RASTER_PENDING at my declared base — LIFTED before I finished, see rasterCeilingLifted",
+      "obligationsPassed": 15,
+      "obligationsFailed": 0,
+      "obligationsUnmeasured": 0,
+      "why": "Fifteen of fifteen measured and passed, including clipping and overlap measured by me directly from the PDF bytes. Held at PASS rather than PASS_COMPLETE_INDEPENDENT for one reason only: at my declared base, RASTER_QUEUE.json carried no central raster receipt for this family.",
+      "rasterCeilingLifted": "The central run completed while this verification was in flight. RASTER_QUEUE.json now carries a hash-bound RASTER_PASS receipt (run 33579500812) bound to canonical e6d926f76168… and boundary d00acb23ed43… — the exact hashes I rehashed from the committed bytes. The family now qualifies for PASS_COMPLETE_INDEPENDENT on a re-read at any base at or after e16aacbe5, with no repair required first. I did not upgrade the verdict on the row itself because the row declares verifiedAtBase ebc44031 and that evidence did not exist at that commit."
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+      "lane": "VF08",
+      "verdict": "PASS",
+      "rasterState": "RASTER_PENDING",
+      "rasterCeiling": "BUILT_RASTER_PENDING at my declared base — LIFTED before I finished, see rasterCeilingLifted",
+      "obligationsPassed": 15,
+      "obligationsFailed": 0,
+      "obligationsUnmeasured": 0,
+      "why": "Fifteen of fifteen measured and passed; both bound committed records rehashed to their recorded SHA-256 and byte lengths. Same single ceiling as the Colorado family at my declared base: no central raster receipt yet.",
+      "rasterCeilingLifted": "The central run completed while this verification was in flight. RASTER_QUEUE.json now carries a hash-bound RASTER_PASS receipt (run 33579500812) bound to canonical 9f00da8f0720… and boundary e898a0768afd… — the exact hashes I rehashed from the committed bytes. The family now qualifies for PASS_COMPLETE_INDEPENDENT on a re-read at any base at or after e16aacbe5, with no repair required first. I did not upgrade the verdict on the row itself because the row declares verifiedAtBase ebc44031 and that evidence did not exist at that commit."
+    },
+    {
+      "familyId": "ne-seal-enforcement-set",
+      "lane": "VF08",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "rasterState": "RASTER_PASS",
+      "obligationsPassed": 15,
+      "obligationsFailed": 0,
+      "obligationsUnmeasured": 0,
+      "why": "Fifteen of fifteen measured and passed, nine counters zero, and a central RASTER_PASS receipt (run 33574304514, job 100075268104) hash-bound to the exact fixture bytes I rehashed here."
+    },
+    {
+      "familyId": "wv_dui_deferral_expungement-set",
+      "lane": "VF08",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "rasterState": "RASTER_PASS",
+      "obligationsPassed": 15,
+      "obligationsFailed": 0,
+      "obligationsUnmeasured": 0,
+      "why": "Fifteen of fifteen measured and passed, nine counters zero, and a central RASTER_PASS receipt (run 33574304514, job 100075268129) hash-bound to the exact fixture bytes I rehashed here. The largest family of the five — eleven pages, seven components, 22 required-before-filing blanks — and it held up under every check."
+    }
+  ],
+
+  "whatIMeasured": {
+    "nineCounters": "Ran the completeness verifier in this container on each family. All five returned PASS_COMPLETE with knownRequiredFieldsMissing, requiredFactsNotCollected, unclassifiedBlanks, incompleteRows, requiredOptionsMissing, requiredComponentsMissing, invisibleWrites, protectedWrites and visualDefects all zero.",
+    "sourceIdentity": "Corpus mounted. Two families bind committed records by exact SHA-256 and I rehashed every one: national-report-batch-b.json to 883d5bb8… at 25265 bytes, and 2026-08-28-national-legal-decisions.json to 0aad88ef… at 184365 bytes — both matching their receipts exactly. Three families bind zero source binaries; for those I tested the falsifiable half of the claim instead, checking each state's held forms in the Master Library to see whether an official form had been passed over. Connecticut holds only Clean Slate instruments (JD-CR-202, DESPP-0847-C) for a different mechanism; Nebraska holds set-aside, seal and in-forma-pauperis forms but nothing for a § 29-3528 enforcement action; West Virginia holds four of the five published expungement forms and none is a § 17C-5-2b filing; Colorado holds fifteen JDF sealing instruments and none is a § 24-72-702 mistaken-identity expungement; Alaska holds CourtView and DPS records forms and none is a post-discharge set-aside. Every no-official-form finding survived an independent look.",
+    "artifactsAndPageOrder": "Rehashed all ten committed fixtures (canonical and boundary for five families) and compared each against reports/rendered-artifacts.json, product-wiring.json and RASTER_QUEUE.json. All agree. Page counts from pdfinfo match the declared pageCount and the queue's expectedPages on every fixture, and per-page text extraction confirmed the delivered page order follows each family's declared componentSet exactly.",
+    "clippingAndOverlap": "Measured myself with pdftotext -bbox on both fixtures of all five families rather than inheriting the counter: every word box compared against its page box and against its same-baseline neighbours. Across 13,886 word boxes there were zero words extending past a page edge, zero words at negative coordinates, and zero overlapping same-baseline pairs.",
+    "protectedFields": "Read the byte evidence rather than the claim: reports/actual-writes.json on all five is derivedFromArtifactBytes true with blockingFindings [], refusedFieldsWithInk [] and nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0 on both fixtures. I then checked that each protected blank's declared owner is the right one — court-owned lines on proposed orders, jurats left to the officer, signatures and their dates left to the participant.",
+    "routeIdentity": "For each family, compared routeKeys and familyId across product-wiring.json, production-field-map.json, source-receipt.json, build-status.json and the MASTER_QUEUE family row, and confirmed the keys are printed in the instructions footer AND present in the delivered PDF bytes. All five agree across all five records; the two-unit West Virginia family carries both of its keys in both places."
+  },
+
+  "whatICouldNotMeasure": [
+    "Nothing was returned NOT_MEASURABLE_HERE. The corpus mounted, so the one obligation that commonly falls back — SOURCE_IDENTITY — was measured properly on every family.",
+    "The central raster receipts for the two composed-treatment families (Colorado and Alaska) do not exist yet; RASTER_QUEUE.json shows RASTER_PENDING for both with a run in flight. That is not an obligation I failed to measure — I measured clipping and overlap directly from the bytes — it is a gate outside this container that caps both verdicts at PASS. The brief anticipated exactly this.",
+    "Raster receipt artifact zips are named and digested in RASTER_QUEUE.json but this environment cannot fetch artifact blobs, so for the three RASTER_PASS families I verified the receipt's binding by rehashing the fixtures against the recorded canonical and boundary SHAs rather than by opening the zip."
+  ],
+
+  "forTheCaptain": [
+    {
+      "severity": "free promotion available — two rows, no repair needed",
+      "family": "both composed-treatment families (CO and AK)",
+      "item": "Their only ceiling lifted while I was working. Both are ready for PASS_COMPLETE_INDEPENDENT on a re-read.",
+      "detail": "At my declared base ebc44031 both families sat at RASTER_PENDING, so I capped both at PASS exactly as the brief anticipated. Commit e16aacbe5 ('Clear the visual gate: 115 of 115 families hold a hash-bound RASTER_PASS') landed mid-task and RASTER_QUEUE.json now carries hash-bound RASTER_PASS receipts for both, from run 33579500812. I checked the binding rather than assuming it: the receipts' boundToCanonicalSha256 and boundToBoundarySha256 are identical to the fixture hashes I rehashed from the committed bytes, so the run rendered the same bytes I verified and nothing was rebuilt in between. Both families already have fifteen of fifteen obligations passing with zero failed and zero unmeasured and all nine counters at zero. I deliberately did NOT upgrade the verdicts on the rows, because each row declares verifiedAtBase ebc44031 and that receipt did not exist at that commit — awarding the stronger verdict there would claim evidence the declared base did not hold. Each row instead carries a rasterCeilingLifted block with the full receipt. A re-read at any base at or after e16aacbe5 can promote both to PASS_COMPLETE_INDEPENDENT with no repair and no further measurement."
+    },
+    {
+      "severity": "needs a decision before approved_for_live",
+      "family": "wv_dui_deferral_expungement-set",
+      "item": "The § 61-11-26(o) once-per-lifetime question is unanswered in the packet.",
+      "detail": "WV.memo.json records it as a release_blocker on eligibility_branch, with the reasoning that 'a participant deciding whether to spend their one lifetime conviction petition needs the right answer'. The packet states the different, internal § 17C-5-2b(e) limit — only one discharge and dismissal, ever — which a reader could easily mistake for the same limit. I did not score this as a failure of any of the fifteen, because it is an open legal question and the review model puts counsel review after state_built. It is the one substantive participant-facing gap I found in this batch and it will need an answer before approved_for_live."
+    },
+    {
+      "severity": "needs a decision before approved_for_live",
+      "family": "ne-seal-enforcement-set",
+      "item": "This family's self-help suitability rests on an override that is not yet counsel-confirmed.",
+      "detail": "NE.memo.json's legalDesignDecision recommends OVERRIDING the controlling legal review's classification of this route as outside self-help scope, and states in terms that the override must be counsel-confirmed. Two further release_blockers stand open: Nebraska mandamus procedure was not surveyed, and the rule for service on a public body was not surveyed. The packet discloses all three to the participant honestly, which is why the obligations pass — but a Captain should see that the route's very existence as a self-help product is an unconfirmed override rather than a settled reading."
+    },
+    {
+      "severity": "records hygiene, no repair by me",
+      "family": "composed-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_court_petition_after_90_days",
+      "item": "CO.memo.json and the 2026-08-28 legal decision disagree, and only the decision is bound.",
+      "detail": "CO.memo.json still records track co_mistaken_identity_expungement as carrying two build_blockers, with destination 'Unresolved' and rules.filing, rules.fees and rules.service all 'Unresolved'. The 2026-08-28 research-track decision — which this family binds by exact SHA-256 and which I rehashed — resolves the mechanism, the venue and the fee. A reader consulting the older memo alone would wrongly conclude this route is unbuildable. I recorded the divergence in the row and did not reconcile it; reconciling records is not this lane's work."
+    },
+    {
+      "severity": "enhancement, not a defect",
+      "family": "ne-seal-enforcement-set",
+      "item": "The fee waiver could name the form the corpus already holds.",
+      "detail": "The mounted corpus carries Nebraska's in-forma-pauperis instruments — DC-6-7.1 affidavit and application, DC-6-7.2 order, and instructions for both. The packet cites § 25-2301.01 and routes the participant to the district court office. FEE_AND_WAIVER passes as written under the standard, since the fee figure genuinely is not established and the waiver is stated with its statute and a reachable office. Naming DC-6-7.1 would make the waiver actionable in one fewer step. For a builder, not a repairer, and not touched here."
+    },
+    {
+      "severity": "observation only",
+      "family": "all five",
+      "item": "build-status.json rasterState is stale everywhere, by convention.",
+      "detail": "All five families' build-status.json still read RASTER_LOCAL_PENDING_CENTRAL even where RASTER_QUEUE.json holds a central RASTER_PASS receipt. I checked whether this was specific to my families: it is not — every build-status.json in census-v1 still carries a builder-local pending value, including families other lanes have already passed on RASTER_PASS. The queue receipt governs and the local field is never rewritten after central acceptance. Recorded so no later reader mistakes it for a defect; no repair is warranted."
+    },
+    {
+      "severity": "housekeeping",
+      "family": "n/a",
+      "item": "A stray local branch ref named fable/vt11 points at the base commit.",
+      "detail": "Created before the Captain's git correction arrived, by a checkout to the commit HEAD was already on, so it moved no file content and swept up nothing. Safe to delete."
+    }
+  ],
+
+  "selfCheck": {
+    "everyRowCarriesVerifiedAtBase": true,
+    "verifiedAtBaseValue": "ebc44031ec7eab29058bfc79a7bc5e1cff089414",
+    "priorRowsPreserved": "verified by byte-for-byte comparison of every pre-existing row against a copy taken before the edit, in both lane files",
+    "allFifteenScoredOnEveryFamily": true,
+    "obligationSlotsFilled": "75 of 75, each with a result and a detail string",
+    "passCompleteIndependentAwardedOverASubset": false,
+    "packetsEdited": 0,
+    "overlaysEdited": 0,
+    "fieldMapsEdited": 0,
+    "fixturesEdited": 0,
+    "buildScriptsEdited": 0,
+    "familiesPromoted": 0,
+    "approvalsGranted": 0
+  }
+}

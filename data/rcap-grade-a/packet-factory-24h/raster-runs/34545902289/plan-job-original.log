@@ -1,0 +1,280 @@
+﻿2026-09-11T00:20:16.0961628Z Current runner version: '2.337.0'
+2026-09-11T00:20:16.0996625Z ##[group]Runner Image Provisioner
+2026-09-11T00:20:16.0998276Z Hosted Compute Agent
+2026-09-11T00:20:16.0999306Z Version: 20260828.587
+2026-09-11T00:20:16.1000386Z Commit: abac92662cab4cc7352de4f9f9d2e2419aad9c29
+2026-09-11T00:20:16.1002031Z Build Date: 2026-08-28T16:44:25Z
+2026-09-11T00:20:16.1003190Z Worker ID: {7b689d8f-e5f8-4d45-ba32-28d3c9c33e3c}
+2026-09-11T00:20:16.1004406Z Azure Region: eastus
+2026-09-11T00:20:16.1005445Z ##[endgroup]
+2026-09-11T00:20:16.1008086Z ##[group]Operating System
+2026-09-11T00:20:16.1009239Z Ubuntu
+2026-09-11T00:20:16.1010047Z 24.04.5
+2026-09-11T00:20:16.1011158Z LTS
+2026-09-11T00:20:16.1012158Z ##[endgroup]
+2026-09-11T00:20:16.1013036Z ##[group]Runner Image
+2026-09-11T00:20:16.1014183Z Image: ubuntu-24.04
+2026-09-11T00:20:16.1015156Z Version: 20260907.300.1
+2026-09-11T00:20:16.1017361Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260907.300/images/ubuntu/Ubuntu2404-Readme.md
+2026-09-11T00:20:16.1020113Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260907.300
+2026-09-11T00:20:16.1022239Z ##[endgroup]
+2026-09-11T00:20:16.1024726Z ##[group]GITHUB_TOKEN Permissions
+2026-09-11T00:20:16.1027607Z Contents: read
+2026-09-11T00:20:16.1028592Z Metadata: read
+2026-09-11T00:20:16.1029742Z ##[endgroup]
+2026-09-11T00:20:16.1033105Z Secret source: Actions
+2026-09-11T00:20:16.1034676Z Cache mode: write
+2026-09-11T00:20:16.1036056Z Prepare workflow directory
+2026-09-11T00:20:16.1514137Z Prepare all required actions
+2026-09-11T00:20:16.1585863Z Getting action download info
+2026-09-11T00:20:16.4239041Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-09-11T00:20:16.5551944Z Download action repository 'actions/setup-node@v4' (SHA:49933ea5288caeca8642d1e84afbd3f7d6820020)
+2026-09-11T00:20:16.7533435Z Complete job name: Plan the family matrix
+2026-09-11T00:20:16.8307770Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-09-11T00:20:16.8316854Z ##[group]Run actions/checkout@v4
+2026-09-11T00:20:16.8317589Z with:
+2026-09-11T00:20:16.8318059Z   ref: c6a8059e9f473e002a2dc48e6493e92b2bfbd86c
+2026-09-11T00:20:16.8318800Z   repository: Roger-LegalEase/legalease-partner-dashboard-clean
+2026-09-11T00:20:16.8322892Z   token: ***
+2026-09-11T00:20:16.8323328Z   ssh-strict: true
+2026-09-11T00:20:16.8323771Z   ssh-user: git
+2026-09-11T00:20:16.8324223Z   persist-credentials: true
+2026-09-11T00:20:16.8324711Z   clean: true
+2026-09-11T00:20:16.8325144Z   sparse-checkout-cone-mode: true
+2026-09-11T00:20:16.8325660Z   fetch-depth: 1
+2026-09-11T00:20:16.8326093Z   fetch-tags: false
+2026-09-11T00:20:16.8326579Z   show-progress: true
+2026-09-11T00:20:16.8327018Z   lfs: false
+2026-09-11T00:20:16.8327430Z   submodules: false
+2026-09-11T00:20:16.8327872Z   set-safe-directory: true
+2026-09-11T00:20:16.8328371Z   allow-unsafe-pr-checkout: false
+2026-09-11T00:20:16.8329152Z ##[endgroup]
+2026-09-11T00:20:16.9332067Z Syncing repository: Roger-LegalEase/legalease-partner-dashboard-clean
+2026-09-11T00:20:16.9334124Z ##[group]Getting Git version info
+2026-09-11T00:20:16.9335178Z Working directory is '/home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean'
+2026-09-11T00:20:16.9336485Z [command]/usr/bin/git version
+2026-09-11T00:20:16.9436963Z git version 2.55.0
+2026-09-11T00:20:16.9461944Z ##[endgroup]
+2026-09-11T00:20:16.9482056Z Temporarily overriding HOME='/home/runner/work/_temp/2f517937-8bc1-4caa-a6fe-3b9fb48c912d' before making global git config changes
+2026-09-11T00:20:16.9485102Z Adding repository directory to the temporary git global config as a safe directory
+2026-09-11T00:20:16.9489214Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean
+2026-09-11T00:20:16.9548354Z Deleting the contents of '/home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean'
+2026-09-11T00:20:16.9557382Z ##[group]Initializing the repository
+2026-09-11T00:20:16.9558963Z [command]/usr/bin/git init /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean
+2026-09-11T00:20:16.9689175Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-09-11T00:20:16.9700464Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-09-11T00:20:16.9703096Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-09-11T00:20:16.9704710Z hint: call:
+2026-09-11T00:20:16.9705743Z hint:
+2026-09-11T00:20:16.9706733Z hint: 	git config --global init.defaultBranch <name>
+2026-09-11T00:20:16.9707936Z hint:
+2026-09-11T00:20:16.9708960Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-09-11T00:20:16.9710867Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-09-11T00:20:16.9712136Z hint:
+2026-09-11T00:20:16.9712868Z hint: 	git branch -m <name>
+2026-09-11T00:20:16.9713666Z hint:
+2026-09-11T00:20:16.9714749Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-09-11T00:20:16.9717089Z Initialized empty Git repository in /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/.git/
+2026-09-11T00:20:16.9720004Z [command]/usr/bin/git remote add origin https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean
+2026-09-11T00:20:16.9744272Z ##[endgroup]
+2026-09-11T00:20:16.9745612Z ##[group]Disabling automatic garbage collection
+2026-09-11T00:20:16.9749143Z [command]/usr/bin/git config --local gc.auto 0
+2026-09-11T00:20:16.9783111Z ##[endgroup]
+2026-09-11T00:20:16.9784180Z ##[group]Setting up auth
+2026-09-11T00:20:16.9791923Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-09-11T00:20:16.9825815Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-09-11T00:20:17.0200149Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-09-11T00:20:17.0242911Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-09-11T00:20:17.0489519Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-09-11T00:20:17.0537521Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-09-11T00:20:17.0792441Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-09-11T00:20:17.0839256Z ##[endgroup]
+2026-09-11T00:20:17.0840010Z ##[group]Fetching the repository
+2026-09-11T00:20:17.0854238Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin c6a8059e9f473e002a2dc48e6493e92b2bfbd86c
+2026-09-11T00:21:02.4987585Z From https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean
+2026-09-11T00:21:02.4988866Z  * branch              c6a8059e9f473e002a2dc48e6493e92b2bfbd86c -> FETCH_HEAD
+2026-09-11T00:21:02.4993699Z ##[endgroup]
+2026-09-11T00:21:02.4994619Z ##[group]Determining the checkout info
+2026-09-11T00:21:02.4995793Z ##[endgroup]
+2026-09-11T00:21:02.5003166Z [command]/usr/bin/git sparse-checkout disable
+2026-09-11T00:21:02.5055738Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-09-11T00:21:02.5088459Z ##[group]Checking out the ref
+2026-09-11T00:21:02.5093106Z [command]/usr/bin/git checkout --progress --force c6a8059e9f473e002a2dc48e6493e92b2bfbd86c
+2026-09-11T00:21:03.5647897Z Updating files:  15% (3310/21182)
+2026-09-11T00:21:03.6373002Z Updating files:  16% (3390/21182)
+2026-09-11T00:21:03.6969800Z Updating files:  17% (3601/21182)
+2026-09-11T00:21:03.7495128Z Updating files:  18% (3813/21182)
+2026-09-11T00:21:03.8397515Z Updating files:  19% (4025/21182)
+2026-09-11T00:21:03.9573336Z Updating files:  20% (4237/21182)
+2026-09-11T00:21:04.0794616Z Updating files:  21% (4449/21182)
+2026-09-11T00:21:04.1826926Z Updating files:  22% (4661/21182)
+2026-09-11T00:21:04.3461726Z Updating files:  23% (4872/21182)
+2026-09-11T00:21:04.4247719Z Updating files:  24% (5084/21182)
+2026-09-11T00:21:04.4654362Z Updating files:  25% (5296/21182)
+2026-09-11T00:21:04.5382747Z Updating files:  26% (5508/21182)
+2026-09-11T00:21:04.5398723Z Updating files:  26% (5716/21182)
+2026-09-11T00:21:04.6045719Z Updating files:  27% (5720/21182)
+2026-09-11T00:21:04.6861986Z Updating files:  28% (5931/21182)
+2026-09-11T00:21:04.7647351Z Updating files:  29% (6143/21182)
+2026-09-11T00:21:04.9121178Z Updating files:  30% (6355/21182)
+2026-09-11T00:21:05.0729022Z Updating files:  31% (6567/21182)
+2026-09-11T00:21:05.1676254Z Updating files:  32% (6779/21182)
+2026-09-11T00:21:05.2680154Z Updating files:  33% (6991/21182)
+2026-09-11T00:21:05.3630331Z Updating files:  34% (7202/21182)
+2026-09-11T00:21:05.4069885Z Updating files:  35% (7414/21182)
+2026-09-11T00:21:05.4790444Z Updating files:  36% (7626/21182)
+2026-09-11T00:21:05.5423742Z Updating files:  37% (7838/21182)
+2026-09-11T00:21:05.5618193Z Updating files:  37% (8000/21182)
+2026-09-11T00:21:05.5972135Z Updating files:  38% (8050/21182)
+2026-09-11T00:21:05.6297640Z Updating files:  39% (8261/21182)
+2026-09-11T00:21:05.6712764Z Updating files:  40% (8473/21182)
+2026-09-11T00:21:05.7473317Z Updating files:  41% (8685/21182)
+2026-09-11T00:21:05.7869684Z Updating files:  42% (8897/21182)
+2026-09-11T00:21:05.8157484Z Updating files:  43% (9109/21182)
+2026-09-11T00:21:05.8470272Z Updating files:  44% (9321/21182)
+2026-09-11T00:21:05.8753204Z Updating files:  45% (9532/21182)
+2026-09-11T00:21:05.8929241Z Updating files:  46% (9744/21182)
+2026-09-11T00:21:05.9072074Z Updating files:  47% (9956/21182)
+2026-09-11T00:21:05.9278908Z Updating files:  48% (10168/21182)
+2026-09-11T00:21:05.9701509Z Updating files:  49% (10380/21182)
+2026-09-11T00:21:05.9874452Z Updating files:  50% (10591/21182)
+2026-09-11T00:21:06.1103461Z Updating files:  51% (10803/21182)
+2026-09-11T00:21:06.3278481Z Updating files:  52% (11015/21182)
+2026-09-11T00:21:06.3394519Z Updating files:  53% (11227/21182)
+2026-09-11T00:21:06.3690387Z Updating files:  54% (11439/21182)
+2026-09-11T00:21:06.3851861Z Updating files:  55% (11651/21182)
+2026-09-11T00:21:06.3958075Z Updating files:  56% (11862/21182)
+2026-09-11T00:21:06.4105693Z Updating files:  57% (12074/21182)
+2026-09-11T00:21:06.4424384Z Updating files:  58% (12286/21182)
+2026-09-11T00:21:06.4763698Z Updating files:  59% (12498/21182)
+2026-09-11T00:21:06.5385367Z Updating files:  60% (12710/21182)
+2026-09-11T00:21:06.5664249Z Updating files:  60% (12771/21182)
+2026-09-11T00:21:06.5977516Z Updating files:  61% (12922/21182)
+2026-09-11T00:21:06.6456658Z Updating files:  62% (13133/21182)
+2026-09-11T00:21:06.6900519Z Updating files:  63% (13345/21182)
+2026-09-11T00:21:06.7611568Z Updating files:  64% (13557/21182)
+2026-09-11T00:21:06.8742519Z Updating files:  65% (13769/21182)
+2026-09-11T00:21:06.8968157Z Updating files:  66% (13981/21182)
+2026-09-11T00:21:06.9350222Z Updating files:  67% (14192/21182)
+2026-09-11T00:21:07.0644904Z Updating files:  68% (14404/21182)
+2026-09-11T00:21:07.1394381Z Updating files:  69% (14616/21182)
+2026-09-11T00:21:07.2197281Z Updating files:  70% (14828/21182)
+2026-09-11T00:21:07.3491668Z Updating files:  71% (15040/21182)
+2026-09-11T00:21:07.4663415Z Updating files:  72% (15252/21182)
+2026-09-11T00:21:07.4827940Z Updating files:  73% (15463/21182)
+2026-09-11T00:21:07.5000019Z Updating files:  74% (15675/21182)
+2026-09-11T00:21:07.5092553Z Updating files:  75% (15887/21182)
+2026-09-11T00:21:07.5238622Z Updating files:  76% (16099/21182)
+2026-09-11T00:21:07.5384163Z Updating files:  77% (16311/21182)
+2026-09-11T00:21:07.6621671Z Updating files:  77% (16350/21182)
+2026-09-11T00:21:07.7641866Z Updating files:  78% (16522/21182)
+2026-09-11T00:21:07.8604398Z Updating files:  79% (16734/21182)
+2026-09-11T00:21:07.9134014Z Updating files:  80% (16946/21182)
+2026-09-11T00:21:07.9377005Z Updating files:  81% (17158/21182)
+2026-09-11T00:21:07.9583003Z Updating files:  82% (17370/21182)
+2026-09-11T00:21:07.9779014Z Updating files:  83% (17582/21182)
+2026-09-11T00:21:07.9961973Z Updating files:  84% (17793/21182)
+2026-09-11T00:21:08.0168050Z Updating files:  85% (18005/21182)
+2026-09-11T00:21:08.0379368Z Updating files:  86% (18217/21182)
+2026-09-11T00:21:08.0601035Z Updating files:  87% (18429/21182)
+2026-09-11T00:21:08.0769743Z Updating files:  88% (18641/21182)
+2026-09-11T00:21:08.1135511Z Updating files:  89% (18852/21182)
+2026-09-11T00:21:08.1263408Z Updating files:  90% (19064/21182)
+2026-09-11T00:21:08.1369347Z Updating files:  91% (19276/21182)
+2026-09-11T00:21:08.1644295Z Updating files:  92% (19488/21182)
+2026-09-11T00:21:08.3751792Z Updating files:  93% (19700/21182)
+2026-09-11T00:21:08.4427838Z Updating files:  94% (19912/21182)
+2026-09-11T00:21:08.4966978Z Updating files:  95% (20123/21182)
+2026-09-11T00:21:08.5385947Z Updating files:  96% (20335/21182)
+2026-09-11T00:21:08.5402186Z Updating files:  96% (20523/21182)
+2026-09-11T00:21:08.5921593Z Updating files:  97% (20547/21182)
+2026-09-11T00:21:08.6499191Z Updating files:  98% (20759/21182)
+2026-09-11T00:21:08.7012974Z Updating files:  99% (20971/21182)
+2026-09-11T00:21:08.7013942Z Updating files: 100% (21182/21182)
+2026-09-11T00:21:08.7014390Z Updating files: 100% (21182/21182), done.
+2026-09-11T00:21:08.7639796Z Note: switching to 'c6a8059e9f473e002a2dc48e6493e92b2bfbd86c'.
+2026-09-11T00:21:08.7640876Z 
+2026-09-11T00:21:08.7641761Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-09-11T00:21:08.7643175Z changes and commit them, and you can discard any commits you make in this
+2026-09-11T00:21:08.7644390Z state without impacting any branches by switching back to a branch.
+2026-09-11T00:21:08.7645066Z 
+2026-09-11T00:21:08.7645498Z If you want to create a new branch to retain commits you create, you may
+2026-09-11T00:21:08.7646644Z do so (now or later) by using -c with the switch command. Example:
+2026-09-11T00:21:08.7647347Z 
+2026-09-11T00:21:08.7647648Z   git switch -c <new-branch-name>
+2026-09-11T00:21:08.7648071Z 
+2026-09-11T00:21:08.7648288Z Or undo this operation with:
+2026-09-11T00:21:08.7648652Z 
+2026-09-11T00:21:08.7648832Z   git switch -
+2026-09-11T00:21:08.7649074Z 
+2026-09-11T00:21:08.7649509Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-09-11T00:21:08.7650168Z 
+2026-09-11T00:21:08.7650965Z HEAD is now at c6a8059e chore(rcap): queue ten Hawaii route artifacts through existing raster manifest
+2026-09-11T00:21:08.7850932Z ##[endgroup]
+2026-09-11T00:21:08.7907915Z [command]/usr/bin/git log -1 --format=%H
+2026-09-11T00:21:08.7935800Z c6a8059e9f473e002a2dc48e6493e92b2bfbd86c
+2026-09-11T00:21:08.8150474Z ##[group]Run set -euo pipefail
+2026-09-11T00:21:08.8151153Z [36;1mset -euo pipefail[0m
+2026-09-11T00:21:08.8151535Z [36;1m# actions/checkout accepts a branch or tag here despite the input[0m
+2026-09-11T00:21:08.8152059Z [36;1m# description. Three jobs resolve this ref independently, so a branch[0m
+2026-09-11T00:21:08.8152574Z [36;1m# that moves mid-run would have them inspect different commits while[0m
+2026-09-11T00:21:08.8153053Z [36;1m# every receipt recorded the literal branch name as the pin. An[0m
+2026-09-11T00:21:08.8153523Z [36;1m# immutable 40-hex commit, verified against the checked-out HEAD, is[0m
+2026-09-11T00:21:08.8153962Z [36;1m# the only input that makes a receipt findable again.[0m
+2026-09-11T00:21:08.8154285Z [36;1mcase "$REF" in[0m
+2026-09-11T00:21:08.8154720Z [36;1m  *[!0-9a-f]* | "") echo "REFUSED: commit_sha must be a full 40-character commit hash, got '$REF'"; exit 1;;[0m
+2026-09-11T00:21:08.8155387Z [36;1mesac[0m
+2026-09-11T00:21:08.8155812Z [36;1m[ "${#REF}" -eq 40 ] || { echo "REFUSED: commit_sha must be 40 hex characters, got ${#REF}"; exit 1; }[0m
+2026-09-11T00:21:08.8156288Z [36;1mHEAD_SHA="$(git rev-parse HEAD)"[0m
+2026-09-11T00:21:08.8156738Z [36;1m[ "$HEAD_SHA" = "$REF" ] || { echo "REFUSED: checked out $HEAD_SHA but the pin says $REF"; exit 1; }[0m
+2026-09-11T00:21:08.8157226Z [36;1mecho "pinned commit confirmed: $HEAD_SHA"[0m
+2026-09-11T00:21:08.8196893Z shell: /usr/bin/bash -e {0}
+2026-09-11T00:21:08.8197147Z env:
+2026-09-11T00:21:08.8197369Z   REF: c6a8059e9f473e002a2dc48e6493e92b2bfbd86c
+2026-09-11T00:21:08.8197667Z ##[endgroup]
+2026-09-11T00:21:08.8467922Z pinned commit confirmed: c6a8059e9f473e002a2dc48e6493e92b2bfbd86c
+2026-09-11T00:21:08.8570223Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-09-11T00:21:08.8572367Z ##[group]Run actions/setup-node@v4
+2026-09-11T00:21:08.8572634Z with:
+2026-09-11T00:21:08.8572829Z   node-version: 22
+2026-09-11T00:21:08.8573030Z   always-auth: false
+2026-09-11T00:21:08.8573239Z   check-latest: false
+2026-09-11T00:21:08.8575596Z   token: ***
+2026-09-11T00:21:08.8575801Z ##[endgroup]
+2026-09-11T00:21:09.0187035Z Found in cache @ /opt/hostedtoolcache/node/22.23.2/x64
+2026-09-11T00:21:09.0193353Z (node:2246) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-09-11T00:21:09.0194769Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-09-11T00:21:09.0197415Z ##[group]Environment details
+2026-09-11T00:21:09.4135335Z node: v22.23.2
+2026-09-11T00:21:09.4135834Z npm: 10.9.8
+2026-09-11T00:21:09.4136243Z yarn: 1.22.22
+2026-09-11T00:21:09.4137203Z ##[endgroup]
+2026-09-11T00:21:09.4264797Z ##[group]Run node scripts/rcap-raster-plan.mjs \
+2026-09-11T00:21:09.4265217Z [36;1mnode scripts/rcap-raster-plan.mjs \[0m
+2026-09-11T00:21:09.4265536Z [36;1m  --manifest "$MANIFEST_PATH" \[0m
+2026-09-11T00:21:09.4265877Z [36;1m  --families "$FAMILY_BATCH" >> "$GITHUB_OUTPUT"[0m
+2026-09-11T00:21:09.4311373Z shell: /usr/bin/bash -e {0}
+2026-09-11T00:21:09.4311634Z env:
+2026-09-11T00:21:09.4311959Z   MANIFEST_PATH: data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json
+2026-09-11T00:21:09.4312623Z   FAMILY_BATCH: rcap-hi-custom-pleading::route::hi-first-time-drug-offender,rcap-hi-custom-pleading::route::h
+2026-09-11T00:21:09.4313190Z ##[endgroup]
+2026-09-11T00:21:09.4827880Z REFUSED raster plan — the queue holds no RASTER_PENDING row; nothing to render and no way to tell that from a queue that lost its contents
+2026-09-11T00:21:09.4871125Z ##[error]Process completed with exit code 1.
+2026-09-11T00:21:09.5009033Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-09-11T00:21:09.5010324Z Post job cleanup.
+2026-09-11T00:21:09.5869582Z [command]/usr/bin/git version
+2026-09-11T00:21:09.5915454Z git version 2.55.0
+2026-09-11T00:21:09.5955446Z Temporarily overriding HOME='/home/runner/work/_temp/75a522a7-b7e8-4538-9b18-a14ee3ccd603' before making global git config changes
+2026-09-11T00:21:09.5957175Z Adding repository directory to the temporary git global config as a safe directory
+2026-09-11T00:21:09.5961340Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean
+2026-09-11T00:21:09.6000280Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-09-11T00:21:09.6035865Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-09-11T00:21:09.6378218Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-09-11T00:21:09.6413843Z http.https://github.com/.extraheader
+2026-09-11T00:21:09.6453467Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-09-11T00:21:09.6492238Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-09-11T00:21:09.6780054Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-09-11T00:21:09.6821378Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-09-11T00:21:09.7263162Z Evaluate and set job outputs
+2026-09-11T00:21:09.7271766Z Cleaning up orphan processes
+2026-09-11T00:21:09.7502232Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

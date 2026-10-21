@@ -1,0 +1,75 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-worker-return/v1",
+  "assignmentId": "PF24",
+  "workerId": "PF24",
+  "lane": "packet-build",
+  "workerBranch": "fix05-pa-disposition-20260911",
+  "engine": "GPT-5.6 Sol (assigned; runtime metadata not independently exposed)",
+  "returnFilename": "rows-pf24-20260911-al-source-restored.json",
+  "worktree": "/tmp/rcap-fix05-pa-disposition-20260911",
+  "shiftBaseSha": "70bae4ecf9c00789bfe06de7baad452a4fb761aa",
+  "familiesAssignedByPrompt": 1,
+  "familiesGrantedByClaimLedger": 1,
+  "rowsReturned": 1,
+  "packetsSelfVerified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "rows": [
+    {
+      "itemId": "al-pardon-set",
+      "status": "COMPLETED",
+      "jurisdiction": "AL",
+      "implementationStrategy": "official_pdf_fill",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/al/al-pardon-set--official-pdf-fill",
+      "routeKeys": ["obligation:track-only:AL:al-pardon"],
+      "packetComponents": ["al-pardon-primary-filing-1"],
+      "builtBy": "scripts/build-census-v1-al-pardon-set.mjs",
+      "buildStatus": "qa_review_pending",
+      "reviewStatus": "independent_review_and_raster_pending",
+      "claim": "CLAIM_OK PF24 al-pardon-set (packet-build, grant set be2ed2c2baba7036)",
+      "source": {
+        "sourceId": "official-form:ABPP-3",
+        "officialFormId": "ABPP-3",
+        "pathInArchive": "LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf",
+        "restoredIndexedCustodyPath": "private/source-imports/src05-worker-materialization-2026-09-02/LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf",
+        "sha256": "874e738a83c3577413a29a92eb0b999e8c9aab36ddf83589191e33d3c63ac327",
+        "byteLength": 160009,
+        "pageCount": 4,
+        "acroFieldCount": 30,
+        "widgetCount": 31,
+        "exact": true
+      },
+      "executionEvidence": "data/rcap-grade-a/packet-factory-24h/pf24/al-source-restored-20260911/execution-verdict.json",
+      "completeness": {
+        "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-pardon-set",
+        "writeMode": false,
+        "exitCode": 0,
+        "result": "PASS_COMPLETE"
+      },
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "artifacts": [
+        { "fixture": "canonical", "sha256": "27810fee926dd4148e378310d923a979a2976446cdb03bbaa11989d705fcdc4e", "byteLength": 153873, "pageCount": 4 },
+        { "fixture": "boundary", "sha256": "9a745cfbc52accfa6f22343ecfa60dd786c80cb4e990977c2480e4e174eadb53", "byteLength": 153943, "pageCount": 4 }
+      ],
+      "packetsSelfVerified": 0,
+      "rasterState": "RASTER_PENDING",
+      "independentVerificationStatus": "PENDING",
+      "localRasterPerformed": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    }
+  ],
+  "familiesCompleted": 1,
+  "familiesStopped": 0,
+  "sourceRestoredAndExact": ["al-pardon-set"]
+}

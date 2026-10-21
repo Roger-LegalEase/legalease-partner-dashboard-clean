@@ -1,0 +1,101 @@
+[
+  {
+    "name": "claim-pa",
+    "command": [
+      "node",
+      "scripts/grade-a-packet-factory-24h/claim.mjs",
+      "--assert",
+      "VF62",
+      "pa_6308_underage-set"
+    ],
+    "exitCode": 0,
+    "log": "data/rcap-grade-a/packet-factory-24h/vf62/pa-ri-current-20260911/claim-pa.log"
+  },
+  {
+    "name": "claim-ri",
+    "command": [
+      "node",
+      "scripts/grade-a-packet-factory-24h/claim.mjs",
+      "--assert",
+      "VF62",
+      "ri_nonconviction_sealing-set"
+    ],
+    "exitCode": 0,
+    "log": "data/rcap-grade-a/packet-factory-24h/vf62/pa-ri-current-20260911/claim-ri.log"
+  },
+  {
+    "name": "completeness-pa",
+    "command": [
+      "node",
+      "scripts/rcap-packet-completeness/verify-packet-completeness.mjs",
+      "--family",
+      "pa_6308_underage-set"
+    ],
+    "exitCode": 0,
+    "log": "data/rcap-grade-a/packet-factory-24h/vf62/pa-ri-current-20260911/completeness-pa.log"
+  },
+  {
+    "name": "completeness-ri",
+    "command": [
+      "node",
+      "scripts/rcap-packet-completeness/verify-packet-completeness.mjs",
+      "--family",
+      "ri_nonconviction_sealing-set"
+    ],
+    "exitCode": 0,
+    "log": "data/rcap-grade-a/packet-factory-24h/vf62/pa-ri-current-20260911/completeness-ri.log"
+  },
+  {
+    "name": "caption-controls",
+    "command": [
+      "node",
+      "--test",
+      "scripts/rcap-official-forms/test-caption-unmeasurable-left-edge.mjs"
+    ],
+    "exitCode": 0,
+    "log": "data/rcap-grade-a/packet-factory-24h/vf62/pa-ri-current-20260911/caption-controls.log"
+  },
+  {
+    "name": "nonvisual-pa",
+    "command": [
+      "node",
+      "scripts/build-census-v1-pa_6308_underage-set.mjs",
+      "--check-nonvisual"
+    ],
+    "environment": {
+      "MASTER_LIBRARY_SOURCE_DIR": "/tmp/rcap-vf62-pa-ri-current-20260911/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
+      "RCAP_NO_LOCAL_RASTER": "1"
+    },
+    "exitCode": 0,
+    "log": "data/rcap-grade-a/packet-factory-24h/vf62/pa-ri-current-20260911/nonvisual-pa.log"
+  },
+  {
+    "name": "caption-remeasurement",
+    "command": [
+      "node",
+      "data/rcap-grade-a/packet-factory-24h/pf26/pa-caption-20260911/measure-caption-contexts.mjs"
+    ],
+    "exitCode": 0,
+    "evidence": "data/rcap-grade-a/packet-factory-24h/vf62/pa-ri-current-20260911/caption-remeasurement.json"
+  },
+  {
+    "name": "current-evidence-initial-probe",
+    "command": [
+      "node",
+      "data/rcap-grade-a/packet-factory-24h/vf62/pa-ri-current-20260911/measure-current-evidence.mjs"
+    ],
+    "exitCode": 1,
+    "substantiveResult": "Probe reader stopped because Poppler interleaved an original underscore rule between words of the PA boundary name. Reader corrected to exclude only standalone underline/dot rules; packet unchanged."
+  },
+  {
+    "name": "current-evidence",
+    "command": [
+      "node",
+      "data/rcap-grade-a/packet-factory-24h/vf62/pa-ri-current-20260911/measure-current-evidence.mjs"
+    ],
+    "exitCode": 0,
+    "substantiveResult": "PA 6 PDFs/8 PNG pages/4 sources/37 text-write instances and RI 2 PDFs/8 PNG pages/1 source/10 text-write instances bind and read back.",
+    "diagnostic": "Poppler emitted nonfatal XObject subtype warnings at offsets 4878,7239,7284,7560,7832,7934,8149. All requested pages and text writes parsed, and original GHA full pages were independently read. No warning was silently presented as an absent or blank page.",
+    "evidence": "data/rcap-grade-a/packet-factory-24h/vf62/pa-ri-current-20260911/current-evidence-measurements.json"
+  }
+]

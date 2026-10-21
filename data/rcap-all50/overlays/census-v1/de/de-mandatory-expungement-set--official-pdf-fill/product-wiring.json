@@ -1,0 +1,123 @@
+{
+  "schemaVersion": "rcap-census-v1-product-wiring/v1",
+  "family": "de_mandatory_expungement-set",
+  "routeKey": "obligation:track-pathway:DE:de_mandatory_expungement:mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a",
+  "routeKeys": [
+    "obligation:track-pathway:DE:de_mandatory_expungement:mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a"
+  ],
+  "workType": "PRODUCT_WIRING_REQUIRED",
+  "status": "DECLARED_NOT_INSTALLED",
+  "authorityCreated": "none",
+  "generatedBy": "scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs",
+  "derivedFrom": "data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill/reports/rendered-artifacts.json",
+  "explicitNonGrants": [
+    "This document opens no commercial route.",
+    "It creates no fulfillment record and consumes no packet credit.",
+    "It marks no packet proven and grants no output approval.",
+    "It does not add this track to compiled runtime. src/lib/rcap-engine/compiled/** is untouched.",
+    "It does not change any live RCAP route.",
+    "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This is not that record."
+  ],
+  "currentState": {
+    "serviceDisposition": "missing_from_compiled_runtime",
+    "commercialState": "NO_ROUTE_LEVEL_GRADE_A_AUTHORITY_FROM_TRACK_MEMBERSHIP",
+    "existingArtifactIds": [],
+    "generationAllowed": false
+  },
+  "binding": {
+    "family": "de_mandatory_expungement-set",
+    "jurisdiction": "DE",
+    "routeKeys": [
+      "obligation:track-pathway:DE:de_mandatory_expungement:mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a"
+    ],
+    "deliveryType": "process_guidance",
+    "instrumentKinds": [
+      "no filing — process guidance"
+    ],
+    "packetComponents": [
+      "agency_preparation_guide"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "34628970364",
+      "jobId": "103361882553",
+      "artifactId": "10275039881",
+      "boundToCanonicalSha256": "fe6116767ab21cd12f5448c6cb389072f32e4650e3a3b7f8d8bb82168e124f00",
+      "coversTheWholeFamily": true
+    },
+    "lastIndependentVerification": {
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf62",
+      "verifiedAtBase": "a9d0acdf0f37d18d9b469ffaf18dbecc9b514596"
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-de_mandatory_expungement-set.mjs",
+      "sharedBuildHost": "build-census-v1-agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge.mjs",
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    },
+    "acceptanceReceiptWithdrawn": [
+      {
+        "why": "The acceptance receipt binds an exact canonical SHA-256 and this write's canonical bytes are not those bytes, so the receipt does not describe this packet. It is withdrawn and kept as history rather than deleted, and it is not carried forward as though it still applied. Only the central raster acceptance workflow issues a receipt; nothing here issues one and nothing here sets a verdict.",
+        "boundToCanonicalSha256": "f08e5968263dab6597374e385f0460aa3f452a72ea2cc716cb57ebd1df86ad1a",
+        "replacedByCanonicalSha256": "fe6116767ab21cd12f5448c6cb389072f32e4650e3a3b7f8d8bb82168e124f00",
+        "withdrawnReceipt": {
+          "verdict": "RASTER_PASS",
+          "workflowRunId": "34078415178",
+          "jobId": "101609393830",
+          "artifactId": "10002964440",
+          "boundToCanonicalSha256": "f08e5968263dab6597374e385f0460aa3f452a72ea2cc716cb57ebd1df86ad1a",
+          "coversTheWholeFamily": true
+        }
+      }
+    ],
+    "filingPermitted": false,
+    "deliveryBoundary": "Preparation guidance only; do not file it with SBI or a court. SBI supplies its own subsequent paperwork."
+  },
+  "proposedRepresentation": {
+    "note": "Declaration of the existing non-filed preparation guide. This metadata correction is not installed runtime fulfillment, independent content approval, eligibility or commercial authority.",
+    "packetSetId": "de_mandatory_expungement-set",
+    "outputStrategy": "process_guidance",
+    "components": [
+      {
+        "componentId": "de_mandatory_expungement-set-component-1",
+        "role": "participant_guide",
+        "order": 1,
+        "documentId": "agency_preparation_guide",
+        "file": "data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "fe6116767ab21cd12f5448c6cb389072f32e4650e3a3b7f8d8bb82168e124f00",
+        "requirement": "required"
+      }
+    ],
+    "fixtureBindings": [
+      {
+        "fixture": "canonical",
+        "file": "data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "fe6116767ab21cd12f5448c6cb389072f32e4650e3a3b7f8d8bb82168e124f00",
+        "pageCount": 4
+      },
+      {
+        "fixture": "boundary",
+        "file": "data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill/fixtures/boundary.pdf",
+        "sha256": "45f57fe5ba073034ce2f3e3411c1b87410123ae51a56f235fbbb4e1d8656d3bb",
+        "pageCount": 4
+      }
+    ]
+  },
+  "deliveryCorrectionBasis": {
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill/source-receipt.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "rule": "Honor the existing exact-route guidance declaration rather than the legacy agency-application label.",
+    "createsApproval": false,
+    "opensCheckout": false
+  }
+}

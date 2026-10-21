@@ -1,0 +1,82 @@
+{
+  "schemaVersion": "rcap-ca-checker-repair-followup-transfer/v1",
+  "recordedAt": "2026-09-13",
+  "familyId": "ca-diversion-seal-set",
+  "resolverClass": "SOURCE_RECOVERY_WAVE1 governed adoption",
+  "worker": {
+    "codespace": "rcap-finish-worker-77jr7gx76jq3rg65",
+    "checkout": "private/worker-worktrees/pf20-ks-arrest-registration-resume-20260913",
+    "branch": "pf20-ks-22-2410-arrest-20260912b",
+    "baseCommit": "7c59b4bb8253cd2dc15c612d26083b0121b5b758",
+    "candidateCommit": "7c07710612eaefef58f50a044fb78b114dbb0ee4",
+    "nativeReturnCommit": "5c411bcdadadbe468ed6ba6f79a21a8a0db3e242"
+  },
+  "priorIndependentReview": {
+    "path": "data/rcap-grade-a/packet-factory-24h/pf20/ca-checker-repair-independent-code-review-20260913.json",
+    "sha256": "30ff678a67b71a99eb8e61311f43eebc04ef85e2c5c950b15fc424cf4f8b90b1",
+    "disposition": "CHANGES_REQUIRED",
+    "findingsAddressed": [
+      "inputManifestSha256 is compared to the actual fixed manifest bytes",
+      "more than one acquired receipt is refused, including a matching plus conflicting duplicate",
+      "non-null conflicting custody heldAs is refused even when resolved is false",
+      "stale Kansas negative was replaced by a hermetic missing-indexed-body refusal"
+    ]
+  },
+  "files": [
+    {
+      "path": "scripts/verify-family-source-resolution.test.mjs",
+      "sha256": "06e1e8347d8f74584bca93f45983329f5371077121ca3abd58477e8b4bbe43c0",
+      "byteLength": 21466
+    },
+    {
+      "path": "scripts/verify-packet-build-environment.mjs",
+      "sha256": "190e8f93e7105726f3ecb763599668802fae4312281ace96ed3e078516c401f6",
+      "byteLength": 114111
+    }
+  ],
+  "patch": {
+    "path": "private/packet-factory-24h/transfers/pf20-ca-checker-repair-followup-20260913/ca-checker-repair-followup.patch",
+    "sha256": "46612db20f429641ee1d3db19e27eb68d4cb7a6a31272e4493d1ae2b6e213532",
+    "byteLength": 32402,
+    "sourceCommand": "git diff --binary 7c59b4bb8253cd2dc15c612d26083b0121b5b758 7c07710612eaefef58f50a044fb78b114dbb0ee4 -- scripts/verify-packet-build-environment.mjs scripts/verify-family-source-resolution.test.mjs",
+    "fileCount": 2,
+    "captainApplyCheck": true
+  },
+  "nativeReturn": {
+    "workerPath": "data/rcap-grade-a/packet-factory-24h/pf20/ca-checker-repair-followup-return-20260913.json",
+    "transferPath": "private/packet-factory-24h/transfers/pf20-ca-checker-repair-followup-20260913/ca-checker-repair-followup-return-20260913.json",
+    "sha256": "36e4f01ade562739892fe5be0ec65c388d6f716f2ae646886b3c7ee3dc4729a2",
+    "byteLength": 4759,
+    "schemaVersion": "rcap-packet-factory-24h-native-return/v1",
+    "status": "CODE_REPAIR_READY_FOR_INDEPENDENT_REVIEW"
+  },
+  "validation": {
+    "focused": "8 passed, 0 failed",
+    "focusedCommand": "node --test --test-name-pattern=\"governed|hermetic|CA\" scripts/verify-family-source-resolution.test.mjs",
+    "syntax": "node --check passed for both implementation files",
+    "diffCheck": "git diff --check passed",
+    "captainPatchApplyCheck": "passed against Captain current files",
+    "actualResolverClass": "All seven recorded families resolve through the helper; expected source IDs and family bridge outputs matched; no unresolvable custody conflicts."
+  },
+  "scopeControls": {
+    "expectedFamilyIds": [
+      "ca-diversion-seal-set",
+      "fl-sealing-set",
+      "ia-12346-set",
+      "ia-901c3-set",
+      "il-prb-cert-set",
+      "nd-prohibit-remote-public-access-set",
+      "ut_pet_remove_link-set"
+    ],
+    "expectedSourceBodies": 15,
+    "queueAuthorityUsed": false,
+    "sourceHuntPerformed": false,
+    "sourceCustodyEdited": false,
+    "sharedManifestEdited": false,
+    "caBuildPerformed": false,
+    "claimLedgerCommitted": false,
+    "claimLedgerPreservedUncommitted": true,
+    "initialBlockedReturnPreserved": "data/rcap-grade-a/packet-factory-24h/pf06/rows-pf06-ca-diversion-seal-20260913.json"
+  },
+  "captainAction": "Independently review and apply the exact two-file patch; only after PASS rerun the seven recorded same-resolver-class prerequisite checks. Hold the CA build until then."
+}

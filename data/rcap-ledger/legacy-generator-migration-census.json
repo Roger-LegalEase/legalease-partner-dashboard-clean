@@ -1,0 +1,1918 @@
+{
+  "schemaVersion": 1,
+  "generatedOn": "2026-08-28",
+  "note": "Route by route and family by family, what it would take to migrate each retired legacy jurisdiction onto Grade-A fulfillment. Authority: ADR-0004 and data/record-clearing/legal-decisions/2026-08-28-legacy-generator-retirement.json. A state is never reopened because one of its routes passes; each row is migrated on its own evidence.",
+  "retiredJurisdictions": [
+    "MS",
+    "IL",
+    "DC",
+    "PA",
+    "TX"
+  ],
+  "totals": {
+    "routes": 59,
+    "byJurisdiction": {
+      "MS": 23,
+      "IL": 9,
+      "DC": 7,
+      "PA": 11,
+      "TX": 9
+    },
+    "byReadiness": {
+      "MIGRATABLE_NOW": 9,
+      "NO_APPROVED_PACKET_SET": 32,
+      "BLOCKED_ON_RATIFICATION": 5,
+      "SOURCE_BYTES_NOT_MATERIALIZED_IN_CURRENT_RUNTIME": 13
+    }
+  },
+  "whatMigrationMeans": [
+    "A versioned, hashed packet specification for the family, drawn from the owner-approved packet set and the compiled profile's extracted rules.",
+    "Composition through the Grade-A composer, which refuses a matter with any required fact missing.",
+    "Rendering through the Grade-A provider to application/pdf.",
+    "A fulfillment record naming the specification hash, the source identities and their verification states, the provider and renderer with versions, the required facts, the final-verification requirements, the artifact-approval status and both postures.",
+    "Counsel review before either posture opens. Machine verification is not review."
+  ],
+  "routes": [
+    {
+      "route": "DC:dc_actual_innocence_expungement_16_803",
+      "jurisdiction": "DC",
+      "pathwayId": "dc_actual_innocence_expungement_16_803",
+      "pathwayLabel": "Actual-innocence expungement by motion under D.C. Code \u00a7 16-803",
+      "ratification": "ratified_deployable",
+      "hasLegalAuthorityContract": false,
+      "packetFamily": null,
+      "approvedPacketSetIds": [
+        "dc_innocence_expungement-set"
+      ],
+      "approvedComponentRoles": [
+        "primary_filing"
+      ],
+      "outputStrategies": [
+        "custom_pleading"
+      ],
+      "officialFormIds": [],
+      "ownerApprovedLegalDesign": false,
+      "reusableAssets": {
+        "statePack": "src/lib/rcap/state-packs/dc",
+        "documentComponent": "src/components/rcap/documents/DocumentPacketRenderer.tsx",
+        "note": "The legacy document component is the closest thing the repository has to a specification of what a complete packet looks like for this jurisdiction, and is the comparison evidence for the migrated packet."
+      },
+      "migrationReadiness": "MIGRATABLE_NOW",
+      "exactBlocker": "None. Its approved packet set composes without official form bytes and counsel has ratified the route.",
+      "commercialOpeningStillRequires": [
+        "owner approval of the legal design",
+        "counsel review of the composed document set"
+      ]
+    },
+    {
+      "route": "DC:dc_auto_expungement_16_802",
+      "jurisdiction": "DC",
+      "pathwayId": "dc_auto_expungement_16_802",
+      "pathwayLabel": "Automatic expungement under D.C. Code \u00a7 16-802",
+      "ratification": "unclassified",
+      "hasLegalAuthorityContract": false,
+      "packetFamily": null,
+      "approvedPacketSetIds": [],
+      "approvedComponentRoles": [],
+      "outputStrategies": [],
+      "officialFormIds": [],
+      "ownerApprovedLegalDesign": null,
+      "reusableAssets": {
+        "statePack": "src/lib/rcap/state-packs/dc",
+        "documentComponent": "src/components/rcap/documents/DocumentPacketRenderer.tsx",
+        "note": "The legacy document component is the closest thing the repository has to a specification of what a complete packet looks like for this jurisdiction, and is the comparison evidence for the migrated packet."
+      },
+      "migrationReadiness": "NO_APPROVED_PACKET_SET",
+      "exactBlocker": "No owner-approved packet set exists for this route, so there is nothing to migrate a specification from. A packet set is the first step.",
+      "commercialOpeningStillRequires": [
+        "owner approval of the legal design",
+        "counsel ratification (currently unclassified)",
+        "counsel review of the composed document set"
+      ]
+    },
+    {
+      "route": "DC:dc_auto_sealing_16_805",
+      "jurisdiction": "DC",
+      "pathwayId": "dc_auto_sealing_16_805",
+      "pathwayLabel": "Automatic sealing under D.C. Code \u00a7 16-805",
+      "ratification": "unclassified",
+      "hasLegalAuthorityContract": false,
+      "packetFamily": null,
+      "approvedPacketSetIds": [],
+      "approvedComponentRoles": [],
+      "outputStrategies": [],
+      "officialFormIds": [],
+      "ownerApprovedLegalDesign": null,
+      "reusableAssets": {
+        "statePack": "src/lib/rcap/state-packs/dc",
+        "documentComponent": "src/components/rcap/documents/DocumentPacketRenderer.tsx",
+        "note": "The legacy document component is the closest thing the repository has to a specification of what a complete packet looks like for this jurisdiction, and is the comparison evidence for the migrated packet."
+      },
+      "migrationReadiness": "NO_APPROVED_PACKET_SET",
+      "exactBlocker": "No owner-approved packet set exists for this route, so there is nothing to migrate a specification from. A packet set is the first step.",
+      "commercialOpeningStillRequires": [
+        "owner approval of the legal design",
+        "counsel ratification (currently unclassified)",
+        "counsel review of the composed document set"
+      ]
+    },
+    {
+      "route": "DC:dc_juvenile_sealing_16_2335",
+      "jurisdiction": "DC",
+      "pathwayId": "dc_juvenile_sealing_16_2335",
+      "pathwayLabel": "Juvenile sealing under D.C. Code \u00a7 16-2335",
+      "ratification": "unclassified",
+      "hasLegalAuthorityContract": false,
+      "packetFamily": null,
+      "approvedPacketSetIds": [],
+      "approvedComponentRoles": [],
+      "outputStrategies": [],
+      "officialFormIds": [],
+      "ownerApprovedLegalDesign": null,
+      "reusableAssets": {
+        "statePack": "src/lib/rcap/state-packs/dc",
+        "documentComponent": "src/components/rcap/documents/DocumentPacketRenderer.tsx",
+        "note": "The legacy document component is the closest thing the repository has to a specification of what a complete packet looks like for this jurisdiction, and is the comparison evidence for the migrated packet."
+      },
+      "migrationReadiness": "NO_APPROVED_PACKET_SET",
+      "exactBlocker": "No owner-approved packet set exists for this route, so there is nothing to migrate a specification from. A packet set is the first step.",
+      "commercialOpeningStillRequires": [
+        "owner approval of the legal design",
+        "counsel ratification (currently unclassified)",
+        "counsel review of the composed document set"
+      ]
+    },
+    {
+      "route": "DC:dc_motion_seal_felony_conviction_8yr_16_806",
+      "jurisdiction": "DC",
+      "pathwayId": "dc_motion_seal_felony_conviction_8yr_16_806",
+      "pathwayLabel": "Motion to seal felony conviction after 8 years under D.C. Code \u00a7 16-806",
+      "ratification": "unclassified",
+      "hasLegalAuthorityContract": false,
+      "packetFamily": null,
+      "approvedPacketSetIds": [
+        "dc_seal_conviction-set"
+      ],
+      "approvedComponentRoles": [
+        "primary_filing"
+      ],
+      "outputStrategies": [
+        "custom_pleading"
+      ],
+      "officialFormIds": [],
+      "ownerApprovedLegalDesign": false,
+      "reusableAssets": {
+        "statePack": "src/lib/rcap/state-packs/dc",
+        "documentComponent": "src/components/rcap/documents/DocumentPacketRenderer.tsx",
+        "note": "The legacy document component is the closest thing the repository has to a specification of what a complete packet looks like for this jurisdiction, and is the comparison evidence for the migrated packet."
+      },
+      "migrationReadiness": "BLOCKED_ON_RATIFICATION",
+      "exactBlocker": "Counsel classifies this route unclassified. A packet may be specified and built, and the record's postures stay held until ratification.",
+      "commercialOpeningStillRequires": [
+        "owner approval of the legal design",
+        "counsel ratification (currently unclassified)",
+        "counsel review of the composed document set"
+      ]
+    },
+    {
+      "route": "DC:dc_motion_seal_misdemeanor_conviction_5yr_16_806",
+      "jurisdiction": "DC",
+      "pathwayId": "dc_motion_seal_misdemeanor_conviction_5yr_16_806",
+      "pathwayLabel": "Motion to seal misdemeanor conviction after 5 years under D.C. Code \u00a7 16-806",
+      "ratification": "unclassified",
+      "hasLegalAuthorityContract": false,
+      "packetFamily": null,
+      "approvedPacketSetIds": [
+        "dc_seal_conviction-set"
+      ],
+      "approvedComponentRoles": [
+        "primary_filing"
+      ],
+      "outputStrategies": [
+        "custom_pleading"
+      ],
+      "officialFormIds": [],
+      "ownerApprovedLegalDesign": false,
+      "reusableAssets": {
+        "statePack": "src/lib/rcap/state-packs/dc",
+        "documentComponent": "src/components/rcap/documents/DocumentPacketRenderer.tsx",
+        "note": "The legacy document component is the closest thing the repository has to a specification of what a complete packet looks like for this jurisdiction, and is the comparison evidence for the migrated packet."
+      },
+      "migrationReadiness": "BLOCKED_ON_RATIFICATION",
+      "exactBlocker": "Counsel classifies this route unclassified. A packet may be specified and built, and the record's postures stay held until ratification.",
+      "commercialOpeningStillRequires": [
+        "owner approval of the legal design",
+        "counsel ratification (currently unclassified)",
+        "counsel review of the composed document set"
+      ]
+    },
+    {
+      "route": "DC:dc_motion_seal_nonconviction_16_806",
+      "jurisdiction": "DC",
+      "pathwayId": "dc_motion_seal_nonconviction_16_806",
+      "pathwayLabel": "Motion to seal non-conviction record under D.C. Code \u00a7 16-806",
+      "ratification": "unclassified",
+      "hasLegalAuthorityContract": false,
+      "packetFamily": null,
+      "approvedPacketSetIds": [
+        "dc_seal_nonconviction-set"
+      ],
+      "approvedComponentRoles": [
+        "primary_filing"
+      ],
+      "outputStrategies": [
+        "custom_pleading"
+      ],
+      "officialFormIds": [],
+      "ownerApprovedLegalDesign": false,
+      "reusableAssets": {
+        "statePack": "src/lib/rcap/state-packs/dc",
+        "documentComponent": "src/components/rcap/documents/DocumentPacketRenderer.tsx",
+        "note": "The legacy document component is the closest thing the repository has to a specification of what a complete packet looks like for this jurisdiction, and is the comparison evidence for the migrated packet."
+      },
+      "migrationReadiness": "BLOCKED_ON_RATIFICATION",
+      "exactBlocker": "Counsel classifies this route unclassified. A packet may be specified and built, and the record's postures stay held until ratification.",
+      "commercialOpeningStillRequires": [
+        "owner approval of the legal design",
+        "counsel ratification (currently unclassified)",
+        "counsel review of the composed document set"
+      ]
+    },
+    {
+      "route": "IL:adult-conviction-sealing",
+      "jurisdiction": "IL",
+      "pathwayId": "adult-conviction-sealing",
+      "pathwayLabel": "Adult conviction sealing",
+      "ratification": "ratified_deployable",
+      "hasLegalAuthorityContract": false,
+      "packetFamily": null,
+      "approvedPacketSetIds": [
+        "il-seal-2yr-set",
+        "il-seal-3yr-set"
+      ],
+      "approvedComponentRoles": [
+        "attachment",
+        "fee_waiver",
+        "primary_filing",
+        "proposed_order"
+      ],
+      "outputStrategies": [
+        "official_pdf_fill"
+      ],
+      "officialFormIds": [
+        "EXP-AD Case List",
+        "EXP-AD Order Granting",
+        "EXP-AD Request",
+        "FW-CIV-APPLICATION"
+      ],
+      "ownerApprovedLegalDesign": false,
+      "reusableAssets": {
+        "statePack": "src/lib/rcap/state-packs/illinois",
+        "documentComponent": "src/components/rcap/documents/DocumentPacketRenderer.tsx",
+        "note": "The legacy document component is the closest thing the repository has to a specification of what a complete packet looks like for this jurisdiction, and is the comparison evidence for the migrated packet."
+      },
+      "migrationReadiness": "SOURCE_BYTES_NOT_MATERIALIZED_IN_CURRENT_RUNTIME",
+      "exactBlocker": "Its packet set fills official forms (EXP-AD Case List, EXP-AD Order Granting, EXP-AD Request, FW-CIV-APPLICATION). IL has 22 inventoried source artifact(s) present and re-verified and 7 identified but not materialised in this runtime. Whether THIS route's forms are among the present set is settled per form in data/rcap-ledger/source-custody-census.json; nothing here is called missing.",
+      "commercialOpeningStillRequires": [
+        "owner approval of the legal design",
+        "counsel review of the composed document set"
+      ],
+      "sourceCustody": "SOURCE_IDENTIFIED_NOT_MATERIALIZED or SOURCE_PRESENT_AND_REVERIFIED, per form \u2014 see the custody census"
+    },
+    {
+      "route": "IL:adult-non-conviction-expungement",
+      "jurisdiction": "IL",
+      "pathwayId": "adult-non-conviction-expungement",
+      "pathwayLabel": "Adult non-conviction expungement",
+      "ratification": "unclassified",
+      "hasLegalAuthorityContract": false,
+      "packetFamily": null,
+      "approvedPacketSetIds": [
+        "il-exp-nonconv-set"
+      ],
+      "approvedComponentRoles": [
+        "attachment",
+        "continuation",
+        "fee_waiver",
+        "primary_filing",
+        "proposed_order"
+      ],
+      "outputStrategies": [
+        "official_pdf_fill"
+      ],
+      "officialFormIds": [
+        "EXP-AD Additional Cases Expungement",
+        "EXP-AD Case List",
+        "EXP-AD Order Granting",
+        "EXP-AD Request",
+        "FW-CIV-APPLICATION"
+      ],
+      "ownerApprovedLegalDesign": false,
+      "reusableAssets": {
+        "statePack": "src/lib/rcap/state-packs/illinois",
+        "documentComponent": "src/components/rcap/documents/DocumentPacketRenderer.tsx",
+        "note": "The legacy document component is the closest thing the repository has to a specification of what a complete packet looks like for this jurisdiction, and is the comparison evidence for the migrated packet."
+      },
+      "migrationReadiness": "SOURCE_BYTES_NOT_MATERIALIZED_IN_CURRENT_RUNTIME",
+      "exactBlocker": "Its packet set fills official forms (EXP-AD Additional Cases Expungement, EXP-AD Case List, EXP-AD Order Granting, EXP-AD Request, FW-CIV-APPLICATION). IL has 22 inventoried source artifact(s) present and re-verified and 7 identified but not materialised in this runtime. Whether THIS route's forms are among the present set is settled per form in data/rcap-ledger/source-custody-census.json; nothing here is called missing.",
+      "commercialOpeningStillRequires": [
+        "owner approval of the legal design",
+        "counsel ratification (currently unclassified)",
+        "counsel review of the composed document set"
+      ],
+      "sourceCustody": "SOURCE_IDENTIFIED_NOT_MATERIALIZED or SOURCE_PRESENT_AND_REVERIFIED, per form \u2014 see the custody census"
+    },
+    {
+      "route": "IL:cannabis-specific-automatic-or-petition-expungement",
+      "jurisdiction": "IL",
+      "pathwayId": "cannabis-specific-automatic-or-petition-expungement",
+      "pathwayLabel": "Cannabis-specific automatic or petition expungement",
+      "ratification": "ratified_deployable",
+      "hasLegalAuthorityContract": true,
+      "packetFamily": "Illinois Cannabis Expungement Petition under 20 ILCS 2630/5.2",
+      "approvedPacketSetIds": [
+        "il-cannabis-auto-set",
+        "il-cannabis-vacate-set"
+      ],
+      "approvedComponentRoles": [
+        "continuation",
+        "instructions",
+        "local_addendum",
+        "primary_filing",
+        "process_guidance",
+        "proposed_order"
+      ],
+      "outputStrategies": [
+        "official_pdf_fill",
+        "process_guidance"
+      ],
+      "officialFormIds": [
+        "CXP Additional Cannabis Convictions",
+        "CXP Additional Notice of Court Date",
+        "CXP Getting Started Motion to Vacate and Expunge",
+        "CXP Motion to Vacate and Expunge",
+        "CXP Notice of Court Date for Motion",
+        "CXP Order Granting or Denying Motion"
+      ],
+      "ownerApprovedLegalDesign": true,
+      "reusableAssets": {
+        "statePack": "src/lib/rcap/state-packs/illinois",
+        "documentComponent": "src/components/rcap/documents/DocumentPacketRenderer.tsx",
+        "note": "The legacy document component is the closest thing the repository has to a specification of what a complete packet looks like for this jurisdiction, and is the comparison evidence for the migrated packet."
+      },
+      "migrationReadiness": "SOURCE_BYTES_NOT_MATERIALIZED_IN_CURRENT_RUNTIME",
+      "exactBlocker": "Its packet set fills official forms (CXP Additional Cannabis Convictions, CXP Additional Notice of Court Date, CXP Getting Started Motion to Vacate and Expunge, CXP Motion to Vacate and Expunge, CXP Notice of Court Date for Motion, CXP Order Granting or Denying Motion). IL has 22 inventoried source artifact(s) present and re-verified and 7 identified but not materialised in this runtime. Whether THIS route's forms are among the present set is settled per form in data/rcap-ledger/source-custody-census.json; nothing here is called missing.",
+      "commercialOpeningStillRequires": [
+        "counsel review of the composed document set"
+      ],
+      "sourceCustody": "SOURCE_IDENTIFIED_NOT_MATERIALIZED or SOURCE_PRESENT_AND_REVERIFIED, per form \u2014 see the custody census"
+    },
+    {
+      "route": "IL:clean-slate-automatic-sealing",
+      "jurisdiction": "IL",
+      "pathwayId": "clean-slate-automatic-sealing",
+      "pathwayLabel": "Clean Slate automatic sealing",
+      "ratification": "unclassified",
+      "hasLegalAuthorityContract": false,
+      "packetFamily": null,
+      "approvedPacketSetIds": [],
+      "approvedComponentRoles": [],
+      "outputStrategies": [],
+      "officialFormIds": [],
+      "ownerApprovedLegalDesign": null,
+      "reusableAssets": {
+        "statePack": "src/lib/rcap/state-packs/illinois",
+        "documentComponent": "src/components/rcap/documents/DocumentPacketRenderer.tsx",
+        "note": "The legacy document component is the closest thing the repository has to a specification of what a complete packet looks like for this jurisdiction, and is the comparison evidence for the migrated packet."
+      },
+      "migrationReadiness": "NO_APPROVED_PACKET_SET",
+      "exactBlocker": "No owner-approved packet set exists for this route, so there is nothing to migrate a specification from. A packet set is the first step.",
+      "commercialOpeningStillRequires": [
+        "owner approval of the legal design",
+        "counsel ratification (currently unclassified)",
+        "counsel review of the composed document set"
+      ]
+    },
+    {
+      "route": "IL:criminal-identity-theft-mistaken-identity-relief",
+      "jurisdiction": "IL",
+      "pathwayId": "criminal-identity-theft-mistaken-identity-relief",
+      "pathwayLabel": "Criminal identity-theft / mistaken-identity relief",
+      "ratification": "ratified_deployable",
+      "hasLegalAuthorityContract": true,
+      "packetFamily": "Illinois Verified Mistaken-Identity Petition under 20 ILCS 2630/5.2",
+      "approvedPacketSetIds": [],
+      "approvedComponentRoles": [],
+      "outputStrategies": [],
+      "officialFormIds": [],
+      "ownerApprovedLegalDesign": false,
+      "reusableAssets": {
+        "statePack": "src/lib/rcap/state-packs/illinois",
+        "documentComponent": "src/components/rcap/documents/DocumentPacketRenderer.tsx",
+        "note": "The legacy document component is the closest thing the repository has to a specification of what a complete packet looks like for this jurisdiction, and is the comparison evidence for the migrated packet."
+      },
+      "migrationReadiness": "NO_APPROVED_PACKET_SET",
+      "exactBlocker": "No owner-approved packet set exists for this route, so there is nothing to migrate a specification from. A packet set is the first step.",
+      "commercialOpeningStillRequires": [
+        "owner approval of the legal design",
+        "counsel review of the composed document set"
+      ]
+    },
+    {
+      "route": "IL:expungement-after-eligible-supervision-or-qualified-probation",
+      "jurisdiction": "IL",
+      "pathwayId": "expungement-after-eligible-supervision-or-qualified-probation",
+      "pathwayLabel": "Expungement after eligible supervision or qualified probation",
+      "ratification": "ratified_deployable",
+      "hasLegalAuthorityContract": false,
+      "packetFamily": null,
+      "approvedPacketSetIds": [
+        "il-exp-qualprob-set",
+        "il-exp-supervision-set"
+      ],
+      "approvedComponentRoles": [
+        "attachment",
+        "fee_waiver",
+        "primary_filing",
+        "proposed_order"
+      ],
+      "outputStrategies": [
+        "official_pdf_fill"
+      ],
+      "officialFormIds": [
+        "EXP-AD Case List",
+        "EXP-AD Order Granting",
+        "EXP-AD Request",
+        "FW-CIV-APPLICATION"
+      ],
+      "ownerApprovedLegalDesign": false,
+      "reusableAssets": {
+        "statePack": "src/lib/rcap/state-packs/illinois",
+        "documentComponent": "src/components/rcap/documents/DocumentPacketRenderer.tsx",
+        "note": "The legacy document component is the closest thing the repository has to a specification of what a complete packet looks like for this jurisdiction, and is the comparison evidence for the migrated packet."
+      },
+      "migrationReadiness": "SOURCE_BYTES_NOT_MATERIALIZED_IN_CURRENT_RUNTIME",
+      "exactBlocker": "Its packet set fills official forms (EXP-AD Case List, EXP-AD Order Granting, EXP-AD Request, FW-CIV-APPLICATION). IL has 22 inventoried source artifact(s) present and re-verified and 7 identified but not materialised in this runtime. Whether THIS route's forms are among the present set is settled per form in data/rcap-ledger/source-custody-census.json; nothing here is called missing.",
+      "commercialOpeningStillRequires": [
+        "owner approval of the legal design",
+        "counsel review of the composed document set"
+      ],
+      "sourceCustody": "SOURCE_IDENTIFIED_NOT_MATERIALIZED or SOURCE_PRESENT_AND_REVERIFIED, per form \u2014 see the custody census"
+    },
+    {
+      "route": "IL:felony-prostitution-relief",
+      "jurisdiction": "IL",
+      "pathwayId": "felony-prostitution-relief",
+      "pathwayLabel": "Felony-prostitution relief",
+      "ratification": "ratified_deployable",
+      "hasLegalAuthorityContract": true,
+      "packetFamily": "Illinois Prostitution Vacatur and Expungement Petition under 20 ILCS 2630/5.2",
+      "approvedPacketSetIds": [
+        "il-prostitution-j-auto-set",
+        "il-prostitution-j-vacate-set"
+      ],
+      "approvedComponentRoles": [
+        "primary_filing",
+        "process_guidance",
+        "proposed_order"
+      ],
+      "outputStrategies": [
+        "custom_pleading",
+        "process_guidance"
+      ],
+      "officialFormIds": [],
+      "ownerApprovedLegalDesign": true,
+      "reusableAssets": {
+        "statePack": "src/lib/rcap/state-packs/illinois",
+        "documentComponent": "src/components/rcap/documents/DocumentPacketRenderer.tsx",
+        "note": "The legacy document component is the closest thing the repository has to a specification of what a complete packet looks like for this jurisdiction, and is the comparison evidence for the migrated packet."
+      },
+      "migrationReadiness": "MIGRATABLE_NOW",
+      "exactBlocker": "None. Its approved packet set composes without official form bytes and counsel has ratified the route.",
+      "commercialOpeningStillRequires": [
+        "counsel review of the composed document set"
+      ]
+    },
+    {
+      "route": "IL:human-trafficking-survivor-vacatur-and-expungement",
+      "jurisdiction": "IL",
+      "pathwayId": "human-trafficking-survivor-vacatur-and-expungement",
+      "pathwayLabel": "Human-trafficking-survivor vacatur and expungement",
+      "ratification": "unclassified",
+      "hasLegalAuthorityContract": false,
+      "packetFamily": null,
+      "approvedPacketSetIds": [],
+      "approvedComponentRoles": [],
+      "outputStrategies": [],
+      "officialFormIds": [],
+      "ownerApprovedLegalDesign": false,
+      "reusableAssets": {
+        "statePack": "src/lib/rcap/state-packs/illinois",
+        "documentComponent": "src/components/rcap/documents/DocumentPacketRenderer.tsx",
+        "note": "The legacy document component is the closest thing the repository has to a specification of what a complete packet looks like for this jurisdiction, and is the comparison evidence for the migrated packet."
+      },
+      "migrationReadiness": "NO_APPROVED_PACKET_SET",
+      "exactBlocker": "No owner-approved packet set exists for this route, so there is nothing to migrate a specification from. A packet set is the first step.",
+      "commercialOpeningStillRequires": [
+        "owner approval of the legal design",
+        "counsel ratification (currently unclassified)",
+        "counsel review of the composed document set"
+      ]
+    },
+    {
+      "route": "IL:juvenile-automatic-or-petition-expungement",
+      "jurisdiction": "IL",
+      "pathwayId": "juvenile-automatic-or-petition-expungement",
+      "pathwayLabel": "Juvenile automatic or petition expungement",
+      "ratification": "unclassified",
+      "hasLegalAuthorityContract": false,
+      "packetFamily": null,
+      "approvedPacketSetIds": [],
+      "approvedComponentRoles": [],
+      "outputStrategies": [],
+      "officialFormIds": [],
+      "ownerApprovedLegalDesign": false,
+      "reusableAssets": {
+        "statePack": "src/lib/rcap/state-packs/illinois",
+        "documentComponent": "src/components/rcap/documents/DocumentPacketRenderer.tsx",
+        "note": "The legacy document component is the closest thing the repository has to a specification of what a complete packet looks like for this jurisdiction, and is the comparison evidence for the migrated packet."
+      },
+      "migrationReadiness": "NO_APPROVED_PACKET_SET",
+      "exactBlocker": "No owner-approved packet set exists for this route, so there is nothing to migrate a specification from. A packet set is the first step.",
+      "commercialOpeningStillRequires": [
+        "owner approval of the legal design",
+        "counsel ratification (currently unclassified)",
+        "counsel review of the composed document set"
+      ]
+    },
+    {
+      "route": "MS:additional-justice-court-misdemeanor-relief-9-11-15-3",
+      "jurisdiction": "MS",
+      "pathwayId": "additional-justice-court-misdemeanor-relief-9-11-15-3",
+      "pathwayLabel": "Additional justice-court misdemeanor relief",
+      "ratification": "unclassified",
+      "hasLegalAuthorityContract": true,
+      "packetFamily": "Petition under \u00a7 9-11-15(3)",
+      "approvedPacketSetIds": [
+        "ms-misd-addl-set"
+      ],
+      "approvedComponentRoles": [
+        "attachment",
+        "certificate_of_service",
+        "instructions",
+        "primary_filing",
+        "proposed_order"
+      ],
+      "outputStrategies": [
+        "custom_pleading",
+        "process_guidance"
+      ],
+      "officialFormIds": [],
+      "ownerApprovedLegalDesign": false,
+      "reusableAssets": {
+        "statePack": "src/lib/rcap/state-packs/mississippi",
+        "documentComponent": "src/components/rcap/documents/DocumentPacketRenderer.tsx",
+        "note": "The legacy document component is the closest thing the repository has to a specification of what a complete packet looks like for this jurisdiction, and is the comparison evidence for the migrated packet."
+      },
+      "migrationReadiness": "BLOCKED_ON_RATIFICATION",
+      "exactBlocker": "Counsel classifies this route unclassified. A packet may be specified and built, and the record's postures stay held until ratification.",
+      "commercialOpeningStillRequires": [
+        "owner approval of the legal design",
+        "counsel ratification (currently unclassified)",
+        "counsel review of the composed document set"
+      ]
+    },
+    {
+      "route": "MS:additional-justice-or-municipal-court-misdemeanor-relief",
+      "jurisdiction": "MS",
+      "pathwayId": "additional-justice-or-municipal-court-misdemeanor-relief",
+      "pathwayLabel": "Additional justice- or municipal-court misdemeanor relief",
+      "ratification": "unclassified",
+      "hasLegalAuthorityContract": true,
+      "packetFamily": null,
+      "approvedPacketSetIds": [],
+      "approvedComponentRoles": [],
+      "outputStrategies": [],
+      "officialFormIds": [],
+      "ownerApprovedLegalDesign": null,
+      "reusableAssets": {
+        "statePack": "src/lib/rcap/state-packs/mississippi",
+        "documentComponent": "src/components/rcap/documents/DocumentPacketRenderer.tsx",
+        "note": "The legacy document component is the closest thing the repository has to a specification of what a complete packet looks like for this jurisdiction, and is the comparison evidence for the migrated packet."
+      },
+      "migrationReadiness": "NO_APPROVED_PACKET_SET",
+      "exactBlocker": "No owner-approved packet set exists for this route, so there is nothing to migrate a specification from. A packet set is the first step.",
+      "commercialOpeningStillRequires": [
+        "owner approval of the legal design",
+        "counsel ratification (currently unclassified)",
+        "counsel review of the composed document set"
+      ]
+    },
+    {
+      "route": "MS:additional-municipal-court-misdemeanor-relief-21-23-7-6",
+      "jurisdiction": "MS",
+      "pathwayId": "additional-municipal-court-misdemeanor-relief-21-23-7-6",
+      "pathwayLabel": "Additional municipal-court misdemeanor relief",
+      "ratification": "unclassified",
+      "hasLegalAuthorityContract": true,
+      "packetFamily": "Petition under \u00a7 21-23-7(6)",
+      "approvedPacketSetIds": [
+        "ms-misd-addl-set"
+      ],
+      "approvedComponentRoles": [
+        "attachment",
+        "certificate_of_service",
+        "instructions",
+        "primary_filing",
+        "proposed_order"
+      ],
+      "outputStrategies": [
+        "custom_pleading",
+        "process_guidance"
+      ],
+      "officialFormIds": [],
+      "ownerApprovedLegalDesign": false,
+      "reusableAssets": {
+        "statePack": "src/lib/rcap/state-packs/mississippi",
+        "documentComponent": "src/components/rcap/documents/DocumentPacketRenderer.tsx",
+        "note": "The legacy document component is the closest thing the repository has to a specification of what a complete packet looks like for this jurisdiction, and is the comparison evidence for the migrated packet."
+      },
+      "migrationReadiness": "BLOCKED_ON_RATIFICATION",
+      "exactBlocker": "Counsel classifies this route unclassified. A packet may be specified and built, and the record's postures stay held until ratification.",
+      "commercialOpeningStillRequires": [
+        "owner approval of the legal design",
+        "counsel ratification (currently unclassified)",
+        "counsel review of the composed document set"
+      ]
+    },
+    {
+      "route": "MS:controlled-substance-conditional-discharge-active-case-admission",
+      "jurisdiction": "MS",
+      "pathwayId": "controlled-substance-conditional-discharge-active-case-admission",
+      "pathwayLabel": "Controlled-substance conditional discharge \u2014 admission to deferred adjudication",
+      "ratification": "unclassified",
+      "hasLegalAuthorityContract": true,
+      "packetFamily": null,
+      "approvedPacketSetIds": [],
+      "approvedComponentRoles": [],
+      "outputStrategies": [],
+      "officialFormIds": [],
+      "ownerApprovedLegalDesign": null,
+      "reusableAssets": {
+        "statePack": "src/lib/rcap/state-packs/mississippi",
+        "documentComponent": "src/components/rcap/documents/DocumentPacketRenderer.tsx",
+        "note": "The legacy document component is the closest thing the repository has to a specification of what a complete packet looks like for this jurisdiction, and is the comparison evidence for the migrated packet."
+      },
+      "migrationReadiness": "NO_APPROVED_PACKET_SET",
+      "exactBlocker": "No owner-approved packet set exists for this route, so there is nothing to migrate a specification from. A packet set is the first step.",
+      "commercialOpeningStillRequires": [
+        "owner approval of the legal design",
+        "counsel ratification (currently unclassified)",
+        "counsel review of the composed document set"
+      ]
+    },
+    {
+      "route": "MS:dui-nonadjudication",
+      "jurisdiction": "MS",
+      "pathwayId": "dui-nonadjudication",
+      "pathwayLabel": "DUI nonadjudication",
+      "ratification": "unclassified",
+      "hasLegalAuthorityContract": true,
+      "packetFamily": null,
+      "approvedPacketSetIds": [],
+      "approvedComponentRoles": [],
+      "outputStrategies": [],
+      "officialFormIds": [],
+      "ownerApprovedLegalDesign": null,
+      "reusableAssets": {
+        "statePack": "src/lib/rcap/state-packs/mississippi",
+        "documentComponent": "src/components/rcap/documents/DocumentPacketRenderer.tsx",
+        "note": "The legacy document component is the closest thing the repository has to a specification of what a complete packet looks like for this jurisdiction, and is the comparison evidence for the migrated packet."
+      },
+      "migrationReadiness": "NO_APPROVED_PACKET_SET",
+      "exactBlocker": "No owner-approved packet set exists for this route, so there is nothing to migrate a specification from. A packet set is the first step.",
+      "commercialOpeningStillRequires": [
+        "owner approval of the legal design",
+        "counsel ratification (currently unclassified)",
+        "counsel review of the composed document set"
+      ]
+    },
+    {
+      "route": "MS:eligible-felony-conviction-expungement-99-19-71",
+      "jurisdiction": "MS",
+      "pathwayId": "eligible-felony-conviction-expungement-99-19-71",
+      "pathwayLabel": "Eligible felony-conviction expungement (\u00a7 99-19-71)",
+      "ratification": "ratified_deployable",
+      "hasLegalAuthorityContract": true,
+      "packetFamily": "Petition for Expungement of an Eligible Felony Conviction under \u00a7 99-19-71(2)",
+      "approvedPacketSetIds": [
+        "ms-fel-set"
+      ],
+      "approvedComponentRoles": [
+        "attachment",
+        "certificate_of_service",
+        "instructions",
+        "notice",
+        "primary_filing",
+        "proposed_order"
+      ],
+      "outputStrategies": [
+        "custom_pleading",
+        "process_guidance"
+      ],
+      "officialFormIds": [],
+      "ownerApprovedLegalDesign": false,
+      "reusableAssets": {
+        "statePack": "src/lib/rcap/state-packs/mississippi",
+        "documentComponent": "src/components/rcap/documents/DocumentPacketRenderer.tsx",
+        "note": "The legacy document component is the closest thing the repository has to a specification of what a complete packet looks like for this jurisdiction, and is the comparison evidence for the migrated packet."
+      },
+      "migrationReadiness": "MIGRATABLE_NOW",
+      "exactBlocker": "None. Its approved packet set composes without official form bytes and counsel has ratified the route.",
+      "commercialOpeningStillRequires": [
+        "owner approval of the legal design",
+        "counsel review of the composed document set"
+      ]
+    },
+    {
+      "route": "MS:first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1",
+      "jurisdiction": "MS",
+      "pathwayId": "first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1",
+      "pathwayLabel": "First-offender nontraffic misdemeanor conviction expungement (\u00a7 99-19-71(1))",
+      "ratification": "ratified_deployable",
+      "hasLegalAuthorityContract": true,
+      "packetFamily": "First-Offender Nontraffic Misdemeanor Petition under \u00a7 99-19-71(1)",
+      "approvedPacketSetIds": [
+        "ms-misd-1st-set"
+      ],
+      "approvedComponentRoles": [
+        "attachment",
+        "certificate_of_service",
+        "instructions",
+        "primary_filing",
+        "proposed_order"
+      ],
+      "outputStrategies": [
+        "custom_pleading",
+        "process_guidance"
+      ],
+      "officialFormIds": [],
+      "ownerApprovedLegalDesign": false,
+      "reusableAssets": {
+        "statePack": "src/lib/rcap/state-packs/mississippi",
+        "documentComponent": "src/components/rcap/documents/DocumentPacketRenderer.tsx",
+        "note": "The legacy document component is the closest thing the repository has to a specification of what a complete packet looks like for this jurisdiction, and is the comparison evidence for the migrated packet."
+      },
+      "migrationReadiness": "MIGRATABLE_NOW",
+      "exactBlocker": "None. Its approved packet set composes without official form bytes and counsel has ratified the route.",
+      "commercialOpeningStillRequires": [
+        "owner approval of the legal design",
+        "counsel review of the composed document set"
+      ]
+    },
+    {
+      "route": "MS:first-offense-controlled-substance-conditional-discharge-relief",
+      "jurisdiction": "MS",
+      "pathwayId": "first-offense-controlled-substance-conditional-discharge-relief",
+      "pathwayLabel": "First-offense controlled-substance conditional-discharge relief",
+      "ratification": "ratified_deployable",
+      "hasLegalAuthorityContract": true,
+      "packetFamily": "Post-Conditional-Discharge Application under \u00a7 41-29-150(d)(2)",
+      "approvedPacketSetIds": [
+        "ms-drug-cd-set"
+      ],
+      "approvedComponentRoles": [
+        "attachment",
+        "certificate_of_service",
+        "instructions",
+        "primary_filing",
+        "proposed_order"
+      ],
+      "outputStrategies": [
+        "custom_pleading",
+        "process_guidance"
+      ],
+      "officialFormIds": [],
+      "ownerApprovedLegalDesign": true,
+      "reusableAssets": {
+        "statePack": "src/lib/rcap/state-packs/mississippi",
+        "documentComponent": "src/components/rcap/documents/DocumentPacketRenderer.tsx",
+        "note": "The legacy document component is the closest thing the repository has to a specification of what a complete packet looks like for this jurisdiction, and is the comparison evidence for the migrated packet."
+      },
+      "migrationReadiness": "MIGRATABLE_NOW",
+      "exactBlocker": "None. Its approved packet set composes without official form bytes and counsel has ratified the route.",
+      "commercialOpeningStillRequires": [
+        "counsel review of the composed document set"
+      ]
+    },
+    {
+      "route": "MS:first-offense-dui-expungement",
+      "jurisdiction": "MS",
+      "pathwayId": "first-offense-dui-expungement",
+      "pathwayLabel": "First-offense DUI expungement",
+      "ratification": "ratified_deployable",
+      "hasLegalAuthorityContract": true,
+      "packetFamily": "Circuit Court Petition under \u00a7 63-11-30(13)",
+      "approvedPacketSetIds": [
+        "ms-dui-set"
+      ],
+      "approvedComponentRoles": [
+        "attachment",
+        "certificate_of_service",
+        "instructions",
+        "primary_filing",
+        "proposed_order"
+      ],
+      "outputStrategies": [
+        "custom_pleading",
+        "process_guidance"
+      ],
+      "officialFormIds": [],
+      "ownerApprovedLegalDesign": true,
+      "reusableAssets": {
+        "statePack": "src/lib/rcap/state-packs/mississippi",
+        "documentComponent": "src/components/rcap/documents/DocumentPacketRenderer.tsx",
+        "note": "The legacy document component is the closest thing the repository has to a specification of what a complete packet looks like for this jurisdiction, and is the comparison evidence for the migrated packet."
+      },
+      "migrationReadiness": "MIGRATABLE_NOW",
+      "exactBlocker": "None. Its approved packet set composes without official form bytes and counsel has ratified the route.",
+      "commercialOpeningStillRequires": [
+        "counsel review of the composed document set"
+      ]
+    },
+    {
+      "route": "MS:human-trafficking-survivor-expungement-97-3-54-6-6",
+      "jurisdiction": "MS",
+      "pathwayId": "human-trafficking-survivor-expungement-97-3-54-6-6",
+      "pathwayLabel": "Human-trafficking survivor expungement",
+      "ratification": "unclassified",
+      "hasLegalAuthorityContract": true,
+      "packetFamily": "Petition or Motion to Expunge under \u00a7 97-3-54.6(6)",
+      "approvedPacketSetIds": [],
+      "approvedComponentRoles": [],
+      "outputStrategies": [],
+      "officialFormIds": [],
+      "ownerApprovedLegalDesign": false,
+      "reusableAssets": {
+        "statePack": "src/lib/rcap/state-packs/mississippi",
+        "documentComponent": "src/components/rcap/documents/DocumentPacketRenderer.tsx",
+        "note": "The legacy document component is the closest thing the repository has to a specification of what a complete packet looks like for this jurisdiction, and is the comparison evidence for the migrated packet."
+      },
+      "migrationReadiness": "NO_APPROVED_PACKET_SET",
+      "exactBlocker": "No owner-approved packet set exists for this route, so there is nothing to migrate a specification from. A packet set is the first step.",
+      "commercialOpeningStillRequires": [
+        "owner approval of the legal design",
+        "counsel ratification (currently unclassified)",
+        "counsel review of the composed document set"
+      ]
+    },
+    {
+      "route": "MS:human-trafficking-survivor-vacatur-97-3-54-6-5",
+      "jurisdiction": "MS",
+      "pathwayId": "human-trafficking-survivor-vacatur-97-3-54-6-5",
+      "pathwayLabel": "Human-trafficking survivor vacatur",
+      "ratification": "unclassified",
+      "hasLegalAuthorityContract": true,
+      "packetFamily": "Motion to Vacate under \u00a7 97-3-54.6(5)",
+      "approvedPacketSetIds": [],
+      "approvedComponentRoles": [],
+      "outputStrategies": [],
+      "officialFormIds": [],
+      "ownerApprovedLegalDesign": false,
+      "reusableAssets": {
+        "statePack": "src/lib/rcap/state-packs/mississippi",
+        "documentComponent": "src/components/rcap/documents/DocumentPacketRenderer.tsx",
+        "note": "The legacy document component is the closest thing the repository has to a specification of what a complete packet looks like for this jurisdiction, and is the comparison evidence for the migrated packet."
+      },
+      "migrationReadiness": "NO_APPROVED_PACKET_SET",
+      "exactBlocker": "No owner-approved packet set exists for this route, so there is nothing to migrate a specification from. A packet set is the first step.",
+      "commercialOpeningStillRequires": [
+        "owner approval of the legal design",
+        "counsel ratification (currently unclassified)",
+        "counsel review of the composed document set"
+      ]
+    },
+    {
+      "route": "MS:human-trafficking-survivor-vacatur-and-expungement",
+      "jurisdiction": "MS",
+      "pathwayId": "human-trafficking-survivor-vacatur-and-expungement",
+      "pathwayLabel": "Human-trafficking-survivor vacatur and expungement",
+      "ratification": "unclassified",
+      "hasLegalAuthorityContract": true,
+      "packetFamily": null,
+      "approvedPacketSetIds": [],
+      "approvedComponentRoles": [],
+      "outputStrategies": [],
+      "officialFormIds": [],
+      "ownerApprovedLegalDesign": null,
+      "reusableAssets": {
+        "statePack": "src/lib/rcap/state-packs/mississippi",
+        "documentComponent": "src/components/rcap/documents/DocumentPacketRenderer.tsx",
+        "note": "The legacy document component is the closest thing the repository has to a specification of what a complete packet looks like for this jurisdiction, and is the comparison evidence for the migrated packet."
+      },
+      "migrationReadiness": "NO_APPROVED_PACKET_SET",
+      "exactBlocker": "No owner-approved packet set exists for this route, so there is nothing to migrate a specification from. A packet set is the first step.",
+      "commercialOpeningStillRequires": [
+        "owner approval of the legal design",
+        "counsel ratification (currently unclassified)",
+        "counsel review of the composed document set"
+      ]
+    },
+    {
+      "route": "MS:intervention-court-completion-expungement",
+      "jurisdiction": "MS",
+      "pathwayId": "intervention-court-completion-expungement",
+      "pathwayLabel": "Intervention-court completion expungement",
+      "ratification": "unclassified",
+      "hasLegalAuthorityContract": true,
+      "packetFamily": null,
+      "approvedPacketSetIds": [],
+      "approvedComponentRoles": [],
+      "outputStrategies": [],
+      "officialFormIds": [],
+      "ownerApprovedLegalDesign": null,
+      "reusableAssets": {
+        "statePack": "src/lib/rcap/state-packs/mississippi",
+        "documentComponent": "src/components/rcap/documents/DocumentPacketRenderer.tsx",
+        "note": "The legacy document component is the closest thing the repository has to a specification of what a complete packet looks like for this jurisdiction, and is the comparison evidence for the migrated packet."
+      },
+      "migrationReadiness": "NO_APPROVED_PACKET_SET",
+      "exactBlocker": "No owner-approved packet set exists for this route, so there is nothing to migrate a specification from. A packet set is the first step.",
+      "commercialOpeningStillRequires": [
+        "owner approval of the legal design",
+        "counsel ratification (currently unclassified)",
+        "counsel review of the composed document set"
+      ]
+    },
+    {
+      "route": "MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
+      "jurisdiction": "MS",
+      "pathwayId": "intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
+      "pathwayLabel": "Intervention-court completion \u2014 dismissal-only branch where a record remains",
+      "ratification": "unclassified",
+      "hasLegalAuthorityContract": true,
+      "packetFamily": "Nonconviction Petition under \u00a7 99-19-71(4)",
+      "approvedPacketSetIds": [],
+      "approvedComponentRoles": [],
+      "outputStrategies": [],
+      "officialFormIds": [],
+      "ownerApprovedLegalDesign": false,
+      "reusableAssets": {
+        "statePack": "src/lib/rcap/state-packs/mississippi",
+        "documentComponent": "src/components/rcap/documents/DocumentPacketRenderer.tsx",
+        "note": "The legacy document component is the closest thing the repository has to a specification of what a complete packet looks like for this jurisdiction, and is the comparison evidence for the migrated packet."
+      },
+      "migrationReadiness": "NO_APPROVED_PACKET_SET",
+      "exactBlocker": "No owner-approved packet set exists for this route, so there is nothing to migrate a specification from. A packet set is the first step.",
+      "commercialOpeningStillRequires": [
+        "owner approval of the legal design",
+        "counsel ratification (currently unclassified)",
+        "counsel review of the composed document set"
+      ]
+    },
+    {
+      "route": "MS:intervention-court-statutory-result-enforcement-referral",
+      "jurisdiction": "MS",
+      "pathwayId": "intervention-court-statutory-result-enforcement-referral",
+      "pathwayLabel": "Intervention-court completion \u2014 enforcement of the statutory result",
+      "ratification": "unclassified",
+      "hasLegalAuthorityContract": true,
+      "packetFamily": null,
+      "approvedPacketSetIds": [],
+      "approvedComponentRoles": [],
+      "outputStrategies": [],
+      "officialFormIds": [],
+      "ownerApprovedLegalDesign": null,
+      "reusableAssets": {
+        "statePack": "src/lib/rcap/state-packs/mississippi",
+        "documentComponent": "src/components/rcap/documents/DocumentPacketRenderer.tsx",
+        "note": "The legacy document component is the closest thing the repository has to a specification of what a complete packet looks like for this jurisdiction, and is the comparison evidence for the migrated packet."
+      },
+      "migrationReadiness": "NO_APPROVED_PACKET_SET",
+      "exactBlocker": "No owner-approved packet set exists for this route, so there is nothing to migrate a specification from. A packet set is the first step.",
+      "commercialOpeningStillRequires": [
+        "owner approval of the legal design",
+        "counsel ratification (currently unclassified)",
+        "counsel review of the composed document set"
+      ]
+    },
+    {
+      "route": "MS:minor-in-possession-underage-alcohol-expungement",
+      "jurisdiction": "MS",
+      "pathwayId": "minor-in-possession-underage-alcohol-expungement",
+      "pathwayLabel": "Minor-in-possession / underage-alcohol expungement",
+      "ratification": "ratified_deployable",
+      "hasLegalAuthorityContract": true,
+      "packetFamily": "Petition under \u00a7 67-3-70(6)",
+      "approvedPacketSetIds": [
+        "ms-mip-set"
+      ],
+      "approvedComponentRoles": [
+        "attachment",
+        "certificate_of_service",
+        "instructions",
+        "primary_filing",
+        "proposed_order"
+      ],
+      "outputStrategies": [
+        "custom_pleading",
+        "process_guidance"
+      ],
+      "officialFormIds": [],
+      "ownerApprovedLegalDesign": true,
+      "reusableAssets": {
+        "statePack": "src/lib/rcap/state-packs/mississippi",
+        "documentComponent": "src/components/rcap/documents/DocumentPacketRenderer.tsx",
+        "note": "The legacy document component is the closest thing the repository has to a specification of what a complete packet looks like for this jurisdiction, and is the comparison evidence for the migrated packet."
+      },
+      "migrationReadiness": "MIGRATABLE_NOW",
+      "exactBlocker": "None. Its approved packet set composes without official form bytes and counsel has ratified the route.",
+      "commercialOpeningStillRequires": [
+        "counsel review of the composed document set"
+      ]
+    },
+    {
+      "route": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+      "jurisdiction": "MS",
+      "pathwayId": "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+      "pathwayLabel": "Non-conviction expungement for dismissal, no disposition, or acquittal",
+      "ratification": "ratified_deployable",
+      "hasLegalAuthorityContract": true,
+      "packetFamily": "Nonconviction Petition under current \u00a7 99-19-71(4)",
+      "approvedPacketSetIds": [
+        "ms-nonconv-set"
+      ],
+      "approvedComponentRoles": [
+        "attachment",
+        "certificate_of_service",
+        "instructions",
+        "primary_filing",
+        "proposed_order"
+      ],
+      "outputStrategies": [
+        "custom_pleading",
+        "process_guidance"
+      ],
+      "officialFormIds": [],
+      "ownerApprovedLegalDesign": false,
+      "reusableAssets": {
+        "statePack": "src/lib/rcap/state-packs/mississippi",
+        "documentComponent": "src/components/rcap/documents/DocumentPacketRenderer.tsx",
+        "note": "The legacy document component is the closest thing the repository has to a specification of what a complete packet looks like for this jurisdiction, and is the comparison evidence for the migrated packet."
+      },
+      "migrationReadiness": "MIGRATABLE_NOW",
+      "exactBlocker": "None. Its approved packet set composes without official form bytes and counsel has ratified the route.",
+      "commercialOpeningStillRequires": [
+        "owner approval of the legal design",
+        "counsel review of the composed document set"
+      ]
+    },
+    {
+      "route": "MS:nonadjudication-99-15-26-active-case-admission",
+      "jurisdiction": "MS",
+      "pathwayId": "nonadjudication-99-15-26-active-case-admission",
+      "pathwayLabel": "Nonadjudication under \u00a7 99-15-26 \u2014 admission while the case is active",
+      "ratification": "unclassified",
+      "hasLegalAuthorityContract": true,
+      "packetFamily": null,
+      "approvedPacketSetIds": [],
+      "approvedComponentRoles": [],
+      "outputStrategies": [],
+      "officialFormIds": [],
+      "ownerApprovedLegalDesign": null,
+      "reusableAssets": {
+        "statePack": "src/lib/rcap/state-packs/mississippi",
+        "documentComponent": "src/components/rcap/documents/DocumentPacketRenderer.tsx",
+        "note": "The legacy document component is the closest thing the repository has to a specification of what a complete packet looks like for this jurisdiction, and is the comparison evidence for the migrated packet."
+      },
+      "migrationReadiness": "NO_APPROVED_PACKET_SET",
+      "exactBlocker": "No owner-approved packet set exists for this route, so there is nothing to migrate a specification from. A packet set is the first step.",
+      "commercialOpeningStillRequires": [
+        "owner approval of the legal design",
+        "counsel ratification (currently unclassified)",
+        "counsel review of the composed document set"
+      ]
+    },
+    {
+      "route": "MS:nonadjudication-under-99-15-26",
+      "jurisdiction": "MS",
+      "pathwayId": "nonadjudication-under-99-15-26",
+      "pathwayLabel": "Nonadjudication under \u00a7 99-15-26",
+      "ratification": "ratified_deployable",
+      "hasLegalAuthorityContract": true,
+      "packetFamily": "Post-Nonadjudication Petition under \u00a7 99-15-26(5)",
+      "approvedPacketSetIds": [],
+      "approvedComponentRoles": [],
+      "outputStrategies": [],
+      "officialFormIds": [],
+      "ownerApprovedLegalDesign": false,
+      "reusableAssets": {
+        "statePack": "src/lib/rcap/state-packs/mississippi",
+        "documentComponent": "src/components/rcap/documents/DocumentPacketRenderer.tsx",
+        "note": "The legacy document component is the closest thing the repository has to a specification of what a complete packet looks like for this jurisdiction, and is the comparison evidence for the migrated packet."
+      },
+      "migrationReadiness": "NO_APPROVED_PACKET_SET",
+      "exactBlocker": "No owner-approved packet set exists for this route, so there is nothing to migrate a specification from. A packet set is the first step.",
+      "commercialOpeningStillRequires": [
+        "owner approval of the legal design",
+        "counsel review of the composed document set"
+      ]
+    },
+    {
+      "route": "MS:pretrial-intervention-active-case-admission",
+      "jurisdiction": "MS",
+      "pathwayId": "pretrial-intervention-active-case-admission",
+      "pathwayLabel": "Pretrial intervention or diversion \u2014 admission while the case is active",
+      "ratification": "unclassified",
+      "hasLegalAuthorityContract": true,
+      "packetFamily": null,
+      "approvedPacketSetIds": [],
+      "approvedComponentRoles": [],
+      "outputStrategies": [],
+      "officialFormIds": [],
+      "ownerApprovedLegalDesign": null,
+      "reusableAssets": {
+        "statePack": "src/lib/rcap/state-packs/mississippi",
+        "documentComponent": "src/components/rcap/documents/DocumentPacketRenderer.tsx",
+        "note": "The legacy document component is the closest thing the repository has to a specification of what a complete packet looks like for this jurisdiction, and is the comparison evidence for the migrated packet."
+      },
+      "migrationReadiness": "NO_APPROVED_PACKET_SET",
+      "exactBlocker": "No owner-approved packet set exists for this route, so there is nothing to migrate a specification from. A packet set is the first step.",
+      "commercialOpeningStillRequires": [
+        "owner approval of the legal design",
+        "counsel ratification (currently unclassified)",
+        "counsel review of the composed document set"
+      ]
+    },
+    {
+      "route": "MS:pretrial-intervention-or-diversion-expungement",
+      "jurisdiction": "MS",
+      "pathwayId": "pretrial-intervention-or-diversion-expungement",
+      "pathwayLabel": "Pretrial intervention or diversion expungement",
+      "ratification": "ratified_deployable",
+      "hasLegalAuthorityContract": true,
+      "packetFamily": "Petition After Pretrial Intervention under \u00a7 99-15-123(3)",
+      "approvedPacketSetIds": [
+        "ms-diversion-set"
+      ],
+      "approvedComponentRoles": [
+        "attachment",
+        "certificate_of_service",
+        "instructions",
+        "primary_filing",
+        "process_guidance",
+        "proposed_order"
+      ],
+      "outputStrategies": [
+        "custom_pleading",
+        "process_guidance"
+      ],
+      "officialFormIds": [],
+      "ownerApprovedLegalDesign": false,
+      "reusableAssets": {
+        "statePack": "src/lib/rcap/state-packs/mississippi",
+        "documentComponent": "src/components/rcap/documents/DocumentPacketRenderer.tsx",
+        "note": "The legacy document component is the closest thing the repository has to a specification of what a complete packet looks like for this jurisdiction, and is the comparison evidence for the migrated packet."
+      },
+      "migrationReadiness": "MIGRATABLE_NOW",
+      "exactBlocker": "None. Its approved packet set composes without official form bytes and counsel has ratified the route.",
+      "commercialOpeningStillRequires": [
+        "owner approval of the legal design",
+        "counsel review of the composed document set"
+      ]
+    },
+    {
+      "route": "MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
+      "jurisdiction": "MS",
+      "pathwayId": "uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
+      "pathwayLabel": "Uncharged or unprosecuted misdemeanor \u2014 dismissal branch",
+      "ratification": "unclassified",
+      "hasLegalAuthorityContract": true,
+      "packetFamily": "Petition under \u00a7 99-15-59",
+      "approvedPacketSetIds": [],
+      "approvedComponentRoles": [],
+      "outputStrategies": [],
+      "officialFormIds": [],
+      "ownerApprovedLegalDesign": false,
+      "reusableAssets": {
+        "statePack": "src/lib/rcap/state-packs/mississippi",
+        "documentComponent": "src/components/rcap/documents/DocumentPacketRenderer.tsx",
+        "note": "The legacy document component is the closest thing the repository has to a specification of what a complete packet looks like for this jurisdiction, and is the comparison evidence for the migrated packet."
+      },
+      "migrationReadiness": "NO_APPROVED_PACKET_SET",
+      "exactBlocker": "No owner-approved packet set exists for this route, so there is nothing to migrate a specification from. A packet set is the first step.",
+      "commercialOpeningStillRequires": [
+        "owner approval of the legal design",
+        "counsel ratification (currently unclassified)",
+        "counsel review of the composed document set"
+      ]
+    },
+    {
+      "route": "MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
+      "jurisdiction": "MS",
+      "pathwayId": "uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
+      "pathwayLabel": "Uncharged or unprosecuted misdemeanor after 12 months (\u00a7 99-15-59)",
+      "ratification": "ratified_deployable",
+      "hasLegalAuthorityContract": true,
+      "packetFamily": "Petition under \u00a7 99-15-59",
+      "approvedPacketSetIds": [],
+      "approvedComponentRoles": [],
+      "outputStrategies": [],
+      "officialFormIds": [],
+      "ownerApprovedLegalDesign": false,
+      "reusableAssets": {
+        "statePack": "src/lib/rcap/state-packs/mississippi",
+        "documentComponent": "src/components/rcap/documents/DocumentPacketRenderer.tsx",
+        "note": "The legacy document component is the closest thing the repository has to a specification of what a complete packet looks like for this jurisdiction, and is the comparison evidence for the migrated packet."
+      },
+      "migrationReadiness": "NO_APPROVED_PACKET_SET",
+      "exactBlocker": "No owner-approved packet set exists for this route, so there is nothing to migrate a specification from. A packet set is the first step.",
+      "commercialOpeningStillRequires": [
+        "owner approval of the legal design",
+        "counsel review of the composed document set"
+      ]
+    },
+    {
+      "route": "PA:path-a-non-conviction-expungement",
+      "jurisdiction": "PA",
+      "pathwayId": "path-a-non-conviction-expungement",
+      "pathwayLabel": "Path A \u2014 Non-conviction expungement",
+      "ratification": "ratified_deployable",
+      "hasLegalAuthorityContract": false,
+      "packetFamily": null,
+      "approvedPacketSetIds": [
+        "pa_490_nonconviction-set",
+        "pa_790_nonconviction-set"
+      ],
+      "approvedComponentRoles": [
+        "certificate_of_service",
+        "fee_waiver",
+        "primary_filing",
+        "proposed_order"
+      ],
+      "outputStrategies": [
+        "custom_pleading",
+        "official_pdf_fill"
+      ],
+      "officialFormIds": [
+        "PA-IFP-CCP",
+        "PA-IFP-MDJ",
+        "PA-RCRIM-P-490-ORDER",
+        "PA-RCRIM-P-490-PETITION",
+        "PA-RCRIM-P-790-ORDER",
+        "PA-RCRIM-P-790-PETITION"
+      ],
+      "ownerApprovedLegalDesign": false,
+      "reusableAssets": {
+        "statePack": "src/lib/rcap/state-packs/pennsylvania",
+        "documentComponent": "src/components/rcap/documents/DocumentPacketRenderer.tsx",
+        "note": "The legacy document component is the closest thing the repository has to a specification of what a complete packet looks like for this jurisdiction, and is the comparison evidence for the migrated packet."
+      },
+      "migrationReadiness": "SOURCE_BYTES_NOT_MATERIALIZED_IN_CURRENT_RUNTIME",
+      "exactBlocker": "Its packet set fills official forms (PA-IFP-CCP, PA-IFP-MDJ, PA-RCRIM-P-490-ORDER, PA-RCRIM-P-490-PETITION, PA-RCRIM-P-790-ORDER, PA-RCRIM-P-790-PETITION). PA has 18 inventoried source artifact(s) present and re-verified and 0 identified but not materialised in this runtime. Whether THIS route's forms are among the present set is settled per form in data/rcap-ledger/source-custody-census.json; nothing here is called missing.",
+      "commercialOpeningStillRequires": [
+        "owner approval of the legal design",
+        "counsel review of the composed document set"
+      ],
+      "sourceCustody": "SOURCE_IDENTIFIED_NOT_MATERIALIZED or SOURCE_PRESENT_AND_REVERIFIED, per form \u2014 see the custody census"
+    },
+    {
+      "route": "PA:path-b-complete-acquittal-not-guilty-expungement",
+      "jurisdiction": "PA",
+      "pathwayId": "path-b-complete-acquittal-not-guilty-expungement",
+      "pathwayLabel": "Path B \u2014 Complete-acquittal / not-guilty expungement",
+      "ratification": "unclassified",
+      "hasLegalAuthorityContract": false,
+      "packetFamily": null,
+      "approvedPacketSetIds": [],
+      "approvedComponentRoles": [],
+      "outputStrategies": [],
+      "officialFormIds": [],
+      "ownerApprovedLegalDesign": null,
+      "reusableAssets": {
+        "statePack": "src/lib/rcap/state-packs/pennsylvania",
+        "documentComponent": "src/components/rcap/documents/DocumentPacketRenderer.tsx",
+        "note": "The legacy document component is the closest thing the repository has to a specification of what a complete packet looks like for this jurisdiction, and is the comparison evidence for the migrated packet."
+      },
+      "migrationReadiness": "NO_APPROVED_PACKET_SET",
+      "exactBlocker": "No owner-approved packet set exists for this route, so there is nothing to migrate a specification from. A packet set is the first step.",
+      "commercialOpeningStillRequires": [
+        "owner approval of the legal design",
+        "counsel ratification (currently unclassified)",
+        "counsel review of the composed document set"
+      ]
+    },
+    {
+      "route": "PA:path-c-summary-conviction-expungement",
+      "jurisdiction": "PA",
+      "pathwayId": "path-c-summary-conviction-expungement",
+      "pathwayLabel": "Path C \u2014 Summary-conviction expungement",
+      "ratification": "unclassified",
+      "hasLegalAuthorityContract": false,
+      "packetFamily": null,
+      "approvedPacketSetIds": [],
+      "approvedComponentRoles": [],
+      "outputStrategies": [],
+      "officialFormIds": [],
+      "ownerApprovedLegalDesign": null,
+      "reusableAssets": {
+        "statePack": "src/lib/rcap/state-packs/pennsylvania",
+        "documentComponent": "src/components/rcap/documents/DocumentPacketRenderer.tsx",
+        "note": "The legacy document component is the closest thing the repository has to a specification of what a complete packet looks like for this jurisdiction, and is the comparison evidence for the migrated packet."
+      },
+      "migrationReadiness": "NO_APPROVED_PACKET_SET",
+      "exactBlocker": "No owner-approved packet set exists for this route, so there is nothing to migrate a specification from. A packet set is the first step.",
+      "commercialOpeningStillRequires": [
+        "owner approval of the legal design",
+        "counsel ratification (currently unclassified)",
+        "counsel review of the composed document set"
+      ]
+    },
+    {
+      "route": "PA:path-d-ard-expungement",
+      "jurisdiction": "PA",
+      "pathwayId": "path-d-ard-expungement",
+      "pathwayLabel": "Path D \u2014 ARD expungement",
+      "ratification": "unclassified",
+      "hasLegalAuthorityContract": true,
+      "packetFamily": "Pennsylvania ARD Expungement Petition under Pa.R.Crim.P. 320",
+      "approvedPacketSetIds": [],
+      "approvedComponentRoles": [],
+      "outputStrategies": [],
+      "officialFormIds": [],
+      "ownerApprovedLegalDesign": null,
+      "reusableAssets": {
+        "statePack": "src/lib/rcap/state-packs/pennsylvania",
+        "documentComponent": "src/components/rcap/documents/DocumentPacketRenderer.tsx",
+        "note": "The legacy document component is the closest thing the repository has to a specification of what a complete packet looks like for this jurisdiction, and is the comparison evidence for the migrated packet."
+      },
+      "migrationReadiness": "NO_APPROVED_PACKET_SET",
+      "exactBlocker": "No owner-approved packet set exists for this route, so there is nothing to migrate a specification from. A packet set is the first step.",
+      "commercialOpeningStillRequires": [
+        "owner approval of the legal design",
+        "counsel ratification (currently unclassified)",
+        "counsel review of the composed document set"
+      ]
+    },
+    {
+      "route": "PA:path-e-age-70-expungement",
+      "jurisdiction": "PA",
+      "pathwayId": "path-e-age-70-expungement",
+      "pathwayLabel": "Path E \u2014 Age-70 expungement",
+      "ratification": "unclassified",
+      "hasLegalAuthorityContract": false,
+      "packetFamily": null,
+      "approvedPacketSetIds": [],
+      "approvedComponentRoles": [],
+      "outputStrategies": [],
+      "officialFormIds": [],
+      "ownerApprovedLegalDesign": null,
+      "reusableAssets": {
+        "statePack": "src/lib/rcap/state-packs/pennsylvania",
+        "documentComponent": "src/components/rcap/documents/DocumentPacketRenderer.tsx",
+        "note": "The legacy document component is the closest thing the repository has to a specification of what a complete packet looks like for this jurisdiction, and is the comparison evidence for the migrated packet."
+      },
+      "migrationReadiness": "NO_APPROVED_PACKET_SET",
+      "exactBlocker": "No owner-approved packet set exists for this route, so there is nothing to migrate a specification from. A packet set is the first step.",
+      "commercialOpeningStillRequires": [
+        "owner approval of the legal design",
+        "counsel ratification (currently unclassified)",
+        "counsel review of the composed document set"
+      ]
+    },
+    {
+      "route": "PA:path-f-deceased-person-expungement",
+      "jurisdiction": "PA",
+      "pathwayId": "path-f-deceased-person-expungement",
+      "pathwayLabel": "Path F \u2014 Deceased-person expungement",
+      "ratification": "unclassified",
+      "hasLegalAuthorityContract": false,
+      "packetFamily": null,
+      "approvedPacketSetIds": [],
+      "approvedComponentRoles": [],
+      "outputStrategies": [],
+      "officialFormIds": [],
+      "ownerApprovedLegalDesign": null,
+      "reusableAssets": {
+        "statePack": "src/lib/rcap/state-packs/pennsylvania",
+        "documentComponent": "src/components/rcap/documents/DocumentPacketRenderer.tsx",
+        "note": "The legacy document component is the closest thing the repository has to a specification of what a complete packet looks like for this jurisdiction, and is the comparison evidence for the migrated packet."
+      },
+      "migrationReadiness": "NO_APPROVED_PACKET_SET",
+      "exactBlocker": "No owner-approved packet set exists for this route, so there is nothing to migrate a specification from. A packet set is the first step.",
+      "commercialOpeningStillRequires": [
+        "owner approval of the legal design",
+        "counsel ratification (currently unclassified)",
+        "counsel review of the composed document set"
+      ]
+    },
+    {
+      "route": "PA:path-g-underage-drinking-conviction-expungement",
+      "jurisdiction": "PA",
+      "pathwayId": "path-g-underage-drinking-conviction-expungement",
+      "pathwayLabel": "Path G \u2014 Underage-drinking conviction expungement",
+      "ratification": "unclassified",
+      "hasLegalAuthorityContract": true,
+      "packetFamily": "Pennsylvania \u00a7 9122 Underage-Drinking Expungement Petition",
+      "approvedPacketSetIds": [],
+      "approvedComponentRoles": [],
+      "outputStrategies": [],
+      "officialFormIds": [],
+      "ownerApprovedLegalDesign": null,
+      "reusableAssets": {
+        "statePack": "src/lib/rcap/state-packs/pennsylvania",
+        "documentComponent": "src/components/rcap/documents/DocumentPacketRenderer.tsx",
+        "note": "The legacy document component is the closest thing the repository has to a specification of what a complete packet looks like for this jurisdiction, and is the comparison evidence for the migrated packet."
+      },
+      "migrationReadiness": "NO_APPROVED_PACKET_SET",
+      "exactBlocker": "No owner-approved packet set exists for this route, so there is nothing to migrate a specification from. A packet set is the first step.",
+      "commercialOpeningStillRequires": [
+        "owner approval of the legal design",
+        "counsel ratification (currently unclassified)",
+        "counsel review of the composed document set"
+      ]
+    },
+    {
+      "route": "PA:path-h-pardon-based-expungement",
+      "jurisdiction": "PA",
+      "pathwayId": "path-h-pardon-based-expungement",
+      "pathwayLabel": "Path H \u2014 Pardon-based expungement",
+      "ratification": "unclassified",
+      "hasLegalAuthorityContract": false,
+      "packetFamily": null,
+      "approvedPacketSetIds": [],
+      "approvedComponentRoles": [],
+      "outputStrategies": [],
+      "officialFormIds": [],
+      "ownerApprovedLegalDesign": null,
+      "reusableAssets": {
+        "statePack": "src/lib/rcap/state-packs/pennsylvania",
+        "documentComponent": "src/components/rcap/documents/DocumentPacketRenderer.tsx",
+        "note": "The legacy document component is the closest thing the repository has to a specification of what a complete packet looks like for this jurisdiction, and is the comparison evidence for the migrated packet."
+      },
+      "migrationReadiness": "NO_APPROVED_PACKET_SET",
+      "exactBlocker": "No owner-approved packet set exists for this route, so there is nothing to migrate a specification from. A packet set is the first step.",
+      "commercialOpeningStillRequires": [
+        "owner approval of the legal design",
+        "counsel ratification (currently unclassified)",
+        "counsel review of the composed document set"
+      ]
+    },
+    {
+      "route": "PA:path-i-petition-for-limited-access",
+      "jurisdiction": "PA",
+      "pathwayId": "path-i-petition-for-limited-access",
+      "pathwayLabel": "Path I \u2014 Petition for limited access",
+      "ratification": "unclassified",
+      "hasLegalAuthorityContract": false,
+      "packetFamily": null,
+      "approvedPacketSetIds": [],
+      "approvedComponentRoles": [],
+      "outputStrategies": [],
+      "officialFormIds": [],
+      "ownerApprovedLegalDesign": null,
+      "reusableAssets": {
+        "statePack": "src/lib/rcap/state-packs/pennsylvania",
+        "documentComponent": "src/components/rcap/documents/DocumentPacketRenderer.tsx",
+        "note": "The legacy document component is the closest thing the repository has to a specification of what a complete packet looks like for this jurisdiction, and is the comparison evidence for the migrated packet."
+      },
+      "migrationReadiness": "NO_APPROVED_PACKET_SET",
+      "exactBlocker": "No owner-approved packet set exists for this route, so there is nothing to migrate a specification from. A packet set is the first step.",
+      "commercialOpeningStillRequires": [
+        "owner approval of the legal design",
+        "counsel ratification (currently unclassified)",
+        "counsel review of the composed document set"
+      ]
+    },
+    {
+      "route": "PA:path-j-clean-slate-automatic-limited-access",
+      "jurisdiction": "PA",
+      "pathwayId": "path-j-clean-slate-automatic-limited-access",
+      "pathwayLabel": "Path J \u2014 Clean Slate automatic limited access",
+      "ratification": "unclassified",
+      "hasLegalAuthorityContract": false,
+      "packetFamily": null,
+      "approvedPacketSetIds": [],
+      "approvedComponentRoles": [],
+      "outputStrategies": [],
+      "officialFormIds": [],
+      "ownerApprovedLegalDesign": null,
+      "reusableAssets": {
+        "statePack": "src/lib/rcap/state-packs/pennsylvania",
+        "documentComponent": "src/components/rcap/documents/DocumentPacketRenderer.tsx",
+        "note": "The legacy document component is the closest thing the repository has to a specification of what a complete packet looks like for this jurisdiction, and is the comparison evidence for the migrated packet."
+      },
+      "migrationReadiness": "NO_APPROVED_PACKET_SET",
+      "exactBlocker": "No owner-approved packet set exists for this route, so there is nothing to migrate a specification from. A packet set is the first step.",
+      "commercialOpeningStillRequires": [
+        "owner approval of the legal design",
+        "counsel ratification (currently unclassified)",
+        "counsel review of the composed document set"
+      ]
+    },
+    {
+      "route": "PA:path-k-human-trafficking-vacatur-expungement",
+      "jurisdiction": "PA",
+      "pathwayId": "path-k-human-trafficking-vacatur-expungement",
+      "pathwayLabel": "Path K \u2014 Human-trafficking vacatur / expungement",
+      "ratification": "unclassified",
+      "hasLegalAuthorityContract": true,
+      "packetFamily": "Pennsylvania \u00a7 3019 Trafficking Vacatur and Expungement Packet",
+      "approvedPacketSetIds": [],
+      "approvedComponentRoles": [],
+      "outputStrategies": [],
+      "officialFormIds": [],
+      "ownerApprovedLegalDesign": null,
+      "reusableAssets": {
+        "statePack": "src/lib/rcap/state-packs/pennsylvania",
+        "documentComponent": "src/components/rcap/documents/DocumentPacketRenderer.tsx",
+        "note": "The legacy document component is the closest thing the repository has to a specification of what a complete packet looks like for this jurisdiction, and is the comparison evidence for the migrated packet."
+      },
+      "migrationReadiness": "NO_APPROVED_PACKET_SET",
+      "exactBlocker": "No owner-approved packet set exists for this route, so there is nothing to migrate a specification from. A packet set is the first step.",
+      "commercialOpeningStillRequires": [
+        "owner approval of the legal design",
+        "counsel ratification (currently unclassified)",
+        "counsel review of the composed document set"
+      ]
+    },
+    {
+      "route": "TX:automatic-nondisclosure-for-qualifying-nonviolent-misdemeanor-deferred-adjudication-411-07",
+      "jurisdiction": "TX",
+      "pathwayId": "automatic-nondisclosure-for-qualifying-nonviolent-misdemeanor-deferred-adjudication-411-07",
+      "pathwayLabel": "Automatic nondisclosure for qualifying nonviolent misdemeanor deferred adjudication (\u00a7 411.072)",
+      "ratification": "unclassified",
+      "hasLegalAuthorityContract": false,
+      "packetFamily": null,
+      "approvedPacketSetIds": [],
+      "approvedComponentRoles": [],
+      "outputStrategies": [],
+      "officialFormIds": [],
+      "ownerApprovedLegalDesign": null,
+      "reusableAssets": {
+        "statePack": "src/lib/rcap/state-packs/texas-harris",
+        "documentComponent": "src/components/rcap/documents/DocumentPacketRenderer.tsx",
+        "note": "The legacy document component is the closest thing the repository has to a specification of what a complete packet looks like for this jurisdiction, and is the comparison evidence for the migrated packet."
+      },
+      "migrationReadiness": "NO_APPROVED_PACKET_SET",
+      "exactBlocker": "No owner-approved packet set exists for this route, so there is nothing to migrate a specification from. A packet set is the first step.",
+      "commercialOpeningStillRequires": [
+        "owner approval of the legal design",
+        "counsel ratification (currently unclassified)",
+        "counsel review of the composed document set"
+      ]
+    },
+    {
+      "route": "TX:expunction-after-acquittal-not-guilty-disposition-chapter-55a",
+      "jurisdiction": "TX",
+      "pathwayId": "expunction-after-acquittal-not-guilty-disposition-chapter-55a",
+      "pathwayLabel": "Expunction after acquittal / not-guilty disposition (Chapter 55A)",
+      "ratification": "ratified_deployable",
+      "hasLegalAuthorityContract": false,
+      "packetFamily": null,
+      "approvedPacketSetIds": [
+        "tx_exp_acquittal-set"
+      ],
+      "approvedComponentRoles": [
+        "fee_waiver_statement",
+        "filing_and_expectation_instructions",
+        "information_package",
+        "petition",
+        "proposed_order",
+        "request_to_trial_court"
+      ],
+      "outputStrategies": [
+        "custom_pleading",
+        "official_pdf_fill",
+        "process_guidance"
+      ],
+      "officialFormIds": [
+        "Statement of Inability to Afford Payment of Court Costs or an Appeal Bond"
+      ],
+      "ownerApprovedLegalDesign": false,
+      "reusableAssets": {
+        "statePack": "src/lib/rcap/state-packs/texas-harris",
+        "documentComponent": "src/components/rcap/documents/DocumentPacketRenderer.tsx",
+        "note": "The legacy document component is the closest thing the repository has to a specification of what a complete packet looks like for this jurisdiction, and is the comparison evidence for the migrated packet."
+      },
+      "migrationReadiness": "SOURCE_BYTES_NOT_MATERIALIZED_IN_CURRENT_RUNTIME",
+      "exactBlocker": "Its packet set fills official forms (Statement of Inability to Afford Payment of Court Costs or an Appeal Bond). TX has 3 inventoried source artifact(s) present and re-verified and 0 identified but not materialised in this runtime. Whether THIS route's forms are among the present set is settled per form in data/rcap-ledger/source-custody-census.json; nothing here is called missing.",
+      "commercialOpeningStillRequires": [
+        "owner approval of the legal design",
+        "counsel review of the composed document set"
+      ],
+      "sourceCustody": "SOURCE_IDENTIFIED_NOT_MATERIALIZED or SOURCE_PRESENT_AND_REVERIFIED, per form \u2014 see the custody census"
+    },
+    {
+      "route": "TX:expunction-after-pardon-or-actual-innocence-relief",
+      "jurisdiction": "TX",
+      "pathwayId": "expunction-after-pardon-or-actual-innocence-relief",
+      "pathwayLabel": "Expunction after pardon or actual-innocence relief",
+      "ratification": "unclassified",
+      "hasLegalAuthorityContract": true,
+      "packetFamily": "Texas Ex Parte Petition for Expunction under art. 55A.003 / 55A.004",
+      "approvedPacketSetIds": [
+        "tx_exp_pardon_innocence-set"
+      ],
+      "approvedComponentRoles": [
+        "fee_waiver_statement",
+        "filing_and_local_practice_instructions",
+        "information_package",
+        "petition",
+        "proposed_order"
+      ],
+      "outputStrategies": [
+        "custom_pleading",
+        "official_pdf_fill",
+        "process_guidance"
+      ],
+      "officialFormIds": [
+        "Statement of Inability to Afford Payment of Court Costs or an Appeal Bond"
+      ],
+      "ownerApprovedLegalDesign": true,
+      "reusableAssets": {
+        "statePack": "src/lib/rcap/state-packs/texas-harris",
+        "documentComponent": "src/components/rcap/documents/DocumentPacketRenderer.tsx",
+        "note": "The legacy document component is the closest thing the repository has to a specification of what a complete packet looks like for this jurisdiction, and is the comparison evidence for the migrated packet."
+      },
+      "migrationReadiness": "SOURCE_BYTES_NOT_MATERIALIZED_IN_CURRENT_RUNTIME",
+      "exactBlocker": "Its packet set fills official forms (Statement of Inability to Afford Payment of Court Costs or an Appeal Bond). TX has 3 inventoried source artifact(s) present and re-verified and 0 identified but not materialised in this runtime. Whether THIS route's forms are among the present set is settled per form in data/rcap-ledger/source-custody-census.json; nothing here is called missing.",
+      "commercialOpeningStillRequires": [
+        "counsel ratification (currently unclassified)",
+        "counsel review of the composed document set"
+      ],
+      "sourceCustody": "SOURCE_IDENTIFIED_NOT_MATERIALIZED or SOURCE_PRESENT_AND_REVERIFIED, per form \u2014 see the custody census"
+    },
+    {
+      "route": "TX:expunction-after-qualifying-class-c-deferred-disposition",
+      "jurisdiction": "TX",
+      "pathwayId": "expunction-after-qualifying-class-c-deferred-disposition",
+      "pathwayLabel": "Expunction after qualifying Class C deferred disposition",
+      "ratification": "unclassified",
+      "hasLegalAuthorityContract": true,
+      "packetFamily": "Texas Ex Parte Petition for Expunction \u2014 Class C deferred disposition",
+      "approvedPacketSetIds": [
+        "tx_exp_dismissed-set"
+      ],
+      "approvedComponentRoles": [
+        "fee_waiver_statement",
+        "filing_and_local_practice_instructions",
+        "one_time_use_affidavit",
+        "petition",
+        "proposed_order"
+      ],
+      "outputStrategies": [
+        "custom_pleading",
+        "official_pdf_fill",
+        "process_guidance"
+      ],
+      "officialFormIds": [
+        "Statement of Inability to Afford Payment of Court Costs or an Appeal Bond"
+      ],
+      "ownerApprovedLegalDesign": true,
+      "reusableAssets": {
+        "statePack": "src/lib/rcap/state-packs/texas-harris",
+        "documentComponent": "src/components/rcap/documents/DocumentPacketRenderer.tsx",
+        "note": "The legacy document component is the closest thing the repository has to a specification of what a complete packet looks like for this jurisdiction, and is the comparison evidence for the migrated packet."
+      },
+      "migrationReadiness": "SOURCE_BYTES_NOT_MATERIALIZED_IN_CURRENT_RUNTIME",
+      "exactBlocker": "Its packet set fills official forms (Statement of Inability to Afford Payment of Court Costs or an Appeal Bond). TX has 3 inventoried source artifact(s) present and re-verified and 0 identified but not materialised in this runtime. Whether THIS route's forms are among the present set is settled per form in data/rcap-ledger/source-custody-census.json; nothing here is called missing.",
+      "commercialOpeningStillRequires": [
+        "counsel ratification (currently unclassified)",
+        "counsel review of the composed document set"
+      ],
+      "sourceCustody": "SOURCE_IDENTIFIED_NOT_MATERIALIZED or SOURCE_PRESENT_AND_REVERIFIED, per form \u2014 see the custody census"
+    },
+    {
+      "route": "TX:expunction-after-qualifying-dismissal-or-quash",
+      "jurisdiction": "TX",
+      "pathwayId": "expunction-after-qualifying-dismissal-or-quash",
+      "pathwayLabel": "Expunction after qualifying dismissal or quash",
+      "ratification": "unclassified",
+      "hasLegalAuthorityContract": true,
+      "packetFamily": "Texas Ex Parte Petition for Expunction \u2014 dismissal or quash",
+      "approvedPacketSetIds": [
+        "tx_exp_dismissed-set"
+      ],
+      "approvedComponentRoles": [
+        "fee_waiver_statement",
+        "filing_and_local_practice_instructions",
+        "one_time_use_affidavit",
+        "petition",
+        "proposed_order"
+      ],
+      "outputStrategies": [
+        "custom_pleading",
+        "official_pdf_fill",
+        "process_guidance"
+      ],
+      "officialFormIds": [
+        "Statement of Inability to Afford Payment of Court Costs or an Appeal Bond"
+      ],
+      "ownerApprovedLegalDesign": true,
+      "reusableAssets": {
+        "statePack": "src/lib/rcap/state-packs/texas-harris",
+        "documentComponent": "src/components/rcap/documents/DocumentPacketRenderer.tsx",
+        "note": "The legacy document component is the closest thing the repository has to a specification of what a complete packet looks like for this jurisdiction, and is the comparison evidence for the migrated packet."
+      },
+      "migrationReadiness": "SOURCE_BYTES_NOT_MATERIALIZED_IN_CURRENT_RUNTIME",
+      "exactBlocker": "Its packet set fills official forms (Statement of Inability to Afford Payment of Court Costs or an Appeal Bond). TX has 3 inventoried source artifact(s) present and re-verified and 0 identified but not materialised in this runtime. Whether THIS route's forms are among the present set is settled per form in data/rcap-ledger/source-custody-census.json; nothing here is called missing.",
+      "commercialOpeningStillRequires": [
+        "counsel ratification (currently unclassified)",
+        "counsel review of the composed document set"
+      ],
+      "sourceCustody": "SOURCE_IDENTIFIED_NOT_MATERIALIZED or SOURCE_PRESENT_AND_REVERIFIED, per form \u2014 see the custody census"
+    },
+    {
+      "route": "TX:expunction-for-arrest-with-no-charge-filed-after-the-limitations-period",
+      "jurisdiction": "TX",
+      "pathwayId": "expunction-for-arrest-with-no-charge-filed-after-the-limitations-period",
+      "pathwayLabel": "Expunction for arrest with no charge filed after the limitations period",
+      "ratification": "unclassified",
+      "hasLegalAuthorityContract": false,
+      "packetFamily": "rcap-tx-custom-pleading",
+      "approvedPacketSetIds": [
+        "tx_exp_limitations-set",
+        "tx_exp_no_charge-set"
+      ],
+      "approvedComponentRoles": [
+        "fee_waiver_statement",
+        "filing_and_local_practice_instructions",
+        "petition",
+        "proposed_order"
+      ],
+      "outputStrategies": [
+        "custom_pleading",
+        "official_pdf_fill",
+        "process_guidance"
+      ],
+      "officialFormIds": [
+        "Statement of Inability to Afford Payment of Court Costs or an Appeal Bond"
+      ],
+      "ownerApprovedLegalDesign": true,
+      "reusableAssets": {
+        "statePack": "src/lib/rcap/state-packs/texas-harris",
+        "documentComponent": "src/components/rcap/documents/DocumentPacketRenderer.tsx",
+        "note": "The legacy document component is the closest thing the repository has to a specification of what a complete packet looks like for this jurisdiction, and is the comparison evidence for the migrated packet."
+      },
+      "migrationReadiness": "SOURCE_BYTES_NOT_MATERIALIZED_IN_CURRENT_RUNTIME",
+      "exactBlocker": "Its packet set fills official forms (Statement of Inability to Afford Payment of Court Costs or an Appeal Bond). TX has 3 inventoried source artifact(s) present and re-verified and 0 identified but not materialised in this runtime. Whether THIS route's forms are among the present set is settled per form in data/rcap-ledger/source-custody-census.json; nothing here is called missing.",
+      "commercialOpeningStillRequires": [
+        "counsel ratification (currently unclassified)",
+        "counsel review of the composed document set"
+      ],
+      "sourceCustody": "SOURCE_IDENTIFIED_NOT_MATERIALIZED or SOURCE_PRESENT_AND_REVERIFIED, per form \u2014 see the custody census"
+    },
+    {
+      "route": "TX:first-offense-dwi-nondisclosure",
+      "jurisdiction": "TX",
+      "pathwayId": "first-offense-dwi-nondisclosure",
+      "pathwayLabel": "First-offense DWI nondisclosure",
+      "ratification": "unclassified",
+      "hasLegalAuthorityContract": false,
+      "packetFamily": null,
+      "approvedPacketSetIds": [
+        "tx_nd_dwi_probation-set"
+      ],
+      "approvedComponentRoles": [
+        "fee_waiver_statement",
+        "filing_and_after_order_instructions",
+        "petition",
+        "proof_of_delivery_to_prosecutor",
+        "proposed_order"
+      ],
+      "outputStrategies": [
+        "custom_pleading",
+        "official_pdf_fill",
+        "process_guidance"
+      ],
+      "officialFormIds": [
+        "OCA Model Order of Nondisclosure under Section 411.0731",
+        "OCA Model Petition for an Order of Nondisclosure under Section 411.0731",
+        "Statement of Inability to Afford Payment of Court Costs or an Appeal Bond"
+      ],
+      "ownerApprovedLegalDesign": false,
+      "reusableAssets": {
+        "statePack": "src/lib/rcap/state-packs/texas-harris",
+        "documentComponent": "src/components/rcap/documents/DocumentPacketRenderer.tsx",
+        "note": "The legacy document component is the closest thing the repository has to a specification of what a complete packet looks like for this jurisdiction, and is the comparison evidence for the migrated packet."
+      },
+      "migrationReadiness": "SOURCE_BYTES_NOT_MATERIALIZED_IN_CURRENT_RUNTIME",
+      "exactBlocker": "Its packet set fills official forms (OCA Model Order of Nondisclosure under Section 411.0731, OCA Model Petition for an Order of Nondisclosure under Section 411.0731, Statement of Inability to Afford Payment of Court Costs or an Appeal Bond). TX has 3 inventoried source artifact(s) present and re-verified and 0 identified but not materialised in this runtime. Whether THIS route's forms are among the present set is settled per form in data/rcap-ledger/source-custody-census.json; nothing here is called missing.",
+      "commercialOpeningStillRequires": [
+        "owner approval of the legal design",
+        "counsel ratification (currently unclassified)",
+        "counsel review of the composed document set"
+      ],
+      "sourceCustody": "SOURCE_IDENTIFIED_NOT_MATERIALIZED or SOURCE_PRESENT_AND_REVERIFIED, per form \u2014 see the custody census"
+    },
+    {
+      "route": "TX:petitioned-nondisclosure-after-completed-deferred-adjudication-411-0725",
+      "jurisdiction": "TX",
+      "pathwayId": "petitioned-nondisclosure-after-completed-deferred-adjudication-411-0725",
+      "pathwayLabel": "Petitioned nondisclosure after completed deferred adjudication (\u00a7 411.0725)",
+      "ratification": "hard_gate_pending",
+      "hasLegalAuthorityContract": false,
+      "packetFamily": null,
+      "approvedPacketSetIds": [
+        "tx_nd_deferred_other-set"
+      ],
+      "approvedComponentRoles": [
+        "fee_waiver_statement",
+        "filing_and_after_order_instructions",
+        "petition",
+        "proof_of_delivery_to_prosecutor",
+        "proposed_order"
+      ],
+      "outputStrategies": [
+        "custom_pleading",
+        "official_pdf_fill",
+        "process_guidance"
+      ],
+      "officialFormIds": [
+        "OCA Model Order of Nondisclosure under Section 411.0725",
+        "OCA Model Petition for an Order of Nondisclosure under Section 411.0725",
+        "Statement of Inability to Afford Payment of Court Costs or an Appeal Bond"
+      ],
+      "ownerApprovedLegalDesign": false,
+      "reusableAssets": {
+        "statePack": "src/lib/rcap/state-packs/texas-harris",
+        "documentComponent": "src/components/rcap/documents/DocumentPacketRenderer.tsx",
+        "note": "The legacy document component is the closest thing the repository has to a specification of what a complete packet looks like for this jurisdiction, and is the comparison evidence for the migrated packet."
+      },
+      "migrationReadiness": "SOURCE_BYTES_NOT_MATERIALIZED_IN_CURRENT_RUNTIME",
+      "exactBlocker": "Its packet set fills official forms (OCA Model Order of Nondisclosure under Section 411.0725, OCA Model Petition for an Order of Nondisclosure under Section 411.0725, Statement of Inability to Afford Payment of Court Costs or an Appeal Bond). TX has 3 inventoried source artifact(s) present and re-verified and 0 identified but not materialised in this runtime. Whether THIS route's forms are among the present set is settled per form in data/rcap-ledger/source-custody-census.json; nothing here is called missing.",
+      "commercialOpeningStillRequires": [
+        "owner approval of the legal design",
+        "counsel ratification (currently hard_gate_pending)",
+        "counsel review of the composed document set"
+      ],
+      "sourceCustody": "SOURCE_IDENTIFIED_NOT_MATERIALIZED or SOURCE_PRESENT_AND_REVERIFIED, per form \u2014 see the custody census"
+    },
+    {
+      "route": "TX:petitioned-nondisclosure-for-an-eligible-conviction-411-0735",
+      "jurisdiction": "TX",
+      "pathwayId": "petitioned-nondisclosure-for-an-eligible-conviction-411-0735",
+      "pathwayLabel": "Petitioned nondisclosure for an eligible conviction (\u00a7 411.0735)",
+      "ratification": "hard_gate_pending",
+      "hasLegalAuthorityContract": false,
+      "packetFamily": null,
+      "approvedPacketSetIds": [
+        "tx_nd_conviction_no_supervision-set"
+      ],
+      "approvedComponentRoles": [
+        "fee_waiver_statement",
+        "filing_and_after_order_instructions",
+        "petition",
+        "proof_of_delivery_to_prosecutor",
+        "proposed_order"
+      ],
+      "outputStrategies": [
+        "custom_pleading",
+        "official_pdf_fill",
+        "process_guidance"
+      ],
+      "officialFormIds": [
+        "OCA Model Order of Nondisclosure under Section 411.0735",
+        "OCA Model Petition for an Order of Nondisclosure under Section 411.0735",
+        "Statement of Inability to Afford Payment of Court Costs or an Appeal Bond"
+      ],
+      "ownerApprovedLegalDesign": false,
+      "reusableAssets": {
+        "statePack": "src/lib/rcap/state-packs/texas-harris",
+        "documentComponent": "src/components/rcap/documents/DocumentPacketRenderer.tsx",
+        "note": "The legacy document component is the closest thing the repository has to a specification of what a complete packet looks like for this jurisdiction, and is the comparison evidence for the migrated packet."
+      },
+      "migrationReadiness": "SOURCE_BYTES_NOT_MATERIALIZED_IN_CURRENT_RUNTIME",
+      "exactBlocker": "Its packet set fills official forms (OCA Model Order of Nondisclosure under Section 411.0735, OCA Model Petition for an Order of Nondisclosure under Section 411.0735, Statement of Inability to Afford Payment of Court Costs or an Appeal Bond). TX has 3 inventoried source artifact(s) present and re-verified and 0 identified but not materialised in this runtime. Whether THIS route's forms are among the present set is settled per form in data/rcap-ledger/source-custody-census.json; nothing here is called missing.",
+      "commercialOpeningStillRequires": [
+        "owner approval of the legal design",
+        "counsel ratification (currently hard_gate_pending)",
+        "counsel review of the composed document set"
+      ],
+      "sourceCustody": "SOURCE_IDENTIFIED_NOT_MATERIALIZED or SOURCE_PRESENT_AND_REVERIFIED, per form \u2014 see the custody census"
+    }
+  ],
+  "readinessVocabulary": {
+    "MIGRATABLE_NOW": "A specification can be written and a packet built and machine-verified today. It does NOT mean the route may be sold: see commercialOpeningStillRequires on each row, and both postures on any record written for it stay held until those are satisfied.",
+    "BLOCKED_ON_RATIFICATION": "A packet may still be specified and built; counsel has not ratified the route, so nothing may open.",
+    "NO_APPROVED_PACKET_SET": "There is no owner-approved packet set to migrate a specification from. Producing one is legal-design work, not build work.",
+    "SOURCE_BYTES_NOT_MATERIALIZED_IN_CURRENT_RUNTIME": "Its owner-approved packet set fills an official PDF. Whether those bytes are in THIS runtime is a custody question, settled per form in data/rcap-ledger/source-custody-census.json. A form is never called missing because a container did not have it mounted, and the approved output strategy is never changed to route around a custody gap."
+  },
+  "migrationQueue": {
+    "note": "The nine routes a specification can be written for today, ordered by whether the owner has already approved the legal design. Each is migrated on its own evidence; a state is never reopened because one of its routes passes.",
+    "ownerApprovedFirst": [
+      "IL:felony-prostitution-relief",
+      "MS:first-offense-controlled-substance-conditional-discharge-relief",
+      "MS:first-offense-dui-expungement",
+      "MS:minor-in-possession-underage-alcohol-expungement"
+    ],
+    "thenTheRest": [
+      "DC:dc_actual_innocence_expungement_16_803",
+      "MS:eligible-felony-conviction-expungement-99-19-71",
+      "MS:first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1",
+      "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+      "MS:pretrial-intervention-or-diversion-expungement"
+    ]
+  }
+}

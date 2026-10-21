@@ -1,0 +1,108 @@
+{
+  "schemaVersion": "rcap-hi-independent-route-review/v1",
+  "reviewer": "hi-independent-review",
+  "sessionIdentity": "/root/hi_route_review",
+  "reviewedAt": "2026-09-11",
+  "verifiedAtBase": "c6a8059e9f473e002a2dc48e6493e92b2bfbd86c",
+  "independence": "This review independently recomputed route PDF SHA-256 values and page counts and ran the route verifier in read-only mode. It did not treat builder reports as independent proof for obligations the verifier does not measure.",
+  "centralRun": {
+    "runId": 34548353001,
+    "conclusion": "success",
+    "workflowRunUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/34548353001",
+    "workflowHeadSha": "e5f2a61bbdd299c40ff0976019f7b489906fb884",
+    "renderedCommitSha": "c6a8059e9f473e002a2dc48e6493e92b2bfbd86c",
+    "jobsTotal": 7,
+    "jobsSucceeded": 7,
+    "jobsFailed": 0,
+    "routesCovered": 5,
+    "pagesCovered": 40,
+    "jobIds": {
+      "hi-first-time-drug-offender": 103106400983,
+      "hi-first-time-property-offender": 103106401018,
+      "hi-marijuana-three-grams": 103106401094,
+      "hi-pre-2004-drug-offender": 103106401057,
+      "hi-under-21-dui": 103106401022
+    }
+  },
+  "packetCommitVerified": "c6a8059e9f473e002a2dc48e6493e92b2bfbd86c",
+  "routeArtifacts": {
+    "routes": 5,
+    "fixturesPerRoute": ["canonical", "boundary"],
+    "everyCurrentPdfHashMatchesRenderedArtifactsAndCentralPin": true,
+    "everyPdfHasFourPages": true,
+    "sha256": {
+      "hi-first-time-drug-offender": {"canonical": "da91374bd13b3dc786e53b9f0ee99fffb3e051178d5b293dc626b3b40b0ff413", "boundary": "de47ff637c0a692b2fee770dc56a99ab2773c37993e0c087950e2ee600815f52"},
+      "hi-first-time-property-offender": {"canonical": "5cd8f1dc2fe1552f1822817144360fc29fbae86544cb2f16d835850ccdf38427", "boundary": "9a16c496616f1ad4af2bbfe073fbdc55370681c0ab925755aa93aefbb3d8b718"},
+      "hi-marijuana-three-grams": {"canonical": "4d45ae1ee783b6746a364474fd80966ef5fc894170c8bfb8967037e8d181ce5a", "boundary": "251520a44f0353f17eab9d2c75f41590762e2ed1a718272adddd4eaa671759de"},
+      "hi-pre-2004-drug-offender": {"canonical": "3ff758aa8461d962c46ac918d538667f1c795cb9fc0193f07b2c0f9c4b42b3f0", "boundary": "93b67f7cfc477c167a48443d5b64fcf31a7d088c81ed9ac980ac5fefb7b61cdc"},
+      "hi-under-21-dui": {"canonical": "c53fa4d424ca37e9ac7296a13b9780c00edc022ff1a17003af776d0d333195ea", "boundary": "62b92bb71189db9ae1121072a7600d45c3c2248efb105dd92cc49e7f97fad86a"}
+    }
+  },
+  "rasterEvidence": {
+    "verdict": "RASTER_PASS",
+    "genuine": true,
+    "receiptSource": "data/rcap-grade-a/packet-factory-24h/raster-runs/34548353001/ORIGINAL_EVIDENCE_VERIFIED.json",
+    "originalEvidenceConsumed": true,
+    "originalPngBytesVerified": true,
+    "allTenRouteFixtureVerdicts": "RASTER_PASS",
+    "allMeasuredPagesNonblankAndCropped": true,
+    "problems": [],
+    "localRasterRetained": false,
+    "receiptIdentities": "Each receipt artifact and job log is bound to run 34548353001, the exact packet commit above, and the current route PDF hashes; no family-level receipt was substituted."
+  },
+  "independentChecksExecuted": {
+    "routeVerifier": {
+      "command": "node scripts/rcap-packet-completeness/verify-route-artifact-completeness.mjs --family rcap-hi-custom-pleading",
+      "exitStatus": 0,
+      "result": "10 ROUTE_PASS_COMPLETE; each route fixture 3 components and 7/7 values read back",
+      "retainedOutput": "route-verifier.out"
+    },
+    "currentBytes": "Recomputed SHA-256 for all ten current route PDFs and parsed each with pdfinfo; all matched the central pin and rendered-artifacts record and all reported four pages.",
+    "centralReceiptIdentity": "Read CENTRAL_RASTER_RUN.json, ORIGINAL_EVIDENCE_VERIFIED.json, jobs.json, and each verdict; all five jobs and ten verdicts bind to run 34548353001 and the verified packet commit.",
+    "originalPngInspection": "Inspected all 40 original PNGs extracted from the existing ZIPs: boundary and canonical pages 1–4 for all five routes. No visible clipping, page-edge corruption, or unexpected ink was observed; the official page-4 signature/date and HCJDC-use-only areas remain blank.",
+    "zipMemberInventories": "targeted-pages/*.members.txt"
+  },
+  "routeScopedAcceptance": {
+    "verdict": "INDEPENDENT_REVIEW_PENDING",
+    "basis": "The read-only route verifier independently confirms exact route component scope, 7/7 byte read-backs, and zero route completeness counters for all ten fixtures. The central receipt independently confirms genuine RASTER_PASS. The remaining obligations listed below were read from builder reports/instructions and were not independently remeasured in this session.",
+    "allNineCountersZero": true,
+    "allTenArtifactsExactComponentSets": true,
+    "allSeventyBoundValuesReadBack": true,
+    "obligations": {
+      "route_identity": "PASS",
+      "source_identity": "PASS",
+      "component_set": "PASS",
+      "known_prefills": "PASS",
+      "required_before_filing": "PASS",
+      "route_options": "PASS",
+      "repeating_rows": "PASS",
+      "protected_fields": "PASS",
+      "artifact_hashes": "PASS",
+      "page_order": "PASS",
+      "clipping_and_overlap": "PASS",
+      "filing_destination": "PASS",
+      "fee_and_waiver": "PASS",
+      "service": "PASS",
+      "self_help_stop": "PASS"
+    },
+    "independentGaps": [
+      "Independent deterministic rebuilding was not repeated because the route contract forbids rebuilding unchanged passing packets. Prior two-rebuild evidence covers the same exact ten route PDF hashes: data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_DETERMINISM.json, reviewer vf01, each route artifact classification REPRODUCES and matchesCommitted=true.",
+      "Protected-field, repeating-row, and required-before-filing conclusions are verifier-backed for route completeness; they were additionally checked against the participant instructions and targeted page images but not reimplemented outside the verifier."
+    ]
+  },
+  "existingIndependentConsumer": "No automatic exact-route consumer was found for data/rcap-grade-a/route-artifact-acceptance/independent-returns/. extract-verifier-returns.mjs scans codex-cloud, factory vfNN, and chat review inputs but does not reference this directory. Controlled placement/registration by the owning integration lane remains required; this record does not substitute family review or promote a route.",
+  "productWiringAndGeneration": {
+    "currentStatus": "DECLARED_NOT_INSTALLED",
+    "generationAllowed": false,
+    "requiredNextSequence": "Regenerate current product wiring against the five route artifacts and current hashes, then run the existing integration/generation checks and any required independent review. No commercial authority is created by this review.",
+    "evidence": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/product-wiring.json"
+  },
+  "generatorChangeReview": {
+    "change": "--central-run selects the central raster record while preserving the prior default path and prevents local-render claims from being carried into route acceptance.",
+    "syntax": "PASS",
+    "scope": "PASS",
+    "knownLimitation": "scripts/test-route-artifact-single-route-aliases.mjs fails on stale hardcoded expected-empty data; current eligible set contains il-prostitution-j-vacate-set, nv_seal_probation_family-set, rcap-wv-custom-pleading, and va_exp_absolute_pardon-set. This is unrelated live-data expectation drift and is not a Hawaii packet defect.",
+    "requiredRepair": "Update that test's fixture expectation in its owning lane before treating the global integration sequence as clean; do not alter Hawaii PDFs or raster evidence for this unrelated failure."
+  },
+  "grantsNothing": "This is evidence only. It opens no route, creates no fulfillment record, and does not promote commercial or live status."
+}

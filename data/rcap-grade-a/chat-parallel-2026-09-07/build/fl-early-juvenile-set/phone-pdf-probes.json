@@ -1,0 +1,127 @@
+{
+  "scope": "isolated phone-ink probes, not complete packet fixtures",
+  "sourceSha256": "d9417ea382c9c1ea170153b5aa25e63230799de836b8aefca0ee80a47e23f6eb",
+  "printedClosingParenthesisBbox": [
+    379.885986328125,
+    208.41299438476562,
+    384.2149963378906,
+    226.27499389648438
+  ],
+  "probes": [
+    {
+      "fixture": "canonical",
+      "probeSha256": "37ea08171c5c664fe0e182fa0609b6eca735a4b949c3d08cd650f22c7b51b0ef",
+      "deterministicProbeOnly": true,
+      "phonePages": [
+        {
+          "page": 1,
+          "phone": "850-555-0142",
+          "bbox": [
+            386.0,
+            209.8625030517578,
+            438.921142578125,
+            221.54150390625
+          ],
+          "size": 8.5
+        },
+        {
+          "page": 2,
+          "phone": "850-555-0142",
+          "bbox": [
+            441.0,
+            112.86250305175781,
+            493.921142578125,
+            124.54149627685547
+          ],
+          "size": 8.5
+        }
+      ],
+      "pageCount": 5
+    },
+    {
+      "fixture": "boundary",
+      "probeSha256": "23137666dff36bcb5cb4ebf1b69c58d7969433be1618c290b53bdb168fc1ce89",
+      "deterministicProbeOnly": true,
+      "phonePages": [
+        {
+          "page": 1,
+          "phone": "850-555-0199",
+          "bbox": [
+            386.0,
+            209.8625030517578,
+            438.921142578125,
+            221.54150390625
+          ],
+          "size": 8.5
+        },
+        {
+          "page": 2,
+          "phone": "850-555-0199",
+          "bbox": [
+            441.0,
+            112.86250305175781,
+            493.921142578125,
+            124.54149627685547
+          ],
+          "size": 8.5
+        }
+      ],
+      "pageCount": 5
+    }
+  ],
+  "pdfNegativeControls": [
+    {
+      "fixture": "canonical",
+      "mutation": "prior-overlap",
+      "caught": "Phone overprints the official parenthesis"
+    },
+    {
+      "fixture": "canonical",
+      "mutation": "missing-page1-phone-present-page2",
+      "caught": "Phone missing/duplicated on page 1"
+    },
+    {
+      "fixture": "canonical",
+      "mutation": "cross-cell-edge",
+      "caught": "Phone leaves safe cell edge"
+    },
+    {
+      "fixture": "canonical",
+      "mutation": "font-shrunk",
+      "caught": "Phone font changed"
+    },
+    {
+      "fixture": "canonical",
+      "mutation": "page-omitted",
+      "caught": "Official packet pages omitted"
+    },
+    {
+      "fixture": "boundary",
+      "mutation": "prior-overlap",
+      "caught": "Phone overprints the official parenthesis"
+    },
+    {
+      "fixture": "boundary",
+      "mutation": "missing-page1-phone-present-page2",
+      "caught": "Phone missing/duplicated on page 1"
+    },
+    {
+      "fixture": "boundary",
+      "mutation": "cross-cell-edge",
+      "caught": "Phone leaves safe cell edge"
+    },
+    {
+      "fixture": "boundary",
+      "mutation": "font-shrunk",
+      "caught": "Phone font changed"
+    },
+    {
+      "fixture": "boundary",
+      "mutation": "page-omitted",
+      "caught": "Official packet pages omitted"
+    }
+  ],
+  "fullBuilderExecuted": false,
+  "independentApproval": false,
+  "familyClosed": false
+}

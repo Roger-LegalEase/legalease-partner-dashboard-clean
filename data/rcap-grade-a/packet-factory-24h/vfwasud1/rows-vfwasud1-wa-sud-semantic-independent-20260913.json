@@ -1,0 +1,677 @@
+{
+  "schemaVersion": "rcap-independent-verifier-return/v1",
+  "lane": "VFWASUD1",
+  "laneKind": "independent-verification",
+  "status": "COMPLETED",
+  "semanticStatus": "FAIL_REPAIR_REQUIRED",
+  "verdict": "FAIL_REPAIR_REQUIRED",
+  "reviewer": "/root/ia_reader_review",
+  "sessionIdentity": "/root/ia_reader_review",
+  "generatedAt": "2026-09-13T15:00:52.770012+00:00",
+  "reviewedAt": "2026-09-13T15:00:52.770012+00:00",
+  "verifiedAtBase": "67c72bae5addcc2084ffbd2ba79294af56232b9b",
+  "familyId": "wa_vac_substance_use_disorder-set",
+  "familyOutput": "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--custom-pleading",
+  "workerCandidateCommit": "d94f8b4b0d375a17a1dd6acba835279bedbfe797",
+  "rasterDispatchAuthorized": false,
+  "finalAcceptance": false,
+  "visualMeasured": false,
+  "terminalPromotionAuthorized": false,
+  "productionTouched": false,
+  "commercialRoutesOpened": 0,
+  "sourceBuildReturn": null,
+  "nativeEnrollment": {
+    "returnIsAdditive": true,
+    "nativeLane": "VFWASUD1",
+    "sourceLane": "PF05",
+    "sourceReturnPath": null,
+    "sourceStatus": "MISSING_NATIVE_AUTHOR_COMPLETION_RETURN",
+    "candidateCommit": "d94f8b4b0d375a17a1dd6acba835279bedbfe797",
+    "observed": "Candidate commit contains exactly 14 code/output files and no lane return. Read-only worker PF05 JSON content search found no WA SUD return. PF26 historical checkpoint/row mentions are not the completion return for this candidate.",
+    "requiredNextAction": "Existing PF05 implementation owner must provide a native completion return binding the corrected candidate and execution evidence. Reviewer has not manufactured author completion/custody evidence."
+  },
+  "rows": [
+    {
+      "familyId": "wa_vac_substance_use_disorder-set",
+      "itemId": "wa_vac_substance_use_disorder-set",
+      "jurisdiction": "WA",
+      "lane": "VFWASUD1",
+      "laneKind": "independent-verification",
+      "reviewer": "/root/ia_reader_review",
+      "sessionIdentity": "/root/ia_reader_review",
+      "reviewPhase": "PRE_RASTER_SEMANTIC",
+      "verifiedAt": "2026-09-13T15:00:52.770012+00:00",
+      "verifiedAtBase": "67c72bae5addcc2084ffbd2ba79294af56232b9b",
+      "packetCommitSha": "d94f8b4b0d375a17a1dd6acba835279bedbfe797",
+      "workerCandidateCommit": "d94f8b4b0d375a17a1dd6acba835279bedbfe797",
+      "status": "FAIL_REPAIR_REQUIRED",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Both current packets consistently identify Washington RCW 9.96.060(6) custom vacatur and the exact family route key; no ordinary CrRLJ residual election is substituted."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All three declared repository authority files match receipt hashes and lengths on worker. This exact-byte identity finding does not cure missing PF24 authority consumption or semantic defects.",
+          "evidence": [
+            {
+              "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+              "sha256": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
+              "bytes": 2629290,
+              "matchesReceipt": true
+            },
+            {
+              "path": "src/lib/rcap-engine/compiled/profiles/WA-washington.json",
+              "sha256": "f9d4f29d291682a01f0398b886d65ee7a4b74f140a3ecf4042a8ac4afba44e00",
+              "bytes": 232939,
+              "matchesReceipt": true
+            },
+            {
+              "path": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
+              "sha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
+              "bytes": 22372,
+              "matchesReceipt": true
+            }
+          ]
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "FAIL",
+          "finding": "Five composed components are present, but the purported declaration lacks recorded sworn execution requirement; VFWASUD1-003.",
+          "evidence": [
+            "wa-96060-6-petition-1",
+            "wa-96060-6-declaration-2",
+            "wa-96060-6-notice-order-3",
+            "wa-96060-6-program-evidence-4",
+            "wa-96060-6-filing-instructions-5"
+          ]
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All ten declared writes per fixture independently found in the corresponding component PDF text; only supplied synthetic participant name, DOB, address, phone and email are written. Twenty total writes measured."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "FAIL",
+          "finding": "Twenty-seven distinct required blanks and thirteen protected blanks are declared, but at least two notice/order caption blanks are uncensused. Program qualification requirements are incompletely disclosed; VFWASUD1-002 and -004."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "FAIL",
+          "finding": "Both evidence alternatives are visibly available without automatic selection, but assessment path requirements are weakened; VFWASUD1-001 and -002."
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Candidate presents one identified conviction and no automatic multi-count expansion; other counts/related matters are disclosed as participant inputs and uncertainty stops. No repeating-row content is silently truncated within the supplied fixture facts."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Participant signatures/dates and judicial findings/disposition/signature/date are unfilled on extracted current pages; actual-write rows contain participant identity/contact facts only. This semantic observation is not visual ink measurement."
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Both current PDFs match saved report SHA-256, byte length and actual page count. All fourteen worker candidate files match d94f8b4b0 and Captain import. Two PDFs, sixteen pages, zero widgets."
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Both PDFs: petition pages 1\u20132, declaration 3\u20134, notice/proposed order 5\u20136, program checklist 7, filing instructions 8. Page 6 carries only the final words of the notice/order sentence; layout acceptability remains for raster review."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "finding": "No raster or image measurement performed. Text extraction and zero author visualDefects are not visual acceptance."
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Current participant PDF and Markdown direct filing to the sentencing court and copying exact court/cause from the court record."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Current PDF and Markdown retain the authorized clerk lookup for whether fee applies, current amount, and waiver availability; no amount or waiver entitlement is invented."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Notice component and instructions direct actual State/prosecutor service under current sentencing-court procedure with actual recipient, method and date blanks; local redaction/hearing checks remain disclosed."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "FAIL",
+          "finding": "Generic stops do not close previously recorded specific conditions; VFWASUD1-005. Program proof is not fabricated, but specific qualification/referral boundaries need repair."
+        }
+      },
+      "obligationCounts": {
+        "PASS": 10,
+        "FAIL": 4,
+        "NOT_MEASURABLE_HERE": 1
+      },
+      "failedObligationNames": [
+        "COMPONENT_SET",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS",
+        "SELF_HELP_STOP"
+      ],
+      "failedObligations": [
+        {
+          "id": "VFWASUD1-001",
+          "severity": "BLOCKING",
+          "obligations": [
+            "ROUTE_OPTIONS"
+          ],
+          "title": "Assessment path changes the required conjunction to an alternative",
+          "observed": "Both current PDFs pages 2, 3, 7 and 8 and participant-instructions.md repeatedly require substantial compliance OR progress toward recovery goals. PF24 authority review preserves six months substantial compliance with recommended treatment/services AND progress toward recovery goals reflected in a written status update. The builder source receipt binds three older records but neither PF24 subsection (2)/(6) return.",
+          "locations": [
+            "scripts/build-census-v1-wa_vac_substance_use_disorder-custom-pleading.mjs:146",
+            "scripts/build-census-v1-wa_vac_substance_use_disorder-custom-pleading.mjs:310",
+            "scripts/build-census-v1-wa_vac_substance_use_disorder-custom-pleading.mjs:575",
+            "scripts/build-census-v1-wa_vac_substance_use_disorder-custom-pleading.mjs:667",
+            "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--custom-pleading/participant-instructions.md"
+          ],
+          "requiredFix": "Consume and bind the existing PF24 authority handoff and independent review; consistently preserve both assessment-path requirements in petition, declaration, checklist, instructions and field disclosures. Explain that subsection (2)(a)-(i) bars do not themselves defeat subsection (6); preserve distinct safety/referral gates without recreating those eligibility bars."
+        },
+        {
+          "id": "VFWASUD1-002",
+          "severity": "BLOCKING",
+          "obligations": [
+            "ROUTE_OPTIONS",
+            "REQUIRED_BEFORE_FILING"
+          ],
+          "title": "Assessment program restriction is not stated as a mandatory route condition",
+          "observed": "PDF page 7 names recovery navigator, arrest and jail alternative, and LEAD under POSSIBLE PROGRAM RECORD SOURCES, preceded by an if-the-record-identifies phrase. Neither assessment-path election nor Markdown says an assessment must come from one of the three named statutory programs. The completion path also uses generic qualifying-program language instead of expressly identifying substance use disorder program completion in its evidence instruction.",
+          "locations": [
+            "scripts/build-census-v1-wa_vac_substance_use_disorder-custom-pleading.mjs:575",
+            "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--custom-pleading/participant-instructions.md",
+            "both fixture PDFs page 7"
+          ],
+          "requiredFix": "Make the two evidence paths precise: substance use disorder program completion with filed proof, or assessment from one of the three enumerated statutory programs with both six-month conditions and written update. Require/refuse uncertain qualifying program identity explicitly; carry it into the participant Markdown."
+        },
+        {
+          "id": "VFWASUD1-003",
+          "severity": "BLOCKING",
+          "obligations": [
+            "COMPONENT_SET"
+          ],
+          "title": "Participant declaration omits the recorded sworn execution requirement",
+          "observed": "The track participantActionRequired instructs signature as a declaration under penalty of perjury, and the PF24 next-gates return preserves participant-owned sworn narrative/signature fields. Current PDF page 4 merely says facts are true to the best of personal knowledge; neither Petition nor declaration contains penalty-of-perjury execution text.",
+          "locations": [
+            "data/record-clearing/legal-design-track-registry.json#wa_vac_substance_use_disorder.packetSet.participantActionRequired",
+            "both fixture PDFs page 4"
+          ],
+          "requiredFix": "Restore a source-grounded Washington declaration execution block meeting the recorded sworn-declaration contract, leaving actual signature/date and any execution location participant-owned. Do not fabricate a signature or notarial event."
+        },
+        {
+          "id": "VFWASUD1-004",
+          "severity": "BLOCKING",
+          "obligations": [
+            "REQUIRED_BEFORE_FILING"
+          ],
+          "title": "Notice/order caption blanks are missing from the map and disclosure ledger",
+          "observed": "Both PDFs page 5 print Court name and Cause number blanks, but wa-96060-6-notice-order-3 canonical/boundary refusals contain only nine notice/judicial fields and no caption entries. The Markdown required-blank list has no notice/order component section. Thus the author all-zero unclassifiedBlanks count does not represent the complete printed blank inventory.",
+          "locations": [
+            "scripts/build-census-v1-wa_vac_substance_use_disorder-custom-pleading.mjs:451",
+            "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--custom-pleading/production-field-map.json#maps[2]",
+            "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--custom-pleading/reports/blanks-left-for-the-participant.json"
+          ],
+          "requiredFix": "Census/classify/disclose the notice/order caption court and cause-number inputs, and reconcile every printed blank against the complete map before returning zero counters. Measured lower bound is two distinct unmapped caption inputs, repeated in both fixtures."
+        },
+        {
+          "id": "VFWASUD1-005",
+          "severity": "BLOCKING",
+          "obligations": [
+            "SELF_HELP_STOP"
+          ],
+          "title": "Previously recorded specific self-help stops remain unaddressed",
+          "observed": "Current PDF page 8 and Markdown retain generic uncertainty/immigration/safety text. They do not expressly handle firearm-rights restoration as the actual goal, firearm/deadly-weapon/sexual-motivation enhancements, DUI/physical-control or related driving matters, or DV/protection-order conditions as separate advice/referral cases. PF24 recorded those as the prior SELF_HELP_STOP defect; the subsection (2)/(6) answer resolves eligibility-bar applicability, not all separate consequences.",
+          "locations": [
+            "data/rcap-grade-a/packet-factory-24h/pf24/wa-two-route-next-gates-20260913.json#routes.wa_vac_substance_use_disorder-set.selfHelpStopEvidence",
+            "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--custom-pleading/participant-instructions.md",
+            "both fixture PDFs page 8"
+          ],
+          "requiredFix": "Reconcile each recorded stop with the resolved subsection (2)/(6) interpretation. Print specific remaining referral triggers and firearm-rights scope limits, explicitly avoiding automatic subsection (2) ineligibility for an otherwise qualifying subsection (6) applicant."
+        }
+      ],
+      "unmeasuredObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "nineCounters": {
+        "authorReported": {
+          "knownRequiredFieldsMissing": 0,
+          "requiredFactsNotCollected": 0,
+          "unclassifiedBlanks": 0,
+          "incompleteRows": 0,
+          "requiredOptionsMissing": 0,
+          "requiredComponentsMissing": 0,
+          "invisibleWrites": 0,
+          "protectedWrites": 0,
+          "visualDefects": 0
+        },
+        "independentAllNineZero": false,
+        "unclassifiedDistinctBlankLowerBound": 2,
+        "visualDefects": null,
+        "note": "No counter regeneration performed. Author visualDefects=0 is unmeasured. Printed notice/order caption inputs invalidate the author all-zero claim."
+      },
+      "currentCandidateBindings": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--custom-pleading/approval-request.json",
+          "sha256": "1a552786ac60cc671f88e090b93a6e97df18ea9116498a5ea04441dbe8e86d84",
+          "byteLength": 1144,
+          "matchesCandidateCommit": true,
+          "captainMatchesWorker": true
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--custom-pleading/build-findings.json",
+          "sha256": "b67712cbca33584572b0a5d7f9600cb8d2953dccf6f694a9009e807e64988943",
+          "byteLength": 1475,
+          "matchesCandidateCommit": true,
+          "captainMatchesWorker": true
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--custom-pleading/build-status.json",
+          "sha256": "5d5e20907d294a889ccd583900028341d3981fa34933d8756b2597728941221c",
+          "byteLength": 722,
+          "matchesCandidateCommit": true,
+          "captainMatchesWorker": true
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--custom-pleading/fixtures/boundary.pdf",
+          "sha256": "2507e88daed16f3c7b65465eec33b5800aac084ed9ca7800100a3a50d436b2f9",
+          "byteLength": 19071,
+          "matchesCandidateCommit": true,
+          "captainMatchesWorker": true
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--custom-pleading/fixtures/canonical.pdf",
+          "sha256": "531d3b9b596f2e2379c6dad1c0b808dca133b1f391231f886b01ff7b3d03a55c",
+          "byteLength": 18812,
+          "matchesCandidateCommit": true,
+          "captainMatchesWorker": true
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--custom-pleading/participant-instructions.md",
+          "sha256": "1a74826e9b89f11739d098b7d74ad74e0abade5f9b4185476197a2f58889e679",
+          "byteLength": 10168,
+          "matchesCandidateCommit": true,
+          "captainMatchesWorker": true
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--custom-pleading/production-field-map.json",
+          "sha256": "35ea25023f101e0f1b784bd40f55c633896e8c536574e4cd5adf5831fbb2f3d4",
+          "byteLength": 133005,
+          "matchesCandidateCommit": true,
+          "captainMatchesWorker": true
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--custom-pleading/reports/actual-writes.json",
+          "sha256": "9c9ee9aa3c5fb79d6a74b7d570cb5a3fc862d3caf61ff027e5aa7cb1b988f5dc",
+          "byteLength": 9644,
+          "matchesCandidateCommit": true,
+          "captainMatchesWorker": true
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--custom-pleading/reports/blanks-left-for-the-participant.json",
+          "sha256": "d16967cb5ac8ccdbf2e2c11e74efc933008136074cd76094cac407cea03374bd",
+          "byteLength": 18735,
+          "matchesCandidateCommit": true,
+          "captainMatchesWorker": true
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--custom-pleading/reports/completeness-counters.json",
+          "sha256": "e32f934a5887efe1936c3972606097506216231ca26eb35b2ca083a635ac8911",
+          "byteLength": 918,
+          "matchesCandidateCommit": true,
+          "captainMatchesWorker": true
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--custom-pleading/reports/rendered-artifacts.json",
+          "sha256": "e7f04e7df6322a55625ce870f197136766ca3e8178a79ec1d21b8a8801d07e41",
+          "byteLength": 6892,
+          "matchesCandidateCommit": true,
+          "captainMatchesWorker": true
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--custom-pleading/source-receipt.json",
+          "sha256": "5bcc2ff2526a1b8b5127a0f17e2c75b4507866cd2f3f79fd2b0b0bb1fe336b50",
+          "byteLength": 4271,
+          "matchesCandidateCommit": true,
+          "captainMatchesWorker": true
+        },
+        {
+          "path": "scripts/build-census-v1-wa_vac_substance_use_disorder-custom-pleading.mjs",
+          "sha256": "c9c43401c2aad94a22d63e531cd2bdb7dd3e1d8756b1175885f90803c3724729",
+          "byteLength": 79122,
+          "matchesCandidateCommit": true,
+          "captainMatchesWorker": true
+        },
+        {
+          "path": "scripts/build-census-v1-wa_vac_substance_use_disorder-set.mjs",
+          "sha256": "46d035f9fe53b0ce526082661aa7ce19ef1749c2c1f0ba0537a379ebbc140816",
+          "byteLength": 308,
+          "matchesCandidateCommit": true,
+          "captainMatchesWorker": true
+        }
+      ],
+      "currentArtifacts": [
+        {
+          "fixture": "canonical",
+          "path": "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--custom-pleading/fixtures/canonical.pdf",
+          "sha256": "531d3b9b596f2e2379c6dad1c0b808dca133b1f391231f886b01ff7b3d03a55c",
+          "byteLength": 18812,
+          "pageCount": 8,
+          "matchesReport": true,
+          "widgets": 0,
+          "pageManifest": [
+            {
+              "packetPage": 1,
+              "component": "wa-96060-6-petition-1",
+              "documentId": "wa-96060-6-petition-1",
+              "sourcePage": 1,
+              "sourceSha256": null
+            },
+            {
+              "packetPage": 2,
+              "component": "wa-96060-6-petition-1",
+              "documentId": "wa-96060-6-petition-1",
+              "sourcePage": 2,
+              "sourceSha256": null
+            },
+            {
+              "packetPage": 3,
+              "component": "wa-96060-6-declaration-2",
+              "documentId": "wa-96060-6-declaration-2",
+              "sourcePage": 1,
+              "sourceSha256": null
+            },
+            {
+              "packetPage": 4,
+              "component": "wa-96060-6-declaration-2",
+              "documentId": "wa-96060-6-declaration-2",
+              "sourcePage": 2,
+              "sourceSha256": null
+            },
+            {
+              "packetPage": 5,
+              "component": "wa-96060-6-notice-order-3",
+              "documentId": "wa-96060-6-notice-order-3",
+              "sourcePage": 1,
+              "sourceSha256": null
+            },
+            {
+              "packetPage": 6,
+              "component": "wa-96060-6-notice-order-3",
+              "documentId": "wa-96060-6-notice-order-3",
+              "sourcePage": 2,
+              "sourceSha256": null
+            },
+            {
+              "packetPage": 7,
+              "component": "wa-96060-6-program-evidence-4",
+              "documentId": "wa-96060-6-program-evidence-4",
+              "sourcePage": 1,
+              "sourceSha256": null
+            },
+            {
+              "packetPage": 8,
+              "component": "wa-96060-6-filing-instructions-5",
+              "documentId": "wa-96060-6-filing-instructions-5",
+              "sourcePage": 1,
+              "sourceSha256": null
+            }
+          ],
+          "writes": [
+            {
+              "field": "wa-96060-6-petition-1.petitioner_name",
+              "found": true
+            },
+            {
+              "field": "wa-96060-6-petition-1.petitioner_dob",
+              "found": true
+            },
+            {
+              "field": "wa-96060-6-petition-1.mailing_address",
+              "found": true
+            },
+            {
+              "field": "wa-96060-6-petition-1.telephone",
+              "found": true
+            },
+            {
+              "field": "wa-96060-6-petition-1.email",
+              "found": true
+            },
+            {
+              "field": "wa-96060-6-declaration-2.declarant_name",
+              "found": true
+            },
+            {
+              "field": "wa-96060-6-declaration-2.declarant_dob",
+              "found": true
+            },
+            {
+              "field": "wa-96060-6-notice-order-3.order_petitioner_name",
+              "found": true
+            },
+            {
+              "field": "wa-96060-6-program-evidence-4.evidence_participant_name",
+              "found": true
+            },
+            {
+              "field": "wa-96060-6-filing-instructions-5.instructions_participant_name",
+              "found": true
+            }
+          ]
+        },
+        {
+          "fixture": "boundary",
+          "path": "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--custom-pleading/fixtures/boundary.pdf",
+          "sha256": "2507e88daed16f3c7b65465eec33b5800aac084ed9ca7800100a3a50d436b2f9",
+          "byteLength": 19071,
+          "pageCount": 8,
+          "matchesReport": true,
+          "widgets": 0,
+          "pageManifest": [
+            {
+              "packetPage": 1,
+              "component": "wa-96060-6-petition-1",
+              "documentId": "wa-96060-6-petition-1",
+              "sourcePage": 1,
+              "sourceSha256": null
+            },
+            {
+              "packetPage": 2,
+              "component": "wa-96060-6-petition-1",
+              "documentId": "wa-96060-6-petition-1",
+              "sourcePage": 2,
+              "sourceSha256": null
+            },
+            {
+              "packetPage": 3,
+              "component": "wa-96060-6-declaration-2",
+              "documentId": "wa-96060-6-declaration-2",
+              "sourcePage": 1,
+              "sourceSha256": null
+            },
+            {
+              "packetPage": 4,
+              "component": "wa-96060-6-declaration-2",
+              "documentId": "wa-96060-6-declaration-2",
+              "sourcePage": 2,
+              "sourceSha256": null
+            },
+            {
+              "packetPage": 5,
+              "component": "wa-96060-6-notice-order-3",
+              "documentId": "wa-96060-6-notice-order-3",
+              "sourcePage": 1,
+              "sourceSha256": null
+            },
+            {
+              "packetPage": 6,
+              "component": "wa-96060-6-notice-order-3",
+              "documentId": "wa-96060-6-notice-order-3",
+              "sourcePage": 2,
+              "sourceSha256": null
+            },
+            {
+              "packetPage": 7,
+              "component": "wa-96060-6-program-evidence-4",
+              "documentId": "wa-96060-6-program-evidence-4",
+              "sourcePage": 1,
+              "sourceSha256": null
+            },
+            {
+              "packetPage": 8,
+              "component": "wa-96060-6-filing-instructions-5",
+              "documentId": "wa-96060-6-filing-instructions-5",
+              "sourcePage": 1,
+              "sourceSha256": null
+            }
+          ],
+          "writes": [
+            {
+              "field": "wa-96060-6-petition-1.petitioner_name",
+              "found": true
+            },
+            {
+              "field": "wa-96060-6-petition-1.petitioner_dob",
+              "found": true
+            },
+            {
+              "field": "wa-96060-6-petition-1.mailing_address",
+              "found": true
+            },
+            {
+              "field": "wa-96060-6-petition-1.telephone",
+              "found": true
+            },
+            {
+              "field": "wa-96060-6-petition-1.email",
+              "found": true
+            },
+            {
+              "field": "wa-96060-6-declaration-2.declarant_name",
+              "found": true
+            },
+            {
+              "field": "wa-96060-6-declaration-2.declarant_dob",
+              "found": true
+            },
+            {
+              "field": "wa-96060-6-notice-order-3.order_petitioner_name",
+              "found": true
+            },
+            {
+              "field": "wa-96060-6-program-evidence-4.evidence_participant_name",
+              "found": true
+            },
+            {
+              "field": "wa-96060-6-filing-instructions-5.instructions_participant_name",
+              "found": true
+            }
+          ]
+        }
+      ],
+      "sourceIdentity": {
+        "declaredSources": [
+          {
+            "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+            "sha256": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
+            "bytes": 2629290,
+            "matchesReceipt": true
+          },
+          {
+            "path": "src/lib/rcap-engine/compiled/profiles/WA-washington.json",
+            "sha256": "f9d4f29d291682a01f0398b886d65ee7a4b74f140a3ecf4042a8ac4afba44e00",
+            "bytes": 232939,
+            "matchesReceipt": true
+          },
+          {
+            "path": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
+            "sha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
+            "bytes": 22372,
+            "matchesReceipt": true
+          }
+        ],
+        "authorityReturnsRead": [
+          {
+            "path": "data/rcap-grade-a/packet-factory-24h/pf24/wa-two-route-next-gates-20260913.json",
+            "sha256": "84f8f695ebe3baa155eb6c2b828c6733257d3e9185541ae1e1a321d128ebab11",
+            "byteLength": 21632
+          },
+          {
+            "path": "data/rcap-grade-a/packet-factory-24h/pf24/wa-sud-subsection-2-6-authority-handoff-20260913.json",
+            "sha256": "24d64e649b590306ce9b9e2ad996eaeaf825673a2df80600f1423f25b82e69b6",
+            "byteLength": 7480
+          },
+          {
+            "path": "data/rcap-grade-a/packet-factory-24h/pf24/wa-sud-subsection-2-6-authority-review-20260913.json",
+            "sha256": "e8c72d0de66a7f44d1e8445271433a66febfb268abe9d500ad2142bbd6657d3c",
+            "byteLength": 10289
+          },
+          {
+            "path": "data/record-clearing/legal-design-track-registry.json",
+            "sha256": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+            "byteLength": 16781025
+          }
+        ],
+        "masterQueueUsedAsAuthority": false
+      },
+      "nativeEnrollment": {
+        "returnIsAdditive": true,
+        "nativeLane": "VFWASUD1",
+        "sourceLane": "PF05",
+        "sourceReturnPath": null,
+        "sourceStatus": "MISSING_NATIVE_AUTHOR_COMPLETION_RETURN",
+        "candidateCommit": "d94f8b4b0d375a17a1dd6acba835279bedbfe797",
+        "observed": "Candidate commit contains exactly 14 code/output files and no lane return. Read-only worker PF05 JSON content search found no WA SUD return. PF26 historical checkpoint/row mentions are not the completion return for this candidate.",
+        "requiredNextAction": "Existing PF05 implementation owner must provide a native completion return binding the corrected candidate and execution evidence. Reviewer has not manufactured author completion/custody evidence."
+      },
+      "rasterDispatchAuthorized": false,
+      "finalAcceptance": false,
+      "terminalPromotionAuthorized": false,
+      "commercialRoutesOpened": 0,
+      "commercialAuthorityGranted": false,
+      "runtimeSelectable": false,
+      "visualReview": {
+        "status": "NOT_MEASURABLE_HERE",
+        "measured": false
+      },
+      "independence": {
+        "independentOfImplementer": true,
+        "implementationEditsByReviewer": false,
+        "packetModifiedByReviewer": false,
+        "sourceModifiedByReviewer": false,
+        "queueModifiedByReviewer": false,
+        "buildOrRegenerationPerformed": false,
+        "rasterOrVisualReviewPerformed": false,
+        "sourceAcquisitionPerformed": false
+      },
+      "commandsActuallyPassed": [
+        {
+          "command": "Read-only worker git show/diff-tree for d94f8b4b0 and SHA-256 comparison of all candidate files",
+          "observed": "All 14 worker files match commit and Captain bytes."
+        },
+        {
+          "command": "Read-only worker Python PyMuPDF after source /home/codespace/.legalease-corpus-env",
+          "observed": "2 PDFs/16 pages; exact report digests/lengths/pages, zero widgets, all 20 writes in own component text."
+        },
+        {
+          "command": "Read-only worker source-receipt rehash",
+          "observed": "All three declared committed records match exact SHA-256 and byte length."
+        }
+      ],
+      "reviewConclusion": "FAIL_REPAIR_REQUIRED. Repair five concrete semantic/census findings on the existing implementation worker, supply the missing native author completion return, then request independent review of exact corrected bytes. Do not dispatch raster or promote this candidate."
+    }
+  ],
+  "grantsNothing": "Review-only additive return; no implementation, queue, packet, claim, raster, terminal, commercial or production authority granted.",
+  "returnFilename": "rows-vfwasud1-wa-sud-semantic-independent-20260913.json"
+}

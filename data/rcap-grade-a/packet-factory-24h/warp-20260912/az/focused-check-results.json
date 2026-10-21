@@ -1,0 +1,66 @@
+{
+  "schemaVersion": "rcap-focused-check-results/v1",
+  "recordedOn": "2026-09-12",
+  "familyId": "az_set_aside-set",
+  "result": "PASS_CANDIDATE_RASTER_PENDING",
+  "commands": [
+    {
+      "command": "node scripts/build-census-v1-az_set_aside-set.mjs --check",
+      "result": "PASS",
+      "measurements": {
+        "governedSourceBindings": 2,
+        "authoritativeAmendmentAnchors": 6
+      }
+    },
+    {
+      "command": "node scripts/build-census-v1-az_set_aside-set.mjs --no-raster",
+      "result": "PASS",
+      "measurements": {
+        "canonicalPages": 7,
+        "boundaryPages": 8,
+        "canonicalSha256": "61d79cf9576fa0245a2b854c63ad7fc69cdfba3d14863e3e60d2985ea1ad16f4",
+        "boundarySha256": "79e3774130de798df8161eabbc9555a7d9a5c6bc4bbdeb3cb8b775783a71e114"
+      }
+    },
+    {
+      "command": "node scripts/test-az-r260001-set-aside.mjs",
+      "result": "PASS",
+      "measurements": {
+        "assertions": 41,
+        "positionedWriteRows": 46,
+        "sourceDerivedPagesCompared": 14,
+        "outsideDeclaredPatchOrWritePixelDifferences": 0
+      }
+    },
+    {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family az_set_aside-set",
+      "result": "PASS_COMPLETE",
+      "measurements": {
+        "terminalFields": 68,
+        "written": 26,
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      }
+    },
+    {
+      "command": "assessPacketSourceAdoption(root, directory, sourceReconciliation)",
+      "result": "PACKET_SOURCE_ADOPTION_CURRENT",
+      "measurements": {
+        "requiredBindings": 2,
+        "exactBindings": 2,
+        "mismatches": 0
+      }
+    }
+  ],
+  "currentStateEarned": "BUILT_RASTER_PENDING",
+  "independentReview": "PENDING",
+  "rasterDispatch": "NOT_PERFORMED_BY_IMPLEMENTATION_LANE",
+  "commercialRoutesOpened": 0
+}

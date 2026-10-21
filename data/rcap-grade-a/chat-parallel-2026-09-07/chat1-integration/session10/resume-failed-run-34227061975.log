@@ -1,0 +1,617 @@
+verify_repairs	Check exact candidate and repaired behavior	﻿2026-09-08T12:38:31.9659190Z ##[group]Run set -euo pipefail
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:31.9659871Z [36;1mset -euo pipefail[0m
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:31.9660178Z [36;1mtest "$(git rev-parse HEAD)" = "$GITHUB_SHA"[0m
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:31.9660553Z [36;1mmkdir -p "$RUNNER_TEMP/recovery-validation"[0m
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:31.9661156Z [36;1mnode scripts/rcap-packet-recovery/test-recovery.mjs | tee "$RUNNER_TEMP/recovery-validation/regressions.log"[0m
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:31.9661997Z [36;1mnode scripts/rcap-packet-recovery/test-mutations.mjs | tee "$RUNNER_TEMP/recovery-validation/mutations.log"[0m
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:31.9662929Z [36;1mnode scripts/grade-a-packet-factory-24h/summarize-readiness-steps.mjs --self-test | tee "$RUNNER_TEMP/recovery-validation/readiness-summary.log"[0m
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:31.9663925Z [36;1mnode scripts/grade-a-packet-factory-24h/test-chat-review-inputs.mjs | tee "$RUNNER_TEMP/recovery-validation/review-reader.log"[0m
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:31.9664873Z [36;1mnode scripts/grade-a-packet-factory-24h/test-de-reviewed-guidance.mjs | tee "$RUNNER_TEMP/recovery-validation/de-custody.log"[0m
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:31.9665867Z [36;1mnode scripts/grade-a-packet-factory-24h/test-ky-declared-delivery.mjs | tee "$RUNNER_TEMP/recovery-validation/ky-declared.log"[0m
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:31.9666834Z [36;1mnode scripts/grade-a-packet-factory-24h/test-md-favorable-declared-delivery.mjs | tee "$RUNNER_TEMP/recovery-validation/md-declared.log"[0m
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:31.9667936Z [36;1mnode scripts/rcap-packet-completeness/test-identity-refresh-preserved-on-rebuild.mjs | tee "$RUNNER_TEMP/recovery-validation/source-receipt-hooks.log"[0m
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:31.9668813Z [36;1mfor script in generate generate-source-conveyor generate-washington-repair; do[0m
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:31.9669938Z [36;1m  node "scripts/grade-a-packet-factory-24h/$script.mjs" --check > "$RUNNER_TEMP/recovery-validation/$script.log" 2>&1 || { cat "$RUNNER_TEMP/recovery-validation/$script.log"; exit 1; }[0m
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:31.9670702Z [36;1mdone[0m
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:31.9670930Z [36;1mtest -z "$(git status --porcelain)"[0m
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:31.9708476Z shell: /usr/bin/bash -e {0}
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:31.9708749Z ##[endgroup]
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:32.3467268Z PASS VA current subsection D
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:32.3469967Z PASS VA D without agreement
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:32.3480499Z PASS VA D ambiguous agreement
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:32.3481212Z PASS VA D disputed agreement
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:32.3481553Z PASS VA D missing evidence
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:32.3481981Z PASS VA later consent is not D agreement
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:32.3482567Z PASS VA other first offender
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:32.3483069Z PASS VA ordinary acquittal
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:32.3483502Z PASS VA ordinary nolle
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:32.3483969Z PASS VA future-only authority
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:32.3484549Z PASS VA future filing needs policy review
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:32.3485098Z PASS VA unknown date
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:32.3485538Z PASS VA invalid calendar day
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:32.3486001Z PASS VA unknown basis
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:32.3486435Z PASS VA opposition stop
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:32.3486875Z PASS VA answer stop
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:32.3487359Z PASS VA immigration review boundary
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:32.3487795Z PASS VA unknown response not silently accepted
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:32.3488256Z PASS VA unknown facts not ordinary eligibility
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:32.3488826Z PASS VA reference template cannot bypass a supplied adverse record
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:32.3491188Z PASS VA actual renderer enforces the gate before form access
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:32.4471059Z PASS VA rendered instructions contain the exception and separate agreements
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:32.4472262Z PASS MA actual petition has 30-day petitioner notice and optional preliminary hearing
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:32.4473236Z PASS MA actual filing instructions have no filing fee and no waiver
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:32.4474164Z PASS DE actual guide does not add a court fee to the SBI-only branch
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:32.4475011Z PASS PA no-IFP no-order branch omits both optional documents
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:32.4475685Z PASS PA IFP and order elections are independent
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:32.4476830Z PASS PA missing, string, or numeric elections refuse instead of coercing
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:32.4478382Z PASS PA certificate records both recipients and Rule 576 required particulars
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:32.4479744Z PASS PA service copy distinguishes document-specific party consent and local authorization
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:32.4515906Z PASS PA configuration cannot mutate the NJ host or accept another route
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:32.9858429Z PASS PA eight executable branch assemblies are byte-deterministic
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.0598603Z PASS PA actual IFP pages are included only in the selected branch
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.0611596Z PASS PA IFP protects all financial, certification and execution fields in both fixtures
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.0613787Z PASS PA explicitly discloses held-but-not-printed boundary values without granting delivery
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.1154370Z PASS DE emitted PDF text contains its repaired participant rule
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.1522138Z PASS MA emitted PDF text contains its repaired participant rule
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.1969701Z PASS VA emitted PDF text contains its repaired participant rule
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2230707Z PASS PA emitted PDF text contains its repaired participant rule
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2233088Z PASS VA gate implementation is hash-bound to the rebuilt contract
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2234141Z {
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2234654Z   "schemaVersion": "rcap-recovery-regressions/v1",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2235181Z   "passed": 40,
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2235536Z   "failed": 0,
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2235909Z   "tests": [
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2236168Z     {
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2236585Z       "name": "VA current subsection D",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2236933Z       "status": "PASS"
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2237209Z     },
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2237389Z     {
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2237616Z       "name": "VA D without agreement",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2237900Z       "status": "PASS"
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2238116Z     },
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2238293Z     {
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2238521Z       "name": "VA D ambiguous agreement",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2238810Z       "status": "PASS"
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2239026Z     },
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2239200Z     {
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2239819Z       "name": "VA D disputed agreement",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2240326Z       "status": "PASS"
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2240726Z     },
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2241042Z     {
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2241693Z       "name": "VA D missing evidence",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2242155Z       "status": "PASS"
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2242507Z     },
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2242852Z     {
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2243316Z       "name": "VA later consent is not D agreement",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2243888Z       "status": "PASS"
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2244244Z     },
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2244566Z     {
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2244923Z       "name": "VA other first offender",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2245220Z       "status": "PASS"
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2245424Z     },
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2245628Z     {
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2245858Z       "name": "VA ordinary acquittal",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2246119Z       "status": "PASS"
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2246350Z     },
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2246537Z     {
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2246749Z       "name": "VA ordinary nolle",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2247029Z       "status": "PASS"
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2247257Z     },
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2247449Z     {
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2247691Z       "name": "VA future-only authority",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2247989Z       "status": "PASS"
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2248191Z     },
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2248382Z     {
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2248658Z       "name": "VA future filing needs policy review",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2248977Z       "status": "PASS"
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2249198Z     },
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2249778Z     {
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2250174Z       "name": "VA unknown date",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2250578Z       "status": "PASS"
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2250810Z     },
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2250996Z     {
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2251217Z       "name": "VA invalid calendar day",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2251529Z       "status": "PASS"
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2251748Z     },
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2251920Z     {
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2252352Z       "name": "VA unknown basis",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2252627Z       "status": "PASS"
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2252843Z     },
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2253015Z     {
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2253255Z       "name": "VA opposition stop",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2253533Z       "status": "PASS"
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2253741Z     },
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2253914Z     {
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2254140Z       "name": "VA answer stop",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2254402Z       "status": "PASS"
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2254624Z     },
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2254812Z     {
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2255068Z       "name": "VA immigration review boundary",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2255384Z       "status": "PASS"
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2255602Z     },
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2255805Z     {
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2256089Z       "name": "VA unknown response not silently accepted",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2256443Z       "status": "PASS"
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2256663Z     },
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2256862Z     {
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2257145Z       "name": "VA unknown facts not ordinary eligibility",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2257482Z       "status": "PASS"
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2257700Z     },
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2257888Z     {
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2258247Z       "name": "VA reference template cannot bypass a supplied adverse record",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2258682Z       "status": "PASS"
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2258914Z     },
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2259087Z     {
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2259660Z       "name": "VA actual renderer enforces the gate before form access",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2260061Z       "status": "PASS"
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2260290Z     },
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2260483Z     {
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2260879Z       "name": "VA rendered instructions contain the exception and separate agreements",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2261326Z       "status": "PASS"
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2261548Z     },
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2261736Z     {
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2262169Z       "name": "MA actual petition has 30-day petitioner notice and optional preliminary hearing",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2262666Z       "status": "PASS"
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2262899Z     },
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2263090Z     {
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2263442Z       "name": "MA actual filing instructions have no filing fee and no waiver",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2263856Z       "status": "PASS"
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2264075Z     },
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2264252Z     {
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2264764Z       "name": "DE actual guide does not add a court fee to the SBI-only branch",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2265182Z       "status": "PASS"
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2265383Z     },
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2265573Z     {
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2265915Z       "name": "PA no-IFP no-order branch omits both optional documents",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2266290Z       "status": "PASS"
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2266506Z     },
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2266679Z     {
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2266973Z       "name": "PA IFP and order elections are independent",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2267326Z       "status": "PASS"
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2267546Z     },
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2267722Z     {
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2268113Z       "name": "PA missing, string, or numeric elections refuse instead of coercing",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2268546Z       "status": "PASS"
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2268749Z     },
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2268943Z     {
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2269520Z       "name": "PA certificate records both recipients and Rule 576 required particulars",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2270003Z       "status": "PASS"
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2270221Z     },
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2270396Z     {
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2270875Z       "name": "PA service copy distinguishes document-specific party consent and local authorization",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2271382Z       "status": "PASS"
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2271584Z     },
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2271778Z     {
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2272170Z       "name": "PA configuration cannot mutate the NJ host or accept another route",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2272583Z       "status": "PASS"
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2272805Z     },
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2272994Z     {
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2273349Z       "name": "PA eight executable branch assemblies are byte-deterministic",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2273920Z       "status": "PASS"
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2274127Z     },
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2274319Z     {
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2274684Z       "name": "PA actual IFP pages are included only in the selected branch",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2275075Z       "status": "PASS"
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2275293Z     },
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2275491Z     {
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2275925Z       "name": "PA IFP protects all financial, certification and execution fields in both fixtures",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2276405Z       "status": "PASS"
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2276622Z     },
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2276810Z     {
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2277264Z       "name": "PA explicitly discloses held-but-not-printed boundary values without granting delivery",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2277791Z       "status": "PASS"
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2277995Z     },
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2278189Z     {
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2278536Z       "name": "DE emitted PDF text contains its repaired participant rule",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2278940Z       "status": "PASS"
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2279174Z     },
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2279571Z     {
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2279947Z       "name": "MA emitted PDF text contains its repaired participant rule",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2280351Z       "status": "PASS"
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2280572Z     },
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2280761Z     {
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2281103Z       "name": "VA emitted PDF text contains its repaired participant rule",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2281485Z       "status": "PASS"
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2281705Z     },
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2281895Z     {
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2282227Z       "name": "PA emitted PDF text contains its repaired participant rule",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2282621Z       "status": "PASS"
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2282837Z     },
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2283013Z     {
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2283376Z       "name": "VA gate implementation is hash-bound to the rebuilt contract",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2283766Z       "status": "PASS"
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2283985Z     }
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2284173Z   ],
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2284369Z   "grantsApproval": false,
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2284649Z   "productionTouched": false
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:33.2284904Z }
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:35.7075820Z {
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:35.7076419Z   "schemaVersion": "rcap-recovery-mutations/v1",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:35.7076920Z   "baseline": "PASS",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:35.7077168Z   "attempted": 7,
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:35.7077632Z   "caught": 7,
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:35.7077831Z   "results": [
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:35.7078019Z     {
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:35.7078250Z       "name": "D agreement bypass",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:35.7078519Z       "detected": true
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:35.7078730Z     },
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:35.7078903Z     {
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:35.7079148Z       "name": "other first-offender imported",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:35.7079708Z       "detected": true
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:35.7079924Z     },
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:35.7080103Z     {
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:35.7080351Z       "name": "future filing silently accepted",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:35.7080658Z       "detected": true
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:35.7080865Z     },
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:35.7081060Z     {
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:35.7081335Z       "name": "IFP included without election",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:35.7081641Z       "detected": true
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:35.7081842Z     },
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:35.7082034Z     {
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:35.7082307Z       "name": "optional order made mandatory",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:35.7082600Z       "detected": true
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:35.7082826Z     },
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:35.7083000Z     {
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:35.7083236Z       "name": "recipient phone removed",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:35.7083524Z       "detected": true
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:35.7083742Z     },
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:35.7083928Z     {
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:35.7084157Z       "name": "MA notice shortened",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:35.7084432Z       "detected": true
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:35.7084658Z     }
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:35.7084849Z   ],
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:35.7085092Z   "originalFilesRestored": true
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:35.7085369Z }
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:35.7376288Z readiness-summary: 78 controls PASS
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:35.8350396Z {
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:35.8350940Z   "suite": "chat-review-inputs",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:35.8351709Z   "positiveCases": 13,
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:35.8352158Z   "rejectionControls": 38,
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:35.8352615Z   "rawReviewsUnchanged": true
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:35.8353045Z }
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:36.5232503Z {
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:36.5233517Z   "suite": "de-reviewed-guidance-admission",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:36.5234256Z   "positiveCases": 5,
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:36.5234656Z   "rejectionControls": 46,
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:36.5235082Z   "currentWholePdfsRehashed": 2,
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:36.5235550Z   "reviewedPagesBoundToAdmittedReceipt": 6,
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:36.5236014Z   "compositionSourcesChecked": 9,
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:36.5236451Z   "unchangedPriorRegistryEntries": 73,
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:36.5236862Z   "inputsUnchanged": true,
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:36.5237265Z   "newIndependentReview": false,
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:36.5237641Z   "packetRebuilds": 0
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:36.5237971Z }
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:36.7136587Z ok all 13 actual PDFs and 90 pages are bound without default authority
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:36.7287057Z ok canonical: actual facts select its exact retained file, report and component pages
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:36.7289759Z ok canonical: private identifiers, signing and genuine unknowns retain their own actors
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:36.7454497Z ok boundary: actual facts select its exact retained file, report and component pages
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:36.7455755Z ok boundary: private identifiers, signing and genuine unknowns retain their own actors
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:36.7577274Z ok selectable/acquittal: actual facts select its exact retained file, report and component pages
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:36.7600547Z ok selectable/acquittal: private identifiers, signing and genuine unknowns retain their own actors
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:36.7712103Z ok selectable/acquittal-with-order: actual facts select its exact retained file, report and component pages
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:36.7713829Z ok selectable/acquittal-with-order: private identifiers, signing and genuine unknowns retain their own actors
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:36.7840214Z ok selectable/dismissed_with_prejudice: actual facts select its exact retained file, report and component pages
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:36.7843293Z ok selectable/dismissed_with_prejudice: private identifiers, signing and genuine unknowns retain their own actors
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:36.7973031Z ok selectable/dismissed_with_prejudice-with-order: actual facts select its exact retained file, report and component pages
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:36.7975117Z ok selectable/dismissed_with_prejudice-with-order: private identifiers, signing and genuine unknowns retain their own actors
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:36.8097115Z ok selectable/felony_without_prejudice: actual facts select its exact retained file, report and component pages
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:36.8098518Z ok selectable/felony_without_prejudice: private identifiers, signing and genuine unknowns retain their own actors
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:36.8226114Z ok selectable/felony_without_prejudice-with-order: actual facts select its exact retained file, report and component pages
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:36.8228046Z ok selectable/felony_without_prejudice-with-order: private identifiers, signing and genuine unknowns retain their own actors
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:36.8351807Z ok selectable/misdemeanor_without_prejudice: actual facts select its exact retained file, report and component pages
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:36.8353415Z ok selectable/misdemeanor_without_prejudice: private identifiers, signing and genuine unknowns retain their own actors
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:36.8485288Z ok selectable/misdemeanor_without_prejudice-with-order: actual facts select its exact retained file, report and component pages
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:36.8487246Z ok selectable/misdemeanor_without_prejudice-with-order: private identifiers, signing and genuine unknowns retain their own actors
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:36.8612453Z ok selectable/no_indictment: actual facts select its exact retained file, report and component pages
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:36.8613690Z ok selectable/no_indictment: private identifiers, signing and genuine unknowns retain their own actors
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:36.8736758Z ok selectable/no_indictment-with-order: actual facts select its exact retained file, report and component pages
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:36.8738969Z ok selectable/no_indictment-with-order: private identifiers, signing and genuine unknowns retain their own actors
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:36.8872466Z ok selectable/automatic-missed-exact-60-days: actual facts select its exact retained file, report and component pages
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:36.8874271Z ok selectable/automatic-missed-exact-60-days: private identifiers, signing and genuine unknowns retain their own actors
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:36.8882688Z ok refuses implicit or unsupported fixture undefined
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:36.8886012Z ok refuses implicit or unsupported fixture 
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:36.8891167Z ok refuses implicit or unsupported fixture selectable/unsupported
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:36.8895869Z ok refuses implicit or unsupported fixture ../canonical
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:36.8906254Z ok actual validator and exact binding refuse missing order election
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:36.8910782Z ok actual validator and exact binding refuse nonboolean order election
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:36.8915336Z ok actual validator and exact binding refuse missing local-practice answer
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:36.8919334Z ok actual validator and exact binding refuse nonboolean local-practice answer
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:36.8923129Z ok actual validator and exact binding refuse order without local confirmation
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:36.8928974Z ok actual validator and exact binding refuse wrong route
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:36.8939814Z ok actual validator and exact binding refuse unverified disposition
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:36.8943812Z ok actual validator and exact binding refuse unsupported disposition
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:36.8949683Z ok actual validator and exact binding refuse unconfirmed automatic status
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:36.8953461Z ok actual validator and exact binding refuse authority past retained cutoff
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:36.8957016Z ok actual validator and exact binding refuse private identifier input
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:36.8960830Z ok actual validator and exact binding refuse purported execution
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:36.8964434Z ok actual validator and exact binding refuse purported judicial finding
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:36.9100845Z ok actual validator and exact binding refuse different participant
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:36.9106125Z ok actual validator and exact binding refuse real participant presented as fixture
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:36.9237353Z ok explicit with-order facts cannot select the six-page no-order PDF
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:36.9362075Z ok automatic day-60 facts cannot borrow ordinary acquittal output
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:36.9493670Z ok unchosen order stays absent even though AOC-497.2 petition is present
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:36.9542864Z ok refuses changed report: omitted with-order artifact
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:36.9585947Z ok refuses changed report: petition relabeled as order
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:36.9633992Z ok refuses changed report: omitted optional order component
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:36.9674276Z ok refuses changed report: canonical substituted for selected output
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:36.9718336Z ok refuses changed report: duplicate fixture
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:36.9751620Z ok refuses byte drift even with recomputed caller checksum: reference/chat-parallel-2026-09-07/chat5/AOC-497.2.pdf
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:36.9782472Z ok refuses byte drift even with recomputed caller checksum: reference/chat-parallel-2026-09-07/chat5/AOC-497.pdf
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:36.9793854Z ok refuses byte drift even with recomputed caller checksum: data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/selectable/acquittal-with-order.pdf
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:36.9796592Z ok refuses byte drift even with recomputed caller checksum: data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/boundary.facts.json
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:36.9821080Z ok refuses byte drift even with recomputed caller checksum: data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/reports/boundary.json
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:36.9850311Z ok refuses byte drift even with recomputed caller checksum: scripts/rcap-packet-recovery/chat5/ky-nonconviction.mjs
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:36.9852378Z ok refuses byte drift even with recomputed caller checksum: scripts/rcap-packet-completeness/ky-reviewed-candidate-inputs.json
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:36.9881896Z ok refuses byte drift even with recomputed caller checksum: data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/ky-independent-review.json
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:36.9924640Z ok selection rechecks current output hash instead of trusting a previously bound record
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0136823Z ok selection refuses altered record components
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0254686Z ok a two-PDF receipt cannot accept a thirteen-PDF family
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0259232Z ok no declared binding can open generation or payment authority
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0260310Z ok an unrelated family record remains unchanged
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0300836Z ok all 13 retained PDFs remain byte-identical after selection tests
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0302162Z {
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0302716Z   "schemaVersion": "rcap-ky-declared-delivery-tests/v1",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0303358Z   "status": "PASS",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0303704Z   "cases": 68,
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0304109Z   "measuredAt": "2026-09-08T12:38:37.029Z",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0304524Z   "tests": [
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0305052Z     "all 13 actual PDFs and 90 pages are bound without default authority",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0306094Z     "canonical: actual facts select its exact retained file, report and component pages",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0307280Z     "canonical: private identifiers, signing and genuine unknowns retain their own actors",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0308402Z     "boundary: actual facts select its exact retained file, report and component pages",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0309702Z     "boundary: private identifiers, signing and genuine unknowns retain their own actors",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0310938Z     "selectable/acquittal: actual facts select its exact retained file, report and component pages",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0312124Z     "selectable/acquittal: private identifiers, signing and genuine unknowns retain their own actors",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0313549Z     "selectable/acquittal-with-order: actual facts select its exact retained file, report and component pages",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0315046Z     "selectable/acquittal-with-order: private identifiers, signing and genuine unknowns retain their own actors",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0316844Z     "selectable/dismissed_with_prejudice: actual facts select its exact retained file, report and component pages",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0318381Z     "selectable/dismissed_with_prejudice: private identifiers, signing and genuine unknowns retain their own actors",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0320242Z     "selectable/dismissed_with_prejudice-with-order: actual facts select its exact retained file, report and component pages",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0321948Z     "selectable/dismissed_with_prejudice-with-order: private identifiers, signing and genuine unknowns retain their own actors",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0323570Z     "selectable/felony_without_prejudice: actual facts select its exact retained file, report and component pages",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0325117Z     "selectable/felony_without_prejudice: private identifiers, signing and genuine unknowns retain their own actors",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0326858Z     "selectable/felony_without_prejudice-with-order: actual facts select its exact retained file, report and component pages",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0328657Z     "selectable/felony_without_prejudice-with-order: private identifiers, signing and genuine unknowns retain their own actors",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0330518Z     "selectable/misdemeanor_without_prejudice: actual facts select its exact retained file, report and component pages",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0332168Z     "selectable/misdemeanor_without_prejudice: private identifiers, signing and genuine unknowns retain their own actors",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0333850Z     "selectable/misdemeanor_without_prejudice-with-order: actual facts select its exact retained file, report and component pages",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0335652Z     "selectable/misdemeanor_without_prejudice-with-order: private identifiers, signing and genuine unknowns retain their own actors",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0337478Z     "selectable/no_indictment: actual facts select its exact retained file, report and component pages",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0338870Z     "selectable/no_indictment: private identifiers, signing and genuine unknowns retain their own actors",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0340523Z     "selectable/no_indictment-with-order: actual facts select its exact retained file, report and component pages",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0342110Z     "selectable/no_indictment-with-order: private identifiers, signing and genuine unknowns retain their own actors",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0343688Z     "selectable/automatic-missed-exact-60-days: actual facts select its exact retained file, report and component pages",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0345332Z     "selectable/automatic-missed-exact-60-days: private identifiers, signing and genuine unknowns retain their own actors",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0346505Z     "refuses implicit or unsupported fixture undefined",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0347188Z     "refuses implicit or unsupported fixture ",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0347946Z     "refuses implicit or unsupported fixture selectable/unsupported",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0348766Z     "refuses implicit or unsupported fixture ../canonical",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0349794Z     "actual validator and exact binding refuse missing order election",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0350726Z     "actual validator and exact binding refuse nonboolean order election",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0351747Z     "actual validator and exact binding refuse missing local-practice answer",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0352829Z     "actual validator and exact binding refuse nonboolean local-practice answer",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0353858Z     "actual validator and exact binding refuse order without local confirmation",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0354745Z     "actual validator and exact binding refuse wrong route",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0355615Z     "actual validator and exact binding refuse unverified disposition",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0356472Z     "actual validator and exact binding refuse unsupported disposition",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0357448Z     "actual validator and exact binding refuse unconfirmed automatic status",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0358414Z     "actual validator and exact binding refuse authority past retained cutoff",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0359205Z     "actual validator and exact binding refuse private identifier input",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0360117Z     "actual validator and exact binding refuse purported execution",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0360626Z     "actual validator and exact binding refuse purported judicial finding",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0361275Z     "actual validator and exact binding refuse different participant",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0362040Z     "actual validator and exact binding refuse real participant presented as fixture",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0363109Z     "explicit with-order facts cannot select the six-page no-order PDF",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0363872Z     "automatic day-60 facts cannot borrow ordinary acquittal output",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0364706Z     "unchosen order stays absent even though AOC-497.2 petition is present",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0365484Z     "refuses changed report: omitted with-order artifact",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0366161Z     "refuses changed report: petition relabeled as order",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0366820Z     "refuses changed report: omitted optional order component",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0367559Z     "refuses changed report: canonical substituted for selected output",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0368192Z     "refuses changed report: duplicate fixture",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0369147Z     "refuses byte drift even with recomputed caller checksum: reference/chat-parallel-2026-09-07/chat5/AOC-497.2.pdf",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0370805Z     "refuses byte drift even with recomputed caller checksum: reference/chat-parallel-2026-09-07/chat5/AOC-497.pdf",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0372911Z     "refuses byte drift even with recomputed caller checksum: data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/selectable/acquittal-with-order.pdf",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0375662Z     "refuses byte drift even with recomputed caller checksum: data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/fixtures/boundary.facts.json",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0378034Z     "refuses byte drift even with recomputed caller checksum: data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill/reports/boundary.json",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0380089Z     "refuses byte drift even with recomputed caller checksum: scripts/rcap-packet-recovery/chat5/ky-nonconviction.mjs",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0381688Z     "refuses byte drift even with recomputed caller checksum: scripts/rcap-packet-completeness/ky-reviewed-candidate-inputs.json",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0383447Z     "refuses byte drift even with recomputed caller checksum: data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/ky-independent-review.json",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0384923Z     "selection rechecks current output hash instead of trusting a previously bound record",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0385839Z     "selection refuses altered record components",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0386542Z     "a two-PDF receipt cannot accept a thirteen-PDF family",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0387326Z     "no declared binding can open generation or payment authority",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0388171Z     "an unrelated family record remains unchanged",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0388886Z     "all 13 retained PDFs remain byte-identical after selection tests"
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0389627Z   ],
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0389986Z   "installedInputsMeasured": 51,
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0390403Z   "unchangedPdfs": 13,
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0390762Z   "unchangedPages": 90,
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0391128Z   "packetRenders": 0,
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0391567Z   "fullRuntimeAcceptance": false,
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0393363Z   "evidenceBoundary": "Actual installed validateKy and retained source/fact/report/output bytes; synthetic fixture selection only. No entitlement, render job, participant artifact, private delivery or central admission was created."
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.0394959Z }
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.2240704Z ok actual 56-member candidate binds 15 four-page outputs with all 705 fields and no default
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.2479777Z ok canonical: explicit facts select that exact output/input/report and source pages
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.2481411Z ok canonical: fax, attorney and signing roles remain distinct from unresolved required facts
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.2670142Z ok boundary: explicit facts select that exact output/input/report and source pages
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.2672931Z ok boundary: fax, attorney and signing roles remain distinct from unresolved required facts
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.2889456Z ok selectable/acquittal: explicit facts select that exact output/input/report and source pages
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.2891252Z ok selectable/acquittal: fax, attorney and signing roles remain distinct from unresolved required facts
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.3086980Z ok selectable/nolle: explicit facts select that exact output/input/report and source pages
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.3089081Z ok selectable/nolle: fax, attorney and signing roles remain distinct from unresolved required facts
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.3292571Z ok selectable/nolle-treatment: explicit facts select that exact output/input/report and source pages
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.3294223Z ok selectable/nolle-treatment: fax, attorney and signing roles remain distinct from unresolved required facts
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.3473047Z ok selectable/stet: explicit facts select that exact output/input/report and source pages
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.3474712Z ok selectable/stet: fax, attorney and signing roles remain distinct from unresolved required facts
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.3661613Z ok selectable/stet-treatment: explicit facts select that exact output/input/report and source pages
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.3663513Z ok selectable/stet-treatment: fax, attorney and signing roles remain distinct from unresolved required facts
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.3851137Z ok selectable/pbj: explicit facts select that exact output/input/report and source pages
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.3852928Z ok selectable/pbj: fax, attorney and signing roles remain distinct from unresolved required facts
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.4036124Z ok selectable/pbj-no-longer-crime: explicit facts select that exact output/input/report and source pages
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.4037902Z ok selectable/pbj-no-longer-crime: fax, attorney and signing roles remain distinct from unresolved required facts
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.4230756Z ok selectable/pbj-dui: explicit facts select that exact output/input/report and source pages
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.4232460Z ok selectable/pbj-dui: fax, attorney and signing roles remain distinct from unresolved required facts
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.4412953Z ok selectable/ncr: explicit facts select that exact output/input/report and source pages
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.4414886Z ok selectable/ncr: fax, attorney and signing roles remain distinct from unresolved required facts
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.4600687Z ok selectable/compromise: explicit facts select that exact output/input/report and source pages
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.4602306Z ok selectable/compromise: fax, attorney and signing roles remain distinct from unresolved required facts
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.4786437Z ok selectable/juvenile-transfer: explicit facts select that exact output/input/report and source pages
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.4788114Z ok selectable/juvenile-transfer: fax, attorney and signing roles remain distinct from unresolved required facts
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.4964789Z ok selectable/adult-transfer-circuit: explicit facts select that exact output/input/report and source pages
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.4966533Z ok selectable/adult-transfer-circuit: fax, attorney and signing roles remain distinct from unresolved required facts
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.5154020Z ok selectable/citation: explicit facts select that exact output/input/report and source pages
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.5155749Z ok selectable/citation: fax, attorney and signing roles remain distinct from unresolved required facts
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.5159730Z ok all favorable branches exclude conviction/cannabis waiver, release, notice and proposed-order components
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.5164904Z ok no implicit or unsupported fixture undefined
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.5165668Z ok no implicit or unsupported fixture 
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.5166820Z ok no implicit or unsupported fixture selectable/conviction
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.5168069Z ok no implicit or unsupported fixture selectable/cannabis
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.5169251Z ok no implicit or unsupported fixture ../canonical
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.5351201Z ok actual validator/exact binding refuse different participant
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.5541009Z ok actual validator/exact binding refuse supplied optional fax cannot reuse a fax-blank PDF
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.5733335Z ok actual validator/exact binding refuse known agency cannot be silently omitted from the boundary PDF
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.5734987Z ok actual validator/exact binding refuse real participant
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.5738282Z ok actual validator/exact binding refuse wrong route
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.5742077Z ok actual validator/exact binding refuse missing predicate
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.5744009Z ok actual validator/exact binding refuse wrong disposition instrument
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.5745934Z ok actual validator/exact binding refuse discharge before PBJ entry
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.5925132Z ok actual validator/exact binding refuse omitted phone does not select the known-phone fixture
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.6114110Z ok actual validator/exact binding refuse known attorney cannot select the self-represented fixture
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.6303641Z ok PBJ facts cannot use an ordinary dismissal PDF
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.6492687Z ok treatment and ordinary nolle outputs stay separately bound
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.6563253Z ok changed output inventory refuses missing fixture
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.6628662Z ok changed output inventory refuses duplicate fixture
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.6712926Z ok changed output inventory refuses canonical substituted for selected artifact
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.6772716Z ok changed output inventory refuses added fee waiver
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.6823447Z ok changed output inventory refuses substituted conviction petition
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.6873709Z ok changed output inventory refuses omitted guide page
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.6905644Z ok matching caller checksum cannot legitimize changed input reference/chat-parallel-2026-09-07/chat5/CC-DC-CR-072A.pdf
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.6911952Z ok matching caller checksum cannot legitimize changed input data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill/fixtures/canonical.pdf
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.6921455Z ok matching caller checksum cannot legitimize changed input data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill/fixtures/boundary.facts.json
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.6925751Z ok matching caller checksum cannot legitimize changed input data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill/reports/boundary.json
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.6930531Z ok matching caller checksum cannot legitimize changed input data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill/official-field-census.json
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.6957878Z ok matching caller checksum cannot legitimize changed input scripts/rcap-packet-recovery/chat5/md-favorable.mjs
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.6960233Z ok matching caller checksum cannot legitimize changed input scripts/rcap-packet-completeness/md-reviewed-candidate-inputs.json
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.6987379Z ok matching caller checksum cannot legitimize changed input scripts/rcap-packet-completeness/md-favorable-native-candidate.mjs
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7016485Z ok matching caller checksum cannot legitimize changed input data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/md-independent-review.json
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7044721Z ok matching caller checksum cannot legitimize changed input data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/md-guard-delta-03.json
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7069851Z ok missing reviewed source refuses
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7121606Z ok selection rechecks current output hash
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7468567Z ok tampered recorded source roles cannot borrow an earlier binding
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7641837Z ok old two-PDF acceptance cannot cover 15 exact outputs
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7647772Z ok declared binding refuses preexisting runtime/payment/sponsored/generation authority
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7651662Z ok wrong record and family route cannot borrow the declaration
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7652836Z ok unrelated family is unchanged
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7706464Z ok all retained 56 inputs and 15 PDFs/60 pages are unchanged after tests
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7707187Z {
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7707817Z   "schemaVersion": "rcap-md-favorable-declared-delivery-tests/v1",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7708423Z   "status": "PASS",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7708672Z   "cases": 73,
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7708929Z   "measuredAt": "2026-09-08T12:38:37.770Z",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7709207Z   "tests": [
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7709829Z     "actual 56-member candidate binds 15 four-page outputs with all 705 fields and no default",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7710519Z     "canonical: explicit facts select that exact output/input/report and source pages",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7711188Z     "canonical: fax, attorney and signing roles remain distinct from unresolved required facts",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7711820Z     "boundary: explicit facts select that exact output/input/report and source pages",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7712501Z     "boundary: fax, attorney and signing roles remain distinct from unresolved required facts",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7713183Z     "selectable/acquittal: explicit facts select that exact output/input/report and source pages",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7713972Z     "selectable/acquittal: fax, attorney and signing roles remain distinct from unresolved required facts",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7714738Z     "selectable/nolle: explicit facts select that exact output/input/report and source pages",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7715482Z     "selectable/nolle: fax, attorney and signing roles remain distinct from unresolved required facts",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7716476Z     "selectable/nolle-treatment: explicit facts select that exact output/input/report and source pages",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7717296Z     "selectable/nolle-treatment: fax, attorney and signing roles remain distinct from unresolved required facts",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7718082Z     "selectable/stet: explicit facts select that exact output/input/report and source pages",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7718817Z     "selectable/stet: fax, attorney and signing roles remain distinct from unresolved required facts",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7719703Z     "selectable/stet-treatment: explicit facts select that exact output/input/report and source pages",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7720512Z     "selectable/stet-treatment: fax, attorney and signing roles remain distinct from unresolved required facts",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7721274Z     "selectable/pbj: explicit facts select that exact output/input/report and source pages",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7722037Z     "selectable/pbj: fax, attorney and signing roles remain distinct from unresolved required facts",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7722862Z     "selectable/pbj-no-longer-crime: explicit facts select that exact output/input/report and source pages",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7723718Z     "selectable/pbj-no-longer-crime: fax, attorney and signing roles remain distinct from unresolved required facts",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7724531Z     "selectable/pbj-dui: explicit facts select that exact output/input/report and source pages",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7725315Z     "selectable/pbj-dui: fax, attorney and signing roles remain distinct from unresolved required facts",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7726070Z     "selectable/ncr: explicit facts select that exact output/input/report and source pages",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7726790Z     "selectable/ncr: fax, attorney and signing roles remain distinct from unresolved required facts",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7727542Z     "selectable/compromise: explicit facts select that exact output/input/report and source pages",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7728326Z     "selectable/compromise: fax, attorney and signing roles remain distinct from unresolved required facts",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7729155Z     "selectable/juvenile-transfer: explicit facts select that exact output/input/report and source pages",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7730138Z     "selectable/juvenile-transfer: fax, attorney and signing roles remain distinct from unresolved required facts",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7731189Z     "selectable/adult-transfer-circuit: explicit facts select that exact output/input/report and source pages",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7732104Z     "selectable/adult-transfer-circuit: fax, attorney and signing roles remain distinct from unresolved required facts",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7732903Z     "selectable/citation: explicit facts select that exact output/input/report and source pages",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7733668Z     "selectable/citation: fax, attorney and signing roles remain distinct from unresolved required facts",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7734493Z     "all favorable branches exclude conviction/cannabis waiver, release, notice and proposed-order components",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7735110Z     "no implicit or unsupported fixture undefined",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7735478Z     "no implicit or unsupported fixture ",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7735895Z     "no implicit or unsupported fixture selectable/conviction",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7736357Z     "no implicit or unsupported fixture selectable/cannabis",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7736783Z     "no implicit or unsupported fixture ../canonical",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7737241Z     "actual validator/exact binding refuse different participant",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7737855Z     "actual validator/exact binding refuse supplied optional fax cannot reuse a fax-blank PDF",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7738621Z     "actual validator/exact binding refuse known agency cannot be silently omitted from the boundary PDF",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7739433Z     "actual validator/exact binding refuse real participant",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7739944Z     "actual validator/exact binding refuse wrong route",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7740488Z     "actual validator/exact binding refuse missing predicate",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7741278Z     "actual validator/exact binding refuse wrong disposition instrument",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7741858Z     "actual validator/exact binding refuse discharge before PBJ entry",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7742505Z     "actual validator/exact binding refuse omitted phone does not select the known-phone fixture",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7743282Z     "actual validator/exact binding refuse known attorney cannot select the self-represented fixture",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7743869Z     "PBJ facts cannot use an ordinary dismissal PDF",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7744304Z     "treatment and ordinary nolle outputs stay separately bound",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7744755Z     "changed output inventory refuses missing fixture",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7745160Z     "changed output inventory refuses duplicate fixture",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7745693Z     "changed output inventory refuses canonical substituted for selected artifact",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7746216Z     "changed output inventory refuses added fee waiver",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7746703Z     "changed output inventory refuses substituted conviction petition",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7747186Z     "changed output inventory refuses omitted guide page",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7747902Z     "matching caller checksum cannot legitimize changed input reference/chat-parallel-2026-09-07/chat5/CC-DC-CR-072A.pdf",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7749072Z     "matching caller checksum cannot legitimize changed input data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill/fixtures/canonical.pdf",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7750646Z     "matching caller checksum cannot legitimize changed input data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill/fixtures/boundary.facts.json",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7752230Z     "matching caller checksum cannot legitimize changed input data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill/reports/boundary.json",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7753675Z     "matching caller checksum cannot legitimize changed input data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill/official-field-census.json",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7754723Z     "matching caller checksum cannot legitimize changed input scripts/rcap-packet-recovery/chat5/md-favorable.mjs",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7756481Z     "matching caller checksum cannot legitimize changed input scripts/rcap-packet-completeness/md-reviewed-candidate-inputs.json",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7758192Z     "matching caller checksum cannot legitimize changed input scripts/rcap-packet-completeness/md-favorable-native-candidate.mjs",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7759514Z     "matching caller checksum cannot legitimize changed input data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/md-independent-review.json",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7760621Z     "matching caller checksum cannot legitimize changed input data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/md-guard-delta-03.json",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7761403Z     "missing reviewed source refuses",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7761734Z     "selection rechecks current output hash",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7762151Z     "tampered recorded source roles cannot borrow an earlier binding",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7762601Z     "old two-PDF acceptance cannot cover 15 exact outputs",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7763135Z     "declared binding refuses preexisting runtime/payment/sponsored/generation authority",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7763699Z     "wrong record and family route cannot borrow the declaration",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7764079Z     "unrelated family is unchanged",
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7764488Z     "all retained 56 inputs and 15 PDFs/60 pages are unchanged after tests"
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7764849Z   ],
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7765109Z   "reviewedInputsMeasured": 56,
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7765542Z   "sourceFields": 47,
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7765981Z   "sourceFieldInstances": 705,
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7766403Z   "unchangedPdfs": 15,
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7766778Z   "unchangedPages": 60,
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7767163Z   "packetRenders": 0,
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7767742Z   "runtimeInstalled": false,
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7768231Z   "ownerAuthorizationMeasured": false,
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7770744Z   "scope": "Actual accepted validator and reviewed native field importer, bound to unchanged source/facts/reports/PDFs and original/guard review. Filesystem-port mutation tests measure refusal, not participant ownership, entitlement, durable render job, private delivery or production behavior."
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.7772795Z }
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.8686406Z        (57 annotated receipt(s), every one built through the preservation)
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.8688276Z   ok   rcap-ok-custom-pleading--custom-pleading: all three annotations survive a rebuild that changed no source
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.8690131Z   ok   rcap-ok-custom-pleading--custom-pleading: an annotation whose source moved again is NOT carried forward
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.8691732Z   ok   rcap-ok-custom-pleading--custom-pleading: a source reverted to the pre-refresh identity is not annotated
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.8693465Z   ok   rcap-wa-custom-pleading-clean-tracks--custom-pleading: all three annotations survive a rebuild that changed no source
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.8695261Z   ok   rcap-wa-custom-pleading-clean-tracks--custom-pleading: an annotation whose source moved again is NOT carried forward
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.8697006Z   ok   rcap-wa-custom-pleading-clean-tracks--custom-pleading: a source reverted to the pre-refresh identity is not annotated
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.8698241Z   ok   an approval or acceptance block is never carried across a rebuild
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.8699161Z   ok   a block with no previous source identity is not a source-identity note
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.8700286Z   ok   an annotation the builder wrote itself is left alone
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.8701182Z   ok   a pin the rebuild no longer binds is reported rather than resurrected
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.8702192Z   ok   a missing, unreadable or non-JSON previous receipt costs the build nothing
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.8703183Z   ok   preserveIdentityRefresh restores from the receipt already on disk
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.8704176Z   ok   every receipt carrying an annotation is built through the preservation
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.8704741Z 
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:37.8705397Z OK identityRefresh preservation — 13 case(s).
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:47.9832703Z GENERATOR DIVERGENCE — packet factory 24h: 2 file(s) are not this generator's output.
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:47.9834549Z   data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json: committed 2054675B sha 2ea649c4a763 != generated 2054676B sha 9b9923854ede (after normalizing the dispatch pin and the timestamp)
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:47.9836721Z   data/rcap-grade-a/packet-factory-24h/IMPORT_GRAPH.json: committed 33673B sha 7a799797614d != generated 33673B sha 5509d28e3aa2 (after normalizing the dispatch pin and the timestamp)
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:47.9837793Z Regenerate and commit the result. A hand-edited generated file is a claim no generator makes.
+verify_repairs	Check exact candidate and repaired behavior	2026-09-08T12:38:47.9850324Z ##[error]Process completed with exit code 1.

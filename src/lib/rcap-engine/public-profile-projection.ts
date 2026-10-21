@@ -3,6 +3,8 @@ import "server-only";
 import type { EngineProfile, PublicCaseOutcomeOption, PublicJurisdictionProfile, PublicQuestion } from "@/lib/rcap-engine/contracts";
 import translatedProfiles from "@/lib/expungement-ai/frontend/profiles/all51.json";
 import { getDesignerPublicProfiles } from "@/lib/rcap-engine/profile-registry";
+import { routesForJurisdiction } from "@/lib/legal-authority/index";
+import { validateQuestionLifecycleMetadata } from "@/lib/rcap-engine/screening-question-selection";
 
 type QuestionLifecyclePhase = NonNullable<PublicQuestion["lifecyclePhase"]>;
 type TranslatedProfileQuestion = {
@@ -45,7 +47,18 @@ const STATE_SPECIFIC_PREPAY_WILMA_FACT_IDS: Record<string, Set<string>> = {
   ]),
   HI: new Set(["hi_court_order_confirmed"]),
   IN: new Set(["in_prosecutor_consent_confirmed"]),
-  MS: new Set(["disposition_date"]),
+  MD: new Set(["arrest_date"]),
+  MO: new Set(["mo_at_least_twenty_two"]),
+  MS: new Set([
+    "disposition_date",
+    "arrest_date",
+    "ms_last_conviction_date_any_court",
+    "ms_successful_sentence_completion_date",
+    "ms_mip_dismissal_or_discharge_date",
+    "ms_mip_sentence_completion_date",
+    "ms_mip_fine_imposed",
+    "ms_mip_fine_payment_date"
+  ]),
   NY: new Set([
     "ny_16059_total_eligible_convictions",
     "ny_16059_felony_convictions",
@@ -59,6 +72,20 @@ const STATE_SPECIFIC_PREPAY_WILMA_FACT_IDS: Record<string, Set<string>> = {
   WI: new Set([
     "wi_expungement_ordered_at_sentencing",
     "wi_no_probation_jail_prison"
+  ])
+};
+// Missouri is deliberately absent. Its § 311.326 clock used to be published
+// here as an exact birth date in free screening; it is now an approximate
+// threshold prepay and an exact date of birth at final verification only.
+const STATE_SPECIFIC_EXACT_PREPAY_TIMING_FACT_IDS: Record<string, Set<string>> = {
+  MD: new Set(["arrest_date"]),
+  MS: new Set([
+    "arrest_date",
+    "ms_last_conviction_date_any_court",
+    "ms_successful_sentence_completion_date",
+    "ms_mip_dismissal_or_discharge_date",
+    "ms_mip_sentence_completion_date",
+    "ms_mip_fine_payment_date"
   ])
 };
 const STATE_SPECIFIC_REQUIRED_PREPAY_FACT_IDS: Record<string, Set<string>> = {
@@ -202,6 +229,63 @@ function courtRequirementsQuestion(stage: string, lifecyclePhase: QuestionLifecy
   };
 }
 
+const LEGAL_AUTHORITY_FACT_QUESTIONS: PublicQuestion[] = [
+  {
+    id: "arrest_date",
+    stage: "timing_and_completion",
+    prompt: "What arrest or citation date appears on the record?",
+    helperText: "Use the date shown on the arrest record, citation, or court docket.",
+    type: "date_or_unknown",
+    required: false,
+    contextOnly: false,
+    doesNotSelectPathway: true,
+    options: null
+  },
+  {
+    // Section 311.326 runs one year from the twenty-first birthday. That is a
+    // birth date, and anonymous screening may not collect one, so screening
+    // asks the threshold instead and the exact clock runs at final
+    // verification from a single post-authentication date of birth.
+    id: "mo_at_least_twenty_two",
+    stage: "state_specific_eligibility",
+    prompt: "Are you at least 22 years old?",
+    helperText: "Missouri's minor-in-possession route opens one year after a person's twenty-first birthday. We only need the threshold now; we never ask for your birth date before you have an account.",
+    lifecyclePhase: "prepay_timing_gate",
+    type: "yes_no_unsure",
+    required: false,
+    contextOnly: false,
+    doesNotSelectPathway: false,
+    options: ["yes", "no", "unsure"]
+  }
+];
+
+/**
+ * Facts a route contract requires at final verification, not at screening.
+ *
+ * `LEGAL_AUTHORITY_FACT_QUESTIONS` is gated on `screeningFactIds`, so a fact
+ * deliberately kept out of screening has no publication path at all. Missouri's
+ * date of birth was exactly that: the § 311.326 precondition required it, and
+ * nothing in the flow could ever collect it, because Missouri renders from a
+ * designer profile and the compiled profile's own question is never published.
+ *
+ * These are gated on the contracts' `packetReleasePreconditions` instead, and
+ * they land behind the claim as packet fields, never in free screening.
+ */
+const PACKET_RELEASE_FACT_QUESTIONS: PublicQuestion[] = [
+  {
+    id: "date_of_birth",
+    stage: "packet_information",
+    prompt: "What is your date of birth?",
+    helperText: "Asked once, after you claim your matter. Eligibility dates that run from your age are worked out from it; you are never asked for the same date twice.",
+    lifecyclePhase: "postpay_packet_field",
+    type: "date",
+    required: false,
+    contextOnly: false,
+    doesNotSelectPathway: true,
+    options: null
+  }
+];
+
 /**
  * Normalize a question's `options` to the public contract: a non-empty array of strings, or `null`.
  *
@@ -272,12 +356,39 @@ function phaseForWilmaFact(question: PublicQuestion, jurisdictionCode: string): 
   return "postpay_packet_field";
 }
 
-function normalizePublicQuestion(question: PublicQuestion, jurisdictionCode: string, source: "designer" | "engine" | "wilma"): PublicQuestion {
+function normalizePublicQuestion(
+  question: PublicQuestion,
+  jurisdictionCode: string,
+  source: "designer" | "engine" | "wilma",
+  exactPacketFact = false
+): PublicQuestion {
+  if (exactPacketFact) {
+    return {
+      ...question,
+      lifecyclePhase: "postpay_packet_field",
+      stage: "packet_information",
+      options: normalizeQuestionOptions(question.options),
+      contextOnly: false,
+      doesNotSelectPathway: true
+    };
+  }
   const lifecyclePhase = source === "wilma"
     ? phaseForWilmaFact(question, jurisdictionCode)
     : lifecyclePhaseForQuestion(question);
   const requiredFactIds = STATE_SPECIFIC_REQUIRED_PREPAY_FACT_IDS[jurisdictionCode];
   const requiredPrepayFact = requiredFactIds?.has(question.id) === true;
+  const exactPrepayTimingFact = STATE_SPECIFIC_EXACT_PREPAY_TIMING_FACT_IDS[jurisdictionCode]?.has(question.id) === true;
+  if (exactPrepayTimingFact) {
+    return {
+      ...question,
+      lifecyclePhase: "prepay_timing_gate",
+      stage: question.stage,
+      options: normalizeQuestionOptions(question.options),
+      required: question.required,
+      contextOnly: false,
+      doesNotSelectPathway: true
+    };
+  }
   if (lifecyclePhase === "prepay_timing_gate" && PREPAY_EXACT_TIMING_ANCHOR_IDS.has(question.id) && question.type === "date_or_unknown") {
     return timingBucketQuestion(question, lifecyclePhase, requiredPrepayFact || requiredFactIds?.has("resolved_timing_bucket") === true || question.required);
   }
@@ -786,13 +897,104 @@ const WILMA_FACT_QUESTIONS: PublicQuestion[] = [
   }
 ];
 
-function withWilmaFactQuestions(profile: PublicJurisdictionProfile, pathways: { id: string; label: string }[] = []): PublicJurisdictionProfile {
+const MISSISSIPPI_CORRECTION_FACT_QUESTIONS: PublicQuestion[] = [
+  {
+    id: "ms_last_conviction_date_any_court",
+    stage: "timing_and_completion",
+    prompt: "What is the date of your most recent conviction in any court?",
+    helperText: "Use the exact conviction date shown in the court record; this is the anchor for the additional justice- or municipal-court misdemeanor route.",
+    type: "date_or_unknown",
+    required: false,
+    contextOnly: false,
+    doesNotSelectPathway: true,
+    options: null
+  },
+  {
+    id: "ms_successful_sentence_completion_date",
+    stage: "timing_and_completion",
+    prompt: "What date did you successfully complete every term and condition of the DUI sentence?",
+    helperText: "Use the exact completion date shown in the court or supervision record.",
+    type: "date_or_unknown",
+    required: false,
+    contextOnly: false,
+    doesNotSelectPathway: true,
+    options: null
+  },
+  {
+    id: "ms_mip_dismissal_or_discharge_date",
+    stage: "timing_and_completion",
+    prompt: "What date was the underage-alcohol case dismissed or discharged?",
+    helperText: "Use the exact date shown in the court record.",
+    type: "date_or_unknown",
+    required: false,
+    contextOnly: false,
+    doesNotSelectPathway: true,
+    options: null
+  },
+  {
+    id: "ms_mip_sentence_completion_date",
+    stage: "timing_and_completion",
+    prompt: "What date did you complete the underage-alcohol sentence?",
+    helperText: "Use the exact completion date shown in the court record.",
+    type: "date_or_unknown",
+    required: false,
+    contextOnly: false,
+    doesNotSelectPathway: true,
+    options: null
+  },
+  {
+    id: "ms_mip_fine_imposed",
+    stage: "timing_and_completion",
+    prompt: "Did the court impose a fine in the underage-alcohol case?",
+    helperText: "Answer from the court record. If you are not sure, choose Not sure.",
+    type: "yes_no_unsure",
+    required: false,
+    contextOnly: false,
+    doesNotSelectPathway: true,
+    options: null
+  },
+  {
+    id: "ms_mip_fine_payment_date",
+    stage: "timing_and_completion",
+    prompt: "What date was the underage-alcohol fine paid in full?",
+    helperText: "Use the exact payment date shown in the court or clerk record.",
+    type: "date_or_unknown",
+    required: false,
+    contextOnly: false,
+    doesNotSelectPathway: true,
+    options: null
+  }
+];
+
+function withWilmaFactQuestions(
+  profile: PublicJurisdictionProfile,
+  pathways: { id: string; label: string }[] = [],
+  exactPacketFactIds: readonly string[] = []
+): PublicJurisdictionProfile {
   const existingIds = new Set(profile.questions.map((question) => question.id));
-  const additions = WILMA_FACT_QUESTIONS
+  const exactPacketFacts = new Set(exactPacketFactIds);
+  const jurisdictionRoutes = routesForJurisdiction(profile.jurisdiction.code);
+  const authorityFactIds = new Set(jurisdictionRoutes.flatMap((route) => route.screeningFactIds ?? []));
+  const packetReleaseFactIds = new Set(jurisdictionRoutes.flatMap((route) => (route.packetReleasePreconditions ?? [])
+    .flatMap((precondition) => [precondition.id, precondition.satisfiedWhen?.factId])
+    .filter((id): id is string => typeof id === "string" && id.length > 0)));
+  const legalAuthorityAdditions = [
+    ...(authorityFactIds.has("court_requirements_completed") && !existingIds.has("court_requirements_completed")
+      ? [courtRequirementsQuestion("timing_and_completion", "prepay_timing_gate", false)]
+      : []),
+    ...LEGAL_AUTHORITY_FACT_QUESTIONS.filter((question) => authorityFactIds.has(question.id) && !existingIds.has(question.id))
+      .map((question) => normalizePublicQuestion(question, profile.jurisdiction.code, "wilma", exactPacketFacts.has(question.id))),
+    ...PACKET_RELEASE_FACT_QUESTIONS.filter((question) => packetReleaseFactIds.has(question.id) && !existingIds.has(question.id))
+      .map((question) => normalizePublicQuestion(question, profile.jurisdiction.code, "wilma", exactPacketFacts.has(question.id)))
+  ];
+  const availableWilmaFactQuestions = profile.jurisdiction.code === "MS"
+    ? [...WILMA_FACT_QUESTIONS, ...MISSISSIPPI_CORRECTION_FACT_QUESTIONS]
+    : WILMA_FACT_QUESTIONS;
+  const additions = availableWilmaFactQuestions
     .filter((question) => !existingIds.has(question.id))
-    .map((question) => normalizePublicQuestion(question, profile.jurisdiction.code, "wilma"));
+    .map((question) => normalizePublicQuestion(question, profile.jurisdiction.code, "wilma", exactPacketFacts.has(question.id)));
   const baseQuestions = withCompletePathwayContextOptions(
-    withBroadCourtRequirementsGate(dedupeQuestionsById(profile.questions)),
+    withBroadCourtRequirementsGate(dedupeQuestionsById([...profile.questions, ...legalAuthorityAdditions])),
     pathways
   );
   // The timing bucket is added last, after the court-requirements gate has run
@@ -960,10 +1162,32 @@ function toPublicJurisdictionProfile(draft: PublicJurisdictionProfile): PublicJu
  * mapper above then decides what is actually allowed out.
  */
 export function projectPublicProfile(profile: EngineProfile): PublicJurisdictionProfile {
-  return toPublicJurisdictionProfile(buildProfileDraft(profile));
+  const projected = toPublicJurisdictionProfile(buildProfileDraft(profile));
+  const completion = projected.postPaymentPacketCompletion;
+  const lifecycle = validateQuestionLifecycleMetadata(profile, [
+    ...projected.questions,
+    ...(completion?.requiredPacketCompletionFields ?? []),
+    ...(completion?.officialFormFields ?? []),
+    ...(completion?.customPleadingFields ?? []),
+    ...(completion?.externalDocumentChecklist ?? []),
+    ...(completion?.filingReadinessFields ?? []),
+    ...(completion?.serviceOrMailingFields ?? []),
+    ...(completion?.narrativeFields ?? []),
+    ...(completion?.optionalFields ?? [])
+  ]);
+  if (!lifecycle.ok) {
+    throw new Error(`Invalid question lifecycle metadata for ${profile.jurisdiction.code}`);
+  }
+  return projected;
+}
+
+function routedExactPacketFactIds(profile: EngineProfile) {
+  return (profile.questionLifecycle?.exactPacketFactIds ?? [])
+    .filter((id) => (profile.questionLifecycle?.routeConsumers[id]?.length ?? 0) > 0);
 }
 
 function buildProfileDraft(profile: EngineProfile): PublicJurisdictionProfile {
+  const routeScopedPacketFacts = routedExactPacketFactIds(profile);
   const designerProfile = getDesignerPublicProfiles()[profile.jurisdiction.code];
   if (designerProfile) {
     return withWilmaFactQuestions({
@@ -981,9 +1205,14 @@ function buildProfileDraft(profile: EngineProfile): PublicJurisdictionProfile {
         questionIds: stage.questionIds ?? designerProfile.questions.filter((question) => question.stage === stage.id).map((question) => question.id),
         screenType: stage.screenType
       })),
-      questions: designerProfile.questions.map((question) => withDisplayTranslations(normalizePublicQuestion(question, profile.jurisdiction.code, "designer"), profile.jurisdiction.code)),
+      questions: designerProfile.questions.map((question) => withDisplayTranslations(normalizePublicQuestion(
+        question,
+        profile.jurisdiction.code,
+        "designer",
+        routeScopedPacketFacts.includes(question.id)
+      ), profile.jurisdiction.code)),
       caseOutcomeOptions: toPublicCaseOutcomeOptions(designerProfile.caseOutcomeOptions)
-    }, profile.pathways ?? []);
+    }, profile.pathways ?? [], routeScopedPacketFacts);
   }
 
   const questionIds = new Set(profile.questions.map((question) => question.id));
@@ -1013,7 +1242,7 @@ function buildProfileDraft(profile: EngineProfile): PublicJurisdictionProfile {
       doesNotSelectPathway: question.contextOnly === true || question.doesNotSelectPathway === true,
       options: question.options,
       optionDisplay: question.optionDisplay
-    }, profile.jurisdiction.code, "engine"), profile.jurisdiction.code)),
+    }, profile.jurisdiction.code, "engine", routeScopedPacketFacts.includes(question.id)), profile.jurisdiction.code)),
     caseOutcomeOptions: toPublicCaseOutcomeOptions(profile.caseOutcomeOptions)
-  }, profile.pathways ?? []);
+  }, profile.pathways ?? [], routeScopedPacketFacts);
 }

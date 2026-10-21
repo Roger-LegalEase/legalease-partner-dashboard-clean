@@ -1,0 +1,58 @@
+{
+  "schemaVersion": "rcap-raster-receipt-recovery-request/v1",
+  "why": "Run 34386107249 attempt 2 completed successfully on all five jobs and its receipts cannot be read from this session: the Actions API answers here, the artifact blob store does not. Everything below was read from the API here so whoever can reach the blob store has the exact identities and can prove they pulled the right bytes.",
+  "runId": "34386107249",
+  "runAttempt": 2,
+  "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+  "workflowDefinitionHeadSha": "a3d4587b0fbbbfa887c78372afbfdb8824906333",
+  "packetCommitSha": "b2b5824278631abfa159dfe41555cdf8aa0a6a43",
+  "runStatus": "completed",
+  "runConclusion": "success",
+  "whatThisRunIs": "The first raster of three route-variant families over their FULL declared sets, which the queue could not enrol until the declared-fixture reader landed. al-trafficking-set renders 4 documents and 44 pages, ne-seal-pre2017-set 6 and 30, rcap-or-official-pdf-fill 4 and 36. These are not two-fixture families, and the importer's full-set path is what will admit them.",
+  "attemptOneFailedFor": "The canary's browser install died on an upstream apt Hash Sum mismatch fetching https://dl.google.com/linux/chrome-stable — external, before any test body ran, with the matrix and family jobs correctly skipped. One re-run was spent and attempt 2 is clean. Attempt 1's artifacts do not exist; do not look for them.",
+  "families": ["al-trafficking-set", "ne-seal-pre2017-set", "rcap-or-official-pdf-fill"],
+  "jobs": {
+    "Synthetic canary and live negative controls": "102584230780",
+    "Plan the family matrix": "102584935863",
+    "ne-seal-pre2017-set": "102585278569",
+    "al-trafficking-set": "102585278594",
+    "rcap-or-official-pdf-fill": "102585278711"
+  },
+  "everyJobConclusion": "success",
+  "artifacts": [
+    {
+      "artifactId": "10118412473",
+      "name": "rcap-raster-al-trafficking-set-34386107249",
+      "sizeInBytes": 22911981,
+      "digest": "sha256:2710a7121aa22667d4598e0e780e2dc3e01d40ecbe7441e118f32eb1501deb6d",
+      "expiresAt": "2026-09-23T18:15:30Z"
+    },
+    {
+      "artifactId": "10118301391",
+      "name": "rcap-raster-ne-seal-pre2017-set-34386107249",
+      "sizeInBytes": 11254595,
+      "digest": "sha256:30b33d333ffb5e34bdb74ee496ddcde93e11a01a8fc8efc03c861d3bd687f6ae",
+      "expiresAt": "2026-09-23T18:12:36Z"
+    },
+    {
+      "artifactId": "10118354930",
+      "name": "rcap-raster-rcap-or-official-pdf-fill-34386107249",
+      "sizeInBytes": 14036910,
+      "digest": "sha256:2d29f9b495febb2fe3b23f7ff4a51d42ad7cc4569f350545ecc911154d778a30",
+      "expiresAt": "2026-09-23T18:14:00Z"
+    },
+    {
+      "artifactId": "10117986647",
+      "name": "rcap-raster-canary",
+      "sizeInBytes": 5954,
+      "digest": "sha256:7bc919ea587a544859c722efd881eb83e601133be1579234eddc942c1e4d5d5c",
+      "expiresAt": "2026-09-23T18:04:22Z"
+    }
+  ],
+  "whatToSendBack": "The bundle shape consumed four times already: a tar.xz carrying <runId>/<family>.verdict.json for each family plus the canary, negative-control and runtime receipts, a PAGE_IMAGES_SHA256.json inventory (runId, familyId, member, bytes, sha256, pngWidth, pngHeight per page image), and a TRANSPORT.json naming the run, artifact, job and canary identities. PNG bodies are not needed. Note that each verdict here covers more than two documents, so the inventory carries one directory per document rather than per role.",
+  "doNot": "Do not rerender. The packet bytes these receipts bind to are the ones at b2b58242 and they have not moved.",
+  "alsoOutstanding": "RECOVERY_REQUEST_34357236801_pa.json — pa_pardon_expungement-set, artifact 10106541378, a two-document receipt that needs no rerender either.",
+  "recordedBy": "Captain, 2026-09-09, from mcp__github__actions_get and mcp__github__actions_list",
+  "admittedHere": false,
+  "newTerminalPromotions": 0
+}

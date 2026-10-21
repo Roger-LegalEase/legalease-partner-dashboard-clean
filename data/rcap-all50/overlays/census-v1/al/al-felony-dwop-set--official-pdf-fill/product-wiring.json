@@ -1,0 +1,136 @@
+{
+  "schemaVersion": "rcap-census-v1-product-wiring/v1",
+  "family": "al-felony-dwop-set",
+  "routeKey": "obligation:track-only:AL:al-felony-dwop",
+  "routeKeys": [
+    "obligation:track-only:AL:al-felony-dwop"
+  ],
+  "workType": "PRODUCT_WIRING_REQUIRED",
+  "status": "DECLARED_NOT_INSTALLED",
+  "authorityCreated": "none",
+  "generatedBy": "scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs",
+  "derivedFrom": "data/rcap-all50/overlays/census-v1/al/al-felony-dwop-set--official-pdf-fill/reports/rendered-artifacts.json",
+  "explicitNonGrants": [
+    "This document opens no commercial route.",
+    "It creates no fulfillment record and consumes no packet credit.",
+    "It marks no packet proven and grants no output approval.",
+    "It does not add this track to compiled runtime. src/lib/rcap-engine/compiled/** is untouched.",
+    "It does not change any live RCAP route.",
+    "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This is not that record."
+  ],
+  "currentState": {
+    "serviceDisposition": "missing_from_compiled_runtime",
+    "commercialState": "NO_ROUTE_LEVEL_GRADE_A_AUTHORITY_FROM_TRACK_MEMBERSHIP",
+    "existingArtifactIds": [],
+    "generationAllowed": false
+  },
+  "binding": {
+    "family": "al-felony-dwop-set",
+    "jurisdiction": "AL",
+    "routeKeys": [
+      "obligation:track-only:AL:al-felony-dwop"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "certificate_of_service",
+      "fee_waiver",
+      "primary_filing"
+    ],
+    "packetComponents": [
+      "component:al-felony-dwop-certificate-of-service-2",
+      "component:al-felony-dwop-fee-waiver-3",
+      "component:al-felony-dwop-primary-filing-1"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/al/al-felony-dwop-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/al/al-felony-dwop-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/al/al-felony-dwop-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/al/al-felony-dwop-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:C-10-CRIMINAL",
+        "sha256": "527d4cfdde5bea564a8729e6425f1042627b03435ec634509fe32fdb80a5c6f8",
+        "tier": "exact_form_number"
+      },
+      {
+        "sourceId": "official-form:CR-65",
+        "sha256": "c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39",
+        "tier": "exact_identity_confirmed_from_document_text"
+      }
+    ],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "34664588051",
+      "jobId": "103474399109",
+      "artifactId": "10288995570",
+      "boundToCanonicalSha256": "77f6fb0c16f67919bf70dd313e9fe37440a13fb14a45ff468a20b9948d9fc2f2",
+      "coversTheWholeFamily": true
+    },
+    "lastIndependentVerification": {
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf02",
+      "verifiedAtBase": "509ce5073da1255758a7196ccb8a1cdf8364f5af"
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-al-felony-dwop-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    },
+    "acceptanceReceiptWithdrawn": [
+      {
+        "why": "The acceptance receipt binds an exact canonical SHA-256 and this write's canonical bytes are not those bytes, so the receipt does not describe this packet. It is withdrawn and kept as history rather than deleted, and it is not carried forward as though it still applied. Only the central raster acceptance workflow issues a receipt; nothing here issues one and nothing here sets a verdict.",
+        "boundToCanonicalSha256": "f5b365db7086f038634561e1f0baadd7cc8cc53fdfd5b6b6d02aa68643948027",
+        "replacedByCanonicalSha256": "620dbb629211bea88ef5a5a22148c7153154d5c22081bfcfcc8c2d02c89f1dfe",
+        "withdrawnReceipt": {
+          "verdict": "RASTER_PASS",
+          "workflowRunId": "34418960259",
+          "jobId": "102690667465",
+          "artifactId": "10130386216",
+          "boundToCanonicalSha256": "f5b365db7086f038634561e1f0baadd7cc8cc53fdfd5b6b6d02aa68643948027",
+          "coversTheWholeFamily": true
+        }
+      },
+      {
+        "why": "The acceptance receipt binds an exact canonical SHA-256 and this write's canonical bytes are not those bytes, so the receipt does not describe this packet. It is withdrawn and kept as history rather than deleted, and it is not carried forward as though it still applied. Only the central raster acceptance workflow issues a receipt; nothing here issues one and nothing here sets a verdict.",
+        "boundToCanonicalSha256": "620dbb629211bea88ef5a5a22148c7153154d5c22081bfcfcc8c2d02c89f1dfe",
+        "replacedByCanonicalSha256": "77f6fb0c16f67919bf70dd313e9fe37440a13fb14a45ff468a20b9948d9fc2f2",
+        "withdrawnReceipt": {
+          "verdict": "RASTER_PASS",
+          "workflowRunId": "34506224832",
+          "jobId": "102970216779",
+          "artifactId": null,
+          "boundToCanonicalSha256": "620dbb629211bea88ef5a5a22148c7153154d5c22081bfcfcc8c2d02c89f1dfe",
+          "coversTheWholeFamily": true
+        }
+      }
+    ]
+  },
+  "proposedRepresentation": {
+    "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
+    "packetSetId": "al-felony-dwop-set",
+    "outputStrategy": "official_pdf_fill",
+    "components": [
+      {
+        "componentId": "al-felony-dwop-set-component-1",
+        "role": "primary_filing",
+        "order": 1,
+        "documentId": "CR-65",
+        "file": "data/rcap-all50/overlays/census-v1/al/al-felony-dwop-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "77f6fb0c16f67919bf70dd313e9fe37440a13fb14a45ff468a20b9948d9fc2f2",
+        "requirement": "required"
+      },
+      {
+        "componentId": "al-felony-dwop-set-component-2",
+        "role": "companion_document",
+        "order": 2,
+        "documentId": "C-10-CRIMINAL",
+        "file": "data/rcap-all50/overlays/census-v1/al/al-felony-dwop-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "77f6fb0c16f67919bf70dd313e9fe37440a13fb14a45ff468a20b9948d9fc2f2",
+        "requirement": "required"
+      }
+    ]
+  }
+}

@@ -1,0 +1,275 @@
+diff --git a/scripts/rcap-packet-completeness/verify-builder-self-tests-run.mjs b/scripts/rcap-packet-completeness/verify-builder-self-tests-run.mjs
+index b6abb78ed..ae74c606f 100644
+--- a/scripts/rcap-packet-completeness/verify-builder-self-tests-run.mjs
++++ b/scripts/rcap-packet-completeness/verify-builder-self-tests-run.mjs
+@@ -34,25 +34,147 @@ const ROOT = process.env.RCAP_SELF_TEST_ROOT
+   ?? path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..", "..");
+ const SCRIPTS = path.join(ROOT, "scripts");
+ 
+-/* A builder is in scope when it declares a selfTest containing assertions and
+- * reaches it only through the flag. Reading the source rather than a list means
+- * a builder that grows one is covered the day it does. */
++const SELF_TEST_FLAG = "--self-test";
++const IDENTIFIER = "[A-Za-z_$][\\w$]*";
++
++/* Keep source matching narrow and proof-bound. Comments and example strings
++ * are blanked so only executable flag branches qualify. The only parameterized
++ * form added here is PF05's named runFamilyById/runSelfTests form. */
++function maskCommentsAndStrings(source) {
++  const chars = source.split("");
++  const out = source.split("");
++  const blank = (from, to) => {
++    for (let i = from; i < to; i++) {
++      if (chars[i] !== "\n" && chars[i] !== "\r") out[i] = " ";
++    }
++  };
++  for (let i = 0; i < chars.length;) {
++    if (chars[i] === "/" && chars[i + 1] === "/") {
++      const start = i;
++      i += 2;
++      while (i < chars.length && chars[i] !== "\n" && chars[i] !== "\r") i++;
++      blank(start, i);
++      continue;
++    }
++    if (chars[i] === "/" && chars[i + 1] === "*") {
++      const start = i;
++      i += 2;
++      while (i < chars.length && !(chars[i] === "*" && chars[i + 1] === "/")) i++;
++      i = Math.min(chars.length, i + 2);
++      blank(start, i);
++      continue;
++    }
++    if (chars[i] !== "'" && chars[i] !== '"' && chars[i] !== "`") {
++      i++;
++      continue;
++    }
++    const quote = chars[i];
++    const start = i++;
++    let escaped = false;
++    let closed = false;
++    while (i < chars.length) {
++      const ch = chars[i];
++      if (!escaped && ch === quote) {
++        const value = chars.slice(start + 1, i).join("");
++        i++;
++        closed = true;
++        if (quote === "`" || value !== SELF_TEST_FLAG) blank(start, i);
++        else {
++          out[start] = '"';
++          out[i - 1] = '"';
++        }
++        break;
++      }
++      if (!escaped && ch === "\\") escaped = true;
++      else escaped = false;
++      i++;
++    }
++    if (!closed) blank(start, i);
++  }
++  return out.join("");
++}
++
++function matchingDelimiter(source, openAt, open, close) {
++  let depth = 0;
++  for (let i = openAt; i < source.length; i++) {
++    if (source[i] === open) depth++;
++    else if (source[i] === close && --depth === 0) return i;
++  }
++  return -1;
++}
++
++function selfTestBodies(source) {
++  const declarations = [];
++  const functionPattern = new RegExp(`\\b(?:async\\s+)?function\\s+(selfTest|runSelfTests)\\s*\\(`, "g");
++  for (const match of source.matchAll(functionPattern)) {
++    const openAt = match.index + match[0].lastIndexOf("(");
++    const closeAt = matchingDelimiter(source, openAt, "(", ")");
++    if (closeAt < 0) continue;
++    const bodyAt = source.indexOf("{", closeAt + 1);
++    if (bodyAt < 0) continue;
++    const endAt = matchingDelimiter(source, bodyAt, "{", "}");
++    if (endAt < 0) continue;
++    declarations.push({ name: match[1], body: source.slice(bodyAt + 1, endAt) });
++  }
++
++  /* Preserve the existing const selfTest fixture shape. */
++  const arrowPattern = new RegExp(
++    `\\b(?:const|let|var)\\s+selfTest\\s*=\\s*(?:async\\s*)?(\\([^)]*\\)|${IDENTIFIER})\\s*=>\\s*\\{`,
++    "g"
++  );
++  for (const match of source.matchAll(arrowPattern)) {
++    const bodyAt = match.index + match[0].lastIndexOf("{");
++    const endAt = matchingDelimiter(source, bodyAt, "{", "}");
++    if (endAt >= 0) declarations.push({ name: "selfTest", body: source.slice(bodyAt + 1, endAt) });
++  }
++  return declarations;
++}
++
++function directSelfTestTargets(source) {
++  const pattern = new RegExp(
++    `\\bif\\s*\\(\\s*process\\s*\\.\\s*argv\\s*\\.\\s*includes\\s*\\(\\s*["']${SELF_TEST_FLAG}["']\\s*\\)\\s*\\)\\s*(?:\\{\\s*)?(?:return\\s+)?(?:await\\s+)?(${IDENTIFIER})\\s*\\(`,
++    "g"
++  );
++  return [...source.matchAll(pattern)].map((match) => match[1]);
++}
++
++/* The proven PF05 dispatch is the only argv alias admitted here. Both the
++ * default binding and the named runSelfTests call must occur in the same
++ * runFamilyById declaration. */
++function pf05SelfTestTarget(builderName, source) {
++  if (builderName !== "build-census-v1-ut_pet_cannabis-set.mjs") return null;
++  const declaration = source.match(
++    /\b(?:export\s+)?(?:async\s+)?function\s+runFamilyById\s*\(/,
++  );
++  if (!declaration) return null;
++  const openAt = declaration.index + declaration[0].lastIndexOf("(");
++  const closeAt = matchingDelimiter(source, openAt, "(", ")");
++  if (closeAt < 0) return null;
++  const params = source.slice(openAt + 1, closeAt);
++  if (!/\bargv\s*=\s*process\s*\.\s*argv\s*\.\s*slice\s*\(\s*2\s*\)/.test(params)) return null;
++  const bodyAt = source.indexOf("{", closeAt + 1);
++  const endAt = bodyAt < 0 ? -1 : matchingDelimiter(source, bodyAt, "{", "}");
++  if (endAt < 0) return null;
++  const body = source.slice(bodyAt + 1, endAt);
++  return /\bif\s*\(\s*argv\s*\.\s*includes\s*\(\s*["']--self-test["']\s*\)\s*\)\s*(?:\{\s*)?(?:return\s+)?(?:await\s+)?runSelfTests\s*\(/.test(body)
++    ? "runSelfTests"
++    : null;
++}
++
++/* A builder is in scope when its assertion-bearing selfTest is the actual
++ * target of the existing direct flag form, plus the one proven PF05 alias. */
+ export function buildersWithAFlagGatedSelfTest(scriptsDir) {
+   const out = [];
+   for (const name of fs.readdirSync(scriptsDir).sort()) {
+     if (!/^build-census-v1-.*\.mjs$/.test(name)) continue;
+-    const src = fs.readFileSync(path.join(scriptsDir, name), "utf8");
+-    if (!/process\.argv\.includes\(["']--self-test["']\)/.test(src)) continue;
+-    const lines = src.split("\n");
+-    const decl = lines.findIndex((l) => /(function\s+selfTest|const\s+selfTest\s*=)/.test(l));
+-    if (decl < 0) continue;
+-    let depth = 0, started = false, end = decl;
+-    for (let i = decl; i < lines.length; i++) {
+-      for (const ch of lines[i]) { if (ch === "{") { depth++; started = true; } else if (ch === "}") depth--; }
+-      if (started && depth <= 0) { end = i; break; }
+-    }
+-    const body = lines.slice(decl, end + 1).join("\n");
+-    const assertions = (body.match(/\bassert\b|\bthrow new Error\b/g) ?? []).length;
++    const source = maskCommentsAndStrings(fs.readFileSync(path.join(scriptsDir, name), "utf8"));
++    const declarations = selfTestBodies(source);
++    const targets = new Set(directSelfTestTargets(source));
++    const pf05Target = pf05SelfTestTarget(name, source);
++    if (pf05Target) targets.add(pf05Target);
++    const assertions = declarations.filter((declaration) => targets.has(declaration.name))
++      .reduce((total, declaration) => total
++        + (declaration.body.match(/\bassert\b|\bthrow\s+new\s+Error\b/g) ?? []).length, 0);
+     if (assertions > 0) out.push({ builder: name, assertions });
+   }
+   return out;
+diff --git a/scripts/rcap-packet-completeness/verify-builder-self-tests-run.test.mjs b/scripts/rcap-packet-completeness/verify-builder-self-tests-run.test.mjs
+index 325f1480d..4dbbb293b 100644
+--- a/scripts/rcap-packet-completeness/verify-builder-self-tests-run.test.mjs
++++ b/scripts/rcap-packet-completeness/verify-builder-self-tests-run.test.mjs
+@@ -3,6 +3,7 @@ import test from "node:test";
+ import fs from "node:fs";
+ import os from "node:os";
+ import path from "node:path";
++import { fileURLToPath } from "node:url";
+ import { buildersWithAFlagGatedSelfTest } from "./verify-builder-self-tests-run.mjs";
+ 
+ /*
+@@ -152,6 +153,95 @@ if (process.argv.includes("--self-test")) selfTest();
+   assert.equal(scope[0].assertions, 1);
+ });
+ 
++test("a self-test dispatch through an argv default bound to process.argv is found", () => {
++  const root = stage();
++  builder(root, "build-census-v1-ut_pet_cannabis-set.mjs", `import assert from "node:assert/strict";
++function runSelfTests() {
++  assert.equal(1, 1, "a delivered-output invariant");
++}
++async function runFamilyById(familyId, argv = process.argv.slice(2)) {
++  if (argv.includes("--self-test")) return runSelfTests();
++  return familyId;
++}
++await runFamilyById("example");
++`);
++  const scope = scopeOf(root);
++  assert.deepEqual(scope.map((row) => row.builder), ["build-census-v1-ut_pet_cannabis-set.mjs"]);
++  assert.equal(scope[0].assertions, 1);
++});
++
++test("the real PF05 runSelfTests dispatch is discovered through its declared argv binding", () => {
++  const scriptsDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..", "..");
++  const scope = buildersWithAFlagGatedSelfTest(path.join(scriptsDir, "scripts"));
++  const pf05 = scope.find((row) => row.builder === "build-census-v1-ut_pet_cannabis-set.mjs");
++  assert.ok(pf05, "PF05's argv-bound --self-test dispatch must be in the chain scope");
++  assert.equal(pf05.assertions, 73);
++});
++
++test("the PF05 argv shape is not generalized to another builder", () => {
++  const root = stage();
++  builder(root, "build-census-v1-other-argv-alias-set.mjs", `function runSelfTests() {
++  assert.ok(true, "this is outside the bounded PF05 repair");
++}
++async function runFamilyById(familyId, argv = process.argv.slice(2)) {
++  if (argv.includes("--self-test")) return runSelfTests();
++  return familyId;
++}
++`);
++  assert.deepEqual(scopeOf(root), []);
++});
++
++test("an argv alias not defaulted from process.argv is not treated as a flag gate", () => {
++  const root = stage();
++  builder(root, "build-census-v1-unbound-argv-set.mjs", `function runSelfTests() {
++  assert.ok(true, "this assertion is not reachable from process.argv");
++}
++async function runFamilyById(familyId, argv = process.env.SELF_TEST_ARGS ?? []) {
++  if (argv.includes("--self-test")) return runSelfTests();
++  return familyId;
++}
++`);
++  assert.deepEqual(scopeOf(root), []);
++});
++
++test("an argv alias with the wrong process.argv slice is not treated as PF05", () => {
++  const root = stage();
++  builder(root, "build-census-v1-wrong-argv-slice-set.mjs", `function runSelfTests() {
++  assert.ok(true, "this assertion is not bound to PF05's argv");
++}
++async function runFamilyById(familyId, argv = process.argv.slice(3)) {
++  if (argv.includes("--self-test")) return runSelfTests();
++  return familyId;
++}
++`);
++  assert.deepEqual(scopeOf(root), []);
++});
++
++test("the flag branch must call the assertion-bearing target", () => {
++  const root = stage();
++  builder(root, "build-census-v1-wrong-target-set.mjs", `function selfTest() {
++  assert.ok(true, "this function is not the dispatched target");
++}
++function build() {
++  return "ordinary build";
++}
++if (process.argv.includes("--self-test")) build();
++`);
++  assert.deepEqual(scopeOf(root), []);
++});
++
++test("comments, example strings, and near-match flags do not create scope", () => {
++  const root = stage();
++  builder(root, "build-census-v1-false-flag-set.mjs", `/* if (process.argv.includes("--self-test")) selfTest(); */
++const example = "if (process.argv.includes('--self-test')) selfTest();";
++function selfTest() {
++  assert.ok(true, "the only assertion is unreachable");
++}
++if (process.argv.includes("--self-test-extra")) selfTest();
++`);
++  assert.deepEqual(scopeOf(root), []);
++});
++
+ test("a flag-gated selfTest holding no assertions is not counted as a dormant guard", () => {
+   const root = stage();
+   builder(root, "build-census-v1-empty-self-test-set.mjs", `function selfTest() {

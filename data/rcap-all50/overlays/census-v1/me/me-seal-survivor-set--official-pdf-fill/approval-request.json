@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "rcap-output-approval-request/v1",
+  "familyId": "me-seal-survivor-set",
+  "routeKeys": [
+    "obligation:track-pathway:ME:me-seal-survivor:sex-trafficking-sexual-exploitation-survivor-sealing"
+  ],
+  "status": "REQUESTED",
+  "grantedBy": null,
+  "exactSourceReviewComplete": true,
+  "independentVisualReviewRequired": true,
+  "outputLegalApprovalRequired": true,
+  "deliveryBlockedUntil": [
+    {
+      "gate": "me_2264_7_cr308_warning_conflict",
+      "kind": "source_acquisition",
+      "owner": "RCAP source acquisition",
+      "items": [
+        "a corrected CR-308, or the court's confirmation that the printed warning box no longer states the law",
+        "what the court actually does when a survivor is later convicted of a new crime"
+      ]
+    },
+    {
+      "gate": "me_2264_7_prosecutor_notice_method",
+      "kind": "source_acquisition",
+      "owner": "RCAP source acquisition",
+      "items": [
+        "whether the movant serves the prosecutorial office or the court performs all notice",
+        "the method each court requires"
+      ]
+    }
+  ],
+  "ownerDeterminationRequested": [
+    {
+      "question": "Is the pikepdf-unlocked-derivative bridge an approved alternate handling strategy for Maine's AES-256-encrypted CR-307 and CR-308?",
+      "whyItMatters": "The Master Library's asset manifest says CR-307's runtime mapping requires an approved alternate handling strategy. This build uses the bridge already committed for the encrypted California forms and proves the derivative equivalent to the source, but does not approve it.",
+      "blocksThisPacket": false
+    },
+    {
+      "question": "The CR-308 recovered on 2026-09-04 still prints the page-2 warning that a later conviction extinguishes the order. Does that close, or leave open, gate me_2264_7_cr308_warning_conflict?",
+      "whyItMatters": "The gate's first item asks for a corrected CR-308. The recovered binary is not one.",
+      "blocksThisPacket": true
+    }
+  ],
+  "generationAllowed": false,
+  "runtimeSelectable": false,
+  "commercialRoutesOpened": 0
+}

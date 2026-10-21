@@ -1,0 +1,141 @@
+{
+  "schemaVersion": "rcap-source-return/v1",
+  "status": "READY_FOR_CAPTAIN_NATIVE_ADMISSION",
+  "recordedAt": "2026-09-13T04:35:00Z",
+  "worker": "/root/resume_ks_custody",
+  "familyId": "census-pending-family:UT:path-m-juvenile-expungement",
+  "jurisdiction": "UT",
+  "sourceId": "1174XX",
+  "sourceObligationId": "official-form:1174XX",
+  "purpose": "Resolve the recorded Utah juvenile source custody gap from the existing exact official-source admission. No shared queue or custody record is changed by this return.",
+  "currentCaptainHeadObserved": "d0e256a7f2e576c8413497ba10226cab13635482",
+  "currentQueue": {
+    "path": "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+    "sha256": "f5e9df20f3d0e3ed922b0739ab8a100107f03e1a085676dfedd8eeb5fe31cb14",
+    "familyState": "SOURCE_READY",
+    "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+    "sourceBound": true,
+    "sourceReadinessReady": true,
+    "sourceReadinessCustodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+    "sourceReconciliationDisposition": "SOURCE_BLOCKED",
+    "sourceReconciliationExactResidual": "The official Utah juvenile expungement petition is identified, but its current binary is not held in governed custody.",
+    "sourceReconciliationExactNextAction": "Acquire the exact current Utah State Courts Petition to Expunge Juvenile Court Records binary into governed custody.",
+    "buildScript": "scripts/build-census-v1-census-pending-family:UT:path-m-juvenile-expungement.mjs",
+    "overlayDirectory": "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-m-juvenile-expungement--official-pdf-fill"
+  },
+  "compiledPathwayIdentity": {
+    "retrievalPacket": "docs/record-clearing/retrieval-packets/compiled_pathway_UT_path-m-juvenile-expungement.md",
+    "packetStatusBeforeThisReturn": "provisional — identify the citation first",
+    "officialTitle": "Petition to Expunge Juvenile Court Records",
+    "issuingAuthority": "Utah State Courts",
+    "officialLandingPage": "https://www.utcourts.gov/en/forms/forms/court-forms.html?case-type=EX",
+    "officialBinaryUrl": "https://legacy.utcourts.gov/howto/expunge/docs/11_Petition_to_Expunge_Records_Juvenile.pdf",
+    "formNumberOnPrintedBinary": null,
+    "queueFormId": "1174XX",
+    "revision": "Revised August 14, 2023",
+    "printedRevision": "August 13, 2010 / Revised August 14, 2023",
+    "printedStatutoryCitation": "Utah Code 80-6-1004.1",
+    "identityBasis": "The committed source-admission record names this exact Utah State Courts petition and records the official binary response as HTTP 200 application/pdf. Local PDF text confirms the title, revision, and printed Utah Code citation."
+  },
+  "existingAdmission": {
+    "admissionPath": "data/rcap-grade-a/source-wave-integration/KNOWN_RESIDUAL_SOURCE_RECOVERY_2026-09-11.json",
+    "admissionPathSha256": "3e39ef0018140b10c0594108b3ddd232b6e7d759f15918f8b6dc2f858bf80d60",
+    "admissionPathLatestCommit": "8df74fc5d62c4decd7bdb5ada5279c1773f8bfa2",
+    "admissionResult": "OFFICIAL_SOURCE_ALREADY_HELD",
+    "admissionRule": "Additive governed custody of named exact source bodies from original acquisition artifacts, owner-supplied URLs, or current official publisher form listings. Preserve printed identities and original bytes. No new legal determination, terminal admission or commercial authority.",
+    "recordedHeldCorpusPath": "reference/utah/11_Petition_to_Expunge_Records_Juvenile-Revised-2023-08-14.pdf",
+    "recordedOfficialFetch": {
+      "url": "https://legacy.utcourts.gov/howto/expunge/docs/11_Petition_to_Expunge_Records_Juvenile.pdf",
+      "resolvedUrl": "https://legacy.utcourts.gov/howto/expunge/docs/11_Petition_to_Expunge_Records_Juvenile.pdf",
+      "httpStatus": 200,
+      "contentType": "application/pdf",
+      "responseHeadersPath": "data/rcap-grade-a/source-wave-integration/known-residual-20260911/ut-juvenile-response-headers.txt",
+      "recordedContentLength": 128760,
+      "lastModified": "Thu, 21 Sep 2023 19:35:17 GMT",
+      "fetchDate": "2026-09-11T19:02:11Z"
+    },
+    "sourceAdmissionCommit": "eac1e799ffc09ecfc63db39b25e4223907c5a830",
+    "sourceAdmissionCommitMessage": "Adopt recovered Utah juvenile source and reconcile current candidate queue"
+  },
+  "expectedBinding": {
+    "path": "reference/utah/11_Petition_to_Expunge_Records_Juvenile-Revised-2023-08-14.pdf",
+    "sha256": "b8488a2ebb43d9f94615a52bf52545283c47c147e45a9a4f02fa872cc1baf458",
+    "byteLength": 128760,
+    "pageCount": 2,
+    "sourceTier": "exact_content_hash"
+  },
+  "verification": {
+    "referencePath": {
+      "path": "reference/utah/11_Petition_to_Expunge_Records_Juvenile-Revised-2023-08-14.pdf",
+      "sha256": "b8488a2ebb43d9f94615a52bf52545283c47c147e45a9a4f02fa872cc1baf458",
+      "byteLength": 128760,
+      "matchesExpectedSha256": true,
+      "matchesExpectedByteLength": true,
+      "matchesGitBlobAtAdmissionCommit": true,
+      "gitBlobAtAdmissionCommit": "b8488a2ebb43d9f94615a52bf52545283c47c147e45a9a4f02fa872cc1baf458"
+    },
+    "privatePersistentCopy": {
+      "path": "private/source-acquisition-20260913/ut-juvenile/11_Petition_to_Expunge_Records_Juvenile-Revised-2023-08-14.pdf",
+      "sha256": "b8488a2ebb43d9f94615a52bf52545283c47c147e45a9a4f02fa872cc1baf458",
+      "byteLength": 128760,
+      "matchesExpectedSha256": true,
+      "matchesExpectedByteLength": true,
+      "copiedByteForByteFrom": "reference/utah/11_Petition_to_Expunge_Records_Juvenile-Revised-2023-08-14.pdf",
+      "targetExistedBeforeCopy": false,
+      "newerTargetOverwritten": false
+    },
+    "structure": {
+      "pdfHeader": true,
+      "pdfVersion": "1.6",
+      "pageCount": 2,
+      "encrypted": false,
+      "formType": "none",
+      "pageSize": "612 x 792 pts (letter)"
+    },
+    "identityReadback": {
+      "metadataTitle": "Petition to Expunge Juvenile Court Records",
+      "metadataSubject": "Petition to Expunge Juvenile Court Records",
+      "textContainsPrintedTitle": true,
+      "textContainsPrintedRevision": true,
+      "textContainsPrintedCitation": true,
+      "readbackTool": "pdfinfo and pdftotext -layout"
+    },
+    "responseHeaderCrossCheck": {
+      "recordedContentTypeIsPdf": true,
+      "recordedContentLengthMatchesExpected": true,
+      "recordedHttpStatusIs200": true
+    }
+  },
+  "custodyDisposition": {
+    "exactSourceIdentityResolved": true,
+    "exactBytesVerified": true,
+    "existingCommittedReferenceCustody": true,
+    "privatePersistentCopyCreated": true,
+    "operationalNationwideRootAsserted": false,
+    "masterLibrarySubstituted": false,
+    "remainingSharedReconciliation": "Captain must decide/admit the existing exact source into the current native custody binding and clear the stale SOURCE_BLOCKED sourceReconciliation record. This return does not create an operational Nationwide root or edit shared records.",
+    "proposedNativeHeldCorpusPath": "private/source-acquisition-20260913/ut-juvenile/11_Petition_to_Expunge_Records_Juvenile-Revised-2023-08-14.pdf",
+    "proposedOriginalGovernedReferencePath": "reference/utah/11_Petition_to_Expunge_Records_Juvenile-Revised-2023-08-14.pdf"
+  },
+  "acquisition": {
+    "newOfficialUrlFetchPerformed": false,
+    "reason": "The committed exact source-admission record already contains the official URL HTTP 200/content-type/length evidence and the exact source bytes are present in tracked reference custody.",
+    "downloadBudgetBytesUsed": 0,
+    "sourceBytesRecoveredFrom": "existing committed reference custody",
+    "sourceBytesModified": false,
+    "sourceBytesCommittedByThisReturn": false,
+    "newLegalResearchPerformed": false,
+    "repeatedFailedChannel": false
+  },
+  "captainNextAction": "Integrate this exact hash/length/identity evidence into the native source-custody admission, preserving the separate operational Nationwide-corpus boundary; then PF01 may run its family source preflight and build. Do not reopen the source hunt unless the admission record or bytes drift.",
+  "grantsNothing": [
+    "No terminal count change.",
+    "No packet build, raster acceptance, independent review, product-path promotion, or commercial authority.",
+    "No substitution of the Master Library for the operational Nationwide corpus."
+  ],
+  "sharedStateChanged": false,
+  "ownedScopeOnly": [
+    "data/rcap-grade-a/packet-factory-24h/pf20/ut-juvenile-source-return-20260913.json",
+    "private/source-acquisition-20260913/ut-juvenile/"
+  ]
+}

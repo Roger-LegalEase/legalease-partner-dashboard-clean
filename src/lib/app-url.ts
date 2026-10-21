@@ -64,10 +64,15 @@ export function isExpungementAiHostname(hostname: string | null | undefined) {
 // staff back to legaleasepartner.com/partner/dashboard. Prefer an explicit
 // `product` hint (passed by the consumer sign-in link), then fall back to the
 // current hostname, then default to the partner app (the historical behavior).
-export function passwordResetRedirectUrl(context: { product?: string | null; hostname?: string | null }) {
+export function passwordResetRedirectUrl(context: {
+  product?: string | null;
+  hostname?: string | null;
+  continuationQuery?: string | null;
+}) {
   const isExpungement = context.product === "expungement" || isExpungementAiHostname(context.hostname);
   if (isExpungement) {
-    return absoluteExpungementAiUrl("/auth/set-password?next=/briefcase");
+    const query = context.continuationQuery?.trim() || "next=%2Fbriefcase";
+    return absoluteExpungementAiUrl(`/auth/set-password?${query}`);
   }
   return absolutePartnerAppUrl("/auth/set-password?next=/partner/dashboard");
 }

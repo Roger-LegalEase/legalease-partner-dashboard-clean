@@ -1,0 +1,204 @@
+{
+  "schemaVersion": "rcap-lane-rows/v1",
+  "lane": "VF49",
+  "laneKind": "independent-verification",
+  "worktree": "/home/user/ln1-worktree",
+  "branch": "lane-vf49-20260910",
+  "verifiedAtBase": "023abbf4c584b488b521894af814142cd6b119a7",
+  "generatedAtBase": "023abbf4c584b488b521894af814142cd6b119a7",
+  "grantSet": "25b4ad39e9b9f019. Both families checked with `claim.mjs --can-assert VF49 il-cannabis-vacate-set,ky_expungement_certification-set` before asserting -- 2 assertable, 0 would refuse -- then asserted individually, CLAIM_OK on each, against the ledger in this worktree (987 claims, generatedAtCommit c81c0973f). NEITHER GRANT RELEASED.",
+  "builtAnything": false,
+  "packetsSelfVerified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "repairsMade": "none. This lane read two families it did not build and repaired nothing. Every defect it found is recorded here, not fixed. No file under either family directory, and no builder script, was modified.",
+  "howBytesWereMeasured": "IDENTIFIERS: sha256sum on disk; `git cat-file blob <sha>:<path>` for historical bytes. Page counts and metadata from pdfinfo; delivered text from `pdftotext -layout` page by page with -f/-l. Widget enumeration (field type, /Ff, /Rect, page, /MK /CA, /AP keys, /A, /F) and active-content enumeration by a pdf-lib 1.17.1 parser walking the indirect-object table, not by regex, because the SOURCE pdfs store objects in compressed object streams that a byte scan cannot see. PIXEL MEASUREMENT: `pdftoppm -gray -r 600 -f N -l N <pdf> <stem>` writing P5 PGM DIRECTLY -- never -png, so the -gray-PNG-is-RGB trap cannot arise: the reader asserts the P5 magic and reads the single-channel plane with numpy. Dark = grey < threshold of 255; every count published at 128, 160 and 200 because the buttons carry a grey fill that only the higher thresholds see. Rendered WITH annotations by default; `-hide-annotations` used only as a labelled control and always named as such. Scope for the caption measurement is each source widget's own /Rect, mapped to the delivered page through the packet's component order, converted at 600/72 px per pt with the PDF's bottom-up y inverted to image rows. Every render deleted immediately after measurement; nothing larger than two 600 dpi pages held at once.",
+  "positiveControlsHeld": "No zero in this return is unaccompanied. (1) The caption text scan reads 0 hits on all 22 current delivered pages AND fires on the pre-FIX147 bytes at 5620acbf7^ -- Illinois delivered pages 3, 5, 6, 8, 9 and 11, and Kentucky page 1 reading 'Print Form   Reset Form'. (2) The 600 dpi rect measurement reads 0 dark pixels at all 19 rects at all three thresholds on all four current fixtures, AND reads 28,951 / 28,951 / 27,039 / 58,249 / 28,951 / 58,249 at threshold 128 on the same six Illinois pages of the pre-repair canonical, and 61,445 on Kentucky -- the same reader, the same rects, the same coordinate frame. (3) The court's own source, rendered WITH annotations, reads those identical counts, so the render demonstrably draws the ink being counted before any zero is trusted.",
+  "guardMutationTested": "FIX147's post-flatten guard -- that no detached control's appearance stream is still referenced from any page's /Resources /XObject -- was reproduced verbatim against the real sources and run in two arms. ARM A (detach, the shipped behaviour): guard silent, 83 XObject entries checked on the Illinois Order, 18 on AOC-RU-009. ARM B (mutant, refs collected but the detachment removed): the guard FIRES on both families, and the XObject entry count rises by exactly the number of push buttons, 83->86 and 18->20. The guard can fail. It is not a tautology.",
+  "whatThisLaneDidNotMeasure": "Legal correctness of the Illinois cannabis eligibility rule or the Kentucky certification statute; counsel review; source freshness against the issuers' live sites. The Illinois delivered pdfs carry a cross-reference table whose subsections skip 87 object numbers below the trailer's /Size, so poppler reconstructs on open -- see the ARTIFACTS finding on il-cannabis-vacate-set; this lane established that it predates FIX147 and that every renderer used by the factory reads the file correctly, and did not establish whether a strict third-party e-filing validator would accept it.",
+  "activeContentContext": "FIX148's finding re-derived on this lane's base rather than repeated. Parsed with pdf-lib: the six Illinois sources carry 85 JavaScript action dictionaries (20 + 34 + 0 + 17 + 4 + 10); the delivered canonical carries 13, and the delivered boundary 13. Every one of the 13 is an app.launchURL on a /Subtype /Link annotation, and all 54 non-launchURL scripts -- the sources' own field-validation and formatting code -- are gone. The 6 distinct delivered URLs are exactly the union of the sources' distinct URLs, empty set difference both ways, and all six are Illinois state government: ilga.gov statute text for 720 ILCS 550/4, /5 and the Criminal Identification Act, and illinoiscourts.gov for Supreme Court Rules Article II, the approved-forms index and the circuit-clerk directory. Nothing runs on open in any of the four delivered fixtures: no /Names JavaScript, no /OpenAction (the Kentucky SOURCE has one; the delivered does not), no catalog /AA, no page /AA, and zero /S /SubmitForm, /S /ResetForm, /S /Launch or /EmbeddedFile. This lane's counts differ from FIX148's 153/21 because the counting basis differs -- FIX148 counted across a wider set -- but the direction (removal), the URL set and the nothing-on-open conclusion are the same. NO OBLIGATION IN THIS RETURN TURNS ON IT: none of it is printed ink, none of it fires without a click, and every target is a page the issuer chose.",
+  "rows": [
+    {
+      "familyId": "il-cannabis-vacate-set",
+      "itemId": "il-cannabis-vacate-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "verifiedAtBase": "023abbf4c584b488b521894af814142cd6b119a7",
+      "jurisdiction": "IL",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/il/il-cannabis-vacate-set--official-pdf-fill",
+      "bytesRead": {
+        "canonical": "130ccba7073cedaec918191053c2d7340da973e952ebff0cd482585197598fab",
+        "boundary": "8d0f9ac0877f52d86975d152f9c6587e82194644edc65190de1e55317d31a946",
+        "supersededPreRepairCanonical": "2dc3c706c55826196d6e0dec46209caa6bff5bacefcae4cf3d80a9fdc6d0d689"
+      },
+      "whatWasRead": "FIX147's detachment of seventeen source push-button captions at 5620acbf7, read on the delivered bytes at this lane's base rather than on FIX147's report of them, together with all fifteen proof obligations measured afresh.",
+      "perWidgetFlattenedAppearanceCount": null,
+      "perWidgetFlattenedAppearanceCountIsNullBecause": "Both delivered fixtures carry no AcroForm and zero widget annotations. A per-widget appearance count over zero widgets is not measurable and is null, not 0.",
+      "proofObligations": {
+        "ROUTE_IDENTITY": "PASS",
+        "SOURCE_IDENTITY": "PASS",
+        "COMPONENT_SET": "PASS",
+        "KNOWN_PREFILLS": "PASS",
+        "PROTECTED_FIELDS": "PASS",
+        "CLIPPING_AND_OVERLAP": "PASS",
+        "SELF_HELP_STOP": "PASS",
+        "FILING_DESTINATION": "PASS",
+        "SERVICE": "PASS",
+        "REQUIRED_BEFORE_FILING": "PASS",
+        "ARTIFACTS": "PASS",
+        "PAGE_ORDER": "PASS",
+        "ROUTE_OPTIONS": "PASS",
+        "REPEATING_ROWS": "PASS",
+        "FEE_AND_WAIVER": "PASS"
+      },
+      "obligationMeasurements": {
+        "ROUTE_IDENTITY": "routeKey `obligation:track-pathway:IL:il-cannabis-vacate:cannabis-specific-automatic-or-petition-expungement` exists in data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json among 708 routes, with jurisdiction IL and trackId il-cannabis-vacate. The identical string appears in production-field-map.json, product-wiring.json and approval-request.json, and the manifest's trackId for packetSetId il-cannabis-vacate-set is il-cannabis-vacate. One route, named the same way in every delivered artifact.",
+        "SOURCE_IDENTITY": "All six source sha256 recomputed with sha256sum from this worktree's own private/source-imports mount and compared to source-receipt.json: 728ad50c, 32b1ef34, 52ce3880, 56179412, 4a6dde55, ca0fdef8. Six of six exact. allSourcesExact: true is true.",
+        "COMPONENT_SET": "The manifest declares six components at orders 1-6 with officialFormIds equal to the six sources in that order. rendered-artifacts.json and approval-request.json list the same six documentIds in the same order with the same componentKinds. Delivered page count 11 = 3 + 2 + 1 + 2 + 1 + 2, the sources' own page counts in that order.",
+        "KNOWN_PREFILLS": "68 write rows across 73 write widgets. Measured on the delivered bytes at 600 dpi against the matching source page: 73 of 73 carry added dark ink inside their own rect. ZERO invisible writes. Every drawnText is a fixture fact (participant.*, matter.*, route.selection); no build constant, form number, component id or route key is printed. The delivered text of all 11 pages was scanned for seventeen internal tokens -- LegalEase, packet factory, participant, routeKey, obligation:, census-v1, fixture, canonical, boundary, familyId, track-only, Grade-A, RCAP, official-pdf-fill, documentId and two more -- and returns 0 hits on every page.",
+        "PROTECTED_FIELDS": "38 protected refusals: the movant's signature and signature date, the clerk's signature and deputy-clerk name, the hearing date, time, courtroom and address, the State's Attorney's address, the judge, the order date, the Order's eighteen-row case-number grid and its five Other lines. Measured, not read off the map: of 410 refused non-button widget rects across all 11 delivered pages, 305 carry ZERO added ink and 88 carry added ink confined entirely to a 4-pixel (0.48 pt) band at the rect edge -- a border re-stroke. ZERO of the 410 carry a single added pixel in the rect interior. No signature block, no judge line and no checkbox on any filed page has been marked.",
+        "CLIPPING_AND_OVERLAP": "Two measurements, both at 600 dpi on both fixtures. (a) Added ink that lies outside EVERY source widget rect, with 1 px tolerance for antialiasing: 0 pixels, canonical and boundary, all 11 pages. Nothing the packet draws escapes a field the issuer put there. (b) Source ink lost, delivered against the source rendered WITH annotations, page by page: 0 pixels outside the 19 button rects on all 11 pages. An earlier reading against the source with annotations HIDDEN showed thin bands of the County rule line covered on six pages; that is the issuer's own dropdown widget, which carries /F 4 (Print set) and covers the same line on the court's own printed page, so nothing of the form is lost that the form itself prints.",
+        "SELF_HELP_STOP": "The record declares five entries in selfHelpStopConditions: four conditions and one referral destination. All four conditions are in the delivered guidance's 'Stop and get help' section -- the State's Attorney objecting, the court setting a contested hearing, a sentence or condition possibly incomplete, and the record not being a cannabis conviction covered by the printed route -- plus collateral-consequence stops the record does not require. The fifth entry, the referral destination, is not in the guidance, but it reaches the participant inside the packet: delivered page 6, the Getting Started sheet, prints 'the Office of the State Appellate Defender at Illinois.gov/osad/Expungement' and 'illinoislegalaid.org/get-legal-help/lshc-directory'. Verified on THIS base's bytes, and the page-6 diff proves FIX147 darkened no pixel there. CAUTION, not a failure, recorded below.",
+        "FILING_DESTINATION": "The record's rules.filing and destination are quoted verbatim in both filing-instructions.md and participant-instructions.md: the circuit court, the Chief Judge or a judge designated by the Chief Judge, being the circuit court of the conviction.",
+        "SERVICE": "The record's rules.service and rules.notice are quoted verbatim: clerk service under Section 5.2(i)(3), the cannabis suite's petitioner-completed Notice of Court Date forms, and the State's Attorney's 60-day objection window. The packet leaves every service and notice field blank.",
+        "REQUIRED_BEFORE_FILING": "The manifest declares ten requiredBeforeFiling entries. All ten appear VERBATIM in the delivered participant-instructions.md -- checked by exact whitespace-normalised string match, 10 of 10, 0 missing.",
+        "ARTIFACTS": "canonical 130ccba7 / 1,885,925 bytes / 11 pages and boundary 8d0f9ac0 / 1,886,795 bytes / 11 pages agree across the files on disk, build-summary.json, rendered-artifacts.json and approval-request.json. All nine build-summary counters are null and carry the note saying why; the three byte-reading counters in actual-writes.json (addedGlyphsReadFromOutputBytes, flattenedWidgetAppearancesReadFromOutputBytes, nonWhitespaceGlyphsOutsideMeasuredWriteBoxes) are null in both fixtures; refusedFieldsWithInk is derived by `refusals.filter(row => row.sourceAuthoredInk === true).map(row => row.fieldId)` at builder line 649, not a literal, and the builder asserts at line 784 that the published array equals that derivation. No independent-visual-review.json exists. No delivered artifact still asserts the removed defect -- see the Connecticut check below.",
+        "PAGE_ORDER": "Delivered p1-p3 Motion, p4-p5 Additional Cannabis Convictions, p6 Getting Started, p7-p8 Notice of Court Date, p9 Additional Notice, p10-p11 Order -- the manifest's component order 1-6. Proven per page rather than asserted: each delivered page was differenced at 600 dpi against the source page it should be, and every one of the eleven loses 0 source ink outside the button rects. A misplaced page could not produce that.",
+        "ROUTE_OPTIONS": "Exactly one election, and it is visible. The write row with factId route.selection is item 4, 'I ask the court to VACATE AND EXPUNGE the following misdemeanor or Class 4 felony convictions', on delivered page 2. Measured in its own 10.1 x 10.0 pt rect at 600 dpi: 528 added dark pixels, ALL 528 in the interior, forming a tick. Every other checkbox on every filed page carries 0 interior added pixels. The packet makes the one election the route is and swears to nothing else, which is what the guidance says it does.",
+        "REPEATING_ROWS": "The Motion's conviction grid: row 1 is written in all three columns (4 - Case Number1, 4 - Arresting Agency1, 4 - Date of Arrest1) and rows 2 through 18 are refused in all three columns. The Additional Cannabis Convictions continuation has all eighteen of its rows refused in all three columns, which matches the guidance telling the participant to use it only when the primary motion has no remaining row. The header Case Number repeaters are written at index 1 and refused at 2-N on every document (2-45 on the Additional Notice). No row anywhere is partially filled.",
+        "FEE_AND_WAIVER": "The record's rules.fees and rules.feeWaiver are quoted verbatim in both guidance files: no separate cannabis motion fee stated by the source review, county charges county-specific and confirmed with the clerk, ISP $60 to process a court order, and Supreme Court Rule 298 for waiver where a county fee applies. The record carries a release blocker saying a county fee table must be built before a fee figure is shown to a participant; the guidance shows no county figure, so the blocker is respected rather than breached."
+      },
+      "theRepairTested": {
+        "textScan": "0 hits for print/save/reset/clear/submit form on all 11 pages of both current fixtures; the same scan on the canonical at 5620acbf7^ fires on pages 3, 5, 6, 8, 9 and 11.",
+        "pixelScanAtTheNineteenRects": "Illinois' seventeen rects, grouped on delivered pages 3, 5, 6, 8, 9 and 11: 0 dark pixels at thresholds 128, 160 AND 200, with annotations shown and with annotations hidden, on canonical and on boundary. The pre-repair canonical reads 28,951 / 28,951 / 27,039 / 58,249 / 28,951 / 58,249 at 128 (230,390 total) and 69,179 / 69,179 / 53,445 / 109,629 / 69,179 / 109,629 at 200 (480,240 total), identically with annotations shown and hidden -- which is the proof the caption had been flattened into page CONTENT and would print off any printer.",
+        "theCourtsOwnPage": "The six source pages, rendered with annotations HIDDEN, draw 0 dark pixels inside all seventeen rectangles at 128, 160 and 200. The paper under every button is blank, so what FIX147 withdrew is chrome and not one mark of the form. Re-derived independently; FIX147's number reproduces exactly.",
+        "aStrongerReasonFIX147DidNotPublISH": "Every one of the nineteen push buttons carries NO /F key at all, so its annotation flags are 0 and the Print flag is CLEAR. Every other widget in all seven sources carries /F 4, Print SET -- 125, 52, 155, 52, 82 and 17 of them. The issuer marked these nineteen, and only these nineteen, as non-printing viewer chrome. The pre-repair build flattened them into page content and defeated that; the repair restores the issuer's own declared intent. This is a stronger warrant than the annotations-hidden zero FIX147 argued from, and it was not in FIX147's return.",
+        "nothingWasAdded": "Every page of both families was differenced at 600 dpi, HEAD against 5620acbf7^. Pixels DARKENED anywhere on any page: 0. Illinois pages 1, 2, 4, 7 and 10 -- the five with no button -- are PIXEL-IDENTICAL, maxAbsDelta 0. On the six pages that changed, every changed pixel lies inside a button rect: 0 pixels changed outside them. Whole-page dark counts fall by exactly the in-rect counts (1,277,788 -> 1,248,837 on p3, and so on), so no pixel moved that the rects do not account for.",
+        "notTheConnecticutMechanism": "Confirmed rather than accepted. All seventeen Illinois controls sit DIRECTLY in their document's AcroForm /Fields array (topLevel true for all seventeen), not below a nested root, so detachNestedControlFields was never the reachable remedy; and neither builder calls finalizeOfficialForm."
+      },
+      "connecticutFailureModeChecked": "The class where a repair is correct and the family still fails because a delivered artifact keeps asserting the removed defect. Checked by grep and ls, not by trusting FIX147. (1) production-field-map.json still declares all seventeen controls -- correctly, since the source ships them -- but every one now reads 'detaches it before flatten(), so the delivered page carries no button caption', with sourceAuthoredInk false and controlDetachedBeforeFlatten true. Swept, and swept in the same commit as the bytes. (2) participant-instructions.md and filing-instructions.md contain 0 occurrences of print/save/reset/clear/submit form, /Btn, push button or 65536 -- they never mentioned the buttons, so there was nothing to sweep, and neither file's bytes moved at 5620acbf7. (3) No independent-visual-review.json exists in the family directory. The FIX147 commit touched approval-request.json, both fixtures, production-field-map.json and all three reports together, so no delivered digest was left behind.",
+      "findings": [
+        {
+          "obligation": "SELF_HELP_STOP",
+          "severity": "CAUTION",
+          "where": "participant-instructions.md, 'Stop and get help'",
+          "what": "The record names 'Office of the State Appellate Defender, Expungement Unit, 866-787-1776' as the statewide referral destination for every stop condition. The guidance tells the participant to stop and never says where to go. It is not a failure because the packet's own delivered page 6 prints 'the Office of the State Appellate Defender at Illinois.gov/osad/Expungement' and the legal-self-help-centre directory, so the destination does reach the participant inside the packet. But the record's phone number appears nowhere in the delivered bytes of either fixture, and a participant reading the guidance alone is told to stop with no destination on that page.",
+          "cohort": "Not unique to this family. All nine Illinois official-pdf-fill families in data/rcap-all50/overlays/census-v1/il carry a 'Stop and get help' section and none names the referral destination; only il-prostitution-j-vacate-set--custom-pleading prints it, twice. This is a cohort-wide gap and is recorded for the Captain rather than charged to this family.",
+          "notRepairedHere": "This lane holds a grant to read this family and no authority to repair it."
+        },
+        {
+          "obligation": "ARTIFACTS",
+          "severity": "OBSERVATION",
+          "where": "both delivered Illinois fixtures, the cross-reference table at the end of the file",
+          "what": "The xref table's subsections cover 1,058 object numbers while the trailer declares /Size 1145, so 87 numbers below /Size -- 106, 112-148, 340, 344-358, 581-603, 677-679 -- appear in no subsection and are not chained as free entries. Poppler reports 'Couldn't find trailer dictionary' and 'Invalid XRef entry 106' and reconstructs the file on every open. PDF 32000-1 7.5.4 wants an entry for every object below /Size.",
+          "whyItIsAnOBSERVATIONandNotAFAILURE": "It predates FIX147: the pre-repair canonical at 2dc3c706 reports the identical errors, and that file was RASTER_PASS and COMPLETE_PACKET_PROVEN. It is a pdf-lib 1.17.1 output property arising wherever a builder removes fields, not something this repair introduced -- the gaps are the objects flatten() and removeField() freed. Every reader the factory uses reads the file correctly after reconstruction: poppler returns 11 pages and correct text and pixels, pdf-lib reopens it inside the builder's own assertion, and the central raster rendered 22 pages with 0 problems. Kentucky's single-page output shows no such error.",
+          "whatIsNotEstablished": "Whether a strict third-party e-filing validator would reject it. That is a question about the whole official-pdf-fill population, not this family, and this lane holds no grant to answer it.",
+          "notRepairedHere": "This lane holds a grant to read this family and no authority to repair it."
+        }
+      ],
+      "owesAFreshCentralRaster": false,
+      "rasterEvidence": "Run 34480387107, job 102882537439, RASTER_PASS, 22 pages, 0 problems, 0 environment problems, bound to boundToCanonicalSha256 130ccba7 and boundToBoundarySha256 8d0f9ac0 -- which are byte-for-byte the two files this lane read on disk. The receipt binds the CURRENT bytes, so nothing is owed. The earlier admitted receipt for this family (run 34357236801) binds 2dc3c706 / 3b699583, the withdrawn pre-FIX147 bytes, and must not be read as covering these."
+    },
+    {
+      "familyId": "ky_expungement_certification-set",
+      "itemId": "ky_expungement_certification-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "023abbf4c584b488b521894af814142cd6b119a7",
+      "jurisdiction": "KY",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ky/ky-expungement-certification-set--official-pdf-fill",
+      "bytesRead": {
+        "canonical": "02e38d0daff61b4184b04d5a9cfe48765d2148e7eebbe91dcc1a332fd7f22f78",
+        "boundary": "3d331308d6a5e9968c68a212a32b38b1b39b27914d1c4819cb59c2ace4b744f3"
+      },
+      "whatWasRead": "FIX147's detachment of the two AOC-RU-009 viewer controls, plus all fifteen proof obligations measured afresh against the committed route record. The PDF repair is sound. The family fails on three guidance obligations that FIX147 did not touch and that the earlier PASS_COMPLETE_INDEPENDENT (lane verify-ca-ia-ky-018, base 018cd5584) did not catch.",
+      "perWidgetFlattenedAppearanceCount": null,
+      "perWidgetFlattenedAppearanceCountIsNullBecause": "Both delivered fixtures carry no AcroForm and zero widget annotations. A per-widget appearance count over zero widgets is not measurable and is null, not 0.",
+      "proofObligations": {
+        "ROUTE_IDENTITY": "PASS",
+        "SOURCE_IDENTITY": "PASS",
+        "COMPONENT_SET": "PASS",
+        "KNOWN_PREFILLS": "PASS",
+        "PROTECTED_FIELDS": "PASS",
+        "CLIPPING_AND_OVERLAP": "PASS",
+        "SELF_HELP_STOP": "FAIL",
+        "FILING_DESTINATION": "PASS",
+        "SERVICE": "PASS",
+        "REQUIRED_BEFORE_FILING": "FAIL",
+        "ARTIFACTS": "PASS",
+        "PAGE_ORDER": "PASS",
+        "ROUTE_OPTIONS": "PASS",
+        "REPEATING_ROWS": "PASS",
+        "FEE_AND_WAIVER": "FAIL"
+      },
+      "obligationMeasurements": {
+        "ROUTE_IDENTITY": "routeKey `obligation:track-only:KY:ky_expungement_certification` exists in route-obligation-candidate.json with jurisdiction KY and trackId ky_expungement_certification, and the identical string appears in production-field-map.json, product-wiring.json and approval-request.json. The manifest's trackId matches.",
+        "SOURCE_IDENTITY": "sha256 of STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-009__records-unit__REV-UNKNOWN__EN.pdf recomputed from this worktree's private/ mount: 469835852a1d7427a2212403aacd3118e93d6adc07791653aab25cb93324f662, exact to source-receipt.json. One source, exact.",
+        "COMPONENT_SET": "Three manifest components. Order 1, AOC-RU-009 official_pdf_fill, is the delivered single page. Orders 2 and 3 are process_guidance with no form -- online_channel_instructions and timing_instructions -- and both are delivered in participant-instructions.md: the 'Send or request online' section carries the portal as an alternative channel, and the 'Timing' section carries the no-waiting-period rule and the 30-day window. rendered-artifacts.json and approval-request.json list all three kinds against the one documentId, matching source-receipt.json.",
+        "KNOWN_PREFILLS": "12 write rows, 12 write widgets. Measured at 600 dpi against the source page: 12 of 12 carry added dark ink inside their own rect; ZERO invisible writes. Every drawnText is a participant fact. The delivered page was scanned for seventeen internal tokens and returns 0 hits. The two sensitive identity fields, SSN and DLN, are refused and measure 0 added pixels: they are blank on the delivered page, as the guidance says.",
+        "PROTECTED_FIELDS": "Text Field 10, the date, is refused as 'Date completed by the participant when signing or mailing; never prefilled' and measures 0 added pixels on the delivered page. Of the 7 refused widgets, 5 carry ZERO added ink and the 2 with negative delta are the removed push buttons. Zero refused fields carry a mark.",
+        "CLIPPING_AND_OVERLAP": "Added ink outside every source widget rect, 1 px tolerance, 600 dpi: 0 pixels on canonical and 0 on boundary. Source ink lost against the source rendered with annotations: 0 pixels outside the two button rects.",
+        "SELF_HELP_STOP": "FAILS. Measured below.",
+        "FILING_DESTINATION": "The mail destination is complete and correct against the issuer's own form: 'Administrative Office of the Courts, Records Unit, 1001 Vandalay Drive, Frankfort, Kentucky 40601' matches the address AOC-RU-009 prints in its own header, verified by pdftotext over the source. CAUTION recorded: the record's destination.detail names the portal as kcoj.kycourts.net/RecordRequest and neither guidance file gives the URL, only 'the official AOC record-request portal'.",
+        "SERVICE": "PASS because the obligation does not arise, which is a measurement and not an absence of one. The record's rules.service reads 'none. This is an agency request, not a filing' and rules.notice reads 'none. No court, prosecutor or other party is notified of a certification request.' There is no party to serve. The guidance correspondingly describes mailing and the portal and names no service step, and the delivered page carries no certificate of service and no service field.",
+        "REQUIRED_BEFORE_FILING": "FAILS. Measured below.",
+        "ARTIFACTS": "canonical 02e38d0d / 207,230 bytes / 1 page and boundary 3d331308 / 207,420 bytes / 1 page agree across the files on disk, build-summary.json, rendered-artifacts.json and approval-request.json. All nine build-summary counters are null -- FIX147 converted eight literal zeros -- and the three byte-reading counters in actual-writes.json are null in both fixtures. refusedFieldsWithInk is derived by a filter over the refusals, not a literal. No independent-visual-review.json exists.",
+        "PAGE_ORDER": "One page. The delivered page is AOC-RU-009 page 1, differenced against the source page at 600 dpi with 0 source ink lost outside the two button rects.",
+        "ROUTE_OPTIONS": "PASS because the obligation does not arise. The source's nineteen widgets are seventeen /Tx text fields and the two /Btn push buttons; there is no checkbox, no radio group and no dropdown on AOC-RU-009. There is no election to make and the packet makes none.",
+        "REPEATING_ROWS": "PASS because the obligation does not arise. AOC-RU-009 has no repeating row group -- no numbered row series exists among its seventeen text fields. The 'Additional Information' area is a single optional free-text field, Text Field 17, correctly refused as 'optional participant-authored content the form itself marks optional'.",
+        "FEE_AND_WAIVER": "FAILS. Measured below."
+      },
+      "theRepairTested": {
+        "textScan": "0 hits for print/save/reset/clear/submit form on both current fixtures; the same scan on the canonical at 5620acbf7^ fires, reading 'Print Form   Reset Form' on the single page.",
+        "pixelScanAtTheTwoRects": "0 dark pixels at both rects at thresholds 128, 160 AND 200, with annotations shown and with annotations hidden, on canonical and on boundary. The pre-repair canonical reads 61,445 / 62,031 / 62,643 at the same rects, identically shown and hidden.",
+        "theCourtsOwnPage": "The source page with annotations HIDDEN draws 0 dark pixels inside both rectangles at 128, 160 and 200; with annotations SHOWN it draws 61,445 / 62,031 / 62,643, matching the pre-repair delivered exactly.",
+        "theNamingTrapConfirmed": "The two fields are NAMED 'Print Form 2' and 'Clear Form 2' in the AcroForm, carry no /MK /CA caption at all, and the issuer's own appearance stream for the second one paints the words 'Reset Form' -- confirmed by pdftotext over the source, which returns 'Print Form   Reset Form'. A name-based sweep would have removed the right widget for the wrong reason and a caption-based sweep looking at /MK would have found nothing. Recorded because the delivered production-field-map.json still labels it 'Clear Form 2 viewer UI control', which is the field's name and not what the paper said; harmless here only because the control is detached and prints nothing.",
+        "nothingWasAdded": "The delivered page differenced at 600 dpi against 5620acbf7^: pixels DARKENED anywhere, 0; pixels changed outside the two button rects, 0; whole-page dark falls from 1,836,390 to 1,774,945, exactly the 61,445 the rects account for.",
+        "notTheConnecticutMechanism": "Both controls sit directly in the AcroForm's own /Fields array, topLevel true, not below a nested root."
+      },
+      "connecticutFailureModeChecked": "(1) production-field-map.json declares both controls and both now read 'Detached before flatten(), so the delivered page carries no button caption', with sourceAuthoredInk false and controlDetachedBeforeFlatten true -- swept in the same commit as the bytes. (2) participant-instructions.md and filing-instructions.md contain 0 occurrences of print/save/reset/clear/submit form, /Btn, push button or 65536, and neither file's bytes moved at 5620acbf7. (3) No independent-visual-review.json exists. The PDF repair carries no stale assertion. THE FAILURES BELOW ARE NOT OF THAT CLASS: they are pre-existing guidance defects, present before FIX147 and untouched by it.",
+      "findings": [
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "severity": "FAIL",
+          "where": "filing-instructions.md, sentence 3; and the absence of any fee-exemption sentence in participant-instructions.md",
+          "what": "The delivered filing instruction states: 'The committed route record identifies no fee-waiver treatment for this certification.' The committed route record states the opposite. legal-design-track-registry.json, track ky_expungement_certification, rules.feeWaiver reads: 'AOC-RU-009 refers on its face to an exemption of fees if applicable. The criteria are not published and are recorded as an open question.' The same sentence is entry 8 of the manifest's own requiredBeforeFiling array for packetSetId ky_expungement_certification-set.",
+          "whyThisIsAFailureAndNotAWordingQuibble": "The record carries this as a RELEASE BLOCKER whose affectedElement is participant_instructions: 'Whether the Administrative Office of the Courts waives the $40 certification fee on indigency, and on what criteria. AOC-RU-009 refers to an exemption of fees if applicable but the form and the AOC's published process do not state who qualifies or how to ask.' The packet converts an open, release-blocking question into a settled negative, in the participant-facing artifact the blocker names. And it does so while the participant is holding a form that says otherwise: the delivered page itself prints, in the issuer's own words, 'I have provided the basic information necessary to qualify for record processing and exemption of fees - if applicable.' A participant who cannot pay $40 reads the packet saying there is no waiver and the form in their hand saying there may be one. This is the class where a delivered artifact makes a false statement about its own controlling record.",
+          "whatWouldSatisfyIt": "The record's own sentence, or a sentence that does not deny what the record leaves open. Not this lane's to write.",
+          "notRepairedHere": "This lane holds a grant to read this family and no authority to repair it."
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "severity": "FAIL",
+          "where": "the whole family: participant-instructions.md, filing-instructions.md and the delivered page",
+          "what": "The record declares three selfHelpStopConditions. The delivered packet carries NONE of the three, in any artifact, in any wording. There is no 'Stop and get help' section at all -- the guidance has five headings and none of them is a stop. Grepped across both markdown files and the delivered PDF text: 'stop' 0 hits, 'help' 0 hits, 'lawyer' 0 hits, 'not eligible' 0 hits.",
+          "theThreeConditionsAndWhereTheyLand": [
+            "'The certification comes back saying the participant is not eligible and the participant wants to file anyway. The clerk must still accept the petition, but whether to file against an adverse certification is a decision that needs a lawyer.' -- absent everywhere. This is the one the record itself flags as needing a lawyer, and the record's packetInstructions add the reason a participant would not guess: 'An adverse certification is advisory. The Clerks' Manual directs the clerk to file the petition regardless; the judge decides eligibility.' Also absent.",
+            "'The certification lists convictions the participant says are not theirs or are wrong.' -- absent from both guidance files. PARTIALLY answered on the delivered page by the issuer's own line, 'If you suspect information contained on the record is incorrect, please contact the Records Unit at (502) 573-1682 or (800) 928-6381', which gives a channel but is the AOC's clerical-correction route, not the record's stop condition.",
+            "'The 30-day filing window has run before the participant could file.' -- absent. The guidance states the window twice ('within 30 days of receipt') and never says what to do when it has passed."
+          ],
+          "andOneMore": "The record's postGenerationHandoffs entry reads 'Processing takes roughly four to five months. The packet waits on the certification; the participant is told to expect that and is reminded when the 30-day filing window opens.' The record says in terms that the participant IS TOLD. The guidance tells them the opposite-flavoured thing -- 'There is no waiting period to request the certification' -- and sets no expectation for the four-to-five-month processing time at all. A participant is left to think a request they mail this week produces a certification that must be filed within 30 days, with nothing said about the four to five months in between.",
+          "contrast": "Not a standard this lane invented for Kentucky. The sibling family in this same return, il-cannabis-vacate-set, carries a 'Stop and get help' section holding all four of ITS record's declared conditions.",
+          "notRepairedHere": "This lane holds a grant to read this family and no authority to repair it."
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "severity": "FAIL",
+          "where": "participant-instructions.md, 'Required before sending'",
+          "what": "The manifest declares eight requiredBeforeFiling entries for this packet set. ZERO of the eight appear verbatim in either delivered guidance file, checked by whitespace-normalised exact string match. Three are present in paraphrase -- the $40 fee and payee, the mailing address, and signing before mailing -- and are not charged here. Two are not present in any form: the record's confirm_answer step, 'Check your answer to \"Which convictions are you trying to clear - for each, the county, the approximate date, the charge and the case number if you have it?\" against Records of the convictions you want cleared, and correct the packet if they disagree', and its precursor participantFilingRequirement, 'Obtain Records of the convictions you want cleared. Ask the circuit court clerk in the county where the case was heard for the case number and the disposition. You need these to describe the records on the request form.' The eighth is the fee-exemption entry, which is not merely absent but contradicted -- see the FEE_AND_WAIVER finding.",
+          "whyItMatters": "The delivered 'Required before sending' section lists exactly two items, the SSN and the DLN. A participant who does not know their case numbers is told nothing about how to get them, although the record names the source (the circuit court clerk in the county of conviction) and says why they need it (to describe the records on the request form). AOC-RU-009's own optional Additional Information box is the field that consumes those facts, and the packet refuses it as optional without ever telling the participant what would go in it or where to get it.",
+          "contrast": "il-cannabis-vacate-set in this same return prints all ten of its record's requiredBeforeFiling entries verbatim, 10 of 10.",
+          "notRepairedHere": "This lane holds a grant to read this family and no authority to repair it."
+        },
+        {
+          "obligation": "FILING_DESTINATION",
+          "severity": "CAUTION",
+          "where": "participant-instructions.md 'Send or request online' and filing-instructions.md",
+          "what": "The record's destination.detail names the online channel as kcoj.kycourts.net/RecordRequest. Both guidance files call it 'the official AOC record-request portal' and give no URL; the string kcoj.kycourts.net appears nowhere in the delivered bytes. The mail channel, which is the primary one, is complete and correct, so this is a caution rather than a failure. Recorded because it is the same shape as the Illinois missing-phone-number caution in the row above.",
+          "notRepairedHere": "This lane holds a grant to read this family and no authority to repair it."
+        }
+      ],
+      "whatARepairingLaneShouldNotDo": "Do not rebuild the PDF. The delivered bytes are correct: the two viewer controls are gone, nothing was added, no source ink was lost, and run 34480387107 binds these exact digests. All three failures are in participant-instructions.md and filing-instructions.md, which the builder writes as two template literals at scripts/build-census-v1-ky_expungement_certification-set.mjs lines 346 and 347. A guidance-only repair that leaves fixtures/canonical.pdf and fixtures/boundary.pdf byte-identical costs this family no raster.",
+      "owesAFreshCentralRaster": false,
+      "rasterEvidence": "Run 34480387107, job 102882537464, RASTER_PASS, 2 pages, 0 problems, 0 environment problems, bound to boundToCanonicalSha256 02e38d0d and boundToBoundarySha256 3d331308 -- byte-for-byte the two files this lane read. Nothing is owed on the current bytes, and nothing here asks for the PDF to move."
+    }
+  ]
+}

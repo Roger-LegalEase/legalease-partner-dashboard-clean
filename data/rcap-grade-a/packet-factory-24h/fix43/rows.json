@@ -1,0 +1,275 @@
+{
+  "schemaVersion": "rcap-packet-factory-focused-repair-return/v1",
+  "workerId": "CLAUDE-FIX43-VT-IOJ-PROMPTS",
+  "assignmentId": "FIX43",
+  "assignedBase": "c148c59fb",
+  "branch": "fix43-vt-ioj-prompts",
+  "laneKind": "repair",
+  "grantsConfirmed": [
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX43 vt_seal_nonconviction-set -> CLAIM_OK FIX43 vt_seal_nonconviction-set (repair, grant set 1ce0313a10fb6b41), exit 0. Asserted before any family artifact was read or written."
+  ],
+  "scope": "The one failed obligation, COMPONENT_SET, on the one granted family, plus the timetable sentence the same VF03 row recorded as evidence under it. Nothing else in VF03's row was disturbed: no checkbox declaration, no existing field-map entry, no source pin, no route key, no appearance-registry entry and no part of the 600-00228 handling FIX34 installed and VF03 confirmed.",
+  "preflight": {
+    "worktree": "/home/user/fix43-worktree, branch fix43-vt-ioj-prompts from c148c59fb on claude/legalease-sprint-captain-utucnw",
+    "coreSparseCheckout": "false",
+    "skipWorktreeBits": 0,
+    "privateCorpus": "symlinked to /home/user/legalease-partner-dashboard-clean/private, read only; nothing under it was written and all three pinned sources re-hash unchanged.",
+    "nodeModules": "symlinked to /home/user/captain-worktree/node_modules; node 22.22.2, pdf-lib 1.17.1",
+    "masterLibrarySourceDir": "exported as /home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1, which is how scripts/verify-packet-build-environment.mjs resolves it",
+    "command": "node scripts/verify-packet-build-environment.mjs --family vt_seal_nonconviction-set",
+    "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 11/13 passed, 2 failed, 4 not applicable, run on the clean tree before anything was edited.",
+    "theTwoFailures": [
+      "private_is_git_ignored: private/ is mounted as a SYMLINK, so `git check-ignore -q private/` returns 'fatal: pathspec private/ is beyond a symbolic link' rather than an answer. The substance holds: .gitignore line 53 carries 'private/', `git check-ignore private` resolves ignored, and `git ls-files private/` returns 0 tracked paths. Recorded as failing rather than argued away.",
+      "corpus_matches_committed_index: 1 absent, 0 mismatched of 24 sampled - 'LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf'. Alabama, not this family's source, and the same pre-existing corpus gap VF03 and FIX41 recorded at their own bases."
+    ],
+    "whatPassedThatMatters": "family_sources_bind 3/3 by exact SHA-256; master_library_complete at 499 files / 329 PDFs / 51 jurisdictions; stale_artifact_block_consulted with 0 artifacts under this family held.",
+    "throwawayCheckout": "NOT CREATED. `git worktree add` at the base failed with 'No space left on device' (1.1 GB free against a 1.5 GB checkout, the rest occupied by other lanes' worktrees, which are not this lane's to delete). The control it would have provided was obtained without it and is recorded under controlRebuild below. No other worktree was touched and nothing was deleted outside /tmp.",
+    "otherWorktreesTouched": 0,
+    "subagentsCreated": 0
+  },
+  "controlRebuild": "Before a line was edited, the family was rebuilt in place with the unmodified builder and --no-raster. `git status --short` came back EMPTY: canonical.pdf, boundary.pdf, all six per-form fixtures and every JSON and markdown record reproduced their committed bytes exactly. Every digest movement below is therefore attributable to this repair and not to build noise.",
+  "hostChanged": {
+    "file": "scripts/build-census-v1-vt_seal_nonconviction-set.mjs",
+    "familiesReached": 1,
+    "whyNoOtherFamilyCanMove": "THIS BUILDER IS A SINGLE-FAMILY HOST and no shared helper was changed. (1) FAMILY_CONFIGS declares exactly one key, vt_seal_nonconviction-set, and every write goes under OVERLAY_ROOT/vt-seal-nonconviction-set--official-pdf-fill. (2) No .mjs anywhere imports it: `grep -rln build-census-v1-vt_seal_nonconviction-set scripts/` returns only the file itself. (3) The edit touches no file but this one - the shared finalizer, the shared anchor-capture, the shared completeness contract and the shared deterministic-date stamp are all imported unchanged. (4) Corroborated corpus-wide: SCAN01 over all 249 family directories returns 183 defects before the repair and 183 after, with every family but this one unchanged.",
+    "changes": [
+      "COMPONENTS and DOCUMENT_OF_COMPONENT gain interests_of_justice_prompts, so the packet declares the five components the manifest declares instead of four.",
+      "IOJ_COMPONENT_REQUIREMENT added: the component's condition, that the condition IS met on this track and why, the delivery treatment, and what the page may never carry. COMPONENT_REQUIREMENTS now carries it beside the fee waiver's existing record, and production-field-map.json and reports/rendered-artifacts.json both emit it.",
+      "documentRouteKeys gains interests_of_justice_prompts -> the existing vt-nonconviction-ordinary-petition key. No route key was added, removed or renamed.",
+      "interestsOfJusticePromptsBody() and INTERESTS_OF_JUSTICE_PROMPTS: the composed page's text, prompts only.",
+      "interestsOfJusticePromptsMap(): the composed component's field map, in the same shape composedMap() already uses for process_guidance - two composed_text writes, the petitioner's name and the case number, which are the only two facts printed on the page.",
+      "the fixture loop renders the page, appends it after the guidance page, records it on the pageManifest and in documents, and pushes its map on the canonical pass.",
+      "assertEveryDeclaredComponentIsAccountedFor(): reads data/record-clearing/legal-design-packet-set-manifests.json at build time, refuses if the manifest's componentIds are not exactly the five this build has a delivery for, and refuses per fixture if any declared component neither reaches a page nor carries a componentRequirements entry with conditionMetOnThisTrack false. A required component that reaches no page fails outright.",
+      "the process-guidance page's timetable sentence, corrected from the record - see obligationsAddressed.COMPONENT_SET.theTimetableSentence.",
+      "build-findings.json gains two findings and approval-request.json's second counsel question is rewritten, because it asked counsel to confirm a treatment the packet no longer has."
+    ],
+    "whatWasNotChanged": "No checkbox declaration, no existing field-map entry, no printed caption, no option-word proof, no routeSelectionsMade logic, no source pin, no route key, no appearance-registry entry, no line of the 600-00228 handling, and no other sentence of the guidance page or of participant-instructions.md. reports/actual-writes.json and build-status.json are byte-identical to HEAD."
+  },
+  "negativeTest": "The new assertion was exercised against its own failure before being trusted. With the prompts page still rendered but its pageManifest component name changed to a name componentSet does not carry, the build refused: 'AssertionError: vt_seal_nonconviction-set canonical: vt_seal_nonconviction-interests-of-justice-prompts-4 (conditional) reaches no page and carries no componentRequirements disposition', exit 1. The builder was restored from a copy taken beforehand and the family rebuilt to the same bytes.",
+  "rows": [
+    {
+      "itemId": "vt_seal_nonconviction-set",
+      "familyId": "vt_seal_nonconviction-set",
+      "jurisdiction": "VT",
+      "implementationStrategy": "official_pdf_fill",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "buildHost": "scripts/build-census-v1-vt_seal_nonconviction-set.mjs",
+      "verdictRepaired": {
+        "lane": "vf03",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "4dd482867",
+        "failedObligationNames": ["COMPONENT_SET"]
+      },
+      "obligationsRepaired": ["COMPONENT_SET"],
+      "obligationsThisRowDoesNotDischarge": [
+        "RASTER. The RASTER_PASS receipt for workflow run 33965687102 / job 101305567089 was bound to canonical 35989442... and boundary 1c0dc4cd..., digests this repair supersedes. It stops binding and a fresh central raster is owed on the new bytes. RASTER_QUEUE.json and MASTER_QUEUE.json were NOT opened for writing by this lane.",
+        "INDEPENDENT VERIFICATION. This lane built these bytes and verifies none of them. product-wiring.json binding.acceptanceReceipt is null and binding.lastIndependentVerification still records VF03's FAIL_REPAIR_REQUIRED at 4dd482867, which was read over superseded bytes; no verdict was written or replaced here."
+      ],
+      "grantConfirmed": "CLAIM_OK FIX43 vt_seal_nonconviction-set (repair, grant set 1ce0313a10fb6b41), exit 0.",
+      "baseSha": "c148c59fb",
+      "branch": "fix43-vt-ioj-prompts",
+      "whatChanged": {
+        "theComponent": "vt_seal_nonconviction-interests-of-justice-prompts-4 now reaches the packet as a composed component page of participant-facing prompts. Its manifest condition - 'Only on the § 7603(g) ordinary petition route, where the petitioner carries the affirmative burden' - is MET on this track (the packet carries that route as ROUTE_KEYS[1], fills 200-00130 for it, and names it as section 1 of its own guidance page), so it is RENDERED rather than dispositioned-as-unmet. It is also recorded in componentRequirements with its condition, with conditionMetOnThisTrack true and with what the page may never carry, so the two conditional components of this set now both say which they are, the way the fee waiver already did.",
+        "pageRange": "packet page 9 of 9, in BOTH fixtures - one page, appended after the process-guidance page so that no page of the three official forms and no page of the guidance moves. componentSet, documentOfComponent, the pageManifest and the field map all name it interests_of_justice_prompts.",
+        "verbatimHeadingsOnThePage": [
+          "INTERESTS-OF-JUSTICE PROMPTS -- THE STATEMENT ONLY YOU CAN WRITE",
+          "WHY THIS PAGE IS IN THE PACKET",
+          "THIS PAGE IS PROMPTS, NOT AN ANSWER, AND IT IS NOT FILED",
+          "QUESTIONS TO ANSWER IN YOUR OWN WORDS",
+          "WHERE YOUR ANSWER GOES"
+        ],
+        "theEightPromptsVerbatim": [
+          "What happened in this case, and how did it end?",
+          "What does having this record on your criminal history stop you from doing now?",
+          "Has it come up in a job, a license application, housing, schooling, volunteering or anything else? What happened when it did?",
+          "Who else is affected by it -- family, dependants, anyone who relies on you?",
+          "How much time has passed since the case ended, and what have you been doing in that time?",
+          "Is there anything about how the case ended -- no charge filed, no probable cause found, dismissed, or acquitted -- that you want the court to have in front of it?",
+          "What would change for you if the court sealed this record?",
+          "Is there anything you would want the court to know that nobody has asked you about yet?"
+        ],
+        "everySentenceIsAQuestionAPointerOrARefusal": "The page carries eight questions, the two facts the packet already holds (petitioner and case number), a statement of where the participant's own answer goes, and an express statement of what the platform will not do: 'The platform has written nothing in question 4 and it will not. It does not draft that statement for you, does not show you an example one, and does not suggest sentences for you to sign your name under.' There is no drafted statement, no example statement and no argument anywhere on it. Question 4 of 200-00130 is unchanged and is still a participant supply.",
+        "theBuilderNowAssertsIt": "assertEveryDeclaredComponentIsAccountedFor() reads the packet-set manifest at build time and refuses, per fixture, if the manifest's five componentIds are not exactly the five this build has a delivery for, or if any declared component neither reaches a page of the assembled packet nor carries a componentRequirements disposition recording that its condition is not met. A required component that reaches no page fails outright. reports/rendered-artifacts.json and production-field-map.json now carry manifestComponentDelivery, which says where each of the five landed.",
+        "files": [
+          "scripts/build-census-v1-vt_seal_nonconviction-set.mjs - this family's exclusive builder",
+          ".../fixtures/canonical.pdf - rebuilt; one composed page appended, one guidance paragraph corrected. 8 pages -> 9.",
+          ".../fixtures/boundary.pdf - rebuilt; the identical change. 8 pages -> 9.",
+          ".../production-field-map.json - componentSet gains the fifth component, componentRequirements gains its record, manifestComponentDelivery added, and the composed page's two writes are mapped. 162 insertions, 2 deletions, and both deletions are trailing-comma reflow: no existing entry was removed or altered.",
+          ".../reports/rendered-artifacts.json - new fixture digests, page counts, page manifest, componentSet, componentRequirements and manifestComponentDelivery.",
+          ".../reports/builder-completeness-counters.json - totals only: terminalFields 167 -> 169, written 19 -> 21, the two composed writes on the new page. All nine counters still zero.",
+          ".../source-receipt.json - composedComponentsAuthoredByThisBuild is now [process_guidance, interests_of_justice_prompts]. The three bound sources, their digests and their byte lengths are unchanged.",
+          ".../participant-instructions.md - ONE line added: the new component's row in the 'What is in this packet' table, saying in terms that it is prompts and that the platform writes no part of the statement. Nothing else in the file changed.",
+          ".../build-findings.json - two findings added.",
+          ".../approval-request.json - the second counsel question rewritten, because it asked counsel to confirm that the guidance page states no timetable, which is no longer what it says; a question about the prompts component added.",
+          ".../product-wiring.json - refreshed by its own generator, scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs --family vt_seal_nonconviction-set.",
+          "data/rcap-grade-a/packet-factory-24h/fix43/rows.json - this return",
+          "data/rcap-grade-a/packet-factory-24h/claim-ledger.json - written by claim.mjs on release"
+        ],
+        "notChanged": [
+          "reports/actual-writes.json and build-status.json - byte-identical to HEAD. No write moved, no widget appearance changed, and the raster state is the BUILT_RASTER_PENDING that FIX34's --no-raster build already recorded.",
+          "the six per-document fixtures - canonical--200-00130.pdf, canonical--200-00132.pdf, canonical--600-00228.pdf and their boundary counterparts all re-hash to their committed digests. The 600-00228 pair still both hash 2d600575153c161442d4101a8c7a3b9b89d45b12df033074a45a9814cedf3e42, which is a form carrying no participant value.",
+          "the issuer-original PDFs - never opened for writing; all three still bind by exact SHA-256 (200-00130 ff914f49..., 200-00132 08811624..., 600-00228 263d4e19...).",
+          "RASTER_QUEUE.json, MASTER_QUEUE.json, every specification and every legal record under data/record-clearing/ - not opened for writing. The packet-set manifest, the track registry and the intake memo were READ at build time and are unmodified.",
+          "the 16 committed page PNGs under raster/ - stale, depicting the superseded 8-page bytes, and bound by nothing: reports/rendered-artifacts.json records rasterSkipped true and rasterPages 0 both before and after, so no record names them. Deleting or re-rendering them is the central raster's call, not this lane's."
+        ]
+      },
+      "placementDiff": {
+        "method": "pdftotext -layout page by page, HEAD bytes (git show) against the new bytes here, md5 per page, both fixtures.",
+        "pageCountBefore": 8,
+        "pageCountAfter": 9,
+        "pagesUnchanged": "1-6 of both fixtures, character-identical. Those are the three pinned official forms: 200-00130 pp.1-2, 200-00132 pp.3-4, 600-00228 pp.5-6.",
+        "canonicalPagesWhosePrintedTextChanged": {
+          "7": "the corrected timetable paragraph replaces the old two-sentence one; the rest of the page is identical and the page now ends on a complete paragraph",
+          "8": "reflow only - the 'NO FILING FEE ON THIS TRACK' heading and the three lines that followed it moved from page 7 to page 8. No word of that section changed.",
+          "9": "NEW - the interests-of-justice prompts component, 35 non-empty printed lines"
+        },
+        "boundaryPagesWhosePrintedTextChanged": {
+          "7": "the same corrected paragraph",
+          "8": "the same reflow",
+          "9": "NEW - the same component, 35 non-empty printed lines, carrying the boundary petitioner Maria-Alejandra O'Shaughnessy-Whitfield and case 1276-11-24 Frcr"
+        },
+        "noOrphanedHeadingIntroduced": "The first draft of the corrected paragraph left 'NO FILING FEE ON THIS TRACK' as the last drawn line of page 7 with its body on page 8. That is an appearance defect this lane introduced and then removed: the paragraph carries two further clauses from the record (the § 7603(b) hearing and the parties to it; the search result as how the participant sees whether the automatic sealing happened), which pushes the heading onto page 8 where its body is. Page 7 now ends on the last line of a paragraph."
+      },
+      "artifacts": {
+        "canonical": {
+          "path": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/fixtures/canonical.pdf",
+          "oldSha256": "35989442e0569baaa8e062249850f5f29e528ebce972a7b0fcea2bf391026543",
+          "oldByteLength": 857566,
+          "oldPageCount": 8,
+          "newSha256": "0b657ac8491a6ece183b3523ad2163e2bd73b6fdc3a516f58bfb283188b8d3e2",
+          "newByteLength": 861953,
+          "newPageCount": 9
+        },
+        "boundary": {
+          "path": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/fixtures/boundary.pdf",
+          "oldSha256": "1c0dc4cd9fe86227cfe6e33e87d093056218c8f95ec06cbb95f3c29195b44fec",
+          "oldByteLength": 857906,
+          "oldPageCount": 8,
+          "newSha256": "4851f377fef33a03857976a33c0e9543b6f6de14dc00146890232d3e571a6d12",
+          "newByteLength": 862320,
+          "newPageCount": 9
+        },
+        "digestsMovedInThisLane": true
+      },
+      "deterministicRebuild": "Built with --no-raster and then built again with no other change: the SHA-256 of both packet fixtures, of all six per-document fixtures and of every JSON and markdown record under the family directory is identical across the two runs. Run a third time after the SCAN01 before-measurement, identical again.",
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersNote": "Nine zeros before and nine zeros after, both measured here with node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_nonconviction-set: PASS_COMPLETE, 19/167 written before and 21/169 written after, exit 0 both times. They are the starting condition and not the evidence, and VF03 said why: the counters read the field map, and a component that was never built has no field-map row for any counter to see. The repair is proved at component, page and appearance level instead.",
+      "obligationsAddressed": {
+        "COMPONENT_SET": {
+          "findingAsWritten": "The packet-set manifest names five components for vt_seal_nonconviction-set and the packet declared four. vt_seal_nonconviction-interests-of-justice-prompts-4, conditional on the § 7603(g) route the packet expressly carries, was neither rendered nor dispositioned - unlike the fee waiver, which carries a componentRequirements entry. The track registry calls the statement a participant-authored field with prompts and never generated argument, and the packet supplied the field and the disclaimer and supplied no prompts. Recorded under the same obligation: the guidance component said no timetable is established where the record supplies the § 7603(a)(1) 60-day clock and Form 200-00331.",
+          "repaired": true,
+          "howItWasRepaired": "The component is rendered, because its condition holds here, and it is also recorded in componentRequirements so that the record says which of the two it is. The page is prompts: eight questions, a statement of where the participant's own answer goes, and an express refusal to draft the statement. Nothing on it could be copied onto the petition and signed. The builder now reads the manifest at build time and refuses if any declared component neither reaches a page nor carries a disposition, so this defect cannot ship again silently.",
+          "whyRenderedRatherThanDispositioned": "The manifest condition names the § 7603(g) ordinary petition route. product-wiring.json binding.instrumentKinds carries 'Ordinary contested petition at any time, § 7603(g)', ROUTE_KEYS[1] is obligation:unit:VT:vt_seal_nonconviction:vt-nonconviction-ordinary-petition, 200-00130 is filled for that route, and the guidance page's section 1 is that route. The condition is met, so a componentRequirements entry saying it is not met would have been false and a page is what is owed.",
+          "whereEachDeclaredComponentLands": {
+            "vt_seal_nonconviction-automatic-sealing-verification-guidance-1": "pages 7-8, the composed process-guidance page (role automatic_sealing_verification_guidance; the packet component is named process_guidance and the mapping is written down in MANIFEST_COMPONENT_DELIVERY rather than left to be inferred)",
+            "vt_seal_nonconviction-petition-2": "pages 1-2 (200-00130)",
+            "vt_seal_nonconviction-stipulation-and-proposed-order-3": "pages 3-4 (200-00132)",
+            "vt_seal_nonconviction-interests-of-justice-prompts-4": "page 9, composed, 35 printed lines, condition met and dispositioned as met",
+            "vt_seal_nonconviction-fee-waiver-application-5": "pages 5-6 (600-00228), delivered unfilled, condition not met and dispositioned as not met"
+          },
+          "theTimetableSentence": {
+            "old": "This page states no timetable and no criterion for that, because neither is established by the forms this packet is built from.",
+            "new": "There is a timetable and there is a criterion, and both come from the statute rather than from these forms. Under 13 V.S.A. Sec. 7603(a)(1) the court shall issue the sealing order within 60 days after final disposition where the court made no probable cause determination at arraignment, the charge was dismissed before trial with or without prejudice, or you were acquitted -- unless a party objects in the interests of justice, in which case the court schedules a hearing under Sec. 7603(b) instead, with you and the prosecuting attorney as the only parties. To see where your own record stands, complete Form 200-00331, Request for Criminal Record Search, and submit it to the court in the county; the result of that search is how you see whether the automatic sealing has already happened. A separate request is needed for each county and there is a fee for it, so allow time for the answer before you decide whether to file.",
+            "everyClauseIsFromTheRecord": "The 60 days, the three triggers, the interests-of-justice objection and the § 7603(b) hearing with the defendant and the prosecuting attorney as the only parties are the intake memo's own reading of 13 V.S.A. § 7603 at data/record-clearing/legal-design-intake/VT.memo.json (track vt_seal_nonconviction, the § 7603(a)(1) authority summary and the vt-nonconviction-automatic-and-verification unit). Form 200-00331, the per-county request, the fee and 'this is how the participant sees whether the automatic sealing already happened' are the same record's obtain_document action, carried into the packet-set manifest's participantActionRequired.",
+            "whatWasNotTouched": "The sentence that followed it - 'The clerk of the unit is who can tell you where your own record stands.' - is unchanged, as is every other sentence of the guidance page. The only other movement on pages 7-8 is reflow."
+          }
+        }
+      },
+      "appearanceCheck": {
+        "method": "Composed content stream of page 9 inflated and read directly in BOTH fixtures, then page 9 of both, and pages 7-8 of canonical, rastered locally at 120 dpi with pdftoppm into /tmp/fix43-raster and read by eye. The /tmp rasters were deleted after measuring and nothing was rastered into the delivered tree.",
+        "contentStream": "Page 9 carries 34 text-show operations, every one at 11pt Times-Roman, every text matrix at x = 72 with y from 82 to 720 - inside the 72pt margin box of a 612 x 792 page, so no ink can leave the column. Fill colour is '0 0 0 rg' and nothing else: no white-filled text. No Tr operator appears at all, so no text render mode 3. No zero-size font. Zero annotations and zero widgets on the page - it carries no fillable blank and no signature line.",
+        "whatTheRasterShows": "A single clean page of prose and a bulleted list of eight questions. Every bullet is a question ending in a question mark. There is no drafted sentence, no example statement, no argument, no signature block and no blank to complete; the bottom fifth of the page is white space, so nothing is crowded or clipped. The boundary fixture's page is the same page carrying the long boundary petitioner name and case number, and neither is truncated.",
+        "guidancePagesRead": "Canonical pages 7 and 8 rastered and read: the corrected paragraph reads as one paragraph, page 7 ends on its last line, and page 8 opens on the 'NO FILING FEE ON THIS TRACK' heading with its own body beneath it.",
+        "promptsCarryNoArgument": true,
+        "promptsCarryNoPreWrittenStatement": true
+      },
+      "scan01": {
+        "instrument": "node scripts/rcap-scan01-composed-pdf-text-integrity.mjs, whole corpus, 249 family directories, run twice: once against the HEAD fixtures restored into this tree, and once against the repaired bytes. SCAN01_OUT pointed at /tmp both times, so data/rcap-grade-a/packet-factory-24h/scan01/raw-sweep.json was never written and nothing of SCAN01's output is committed.",
+        "coversThisFamily": true,
+        "thisFamilyBefore": { "defects": 0, "composedPages": 4, "composedLines": 84, "widestTokenPt": 112.97 },
+        "thisFamilyAfter": { "defects": 0, "composedPages": 6, "composedLines": 168, "widestTokenPt": 122.22 },
+        "corpusBefore": { "totalDefects": 183, "A_hard_split": 70, "B_page_content": 61, "C_block_integrity": 11, "D_census": 41 },
+        "corpusAfter": { "totalDefects": 183, "A_hard_split": 70, "B_page_content": 61, "C_block_integrity": 11, "D_census": 41 },
+        "readHonestly": "Zero defects in this family before and zero after: the new page introduces no hard split, no fragment page, no thin page and no route-key-only page. Its widest token is INTERESTS-OF-JUSTICE at 122.22pt against a 468pt column. The corpus totals are identical defect-for-defect, which is the corroboration that no other family moved. SCAN01 still classes this builder G0 with a char-by-char splitToken; that is unchanged and out of scope, and is named so the zero is not read as a claim to more than was measured."
+      },
+      "verifiersRun": {
+        "verifyPacketCompleteness": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_nonconviction-set -> PASS_COMPLETE, nine counters zero, exit 0. Run before the repair (19/167 written) and after it (21/169 written).",
+        "verifyIdentityRefreshSurvivesRebuild": "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs -> EVERY_IDENTITY_REFRESH_SURVIVED, 249 receipts compared against HEAD, 53 carrying an identityRefresh, exit 0.",
+        "scan01": "whole corpus before and after; see scan01 above",
+        "verifyPacketBuildEnvironment": "11/13, 2 environmental failures, see preflight",
+        "buildAssertions": "the builder now asserts, per fixture, that the manifest's five declared components are each rendered or dispositioned, and that every required one reaches a page. It passed on both fixtures, and it was exercised against its own negative case - see negativeTest."
+      },
+      "productWiring": {
+        "regeneratedBy": "node scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs --family vt_seal_nonconviction-set",
+        "result": "1 record refreshed; the canonical component digest re-pinned 35989442e056 -> 0b657ac8491a and acceptanceReceipt set to null, because the RASTER_PASS receipt it carried is bound to bytes this repair supersedes.",
+        "acceptanceReceipt": null,
+        "routeKeysUnchanged": "the same three, in the same order",
+        "lastIndependentVerificationUnchanged": "still VF03 FAIL_REPAIR_REQUIRED at 4dd482867. This lane wrote no verdict.",
+        "observedNotChanged": "binding.packetComponents still names only the three official-form componentIds and does not name the two composed ones. That field is copied from data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json, which this lane was instructed not to touch, so it was left alone and is reported instead of edited."
+      },
+      "filesChanged": [
+        "scripts/build-census-v1-vt_seal_nonconviction-set.mjs",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/fixtures/canonical.pdf",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/fixtures/boundary.pdf",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/production-field-map.json",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/source-receipt.json",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/participant-instructions.md",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/build-findings.json",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/approval-request.json",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/product-wiring.json",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/reports/builder-completeness-counters.json",
+        "data/rcap-grade-a/packet-factory-24h/fix43/rows.json",
+        "data/rcap-grade-a/packet-factory-24h/claim-ledger.json"
+      ],
+      "rasterOwed": true,
+      "acceptanceReceipt": null,
+      "selfVerified": false,
+      "selfVerificationPerformed": 0,
+      "routesOpened": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "grantsNothing": "A repair. It approves nothing, promotes nothing, sets no price and opens no commercial route."
+    }
+  ],
+  "notDone": [
+    "The central raster. The new bytes carry no acceptance receipt, and RASTER_QUEUE.json and MASTER_QUEUE.json were deliberately not opened for writing.",
+    "Independent verification of these bytes. This lane built them and verifies none of them; VF03's verdict is answered on the one obligation it failed, not re-issued.",
+    "The 16 stale page PNGs under the family's raster/ directory. They depict the superseded 8-page bytes and no record binds them; replacing or deleting them belongs to the central raster.",
+    "binding.packetComponents in product-wiring.json still omits the two composed components, because its source is MASTER_QUEUE.json, which this lane was told not to touch.",
+    "The builder's SCAN01 generation profile is still G0 with a char-by-char splitToken and no block-aware pagination. No defect in this family calls for changing it and doing so would move pages.",
+    "A throwaway checkout at the base could not be created: the disk had 1.1 GB free against a 1.5 GB checkout. The control it would have given was obtained by rebuilding in place with the unmodified builder before any edit, which reproduced the committed bytes exactly."
+  ],
+  "packetBytesChanged": 2,
+  "overlayDirectoriesModified": 1,
+  "buildersModified": 1,
+  "centralStateEdits": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "selfVerificationPerformed": 0,
+  "grantsNothing": "This return is a repair record. It promotes nothing, approves no output and opens no commercial route. Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and this is not that record."
+}

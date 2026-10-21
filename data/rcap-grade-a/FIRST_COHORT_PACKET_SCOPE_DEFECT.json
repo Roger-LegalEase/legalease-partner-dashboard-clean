@@ -1,0 +1,68 @@
+{
+  "schemaVersion": "rcap-packet-scope-defect/v1",
+  "producedBy": "Captain, Step A2 of the Tennessee-first execution order",
+  "producedOn": "2026-09-02",
+  "classification": "ROUTE_IDENTITY_AND_PACKET_COMPONENT_DEFECT",
+  "theStopConditionThatFired": "The order said: if the bundle represents one giant packet containing all eleven remedies, stop and classify it as a packet-component or route-identity defect, because a participant on one pathway must not receive ten unrelated route packets. It does, so this is that classification.",
+  "whatWasMeasured": {
+    "tennessee": {
+      "familyId": "rcap-tn-custom-pleading",
+      "renderedArtifacts": "one canonical fixture of 62 pages and one boundary fixture of 62 pages, and nothing else",
+      "componentSetEntries": 29,
+      "distinctRoutesInsideTheOneCanonicalFixture": 11,
+      "pageRangesByRoute": {
+        "tn_arrest_no_court_record": "1-6",
+        "tn_illegal_voting": "7-11",
+        "tn_mistaken_identity": "12-17",
+        "tn_nonconviction_petition": "18-23",
+        "tn_post_pardon": "24-28",
+        "tn_pretrial_diversion": "29-34",
+        "tn_recovery_court": "35-39",
+        "tn_redaction": "40-46",
+        "tn_eligible_conviction": "47-51",
+        "tn_judicial_diversion": "52-57",
+        "tn_two_offense": "58-62"
+      },
+      "whatAParticipantWouldReceive": "A person seeking the eligible-conviction expunction would receive their own five pages and fifty-seven pages of ten other remedies, including petitions to courts they have no case in and requests to district attorneys about offences they were never charged with."
+    },
+    "kansas": {
+      "familyId": "rcap-ks-custom-pleading",
+      "renderedArtifacts": "one canonical fixture of 12 pages and one boundary fixture of 13 pages, and nothing else",
+      "distinctRoutesInsideTheOneCanonicalFixture": 2,
+      "pageRangesByRoute": {
+        "ks-12-4516-municipal": "1-6",
+        "ks-12-4516a-municipal-arrest": "7-12"
+      },
+      "whatAParticipantWouldReceive": "A person expunging a city ordinance conviction would receive their six pages plus the six-page arrest-record packet for a route they did not ask for, and the reverse for the arrest route.",
+      "note": "Kansas was not named in the stop condition, which spoke of the 124-page Tennessee bundle. It has the same defect at a smaller scale, and it is recorded here because the same repair answers both."
+    },
+    "southCarolina": {
+      "familyId": "rcap-sc-custom-pleading",
+      "distinctRoutesInsideTheOneCanonicalFixture": 10,
+      "note": "Already WRONG_DELIVERY_TYPE on separate grounds (the mandatory SCCA 223A1 form). It carries this defect too, which is recorded so the eventual rebuild answers both rather than only the form question."
+    }
+  },
+  "theSecondIndependentConfirmation": {
+    "what": "The launch graph names a per-route packet set for each of the three compiled Tennessee pathways — tn_eligible_conviction-set, tn_judicial_diversion-set, tn_two_offense-set — and says each 'builds through the shared packet factory' from it.",
+    "andYet": "None of those three packet sets exists. They are not families in the master queue and they have no directory on disk. The only Tennessee overlay directory is rcap-tn-custom-pleading--custom-pleading.",
+    "soTheDefectIsVisibleFromBothSides": "The runtime expects a route-scoped deliverable that was never built, and the factory built a family-scoped assembly no route asks for."
+  },
+  "whyThisIsNotAReviewScopingProblem": "Pages 47 to 62 of the Tennessee canonical fixture are the three cohort routes' pages, and they are contiguous, so a reduced review could be assembled from them. It would prove the wrong thing. Those pages are not an artifact: they have no digest of their own, no raster receipt, and no record binds them. A v2 record must bind the artifact that actually ships, and for these three routes no such artifact exists yet. Reviewing a slice of a bundle and then binding a record to bytes nobody rendered is precisely the substitution the Grade A contract exists to prevent.",
+  "consequenceForTheFirstCohort": {
+    "tennessee": "Cannot enter the first cohort on its current artifacts. The three compiled pathways are otherwise sound — no unresolved legal question, no repair, no source or maintenance hold — so this is a build defect standing between them and a cohort, not a legal or evidentiary one.",
+    "kansas": "Same. Its runtime representation is authorized and proceeding in parallel, and it remains blocked on this separately.",
+    "whatIsUnaffected": "The legal approval, the independent verdicts, the source bindings and the raster receipts all stand. Nothing here says the pages are wrong; it says they are assembled into the wrong unit of delivery."
+  },
+  "theRepair": {
+    "shape": "Emit one artifact per route, carrying only that route's components in the order the record declares, and record each with its own digest, page count and page manifest. The components already exist, are already correct, and are already cleanly separable by the page manifest — this is an assembly change, not new packet content.",
+    "mustNotChange": [
+      "any component's content",
+      "any legal statement",
+      "the filing destination, service party or fee treatment of any route",
+      "the family's legal design or its approval"
+    ],
+    "afterTheRepair": "Each route's artifact needs its own raster evidence and its own independent read, and the visual review must be of the route artifact rather than the family assembly."
+  },
+  "reviewBundlesSuperseded": "The six published visual-review bundles are of the family assemblies. They remain accurate about those bytes and are not to be reviewed as route deliverables. A route-scoped bundle can only be built after the route-scoped artifacts exist.",
+  "grantsNothing": "This record classifies a defect. It opens no route, changes no family state by itself, and approves nothing."
+}

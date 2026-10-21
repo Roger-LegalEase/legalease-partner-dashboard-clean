@@ -1,4 +1,5 @@
 export * from "./court-routing";
+export * from "./correction-closures";
 export * from "./county-court-instructions";
 export * from "./disqualifying-offenses";
 export * from "./document-types";

@@ -1,0 +1,81 @@
+{
+  "schemaVersion": "rcap-ga-guidance-stage-review/v1",
+  "familyId": "rcap-ga-guidance-implementation",
+  "reviewer": "/root/pending_readiness",
+  "lane": "VF65",
+  "verifiedAtBase": "f31a8a4d86abf2842278535c2c4ae392519bbae1",
+  "independentlyReviewed": true,
+  "editsNothingItVerifies": true,
+  "scope": "static_family_guidance",
+  "stageIds": [
+    "pre_consent",
+    "qualifying_order_on_or_after_2026_07_01"
+  ],
+  "separatePetitionFamilyId": "composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route",
+  "secondPetitionGenerated": false,
+  "commercialAuthority": false,
+  "verdict": "PASS",
+  "failedObligations": [],
+  "reviewedFiles": [
+    {
+      "path": "scripts/build-census-v1-rcap-ga-guidance-implementation.mjs",
+      "sha256": "c92a181e3aca9f714a4f444a129d373c6c52c0ae7c3754b62c28eed1c040c5cf"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ga/rcap-ga-guidance-implementation--custom-pleading/source-receipt.json",
+      "sha256": "d501491de7bf564704ef326210c7d734e9bd470864872011ba4d86c0ac87d7de"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ga/rcap-ga-guidance-implementation--custom-pleading/reports/rendered-artifacts.json",
+      "sha256": "39cdf843b6de2b0e3833aa2cfddd42d33e03b1bba2323e60f30792b87b3c8573"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ga/rcap-ga-guidance-implementation--custom-pleading/production-field-map.json",
+      "sha256": "dd83e982448901a215dfb6ac007aaa6b79a0f263b9fcbfc0251c62b45b3f2f7e"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ga/rcap-ga-guidance-implementation--custom-pleading/reports/actual-writes.json",
+      "sha256": "98bd407d310a9f0e7313e8ddecd504a4bfa63e8f19e72df6bee7d69ef6cad741"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ga/rcap-ga-guidance-implementation--custom-pleading/participant-instructions.md",
+      "sha256": "4f96a68979549085d2c8e2f452b00cbadd486078628c621b3b2e1f6214d7a1ba"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ga/rcap-ga-guidance-implementation--custom-pleading/fixtures/canonical.pdf",
+      "sha256": "ac6aed1b5ad37701f2efc9d88aad407498abeb4ab01af8b1b2c558aedd26597b"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ga/rcap-ga-guidance-implementation--custom-pleading/fixtures/boundary.pdf",
+      "sha256": "28026bda8faf19c93be4f7599bd0d5334270db3e3b394b75f16170b254bf9a87"
+    },
+    {
+      "path": "data/record-clearing/legal-design-specifications.json",
+      "sha256": "10b02286702b27a3392530b6435ce3495614a194abc21560939ced0c5d082792"
+    },
+    {
+      "path": "data/record-clearing/legal-decisions/2026-08-28-controlling-decisions.json",
+      "sha256": "e00332bc05795533067dbe9dba43d36b14a362b7450449e9ac8a67e8c8f92f47"
+    },
+    {
+      "path": "src/lib/legal-authority/routes/national-report-2026-08-28.json",
+      "sha256": "918bc6616e23de07014825cd8cbd9b81dc282613a0f5f2214130ac2af30e4b7b"
+    },
+    {
+      "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+      "sha256": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81"
+    }
+  ],
+  "findings": {
+    "preConsent": "The two current guidance components are a participant factual record and process guidance. They state advance written prosecutorial consent is required before filing, silence is not consent, LegalEase neither obtains consent nor files, and nothing in this stage is a petition or filed.",
+    "qualifyingOrder": "The post-consent stage is limited to tracking restriction/sealing implementation after a qualifying order on or after 2026-07-01; it does not generate a second petition.",
+    "petitionBoundary": "The exact separate post-consent petition family is composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route. This guidance family does not substitute for it, generate it, or create a second petition.",
+    "componentIdentity": "Rendered artifacts and field map both declare exactly ga-rfo-participant-factual-record-1 and ga-rfo-process-guidance-2 in that order.",
+    "sourceIdentity": "The file-backed source receipt binds the controlling specification, CLD, route contract and route census records by exact repository digests; current files were rehashed above."
+  },
+  "remainingRequirements": [
+    "Central raster acceptance and independent visual review are still required for Guidance Ready.",
+    "The separate post-consent petition family requires its own independent output proof and acceptance; this review grants no approval to it.",
+    "Product wiring remains closed and creates no runtime or commercial authority."
+  ]
+}

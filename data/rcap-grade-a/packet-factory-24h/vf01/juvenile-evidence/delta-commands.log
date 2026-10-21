@@ -1,0 +1,7 @@
+node scripts/grade-a-packet-factory-24h/claim.mjs --can-assert VF01 mn_petition_juvenile_as_adult-set
+node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF01 mn_petition_juvenile_as_adult-set
+git diff --name-status b090c6a80d6f1b35eaea45a890606a78bda5a095..c968d1b85840d870bbfa7579ff9948f7bb35ff5a -- data/rcap-all50/overlays/census-v1/mn/mn-petition-juvenile-as-adult-set--official-pdf-fill
+sha256sum private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Minnesota/EXP102_Current-2.pdf private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Minnesota/EXP104_Current.pdf private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Minnesota/EXP106_Current.pdf private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MN/04_SUPPORTING_PROCESS/MN__SUPPORT__FEE102__affidavit-to-request-fee-waiver__REV-2024-07__EN.pdf
+sha256sum data/rcap-all50/overlays/census-v1/mn/mn-petition-juvenile-as-adult-set--official-pdf-fill/fixtures/canonical.pdf data/rcap-all50/overlays/census-v1/mn/mn-petition-juvenile-as-adult-set--official-pdf-fill/fixtures/boundary.pdf
+pdftotext -layout <four pinned source PDFs> (read-only source printed grounds/geometry context)
+node <read-only current-vs-prior census/map/guide checks>

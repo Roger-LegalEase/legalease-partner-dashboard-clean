@@ -1,0 +1,1127 @@
+{
+  "schemaVersion": "rcap-cloned-family-packets/v1",
+  "question": "Do two different families deliver a document that reads identically?",
+  "measuredBy": "pdftotext -layout over every fixture PDF, whitespace-normalised, PLUS the page positions of every path-placing operator read from the decompressed content streams, grouped by the SHA-256 of the pair",
+  "whyNotRawBytes": "The case that prompted this differs only in the /Title metadata string. Raw-byte comparison reports two distinct files and misses that the pages are the same.",
+  "fixturesRead": 943,
+  "fixturesWithNoReadableText": 0,
+  "fixturesWithNoReadableMarks": 0,
+  "whyMarksAreRead": "VF07 found three Oregon motions sharing one extracted text and differing only in which route box is ticked -- and a tick there is two diagonal path strokes, not glyphs. Text alone read three different filings as one, which is the exact defect this file exists to report arriving as a false positive.",
+  "clonedDeliverableGroups": 13,
+  "familiesDeliveringACloneOfAnother": [
+    "al/al-felony-nonconviction-90-set--official-pdf-fill",
+    "al/al-pardoned-felony-set--official-pdf-fill",
+    "hi/hi-712-1200-deferred-expungement-set--official-pdf-fill",
+    "hi/hi-nonconviction-expungement-set--official-pdf-fill",
+    "in/in-arrest-no-charges-set--official-pdf-fill",
+    "in/in-section1-petition-set--official-pdf-fill",
+    "nj/nj-arrest-no-conviction-set--official-pdf-fill",
+    "nj/nj-disorderly-persons-set--official-pdf-fill",
+    "nj/nj-indictable-conviction-set--official-pdf-fill",
+    "nj/nj-ordinance-set--official-pdf-fill",
+    "ut/ut-pet-dismissed-with-prejudice-set--official-pdf-fill",
+    "ut/ut-pet-dismissed-without-prejudice-set--official-pdf-fill",
+    "vt/vt-seal-18-to-21-set--official-pdf-fill",
+    "vt/vt-seal-dui-set--official-pdf-fill",
+    "vt/vt-seal-felony-set--official-pdf-fill",
+    "vt/vt-seal-misdemeanor-set--official-pdf-fill",
+    "vt/vt-seal-pardon-set--official-pdf-fill",
+    "wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill",
+    "wa/wa-vac-misdemeanor-ordinary-set--official-pdf-fill",
+    "wa/wa-vac-substance-use-disorder-set--official-pdf-fill",
+    "wa/wa-vac-survivor-misdemeanor-set--official-pdf-fill",
+    "wa/wa-vac-treaty-fishing-set--official-pdf-fill"
+  ],
+  "sharedDocumentGroups": 30,
+  "nearCloneGroups": 5,
+  "whatANearCloneIs": "Families whose delivered documents carry IDENTICAL extracted text and differ only in drawn marks -- a tick, and nothing else, distinguishing two routes. Never a defect on its own: on some forms the tick IS the filing. It is a question for a reader, and a whole-fixture identity test cannot surface it by construction.",
+  "theDifference": "clonedDeliverables is the finding: two families whose WHOLE fixture set reads identically, which means two petitions that are the same filing. sharedDocuments is an observation: one document appearing in several families, which is ordinary for a statewide cover sheet or fee-waiver form and is not by itself a defect.",
+  "whatThisDoesNotDecide": "A clone names a question, not its answer. It says two families deliver the same document; it does not say which of them owed a different one. Nothing here is deleted, rewritten or promoted.",
+  "clonedDeliverables": [
+    {
+      "packetTextSha256": "a7792de4d18a9f20f83d1bd5fa7643984c1096e060f4ffc3139efac5dd2fc75f",
+      "fixture": "boundary",
+      "documentCount": 1,
+      "familyCount": 5,
+      "families": [
+        "vt/vt-seal-18-to-21-set--official-pdf-fill",
+        "vt/vt-seal-dui-set--official-pdf-fill",
+        "vt/vt-seal-felony-set--official-pdf-fill",
+        "vt/vt-seal-misdemeanor-set--official-pdf-fill",
+        "vt/vt-seal-pardon-set--official-pdf-fill"
+      ],
+      "identicalFileBytes": true,
+      "members": [
+        {
+          "familyDir": "vt/vt-seal-18-to-21-set--official-pdf-fill",
+          "fixture": "boundary",
+          "files": [
+            {
+              "file": "data/rcap-all50/overlays/census-v1/vt/vt-seal-18-to-21-set--official-pdf-fill/fixtures/boundary.pdf",
+              "bytes": 852465,
+              "fileSha256": "21fa17be618b32306ef2b22de7c2807b439815d0db0ae58becc648b2083c132a"
+            }
+          ]
+        },
+        {
+          "familyDir": "vt/vt-seal-dui-set--official-pdf-fill",
+          "fixture": "boundary",
+          "files": [
+            {
+              "file": "data/rcap-all50/overlays/census-v1/vt/vt-seal-dui-set--official-pdf-fill/fixtures/boundary.pdf",
+              "bytes": 852465,
+              "fileSha256": "21fa17be618b32306ef2b22de7c2807b439815d0db0ae58becc648b2083c132a"
+            }
+          ]
+        },
+        {
+          "familyDir": "vt/vt-seal-felony-set--official-pdf-fill",
+          "fixture": "boundary",
+          "files": [
+            {
+              "file": "data/rcap-all50/overlays/census-v1/vt/vt-seal-felony-set--official-pdf-fill/fixtures/boundary.pdf",
+              "bytes": 852465,
+              "fileSha256": "21fa17be618b32306ef2b22de7c2807b439815d0db0ae58becc648b2083c132a"
+            }
+          ]
+        },
+        {
+          "familyDir": "vt/vt-seal-misdemeanor-set--official-pdf-fill",
+          "fixture": "boundary",
+          "files": [
+            {
+              "file": "data/rcap-all50/overlays/census-v1/vt/vt-seal-misdemeanor-set--official-pdf-fill/fixtures/boundary.pdf",
+              "bytes": 852465,
+              "fileSha256": "21fa17be618b32306ef2b22de7c2807b439815d0db0ae58becc648b2083c132a"
+            }
+          ]
+        },
+        {
+          "familyDir": "vt/vt-seal-pardon-set--official-pdf-fill",
+          "fixture": "boundary",
+          "files": [
+            {
+              "file": "data/rcap-all50/overlays/census-v1/vt/vt-seal-pardon-set--official-pdf-fill/fixtures/boundary.pdf",
+              "bytes": 852465,
+              "fileSha256": "21fa17be618b32306ef2b22de7c2807b439815d0db0ae58becc648b2083c132a"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "packetTextSha256": "ce2a2a3382a036e2f035bc36c25614043a510576fc7c7b17c0f5153f6377f881",
+      "fixture": "canonical",
+      "documentCount": 1,
+      "familyCount": 5,
+      "families": [
+        "vt/vt-seal-18-to-21-set--official-pdf-fill",
+        "vt/vt-seal-dui-set--official-pdf-fill",
+        "vt/vt-seal-felony-set--official-pdf-fill",
+        "vt/vt-seal-misdemeanor-set--official-pdf-fill",
+        "vt/vt-seal-pardon-set--official-pdf-fill"
+      ],
+      "identicalFileBytes": true,
+      "members": [
+        {
+          "familyDir": "vt/vt-seal-18-to-21-set--official-pdf-fill",
+          "fixture": "canonical",
+          "files": [
+            {
+              "file": "data/rcap-all50/overlays/census-v1/vt/vt-seal-18-to-21-set--official-pdf-fill/fixtures/canonical.pdf",
+              "bytes": 851978,
+              "fileSha256": "c360eac4b8698a0f9b11180a98e7515030dc9406746ebe0de48a61c09bb68843"
+            }
+          ]
+        },
+        {
+          "familyDir": "vt/vt-seal-dui-set--official-pdf-fill",
+          "fixture": "canonical",
+          "files": [
+            {
+              "file": "data/rcap-all50/overlays/census-v1/vt/vt-seal-dui-set--official-pdf-fill/fixtures/canonical.pdf",
+              "bytes": 851978,
+              "fileSha256": "c360eac4b8698a0f9b11180a98e7515030dc9406746ebe0de48a61c09bb68843"
+            }
+          ]
+        },
+        {
+          "familyDir": "vt/vt-seal-felony-set--official-pdf-fill",
+          "fixture": "canonical",
+          "files": [
+            {
+              "file": "data/rcap-all50/overlays/census-v1/vt/vt-seal-felony-set--official-pdf-fill/fixtures/canonical.pdf",
+              "bytes": 851978,
+              "fileSha256": "c360eac4b8698a0f9b11180a98e7515030dc9406746ebe0de48a61c09bb68843"
+            }
+          ]
+        },
+        {
+          "familyDir": "vt/vt-seal-misdemeanor-set--official-pdf-fill",
+          "fixture": "canonical",
+          "files": [
+            {
+              "file": "data/rcap-all50/overlays/census-v1/vt/vt-seal-misdemeanor-set--official-pdf-fill/fixtures/canonical.pdf",
+              "bytes": 851978,
+              "fileSha256": "c360eac4b8698a0f9b11180a98e7515030dc9406746ebe0de48a61c09bb68843"
+            }
+          ]
+        },
+        {
+          "familyDir": "vt/vt-seal-pardon-set--official-pdf-fill",
+          "fixture": "canonical",
+          "files": [
+            {
+              "file": "data/rcap-all50/overlays/census-v1/vt/vt-seal-pardon-set--official-pdf-fill/fixtures/canonical.pdf",
+              "bytes": 851978,
+              "fileSha256": "c360eac4b8698a0f9b11180a98e7515030dc9406746ebe0de48a61c09bb68843"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "packetTextSha256": "10ee01c85fd7d0b767c94c3d5057c5e93c9fbda54ee50e272d524a91e45de2b2",
+      "fixture": "boundary",
+      "documentCount": 2,
+      "familyCount": 5,
+      "families": [
+        "wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill",
+        "wa/wa-vac-misdemeanor-ordinary-set--official-pdf-fill",
+        "wa/wa-vac-substance-use-disorder-set--official-pdf-fill",
+        "wa/wa-vac-survivor-misdemeanor-set--official-pdf-fill",
+        "wa/wa-vac-treaty-fishing-set--official-pdf-fill"
+      ],
+      "identicalFileBytes": true,
+      "members": [
+        {
+          "familyDir": "wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill",
+          "fixture": "boundary",
+          "files": [
+            {
+              "file": "data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/fixtures/crrlj-09-0200-boundary-filled.pdf",
+              "bytes": 157759,
+              "fileSha256": "4d844aece78a8ae1c1e97407edd305f45dbdaa2c509f8e55ef51fef03bcb3a55"
+            },
+            {
+              "file": "data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/fixtures/crrlj-09-0100-boundary-filled.pdf",
+              "bytes": 158615,
+              "fileSha256": "75fac347051d6b710015ef5bbcc10b43df0a1de59078195ede75a744f4c42b77"
+            }
+          ]
+        },
+        {
+          "familyDir": "wa/wa-vac-misdemeanor-ordinary-set--official-pdf-fill",
+          "fixture": "boundary",
+          "files": [
+            {
+              "file": "data/rcap-all50/overlays/census-v1/wa/wa-vac-misdemeanor-ordinary-set--official-pdf-fill/fixtures/crrlj-09-0200-boundary-filled.pdf",
+              "bytes": 157759,
+              "fileSha256": "4d844aece78a8ae1c1e97407edd305f45dbdaa2c509f8e55ef51fef03bcb3a55"
+            },
+            {
+              "file": "data/rcap-all50/overlays/census-v1/wa/wa-vac-misdemeanor-ordinary-set--official-pdf-fill/fixtures/crrlj-09-0100-boundary-filled.pdf",
+              "bytes": 158615,
+              "fileSha256": "75fac347051d6b710015ef5bbcc10b43df0a1de59078195ede75a744f4c42b77"
+            }
+          ]
+        },
+        {
+          "familyDir": "wa/wa-vac-substance-use-disorder-set--official-pdf-fill",
+          "fixture": "boundary",
+          "files": [
+            {
+              "file": "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/fixtures/crrlj-09-0200-boundary-filled.pdf",
+              "bytes": 157759,
+              "fileSha256": "4d844aece78a8ae1c1e97407edd305f45dbdaa2c509f8e55ef51fef03bcb3a55"
+            },
+            {
+              "file": "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/fixtures/crrlj-09-0100-boundary-filled.pdf",
+              "bytes": 158615,
+              "fileSha256": "75fac347051d6b710015ef5bbcc10b43df0a1de59078195ede75a744f4c42b77"
+            }
+          ]
+        },
+        {
+          "familyDir": "wa/wa-vac-survivor-misdemeanor-set--official-pdf-fill",
+          "fixture": "boundary",
+          "files": [
+            {
+              "file": "data/rcap-all50/overlays/census-v1/wa/wa-vac-survivor-misdemeanor-set--official-pdf-fill/fixtures/crrlj-09-0200-boundary-filled.pdf",
+              "bytes": 157759,
+              "fileSha256": "4d844aece78a8ae1c1e97407edd305f45dbdaa2c509f8e55ef51fef03bcb3a55"
+            },
+            {
+              "file": "data/rcap-all50/overlays/census-v1/wa/wa-vac-survivor-misdemeanor-set--official-pdf-fill/fixtures/crrlj-09-0100-boundary-filled.pdf",
+              "bytes": 158615,
+              "fileSha256": "75fac347051d6b710015ef5bbcc10b43df0a1de59078195ede75a744f4c42b77"
+            }
+          ]
+        },
+        {
+          "familyDir": "wa/wa-vac-treaty-fishing-set--official-pdf-fill",
+          "fixture": "boundary",
+          "files": [
+            {
+              "file": "data/rcap-all50/overlays/census-v1/wa/wa-vac-treaty-fishing-set--official-pdf-fill/fixtures/crrlj-09-0200-boundary-filled.pdf",
+              "bytes": 157759,
+              "fileSha256": "4d844aece78a8ae1c1e97407edd305f45dbdaa2c509f8e55ef51fef03bcb3a55"
+            },
+            {
+              "file": "data/rcap-all50/overlays/census-v1/wa/wa-vac-treaty-fishing-set--official-pdf-fill/fixtures/crrlj-09-0100-boundary-filled.pdf",
+              "bytes": 158615,
+              "fileSha256": "75fac347051d6b710015ef5bbcc10b43df0a1de59078195ede75a744f4c42b77"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "packetTextSha256": "a45abb7cae7237fb63b5843b200039a54ac55b7827820feec56b40943c258e4b",
+      "fixture": "canonical",
+      "documentCount": 2,
+      "familyCount": 5,
+      "families": [
+        "wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill",
+        "wa/wa-vac-misdemeanor-ordinary-set--official-pdf-fill",
+        "wa/wa-vac-substance-use-disorder-set--official-pdf-fill",
+        "wa/wa-vac-survivor-misdemeanor-set--official-pdf-fill",
+        "wa/wa-vac-treaty-fishing-set--official-pdf-fill"
+      ],
+      "identicalFileBytes": true,
+      "members": [
+        {
+          "familyDir": "wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill",
+          "fixture": "canonical",
+          "files": [
+            {
+              "file": "data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/fixtures/crrlj-09-0200-canonical-filled.pdf",
+              "bytes": 157661,
+              "fileSha256": "3abc2475b78da8cff2445a99a78fa7aa18641d4c27f17d0c5eea3d6f07e40ce7"
+            },
+            {
+              "file": "data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/fixtures/crrlj-09-0100-canonical-filled.pdf",
+              "bytes": 158439,
+              "fileSha256": "846360e75578ce6233dba77b03b25545a529b50cd553ad31f88d3008b429a6ad"
+            }
+          ]
+        },
+        {
+          "familyDir": "wa/wa-vac-misdemeanor-ordinary-set--official-pdf-fill",
+          "fixture": "canonical",
+          "files": [
+            {
+              "file": "data/rcap-all50/overlays/census-v1/wa/wa-vac-misdemeanor-ordinary-set--official-pdf-fill/fixtures/crrlj-09-0200-canonical-filled.pdf",
+              "bytes": 157661,
+              "fileSha256": "3abc2475b78da8cff2445a99a78fa7aa18641d4c27f17d0c5eea3d6f07e40ce7"
+            },
+            {
+              "file": "data/rcap-all50/overlays/census-v1/wa/wa-vac-misdemeanor-ordinary-set--official-pdf-fill/fixtures/crrlj-09-0100-canonical-filled.pdf",
+              "bytes": 158439,
+              "fileSha256": "846360e75578ce6233dba77b03b25545a529b50cd553ad31f88d3008b429a6ad"
+            }
+          ]
+        },
+        {
+          "familyDir": "wa/wa-vac-substance-use-disorder-set--official-pdf-fill",
+          "fixture": "canonical",
+          "files": [
+            {
+              "file": "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/fixtures/crrlj-09-0200-canonical-filled.pdf",
+              "bytes": 157661,
+              "fileSha256": "3abc2475b78da8cff2445a99a78fa7aa18641d4c27f17d0c5eea3d6f07e40ce7"
+            },
+            {
+              "file": "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/fixtures/crrlj-09-0100-canonical-filled.pdf",
+              "bytes": 158439,
+              "fileSha256": "846360e75578ce6233dba77b03b25545a529b50cd553ad31f88d3008b429a6ad"
+            }
+          ]
+        },
+        {
+          "familyDir": "wa/wa-vac-survivor-misdemeanor-set--official-pdf-fill",
+          "fixture": "canonical",
+          "files": [
+            {
+              "file": "data/rcap-all50/overlays/census-v1/wa/wa-vac-survivor-misdemeanor-set--official-pdf-fill/fixtures/crrlj-09-0200-canonical-filled.pdf",
+              "bytes": 157661,
+              "fileSha256": "3abc2475b78da8cff2445a99a78fa7aa18641d4c27f17d0c5eea3d6f07e40ce7"
+            },
+            {
+              "file": "data/rcap-all50/overlays/census-v1/wa/wa-vac-survivor-misdemeanor-set--official-pdf-fill/fixtures/crrlj-09-0100-canonical-filled.pdf",
+              "bytes": 158439,
+              "fileSha256": "846360e75578ce6233dba77b03b25545a529b50cd553ad31f88d3008b429a6ad"
+            }
+          ]
+        },
+        {
+          "familyDir": "wa/wa-vac-treaty-fishing-set--official-pdf-fill",
+          "fixture": "canonical",
+          "files": [
+            {
+              "file": "data/rcap-all50/overlays/census-v1/wa/wa-vac-treaty-fishing-set--official-pdf-fill/fixtures/crrlj-09-0200-canonical-filled.pdf",
+              "bytes": 157661,
+              "fileSha256": "3abc2475b78da8cff2445a99a78fa7aa18641d4c27f17d0c5eea3d6f07e40ce7"
+            },
+            {
+              "file": "data/rcap-all50/overlays/census-v1/wa/wa-vac-treaty-fishing-set--official-pdf-fill/fixtures/crrlj-09-0100-canonical-filled.pdf",
+              "bytes": 158439,
+              "fileSha256": "846360e75578ce6233dba77b03b25545a529b50cd553ad31f88d3008b429a6ad"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "packetTextSha256": "95aeefb8c1e7774741bccfde188944936626def876881650d3a3a81b25eb74eb",
+      "fixture": "boundary",
+      "documentCount": 1,
+      "familyCount": 4,
+      "families": [
+        "nj/nj-arrest-no-conviction-set--official-pdf-fill",
+        "nj/nj-disorderly-persons-set--official-pdf-fill",
+        "nj/nj-indictable-conviction-set--official-pdf-fill",
+        "nj/nj-ordinance-set--official-pdf-fill"
+      ],
+      "identicalFileBytes": true,
+      "members": [
+        {
+          "familyDir": "nj/nj-arrest-no-conviction-set--official-pdf-fill",
+          "fixture": "boundary",
+          "files": [
+            {
+              "file": "data/rcap-all50/overlays/census-v1/nj/nj-arrest-no-conviction-set--official-pdf-fill/fixtures/cn-10557-boundary.pdf",
+              "bytes": 574020,
+              "fileSha256": "23a571af72985717963001120ba60116ae43054aaa1c2fddbeece944dac24494"
+            }
+          ]
+        },
+        {
+          "familyDir": "nj/nj-disorderly-persons-set--official-pdf-fill",
+          "fixture": "boundary",
+          "files": [
+            {
+              "file": "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/fixtures/cn-10557-boundary.pdf",
+              "bytes": 574020,
+              "fileSha256": "23a571af72985717963001120ba60116ae43054aaa1c2fddbeece944dac24494"
+            }
+          ]
+        },
+        {
+          "familyDir": "nj/nj-indictable-conviction-set--official-pdf-fill",
+          "fixture": "boundary",
+          "files": [
+            {
+              "file": "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill/fixtures/cn-10557-boundary.pdf",
+              "bytes": 574020,
+              "fileSha256": "23a571af72985717963001120ba60116ae43054aaa1c2fddbeece944dac24494"
+            }
+          ]
+        },
+        {
+          "familyDir": "nj/nj-ordinance-set--official-pdf-fill",
+          "fixture": "boundary",
+          "files": [
+            {
+              "file": "data/rcap-all50/overlays/census-v1/nj/nj-ordinance-set--official-pdf-fill/fixtures/cn-10557-boundary.pdf",
+              "bytes": 574020,
+              "fileSha256": "23a571af72985717963001120ba60116ae43054aaa1c2fddbeece944dac24494"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "packetTextSha256": "576e7a6b4811a0bdc8a79f407f6542c8621632c642f10675ff73a9518da8b3b9",
+      "fixture": "canonical",
+      "documentCount": 1,
+      "familyCount": 3,
+      "families": [
+        "nj/nj-disorderly-persons-set--official-pdf-fill",
+        "nj/nj-indictable-conviction-set--official-pdf-fill",
+        "nj/nj-ordinance-set--official-pdf-fill"
+      ],
+      "identicalFileBytes": true,
+      "members": [
+        {
+          "familyDir": "nj/nj-disorderly-persons-set--official-pdf-fill",
+          "fixture": "canonical",
+          "files": [
+            {
+              "file": "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/fixtures/cn-10557-canonical.pdf",
+              "bytes": 571718,
+              "fileSha256": "03f6169d042fc1d5ed30df008dfc966ef3d03b382731f5956d0e8786ca8a234f"
+            }
+          ]
+        },
+        {
+          "familyDir": "nj/nj-indictable-conviction-set--official-pdf-fill",
+          "fixture": "canonical",
+          "files": [
+            {
+              "file": "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill/fixtures/cn-10557-canonical.pdf",
+              "bytes": 571718,
+              "fileSha256": "03f6169d042fc1d5ed30df008dfc966ef3d03b382731f5956d0e8786ca8a234f"
+            }
+          ]
+        },
+        {
+          "familyDir": "nj/nj-ordinance-set--official-pdf-fill",
+          "fixture": "canonical",
+          "files": [
+            {
+              "file": "data/rcap-all50/overlays/census-v1/nj/nj-ordinance-set--official-pdf-fill/fixtures/cn-10557-canonical.pdf",
+              "bytes": 571718,
+              "fileSha256": "03f6169d042fc1d5ed30df008dfc966ef3d03b382731f5956d0e8786ca8a234f"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "packetTextSha256": "010df21323cdfcd5af6d3f55eff496d424d129d87d014702fd28cd410a5802b6",
+      "fixture": "boundary",
+      "documentCount": 1,
+      "familyCount": 2,
+      "families": [
+        "al/al-felony-nonconviction-90-set--official-pdf-fill",
+        "al/al-pardoned-felony-set--official-pdf-fill"
+      ],
+      "identicalFileBytes": false,
+      "members": [
+        {
+          "familyDir": "al/al-felony-nonconviction-90-set--official-pdf-fill",
+          "fixture": "boundary",
+          "files": [
+            {
+              "file": "data/rcap-all50/overlays/census-v1/al/al-felony-nonconviction-90-set--official-pdf-fill/fixtures/boundary.pdf",
+              "bytes": 905897,
+              "fileSha256": "8c9374e14f5695ea7499bbf71ca7c09d0c82202392869ade7951f9de62f79784"
+            }
+          ]
+        },
+        {
+          "familyDir": "al/al-pardoned-felony-set--official-pdf-fill",
+          "fixture": "boundary",
+          "files": [
+            {
+              "file": "data/rcap-all50/overlays/census-v1/al/al-pardoned-felony-set--official-pdf-fill/fixtures/boundary.pdf",
+              "bytes": 905865,
+              "fileSha256": "bf42599d8545ee2e470f5bc2b298d64562966c9c71e1a7578c85ca958b29ff6f"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "packetTextSha256": "ed606ec6c399cff3a2e3d6dbcac97e47864133165e69d01b06c75921bd36b45c",
+      "fixture": "canonical",
+      "documentCount": 1,
+      "familyCount": 2,
+      "families": [
+        "al/al-felony-nonconviction-90-set--official-pdf-fill",
+        "al/al-pardoned-felony-set--official-pdf-fill"
+      ],
+      "identicalFileBytes": false,
+      "members": [
+        {
+          "familyDir": "al/al-felony-nonconviction-90-set--official-pdf-fill",
+          "fixture": "canonical",
+          "files": [
+            {
+              "file": "data/rcap-all50/overlays/census-v1/al/al-felony-nonconviction-90-set--official-pdf-fill/fixtures/canonical.pdf",
+              "bytes": 905656,
+              "fileSha256": "e7cd495ccdfc8ecb171a0ce59d4687c428c0c825618598311b354ecfe83332dd"
+            }
+          ]
+        },
+        {
+          "familyDir": "al/al-pardoned-felony-set--official-pdf-fill",
+          "fixture": "canonical",
+          "files": [
+            {
+              "file": "data/rcap-all50/overlays/census-v1/al/al-pardoned-felony-set--official-pdf-fill/fixtures/canonical.pdf",
+              "bytes": 905624,
+              "fileSha256": "985f5109580e569525a848adee80004a020d460e6d5a07db90bfc2b3dca6b2f0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "packetTextSha256": "94aeb54a817e35e601ef5979f7704659340d54d8d6ce79c3e7a7d9fb32d1afca",
+      "fixture": "canonical",
+      "documentCount": 1,
+      "familyCount": 2,
+      "families": [
+        "hi/hi-712-1200-deferred-expungement-set--official-pdf-fill",
+        "hi/hi-nonconviction-expungement-set--official-pdf-fill"
+      ],
+      "identicalFileBytes": false,
+      "members": [
+        {
+          "familyDir": "hi/hi-712-1200-deferred-expungement-set--official-pdf-fill",
+          "fixture": "canonical",
+          "files": [
+            {
+              "file": "data/rcap-all50/overlays/census-v1/hi/hi-712-1200-deferred-expungement-set--official-pdf-fill/fixtures/canonical.pdf",
+              "bytes": 197328,
+              "fileSha256": "78e674c8aaabc6adb66a4c4a40bc8232a1cb86c650bb0c5d21c6646226c01313"
+            }
+          ]
+        },
+        {
+          "familyDir": "hi/hi-nonconviction-expungement-set--official-pdf-fill",
+          "fixture": "canonical",
+          "files": [
+            {
+              "file": "data/rcap-all50/overlays/census-v1/hi/hi-nonconviction-expungement-set--official-pdf-fill/fixtures/canonical.pdf",
+              "bytes": 197487,
+              "fileSha256": "f15b906a649280d5bab03a81078d7f283a38eb3a81519773c15a2881f71b4d43"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "packetTextSha256": "97f398f3438e5beee87fea9804b969b8b4a949f4652ceaad1a5df58cba790628",
+      "fixture": "boundary",
+      "documentCount": 2,
+      "familyCount": 2,
+      "families": [
+        "in/in-arrest-no-charges-set--official-pdf-fill",
+        "in/in-section1-petition-set--official-pdf-fill"
+      ],
+      "identicalFileBytes": true,
+      "members": [
+        {
+          "familyDir": "in/in-arrest-no-charges-set--official-pdf-fill",
+          "fixture": "boundary",
+          "files": [
+            {
+              "file": "data/rcap-all50/overlays/census-v1/in/in-arrest-no-charges-set--official-pdf-fill/fixtures/inserts-boundary-filled.pdf",
+              "bytes": 168945,
+              "fileSha256": "f493e35fedb1125dd2eb3b84d0d08c6e717401a5f628ce853b49beebd46900f9"
+            },
+            {
+              "file": "data/rcap-all50/overlays/census-v1/in/in-arrest-no-charges-set--official-pdf-fill/fixtures/packet-boundary-filled.pdf",
+              "bytes": 250461,
+              "fileSha256": "a7b34ccf21175518b5deb609818af3b04feda9c3280d0aaa3862b24714d9df3d"
+            }
+          ]
+        },
+        {
+          "familyDir": "in/in-section1-petition-set--official-pdf-fill",
+          "fixture": "boundary",
+          "files": [
+            {
+              "file": "data/rcap-all50/overlays/census-v1/in/in-section1-petition-set--official-pdf-fill/fixtures/inserts-boundary-filled.pdf",
+              "bytes": 168945,
+              "fileSha256": "f493e35fedb1125dd2eb3b84d0d08c6e717401a5f628ce853b49beebd46900f9"
+            },
+            {
+              "file": "data/rcap-all50/overlays/census-v1/in/in-section1-petition-set--official-pdf-fill/fixtures/packet-boundary-filled.pdf",
+              "bytes": 250461,
+              "fileSha256": "a7b34ccf21175518b5deb609818af3b04feda9c3280d0aaa3862b24714d9df3d"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "packetTextSha256": "bc209c37e1f2c924dcc7bd5ebbe0dde6140a00f8d2af9c0d03bda5807c23a71f",
+      "fixture": "canonical",
+      "documentCount": 2,
+      "familyCount": 2,
+      "families": [
+        "in/in-arrest-no-charges-set--official-pdf-fill",
+        "in/in-section1-petition-set--official-pdf-fill"
+      ],
+      "identicalFileBytes": false,
+      "members": [
+        {
+          "familyDir": "in/in-arrest-no-charges-set--official-pdf-fill",
+          "fixture": "canonical",
+          "files": [
+            {
+              "file": "data/rcap-all50/overlays/census-v1/in/in-arrest-no-charges-set--official-pdf-fill/fixtures/inserts-canonical-filled.pdf",
+              "bytes": 168945,
+              "fileSha256": "f493e35fedb1125dd2eb3b84d0d08c6e717401a5f628ce853b49beebd46900f9"
+            },
+            {
+              "file": "data/rcap-all50/overlays/census-v1/in/in-arrest-no-charges-set--official-pdf-fill/fixtures/packet-canonical-filled.pdf",
+              "bytes": 251387,
+              "fileSha256": "2f14e1a7c0e0bf6f162b0385e310a2ce12b9872e13b4bb6b85e21ff139bb9112"
+            }
+          ]
+        },
+        {
+          "familyDir": "in/in-section1-petition-set--official-pdf-fill",
+          "fixture": "canonical",
+          "files": [
+            {
+              "file": "data/rcap-all50/overlays/census-v1/in/in-section1-petition-set--official-pdf-fill/fixtures/inserts-canonical-filled.pdf",
+              "bytes": 168945,
+              "fileSha256": "f493e35fedb1125dd2eb3b84d0d08c6e717401a5f628ce853b49beebd46900f9"
+            },
+            {
+              "file": "data/rcap-all50/overlays/census-v1/in/in-section1-petition-set--official-pdf-fill/fixtures/packet-canonical-filled.pdf",
+              "bytes": 251386,
+              "fileSha256": "f3cfeb3257e31a90b8f29f5bc264e9da1ad0e390f53e1d3c5950b20b4cbc0241"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "packetTextSha256": "c9e87dc517ae77d570ed60544b5521dabff3e4eb463b44b301f250df3164cd5e",
+      "fixture": "boundary",
+      "documentCount": 1,
+      "familyCount": 2,
+      "families": [
+        "ut/ut-pet-dismissed-with-prejudice-set--official-pdf-fill",
+        "ut/ut-pet-dismissed-without-prejudice-set--official-pdf-fill"
+      ],
+      "identicalFileBytes": true,
+      "members": [
+        {
+          "familyDir": "ut/ut-pet-dismissed-with-prejudice-set--official-pdf-fill",
+          "fixture": "boundary",
+          "files": [
+            {
+              "file": "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-with-prejudice-set--official-pdf-fill/fixtures/boundary.pdf",
+              "bytes": 3025444,
+              "fileSha256": "f37d2e7eda71cfe2a444e09b2e169f50d54b514b116a8b0bdf32049954179a3f"
+            }
+          ]
+        },
+        {
+          "familyDir": "ut/ut-pet-dismissed-without-prejudice-set--official-pdf-fill",
+          "fixture": "boundary",
+          "files": [
+            {
+              "file": "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-without-prejudice-set--official-pdf-fill/fixtures/boundary.pdf",
+              "bytes": 3025444,
+              "fileSha256": "f37d2e7eda71cfe2a444e09b2e169f50d54b514b116a8b0bdf32049954179a3f"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "packetTextSha256": "363728634c0043ccd9fbc3e54eb6ab14b322693b4c691143dba916ef9a499f6f",
+      "fixture": "canonical",
+      "documentCount": 1,
+      "familyCount": 2,
+      "families": [
+        "ut/ut-pet-dismissed-with-prejudice-set--official-pdf-fill",
+        "ut/ut-pet-dismissed-without-prejudice-set--official-pdf-fill"
+      ],
+      "identicalFileBytes": true,
+      "members": [
+        {
+          "familyDir": "ut/ut-pet-dismissed-with-prejudice-set--official-pdf-fill",
+          "fixture": "canonical",
+          "files": [
+            {
+              "file": "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-with-prejudice-set--official-pdf-fill/fixtures/canonical.pdf",
+              "bytes": 3024805,
+              "fileSha256": "53f275aeee3fe0caf9e83b0bdf2d30e4152f523215a3631ae7b0f9ebbdb2401a"
+            }
+          ]
+        },
+        {
+          "familyDir": "ut/ut-pet-dismissed-without-prejudice-set--official-pdf-fill",
+          "fixture": "canonical",
+          "files": [
+            {
+              "file": "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-without-prejudice-set--official-pdf-fill/fixtures/canonical.pdf",
+              "bytes": 3024805,
+              "fileSha256": "53f275aeee3fe0caf9e83b0bdf2d30e4152f523215a3631ae7b0f9ebbdb2401a"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "nearClones": [
+    {
+      "fixture": "boundary",
+      "documentCount": 2,
+      "familyCount": 6,
+      "families": [
+        "wa/wa-vac-domestic-violence-set--official-pdf-fill",
+        "wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill",
+        "wa/wa-vac-misdemeanor-ordinary-set--official-pdf-fill",
+        "wa/wa-vac-substance-use-disorder-set--official-pdf-fill",
+        "wa/wa-vac-survivor-misdemeanor-set--official-pdf-fill",
+        "wa/wa-vac-treaty-fishing-set--official-pdf-fill"
+      ],
+      "identicalExtractedText": true,
+      "distinctMarkSets": 2,
+      "theQuestion": "These families deliver the same words. Whatever distinguishes them is drawn, not written. A reader should say whether that is correct for these routes."
+    },
+    {
+      "fixture": "canonical",
+      "documentCount": 2,
+      "familyCount": 6,
+      "families": [
+        "wa/wa-vac-domestic-violence-set--official-pdf-fill",
+        "wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill",
+        "wa/wa-vac-misdemeanor-ordinary-set--official-pdf-fill",
+        "wa/wa-vac-substance-use-disorder-set--official-pdf-fill",
+        "wa/wa-vac-survivor-misdemeanor-set--official-pdf-fill",
+        "wa/wa-vac-treaty-fishing-set--official-pdf-fill"
+      ],
+      "identicalExtractedText": true,
+      "distinctMarkSets": 2,
+      "theQuestion": "These families deliver the same words. Whatever distinguishes them is drawn, not written. A reader should say whether that is correct for these routes."
+    },
+    {
+      "fixture": "canonical",
+      "documentCount": 8,
+      "familyCount": 3,
+      "families": [
+        "ca/ca-1203-41-set--official-pdf-fill",
+        "ca/ca-1203-42-set--official-pdf-fill",
+        "ca/ca-1203-4a-set--official-pdf-fill"
+      ],
+      "identicalExtractedText": true,
+      "distinctMarkSets": 3,
+      "theQuestion": "These families deliver the same words. Whatever distinguishes them is drawn, not written. A reader should say whether that is correct for these routes."
+    },
+    {
+      "fixture": "boundary",
+      "documentCount": 1,
+      "familyCount": 2,
+      "families": [
+        "mn/mn-petition-15218-set--official-pdf-fill",
+        "mn/mn-petition-juvenile-as-adult-set--official-pdf-fill"
+      ],
+      "identicalExtractedText": true,
+      "distinctMarkSets": 2,
+      "theQuestion": "These families deliver the same words. Whatever distinguishes them is drawn, not written. A reader should say whether that is correct for these routes."
+    },
+    {
+      "fixture": "canonical",
+      "documentCount": 1,
+      "familyCount": 2,
+      "families": [
+        "mn/mn-petition-15218-set--official-pdf-fill",
+        "mn/mn-petition-juvenile-as-adult-set--official-pdf-fill"
+      ],
+      "identicalExtractedText": true,
+      "distinctMarkSets": 2,
+      "theQuestion": "These families deliver the same words. Whatever distinguishes them is drawn, not written. A reader should say whether that is correct for these routes."
+    }
+  ],
+  "sharedDocuments": [
+    {
+      "textSha256": "a3430e522c271ba87ffc2520545b17a6b1ced150bbbade9718bcb19c6e7186bc",
+      "familyCount": 7,
+      "families": [
+        "ca/ca-1203-4-set--official-pdf-fill",
+        "ca/ca-1203-41-set--official-pdf-fill",
+        "ca/ca-1203-42-set--official-pdf-fill",
+        "ca/ca-1203-43-set--official-pdf-fill",
+        "ca/ca-1203-4a-set--official-pdf-fill",
+        "ca/ca-17b-reduction-set--official-pdf-fill",
+        "ca/ca-851-91-set--official-pdf-fill"
+      ],
+      "identicalFileBytes": true
+    },
+    {
+      "textSha256": "8c54e471a095d747823ac40dea27dde70e35f73c1109d455d4e16b0b88bf16ab",
+      "familyCount": 6,
+      "families": [
+        "ca/ca-1203-4-set--official-pdf-fill",
+        "ca/ca-1203-41-set--official-pdf-fill",
+        "ca/ca-1203-42-set--official-pdf-fill",
+        "ca/ca-1203-43-set--official-pdf-fill",
+        "ca/ca-1203-4a-set--official-pdf-fill",
+        "ca/ca-17b-reduction-set--official-pdf-fill"
+      ],
+      "identicalFileBytes": true
+    },
+    {
+      "textSha256": "b66945ae2cbf92b7d977d1c2515d2576d5d7749f679cd3f0b8d0d0cab025a76f",
+      "familyCount": 6,
+      "families": [
+        "wa/wa-vac-domestic-violence-set--official-pdf-fill",
+        "wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill",
+        "wa/wa-vac-misdemeanor-ordinary-set--official-pdf-fill",
+        "wa/wa-vac-substance-use-disorder-set--official-pdf-fill",
+        "wa/wa-vac-survivor-misdemeanor-set--official-pdf-fill",
+        "wa/wa-vac-treaty-fishing-set--official-pdf-fill"
+      ],
+      "identicalFileBytes": true
+    },
+    {
+      "textSha256": "a8b49d99671d762a0c3ec0a446a8185f333160a2288063c89b822b13a0b2f9f1",
+      "familyCount": 6,
+      "families": [
+        "wa/wa-vac-domestic-violence-set--official-pdf-fill",
+        "wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill",
+        "wa/wa-vac-misdemeanor-ordinary-set--official-pdf-fill",
+        "wa/wa-vac-substance-use-disorder-set--official-pdf-fill",
+        "wa/wa-vac-survivor-misdemeanor-set--official-pdf-fill",
+        "wa/wa-vac-treaty-fishing-set--official-pdf-fill"
+      ],
+      "identicalFileBytes": true
+    },
+    {
+      "textSha256": "ec107a3c4393c4dad8645129c49759e8f10e031e65412dc08017d0375d7b6004",
+      "familyCount": 5,
+      "families": [
+        "ca/ca-1203-4-set--official-pdf-fill",
+        "ca/ca-1203-41-set--official-pdf-fill",
+        "ca/ca-1203-42-set--official-pdf-fill",
+        "ca/ca-1203-4a-set--official-pdf-fill",
+        "ca/ca-851-91-set--official-pdf-fill"
+      ],
+      "identicalFileBytes": true
+    },
+    {
+      "textSha256": "5d4b17dff9182cb330f584d1ba6d7f203b8419986cb176c43dc9278785f95352",
+      "familyCount": 5,
+      "families": [
+        "vt/vt-seal-18-to-21-set--official-pdf-fill",
+        "vt/vt-seal-dui-set--official-pdf-fill",
+        "vt/vt-seal-felony-set--official-pdf-fill",
+        "vt/vt-seal-misdemeanor-set--official-pdf-fill",
+        "vt/vt-seal-pardon-set--official-pdf-fill"
+      ],
+      "identicalFileBytes": true
+    },
+    {
+      "textSha256": "91957a06acd6dc6c2cf88233474d4669607c86d31a9dbbe289f9221e74d65eb4",
+      "familyCount": 5,
+      "families": [
+        "vt/vt-seal-18-to-21-set--official-pdf-fill",
+        "vt/vt-seal-dui-set--official-pdf-fill",
+        "vt/vt-seal-felony-set--official-pdf-fill",
+        "vt/vt-seal-misdemeanor-set--official-pdf-fill",
+        "vt/vt-seal-pardon-set--official-pdf-fill"
+      ],
+      "identicalFileBytes": true
+    },
+    {
+      "textSha256": "7f77b712c299dab48e0b06f5676024f72f4f5793211980f26b5f8dce4d9b3a17",
+      "familyCount": 5,
+      "families": [
+        "wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill",
+        "wa/wa-vac-misdemeanor-ordinary-set--official-pdf-fill",
+        "wa/wa-vac-substance-use-disorder-set--official-pdf-fill",
+        "wa/wa-vac-survivor-misdemeanor-set--official-pdf-fill",
+        "wa/wa-vac-treaty-fishing-set--official-pdf-fill"
+      ],
+      "identicalFileBytes": true
+    },
+    {
+      "textSha256": "254c97ae340313b435d43d3af374806c161a226c428407830abb7540aea91504",
+      "familyCount": 5,
+      "families": [
+        "wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill",
+        "wa/wa-vac-misdemeanor-ordinary-set--official-pdf-fill",
+        "wa/wa-vac-substance-use-disorder-set--official-pdf-fill",
+        "wa/wa-vac-survivor-misdemeanor-set--official-pdf-fill",
+        "wa/wa-vac-treaty-fishing-set--official-pdf-fill"
+      ],
+      "identicalFileBytes": true
+    },
+    {
+      "textSha256": "3782df281c8951b155b06f1d94e2253270143f1267ee972ef2c946029783d243",
+      "familyCount": 4,
+      "families": [
+        "nj/nj-arrest-no-conviction-set--official-pdf-fill",
+        "nj/nj-disorderly-persons-set--official-pdf-fill",
+        "nj/nj-indictable-conviction-set--official-pdf-fill",
+        "nj/nj-ordinance-set--official-pdf-fill"
+      ],
+      "identicalFileBytes": true
+    },
+    {
+      "textSha256": "e673fe090dc0b66d7ee035caa68f89549d84d9b7c2ccf5102315f2ae13133f34",
+      "familyCount": 3,
+      "families": [
+        "nj/nj-disorderly-persons-set--official-pdf-fill",
+        "nj/nj-indictable-conviction-set--official-pdf-fill",
+        "nj/nj-ordinance-set--official-pdf-fill"
+      ],
+      "identicalFileBytes": true
+    },
+    {
+      "textSha256": "389b6e2d81e4457e9b183f84e947eb160a535944ac482942b1b1fc6e1ce16e68",
+      "familyCount": 3,
+      "families": [
+        "pa/pa-490-nonconviction-set--official-pdf-fill",
+        "pa/pa-6308-underage-set--official-pdf-fill",
+        "pa/pa-summary-conviction-set--official-pdf-fill"
+      ],
+      "identicalFileBytes": false
+    },
+    {
+      "textSha256": "c9744dd3c75db92620e0c27449018c29105a71f0c8d83a2177098b910c8de380",
+      "familyCount": 3,
+      "families": [
+        "pa/pa-6308-underage-set--official-pdf-fill",
+        "pa/pa-790-nonconviction-set--official-pdf-fill",
+        "pa/pa-summary-conviction-set--official-pdf-fill"
+      ],
+      "identicalFileBytes": false
+    },
+    {
+      "textSha256": "385d0a2931a1262de3307a4f0def9cb9e5771b68fd0014611c899559061ad132",
+      "familyCount": 2,
+      "families": [
+        "al/al-felony-nonconviction-90-set--official-pdf-fill",
+        "al/al-pardoned-felony-set--official-pdf-fill"
+      ],
+      "identicalFileBytes": false
+    },
+    {
+      "textSha256": "2f3c786f8511f5e0d9cff2b3817d57f678aba9e9730629b22793f28815094678",
+      "familyCount": 2,
+      "families": [
+        "al/al-felony-nonconviction-90-set--official-pdf-fill",
+        "al/al-pardoned-felony-set--official-pdf-fill"
+      ],
+      "identicalFileBytes": false
+    },
+    {
+      "textSha256": "b4a74147e7c363021c9e96c1c8dcee9bb1f586ccd2599c5831d502dd3ba8dcf6",
+      "familyCount": 2,
+      "families": [
+        "ca/ca-1203-4-set--official-pdf-fill",
+        "ca/ca-17b-reduction-set--official-pdf-fill"
+      ],
+      "identicalFileBytes": false
+    },
+    {
+      "textSha256": "104479104563369b24ce1d835cdaa939416bfbd74b178f66102656b5397f9fd5",
+      "familyCount": 2,
+      "families": [
+        "ca/ca-1203-4-set--official-pdf-fill",
+        "ca/ca-17b-reduction-set--official-pdf-fill"
+      ],
+      "identicalFileBytes": false
+    },
+    {
+      "textSha256": "a2a8984d914b0154601763cdd41e6d984ba44e7ed8b8a628911011aed9ba6653",
+      "familyCount": 2,
+      "families": [
+        "hi/hi-712-1200-deferred-expungement-set--official-pdf-fill",
+        "hi/hi-nonconviction-expungement-set--official-pdf-fill"
+      ],
+      "identicalFileBytes": false
+    },
+    {
+      "textSha256": "09c2ffe47c5c4cb5357ad31eb3a9fb86fad577836e533ebe9dba7fa06b5dbaab",
+      "familyCount": 2,
+      "families": [
+        "in/in-arrest-no-charges-set--official-pdf-fill",
+        "in/in-section1-petition-set--official-pdf-fill"
+      ],
+      "identicalFileBytes": true
+    },
+    {
+      "textSha256": "563abe5708e3f2163ebd4c7d8886639a188f20dfa31e30c889107904d0afa7ed",
+      "familyCount": 2,
+      "families": [
+        "in/in-arrest-no-charges-set--official-pdf-fill",
+        "in/in-section1-petition-set--official-pdf-fill"
+      ],
+      "identicalFileBytes": true
+    },
+    {
+      "textSha256": "96c427fd63d1832949c48d102c886e09818e30e46853d4cc758ec0dc3e04bef2",
+      "familyCount": 2,
+      "families": [
+        "in/in-arrest-no-charges-set--official-pdf-fill",
+        "in/in-section1-petition-set--official-pdf-fill"
+      ],
+      "identicalFileBytes": false
+    },
+    {
+      "textSha256": "f22bcac7ce23b846c3b5c89a54f8536735bef39f3025a337b91052327443d0aa",
+      "familyCount": 2,
+      "families": [
+        "ky/ky-void-seal-controlled-substance-set--custom-pleading",
+        "ky/ky-void-seal-marijuana-synthetic-salvia-set--custom-pleading"
+      ],
+      "identicalFileBytes": true
+    },
+    {
+      "textSha256": "5a1713c19af41b1940b8381382e45d7eed04c75e9ad83d9e5a1ec1974fa8463f",
+      "familyCount": 2,
+      "families": [
+        "ky/ky-void-seal-controlled-substance-set--custom-pleading",
+        "ky/ky-void-seal-marijuana-synthetic-salvia-set--custom-pleading"
+      ],
+      "identicalFileBytes": true
+    },
+    {
+      "textSha256": "eb5c704b353b4ff8a8e2885920240c28b9d5d7072f0e732fcffe1e8acddfe8b0",
+      "familyCount": 2,
+      "families": [
+        "pa/pa-490-nonconviction-set--official-pdf-fill",
+        "pa/pa-summary-conviction-set--official-pdf-fill"
+      ],
+      "identicalFileBytes": false
+    },
+    {
+      "textSha256": "866ae313b92a949396b3df77aee1ddace32f21452da0816abca545e954b82be6",
+      "familyCount": 2,
+      "families": [
+        "pa/pa-6308-underage-set--official-pdf-fill",
+        "pa/pa-summary-conviction-set--official-pdf-fill"
+      ],
+      "identicalFileBytes": true
+    },
+    {
+      "textSha256": "f5109cc5ba6e666612c9b051231218cefaae280b65fb3cbde2cb68a17adca953",
+      "familyCount": 2,
+      "families": [
+        "pa/pa-790-nonconviction-set--official-pdf-fill",
+        "pa/pa-summary-conviction-set--official-pdf-fill"
+      ],
+      "identicalFileBytes": false
+    },
+    {
+      "textSha256": "c3a4190f6019f5f905160f498f9392dfc9620e841329b07982e5f37ad8734d11",
+      "familyCount": 2,
+      "families": [
+        "ut/ut-pet-dismissed-with-prejudice-set--official-pdf-fill",
+        "ut/ut-pet-dismissed-without-prejudice-set--official-pdf-fill"
+      ],
+      "identicalFileBytes": true
+    },
+    {
+      "textSha256": "d035091419f8644e4fbb5f4e8e6f9b4e9bc80b2d1c61470fd1afccb878224128",
+      "familyCount": 2,
+      "families": [
+        "ut/ut-pet-dismissed-with-prejudice-set--official-pdf-fill",
+        "ut/ut-pet-dismissed-without-prejudice-set--official-pdf-fill"
+      ],
+      "identicalFileBytes": true
+    },
+    {
+      "textSha256": "22e355c1c02f431e20209b47fc6ff982b7a8fc24e5bba110bba78335c08bad34",
+      "familyCount": 2,
+      "families": [
+        "wa/wa-vac-felony-set--official-pdf-fill",
+        "wa/wa-vac-survivor-felony-set--official-pdf-fill"
+      ],
+      "identicalFileBytes": true
+    },
+    {
+      "textSha256": "2d8dba732f35b49468819c6e95c3961cc0cf4fbf91a0873ffed1a3c13b0535a0",
+      "familyCount": 2,
+      "families": [
+        "wa/wa-vac-felony-set--official-pdf-fill",
+        "wa/wa-vac-survivor-felony-set--official-pdf-fill"
+      ],
+      "identicalFileBytes": true
+    }
+  ]
+}

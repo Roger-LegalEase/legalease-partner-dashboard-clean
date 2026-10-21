@@ -1,0 +1,122 @@
+--- a/scripts/grade-a-packet-factory-24h/generate.mjs
++++ b/scripts/grade-a-packet-factory-24h/generate.mjs
+@@ -18,6 +18,8 @@
+  */
+ import { applyUnresolvedSourceConstraints } from "./source-readiness-constraints.mjs";
+ import fs from "node:fs";
++import { loadTreatmentReconciliations, reconcileFamilyBuildInputs, preserveTreatmentAcceptance, guidanceSourceReadiness, WA_AUTOMATIC } from "./treatment-reconciliation.mjs";
++import { assessWashingtonReviewedGuidance } from "./wa-reviewed-guidance.mjs";
+ import { assessDeReviewedGuidance } from "./de-reviewed-guidance.mjs";
+ import { orderedReclassificationReadReturned } from "./reclassification-review-order.mjs";
+ import { preflightDenominator, denominatorForCommand } from "./preflight-denominator.mjs";
+@@ -890,6 +892,8 @@
+ function sourceReadiness(familyId, worklistGroupId, custody, routes, holds, implementationStrategy, reconciliation) {
+   const reasons = [];
+   const bound = [];
++  const guidanceAuthority = guidanceSourceReadiness(ROOT, familyId, reconciliation);
++  reasons.push(...guidanceAuthority.reasons);
+   const boundIds = new Set();
+   const customPleading = implementationStrategy === "custom_pleading"
+     || implementationStrategy === "participant_agency_application";
+@@ -1077,7 +1081,7 @@
+    * application from the agency's own published process. Neither is blocked
+    * on an official form it will never fill; named missing components still
+    * block both honestly. */
+-  if (!customPleading && named.length === 0 && bound.length === 0) {
++  if (!customPleading && !guidanceAuthority.ready && named.length === 0 && bound.length === 0) {
+     reasons.push("the family names no document-shaped source, so nothing binds");
+   }
+   /* A custom pleading drafts from codified text, so it needs no PDF to fill —
+@@ -1086,7 +1090,7 @@
+   const customAuthorityReady = customPleading
+     && (reconciliation?.requireBoundAuthority !== true || boundAuthorities.length > 0);
+   const ready = reasons.length === 0
+-    && (customAuthorityReady || bound.length > 0 || satisfiedByAuthority.length > 0);
++    && (customAuthorityReady || guidanceAuthority.ready || bound.length > 0 || satisfiedByAuthority.length > 0);
+   return applyUnresolvedSourceConstraints({
+     ready,
+     reasons,
+@@ -1104,6 +1108,7 @@
+         }
+       : {}),
+     boundSources: bound,
++    boundGuidanceAuthorityRecords: guidanceAuthority.records,
+     boundAuthorities,
+     boundAuthorityCount: boundAuthorities.length,
+     supersededSourceIds: [...replacements.keys()],
+@@ -1917,6 +1922,7 @@
+   process.exit(0);
+ }
+ 
++const treatmentReconciliations = loadTreatmentReconciliations(ROOT);
+ const families = [];
+ const artifactsOnlyRereadTransitions = new Map();
+ const seen = new Set();
+@@ -1933,7 +1939,7 @@
+   if (seen.has(familyId)) continue;
+   seen.add(familyId);
+ 
+-  const routes = (routesByFamily.get(familyId) ?? []).length > 0
++  const originalRoutes = (routesByFamily.get(familyId) ?? []).length > 0
+     ? routesByFamily.get(familyId)
+     : (worklistRowById.get(f.worklistGroupId)?.routes ?? []);
+   const custody = custodyByGroup.get(f.worklistGroupId) ?? null;
+@@ -1943,15 +1949,19 @@
+   const independentReturn = independentReturnByFamily.get(familyId) ?? null;
+   const independentFail = independentReturn?.verdict === "FAIL_REPAIR_REQUIRED";
+ 
+-  const sourceReconciliation = sourceReconciliationByFamily.get(familyId) ?? null;
+-  const strategy = sourceReconciliation?.implementationStrategyOverride ?? f.implementationStrategy;
++  const originalSourceReconciliation = sourceReconciliationByFamily.get(familyId) ?? null;
++  const { routes, implementationStrategy: strategy, sourceReconciliation, treatment } = reconcileFamilyBuildInputs({
++    familyId, routes: originalRoutes,
++    implementationStrategy: originalSourceReconciliation?.implementationStrategyOverride ?? f.implementationStrategy,
++    sourceReconciliation: originalSourceReconciliation
++  }, treatmentReconciliations);
+   const dirGuess = `${OVERLAYS}/${(f.jurisdictions[0] ?? "xx").toLowerCase()}/${slugOf(familyId)}--${suffixOf(strategy)}`;
+-  const directory = comp?.directory
++  const directory = treatment?.directory ?? comp?.directory
+     ?? overlayDirs.find((d) => path.basename(d).startsWith(`${slugOf(familyId)}--`))
+     ?? dirGuess;
+   const buildScript = `${SCRIPTS}/build-census-v1-${familyId}.mjs`;
+   const buildScriptExists = fs.existsSync(path.join(ROOT, buildScript));
+-  const artifactPresent = fs.existsSync(path.join(ROOT, `${directory}/reports/rendered-artifacts.json`));
++  const artifactPresent = fs.existsSync(path.join(ROOT, `${directory}/${familyId === WA_AUTOMATIC ? "guidance-manifest.json" : "reports/rendered-artifacts.json"}`));
+ 
+   const originalSourceIds = [...new Set(routes.flatMap((r) => (r.requiredSourceIds ?? []).filter((s) => s.startsWith("official-form:"))))];
+   const removedSourceIds = new Set(sourceReconciliation?.satisfiedWithoutStandaloneBinary ?? []);
+@@ -1990,7 +2000,9 @@
+    * calling that "bound by held bytes" would promote a source that has no
+    * bytes, which F18 rightly refuses. */
+   const sourceStatus = readiness.ready
+-    ? (readiness.boundCount === 0 ? "CUSTOM_PLEADING_FROM_CODIFIED_TEXT" : "SOURCE_BOUND_BY_HELD_BYTES")
++    ? (strategy === "process_guidance" && readiness.boundGuidanceAuthorityRecords?.length > 0
++      ? "GUIDANCE_AUTHORITY_BOUND"
++      : readiness.boundCount === 0 ? "CUSTOM_PLEADING_FROM_CODIFIED_TEXT" : "SOURCE_BOUND_BY_HELD_BYTES")
+     : !((f.holds ?? []).some((h) => h.kind === "missing_source"))
+       ? (inexact.length > 0 ? "SOURCE_IDENTITY_NOT_EXACT" : `SOURCE_NAMED_BUT_NOT_HELD: ${readiness.reasons[0]}`)
+       : (custody?.custodyClass ?? "SOURCE_IDENTITY_UNRESOLVED");
+@@ -2406,8 +2418,12 @@
+     });
+   }
+ 
++  const reviewedTreatmentGuidance = familyId === WA_AUTOMATIC ? assessWashingtonReviewedGuidance(ROOT) : null;
++  state = preserveTreatmentAcceptance(state, treatment, reviewedTreatmentGuidance);
+   families.push({
+     familyId,
++    treatmentReconciliation: treatment,
++    reviewedTreatmentGuidance,
+     worklistGroupId: f.worklistGroupId,
+     jurisdiction: (f.jurisdictions ?? []).join("/"),
+     routeKeys: routes.map((r) => r.routeKey),
+@@ -2508,7 +2524,9 @@
+     laneReturnLegalHold: laneHoldNarrowed,
+     executionReclassification,
+     executionOwner: executionReclassification?.executionOwner ?? holdReclassification?.executionOwner ?? null,
+-    nextExecutableAction: executionReclassification?.nextExecutableAction ?? holdReclassification?.nextExecutableAction ?? null,
++    nextExecutableAction: reviewedTreatmentGuidance?.eligible
++      ? "Static court-initiated guidance accepted. Install exact runtime cohort behavior separately; the participant-motion obligation remains open."
++      : treatment?.nextExecutableAction ?? executionReclassification?.nextExecutableAction ?? holdReclassification?.nextExecutableAction ?? null,
+     routeMappingStatus: routeMappingOpen
+       ? (executionReclassification ? "OWNER_DIRECTED_MAPPING_PENDING" : "UNBOUND_TO_A_PACKET_FAMILY")
+       : "BOUND",

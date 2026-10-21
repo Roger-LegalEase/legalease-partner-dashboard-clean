@@ -1,0 +1,86 @@
+{
+  "schemaVersion": "rcap-packet-factory-lane-rows/v1",
+  "lane": "FIXMA1",
+  "laneKind": "repair",
+  "baseSha": "353bd9195",
+  "branch": "claude/legalease-sprint-captain-utucnw",
+  "isIndependentVerification": false,
+  "grantsAsserted": [
+    "CLAIM_OK FIXMA1 ma-bmc-multi-set (repair, grant set e5b80a0a54911892)"
+  ],
+  "rows": [
+    {
+      "itemId": "ma-bmc-multi-set",
+      "familyId": "ma-bmc-multi-set",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "obligationsRepaired": [
+        "ROUTE_IDENTITY",
+        "REQUIRED_BEFORE_FILING",
+        "ARTIFACTS"
+      ],
+      "historicalVerdict": {
+        "path": "data/rcap-grade-a/packet-factory-24h/vf09/rows-vf09-ma-bmc-semantic-fail-20260912.json",
+        "verifiedAtBase": "a8398d194fcaa07c05e9747cfa4810f8b59522b5",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "preserved": true
+      },
+      "actualDefect": "The current builder delivered a superseded filing-vehicle/open-form hold, made obtaining a personal CORI a universal prerequisite despite current authority describing CORI and certified dockets as recommended, and printed the internal route key on both composed components and the participant guide.",
+      "correction": "The builder now hash-binds and validates the additive LEGAL_CLEAR decision for this family, retains the approved custom consolidated pleading, and removes the superseded filing hold from participant copy. Accurate division, docket and disposition facts remain required; CORI and certified dockets are recommended ways to verify those facts and are expressly not universal filing attachments. The route key remains in machine receipts/maps and is absent from delivered PDFs and guidance.",
+      "preservedSemantics": [
+        "three or more qualifying records",
+        "two or more BMC divisions",
+        "dismissal or nolle prosequi dispositions",
+        "residence-based venue with nonresident fallback",
+        "participant notice to Suffolk County District Attorney at least 30 days before final hearing unless waived",
+        "no filing fee and no fee waiver",
+        "participant-authored Pon narrative",
+        "participant signature and signature date remain blank"
+      ],
+      "packetBytesChanged": true,
+      "packetByteChangeScope": {
+        "changed": ["canonical.pdf", "boundary.pdf"],
+        "unchanged": []
+      },
+      "artifacts": {
+        "documents": [
+          {
+            "role": "canonical",
+            "path": "data/rcap-all50/overlays/census-v1/ma/ma-bmc-multi-set--custom-pleading/fixtures/canonical.pdf",
+            "sha256": "e8a629a4b7b581c341b717c3fd656abcb5b03bc1b02cbde00d65da2e97b24c4b",
+            "byteLength": 11360,
+            "pageCount": 4
+          },
+          {
+            "role": "boundary",
+            "path": "data/rcap-all50/overlays/census-v1/ma/ma-bmc-multi-set--custom-pleading/fixtures/boundary.pdf",
+            "sha256": "47a65b128319816c120a3b8f8f29dadfc23dbf9fe7775585141296ecfb3cc7e0",
+            "byteLength": 11605,
+            "pageCount": 4
+          }
+        ],
+        "documentsDigest": "bff3a364302ba01d5dbc901c90639486299293a5cc4be93466dd059f17826a7f"
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": null
+      },
+      "countersAfterBasis": "Focused current-byte proof and packet completeness pass. visualDefects remains null pending independent pre-raster semantic review and current-byte central raster.",
+      "rasterState": "BUILT_RASTER_PENDING_INDEPENDENT_PRE_RASTER_REVIEW",
+      "rasterManifest": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ma-bmc-repair/raster-manifest.json",
+      "currentRepairEvidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ma-bmc-repair/current-byte-semantic-proof.json",
+      "focusedTestEvidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ma-bmc-repair/focused-check-results.json",
+      "sourceBindingEvidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ma-bmc-repair/source-binding-preflight.json",
+      "independentVerification": "PENDING_CURRENT_BYTE_INDEPENDENT_PRE_RASTER_SEMANTIC_REVIEW",
+      "grantsNothing": "This implementation return preserves the historical FAIL and opens no route; independent semantic review and current-byte raster remain separate gates."
+    }
+  ]
+}

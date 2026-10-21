@@ -1,0 +1,85 @@
+{
+  "schemaVersion": "rcap-family-product-wiring/v1",
+  "familyId": "pa_summary_conviction-set",
+  "routeKeys": [
+    "obligation:track-pathway:PA:pa_summary_conviction:path-c-summary-conviction-expungement"
+  ],
+  "implementationStrategy": "official_pdf_fill",
+  "fieldMap": "data/rcap-all50/overlays/census-v1/pa/pa-summary-conviction-set--official-pdf-fill/production-field-map.json",
+  "generationAllowed": false,
+  "runtimeSelectable": false,
+  "commercialRoutesOpened": 0,
+  "createsFulfillmentRecord": false,
+  "opensCommercialRoute": false,
+  "intendedOverlayDestination": "data/rcap-all50/overlays/census-v1/pa/pa-summary-conviction-set--official-pdf-fill/product-wiring.json",
+  "integrationStatus": "INSTALLED_BY_CAPTAIN",
+  "note": "Integration-ready repair payload only. This record grants no runtime, commercial, fulfillment, eligibility, branch-selection, or approval authority.",
+  "installedFrom": "data/rcap-grade-a/wave-2/r7-packet-repair/product-wiring/pa_summary_conviction-set/product-wiring.json",
+  "installedBy": "WAVE_2_INTEGRATION_CHECKPOINT",
+  "binding": {
+    "family": "pa_summary_conviction-set",
+    "jurisdiction": "PA",
+    "routeKeys": [
+      "obligation:track-pathway:PA:pa_summary_conviction:path-c-summary-conviction-expungement"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "certificate_of_service",
+      "primary_filing",
+      "proposed_order"
+    ],
+    "packetComponents": [
+      "component:pa_summary_conviction-primary-filing-1",
+      "component:pa_summary_conviction-primary-filing-2",
+      "component:pa_summary_conviction-proposed-order-3"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/pa/pa-summary-conviction-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/pa/pa-summary-conviction-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/pa/pa-summary-conviction-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/pa/pa-summary-conviction-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:PA-RCRIM-P-490-ORDER",
+        "sha256": "ac671421035b12b61d3cfbfaac04bb5676f619b968db879f6992e3279110ce90",
+        "tier": "exact_form_number"
+      },
+      {
+        "sourceId": "official-form:PA-RCRIM-P-490-PETITION",
+        "sha256": "082c515ce5a60de33798508c6dd76589f83758ac2ddd8244e934b379ce05def3",
+        "tier": "exact_form_number"
+      },
+      {
+        "sourceId": "official-form:PA-RCRIM-P-790-PETITION",
+        "sha256": "fc06486e75773d4f6d81c263706827ab7f9facfb6dde9907cbee120c063289de",
+        "tier": "exact_form_number"
+      },
+      {
+        "sourceId": "source-sha256:082c515ce5a60de33798508c6dd76589f83758ac2ddd8244e934b379ce05def3",
+        "sha256": "082c515ce5a60de33798508c6dd76589f83758ac2ddd8244e934b379ce05def3",
+        "tier": "exact_content_hash"
+      }
+    ],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "33531491985",
+      "jobId": "99936307308",
+      "artifactId": "9810111408",
+      "boundToCanonicalSha256": "1048b6276acfea471f1aee7839c4a638124c5ac10627c1e335ef7cecbf2074e0",
+      "coversTheWholeFamily": true
+    },
+    "lastIndependentVerification": {
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf04",
+      "verifiedAtBase": "edf5ff14b9bb418dfafc57b75e4a7acc6ece1666"
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-pa_summary_conviction-set.mjs",
+      "sharedBuildHost": "build-census-v1-nj_arrest_no_conviction-set.mjs",
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  }
+}

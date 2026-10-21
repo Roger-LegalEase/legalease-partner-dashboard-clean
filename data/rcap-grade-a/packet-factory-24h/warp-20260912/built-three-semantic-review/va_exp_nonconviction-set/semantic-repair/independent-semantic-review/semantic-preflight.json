@@ -1,0 +1,250 @@
+{
+  "schemaVersion": "rcap-independent-semantic-preflight/v1",
+  "familyId": "va_exp_nonconviction-set",
+  "lane": "VF01",
+  "status": "FAIL_REPAIR_REQUIRED",
+  "candidateCommit": "ccbfcb2a4",
+  "rasterDispatchAuthorized": false,
+  "finalAcceptance": false,
+  "terminalPromotionAuthorized": false,
+  "reviewer": "seven_independent_review, independent Astra xhigh",
+  "claimEvidence": {
+    "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/va_exp_nonconviction-set/semantic-repair/independent-semantic-review/claim.txt",
+    "sha256": "0740ee6449641e71bcbaf790037c625356426a5ecf0e2fe95d13c537b7d44bdf",
+    "byteLength": 278
+  },
+  "manifest": {
+    "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/va_exp_nonconviction-set/semantic-repair/raster-manifest.json",
+    "sha256": "e3965514a420f40340a2873e4245efd758aafd798e66e97b5b3e10d0ba8ee79b",
+    "byteLength": 2946
+  },
+  "inputSnapshot": {
+    "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/va_exp_nonconviction-set/semantic-repair/independent-semantic-review/input-snapshot.json",
+    "sha256": "738ee24e1891237e0d76b2669b135f0a2d1e154536c75801974697cc7245a687",
+    "byteLength": 12935
+  },
+  "findings": [
+    {
+      "id": "VA-REPAIR-REDUCED-ORDINARY-FALLTHROUGH",
+      "obligations": [
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS",
+        "SELF_HELP_STOP"
+      ],
+      "actualDefect": "The new reduced disposition enum is accepted before the statute branch, but reduced records with absent/null deferredStatute and admittedFactsOrFinding=false fall through to ORDINARY_BASIS_CONTINUE/otherwise_dismissed. This bypasses original-target identity, the exact subsectionD statute and separate all-party agreement; even targetIsAlternativeConviction=true continues. assertVaBasisPreparation also continues, so this is reachable preparation behavior, not only a helper status mismatch.",
+      "counterexamples": {
+        "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/va_exp_nonconviction-set/semantic-repair/independent-semantic-review/basis-gate-measurements.json",
+        "sha256": "d0c2d15293157dcb5598951363ef2314b552c7050f21a7012636154bc1985269",
+        "byteLength": 53398
+      },
+      "measuredCounterexamples": 5,
+      "sourceRequirement": {
+        "decisionId": "VA-EXPUNGEMENT-ALL-PARTY-AGREEMENT-GATE",
+        "CC1473SourceSha256": "6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219",
+        "page": 1,
+        "phrase": "an original charge that was reduced",
+        "currentLaw": "19.2-298.02(D), beforeDecember1,2026; separate all-party agreement required"
+      },
+      "repair": "Reject reduced records outside the exact subsectionD branch before any ordinary-basis return. Preserve ordinary nondeferred dismissal/acquittal/nolle paths and all existing opposition/unknown-agreement/future-version refusals. No agreement, original-charge identity or favorable ruling may be inferred."
+    },
+    {
+      "id": "VA-REPAIR-ORDINARY-INPUT-STATUS",
+      "obligations": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "actualDefect": "vaBasisInputStatus marks deferredStatute required/MISSING for an ordinary dismissed record with admittedFactsOrFinding=false, while its own published condition says dismissed or reduced after a deferred disposition. The evaluator correctly allows ordinary nondeferred dismissal; requiring a nonexistent deferred statute is an inconsistent input requirement.",
+      "measurement": {
+        "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/va_exp_nonconviction-set/semantic-repair/independent-semantic-review/basis-gate-measurements.json",
+        "sha256": "d0c2d15293157dcb5598951363ef2314b552c7050f21a7012636154bc1985269",
+        "byteLength": 53398
+      },
+      "repair": "Align required/provided status to the actual deferred/reduced branch, retaining a hard required statute for any reduced/deferred record. A genuinely ordinary dismissed record must not be asked to invent a deferred statute."
+    },
+    {
+      "id": "VA-REPAIR-GUIDE-COMPONENT-IDENTIFIERS",
+      "obligations": [
+        "ARTIFACTS"
+      ],
+      "actualDefect": "The repaired PDFs omit the prior route keys and engineering prose, but the participant guide still prefixes four headings with internal component IDs before their human titles.",
+      "exactCurrentLines": [
+        {
+          "line": 85,
+          "text": "### ccre_forwarding_request \u2014 Request to the Central Criminal Records Exchange to Forward a Criminal History Record"
+        },
+        {
+          "line": 91,
+          "text": "### commonwealth_service_and_stipulation_request \u2014 Copy for the Attorney for the Commonwealth, and Request for the Commonwealth's Position"
+        },
+        {
+          "line": 98,
+          "text": "### filing_instructions \u2014 Filing Instructions"
+        },
+        {
+          "line": 104,
+          "text": "### records_checklist \u2014 Records Checklist for this Petition"
+        }
+      ],
+      "repair": "Keep only the existing human-readable document titles in participant headings; component IDs belong in manifests/evidence."
+    }
+  ],
+  "proofObligations": {
+    "ROUTE_IDENTITY": {
+      "result": "PASS",
+      "measured": true,
+      "reviewMode": "INDEPENDENT_PRE_RASTER_SEMANTIC_REVIEW_ONLY",
+      "finding": "Current exact nonconviction route, currentCC1473, and the Sept11 additive legal resolution are read. The resolved source/legal entrance is not reopened."
+    },
+    "SOURCE_IDENTITY": {
+      "result": "PASS",
+      "measured": true,
+      "reviewMode": "INDEPENDENT_PRE_RASTER_SEMANTIC_REVIEW_ONLY",
+      "finding": "Prior independent source/actor measurements retained only because both exact primary PDFs are byte-identical and each current assembled first-two page has exactly matching raw text geometry and drawing geometry. OfficialJuly2026CC1473 source SHA is independently recomputed. Every filing glyph remains at its source position on both delivered forms; only the Clear All Data viewer-button caption is removed. No form acquisition is needed."
+    },
+    "COMPONENT_SET": {
+      "result": "PASS",
+      "measured": true,
+      "reviewMode": "INDEPENDENT_PRE_RASTER_SEMANTIC_REVIEW_ONLY",
+      "finding": "Allfive required components are present, pages1-2/3/4/5-6/7-9 in both9-page packets. Both2-page standalone primary filings have identical text, drawing geometry and page size to assembledpages1-2 (4comparisons). They are declared nonqueued intermediates; no extra substantive component is missing."
+    },
+    "KNOWN_PREFILLS": {
+      "result": "PASS",
+      "measured": true,
+      "reviewMode": "INDEPENDENT_PRE_RASTER_SEMANTIC_REVIEW_ONLY",
+      "finding": "Prior independent source/actor measurements retained only because both exact primary PDFs are byte-identical and each current assembled first-two page has exactly matching raw text geometry and drawing geometry. Allfive held identity/contact facts are present in each fixture: six exact source-box writes per fixture, plus the companion-page repetitions. Every printed-source widget is independently assigned an actor. No matter facts are held in these reference fixtures; current name is not invented as arrest name, nor participantcity as courtvenue."
+    },
+    "REQUIRED_BEFORE_FILING": {
+      "result": "FAIL",
+      "measured": true,
+      "reviewMode": "INDEPENDENT_PRE_RASTER_SEMANTIC_REVIEW_ONLY",
+      "finding": "VA-REPAIR-REDUCED-ORDINARY-FALLTHROUGH; VA-REPAIR-ORDINARY-INPUT-STATUS"
+    },
+    "ROUTE_OPTIONS": {
+      "result": "FAIL",
+      "measured": true,
+      "reviewMode": "INDEPENDENT_PRE_RASTER_SEMANTIC_REVIEW_ONLY",
+      "finding": "VA-REPAIR-REDUCED-ORDINARY-FALLTHROUGH"
+    },
+    "REPEATING_ROWS": {
+      "result": "PASS",
+      "measured": true,
+      "reviewMode": "INDEPENDENT_PRE_RASTER_SEMANTIC_REVIEW_ONLY",
+      "finding": "The two final-disposition/court continuation pairs are source-preserved, currently blank with explicit conditional more-dates handback. Referencefixtures hold no charge roster that is dropped."
+    },
+    "PROTECTED_FIELDS": {
+      "result": "PASS",
+      "measured": true,
+      "reviewMode": "INDEPENDENT_PRE_RASTER_SEMANTIC_REVIEW_ONLY",
+      "finding": "Prior independent source/actor measurements retained only because both exact primary PDFs are byte-identical and each current assembled first-two page has exactly matching raw text geometry and drawing geometry. Every one of82 nonbutton widgetoccurrences is inspected by source actor. The62 nonfilled/nonselected occurrences have no added text or drawing. This includes newclerkcase, clerkcertification/hearing/date and attorney-only fields. The sixknownboxes and fourcapacitymarks exhaust added officialform content; no participant or clerk signature is manufactured."
+    },
+    "ARTIFACTS": {
+      "result": "FAIL",
+      "measured": true,
+      "reviewMode": "INDEPENDENT_PRE_RASTER_SEMANTIC_REVIEW_ONLY",
+      "finding": "VA-REPAIR-GUIDE-COMPONENT-IDENTIFIERS"
+    },
+    "PAGE_ORDER": {
+      "result": "PASS",
+      "measured": true,
+      "reviewMode": "INDEPENDENT_PRE_RASTER_SEMANTIC_REVIEW_ONLY",
+      "finding": "BothassembledPDFs have9pages in the five-component order, including2-page records checklist and3-page filinginstructions. Bothprimaryfilingintermediates have2pages. No unaccounted PDF pages."
+    },
+    "CLIPPING_AND_OVERLAP": {
+      "result": "NOT_MEASURABLE",
+      "measured": false,
+      "reviewMode": "INDEPENDENT_PRE_RASTER_SEMANTIC_REVIEW_ONLY",
+      "finding": "Not measured: current central raster/original page inspection still required."
+    },
+    "FILING_DESTINATION": {
+      "result": "PASS",
+      "measured": true,
+      "reviewMode": "INDEPENDENT_PRE_RASTER_SEMANTIC_REVIEW_ONLY",
+      "finding": "Currentform page2 and packet agree on circuitcourt county/city where chargewasdisposed; unknown courtcaption/address handback is explicit and conditionalCC1416 remains clerk-dependent."
+    },
+    "FEE_AND_WAIVER": {
+      "result": "PASS",
+      "measured": true,
+      "reviewMode": "INDEPENDENT_PRE_RASTER_SEMANTIC_REVIEW_ONLY",
+      "finding": "Current19.2-392.2(A) no filingcourtfee/cost rule appears in guide and bothpacketspage7. No fee waiver fabricated; separate participant CCRE-copy fee is distinguished. No fee estimate invented."
+    },
+    "SERVICE": {
+      "result": "PASS",
+      "measured": true,
+      "reviewMode": "INDEPENDENT_PRE_RASTER_SEMANTIC_REVIEW_ONLY",
+      "finding": "Currentform page2 and bothpacketspage3 require CommonwealthAttorney service in filinglocality afterfiling, methodperclerk. Currentstatute21day response window retained. Cover/request is expresslynot proofservice, and later noobjection is not earlier subsectionDagreement."
+    },
+    "SELF_HELP_STOP": {
+      "result": "FAIL",
+      "measured": true,
+      "reviewMode": "INDEPENDENT_PRE_RASTER_SEMANTIC_REVIEW_ONLY",
+      "finding": "VA-REPAIR-REDUCED-ORDINARY-FALLTHROUGH"
+    }
+  },
+  "measurementSummary": {
+    "gateCases": {
+      "PASS": 22,
+      "FAIL": 5
+    },
+    "currentAssembledPagesSemanticallyRead": 18,
+    "unchangedPrimaryIntermediatePages": 4,
+    "currentAssembledPrimaryExactTextGeometryAndDrawingsComparisons": 4,
+    "comparisonFailures": 0,
+    "priorOfficialSourceWidgetActorInventoryReusedAgainstExactUnchangedPrimaryBytes": 82,
+    "currentGuideInternalComponentIdHeadings": 4,
+    "newRasterReviewed": false
+  },
+  "evidenceBindings": [
+    {
+      "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/va_exp_nonconviction-set/semantic-repair/independent-semantic-review/basis-gate-measurements.json",
+      "sha256": "d0c2d15293157dcb5598951363ef2314b552c7050f21a7012636154bc1985269",
+      "byteLength": 53398
+    },
+    {
+      "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/va_exp_nonconviction-set/semantic-repair/independent-semantic-review/current-pdf-semantic-measurements.json",
+      "sha256": "4557a3fe18591fbde56052f3ea0c54678a1e438169f381a36407ad199d6e8573",
+      "byteLength": 49839
+    },
+    {
+      "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/va_exp_nonconviction-set/pdf-semantic-measurements.json",
+      "sha256": "d50230ab0269a185d9490d3926e9763a6128463ae03f065b4ea9b2895e224480",
+      "byteLength": 52968
+    },
+    {
+      "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/va_exp_nonconviction-set/semantic-preflight.json",
+      "sha256": "5e00c53479f13c291c2bbe780eb2f30d3aab8a07640fec08363a1c7738191b6f",
+      "byteLength": 13424
+    },
+    {
+      "path": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-va-nonconviction-semantic-fail-20260912.json",
+      "sha256": "a5e060d4b1322bada678c8950b121aa4cc2a5ffe9fb8e3cba4cf829cab4d201d",
+      "byteLength": 19911
+    },
+    {
+      "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/va_exp_nonconviction-set/semantic-repair/source-binding-preflight.json",
+      "sha256": "a16c5b609bbf64e48e1b85bfe444aa8e51f82c3564f9d44d1b817cc8b6a74da4",
+      "byteLength": 964
+    },
+    {
+      "path": "docs/PRODUCT_CONTRACT.md",
+      "sha256": "6791882d3b0e0e4033f2768a7cb9f860e6cc3c636e839d76066e078556216276",
+      "byteLength": 64438
+    }
+  ],
+  "historicalFailureDisposition": {
+    "initialNativeFAIL": {
+      "path": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-va-nonconviction-semantic-fail-20260912.json",
+      "sha256": "a5e060d4b1322bada678c8950b121aa4cc2a5ffe9fb8e3cba4cf829cab4d201d",
+      "byteLength": 19911
+    },
+    "preserved": true,
+    "currentRepairVerified": [
+      "qualified reduced record with exact statute/original target/all-party agreement now continues remaining checks",
+      "22 positive/negative guard cases pass",
+      "deliveredPDFroutekeys and engineering history removed",
+      "all unchanged official field actors/source appearances preserved"
+    ],
+    "notSuperseded": true,
+    "reason": "Newly added reduced enum permits a bypass around the required exception guard; remaining guide identifiers also require repair."
+  },
+  "packetBytesModified": false,
+  "sourceAcquisitionReopened": false
+}

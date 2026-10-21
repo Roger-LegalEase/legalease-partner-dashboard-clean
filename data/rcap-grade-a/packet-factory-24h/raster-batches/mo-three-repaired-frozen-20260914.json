@@ -1,0 +1,242 @@
+{
+  "schemaVersion": "rcap-raster-queue/v1",
+  "rows": [
+    {
+      "familyId": "rcap-mo-custom-pleading",
+      "packetCommitSha": "b795d17915fba5f4085d65bdeb10858a1503bd1a",
+      "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/mo/rcap-mo-custom-pleading--custom-pleading/fixtures/mip-canonical.pdf",
+      "canonicalPdfSha256": "da002da0ba3492f0ef6e46184fbbd73b6a5f86c482c65016c75c5e31979e8ce6",
+      "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/mo/rcap-mo-custom-pleading--custom-pleading/fixtures/mip-boundary.pdf",
+      "boundaryPdfSha256": "5f2905b4744e26b0d16938bdc473fa56a19bb327fd51641a68b82fb63f982e11",
+      "expectedPages": 7,
+      "fixtureSelection": {
+        "canonical": "the builder declares 2 complete canonical output(s) in reports/rendered-artifacts.json (mip-canonical.pdf, intoxication-canonical.pdf); this row pins the first declared as its primary and renders all of them",
+        "boundary": "the builder declares 2 complete boundary output(s) in reports/rendered-artifacts.json (mip-boundary.pdf, intoxication-boundary.pdf); this row pins the first declared as its primary and renders all of them"
+      },
+      "documents": [
+        {
+          "role": "canonical",
+          "name": "intoxication-canonical.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/mo/rcap-mo-custom-pleading--custom-pleading/fixtures/intoxication-canonical.pdf",
+          "sha256": "b96dc246487c78d566eb7fdc0f4bb806e477d07708ae8be9dee9efdf1654e86a",
+          "pageCount": 8,
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "version": "1.17.1",
+            "pageCount": 8,
+            "sourceSha256": "b96dc246487c78d566eb7fdc0f4bb806e477d07708ae8be9dee9efdf1654e86a"
+          },
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib"
+        },
+        {
+          "role": "canonical",
+          "name": "mip-canonical.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/mo/rcap-mo-custom-pleading--custom-pleading/fixtures/mip-canonical.pdf",
+          "sha256": "da002da0ba3492f0ef6e46184fbbd73b6a5f86c482c65016c75c5e31979e8ce6",
+          "pageCount": 7,
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "version": "1.17.1",
+            "pageCount": 7,
+            "sourceSha256": "da002da0ba3492f0ef6e46184fbbd73b6a5f86c482c65016c75c5e31979e8ce6"
+          },
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib"
+        },
+        {
+          "role": "boundary",
+          "name": "intoxication-boundary.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/mo/rcap-mo-custom-pleading--custom-pleading/fixtures/intoxication-boundary.pdf",
+          "sha256": "a108e7b28cb24111bb259bb1c35f7a42f75d8345e07ffd83af344fa8b392a971",
+          "pageCount": 15,
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "version": "1.17.1",
+            "pageCount": 15,
+            "sourceSha256": "a108e7b28cb24111bb259bb1c35f7a42f75d8345e07ffd83af344fa8b392a971"
+          },
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib"
+        },
+        {
+          "role": "boundary",
+          "name": "mip-boundary.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/mo/rcap-mo-custom-pleading--custom-pleading/fixtures/mip-boundary.pdf",
+          "sha256": "5f2905b4744e26b0d16938bdc473fa56a19bb327fd51641a68b82fb63f982e11",
+          "pageCount": 14,
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "version": "1.17.1",
+            "pageCount": 14,
+            "sourceSha256": "5f2905b4744e26b0d16938bdc473fa56a19bb327fd51641a68b82fb63f982e11"
+          },
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib"
+        }
+      ],
+      "documentsDigest": "16268760dc7da59a7b797cef16f007ccee707163303321adfa6013970794beab",
+      "coverage": {
+        "documents": [
+          "intoxication-canonical.pdf",
+          "mip-canonical.pdf"
+        ],
+        "rastered": [
+          "intoxication-canonical.pdf",
+          "mip-canonical.pdf",
+          "intoxication-boundary.pdf",
+          "mip-boundary.pdf"
+        ],
+        "notRastered": [],
+        "complete": true,
+        "basis": "the family ships 2 canonical document(s) with no assembled packet, and the row renders all of them",
+        "notRenderedByThisGate": [],
+        "notRenderedByThisGateBasis": "every PDF present in the family's fixture discovery that this row does not queue. The gate renders every document a row queues, whatever its role, so a queued boundary fixture is rendered and is not named here.",
+        "whatCompleteMeansHere": "every PDF this family declares is queued to the gate and rendered, canonical and boundary alike. `complete` remains the narrower question -- every canonical document rendered -- because that is what promotion depends on."
+      },
+      "requestedScale": 2.5,
+      "builderAssignment": "PF17",
+      "currentRasterState": "RASTER_PENDING",
+      "nextOwner": null
+    },
+    {
+      "familyId": "mo-610-122-arrest-expungement-set",
+      "packetCommitSha": "b795d17915fba5f4085d65bdeb10858a1503bd1a",
+      "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/mo/mo-610-122-arrest-expungement-set--official-pdf-fill/fixtures/canonical.pdf",
+      "canonicalPdfSha256": "93f2c3c8b55bf4691bef4028b8cb2a3ac8dff0d3416c73abaa3c776a18234271",
+      "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/mo/mo-610-122-arrest-expungement-set--official-pdf-fill/fixtures/boundary.pdf",
+      "boundaryPdfSha256": "b9f6e51aba7ad64b3de67c40ee39d09f6493b58b42224a584c98e50a14e351d2",
+      "expectedPages": 12,
+      "fixtureSelection": {
+        "canonical": "the assembled packet, matched by exact name",
+        "boundary": "the assembled packet, matched by exact name"
+      },
+      "documents": [
+        {
+          "role": "canonical",
+          "name": "canonical.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-122-arrest-expungement-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "93f2c3c8b55bf4691bef4028b8cb2a3ac8dff0d3416c73abaa3c776a18234271",
+          "pageCount": 12,
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "version": "1.17.1",
+            "pageCount": 12,
+            "sourceSha256": "93f2c3c8b55bf4691bef4028b8cb2a3ac8dff0d3416c73abaa3c776a18234271"
+          },
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib"
+        },
+        {
+          "role": "canonical",
+          "name": "selectable/petition-only.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-122-arrest-expungement-set--official-pdf-fill/fixtures/selectable/petition-only.pdf",
+          "sha256": "625c2b639bf0aa53279f8f478db64423bb7e2af533f7ce669324a6a38458618e",
+          "conditionalPacketBranch": "selectable/petition-only",
+          "pageCount": 11,
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "version": "1.17.1",
+            "pageCount": 11,
+            "sourceSha256": "625c2b639bf0aa53279f8f478db64423bb7e2af533f7ce669324a6a38458618e"
+          },
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib"
+        },
+        {
+          "role": "boundary",
+          "name": "boundary.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-122-arrest-expungement-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "b9f6e51aba7ad64b3de67c40ee39d09f6493b58b42224a584c98e50a14e351d2",
+          "pageCount": 13,
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "version": "1.17.1",
+            "pageCount": 13,
+            "sourceSha256": "b9f6e51aba7ad64b3de67c40ee39d09f6493b58b42224a584c98e50a14e351d2"
+          },
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib"
+        }
+      ],
+      "documentsDigest": "dc1aabd1a5a16ceec2a0e70fe0edc520bb6e8e3e955f94d9b7f52e457fab70ae",
+      "coverage": {
+        "documents": [
+          "canonical.pdf",
+          "selectable/petition-only.pdf"
+        ],
+        "rastered": [
+          "canonical.pdf",
+          "selectable/petition-only.pdf",
+          "boundary.pdf"
+        ],
+        "notRastered": [],
+        "complete": true,
+        "basis": "Every canonical assembled diagnostic and explicitly declared conditional packet is included; the central renderer separately measures all declared boundary outputs.",
+        "notRenderedByThisGate": [],
+        "notRenderedByThisGateBasis": "every PDF present in the family's fixture discovery that this row does not queue. The gate renders every document a row queues, whatever its role, so a queued boundary fixture is rendered and is not named here.",
+        "whatCompleteMeansHere": "every PDF this family declares is queued to the gate and rendered, canonical and boundary alike. `complete` remains the narrower question -- every canonical document rendered -- because that is what promotion depends on."
+      },
+      "requestedScale": 2.5,
+      "builderAssignment": "PF09",
+      "currentRasterState": "RASTER_PENDING",
+      "nextOwner": null
+    },
+    {
+      "familyId": "mo-575-120-identity-theft-correction-set",
+      "packetCommitSha": "b795d17915fba5f4085d65bdeb10858a1503bd1a",
+      "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/mo/mo-575-120-identity-theft-correction-set--official-pdf-fill/fixtures/canonical.pdf",
+      "canonicalPdfSha256": "973805ea6f5d9e94cbb96800bdd7af7beb6e5dfa1edea88f69870349b4bb6f58",
+      "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/mo/mo-575-120-identity-theft-correction-set--official-pdf-fill/fixtures/boundary.pdf",
+      "boundaryPdfSha256": "06ff8c3a114cc89b3b3d569036543d890e0d026d5abed2e9bee586290d39172f",
+      "expectedPages": 10,
+      "fixtureSelection": {
+        "canonical": "the assembled packet, matched by exact name",
+        "boundary": "the assembled packet, matched by exact name"
+      },
+      "documents": [
+        {
+          "role": "canonical",
+          "name": "canonical.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/mo/mo-575-120-identity-theft-correction-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "973805ea6f5d9e94cbb96800bdd7af7beb6e5dfa1edea88f69870349b4bb6f58",
+          "pageCount": 10,
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "version": "1.17.1",
+            "pageCount": 10,
+            "sourceSha256": "973805ea6f5d9e94cbb96800bdd7af7beb6e5dfa1edea88f69870349b4bb6f58"
+          },
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib"
+        },
+        {
+          "role": "boundary",
+          "name": "boundary.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/mo/mo-575-120-identity-theft-correction-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "06ff8c3a114cc89b3b3d569036543d890e0d026d5abed2e9bee586290d39172f",
+          "pageCount": 11,
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "version": "1.17.1",
+            "pageCount": 11,
+            "sourceSha256": "06ff8c3a114cc89b3b3d569036543d890e0d026d5abed2e9bee586290d39172f"
+          },
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib"
+        }
+      ],
+      "documentsDigest": "da771389f57ea0ad9486f84504fe77c89073a3010f86cdeef36714f7f8bc5c90",
+      "coverage": {
+        "documents": [
+          "canonical.pdf"
+        ],
+        "rastered": [
+          "canonical.pdf",
+          "boundary.pdf"
+        ],
+        "notRastered": [],
+        "complete": true,
+        "basis": "the family ships one assembled packet, so rendering it covers every canonical page of the family",
+        "notRenderedByThisGate": [],
+        "notRenderedByThisGateBasis": "every PDF present in the family's fixture discovery that this row does not queue. The gate renders every document a row queues, whatever its role, so a queued boundary fixture is rendered and is not named here.",
+        "whatCompleteMeansHere": "every PDF this family declares is queued to the gate and rendered, canonical and boundary alike. `complete` remains the narrower question -- every canonical document rendered -- because that is what promotion depends on."
+      },
+      "requestedScale": 2.5,
+      "builderAssignment": "PF10",
+      "currentRasterState": "RASTER_PENDING",
+      "nextOwner": null
+    }
+  ]
+}

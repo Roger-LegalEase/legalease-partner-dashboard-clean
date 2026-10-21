@@ -1,0 +1,467 @@
+{
+  "schemaVersion": "vf62-ky-final-contract-probes/v1",
+  "method": "Real validateKy in memory; exact production scheduleSections and face-row segment evaluated with capture-only put. No fillOfficial/renderKy/runKy call. Ohio validation and both unchanged source dropdowns checked; no new Ohio/companion raster claimed.",
+  "builderSha256": "f1524b9aba24cadb95a4139b9c752fc06dcaee17a6a2d112074531082b7950ca",
+  "cases": [
+    {
+      "name": "canonical",
+      "expectedAccepted": true,
+      "accepted": true,
+      "election": {
+        "ground": "ordinary_five_year",
+        "field": "Check Box19",
+        "laterCompletionDate": "2020-09-11",
+        "firstEligibleDate": "2025-09-11"
+      }
+    },
+    {
+      "name": "boundary",
+      "expectedAccepted": true,
+      "accepted": true,
+      "election": {
+        "ground": "ordinary_five_year",
+        "field": "Check Box19",
+        "laterCompletionDate": "2021-09-11",
+        "firstEligibleDate": "2026-09-11"
+      }
+    },
+    {
+      "name": "selectable/ordinary-traffic",
+      "expectedAccepted": true,
+      "accepted": true,
+      "election": {
+        "ground": "ordinary_five_year",
+        "field": "Check Box19",
+        "laterCompletionDate": "2020-09-11",
+        "firstEligibleDate": "2025-09-11"
+      }
+    },
+    {
+      "name": "selectable/ordinary-violation",
+      "expectedAccepted": true,
+      "accepted": true,
+      "election": {
+        "ground": "ordinary_five_year",
+        "field": "Check Box19",
+        "laterCompletionDate": "2020-09-11",
+        "firstEligibleDate": "2025-09-11"
+      }
+    },
+    {
+      "name": "selectable/void-218a275-8",
+      "expectedAccepted": true,
+      "accepted": true,
+      "election": {
+        "ground": "controlled_substances_void_218A275_8",
+        "field": "Check Box20",
+        "laterCompletionDate": null,
+        "firstEligibleDate": null
+      }
+    },
+    {
+      "name": "selectable/void-218a276-8",
+      "expectedAccepted": true,
+      "accepted": true,
+      "election": {
+        "ground": "marijuana_synthetic_salvia_void_218A276_8",
+        "field": "Check Box21",
+        "laterCompletionDate": null,
+        "firstEligibleDate": null
+      }
+    },
+    {
+      "name": "non-US citizenship stops",
+      "expectedAccepted": false,
+      "accepted": false,
+      "error": "CONDITION_NOT_MET: United States citizenship required for this self-help route"
+    },
+    {
+      "name": "missing citizenship stops",
+      "expectedAccepted": false,
+      "accepted": false,
+      "error": "AMBIGUOUS_RECORD_FACT: United States citizenship required for this self-help route"
+    },
+    {
+      "name": "unknown citizenship stops",
+      "expectedAccepted": false,
+      "accepted": false,
+      "error": "AMBIGUOUS_RECORD_FACT: United States citizenship required for this self-help route"
+    },
+    {
+      "name": "Ohio mailing address remains allowed",
+      "expectedAccepted": true,
+      "accepted": true,
+      "election": {
+        "ground": "ordinary_five_year",
+        "field": "Check Box19",
+        "laterCompletionDate": "2020-09-11",
+        "firstEligibleDate": "2025-09-11"
+      }
+    },
+    {
+      "name": "interleaved dismissed/convicted/amended mixed classifications",
+      "expectedAccepted": true,
+      "accepted": true,
+      "election": {
+        "ground": "ordinary_five_year",
+        "field": "Check Box19",
+        "laterCompletionDate": "2020-09-11",
+        "firstEligibleDate": "2025-09-11"
+      }
+    },
+    {
+      "name": "supported misdemeanor/dismissed",
+      "expectedAccepted": true,
+      "accepted": true,
+      "election": {
+        "ground": "ordinary_five_year",
+        "field": "Check Box19",
+        "laterCompletionDate": "2020-09-11",
+        "firstEligibleDate": "2025-09-11"
+      }
+    },
+    {
+      "name": "supported misdemeanor/amended",
+      "expectedAccepted": true,
+      "accepted": true,
+      "election": {
+        "ground": "ordinary_five_year",
+        "field": "Check Box19",
+        "laterCompletionDate": "2020-09-11",
+        "firstEligibleDate": "2025-09-11"
+      }
+    },
+    {
+      "name": "supported violation/dismissed",
+      "expectedAccepted": true,
+      "accepted": true,
+      "election": {
+        "ground": "ordinary_five_year",
+        "field": "Check Box19",
+        "laterCompletionDate": "2020-09-11",
+        "firstEligibleDate": "2025-09-11"
+      }
+    },
+    {
+      "name": "supported violation/amended",
+      "expectedAccepted": true,
+      "accepted": true,
+      "election": {
+        "ground": "ordinary_five_year",
+        "field": "Check Box19",
+        "laterCompletionDate": "2020-09-11",
+        "firstEligibleDate": "2025-09-11"
+      }
+    },
+    {
+      "name": "supported qualifying_traffic_infraction/dismissed",
+      "expectedAccepted": true,
+      "accepted": true,
+      "election": {
+        "ground": "ordinary_five_year",
+        "field": "Check Box19",
+        "laterCompletionDate": "2020-09-11",
+        "firstEligibleDate": "2025-09-11"
+      }
+    },
+    {
+      "name": "supported qualifying_traffic_infraction/amended",
+      "expectedAccepted": true,
+      "accepted": true,
+      "election": {
+        "ground": "ordinary_five_year",
+        "field": "Check Box19",
+        "laterCompletionDate": "2020-09-11",
+        "firstEligibleDate": "2025-09-11"
+      }
+    },
+    {
+      "name": "companion missing description refuses",
+      "expectedAccepted": false,
+      "accepted": false,
+      "error": "ACTUAL_RECORD_FACT_REQUIRED: charge 2 description"
+    },
+    {
+      "name": "companion missing disposition refuses",
+      "expectedAccepted": false,
+      "accepted": false,
+      "error": "CHARGE_DISPOSITION_REQUIRED"
+    },
+    {
+      "name": "companion missing dispositionDate refuses",
+      "expectedAccepted": false,
+      "accepted": false,
+      "error": "INVALID_DATE: charge 2 disposition date"
+    },
+    {
+      "name": "companion missing caseNumber refuses",
+      "expectedAccepted": false,
+      "accepted": false,
+      "error": "SEPARATE_PETITION_PER_CASE"
+    },
+    {
+      "name": "companion missing sameCriminalAction refuses",
+      "expectedAccepted": false,
+      "accepted": false,
+      "error": "AMBIGUOUS_RECORD_FACT: charge 2 same criminal action"
+    },
+    {
+      "name": "companion missing relatedFinalConviction refuses",
+      "expectedAccepted": false,
+      "accepted": false,
+      "error": "AMBIGUOUS_RECORD_FACT: related final conviction"
+    },
+    {
+      "name": "companion missing recordVerified refuses",
+      "expectedAccepted": false,
+      "accepted": false,
+      "error": "AMBIGUOUS_RECORD_FACT: charge 2 record verification"
+    },
+    {
+      "name": "amended missing destination refuses",
+      "expectedAccepted": false,
+      "accepted": false,
+      "error": "ACTUAL_RECORD_FACT_REQUIRED: charge 2 amendment destination"
+    },
+    {
+      "name": "felony dismissed companion refuses",
+      "expectedAccepted": false,
+      "accepted": false,
+      "error": "SELF_HELP_STOP: FELONY_COMPANION_REQUIRES_SEPARATE_AUTHORITY"
+    },
+    {
+      "name": "felony amended companion refuses",
+      "expectedAccepted": false,
+      "accepted": false,
+      "error": "SELF_HELP_STOP: FELONY_COMPANION_REQUIRES_SEPARATE_AUTHORITY"
+    },
+    {
+      "name": "different-case companion refuses",
+      "expectedAccepted": false,
+      "accepted": false,
+      "error": "SEPARATE_PETITION_PER_CASE"
+    },
+    {
+      "name": "same-case but separate criminal action refuses",
+      "expectedAccepted": false,
+      "accepted": false,
+      "error": "CONDITION_NOT_MET: charge 2 same criminal action"
+    },
+    {
+      "name": "no actual conviction refuses",
+      "expectedAccepted": false,
+      "accepted": false,
+      "error": "CONVICTION_CHARGE_REQUIRED"
+    },
+    {
+      "name": "duplicate count refuses",
+      "expectedAccepted": false,
+      "accepted": false,
+      "error": "UNIQUE_CHARGE_COUNT_REQUIRED"
+    },
+    {
+      "name": "mixed grounds refuse",
+      "expectedAccepted": false,
+      "accepted": false,
+      "error": "AMBIGUOUS_OR_CONFLICTING_GROUNDS"
+    },
+    {
+      "name": "missing ground refuses",
+      "expectedAccepted": false,
+      "accepted": false,
+      "error": "AMBIGUOUS_OR_CONFLICTING_GROUNDS"
+    },
+    {
+      "name": "ordinary premature refuses",
+      "expectedAccepted": false,
+      "accepted": false,
+      "error": "WAIT_NOT_MET: first eligible date 2025-09-11"
+    },
+    {
+      "name": "ordinary exact anniversary accepts",
+      "expectedAccepted": true,
+      "accepted": true,
+      "election": {
+        "ground": "ordinary_five_year",
+        "field": "Check Box19",
+        "laterCompletionDate": "2020-09-11",
+        "firstEligibleDate": "2025-09-11"
+      }
+    },
+    {
+      "name": "protected signature refuses",
+      "expectedAccepted": false,
+      "accepted": false,
+      "error": "PROTECTED_EXECUTION_INPUT"
+    },
+    {
+      "name": "protected notary refuses",
+      "expectedAccepted": false,
+      "accepted": false,
+      "error": "PROTECTED_EXECUTION_INPUT"
+    },
+    {
+      "name": "protected clerk refuses",
+      "expectedAccepted": false,
+      "accepted": false,
+      "error": "PROTECTED_EXECUTION_INPUT"
+    },
+    {
+      "name": "protected courtExecution refuses",
+      "expectedAccepted": false,
+      "accepted": false,
+      "error": "PROTECTED_EXECUTION_INPUT"
+    },
+    {
+      "name": "protected judicialFindings refuses",
+      "expectedAccepted": false,
+      "accepted": false,
+      "error": "PROTECTED_EXECUTION_INPUT"
+    },
+    {
+      "name": "protected agencyCertification refuses",
+      "expectedAccepted": false,
+      "accepted": false,
+      "error": "PROTECTED_EXECUTION_INPUT"
+    },
+    {
+      "name": "SSN input refuses",
+      "expectedAccepted": false,
+      "accepted": false,
+      "error": "PRIVATE_IDENTIFIER_MANUAL_COMPLETION"
+    },
+    {
+      "name": "order without local confirmation refuses",
+      "expectedAccepted": false,
+      "accepted": false,
+      "error": "ORDER_CONDITION_NOT_CONFIRMED"
+    },
+    {
+      "name": "confirmed order accepts",
+      "expectedAccepted": true,
+      "accepted": true,
+      "election": {
+        "ground": "ordinary_five_year",
+        "field": "Check Box19",
+        "laterCompletionDate": "2020-09-11",
+        "firstEligibleDate": "2025-09-11"
+      }
+    },
+    {
+      "name": "multipleSeparateIncidents stops",
+      "expectedAccepted": false,
+      "accepted": false,
+      "error": "SELF_HELP_STOP: individualized assistance required"
+    },
+    {
+      "name": "countyAttorneyWillObject stops",
+      "expectedAccepted": false,
+      "accepted": false,
+      "error": "SELF_HELP_STOP: individualized assistance required"
+    },
+    {
+      "name": "victimWillObject stops",
+      "expectedAccepted": false,
+      "accepted": false,
+      "error": "SELF_HELP_STOP: individualized assistance required"
+    },
+    {
+      "name": "certificationDisputed stops",
+      "expectedAccepted": false,
+      "accepted": false,
+      "error": "SELF_HELP_STOP: individualized assistance required"
+    },
+    {
+      "name": "immigrationAdviceNeeded stops",
+      "expectedAccepted": false,
+      "accepted": false,
+      "error": "SELF_HELP_STOP: individualized assistance required"
+    },
+    {
+      "name": "attackingConviction stops",
+      "expectedAccepted": false,
+      "accepted": false,
+      "error": "SELF_HELP_STOP: individualized assistance required"
+    },
+    {
+      "name": "venueUnclear stops",
+      "expectedAccepted": false,
+      "accepted": false,
+      "error": "SELF_HELP_STOP: individualized assistance required"
+    },
+    {
+      "name": "selectable/void-218a275-8 missing exact void statute refuses",
+      "expectedAccepted": false,
+      "accepted": false,
+      "error": "EXPRESS_218A275_8_VOID_REQUIRED"
+    },
+    {
+      "name": "selectable/void-218a276-8 missing exact void statute refuses",
+      "expectedAccepted": false,
+      "accepted": false,
+      "error": "EXPRESS_218A276_8_VOID_REQUIRED"
+    }
+  ],
+  "totals": {
+    "probes": 53,
+    "accepted": 16,
+    "refused": 37,
+    "unexpectedResults": 0
+  },
+  "ohioSources": [
+    {
+      "documentId": "AOC-496.2",
+      "option": "Ohio",
+      "present": true
+    },
+    {
+      "documentId": "AOC-496",
+      "option": "Ohio",
+      "present": true
+    }
+  ],
+  "companionFacts": [
+    {
+      "count": "2",
+      "caseNumber": "19-M-000001",
+      "description": "Disorderly conduct originally charged",
+      "classification": "misdemeanor",
+      "disposition": "dismissed",
+      "dispositionDate": "2018-07-01",
+      "recordVerified": true,
+      "sameCriminalAction": true,
+      "amendmentDestination": null,
+      "relatedFinalConviction": null
+    },
+    {
+      "count": "3",
+      "caseNumber": "19-M-000001",
+      "description": "Failure to maintain equipment originally charged",
+      "classification": "qualifying_traffic_infraction",
+      "disposition": "amended",
+      "dispositionDate": "2018-08-02",
+      "recordVerified": true,
+      "sameCriminalAction": true,
+      "amendmentDestination": "Count 1: criminal trespass in the second degree",
+      "relatedFinalConviction": "Count 1, conviction June 15, 2018"
+    }
+  ],
+  "supplementalLines": [
+    "Count 2: original offense Disorderly conduct originally charged. Court-record classification: misdemeanor. Actual disposition: dismissed on 07/01/2018. Case number: 19-M-000001. Related final conviction: none.",
+    "Count 3: original offense Failure to maintain equipment originally charged. Court-record classification: qualifying traffic infraction. Actual disposition: amended on 08/02/2018. Case number: 19-M-000001. Amendment destination: Count 1: criminal trespass in the second degree. Related final conviction: Count 1, conviction June 15, 2018."
+  ],
+  "sixSupplementalFactGroupsPreserved": true,
+  "interleavedFaceWrites": [
+    {
+      "field": "Charge1",
+      "value": "Ct 1: Criminal trespass, second degree",
+      "factId": "charges.1.description"
+    }
+  ],
+  "scheduleTrigger": {
+    "canonical": false,
+    "boundary": true,
+    "companionsAlwaysIncluded": true
+  },
+  "scopeLimit": "Fresh raster variants cover all three legal elections, all three offense classes, optional order and seven conviction rows. Dismissed/amended companions are covered by exact pure production logic and binding legal decision; no additional image variant generated."
+}

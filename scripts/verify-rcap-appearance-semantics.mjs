@@ -312,13 +312,32 @@ for (const [index, mutation] of MUTATIONS.entries()) {
   if (!wentRed) note(`mutation "${mutation.id}" changed nothing measurable, so ${mutation.covers} proves nothing`);
 }
 
-// The committed registry has to be loadable and cover exactly the five families.
+/*
+ * The committed registry has to be loadable and still carry every family the
+ * assignment that created it named.
+ *
+ * This was an exact-set equality, and that made the registry CLOSED: a family
+ * measured later, whose field the structural rule gets wrong, could not be
+ * recorded here without turning this control red — so the only way to classify
+ * it was to keep the classification out of the shared record, which is the
+ * opposite of what the registry is for. FIX06 hit that on California CR-409,
+ * where a pushbutton's "MC-031" caption is the form number inside a sentence
+ * the court printed rather than chrome.
+ *
+ * The five named families stay REQUIRED — losing one is still a failure, and
+ * the per-family assertions below still run on each. An addition beyond them is
+ * printed so it stays visible, rather than being scored as a defect.
+ */
 const registry = loadAppearanceSemantics();
 const covered = Object.keys(registry.families ?? {}).sort();
 const EXPECTED = ["NE:cc-6-11-2-form-en", "NE:cc-6-11-form-en", "NE:cc-6-12-form-en", "NE:cc-6-15-1-form-en", "NE:dc-1-15-form-en"];
-if (JSON.stringify(covered) !== JSON.stringify(EXPECTED)) {
-  note(`the registry covers ${covered.join(", ")}; the assignment names ${EXPECTED.join(", ")}`);
+const missingFamilies = EXPECTED.filter((familyId) => !covered.includes(familyId));
+if (missingFamilies.length) {
+  note(`the registry no longer covers ${missingFamilies.join(", ")}; the assignment names ${EXPECTED.join(", ")}`);
 }
+const addedFamilies = covered.filter((familyId) => !EXPECTED.includes(familyId));
+console.log(`  ok   the registry covers the ${EXPECTED.length} families the assignment names`
+  + (addedFamilies.length ? `, and ${addedFamilies.length} added since: ${addedFamilies.join(", ")}` : ""));
 for (const familyId of EXPECTED.filter((f) => !f.includes("dc-1-15"))) {
   const map = dispositionsForFamily(registry, familyId);
   if (map.get("enter the type of court") !== RENDER_PARTICIPANT_VALUE_ONLY_WHEN_WRITTEN) {

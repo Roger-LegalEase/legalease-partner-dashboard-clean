@@ -1,0 +1,16 @@
+name: Captain one-shot Connecticut three guidance raster
+on:
+  push:
+    branches: [claude/legalease-sprint-captain-utucnw]
+    paths: [.github/workflows/captain-ct-three-guidance-raster-20260912.yml]
+permissions:
+  actions: write
+  contents: read
+jobs:
+  dispatch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.actions.createWorkflowDispatch({"owner": "Roger-LegalEase", "repo": "legalease-partner-dashboard-clean", "workflow_id": "rcap-packet-raster-acceptance-batch.yml", "ref": "claude/legalease-sprint-captain-utucnw", "inputs": {"commit_sha": "f0106bea68707bc0a8418e049fde06a6a5c43732", "raster_manifest_path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ct-three-guidance/repair-current/raster-manifest.json", "family_batch": "agency-application-treatment:obligation:track-only:CT:ct-destruction-request,agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon,agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure", "requested_scale": "2.5"}});

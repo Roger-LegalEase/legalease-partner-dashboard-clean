@@ -1,0 +1,236 @@
+{
+  "schemaVersion": "rcap-ca-checker-repair-followup-independent-code-review/v1",
+  "reviewedAt": "2026-09-13T13:46:40Z",
+  "reviewer": "/root/ks_registration_final",
+  "independentOfAuthor": true,
+  "priorReview": "data/rcap-grade-a/packet-factory-24h/pf20/ca-checker-repair-independent-code-review-20260913.json",
+  "authorReturn": "data/rcap-grade-a/packet-factory-24h/pf20/ca-checker-repair-followup-return-20260913.json",
+  "reviewBaseHead": "0bc39d0d8a8e06135ad45dbaaca7f78021cbb8b7",
+  "reviewTargets": [
+    "scripts/verify-packet-build-environment.mjs",
+    "scripts/verify-family-source-resolution.test.mjs"
+  ],
+  "transfer": {
+    "receipt": {
+      "path": "private/packet-factory-24h/transfers/pf20-ca-checker-repair-followup-20260913/TRANSFER_RECEIPT.json",
+      "sha256": "dd9f4dca1ed41c1d4dc2651297eb30409761119a87aae13c5c61673cc519dc9e",
+      "byteLength": 4085
+    },
+    "patch": {
+      "path": "private/packet-factory-24h/transfers/pf20-ca-checker-repair-followup-20260913/ca-checker-repair-followup.patch",
+      "sha256": "46612db20f429641ee1d3db19e27eb68d4cb7a6a31272e4493d1ae2b6e213532",
+      "byteLength": 32402,
+      "baseCommit": "7c59b4bb8253cd2dc15c612d26083b0121b5b758",
+      "candidateCommit": "7c07710612eaefef58f50a044fb78b114dbb0ee4",
+      "sourceCommand": "git diff --binary 7c59b4bb8253cd2dc15c612d26083b0121b5b758 7c07710612eaefef58f50a044fb78b114dbb0ee4 -- scripts/verify-packet-build-environment.mjs scripts/verify-family-source-resolution.test.mjs"
+    },
+    "patchApplyCheck": {
+      "command": "git apply --check --verbose private/packet-factory-24h/transfers/pf20-ca-checker-repair-followup-20260913/ca-checker-repair-followup.patch",
+      "result": "PASS",
+      "appliedAgainstCaptainHead": "0bc39d0d8a8e06135ad45dbaaca7f78021cbb8b7"
+    }
+  },
+  "targetBytes": {
+    "scripts/verify-family-source-resolution.test.mjs": {
+      "sha256": "06e1e8347d8f74584bca93f45983329f5371077121ca3abd58477e8b4bbe43c0",
+      "byteLength": 21466,
+      "matchesTransferReceipt": true
+    },
+    "scripts/verify-packet-build-environment.mjs": {
+      "sha256": "190e8f93e7105726f3ecb763599668802fae4312281ace96ed3e078516c401f6",
+      "byteLength": 114111,
+      "matchesTransferReceipt": true
+    }
+  },
+  "scope": {
+    "resolverClass": "SOURCE_RECOVERY_WAVE1 governed adoption",
+    "familyUnderReview": "ca-diversion-seal-set",
+    "expectedFamilyIds": [
+      "ca-diversion-seal-set",
+      "fl-sealing-set",
+      "ia-12346-set",
+      "ia-901c3-set",
+      "il-prb-cert-set",
+      "nd-prohibit-remote-public-access-set",
+      "ut_pet_remove_link-set"
+    ],
+    "expectedSourceBodies": 15,
+    "adoptionRecord": {
+      "path": "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json",
+      "sha256": "7eeea9abeb804efc4d3b7a1e70b50498e53fcf8447bdb7691236e638bb19d88e",
+      "byteLength": 64212
+    },
+    "inputManifest": {
+      "path": "SOURCE_BLOCKED_RECOVERY_WAVE1_2026-09-11.json",
+      "sha256": "60de802c3e193b4d205018fe960f197e972cae2eba1f6f935d680b38da3ce844",
+      "byteLength": 31140
+    },
+    "caBody": {
+      "sourceId": "official-form:SDSC-CRM-307",
+      "recoverySourceId": "CA-SDSC-CRM-307",
+      "path": "reference/source-recovery/2026-09-11-wave1/crm307.pdf",
+      "sha256": "da6852b5762dea47a17e8159a67e07215543a8524be623709f4856aed169b287",
+      "byteLength": 211228
+    }
+  },
+  "verdict": "CHANGES_REQUIRED",
+  "findings": [
+    {
+      "id": "CA-CHECKER-FOLLOWUP-CODE-01",
+      "severity": "BLOCKING",
+      "title": "Duplicate custody rows are truncated by the first row",
+      "location": "scripts/verify-packet-build-environment.mjs:676-682",
+      "observed": "familySources uses custody.rows.find((r) => r.worklistGroupId === family), so a second row for the same governed family is never examined. A hermetic fixture with the canonical unresolved row first and a second row for ca-diversion-seal-set carrying resolved heldAs bytes with an all-zero SHA returned the governed CRM-307 binding with unresolvable empty.",
+      "probe": {
+        "fixture": "two rows with identical worklistGroupId",
+        "firstRow": {
+          "sourceId": "official-form:SDSC-CRM-307",
+          "resolved": false,
+          "heldAs": null
+        },
+        "secondRow": {
+          "sourceId": "official-form:SDSC-CRM-307",
+          "resolved": true,
+          "heldAs": {
+            "path": "reference/source-recovery/2026-09-11-wave1/crm307.pdf",
+            "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+            "byteLength": 211228
+          }
+        },
+        "returnedSources": [
+          {
+            "sourceId": "official-form:SDSC-CRM-307",
+            "path": "reference/source-recovery/2026-09-11-wave1/crm307.pdf",
+            "sha256": "da6852b5762dea47a17e8159a67e07215543a8524be623709f4856aed169b287"
+          }
+        ],
+        "unresolvable": [],
+        "result": "FAIL_CLOSED_EXPECTED_BUT_ACCEPTED"
+      },
+      "impact": "Contradictory custody can be hidden by row ordering. The bridge then admits a family while stale or conflicting custody evidence remains committed for that family.",
+      "requiredFix": "Inspect every custody row for the exact worklistGroupId and fail closed when duplicate rows exist unless their identity and source assertions are provably identical. Add a hermetic duplicate-row contradiction test; do not select the first row."
+    },
+    {
+      "id": "CA-CHECKER-FOLLOWUP-CODE-02",
+      "severity": "BLOCKING",
+      "title": "Wrong sourceId aliases are retained and bridged beside the canonical source",
+      "location": "scripts/verify-packet-build-environment.mjs:680-682,705-747",
+      "observed": "The custody preload accepts every resolved documentSources entry with heldAs.sha256 without validating its sourceId. The governed conflict filter only considers the canonical sourceId, recoverySourceId, or sourceObligationId. A row with exact CRM-307 bytes under CA-SDSC-CRM-307, or under an unrelated WRONG-SOURCE-ID, is returned alongside the canonical governed binding with unresolvable empty.",
+      "probes": [
+        {
+          "alias": "CA-SDSC-CRM-307",
+          "returnedSourceIds": [
+            "CA-SDSC-CRM-307",
+            "official-form:SDSC-CRM-307"
+          ],
+          "unresolvable": [],
+          "result": "FAIL_CLOSED_EXPECTED_BUT_ACCEPTED"
+        },
+        {
+          "alias": "WRONG-SOURCE-ID",
+          "returnedSourceIds": [
+            "WRONG-SOURCE-ID",
+            "official-form:SDSC-CRM-307"
+          ],
+          "unresolvable": [],
+          "result": "FAIL_CLOSED_EXPECTED_BUT_ACCEPTED"
+        }
+      ],
+      "impact": "A row can assert exact bytes under an identity that is outside the family obligation map. Hash equality does not repair the source identity, and downstream binding sees an extra source rather than refusing the contradictory record.",
+      "requiredFix": "For a governed family, validate every preloaded resolved custody source against the exact expected obligation/source ID and its governed path, SHA-256 and length. Reject unknown, recovery-only, or unrelated aliases unless an explicit canonicalization rule is proven and the returned record is canonical; add wrong sourceId and sourceObligationId alias tests."
+    },
+    {
+      "id": "CA-CHECKER-FOLLOWUP-CODE-03",
+      "severity": "BLOCKING",
+      "title": "Preloaded custody bytes bypass an invalid governed admission",
+      "location": "scripts/verify-packet-build-environment.mjs:680-682,731-747",
+      "observed": "familySources preloads resolved custody sources before checking committedSourceRecoveryWave1Bindings. In a hermetic fixture with exact resolved CRM-307 custody bytes and inputManifestSha256 set to 64 zeros, the governed admission resolver returned null but familySources still returned the preloaded source with unresolvable empty.",
+      "probe": {
+        "mutatedAdmissionField": "inputManifestSha256",
+        "mutatedValue": "0000000000000000000000000000000000000000000000000000000000000000",
+        "custodySource": {
+          "sourceId": "official-form:SDSC-CRM-307",
+          "resolved": true,
+          "heldAs": {
+            "path": "reference/source-recovery/2026-09-11-wave1/crm307.pdf",
+            "sha256": "da6852b5762dea47a17e8159a67e07215543a8524be623709f4856aed169b287",
+            "byteLength": 211228
+          }
+        },
+        "governedAdmissionResolver": null,
+        "familySourcesSources": [
+          {
+            "sourceId": "official-form:SDSC-CRM-307",
+            "path": "reference/source-recovery/2026-09-11-wave1/crm307.pdf",
+            "sha256": "da6852b5762dea47a17e8159a67e07215543a8524be623709f4856aed169b287"
+          }
+        ],
+        "unresolvable": [],
+        "result": "FAIL_CLOSED_EXPECTED_BUT_ACCEPTED"
+      },
+      "impact": "A malformed or stale governed adoption record does not block a source-ready result when custody happens to preload the same bytes. The required provenance admission can therefore be bypassed by a pre-existing resolved row.",
+      "requiredFix": "For the seven governed families, require a valid governed admission before accepting or returning a custody-preloaded binding, or explicitly mark the family unresolvable when that admission is invalid. Add a hermetic invalid-admission plus preloaded-custody test."
+    }
+  ],
+  "verification": {
+    "focused": {
+      "command": "node --test --test-name-pattern='governed|hermetic|CA' scripts/verify-family-source-resolution.test.mjs",
+      "result": "PASS",
+      "tests": 8,
+      "passed": 8,
+      "failed": 0
+    },
+    "fullFocusedFile": {
+      "command": "node --test scripts/verify-family-source-resolution.test.mjs",
+      "result": "PASS",
+      "tests": 18,
+      "passed": 18,
+      "failed": 0
+    },
+    "syntax": {
+      "command": "node --check scripts/verify-family-source-resolution.test.mjs && node --check scripts/verify-packet-build-environment.mjs",
+      "result": "PASS"
+    },
+    "whitespace": {
+      "command": "git diff --check -- scripts/verify-family-source-resolution.test.mjs scripts/verify-packet-build-environment.mjs",
+      "result": "PASS"
+    },
+    "governedFamilyCoverage": {
+      "result": "PASS",
+      "families": 7,
+      "sourceBodies": 15,
+      "expectedIDsMatched": true,
+      "familyBridgeUnresolvable": []
+    },
+    "currentBody": {
+      "result": "PASS",
+      "path": "reference/source-recovery/2026-09-11-wave1/crm307.pdf",
+      "sha256": "da6852b5762dea47a17e8159a67e07215543a8524be623709f4856aed169b287",
+      "byteLength": 211228
+    },
+    "customFailClosedProbes": {
+      "duplicateCustodyRows": "FAIL_ACCEPTED",
+      "wrongRecoveryOrUnrelatedSourceIdAlias": "FAIL_ACCEPTED",
+      "invalidAdmissionWithPreloadedCustody": "FAIL_ACCEPTED",
+      "wrongAdmissionHash": "PASS_REFUSED",
+      "wrongFamilyAdmissionBinding": "PASS_REFUSED",
+      "missingBody": "PASS_REFUSED",
+      "duplicateAcquiredReceipt": "PASS_REFUSED",
+      "conflictingHeldAsIncludingResolvedFalse": "PASS_REFUSED"
+    }
+  },
+  "preservedControls": [
+    "The supplied patch hash and byte length match the transfer receipt.",
+    "The exact tracked input-manifest bytes are checked by wave1InputManifestMatches when the governed helper is called directly.",
+    "Each of the seven recorded families resolves through the explicit expectation table and all 15 source bodies match current SHA-256 and lengths.",
+    "Wrong governed source identity, family binding, missing body, duplicate acquired receipt, and non-null conflicting heldAs are refused by the supplied resolver/tests.",
+    "The governed helper does not consult MASTER_QUEUE as source authority.",
+    "No source, custody, queue, manifest, packet, raster, or production artifact was changed; the follow-up implementation remains uncommitted."
+  ],
+  "nonActions": [
+    "No legal research, source hunt, source refresh, prerequisite check, packet build, raster, queue regeneration, or custody edit was performed.",
+    "No code repair beyond applying the supplied two-file patch was performed.",
+    "No commit was created."
+  ],
+  "nextGate": "Repair the three blocking familySources fail-closed gaps, add hermetic regression tests, rerun the full focused resolver file and obtain a new independent PASS before any of the seven prerequisite checks or CA build proceed."
+}

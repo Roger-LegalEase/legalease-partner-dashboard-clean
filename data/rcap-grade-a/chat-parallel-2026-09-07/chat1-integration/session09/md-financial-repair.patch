@@ -1,0 +1,34 @@
+--- a/scripts/rcap-packet-recovery/chat5/md-conviction.mjs
++++ b/scripts/rcap-packet-recovery/chat5/md-conviction.mjs
+@@ -51,6 +51,7 @@
+ function iso(v,k){if(typeof v!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(v)||!Number.isFinite(Date.parse(v+'T00:00:00Z'))||new Date(v+'T00:00:00Z').toISOString().slice(0,10)!==v)throw Error('INVALID_DATE: '+k);return v;}
+ function anniversary(v,n){const result=`${+v.slice(0,4)+n}${v.slice(4)}`;if(v.endsWith('02-29'))throw Error('LEAP_ANNIVERSARY_REVIEW: do not guess the applicable legal anniversary');return result;}
+ function amount(v,k){assert(Number.isSafeInteger(v)&&v>=0,'INVALID_CENTS: '+k);return (v/100).toFixed(2);}
++function financialRecord(v,k){assert(v!==null&&typeof v==='object'&&!Array.isArray(v)&&[Object.prototype,null].includes(Object.getPrototypeOf(v)),'FINANCIAL_OBJECT_REQUIRED: '+k);}
+ function safeText(v,k){if(!has(v))return;assert.equal(typeof v,'string','TEXT_REQUIRED: '+k);assert(v.trim()&&!/[\r\n\t]/.test(v),'SINGLE_LINE_REQUIRED: '+k);assert(!/^(tbd|unknown|insert|enter here|not supplied|see instructions|test prose)$/i.test(v.trim()),'PLACEHOLDER_NOT_FACT: '+k);}
+ /** Dates are factual consistency checks, not a substitute for the route engine. */
+ export function validateMdConviction(input){
+@@ -117,13 +118,20 @@
+   assert.equal(typeof f.options.finalOpenCostsRequested,'boolean','EXPLICIT_FINAL_COST_CHOICE_REQUIRED');
+   if(f.options.finalOpenCostsRequested)need('options.noMaterialChangeAnticipated',true);
+   const z=f.financial;
+-  if(z){
++  if(has(z)){
++   financialRecord(z,'financial');
+    for(const key of ['incomeComplete','propertyComplete','debtsComplete'])need('financial.'+key,true,'Confirm the complete '+key.replace('Complete','')+' inventory');
++   // A completion flag cannot replace the inventory it describes. An explicit
++   // empty object represents none; omitted data remains unknown.
++   for(const name of ['income','property','debts']){
++    if(has(z[name]))financialRecord(z[name],'financial.'+name);
++    if(z[name+'Complete']===true)assert(has(z[name]),'FINANCIAL_INVENTORY_REQUIRED: financial.'+name);
++   }
+    if(has(z.householdSize))assert(Number.isInteger(z.householdSize)&&z.householdSize>=1,'HOUSEHOLD_SIZE_INVALID');
+    if(has(z.period))assert(['week','month','year'].includes(z.period),'INCOME_PERIOD_INVALID');
+    if(has(z.totalCents))amount(z.totalCents,'total');
+-   if(z.income){for(const [key,v] of Object.entries(z.income)){assert(W_INCOME[key],'UNKNOWN_INCOME_CATEGORY_OR_SNAP');amount(v,key);}if(z.incomeComplete===true&&has(z.totalCents))assert.equal(Object.values(z.income).reduce((a,b)=>a+b,0),z.totalCents,'INCOME_TOTAL_MISMATCH');}
+-   for(const [name,allowed] of [['property',W_PROPERTY],['debts',W_DEBT]])if(z[name])for(const [key,v] of Object.entries(z[name])){assert(allowed[key],'UNKNOWN_FINANCIAL_CATEGORY');amount(v.cents,`${name}.${key}`);if(name==='debts')amount(v.monthlyCents,`${name}.${key}.monthly`);if(name==='debts'||key==='other'){safeText(v.description,key);assert(has(v.description),'FINANCIAL_DESCRIPTION_REQUIRED');}}
++   if(z.income){for(const [key,v] of Object.entries(z.income)){assert(Object.hasOwn(W_INCOME,key),'UNKNOWN_INCOME_CATEGORY_OR_SNAP');amount(v,key);}if(z.incomeComplete===true&&has(z.totalCents))assert.equal(Object.values(z.income).reduce((a,b)=>a+b,0),z.totalCents,'INCOME_TOTAL_MISMATCH');}
++   for(const [name,allowed] of [['property',W_PROPERTY],['debts',W_DEBT]])if(z[name])for(const [key,v] of Object.entries(z[name])){assert(Object.hasOwn(allowed,key),'UNKNOWN_FINANCIAL_CATEGORY');financialRecord(v,`financial.${name}.${key}`);amount(v.cents,`${name}.${key}`);if(name==='debts')amount(v.monthlyCents,`${name}.${key}.monthly`);if(name==='debts'||key==='other'){safeText(v.description,key);assert(has(v.description),'FINANCIAL_DESCRIPTION_REQUIRED');}}
+    if(z.propertyComplete===true&&z.excludedHomeVehiclePersonalItems!==true)throw Error('PROPERTY_EXCLUSIONS_NOT_CONFIRMED');
+    if(z.incomeComplete===true&&z.snapExcluded!==true)throw Error('SNAP_EXCLUSION_NOT_CONFIRMED');
+   }

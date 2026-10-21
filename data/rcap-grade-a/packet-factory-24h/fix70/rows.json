@@ -1,0 +1,153 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-rows/v1",
+  "lane": "FIX70",
+  "laneKind": "repair",
+  "generatedBy": "FIX70, opting one Colorado family into the shared fitAppearancesToRect machinery FIX61 landed and FIX68 applied to three builders.",
+  "baseSha": "581cce1d0",
+  "branch": "fix70-co-motion-fit-rect",
+  "everyOtherFamilyByteIdentical": "Proved. sha256 over every one of the 5,438 files under data/rcap-all50/overlays/census-v1 was taken before the edit and again after both rebuilds. Exactly six files differ and all six are inside this family's own directory: fixtures/canonical.pdf, fixtures/boundary.pdf, raster/canonical/page-01/page.png, raster/boundary/page-01/page.png, reports/rendered-artifacts.json and reports/independent-visual-review.json. Every other family directory in every jurisdiction is byte-identical.",
+  "prohibitedFilesNotOpenedForWriting": "MASTER_QUEUE.json, RASTER_QUEUE.json, the legal-decision records, product-wiring.json, the shared modules scripts/rcap-official-forms/rcap-active-content.mjs and scripts/rcap-official-forms/rcap-official-form-finalize.mjs, any other builder, any other worktree, the Captain branch and main were not opened for writing. Nothing was force-pushed and no subagent was created.",
+  "rows": [
+    {
+      "itemId": "co_motion_seal_nonconviction-set",
+      "familyId": "co_motion_seal_nonconviction-set",
+      "jurisdiction": "CO",
+      "implementationStrategy": "official_pdf_fill",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/co/co-motion-seal-nonconviction-set--official-pdf-fill",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "obligationsRepaired": ["CLIPPING_AND_OVERLAP"],
+      "obligationsThisRowDoesNotDischarge": [
+        "RASTER. The central acceptance receipt this family carried was bound to the fixture digests recorded under digests.before, both of which this repair supersedes. It stops binding and a fresh central raster is owed on the new bytes. RASTER_QUEUE.json and MASTER_QUEUE.json were not opened for writing by this lane; the pdftoppm rasters recorded below were this lane's own measurement, taken under /tmp and deleted after measuring.",
+        "INDEPENDENT VERIFICATION. This lane opted the builder in and rebuilt these bytes, so it verifies none of them. It wrote no verdict and replaced none, product-wiring.json binding.acceptanceReceipt is null here and unchanged on disk, and nothing is scored. VF02's reading was taken at base ab018b86a against the superseded bytes and does not transfer to the new ones.",
+        "THE COHORT'S OTHER FAMILIES. FIX61's read-only scan and VF08 measured the same shared behaviour across a wider cohort. Only the one family granted to this lane is opted in, rebuilt or touched; every other family directory under data/rcap-all50/overlays/census-v1 was proved byte-identical after both rebuilds, and the shared option stays default-off.",
+        "THE SHARED MACHINERY ITSELF. Nothing in scripts/rcap-official-forms/rcap-active-content.mjs or scripts/rcap-official-forms/rcap-official-form-finalize.mjs was edited. The option, its default of false and its behaviour are exactly as FIX61 landed them; this lane only opts in, and the Captain decision to flip the default is not taken here.",
+        "THE PREFLIGHT'S TWO ENVIRONMENT FAILURES. scripts/verify-packet-build-environment.mjs reports 11/13 in this container. Both failures are properties of the container rather than of the repair and neither is repaired here.",
+        "SELF_HELP_STOP AS VF02 DISCLOSED IT. VF02 passed that obligation while recording that CO.memo.json declares three selfHelpStopConditions for this track -- the district attorney objects, the court sets a contested hearing, and immigration, licensing or firearm consequences are in play -- and that none appears in participant-instructions.md. This row does not touch participant-instructions.md and that observation remains exactly as VF02 left it."
+      ],
+      "buildHost": "scripts/build-census-v1-co_motion_seal_nonconviction-set.mjs",
+      "sharedHost": "scripts/rcap-official-forms/rcap-official-form-finalize.mjs (finalizeOfficialForm) and scripts/rcap-official-forms/rcap-active-content.mjs (sanitizeAndFlatten, fitAppearanceStreamsToRect) -- read and used, not edited.",
+      "finalizeOfficialFormCallSite": "the single finalizeOfficialForm call in the builder, at line 414 before the edit; fitAppearancesToRect: true now sits immediately beside the suppressSynthesizedAppearances: true FIX64 added.",
+      "worktree": "/home/user/fix70-worktree, cut from /home/user/captain-worktree at 581cce1d0 on claude/legalease-sprint-captain-utucnw, sparse checkout off with 0 skip-worktree entries. private/ is a read-only symlink to /home/user/legalease-partner-dashboard-clean/private and node_modules a symlink to the Captain worktree's. No other worktree, the Captain branch and main were not touched; nothing was force-pushed.",
+      "grantConfirmed": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX70 co_motion_seal_nonconviction-set -> CLAIM_OK FIX70 co_motion_seal_nonconviction-set (repair, grant set 2c433d8e161f4ce7), exit 0. Asserted before any artifact of this family was opened.",
+      "verdictRepaired": {
+        "lane": "VF02",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "ab018b86a",
+        "blockedObligationNames": ["CLIPPING_AND_OVERLAP"],
+        "howVF02PutIt": "Five JDF-477 Group_6_0 radios ship their own /Off bevel with /BBox [0 0 18 18] against a 13.68pt /Rect, stamped at cmScale 1, product 0.76, error 4.32pt; the sweep read 70 of 75 per fixture; 1,830 source pixels lost and 2,951 pixels per fixture outside the write box at 300 dpi.",
+        "whereVF02SaidTheRepairBelongs": "opt this family's builder into fitAppearancesToRect at its finalizeOfficialForm call site, rebuild, re-raster centrally on the new bytes, and re-read the obligation independently; the shared default stays as it is."
+      },
+      "fixtureDigestsConfirmedBeforeAnyEdit": "sha256sum over fixtures/ was run before the builder was opened for writing: canonical.pdf cd0a7f4b89fd520bed685c7f0455b043374126f766cde8c2dbfcbc5e11b35634 (320,186 bytes, 5 pages) and boundary.pdf 3a4d91f01ea2c5370af234a7048a637a692c5f0fa1339f83ea9042e5af3f3260 (320,396 bytes, 5 pages). Both equal VF02's canonicalSha256 and boundarySha256 exactly. A rebuild at base 581cce1d0 with no edit reproduced the committed bytes with nothing appearing modified in git status, so the base itself is deterministic here.",
+      "whatChanged": {
+        "theBuilder": "scripts/build-census-v1-co_motion_seal_nonconviction-set.mjs now passes fitAppearancesToRect: true in its single finalizeOfficialForm call, beside the suppressSynthesizedAppearances: true that was already there, with a comment naming the VF02 measurement it answers. That is the only change to this builder and the only change of any kind outside this family's regenerated artifacts. Nothing else was added, removed or reordered.",
+        "theDefect": "The five Group_6_0 radios of JDF-477 section 6 -- the statutory-ground election -- each carry /AS /Off and SHIP THEIR OWN 109-byte /Off stream, a grey bevel drawn to an 18pt box, against a /Rect of 13.68 x 13.68. ISO 32000-1 12.5.5 transforms that /BBox by its /Matrix and fits the result onto the /Rect, so a conforming viewer draws the Judiciary's bevel at 13.68pt. pdf-lib's flatten() emits a translation and no scale, so the packet stamped it at 18pt on packet page 1 of both fixtures: cmScale 1 times requiredScale 0.76 is 0.76 and not 1, an error of 4.32pt on each axis.",
+        "whySuppressSynthesizedAppearancesDidNotReachIt": "FIX64's option supplies an EMPTY appearance where a widget's current /AS state has no stream. It leaves alone a widget that ships its own stream for the state it is set to, which is exactly what these five are. This is the second, separate shared-machinery defect and FIX64 neither introduced nor touched it.",
+        "theRemedy": "The shared option pre-composes the 12.5.5 mapping into each affected appearance's own /Matrix. Read back from the delivered bytes, each of the five flattened XObjects moves from /Matrix [1 0 0 1 0 0] to [0.76 0 0 0.76 0 0] while its /BBox stays [0 0 18 18] and its 109 content bytes hash identically before and after (sha256 65ee315c4162...). No appearance content byte is touched and no value is written into any field.",
+        "whyTheOptionAloneIsEnough": "This builder hands finalizeOfficialForm the pinned source bytes themselves (sourceBytes: source.bytes) and performs no intermediate pdf-lib save before the shared finalizer runs, so the FIX57 pattern is absent and no updateFieldAppearances: false repair was needed or made.",
+        "whatDidNotChange": "No default behaviour anywhere. No shared module. No other family's builder, directory or bytes. No whitelist by family, form, field or route exists to change and none was created."
+      },
+      "perDocumentFitCounts": {
+        "measuredBy": "report.sanitation.appearancesFittedToRect, probed over the two pinned source binaries this family binds.",
+        "JDF-477": "40 widgets examined, 35 already correct, 5 rescaled -- all five Group_6_0, /BBox [0 0 18 18] into a 13.68 x 13.68 /Rect, requiredScale 0.76, displacement 4.32pt, fitted /Matrix [0.76 0 0 0.76 0 0].",
+        "JDF-478": "35 widgets examined, 35 already correct, 0 rescaled.",
+        "skippedNoPlaceableAppearance": "empty on both",
+        "skippedDegenerateGeometry": 0,
+        "streamsCopiedForConflictingPlacements": 0
+      },
+      "rebuild": {
+        "command": "MASTER_LIBRARY_SOURCE_DIR=<mounted Master Library Edition 1> node scripts/build-census-v1-co_motion_seal_nonconviction-set.mjs",
+        "exit": 0,
+        "runTwiceByteIdentical": true,
+        "howProved": "The whole family directory was copied aside after the first rebuild and compared with diff -r against the second. Zero differences across every file.",
+        "pageCountUnchanged": true
+      },
+      "pixelMeasurement": {
+        "method": "pdftoppm, 300 dpi, greyscale. For each of the five Group_6_0 widgets the window taken is the 18pt appearance footprint anchored at the widget's /Rect origin -- the extent the unfitted bevel occupies. Dark pixels (grey < 200) inside that window but OUTSIDE the widget's own 13.68pt /Rect are counted three ways: the delivered page before, the delivered page after, and the pinned JDF-477 page 1 rendered directly by poppler, which applies 12.5.5.",
+        "dpi": 300,
+        "packetPage": 1,
+        "sourcePage": 1,
+        "perWidget": [
+          { "rect": [124.8, 295.418, 13.68, 13.68], "outsideRectDarkBefore": 601, "outsideRectDarkAfter": 0, "pinnedFormsOwnCount": 0, "insideRectDarkBefore": 891, "insideRectDarkAfter": 1060, "pinnedInside": 1060 },
+          { "rect": [124.887, 272.16, 13.68, 13.68], "outsideRectDarkBefore": 596, "outsideRectDarkAfter": 0, "pinnedFormsOwnCount": 0, "insideRectDarkBefore": 806, "insideRectDarkAfter": 1011, "pinnedInside": 1011 },
+          { "rect": [124.56, 231.578, 13.68, 13.68], "outsideRectDarkBefore": 601, "outsideRectDarkAfter": 0, "pinnedFormsOwnCount": 0, "insideRectDarkBefore": 849, "insideRectDarkAfter": 1018, "pinnedInside": 1018 },
+          { "rect": [124.887, 191.324, 13.68, 13.68], "outsideRectDarkBefore": 582, "outsideRectDarkAfter": 0, "pinnedFormsOwnCount": 0, "insideRectDarkBefore": 794, "insideRectDarkAfter": 1002, "pinnedInside": 1002 },
+          { "rect": [124.56, 168.088, 13.68, 13.68], "outsideRectDarkBefore": 586, "outsideRectDarkAfter": 0, "pinnedFormsOwnCount": 0, "insideRectDarkBefore": 802, "insideRectDarkAfter": 972, "pinnedInside": 972 }
+        ],
+        "totalOutsideRectPerFixtureBefore": 2966,
+        "totalOutsideRectPerFixtureAfter": 0,
+        "totalTheFormItselfCarries": 0,
+        "excessInkRemovedPerFixture": 2966,
+        "identicalInBothFixtures": "Yes. canonical.pdf and boundary.pdf give the same five counts before and the same five after, pixel for pixel.",
+        "reproducesVF02": "Yes. VF02 recorded 2,951 dark pixels per fixture outside the 13.68pt /Rect against a pinned baseline of none; this lane measures 2,966 with its own edge and threshold handling, the same defect to within a pixel of boundary rounding. VF02's pinned inside counts 1060/1011/1018/1002/972 reproduce exactly, and its delivered inside counts to within a few pixels.",
+        "eachBevelSitsInsideItsRect": "Yes. After the rebuild the outside-rect count at all five widgets is 0, which is the pinned form's own count, and the inside-rect count at all five equals the pinned form's exactly -- 5,063 pixels against 4,142 before. The 1,830 source-ink pixels VF02 measured as lost are recovered: the delivered bevels are now the same size and the same ink as the ones JDF-477 draws.",
+        "theSelectedRadiosOnStateIsUnchanged": "There is no selected radio. All five Group_6_0 widgets carry /AS /Off in the pinned form and the packet answers no election on them -- VF02's ROUTE_OPTIONS records the same, that the five differ from the pinned form only in the scale of the form's own bevel and carry no tick. What is flattened at each is the source's /Off stream, whose 109 content bytes are byte-identical before and after; only the /Matrix moved. No ON appearance is stamped anywhere in either fixture, so none could be altered, and the option touches appearance geometry and never a field value or a /AS state.",
+        "everyOtherPagePixelIdentical": "Yes, at 150 dpi. Pages 2, 3, 4 and 5 of canonical.pdf and pages 2, 3, 4 and 5 of boundary.pdf are byte-identical PGMs before and after; only page 1 of each differs. Attributed at 300 dpi: page 1 of canonical differs at 7,750 pixels and page 1 of boundary at 7,750, and every one of those pixels in both fixtures lies inside one of the five 18pt Group_6_0 footprints. Not one pixel moved anywhere else on any page of either fixture.",
+        "rastersDeletedAfterMeasuring": true
+      },
+      "sweep": {
+        "method": "VF02's placement sweep, reimplemented here: for every flattened widget placement in the fixture, compose the page-content cm operators through q/Q, read the placed XObject's /BBox and /Matrix, transform the BBox by the Matrix, match the placement to the pinned source widget whose /Rect origin it translates to, and require cmScale times requiredScale to equal 1 -- judged as |transformedSize x cmScale - rectSize| <= 0.05pt on each axis.",
+        "canonical": { "placementsSwept": 75, "placementsUnmatched": 0, "passBefore": 70, "failBefore": 5, "passAfter": 75, "failAfter": 0 },
+        "boundary": { "placementsSwept": 75, "placementsUnmatched": 0, "passBefore": 70, "failBefore": 5, "passAfter": 75, "failAfter": 0 },
+        "theFiveBefore": "/FlatWidget-735569487, /FlatWidget-8784015711, /FlatWidget-9668333493, /FlatWidget-250812044 and /FlatWidget-1275322832 on packet page 1 -- the same five names VF02 records, each /BBox [0 0 18 18], /Matrix [1 0 0 1 0 0], cmScale 1 against a 13.68 x 13.68 /Rect, error 4.32pt on each axis, every one matched to its source widget at distance 0.",
+        "afterEveryPlacementPasses": true,
+        "note": "The sweep script is a measurement tool run from /tmp and is not committed."
+      },
+      "digests": {
+        "canonical": {
+          "before": { "sha256": "cd0a7f4b89fd520bed685c7f0455b043374126f766cde8c2dbfcbc5e11b35634", "bytes": 320186, "pages": 5 },
+          "after": { "sha256": "9761a68d7d923459473416cdb92cf18acea7c19bb7d721b090463b6eb2686577", "bytes": 320220, "pages": 5 }
+        },
+        "boundary": {
+          "before": { "sha256": "3a4d91f01ea2c5370af234a7048a637a692c5f0fa1339f83ea9042e5af3f3260", "bytes": 320396, "pages": 5 },
+          "after": { "sha256": "d10f3bb8072244c9031bc8870d14d4fd0e4508d9790d5fe0609f94048ebaae18", "bytes": 320430, "pages": 5 }
+        }
+      },
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersMeasuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family co_motion_seal_nonconviction-set -> PASS_COMPLETE, 15/75 written, exit 0. Run on the committed base bytes before any edit and again on the rebuilt bytes.",
+      "whyNineZerosIsNotByItselfAPass": "The nine counters were nine zeros on the defective bytes too, and a central RASTER_PASS was live on them. Neither saw 2,966 pixels of ink per fixture outside a widget's own /Rect. The counters are reported because they must not regress, not because they detect this defect; the appearance read and the raster do.",
+      "verifiers": [
+        { "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family co_motion_seal_nonconviction-set", "when": "before and after", "result": "PASS_COMPLETE, nine counters zero both times", "exitCode": 0 },
+        { "command": "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs", "when": "after both rebuilds", "result": "EVERY_IDENTITY_REFRESH_SURVIVED; 249 receipts compared against HEAD, 53 carrying an identityRefresh", "exitCode": 0 },
+        { "command": "node scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs", "when": "after both rebuilds", "result": "EVERY_SOURCE_CARRIED_VALUE_IS_DISPOSITIONED, 0 undispositioned", "exitCode": 0 }
+      ],
+      "preflight": {
+        "command": "MASTER_LIBRARY_SOURCE_DIR=<mounted Master Library Edition 1> node scripts/verify-packet-build-environment.mjs --family co_motion_seal_nonconviction-set",
+        "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 11/13 passed, 2 failed, 4 not applicable. Run once, on the clean tree, before the builder was opened for writing.",
+        "exitCode": 1,
+        "theTwoFailures": [
+          "private_is_git_ignored: .gitignore covers private/, but private is reached here as the read-only symlink this dispatch specifies and the trailing-slash rule does not match a symlink. git check-ignore -q private exits 0 and git status shows nothing under private, so nothing from the corpus can be committed.",
+          "corpus_matches_committed_index: 1 absent, 0 mismatched of 24 sampled -- a custody that is not mounted in this container. Both of this family's sources bind by exact SHA-256 regardless, which the family_sources_bind check confirms 2/2."
+        ],
+        "notRepairedHere": true
+      },
+      "acceptanceReceipt": null,
+      "whatWasNotDone": {
+        "centralRasterOnTheNewBytes": "Not done. The new fixtures have never been through .github/workflows/rcap-packet-raster-acceptance-batch.yml. The local pdftoppm rasters recorded above are this lane's own measurement, taken under /tmp and deleted after measuring; they are not an acceptance receipt, and no receipt was written, moved or re-pointed.",
+        "independentVerification": "Not done. This lane built what it would be verifying, so it verifies nothing. An independent lane has to re-read CLIPPING_AND_OVERLAP on the new bytes at its own base."
+      }
+    }
+  ]
+}

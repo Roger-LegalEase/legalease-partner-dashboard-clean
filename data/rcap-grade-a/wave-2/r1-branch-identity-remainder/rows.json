@@ -1,0 +1,150 @@
+{
+  "schemaVersion": "rcap-grade-a-wave-2-branch-identity-remainder/v1",
+  "assignmentId": "R1_BRANCH_IDENTITY_REMAINDER",
+  "captainBaseSha": "ebb99d663f857f58a173c1d29eb73d0f15e70cbd",
+  "assignmentReadFrom": "cbdfcd9ef9356182085ec1686e9084b244d5dc79",
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "rows": [
+    {
+      "itemId": "obligation:track-only:CT:ct-nonconviction-auto",
+      "status": "STOPPED",
+      "participantABranchRouteKeys": ["obligation:track-only:CT:ct-nonconviction-auto::participant-branch"],
+      "selector": {"bStageRouteKey": "obligation:track-only:CT:ct-nonconviction-auto", "participantCondition": "A qualifying pre-October 1, 1969 disposition requires a petition, or a modern erasure was not implemented."},
+      "outputStrategy": "custom_pleading",
+      "productOutcome": "NO_BRANCH_IDENTITY_CREATED",
+      "commercialTreatment": "CLOSED",
+      "blocker": "The committed record combines a named pre-1969 petition with an unnamed modern court-clerk/DESPP correction request. Creating one compound A identity would silently invent the correction document and the selector between the two remedies."
+    },
+    {
+      "itemId": "obligation:track-pathway:CT:ct-diversion:automatic-non-conviction-erasure-under-conn-gen-stat-54-142a",
+      "status": "STOPPED",
+      "participantABranchRouteKeys": ["obligation:track-pathway:CT:ct-diversion:automatic-non-conviction-erasure-under-conn-gen-stat-54-142a::participant-branch"],
+      "selector": {"bStageRouteKey": "obligation:track-pathway:CT:ct-diversion:automatic-non-conviction-erasure-under-conn-gen-stat-54-142a", "participantCondition": "A participant seeks entry into a diversion program, or post-dismissal erasure was not implemented."},
+      "outputStrategy": "custom_pleading",
+      "productOutcome": "NO_BRANCH_IDENTITY_CREATED",
+      "commercialTreatment": "CLOSED",
+      "blocker": "The committed record says only a program application or motion under the relevant diversion statute and an unnamed post-dismissal correction request. The cited diversion statutes use different procedures, so one generic filing identity would not be reliable."
+    },
+    {
+      "itemId": "obligation:track-only:KY:ky_diversion_disposition_routing",
+      "status": "STOPPED",
+      "participantABranchRouteKeys": ["obligation:track-pathway:KY:ky_nonconviction_expungement:nonconviction-431076"],
+      "selector": {"bStageRouteKey": "obligation:track-only:KY:ky_diversion_disposition_routing", "participantCondition": "Successful diversion did not result in dismissal or expungement."},
+      "outputStrategy": "official_pdf_fill",
+      "productOutcome": "EXISTING_ROUTE_CROSSWALK_NOT_CONFIRMED",
+      "commercialTreatment": "CLOSED",
+      "blocker": "The existing nonconviction-expungement A route proves AOC-497.2 coverage but does not prove coverage for the preceding corrective motion or request. Treating AOC-497.3 as participant-filed would contradict the committed census, which identifies it as court-generated."
+    },
+    {
+      "itemId": "obligation:track-only:MD:md_10112_dpscs_cannabis",
+      "status": "STOPPED",
+      "participantABranchRouteKeys": ["obligation:track-pathway:MD:md_10105_favorable:adult-non-conviction-expungement-under-crim-proc-10-105"],
+      "selector": {"bStageRouteKey": "obligation:track-only:MD:md_10112_dpscs_cannabis", "participantCondition": "A one-time cannabis purge was missed and the participant seeks court or DPSCS/CJIS correction."},
+      "outputStrategy": "official_pdf_fill",
+      "productOutcome": "EXISTING_ROUTE_CROSSWALK_NOT_CONFIRMED",
+      "commercialTreatment": "CLOSED",
+      "blocker": "The proposed Category A branch route has a duplicate census-stage claim: the canonical adult non-conviction pathway is claimed by both md_10105_early and md_10105_favorable. A unique crosswalk cannot be confirmed without choosing between those claimants."
+    },
+    {
+      "itemId": "obligation:track-only:MI:mi_auto_misd92",
+      "status": "STOPPED",
+      "participantABranchRouteKeys": ["obligation:track-pathway:MI:mi_setaside_application:set-aside-by-application-under-mcl-780-621"],
+      "selector": {"bStageRouteKey": "obligation:track-only:MI:mi_auto_misd92", "participantCondition": "An eligible lower-level misdemeanor was not automatically set aside."},
+      "outputStrategy": "official_pdf_fill",
+      "productOutcome": "EXISTING_ROUTE_CROSSWALK_NOT_CONFIRMED",
+      "commercialTreatment": "CLOSED",
+      "blocker": "The generic MC 227 A route covers the application but not the MSP correction request. The delta's other Michigan candidates are form-token overlaps: first-OWI uses MC 227 item 2.c, marijuana uses MC 227a, and trafficking uses MC 227b."
+    },
+    {
+      "itemId": "obligation:track-only:MI:mi_auto_misd93",
+      "status": "STOPPED",
+      "participantABranchRouteKeys": ["obligation:track-pathway:MI:mi_setaside_application:set-aside-by-application-under-mcl-780-621"],
+      "selector": {"bStageRouteKey": "obligation:track-only:MI:mi_auto_misd93", "participantCondition": "An eligible higher-level misdemeanor was not automatically set aside."},
+      "outputStrategy": "official_pdf_fill",
+      "productOutcome": "EXISTING_ROUTE_CROSSWALK_NOT_CONFIRMED",
+      "commercialTreatment": "CLOSED",
+      "blocker": "The generic MC 227 A route covers the application but not the MSP correction request. Specialized MC 227 item 2.c, MC 227a, and MC 227b routes are not universal bindings."
+    },
+    {
+      "itemId": "obligation:track-only:MI:mi_deferral_status",
+      "status": "STOPPED",
+      "participantABranchRouteKeys": ["obligation:track-pathway:MI:mi_setaside_application:set-aside-by-application-under-mcl-780-621"],
+      "selector": {"bStageRouteKey": "obligation:track-only:MI:mi_deferral_status", "participantCondition": "A completed deferral was not reflected correctly and the participant seeks correction or set-aside relief."},
+      "outputStrategy": "official_pdf_fill",
+      "productOutcome": "EXISTING_ROUTE_CROSSWALK_NOT_CONFIRMED",
+      "commercialTreatment": "CLOSED",
+      "blocker": "The generic MC 227 route covers only the application component, not the corrective motion or administrative correction request."
+    },
+    {
+      "itemId": "obligation:track-pathway:MI:mi_auto_felony:automatic-clean-slate-set-aside-under-mcl-780-621g",
+      "status": "STOPPED",
+      "participantABranchRouteKeys": ["obligation:track-pathway:MI:mi_setaside_application:set-aside-by-application-under-mcl-780-621"],
+      "selector": {"bStageRouteKey": "obligation:track-pathway:MI:mi_auto_felony:automatic-clean-slate-set-aside-under-mcl-780-621g", "participantCondition": "An eligible felony was not automatically set aside."},
+      "outputStrategy": "official_pdf_fill",
+      "productOutcome": "EXISTING_ROUTE_CROSSWALK_NOT_CONFIRMED",
+      "commercialTreatment": "CLOSED",
+      "blocker": "The generic MC 227 route covers the application but not the Michigan State Police correction submission. Specialized MC 227 item 2.c, MC 227a, and MC 227b routes are not universal bindings."
+    },
+    {
+      "itemId": "obligation:track-pathway:NE:ne-nonconviction-auto:automatic-nonconviction-sealing",
+      "status": "STOPPED",
+      "participantABranchRouteKeys": ["obligation:track-pathway:NE:ne-nonconviction-auto:automatic-nonconviction-sealing::participant-branch"],
+      "selector": {"bStageRouteKey": "obligation:track-pathway:NE:ne-nonconviction-auto:automatic-nonconviction-sealing", "participantCondition": "A qualifying nonconviction remains public and participant action is needed."},
+      "outputStrategy": "custom_pleading",
+      "productOutcome": "NO_BRANCH_IDENTITY_CREATED",
+      "commercialTreatment": "CLOSED",
+      "blocker": "The committed record alternates between a motion or petition under § 29-3523(6) and a separate civil action under §§ 29-3527 through 29-3528. It does not identify the captioned pleading, venue, or selector for either remedy."
+    },
+    {
+      "itemId": "obligation:track-only:NY:ny_clean_slate_dwai",
+      "status": "STOPPED",
+      "participantABranchRouteKeys": ["obligation:track-only:NY:ny_clean_slate_dwai::participant-branch"],
+      "selector": {"bStageRouteKey": "obligation:track-only:NY:ny_clean_slate_dwai", "participantCondition": "An eligible DWAI record was not sealed or repository data is inaccurate."},
+      "outputStrategy": "official_pdf_fill",
+      "productOutcome": "NO_BRANCH_IDENTITY_CREATED",
+      "commercialTreatment": "CLOSED",
+      "blocker": "The committed record conditions the Clean Slate manual-review branch on a future UCS form/process and also names distinct DCJS and CPL 160.55 correction procedures. It does not identify one presently committed participant document or a selector among those procedures."
+    },
+    {
+      "itemId": "obligation:track-pathway:NY:ny_clean_slate_convictions:automatic-clean-slate-sealing-under-cpl-160-57",
+      "status": "STOPPED",
+      "participantABranchRouteKeys": ["obligation:track-pathway:NY:ny_160_59_petition:discretionary-conviction-sealing-by-petition-under-cpl-160-59"],
+      "selector": {"bStageRouteKey": "obligation:track-pathway:NY:ny_clean_slate_convictions:automatic-clean-slate-sealing-under-cpl-160-57", "participantCondition": "A Clean Slate conviction was not sealed or repository data is inaccurate."},
+      "outputStrategy": "official_pdf_fill",
+      "productOutcome": "EXISTING_ROUTE_CROSSWALK_NOT_CONFIRMED",
+      "commercialTreatment": "CLOSED",
+      "blocker": "The existing CPL 160.59 Category A route covers a separate discretionary sealing application, not the future CPL 160.57(e) manual-review request or DCJS record challenge. The committed record does not prove that the automatic Clean Slate correction branch crosswalks to CPL 160.59."
+    },
+    {
+      "itemId": "obligation:track-only:VA:va_auto_seal_without_order",
+      "status": "STOPPED",
+      "participantABranchRouteKeys": ["obligation:track-only:VA:va_auto_seal_without_order::participant-branch"],
+      "selector": {"bStageRouteKey": "obligation:track-only:VA:va_auto_seal_without_order", "participantCondition": "A record that should be sealed without order remains visible, or the person instead qualifies for a petition route."},
+      "outputStrategy": "custom_pleading",
+      "productOutcome": "NO_BRANCH_IDENTITY_CREATED",
+      "commercialTreatment": "CLOSED",
+      "blocker": "The committed census already has Category A CC-1201 routes under §§ 19.2-392.12 and 19.2-392.12:1, so treating the entire composite branch as NO_EXISTING_WORK would duplicate petition identities. The new VSP or AOC correction request must be separated from those existing petition routes before a route is created."
+    },
+    {
+      "itemId": "obligation:track-only:VT:vt_diversion_post_charge",
+      "status": "STOPPED",
+      "participantABranchRouteKeys": ["obligation:track-only:VT:vt_diversion_post_charge::participant-branch"],
+      "selector": {"bStageRouteKey": "obligation:track-only:VT:vt_diversion_post_charge", "participantCondition": "An older diversion record requires an application, a Chapter 230 petition applies, or automatic deletion failed."},
+      "outputStrategy": "custom_pleading",
+      "productOutcome": "NO_BRANCH_IDENTITY_CREATED",
+      "commercialTreatment": "CLOSED",
+      "blocker": "The committed census already has Category A § 7603 petition routes with forms 200-00130 and 200-00132, so the entire composite branch cannot safely be treated as new custom-pleading work. The § 164(f)(5) application and failed-deletion correction request must be separated from the existing petition routes before a new identity is created."
+    },
+    {
+      "itemId": "obligation:track-only:WV:wv_dui_test_and_lock_dismissal",
+      "status": "STOPPED",
+      "participantABranchRouteKeys": ["obligation:track-only:WV:wv_dui_test_and_lock_dismissal::participant-branch"],
+      "selector": {"bStageRouteKey": "obligation:track-only:WV:wv_dui_test_and_lock_dismissal", "participantCondition": "The participant seeks program entry, enforcement after completion, or a statutory expungement petition."},
+      "outputStrategy": "custom_pleading",
+      "productOutcome": "NO_BRANCH_IDENTITY_CREATED",
+      "commercialTreatment": "CLOSED",
+      "blocker": "The committed record names only a generic program-entry motion/application, a generic enforcement motion/request, and a conditional statutory petition. It does not establish which document goes to the criminal court, DMV, or circuit court in each cohort."
+    }
+  ]
+}

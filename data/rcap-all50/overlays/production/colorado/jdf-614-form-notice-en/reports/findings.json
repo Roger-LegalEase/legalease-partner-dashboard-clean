@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "rcap-family-findings/v1",
+  "family": "jdf-614-form-notice-en",
+  "findings": [
+    {
+      "severity": "source_currency",
+      "finding": "issuer_unreachable_current_revision_not_compared",
+      "detail": "The held binary is R: August 7, 2024, the same revision as the JDF 611 guide that names it. Whether the Judicial Department has since revised it could not be checked. The issuing court's hosts were unreachable from the build environment on 2026-09-15: the egress proxy answered 403 to CONNECT for www.coloradojudicial.gov:443 and www.courts.state.co.us:443, so the current revision could not be fetched and compared. The held revision is used and named; currency is an open source-freshness review item."
+    },
+    {
+      "severity": "classification",
+      "finding": "reclassified_from_reference_only_to_participant_filed",
+      "detail": "JDF 611 Guide to Sealing Conviction Records (district or county court case) (R: August 7, 2024) names this document under \"File the Request\" as \"JDF 614 Notice (Just do §§ A-C)\"; the earlier source-artifact classification \"reference_only / ineligible_never_a_participant_filing_artifact\" contradicted the guide and is superseded on 2026-09-15."
+    },
+    {
+      "severity": "fit",
+      "finding": "boundary_value_refused_by_geometry",
+      "detail": "Case Number: value_exceeds_widget_width_at_minimum_font"
+    }
+  ]
+}

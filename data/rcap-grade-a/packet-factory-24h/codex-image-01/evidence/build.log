@@ -1,0 +1,130 @@
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile:
+#1 transferring dockerfile: 6.38kB 0.0s done
+#1 DONE 0.4s
+
+#2 [auth] library/node:pull token for registry-1.docker.io
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/node:22-slim
+#3 DONE 0.7s
+
+#4 [internal] load build context
+#4 transferring context:
+#4 transferring context: 36.83MB 2.7s done
+#4 DONE 2.9s
+
+#5 [deps 1/4] FROM docker.io/library/node:22-slim@sha256:83f487e0a63425e5b4d146fb5e5be574bcbe1b7b843d3ebafdd95eaf7767a7e5
+#5 resolve docker.io/library/node:22-slim@sha256:83f487e0a63425e5b4d146fb5e5be574bcbe1b7b843d3ebafdd95eaf7767a7e5 0.6s done
+#5 sha256:0282d618b52cd2eb8fcf041e780cd66b15e7ebae519a4054c5d293eae6b6d34f 447B / 447B 0.1s done
+#5 sha256:51c53f95c2cae3d00dfc0350297c92dea913fe129ec38b8deb8313e5f3e0297d 22.02MB / 49.94MB 1.1s
+#5 sha256:cea7eb9bbe80eabf8356efb28b3796ab904f36a32049aeb6b435920ca93f9285 3.31kB / 3.31kB 0.1s done
+#5 sha256:3cddab114edadc7cf5a7b0b591e59f6312aade3dc4fb68e88aacca5eb1cc1c03 1.71MB / 1.71MB 0.4s done
+#5 sha256:a8ac7f6c67abc236e4c745052c404112b8fab6fe8ac3a329d1ef3b867ad67c71 18.87MB / 28.23MB 0.8s
+#5 sha256:51c53f95c2cae3d00dfc0350297c92dea913fe129ec38b8deb8313e5f3e0297d 27.26MB / 49.94MB 1.2s
+#5 sha256:a8ac7f6c67abc236e4c745052c404112b8fab6fe8ac3a329d1ef3b867ad67c71 23.07MB / 28.23MB 0.9s
+#5 sha256:51c53f95c2cae3d00dfc0350297c92dea913fe129ec38b8deb8313e5f3e0297d 33.55MB / 49.94MB 1.4s
+#5 sha256:a8ac7f6c67abc236e4c745052c404112b8fab6fe8ac3a329d1ef3b867ad67c71 28.23MB / 28.23MB 1.1s
+#5 sha256:51c53f95c2cae3d00dfc0350297c92dea913fe129ec38b8deb8313e5f3e0297d 40.89MB / 49.94MB 1.5s
+#5 sha256:51c53f95c2cae3d00dfc0350297c92dea913fe129ec38b8deb8313e5f3e0297d 49.94MB / 49.94MB 1.7s
+#5 sha256:51c53f95c2cae3d00dfc0350297c92dea913fe129ec38b8deb8313e5f3e0297d 49.94MB / 49.94MB 3.9s done
+#5 sha256:a8ac7f6c67abc236e4c745052c404112b8fab6fe8ac3a329d1ef3b867ad67c71 28.23MB / 28.23MB 3.7s done
+#5 extracting sha256:a8ac7f6c67abc236e4c745052c404112b8fab6fe8ac3a329d1ef3b867ad67c71
+#5 extracting sha256:a8ac7f6c67abc236e4c745052c404112b8fab6fe8ac3a329d1ef3b867ad67c71 5.2s done
+#5 DONE 10.9s
+
+#5 [deps 1/4] FROM docker.io/library/node:22-slim@sha256:83f487e0a63425e5b4d146fb5e5be574bcbe1b7b843d3ebafdd95eaf7767a7e5
+#5 extracting sha256:cea7eb9bbe80eabf8356efb28b3796ab904f36a32049aeb6b435920ca93f9285 0.0s done
+#5 extracting sha256:51c53f95c2cae3d00dfc0350297c92dea913fe129ec38b8deb8313e5f3e0297d
+#5 extracting sha256:51c53f95c2cae3d00dfc0350297c92dea913fe129ec38b8deb8313e5f3e0297d 6.2s done
+#5 DONE 17.1s
+
+#5 [deps 1/4] FROM docker.io/library/node:22-slim@sha256:83f487e0a63425e5b4d146fb5e5be574bcbe1b7b843d3ebafdd95eaf7767a7e5
+#5 extracting sha256:3cddab114edadc7cf5a7b0b591e59f6312aade3dc4fb68e88aacca5eb1cc1c03
+#5 extracting sha256:3cddab114edadc7cf5a7b0b591e59f6312aade3dc4fb68e88aacca5eb1cc1c03 0.3s done
+#5 DONE 17.5s
+
+#5 [deps 1/4] FROM docker.io/library/node:22-slim@sha256:83f487e0a63425e5b4d146fb5e5be574bcbe1b7b843d3ebafdd95eaf7767a7e5
+#5 extracting sha256:0282d618b52cd2eb8fcf041e780cd66b15e7ebae519a4054c5d293eae6b6d34f 0.0s done
+#5 DONE 17.5s
+
+#6 [deps 2/4] WORKDIR /app
+#6 DONE 7.1s
+
+#7 [deps 3/4] COPY package.json package-lock.json ./
+#7 DONE 0.5s
+
+#8 [stage-1  3/19] RUN useradd --system --create-home --shell /usr/sbin/nologin rcapworker   && mkdir -p /tmp/rcap-render-scratch && chown rcapworker /tmp/rcap-render-scratch
+#8 DONE 3.2s
+
+#9 [deps 4/4] RUN --mount=type=secret,id=proxy_ca,target=/run/secrets/proxy_ca     if [ -s /run/secrets/proxy_ca ]; then export NODE_EXTRA_CA_CERTS=/run/secrets/proxy_ca; fi;     npm ci --omit=dev --no-audit --no-fund
+#9 66.06
+#9 66.06 added 138 packages in 1m
+#9 66.06 npm notice
+#9 66.06 npm notice New major version of npm available! 10.9.8 -> 12.0.2
+#9 66.06 npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.0.2
+#9 66.06 npm notice To update run: npm install -g npm@12.0.2
+#9 66.06 npm notice
+#9 DONE 68.4s
+
+#10 [stage-1  4/19] COPY --from=deps /app/node_modules ./node_modules
+#10 DONE 54.6s
+
+#11 [stage-1  5/19] COPY package.json tsconfig.json ./
+#11 DONE 0.6s
+
+#12 [stage-1  6/19] COPY scripts/rcap-render-worker.mjs scripts/
+#12 DONE 0.1s
+
+#13 [stage-1  7/19] COPY scripts/lib/ scripts/lib/
+#13 DONE 0.1s
+
+#14 [stage-1  8/19] COPY src/ src/
+#14 DONE 4.2s
+
+#15 [stage-1  9/19] COPY deploy/rcap-render-worker/runtime-data-manifest.json deploy/rcap-render-worker/preflight.mjs deploy/rcap-render-worker/
+#15 DONE 0.3s
+
+#16 [stage-1 10/19] COPY data/rcap-grade-a/fulfillment-authority-registry.json data/rcap-grade-a/fulfillment-observation-snapshot.json data/rcap-grade-a/
+#16 DONE 0.2s
+
+#17 [stage-1 11/19] COPY data/rcap-grade-a/maintenance/route-holds.json data/rcap-grade-a/maintenance/
+#17 DONE 0.2s
+
+#18 [stage-1 12/19] COPY data/rcap-codex/release-readiness.json data/rcap-codex/
+#18 DONE 0.1s
+
+#19 [stage-1 13/19] COPY data/rcap-all50/problematic-pdf-register.json data/rcap-all50/
+#19 DONE 0.2s
+
+#20 [stage-1 14/19] COPY data/rcap-all50/review-artifacts/f2-dispositions.json data/rcap-all50/review-artifacts/
+#20 DONE 0.1s
+
+#21 [stage-1 15/19] COPY data/rcap-all50/guidance-packets/ data/rcap-all50/guidance-packets/
+#21 DONE 0.3s
+
+#22 [stage-1 16/19] COPY data/rcap-ledger/packet-fulfillment-records.json data/rcap-ledger/packet-correction-required.json      data/rcap-ledger/route-kind-adjudications.json data/rcap-ledger/route-presentation-conflicts.json      data/rcap-ledger/track-pathway-crosswalk.json data/rcap-ledger/
+#22 DONE 0.2s
+
+#23 [stage-1 17/19] COPY data/record-clearing/factory-v2-route-registry.json data/record-clearing/legal-design-packet-set-manifests.json data/record-clearing/
+#23 DONE 0.3s
+
+#24 [stage-1 18/19] COPY data/record-clearing/legal-decisions/route-ratification-registry.json data/record-clearing/legal-decisions/
+#24 DONE 0.1s
+
+#25 [stage-1 19/19] COPY data/record-clearing/packet-specifications/ data/record-clearing/packet-specifications/
+#25 DONE 0.2s
+
+#26 exporting to image
+#26 exporting layers
+#26 exporting layers 64.5s done
+#26 exporting manifest sha256:8bf2ed849955e035cba002e22068b41820c93d9ad4a1496714016e6fde112de4 0.2s done
+#26 exporting config sha256:c41b3435593c3982ed46a2113c97dc630900beec50227f7703375a084554e952 0.0s done
+#26 exporting attestation manifest sha256:47e439ce3983c02bcc146722b124e9cc3b60044a93a9a7d858d2c7d6128509a6 0.1s done
+#26 exporting manifest list sha256:387880747874cf4cfbf22b07916f0a0578e006de04527a3ea05e7721654626dc 0.1s done
+#26 naming to docker.io/library/rcap-render-worker:codex-image-01 0.1s done
+#26 unpacking to docker.io/library/rcap-render-worker:codex-image-01
+#26 unpacking to docker.io/library/rcap-render-worker:codex-image-01 34.5s done
+#26 DONE 100.0s

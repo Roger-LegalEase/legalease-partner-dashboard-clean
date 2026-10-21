@@ -1,0 +1,78 @@
+{
+  "schemaVersion": "fable-packet-factory-return/v1",
+  "worker": "FABLE-ACQ1",
+  "lane": "acquisition-conveyor",
+  "branch": "fable/acq1",
+  "returnedAt": "2026-09-01T16:55:00Z",
+  "mission": "Consume the six completed hosted batch-acquisition runs, PROMO what bound, extend SOURCE_ACQUISITION_MANIFEST.json through its own generator, validate, and hand the captain a merge that fires the workflow.",
+
+  "priorRuns": {
+    "finding": "All six push-triggered runs EXECUTED acquisition — 22 jobs each (1 plan, 20 acquire matrix jobs, 1 summarize). None was plan-only. Every per-run verdict and every per-source result is recorded with job-level provenance in data/rcap-grade-a/packet-factory-24h/SOURCE_ACQUISITION_CONSUMPTION.json.",
+    "verdicts": [
+      { "runId": 33449768535, "verdict": "PARTIAL 15/20 acquired, 5 failed, 0 hash mismatches", "authority": "newest — the current per-source truth" },
+      { "runId": 33441624870, "verdict": "PARTIAL 15/20, same five failures", "superseded": true },
+      { "runId": 33433809788, "verdict": "PARTIAL 15/20, same five failures", "superseded": true },
+      { "runId": 33431316717, "verdict": "PARTIAL 17/20, 3 failed, 2 hash mismatches (pre-reclassification summarizer counted the FL mismatches as acquisitions)", "superseded": true },
+      { "runId": 33427613739, "verdict": "PARTIAL 17/20, 3 failed, 2 hash mismatches", "superseded": true },
+      { "runId": 33426578161, "verdict": "PARTIAL 17/20, 3 failed, 2 hash mismatches; every acquire job CONCLUDED failure only because acquired-source/ was not yet gitignored at that commit — the fetches and uploads themselves succeeded", "superseded": true }
+    ]
+  },
+
+  "perSource": {
+    "boundAndPromotable": "15 of 20 — all 12 IL (6 CXP cannabis forms, 2 EXP-AD, 4 PRB certificates) and all 3 IA (DCI-76/77, Rule 2.86 Forms 1 and 3). Each has observed SHA-256 exactly equal to the manifest pin, a retained run-33449768535 artifact (IDs recorded), and a receipt binding run id + artifact name.",
+    "failedThroughHostedAcq": [
+      { "source": "IN convictionpetitionorder0320fillable", "outcome": "HTTP 404 on www.in.gov landing page, consistent across all six runs" },
+      { "source": "MA fillable-jud-mps-petition-to-seal", "outcome": "HTTP 403 on www.mass.gov landing page, consistent across all six runs — mass.gov refuses the hosted fetcher itself" },
+      { "source": "MI mc227", "outcome": "HTTP 404 on courts.michigan.gov SCAO forms landing page, consistent across all six runs; a corroborated MC 235 direct URL's path shape hints where MC 227 lives, so this is DISC work, not yet BOT_BLOCKED" },
+      { "source": "FL fdle40-025 / fdle40-028", "outcome": "acquired_but_not_the_pinned_document — the pinned hashes are pins on volatile HTML landing pages and can never bind; the fix is DISC resolving the direct FDLE binary URLs, not retrying" }
+    ],
+    "botBlockedClassification": "NONE issued. No entry yet satisfies all three conditions (hosted-ACQ failure receipt + no alternate current official endpoint + no repository-held bytes): IN/MI/FL have plausible DISC resolutions not yet exhausted, and MA has a hosted failure receipt but alternate-endpoint discovery (the direct mass.gov media URL for the petition) has not been attempted by DISC."
+  },
+
+  "promoStatus": {
+    "outcome": "All 15 bound rows are PROMO-READY but PROMO_BLOCKED_BYTES_UNREACHABLE_IN_THIS_CONTAINER — recorded per row, lane not stopped.",
+    "why": "The established chain (scripts/rcap-materialize-acquisition-handoff.mjs) requires the artifact body bytes. The artifact store host is refused by this container's egress proxy (CONNECT 403, verified against a signed download URL), and the acquire script's job-summary base64 fallback is not served by any API surface reachable here (check-run output is empty). Per the mission contract the missing input is recorded per source and the rows stop there; nothing was promoted without exact bytes, no hash was carried forward as custody.",
+    "handoff": "Any byte-capable environment can promote now: artifact IDs, artifact names, run id 33449768535, and the pinned hashes are all in SOURCE_ACQUISITION_CONSUMPTION.json; retention expires ~2026-09-30."
+  },
+
+  "manifestDelta": {
+    "before": "20 entries, 8 refused",
+    "after": "40 entries, 7 refused, plus a discPending section",
+    "added": [
+      {
+        "what": "18 Texas OCA nondisclosure petitions/orders/instructions on www.txcourts.gov",
+        "corroboration": "DISC-settled in acq01/acq02 handoff-candidates (an itemId per obligation, familyIds per row) AND each URL carried by 11-32 distinct non-candidate committed files; the generator now admits DISC-settled candidate URLs only over that two-file corroboration gate",
+        "pins": "6 URLs pinned with hashes unique to one URL; 12 entered unpinned with an expectedSha256Note because their held-edition hashes are set-level pins claimed by two URLs at once — pinning those would manufacture the same guaranteed mismatch the FL landing pins produce"
+      },
+      {
+        "what": "TX Statement of Inability to Afford Payment (bilingual) — the document that gates ten TX families",
+        "corroboration": "32 distinct non-candidate committed files; the wave-2 acquisition receipt already held its retrieval hash, and the record was refused from the manifest only for lacking a jurisdiction field — identity fields added, pin is the receipt's own retrieval hash of these exact URL bytes"
+      },
+      {
+        "what": "UT 1501CR Motion to Remove Link to Personal Identifying Information on legacy.utcourts.gov",
+        "corroboration": "16 distinct non-candidate committed files; same wave-2 enrichment, pinned with the receipt's retrieval hash"
+      }
+    ],
+    "refusedListNote": "No refusal was hand-deleted. Two former 'no jurisdiction' refusals (the TX statement and UT 1501CR wave-2 records) are cured because the records now carry corroborated identities, so the regenerated refused list no longer contains them; the LA and ND wave-2 rows and all three WA rows remain refused unchanged, and one NEW refusal was added (the DISC-settled Indiana bundle URL on indianalegalhelp.org — not an allowlisted official government host).",
+    "generatorChange": "scripts/grade-a-packet-factory-24h/generate-source-conveyor.mjs now reads the ACQ lanes' handoff-candidates files as a URL-record source, admission gated on >=2 distinct non-candidate committed files carrying the URL (candidate files never count toward their own admission), host allowlist authoritative and unchanged, set-level hashes never pinned onto a single URL.",
+    "deMoStatus": {
+      "DE-Form-281": "DISC-PENDING, not invented. The sweep found only landing pages (courts.delaware.gov/forms/ x9, /superior/expungement.aspx x15, the Superior Court expungement forms list x2) and NO URL containing '281' on any Delaware host; FACTORY_MEMORY additionally warns the held FORM-281 bytes print Form 281E, so the identity itself needs DISC first. Recorded in the manifest's discPending section.",
+      "MO-FI-05": "DISC-PENDING, not invented. SRR-001 records officialArtifactUrl null with SOURCE_SCOPE_AND_VERSION_AMBIGUITY (St. Louis County FI-05 vs 7th Circuit FI-50), the only recorded publisher host (stlcountycourts.com) is off-allowlist, and MO evidence otherwise carries only courts.mo.gov landing pages and revisor.mo.gov statutes. Recorded in discPending; goes to the DISC lane, not to a human."
+    }
+  },
+
+  "validation": [
+    "node scripts/rcap-plan-source-acquisition-batch.mjs — 40 entries validated, 40 planned, unique artifact names (the workflow's plan job, replicated locally so the push cannot half-run)",
+    "node scripts/grade-a-packet-factory-24h/generate-source-conveyor.mjs --check — 3 generated files converge",
+    "node scripts/verify-rcap-source-acquisition-plan.mjs — passed (45 queue entries, 32 unique-source legs)",
+    "node scripts/grade-a-packet-factory-24h/verify-source-conveyor.mjs — 23/23",
+    "node scripts/grade-a-packet-factory-24h/verify.mjs — 30/30"
+  ],
+
+  "whatFiresOnMerge": "The batch workflow's push trigger watches data/rcap-grade-a/packet-factory-24h/SOURCE_ACQUISITION_MANIFEST.json (and the acquisition scripts) ON claude/legalease-sprint-captain-utucnw. This branch changes the manifest and the conveyor generator, so THE CAPTAIN'S MERGE-AND-PUSH TO THE CAPTAIN BRANCH IS ITSELF THE DISPATCH: the moment the merge lands, a 40-job batch fires — the 20 existing entries re-fetch plus 18 TX OCA forms, the TX statement of inability, and UT 1501CR acquired for the first time. No workflow_dispatch is needed.",
+
+  "claims": "This lane touched no packet-family artifact and holds no claim; ACQ/PROMO lane records and the manifest generator only. Never used git add -A. No production, Supabase, Stripe, or commercial route touched.",
+  "sourceBodiesCommitted": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false
+}

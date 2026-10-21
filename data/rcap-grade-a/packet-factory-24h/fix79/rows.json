@@ -1,0 +1,738 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-rows/v1",
+  "lane": "FIX79",
+  "laneKind": "shared-host-repair",
+  "generatedBy": "FIX79 (repaired, rebuilt and read these three families; verified none of them)",
+  "sharedHost": "scripts/rcap-nm-flat-forms/nm-packet-host.mjs",
+  "grantsNothing": "These rows are a repair record. They approve no output, promote no route, create no fulfillment record and mark no packet proven. Each packet still needs a central raster on the new bytes and an independent verification by a lane that did not build them.",
+  "rows": [
+    {
+      "itemId": "nm_conviction-set",
+      "familyId": "nm_conviction-set",
+      "status": "COMPLETED",
+      "laneKind": "shared-host-repair",
+      "repairedByThisLane": true,
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nm/nm-conviction-set--official-pdf-fill",
+      "lane": "FIX79",
+      "branch": "fix79-nm-host-three",
+      "baseSha": "edc75a3a9cf25ffd7fb7b07789b3ee1160e7359a",
+      "worktree": "/home/user/fix79-worktree, cut from /home/user/captain-worktree at edc75a3a9 on claude/legalease-sprint-captain-utucnw. No other worktree was touched, the Captain branch and main were not touched, nothing was force-pushed, and no subagent was created.",
+      "grantConfirmed": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX79 nm_conviction-set -> CLAIM_OK FIX79 nm_conviction-set (repair, grant set db4a5d2f6fa9cb2f), exit 0, before any family artifact was opened.",
+      "verdictRepaired": {
+        "lane": "VF04",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "d7e293f81",
+        "failedObligationNames": [
+          "KNOWN_PREFILLS",
+          "CLIPPING_AND_OVERLAP"
+        ]
+      },
+      "obligationsRepaired": [
+        "KNOWN_PREFILLS",
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "obligationsThisRowDoesNotDischarge": [
+        "RASTER. No central raster was run and none is claimed. Every raster in this row is a local pdftoppm measurement under /tmp, taken to read the page and deleted after measuring; no raster PNG from it is committed. Both fixture digests move, so any central raster acceptance receipt bound to the old digests stops binding and a fresh central raster is owed on the new bytes.",
+        "INDEPENDENT VERIFICATION. This lane changed the shared host, changed this family's dictionary and built these bytes, so it verifies none of them. No verdict was written or replaced and nothing here is scored as passing.",
+        "THE OPEN LEGAL-DESIGN QUESTION ON THE FEE-WAIVER BINARY. Whether that component may ship statewide on a binary whose caption prints one district's court name is counsel's and is still open; see fourTwoTwoDisposition. This lane changed no component set and conditioned nothing.",
+        "THE REST OF THE FIX61 APPEARANCE COHORT. The read-only scan names 46 exposed families across 12 jurisdictions; only these three are opted in here. Nothing else was rebuilt, opted in or touched, and the finalizer's flag stays default-off for every other caller.",
+        "ROUTE PROMOTION AND COMMERCIAL AUTHORITY. This row promotes nothing, opens no route, creates no fulfillment record and marks no packet proven. product-wiring.json still reads DECLARED_NOT_INSTALLED with generationAllowed false."
+      ],
+      "whatChanged": {
+        "theSharedHost": {
+          "sharedHost": "scripts/rcap-nm-flat-forms/nm-packet-host.mjs, imported by these three build scripts and the two New Mexico form modules and by nothing else in the repository",
+          "appearancePlacement": "fitAppearancesToRect: true at the host's single finalizeOfficialForm call in renderAcroForm. The flag is the one FIX61 added to the shared finalizer, default-off; the finalizer, rcap-active-content.mjs and rcap-widget-appearance-placement.mjs are unchanged, and no other caller reads this call site.",
+          "factConditionalDictionaries": "runNmFamily builds one census per fixture, and a document may declare its dictionary as a function of the facts. A dictionary that is a plain object is passed through unchanged, so every document and every family that does not opt in renders what it rendered before -- visible in the two sibling families, whose dictionaries are all static and whose only byte movement is the repairs their rows name.",
+          "boundaryHalfOfTheFieldMap": "maps[].boundaryWrites and maps[].boundaryRefusals used to be the canonical arrays under another name, which was true only while every dictionary was static. Each map now carries its own fixture's rows, and a map whose rows differ between fixtures carries rowsDecidedByAHeldFactRatherThanByTheRoute, naming the held fact and every row it moves.",
+          "newPolicyVocabulary": "HELD_NOT_WRITTEN(what, why) -- a blank the platform HOLDS a value for and the build does not write. Kept apart from SUPPLY on purpose: SUPPLY says the platform holds no value, and a row that says that while the platform holds the value is the defect that put this family in repair. A HELD_NOT_WRITTEN row declares KNOWN_FACT_NOT_WRITTEN and says which fact and why, rather than claiming a permitted blank.",
+          "whatWasNotChanged": "rcap-official-form-finalize.mjs, rcap-active-content.mjs, rcap-widget-appearance-placement.mjs, rcap-field-semantics.mjs and scripts/rcap-packet-completeness/completeness-contract.mjs are untouched. No protect rule was relaxed and no label was re-worded to get past one."
+        },
+        "inThisFamily": "Form 4-953 item 2 is one either/or about OTHER pending expungement cases, and the build wrote matter.court -- the district THIS petition is filed in -- into both blanks of the branch that asserts such cases exist, with neither printed box marked and the case-number lines below them blank. The platform holds no pending-expungement fact, and the district of a pending case is a different fact from the district of this filing. Both writes are gone; both blanks are the participant's now, disclosed in the instruction table for Form 4-953 with what to write and when to leave them empty, and both printed boxes stay unmarked. The blank on the FIRST branch keeps its write -- 'Petitioner has no pending expungement cases in the ____ Judicial District' names this filing's own district and asserts nothing about another case, and VF04 did not count it among the misplaced writes. On Form 4-222 the county write above the printed Sixth District caption is gone; see fourTwoTwoDisposition."
+      },
+      "writesMovedOrRemoved": [
+        {
+          "field": "NM-4-953/p1-y14592-x44556",
+          "measuredKey": "p1-y14592-x44556",
+          "deliveredPage": 1,
+          "printedLine": "[ ] Petitioner has the following pending expungement case or cases in the ____ Judicial District",
+          "was": "WRITE matter.court",
+          "now": "blank, REQUIRED_BEFORE_FILING, disclosed in the instruction table",
+          "reason": "a fact written onto a branch the case does not use: the packet holds no pending-expungement fact, so it cannot name the district of cases the participant has not said exist",
+          "fixtures": "both"
+        },
+        {
+          "field": "NM-4-953/p1-y11832-x30888",
+          "measuredKey": "p1-y11832-x30888",
+          "deliveredPage": 1,
+          "printedLine": "pending before the ____ Judicial District Court)",
+          "was": "WRITE matter.court",
+          "now": "blank, REQUIRED_BEFORE_FILING, disclosed in the instruction table",
+          "reason": "the second half of the same unelected branch; the platform holds no court those cases are before",
+          "fixtures": "both"
+        },
+        {
+          "field": "NM-4-222/COUNTY OF",
+          "measuredKey": "COUNTY OF (AcroForm field)",
+          "deliveredPage": 20,
+          "printedLine": "COUNTY OF___________________, printed one line above SIXTH JUDICIAL DISTRICT COURT",
+          "was": "WRITE matter.county",
+          "now": "blank, REQUIRED_BEFORE_FILING, disclosed in the instructions and in the instruction table",
+          "reason": "the write composed with the form's own printed district into a caption naming a court the participant has not chosen",
+          "fixtures": "both"
+        }
+      ],
+      "fourTwoTwoDisposition": {
+        "binary": "809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a, the same Form 4-222 NMRA (with Form 4-223 bound at its back) that all three families bind",
+        "whatTheBuildUsedToDo": "It wrote matter.county into the AcroForm field COUNTY OF, whose widget sits one line above the printed SIXTH JUDICIAL DISTRICT COURT, so the delivered caption read STATE OF NEW MEXICO / COUNTY OF <county> / SIXTH JUDICIAL DISTRICT COURT and named a court the participant has not chosen and cannot file in.",
+        "whatItDoesNow": "Nothing. The county blank on the application caption (delivered page 20) and the county blank on the caption of Form 4-223 bound with it (delivered page 25) are both delivered EMPTY on both fixtures, confirmed by text extraction and by 300 dpi raster. Delivered page 25 is the Form 4-223 caption and is pixel-identical to the base: its county blank was already empty.",
+        "howTheBlankIsDisposed": "REQUIRED_BEFORE_FILING on the application caption, with the ground stated on the row: the county a Sixth District caption asks for is a county of the Sixth Judicial District -- Grant, Hidalgo or Luna -- and the platform holds no such value for a petition filed anywhere else. The order caption's county blank was already required-before-filing and keeps that disposition, with its reason extended to say the same thing.",
+        "whatTheParticipantIsTold": "participant-instructions.md keeps the paragraph telling them to strike the printed district or obtain their own district's copy, and gains one beside it: the caption reads down the page -- state, then county, then court -- so the county line is left empty for them to complete in the same hand and at the same moment as they correct the court line, or to fill in from the start on their district's own copy.",
+        "whatThisIsNot": "It is not a cure for the printed district and not an answer to the statewide-source question. It is the build declining to add its own ink to a caption it cannot make true.",
+        "theStatewideSourceQuestion": "The statewide-source question is untouched and stays open: whether the fee-waiver component may ship statewide on binary 809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a at all, whose caption prints SIXTH JUDICIAL DISTRICT COURT as page content on a document sworn on oath, or whether it must be conditioned on the Sixth Judicial District the way the retained local order is conditioned on the district that published it. No record under data/record-clearing/ settles it, this lane did not settle it, and leaving the county blank is not an answer to it. The printed district itself is the court's own ink in a pinned binary and is not this lane's to change.",
+        "aJudgmentAVerifierShouldTest": "Whether REQUIRED_BEFORE_FILING is the right disposition for that county blank is this lane's judgment and not a measurement. The platform holds matter.county and writes it in the caption of every other form in the packet, and the completeness contract allows a required-before-filing blank only where the platform holds no value for the fact. The ground for the disposition is that this blank belongs to the SIXTH Judicial District's caption, and the county such a caption asks for is a county of that district -- Grant, Hidalgo or Luna -- which the platform holds no value for on a petition filed anywhere else, in the same way the district of a pending expungement case is a different fact from the district of this filing. If a verifier rejects that reading, the honest disposition is KNOWN_FACT_NOT_WRITTEN and a counter moves; the row is written so the question can be put rather than hidden. The alternative this lane did not take is writing the county back onto a caption that names the wrong court."
+      },
+      "digests": {
+        "before": {
+          "canonical": {
+            "sha256": "af31c32c4dc096e0918213732a42778f9a700c93659c05abd3fb758637b5a049",
+            "bytes": 1755983,
+            "pages": 26
+          },
+          "boundary": {
+            "sha256": "8571551886aa88d7a33b97a31aa725d7bc3984e95c2a7422f36f754fabb24f7c",
+            "bytes": 1756285,
+            "pages": 26
+          },
+          "recordedFromDiskBeforeAnyEdit": true,
+          "matchedTheDigestsTheAssignmentPinned": true
+        },
+        "after": {
+          "canonical": {
+            "sha256": "0d06c6154eaa333b076f04064cfff94d6435e145dd08b250875989513b61828e",
+            "bytes": 1756815,
+            "pages": 26
+          },
+          "boundary": {
+            "sha256": "149540aceff55b8df5fc86889f50d62b8448c7037c4d58dbfbdb723f1f3ee7c3",
+            "bytes": 1757122,
+            "pages": 26
+          }
+        }
+      },
+      "writeCounts": {
+        "canonicalWritesBefore": 39,
+        "canonicalWritesAfter": 36,
+        "requiredBeforeFilingBefore": 183,
+        "requiredBeforeFilingAfter": 186
+      },
+      "pixelMeasurements": {
+        "method": "pdftoppm into /tmp only, deleted after measuring; no raster PNG produced by this measurement is committed. Every page of both fixtures was rasterised at 150 dpi from the committed base bytes (git show HEAD:<fixture>) and from the rebuilt bytes and compared pixel for pixel; the changed pages were then re-rastered at 300 dpi and read, and each changed region measured as ink-only-in-base / ink-only-in-new bands.",
+        "pagesPerFixture": 26,
+        "changedPages": {
+          "canonical": [
+            1,
+            20,
+            21,
+            22,
+            23
+          ],
+          "boundary": [
+            1,
+            20,
+            21,
+            22,
+            23
+          ]
+        },
+        "pagesPixelIdenticalAt150dpiPerFixture": 21,
+        "everyOtherPage": "pixel-identical at 150 dpi between the committed base bytes and the rebuilt bytes, on both fixtures",
+        "whatTheChangedPagesShow": "Delivered page 1 loses exactly two ink bands and gains none -- 400 and 412 dark pixels at 150 dpi on the canonical fixture, 447 and 438 on the boundary -- at the two item-2 coordinates and nowhere else. Delivered page 20 (Form 4-222 page 1) loses a 619-pixel band at the caption county blank (379 on the boundary, a shorter county) and carries four small bands where checkbox appearances are re-placed onto their Rects. Pages 21, 22 and 23 carry re-placed appearances only. Delivered page 25, the Form 4-223 caption, is pixel-identical: its county blank was already empty and stays empty. Read at 300 dpi: item 2's two blanks are empty with both boxes unmarked, the 'no pending cases' district still reads Second on the canonical and Seventh on the boundary, the caption reads STATE OF NEW MEXICO / COUNTY OF ____ / SIXTH JUDICIAL DISTRICT COURT with the county line blank, and every other write is present and inside its own box. The build's own byte proof reports 0 non-whitespace glyphs outside a measured write box, 0 unfittable values and 0 refused fields carrying ink."
+      },
+      "placementSweep": {
+        "method": "Read from the delivered bytes and from the pinned Form 4-222 binary 809c66a7, never from a report: every flattened placement in the packet is re-composed (the appearance's own /Matrix times the page's cm product), its /BBox corners are transformed, and the resulting box is compared corner by corner against the /Rect of a widget on the same source page, tolerance 0.05pt. A placement matching no /Rect within that tolerance is counted off-Rect.",
+        "perFixtureBefore": {
+          "placements": 161,
+          "landingOnTheirRect": 122,
+          "notLandingOnAnyRect": 39,
+          "worstDisplacementPt": 12.84
+        },
+        "perFixtureAfter": {
+          "placements": 161,
+          "landingOnTheirRect": 161,
+          "notLandingOnAnyRect": 0,
+          "worstDisplacementPt": 0
+        },
+        "measuredOn": [
+          "canonical",
+          "boundary"
+        ],
+        "agreesWith": "fix61/APPEARANCE_SCALE_COHORT.json, which counted 39 mismatched widget appearances and a worst displacement of 12.84pt on this family's one AcroForm binary",
+        "whatItLooksLikeOnThePage": "The corrected placements are visibly different, and what they are corrected to is the court's own geometry: Form 4-222's checkbox squares now fill their widget rectangles, which makes several of them taller than the flattened output drew them before. Rendering the pinned source form itself through a 12.5.5-conforming viewer (poppler, 300 dpi) reproduces the NEW placement exactly, including the top edge that crosses the printed \"A.\" beside the first public-assistance box. The old flattened output did not match the form as a viewer draws it; the new output does."
+      },
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersNote": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nm_conviction-set, run on the committed bytes before any edit and again on the rebuilt bytes: PASS_COMPLETE and nine zeros both times. The counters were green before the repair too, which is why the failures these repairs answer were appearance and disposition failures rather than counter failures.",
+      "verifiers": [
+        {
+          "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nm_conviction-set",
+          "when": "before the first edit and again on the rebuilt bytes",
+          "exitCode": 0,
+          "result": "PASS_COMPLETE both times, nine zeros both times. Read-only: no --write, no --mutations."
+        },
+        {
+          "command": "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs",
+          "when": "on the rebuilt tree",
+          "exitCode": 0,
+          "result": "EVERY_IDENTITY_REFRESH_SURVIVED; 249 receipts compared against HEAD, 53 carrying an identityRefresh"
+        },
+        {
+          "command": "node scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs",
+          "when": "on the rebuilt tree",
+          "exitCode": 0,
+          "result": "EVERY_SOURCE_CARRIED_VALUE_IS_DISPOSITIONED; 0 undispositioned, 0 not examinable in this working tree"
+        }
+      ],
+      "preflight": {
+        "command": "node scripts/verify-packet-build-environment.mjs --family nm_conviction-set --codex-cloud --minimum-captain-sha edc75a3a9cf25ffd7fb7b07789b3ee1160e7359a",
+        "whenThisFamilysRunWasMade": "Run BEFORE any edit, on a clean worktree: PACKET_BUILD_ENVIRONMENT_NOT_READY, 11/14 passed, 3 failed, 3 not applicable.",
+        "theThreeFailures": [
+          "assignment_present_in_this_checkout -- no assignment file in this checkout names the family; this is a repair lane dispatched by message rather than by a committed assignment.",
+          "private_is_git_ignored -- private/ is mounted here as a SYMLINK to the read-only corpus in the primary clone, and .gitignore's `private/` entry does not match a symlink. Nothing under it is staged or committed and git status stays clean.",
+          "corpus_matches_committed_index -- 1 absent, 0 mismatched of 24 sampled. Pre-existing, and the same absence VF01 recorded: an Alabama index entry, LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf. It touches no New Mexico entry."
+        ],
+        "whatDidPass": "family_sources_bind 7/7 by exact SHA-256, master_library_complete 499 files / 329 PDFs / 51 jurisdictions, repo_identity_by_committed_markers, cloud_checkout_contains_captain_base, stale_artifact_block_consulted, absent_is_not_empty.",
+        "theFourthFailureOnAnyRunMadeAfterTheRebuild": "worktree_clean, which is this lane's own uncommitted rebuild rather than an environment fault: 10/14 rather than 11/14."
+      },
+      "acceptanceReceipt": null,
+      "acceptanceReceiptNote": "product-wiring.json for this family carried a central RASTER_PASS receipt bound to the superseded canonical digest. The rebuilt bytes are different bytes, so that receipt no longer binds anything delivered here: binding.acceptanceReceipt is set to null, the receipt it held is preserved verbatim beside it under acceptanceReceiptClearedByRebuild, and the proposedRepresentation component digests are re-pinned to the bytes now on disk. A fresh central raster is owed.",
+      "rebuiltTwiceByteIdentical": "Both fixtures of all three families were rebuilt twice in succession with the final code, and the whole of each family directory -- fixtures, field map, census, instructions, reports and the build's own preview rasters -- hashed identically across the two runs (134 files, sha256 each). The two runs are logged at 01:13:25 and 01:29:40 UTC.",
+      "otherFamilyDirectories": "246 of the 249 family directories under data/rcap-all50/overlays/census-v1 are byte-identical to the base commit: git diff --name-only HEAD over that tree names files in these three directories and no other, and the working tree carries no untracked file under it. The New Mexico DNA agency-application family was checked by name in both of its directories -- nm/nm-dna-sample-profile-expungement--agency-application and nm/agency-application-treatment:obligation:runtime-only:nm:dna-sample-profile-expungement--official-pdf-fill -- and every file in both re-hashes to its committed digest. It does not import the shared host and was not rebuilt.",
+      "whatWasNotDone": [
+        "CENTRAL RASTER ON THE NEW BYTES. Not run and not claimed. The rasters behind every measurement in this row are local pdftoppm reads under /tmp, deleted after measuring; no raster PNG from them is committed. The family's own build-produced preview rasters under raster/ were regenerated by the build itself and are committed with it, as prior repair lanes' rebuilds have done.",
+        "INDEPENDENT VERIFICATION. This lane built these bytes and verifies none of them. Every reading above is the builder's own reading of its own output.",
+        "The statewide-source question is untouched and stays open: whether the fee-waiver component may ship statewide on binary 809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a at all, whose caption prints SIXTH JUDICIAL DISTRICT COURT as page content on a document sworn on oath, or whether it must be conditioned on the Sixth Judicial District the way the retained local order is conditioned on the district that published it. No record under data/record-clearing/ settles it, this lane did not settle it, and leaving the county blank is not an answer to it. The printed district itself is the court's own ink in a pinned binary and is not this lane's to change.",
+        "THE 'NO PENDING CASES' DISTRICT ON ITEM 2 IS STILL WRITTEN. Deliberate, and it is the branch VF04 left alone: it names this filing's own district on a line that asserts nothing about any other case. If a reviewer reads the unmarked box as making even that line an assertion, that is a further repair and this lane did not make it."
+      ]
+    },
+    {
+      "itemId": "nm_identity_theft-set",
+      "familyId": "nm_identity_theft-set",
+      "status": "COMPLETED",
+      "laneKind": "shared-host-repair",
+      "repairedByThisLane": true,
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nm/nm-identity-theft-set--official-pdf-fill",
+      "lane": "FIX79",
+      "branch": "fix79-nm-host-three",
+      "baseSha": "edc75a3a9cf25ffd7fb7b07789b3ee1160e7359a",
+      "worktree": "/home/user/fix79-worktree, cut from /home/user/captain-worktree at edc75a3a9 on claude/legalease-sprint-captain-utucnw. No other worktree was touched, the Captain branch and main were not touched, nothing was force-pushed, and no subagent was created.",
+      "grantConfirmed": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX79 nm_identity_theft-set -> CLAIM_OK FIX79 nm_identity_theft-set (repair, grant set db4a5d2f6fa9cb2f), exit 0, before any family artifact was opened.",
+      "verdictRepaired": {
+        "lane": "VF05",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "d7e293f81",
+        "failedObligationNames": [
+          "KNOWN_PREFILLS",
+          "CLIPPING_AND_OVERLAP"
+        ]
+      },
+      "obligationsRepaired": [
+        "KNOWN_PREFILLS",
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "obligationsThisRowDoesNotDischarge": [
+        "RASTER. No central raster was run and none is claimed. Every raster in this row is a local pdftoppm measurement under /tmp, taken to read the page and deleted after measuring; no raster PNG from it is committed. Both fixture digests move, so any central raster acceptance receipt bound to the old digests stops binding and a fresh central raster is owed on the new bytes.",
+        "INDEPENDENT VERIFICATION. This lane changed the shared host, changed this family's dictionary and built these bytes, so it verifies none of them. No verdict was written or replaced and nothing here is scored as passing.",
+        "THE OPEN LEGAL-DESIGN QUESTION ON THE FEE-WAIVER BINARY. Whether that component may ship statewide on a binary whose caption prints one district's court name is counsel's and is still open; see fourTwoTwoDisposition. This lane changed no component set and conditioned nothing.",
+        "THE REST OF THE FIX61 APPEARANCE COHORT. The read-only scan names 46 exposed families across 12 jurisdictions; only these three are opted in here. Nothing else was rebuilt, opted in or touched, and the finalizer's flag stays default-off for every other caller.",
+        "ROUTE PROMOTION AND COMMERCIAL AUTHORITY. This row promotes nothing, opens no route, creates no fulfillment record and marks no packet proven. product-wiring.json still reads DECLARED_NOT_INSTALLED with generationAllowed false."
+      ],
+      "whatChanged": {
+        "theSharedHost": {
+          "sharedHost": "scripts/rcap-nm-flat-forms/nm-packet-host.mjs, imported by these three build scripts and the two New Mexico form modules and by nothing else in the repository",
+          "appearancePlacement": "fitAppearancesToRect: true at the host's single finalizeOfficialForm call in renderAcroForm. The flag is the one FIX61 added to the shared finalizer, default-off; the finalizer, rcap-active-content.mjs and rcap-widget-appearance-placement.mjs are unchanged, and no other caller reads this call site.",
+          "factConditionalDictionaries": "runNmFamily builds one census per fixture, and a document may declare its dictionary as a function of the facts. A dictionary that is a plain object is passed through unchanged, so every document and every family that does not opt in renders what it rendered before -- visible in the two sibling families, whose dictionaries are all static and whose only byte movement is the repairs their rows name.",
+          "boundaryHalfOfTheFieldMap": "maps[].boundaryWrites and maps[].boundaryRefusals used to be the canonical arrays under another name, which was true only while every dictionary was static. Each map now carries its own fixture's rows, and a map whose rows differ between fixtures carries rowsDecidedByAHeldFactRatherThanByTheRoute, naming the held fact and every row it moves.",
+          "newPolicyVocabulary": "HELD_NOT_WRITTEN(what, why) -- a blank the platform HOLDS a value for and the build does not write. Kept apart from SUPPLY on purpose: SUPPLY says the platform holds no value, and a row that says that while the platform holds the value is the defect that put this family in repair. A HELD_NOT_WRITTEN row declares KNOWN_FACT_NOT_WRITTEN and says which fact and why, rather than claiming a permitted blank.",
+          "whatWasNotChanged": "rcap-official-form-finalize.mjs, rcap-active-content.mjs, rcap-widget-appearance-placement.mjs, rcap-field-semantics.mjs and scripts/rcap-packet-completeness/completeness-contract.mjs are untouched. No protect rule was relaxed and no label was re-worded to get past one."
+        },
+        "inThisFamily": "The same either/or, on Form 4-951 item 2, and the same two writes: matter.court into both blanks of the branch asserting that other expungement cases are pending, with neither box marked and the three case-number lines below blank. Both writes are gone, both blanks are the participant's and disclosed in the instruction table for Form 4-951, and the first branch's district write stays. The item 6 behaviour VF05 checked is unchanged: the district is still written into '[ ] District Court in the ____ Judicial District' and the District Attorney line is still empty. On Form 4-222 the county write above the printed Sixth District caption is gone; see fourTwoTwoDisposition. One stale line in the family's own visual-review list was corrected while it was being regenerated: it told the reviewer to expect the first alias line written, and all three alias lines are and were empty."
+      },
+      "writesMovedOrRemoved": [
+        {
+          "field": "NM-4-951/p1-y18948-x40776",
+          "measuredKey": "p1-y18948-x40776",
+          "deliveredPage": 1,
+          "printedLine": "[ ] Petitioner has the following pending expungement cases in the ____ Judicial District Court",
+          "was": "WRITE matter.court",
+          "now": "blank, REQUIRED_BEFORE_FILING, disclosed in the instruction table",
+          "reason": "a fact written onto a branch the case does not use; the platform holds no pending-expungement fact",
+          "fixtures": "both"
+        },
+        {
+          "field": "NM-4-951/p1-y16188-x26784",
+          "measuredKey": "p1-y16188-x26784",
+          "deliveredPage": 1,
+          "printedLine": "pending before the ____ Judicial District Court)",
+          "was": "WRITE matter.court",
+          "now": "blank, REQUIRED_BEFORE_FILING, disclosed in the instruction table",
+          "reason": "the second half of the same unelected branch",
+          "fixtures": "both"
+        },
+        {
+          "field": "NM-4-222/COUNTY OF",
+          "measuredKey": "COUNTY OF (AcroForm field)",
+          "deliveredPage": 11,
+          "printedLine": "COUNTY OF___________________, printed one line above SIXTH JUDICIAL DISTRICT COURT",
+          "was": "WRITE matter.county",
+          "now": "blank, REQUIRED_BEFORE_FILING, disclosed in the instructions and in the instruction table",
+          "reason": "the write composed with the form's own printed district into a caption naming a court the participant has not chosen",
+          "fixtures": "both"
+        }
+      ],
+      "fourTwoTwoDisposition": {
+        "binary": "809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a, the same Form 4-222 NMRA (with Form 4-223 bound at its back) that all three families bind",
+        "whatTheBuildUsedToDo": "It wrote matter.county into the AcroForm field COUNTY OF, whose widget sits one line above the printed SIXTH JUDICIAL DISTRICT COURT, so the delivered caption read STATE OF NEW MEXICO / COUNTY OF <county> / SIXTH JUDICIAL DISTRICT COURT and named a court the participant has not chosen and cannot file in.",
+        "whatItDoesNow": "Nothing. The county blank on the application caption (delivered page 11) and the county blank on the caption of Form 4-223 bound with it (delivered page 16) are both delivered EMPTY on both fixtures, confirmed by text extraction and by 300 dpi raster. Delivered page 16 is the Form 4-223 caption and is pixel-identical to the base: its county blank was already empty.",
+        "howTheBlankIsDisposed": "REQUIRED_BEFORE_FILING on the application caption, with the ground stated on the row: the county a Sixth District caption asks for is a county of the Sixth Judicial District -- Grant, Hidalgo or Luna -- and the platform holds no such value for a petition filed anywhere else. The order caption's county blank was already required-before-filing and keeps that disposition, with its reason extended to say the same thing.",
+        "whatTheParticipantIsTold": "participant-instructions.md keeps the paragraph telling them to strike the printed district or obtain their own district's copy, and gains one beside it: the caption reads down the page -- state, then county, then court -- so the county line is left empty for them to complete in the same hand and at the same moment as they correct the court line, or to fill in from the start on their district's own copy.",
+        "whatThisIsNot": "It is not a cure for the printed district and not an answer to the statewide-source question. It is the build declining to add its own ink to a caption it cannot make true.",
+        "theStatewideSourceQuestion": "The statewide-source question is untouched and stays open: whether the fee-waiver component may ship statewide on binary 809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a at all, whose caption prints SIXTH JUDICIAL DISTRICT COURT as page content on a document sworn on oath, or whether it must be conditioned on the Sixth Judicial District the way the retained local order is conditioned on the district that published it. No record under data/record-clearing/ settles it, this lane did not settle it, and leaving the county blank is not an answer to it. The printed district itself is the court's own ink in a pinned binary and is not this lane's to change.",
+        "aJudgmentAVerifierShouldTest": "Whether REQUIRED_BEFORE_FILING is the right disposition for that county blank is this lane's judgment and not a measurement. The platform holds matter.county and writes it in the caption of every other form in the packet, and the completeness contract allows a required-before-filing blank only where the platform holds no value for the fact. The ground for the disposition is that this blank belongs to the SIXTH Judicial District's caption, and the county such a caption asks for is a county of that district -- Grant, Hidalgo or Luna -- which the platform holds no value for on a petition filed anywhere else, in the same way the district of a pending expungement case is a different fact from the district of this filing. If a verifier rejects that reading, the honest disposition is KNOWN_FACT_NOT_WRITTEN and a counter moves; the row is written so the question can be put rather than hidden. The alternative this lane did not take is writing the county back onto a caption that names the wrong court."
+      },
+      "digests": {
+        "before": {
+          "canonical": {
+            "sha256": "2680f2553c52901ddde07319f0bcb2d5aba281c379824b5446c545ab46f8999a",
+            "bytes": 1266700,
+            "pages": 17
+          },
+          "boundary": {
+            "sha256": "fd3617fbd554aebfde6fb71ac02ac3166fda83278d7a19b8dbf2e1387d2ad28d",
+            "bytes": 1266908,
+            "pages": 17
+          },
+          "recordedFromDiskBeforeAnyEdit": true,
+          "matchedTheDigestsTheAssignmentPinned": true
+        },
+        "after": {
+          "canonical": {
+            "sha256": "0ea0cd7a3102b8ca09976b06a0d7a29eea8ba0f43f62a194eca13b799d1e2bd2",
+            "bytes": 1267531,
+            "pages": 17
+          },
+          "boundary": {
+            "sha256": "b1b1b53bc9f23c85ce5202bd93c8aa053e41e7d05821c4ba53f1be8d28a13811",
+            "bytes": 1267748,
+            "pages": 17
+          }
+        }
+      },
+      "writeCounts": {
+        "canonicalWritesBefore": 27,
+        "canonicalWritesAfter": 24,
+        "requiredBeforeFilingBefore": 113,
+        "requiredBeforeFilingAfter": 116
+      },
+      "pixelMeasurements": {
+        "method": "pdftoppm into /tmp only, deleted after measuring; no raster PNG produced by this measurement is committed. Every page of both fixtures was rasterised at 150 dpi from the committed base bytes (git show HEAD:<fixture>) and from the rebuilt bytes and compared pixel for pixel; the changed pages were then re-rastered at 300 dpi and read, and each changed region measured as ink-only-in-base / ink-only-in-new bands.",
+        "pagesPerFixture": 17,
+        "changedPages": {
+          "canonical": [
+            1,
+            11,
+            12,
+            13,
+            14
+          ],
+          "boundary": [
+            1,
+            11,
+            12,
+            13,
+            14
+          ]
+        },
+        "pagesPixelIdenticalAt150dpiPerFixture": 12,
+        "everyOtherPage": "pixel-identical at 150 dpi between the committed base bytes and the rebuilt bytes, on both fixtures",
+        "whatTheChangedPagesShow": "Delivered page 1 loses exactly two ink bands and gains none -- 412 and 391 dark pixels at 150 dpi on the canonical fixture, 438 and 449 on the boundary. Delivered page 11 (Form 4-222 page 1) loses a 619-pixel band at the caption county blank (379 on the boundary) and carries the re-placed checkbox appearances; pages 12, 13 and 14 carry re-placed appearances only. Every other page of both fixtures, including the Form 4-223 caption on page 16, is pixel-identical at 150 dpi. Read at 300 dpi: item 2's two blanks are empty with both boxes unmarked, the 'no pending cases' district still reads Second on the canonical and Seventh on the boundary, the 4-222 caption's county line is blank, and every other write is present and inside its box. The build's own byte proof reports 0 glyphs outside a measured write box, 0 unfittable values and 0 refused fields carrying ink."
+      },
+      "placementSweep": {
+        "method": "Read from the delivered bytes and from the pinned Form 4-222 binary 809c66a7, never from a report: every flattened placement in the packet is re-composed (the appearance's own /Matrix times the page's cm product), its /BBox corners are transformed, and the resulting box is compared corner by corner against the /Rect of a widget on the same source page, tolerance 0.05pt. A placement matching no /Rect within that tolerance is counted off-Rect.",
+        "perFixtureBefore": {
+          "placements": 161,
+          "landingOnTheirRect": 122,
+          "notLandingOnAnyRect": 39,
+          "worstDisplacementPt": 12.84
+        },
+        "perFixtureAfter": {
+          "placements": 161,
+          "landingOnTheirRect": 161,
+          "notLandingOnAnyRect": 0,
+          "worstDisplacementPt": 0
+        },
+        "measuredOn": [
+          "canonical",
+          "boundary"
+        ],
+        "agreesWith": "fix61/APPEARANCE_SCALE_COHORT.json, which counted 39 mismatched widget appearances and a worst displacement of 12.84pt on this family's one AcroForm binary",
+        "whatItLooksLikeOnThePage": "The corrected placements are visibly different, and what they are corrected to is the court's own geometry: Form 4-222's checkbox squares now fill their widget rectangles, which makes several of them taller than the flattened output drew them before. Rendering the pinned source form itself through a 12.5.5-conforming viewer (poppler, 300 dpi) reproduces the NEW placement exactly, including the top edge that crosses the printed \"A.\" beside the first public-assistance box. The old flattened output did not match the form as a viewer draws it; the new output does."
+      },
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersNote": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nm_identity_theft-set, run on the committed bytes before any edit and again on the rebuilt bytes: PASS_COMPLETE and nine zeros both times. The counters were green before the repair too, which is why the failures these repairs answer were appearance and disposition failures rather than counter failures.",
+      "verifiers": [
+        {
+          "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nm_identity_theft-set",
+          "when": "before the first edit and again on the rebuilt bytes",
+          "exitCode": 0,
+          "result": "PASS_COMPLETE both times, nine zeros both times. Read-only: no --write, no --mutations."
+        },
+        {
+          "command": "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs",
+          "when": "on the rebuilt tree",
+          "exitCode": 0,
+          "result": "EVERY_IDENTITY_REFRESH_SURVIVED; 249 receipts compared against HEAD, 53 carrying an identityRefresh"
+        },
+        {
+          "command": "node scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs",
+          "when": "on the rebuilt tree",
+          "exitCode": 0,
+          "result": "EVERY_SOURCE_CARRIED_VALUE_IS_DISPOSITIONED; 0 undispositioned, 0 not examinable in this working tree"
+        }
+      ],
+      "preflight": {
+        "command": "node scripts/verify-packet-build-environment.mjs --family nm_identity_theft-set --codex-cloud --minimum-captain-sha edc75a3a9cf25ffd7fb7b07789b3ee1160e7359a",
+        "whenThisFamilysRunWasMade": "Run after the rebuild rather than before it: 10/14, the three failures below plus worktree_clean. The pre-edit run on the sibling family in this same checkout, before anything was touched, returned 11/14 with worktree_clean passing; the three below are the environment's.",
+        "theThreeFailures": [
+          "assignment_present_in_this_checkout -- no assignment file in this checkout names the family; this is a repair lane dispatched by message rather than by a committed assignment.",
+          "private_is_git_ignored -- private/ is mounted here as a SYMLINK to the read-only corpus in the primary clone, and .gitignore's `private/` entry does not match a symlink. Nothing under it is staged or committed and git status stays clean.",
+          "corpus_matches_committed_index -- 1 absent, 0 mismatched of 24 sampled. Pre-existing, and the same absence VF01 recorded: an Alabama index entry, LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf. It touches no New Mexico entry."
+        ],
+        "whatDidPass": "family_sources_bind 4/4 by exact SHA-256, master_library_complete 499 files / 329 PDFs / 51 jurisdictions, repo_identity_by_committed_markers, cloud_checkout_contains_captain_base, stale_artifact_block_consulted, absent_is_not_empty.",
+        "theFourthFailureOnAnyRunMadeAfterTheRebuild": "worktree_clean, which is this lane's own uncommitted rebuild rather than an environment fault: 10/14 rather than 11/14."
+      },
+      "acceptanceReceipt": null,
+      "acceptanceReceiptNote": "product-wiring.json for this family carried a central RASTER_PASS receipt bound to the superseded canonical digest. The rebuilt bytes are different bytes, so that receipt no longer binds anything delivered here: binding.acceptanceReceipt is set to null, the receipt it held is preserved verbatim beside it under acceptanceReceiptClearedByRebuild, and the proposedRepresentation component digests are re-pinned to the bytes now on disk. A fresh central raster is owed.",
+      "rebuiltTwiceByteIdentical": "Both fixtures of all three families were rebuilt twice in succession with the final code, and the whole of each family directory -- fixtures, field map, census, instructions, reports and the build's own preview rasters -- hashed identically across the two runs (134 files, sha256 each). The two runs are logged at 01:13:25 and 01:29:40 UTC.",
+      "otherFamilyDirectories": "246 of the 249 family directories under data/rcap-all50/overlays/census-v1 are byte-identical to the base commit: git diff --name-only HEAD over that tree names files in these three directories and no other, and the working tree carries no untracked file under it. The New Mexico DNA agency-application family was checked by name in both of its directories -- nm/nm-dna-sample-profile-expungement--agency-application and nm/agency-application-treatment:obligation:runtime-only:nm:dna-sample-profile-expungement--official-pdf-fill -- and every file in both re-hashes to its committed digest. It does not import the shared host and was not rebuilt.",
+      "whatWasNotDone": [
+        "CENTRAL RASTER ON THE NEW BYTES. Not run and not claimed. The rasters behind every measurement in this row are local pdftoppm reads under /tmp, deleted after measuring; no raster PNG from them is committed. The family's own build-produced preview rasters under raster/ were regenerated by the build itself and are committed with it, as prior repair lanes' rebuilds have done.",
+        "INDEPENDENT VERIFICATION. This lane built these bytes and verifies none of them. Every reading above is the builder's own reading of its own output.",
+        "The statewide-source question is untouched and stays open: whether the fee-waiver component may ship statewide on binary 809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a at all, whose caption prints SIXTH JUDICIAL DISTRICT COURT as page content on a document sworn on oath, or whether it must be conditioned on the Sixth Judicial District the way the retained local order is conditioned on the district that published it. No record under data/record-clearing/ settles it, this lane did not settle it, and leaving the county blank is not an answer to it. The printed district itself is the court's own ink in a pinned binary and is not this lane's to change.",
+        "THE 'NO PENDING CASES' DISTRICT ON ITEM 2 IS STILL WRITTEN, for the same reason as on the sibling family: it names this filing's own district and asserts nothing about another case. VF05 counted two misplaced writes, not three."
+      ]
+    },
+    {
+      "itemId": "nm_release_without_conviction-set",
+      "familyId": "nm_release_without_conviction-set",
+      "status": "COMPLETED",
+      "laneKind": "shared-host-repair",
+      "repairedByThisLane": true,
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nm/nm-release-without-conviction-set--official-pdf-fill",
+      "lane": "FIX79",
+      "branch": "fix79-nm-host-three",
+      "baseSha": "edc75a3a9cf25ffd7fb7b07789b3ee1160e7359a",
+      "worktree": "/home/user/fix79-worktree, cut from /home/user/captain-worktree at edc75a3a9 on claude/legalease-sprint-captain-utucnw. No other worktree was touched, the Captain branch and main were not touched, nothing was force-pushed, and no subagent was created.",
+      "grantConfirmed": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX79 nm_release_without_conviction-set -> CLAIM_OK FIX79 nm_release_without_conviction-set (repair, grant set db4a5d2f6fa9cb2f), exit 0, before any family artifact was opened.",
+      "verdictRepaired": {
+        "lane": "VF01",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "d7e293f81",
+        "failedObligationNames": [
+          "KNOWN_PREFILLS",
+          "REQUIRED_BEFORE_FILING",
+          "CLIPPING_AND_OVERLAP"
+        ]
+      },
+      "obligationsRepaired": [
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "obligationsThisRowDoesNotDischarge": [
+        "RASTER. No central raster was run and none is claimed. Every raster in this row is a local pdftoppm measurement under /tmp, taken to read the page and deleted after measuring; no raster PNG from it is committed. Both fixture digests move, so any central raster acceptance receipt bound to the old digests stops binding and a fresh central raster is owed on the new bytes.",
+        "INDEPENDENT VERIFICATION. This lane changed the shared host, changed this family's dictionary and built these bytes, so it verifies none of them. No verdict was written or replaced and nothing here is scored as passing.",
+        "THE OPEN LEGAL-DESIGN QUESTION ON THE FEE-WAIVER BINARY. Whether that component may ship statewide on a binary whose caption prints one district's court name is counsel's and is still open; see fourTwoTwoDisposition. This lane changed no component set and conditioned nothing.",
+        "THE REST OF THE FIX61 APPEARANCE COHORT. The read-only scan names 46 exposed families across 12 jurisdictions; only these three are opted in here. Nothing else was rebuilt, opted in or touched, and the finalizer's flag stays default-off for every other caller.",
+        "ROUTE PROMOTION AND COMMERCIAL AUTHORITY. This row promotes nothing, opens no route, creates no fulfillment record and marks no packet proven. product-wiring.json still reads DECLARED_NOT_INSTALLED with generationAllowed false."
+      ],
+      "whatChanged": {
+        "theSharedHost": {
+          "sharedHost": "scripts/rcap-nm-flat-forms/nm-packet-host.mjs, imported by these three build scripts and the two New Mexico form modules and by nothing else in the repository",
+          "appearancePlacement": "fitAppearancesToRect: true at the host's single finalizeOfficialForm call in renderAcroForm. The flag is the one FIX61 added to the shared finalizer, default-off; the finalizer, rcap-active-content.mjs and rcap-widget-appearance-placement.mjs are unchanged, and no other caller reads this call site.",
+          "factConditionalDictionaries": "runNmFamily builds one census per fixture, and a document may declare its dictionary as a function of the facts. A dictionary that is a plain object is passed through unchanged, so every document and every family that does not opt in renders what it rendered before -- visible in the two sibling families, whose dictionaries are all static and whose only byte movement is the repairs their rows name.",
+          "boundaryHalfOfTheFieldMap": "maps[].boundaryWrites and maps[].boundaryRefusals used to be the canonical arrays under another name, which was true only while every dictionary was static. Each map now carries its own fixture's rows, and a map whose rows differ between fixtures carries rowsDecidedByAHeldFactRatherThanByTheRoute, naming the held fact and every row it moves.",
+          "newPolicyVocabulary": "HELD_NOT_WRITTEN(what, why) -- a blank the platform HOLDS a value for and the build does not write. Kept apart from SUPPLY on purpose: SUPPLY says the platform holds no value, and a row that says that while the platform holds the value is the defect that put this family in repair. A HELD_NOT_WRITTEN row declares KNOWN_FACT_NOT_WRITTEN and says which fact and why, rather than claiming a permitted blank.",
+          "whatWasNotChanged": "rcap-official-form-finalize.mjs, rcap-active-content.mjs, rcap-widget-appearance-placement.mjs, rcap-field-semantics.mjs and scripts/rcap-packet-completeness/completeness-contract.mjs are untouched. No protect rule was relaxed and no label was re-worded to get past one."
+        },
+        "inThisFamily": "Form 4-952's dictionary is now a function of the facts, and the fixtures carry matter.originating_court -- the court half of rwcOriginatingCourt, which data/record-clearing/legal-design-specifications.json makes a REQUIRED generation input on this track. Paragraph 4: where the held answer is the district court, the case number is written on the District Court line (canonical); where it is not, that line carries nothing and is declared NOT_APPLICABLE_ON_THIS_ROUTE with the held answer named as the condition, because a magistrate case has no district court number at all. Paragraph 12: the judicial district is written on the District Court branch only where that is the branch the case used; on the boundary fixture, a magistrate case, no branch carries ink and the District Court branch says why. Neither paragraph-4 row now claims the platform holds no value for a number it holds. Item 2's pending-expungement branch carried the same two misplaced matter.court writes as the sibling families -- not named in the VF01 verdict, repaired with them rather than left standing, and reported here. On Form 4-222 the county write above the printed Sixth District caption is gone; see fourTwoTwoDisposition."
+      },
+      "writesMovedOrRemoved": [
+        {
+          "field": "NM-4-952/p1-y20736-x43980",
+          "measuredKey": "p1-y20736-x43980",
+          "deliveredPage": 1,
+          "printedLine": "[ ] Petitioner has the following pending expungement case or cases in the ____ Judicial District",
+          "was": "WRITE matter.court",
+          "now": "blank, REQUIRED_BEFORE_FILING, disclosed in the instruction table",
+          "reason": "a fact written onto a branch the case does not use; the platform holds no pending-expungement fact. Not named in the VF01 verdict: the same defect the sibling families were failed for, repaired with them rather than left standing",
+          "fixtures": "both"
+        },
+        {
+          "field": "NM-4-952/p1-y17976-x26868",
+          "measuredKey": "p1-y17976-x26868",
+          "deliveredPage": 1,
+          "printedLine": "pending before the ____ Judicial District Court)",
+          "was": "WRITE matter.court",
+          "now": "blank, REQUIRED_BEFORE_FILING, disclosed in the instruction table",
+          "reason": "the second half of the same unelected branch",
+          "fixtures": "both"
+        },
+        {
+          "field": "NM-4-952/p2-y63444-x23856",
+          "measuredKey": "p2-y63444-x23856",
+          "deliveredPage": 2,
+          "printedLine": "District Court case number(s): ____________________________",
+          "was": "blank, declared REQUIRED_BEFORE_FILING on the ground that the platform holds no value for it, which the family's own build-findings.json contradicted in terms",
+          "now": "WRITE matter.case_number where the held originating-court answer is the district court (canonical); on a lower-court case the line carries nothing and is declared NOT_APPLICABLE_ON_THIS_ROUTE naming that answer (boundary)",
+          "reason": "the packet holds the number and holds the required intake answer that decides which line it belongs on; a build limitation was being reported as an unavailable fact",
+          "fixtures": "written on canonical, empty and declared inapplicable on boundary"
+        },
+        {
+          "field": "NM-4-952/p2-y60684-x9000",
+          "measuredKey": "p2-y60684-x9000",
+          "deliveredPage": 2,
+          "printedLine": "Metropolitan/Magistrate/Municipal Court case number(s): _________________________________",
+          "was": "blank, declared REQUIRED_BEFORE_FILING on the same false ground",
+          "now": "on canonical, REQUIRED_BEFORE_FILING with a true ground -- the district-court number is written on the line above and the platform holds no second, lower-court number; on boundary, declared KNOWN_FACT_NOT_WRITTEN, naming that the platform holds the number (the value itself is not repeated into the record) and that the shared protect rule refuses the write",
+          "reason": "the ground a blank is excused on has to be the true one",
+          "fixtures": "both, differently"
+        },
+        {
+          "field": "NM-4-952/p3-y39984-x20340",
+          "measuredKey": "p3-y39984-x20340",
+          "deliveredPage": 3,
+          "printedLine": "[ ] District Court in the ____________ Judicial District, under 'The charges ... were originally disposed of or originated in (select one)'",
+          "was": "WRITE matter.court on every participant, including the magistrate-court fixture",
+          "now": "WRITE matter.court only where the held originating-court answer is the district court; otherwise blank and declared NOT_APPLICABLE_ON_THIS_ROUTE with that answer named",
+          "reason": "a district written into the District Court branch of a printed select-one, on a case that was never in the district court",
+          "fixtures": "written on canonical, empty on boundary"
+        },
+        {
+          "field": "NM-4-222/COUNTY OF",
+          "measuredKey": "COUNTY OF (AcroForm field)",
+          "deliveredPage": 15,
+          "printedLine": "COUNTY OF___________________, printed one line above SIXTH JUDICIAL DISTRICT COURT",
+          "was": "WRITE matter.county",
+          "now": "blank, REQUIRED_BEFORE_FILING, disclosed in the instructions and in the instruction table",
+          "reason": "the write composed with the form's own printed district into a caption naming a court the participant has not chosen",
+          "fixtures": "both"
+        }
+      ],
+      "fourTwoTwoDisposition": {
+        "binary": "809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a, the same Form 4-222 NMRA (with Form 4-223 bound at its back) that all three families bind",
+        "whatTheBuildUsedToDo": "It wrote matter.county into the AcroForm field COUNTY OF, whose widget sits one line above the printed SIXTH JUDICIAL DISTRICT COURT, so the delivered caption read STATE OF NEW MEXICO / COUNTY OF <county> / SIXTH JUDICIAL DISTRICT COURT and named a court the participant has not chosen and cannot file in.",
+        "whatItDoesNow": "Nothing. The county blank on the application caption (delivered page 15) and the county blank on the caption of Form 4-223 bound with it (delivered page 20) are both delivered EMPTY on both fixtures, confirmed by text extraction and by 300 dpi raster. Delivered page 20 is the Form 4-223 caption and is pixel-identical to the base: its county blank was already empty, as VF01 recorded.",
+        "howTheBlankIsDisposed": "REQUIRED_BEFORE_FILING on the application caption, with the ground stated on the row: the county a Sixth District caption asks for is a county of the Sixth Judicial District -- Grant, Hidalgo or Luna -- and the platform holds no such value for a petition filed anywhere else. The order caption's county blank was already required-before-filing and keeps that disposition, with its reason extended to say the same thing.",
+        "whatTheParticipantIsTold": "participant-instructions.md keeps the paragraph telling them to strike the printed district or obtain their own district's copy, and gains one beside it: the caption reads down the page -- state, then county, then court -- so the county line is left empty for them to complete in the same hand and at the same moment as they correct the court line, or to fill in from the start on their district's own copy.",
+        "whatThisIsNot": "It is not a cure for the printed district and not an answer to the statewide-source question. It is the build declining to add its own ink to a caption it cannot make true.",
+        "theStatewideSourceQuestion": "The statewide-source question is untouched and stays open: whether the fee-waiver component may ship statewide on binary 809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a at all, whose caption prints SIXTH JUDICIAL DISTRICT COURT as page content on a document sworn on oath, or whether it must be conditioned on the Sixth Judicial District the way the retained local order is conditioned on the district that published it. No record under data/record-clearing/ settles it, this lane did not settle it, and leaving the county blank is not an answer to it. The printed district itself is the court's own ink in a pinned binary and is not this lane's to change.",
+        "aJudgmentAVerifierShouldTest": "Whether REQUIRED_BEFORE_FILING is the right disposition for that county blank is this lane's judgment and not a measurement. The platform holds matter.county and writes it in the caption of every other form in the packet, and the completeness contract allows a required-before-filing blank only where the platform holds no value for the fact. The ground for the disposition is that this blank belongs to the SIXTH Judicial District's caption, and the county such a caption asks for is a county of that district -- Grant, Hidalgo or Luna -- which the platform holds no value for on a petition filed anywhere else, in the same way the district of a pending expungement case is a different fact from the district of this filing. If a verifier rejects that reading, the honest disposition is KNOWN_FACT_NOT_WRITTEN and a counter moves; the row is written so the question can be put rather than hidden. The alternative this lane did not take is writing the county back onto a caption that names the wrong court."
+      },
+      "digests": {
+        "before": {
+          "canonical": {
+            "sha256": "318378ba712915646513d90bfe083011a44927f47b1e2f5a76583e8283a84b66",
+            "bytes": 1419956,
+            "pages": 21
+          },
+          "boundary": {
+            "sha256": "ae38969cccd6defd1d87ecb308f9338bc5557f811bfa42914c31f0bbfac177a4",
+            "bytes": 1420209,
+            "pages": 21
+          },
+          "recordedFromDiskBeforeAnyEdit": true,
+          "matchedTheDigestsTheAssignmentPinned": true
+        },
+        "after": {
+          "canonical": {
+            "sha256": "8033e3305e3bb01b34142b2d6df4fce4bb891afe27604122350a6b3aeb1db29e",
+            "bytes": 1420866,
+            "pages": 21
+          },
+          "boundary": {
+            "sha256": "632aa0277b907ab74a0eb511c4a8c11cdaa22f4ef3852b510afb6dc01a53a802",
+            "bytes": 1420751,
+            "pages": 21
+          }
+        }
+      },
+      "writeCounts": {
+        "canonicalWritesBefore": 35,
+        "canonicalWritesAfter": 33,
+        "requiredBeforeFilingBefore": 175,
+        "requiredBeforeFilingAfter": 177
+      },
+      "pixelMeasurements": {
+        "method": "pdftoppm into /tmp only, deleted after measuring; no raster PNG produced by this measurement is committed. Every page of both fixtures was rasterised at 150 dpi from the committed base bytes (git show HEAD:<fixture>) and from the rebuilt bytes and compared pixel for pixel; the changed pages were then re-rastered at 300 dpi and read, and each changed region measured as ink-only-in-base / ink-only-in-new bands.",
+        "pagesPerFixture": 21,
+        "changedPages": {
+          "canonical": [
+            1,
+            2,
+            15,
+            16,
+            17,
+            18
+          ],
+          "boundary": [
+            1,
+            3,
+            15,
+            16,
+            17,
+            18
+          ]
+        },
+        "pagesPixelIdenticalAt150dpiPerFixture": 15,
+        "everyOtherPage": "pixel-identical at 150 dpi between the committed base bytes and the rebuilt bytes, on both fixtures",
+        "whatTheChangedPagesShow": "Canonical: page 1 loses the two item-2 bands (400 and 418 dark pixels at 150 dpi) and page 2 GAINS one band of 1199 pixels, the case number on the District Court line of paragraph 4; page 15 loses the 619-pixel caption county band and carries re-placed checkbox appearances, and pages 16, 17 and 18 carry re-placed appearances only. Boundary: page 1 loses the same two item-2 bands, page 3 loses the paragraph-12 district band and gains nothing, page 15 loses a 379-pixel county band, and pages 16 to 18 carry re-placed appearances. Page 2 of the boundary is pixel-identical -- no case number is written on either paragraph-4 line there -- and so is page 20, the Form 4-223 caption, whose county blank was already empty. Everything else is pixel-identical at 150 dpi. Read at 300 dpi: D-202-CR-2021-01532 sits on the District Court rule of paragraph 4, legible and inside its box; the boundary's paragraph 12 carries no ink on any of its four branches and no box is marked; the 4-222 caption's county line is blank on both. The build's own byte proof reports 0 glyphs outside a measured write box, 0 unfittable values and 0 refused fields carrying ink."
+      },
+      "placementSweep": {
+        "method": "Read from the delivered bytes and from the pinned Form 4-222 binary 809c66a7, never from a report: every flattened placement in the packet is re-composed (the appearance's own /Matrix times the page's cm product), its /BBox corners are transformed, and the resulting box is compared corner by corner against the /Rect of a widget on the same source page, tolerance 0.05pt. A placement matching no /Rect within that tolerance is counted off-Rect.",
+        "perFixtureBefore": {
+          "placements": 161,
+          "landingOnTheirRect": 122,
+          "notLandingOnAnyRect": 39,
+          "worstDisplacementPt": 12.84
+        },
+        "perFixtureAfter": {
+          "placements": 161,
+          "landingOnTheirRect": 161,
+          "notLandingOnAnyRect": 0,
+          "worstDisplacementPt": 0
+        },
+        "measuredOn": [
+          "canonical",
+          "boundary"
+        ],
+        "agreesWith": "fix61/APPEARANCE_SCALE_COHORT.json, which counted 39 mismatched widget appearances and a worst displacement of 12.84pt on this family's one AcroForm binary",
+        "whatItLooksLikeOnThePage": "The corrected placements are visibly different, and what they are corrected to is the court's own geometry: Form 4-222's checkbox squares now fill their widget rectangles, which makes several of them taller than the flattened output drew them before. Rendering the pinned source form itself through a 12.5.5-conforming viewer (poppler, 300 dpi) reproduces the NEW placement exactly, including the top edge that crosses the printed \"A.\" beside the first public-assistance box. The old flattened output did not match the form as a viewer draws it; the new output does."
+      },
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersNote": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nm_release_without_conviction-set, run on the committed bytes before any edit and again on the rebuilt bytes: PASS_COMPLETE and nine zeros both times. The counters were green before the repair too, which is why the failures these repairs answer were appearance and disposition failures rather than counter failures.",
+      "verifiers": [
+        {
+          "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nm_release_without_conviction-set",
+          "when": "before the first edit and again on the rebuilt bytes",
+          "exitCode": 0,
+          "result": "PASS_COMPLETE both times, nine zeros both times. Read-only: no --write, no --mutations."
+        },
+        {
+          "command": "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs",
+          "when": "on the rebuilt tree",
+          "exitCode": 0,
+          "result": "EVERY_IDENTITY_REFRESH_SURVIVED; 249 receipts compared against HEAD, 53 carrying an identityRefresh"
+        },
+        {
+          "command": "node scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs",
+          "when": "on the rebuilt tree",
+          "exitCode": 0,
+          "result": "EVERY_SOURCE_CARRIED_VALUE_IS_DISPOSITIONED; 0 undispositioned, 0 not examinable in this working tree"
+        }
+      ],
+      "preflight": {
+        "command": "node scripts/verify-packet-build-environment.mjs --family nm_release_without_conviction-set --codex-cloud --minimum-captain-sha edc75a3a9cf25ffd7fb7b07789b3ee1160e7359a",
+        "whenThisFamilysRunWasMade": "Run after the rebuild rather than before it: 10/14, the three failures below plus worktree_clean. The pre-edit run on the sibling family in this same checkout, before anything was touched, returned 11/14 with worktree_clean passing; the three below are the environment's.",
+        "theThreeFailures": [
+          "assignment_present_in_this_checkout -- no assignment file in this checkout names the family; this is a repair lane dispatched by message rather than by a committed assignment.",
+          "private_is_git_ignored -- private/ is mounted here as a SYMLINK to the read-only corpus in the primary clone, and .gitignore's `private/` entry does not match a symlink. Nothing under it is staged or committed and git status stays clean.",
+          "corpus_matches_committed_index -- 1 absent, 0 mismatched of 24 sampled. Pre-existing, and the same absence VF01 recorded: an Alabama index entry, LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf. It touches no New Mexico entry."
+        ],
+        "whatDidPass": "family_sources_bind 7/7 by exact SHA-256, master_library_complete 499 files / 329 PDFs / 51 jurisdictions, repo_identity_by_committed_markers, cloud_checkout_contains_captain_base, stale_artifact_block_consulted, absent_is_not_empty.",
+        "theFourthFailureOnAnyRunMadeAfterTheRebuild": "worktree_clean, which is this lane's own uncommitted rebuild rather than an environment fault: 10/14 rather than 11/14."
+      },
+      "acceptanceReceipt": null,
+      "acceptanceReceiptNote": "product-wiring.json for this family carried a central RASTER_PASS receipt bound to the superseded canonical digest. The rebuilt bytes are different bytes, so that receipt no longer binds anything delivered here: binding.acceptanceReceipt is set to null, the receipt it held is preserved verbatim beside it under acceptanceReceiptClearedByRebuild, and the proposedRepresentation component digests are re-pinned to the bytes now on disk. A fresh central raster is owed.",
+      "rebuiltTwiceByteIdentical": "Both fixtures of all three families were rebuilt twice in succession with the final code, and the whole of each family directory -- fixtures, field map, census, instructions, reports and the build's own preview rasters -- hashed identically across the two runs (134 files, sha256 each). The two runs are logged at 01:13:25 and 01:29:40 UTC.",
+      "otherFamilyDirectories": "246 of the 249 family directories under data/rcap-all50/overlays/census-v1 are byte-identical to the base commit: git diff --name-only HEAD over that tree names files in these three directories and no other, and the working tree carries no untracked file under it. The New Mexico DNA agency-application family was checked by name in both of its directories -- nm/nm-dna-sample-profile-expungement--agency-application and nm/agency-application-treatment:obligation:runtime-only:nm:dna-sample-profile-expungement--official-pdf-fill -- and every file in both re-hashes to its committed digest. It does not import the shared host and was not rebuilt.",
+      "whatWasNotDone": [
+        "CENTRAL RASTER ON THE NEW BYTES. Not run and not claimed. The rasters behind every measurement in this row are local pdftoppm reads under /tmp, deleted after measuring; no raster PNG from them is committed. The family's own build-produced preview rasters under raster/ were regenerated by the build itself and are committed with it, as prior repair lanes' rebuilds have done.",
+        "INDEPENDENT VERIFICATION. This lane built these bytes and verifies none of them. Every reading above is the builder's own reading of its own output.",
+        "The statewide-source question is untouched and stays open: whether the fee-waiver component may ship statewide on binary 809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a at all, whose caption prints SIXTH JUDICIAL DISTRICT COURT as page content on a document sworn on oath, or whether it must be conditioned on the Sixth Judicial District the way the retained local order is conditioned on the district that published it. No record under data/record-clearing/ settles it, this lane did not settle it, and leaving the county blank is not an answer to it. The printed district itself is the court's own ink in a pinned binary and is not this lane's to change.",
+        "THE BOUNDARY FIXTURE'S CASE NUMBER IS STILL NOT ON THE PAGE, AND THE RECORD SAYS SO IN TERMS. The shared field semantics protect every blank whose printed line names a magistrate -- PROTECT_RULES matches /magistrate/ under the \"court\" category -- so 'Metropolitan/Magistrate/Municipal Court case number(s)' refuses every write whatever fact is offered, as does '[ ] Magistrate Court in ____ (location)'. That rule is shared by the whole corpus and is not this lane's to change, and re-labelling the blank until it stopped matching the regex was available and was not done. On the boundary half of the field map that row is declared KNOWN_FACT_NOT_WRITTEN and states that the platform holds the number, without repeating the value into the record. The canonical half -- which is what the completeness verifier reads -- writes the number, so the family's counters are green on the branch they measure; a verifier should read maps[].boundaryRefusals for the other branch.",
+        "THE LOCATION HALF OF THE HELD INTAKE ANSWER. rwcOriginatingCourt asks which court AND in what location; the fixtures carry the court, which is the half that decides the branch. The location is left to the participant on every lower-court line. Holding it would not change the delivered page, because those same lines are refused by the protect rule above.",
+        "THE SAN JUAN CONDITIONAL COMPONENT AND THE COMPONENT SET. Untouched. Nothing was rendered, conditioned or re-pinned there."
+      ],
+      "boundaryWritesAfter": 31,
+      "theHeldFactThatDecidesTheBranch": {
+        "factId": "matter.originating_court",
+        "canonical": "district",
+        "boundary": "magistrate",
+        "authority": "data/record-clearing/legal-design-specifications.json, this track's officialFormAssignments: rwcOriginatingCourt, requirement 'required' -- 'Where was the case originally handled - district, metropolitan, magistrate or municipal court, and in what location?'",
+        "ifItIsMissing": "the build stops rather than picking a branch: an absent or unrecognised answer throws."
+      }
+    }
+  ]
+}

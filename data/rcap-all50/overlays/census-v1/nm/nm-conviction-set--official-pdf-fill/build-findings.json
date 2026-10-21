@@ -1,0 +1,73 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "nm_conviction-set",
+  "blocking": [],
+  "findings": [
+    {
+      "severity": "resolved_by_governed_source_replacement",
+      "finding": "The governed Form 4-222 source prints STATE OF NEW MEXICO, a blank COUNTY OF line, and a blank court line. The county and full judicial-district designation can therefore be written from held matter facts without district-local page content beneath them.",
+      "measuredFrom": "the pinned statewide binary at ef54fbdc9485157d8c85735ff3d66d5a39968ebde68c60de8a7eb094107348de",
+      "supersedes": "The historical 809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a source printed SIXTH JUDICIAL DISTRICT COURT."
+    },
+    {
+      "finding": "THE ONE-LINE MAILING ADDRESS WAS HELD IN FOUR PARTS AND WRITTEN IN NONE. Every form in this packet prints at least one blank asking for street, city, state and ZIP together, and the platform holds all four -- it writes them separately elsewhere in the same packet. Those blanks were declared REQUIRED_BEFORE_FILING on the ground that \"the shared fact registry has no one-line mailing-address fact\". That is true of the shared DESCRIPTOR LIST and says nothing about what the platform holds, and stating the first as though it were the second is the defect VF03 named: a held fact left off a filing under a reason that reads like an unavailable one.",
+      "consequence": "The fixtures compose participant.full_mailing_address from the four parts they already hold, and each of those blanks is now a WRITE bound under the caption the shared registry does resolve for it -- participant.street_address, the registry's one participant address descriptor -- with the binding, and what the printed caption resolves to on its own, recorded on the field-map row. Nothing in scripts/rcap-official-forms/rcap-field-semantics.mjs is changed. Where a court's printed line is too short to show the value at the shared six-point readable floor, the host measures that with the same fitter the finalizer uses and the row becomes KNOWN_FACT_NOT_WRITTEN carrying the measurement -- the width the value needs at the floor against the width the form printed -- rather than claiming the platform holds nothing. Nothing is truncated and nothing is drawn outside a measured blank."
+    },
+    {
+      "finding": "THE PACKET OMITTED SIX OF THE TRACK'S TEN SELF-HELP STOP CONDITIONS, AND CALLED ONE OF THEM ENCOURAGEMENT. VF03 measured the delivered instructions against the registry's own selfHelpStopConditions for nm_conviction and found the felony, Crimes Against Household Members Act, unpaid-or-unclear financial obligation, intervening-conviction, multiple-district and justice-narrative stops missing, while paragraph 12 of Form 4-953 -- which condition 8 makes a stop -- was described to the participant as the part only they can write.",
+      "consequence": "The stop list is no longer written by hand. selfHelpStopConditions in the shared host reads the track's conditions from data/record-clearing/legal-design-track-registry.json on every build, asserts they are word for word what data/record-clearing/legal-design-intake/NM.memo.json carries for the same track, and stops the build if the two records disagree. participant-instructions.md prints all of them verbatim and in the registry's order, before anything else, under a heading that says to stop and get a lawyer's advice. Who to ask is named from the record and nowhere else: no record under data/record-clearing/ names an organisation, clinic or telephone number for New Mexico, so the packet names none and says so. Both records' paths and digests are in this file under selfHelpStopConditionsAsPrinted. The second half of the VF03 finding is repaired too, and it is a separate thing from the omission: printing condition 8 while the hearing section still called the justice-will-be-served narrative \"the part only you can write\", and the paragraph-12 disclosure still called it the part \"only you can write\", would have left one delivered document telling the participant to stop and to press on in the same breath. Both sentences now say what is true of a stop condition -- only the participant holds the facts, and the argument is a lawyer's advice -- and the hearing section names the objection and contested-hearing stop beside it."
+    },
+    {
+      "finding": "FORM 4-960.3'S SIGNATURE BLOCK WAS MAPPED AS FORM 4-953'S, AND ALL FOUR OF ITS BLANKS WERE ONE LINE OUT. Every caption in that block is printed BELOW the rule it names: \"(Petitioner Signature)\" and \"(Print Name)\" under the first pair, \"Street Address City State Zip Code\" under the full-width rule, \"(Telephone)\" under the short rule. The rows had been copied from Form 4-953, whose block runs printed name and date, signature, mailing address, telephone -- a different order on a different form. The delivered page put the participant's PRINTED NAME on the line captioned \"(Petitioner Signature)\", declared the Street Address / City / State / Zip Code rule a signature and protected it, and called the telephone rule the mailing address. Read from the delivered page at 300 dpi, not from the report. Not named in the VF03 verdict; found while repairing the address blanks and repaired with them rather than left standing.",
+      "consequence": "The four rows now agree with the printed captions and with Form 4-960.2 on the non-conviction track, which carries the identical block and was mapped correctly there. The signature rule is PROTECTED and empty, the name is on \"(Print Name)\", the whole one-line address is on the Street Address rule -- 464pt wide, so it fits on both fixtures -- and the telephone rule is the participant's. The same four measured blanks at the same four keys; only which blank each one is has changed."
+    },
+    {
+      "finding": "SERVICE IS REQUIRED ON THIS TRACK, and that changes the disposition of twenty blanks relative to the identity-theft family. Form 4-960.1's four page-2 service blocks are for parties entitled to notice of the hearing, which the form's own USE NOTES limit to the petitioner and any party that filed and served an objection under Rule 1-077.1(G)(1) NMRA within sixty-three days of the date of service.",
+      "consequence": "On the identity-theft track, where Rule 1-077.1(E) NMRA entitles no responding party to notice, those twenty blanks are NOT_APPLICABLE_ON_THIS_ROUTE. Here the petition is served on three parties, an objection can be filed, and the same twenty blanks are REQUIRED_BEFORE_FILING and named in participant-instructions.md. The shared dictionary takes the route's service posture as a parameter so the two answers cannot be confused, and neither was copied from the other."
+    },
+    {
+      "finding": "Form 4-956 is a certificate of service from end to end, and Form 4-960 carries one at its foot.",
+      "consequence": "The caption of Form 4-956 is written and nothing else on it is. Everything below that caption is the petitioner certifying under penalty of perjury when they posted the petition and to whom; service has not happened when this packet is prepared and the platform has no knowledge of it. The shared field semantics protect a service block for the same reason, and this build agrees with that rather than working round it."
+    },
+    {
+      "finding": "Forms 4-960 and 4-960.3 are the SECOND STAGE, filed sixty-three days or more after the petition is served. Form 4-960 states whether each of the three responding parties filed a non-objection, filed an objection, or did nothing; Form 4-960.3 affirms under penalty of perjury that nothing is pending and what the most recent conviction was.",
+      "consequence": "Every one of those eighteen response controls and every pending-charge line is the participant's. Nothing about the sixty-three day period is knowable when the packet is prepared, and the instructions are organised around the sequence -- gather, file, mail, wait, then the second stage -- rather than around the forms."
+    },
+    {
+      "finding": "The waiting period in paragraph 9 of Form 4-953 offers five boxes: two, four, six, eight or ten or more years. Which applies is set by the degree of the most serious conviction being expunged.",
+      "consequence": "The packet asserts none of them. Choosing one is a legal characterisation of a code section, and the platform holds no charge degree for this route's intake; the instructions set out which period goes with which class of offence and the participant marks the box. Writing a period the record does not establish onto a petition sworn under penalty of perjury is the defect this refuses."
+    },
+    {
+      "finding": "The shared fact registry has no descriptor for other names or aliases, and Form 4-953 asks for them on three lines. The only name descriptor whose pattern reaches such a line is participant.full_legal_name.",
+      "consequence": "The alias lines are left to the participant and named in the instructions. Binding them to full_legal_name would put the petitioner's own legal name on the alias line of a petition sworn under penalty of perjury, and adding a descriptor is a change to machinery forty-odd builders share, which a packet-build lane does not make mid-cohort. The gap is reported for the owner of the registry."
+    },
+    {
+      "finding": "The shared fact registry has no one-line mailing-address fact. Its only address descriptor is the street line, and four blanks in this packet -- Form 4-953 page 4, Form 4-960 page 2, Form 4-960.3 page 2 and Form 4-960.1 page 1 -- give a single line for a whole mailing address.",
+      "consequence": "Those four are left to the participant with the reason stated. A street with no city, on the line the court writes to, is worse than a line the participant completes. Reported for the owner of the registry alongside the alias gap."
+    },
+    {
+      "finding": "The adopted statewide Form 4-222 is a five-page flat PDF with 147 measured underscore blanks and no AcroForm fields.",
+      "consequence": "Every measured blank has an explicit dictionary disposition. Held caption and identity facts are written only inside measured blank rectangles; financial assertions, elections, signatures, notarization and court-use fields remain empty for the responsible actor."
+    }
+  ],
+  "selfHelpStopConditionsAsPrinted": {
+    "trackId": "nm_conviction",
+    "conditions": [
+      "Any felony conviction.",
+      "Any possible exclusion-list offense: an offense against a child, one causing great bodily harm or death, a sex offense, embezzlement, or driving under the influence.",
+      "Any offense under the Crimes Against Household Members Act.",
+      "Unpaid or unclear restitution, fines or fees.",
+      "Any conviction during the applicable waiting period, in any jurisdiction.",
+      "Any charge or proceeding pending against the participant anywhere.",
+      "Records across more than one judicial district.",
+      "Writing the justice-will-be-served narrative.",
+      "Any objection filed by a responding party, and any contested hearing.",
+      "Any non-citizen participant, because the Judiciary's own packet directs non-citizens to seek legal advice about the consequences of expungement."
+    ],
+    "registry": "data/record-clearing/legal-design-track-registry.json",
+    "registrySha256": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+    "memo": "data/record-clearing/legal-design-intake/NM.memo.json",
+    "memoSha256": "94fe9d381be4e2b03e78397bb67a76c30c5005854d178606604689d19e002f25",
+    "quotedVerbatim": true
+  }
+}

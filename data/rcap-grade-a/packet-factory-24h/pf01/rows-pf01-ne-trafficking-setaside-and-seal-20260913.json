@@ -1,0 +1,105 @@
+{
+  "schemaVersion": "rcap-packet-factory-family-return/v1",
+  "assignmentId": "PF01",
+  "workerId": "rcap-finish-worker-77jr7gx76jq3rg65",
+  "lane": "packet-build",
+  "engine": "Codex Codespaces worker",
+  "shiftBaseSha": "6867ee44777ce3c9e88afda8b4bad8c3d8e8e31a",
+  "workerBranch": "pf20-ks-22-2410-arrest-20260912b",
+  "workerHeadBeforeReturn": "e22ae672ca192905985c500886669f690f4dd551",
+  "familiesAssigned": 1,
+  "rowsReturned": 1,
+  "claim": {
+    "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF01 'ne-trafficking-setaside-and-seal-set'",
+    "result": "CLAIM_OK PF01 ne-trafficking-setaside-and-seal-set (packet-build, grant set a6ef9ebd94267c7e)",
+    "captainLedgerPath": "data/rcap-grade-a/packet-factory-24h/claim-ledger.json",
+    "captainLedgerSha256": "b4eadc16ceec48f132bdcfbc9d17290a4c8fd55425c2aa071a84cd7d121d4bfc",
+    "captainLedgerGeneratedAtCommit": "46f58905a130a3168c34851d4ea387802117767c"
+  },
+  "itemId": "ne-trafficking-setaside-and-seal-set",
+  "status": "STOPPED",
+  "stopClass": "BLOCKED_SOURCE",
+  "jurisdiction": "NE",
+  "routeKeys": [
+    "obligation:unit:NE:ne-trafficking-setaside-and-seal:ne_trafficking_seal_motion",
+    "obligation:unit:NE:ne-trafficking-setaside-and-seal:ne_trafficking_setaside_motion"
+  ],
+  "implementationStrategy": "custom_pleading",
+  "officialFormFamily": "CC-6-12",
+  "requiredComponents": [
+    "component:ne-trafficking-setaside-and-seal-sealing-motion-2"
+  ],
+  "buildScript": "scripts/build-census-v1-ne-trafficking-setaside-and-seal-set.mjs",
+  "buildScriptExists": true,
+  "overlayDirectory": "data/rcap-all50/overlays/census-v1/ne/ne-trafficking-setaside-and-seal-set--official-pdf-fill",
+  "overlayDirectoryExists": false,
+  "overlayDirectoryTouched": false,
+  "builderCreated": false,
+  "testCreated": false,
+  "filingPacketsGenerated": 0,
+  "rasterGenerated": false,
+  "sourceBinding": {
+    "queueSourcesNamed": 1,
+    "familyGate": {
+      "result": "FAIL",
+      "detail": "1 of 1 source(s) do not bind",
+      "boundSourceCount": 0,
+      "completeQueueSourceBind": false,
+      "resolverTier": "census_form_number_against_committed_index"
+    },
+    "queuePinnedSources": [
+      {
+        "sourceId": "official-form:CC-6-12",
+        "declaredPath": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/NE/02_PACKET_FORMS/NE__FORM__CC-6-12__motion-to-seal-an__REV-2024-04__EN.pdf",
+        "sha256": "68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28",
+        "statusAtWorker": "MISSING_AT_DECLARED_PATH",
+        "statusAtCheckedCaptainPath": "NOT_FOUND; no alternate search performed"
+      }
+    ],
+    "custodyRecord": {
+      "row": "ne-trafficking-setaside-and-seal-set",
+      "documentSourcesNamed": 1,
+      "documentSourcesResolved": 1,
+      "custodyClass": "SOURCE_ALREADY_HELD",
+      "queueSourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "legalInputStatus": "SETTLED",
+      "sharedRecordModified": false
+    }
+  },
+  "preflight": {
+    "command": "source \"$HOME/.legalease-corpus-env\" && node scripts/verify-packet-build-environment.mjs --family 'ne-trafficking-setaside-and-seal-set' --codex-cloud --minimum-captain-sha 6867ee44777ce3c9e88afda8b4bad8c3d8e8e31a",
+    "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 9/14 passed, 5 failed, 3 not applicable",
+    "exitCode": 1,
+    "familySourcesBind": "FAIL: 1 of 1 source(s) do not bind",
+    "knownWorkerEnvironmentFailures": [
+      "worktree_clean: Captain-provided claim ledger is intentionally uncommitted in the worker",
+      "private_is_git_ignored: private/ is not git-ignored at this worker base",
+      "master_library_complete: below immutable minimum: 13 of 499 files, 11 of 329 PDFs present",
+      "corpus_matches_committed_index: 24 absent, 0 mismatched of 24 sampled"
+    ],
+    "treatment": "Aggregate partial-corpus failures were not repaired or used as the family finding; the exact CC-6-12 source absence is the bounded blocker and the exclusive builder is present."
+  },
+  "blocker": {
+    "exactClass": "BLOCKED_SOURCE",
+    "statement": "The sole CC-6-12 byte is declared SOURCE_BOUND_BY_HELD_BYTES but is absent at the worker's governed path and at the checked Captain path; the exclusive NE builder exists, so only the exact source byte blocks dispatch.",
+    "noSourceHunt": true,
+    "noSharedResolverEdit": true,
+    "noLegalResearch": true,
+    "noClosedFamilyTouched": true
+  },
+  "nextExecutableAction": "Provide the exact CC-6-12 byte at its governed path, rerun the existing prerequisite once, and dispatch the existing NE builder.",
+  "counters": null,
+  "allNineCountersZero": null,
+  "artifactsProduced": [],
+  "commercialAuthorityGranted": false,
+  "productionTouched": false,
+  "selfVerified": false,
+  "privateSourceBytesCommitted": false,
+  "privateSourceBytesModified": false,
+  "returnNotes": [
+    "Claim used PF01, the lane recorded in Captain's current claim ledger.",
+    "The existing NE builder was left untouched; no source byte was available for missing-only transfer.",
+    "The worker claim ledger remains intentionally uncommitted.",
+    "Shared manifests, source custody, resolver logic, closed families, and the active KY pardon slot were not modified."
+  ]
+}

@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "note": "Every current or reachable entry point for the five legacy generators, classified. Authority: Roger Roman, 2026-08-28; see data/record-clearing/legal-decisions/2026-08-28-legacy-generator-retirement.json and ADR-0004. RETIRE means the commercial authority is removed and the code path may remain for historical access. MIGRATE means the behaviour moves to Grade-A fulfillment. HISTORICAL_REFERENCE_ONLY and REUSABLE_ASSET_SOURCE mean keep and do not delete. ALREADY_UNREACHABLE means no live call site reaches it.",
+  "jurisdictions": ["IL", "DC", "PA", "MS", "TX"],
+  "entryPoints": [
+    {
+      "id": "consumer-paid-generation",
+      "surface": "consumer",
+      "location": "src/lib/expungement-ai/packet-generation.ts :: generatePaidConsumerPacket -> buildConsumerPacketArtifact",
+      "classification": "RETIRE",
+      "whatItDid": "Returned provider rcap_source_engine, contentType text/plain, filename *-packet.txt for every jurisdiction including all five legacy states. It never reached a legacy generator at all.",
+      "nowDoes": "Dispatches on the Grade-A fulfillment record's approved provider and throws when none is implemented. No fulfillment record exists, so it throws.",
+      "assetsRetained": "renderRouteSummaryForSavedGuidance keeps the summary text for guidance use; it is unreachable from the paid path."
+    },
+    {
+      "id": "partner-sponsored-mississippi",
+      "surface": "partner-sponsored",
+      "location": "src/lib/expungement-ai/packet-generation.ts :: attachMississippiPacketInformationRequest, attachMississippiLegacyPacketArtifact, assertMississippiPartnerPacketReady",
+      "classification": "RETIRE",
+      "whatItDid": "The only path that produced a real PDF. Gated on a live rcap_partner sponsorship; attached provider rcap_legacy_mississippi, contentType application/pdf.",
+      "nowDoes": "assertMississippiPartnerPacketReady calls the fulfillment gate at the sponsored-entitlement surface and is refused, because no Mississippi route has a fulfillment record.",
+      "whyRetiredRatherThanKept": "Its document types cover three Mississippi pathways and not the rest, so it was jurisdiction-classified but route-incomplete; and its proposed order is MississippiProposedOrderPlaceholder, a placeholder where a proposed order belongs. A placeholder order must not reach a participant.",
+      "assetsRetained": "The attachment functions and the artifact shape stay as migration references and for historical artifact access."
+    },
+    {
+      "id": "packet-route-resolver-legacy-verified",
+      "surface": "route resolver",
+      "location": "src/lib/rcap/documents/packet-route-resolver.ts :: LEGACY_VERIFIED branch",
+      "classification": "RETIRE",
+      "whatItDid": "Returned routeKind legacy_verified with sellable true and creditConsumable true for EVERY route in the five jurisdictions. Jurisdiction-only sellability: a statement about a state standing in for a fact about a route.",
+      "nowDoes": "Returns routeKind legacy_retired with sellable false and creditConsumable false. rendererKind stays packet_document_v1 so historical artifacts remain reachable.",
+      "assetsRetained": "The jurisdiction list is kept under LEGACY_RETIRED_JURISDICTIONS; the list is the same and what it grants is not."
+    },
+    {
+      "id": "public-document-page",
+      "surface": "public document page",
+      "location": "src/app/documents/[partnerSlug]/page.tsx and src/app/documents/[partnerSlug]/[packetId]/page.tsx",
+      "classification": "HISTORICAL_REFERENCE_ONLY",
+      "whatItDid": "Each ran its own packet.state equality chain ending in a bare else that rendered the Mississippi petition, so 46 states would have been shown a Mississippi caption.",
+      "nowDoes": "Both dispatch through DocumentPacketRenderer, an exhaustive map with no default and an explicit unsupported panel. The five components still render for the five states.",
+      "assetsRetained": "All five document components. They are the closest thing the repository has to a specification of what a complete packet looks like, and they are the comparison evidence for migration."
+    },
+    {
+      "id": "document-pdf-endpoint",
+      "surface": "PDF endpoint",
+      "location": "src/app/api/rcap/documents/[packetId]/pdf/[pdfType]/route.ts",
+      "classification": "HISTORICAL_REFERENCE_ONLY",
+      "whatItDid": "Rendered a stored RcapDocumentPacket to PDF, gated on packetRouteCanRender.",
+      "nowDoes": "Unchanged. rendererKind stays packet_document_v1 for the five, so an already-generated artifact is still retrievable by its owner. It grants no commercial authority: the surfaces that would sell or attach it all consult the fulfillment gate first.",
+      "assetsRetained": "The renderer and the PDF pipeline."
+    },
+    {
+      "id": "packet-attachment-and-briefcase-artifact",
+      "surface": "packet attachment / Briefcase artifact",
+      "location": "src/lib/expungement-ai/packet-generation.ts :: attachPacketToBriefcaseItem; artifactRefs carrying provider rcap_legacy_mississippi",
+      "classification": "RETIRE",
+      "whatItDid": "Attached a legacy artifact to a Briefcase item and moved it to Ready.",
+      "nowDoes": "Unreachable for new artifacts: generation is refused upstream at the fulfillment gate. Existing attached artifacts are untouched and stay owner-readable.",
+      "assetsRetained": "The artifact envelope and its owner-scoped download path."
+    },
+    {
+      "id": "render-job-and-worker",
+      "surface": "worker / render path",
+      "location": "src/lib/rcap/render/job-contract.ts",
+      "classification": "RETIRE",
+      "whatItDid": "Queued a durable render job for any route where packetRouteCanRender held, which included every route in the five jurisdictions by classification.",
+      "nowDoes": "Still gated on the route resolver, which no longer grants those five sellable or creditConsumable status. A render job for a new commercial artifact is unreachable because generation is refused before it.",
+      "assetsRetained": "The durable job contract, which Grade-A fulfillment will use."
+    },
+    {
+      "id": "internal-preview",
+      "surface": "internal preview",
+      "location": "src/lib/rcap/all50-internal-preview.ts",
+      "classification": "REUSABLE_ASSET_SOURCE",
+      "whatItDid": "Internal-only preview of state packs and route material.",
+      "nowDoes": "Unchanged. It is not a commercial surface and authorizes nothing.",
+      "assetsRetained": "Everything. It is one of the migration inputs."
+    },
+    {
+      "id": "state-packs",
+      "surface": "asset source",
+      "location": "src/lib/rcap/state-packs/{mississippi,illinois,dc,pennsylvania,texas-harris}",
+      "classification": "REUSABLE_ASSET_SOURCE",
+      "whatItDid": "Nothing at runtime — no module outside the packs and the document components imports them.",
+      "nowDoes": "Unchanged.",
+      "assetsRetained": "Court routing, county-court instructions, disqualifying offenses, document types, eligibility rules, fee notes, filing instructions, pathways, required fields, safety language, sample data and waiting periods. These are the field maps, filing instructions and copy that Grade-A families are built from and must not be deleted."
+    },
+    {
+      "id": "mississippi-legacy-consumer-bridge-route",
+      "surface": "consumer API",
+      "location": "src/app/api/rcap/documents/[packetId]/generate/route.ts",
+      "classification": "RETIRE",
+      "whatItDid": "Called attachMississippiLegacyPacketArtifact to move a sponsored Mississippi artifact into the Briefcase.",
+      "nowDoes": "Refused upstream at the sponsored-entitlement surface.",
+      "assetsRetained": "The route as a migration reference for how a provider attaches an artifact."
+    }
+  ]
+}

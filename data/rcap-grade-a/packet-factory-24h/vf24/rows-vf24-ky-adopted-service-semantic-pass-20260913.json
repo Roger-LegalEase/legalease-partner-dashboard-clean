@@ -1,0 +1,259 @@
+{
+  "schemaVersion": "rcap-independent-verifier-return/v1",
+  "lane": "VF24",
+  "laneKind": "independent-verification",
+  "status": "COMPLETED",
+  "semanticStatus": "PASS_PRE_RASTER_SEMANTIC",
+  "rasterDispatchAuthorized": true,
+  "finalAcceptance": false,
+  "visualMeasured": false,
+  "rows": [
+    {
+      "familyId": "ky_protective_order_record_expungement-set",
+      "itemId": "ky_protective_order_record_expungement-set",
+      "jurisdiction": "KY",
+      "lane": "VF24",
+      "reviewer": "/root/resume_vfar1",
+      "sessionIdentity": "/root/resume_vfar1",
+      "reviewPhase": "INDEPENDENT_CURRENT_BYTE_NONVISUAL_SEMANTIC_RECHECK",
+      "verifiedAt": "2026-09-13T02:29:57Z",
+      "verifiedAtBase": "d72e2883820ba4a7ac7345d1b3ba90e3cc097011",
+      "actualHeadAtReview": "d72e2883820ba4a7ac7345d1b3ba90e3cc097011",
+      "packetCommitSha": "03709d7719895897ea7741634f65d2ff909046bd",
+      "manifestCommitSha": null,
+      "status": "PASS_PRE_RASTER_SEMANTIC",
+      "verdict": "PASS",
+      "scope": "Bounded independent semantic review of the current PF08 Kentucky AOC-275.18 candidate against the exact route and component contract, exact held source binding, current canonical and boundary PDF bytes, participant and filing guidance, required-before-filing handoffs, protected fields, the adopted service treatment, and saved byte proofs. This review does not claim current-edition freshness, counsel or court approval, central raster acceptance, visual fit, final acceptance, commercial authority or runtime selection.",
+      "claimEvidence": {
+        "assertCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --can-assert VF24 'ky_protective_order_record_expungement-set'",
+        "result": "CLAIM_OK",
+        "grantSet": "67d7da433bf26889",
+        "assertedBeforeFamilyReads": true,
+        "claimMutation": "none"
+      },
+      "historicalFailure": {
+        "path": "data/rcap-grade-a/packet-factory-24h/vf24/rows-vf24-20260910-ky.json",
+        "sha256": "437308401e898b5f34b2401af40a9fc000ca614d9ff9a99e4dbd4730f93cbfe3",
+        "byteLength": 55728,
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "failedObligationNames": ["COMPONENT_SET", "KNOWN_PREFILLS", "FEE_AND_WAIVER"],
+        "reading": "Preserved historical result. The current PF08 candidate and guidance were checked against each finding; no prior claim or acceptance was changed by this return."
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The route is Kentucky protective-order record expungement under KRS 403.745 and KRS 456.070. It delivers AOC-275.18 and process guidance. The conditional court-order component is court-owned process guidance and service instructions are process guidance; no court order or service-proof instrument is represented as generated.",
+          "evidence": ["data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/product-wiring.json", "data/record-clearing/legal-design-intake/KY.memo.json", "data/rcap-grade-a/legal-decisions/KY_PROTECTIVE_ORDER_SERVICE_OWNER_ADOPTION_2026-09-12.json"]
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The current source receipt binds AOC-275.18 at SHA-256 b3d8278a85a56c5ac81ed9fedaf9081f5e6f5141d0f561ed6aa6ff4103d2cb51, 192243 bytes and one page. The missing historical PDFs are supporting evidence for manual/rule treatment and freshness only; they were not replaced with invented custody.",
+          "evidence": ["data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/source-receipt.json", "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Kentucky/source-acquisition-2026-09-04/275.18.pdf"],
+          "sourceBinaryCommitted": false,
+          "supportingEvidenceLimitations": [
+            {"path": "/tmp/ky-clerks-manual-2026-check.pdf", "expectedSha256": "3d5c55025b617846b19537965a7ae453f4f8edbe00b7105ce5be1493882948b0", "expectedByteLength": 5128994, "recordedUrl": "https://www.kycourts.gov/Courts/County-Information/Documents/ClerksManual.pdf", "observed": "missing locally; recorded retrieval returned HTTP 403", "meaning": "historical supporting manual; not the current AOC source binary"},
+            {"path": "/tmp/ky-cr-201009-official.pdf", "expectedSha256": "89fc9d0011f0424fcedd54160c8ad00af41469bbdb71711cbd3365f4caa2e56b", "expectedByteLength": 3298823, "recordedUrl": "https://www.kycourts.gov/Courts/Supreme-Court/Supreme%20Court%20Orders/201009.pdf", "observed": "missing locally; recorded retrieval returned HTTP 403", "meaning": "historical rule evidence; not the current AOC source binary"}
+          ]
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The required AOC-275.18 primary filing is present in canonical and boundary fixtures. Required service instructions are in participant-facing guidance, and the conditional court-order treatment is explicitly process guidance/reference only. No missing generated instrument is silently promised.",
+          "evidence": ["data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/product-wiring.json", "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/build-findings.json", "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/participant-instructions.md", "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/filing-instructions.md"]
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Canonical contains six fitting prefills: case number, county, respondent first/middle/last name and full movant name. Boundary contains five fitting prefills, including the real Breckinridge county option and the full composed long name. Its long case number is refused at widget width and remains blank for manual completion, with no truncation or substitution. The prior boundary name omission is corrected.",
+          "boundaryRefusals": [{"field": "Case No", "factId": "matter.case_number", "reason": "value_exceeds_widget_width_at_minimum_font", "disposition": "manual completion; blank"}],
+          "evidence": ["data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/reports/actual-writes.json", "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/reports/caption-evidence.json", "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/fixtures/canonical.pdf", "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/fixtures/boundary.pdf"]
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Division, Court and all three Petitioner name fields are classified REQUIRED_BEFORE_FILING and handed to the participant to copy from the case papers. The three sworn allegations remain genuine participant elections. Date, signature and address/telephone remain participant-owned printed lines; the notification/hearing block remains clerk-owned. Classified blanks are disclosed rather than treated as complete.",
+          "evidence": ["data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/reports/blanks.json", "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/participant-instructions.md", "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/filing-instructions.md"]
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "No sworn box is auto-checked; the participant is told to check each only if true. No unsupported relief election is invented. Franklin and Breckinridge are delivered as actual county choices, and no delivered choice value is outside the form's own options.",
+          "evidence": ["data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/reports/actual-writes.json", "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/reports/blanks.json", "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/participant-instructions.md"]
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "AOC-275.18 is a one-page motion with no repeating data table. No partial row or unbounded repetition is introduced.",
+          "evidence": ["data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/source-receipt.json", "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/reports/rendered-artifacts.json"]
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Court, clerk and participant-owned execution fields remain blank where required. The sworn boxes, petitioner fields, Division and Court, clerk notification block and printed signature/date/address lines are not falsely completed. Print and Reset controls are suppressed; no service certificate or universal affidavit is written.",
+          "evidence": ["data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/reports/actual-writes.json", "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/reports/blanks.json", "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/reports/rendered-artifacts.json"]
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Current canonical and boundary PDFs are byte-stable, one page each, and retain the AOC-275.18 source pairing. Saved reports record no active-content hits, no invalid delivered choice values and zero non-whitespace glyphs outside measured write boxes. These are byte-level results, not raster measurement.",
+          "evidence": ["data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/reports/rendered-artifacts.json", "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/reports/actual-writes.json"]
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Both fixtures map packet page 1 to source page 1 of AOC-275.18 with the exact source hash. No page is dropped, added or reordered.",
+          "evidence": ["data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/reports/rendered-artifacts.json", "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/source-receipt.json"]
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "visualDefects": null,
+          "finding": "This lane did not measure current original raster PNGs. The prior accepted receipt binds different bytes: canonical 30dc6109d9ec4f0c54aca8aebb4bc77725b7f0c8918f34c7ccd47d19114130d1 and boundary af5fc32bcbae8116472e7e1db20459a61aaf1ce83c4b3c97748ef6511476b1a7, versus current canonical dd797c6d4783f58979d964d0d483a9270261a1832177fe9b0a0150e2ef04d63e and boundary b219565f8e930db532f7613a3302e8433b4a933c32c679aab3eb1edb7df6a97d. The old RASTER_PASS is not carried forward.",
+          "evidence": ["data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/reports/rendered-artifacts.json", "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/ky_protective_order_record_expungement-set/ky_protective_order_record_expungement-set.verdict.json"]
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Guidance directs filing in the protective-order case with the Office of the Circuit Court Clerk for the court where the petition was heard, with case number, county, court and division copied from the case papers. Clerk-owned signature, filed stamp, notification and scheduling steps are identified without pretending they are participant-completed.",
+          "evidence": ["data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/filing-instructions.md", "data/record-clearing/legal-design-intake/KY.memo.json"]
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The filing guidance carries the recorded treatment that no filing fee was identified and that a fee waiver is not applicable because no fee was identified. It invents no amount, waiver form or payment assertion and tells the participant to ask the clerk. The prior false absence claim is corrected; the missing manual limits fresh external fee-source revalidation.",
+          "evidence": ["data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/filing-instructions.md", "data/record-clearing/legal-design-intake/KY.memo.json", "data/rcap-grade-a/packet-factory-24h/vf24/rows-vf24-20260910-ky.json"]
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The guidance distinguishes both actual pathways: the movant may serve copies by first-class mail, or the clerk serves when the movant has not already done so. It preserves applicable CR 5.03 proof options and timing, requires documentation to describe acts by the actual server, and tells the participant not to certify clerk acts. The AOC notification section and Copies to list are notice/distribution controls, not proof. No unconditional certificate, universal affidavit or proof waiver is promised. The boundary case-number refusal is manual completion and does not alter the service rule or invent a county/case value.",
+          "evidence": ["data/rcap-grade-a/legal-decisions/KY_PROTECTIVE_ORDER_SERVICE_OWNER_ADOPTION_2026-09-12.json", "data/rcap-grade-a/packet-factory-24h/vf24/ky-cr-5-rule-evidence-20260912.json", "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/participant-instructions.md", "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/filing-instructions.md"]
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The guide carries the route limitations and four stop conditions: a full domestic-violence or non-temporary order, a protective-order history against the participant in the preceding six months, a related criminal record the participant wants cleared, and a disputed good-cause or other contested matter. It directs individualized help rather than implying unsupported eligibility.",
+          "evidence": ["data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/participant-instructions.md", "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/build-findings.json"]
+        }
+      },
+      "obligationCounts": {"PASS": 14, "NOT_MEASURABLE_HERE": 1, "FAIL": 0, "allMeasured": false},
+      "failedObligationNames": [],
+      "unmeasuredObligations": ["CLIPPING_AND_OVERLAP"],
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": null,
+        "allNonvisualZero": true,
+        "allNineZero": false,
+        "measuredHere": true,
+        "visualMeasuredHere": false,
+        "counterNote": "Eight nonvisual counters are zero from current saved-byte and semantic records. visualDefects is null because current original raster pages were not measured; allNineZero is therefore false."
+      },
+      "currentCandidateBindings": {
+        "reviewedHead": "d72e2883820ba4a7ac7345d1b3ba90e3cc097011",
+        "packetCommitSha": "03709d7719895897ea7741634f65d2ff909046bd",
+        "rasterFreezeCommitSha": null,
+        "rasterManifest": null,
+        "rasterWorkflowPath": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+        "metadata": [
+          {"path": "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/product-wiring.json", "sha256": "5f5404065f241c41954e87f4d7d5f2721fb72ec32ed463034a7709c731b17c8c", "byteLength": 8705},
+          {"path": "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/source-receipt.json", "sha256": "b3ef70fe80c0e4a5659291248a0821ca6955f5672aa0a53cca8100e698e1fb53", "byteLength": 4678},
+          {"path": "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/production-field-map.json", "sha256": "1c2e1314bbb1be13b8d9ed712333f0f0d8a677eb82df8a6621169e178865e145", "byteLength": 12216},
+          {"path": "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/participant-instructions.md", "sha256": "715dfb4bbf59c7a29da29abe7dcdcb2bea5f90c7db50c9f220fa82e9cab46361", "byteLength": 9696},
+          {"path": "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/filing-instructions.md", "sha256": "2bee56f5f77735865f4d93bd2525abde3cc2b5ca7ea20ce34feb414a54282333", "byteLength": 5642},
+          {"path": "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/reports/actual-writes.json", "sha256": "0cfc4e826b2c245ede538ba2283e229ce060130280dd19738de78dce29401d86", "byteLength": 17472},
+          {"path": "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/reports/blanks.json", "sha256": "2ab73ab184925b012561488c830b6ab4b83e457c1cc750cbce21697257395060", "byteLength": 5624},
+          {"path": "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/reports/caption-evidence.json", "sha256": "a04fe96c1a54410bccada6fb82c4d444be597f7bf3702ad305f1107da9608e74", "byteLength": 9899},
+          {"path": "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/reports/rendered-artifacts.json", "sha256": "85341335f5335d17ec127984a0537adc6dd9c659404c63ffcd0948be66ff8162", "byteLength": 2493},
+          {"path": "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/build-findings.json", "sha256": "d993ad3c1840c42cdbaa6326c8a581f3041b4874a18f08f4462c876a30f17f9d", "byteLength": 12870},
+          {"path": "data/rcap-grade-a/legal-decisions/KY_PROTECTIVE_ORDER_SERVICE_OWNER_ADOPTION_2026-09-12.json", "sha256": "90f323a73cf091f74a3913e54a3600573be709ecfd4ab6ba55ccb2b4df1b2a9d", "byteLength": 10387},
+          {"path": "data/rcap-grade-a/packet-factory-24h/vf24/ky-cr-5-rule-evidence-20260912.json", "sha256": "fa823a2b907dfa567ca3c2639cbf62795817a4424368ae1d46d4bc6f370f1314", "byteLength": 6137}
+        ],
+        "sourceDocuments": [{"documentId": "AOC-275.18", "path": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Kentucky/source-acquisition-2026-09-04/275.18.pdf", "sha256": "b3d8278a85a56c5ac81ed9fedaf9081f5e6f5141d0f561ed6aa6ff4103d2cb51", "byteLength": 192243, "pageCount": 1, "sha256Exact": true}],
+        "currentArtifacts": [
+          {"path": "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/fixtures/canonical.pdf", "sha256": "dd797c6d4783f58979d964d0d483a9270261a1832177fe9b0a0150e2ef04d63e", "byteLength": 163791, "role": "canonical", "pageCount": 1},
+          {"path": "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/fixtures/boundary.pdf", "sha256": "b219565f8e930db532f7613a3302e8433b4a933c32c679aab3eb1edb7df6a97d", "byteLength": 163890, "role": "boundary", "pageCount": 1}
+        ],
+        "sourceReceipt": {"path": "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/source-receipt.json", "sha256": "b3ef70fe80c0e4a5659291248a0821ca6955f5672aa0a53cca8100e698e1fb53", "byteLength": 4678},
+        "historicalRasterReceiptNotApplicable": {"workflowRunId": 34413372916, "boundCanonicalSha256": "30dc6109d9ec4f0c54aca8aebb4bc77725b7f0c8918f34c7ccd47d19114130d1", "boundBoundarySha256": "af5fc32bcbae8116472e7e1db20459a61aaf1ce83c4b3c97748ef6511476b1a7", "appliesToCurrentCandidate": false}
+      },
+      "byteProof": {
+        "status": "PASS_NONVISUAL",
+        "method": "Independent current source and candidate hash/length/page binding, flattened-widget and text readback, participant caption-role review, guidance comparison, protected-field refusal review and saved byte geometry audit; no raster claim.",
+        "checkReport": {"path": "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/reports/actual-writes.json", "sha256": "0cfc4e826b2c245ede538ba2283e229ce060130280dd19738de78dce29401d86", "byteLength": 17472},
+        "passedChecks": 14,
+        "exactPdfBindings": [
+          {"path": "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/fixtures/canonical.pdf", "sha256": "dd797c6d4783f58979d964d0d483a9270261a1832177fe9b0a0150e2ef04d63e", "byteLength": 163791, "pageCount": 1},
+          {"path": "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/fixtures/boundary.pdf", "sha256": "b219565f8e930db532f7613a3302e8433b4a933c32c679aab3eb1edb7df6a97d", "byteLength": 163890, "pageCount": 1}
+        ],
+        "protectedRefusalInk": 0,
+        "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+        "visualMeasurement": "not performed; current central raster remains authoritative"
+      },
+      "actualWriteProof": {
+        "path": "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/reports/actual-writes.json",
+        "sha256": "0cfc4e826b2c245ede538ba2283e229ce060130280dd19738de78dce29401d86",
+        "byteLength": 17472,
+        "declaredNonEmptyWritesPerFixture": {"canonical": 6, "boundary": 5},
+        "flattenedWidgetAppearancesPerFixture": {"canonical": 14, "boundary": 14},
+        "allWrittenValuesMatch": true,
+        "wrongWrittenValues": 0,
+        "protectedInk": 0,
+        "invisibleWrites": 0,
+        "choiceValuesOutsideTheirOwnOptions": 0,
+        "boundaryCaseNumber": "refused as unfittable and left blank; participant guidance identifies manual completion"
+      },
+      "sourceIdentity": {
+        "status": "PASS",
+        "allSourcesExact": true,
+        "sourceReceipt": {"path": "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/source-receipt.json", "sha256": "b3ef70fe80c0e4a5659291248a0821ca6955f5672aa0a53cca8100e698e1fb53", "byteLength": 4678},
+        "documents": [{"documentId": "AOC-275.18", "path": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Kentucky/source-acquisition-2026-09-04/275.18.pdf", "sha256": "b3d8278a85a56c5ac81ed9fedaf9081f5e6f5141d0f561ed6aa6ff4103d2cb51", "byteLength": 192243, "pageCount": 1, "sha256Exact": true}],
+        "freshnessClaim": "none",
+        "legalGate": {"status": "OWNER_ADOPTION_RETAINED", "decisionPath": "data/rcap-grade-a/legal-decisions/KY_PROTECTIVE_ORDER_SERVICE_OWNER_ADOPTION_2026-09-12.json", "decisionSha256": "90f323a73cf091f74a3913e54a3600573be709ecfd4ab6ba55ccb2b4df1b2a9d", "counselApproval": false, "courtRuling": false, "missingSupportingSourceFilesBlockFreshnessOnly": true}
+      },
+      "currentArtifacts": [
+        {"path": "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/fixtures/canonical.pdf", "sha256": "dd797c6d4783f58979d964d0d483a9270261a1832177fe9b0a0150e2ef04d63e", "byteLength": 163791, "role": "canonical", "pageCount": 1},
+        {"path": "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/fixtures/boundary.pdf", "sha256": "b219565f8e930db532f7613a3302e8433b4a933c32c679aab3eb1edb7df6a97d", "byteLength": 163890, "role": "boundary", "pageCount": 1}
+      ],
+      "rasterManifest": null,
+      "rasterWorkflowPath": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+      "rasterEvidence": {"status": "PENDING", "runId": null, "artifactId": null, "visualPagesMeasured": 0, "currentManifest": null, "historicalReceiptAppliesToCurrentCandidate": false},
+      "unfinishedGates": ["current central original raster custody and independent visual acceptance", "native integration and terminal closure", "source-freshness revalidation if the missing historical KY supporting PDFs become available"],
+      "independence": {
+        "implementationAuthor": ["pre-restart review_wa saved work", "/root Captain scoped completion"],
+        "implementationCommit": "03709d7719895897ea7741634f65d2ff909046bd",
+        "implementationEditsByReviewer": false,
+        "sourceBytesEditedByReviewer": false,
+        "packetBytesEditedByReviewer": false,
+        "rasterEditedByReviewer": false,
+        "sharedQueueOrManifestEditedByReviewer": false,
+        "claimLedgerEditedByReviewer": false,
+        "semanticRecordWrittenByReviewer": true,
+        "visualAcceptanceClaimed": false,
+        "priorFailureRead": true,
+        "adoptedDecisionRead": true
+      },
+      "executionState": "SEMANTIC_PASS_PENDING_CURRENT_CENTRAL_RASTER",
+      "commandsActuallyPassed": [
+        {"command": "node scripts/grade-a-packet-factory-24h/claim.mjs --can-assert VF24 'ky_protective_order_record_expungement-set'", "result": "CLAIM_OK", "evidence": "executed in this review; no ledger write"},
+        {"command": "node scripts/grade-a-packet-factory-24h/test-ky-protective-order-service-adoption.mjs", "result": "PASS", "evidence": "consumed from PF08 return; not rerun"},
+        {"command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ky_protective_order_record_expungement-set", "result": "PASS_COMPLETE", "evidence": "consumed from PF08 return; not rerun"},
+        {"command": "node scripts/rcap-truth-checks/check-b-self-help-stop-coverage.mjs --family ky_protective_order_record_expungement-set --no-write", "result": "PASS", "evidence": "consumed from PF08 return; not rerun"},
+        {"command": "node scripts/rcap-truth-checks/check-c-participant-route-label.mjs --family ky_protective_order_record_expungement-set --no-write", "result": "PASS", "evidence": "consumed from PF08 return; not rerun"}
+      ],
+      "commercialAuthority": false,
+      "commercialAuthorityGranted": false,
+      "runtimeSelectable": false,
+      "reviewConclusion": "PASS_PRE_RASTER_SEMANTIC: the current Kentucky candidate satisfies fourteen measured nonvisual obligations, including the three prior VF24 findings. The adopted service treatment preserves both actual service paths and applicable proof duties; the AOC notification/Copies controls are not mislabeled as proof, and no certificate or universal affidavit is promised. The boundary case number is explicitly refused for manual completion and the real boundary county is written from its own option list. The exact AOC source and current candidate bytes are bound. The two missing historical PDFs limit freshness and independent external legal revalidation but do not block this bounded comparison to the adopted record. CLIPPING_AND_OVERLAP remains NOT_MEASURABLE_HERE; final acceptance, terminal promotion and commercial/runtime authority remain false.",
+      "amendment": null
+    }
+  ]
+}

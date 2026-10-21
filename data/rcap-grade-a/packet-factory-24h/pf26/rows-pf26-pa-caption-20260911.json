@@ -1,0 +1,51 @@
+{
+  "schemaVersion": "rcap-lane-rows/v1",
+  "lane": "PF26",
+  "laneKind": "packet-build",
+  "generatedAtBase": "19e0df5789e91ed8569e5ac5779f37c0f369063d",
+  "branch": "lane-pf26-pa-caption-20260911",
+  "worktree": "/tmp/rcap-pf26-pa-caption-20260911",
+  "rows": [
+    {
+      "familyId": "pa_6308_underage-set",
+      "jurisdiction": "PA",
+      "implementationStrategy": "official_pdf_fill_with_custom_service_certificate",
+      "status": "COMPLETED",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "claim": "CLAIM_OK PF26 pa_6308_underage-set (packet-build, grant set c791450b53d3c5c6)",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/pa/pa-6308-underage-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-pa_6308_underage-set.mjs",
+      "sharedBuildHost": "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs",
+      "artifactsCommitted": true,
+      "captionRepair": "Left-caption capture now excludes every run without a finite measured x2 from both candidate selection and caption-cell assembly. On the four exact PA sources it removes six control-character captions and restores the two county and two judicial-order captions from measured text above.",
+      "sourceLabelVerdict": "The repaired source capture changes 10 faulty contexts. The rebuilt census has 18 conservative changes from the older committed census: 16 contain only directly decoded text from finite measured source runs, while two Alias3 labels are null because their caption extent is unmeasurable. No width or caption was guessed.",
+      "sourceObligations": "All four official field-map documents and all 210 official field-map rows are structurally unchanged; the 116 official required-before-filing rows are preserved. The integrated certificate repair exposes three performed-service facts as required and keeps signature and date protected.",
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersMeasuredBy": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family pa_6308_underage-set against the rebuilt tree; --write was not passed.",
+      "pdfsChanged": 6,
+      "freshRasterRequired": true,
+      "evidence": "data/rcap-grade-a/packet-factory-24h/pf26/pa-caption-20260911/verification.json",
+      "captionEvidence": "data/rcap-grade-a/packet-factory-24h/pf26/pa-caption-20260911/caption-contexts.json",
+      "packetsSelfVerified": 0,
+      "verdictSet": "none",
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "centralArtifactsEdited": "none",
+      "remainingGates": "Fresh central raster and independent visual review for all six changed PDFs; completed-output legal approval; source freshness and local-practice review. Commercial authority and runtime selection remain false."
+    }
+  ],
+  "agentMetadata": {
+    "model": "unconfirmed",
+    "reasoningEffort": "unconfirmed"
+  }
+}

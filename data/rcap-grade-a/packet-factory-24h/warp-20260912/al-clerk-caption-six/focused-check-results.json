@@ -1,0 +1,61 @@
+{
+  "schemaVersion": "rcap-focused-check-results/v1",
+  "recordedOn": "2026-09-12",
+  "result": "PASS_WITH_AMBIENT_PREFLIGHT_LIMITATIONS_RECORDED",
+  "checks": [
+    {
+      "command": "node scripts/test-al-clerk-assigned-case-number.mjs",
+      "result": "PASS",
+      "assertions": 28,
+      "coverage": "Exact source-widget allowlist and four meaningful negative controls, including CR-65 Text3."
+    },
+    {
+      "command": "node scripts/test-al-clerk-assigned-case-number.mjs --outputs",
+      "result": "PASS",
+      "assertions": 86,
+      "coverage": "Six production maps, twelve exact saved PDFs, positioned underlying-case glyphs, eleven clerk-owned caption refusals per family, and sixteen exact saved-byte Section V appearance readings."
+    },
+    {
+      "command": "node scripts/build-census-v1-al-<family>.mjs --check",
+      "result": "PASS",
+      "familiesPassed": 6,
+      "familiesFailed": 0,
+      "coverage": "Existing family-specific repair invariants, including the pardoned-felony all-eight attestation questions and stop treatment."
+    },
+    {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <familyId>",
+      "result": "PASS_COMPLETE",
+      "familiesPassed": 6,
+      "familiesFailed": 0,
+      "fieldsPerFamily": 216,
+      "writtenPerFamily": {
+        "al-diversion-set": 22,
+        "al-misd-conviction-set": 28,
+        "al-misd-dwop-set": 22,
+        "al-pardoned-felony-set": 21,
+        "al-felony-dwop-set": 22,
+        "al-felony-nonconviction-90-set": 21
+      },
+      "displayedCounters": "all zero for every family",
+      "visualQualification": "Builder reports retain visualDefects null; current-byte central raster and independent visual review remain pending."
+    },
+    {
+      "command": "native raster-manifest exact-byte reread",
+      "result": "PASS",
+      "families": 6,
+      "pdfs": 12,
+      "pages": 132,
+      "coverage": "Each PDF SHA-256 and page count reread from disk; ordered documentsDigest computed with the native queue formula."
+    },
+    {
+      "command": "node scripts/verify-packet-build-environment.mjs --family <familyId>",
+      "result": "FAMILY_SOURCE_BINDING_PASS_AMBIENT_ENVIRONMENT_NOT_READY",
+      "familySourcesBindPassed": 6,
+      "familySourcesBindFailed": 0,
+      "ambientFailures": ["shallow clone", "dirty shared Captain worktree", "five pre-existing absent corpus samples"]
+    }
+  ],
+  "raster": "PENDING_CENTRAL_CURRENT_BYTE_RECEIPT",
+  "independentReview": "PENDING_AFTER_CENTRAL_RASTER_PASS",
+  "commercialRoutesOpened": 0
+}

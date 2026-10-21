@@ -1,0 +1,109 @@
+{
+  "schemaVersion": "rcap-composed-packet-set/v1",
+  "familyId": "la-976-arrest-no-conviction-set",
+  "jurisdiction": "LA",
+  "trackId": "la-976-arrest-no-conviction",
+  "packetSetVersion": "1.0.0",
+  "routeKeys": [
+    "obligation:track-pathway:LA:la-976-arrest-no-conviction:non-conviction-arrest-expungement"
+  ],
+  "implementationStrategy": "official_pdf_fill",
+  "custodyClass": "SOURCE_BOUND_BY_HELD_BYTES",
+  "authorityDecision": "LA-STATUTORY-FORMS",
+  "composedFromAuthority": [
+    "LA-CCRP-ART-988",
+    "LA-CCRP-ART-989",
+    "LA-CCRP-ART-991",
+    "LA-CCRP-ART-992"
+  ],
+  "controllingArticle": "La. C.Cr.P. art. 976",
+  "components": [
+    {
+      "componentId": "la-976-arrest-no-conviction-primary-filing-1",
+      "documentId": "LA-CCRP-ART-989",
+      "title": "Article 989 Motion for Expungement of a Record of Arrest That Did Not Result in a Conviction, under Article 976",
+      "role": "primary_filing",
+      "requirement": "required",
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "LA-CCRP-ART-989",
+      "order": 1,
+      "generated": true
+    },
+    {
+      "componentId": "la-976-arrest-no-conviction-proposed-order-2",
+      "documentId": "LA-CCRP-ART-991",
+      "title": "Article 991 Order",
+      "role": "proposed_order",
+      "requirement": "required",
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "LA-CCRP-ART-991",
+      "order": 2,
+      "generated": true
+    },
+    {
+      "componentId": "la-976-arrest-no-conviction-proposed-order-3",
+      "documentId": "LA-CCRP-ART-992",
+      "title": "Article 992 Order of Expungement of Arrest Record",
+      "role": "proposed_order",
+      "requirement": "required",
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "LA-CCRP-ART-992",
+      "order": 3,
+      "generated": true
+    },
+    {
+      "componentId": "la-976-arrest-no-conviction-fee-waiver-4",
+      "documentId": "LA-CCRP-ART-988",
+      "title": "Article 988 Motion for Fee Exemption under Article 983(F)",
+      "role": "fee_waiver",
+      "requirement": "conditional",
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "LA-CCRP-ART-988",
+      "order": 4,
+      "generated": true
+    },
+    {
+      "componentId": "la-976-arrest-no-conviction-continuation-5",
+      "documentId": "LA-CCRP-ART-993",
+      "title": null,
+      "role": "continuation",
+      "requirement": "conditional",
+      "outputStrategy": "custom_pleading",
+      "officialFormId": "LA-CCRP-ART-993",
+      "order": 5,
+      "generated": false
+    },
+    {
+      "componentId": "la-976-arrest-no-conviction-instructions-6",
+      "documentId": "la-976-arrest-no-conviction-instructions-6",
+      "title": "Article 976 Participant and Filing Instructions",
+      "role": "instructions",
+      "requirement": "required",
+      "outputStrategy": "process_guidance",
+      "officialFormId": null,
+      "order": 6,
+      "generated": true
+    }
+  ],
+  "conditionalComponentGenerated": {
+    "componentId": "la-976-arrest-no-conviction-fee-waiver-4",
+    "officialFormId": "LA-CCRP-ART-988",
+    "conditionTheRecordStates": "Generated wherever the participant may qualify for the Article 983(F) exemption, which on this track is common.",
+    "whyTheConditionIsMetOnThisTrack": "the Article 983(F) grounds are non-conviction grounds and this is the non-conviction track; the committed fee rule states the exemption is very often available on this track and must be screened before filing rather than after; the committed legal-design limitation directs that every participant on this track is routed through Article 988 before filing; and item 2 of the packet set's own required-before-filing list tells the participant the packet gives them the Article 988 form with their own fields filled in.",
+    "whatIsWrittenOnIt": "only the participant-owned identifying fields the committed manual-completion record names, of which the platform holds the mover's name, date of birth, date of arrest and docket number; the last four digits of the Social Security number and the original arrest charge are the participant's and print blank.",
+    "whatIsNotWrittenOnIt": "every certification box and the district attorney's signature, which the form's own instruction assigns to the district attorney or a designee."
+  },
+  "componentsNotGenerated": [
+    {
+      "componentId": "la-976-arrest-no-conviction-continuation-5",
+      "role": "continuation",
+      "requirement": "conditional",
+      "officialFormId": "LA-CCRP-ART-993",
+      "conditionTheRecordStates": "Used only where the arrest carries more charges or counts than the Article 989 motion's own fields hold.",
+      "generated": false,
+      "whyNotGenerated": "the stated condition is a count that exceeds the Article 989 motion's own fields, and neither fixture establishes it; independently, Article 993 is not in this family's composedFromAuthority grant and the committed legal-design note states in terms that no template exists, none is counsel-approved and no implementation is authorized. The instructions tell a participant with more counts than the motion holds to ask the clerk for the statutory sheet."
+    }
+  ],
+  "participantInstructions": "data/rcap-all50/overlays/census-v1/la/la-976-arrest-no-conviction-set--official-pdf-fill/participant-instructions.md",
+  "filingInstructions": "data/rcap-all50/overlays/census-v1/la/la-976-arrest-no-conviction-set--official-pdf-fill/filing-instructions.md"
+}

@@ -4,6 +4,30 @@ import fs from "node:fs";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
 
+import { prepareHostedAcceptanceEvidenceLayout } from "./rcap-hosted-acceptance-evidence-layout.mjs";
+import { completeHostedCheckout, STRIPE_TEST_CARD } from "./rcap-stripe-checkout-browser.mjs";
+import { captureSurface, reviewJourneyCopy } from "./rcap-journey-copy-review.mjs";
+
+/** Customer-facing text from the screens that only exist after payment. */
+const postPaymentCopy = [];
+
+/** A Cookie header, as Playwright wants it for one origin. */
+function playwrightCookies(header, origin) {
+  if (!header) return [];
+  const { hostname } = new URL(origin);
+  return String(header).split(/;\s*/).map((pair) => {
+    const index = pair.indexOf("=");
+    if (index < 1) return null;
+    return { name: pair.slice(0, index), value: pair.slice(index + 1), domain: hostname, path: "/" };
+  }).filter(Boolean);
+}
+import {
+  HOSTED_VERCEL_TEAM_SLUG,
+  hostedVercelCliEnvironment,
+  hostedVercelScopedUrl,
+  resolveHostedVercelIdentity
+} from "./rcap-hosted-acceptance-vercel-identity.mjs";
+
 // Hosted acceptance staging — the Stripe payment and packet-delivery journey.
 //
 // Runs against the DEPLOYED Preview instance and the hosted acceptance Supabase
@@ -30,19 +54,35 @@ const { buildRenderJobSpec, validateRenderOutput } = await import("../src/lib/rc
 const { consumerPacketPriceCents } = await import("../src/lib/expungement-ai/payment-adapter.ts");
 
 const rootDir = process.cwd();
-const EVIDENCE_DIR = path.join(rootDir, "hosted-acceptance-evidence");
-fs.mkdirSync(EVIDENCE_DIR, { recursive: true });
+const { root: EVIDENCE_DIR } = prepareHostedAcceptanceEvidenceLayout({ rootDir });
 
 const SUPABASE_ACCESS_TOKEN = process.env.SUPABASE_ACCESS_TOKEN ?? "";
 const PROJECT_REF = process.env.ACCEPTANCE_SUPABASE_PROJECT_REF ?? "";
 const APPLICATION_SHA = process.env.HOSTED_APPLICATION_SHA ?? "";
+const EXACT_DEPLOYMENT_ID = process.env.HOSTED_PREVIEW_DEPLOYMENT_ID ?? "";
+const EXACT_PREVIEW_HOSTNAME = (process.env.HOSTED_PREVIEW_HOSTNAME ?? "").replace(/^https?:\/\//, "").replace(/\/+$/, "");
 const WORKER_DIGEST_REF = process.env.HOSTED_WORKER_DIGEST_REF ?? "";
 const VERCEL_TOKEN = process.env.VERCEL_TOKEN ?? "";
-const VERCEL_ORG_ID = process.env.VERCEL_ORG_ID ?? "";
-const VERCEL_PROJECT_ID = process.env.VERCEL_PROJECT_ID ?? "";
 const BYPASS = (process.env.VERCEL_AUTOMATION_BYPASS_SECRET ?? "").trim();
 const STRIPE_KEY = process.env.HOSTED_STRIPE_TEST_SECRET ?? "";
+// One discount variant per run, so the same journey proves each case end to end
+// rather than a separate near-copy of it existing per discount shape. Empty
+// means the ordinary $50 order.
+const PROMOTION_CODE = (process.env.HOSTED_STRIPE_PROMOTION_CODE ?? "").trim() || null;
+// The catalog Product this run's coupon is restricted to. The released
+// correction exists so that a product-restricted coupon can match the line
+// item; without asserting the product, a passing discount would only show that
+// SOME coupon applied to SOMETHING, which is what the defect already did.
+const CATALOG_PRODUCT_ID = (process.env.HOSTED_STRIPE_CATALOG_PRODUCT_ID ?? "").trim() || null;
+// Nothing here declares what a code is worth. Promotion codes are created and
+// managed in the Stripe Dashboard; this run types one into Stripe's own field
+// and then believes Stripe about the result, including whether the order ended
+// at zero. Issuing a new code requires no change here and no deployment.
+// Lets one run prove a non-Mississippi purchase without duplicating this
+// journey per state. Empty keeps the existing behaviour.
+const JOURNEY_STATE = (process.env.HOSTED_JOURNEY_STATE ?? "").trim().toUpperCase();
 const WEBHOOK_SECRET = process.env.HOSTED_STRIPE_TEST_WEBHOOK_SECRET ?? "";
+const EXPECTED_PROJECT_REF = "hyflxnlhpmiqxvvcoiia";
 
 const SUPABASE_URL = `https://${PROJECT_REF}.supabase.co`;
 
@@ -74,10 +114,16 @@ const SUPABASE_URL = `https://${PROJECT_REF}.supabase.co`;
  */
 const WORKER_PARTNER_DATA_FLAG = "true";
 
-if (!SUPABASE_ACCESS_TOKEN || !/^[a-z]{20}$/.test(PROJECT_REF) || !VERCEL_TOKEN) {
-  console.error("PAYMENT: SUPABASE_ACCESS_TOKEN, ACCEPTANCE_SUPABASE_PROJECT_REF and VERCEL_TOKEN are required");
+if (!SUPABASE_ACCESS_TOKEN
+  || PROJECT_REF !== EXPECTED_PROJECT_REF
+  || !VERCEL_TOKEN
+  || !/^[0-9a-f]{40}$/.test(APPLICATION_SHA)
+  || !/^dpl_[A-Za-z0-9]+$/.test(EXACT_DEPLOYMENT_ID)
+  || !/^[A-Za-z0-9.-]+\.vercel\.app$/.test(EXACT_PREVIEW_HOSTNAME)) {
+  console.error("PAYMENT: acceptance credentials, final application SHA, and one exact resolved Preview identity are required");
   process.exit(1);
 }
+const VERCEL_IDENTITY = await resolveHostedVercelIdentity({ token: VERCEL_TOKEN });
 if (!STRIPE_KEY.startsWith("sk_test_") || !WEBHOOK_SECRET.startsWith("whsec_")) {
   console.error("PAYMENT: a sandbox Stripe secret key (sk_test_) and signing secret (whsec_) are required; refusing to run a payment journey without them");
   process.exit(1);
@@ -130,6 +176,19 @@ const REQUIRED_CASES = [
   "packet_contract_is_provable_before_checkout",
   "unpaid_render_is_refused_for_payment",
   "checkout_session_created_against_stripe_sandbox",
+  "customer_completed_the_hosted_checkout_page",
+  // Stripe decides the discount and says whether the purchase completed.
+  "stripe_confirmed_the_discounted_purchase",
+  // Required exactly when this run is proving the catalog-product path. A case
+  // that runs only when it happens to be configured is not a gate, and this is
+  // the case the release turns on.
+  ...((process.env.HOSTED_STRIPE_CATALOG_PRODUCT_ID ?? "").trim() ? ["checkout_line_item_is_on_the_catalog_product"] : []),
+  // Stripe itself delivered the completion event to the application. The signed
+  // events below this line are constructed by this harness and are a separate
+  // kind of evidence.
+  "stripe_delivered_the_completion_event_itself",
+  // Read only after that delivery, so ordinary webhook timing cannot fail it.
+  "fulfillment_honours_the_stripe_confirmed_total",
   "forged_webhook_signature_is_rejected",
   "signed_webhook_records_the_payment",
   "payment_is_server_authoritative_in_the_database",
@@ -140,20 +199,183 @@ const REQUIRED_CASES = [
   "person_and_matter_are_bound_on_the_render_job",
   "artifact_is_stored_privately_and_re_readable",
   "delivery_serves_the_owner_and_refuses_everyone_else",
-  "event_replay_creates_no_second_entitlement_or_render_job"
+  "event_replay_creates_no_second_entitlement_or_render_job",
+  // The RESUMED order. Every case above reaches checkout on a matter that never
+  // had one; the production failure was on a matter that already carried a
+  // Checkout Session id, which is a code path a fresh journey never executes.
+  // These are required, not advisory: an unproven resumed order is what shipped
+  // a 500 to a verified participant.
+  "resumed_checkout_reuses_the_open_session",
+  "resumed_checkout_refuses_an_unresolvable_stored_session_it_cannot_verify",
+  ...(CATALOG_PRODUCT_ID ? ["resumed_checkout_replaces_an_incompatible_open_session"] : []),
+  "resumed_checkout_never_duplicates_a_completed_order"
 ];
 
 const bypassHeaders = BYPASS ? { "x-vercel-protection-bypass": BYPASS } : {};
 
 async function vercelApi(pathname) {
-  const joiner = pathname.includes("?") ? "&" : "?";
-  const param = VERCEL_ORG_ID.startsWith("team_") ? "teamId" : "slug";
-  const res = await fetch(`https://api.vercel.com${pathname}${joiner}${param}=${encodeURIComponent(VERCEL_ORG_ID)}`, {
+  const res = await fetch(hostedVercelScopedUrl(pathname, VERCEL_IDENTITY), {
     headers: { Authorization: `Bearer ${VERCEL_TOKEN}` }
   });
   let json = null;
   try { json = JSON.parse(await res.text()); } catch { /* non-JSON surfaces as null */ }
   return { status: res.status, json };
+}
+
+/**
+ * Read-only diagnostics for a 5xx from the deployed application. The Vercel
+ * runtime log is the only place the application's own console.error for a
+ * failed webhook or render lands; the Management API readback names which
+ * consumer-launch RPCs the acceptance project actually holds. Neither writes
+ * anything; both are sanitized before they reach the evidence.
+ */
+async function runtimeLogExcerpt(sinceMs, needles) {
+  try {
+    // The endpoint streams NDJSON and never closes on its own; read what has
+    // arrived within a deadline, then abort the stream and parse that.
+    const controller = new AbortController();
+    const deadline = setTimeout(() => controller.abort(), 15000);
+    let res;
+    try {
+      res = await fetch(hostedVercelScopedUrl(
+        `/v1/projects/${encodeURIComponent(VERCEL_IDENTITY.projectId)}/deployments/${encodeURIComponent(EXACT_DEPLOYMENT_ID)}/runtime-logs`,
+        VERCEL_IDENTITY
+      ), { headers: { Authorization: `Bearer ${VERCEL_TOKEN}` }, signal: controller.signal });
+    } catch (error) {
+      clearTimeout(deadline);
+      return `runtime-logs unavailable: ${redactSecrets(String(error?.message ?? error)).slice(0, 160)}`;
+    }
+    let text = "";
+    try {
+      const reader = res.body?.getReader();
+      const decoder = new TextDecoder();
+      while (reader) {
+        const { value, done } = await reader.read();
+        if (done) break;
+        text += decoder.decode(value, { stream: true });
+        if (text.length > 2_000_000) break;
+      }
+    } catch { /* aborted at the deadline: keep what arrived */ }
+    clearTimeout(deadline);
+    if (res.status !== 200) return `runtime-logs HTTP ${res.status}: ${redactSecrets(text).slice(0, 160)}`;
+    const lines = text.split("\n").map((line) => { try { return JSON.parse(line); } catch { return null; } }).filter(Boolean);
+    const hits = lines.filter((entry) => {
+      const at = Number(entry.timestampInMs ?? entry.timestamp ?? 0);
+      const message = String(entry.message ?? "");
+      return at >= sinceMs && needles.some((needle) => message.includes(needle));
+    }).slice(-6).map((entry) => `[${entry.level ?? "?"}] ${redactSecrets(String(entry.message ?? "")).slice(0, 400)}`);
+    return hits.length ? hits.join(" || ") : `runtime-logs returned ${lines.length} entries, none matching ${needles.join("/")} since ${new Date(sinceMs).toISOString()}`;
+  } catch (error) {
+    return `runtime-logs unavailable: ${redactSecrets(String(error?.message ?? error)).slice(0, 160)}`;
+  }
+}
+
+/**
+ * The acceptance project's own Postgres error log, read through the Management
+ * API analytics endpoint. An RPC that raises inside PL/pgSQL leaves its message
+ * here and nowhere the application's response can carry it.
+ */
+async function postgresErrorLogExcerpt(sinceIso) {
+  try {
+    const query = `select timestamp, event_message from postgres_logs where timestamp > '${sinceIso}' and (event_message like '%ERROR%' or event_message like '%enqueue_verified%' or event_message like '%consumer render%') order by timestamp desc limit 8`;
+    const res = await fetch(`https://api.supabase.com/v1/projects/${PROJECT_REF}/analytics/endpoints/logs.all?sql=${encodeURIComponent(query)}`, {
+      headers: { Authorization: `Bearer ${SUPABASE_ACCESS_TOKEN}` }, signal: AbortSignal.timeout(20000)
+    });
+    const text = await res.text();
+    if (res.status !== 200) return `postgres-logs HTTP ${res.status}: ${redactSecrets(text).slice(0, 200)}`;
+    let json; try { json = JSON.parse(text); } catch { return `postgres-logs non-JSON: ${redactSecrets(text).slice(0, 200)}`; }
+    const rows = Array.isArray(json?.result) ? json.result : Array.isArray(json) ? json : [];
+    return rows.length ? rows.map((row) => `${row.timestamp ?? ""} ${redactSecrets(String(row.event_message ?? "")).slice(0, 300)}`).join(" || ") : "postgres-logs: no matching entries";
+  } catch (error) {
+    return `postgres-logs unavailable: ${redactSecrets(String(error?.message ?? error)).slice(0, 160)}`;
+  }
+}
+
+/**
+ * Replays the application's own enqueue from this runner, with the
+ * application's own server functions and the same RPC parameters, so the
+ * Postgres error the deployed route swallows into "queue refused" is printed.
+ * Runs only after the deployed route has already answered a non-202, against
+ * the acceptance project only. If it succeeds it creates one render job for
+ * this run's already-paid synthetic item; that job is a diagnostic, never the
+ * target of any verdict below.
+ */
+// A personalized (Grade-A) route derives its packet id from the immutable
+// render payload the application builds from the protected verification, not
+// from the consumer-packet namespace. The application's own preparePersonalizedPacket
+// computes it here, on the runner, from the same persisted verification the
+// deployed route will read — so the id is known before anything is charged.
+// Returns null when the resolved route is not a personalized delivery route.
+async function personalizedPacketIdFromRunner(consumer, briefcaseItemId) {
+  const service = await serviceRoleKey();
+  process.env.NEXT_PUBLIC_SUPABASE_URL = SUPABASE_URL;
+  process.env.SUPABASE_SERVICE_ROLE_KEY = service;
+  try {
+    const { currentPersonalizedVerification, preparePersonalizedPacket, isPersonalizedDeliveryRoute } = await import("../src/lib/rcap/render/personalized-packet.ts");
+    const { resolveConsumerPersonId, consumerMatterIdForItem } = await import("../src/lib/expungement-ai/consumer-identity.ts");
+    const verification = await currentPersonalizedVerification(consumer.id, briefcaseItemId);
+    const routeId = `${verification.snapshot.jurisdiction}:${verification.snapshot.pathwayId}`;
+    if (!isPersonalizedDeliveryRoute(routeId)) return null;
+    const person = await resolveConsumerPersonId(consumer.id);
+    if (!person.ok) throw new Error(`personalized packet id: person unresolved — ${redactSecrets(String(person.reason)).slice(0, 200)}`);
+    const prepared = preparePersonalizedPacket({
+      authUserId: consumer.id, briefcaseItemId, personId: person.personId, matterId: consumerMatterIdForItem(briefcaseItemId),
+      verificationHash: verification.hash, snapshot: verification.snapshot
+    });
+    return prepared.spec.packetId;
+  } finally {
+    delete process.env.SUPABASE_SERVICE_ROLE_KEY;
+  }
+}
+
+async function replayEnqueueFromRunner(consumer, briefcaseItemId) {
+  const service = await serviceRoleKey();
+  process.env.NEXT_PUBLIC_SUPABASE_URL = SUPABASE_URL;
+  process.env.SUPABASE_SERVICE_ROLE_KEY = service;
+  try {
+    const { currentPersonalizedVerification, preparePersonalizedPacket, isPersonalizedDeliveryRoute } = await import("../src/lib/rcap/render/personalized-packet.ts");
+    const { resolveConsumerPersonId, consumerMatterIdForItem } = await import("../src/lib/expungement-ai/consumer-identity.ts");
+    const { getSupabaseAdminClient } = await import("../src/lib/supabase/server.ts");
+    const verification = await currentPersonalizedVerification(consumer.id, briefcaseItemId);
+    const routeId = `${verification.snapshot.jurisdiction}:${verification.snapshot.pathwayId}`;
+    if (!isPersonalizedDeliveryRoute(routeId)) return `replay: ${routeId} is not a personalized delivery route; the application's enqueue took the non-personalized path`;
+    const person = await resolveConsumerPersonId(consumer.id);
+    if (!person.ok) return `replay: person unresolved — ${redactSecrets(String(person.reason)).slice(0, 200)}`;
+    const matterId = consumerMatterIdForItem(briefcaseItemId);
+    const prepared = preparePersonalizedPacket({
+      authUserId: consumer.id, briefcaseItemId, personId: person.personId, matterId,
+      verificationHash: verification.hash, snapshot: verification.snapshot
+    });
+    const supabase = getSupabaseAdminClient();
+    if (!supabase) return "replay: admin client unavailable on the runner";
+    const { data, error } = await supabase.rpc("enqueue_verified_consumer_packet_render", {
+      p_packet_id: prepared.spec.packetId, p_route_id: prepared.spec.routeId,
+      p_renderer_kind: prepared.spec.rendererKind, p_renderer_version: prepared.spec.rendererVersion,
+      p_source_sha256: prepared.spec.sourceSha256, p_profile_id: prepared.spec.profileId,
+      p_profile_version: prepared.spec.profileVersion, p_input_hash: prepared.spec.inputHash,
+      p_briefcase_item_id: prepared.spec.briefcaseItemId, p_person_id: person.personId, p_matter_id: matterId,
+      p_max_attempts: 5, p_consumer_briefcase_item_id: briefcaseItemId,
+      p_expected_consumer_auth_user_id: consumer.id, p_expected_verification_hash: verification.hash,
+      p_render_packet: prepared.payload.renderPacket, p_render_input_payload: prepared.payload.renderInputPayload
+    });
+    if (error) return `replay RPC error: code=${error.code ?? "?"} message=${redactSecrets(String(error.message ?? "")).slice(0, 300)} details=${redactSecrets(String(error.details ?? "")).slice(0, 200)} hint=${redactSecrets(String(error.hint ?? "")).slice(0, 120)}`;
+    const row = Array.isArray(data) ? data[0] : data;
+    return `replay RPC succeeded from the runner (diagnostic job ${row?.id ?? "(no id)"}); the deployed route's refusal is environmental, not the database's`;
+  } catch (error) {
+    return `replay threw: ${redactSecrets(String(error?.message ?? error)).slice(0, 300)}`;
+  } finally {
+    delete process.env.SUPABASE_SERVICE_ROLE_KEY;
+  }
+}
+
+async function consumerLaunchSchemaReadback() {
+  const rpcs = ["enqueue_verified_consumer_packet_render", "persist_consumer_packet_verification", "get_consumer_packet_verification_authority", "get_consumer_packet_artifact_authority", "attach_consumer_packet_artifact_if_verified"];
+  const present = await sql(`select p.proname from pg_proc p join pg_namespace n on n.oid = p.pronamespace where n.nspname = 'public' and p.proname in (${rpcs.map((name) => `'${name}'`).join(",")}) order by 1`);
+  const ledger = await sql(`select phase from public.rcap_acceptance_migration_ledger order by phase`);
+  const signature = await sql(`select pg_get_function_identity_arguments(p.oid) as args from pg_proc p join pg_namespace n on n.oid = p.pronamespace where n.nspname = 'public' and p.proname = 'enqueue_verified_consumer_packet_render'`);
+  const have = new Set((Array.isArray(present.json) ? present.json : []).map((row) => row.proname));
+  const args = (Array.isArray(signature.json) ? signature.json : []).map((row) => String(row.args ?? "").replace(/\s+/g, " ")).join(" | ") || "(no signature)";
+  return `consumer-launch RPCs present=[${rpcs.filter((name) => have.has(name)).join(",")}] missing=[${rpcs.filter((name) => !have.has(name)).join(",")}]; enqueue_verified_consumer_packet_render(${args.slice(0, 600)}); acceptance migration ledger phases=[${(Array.isArray(ledger.json) ? ledger.json : []).map((row) => row.phase).join(",")}]`;
 }
 
 async function sql(query) {
@@ -282,6 +504,13 @@ function finish() {
   evidence.requiredCases = REQUIRED_CASES;
   evidence.missingCases = missing;
   evidence.failedCases = failed;
+  // The observation, not just the case name. A failing case is decided
+  // hundreds of log lines before the job ends, behind every later step's
+  // output; carrying the verdicts into the evidence file lets the end of the
+  // job reprint the one fact that matters instead of burying it.
+  evidence.cases = Object.fromEntries(
+    [...verdicts.entries()].map(([id, v]) => [id, { passed: v.passed, observed: v.observed }])
+  );
   evidence.passed = missing.length === 0 && failed.length === 0;
   fs.writeFileSync(path.join(EVIDENCE_DIR, "payment.json"), `${JSON.stringify(evidence, null, 2)}\n`);
   console.log("");
@@ -291,26 +520,39 @@ function finish() {
   process.exit(evidence.passed ? 0 : 1);
 }
 
-// --- 1. The deployment that actually carries Stripe --------------------------
+// --- 1. The one resolved deployment that actually carries Stripe -------------
 {
-  const res = await vercelApi(`/v6/deployments?projectId=${encodeURIComponent(VERCEL_PROJECT_ID)}&limit=100&state=READY`);
-  const match = (Array.isArray(res.json?.deployments) ? res.json.deployments : []).find(
-    (d) => (d.readyState ?? d.state) === "READY"
-      && d.target !== "production"
-      && d.meta?.rcapApplicationSha === APPLICATION_SHA
-      && d.meta?.rcapStripeConfigured === "true"
-      && d.meta?.rcapRouteState === "staging_scoped"
-  );
-  PREVIEW = match ? `https://${match.url}` : "";
+  const res = await vercelApi(`/v13/deployments/${encodeURIComponent(EXACT_DEPLOYMENT_ID)}`);
+  const match = res.json;
+  // The resolution boundary hands this run the deterministic SHA-scoped return
+  // alias, not the deployment's immutable URL, so the hostname is bound to the
+  // deployment the way the resolver binds it: Vercel must resolve that exact
+  // hostname to this exact deployment id. An immutable URL still matches directly.
+  let hostnameBoundToDeployment = match?.url === EXACT_PREVIEW_HOSTNAME;
+  if (!hostnameBoundToDeployment) {
+    const aliased = await vercelApi(`/v13/deployments/${encodeURIComponent(EXACT_PREVIEW_HOSTNAME)}`);
+    hostnameBoundToDeployment = aliased.status === 200 && (aliased.json?.id ?? aliased.json?.uid) === EXACT_DEPLOYMENT_ID;
+  }
+  const exact = res.status === 200
+    && match?.id === EXACT_DEPLOYMENT_ID
+    && hostnameBoundToDeployment
+    && (match?.readyState ?? match?.state) === "READY"
+    && (match?.target === null || match?.target === "preview")
+    && match?.meta?.rcapApplicationSha === APPLICATION_SHA
+    && match?.meta?.rcapAcceptanceProjectRef === PROJECT_REF
+    && match?.meta?.rcapStripeConfigured === "true"
+    && match?.meta?.rcapRouteState === "staging_scoped";
+  PREVIEW = exact ? `https://${EXACT_PREVIEW_HOSTNAME}` : "";
   record(
     "payment_preview_deployment_discovered",
     Boolean(PREVIEW),
     PREVIEW
       ? `${PREVIEW} — READY, non-production, built WITH Stripe configuration and the scoped delivery state`
-      : "no READY non-production deployment of this SHA carries rcapStripeConfigured=true and rcapRouteState=staging_scoped; the payment journey would otherwise have run against a deployment that cannot transact"
+      : `resolved deployment ${EXACT_DEPLOYMENT_ID} does not carry the exact READY Stripe/scoped candidate contract`
   );
   if (!PREVIEW) finish();
   evidence.previewUrl = PREVIEW;
+  evidence.previewDeploymentId = EXACT_DEPLOYMENT_ID;
 }
 
 // --- 1b. The bypass MUST reach the application -------------------------------
@@ -358,21 +600,21 @@ function finish() {
       const cookies = cookieShapes(res);
       return {
         label,
-        url: sanitize(url),
+        url: redactSecrets(url),
         status: res.status,
-        location: sanitize(res.headers.get("location") ?? "(none)"),
+        location: redactSecrets(res.headers.get("location") ?? "(none)"),
         contentType: res.headers.get("content-type") ?? "(none)",
         server: res.headers.get("server") ?? "(none)",
         vercelId: res.headers.get("x-vercel-id") ?? "(none)",
         vercelCache: res.headers.get("x-vercel-cache") ?? "(none)",
         cookieNames: cookies.map((c) => c.name),
         cookies,
-        bodyHead: sanitize(body).slice(0, 200),
+        bodyHead: redactSecrets(body).slice(0, 200),
         isApplicationJson: res.status === 200 && json !== null && typeof json === "object" && "checks" in json
       };
     } catch (error) {
       return {
-        label, url: sanitize(url), status: `unreachable: ${error.message}`,
+        label, url: redactSecrets(url), status: `unreachable: ${error.message}`,
         location: "(none)", contentType: "(none)", server: "(none)",
         vercelId: "(none)", vercelCache: "(none)",
         cookieNames: [], cookies: [], bodyHead: "", isApplicationJson: false
@@ -417,10 +659,15 @@ function finish() {
       "vercel@latest", "curl", "/api/health",
       "--deployment", PREVIEW,
       "--token", process.env.VERCEL_TOKEN ?? "",
-      "--scope", VERCEL_ORG_ID
-    ], { encoding: "utf8", timeout: 120000, stdio: ["ignore", "pipe", "pipe"] });
+      "--scope", HOSTED_VERCEL_TEAM_SLUG
+    ], {
+      encoding: "utf8",
+      timeout: 120000,
+      stdio: ["ignore", "pipe", "pipe"],
+      env: { ...process.env, ...hostedVercelCliEnvironment(VERCEL_IDENTITY) }
+    });
     const token = process.env.VERCEL_TOKEN ?? "";
-    let out = sanitize(`${run.stdout ?? ""}${run.stderr ?? ""}`);
+    let out = redactSecrets(`${run.stdout ?? ""}${run.stderr ?? ""}`);
     if (token) out = out.split(token).join("***TOKEN***");
     cliControl = run.error
       ? `could not run: ${run.error.code ?? run.error.message}`
@@ -505,10 +752,14 @@ let route = null;
   for (const profile of profiles) {
     for (const pathway of profile.pathways ?? []) {
       const label = pathway.label ?? pathway.id;
+      // The resolver is keyed by the compiled pathway id. The display label
+      // used to double as the id for the legacy generators; since ADR-0004
+      // retired those, a label lookup resolves legacy_retired and can never
+      // reach a factory route, so nothing was ever renderable here.
       const built = buildRenderJobSpec({
         packetId: crypto.randomUUID(),
         state: profile.jurisdiction.code,
-        pathway: label,
+        pathway: pathway.id,
         profileId: profile.jurisdiction.code,
         profileVersion: "1.3.0",
         briefcaseItemId: crypto.randomUUID(),
@@ -516,7 +767,7 @@ let route = null;
         packetFields: {}
       });
       tried.push(`${profile.jurisdiction.code}:${pathway.id}`);
-      if (built.spec) { route = { state: profile.jurisdiction.code, pathwayLabel: label, pathwayId: pathway.id }; break outer; }
+      if (built.spec) { route = { state: profile.jurisdiction.code, pathwayLabel: label, pathwayId: pathway.id, trackId: null }; break outer; }
     }
   }
   // record() takes (caseId, passed, observed). This call passed FOUR arguments:
@@ -599,6 +850,31 @@ const { evaluateAuthoritativeScreeningResult } =
   await import("../src/lib/expungement-ai/authoritative-screening-result.ts");
 const { getProfileByJurisdiction } = await import("../src/lib/rcap-engine/profile-registry.ts");
 const { projectPublicProfile } = await import("../src/lib/rcap-engine/public-profile-projection.ts");
+const { packetFulfillmentAuthority } =
+  await import("../src/lib/expungement-ai/packet-fulfillment-authority.ts");
+
+/**
+ * The approved participant facts the Grade-A record's fixture was proven with.
+ * The composer requires the exact filing facts; synthetic answers satisfy the
+ * screening model but not the packet. Read from the committed registry so the
+ * facts follow whichever route the authority admits, never a hardcoded state.
+ */
+function approvedParticipantFactsFor(state, pathwayId) {
+  try {
+    const registry = JSON.parse(fs.readFileSync(path.join(rootDir, "data/rcap-grade-a/fulfillment-authority-registry.json"), "utf8"));
+    const record = (registry.records ?? []).find((r) => r.routeId === `${state}:${pathwayId}` && !r.supersededBy);
+    const fixtureId = record?.fixture?.fixtureId;
+    if (!fixtureId) return {};
+    const dir = path.join(rootDir, "data/rcap-ledger/grade-a");
+    for (const name of fs.readdirSync(dir)) {
+      if (!name.endsWith(".fixture.json")) continue;
+      const fixture = JSON.parse(fs.readFileSync(path.join(dir, name), "utf8"));
+      const matches = fixture.fixtureId === fixtureId || name.replace(/\.fixture\.json$/, "").replace(/\./g, "-") === fixtureId;
+      if (matches && fixture.facts && typeof fixture.facts === "object") return fixture.facts;
+    }
+  } catch { /* no approved fixture: the model's own answers stand */ }
+  return {};
+}
 
 // Answers that carry meaning rather than merely satisfying a type. A route sold
 // as a non-conviction expungement must not be seeded with a felony conviction,
@@ -629,6 +905,30 @@ const PREFERRED_ANSWERS = {
   disposition_date: "2005-01-10",
   participant_full_legal_name: "Acceptance Test Participant",
   contact_information: "hosted-acceptance@example.test"
+};
+
+// docs/RCAP_ROUTE_REACHABILITY.md prints, per route, one answer set under which
+// the authoritative evaluator reaches a sellable packet. Seeding a journey with
+// the recorded witness for that jurisdiction is not a way around the evaluator:
+// every answer below is fed to evaluateAuthoritativeScreeningResult exactly like
+// any other, the same paymentAllowed === true test decides sellability, and the
+// Grade-A fulfillment authority still has to allow checkout. It only stops the
+// search from converging on the single preferred-answer path — which is how an
+// Illinois route the report proves sellable looked unsellable to an earlier
+// sweep: its witness needs a FELONY offense level and a named pathway context,
+// and the preferred path answers misdemeanor.
+const DIRECTED_WITNESS_ANSWERS = {
+  IL: {
+    possible_pathway_context: "Felony-prostitution relief",
+    case_outcome: "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+    offense_level: "Felony",
+    age_at_offense: "72",
+    resolved_timing_bucket: "years_2_to_3",
+    record_documents: "Yes",
+    state_exclusion_categories: ["None of these"],
+    trafficking_status: "No",
+    pardon_status: "No"
+  }
 };
 
 function publicQuestionIndex(profile) {
@@ -677,18 +977,21 @@ function convergeSellableScreening(state) {
     jurisdiction_scope: PREFERRED_ANSWERS.jurisdiction_scope,
     case_outcome: PREFERRED_ANSWERS.case_outcome,
     offense_level: PREFERRED_ANSWERS.offense_level,
-    disposition_date: PREFERRED_ANSWERS.disposition_date
+    disposition_date: PREFERRED_ANSWERS.disposition_date,
+    ...(DIRECTED_WITNESS_ANSWERS[state] ?? {})
   };
   let last = null;
   for (let round = 0; round < 16; round += 1) {
     let evaluation;
+    let authoritative;
     try {
-      evaluation = evaluateAuthoritativeScreeningResult({
+      authoritative = evaluateAuthoritativeScreeningResult({
         jurisdiction: state,
         profileVersion: profile.profileVersion,
         matterId: itemId,
         answers
-      }).evaluation;
+      });
+      evaluation = authoritative.evaluation;
     } catch (error) {
       // Packet-only fields are not evaluator questions. Drop exactly the ids it
       // names and re-ask; every recognised route fact stays.
@@ -700,7 +1003,18 @@ function convergeSellableScreening(state) {
     const sellable = (evaluation.resultCode === "packet_ready" || evaluation.resultCode === "packet_ready_with_caution")
       && evaluation.paymentAllowed === true
       && typeof evaluation.pathwayId === "string";
-    if (sellable) return { state, evaluation, answers, profile };
+    if (sellable) {
+      // The evaluator's payment gate is one of two: the deployed Checkout route
+      // also asks the Grade-A fulfillment authority, bound to the track the
+      // server selected. A route the authority refuses is not a route this
+      // journey can sell, however the screening came out.
+      const selectedTrackId = authoritative.selectedTrackId ?? null;
+      const authority = packetFulfillmentAuthority(state, evaluation.pathwayId, "checkout creation", { trackId: selectedTrackId });
+      if (!authority.allowed) {
+        return { state, failure: `${evaluation.pathwayId} (track ${selectedTrackId ?? "none"}): Grade-A authority refuses checkout creation — ${authority.reason}` };
+      }
+      return { state, evaluation, answers, profile, authoritative, selectedTrackId };
+    }
     const missing = evaluation.missingQuestionIds ?? [];
     if (!missing.length) {
       return {
@@ -708,7 +1022,10 @@ function convergeSellableScreening(state) {
         failure: `${evaluation.resultCode} with nothing further to answer (${(evaluation.reasons ?? []).map((r) => r.code).join(",") || "no reason given"})`
       };
     }
-    for (const id of missing) answers[id] = answerForQuestion(questions.get(id), id);
+    const witness = DIRECTED_WITNESS_ANSWERS[state] ?? {};
+    for (const id of missing) {
+      answers[id] = witness[id] !== undefined ? witness[id] : answerForQuestion(questions.get(id), id);
+    }
   }
   return { state, failure: `did not settle in 16 rounds; last ${last?.resultCode ?? "(none)"}` };
 }
@@ -725,7 +1042,9 @@ function buildReviewedFlow(settled) {
     title: "hosted acceptance payment journey",
     state,
     status: "packet_ready",
-    resultCode: "packet_ready",
+    // The item's result code is compared against a fresh evaluation at review
+    // time; packet_ready and packet_ready_with_caution are both sellable.
+    resultCode: evaluation.resultCode,
     createdAt: new Date().toISOString(),
     summary: "hosted acceptance payment journey",
     nextSteps: [],
@@ -738,7 +1057,56 @@ function buildReviewedFlow(settled) {
   const model = packetInformationModelFor(baseItem);
   if (!model) return { failure: `${state}: no packet-information model for ${pathway.pathwayLabel}` };
 
+  // Precedence: the converged screening answers, then the model's own
+  // questions, then the approved fixture facts for whatever the model never
+  // asks. The application re-evaluates {...screening, ...packet} at review
+  // time, so an approved fact that overrode an evaluator answer (a different
+  // disposition date, a structured value) would move the authoritative route
+  // and fail review safety — which is what run 35034822479 measured.
+  //
+  // Precedence, highest first: the converged screening answers (the evaluator
+  // questions, which fix the authoritative route); the approved participant
+  // facts the route's Grade-A fixture was proven with (they satisfy the
+  // route's own packet-safety rule, which synthetic answers do not); then a
+  // synthesized answer for anything the model still asks. Fixture dates are
+  // normalized to the ISO form the packet validator requires and kept before
+  // the screening disposition date, exactly as the application's own local
+  // payment verifier seeds its Mississippi fixture.
+  const fixtureFacts = approvedParticipantFactsFor(state, model.pathwayId);
+  const questionTypes = new Map(model.questions.map((question) => [question.id, question.type]));
+  const evaluatorQuestions = publicQuestionIndex(profile);
+  const isoDate = (value) => {
+    const text = String(value && typeof value === "object" ? value.value ?? "" : value ?? "").trim();
+    if (/^\d{4}-\d{2}-\d{2}$/.test(text)) return text;
+    const parsed = new Date(text);
+    return Number.isNaN(parsed.getTime()) ? null : parsed.toISOString().slice(0, 10);
+  };
+  const dispositionDate = isoDate(answers.disposition_date) ?? "2005-01-10";
   const packetAnswers = { ...answers };
+  for (const [factId, value] of Object.entries(fixtureFacts)) {
+    // Ids this harness answers itself keep the preferred answer, which is what
+    // the application's fallback packet questions (a fixed choice list for
+    // record_type, a date for disposition_date) validate against.
+    if (factId in packetAnswers || factId in PREFERRED_ANSWERS) continue;
+    if (questionTypes.get(factId) === "date_or_unknown" || /(_date|date_of_birth)$/.test(factId)) {
+      const iso = isoDate(value);
+      if (!iso) continue;
+      // An arrest or offense recorded after the disposition the screening
+      // settled on would contradict the route; keep the chronology coherent.
+      packetAnswers[factId] = factId !== "date_of_birth" && iso > dispositionDate
+        ? `${Number(dispositionDate.slice(0, 4)) - 1}${dispositionDate.slice(4)}`
+        : iso;
+      continue;
+    }
+    // A fixture fact that is not one of the question's choices — the packet
+    // model's or the evaluator's public question's — would fail validation;
+    // the synthesized preferred choice stands instead.
+    const choiceQuestions = [model.questions.find((candidate) => candidate.id === factId), evaluatorQuestions.get(factId)]
+      .filter((question) => question?.options?.length && (question.type === "single_choice" || question.type === "multi_select"));
+    const values = Array.isArray(value) ? value : [value];
+    if (choiceQuestions.some((question) => !values.every((candidate) => question.options.includes(candidate)))) continue;
+    packetAnswers[factId] = value;
+  }
   for (const question of model.questions) {
     if (!(question.id in packetAnswers)) packetAnswers[question.id] = answerForQuestion(question, question.id);
   }
@@ -751,9 +1119,11 @@ function buildReviewedFlow(settled) {
       profileVersion: profile.profileVersion,
       pathwayId: model.pathwayId,
       pathwayLabel: model.pathwayLabel,
-      resultCode: "packet_ready",
-      paymentAllowed: true,
-      packetType: "custom_pleading",
+      // The stored screening must be the evaluator's own verdict; the
+      // application compares it against a fresh evaluation at review time.
+      resultCode: evaluation.resultCode,
+      paymentAllowed: evaluation.paymentAllowed === true,
+      packetType: settled.authoritative?.packetType ?? "custom_pleading",
       packetPlan: model.packetPlan,
       answers
     },
@@ -769,7 +1139,9 @@ function buildReviewedFlow(settled) {
     }
   };
 
-  const reviewedItem = { ...baseItem, artifactRefs: { commercialFlow } };
+  // The review-safety predicate compares the stored track with the one the
+  // server selected, so the item carries it exactly as the seeded row will.
+  const reviewedItem = { ...baseItem, artifactRefs: { commercialFlow, selectedTrackId: settled.selectedTrackId ?? null } };
   const reviewedModel = packetInformationModelFor(reviewedItem);
   const safety = packetInformationReviewSafety(reviewedItem);
   const complete = reviewedModel
@@ -782,7 +1154,11 @@ function buildReviewedFlow(settled) {
       failure: `${state}: stage=${reviewedModel?.stage ?? "(none)"}, missing=${JSON.stringify(reviewedModel?.missingInputIds ?? null)}, reviewedAt=${reviewedModel?.reviewedAt ?? "null"}, safety=${safety.reason}`
     };
   }
-  return { state, pathway, commercialFlow, model: reviewedModel, safety, questionCount: model.questions.length };
+  return {
+    state, pathway, commercialFlow, model: reviewedModel, safety, questionCount: model.questions.length,
+    authoritative: settled.authoritative, selectedTrackId: settled.selectedTrackId ?? null,
+    screeningAnswers: answers, packetAnswers
+  };
 }
 
 // The route the registry offered is tried first; the remaining priority states
@@ -791,7 +1167,13 @@ function buildReviewedFlow(settled) {
 let reviewed = null;
 {
   const attempts = [];
-  const candidates = [route.state, ...["MS", "IL", "PA"].filter((code) => code !== route.state)];
+  // A requested jurisdiction goes first, so the same journey can be pointed at
+  // a non-Mississippi route without a second near-copy of this harness. The
+  // others still follow: if the requested one is not sellable, that is reported
+  // by name in the attempts rather than silently substituted.
+  const requested = JOURNEY_STATE && /^[A-Z]{2}$/.test(JOURNEY_STATE) ? [JOURNEY_STATE] : [];
+  const candidates = [...requested, route.state, ...["MS", "IL", "PA"]]
+    .filter((code, index, all) => all.indexOf(code) === index);
   for (const state of candidates) {
     const settled = convergeSellableScreening(state);
     if (!settled || settled.failure) { attempts.push(`${state}: ${settled?.failure ?? "no profile"}`); continue; }
@@ -819,7 +1201,7 @@ let reviewed = null;
   };
   // The seeded row must describe the route that was proven sellable, not the
   // one the render-spec scan happened to reach first.
-  route = { state: reviewed.state, pathwayLabel: reviewed.pathway.pathwayLabel, pathwayId: reviewed.model.pathwayId };
+  route = { state: reviewed.state, pathwayLabel: reviewed.pathway.pathwayLabel, pathwayId: reviewed.model.pathwayId, trackId: reviewed.selectedTrackId };
   evidence.route = route;
 }
 // --- 2c. Derive every route-specific value from the authorities ---------------
@@ -835,18 +1217,23 @@ const derived = (() => {
   const built = buildRenderJobSpec({
     packetId: crypto.randomUUID(),
     state: route.state,
-    pathway: route.pathwayLabel,
+    pathway: route.pathwayId,
     profileId: route.state,
     // The same profileVersion consumer-render-request pins when it builds the
     // real job, so the spec compared here is the spec that route will produce.
     profileVersion: "1.3.0",
     briefcaseItemId: itemId,
-    trackId: null,
+    trackId: route.trackId ?? null,
     packetFields: {}
   });
+  // Commercial authority is a Grade-A record keyed to this exact route and
+  // track, and nothing else: a factory route resolves "in shadow" with
+  // sellable=false by design, and the deployed Checkout asks the authority.
+  const authority = packetFulfillmentAuthority(route.state, route.pathwayId, "checkout creation", { trackId: route.trackId ?? null });
   // result_code must be one the payment policy admits: isConsumerPaymentAllowed
-  // permits packet_ready and packet_ready_with_caution and nothing else.
-  const resultCode = "packet_ready";
+  // permits packet_ready and packet_ready_with_caution and nothing else — and
+  // it must be the evaluator's own verdict for this matter, not a constant.
+  const resultCode = reviewed.commercialFlow.screening.resultCode;
   // eligibility-adapter's packetTypeForResult: guidance_only -> guidance_packet,
   // packet_ready / packet_ready_with_caution -> custom_pleading.
   const packetType = resultCode === "guidance_only" ? "guidance_packet" : "custom_pleading";
@@ -855,10 +1242,16 @@ const derived = (() => {
     packetType,
     routeKind: built.route?.routeKind ?? null,
     compiledPathwayId: built.route?.pathwayId ?? null,
+    // The pre-charge preflight asks the fulfillment authority for
+    // `pathwayId`; without it the lookup was "MS:" and failed closed
+    // (run 35036769907), so the same compiled id is carried under both names.
+    pathwayId: built.route?.pathwayId ?? null,
     jurisdiction: built.route?.jurisdiction ?? null,
     sellable: built.route?.sellable ?? null,
     creditConsumable: built.route?.creditConsumable ?? null,
-    trackId: built.route?.exactDeferralTrackId ?? null,
+    authorityAllowed: authority.allowed === true,
+    authorityReason: authority.allowed ? (authority.record?.provenBy ?? "proven") : authority.reason,
+    trackId: route.trackId ?? built.route?.exactDeferralTrackId ?? null,
     rendererKind: built.spec?.rendererKind ?? null,
     rendererVersion: built.spec?.rendererVersion ?? null,
     sourceSha256: built.spec?.sourceSha256 ?? null,
@@ -878,10 +1271,10 @@ const seedResult = await sql(`
   insert into public.consumer_briefcase_items
     (id, user_id, item_type, jurisdiction, pathway_label, result_code, packet_type,
      status, summary_json, artifact_refs_json, payment_status, payment_allowed)
-  values ('${itemId}', '${A.id}', 'result', '${route.state}', '${sqlText(route.pathwayLabel)}',
+  values ('${itemId}', '${A.id}', 'result', '${route.state}', '${sqlText(route.pathwayId)}',
           '${derived.resultCode}', '${derived.packetType}',
           'packet_ready', '{"text":"hosted acceptance payment journey"}'::jsonb,
-          '${sqlText(JSON.stringify({ commercialFlow: reviewed.commercialFlow }))}'::jsonb, 'unpaid', true)
+          '${sqlText(JSON.stringify({ commercialFlow: reviewed.commercialFlow, selectedTrackId: reviewed.selectedTrackId ?? null }))}'::jsonb, 'unpaid', true)
   returning id, status, result_code, pathway_label
 `);
 
@@ -920,8 +1313,8 @@ const seedResult = await sql(`
     seeded.pathway_label === derived.compiledPathwayId &&
     derived.jurisdiction === route.state &&
     derived.rendererKind === "packet_document_v1" &&
-    derived.sellable === true &&
-    derived.creditConsumable === true &&
+    derived.routeKind === "factory_v2" &&
+    derived.authorityAllowed === true &&
     derived.profileId === route.state &&
     typeof derived.profileVersion === "string" && derived.profileVersion.length > 0 &&
     derived.routeId === `${route.state}:${derived.compiledPathwayId}`;
@@ -931,12 +1324,79 @@ const seedResult = await sql(`
     `routeKind=${derived.routeKind}; compiled pathway=${JSON.stringify(derived.compiledPathwayId)}; routeId=${JSON.stringify(derived.routeId)}; ` +
     `renderer=${derived.rendererKind}@${derived.rendererVersion}; sourceSha256=${JSON.stringify(derived.sourceSha256)} ` +
     `(null is correct — this route composes its own document and the worker's allowedSourceShas is empty); ` +
-    `profile=${derived.profileId}@${derived.profileVersion}; sellable=${derived.sellable}; creditConsumable=${derived.creditConsumable}; ` +
+    `profile=${derived.profileId}@${derived.profileVersion}; track=${JSON.stringify(derived.trackId)}; resolver sellable=${derived.sellable} (factory routes resolve in shadow); Grade-A authority for checkout creation=${derived.authorityAllowed} (${derived.authorityReason}); ` +
     `stored result_code=${JSON.stringify(seeded.result_code)} vs derived ${JSON.stringify(derived.resultCode)}; ` +
     `stored packet_type derived from result_code as ${JSON.stringify(derived.packetType)} per eligibility-adapter; ` +
     `stored pathway_label=${JSON.stringify(seeded.pathway_label)}`
   );
   if (!agrees) finish();
+
+  // --- 2d. The protected verification the deployed Checkout demands ----------
+  //
+  // Since 89a3ad7d8 (2026-08-26) createConsumerPacketCheckout calls
+  // requireCurrentPacketVerification first, and a seeded item with no
+  // server-persisted protected verification is refused with
+  // protected_verification_missing before any Stripe call. The verification is
+  // produced by the application's own server functions from the authoritative
+  // screening the evaluator just returned, and persisted through the same
+  // CAS RPCs the application uses, against the acceptance project only.
+  {
+    const service = await serviceRoleKey();
+    process.env.NEXT_PUBLIC_SUPABASE_URL = SUPABASE_URL;
+    process.env.SUPABASE_SERVICE_ROLE_KEY = service;
+    const { getBriefcaseItemForWebhook } = await import("../src/lib/expungement-ai/briefcase.ts");
+    const {
+      packetInformationPatch: derivePacketInformationPatch,
+      requireCurrentPacketVerification,
+      protectedPacketDraftSeedFromAuthoritative
+    } = await import("../src/lib/expungement-ai/packet-information.ts");
+    const { persistProtectedPacketVerification } = await import("../src/lib/expungement-ai/verification-cas.ts");
+    let verificationFailure = null;
+    let readback = null;
+    try {
+      const existingItem = await getBriefcaseItemForWebhook(A.id, itemId);
+      if (!existingItem) throw new Error("the seeded item could not be read back through the application's own reader");
+      const seed = protectedPacketDraftSeedFromAuthoritative({
+        authoritative: reviewed.authoritative,
+        screeningAnswers: reviewed.screeningAnswers,
+        packetAnswers: reviewed.packetAnswers,
+        dependencies: { commercialFlowVersion: 1, entitlementSource: "consumer_payment", productId: "expungement_packet" },
+        capturedAt: new Date().toISOString()
+      });
+      if (!seed) throw new Error("protectedPacketDraftSeedFromAuthoritative produced no seed");
+      const verified = derivePacketInformationPatch({
+        existingItem,
+        answers: {},
+        verify: true,
+        protectedVerification: { status: "unverified", reason: "final_verification_not_completed", revision: 0, draftSnapshot: seed.snapshot, draftHash: seed.hash }
+      });
+      if (!verified?.readyToGenerate) throw new Error(`not ready to generate: ${verified?.reviewReason}; missing=${JSON.stringify(verified?.missingInputIds ?? null)}`);
+      const persisted = await persistProtectedPacketVerification({ consumerAuthUserId: A.id, briefcaseItemId: itemId, transition: verified.protectedTransition });
+      if (!persisted.ok) throw new Error(`persistence refused: ${persisted.reason}`);
+      readback = await requireCurrentPacketVerification(A.id, existingItem);
+      if ((readback.snapshot?.selectedTrackId ?? null) !== (route.trackId ?? null)) {
+        throw new Error(`persisted track ${JSON.stringify(readback.snapshot?.selectedTrackId ?? null)} differs from the server-selected ${JSON.stringify(route.trackId ?? null)}`);
+      }
+    } catch (error) {
+      verificationFailure = String(error?.message ?? error).slice(0, 400);
+    } finally {
+      delete process.env.SUPABASE_SERVICE_ROLE_KEY;
+    }
+    evidence.protectedVerification = {
+      persisted: verificationFailure === null,
+      selectedTrackId: readback?.snapshot?.selectedTrackId ?? null,
+      hash: readback?.hash ?? null,
+      failure: verificationFailure
+    };
+    if (verificationFailure !== null) {
+      record(
+        "unpaid_render_is_refused_for_payment",
+        false,
+        `the protected packet verification the deployed Checkout requires could not be persisted for the seeded item, so the unpaid probe below would have measured protected_verification_missing rather than the payment gate: ${verificationFailure}`
+      );
+      finish();
+    }
+  }
   preflightRoute = derived;
 }
 
@@ -1065,8 +1525,30 @@ console.log("PREFLIGHT_JSON " + JSON.stringify({
   const imageResolvesPacket = Boolean(probe)
     && probe.packetRead?.attempted === true
     && probe.packetRead.resolved === true;
-  const passed = preflightRoute.routeKind === "legacy_verified"
-    && preflightRoute.sellable === true
+  // ADR-0004 retired the five legacy generators as commercial fulfillment paths
+  // on 2026-08-28. This harness charges a real Stripe test payment against a
+  // legacy route, so the precondition it must satisfy is no longer "the route is
+  // legacy_verified and sellable" — that combination cannot occur any more — but
+  // "the one fulfillment authority proves this exact route delivers a packet".
+  //
+  // Taking the verdict from the authority rather than from a constant here means
+  // this harness reopens when a Grade-A fulfillment record for the route exists
+  // and never because a staging script was edited. `passed` feeds `finish()`
+  // below, so a refusal stops the run before anything is charged.
+  const { packetFulfillmentAuthority } =
+    await import("../src/lib/expungement-ai/packet-fulfillment-authority.ts");
+  const preflightFulfillment = packetFulfillmentAuthority(
+    preflightRoute.profileId ?? preflightRoute.jurisdiction ?? "",
+    preflightRoute.pathwayId ?? "",
+    "checkout creation",
+    { trackId: preflightRoute.trackId ?? null }
+  );
+  // A factory route resolves in shadow (sellable=false by design); the sale is
+  // authorized by the Grade-A record, which is the next conjunct. A legacy
+  // route can no longer open a render job at all (ADR-0004).
+  const passed = preflightRoute.routeKind === "factory_v2"
+    && preflightRoute.sellable === false
+    && preflightFulfillment.allowed === true
     && dependsOnHeldPdf === false
     && digestPinned
     && digestMatches
@@ -1076,7 +1558,7 @@ console.log("PREFLIGHT_JSON " + JSON.stringify({
   record(
     "immutable_image_admits_the_tuple_before_any_charge",
     passed,
-    `pathway ${JSON.stringify(preflightRoute.routeId)} is ${preflightRoute.routeKind} and sellable=${preflightRoute.sellable}; sourceSha256=${JSON.stringify(preflightRoute.sourceSha256)} and the problematic-PDF register holds ${heldShas.size} source hash(es) across ${registerLines.length} row(s), ${heldForJurisdiction} of them for ${preflightRoute.profileId} — this route depends on a held binary: ${dependsOnHeldPdf}. The tuple the job will carry is ${tuple.profileId}@${tuple.profileVersion}. ${WORKER_DIGEST_REF} was pulled by immutable digest (${digestPinned}) and the digest actually present matches the pin (${digestMatches}; ${pulledDigests.join(" ") || "no repo digest reported"}). Executing the image's OWN shipped modules by digest — no bind mount, no host path — it loaded ${probe?.profilesLoaded ?? "(probe produced no verdict)"} profile(s) across ${probe?.distinctProfileVersions ?? "?"} distinct version(s) from cwd ${probe?.cwd ?? "?"}, admits that profile version (${probe?.admitsProfileVersion ?? "unknown"}) and assertClaimAcceptable ${probe?.claim?.attempted ? (probe.claim.accepted ? "ACCEPTED it" : `refused it at ${probe.claim.errorCode}`) : "was never reached"}. Inside that same image, with ENABLE_SUPABASE_PARTNER_DATA=${probe?.partnerDataFlag ?? "(no probe)"}, getRcapDocumentPacket resolved an existing consumer packet ${probePacketId ?? "(none found to probe)"}: ${probe?.packetRead?.resolved ?? "not attempted"}${probe?.packetRead?.state ? ` (state ${probe.packetRead.state}, pathway ${probe.packetRead.pathway})` : ""}${probe?.packetRead?.error ? ` — ${probe.packetRead.error}` : ""}. That is the exact call that answered "packet not found" in run 32416556886 for a row that existed, because without the flag the reader returns null WITHOUT querying the table. The claimable queue for renderer ${preflightRoute.rendererKind} currently holds ${backlog.readOutcome === "read" ? `${backlog.currentlyClaimable} job(s) (${backlog.totalQueued} queued in total)` : `an unreadable count (${backlog.detail ?? "no detail"})`}, so the target this run enqueues will start behind ${backlog.readOutcome === "read" ? backlog.currentlyClaimable : "an unknown number of"} claimable predecessor(s). Nothing has been charged at this point.`
+    `pathway ${JSON.stringify(preflightRoute.routeId)} is ${preflightRoute.routeKind} and sellable=${preflightRoute.sellable}; the one fulfillment authority ${preflightFulfillment.allowed ? "PROVES" : "REFUSES"} this route (${preflightFulfillment.reason}); sourceSha256=${JSON.stringify(preflightRoute.sourceSha256)} and the problematic-PDF register holds ${heldShas.size} source hash(es) across ${registerLines.length} row(s), ${heldForJurisdiction} of them for ${preflightRoute.profileId} — this route depends on a held binary: ${dependsOnHeldPdf}. The tuple the job will carry is ${tuple.profileId}@${tuple.profileVersion}. ${WORKER_DIGEST_REF} was pulled by immutable digest (${digestPinned}) and the digest actually present matches the pin (${digestMatches}; ${pulledDigests.join(" ") || "no repo digest reported"}). Executing the image's OWN shipped modules by digest — no bind mount, no host path — it loaded ${probe?.profilesLoaded ?? "(probe produced no verdict)"} profile(s) across ${probe?.distinctProfileVersions ?? "?"} distinct version(s) from cwd ${probe?.cwd ?? "?"}, admits that profile version (${probe?.admitsProfileVersion ?? "unknown"}) and assertClaimAcceptable ${probe?.claim?.attempted ? (probe.claim.accepted ? "ACCEPTED it" : `refused it at ${probe.claim.errorCode}`) : "was never reached"}. Inside that same image, with ENABLE_SUPABASE_PARTNER_DATA=${probe?.partnerDataFlag ?? "(no probe)"}, getRcapDocumentPacket resolved an existing consumer packet ${probePacketId ?? "(none found to probe)"}: ${probe?.packetRead?.resolved ?? "not attempted"}${probe?.packetRead?.state ? ` (state ${probe.packetRead.state}, pathway ${probe.packetRead.pathway})` : ""}${probe?.packetRead?.error ? ` — ${probe.packetRead.error}` : ""}. That is the exact call that answered "packet not found" in run 32416556886 for a row that existed, because without the flag the reader returns null WITHOUT querying the table. The claimable queue for renderer ${preflightRoute.rendererKind} currently holds ${backlog.readOutcome === "read" ? `${backlog.currentlyClaimable} job(s) (${backlog.totalQueued} queued in total)` : `an unreadable count (${backlog.detail ?? "no detail"})`}, so the target this run enqueues will start behind ${backlog.readOutcome === "read" ? backlog.currentlyClaimable : "an unknown number of"} claimable predecessor(s). Nothing has been charged at this point.`
   );
   evidence.imagePreflight = {
     tuple,
@@ -1112,10 +1594,20 @@ console.log("PREFLIGHT_JSON " + JSON.stringify({
 // deterministically from the briefcase item, so the exact id the render will
 // use is computable now — which is what makes "the job received the real
 // packet id" checkable rather than merely asserted afterwards.
-const expectedPacketId = (() => {
+const consumerNamespacePacketId = (() => {
   const h = crypto.createHash("sha256").update(`rcap:consumer-packet:v1:${itemId}`).digest("hex");
   const variant = ((parseInt(h[16], 16) & 0x3) | 0x8).toString(16);
   return `${h.slice(0, 8)}-${h.slice(8, 12)}-4${h.slice(13, 16)}-${variant}${h.slice(17, 20)}-${h.slice(20, 32)}`;
+})();
+// A personalized (Grade-A) route — the Mississippi successor is one — derives
+// its packet id from the immutable render payload instead (run 35047317254:
+// the job carried the payload-derived id, not the namespace id). The
+// application's own preparePersonalizedPacket computes that id from the
+// persisted verification, so both derivations are the application's, and both
+// are seeded by this run's briefcase item.
+const personalizedPacketId = await personalizedPacketIdFromRunner(A, itemId);
+const expectedPacketId = (() => {
+  return personalizedPacketId ?? consumerNamespacePacketId;
 })();
 {
   // A row at this id that belongs to someone else would make the render either
@@ -1181,10 +1673,33 @@ let session = null;
   const sessionId = res.json?.checkoutSessionId ?? res.json?.sessionId ?? res.json?.id ?? null;
   let fetched = null;
   if (sessionId) {
-    const stripeRes = await fetch(`https://api.stripe.com/v1/checkout/sessions/${encodeURIComponent(sessionId)}`, {
+    const stripeRes = await fetch(`https://api.stripe.com/v1/checkout/sessions/${encodeURIComponent(sessionId)}?expand[]=discounts.promotion_code`, {
       headers: { Authorization: `Bearer ${STRIPE_KEY}` }
     });
     fetched = await stripeRes.json().catch(() => null);
+    // The line items, from Stripe's own endpoint for them rather than an
+    // `expand` on the retrieve. The application reconciles the ORDER now — it
+    // needs the product, the quantity and the unit amount — and a completion
+    // event does not carry them, so the server would otherwise retrieve the
+    // session itself and read back the genuinely unpaid status, discarding the
+    // one field this harness simulates. A dedicated endpoint is used because
+    // the query-string expand form silently returned nothing in run
+    // 35156456712 and a silently absent list reads as a wrong order.
+    if (fetched && fetched.id) {
+      const itemsRes = await fetch(
+        `https://api.stripe.com/v1/checkout/sessions/${encodeURIComponent(fetched.id)}/line_items?expand[]=data.price.product`,
+        { headers: { Authorization: `Bearer ${STRIPE_KEY}` } }
+      );
+      const items = await itemsRes.json().catch(() => null);
+      if (Array.isArray(items?.data) && items.data.length > 0) {
+        fetched.line_items = items;
+      } else {
+        // Say so rather than sending an event with no line items, which the
+        // server would refuse with a message about the order rather than
+        // about this harness failing to read Stripe.
+        console.log(`  note  line items unavailable for ${fetched.id}: HTTP ${itemsRes.status} ${JSON.stringify(items?.error ?? items).slice(0, 200)}`);
+      }
+    }
   }
   session = fetched && fetched.id ? fetched : null;
   // A generic 503 from the application says only "Stripe did not answer as
@@ -1251,6 +1766,458 @@ let session = null;
   runNamespace.checkoutSessionId = session.id;
 }
 
+// --- 4a. The RESUMED order: the same matter, asked for checkout a second time -
+//
+// Every case above reaches checkout on a matter that has never had one. The
+// production failure did not: matter c824787c already carried a Checkout
+// Session id, which sends createConsumerPacketCheckout down a recovery path a
+// fresh journey never executes. These cases drive that path on THIS matter,
+// with the session the deployed application just created, rather than on a new
+// one.
+//
+// Nothing here is a fresh-matter substitute and nothing here simulates the
+// application: every verdict is the deployed route's own answer, read back
+// against Stripe.
+{
+  const stripeSession = async (id, query = "") => {
+    const res = await fetch(
+      `https://api.stripe.com/v1/checkout/sessions/${encodeURIComponent(id)}${query}`,
+      { headers: { Authorization: `Bearer ${STRIPE_KEY}` } }
+    );
+    return res.json().catch(() => null);
+  };
+  const storedSessionIdNow = async () => {
+    const rows = await sql(`select checkout_session_id from public.consumer_briefcase_items where id = '${String(itemId).replaceAll("'", "''")}' limit 1`);
+    return Array.isArray(rows.json) ? rows.json[0]?.checkout_session_id ?? null : null;
+  };
+  const setStoredSessionId = async (value) => {
+    const literal = value === null ? "null" : `'${String(value).replaceAll("'", "''")}'`;
+    return sql(`update public.consumer_briefcase_items set checkout_session_id = ${literal} where id = '${String(itemId).replaceAll("'", "''")}'`);
+  };
+
+  const openSessionCount = async () => {
+    const list = await fetch("https://api.stripe.com/v1/checkout/sessions?limit=100", {
+      headers: { Authorization: `Bearer ${STRIPE_KEY}` }
+    }).then((r) => r.json()).catch(() => null);
+    const mine = Array.isArray(list?.data) ? list.data.filter((s) => s.client_reference_id === itemId) : [];
+    return { total: mine.length, open: mine.filter((s) => s.status === "open").length, ids: mine.map((s) => s.id) };
+  };
+
+  // (a) An OPEN session that is still the right order is REUSED, never doubled.
+  {
+    const before = await openSessionCount();
+    const again = await callApp("/api/expungement-ai/checkout", { method: "POST", cookie: A.cookie, body: { briefcaseItemId: itemId } });
+    const returnedId = again.json?.checkoutSessionId ?? null;
+    const after = await openSessionCount();
+    record(
+      "resumed_checkout_reuses_the_open_session",
+      again.status === 200 && returnedId === session.id && after.open === before.open,
+      `asking the deployed route for checkout a second time on the SAME matter answered ${again.status}`
+        + ` outcome=${again.json?.outcome ?? "(none)"} session=${returnedId ?? "(none)"} (the first session was ${session.id}).`
+        + ` Stripe holds ${after.open} open session(s) for this item, ${before.open} before the second ask:`
+        + ` a reuse adds none. Duplicating here would offer the participant two live orders for one matter.`
+    );
+    evidence.resumedReuse = { status: again.status, outcome: again.json?.outcome ?? null, returnedId, before, after };
+  }
+
+  // (b) A stored id the provider cannot resolve, with NO verified account and
+  //     mode, is a REFUSAL — not permission to mint a replacement. An
+  //     acceptance deployment deliberately configures no expected account, so
+  //     this is the unverified branch exactly as a mis-keyed deployment would
+  //     hit it. The planted id is restored immediately afterwards.
+  {
+    const wrote = (result) => result.status === 200 || result.status === 201;
+    const realId = await storedSessionIdNow();
+    const before = await openSessionCount();
+    const plantedId = "cs_test_a1RCAPacceptanceNoSuchSessionEver000000000000000000";
+    const planted = await setStoredSessionId(plantedId);
+    const refused = await callApp("/api/expungement-ai/checkout", { method: "POST", cookie: A.cookie, body: { briefcaseItemId: itemId } });
+    const failure = refused.json?.providerFailure ?? null;
+    const afterPlant = await openSessionCount();
+    const restored = await setStoredSessionId(realId);
+    const storedAfterRestore = await storedSessionIdNow();
+    record(
+      "resumed_checkout_refuses_an_unresolvable_stored_session_it_cannot_verify",
+      wrote(planted) && refused.status === 503
+        && failure?.phase === "recover_completed_session" && failure?.code === "resource_missing"
+        && afterPlant.total === before.total
+        && wrote(restored) && storedAfterRestore === realId,
+      `with an unresolvable Checkout Session id stored on the matter, the deployed route answered ${refused.status}`
+        + ` resultCode=${refused.json?.resultCode ?? "(none)"} providerFailure=${JSON.stringify(failure)}.`
+        + ` A failed lookup is not evidence that the earlier order does not exist, and this deployment has no`
+        + ` configured expected account, so it refuses rather than replacing it. Stripe holds`
+        + ` ${afterPlant.total} session(s) for this item, ${before.total} before the plant — the refusal minted`
+        + ` none. The real id was restored (${storedAfterRestore === realId ? "confirmed" : "MISMATCH"}).`
+    );
+    evidence.resumedUnresolvable = {
+      plantStatus: planted.status,
+      status: refused.status,
+      resultCode: refused.json?.resultCode ?? null,
+      providerFailure: failure,
+      sessionsAfterPlant: afterPlant,
+      restored: storedAfterRestore === realId
+    };
+  }
+
+  // (c) An OPEN session selling the WRONG product is REPLACED: expired, and a
+  //     new one minted on the catalog product. This is the production shape
+  //     exactly — an order opened before the catalog correction — reproduced by
+  //     creating an ad-hoc-product session carrying this matter's own
+  //     client_reference_id and metadata, and storing it on the matter.
+  if (CATALOG_PRODUCT_ID) {
+    const form = new URLSearchParams();
+    form.set("mode", "payment");
+    form.set("success_url", session.success_url ?? "https://example.com/success");
+    form.set("cancel_url", session.cancel_url ?? "https://example.com/cancel");
+    form.set("client_reference_id", String(itemId));
+    form.set("allow_promotion_codes", "true");
+    form.set("line_items[0][quantity]", "1");
+    form.set("line_items[0][price_data][currency]", "usd");
+    form.set("line_items[0][price_data][unit_amount]", String(consumerPacketPriceCents ?? 5000));
+    form.set("line_items[0][price_data][product_data][name]", "Expungement.ai self-help packet");
+    for (const [key, value] of Object.entries(session.metadata ?? {})) {
+      form.set(`metadata[${key}]`, String(value));
+    }
+    const created = await fetch("https://api.stripe.com/v1/checkout/sessions", {
+      method: "POST",
+      headers: { Authorization: `Bearer ${STRIPE_KEY}`, "Content-Type": "application/x-www-form-urlencoded" },
+      body: form.toString()
+    });
+    const incompatible = await created.json().catch(() => null);
+
+    let replacementId = null;
+    let replacementProduct = null;
+    let incompatibleAfter = null;
+    let plantedOk = false;
+    if (incompatible?.id) {
+      // The real session is expired first: two open sessions for one matter is
+      // not a state the application ever produces, and leaving it open would
+      // make the count assertions below meaningless.
+      await fetch(`https://api.stripe.com/v1/checkout/sessions/${encodeURIComponent(session.id)}/expire`, {
+        method: "POST", headers: { Authorization: `Bearer ${STRIPE_KEY}` }
+      }).catch(() => null);
+      const plant = await setStoredSessionId(incompatible.id);
+      plantedOk = plant.status === 200 || plant.status === 201;
+      const replaced = await callApp("/api/expungement-ai/checkout", { method: "POST", cookie: A.cookie, body: { briefcaseItemId: itemId } });
+      replacementId = replaced.json?.checkoutSessionId ?? null;
+      incompatibleAfter = await stripeSession(incompatible.id);
+      if (replacementId) {
+        const items = await fetch(
+          `https://api.stripe.com/v1/checkout/sessions/${encodeURIComponent(replacementId)}/line_items?expand[]=data.price.product`,
+          { headers: { Authorization: `Bearer ${STRIPE_KEY}` } }
+        ).then((r) => r.json()).catch(() => null);
+        const product = items?.data?.[0]?.price?.product;
+        replacementProduct = typeof product === "string" ? product : product?.id ?? null;
+      }
+      evidence.resumedReplacement = {
+        incompatibleId: incompatible.id,
+        incompatibleStatusAfter: incompatibleAfter?.status ?? null,
+        replacementId,
+        replacementProduct,
+        expectedProduct: CATALOG_PRODUCT_ID,
+        status: replaced.status,
+        outcome: replaced.json?.outcome ?? null
+      };
+    }
+
+    record(
+      "resumed_checkout_replaces_an_incompatible_open_session",
+      Boolean(incompatible?.id) && plantedOk && Boolean(replacementId)
+        && replacementId !== incompatible.id
+        && replacementProduct === CATALOG_PRODUCT_ID
+        && incompatibleAfter?.status === "expired",
+      `an OPEN session on an ad-hoc product (${incompatible?.id ?? "could not be created"}) was stored on this matter,`
+        + ` reproducing an order opened before the catalog correction. The deployed route answered with`
+        + ` ${replacementId ?? "(no session)"} on product ${replacementProduct ?? "(unknown)"}`
+        + ` (the catalog product is ${CATALOG_PRODUCT_ID}), and the incompatible session is now`
+        + ` ${incompatibleAfter?.status ?? "(unknown)"}. Reusing it would have offered a line item the`
+        + ` product-restricted coupon can only refuse, which is the defect this release exists to fix.`
+    );
+
+    // The journey continues on the replacement, which is now the matter's live
+    // order — the same thing a resumed participant would be paying.
+    if (replacementId) {
+      const fresh = await stripeSession(replacementId, "?expand[]=discounts.promotion_code");
+      if (fresh?.id) {
+        const items = await fetch(
+          `https://api.stripe.com/v1/checkout/sessions/${encodeURIComponent(fresh.id)}/line_items?expand[]=data.price.product`,
+          { headers: { Authorization: `Bearer ${STRIPE_KEY}` } }
+        ).then((r) => r.json()).catch(() => null);
+        if (Array.isArray(items?.data) && items.data.length > 0) fresh.line_items = items;
+        session = fresh;
+        runNamespace.checkoutSessionId = fresh.id;
+        evidence.checkout = { sessionId: fresh.id, amountTotal: fresh.amount_total, currency: fresh.currency, expectedCents: consumerPacketPriceCents ?? null };
+      }
+    }
+  }
+}
+
+// Stripe is the only authority on the discount. A code is created and managed in
+// the Stripe Dashboard, typed into Stripe's own promotion-code field on the
+// hosted page, and every amount below is read back from Stripe afterwards. This
+// harness creates no coupon and computes no discount.
+const stripeApi = async (pathname, init) => {
+  const res = await fetch(`https://api.stripe.com/v1/${pathname}`, {
+    ...init,
+    headers: { Authorization: `Bearer ${STRIPE_KEY}`, ...(init?.headers ?? {}) }
+  });
+  let json = null;
+  try { json = JSON.parse(await res.text()); } catch { /* non-JSON surfaces as null */ }
+  return { status: res.status, json };
+};
+
+// --- 4b. The customer actually pays -----------------------------------------
+//
+// On Stripe's own hosted page, in a browser, with a Stripe test card. This is
+// the step that used to be simulated by overriding payment_status, and the
+// simulation stopped being valid when the server started reconciling the order
+// against Stripe: a session nobody paid has no PaymentIntent, and the payment
+// writer refuses a paid order without one. That refusal is right, so the
+// payment is real instead.
+//
+// A promotion code, when this run carries one, is entered here through Stripe's
+// own control, so the discount is one Stripe applied rather than one this
+// harness claimed.
+{
+  const before = { paymentStatus: session.payment_status, amountTotal: session.amount_total, paymentIntent: session.payment_intent ?? null };
+  const outcome = await completeHostedCheckout({
+    checkoutUrl: session.url,
+    promotionCode: PROMOTION_CODE,
+    card: STRIPE_TEST_CARD,
+    // Unique per run, so Stripe Link never recognises the address and never
+    // raises a one-time-code challenge that nobody can answer. Run 35170946122
+    // stalled on exactly that, because an earlier run had paid with this email.
+    email: `acceptance-consumer-${String(itemId).replace(/-/g, "").slice(0, 12)}@rcap-acceptance.test`,
+    screenshotDir: path.join(EVIDENCE_DIR, "checkout-screenshots"),
+    label: PROMOTION_CODE ? `checkout-${PROMOTION_CODE}` : "checkout-no-code",
+    // Return as the participant, so the screens captured after payment are the
+    // ones a paying participant actually reads rather than an anonymous
+    // visitor's version of them.
+    sessionCookies: playwrightCookies(A.cookie, PREVIEW),
+    onReturn: async (page) => {
+      postPaymentCopy.push(await captureSurface(page, "payment_return"));
+      // The packet is prepared asynchronously, so both states are real: the
+      // participant meets "we're preparing it" first and "it's ready" after.
+      // Whichever this run shows is captured, and the wait is bounded so a
+      // slow render costs a capture rather than the payment proof.
+      await page.goto(`${PREVIEW}/briefcase/${itemId}`, { waitUntil: "domcontentloaded" }).catch(() => null);
+      postPaymentCopy.push(await captureSurface(page, "packet_preparation").catch(() => null));
+      for (let attempt = 0; attempt < 10; attempt += 1) {
+        await page.waitForTimeout(6_000);
+        await page.reload({ waitUntil: "domcontentloaded" }).catch(() => null);
+        const text = await page.locator("main").first().innerText().catch(() => "");
+        if (/download|ready/i.test(text)) break;
+      }
+      postPaymentCopy.push(await captureSurface(page, "packet_ready").catch(() => null));
+      postPaymentCopy.push(await captureSurface(page, "filing_next_steps").catch(() => null));
+    }
+  });
+
+  // Stripe is the witness, not the page. The session is read back and every
+  // later case reads this copy.
+  const after = await fetch(`https://api.stripe.com/v1/checkout/sessions/${encodeURIComponent(session.id)}?expand[]=discounts.promotion_code&expand[]=payment_intent`, {
+    headers: { Authorization: `Bearer ${STRIPE_KEY}` }
+  }).then((r) => r.json()).catch(() => null);
+  if (after?.id) {
+    const items = await fetch(
+      `https://api.stripe.com/v1/checkout/sessions/${encodeURIComponent(after.id)}/line_items?expand[]=data.price.product`,
+      { headers: { Authorization: `Bearer ${STRIPE_KEY}` } }
+    ).then((r) => r.json()).catch(() => null);
+    if (Array.isArray(items?.data) && items.data.length > 0) after.line_items = items;
+    session = after;
+  }
+
+  const settled = session.payment_status === "paid" || session.payment_status === "no_payment_required";
+  record(
+    "customer_completed_the_hosted_checkout_page",
+    settled,
+    `Stripe's hosted page was driven in a browser${PROMOTION_CODE ? ` with promotion code ${PROMOTION_CODE}` : " with no promotion code"}; `
+      + `${outcome.completed ? "the page returned to the application" : "the page did not return to the application"}. `
+      + `Stripe now reports payment_status=${session.payment_status} (was ${before.paymentStatus}), amount_total=${session.amount_total} (was ${before.amountTotal}), `
+      + `discount=${session.total_details?.amount_discount ?? 0}, payment_intent=${session.payment_intent ? "present" : "absent"} (was ${before.paymentIntent ? "present" : "absent"}). `
+      + `No field is overridden by this harness: a test card in a sandbox account moves no money, and a zero-total order is completed with no card at all. `
+      + `Page notes: ${outcome.notes.join("; ")}`
+  );
+  evidence.hostedCheckoutCompletion = {
+    promotionCode: PROMOTION_CODE,
+    completed: outcome.completed,
+    paymentStatusBefore: before.paymentStatus,
+    paymentStatusAfter: session.payment_status,
+    amountTotalAfter: session.amount_total,
+    discountAfter: session.total_details?.amount_discount ?? 0,
+    paymentIntentPresent: Boolean(session.payment_intent),
+    appliedPromotionCodes: (session.discounts ?? []).map((d) => (typeof d?.promotion_code === "string" ? d.promotion_code : d?.promotion_code?.id)).filter(Boolean),
+    notes: outcome.notes,
+    screenshots: outcome.screenshots
+  };
+  if (!settled) finish();
+}
+
+// --- 4c. What Stripe confirms about the purchase ------------------------------
+//
+// Every figure is read back from Stripe and nothing here recomputes what a code
+// should be worth: a percentage, a fixed amount and a full waiver are all just
+// whatever Stripe put in amount_discount. This section asks only whether
+// Stripe's own account of the purchase is complete and self-consistent. What
+// the database made of it is a separate case, after the webhook has arrived.
+const stripeConfirmed = { subtotal: null, discount: 0, total: null, currency: null };
+{
+  const subtotal = session.amount_subtotal ?? null;
+  const discount = session.total_details?.amount_discount ?? 0;
+  const total = session.amount_total ?? null;
+  const currency = session.currency ?? null;
+  Object.assign(stripeConfirmed, { subtotal, discount, total, currency });
+  const appliedCodes = (session.discounts ?? [])
+    .map((d) => (typeof d?.promotion_code === "string" ? d.promotion_code : d?.promotion_code?.id))
+    .filter(Boolean);
+
+  // Stripe's own arithmetic has to close, so a discount that never reached the
+  // total cannot pass as one that did.
+  const arithmeticCloses = subtotal !== null && total !== null && total === subtotal - discount;
+  // A code was typed in, so Stripe must show a discount and name it; no code was
+  // typed in, so Stripe must show none.
+  const discountMatchesTheAttempt = PROMOTION_CODE
+    ? discount > 0 && appliedCodes.length > 0
+    : discount === 0 && appliedCodes.length === 0;
+  // Completion is asserted, never inferred. The absence of a PaymentIntent is a
+  // consequence of a zero total, not evidence for it: on its own it equally
+  // describes a customer who never paid, so it is required alongside an
+  // affirmative completion rather than in place of one.
+  //
+  // Run 35204030807 settled what Stripe actually reports on a zero total, and
+  // it was not what this case assumed. ACCEPTFREE100 cleared a 5000 subtotal to
+  // 0 and Stripe returned payment_status=paid with no PaymentIntent, not
+  // no_payment_required -- that value belongs to setup mode, where a payment is
+  // deferred rather than not owed. Both of Stripe's settled values are accepted
+  // here; unpaid still fails, which is the distinction that matters.
+  const completed = session.status === "complete";
+  const stripeCallsItSettled = session.payment_status === "paid" || session.payment_status === "no_payment_required";
+  const settlementFitsTheTotal = total === 0
+    ? completed && stripeCallsItSettled && !session.payment_intent
+    : completed && session.payment_status === "paid" && Boolean(session.payment_intent);
+
+  record(
+    "stripe_confirmed_the_discounted_purchase",
+    arithmeticCloses && discountMatchesTheAttempt && settlementFitsTheTotal,
+    `Stripe reports status=${session.status} subtotal=${subtotal} amount_discount=${discount} amount_total=${total} ${String(currency).toUpperCase()} `
+      + `(its own arithmetic closes: ${arithmeticCloses}). Promotion codes Stripe applied: ${appliedCodes.length ? appliedCodes.join(", ") : "(none)"} `
+      + `for ${PROMOTION_CODE ? `entered code ${PROMOTION_CODE}` : "no entered code"} (consistent: ${discountMatchesTheAttempt}). `
+      + `payment_status=${session.payment_status}, payment_intent=${session.payment_intent ? "present" : "absent"} (consistent: ${settlementFitsTheTotal}) — `
+      + `completion is taken from status=complete plus the payment status Stripe reports, never from a missing PaymentIntent, which alone would equally describe a customer who never paid. `
+      + `No figure here is computed by this harness, so a code issued in the Stripe Dashboard needs no change to prove itself.`
+  );
+  evidence.discount = {
+    enteredCode: PROMOTION_CODE, status: session.status, subtotal, discount, total, currency,
+    appliedCodes, paymentStatus: session.payment_status,
+    paymentIntentPresent: Boolean(session.payment_intent)
+  };
+
+  // Which Product the line item is actually on.
+  //
+  // This is the case the release turns on. `price_data.product_data` made
+  // Stripe mint a fresh ad-hoc Product per Session, so a coupon restricted to
+  // the catalog Product could never match and Stripe refused the code as
+  // invalid. Reading the Product back from Stripe -- not from what this harness
+  // sent -- is what distinguishes the corrected path from the one it replaced.
+  if (CATALOG_PRODUCT_ID) {
+    const line = session.line_items?.data?.[0];
+    const product = line?.price?.product;
+    const productId = typeof product === "string" ? product : product?.id ?? null;
+    record(
+      "checkout_line_item_is_on_the_catalog_product",
+      productId === CATALOG_PRODUCT_ID,
+      `Stripe reports the line item on product ${productId ?? "(absent)"}; the coupon entered on its page is restricted to ${CATALOG_PRODUCT_ID}`
+        + `${productId === CATALOG_PRODUCT_ID
+          ? ", so the discount that applied did so to the product actually being sold"
+          : ", so this Session sells something the coupon cannot apply to"}`
+    );
+    evidence.catalogProduct = { expected: CATALOG_PRODUCT_ID, observed: productId };
+  }
+}
+
+// --- 4d. Stripe's OWN delivery of the completion event -----------------------
+//
+// This is the customer-journey evidence: Stripe generated an event for this
+// session and delivered it to the application's webhook over the public
+// internet, and the application recorded THAT event id against this order. The
+// signed events in section 5 are constructed by this harness and prove
+// different things — signature enforcement and replay idempotence. They are not
+// this, and they are labelled separately so the two cannot be read as one.
+let stripeOwnDelivery = { eventId: null, recordedEventId: null };
+{
+  let realEventId = null;
+  for (let attempt = 0; attempt < 12 && !realEventId; attempt += 1) {
+    const events = await stripeApi(`events?type=checkout.session.completed&limit=100`);
+    const match = (events.json?.data ?? []).find((event) => event?.data?.object?.id === session.id);
+    if (match?.id) { realEventId = match.id; break; }
+    await sleep(5000);
+  }
+  stripeOwnDelivery.eventId = realEventId;
+
+  // The application is the witness that the delivery arrived: the order names
+  // the provider event that settled it, and only the server-side writer may put
+  // a value there.
+  let recorded = null;
+  if (realEventId) {
+    for (let attempt = 0; attempt < 24 && !recorded; attempt += 1) {
+      const row = await sql(`select provider_event_id, payment_status from public.consumer_briefcase_items where id = '${sqlText(itemId)}'`);
+      const current = Array.isArray(row.json) ? row.json[0] ?? null : null;
+      if (current?.provider_event_id === realEventId) { recorded = current; break; }
+      await sleep(5000);
+    }
+  }
+  stripeOwnDelivery.recordedEventId = recorded?.provider_event_id ?? null;
+
+  record(
+    "stripe_delivered_the_completion_event_itself",
+    Boolean(realEventId) && Boolean(recorded),
+    realEventId
+      ? `Stripe generated checkout.session.completed ${realEventId} for session ${session.id} and delivered it to the application's webhook on its own. `
+        + `The order now names provider_event_id=${recorded?.provider_event_id ?? "(not this event)"} with payment_status=${recorded?.payment_status ?? "(unread)"} — `
+        + `written by the server-only payment writer, from an event this harness never sent. `
+        + `This is the real customer journey's event delivery; the signed events below are constructed by this harness and are separate evidence.`
+      : `Stripe published no checkout.session.completed event naming session ${session.id} within the wait budget, so this run carries no real-delivery evidence `
+        + `(the sandbox webhook endpoint must point at this exact Preview for Stripe to reach it).`
+  );
+  evidence.stripeOwnDelivery = { ...stripeOwnDelivery, sessionId: session.id };
+}
+
+// --- 4e. The settled order carries Stripe's money ----------------------------
+//
+// Deliberately after 4d. The order is settled by the webhook, so reading it
+// before that delivery has arrived compares Stripe against a row not yet
+// written and fails a purchase that is actually fine. Ordinary webhook timing
+// is not a defect: the wait belongs above, the comparison belongs here.
+{
+  const row = await sql(
+    `select amount_cents, currency, payment_status, regular_price_cents, discount_cents
+       from public.consumer_briefcase_items where id = '${sqlText(itemId)}'`
+  );
+  const item = Array.isArray(row.json) ? row.json[0] ?? null : null;
+  const amountAgrees = item !== null && Number(item.amount_cents) === stripeConfirmed.total;
+  const currencyAgrees = item !== null && typeof item.currency === "string"
+    && item.currency.toLowerCase() === String(stripeConfirmed.currency ?? "").toLowerCase();
+  const settled = item?.payment_status === "paid";
+
+  record(
+    "fulfillment_honours_the_stripe_confirmed_total",
+    settled && amountAgrees && currencyAgrees,
+    `After Stripe's own delivery settled the order it records amount_cents=${item?.amount_cents ?? "(missing)"} `
+      + `${String(item?.currency ?? "(missing)").toUpperCase()} payment_status=${item?.payment_status ?? "(missing)"}, `
+      + `against Stripe's completed total of ${stripeConfirmed.total} ${String(stripeConfirmed.currency ?? "").toUpperCase()} `
+      + `(amount agrees: ${amountAgrees}, currency agrees: ${currencyAgrees}, settled: ${settled}). `
+      + `Its reconciliation columns read regular_price_cents=${item?.regular_price_cents ?? "(missing)"} discount_cents=${item?.discount_cents ?? "(missing)"}; `
+      + `the database refuses a paid row whose regular price is anything but 5000 or whose collected amount does not reconcile against the discount, `
+      + `so a discount cannot record a different product at a different price.`
+  );
+  evidence.settledOrder = {
+    amountCents: item?.amount_cents ?? null, currency: item?.currency ?? null,
+    paymentStatus: item?.payment_status ?? null,
+    regularPriceCents: item?.regular_price_cents ?? null, discountCents: item?.discount_cents ?? null,
+    stripeTotal: stripeConfirmed.total, stripeCurrency: stripeConfirmed.currency
+  };
+}
+
 // --- 5. The webhook: a forgery first, then the genuine signature -------------
 function signedBody(payload, secret, timestamp) {
   const body = JSON.stringify(payload);
@@ -1263,9 +2230,15 @@ const completionEvent = {
   object: "event",
   type: "checkout.session.completed",
   created: Math.floor(Date.parse(session.created ? session.created * 1000 : Date.parse("2026-08-14T00:00:00Z")) / 1000) || 1786665600,
-  // Every field is the REAL session as Stripe returned it. Only payment_status
-  // is overridden, because completing the hosted page needs a browser.
-  data: { object: { ...session, payment_status: "paid" } }
+  // Every field is the REAL session Stripe returned after the customer paid on
+  // its hosted page. Nothing is overridden any more — payment_status, the
+  // PaymentIntent and any applied discount are all Stripe's, because the
+  // payment actually happened in 4b.
+  //
+  // The line items travel on the event so the server uses this copy; it would
+  // otherwise retrieve the session itself, which is correct for a live webhook
+  // and merely redundant here.
+  data: { object: { ...session } }
 };
 runNamespace.providerEventId = completionEvent.id;
 
@@ -1282,16 +2255,23 @@ runNamespace.providerEventId = completionEvent.id;
   record(
     "forged_webhook_signature_is_rejected",
     forgedRes.status === 400,
-    `POST /api/stripe/webhook with a payload signed by the WRONG secret = ${forgedRes.status} (must be 400) — this is the negative control for every payment case below it`
+    `POST /api/stripe/webhook with a payload signed by the WRONG secret = ${forgedRes.status} (must be 400) — this is the negative control for every payment case below it. `
+      + `This event is CONSTRUCTED BY THIS HARNESS, not delivered by Stripe: it proves signature enforcement, which no real delivery can prove.`
   );
 
+  const webhookSentAt = Date.now() - 5000;
   const genuineRes = await callApp("/api/stripe/webhook", {
     method: "POST", body: genuine.body, headers: { "stripe-signature": genuine.header }
   });
+  const webhookDiagnostics = genuineRes.status >= 500
+    ? `; runtime log: ${await runtimeLogExcerpt(webhookSentAt, ["Stripe webhook processing failed", "render job", "enqueue", "webhook"])}`
+    : "";
   record(
     "signed_webhook_records_the_payment",
     genuineRes.status === 200,
-    `POST /api/stripe/webhook correctly signed = ${genuineRes.status}, outcome=${genuineRes.json?.outcome ?? "(none)"}`
+    `POST /api/stripe/webhook correctly signed = ${genuineRes.status}, outcome=${genuineRes.json?.outcome ?? "(none)"}${genuineRes.json?.error ? `; application error=${JSON.stringify(redactSecrets(String(genuineRes.json.error)).slice(0, 300))}` : ""}${webhookDiagnostics}`
+      + ` — CONSTRUCTED BY THIS HARNESS carrying the real session Stripe returned, and separate from the genuine delivery recorded in stripe_delivered_the_completion_event_itself`
+      + `${stripeOwnDelivery.recordedEventId ? ` (Stripe's own event ${stripeOwnDelivery.recordedEventId} had already settled this order, so an outcome of 'duplicate' here is the correct answer and the order keeps Stripe's event id)` : ""}`
   );
   evidence.webhook = { forged: forgedRes.status, genuine: genuineRes.status, outcome: genuineRes.json?.outcome ?? null };
 }
@@ -1322,14 +2302,18 @@ runNamespace.providerEventId = completionEvent.id;
 // pathway, against a profile version the published image demonstrably admits.
 let targetJobId = null;
 {
+  const renderSentAt = Date.now() - 5000;
   const res = await callApp("/api/expungement-ai/packet/render", { method: "POST", cookie: A.cookie, body: { briefcaseItemId: itemId } });
   const returnedJobId = typeof res.json?.jobId === "string" && res.json.jobId.trim() !== "" ? res.json.jobId.trim() : null;
+  const renderDiagnostics = res.status !== 202
+    ? `; ${await consumerLaunchSchemaReadback()}; postgres log: ${await postgresErrorLogExcerpt(new Date(renderSentAt - 120000).toISOString())}; ${await replayEnqueueFromRunner(A, itemId)}; runtime log: ${await runtimeLogExcerpt(renderSentAt, ["packet/render", "enqueue", "render job", "rpc", "error"])}`
+    : "";
   // A 202 that names no job is not a queued render: there would be nothing to
   // follow, and the journey below would have to guess. It does not guess.
   record(
     "paid_render_is_queued",
     res.status === 202 && returnedJobId !== null,
-    `POST /api/expungement-ai/packet/render for the same item after payment = ${res.status} (must be 202), jobId=${returnedJobId ?? "(none)"} — the identical request that was 402 moments ago. This job id is THE TARGET for the rest of this run; every worker cycle below is classified against it and no other row may satisfy a target case.`
+    `POST /api/expungement-ai/packet/render for the same item after payment = ${res.status} (must be 202), jobId=${returnedJobId ?? "(none)"}${res.json?.error || res.json?.reason ? `; application answered error=${JSON.stringify(redactSecrets(String(res.json?.error ?? "")).slice(0, 200))} reason=${JSON.stringify(redactSecrets(String(res.json?.reason ?? "")).slice(0, 400))}` : ""}${renderDiagnostics} — the identical request that was 402 moments ago. This job id is THE TARGET for the rest of this run; every worker cycle below is classified against it and no other row may satisfy a target case.`
   );
   evidence.render = { status: res.status, jobId: returnedJobId };
   if (res.status !== 202 || returnedJobId === null) finish();
@@ -2081,6 +3065,25 @@ let finalCycleResult = null;
     failure: journey.failure
   };
 
+  // The screens only a paying participant ever sees, read as a consumer would
+  // read them. Implementation vocabulary here is a release failure exactly as
+  // it is before payment; tone is reported for a person to judge.
+  {
+    const captured = postPaymentCopy.filter(Boolean);
+    const copyReview = reviewJourneyCopy(captured);
+    fs.writeFileSync(
+      path.join(EVIDENCE_DIR, "post-payment-copy.json"),
+      `${JSON.stringify({ captures: captured, review: copyReview }, null, 2)}\n`
+    );
+    console.log(`POST_PAYMENT_COPY ${JSON.stringify({ ...copyReview, findings: undefined })}`);
+    if (copyReview.advisory.length > 0) {
+      console.log(`NOTE post-payment copy flagged for human review: ${JSON.stringify(copyReview.advisory, null, 2)}`);
+    }
+    for (const failure of copyReview.failures) {
+      console.log(`POST_PAYMENT_COPY_FAILURE [${failure.category}] ${failure.surface}: ${failure.note} - ${JSON.stringify(failure.sentence)}`);
+    }
+  }
+
   fs.writeFileSync(path.join(EVIDENCE_DIR, "worker-diagnostics.json"), `${JSON.stringify(diagnostics, null, 2)}\n`);
   fs.writeFileSync(
     path.join(EVIDENCE_DIR, "worker-console.log"),
@@ -2480,6 +3483,80 @@ let finalCycleResult = null;
     projectWideBefore: pb,
     projectWideAfter: pa,
     projectWideMoved: projectMoved
+  };
+}
+
+// --- 9. A COMPLETED order whose settlement has not landed locally ------------
+//
+// The most dangerous resumed-session state, and the one no fresh journey can
+// reach: Stripe has completed the Session and taken the money, but this
+// application's own payment columns do not say so yet — the window between the
+// customer paying and the webhook being recorded. Asked for checkout in that
+// window, the route must recover the completed order. Minting a replacement
+// would offer a second checkout for money already collected.
+//
+// The window is reproduced by flipping this run's own payment_status back to
+// unpaid while every piece of server evidence beside it — authority, provider
+// event, recorded-at, amount, session id — stays exactly as the webhook wrote
+// it. Stripe is untouched: the completion under test is the real one this run
+// paid for. It runs last, after every other verdict, and the row is restored
+// before the run's cleanup removes it.
+{
+  const before = await sql(`select payment_status, checkout_session_id from public.consumer_briefcase_items where id = '${itemId}' limit 1`);
+  const beforeRow = Array.isArray(before.json) ? before.json[0] ?? null : null;
+  const settledSessionId = beforeRow?.checkout_session_id ?? null;
+
+  const sessionsFor = async () => {
+    const list = await fetch("https://api.stripe.com/v1/checkout/sessions?limit=100", {
+      headers: { Authorization: `Bearer ${STRIPE_KEY}` }
+    }).then((r) => r.json()).catch(() => null);
+    const mine = Array.isArray(list?.data) ? list.data.filter((s) => s.client_reference_id === itemId) : [];
+    return { total: mine.length, open: mine.filter((s) => s.status === "open").length };
+  };
+
+  const stripeSaysComplete = await fetch(
+    `https://api.stripe.com/v1/checkout/sessions/${encodeURIComponent(String(settledSessionId))}`,
+    { headers: { Authorization: `Bearer ${STRIPE_KEY}` } }
+  ).then((r) => r.json()).catch(() => null);
+
+  const sessionsBefore = await sessionsFor();
+  const unsettled = await sql(`update public.consumer_briefcase_items set payment_status = 'unpaid' where id = '${itemId}'`);
+  const asked = await callApp("/api/expungement-ai/checkout", { method: "POST", cookie: A.cookie, body: { briefcaseItemId: itemId } });
+  const sessionsAfter = await sessionsFor();
+  const restored = await sql(`update public.consumer_briefcase_items set payment_status = '${String(beforeRow?.payment_status ?? "paid").replaceAll("'", "''")}' where id = '${itemId}'`);
+  const afterRows = await sql(`select payment_status from public.consumer_briefcase_items where id = '${itemId}' limit 1`);
+  const restoredStatus = Array.isArray(afterRows.json) ? afterRows.json[0]?.payment_status ?? null : null;
+
+  const wrote = (result) => result.status === 200 || result.status === 201;
+  record(
+    "resumed_checkout_never_duplicates_a_completed_order",
+    wrote(unsettled) && asked.status === 200
+      && asked.json?.checkoutSessionId === settledSessionId
+      && (asked.json?.paymentPending === true || asked.json?.alreadyPaid === true)
+      && sessionsAfter.total === sessionsBefore.total
+      && sessionsAfter.open === sessionsBefore.open
+      && wrote(restored) && restoredStatus === beforeRow?.payment_status,
+    `Stripe reports session ${settledSessionId} as status=${stripeSaysComplete?.status ?? "(unknown)"}`
+      + ` payment_status=${stripeSaysComplete?.payment_status ?? "(unknown)"}, while this application's payment_status`
+      + ` was held at unpaid to reproduce the pre-webhook window. Asked for checkout there, the deployed route`
+      + ` answered ${asked.status} outcome=${asked.json?.outcome ?? "(none)"} session=${asked.json?.checkoutSessionId ?? "(none)"}`
+      + ` paymentPending=${asked.json?.paymentPending ?? false} alreadyPaid=${asked.json?.alreadyPaid ?? false}.`
+      + ` Stripe holds ${sessionsAfter.total} session(s) for this item (${sessionsAfter.open} open), unchanged from`
+      + ` ${sessionsBefore.total}/${sessionsBefore.open}: no second checkout was minted for money already collected.`
+      + ` payment_status restored to ${restoredStatus}.`
+  );
+  evidence.resumedCompletedOrder = {
+    settledSessionId,
+    stripeStatus: stripeSaysComplete?.status ?? null,
+    stripePaymentStatus: stripeSaysComplete?.payment_status ?? null,
+    status: asked.status,
+    outcome: asked.json?.outcome ?? null,
+    returnedSessionId: asked.json?.checkoutSessionId ?? null,
+    paymentPending: asked.json?.paymentPending ?? false,
+    alreadyPaid: asked.json?.alreadyPaid ?? false,
+    sessionsBefore,
+    sessionsAfter,
+    restoredStatus
   };
 }
 

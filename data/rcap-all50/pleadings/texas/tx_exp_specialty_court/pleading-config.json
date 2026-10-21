@@ -1,611 +1,611 @@
 {
- "schemaVersion": "rcap-pleading-track-config/v1",
- "jurisdictionCode": "TX",
- "jurisdiction": {
-  "code": "TX",
-  "name": "Texas",
-  "slug": "texas"
- },
- "trackId": "tx_exp_specialty_court",
- "jobId": "T-C-TX-production-packet",
- "family": "controlled_pleading",
- "treatment": "production_packet",
- "legalName": "Streamlined expunction order after a specialty court dismissal, Tex. Code Crim. Proc. art. 55A.203",
- "publicName": "Clear a case dismissed after a veterans or mental health court programme",
- "templateGrade": "legal_ops_custom_pleading",
- "templateLifecycle": "replacement_candidate",
- "primaryReliefTerm": "expunction",
- "primaryReliefTermBasis": "'expunction' is the Texas statutory term and is on profile:terminology.allowedStateTerms. profile:terminology.primaryConsumerTerm is 'expungement' with avoidUniversalExpungementLabel = true; the consumer-facing word may be expungement in participant copy, but the pleading uses the statutory term.",
- "documentTitleFull": "PETITION FOR STREAMLINED EXPUNCTION ORDER AFTER SPECIALTY COURT DISMISSAL (TEX. CODE CRIM. PROC. ART. 55A.203)",
- "documentTitleFullSourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].legalName; profile:sourceSections[10]",
- "courtCaption": "CAUSE NO. ____________________\nIN THE DISTRICT COURT OF {county} COUNTY, TEXAS\nEX PARTE {petitionerName}",
- "courtCaptionSourceRef": "profile:sourceSections[10] (samples, lines 428-440, Example A); registry@3b6f4c1:tracks[tx_exp_specialty_court].venue",
- "courtCaptionNote": "Token pattern taken verbatim in form from the compiled profile's own sample caption. The cause number is blank: the matter is a new civil action and receives a new cause number on filing. {county} is the participant's arrestCounty answer. No specific district court number, judge or clerk is named.",
- "mechanism": "Where a case was dismissed following successful completion of a veterans treatment court programme under Government Code Chapter 124 or a mental health court programme under Chapter 125, a district court may, with the consent of the attorney representing the state, enter an expunction order not later than the 30th day after the dismissal or after it receives the dismissal information. Article 55A.203(c) forbids the court charging any fee or assessing any cost for such an order. Article 55A.203(d), added by S.B. 1667, requires the person to provide the court with the information required in an art. 55A.253 petition. A person may receive only one expunction on each ground and must file an affidavit attesting to that fact. Where consent is withheld or the window closes, the ordinary petition route under art. 55A.053 remains open, because the entitlement lives there rather than in art. 55A.203. Unlike art. 55A.201, art. 55A.203 is limited to district courts.",
- "mechanismSourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].mechanism",
- "routeDecision": {
-  "decision": "custom_pleading_drafted_four_documents_with_one_conditional_official_form_dependency_and_an_open_fee_conflict",
-  "rationale": [
-   "The registry declares outputStrategy and outputStrategyDeclared 'custom_pleading', compositionMode null and units[] empty: a controlled pleading track, not a composed route.",
-   "packetSet.components lists six: a required petition, a required proposed order, a required information package, a required one-time-use affidavit (all four custom_pleading), a conditional fee-waiver statement (official_pdf_fill) and required filing-and-local-practice instructions (process_guidance). Lane C drafts the four custom-pleading documents, writes the instructions as participant-only copy, and drafts nothing for the Rule 145 Statement.",
-   "The information package is not a generic attachment: art. 55A.203(d), added by S.B. 1667, requires the person to provide the court with the information required in an art. 55A.253 petition. That is a statutory content specification and is what makes the component draftable.",
-   "The affidavit is likewise statutory: a person may receive only one expunction on each ground and must file an affidavit attesting to that fact."
+  "schemaVersion": "rcap-pleading-track-config/v1",
+  "jurisdictionCode": "TX",
+  "jurisdiction": {
+    "code": "TX",
+    "name": "Texas",
+    "slug": "texas"
+  },
+  "trackId": "tx_exp_specialty_court",
+  "jobId": "T-C-TX-production-packet",
+  "family": "controlled_pleading",
+  "treatment": "production_packet",
+  "legalName": "Streamlined expunction order after a specialty court dismissal, Tex. Code Crim. Proc. art. 55A.203",
+  "publicName": "Clear a case dismissed after a veterans or mental health court programme",
+  "templateGrade": "legal_ops_custom_pleading",
+  "templateLifecycle": "replacement_candidate",
+  "primaryReliefTerm": "expunction",
+  "primaryReliefTermBasis": "'expunction' is the Texas statutory term and is on profile:terminology.allowedStateTerms. profile:terminology.primaryConsumerTerm is 'expungement' with avoidUniversalExpungementLabel = true; the consumer-facing word may be expungement in participant copy, but the pleading uses the statutory term.",
+  "documentTitleFull": "PETITION FOR STREAMLINED EXPUNCTION ORDER AFTER SPECIALTY COURT DISMISSAL (TEX. CODE CRIM. PROC. ART. 55A.203)",
+  "documentTitleFullSourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].legalName; profile:sourceSections[10]",
+  "courtCaption": "CAUSE NO. ____________________\nIN THE DISTRICT COURT OF {county} COUNTY, TEXAS\nEX PARTE {petitionerName}",
+  "courtCaptionSourceRef": "profile:sourceSections[10] (samples, lines 428-440, Example A); registry@3b6f4c1:tracks[tx_exp_specialty_court].venue",
+  "courtCaptionNote": "Token pattern taken verbatim in form from the compiled profile's own sample caption. The cause number is blank: the matter is a new civil action and receives a new cause number on filing. {county} is the participant's arrestCounty answer. No specific district court number, judge or clerk is named.",
+  "mechanism": "Where a case was dismissed following successful completion of a veterans treatment court programme under Government Code Chapter 124 or a mental health court programme under Chapter 125, a district court may, with the consent of the attorney representing the state, enter an expunction order not later than the 30th day after the dismissal or after it receives the dismissal information. Article 55A.203(c) forbids the court charging any fee or assessing any cost for such an order. Article 55A.203(d), added by S.B. 1667, requires the person to provide the court with the information required in an art. 55A.253 petition. A person may receive only one expunction on each ground and must file an affidavit attesting to that fact. Where consent is withheld or the window closes, the ordinary petition route under art. 55A.053 remains open, because the entitlement lives there rather than in art. 55A.203. Unlike art. 55A.201, art. 55A.203 is limited to district courts.",
+  "mechanismSourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].mechanism",
+  "routeDecision": {
+    "decision": "custom_pleading_drafted_four_documents_with_one_conditional_official_form_dependency_and_an_open_fee_conflict",
+    "rationale": [
+      "The registry declares outputStrategy and outputStrategyDeclared 'custom_pleading', compositionMode null and units[] empty: a controlled pleading track, not a composed route.",
+      "packetSet.components lists six: a required petition, a required proposed order, a required information package, a required one-time-use affidavit (all four custom_pleading), a conditional fee-waiver statement (official_pdf_fill) and required filing-and-local-practice instructions (process_guidance). Lane C drafts the four custom-pleading documents, writes the instructions as participant-only copy, and drafts nothing for the Rule 145 Statement.",
+      "The information package is not a generic attachment: art. 55A.203(d), added by S.B. 1667, requires the person to provide the court with the information required in an art. 55A.253 petition. That is a statutory content specification and is what makes the component draftable.",
+      "The affidavit is likewise statutory: a person may receive only one expunction on each ground and must file an affidavit attesting to that fact."
+    ],
+    "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].outputStrategy; registry@3b6f4c1:tracks[tx_exp_specialty_court].packetSet.components; registry@3b6f4c1:tracks[tx_exp_specialty_court].mechanism; registry@3b6f4c1:tracks[tx_exp_specialty_court].authority[2]; registry@3b6f4c1:tracks[tx_exp_specialty_court].authority[6]"
+  },
+  "primaryStatutoryAuthority": [
+    {
+      "citation": "Tex. Code Crim. Proc. art. 55A.203",
+      "description": "The streamlined route. Where a case was dismissed following successful completion of a veterans treatment court programme under Gov't Code ch. 124 or a mental health court programme under ch. 125, a DISTRICT COURT may, with the consent of the attorney representing the state, enter an expunction order not later than the 30th day after the dismissal or after it receives the dismissal information.",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].authority[0]; registry@3b6f4c1:tracks[tx_exp_specialty_court].mechanism"
+    },
+    {
+      "citation": "Tex. Code Crim. Proc. art. 55A.203(c)",
+      "description": "A court entering an order under the article may not charge any fee or assess any cost for the expunction.",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].authority[1]; registry@3b6f4c1:tracks[tx_exp_specialty_court].packetInstructions[1]; registry@3b6f4c1:tracks[tx_exp_specialty_court].waitingPeriods[1]"
+    },
+    {
+      "citation": "Tex. Code Crim. Proc. art. 55A.203(d)",
+      "description": "Added by S.B. 1667. The person must provide the court with the information required in an art. 55A.253 petition. That is what the information package component carries.",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].authority[2]; registry@3b6f4c1:tracks[tx_exp_specialty_court].mechanism; registry@3b6f4c1:tracks[tx_exp_specialty_court].packetSet.components[2]"
+    },
+    {
+      "citation": "Tex. Code Crim. Proc. art. 55A.053(a)(2)(A)",
+      "description": "One of the two entitlement grounds. The underlying entitlement lives here, not in art. 55A.203.",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].authority[3]; registry@3b6f4c1:tracks[tx_exp_specialty_court].mechanism"
+    },
+    {
+      "citation": "Tex. Code Crim. Proc. art. 55A.053(a)(2)(B)",
+      "description": "The other entitlement ground.",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].authority[4]; registry@3b6f4c1:tracks[tx_exp_specialty_court].mechanism"
+    },
+    {
+      "citation": "Tex. Code Crim. Proc. art. 55A.053(b)",
+      "description": "Recorded in the track authority.",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].authority[5]"
+    },
+    {
+      "citation": "Tex. Code Crim. Proc. art. 55A.053(c)",
+      "description": "Recorded in the track authority. A person may receive only one expunction on each ground and must file an affidavit attesting to that fact.",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].authority[6]; registry@3b6f4c1:tracks[tx_exp_specialty_court].mechanism; registry@3b6f4c1:tracks[tx_exp_specialty_court].exclusions[1]"
+    },
+    {
+      "citation": "Tex. Code Crim. Proc. art. 55A.253",
+      "description": "Supplies the required information the art. 55A.203(d) information package must carry, and the verification requirement.",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].authority[7]; registry@3b6f4c1:tracks[tx_exp_specialty_court].packetInstructions[0]"
+    },
+    {
+      "citation": "Tex. Code Crim. Proc. art. 102.0061(d)",
+      "description": "Requires waiver of the district-court filing fee where entitlement arises under art. 55A.053(a)(2)(A) or (B) — a second, independent no-cost provision alongside art. 55A.203(c).",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].authority[8]; registry@3b6f4c1:tracks[tx_exp_specialty_court].rules.feeWaiver; registry@3b6f4c1:tracks[tx_exp_specialty_court].waitingPeriods[1]"
+    }
   ],
-  "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].outputStrategy; registry@3b6f4c1:tracks[tx_exp_specialty_court].packetSet.components; registry@3b6f4c1:tracks[tx_exp_specialty_court].mechanism; registry@3b6f4c1:tracks[tx_exp_specialty_court].authority[2]; registry@3b6f4c1:tracks[tx_exp_specialty_court].authority[6]"
- },
- "primaryStatutoryAuthority": [
-  {
-   "citation": "Tex. Code Crim. Proc. art. 55A.203",
-   "description": "The streamlined route. Where a case was dismissed following successful completion of a veterans treatment court programme under Gov't Code ch. 124 or a mental health court programme under ch. 125, a DISTRICT COURT may, with the consent of the attorney representing the state, enter an expunction order not later than the 30th day after the dismissal or after it receives the dismissal information.",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].authority[0]; registry@3b6f4c1:tracks[tx_exp_specialty_court].mechanism"
-  },
-  {
-   "citation": "Tex. Code Crim. Proc. art. 55A.203(c)",
-   "description": "A court entering an order under the article may not charge any fee or assess any cost for the expunction.",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].authority[1]; registry@3b6f4c1:tracks[tx_exp_specialty_court].packetInstructions[1]; registry@3b6f4c1:tracks[tx_exp_specialty_court].waitingPeriods[1]"
-  },
-  {
-   "citation": "Tex. Code Crim. Proc. art. 55A.203(d)",
-   "description": "Added by S.B. 1667. The person must provide the court with the information required in an art. 55A.253 petition. That is what the information package component carries.",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].authority[2]; registry@3b6f4c1:tracks[tx_exp_specialty_court].mechanism; registry@3b6f4c1:tracks[tx_exp_specialty_court].packetSet.components[2]"
-  },
-  {
-   "citation": "Tex. Code Crim. Proc. art. 55A.053(a)(2)(A)",
-   "description": "One of the two entitlement grounds. The underlying entitlement lives here, not in art. 55A.203.",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].authority[3]; registry@3b6f4c1:tracks[tx_exp_specialty_court].mechanism"
-  },
-  {
-   "citation": "Tex. Code Crim. Proc. art. 55A.053(a)(2)(B)",
-   "description": "The other entitlement ground.",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].authority[4]; registry@3b6f4c1:tracks[tx_exp_specialty_court].mechanism"
-  },
-  {
-   "citation": "Tex. Code Crim. Proc. art. 55A.053(b)",
-   "description": "Recorded in the track authority.",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].authority[5]"
-  },
-  {
-   "citation": "Tex. Code Crim. Proc. art. 55A.053(c)",
-   "description": "Recorded in the track authority. A person may receive only one expunction on each ground and must file an affidavit attesting to that fact.",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].authority[6]; registry@3b6f4c1:tracks[tx_exp_specialty_court].mechanism; registry@3b6f4c1:tracks[tx_exp_specialty_court].exclusions[1]"
-  },
-  {
-   "citation": "Tex. Code Crim. Proc. art. 55A.253",
-   "description": "Supplies the required information the art. 55A.203(d) information package must carry, and the verification requirement.",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].authority[7]; registry@3b6f4c1:tracks[tx_exp_specialty_court].packetInstructions[0]"
-  },
-  {
-   "citation": "Tex. Code Crim. Proc. art. 102.0061(d)",
-   "description": "Requires waiver of the district-court filing fee where entitlement arises under art. 55A.053(a)(2)(A) or (B) — a second, independent no-cost provision alongside art. 55A.203(c).",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].authority[8]; registry@3b6f4c1:tracks[tx_exp_specialty_court].rules.feeWaiver; registry@3b6f4c1:tracks[tx_exp_specialty_court].waitingPeriods[1]"
-  }
- ],
- "supplementalAuthorityFromRules": [
-  {
-   "citation": "Tex. Government Code ch. 124",
-   "description": "Veterans treatment court programmes. One of the two programme types this route reaches.",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].mechanism; registry@3b6f4c1:tracks[tx_exp_specialty_court].exclusions[0]"
-  },
-  {
-   "citation": "Tex. Government Code ch. 125",
-   "description": "Mental health court programmes. The other programme type this route reaches.",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].mechanism; registry@3b6f4c1:tracks[tx_exp_specialty_court].exclusions[0]"
-  },
-  {
-   "citation": "Tex. Code Crim. Proc. art. 55A.201",
-   "description": "Named in the mechanism only as a contrast: unlike art. 55A.201, art. 55A.203 is limited to district courts. Not authority for this relief.",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].mechanism; registry@3b6f4c1:tracks[tx_exp_specialty_court].exclusions[2]"
-  },
-  {
-   "citation": "Tex. Code Crim. Proc. art. 55A.301",
-   "description": "The order carries the TRN — recorded on this track in the participant-filing-requirement text rather than in authority[].",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].participantFilingRequirements[0].howToObtain"
-  }
- ],
- "verificationStatute": {
-  "citation": "Tex. Code Crim. Proc. art. 55A.253",
-  "description": "Applied through art. 55A.203(d), which requires the person to provide the court with the information required in an art. 55A.253 petition. Article 55A.253 carries the verification requirement.",
-  "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].rules.participantSignature; registry@3b6f4c1:tracks[tx_exp_specialty_court].authority[2]; registry@3b6f4c1:tracks[tx_exp_specialty_court].authority[7]"
- },
- "unswornDeclarationAuthority": {
-  "citation": null,
-  "description": "An unsworn declaration under penalty of perjury ships alongside the notarial block because county practice chooses between them. No source read for this track names the statute that authorises the declaration. Left null and flagged. Note that the one-time-use affidavit is a separate sworn instrument required by the statute in its own terms and is not an alternative to the verification.",
-  "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].rules.notarization"
- },
- "includeProposedOrder": true,
- "includeProposedOrderReason": "A proposed order is a required custom_pleading component in the registry packet set for this track, and the compiled profile records that 'each petition is accompanied by a proposed Order' and that 'courts will not grant without a complete proposed order'. It is drafted here as a container: it lists the agencies the participant named and directs each to destroy or return the records, and it carries the TRN under art. 55A.301. It states no finding, no date and no judge.",
- "includeCertificateOfService": false,
- "includeCertificateOfServiceReason": "The clerk serves under art. 55A.254; the participant does not serve in the ordinary case. The registry records a certificate of service only where local practice requires the filer to serve the prosecutor directly and names no such county, and packetSet.components has no certificate-of-service component.",
- "serviceNote": null,
- "serviceNoteNullReason": "No participant-performed service step exists on the ordinary route, so there is no service note to carry into the pleading. The clerk's own service rule is recorded in participant-instructions.md as information, not as an instruction to the participant.",
- "serviceNoteSourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].rules.service",
- "qaProhibitedTerms": [
-  "nondisclosure",
-  "seal",
-  "sealed",
-  "sealing",
-  "set aside",
-  "set-aside",
-  "vacatur",
-  "annulment"
- ],
- "qaProhibitedTermsSourceRef": "profile:terminology.allowedStateTerms ['expungement','expunction','sealing','erasure','nondisclosure','pardon'] read with profile:terminology.avoidUniversalExpungementLabel = true and profile:sourceSections[4] (case_outcomes) 'Expunction = erased and deniable; nondisclosure = sealed from most private requesters'. Expunction and nondisclosure are separate remedies in separate codes with separate venues; a Chapter 55A pleading that uses sealing or nondisclosure vocabulary is the wrong remedy on its face.",
- "presentation": {
-  "sovereignPartyName": null,
-  "sovereignPartyNameNullReason": "There is no sovereign party in the caption. The proceeding is an EX PARTE petition and the compiled profile's own sample caption is 'CAUSE NO. ____ / IN THE DISTRICT COURT OF ____________ COUNTY, TEXAS / EX PARTE [NAME]'. No source read for this track names a respondent, an opposing party or a party-role line. Not invented.",
-  "sovereignPartyNameSourceRef": "profile:sourceSections[10] (category samples, lines 428-440); registry@3b6f4c1:tracks[409].rules.filing",
-  "sovereignPartyProper": null,
-  "sovereignPartyProperNullReason": "Same reason. Ex parte proceeding; no opposing party is named in the caption.",
-  "sovereignRole": null,
-  "sovereignRoleNullReason": "Ex parte proceeding. No source read for this track assigns a role to the State in the caption.",
-  "movantRole": "Petitioner",
-  "movantRoleSourceRef": "profile:sourceSections[10] ('1. Petitioner: ...'); registry@3b6f4c1:tracks[409].rules.participantSignature ('The petitioner signs')",
-  "filingNoun": "Petition",
-  "captionStyleLine": "EX PARTE {petitionerName}",
-  "captionStyleLineSourceRef": "profile:sourceSections[10] ('EX PARTE ANDRE L. CARTER')",
-  "divisionLine": "",
-  "divisionLineNote": "No source records a division line for a Texas district court civil caption. Left empty rather than invented.",
-  "usesCounty": true,
-  "usesCountySourceRef": "profile:sourceSections[6] (filing) 'File in a district court for the county of arrest or prosecution (Art. 55A.251)'",
-  "courtName": "the District Court of {county} County, Texas",
-  "courtNameSourceRef": "profile:sourceSections[10] 'IN THE DISTRICT COURT OF ____________ COUNTY, TEXAS'",
-  "venueDescriptor": "{county} County, Texas",
-  "venueDescriptorNote": "Token pattern. The county is the county of arrest or of the alleged offence and reaches the document only as the participant's own screening answer (arrestCounty). No county is prefilled. Where the arrest and the alleged offence are in different counties the track's own self-help boundary stops the packet.",
-  "recordCustodianLead": null,
-  "recordCustodianLeadNullReason": "No source read for this track enumerates the agencies that hold the records or that the order must reach. Article 55A.253(c) puts that list on the district clerk's published website list, which is county-specific, and art. 55A.253(b) forbids listing an agency twice. The list is the participant's own answer (agencyList), confirmed against the clerk's published list before filing. Not invented.",
-  "verificationVerb": "verify",
-  "verificationVerbSourceRef": "registry@3b6f4c1:tracks[409].rules.participantSignature ('the petition must be verified under art. 55A.253')",
-  "verificationPenaltyLabel": "penalty of perjury",
-  "verificationPenaltyLabelSourceRef": "registry@3b6f4c1:tracks[409].rules.participantSignature ('an unsworn declaration under penalty of perjury')",
-  "verificationPenaltyLabelNote": "Applies to the unsworn-declaration block only. The notarial block carries no penalty label because no source supplies one.",
-  "serviceRecipientLabel": null,
-  "serviceRecipientLabelNullReason": "The participant does not serve in the ordinary case. Under art. 55A.254 the CLERK sends the petition and notice of hearing to each listed entity by certified mail return receipt requested, or by secure e-mail, electronic transmission or fax. The registry records a certificate of service 'only where local practice requires the filer to serve the prosecutor directly', and names no county in which that is so. Not invented.",
-  "serviceRecipientAddressLabel": null,
-  "serviceRecipientAddressLabelNullReason": "No recipient label, so no address label. No prosecutor address is recorded by any source read for this track.",
-  "reliefActionVerb": "expunge",
-  "orderActionVerb": "destroy or return",
-  "recordsScopePhrase": "all records and files relating to the arrest identified in this petition",
-  "recordsScopePhraseSourceRef": "profile:sourceSections[13] ('The Order of Expunction lists every named agency and directs each to destroy or return all records of the arrest under Chapter 55A'); profile:sourceSections[5] (forms)",
-  "movantFirstInCaption": null,
-  "movantFirstInCaptionNullReason": "Not applicable. The caption has one party line, 'EX PARTE {petitionerName}'; there is no party ordering to set."
- },
- "counselFlags": [
-  {
-   "id": "tx-exp-unsworn-declaration-statute-unnamed",
-   "statement": "Article 55A.253 requires the petition to be verified, and the registry records that BOTH a notarial verification block and an unsworn declaration under penalty of perjury ship because 'county practice chooses between them' and an unsworn declaration 'is accepted in practice by some clerks and not others'. No source read for this track names the statute that authorises an unsworn declaration in place of a notarised verification, and no source names a single county that accepts or refuses one. verificationStatute.citation carries art. 55A.253 because that is the article the source cites for the verification requirement itself; unswornDeclarationAuthority.citation is null. This is the same handling the ND config gives its missing verification statute: null, flagged, not invented.",
-   "mustConfirm": "The statutory authority for an unsworn declaration in a Chapter 55A expunction filing, and whether the packet should ship both blocks or a single block chosen per county.",
-   "impact": "counsel_confirmation",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].rules.participantSignature; registry@3b6f4c1:tracks[tx_exp_specialty_court].rules.notarization; registry@3b6f4c1:tracks[tx_exp_specialty_court].packetSet.participantActionRequired[kind=notarize]"
-  },
-  {
-   "id": "tx-exp-certificate-of-service-local-practice-unnamed",
-   "statement": "No certificate of service is drafted. The recorded rule is that the CLERK sends the petition and notice of hearing under art. 55A.254 and that 'the participant does not serve in the ordinary case; a certificate of service is included only where local practice requires the filer to serve the prosecutor directly'. No source read for this track names a county in which that local practice applies, so there is no sourced trigger condition and none is invented. includeCertificateOfService is false.",
-   "mustConfirm": "Which counties require the filer to serve the attorney representing the state directly, so the conditional certificate of service can be gated on a real fact rather than omitted.",
-   "impact": "counsel_confirmation",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].rules.service; registry@3b6f4c1:tracks[tx_exp_specialty_court].packetSet.participantActionRequired[kind=serve_party]; registry@3b6f4c1:tracks[tx_exp_specialty_court].packetSet.components"
-  },
-  {
-   "id": "tx-exp-filing-fee-amount-unknown",
-   "statement": "No fee figure is quoted anywhere in this artifact. Article 102.006 was repealed by S.B. 1667 effective 2025-09-01, temporarily re-added by H.B. 16 of the 89th Legislature 2nd Called Session, and permanently replaced by art. 102.0061 effective 2026-01-01. Under art. 102.0061(a) a district court charges the ordinary county civil filing fee for an ex parte petition, which is not a flat statutory amount; under (b) a justice court or municipal court of record charges a flat $100. The county figure is unresolved and is a recorded release blocker. Separately, whether the $25 per-non-electronic-entity charge applies twice for the same agency — once under art. 55A.254(f) at the petition stage and again under art. 55A.351(b-3) at the order stage — is supported by the text and unconfirmed in practice, and it changes the participant's total by a multiple of the agency count. The compiled profile's '$250-$500 in many counties' figure is expressly disavowed by the registry as no longer reliable and is not reproduced.",
-   "mustConfirm": "The current district-court civil filing fee county by county, and whether the $25 per-paper-entity charge applies once or twice per agency.",
-   "impact": "release_blocker",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].releaseBlockers[0]; registry@3b6f4c1:tracks[tx_exp_specialty_court].rules.fees; profile:sourceSections[8] (fees) — disavowed"
-  },
-  {
-   "id": "tx-exp-sensitive-data-in-a-public-filing",
-   "statement": "Article 55A.253(a) requires the petition to carry the petitioner's date of birth, driver's licence number and social security number, and the petition is public until the order issues. How Harris, Dallas, Bexar, Tarrant and Travis handle sensitive data in a public civil expunction filing is an open release blocker. Every fixture in this artifact leaves dateOfBirth, ssn, driversLicenseNumber, sex and race blank. That is a deliberate conflict with art. 55A.253(a) and it is recorded here rather than resolved: the protected fields must not be prefilled by any pipeline stage, and the county sensitive-data practice must be pulled before the packet can be assembled for filing.",
-   "mustConfirm": "The sensitive-data handling practice in the five largest counties, and the mechanism by which the participant supplies the art. 55A.253(a) identifiers by hand at filing time rather than through the pipeline.",
-   "impact": "release_blocker",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].releaseBlockers[1]; registry@3b6f4c1:tracks[tx_exp_specialty_court].packetInstructions[0]"
-  },
-  {
-   "id": "tx-exp-agency-list-no-duplicates-generator-constraint",
-   "statement": "Article 55A.253(b) forbids listing any state or local agency more than once and forbids multiple contacts or addresses for different divisions of the same agency; art. 55A.256(c-1) repeats it for the mistaken-identity application. Counsel classified this as a manual completion item AND a generator constraint. The list is assembled from the participant's own answer (agencyList) and the district clerk's published art. 55A.253(c) list, and the participant confirms it before filing because the clerk bears no completeness duty. No agency is prefilled by LegalEase.",
-   "mustConfirm": "That the generator deduplicates the agency list and never emits two entries for divisions of the same agency.",
-   "impact": "packet_instruction",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].manualCompletionItems[0]; registry@3b6f4c1:tracks[tx_exp_specialty_court].legalDesignLimitations[classification=manual_completion_item]"
-  },
-  {
-   "id": "tx-exp-private-entities-listed-separately",
-   "statement": "Article 55A.253(a)(8)(C) treats private entities that compile and disseminate criminal history record information for compensation separately from government agencies. They go on a separate attachment and are never merged into the agency list; merging them breaks both the no-duplicate rule and the service model.",
-   "mustConfirm": "That the private-entity attachment is a distinct list and is never merged into the art. 55A.253(a)(8) agency list.",
-   "impact": "packet_instruction",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].manualCompletionItems[1]"
-  },
-  {
-   "id": "tx-exp-trn-must-appear-on-the-order",
-   "statement": "The order must carry the TRN — the incident number on the Texas DPS criminal history — under art. 55A.301. LegalEase does not obtain, receive or inspect the DPS history; the participant obtains it following DPS form CR-63 and supplies the TRN. The TRN field is blank in every fixture.",
-   "mustConfirm": "That the TRN reaches the order only as the participant's own confirmed answer and is never derived.",
-   "impact": "packet_instruction",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].participantFilingRequirements[0].howToObtain; registry@3b6f4c1:tracks[tx_exp_specialty_court].generationRequirements[key=trn]"
-  },
-  {
-   "id": "tx-exp-notice-of-hearing-preparer-unknown",
-   "statement": "No notice of hearing is drafted. The court sets the hearing not earlier than the 30th day after filing and the clerk gives a copy of the petition and the notice of hearing to each listed entity other than central federal depositories; on receipt DPS notifies the central federal depositories, so the filer does not chase the FBI. The registry records that WHETHER THE CLERK OR THE FILER PREPARES THE NOTICE OF HEARING varies by county and names no county either way. Drafting a notice would guess at both the preparer and the hearing date.",
-   "mustConfirm": "Which counties require the filer rather than the clerk to prepare the notice of hearing.",
-   "impact": "counsel_confirmation",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].rules.notice; registry@3b6f4c1:tracks[tx_exp_specialty_court].destination.detail"
-  },
-  {
-   "id": "tx-exp-third-party-form-sets-are-out-of-scope",
-   "statement": "TexasLawHelp forms carry non-commercial site terms and may not be filled and delivered inside a paid product; confirmed 2026-08-06 that texaslawhelp.org is a Texas Legal Services Center legal-aid self-help site whose expunction forms are neither promulgated nor mandatory nor statewide court forms. Texas Justice Court Training Center forms are Texas State University training aids. County and district clerk packets are local only. LegalEase drafts its own petition and order to arts. 55A.253 and 55A.301 and uses none of these as a form. The compiled TX profile still instructs agents to 'use TexasLawHelp's statewide tools to assemble the right forms' — that instruction is superseded and is not followed here.",
-   "mustConfirm": "That no pipeline stage fills or delivers a TexasLawHelp, TJCTC or county clerk form on any Texas expunction track.",
-   "impact": "scope_restriction",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].scopeRestrictions[0]; profile:sourceSections[5] (forms) and sourceSections[6] (filing) — superseded"
-  },
-  {
-   "id": "tx-exp-no-statewide-expunction-form-exists",
-   "statement": "No statewide expunction form exists at any level of Texas state government; the Texas Judicial Branch forms index was confirmed on 2026-08-06 to contain none. Article 55A.253(a) prescribes the contents of the petition instead, and that specificity is what makes a controlled pleading supportable here. Do not reclassify this track as official_pdf_fill because unofficial fillable PDFs circulate.",
-   "mustConfirm": "That the track stays classified custom_pleading and that no circulating unofficial PDF is adopted as a form.",
-   "impact": "packet_instruction",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].legalDesignLimitations[classification=packet_instruction][0]; registry@3b6f4c1:tracks[tx_exp_specialty_court].officialSources[8]; registry@3b6f4c1:tracks[tx_exp_specialty_court].destination.detail"
-  },
-  {
-   "id": "tx-exp-fee-waiver-official-form-dependency",
-   "statement": "The conditional fee-waiver component is the Statement of Inability to Afford Payment of Court Costs or an Appeal Bond under Tex. R. Civ. P. 145, the bilingual statewide form approved by the Supreme Court of Texas in Misc. Docket No. 22-9090 — the only genuinely statewide promulgated form in the entire Texas record-clearing workflow. It is an official form and is not drafted here. Recorded as a mandatory official-form handoff to the official-PDF overlay lane.",
-   "mustConfirm": "That the Rule 145 Statement is acquired at its current revision, hashed and field-mapped by the official-PDF overlay lane.",
-   "impact": "official_form_dependency",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].packetSet.components[role=fee_waiver_statement]; registry@3b6f4c1:tracks[tx_exp_specialty_court].rules.feeWaiver"
-  },
-  {
-   "id": "tx-exp-court-identity-and-outside-party-acts-blank",
-   "statement": "Cause number, court identity, judge name, the attorney representing the state and that attorney's position, filing date, service completion, hearing date and hearing outcome are blank in every fixture and are never prefilled. County, arrest date, arresting agency, offence and case number reach the document only as the participant's own screening answers. The matter is a NEW civil action and receives a NEW cause number, so no cause number can exist before filing.",
-   "mustConfirm": "That no pipeline stage populates court identity, prosecutor position, service completion, a hearing date or any outside-party act.",
-   "impact": "counsel_confirmation",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].generationRequirements; registry@3b6f4c1:tracks[tx_exp_specialty_court].rules.filing; registry@3b6f4c1:tracks[tx_exp_specialty_court].rules.notice"
-  },
-  {
-   "id": "tx-exp-self-help-stop-conditions",
-   "statement": "The track's recorded self-help stop conditions are carried into participant copy verbatim in substance: the state opposes the petition or seeks retention under art. 55A.302; the arrest produced multiple charges with mixed outcomes (State v. T.S.N. and Ex parte R.P.G.P. govern whether individual offences from one arrest can be expunged separately, and that analysis is not automated); a felony from the same transaction is present or arguable; the limitations analysis is contested; any absconding or bail-jumping history (art. 55A.154 makes an intentional or knowing absconder ineligible and a participant may not self-identify the fact); the arrest may have been made on an art. 42A.751(b) community-supervision violation warrant, which art. 55A.153 bars; venue is unclear because the arrest and the alleged offence were in different counties; immigration consequences; the participant wants to attack the underlying case rather than clear it.",
-   "mustConfirm": "That every stop condition is wired as a screening stop and not merely printed.",
-   "impact": "self_help_boundary",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].selfHelpStopConditions; registry@3b6f4c1:tracks[tx_exp_specialty_court].selfHelpBoundaries"
-  },
-  {
-   "id": "tx-exp-legal-status-gate",
-   "statement": "Track legalStatus is 'legal_review_pending' and legalDesignStatus is 'legal_design_approved_with_limitations'. Runtime is disabled: counsel approved the design, not the produced document. Output review, visual review and technical proof are all outstanding. implementationQueue is F_source_problem.",
-   "mustConfirm": "Output review, visual review and technical proof before this pleading leaves internal review.",
-   "impact": "output_review_gate",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].legalStatus; registry@3b6f4c1:tracks[tx_exp_specialty_court].legalDesignStatus; registry@3b6f4c1:tracks[tx_exp_specialty_court].runtimeDisabledReason; registry@3b6f4c1:tracks[tx_exp_specialty_court].implementationQueue"
-  },
-  {
-   "id": "tx-exp-source-freshness-gate",
-   "statement": "Every official source recorded on this track carries sha256 null — the Chapter 55A statute page, S.B. 1667, H.B. 4504, H.B. 16, the Chapter 102 statute page, the Rule 145 Statement of Inability, DPS form CR-63, the DPS Criminal Records Service page and the Texas Judicial Branch forms index. Staleness cannot be detected for any of them. Chapter 55A is a live target: it was recodified effective 2025-01-01 by H.B. 4504, amended by S.B. 1667 effective 2025-09-01, and its fee article was replaced effective 2026-01-01.",
-   "mustConfirm": "Capture hashes for all nine official sources before release, and re-read Chapter 55A at each legislative session boundary.",
-   "impact": "source_gate",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].blockers[kind=source_gate]; registry@3b6f4c1:tracks[tx_exp_specialty_court].officialSources"
-  },
-  {
-   "id": "tx-exp-compiled-profile-predates-this-track",
-   "statement": "The compiled TX profile is a conversion of a single Agent Training Reference PDF and does not record this article at all. It corroborates the caption form, the ex parte style, the art. 55A.251 venue rule, the required-contents summary, the proposed-order rule and the seven-step filing sequence, and it is used for exactly those. It is stale or superseded on three points that matter: it quotes a '$250-$500' fee range the registry disavows; it directs agents to TexasLawHelp, which the scope restriction forbids; and its bars-to-expunction section states that 'final conviction for the offence (other than a later pardon) — convictions are generally not expungeable', which is directly wrong for art. 55A.005 and incomplete for art. 55A.004.",
-   "mustConfirm": "Whether the TX profile should be regenerated against a corpus that includes Chapter 55A as recodified and amended.",
-   "impact": "source_gate",
-   "sourceRef": "profile:source.references (one PDF); profile:sourceSections[3], [5], [6], [8]; registry@3b6f4c1:tracks[tx_exp_specialty_court].scopeRestrictions[0]; registry@3b6f4c1:tracks[tx_exp_specialty_court].rules.fees"
-  },
-  {
-   "id": "tx-specialty-prosecutor-consent-is-never-asserted",
-   "statement": "The streamlined route requires the consent of the attorney representing the state, and the registry states in terms: 'LegalEase does not seek, negotiate or obtain that consent and never asserts it has been given.' Consent is an outside-party act. Nothing in this packet says the state consents, has consented, will consent or does not oppose, and the screening key prosecutorConsentSought collects only whether the participant has ASKED — not the answer. The prosecutor's consent makes the streamlined route discretionary in practice even though the underlying art. 55A.053 entitlement is mandatory.",
-   "mustConfirm": "That no pipeline stage asserts, implies or predicts the consent of the attorney representing the state.",
-   "impact": "self_help_boundary",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].postGenerationHandoffs[0]; registry@3b6f4c1:tracks[tx_exp_specialty_court].selfHelpStopConditions[12]; registry@3b6f4c1:tracks[tx_exp_specialty_court].generationRequirements[key=prosecutorConsentSought]"
-  },
-  {
-   "id": "tx-specialty-the-entitlement-lives-in-55a053-not-55a203",
-   "statement": "Where consent is withheld or the 30-day window closes, the participant is NOT out of relief: the ordinary art. 55A.053 petition route remains open, because the entitlement lives in art. 55A.053 and art. 55A.203 is only the streamlined vehicle. That fallback is recorded in participant copy as an onward route and is not relief this packet requests. No art. 55A.053 petition is drafted here; that is a separate track.",
-   "mustConfirm": "That screening routes a withheld consent or a closed window onward to the ordinary art. 55A.053 petition rather than terminating the participant.",
-   "impact": "packet_instruction",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].mechanism; registry@3b6f4c1:tracks[tx_exp_specialty_court].postGenerationHandoffs[0]"
-  },
-  {
-   "id": "tx-specialty-thirty-day-window-is-not-a-waiting-period",
-   "statement": "There is no participant waiting period on this track. The constraint is a WINDOW: the order may be entered not later than the 30th day after the dismissal or after the court receives the dismissal information. That runs the opposite way from every waiting period in the Texas denominator — waiting too long defeats the streamlined route rather than qualifying for it. The packet must never present the 30 days as a wait, and must never be confused with the art. 55A.251 rule that a HEARING is set NOT EARLIER THAN the 30th day after filing, which is the sibling tracks' rule and does not apply here.",
-   "mustConfirm": "That the 30-day window is encoded as a deadline and never as a waiting period, and that the art. 55A.251 hearing rule is not inherited onto this track.",
-   "impact": "packet_instruction",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].waitingPeriods[0]; registry@3b6f4c1:tracks[tx_exp_specialty_court].selfHelpStopConditions[10]"
-  },
-  {
-   "id": "tx-specialty-no-fee-may-be-charged-yet-a-fee-waiver-component-is-listed",
-   "statement": "Two independent provisions make this route free: art. 55A.203(c) forbids the court charging any fee or assessing any cost for an order entered under the article, and art. 102.0061(d) separately requires waiver of the district-court filing fee where entitlement arises under art. 55A.053(a)(2)(A) or (B). Yet packetSet.components still carries a conditional fee_waiver_statement component pointing at the Rule 145 Statement of Inability. Either the component is inherited from the sibling art. 55A.251 tracks, or it is belt-and-braces for a clerk who asks anyway. The dependency is recorded because the component is recorded, and the conflict is flagged. No fee figure is quoted anywhere and a clerk who demands a fee should be treated as a stop, not as a bill.",
-   "mustConfirm": "Whether the conditional Rule 145 fee-waiver component belongs on a track where two statutes forbid any charge, and what a participant should do if a clerk demands one anyway.",
-   "impact": "build_blocker",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].authority[1]; registry@3b6f4c1:tracks[tx_exp_specialty_court].authority[8]; registry@3b6f4c1:tracks[tx_exp_specialty_court].packetSet.components[4]; registry@3b6f4c1:tracks[tx_exp_specialty_court].packetInstructions[1]"
-  },
-  {
-   "id": "tx-specialty-district-courts-only",
-   "statement": "Article 55A.203 is limited to DISTRICT COURTS, unlike art. 55A.201. A court other than a district court is a recorded exclusion. That also means the art. 55A.252 justice-court and municipal-court-of-record alternative, which is available on the sibling fine-only expunction tracks, is NOT available here.",
-   "mustConfirm": "That no fine-only branch routes this track to a justice court or municipal court of record.",
-   "impact": "scope_restriction",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].exclusions[2]; registry@3b6f4c1:tracks[tx_exp_specialty_court].mechanism"
-  },
-  {
-   "id": "tx-specialty-one-expunction-per-ground-and-the-affidavit",
-   "statement": "A person may receive only one expunction on each ground and must file an affidavit attesting to that fact. A second expunction on the same specialty-court ground is a recorded exclusion and a self-help stop condition. The affidavit is drafted as a container carrying the participant's own attestation; it asserts nothing LegalEase has checked, and no record of prior expunctions is derived from anywhere.",
-   "mustConfirm": "That priorSpecialtyExpunction gates generation rather than merely being collected, and that the attestation is never auto-completed.",
-   "impact": "self_help_boundary",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].mechanism; registry@3b6f4c1:tracks[tx_exp_specialty_court].exclusions[1]; registry@3b6f4c1:tracks[tx_exp_specialty_court].packetSet.components[3]; registry@3b6f4c1:tracks[tx_exp_specialty_court].generationRequirements[key=priorSpecialtyExpunction]"
-  },
-  {
-   "id": "tx-specialty-programme-type-must-be-one-of-two",
-   "statement": "Only two programme types open this route: a veterans treatment court programme under Gov't Code ch. 124 and a mental health court programme under ch. 125. A dismissal following any other programme is a recorded exclusion. The compiled profile refers loosely to 'specialty-court dismissal (e.g., veterans treatment court)' with no chapter citation and no mention of mental health courts; the two-chapter limit comes from the registry alone.",
-   "mustConfirm": "That specialtyProgramType is gated to the ch. 124 and ch. 125 programme types and that no other diversion or drug-court programme is accepted.",
-   "impact": "scope_restriction",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].exclusions[0]; registry@3b6f4c1:tracks[tx_exp_specialty_court].generationRequirements[key=specialtyProgramType]; profile:sourceSections[1] (pathways) and sourceSections[4] (case_outcomes)"
-  }
- ],
- "componentInventory": [
-  {
-   "component": "caption",
-   "status": "present",
-   "note": "Three lines, from the compiled profile's own sample: 'CAUSE NO. ____________________', 'IN THE DISTRICT COURT OF {county} COUNTY, TEXAS', 'EX PARTE {petitionerName}'. The cause number is blank because the matter is a new civil action that receives a new cause number on filing. County is the participant's screening answer only.",
-   "sourceRef": "profile:sourceSections[10] (samples, lines 428-440); registry@3b6f4c1:tracks[tx_exp_specialty_court].rules.filing"
-  },
-  {
-   "component": "court_and_party_identity",
-   "status": "present",
-   "note": "Petitioner name and address from screening. County of arrest or of the alleged offence from screening (arrestCounty). Court identity beyond 'a district court of that county' is not fixed: the specific district court, the judge, the cause number, the attorney representing the state and that attorney's position are blank and never prefilled. Article 55A.253(a) also requires sex, race, date of birth, driver's licence number, social security number and the address at the time of arrest; those are protected fields, are blank in every fixture, and are flagged.",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].generationRequirements; registry@3b6f4c1:tracks[tx_exp_specialty_court].packetInstructions[0]"
-  },
-  {
-   "component": "title",
-   "status": "present",
-   "note": "Built from the legalName recorded on the track, in the title style of the compiled profile's sample ('PETITION FOR EXPUNCTION OF CRIMINAL RECORDS (CCP CH. 55A)').",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].legalName; profile:sourceSections[10]"
-  },
-  {
-   "component": "allegations",
-   "status": "present",
-   "note": "Container only, for the art. 55A.253(a) contents carried through art. 55A.203(d), and this track's own generationRequirements: the arrest county and the county of the alleged offence; the arrest date; the arresting agency; the offence charged and its level; the case number and court; the programme type — veterans treatment court under Gov't Code ch. 124 or mental health court under ch. 125; the dismissal date; whether any prior expunction was granted on this same ground; and whether the prosecutor's office has been ASKED about consent. Every one is the participant's own averment. Successful completion of the programme, the dismissal itself and the state's consent are outside-party acts and are never asserted.",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].packetInstructions[0]; registry@3b6f4c1:tracks[tx_exp_specialty_court].generationRequirements"
-  },
-  {
-   "component": "statutory_basis",
-   "status": "present",
-   "note": "Citations taken only from the track's recorded authority list, plus art. 55A.301 where the rules text supplies it for the order.",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].authority"
-  },
-  {
-   "component": "requested_relief",
-   "status": "present",
-   "note": "Stated from the mechanism recorded on the track and no wider.",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].mechanism"
-  },
-  {
-   "component": "verification",
-   "status": "present",
-   "note": "Two blocks ship, because the source says county practice chooses between them: a notarial verification block and an unsworn declaration under penalty of perjury. The verification requirement is art. 55A.253, applied through art. 55A.203(d). The statute authorising the unsworn-declaration alternative is not named by any source read for this track and is carried as null plus a counsel flag.",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].rules.participantSignature; registry@3b6f4c1:tracks[tx_exp_specialty_court].rules.notarization"
-  },
-  {
-   "component": "signatures",
-   "status": "present",
-   "note": "Petitioner's signature and date only. The judge's signature line on the proposed order is the court's and is left blank. No LegalEase signature block.",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].manualCompletionItems; registry@3b6f4c1:tracks[tx_exp_specialty_court].rules.participantSignature"
-  },
-  {
-   "component": "proposed_order",
-   "status": "present",
-   "note": "Drafted. Required custom_pleading component. It lists every agency and entity the participant named, directs each to destroy or return all records and files relating to the arrest, and carries the TRN. It recites no consent by the attorney representing the state, no dismissal finding and no date; the judge's signature line, date and judge name are blank.",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].packetSet.components[role=proposed_order]; profile:sourceSections[13]"
-  },
-  {
-   "component": "certificate_of_service",
-   "status": "absent",
-   "reason": "The clerk serves under art. 55A.254, not the participant. The registry records a certificate of service 'only where local practice requires the filer to serve the prosecutor directly' and names no county in which that is so, and packetSet.components contains no certificate-of-service component. Drafting one would invent both the trigger and the recipient.",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].rules.service; registry@3b6f4c1:tracks[tx_exp_specialty_court].packetSet.components"
-  },
-  {
-   "component": "notice",
-   "status": "absent",
-   "reason": "No notice and no hearing document. This is a streamlined order route, not a noticed petition: the court enters the order not later than the 30th day after the dismissal or after it receives the dismissal information. The art. 55A.251 rule that a hearing is set not earlier than the 30th day after filing belongs to the sibling tracks and does not apply here.",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].rules.notice; registry@3b6f4c1:tracks[tx_exp_specialty_court].destination.detail"
-  },
-  {
-   "component": "affidavit",
-   "status": "present",
-   "note": "Drafted. The one-time-use affidavit is a required custom_pleading component and a statutory requirement: a person may receive only one expunction on each ground and must file an affidavit attesting to that fact. See the one_time_use_affidavit row below.",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].packetSet.components[3]; registry@3b6f4c1:tracks[tx_exp_specialty_court].mechanism"
-  },
-  {
-   "component": "participant_only_cover_sheet",
-   "status": "absent",
-   "reason": "No cover sheet is drafted. The registry records that civil cover sheets are one of the things that 'varies by county' and names no county's sheet; packetSet.components contains no cover-sheet component; and the compiled profile says only to 'check the specific county's local cover sheets' before filing. A cover sheet is a county form, not a document this lane may compose.",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].destination.detail; profile:sourceSections[5] (forms)"
-  },
-  {
-   "component": "filing_instructions",
-   "status": "present",
-   "note": "Participant-only. participant-instructions.md, drawn only from the track's rules.filing, rules.fees, rules.feeWaiver, rules.notice, rules.service, packetInstructions, packetSet.participantActionRequired, participantFilingRequirements and selfHelpStopConditions, plus the compiled profile's seven-step filing sequence. Never filed with the court. It is registry packetSet component 'filing_and_local_practice_instructions'.",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].packetSet.components[role=filing_and_local_practice_instructions]; profile:sourceSections[6] (filing)"
-  },
-  {
-   "component": "information_package",
-   "status": "present",
-   "note": "Drafted. Required custom_pleading component and a statutory requirement, not a courtesy: art. 55A.203(d) requires the person to provide the court with the information required in an art. 55A.253 petition. It carries the same content specification as the petition — identity, offence, dates, county and municipality of arrest, arresting agency, case number and court, the deduplicated agency list and the separate private-entity list — assembled for a court that is entering an order rather than hearing a petition.",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].packetSet.components[2]; registry@3b6f4c1:tracks[tx_exp_specialty_court].authority[2]; registry@3b6f4c1:tracks[tx_exp_specialty_court].packetInstructions[0]"
-  },
-  {
-   "component": "one_time_use_affidavit",
-   "status": "present",
-   "note": "Drafted as a container. A person may receive only one expunction on each ground and must file an affidavit attesting to that fact. It carries the participant's own attestation and nothing else; no record of prior expunctions is derived, looked up or asserted, and the participant executes it.",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].packetSet.components[3]; registry@3b6f4c1:tracks[tx_exp_specialty_court].mechanism; registry@3b6f4c1:tracks[tx_exp_specialty_court].authority[6]"
-  },
-  {
-   "component": "prosecutor_consent_instrument",
-   "status": "absent",
-   "reason": "The route requires the consent of the attorney representing the state, and no consent instrument, agreed order, agreed motion or consent recital is drafted. The registry states that LegalEase does not seek, negotiate or obtain that consent and never asserts it has been given. Where consent is withheld the ordinary art. 55A.053 petition route remains open.",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].postGenerationHandoffs[0]; registry@3b6f4c1:tracks[tx_exp_specialty_court].selfHelpStopConditions[12]"
-  }
- ],
- "participantOnlyDocuments": [
-  "participant-instructions.md"
- ],
- "courtDocuments": [
-  {
-   "item": "Petition for streamlined expunction order after specialty court dismissal",
-   "componentId": "tx_exp_specialty_court-petition-1",
-   "drafted": true,
-   "requirement": "required"
-  },
-  {
-   "item": "Order of Expunction (proposed)",
-   "componentId": "tx_exp_specialty_court-proposed-order-2",
-   "drafted": true,
-   "requirement": "required"
-  },
-  {
-   "item": "Information package under art. 55A.203(d) (the art. 55A.253 required information)",
-   "componentId": "tx_exp_specialty_court-information-package-3",
-   "drafted": true,
-   "requirement": "required"
-  },
-  {
-   "item": "Affidavit attesting to one expunction per ground",
-   "componentId": "tx_exp_specialty_court-one-time-use-affidavit-4",
-   "drafted": true,
-   "requirement": "required"
-  },
-  {
-   "item": "Statement of Inability to Afford Payment of Court Costs or an Appeal Bond (Tex. R. Civ. P. 145; Misc. Docket No. 22-9090)",
-   "componentId": "tx_exp_specialty_court-fee-waiver-statement-5",
-   "drafted": false,
-   "requirement": "conditional",
-   "conditionDescription": "Where the participant cannot afford the filing costs.",
-   "reason": "Official statewide promulgated form. Lane C drafts no official forms. See components/tx_exp_specialty_court-fee-waiver-statement-5/dependency.json."
-  },
-  {
-   "item": "The separate private-entity attachment (art. 55A.253(a)(8)(C))",
-   "componentId": null,
-   "drafted": false,
-   "requirement": "required",
-   "reason": "Its contents are the participant's own answer; no entity is prefilled."
-  },
-  {
-   "item": "Consent of the attorney representing the state",
-   "componentId": null,
-   "drafted": false,
-   "requirement": "required",
-   "reason": "An outside-party act. LegalEase does not seek, negotiate or obtain it and never asserts it has been given. No consent instrument or recital is drafted."
-  }
- ],
- "officialFormDependencies": [
-  {
-   "componentId": "tx_exp_specialty_court-fee-waiver-statement-5",
-   "officialFormId": "Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
-   "officialFormName": "Statement of Inability to Afford Payment of Court Costs or an Appeal Bond (bilingual), Supreme Court of Texas Misc. Docket No. 22-9090, Tex. R. Civ. P. 145",
-   "owningLane": "lane-D/E official-PDF overlay and official-source acquisition",
-   "dependencyManifestPath": "data/rcap-all50/pleadings/texas/tx_exp_specialty_court/components/tx_exp_specialty_court-fee-waiver-statement-5/dependency.json",
-   "conflictNote": "Recorded because the component is recorded. Two statutes — art. 55A.203(c) and art. 102.0061(d) — forbid or waive any charge on this route. Flagged as a build blocker."
-  }
- ],
- "componentCount": 6,
- "provenance": {
-  "statePackFiles": [
-   "src/lib/rcap/state-packs/texas/index.ts",
-   "src/lib/rcap/state-packs/texas/all50-build-metadata.ts"
+  "supplementalAuthorityFromRules": [
+    {
+      "citation": "Tex. Government Code ch. 124",
+      "description": "Veterans treatment court programmes. One of the two programme types this route reaches.",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].mechanism; registry@3b6f4c1:tracks[tx_exp_specialty_court].exclusions[0]"
+    },
+    {
+      "citation": "Tex. Government Code ch. 125",
+      "description": "Mental health court programmes. The other programme type this route reaches.",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].mechanism; registry@3b6f4c1:tracks[tx_exp_specialty_court].exclusions[0]"
+    },
+    {
+      "citation": "Tex. Code Crim. Proc. art. 55A.201",
+      "description": "Named in the mechanism only as a contrast: unlike art. 55A.201, art. 55A.203 is limited to district courts. Not authority for this relief.",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].mechanism; registry@3b6f4c1:tracks[tx_exp_specialty_court].exclusions[2]"
+    },
+    {
+      "citation": "Tex. Code Crim. Proc. art. 55A.301",
+      "description": "The order carries the TRN — recorded on this track in the participant-filing-requirement text rather than in authority[].",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].participantFilingRequirements[0].howToObtain"
+    }
   ],
-  "profilePath": "src/lib/rcap-engine/compiled/profiles/TX-texas.json",
-  "registryPin": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
-  "profileSha256": "2820312fd974151afe465d6f04d0454b4a5c3cc991982142bd0e3ab9c3a297df",
-  "profileVersion": "2026-06-19-source-conversion-1",
-  "registryPath": "data/record-clearing/legal-design-track-registry.json",
-  "registryEntry": "data/record-clearing/legal-design-track-registry.json :: tracks[412] (trackId=tx_exp_specialty_court)",
-  "statePackNote": "The committed Texas state pack (src/lib/rcap/state-packs/texas/) carries build metadata and the Nationwide inventory only: three files under 'LegalEase Texas' (the Agent Training Reference PDF, petition_charges_dismissed_or_quashed_revision_06112026.pdf and tx-statewide-expunction-nondisclosure-forms.html). It records no track-level pleading text, no caption, no vocabulary and no statutory citations. The compiled TX profile is a conversion of the single Agent Training Reference PDF and is corroborating rather than controlling: it supplies the caption form, the ex parte petition style, the venue rule, the required-contents summary, the proposed-order rule and the seven-step filing sequence, but it predates the S.B. 1667 / H.B. 16 changes the registry records and it names none of these four articles (55A.004, 55A.005, 55A.006, 55A.203). Track prose, authority, rules and packet composition therefore come from the pinned registry entry.",
-  "reviewedAsOf": "2026-08-01",
-  "effectiveFrom": "2025-09-01"
- },
- "postGenerationHandoff": {
-  "statement": "The attorney representing the state must consent. LegalEase does not seek, negotiate or obtain that consent and never asserts it has been given. Where consent is withheld or the window closes, the ordinary art. 55A.053 petition route remains open because the entitlement is in art. 55A.053, not in art. 55A.203.",
-  "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].postGenerationHandoffs[0]"
- },
- "noFeeRule": {
-  "statement": "No fee may be charged. Article 55A.203(c) provides that a court entering an order under the article may not charge any fee or assess any cost for the expunction, and art. 102.0061(d) separately requires waiver of the district-court filing fee where entitlement arises under art. 55A.053(a)(2)(A) or (B).",
-  "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].packetInstructions[1]; registry@3b6f4c1:tracks[tx_exp_specialty_court].waitingPeriods[1]; registry@3b6f4c1:tracks[tx_exp_specialty_court].rules.feeWaiver"
- },
- "sourceSilences": [
-  {
-   "field": "unswornDeclarationAuthority",
-   "nullKeys": [
-    "citation"
-   ],
-   "sourceIsSilentBecause": "An unsworn declaration under penalty of perjury ships alongside the notarial block because county practice chooses between them. No source read for this track names the statute that authorises the declaration. Left null and flagged. Note that the one-time-use affidavit is a separate sworn instrument required by the statute in its own terms and is not an alternative to the verification.",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].rules.notarization"
+  "verificationStatute": {
+    "citation": "Tex. Code Crim. Proc. art. 55A.253",
+    "description": "Applied through art. 55A.203(d), which requires the person to provide the court with the information required in an art. 55A.253 petition. Article 55A.253 carries the verification requirement.",
+    "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].rules.participantSignature; registry@3b6f4c1:tracks[tx_exp_specialty_court].authority[2]; registry@3b6f4c1:tracks[tx_exp_specialty_court].authority[7]"
   },
-  {
-   "field": "courtDocuments.5",
-   "nullKeys": [
-    "componentId"
-   ],
-   "sourceIsSilentBecause": "Its contents are the participant's own answer; no entity is prefilled.",
-   "sourceRef": null
+  "unswornDeclarationAuthority": {
+    "citation": null,
+    "description": "An unsworn declaration under penalty of perjury ships alongside the notarial block because county practice chooses between them. No source read for this track names the statute that authorises the declaration. Left null and flagged. Note that the one-time-use affidavit is a separate sworn instrument required by the statute in its own terms and is not an alternative to the verification.",
+    "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].rules.notarization"
   },
-  {
-   "field": "courtDocuments.6",
-   "nullKeys": [
-    "componentId"
-   ],
-   "sourceIsSilentBecause": "An outside-party act. LegalEase does not seek, negotiate or obtain it and never asserts it has been given. No consent instrument or recital is drafted.",
-   "sourceRef": null
+  "includeProposedOrder": true,
+  "includeProposedOrderReason": "A proposed order is a required custom_pleading component in the registry packet set for this track, and the compiled profile records that 'each petition is accompanied by a proposed Order' and that 'courts will not grant without a complete proposed order'. It is drafted here as a container: it lists the agencies the participant named and directs each to destroy or return the records, and it carries the TRN under art. 55A.301. It states no finding, no date and no judge.",
+  "includeCertificateOfService": false,
+  "includeCertificateOfServiceReason": "The clerk serves under art. 55A.254; the participant does not serve in the ordinary case. The registry records a certificate of service only where local practice requires the filer to serve the prosecutor directly and names no such county, and packetSet.components has no certificate-of-service component.",
+  "serviceNote": null,
+  "serviceNoteNullReason": "No participant-performed service step exists on the ordinary route, so there is no service note to carry into the pleading. The clerk's own service rule is recorded in participant-instructions.md as information, not as an instruction to the participant.",
+  "serviceNoteSourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].rules.service",
+  "qaProhibitedTerms": [
+    "nondisclosure",
+    "seal",
+    "sealed",
+    "sealing",
+    "set aside",
+    "set-aside",
+    "vacatur",
+    "annulment"
+  ],
+  "qaProhibitedTermsSourceRef": "profile:terminology.allowedStateTerms ['expungement','expunction','sealing','erasure','nondisclosure','pardon'] read with profile:terminology.avoidUniversalExpungementLabel = true and profile:sourceSections[4] (case_outcomes) 'Expunction = erased and deniable; nondisclosure = sealed from most private requesters'. Expunction and nondisclosure are separate remedies in separate codes with separate venues; a Chapter 55A pleading that uses sealing or nondisclosure vocabulary is the wrong remedy on its face.",
+  "presentation": {
+    "sovereignPartyName": null,
+    "sovereignPartyNameNullReason": "There is no sovereign party in the caption. The proceeding is an EX PARTE petition and the compiled profile's own sample caption is 'CAUSE NO. ____ / IN THE DISTRICT COURT OF ____________ COUNTY, TEXAS / EX PARTE [NAME]'. No source read for this track names a respondent, an opposing party or a party-role line. Not invented.",
+    "sovereignPartyNameSourceRef": "profile:sourceSections[10] (category samples, lines 428-440); registry@3b6f4c1:tracks[409].rules.filing",
+    "sovereignPartyProper": null,
+    "sovereignPartyProperNullReason": "Same reason. Ex parte proceeding; no opposing party is named in the caption.",
+    "sovereignRole": null,
+    "sovereignRoleNullReason": "Ex parte proceeding. No source read for this track assigns a role to the State in the caption.",
+    "movantRole": "Petitioner",
+    "movantRoleSourceRef": "profile:sourceSections[10] ('1. Petitioner: ...'); registry@3b6f4c1:tracks[409].rules.participantSignature ('The petitioner signs')",
+    "filingNoun": "Petition",
+    "captionStyleLine": "EX PARTE {petitionerName}",
+    "captionStyleLineSourceRef": "profile:sourceSections[10] ('EX PARTE ANDRE L. CARTER')",
+    "divisionLine": "",
+    "divisionLineNote": "No source records a division line for a Texas district court civil caption. Left empty rather than invented.",
+    "usesCounty": true,
+    "usesCountySourceRef": "profile:sourceSections[6] (filing) 'File in a district court for the county of arrest or prosecution (Art. 55A.251)'",
+    "courtName": "the District Court of {county} County, Texas",
+    "courtNameSourceRef": "profile:sourceSections[10] 'IN THE DISTRICT COURT OF ____________ COUNTY, TEXAS'",
+    "venueDescriptor": "{county} County, Texas",
+    "venueDescriptorNote": "Token pattern. The county is the county of arrest or of the alleged offence and reaches the document only as the participant's own screening answer (arrestCounty). No county is prefilled. Where the arrest and the alleged offence are in different counties the track's own self-help boundary stops the packet.",
+    "recordCustodianLead": null,
+    "recordCustodianLeadNullReason": "No source read for this track enumerates the agencies that hold the records or that the order must reach. Article 55A.253(c) puts that list on the district clerk's published website list, which is county-specific, and art. 55A.253(b) forbids listing an agency twice. The list is the participant's own answer (agencyList), confirmed against the clerk's published list before filing. Not invented.",
+    "verificationVerb": "verify",
+    "verificationVerbSourceRef": "registry@3b6f4c1:tracks[409].rules.participantSignature ('the petition must be verified under art. 55A.253')",
+    "verificationPenaltyLabel": "penalty of perjury",
+    "verificationPenaltyLabelSourceRef": "registry@3b6f4c1:tracks[409].rules.participantSignature ('an unsworn declaration under penalty of perjury')",
+    "verificationPenaltyLabelNote": "Applies to the unsworn-declaration block only. The notarial block carries no penalty label because no source supplies one.",
+    "serviceRecipientLabel": null,
+    "serviceRecipientLabelNullReason": "The participant does not serve in the ordinary case. Under art. 55A.254 the CLERK sends the petition and notice of hearing to each listed entity by certified mail return receipt requested, or by secure e-mail, electronic transmission or fax. The registry records a certificate of service 'only where local practice requires the filer to serve the prosecutor directly', and names no county in which that is so. Not invented.",
+    "serviceRecipientAddressLabel": null,
+    "serviceRecipientAddressLabelNullReason": "No recipient label, so no address label. No prosecutor address is recorded by any source read for this track.",
+    "reliefActionVerb": "expunge",
+    "orderActionVerb": "destroy or return",
+    "recordsScopePhrase": "all records and files relating to the arrest identified in this petition",
+    "recordsScopePhraseSourceRef": "profile:sourceSections[13] ('The Order of Expunction lists every named agency and directs each to destroy or return all records of the arrest under Chapter 55A'); profile:sourceSections[5] (forms)",
+    "movantFirstInCaption": null,
+    "movantFirstInCaptionNullReason": "Not applicable. The caption has one party line, 'EX PARTE {petitionerName}'; there is no party ordering to set."
   },
-  {
-   "field": "presentation.sovereignPartyName",
-   "nullKeys": [
-    "sovereignPartyName"
-   ],
-   "sourceIsSilentBecause": "There is no sovereign party in the caption. The proceeding is an EX PARTE petition and the compiled profile's own sample caption is 'CAUSE NO. ____ / IN THE DISTRICT COURT OF ____________ COUNTY, TEXAS / EX PARTE [NAME]'. No source read for this track names a respondent, an opposing party or a party-role line. Not invented.",
-   "sourceRef": "profile:sourceSections[10] (category samples, lines 428-440); registry@3b6f4c1:tracks[409].rules.filing"
+  "counselFlags": [
+    {
+      "id": "tx-exp-unsworn-declaration-statute-unnamed",
+      "statement": "Article 55A.253 requires the petition to be verified, and the registry records that BOTH a notarial verification block and an unsworn declaration under penalty of perjury ship because 'county practice chooses between them' and an unsworn declaration 'is accepted in practice by some clerks and not others'. No source read for this track names the statute that authorises an unsworn declaration in place of a notarised verification, and no source names a single county that accepts or refuses one. verificationStatute.citation carries art. 55A.253 because that is the article the source cites for the verification requirement itself; unswornDeclarationAuthority.citation is null. This is the same handling the ND config gives its missing verification statute: null, flagged, not invented.",
+      "mustConfirm": "The statutory authority for an unsworn declaration in a Chapter 55A expunction filing, and whether the packet should ship both blocks or a single block chosen per county.",
+      "impact": "counsel_confirmation",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].rules.participantSignature; registry@3b6f4c1:tracks[tx_exp_specialty_court].rules.notarization; registry@3b6f4c1:tracks[tx_exp_specialty_court].packetSet.participantActionRequired[kind=notarize]"
+    },
+    {
+      "id": "tx-exp-certificate-of-service-local-practice-unnamed",
+      "statement": "No certificate of service is drafted. The recorded rule is that the CLERK sends the petition and notice of hearing under art. 55A.254 and that 'the participant does not serve in the ordinary case; a certificate of service is included only where local practice requires the filer to serve the prosecutor directly'. No source read for this track names a county in which that local practice applies, so there is no sourced trigger condition and none is invented. includeCertificateOfService is false.",
+      "mustConfirm": "Which counties require the filer to serve the attorney representing the state directly, so the conditional certificate of service can be gated on a real fact rather than omitted.",
+      "impact": "counsel_confirmation",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].rules.service; registry@3b6f4c1:tracks[tx_exp_specialty_court].packetSet.participantActionRequired[kind=serve_party]; registry@3b6f4c1:tracks[tx_exp_specialty_court].packetSet.components"
+    },
+    {
+      "id": "tx-exp-filing-fee-amount-unknown",
+      "statement": "No fee figure is quoted anywhere in this artifact. Article 102.006 was repealed by S.B. 1667 effective 2025-09-01, temporarily re-added by H.B. 16 of the 89th Legislature 2nd Called Session, and permanently replaced by art. 102.0061 effective 2026-01-01. Under art. 102.0061(a) a district court charges the ordinary county civil filing fee for an ex parte petition, which is not a flat statutory amount; under (b) a justice court or municipal court of record charges a flat $100. The county figure is unresolved and is a recorded release blocker. Separately, whether the $25 per-non-electronic-entity charge applies twice for the same agency — once under art. 55A.254(f) at the petition stage and again under art. 55A.351(b-3) at the order stage — is supported by the text and unconfirmed in practice, and it changes the participant's total by a multiple of the agency count. The compiled profile's '$250-$500 in many counties' figure is expressly disavowed by the registry as no longer reliable and is not reproduced.",
+      "mustConfirm": "The current district-court civil filing fee county by county, and whether the $25 per-paper-entity charge applies once or twice per agency.",
+      "impact": "release_blocker",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].releaseBlockers[0]; registry@3b6f4c1:tracks[tx_exp_specialty_court].rules.fees; profile:sourceSections[8] (fees) — disavowed"
+    },
+    {
+      "id": "tx-exp-sensitive-data-in-a-public-filing",
+      "statement": "Article 55A.253(a) requires the petition to carry the petitioner's date of birth, driver's licence number and social security number, and the petition is public until the order issues. How Harris, Dallas, Bexar, Tarrant and Travis handle sensitive data in a public civil expunction filing is an open release blocker. Every fixture in this artifact leaves dateOfBirth, ssn, driversLicenseNumber, sex and race blank. That is a deliberate conflict with art. 55A.253(a) and it is recorded here rather than resolved: the protected fields must not be prefilled by any pipeline stage, and the county sensitive-data practice must be pulled before the packet can be assembled for filing.",
+      "mustConfirm": "The sensitive-data handling practice in the five largest counties, and the mechanism by which the participant supplies the art. 55A.253(a) identifiers by hand at filing time rather than through the pipeline.",
+      "impact": "release_blocker",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].releaseBlockers[1]; registry@3b6f4c1:tracks[tx_exp_specialty_court].packetInstructions[0]"
+    },
+    {
+      "id": "tx-exp-agency-list-no-duplicates-generator-constraint",
+      "statement": "Article 55A.253(b) forbids listing any state or local agency more than once and forbids multiple contacts or addresses for different divisions of the same agency; art. 55A.256(c-1) repeats it for the mistaken-identity application. Counsel classified this as a manual completion item AND a generator constraint. The list is assembled from the participant's own answer (agencyList) and the district clerk's published art. 55A.253(c) list, and the participant confirms it before filing because the clerk bears no completeness duty. No agency is prefilled by LegalEase.",
+      "mustConfirm": "That the generator deduplicates the agency list and never emits two entries for divisions of the same agency.",
+      "impact": "packet_instruction",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].manualCompletionItems[0]; registry@3b6f4c1:tracks[tx_exp_specialty_court].legalDesignLimitations[classification=manual_completion_item]"
+    },
+    {
+      "id": "tx-exp-private-entities-listed-separately",
+      "statement": "Article 55A.253(a)(8)(C) treats private entities that compile and disseminate criminal history record information for compensation separately from government agencies. They go on a separate attachment and are never merged into the agency list; merging them breaks both the no-duplicate rule and the service model.",
+      "mustConfirm": "That the private-entity attachment is a distinct list and is never merged into the art. 55A.253(a)(8) agency list.",
+      "impact": "packet_instruction",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].manualCompletionItems[1]"
+    },
+    {
+      "id": "tx-exp-trn-must-appear-on-the-order",
+      "statement": "The order must carry the TRN — the incident number on the Texas DPS criminal history — under art. 55A.301. LegalEase does not obtain, receive or inspect the DPS history; the participant obtains it following DPS form CR-63 and supplies the TRN. The TRN field is blank in every fixture.",
+      "mustConfirm": "That the TRN reaches the order only as the participant's own confirmed answer and is never derived.",
+      "impact": "packet_instruction",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].participantFilingRequirements[0].howToObtain; registry@3b6f4c1:tracks[tx_exp_specialty_court].generationRequirements[key=trn]"
+    },
+    {
+      "id": "tx-exp-notice-of-hearing-preparer-unknown",
+      "statement": "No notice of hearing is drafted. The court sets the hearing not earlier than the 30th day after filing and the clerk gives a copy of the petition and the notice of hearing to each listed entity other than central federal depositories; on receipt DPS notifies the central federal depositories, so the filer does not chase the FBI. The registry records that WHETHER THE CLERK OR THE FILER PREPARES THE NOTICE OF HEARING varies by county and names no county either way. Drafting a notice would guess at both the preparer and the hearing date.",
+      "mustConfirm": "Which counties require the filer rather than the clerk to prepare the notice of hearing.",
+      "impact": "counsel_confirmation",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].rules.notice; registry@3b6f4c1:tracks[tx_exp_specialty_court].destination.detail"
+    },
+    {
+      "id": "tx-exp-third-party-form-sets-are-out-of-scope",
+      "statement": "TexasLawHelp forms carry non-commercial site terms and may not be filled and delivered inside a paid product; confirmed 2026-08-06 that texaslawhelp.org is a Texas Legal Services Center legal-aid self-help site whose expunction forms are neither promulgated nor mandatory nor statewide court forms. Texas Justice Court Training Center forms are Texas State University training aids. County and district clerk packets are local only. LegalEase drafts its own petition and order to arts. 55A.253 and 55A.301 and uses none of these as a form. The compiled TX profile still instructs agents to 'use TexasLawHelp's statewide tools to assemble the right forms' — that instruction is superseded and is not followed here.",
+      "mustConfirm": "That no pipeline stage fills or delivers a TexasLawHelp, TJCTC or county clerk form on any Texas expunction track.",
+      "impact": "scope_restriction",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].scopeRestrictions[0]; profile:sourceSections[5] (forms) and sourceSections[6] (filing) — superseded"
+    },
+    {
+      "id": "tx-exp-no-statewide-expunction-form-exists",
+      "statement": "No statewide expunction form exists at any level of Texas state government; the Texas Judicial Branch forms index was confirmed on 2026-08-06 to contain none. Article 55A.253(a) prescribes the contents of the petition instead, and that specificity is what makes a controlled pleading supportable here. Do not reclassify this track as official_pdf_fill because unofficial fillable PDFs circulate.",
+      "mustConfirm": "That the track stays classified custom_pleading and that no circulating unofficial PDF is adopted as a form.",
+      "impact": "packet_instruction",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].legalDesignLimitations[classification=packet_instruction][0]; registry@3b6f4c1:tracks[tx_exp_specialty_court].officialSources[8]; registry@3b6f4c1:tracks[tx_exp_specialty_court].destination.detail"
+    },
+    {
+      "id": "tx-exp-fee-waiver-official-form-dependency",
+      "statement": "The conditional fee-waiver component is the Statement of Inability to Afford Payment of Court Costs or an Appeal Bond under Tex. R. Civ. P. 145, the bilingual statewide form approved by the Supreme Court of Texas in Misc. Docket No. 22-9090 — the only genuinely statewide promulgated form in the entire Texas record-clearing workflow. It is an official form and is not drafted here. Recorded as a mandatory official-form handoff to the official-PDF overlay lane.",
+      "mustConfirm": "That the Rule 145 Statement is acquired at its current revision, hashed and field-mapped by the official-PDF overlay lane.",
+      "impact": "official_form_dependency",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].packetSet.components[role=fee_waiver_statement]; registry@3b6f4c1:tracks[tx_exp_specialty_court].rules.feeWaiver"
+    },
+    {
+      "id": "tx-exp-court-identity-and-outside-party-acts-blank",
+      "statement": "Cause number, court identity, judge name, the attorney representing the state and that attorney's position, filing date, service completion, hearing date and hearing outcome are blank in every fixture and are never prefilled. County, arrest date, arresting agency, offence and case number reach the document only as the participant's own screening answers. The matter is a NEW civil action and receives a NEW cause number, so no cause number can exist before filing.",
+      "mustConfirm": "That no pipeline stage populates court identity, prosecutor position, service completion, a hearing date or any outside-party act.",
+      "impact": "counsel_confirmation",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].generationRequirements; registry@3b6f4c1:tracks[tx_exp_specialty_court].rules.filing; registry@3b6f4c1:tracks[tx_exp_specialty_court].rules.notice"
+    },
+    {
+      "id": "tx-exp-self-help-stop-conditions",
+      "statement": "The track's recorded self-help stop conditions are carried into participant copy verbatim in substance: the state opposes the petition or seeks retention under art. 55A.302; the arrest produced multiple charges with mixed outcomes (State v. T.S.N. and Ex parte R.P.G.P. govern whether individual offences from one arrest can be expunged separately, and that analysis is not automated); a felony from the same transaction is present or arguable; the limitations analysis is contested; any absconding or bail-jumping history (art. 55A.154 makes an intentional or knowing absconder ineligible and a participant may not self-identify the fact); the arrest may have been made on an art. 42A.751(b) community-supervision violation warrant, which art. 55A.153 bars; venue is unclear because the arrest and the alleged offence were in different counties; immigration consequences; the participant wants to attack the underlying case rather than clear it.",
+      "mustConfirm": "That every stop condition is wired as a screening stop and not merely printed.",
+      "impact": "self_help_boundary",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].selfHelpStopConditions; registry@3b6f4c1:tracks[tx_exp_specialty_court].selfHelpBoundaries"
+    },
+    {
+      "id": "tx-exp-legal-status-gate",
+      "statement": "Track legalStatus is 'legal_review_pending' and legalDesignStatus is 'legal_design_approved_with_limitations'. Runtime is disabled: counsel approved the design, not the produced document. Output review, visual review and technical proof are all outstanding. implementationQueue is F_source_problem.",
+      "mustConfirm": "Output review, visual review and technical proof before this pleading leaves internal review.",
+      "impact": "output_review_gate",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].legalStatus; registry@3b6f4c1:tracks[tx_exp_specialty_court].legalDesignStatus; registry@3b6f4c1:tracks[tx_exp_specialty_court].runtimeDisabledReason; registry@3b6f4c1:tracks[tx_exp_specialty_court].implementationQueue"
+    },
+    {
+      "id": "tx-exp-source-freshness-gate",
+      "statement": "Every official source recorded on this track carries sha256 null — the Chapter 55A statute page, S.B. 1667, H.B. 4504, H.B. 16, the Chapter 102 statute page, the Rule 145 Statement of Inability, DPS form CR-63, the DPS Criminal Records Service page and the Texas Judicial Branch forms index. Staleness cannot be detected for any of them. Chapter 55A is a live target: it was recodified effective 2025-01-01 by H.B. 4504, amended by S.B. 1667 effective 2025-09-01, and its fee article was replaced effective 2026-01-01.",
+      "mustConfirm": "Capture hashes for all nine official sources before release, and re-read Chapter 55A at each legislative session boundary.",
+      "impact": "source_gate",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].blockers[kind=source_gate]; registry@3b6f4c1:tracks[tx_exp_specialty_court].officialSources"
+    },
+    {
+      "id": "tx-exp-compiled-profile-predates-this-track",
+      "statement": "The compiled TX profile is a conversion of a single Agent Training Reference PDF and does not record this article at all. It corroborates the caption form, the ex parte style, the art. 55A.251 venue rule, the required-contents summary, the proposed-order rule and the seven-step filing sequence, and it is used for exactly those. It is stale or superseded on three points that matter: it quotes a '$250-$500' fee range the registry disavows; it directs agents to TexasLawHelp, which the scope restriction forbids; and its bars-to-expunction section states that 'final conviction for the offence (other than a later pardon) — convictions are generally not expungeable', which is directly wrong for art. 55A.005 and incomplete for art. 55A.004.",
+      "mustConfirm": "Whether the TX profile should be regenerated against a corpus that includes Chapter 55A as recodified and amended.",
+      "impact": "source_gate",
+      "sourceRef": "profile:source.references (one PDF); profile:sourceSections[3], [5], [6], [8]; registry@3b6f4c1:tracks[tx_exp_specialty_court].scopeRestrictions[0]; registry@3b6f4c1:tracks[tx_exp_specialty_court].rules.fees"
+    },
+    {
+      "id": "tx-specialty-prosecutor-consent-is-never-asserted",
+      "statement": "The streamlined route requires the consent of the attorney representing the state, and the registry states in terms: 'LegalEase does not seek, negotiate or obtain that consent and never asserts it has been given.' Consent is an outside-party act. Nothing in this packet says the state consents, has consented, will consent or does not oppose, and the screening key prosecutorConsentSought collects only whether the participant has ASKED — not the answer. The prosecutor's consent makes the streamlined route discretionary in practice even though the underlying art. 55A.053 entitlement is mandatory.",
+      "mustConfirm": "That no pipeline stage asserts, implies or predicts the consent of the attorney representing the state.",
+      "impact": "self_help_boundary",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].postGenerationHandoffs[0]; registry@3b6f4c1:tracks[tx_exp_specialty_court].selfHelpStopConditions[12]; registry@3b6f4c1:tracks[tx_exp_specialty_court].generationRequirements[key=prosecutorConsentSought]"
+    },
+    {
+      "id": "tx-specialty-the-entitlement-lives-in-55a053-not-55a203",
+      "statement": "Where consent is withheld or the 30-day window closes, the participant is NOT out of relief: the ordinary art. 55A.053 petition route remains open, because the entitlement lives in art. 55A.053 and art. 55A.203 is only the streamlined vehicle. That fallback is recorded in participant copy as an onward route and is not relief this packet requests. No art. 55A.053 petition is drafted here; that is a separate track.",
+      "mustConfirm": "That screening routes a withheld consent or a closed window onward to the ordinary art. 55A.053 petition rather than terminating the participant.",
+      "impact": "packet_instruction",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].mechanism; registry@3b6f4c1:tracks[tx_exp_specialty_court].postGenerationHandoffs[0]"
+    },
+    {
+      "id": "tx-specialty-thirty-day-window-is-not-a-waiting-period",
+      "statement": "There is no participant waiting period on this track. The constraint is a WINDOW: the order may be entered not later than the 30th day after the dismissal or after the court receives the dismissal information. That runs the opposite way from every waiting period in the Texas denominator — waiting too long defeats the streamlined route rather than qualifying for it. The packet must never present the 30 days as a wait, and must never be confused with the art. 55A.251 rule that a HEARING is set NOT EARLIER THAN the 30th day after filing, which is the sibling tracks' rule and does not apply here.",
+      "mustConfirm": "That the 30-day window is encoded as a deadline and never as a waiting period, and that the art. 55A.251 hearing rule is not inherited onto this track.",
+      "impact": "packet_instruction",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].waitingPeriods[0]; registry@3b6f4c1:tracks[tx_exp_specialty_court].selfHelpStopConditions[10]"
+    },
+    {
+      "id": "tx-specialty-no-fee-may-be-charged-yet-a-fee-waiver-component-is-listed",
+      "statement": "Two independent provisions make this route free: art. 55A.203(c) forbids the court charging any fee or assessing any cost for an order entered under the article, and art. 102.0061(d) separately requires waiver of the district-court filing fee where entitlement arises under art. 55A.053(a)(2)(A) or (B). Yet packetSet.components still carries a conditional fee_waiver_statement component pointing at the Rule 145 Statement of Inability. Either the component is inherited from the sibling art. 55A.251 tracks, or it is belt-and-braces for a clerk who asks anyway. The dependency is recorded because the component is recorded, and the conflict is flagged. No fee figure is quoted anywhere and a clerk who demands a fee should be treated as a stop, not as a bill.",
+      "mustConfirm": "Whether the conditional Rule 145 fee-waiver component belongs on a track where two statutes forbid any charge, and what a participant should do if a clerk demands one anyway.",
+      "impact": "build_blocker",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].authority[1]; registry@3b6f4c1:tracks[tx_exp_specialty_court].authority[8]; registry@3b6f4c1:tracks[tx_exp_specialty_court].packetSet.components[4]; registry@3b6f4c1:tracks[tx_exp_specialty_court].packetInstructions[1]"
+    },
+    {
+      "id": "tx-specialty-district-courts-only",
+      "statement": "Article 55A.203 is limited to DISTRICT COURTS, unlike art. 55A.201. A court other than a district court is a recorded exclusion. That also means the art. 55A.252 justice-court and municipal-court-of-record alternative, which is available on the sibling fine-only expunction tracks, is NOT available here.",
+      "mustConfirm": "That no fine-only branch routes this track to a justice court or municipal court of record.",
+      "impact": "scope_restriction",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].exclusions[2]; registry@3b6f4c1:tracks[tx_exp_specialty_court].mechanism"
+    },
+    {
+      "id": "tx-specialty-one-expunction-per-ground-and-the-affidavit",
+      "statement": "A person may receive only one expunction on each ground and must file an affidavit attesting to that fact. A second expunction on the same specialty-court ground is a recorded exclusion and a self-help stop condition. The affidavit is drafted as a container carrying the participant's own attestation; it asserts nothing LegalEase has checked, and no record of prior expunctions is derived from anywhere.",
+      "mustConfirm": "That priorSpecialtyExpunction gates generation rather than merely being collected, and that the attestation is never auto-completed.",
+      "impact": "self_help_boundary",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].mechanism; registry@3b6f4c1:tracks[tx_exp_specialty_court].exclusions[1]; registry@3b6f4c1:tracks[tx_exp_specialty_court].packetSet.components[3]; registry@3b6f4c1:tracks[tx_exp_specialty_court].generationRequirements[key=priorSpecialtyExpunction]"
+    },
+    {
+      "id": "tx-specialty-programme-type-must-be-one-of-two",
+      "statement": "Only two programme types open this route: a veterans treatment court programme under Gov't Code ch. 124 and a mental health court programme under ch. 125. A dismissal following any other programme is a recorded exclusion. The compiled profile refers loosely to 'specialty-court dismissal (e.g., veterans treatment court)' with no chapter citation and no mention of mental health courts; the two-chapter limit comes from the registry alone.",
+      "mustConfirm": "That specialtyProgramType is gated to the ch. 124 and ch. 125 programme types and that no other diversion or drug-court programme is accepted.",
+      "impact": "scope_restriction",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].exclusions[0]; registry@3b6f4c1:tracks[tx_exp_specialty_court].generationRequirements[key=specialtyProgramType]; profile:sourceSections[1] (pathways) and sourceSections[4] (case_outcomes)"
+    }
+  ],
+  "componentInventory": [
+    {
+      "component": "caption",
+      "status": "present",
+      "note": "Three lines, from the compiled profile's own sample: 'CAUSE NO. ____________________', 'IN THE DISTRICT COURT OF {county} COUNTY, TEXAS', 'EX PARTE {petitionerName}'. The cause number is blank because the matter is a new civil action that receives a new cause number on filing. County is the participant's screening answer only.",
+      "sourceRef": "profile:sourceSections[10] (samples, lines 428-440); registry@3b6f4c1:tracks[tx_exp_specialty_court].rules.filing"
+    },
+    {
+      "component": "court_and_party_identity",
+      "status": "present",
+      "note": "Petitioner name and address from screening. County of arrest or of the alleged offence from screening (arrestCounty). Court identity beyond 'a district court of that county' is not fixed: the specific district court, the judge, the cause number, the attorney representing the state and that attorney's position are blank and never prefilled. Article 55A.253(a) also requires sex, race, date of birth, driver's licence number, social security number and the address at the time of arrest; those are protected fields, are blank in every fixture, and are flagged.",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].generationRequirements; registry@3b6f4c1:tracks[tx_exp_specialty_court].packetInstructions[0]"
+    },
+    {
+      "component": "title",
+      "status": "present",
+      "note": "Built from the legalName recorded on the track, in the title style of the compiled profile's sample ('PETITION FOR EXPUNCTION OF CRIMINAL RECORDS (CCP CH. 55A)').",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].legalName; profile:sourceSections[10]"
+    },
+    {
+      "component": "allegations",
+      "status": "present",
+      "note": "Container only, for the art. 55A.253(a) contents carried through art. 55A.203(d), and this track's own generationRequirements: the arrest county and the county of the alleged offence; the arrest date; the arresting agency; the offence charged and its level; the case number and court; the programme type — veterans treatment court under Gov't Code ch. 124 or mental health court under ch. 125; the dismissal date; whether any prior expunction was granted on this same ground; and whether the prosecutor's office has been ASKED about consent. Every one is the participant's own averment. Successful completion of the programme, the dismissal itself and the state's consent are outside-party acts and are never asserted.",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].packetInstructions[0]; registry@3b6f4c1:tracks[tx_exp_specialty_court].generationRequirements"
+    },
+    {
+      "component": "statutory_basis",
+      "status": "present",
+      "note": "Citations taken only from the track's recorded authority list, plus art. 55A.301 where the rules text supplies it for the order.",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].authority"
+    },
+    {
+      "component": "requested_relief",
+      "status": "present",
+      "note": "Stated from the mechanism recorded on the track and no wider.",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].mechanism"
+    },
+    {
+      "component": "verification",
+      "status": "present",
+      "note": "Two blocks ship, because the source says county practice chooses between them: a notarial verification block and an unsworn declaration under penalty of perjury. The verification requirement is art. 55A.253, applied through art. 55A.203(d). The statute authorising the unsworn-declaration alternative is not named by any source read for this track and is carried as null plus a counsel flag.",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].rules.participantSignature; registry@3b6f4c1:tracks[tx_exp_specialty_court].rules.notarization"
+    },
+    {
+      "component": "signatures",
+      "status": "present",
+      "note": "Petitioner's signature and date only. The judge's signature line on the proposed order is the court's and is left blank. No LegalEase signature block.",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].manualCompletionItems; registry@3b6f4c1:tracks[tx_exp_specialty_court].rules.participantSignature"
+    },
+    {
+      "component": "proposed_order",
+      "status": "present",
+      "note": "Drafted. Required custom_pleading component. It lists every agency and entity the participant named, directs each to destroy or return all records and files relating to the arrest, and carries the TRN. It recites no consent by the attorney representing the state, no dismissal finding and no date; the judge's signature line, date and judge name are blank.",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].packetSet.components[role=proposed_order]; profile:sourceSections[13]"
+    },
+    {
+      "component": "certificate_of_service",
+      "status": "absent",
+      "reason": "The clerk serves under art. 55A.254, not the participant. The registry records a certificate of service 'only where local practice requires the filer to serve the prosecutor directly' and names no county in which that is so, and packetSet.components contains no certificate-of-service component. Drafting one would invent both the trigger and the recipient.",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].rules.service; registry@3b6f4c1:tracks[tx_exp_specialty_court].packetSet.components"
+    },
+    {
+      "component": "notice",
+      "status": "absent",
+      "reason": "No notice and no hearing document. This is a streamlined order route, not a noticed petition: the court enters the order not later than the 30th day after the dismissal or after it receives the dismissal information. The art. 55A.251 rule that a hearing is set not earlier than the 30th day after filing belongs to the sibling tracks and does not apply here.",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].rules.notice; registry@3b6f4c1:tracks[tx_exp_specialty_court].destination.detail"
+    },
+    {
+      "component": "affidavit",
+      "status": "present",
+      "note": "Drafted. The one-time-use affidavit is a required custom_pleading component and a statutory requirement: a person may receive only one expunction on each ground and must file an affidavit attesting to that fact. See the one_time_use_affidavit row below.",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].packetSet.components[3]; registry@3b6f4c1:tracks[tx_exp_specialty_court].mechanism"
+    },
+    {
+      "component": "participant_only_cover_sheet",
+      "status": "absent",
+      "reason": "No cover sheet is drafted. The registry records that civil cover sheets are one of the things that 'varies by county' and names no county's sheet; packetSet.components contains no cover-sheet component; and the compiled profile says only to 'check the specific county's local cover sheets' before filing. A cover sheet is a county form, not a document this lane may compose.",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].destination.detail; profile:sourceSections[5] (forms)"
+    },
+    {
+      "component": "filing_instructions",
+      "status": "present",
+      "note": "Participant-only. participant-instructions.md, drawn only from the track's rules.filing, rules.fees, rules.feeWaiver, rules.notice, rules.service, packetInstructions, packetSet.participantActionRequired, participantFilingRequirements and selfHelpStopConditions, plus the compiled profile's seven-step filing sequence. Never filed with the court. It is registry packetSet component 'filing_and_local_practice_instructions'.",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].packetSet.components[role=filing_and_local_practice_instructions]; profile:sourceSections[6] (filing)"
+    },
+    {
+      "component": "information_package",
+      "status": "present",
+      "note": "Drafted. Required custom_pleading component and a statutory requirement, not a courtesy: art. 55A.203(d) requires the person to provide the court with the information required in an art. 55A.253 petition. It carries the same content specification as the petition — identity, offence, dates, county and municipality of arrest, arresting agency, case number and court, the deduplicated agency list and the separate private-entity list — assembled for a court that is entering an order rather than hearing a petition.",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].packetSet.components[2]; registry@3b6f4c1:tracks[tx_exp_specialty_court].authority[2]; registry@3b6f4c1:tracks[tx_exp_specialty_court].packetInstructions[0]"
+    },
+    {
+      "component": "one_time_use_affidavit",
+      "status": "present",
+      "note": "Drafted as a container. A person may receive only one expunction on each ground and must file an affidavit attesting to that fact. It carries the participant's own attestation and nothing else; no record of prior expunctions is derived, looked up or asserted, and the participant executes it.",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].packetSet.components[3]; registry@3b6f4c1:tracks[tx_exp_specialty_court].mechanism; registry@3b6f4c1:tracks[tx_exp_specialty_court].authority[6]"
+    },
+    {
+      "component": "prosecutor_consent_instrument",
+      "status": "absent",
+      "reason": "The route requires the consent of the attorney representing the state, and no consent instrument, agreed order, agreed motion or consent recital is drafted. The registry states that LegalEase does not seek, negotiate or obtain that consent and never asserts it has been given. Where consent is withheld the ordinary art. 55A.053 petition route remains open.",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].postGenerationHandoffs[0]; registry@3b6f4c1:tracks[tx_exp_specialty_court].selfHelpStopConditions[12]"
+    }
+  ],
+  "participantOnlyDocuments": [
+    "participant-instructions.md"
+  ],
+  "courtDocuments": [
+    {
+      "item": "Petition for streamlined expunction order after specialty court dismissal",
+      "componentId": "tx_exp_specialty_court-petition-1",
+      "drafted": true,
+      "requirement": "required"
+    },
+    {
+      "item": "Order of Expunction (proposed)",
+      "componentId": "tx_exp_specialty_court-proposed-order-2",
+      "drafted": true,
+      "requirement": "required"
+    },
+    {
+      "item": "Information package under art. 55A.203(d) (the art. 55A.253 required information)",
+      "componentId": "tx_exp_specialty_court-information-package-3",
+      "drafted": true,
+      "requirement": "required"
+    },
+    {
+      "item": "Affidavit attesting to one expunction per ground",
+      "componentId": "tx_exp_specialty_court-one-time-use-affidavit-4",
+      "drafted": true,
+      "requirement": "required"
+    },
+    {
+      "item": "Statement of Inability to Afford Payment of Court Costs or an Appeal Bond (Tex. R. Civ. P. 145; Misc. Docket No. 22-9090)",
+      "componentId": "tx_exp_specialty_court-fee-waiver-statement-5",
+      "drafted": false,
+      "requirement": "conditional",
+      "conditionDescription": "Where the participant cannot afford the filing costs.",
+      "reason": "Official statewide promulgated form. Lane C drafts no official forms. See components/tx_exp_specialty_court-fee-waiver-statement-5/dependency.json."
+    },
+    {
+      "item": "The separate private-entity attachment (art. 55A.253(a)(8)(C))",
+      "componentId": null,
+      "drafted": false,
+      "requirement": "required",
+      "reason": "Its contents are the participant's own answer; no entity is prefilled."
+    },
+    {
+      "item": "Consent of the attorney representing the state",
+      "componentId": null,
+      "drafted": false,
+      "requirement": "required",
+      "reason": "An outside-party act. LegalEase does not seek, negotiate or obtain it and never asserts it has been given. No consent instrument or recital is drafted."
+    }
+  ],
+  "officialFormDependencies": [
+    {
+      "componentId": "tx_exp_specialty_court-fee-waiver-statement-5",
+      "officialFormId": "Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
+      "officialFormName": "Statement of Inability to Afford Payment of Court Costs or an Appeal Bond (bilingual), Supreme Court of Texas Misc. Docket No. 22-9090, Tex. R. Civ. P. 145",
+      "owningLane": "lane-D/E official-PDF overlay and official-source acquisition",
+      "dependencyManifestPath": "data/rcap-all50/pleadings/texas/tx_exp_specialty_court/components/tx_exp_specialty_court-fee-waiver-statement-5/dependency.json",
+      "conflictNote": "Recorded because the component is recorded. Two statutes — art. 55A.203(c) and art. 102.0061(d) — forbid or waive any charge on this route. Flagged as a build blocker."
+    }
+  ],
+  "componentCount": 6,
+  "provenance": {
+    "statePackFiles": [
+      "src/lib/rcap/state-packs/texas/index.ts",
+      "src/lib/rcap/state-packs/texas/all50-build-metadata.ts"
+    ],
+    "profilePath": "src/lib/rcap-engine/compiled/profiles/TX-texas.json",
+    "registryPin": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+    "profileSha256": "8f99b36519cf35b6ead155799f81605d045e55cad19b1c7d11a931f48b3097aa",
+    "profileVersion": "2026-06-19-source-conversion-1",
+    "registryPath": "data/record-clearing/legal-design-track-registry.json",
+    "registryEntry": "data/record-clearing/legal-design-track-registry.json :: tracks[412] (trackId=tx_exp_specialty_court)",
+    "statePackNote": "The committed Texas state pack (src/lib/rcap/state-packs/texas/) carries build metadata and the Nationwide inventory only: three files under 'LegalEase Texas' (the Agent Training Reference PDF, petition_charges_dismissed_or_quashed_revision_06112026.pdf and tx-statewide-expunction-nondisclosure-forms.html). It records no track-level pleading text, no caption, no vocabulary and no statutory citations. The compiled TX profile is a conversion of the single Agent Training Reference PDF and is corroborating rather than controlling: it supplies the caption form, the ex parte petition style, the venue rule, the required-contents summary, the proposed-order rule and the seven-step filing sequence, but it predates the S.B. 1667 / H.B. 16 changes the registry records and it names none of these four articles (55A.004, 55A.005, 55A.006, 55A.203). Track prose, authority, rules and packet composition therefore come from the pinned registry entry.",
+    "reviewedAsOf": "2026-08-01",
+    "effectiveFrom": "2025-09-01"
   },
-  {
-   "field": "presentation.sovereignPartyProper",
-   "nullKeys": [
-    "sovereignPartyProper"
-   ],
-   "sourceIsSilentBecause": "Same reason. Ex parte proceeding; no opposing party is named in the caption.",
-   "sourceRef": "profile:sourceSections[10] (category samples, lines 428-440); registry@3b6f4c1:tracks[409].rules.filing"
+  "postGenerationHandoff": {
+    "statement": "The attorney representing the state must consent. LegalEase does not seek, negotiate or obtain that consent and never asserts it has been given. Where consent is withheld or the window closes, the ordinary art. 55A.053 petition route remains open because the entitlement is in art. 55A.053, not in art. 55A.203.",
+    "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].postGenerationHandoffs[0]"
   },
-  {
-   "field": "presentation.sovereignRole",
-   "nullKeys": [
-    "sovereignRole"
-   ],
-   "sourceIsSilentBecause": "Ex parte proceeding. No source read for this track assigns a role to the State in the caption.",
-   "sourceRef": "profile:sourceSections[10] (category samples, lines 428-440); registry@3b6f4c1:tracks[409].rules.filing"
+  "noFeeRule": {
+    "statement": "No fee may be charged. Article 55A.203(c) provides that a court entering an order under the article may not charge any fee or assess any cost for the expunction, and art. 102.0061(d) separately requires waiver of the district-court filing fee where entitlement arises under art. 55A.053(a)(2)(A) or (B).",
+    "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].packetInstructions[1]; registry@3b6f4c1:tracks[tx_exp_specialty_court].waitingPeriods[1]; registry@3b6f4c1:tracks[tx_exp_specialty_court].rules.feeWaiver"
   },
-  {
-   "field": "presentation.recordCustodianLead",
-   "nullKeys": [
-    "recordCustodianLead"
-   ],
-   "sourceIsSilentBecause": "No source read for this track enumerates the agencies that hold the records or that the order must reach. Article 55A.253(c) puts that list on the district clerk's published website list, which is county-specific, and art. 55A.253(b) forbids listing an agency twice. The list is the participant's own answer (agencyList), confirmed against the clerk's published list before filing. Not invented.",
-   "sourceRef": "profile:sourceSections[10] (category samples, lines 428-440); registry@3b6f4c1:tracks[409].rules.filing"
-  },
-  {
-   "field": "presentation.serviceRecipientLabel",
-   "nullKeys": [
-    "serviceRecipientLabel"
-   ],
-   "sourceIsSilentBecause": "The participant does not serve in the ordinary case. Under art. 55A.254 the CLERK sends the petition and notice of hearing to each listed entity by certified mail return receipt requested, or by secure e-mail, electronic transmission or fax. The registry records a certificate of service 'only where local practice requires the filer to serve the prosecutor directly', and names no county in which that is so. Not invented.",
-   "sourceRef": "profile:sourceSections[10] (category samples, lines 428-440); registry@3b6f4c1:tracks[409].rules.filing"
-  },
-  {
-   "field": "presentation.serviceRecipientAddressLabel",
-   "nullKeys": [
-    "serviceRecipientAddressLabel"
-   ],
-   "sourceIsSilentBecause": "No recipient label, so no address label. No prosecutor address is recorded by any source read for this track.",
-   "sourceRef": "profile:sourceSections[10] (category samples, lines 428-440); registry@3b6f4c1:tracks[409].rules.filing"
-  },
-  {
-   "field": "presentation.movantFirstInCaption",
-   "nullKeys": [
-    "movantFirstInCaption"
-   ],
-   "sourceIsSilentBecause": "Not applicable. The caption has one party line, 'EX PARTE {petitionerName}'; there is no party ordering to set.",
-   "sourceRef": "profile:sourceSections[10] (category samples, lines 428-440); registry@3b6f4c1:tracks[409].rules.filing"
-  }
- ],
- "sourceSilencesNote": "Fields the sources leave silent, recorded as null with the passage explaining the silence. A null is admissible only where it appears here; it is never filled with a substitute value.",
- "runtimeDefects": [
-  "renderer-null-presentation"
- ],
- "runtimeDefectsNote": "Declared, not accepted. See docs/record-clearing/terminalize-c/runtime-defect-null-presentation.md. The renderer prints the literal string 'null' for a presentation field this track deliberately sets to null on the sources' authority. The data is correct; src/** is frozen for lane C and the fix is Terminal A's. These renders are not fit to file until the renderer is fixed and they are re-rendered."
+  "sourceSilences": [
+    {
+      "field": "unswornDeclarationAuthority",
+      "nullKeys": [
+        "citation"
+      ],
+      "sourceIsSilentBecause": "An unsworn declaration under penalty of perjury ships alongside the notarial block because county practice chooses between them. No source read for this track names the statute that authorises the declaration. Left null and flagged. Note that the one-time-use affidavit is a separate sworn instrument required by the statute in its own terms and is not an alternative to the verification.",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_specialty_court].rules.notarization"
+    },
+    {
+      "field": "courtDocuments.5",
+      "nullKeys": [
+        "componentId"
+      ],
+      "sourceIsSilentBecause": "Its contents are the participant's own answer; no entity is prefilled.",
+      "sourceRef": null
+    },
+    {
+      "field": "courtDocuments.6",
+      "nullKeys": [
+        "componentId"
+      ],
+      "sourceIsSilentBecause": "An outside-party act. LegalEase does not seek, negotiate or obtain it and never asserts it has been given. No consent instrument or recital is drafted.",
+      "sourceRef": null
+    },
+    {
+      "field": "presentation.sovereignPartyName",
+      "nullKeys": [
+        "sovereignPartyName"
+      ],
+      "sourceIsSilentBecause": "There is no sovereign party in the caption. The proceeding is an EX PARTE petition and the compiled profile's own sample caption is 'CAUSE NO. ____ / IN THE DISTRICT COURT OF ____________ COUNTY, TEXAS / EX PARTE [NAME]'. No source read for this track names a respondent, an opposing party or a party-role line. Not invented.",
+      "sourceRef": "profile:sourceSections[10] (category samples, lines 428-440); registry@3b6f4c1:tracks[409].rules.filing"
+    },
+    {
+      "field": "presentation.sovereignPartyProper",
+      "nullKeys": [
+        "sovereignPartyProper"
+      ],
+      "sourceIsSilentBecause": "Same reason. Ex parte proceeding; no opposing party is named in the caption.",
+      "sourceRef": "profile:sourceSections[10] (category samples, lines 428-440); registry@3b6f4c1:tracks[409].rules.filing"
+    },
+    {
+      "field": "presentation.sovereignRole",
+      "nullKeys": [
+        "sovereignRole"
+      ],
+      "sourceIsSilentBecause": "Ex parte proceeding. No source read for this track assigns a role to the State in the caption.",
+      "sourceRef": "profile:sourceSections[10] (category samples, lines 428-440); registry@3b6f4c1:tracks[409].rules.filing"
+    },
+    {
+      "field": "presentation.recordCustodianLead",
+      "nullKeys": [
+        "recordCustodianLead"
+      ],
+      "sourceIsSilentBecause": "No source read for this track enumerates the agencies that hold the records or that the order must reach. Article 55A.253(c) puts that list on the district clerk's published website list, which is county-specific, and art. 55A.253(b) forbids listing an agency twice. The list is the participant's own answer (agencyList), confirmed against the clerk's published list before filing. Not invented.",
+      "sourceRef": "profile:sourceSections[10] (category samples, lines 428-440); registry@3b6f4c1:tracks[409].rules.filing"
+    },
+    {
+      "field": "presentation.serviceRecipientLabel",
+      "nullKeys": [
+        "serviceRecipientLabel"
+      ],
+      "sourceIsSilentBecause": "The participant does not serve in the ordinary case. Under art. 55A.254 the CLERK sends the petition and notice of hearing to each listed entity by certified mail return receipt requested, or by secure e-mail, electronic transmission or fax. The registry records a certificate of service 'only where local practice requires the filer to serve the prosecutor directly', and names no county in which that is so. Not invented.",
+      "sourceRef": "profile:sourceSections[10] (category samples, lines 428-440); registry@3b6f4c1:tracks[409].rules.filing"
+    },
+    {
+      "field": "presentation.serviceRecipientAddressLabel",
+      "nullKeys": [
+        "serviceRecipientAddressLabel"
+      ],
+      "sourceIsSilentBecause": "No recipient label, so no address label. No prosecutor address is recorded by any source read for this track.",
+      "sourceRef": "profile:sourceSections[10] (category samples, lines 428-440); registry@3b6f4c1:tracks[409].rules.filing"
+    },
+    {
+      "field": "presentation.movantFirstInCaption",
+      "nullKeys": [
+        "movantFirstInCaption"
+      ],
+      "sourceIsSilentBecause": "Not applicable. The caption has one party line, 'EX PARTE {petitionerName}'; there is no party ordering to set.",
+      "sourceRef": "profile:sourceSections[10] (category samples, lines 428-440); registry@3b6f4c1:tracks[409].rules.filing"
+    }
+  ],
+  "sourceSilencesNote": "Fields the sources leave silent, recorded as null with the passage explaining the silence. A null is admissible only where it appears here; it is never filled with a substitute value.",
+  "runtimeDefects": [
+    "renderer-null-presentation"
+  ],
+  "runtimeDefectsNote": "Declared, not accepted. See docs/record-clearing/terminalize-c/runtime-defect-null-presentation.md. The renderer prints the literal string 'null' for a presentation field this track deliberately sets to null on the sources' authority. The data is correct; src/** is frozen for lane C and the fix is Terminal A's. These renders are not fit to file until the renderer is fixed and they are re-rendered."
 }

@@ -1,0 +1,87 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-checkpoints/v1",
+  "assignmentId": "PF06",
+  "workerId": "FABLE-PA",
+  "workerBranch": "fable/pa",
+  "note": "This worker held PF02, PF03, PF05 and PF06 together and checkpointed by COMMIT rather than by five-family batch: no single lane reached five completed families, and the checkpoint rule's purpose — not holding a whole assignment back for the last family — is served by six commits landing as each family finished.",
+  "checkpoints": [
+    {
+      "at": "commit 1",
+      "families": [
+        "ar-act531-set"
+      ],
+      "lanes": [
+        "PF02"
+      ]
+    },
+    {
+      "at": "commit 2",
+      "families": [
+        "ar-cs-possession-seal-set",
+        "ar-act531-set (county correction)"
+      ],
+      "lanes": [
+        "PF03",
+        "PF02"
+      ]
+    },
+    {
+      "at": "commit 3",
+      "families": [
+        "id_clean_slate_shield-set"
+      ],
+      "lanes": [
+        "PF05"
+      ]
+    },
+    {
+      "at": "commit 4",
+      "families": [
+        "id_isp_expungement-set"
+      ],
+      "lanes": [
+        "PF06"
+      ]
+    },
+    {
+      "at": "commit 5",
+      "families": [
+        "official-form-treatment:obligation:research-decision-route:AL:al-olr"
+      ],
+      "lanes": [
+        "PF02"
+      ]
+    },
+    {
+      "at": "commit 6",
+      "families": [
+        "nd-nonconviction-close-petition-set"
+      ],
+      "lanes": [
+        "PF05"
+      ]
+    },
+    {
+      "at": "commit 7",
+      "families": [
+        "in_arrest_no_charges-set",
+        "in_section1_petition-set"
+      ],
+      "lanes": [
+        "PF02"
+      ]
+    },
+    {
+      "at": "commit 8",
+      "families": [],
+      "lanes": [
+        "PF02",
+        "PF03",
+        "PF05",
+        "PF06"
+      ],
+      "what": "lane rows, checkpoints and claim releases"
+    }
+  ],
+  "pushedTo": "origin/fable/pa"
+}

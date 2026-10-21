@@ -1,0 +1,89 @@
+{
+  "schemaVersion": "rcap-worker-advisory/v1",
+  "worker": "VF-SRC-A",
+  "raisedAt": "2026-09-01T12:11:09.622Z",
+  "subject": "VF18-VF25 carry live independent-verification grants on eight families that have already been read, and six of them were read by VF-SRC-A",
+  "thisIsNotAClaim": "VF-SRC-A has asserted nothing on any of these lanes and will not until Captain assigns them and confirms which reading below is correct.",
+  "whatTheLedgerShows": "For each of the eight families, the ONLY independent-verification claim now in the ledger is the new VF18-VF25 one, and it is live. The VF01/VF03/VF04/VF05/VF06 claims under which these families were read and released are gone.",
+  "twoReadingsBothFitTheEvidence": [
+    {
+      "reading": "INTENTIONAL_CROSS_VERIFICATION",
+      "meaning": "Captain wants a genuine second independent pass on work each worker already did, so fresh unreleased claims are correct. The set spanning both workers' prior reads is consistent with this.",
+      "ifTrue": "assign each lane to the worker that did NOT do the first read."
+    },
+    {
+      "reading": "RELEASED_FLAGS_LOST_IN_REGENERATION",
+      "meaning": "generate.mjs re-emitted these families under new lane names without carrying their released state across, so completed work now reads as open. The previous regeneration explicitly verified releasedFlagsLost: 0; this one did not preserve them.",
+      "ifTrue": "the eight are already done and the grants should be released rather than dispatched."
+    }
+  ],
+  "whyThisWorkerIsNotGuessing": "Acting on the wrong reading costs either a redundant pass over eight families, or an independence violation. Neither is this worker's call to make.",
+  "theHazardIfVF18toVF25ComeToVfSrcA": "Six of the eight were read by VF-SRC-A. A second pass by the same worker is not independent, and factory check F21 exists to stop exactly that. VF19 (ak-tf800-set) and VF24 (ct-cleanslate-petition-set) were read by VF-SRC-B and are the only two VF-SRC-A could take independently.",
+  "whereTheFirstReadingsAre": "data/rcap-grade-a/packet-factory-24h/vf01, vf03, vf04, vf05 and vf06 rows.json on claude/9h-vf-src-a, all integrated into the Captain branch.",
+  "rows": [
+    {
+      "newLane": "VF18",
+      "family": "ak-courtview-set",
+      "claimIsLive": true,
+      "otherIndependentVerificationClaimsInTheLedger": 0,
+      "alreadyReadBy": "VF-SRC-A, VF01",
+      "wouldBeSelfVerificationForVfSrcA": true
+    },
+    {
+      "newLane": "VF19",
+      "family": "ak-tf800-set",
+      "claimIsLive": true,
+      "otherIndependentVerificationClaimsInTheLedger": 0,
+      "alreadyReadBy": "VF-SRC-B",
+      "wouldBeSelfVerificationForVfSrcA": false
+    },
+    {
+      "newLane": "VF20",
+      "family": "ak-tf805-set",
+      "claimIsLive": true,
+      "otherIndependentVerificationClaimsInTheLedger": 0,
+      "alreadyReadBy": "VF-SRC-A, VF03",
+      "wouldBeSelfVerificationForVfSrcA": true
+    },
+    {
+      "newLane": "VF21",
+      "family": "ar-arrest-seal-set",
+      "claimIsLive": true,
+      "otherIndependentVerificationClaimsInTheLedger": 0,
+      "alreadyReadBy": "VF-SRC-A, VF04",
+      "wouldBeSelfVerificationForVfSrcA": true
+    },
+    {
+      "newLane": "VF22",
+      "family": "ar-misdemeanor-dwi-seal-set",
+      "claimIsLive": true,
+      "otherIndependentVerificationClaimsInTheLedger": 0,
+      "alreadyReadBy": "VF-SRC-A, VF05",
+      "wouldBeSelfVerificationForVfSrcA": true
+    },
+    {
+      "newLane": "VF23",
+      "family": "co_motion_seal_nonconviction-set",
+      "claimIsLive": true,
+      "otherIndependentVerificationClaimsInTheLedger": 0,
+      "alreadyReadBy": "VF-SRC-A, VF06",
+      "wouldBeSelfVerificationForVfSrcA": true
+    },
+    {
+      "newLane": "VF24",
+      "family": "ct-cleanslate-petition-set",
+      "claimIsLive": true,
+      "otherIndependentVerificationClaimsInTheLedger": 0,
+      "alreadyReadBy": "VF-SRC-B",
+      "wouldBeSelfVerificationForVfSrcA": false
+    },
+    {
+      "newLane": "VF25",
+      "family": "mi_setaside_marihuana-set",
+      "claimIsLive": true,
+      "otherIndependentVerificationClaimsInTheLedger": 0,
+      "alreadyReadBy": "VF-SRC-A, VF01",
+      "wouldBeSelfVerificationForVfSrcA": true
+    }
+  ]
+}

@@ -1,0 +1,105 @@
+{
+  "schemaVersion": "rcap-nh-streamlined-adopted-rule-focused-test/v1",
+  "familyId": "nh_conviction_streamlined-set",
+  "decisionId": "NH-STREAMLINED-BOUNDED-OWNER-ADOPTION-20260912",
+  "adoptionRecord": "data/rcap-grade-a/legal-decisions/NH_STREAMLINED_OWNER_ADOPTION_2026-09-12.json",
+  "adoptionRecordSha256": "e4720482044e6dee170a1334da5843c90f2a05c55ade29e6ed66f116631b5ec3",
+  "adoptedRevisionNumbers": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "result": "PASS",
+  "cases": [
+    {
+      "name": "proven streamlined record follows published no-DOC workflow",
+      "pass": true
+    },
+    {
+      "name": "contrary court or DOC demand requires confirmation",
+      "pass": true
+    },
+    {
+      "name": "uncertain highest offense is individual manual review",
+      "pass": true
+    },
+    {
+      "name": "whole-record failure withholds automated route",
+      "pass": true
+    },
+    {
+      "name": "sent date without receipt cannot compute deadline",
+      "pass": true
+    },
+    {
+      "name": "court relief and agency implementation remain distinct",
+      "pass": true
+    },
+    {
+      "name": "unverified waiver compatibility is withheld while coverage remains",
+      "pass": true
+    },
+    {
+      "name": "State Police correction fee and agency waiver remain separate cost branches",
+      "pass": true
+    },
+    {
+      "name": "whole-record clean-period, VI-a and VII gates remain explicit",
+      "pass": true
+    },
+    {
+      "name": "adoption binds all five revisions",
+      "pass": true
+    }
+  ],
+  "branchExamples": {
+    "proven": {
+      "handling": "PUBLISHED_NO_DOC_WORKFLOW",
+      "routineDocReferral": false,
+      "confirmationRequired": false,
+      "reason": "For a proven streamlined case, follow the published no-DOC sequence: do not start a routine Department of Corrections referral, questionnaire or investigation charge. The statute's broad paragraph IX wording remains a recorded conflict, so this is a bounded product treatment rather than a statutory exemption or a government-fee waiver. If the court or DOC demands a referral or questionnaire, stop and confirm the requirement; never disregard it."
+    },
+    "contrary": {
+      "handling": "CONFIRMATION_REQUIRED",
+      "routineDocReferral": false,
+      "confirmationRequired": true,
+      "reason": "A contrary court or DOC demand is a case-specific confirmation/review branch; the participant is never told to disregard it."
+    },
+    "uncertainHighest": {
+      "handling": "MANUAL_LEGAL_REVIEW",
+      "routineDocReferral": false,
+      "confirmationRequired": false,
+      "reason": "Require a documented court-record basis for the highest-offense conclusion. Do not demand a new judicial label for an unambiguous record. If the comparison group, offense classification or relationship between different disposition dates remains uncertain, send this case to individual manual legal review; do not auto-approve, auto-ineligible or freeze the whole family."
+    },
+    "wholeRecordFailure": {
+      "handling": "WITHHOLD_AUTOMATED_STREAMLINED_ROUTE",
+      "routineDocReferral": false,
+      "confirmationRequired": false,
+      "reason": "The streamlined no-DOC treatment applies only after the target and whole-record facts are independently established."
+    },
+    "sentButNoReceipt": {
+      "deadline": "UNCONFIRMED",
+      "finalCourtRelief": false,
+      "agencyImplementation": false,
+      "automaticallyFinalAfterTwentyDays": false,
+      "reason": "The form's Date Sent to Prosecutor records sending, not receipt. Do not calculate the objection deadline from filing, sending or the participant's receipt. Prefer a court-specified deadline; otherwise require a verified prosecutor-receipt anchor and the applicable time-computation rules. If receipt is unknown, show the deadline as unconfirmed."
+    },
+    "finalCourtOnly": {
+      "deadline": "ANCHOR_REQUIRED_BEFORE_COMPUTATION",
+      "finalCourtRelief": true,
+      "agencyImplementation": false,
+      "automaticallyFinalAfterTwentyDays": false,
+      "reason": "The form's Date Sent to Prosecutor records sending, not receipt. Do not calculate the objection deadline from filing, sending or the participant's receipt. Prefer a court-specified deadline; otherwise require a verified prosecutor-receipt anchor and the applicable time-computation rules. If receipt is unknown, show the deadline as unconfirmed."
+    },
+    "incompatibleWaiver": {
+      "courtWaiverUsable": false,
+      "statePoliceWaiverGranted": false,
+      "branch": "WITHHELD_UNVERIFIED_COURT_CHANNEL_COMPATIBILITY",
+      "coverageRetained": true,
+      "reason": "The NHJB-2311 motion and NHJB-2328 financial statement remain a conditional court-filing-fee pair only where the disposing clerk confirms that their court/channel edition and confidentiality/service treatment fit the filing. NHJB-2311 lists Superior Courts and NHJB-2328 is an e-filing-only edition with a different chooser; an unverified fit is withheld from filing with an explicit reason, while the contracted conditional coverage remains recorded."
+    }
+  },
+  "scope": "handling rules for this streamlined family only; no court, counsel, eligibility or production determination"
+}

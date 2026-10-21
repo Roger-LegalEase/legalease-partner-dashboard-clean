@@ -1,0 +1,38 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "vt_exp_decriminalized-set",
+  "findings": [
+    {
+      "finding": "200-00129 and 200-00132A are the expungement counterparts of the sealing forms 200-00130 and 200-00132, and carry the same widget names.",
+      "consequence": "The petition and stipulation policy assignments are restated against the expungement binaries and their own coordinates rather than shared across a lane boundary. Form 600-00228 is the same source form, but its participant-supplied fields are not required on this no-fee route."
+    },
+    {
+      "finding": "Every caption in this map is read out of the pinned binary at build time rather than transcribed.",
+      "consequence": "The caption a participant reads is the text actually printed beside their blank. The guard against a changed form is the exact SHA-256 source binding, which fails the family closed on any byte."
+    },
+    {
+      "finding": "200-00129 asks one question 200-00130 does not: question 2(d), whether the conduct is no longer prohibited by law.",
+      "consequence": "That is the ground of this route and it is a sworn assertion about the participant's own offence, so both boxes are left for the participant and the instructions say so in terms. It is not treated as an election the route determines."
+    },
+    {
+      "finding": "The held fee answer is no filing fee on this track; the $90 fee in 32 V.S.A. Sec. 1431(e) is limited to sealing a DUI conviction.",
+      "consequence": "600-00228 is expressly conditional only where a fee is actually charged and the participant cannot pay it; the participant is told not to complete or file it on this track."
+    },
+    {
+      "finding": "The finalizer refused 1 prefill(s) across the two fixtures because the value did not fit its box at a readable size: boundary/200-00132A 34i (participant.email).",
+      "consequence": "The box is left empty rather than carrying illegible ink, and every refusal is now named on the instruction page bound into that packet and recorded in reports/rendered-artifacts.json. Before this repair a refusal reached no artifact at all and the participant page promised the value had been filled in."
+    },
+    {
+      "finding": "The prosecutor identity is read from the committed route-obligation census, bound at f6fc081419ea and re-asserted against 3 anchor statements.",
+      "consequence": "The packet states that the participant does not serve process: the court provides a filed petition to the prosecutor, while a stipulation is taken or sent to the prosecuting office and filed by the prosecutor under 13 V.S.A. Sec. 7602(a)(4)."
+    },
+    {
+      "finding": "The committed vt_exp_decriminalized track holds 11 self-help stopping conditions.",
+      "consequence": "All eleven are reproduced in their held words and order in participant-instructions.md and the composed instruction pages."
+    },
+    {
+      "finding": "FIX05. The participant's list of items to supply disclosed 15 captions that each named more than one blank on the same form and page, and emitted the items in AcroForm field-tree order rather than in the order they are read on the page.",
+      "consequence": "Every caption that names more than one blank now carries a locator derived from source geometry -- the row number the form itself prints where it prints one, which on 200-00129 page 1 is the '1.', '2.' and '3.' printed at x=54.4 inside each row's own widget band, and the blank's position down the page where the form prints none -- and the list is emitted page, then down the page, then across the row, from each widget's own measured /Rect. No item's mapping changed, no value changed and no PDF byte moved: the list is built after every fixture is written and reaches only production-field-map.json and participant-instructions.md. All nine counters read zero before this repair and read zero after it; the defect was visible only by reading the delivered list against the printed page."
+    }
+  ]
+}

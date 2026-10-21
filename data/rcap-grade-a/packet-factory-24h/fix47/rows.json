@@ -1,0 +1,162 @@
+{
+  "schemaVersion": "rcap-packet-factory-focused-repair-return/v1",
+  "workerId": "CLAUDE-FIX47-TX-ND-DOB",
+  "assignmentId": "FIX47",
+  "assignedBase": "0607f388c",
+  "branch": "fix47-tx-nd-dob",
+  "laneKind": "repair",
+  "scope": "KNOWN_PREFILLS only, on the one granted family tx_nd_conviction_no_supervision-set. One file changed in scripts/: its own single-family builder. No shared helper, no source pin, no route key, no component, no queue, no specification and no legal record was touched.",
+  "grantsConfirmed": [
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX47 tx_nd_conviction_no_supervision-set -> CLAIM_OK (repair, grant set f1b0ecddbbc5dd47), exit 0",
+    "After a first-pass misread of the verdict this lane released the grant, then reopened it: --reissue FIX47 tx_nd_conviction_no_supervision-set --reason \"continuation after the misread\" -> REISSUED, exit 0, then --assert -> CLAIM_OK, exit 0. Both are in the committed ledger."
+  ],
+  "correctionOfThisLanesOwnFirstReturn": {
+    "whatWasWrong": "This lane's first return recorded status BLOCKED on the ground that VF04 had written no scored verdict for this family. That was a misread and it is withdrawn. The lane read data/rcap-grade-a/packet-factory-24h/vf04/rows.json AS IT STOOD AT a0fbceb30, found only the earlier BLOCKED_BEFORE_CLAIM row at 9c2b39327, and concluded the FAIL did not exist.",
+    "whatIsActuallyTrue": "VF04 APPENDED its scored row to that file after a0fbceb30 was cut, recording a0fbceb30 as the base it verified at. The row is present in vf04/rows.json at 11a5deefc, which is an ancestor of this lane's base 0607f388c: wave VF04-FORM-READS-20260905, verdict FAIL_REPAIR_REQUIRED, failedObligationNames [KNOWN_PREFILLS], canonicalSha256 ad11ac35.., boundarySha256 47e64f8a.., all fifteen obligations measured, fourteen PASS. Its KNOWN_PREFILLS finding and its repair note are quoted verbatim in the brief this lane was given. The verdict exists and this row repairs it.",
+    "howTheMisreadHappened": "Reading a return file at the base sha it names, rather than at the lane's own base. A verifier row carries verifiedAtBase as a claim about WHEN it measured, not about where the row is stored; the row itself can land in any later commit. Recorded here so the next lane does not repeat it."
+  },
+  "preflight": {
+    "worktree": "/home/user/fix47-worktree, branch fix47-tx-nd-dob from 0607f388c on claude/legalease-sprint-captain-utucnw",
+    "coreSparseCheckout": "false",
+    "skipWorktreeBits": 0,
+    "privateCorpus": "symlinked to /home/user/legalease-partner-dashboard-clean/private, read only; nothing under it was written",
+    "nodeModules": "symlinked to /home/user/captain-worktree/node_modules; node 22.22.2, pdf-lib 1.17.1",
+    "masterLibrarySourceDir": "exported to private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 as scripts/verify-packet-build-environment.mjs resolves it",
+    "beforeBytes": "The whole family directory at the base was copied to /tmp/fix47-before before the first edit, and every before/after comparison below is against that copy rather than against a remembered digest. Deleted after measuring.",
+    "rasters": "/tmp/fix47-raster, deleted after measuring",
+    "otherWorktreesTouched": 0,
+    "subagentsCreated": 0
+  },
+  "rows": [
+    {
+      "itemId": "tx_nd_conviction_no_supervision-set",
+      "familyId": "tx_nd_conviction_no_supervision-set",
+      "jurisdiction": "TX",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/tx/tx-nd-conviction-no-supervision-set--official-pdf-fill",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "buildHost": "scripts/build-census-v1-tx_nd_conviction_no_supervision-set.mjs",
+      "verdictRepaired": {
+        "lane": "vf04",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "a0fbceb30",
+        "failedObligationNames": [
+          "KNOWN_PREFILLS"
+        ]
+      },
+      "obligationsRepaired": [
+        "KNOWN_PREFILLS"
+      ],
+      "obligationsThisRowDoesNotDischarge": [
+        "RASTER. The RASTER_PASS receipt for workflow run 33973981303 was bound to canonical ad11ac354908509d7a39f784d68287729cfb032ac2a8ee4d91fde3becd6095f9, a digest this repair supersedes. It stops binding and a central raster is owed on the new bytes. RASTER_QUEUE.json and MASTER_QUEUE.json were NOT opened or edited by this lane; product-wiring.json acceptanceReceipt is null.",
+        "INDEPENDENT VERIFICATION. This lane built these bytes and verifies none of them. No verdict was written and none of the fifteen obligations is scored here."
+      ],
+      "whatChanged": "ONE RULE IN ONE TABLE IN ONE FILE, PLUS ITS DISCLOSURE. In scripts/build-census-v1-tx_nd_conviction_no_supervision-set.mjs the SOI_RULES rule `declaration_date` matched /^(Day \\/ Día|Month \\/ Mes|Year \\/ Año|Today|Year)$/ and called all five a date part of the sworn declaration, refused because 'a date written before the Statement is actually sworn would be false'. That reason is exactly right for the day the participant signs and exactly wrong for the day they were born. The rule is narrowed to /^(Today|Year)$/ and two rules are added ahead of it. THE THREE FIELDS AND THEIR NEW DISPOSITIONS: (1) 'Month / Mes' -- was PROTECTED_FIELD, class signature_or_date_participant_completion, printedLabel 'Date part of the sworn declaration (Month / Mes)'; is now REQUIRED_BEFORE_FILING, requiredBeforeFiling true, disclosureLabel 'Month box of the date of birth on the Option 1 declaration, page 11', printedLabel 'My date of birth is / Mi fecha de nacimiento es'. (2) 'Day / Día' -- same before; now REQUIRED_BEFORE_FILING, disclosureLabel 'Date-of-birth box on the Option 1 declaration, page 11 (Day / Día)', same printed caption. (3) 'Year / Año' -- same before; now REQUIRED_BEFORE_FILING, disclosureLabel 'Date-of-birth box on the Option 1 declaration, page 11 (Year / Año)', same printed caption. Each carries its own reason naming the two-widget fact. WHAT STAYS REFUSED, unchanged in label, class and reason: the signing-date field 'Today' at (97.75,302.31) on source page 11, and the notary's 'Year' at (343.359,264.575) on source page 12. Both remain PROTECTED_FIELD under signature_or_date_participant_completion with the reason that was always true of them. THE CAPTION IS THE FORM'S. statementFields() now passes a rule's `caption` and `captionAt` through to the census row, so the three rows carry the line the paper actually prints and censusOf's captionDrift check re-reads page 11 of the pinned binary on every build; a caption that moved or was reworded fails the build. captionDrift is empty on both builds. THE DISCLOSURE. The three blanks are named in participant-instructions.md at lines 113, 138 and 174 of 'The items you must supply', each with what to write; a line naming all three by their printed caption is added to 'Things the platform deliberately left blank'; and the sentence describing what the platform filled in now says the Statement asks for the date of birth twice and points at that section. One paragraph naming the three boxes is also added to the delivered filing-and-after-order-instructions component. THE PRECEDENT. This is not a new treatment invented here. The identical structure on the identical pinned Statement of Inability -- TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf, sha256 bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d -- was treated exactly this way by FIX29 in scripts/build-census-v1-rcap-tx-custom-pleading.mjs, whose rules option1_date_of_birth_month and option1_date_of_birth_day_and_year this lane mirrors down to the caption and captionAt. VF01 tested the two-widget claim against the pinned binary, accepted that treatment on 2026-09-05, and that family passed a fresh read at 321938c38. This family follows it rather than inventing a second answer to the same form.",
+      "whyDeclaredAndNotWritten": {
+        "theStructuralFact": "'Month / Mes' is ONE AcroForm field carrying TWO widgets. Widget 0: source page 11, rect x 79.7302 y 495.561 w 49.0948 h 19.898 -- the date-of-birth MONTH box on the '________/________/________' rule under 'My date of birth is / Mi fecha de nacimiento es'. Widget 1: source page 12, rect x 135.241 y 265.173 w 180.833 h 19.898 -- the NOTARY's blank after 'Juramentado y suscrito ante mí el día de hoy del mes de'. 'Day / Día' and 'Year / Año' each carry one widget, on source page 11 only.",
+        "measuredHere": "Read with pdf-lib from the pinned binary in this container, not taken from the precedent's word for it.",
+        "provedByExperiment": "setText('04') on 'Month / Mes', updateFieldAppearances, flatten, save; pdftotext -f 12 -l 12 -layout on the result prints '04' directly under 'Juramentado y suscrito ante mí el día de hoy del mes de'. The probe file was written to /tmp and deleted.",
+        "whyTheFactoryCannotWriteOneWidget": "scripts/rcap-official-forms/rcap-official-form-finalize.mjs holds one value per FIELD, not per widget, and says so at its fitting step: 'a field holds one value however many places it is printed.' Its three widget-aware options -- fitTextPerWidget, applyPerWidgetDefaultAppearanceSizes and alignWidgetDefaultAppearanceSizes -- all concern SIZE, not value. Writing the participant's birth month would therefore print it in the notary's blank on a page the notary completes.",
+        "whyNotWriteTheOtherTwo": "Two of the three boxes could be written and the third could not. A date that is two-thirds machine-filled on a declaration sworn under penalty of perjury is a worse artifact than one the participant completes in one hand, and the completeness contract reads a written cell beside a required blank cell in the same row as an incomplete row. All three are declared together.",
+        "whyThisIsNotAnUnavailableFactRefusedAsAvailable": "REQUIRED_BEFORE_FILING_CONDITIONS asks whether the fact is genuinely unavailable, and the honest answer for this blank is that the platform's INK cannot reach it, not that the value is unknown. The row does not claim otherwise: factAvailable is not asserted, factId is null, and the reason on every one of the three rows names the two-widget fact rather than pleading ignorance of the date. The participant is told, in the same sentence, that the date they need is already printed nine pages earlier on page 2 of the same document, so the disclosure hands them the value rather than asking them to find it. This is the reading VF01 accepted on the same form on 2026-09-05.",
+        "whatARealWriteWouldHaveNeeded": "A per-widget value facility in the shared finalizer, opt-in and default-off in the pattern of fitTextPerWidget, plus date-part addressing that scripts/rcap-official-forms/rcap-field-semantics.mjs currently refuses for bare date-component field names and that scripts/rcap-official-forms/verify-name-date-component-semantics.mjs holds in place across every committed census. That is a shared-machinery change touching roughly 250 families and it is not what the accepted precedent does."
+      },
+      "placementDiff": {
+        "method": "The whole family directory at the base was copied to /tmp/fix47-before first. Every one of the 24 pages of BOTH fixtures was then extracted page by page with pdftotext -layout, old against new, and the four pages the brief names were additionally rastered with pdftoppm at 100 dpi and compared pixel for pixel.",
+        "declarationsAdded": 3,
+        "newInkOnPages11And12And20": 0,
+        "pagesRasteredAndComparedPixelForPixel": {
+          "11": "PIXEL-IDENTICAL, canonical, sha256 of the PNG aececcb91acb.. before and after -- delivered page 11 is Statement source page 2, which carries the written date of birth",
+          "12": "PIXEL-IDENTICAL, 7e1222de7aca..",
+          "20": "PIXEL-IDENTICAL, 1551ad0f7c29.. -- delivered page 20 is Statement source page 11, the Option 1 declaration carrying the three date-of-birth boxes and the signing date",
+          "21": "PIXEL-IDENTICAL, 78d62c1a06f2.. -- delivered page 21 is Statement source page 12, the notary's page. Rastered because it is the page the refused month widget would have inked, and it did not move."
+        },
+        "textDiffAllTwentyFourPages": "canonical and boundary: pages 23 and 24 changed, every other page character-identical. Pages 23-24 are the composed filing-and-after-order-instructions component, and the change there is the added disclosure paragraph plus the reflow it causes below itself. No official form page changed in either fixture.",
+        "whyTwoComposedPagesMovedAtAll": "The disclosure is not only in participant-instructions.md; a participant reading only the paper needs it too, which is what the accepted precedent does. It is stated so the reader is not left wondering why one page of a form they are holding is filled and another is not: 'PAGE 11 OF THE STATEMENT ASKS FOR YOUR DATE OF BIRTH AGAIN... on this form the month box is one form field with the notary's month on page 12, so filling your birth month would also write in the notary's blank.' Recorded here rather than left for a reader to find in a digest.",
+        "pageCountBefore": 24,
+        "pageCountAfter": 24,
+        "noPageAddedOrRemoved": true,
+        "appearanceLevelWriteComparison": "reports/actual-writes.json, which reads every value back from the FLATTENED WIDGET APPEARANCES of the assembled packet bytes, is unchanged in every particular across the repair. canonical: 15 writes before and after, 15 flattened widget appearances before and after, 262 added glyphs before and after, 0 non-whitespace glyphs outside a measured write box, 0 refused fields carrying ink. boundary: 15 / 15, 15 / 15, 590 / 590, 0, 0. The set of (field, page, drawnText) triples is identical before and after -- nothing added, nothing removed. The repair moved three DECLARATIONS and no ink."
+      },
+      "officialFormSliceCharacterIdentity": "Unchanged and untouched. The three source binaries are bound by the same digests the source receipt declares, the build wrote no new value into any AcroForm field, and every official page of both fixtures is character-identical to the base bytes by page-by-page pdftotext -layout comparison across all 24 pages, with pages 11, 12, 20 and 21 additionally pixel-identical at 100 dpi.",
+      "artifacts": {
+        "canonical": {
+          "path": "data/rcap-all50/overlays/census-v1/tx/tx-nd-conviction-no-supervision-set--official-pdf-fill/fixtures/canonical.pdf",
+          "oldSha256": "ad11ac354908509d7a39f784d68287729cfb032ac2a8ee4d91fde3becd6095f9",
+          "oldByteLength": 664450,
+          "newSha256": "dd3c259471713851aa1bf607e3e75fcb6bc1ede719dd934212a0039dcd6f0dd6",
+          "newByteLength": 664949,
+          "pagesBefore": 24,
+          "pagesAfter": 24
+        },
+        "boundary": {
+          "path": "data/rcap-all50/overlays/census-v1/tx/tx-nd-conviction-no-supervision-set--official-pdf-fill/fixtures/boundary.pdf",
+          "oldSha256": "47e64f8a04e09e5afdc83e558614de4411d9ca700c2087d482a357413b0afdc7",
+          "oldByteLength": 664825,
+          "newSha256": "cc799883f128b0d113bbb448decf7b4fdd8f07640c777d0db9e340d32f4bb988",
+          "newByteLength": 665324,
+          "pagesBefore": 24,
+          "pagesAfter": 24
+        },
+        "digestsMovedInThisLane": true,
+        "whyTheyMovedGivenNoNewInk": "The 499-byte growth in each fixture is the disclosure paragraph on the composed instructions component. The 20-page official slice is byte-for-byte what it was."
+      },
+      "deterministicRebuild": "Built with --no-raster, then built again with no other change: md5 of every file under the family directory is identical across the two runs, fixtures included. canonical dd3c2594.. and boundary cc799883.. both times.",
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersNote": "Nine zeros before and nine zeros after, and VF04 said in terms why that is the starting condition rather than the evidence: the defect was invisible to all nine by construction, because the three blanks were dispositioned through the trusted refusal class signature_or_date_participant_completion and the classifier returned PROTECTED_FIELD and stopped, never seeing that the printedLabel was not the caption the delivered page prints. What moved is the disposition census underneath them: PROTECTED_FIELD 24 -> 21, REQUIRED_BEFORE_FILING 114 -> 117, PARTICIPANT_ELECTION_GENUINE 22 and NOT_APPLICABLE_ON_THIS_ROUTE 3 unchanged. Exactly three fields changed disposition and they are the three named above. The builder's declared requiredBeforeFiling count moves 117 -> 120 (that count includes the composed components' own blanks, which the form-field census does not).",
+      "verifiers": {
+        "verify-packet-completeness.mjs": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family tx_nd_conviction_no_supervision-set -> PASS_COMPLETE, 15/200 written, nine counters zero, exit 0. Run before the edit and again after.",
+        "verify-identity-refresh-survives-rebuild.mjs": "EVERY_IDENTITY_REFRESH_SURVIVED, 249 receipts compared against HEAD, 53 carrying an identityRefresh, exit 0",
+        "verify-source-carried-values-are-dispositioned.mjs": "EVERY_SOURCE_CARRIED_VALUE_IS_DISPOSITIONED, 0 UNDISPOSITIONED, 0 not examinable; 26 dispositioned by appearance-registry and 3 by clearSourceCarriedTextValues, exit 0",
+        "captionDrift": "empty on both builds. The three new rows carry captionAt {page 11, y 521} and the caption 'My date of birth is / Mi fecha de nacimiento es', re-read off the pinned binary's own page text on every build.",
+        "appearanceLevelCheck": "flattened widget appearances read back from the assembled bytes (reports/actual-writes.json) plus a local pdftoppm raster of pages 11, 12, 20 and 21 into /tmp/fix47-raster, deleted after measuring. Recorded under placementDiff."
+      },
+      "hostScope": "SINGLE-FAMILY HOST. grep -rln over scripts/ for the builder's filename returns only itself; no other file imports it. No shared helper was edited by this lane -- the caption pass-through is inside this builder's own statementFields(), not in scripts/rcap-official-forms/ -- so no other family's bytes can have moved and no control rebuild was owed.",
+      "productWiring": {
+        "acceptanceReceipt": null,
+        "note": "nulled here because it bound the superseded canonical digest ad11ac35..; a central raster is owed on dd3c2594.. and cc799883... whyTheAcceptanceReceiptIsNull records the reason in the file itself."
+      },
+      "queuesTouched": "none. RASTER_QUEUE.json and MASTER_QUEUE.json were not opened.",
+      "legalRecordsTouched": "none. No specification, no fulfillment-authority registry entry and no legal record was edited.",
+      "filesChanged": [
+        "scripts/build-census-v1-tx_nd_conviction_no_supervision-set.mjs",
+        "data/rcap-all50/overlays/census-v1/tx/tx-nd-conviction-no-supervision-set--official-pdf-fill/fixtures/canonical.pdf",
+        "data/rcap-all50/overlays/census-v1/tx/tx-nd-conviction-no-supervision-set--official-pdf-fill/fixtures/boundary.pdf",
+        "data/rcap-all50/overlays/census-v1/tx/tx-nd-conviction-no-supervision-set--official-pdf-fill/production-field-map.json",
+        "data/rcap-all50/overlays/census-v1/tx/tx-nd-conviction-no-supervision-set--official-pdf-fill/field-census.census-v1.json",
+        "data/rcap-all50/overlays/census-v1/tx/tx-nd-conviction-no-supervision-set--official-pdf-fill/participant-instructions.md",
+        "data/rcap-all50/overlays/census-v1/tx/tx-nd-conviction-no-supervision-set--official-pdf-fill/product-wiring.json",
+        "data/rcap-all50/overlays/census-v1/tx/tx-nd-conviction-no-supervision-set--official-pdf-fill/reports/blanks-left-for-the-participant.json",
+        "data/rcap-all50/overlays/census-v1/tx/tx-nd-conviction-no-supervision-set--official-pdf-fill/reports/completeness-counters.json",
+        "data/rcap-all50/overlays/census-v1/tx/tx-nd-conviction-no-supervision-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "data/rcap-grade-a/packet-factory-24h/fix47/rows.json",
+        "data/rcap-grade-a/packet-factory-24h/claim-ledger.json"
+      ],
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "grantsNothing": "This row repairs one obligation. It promotes nothing, opens no route and grants no approval."
+    }
+  ]
+}

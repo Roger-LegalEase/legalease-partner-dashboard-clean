@@ -1,0 +1,59 @@
+{
+  "schemaVersion": "vf67-nh-production-proof/v1",
+  "familyId": "nh_marijuana_annulment-set",
+  "baseSha": "727531f334f19b77110930cb7cb0d806f18efe94",
+  "stagingRoot": "/tmp/nh-vf67-production-proof-20260910-run2",
+  "stagingIsolation": "family outputs were extracted into independent writable /tmp trees; source corpus and node_modules were read-only symlinks to the checkout; no candidate output path was linked",
+  "commands": {
+    "mutated": {
+      "command": "MASTER_LIBRARY_SOURCE_DIR=/workspaces/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 node scripts/build-census-v1-nh_marijuana_annulment-set.mjs --no-raster",
+      "exitCode": 1,
+      "log": "data/rcap-grade-a/packet-factory-24h/vf67/nh-evidence/production-proof-mutated.log",
+      "mutationPatch": "data/rcap-grade-a/packet-factory-24h/vf67/nh-evidence/production-proof-mutation.patch",
+      "failure": "AssertionError at elideAmountsForDelivery; foreign $487.25 at participantInstructions character 33238; runFamily caller stack"
+    },
+    "valid": {
+      "command": "MASTER_LIBRARY_SOURCE_DIR=/workspaces/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 node scripts/build-census-v1-nh_marijuana_annulment-set.mjs --no-raster",
+      "exitCode": 0,
+      "log": "data/rcap-grade-a/packet-factory-24h/vf67/nh-evidence/production-proof-valid.log"
+    }
+  },
+  "hashInventory": {
+    "mutatedBefore": "data/rcap-grade-a/packet-factory-24h/vf67/nh-evidence/production-proof-mutated-before.hashes",
+    "mutatedAfter": "data/rcap-grade-a/packet-factory-24h/vf67/nh-evidence/production-proof-mutated-after.hashes",
+    "validBefore": "data/rcap-grade-a/packet-factory-24h/vf67/nh-evidence/production-proof-valid-before.hashes",
+    "validAfter": "data/rcap-grade-a/packet-factory-24h/vf67/nh-evidence/production-proof-valid-after.hashes",
+    "mutatedSha256Changes": [],
+    "validSha256Changes": [
+      {
+        "path": "data/rcap-all50/overlays/census-v1/nh/nh-marijuana-annulment-set--official-pdf-fill/build-status.json",
+        "before": "43c0fc13ad93e97779ab192a444f3f6cc0f8f10b8d0c11694f8143a8e96722b8",
+        "after": "5cb6836381d4af55f8cf2636f5b59edbfdabddff950e6b19606827978ea64b4b"
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/nh/nh-marijuana-annulment-set--official-pdf-fill/reports/independent-visual-review.json",
+        "before": "3409ca7969805ea1fd5d667c411615d8088c87c00ecd8348ab00d5ac309452ab",
+        "after": "2da6922912d1a5436f24c450af2f792d294c852ad48d45fd57f6b7c3e2f769e5"
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/nh/nh-marijuana-annulment-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "before": "4b7d4a51b045ec2330d8cb26f5d90c81214a9e88b8ab89367df95484f1226538",
+        "after": "e13fa0e58f3d7586523196f2d55aebd58183aa3ae2cdb51b839598f0e3b0698d"
+      }
+    ]
+  },
+  "writeObservation": {
+    "mutated": "data/rcap-grade-a/packet-factory-24h/vf67/nh-evidence/production-proof-mutated-write-observation.txt",
+    "valid": "data/rcap-grade-a/packet-factory-24h/vf67/nh-evidence/production-proof-valid-write-observation.txt",
+    "mutatedFilesRewritten": "fixtures/canonical.pdf and fixtures/boundary.pdf (mtime changed; SHA-256 unchanged), no guidance/reports writes observed",
+    "validChangedFiles": "valid --no-raster rewrote reports/guidance/status as expected in disposable tree"
+  },
+  "artifactHashes": {
+    "canonical": "23390b7f9cc6013681dfe40910233737a0410c2bb11454f6c551b4fd1abbbed8",
+    "boundary": "661ff0044bc4442c7c760fb39b4f5b6c83415b7dd42fc9f61dddcc8d00fd3f1e",
+    "mutatedPdfShaUnchanged": true,
+    "validPdfShaUnchanged": true
+  },
+  "publicationBoundary": "Plain caller refuses the authored-guide mutation before participant-instructions.md, filing-instructions.md, reports and metadata writes. It writes fixture PDFs earlier at runFamily line 2390; both were observed rewritten in mutation staging with unchanged bytes. This proves caller refusal for the guidance defect, not atomic protection of every output file.",
+  "noRaster": "--no-raster; no browser/render dependency used"
+}

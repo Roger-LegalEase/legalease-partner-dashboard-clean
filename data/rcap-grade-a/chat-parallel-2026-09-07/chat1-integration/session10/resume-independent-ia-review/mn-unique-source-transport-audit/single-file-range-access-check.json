@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "rcap-independent-mn-single-file-transport-check/v1",
+  "reviewer": "/root/session10_admission_review",
+  "skillRead": "/home/codespace/.codex/plugins/cache/openai-curated-remote/google-drive/0.1.16/skills/google-drive/SKILL.md",
+  "metadataRequest": {
+    "fileId": "1d40hH2ZkcSt1zrh35Z7xgTsV_YUo19v7",
+    "fields": "id,name,mimeType,size,sha256Checksum,webContentLink,webViewLink,capabilities(canDownload)"
+  },
+  "observedMetadata": {
+    "id": "1d40hH2ZkcSt1zrh35Z7xgTsV_YUo19v7",
+    "title": "CHAT9_MN_SUBD3_COMPLETE_CANDIDATE_2026-09-07.tar.xz",
+    "mimeType": "application/x-xz",
+    "size": "64767472",
+    "browserUrlReturned": true,
+    "rawDownloadUrlReturned": false,
+    "error": false
+  },
+  "authenticatedMetadataReadSucceeded": true,
+  "downloadPermissionNotInferred": true,
+  "target": {
+    "path": "scripts/rcap-packet-recovery/chat9/mn15218.mjs",
+    "requiredSha256": "1e01a0cee8b4f6aa90e7ca69eb5ec82b1ed1d831f27860009d0ddc81a5a966f0"
+  },
+  "availableFetchParameters": [
+    "url",
+    "download_raw_file",
+    "include_base64",
+    "raw_export_mime_type"
+  ],
+  "fetchBehavior": "Exposed fetch retrieves a complete raw file or streams that complete file into a user-scoped reference. It has no range, offset, byte-count, or archive-member parameter.",
+  "formatFinding": "This exact transport is tar.xz, not ZIP; a ZIP central-directory/tiny-member strategy cannot be applied to these bytes. No unsupported claim about all possible XZ indexing strategies is made.",
+  "preciseLimitation": "Authenticated metadata access is available, but no raw or signed HTTP download URL is exposed by the metadata connector, and no authorized range/member/materialization operation is available. Complete-file fetch would violate the single-file-only task scope, so it was not called.",
+  "status": "BLOCKED_SINGLE_FILE_OR_RANGE_TRANSPORT_UNAVAILABLE",
+  "httpRangeAttempted": false,
+  "archiveDownloaded": false,
+  "candidateDownloaded": false,
+  "base64Requested": false,
+  "credentialsReadOrPrinted": false,
+  "sourceRecovered": false,
+  "sharedSourceModified": false
+}

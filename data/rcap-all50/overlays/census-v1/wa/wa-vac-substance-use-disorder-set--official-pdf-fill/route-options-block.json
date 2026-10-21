@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "rcap-repair-obligation-block/v1",
+  "familyId": "wa_vac_substance_use_disorder-set",
+  "obligation": "ROUTE_OPTIONS",
+  "status": "BLOCKED_LEGAL_INPUT",
+  "recordedBy": "FIX10",
+  "assignmentId": "FABLE-R21",
+  "recordedAt": "2026-09-02",
+  "route": {
+    "routeKey": "obligation:track-only:WA:wa_vac_substance_use_disorder",
+    "legalName": "Substance-use-disorder vacate pathway, RCW 9.96.060(6)"
+  },
+  "whyThisIsRecordedNow": "wa_vac_homicide_victim_prostitution-set already carries a block of exactly this shape, recorded by an earlier FIX10 lane. This family has the same defect and had no block, so the queue could see the one and not the other. Recording it makes the two consistent; it does not create a new failure.",
+  "whatWasReadFirstHand": {
+    "form": "CrRLJ 09.0100, Petition and Declaration for Order Vacating Conviction, rev. 11/2024",
+    "sha256": "1f72e901e93d576cf6c7ecad910d253da65b6af1a89ca75304c9739fa159909b",
+    "verification": "re-read from the Master Library for this lane; the bytes hash to the digest recorded in source-receipt.json and in the committed corpus index",
+    "electionsTheFormFaceCarries": [
+      "section 3 checkbox: Conviction as Victim (RCW 9.96.060(2), victim of sex trafficking, prostitution, commercial sexual abuse of a minor, sexual assault or domestic violence)",
+      "section 5 checkbox: Prior Offense (RCW 46.61.5055 prior offense)",
+      "section 6 checkbox: Domestic Violence (RCW 9.96.060(2)(f))",
+      "section 7 checkbox: Offenses not otherwise specified above"
+    ],
+    "finding": "No printed section names RCW 9.96.060(6), and no printed ground is the substance-use-disorder pathway. The form's only occurrence of the words 'substance use disorder' is inside section 5's list of DUI deferred-prosecution equivalents — 'An equivalent out-of-state deferred prosecution for DUI or Physical Control, including a substance use disorder treatment program. (RCW 46.61.5055(14)(a)(xvi))' — which is keyed to RCW 46.61.5055 and is a different fact about a different route."
+  },
+  "theA3Trap": "That section 5 line is the exact shape DET-FEE-AND-WAIVER-001-A3 was written for: a phrase that matches this route's words while answering a different statutory section's question. Reading it as this route's ground would put a DUI prior-offense declaration under a participant asking for RCW 9.96.060(6) relief. It is not read that way here.",
+  "theExactQuestion": "For the RCW 9.96.060(6) substance-use-disorder vacate pathway, which election on CrRLJ 09.0100 (rev. 11/2024), if any, states that ground — section 7 as an offence not otherwise specified, or does this route require a different or modified pleading? The form face carries no checkbox and no blank naming RCW 9.96.060(6), so the packet cannot state this route on the form's face without an answer.",
+  "whyNotRepairedAsBytes": "A route-election byte repair marks an election the official form carries and the packet leaves unmarked. This form carries no election for this route's ground; marking any of the four printed grounds would misstate the route, which is worse than leaving the packet unmarked. The missing item is a legal input, not a mark.",
+  "corroboratingRepoEvidence": "The compiled Washington profile (src/lib/rcap-engine/compiled/profiles/WA-washington.json) contains zero occurrences of '9.96.060(6)' and zero of 'substance use disorder'; no pathway or rule in it implements this ground.",
+  "whatTheParticipantIsToldMeanwhile": "participant-instructions.md states the limit in its own words, lists the four printed grounds, says plainly that which section states this ground is a legal question the packet does not decide, and directs the reader to a lawyer or a court facilitator before filing. The packet marks no checkbox.",
+  "packetBytesChanged": false,
+  "generationAllowed": false,
+  "runtimeSelectable": false,
+  "commercialRoutesOpened": 0
+}

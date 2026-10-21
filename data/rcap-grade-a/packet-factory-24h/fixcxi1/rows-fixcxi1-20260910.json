@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "rcap-packet-factory-lane-rows/v1",
+  "lane": "FIXCXI1",
+  "laneKind": "repair",
+  "shift": "20260910",
+  "branch": "lane-fixcxi1-20260910",
+  "baseSha": "f8c4eaa0604fb9bf56eac6a38a6835e467cc156e",
+  "independence": "This lane repairs the VF66 guard finding and issues no semantic approval or independent review verdict.",
+  "claim": "CLAIM_OK FIXCXI1 ia-12347-set (repair, grant set 66fe465475e9a055)",
+  "sharedCentralArtifactsNotWritten": "No central manifests, queue rows, review or admission artifacts were modified. No family artifacts were changed by this repair.",
+  "rows": [
+    {
+      "itemId": "ia-12347-set",
+      "jurisdiction": "IA",
+      "status": "COMPLETED",
+      "repairedByThisLane": true,
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ia/ia-12347-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-ia-12347-set.mjs",
+      "obligationRepaired": ["REQUIRED_BEFORE_FILING"],
+      "finding": "VF66 showed that degrading both participant prose lines carrying 123.47(3) to general 123.47 still completed because a machine-generated field-map refusal echo satisfied the whole-document needle check.",
+      "whatWasDone": "The two subsection disclosures are now checked only within the participant prose section from ## Read this first through the next ## Stop and get help heading. Filing-document disclosures retain whole-document checks. Missing section markers also stop the build.",
+      "mutationEvidence": {
+        "command": "MASTER_LIBRARY_SOURCE_DIR=/workspaces/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 node scripts/build-census-v1-ia-12347-set.mjs --no-raster",
+        "result": "STOPPED RECORD_SENTENCE_NOT_ON_THE_DELIVERED_PAGE",
+        "failedNeedle": "123.47(3)",
+        "scope": "participant-prose",
+        "outputReplacement": false,
+        "outputIdentityAfterMutation": "unchanged from canonical 830d67c3d423b615ed01efbc9c32cdb6a5ca0f89917fc8c13201070bb5fa9b91 and boundary a8685beb36fe2ed04c07663d20e3c62512f3b3642665555f2e663536233c3e9c"
+      },
+      "validEvidence": {
+        "command": "MASTER_LIBRARY_SOURCE_DIR=/workspaces/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 node scripts/build-census-v1-ia-12347-set.mjs --no-raster",
+        "result": "success, nineCountersZero true",
+        "canonicalSha256": "830d67c3d423b615ed01efbc9c32cdb6a5ca0f89917fc8c13201070bb5fa9b91",
+        "boundarySha256": "a8685beb36fe2ed04c07663d20e3c62512f3b3642665555f2e663536233c3e9c",
+        "guidesAndPdfsIdenticalToBaseline": true
+      },
+      "syntax": "node --check scripts/build-census-v1-ia-12347-set.mjs exit 0",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "grantsNothing": "No semantic approval, route admission, raster verdict, or live authority granted."
+    }
+  ]
+}

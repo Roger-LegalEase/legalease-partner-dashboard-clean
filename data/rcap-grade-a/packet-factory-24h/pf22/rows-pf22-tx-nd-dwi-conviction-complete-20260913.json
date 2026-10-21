@@ -1,0 +1,280 @@
+{
+  "schemaVersion": "rcap-packet-build-return/v1",
+  "lane": "PF22",
+  "laneKind": "packet-build",
+  "baseSha": "b7cfb6d6d1d8bdba1d813bc3a4d5094f9cb51f49",
+  "headShaAtReturn": "39caea41088b19459fab8788bd4fbaad1eca632e",
+  "headShaAtReturnIs": "candidate implementation and generated evidence are frozen at this commit; this native return is written alongside it",
+  "isIndependentVerification": false,
+  "writtenAlongsideRatherThanOver": true,
+  "claim": {
+    "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF22 'tx_nd_dwi_conviction-set'",
+    "grantId": "85a5d38bcf19e29a",
+    "result": "CLAIM_OK PF22 tx_nd_dwi_conviction-set (packet-build, grant set 85a5d38bcf19e29a)",
+    "claimLedgerChanged": false
+  },
+  "workerProvenance": {
+    "workerCodespace": "rcap-finish-worker-77jr7gx76jq3rg65",
+    "workerCheckoutActual": "/workspaces/legalease-partner-dashboard-clean",
+    "workerBranchActual": "claude/legalease-sprint-captain-utucnw",
+    "assignmentWorkerBranchDeclared": "work",
+    "assignmentLane": "PF22",
+    "slotContext": "Parent routed this family through the PF05 implementation slot; the current Captain assignment and claim ledger bind this family to PF22."
+  },
+  "prerequisite": {
+    "command": "node scripts/verify-packet-build-environment.mjs --family 'tx_nd_dwi_conviction-set' --codex-cloud --minimum-captain-sha 46f58905a130a3168c34851d4ea387802117767c",
+    "firstRun": {
+      "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY",
+      "summary": "10/14 passed, 4 failed, 3 not applicable",
+      "failedChecks": [
+        "cloud_checkout_contains_captain_base: 46f58905 is present but not an ancestor of HEAD b7cfb6d6",
+        "master_library_complete: 13/499 files, 11/329 PDFs",
+        "corpus_matches_committed_index: 24 absent, 0 mismatched of 24 sampled",
+        "family_sources_bind: 2 of 2 source(s) do not bind"
+      ]
+    },
+    "boundedRepair": {
+      "action": "Transferred only the three already-admitted current-byte PDFs from Captain custody into their exact governed recovery paths on the existing worker; no fetch, source hunt or custody/index mutation.",
+      "pathsVerified": [
+        {
+          "path": "reference/source-recovery/2026-09-11-wave1/2nd-final-petition-for-nondisclosure-under-section-411-0736.pdf",
+          "sha256": "e8e7dee3c0843a65921ace2545c79034841961d9a131ac31e3d8cf18fd6701db",
+          "byteLength": 199202
+        },
+        {
+          "path": "reference/source-recovery/2026-09-11-wave1/04-26-2022-order-of-nondisclosure-sec-411-0736.pdf",
+          "sha256": "50e648a3dcaf7db606d23839e2b9ac70b919fe51bab0708a1803e5c37dcd0a5e",
+          "byteLength": 108945
+        },
+        {
+          "path": "reference/source-recovery/2026-09-11-wave1/statement-of-inability-to-afford-payment-of-court-costs-or-an-appeal-bond-bilingual.pdf",
+          "sha256": "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d",
+          "byteLength": 6667524
+        }
+      ]
+    },
+    "rerun": {
+      "command": "node scripts/verify-packet-build-environment.mjs --family 'tx_nd_dwi_conviction-set' --codex-cloud --minimum-captain-sha 46f58905a130a3168c34851d4ea387802117767c",
+      "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY",
+      "summary": "10/14 passed, 4 failed, 3 not applicable",
+      "familySourcesBindResult": "The old source-custody reconciliation still reports 2 of 2 unresolved because its historical row has one unresolved order identity and alternate custody paths unavailable in the partial worker corpus."
+    },
+    "authoritativeCurrentQueueBinding": "The current MASTER_QUEUE row is SOURCE_READY, sourceStatus SOURCE_BOUND_BY_HELD_BYTES, sourceBound true, boundCount 3, legalInputStatus SETTLED, and its exactNextAction is to build from the three separately bound Texas components. The builder therefore validated all three pins against SOURCE_RECOVERY_WAVE1_2026-09-11.json and the governed recovery paths directly; all three matched SHA-256 and byte length."
+  },
+  "rows": [
+    {
+      "itemId": "tx_nd_dwi_conviction-set",
+      "familyId": "tx_nd_dwi_conviction-set",
+      "status": "COMPLETED",
+      "laneKind": "packet-build",
+      "implementedBy": [
+        "PF22"
+      ],
+      "buildCommit": "39caea41088b19459fab8788bd4fbaad1eca632e",
+      "implementationCommit": "39caea41088b19459fab8788bd4fbaad1eca632e",
+      "completion": "Built the Texas OCA Section 411.0736 DWI-conviction nondisclosure packet from the three exact admitted wave-one source PDFs. The candidate fills only held participant identity fields, keeps case facts, elections, signatures and court-owned fields blank, includes conditional proof-of-delivery and fee-waiver components plus filing guidance, and remains disabled for runtime and commercial delivery pending central raster and independent review.",
+      "jurisdiction": "TX",
+      "implementationStrategy": "official_pdf_fill",
+      "routeKeys": [
+        "obligation:track-only:TX:tx_nd_dwi_conviction"
+      ],
+      "buildScript": "scripts/build-census-v1-tx_nd_dwi_conviction-set.mjs",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill",
+      "changedScope": {
+        "builder": "scripts/build-census-v1-tx_nd_dwi_conviction-set.mjs",
+        "generatedFiles": [
+          "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/approval-request.json",
+          "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/build-findings.json",
+          "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/build-status.json",
+          "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/field-census.census-v1.json",
+          "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/fixtures/boundary.pdf",
+          "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/fixtures/canonical.pdf",
+          "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/participant-instructions.md",
+          "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/production-field-map.json",
+          "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/reports/actual-writes.json",
+          "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/reports/blanks-left-for-the-participant.json",
+          "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/reports/completeness-counters.json",
+          "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/reports/rendered-artifacts.json",
+          "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/source-receipt.json"
+        ],
+        "durableEvidenceFiles": [
+          "data/rcap-grade-a/packet-factory-24h/pf22/rows-pf22-tx-nd-dwi-conviction-complete-20260913.json"
+        ],
+        "sharedGovernanceFilesChanged": [],
+        "sourceBytesCommitted": false,
+        "localRasterPages": 0
+      },
+      "sourceBinding": {
+        "sourceReceipt": "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/source-receipt.json",
+        "sourceAdmission": "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json",
+        "allSourcesExact": true,
+        "sources": [
+          {
+            "sourceId": "official-form:OCA Model Petition for an Order of Nondisclosure under Section 411.0736",
+            "documentId": "tx_nd_dwi_conviction-petition-1",
+            "path": "reference/source-recovery/2026-09-11-wave1/2nd-final-petition-for-nondisclosure-under-section-411-0736.pdf",
+            "sha256": "e8e7dee3c0843a65921ace2545c79034841961d9a131ac31e3d8cf18fd6701db",
+            "byteLength": 199202,
+            "pageCount": 5,
+            "acroFieldCount": 15,
+            "custody": "source_recovery_wave1"
+          },
+          {
+            "sourceId": "official-form:OCA Model Order of Nondisclosure under Section 411.0736",
+            "documentId": "tx_nd_dwi_conviction-proposed-order-2",
+            "path": "reference/source-recovery/2026-09-11-wave1/04-26-2022-order-of-nondisclosure-sec-411-0736.pdf",
+            "sha256": "50e648a3dcaf7db606d23839e2b9ac70b919fe51bab0708a1803e5c37dcd0a5e",
+            "byteLength": 108945,
+            "pageCount": 3,
+            "acroFieldCount": 14,
+            "custody": "source_recovery_wave1"
+          },
+          {
+            "sourceId": "official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
+            "documentId": "tx_nd_dwi_conviction-fee-waiver-statement-4",
+            "path": "reference/source-recovery/2026-09-11-wave1/statement-of-inability-to-afford-payment-of-court-costs-or-an-appeal-bond-bilingual.pdf",
+            "sha256": "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d",
+            "byteLength": 6667524,
+            "pageCount": 12,
+            "acroFieldCount": 132,
+            "custody": "source_recovery_wave1"
+          }
+        ],
+        "bindingMethod": "Each source was hashed at the governed recovery path and matched the admitted wave-one record and immutable current queue pin."
+      },
+      "componentSet": [
+        "tx_nd_dwi_conviction-petition-1",
+        "tx_nd_dwi_conviction-proposed-order-2",
+        "tx_nd_dwi_conviction-proof-of-delivery-to-prosecutor-3",
+        "tx_nd_dwi_conviction-fee-waiver-statement-4",
+        "tx_nd_dwi_conviction-filing-and-after-order-instructions-5"
+      ],
+      "terminalFields": 171,
+      "written": 15,
+      "protectedOrConditionalBlanks": 156,
+      "requiredBeforeFiling": 116,
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "nineCountersZero": true,
+      "completenessResult": "PASS_COMPLETE",
+      "focusedCompletenessCommand": "source \"$HOME/.legalease-corpus-env\" && node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'tx_nd_dwi_conviction-set'",
+      "focusedCompleteness": "PASS_COMPLETE — 15/193 written; all nine counters zero",
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "path": "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "5670c283390b7f3fe5bd5397438e69929958e7285bff0e3817cf8041899f67df",
+          "byteLength": 1224478,
+          "pageCount": 24
+        },
+        {
+          "fixture": "boundary",
+          "path": "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "ea63c40573d81fcbb07ea550c904904a92cc727c62e032f030ac36a8fab18515",
+          "byteLength": 1224846,
+          "pageCount": 24
+        }
+      ],
+      "rasterState": "BUILT_RASTER_PENDING",
+      "packetsSelfVerified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "sourceBinaryCommitted": false,
+      "determinism": "Final --no-raster build completed after source/anchor repairs; fixture hashes are recorded above. Independent repeat and central raster remain pending.",
+      "claimLedger": {
+        "changed": false,
+        "note": "PF22 claim was asserted once; no shared claim, queue or closed-family output was edited."
+      }
+    }
+  ],
+  "familiesAssigned": 1,
+  "rowsReturned": 1,
+  "familiesCompleted": 1,
+  "familiesStopped": 0,
+  "familiesRemaining": 0,
+  "packetsSelfVerified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "changedFiles": [
+    {
+      "path": "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/approval-request.json",
+      "commit": "39caea41088b19459fab8788bd4fbaad1eca632e",
+      "blobSha1": "0f16cabf4be1208ab28a79d7a10826fd54d00ee1"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/build-findings.json",
+      "commit": "39caea41088b19459fab8788bd4fbaad1eca632e",
+      "blobSha1": "3d7cb3a84636e46ff9a7596720836c0f0a4e6764"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/build-status.json",
+      "commit": "39caea41088b19459fab8788bd4fbaad1eca632e",
+      "blobSha1": "d2608113104a139d3b612d6ba9bc92b53e9bfc47"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/field-census.census-v1.json",
+      "commit": "39caea41088b19459fab8788bd4fbaad1eca632e",
+      "blobSha1": "f1fbabed42e372d6f9cbcb560e0ca13961ca6541"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/fixtures/boundary.pdf",
+      "commit": "39caea41088b19459fab8788bd4fbaad1eca632e",
+      "blobSha1": "86f6652e1124fc80270f58994cf6cd917c025673"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/fixtures/canonical.pdf",
+      "commit": "39caea41088b19459fab8788bd4fbaad1eca632e",
+      "blobSha1": "36bcac0216b808e6f5d66054c58d42d5f7fa0d07"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/participant-instructions.md",
+      "commit": "39caea41088b19459fab8788bd4fbaad1eca632e",
+      "blobSha1": "c67e27dff7ee053bca7baf7475c7ccd985be00f9"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/production-field-map.json",
+      "commit": "39caea41088b19459fab8788bd4fbaad1eca632e",
+      "blobSha1": "4f3c1a5ffc601217b179b3dcf3d103e844bacf4c"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/reports/actual-writes.json",
+      "commit": "39caea41088b19459fab8788bd4fbaad1eca632e",
+      "blobSha1": "a5ba1ef5b686d8012e7264f00630cbbda4a62ba7"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/reports/blanks-left-for-the-participant.json",
+      "commit": "39caea41088b19459fab8788bd4fbaad1eca632e",
+      "blobSha1": "70b8b9f17c84f259f9c5e198b03f59ff95c5fbc7"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/reports/completeness-counters.json",
+      "commit": "39caea41088b19459fab8788bd4fbaad1eca632e",
+      "blobSha1": "351acc080dd32da757d284a9087e37d0f2023e18"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/reports/rendered-artifacts.json",
+      "commit": "39caea41088b19459fab8788bd4fbaad1eca632e",
+      "blobSha1": "b13c1e4c7bd4e84915c0d614e3ceeb894b14e801"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/source-receipt.json",
+      "commit": "39caea41088b19459fab8788bd4fbaad1eca632e",
+      "blobSha1": "f93ef5fd8f40f610f008c7328e570bea54f6db5a"
+    },
+    {
+      "path": "scripts/build-census-v1-tx_nd_dwi_conviction-set.mjs",
+      "commit": "39caea41088b19459fab8788bd4fbaad1eca632e",
+      "blobSha1": "d94f000b5cb17718a6895e304da489f0d45f4926"
+    }
+  ],
+  "returnReceiptPath": "data/rcap-grade-a/packet-factory-24h/pf22/rows-pf22-tx-nd-dwi-conviction-complete-20260913.json"
+}

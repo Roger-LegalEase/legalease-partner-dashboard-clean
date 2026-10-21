@@ -1,0 +1,101 @@
+{
+  "schemaVersion": "rcap-native-return-enrollment-preservation/v1",
+  "enrollments": [
+    {
+      "familyId": "rcap-mo-custom-pleading",
+      "successor": "data/rcap-grade-a/packet-factory-24h/vfmocustomsem1/rows-vfmocustomsem1-repair-independent-pass-20260914.json",
+      "sha256": "35e342866880580edc7b3d25e8ac9745e8d4efc85da0843bca156aa9378161a5",
+      "verifiedAtBase": "cb7518f3724043b1074b3eed4d0727b73b116114",
+      "preservedFailures": [
+        {
+          "previousPath": "data/rcap-grade-a/packet-factory-24h/vfmocustomsem1/rows-vfmocustomsem1-independent-fail-20260914.json",
+          "path": "data/rcap-grade-a/packet-factory-24h/vfmocustomsem1/supporting-evidence/rows-vfmocustomsem1-independent-fail-20260914.json",
+          "sha256": "91ca62b0e50ae3239ddde8220eacf6edb75655a6f38668c277ecd5d7bb1ab05f",
+          "nativeFailurePath": "data/rcap-grade-a/packet-factory-24h/vfmocustomsem1/supporting-evidence/rows-vfmocustomsem1-independent-fail-20260914-native.json",
+          "nativeFailureSha256": "7c560f4f6512c4b824e54316e7793ac63290681d88f6eb2644a8c64f38cfbb57",
+          "note": "Exact original failure bytes preserved; native supporting copy changes only FAIL vocabulary. Not re-dated or assigned fictitious integration ancestry."
+        }
+      ]
+    },
+    {
+      "familyId": "mo-610-122-arrest-expungement-set",
+      "successor": "data/rcap-grade-a/packet-factory-24h/vfmo610sem1/rows-vfmo610sem1-repair2-semantic-pass-20260914.json",
+      "sha256": "8d2e1c04128d322fcebeca244ed7cf56cba1f9a209a1b1145bf0f6575ecffcc2",
+      "verifiedAtBase": "a21495aec204ce613ecbd0916dba0e918cf9b602",
+      "preservedFailures": [
+        {
+          "previousPath": "data/rcap-grade-a/packet-factory-24h/vfmo610sem1/rows-vfmo610sem1-independent-fail-20260914.json",
+          "path": "data/rcap-grade-a/packet-factory-24h/vfmo610sem1/supporting-evidence/rows-vfmo610sem1-independent-fail-20260914.json",
+          "sha256": "d7c2abb174fb377b604027d9790a5fae3ebb6bf650998c793afbb98ddb517f9c",
+          "nativeFailurePath": "data/rcap-grade-a/packet-factory-24h/vfmo610sem1/supporting-evidence/rows-vfmo610sem1-independent-fail-20260914-native.json",
+          "nativeFailureSha256": "8645bc566dd7ee0454056dea7cbf54aaf984622ab829884f9e8798b02ed25734",
+          "note": "Exact original failure bytes preserved; native supporting copy changes only FAIL vocabulary. Not re-dated or assigned fictitious integration ancestry."
+        }
+      ]
+    },
+    {
+      "familyId": "mo-575-120-identity-theft-correction-set",
+      "successor": "data/rcap-grade-a/packet-factory-24h/vfmo575sem1/rows-vfmo575sem1-repair-semantic-pass-20260914.json",
+      "sha256": "87fe586e8e13eda5e8306a959849b3ae5aae099091e243dc8413204f812eb728",
+      "verifiedAtBase": "b795d17915fba5f4085d65bdeb10858a1503bd1a",
+      "preservedFailures": []
+    }
+  ],
+  "extractorRunCount": 1,
+  "nativeExtraction": {
+    "path": "data/rcap-grade-a/packet-factory-24h/VERIFIER_RETURNS.json",
+    "sha256": "58b153f64c5303e090f4e410d0bb041d0eb54e9f48e1a407f6c5d7f53a422edf",
+    "selectedCurrentPasses": [
+      {
+        "familyId": "mo-575-120-identity-theft-correction-set",
+        "verdict": "PASS",
+        "lane": "vfmo575sem1",
+        "isIndependentVerification": true,
+        "verifiedAtBase": "b795d17915fba5f4085d65bdeb10858a1503bd1a",
+        "failedObligations": [],
+        "failedObligationNames": [],
+        "unmeasuredObligations": [
+          "CLIPPING_AND_OVERLAP"
+        ],
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfmo575sem1/rows-vfmo575sem1-repair-semantic-pass-20260914.json",
+        "repairAssignmentsPath": null,
+        "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mo-575-120-identity-theft-correction-set",
+        "superseded": false
+      },
+      {
+        "familyId": "mo-610-122-arrest-expungement-set",
+        "verdict": "PASS",
+        "lane": "vfmo610sem1",
+        "isIndependentVerification": true,
+        "verifiedAtBase": "a21495aec204ce613ecbd0916dba0e918cf9b602",
+        "failedObligations": [],
+        "failedObligationNames": [],
+        "unmeasuredObligations": [
+          "CLIPPING_AND_OVERLAP"
+        ],
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfmo610sem1/rows-vfmo610sem1-repair2-semantic-pass-20260914.json",
+        "repairAssignmentsPath": null,
+        "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mo-610-122-arrest-expungement-set",
+        "superseded": false
+      },
+      {
+        "familyId": "rcap-mo-custom-pleading",
+        "verdict": "PASS",
+        "lane": "vfmocustomsem1",
+        "isIndependentVerification": true,
+        "verifiedAtBase": "cb7518f3724043b1074b3eed4d0727b73b116114",
+        "failedObligations": [],
+        "failedObligationNames": [],
+        "unmeasuredObligations": [
+          "CLIPPING_AND_OVERLAP"
+        ],
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfmocustomsem1/rows-vfmocustomsem1-repair-independent-pass-20260914.json",
+        "repairAssignmentsPath": null,
+        "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-mo-custom-pleading",
+        "superseded": false
+      }
+    ],
+    "missouriRefusals": [],
+    "unrelatedRefusalCount": 39
+  }
+}

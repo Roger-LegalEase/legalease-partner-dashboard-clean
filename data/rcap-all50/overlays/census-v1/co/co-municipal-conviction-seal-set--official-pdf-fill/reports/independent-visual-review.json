@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "rcap-independent-visual-review/v1",
+  "familyId": "co_municipal_conviction_seal-set",
+  "required": true,
+  "granted": false,
+  "reviewedBy": null,
+  "note": "Five pages: JDF 683's three, then JDF 686's two. Every value is drawn into the page's own content stream on a measured printed rule, so the thing to check is PLACEMENT: whether each value sits on its own line and nowhere else. No page was rastered by this build; the central raster workflow renders them from the hashes in reports/rendered-artifacts.json.",
+  "whatToLookAt": [
+    "Packet page 1 (JDF 683 page 1), the caption block: the participant's name on the Defendant rule and on the 'Filed by' Name rule, the case number on the Case Number rule inside the court-use box, and the street address, phone and email each on their own 'Filed by' rule. The City/Town or County rule and the Court Mailing Address rule are EMPTY, and so are Division, Courtroom and the Bar Number.",
+    "Packet page 1, item 2: the date of birth on its rule, and the whole 'if different' block beneath it empty - address, city, state, zip, main phone, work phone. The form asks for those only when they differ from the 'Filed by' box.",
+    "Packet page 1, item 3, and packet page 2: every agency line empty. Municipal Courts, Sheriff's Department, District Attorney, City Attorney, Law Enforcement and Other - names, case numbers and addresses, all blank.",
+    "Packet page 2, item 8: all three explanation rules empty. That paragraph is the substance of the petition and it is the participant's.",
+    "Packet page 3, items 14 and 15: the certificate of service entirely empty - date, email/fax, both recipient lines - and both signature rules and the date beside them empty. A certificate of service filled in on an unfiled packet would be a false statement and is the worst defect this packet could carry.",
+    "Packet page 4 (JDF 686 page 1): the caption carries the name and case number; section 1 carries the name, date of birth, mailing address, CITY, STATE and ZIP. Look hard at the State value: it sits on a rule only 31 points wide between the City and Zip rules, and it must be inside that rule and not over the printed 'State:' caption or the 'Zip Code:' caption.",
+    "Packet page 4, section 3: the Municipal Court case number written, and the Law Enforcement Agency case number EMPTY - the platform holds the first and not the second.",
+    "Packet page 5 (JDF 686 page 2): the judge's signature rule and the date beside it EMPTY. This is a proposed order; a signed one would not be a proposal.",
+    "Every tick box on all five pages unmarked. There are twenty-two of them and not one is this packet's to mark.",
+    "Boundary fixture: the long hyphenated name, the apartment-line address, the 60-character email and the 13-character state either sit inside their rules or are reported unfittable in reports/actual-writes.json. Nothing may run past the end of its rule or over the caption beside it."
+  ],
+  "artifacts": [
+    {
+      "fixture": "canonical",
+      "file": "data/rcap-all50/overlays/census-v1/co/co-municipal-conviction-seal-set--official-pdf-fill/fixtures/canonical.pdf",
+      "sha256": "676d922f062ce75605d4aa1bd57cf16d6fe917ef408cfc82c49ae4863d3cb022",
+      "pageCount": 5
+    },
+    {
+      "fixture": "boundary",
+      "file": "data/rcap-all50/overlays/census-v1/co/co-municipal-conviction-seal-set--official-pdf-fill/fixtures/boundary.pdf",
+      "sha256": "1c483f89703a4547c4a4ae1689ff3efa1b0be92c1aca12b17454138994a9e2b5",
+      "pageCount": 5
+    }
+  ],
+  "rasterPages": []
+}

@@ -1,0 +1,145 @@
+{
+  "schemaVersion": "rcap-route-mapping-handoff/v1",
+  "status": "MAPPING_PARTIAL_LOCAL_CUSTODY_REQUIRED",
+  "recordedAt": "2026-09-13T07:14:10.185Z",
+  "reviewer": "/root/resume_pf05_ut",
+  "sessionIdentity": "/root/resume_pf05_ut",
+  "repositoryHeadAtReview": "712af56ac9833a7b1a57b0d42c7c3990d5ed8167",
+  "purpose": "Read-only next-gate handoff for the existing PRODUCT_PATH_PENDING Ohio clean-tracks family. It identifies the exact local-court custody and route-binding gap without changing the packet, adopting legal treatment, or claiming a terminal.",
+  "familyId": "rcap-oh-custom-pleading-clean-tracks",
+  "jurisdiction": "OH",
+  "readiness": "NOT_READY_PRODUCT_PATH_PENDING",
+  "noAdmission": true,
+  "currentState": {
+    "queueState": "PRODUCT_PATH_PENDING",
+    "executionOwner": "CAPTAIN",
+    "routeMappingStatus": "OWNER_DIRECTED_MAPPING_PENDING",
+    "vf32Verdict": "BLOCKED_LEGAL_INPUT",
+    "vf32LegalInputStatusAtRead": "OPEN_LEGAL_INPUT",
+    "vf32BlockedProofObligations": ["COMPONENT_SET"],
+    "artifactStatus": "RENDERED",
+    "completenessStatus": "PASS_COMPLETE",
+    "allNineCountersZero": true,
+    "approvalStatus": "REQUESTED_NOT_GRANTED",
+    "commercialAuthority": false,
+    "runtimeSelectable": false
+  },
+  "sourceReceiptResolution": {
+    "status": "PARTIAL_SOURCE_ONLY",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/oh/rcap-oh-custom-pleading-clean-tracks--custom-pleading/source-receipt.json",
+    "implementationStrategy": "custom_pleading_artifact_only_with_official_post_order_companion",
+    "resolvedSource": {
+      "sourceId": "official-form:OH-BCI-SEALING-EXPUNGEMENT-REQUEST",
+      "role": "POST_ORDER_COMPANION_SOURCE",
+      "path": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/OH/04_SUPPORTING_PROCESS/OH__SUPPORT__OH-BCI-SEALING-EXPUNGEMENT-REQUEST__re-sealing-and-or-expungements__REV-UNKNOWN__EN.pdf",
+      "sha256": "9234ec763403b1ccfbed796dfcf86f29bf7887390d1770460d0bcc9da31fc8cb",
+      "byteLength": 235789,
+      "pageCount": 1,
+      "copiedWithoutModification": true,
+      "companionArtifact": "data/rcap-all50/overlays/census-v1/oh/rcap-oh-custom-pleading-clean-tracks--custom-pleading/companion/OH-BCI-SEALING-EXPUNGEMENT-REQUEST--official-source.pdf"
+    },
+    "doesNotResolve": [
+      "Any primary local-court application for the four statutory tracks",
+      "The destination court's current caption for a participant filing",
+      "Current court-specific filing instructions or delivery components",
+      "Whether a shared local instrument covers both §2953.32 relief types or they require separate route delivery"
+    ],
+    "receiptSilences": [
+      "No statewide mandatory Ohio primary application was identified.",
+      "No local-court application, caption, proposed order, service form, or current fee schedule is supplied by this source.",
+      "The BCI form is post-order companion evidence and does not establish primary-filing content or local filing practice."
+    ]
+  },
+  "routeBindingGap": {
+    "sourceReceiptDeclaredRouteKeys": [
+      "obligation:track-only:OH:oh_2953_32_sealing",
+      "obligation:track-pathway:OH:oh_2953_32_expungement:adult-conviction-sealing-or-expungement-under-ohio-rev-code-2953-32",
+      "obligation:track-pathway:OH:oh_2953_33_nonconviction:adult-non-conviction-sealing-or-expungement-under-2953-33",
+      "obligation:track-pathway:OH:oh_2953_35_firearm:certain-firearm-carry-conviction-expungement-under-2953-35"
+    ],
+    "currentQueueRouteKeys": ["obligation:track-only:OH:oh_2953_32_sealing"],
+    "currentQueuePacketComponents": ["component:oh_2953_32_sealing-bci-transmission-5"],
+    "currentQueueInstrumentKinds": [],
+    "installedProductBindingRouteKeys": ["obligation:track-only:OH:oh_2953_32_sealing"],
+    "installedProductBindingPacketComponents": ["component:oh_2953_32_sealing-bci-transmission-5"],
+    "gap": "The four statutory drafts are present as review artifacts, but the queue and installed binding do not establish a primary local filing component or delivery type for any track. The BCI companion alone cannot satisfy COMPONENT_SET."
+  },
+  "requiredLocalCustodyInputs": [
+    {
+      "trackIds": ["oh_2953_32_sealing", "oh_2953_32_expungement"],
+      "statute": "Ohio Rev. Code § 2953.32",
+      "courtBindingStatedByCurrentInstructions": [
+        "Ohio conviction: sentencing court",
+        "Out-of-state or federal conviction: a court of common pleas"
+      ],
+      "missingInputs": [
+        "The current primary application used by the destination court",
+        "That court's required caption",
+        "That court's current filing and delivery instructions"
+      ],
+      "requiredBindingWork": "Bind the sealing and expungement relief types to the actual local instrument and destination branch; records do not establish that one local packet covers both."
+    },
+    {
+      "trackIds": ["oh_2953_33_nonconviction"],
+      "statute": "Ohio Rev. Code § 2953.33",
+      "courtBindingStatedByCurrentInstructions": [
+        "The court where the case was pending, dismissed, resulted in not guilty, or where the grand-jury no bill was reported"
+      ],
+      "missingInputs": [
+        "The current primary application used by that handling court",
+        "That court's required caption",
+        "That court's current filing and delivery instructions"
+      ],
+      "requiredBindingWork": "Bind the local instrument to the disposition branch and preserve the existing sealing-versus-expungement election refusal until the participant or counsel can make it from the record."
+    },
+    {
+      "trackIds": ["oh_2953_35_firearm"],
+      "statute": "Ohio Rev. Code § 2953.35",
+      "courtBindingStatedByCurrentInstructions": ["Sentencing court"],
+      "missingInputs": [
+        "The current primary application used by the sentencing court",
+        "That court's required caption",
+        "That court's current filing and delivery instructions"
+      ],
+      "requiredBindingWork": "Bind the narrow obsolete-notification-law route to the actual local instrument and destination while preserving the existing scope and former-version eligibility stops."
+    }
+  ],
+  "recordedOwnerDirection": {
+    "decisionRecord": "data/rcap-grade-a/legal-decisions/OWNER_CORRECTIONS_REQUIRED.json",
+    "stateOverride": "PRODUCT_PATH_PENDING",
+    "executionOwner": "CAPTAIN",
+    "nextExecutableAction": "Bind statewide composed routes versus local-court application routes, split delivery types where required, and route exact missing local forms or instructions to source work.",
+    "ownerDecision": "This is route-family and customer-delivery binding, not a Lawrence question."
+  },
+  "evidence": [
+    "data/rcap-grade-a/packet-factory-24h/vf32/rows.json",
+    "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+    "data/rcap-grade-a/packet-factory-24h/pf20/remaining-family-handoff-20260913.json",
+    "data/rcap-grade-a/legal-decisions/OWNER_CORRECTIONS_REQUIRED.json",
+    "data/rcap-all50/overlays/census-v1/oh/rcap-oh-custom-pleading-clean-tracks--custom-pleading/source-receipt.json",
+    "data/rcap-all50/overlays/census-v1/oh/rcap-oh-custom-pleading-clean-tracks--custom-pleading/product-wiring.json",
+    "data/rcap-all50/overlays/census-v1/oh/rcap-oh-custom-pleading-clean-tracks--custom-pleading/build-findings.json",
+    "data/rcap-all50/overlays/census-v1/oh/rcap-oh-custom-pleading-clean-tracks--custom-pleading/participant-instructions.md",
+    "data/rcap-all50/overlays/census-v1/oh/rcap-oh-custom-pleading-clean-tracks--custom-pleading/tracks/oh_2953_32_sealing/pleading-config.json",
+    "data/rcap-all50/overlays/census-v1/oh/rcap-oh-custom-pleading-clean-tracks--custom-pleading/tracks/oh_2953_32_expungement/pleading-config.json",
+    "data/rcap-all50/overlays/census-v1/oh/rcap-oh-custom-pleading-clean-tracks--custom-pleading/tracks/oh_2953_33_nonconviction/pleading-config.json",
+    "data/rcap-all50/overlays/census-v1/oh/rcap-oh-custom-pleading-clean-tracks--custom-pleading/tracks/oh_2953_35_firearm/pleading-config.json"
+  ],
+  "nextExecutableHandoff": {
+    "owner": "CAPTAIN / bounded source-and-route mapping work",
+    "action": "For each listed track, identify and custody the exact current local primary application, caption, and filing instructions for the stated destination court; then bind the route and delivery components per track before returning the family to VF32 COMPONENT_SET review.",
+    "releaseToBuildNow": false,
+    "resumeCondition": "An exact current local source identity and custody receipt exists for every promised local filing route, the court destination and delivery type are mapped per track, and no statewide draft or post-order BCI companion is relabeled as the local primary filing instrument."
+  },
+  "preservedSeparateStops": [
+    "The family remains an artifact-only, non-runtime, non-commercial candidate.",
+    "The four track-specific eligibility and record hard stops in build-findings.json remain unresolved and are outside this read-only route-binding handoff.",
+    "Completed-output legal approval remains REQUESTED_NOT_GRANTED."
+  ],
+  "noMutations": [
+    "No source acquisition or URL retry was performed.",
+    "No packet build, PDF edit, raster dispatch, queue edit, claim change, or shared authoritative write was performed.",
+    "No legal treatment was adopted or re-requested.",
+    "This file is the only scoped handoff write and is intentionally left uncommitted for Captain integration."
+  ]
+}

@@ -1,0 +1,68 @@
+{
+  "schemaVersion": "rcap-raster-queue/v1",
+  "rows": [
+    {
+      "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-m-juvenile-expungement--official-pdf-fill/fixtures/boundary.pdf",
+      "boundaryPdfSha256": "6231956bf23bfe282da1ca303455678920b4ba92902bd512939f78183f97fa07",
+      "builderAssignment": null,
+      "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-m-juvenile-expungement--official-pdf-fill/fixtures/canonical.pdf",
+      "canonicalPdfSha256": "faebbde6fdbfdb90078e0a6d090813b74bef373a2ee277f29284e5119a726a85",
+      "coverage": {
+        "basis": "the family ships one assembled packet, so rendering it covers every canonical page of the family",
+        "complete": true,
+        "documents": [
+          "canonical.pdf"
+        ],
+        "notRastered": [],
+        "notRenderedByThisGate": [],
+        "notRenderedByThisGateBasis": "every PDF present in the family's fixture discovery that this row does not queue. The gate renders every document a row queues, whatever its role, so a queued boundary fixture is rendered and is not named here.",
+        "rastered": [
+          "canonical.pdf",
+          "boundary.pdf"
+        ],
+        "whatCompleteMeansHere": "every PDF this family declares is queued to the gate and rendered, canonical and boundary alike. `complete` remains the narrower question -- every canonical document rendered -- because that is what promotion depends on."
+      },
+      "currentRasterState": "RASTER_PENDING",
+      "documents": [
+        {
+          "name": "canonical.pdf",
+          "pageCount": 2,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "pageCount": 2,
+            "sourceSha256": "faebbde6fdbfdb90078e0a6d090813b74bef373a2ee277f29284e5119a726a85",
+            "version": "1.17.1"
+          },
+          "path": "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-m-juvenile-expungement--official-pdf-fill/fixtures/canonical.pdf",
+          "role": "canonical",
+          "sha256": "faebbde6fdbfdb90078e0a6d090813b74bef373a2ee277f29284e5119a726a85"
+        },
+        {
+          "name": "boundary.pdf",
+          "pageCount": 2,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "pageCount": 2,
+            "sourceSha256": "6231956bf23bfe282da1ca303455678920b4ba92902bd512939f78183f97fa07",
+            "version": "1.17.1"
+          },
+          "path": "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-m-juvenile-expungement--official-pdf-fill/fixtures/boundary.pdf",
+          "role": "boundary",
+          "sha256": "6231956bf23bfe282da1ca303455678920b4ba92902bd512939f78183f97fa07"
+        }
+      ],
+      "documentsDigest": "5adb35c6ff37d93d69d2b393490be0f21fd9d8204df96f54ee57435783aa17ed",
+      "expectedPages": 2,
+      "familyId": "census-pending-family:UT:path-m-juvenile-expungement",
+      "fixtureSelection": {
+        "boundary": "the assembled packet, matched by exact name",
+        "canonical": "the assembled packet, matched by exact name"
+      },
+      "nextOwner": "RAS04",
+      "packetCommitSha": "3a9ef08889a3ef63f4e8bfb5c3366b9e126234cd",
+      "requestedScale": 2.5
+    }
+  ]
+}

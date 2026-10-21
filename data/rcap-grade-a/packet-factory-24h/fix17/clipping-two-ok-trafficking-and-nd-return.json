@@ -1,0 +1,257 @@
+{
+ "schemaVersion": "rcap-packet-factory-focused-repair-return/v1",
+ "workerId": "CLAUDE-FIX17-CLIPPING-TWO",
+ "assignmentId": "FIX17",
+ "assignedBase": "1cc823b6ce1f82a1c3bf64b17ed992a79d03423d",
+ "branch": "fix17-clipping-two",
+ "laneKind": "repair",
+ "summary": "Both families carried CLIPPING_AND_OVERLAP as the sole entry in failedObligationNames and both are repaired, in the composer, with nothing dropped to make anything fit. FIX16's repair transferred in one piece of three: its separator-aware splitToken fixed a real, still-shipping defect in the Oklahoma trafficking family - a citation URL chopped at 'expungeme' / 'nt-sealing' on page 1 of both fixtures - and is inert in North Dakota, where an instrumented build counts zero splitToken calls. Its block-aware pagination and its trailer-alone rule did not transfer to either family: both composers had already been made stranded-line-aware by earlier lanes, by mechanisms of their own, and FIX16's predicates match nothing in them.",
+ "didFix16Transfer": {
+  "readFirst": "ef504bf0495e85c11e5aa0ff90f8f7103227cc9d, on the Captain branch this lane branched from.",
+  "fault1_splitToken": {
+   "transferred": true,
+   "appliedTo": [
+    "composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief",
+    "rcap-nd-custom-pleading"
+   ],
+   "effect": "Repairs a live defect in the Oklahoma family. Provably inert in North Dakota - zero splitToken calls across all twelve PDFs - and carried there only against the latent case, which is stated in the code comment rather than left for a reader to discover."
+  },
+  "fault2_blockAwarePagination": {
+   "transferred": false,
+   "whyNot": "FIX16 gathered CONTACT_LINE rows into one block because its families paginated row by row. Neither of this lane's families does any more. North Dakota has been block-aware since FIX04/FIX07 - a block there is a run of consecutive non-empty lines, which already covers the contact run - and Oklahoma's composer was rebuilt at 60bef675d to simulate the layout and collapse blank separators in front of a stranded line. Dropping FIX16's version on top would have re-paginated two families that are not mis-wrapped.",
+   "whatWasNeededInstead": "In North Dakota, the fault that the block rule left behind: the contact block moved to a fresh page whole and arrived alone. The repair extends the block idea across blank separators rather than replacing it - the closing execution unit is one block - and fires only where the settled layout actually splits that unit."
+  },
+  "fault3_trailerAlone": {
+   "transferred": false,
+   "whyNot": "FIX16's soleOccupant predicate requires a page whose every row is a trailer row or blank. North Dakota's orphan pages carried four participant-facing contact lines as well, so the predicate matches none of them and the pull-down would never have fired. Oklahoma's equivalent rule already exists in a different form and its delivered bytes carry no trailer-only page."
+  },
+  "theFix16WarningHeld": "FIX16 was sent at Nevada's 'known patch' and established it would have been a silent no-op. The same discipline was applied to FIX16's own patch here, and two of its three parts turned out not to fit. Both families' delivered bytes were measured before anything was changed, and in Oklahoma that measurement contradicted the standing verdict in both directions: the page vf12 named was already gone, and a defect vf12 never saw was still shipping."
+ },
+ "systemicFinding": {
+  "what": "renderComposedPdf is copy-pasted into about 90 build scripts and splitToken into 94, and the copies have now measurably diverged.",
+  "evidenceOfDivergence": [
+   "North Dakota's renderComposedPdf takes a third parameter, layout, and reads a per-component lineHeight override that no other copy examined has.",
+   "North Dakota carries Rule 1 (block-aware pagination) and Rule 2 (no single-drawn-line page) from FIX04/FIX07, plus an in-renderer assertion proving Rule 1.",
+   "Oklahoma's copy carries a simulate-and-collapse repair from 60bef675d that is a different algorithm for an overlapping problem.",
+   "FIX16's copies carry a fourth, different algorithm: block-aware layout with a contact-line gather and a trailer pull-down.",
+   "Nevada's copy carries a component-level suppression of the route key."
+  ],
+  "consolidationVerdict": "Consolidation is still the right destination but it is no longer a mechanical extraction, and it should not be attempted as one. At least five distinct pagination algorithms now live in these copies, they were each fitted to a different family's measured defect, and three of them - Rule 2's blank collapsing, Rule 1b's conditional firing, North Dakota's per-component leading - exist specifically to avoid moving content that was never wrong. A single module has to subsume all of them without changing a byte of any family that is currently clean, and the only honest way to land it is a shared renderer plus a rebuild of every family it touches, gated on the whitespace-stripped character stream of every delivered PDF being unchanged. That is a lane of its own with a corpus-wide before/after, not a refactor to be folded into a repair lane.",
+  "scope": "This lane holds grants for two families and changed only those two build scripts. The other copies still carry their own faults."
+ },
+ "rasterOwed": true,
+ "sourceReceiptNote": "Both families' receipts pinned the route-obligation census at 9816a479 / 2607149 B. The census was regenerated at 2d01b84f7 after those receipts were written, so both pins had genuinely gone stale before this lane started; a plain rebuild rewrites them silently. The historical blob was recovered from ecd2bde79, and every anchored route entry was compared object-for-object against the bytes on disk - one entry for Oklahoma, five for North Dakota - and all were identical, so only the whole-file identity moved. An identityRefresh block recording that was written into each receipt by hand after the final rebuild. Neither receipt carried an identityRefresh before, so none was erased: verify-identity-refresh-survives-rebuild.mjs reported EVERY_IDENTITY_REFRESH_SURVIVED across 245 receipts both before and after. Anyone who rebuilds either family again must restore these two blocks verbatim.",
+ "changedPaths": [
+  "scripts/build-census-v1-composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief.mjs",
+  "scripts/build-census-v1-rcap-nd-custom-pleading.mjs",
+  "data/rcap-all50/overlays/census-v1/ok/composed-treatment:obligation:runtime-only:ok:human-trafficking-survivor-relief--custom-pleading/",
+  "data/rcap-all50/overlays/census-v1/nd/rcap-nd-custom-pleading--custom-pleading/",
+  "data/rcap-grade-a/packet-factory-24h/fix17/clipping-two-ok-trafficking-and-nd-return.json",
+  "data/rcap-grade-a/packet-factory-24h/claim-ledger.json"
+ ],
+ "centralStateEdits": "claim-ledger.json only, through claim.mjs, to assert and then release the two grants this lane held. No manifest, queue, verdict or promotion record was edited.",
+ "claimsReleased": [
+  "composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief",
+  "rcap-nd-custom-pleading"
+ ],
+ "selfVerificationPerformed": 0,
+ "routesOpened": 0,
+ "productionTouched": false,
+ "rows": [
+  {
+   "itemId": "composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief",
+   "familyId": "composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief",
+   "routeKeys": [
+    "obligation:runtime-only:OK:human-trafficking-survivor-relief"
+   ],
+   "status": "COMPLETED",
+   "laneKind": "repair",
+   "repairedByThisLane": true,
+   "obligationRepaired": "CLIPPING_AND_OVERLAP",
+   "failedObligationNames": [
+    "CLIPPING_AND_OVERLAP"
+   ],
+   "verdictNote": "CLIPPING_AND_OVERLAP is repaired for composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief. It was the only obligation in this family's failedObligationNames and it is the only one this row claims. The nine completeness counters do not see clipping: they were nine zeros before this lane touched the family and are nine zeros after, so they are the starting condition and not the evidence. The evidence is the rendered pages, read before and after.",
+   "baseSha": "1cc823b6ce1f82a1c3bf64b17ed992a79d03423d",
+   "branch": "fix17-clipping-two",
+   "claim": "CLAIM_OK FIX17 composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief (repair, grant set 530f44cc15708984)",
+   "factoryState": "BUILT_RASTER_PENDING",
+   "whatTheVerdictSaidAndWhatWasActuallyThere": {
+    "verdictBase": "21d53521ff4d6a1dd24f9d5fb0fd56a6258a6f14",
+    "verdictLane": "vf12",
+    "verdictFinding": "boundary.pdf page 3 carries a single line of ink - the internal route footer - on an otherwise empty page.",
+    "stillPresentOnDeliveredBytes": false,
+    "why": "That page was already gone. Commit 60bef675d, 'Stop the Oklahoma trafficking-relief packet stranding its route footer on a page of its own', landed at 01:15 on 2026-09-05, an hour and a half after the vf12 verdict was taken at 23:40 on 2026-09-04, and rebuilt the boundary fixture from five pages to four. Measured on the bytes this lane inherited, both fixtures are four pages with no empty page, no route-key-only page and no page under twenty-one drawn lines.",
+    "butTheFamilyWasStillClipping": true,
+    "whatWasActuallyThere": "A citation URL chopped mid-token. Page 1 of BOTH fixtures printed the Collateral Consequences Resource Center address as '(\"https://ccresourcecenter.org/state-restoration-profiles/oklahoma-restoration-of-rights-pardon-expungeme' and opened the next line 'nt-sealing/\")'. That is a link a participant cannot read off the page, cannot type and cannot recognise as one address. It is invisible to a page-line census - both pages around it are healthy - and was found by measuring the width of every whitespace-free token in the delivered text: the widest was 467.32pt against a 468pt column, which is the signature of a hard split rather than a natural fit."
+   },
+   "whatWasDone": "FIX16's fault-1 repair transferred to this family and was applied to it. splitToken no longer chops an unbreakable token at whichever character first reaches the margin; it breaks at the token's own separators - colon, underscore, slash, dot, hyphen - and hard-splits only a run that carries no separator at all. Nothing was dropped to make anything fit. FIX16's faults 2 and 3 did NOT transfer here: this family's composer had already been made stranded-line-aware by 60bef675d, by a different mechanism (simulate the layout, then collapse the blank separators in front of a page carrying exactly one drawn line), and the delivered bytes carry no orphan page for a block-aware rewrite to fix. Re-paginating a family that is not mis-paginated would have moved content for nothing, so it was not done.",
+   "pagesRead": [
+    "fixtures/canonical.pdf page 1 - before: line 16 ended '...-pardon-expungeme', line 17 was 'nt-sealing/\")'. After: line 15 ends '...-of-rights-pardon-' and line 16 reads 'expungement-sealing/\")', so both rows end on a hyphen the reader already knows how to read across.",
+    "fixtures/boundary.pdf page 1 - the same defect and the same repair, on the same source line.",
+    "fixtures/canonical.pdf pages 1-4 and fixtures/boundary.pdf pages 1-4 - every page of both fixtures re-read after the rebuild. No empty page, no page whose content is only a route key or a fragment, thinnest page 21 drawn lines."
+   ],
+   "proof": {
+    "method": "pdftotext -layout over every page of every delivered PDF, plus pdftotext -bbox word geometry, plus Times-Roman token-width measurement with the renderer's own font metrics.",
+    "characterStreamInvariance": "The whitespace-stripped character stream of each fixture is byte-identical before and after. canonical 7447 chars, stream hash 03d3a0b30dfdadd8 -> 03d3a0b30dfdadd8. boundary 7626 chars, stream hash 0c9a2df501576177 -> 0c9a2df501576177. Only breaks moved.",
+    "pageCounts": "canonical 4 -> 4, boundary 4 -> 4.",
+    "geometry": "No word in either fixture falls within 18pt of a page edge and no two words on a shared baseline overlap, before or after."
+   },
+   "deterministicRebuild": "Two consecutive --no-raster builds, whole family directory compared recursively with diff -r: identical.",
+   "artifacts": {
+    "canonical": {
+     "sha256": "afff7ed0744c57b2473d17378d0dcf601d33b82ad98a0ae0fe7d6380bc7dc328",
+     "pages": 4,
+     "bytes": 12383,
+     "wasSha256": "bc36eb38f71046c4b52dd416594d9d4146fd0edae8e90575caa6e682484327ba"
+    },
+    "boundary": {
+     "sha256": "325d43e40884a0c55b1e25efa63cb29d5e8c1d9cfe0e8cf2bd265304c1aca97b",
+     "pages": 4,
+     "bytes": 12563,
+     "wasSha256": "bde290f2c810cc1d74cc27cf20581977d94a61d7b2db4d2745676f6002ee755b"
+    }
+   },
+   "focusedEvidence": "verify-packet-completeness.mjs --family: PASS_COMPLETE with nine zero counters before and after. That verifier does not see clipping and neither reading is evidence of this repair.",
+   "countersAfter": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "rasterOwed": true,
+   "rasterNote": "Both fixtures moved. No standing raster receipt covers these bytes and this row claims none; a fresh whole-family raster and an independent read are owed.",
+   "claimReleased": true,
+   "selfVerified": 0,
+   "commercialRoutesOpened": 0,
+   "productionTouched": false
+  },
+  {
+   "itemId": "rcap-nd-custom-pleading",
+   "familyId": "rcap-nd-custom-pleading",
+   "routeKeys": [
+    "obligation:track-only:ND:nd-seal-felony-conviction",
+    "obligation:track-only:ND:nd-seal-misdemeanor-conviction",
+    "obligation:track-only:ND:nd-seal-pardoned-conviction",
+    "obligation:track-pathway:ND:nd-dui-record-seal:dui-record-sealing-under-the-separate-dui-statute",
+    "obligation:track-pathway:ND:nd-marijuana-first-offense-seal:first-offense-possession-sealing"
+   ],
+   "status": "COMPLETED",
+   "laneKind": "repair",
+   "repairedByThisLane": true,
+   "obligationRepaired": "CLIPPING_AND_OVERLAP",
+   "failedObligationNames": [
+    "CLIPPING_AND_OVERLAP"
+   ],
+   "verdictNote": "CLIPPING_AND_OVERLAP is repaired for rcap-nd-custom-pleading. It was the only obligation in this family's failedObligationNames and it is the only one this row claims. The nine completeness counters do not see clipping: they were nine zeros before this lane touched the family and are nine zeros after, so they are the starting condition and not the evidence. The evidence is the rendered pages, read before and after and listed here page by page.",
+   "baseSha": "1cc823b6ce1f82a1c3bf64b17ed992a79d03423d",
+   "branch": "fix17-clipping-two",
+   "claim": "CLAIM_OK FIX17 rcap-nd-custom-pleading (repair, grant set 530f44cc15708984)",
+   "factoryState": "BUILT_RASTER_PENDING",
+   "defectAsDelivered": "Twelve orphan pages across the family's twelve PDFs, exactly as vf12 recorded and still present on the bytes this lane inherited. Assembled canonical pages 4, 25 and 31 carried five drawn lines each and assembled boundary pages 4, 25 and 31 carried six: a printed name, a mailing address, a telephone number, an email address and the route footer, and nothing whatever to say what any of it belonged to. The same page recurs inside routes/nd-seal-felony-conviction (page 4), routes/nd-dui-record-seal (page 3) and routes/nd-marijuana-first-offense-seal (page 3) in both fixtures. The 'DATE ... SIGNATURE OF PETITIONER' line those details execute, and the sentence saying the petitioner signs personally, were both on the page before. nd-seal-misdemeanor-conviction and nd-seal-pardoned-conviction were clean and stayed clean.",
+   "whatWasDone": "Repaired in renderComposedPdf. FIX16's fault-1 splitToken repair was carried across but is provably inert here - an instrumented build counted zero splitToken calls across all twelve PDFs, because the widest token in this family is the DUI pathway route key at 432.8pt against a 468pt column - so it changes no delivered byte and is carried only against the latent case. FIX16's faults 2 and 3 did not transfer as written: this composer was already block-aware from FIX04/FIX07, which is why the contact block was no longer being torn in half, and FIX16's trailer-alone rule requires a page occupied only by trailer rows, which these pages were not. The remaining fault is the one those two repairs left behind: Rule 1 pushed the whole contact block onto a fresh page and nothing else went with it. A new Rule 1b makes the closing execution unit - the signature line, the instruction that governs it, the petitioner's contact details and the route footer - one block across the blank separators that divided it into three, so the page break falls before the signature line or not at all. Rule 1b costs a page whenever it fires, so it fires only where the defect is: the layout is settled first exactly as before, and Rule 1b is applied only if that settled layout actually divides the unit across a page break. An assertion in the renderer now proves it rather than intending it.",
+   "pagesRead": [
+    "fixtures/canonical.pdf pages 4, 25 and 31 - before, five lines beginning 'PRINTED NAME: Jordan Avery Reyes' with no signature line. After, eight lines beginning 'DATE .............. SIGNATURE OF PETITIONER ..............', then the parenthetical, then printed name, mailing address, telephone, email and the route footer.",
+    "fixtures/boundary.pdf pages 4, 25 and 31 - before, six lines beginning 'PRINTED NAME: Maria-Alejandra O'Shaughnessy-Whitfield'. After, nine lines opening on the signature line, with the wrapped mailing address ('...Fort Saint Clairsville' / '39501-2214') now sitting under its own label on the same page.",
+    "fixtures/routes/nd-seal-felony-conviction/canonical.pdf page 4 and boundary.pdf page 4 - the same repair, read on the per-route PDFs.",
+    "fixtures/routes/nd-dui-record-seal/canonical.pdf page 3 and boundary.pdf page 3 - the same.",
+    "fixtures/routes/nd-marijuana-first-offense-seal/canonical.pdf page 3 and boundary.pdf page 3 - the same.",
+    "fixtures/canonical.pdf page 3 and the per-route pages that precede each repaired page - re-read to confirm the page they were pulled from now ends cleanly on 'D. THE REQUEST' and its statutory paragraph rather than mid-execution.",
+    "All 35 pages of each assembled fixture and all 12 per-route PDFs re-read after the rebuild: no empty page, no route-key-only page, thinnest page now eight drawn lines (was five)."
+   ],
+   "proof": {
+    "method": "pdftotext -layout over every page of all twelve delivered PDFs, plus pdftotext -bbox word geometry, plus an instrumented build to count splitToken calls.",
+    "characterStreamInvariance": "The whitespace-stripped character stream of all twelve PDFs is byte-identical before and after. Assembled canonical 55117 chars, hash 4d28608d3b271e4e -> 4d28608d3b271e4e; assembled boundary 56615 chars, hash b8531e8ab5784a14 -> b8531e8ab5784a14; the ten per-route PDFs likewise. Only breaks moved.",
+    "pageCounts": "Assembled canonical 35 -> 35 and boundary 35 -> 35; felony 8 -> 8, DUI 6 -> 6, marijuana 7 -> 7, misdemeanor 7 -> 7, pardoned 7 -> 7. No packet grew a page.",
+    "surgicalScope": "Four of the twelve PDFs are byte-identical to the committed bytes after the repair - both misdemeanor fixtures, and the pardoned canonical and boundary - because those routes never had the defect. A first version of Rule 1b that fired unconditionally added an eighth page to the pardoned boundary packet for nothing; that was measured, and the rule was made conditional before this row was written.",
+    "geometry": "No word in any of the twelve PDFs falls within 18pt of a page edge and no two words on a shared baseline overlap, before or after.",
+    "assertionInTheRenderer": "renderComposedPdf now asserts that every drawn row of the closing execution unit landed on one page, so no future build of this family can ship contact details severed from the signature line they execute.",
+    "routeArtifactCompleteness": "verify-route-artifact-completeness.mjs --family rcap-nd-custom-pleading: 10 route artifacts, 10 ROUTE_PASS_COMPLETE, every written value read back."
+   },
+   "deterministicRebuild": "Two consecutive --no-raster builds, whole family directory compared recursively with diff -r: identical.",
+   "artifacts": {
+    "canonical": {
+     "sha256": "2fd78d8919dedfbdc062f180ade3769ed019c10e76bc1bc615f3f090e4e49522",
+     "pages": 35,
+     "bytes": 85218,
+     "wasSha256": "d2693e9b7062069815d0f3d473ad5e6a8597aac4c51600263410fb064a3a47af"
+    },
+    "boundary": {
+     "sha256": "52464ec12db3294f7d66003f4398d87c6753c4b4ef46db4ca5be9d0e5f381e8d",
+     "pages": 35,
+     "bytes": 86861,
+     "wasSha256": "d9ba564795c189f50c35ca5c2a89cba05d144806dab9d713c0d7112747357e9a"
+    },
+    "routes": {
+     "nd-seal-felony-conviction/canonical.pdf": {
+      "sha256": "f4bbf0baf7b7fdc0997233f1c256d31e5ef7b1d73257ff5ce003e041081e1ced",
+      "pages": 8
+     },
+     "nd-seal-felony-conviction/boundary.pdf": {
+      "sha256": "6086d73211a993a6751dc714c51a833c95b4eb9818699eacecb27f08f90c0154",
+      "pages": 8
+     },
+     "nd-seal-misdemeanor-conviction/canonical.pdf": {
+      "sha256": "05af080aa02c1c319c3e6b8123424215dbdec326a028d4cfbea762c53b9dca06",
+      "pages": 7,
+      "unchanged": true
+     },
+     "nd-seal-misdemeanor-conviction/boundary.pdf": {
+      "sha256": "29c0fb6be418b91e5b6be33c2b1d57265a73e668d2667c9b783afe9a40b5378e",
+      "pages": 7,
+      "unchanged": true
+     },
+     "nd-seal-pardoned-conviction/canonical.pdf": {
+      "sha256": "e98e7fbcbec0e6f115629beee446c3ee8035bbc5a713a3bec2701dba086f5467",
+      "pages": 7,
+      "unchanged": true
+     },
+     "nd-seal-pardoned-conviction/boundary.pdf": {
+      "sha256": "c58616f1a8e05a73847c018ac87361efc62c54ead611ff2fc00a924f6055c0cf",
+      "pages": 7,
+      "unchanged": true
+     },
+     "nd-dui-record-seal/canonical.pdf": {
+      "sha256": "5e7c8b22ebc75436b5c24a86983865ed59a19bd216c21894953afe8f039c4d2d",
+      "pages": 6
+     },
+     "nd-dui-record-seal/boundary.pdf": {
+      "sha256": "a3e3d541105d62794f85937b18530a8061349e6e477c52fd6ac15ca0990de5d5",
+      "pages": 6
+     },
+     "nd-marijuana-first-offense-seal/canonical.pdf": {
+      "sha256": "144720626309f95f7c8d67751c2a2a54eeeff175516e9140e55aac638001f398",
+      "pages": 7
+     },
+     "nd-marijuana-first-offense-seal/boundary.pdf": {
+      "sha256": "da23fb38ba779a58e340a294a976ac7d0ee17b49425bcb0f5ea28f89da2f222f",
+      "pages": 7
+     }
+    }
+   },
+   "focusedEvidence": "verify-packet-completeness.mjs --family rcap-nd-custom-pleading: PASS_COMPLETE with nine zero counters before and after. That verifier does not see clipping and neither reading is evidence of this repair.",
+   "countersAfter": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "rasterOwed": true,
+   "rasterNote": "Eight of the twelve fixtures moved, including both assembled packets. No standing raster receipt covers these bytes and this row claims none; a fresh whole-family raster and an independent read are owed. The RASTER_QUEUE entry for this family still pins digests older than the bytes this lane inherited and was not edited here.",
+   "claimReleased": true,
+   "selfVerified": 0,
+   "commercialRoutesOpened": 0,
+   "productionTouched": false
+  }
+ ]
+}

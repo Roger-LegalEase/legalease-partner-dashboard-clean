@@ -1,0 +1,93 @@
+{
+  "schemaVersion": "rcap-directional-raster-against-pinned-source/v1",
+  "familyId": "wi_exp_cr266-set",
+  "measuredBy": "lane PF25, outside the builder, over the committed fixture bytes",
+  "whatThisIsNot": "a RASTER_PASS. Only the central raster workflow issues one, bound to the exact SHA-256 recorded in reports/rendered-artifacts.json. No workflow was dispatched.",
+  "dpi": 600,
+  "threshold": "grey < 128 counts as a dark pixel, at 600 dpi, on 5100x6600 US-Letter pages",
+  "renderer": "poppler pdftoppm 24.02.0, invoked as `pdftoppm -r 600 -gray -aa yes -f <page> -l <page> -png <pdf> <prefix>`. Poppler draws widget annotations and no flag suppressing them was passed.",
+  "howTheSourceWasRendered": {
+    "why": "A removed-dark-pixel count taken against an annotation-free render of a form that keeps ink inside widget /AP /N streams is worthless: both sides come up blank in the same places and the difference is zero by construction.",
+    "whatWasMeasuredHere": "Both pinned sources were re-rendered with annotations drawn and again from a control copy built with pdf-lib with every page /Annots deleted and the catalog /AcroForm dropped, then differenced. CR-266: 1,073,979 dark pixels either way, difference 0. CR-267: 1,014,311 dark pixels either way, difference 0. Both binaries declare ZERO annotations and no AcroForm, so there is no widget ink for an annotation-free render to lose, and the 0 removed readings below are therefore real rather than an artefact of a blind render.",
+    "andTheRendererWasProvedToDrawAnnotationInk": "The identical command was run over an AcroForm-bearing control in the same custody -- private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase West Virginia/SCA-C-903.pdf, sha256 242048f1ff5b2e795ca43900bec6d9c353c59950bffd3c7776374ff1cc6c7035, 2 pages, 25 fields -- and against a control copy of it with all 25 annotations removed. Page 1 renders 1,299,763 dark pixels normally and 1,263,998 with annotations removed; page 2 renders 610,904 and 602,058. 35,765 dark pixels on page 1 and 8,846 on page 2 are drawn by annotations ALONE. This renderer draws widget /AP /N ink, so a zero taken from it means something.",
+    "controlCopyBuiltBy": "pdf-lib, page /Annots deleted and catalog /AcroForm dropped; used only as a control and never as a comparison baseline."
+  },
+  "pageMapping": "packet page 1 is CR-266 page 1, packet page 2 is CR-267 page 1; sources resolved by exact SHA-256 under MASTER_LIBRARY_SOURCE_DIR",
+  "bothDirections": "added AND removed reported per page. Removed is 0 on EVERY page of BOTH fixtures: this build erased nothing.",
+  "perPage": [
+    {
+      "artifact": "fixtures/canonical.pdf",
+      "packetPage": 1,
+      "sourceForm": "CR-266",
+      "sourceSha256": "9f94674c0f931b66654d39ecfd074d897880f71523592bf83f2bd0dd34812412",
+      "sourceDarkPixels": 1073979,
+      "deliveredDarkPixels": 1169017,
+      "addedDarkPixels": 95038,
+      "removedDarkPixels": 0
+    },
+    {
+      "artifact": "fixtures/canonical.pdf",
+      "packetPage": 2,
+      "sourceForm": "CR-267",
+      "sourceSha256": "2c0ac53b03658dc9ae93ba90f527ba162d487f181fd4525d5856b483f17930bb",
+      "sourceDarkPixels": 1014311,
+      "deliveredDarkPixels": 1049749,
+      "addedDarkPixels": 35438,
+      "removedDarkPixels": 0
+    },
+    {
+      "artifact": "fixtures/boundary.pdf",
+      "packetPage": 1,
+      "sourceForm": "CR-266",
+      "sourceSha256": "9f94674c0f931b66654d39ecfd074d897880f71523592bf83f2bd0dd34812412",
+      "sourceDarkPixels": 1073979,
+      "deliveredDarkPixels": 1180151,
+      "addedDarkPixels": 106172,
+      "removedDarkPixels": 0
+    },
+    {
+      "artifact": "fixtures/boundary.pdf",
+      "packetPage": 2,
+      "sourceForm": "CR-267",
+      "sourceSha256": "2c0ac53b03658dc9ae93ba90f527ba162d487f181fd4525d5856b483f17930bb",
+      "sourceDarkPixels": 1014311,
+      "deliveredDarkPixels": 1062713,
+      "addedDarkPixels": 48402,
+      "removedDarkPixels": 0
+    }
+  ],
+  "negativeControls": {
+    "whyRegionsAndNotPages": "Each source is one page and this packet writes on both of them, so there is no untouched PAGE to use as a control. The controls below are REGIONS this build writes nothing in, each carrying hundreds of thousands of the court's own dark pixels, so a zero there is a live comparison and not an empty one.",
+    "regions": [
+      {
+        "sourceForm": "CR-266",
+        "region": "the six numbered declarations, y 395 to 634 pt, x 30 to 585 pt",
+        "sourceDarkPixelsInRegion": 523845,
+        "canonical": { "added": 0, "removed": 0 },
+        "boundary": { "added": 0, "removed": 0 }
+      },
+      {
+        "sourceForm": "CR-266",
+        "region": "the printed footer, y 18 to 40 pt, x 30 to 585 pt",
+        "sourceDarkPixelsInRegion": 86830,
+        "canonical": { "added": 0, "removed": 0 },
+        "boundary": { "added": 0, "removed": 0 }
+      },
+      {
+        "sourceForm": "CR-267",
+        "region": "everything below the caption block -- THE COURT FINDS, THE COURT ORDERS, all eight check boxes and all three fill-in rules -- y 100 to 474 pt, x 28 to 585 pt",
+        "sourceDarkPixelsInRegion": 643564,
+        "canonical": { "added": 0, "removed": 0 },
+        "boundary": { "added": 0, "removed": 0 }
+      },
+      {
+        "sourceForm": "CR-267",
+        "region": "the printed footer, y 18 to 45 pt, x 28 to 585 pt",
+        "sourceDarkPixelsInRegion": 86551,
+        "canonical": { "added": 0, "removed": 0 },
+        "boundary": { "added": 0, "removed": 0 }
+      }
+    ]
+  },
+  "intermediatesDeleted": "every 600 dpi PNG produced for this measurement was deleted as it was read; none is committed."
+}

@@ -1,0 +1,69 @@
+{
+  "schemaVersion": "rcap-de-binding-independent-review/v1",
+  "checkpoint": "checkpoint-230-followthrough",
+  "familyId": "de_mandatory_expungement-set",
+  "reviewCommit": "9830a634200332ce92bb4dce9da05d880a5c77fa",
+  "scope": "Read-only independent binding review. No queue, wiring, source, family-state, raster, or worktree action was taken.",
+  "result": "BINDING_CORRECTION_TRUTHFUL_CURRENT_ADMISSION_BLOCKED",
+  "currentOutputs": {
+    "directory": "data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill",
+    "canonical": {
+      "sha256": "fe6116767ab21cd12f5448c6cb389072f32e4650e3a3b7f8d8bb82168e124f00",
+      "bytes": 13688,
+      "pages": 4
+    },
+    "boundary": {
+      "sha256": "45f57fe5ba073034ce2f3e3411c1b87410123ae51a56f235fbbb4e1d8656d3bb",
+      "bytes": 13761,
+      "pages": 4
+    },
+    "inventoryAgreement": "reports/rendered-artifacts.json, product-wiring.json fixtureBindings, and current PDF bytes agree on both hashes, byte lengths, page counts, and the four-page agency_preparation_guide manifest.",
+    "deliveryTreatment": "process_guidance",
+    "filingPermitted": false,
+    "generationAllowed": false,
+    "authorityCreated": "none",
+    "paymentEligible": false,
+    "sponsorshipEligible": false
+  },
+  "staleHistoricalApproval": {
+    "evidencePath": "data/rcap-grade-a/chat-parallel-2026-09-07/review/de-independent-review.json",
+    "verdict": "PRODUCT_PATH_PENDING",
+    "reviewedPages": 6,
+    "reviewedPageCountPerFixture": 3,
+    "oldCanonicalSha256": "f08e5968263dab6597374e385f0460aa3f452a72ea2cc716cb57ebd1df86ad1a",
+    "oldBoundarySha256": "f567de6ce84c1ea74362fa0211ee621e9d431d5292cf9cf6be051a9dc4c0f61a",
+    "currentReviewStatus": "not reusable",
+    "reason": "The current canonical and boundary PDFs are four pages and have different hashes; the old three-page review and its prior raster binding describe different bytes."
+  },
+  "bindingChecks": {
+    "source": "scripts/grade-a-packet-factory-24h/de-guidance-binding.mjs",
+    "focusedTest": "node scripts/grade-a-packet-factory-24h/test-de-guidance-binding.mjs",
+    "focusedTestResult": "PASS: 3 positive cases, 24 rejection controls; input records unchanged; independent approval false",
+    "correctionVerified": [
+      "single exact Delaware route key retained",
+      "agency_preparation_guide is the sole declared delivered component",
+      "current canonical and boundary page counts are derived from current PDF bytes",
+      "each current page is assigned to agency_preparation_guide in the rendered-artifact manifest",
+      "current hashes and byte lengths are checked against saved bytes",
+      "no checkout, filing, payment, sponsorship, generation, or authority state is enabled"
+    ]
+  },
+  "currentIndependentReview": {
+    "evidencePath": "data/rcap-grade-a/packet-factory-24h/VERIFIER_RETURNS.json",
+    "lane": "vf01",
+    "verdict": "BLOCKED_LEGAL_INPUT",
+    "verifiedAtBase": "d4653b258e2b09eebad4ec2b51edadbf9a26ae98",
+    "blockedObligation": "COMPONENT_SET",
+    "finding": "The controlling Delaware mandatory-expungement track declares a required primary_filing component with officialFormId DE-SBI-MANDATORY-EXPUNGEMENT-APPLICATION, while the current family delivers only a process guide. The reviewer correctly refused to invent the absent SBI application because its form, format, and destination are not source-approved.",
+    "exactRemainingAdmissionRequirement": "Resolve the controlling legal/product treatment: either obtain and bind a verified official SBI application component that the record requires, with its source-approved form and submission details, or obtain an owner/legal decision that reclassifies this track as guidance-only and updates the controlling component contract and source determination consistently. Until that resolution, no current independent admission or terminal GUIDANCE_READY treatment is authorized.",
+    "inventionProhibited": true
+  },
+  "authority": {
+    "semanticPacketApproval": false,
+    "independentAdmission": false,
+    "rasterAdmission": false,
+    "commercialRoutesOpened": 0,
+    "productionTouched": false
+  },
+  "reviewerNote": "The four-page declaration correction is truthful and safely refuses the stale three-page approval. The current VF01 BLOCKED_LEGAL_INPUT remains the controlling blocker."
+}

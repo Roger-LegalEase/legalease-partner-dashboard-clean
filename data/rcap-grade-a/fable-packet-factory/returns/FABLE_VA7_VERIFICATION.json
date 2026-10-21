@@ -1,0 +1,300 @@
+{
+  "schemaVersion": "rcap-independent-verification-return/v1",
+  "returnId": "FABLE_VA7_VERIFICATION",
+  "worker": "FABLE-VA7",
+  "lane": "VF06",
+  "laneKind": "independent-verification",
+  "verifiedAtBase": "cd48fc14e",
+  "captainHead": "cd48fc14e on claude/legalease-sprint-captain-utucnw",
+  "branch": "fable/va7",
+  "worktree": ".claude/worktrees/va7",
+  "completedAt": "2026-09-02",
+  "whyThisReaderIsIndependent": "FABLE-VA7 built none of these six families, repaired none of them, rastered none of them, and authored none of the records it scored them against. Every family was scored from zero: no prior verdict, queue row or return was read before the family's own bytes were measured, and where a prior verdict exists it is compared afterwards rather than inherited. Nothing in a family directory was opened before that family's claim was granted.",
+  "claimGate": {
+    "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs --assert VF06 <familyId>",
+    "rosterDerivedFromLedger": "The roster was derived from data/rcap-grade-a/packet-factory-24h/claim-ledger.json rather than from the brief: claims where released !== true AND laneKind === 'independent-verification' AND lane === 'VF06'. Six matched, and they were the same six the brief named. The ledger governs; the brief agreeing with it was checked, not assumed.",
+    "allSixGranted": true,
+    "grantSet": "b46ff8faa6f82672",
+    "grantedElsewhere": 0,
+    "released": "all six, after the rows were written"
+  },
+  "environment": {
+    "preflight": "scripts/verify-packet-build-environment.mjs, 10/12 passed, 2 failed, 5 not applicable.",
+    "masterLibraryMounted": true,
+    "masterLibraryDetail": "MASTER_LIBRARY_SOURCE_DIR exported to private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1. Preflight: mounted, complete at 499 files / 329 PDFs / 51 jurisdictions, and byte-exact against the committed corpus index on a 24-entry sample. Three of the six families bind held binary sources and all of them were verified against this mount, so no BLOCKED_SOURCE row was written and none would have been correct.",
+    "dSourcePacks": "private/source-imports/rcap-d-source-packs-2026-08-12/ is present as the second custody. None of this lane's six families binds a source that resolves there; all bound sources resolved in the Master Library.",
+    "nationwideNotMounted": "private/Nationwide Record Clearing is not present in this container. No record read for these six families cited a path beginning 'LegalEase <State>/', so nothing in this lane's scoring turned on it. Reported as an absence rather than treated as a gap.",
+    "twoPreflightFailuresAndWhy": [
+      "worktree_clean — one uncommitted path, the private/ symlink this worktree needs to reach the corpus. It is not a repository change and was never staged.",
+      "private_is_git_ignored — .gitignore line 53 is 'private/' with a trailing slash, which matches a directory but not a symlink named private. Cosmetic in this worktree; recorded because the preflight reports it as a failure and a later lane using a symlinked corpus will hit the same line."
+    ],
+    "rasterBlobsNotDownloadable": "Receipt artifacts are not downloadable from this container (proxy 403 on blob storage). Every raster receipt below is cited by run, job, artifact id and zip digest, and NO PIXEL WAS INSPECTED in any of the six families — including the local raster PNGs that two families commit, which were hash-verified but not looked at."
+  },
+  "verdictTable": [
+    {
+      "itemId": "composed-treatment:obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request",
+      "jurisdiction": "NY",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "failed": [],
+      "decisiveDefect": null
+    },
+    {
+      "itemId": "composed-treatment:obligation:runtime-only:OK:juvenile-record-expungement",
+      "jurisdiction": "OK",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "failed": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "decisiveDefect": "The petition asks fourteen questions taken verbatim from a checklist shared by all eleven Oklahoma routes, and never asks for the juvenile case number, county, adjudication or closure date, offence, or holding agency."
+    },
+    {
+      "itemId": "id_isp_expungement-set",
+      "jurisdiction": "ID",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "failed": [
+        "SELF_HELP_STOP"
+      ],
+      "decisiveDefect": "Two of the track registry's five stop conditions are carried; three are absent, including immigration and federal/tribal/out-of-state records."
+    },
+    {
+      "itemId": "oh_marijuana_expungement-set",
+      "jurisdiction": "OH",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "failed": [
+        "COMPONENT_SET",
+        "ARTIFACTS",
+        "FEE_AND_WAIVER",
+        "SERVICE",
+        "SELF_HELP_STOP"
+      ],
+      "decisiveDefect": "A declared companion PDF does not exist in the repository though the participant is told twice it ships; and the packet says it holds no fee source while its own second instruction file states $50 and the registry states fifty dollars unless indigent."
+    },
+    {
+      "itemId": "rcap-wi-custom-pleading",
+      "jurisdiction": "WI",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "failed": [
+        "FILING_DESTINATION",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "decisiveDefect": "The primary filing is a court petition — 'IN THE ___ COURT', 'PETITIONER', 'applies to this court', 'asks the court to grant' — on a route the registry three times records as 'Not a court filing' with an agency destination."
+    },
+    {
+      "itemId": "vt_seal_pardon-set",
+      "jurisdiction": "VT",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "failed": [
+        "COMPONENT_SET",
+        "REQUIRED_BEFORE_FILING",
+        "SELF_HELP_STOP"
+      ],
+      "decisiveDefect": "No stop section at all and none of the registry's ten stop conditions; on the one it reaches, it tells the participant to attend the hearing the registry records as the end of self-help. A required fourth component, filing-and-expectation-instructions, is neither declared nor delivered."
+    }
+  ],
+  "counts": {
+    "familiesScored": 6,
+    "obligationsScoredPerFamily": 15,
+    "obligationsScoredTotal": 90,
+    "pass": 1,
+    "failRepairRequired": 5,
+    "blockedSource": 0,
+    "blockedLegalInput": 0,
+    "stopped": 0,
+    "obligationResultsPASS": 78,
+    "obligationResultsFAIL": 12,
+    "obligationResultsNOT_MEASURABLE_HERE": 0,
+    "obligationResultsBLOCKED_LEGAL_INPUT": 0
+  },
+  "measuredVersusNotMeasured": {
+    "measuredHere": [
+      "SHA-256 recomputed from bytes for every fixture in all six families (12 packet PDFs), and for every other artifact each family declares — 14 in Vermont, 17 in Ohio, 2 each elsewhere — against reports/rendered-artifacts.json, source-receipt.json, reports/actual-writes.json, the render reports and the RASTER_QUEUE row.",
+      "SHA-256 recomputed from the mounted Master Library for every bound source: the Idaho ISP-BCI application, the Ohio BCI request, and Vermont's 200-00130, 200-00132, 600-00228 and 200-00130A. All six exact.",
+      "SHA-256 recomputed for the committed records the composed families bind: the national legal decisions file, route-splits.json, OK-oklahoma.json and route-obligation-candidate.json. All exact.",
+      "Page counts loaded with pdf-lib for all 12 fixtures and differenced against each pageManifest and each RASTER_QUEUE expectedPages. NY 4/4, OK 5/5, ID 2/2, OH 3/3, WI 6/6, VT 6/6.",
+      "Page order read out of the bytes: first non-blank line of every page of every canonical fixture, matched against the declared component order.",
+      "Word geometry with pdftotext -bbox-layout over all 12 fixtures: 0 clipped words out of 13,258 measured. Every same-baseline overlapping pair classified individually — 44 in Idaho and 46 in Vermont, ALL of them intended value-on-rule rendering, and zero in the other four families. Zero unexplained collisions anywhere.",
+      "scripts/rcap-packet-completeness/verify-packet-completeness.mjs run in this container, once over all 180 families and again per family for each of the six. All nine counters zero for all six; all six report PASS_COMPLETE.",
+      "Declared writes read back independently from extracted text: 6/6 NY, 6/6 OK, 11/11 WI in both fixtures, and the Idaho and Vermont AcroForm values located on their own printed rules.",
+      "Track registry selfHelpStopConditions compared condition by condition, with a term grep per condition, for the four families that have a track: Idaho 5, Ohio 9, Vermont 10, Wisconsin 7.",
+      "Track registry rules.fees, rules.feeWaiver, rules.service, rules.notice, destination, venue, waitingPeriods, exclusions and packetSet compared against what each packet states.",
+      "Compiled state profiles read for the fee, destination and service facts of the two families with no track (NY and OK), with the A3 per-fact-per-route test applied rather than a per-document read."
+    ],
+    "notMeasuredHere": [
+      "NO PIXEL WAS INSPECTED anywhere. Receipt artifacts are not downloadable (proxy 403). The local raster PNGs that Ohio and Vermont commit were hash-verified against their declared values but not looked at.",
+      "Text geometry cannot see raster ink, vector rules, field borders, images, or any glyph without extractable text. This bites hardest on the two official-form fills, Idaho and Vermont, where whether a written value stays inside the form's own printed BOX is not something a word box can answer. That layer rests entirely on the hash-bound central RASTER_PASS.",
+      "No font subsetting was decoded, so a glyph rendered without extractable text would be invisible to this lane.",
+      "The legal correctness of any statement of law was not assessed. This lane measured whether a packet states what the repository holds for its own route, not whether the repository is right.",
+      "private/Nationwide Record Clearing is not mounted, so nothing was checked against it.",
+      "The five families other than Ohio were not compared against prior lane verdicts before scoring, by design; Ohio's prior verdict was read only after its own scoring was complete."
+    ],
+    "nothingWasLeftUnmeasured": "All 90 obligation slots carry a measured result. No obligation in this lane is NOT_MEASURABLE_HERE and none is BLOCKED_LEGAL_INPUT."
+  },
+  "rasterReceipts": [
+    {
+      "itemId": "composed-treatment:obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request",
+      "state": "RASTER_PASS",
+      "run": "33605354695",
+      "job": "100168605612",
+      "artifactId": 9836959455,
+      "zipSha256": "sha256:edda602658956c84023f2c5bd03aded4578b6c857b3bfc8b35a4e4c47119d9d6",
+      "pagesMeasured": 8,
+      "problemsFound": 0,
+      "boundHashesStillEqualTheBytesOnDisk": true,
+      "pixelInspected": false
+    },
+    {
+      "itemId": "composed-treatment:obligation:runtime-only:OK:juvenile-record-expungement",
+      "state": "RASTER_PASS",
+      "run": "33605354695",
+      "job": "100168605517",
+      "artifactId": 9836944578,
+      "zipSha256": "sha256:1bb7fdfe1cffb73470187225790445e57e7edff999b51ce88577e3a2d23b96d0",
+      "pagesMeasured": 10,
+      "problemsFound": 0,
+      "boundHashesStillEqualTheBytesOnDisk": true,
+      "pixelInspected": false
+    },
+    {
+      "itemId": "id_isp_expungement-set",
+      "state": "RASTER_PASS",
+      "run": "33605354695",
+      "job": "100168605583",
+      "artifactId": 9837003752,
+      "zipSha256": "sha256:1a3532c4093afcd05bb2b5b38fac9a73d207492459f1d403be3b10a9e832b0f0",
+      "pagesMeasured": 4,
+      "problemsFound": 0,
+      "boundHashesStillEqualTheBytesOnDisk": true,
+      "pixelInspected": false
+    },
+    {
+      "itemId": "oh_marijuana_expungement-set",
+      "state": "RASTER_PASS",
+      "run": "33598433649",
+      "job": "100147213562",
+      "artifactId": 9834357918,
+      "zipSha256": "sha256:a3957452e4d9d2e4161129a17a9967899c30255a336aaa3a64e8b4abe056adf0",
+      "pagesMeasured": null,
+      "problemsFound": null,
+      "boundHashesStillEqualTheBytesOnDisk": true,
+      "pixelInspected": false
+    },
+    {
+      "itemId": "rcap-wi-custom-pleading",
+      "state": "RASTER_PASS",
+      "run": "33605354695",
+      "job": "100168607566",
+      "artifactId": 9837066210,
+      "zipSha256": "sha256:d916e701b38e55edf0e7537c766711a4509aae9ab9d50a06baccc7510dd9a892",
+      "pagesMeasured": 12,
+      "problemsFound": 0,
+      "boundHashesStillEqualTheBytesOnDisk": true,
+      "pixelInspected": false
+    },
+    {
+      "itemId": "vt_seal_pardon-set",
+      "state": "RASTER_PASS",
+      "run": "33596784162",
+      "job": "100142453368",
+      "artifactId": 9833825261,
+      "zipSha256": "sha256:4325dae834e246e4a07151b4ec4a7362f2d28a3f4d19658dc285ec52b94fc554",
+      "pagesMeasured": null,
+      "problemsFound": null,
+      "boundHashesStillEqualTheBytesOnDisk": true,
+      "pixelInspected": false
+    }
+  ],
+  "rasterReceiptFinding": "No receipt in this roster is stale: for all six, the canonical and boundary hashes the receipt binds still equal the bytes I recomputed on disk, so no family is STOPPED for want of a visual gate. Two receipts are thinner than the other four: the Ohio row (run 33598433649) and the Vermont row (run 33596784162) carry no pagesMeasured and no problemsFound field, so they record a RASTER_PASS verdict without recording what was measured to reach it. The four harvested from run 33605354695 carry both, plus the canary precondition and the commit-pin verification. Recorded as an inconsistency in the queue's own receipts, not as a defect of either family.",
+  "theTwoThingsIWasAskedToSettle": {
+    "ohioPriorVerdict": {
+      "question": "oh_marijuana_expungement-set sits at FAIL_REPAIR_REQUIRED on a live verdict from another lane. Score it from zero and say whether you reach the same conclusion on the same evidence.",
+      "theLiveVerdict": "VF11 carries FABLE-VT13's FAIL_REPAIR_REQUIRED at base ebc44031ec7eab29058bfc79a7bc5e1cff089414 on COMPONENT_SET, KNOWN_PREFILLS and REQUIRED_BEFORE_FILING, with the decisive defect stated as 'There is no production-field-map.json at the family root; product-wiring.json says so itself with fieldMap null'. VF02 separately carries a FAIL on ARTIFACTS for a canonical.txt hash mismatch; VF08 a FAIL on a completenessAudit.",
+      "answer": "NOT ON THE SAME EVIDENCE, because the evidence changed. At cd48fc14e the defect VT13 named is repaired: production-field-map.json exists at the family root and is substantive, product-wiring.json binds it, and the fixtures were rebuilt with it — VT13 measured canonical.pdf at f46c9e87... and 8088 bytes, and it is now ddf3d484... at 8279 bytes. VF02's text-hash mismatch is repaired too; canonical.txt now hashes to ae3903109bb28ed4... exactly as its render report records. On the evidence in front of me KNOWN_PREFILLS and REQUIRED_BEFORE_FILING both PASS.",
+      "butTheVerdictStands": "FAIL_REPAIR_REQUIRED, on five obligations and on grounds no lane has recorded: an absent companion PDF the participant is twice told ships, a fee statement that contradicts the packet's own second instruction file and the track registry, a service statement that denies holding what the registry holds, four of five registry-declared components undelivered, and six of nine registry stop conditions absent. All five are visible at VT13's base as well. VT13 passed FEE_AND_WAIVER on the $50 it found in tracks/oh_marijuana_expungement/participant-instructions.md without reading the family-root participant-instructions.md that denies holding any fee source; VF02's mechanical pass did the same. This is the pattern the brief warned about — a defect that survived a fail, a repair and a pass — and it survived because the repair fixed what was named."
+    },
+    "newYorkDuplication": {
+      "question": "The NY court transmission letter ships from two families. Establish what this family delivers, whether the two outputs are the same document, and whether the duplication is a defect or a shared component correctly used twice.",
+      "whatThisFamilyDelivers": "One assembled 4-page packet: pages 1-2 the letter to the clerk of the sentencing court asking it to transmit or correct the § 160.55 sealing notice, with four labelled matter items C1-C4; pages 3-4 the process guidance. Both pages foot this family's own route key.",
+      "sameDocument": false,
+      "sameDocumentEvidence": "Extracted both from their own committed bytes and compared. Different titles ('...A CPL Sec. 160.55 SEALING NOTICE' against '...THE SEALING NOTICE'), different addressee (the clerk of the court that sentenced you, against THE RECORDS OFFICE OF THE COURT THAT DISPOSED OF THE CASE), entirely different field structure (four bracket items C1-C4 against six captioned certificate-of-disposition lines and four numbered paragraphs), no shared paragraph, different route footers, and even different canonical personas (42 Magnolia Street, Springfield 62704 against 42 Larkspur Street, Brooklyn, NY 11201). Different page counts for the packets as a whole: 4 against 6.",
+      "sharedComponent": false,
+      "sharedComponentEvidence": "Two separate build scripts with no shared composing code: scripts/build-census-v1-composed-treatment:...:sentencing_court_transmission_correction_request.mjs at 1102 lines and scripts/build-census-v1-agency-application-treatment:...:dcjs_correction_submission.mjs at 1817 lines. They share only generic PDF helpers.",
+      "soTheAnswerIsNeither": "It is not a shared component correctly used twice, and it is not the same document duplicated. It is the same participant-facing step drafted twice, independently, in different words.",
+      "isItADefectAndWhose": "Not a defect of this family, and this family's PASS does not rest on it. The census records two distinct A_MUST_FULFILL routes with different destinations and different instruments, and this family delivers exactly its own route's instrument, naming the DCJS submission as the workflow's next step without supplying that route's letter. The exposure sits on the DCJS family, which declares routeKeys of only [obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission] yet ships court_transmission_correction_request — the census's instrument for a DIFFERENT route — as its own packet component on its pages 1-2. A participant on both routes would receive two differently worded letters to the same court asking for the same thing.",
+      "whatIDidNotDo": "The DCJS family is not this lane's claim. I read its committed records and extracted its delivered text read-only to answer the question, opened nothing else, and changed nothing. It is recorded below as a finding for whichever lane holds it."
+    }
+  },
+  "contradictionsWithRecordsAlreadyInTheRepository": [
+    {
+      "finding": "A declared delivered artifact does not exist.",
+      "family": "oh_marijuana_expungement-set",
+      "theRecord": "reports/rendered-artifacts.json lists companion/OH-BCI-SEALING-EXPUNGEMENT-REQUEST--official-source.pdf at sha256 9234ec76... and 235789 bytes as the first entry of its pdfs array; source-receipt.json declares the same path as companionArtifact with copiedWithoutModification true; companion/companion-guidance.md tells the participant it 'is copied unchanged'; participant-instructions.md tells the participant it 'is included unchanged'.",
+      "whatIMeasured": "The file is absent from the filesystem, absent from git ls-files, and not gitignored. Its raster (raster/oh-bci-official-source/page-01.png) exists and hashes exactly, so the packet ships a picture of a document it does not ship. The source is held and exact in the Master Library, so the copy was never committed."
+    },
+    {
+      "finding": "The completeness verifier reports PASS_COMPLETE with requiredComponentsMissing 0 for two families that are missing components the track registry declares required.",
+      "family": "oh_marijuana_expungement-set and vt_seal_pardon-set",
+      "theRecord": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs, run by me in this container, returns 'ok oh_marijuana_expungement-set PASS_COMPLETE' and 'ok vt_seal_pardon-set PASS_COMPLETE' with all nine counters zero.",
+      "whatIMeasured": "Ohio's registry packetSet declares five required components and one is delivered. Vermont's declares four, one of them required, and three are delivered. Ohio additionally declares an artifact that does not exist. The requiredComponentsMissing counter does not consult data/record-clearing/legal-design-track-registry.json packetSet and does not check that a declared artifact exists on disk, so a family can be missing four of five components and an entire PDF and still read as complete. This is a gap in the instrument, not a wrong number, and it matters because every lane leans on that counter."
+    },
+    {
+      "finding": "A packet's field map states that the platform holds no value for three facts the same build writes onto the same page.",
+      "family": "rcap-wi-custom-pleading",
+      "theRecord": "production-field-map.json requiredBeforeFiling items C1, C2 and C3 each read 'the committed track registry records this as a required generation input for wi_exp_certificate_of_discharge_followup, and the platform holds no value for it'.",
+      "whatIMeasured": "reports/actual-writes.json records petitioner_name 'Jordan Avery Reyes', date_of_birth '1991-04-17', mailing_address, telephone and email written onto that same component, and I confirmed all five in the delivered bytes. Section B prints the date of birth two inches above item C2 asking for it."
+    },
+    {
+      "finding": "A packet tells the participant it states no fee amount while the same family's other instruction file states one twice.",
+      "family": "oh_marijuana_expungement-set",
+      "theRecord": "participant-instructions.md: 'No held source in this packet states a filing fee... This packet does not state an amount because it holds no source for one.' tracks/oh_marijuana_expungement/participant-instructions.md: 'The recorded $50 filing fee or an indigency exception...' and 'The frozen design records $50, subject to a confirmed indigency exception'. The committed track registry: rules.fees 'Fifty dollars unless indigent' under ORC 2953.321(G); rules.feeWaiver 'Indigency excuses the fee under ORC 2953.321(G)'.",
+      "whatIMeasured": "Grep counts confirm: '50' twice in the track file, zero times in the family-root file, zero dollar amounts in the delivered PDF. DET-FEE-AND-WAIVER-001-A4 on the internal-consistency limb, and A1 as widened by A2 on the held-fact limb."
+    },
+    {
+      "finding": "A route contract's requiredFacts array is a jurisdiction-wide analyst checklist and is being printed on participant-facing filings as if it were a route fact set.",
+      "family": "composed-treatment:obligation:runtime-only:OK:juvenile-record-expungement, and by implication every Oklahoma family built the same way",
+      "theRecord": "src/lib/legal-authority/routes/route-splits.json carries eleven Oklahoma routes and ALL ELEVEN carry an identical fourteen-item requiredFacts array under ruleId OK-SB2030-2026-ELEVEN-ROUTE-TRANSITION-MAP. The list is one question per sibling route ('DNA innocence?' for dna-factual-innocence-expungement, 'Pardon?' for pardon-based-expungement, 'Trafficking nexus?' for human-trafficking-survivor-relief, 'VPO hearing/vacatur/death?' for victim-protective-order-record-relief, 'Reclassification date?' for felony-reclassified-as-a-misdemeanor, 'Fine amount/payment?' for fine-only-misdemeanor-conviction-expungement, 'Portal/automatic status?' for clean-slate-automatic-expungement) plus generic ones.",
+      "whatIMeasured": "The juvenile family's production-field-map.json treats all fourteen as required-before-filing items with the reason 'the committed route contract records this as a required fact of the participant's own matter', and the delivered petition prints all fourteen as blanks the participant must fill. This is the sibling-route read-across DET-FEE-AND-WAIVER-001-A3 forbids, printed on the face of a filing. Reported at the record level rather than only the packet level because ten other Oklahoma routes read from the same array."
+    },
+    {
+      "finding": "A family ships a court pleading on a route its own records three times record as not a court filing.",
+      "family": "rcap-wi-custom-pleading",
+      "theRecord": "The committed track registry: rules.filing 'Not a court filing. Send the written request to the supervising or detaining authority'; venue 'Not a court filing'; destination.kind 'agency'. The census row records the same agency destination. The packet's own instructions state it correctly. build-findings.json records that 'the committed specifications record THE SECOND COMPONENT'S venue as Not a court filing'.",
+      "whatIMeasured": "The delivered primary filing on pages 1-3 is titled PETITION, carries 'IN THE ___ COURT' as its destination line, styles the participant PETITIONER, offers 'Case number, if the court assigns one at filing', and reads 'applies to this court' and 'asks the court to grant the relief'. The second component on page 4 is correctly a letter to the authority. The recognition recorded in build-findings was applied to one component and not the other."
+    },
+    {
+      "finding": "A source receipt asserts allSourcesExact over three documents while the packet's two most load-bearing legal statements are quoted from a fourth it does not list.",
+      "family": "vt_seal_pardon-set",
+      "theRecord": "source-receipt.json declares 200-00130, 200-00132 and 600-00228, with allSourcesExact true. participant-instructions.md attributes its entire fee statement and its entire service statement to form 200-00130A at SHA-256 8a44b91cd2f48af494cefcadb557c3c0f5a35b0bdeef06272ee54c66f9ca8078.",
+      "whatIMeasured": "200-00130A is held in the Master Library at STATES/VT/03_INSTRUCTIONS/ and hashes to 8a44b91cd2f48af4... exactly as claimed. The custody is sound and the citation is true; only the receipt is incomplete. Recorded as a finding and a secondary repair item rather than a SOURCE_IDENTITY failure, because every source relied on is held and binds byte-exact and I verified all four myself."
+    },
+    {
+      "finding": "A family ships a component the route census assigns to a different route, while declaring only its own route key.",
+      "family": "agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission — NOT this lane's claim, reported for whichever lane holds it",
+      "theRecord": "The census records two distinct routes: ...:sentencing_court_transmission_correction_request with destination 'sentencing court' and instrument 'written request asking the sentencing court to transmit or correct the § 160.55 sealing notice', and ...:dcjs_correction_submission with destination 'New York State Division of Criminal Justice Services' and instrument 'certified-disposition correction submission to DCJS'. The DCJS family's production-field-map.json routeKeys lists only the second.",
+      "whatIMeasured": "The DCJS family's componentSet is [court_transmission_correction_request, dcjs_correction_submission, agency_route_sheet] and its pageManifest puts court_transmission_correction_request on packet pages 1-2. So the DCJS packet ships the other route's instrument, redrafted in different words from the family that owns it. Read-only; I opened, edited and verified nothing in that family."
+    },
+    {
+      "finding": "Three composed families in this roster use a canonical persona whose address is not in the jurisdiction the packet is for.",
+      "family": "the NY, OK and WI composed families",
+      "theRecord": "reports/actual-writes.json in each records mailing_address '42 Magnolia Street, Springfield 62704'. ZIP 62704 is Springfield, Illinois.",
+      "whatIMeasured": "Confirmed the same string on the delivered face of all three. By contrast the two official-form fills use jurisdiction-appropriate personas — Burlington, VT 05401 for Vermont and Columbus, Ohio 43215 for Ohio. Recorded as an observation only and scored against nothing: canonical fixtures are review evidence rather than participant deliverables, and no obligation turns on the persona. It is noted because a reviewer looking at a New York court letter addressed from an Illinois ZIP will stop on it, and because a jurisdiction-appropriate persona would make the boundary fixture a better test."
+    }
+  ],
+  "whatThisLaneChanged": {
+    "packetPdfsModified": 0,
+    "fixturesModified": 0,
+    "overlayDirectoriesModified": 0,
+    "queuesModified": 0,
+    "routesChanged": 0,
+    "pricesChanged": 0,
+    "productionTouched": false,
+    "otherLaneWorktreesTouched": 0,
+    "filesWritten": [
+      "data/rcap-grade-a/packet-factory-24h/vf06/rows.json — six rows appended; all 12 pre-existing rows and all 28 pre-existing top-level keys verified byte-identical against git show HEAD:",
+      "data/rcap-grade-a/packet-factory-24h/vf06/repair-assignments.json — five assignments appended; the pre-existing assignment and all six pre-existing top-level keys verified byte-identical against git show HEAD:",
+      "data/rcap-grade-a/fable-packet-factory/returns/FABLE_VA7_VERIFICATION.json — this file, new"
+    ],
+    "preservationProof": "Both existing files were spliced textually rather than re-serialized, and the result was checked three ways before writing: the byte prefix and suffix around the insertion point are identical to the original; every pre-existing array element and every pre-existing top-level key deep-equals its value in git show HEAD:; and git diff --numstat reports 929 additions / 1 deletion on rows.json (the deletion being the last row's closing brace gaining a comma) and 177 additions / 0 deletions on repair-assignments.json."
+  },
+  "grantsNothing": "An independent verdict proves a packet is complete or names why it is not. It promotes no family, approves no output, opens no commercial route, creates no fulfillment record and consumes no packet credit. The one PASS_COMPLETE_INDEPENDENT in this return is a verification result and is not an approval; that family's own build-status.json still records reviewStatus qa_review_pending and its product-wiring still records paymentEligible false.",
+  "commercialRoutesOpened": 0
+}

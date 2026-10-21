@@ -1,0 +1,268 @@
+{
+  "schemaVersion": "rcap-fable-repair-return/v1",
+  "worker": "FABLE-R12",
+  "lanes": ["FIX01", "FIX04"],
+  "branch": "fable/r12",
+  "baseSha": "ebc44031ec7eab29058bfc79a7bc5e1cff089414",
+  "baseBranch": "claude/legalease-sprint-captain-utucnw",
+  "returnedAt": "2026-09-02T01:57:00Z",
+  "oneFixTwoFamilies": "FIX01 held ky_void_seal_marijuana_synthetic_salvia-set and FIX04 held ky_void_seal_controlled_substance-set. Both families are built by one host, scripts/build-census-v1-ky_void_seal_controlled_substance-set.mjs, and every repair below was made once in that host and reached both families through their own per-family configuration.",
+
+  "claims": {
+    "asserted": [
+      { "lane": "FIX01", "familyId": "ky_void_seal_marijuana_synthetic_salvia-set", "result": "CLAIM_OK", "exitCode": 0 },
+      { "lane": "FIX04", "familyId": "ky_void_seal_controlled_substance-set", "result": "CLAIM_OK", "exitCode": 0 }
+    ],
+    "released": [
+      { "lane": "FIX01", "familyId": "ky_void_seal_marijuana_synthetic_salvia-set", "releasedAt": "2026-09-02T01:56:57.049Z" },
+      { "lane": "FIX04", "familyId": "ky_void_seal_controlled_substance-set", "releasedAt": "2026-09-02T01:56:57.117Z" }
+    ],
+    "reissueUsed": false,
+    "transferUsed": false,
+    "ledgerChangesLeftInDiff": true,
+    "ledgerDiffIsExactly": "The two repair claims flip released false to true, two release records are appended, and claimsDigest moves. No other claim, lane or family is touched."
+  },
+
+  "defect": {
+    "verdictBefore": "FAIL_REPAIR_REQUIRED on both families",
+    "verifierRows": [
+      "data/rcap-grade-a/packet-factory-24h/vf10/rows.json (ky_void_seal_controlled_substance-set)",
+      "data/rcap-grade-a/packet-factory-24h/vf11/rows.json (ky_void_seal_marijuana_synthetic_salvia-set)"
+    ],
+    "failedObligations": ["FILING_DESTINATION", "ROUTE_IDENTITY"],
+    "feeAndWaiverNote": "The assignment named FEE_AND_WAIVER as a third failure. On the re-examined rows in vf10 and vf11 it is no longer among failedObligations: DET-FEE-AND-WAIVER-001 fixed the yardstick and the verifier kept only the failures where no checkable authority was named. It was nevertheless repaired here, on stronger ground than the determination required, because the committed track registry turns out to hold the fee answer outright.",
+    "unmeasured": "SOURCE_IDENTITY was NOT_MEASURABLE_HERE in both lanes (Master Library not mounted in the verifying container). Untouched by this repair; the bound source SHA-256 7eb2838037903de1769a0253d6ad9b092dd72f4aa363b323968c8c510fd55d3d is unchanged and both proposed-order PDFs are byte-identical to their committed bytes."
+  },
+
+  "controllingDetermination": {
+    "id": "DET-FEE-AND-WAIVER-001",
+    "amendment": "DET-FEE-AND-WAIVER-001-A1",
+    "theTestApplied": "Ask first whether the repository establishes the answer. If it does, the packet states it. Only where no held source establishes it may a named checkable authority stand in - and then it must be named, not gestured at.",
+    "registryDoesHoldTheDestination": true,
+    "whereItIsHeld": "data/record-clearing/legal-design-track-registry.json, tracks ky_void_seal_controlled_substance and ky_void_seal_marijuana_synthetic_salvia, field destination (kind clerk, name \"Office of the Circuit Court Clerk\", plus a per-track detail) and field venue.",
+    "noGuessWasSubstituted": "Every stated fact is read out of that registry at build time. Nothing is composed, inferred or defaulted, and no clerk-to-ask sentence stands in for a fact the registry holds."
+  },
+
+  "repairsMade": [
+    {
+      "obligation": "FILING_DESTINATION",
+      "assigned": true,
+      "what": "The participant instructions now state where the motion is filed, in a new section \"Where you file, what it costs, and who gets a copy\", and step 4 of the ordered steps names the destination instead of only saying what accompanies what.",
+      "howSourced": "A new heldFilingFacts() reads the committed legal-design track registry for the family's trackId and asserts that destination.name, destination.detail and venue are present. If the registry stops holding them the build refuses rather than falling back to a clerk-to-ask sentence.",
+      "statedForControlledSubstance": "Office of the Circuit Court Clerk. Filed in the original criminal case in the county of conviction. The Clerks' Manual records the filing as motion type SA with no summons issued; the clerk delivers it to the judge who decided the case.",
+      "statedForMarijuanaSyntheticSalvia": "Office of the Circuit Court Clerk. Filed in the original criminal case in the county of conviction, as motion type SA with no summons issued.",
+      "eachFamilyDrewItsOwnValues": true
+    },
+    {
+      "obligation": "ROUTE_IDENTITY",
+      "assigned": true,
+      "what": "Both families' routeKey moved from the track-pathway/void-and-seal key, which occurs zero times in the canonical route universe, to the canonical track-only key that product-wiring.json and the MASTER_QUEUE row already carried.",
+      "before": [
+        "obligation:track-pathway:KY:ky_void_seal_controlled_substance:void-and-seal",
+        "obligation:track-pathway:KY:ky_void_seal_marijuana_synthetic_salvia:void-and-seal"
+      ],
+      "after": [
+        "obligation:track-only:KY:ky_void_seal_controlled_substance",
+        "obligation:track-only:KY:ky_void_seal_marijuana_synthetic_salvia"
+      ],
+      "canonicalUniverseChecked": "data/rcap-grade-a/route-obligation-census-candidate/canonical-route-universe.json: 3 occurrences of each track-only key, 0 of each track-pathway key.",
+      "reachesFieldMapAndFace": "production-field-map.json routeKeys, both documentPolicy.routeKey values, the Route: line printed on every fixture page, and the _Route:_ line in participant-instructions.md. No occurrence of the stale key remains anywhere under data/rcap-all50/overlays/census-v1/ky/."
+    },
+    {
+      "obligation": "FEE_AND_WAIVER",
+      "assigned": true,
+      "what": "The packets said \"No amount ... is stated here\" and sent the participant to the clerk. The registry records pay_fee as \"none. The Clerks' Manual records that there is no filing fee for this proceeding.\" and apply_fee_waiver as \"not applicable; there is no fee.\" The instructions now state that there is no filing fee, quoting the held record, and the motion's own text says no filing fee is charged.",
+      "whyThisIsTheStrongerBranch": "The determination's met-list ranks \"the packet states that no fee is charged, sourced\" above the named-authority stand-in. The stand-in was being used where the repository held the answer, which is exactly what the amendment says a named authority may not be used for."
+    },
+    {
+      "obligation": "SERVICE",
+      "assigned": false,
+      "substantiated": true,
+      "what": "The certificate of service and the instructions asserted that who must be served is not established. The registry records serve_party as \"By mail or hand delivery on the county or Commonwealth's attorney that prosecuted the case.\" That is now stated on the participant page, in the certificate's guidance text, and in the disclosure label for the recipient blank.",
+      "whyRepairedAnyway": "It came out of the same registry entry as the destination. Stating the destination from that entry while the line above it said the service party was unestablished would have left the packet internally incoherent and would have reproduced, one line up, the defect the amendment condemns.",
+      "whatStaysRefused": "The registry names the office and the method but gives neither an address for the county of conviction nor any deadline. Both remain declared required-before-filing with the circuit court clerk named as the authority to ask, and the certificate of service still names no recipient and states no method. No blank was prefilled and no recipient was guessed.",
+      "scopeFlag": "The verifier's smallestExactRepair said the repair lay 'neither in the rendered legal text'. This change does touch rendered legal text - one sentence in the motion and one in the certificate. It is flagged here rather than buried."
+    },
+    {
+      "obligation": "not a proof obligation - build determinism",
+      "assigned": false,
+      "substantiated": true,
+      "what": "The packet container was created with PDFDocument.create() and saved with updateMetadata:false, so the wall clock at creation survived into the saved bytes. The host now stamps it with the factory's shared RCAP_PACKET_PDF_DATE via stampDeterministic from scripts/rcap-official-forms/rcap-deterministic-pdf-date.mjs.",
+      "howItWasFound": "Rebuilding both families from the committed tree with no code change at all moved all four packet PDF hashes while every raster PNG and both proposed-order PDFs stayed byte-identical, and byteLength did not move - a fixed-width date string, not content.",
+      "whyItHadToBeFixed": "Without it the required build-twice proof could not pass, and the shared helper's own comment names the consequence: a RASTER_PASS is pinned to the packet hash, so a rebuild that changed nothing would discard the raster verdict as though the packet had been edited. This host had simply never adopted the helper.",
+      "evidenceOfPreExistingDrift": {
+        "controlledSubstanceCanonicalCommitted": "249d0e76bd19c4533de9ca4852a6aad5749a747b2aaebc15b9cdcbf7a2c32f5b",
+        "controlledSubstanceCanonicalNoCodeChangeRebuild": "39e87658fdcd3a2ff777df6bf49c68ec447aed6d6f7a26f7bb98c6fc12bb5243",
+        "note": "Same builder, same inputs, different bytes, before any edit of mine."
+      }
+    }
+  ],
+
+  "filesChanged": {
+    "buildScript": ["scripts/build-census-v1-ky_void_seal_controlled_substance-set.mjs"],
+    "repairedThroughTheOwningScript": true,
+    "generatedOutputHandEdited": false,
+    "regeneratedArtifactsPerFamily": [
+      "participant-instructions.md",
+      "production-field-map.json",
+      "build-findings.json",
+      "approval-request.json",
+      "reports/rendered-artifacts.json",
+      "fixtures/canonical.pdf",
+      "fixtures/boundary.pdf",
+      "raster/{canonical,boundary}/page-0{1,2,4}/page.png"
+    ],
+    "unchangedByTheRepair": [
+      "fixtures/canonical--AOC-334-proposed-order.pdf",
+      "fixtures/boundary--AOC-334-proposed-order.pdf",
+      "raster/canonical/page-03/page.png",
+      "raster/boundary/page-03/page.png",
+      "source-receipt.json",
+      "build-status.json",
+      "product-wiring.json",
+      "reports/actual-writes.json",
+      "reports/builder-completeness-counters.json"
+    ],
+    "page03IsTheOrder": "Page 3 of every fixture is AOC-334 itself. It is untouched, which is the expected shape: this repair changed the composed motion, the composed certificate and the printed Route: line, and never the official form."
+  },
+
+  "sharedHostControl": {
+    "question": "Does the host change reach a family that did not opt into it?",
+    "hostServesOnly": [
+      "ky_void_seal_controlled_substance-set",
+      "ky_void_seal_marijuana_synthetic_salvia-set"
+    ],
+    "noUnrelatedFamilyOnThisHost": "data/rcap-grade-a/packet-factory-24h/IMPORT_GRAPH.json records this host's only importer as build-census-v1-ky_void_seal_marijuana_synthetic_salvia-set.mjs, and it is absent from that file's sharedHosts list because no unassigned family imports it. Both families it serves were held by this worker, so a strictly unrelated family built by this same host does not exist.",
+    "controlActuallyRun": {
+      "controlFamily": "ky_felony_vacatur_expungement-set",
+      "whyThisOne": "Built by a different script that imports every shared library this host imports (rcap-pdf-anchor-capture, rcap-official-form-finalize, pdf-flattened-widgets, raster/pdf-page-raster, completeness-contract) and writes into the same overlay root data/rcap-all50/overlays/census-v1/ky/. It is the nearest available test of whether the change leaks past the two families that opted in.",
+      "method": "Built the control with the changed host present, restored the host to its committed bytes, built the control again in the same environment, then restored the changed host. Environmental drift cancels between the two runs, so any difference would be attributable to the host change.",
+      "result": "CONTROL_NO_DIFF",
+      "meaning": "Byte-for-byte identical control artifacts with and without the change. The host change reaches no family that did not opt into it.",
+      "controlArtifactsRestored": "The control family's own artifacts were restored with git checkout and are not part of this diff."
+    },
+    "optInMechanismInsideTheHost": "The filing facts are gated on a per-family trackId in FAMILY_CONFIGS. A family that names no trackId gets nothing stated for it and the build refuses rather than inventing an answer. Both families here name one, and each drew its own distinct destination detail and venue from its own registry entry - visible in the two different 'Where the motion is filed' lines."
+  },
+
+  "determinismProof": {
+    "method": "Built both families twice in succession from the same tree and compared the SHA-256 of every file in both family directories.",
+    "filesCompared": 44,
+    "result": "BYTE_IDENTICAL across both runs",
+    "beforeThisRepair": "NOT deterministic - a no-code-change rebuild moved all four packet PDF hashes.",
+    "afterThisRepair": "Deterministic - run 1 and run 2 agree on all 44 files."
+  },
+
+  "completeness": {
+    "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <familyId>",
+    "before": {
+      "ky_void_seal_marijuana_synthetic_salvia-set": {
+        "status": "PASS_COMPLETE",
+        "written": "13/39",
+        "counters": {
+          "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0,
+          "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0,
+          "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0
+        }
+      },
+      "ky_void_seal_controlled_substance-set": {
+        "status": "PASS_COMPLETE",
+        "written": "13/39",
+        "counters": {
+          "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0,
+          "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0,
+          "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0
+        }
+      }
+    },
+    "after": {
+      "ky_void_seal_marijuana_synthetic_salvia-set": {
+        "status": "PASS_COMPLETE",
+        "written": "13/39",
+        "counters": {
+          "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0,
+          "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0,
+          "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0
+        }
+      },
+      "ky_void_seal_controlled_substance-set": {
+        "status": "PASS_COMPLETE",
+        "written": "13/39",
+        "counters": {
+          "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0,
+          "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0,
+          "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0
+        }
+      }
+    },
+    "unchanged": "Same terminal field count, same written count, same nine zeros. No blank was filled and no write was added; the repair changed what the packet says, not what it writes for the participant."
+  },
+
+  "rasterOwed": {
+    "owed": true,
+    "why": "Every fixture packet PDF changed bytes, so each family's central raster receipt is invalidated and a fresh raster is owed for all four fixtures before either family can carry a raster-bound verdict.",
+    "localRastersWereRegenerated": "The build re-rastered locally; rasterState is RENDERED_LOCALLY_PENDING_CENTRAL_ACCEPTANCE. That is not central acceptance and this worker claims none.",
+    "fixtures": [
+      {
+        "familyId": "ky_void_seal_controlled_substance-set",
+        "fixture": "canonical",
+        "file": "data/rcap-all50/overlays/census-v1/ky/ky-void-seal-controlled-substance-set--custom-pleading/fixtures/canonical.pdf",
+        "oldSha256": "249d0e76bd19c4533de9ca4852a6aad5749a747b2aaebc15b9cdcbf7a2c32f5b",
+        "newSha256": "e7419541f263c4fdc41bbcea0d45d4dd748a35830e722c02f88afd412c646037"
+      },
+      {
+        "familyId": "ky_void_seal_controlled_substance-set",
+        "fixture": "boundary",
+        "file": "data/rcap-all50/overlays/census-v1/ky/ky-void-seal-controlled-substance-set--custom-pleading/fixtures/boundary.pdf",
+        "oldSha256": "0e8c8b5793e35a753afc4807d8121a4268e960850849c13ddcbbf422ca24600d",
+        "newSha256": "0b864b30e140fd8b53adc948f6b294c093095e133b489dab27a745dd632db12f"
+      },
+      {
+        "familyId": "ky_void_seal_marijuana_synthetic_salvia-set",
+        "fixture": "canonical",
+        "file": "data/rcap-all50/overlays/census-v1/ky/ky-void-seal-marijuana-synthetic-salvia-set--custom-pleading/fixtures/canonical.pdf",
+        "oldSha256": "e70b19406a114095e500bb482d3b12f919c9fd0e738ba73b0d85ec76430a67c3",
+        "newSha256": "695ecde15ad70d6155cd548f9a22b73b499e8fcded9734c7163af2e6845276ae"
+      },
+      {
+        "familyId": "ky_void_seal_marijuana_synthetic_salvia-set",
+        "fixture": "boundary",
+        "file": "data/rcap-all50/overlays/census-v1/ky/ky-void-seal-marijuana-synthetic-salvia-set--custom-pleading/fixtures/boundary.pdf",
+        "oldSha256": "83ecbc8572791d944cad430936a9cf6a678a11cba3ba581917e1694ef64290f7",
+        "newSha256": "1c5f49b9b7b83407afc3f0419ed32387743aff25a2dd68d921bd2cadc303d427"
+      }
+    ],
+    "proposedOrderPdfsUnchanged": [
+      { "file": "canonical--AOC-334-proposed-order.pdf", "sha256": "9d58db17e65195913caf43e5d157b4741ef2242afd3df116a154db36c4adce2b", "bothFamilies": true },
+      { "file": "boundary--AOC-334-proposed-order.pdf", "sha256": "70c05aef28a37dcbb47606a5deee5f13c4131d6b849d82f3ff51501b28a4691b", "bothFamilies": true }
+    ],
+    "oneTimeCost": "These four hashes will not move again on a rebuild. The determinism fix means the next no-change rebuild produces identical bytes, so this is the last raster invalidation this host causes for free."
+  },
+
+  "whatThisWorkerDidNotDo": {
+    "verifiedItsOwnRepair": false,
+    "wroteToAnyVerifierRecord": false,
+    "recordsNotWritten": ["vf*/rows.json", "VERIFIER_RETURNS.json", "MASTER_QUEUE.json", "RASTER_QUEUE.json", "ACTIVE_ASSIGNMENTS.json"],
+    "bothFamiliesLeftReleasedAndAwaitingFreshIndependentRead": true,
+    "productionTouched": false,
+    "supabaseOrRlsOrAuthTouched": false,
+    "stripeTouched": false,
+    "secretsOrMigrationsTouched": false,
+    "commercialRoutesOpened": 0,
+    "familiesPromoted": 0,
+    "approvalsGranted": 0,
+    "pullRequestCreated": false
+  },
+
+  "forTheCaptain": [
+    "The determination's premise held. The committed track registry does hold the filing destination for both families, in destination.name, destination.detail and venue, so nothing was reversed and no guess was substituted.",
+    "One scope note: the verifier's smallestExactRepair said the repair lay 'neither in the rendered legal text'. Two sentences of rendered legal text did change - the motion now states the destination and that no filing fee is charged, and the certificate of service now names who must be served. Both are read from the same registry entry as the destination, and leaving them would have had the packet state the destination while asserting one line up that the service party and the fee were unestablished. A Captain may prefer the narrower repair; if so, the SERVICE and FEE_AND_WAIVER sentences are the ones to pull back, and FILING_DESTINATION and ROUTE_IDENTITY stand alone without them.",
+    "This host was not build-deterministic before this repair, which no lane had recorded. The fix was to adopt the factory's existing stampDeterministic helper. Other hosts that create a packet container with PDFDocument.create() and save with updateMetadata:false may carry the same defect and would silently invalidate their own raster receipts on every rebuild; that is worth a sweep by a lane that owns it, and this worker did not go looking outside its two families.",
+    "A fresh raster is owed for all four fixtures, and a fresh independent verification read is owed for both families. This worker released both lanes and verified nothing of its own."
+  ],
+
+  "environmentNote": "The repository root working directory was concurrently checked out to another worker's branch mid-session, so all work was done in an isolated git worktree at .claude/worktrees/agent-fable-r12 on branch fable/r12 from the assigned base commit. The three files touched in the root before that was noticed were restored to their committed bytes and nothing of this repair was left there.",
+
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "grantsNothing": "A repaired packet is review evidence. It authorizes no fulfillment, opens no commercial route, promotes no family and grants no approval."
+}

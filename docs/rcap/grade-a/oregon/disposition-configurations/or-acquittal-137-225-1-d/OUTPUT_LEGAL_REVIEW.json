@@ -1,0 +1,400 @@
+{
+  "schemaVersion": "rcap-grade-a-review/v1",
+  "reviewKind": "output_level_legal",
+  "jurisdiction": "OR",
+  "configurationId": "or-acquittal-137-225-1-d",
+  "routeId": "OR:set-aside-of-an-acquittal-under-ors-137-225-1-d",
+  "label": "ACQUITTAL",
+  "statutoryAuthority": "ORS 137.225(1)(d)",
+  "packetFamily": "rcap-or-official-pdf-fill",
+  "packetSetId": "or_acquittal-set",
+  "packetSetVersion": "1.0.0",
+  "specification": {
+    "specificationId": "or-acquittal-137-225-1-d",
+    "specificationVersion": "1.0.0",
+    "specificationSha256": "edc630b6d66724aa98b325464b2113be0d0388c8168bc0e6b301053c5dffa855",
+    "record": "data/record-clearing/packet-specifications/OR-disposition-configurations.v1.json"
+  },
+  "legalDesignAlreadyDecided": {
+    "decisionRecord": "data/record-clearing/legal-decisions/2026-08-29-lawrence-six-decisions.json",
+    "decisions": [
+      "LWD-2026-08-29-OR-SUBSECTION",
+      "LWD-2026-08-29-OR-PACKET-SCOPE"
+    ],
+    "owner": "Lawrence (counsel)",
+    "on": "2026-08-29",
+    "whatItSettled": [
+      "Which subsection governs this route.",
+      "That the three dispositions get separate packet sets rather than one shared configuration.",
+      "The content of all six legal sections."
+    ],
+    "whatItDidNotSettle": "Whether the exact artifact below may be delivered. That is what this package asks."
+  },
+  "sourceIdentities": [
+    {
+      "sourceId": "OR-OJD-ADULT-SET-ASIDE-PACKET",
+      "officialTitle": "OJD Criminal Set-Aside Adult Packet",
+      "revision": "REV-2026-01",
+      "sha256": "b22cc346caf6c38730e9992d74016e948180d92b379b6592ab333b06ac880071",
+      "location": "STATES/OR/02_PACKET_FORMS/OR__FORM__OR-OJD-ADULT-SET-ASIDE-PACKET__ojd-criminal-set-aside-adult-packet__REV-2026-01__EN.pdf",
+      "sharedAcrossConfigurations": true
+    },
+    {
+      "sourceId": "OR-OSP-SET-ASIDE-CCH",
+      "officialTitle": "Oregon State Police Set-Aside Criminal History Request and Instructions",
+      "revision": "REV-2022-01",
+      "sha256": "a523a9ffc3eb0cc35d89e1c81df8eafcd703cf1ffdb4237a0106b72e1e793ac6",
+      "location": "STATES/OR/04_SUPPORTING_PROCESS/OR__SUPPORT__OR-OSP-SET-ASIDE-CCH__oregon-state-police-set-aside-criminal-history-request-and-instructions__REV-2022-01__EN.pdf",
+      "sharedAcrossConfigurations": true
+    }
+  ],
+  "formSelection": {
+    "optionMarked": "Option 2",
+    "optionText": "There was a court case, and I am not moving to set aside any convictions. I am moving to set aside all eligible dismissed or acquitted charges only.",
+    "optionsLeftUnmarked": [
+      "Option 1",
+      "Option 3"
+    ],
+    "markShape": "two_diagonal_strokes_inset",
+    "markInsetPt": 2,
+    "measuredBox": {
+      "x0": 128.52,
+      "y0": 186.24,
+      "x1": 138.72,
+      "y1": 196.44
+    },
+    "drewANewBox": false,
+    "redrewTheCourtsBox": false,
+    "geometryRecord": "data/rcap-all50/candidate-evidence/oregon/or-option-selection-geometry.json"
+  },
+  "artifactUnderReview": {
+    "canonical": {
+      "artifact": "data/rcap-all50/overlays/lane-c-candidates/oregon/disposition-configurations/or-acquittal-137-225-1-d/fixtures/canonical-filled.pdf",
+      "sha256": "da28fba3aae953c48adc0ca394e06f394a6032a0ef69d2c6d43d27db8823e00b",
+      "bytes": 217020,
+      "pages": 5
+    },
+    "boundary": {
+      "artifact": "data/rcap-all50/overlays/lane-c-candidates/oregon/disposition-configurations/or-acquittal-137-225-1-d/fixtures/boundary-filled.pdf",
+      "sha256": "18817813cbbc4f665a57952e35a24af39c24e361362e0969ddf79e0fc07082ac",
+      "bytes": 217000,
+      "why": "The same route at the widest plausible participant values, so shrink-to-fit and the readable floor are exercised rather than asserted."
+    },
+    "renderedFrom": "a synthetic fixture, not a real participant's facts"
+  },
+  "actualWriteEvidence": {
+    "writes": [
+      {
+        "blank": "FOR THE COUNTY OF",
+        "factId": "matter.county",
+        "fontSize": 10.5,
+        "outcome": "fit"
+      },
+      {
+        "blank": "Case No:",
+        "factId": "matter.case_number",
+        "fontSize": 10.5,
+        "outcome": "fit"
+      },
+      {
+        "blank": "Defendant",
+        "factId": "participant.full_legal_name",
+        "fontSize": 10.5,
+        "outcome": "fit"
+      },
+      {
+        "blank": "DOB:",
+        "factId": "participant.date_of_birth",
+        "fontSize": 10.5,
+        "outcome": "fit"
+      },
+      {
+        "blank": "Name (typed or printed)",
+        "factId": "participant.full_legal_name",
+        "fontSize": 10.5,
+        "outcome": "fit"
+      },
+      {
+        "blank": "Email",
+        "factId": "participant.email",
+        "fontSize": 10.5,
+        "outcome": "fit"
+      },
+      {
+        "blank": "Address",
+        "factId": "participant.street_address",
+        "fontSize": 10.5,
+        "outcome": "fit"
+      },
+      {
+        "blank": "City, State, ZIP",
+        "factId": "participant.city_state_zip",
+        "fontSize": 10.5,
+        "outcome": "fit"
+      }
+    ],
+    "refusals": [
+      {
+        "anchor": "Phone",
+        "reason": "value_exceeds_widget_width_at_minimum_font",
+        "category": "unfittable"
+      }
+    ],
+    "caseNumber": "required",
+    "caseNumberBecause": "The disposition followed a filed case, so the court case number identifies the matter.",
+    "readFrom": "the finalized PDF's own content streams, by scripts/verify-rcap-oregon-disposition-artifacts.mjs"
+  },
+  "optionSelectionEvidence": {
+    "fromTheBytes": "Exactly two strokes inside the court's measured box, neither touching its line; no stroke in either other option box or in any of the seven declaration boxes.",
+    "fromAPicture": {
+      "Option 1": {
+        "borderDarkestLuma": 0,
+        "interiorDarkestLuma": 255,
+        "borderVisible": true,
+        "interiorCarriesInk": false
+      },
+      "Option 2": {
+        "borderDarkestLuma": 0,
+        "interiorDarkestLuma": 0,
+        "borderVisible": true,
+        "interiorCarriesInk": true
+      },
+      "Option 3": {
+        "borderDarkestLuma": 0,
+        "interiorDarkestLuma": 255,
+        "borderVisible": true,
+        "interiorCarriesInk": false
+      }
+    },
+    "visualReviewRecord": "data/rcap-lane-c/oregon/disposition-visual-review.json",
+    "independentLegs": 2,
+    "note": "The two legs answer the same question from different evidence and must agree. Neither is derived from the other."
+  },
+  "pageByPageVisualReview": {
+    "record": "data/rcap-lane-c/oregon/disposition-visual-review.json",
+    "pagesReviewed": 10,
+    "committedImage": "docs/record-clearing/pdf-visual-evidence/oregon-disposition-configurations/or-acquittal-137-225-1-d-canonical-page-04.png",
+    "whatItIsNot": "A human reading the pages for legal sense, which is what this package asks for."
+  },
+  "legalSections": {
+    "boundOn": "2026-08-29",
+    "boundBy": "Lawrence (counsel)",
+    "decisionRecord": "data/record-clearing/legal-decisions/2026-08-29-lawrence-six-decisions.json",
+    "readFrom": "the pinned packet's own instruction pages 1 to 3, and ORS 137.225",
+    "filingDestination": {
+      "section": "filingDestination",
+      "statement": "File the motion and the proposed order in the Oregon circuit court where the case happened.",
+      "court": "Oregon circuit court",
+      "countyRule": "the county of the court that heard the case",
+      "basis": [
+        "The packet's step 6: \"File your forms in the circuit court where the case happened or would have happened.\"",
+        "ORS 137.225(1)(c) and (1)(d)"
+      ],
+      "routeSpecific": true
+    },
+    "feeAndWaiver": {
+      "section": "feeAndWaiver",
+      "courtFilingFee": "none",
+      "statement": "There is no court filing fee for this motion. The motion itself prints \"No Filing Fee\", and ORS 137.225(1)(g) provides that a person filing a motion under the section is not required to pay the filing fee established under ORS 21.135.",
+      "feeWaiver": "not applicable",
+      "feeWaiverBecause": "A fee waiver waives a filing fee. There is no filing fee on this motion to waive.",
+      "separateCost": "The Department of State Police charges a record-check fee not exceeding its actual cost. That is paid to the department rather than to the court, and it is not a filing fee.",
+      "basis": [
+        "The motion's printed \"No Filing Fee\"",
+        "ORS 137.225(1)(g)",
+        "ORS 137.225(2)(d)"
+      ]
+    },
+    "serviceAndNotice": {
+      "section": "serviceAndNotice",
+      "statement": "Mail a copy of the motion and declaration to the prosecuting attorney for the county where the charges were filed.",
+      "method": "mail",
+      "servedParty": "the prosecuting attorney with authority to prosecute the charge",
+      "certificateOfMailing": {
+        "rule": "The certificate of mailing at the bottom of the form is completed only after the copy has actually been mailed.",
+        "prefilledByThePlatform": false,
+        "why": "The certificate is a statement that the participant did something, on a date they did it. Nothing can complete it in advance without asserting a mailing that has not happened."
+      },
+      "basis": [
+        "The packet's step 4: mail a copy to the Prosecuting Attorney in the county where charges were or could have been filed, or arrest occurred.",
+        "The packet's step 5: fill out the certificate of mailing at the bottom of the form.",
+        "ORS 137.225(1)(c) and (1)(d)"
+      ],
+      "routeSpecific": true
+    },
+    "copyRequirements": {
+      "section": "copyRequirements",
+      "copies": 2,
+      "statement": "Make two copies of the motion and declaration: one for the participant's own records, and one to send to the district attorney.",
+      "allocation": [
+        {
+          "copy": 1,
+          "forWhom": "the participant",
+          "purpose": "their own records"
+        },
+        {
+          "copy": 2,
+          "forWhom": "the district attorney",
+          "purpose": "the copy mailed under the service rule"
+        }
+      ],
+      "basis": [
+        "The packet's step 3: \"Make 2 copies of the Motion and Declaration: One for your records; One to send to the District Attorney.\""
+      ]
+    },
+    "postFilingTimeline": {
+      "section": "postFilingTimeline",
+      "statement": "The court reviews the motion. Where the requirements of paragraph (1)(d) are met, ORS 137.225(3)(b) provides that the court shall enter an order sealing the record. The participant receives a copy of the judicial document sealing the case.",
+      "courtProcessingDeadlinePromised": false,
+      "whyNoDeadlineIsPromised": "No deadline is stated to the participant because none is owed to them. The court's own processing time is not fixed by the statute, and a promised date the court is not bound by is a date the platform would be breaking rather than the court.",
+      "participantReceives": "a copy of the judicial document sealing the case",
+      "basis": [
+        "ORS 137.225(3)(b)",
+        "The packet's \"What happens next?\": \"You will receive a copy of the judicial document sealing your case.\""
+      ],
+      "routeSpecific": true
+    },
+    "hearingAndObjectionStops": {
+      "section": "hearingAndObjectionStops",
+      "statement": "The 120-day objection period is not applied as the ordinary rule for a motion under paragraph (1)(c) or (1)(d). It is the rule ORS 137.225(1)(a) sets for the conviction set-aside track, and these two routes are not that track.",
+      "ordinaryRuleForTheseRoutes": "no 120-day objection period is stated to the participant",
+      "handoffTriggers": [
+        "the prosecuting attorney objects",
+        "the court sets a hearing",
+        "the court or the prosecuting attorney requests proof",
+        "any fact in the motion is disputed"
+      ],
+      "onTrigger": "attorney or partner handoff",
+      "whyHandoff": "Each trigger turns a form-completion task into a contested proceeding. Nothing here drafts a response, argues eligibility, or appears at a hearing.",
+      "basis": [
+        "ORS 137.225(1)(a)",
+        "ORS 137.225(1)(c)",
+        "ORS 137.225(1)(d)"
+      ]
+    },
+    "outputReviewCautions": [
+      {
+        "cautionId": "ojd-120-day-language-is-generic",
+        "what": "The packet's instruction page states, without qualifying it by subsection: \"The District Attorney typically has 120 days to object.\"",
+        "against": "ORS 137.225(1)(a), which is where the 120-day objection period is set, and which governs the conviction track rather than (1)(c) or (1)(d).",
+        "consequenceIfFollowedLiterally": "A never-charged or acquittal participant would be told to expect a 120-day objection window that their own subsection does not set, and would wait on a date that is not theirs.",
+        "handling": "The packet's generic sentence is not restated to the participant. The decision's rule governs: no 120-day period for these routes, and any actual objection is a handoff.",
+        "forOutputReview": true
+      },
+      {
+        "cautionId": "packet-cites-ors-137-255-for-the-sealing-effect",
+        "what": "The packet's \"What happens next?\" section cites ORS 137.255(4) for the effect of the sealing order.",
+        "against": "ORS 137.225(4), which is the set-aside statute this packet is built on and which carries that effect.",
+        "consequenceIfFollowedLiterally": "A citation a participant or a clerk looked up would land on the wrong statute.",
+        "handling": "Recorded as a source observation. Nothing here reproduces the citation, and the court's own page is not altered.",
+        "forOutputReview": true
+      }
+    ]
+  },
+  "outputReviewCautions": [
+    {
+      "cautionId": "ojd-120-day-language-is-generic",
+      "what": "The packet's instruction page states, without qualifying it by subsection: \"The District Attorney typically has 120 days to object.\"",
+      "against": "ORS 137.225(1)(a), which is where the 120-day objection period is set, and which governs the conviction track rather than (1)(c) or (1)(d).",
+      "consequenceIfFollowedLiterally": "A never-charged or acquittal participant would be told to expect a 120-day objection window that their own subsection does not set, and would wait on a date that is not theirs.",
+      "handling": "The packet's generic sentence is not restated to the participant. The decision's rule governs: no 120-day period for these routes, and any actual objection is a handoff.",
+      "forOutputReview": true
+    },
+    {
+      "cautionId": "packet-cites-ors-137-255-for-the-sealing-effect",
+      "what": "The packet's \"What happens next?\" section cites ORS 137.255(4) for the effect of the sealing order.",
+      "against": "ORS 137.225(4), which is the set-aside statute this packet is built on and which carries that effect.",
+      "consequenceIfFollowedLiterally": "A citation a participant or a clerk looked up would land on the wrong statute.",
+      "handling": "Recorded as a source observation. Nothing here reproduces the citation, and the court's own page is not altered.",
+      "forOutputReview": true
+    }
+  ],
+  "commercialPosture": "candidate_evidence_only",
+  "commercialPostureNote": "Nothing here opens checkout, sponsorship, a packet credit, a render, a delivery or any commercial status. The configuration is commercially closed and stays that way whatever this decision is.",
+  "commerciallyEligible": 0,
+  "completePacketProven": 0,
+  "decision": {
+    "status": "REQUESTED",
+    "decidedBy": null,
+    "decidedOn": null,
+    "selfGranted": false,
+    "note": "No lane and no captain approves an output. This field is a request until a legal owner records a decision against it."
+  },
+  "requestedDecisionScope": "one configuration, one route, the exact artifact hashes below",
+  "requestedApprovalStatement": "I approve the artifact at SHA-256 da28fba3aae953c48adc0ca394e06f394a6032a0ef69d2c6d43d27db8823e00b (217020 bytes, 5 pages) as the completed output of route OR:set-aside-of-an-acquittal-under-ors-137-225-1-d, built from packet set or_acquittal-set version 1.0.0 against official source OR-OJD-ADULT-SET-ASIDE-PACKET at b22cc346caf6c38730e9992d74016e948180d92b379b6592ab333b06ac880071 and OR-OSP-SET-ASIDE-CCH at a523a9ffc3eb0cc35d89e1c81df8eafcd703cf1ffdb4237a0106b72e1e793ac6, under configuration or-acquittal-137-225-1-d v1.0.0 at specification hash edc630b6d66724aa98b325464b2113be0d0388c8168bc0e6b301053c5dffa855, with Option 2 selected and the other two options unmarked, as observed at candidate commit 4871bdb3d24646018781bb1e1e7a02fd98ea15af.",
+  "requestedRejectionStatement": "I reject the above artifact and configuration for this route, for the reasons recorded.",
+  "whatApprovalWouldAndWouldNotDo": {
+    "would": "Close the output_legal_approval dimension for or-acquittal-137-225-1-d alone, at this one artifact hash and this one specification hash.",
+    "wouldNot": "Approve either of the other two configurations, bind a final verification, raise the record to the commercial admission schema, prove packet fileability, move Oregon into a production overlay, or make any route commercially eligible."
+  },
+  "questionsForTheReviewer": [
+    {
+      "id": "Q-1D-1",
+      "question": "Both (1)(d) configurations select Option 2, whose printed text is \"There was a court case, and I am not moving to set aside any convictions. I am moving to set aside all eligible dismissed or acquitted charges only.\". The acquittal and the ordinary-dismissal artifacts therefore differ only in the matter facts. Is one form option correct for both dispositions?",
+      "why": "The form offers no separate acquittal and dismissal options, so the two routes converge on the same box by the court's design rather than by ours. The reviewer should confirm that is right rather than a collapse of two routes into one.",
+      "blocking": true
+    },
+    {
+      "id": "Q-1D-2",
+      "question": "Option 2's text says the movant is not moving to set aside any convictions and is moving to set aside all eligible dismissed or acquitted charges only. Nothing in the artifact names WHICH charges. Is that acceptable, or must the eligible charges be listed?",
+      "why": "The form's charge table sits under Option 1 and is not filled by these routes. If a court expects the charges enumerated for an Option 2 motion, this packet is short of what it needs.",
+      "blocking": true
+    },
+    {
+      "id": "Q-120",
+      "question": "The court's own instruction page tells every reader \"The District Attorney typically has 120 days to object\", without qualifying it by subsection. The bound legal sections do not apply that period to this route, because it is what ORS 137.225(1)(a) sets for the conviction track. Is that the right handling?",
+      "why": "A participant who reads the packet will see the 120-day sentence on page 3 whatever the platform says elsewhere, so the reviewer is being asked to confirm the difference between the court's generic wording and this route's statute, not to notice it.",
+      "blocking": false
+    },
+    {
+      "id": "Q-MARK",
+      "question": "The selection is made by striking two diagonals inside the court's own printed box, inset 2pt so its 0.72pt line is untouched. Is a mark of that form what a clerk should receive?",
+      "why": "Nothing is drawn that the court did not print, and the alternative -- leaving the box for the participant to mark by hand -- is a different product. Confirm the shape rather than assume it.",
+      "blocking": false
+    },
+    {
+      "id": "Q-BLANKS",
+      "question": "The participant still completes the signature, the signature date, the SID number, the fingerprint number and the certificate of mailing by hand. Is a packet of that shape the completed output?",
+      "why": "Each is refused deliberately: a signature and its date are the participant's act, SID and FPN are state-police identifiers, and the certificate of mailing states a mailing that has not yet happened.",
+      "blocking": false
+    }
+  ],
+  "knownLimitations": [
+    "The artifact was rendered from a synthetic fixture, not from a real participant's facts.",
+    "Both verification legs are mechanical. Neither reads the pages for legal sense.",
+    "The packet's own instruction pages are the court's and are unaltered, including the two places where they do not match the statute — the generic 120-day sentence and the ORS 137.255(4) citation — both recorded as cautions above.",
+    "No final verification has been run against a real matter.",
+    "Oregon stays under overlays/lane-c-candidates/. No production overlay is requested."
+  ],
+  "outstandingGatesAfterThisDecision": [
+    {
+      "gate": "final_verification",
+      "state": "unbound",
+      "owner": "a verifier"
+    },
+    {
+      "gate": "independent_human_visual_review",
+      "state": "pending",
+      "owner": "a human reviewer"
+    },
+    {
+      "gate": "production_overlay_admission",
+      "state": "not_requested",
+      "owner": "captain"
+    },
+    {
+      "gate": "commercial_admission",
+      "state": "refused",
+      "owner": "the fulfillment record",
+      "note": "All ten admission points refuse this route and continue to."
+    }
+  ],
+  "supersedes": {
+    "package": "docs/rcap/grade-a/oregon/OUTPUT_LEGAL_REVIEW.json",
+    "why": "That package asked for approval of one artifact for the retired broad route, and says of itself that separate route-specific packages are required, one per configuration, once their exact artifacts and hashes exist. This is one of those three.",
+    "predecessorStatus": "historical engineering evidence, marked DO NOT SEND"
+  },
+  "generatedBy": "scripts/generate-rcap-oregon-disposition-output-legal-review.mjs",
+  "candidateCommit": "4871bdb3d24646018781bb1e1e7a02fd98ea15af",
+  "candidateCommitNote": "The commit the artifact bytes last changed at, rather than HEAD. HEAD moves with every commit; the bytes under review do not."
+}

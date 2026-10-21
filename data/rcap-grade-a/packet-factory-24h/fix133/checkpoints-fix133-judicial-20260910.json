@@ -1,0 +1,90 @@
+{
+  "schemaVersion": "rcap-grade-a-packet-factory-24h-lane-checkpoints/v1",
+  "lane": "FIX133",
+  "laneKind": "repair",
+  "date": "2026-09-10",
+  "base": "8605e4b55",
+  "worktree": "/home/user/v5c-worktree",
+  "branch": "v5c-jud-20260910",
+  "rowsReturn": "data/rcap-grade-a/packet-factory-24h/fix133/rows-fix133-judicial-20260910.json",
+  "outcome": "Pennsylvania carried two real check-box defects in OPPOSITE directions -- ink the flatten added, and ink the flatten uncovered by stripping the court's own white mask -- and both are repaired, with 0 added and 968 removed pixels every one of which is accounted for. Michigan needed no repair: its one unaccounted stream is the form's own outline minus a white fill that was masking blank paper, and its recorded clipping failure does not reproduce. Neither family's unaccounted ink was at a judge field.",
+  "checkpoints": [
+    {
+      "n": 1,
+      "step": "Read the common brief before anything, including the sparse-checkout and disk constraint",
+      "result": "Read. df -h /home/user confirms 2.0 GB free at 95%. No git sparse-checkout add was run and no path under data/rcap-all50/ was widened at any point; both family directories were already materialized.",
+      "diskAtEnd": "1.9 GB free. All rasters were written to the session scratchpad and cleaned up between families."
+    },
+    {
+      "n": 2,
+      "step": "Assert both grants before reading any family artifact",
+      "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX133 <familyId>",
+      "result": "CLAIM_OK on both, grant set fd46c4e43cd77795, exit 0 on both.",
+      "boundaryHonoured": "pa_490_nonconviction-set and pa_790_nonconviction-set were never asserted, never read as family content and never built. No other worktree was read or written."
+    },
+    {
+      "n": 3,
+      "step": "Read READ_THIS_BEFORE_ACTING_ON_A_SYNTHESIZED_INK_CONFIRMED_ROW before changing a byte",
+      "result": "Read, and it decided the method: strokeOnlyMatchingNothing was treated as 'this many streams need a cause established', and a cause was established per stream from the family's own bytes and the pinned source's page-drawing operators before anything moved."
+    },
+    {
+      "n": 4,
+      "step": "Validate the extraction against the committed ledger before trusting it",
+      "result": "An independent stream extractor re-hashed the Michigan stream to a0b9c92bb5aeaeb2b5b034cc7dceebc364f8153a8258ba9daf58b0ddf04927d1, exactly the digest BORDER_COHORT_REMEDIATION.json records. The 28 Pennsylvania entries resolve to 7 distinct streams and the 2 Michigan entries to 1, matching the record's counts."
+    },
+    {
+      "n": 5,
+      "step": "Establish the cause of every unmatched stream",
+      "result": "Two mechanisms, not one. 5 of 7 PA streams are pdf-lib synthesized borders (0 0 0 RG / 0 w / h S) at check boxes whose /AP /N carries an /On state only. 2 of 7 PA streams and the 1 MI stream are the source's own /Off appearance minus a leading WHITE `1 g` background fill, byte-exactly -- the derivedFromSource class the shared ledger records as 0 because its normaliser recognises grey fills and not white."
+    },
+    {
+      "n": 6,
+      "step": "Find where the ink actually lands, against the dispatch",
+      "result": "Not one unaccounted stream is at a judge field on either family. All nine are check boxes. The dispatch's namedControls are the families' JUDICIAL_CONTROL-tiered EXPOSED widgets; JudgeAddr2/City/State/Zip carry hasAP false and flatten to MARKS_NOTHING, and the ORDER's judge field is NameAddrOfJudge, which matched the source."
+    },
+    {
+      "n": 7,
+      "step": "Decide restore or remove per stream by rendering the pinned source, not by the label",
+      "result": "MI posnoticecheck: source and delivered crops are IDENTICAL BYTES at 600 dpi, so the white mask covered blank paper and the stream is the court's own ink with no visual consequence -- restore-class, no defect, nothing to do. PA Check Box1 x2: the petition's page content draws `0.72 w 1 J / 466.68 271.62 -9.3 -9.3 re / S` under each, the white mask hides it, and stripping the mask put a second concentric box inside each Yes/No control -- restore-class WITH a defect. PA Checkbox1/2/3 and Checkbox2 x2: synthesized borders doubling a printed box -- remove-class."
+    },
+    {
+      "n": 8,
+      "step": "Read the recorded failures and check each against the current bytes",
+      "result": "PA COMPONENT_SET reproduces. PA REQUIRED_BEFORE_FILING and SELF_HELP_STOP do not, on either recorded limb, verified from the delivered guidance pages and participant-instructions.md rather than from a report. MI CLIPPING_AND_OVERLAP does not, verified from the boundary appearance streams and a 600 dpi render. The vf12 Vermont contamination returns zero matches at this base."
+    },
+    {
+      "n": 9,
+      "step": "Check whether the builders regenerate product-wiring.json wholesale, before rebuilding",
+      "result": "Neither does. The MI builder never mentions it. The PA builder sets one key on the committed document and leaves the rest alone, so the six-key erasure was never reachable. The receipt half of the rule WAS reachable and was wired: governance-preservation.mjs now carries the write."
+    },
+    {
+      "n": 10,
+      "step": "Establish build reproducibility before attributing any byte change to a flag",
+      "result": "An unmodified rebuild of the PA family at this base left all six fixtures byte-identical and touched only product-wiring.json, restoring the omitted guidance component. That is what made the counterfactual safe to attribute."
+    },
+    {
+      "n": 11,
+      "step": "Execute the counterfactual and measure it in both directions",
+      "result": "With suppressSynthesizedAppearances and preserveUnwrittenSelectionBackgrounds on, the canonical moves bca67f48 -> 2b14758a. Against the pinned sources: 0 removed on every page of both fixtures, and every added cluster a participant write. Across the repair: 0 added, 968 removed, all in the seven check-box rectangles. Per widget at 600 dpi: 0/0 on six of seven, and one pre-existing 106-pixel antialiasing column on the seventh that measured 107 before the repair."
+    },
+    {
+      "n": 12,
+      "step": "Negative control",
+      "result": "Canonical pages 1, 2 and 5 read 0 added and 0 removed across the repair -- page 5 being the page that carries NameAddrOfJudge and the judge's signature block. MI page 4, a page the packet writes nothing on, reads 0/0 against the source. The builder's own local raster regenerated only page-03 and page-04, which agrees."
+    },
+    {
+      "n": 13,
+      "step": "Governance before commit",
+      "result": "The stale RASTER_PASS receipt is withdrawn under acceptanceReceiptWithdrawn carrying both digests and is not deleted; the other five keys are carried forward verbatim in their committed positions. npm run rcap:verify-governance-preservation exits 0. Two consecutive rebuilds now write byte-identical fixtures AND byte-identical wiring.",
+      "receiptIssued": "none"
+    },
+    {
+      "n": 14,
+      "step": "Return",
+      "result": "Rows and checkpoints written to data/rcap-grade-a/packet-factory-24h/fix133/. Committed with exact paths only -- no git add . / -A / --all -- and both trailers. No verdict set, no PASS issued, no commercial route opened, production untouched."
+    }
+  ],
+  "packetsSelfVerified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false
+}

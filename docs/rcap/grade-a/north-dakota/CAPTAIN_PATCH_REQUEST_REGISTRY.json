@@ -1,0 +1,100 @@
+{
+  "schemaVersion": "rcap-lane-d-registry-patch-request/v1",
+  "lane": "D-north-dakota-composed-pleading",
+  "branch": "claude/grade-a-68h-lane-d",
+  "base": "a25eec4cdc1f2193a591ba9c2991c3c6dd8a03ef",
+  "why": "scripts/verify-rcap-verifier-dispositions.mjs requires every verifier script in scripts/ to carry a recorded disposition. Lane D added three, so that verifier is red on this branch and green at the base. The register and package.json are both captain-owned, so the lane reports the exact change instead of making it. This is the only lane-caused regression in the repository's own test chain.",
+  "verifiedRegression": {
+    "verifier": "scripts/verify-rcap-verifier-dispositions.mjs",
+    "atBase": "passes",
+    "onLaneBranch": "fails with three 'no recorded disposition' entries",
+    "entriesReported": [
+      "verify-nd-grade-a-packet.mjs",
+      "verify-nd-grade-a-product-path.mjs",
+      "verify-nd-shared-renderer-byte-preservation.mjs"
+    ]
+  },
+  "preferredOption": {
+    "label": "wire them",
+    "targets": [
+      "data/rcap-verifier-dispositions.json",
+      "package.json"
+    ],
+    "registerEntriesToAdd": {
+      "verify-nd-grade-a-packet.mjs": {
+        "disposition": "wired",
+        "reason": "Lane D's Grade-A acceptance gate for ND:general-conviction-sealing-under-n-d-c-c-chapter-12-60-1. 1752 checks: the date-split route rejection stays bound to the signed reclassification, the ground resolver fails closed, required facts are enforced per ground, the composed relief may not exceed Chapter 12-60.1, the committed artifact and both reviews must be current, and the route must stay INCOMPLETE and not_commercially_eligible.",
+        "observedStatus": "in_chain",
+        "decidedBy": "recorded_decision"
+      },
+      "verify-nd-grade-a-product-path.mjs": {
+        "disposition": "wired",
+        "reason": "Lane D's product-path proof: ephemeral PostgreSQL on the committed migrations plus a real Chromium, walking screening to repeat download, and asserting the shipped commercial gate denies the route at all nine admission points before and after a synthetic payment.",
+        "observedStatus": "in_chain",
+        "decidedBy": "recorded_decision"
+      },
+      "verify-nd-shared-renderer-byte-preservation.mjs": {
+        "disposition": "wired",
+        "reason": "Byte-preservation proof for the Lane D shared-renderer patch. Loads the base and patched renderers in one process and renders all 24 pleading configurations through each across three input shapes; a single differing byte fails. Guards every other state's pleading output against future edits to the shared renderer.",
+        "observedStatus": "in_chain",
+        "decidedBy": "recorded_decision"
+      }
+    },
+    "countsDelta": {
+      "wired": {
+        "from": 152,
+        "to": 155
+      }
+    },
+    "npmTestChainAddition": " && node scripts/generate-nd-grade-a-packet.mjs --check && node scripts/verify-nd-shared-renderer-byte-preservation.mjs && node scripts/verify-nd-grade-a-packet.mjs && node scripts/verify-nd-grade-a-product-path.mjs",
+    "npmTestChainPlacement": "immediately after the existing `node scripts/verify-rcap-grade-a-fulfillment-authority.mjs --mutations`, so the Grade-A authority checks and the Lane D evidence that feeds them run together and in that order.",
+    "note": "Rule 5 of the dispositions verifier requires that anything marked wired really is reached by CI, so the register entry and the package.json chain addition must land together or the verifier stays red for the opposite reason.",
+    "prerequisite": "All four scripts are green on this branch. verify-nd-grade-a-product-path.mjs needs PostgreSQL and a Chromium; the image's Playwright revision gap was bridged in the execution environment only, with no repository file changed."
+  },
+  "fallbackOption": {
+    "label": "register without wiring",
+    "targets": [
+      "data/rcap-verifier-dispositions.json"
+    ],
+    "registerEntriesToAdd": {
+      "verify-nd-grade-a-packet.mjs": {
+        "disposition": "keep_available",
+        "reason": "Lane D's Grade-A acceptance gate for ND:general-conviction-sealing-under-n-d-c-c-chapter-12-60-1. Green; not wired because extending the npm test chain needs a captain-owned package.json change.",
+        "observedStatus": "orphan_passing",
+        "decidedBy": "recorded_decision"
+      },
+      "verify-nd-grade-a-product-path.mjs": {
+        "disposition": "keep_available",
+        "reason": "Lane D's product-path proof: ephemeral PostgreSQL on the committed migrations plus a real Chromium, walking screening to repeat download, and asserting the shipped commercial gate denies the route at all nine admission points before and after a synthetic payment.. Green; not wired because extending the npm test chain needs a captain-owned package.json change.",
+        "observedStatus": "orphan_passing",
+        "decidedBy": "recorded_decision"
+      },
+      "verify-nd-shared-renderer-byte-preservation.mjs": {
+        "disposition": "keep_available",
+        "reason": "Byte-preservation proof for the Lane D shared-renderer patch. Green; not wired because extending the npm test chain needs a captain-owned package.json change.",
+        "observedStatus": "orphan_passing",
+        "decidedBy": "recorded_decision"
+      }
+    },
+    "countsDelta": {
+      "keep_available": {
+        "from": 208,
+        "to": 211
+      }
+    },
+    "npmTestChainAddition": null,
+    "note": "Clears the regression with no package.json change. The cost is that a future edit to the shared pleading renderer, the ND state pack or the Grade-A specification would not be caught by CI, only by running the scripts by hand."
+  },
+  "notInRegister": [
+    "scripts/generate-nd-grade-a-packet.mjs"
+  ],
+  "notInRegisterReason": "The register covers verifier scripts. The generator is listed in the preferred chain addition as `--check` because that is what makes committed-artifact drift a CI failure, but it needs no register entry.",
+  "laneDidNotEdit": [
+    "data/rcap-verifier-dispositions.json",
+    "package.json",
+    "package-lock.json",
+    "data/rcap-grade-a/**",
+    "data/rcap-ledger/**",
+    "supabase/migrations/**"
+  ]
+}

@@ -1,0 +1,108 @@
+{
+  "schemaVersion": "no-idle-closed-loop/v1",
+  "adoptedAt": "2026-09-01T09:31:15Z",
+  "adoptedAtCaptainHead": "995b9088b543fd1d4ae179cf1fc0d697abdd2eaa",
+  "rule": "A Claude worker that finishes its queue is refilled immediately. No worker waits for a wave.",
+  "idleIsPermittedOnlyWhen": [
+    "the worker's environment cannot execute any assigned class of work",
+    "every claim-valid item in that class is already owned",
+    "Captain has recorded the exact hold AND a different worker owns the continuation"
+  ],
+  "idleIsNotPermittedFor": "waiting on an access grant when a corpus-free class of work exists. PF-B and FIX-B sat idle on a corpus grant while independent verification of the nonvisual obligations needed no corpus; that is the failure this rule exists to prevent.",
+  "refillByClass": {
+    "builders": "next claim-valid SOURCE_READY family that is unowned, is not a CB02 candidate, is not under a Codex candidate path, and passes the family preflight. Commit after each family.",
+    "repairers": {
+      "order": [
+        "1. NJ CN 10557 appearance-stream defect: arrestOff1, dismissDt, dismissCrt, DefAddr2, DefAddr3, DefBirthDt, arrest1Dt",
+        "2. Ohio composed-family text-receipt trailing-newline binding defect",
+        "3. integrated FAIL_REPAIR_REQUIRED families not already owned",
+        "4. any new central-raster failure"
+      ],
+      "constraint": "repair only the failed obligations; a repairer never verifies its own result"
+    },
+    "verifiersAndSourceWorkers": [
+      "independently verify newly integrated PF output outside the Codex raster batch",
+      "process newly released source identities and exact acquisitions",
+      "promote exact acquired bytes",
+      "hand newly source-ready families straight to the first available builder"
+    ],
+    "captain": {
+      "integrate": "after every clean return or every 10 minutes, whichever comes first",
+      "regenerateAfterEachCycle": [
+        "claims",
+        "checkpoint",
+        "source queue",
+        "raster queue",
+        "verification queue",
+        "repair queue"
+      ],
+      "rasterBatch": "dispatch whenever five new families are ready or 20 minutes have elapsed since the first new ready family",
+      "invariant": "one writer per overlay, build script, shared host, source receipt and canonical queue"
+    }
+  },
+  "codexSidecar": {
+    "mayWriteOnly": [
+      "data/rcap-grade-a/codex-max/**",
+      "the CB02 verification directories on the CB02 branch"
+    ],
+    "mayNotModify": [
+      "active packet overlays",
+      "build scripts",
+      "the claim ledger",
+      "source receipts",
+      "RASTER_QUEUE.json",
+      "Production",
+      "commercial authority"
+    ],
+    "resultsAre": "evidence until changed-path review accepts them. Sidecar evidence promotes nothing on its own.",
+    "ownershipCollision": {
+      "rule": "a family Claude already claims is DEFERRED_ACTIVE_CLAUDE_OWNER for Codex, not duplicate work",
+      "measuredAt": "995b9088b543fd1d4ae179cf1fc0d697abdd2eaa",
+      "claudeOwnedOfTheRasteredTwentyFive": [
+        "sd_arrest_expungement-set",
+        "wa_vac_cannabis-set",
+        "wa_vac_domestic_violence-set",
+        "wa_vac_felony-set",
+        "wa_vac_homicide_victim_prostitution-set",
+        "wa_vac_misdemeanor_ordinary-set",
+        "wa_vac_substance_use_disorder-set",
+        "wa_vac_survivor_felony-set",
+        "wa_vac_survivor_misdemeanor-set",
+        "wa_vac_treaty_fishing-set"
+      ],
+      "claudeOwnedCount": 10,
+      "openToCodexSidecar": [
+        "ne-setaside-custodial-set",
+        "ut_pet_acquittal-set",
+        "ut_pet_conviction-set",
+        "ut_pet_dismissed_with_prejudice-set",
+        "ut_pet_dismissed_without_prejudice-set",
+        "ut_pet_limitations-set",
+        "ut_pet_no_charges-set",
+        "ut_pet_traffic-set",
+        "vt_seal_18_to_21-set",
+        "vt_seal_dui-set",
+        "vt_seal_felony-set",
+        "vt_seal_misdemeanor-set",
+        "vt_seal_pardon-set",
+        "wv_conv_multiple_misdemeanors-set",
+        "wv_conv_single_misdemeanor-set"
+      ],
+      "openToCodexSidecarCount": 15,
+      "why": "Captain minted VF15 to PF-B and VF16 to FIX-B over ten of the twenty-five before this rule arrived. Those ten have a live Claude verification grant and Codex must defer on them. The other fifteen already hold a released verification claim from VF01-VF12, so Claude cannot mint a second grant without making them permanently AMBIGUOUS_GRANT -- which is precisely why a Codex sidecar read of those fifteen is useful rather than duplicative.",
+      "whatCodexEvidenceCannotDo": "A sidecar read is not the independent read of record. It cannot make a family PASS_COMPLETE, cannot substitute for a claimed verification lane, and cannot promote anything."
+    }
+  },
+  "ownershipUnchangedByThisRule": {
+    "PF-A": "every build and transferred repair lane already assigned",
+    "PF-C": "every build and transferred repair lane already assigned",
+    "FIX-A": "every repair it currently owns",
+    "VF-SRC-A": "VF13, VF17 and every current source or verification continuation",
+    "VF-SRC-B": "VF14 and every current source or verification continuation",
+    "PF-B": "VF15 — no longer held: verification needs no corpus, so its environment CAN execute this class",
+    "FIX-B": "VF16 — no longer held, same reason",
+    "Captain": "sole integrator and sole canonical claim and queue writer"
+  },
+  "commercialRoutesOpened": 0,
+  "productionTouched": false
+}

@@ -1,0 +1,38 @@
+{
+  "reviewer": "/root/session10_admission_review",
+  "status": "PASS",
+  "count": 7,
+  "cases": [
+    {
+      "name": "exact current NV receipt and both original annotations survive unchanged inputs",
+      "status": "PASS"
+    },
+    {
+      "name": "original historical identityRefresh retained verbatim and attributed separately",
+      "status": "PASS"
+    },
+    {
+      "name": "existing refresh tripwire identity is retained",
+      "status": "PASS"
+    },
+    {
+      "name": "same-path later source drift cannot carry any current NV annotation",
+      "status": "PASS"
+    },
+    {
+      "name": "same-path source reversion cannot reuse current NV annotation",
+      "status": "PASS"
+    },
+    {
+      "name": "artifact acceptance cannot ride on source-history metadata",
+      "status": "PASS"
+    },
+    {
+      "name": "missing source binding is not resurrected from history",
+      "status": "PASS"
+    }
+  ],
+  "helperPath": "scripts/rcap-packet-completeness/identity-refresh.mjs",
+  "helperSha256": "f40c673d07bb0da268515b97bd3ae75df0bd611f870860a39bf1079572905f27",
+  "scope": "In-memory controls on the exact proposed NV source receipt using the existing unchanged carry-forward implementation; no fresh source, visual, packet or runtime approval."
+}

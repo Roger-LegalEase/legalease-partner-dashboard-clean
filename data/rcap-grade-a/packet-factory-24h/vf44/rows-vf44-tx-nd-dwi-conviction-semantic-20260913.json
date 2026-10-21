@@ -1,0 +1,797 @@
+{
+  "schemaVersion": "rcap-independent-verifier-return/v1",
+  "lane": "VF44",
+  "laneKind": "independent-verification",
+  "status": "COMPLETED",
+  "semanticStatus": "PASS_PRE_RASTER_SEMANTIC",
+  "rasterDispatchAuthorized": true,
+  "finalAcceptance": false,
+  "visualMeasured": false,
+  "rows": [
+    {
+      "familyId": "tx_nd_dwi_conviction-set",
+      "itemId": "tx_nd_dwi_conviction-set",
+      "jurisdiction": "TX",
+      "lane": "VF44",
+      "reviewer": "/root/ar_veterans_final",
+      "sessionIdentity": "/root/ar_veterans_final",
+      "reviewPhase": "INDEPENDENT_CURRENT_BYTE_NONVISUAL_SEMANTIC_RECHECK",
+      "verifiedAt": "2026-09-13T13:13:53Z",
+      "verifiedAtBase": "6f0a1fcfef666168affecc3d60b5ebdfb1b920e0",
+      "actualHeadAtReview": "9a95d5df10755c28b0ed95096c56d2e7512191a8",
+      "packetCommitSha": "6f0a1fcfef666168affecc3d60b5ebdfb1b920e0",
+      "manifestCommitSha": "6f0a1fcfef666168affecc3d60b5ebdfb1b920e0",
+      "status": "PASS_PRE_RASTER_SEMANTIC",
+      "verdict": "PASS",
+      "scope": "Bounded independent semantic review of the exact PF22-imported Texas DWI nondisclosure candidate against its held wave-one source bytes, settled TX legal-design inputs, field census/map, participant instructions, current canonical and boundary PDF bytes, saved byte proofs, page manifests, and transfer custody. No source hunt, legal research, build, rebuild, reraster, visual acceptance, shared manifest edit or owner question was performed.",
+      "claimEvidence": {
+        "assertCommand": null,
+        "result": "NOT_ASSERTED_FOR_READ_ONLY_REVIEW",
+        "grantSet": null,
+        "assertedBeforeFamilyReads": false,
+        "claimMutation": "none",
+        "implementationReturnPreserved": {
+          "path": "data/rcap-grade-a/packet-factory-24h/pf22/rows-pf22-tx-nd-dwi-conviction-complete-20260913.json",
+          "sha256": "9a0bc786b67649fdfc1501492a545b9f59d7148bd4f37a983a858dc1dc180577",
+          "byteLength": 15653,
+          "lane": "PF22",
+          "buildCommit": "39caea41088b19459fab8788bd4fbaad1eca632e",
+          "claimLedgerChanged": false
+        },
+        "selfApproval": false
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The exact family, route key, route-selection ID and legal name agree across the current field map, source receipt and settled Texas packet-set record: a Gov't Code § 411.0736 petition for nondisclosure after a DWI conviction without qualifying community supervision. The one route is distinct from the other Texas DWI and nondisclosure tracks; no alternate route is selected or silently substituted.",
+          "evidence": [
+            "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/production-field-map.json",
+            "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/source-receipt.json",
+            "data/record-clearing/legal-design-intake/TX.memo.json",
+            "data/record-clearing/legal-design-packet-set-manifests.json"
+          ]
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All three exact source PDFs are present at their governed wave-one recovery paths and independently match the receipt and admitted source record: petition e8e7dee3c0843a65921ace2545c79034841961d9a131ac31e3d8cf18fd6701db (199202 bytes, 5 pages), proposed order 50e648a3dcaf7db606d23839e2b9ac70b919fe51bab0708a1803e5c37dcd0a5e (108945 bytes, 3 pages), and Statement of Inability bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d (6667524 bytes, 12 pages). The receipt records held-byte binding with no fetch or inference. The older custody-reconciliation row's SOURCE_IDENTITY_UNRESOLVED value is an acquisition-task history for the former OCA order-label question; it does not contradict the present exact source hash binding.",
+          "evidence": [
+            "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/source-receipt.json",
+            "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json",
+            "reference/source-recovery/2026-09-11-wave1/2nd-final-petition-for-nondisclosure-under-section-411-0736.pdf",
+            "reference/source-recovery/2026-09-11-wave1/04-26-2022-order-of-nondisclosure-sec-411-0736.pdf",
+            "reference/source-recovery/2026-09-11-wave1/statement-of-inability-to-afford-payment-of-court-costs-or-an-appeal-bond-bilingual.pdf",
+            "data/rcap-grade-a/route-obligation-census-v1/source-custody-reconciliation.json"
+          ]
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The complete five-component set is present in both current fixtures: the five-page official petition, three-page official proposed order, conditional proof-of-delivery page, conditional twelve-page official Statement of Inability, and three-page filing/after-order instructions. The legal packet-set record marks petition, proposed order and instructions required and the proof and fee-waiver components conditional; the receipt identifies the two composed components without inventing an official source form.",
+          "evidence": [
+            "data/record-clearing/legal-design-packet-set-manifests.json",
+            "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/source-receipt.json",
+            "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/production-field-map.json",
+            "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/reports/rendered-artifacts.json",
+            "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/build-findings.json"
+          ]
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The current canonical and boundary bytes each contain the same fifteen declared identity write occurrences, all read back from flattened widget appearances. The report has thirteen distinct supplied values, no missing occurrence, no refused field with ink and no non-whitespace glyph outside measured write boxes. Only held participant identity facts are written; case facts, route controls, signatures, court-owned fields, prosecutor fields and sworn financial facts remain untouched. The Statement appearances for values 0 and its native 12/15/2022 date are source-authored appearances recorded separately by the byte proof.",
+          "evidence": [
+            "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/reports/actual-writes.json",
+            "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/production-field-map.json",
+            "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/fixtures/canonical.pdf",
+            "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/fixtures/boundary.pdf"
+          ]
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The field map declares 116 required-before-filing entries and the participant blank report emits 116; every one is disclosed in the instructions. The detailed protected blank handoff is 40 entries, and no known required field is missing according to the saved zero-counter report. The disclosures cover court/county/cause and conviction facts, completion and interlock records, split petition address, conditional proof details, sworn Statement facts, signatures and filing steps without inventing unavailable facts.",
+          "evidence": [
+            "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/production-field-map.json",
+            "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/reports/blanks-left-for-the-participant.json",
+            "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/participant-instructions.md",
+            "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/reports/completeness-counters.json",
+            "data/record-clearing/legal-design-packet-set-manifests.json"
+          ]
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "No route selection is made. The petition has three participant elections—whether required conviction/sentence evidence is attached, the three-year versus five-year waiting-period limb tied to six months of interlock compliance, and fee payment versus the Rule 145 Statement—and the Statement carries nineteen participant benefit/choice controls. All twenty-two are left for the participant; proposed-order boxes recording court or State action are refused as actor-owned.",
+          "evidence": [
+            "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/production-field-map.json",
+            "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/field-census.census-v1.json",
+            "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/reports/actual-writes.json",
+            "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/participant-instructions.md",
+            "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/source-receipt.json"
+          ]
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The current census covers all source rows without unmapped, stale-dictionary or caption-drift entries: petition 15 rows over 5 pages, proposed order 14 rows over 3 pages, and Statement 132 rows over 12 pages. The Statement's financial and household rows are classified exhaustively by the field map, and the address is handled by blank shape: whole-line Statement address is written while the petition's split address is disclosed for participant completion. No partial or unbounded row is synthesized.",
+          "evidence": [
+            "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/field-census.census-v1.json",
+            "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/production-field-map.json",
+            "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/reports/completeness-counters.json",
+            "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/participant-instructions.md"
+          ]
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The map refuses participant signatures and dates until execution, proposed-order judicial/State/clerk fields, conditional proof facts, the petition split address, Statement financial facts and other actor-owned values. Both byte proofs report zero refused fields with ink, zero outside measured write glyphs and no invisible writes. The participant instructions explicitly explain the protected blanks and the source form’s shared date field boundary.",
+          "evidence": [
+            "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/production-field-map.json",
+            "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/reports/actual-writes.json",
+            "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/reports/blanks-left-for-the-participant.json",
+            "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/participant-instructions.md",
+            "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/reports/completeness-counters.json"
+          ]
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The current candidate bytes match the rendered-artifacts report and the PF22 transfer: canonical 5670c283390b7f3fe5bd5397438e69929958e7285bff0e3817cf8041899f67df (1224478 bytes, 24 pages) and boundary ea63c40573d81fcbb07ea550c904904a92cc727c62e032f030ac36a8fab18515 (1224846 bytes, 24 pages). The transfer receipt records fifteen extracted Git blobs with zero mismatches or missing files, and the reviewer changed no source or packet byte.",
+          "evidence": [
+            "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/reports/rendered-artifacts.json",
+            "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/fixtures/canonical.pdf",
+            "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/fixtures/boundary.pdf",
+            "data/rcap-grade-a/packet-factory-24h/pf22/tx-dwi-captain-transfer-20260913.json",
+            "data/rcap-grade-a/packet-factory-24h/pf22/rows-pf22-tx-nd-dwi-conviction-complete-20260913.json",
+            "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/build-status.json"
+          ]
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Both page manifests preserve all twenty-four pages in the same canonical order: packet pages 1–5 are the petition, 6–8 the proposed order, 9 the conditional proof-of-delivery component, 10–21 the twelve-page Statement of Inability, and 22–24 the filing/after-order instructions. Each official source page is bound to its exact source hash, and no page is dropped or reordered.",
+          "evidence": [
+            "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/reports/rendered-artifacts.json",
+            "data/record-clearing/legal-design-packet-set-manifests.json",
+            "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/source-receipt.json"
+          ]
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "visualDefects": null,
+          "finding": "This independent semantic review did not raster the current PDFs. The rendered-artifact report records everyPageRastered false, rasterSkipped true and an empty raster page list; no clipping, overlap or fit acceptance is claimed. Central original-page raster review remains the next gate for these exact bytes.",
+          "evidence": [
+            "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/reports/rendered-artifacts.json",
+            "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/build-status.json",
+            "data/rcap-grade-a/packet-factory-24h/pf22/rows-pf22-tx-nd-dwi-conviction-complete-20260913.json"
+          ]
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The instructions and settled Texas intake direct filing to the clerk of the court that sentenced the participant (or placed the participant on community supervision), in person, electronically or by mail under § 411.0745(a), with the proposed order where that court requires it. The packet does not substitute arrest county or invent a county-specific filing destination.",
+          "evidence": [
+            "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/participant-instructions.md",
+            "data/record-clearing/legal-design-intake/TX.memo.json",
+            "data/record-clearing/legal-design-packet-set-manifests.json",
+            "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/production-field-map.json"
+          ]
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The packet preserves the settled fee boundary: § 411.0745(b) fixes the type of civil filing fee, not a uniform amount; OCA describes about $280 varying by county; the clerk is the authority for the local figure; and $28 belongs only to the no-petition § 411.072(c) route. The Rule 145 Statement is supplied conditionally for the participant who cannot pay, with no sworn financial fact guessed or prefilled. The local amount and county practice remain participant/clerk inputs rather than invented packet values.",
+          "evidence": [
+            "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/build-findings.json",
+            "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/source-receipt.json",
+            "data/record-clearing/legal-design-intake/TX.memo.json",
+            "data/record-clearing/legal-design-packet-set-manifests.json",
+            "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/participant-instructions.md",
+            "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/production-field-map.json"
+          ]
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The source/legal treatment is carried through without conflating court notice and participant delivery. Section 411.0745(e) assigns the State notice and hearing opportunity to the court and says the filer should not be charged; OCA instructions also direct proof that the district attorney received a copy. The packet therefore ships a conditional proof-of-delivery component and tells the participant to ask the clerk, while pre-filling neither service fact nor prosecutor identity.",
+          "evidence": [
+            "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/build-findings.json",
+            "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/source-receipt.json",
+            "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/production-field-map.json",
+            "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/participant-instructions.md",
+            "data/record-clearing/legal-design-packet-set-manifests.json"
+          ]
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The instructions preserve the eligibility and escalation boundaries for this DWI path: Class B/non-qualifying-supervision scope, sentence completion, the three- versus five-year interlock condition, evidence of entitlement, collision bar, BAC and offense exclusions, family-violence and prior/subsequent-offense screens, prosecutor/hearing issues, and immigration or other legal-review stops. The packet does not promise nondisclosure and directs a stop when the record or local court practice needs legal judgment.",
+          "evidence": [
+            "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/participant-instructions.md",
+            "data/record-clearing/legal-design-intake/TX.memo.json",
+            "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/source-receipt.json",
+            "data/record-clearing/legal-design-packet-set-manifests.json"
+          ]
+        }
+      },
+      "obligationCounts": {
+        "PASS": 14,
+        "FAIL": 0,
+        "NOT_MEASURABLE_HERE": 1,
+        "allMeasured": false
+      },
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": null,
+        "allNonvisualZero": true,
+        "allNineZero": false,
+        "measuredHere": true,
+        "visualMeasuredHere": false,
+        "counterSource": {
+          "path": "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/reports/completeness-counters.json",
+          "sha256": "239d16e3fd1ed927c8b29b5ce3be800b610478fa9157ff521ffbe0845830607f",
+          "byteLength": 989
+        },
+        "builderReportAllNineZero": true,
+        "counterNote": "The eight nonvisual counters independently reconcile to zero. The builder also reports visualDefects zero, but this semantic lane does not claim an independent visual measurement; central raster remains required."
+      },
+      "currentCandidateBindings": {
+        "familyId": "tx_nd_dwi_conviction-set",
+        "jurisdiction": "TX",
+        "routeKey": "obligation:track-only:TX:tx_nd_dwi_conviction",
+        "routeSelectionId": "tx_nd_dwi_conviction-official-set",
+        "reviewedHead": "6f0a1fcfef666168affecc3d60b5ebdfb1b920e0",
+        "packetCommitSha": "6f0a1fcfef666168affecc3d60b5ebdfb1b920e0",
+        "currentRepositoryHead": "9a95d5df10755c28b0ed95096c56d2e7512191a8",
+        "candidateIsAncestorOfCurrentHead": true,
+        "candidateImplementationCommit": "39caea41088b19459fab8788bd4fbaad1eca632e",
+        "workerReturnCommit": "5ae684ffac1590450550898b0cae6160405c1d5a",
+        "sourceAdmission": {
+          "path": "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json",
+          "sha256": "7eeea9abeb804efc4d3b7a1e70b50498e53fcf8447bdb7691236e638bb19d88e",
+          "byteLength": 64212
+        },
+        "workerReturn": {
+          "path": "data/rcap-grade-a/packet-factory-24h/pf22/rows-pf22-tx-nd-dwi-conviction-complete-20260913.json",
+          "sha256": "9a0bc786b67649fdfc1501492a545b9f59d7148bd4f37a983a858dc1dc180577",
+          "byteLength": 15653
+        },
+        "captainTransfer": {
+          "path": "data/rcap-grade-a/packet-factory-24h/pf22/tx-dwi-captain-transfer-20260913.json",
+          "sha256": "90a1576a21de6549e8b2728ccaa2bab2c20ddc5b3ebe57f010130b161edce81d",
+          "byteLength": 11060,
+          "archive": {
+            "file": "private/packet-factory-24h/transfers/pf22-tx-nd-dwi-conviction-20260913/tx-candidate-return.tar",
+            "sha256": "6fd2b6400cfb3ce10fd0476f157a9da2f8108a12dcd7f3dbe89ce9a68dfb1c59",
+            "byteLength": 3696640,
+            "format": "tar",
+            "memberFileCount": 15,
+            "archiveMemberEntryCount": 27,
+            "sourceBinaryIncluded": false,
+            "sharedManifestFilesIncluded": false,
+            "closedOutputsIncluded": false,
+            "currentSha256": "6fd2b6400cfb3ce10fd0476f157a9da2f8108a12dcd7f3dbe89ce9a68dfb1c59",
+            "currentByteLength": 3696640
+          },
+          "archiveExactBlobVerification": {
+            "expectedFromWorkerCommit": "git ls-tree -r --full-tree 5ae684ffac1590450550898b0cae6160405c1d5a (candidate files from 39caea41088b19459fab8788bd4fbaad1eca632e plus this return receipt)",
+            "extractedFilesVerified": 15,
+            "extractedFilesExpected": 15,
+            "mismatches": 0,
+            "missing": 0,
+            "archiveMemberEntries": 27
+          }
+        },
+        "candidateChangedFiles": {
+          "expected": 15,
+          "currentGitBlobsExact": 15,
+          "mismatches": [],
+          "allExact": true
+        },
+        "currentEvidenceFiles": {
+          "sourceReceipt": {
+            "path": "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/source-receipt.json",
+            "sha256": "24fcd150e86783b9d04101aa36001e6b3aa0f9fdaa2ddcb6ff0a33e7db017baa",
+            "byteLength": 7129
+          },
+          "fieldMap": {
+            "path": "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/production-field-map.json",
+            "sha256": "3ac9e595f9acfa0993e3a698e43e013ec515f0409702c237e43c31b70485f6b3",
+            "byteLength": 739896
+          },
+          "census": {
+            "path": "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/field-census.census-v1.json",
+            "sha256": "fc39fa3001088a013da9cd6fe98e642dae05092d2623e78f9866981f21c2baa6",
+            "byteLength": 126896
+          },
+          "buildFindings": {
+            "path": "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/build-findings.json",
+            "sha256": "2507f85eb03e868d35f1232466054d0ef1b5396a821a37ece4d48e0f1dfb2410",
+            "byteLength": 4814
+          },
+          "buildStatus": {
+            "path": "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/build-status.json",
+            "sha256": "6d9d1f21668dd8091287c38df28224395e79e76fc204995079a7bba6f7eede9a",
+            "byteLength": 704
+          },
+          "participantInstructions": {
+            "path": "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/participant-instructions.md",
+            "sha256": "d2e2a8e24e9fd9054b9d1f2de13214e22728695b6d1314d303c5d030624ef3a2",
+            "byteLength": 37202
+          },
+          "actualWrites": {
+            "path": "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/reports/actual-writes.json",
+            "sha256": "f02670eb71c697161d5e68fd8be5d8e1049369e414601396e189c11d079a212c",
+            "byteLength": 19915
+          },
+          "blanks": {
+            "path": "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/reports/blanks-left-for-the-participant.json",
+            "sha256": "18d343e0e28ae53878ffd73052042d385d39e69a72cba4edc4167e932be356c7",
+            "byteLength": 113475
+          },
+          "completenessCounters": {
+            "path": "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/reports/completeness-counters.json",
+            "sha256": "239d16e3fd1ed927c8b29b5ce3be800b610478fa9157ff521ffbe0845830607f",
+            "byteLength": 989
+          },
+          "renderedArtifacts": {
+            "path": "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/reports/rendered-artifacts.json",
+            "sha256": "ec37e35e688310dcf07cd21f523731ad39cce26e0bb97058644b6c7968f89a46",
+            "byteLength": 23167
+          }
+        },
+        "legalInputs": {
+          "txMemo": {
+            "path": "data/record-clearing/legal-design-intake/TX.memo.json",
+            "sha256": "f914dfdcdb52d94cc8142d04dac49ba73f2ad3cbbab41a6f98d367eec5bb97c3",
+            "byteLength": 541655
+          },
+          "packetSetManifest": {
+            "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+            "sha256": "83d91d31bf8b0b6c76c5623f4c39cffddcf6b154c1d8de96ffbcb74073d6befb",
+            "byteLength": 3711585
+          },
+          "legalInputStatus": "SETTLED"
+        },
+        "generatedQueueContext": {
+          "path": "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+          "sha256": "71a93a335378533cd6643631e9b2bd7792657dcb0f5d87621e6e0873f863f072",
+          "byteLength": 2426737,
+          "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+          "sourceBound": true,
+          "sourceReadinessReady": true,
+          "sourceReconciliationDisposition": "SOURCE_READY",
+          "note": "Generated MASTER_QUEUE context was inspected for current binding only and is excluded from legal source authority."
+        },
+        "noSourceOrPacketMutationByReviewer": true
+      },
+      "byteProof": {
+        "status": "PASS_NONVISUAL",
+        "method": "Independent current SHA-256, byte-length and pdfinfo page-count comparison; current field/report reconciliation; exact transfer Git-blob verification; no raster claim.",
+        "exactPdfBindings": [
+          {
+            "fixture": "canonical",
+            "path": "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/fixtures/canonical.pdf",
+            "sha256": "5670c283390b7f3fe5bd5397438e69929958e7285bff0e3817cf8041899f67df",
+            "byteLength": 1224478,
+            "pageCount": 24,
+            "currentSha256": "5670c283390b7f3fe5bd5397438e69929958e7285bff0e3817cf8041899f67df",
+            "currentByteLength": 1224478,
+            "currentPageCount": 24,
+            "currentBytesExact": true
+          },
+          {
+            "fixture": "boundary",
+            "path": "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/fixtures/boundary.pdf",
+            "sha256": "ea63c40573d81fcbb07ea550c904904a92cc727c62e032f030ac36a8fab18515",
+            "byteLength": 1224846,
+            "pageCount": 24,
+            "currentSha256": "ea63c40573d81fcbb07ea550c904904a92cc727c62e032f030ac36a8fab18515",
+            "currentByteLength": 1224846,
+            "currentPageCount": 24,
+            "currentBytesExact": true
+          }
+        ],
+        "sourceExact": {
+          "allSourcesExact": true,
+          "bindingMethod": "each source binds by exact SHA-256 against SOURCE_RECOVERY_WAVE1_2026-09-11.json, the bytes at its governed recovery path and the immutable MASTER_QUEUE exact hash carried in this family's builder. No source is fetched or inferred, and source custody is recorded as source_recovery_wave1.",
+          "documents": [
+            {
+              "documentId": "tx_nd_dwi_conviction-petition-1",
+              "sourceId": "official-form:OCA Model Petition for an Order of Nondisclosure under Section 411.0736",
+              "formNumber": "TX-GC-411.0736-PETITION",
+              "title": "OCA Model Petition for an Order of Nondisclosure under Section 411.0736",
+              "instrumentKind": "petition",
+              "path": "reference/source-recovery/2026-09-11-wave1/2nd-final-petition-for-nondisclosure-under-section-411-0736.pdf",
+              "custody": "source_recovery_wave1",
+              "revision": "REV-2022-02",
+              "sha256": "e8e7dee3c0843a65921ace2545c79034841961d9a131ac31e3d8cf18fd6701db",
+              "byteLength": 199202,
+              "pageCount": 5,
+              "acroFieldCount": 15,
+              "currentSha256": "e8e7dee3c0843a65921ace2545c79034841961d9a131ac31e3d8cf18fd6701db",
+              "currentByteLength": 199202,
+              "currentPageCount": 5,
+              "exactCurrentBytes": true
+            },
+            {
+              "documentId": "tx_nd_dwi_conviction-proposed-order-2",
+              "sourceId": "official-form:OCA Model Order of Nondisclosure under Section 411.0736",
+              "formNumber": "TX-GC-411.0736-ORDER",
+              "title": "OCA Model Order of Nondisclosure under Section 411.0736",
+              "instrumentKind": "proposed_order",
+              "path": "reference/source-recovery/2026-09-11-wave1/04-26-2022-order-of-nondisclosure-sec-411-0736.pdf",
+              "custody": "source_recovery_wave1",
+              "revision": "REV-2022-02",
+              "sha256": "50e648a3dcaf7db606d23839e2b9ac70b919fe51bab0708a1803e5c37dcd0a5e",
+              "byteLength": 108945,
+              "pageCount": 3,
+              "acroFieldCount": 14,
+              "currentSha256": "50e648a3dcaf7db606d23839e2b9ac70b919fe51bab0708a1803e5c37dcd0a5e",
+              "currentByteLength": 108945,
+              "currentPageCount": 3,
+              "exactCurrentBytes": true
+            },
+            {
+              "documentId": "tx_nd_dwi_conviction-fee-waiver-statement-4",
+              "sourceId": "official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
+              "formNumber": "TX-SCT-22-9090-STATEMENT-OF-INABILITY",
+              "title": "Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
+              "instrumentKind": "fee_waiver_statement",
+              "path": "reference/source-recovery/2026-09-11-wave1/statement-of-inability-to-afford-payment-of-court-costs-or-an-appeal-bond-bilingual.pdf",
+              "custody": "source_recovery_wave1",
+              "revision": null,
+              "sha256": "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d",
+              "byteLength": 6667524,
+              "pageCount": 12,
+              "acroFieldCount": 132,
+              "currentSha256": "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d",
+              "currentByteLength": 6667524,
+              "currentPageCount": 12,
+              "exactCurrentBytes": true
+            }
+          ],
+          "admission": {
+            "path": "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json",
+            "sha256": "7eeea9abeb804efc4d3b7a1e70b50498e53fcf8447bdb7691236e638bb19d88e",
+            "byteLength": 64212
+          }
+        },
+        "transferExact": {
+          "path": "data/rcap-grade-a/packet-factory-24h/pf22/tx-dwi-captain-transfer-20260913.json",
+          "sha256": "90a1576a21de6549e8b2728ccaa2bab2c20ddc5b3ebe57f010130b161edce81d",
+          "byteLength": 11060,
+          "archivePath": "private/packet-factory-24h/transfers/pf22-tx-nd-dwi-conviction-20260913/tx-candidate-return.tar",
+          "archiveSha256": "6fd2b6400cfb3ce10fd0476f157a9da2f8108a12dcd7f3dbe89ce9a68dfb1c59",
+          "archiveByteLength": 3696640,
+          "archiveFiles": 15,
+          "currentChangedFilesExact": true,
+          "extractedGitBlobsVerified": {
+            "expectedFromWorkerCommit": "git ls-tree -r --full-tree 5ae684ffac1590450550898b0cae6160405c1d5a (candidate files from 39caea41088b19459fab8788bd4fbaad1eca632e plus this return receipt)",
+            "extractedFilesVerified": 15,
+            "extractedFilesExpected": 15,
+            "mismatches": 0,
+            "missing": 0,
+            "archiveMemberEntries": 27
+          }
+        },
+        "fieldAndReportReconciliation": {
+          "componentSetExact": true,
+          "requiredBeforeFilingMap": 116,
+          "requiredBeforeFilingDisclosures": 116,
+          "everyRequiredBeforeFilingItemIsDisclosed": true,
+          "completenessAllNineBuilderZero": true,
+          "actualWriteProofPass": true,
+          "pageManifestFixtureCount": 2
+        },
+        "visualMeasurement": "not performed; central original raster remains authoritative"
+      },
+      "actualWriteProof": {
+        "path": "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/reports/actual-writes.json",
+        "sha256": "f02670eb71c697161d5e68fd8be5d8e1049369e414601396e189c11d079a212c",
+        "byteLength": 19915,
+        "derivedFromArtifactBytes": true,
+        "canonicalValuesReportedByFinalizer": 13,
+        "boundaryValuesReportedByFinalizer": 13,
+        "canonicalWriteOccurrences": 15,
+        "boundaryWriteOccurrences": 15,
+        "canonicalDeclaredOccurrencesFound": true,
+        "boundaryDeclaredOccurrencesFound": true,
+        "canonicalRefusedFieldsWithInk": [],
+        "boundaryRefusedFieldsWithInk": [],
+        "canonicalNonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+        "boundaryNonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+        "protectedInk": 0,
+        "invisibleWrites": 0,
+        "perFixture": [
+          {
+            "fixture": "canonical",
+            "valuesReportedByFinalizer": 13,
+            "actualWriteOccurrences": 15,
+            "allDeclaredOccurrencesFound": true,
+            "flattenedWidgetAppearancesReadFromOutputBytes": 15,
+            "refusedFieldsWithInk": 0,
+            "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+            "documentAuthoredAppearances": [
+              {
+                "field": "Value / Valor 11",
+                "document": "tx_nd_dwi_conviction-fee-waiver-statement-4",
+                "page": 16,
+                "drawnText": "0",
+                "sourceValue": "0"
+              },
+              {
+                "field": "Amount Cantidad 15",
+                "document": "tx_nd_dwi_conviction-fee-waiver-statement-4",
+                "page": 17,
+                "drawnText": "0",
+                "sourceValue": "0"
+              },
+              {
+                "field": "Today",
+                "document": "tx_nd_dwi_conviction-fee-waiver-statement-4",
+                "page": 20,
+                "drawnText": "12/15/2022",
+                "sourceValue": "12/15/2022"
+              }
+            ]
+          },
+          {
+            "fixture": "boundary",
+            "valuesReportedByFinalizer": 13,
+            "actualWriteOccurrences": 15,
+            "allDeclaredOccurrencesFound": true,
+            "flattenedWidgetAppearancesReadFromOutputBytes": 15,
+            "refusedFieldsWithInk": 0,
+            "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+            "documentAuthoredAppearances": [
+              {
+                "field": "Value / Valor 11",
+                "document": "tx_nd_dwi_conviction-fee-waiver-statement-4",
+                "page": 16,
+                "drawnText": "0",
+                "sourceValue": "0"
+              },
+              {
+                "field": "Amount Cantidad 15",
+                "document": "tx_nd_dwi_conviction-fee-waiver-statement-4",
+                "page": 17,
+                "drawnText": "0",
+                "sourceValue": "0"
+              },
+              {
+                "field": "Today",
+                "document": "tx_nd_dwi_conviction-fee-waiver-statement-4",
+                "page": 20,
+                "drawnText": "12/15/2022",
+                "sourceValue": "12/15/2022"
+              }
+            ]
+          }
+        ]
+      },
+      "sourceIdentity": {
+        "status": "PASS",
+        "custodyClass": "SOURCE_BOUND_BY_HELD_BYTES",
+        "allSourcesExact": true,
+        "sourceReceipt": {
+          "path": "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/source-receipt.json",
+          "sha256": "24fcd150e86783b9d04101aa36001e6b3aa0f9fdaa2ddcb6ff0a33e7db017baa",
+          "byteLength": 7129
+        },
+        "sourceAdmission": {
+          "path": "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json",
+          "sha256": "7eeea9abeb804efc4d3b7a1e70b50498e53fcf8447bdb7691236e638bb19d88e",
+          "byteLength": 64212
+        },
+        "bindingMethod": "each source binds by exact SHA-256 against SOURCE_RECOVERY_WAVE1_2026-09-11.json, the bytes at its governed recovery path and the immutable MASTER_QUEUE exact hash carried in this family's builder. No source is fetched or inferred, and source custody is recorded as source_recovery_wave1.",
+        "documents": [
+          {
+            "documentId": "tx_nd_dwi_conviction-petition-1",
+            "sourceId": "official-form:OCA Model Petition for an Order of Nondisclosure under Section 411.0736",
+            "formNumber": "TX-GC-411.0736-PETITION",
+            "title": "OCA Model Petition for an Order of Nondisclosure under Section 411.0736",
+            "instrumentKind": "petition",
+            "path": "reference/source-recovery/2026-09-11-wave1/2nd-final-petition-for-nondisclosure-under-section-411-0736.pdf",
+            "custody": "source_recovery_wave1",
+            "revision": "REV-2022-02",
+            "sha256": "e8e7dee3c0843a65921ace2545c79034841961d9a131ac31e3d8cf18fd6701db",
+            "byteLength": 199202,
+            "pageCount": 5,
+            "acroFieldCount": 15,
+            "currentSha256": "e8e7dee3c0843a65921ace2545c79034841961d9a131ac31e3d8cf18fd6701db",
+            "currentByteLength": 199202,
+            "currentPageCount": 5,
+            "exactCurrentBytes": true
+          },
+          {
+            "documentId": "tx_nd_dwi_conviction-proposed-order-2",
+            "sourceId": "official-form:OCA Model Order of Nondisclosure under Section 411.0736",
+            "formNumber": "TX-GC-411.0736-ORDER",
+            "title": "OCA Model Order of Nondisclosure under Section 411.0736",
+            "instrumentKind": "proposed_order",
+            "path": "reference/source-recovery/2026-09-11-wave1/04-26-2022-order-of-nondisclosure-sec-411-0736.pdf",
+            "custody": "source_recovery_wave1",
+            "revision": "REV-2022-02",
+            "sha256": "50e648a3dcaf7db606d23839e2b9ac70b919fe51bab0708a1803e5c37dcd0a5e",
+            "byteLength": 108945,
+            "pageCount": 3,
+            "acroFieldCount": 14,
+            "currentSha256": "50e648a3dcaf7db606d23839e2b9ac70b919fe51bab0708a1803e5c37dcd0a5e",
+            "currentByteLength": 108945,
+            "currentPageCount": 3,
+            "exactCurrentBytes": true
+          },
+          {
+            "documentId": "tx_nd_dwi_conviction-fee-waiver-statement-4",
+            "sourceId": "official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
+            "formNumber": "TX-SCT-22-9090-STATEMENT-OF-INABILITY",
+            "title": "Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
+            "instrumentKind": "fee_waiver_statement",
+            "path": "reference/source-recovery/2026-09-11-wave1/statement-of-inability-to-afford-payment-of-court-costs-or-an-appeal-bond-bilingual.pdf",
+            "custody": "source_recovery_wave1",
+            "revision": null,
+            "sha256": "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d",
+            "byteLength": 6667524,
+            "pageCount": 12,
+            "acroFieldCount": 132,
+            "currentSha256": "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d",
+            "currentByteLength": 6667524,
+            "currentPageCount": 12,
+            "exactCurrentBytes": true
+          }
+        ],
+        "sourceBinaryCommitted": false,
+        "compositionAuthority": [
+          {
+            "path": "data/record-clearing/legal-design-intake/TX.memo.json",
+            "sha256": "f914dfdcdb52d94cc8142d04dac49ba73f2ad3cbbab41a6f98d367eec5bb97c3",
+            "byteLength": 541655
+          },
+          {
+            "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+            "sha256": "83d91d31bf8b0b6c76c5623f4c39cffddcf6b154c1d8de96ffbcb74073d6befb",
+            "byteLength": 3711585
+          }
+        ],
+        "generatedQueueContext": {
+          "path": "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+          "sha256": "71a93a335378533cd6643631e9b2bd7792657dcb0f5d87621e6e0873f863f072",
+          "byteLength": 2426737,
+          "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+          "sourceBound": true,
+          "sourceReadiness": true,
+          "custodyClassRecorded": "SOURCE_IDENTITY_UNRESOLVED",
+          "note": "Generated queue metadata is current binding context, not legal source authority."
+        },
+        "historicalReconciliationLimitation": {
+          "path": "data/rcap-grade-a/route-obligation-census-v1/source-custody-reconciliation.json",
+          "sha256": "c60d47b329d4a92587a9ace12426f1595b0e02fc3f3713de4a1dac4037f6fad1",
+          "byteLength": 562708,
+          "note": "The older reconciliation row preserves SOURCE_IDENTITY_UNRESOLVED for the OCA order label as an acquisition-task history. The current wave-one held order bytes, source receipt, admission record and exact queue binding agree on the order PDF hash above."
+        },
+        "legalInputStatus": "SETTLED",
+        "freshnessOrCurrentEdition": "not established by this semantic review"
+      },
+      "currentArtifacts": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "5670c283390b7f3fe5bd5397438e69929958e7285bff0e3817cf8041899f67df",
+          "byteLength": 1224478,
+          "role": "assembled packet canonical",
+          "fixture": "canonical",
+          "pageCount": 24,
+          "currentBytesExact": true
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "ea63c40573d81fcbb07ea550c904904a92cc727c62e032f030ac36a8fab18515",
+          "byteLength": 1224846,
+          "role": "assembled packet boundary",
+          "fixture": "boundary",
+          "pageCount": 24,
+          "currentBytesExact": true
+        }
+      ],
+      "rasterManifest": null,
+      "rasterWorkflowPath": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+      "rasterEvidence": {
+        "status": "PENDING",
+        "runId": null,
+        "artifactId": null,
+        "visualPagesMeasured": 0,
+        "currentPdfHashesVerified": true,
+        "reason": "No raster was generated in this semantic review; current exact PDF bytes are authorized for the existing central raster workflow."
+      },
+      "finalAcceptance": false,
+      "terminalPromotionAuthorized": false,
+      "unfinishedGates": [
+        "central current-byte original raster custody and independent visual acceptance",
+        "native integration and terminal closure",
+        "source-freshness/current-edition and counsel confirmation before any live promotion"
+      ],
+      "independence": {
+        "implementationAuthor": "PF22 worker candidate",
+        "implementationWorkerReturn": "data/rcap-grade-a/packet-factory-24h/pf22/rows-pf22-tx-nd-dwi-conviction-complete-20260913.json",
+        "implementationEditsByReviewer": false,
+        "sourceBytesEditedByReviewer": false,
+        "packetBytesEditedByReviewer": false,
+        "rasterEditedByReviewer": false,
+        "sharedQueueOrManifestEditedByReviewer": false,
+        "claimLedgerEditedByReviewer": false,
+        "legalResearchPerformed": false,
+        "sourceAcquisitionPerformed": false,
+        "buildOrRegenerationPerformed": false,
+        "semanticRecordWrittenByReviewer": true,
+        "visualAcceptanceClaimed": false
+      },
+      "executionState": "SEMANTIC_PASS_PENDING_CENTRAL_RASTER",
+      "commandsActuallyPassed": [
+        {
+          "operation": "Independent current held source SHA-256, byte-length and page-count comparison",
+          "result": "PASS",
+          "evidence": "reference/source-recovery/2026-09-11-wave1/2nd-final-petition-for-nondisclosure-under-section-411-0736.pdf: e8e7dee3c0843a65921ace2545c79034841961d9a131ac31e3d8cf18fd6701db; 199202 bytes; 5 pages | reference/source-recovery/2026-09-11-wave1/04-26-2022-order-of-nondisclosure-sec-411-0736.pdf: 50e648a3dcaf7db606d23839e2b9ac70b919fe51bab0708a1803e5c37dcd0a5e; 108945 bytes; 3 pages | reference/source-recovery/2026-09-11-wave1/statement-of-inability-to-afford-payment-of-court-costs-or-an-appeal-bond-bilingual.pdf: bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d; 6667524 bytes; 12 pages"
+        },
+        {
+          "operation": "Independent current canonical and boundary PDF SHA-256, byte-length and page-count comparison",
+          "result": "PASS",
+          "evidence": "canonical: 5670c283390b7f3fe5bd5397438e69929958e7285bff0e3817cf8041899f67df; 1224478 bytes; 24 pages | boundary: ea63c40573d81fcbb07ea550c904904a92cc727c62e032f030ac36a8fab18515; 1224846 bytes; 24 pages"
+        },
+        {
+          "operation": "Current field-map/census/blank-disclosure/actual-write/page-manifest reconciliation",
+          "result": "PASS_NONVISUAL",
+          "evidence": "tx_nd_dwi_conviction-petition-1 5 pages/15 rows; tx_nd_dwi_conviction-proposed-order-2 3 pages/14 rows; tx_nd_dwi_conviction-fee-waiver-statement-4 12 pages/132 rows; 116 required map entries; 116 disclosed; canonical 15 writes, boundary 15 writes; all nine builder counters zero"
+        },
+        {
+          "operation": "PF22 transfer receipt, durable archive hash/stat and current imported Git-blob comparison",
+          "result": "PASS",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/pf22/tx-dwi-captain-transfer-20260913.json 90a1576a21de6549e8b2728ccaa2bab2c20ddc5b3ebe57f010130b161edce81d; archive 6fd2b6400cfb3ce10fd0476f157a9da2f8108a12dcd7f3dbe89ce9a68dfb1c59; 15/15 current changed-file blobs exact; transfer recorded zero mismatches and zero missing"
+        },
+        {
+          "operation": "Settled Texas legal input and source receipt inspection",
+          "result": "PASS",
+          "evidence": "data/record-clearing/legal-design-intake/TX.memo.json f914dfdcdb52d94cc8142d04dac49ba73f2ad3cbbab41a6f98d367eec5bb97c3; data/record-clearing/legal-design-packet-set-manifests.json 83d91d31bf8b0b6c76c5623f4c39cffddcf6b154c1d8de96ffbcb74073d6befb; data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/source-receipt.json 24fcd150e86783b9d04101aa36001e6b3aa0f9fdaa2ddcb6ff0a33e7db017baa; legalInputStatus SETTLED; no new research"
+        },
+        {
+          "operation": "Candidate import ancestry check",
+          "result": "PASS",
+          "evidence": "6f0a1fcfef666168affecc3d60b5ebdfb1b920e0 is ancestor of current HEAD 9a95d5df10755c28b0ed95096c56d2e7512191a8; reviewed bytes remain Git-blob exact"
+        }
+      ],
+      "commercialAuthority": false,
+      "commercialAuthorityGranted": false,
+      "runtimeSelectable": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "grantsNothing": "A semantic review return authorizes only the existing central raster workflow for these exact bytes. It grants no final acceptance, terminal promotion, participant delivery, commercial authority or runtime selection.",
+      "reviewConclusion": "PASS_PRE_RASTER_SEMANTIC: the current PF22 Texas DWI nondisclosure candidate binds all three exact held wave-one source PDFs, the settled § 411.0736 route, the complete five-component canonical/boundary packet, all declared identity writes, disclosed required handoffs, protected blanks, source/page order and zero nonvisual completeness counters. Fourteen obligations pass; CLIPPING_AND_OVERLAP remains NOT_MEASURABLE_HERE until central raster measures the current 24-page canonical and boundary bytes. The historical source-reconciliation label is recorded as an acquisition-task limitation while current source hashes are exact. Final acceptance, terminal promotion and commercial/runtime authority remain false.",
+      "amendment": {
+        "type": "ADDITIVE_NATIVE_SEMANTIC_RETURN",
+        "workerReturnPath": "data/rcap-grade-a/packet-factory-24h/pf22/rows-pf22-tx-nd-dwi-conviction-complete-20260913.json",
+        "captainTransferPath": "data/rcap-grade-a/packet-factory-24h/pf22/tx-dwi-captain-transfer-20260913.json",
+        "captainImportCommit": "6f0a1fcfef666168affecc3d60b5ebdfb1b920e0",
+        "packetBytesChangedByReviewer": false,
+        "sourceBytesChangedByReviewer": false,
+        "rasterRunPerformedByReviewer": false,
+        "legalResearchPerformed": false,
+        "sharedQueueOrManifestEdited": false,
+        "ownerDecisionNeeded": "NONE",
+        "note": "This file is an additive VF44 verifier return only. It does not replace the worker return, alter source custody, regenerate the queue, modify the packet, or change shared manifests."
+      }
+    }
+  ]
+}

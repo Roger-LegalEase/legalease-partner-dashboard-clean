@@ -1,0 +1,61 @@
+{
+  "schemaVersion": "rcap-family-source-receipt/v1",
+  "familyId": "ga-jail-k2-set",
+  "worklistGroupId": "ga-jail-k2-set",
+  "jurisdiction": "GA",
+  "implementationStrategy": "custom_pleading",
+  "custodyClass": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+  "acquisitionCommissioned": false,
+  "bindingMethod": "no source bytes are bound: the MASTER_QUEUE row for this family binds zero sources (sourceStatus CUSTOM_PLEADING_FROM_CODIFIED_TEXT, boundCount 0, officialFormFamily NONE, forms []). Every composed page is grounded on the committed legal-design records named in groundingRecords, and nothing else.",
+  "routeKeys": [
+    "obligation:track-only:GA:ga-jail-k2"
+  ],
+  "routeSelectionId": "ga-jail-k2-composed-set",
+  "statutoryAuthority": "O.C.G.A. § 35-3-37(k)(2)",
+  "legalName": "Written Request to a County or Municipal Jail or Detention Center to Restrict Records of an Already-Restricted Offense (O.C.G.A. § 35-3-37(k)(2))",
+  "allSourcesExact": true,
+  "allSourcesExactNote": "true vacuously: this family binds zero source binaries, so there is no source that is not bound by exact SHA-256. No official form exists for this route per the legal-design record, and none was invented.",
+  "documents": [],
+  "groundingRecords": [
+    {
+      "record": "data/record-clearing/legal-design-intake/GA.memo.json",
+      "track": "ga-jail-k2",
+      "reviewedAsOf": "2026-08-02"
+    },
+    {
+      "record": "data/record-clearing/legal-design-packet-set-manifests.json",
+      "packetSetId": "ga-jail-k2-set"
+    }
+  ],
+  "officialSourcesRecordedInIntake": [
+    {
+      "title": "O.C.G.A. § 35-3-37 (Official Code of Georgia Annotated, free public access)",
+      "url": "https://www.lexisnexis.com/hottopics/gacode/",
+      "retrievedOn": "2026-08-02"
+    },
+    {
+      "title": "Georgia Criminal History Record Restrictions (GBI)",
+      "url": "https://gbi.georgia.gov/services/georgia-criminal-history-record-restrictions",
+      "retrievedOn": "2026-08-02"
+    },
+    {
+      "title": "Record Restrictions/Expungement — Judicial Council of Georgia AOC, Access to Justice self-help resources",
+      "url": "https://georgiacourts.gov/a2j/self-help-resources/record-restrictions-expungement/",
+      "retrievedOn": "2026-08-02"
+    }
+  ],
+  "formIdentityNote": "FORM STATUS RESOLVED, owner correction Q3 of 2026-09-02: no mandatory official form is located for a § 35-3-37(k)(2) request, and the search is named so the absence is checkable rather than asserted. The Master Library's STATES/GA holds no Georgia forms at all (a legal review, a manifest and a readme). The partial Nationwide custody's LegalEase Georgia folder holds two official instruments, and neither is this remedy: the GBI/GCIC Request to Restrict Arrest Record is a § 35-3-37(h) application for arrests prior to 07/01/2013 filed with the arresting agency and routed to the prosecutor and GCIC, and the SB 288 Petition for Restriction & Sealing is a § 35-3-37(j)(4) court petition. The official-source registry holds no Georgia entry. Section 35-3-37(k)(2) prescribes no form of its own. What remains unresolvable from held sources is whether an individual county or municipal facility publishes its own intake form; outbound fetching was refused at CONNECT in the build container, so that half is delegated to the participant by the ask-the-facility-first instruction rather than answered here. The legal-design record reclassified the route from process_guidance to custom_pleading: the statute authorises a written request, names the recipient class, and fixes the relief and the 30-day compliance period, and correspondence rather than a court filing is not a reason to withhold a packet. The MASTER_QUEUE row agrees: officialFormFamily NONE, implementationStrategy custom_pleading, forms [], boundCount 0. The route carries localFormOverride — a facility's own published form governs where one exists, and the guidance directs the participant to ask the facility. Built self-contained; the b6 lane's shared Georgia host was in progress and is not touched.",
+  "composedComponentsAuthoredByThisBuild": [
+    "primary_filing",
+    "attachment",
+    "process_guidance"
+  ],
+  "sourceBinaryCommitted": false,
+  "commercialRoutesOpened": 0,
+  "whatThisReceiptDoesNotEstablish": [
+    "that no individual Georgia county or municipal facility publishes its own required form or intake route — the statewide question is resolved (no mandatory official form is located; see formIdentityNote for the three sources searched), the per-facility question is not answerable from held sources and outbound fetching was refused at CONNECT, so localFormOverride stands and the participant asks the facility first",
+    "that any output is approved for participant delivery",
+    "that any offense is in fact restricted under O.C.G.A. § 35-3-37 — prior restriction is the statutory precondition and the participant proves it by enclosure",
+    "whether the request may be sent immediately upon restriction or only after the § 35-3-37(k)(1) 30-day agency-notification period — recorded as unresolved and stated both ways in the guidance"
+  ]
+}

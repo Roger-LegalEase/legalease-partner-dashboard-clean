@@ -1,0 +1,36 @@
+[
+  {
+    "name": "actual-normal-verifier",
+    "command": [
+      "node",
+      "scripts/grade-a-packet-factory-24h/verify.mjs"
+    ],
+    "exitCode": 0,
+    "elapsedSeconds": 7.016,
+    "log": "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session10/resume-f35-fixture-repair/scope-correction/actual-normal-verifier.log"
+  },
+  {
+    "name": "isolated-f35-controls",
+    "command": [
+      "node",
+      "scripts/grade-a-packet-factory-24h/test-post-repair-reread-fixture.mjs",
+      "--json"
+    ],
+    "exitCode": 0,
+    "elapsedSeconds": 0.417,
+    "log": "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session10/resume-f35-fixture-repair/scope-correction/isolated-f35-controls.log"
+  },
+  {
+    "name": "scoped-lint",
+    "command": [
+      "node",
+      "node_modules/eslint/bin/eslint.js",
+      "scripts/grade-a-packet-factory-24h/verify.mjs",
+      "--rule",
+      "no-undef:error"
+    ],
+    "exitCode": 0,
+    "elapsedSeconds": 2.258,
+    "log": "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session10/resume-f35-fixture-repair/scope-correction/scoped-lint.log"
+  }
+]

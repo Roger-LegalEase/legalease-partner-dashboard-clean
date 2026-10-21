@@ -1,0 +1,1106 @@
+{
+  "schemaVersion": "rcap-packet-build-return/v1",
+  "lane": "PF05",
+  "laneKind": "packet-build",
+  "status": "COMPLETED_AUTHOR_BUILD_PENDING_INDEPENDENT_REVIEW",
+  "baseSha": "dda00b4ba833e8bd719d606d619e00792bdde81c",
+  "headShaAtReturn": "096459ad73dd15e8e491eb2186d18ab3f7d44960",
+  "headShaAtReturnIs": "candidate implementation and generated family evidence are frozen at this worker commit; this return receipt is written additively afterward",
+  "isIndependentVerification": false,
+  "writtenAlongsideRatherThanOver": true,
+  "claim": {
+    "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF07 'ia-901c3-set'",
+    "grantId": "4cb248e7618fd712",
+    "result": "CLAIM_OK PF07 ia-901c3-set (packet-build, grant set 4cb248e7618fd712)",
+    "claimLedgerChanged": false,
+    "claimLedgerSource": "data/rcap-grade-a/packet-factory-24h/claim-ledger.json"
+  },
+  "workerProvenance": {
+    "workerCodespace": "rcap-finish-worker-77jr7gx76jq3rg65",
+    "workerCheckoutActual": "/workspaces/legalease-partner-dashboard-clean",
+    "workerBranchActual": "claude/legalease-sprint-captain-utucnw",
+    "assignmentSlot": "PF05",
+    "claimLane": "PF07",
+    "assignmentWorkerCheckoutDeclared": "/workspaces/legalease-partner-dashboard-clean/private/worker-worktrees/pf05-ut-cannabis-resume-20260913",
+    "provenanceNote": "The actual remote checkout and branch above govern this return; the assignment nickname/worktree is not asserted as the checkout."
+  },
+  "prerequisite": {
+    "command": "node scripts/verify-packet-build-environment.mjs --family 'ia-901c3-set' --codex-cloud --minimum-captain-sha 6867ee44777ce3c9e88afda8b4bad8c3d8e8e31a",
+    "firstRun": {
+      "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY",
+      "summary": "9/14 passed, 5 failed, 3 not applicable",
+      "familySourcesBind": "FAIL: ia-901c3-set names no resolved document source",
+      "historicalCustodyRecord": "data/rcap-grade-a/route-obligation-census-v1/source-custody-reconciliation.json",
+      "historicalResolvedSources": 0
+    },
+    "action": "Not rerun after the recorded stale-resolver failure. The current SOURCE_READY queue row and source-wave admission were used because the exact source bytes were already held and bound.",
+    "authoritativeCurrentQueueBinding": {
+      "queuePath": "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+      "familyId": "ia-901c3-set",
+      "stateAtBuild": "SOURCE_READY",
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
+      "boundCount": 1,
+      "legalInputStatus": "SETTLED",
+      "exactNextAction": "Build from the owner-custodied Form 2; compose its embedded certification and optional continuation sheet.",
+      "routeKeys": [
+        "obligation:track-pathway:IA:ia-901c3:misdemeanor-901c3"
+      ],
+      "sourceHashes": [
+        {
+          "sourceId": "official-form:Rule 2.86 Form 2",
+          "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC2__IA-901C3-SET__RULE-2-86-FORM-2__5a1c67004e4f.pdf",
+          "sha256": "5a1c67004e4ff551cefca4ced50f8f48c77586b25e7e32384defda7726d4f963",
+          "tier": "exact_content_hash"
+        }
+      ]
+    },
+    "bindingMethod": "The builder reread the current SOURCE_RECOVERY_WAVE1 admission, required the ia-901c3 family binding and Rule 2.86 Form 2 obligation, reread the governed recovery path, and checked the exact SHA-256 and byte length before rendering."
+  },
+  "environmentRepair": {
+    "scope": "bounded worker runtime only; no repository governance, source custody, queue, or resolver mutation",
+    "repairs": [
+      {
+        "issue": "builder requires the admitted corpus bootstrap environment",
+        "repair": "invoked with source \"$HOME/.legalease-corpus-env\""
+      },
+      {
+        "issue": "byte verifier uses PyMuPDF and numpy",
+        "repair": "reused the existing worker Python 3.14 user environment repaired in the prior IA12346 slot with PyMuPDF==1.26.7 and numpy==2.3.3; no new package or repository repair was made for IA901C3"
+      }
+    ],
+    "sourceHunt": false,
+    "resolverEdit": false,
+    "sourceBytesModified": false
+  },
+  "rows": [
+    {
+      "itemId": "ia-901c3-set",
+      "familyId": "ia-901c3-set",
+      "status": "COMPLETED",
+      "laneKind": "packet-build",
+      "implementedBy": [
+        "PF05 existing authorized worker slot"
+      ],
+      "buildCommit": "096459ad73dd15e8e491eb2186d18ab3f7d44960",
+      "implementationCommit": "096459ad73dd15e8e491eb2186d18ab3f7d44960",
+      "completion": "Built the Iowa misdemeanor expungement packet from the exact held August 2024 Iowa Rule 2.86 Form 2. The official three-page Form 2, including its embedded page-three Certification of Service by Mailing or Delivery, is preserved as the filing component; an optional additional-alternate-names continuation is composed only when the fixture requires it. Eight bounded fixtures cover canonical, boundary, alias, history-age, release, anniversary, and missing-identifier behavior. The actual returned DCI history remains an explicitly required participant-supplied external component and is not generated or fabricated. Candidate awaits independent semantic review, central raster acceptance, and Captain integration.",
+      "jurisdiction": "IA",
+      "implementationStrategy": "official_pdf_fill",
+      "routeKeys": [
+        "obligation:track-pathway:IA:ia-901c3:misdemeanor-901c3"
+      ],
+      "buildScript": "scripts/build-census-v1-ia-901c3-set.mjs",
+      "supportingScripts": [
+        "scripts/rcap-packet-recovery/chat8/ia-901c3.mjs",
+        "scripts/rcap-packet-recovery/chat8/verify-ia-901c3-pdfs.py"
+      ],
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill",
+      "changedScope": {
+        "builder": "scripts/build-census-v1-ia-901c3-set.mjs",
+        "supportingScripts": [
+          "scripts/rcap-packet-recovery/chat8/ia-901c3.mjs",
+          "scripts/rcap-packet-recovery/chat8/verify-ia-901c3-pdfs.py"
+        ],
+        "generatedFiles": [
+          "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/approval-request.json",
+          "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/build-status.json",
+          "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/components/additional-aliases/additional-alternate-names.pdf",
+          "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/components/additional-aliases/form-2.pdf",
+          "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/components/additional-aliases/participant-instructions.pdf",
+          "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/components/boundary/form-2.pdf",
+          "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/components/boundary/participant-instructions.pdf",
+          "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/components/canonical/form-2.pdf",
+          "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/components/canonical/participant-instructions.pdf",
+          "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/components/exact-eight-years/form-2.pdf",
+          "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/components/exact-eight-years/participant-instructions.pdf",
+          "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/components/history-requested/form-2.pdf",
+          "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/components/history-requested/participant-instructions.pdf",
+          "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/components/history-stale/form-2.pdf",
+          "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/components/history-stale/participant-instructions.pdf",
+          "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/components/missing-identifiers/form-2.pdf",
+          "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/components/missing-identifiers/participant-instructions.pdf",
+          "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/components/release-missing/form-2.pdf",
+          "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/components/release-missing/participant-instructions.pdf",
+          "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/field-census.census-v1.json",
+          "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/fixtures/additional-aliases.json",
+          "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/fixtures/additional-aliases.pdf",
+          "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/fixtures/boundary.json",
+          "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/fixtures/boundary.pdf",
+          "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/fixtures/canonical.json",
+          "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/fixtures/canonical.pdf",
+          "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/fixtures/exact-eight-years.json",
+          "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/fixtures/exact-eight-years.pdf",
+          "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/fixtures/history-requested.json",
+          "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/fixtures/history-requested.pdf",
+          "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/fixtures/history-stale.json",
+          "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/fixtures/history-stale.pdf",
+          "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/fixtures/missing-identifiers.json",
+          "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/fixtures/missing-identifiers.pdf",
+          "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/fixtures/release-missing.json",
+          "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/fixtures/release-missing.pdf",
+          "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/participant-instructions.md",
+          "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/production-field-map.json",
+          "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/reports/actual-writes.json",
+          "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/reports/additional-aliases.json",
+          "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/reports/blanks-left-for-the-participant.json",
+          "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/reports/boundary.json",
+          "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/reports/canonical.json",
+          "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/reports/completeness-counters.json",
+          "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/reports/completeness-result.json",
+          "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/reports/exact-eight-years.json",
+          "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/reports/history-requested.json",
+          "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/reports/history-stale.json",
+          "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/reports/missing-identifiers.json",
+          "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/reports/packet-level-readiness.json",
+          "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/reports/pdf-byte-measurements.json",
+          "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/reports/release-missing.json",
+          "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/reports/rendered-artifacts.json",
+          "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/route-contract.json",
+          "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/source-receipt.json"
+        ],
+        "durableEvidenceFiles": [
+          "data/rcap-grade-a/packet-factory-24h/pf07/rows-pf07-ia-901c3-complete-20260913.json"
+        ],
+        "sharedGovernanceFilesChanged": [],
+        "sourceBytesCommitted": false,
+        "localRasterPages": 0
+      },
+      "sourceBinding": {
+        "sourceReceipt": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/source-receipt.json",
+        "sourceReceiptSha256": "b48a87f99fa2d64a1cec29b90a77372c81163a31bec87d2c29d3c955fe3ea095",
+        "sourceAdmission": "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json",
+        "allSourcesExact": true,
+        "sourceId": "official-form:Rule 2.86 Form 2",
+        "officialFormId": "Rule 2.86 Form 2",
+        "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC2__IA-901C3-SET__RULE-2-86-FORM-2__5a1c67004e4f.pdf",
+        "sha256": "5a1c67004e4ff551cefca4ced50f8f48c77586b25e7e32384defda7726d4f963",
+        "byteLength": 2674736,
+        "sourceRecoveryIdentityStatus": "EXACT_BYTES_EXISTING_OBLIGATION",
+        "familyBindingStatus": "EXACT_BYTES_EXISTING_OBLIGATION",
+        "embeddedComponents": [
+          {
+            "sourceId": "official-form:Certification of Service by Mailing or Delivery",
+            "documentId": "Certification of Service by Mailing or Delivery",
+            "page": 3,
+            "separateSource": false
+          },
+          {
+            "sourceId": "official-form:Rule 2.86 Form 2 attached sheet",
+            "documentId": "additional-alternate-names",
+            "separateSource": false,
+            "relation": "optional participant continuation composed from parent form"
+          }
+        ],
+        "bindingMethod": "The builder reread the current SOURCE_RECOVERY_WAVE1 admission, required the ia-901c3 family binding and Rule 2.86 Form 2 obligation, reread the governed recovery path, and checked the exact SHA-256 and byte length before rendering.",
+        "sourceBinaryCommitted": false
+      },
+      "componentSet": [
+        "Rule 2.86 Form 2 (primary filing; three pages)",
+        "Certification of Service by Mailing or Delivery (embedded page 3; no separate binary)",
+        "Rule 2.86 Form 2 attached sheet (optional additional-alternate-names continuation; composed, no separate source binary)",
+        "participant-instructions (not filed)",
+        "returned-dci-history (participant-supplied external component required before filing; not generated)"
+      ],
+      "terminalFields": 593,
+      "written": 265,
+      "protectedOrConditionalBlanks": 312,
+      "requiredBeforeFiling": 16,
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "nineCountersZero": true,
+      "completenessResult": "PASS_COMPLETE",
+      "focusedCompletenessCommand": "source \"$HOME/.legalease-corpus-env\" && node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'ia-901c3-set'",
+      "focusedCompleteness": "PASS_COMPLETE — 265/593 written; all nine counters zero",
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "88bac4b89ec8b794bb27b1505813a793879e18232842f75004463b5ff146a72f",
+          "byteLength": 930442,
+          "pageCount": 6,
+          "measurement": {
+            "addedGlyphs": 258,
+            "outsideGlyphs": 0,
+            "valuesReportedByFinalizer": 35,
+            "addedGlyphsReadFromOutputBytes": 258,
+            "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+            "refusedFieldsWithInk": []
+          }
+        },
+        {
+          "fixture": "boundary",
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "b6f8ab5d7d6d4f258aeadf773c2f9b106b0d6f7f4a9ec7a059cc56d591c7e59f",
+          "byteLength": 929101,
+          "pageCount": 6,
+          "measurement": {
+            "addedGlyphs": 301,
+            "outsideGlyphs": 0,
+            "valuesReportedByFinalizer": 32,
+            "addedGlyphsReadFromOutputBytes": 301,
+            "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+            "refusedFieldsWithInk": []
+          }
+        },
+        {
+          "fixture": "additional-aliases",
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/fixtures/additional-aliases.pdf",
+          "sha256": "4b23f143b8083db032c013387ee4604a67e6a62b4975732ca47d0a18a1a04c6c",
+          "byteLength": 931727,
+          "pageCount": 7,
+          "measurement": {
+            "addedGlyphs": 278,
+            "outsideGlyphs": 0,
+            "valuesReportedByFinalizer": 39,
+            "addedGlyphsReadFromOutputBytes": 278,
+            "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+            "refusedFieldsWithInk": []
+          }
+        },
+        {
+          "fixture": "history-stale",
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/fixtures/history-stale.pdf",
+          "sha256": "774df6ce3778f2b9bdf059e56a6e1f3af1945fdafdb47f9ad025ef95bc5e7780",
+          "byteLength": 930423,
+          "pageCount": 6,
+          "measurement": {
+            "addedGlyphs": 259,
+            "outsideGlyphs": 0,
+            "valuesReportedByFinalizer": 35,
+            "addedGlyphsReadFromOutputBytes": 259,
+            "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+            "refusedFieldsWithInk": []
+          }
+        },
+        {
+          "fixture": "history-requested",
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/fixtures/history-requested.pdf",
+          "sha256": "225b0bcbd7b42ba52b26399704b76f7327ba07d4f3d055cd780e1bdb64dc8a06",
+          "byteLength": 930430,
+          "pageCount": 6,
+          "measurement": {
+            "addedGlyphs": 261,
+            "outsideGlyphs": 0,
+            "valuesReportedByFinalizer": 35,
+            "addedGlyphsReadFromOutputBytes": 261,
+            "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+            "refusedFieldsWithInk": []
+          }
+        },
+        {
+          "fixture": "release-missing",
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/fixtures/release-missing.pdf",
+          "sha256": "557b8c32de00217b807cf3c215a7da322866211379f33ff3c0eca320bb9e3a39",
+          "byteLength": 930436,
+          "pageCount": 6,
+          "measurement": {
+            "addedGlyphs": 261,
+            "outsideGlyphs": 0,
+            "valuesReportedByFinalizer": 35,
+            "addedGlyphsReadFromOutputBytes": 261,
+            "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+            "refusedFieldsWithInk": []
+          }
+        },
+        {
+          "fixture": "exact-eight-years",
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/fixtures/exact-eight-years.pdf",
+          "sha256": "163ea3289b2f1093db54be226d1c8e245bb853f30742fbb07a72a5669a29191d",
+          "byteLength": 930568,
+          "pageCount": 6,
+          "measurement": {
+            "addedGlyphs": 259,
+            "outsideGlyphs": 0,
+            "valuesReportedByFinalizer": 34,
+            "addedGlyphsReadFromOutputBytes": 259,
+            "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+            "refusedFieldsWithInk": []
+          }
+        },
+        {
+          "fixture": "missing-identifiers",
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/fixtures/missing-identifiers.pdf",
+          "sha256": "d80a5f92f5605712e29d945f0fdd54ef1f6b1eb942c3e3fa6fe551a78e6dc44f",
+          "byteLength": 928763,
+          "pageCount": 6,
+          "measurement": {
+            "addedGlyphs": 129,
+            "outsideGlyphs": 0,
+            "valuesReportedByFinalizer": 20,
+            "addedGlyphsReadFromOutputBytes": 129,
+            "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+            "refusedFieldsWithInk": []
+          }
+        }
+      ],
+      "artifactFiles": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/approval-request.json",
+          "sha256": "efb98c220370756ccaa9a2782f88b764e502e1e0f433df665ee14e0940488801",
+          "byteLength": 183
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/build-status.json",
+          "sha256": "6a1ea1c335d6231790b37be7d47b274ea769f97e16f2819c28bd650d790499e9",
+          "byteLength": 830
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/components/additional-aliases/additional-alternate-names.pdf",
+          "sha256": "6e4378140725847e6fd2c3501377fcfae5eeefd39c24de66c1a2641aa1ad397f",
+          "byteLength": 2055
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/components/additional-aliases/form-2.pdf",
+          "sha256": "0fd84282c49257f17ee38c8b6bee12cb84118dc903dab3fa72b22fe126b28ca4",
+          "byteLength": 920441
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/components/additional-aliases/participant-instructions.pdf",
+          "sha256": "38abc30d77fdd6a8c920bd3606f349f9f56bb59dac497c6dfa26dcfcd881f1a1",
+          "byteLength": 11470
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/components/boundary/form-2.pdf",
+          "sha256": "edfa4595b8e7852a0773b9e77ab60107dfa7683a875bec3a02fee81bd1f59776",
+          "byteLength": 919070
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/components/boundary/participant-instructions.pdf",
+          "sha256": "36fc8e94b1559b2d561bd4d8b18b17e7d2415302c603a5ba02bab801909a2c29",
+          "byteLength": 11383
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/components/canonical/form-2.pdf",
+          "sha256": "25f880716236c693515e11a0de5118e7111735060b85625186cc810b628725da",
+          "byteLength": 920346
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/components/canonical/participant-instructions.pdf",
+          "sha256": "dfb7c9a8ac5c94308d15036228e41c6fd491176ceab2faecce740ca36d6c2d59",
+          "byteLength": 11446
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/components/exact-eight-years/form-2.pdf",
+          "sha256": "0771a5b4a16163a69cc6c4b36822c858022b24d4c855f051099000322dd223f6",
+          "byteLength": 920290
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/components/exact-eight-years/participant-instructions.pdf",
+          "sha256": "9b63c7b71030b15e5bd494feead88dfa8f868983b80877a7709896afc295174a",
+          "byteLength": 11626
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/components/history-requested/form-2.pdf",
+          "sha256": "ff6005433d9a61c185e227628862a1cb37fdc5fe536b21fd27b84e81e1591c71",
+          "byteLength": 920350
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/components/history-requested/participant-instructions.pdf",
+          "sha256": "159f6992b19be5845fac4513cc020cff054dbfdb64feeb0803278b2cd974c9b0",
+          "byteLength": 11432
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/components/history-stale/form-2.pdf",
+          "sha256": "b6e82bd0ce988acda9a981eddfe43da34551e9630706d2428e618667c67a3297",
+          "byteLength": 920348
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/components/history-stale/participant-instructions.pdf",
+          "sha256": "291f05c750458cdeb25a30c120ca098c6c1791bdca5f2fbcdf38ce5529c86845",
+          "byteLength": 11427
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/components/missing-identifiers/form-2.pdf",
+          "sha256": "d5e85fad1263def39d6ee9a0361b9f93fe5dddbe453b19a819318047cdd6a307",
+          "byteLength": 918427
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/components/missing-identifiers/participant-instructions.pdf",
+          "sha256": "0ce290b99fb748b735974c3f016da088ce9cf70c087c9bd85300ad8c9f53aded",
+          "byteLength": 11682
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/components/release-missing/form-2.pdf",
+          "sha256": "921a90d649f0dbb9a57b94e08bfa97276d9171ad7c7cd3d85a58c87ce0bac2bf",
+          "byteLength": 920349
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/components/release-missing/participant-instructions.pdf",
+          "sha256": "cbba5ff4d3b54b6162f594f902d3d78fd269ca6538c67a534b57683b8621bdf3",
+          "byteLength": 11439
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/field-census.census-v1.json",
+          "sha256": "064aea37a6a8f7e656ca56f2152645079781551590225ad2438202ef8a9a3d30",
+          "byteLength": 317905
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/fixtures/additional-aliases.json",
+          "sha256": "df31d865b41ff34bf6810903c12ed927892c8232a2f93997c34d4a49872b34ec",
+          "byteLength": 1684
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/fixtures/additional-aliases.pdf",
+          "sha256": "4b23f143b8083db032c013387ee4604a67e6a62b4975732ca47d0a18a1a04c6c",
+          "byteLength": 931727
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/fixtures/boundary.json",
+          "sha256": "1723d3e00186f5656d932b9b09252fb0a26fa5263916aab39c0212bc6a237860",
+          "byteLength": 1433
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "b6f8ab5d7d6d4f258aeadf773c2f9b106b0d6f7f4a9ec7a059cc56d591c7e59f",
+          "byteLength": 929101
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/fixtures/canonical.json",
+          "sha256": "a457114881faee970dcf7296561b96254bb6a934ac553bab958e3c38c6411e20",
+          "byteLength": 1428
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "88bac4b89ec8b794bb27b1505813a793879e18232842f75004463b5ff146a72f",
+          "byteLength": 930442
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/fixtures/exact-eight-years.json",
+          "sha256": "8640bf961c743eccd80553991be01259fbe1191d53c77818b926e8dfa94fa275",
+          "byteLength": 1429
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/fixtures/exact-eight-years.pdf",
+          "sha256": "163ea3289b2f1093db54be226d1c8e245bb853f30742fbb07a72a5669a29191d",
+          "byteLength": 930568
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/fixtures/history-requested.json",
+          "sha256": "4ac1d70561189287cfc906197c64a9a7c84c86350c065c93e999f79d02dc1408",
+          "byteLength": 1423
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/fixtures/history-requested.pdf",
+          "sha256": "225b0bcbd7b42ba52b26399704b76f7327ba07d4f3d055cd780e1bdb64dc8a06",
+          "byteLength": 930430
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/fixtures/history-stale.json",
+          "sha256": "47fcc87f3fc310f9f58bdcabee7440d08c79b1a7beb71cd64a7ec213185919f7",
+          "byteLength": 1429
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/fixtures/history-stale.pdf",
+          "sha256": "774df6ce3778f2b9bdf059e56a6e1f3af1945fdafdb47f9ad025ef95bc5e7780",
+          "byteLength": 930423
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/fixtures/missing-identifiers.json",
+          "sha256": "0c1279b7c1192a6350c0bc11b2f6a658be53f1bf983e44f6e545c96003c0182c",
+          "byteLength": 1207
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/fixtures/missing-identifiers.pdf",
+          "sha256": "d80a5f92f5605712e29d945f0fdd54ef1f6b1eb942c3e3fa6fe551a78e6dc44f",
+          "byteLength": 928763
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/fixtures/release-missing.json",
+          "sha256": "96648cdd4f9167e3c9756cd9f7ee41f2ddacb6d38087f3fb494c77f87e09257d",
+          "byteLength": 1431
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/fixtures/release-missing.pdf",
+          "sha256": "557b8c32de00217b807cf3c215a7da322866211379f33ff3c0eca320bb9e3a39",
+          "byteLength": 930436
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/participant-instructions.md",
+          "sha256": "c5bf5cbf4ee16c95d9a0aba386dd01bbb4a6c36e0c4a0e37a06316253f31acc0",
+          "byteLength": 119361
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/production-field-map.json",
+          "sha256": "745e117cc96320317daf5686785a6d8a76c3cbe5c685af63fb7518f4cba6759c",
+          "byteLength": 568922
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/reports/actual-writes.json",
+          "sha256": "f8634e7ccdd11d5f1ea08024dd17d0e2afc47d87d7d8e74679514d2c3791cbc5",
+          "byteLength": 383363
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/reports/additional-aliases.json",
+          "sha256": "c94a7c61fcb1cda1c16b32dfbfc1f3219b44b0893b5475171c46c0cbe6cb0dc0",
+          "byteLength": 160190
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/reports/blanks-left-for-the-participant.json",
+          "sha256": "71f813bbce57a4a4aeec3b55c9e6aef232b4c58528168d3a270f7add1c9de634",
+          "byteLength": 306963
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/reports/boundary.json",
+          "sha256": "8a85fbb41d6bb0aa82aee6ac375e2bfda0f928247ae516721635152bb8d4ba8b",
+          "byteLength": 163126
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/reports/canonical.json",
+          "sha256": "dd2b40ee203cc78031fd290a239a1e70b10f688efe5a916bf2d9516974aed4c6",
+          "byteLength": 160138
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/reports/completeness-counters.json",
+          "sha256": "f0eb2b6b3d2861080cc58b9a9f3e59f36faed66344537a8a0d1f8d7de51db983",
+          "byteLength": 257
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/reports/completeness-result.json",
+          "sha256": "64edc7dcec430986c56f7af2c52f9a6c5253f7ff081c3663198274d696c1a68a",
+          "byteLength": 1044
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/reports/exact-eight-years.json",
+          "sha256": "0632e1b4a7c0607f23284303b150009f7c67b25a0964b384a85a3df796618ae4",
+          "byteLength": 161714
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/reports/history-requested.json",
+          "sha256": "091ab263927c7e669a44c9a19bcfbac84d1d674a3da5a03eb6c9b5a884412d2d",
+          "byteLength": 160156
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/reports/history-stale.json",
+          "sha256": "bd213ac43f1d968c9ee2e76dc5fcea7bc7ebd3f4c7f5350cb7472afacea44828",
+          "byteLength": 160148
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/reports/missing-identifiers.json",
+          "sha256": "80f6fc76c11bdff1b8a4c95755aa62e530f7d5f67588cec480064128adedbb00",
+          "byteLength": 167871
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/reports/packet-level-readiness.json",
+          "sha256": "ada7b8c270ba37ec5bf8f533ae4e006d7efd3d60f80f751d7a88d9d821dc682e",
+          "byteLength": 435
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/reports/pdf-byte-measurements.json",
+          "sha256": "9e5c1ce9e2c48394e102118f80bdaafff9d30b3af6fafa0e452d7c71d22fa6d9",
+          "byteLength": 105708
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/reports/release-missing.json",
+          "sha256": "7c52ad9acece40a0ecf5a14b3bb0454fe6d67ff8043920e76bd0fe678618cdd4",
+          "byteLength": 160160
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/reports/rendered-artifacts.json",
+          "sha256": "4b2107f414d653e4e346a70a5d39b9870ed1536df77035ef5858a58c28b46812",
+          "byteLength": 10626
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/route-contract.json",
+          "sha256": "6f45a495dd2891061bad71129c8533940a42b9b72c94ef1aed49f19ec5a5686e",
+          "byteLength": 1720
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/source-receipt.json",
+          "sha256": "b48a87f99fa2d64a1cec29b90a77372c81163a31bec87d2c29d3c955fe3ea095",
+          "byteLength": 11935
+        }
+      ],
+      "rasterState": "BUILT_RASTER_PENDING",
+      "rasterPages": 0,
+      "packetsSelfVerified": 0,
+      "independentVerification": "PENDING_INDEPENDENT_SEMANTIC_REVIEW",
+      "remainingGates": [
+        "independent semantic review of current candidate and participant instructions",
+        "current-byte central raster acceptance",
+        "Captain integration and preservation checks",
+        "participant must obtain and attach the actual timely returned DCI history before filing"
+      ],
+      "legalLimitations": "Participant: actual timely returned DCI report, manual legal assertions, signing and real service; A: reconcile county-fee release question and retained 235B.20 source/statute discrepancy; Chat10: independent complete current-output review; A: exact-byte publication and central raster admission. This author build does not grant legal approval, production authorization, filing or delivery authority, raster acceptance, independent semantic PASS, or commercial route authority.",
+      "selfVerified": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "sourceBinaryCommitted": false,
+      "determinism": {
+        "sourceSha256": "5a1c67004e4ff551cefca4ced50f8f48c77586b25e7e32384defda7726d4f963",
+        "sourceByteLength": 2674736,
+        "currentFixtureWholePdfSha256": [
+          {
+            "fixture": "canonical",
+            "sha256": "88bac4b89ec8b794bb27b1505813a793879e18232842f75004463b5ff146a72f"
+          },
+          {
+            "fixture": "boundary",
+            "sha256": "b6f8ab5d7d6d4f258aeadf773c2f9b106b0d6f7f4a9ec7a059cc56d591c7e59f"
+          },
+          {
+            "fixture": "additional-aliases",
+            "sha256": "4b23f143b8083db032c013387ee4604a67e6a62b4975732ca47d0a18a1a04c6c"
+          },
+          {
+            "fixture": "history-stale",
+            "sha256": "774df6ce3778f2b9bdf059e56a6e1f3af1945fdafdb47f9ad025ef95bc5e7780"
+          },
+          {
+            "fixture": "history-requested",
+            "sha256": "225b0bcbd7b42ba52b26399704b76f7327ba07d4f3d055cd780e1bdb64dc8a06"
+          },
+          {
+            "fixture": "release-missing",
+            "sha256": "557b8c32de00217b807cf3c215a7da322866211379f33ff3c0eca320bb9e3a39"
+          },
+          {
+            "fixture": "exact-eight-years",
+            "sha256": "163ea3289b2f1093db54be226d1c8e245bb853f30742fbb07a72a5669a29191d"
+          },
+          {
+            "fixture": "missing-identifiers",
+            "sha256": "d80a5f92f5605712e29d945f0fdd54ef1f6b1eb942c3e3fa6fe551a78e6dc44f"
+          }
+        ],
+        "derivedFromArtifactBytes": true,
+        "rerenderComparison": "not rerun after the PASS build; no source or builder bytes changed after final render"
+      },
+      "claimLedger": {
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF07 'ia-901c3-set'",
+        "grantId": "4cb248e7618fd712",
+        "result": "CLAIM_OK PF07 ia-901c3-set (packet-build, grant set 4cb248e7618fd712)",
+        "claimLedgerChanged": false,
+        "claimLedgerSource": "data/rcap-grade-a/packet-factory-24h/claim-ledger.json"
+      }
+    }
+  ],
+  "familiesAssigned": 1,
+  "rowsReturned": 1,
+  "familiesCompleted": 1,
+  "familiesStopped": 0,
+  "familiesRemaining": 0,
+  "packetsSelfVerified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "changedFiles": [
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/approval-request.json",
+      "commit": "096459ad73dd15e8e491eb2186d18ab3f7d44960",
+      "sha256": "efb98c220370756ccaa9a2782f88b764e502e1e0f433df665ee14e0940488801",
+      "byteLength": 183,
+      "blobSha1": "eca68799290319099269ecd80d3ef00e647dbe43"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/build-status.json",
+      "commit": "096459ad73dd15e8e491eb2186d18ab3f7d44960",
+      "sha256": "6a1ea1c335d6231790b37be7d47b274ea769f97e16f2819c28bd650d790499e9",
+      "byteLength": 830,
+      "blobSha1": "150f1eb78faeadd8883321b7d7d8625f3ba0d54e"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/components/additional-aliases/additional-alternate-names.pdf",
+      "commit": "096459ad73dd15e8e491eb2186d18ab3f7d44960",
+      "sha256": "6e4378140725847e6fd2c3501377fcfae5eeefd39c24de66c1a2641aa1ad397f",
+      "byteLength": 2055,
+      "blobSha1": "211208a83d46d6b0805f4fdcf0f8e29c56c8bf7d"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/components/additional-aliases/form-2.pdf",
+      "commit": "096459ad73dd15e8e491eb2186d18ab3f7d44960",
+      "sha256": "0fd84282c49257f17ee38c8b6bee12cb84118dc903dab3fa72b22fe126b28ca4",
+      "byteLength": 920441,
+      "blobSha1": "92529dbdff84d8bbbe5ac2c45e29790ce0caecbc"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/components/additional-aliases/participant-instructions.pdf",
+      "commit": "096459ad73dd15e8e491eb2186d18ab3f7d44960",
+      "sha256": "38abc30d77fdd6a8c920bd3606f349f9f56bb59dac497c6dfa26dcfcd881f1a1",
+      "byteLength": 11470,
+      "blobSha1": "17640feafde9c35c20883d0e4699f197bb532180"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/components/boundary/form-2.pdf",
+      "commit": "096459ad73dd15e8e491eb2186d18ab3f7d44960",
+      "sha256": "edfa4595b8e7852a0773b9e77ab60107dfa7683a875bec3a02fee81bd1f59776",
+      "byteLength": 919070,
+      "blobSha1": "f14eebea2ab3bbf8ce27c32f4a577ba0aa7636a4"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/components/boundary/participant-instructions.pdf",
+      "commit": "096459ad73dd15e8e491eb2186d18ab3f7d44960",
+      "sha256": "36fc8e94b1559b2d561bd4d8b18b17e7d2415302c603a5ba02bab801909a2c29",
+      "byteLength": 11383,
+      "blobSha1": "5cdfea6ab6da5c7519c7cde66faa1bb61a5287ae"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/components/canonical/form-2.pdf",
+      "commit": "096459ad73dd15e8e491eb2186d18ab3f7d44960",
+      "sha256": "25f880716236c693515e11a0de5118e7111735060b85625186cc810b628725da",
+      "byteLength": 920346,
+      "blobSha1": "5f8556f4be81d61f8894f9df5b28aa8f0d0a6dce"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/components/canonical/participant-instructions.pdf",
+      "commit": "096459ad73dd15e8e491eb2186d18ab3f7d44960",
+      "sha256": "dfb7c9a8ac5c94308d15036228e41c6fd491176ceab2faecce740ca36d6c2d59",
+      "byteLength": 11446,
+      "blobSha1": "e83b48696128f00ceeb6563d59c77919d6191c39"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/components/exact-eight-years/form-2.pdf",
+      "commit": "096459ad73dd15e8e491eb2186d18ab3f7d44960",
+      "sha256": "0771a5b4a16163a69cc6c4b36822c858022b24d4c855f051099000322dd223f6",
+      "byteLength": 920290,
+      "blobSha1": "b63cf299f0627075afadcee77e99311f94ed7006"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/components/exact-eight-years/participant-instructions.pdf",
+      "commit": "096459ad73dd15e8e491eb2186d18ab3f7d44960",
+      "sha256": "9b63c7b71030b15e5bd494feead88dfa8f868983b80877a7709896afc295174a",
+      "byteLength": 11626,
+      "blobSha1": "f8afa9ea4a0ea6efe05f3eaed2df7ae63fe7d5b6"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/components/history-requested/form-2.pdf",
+      "commit": "096459ad73dd15e8e491eb2186d18ab3f7d44960",
+      "sha256": "ff6005433d9a61c185e227628862a1cb37fdc5fe536b21fd27b84e81e1591c71",
+      "byteLength": 920350,
+      "blobSha1": "8e3e2b152dd5fcc1f097431d973fdc375f74cb4f"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/components/history-requested/participant-instructions.pdf",
+      "commit": "096459ad73dd15e8e491eb2186d18ab3f7d44960",
+      "sha256": "159f6992b19be5845fac4513cc020cff054dbfdb64feeb0803278b2cd974c9b0",
+      "byteLength": 11432,
+      "blobSha1": "8f5786e5935a47f79dbd76e23868e248bf338a82"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/components/history-stale/form-2.pdf",
+      "commit": "096459ad73dd15e8e491eb2186d18ab3f7d44960",
+      "sha256": "b6e82bd0ce988acda9a981eddfe43da34551e9630706d2428e618667c67a3297",
+      "byteLength": 920348,
+      "blobSha1": "2c4405a3e2d8f4ed2aa8db172670ebdd0a1ca996"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/components/history-stale/participant-instructions.pdf",
+      "commit": "096459ad73dd15e8e491eb2186d18ab3f7d44960",
+      "sha256": "291f05c750458cdeb25a30c120ca098c6c1791bdca5f2fbcdf38ce5529c86845",
+      "byteLength": 11427,
+      "blobSha1": "4711d7746d2bc97b911af27e613e0a5398783cb3"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/components/missing-identifiers/form-2.pdf",
+      "commit": "096459ad73dd15e8e491eb2186d18ab3f7d44960",
+      "sha256": "d5e85fad1263def39d6ee9a0361b9f93fe5dddbe453b19a819318047cdd6a307",
+      "byteLength": 918427,
+      "blobSha1": "b3643400431581a7262d11ed7f52acba5618096d"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/components/missing-identifiers/participant-instructions.pdf",
+      "commit": "096459ad73dd15e8e491eb2186d18ab3f7d44960",
+      "sha256": "0ce290b99fb748b735974c3f016da088ce9cf70c087c9bd85300ad8c9f53aded",
+      "byteLength": 11682,
+      "blobSha1": "7f72e148a263ba567f3101f09b0228d52f5ef94b"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/components/release-missing/form-2.pdf",
+      "commit": "096459ad73dd15e8e491eb2186d18ab3f7d44960",
+      "sha256": "921a90d649f0dbb9a57b94e08bfa97276d9171ad7c7cd3d85a58c87ce0bac2bf",
+      "byteLength": 920349,
+      "blobSha1": "fd5c5c384df061d8975a191d2318b00dba700e87"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/components/release-missing/participant-instructions.pdf",
+      "commit": "096459ad73dd15e8e491eb2186d18ab3f7d44960",
+      "sha256": "cbba5ff4d3b54b6162f594f902d3d78fd269ca6538c67a534b57683b8621bdf3",
+      "byteLength": 11439,
+      "blobSha1": "d616d6ee23635e5a13e32e39b91183e4c10765a3"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/field-census.census-v1.json",
+      "commit": "096459ad73dd15e8e491eb2186d18ab3f7d44960",
+      "sha256": "064aea37a6a8f7e656ca56f2152645079781551590225ad2438202ef8a9a3d30",
+      "byteLength": 317905,
+      "blobSha1": "b4bd8291a022ebc27d4a122a15a564bc9273ff3d"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/fixtures/additional-aliases.json",
+      "commit": "096459ad73dd15e8e491eb2186d18ab3f7d44960",
+      "sha256": "df31d865b41ff34bf6810903c12ed927892c8232a2f93997c34d4a49872b34ec",
+      "byteLength": 1684,
+      "blobSha1": "b4b7bc96d57ae96060d57b6d525884f1fded2bcf"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/fixtures/additional-aliases.pdf",
+      "commit": "096459ad73dd15e8e491eb2186d18ab3f7d44960",
+      "sha256": "4b23f143b8083db032c013387ee4604a67e6a62b4975732ca47d0a18a1a04c6c",
+      "byteLength": 931727,
+      "blobSha1": "46be6d62be2465a45eab9f43d496926b3ee7a7b7"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/fixtures/boundary.json",
+      "commit": "096459ad73dd15e8e491eb2186d18ab3f7d44960",
+      "sha256": "1723d3e00186f5656d932b9b09252fb0a26fa5263916aab39c0212bc6a237860",
+      "byteLength": 1433,
+      "blobSha1": "d150fa363ab5de9f0daf73f7f5bc7da92a95e2f2"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/fixtures/boundary.pdf",
+      "commit": "096459ad73dd15e8e491eb2186d18ab3f7d44960",
+      "sha256": "b6f8ab5d7d6d4f258aeadf773c2f9b106b0d6f7f4a9ec7a059cc56d591c7e59f",
+      "byteLength": 929101,
+      "blobSha1": "c5238cd3e628b9ef293d3f0062f70aad92e8fd4a"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/fixtures/canonical.json",
+      "commit": "096459ad73dd15e8e491eb2186d18ab3f7d44960",
+      "sha256": "a457114881faee970dcf7296561b96254bb6a934ac553bab958e3c38c6411e20",
+      "byteLength": 1428,
+      "blobSha1": "3c6de6c1b6da73098c846b3ed6eea62f447e1ee8"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/fixtures/canonical.pdf",
+      "commit": "096459ad73dd15e8e491eb2186d18ab3f7d44960",
+      "sha256": "88bac4b89ec8b794bb27b1505813a793879e18232842f75004463b5ff146a72f",
+      "byteLength": 930442,
+      "blobSha1": "11c0bad3cdd0cae31258fd898335ed6fdb5d31ad"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/fixtures/exact-eight-years.json",
+      "commit": "096459ad73dd15e8e491eb2186d18ab3f7d44960",
+      "sha256": "8640bf961c743eccd80553991be01259fbe1191d53c77818b926e8dfa94fa275",
+      "byteLength": 1429,
+      "blobSha1": "f3765fe3240f7aacd876aafc48147bc7a2654e66"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/fixtures/exact-eight-years.pdf",
+      "commit": "096459ad73dd15e8e491eb2186d18ab3f7d44960",
+      "sha256": "163ea3289b2f1093db54be226d1c8e245bb853f30742fbb07a72a5669a29191d",
+      "byteLength": 930568,
+      "blobSha1": "9079faacf28fb24ba024c328d02cb98e0ed03c5d"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/fixtures/history-requested.json",
+      "commit": "096459ad73dd15e8e491eb2186d18ab3f7d44960",
+      "sha256": "4ac1d70561189287cfc906197c64a9a7c84c86350c065c93e999f79d02dc1408",
+      "byteLength": 1423,
+      "blobSha1": "09cce1bb1aee33f3dc55dfa9652922daeff23141"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/fixtures/history-requested.pdf",
+      "commit": "096459ad73dd15e8e491eb2186d18ab3f7d44960",
+      "sha256": "225b0bcbd7b42ba52b26399704b76f7327ba07d4f3d055cd780e1bdb64dc8a06",
+      "byteLength": 930430,
+      "blobSha1": "7c286e80d410237254dc46e34e27f621e16746eb"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/fixtures/history-stale.json",
+      "commit": "096459ad73dd15e8e491eb2186d18ab3f7d44960",
+      "sha256": "47fcc87f3fc310f9f58bdcabee7440d08c79b1a7beb71cd64a7ec213185919f7",
+      "byteLength": 1429,
+      "blobSha1": "7d5ffcd3afa76251c3343cc131fc2e3d11c8f510"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/fixtures/history-stale.pdf",
+      "commit": "096459ad73dd15e8e491eb2186d18ab3f7d44960",
+      "sha256": "774df6ce3778f2b9bdf059e56a6e1f3af1945fdafdb47f9ad025ef95bc5e7780",
+      "byteLength": 930423,
+      "blobSha1": "8f836a46bcca49e0a1e8b2a024142bd9b1974429"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/fixtures/missing-identifiers.json",
+      "commit": "096459ad73dd15e8e491eb2186d18ab3f7d44960",
+      "sha256": "0c1279b7c1192a6350c0bc11b2f6a658be53f1bf983e44f6e545c96003c0182c",
+      "byteLength": 1207,
+      "blobSha1": "e2603d260d9dfaf4cfb78dfd2cb94c3442302373"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/fixtures/missing-identifiers.pdf",
+      "commit": "096459ad73dd15e8e491eb2186d18ab3f7d44960",
+      "sha256": "d80a5f92f5605712e29d945f0fdd54ef1f6b1eb942c3e3fa6fe551a78e6dc44f",
+      "byteLength": 928763,
+      "blobSha1": "fe072aaa68b47b26ec4bb075c835d3ce732ee6b4"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/fixtures/release-missing.json",
+      "commit": "096459ad73dd15e8e491eb2186d18ab3f7d44960",
+      "sha256": "96648cdd4f9167e3c9756cd9f7ee41f2ddacb6d38087f3fb494c77f87e09257d",
+      "byteLength": 1431,
+      "blobSha1": "4547a4e76b0d250ba549dc587c423f48ee19f79f"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/fixtures/release-missing.pdf",
+      "commit": "096459ad73dd15e8e491eb2186d18ab3f7d44960",
+      "sha256": "557b8c32de00217b807cf3c215a7da322866211379f33ff3c0eca320bb9e3a39",
+      "byteLength": 930436,
+      "blobSha1": "ec863df49a9832d0101d02cd69bd4ca5f4599361"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/participant-instructions.md",
+      "commit": "096459ad73dd15e8e491eb2186d18ab3f7d44960",
+      "sha256": "c5bf5cbf4ee16c95d9a0aba386dd01bbb4a6c36e0c4a0e37a06316253f31acc0",
+      "byteLength": 119361,
+      "blobSha1": "25d889111aecd9252c0044998b4315de0bf2121d"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/production-field-map.json",
+      "commit": "096459ad73dd15e8e491eb2186d18ab3f7d44960",
+      "sha256": "745e117cc96320317daf5686785a6d8a76c3cbe5c685af63fb7518f4cba6759c",
+      "byteLength": 568922,
+      "blobSha1": "c3fdc639e600c50932987b2394cb318dcf54676e"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/reports/actual-writes.json",
+      "commit": "096459ad73dd15e8e491eb2186d18ab3f7d44960",
+      "sha256": "f8634e7ccdd11d5f1ea08024dd17d0e2afc47d87d7d8e74679514d2c3791cbc5",
+      "byteLength": 383363,
+      "blobSha1": "55ad51d37b12a9f5fecefbf65443ba7ee5842347"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/reports/additional-aliases.json",
+      "commit": "096459ad73dd15e8e491eb2186d18ab3f7d44960",
+      "sha256": "c94a7c61fcb1cda1c16b32dfbfc1f3219b44b0893b5475171c46c0cbe6cb0dc0",
+      "byteLength": 160190,
+      "blobSha1": "d06aca05d4658ced5b6c9048b15ceb8c34dafdc8"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/reports/blanks-left-for-the-participant.json",
+      "commit": "096459ad73dd15e8e491eb2186d18ab3f7d44960",
+      "sha256": "71f813bbce57a4a4aeec3b55c9e6aef232b4c58528168d3a270f7add1c9de634",
+      "byteLength": 306963,
+      "blobSha1": "9d0436a3e41a24a75666eb7dc3015da5b2738128"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/reports/boundary.json",
+      "commit": "096459ad73dd15e8e491eb2186d18ab3f7d44960",
+      "sha256": "8a85fbb41d6bb0aa82aee6ac375e2bfda0f928247ae516721635152bb8d4ba8b",
+      "byteLength": 163126,
+      "blobSha1": "c716fde7e2f7a348d9da44f9971b3396d04629a1"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/reports/canonical.json",
+      "commit": "096459ad73dd15e8e491eb2186d18ab3f7d44960",
+      "sha256": "dd2b40ee203cc78031fd290a239a1e70b10f688efe5a916bf2d9516974aed4c6",
+      "byteLength": 160138,
+      "blobSha1": "080b2d00a45667329d29680de54c9f421b9bb4b1"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/reports/completeness-counters.json",
+      "commit": "096459ad73dd15e8e491eb2186d18ab3f7d44960",
+      "sha256": "f0eb2b6b3d2861080cc58b9a9f3e59f36faed66344537a8a0d1f8d7de51db983",
+      "byteLength": 257,
+      "blobSha1": "06e6d3b6a77cbf643046f589bfa51f88e3024582"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/reports/completeness-result.json",
+      "commit": "096459ad73dd15e8e491eb2186d18ab3f7d44960",
+      "sha256": "64edc7dcec430986c56f7af2c52f9a6c5253f7ff081c3663198274d696c1a68a",
+      "byteLength": 1044,
+      "blobSha1": "52d28b665f1bb8e190e3a1ea1a8f832c555bc4b8"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/reports/exact-eight-years.json",
+      "commit": "096459ad73dd15e8e491eb2186d18ab3f7d44960",
+      "sha256": "0632e1b4a7c0607f23284303b150009f7c67b25a0964b384a85a3df796618ae4",
+      "byteLength": 161714,
+      "blobSha1": "7667eec2c3ba060e0a10645c2a9725032a8c6605"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/reports/history-requested.json",
+      "commit": "096459ad73dd15e8e491eb2186d18ab3f7d44960",
+      "sha256": "091ab263927c7e669a44c9a19bcfbac84d1d674a3da5a03eb6c9b5a884412d2d",
+      "byteLength": 160156,
+      "blobSha1": "11878ab80a29856329bee67e47d0bc760941cc02"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/reports/history-stale.json",
+      "commit": "096459ad73dd15e8e491eb2186d18ab3f7d44960",
+      "sha256": "bd213ac43f1d968c9ee2e76dc5fcea7bc7ebd3f4c7f5350cb7472afacea44828",
+      "byteLength": 160148,
+      "blobSha1": "2478f2724abdbd80021916753425102c9fd02dcc"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/reports/missing-identifiers.json",
+      "commit": "096459ad73dd15e8e491eb2186d18ab3f7d44960",
+      "sha256": "80f6fc76c11bdff1b8a4c95755aa62e530f7d5f67588cec480064128adedbb00",
+      "byteLength": 167871,
+      "blobSha1": "c96040fa980de4a4c360108052784c16ed91cca1"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/reports/packet-level-readiness.json",
+      "commit": "096459ad73dd15e8e491eb2186d18ab3f7d44960",
+      "sha256": "ada7b8c270ba37ec5bf8f533ae4e006d7efd3d60f80f751d7a88d9d821dc682e",
+      "byteLength": 435,
+      "blobSha1": "8d7af76771e55974094e862146521795d331d600"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/reports/pdf-byte-measurements.json",
+      "commit": "096459ad73dd15e8e491eb2186d18ab3f7d44960",
+      "sha256": "9e5c1ce9e2c48394e102118f80bdaafff9d30b3af6fafa0e452d7c71d22fa6d9",
+      "byteLength": 105708,
+      "blobSha1": "f825f4303bc9a72f4ea4d019996d3a8f6d9aba6c"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/reports/release-missing.json",
+      "commit": "096459ad73dd15e8e491eb2186d18ab3f7d44960",
+      "sha256": "7c52ad9acece40a0ecf5a14b3bb0454fe6d67ff8043920e76bd0fe678618cdd4",
+      "byteLength": 160160,
+      "blobSha1": "9bbfb769f4def9d474c364a9a6266404d7da9180"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/reports/rendered-artifacts.json",
+      "commit": "096459ad73dd15e8e491eb2186d18ab3f7d44960",
+      "sha256": "4b2107f414d653e4e346a70a5d39b9870ed1536df77035ef5858a58c28b46812",
+      "byteLength": 10626,
+      "blobSha1": "93ecae25de079a6baa271aaa228e130bb1fe0ed1"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/route-contract.json",
+      "commit": "096459ad73dd15e8e491eb2186d18ab3f7d44960",
+      "sha256": "6f45a495dd2891061bad71129c8533940a42b9b72c94ef1aed49f19ec5a5686e",
+      "byteLength": 1720,
+      "blobSha1": "d00f1598de5f7a41404ee8e67b3d15a18a027b6b"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/source-receipt.json",
+      "commit": "096459ad73dd15e8e491eb2186d18ab3f7d44960",
+      "sha256": "b48a87f99fa2d64a1cec29b90a77372c81163a31bec87d2c29d3c955fe3ea095",
+      "byteLength": 11935,
+      "blobSha1": "f7b73c893efeb69575bea843ef22868d3768ef26"
+    },
+    {
+      "path": "scripts/build-census-v1-ia-901c3-set.mjs",
+      "commit": "096459ad73dd15e8e491eb2186d18ab3f7d44960",
+      "sha256": "ff07a3c843ef74030984d3de4b7667fb3af218ef686d5e85fbd99f2ff7315341",
+      "byteLength": 526,
+      "blobSha1": "33809b81e919d8ec0a7b7a85296dd1fdb053e3c3"
+    },
+    {
+      "path": "scripts/rcap-packet-recovery/chat8/ia-901c3.mjs",
+      "commit": "096459ad73dd15e8e491eb2186d18ab3f7d44960",
+      "sha256": "5744384be7319072b3a9dbecdd2579f0df5143804de9c6516484c9aed69c9784",
+      "byteLength": 49930,
+      "blobSha1": "43a6de86ee290fb610d74ae2a19484e587e34514"
+    },
+    {
+      "path": "scripts/rcap-packet-recovery/chat8/verify-ia-901c3-pdfs.py",
+      "commit": "096459ad73dd15e8e491eb2186d18ab3f7d44960",
+      "sha256": "9006b20a71386cb56423a102b5a8920f41509e76f07aa02ec3b3b8923d994e4e",
+      "byteLength": 10470,
+      "blobSha1": "2c912530c212c424dbde8a77b3d136d6d242d863"
+    }
+  ],
+  "returnReceiptPath": "data/rcap-grade-a/packet-factory-24h/pf07/rows-pf07-ia-901c3-complete-20260913.json",
+  "sourceBinaryCommitted": false,
+  "sharedGovernanceFilesChanged": []
+}

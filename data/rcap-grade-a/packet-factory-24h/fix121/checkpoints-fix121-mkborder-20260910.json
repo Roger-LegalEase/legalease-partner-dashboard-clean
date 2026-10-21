@@ -1,0 +1,96 @@
+{
+  "schemaVersion": "rcap-grade-a-packet-factory-24h-lane-checkpoints/v1",
+  "lane": "FIX121",
+  "laneKind": "repair",
+  "date": "2026-09-10",
+  "base": "deead9f25",
+  "worktree": "/home/user/pf23-worktree",
+  "branch": "pf23-fix-20260909",
+  "rowsReturn": "data/rcap-grade-a/packet-factory-24h/fix121/rows-fix121-mkborder-20260910.json",
+  "outcome": "The dispatched border defect is not present in the delivered bytes of any of the three. suppressSynthesizedWidgetBorders is a measured no-op on CN-10557. Nothing was shipped to any packet. ROUTE_OPTIONS remains open and blocked on legal input.",
+  "checkpoints": [
+    {
+      "n": 1,
+      "step": "Assert all three grants before reading any family artifact",
+      "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX121 <familyId>",
+      "result": "CLAIM_OK on all three, grant set bad9f02c8275ef7f, exit 0.",
+      "boundaryHonoured": "nj_arrest_no_conviction-set and nj_clean_slate-set were never asserted, never read as family content and never built."
+    },
+    {
+      "n": 2,
+      "step": "Read the recorded failures before touching anything",
+      "result": "VERIFIER_RETURNS.json carries 9 rows for nj_disorderly_persons-set, 7 for nj_indictable_conviction-set and 6 for nj_ordinance-set. Exactly one row per family is not superseded: vf11 at base df524f2fd. Live obligations are COMPONENT_SET and ROUTE_OPTIONS on disorderly persons, ROUTE_OPTIONS on the other two."
+    },
+    {
+      "n": 3,
+      "step": "Resolve the pinned source by content digest",
+      "result": "c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7 resolves at private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NJ/02_PACKET_FORMS/NJ__FORM__CN-10557__cn-10557-new-jersey-expungement-kit__REV-2020-06__EN.pdf, 1924831 bytes, 43 pages. sha256sum matched first-hand."
+    },
+    {
+      "n": 4,
+      "step": "Classify every flattened widget appearance in both delivered fixtures",
+      "command": "node scripts/grade-a-packet-factory-24h/classify-flattened-widget-appearances.mjs <fixture> --source <pinned>",
+      "result": "263 flattened appearances per fixture. ZERO carry a path-painting operator, on canonical and boundary alike. 48 are show-text with a non-empty operand; 215 mark nothing -- a construct-and-clip preamble around an empty <> Tj. All 263 are placed at their own source widget /Rect to within 0.01pt."
+    },
+    {
+      "n": 5,
+      "step": "Read the pinned source's widget border characteristics first-hand",
+      "command": "node -e (pdf-lib) over the pinned source",
+      "result": "269 widgets: 269 carry /MK, 2 carry /MK /BC ([0.5 0.5 0.5], the Print and Clear pushbuttons), 2 carry /MK /BG, and ZERO carry a /BS dictionary. No widget on this form declares a border width, which is why pdf-lib constructs the rectangle and closes it without painting."
+    },
+    {
+      "n": 6,
+      "step": "Establish build reproducibility before any in-tree experiment",
+      "command": "node scripts/build-census-v1-nj_disorderly_persons-set.mjs",
+      "result": "BUILD PASS (2 PDFs; 86 page rasters) and git status --porcelain returned 0 lines. The build is reproducible, which is what made the counterfactual safe to run in-tree."
+    },
+    {
+      "n": 7,
+      "step": "Run the counterfactual: suppressSynthesizedWidgetBorders ON",
+      "command": "FIX121_PROBE_BORDERS=1 node scripts/build-census-v1-<each of the three>.mjs",
+      "result": "BUILD PASS on all three. Delivered canonical 03f6169d042fc1d5ed30df008dfc966ef3d03b382731f5956d0e8786ca8a234f and boundary 23a571af72985717963001120ba60116ae43054aaa1c2fddbeece944dac24494 on every one -- byte-identical to the committed digests. The option is a measured no-op on this form."
+    },
+    {
+      "n": 8,
+      "step": "Restore the shared host and prove it",
+      "command": "git checkout -- scripts/build-census-v1-nj_arrest_no_conviction-set.mjs; diff against a pre-edit copy",
+      "result": "git status --porcelain empty; the host is byte-identical to the committed file at sha256 0b1506cda50ba546b6f856de2c9ec92fa8b7efcac77242104cd0228a0fbb3357. Nothing of the experiment reached the committed tree."
+    },
+    {
+      "n": 9,
+      "step": "Directional raster difference, both directions, all 43 pages, both fixtures",
+      "command": "pdftoppm -r 300 -gray -png over the pinned source and each fixture, then a per-pixel dark-pixel comparison at threshold 128",
+      "result": "Canonical: 127,486 added and 2,591 removed. Boundary: 269,667 added and 2,591 removed. Added ink falls only on the 10 pages carrying participant writes; the 33 pages this packet never writes on carry ZERO added dark pixels, which is the direct refutation of a border stamped at 199 widgets."
+    },
+    {
+      "n": 10,
+      "step": "Identify the removed ink -- the negative control",
+      "result": "All 2,591 removed pixels are one band on page 18 at 300 dpi rows 83-119, columns 2145-2475 (PDF pt x 514.8-594.0, y 763.4-772.1). Cropped and looked at: the source form's own Print and Clear pushbuttons, the only two widgets on CN-10557 carrying /MK /BC. Command controls, dropped deliberately by the shared step, correct on a filing, and predating this lane. Zero removed pixels on every other page, including delivered page 24, the notarised Verification."
+    },
+    {
+      "n": 11,
+      "step": "Re-run the completeness verifier at this base",
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <each of the three>",
+      "result": "FAIL_ROUTE_SELECTION on all three, requiredOptionsMissing 1, invisibleWrites and visualDefects UNMEASURED. The recorded ROUTE_OPTIONS failure still reproduces."
+    },
+    {
+      "n": 12,
+      "step": "Read the COMPONENT_SET repair at appearance level on the delivered guide",
+      "result": "Present. The six strings VF11 measured at 0 hits each now return 1 hit each in participant-instructions.md, under a new heading '## How the offence count works on this route'; the objections paragraph is under '## Who must be served'. Repaired by an earlier FIX121 session at commit 4322c4bba, not by this lane, and this lane sets no verdict on it."
+    },
+    {
+      "n": 13,
+      "step": "Commit the read-only classifier so the staged cohort batches can rerun the measurement",
+      "result": "scripts/grade-a-packet-factory-24h/classify-flattened-widget-appearances.mjs at commit 7560b5a32. Read-only: it opens PDFs and writes no packet byte, no manifest and no receipt."
+    }
+  ],
+  "boundariesObserved": [
+    "No packet PDF byte was moved. No overlay directory was modified. No raster PNG was committed.",
+    "No existing receipt was edited, re-pointed or re-described.",
+    "No central manifest was edited. No commercial route was opened. Production, Stripe and Supabase were untouched.",
+    "git add named exact paths only; no `git add .`, `-A` or `--all`. No force-push, no push to main, no pull request.",
+    "No subagent was created.",
+    "nj_arrest_no_conviction-set and nj_clean_slate-set were not claimed, not read as family content, not built and not restored-over."
+  ],
+  "whatTheCaptainOwesNext": "A decision on whether the 87-family cohort is remediated from the static prediction or from a delivered-bytes measurement per family. On these three the prediction over-counted by 597 widgets and the remedy is a no-op."
+}

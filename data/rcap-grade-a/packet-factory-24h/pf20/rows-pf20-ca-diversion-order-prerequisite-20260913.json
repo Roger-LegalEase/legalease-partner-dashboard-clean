@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-family-return/v1",
+  "recordedAt": "2026-09-13T15:04:24.811Z",
+  "lane": "PF20",
+  "assignmentId": "PF06",
+  "workerId": "rcap-finish-worker-77jr7gx76jq3rg65",
+  "itemId": "ca-diversion-seal-set",
+  "jurisdiction": "CA",
+  "status": "STOPPED",
+  "stopClass": "BLOCKED_SOURCE",
+  "implementationStrategy": "official_pdf_fill",
+  "buildPerformed": false,
+  "overlayDirectory": "data/rcap-all50/overlays/census-v1/ca/ca-diversion-seal-set--official-pdf-fill",
+  "overlayDirectoryExists": false,
+  "overlayDirectoryTouched": false,
+  "countyScope": "San Diego County only",
+  "sourceGate": {
+    "id": "family_sources_bind",
+    "title": "Every source this family names is present and hashes to its pinned digest",
+    "because": "Family-level is the level that matters. A corpus can be complete in aggregate and still not carry the two binaries this worker was dispatched to measure.",
+    "ok": true,
+    "family": "ca-diversion-seal-set",
+    "tier": "custody_reconciliation",
+    "custodyClass": "SOURCE_GENUINELY_MISSING",
+    "commissionAcquisition": true,
+    "sources": [
+      {
+        "sourceId": "official-form:SDSC-CRM-307",
+        "present": true,
+        "bound": true,
+        "pinned": "da6852b5762dea47a17e8159a67e07215543a8524be623709f4856aed169b287",
+        "observed": "da6852b5762dea47a17e8159a67e07215543a8524be623709f4856aed169b287",
+        "resolvedBy": "declared repository-relative path",
+        "pathRoot": "repositoryRoot"
+      }
+    ],
+    "boundByContentHashRatherThanDeclaredPath": 0,
+    "detail": "1/1 source(s) bind by exact SHA-256 (custody_reconciliation)"
+  },
+  "resolvedPriorBlocker": "The accepted governed resolver now binds exact adopted CRM307 through repository custody.",
+  "exactRemainingBlocker": "No governed San Diego sealing order source or authorized composed-order strategy is identified. Held CRM307 contains petition on page1 and prosecutor response plus court notice of hearing on page2, not a sealing order. Stage2 county petition AND order set and required county order forms remain specified in the existing legal-design contract.",
+  "contract": {
+    "path": "data/record-clearing/legal-design-intake/CA.memo.json",
+    "sha256": "c9d9f7266f22df9c90ce76507b407343fc50784a715b02a69e86fc713550cbf3",
+    "trackId": "ca-diversion-seal",
+    "unitId": "ca-diversion-seal-stage-2",
+    "requiredComponents": "County petition and order set; supportingDocuments requires county petition and order forms"
+  },
+  "sourceBinding": [
+    {
+      "sourceId": "official-form:SDSC-CRM-307",
+      "path": "reference/source-recovery/2026-09-11-wave1/crm307.pdf",
+      "sha256": "da6852b5762dea47a17e8159a67e07215543a8524be623709f4856aed169b287",
+      "byteLength": 211228,
+      "pages": 2,
+      "content": "Petition; prosecutor response; court notice of hearing; no dispositive order"
+    }
+  ],
+  "inventoryAssessment": "Existing committed CA corpus index lists CRM307 for diversion; no matching diversion sealing order found. No CA-diversion builder existed in current scripts; prior native return says no overlay had been built.",
+  "sourceAcquisitionPerformed": false,
+  "counters": null,
+  "allNineCountersZero": null,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "packetsSelfVerified": 0,
+  "claimLedger": {
+    "path": "data/rcap-grade-a/packet-factory-24h/claim-ledger.json",
+    "sha256": "b4eadc16ceec48f132bdcfbc9d17290a4c8fd55425c2aa071a84cd7d121d4bfc",
+    "preserved": true
+  },
+  "nextActionForCaptain": "Keep source-resolver success separate from complete-packet source readiness. Supply existing governed order evidence or an expressly authorized county composition strategy before building a complete stage2 packet. No source reacquisition or substitute strategy performed."
+}

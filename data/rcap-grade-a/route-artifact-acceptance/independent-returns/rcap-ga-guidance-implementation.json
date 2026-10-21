@@ -1,0 +1,226 @@
+{
+  "schemaVersion": "rcap-route-artifact-independent-verifier-return/v1",
+  "familyId": "rcap-ga-guidance-implementation",
+  "jurisdiction": "GA",
+  "reviewedAtBase": "13ff00d17dbb82eac10b3d6695a281efc01a45a1",
+  "verifier": {
+    "id": "GA-ROUTE-VERIFY",
+    "independent": true,
+    "builtOrAuthoredThisFamily": false,
+    "authoredRouteScopingMachinery": false,
+    "method": "Fresh route-scoped read of both exact PDF artifacts, their field map, actual-writes report, instructions, source receipt, route-acceptance and raster records, customer route contract, owner approval, post-approval change audit, product wiring and fulfillment-authority contract. All three source hashes and both artifact hashes were recomputed from bytes; page counts were parsed; all expected values were read from each artifact; all eight pages were rendered and visually inspected; route completeness was rerun; and the family builder was run twice from scratch without rastering. No earlier family verdict was inherited as a route verdict."
+  },
+  "route": {
+    "routeKey": "obligation:track-pathway:GA:ga-rfo:retroactive-first-offender-treatment-under-42-8-66",
+    "customerRouteId": "GA:retroactive-first-offender-treatment-under-42-8-66",
+    "routeContract": "src/lib/legal-authority/routes/national-report-2026-08-28.json",
+    "contractOutcomeMode": "participant_packet",
+    "contractPacketFamily": "Georgia § 42-8-66 Retroactive First Offender Petition",
+    "artifactFamilyActuallyReviewed": "rcap-ga-guidance-implementation",
+    "artifactFamilyOutput": "process guidance and participant factual record; no petition and nothing filed",
+    "artifactCount": 2
+  },
+  "verdict": "FAIL_REPAIR_REQUIRED",
+  "obligationsScored": 15,
+  "failedObligations": [
+    "ROUTE_IDENTITY",
+    "COMPONENT_SET",
+    "ROUTE_OPTIONS",
+    "SERVICE"
+  ],
+  "unmeasuredObligations": [],
+  "results": {
+    "ROUTE_IDENTITY": {
+      "result": "FAIL",
+      "finding": "The route-acceptance row labels these bytes as the customer route, but the controlling customer route contract requires a participant petition from a distinct petition family. The reviewed family says repeatedly that it is guidance only, contains no petition, is filed nowhere, and must not close the petition gate. A one-route family/component equivalence cannot make the wrong output type the route's customer deliverable.",
+      "evidence": [
+        "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_ACCEPTANCE.json",
+        "src/lib/legal-authority/routes/national-report-2026-08-28.json",
+        "data/rcap-all50/overlays/census-v1/ga/rcap-ga-guidance-implementation--custom-pleading/source-receipt.json",
+        "data/rcap-all50/overlays/census-v1/ga/rcap-ga-guidance-implementation--custom-pleading/participant-instructions.md"
+      ]
+    },
+    "SOURCE_IDENTITY": {
+      "result": "PASS",
+      "finding": "All three committed sources named by source-receipt.json exist and recompute byte-for-byte to the recorded SHA-256. All 25 anchors required by the builder resolve at this review base; no source binary is claimed.",
+      "recomputed": [
+        {
+          "path": "data/record-clearing/legal-design-specifications.json",
+          "sha256": "cc0c79598a8406e08d606901fafb01972bb75ac1e7d0eca8df59209c0773f9c5",
+          "byteLength": 16829383
+        },
+        {
+          "path": "src/lib/legal-authority/routes/national-report-2026-08-28.json",
+          "sha256": "918bc6616e23de07014825cd8cbd9b81dc282613a0f5f2214130ac2af30e4b7b",
+          "byteLength": 37333
+        },
+        {
+          "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+          "sha256": "0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f",
+          "byteLength": 2599752
+        }
+      ]
+    },
+    "COMPONENT_SET": {
+      "result": "FAIL",
+      "finding": "The customer route contract requires ten petition-family components. The reviewed artifacts carry only two guidance-family components. Both guidance components are valid for the guidance family, but neither turns that family into the customer route's petition packet.",
+      "requiredByCustomerRoute": [
+        "Petition for retroactive First Offender treatment, exoneration and discharge",
+        "Written prosecutor consent, joinder or signed consent endorsement",
+        "Proposed order",
+        "Hearing-request election",
+        "Certificate of service or local notice document",
+        "Judgment, sentence and disposition records",
+        "Evidence of original First Offender eligibility",
+        "Evidence supporting the applicable § 42-8-66 branch",
+        "Rehabilitation and interests-of-justice exhibits",
+        "Post-order restriction, sealing and verification instructions"
+      ],
+      "carriedByReviewedArtifacts": [
+        "ga-rfo-participant-factual-record-1",
+        "ga-rfo-process-guidance-2"
+      ]
+    },
+    "KNOWN_PREFILLS": {
+      "result": "PASS",
+      "finding": "Six of six declared writes were independently read back from both canonical and boundary PDF text, using whitespace-normalized comparison for the wrapped boundary address. No declared write was missing."
+    },
+    "REQUIRED_BEFORE_FILING": {
+      "result": "PASS",
+      "finding": "All nine required-before-filing items declared by this guidance artifact are named in participant-instructions.md. The customer route's verified-written-consent precondition is also stated repeatedly, including that silence, refusal or no known objection is not consent and that LegalEase does not obtain consent."
+    },
+    "ROUTE_OPTIONS": {
+      "result": "FAIL",
+      "finding": "The field map's sole route selection chooses process guidance and explicitly chooses no petition. The customer route contract selects participant_packet after verified written prosecutorial consent and requires a hearing-request election. The route-determined output selection therefore does not match the customer route."
+    },
+    "REPEATING_ROWS": {
+      "result": "PASS",
+      "finding": "The focused route-completeness run measured incompleteRows=0 for canonical and boundary artifacts."
+    },
+    "PROTECTED_FIELDS": {
+      "result": "PASS",
+      "finding": "The focused route-completeness run measured protectedWrites=0. The participant signature and signature-date lines remain blank in both PDFs, and the actual-writes record contains no court-, prosecutor- or participant-owned protected write."
+    },
+    "ARTIFACTS": {
+      "result": "PASS",
+      "finding": "Canonical and boundary bytes recompute to the hashes in rendered-artifacts.json, both route-acceptance rows, and the raster receipt. Each parses to four pages. Two fresh no-raster builds reproduced both hashes and left the worktree unchanged."
+    },
+    "PAGE_ORDER": {
+      "result": "PASS",
+      "finding": "Each PDF parses to four pages and its pageManifest is contiguous 1 through 4: participant factual record on pages 1-2, then process guidance on pages 3-4."
+    },
+    "CLIPPING_AND_OVERLAP": {
+      "result": "PASS",
+      "finding": "All eight pages were rendered and visually inspected. No text is clipped or overlapping. Independent bbox extraction found 0 words outside page bounds in either artifact; the central raster receipt is RASTER_PASS for the same canonical and boundary hashes with eight pages measured and zero problems."
+    },
+    "FILING_DESTINATION": {
+      "result": "PASS",
+      "finding": "The instructions accurately distinguish this non-filed guidance artifact from the eventual route: prosecuting attorney first for written consent, then the court of conviction for the petition."
+    },
+    "FEE_AND_WAIVER": {
+      "result": "PASS",
+      "finding": "The instructions state that O.C.G.A. § 42-8-66 prohibits a filing fee and therefore no fee waiver is needed."
+    },
+    "SERVICE": {
+      "result": "FAIL",
+      "finding": "The reviewed guidance says nothing is served because nothing in it is filed. The customer route contract requires a certificate of service or local notice document for the post-consent petition. These artifacts contain no such component and do not state who the petition must be served on or how."
+    },
+    "SELF_HELP_STOP": {
+      "result": "PASS",
+      "finding": "The instructions stop self-help at prosecutorial-consent negotiation, refusal or silence, uncertain original eligibility, a contested evidentiary hearing and immigration consequences, and they name four Georgia referral desks. This content matches the current route contract; approval coverage for the post-approval addition is a separate failed operational condition recorded below."
+    }
+  },
+  "artifacts": [
+    {
+      "fixture": "canonical",
+      "file": "data/rcap-all50/overlays/census-v1/ga/rcap-ga-guidance-implementation--custom-pleading/fixtures/canonical.pdf",
+      "sha256Recomputed": "ecfb488b8adf6cdadbbe1489d4a7fb9a982a18d7e9bebe90b0c019b80a756914",
+      "sha256MatchesRenderedArtifacts": true,
+      "sha256MatchesRouteAcceptance": true,
+      "sha256MatchesRasterReceipt": true,
+      "byteLength": 12455,
+      "pageCountParsed": 4,
+      "pageManifestEntries": 4,
+      "expectedWrites": 6,
+      "valuesReadBack": 6,
+      "bboxWordsMeasured": 1174,
+      "wordsOutsidePageBounds": 0,
+      "visuallyInspectedPages": 4,
+      "clippingOrOverlapFound": false,
+      "freshBuildOneSha256": "ecfb488b8adf6cdadbbe1489d4a7fb9a982a18d7e9bebe90b0c019b80a756914",
+      "freshBuildTwoSha256": "ecfb488b8adf6cdadbbe1489d4a7fb9a982a18d7e9bebe90b0c019b80a756914"
+    },
+    {
+      "fixture": "boundary",
+      "file": "data/rcap-all50/overlays/census-v1/ga/rcap-ga-guidance-implementation--custom-pleading/fixtures/boundary.pdf",
+      "sha256Recomputed": "6866fd683dad67e2a3b4be8db3773e424411850487748f2692ecaf9253d12e24",
+      "sha256MatchesRenderedArtifacts": true,
+      "sha256MatchesRouteAcceptance": true,
+      "sha256MatchesRasterReceipt": true,
+      "byteLength": 12617,
+      "pageCountParsed": 4,
+      "pageManifestEntries": 4,
+      "expectedWrites": 6,
+      "valuesReadBack": 6,
+      "bboxWordsMeasured": 1180,
+      "wordsOutsidePageBounds": 0,
+      "visuallyInspectedPages": 4,
+      "clippingOrOverlapFound": false,
+      "freshBuildOneSha256": "6866fd683dad67e2a3b4be8db3773e424411850487748f2692ecaf9253d12e24",
+      "freshBuildTwoSha256": "6866fd683dad67e2a3b4be8db3773e424411850487748f2692ecaf9253d12e24"
+    }
+  ],
+  "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "scope": "rerun independently for each exact route artifact against the guidance family's own field-map declarations; these counters do not supersede the customer-route component and output failures above"
+  },
+  "operationalEligibility": {
+    "result": "FAIL_CLOSED",
+    "mayEnterFirstRouteCohort": false,
+    "mayCreateFulfillmentAuthority": false,
+    "mayEnableCheckout": false,
+    "mayEnableSponsorship": false,
+    "blockers": [
+      {
+        "id": "ROUTE_ARTIFACT_WRONG_OUTPUT_FAMILY",
+        "basis": "Four of fifteen route obligations fail: ROUTE_IDENTITY, COMPONENT_SET, ROUTE_OPTIONS and SERVICE."
+      },
+      {
+        "id": "POST_APPROVAL_CHANGE_REQUIRES_OWNER_DECISION",
+        "basis": "Committed independent condition-seven audit 70878e7b3de7ef34fc2ef3e5be99687055cc8201 records NEEDS_NEW_DECISION_OWNER_DECISION and mayEnterTheFirstCohort=false for this family.",
+        "evidencePath": "data/rcap-grade-a/legal-decisions/POST_APPROVAL_CHANGE_AUDIT_2026-09-02.json"
+      },
+      {
+        "id": "NO_GRADE_A_FULFILLMENT_RECORD",
+        "basis": "data/rcap-grade-a/fulfillment-authority-registry.json contains no record for this customerRouteId or family; that registry's contract says absence denies."
+      },
+      {
+        "id": "WIRING_DECLARED_NOT_INSTALLED",
+        "basis": "product-wiring.json remains DECLARED_NOT_INSTALLED with generationAllowed=false, paymentEligible=false and sponsorshipEligible=false."
+      }
+    ]
+  },
+  "smallestExactRepair": [
+    "Do not rewrite, relabel or operationally bind rcap-ga-guidance-implementation; it is internally consistent as a guidance-only family.",
+    "Build the distinct Georgia § 42-8-66 Retroactive First Offender Petition family named by the customer route contract, including all ten required components and a fail-closed release gate requiring server-verified written prosecutorial consent.",
+    "State the petition's actual service recipient and method and carry the route-determined hearing election and post-order branch behavior.",
+    "Obtain exact-byte raster acceptance and a new independent fifteen-obligation route verdict for that petition family.",
+    "Obtain the decision owner's approval of the new petition output and the post-approval substantive delta identified in commit 70878e7b3de7ef34fc2ef3e5be99687055cc8201.",
+    "Only after every preceding item passes, create the exact Grade-A fulfillment authority record and bind this customerRouteId to the new petition family. Keep every unsatisfied branch fail-closed."
+  ],
+  "visualAdvisoriesNotUsedAsVerdictFailures": [
+    "The PDF renderer prints Markdown emphasis markers as literal double asterisks on guidance pages 3-4.",
+    "The heading WHAT YOU DO NOT DO is orphaned at the bottom of page 3 and its body begins on page 4."
+  ],
+  "packetPdfsModified": 0,
+  "productionTouched": false,
+  "commercialRoutesOpened": 0
+}

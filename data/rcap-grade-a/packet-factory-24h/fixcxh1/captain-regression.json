@@ -1,0 +1,11 @@
+{
+  "purpose": "One existing unaffected route regression for shared adapter; not independent packet approval",
+  "family": "rcap-tn-custom-pleading",
+  "route": "tn_mistaken_identity",
+  "command": "node scripts/rcap-packet-completeness/verify-route-artifact-completeness.mjs --family rcap-tn-custom-pleading --route tn_mistaken_identity",
+  "beforeExit": 0,
+  "afterExit": 0,
+  "substantiveOutputIdentical": true,
+  "output": "  ok   rcap-tn-custom-pleading \u00b7 tn_mistaken_identity \u00b7 canonical \u2014 ROUTE_PASS_COMPLETE \u2014 3 component(s), 11/11 value(s) read back, 11/31 written\n  ok   rcap-tn-custom-pleading \u00b7 tn_mistaken_identity \u00b7 boundary \u2014 ROUTE_PASS_COMPLETE \u2014 3 component(s), 11/11 value(s) read back, 11/31 written\n\n  2 route artifact(s) measured this run \u00b7 2 total \u00b7 2 ROUTE_PASS_COMPLETE\n",
+  "clarification": "Worker fixed-unaffected-route.log is a Hawaii sibling control, not an unaffected-family control. This Tennessee before/after comparison supplies that separate regression."
+}

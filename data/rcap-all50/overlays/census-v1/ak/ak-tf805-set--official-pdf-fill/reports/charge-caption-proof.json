@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "rcap-charge-caption-proof/v1",
+  "familyId": "ak-tf805-set",
+  "question": "Does any blank whose caption or field name names a charge, offence, count, statute or violation carry a participant name token in the rendered artifact bytes?",
+  "method": "Read back from the flattened appearance streams of each rendered fixture with scripts/rcap-official-forms/pdf-flattened-widgets.mjs, at each field's own measured widget rectangle. This is the artifact answering, not the render report.",
+  "consistentWith": "scripts/rcap-official-forms/verify-full-name-charge-caption-semantics.mjs",
+  "participantNameTokensSearchedFor": [
+    "Jordan Avery Reyes",
+    "Jordan",
+    "Avery",
+    "Reyes",
+    "Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III",
+    "Alexandrina",
+    "Katharine",
+    "Montgomery",
+    "Vandenberg",
+    "Oyelaran",
+    "Fitzwilliam"
+  ],
+  "chargeBlanksExamined": 0,
+  "chargeBlanksCarryingAParticipantName": 0,
+  "answer": "NO -- no participant name lands in any charge-caption blank in any fixture",
+  "whyTheSetIsEmpty": "TF-805 has no charge-vocabulary blank on either page, measured. It is a request about how a case is INDEXED, not about what the case was: the participant states a ground under Administrative Rule 40(b) or (c) and their own reasons, and the offence is never asked for. The charge-caption defect class cannot arise on this form. That is a property of the document, not a refusal that happened to hold, and it is recorded so a later reader does not mistake an empty result for an unrun check.",
+  "blanks": [],
+  "guardProjection": {
+    "question": "Applying the corpus guard's own offending-row test to this family's census: does any blank bind a writable participant.full_legal_name while its name or caption uses the charge vocabulary?",
+    "fieldsScanned": 17,
+    "offendingRows": 0,
+    "offending": []
+  }
+}

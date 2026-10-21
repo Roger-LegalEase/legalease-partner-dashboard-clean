@@ -1,0 +1,69 @@
+{
+  "schemaVersion": "rcap-independent-service-preflight-review/v1",
+  "reviewer": "/root/prerequisite",
+  "runId": 34843210160,
+  "artifactId": 10346464503,
+  "status": "FAILED_CURRENT_SERVICE_PREFLIGHT",
+  "reviewedAt": "2026-09-14",
+  "custody": [
+    {
+      "path": "private/transfers/national-release-preservation-20260914/service-preflight-34843210160/original.zip",
+      "sha256": "c73d894e2c051246b0120c68e1dbbfcb0d3c7775808412c18188a936246f6919",
+      "byteLength": 2634
+    },
+    {
+      "path": "private/transfers/national-release-preservation-20260914/service-preflight-34843210160/artifacts.json",
+      "sha256": "ed3f4e9921180998e5cecc847b2ee4685bdedce201db771c697f83cc220a4772",
+      "byteLength": 823
+    },
+    {
+      "path": "private/transfers/national-release-preservation-20260914/service-preflight-34843210160/original/preflight.json",
+      "sha256": "d1a54fa51771aa02d5c6aaeca2759f2123f649ec71dd85924e7a14ec68ffb73f",
+      "byteLength": 3438
+    },
+    {
+      "path": "private/transfers/national-release-preservation-20260914/service-preflight-34843210160/original/worker-input-plan.json",
+      "sha256": "0b9edf2bdba15c2a93d03209058b60d4e477bd444eafe3422ef27d21de8d4237",
+      "byteLength": 4906
+    },
+    {
+      "path": "private/transfers/national-release-preservation-20260914/service-preflight-34843210160-failed.log",
+      "sha256": "f0a5c4d87fdc1f2396231436a0f0bd9b86f350b040ab8b4731d4f4b4829427ad",
+      "byteLength": 533312
+    }
+  ],
+  "originalZipDigestMatchesGitHubArtifactMetadata": true,
+  "originalFilesEqualArchiveMembers": true,
+  "applicationSha": "41db064ec6f25149802504f410fab7ece2c61b96",
+  "toolsSha": "f89a93f9082ed83a966df0367a1b14d9bcbd391c",
+  "serviceOnly": true,
+  "passedChecks": 0,
+  "failedChecks": 9,
+  "missingChecks": 0,
+  "workerRebuildRequired": true,
+  "workerChangedPathCount": 23,
+  "findings": {
+    "supabase": {
+      "managementProjectListHttpStatus": 401,
+      "acceptanceProjectSelectHttpStatus": 401,
+      "projectRef": "hyflxnlhpmiqxvvcoiia",
+      "conclusion": "Protected workflow Supabase credential was rejected by both endpoints. No project identity, SQL reachability, or empty/synthetic-data proof was established.",
+      "intervention": "An authorized owner must verify or replace the workflow SUPABASE_ACCESS_TOKEN with a valid token authorized for the existing acceptance project. No migration or production secret change is implied."
+    },
+    "vercel": {
+      "endpoint": "VERCEL_TEAMS",
+      "httpStatus": 200,
+      "reason": "PINNED_TEAM_NOT_VISIBLE",
+      "expectedTeamSlug": "roger947s-projects",
+      "conclusion": "Expected team absent from the one returned page consumed by the resolver; this does not prove team access was removed.",
+      "pagination": "Resolver requests /v2/teams?limit=100 once and ignores pagination. Local synthetic response with pagination.next reproduced one request and first-page refusal. Actual run does not retain pagination metadata, so omitted later-page team remains unexcluded.",
+      "intervention": "Verify workflow VERCEL_TOKEN scope for the existing team/project and establish complete team-list coverage before diagnosing absent access. No deployment is needed."
+    }
+  },
+  "applicationAccepted": false,
+  "workerImageAccepted": false,
+  "participantAcceptanceEstablished": false,
+  "releaseAuthorityGranted": false,
+  "productionTouched": false,
+  "newRemoteCallsByReviewer": false
+}

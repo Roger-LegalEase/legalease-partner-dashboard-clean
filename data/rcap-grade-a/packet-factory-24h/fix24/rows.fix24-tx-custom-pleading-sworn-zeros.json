@@ -1,0 +1,162 @@
+{
+  "schemaVersion": "rcap-packet-factory-lane-return/v1",
+  "assignmentId": "FIX24",
+  "worker": "FIX24",
+  "workerBranch": "fix24-tx-custom-pleading-zeros",
+  "shiftBaseSha": "79f886f26a16cde736a830c842bb7ea06b14f174",
+  "laneKind": "repair",
+  "question": "One family still ships two zeros on a sworn financial statement. It is the last of three. Repair rcap-tx-custom-pleading, and make the enforcing check pass corpus-wide.",
+  "environment": {
+    "worktree": "git worktree add did NOT inherit core.sparseCheckout at this tip: git config --get core.sparseCheckout returned nothing, git sparse-checkout list answered 'this worktree is not sparse', and git ls-files -v carried zero skip-worktree bits. The checkout was still verified rather than assumed. git ls-files counts 15885 tracked paths; the working tree holds 15885 files plus the .git worktree pointer file, and comm over the two sorted lists shows no path tracked-but-absent and none present-but-untracked. Every one of the 15885 index blob hashes was re-hashed from disk with git hash-object --stdin-paths and compared against git ls-files -s: zero mismatches. git status was empty before any byte was changed.",
+    "aDeletionThisLaneCausedAndRepaired": "scripts/verify-packet-build-environment.mjs joins its --json report path onto the repo root, so an absolute scratch path wrote the report INSIDE the worktree at tmp/claude-.../env.json. Removing that scratch directory with rm -rf tmp deleted 1499 TRACKED files under tmp/official-pdf-shadow-batch/, which is a committed directory rather than scratch. It was restored with git checkout -- tmp/ (never git reset --hard and never git clean), and the restore was verified rather than assumed: git ls-files -s tmp/ lists 1499 paths and all 1499 re-hash from disk to exactly their index blobs (md5 of the sorted hash list matches between index and disk). git status returned to empty. Every later measurement in this row was taken after that restore. No scratch file was written inside the worktree again.",
+    "disk": "1.5G checkout on a filesystem at 87% with 5.2G free. node_modules is a symlink to the shared install in the primary clone, whose package-lock.json is byte-identical to this worktree's, so there is no version drift and no second 769M copy on a nearly full disk. pdf-lib resolves at 1.17.1. No other lane's worktree was modified.",
+    "scratchpadIsShared": "The session scratchpad is shared across concurrently running lanes and a sibling lane overwrote this lane's measure.mjs mid-run. It was detected because the script printed another lane's output shape, and every scratch script was moved under a lane-private subdirectory afterwards. The PDF evidence files were re-hashed and were intact and unchanged, so no measurement in this row depends on a clobbered file.",
+    "masterLibrary": "MASTER_LIBRARY_SOURCE_DIR exported to ../corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1. The preflight reports it mounted and complete: 501 files, 329 PDFs, 51 jurisdictions.",
+    "humanSourceReturn": "The family's one bound source lives in the human_source_returns custody, which is not carried by any release and was not mounted in this worktree, so family_sources_bind initially reported 1 of 1 not binding. private/human-source-returns was mounted (gitignored, read-only, symlinked to the copy held in the primary clone) and the binary verified at sha256 bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d, 6667524 bytes, matching data/rcap-grade-a/source-verification/human-source-returns/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.receipt.json. family_sources_bind then reports 1/1 binding by exact SHA-256. private_is_git_ignored passes and private/ tracks nothing.",
+    "aPreexistingCorpusGapNotCausedHere": "corpus_matches_committed_index reports 1 absent of 24 sampled, and it is not this family: 'LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf' is absent from every copy of the Master Library on this host, including the one in the primary clone. It was present before this lane started and was not touched."
+  },
+  "productionTouched": false,
+  "commercialRoutesOpened": 0,
+  "selfVerified": false,
+  "rows": [
+    {
+      "itemId": "rcap-tx-custom-pleading",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "verdictNote": "Repair completion only. This lane does not verify its own packet. Independent verification and a fresh central raster acceptance both remain required, and this row claims neither.",
+      "baseSha": "79f886f26a16cde736a830c842bb7ea06b14f174",
+      "claim": "CLAIM_OK FIX24 rcap-tx-custom-pleading (repair, grant set 024f8d9cb00aa301)",
+      "factoryState": "BUILT_RASTER_PENDING",
+      "masterQueueStateUnchanged": "FAIL_REPAIR_REQUIRED before and after. This lane promoted nothing. The family was already failing independent verification on three obligations, only one of which this repair touches at all, so there was no proven state to demote and none to award.",
+      "obligationRepaired": [
+        "SOURCE_CARRIED_VALUE_ON_A_SWORN_DOCUMENT"
+      ],
+      "whatWasDone": "The delivered packet drew a standalone \"0\" at packet page 7 (313.44, 131.32) and packet page 8 (318.22, 91.2) in both fixtures. Those are the widget rectangles of Value / Valor 11 and Amount Cantidad 15 on component tx-expunction-fee-waiver-statement, the Texas Statement of Inability to Afford Payment of Court Costs approved in Misc. Docket No. 22-9090. Neither value was written by this build. Both are shipped by the official source as /V \"0\" and were carried onto the filing by the finalizer's structural default, which treats an unwritten /Tx appearance as the court's own ink and preserves it. This family's own production-field-map.json refuses both fields with completenessDisposition REQUIRED_BEFORE_FILING and requiredBeforeFiling true, for the stated reason that the platform holds no financial fact about any participant and a guessed figure on a sworn affidavit is a worse defect than a blank one. That refusal was honoured on the write path and defeated on the flatten path, so a sworn statement of inability to pay went out carrying an answer the participant never gave, on the financial lines, under penalty of perjury.",
+      "remedyChosen": "A -- the appearance registry.",
+      "whyThatRemedy": "The two remedies are mirror images and the builder decides which fits. scripts/build-census-v1-rcap-tx-custom-pleading.mjs already imports loadAppearanceSemantics and dispositionsForFamily, already reads the registry once at module load, and already passes appearanceDispositions: dispositionsForFamily(APPEARANCE_SEMANTICS, `${FAMILY_ID}:${source.componentId}`) into finalizeOfficialForm for this exact component -- and passes no clearSourceCarriedTextValues at all. So the mechanism was wired and the entry was under-populated, which is the same finding the sibling repair made on tx_nd_dwi_probation-set. It was confirmed on bytes rather than inferred from the code: the entry already classified Today, and the control build at the unrepaired base dropped Today's 12/15/2022 from the page, proving the registry path is live and effective in this builder before any change of mine. Remedy A is also the one the owner's constraints ask for: it names two fields and states, per field, why each is a participant input rather than the court's ink, leaving every other appearance preserved. Remedy B deletes /V and EVERY widget /AP before flatten, which cannot distinguish the court's own printed ink from a source-carried default and so cannot satisfy 'do not remove a legitimate confirmed zero or any unrelated printed text' by construction.",
+      "whyTheseZerosAreNotAnAnswerAnybodyGave": "Proved from both ends rather than asserted. From the source end: the issuer-original binary carries these values in the blank form, before any participant sees it -- exactly three of its 132 fields carry a non-empty /V, and they are these two plus Today. From the build end: the family's own field map refuses both fields as REQUIRED_BEFORE_FILING and never writes them, and reports/actual-writes.json listed them under documentAuthoredAppearances with drawnText \"0\" and sourceValue \"0\", which is the build's own record that the ink came from the document and not from a participant fact. A zero the participant genuinely answered would appear in actualWrites against a held fact; neither does. No confirmed zero was removed, because there was no confirmed zero.",
+      "measurementInstrument": "flattenedWidgets() from scripts/rcap-official-forms/pdf-flattened-widgets.mjs. pdftotext reads this family's pages 7 and 8 as clean because the glyphs are drawn with an unsubsetted /Arial it cannot map, so a text extraction reports the wrong answer in the dangerous direction.",
+      "measurementBefore": {
+        "canonical 4f331e2c4766.. (committed)": "141 flattened appearances; 2 standalone zeros: page 7 (313.44, 131.32) /FlatWidget-1812800957, page 8 (318.22, 91.2) /FlatWidget-4855138939",
+        "boundary 78c98d6e9651.. (committed)": "141 flattened appearances; the identical 2, at the identical two points",
+        "alsoDrawnAtTheCommittedTip": "page 11 (97.75, 302.31) /FlatWidget-4774049913 '12/15/2022' -- the stale Option 1 declaration date, already classified in the registry by an earlier lane but never rebuilt into the committed bytes"
+      },
+      "measurementAfter": {
+        "canonical 33e1fbd056ae..": "138 flattened appearances; 0 standalone zeros",
+        "boundary 9d28d0d7794a..": "138 flattened appearances; 0 standalone zeros",
+        "whatStillDrawsText": "8 non-empty appearances in each fixture, all of them the participant's own held facts (name, address, date of birth, phone, email on page 2; name and address on page 11; name on page 12). The two financial rectangles and the declaration date rectangle now draw nothing, which is what every other unanswered blank on those pages already did."
+      },
+      "theCommittedFixturesWereStale": "The bar asked for a control build at the unrepaired base that reproduces the committed bytes exactly. It does NOT, and that is a finding rather than build noise. A control build at the base, with no change of mine, produced canonical 44942c6fdb73.. (959761 bytes, 140 appearances) and boundary 8d0dc4ea19da.. (959995 bytes, 140 appearances) against committed 4f331e2c4766.. (961600, 141) and 78c98d6e9651.. (961834, 141). A coordinate-keyed placement diff of committed against control shows exactly ONE removal -- p11@97.75,302.31 '12/15/2022' -- nothing added, no text changed at any surviving coordinate, and all 140 survivors identical. So the committed fixtures predate the Today disposition that an earlier lane recorded in the registry and never rebuilt. Determinism was established separately instead: two consecutive control builds at the unrepaired base are byte-identical to each other (cmp clean on both fixtures), so every later change is still attributable to the repair.",
+      "deterministicRebuild": "Four builds in total. Two control builds at the unrepaired base: byte-identical to each other, canonical 44942c6fdb73.. and boundary 8d0dc4ea19da... Two builds after the repair: byte-identical to each other, canonical 33e1fbd056ae.. and boundary 9d28d0d7794a... All four with --no-raster.",
+      "placementDiff": {
+        "instrument": "Every flattened appearance keyed by (page, x, y) and compared on drawn text, so a removal, an addition, a move and a text change are four distinguishable answers.",
+        "controlToRepaired_canonical": "140 -> 138. REMOVED exactly 2: p7@313.44,131.32 /FlatWidget-1812800957 \"0\" and p8@318.22,91.2 /FlatWidget-4855138939 \"0\". ADDED 0. CHANGED at a surviving coordinate 0. IDENTICAL survivors 138.",
+        "controlToRepaired_boundary": "140 -> 138. REMOVED exactly the same 2. ADDED 0. CHANGED 0. IDENTICAL survivors 138.",
+        "committedToRepaired_bothFixtures": "141 -> 138. REMOVED exactly 3: the two zeros plus the stale p11 declaration date. ADDED 0. CHANGED 0. IDENTICAL survivors 138.",
+        "pageCount": "16 before and 16 after, in both fixtures."
+      },
+      "byteLengthDropIsExplained": "canonical went from 959761 (control) to 385141 bytes and boundary from 959995 to 385375, a drop of 574620 bytes that is far larger than the repair looks. It is fully accounted for and it is not content loss. Enumerating every FontFile/FontFile2/FontFile3 in both files shows exactly one font program dropped and none added: the unsubsetted /Arial face, FontFile2, 572464 bytes -- the only face in the file with no subset prefix, and the same face pdftotext cannot map. That it was referenced ONLY by the two deleted appearances was checked rather than assumed: the /Arial FontDescriptor is referenced by exactly one Font dict (232 0 R), and exactly two objects in the whole document map a resource name to it -- 231 0 R and 259 0 R, which are precisely the two appearance XObjects the page dictionaries call /FlatWidget-1812800957 on page 7 and /FlatWidget-4855138939 on page 8. With those deleted nothing references the face, and pdf-lib drops the unreachable stream on save. All ten subsetted faces survive with identical sizes and identical object numbers. Object count fell 325 -> 320, i.e. the two appearance streams, the Font dict, the FontDescriptor and the FontFile2. 574620 - 572464 = 2156 bytes remain, which is those three small objects plus the two removed placement operators in the page content streams and the xref shrinkage.",
+      "sourceMeasuredFirstHand": "Retaken from the pinned binary by this lane rather than copied from a sibling's rectangles, as the registry entries require. Reading TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf directly (12 pages, 132 fields, 141 widgets): Value / Valor 11 carries /V \"0\" at /Rect [313.44, 131.32, 538.685, 160.12] on source page 7; Amount Cantidad 15 carries /V \"0\" at /Rect [318.218, 91.2, 538.68, 120] on source page 8; Today carries /V \"12/15/2022\" at /Rect [97.7522, 302.312, 247.752, 324.312] on source page 11. Those are the only three of the 132 fields with a non-empty /V. All three are /Tx, all three carry /F 4 -- Print set, Hidden (bit 2) clear, NoView (bit 6) clear -- and all three carry an /AP with an /N stream, so none is suppressed by the annotation flags and each really does draw. Each rectangle's lower-left corner is exactly where the flattened appearance was landing, which closes the chain from source /V to delivered ink. The numbers agree with the four sibling families that enclose this form because it is the same pinned binary, not because they were read across.",
+      "issuerOriginalBytesPreserved": "The held binary was never written to. It hashes to bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d after the repair, both at the mount point in this worktree and at the file it symlinks to in the primary clone. Only derived output changed.",
+      "surgicalJsonEdit": "data/rcap-all50/shared/field-appearance-semantics.json was edited as text, never round-tripped through JSON.parse/stringify, because a round-trip renumbers sibling float literals. git diff reports 25 insertions and 3 deletions in three hunks, all at lines 123-128, entirely inside this family's own entry. No sibling entry's bytes moved and no float literal anywhere in the file was renumbered. The file re-parses as valid JSON.",
+      "whatTheRegistryEntrySaysNow": "The entry previously classified Today alone and recorded in terms, under the key onlyTheDeclarationDateIsClassifiedHere, that the two zeros were 'a separate question and is deliberately not answered here.' This lane answered it. That key is replaced by theTwoFinancialZerosAreNowClassifiedToo, which records that the deferral existed and what resolved it; measuredAt is moved to this lane's base commit; and howMeasured now records the flags, the widget count, the /AP presence and the instrument, so the next reader can tell a re-measurement from an inheritance.",
+      "whatTheBuildHadAlreadyRecorded": "reports/actual-writes.json carried, in both fixture blocks, a documentAuthoredAppearances array naming all three fields with drawnText and sourceValue. The build had measured and committed the defect all along; nothing read it. Both arrays are now empty. The nine actualWrites per fixture are unchanged.",
+      "theEnforcingCheckIsTheRegression": "node scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs failed at the base naming this family and both fields, with 'remedy A MISSING' and 'remedy B MISSING' for each, over 95 families / 7 carrying / 21 values / 19 dispositioned / 2 UNDISPOSITIONED. After the repair it returns EVERY_SOURCE_CARRIED_VALUE_IS_DISPOSITIONED, exit 0, same denominator, 21 of 21 dispositioned and 0 undispositioned, with the appearance-registry count moving 16 -> 18 and the clearSourceCarriedTextValues count unchanged at 3. Those two are exactly this lane's two fields. The check passes corpus-wide, not merely on this family.",
+      "fixturesMoved": true,
+      "fixturesMovedNote": "Both fixture digests are new. This lane rebuilt with --no-raster deliberately: this container has a browser, so a plain rebuild would have emitted local raster pages and advanced build-status.json off BUILT_RASTER_PENDING on bytes no central raster has read. build-status.json is unmodified and still reads buildStatus state_built, reviewStatus qa_review_pending, rasterState BUILT_RASTER_PENDING, rasterPages 0, selfVerified false, generationAllowed false, runtimeSelectable false.",
+      "aFreshRasterIsOwed": "Yes. A fresh central raster is owed on canonical 33e1fbd056ae.. and boundary 9d28d0d7794a... No raster of any kind covers the current bytes.",
+      "noStandingReceiptIsClaimed": "The family was carrying an acceptance receipt describing bytes that no longer exist: product-wiring.json held verdict RASTER_PASS, workflowRunId 33839480114, jobId 100919892448, artifactId 9924755683, boundToCanonicalSha256 4f331e2c4766.., coversTheWholeFamily true. scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs --family rcap-tx-custom-pleading was run and, because exactRasterFor() binds a receipt only when its declared digest matches the file on disk, it set acceptanceReceipt to null and re-pinned the component digest 4f331e2c4766.. -> 33e1fbd056ae... This lane claims no standing receipt of any kind. lastIndependentVerification still shows VF10's FAIL_REPAIR_REQUIRED and was not touched; that read was over superseded bytes and no verdict was fabricated to replace it.",
+      "checkAWasRepairedNotDodged": "Re-pinning was necessary rather than cosmetic, and it was proved by reverting it. With the repaired bytes and the OLD pin restored, scripts/rcap-truth-checks/check-a-declared-delivery-artifact.mjs reports 25 failing / 218 passing including FAIL rcap-tx-custom-pleading A2_HASH_MISMATCH. With the refreshed wiring it reports 24 failing / 219 passing and this family is not among the failures. The restored wiring file was compared byte-for-byte against the generated one afterwards. No packet byte was moved to satisfy a bookkeeping check; the bookkeeping was corrected to describe the bytes.",
+      "sharedManifestsDeliberatelyNotEdited": "The RASTER_QUEUE.json row for this family is still hash-bound to the superseded digests 4f331e2c4766.. and 78c98d6e9651.., with rasterReceipt verdict RASTER_PASS and coversTheWholeFamily true. It was deliberately not edited: that queue is Captain's dispatch surface and a shared cross-lane manifest, and the historical row correctly records what was rastered then. MASTER_QUEUE.json was likewise not edited. The disagreement between those surfaces and this family's now-null acceptanceReceipt is real and is reported here rather than papered over.",
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "sha256": "33e1fbd056ae492516b3e2c2d36f1cd7c8d975f87a462e3c5c83cb771260b677",
+          "byteLength": 385141,
+          "pageCount": 16,
+          "flattenedAppearances": 138,
+          "movedThisLane": true,
+          "supersedes": "4f331e2c4766f663c47c56de7c4596ed862b62f0589530c1750f08a4ff39cd61"
+        },
+        {
+          "fixture": "boundary",
+          "sha256": "9d28d0d7794ad6d336282b3c81e71c3298d6425260714c1d94fa42e98d8e5bdb",
+          "byteLength": 385375,
+          "pageCount": 16,
+          "flattenedAppearances": 138,
+          "movedThisLane": true,
+          "supersedes": "78c98d6e9651150217d39de1c0421de6246432e8be704d85ce6bd5949fd367dd"
+        }
+      ],
+      "focusedEvidence": [
+        "flattenedWidgets() on the committed base fixtures => 2 standalone zeros in canonical AND 2 in boundary, at page 7 (313.44, 131.32) and page 8 (318.22, 91.2); 141 appearances each",
+        "first-hand read of the pinned source => Value / Valor 11 /V \"0\" /Rect [313.44,131.32,538.685,160.12] page 7; Amount Cantidad 15 /V \"0\" /Rect [318.218,91.2,538.68,120] page 8; Today /V \"12/15/2022\" /Rect [97.7522,302.312,247.752,324.312] page 11; exactly 3 of 132 fields carry a non-empty /V; all three /F 4, neither Hidden nor NoView, each with /AP /N",
+        "this family's production-field-map.json => both fields REQUIRED_BEFORE_FILING, requiredBeforeFiling true, never written by this build",
+        "two control builds at the unrepaired base => byte-identical to each other, canonical 44942c6fdb73.. boundary 8d0dc4ea19da..; NOT equal to the committed bytes, because the committed fixtures predate the Today disposition",
+        "placement diff committed -> control => exactly 1 removed (p11 '12/15/2022'), 0 added, 140 survivors identical",
+        "two builds after the repair => byte-identical to each other, canonical 33e1fbd056ae.. boundary 9d28d0d7794a..",
+        "placement diff control -> repaired, BOTH fixtures => exactly 2 removed, 0 added, 0 changed, 138 survivors identical",
+        "font program enumeration => exactly one dropped, unsubsetted /Arial FontFile2 572464 bytes; ten subsetted faces unchanged in size and object number; objects 325 -> 320",
+        "reference tracing => /Arial's descriptor is used by one Font dict (232 0 R), referenced by exactly two objects (231 0 R, 259 0 R), which the page dictionaries name /FlatWidget-1812800957 (page 7) and /FlatWidget-4855138939 (page 8)",
+        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-tx-custom-pleading => PASS_COMPLETE, 9/152 written, nine counters zero, BEFORE and AFTER, which is the point",
+        "node scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs => 2 UNDISPOSITIONED naming this family and both fields before; EVERY_SOURCE_CARRIED_VALUE_IS_DISPOSITIONED, 21/21, exit 0 after",
+        "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs => EVERY_IDENTITY_REFRESH_SURVIVED, 248 receipts compared, 52 carrying an identityRefresh, before AND after; nothing needed restoring",
+        "node scripts/grade-a-packet-factory-24h/test-product-wiring-refreshes-artifact-identity.mjs => PASS",
+        "node scripts/rcap-truth-checks/check-a-declared-delivery-artifact.mjs => 25 failing with the old pin, 24 failing with the refreshed pin, this family passing"
+      ],
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfterMeanLittleHere": "All nine are zero after the repair, and all nine were zero before it, while the family was shipping two sworn zeros. The nine are the starting condition of this defect and cannot see this class: each asks what the build wrote, what it left blank, or what it failed to classify. This ink was never written, the blank is correctly classified as the participant's to supply, and the value arrives from the source binary during flatten. They are recorded because the bar asks for them, not because they witness the repair.",
+      "theThreeNamedObligations": {
+        "howTheyRelateToThisRepair": "VF10's independent verification failed this family on exactly three proof obligations -- KNOWN_PREFILLS, REQUIRED_BEFORE_FILING and SELF_HELP_STOP -- and none of the three is the two-zeros defect. This repair closes a defect that no obligation had named. Two of the three are untouched by it and the third is only partly touched. This row claims none of them as discharged.",
+        "KNOWN_PREFILLS": "NOT ADDRESSED, remains open. VF10 failed it on the date of birth, twice: page 2 prints the raw ISO values 1994-04-17 and 1972-12-31 on a line whose face labels the three positions Month, Day, Year, and the Option 1 date-of-birth line on page 11 stays blank in both fixtures even though the family holds the DOB. This repair removed appearances and added none, changed no write, and left the nine actualWrites per fixture identical. Both defects are still present in the repaired bytes.",
+        "REQUIRED_BEFORE_FILING": "PARTLY ADDRESSED, and the obligation as a whole remains open. This repair closes one REQUIRED_BEFORE_FILING defect: two fields the map correctly refuses under that disposition were nonetheless shipping an answer, because the refusal was honoured on the write path and defeated on the flatten path. Those two lines are now blank. It does NOT close the defect VF10 actually failed the obligation on, which is a different thing: the page-11 Option 1 date-of-birth line must be completed before signing, and it is omitted from the 96 inventoried requiredBeforeFiling refusals and from 'The items you must supply', so the participant-facing list still cannot close every required blank on the delivered form. The inventory is still 96 and still incomplete.",
+        "SELF_HELP_STOP": "NOT ADDRESSED, remains open. VF10 found the eight authoritative track records carry 26 unique self-help stop conditions, of which the shared instruction component omits three common stops -- unclear venue across counties, immigration consequences generally, and trying to attack the underlying case -- and all 17 route-specific stops, while substituting the narrower 'you are not a United States citizen' for the registry's broader 'Immigration consequences.' This lane changed no participant-facing instruction text at all. participant-instructions.md is unmodified."
+      },
+      "obligationsThisRowDoesNotDischarge": [
+        "KNOWN_PREFILLS and SELF_HELP_STOP, untouched here, and the page-11 date-of-birth limb of REQUIRED_BEFORE_FILING",
+        "independent verification of the repaired bytes by a lane that did not write them",
+        "a central hash-bound RASTER_PASS over canonical 33e1fbd056ae.. and boundary 9d28d0d7794a..",
+        "counsel review and visual review, which remain blockers for approved_for_live and live",
+        "any commercial authority: a route sells only what a Grade-A fulfillment record proves it delivers, and no such record exists for this family"
+      ],
+      "claimReleased": true,
+      "selfVerified": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    }
+  ],
+  "theClassIsNowClosedCorpusWide": "This was the last of three. verify-source-carried-values-are-dispositioned.mjs now returns EVERY_SOURCE_CARRIED_VALUE_IS_DISPOSITIONED over 95 families, 7 carrying a non-null source value, 21 values, 21 dispositioned, 0 undispositioned -- 18 by the appearance registry and 3 by clearSourceCarriedTextValues. Every one of the 7 carrying families is Texas and every one is the same Statement of Inability to Afford Payment of Court Costs; outside Texas no family in the corpus carries a non-null source value at all.",
+  "findingsRaisedNotResolved": [
+    {
+      "what": "A registry disposition can sit recorded and unbuilt, and nothing notices.",
+      "evidence": "An earlier lane classified Today for this family and the committed fixtures were never rebuilt, so the stale declaration date 12/15/2022 kept shipping on a perjury declaration at packet page 11 in both fixtures, at the tip this lane was dispatched from. The control build at the unrepaired base removed it with no change of mine. verify-source-carried-values-are-dispositioned.mjs reported this family's Today as dispositioned throughout, because it reads the registry and the builder, not the delivered bytes.",
+      "theGap": "Nothing asserts that a family's committed fixtures are what its current builder and current registry would produce. A disposition is treated as effective the moment it is written down.",
+      "whatThisLaneDidAboutIt": "Reported it. The rebuild fixed it for this family as a side effect, and the placement diff isolates it so it is attributable. It is not fixed for any other family, and this lane did not check whether other families are stale in the same way."
+    },
+    {
+      "what": "scripts/verify-packet-build-environment.mjs writes its --json report inside the repository even when given an absolute path.",
+      "evidence": "path.join(ROOT, REPORT) with REPORT='/tmp/...' produces '<repo>/tmp/...'. The repo has a tracked tmp/ directory, so the report lands beside 1499 committed files.",
+      "theGap": "A caller who passes an absolute scratch path gets a file inside the worktree and no warning, and cleaning up that scratch path is then a destructive act against tracked content. This lane hit exactly that and restored it.",
+      "theFixIsOneLine": "Use REPORT directly when path.isAbsolute(REPORT), and only join ROOT for a relative path."
+    }
+  ],
+  "counselQuestionsRaisedNotResolved": [
+    "Every packet delivered from rcap-tx-custom-pleading before this repair carried two sworn zeros on the financial lines of a statement of inability to pay, and a stale 12/15/2022 on the Option 1 declaration under penalty of perjury. Whether any such packet reached a participant, and what is owed if one did, is not a question this lane can answer from the repository.",
+    "The declaration date shipped for longer than the zeros did in one sense and less in another: it was classified in the registry by an earlier lane but the fixtures were never rebuilt, so the recorded decision and the delivered bytes disagreed for the whole intervening period. Whoever reviews the first question should be told the record said it was fixed."
+  ],
+  "commits": [
+    "Texas expunction fee waiver: the last two sworn zeros were never an answer anybody gave"
+  ],
+  "environmentChurnReverted": "Running scripts/rcap-truth-checks/check-a-declared-delivery-artifact.mjs rewrote data/rcap-grade-a/truth-checks/TRUTH4_FINDINGS.json as a side effect, turning 2 failing families into 24 and familiesNotMeasurableHere from 157 into 103. That delta is entirely an artefact of this container: the full checkout raises familiesWithADirectory from 189 to 243, and this worktree has no operational Nationwide mount, so 24 families report A1_MISSING_ON_DISK for source files that are simply absent here rather than broken. Committing it would have recorded 24 false findings of exactly the absent-versus-broken kind. It was reverted with git checkout and is not in the commit."
+}

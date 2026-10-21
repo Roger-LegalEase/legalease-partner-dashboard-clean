@@ -1,0 +1,162 @@
+{
+  "schemaVersion": "rcap-raster-receipt-transport-note/v1",
+  "transport": "Actions job-log stdout",
+  "recordedBy": "RX2, 2026-09-09",
+  "extends": "data/rcap-grade-a/packet-factory-24h/raster-runs/RECEIPT_TRANSPORT_FROM_JOB_LOGS.json (RX1)",
+  "runProvedOn": "34407406641",
+  "packetCommit": "686a2f65ee5b06d41a6634676b22ca13e7419490",
+  "questionRX1LeftOpen": "Whether a ~45 KB receipt line survives the Actions job-log API. RX1 carried at most 21,686 characters and could not say.",
+  "answer": "It survives. The largest receipt carried here is mn_petition_609a02_subd3-set at 46,294 characters across two lines -- a 33,668-character verdict payload and a 12,626-character inventory payload. Both arrived whole: the verdict ran unbroken from {\"schemaVersion\" to \"productionTouched\":false} and the inventory closed with all 50 entries, and both JSON.parse cleanly. No family in this batch truncated. NO SIZE CEILING WAS FOUND in sixteen families spanning 2 to 50 pages.",
+  "whatActuallyLimitsIt": {
+    "notTheLogAPI": "The API returned every byte. What has a limit is the READING AGENT'S per-tool-result budget: a window whose JSON exceeds it is refused for the conversation and written to a local file instead, with the full payload intact. In this session that boundary fell between a 16 KB window (returned inline) and a 58 KB window (written to a file).",
+    "consequence": "A receipt too large to sit in a reply is NOT a receipt that failed to arrive. It arrives on disk and is parsed there. Treating the refusal as truncation would have wrongly reported a ceiling that does not exist.",
+    "method": "Request a deliberately generous tail (400 lines was enough for every family here), let the result land in a file, and parse the receipt out of that file with a script. The payload never passes through the agent's context, so the transcription cost RX1 paid -- reading each receipt and typing it back out -- is not paid at all.",
+    "windowing": "get_job_logs still takes only tail_lines with no offset, but the receipt is FOUR LINES regardless of page count and sits a fixed ~72 lines from the end of a family job log. Line count, not payload size, is what tail_lines must clear. A window that starts mid-receipt looks like truncation and is not."
+  },
+  "measuredPerFamily": [
+    {
+      "familyId": "mn_petition_609a02_subd3-set",
+      "documents": 2,
+      "pages": 50,
+      "verdictLineChars": 33668,
+      "inventoryLineChars": 12626,
+      "receiptChars": 46294
+    },
+    {
+      "familyId": "la-976-arrest-no-conviction-set",
+      "documents": 2,
+      "pages": 46,
+      "verdictLineChars": 31310,
+      "inventoryLineChars": 11890,
+      "receiptChars": 43200
+    },
+    {
+      "familyId": "al-trafficking-set",
+      "documents": 4,
+      "pages": 44,
+      "verdictLineChars": 30862,
+      "inventoryLineChars": 10693,
+      "receiptChars": 41555
+    },
+    {
+      "familyId": "rcap-hi-custom-pleading",
+      "documents": 2,
+      "pages": 40,
+      "verdictLineChars": 27131,
+      "inventoryLineChars": 9701,
+      "receiptChars": 36832
+    },
+    {
+      "familyId": "rcap-or-official-pdf-fill",
+      "documents": 4,
+      "pages": 36,
+      "verdictLineChars": 26680,
+      "inventoryLineChars": 9541,
+      "receiptChars": 36221
+    },
+    {
+      "familyId": "la-985-expungement-by-redaction-set",
+      "documents": 2,
+      "pages": 34,
+      "verdictLineChars": 23837,
+      "inventoryLineChars": 9062,
+      "receiptChars": 32899
+    },
+    {
+      "familyId": "ne-seal-pre2017-set",
+      "documents": 6,
+      "pages": 30,
+      "verdictLineChars": 23458,
+      "inventoryLineChars": 7766,
+      "receiptChars": 31224
+    },
+    {
+      "familyId": "il-exp-qualprob-set",
+      "documents": 2,
+      "pages": 26,
+      "verdictLineChars": 18239,
+      "inventoryLineChars": 6098,
+      "receiptChars": 24337
+    },
+    {
+      "familyId": "il-seal-3yr-set",
+      "documents": 2,
+      "pages": 26,
+      "verdictLineChars": 18113,
+      "inventoryLineChars": 5890,
+      "receiptChars": 24003
+    },
+    {
+      "familyId": "il-seal-2yr-set",
+      "documents": 2,
+      "pages": 26,
+      "verdictLineChars": 18112,
+      "inventoryLineChars": 5890,
+      "receiptChars": 24002
+    },
+    {
+      "familyId": "al-felony-dwop-set",
+      "documents": 2,
+      "pages": 22,
+      "verdictLineChars": 15718,
+      "inventoryLineChars": 5116,
+      "receiptChars": 20834
+    },
+    {
+      "familyId": "co_petition_seal_arrest-set",
+      "documents": 2,
+      "pages": 10,
+      "verdictLineChars": 8409,
+      "inventoryLineChars": 2504,
+      "receiptChars": 10913
+    },
+    {
+      "familyId": "wv_conv_nonviolent_felony-set",
+      "documents": 2,
+      "pages": 8,
+      "verdictLineChars": 7168,
+      "inventoryLineChars": 2037,
+      "receiptChars": 9205
+    },
+    {
+      "familyId": "nd-summary-marijuana-pardon-set",
+      "documents": 2,
+      "pages": 4,
+      "verdictLineChars": 4661,
+      "inventoryLineChars": 1035,
+      "receiptChars": 5696
+    },
+    {
+      "familyId": "ma-expunge-k-set",
+      "documents": 2,
+      "pages": 4,
+      "verdictLineChars": 4534,
+      "inventoryLineChars": 915,
+      "receiptChars": 5449
+    },
+    {
+      "familyId": "census-pending-family:ME:juvenile-sealing",
+      "documents": 2,
+      "pages": 2,
+      "verdictLineChars": 3464,
+      "inventoryLineChars": 558,
+      "receiptChars": 4022
+    }
+  ],
+  "largestCarried": {
+    "familyId": "mn_petition_609a02_subd3-set",
+    "documents": 2,
+    "pages": 50,
+    "verdictLineChars": 33668,
+    "inventoryLineChars": 12626,
+    "receiptChars": 46294
+  },
+  "restatingRX1": "curl on the REST job-log endpoint still does not work; it 302s to blob storage, which is unreachable (CONNECT tunnel failed, 403). The REST endpoints for the RUN and its JOBS return JSON directly and do work, and were used here for the run and job records the importer verifies.",
+  "unchanged": [
+    "PNG bodies are never carried. Every admitted image records viewportDimensionsCheckedAgainstASecondSource: false.",
+    "Job logs are retained for a limited window; this transport is not an archive and does not replace the artifact.",
+    "A readable receipt is not a correct packet. The raster gate cannot see whether the packet it measured is the right document."
+  ],
+  "notAProductionClaim": "Admitting a receipt is static family admission. It grants no delivery, opens no route and asserts nothing about production.",
+  "charsAreMeasuredHow": "Every character count in this file is the JSON PAYLOAD of the line -- what follows 'RCAP_RECEIPT_VERDICT ' or 'RCAP_RECEIPT_INVENTORY ' -- and excludes the delimiter word and the log's timestamp prefix. Counting the whole log line adds 21 and 23 characters respectively."
+}

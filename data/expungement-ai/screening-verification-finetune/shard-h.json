@@ -1,0 +1,57 @@
+{
+  "schemaVersion": "screening-verification-finetune-shard/v1",
+  "lane": "H",
+  "status": "implemented",
+  "baseSha": "de28d4220e21710b9e340b461b6dc2c5403951cf",
+  "states": ["OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN"],
+  "before": {
+    "flows": 67,
+    "browserWitnessVariants": 108,
+    "freeQuestions": 85,
+    "completionOverlaps": 10,
+    "genericSpecialRouteAsks": 14,
+    "rawPacketFields": 32
+  },
+  "after": {
+    "flows": 67,
+    "browserWitnessVariants": 108,
+    "freeQuestions": {
+      "emptyContext": 75,
+      "maxExactRoute": 75
+    },
+    "routeConsumerFacts": 0,
+    "routeConsumerEdges": 0,
+    "exactPacketFactIds": 37,
+    "completionAliasIds": 10
+  },
+  "selectedQuestionCounts": {
+    "OH": { "emptyContext": 11, "maxExactRoute": 11 },
+    "OK": { "emptyContext": 10, "maxExactRoute": 10 },
+    "OR": { "emptyContext": 9, "maxExactRoute": 9 },
+    "PA": { "emptyContext": 7, "maxExactRoute": 7 },
+    "RI": { "emptyContext": 7, "maxExactRoute": 7 },
+    "SC": { "emptyContext": 12, "maxExactRoute": 12 },
+    "SD": { "emptyContext": 10, "maxExactRoute": 10 },
+    "TN": { "emptyContext": 9, "maxExactRoute": 9 }
+  },
+  "representativeSelectedFlowIds": [
+    "EXPAI-OH-268c3ff28c",
+    "EXPAI-PA-28d0faee89",
+    "EXPAI-RI-0122f25b76"
+  ],
+  "shortFreeChecksPreserved": {
+    "PA": 7,
+    "RI": 7
+  },
+  "authority": {
+    "policy": "No legal rule was added or inferred from prose.",
+    "routeConsumers": "No Lane H route-specific fact has an approved exact machine mapping, so every routeConsumers map is empty.",
+    "exactPacketFactIds": "Existing compiled questions whose stage is case_details or record_readiness, plus existing date_or_unknown facts.",
+    "completionAliasIds": "Existing completion aliases only where the projected profile also carries the canonical court_requirements_completed authority fact.",
+    "shortChecks": "PA and RI receive no route details, packet facts, or aliases in their lifecycle envelopes."
+  },
+  "unchanged": ["questions", "pathways", "orderedDecisionRules", "legalAuthority", "packetGenerator", "forms", "terminal outcomes", "payment outcomes"],
+  "blockers": [
+    "The 14 generic special-route asks cannot be safely scoped without approved machine mappings; no prose predicates were invented."
+  ]
+}

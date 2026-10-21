@@ -1,0 +1,112 @@
+{
+  "schemaVersion": "rcap-census-v1-product-wiring/v1",
+  "family": "co_multiple_conviction_seal-set",
+  "routeKey": "obligation:track-only:CO:co_multiple_conviction_seal",
+  "routeKeys": [
+    "obligation:track-only:CO:co_multiple_conviction_seal"
+  ],
+  "workType": "PRODUCT_WIRING_REQUIRED",
+  "status": "DECLARED_NOT_INSTALLED",
+  "authorityCreated": "none",
+  "generatedBy": "scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs",
+  "derivedFrom": "data/rcap-all50/overlays/census-v1/co/co-multiple-conviction-seal-set--official-pdf-fill/reports/rendered-artifacts.json",
+  "explicitNonGrants": [
+    "This document opens no commercial route.",
+    "It creates no fulfillment record and consumes no packet credit.",
+    "It marks no packet proven and grants no output approval.",
+    "It does not add this track to compiled runtime. src/lib/rcap-engine/compiled/** is untouched.",
+    "It does not change any live RCAP route.",
+    "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This is not that record."
+  ],
+  "currentState": {
+    "serviceDisposition": "missing_from_compiled_runtime",
+    "commercialState": "NO_ROUTE_LEVEL_GRADE_A_AUTHORITY_FROM_TRACK_MEMBERSHIP",
+    "existingArtifactIds": [],
+    "generationAllowed": false
+  },
+  "proposedRepresentation": {
+    "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
+    "packetSetId": "co_multiple_conviction_seal-set",
+    "outputStrategy": "official_pdf_fill",
+    "components": [
+      {
+        "componentId": "co_multiple_conviction_seal-set-component-1",
+        "role": "primary_filing",
+        "order": 1,
+        "documentId": "canonical",
+        "file": "data/rcap-all50/overlays/census-v1/co/co-multiple-conviction-seal-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "dd8a44b1868186a98703443d84c9215caf5807b6b37d632f7fa10b1d6dc9bd5d",
+        "requirement": "required"
+      }
+    ]
+  },
+  "binding": {
+    "family": "co_multiple_conviction_seal-set",
+    "jurisdiction": "CO",
+    "routeKeys": [
+      "obligation:track-only:CO:co_multiple_conviction_seal"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "primary_filing",
+      "proposed_order"
+    ],
+    "packetComponents": [
+      "component:co_multiple_conviction_seal-primary-filing-1",
+      "component:co_multiple_conviction_seal-proposed-order-2"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/co/co-multiple-conviction-seal-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/co/co-multiple-conviction-seal-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/co/co-multiple-conviction-seal-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/co/co-multiple-conviction-seal-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:JDF-641",
+        "sha256": "6ad1d7c43b454b3b50c9c77313528b9660ada8a730d9ed5c384479809173ab02",
+        "tier": "exact_form_number"
+      },
+      {
+        "sourceId": "official-form:JDF-642",
+        "sha256": "584708616e982657f341b17bd58166a73ca05529a73bae715ce5f38168f0c52c",
+        "tier": "exact_form_number"
+      }
+    ],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "34583375403",
+      "jobId": "103212768557",
+      "artifactId": "10192802918",
+      "boundToCanonicalSha256": "dd8a44b1868186a98703443d84c9215caf5807b6b37d632f7fa10b1d6dc9bd5d",
+      "coversTheWholeFamily": true
+    },
+    "lastIndependentVerification": {
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf29",
+      "verifiedAtBase": "f352179fb39bf817e56f2274908c28bd12e98358"
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-co_multiple_conviction_seal-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    },
+    "acceptanceReceiptWithdrawn": [
+      {
+        "why": "The acceptance receipt binds an exact canonical SHA-256 and this write's canonical bytes are not those bytes, so the receipt does not describe this packet. It is withdrawn and kept as history rather than deleted, and it is not carried forward as though it still applied. Only the central raster acceptance workflow issues a receipt; nothing here issues one and nothing here sets a verdict.",
+        "boundToCanonicalSha256": "48cf9bf5cf44e01f1012534a402f29fa5c5f1a809b2c1192003e9790ac8bf6de",
+        "replacedByCanonicalSha256": "b73f1b3c3121c3a8d7d1142002957383d25a9fcaaebd5a4c41d63edbf17bf7c5",
+        "withdrawnReceipt": {
+          "verdict": "RASTER_PASS",
+          "workflowRunId": "34000217746",
+          "jobId": "101398011444",
+          "artifactId": null,
+          "boundToCanonicalSha256": "48cf9bf5cf44e01f1012534a402f29fa5c5f1a809b2c1192003e9790ac8bf6de",
+          "coversTheWholeFamily": true
+        }
+      }
+    ]
+  }
+}

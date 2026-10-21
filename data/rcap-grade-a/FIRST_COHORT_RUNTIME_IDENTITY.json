@@ -1,0 +1,117 @@
+{
+  "schemaVersion": "rcap-first-cohort-runtime-identity/v1",
+  "producedBy": "Captain, Phase 1B of the Kansas-first launch override",
+  "producedOn": "2026-09-02",
+  "question": "The first-cohort file lists internal obligation keys. Are they valid fulfillment route IDs, and if not, what are the real runtime route identities?",
+  "answer": "Kansas had none when this record was written on 2026-09-02: neither of its two routes was represented in compiled runtime, so there was no route identity to translate to. The Kansas runtime representation lane has since added both municipal pathways, and the two routes now carry runtime route IDs. That is a runtime representation and nothing else: both remain non-sellable, non-credit-consumable and UNFINISHED, and no v2 fulfilment record exists for either.",
+  "howTheResolverFormsARouteId": "packet-route-resolver.ts builds routeId as `${jurisdiction}:${pathwayId}` from the pathway the caller supplies, and resolves that pathway against the compiled profile in src/lib/rcap-engine/compiled/profiles/. A route with no compiled pathway has no id to pass, so screening, Briefcase, payment, sponsorship, rendering and download have nothing to agree on.",
+  "theCrosswalkWasUsedRatherThanInvented": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json carries runtimePathwayId and routeContractId on every route. That is the existing crosswalk, and it was read rather than a parallel one created. Its answer for both Kansas routes is null.",
+  "kansas": {
+    "familyId": "rcap-ks-custom-pleading",
+    "verdict": "RUNTIME_ROUTE_IDENTITY_NOW_EXISTS_AND_GRANTS_NOTHING",
+    "compiledPathwaysInTheKansasProfile": [
+      "conviction-or-diversion-216614",
+      "specialty-court-accelerated",
+      "prostitution-coercion",
+      "drug-registration-relief-coordination",
+      "municipal-conviction-or-diversion-expungement-under-12-4516",
+      "municipal-arrest-record-expungement-under-12-4516a"
+    ],
+    "whyNoneOfThemFits": "This was, and remains, true of the first four. All four are district-court routes under K.S.A. 21-6614 and its neighbours, and the two routes this family serves are municipal-court routes under K.S.A. 12-4516 and 12-4516a — a different court, a different statute and a different instrument. Mapping a municipal route onto a district-court pathway would not be a translation; it would be a false identity that screening and payment would then act on. The answer was not to map them onto a 21-6614 pathway but to give each municipal mechanism its own compiled pathway, which the last two entries above are.",
+    "routes": [
+      {
+        "obligationKey": "obligation:track-pathway:KS:ks-12-4516-municipal:municipal-conviction-or-diversion-expungement-under-12-4516",
+        "priorObligationKey": "obligation:track-only:KS:ks-12-4516-municipal",
+        "publicLabel": "Expunging a city ordinance conviction or diversion",
+        "statute": "K.S.A. 12-4516",
+        "routeId": "KS:municipal-conviction-or-diversion-expungement-under-12-4516",
+        "runtimePathwayId": "municipal-conviction-or-diversion-expungement-under-12-4516",
+        "routeContractId": "KS:municipal-conviction-or-diversion-expungement-under-12-4516",
+        "currentServiceDisposition": "paid_packet_intended",
+        "currentCommercialState": "LAUNCH_GRAPH_CLOSED",
+        "packetFamilyId": "rcap-ks-custom-pleading",
+        "destinationKind": "court",
+        "resolverRouteKind": "factory_v2",
+        "sellable": false,
+        "creditConsumable": false,
+        "availability": "UNFINISHED"
+      },
+      {
+        "obligationKey": "obligation:track-pathway:KS:ks-12-4516a-municipal-arrest:municipal-arrest-record-expungement-under-12-4516a",
+        "priorObligationKey": "obligation:track-only:KS:ks-12-4516a-municipal-arrest",
+        "publicLabel": "Expunging an arrest on a city ordinance charge",
+        "statute": "K.S.A. 12-4516a",
+        "routeId": "KS:municipal-arrest-record-expungement-under-12-4516a",
+        "runtimePathwayId": "municipal-arrest-record-expungement-under-12-4516a",
+        "routeContractId": "KS:municipal-arrest-record-expungement-under-12-4516a",
+        "currentServiceDisposition": "paid_packet_intended",
+        "currentCommercialState": "LAUNCH_GRAPH_CLOSED",
+        "packetFamilyId": "rcap-ks-custom-pleading",
+        "destinationKind": "court",
+        "resolverRouteKind": "factory_v2",
+        "sellable": false,
+        "creditConsumable": false,
+        "availability": "UNFINISHED"
+      }
+    ],
+    "theCensusSaysSoItself": "Both rows previously carried missingImplementationWork including 'Add an exact runtime representation or record an approved exclusion; the legal-design track is not represented in compiled runtime.' That item is what this lane closed. The regenerated census now reports a non-null runtimePathwayId, a non-null routeContractId and currentServiceDisposition paid_packet_intended on both, and the remaining implementation work — official-source custody, the per-court filing configuration, the route-scoped output artifact and its review — is unchanged and still open.",
+    "whatTheAugustApprovalActuallyGranted": "The census records the approval on these routes as 'legal-only-no-technical-runtime-commercial-authority'. The legal approval is real and it is not a runtime representation.",
+    "whatWouldBeNeeded": "Done, and only this: a compiled runtime representation for the two municipal pathways. It was made the way the repository already makes one — two approved legal route contracts in src/lib/legal-authority, written into the compiled profile by scripts/apply-legal-authority-to-profiles.mjs, which is the only thing that writes that file. No parallel registry was created.",
+    "whatThisStillDoesNotGrant": "Commercial authority. Both routes resolve through the shared factory in shadow with sellable=false and creditConsumable=false, both contracts hold an open local_filing_configuration gate and an open artifact_legal_review gate and declare a closed commercial posture, the evaluator reports paymentAllowed false on both public witnesses, and no Grade-A v2 fulfilment record exists for either route. The August approval on these tracks remains what the census records it as: legal-only, with no technical, runtime or commercial authority.",
+    "oneAssembledArtifactStillCoversBothRoutes": "The Kansas family still emits one assembled_packet_of_composed_pleadings per fixture carrying both routes' packets. That is classified separately in data/rcap-grade-a/FIRST_COHORT_PACKET_SCOPE_DEFECT.json and is owned by another lane. Runtime pathway representation is independent of packet assembly, and nothing here assumes a per-route artifact exists."
+  },
+  "tennessee": {
+    "familyId": "rcap-tn-custom-pleading",
+    "verdict": "THREE_OF_ELEVEN_ROUTES_HAVE_A_RUNTIME_IDENTITY",
+    "whyThisMatters": "Tennessee, not Kansas, is the state whose routes the runtime can actually address. Its eight track-only routes are missing_from_compiled_runtime exactly as Kansas is, but three track-pathway routes carry a compiled pathway and a paid_packet_intended disposition.",
+    "runtimeRouteIds": [
+      {
+        "routeId": "TN:pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107",
+        "obligationKey": "obligation:track-pathway:TN:tn_eligible_conviction:pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107",
+        "publicLabel": "Expunge an eligible conviction",
+        "compiled": true,
+        "currentServiceDisposition": "paid_packet_intended",
+        "currentCommercialState": "LAUNCH_GRAPH_CLOSED",
+        "destinationKind": "prosecutor"
+      },
+      {
+        "routeId": "TN:pathway-2-diversion-expunction-under-40-15-105-40-35-313",
+        "obligationKey": "obligation:track-pathway:TN:tn_judicial_diversion:pathway-2-diversion-expunction-under-40-15-105-40-35-313",
+        "publicLabel": "Clear a case after completing judicial diversion",
+        "compiled": true,
+        "currentServiceDisposition": "paid_packet_intended",
+        "currentCommercialState": "LAUNCH_GRAPH_CLOSED",
+        "destinationKind": "court"
+      },
+      {
+        "routeId": "TN:pathway-4-two-offense-expunction-under-40-32-101-k",
+        "obligationKey": "obligation:track-pathway:TN:tn_two_offense:pathway-4-two-offense-expunction-under-40-32-101-k",
+        "publicLabel": "Expunge up to two offences, once in your life",
+        "compiled": true,
+        "currentServiceDisposition": "paid_packet_intended",
+        "currentCommercialState": "LAUNCH_GRAPH_CLOSED",
+        "destinationKind": "prosecutor"
+      }
+    ],
+    "stillToConfirmBeforeTennesseeCouldOpen": [
+      "LAUNCH_GRAPH_CLOSED is a commercial state on all three and has to be read before any of them can be admitted",
+      "the visual review of the Tennessee bundles has not been performed",
+      "the three routes are three of the eleven the packet serves, so the review and the record must be scoped to the pages those three routes deliver"
+    ]
+  },
+  "thePopulationWideMeasurement": {
+    "provenFamilies": 112,
+    "routesAcrossThemWithARuntimePathwayId": 68,
+    "routesWithNone": 90,
+    "provenFamiliesWithAtLeastOneRuntimeRepresentedRoute": 54,
+    "provenFamiliesWithNoRuntimeRepresentedRouteAtAll": 58,
+    "censusWide": {
+      "paid_packet_intended": 258,
+      "missing_from_compiled_runtime": 192
+    },
+    "whatItMeans": "Packet proof and runtime representation are separate populations, the same way packet proof and legal approval turned out to be. Slightly over half the proven families have at least one route the runtime can address; 58 have none. A first cohort has to be chosen on the intersection of proof, approval AND runtime representation, and no earlier selection tested the third."
+  },
+  "grantsNothing": "This record establishes which route identities exist. It creates no route, no fulfilment record and no commercial authority, and it does not itself open or close anything.",
+  "supersededInPartOn": "2026-09-02",
+  "supersededInPartBy": "The Kansas runtime representation lane, which added the two municipal pathways to the compiled Kansas profile through the approved legal route contracts and the applier that owns that file. The Tennessee section, the population-wide measurement and the grantsNothing statement are untouched."
+}

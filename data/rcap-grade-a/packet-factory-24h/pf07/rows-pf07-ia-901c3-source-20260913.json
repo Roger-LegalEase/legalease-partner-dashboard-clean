@@ -1,0 +1,109 @@
+{
+  "schemaVersion": "rcap-packet-factory-family-return/v1",
+  "assignmentId": "PF07",
+  "workerId": "rcap-finish-worker-77jr7gx76jq3rg65",
+  "lane": "packet-build",
+  "engine": "Codex Codespaces worker",
+  "shiftBaseSha": "6867ee44777ce3c9e88afda8b4bad8c3d8e8e31a",
+  "workerBranch": "pf20-ks-22-2410-arrest-20260912b",
+  "workerHeadBeforeReturn": "af5e9f3929eb",
+  "familiesAssigned": 1,
+  "rowsReturned": 1,
+  "claim": {
+    "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF07 'ia-901c3-set'",
+    "result": "CLAIM_OK PF07 ia-901c3-set (packet-build, grant set 4cb248e7618fd712)",
+    "captainLedgerPath": "data/rcap-grade-a/packet-factory-24h/claim-ledger.json",
+    "captainLedgerSha256": "8ff9d4d22f490506d6fcb90bec54cc3cf5a9bd40131dd145c9923d7bd8743d57",
+    "captainLedgerGeneratedAtCommit": "3a9ef08889a3ef63f4e8bfb5c3366b9e126234cd"
+  },
+  "itemId": "ia-901c3-set",
+  "status": "STOPPED",
+  "stopClass": "BLOCKED_SOURCE",
+  "jurisdiction": "IA",
+  "routeKeys": [
+    "obligation:track-pathway:IA:ia-901c3:misdemeanor-901c3"
+  ],
+  "implementationStrategy": "official_pdf_fill",
+  "officialFormFamily": "Rule 2.86 Form 2",
+  "requiredComponents": [
+    "component:ia-901c3-certificate-of-service-2",
+    "component:ia-901c3-primary-filing-1"
+  ],
+  "buildScript": "scripts/build-census-v1-ia-901c3-set.mjs",
+  "buildScriptExists": false,
+  "overlayDirectory": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill",
+  "overlayDirectoryExists": false,
+  "overlayDirectoryTouched": false,
+  "builderCreated": false,
+  "testCreated": false,
+  "filingPacketsGenerated": 0,
+  "rasterGenerated": false,
+  "sourceBinding": {
+    "queuePinnedSource": {
+      "sourceId": "official-form:Rule 2.86 Form 2",
+      "queuePath": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC2__IA-901C3-SET__RULE-2-86-FORM-2__5a1c67004e4f.pdf",
+      "sha256": "5a1c67004e4ff551cefca4ced50f8f48c77586b25e7e32384defda7726d4f963",
+      "byteLength": 2674736
+    },
+    "exactHeldTransfer": {
+      "workerPath": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC2__IA-901C3-SET__RULE-2-86-FORM-2__5a1c67004e4f.pdf",
+      "sha256": "5a1c67004e4ff551cefca4ced50f8f48c77586b25e7e32384defda7726d4f963",
+      "byteLength": 2674736,
+      "bytesChanged": false,
+      "sourceBytesCommitted": false
+    },
+    "familyGate": {
+      "result": "FAIL",
+      "detail": "ia-901c3-set names no resolved document source. An official_pdf_fill family with no bound source is not dispatchable.",
+      "resolvedSources": 0,
+      "custodyClass": "SOURCE_IDENTITY_UNRESOLVED"
+    },
+    "custodyRecord": {
+      "path": "data/rcap-grade-a/route-obligation-census-v1/source-custody-reconciliation.json",
+      "row": "worklistGroupId=ia-901c3-set",
+      "documentSourcesNamed": 3,
+      "documentSourcesResolved": 0,
+      "ruleFormResolved": false,
+      "ruleFormAbsence": "label_does_not_identify_a_document",
+      "attachedSheetResolved": false,
+      "attachedSheetAbsence": "label_does_not_identify_a_document",
+      "certificateServiceResolved": false,
+      "certificateServiceAbsence": "label_does_not_identify_a_document",
+      "sharedRecordModified": false
+    }
+  },
+  "preflight": {
+    "command": "node scripts/verify-packet-build-environment.mjs --family 'ia-901c3-set' --codex-cloud --minimum-captain-sha 6867ee44777ce3c9e88afda8b4bad8c3d8e8e31a",
+    "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 9/14 passed, 5 failed, 3 not applicable",
+    "exitCode": 1,
+    "familySourcesBind": "FAIL: ia-901c3-set names no resolved document source",
+    "knownWorkerEnvironmentFailures": [
+      "worktree_clean: Captain-provided claim ledger and exact held reference byte are intentionally uncommitted in the worker",
+      "private_is_git_ignored: private/ is not git-ignored at this worker base",
+      "master_library_complete: 12 of 499 files and 10 of 329 PDFs present",
+      "corpus_matches_committed_index: 24 sampled entries absent"
+    ],
+    "treatment": "Aggregate partial-corpus failures were not repaired or used as the family finding; the exact family custody mismatch is the blocker."
+  },
+  "blocker": {
+    "exactClass": "BLOCKED_SOURCE",
+    "statement": "The queue pins Rule 2.86 Form 2 by exact SHA and the byte is held, but source-custody-reconciliation.json does not admit or resolve the Rule 2.86 document identity or its related components. The verifier therefore sees zero resolved family document sources.",
+    "noSourceHunt": true,
+    "noSharedResolverEdit": true,
+    "noLegalResearch": true
+  },
+  "nextExecutableAction": "Captain must add the existing exact Rule 2.86 Form 2 identity to the governed family custody/source admission, then rerun the family gate and dispatch the existing ia-901c3 builder when its exclusive script is present.",
+  "counters": null,
+  "allNineCountersZero": null,
+  "artifactsProduced": [],
+  "commercialAuthorityGranted": false,
+  "productionTouched": false,
+  "selfVerified": false,
+  "privateSourceBytesCommitted": false,
+  "privateSourceBytesModified": false,
+  "returnNotes": [
+    "Claim used PF07, the lane recorded in Captain's current claim ledger.",
+    "Only the exact queue-pinned Rule 2.86 Form 2 path/hash was transferred; no broad source search or corpus restoration was performed.",
+    "Prior native returns, the active FL expunction scope, shared manifests, source custody, builder scripts, and overlay directories were not modified."
+  ]
+}

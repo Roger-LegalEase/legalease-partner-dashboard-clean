@@ -1,0 +1,179 @@
+{
+  "schemaVersion": "rcap-grade-a-wave-2-r6-counsel-determination-implementation/v1",
+  "assignmentId": "R6_COUNSEL_DETERMINATION_IMPLEMENTATION",
+  "captainBaseSha": "ebb99d663f857f58a173c1d29eb73d0f15e70cbd",
+  "assignmentReadFrom": "cbdfcd9ef9356182085ec1686e9084b244d5dc79:data/rcap-grade-a/launch-control/WAVE_2_ASSIGNMENTS.json",
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "rows": [
+    {
+      "itemId": "obligation:research-decision-route:AL:al-uncharged-arrest:de_novo_court_review_after_final_denial",
+      "status": "COMPLETED",
+      "decisionId": "LWD-2026-08-30-AL-Q4-DE-NOVO-REVIEW",
+      "classification": "CATEGORY_A_BOUNDED_PARTICIPANT_FILED_APPEAL",
+      "branchIdentityCreated": {
+        "routeKey": "participant-a:AL:al-uncharged-arrest:de-novo-review-after-final-ajic-denial",
+        "publicLabel": "Alabama de novo circuit-court review after final agency denial",
+        "selector": {
+          "requiredFacts": [
+            "AJIC challenge application and supporting official documentation were submitted",
+            "the original agency of record denied correction or removal",
+            "the written administrative appeal to the AJIC Director was filed",
+            "the Commission issued a final decision",
+            "the participant remains dissatisfied",
+            "the final-decision receipt date is known"
+          ],
+          "jurisdictionalGate": "REFUSE_UNLESS_AJIC_ADMINISTRATIVE_PROCESS_EXHAUSTED",
+          "deadlineGate": "File the agency notice and circuit petition concurrently no later than 30 days after receipt or service of the final Commission decision."
+        },
+        "outputStrategy": {
+          "shape": "TWO_DOCUMENT_INITIATING_PACKET",
+          "documentsInOrder": [
+            "Notice of Appeal or Review from Final AJIC Commission Decision",
+            "Petition for De Novo Judicial Review and Appeal Under Ala. Code §§ 41-9-645 and 41-22-20"
+          ],
+          "standardOfReview": "DE_NOVO_UNDER_SECTION_41_9_645",
+          "costTreatment": "Cite the statutory exemption from advance bond and advance payment of costs."
+        },
+        "productOutcome": "Prepare the bounded participant-filed notice, circuit petition, exhibit assembly, filing and service instructions only after verified exhaustion.",
+        "commercialTreatment": "CLOSED"
+      },
+      "refusalConditions": [
+        "AJIC administrative exhaustion is not proven",
+        "the agency disputes a material fact concerning identity, disposition, release or clearance",
+        "the agency contends that § 41-9-625 does not require removal of the particular information",
+        "a motion to dismiss or jurisdictional challenge is filed",
+        "discovery, subpoenas, witness preparation, live evidentiary testimony or cross-examination is required",
+        "bespoke legal briefing is required",
+        "appellate review beyond the circuit court is sought",
+        "the participant is seeking a general Title 15 expungement",
+        "the requested relief includes sealing or erasing court files"
+      ]
+    },
+    {
+      "itemId": "obligation:research-decision-route:NY:ny_160_55_violation:pre_1991_legacy_motion",
+      "status": "COMPLETED",
+      "decisionId": "LWD-2026-08-30-NY-Q54-LEGACY-160-55",
+      "classification": "CATEGORY_A_MANDATORY_ROUTE_SPLIT",
+      "branchIdentityCreated": {
+        "routeKeys": [
+          "obligation:research-decision-route:NY:ny_160_55_violation:pre_1991_legacy_motion::ny-160-55-legacy-cohort-1",
+          "obligation:research-decision-route:NY:ny_160_55_violation:pre_1991_legacy_motion::ny-160-55-legacy-cohort-2"
+        ],
+        "publicLabel": "New York pre-November 1991 legacy sealing motion",
+        "selector": {
+          "question": "What is the exact conviction date?",
+          "before1980_09_01": "NY-160-55-LEGACY-COHORT-1",
+          "from1980_09_01_through1991_10_31": "NY-160-55-LEGACY-COHORT-2",
+          "otherDates": "OUTSIDE_THIS_ROUTE"
+        },
+        "outputStrategy": "Generate only the motion theory selected by the exact conviction date, with proposed sealing order and proof of service.",
+        "productOutcome": "Prepare an uncontested, records-based legacy motion and proposed order for the correct date cohort.",
+        "commercialTreatment": "CLOSED"
+      },
+      "dateSpecificSubroutes": [
+        {
+          "routeKey": "obligation:research-decision-route:NY:ny_160_55_violation:pre_1991_legacy_motion::ny-160-55-legacy-cohort-1",
+          "cohortId": "NY-160-55-LEGACY-COHORT-1",
+          "convictionDateRule": "before September 1, 1980",
+          "governedBy": "current CPL § 160.55(3)",
+          "instrument": "Motion for an Order Granting Relief Under CPL § 160.55(3)",
+          "noticeRule": "Provide the full motion to the district attorney on not less than 20 days' notice before submission or hearing."
+        },
+        {
+          "routeKey": "obligation:research-decision-route:NY:ny_160_55_violation:pre_1991_legacy_motion::ny-160-55-legacy-cohort-2",
+          "cohortId": "NY-160-55-LEGACY-COHORT-2",
+          "convictionDateRule": "September 1, 1980 through October 31, 1991",
+          "governedBy": "former CPL § 160.55 through a motion to enter or enforce the omitted legacy sealing order",
+          "instrument": "Motion to Enter and Enforce a Legacy Sealing Order Under Former CPL § 160.55",
+          "noticeRule": "Serve the district attorney and follow the terminating court's local criminal-motion return-date and service rules. A 20-day operational minimum is not an express statutory requirement for this cohort.",
+          "requiredAllegation": "State the historical failure to enter or transmit the sealing order required by the law governing the disposition."
+        }
+      ],
+      "refusalConditions": [
+        "the district attorney opposes sealing in the interests of justice",
+        "a prior order directed that sealing not occur",
+        "the court disputes the procedural vehicle for the September 1980 through October 1991 cohort",
+        "the court requires a different successor-court or transferred-record procedure",
+        "identity, offense, disposition or conviction date is disputed",
+        "the potential CPL § 160.55(4) exclusion is implicated",
+        "the participant seeks sealing of the courthouse file rather than the agency records covered by § 160.55",
+        "an evidentiary hearing, factual investigation or appellate proceeding is required"
+      ]
+    },
+    {
+      "itemId": "obligation:track-only:NE:ne-postconviction-routing",
+      "status": "COMPLETED",
+      "decisionId": "LWD-2026-08-30-NE-Q47-POSTCONVICTION",
+      "classification": "CATEGORY_B_EXCLUSION",
+      "categoryBReason": "UNSUITABLE_FOR_SELF_HELP",
+      "branchIdentityCreated": {
+        "routeKey": "guidance-only:NE:ne-postconviction-professional-handoff",
+        "publicLabel": "Nebraska postconviction guidance and professional handoff",
+        "selector": "A participant asking to overturn a Nebraska conviction is routed to neutral education and professional referrals, never to merits generation.",
+        "outputStrategy": "GUIDANCE_AND_REFERRAL_ONLY",
+        "productOutcome": "Provide deadline-sensitive orientation, records collection and referrals without selecting or drafting a claim.",
+        "commercialTreatment": "CLOSED"
+      },
+      "guidanceOutputs": [
+        "neutral remedy education",
+        "a conspicuous one-year-deadline warning",
+        "a record and transcript collection checklist",
+        "identification of the sentencing court",
+        "referrals to postconviction counsel, public defenders where available, innocence organizations or legal aid",
+        "information that appointment of counsel is discretionary rather than automatic"
+      ],
+      "meritsPleadingGenerated": false,
+      "refusalConditions": [
+        "stop before selecting, framing, drafting, verifying or filing any substantive postconviction ground",
+        "do not generate the merits motion",
+        "do not determine which constitutional claims to assert",
+        "do not decide whether a claim is procedurally defaulted",
+        "do not calculate prejudice",
+        "do not select a limitations exception",
+        "do not advise a participant to omit or reserve a potential claim"
+      ]
+    },
+    {
+      "itemId": "obligation:track-only:UT:ut_adj_reduction_402",
+      "status": "COMPLETED",
+      "decisionId": "LWD-2026-08-30-UT-Q76-402-REDUCTION",
+      "classification": "CATEGORY_A_WITH_SEPARATELY_GATED_BRANCHES",
+      "branchIdentityCreated": {
+        "routeKey": "participant-a:UT:ut-402-motion-to-reduce-conviction",
+        "publicLabel": "Utah Motion to Reduce Conviction under § 76-3-402",
+        "selector": "Select exactly one statutory timing and eligibility branch; verify every consent-dependent branch from signed or on-record prosecutorial consent.",
+        "outputStrategy": {
+          "shape": "MOTION_PLUS_SUBMISSION_WORKFLOW",
+          "documentsInOrder": [
+            "Motion to Reduce Conviction Pursuant to Utah Code § 76-3-402",
+            "supporting declaration or evidentiary exhibits",
+            "proof of service",
+            "Request to Submit for Decision after the response period",
+            "Findings of Fact, Conclusions of Law, and Order on Motion to Reduce Conviction"
+          ],
+          "prosecutorResponseWindowDays": 35
+        },
+        "productOutcome": "Prepare objectively eligible defendant-filed branches and refuse consent-dependent or joint-motion branches without verified signed consent.",
+        "commercialTreatment": "CLOSED"
+      },
+      "branches": [
+        {"branchId":"UT-402-SENTENCING","when":"at sentencing","prosecutorConsentRequired":false,"selfHelpFulfilled":true,"gate":"PARTICIPANT_FILED_NO_CONSENT_GATE"},
+        {"branchId":"UT-402-AFTER-SUCCESSFUL-PROBATION","when":"after successful completion of probation or parole","prosecutorConsentRequired":false,"selfHelpFulfilled":true,"gate":"PARTICIPANT_FILED_NO_CONSENT_GATE"},
+        {"branchId":"UT-402-AFTER-REHAB-PROGRAM","when":"after a qualifying rehabilitation program","prosecutorConsentRequired":false,"selfHelpFulfilled":true,"gate":"PARTICIPANT_FILED_NO_CONSENT_GATE"},
+        {"branchId":"UT-402-LATER-CASE-FIVE-YEAR","when":"after successful probation or parole in a later case, five years from sentencing in the later case","prosecutorConsentRequired":false,"selfHelpFulfilled":true,"gate":"PARTICIPANT_FILED_NO_CONSENT_GATE"},
+        {"branchId":"UT-402-LATER-CASE-THREE-YEAR","when":"after successful probation or parole in a later case, three years from sentencing in the later case","prosecutorConsentRequired":true,"selfHelpFulfilled":false,"gate":"REFUSE_WITHOUT_SIGNED_CONSENT"},
+        {"branchId":"UT-402-AFTER-UNSUCCESSFUL-DISCHARGE","when":"after an unsuccessful probation or parole discharge, five years","prosecutorConsentRequired":false,"selfHelpFulfilled":true,"gate":"PARTICIPANT_FILED_NO_CONSENT_GATE"},
+        {"branchId":"UT-402-TWO-DEGREE","when":"any branch where a two-degree reduction is sought","prosecutorConsentRequired":true,"selfHelpFulfilled":false,"gate":"REFUSE_WITHOUT_SIGNED_CONSENT"},
+        {"branchId":"UT-402-VIOLENT-FELONY","when":"the offense is a statutorily defined violent felony under the applicable post-sentence branches","prosecutorConsentRequired":true,"selfHelpFulfilled":false,"gate":"REFUSE_WITHOUT_SIGNED_CONSENT"},
+        {"branchId":"UT-402-SUBSTANTIAL-ASSISTANCE","when":"within one year after sentencing","prosecutorConsentRequired":true,"selfHelpFulfilled":false,"gate":"REFUSE_WITHOUT_SIGNED_CONSENT"}
+      ],
+      "consentEvidenceRule": "A participant's assertion that the prosecutor agrees is not consent; require signed written consent or the controlling determination's permitted on-record agreement, and require the joint process for substantial assistance.",
+      "sourceIdentityBlock": {
+        "packetBuildBlocked": true,
+        "reason": "The final Utah Courts form number for the motion is unresolved and belongs to R4_SOURCE_IDENTITY_AND_ACQUISITION.",
+        "prohibitedFinalFormIdentity": "1023XX"
+      }
+    }
+  ]
+}

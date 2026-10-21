@@ -1,0 +1,106 @@
+{
+  "schemaVersion": "rcap-source-identity-findings/v1",
+  "generatedBy": "scripts/grade-a-packet-factory-24h/generate-source-identity-findings.mjs",
+  "question": "Which source blockers are real acquisitions, and which are already-held bytes, parent/components, superseded identities, non-documents, or settled pleading strategies?",
+  "answer": "The 42-family non-acquisition cohort is reconciled to 25 SOURCE_READY, 7 PRODUCT_PATH_PENDING, and 10 exact SOURCE_BLOCKED residuals. Kansas is source-complete and permission-bound, not acquisition-bound.",
+  "method": "Two read-only discovery passes over committed evidence only, with every claim re-checked here against the files it cites. A finding whose evidence has moved fails this generator rather than being restated.",
+  "everyClaimVerifiedAtGenerationTime": true,
+  "findings": [
+    {
+      "id": "SIF-1",
+      "jurisdiction": "LA",
+      "severity": "high",
+      "claim": "LA-CCRP-ART-988, 989, 991 and 992 are statutory article citations, not published forms. There is no official PDF to acquire for any of them.",
+      "evidence": [
+        "src/lib/rcap/state-packs/louisiana/official-forms.ts header: \"Louisiana's forms are STATUTORY: they are built into the Code of Criminal Procedure... The source folder contains the Louisiana Laws HTML pages (statutory text), not separate blank PDF form files — so blankPdfInSource is false for every entry (the 'form' is the codal form).\"",
+        "src/lib/rcap/state-packs/louisiana/official-forms.ts: 11 entries carry blankPdfInSource: false and none carries true."
+      ],
+      "whatItChanges": "These obligations are not acquisition work. A lane sent to find their URL will fail, report BLOCKED_SOURCE, and leave the families looking permanently source-blocked. They are custom-pleading work drafted from the codified text, which is a different lane and a different skill.",
+      "reclassifyTo": "STATUTORY_INSTRUMENT_NOT_A_PUBLISHED_FORM",
+      "doNotDo": "Do not dispatch an acquisition for these. Do not record a URL for them. Do not treat a statute page as a form source.",
+      "verified": true
+    },
+    {
+      "id": "SIF-2",
+      "jurisdiction": "KS",
+      "severity": "medium",
+      "claim": "All six assigned Kansas families have exact, hash-bound current source bytes. Their remaining restriction is commercial reuse and republication treatment, not acquisition.",
+      "evidence": [
+        "data/rcap-all50/local-source-corpus-index.json: 4 KS entr(ies) carry a formNumber at or past the truncation length, e.g. \"KS-NOTICE-OF-HEARING-ON-PETITION-FOR-EXPUNGEM\", \"KS-ORDER-OF-EXPUNGEMENT-OF-CONVICTION-OR-DIVE\"",
+        "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json: six Kansas rows are PRODUCT_PATH_PENDING after the committed acquisition return is joined by exact SHA-256."
+      ],
+      "whatItChanges": "The six families leave SOURCE_BLOCKED. They stay fail-closed at PRODUCT_PATH_PENDING until the Kansas Judicial Council permission/product treatment is resolved.",
+      "reclassifyTo": "SOURCE_COMPLETE_PERMISSION_TREATMENT_PENDING",
+      "doNotDo": "Do not send another source-acquisition lane after these documents, and do not commercially distribute them while permission remains unresolved.",
+      "verified": true
+    },
+    {
+      "id": "SIF-3",
+      "jurisdiction": "IL",
+      "severity": "low",
+      "claim": "EXP-AD Case List is fully identified with an official URL and an expected SHA-256 already in the acquisition manifest. EXP-AD Request and EXP-AD Order Granting have candidate URLs only, in a record whose own name says candidate, with no expected hash and no corroboration.",
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/SOURCE_ACQUISITION_MANIFEST.json carries EXP-AD Case List with an official URL and expectedSha256.",
+        "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json carries URLs for Request and Order Granting and nothing else does."
+      ],
+      "whatItChanges": "One of the four Illinois documents is acquirable now. The other two need their candidate URL corroborated before any lane fetches it — an uncorroborated address in a candidate file is a guess with a filename.",
+      "reclassifyTo": "ONE_ACQUIRABLE_TWO_UNCORROBORATED",
+      "doNotDo": "Do not promote a candidate URL into the manifest without a second source and an expected hash.",
+      "verified": true
+    },
+    {
+      "id": "SIF-4",
+      "jurisdiction": "ALL",
+      "severity": "high",
+      "claim": "private/Nationwide Record Clearing/ — the sprint's stated source inventory — is not present in this worktree.",
+      "evidence": [
+        "The directory does not exist here, and data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json declares presentInWorktree: false with ingestionStatus ABSENT_FROM_THIS_WORKTREE."
+      ],
+      "whatItChanges": "Discovery lanes in this environment cannot ingest the inventory the build discipline names as the first source. They can only reconcile what is already committed, which is a narrower job than the DISC prompts describe.",
+      "reclassifyTo": "DISCOVERY_LIMITED_TO_COMMITTED_EVIDENCE",
+      "doNotDo": "Do not report a DISC lane as having exhausted discovery when the primary inventory was never mounted.",
+      "verified": true
+    },
+    {
+      "id": "SIF-5",
+      "jurisdiction": "AR/AZ/CA/FL/IA/IL/IN/KS/ME/MI/ND/RI/UT/WA",
+      "severity": "high",
+      "claim": "The 42-family non-acquisition cohort is fully reconciled: 25 SOURCE_READY, 7 PRODUCT_PATH_PENDING, and 10 exact SOURCE_BLOCKED residuals.",
+      "evidence": [
+        "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json: 42 unique governed family determinations in groups A=19, B=19, C=4.",
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json: generated family states match every governed disposition. Exact source residuals: az_set_aside-set: R-26-0001 is acquired, but its amended Form 31(a)/(b) payload is not yet in governed source custody. | ri_decriminalized-set: DC-33 requires the filer to bring an order, but no exact order template or authority to compose one is held; DC-33 alone also cannot serve non-District-Court cases. | ri_deferred_sentence-set: The route's DC-33 mapping is superseded by Superior-55 Part Three, whose instructions require an order that is not held or composition-authorized. | ri_first_offender_felony-set: Superior-55 requires the filer to bring an order, but no exact order template or authority to compose one is held. | ri_first_offender_misdemeanor-set: DC-33 requires the filer to bring an order, but no exact order template or authority to compose one is held; other trial courts require court-specific motion treatment. | ri_multiple_misdemeanors-set: DC-33 requires the filer to bring an order, but no exact order template or authority to compose one is held; current form wording also requires reconciliation against the fewer-than-six statutory limit. | census-pending-family:ME:juvenile-sealing: The compiled route profile names JV-043, but its current official binary is not held. | census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement: The current official PCRA petition is identified, but its binary is not held and the route authority/strategy still names the wrong legal vehicle. | census-pending-family:UT:path-m-juvenile-expungement: The official Utah juvenile expungement petition is identified, but its current binary is not held in governed custody. | census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260: The current governed corpus holds JU 10.0320 only. Historical inventory records hashes for JU 10.0300 and JU 10.0315, but their bytes are absent from every current indexed custody, so they cannot be bound as ready."
+      ],
+      "whatItChanges": "32 generic source blocks are removed without touching the separate 28-family acquisition cohort or the five later source blockers. Newly source-ready families enter the existing packet-build lanes.",
+      "reclassifyTo": "25_SOURCE_READY_7_PRODUCT_PATH_PENDING_10_SOURCE_BLOCKED",
+      "doNotDo": "Do not regenerate these families from stale acquisition-return statuses or collapse parent/component, phantom-document, nonofficial-template, permission, or product-routing findings back into SOURCE_BLOCKED.",
+      "verified": true
+    }
+  ],
+  "affected": {
+    "louisianaFamilies": [
+      "la-976-arrest-no-conviction-set",
+      "la-977-misdemeanor-conviction-set",
+      "la-977d-marijuana-first-offense-set",
+      "la-978-felony-conviction-set",
+      "la-985-1-interim-expungement-set",
+      "la-985-expungement-by-redaction-set",
+      "la-987-set-aside-and-dismiss-set"
+    ],
+    "kansasFamilies": [
+      "ks-21-6614-conviction-set",
+      "ks-21-6614-diversion-set",
+      "ks-21-6614-prostitution-coercion-set",
+      "ks-21-6614-specialty-court-set",
+      "ks-22-2410-arrest-set",
+      "ks-22-4908-registration-relief-set",
+      "rcap-ks-custom-pleading"
+    ]
+  },
+  "whatThisDoesNotEstablish": [
+    "that any Louisiana instrument has been drafted",
+    "that Kansas commercial reuse or republication is approved",
+    "that any URL here has been fetched, or that any byte has been promoted"
+  ],
+  "commercialRoutesOpened": 0,
+  "productionTouched": false
+}

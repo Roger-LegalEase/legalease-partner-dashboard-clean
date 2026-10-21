@@ -109,7 +109,7 @@ assert(!ROUTE_LABEL_COPY.find((entry) => entry.id === "route.ma.cori_sealing" &&
 
 const resultSource = fs.readFileSync(path.join(ROOT, "src/components/expungement-ai/screening/ScreeningResult.tsx"), "utf8");
 assert(resultSource.includes("routeLabelKeyForState"), "ScreeningResult must use state-specific route labels.");
-assert(resultSource.includes("Save this matter and continue"), "ScreeningResult must save the free result before the packet builder.");
+assert(resultSource.includes("Save my result and continue"), "ScreeningResult must save the free result before the packet builder.");
 
 const checkoutSource = fs.readFileSync(path.join(ROOT, "src/app/expungement-ai/pay/ConsumerCheckoutButton.tsx"), "utf8");
 assert(checkoutSource.includes("Pay $50 and generate my packet"), "Checkout button must use the final DTC packet copy.");

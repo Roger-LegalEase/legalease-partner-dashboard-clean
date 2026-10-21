@@ -1,0 +1,19 @@
+{
+  "reviewer": "/root",
+  "author": "/root/release_path_review",
+  "verdict": "PASS_BOUNDED_VERIFIER_REPAIR",
+  "verifierSha256": "10671c7d06ba6a8e169e8351b9e1eff3782de3d4e4560d52c574bab692369eb5",
+  "independentExecution": {
+    "exitCode": 0,
+    "elapsedSeconds": 1.03,
+    "assertionsPassed": 92
+  },
+  "reviewedMutationControls": 11,
+  "mutationExecutionAttribution": "Implementation author; root inspected all11mutations and relevant refusal assertions, not rerun as fresh root tests.",
+  "findings": [
+    "Two removed literal assertions are replaced by actual checked-in browser helper execution using synthetic fetch and location; original other checks remain.",
+    "Success and definitive4xx scrub claim token; 401/network/5xx preserve retry; callback carries only validated continuation and strips auth query and fragment.",
+    "Assertions reject leaked/removed/malformed token and changed destination; mutation harness requires a passing relocated baseline and exact relevant failing assertion. No criterion bypass or auth service changes."
+  ],
+  "applicationBytesUnchanged": true
+}

@@ -1,0 +1,75 @@
+{
+  "schemaVersion": "rcap-family-source-receipt/v1",
+  "familyId": "ms-nonconv-set",
+  "worklistGroupId": "ms-nonconv-set",
+  "jurisdiction": "MS",
+  "implementationStrategy": "custom_pleading",
+  "custodyClass": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+  "acquisitionCommissioned": false,
+  "bindingMethod": "no official form exists for this route and the MASTER_QUEUE row binds no corpus bytes; every composed page is grounded on the family's committed legal-design records, hashed below at build time",
+  "routeKeys": [
+    "obligation:track-pathway:MS:ms-nonconv:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal"
+  ],
+  "statutoryAuthority": [
+    "Miss. Code Ann. § 99-19-71(4)",
+    "Miss. Code Ann. § 99-19-71(3)",
+    "Miss. Code Ann. § 99-19-72"
+  ],
+  "legalName": "Non-Conviction Expungement, Miss. Code Ann. § 99-19-71(4)",
+  "allSourcesExact": true,
+  "compositionSources": [
+    {
+      "path": "data/record-clearing/legal-design-intake/MS.memo.json",
+      "sha256": "01c4a9586cf2eeae96b3da17437bb407e1e70f042a0a0785ace5353802022bb2",
+      "byteLength": 399654
+    },
+    {
+      "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+      "sha256": "b28edfb93eb2e3953dea5bdbe2915476c9752c12df2a46cb61f98e786a77cc5c",
+      "byteLength": 3708050,
+      "identityRefresh": {
+        "refreshedOn": "2026-09-10",
+        "was": {
+          "sha256": "6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec",
+          "byteLength": 3683419
+        },
+        "why": "data/record-clearing/legal-design-packet-set-manifests.json was rewritten around this receipt's anchors. This receipt binds no part of it that moved: the entry for ms-nonconv-set and the record's global authority fields were recovered from the blob carrying the previous pin (d798dc66bb305d0ccdc79d7f0450dd4e4f333d9c) and compared object-for-object, order-independent, against the current record, and all 2 were identical.",
+        "recoveredFromCommit": "d798dc66bb305d0ccdc79d7f0450dd4e4f333d9c",
+        "anchorsCompared": 2,
+        "anchorDetail": [
+          "recordGlobalMetadata: identical",
+          "packetSet:ms-nonconv-set: identical"
+        ],
+        "anchorsIdentical": 2,
+        "identicalAnchorSha256": {
+          "recordGlobalMetadata": "eb4a53fc38ac633369b073f1e43e3d322389a4add7a0f3deec0f0ef90a145ead",
+          "packetSet:ms-nonconv-set": "87f4fe657e4064ee9a624eabf924fa3cf5a911a4c6e9b984e4b40f668f44ba5f"
+        },
+        "canonicalisation": "keys sorted recursively, JSON.stringify with no spacing, UTF-8",
+        "whatThisDoesNotEstablish": "It re-anchors a whole-file pin whose bound content did not move. It renews no independent verification, no raster acceptance and no approval, and it opens no route."
+      }
+    },
+    {
+      "path": "data/record-clearing/packet-specifications/MS-nonconviction-expungement-99-19-71-4.v1.json",
+      "sha256": "3a1bed79e3760feb84563a638893942ab557683f6bbe7fb0fddec7e74723257f",
+      "byteLength": 59843
+    }
+  ],
+  "formIdentityNote": "Mississippi publishes no statewide expungement form; the MASTER_QUEUE row binds no source (officialFormFamily NONE, sourceStatus CUSTOM_PLEADING_FROM_CODIFIED_TEXT) and the legal-design record resolves the strategy to custom_pleading with localFormOverride. The petition quotes § 99-19-71(4) directly, including the mandatory 'shall expunge', which is safe because it is the statute rather than a characterization.",
+  "composedComponentsAuthoredByThisBuild": [
+    "cover_and_contents",
+    "primary_filing",
+    "proposed_order",
+    "certificate_of_service",
+    "attachment",
+    "instructions"
+  ],
+  "sourceBinaryCommitted": false,
+  "commercialRoutesOpened": 0,
+  "whatThisReceiptDoesNotEstablish": [
+    "that any output is approved for participant delivery",
+    "that any case falls within Miss. Code Ann. § 99-19-71(4), particularly a case 'passed to the file' or 'retired to the file'",
+    "the amount of any filing fee, or whether § 99-19-72's fee reaches a subsection (4) petition at all",
+    "any district's local petition or order preference, which the participant confirms with the clerk"
+  ]
+}

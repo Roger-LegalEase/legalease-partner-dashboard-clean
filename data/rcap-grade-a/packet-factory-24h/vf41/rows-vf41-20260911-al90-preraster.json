@@ -1,0 +1,204 @@
+{
+  "schemaVersion": "rcap-verifier-return/v1",
+  "lane": "VF41",
+  "laneKind": "independent-verification",
+  "worker": "VF41",
+  "reviewer": "/root/hi_route_review",
+  "sessionIdentity": "/root/hi_route_review",
+  "familyId": "al-felony-nonconviction-90-set",
+  "baseSha": "ecda700303690c9ba1bf795e9a1ab0a5abe0cfa9",
+  "dispatchSha": "ecda700303690c9ba1bf795e9a1ab0a5abe0cfa9",
+  "verifiedAtBase": "ecda700303690c9ba1bf795e9a1ab0a5abe0cfa9",
+  "verdict": "STOPPED",
+  "scope": "Independent static nonvisual prereview of current AL official-form packet bytes. No source, builder, output or raster edits. All fifteen named obligations are represented; fourteen nonvisual obligations are measured PASS and visual clipping/overlap is explicitly NOT_MEASURABLE_HERE.",
+  "rows": [
+    {
+      "itemId": "al-felony-nonconviction-90-set",
+      "familyId": "al-felony-nonconviction-90-set",
+      "jurisdiction": "AL",
+      "lane": "VF41",
+      "verdict": "STOPPED",
+      "executionState": "VERIFY_PENDING",
+      "commercialAuthority": false,
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "name": "ROUTE_IDENTITY",
+          "result": "PASS",
+          "measured": true,
+          "method": "Directly matched familyId/routeKey in product-wiring, field map, source receipt, rendered artifacts, and builder reports."
+        },
+        "COMPONENT_SET": {
+          "name": "COMPONENT_SET",
+          "result": "PASS",
+          "measured": true,
+          "method": "Directly counted rendered artifact roles: CR-65 primary_filing + certificate_of_service; C-10-CRIMINAL fee_waiver on both fixtures."
+        },
+        "SOURCE_IDENTITY": {
+          "name": "SOURCE_IDENTITY",
+          "result": "PASS",
+          "measured": true,
+          "method": "Resolver-backed negative-control test re-read both receipt sources and recomputed their exact SHA-256 values."
+        },
+        "KNOWN_PREFILLS": {
+          "name": "KNOWN_PREFILLS",
+          "result": "PASS",
+          "measured": true,
+          "method": "Delivered byte proof found 30/30 intended text writes in each fixture; actual-writes has 30 writes total."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "name": "REQUIRED_BEFORE_FILING",
+          "result": "PASS",
+          "measured": true,
+          "method": "Native audit directly reports knownRequiredFieldsMissing=0 and requiredFactsNotCollected=0; refusal ledger remains explicit in field map/instructions."
+        },
+        "ROUTE_OPTIONS": {
+          "name": "ROUTE_OPTIONS",
+          "result": "PASS",
+          "measured": true,
+          "method": "Native audit directly reports requiredOptionsMissing=0; route text tells participant to select the exact Section III outcome."
+        },
+        "FEE_AND_WAIVER": {
+          "name": "FEE_AND_WAIVER",
+          "result": "PASS",
+          "measured": true,
+          "method": "Directly read participant/filing instructions and C-10 component role; fee and indigency waiver instructions are present."
+        },
+        "SERVICE": {
+          "name": "SERVICE",
+          "result": "PASS",
+          "measured": true,
+          "method": "Directly read source-grounded service instruction and certificate_of_service component role."
+        },
+        "SELF_HELP_STOP": {
+          "name": "SELF_HELP_STOP",
+          "result": "PASS",
+          "measured": true,
+          "method": "Directly read participant instructions: source record, 90-day, refiling, and exact outcome checks stop the participant when unresolved."
+        },
+        "FILING_DESTINATION": {
+          "name": "FILING_DESTINATION",
+          "result": "PASS",
+          "measured": true,
+          "method": "Directly read destination instruction: criminal division of circuit court in county where charges were filed."
+        },
+        "PAGE_ORDER": {
+          "name": "PAGE_ORDER",
+          "result": "PASS",
+          "measured": true,
+          "method": "Directly read both rendered artifact records: 11 pages each; component order and page counts are recorded."
+        },
+        "REPEATING_ROWS": {
+          "name": "REPEATING_ROWS",
+          "result": "PASS",
+          "measured": true,
+          "method": "Directly measured all 216 source widgets in each delivered fixture; no incomplete values and zero outside-box ink."
+        },
+        "PROTECTED_FIELDS": {
+          "name": "PROTECTED_FIELDS",
+          "result": "PASS",
+          "measured": true,
+          "method": "Direct byte proof measured 186 refused fields per fixture with refusedFieldsWithInk=[] and residual annotations=0; negative control caught injected refused-field ink."
+        },
+        "ARTIFACTS": {
+          "name": "ARTIFACT_INTEGRITY",
+          "result": "PASS",
+          "measured": true,
+          "method": "Recomputed current PDF hashes/lengths and matched reports; canonical/boundary are unchanged at this review."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "finding": "No local raster or visual replay was performed. Central raster evidence and original page inspection remain required."
+        }
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": null,
+        "allZero": false,
+        "measuredHere": true,
+        "visualMeasuredHere": false,
+        "counterNote": "The eight numeric nonvisual counters are zero in the current native audit and saved-byte proof; visualDefects is null because raster evidence was not available in this review."
+      },
+      "currentArtifacts": {
+        "canonical": {
+          "sha256": "504731a37cda8b7b6ef801555bd380aee76c56da76ce22c65bb9eeddb3bad2c2",
+          "byteLength": 905655,
+          "pages": 11
+        },
+        "boundary": {
+          "sha256": "645a143db875a9e0ee38b5ba20a4060d06b2f0efa88db87ba651984b941a5208",
+          "byteLength": 905896,
+          "pages": 11
+        }
+      },
+      "byteProof": {
+        "source": "reports/delivered-ink-proof.json",
+        "canonical": {
+          "fieldsMeasured": 216,
+          "intendedInkFields": 30,
+          "intendedInkFound": 30,
+          "addedGlyphs": 386,
+          "outsideCount": 0,
+          "protectedInk": []
+        },
+        "boundary": {
+          "fieldsMeasured": 216,
+          "intendedInkFields": 30,
+          "intendedInkFound": 30,
+          "addedGlyphs": 626,
+          "outsideCount": 0,
+          "protectedInk": []
+        },
+        "visual": "pending central raster"
+      },
+      "remainingRequirements": [
+        "Central raster both exact current fixture bytes and consume original evidence; inspect all original pages before admission.",
+        "Do not treat this STOPPED prereview as PASS_COMPLETE_INDEPENDENT or commercial authority."
+      ],
+      "evidenceRead": []
+    }
+  ],
+  "sharedWrites": {
+    "queue": false,
+    "manifests": false,
+    "source": false,
+    "output": false,
+    "dispatch": false
+  },
+  "claimGate": {
+    "result": "CLAIM_OK",
+    "grantSet": "7f415a170a819192",
+    "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --can-assert VF41 al-felony-nonconviction-90-set",
+    "claimWritten": false
+  },
+  "reviewEvidence": {
+    "negativeControl": "node scripts/grade-a-packet-factory-24h/test-al90-delivered-ink-negative-controls.mjs",
+    "negativeControlResult": {
+      "fieldsMeasured": 216,
+      "actualProtectedInkInjectionDetected": true,
+      "wrongExpectedDetected": true,
+      "packetBytesUnchanged": true
+    },
+    "currentArtifactHashes": {
+      "canonical": {
+        "sha256": "504731a37cda8b7b6ef801555bd380aee76c56da76ce22c65bb9eeddb3bad2c2",
+        "byteLength": 905655,
+        "pages": 11
+      },
+      "boundary": {
+        "sha256": "645a143db875a9e0ee38b5ba20a4060d06b2f0efa88db87ba651984b941a5208",
+        "byteLength": 905896,
+        "pages": 11
+      }
+    },
+    "observedRepositoryHead": "94d4340f01552990d34ecc7517834b63daf636ab",
+    "note": "verifiedAtBase and packet binding are the requested ecda7003... commit; repository HEAD may subsequently advance without packet byte changes."
+  }
+}

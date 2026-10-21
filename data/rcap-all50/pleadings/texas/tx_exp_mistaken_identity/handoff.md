@@ -79,7 +79,7 @@ Custom pleading, three drafted documents, one conditional official-form dependen
 ## Evidence
 
 - `/home/user/wt-c1-pleadings/src/lib/rcap/state-packs/texas/index.ts`, `/home/user/wt-c1-pleadings/src/lib/rcap/state-packs/texas/all50-build-metadata.ts`
-- `/home/user/wt-c1-pleadings/src/lib/rcap-engine/compiled/profiles/TX-texas.json` (sha256 `2820312fd974151afe465d6f04d0454b4a5c3cc991982142bd0e3ab9c3a297df`)
+- `/home/user/wt-c1-pleadings/src/lib/rcap-engine/compiled/profiles/TX-texas.json` (sha256 `5d86879a794303a7b38faa37533db4037a356eb017f8a3229e62c51041309dc4`)
 - Pinned registry entry `tracks[411]` (`trackId=tx_exp_mistaken_identity`)
 
 The committed Texas state pack records build metadata and the Nationwide inventory only. Every filing step in `participant-instructions.md` comes from the track's `mechanism`, `rules`, `packetInstructions`, `packetSet.participantActionRequired`, `participantFilingRequirements`, `postGenerationHandoffs` and `selfHelpStopConditions`.

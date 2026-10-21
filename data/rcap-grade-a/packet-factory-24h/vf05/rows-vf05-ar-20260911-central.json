@@ -1,0 +1,76 @@
+{
+  "schemaVersion": "rcap-verifier-lane-return/v1",
+  "lane": "VF05",
+  "laneKind": "independent-verification",
+  "reviewer": "/root/ar_independent_review",
+  "sessionIdentity": "/root/ar_independent_review",
+  "grantSet": "ee06bd890e377559",
+  "grantIssuedAtBase": "1c0227405a881ed9bea82d97a6cb642bb7e62d58",
+  "verifiedAtBase": "2c8fcea7e1f0206d0bfc693b4263e2d0280cdc8b",
+  "rows": [
+    {
+      "itemId": "ar-drug-court-set",
+      "familyId": "ar-drug-court-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "packetCommit": "2c8fcea7e1f0206d0bfc693b4263e2d0280cdc8b",
+      "artifacts": {
+        "pre-adjudication-canonical.pdf": {"sha256":"87dafe5c83a0c958ee0e22a2b2fbad74156160d5e4c16ee56d83d4a6a5b91326","bytes":693051,"pages":9},
+        "pre-adjudication-boundary.pdf": {"sha256":"1c73806e7c00c43bc81d949c1198d410a2a5b41ee96710afca56a8b06fedd1d7","bytes":693709,"pages":9},
+        "post-adjudication-canonical.pdf": {"sha256":"503224a7b3d8b51a867beabbacd06b6fd40d81c4ae90f90cdce5d586b44a4aff","bytes":1430795,"pages":9},
+        "post-adjudication-boundary.pdf": {"sha256":"c10e941bfbc589d3d764db324c89c77a89816e065de452aaae232602a5e90f21","bytes":1431401,"pages":9}
+      },
+      "sourcePinsRecomputed": {
+        "ACIC-PETITION-DRUG-COURT-PRE":"7b9426041a2bf7b14ee871847999ecb83d5818829abb39eb9711a411ff70ba42",
+        "ACIC-PETITION-DRUG-COURT-POST":"99657d0eac1f5ea51814f4c663b483749228a06412ba1e9dd1805aeac4826e39",
+        "ACIC-ORDER-DRUG-COURT-PRE":"b7532d415611a9fe3046fd6fa1aaf662d93c20ba21bf27a3ab8066c96d63b13e",
+        "ACIC-ORDER-DRUG-COURT-POST":"731fd089f5b019002269ec86905cea946d5841b988102c222edfbd630290eaf2"
+      },
+      "rasterReceipt": {
+        "workflowRunId": 34549310330,
+        "conclusion": "success",
+        "jobId": 103109340324,
+        "artifactId": 10180460304,
+        "artifactSha256":"cf38afc63058daaf5d213464f35bb43cb8e2ca3888f3ae5361ed86d538985b8b",
+        "jobLogSha256":"948e52df32c4c6f4cee84d401e51cfa124cb5680d8ae38e4f3f830e49018b81c",
+        "verdict":"RASTER_PASS",
+        "pagesMeasured":36,
+        "originalPngBytesVerified":true,
+        "currentAndPinnedPdfHashesVerified":true
+      },
+      "originalVisualInspection": {"pngsInspected":36,"visualDefects":0,"source":"original archive PNGs only","result":"PASS"},
+      "proofObligations": {
+        "ROUTE_IDENTITY":"PASS",
+        "SOURCE_IDENTITY":"PASS",
+        "COMPONENT_SET":"PASS",
+        "KNOWN_PREFILLS":"PASS",
+        "REQUIRED_BEFORE_FILING":"PASS",
+        "ROUTE_OPTIONS":"PASS",
+        "REPEATING_ROWS":"PASS",
+        "PROTECTED_FIELDS":"PASS",
+        "ARTIFACTS":"PASS",
+        "PAGE_ORDER":"PASS",
+        "CLIPPING_AND_OVERLAP":"PASS",
+        "FILING_DESTINATION":"PASS",
+        "FEE_AND_WAIVER":"PASS",
+        "SERVICE":"PASS",
+        "SELF_HELP_STOP":"PASS"
+      },
+      "measurementNotes": "All 36 original archive PNGs were inspected. No clipping, overlap, truncation, missing page, or semantic disclosure defect was found. Current PDF SHA-256 and byte counts were recomputed; source pins were recomputed. The central job/verdict and FIXCXAR1 reports were read as evidence, with report-only counters distinguished from direct visual/hash checks. Prior VF63 ARTIFACTS and ROUTE_OPTIONS failures were rechecked against repaired current page 1 and pass; no prior PASS was inherited for those obligations.",
+      "nineCounters": {"knownRequiredFieldsMissing":0,"requiredFactsNotCollected":0,"unclassifiedBlanks":0,"incompleteRows":0,"requiredOptionsMissing":0,"requiredComponentsMissing":0,"invisibleWrites":0,"protectedWrites":0,"visualDefects":0,"measuredHere":true},
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/raster-runs/34549310330/run.json",
+        "data/rcap-grade-a/packet-factory-24h/raster-runs/34549310330/jobs.json",
+        "data/rcap-grade-a/packet-factory-24h/raster-runs/34549310330/ar-drug-court-set.verdict.json",
+        "data/rcap-grade-a/packet-factory-24h/raster-runs/34549310330/ORIGINAL_EVIDENCE_VERIFIED.json",
+        "data/rcap-grade-a/packet-factory-24h/raster-runs/34549310330/ar-drug-court-set.PAGE_IMAGES_SHA256.json",
+        "data/rcap-grade-a/packet-factory-24h/fixcxar1/rows-fixcxar1-ar-20260911.json",
+        "data/rcap-grade-a/packet-factory-24h/fixcxar1/ar-evidence-20260911/production-proof.json",
+        "data/rcap-grade-a/packet-factory-24h/vf63/rows-vf63-20260910.json"
+      ],
+      "remainingRequirements": [],
+      "productionTouched": false,
+      "sharedManifestsModified": false,
+      "commercialRoutesOpened": 0
+    }
+  ]
+}

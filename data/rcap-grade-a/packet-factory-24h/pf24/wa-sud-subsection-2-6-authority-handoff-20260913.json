@@ -1,0 +1,99 @@
+{
+  "schemaVersion": "rcap-wa-sud-subsection-2-6-authority-handoff/v1",
+  "assignmentId": "PF24-WA-SUD-SUBSECTION-2-6-AUTHORITY-20260913",
+  "lane": "read-only-legal-input-reconciliation",
+  "status": "RESOLVED_BY_CURRENT_OFFICIAL_STATUTE_NO_PACKET_MUTATION",
+  "recordedAt": "2026-09-13",
+  "workspaceHeadAtRead": "fd84ff3423ed5536757dc602dd4bd6f2ba979121",
+  "scope": [
+    "wa_vac_substance_use_disorder-set"
+  ],
+  "writtenReturnPath": "data/rcap-grade-a/packet-factory-24h/pf24/wa-sud-subsection-2-6-authority-handoff-20260913.json",
+  "mutatedPaths": [
+    "data/rcap-grade-a/packet-factory-24h/pf24/wa-sud-subsection-2-6-authority-handoff-20260913.json"
+  ],
+  "protectedPathsUntouched": [
+    "data/record-clearing/legal-design-track-registry.json",
+    "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
+    "data/rcap-grade-a/packet-factory-24h/pf24/wa-two-route-next-gates-20260913.json",
+    "all packet/source/queue/shared integration paths"
+  ],
+  "grantsNothing": "This is a bounded read-only authority reconciliation. It grants no legal adoption, counsel approval, packet acceptance, raster approval, commercial route, production authority, or terminal disposition.",
+  "question": {
+    "text": "Whether the bars listed in RCW 9.96.060(2)(a)-(i) apply to the standalone RCW 9.96.060(6) substance use disorder treatment route.",
+    "whyItMatters": "The answer determines whether a qualifying subsection (6) applicant with a pending charge, domestic-violence history or other subsection (2) bar is excluded from the treatment route.",
+    "existingEvidenceResult": "The existing 2026-08-01 Washington legal review and current track registry expressly preserve this as an unanswered build blocker; the existing adopted route decision identifies subsection (6) but did not resolve subsection (2) applicability.",
+    "existingEvidencePaths": [
+      {
+        "path": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/WA/01_LEGAL_REVIEW/WA__LEGAL-REVIEW__STATEWIDE__washington-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+        "sha256": "0fa93de275ea73deb01975894f52dcdbbd69f2ae63ca685fb38befe2d7e923cc",
+        "relevantSections": [
+          "4.4",
+          "UNRESOLVED QUESTIONS AND IMPACT item 3"
+        ]
+      },
+      {
+        "path": "data/record-clearing/legal-design-track-registry.json",
+        "sha256": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+        "relevantLocation": "tracks[].trackId=wa_vac_substance_use_disorder; buildBlockers/openLegalQuestions"
+      },
+      {
+        "path": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
+        "sha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
+        "relevantLocation": "decisionId=WA-SUD-VACATUR-CUSTOM-96060-6"
+      },
+      {
+        "path": "data/rcap-grade-a/packet-factory-24h/pf24/wa-two-route-next-gates-20260913.json",
+        "sha256": "84f8f695ebe3baa155eb6c2b828c6733257d3e9185541ae1e1a321d128ebab11",
+        "relevantLocation": "routes.wa_vac_substance_use_disorder-set.unansweredOwnerQuestion"
+      }
+    ]
+  },
+  "authorityRead": [
+    {
+      "title": "RCW 9.96.060, Vacating records of conviction for misdemeanor and gross misdemeanor offenses",
+      "issuingAuthority": "Washington State Legislature",
+      "url": "https://app.leg.wa.gov/RCW/default.aspx?cite=9.96.060",
+      "retrievedOn": "2026-09-13",
+      "currentTextObserved": {
+        "subsection2Opening": "The subsection (2) bar sentence begins with an express exception for subsections (3), (4), (5), and (6).",
+        "subsection2Bars": "The following subsection (2) bars are then listed in paragraphs (a)-(i): incomplete sentence terms, pending charges, violent offenses, specified DUI/intoxication or prior-offense conditions, specified sex offenses, domestic violence conditions, the ordinary waiting period, a new crime in the prior three years, and protection/no-contact/antiharassment/civil-restraint conditions.",
+        "subsection6": "A person convicted under the enumerated drug statutes who completes a substance use disorder program and files proof, or obtains a qualifying assessment plus six months of substantial compliance and progress documented by written status update, must have the conviction or convictions vacated upon verification."
+      },
+      "relevantProvision": "RCW 9.96.060(2) expressly says its bar list applies except as provided in subsection (6); subsection (6) then states its own mandatory treatment-route conditions without incorporating the subsection (2) bar list."
+    },
+    {
+      "title": "2023 sp.s. c. 1, \u00a7 11 (2E2SSB 5536), amendment to RCW 9.96.060",
+      "issuingAuthority": "Washington State Legislature",
+      "url": "https://lawfilesext.leg.wa.gov/biennium/2023-24/Pdf/Bills/Session%20Laws/Senate/5536-S2.SL.pdf?cite=2023+sp.s.+c+1+s+11",
+      "retrievedOn": "2026-09-13",
+      "currentTextObserved": {
+        "section11Subsection2": "The enacted amendment adds (6) to the parenthetical exceptions in subsection (2).",
+        "section11Subsection6": "The same enacted section adds the standalone treatment-route text and its mandatory vacatur upon verification.",
+        "effectiveDate": "Sections including \u00a7 11 took effect July 1, 2023."
+      },
+      "relevantProvision": "The session law confirms the textual structure was enacted together: subsection (2) was amended to except subsection (6), and subsection (6) was added as a mandatory route."
+    }
+  ],
+  "determination": {
+    "result": "RESOLVED",
+    "supportedInterpretation": "For a qualifying RCW 9.96.060(6) treatment-route applicant, the exclusion/bar list in RCW 9.96.060(2)(a)-(i) does not apply. The statute expressly places subsection (6) outside that bar sentence and supplies separate subsection (6) conditions.",
+    "confidenceBasis": "Direct current statutory text, corroborated by the enacted 2023 special-session amendment that simultaneously inserted the subsection (6) exception into subsection (2) and added the treatment route.",
+    "unresolvedOwnerCounselChoice": null,
+    "smallestRemainingQuestion": null
+  },
+  "limits": [
+    "This determination resolves only the applicability of the subsection (2)(a)-(i) bar sentence to subsection (6).",
+    "It does not remove subsection (6) requirements: an enumerated conviction, qualifying program completion or qualifying assessment/status path, six months of substantial compliance on the assessment path, and verification/documentation.",
+    "It does not decide any separate instrument, local filing practice, fee, source-freshness, participant-fact, packet, independent-review, or production question already recorded for the family.",
+    "It does not amend the track registry or widen eligibility in a packet; any product-state change remains a separate Captain-owned integration/adoption action under the existing controls."
+  ],
+  "nextGate": "Captain may consume this read-only authority return as the resolved answer to the subsection (2)/(6) applicability blocker, while preserving the existing route-specific custom-vehicle, source, participant-evidence, independent-review and production gates.",
+  "sourceIntegrity": {
+    "existingRecordedEvidenceWasRead": true,
+    "currentOfficialPrimaryAuthorityWasRead": true,
+    "broadSourceHuntPerformed": false,
+    "failedChannelRetried": false,
+    "packetOrSharedMetadataMutated": false
+  }
+}

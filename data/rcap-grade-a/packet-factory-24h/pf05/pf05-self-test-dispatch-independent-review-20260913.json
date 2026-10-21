@@ -1,0 +1,184 @@
+{
+  "schemaVersion": "rcap-packet-self-test-dispatch-independent-review/v1",
+  "assignmentId": "PF05_SELF_TEST_DISPATCH_INDEPENDENT_REVIEW_20260913",
+  "lane": "PF05",
+  "laneKind": "independent-code-review",
+  "worker": "PF05",
+  "reviewer": "/root/resume_vfar1",
+  "sessionIdentity": "/root/resume_vfar1",
+  "reviewedAt": "2026-09-13T06:57:17.639Z",
+  "reviewedAtBase": "3d882c00b604c81ea3ac9ef6770eb730fa8a72f4",
+  "status": "PASS",
+  "verdict": "PASS",
+  "scope": "Bounded independent review of the minimal PF05 self-test dispatch repair and its focused test. The review covers the existing helper binding, PF05 selfTest declaration and export alias, runFamilyById argv/default behavior, direct CLI dispatch, focused discovery/API assertions, input preservation and dependency comparison. No standalone PF05 self-test, build, chain, packet generation, raster job or visual review was run.",
+  "candidate": {
+    "authorReturn": {
+      "path": "data/rcap-grade-a/packet-factory-24h/pf05/pf05-self-test-dispatch-repair-return-20260913.json",
+      "sha256": "beb9bd3952ec11b8f6a8d5fab222bcf534db3fb6ae7f4e43a9dbf97b38640c41",
+      "byteLength": 8058
+    },
+    "authorReturnStatus": "COMPLETED_SCOPED_REPAIR",
+    "implementationBaseSha": "0e247f95a291162b5dd87abdf508536de38f3c33",
+    "builder": {
+      "path": "scripts/build-census-v1-ut_pet_cannabis-set.mjs",
+      "beforeSha256": "a3c93aabbb979a45fc410cd46d628d07467d982ba3b828bf177cbbfd95713d25",
+      "beforeBytes": 166621,
+      "afterSha256": "3096a461618ea62e6f9413e79a57535e8e40812ecd845219c30229cb127bb6fd",
+      "afterBytes": 166878
+    },
+    "helper": {
+      "path": "scripts/rcap-packet-completeness/verify-builder-self-tests-run.mjs",
+      "expectedRestoredSha256": "f7ea191286c88d365e5ee30859705981dedd71689bd54d184d6d7f66cb668a66",
+      "observedSha256": "f7ea191286c88d365e5ee30859705981dedd71689bd54d184d6d7f66cb668a66",
+      "observedBytes": 6033,
+      "byteIdenticalToRecordedBaseline": true
+    },
+    "focusedTest": {
+      "path": "scripts/rcap-packet-completeness/verify-builder-self-tests-run.test.mjs",
+      "sha256": "99cad3ee36cec1cd4973a8aef12049bfe2cb1afe031a60598586378c246bd0d4",
+      "byteLength": 8652
+    },
+    "observedHead": "3d882c00b604c81ea3ac9ef6770eb730fa8a72f4"
+  },
+  "checks": {
+    "syntax": {
+      "commands": [
+        "node --check scripts/build-census-v1-ut_pet_cannabis-set.mjs",
+        "node --check scripts/rcap-packet-completeness/verify-builder-self-tests-run.mjs",
+        "node --check scripts/rcap-packet-completeness/verify-builder-self-tests-run.test.mjs"
+      ],
+      "result": "PASS"
+    },
+    "focusedTest": {
+      "command": "node --test scripts/rcap-packet-completeness/verify-builder-self-tests-run.test.mjs",
+      "result": "PASS",
+      "passed": 11,
+      "failed": 0,
+      "coverage": [
+        "The restored helper discovers the actual PF05 direct-entry selfTest with 73 assertions.",
+        "The runSelfTests named export remains the same function as selfTest.",
+        "The PF05 runFamilyById signature and process.argv.slice(2) default remain present.",
+        "The API --self-test branch calls the local selfTest binding and explicitly excludes the stale runSelfTests call.",
+        "The direct CLI flag and normal entry branches remain wired and instructions-only dispatch preserves participant-instructions bytes."
+      ]
+    },
+    "dispatchStaticBinding": {
+      "result": "PASS",
+      "sourceLines": {
+        "selfTestDeclaration": 2938,
+        "exportAlias": 3206,
+        "runFamilyById": 3208,
+        "apiSelfTestBranch": 3211,
+        "directEntryGuard": 3218,
+        "directEntryFlag": 3219,
+        "directEntryNormal": 3220
+      },
+      "checks": {
+        "selfTestDeclaration": true,
+        "exportAlias": true,
+        "runFamilyByIdSignature": true,
+        "apiSelfTestLocalCall": true,
+        "directFlagCall": true,
+        "directNormalCall": true,
+        "staleInternalAliasCallAbsent": true
+      },
+      "conclusion": "The local selfTest binding is used for programmatic --self-test dispatch; the external runSelfTests alias remains available. The earlier unbound-alias form is absent from the current candidate.",
+      "runtimeSelfTest": "NOT_RUN_BY_DESIGN"
+    },
+    "discovery": {
+      "result": "PASS_RECORDED_AND_PF05_FOCUSED",
+      "builderCount": 6,
+      "assertionCount": 330,
+      "pf05": {
+        "builder": "build-census-v1-ut_pet_cannabis-set.mjs",
+        "assertions": 73
+      },
+      "priorFiveUnchanged": true,
+      "helperUnchanged": true
+    },
+    "diffScope": {
+      "result": "PASS",
+      "builder": "Only the PF05 selfTest name, compatibility export alias, local API call and explicit direct CLI flag guard changed.",
+      "helper": "Byte-identical restoration; no helper parser rewrite is present.",
+      "focusedTest": "Adds PF05 discovery, alias/dispatch assertions and frozen-instructions byte preservation, including a negative assertion for the stale internal alias call.",
+      "noUnrelatedPacketOrSourceChangesObserved": true
+    },
+    "artifactPreservation": {
+      "sourceReceipt": {
+        "path": "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/source-receipt.json",
+        "sha256": "4cef50b7fa2679d54cb8605c264af54f581a483c70f0a850ce7248f1e4913f48",
+        "byteLength": 3314
+      },
+      "participantInstructions": {
+        "path": "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/participant-instructions.md",
+        "sha256": "906108c5f1f8da06ef74c67b9dd6a533bb788ad9d1417dde9a5762b2c5aba2b5",
+        "byteLength": 12302
+      },
+      "canonicalPdf": {
+        "path": "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "f4910777945ca9d74da2b5a1f84d9a37581696dc47bc95546ee21ca9c628f207",
+        "byteLength": 703209
+      },
+      "boundaryPdf": {
+        "path": "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/fixtures/boundary.pdf",
+        "sha256": "e37c533a78f72029c9f078fb1115146c77c809326ebab8ff7ffc1e4aabda8d6c",
+        "byteLength": 703617
+      },
+      "sourceAndPacketBytesUnchanged": true,
+      "visualMeasurement": "NOT_MEASURED"
+    }
+  },
+  "resolvedConcern": {
+    "id": "PF05_INTERNAL_RUN_SELF_TESTS_ALIAS_BINDING",
+    "result": "RESOLVED_IN_CURRENT_CANDIDATE",
+    "evidence": "The current builder exports `selfTest` under the `runSelfTests` name for external callers, and line 3211 invokes the local `selfTest()` binding. A stale `return runSelfTests()` API call is absent. The focused test now asserts that absence.",
+    "requiredRepairObserved": "The required one-line internal dispatch repair is present; retain it through integration."
+  },
+  "semanticDependency": {
+    "existingSemanticPass": {
+      "path": "data/rcap-grade-a/packet-factory-24h/vfut1/rows-vfut1-ut-cannabis-instruction-repair-semantic-pass-20260913.json",
+      "sha256": "d4b3e3a286b42ad9dc10fbcb1430acf9efa4c12aa945c365cbc8cddecdad9175",
+      "byteLength": 47083
+    },
+    "existingHistoricalFailure": {
+      "path": "data/rcap-grade-a/packet-factory-24h/vfut1/rows-vfut1-ut-cannabis-semantic-20260913.json",
+      "sha256": "c216982c40f699b75adc764e46f64522b31949b89ae52f98de958d7ec8ef89db",
+      "byteLength": 16426
+    },
+    "semanticDecision": "Existing PF05/VFUT1 semantic PASS remains a separate pre-raster record; this code review does not reopen or replace it.",
+    "candidateSourceBindingsChanged": false
+  },
+  "dependencyComparison": {
+    "packageLock": {
+      "path": "package-lock.json",
+      "sha256": "fc0208973470f108d82dc3defa99647fe1ee01c43a7bea5302487368ae36aae7",
+      "byteLength": 280876
+    },
+    "node": "v24.20.0",
+    "nodeModulesTarget": "/tmp/rcap-dependencies-after-ci-20260912/node_modules",
+    "restoredPackages": "Previously recorded pdf-lib 1.17.1 and exact transitive packages remain the verified runtime; no installation or dependency mutation was performed in this review.",
+    "result": "UNCHANGED_FROM_RECORDED_RUNTIME"
+  },
+  "preservation": {
+    "implementationEditedByReviewer": false,
+    "focusedTestEditedByReviewer": false,
+    "helperEditedByReviewer": false,
+    "packetOrSourceEditedByReviewer": false,
+    "sharedManifestOrClaimLedgerChanged": false,
+    "standaloneSelfTestOrChainRun": false,
+    "rasterOrRegenerationRun": false,
+    "priorRejectedDiscoveryPatchAndReturn": "Preserved unadopted as historical evidence."
+  },
+  "grants": {
+    "boundedCodeReviewPass": true,
+    "implementationAcceptance": true,
+    "integrationAuthorized": false,
+    "standaloneBuilderSelfTestPass": false,
+    "chainPass": false,
+    "rasterPass": false,
+    "packetAuthority": false,
+    "productionAuthority": false
+  },
+  "nextGate": "Captain may consume this bounded PASS, preserve the corrected current bytes, and run the already planned chain/self-test gate. No standalone self-test result is asserted here.",
+  "findings": []
+}

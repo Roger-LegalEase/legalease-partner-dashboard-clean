@@ -1,0 +1,112 @@
+{
+ "schemaVersion": "rcap-form-control-captions-on-delivered-pages/v1",
+ "generatedBy": "Captain, sweeping the delivered bytes for the class FIX143 found on Connecticut",
+ "generatedAt": "2026-09-10T12:37:24.066Z",
+ "atCommit": "762e2fa08ac4b11f34b47f278bb97154ac53b8ad",
+ "theClass": "A form's Print/Reset/Save/Submit pushbutton is flattened into the delivered page, so the filing carries the words of a control that does nothing on paper. FIX143 found four such captions on Connecticut's petition, on the page a court reads.",
+ "theControlsRanFirst": {
+  "positive": "Connecticut's canonical at FIX143's parent 9ebfc2189^ reads 2 'Print Form' and 2 'Reset Form' by pdftotext. The check detects the defect it is looking for.",
+  "negative": "The same file at this commit reads 0. The check distinguishes repaired bytes from defective ones.",
+  "whyThisIsRecorded": "A corpus scan whose check has not been shown to fire on a known positive is a number about nothing."
+ },
+ "scan": {
+  "deliveredPdfsScanned": 720,
+  "filesMatchingTheNaivePattern": 14,
+  "familiesMatchingTheNaivePattern": 7
+ },
+ "andMostOfThatIsAFalsePositive": {
+  "count": 10,
+  "why": [
+   "Three Florida families matched on 'Fingerprint Form' -- the pattern 'print form' occurs inside the word. The form's own attachment checklist, not a control.",
+   "Alaska and Wisconsin matched on 'Submit forms to: <address>', which the issuer prints as the filing destination. Removing it would delete the form's own instruction."
+  ],
+  "files": [
+   {
+    "file": "data/rcap-all50/overlays/census-v1/ak/agency-application-treatment:obligation:unattached-decision-route:ak:ak-correct-record--official-pdf-fill/fixtures/boundary.pdf",
+    "hits": 2,
+    "matched": "Submit form"
+   },
+   {
+    "file": "data/rcap-all50/overlays/census-v1/ak/agency-application-treatment:obligation:unattached-decision-route:ak:ak-correct-record--official-pdf-fill/fixtures/canonical.pdf",
+    "hits": 2,
+    "matched": "Submit form"
+   },
+   {
+    "file": "data/rcap-all50/overlays/census-v1/fl/fl-10yr-bridge-set--official-pdf-fill/fixtures/boundary.pdf",
+    "hits": 3,
+    "matched": "print Form,print form"
+   },
+   {
+    "file": "data/rcap-all50/overlays/census-v1/fl/fl-10yr-bridge-set--official-pdf-fill/fixtures/canonical.pdf",
+    "hits": 3,
+    "matched": "print Form,print form"
+   },
+   {
+    "file": "data/rcap-all50/overlays/census-v1/fl/fl-early-juvenile-set--official-pdf-fill/fixtures/boundary.pdf",
+    "hits": 3,
+    "matched": "print Form,print form"
+   },
+   {
+    "file": "data/rcap-all50/overlays/census-v1/fl/fl-early-juvenile-set--official-pdf-fill/fixtures/canonical.pdf",
+    "hits": 3,
+    "matched": "print Form,print form"
+   },
+   {
+    "file": "data/rcap-all50/overlays/census-v1/fl/fl-self-defense-set--official-pdf-fill/fixtures/boundary.pdf",
+    "hits": 3,
+    "matched": "print Form,print form"
+   },
+   {
+    "file": "data/rcap-all50/overlays/census-v1/fl/fl-self-defense-set--official-pdf-fill/fixtures/canonical.pdf",
+    "hits": 3,
+    "matched": "print Form,print form"
+   },
+   {
+    "file": "data/rcap-all50/overlays/census-v1/wi/wi-nc-doj-challenge-set--official-pdf-fill/fixtures/boundary.pdf",
+    "hits": 1,
+    "matched": "Submit form"
+   },
+   {
+    "file": "data/rcap-all50/overlays/census-v1/wi/wi-nc-doj-challenge-set--official-pdf-fill/fixtures/canonical.pdf",
+    "hits": 1,
+    "matched": "Submit form"
+   }
+  ]
+ },
+ "genuine": {
+  "families": [
+   "il-cannabis-vacate-set--official-pdf-fill",
+   "ky-expungement-certification-set--official-pdf-fill"
+  ],
+  "files": [
+   {
+    "file": "data/rcap-all50/overlays/census-v1/il/il-cannabis-vacate-set--official-pdf-fill/fixtures/boundary.pdf",
+    "hits": 17,
+    "matched": "PRINT FORM,Print Form,RESET FORM,Reset Form,SAVE FORM,Save Form"
+   },
+   {
+    "file": "data/rcap-all50/overlays/census-v1/il/il-cannabis-vacate-set--official-pdf-fill/fixtures/canonical.pdf",
+    "hits": 17,
+    "matched": "PRINT FORM,Print Form,RESET FORM,Reset Form,SAVE FORM,Save Form"
+   },
+   {
+    "file": "data/rcap-all50/overlays/census-v1/ky/ky-expungement-certification-set--official-pdf-fill/fixtures/boundary.pdf",
+    "hits": 2,
+    "matched": "Print Form,Reset Form"
+   },
+   {
+    "file": "data/rcap-all50/overlays/census-v1/ky/ky-expungement-certification-set--official-pdf-fill/fixtures/canonical.pdf",
+    "hits": 2,
+    "matched": "Print Form,Reset Form"
+   }
+  ],
+  "whatWasRead": "Standalone lines carrying only the caption -- 'Print Form', 'Save Form', 'Reset Form' -- with no sentence around them, which is what a flattened pushbutton looks like in extracted text."
+ },
+ "theOneThatMatters": "il-cannabis-vacate-set is COMPLETE_PACKET_PROVEN and its delivered canonical and boundary each carry 17 such hits. A terminal family is stamping form-control chrome onto a court filing.",
+ "whatIsNotEstablishedHere": [
+  "That the captions are on a FILED page rather than a cover or checklist page bound into the same PDF. That is read page by page, on the two families, by the lane that repairs them.",
+  "A pixel measurement. This is a text scan; the ink and its rects are the repairing lane's to measure, with a control in the same bytes.",
+  "Anything about the ~186 official-pdf-fill families that do not pass detachNestedControlFields. VF44 established that population and it is not a defect count: most sources ship no pushbutton, and a non-nested one is caught by the flat sweep. This scan reads what the delivered bytes actually say, which is the narrower and better question."
+ ],
+ "grantsNothing": "This records a measurement. It repairs nothing and withdraws nothing."
+}

@@ -1,0 +1,1274 @@
+{
+  "schemaVersion": "rcap-packet-factory-lane-return/v1",
+  "assignmentId": "FIX05",
+  "worker": "FIX-A",
+  "workerBranch": "claude/9h-fix-a",
+  "shiftBaseSha": "09b741ad00be0d630bd73a72f66640294abab397",
+  "laneKind": "repair",
+  "question": "Were exactly the failed proof obligations repaired, on exactly the families they failed on?",
+  "environment": {
+    "preflight": "PACKET_BUILD_ENVIRONMENT_READY: 13/13 passed, 0 failed, 3 not applicable (corrected; see blockerCorrection)",
+    "whyItMatters": "the lane preflight gates on rendering and this container cannot bind sources. Every repair here is a non-rendering repair: no ink was added and every fixture PDF is byte-identical to the committed one, recomputed from disk and recorded on its row.",
+    "blocker": {
+      "what": "the pinned Master Library is not present and cannot be recovered in this container",
+      "detail": "scripts/rcap-corpus/bootstrap-private-corpus.sh resolves the release asset Expungement_AI_RCAP_Master_Library_Edition_1.zip from Roger-LegalEase/legalease-source-artifacts@source-corpus-2026-08-28 and the request answers HTTP 403 to this session token. verify-packet-build-environment.mjs reports PACKET_BUILD_ENVIRONMENT_NOT_READY with family_sources_bind failing, so neither --build nor --check starts for any family and no PDF can be re-rendered.",
+      "consequence": "a repair that requires new ink is a rebuild, and no rebuild can run here."
+    },
+    "rasterState": "BUILT_RASTER_PENDING. Nothing here is self-verified, none is RASTER_PASS, and visualDefects reads zero because nobody has looked.",
+    "blockerCorrection": {
+      "supersedes": "the corpus blocker recorded when these lanes were first returned",
+      "correctionIssuedAt": "2026-09-01T08:05:00Z",
+      "whatWasResolved": {
+        "corpus": "Recovered. The HTTP 403 was this session's own GitHub repository scope, not the token and not GitHub: the proxy answered \"GitHub access to this repository is not enabled for this session. Use add_repo to request access.\" After add_repo for Roger-LegalEase/legalease-source-artifacts with access push, the release endpoint answers 200 and scripts/rcap-corpus/bootstrap-private-corpus.sh installs 51 jurisdictions / 499 files / 329 PDFs with the archive SHA-256 verified. Captain was right that it was never a permissions problem; the first FIX-A diagnosis and FIX-B's were wrong the same way.",
+        "preflight": "PACKET_BUILD_ENVIRONMENT_READY: 13/13 passed, 0 failed, 3 not applicable, after rebasing onto shift base c6d7ffe7cfdf45629f873e1a0e58ae4b174d45c6 and deepening the shallow clone with a bounded git fetch --depth=1000.",
+        "corpusEnvironment": "MASTER_LIBRARY_SOURCE_DIR must be exported to the Master Library install root for a build to run; the hosts require it by name and throw without it. Exporting it does not trip master_library_not_at_operational_path, which still passes. The broadcast's warning is about OFFICIAL_FORMS_SOURCE_DIR, which stays unset."
+      },
+      "theRealBlocker": "both build hosts fail before they finish. Neither is in any FIX lane's owned paths, and every FIX entry point is a three-line importer of one of them.",
+      "westHost": {
+        "file": "scripts/build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs",
+        "failure": "ReferenceError: writeText is not defined",
+        "sites": [
+          "line 2101, in buildAz",
+          "line 2876, in buildCa"
+        ],
+        "diagnosis": "westParticipantInstructions is defined at line 1524 and its writer was never defined and is never imported. Both call sites write participant-instructions.md, so every AZ and every CA family crashes there. buildAz crashes after production-field-map.json and the census are rewritten and before any fixture is rendered, which leaves a half-rebuilt overlay if it is not restored.",
+        "reproducedOn": [
+          "az_marijuana_expungement_arrest_no_charges-set",
+          "ca-1203-42-set"
+        ],
+        "alsoNeeded": "the CA path calls a pikepdf bridge and fails with ModuleNotFoundError: No module named 'pikepdf' before it reaches writeText. python3 -m pip install pikepdf fixes that; the preflight does not check for it, so a CA lane learns after it has already cleared its output directory."
+      },
+      "eastHost": {
+        "file": "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs",
+        "failure": "AssertionError: <documentId>/canonical: finalizer reported writes that have no artifact appearance",
+        "diagnosis": "the fields it names are exactly the ones the fact allowlist binds. The finalizer reports the write, and the flattened artifact appearance streams at every measured widget carry no drawn text for it, so exactValueObserved is false. In the completeness contract's vocabulary this is an invisible write, caught by the host's own build assertion.",
+        "reproducedOn": [
+          "nj_indictable_conviction-set (NJ-CN-10557/canonical; arrestOff1, guiltyDt, guiltyCrt, DefAddr2, DefBirthDt, arrest1Dt among others)",
+          "pa_9122_1_limited_access-set (PA-RCRIM-P-791-PETITION/canonical)"
+        ]
+      },
+      "whyThisExplainsTheStaleness": "commit 9a484a6 (lane S1) extended both hosts' fact allowlists and added the west host's participant-instructions writer on 2026-08-31, and no family was rebuilt afterwards. These two defects are why: the west host crashes on the new writer and the east host's new writes produce no ink. Every overlay in the fleet has been stale since that commit, and no builder lane could have rebuilt one.",
+      "consequenceForTheseRows": "the rows below stay STOPPED and their reason is unchanged in substance -- a repair that needs new ink is a rebuild, and no rebuild completes. What changed is why: not a missing corpus, but two defects in hosts this lane does not own and must not edit while other lanes build from them.",
+      "whatFixANeeds": "a lane that owns the two hosts. The west host needs its missing writeText helper and pikepdf in the build environment; the east host needs the finalizer to actually draw the newly allowlisted fields, or those bindings withdrawn until it can. Once either host builds, FIX-A's stopped rows are ordinary rebuilds.",
+      "rootCause": {
+        "finding": "the S1 fact allowlist and the shared semantic finalizer disagree, on every field S1 added, and the finalizer refuses all of them.",
+        "evidence": "reports/actual-writes.json in the committed nj_indictable_conviction-set build records 173 fields refused with reason classified_unwritable_by_role, category role. Every one of the twelve terminal names SHARED_EXACT_FACT_ALLOWLIST and the family allow bind is in that refused list: DefName, DefAddrStr, DefAddr2, DefAddr3, ExpungeCntyName, DefBirthDt, origCaseNums, arrestOff1, arrest1Dt, arrest1CaseNum, guiltyDt and guiltyCrt. Not one of them appears in the written list.",
+        "mechanism": "the host's own decisionBasis says it: \"shared exact terminal-name fact allowlist; shared semantic finalizer still controls\". The allowlist promotes the field to candidate_write, the finalizer refuses it by role, and the build then asserts because the map claimed a write that produced no appearance. That is why the rebuild fails and why no overlay has been rebuilt since commit 9a484a6.",
+        "whyItMattersForTheseRows": "if the finalizer is right that these fields are not writable by role, then the treatment this lane applied to them -- declare the blank required before filing and name it for the participant -- is the correct final answer and not a placeholder, and the repair is to withdraw the allowlist entries rather than to make the finalizer draw them. If the allowlist is right, the finalizer's role classification is what needs to change. Which way it resolves is a legal and product question about whether, for example, the defendant's own name on the New Jersey petition is the platform's to write, and a repair lane does not decide it.",
+        "whatWouldSettleIt": "one owner of the shared finalizer and the two hosts reconciling the role classification against the allowlist, field by field, and stating which side governs. Until then no east or west family can be rebuilt, and the stopped rows in these four returns stay stopped.",
+        "notDecidedHere": "this lane changed neither host, neither allowlist, nor the finalizer. Other lanes in this shift build from the same files.",
+        "correction": {
+          "correctedAt": "2026-09-01T09:00:00Z",
+          "correctedBy": "FIX-A, accepting CAPTAIN-9H's correction of 2026-09-01",
+          "whatIGotWrong": "this return recorded classified_unwritable_by_role as the root cause of the east-host rebuild failure. That reading came from the committed reports/actual-writes.json, which records 173 such refusals from an older build. The live run does not fail there.",
+          "whatIsActuallyObserved": "the live failure is the appearance assertion on a handful of address, date-of-birth, charge and court fields whose values the finalizer reports writing and which never reach the flattened appearance streams. On nj_indictable_conviction-set this lane observed arrestOff1, guiltyDt, guiltyCrt, DefAddr2, DefBirthDt and arrest1Dt; Captain's run of nj_arrest_no_conviction-set observed arrestOff1, dismissDt, dismissCrt, DefAddr2, DefAddr3, DefBirthDt and arrest1Dt. DefName is in neither live list.",
+          "standing": "the failure and the field lists stand as reported. The mechanism does not: cross-referencing an older actual-writes record to explain a live assertion was an inference, and it was stated here as a finding. It is withdrawn.",
+          "separately": "Roger Roman decided on 2026-09-01 that the participant's own name is a platform-written participant fact. DefName is already bound to participant.full_legal_name in the shared allowlist, so no allowlist change follows from it, and no artifact can show it until the host finishes a build."
+        }
+      }
+    },
+    "rebuildAttempt": {
+      "attemptedAt": "2026-09-01T09:00:00Z",
+      "grants": "re-issued by Captain and asserted exit 0 for FIX01 az_marijuana_expungement_arrest_no_charges-set, FIX03 ca-1203-42-set and FIX05 ca-851-91-set. CLAIM_LEDGER_OK.",
+      "westHostFixConfirmed": "writeText is defined at line 921 and the AZ build now runs past the instruction step and renders both fixtures. Captain's fix is real and it did unblock the path.",
+      "newBlocker": {
+        "what": "both build hosts raster with Poppler pdftoppm, which is absent from this container.",
+        "failure": "AssertionError: Poppler version probe failed: spawnSync pdftoppm ENOENT, at popplerRasterIdentity (west host line 1868), from rasterizeArtifacts (2058) called by buildAz (2135).",
+        "scope": "not AZ-only. rasterizeCaArtifacts (line 2823) calls the same popplerRasterIdentity() before rendering a page, so ca-1203-42-set and ca-851-91-set fail identically. The east host takes POPPLER_PDFTOPPM at its line 41 the same way. All three re-issued families are blocked on one missing binary.",
+        "whenItIsHit": "after the fixtures have already been rendered and the field map and census rewritten. The AZ attempt left seven modified or deleted paths, restored from HEAD, worktree confirmed clean."
+      },
+      "whyThePreflightDidNotCatchIt": {
+        "finding": "the preflight checks a different rasterizer than the one the hosts use.",
+        "evidence": "verify-packet-build-environment.mjs --require-rasterizer reports page_rasterizer_available ok: \"chromium at /opt/pw-browsers/chromium-1194/chrome-linux/chrome (PLAYWRIGHT_BROWSERS_PATH) rendered a page: paper 2040x2640px\". The browser rasterizer works here. Neither host uses it: both call popplerRasterIdentity and rasterizeWithPoppler, and neither imports scripts/lib/pdf-page-raster.mjs.",
+        "consequence": "the lane contract's promise that \"a lane that cannot raster learns before it builds rather than after\" does not hold for these two hosts. A lane reads PACKET_BUILD_ENVIRONMENT_READY, builds, and dies at the raster step with its overlay already modified. That is the third undeclared environment dependency in this host pair, after the Master Library and pikepdf, and the only one the preflight appears to cover while actually covering something else.",
+        "alsoObserved": "with --require-rasterizer the only failing check is browser_environment_exported, which wants RCAP_CHROMIUM_PATH exported or recorded in private/source-corpus-environment.txt. That is an export rather than an install, and the check names the path itself. It does not help here, because the hosts do not use that browser."
+      },
+      "whatThisLaneDidNotDo": "no apt-get and no package installation. The lane contract forbids both by name, and after the pikepdf disclosure this lane is not adding another global dependency without being asked. The two CA builds were not run: the code path proves they fail at the same probe, and running them would only modify two more overlays for a result already established.",
+      "twoWaysToUnblock": [
+        "put Poppler in the builder image, and have the preflight probe pdftoppm rather than only the browser, so a lane learns before it builds; or",
+        "move both hosts' build-time raster onto scripts/lib/pdf-page-raster.mjs, which is the measurement the lane contract already mandates and which this container can execute today."
+      ],
+      "grantsReleased": "all three released, so a Poppler-equipped worker can take the rebuild without a second re-issue. FIX-A is not holding them."
+    }
+  },
+  "contractObservation": {
+    "finding": "the completeness contract has no disposition for a companion the packet holds as source evidence and never generates.",
+    "detail": "PA-IFP-MDJ carries ninety-four terminal fields on a document the participant never receives. The host states this with its own refusal class source_only_not_generated, which is outside the contract's closed refusal vocabulary, so every one of those fields read as an unclassified blank. This lane completed the host's sentence so the contract's approved reason for a field that is never a filing fact matches it, and the disposition it yields, NOT_APPLICABLE_ON_THIS_ROUTE, is the right one. That is a sentence carrying a decision, which is the shape the contract warns about, and it is reported here rather than left to be discovered.",
+    "theRealFix": "either the host emits no field rows for a non-generated companion, as it already does for NY-CPL-160.59-SEAL-VERIFICATION, or the contract gains a typed class for one. Both are outside this lane's owned paths."
+  },
+  "fleetObservation": {
+    "finding": "the west host is ahead of the CA overlays by more than the AZ case showed.",
+    "detail": "CA_PRIMARY_WRITES[\"CR-409\"] carries fourteen bound terminal names and ca-851-91's overlay carries four. The petitioner's entire contact block, date of birth, arrest date, citing agency and county are all bound in the host and refused in the overlay. Every CA family will keep failing knownRequiredFieldsMissing and incompleteRows until a rebuild runs."
+  },
+  "productionTouched": false,
+  "commercialRoutesOpened": 0,
+  "selfVerified": false,
+  "rows": [
+    {
+      "itemId": "dc_yra_set_aside-set",
+      "routeKeys": [
+        "obligation:track-only:DC:dc_yra_set_aside"
+      ],
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "verdictNote": "Repair completion only; independent verification and central raster acceptance remain required.",
+      "baseSha": "5b94262e23fb7abdfe6a6a7c656a901ed8a60e92",
+      "claim": "CLAIM_OK FIX05 dc_yra_set_aside-set (repair, grant set 654dba97bdac5557)",
+      "factoryState": "BUILT_RASTER_PENDING",
+      "obligationRepaired": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "repairedByThisLane": true,
+      "whatWasDone": "Completed the focused REQUIRED_BEFORE_FILING return against current committed records. The exact required statement, 'The source review does not state a notarization requirement for this motion.', is carried in participant-instructions.md and on the rendered filing-instructions page, followed by a direction to confirm procedure with the clerk's office of Superior Court of the District of Columbia, Criminal Division. The durable builder at this exact base already carried that sentence, so the lane did not add duplicate prose or alter packet bytes; it rebuilt twice and refreshed the source-receipt pin to the current track-registry bytes.",
+      "proof": "String-exact grep finds the statement in participant-instructions.md; pdftotext finds it on canonical packet page 4. The builder --check resolves three committed records and sixteen anchors. Focused completeness passes 6/13 written with all nine counters zero.",
+      "deterministicRebuild": "Two consecutive --no-raster builds produced identical canonical and boundary SHA-256 values and byte lengths.",
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "sha256": "d2cf9e833a383310087bc1f5c975d8157777333744202861336b8450277340ca",
+          "byteLength": 10964,
+          "pageCount": 4
+        },
+        {
+          "fixture": "boundary",
+          "sha256": "1d798f375d664ebe85e8c2c76a9a59459a9bc0a4d1d74fe454cab15efe582d63",
+          "byteLength": 11147,
+          "pageCount": 4
+        }
+      ],
+      "focusedEvidence": [
+        "two executions of node scripts/build-census-v1-dc_yra_set_aside-set.mjs --no-raster => identical hashes and lengths",
+        "node scripts/build-census-v1-dc_yra_set_aside-set.mjs --check --no-raster => CHECK_ONLY, 3 records bound, 16 anchors verified",
+        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family dc_yra_set_aside-set => PASS_COMPLETE 6/13 written",
+        "participant-instructions.md and pdftotext of canonical.pdf contain the exact notarization non-statement"
+      ],
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "claimReleased": false,
+      "selfVerified": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "ca-851-91-set",
+      "status": "STOPPED",
+      "verdict": "BUILT_RASTER_PENDING for the repaired obligations; two obligations returned unrepaired",
+      "obligationsHandedToThisLane": [
+        "knownRequiredFieldsMissing",
+        "unclassifiedBlanks",
+        "incompleteRows",
+        "requiredOptionsMissing",
+        "requiredComponentsMissing"
+      ],
+      "obligationsRepaired": [
+        {
+          "obligation": "unclassifiedBlanks",
+          "from": 66,
+          "to": 0,
+          "repair": "the same three blanket sentences as ca-1203-42. CR-410 is the court's order front to back and carries court_prosecutor_clerk_or_agency_owned; CR-106 and MC-031 are the participant's own forms and were split by what each blank is, with the proof of service told to wait until service has actually occurred."
+        },
+        {
+          "obligation": "knownRequiredFieldsMissing",
+          "from": 26,
+          "to": 6,
+          "repair": "the rows carrying \"No allowlisted, source-supported fact is offered\", which the current host no longer emits, are declared required-before-filing on the contract's channel and disclosed by field name and page in a rewritten participant-instructions.md."
+        },
+        {
+          "obligation": "requiredOptionsMissing",
+          "from": 1,
+          "to": 0,
+          "repair": "one /Btn control carried \"not established by this evidence variant\"; it is the petitioner's own mark and now carries participant_sworn_narrative_or_legal_election with isSelectionControl."
+        },
+        {
+          "obligation": "requiredComponentsMissing",
+          "from": 4,
+          "to": 0,
+          "repair": "all four components are rendered and the record named only the file each was rendered into. reports/rendered-artifacts.json now carries a components array naming each documentId, its form number and role, and the fixture files it was rendered into."
+        }
+      ],
+      "obligationsStopped": [
+        {
+          "obligation": "knownRequiredFieldsMissing",
+          "count": 6,
+          "fields": [
+            "ProtectedStreet",
+            "ProtectedCity",
+            "ProtectedState",
+            "ProtectedZip",
+            "ProtectedPhone",
+            "ProtectedEmail"
+          ],
+          "whatIsMissing": "a rebuild. CA_PRIMARY_WRITES[\"CR-409\"] in the current west host carries fourteen mappings and this overlay's explicitMappingsByVariant carries four. The petitioner's whole contact block, the date of birth, the arrest date, the citing agency and the county are bound to held facts and would be written by a rebuild. They are left exactly as the stale build recorded them rather than reclassified into blanks the participant would be told to fill.",
+          "blockedBy": {
+            "what": "the pinned Master Library is not present and cannot be recovered in this container",
+            "detail": "scripts/rcap-corpus/bootstrap-private-corpus.sh resolves the release asset Expungement_AI_RCAP_Master_Library_Edition_1.zip from Roger-LegalEase/legalease-source-artifacts@source-corpus-2026-08-28 and the request answers HTTP 403 to this session token. verify-packet-build-environment.mjs reports PACKET_BUILD_ENVIRONMENT_NOT_READY with family_sources_bind failing, so neither --build nor --check starts for any family and no PDF can be re-rendered.",
+            "consequence": "a repair that requires new ink is a rebuild, and no rebuild can run here."
+          }
+        },
+        {
+          "obligation": "incompleteRows",
+          "count": 1,
+          "whatIsMissing": "CR-409's terminal names all end in [0], so rowKeyOf collapses the form into one pseudo-row that counts as incomplete while any REQUIRED_KNOWN cell is unwritten. The unwritten cells include the contact block above, so this counter follows the same rebuild.",
+          "blockedBy": {
+            "what": "the pinned Master Library is not present and cannot be recovered in this container",
+            "detail": "scripts/rcap-corpus/bootstrap-private-corpus.sh resolves the release asset Expungement_AI_RCAP_Master_Library_Edition_1.zip from Roger-LegalEase/legalease-source-artifacts@source-corpus-2026-08-28 and the request answers HTTP 403 to this session token. verify-packet-build-environment.mjs reports PACKET_BUILD_ENVIRONMENT_NOT_READY with family_sources_bind failing, so neither --build nor --check starts for any family and no PDF can be re-rendered.",
+            "consequence": "a repair that requires new ink is a rebuild, and no rebuild can run here."
+          }
+        }
+      ],
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 26,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 66,
+        "incompleteRows": 1,
+        "requiredOptionsMissing": 1,
+        "requiredComponentsMissing": 4,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 6,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 1,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "nonvisualCountersZeroed": false,
+      "packetBytesUnchanged": true,
+      "fixtureSha256": {
+        "pc-851-91-interests-of-justice-boundary/cr-409-filled.pdf": "8be094dd964ea4c361c16b6c71e9b248ba9a769e2d0bc2fcfadce8e18a40a07a",
+        "pc-851-91-interests-of-justice-canonical/cr-409-filled.pdf": "67919f7c6c88065a9f5f7565b362ac62fe8f6de8d901f4e19acb98ada8942325",
+        "pc-851-91-matter-of-right-boundary/cr-409-filled.pdf": "a63dc5fb990af8e43a1ab7b4894a08b5a8fa38a1744310d190d70b754fac50fe",
+        "pc-851-91-matter-of-right-canonical/cr-409-filled.pdf": "2119b1876d43e878d26971374907fe433b6eb431f9cff76a5a367ea1fde7deba"
+      },
+      "hashNote": "CR-410, CR-106 and MC-031 ship as unchanged official bytes in every packet and carry no added ink."
+    },
+    {
+      "itemId": "pa_490_nonconviction-set",
+      "status": "STOPPED",
+      "verdict": "BUILT_RASTER_PENDING for the repaired obligations; one obligation returned unrepaired",
+      "obligationsHandedToThisLane": [
+        "knownRequiredFieldsMissing",
+        "unclassifiedBlanks",
+        "incompleteRows",
+        "requiredComponentsMissing"
+      ],
+      "obligationsRepaired": [
+        {
+          "obligation": "unclassifiedBlanks",
+          "from": 92,
+          "to": 0,
+          "repair": "ninety-one of them are on PA-IFP-MDJ, the magisterial-district fee-waiver affidavit, which the field map records as generatedParticipantArtifact false. The participant never receives that document, so no blank on it is a blank on this filing. The host's own class source_only_not_generated is kept and its sentence completed to say so."
+        },
+        {
+          "obligation": "knownRequiredFieldsMissing",
+          "from": 56,
+          "to": 0,
+          "repair": "the fourth family on the stale untrusted class not_supported_by_exact_participant_fact_map. Fifty-six rows are the host's own required_before_filing determination on the contract's channel, all disclosed by field name and page; one is a certificate-of-service fact conditioned on service having occurred; one is an election."
+        },
+        {
+          "obligation": "requiredComponentsMissing",
+          "from": 1,
+          "to": 0,
+          "repair": "PA-IFP-MDJ is not a missing companion form; the map records it as not generated. reports/rendered-artifacts.json now carries a componentsNotGenerated array saying so, matching the treatment given NY-CPL-160.59-SEAL-VERIFICATION."
+        }
+      ],
+      "obligationsStopped": [
+        {
+          "obligation": "incompleteRows",
+          "count": 1,
+          "row": "table::Row1",
+          "whatIsMissing": "the petition's charge table. Row 1 carries a written cell beside four blank cells whose printed caption is \"Section Subsection Statute Description Counts Grade Disposition\". Completing the row means writing those four cells, which needs facts the host does not map and a re-render.",
+          "blockedBy": {
+            "what": "the pinned Master Library is not present and cannot be recovered in this container",
+            "detail": "scripts/rcap-corpus/bootstrap-private-corpus.sh resolves the release asset Expungement_AI_RCAP_Master_Library_Edition_1.zip from Roger-LegalEase/legalease-source-artifacts@source-corpus-2026-08-28 and the request answers HTTP 403 to this session token. verify-packet-build-environment.mjs reports PACKET_BUILD_ENVIRONMENT_NOT_READY with family_sources_bind failing, so neither --build nor --check starts for any family and no PDF can be re-rendered.",
+            "consequence": "a repair that requires new ink is a rebuild, and no rebuild can run here."
+          }
+        }
+      ],
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 56,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 92,
+        "incompleteRows": 1,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 1,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 1,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "nonvisualCountersZeroed": false,
+      "packetBytesUnchanged": true,
+      "fixtureSha256": {
+        "rule-490-order-boundary.pdf": "2e3aaa0cb6425d7875ae45b551176f86d267e6313107b14e78a475b5867fa4d9",
+        "rule-490-order-canonical.pdf": "f496acde8938e731b2cc8ba1a6f0e77c0d573a846f859990f95a6eec992e6f02",
+        "rule-490-petition-boundary.pdf": "b87902a113f72bf01ef1b99ff81b3460d6db0ba8767b6dc4d5065106fee74cd5",
+        "rule-490-petition-canonical.pdf": "d059b9d1b0167c9f9a3dd73f79b5e1eae7fe8e68d69b204e433ae333f4d8d67d"
+      }
+    },
+    {
+      "itemId": "il-exp-qualprob-set",
+      "status": "STOPPED",
+      "dispatchBase": "1dcd8829369f0c07cd75d472671ae0669f841bc1",
+      "claim": "CLAIM_OK FIX05 il-exp-qualprob-set (repair, grant set c698ab30eb416ad2)",
+      "obligationsAssigned": [
+        "KNOWN_PREFILLS",
+        "REPEATING_ROWS",
+        "CLIPPING_AND_OVERLAP",
+        "SERVICE"
+      ],
+      "obligationsRepaired": [],
+      "reproduction": "Focused metadata assertion fails: 20 EXP-AD Request charge fields bind matter.case_number rather than matter.charge. The current map also writes later single-column rows and both active and inactive route tables; the selected verifier separately measured ellipsized values and incomplete service directions.",
+      "stoppedBecause": "The family entry point is a two-line wrapper around scripts/build-census-v1-il-exp-pardon-set.mjs. The misordered generic case-number matcher, route-table population, fitting policy, and shared service prose all live in that shared host, which is outside FIX05's writable paths. A family-local regeneration would reproduce the defects; copying the shared builder into this wrapper would create a divergent second implementation rather than the narrow repair dispatched.",
+      "artifactHashesUnchanged": {
+        "canonicalPdf": "24ae04d570ecd6e796f30b580b68d22e8870e1ea2a321204c266fc55941e6fe3",
+        "boundaryPdf": "21731bad31dd1cb7340d13bbdfae9d5ec3d3b914948ad25b16d1240fbf93f62e"
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "focusedCheck": "PASS_COMPLETE 71/424 written; all nine counters zero. The dispatched semantic and visual defects remain outside those counters.",
+      "claimReleased": true,
+      "selfVerified": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "il-seal-3yr-set",
+      "status": "STOPPED",
+      "dispatchBase": "1dcd8829369f0c07cd75d472671ae0669f841bc1",
+      "claim": "CLAIM_OK FIX05 il-seal-3yr-set (repair, grant set c698ab30eb416ad2)",
+      "obligationsAssigned": [
+        "ROUTE_IDENTITY",
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS",
+        "REPEATING_ROWS",
+        "PROTECTED_FIELDS",
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "obligationsRepaired": [],
+      "reproduction": "Focused metadata assertion fails with 21 wrong selections or bindings: the no-wait section 15 control is selected and 20 charge fields bind matter.case_number. Current artifacts also retain the verifier's incomplete rows, clerk-owned case numbers, missing prefiling guidance, and ellipsized held values.",
+      "stoppedBecause": "The family entry point only delegates to scripts/build-census-v1-il-exp-pardon-set.mjs. Route selection, known-value mapping, row activation, protected-caption handling, fitting, and guidance are implemented only in that unowned shared host. The wrapper exposes no family-scoped repair options, so the exact repair cannot be implemented without crossing the shared-host boundary or duplicating the builder.",
+      "artifactHashesUnchanged": {
+        "canonicalPdf": "556e7ebc519b9ae29933c499a8547792dca8c60ab4b021579ff7a0cf36b25cc6",
+        "boundaryPdf": "3f618088014c16fa63f2c8936c723db1eea174b8b414b8add7d8289b2bd49efe"
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "focusedCheck": "PASS_COMPLETE 71/424 written; all nine counters zero. The verifier identified these as counter blind spots.",
+      "claimReleased": true,
+      "selfVerified": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "ut_pet_dismissed_without_prejudice-set",
+      "status": "STOPPED",
+      "dispatchBase": "1dcd8829369f0c07cd75d472671ae0669f841bc1",
+      "claim": "CLAIM_OK FIX05 ut_pet_dismissed_without_prejudice-set (repair, grant set c698ab30eb416ad2)",
+      "obligationsAssigned": [
+        "PAGE_ORDER"
+      ],
+      "obligationsRepaired": [],
+      "reproduction": "Both page manifests deliver 1000EX, 1020EX, 1044XX, 1146XX, 1148XX, 1149XX, 1169XX, BCI application, then BCI release. The committed order begins with BCI application and release, followed by 1044XX, 1000EX, and 1020EX.",
+      "stoppedBecause": "The existing manifest-order mechanism is gated by a per-family config in the shared Utah host, outside FIX05's writable paths. In addition, FIX05.md lists this exact overlay as owned and also lists the matching ut-pet-dismissed-without-prejudice-set wildcard under Never write here. The repair therefore stops fail-closed rather than writing an expressly prohibited output.",
+      "artifactHashesUnchanged": {
+        "canonicalPdf": "c29dec5d606bdb248e7f00f07a76eb0d846b5fa1896bac7b711e08283fe93952",
+        "boundaryPdf": "682f7b6d42bcc670d936e14d637ed9dfff3854f56a3c6f9e1684f2d43f86cdf7"
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "focusedCheck": "PASS_COMPLETE 39/442 written; all nine counters zero. PAGE_ORDER is not represented by those counters.",
+      "claimReleased": true,
+      "selfVerified": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "ut_pet_no_charges-set",
+      "status": "STOPPED",
+      "dispatchBase": "1dcd8829369f0c07cd75d472671ae0669f841bc1",
+      "claim": "CLAIM_OK FIX05 ut_pet_no_charges-set (repair, grant set c698ab30eb416ad2)",
+      "obligationsAssigned": [
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "FILING_DESTINATION",
+        "SERVICE"
+      ],
+      "obligationsRepaired": [],
+      "reproduction": "The current field map writes a fictional matter.case_number into 1000EX and 1020EX. Instructions omit the 30-day threshold, direct filing to the county where a nonexistent case was heard, and direct the participant to mail or email the prosecutor rather than state the controlling court-transmission rule.",
+      "stoppedBecause": "The wrapper only calls runUtahCompletenessRepair from scripts/build-census-v1-ut_pet_acquittal-set.mjs. The exact per-route write policy and participant guidance are private config and functions in that unowned shared host; the exported API accepts no repair override. Correcting the wrapper alone cannot change the generated semantics without duplicating the shared builder.",
+      "artifactHashesUnchanged": {
+        "canonicalPdf": "1ee8fad3cd777f6f476b159be35dea893a47477d91ca70e3518e53bcbfffe143",
+        "boundaryPdf": "3686f4f02146dc1e0e5ea105d219e1f9497dcb514a4345fce76f029f7f1c6485"
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "focusedCheck": "PASS_COMPLETE 38/444 written; all nine counters zero. The four dispatched route semantics remain counter blind spots.",
+      "claimReleased": true,
+      "selfVerified": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "in_arrest_no_charges-set",
+      "status": "STOPPED",
+      "dispatchBase": "1dcd8829369f0c07cd75d472671ae0669f841bc1",
+      "claim": "ALREADY_RELEASED: in_arrest_no_charges-set at 2026-09-03T23:53:16.081Z",
+      "stoppedBecause": "BLOCKED_BEFORE_CLAIM. The required FIX05 assertion returned nonzero, so this lane read no family artifact and made no family change.",
+      "obligationsRepaired": [],
+      "countersAfter": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "countersNotMeasuredBecause": "Claim refusal forbids artifact inspection.",
+      "claimReleased": false,
+      "selfVerified": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "ut_pet_acquittal-set",
+      "status": "STOPPED",
+      "dispatchBase": "1dcd8829369f0c07cd75d472671ae0669f841bc1",
+      "claim": "ALREADY_RELEASED: ut_pet_acquittal-set at 2026-09-04T04:13:09.101Z",
+      "stoppedBecause": "BLOCKED_BEFORE_CLAIM. The required FIX05 assertion returned nonzero, so this lane read no family artifact and made no family change.",
+      "obligationsRepaired": [],
+      "countersAfter": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "countersNotMeasuredBecause": "Claim refusal forbids artifact inspection.",
+      "claimReleased": false,
+      "selfVerified": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "az_wrongful_arrest_clearance-set",
+      "familyId": "az_wrongful_arrest_clearance-set",
+      "routeKeys": [
+        "obligation:track-only:AZ:az_wrongful_arrest_clearance"
+      ],
+      "worker": "CODEX-CS1-FIX05-AZ-NOTARIZATION",
+      "baseSha": "e435be15b39aa16683173ef274dd9ffdae0a179e",
+      "branch": "codex/cs1-fix05-az-notarization-e435",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "completedAt": "2026-09-04T15:52:25Z",
+      "claim": "CLAIM_OK FIX05 az_wrongful_arrest_clearance-set (repair, grant set 22d24105ad116bc1)",
+      "currentFailedObligation": "REQUIRED_BEFORE_FILING",
+      "obligationRepaired": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "repairedByThisLane": true,
+      "whatWasDone": "Added the registry's exact truthful notarization non-statement to participant-instructions.md and to the generated filing-instructions component, then completed two full deterministic builds.",
+      "beforeArtifacts": [
+        {
+          "fixture": "canonical",
+          "sha256": "ae9d2adfcc34c4aa45012493466e0b86e49ace944aa552998ffec4c2a36166ee",
+          "byteLength": 9194,
+          "pageCount": 4
+        },
+        {
+          "fixture": "boundary",
+          "sha256": "9ff414dfc5ee70776d55cf44400479680d1b3043789d189232c879e0e8eb36f9",
+          "byteLength": 9418,
+          "pageCount": 4
+        }
+      ],
+      "afterArtifacts": [
+        {
+          "fixture": "canonical",
+          "sha256": "6a0c2d807560a619c234a003ce8bf40031a73625aec815e2360ef8ec347506d6",
+          "byteLength": 9254,
+          "pageCount": 4
+        },
+        {
+          "fixture": "boundary",
+          "sha256": "5d62c2e04775223b983cf502af0571f1a77c2bf9e6f1042ea916de4b62adf1bc",
+          "byteLength": 9480,
+          "pageCount": 4
+        }
+      ],
+      "deterministicRebuild": {
+        "command": "node scripts/build-census-v1-az_wrongful_arrest_clearance-set.mjs",
+        "completeBuilds": 2,
+        "hashesAndByteLengthsIdentical": true
+      },
+      "focusedTests": [
+        "Two complete executions of node scripts/build-census-v1-az_wrongful_arrest_clearance-set.mjs => COMPLETED with identical canonical and boundary SHA-256 values and byte lengths",
+        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family az_wrongful_arrest_clearance-set => PASS_COMPLETE 6/12 written; all nine counters zero",
+        "Exact-string grep confirms the notarization non-statement in participant-instructions.md",
+        "pdftotext exact-string checks confirm the notarization non-statement in canonical.pdf and boundary.pdf"
+      ],
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "centralStateEdits": 0,
+      "claimsReleased": 0,
+      "claimReleased": false,
+      "selfVerificationPerformed": 0,
+      "selfVerified": false,
+      "routesOpened": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "rcap-ks-custom-pleading",
+      "familyId": "rcap-ks-custom-pleading",
+      "routeKeys": [
+        "obligation:track-pathway:KS:ks-12-4516-municipal:municipal-conviction-or-diversion-expungement-under-12-4516",
+        "obligation:track-pathway:KS:ks-12-4516a-municipal-arrest:municipal-arrest-record-expungement-under-12-4516a"
+      ],
+      "worker": "CODEX-CS1-FIX05-KS",
+      "baseSha": "7db2c22464691f768ffb05607ebf613281b0bf76",
+      "branch": "codex/cs1-fix05-ks-7db2",
+      "status": "COMPLETED",
+      "repairedByThisLane": true,
+      "factoryState": "BUILT_RASTER_PENDING",
+      "laneKind": "repair",
+      "claim": "CLAIM_OK FIX05 rcap-ks-custom-pleading (repair, grant set cc93188dcdeaae56)",
+      "repairPresentAtAssignedBase": true,
+      "repairDisposition": "The exact VF07 component-identity and footer-pagination repair was already present at the assigned base through ancestor 0b957f11404d0490e0f13a1a6cfbdc8956b75f29. This reissued FIX05 worker preserved the scoped repair, rebuilt all six PDFs twice from absent artifact files, inspected every page and actual visible write, refreshed only the family-local committed-record receipt, and recorded the FIX05 return without a redundant builder or PDF diff.",
+      "obligationsRepaired": [
+        "COMPONENT_SET",
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "componentContract": {
+        "sourcesChecked": [
+          "data/record-clearing/legal-design-track-registry.json",
+          "data/record-clearing/legal-design-packet-set-manifests.json",
+          "data/record-clearing/packet-specifications/KS-municipal-conviction-or-diversion-expungement-under-12-4516.v1.json",
+          "data/record-clearing/packet-specifications/KS-municipal-arrest-record-expungement-under-12-4516a.v1.json"
+        ],
+        "municipal": [
+          "ks-12-4516-municipal-primary-filing-1:primary_filing:1",
+          "ks-12-4516-municipal-proposed-order-2:proposed_order:2",
+          "ks-12-4516-municipal-process-guidance-3:process_guidance:3"
+        ],
+        "municipalArrest": [
+          "ks-12-4516a-municipal-arrest-primary-filing-1:primary_filing:1",
+          "ks-12-4516a-municipal-arrest-proposed-order-2:proposed_order:2",
+          "ks-12-4516a-municipal-arrest-process-guidance-3:process_guidance:3"
+        ],
+        "requiredAndRenderedAgreeBothDirections": true,
+        "filingInstructionsSubstituteIdsRendered": 0
+      },
+      "artifactsBefore": [
+        {
+          "fixture": "canonical",
+          "scope": "family",
+          "sha256": "006811ccb975a156a19a8ee2ed8a5a92a50f2c7d4c25a8f498d146202a58fc24",
+          "byteLength": 34362,
+          "pageCount": 12
+        },
+        {
+          "fixture": "boundary",
+          "scope": "family",
+          "sha256": "3f903f57859d75026d4e5885ac0ab23abc80f3363df713820c4e24d7af3c7fe2",
+          "byteLength": 35191,
+          "pageCount": 13
+        },
+        {
+          "fixture": "canonical",
+          "scope": "ks-12-4516-municipal",
+          "sha256": "7d0c883eeb91e91e5aba6c23284d6de2ea4e409212664fb29ec5f29dfa8feba8",
+          "byteLength": 20219,
+          "pageCount": 8
+        },
+        {
+          "fixture": "boundary",
+          "scope": "ks-12-4516-municipal",
+          "sha256": "61642d388cbfbdcc481aa7414db7a1b457295fba81707775c86bf087be4a608f",
+          "byteLength": 20427,
+          "pageCount": 8
+        },
+        {
+          "fixture": "canonical",
+          "scope": "ks-12-4516a-municipal-arrest",
+          "sha256": "3dd2547beb4c5f91777f3d418ee96ccfd9dc854cdfce19b00ffd38ff024ec275",
+          "byteLength": 18274,
+          "pageCount": 6
+        },
+        {
+          "fixture": "boundary",
+          "scope": "ks-12-4516a-municipal-arrest",
+          "sha256": "dff8faa3a25fffb9dc6f4610dfffa44989f7e80b554a47eaec81fdfb7a18cdc2",
+          "byteLength": 18476,
+          "pageCount": 6
+        }
+      ],
+      "artifactsAfter": [
+        {
+          "fixture": "canonical",
+          "scope": "family",
+          "sha256": "0da4dbab6b7be1f15ebb4ca2e5fa7810f6c8e34f366dc87b4131c311a4d0ec74",
+          "byteLength": 37304,
+          "pageCount": 13
+        },
+        {
+          "fixture": "boundary",
+          "scope": "family",
+          "sha256": "e12e30be68deb94e934bb3ab3080b1cc0d0c048810781f8491710c5740cd55c7",
+          "byteLength": 37721,
+          "pageCount": 13
+        },
+        {
+          "fixture": "canonical",
+          "scope": "ks-12-4516-municipal",
+          "sha256": "730a38f42504c51908dece94129255324a81da9ade651ef88d81a42ffb11878a",
+          "byteLength": 20092,
+          "pageCount": 7
+        },
+        {
+          "fixture": "boundary",
+          "scope": "ks-12-4516-municipal",
+          "sha256": "776a364d13db3750d3c0f007ebb7229c06a1101c9b54b3e4c0618c13e04e84a0",
+          "byteLength": 20304,
+          "pageCount": 7
+        },
+        {
+          "fixture": "canonical",
+          "scope": "ks-12-4516a-municipal-arrest",
+          "sha256": "e766906dd1d493ad28389596a09250ab096ea42fbc0bdf601cfb8f940c075124",
+          "byteLength": 18481,
+          "pageCount": 6
+        },
+        {
+          "fixture": "boundary",
+          "scope": "ks-12-4516a-municipal-arrest",
+          "sha256": "61a928d7c56d411cf4042a7ad1f53f42124a31dc1370bffdfb6b5d0d55aecff6",
+          "byteLength": 18681,
+          "pageCount": 6
+        }
+      ],
+      "determinism": {
+        "cleanArtifactState": true,
+        "completeBuilds": 2,
+        "allFamilyAndRouteHashesLengthsAndPagesIdentical": true,
+        "result": "DETERMINISTIC",
+        "rasterState": "BUILT_RASTER_PENDING"
+      },
+      "inspection": {
+        "artifactsInspected": 6,
+        "pagesInspected": 52,
+        "inspectionRasterDpi": 144,
+        "everyPageHasSubstantiveContentAndExactlyOneFooter": true,
+        "familyBoundaryPage4BodyItems": 7,
+        "municipalCanonicalPages": 7,
+        "municipalBoundaryPages": 7,
+        "footerOnlyPage8Exists": false,
+        "crossRouteContentObserved": false,
+        "clippingObserved": false,
+        "overlapObserved": false,
+        "familyVisibleWrites": "canonical 14/14; boundary 14/14",
+        "routeVisibleWrites": "7/7 per route per fixture",
+        "protectedWrites": 0
+      },
+      "focusedTests": [
+        "family_sources_bind: PASS; zero binary sources is exact for CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+        "builder --no-raster twice from absent canonical, boundary and four route artifacts: COMPLETED; deterministic",
+        "builder --check --no-raster: CHECK_ONLY; 3 committed records, 62 anchors, 6 exact components",
+        "family completeness: PASS_COMPLETE 14/56 written; all nine counters zero",
+        "route-artifact completeness: 4/4 ROUTE_PASS_COMPLETE; exact three-component route sets; 7/7 writes read back per artifact",
+        "authoritative component audit: registry, packet-set manifest and both route specifications agree exactly on ids, roles and orders",
+        "52-page PDF geometry/text audit and 144-DPI page inspection: no orphan, cross-route content, clipping or overlap"
+      ],
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "sourceAcquisition": 0,
+      "centralStateEdits": 0,
+      "claimsReleased": 0,
+      "claimReleased": false,
+      "selfVerificationPerformed": 0,
+      "selfVerified": false,
+      "routesOpened": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "rcap-ok-custom-pleading",
+      "familyId": "rcap-ok-custom-pleading",
+      "routeKeys": [
+        "obligation:track-only:OK:ok_identity_theft",
+        "obligation:track-pathway:OK:ok_18_19_deferred_dismissal:misdemeanor-deferred-dismissal-expungement",
+        "obligation:track-pathway:OK:ok_18_19_deferred_dismissal:nonviolent-felony-deferred-dismissal-expungement",
+        "obligation:track-pathway:OK:ok_18_19_deferred_dismissal:up-to-two-felony-deferred-dismissal-expungement",
+        "obligation:track-pathway:OK:ok_18_19_felony_conviction:felony-reclassified-as-a-misdemeanor",
+        "obligation:track-pathway:OK:ok_18_19_felony_conviction:not-more-than-two-eligible-felony-convictions-expungement",
+        "obligation:track-pathway:OK:ok_18_19_felony_conviction:one-eligible-nonviolent-felony-conviction-expungement",
+        "obligation:track-pathway:OK:ok_18_19_misdemeanor_conviction:fine-only-misdemeanor-conviction-expungement",
+        "obligation:track-pathway:OK:ok_18_19_misdemeanor_conviction:other-eligible-misdemeanor-conviction-expungement",
+        "obligation:track-pathway:OK:ok_18_19_nonconviction:acquittal-dismissal-or-other-no-conviction-expungement",
+        "obligation:track-pathway:OK:ok_18_19_nonconviction:arrest-with-no-charges-filed",
+        "obligation:track-pathway:OK:ok_18_19_nonconviction:conviction-reversed-and-case-dismissed",
+        "obligation:track-pathway:OK:ok_18_19_nonconviction:dna-factual-innocence-expungement",
+        "obligation:track-pathway:OK:ok_18_19_pardon:pardon-based-expungement",
+        "obligation:track-pathway:OK:ok_991c_deferred:deferred-sentence-court-record-expungement-under-991-c",
+        "obligation:track-pathway:OK:ok_vpo_60_18:victim-protective-order-record-relief"
+      ],
+      "worker": "CODEX-CS2-FIX05-OK-CURRENT",
+      "baseSha": "0400a0c52075b8e7f692a80ae2f630ea0d1a9956",
+      "branch": "codex/cs2-fix05-ok-current-0400",
+      "status": "COMPLETED",
+      "repairedByThisLane": true,
+      "factoryState": "REPAIR_EVIDENCE_COMPLETE_NOT_TERMINALIZED",
+      "laneKind": "repair",
+      "claim": "CLAIM_OK FIX05 rcap-ok-custom-pleading (repair, grant set fe53f0c79b36424a)",
+      "obligationsRepaired": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "repairDisposition": "The unsuperseded vf37 failure measured superseded 80-page-per-fixture bytes. Both stale hashes differ from the current 83-page PDFs. The admitted exact-current-hash RASTER_PASS measures both current PDFs, all 166 pages, with zero problems. Because vf37 names CLIPPING_AND_OVERLAP as its sole failed obligation, this focused evidence repairs only that disposition and does not terminalize the family.",
+      "staleVerdict": {
+        "worker": "CODEX-CS2-FIX19",
+        "independentLane": "vf37",
+        "verifiedAtBase": "5c718222cf837e14ae51146b268f4f82ec018f6b",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "failedObligationNames": [
+          "CLIPPING_AND_OVERLAP"
+        ],
+        "canonical": {
+          "sha256": "833444e3e39b2232b4e8c10cdd37cf948f2dd148a31edcc64aa86516fb953f60",
+          "byteLength": 205937,
+          "pageCount": 80
+        },
+        "boundary": {
+          "sha256": "5cdd5a6ae9461f42cda28c64fc93e5d4c5d2fc9df9415c8033be29f396bb2bcb",
+          "byteLength": 208554,
+          "pageCount": 80
+        },
+        "pagesMeasured": 160,
+        "problemsFound": 1,
+        "decisiveFinding": "canonical.pdf page 39 was near-empty and contained only an orphaned -expungement fragment"
+      },
+      "currentArtifacts": [
+        {
+          "fixture": "canonical",
+          "sha256": "78151b1304b9445d9bc269fd0a8a6d1cc7b97bd4b0284f6af52d2176ba21d1a1",
+          "byteLength": 207273,
+          "pageCount": 83
+        },
+        {
+          "fixture": "boundary",
+          "sha256": "18a2adfa5d1a8d67dfb413be61952c0501da42dc0bf03a53bff744bcba5e0d18",
+          "byteLength": 209833,
+          "pageCount": 83
+        }
+      ],
+      "rasterEvidence": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "33844119998",
+        "jobId": "100933577740",
+        "artifactId": "9927020246",
+        "boundToCanonicalSha256": "78151b1304b9445d9bc269fd0a8a6d1cc7b97bd4b0284f6af52d2176ba21d1a1",
+        "boundToBoundarySha256": "18a2adfa5d1a8d67dfb413be61952c0501da42dc0bf03a53bff744bcba5e0d18",
+        "documentsMeasured": 2,
+        "pagesMeasured": 166,
+        "problemsFound": 0,
+        "coversTheWholeFamily": true,
+        "supersedesOnly": "CLIPPING_AND_OVERLAP"
+      },
+      "determinism": {
+        "completeBuilds": 2,
+        "builder": "scripts/build-census-v1-rcap-ok-custom-pleading.mjs --no-raster",
+        "familyFilesCompared": 13,
+        "identicalPaths": true,
+        "identicalHashes": true,
+        "identicalByteLengths": true,
+        "identicalReports": true,
+        "identicalFamilyTree": true,
+        "exactCanonicalAndBoundaryHashesLengthsAndPagesOnBothRuns": true,
+        "result": "DETERMINISTIC",
+        "baselinePreservation": "The builder deterministically refreshed three family-local committed-record hash/length pins on both runs; those temporary source-receipt changes were restored to the assigned HEAD, leaving zero family diff and zero packet-byte diff."
+      },
+      "focusedTests": [
+        "node --check scripts/build-census-v1-rcap-ok-custom-pleading.mjs => PASS",
+        "node scripts/build-census-v1-rcap-ok-custom-pleading.mjs --check --no-raster => CHECK_ONLY; 3 records; 148 anchors; 54 components; 85 writes; 169 blanks",
+        "two node scripts/build-census-v1-rcap-ok-custom-pleading.mjs --no-raster builds => COMPLETED; 13-file trees identical; exact stated PDF hashes, lengths and 83-page counts",
+        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-ok-custom-pleading => PASS_COMPLETE 85/254; all nine counters zero",
+        "node scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs --check --family rcap-ok-custom-pleading => 1 unchanged",
+        "exact current raster receipt binding assertion => PASS; 16 routes; run 33844119998; job 100933577740; artifact 9927020246; 166 pages; zero problems",
+        "route-artifact completeness => NOT_APPLICABLE; the focused verifier refused because this family has no separate route artifacts"
+      ],
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "routeKeysChanged": 0,
+      "packetBytesChanged": 0,
+      "centralStateEdits": 0,
+      "claimsReleased": 0,
+      "claimReleased": false,
+      "selfVerificationPerformed": 0,
+      "selfVerified": false,
+      "familyTerminalized": false,
+      "routesOpened": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "tx_nd_dwi_deferred-set",
+      "status": "COMPLETED",
+      "claim": "CLAIM_OK FIX05 tx_nd_dwi_deferred-set (repair, grant set 5104bc3b81ccc216)",
+      "obligationRepaired": [
+        "KNOWN_PREFILLS",
+        "PROTECTED_FIELDS",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "standingVerdict": {
+        "lane": "current-byte-independent-verification-il-tx-batch-018",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "018cd558455454ca44e7deac8efa7b0e881375d3"
+      },
+      "defect": "The official Statement of Inability to Afford Payment of Court Costs ships three /Tx fields carrying a value set by the source, and this family flattened all three onto the delivered pages: Value / Valor 11 = \"0\" (source page 7, packet page 16), Amount Cantidad 15 = \"0\" (source page 8, packet page 17) and Today = \"12/15/2022\" (source page 11, packet page 20). Two are sworn financial totals on a statement made under penalty of perjury; the third dates that declaration, beside the participant's own unsigned signature line, to a day in 2022.",
+      "whatWasChanged": "One additive per-family entry in data/rcap-all50/shared/field-appearance-semantics.json: tx_nd_dwi_deferred-set:tx_nd_dwi_deferred-fee-waiver-statement-4, giving all three fields render_participant_value_only_when_written with each /V, each widget /Rect and the reason recorded. All three were already refused correctly in production-field-map.json; the defect was downstream of the map, in the structural rule that reads an unwritten /Tx appearance as the court's own ink. The identical form enclosed by tx_nd_dwi_probation-set is classified there — for Today alone — and this family was never classified at all.",
+      "pathListDeparture": "field-appearance-semantics.json sits outside FIX05's declared owned-paths list. It is the single declared home for this measurement, dispositionsForFamily reads only the key it is given so no other family is affected, and no per-family alternative location exists. Flagged rather than worked around.",
+      "fixturesMoved": true,
+      "fixtureNote": "FIXTURES MOVED on this family. canonical a991f3b4e6a27ebf11bd52ef3370f7e0e4d2b63282ea57585932a172ed0d98e6 -> 7cb3e892bf15353ad55ac1b70b922fdc3c83e173017c0640512700f16bdbed2b; boundary 6892d5d7e21334cc8a4f30507e40db5f5ec8759b7043701ab04cf5ead4c909cd -> 2ccf4e37ad72ce87502b3c6a9eb6c891c99ce2a6dbfaad9568d1117b35a560c7. This family's raster receipt is invalid and a new hash-bound RASTER_PASS is owed before any future PASS_COMPLETE. If a visual-gate batch is in flight against the old hashes, tx_nd_dwi_deferred-set must be re-queued.",
+      "blastRadiusMeasured": {
+        "flattenedWidgetAppearancesCarryingText": "canonical 16 -> 13",
+        "removed": [
+          "page 16 \"0\"",
+          "page 17 \"0\"",
+          "page 20 \"12/15/2022\""
+        ],
+        "participantWritesPreserved": "all 13, name for name",
+        "extractedPageTextDiff": "exactly one line, the deleted 12/15/2022",
+        "documentAuthoredAppearances": "3 -> 0 in both fixtures",
+        "pageCount": "24, unchanged",
+        "attribution": "a rebuild with the registry entry reverted reproduces the committed bytes exactly, so every byte that moved is attributable to this entry"
+      },
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "whyCountersAreNotTheProof": "A completeness counter cannot see a value the source authored rather than the build. The nine counters were zero while three sworn values were being delivered. The appearance measurement above is the proof.",
+      "verifier": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family tx_nd_dwi_deferred-set -> PASS_COMPLETE, 15/193 written",
+      "factoryState": "BUILT_RASTER_PENDING",
+      "commit": "9a3619342cfd8306226a774b253bcc0abc9e8004"
+    },
+    {
+      "itemId": "al-misd-conviction-set",
+      "status": "STOPPED",
+      "claim": "CLAIM_OK FIX05 al-misd-conviction-set (repair, grant set 5104bc3b81ccc216)",
+      "obligationRepaired": [],
+      "obligationsAssigned": [
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS"
+      ],
+      "standingVerdict": {
+        "lane": "vf04",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "9c7e70ff0aae28c8a627c5a070b6b07202d9a780"
+      },
+      "defectReproduced": "Yes, from the artifacts on disk. KNOWN_PREFILLS: the C-10-CRIMINAL fee-waiver component writes participant.full_legal_name into 'Spouses Full Name if married', participant.phone into 'Employers Telephone Number', matter.filing_county into 'MUNICIPALITY OF', and matter.court_type into 'COURT OF' — four participant facts in legally wrong fields. REQUIRED_BEFORE_FILING: 45 of 63 required labels are internal field names (undefined_2 … undefined_31, TextN). ROUTE_OPTIONS: C-10-CRIMINAL 'Check Box1.0', the court-caption branch, is unselected.",
+      "whyStopped": "The repair cannot be produced here. al-misd-conviction-set is a three-line shim over the shared Alabama host scripts/build-census-v1-al-diversion-set.mjs, which five other families also use, so the fix is the family-owned builder its sibling al-felony-nonconviction-90-set already received. Building that requires CR-65, which lives in custody nationwide_recovery_pool_2026_09_02 — absent from this host, and the build exits non-zero having written zero bytes. Writing a builder whose output can never be produced or measured here, or hand-editing artifacts so a receipt matches a builder that never ran, is what the assignments forbid. Reported instead.",
+      "whatIsMissing": "The custody nationwide_recovery_pool_2026_09_02 at private/source-imports/Nationwide_Recovery_Pool_2026-09-02, specifically 'LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf' at sha256 c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39. With it mounted this is a direct port of the al-felony family-owned builder pattern.",
+      "assignmentContradictsTheRecord": "The vf04 assignment calls the state-versus-municipality court branch 'route-determined'. The route record does not support that: FAMILY_CONFIG's routeSummary for this family reads 'Qualifying misdemeanor, violation, traffic, MUNICIPAL, or misdemeanor youthful-offender conviction after all seven Section II conditions', so the route covers both state and municipal convictions and does not determine the branch. A repairing lane should refuse and disclose that election rather than select it. No value was invented here either way.",
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "whyCountersAreNotTheProof": "Writing a real participant fact into the wrong legal field is a write, not a blank, so no completeness counter registers it; the nine counters are zero on a family with four such writes. Nothing here is offered as evidence of repair — no repair was made.",
+      "fixturesMoved": false,
+      "commit": null
+    },
+    {
+      "itemId": "il-seal-nonconv-set",
+      "status": "STOPPED",
+      "claim": "CLAIM_OK FIX05 il-seal-nonconv-set (repair, grant set 5104bc3b81ccc216)",
+      "obligationRepaired": [],
+      "obligationsAssigned": [
+        "ARTIFACTS",
+        "KNOWN_PREFILLS",
+        "REPEATING_ROWS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS"
+      ],
+      "standingVerdict": {
+        "lane": "vf04",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "9c7e70ff0aae28c8a627c5a070b6b07202d9a780"
+      },
+      "defectReproduced": "Yes, from the artifacts on disk. Of 72 writes, 20 put the case number into 'List all charges' cells and 14 land on the page-2 expungement section of a seal-only packet; 65 of 250 required-before-filing labels expose internal arrestN names; selections include '15 - Asking to Seal' and '16 -' alongside '12 - Seal Records'.",
+      "whyStopped": "The repair cannot be produced here. il-seal-nonconv-set is a three-line shim over the shared Illinois host scripts/build-census-v1-il-exp-pardon-set.mjs, so the fix is the family-owned builder its sibling il-seal-edu-set already received. Building it requires the EXP-AD Case List PDF, which lives in custody nationwide_recovery_pool_2026_09_02 — absent from this host, and the build exits non-zero having written zero bytes.",
+      "whatIsMissing": "The custody nationwide_recovery_pool_2026_09_02, specifically 'LegalEase Illinois/EXP-AD Case List Request to Expunge Seal Records.pdf'. With it mounted this is a direct port of the il-seal-edu-set family-owned builder, whose --self-test already encodes every one of these obligations.",
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "whyCountersAreNotTheProof": "The same reason the vf03 assignment gives for the sibling: writing the wrong value into a field, or an opaque label into an instruction, is not a blank. The nine counters are zero on a family with 34 wrong-table or wrong-value writes. Nothing here is offered as evidence of repair — no repair was made.",
+      "fixturesMoved": false,
+      "commit": null
+    },
+    {
+      "itemId": "al-misd-dwop-set",
+      "lane": "FIX05",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "buildStatus": "state_built",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "rasterStateMeans": "This lane ran its own pdftoppm rasters to read the delivered pages. That is this builder's own check, not central acceptance. Central raster acceptance has not run on these bytes.",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/al/al-misd-dwop-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-al-diversion-set.mjs",
+      "buildScriptNote": "shared Alabama host, reached through the three-line wrapper scripts/build-census-v1-al-misd-dwop-set.mjs",
+      "base": "2b5779953ded65b769064a35eb16243c955a38a0",
+      "branch": "al-six-rebuild-20260909",
+      "claim": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX05 al-misd-dwop-set -> CLAIM_OK FIX05 al-misd-dwop-set (repair, grant set 09c0de5e1fad09ae), exit 0, asserted before any family content was read. The grant was NOT released and the claim ledger was NOT committed.",
+      "preflight": "node scripts/verify-packet-build-environment.mjs -> PACKET_BUILD_ENVIRONMENT_READY: 12/12 passed, 0 failed, 5 not applicable, at al-six-rebuild-20260909 2b577995.",
+      "rowGate": "node scripts/verify-packet-build-environment.mjs --family al-misd-dwop-set -> PACKET_BUILD_ENVIRONMENT_READY: 13/13 passed, 0 failed, 4 not applicable; family_sources_bind 2/2 source(s) bind by exact SHA-256 (custody_reconciliation).",
+      "standingVerdict": "FAIL_REPAIR_REQUIRED from vf05, verified at base 03ff12bf93408e971b8cec0bbc5ecdf8ba78692a. That read predates FIX09's host repair 1b60b8a79 and predates this rebuild.",
+      "failedObligationNames": [
+        "KNOWN_PREFILLS",
+        "PROTECTED_FIELDS",
+        "REPEATING_ROWS",
+        "REQUIRED_BEFORE_FILING",
+        "SELF_HELP_STOP"
+      ],
+      "obligationByObligation": {
+        "KNOWN_PREFILLS": "MEASURED CLEAR AS TO THE RECORDED FINDINGS, AND ONE NEW INSTANCE OF THE SAME CLASS WAS FOUND AND REPAIRED BY THIS LANE. vf05 recorded directions in fact boxes and the participant's own name, address and phone written into C-10 spouse and employer boxes; none of those writes remains. The court case number was still being written onto the CR-65 page 1 Social Security line; that write is now refused.",
+        "PROTECTED_FIELDS": "MEASURED CLEAR. Zero writes on CR-65 page 7, zero on attorney-named fields, CR-65:Telephone Number_2 unwritten.",
+        "REPEATING_ROWS": "MEASURED CLEAR. The conditional prior-expungement group on CR-65 page 6 is refused whole: neither prior-application box is selected and both companion blanks are unwritten. Confirmed in a 200 dpi raster of the delivered boundary page 6, not only in the field map.",
+        "REQUIRED_BEFORE_FILING": "MEASURED CLEAR. 58 required blanks, 0 opaque. The guide quotes rules.notarization verbatim -- 'The source review does not state a notarization requirement for CR-65.' -- and directs the participant to the circuit clerk instead of asserting a requirement the record does not hold.",
+        "SELF_HELP_STOP": "MEASURED CLEAR. Every stop condition the bound record holds for track al-misd-dwop appears verbatim in the guide, including 'Whether a prior offence is a \"minor traffic violation\" is unclear.'; the builder asserts this on every build."
+      },
+      "whatFix09HadDone": "FIX09 repaired the shared Alabama host at the root in 1b60b8a79 and could not run it, because the CR-65 custody nationwide_recovery_pool_2026_09_02 was not mounted in that container. It is mounted here, so this lane could do what FIX09 could not: execute the repaired machinery and measure the bytes it produces.",
+      "sourcesRehashedByMe": {
+        "count": 2,
+        "allExact": true,
+        "method": "Both declared sources were resolved through data/rcap-all50/local-source-corpus-index.json with the repository's own makeCorpusEntryResolver, read, hashed by me, and compared against the digest the builder declares. Each was then loaded with pdf-lib for its page count and AcroForm field count, and checked for a %PDF header and a %%EOF trailer. Both matched.",
+        "sources": [
+          {
+            "documentId": "CR-65",
+            "path": "LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf",
+            "sha256": "c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39",
+            "byteLength": 468056,
+            "pages": 8,
+            "acroFields": 108,
+            "custody": "nationwide_recovery_pool_2026_09_02",
+            "sha256MatchedDeclared": true,
+            "isRealPdf": "loaded by pdf-lib; %PDF header and %%EOF trailer both present"
+          },
+          {
+            "documentId": "C-10-CRIMINAL",
+            "path": "STATES/AL/02_PACKET_FORMS/AL__FORM__C-10-CRIMINAL__affidavit-of-substantial-hardship-and-order__REV-2024-05__EN.pdf",
+            "sha256": "527d4cfdde5bea564a8729e6425f1042627b03435ec634509fe32fdb80a5c6f8",
+            "byteLength": 711433,
+            "pages": 3,
+            "acroFields": 108,
+            "custody": "master_library",
+            "sha256MatchedDeclared": true,
+            "isRealPdf": "loaded by pdf-lib; %PDF header and %%EOF trailer both present"
+          }
+        ],
+        "pageInventory": "8 CR-65 pages plus 3 C-10-CRIMINAL pages = the 11-page packet. This is the inventory finding CHATB-AL-03 corrected the author handoff on, and it is what the sources measure here."
+      },
+      "canonicalSha256": "d29b3da197d38df0f347b41335261fd3564b1cb20c93491b384ccbc7ade01780",
+      "boundarySha256": "d87dfb4612e487f3b0b23e1db743795208a06f7e70638fe575f74cf37e182b82",
+      "canonicalByteLength": 905851,
+      "boundaryByteLength": 906092,
+      "pageCount": 11,
+      "priorDeliveredCanonicalSha256": "413a9995ba8cc968543bb28f7cb1155d70c4b72d9973f85e582ec815cd257987",
+      "priorDeliveredBoundarySha256": "9652926c43a5fcc237a46d363b922970316d6adfee7696ece6aa7d9f388f3c75",
+      "deliveredBytesChangedByThisRun": true,
+      "rebuildAgainstTheRepairedHostBeforeThisLaneChangedAnything": {
+        "canonicalSha256": "6448dc1d65090f68c69c77145d5e33e790c88635af3419e2e96f156a2df6977e",
+        "boundarySha256": "31bf3b42a927315591275a9b69df6e9cd7c525990e0bd6f9ee3f8890c12f5521",
+        "reproducedTheCommittedBytesExactly": false,
+        "whatThatMeans": "This family does run on the FIX09-repaired host, and rebuilding moved its bytes for the first time since that repair. The four writes FIX09 fixed at the root -- spouse name, employer telephone, MUNICIPALITY OF, the page-6 previous-expungement county -- disappeared from the delivered artifact here, along with the nine directions printed as held facts and the 45 opaque required-before-filing labels."
+      },
+      "newDefectsFoundByThisLane": [
+        {
+          "id": "AL6-01",
+          "obligation": "KNOWN_PREFILLS",
+          "severity": "wrong fact on a document sworn under penalty of perjury",
+          "where": "CR-65 page 1, AcroForm field Text2",
+          "printedContext": "The blank that follows the printed 'XXX - XX -' under the caption '(Social Security Number, Last four digits only)'.",
+          "observed": "The builder matched CR-65 text fields by the SHAPE of the exported name, /^Text[1-7]$/, and wrote matter.case_number into all of them. Six of those seven are the repeated 'Court Case Number (Assigned by Clerk)' caption box; Text2 is the Social Security line. So every one of these six Alabama families printed the court case number where the form asks for the petitioner's last four Social Security digits, and swore to it on page 6.",
+          "howItWasProven": "Three ways that do not depend on the builder's own field map. (1) The saved bytes: content streams decompressed, the source's own streams excluded by hash, every remaining show-text operator decoded with the matrix preceding it -- the case number decodes at the Text2 origin. (2) The repository's own committed field census, data/rcap-all50/overlays/census-v1/al/al-misd-nonconviction-90-set--official-pdf-fill/field-census.census-v1.json, gives CR-65 Text2 the effectiveLabel 'Social Security Number, last four digits only' and Text3 'Court case number to be expunged'. (3) A 200 dpi pdftoppm raster of the delivered boundary page 1, read directly.",
+          "alreadyOnRecordIndependently": "Yes. Finding CHATB-AL-01 in data/rcap-grade-a/chat-parallel-2026-09-07/review/al-two-candidate-final-disposition.json states it for al-felony-dwop-set and al-felony-nonconviction-90-set. This lane found it independently and measured that it was true of all six, not two.",
+          "repair": "CR-65:Text2 is excluded from the case-number rule and returns null, so it is classified as a required-before-filing blank with the printed caption 'Last four digits of your Social Security Number'. The platform holds no Social Security number, so nothing is written there. The repair is added to the builders' own forbidden-write invariant so it cannot come back silently.",
+          "correctionFollowedExactly": "No digits are substituted, trimmed or derived from the case number; no identifier is invented; no full Social Security number is printed; the case number keeps its own field, CR-65 page 1 Text3, under the printed heading 'COURT CASE NUMBER TO BE EXPUNGED:'.",
+          "regressionAsked": "CHATB-AL-01 asks for a regression over distinct synthetic case-number and SSN-last-four values and a missing-last-four case. Only the missing-last-four case is reachable: the platform holds no Social Security fact at all, so the field is now unconditionally a refusal in both fixtures and there is no held value to vary. That is stated rather than dressed up as a passing test."
+        },
+        {
+          "id": "AL6-02",
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "severity": "value drawn complete in the text layer and cut in the ink",
+          "where": "CR-65 page 1, the same field Text2, boundary fixture",
+          "observed": "'CC-2024-000001.99' measured 72.48pt of Helvetica 8; the widget's own appearance stream clips at x=1..66.236, leaving 65.24pt. The reader saw about 'CC-2024-000001.9'. The nine counters read zero throughout, because the value recorded in the field map was complete -- only the ink was short.",
+          "howItWasProven": "Measured from the saved bytes: the show-text operator decoded out of the flattened widget XObject, its advance width computed with the same Helvetica metrics the appearance stream uses, and compared against that XObject's own BBox and clip path. Confirmed against a 200 dpi raster before the repair.",
+          "alreadyOnRecordIndependently": "Yes. Finding CHATB-AL-02, same file, same two families. Measured here on all six.",
+          "repair": "safeSet now measures the value against the box it is actually drawn in and steps the size down 8/7/6/5, and asserts rather than drawing clipped ink if nothing fits. Fit or refuse; never truncate, and never let the widget do the truncating. No rectangle was revised.",
+          "noteOnOrder": "CHATB-AL-02 requires the semantic binding to be fixed first. Both repairs are in, and after AL6-01 nothing is written in that box at all, so the fit rule is now a standing guard rather than the thing holding this field together. Because no maxLength exists on any of the 216 fields and the only over-wide value was the one AL6-01 stopped writing, the fit rule changes no delivered byte at this base; it is kept because it is the safeguard that caught the defect."
+        }
+      ],
+      "openQuestionThisLaneDidNotDecide": {
+        "id": "AL6-03",
+        "obligation": "candidate PROTECTED_FIELDS / clerk-assignment",
+        "where": "CR-65 pages 1, 2, 3, 4, 5, 6 and 8 -- fields Text1, Text4, Text5, Text7 and Court Case Number, Court Case Number_2, Court Case Number_4",
+        "observed": "Each of those pages carries a caption box printed 'Court Case Number' with the sublabel '(Assigned by Clerk)'. The packet prefills all of them with the participant's underlying criminal case number. CR-65 page 7 carries the same box and this packet leaves it blank, because page 7 is blanket-protected -- so the packet is already inconsistent with itself about who owns that box. The form separately provides an explicit line 'COURT CASE NUMBER TO BE EXPUNGED:' for the underlying case, which is written and correct.",
+        "whyThisLaneDidNotChangeIt": "Deciding it means deciding whether that caption box is the expungement petition's own number, which a clerk assigns at filing and which the participant cannot know, or the underlying criminal case number. data/record-clearing/legal-design-intake/AL.memo.json establishes neither -- it contains no rule about the caption, the case number, or clerk assignment -- and this lane will not author a legal conclusion the held record does not carry, in either direction. Removing seven writes on a reading I cannot source would be as much an invention as leaving them.",
+        "whatIsNeededToDecideIt": "One line in the Alabama legal-design record, or counsel, saying which number belongs in the CR-65 caption box. If it is the clerk's, seven writes per family become required-before-filing blanks. This is reported so it cannot disappear, not repaired.",
+        "isStillPresentInTheDeliveredBytes": true
+      },
+      "provenFromTheSavedBytes": {
+        "method": "Not from the builder's field map. For each delivered PDF: every page's content streams were decompressed; each was hashed and excluded if it matched a content stream of one of the two source PDFs; the remaining builder-added streams were tokenized, their `Do` calls followed into the flattened widget XObjects, and every show-text operator decoded with the text and graphics matrices preceding it, carrying its device-space origin, font, size, render mode and fill colour.",
+        "sourceStreamsPreservedByteExact": true,
+        "sourceStreamsPreservedMeans": "On all 11 pages of both fixtures at least one content stream hashed identically to a stream of the official source, and the decoded builder-added ink accounts for the writes and nothing else. The official form's own ink was not rewritten.",
+        "showTextOperatorsDecoded": 31,
+        "declaredWrites": 31,
+        "showsEqualDeclaredWrites": true,
+        "whyThatMatters": "One decoded show-text operator per declared write, and no more, is the measurement that rules out source-authored default values: a default carried by the source form would have been flattened into ink too and would have decoded as an extra show with no declared write behind it. There were none, in either fixture, on any of the six families.",
+        "pagesWithNoBuilderInkAtAll": [
+          7,
+          11
+        ],
+        "pagesWithNoBuilderInkMeans": "Packet page 7 is CR-65 page 7, the Certificate of Service, and packet page 11 is C-10-CRIMINAL page 3, the judge's order. Neither carries a single byte of builder ink in either fixture. No certificate of mailing is completed before the mailing, no server signature, no service date or method, no judicial finding and no clerk act is fabricated.",
+        "invisibleWritesFoundInBytes": 0,
+        "invisibleWriteTest": "Every decoded show was checked for text render mode 3 or 7, for a white fill, and for a zero or negative effective size. None was found.",
+        "unexpectedValuesFoundInBytes": 0,
+        "unexpectedValueTest": "Every decoded string was matched against the closed set of values the fixture holds. Nothing else appears in the ink."
+      },
+      "determinismTwoRuns": {
+        "runsExecuted": 2,
+        "byteIdentical": true,
+        "method": "The builder was run, the whole family directory copied aside, the builder run again, and the two trees compared with diff -r. No file differed. This was done at each of the three stages: on the untouched FIX09-repaired machinery, after the fit-or-refuse repair, and after the Social Security repair.",
+        "note": "The builder stamps a fixed date, 2026-09-03T00:00:00.000Z, into every PDF's creation and modification date rather than a wall clock, which is why these digests are stable under a hash-bound receipt."
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "measuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-misd-dwop-set",
+        "result": "PASS_COMPLETE",
+        "allNineReportedNotJustTheFirst": true,
+        "noneOfTheseIsNull": "All nine were measurable in this container and all nine are reported as measured. None is a placeholder.",
+        "visualDefectsProvenance": "The verifier prints visualDefects 0, and on its own that number is worthless here: it printed 0 while the boundary packet was rendering a clipped, semantically wrong case number on the Social Security line. The 0 recorded above is this lane's own measurement, not the verifier's -- every show-text operator in both fixtures measured against its own clip box for overflow, against render mode and fill for invisibility, and the decisive pages read off 200 dpi pdftoppm rasters. It is still a builder's measurement of its own output and it decides nothing.",
+        "whatTheseCountersDoNotSee": "The same blind spot FIX09 recorded, confirmed again here: all nine read zero on the faulted bytes and all nine read zero on the repaired bytes. They accept the field map as their classification authority, so they can ask whether a write happened but never whether it was true, and they cannot see ink cut off by a widget's clip path. Every defect that mattered in this row was found by decoding the saved bytes and by looking at rendered pages."
+      },
+      "pagesInspected": [
+        "Boundary CR-65 page 1 at 200 dpi, before and after the repair, cropped to the 'XXX - XX - ___ (Social Security Number, Last four digits only)' line and the 'COURT CASE NUMBER TO BE EXPUNGED:' line beneath it. Before: the case number sits on the Social Security line, visibly cut. After: the Social Security line is blank and the case number sits only on its own line, complete.",
+        "Boundary CR-65 page 6 at 200 dpi, the whole page. The prior-expungement group is entirely blank and neither prior-application box is selected; Signature of Petitioner/Affiant is blank; the notary block, its date and the 'Sworn to and subscribed before me this ___ day of ___' line are blank; the entire attorney column -- name and bar number, signature, business address, city, state, zip, telephone and e-mail -- is blank; and 'Printed Name of Petitioner' reads 'Alexandria Catherine Montgomery-Washington' in full, not the truncation an earlier verdict saw.",
+        "Boundary CR-65 page 7 at 200 dpi, the whole page. The Certificate of Service is completely blank: no recipient box ticked, no date of service, no agent, no service address, no telephone, no method, no DATED line, no server signature or address. A certificate of mailing completed before the mailing would be false, and none is completed.",
+        "Boundary CR-65 pages 2, 3 and 4 at 200 dpi, cropped to the caption box, which is what established the '(Assigned by Clerk)' sublabel recorded under openQuestionThisLaneDidNotDecide.",
+        "All rasters were written under the session scratchpad and deleted; none was committed."
+      ],
+      "rasterMethod": "pdftoppm 24.02.0 at 200 dpi, the rasterizer the build hosts call. node scripts/verify-packet-build-environment.mjs --require-rasterizer reports build_time_rasterizer_available ok and page_rasterizer_available ok, and browser_environment_exported FAIL because RCAP_CHROMIUM_PATH is not exported in this container; pdftoppm needs neither.",
+      "whatChanged": [
+        "The delivered bytes moved for this family. Canonical 413a9995ba8c -> d29b3da197d3; boundary 9652926c43a5 -> d87dfb4612e4.",
+        "Two defects were repaired at the root rather than per family: the Social Security write (AL6-01) and the fit-or-refuse rule (AL6-02). Both defects were byte-identical across all six families, and the same two edits were made in all three Alabama builders -- the shared host and the two forks -- so that no family is knowingly left with a defect its siblings had fixed.",
+        "product-wiring.json was regenerated for this family with scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs --family al-misd-dwop-set, because rebuilding left it naming the previous canonical digest. A record that names a digest the artifact no longer has is a record contradicting its artifact.",
+        "No verdict was set, edited or cleared by this lane. No claim was released. No safeguard was weakened, no counter was hardcoded, and no route was opened.",
+        "Nothing outside the six granted family directories and the three Alabama builder scripts was modified."
+      ],
+      "whatThisRowDoesNotDischarge": [
+        "This lane built these bytes, so it does not verify them. Every measurement above is a builder's report on its own output. An independent lane that neither built nor repaired this family decides.",
+        "AL6-03, the '(Assigned by Clerk)' caption box, is still present in the delivered bytes and is not repaired. It is a live open question, not a cleared one.",
+        "The 58 required-before-filing refusals are declared and disclosed, not discharged. No participant fact, signature, notarization, consent, returned record, prosecutor act, clerk assignment, judicial finding, professional adoption or review approval was fabricated anywhere in this packet.",
+        "Central raster acceptance has not run on these bytes. The rasters this lane ran are its own reading, at 200 dpi, of the pages named above; pages not named were not read.",
+        "The builders' own --check invariants pass on all six, and a builder's self-test is the builder agreeing with itself.",
+        "The custody that carries CR-65, nationwide_recovery_pool_2026_09_02, is a partial recovery pool. It held every byte these six families needed. That is all it proves."
+      ],
+      "routeKeys": [
+        "obligation:track-only:AL:al-misd-dwop"
+      ],
+      "builderInvariants": "node scripts/build-census-v1-al-misd-dwop-set.mjs --check -> \"al-misd-dwop-set: repair invariants PASS\"",
+      "memoDigestBound": "7d484d636a1612c8a6c4648d1f070e1a21d2e3c0a0255afadd7780949e353391",
+      "selfVerified": false,
+      "independentVerificationStatus": "PENDING",
+      "productionTouched": false,
+      "commercialRoutesOpened": 0,
+      "grantsNothing": "This row opens no route, promotes no status, proves no packet and grants no commercial authority. Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and this is not one."
+    }
+  ],
+  "fixARepairCohortContinuation": {
+    "worker": "FIX-A repair cohort (FIX04 + FIX05)",
+    "baseSha": "d6f430105dfc942be321b64243a77b666992547a",
+    "note": "FIX-A repair cohort continuation. Only the eight families the claim ledger still grants live to FIX04 and FIX05 were worked; the six further families each brief names are already released in the ledger and were not read. Neither brief's never-write list contradicts its own owned-paths list — none of the four never-write overlay globs (nj-ordinance-set, ny-160-59-petition-set, pa-490-nonconviction-set, nj-indictable-conviction-set) matches any owned path — so no path was withheld for that reason.",
+    "environment": "Repository worktree, not Codex Cloud. node_modules symlinked from the shared checkout; private/ symlinked from the shared checkout and removed afterwards. The Master Library custody is mounted. The custody nationwide_recovery_pool_2026_09_02 (private/source-imports/Nationwide_Recovery_Pool_2026-09-02) is not present anywhere on this host — a filesystem-wide search for it and for its files found nothing — so any family whose sources it holds cannot be rebuilt here. Both such builds exit non-zero having written zero bytes. Chromium is available here, but every build was run --no-raster so no repair silently added a visual measurement this lane is not entitled to make.",
+    "claimHandling": "All three live FIX05 repair grants were asserted before any family content was read. Claims are released by this cohort at the end of its work; none was reopened, transferred or withdrawn.",
+    "familiesRepaired": [
+      "tx_nd_dwi_deferred-set"
+    ],
+    "familiesStopped": [
+      "al-misd-conviction-set",
+      "il-seal-nonconv-set"
+    ],
+    "whyThoseTwoStopped": "Both are BLOCKED_SOURCE at the custody level, not at the packet level. Each is a shim over a shared build host, each needs a family-owned builder like the one its already-repaired sibling received, and each needs a source file held only by custody nationwide_recovery_pool_2026_09_02, which is absent from this host. Both builds exit non-zero having written zero bytes. The defects are reproduced and measured in their rows so the next lane with that custody can execute directly.",
+    "fixturesMovedOn": [
+      "tx_nd_dwi_deferred-set"
+    ],
+    "reRasterOwed": "tx_nd_dwi_deferred-set only. Both its fixture PDFs changed, its raster receipt is invalid, and it must be re-queued if a visual-gate batch is in flight against the old hashes.",
+    "nineCountersZeroOn": "All three, before and after, including the two STOPPED families — which is the point. None of the obligations in this cohort's FIX05 set is one a completeness counter can see, so the held counters are not evidence of anything and are not offered as such.",
+    "rasterRuleApplied": "Every build was run --no-raster. Chromium is available on this host, but rendering a raster here would record a visual measurement this lane is not entitled to make.",
+    "commits": [
+      "9a3619342cfd8306226a774b253bcc0abc9e8004"
+    ],
+    "commercialRoutesOpened": 0,
+    "productionTouched": false,
+    "selfVerified": false,
+    "grantsNothing": "This lane repairs and issues no PASS. Re-verification belongs to a lane that neither built nor repaired these families."
+  }
+}

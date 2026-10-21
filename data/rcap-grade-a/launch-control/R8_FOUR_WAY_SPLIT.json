@@ -1,0 +1,1615 @@
+{
+  "schemaVersion": "rcap-r8-four-way-split/v1",
+  "generatedBy": "scripts/grade-a-launch-control/generate-r8-split-and-continuations.mjs",
+  "question": "R8 returned 13/14 with nothing changed. Was that four hard families, or one broken gate?",
+  "answer": "One broken gate. Run separately, all four families failed the same check for the same reason, and after the gate was corrected all four pass 14/14 — including family_sources_bind, so none is routed to a source lane.",
+  "preflightEvidence": {
+    "beforeTheGateFix": {
+      "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 13/14",
+      "failedCheck": "assignment_present_in_this_checkout",
+      "reason": "each family is claimed by R8_COMPLETENESS_REPAIR_PRIORITY_FOUR and by V5_INDEPENDENT_PACKET_VERIFICATION, and the check read any second claim as a dispatch collision",
+      "sameOnAllFour": true,
+      "thereforeAGateDefect": "Four families failing one check for one reason is one defect, not four. Rerunning the combined assignment would have reproduced it exactly."
+    },
+    "afterTheGateFix": {
+      "result": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
+      "allFour": true,
+      "familySourcesBind": "passes on all four; no family is routed to a source lane",
+      "gateFixCommit": "the preflight now decides a collision by lane kind, and CODEX_CLOUD_CONTINUATIONS.json is first in manifest precedence"
+    }
+  },
+  "perFamilyPreflight": [
+    {
+      "familyId": "nj_disorderly_persons-set",
+      "beforeGateFix": "13/14 — assignment_present_in_this_checkout",
+      "afterGateFix": "14/14",
+      "familySourcesBind": "pass",
+      "routedToASourceLane": false,
+      "lane": "R8A_NJ_DISORDERLY_PERSONS"
+    },
+    {
+      "familyId": "ca-17b-reduction-set",
+      "beforeGateFix": "13/14 — assignment_present_in_this_checkout",
+      "afterGateFix": "14/14",
+      "familySourcesBind": "pass",
+      "routedToASourceLane": false,
+      "lane": "R8B_CA_17B_REDUCTION"
+    },
+    {
+      "familyId": "ca-1203-43-set",
+      "beforeGateFix": "13/14 — assignment_present_in_this_checkout",
+      "afterGateFix": "14/14",
+      "familySourcesBind": "pass",
+      "routedToASourceLane": false,
+      "lane": "R8C_CA_1203_43"
+    },
+    {
+      "familyId": "az_marijuana_expungement_superior_court-set",
+      "beforeGateFix": "13/14 — assignment_present_in_this_checkout",
+      "afterGateFix": "14/14",
+      "familySourcesBind": "pass",
+      "routedToASourceLane": false,
+      "lane": "R8D_AZ_MARIJUANA_SUPERIOR_COURT"
+    }
+  ],
+  "scopePreserved": {
+    "r8OwnedPaths": [
+      "data/rcap-grade-a/wave-2/r8-completeness-repair-priority-four/**",
+      "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/**",
+      "data/rcap-all50/overlays/census-v1/ca/ca-17b-reduction-set--official-pdf-fill/**",
+      "data/rcap-all50/overlays/census-v1/ca/ca-1203-43-set--official-pdf-fill/**",
+      "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-superior-court-set--official-pdf-fill/**",
+      "scripts/build-census-v1-nj_disorderly_persons-set.mjs",
+      "scripts/build-census-v1-ca-17b-reduction-set.mjs",
+      "scripts/build-census-v1-ca-1203-43-set.mjs",
+      "scripts/build-census-v1-az_marijuana_expungement_superior_court-set.mjs",
+      "data/rcap-grade-a/codex-cloud/r8-completeness-repair-priority-four/**"
+    ],
+    "rule": "Each split lane owns only the R8 paths its own family uses, plus its own return directory. No path is added and no shared runner is touched.",
+    "sharedRunnerChanges": 0
+  },
+  "assignments": [],
+  "southDakotaVerification": {
+    "assignmentId": "SDV01_SOUTH_DAKOTA_INDEPENDENT_VERIFICATION",
+    "verifies": "SD_ARREST_EXPUNGEMENT_DISCLOSURE_REPAIR__CODEX_CLOUD",
+    "lane": "independent-verification",
+    "engine": "Codex Cloud",
+    "environment": "LegalEase Packet Factory",
+    "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
+    "captainBranch": "claude/legalease-sprint-captain-utucnw",
+    "workerBranch": "work",
+    "minimumCaptainSha": "0b89b1bf6b0b211ca73784724b1e0aea409010a3",
+    "itemKind": "packetFamily",
+    "itemCount": 1,
+    "items": [
+      "sd_arrest_expungement-set"
+    ],
+    "mayNotBeRunByTheBuilder": "This shard may not be run by the worker that ran the South Dakota repair. The repairer chose the disposition; a lane agreeing with itself has established nothing.",
+    "whatTheRepairDid": {
+      "nineFieldsReclassified": true,
+      "from": "REQUIRED_BEFORE_FILING",
+      "outcome": "RECLASSIFIED",
+      "theQuestionYouMustAnswer": "A statement of mailing is completed at or after mailing. The repair reclassified all nine rather than disclosing any. Verify that each reclassification is right for the field it names, and that no field the participant genuinely must supply before filing was reclassified to make a counter go to zero.",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "written": "67/222",
+      "blanksByDisposition": {
+        "OPTIONAL_PARTICIPANT_CONTENT": 59,
+        "PROTECTED_FIELD": 90,
+        "REQUIRED_BEFORE_FILING": 5,
+        "LATER_COMPLETION": 1
+      }
+    },
+    "mission": "Verify independently that sd_arrest_expungement-set is complete, and that the nine mailing-field reclassifications are honest rather than convenient.",
+    "proofObligations": [
+      "ROUTE IDENTITY: the packet is built for the route the record names, and for no other",
+      "SOURCE IDENTITY: every source binds by exact SHA-256, recomputed from the bytes rather than read from the receipt",
+      "COMPONENT SET: every component the route names is rendered and present in the packet",
+      "KNOWN PREFILLS: every known required fact is written and visible on the page it belongs to",
+      "REQUIRED_BEFORE_FILING: every declared item is named in participant-instructions.md, checked against the file",
+      "ROUTE OPTIONS: every route-determined election is selected",
+      "REPEATING ROWS: no row carries written cells beside required cells left blank",
+      "PROTECTED FIELDS: no signature, signature date, certificate of mailing, court-only or prosecutor-only field carries ink",
+      "ARTIFACTS: canonical and boundary bytes hash to what reports/rendered-artifacts.json names",
+      "PAGE ORDER: the rendered page order matches the packet manifest",
+      "CLIPPING AND OVERLAP: no ink outside a measured write box",
+      "FILING DESTINATION: the instructions name the court or agency the route names",
+      "FEE AND WAIVER: the fee and any waiver route are stated",
+      "SERVICE: who must be served, and how",
+      "SELF-HELP STOP: the packet states where self-help ends",
+      "RECLASSIFICATION: each of the nine statement-of-mailing fields carries a disposition that is true of that field, not one chosen to zero a counter"
+    ],
+    "verdicts": [
+      "PASS_COMPLETE_INDEPENDENT",
+      "FAIL_REPAIR_REQUIRED",
+      "BLOCKED_SOURCE",
+      "BLOCKED_LEGAL_INPUT"
+    ],
+    "verdictRule": "Exactly one of PASS_COMPLETE_INDEPENDENT, FAIL_REPAIR_REQUIRED, BLOCKED_SOURCE, BLOCKED_LEGAL_INPUT. PASS_COMPLETE_INDEPENDENT requires all nine counters zero, measured here rather than read from the repairer's report.",
+    "independenceRule": "You did not repair this family and you may not repair it. A defect you find is a verdict, never an edit.",
+    "ownedPaths": [
+      "data/rcap-grade-a/codex-cloud/sdv01-south-dakota-independent-verification/**"
+    ],
+    "prohibitedPaths": [
+      "data/rcap-all50/overlays/census-v1/**",
+      "scripts/build-census-v1-*.mjs",
+      "scripts/rcap-packet-completeness/**",
+      "data/rcap-grade-a/launch-control/**"
+    ],
+    "prohibitedCommands": [
+      "git fetch",
+      "git pull",
+      "git push",
+      "gh ",
+      "git worktree",
+      "git clone",
+      "git remote add"
+    ],
+    "requiredOutputs": [
+      "data/rcap-grade-a/codex-cloud/sdv01-south-dakota-independent-verification/rows.json — one row: itemId, verdict, the sixteen proof obligations as you measured them, and the evidence read"
+    ],
+    "outputSchema": {
+      "arrayKey": "rows",
+      "itemKeyField": "itemId",
+      "completionVocabulary": [
+        "PASS_COMPLETE_INDEPENDENT",
+        "FAIL_REPAIR_REQUIRED",
+        "BLOCKED_SOURCE",
+        "BLOCKED_LEGAL_INPUT"
+      ],
+      "rule": "An unrecognised verdict is refused at integration rather than translated."
+    },
+    "focusedTests": [
+      "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family sd_arrest_expungement-set",
+      "node scripts/verify-packet-build-environment.mjs --family sd_arrest_expungement-set --codex-cloud --minimum-captain-sha 0b89b1bf6b0b211ca73784724b1e0aea409010a3"
+    ],
+    "stopConditions": [
+      "LANE STOP — you write into no overlay directory and no build script.",
+      "ROW STOP — a reclassification you judge wrong is FAIL_REPAIR_REQUIRED naming the field and what the disposition should be, never a silent PASS."
+    ],
+    "returnFormat": [
+      "ASSIGNMENT:",
+      "BASE SHA:",
+      "COMMIT:",
+      "VERDICT:",
+      "RECLASSIFICATIONS UPHELD:",
+      "RECLASSIFICATIONS DISPUTED:",
+      "OVERLAY DIRECTORIES MODIFIED: 0",
+      "COMMERCIAL ROUTES OPENED: 0",
+      "PRODUCTION TOUCHED: NO",
+      "PREFLIGHT: PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
+      "DIFF LEFT FOR THE CODEX UI: YES"
+    ],
+    "grantsNothing": "An independent PASS proves a packet is complete. It approves no output and opens no commercial route.",
+    "promptFile": "docs/rcap/grade-a/launch-control/codex-cloud-prompts/SDV01_SOUTH_DAKOTA_INDEPENDENT_VERIFICATION.md"
+  },
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "retiredAssignments": [
+    {
+      "assignmentId": "R8A_NJ_DISORDERLY_PERSONS",
+      "splitFrom": "R8_COMPLETENESS_REPAIR_PRIORITY_FOUR__CODEX_CLOUD",
+      "lane": "completeness-repair",
+      "engine": "Codex Cloud",
+      "environment": "LegalEase Packet Factory",
+      "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
+      "captainBranch": "claude/legalease-sprint-captain-utucnw",
+      "workerBranch": "work",
+      "minimumCaptainSha": "0b89b1bf6b0b211ca73784724b1e0aea409010a3",
+      "itemKind": "packetFamily",
+      "itemCount": 1,
+      "items": [
+        "nj_disorderly_persons-set"
+      ],
+      "preflight": "node scripts/verify-packet-build-environment.mjs --family nj_disorderly_persons-set --codex-cloud --minimum-captain-sha 0b89b1bf6b0b211ca73784724b1e0aea409010a3",
+      "preflightObserved": "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+      "preflightObservedAgainstRoster": 14,
+      "theDefect": {
+        "result": "FAIL_MISSING_REQUIRED_FACTS",
+        "counters": {
+          "knownRequiredFieldsMissing": 88,
+          "requiredFactsNotCollected": 0,
+          "unclassifiedBlanks": 0,
+          "incompleteRows": 0,
+          "requiredOptionsMissing": 0,
+          "requiredComponentsMissing": 0,
+          "invisibleWrites": 0,
+          "protectedWrites": 0,
+          "visualDefects": 0
+        },
+        "failingCounters": [
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "count": 88
+          }
+        ],
+        "findings": [
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "formPrint",
+            "label": "formPrint",
+            "why": "This states that the build's fact map offers no value. It says nothing about whether the filing needs one."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "formSafeClear",
+            "label": "formSafeClear",
+            "why": "This states that the build's fact map offers no value. It says nothing about whether the filing needs one."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "DefName",
+            "label": "DefName",
+            "why": "This states that the build's fact map offers no value. It says nothing about whether the filing needs one."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "arrestOff1",
+            "label": "arrestOff1",
+            "why": "This states that the build's fact map offers no value. It says nothing about whether the filing needs one."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "arrestOff2",
+            "label": "arrestOff2",
+            "why": "This states that the build's fact map offers no value. It says nothing about whether the filing needs one."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "arrestStatute",
+            "label": "arrestStatute",
+            "why": "This states that the build's fact map offers no value. It says nothing about whether the filing needs one."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "arrestMuni",
+            "label": "arrestMuni",
+            "why": "This states that the build's fact map offers no value. It says nothing about whether the filing needs one."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "origCaseNums",
+            "label": "origCaseNums",
+            "why": "This states that the build's fact map offers no value. It says nothing about whether the filing needs one."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "contOwe",
+            "label": "contOwe",
+            "why": "This states that the build's fact map offers no value. It says nothing about whether the filing needs one."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "oweDocket",
+            "label": "oweDocket",
+            "why": "This states that the build's fact map offers no value. It says nothing about whether the filing needs one."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "oweAmt",
+            "label": "oweAmt",
+            "why": "This states that the build's fact map offers no value. It says nothing about whether the filing needs one."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "cnt",
+            "label": "cnt",
+            "why": "This states that the build's fact map offers no value. It says nothing about whether the filing needs one."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "contArrestDt",
+            "label": "contArrestDt",
+            "why": "This states that the build's fact map offers no value. It says nothing about whether the filing needs one."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "contOffense1",
+            "label": "contOffense1",
+            "why": "This states that the build's fact map offers no value. It says nothing about whether the filing needs one."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "contOffense2",
+            "label": "contOffense2",
+            "why": "This states that the build's fact map offers no value. It says nothing about whether the filing needs one."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "contStatute",
+            "label": "contStatute",
+            "why": "This states that the build's fact map offers no value. It says nothing about whether the filing needs one."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "contArrestMuni",
+            "label": "contArrestMuni",
+            "why": "This states that the build's fact map offers no value. It says nothing about whether the filing needs one."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "contOrigNums",
+            "label": "contOrigNums",
+            "why": "This states that the build's fact map offers no value. It says nothing about whether the filing needs one."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "contDsmissOff2",
+            "label": "contDsmissOff2",
+            "why": "This states that the build's fact map offers no value. It says nothing about whether the filing needs one."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "seek5yrs",
+            "label": "seek5yrs",
+            "why": "This states that the build's fact map offers no value. It says nothing about whether the filing needs one."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "seek34degree",
+            "label": "seek34degree",
+            "why": "This states that the build's fact map offers no value. It says nothing about whether the filing needs one."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "seek5yrsDetails",
+            "label": "seek5yrsDetails",
+            "why": "This states that the build's fact map offers no value. It says nothing about whether the filing needs one."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "seekJuvNever",
+            "label": "seekJuvNever",
+            "why": "This states that the build's fact map offers no value. It says nothing about whether the filing needs one."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "changeName",
+            "label": "changeName",
+            "why": "This states that the build's fact map offers no value. It says nothing about whether the filing needs one."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "DefAddrStr",
+            "label": "DefAddrStr",
+            "why": "This states that the build's fact map offers no value. It says nothing about whether the filing needs one."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "DefAddr2",
+            "label": "DefAddr2",
+            "why": "This states that the build's fact map offers no value. It says nothing about whether the filing needs one."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "DefAddr3",
+            "label": "DefAddr3",
+            "why": "This states that the build's fact map offers no value. It says nothing about whether the filing needs one."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "ExpungeCntyName",
+            "label": "ExpungeCntyName",
+            "why": "This states that the build's fact map offers no value. It says nothing about whether the filing needs one."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "orderHearYr",
+            "label": "orderHearYr",
+            "why": "This states that the build's fact map offers no value. It says nothing about whether the filing needs one."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "hearDay",
+            "label": "hearDay",
+            "why": "This states that the build's fact map offers no value. It says nothing about whether the filing needs one."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "hearTime",
+            "label": "hearTime",
+            "why": "This states that the build's fact map offers no value. It says nothing about whether the filing needs one."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "hearTimeM",
+            "label": "hearTimeM",
+            "why": "This states that the build's fact map offers no value. It says nothing about whether the filing needs one."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "sigHearJdg",
+            "label": "sigHearJdg",
+            "why": "This states that the build's fact map offers no value. It says nothing about whether the filing needs one."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "gradDC",
+            "label": "gradDC",
+            "why": "This states that the build's fact map offers no value. It says nothing about whether the filing needs one."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "marijuana",
+            "label": "marijuana",
+            "why": "This states that the build's fact map offers no value. It says nothing about whether the filing needs one."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "cleanSlate",
+            "label": "cleanSlate",
+            "why": "This states that the build's fact map offers no value. It says nothing about whether the filing needs one."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "orderFinalDay",
+            "label": "orderFinalDay",
+            "why": "This states that the build's fact map offers no value. It says nothing about whether the filing needs one."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "MuniCrts",
+            "label": "MuniCrts",
+            "why": "This states that the build's fact map offers no value. It says nothing about whether the filing needs one."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "probDivCntys",
+            "label": "probDivCntys",
+            "why": "This states that the build's fact map offers no value. It says nothing about whether the filing needs one."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "arrest1Dt",
+            "label": "arrest1Dt",
+            "why": "This states that the build's fact map offers no value. It says nothing about whether the filing needs one."
+          }
+        ],
+        "findingsTotal": 88,
+        "written": "7/179",
+        "blanksByDisposition": {
+          "KNOWN_FACT_NOT_WRITTEN": 88,
+          "PARTICIPANT_ELECTION_GENUINE": 51,
+          "PROTECTED_FIELD": 33
+        }
+      },
+      "mission": "Repair nj_disorderly_persons-set until all nine completeness counters are zero. One family, its own lane, its own stop conditions.",
+      "whyOneFamilyPerLane": "R8 ran four families as one assignment and returned zero files changed on a shared environment failure. Four lanes stop for their own reasons, and a lane that stops says which family was hard.",
+      "ownedPaths": [
+        "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/**",
+        "scripts/build-census-v1-nj_disorderly_persons-set.mjs",
+        "data/rcap-grade-a/codex-cloud/r8a-nj-disorderly-persons/**"
+      ],
+      "prohibitedPaths": [
+        "scripts/rcap-packet-completeness/**",
+        "data/rcap-all50/overlays/census-v1/**/ca-17b-reduction-set*",
+        "data/rcap-all50/overlays/census-v1/**/ca-1203-43-set*",
+        "data/rcap-all50/overlays/census-v1/**/az-marijuana-expungement-superior-court-set*",
+        "data/rcap-grade-a/launch-control/**"
+      ],
+      "prohibitedCommands": [
+        "git fetch",
+        "git pull",
+        "git push",
+        "gh ",
+        "git worktree",
+        "git clone",
+        "git remote add"
+      ],
+      "requiredOutputs": [
+        "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/ — the family re-rendered with its defects closed",
+        "data/rcap-grade-a/codex-cloud/r8a-nj-disorderly-persons/rows.json — one row: itemId, status, the nine counters after your change, and what you changed to close each"
+      ],
+      "outputSchema": {
+        "arrayKey": "rows",
+        "itemKeyField": "itemId",
+        "completionVocabulary": [
+          "COMPLETED",
+          "STOPPED"
+        ],
+        "rule": "An unrecognised status is refused at integration rather than translated."
+      },
+      "focusedTests": [
+        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nj_disorderly_persons-set",
+        "node scripts/verify-packet-build-environment.mjs --family nj_disorderly_persons-set --codex-cloud --minimum-captain-sha 0b89b1bf6b0b211ca73784724b1e0aea409010a3"
+      ],
+      "stopConditions": [
+        "LANE STOP — one family. The other three R8 families are three other lanes and are not yours.",
+        "LANE STOP — you do not change the completeness contract, and you do not change a shared runner.",
+        "NEVER invent a fact. An unavailable fact is REQUIRED_BEFORE_FILING, declared explicitly and disclosed in participant-instructions.md, never guessed.",
+        "NEVER write a protected field — participant signature, signature date, certificate of mailing before mailing, court-only or prosecutor-only.",
+        "ROW STOP — a counter you cannot zero is a STOPPED return naming the counter and the exact rows that make it nonzero."
+      ],
+      "returnFormat": [
+        "ASSIGNMENT:",
+        "BASE SHA:",
+        "COMMIT:",
+        "NINE COUNTERS ZERO: YES/NO",
+        "COUNTERS AFTER:",
+        "WHAT CHANGED:",
+        "COMMERCIAL ROUTES OPENED: 0",
+        "PRODUCTION TOUCHED: NO",
+        "PREFLIGHT: PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
+        "DIFF LEFT FOR THE CODEX UI: YES"
+      ],
+      "grantsNothing": "A repaired family is a repaired family. It is not verified, not approved and not sellable.",
+      "promptFile": "docs/rcap/grade-a/launch-control/codex-cloud-prompts/R8A_NJ_DISORDERLY_PERSONS.md",
+      "retirement": {
+        "status": "RETIRED_NEVER_EXECUTED",
+        "measuredOn": "2026-09-02",
+        "theTest": "The lane own return directory -- the one path only this lane writes -- does not exist.",
+        "laneReturnDirectory": "data/rcap-grade-a/codex-cloud/r8a-nj-disorderly-persons",
+        "laneReturnDirectoryExists": false,
+        "whyTheOverlayDirectoryProvesNothing": "Each of these four overlay directories DOES exist, and none of them is evidence this lane ran. All four families are thin four-line shims over one shared build host, and the host built the directory. The lane rows.json is the only artifact that could only have come from the lane, and there is none.",
+        "whatTheReservationWasCosting": "ownedPaths from these four assignments enter ACTIVE_LANES, so the four families read as actively owned and their build scripts and overlay directories are listed in prohibitedPaths of all 48 internal assignments. No ledger row exists for two of them at all -- an assert returns exit 6 NOT_GRANTED -- so no lane can claim them and no lane may write them. Four families sat BUILD_IN_PROGRESS, reachable by nobody.",
+        "whatIsNotRetired": "The work. Every one of the four still needs its completeness counters driven to zero; retiring the reservation makes them dispatchable rather than finished."
+      }
+    },
+    {
+      "assignmentId": "R8B_CA_17B_REDUCTION",
+      "splitFrom": "R8_COMPLETENESS_REPAIR_PRIORITY_FOUR__CODEX_CLOUD",
+      "lane": "completeness-repair",
+      "engine": "Codex Cloud",
+      "environment": "LegalEase Packet Factory",
+      "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
+      "captainBranch": "claude/legalease-sprint-captain-utucnw",
+      "workerBranch": "work",
+      "minimumCaptainSha": "0b89b1bf6b0b211ca73784724b1e0aea409010a3",
+      "itemKind": "packetFamily",
+      "itemCount": 1,
+      "items": [
+        "ca-17b-reduction-set"
+      ],
+      "preflight": "node scripts/verify-packet-build-environment.mjs --family ca-17b-reduction-set --codex-cloud --minimum-captain-sha 0b89b1bf6b0b211ca73784724b1e0aea409010a3",
+      "preflightObserved": "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+      "preflightObservedAgainstRoster": 14,
+      "theDefect": {
+        "result": "FAIL_MISSING_REQUIRED_FACTS",
+        "counters": {
+          "knownRequiredFieldsMissing": 54,
+          "requiredFactsNotCollected": 0,
+          "unclassifiedBlanks": 71,
+          "incompleteRows": 1,
+          "requiredOptionsMissing": 16,
+          "requiredComponentsMissing": 3,
+          "invisibleWrites": 0,
+          "protectedWrites": 0,
+          "visualDefects": 0
+        },
+        "failingCounters": [
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "count": 54
+          },
+          {
+            "counter": "unclassifiedBlanks",
+            "count": 71
+          },
+          {
+            "counter": "incompleteRows",
+            "count": 1
+          },
+          {
+            "counter": "requiredOptionsMissing",
+            "count": 16
+          },
+          {
+            "counter": "requiredComponentsMissing",
+            "count": 3
+          }
+        ],
+        "findings": [
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].Code1[0]",
+            "label": "Code (Penal, Vehicle, etc.)",
+            "why": "This states that the build's allowlist offers nothing. It says nothing about whether the filing needs the value."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].Section1[0]",
+            "label": "Section",
+            "why": "This states that the build's allowlist offers nothing. It says nothing about whether the filing needs the value."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].TypeOff1[0]",
+            "label": "Type of offense (felony, misdemeanor, or infraction)",
+            "why": "This states that the build's allowlist offers nothing. It says nothing about whether the filing needs the value."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row2[0].Code2[0]",
+            "label": "Code (Penal, Vehicle, etc.)",
+            "why": "This states that the build's allowlist offers nothing. It says nothing about whether the filing needs the value."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row2[0].Section2[0]",
+            "label": "Section",
+            "why": "This states that the build's allowlist offers nothing. It says nothing about whether the filing needs the value."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row2[0].TypeOff2[0]",
+            "label": "Type of offense (felony, misdemeanor, or infraction)",
+            "why": "This states that the build's allowlist offers nothing. It says nothing about whether the filing needs the value."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row2[0].Reduce2[0]",
+            "label": "Eligible for reduction to misdemeanor under Penal Code, § 17(b) (yes or no)",
+            "why": "This states that the build's allowlist offers nothing. It says nothing about whether the filing needs the value."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row2[0].Offense2[0]",
+            "label": "Eligible for reduction to infraction under Penal Code, § 17(d)(2) (yes or no)",
+            "why": "This states that the build's allowlist offers nothing. It says nothing about whether the filing needs the value."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row3[0].Code3[0]",
+            "label": "Code (Penal, Vehicle, etc.)",
+            "why": "This states that the build's allowlist offers nothing. It says nothing about whether the filing needs the value."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row3[0].Section3[0]",
+            "label": "Section",
+            "why": "This states that the build's allowlist offers nothing. It says nothing about whether the filing needs the value."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row3[0].TypeOff3[0]",
+            "label": "Type of offense (felony, misdemeanor, or infraction)",
+            "why": "This states that the build's allowlist offers nothing. It says nothing about whether the filing needs the value."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row3[0].Reduce3[0]",
+            "label": "Eligible for reduction to misdemeanor under Penal Code, § 17(b) (yes or no)",
+            "why": "This states that the build's allowlist offers nothing. It says nothing about whether the filing needs the value."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row3[0].Offense3[0]",
+            "label": "Eligible for reduction to infraction under Penal Code, § 17(d)(2) (yes or no)",
+            "why": "This states that the build's allowlist offers nothing. It says nothing about whether the filing needs the value."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row4[0].Code4[0]",
+            "label": "Code (Penal, Vehicle, etc.)",
+            "why": "This states that the build's allowlist offers nothing. It says nothing about whether the filing needs the value."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row4[0].Section4[0]",
+            "label": "Section",
+            "why": "This states that the build's allowlist offers nothing. It says nothing about whether the filing needs the value."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row4[0].TypeOff4[0]",
+            "label": "Type of offense (felony, misdemeanor, or infraction)",
+            "why": "This states that the build's allowlist offers nothing. It says nothing about whether the filing needs the value."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row4[0].Reduce4[0]",
+            "label": "Eligible for reduction to misdemeanor under Penal Code, § 17(b) (yes or no)",
+            "why": "This states that the build's allowlist offers nothing. It says nothing about whether the filing needs the value."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row4[0].Offense4[0]",
+            "label": "Eligible for reduction to infraction under Penal Code, § 17(d)(2) (yes or no)",
+            "why": "This states that the build's allowlist offers nothing. It says nothing about whether the filing needs the value."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row5[0].Code5[0]",
+            "label": "Code (Penal, Vehicle, etc.)",
+            "why": "This states that the build's allowlist offers nothing. It says nothing about whether the filing needs the value."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row5[0].Section5[0]",
+            "label": "Section",
+            "why": "This states that the build's allowlist offers nothing. It says nothing about whether the filing needs the value."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row5[0].TypeOff5[0]",
+            "label": "Type of offense (felony, misdemeanor, or infraction)",
+            "why": "This states that the build's allowlist offers nothing. It says nothing about whether the filing needs the value."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row5[0].Reduce5[0]",
+            "label": "Eligible for reduction to misdemeanor under Penal Code, § 17(b) (yes or no)",
+            "why": "This states that the build's allowlist offers nothing. It says nothing about whether the filing needs the value."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row5[0].Offense5[0]",
+            "label": "Eligible for reduction to infraction under Penal Code, § 17(d)(2) (yes or no)",
+            "why": "This states that the build's allowlist offers nothing. It says nothing about whether the filing needs the value."
+          },
+          {
+            "counter": "requiredOptionsMissing",
+            "field": "CR-180[0].Page1[0].LI2[0].ProbationGranted[0]",
+            "label": "Felony or misdemeanor with probation granted (Pen. Code, § 1203.4)",
+            "why": "A fixture that does not establish a route election is an incomplete fixture, not a reason to ship the election blank."
+          },
+          {
+            "counter": "requiredOptionsMissing",
+            "field": "CR-180[0].Page1[0].LI2[0].li2a[0].ProbationGrantedReason[0]",
+            "label": "has fulfilled the conditions of probation for the entire period thereof.",
+            "why": "A fixture that does not establish a route election is an incomplete fixture, not a reason to ship the election blank."
+          },
+          {
+            "counter": "requiredOptionsMissing",
+            "field": "CR-180[0].Page1[0].LI2[0].li2b[0].ProbationGrantedReason[0]",
+            "label": "has been discharged from probation prior to the termination of the period thereof.",
+            "why": "A fixture that does not establish a route election is an incomplete fixture, not a reason to ship the election blank."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "CR-180[0].Page1[0].LI2[0].li2c[0].ProbationGrantedReason[0]",
+            "label": "should be granted relief in the interests of justice. (Please note: You may explain why granting a dismissal would be in the interests of justice. You can provide that information by writing in the space below, or by attaching a letter or other relevant documents. If you need more space for your writing, you can use Attachment (form MC-025) or Attached Declaration (form MC-031) (which is signed under penalty of perjury) and attach it to this petition.)",
+            "why": "a narrative the filing requires, with no approved reason for being blank"
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "CR-180[0].Page1[0].LI2[0].li2c[0].TextField6[0]",
+            "label": "Explain why granting a dismissal would be in the interests of justice",
+            "why": "a narrative the filing requires, with no approved reason for being blank"
+          },
+          {
+            "counter": "requiredOptionsMissing",
+            "field": "CR-180[0].Page2[0].LI3[0].OffenseWSentence[0]",
+            "label": "Misdemeanor or infraction with sentence other than probation (Pen. Code, § 1203.4a)",
+            "why": "A fixture that does not establish a route election is an incomplete fixture, not a reason to ship the election blank."
+          },
+          {
+            "counter": "requiredOptionsMissing",
+            "field": "CR-180[0].Page2[0].LI3[0].li3a[0].ProbationNotGrantedReason[0]",
+            "label": "has lived an honest and upright life since pronouncement of judgment and conformed to and obeyed the laws of the land; or",
+            "why": "A fixture that does not establish a route election is an incomplete fixture, not a reason to ship the election blank."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "CR-180[0].Page2[0].LI3[0].li3b[0].ProbationNotGrantedReason[0]",
+            "label": "should be granted relief in the interests of justice. (Please note: You may explain why granting a dismissal would be in the interests of justice. You can provide that information by writing in the space below or by attaching a letter or other relevant documents. If you need more space for your writing, you can use Attachment (form MC-025) or Attached Declaration (form MC-031) (which is signed under penalty of perjury) and attach it to this petition.)",
+            "why": "a narrative the filing requires, with no approved reason for being blank"
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "CR-180[0].Page2[0].LI3[0].li3b[0].TextField6[0]",
+            "label": "Explain why granting a dismissal would be in the interests of justice",
+            "why": "a narrative the filing requires, with no approved reason for being blank"
+          },
+          {
+            "counter": "requiredOptionsMissing",
+            "field": "CR-180[0].Page2[0].LI4[0].li4[0].OffenseWSentence[0]",
+            "label": "Misdemeanor conviction under Penal Code section 647(b) (Pen. Code, § 1203.49)",
+            "why": "A fixture that does not establish a route election is an incomplete fixture, not a reason to ship the election blank."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "CR-180[0].Page2[0].LI4[0].li4[0].TextField6[0]",
+            "label": "Petitioner has completed a term of probation for a conviction under Penal Code section 647(b) and should be granted relief because the conviction was the result of petitioner's status as a victim of human trafficking. (Please provide evidence that the conviction was the result of your status as a victim of human trafficking. You can provide that information by writing in the space below or by attaching a letter or other relevant documents. If you need more space for your writing, you can use Attachment (form MC-025) and attach it to this petition.)",
+            "why": "This states that the build's allowlist offers nothing. It says nothing about whether the filing needs the value."
+          },
+          {
+            "counter": "requiredOptionsMissing",
+            "field": "CR-180[0].Page2[0].LI5[0].CheckBox19[0]",
+            "label": "Felony county jail sentence under Penal Code section 1170(h)(5) or felony state prison sentence (Pen. Code, \n§ 1203.41)",
+            "why": "A fixture that does not establish a route election is an incomplete fixture, not a reason to ship the election blank."
+          },
+          {
+            "counter": "requiredOptionsMissing",
+            "field": "CR-180[0].Page2[0].LI5[0].li5a[0].FelonyNotUnderSup[0]",
+            "label": "more than one year has elapsed since petitioner completed the felony county jail sentence with a period of mandatory supervision imposed under Penal Code section 1170(h)(5)(B).",
+            "why": "A fixture that does not establish a route election is an incomplete fixture, not a reason to ship the election blank."
+          },
+          {
+            "counter": "requiredOptionsMissing",
+            "field": "CR-180[0].Page2[0].LI5[0].li5b[0].FelonyNotUnderSup[0]",
+            "label": "more than two years have elapsed since petitioner completed the felony county jail sentence without a period of mandatory supervision imposed under Penal Code section 1170(h)(5)(A).",
+            "why": "A fixture that does not establish a route election is an incomplete fixture, not a reason to ship the election blank."
+          },
+          {
+            "counter": "requiredOptionsMissing",
+            "field": "CR-180[0].Page2[0].LI5[0].li5c[0].FelonyNotUnderSup[0]",
+            "label": "more than two years have elapsed since petitioner completed the felony state prison sentence, and the conviction did not result in a requirement to register as a sex offender under Chapter 5.5 (starting with section 290) of Title 9 of Part 1 of the Penal Code.",
+            "why": "A fixture that does not establish a route election is an incomplete fixture, not a reason to ship the election blank."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "CR-180[0].Page2[0].LI5[0].li5c[0].T66[0]",
+            "label": "Explain why granting a dismissal would be in the interests of justice",
+            "why": "a narrative the filing requires, with no approved reason for being blank"
+          },
+          {
+            "counter": "requiredOptionsMissing",
+            "field": "CR-180[0].Page3[0].LI6[0].li6[0].OffenseWSentence[0]",
+            "label": "Felony prison sentence that would have been eligible for a felony county jail sentence after 2011 under Penal Code section 1170(h)(5) (Pen. Code, § 1203.42) ",
+            "why": "A fixture that does not establish a route election is an incomplete fixture, not a reason to ship the election blank."
+          }
+        ],
+        "findingsTotal": 145,
+        "written": "8/187",
+        "blanksByDisposition": {
+          "NOT_APPLICABLE_ON_THIS_ROUTE": 24,
+          "PROTECTED_FIELD": 9,
+          "LATER_COMPLETION": 5,
+          "KNOWN_FACT_NOT_WRITTEN": 54,
+          "ROUTE_OPTION_NOT_SELECTED": 16,
+          "UNCLASSIFIED_BLANK": 71
+        }
+      },
+      "mission": "Repair ca-17b-reduction-set until all nine completeness counters are zero. One family, its own lane, its own stop conditions.",
+      "whyOneFamilyPerLane": "R8 ran four families as one assignment and returned zero files changed on a shared environment failure. Four lanes stop for their own reasons, and a lane that stops says which family was hard.",
+      "ownedPaths": [
+        "data/rcap-all50/overlays/census-v1/ca/ca-17b-reduction-set--official-pdf-fill/**",
+        "scripts/build-census-v1-ca-17b-reduction-set.mjs",
+        "data/rcap-grade-a/codex-cloud/r8b-ca-17b-reduction/**"
+      ],
+      "prohibitedPaths": [
+        "scripts/rcap-packet-completeness/**",
+        "data/rcap-all50/overlays/census-v1/**/nj-disorderly-persons-set*",
+        "data/rcap-all50/overlays/census-v1/**/ca-1203-43-set*",
+        "data/rcap-all50/overlays/census-v1/**/az-marijuana-expungement-superior-court-set*",
+        "data/rcap-grade-a/launch-control/**"
+      ],
+      "prohibitedCommands": [
+        "git fetch",
+        "git pull",
+        "git push",
+        "gh ",
+        "git worktree",
+        "git clone",
+        "git remote add"
+      ],
+      "requiredOutputs": [
+        "data/rcap-all50/overlays/census-v1/ca/ca-17b-reduction-set--official-pdf-fill/ — the family re-rendered with its defects closed",
+        "data/rcap-grade-a/codex-cloud/r8b-ca-17b-reduction/rows.json — one row: itemId, status, the nine counters after your change, and what you changed to close each"
+      ],
+      "outputSchema": {
+        "arrayKey": "rows",
+        "itemKeyField": "itemId",
+        "completionVocabulary": [
+          "COMPLETED",
+          "STOPPED"
+        ],
+        "rule": "An unrecognised status is refused at integration rather than translated."
+      },
+      "focusedTests": [
+        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ca-17b-reduction-set",
+        "node scripts/verify-packet-build-environment.mjs --family ca-17b-reduction-set --codex-cloud --minimum-captain-sha 0b89b1bf6b0b211ca73784724b1e0aea409010a3"
+      ],
+      "stopConditions": [
+        "LANE STOP — one family. The other three R8 families are three other lanes and are not yours.",
+        "LANE STOP — you do not change the completeness contract, and you do not change a shared runner.",
+        "NEVER invent a fact. An unavailable fact is REQUIRED_BEFORE_FILING, declared explicitly and disclosed in participant-instructions.md, never guessed.",
+        "NEVER write a protected field — participant signature, signature date, certificate of mailing before mailing, court-only or prosecutor-only.",
+        "ROW STOP — a counter you cannot zero is a STOPPED return naming the counter and the exact rows that make it nonzero."
+      ],
+      "returnFormat": [
+        "ASSIGNMENT:",
+        "BASE SHA:",
+        "COMMIT:",
+        "NINE COUNTERS ZERO: YES/NO",
+        "COUNTERS AFTER:",
+        "WHAT CHANGED:",
+        "COMMERCIAL ROUTES OPENED: 0",
+        "PRODUCTION TOUCHED: NO",
+        "PREFLIGHT: PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
+        "DIFF LEFT FOR THE CODEX UI: YES"
+      ],
+      "grantsNothing": "A repaired family is a repaired family. It is not verified, not approved and not sellable.",
+      "promptFile": "docs/rcap/grade-a/launch-control/codex-cloud-prompts/R8B_CA_17B_REDUCTION.md",
+      "retirement": {
+        "status": "RETIRED_NEVER_EXECUTED",
+        "measuredOn": "2026-09-02",
+        "theTest": "The lane own return directory -- the one path only this lane writes -- does not exist.",
+        "laneReturnDirectory": "data/rcap-grade-a/codex-cloud/r8b-ca-17b-reduction",
+        "laneReturnDirectoryExists": false,
+        "whyTheOverlayDirectoryProvesNothing": "Each of these four overlay directories DOES exist, and none of them is evidence this lane ran. All four families are thin four-line shims over one shared build host, and the host built the directory. The lane rows.json is the only artifact that could only have come from the lane, and there is none.",
+        "whatTheReservationWasCosting": "ownedPaths from these four assignments enter ACTIVE_LANES, so the four families read as actively owned and their build scripts and overlay directories are listed in prohibitedPaths of all 48 internal assignments. No ledger row exists for two of them at all -- an assert returns exit 6 NOT_GRANTED -- so no lane can claim them and no lane may write them. Four families sat BUILD_IN_PROGRESS, reachable by nobody.",
+        "whatIsNotRetired": "The work. Every one of the four still needs its completeness counters driven to zero; retiring the reservation makes them dispatchable rather than finished."
+      }
+    },
+    {
+      "assignmentId": "R8C_CA_1203_43",
+      "splitFrom": "R8_COMPLETENESS_REPAIR_PRIORITY_FOUR__CODEX_CLOUD",
+      "lane": "completeness-repair",
+      "engine": "Codex Cloud",
+      "environment": "LegalEase Packet Factory",
+      "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
+      "captainBranch": "claude/legalease-sprint-captain-utucnw",
+      "workerBranch": "work",
+      "minimumCaptainSha": "0b89b1bf6b0b211ca73784724b1e0aea409010a3",
+      "itemKind": "packetFamily",
+      "itemCount": 1,
+      "items": [
+        "ca-1203-43-set"
+      ],
+      "preflight": "node scripts/verify-packet-build-environment.mjs --family ca-1203-43-set --codex-cloud --minimum-captain-sha 0b89b1bf6b0b211ca73784724b1e0aea409010a3",
+      "preflightObserved": "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+      "preflightObservedAgainstRoster": 14,
+      "theDefect": {
+        "result": "FAIL_MISSING_REQUIRED_FACTS",
+        "counters": {
+          "knownRequiredFieldsMissing": 56,
+          "requiredFactsNotCollected": 0,
+          "unclassifiedBlanks": 71,
+          "incompleteRows": 1,
+          "requiredOptionsMissing": 15,
+          "requiredComponentsMissing": 3,
+          "invisibleWrites": 0,
+          "protectedWrites": 0,
+          "visualDefects": 0
+        },
+        "failingCounters": [
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "count": 56
+          },
+          {
+            "counter": "unclassifiedBlanks",
+            "count": 71
+          },
+          {
+            "counter": "incompleteRows",
+            "count": 1
+          },
+          {
+            "counter": "requiredOptionsMissing",
+            "count": 15
+          },
+          {
+            "counter": "requiredComponentsMissing",
+            "count": 3
+          }
+        ],
+        "findings": [
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].Code1[0]",
+            "label": "Code (Penal, Vehicle, etc.)",
+            "why": "This states that the build's allowlist offers nothing. It says nothing about whether the filing needs the value."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].Section1[0]",
+            "label": "Section",
+            "why": "This states that the build's allowlist offers nothing. It says nothing about whether the filing needs the value."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].TypeOff1[0]",
+            "label": "Type of offense (felony, misdemeanor, or infraction)",
+            "why": "This states that the build's allowlist offers nothing. It says nothing about whether the filing needs the value."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].Reduce1[0]",
+            "label": "Eligible for reduction to misdemeanor under Penal Code, § 17(b) (yes or no)",
+            "why": "This states that the build's allowlist offers nothing. It says nothing about whether the filing needs the value."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].Offense1[0]",
+            "label": "Eligible for reduction to infraction under Penal Code, § 17(d)(2) (yes or no)",
+            "why": "This states that the build's allowlist offers nothing. It says nothing about whether the filing needs the value."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row2[0].Code2[0]",
+            "label": "Code (Penal, Vehicle, etc.)",
+            "why": "This states that the build's allowlist offers nothing. It says nothing about whether the filing needs the value."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row2[0].Section2[0]",
+            "label": "Section",
+            "why": "This states that the build's allowlist offers nothing. It says nothing about whether the filing needs the value."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row2[0].TypeOff2[0]",
+            "label": "Type of offense (felony, misdemeanor, or infraction)",
+            "why": "This states that the build's allowlist offers nothing. It says nothing about whether the filing needs the value."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row2[0].Reduce2[0]",
+            "label": "Eligible for reduction to misdemeanor under Penal Code, § 17(b) (yes or no)",
+            "why": "This states that the build's allowlist offers nothing. It says nothing about whether the filing needs the value."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row2[0].Offense2[0]",
+            "label": "Eligible for reduction to infraction under Penal Code, § 17(d)(2) (yes or no)",
+            "why": "This states that the build's allowlist offers nothing. It says nothing about whether the filing needs the value."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row3[0].Code3[0]",
+            "label": "Code (Penal, Vehicle, etc.)",
+            "why": "This states that the build's allowlist offers nothing. It says nothing about whether the filing needs the value."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row3[0].Section3[0]",
+            "label": "Section",
+            "why": "This states that the build's allowlist offers nothing. It says nothing about whether the filing needs the value."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row3[0].TypeOff3[0]",
+            "label": "Type of offense (felony, misdemeanor, or infraction)",
+            "why": "This states that the build's allowlist offers nothing. It says nothing about whether the filing needs the value."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row3[0].Reduce3[0]",
+            "label": "Eligible for reduction to misdemeanor under Penal Code, § 17(b) (yes or no)",
+            "why": "This states that the build's allowlist offers nothing. It says nothing about whether the filing needs the value."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row3[0].Offense3[0]",
+            "label": "Eligible for reduction to infraction under Penal Code, § 17(d)(2) (yes or no)",
+            "why": "This states that the build's allowlist offers nothing. It says nothing about whether the filing needs the value."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row4[0].Code4[0]",
+            "label": "Code (Penal, Vehicle, etc.)",
+            "why": "This states that the build's allowlist offers nothing. It says nothing about whether the filing needs the value."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row4[0].Section4[0]",
+            "label": "Section",
+            "why": "This states that the build's allowlist offers nothing. It says nothing about whether the filing needs the value."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row4[0].TypeOff4[0]",
+            "label": "Type of offense (felony, misdemeanor, or infraction)",
+            "why": "This states that the build's allowlist offers nothing. It says nothing about whether the filing needs the value."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row4[0].Reduce4[0]",
+            "label": "Eligible for reduction to misdemeanor under Penal Code, § 17(b) (yes or no)",
+            "why": "This states that the build's allowlist offers nothing. It says nothing about whether the filing needs the value."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row4[0].Offense4[0]",
+            "label": "Eligible for reduction to infraction under Penal Code, § 17(d)(2) (yes or no)",
+            "why": "This states that the build's allowlist offers nothing. It says nothing about whether the filing needs the value."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row5[0].Code5[0]",
+            "label": "Code (Penal, Vehicle, etc.)",
+            "why": "This states that the build's allowlist offers nothing. It says nothing about whether the filing needs the value."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row5[0].Section5[0]",
+            "label": "Section",
+            "why": "This states that the build's allowlist offers nothing. It says nothing about whether the filing needs the value."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row5[0].TypeOff5[0]",
+            "label": "Type of offense (felony, misdemeanor, or infraction)",
+            "why": "This states that the build's allowlist offers nothing. It says nothing about whether the filing needs the value."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row5[0].Reduce5[0]",
+            "label": "Eligible for reduction to misdemeanor under Penal Code, § 17(b) (yes or no)",
+            "why": "This states that the build's allowlist offers nothing. It says nothing about whether the filing needs the value."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row5[0].Offense5[0]",
+            "label": "Eligible for reduction to infraction under Penal Code, § 17(d)(2) (yes or no)",
+            "why": "This states that the build's allowlist offers nothing. It says nothing about whether the filing needs the value."
+          },
+          {
+            "counter": "requiredOptionsMissing",
+            "field": "CR-180[0].Page1[0].LI2[0].ProbationGranted[0]",
+            "label": "Felony or misdemeanor with probation granted (Pen. Code, § 1203.4)",
+            "why": "A fixture that does not establish a route election is an incomplete fixture, not a reason to ship the election blank."
+          },
+          {
+            "counter": "requiredOptionsMissing",
+            "field": "CR-180[0].Page1[0].LI2[0].li2a[0].ProbationGrantedReason[0]",
+            "label": "has fulfilled the conditions of probation for the entire period thereof.",
+            "why": "A fixture that does not establish a route election is an incomplete fixture, not a reason to ship the election blank."
+          },
+          {
+            "counter": "requiredOptionsMissing",
+            "field": "CR-180[0].Page1[0].LI2[0].li2b[0].ProbationGrantedReason[0]",
+            "label": "has been discharged from probation prior to the termination of the period thereof.",
+            "why": "A fixture that does not establish a route election is an incomplete fixture, not a reason to ship the election blank."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "CR-180[0].Page1[0].LI2[0].li2c[0].ProbationGrantedReason[0]",
+            "label": "should be granted relief in the interests of justice. (Please note: You may explain why granting a dismissal would be in the interests of justice. You can provide that information by writing in the space below, or by attaching a letter or other relevant documents. If you need more space for your writing, you can use Attachment (form MC-025) or Attached Declaration (form MC-031) (which is signed under penalty of perjury) and attach it to this petition.)",
+            "why": "a narrative the filing requires, with no approved reason for being blank"
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "CR-180[0].Page1[0].LI2[0].li2c[0].TextField6[0]",
+            "label": "Explain why granting a dismissal would be in the interests of justice",
+            "why": "a narrative the filing requires, with no approved reason for being blank"
+          },
+          {
+            "counter": "requiredOptionsMissing",
+            "field": "CR-180[0].Page2[0].LI3[0].OffenseWSentence[0]",
+            "label": "Misdemeanor or infraction with sentence other than probation (Pen. Code, § 1203.4a)",
+            "why": "A fixture that does not establish a route election is an incomplete fixture, not a reason to ship the election blank."
+          },
+          {
+            "counter": "requiredOptionsMissing",
+            "field": "CR-180[0].Page2[0].LI3[0].li3a[0].ProbationNotGrantedReason[0]",
+            "label": "has lived an honest and upright life since pronouncement of judgment and conformed to and obeyed the laws of the land; or",
+            "why": "A fixture that does not establish a route election is an incomplete fixture, not a reason to ship the election blank."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "CR-180[0].Page2[0].LI3[0].li3b[0].ProbationNotGrantedReason[0]",
+            "label": "should be granted relief in the interests of justice. (Please note: You may explain why granting a dismissal would be in the interests of justice. You can provide that information by writing in the space below or by attaching a letter or other relevant documents. If you need more space for your writing, you can use Attachment (form MC-025) or Attached Declaration (form MC-031) (which is signed under penalty of perjury) and attach it to this petition.)",
+            "why": "a narrative the filing requires, with no approved reason for being blank"
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "CR-180[0].Page2[0].LI3[0].li3b[0].TextField6[0]",
+            "label": "Explain why granting a dismissal would be in the interests of justice",
+            "why": "a narrative the filing requires, with no approved reason for being blank"
+          },
+          {
+            "counter": "requiredOptionsMissing",
+            "field": "CR-180[0].Page2[0].LI4[0].li4[0].OffenseWSentence[0]",
+            "label": "Misdemeanor conviction under Penal Code section 647(b) (Pen. Code, § 1203.49)",
+            "why": "A fixture that does not establish a route election is an incomplete fixture, not a reason to ship the election blank."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "CR-180[0].Page2[0].LI4[0].li4[0].TextField6[0]",
+            "label": "Petitioner has completed a term of probation for a conviction under Penal Code section 647(b) and should be granted relief because the conviction was the result of petitioner's status as a victim of human trafficking. (Please provide evidence that the conviction was the result of your status as a victim of human trafficking. You can provide that information by writing in the space below or by attaching a letter or other relevant documents. If you need more space for your writing, you can use Attachment (form MC-025) and attach it to this petition.)",
+            "why": "This states that the build's allowlist offers nothing. It says nothing about whether the filing needs the value."
+          },
+          {
+            "counter": "requiredOptionsMissing",
+            "field": "CR-180[0].Page2[0].LI5[0].CheckBox19[0]",
+            "label": "Felony county jail sentence under Penal Code section 1170(h)(5) or felony state prison sentence (Pen. Code, \n§ 1203.41)",
+            "why": "A fixture that does not establish a route election is an incomplete fixture, not a reason to ship the election blank."
+          },
+          {
+            "counter": "requiredOptionsMissing",
+            "field": "CR-180[0].Page2[0].LI5[0].li5a[0].FelonyNotUnderSup[0]",
+            "label": "more than one year has elapsed since petitioner completed the felony county jail sentence with a period of mandatory supervision imposed under Penal Code section 1170(h)(5)(B).",
+            "why": "A fixture that does not establish a route election is an incomplete fixture, not a reason to ship the election blank."
+          },
+          {
+            "counter": "requiredOptionsMissing",
+            "field": "CR-180[0].Page2[0].LI5[0].li5b[0].FelonyNotUnderSup[0]",
+            "label": "more than two years have elapsed since petitioner completed the felony county jail sentence without a period of mandatory supervision imposed under Penal Code section 1170(h)(5)(A).",
+            "why": "A fixture that does not establish a route election is an incomplete fixture, not a reason to ship the election blank."
+          },
+          {
+            "counter": "requiredOptionsMissing",
+            "field": "CR-180[0].Page2[0].LI5[0].li5c[0].FelonyNotUnderSup[0]",
+            "label": "more than two years have elapsed since petitioner completed the felony state prison sentence, and the conviction did not result in a requirement to register as a sex offender under Chapter 5.5 (starting with section 290) of Title 9 of Part 1 of the Penal Code.",
+            "why": "A fixture that does not establish a route election is an incomplete fixture, not a reason to ship the election blank."
+          }
+        ],
+        "findingsTotal": 146,
+        "written": "6/186",
+        "blanksByDisposition": {
+          "NOT_APPLICABLE_ON_THIS_ROUTE": 24,
+          "PROTECTED_FIELD": 9,
+          "LATER_COMPLETION": 5,
+          "KNOWN_FACT_NOT_WRITTEN": 56,
+          "ROUTE_OPTION_NOT_SELECTED": 15,
+          "UNCLASSIFIED_BLANK": 71
+        }
+      },
+      "mission": "Repair ca-1203-43-set until all nine completeness counters are zero. One family, its own lane, its own stop conditions.",
+      "whyOneFamilyPerLane": "R8 ran four families as one assignment and returned zero files changed on a shared environment failure. Four lanes stop for their own reasons, and a lane that stops says which family was hard.",
+      "ownedPaths": [
+        "data/rcap-all50/overlays/census-v1/ca/ca-1203-43-set--official-pdf-fill/**",
+        "scripts/build-census-v1-ca-1203-43-set.mjs",
+        "data/rcap-grade-a/codex-cloud/r8c-ca-1203-43/**"
+      ],
+      "prohibitedPaths": [
+        "scripts/rcap-packet-completeness/**",
+        "data/rcap-all50/overlays/census-v1/**/nj-disorderly-persons-set*",
+        "data/rcap-all50/overlays/census-v1/**/ca-17b-reduction-set*",
+        "data/rcap-all50/overlays/census-v1/**/az-marijuana-expungement-superior-court-set*",
+        "data/rcap-grade-a/launch-control/**"
+      ],
+      "prohibitedCommands": [
+        "git fetch",
+        "git pull",
+        "git push",
+        "gh ",
+        "git worktree",
+        "git clone",
+        "git remote add"
+      ],
+      "requiredOutputs": [
+        "data/rcap-all50/overlays/census-v1/ca/ca-1203-43-set--official-pdf-fill/ — the family re-rendered with its defects closed",
+        "data/rcap-grade-a/codex-cloud/r8c-ca-1203-43/rows.json — one row: itemId, status, the nine counters after your change, and what you changed to close each"
+      ],
+      "outputSchema": {
+        "arrayKey": "rows",
+        "itemKeyField": "itemId",
+        "completionVocabulary": [
+          "COMPLETED",
+          "STOPPED"
+        ],
+        "rule": "An unrecognised status is refused at integration rather than translated."
+      },
+      "focusedTests": [
+        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ca-1203-43-set",
+        "node scripts/verify-packet-build-environment.mjs --family ca-1203-43-set --codex-cloud --minimum-captain-sha 0b89b1bf6b0b211ca73784724b1e0aea409010a3"
+      ],
+      "stopConditions": [
+        "LANE STOP — one family. The other three R8 families are three other lanes and are not yours.",
+        "LANE STOP — you do not change the completeness contract, and you do not change a shared runner.",
+        "NEVER invent a fact. An unavailable fact is REQUIRED_BEFORE_FILING, declared explicitly and disclosed in participant-instructions.md, never guessed.",
+        "NEVER write a protected field — participant signature, signature date, certificate of mailing before mailing, court-only or prosecutor-only.",
+        "ROW STOP — a counter you cannot zero is a STOPPED return naming the counter and the exact rows that make it nonzero."
+      ],
+      "returnFormat": [
+        "ASSIGNMENT:",
+        "BASE SHA:",
+        "COMMIT:",
+        "NINE COUNTERS ZERO: YES/NO",
+        "COUNTERS AFTER:",
+        "WHAT CHANGED:",
+        "COMMERCIAL ROUTES OPENED: 0",
+        "PRODUCTION TOUCHED: NO",
+        "PREFLIGHT: PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
+        "DIFF LEFT FOR THE CODEX UI: YES"
+      ],
+      "grantsNothing": "A repaired family is a repaired family. It is not verified, not approved and not sellable.",
+      "promptFile": "docs/rcap/grade-a/launch-control/codex-cloud-prompts/R8C_CA_1203_43.md",
+      "retirement": {
+        "status": "RETIRED_NEVER_EXECUTED",
+        "measuredOn": "2026-09-02",
+        "theTest": "The lane own return directory -- the one path only this lane writes -- does not exist.",
+        "laneReturnDirectory": "data/rcap-grade-a/codex-cloud/r8c-ca-1203-43",
+        "laneReturnDirectoryExists": false,
+        "whyTheOverlayDirectoryProvesNothing": "Each of these four overlay directories DOES exist, and none of them is evidence this lane ran. All four families are thin four-line shims over one shared build host, and the host built the directory. The lane rows.json is the only artifact that could only have come from the lane, and there is none.",
+        "whatTheReservationWasCosting": "ownedPaths from these four assignments enter ACTIVE_LANES, so the four families read as actively owned and their build scripts and overlay directories are listed in prohibitedPaths of all 48 internal assignments. No ledger row exists for two of them at all -- an assert returns exit 6 NOT_GRANTED -- so no lane can claim them and no lane may write them. Four families sat BUILD_IN_PROGRESS, reachable by nobody.",
+        "whatIsNotRetired": "The work. Every one of the four still needs its completeness counters driven to zero; retiring the reservation makes them dispatchable rather than finished."
+      }
+    },
+    {
+      "assignmentId": "R8D_AZ_MARIJUANA_SUPERIOR_COURT",
+      "splitFrom": "R8_COMPLETENESS_REPAIR_PRIORITY_FOUR__CODEX_CLOUD",
+      "lane": "completeness-repair",
+      "engine": "Codex Cloud",
+      "environment": "LegalEase Packet Factory",
+      "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
+      "captainBranch": "claude/legalease-sprint-captain-utucnw",
+      "workerBranch": "work",
+      "minimumCaptainSha": "0b89b1bf6b0b211ca73784724b1e0aea409010a3",
+      "itemKind": "packetFamily",
+      "itemCount": 1,
+      "items": [
+        "az_marijuana_expungement_superior_court-set"
+      ],
+      "preflight": "node scripts/verify-packet-build-environment.mjs --family az_marijuana_expungement_superior_court-set --codex-cloud --minimum-captain-sha 0b89b1bf6b0b211ca73784724b1e0aea409010a3",
+      "preflightObserved": "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+      "preflightObservedAgainstRoster": 14,
+      "theDefect": {
+        "result": "FAIL_MISSING_REQUIRED_FACTS",
+        "counters": {
+          "knownRequiredFieldsMissing": 5,
+          "requiredFactsNotCollected": 0,
+          "unclassifiedBlanks": 1,
+          "incompleteRows": 0,
+          "requiredOptionsMissing": 19,
+          "requiredComponentsMissing": 1,
+          "invisibleWrites": 0,
+          "protectedWrites": 0,
+          "visualDefects": 0
+        },
+        "failingCounters": [
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "count": 5
+          },
+          {
+            "counter": "unclassifiedBlanks",
+            "count": 1
+          },
+          {
+            "counter": "requiredOptionsMissing",
+            "count": 19
+          },
+          {
+            "counter": "requiredComponentsMissing",
+            "count": 1
+          }
+        ],
+        "findings": [
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "citing-or-arresting-agency",
+            "label": "Name of citing or arresting law enforcement agency",
+            "why": "A statement of build policy. A case fact does not stop being required because the build declines to write it."
+          },
+          {
+            "counter": "unclassifiedBlanks",
+            "field": "justice-court-name",
+            "label": "If Yes, insert name of Justice Court here",
+            "why": "Conditional on an unanswered Yes/No election and asks for a court identity; never prefilled."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "justice-court-case-number",
+            "label": "Justice Court case number here",
+            "why": "a required known fact with no approved reason for being blank"
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "prosecuting-agency",
+            "label": "Name of prosecuting agency",
+            "why": "A statement of build policy. A case fact does not stop being required because the build declines to write it."
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "conditional-conviction-date",
+            "label": "If Yes, insert date of conviction here",
+            "why": "a required known fact with no approved reason for being blank"
+          },
+          {
+            "counter": "knownRequiredFieldsMissing",
+            "field": "conditional-dismissal-date",
+            "label": "If Yes, insert date of dismissal here",
+            "why": "a required known fact with no approved reason for being blank"
+          },
+          {
+            "counter": "requiredOptionsMissing",
+            "field": null,
+            "label": "[ ] Possessing, consuming, or transporting two and one-half ounces or less of marijuana, of which not more",
+            "why": "A shared limitation, not a determination that this election belongs to the participant."
+          },
+          {
+            "counter": "requiredOptionsMissing",
+            "field": null,
+            "label": "[ ] Possessing, transporting, cultivating, or processing not more than six marijuana plants at my primary",
+            "why": "A shared limitation, not a determination that this election belongs to the participant."
+          },
+          {
+            "counter": "requiredOptionsMissing",
+            "field": null,
+            "label": "[ ] Possessing, using, or transporting paraphernalia related to the cultivation, manufacture, processing, or",
+            "why": "A shared limitation, not a determination that this election belongs to the participant."
+          },
+          {
+            "counter": "requiredOptionsMissing",
+            "field": null,
+            "label": "2. My court case began in a Justice Court [ ] Yes [ ] No. If Yes, insert name of Justice Court here:",
+            "why": "A shared limitation, not a determination that this election belongs to the participant."
+          },
+          {
+            "counter": "requiredOptionsMissing",
+            "field": null,
+            "label": "2. My court case began in a Justice Court [ ] Yes [ ] No. If Yes, insert name of Justice Court here:",
+            "why": "A shared limitation, not a determination that this election belongs to the participant."
+          },
+          {
+            "counter": "requiredOptionsMissing",
+            "field": null,
+            "label": "4. I was convicted of the offense [ ] Yes [ ] No If Yes, insert date of conviction here: ___________________.",
+            "why": "A shared limitation, not a determination that this election belongs to the participant."
+          },
+          {
+            "counter": "requiredOptionsMissing",
+            "field": null,
+            "label": "4. I was convicted of the offense [ ] Yes [ ] No If Yes, insert date of conviction here: ___________________.",
+            "why": "A shared limitation, not a determination that this election belongs to the participant."
+          },
+          {
+            "counter": "requiredOptionsMissing",
+            "field": null,
+            "label": "5. One or more non-eligible charges were filed against me in this same case [ ] Yes [ ] No.",
+            "why": "A shared limitation, not a determination that this election belongs to the participant."
+          },
+          {
+            "counter": "requiredOptionsMissing",
+            "field": null,
+            "label": "5. One or more non-eligible charges were filed against me in this same case [ ] Yes [ ] No.",
+            "why": "A shared limitation, not a determination that this election belongs to the participant."
+          },
+          {
+            "counter": "requiredOptionsMissing",
+            "field": null,
+            "label": "6. My sentence included a term of probation [ ] Yes [ ] No.",
+            "why": "A shared limitation, not a determination that this election belongs to the participant."
+          },
+          {
+            "counter": "requiredOptionsMissing",
+            "field": null,
+            "label": "6. My sentence included a term of probation [ ] Yes [ ] No.",
+            "why": "A shared limitation, not a determination that this election belongs to the participant."
+          },
+          {
+            "counter": "requiredOptionsMissing",
+            "field": null,
+            "label": "7. My case was dismissed [ ] Yes [ ] No. If Yes, insert date of dismissal here: ______________.",
+            "why": "A shared limitation, not a determination that this election belongs to the participant."
+          },
+          {
+            "counter": "requiredOptionsMissing",
+            "field": null,
+            "label": "7. My case was dismissed [ ] Yes [ ] No. If Yes, insert date of dismissal here: ______________.",
+            "why": "A shared limitation, not a determination that this election belongs to the participant."
+          },
+          {
+            "counter": "requiredOptionsMissing",
+            "field": null,
+            "label": "8. There is an outstanding arrest warrant in this case [ ] Yes [ ] No.",
+            "why": "A shared limitation, not a determination that this election belongs to the participant."
+          },
+          {
+            "counter": "requiredOptionsMissing",
+            "field": null,
+            "label": "8. There is an outstanding arrest warrant in this case [ ] Yes [ ] No.",
+            "why": "A shared limitation, not a determination that this election belongs to the participant."
+          },
+          {
+            "counter": "requiredOptionsMissing",
+            "field": null,
+            "label": "9. There is an active payment plan on my case [ ] Yes [ ] No.",
+            "why": "A shared limitation, not a determination that this election belongs to the participant."
+          },
+          {
+            "counter": "requiredOptionsMissing",
+            "field": null,
+            "label": "9. There is an active payment plan on my case [ ] Yes [ ] No.",
+            "why": "A shared limitation, not a determination that this election belongs to the participant."
+          },
+          {
+            "counter": "requiredOptionsMissing",
+            "field": null,
+            "label": "hereby request a hearing [ ] Yes [ ] No.",
+            "why": "A shared limitation, not a determination that this election belongs to the participant."
+          },
+          {
+            "counter": "requiredOptionsMissing",
+            "field": null,
+            "label": "hereby request a hearing [ ] Yes [ ] No.",
+            "why": "A shared limitation, not a determination that this election belongs to the participant."
+          },
+          {
+            "counter": "requiredComponentsMissing",
+            "field": null,
+            "label": null,
+            "why": "the field map or source receipt names this document as part of the packet, and it appears in no rendered artifact"
+          }
+        ],
+        "findingsTotal": 26,
+        "written": "14/50",
+        "blanksByDisposition": {
+          "NOT_APPLICABLE_ON_THIS_ROUTE": 6,
+          "KNOWN_FACT_NOT_WRITTEN": 5,
+          "LATER_COMPLETION": 1,
+          "UNCLASSIFIED_BLANK": 1,
+          "OPTIONAL_PARTICIPANT_CONTENT": 2,
+          "PROTECTED_FIELD": 2,
+          "ROUTE_OPTION_NOT_SELECTED": 19
+        }
+      },
+      "mission": "Repair az_marijuana_expungement_superior_court-set until all nine completeness counters are zero. One family, its own lane, its own stop conditions.",
+      "whyOneFamilyPerLane": "R8 ran four families as one assignment and returned zero files changed on a shared environment failure. Four lanes stop for their own reasons, and a lane that stops says which family was hard.",
+      "ownedPaths": [
+        "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-superior-court-set--official-pdf-fill/**",
+        "scripts/build-census-v1-az_marijuana_expungement_superior_court-set.mjs",
+        "data/rcap-grade-a/codex-cloud/r8d-az-marijuana-superior-court/**"
+      ],
+      "prohibitedPaths": [
+        "scripts/rcap-packet-completeness/**",
+        "data/rcap-all50/overlays/census-v1/**/nj-disorderly-persons-set*",
+        "data/rcap-all50/overlays/census-v1/**/ca-17b-reduction-set*",
+        "data/rcap-all50/overlays/census-v1/**/ca-1203-43-set*",
+        "data/rcap-grade-a/launch-control/**"
+      ],
+      "prohibitedCommands": [
+        "git fetch",
+        "git pull",
+        "git push",
+        "gh ",
+        "git worktree",
+        "git clone",
+        "git remote add"
+      ],
+      "requiredOutputs": [
+        "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-superior-court-set--official-pdf-fill/ — the family re-rendered with its defects closed",
+        "data/rcap-grade-a/codex-cloud/r8d-az-marijuana-superior-court/rows.json — one row: itemId, status, the nine counters after your change, and what you changed to close each"
+      ],
+      "outputSchema": {
+        "arrayKey": "rows",
+        "itemKeyField": "itemId",
+        "completionVocabulary": [
+          "COMPLETED",
+          "STOPPED"
+        ],
+        "rule": "An unrecognised status is refused at integration rather than translated."
+      },
+      "focusedTests": [
+        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family az_marijuana_expungement_superior_court-set",
+        "node scripts/verify-packet-build-environment.mjs --family az_marijuana_expungement_superior_court-set --codex-cloud --minimum-captain-sha 0b89b1bf6b0b211ca73784724b1e0aea409010a3"
+      ],
+      "stopConditions": [
+        "LANE STOP — one family. The other three R8 families are three other lanes and are not yours.",
+        "LANE STOP — you do not change the completeness contract, and you do not change a shared runner.",
+        "NEVER invent a fact. An unavailable fact is REQUIRED_BEFORE_FILING, declared explicitly and disclosed in participant-instructions.md, never guessed.",
+        "NEVER write a protected field — participant signature, signature date, certificate of mailing before mailing, court-only or prosecutor-only.",
+        "ROW STOP — a counter you cannot zero is a STOPPED return naming the counter and the exact rows that make it nonzero."
+      ],
+      "returnFormat": [
+        "ASSIGNMENT:",
+        "BASE SHA:",
+        "COMMIT:",
+        "NINE COUNTERS ZERO: YES/NO",
+        "COUNTERS AFTER:",
+        "WHAT CHANGED:",
+        "COMMERCIAL ROUTES OPENED: 0",
+        "PRODUCTION TOUCHED: NO",
+        "PREFLIGHT: PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
+        "DIFF LEFT FOR THE CODEX UI: YES"
+      ],
+      "grantsNothing": "A repaired family is a repaired family. It is not verified, not approved and not sellable.",
+      "promptFile": "docs/rcap/grade-a/launch-control/codex-cloud-prompts/R8D_AZ_MARIJUANA_SUPERIOR_COURT.md",
+      "retirement": {
+        "status": "RETIRED_NEVER_EXECUTED",
+        "measuredOn": "2026-09-02",
+        "theTest": "The lane own return directory -- the one path only this lane writes -- does not exist.",
+        "laneReturnDirectory": "data/rcap-grade-a/codex-cloud/r8d-az-marijuana-superior-court",
+        "laneReturnDirectoryExists": false,
+        "whyTheOverlayDirectoryProvesNothing": "Each of these four overlay directories DOES exist, and none of them is evidence this lane ran. All four families are thin four-line shims over one shared build host, and the host built the directory. The lane rows.json is the only artifact that could only have come from the lane, and there is none.",
+        "whatTheReservationWasCosting": "ownedPaths from these four assignments enter ACTIVE_LANES, so the four families read as actively owned and their build scripts and overlay directories are listed in prohibitedPaths of all 48 internal assignments. No ledger row exists for two of them at all -- an assert returns exit 6 NOT_GRANTED -- so no lane can claim them and no lane may write them. Four families sat BUILD_IN_PROGRESS, reachable by nobody.",
+        "whatIsNotRetired": "The work. Every one of the four still needs its completeness counters driven to zero; retiring the reservation makes them dispatchable rather than finished."
+      }
+    }
+  ],
+  "retirement": {
+    "status": "RETIRED_NEVER_EXECUTED",
+    "retiredBy": "Captain",
+    "retiredOn": "2026-09-02",
+    "what": "Four Codex Cloud reservations, one family each, that were dispatched and never returned.",
+    "measurement": "None of data/rcap-grade-a/codex-cloud/r8a-nj-disorderly-persons/, r8b-ca-17b-reduction/, r8c-ca-1203-43/ or r8d-az-marijuana-superior-court/ exists. Reproduce with: ls -d data/rcap-grade-a/codex-cloud/r8*",
+    "whyRetirementAndNotDeletion": "The record of what was asked for, of the per-family preflight it carries, and of the scope it preserved is worth keeping. What is withdrawn is the RESERVATION -- the hold on paths and families -- not the history.",
+    "effect": "assignments is now empty, so these four stop entering ACTIVE_LANES and stop appearing in every internal assignment prohibitedPaths. The dispatch may now assign them.",
+    "southDakotaVerificationUntouched": "d.southDakotaVerification is a separate entry in this file and is NOT retired here; it was not measured and is not part of this finding."
+  }
+}

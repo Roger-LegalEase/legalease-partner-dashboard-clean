@@ -1,0 +1,107 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-pf-return/v1",
+  "assignmentId": "PF21",
+  "workerId": "CODEX-CS2-PF21-DE-PROCESS",
+  "workerBranch": "codex/cs2-pf21-de-process-706",
+  "shiftBaseSha": "706dbbd2439b2fdd8f5580cef46f7cc448b5c5da",
+  "taskScope": {
+    "familiesAssigned": 1,
+    "routeKey": "obligation:track-pathway:DE:de_mandatory_expungement:mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a",
+    "otherPf21FamiliesExecuted": 0
+  },
+  "claimAssertion": {
+    "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF21 de_mandatory_expungement-set",
+    "result": "CLAIM_OK PF21 de_mandatory_expungement-set (packet-build, grant set e5af0a189c908787)"
+  },
+  "packetsSelfVerified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "rows": [
+    {
+      "itemId": "de_mandatory_expungement-set",
+      "status": "COMPLETED",
+      "jurisdiction": "DE",
+      "implementationStrategy": "participant_agency_application",
+      "renderStrategy": "composed_pleading_process_guidance",
+      "sourceStatus": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+      "sourceDisposition": "No public application binary exists. DE-SBI-MANDATORY-EXPUNGEMENT-APPLICATION is a descriptive repository label, not an issuer-assigned form title. The participant contacts Delaware SBI and, if eligible, SBI supplies an eligibility letter and instructions.",
+      "sourceBinaryCommitted": false,
+      "routeKeys": [
+        "obligation:track-pathway:DE:de_mandatory_expungement:mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a"
+      ],
+      "directory": "data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-de_mandatory_expungement-set.mjs",
+      "componentSet": [
+        "agency_preparation_guide"
+      ],
+      "componentCount": 1,
+      "knownWrites": 5,
+      "requiredBeforeActionFacts": 7,
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "allNineCountersZero": true,
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "path": "data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "d29830aa31756e0635e0a80c3213247471f9988d59a26491b7aa65aa5a5a9fb4",
+          "byteLength": 7657,
+          "pageCount": 2
+        },
+        {
+          "fixture": "boundary",
+          "path": "data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "a2be8406f9605d8dc730e11073a0fc7ccdab987b03f6ceff8d93e02c25489e39",
+          "byteLength": 7776,
+          "pageCount": 2
+        }
+      ],
+      "determinism": {
+        "buildRuns": 2,
+        "allGeneratedHashesLengthsAndPageCountsMatch": true
+      },
+      "focusedCompleteness": {
+        "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family de_mandatory_expungement-set",
+        "result": "PASS_COMPLETE",
+        "exitCode": 0,
+        "writtenFields": 5,
+        "terminalFields": 12
+      },
+      "participantFacingObligations": [
+        {
+          "obligation": "DESTINATION_AND_NEXT_STEPS",
+          "statedInThePacket": "Contact the Delaware State Police, State Bureau of Identification, Expungement Section at 302-739-5884 and confirm the current process at https://dsp.delaware.gov/expungements/. Ask whether the automatic process has reached the case. If SBI determines eligibility, wait for its eligibility letter and follow only the instructions it supplies."
+        },
+        {
+          "obligation": "NO_FORM_OR_FILING_CLAIM",
+          "statedInThePacket": "The PDF is process guidance only, not an official SBI application, substitute form, or court pleading. It is not filed or submitted anywhere."
+        },
+        {
+          "obligation": "NO_CHECKOUT_OR_FEE_CLAIM",
+          "statedInThePacket": "There is no checkout and no filing packet on this route. The guide states no fee amount, waiver procedure, mailing address, portal, or submission method; any applicable instruction or fee information must come from SBI."
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "statedInThePacket": "Stop and get help if SBI denies mandatory eligibility, directs a court petition, the record remains uncleared, a required case fact is uncertain, or collateral consequences may be involved."
+        }
+      ],
+      "rasterState": "BUILT_RASTER_PENDING",
+      "independentVerificationStatus": "PENDING",
+      "selfVerified": false,
+      "generationAllowed": false,
+      "runtimeSelectable": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "grantsNothing": "A built family is a built family. It is not independently verified, approved, sellable, or live."
+    }
+  ]
+}

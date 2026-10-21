@@ -1,0 +1,36 @@
+  ok   H1  the planner, the workflow, the acquisition script and the upload all name one string
+  ok   H2  a complete, matching receipt is accepted (the control)
+  ok   H4  the directory the acquisition script writes fetched bytes into is actually gitignored
+  ok   H3  no source body is committed by the handoff
+  ok   H5  every receipt field the summarizer and the materializer read is a field the acquisition script writes
+  ok   H6  the official-host policy admits every government publisher and refuses every open-registration lookalike
+
+6/6 handoff checks passed.
+
+mutations:
+  detected [removing the ignore rule for acquired-source/ is caught]
+  detected [.gitignore restored byte-for-byte]
+  detected [a receipt with no acquisitionRunId is refused]
+  detected [a receipt with no artifactName is refused]
+  detected [a receipt from a different run is refused]
+  detected [a receipt naming a different artifact is refused]
+  detected [a receipt whose hash does not match the bytes is refused]
+  detected [a non-numeric run id on the command line is refused]
+  detected [an empty artifact name on the command line is refused]
+  detected [an expected hash that disagrees with the bytes is refused]
+  detected [the caller cannot choose which of the receipt's two hashes is measured]
+  detected [a receipt whose pinned hash is not the bytes is refused even when the caller names the bytes]
+  detected [a receipt with no pinned hash is refused]
+  detected [a not_acquired receipt is refused]
+  detected [a hash-mismatch outcome is refused]
+  detected [a receipt recording its own hash mismatch is refused]
+  detected [a receipt describing a different binary is refused]
+  detected [a receipt saying the bytes are not a PDF is refused]
+  detected [H1 sees the run id deleted from the STEP that runs the acquisition (C13's exact mutation)]
+  detected [H1 sees the artifact name deleted from the acquisition step]
+  detected [H1 sees upload-artifact renamed away from the planner's name]
+  detected [H1 sees the acquisition script stop recording the run id]
+  detected [H5 sees a reader dereference a field no receipt carries]
+  detected [H6 sees the open-registration TLD put back on the allowlist]
+
+OK handoff mutations — 22 case(s), every mutation refused.

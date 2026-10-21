@@ -1,0 +1,80 @@
+{
+  "schemaVersion": "rcap-census-v1-product-wiring/v1",
+  "family": "tx_nd_automatic_misdemeanor_deferred-set",
+  "routeKey": "obligation:unit:TX:tx_nd_automatic_misdemeanor_deferred:tx-nd072-recovery-letter",
+  "routeKeys": [
+    "obligation:unit:TX:tx_nd_automatic_misdemeanor_deferred:tx-nd072-automatic-and-verification",
+    "obligation:unit:TX:tx_nd_automatic_misdemeanor_deferred:tx-nd072-recovery-letter"
+  ],
+  "workType": "PRODUCT_WIRING_REQUIRED",
+  "status": "DECLARED_NOT_INSTALLED",
+  "authorityCreated": "none",
+  "currentState": {
+    "serviceDisposition": "missing_from_compiled_runtime",
+    "generationAllowed": false
+  },
+  "binding": {
+    "family": "tx_nd_automatic_misdemeanor_deferred-set",
+    "jurisdiction": "TX",
+    "routeKeys": [
+      "obligation:unit:TX:tx_nd_automatic_misdemeanor_deferred:tx-nd072-automatic-and-verification",
+      "obligation:unit:TX:tx_nd_automatic_misdemeanor_deferred:tx-nd072-recovery-letter"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "OCA model letter to the court where the order did not issue (official_pdf_fill)",
+      "no filing — process guidance"
+    ],
+    "packetComponents": [
+      "component:tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
+      "component:tx_nd_automatic_misdemeanor_deferred-proposed-order-3",
+      "component:tx_nd_automatic_misdemeanor_deferred-recovery-letter-2"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/tx/tx-nd-automatic-misdemeanor-deferred-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/tx/tx-nd-automatic-misdemeanor-deferred-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/tx/tx-nd-automatic-misdemeanor-deferred-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/tx/tx-nd-automatic-misdemeanor-deferred-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:OCA Model Order of Nondisclosure under Section 411.072",
+        "sha256": "7e35a724b6de6aac1f0cc11296596377df19786e597090c73384c87fd067fa39",
+        "tier": "exact_statute_section_and_document_kind"
+      },
+      {
+        "sourceId": "official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
+        "sha256": "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d",
+        "tier": "exact_content_hash"
+      },
+      {
+        "sourceId": "official-form:OCA Instructions and Model Letter for an Order of Nondisclosure under Section 411.072",
+        "sha256": "ae4427a75eb7c10c33d8e8cd3c4dca2092a8a83237204ec72cdcfc8c504ba1c7",
+        "tier": "exact_identity_confirmed_from_document_text"
+      }
+    ],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "34698630263",
+      "jobId": "103566824277",
+      "artifactId": "10299422689",
+      "boundToCanonicalSha256": "d4336f778833e40df39570f5b2bb5b4b9979d9db87470b193e6e8de3dba30e5b",
+      "coversTheWholeFamily": true
+    },
+    "lastIndependentVerification": {
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf02",
+      "verifiedAtBase": "36bb7a1f20adb24447b599f57c973541ce21359e"
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-tx_nd_automatic_misdemeanor_deferred-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  },
+  "generationAllowed": false,
+  "runtimeSelectable": false,
+  "commercialRoutesOpened": 0
+}

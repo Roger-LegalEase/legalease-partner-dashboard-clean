@@ -1,6 +1,22 @@
 {
   "schemaVersion": "2.0.0",
   "profileVersion": "2026-06-19-source-conversion-1",
+  "questionLifecycle": {
+    "routeConsumers": {},
+    "exactPacketFactIds": [
+      "criminal_history",
+      "disposition_date",
+      "arrest_date",
+      "county",
+      "court",
+      "charge",
+      "record_documents",
+      "case_identifier"
+    ],
+    "completionAliasIds": [
+      "sentence_completion_date"
+    ]
+  },
   "jurisdiction": {
     "code": "GA",
     "name": "Georgia",
@@ -685,17 +701,11 @@
       ],
       "automatic": true,
       "filingRequired": false,
-      "routeType": "automatic",
+      "routeType": "automatic_guidance",
       "suggestedResultCode": "guidance_only",
       "waitingRules": [
-        "denies, appeal to the Superior Court within 30 days.",
-        "4 Serve the prosecuting attorney, who has 90 days to object; if unopposed, the court may grant on the papers,",
-        "in a lifetime, provided all sentence terms are complete, the person has no convictions for at least four years",
-        "probation terminated. Non-conviction restriction generally has no waiting period.",
-        "Misdemeanor conviction Restrict + seal 4 years since Plus 4 yrs conviction-free,",
-        "convictions for at least four years before filing; and (3) have no pending charges. The four-year window is",
-        "Non-conviction restriction generally has no waiting period.",
-        "Pathway / matter Remedy Waiting period Notes Non-conviction (dismissed, Restrict None Automatic if arrest ≥ 7/1/2013 nolle prosequi, acquittal) Dead docket Restrict Required period Then eligible on dead docket Pretrial diversion completed Restrict On completion Program successfully completed Misdemeanor conviction Restrict + seal 4 years since Plus 4 yrs conviction-free, (SB 288) sentence complete no pending charges Pardoned felony Restrict After pardon No new offense since pardon Misdemeanor before age 21 Restrict Per statute Exceptions for serious offenses The SB 288 conditions stack: a person must (1) have completed all terms of the sentence; (2) have no convictions for at least four years before filing; and (3) have no pending charges."
+        "handled through the prosecutor and GCIC process without a participant waiting period",
+        "This rule governs filings on or after 2013-07-01."
       ],
       "exclusionRules": [
         "For SB 288 misdemeanor-conviction restriction, § 35-3-37(j)(4) excludes a specific list of misdemeanors. A",
@@ -724,6 +734,37 @@
         "exclusionOrAmbiguityResult": "likely_not_eligible",
         "matchedResult": "guidance_only",
         "paymentAllowed": false
+      },
+      "legalAuthority": {
+        "decisionId": "LD-GA-01",
+        "ruleId": "GA-35-3-37-42-8-62.1-THREE-MECHANISM-MAP",
+        "mechanism": "Record restriction for qualifying nonconvictions from arrests on or after July 1, 2013",
+        "statute": "O.C.G.A. § 35-3-37",
+        "stage": "automatic",
+        "outcomeMode": "guidance_status",
+        "paymentAuthority": "closed",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorText": "handled through the prosecutor and GCIC process without a participant waiting period"
+        },
+        "requiredFacts": [
+          "Arrest and disposition dates?",
+          "Exact offense?",
+          "First-offender sentence/discharge?",
+          "Pardon and date?",
+          "Pending/later charges?",
+          "Restriction/sealing status?"
+        ],
+        "screeningFactIds": [
+          "case_outcome"
+        ],
+        "exclusions": [
+          "Separate post-July 1, 2013 nonconviction, pardoned-felony, and first-offender mechanisms",
+          "Apply July 1, 2026 first-offender law prospectively as written"
+        ],
+        "packetFamily": null,
+        "effectiveFrom": "2013-07-01",
+        "notes": "Status, correction and prosecutor-contact guidance. Do not sell a court packet unless a statutory judicial-review path is actually triggered."
       }
     },
     {
@@ -839,7 +880,8 @@
         "packet_capable": true,
         "payment_allowed_when_engine_confirms": true,
         "legal_basis": "O.C.G.A. § 35-3-37 / SB 288",
-        "lawrence_review": "first_pass_ratified"
+        "lawrence_review": "ratified_deployable",
+        "projectedFrom": "route-ratification-registry"
       }
     },
     {
@@ -915,13 +957,7 @@
       "routeType": "court_filing",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "4 Serve the prosecuting attorney, who has 90 days to object; if unopposed, the court may grant on the papers,",
-        "in a lifetime, provided all sentence terms are complete, the person has no convictions for at least four years",
-        "probation terminated. Non-conviction restriction generally has no waiting period.",
-        "Misdemeanor conviction Restrict + seal 4 years since Plus 4 yrs conviction-free,",
-        "convictions for at least four years before filing; and (3) have no pending charges. The four-year window is",
-        "Non-conviction restriction generally has no waiting period.",
-        "Pathway / matter Remedy Waiting period Notes Non-conviction (dismissed, Restrict None Automatic if arrest ≥ 7/1/2013 nolle prosequi, acquittal) Dead docket Restrict Required period Then eligible on dead docket Pretrial diversion completed Restrict On completion Program successfully completed Misdemeanor conviction Restrict + seal 4 years since Plus 4 yrs conviction-free, (SB 288) sentence complete no pending charges Pardoned felony Restrict After pardon No new offense since pardon Misdemeanor before age 21 Restrict Per statute Exceptions for serious offenses The SB 288 conditions stack: a person must (1) have completed all terms of the sentence; (2) have no convictions for at least four years before filing; and (3) have no pending charges."
+        "available after the pardon issues; there is no separate post-pardon elapsed wait"
       ],
       "exclusionRules": [
         "the current text of O.C.G.A. § 35-3-37, the § (j)(4) excluded-offense list, GCIC request procedures, county filing specifics, and the",
@@ -956,7 +992,45 @@
         "packet_capable": false,
         "payment_allowed_when_engine_confirms": false,
         "legal_basis": "Lawrence named substantive gate required before selling",
-        "lawrence_review": "gate_required"
+        "lawrence_review": "hard_gate_pending",
+        "projectedFrom": "route-ratification-registry"
+      },
+      "legalAuthority": {
+        "decisionId": "LD-GA-01",
+        "ruleId": "GA-35-3-37-42-8-62.1-THREE-MECHANISM-MAP",
+        "mechanism": "Restriction and sealing of a pardoned felony",
+        "statute": "O.C.G.A. § 35-3-37",
+        "stage": "single_stage",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorText": "available after the pardon issues; there is no separate post-pardon elapsed wait"
+        },
+        "requiredFacts": [
+          "Arrest and disposition dates?",
+          "Exact offense?",
+          "First-offender sentence/discharge?",
+          "Pardon and date?",
+          "Pending/later charges?",
+          "Restriction/sealing status?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "offense_level",
+          "pending_cases"
+        ],
+        "exclusions": [
+          "Separate post-July 1, 2013 nonconviction, pardoned-felony, and first-offender mechanisms",
+          "Apply July 1, 2026 first-offender law prospectively as written"
+        ],
+        "packetFamily": "Georgia Restriction and Sealing Petition for a Pardoned Felony under § 35-3-37",
+        "packetComponents": [
+          "Petition under § 35-3-37",
+          "Pardon documentation",
+          "Balancing showing"
+        ],
+        "notes": "Statutory exclusions, the no-disqualifying-later-conviction rule, the no-pending-charge rule, and the balancing requirement must all be met."
       }
     },
     {
@@ -1024,13 +1098,8 @@
       "routeType": "court_filing",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "4 Serve the prosecuting attorney, who has 90 days to object; if unopposed, the court may grant on the papers,",
-        "in a lifetime, provided all sentence terms are complete, the person has no convictions for at least four years",
-        "probation terminated. Non-conviction restriction generally has no waiting period.",
-        "Misdemeanor conviction Restrict + seal 4 years since Plus 4 yrs conviction-free,",
-        "convictions for at least four years before filing; and (3) have no pending charges. The four-year window is",
-        "Non-conviction restriction generally has no waiting period.",
-        "Pathway / matter Remedy Waiting period Notes Non-conviction (dismissed, Restrict None Automatic if arrest ≥ 7/1/2013 nolle prosequi, acquittal) Dead docket Restrict Required period Then eligible on dead docket Pretrial diversion completed Restrict On completion Program successfully completed Misdemeanor conviction Restrict + seal 4 years since Plus 4 yrs conviction-free, (SB 288) sentence complete no pending charges Pardoned felony Restrict After pardon No new offense since pardon Misdemeanor before age 21 Restrict Per statute Exceptions for serious offenses The SB 288 conditions stack: a person must (1) have completed all terms of the sentence; (2) have no convictions for at least four years before filing; and (3) have no pending charges."
+        "restriction and sealing are addressed at sentencing or disposition under the amended process; older first-offender records use the applicable retroactive petition or correction mechanism",
+        "This rule governs filings on or after 2026-07-01."
       ],
       "exclusionRules": [
         "For SB 288 misdemeanor-conviction restriction, § 35-3-37(j)(4) excludes a specific list of misdemeanors. A",
@@ -1065,7 +1134,264 @@
         "packet_capable": false,
         "payment_allowed_when_engine_confirms": false,
         "legal_basis": "Lawrence first-pass hold; show substantive guidance only for this release",
-        "lawrence_review": "hold_guidance_only"
+        "lawrence_review": "hold_guidance",
+        "projectedFrom": "route-ratification-registry"
+      },
+      "legalAuthority": {
+        "decisionId": "LD-GA-01",
+        "ruleId": "GA-35-3-37-42-8-62.1-THREE-MECHANISM-MAP",
+        "mechanism": "First-offender restriction and sealing under the July 1, 2026 amendments",
+        "statute": "O.C.G.A. § 42-8-62.1",
+        "stage": "single_stage",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorFactId": "discharge_date",
+          "anchorText": "restriction and sealing are addressed at sentencing or disposition under the amended process; older first-offender records use the applicable retroactive petition or correction mechanism"
+        },
+        "requiredFacts": [
+          "Arrest and disposition dates?",
+          "Exact offense?",
+          "First-offender sentence/discharge?",
+          "Pardon and date?",
+          "Pending/later charges?",
+          "Restriction/sealing status?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "offense_level",
+          "discharge_date"
+        ],
+        "exclusions": [
+          "Separate post-July 1, 2013 nonconviction, pardoned-felony, and first-offender mechanisms",
+          "Apply July 1, 2026 first-offender law prospectively as written"
+        ],
+        "packetFamily": "Georgia First-Offender Restriction and Sealing Petition under § 42-8-62.1",
+        "packetComponents": [
+          "Petition or motion under § 42-8-62.1",
+          "First-offender discharge documentation"
+        ],
+        "effectiveFrom": "2026-07-01",
+        "notes": "The intake must branch explicitly on the July 1, 2026 statutory change; apply the new law prospectively as written."
+      }
+    },
+    {
+      "id": "retroactive-first-offender-treatment-under-42-8-66",
+      "label": "Petition for retroactive First Offender treatment, exoneration and discharge",
+      "summary": "Petition for retroactive First Offender treatment, exoneration and discharge under O.C.G.A. § 42-8-66. available once written prosecutorial consent exists; § 42-8-66 imposes no elapsed wait and no filing fee.",
+      "sourceRef": "legal-authority:NATIONAL-2026-08-28-LA-IMM-01",
+      "sourceEvidenceRefs": [
+        "legal-authority:NATIONAL-2026-08-28-LA-IMM-01",
+        "statute:O.C.G.A. § 42-8-66"
+      ],
+      "ruleClauses": [
+        "available once written prosecutorial consent exists; § 42-8-66 imposes no elapsed wait and no filing fee"
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_level"
+      ],
+      "caseOutcomes": [],
+      "automatic": false,
+      "filingRequired": true,
+      "routeType": "court_filing",
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "available once written prosecutorial consent exists; § 42-8-66 imposes no elapsed wait and no filing fee"
+      ],
+      "exclusionRules": [
+        "Written prosecutorial consent is a filing prerequisite, not the relief itself",
+        "A phone call, an unanswered request, prosecutor silence or 'no known objection' is not written consent",
+        "Consent withdrawn before the order is entered defeats the filing",
+        "A contested evidentiary hearing leaves self-help"
+      ],
+      "frontendBranch": "show_cautions_then_allow_packet_checkout",
+      "legalAuthority": {
+        "decisionId": "NATIONAL-2026-08-28-LA-IMM-01",
+        "ruleId": "GA-42-8-66-RETROACTIVE-FIRST-OFFENDER-CONSENT-GATED",
+        "mechanism": "Petition for retroactive First Offender treatment, exoneration and discharge",
+        "statute": "O.C.G.A. § 42-8-66",
+        "stage": "single_stage",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorText": "available once written prosecutorial consent exists; § 42-8-66 imposes no elapsed wait and no filing fee"
+        },
+        "requiredFacts": [
+          "Does the participant hold the prosecuting attorney's WRITTEN consent, joinder or signed endorsement?",
+          "In which court was the conviction entered?",
+          "What are the original case number, judgment, sentence and disposition?",
+          "Was the participant eligible for First Offender treatment at the time?",
+          "Which § 42-8-66 branch applies?",
+          "Is there any prior felony or prior First Offender history?",
+          "Has a qualifying order already been granted, and on what date?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "exclusions": [
+          "Written prosecutorial consent is a filing prerequisite, not the relief itself",
+          "A phone call, an unanswered request, prosecutor silence or 'no known objection' is not written consent",
+          "Consent withdrawn before the order is entered defeats the filing",
+          "A contested evidentiary hearing leaves self-help"
+        ],
+        "packetFamily": "Georgia § 42-8-66 Retroactive First Offender Petition",
+        "packetComponents": [
+          "Petition for retroactive First Offender treatment, exoneration and discharge",
+          "Written prosecutor consent, joinder or signed consent endorsement",
+          "Proposed order",
+          "Hearing-request election",
+          "Certificate of service or local notice document",
+          "Judgment, sentence and disposition records",
+          "Evidence of original First Offender eligibility",
+          "Evidence supporting the applicable § 42-8-66 branch",
+          "Rehabilitation and interests-of-justice exhibits",
+          "Post-order restriction, sealing and verification instructions"
+        ],
+        "packetReleasePreconditions": [
+          {
+            "id": "ga_written_prosecutor_consent_status",
+            "requires": "verified written prosecutorial consent, joinder or signed consent endorsement, held as a document",
+            "satisfiedWhen": {
+              "operator": "verified_document_status",
+              "factId": "ga_written_prosecutor_consent_status",
+              "value": "verified_written_consent",
+              "requiredProvenance": "server_verified_document",
+              "requiredPhase": "FINAL_VERIFICATION"
+            },
+            "whenUnsatisfied": "fail_closed_handoff",
+            "collectedAt": "authenticated_intake",
+            "note": "O.C.G.A. § 42-8-66 makes consent a condition that must exist BEFORE the individual files. Absence is never satisfaction: silence, refusal, an unanswered request and 'no known objection' each leave the precondition unmet, and each produces an attorney or prosecutor handoff rather than a petition. Collected at authenticated intake and proved at final verification against the document itself, never in anonymous screening."
+          }
+        ],
+        "deliveryGates": [
+          {
+            "id": "ga_42_8_66_petition_family_build",
+            "kind": "artifact_generation",
+            "items": [
+              "petition specification for the § 42-8-66 retroactive First Offender petition",
+              "written consent / joinder component",
+              "proposed order component",
+              "hearing-election component",
+              "service or local-notice component",
+              "supporting-record checklist component",
+              "packet-information facts",
+              "field map",
+              "renderer binding",
+              "deterministic fixture"
+            ],
+            "owner": "RCAP packet factory",
+            "statusSource": "server_artifact_record",
+            "evidenceReference": "pending: the ga-rfo packet set carries two process_guidance components and no petition. Its own text reads 'Not reached on this route as currently offered. No participant document is generated.'",
+            "note": "The § 42-8-66 petition family does not exist yet. This gate is why the route is identified and not deliverable, and it must not be closed by pointing at the guidance family."
+          },
+          {
+            "id": "ga_42_8_66_candidate_and_review",
+            "kind": "artifact_legal_review",
+            "items": [
+              "candidate artifact",
+              "artifact hash",
+              "visual review",
+              "completed-output approval"
+            ],
+            "owner": "RCAP packet factory, then artifact-level counsel review",
+            "statusSource": "server_approval_record",
+            "evidenceReference": "pending: no candidate artifact or hash exists for this family",
+            "note": "Completed-output approval must be given for THIS petition family. The route previously associated with rcap-ga-guidance-implementation, and a guidance family's approval says nothing about a petition nobody has rendered."
+          }
+        ],
+        "serviceBranches": [
+          {
+            "id": "order_already_granted_post_2026_07_01",
+            "when": "a qualifying order was granted on or after 2026-07-01",
+            "selector": {
+              "operator": "date_on_or_after",
+              "factId": "ga_qualifying_order_date",
+              "value": "2026-07-01",
+              "requiredProvenance": "verified_record",
+              "requiredPhase": "FINAL_VERIFICATION"
+            },
+            "outcomeMode": "guidance_status",
+            "packetFamily": null,
+            "stage": "single_stage",
+            "commercialPosture": {
+              "checkoutEnabled": false,
+              "sponsoredGenerationEnabled": false,
+              "packetCreditsConsumed": 0,
+              "note": "The court has already granted the relief. There is nothing to petition for and nothing to sell."
+            },
+            "note": "For a retroactive discharge entered on or after 1 July 2026 the proposed order expressly addresses the current restriction and court-record sealing duties. The product becomes restriction, sealing, agency distribution and verification tracking. Generating a second merits petition would ask the court to grant what it has already granted."
+          },
+          {
+            "id": "order_already_granted_before_2026_07_01",
+            "when": "a qualifying order was granted before 2026-07-01",
+            "selector": {
+              "operator": "date_before",
+              "factId": "ga_qualifying_order_date",
+              "value": "2026-07-01",
+              "requiredProvenance": "verified_record",
+              "requiredPhase": "FINAL_VERIFICATION"
+            },
+            "outcomeMode": "guidance_status",
+            "packetFamily": null,
+            "stage": "single_stage",
+            "commercialPosture": {
+              "checkoutEnabled": false,
+              "sponsoredGenerationEnabled": false,
+              "packetCreditsConsumed": 0,
+              "note": "Relief already granted. Implementation and verification only."
+            },
+            "note": "An order already granted is not re-petitioned whatever its date. The route is implementation and verification."
+          }
+        ],
+        "artifactApprovalRequired": true,
+        "failureDisposition": [
+          {
+            "id": "ga_consent_refused",
+            "when": "the prosecuting attorney refused consent",
+            "selector": {
+              "operator": "equals",
+              "factId": "ga_written_prosecutor_consent_status",
+              "value": "refused",
+              "requiredProvenance": "participant_authenticated"
+            },
+            "disposition": "attorney_or_prosecutor",
+            "note": "Refusal is not a defect in the packet; it is the absence of the statutory prerequisite. The matter goes to an attorney or back to the prosecutor."
+          },
+          {
+            "id": "ga_consent_withdrawn",
+            "when": "the prosecuting attorney withdrew consent",
+            "selector": {
+              "operator": "equals",
+              "factId": "ga_written_prosecutor_consent_status",
+              "value": "withdrawn",
+              "requiredProvenance": "participant_authenticated"
+            },
+            "disposition": "attorney_or_prosecutor",
+            "note": "Consent withdrawn before the order is entered defeats the filing."
+          },
+          {
+            "id": "ga_contested_hearing",
+            "when": "the court requires a contested evidentiary hearing",
+            "selector": {
+              "operator": "is_true",
+              "factId": "ga_contested_evidentiary_hearing",
+              "requiredProvenance": "participant_authenticated"
+            },
+            "disposition": "retained_counsel",
+            "note": "A contested evidentiary hearing is advocacy, not document preparation."
+          }
+        ],
+        "commercialPosture": {
+          "checkoutEnabled": true,
+          "sponsoredGenerationEnabled": true,
+          "packetCreditsConsumed": 1,
+          "note": "A real participant petition, sellable once verified written consent exists. The consent precondition, not the posture, is what holds it closed."
+        },
+        "notes": "Report correction 1, LA-IMM-01. Venue is the court of conviction; the default docket is the original criminal case, preserved unless the receiving clerk requires an ancillary number. The statute imposes no filing fee. The route name matters: § 42-8-66 is NOT limited to youthful offenders, so the legacy pathway id youthful-first-offender-restriction-route misdescribes it. That legacy id is preserved and aliased rather than renamed, because renaming a stored pathway identifier without a complete dependency migration would break saved matters and fixtures. PACKET FAMILY: this route names its own family, Georgia § 42-8-66 Retroactive First Offender Petition, and does not inherit rcap-ga-guidance-implementation. The ga-rfo packet set was written when the route was guidance-only and carries two process_guidance components; no completed-output approval from it may be carried into a petition. Both output gates are open, so the legal route is resolved, the packet path is identified, and payment, sponsorship and participant delivery are all closed."
       }
     }
   ],
@@ -2791,26 +3117,10 @@
       "when": {
         "backendPathwayId": "automatic-restriction-of-qualifying-post-july-1-2013-non-convictions",
         "requiredFields": [
-          "case_outcome",
-          "disposition_date",
-          "criminal_history",
-          "record_type",
-          "arrest_date",
-          "offense_level",
-          "sentence_completion_date",
-          "pending_cases",
-          "prior_relief"
+          "case_outcome"
         ],
         "fieldsReferenced": [
-          "case_outcome",
-          "disposition_date",
-          "criminal_history",
-          "record_type",
-          "arrest_date",
-          "offense_level",
-          "sentence_completion_date",
-          "pending_cases",
-          "prior_relief"
+          "case_outcome"
         ],
         "caseOutcomes": [
           "dismissed",
@@ -2819,7 +3129,7 @@
           "convicted_other",
           "convicted_misdemeanor"
         ],
-        "sourceConditionText": "Automatic restriction of qualifying post-July 1, 2013 non-convictions"
+        "sourceConditionText": "handled through the prosecutor and GCIC process without a participant waiting period"
       },
       "then": {
         "suggestedResultCode": "guidance_only",
@@ -2829,7 +3139,13 @@
       "sourceRef": "section:422-430; section:260-272; pathways:68-115; corpus-unit:110; section:68-115; section:320-347; section:348-351; corpus-unit:26",
       "candidatePathwayIds": [
         "automatic-restriction-of-qualifying-post-july-1-2013-non-convictions"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-GA-01",
+        "ruleId": "GA-35-3-37-42-8-62.1-THREE-MECHANISM-MAP",
+        "statute": "O.C.G.A. § 35-3-37",
+        "mechanism": "Record restriction for qualifying nonconvictions from arrests on or after July 1, 2013"
+      }
     },
     {
       "id": "route-sb-288-misdemeanor-conviction-restriction-and-sealing",
@@ -2887,26 +3203,12 @@
         "requiredFields": [
           "case_outcome",
           "offense_level",
-          "pending_cases",
-          "pardon_status",
-          "offense_category",
-          "disposition_date",
-          "sentence_completion_date",
-          "prior_relief",
-          "arrest_date",
-          "record_type"
+          "pending_cases"
         ],
         "fieldsReferenced": [
           "case_outcome",
           "offense_level",
-          "pending_cases",
-          "pardon_status",
-          "offense_category",
-          "disposition_date",
-          "sentence_completion_date",
-          "prior_relief",
-          "arrest_date",
-          "record_type"
+          "pending_cases"
         ],
         "caseOutcomes": [
           "convicted_felony",
@@ -2916,7 +3218,7 @@
           "diversion_or_deferred",
           "convicted_misdemeanor"
         ],
-        "sourceConditionText": "Restriction and sealing of a pardoned felony"
+        "sourceConditionText": "available after the pardon issues; there is no separate post-pardon elapsed wait"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -2926,7 +3228,13 @@
       "sourceRef": "section:431-446; pathways:68-115; section:68-115; section:116-150; section:190-227; corpus-unit:111; case_outcomes:190-227; waiting_periods:116-150",
       "candidatePathwayIds": [
         "restriction-and-sealing-of-a-pardoned-felony"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-GA-01",
+        "ruleId": "GA-35-3-37-42-8-62.1-THREE-MECHANISM-MAP",
+        "statute": "O.C.G.A. § 35-3-37",
+        "mechanism": "Restriction and sealing of a pardoned felony"
+      }
     },
     {
       "id": "route-youthful-first-offender-restriction-route",
@@ -2936,27 +3244,11 @@
         "backendPathwayId": "youthful-first-offender-restriction-route",
         "requiredFields": [
           "case_outcome",
-          "offense_level",
-          "offense_category",
-          "record_type",
-          "disposition_date",
-          "sentence_completion_date",
-          "pending_cases",
-          "prior_relief",
-          "arrest_date",
-          "pardon_status"
+          "offense_level"
         ],
         "fieldsReferenced": [
           "case_outcome",
-          "offense_level",
-          "offense_category",
-          "record_type",
-          "disposition_date",
-          "sentence_completion_date",
-          "pending_cases",
-          "prior_relief",
-          "arrest_date",
-          "pardon_status"
+          "offense_level"
         ],
         "caseOutcomes": [
           "convicted_misdemeanor",
@@ -2966,7 +3258,8 @@
           "diversion_or_deferred",
           "convicted_felony"
         ],
-        "sourceConditionText": "Youthful / first-offender restriction route"
+        "sourceConditionText": "restriction and sealing are addressed at sentencing or disposition under the amended process; older first-offender records use the applicable retroactive petition or correction mechanism",
+        "timingAnchorFactId": "discharge_date"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -2976,7 +3269,13 @@
       "sourceRef": "pathways:68-115; section:68-115; corpus-unit:29",
       "candidatePathwayIds": [
         "youthful-first-offender-restriction-route"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-GA-01",
+        "ruleId": "GA-35-3-37-42-8-62.1-THREE-MECHANISM-MAP",
+        "statute": "O.C.G.A. § 42-8-62.1",
+        "mechanism": "First-offender restriction and sealing under the July 1, 2026 amendments"
+      }
     },
     {
       "id": "unmatched-state-fact-pattern",
@@ -2995,6 +3294,37 @@
       },
       "sourceRef": "frontend-contract:no-generic-legal-fallback",
       "candidatePathwayIds": []
+    },
+    {
+      "id": "route-retroactive-first-offender-treatment-under-42-8-66",
+      "priority": 10,
+      "stage": "pathway_routing",
+      "when": {
+        "backendPathwayId": "retroactive-first-offender-treatment-under-42-8-66",
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "sourceConditionText": "available once written prosecutorial consent exists; § 42-8-66 imposes no elapsed wait and no filing fee",
+        "requiredFields": [
+          "case_outcome",
+          "offense_level"
+        ]
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "legal-authority:NATIONAL-2026-08-28-LA-IMM-01",
+      "candidatePathwayIds": [
+        "retroactive-first-offender-treatment-under-42-8-66"
+      ],
+      "legalAuthority": {
+        "decisionId": "NATIONAL-2026-08-28-LA-IMM-01",
+        "ruleId": "GA-42-8-66-RETROACTIVE-FIRST-OFFENDER-CONSENT-GATED",
+        "statute": "O.C.G.A. § 42-8-66",
+        "mechanism": "Petition for retroactive First Offender treatment, exoneration and discharge"
+      }
     }
   ],
   "waitingPeriodRules": [
@@ -3547,6 +3877,32 @@
           "pathways:68-115",
           "section:68-115",
           "corpus-unit:29"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "retroactive-first-offender-treatment-under-42-8-66",
+        "pathwayLabel": "Petition for retroactive First Offender treatment, exoneration and discharge",
+        "mode": "state_specific_custom_packet_from_source_rules",
+        "formCandidates": [],
+        "formMappingStatus": "custom_or_manual_mapping_required",
+        "sourceRuleRefs": [
+          "legal-authority:NATIONAL-2026-08-28-LA-IMM-01"
         ],
         "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
         "packetReadyWhen": [

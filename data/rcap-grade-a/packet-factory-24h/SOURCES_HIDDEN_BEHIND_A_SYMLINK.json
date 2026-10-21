@@ -1,0 +1,125 @@
+{
+  "schemaVersion": "rcap-diagnosis/v1",
+  "question": "How many families are held for sources this repository already holds?",
+  "answer": "At least four. 21 pinned source digests that no family could find recompute EXACTLY against files under private/, reachable only by following a symlink.",
+  "howItWasFound": "VF64 went looking for the FDLE 40-028 blank that FIX171 had reported absent from the corpus, and found it. FIX171's search was `find .`, which does not follow symlinks; `find -L .` finds it. VF64 named the mechanism rather than just the file.",
+  "theMeasurement": {
+    "filesUnderPrivateByPlainFind": 0,
+    "filesUnderPrivateByFindDashL": 1366,
+    "pdfsReachableOnlyByFollowingTheSymlinks": 971,
+    "symlinkedDirectories": [
+      "private/source-imports/Nationwide_Recovery_Pool_2026-09-02",
+      "private/source-imports/rcap-d-source-packs-2026-08-12",
+      "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
+      "private/human-source-returns"
+    ]
+  },
+  "whatWasRecovered": {
+    "pinnedDigestsMatched": 21,
+    "pinnedDigestsNotMatched": 0,
+    "families": {
+      "nm_conviction-set": 7,
+      "nm_identity_theft-set": 4,
+      "nm_release_without_conviction-set": 7,
+      "wa_blake_vacatur_and_lfo_refund-set": 3
+    }
+  },
+  "method": "For every SOURCE_BLOCKED and SOURCE_READY family, every pinned source whose path does not exist was matched by basename and by byte length against an index of everything under private/ built by following symlinks, and every candidate was sha256'd. 21 of 21 matched their pinned digest exactly. No digest was assumed, extrapolated or reconstructed.",
+  "whyItMatters": "private/ is the sprint's source inventory and the source hierarchy names it first. A lane that searches it with plain `find` sees ZERO files and concludes honestly that a source is not in custody. Three New Mexico families and one Washington family are SOURCE_BLOCKED on sources that were here the whole time.",
+  "whatThisDoesNotDecide": "Recovering the bytes settles custody, not currency. A pinned digest matching says this repository holds the exact edition the family bound; it says nothing about whether the issuer has since published a newer one. And it does not by itself move any family: each still owes whatever else its state records.",
+  "everyLaneShouldKnow": "Search the source inventory with `find -L`, or with a tool that follows symlinks. A `find` that returns nothing under private/ is not evidence of absence.",
+  "recovered": {
+    "nm_conviction-set": [
+      {
+        "pinnedPath": "STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-953__4-953-petition-to-expunge-arrest-records-and-public-records-upon-conviction__REV-UNKNOWN__EN.pdf",
+        "recoveredAt": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-953__4-953-petition-to-expunge-arrest-records-and-public-records-upon-conviction__REV-UNKNOWN__EN.pdf"
+      },
+      {
+        "pinnedPath": "STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-956__4-956-certificate-of-service-expungement-of-records-upon-conviction__REV-UNKNOWN__EN.pdf",
+        "recoveredAt": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-956__4-956-certificate-of-service-expungement-of-records-upon-conviction__REV-UNKNOWN__EN.pdf"
+      },
+      {
+        "pinnedPath": "STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-960__notice-of-completion-of-briefing-conviction__REV-UNKNOWN__EN.pdf",
+        "recoveredAt": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-960__notice-of-completion-of-briefing-conviction__REV-UNKNOWN__EN.pdf"
+      },
+      {
+        "pinnedPath": "STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-960.3__affirmation-in-support-of-expungement-upon-conviction__REV-UNKNOWN__EN.pdf",
+        "recoveredAt": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-960.3__affirmation-in-support-of-expungement-upon-conviction__REV-UNKNOWN__EN.pdf"
+      },
+      {
+        "pinnedPath": "STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-960.1__notice-of-hearing__REV-UNKNOWN__EN.pdf",
+        "recoveredAt": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-960.1__notice-of-hearing__REV-UNKNOWN__EN.pdf"
+      },
+      {
+        "pinnedPath": "STATES/NM/05_SOURCE_GATED/NM__SOURCE-GATED__NM-LOCAL-CONVICTION-ORDER__petitioner__REV-UNKNOWN__EN.pdf",
+        "recoveredAt": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NM/05_SOURCE_GATED/NM__SOURCE-GATED__NM-LOCAL-CONVICTION-ORDER__petitioner__REV-UNKNOWN__EN.pdf"
+      },
+      {
+        "pinnedPath": "STATES/NM/04_SUPPORTING_PROCESS/NM__SUPPORT__NM-4-222__4-222-application-for-free-process-and-affidavit-of-indigency__REV-UNKNOWN__EN.pdf",
+        "recoveredAt": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NM/04_SUPPORTING_PROCESS/NM__SUPPORT__NM-4-222__4-222-application-for-free-process-and-affidavit-of-indigency__REV-UNKNOWN__EN.pdf"
+      }
+    ],
+    "nm_identity_theft-set": [
+      {
+        "pinnedPath": "STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-951__4-951-petition-to-expunge-arrest-records-and-public-records-identity-theft__REV-UNKNOWN__EN.pdf",
+        "recoveredAt": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-951__4-951-petition-to-expunge-arrest-records-and-public-records-identity-theft__REV-UNKNOWN__EN.pdf"
+      },
+      {
+        "pinnedPath": "STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-960.1__notice-of-hearing__REV-UNKNOWN__EN.pdf",
+        "recoveredAt": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-960.1__notice-of-hearing__REV-UNKNOWN__EN.pdf"
+      },
+      {
+        "pinnedPath": "STATES/NM/05_SOURCE_GATED/NM__SOURCE-GATED__NM-LOCAL-IDENTITY-THEFT-ORDER__petitioner__REV-UNKNOWN__EN.pdf",
+        "recoveredAt": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NM/05_SOURCE_GATED/NM__SOURCE-GATED__NM-LOCAL-IDENTITY-THEFT-ORDER__petitioner__REV-UNKNOWN__EN.pdf"
+      },
+      {
+        "pinnedPath": "STATES/NM/04_SUPPORTING_PROCESS/NM__SUPPORT__NM-4-222__4-222-application-for-free-process-and-affidavit-of-indigency__REV-UNKNOWN__EN.pdf",
+        "recoveredAt": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NM/04_SUPPORTING_PROCESS/NM__SUPPORT__NM-4-222__4-222-application-for-free-process-and-affidavit-of-indigency__REV-UNKNOWN__EN.pdf"
+      }
+    ],
+    "nm_release_without_conviction-set": [
+      {
+        "pinnedPath": "STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-952__4-952-petition-to-expunge-arrest-records-and-public-records-upon-release-without__REV-UNKNOWN__EN.pdf",
+        "recoveredAt": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-952__4-952-petition-to-expunge-arrest-records-and-public-records-upon-release-without__REV-UNKNOWN__EN.pdf"
+      },
+      {
+        "pinnedPath": "STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-955__4-955-certificate-of-service-expungement-of-records-upon-release-without-conviction__REV-UNKNOWN__EN.pdf",
+        "recoveredAt": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-955__4-955-certificate-of-service-expungement-of-records-upon-release-without-conviction__REV-UNKNOWN__EN.pdf"
+      },
+      {
+        "pinnedPath": "STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-959__notice-of-completion-of-briefing-nonconviction__REV-UNKNOWN__EN.pdf",
+        "recoveredAt": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-959__notice-of-completion-of-briefing-nonconviction__REV-UNKNOWN__EN.pdf"
+      },
+      {
+        "pinnedPath": "STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-960.2__affirmation-in-support-of-expungement-upon-release-without-conviction__REV-UNKNOWN__EN.pdf",
+        "recoveredAt": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-960.2__affirmation-in-support-of-expungement-upon-release-without-conviction__REV-UNKNOWN__EN.pdf"
+      },
+      {
+        "pinnedPath": "STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-960.1__notice-of-hearing__REV-UNKNOWN__EN.pdf",
+        "recoveredAt": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-960.1__notice-of-hearing__REV-UNKNOWN__EN.pdf"
+      },
+      {
+        "pinnedPath": "STATES/NM/04_SUPPORTING_PROCESS/NM__SUPPORT__NM-4-222__4-222-application-for-free-process-and-affidavit-of-indigency__REV-UNKNOWN__EN.pdf",
+        "recoveredAt": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NM/04_SUPPORTING_PROCESS/NM__SUPPORT__NM-4-222__4-222-application-for-free-process-and-affidavit-of-indigency__REV-UNKNOWN__EN.pdf"
+      },
+      {
+        "pinnedPath": "STATES/NM/05_SOURCE_GATED/NM__SOURCE-GATED__NM-SAN-JUAN-NONCONVICTION-PACKET__petition-to-expunge__REV-UNKNOWN__EN.pdf",
+        "recoveredAt": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NM/05_SOURCE_GATED/NM__SOURCE-GATED__NM-SAN-JUAN-NONCONVICTION-PACKET__petition-to-expunge__REV-UNKNOWN__EN.pdf"
+      }
+    ],
+    "wa_blake_vacatur_and_lfo_refund-set": [
+      {
+        "pinnedPath": "STATES/WA/02_PACKET_FORMS/WA__FORM__BLAKE-001__blake-001-record-vacatur-form__REV-2026-04__EN.pdf",
+        "recoveredAt": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/WA/02_PACKET_FORMS/WA__FORM__BLAKE-001__blake-001-record-vacatur-form__REV-2026-04__EN.pdf"
+      },
+      {
+        "pinnedPath": "STATES/WA/02_PACKET_FORMS/WA__FORM__BLAKE-002__blake-002-record-vacatur-form__REV-2026-04__EN.pdf",
+        "recoveredAt": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/WA/02_PACKET_FORMS/WA__FORM__BLAKE-002__blake-002-record-vacatur-form__REV-2026-04__EN.pdf"
+      },
+      {
+        "pinnedPath": "STATES/WA/02_PACKET_FORMS/WA__FORM__BLAKE-005__blake-005-record-vacatur-form__REV-2025-05__EN.pdf",
+        "recoveredAt": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/WA/02_PACKET_FORMS/WA__FORM__BLAKE-005__blake-005-record-vacatur-form__REV-2025-05__EN.pdf"
+      }
+    ]
+  }
+}

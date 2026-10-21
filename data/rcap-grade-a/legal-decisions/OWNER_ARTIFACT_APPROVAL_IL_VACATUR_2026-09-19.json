@@ -1,0 +1,111 @@
+{
+  "schemaVersion": 1,
+  "recordId": "OWN-ARTIFACT-APPROVAL-IL-VACATUR-2026-09-19",
+  "decisionOwner": "Roger Roman",
+  "decidedOn": "2026-09-19",
+  "decision": "CARRY_FORWARD_APPROVED_SHIPPING_ARTIFACTS",
+  "familyId": "il-prostitution-j-vacate-set",
+  "routeIds": [
+    "IL:felony-prostitution-relief"
+  ],
+
+  "purpose": "The dated artifact-approval record that OWN-ARTIFACT-REREVIEW-IL-VACATUR-2026-09-14 instructed be created. It creates no new review and approves no new bytes: it binds the artifacts that record already approved, and carries them into the packet specification, which until now still named the superseded 2026-09-02 pair.",
+
+  "carriesForward": {
+    "recordId": "OWN-ARTIFACT-REREVIEW-IL-VACATUR-2026-09-14",
+    "path": "data/rcap-grade-a/legal-decisions/OWNER_ARTIFACT_REREVIEW_IL_VACATUR_2026-09-14.json",
+    "sha256": "6d0a4760360f036b7c163f07c9410c3706bcdef3ce1fc69cd33061609536ae34",
+    "preservedUnchanged": true,
+    "instruction": "This exact pair is approved for shipping. Bind a new dated owner artifact-approval record to these exact hashes.",
+    "ownerAuthorizationOn": "2026-09-19",
+    "ownerAuthorizationText": "AUTHORIZED: complete Tasks #17/#18 and carry the already-approved Illinois FIX02 artifacts forward. This is NOT authorization to widen commercial authority or create new legal/artifact approval."
+  },
+
+  "supersedesArtifactDigestConditionOnly": "OWN-ADOPT-2026-09-02-BATCH-53",
+
+  "approvedArtifacts": [
+    {
+      "fixture": "canonical",
+      "file": "data/rcap-all50/overlays/census-v1/il/il-prostitution-j-vacate-set--custom-pleading/fixtures/canonical.pdf",
+      "sha256": "d4cb765983ed2ed180a74feb1a70b7b5cc43134419b2c497746d8fd188bd2657",
+      "byteLength": 7895,
+      "pageCount": 3
+    },
+    {
+      "fixture": "boundary",
+      "file": "data/rcap-all50/overlays/census-v1/il/il-prostitution-j-vacate-set--custom-pleading/fixtures/boundary.pdf",
+      "sha256": "ea728bba06d2112537e99846f12d78a1c3d7f49eb8ae0f101a94291920bbf25e",
+      "byteLength": 8073,
+      "pageCount": 3
+    }
+  ],
+  "approvedArtifactsAreIdenticalToTheRereview": true,
+
+  "packetSpecificationCarryForward": {
+    "path": "data/record-clearing/packet-specifications/IL-felony-prostitution-relief.v1.json",
+    "priorFileSha256": "7fffc6b35c6bc4e03e8b8844aec69bb1bdaca16ffa955b167b7f73e1b9dbd9fa",
+    "currentFileSha256": "50dfb8afa1ca0d434a9a9792ec5963299600ca291647d66343bacd96295028cb",
+    "priorContentSha256": "bc9050e096eeb99677edb9815eacae7c68d22914d8c08a785dfc375c68ed010f",
+    "currentContentSha256": "1f43f4eae0fc213863e5bca7567bb7314e4772d015a04be666b7b2edbfae3d9b",
+    "contentDigestDerivation": "sha256 over the canonical JSON of the document with specificationSha256 removed (sorted keys, no whitespace). The approved-artifact pins are inside that scope, so carrying them forward necessarily moves it. The digest was recomputed by that same derivation, not restated.",
+    "exactDelta": [
+      { "path": ".approvedArtifacts[0].sha256", "from": "7daaa389709afebccd46cdcee56b16c9888eb4ddcda2475c6c1e0b7315b9517d", "to": "d4cb765983ed2ed180a74feb1a70b7b5cc43134419b2c497746d8fd188bd2657" },
+      { "path": ".approvedArtifacts[0].byteLength", "from": 7802, "to": 7895 },
+      { "path": ".approvedArtifacts[1].sha256", "from": "714832a826220e0d1f82363af3aa251d6dd5e3e9d7fb7235450b002cb614705b", "to": "ea728bba06d2112537e99846f12d78a1c3d7f49eb8ae0f101a94291920bbf25e" },
+      { "path": ".approvedArtifacts[1].byteLength", "from": 7980, "to": 8073 },
+      { "path": ".specificationSha256", "from": "bc9050e096eeb99677edb9815eacae7c68d22914d8c08a785dfc375c68ed010f", "to": "1f43f4eae0fc213863e5bca7567bb7314e4772d015a04be666b7b2edbfae3d9b" }
+    ],
+    "noFieldAddedOrRemoved": true,
+    "everyOtherLeafByteIdentical": true,
+    "note": "Five leaves. Four are the approved pins the owner already signed; the fifth is the digest those four are inside. Nothing else in the specification moved: not a statute, a document, a field map, a filing destination, a fee, a service rule or a checklist."
+  },
+
+  "whatThisChanges": {
+    "substantiveLegalContent": "unchanged",
+    "legalConclusion": "unchanged",
+    "eligibility": "unchanged",
+    "routeTreatment": "unchanged",
+    "packetComponents": "unchanged",
+    "approvedBytes": "unchanged — the same pair OWN-ARTIFACT-REREVIEW-IL-VACATUR-2026-09-14 approved",
+    "whatMoved": "the packet specification now names the approved pair instead of the superseded one, and its own digest follows"
+  },
+
+  "doesNotAuthorize": [
+    "sellable status for IL:felony-prostitution-relief or any other route",
+    "consumer checkout",
+    "sponsored entitlement",
+    "packet-credit consumption",
+    "participant delivery",
+    "approved_for_live or live promotion",
+    "a new legal review or a new artifact review",
+    "Production activation",
+    "runtime authorization",
+    "any change to a route other than the one named here"
+  ],
+  "commercialStatusRule": "This record carries artifact approval forward and nothing else. IL:felony-prostitution-relief becomes commercially admissible only if every independent Grade-A gate already permits it; this record satisfies none of them on their behalf.",
+
+  "technicalEvidenceOnTheApprovedBytes": {
+    "independentVerification": {
+      "path": "data/rcap-grade-a/packet-factory-24h/VERIFIER_RETURNS.json",
+      "requirement": "one current, non-superseded PASS_COMPLETE_INDEPENDENT row for the family, binding both approved digests, with all fifteen obligations passing"
+    },
+    "centralRaster": {
+      "path": "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+      "workflowRunId": "33972727725",
+      "jobId": "101324362197",
+      "boundToCanonicalSha256": "d4cb765983ed2ed180a74feb1a70b7b5cc43134419b2c497746d8fd188bd2657",
+      "boundToBoundarySha256": "ea728bba06d2112537e99846f12d78a1c3d7f49eb8ae0f101a94291920bbf25e",
+      "note": "A raster pass proves rendering, never legality. It is recorded because the disposition required a central receipt on the approved bytes before the pins could move."
+    },
+    "priorDisposition": {
+      "path": "docs/rcap/grade-a/captain/IL_PIN_DISPOSITION_2026-09-06.md",
+      "requiredBeforeMovingPins": [
+        "a new owner legal-decision record naming the moved bytes",
+        "a fresh post-approval position on the family reviewed against that record",
+        "a fresh central raster receipt on the new bytes",
+        "only then may a lane holding that record move the pins"
+      ],
+      "status": "steps one to three were already satisfied by the 2026-09-14 re-review and the 33972727725 raster; the owner authorized step four on 2026-09-19"
+    }
+  }
+}

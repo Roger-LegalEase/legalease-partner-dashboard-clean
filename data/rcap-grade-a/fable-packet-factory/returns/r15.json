@@ -1,0 +1,327 @@
+{
+  "schemaVersion": "rcap-fable-repair-return/v1",
+  "worker": "FABLE-R15",
+  "role": "repair",
+  "lanes": ["FIX01", "FIX02", "FIX03"],
+  "branch": "fable/r15",
+  "baseSha": "55f3cbeff",
+  "baseSubject": "Re-open four repair grants under amendment A2",
+  "grantSet": "60312a6e8b0d0c82",
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "selfVerified": false,
+  "verificationNote": "This lane repairs and does not score. Every family is released and awaits a fresh independent read. No vf*/rows.json, VERIFIER_RETURNS.json, MASTER_QUEUE.json, RASTER_QUEUE.json or ACTIVE_ASSIGNMENTS.json was written, and no factory generator was run.",
+
+  "standardsRead": [
+    "data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json in full, including amendment A1 and amendment2 A2"
+  ],
+
+  "claims": [
+    { "lane": "FIX01", "familyId": "ut_pet_acquittal-set", "assert": "CLAIM_OK", "release": "RELEASED" },
+    { "lane": "FIX01", "familyId": "wv_conv_multiple_misdemeanors-set", "assert": "CLAIM_OK", "release": "RELEASED" },
+    { "lane": "FIX02", "familyId": "ut_pet_conviction-set", "assert": "CLAIM_OK", "release": "RELEASED" },
+    { "lane": "FIX02", "familyId": "wv_conv_single_misdemeanor-set", "assert": "CLAIM_OK", "release": "RELEASED" },
+    { "lane": "FIX03", "familyId": "ut_pet_dismissed_with_prejudice-set", "assert": "CLAIM_OK", "release": "RELEASED" }
+  ],
+  "reissueOrTransferUsed": false,
+  "blockedBeforeClaim": [],
+
+  "cohorts": {
+    "utah": {
+      "families": ["ut_pet_acquittal-set", "ut_pet_conviction-set", "ut_pet_dismissed_with_prejudice-set"],
+      "verifierRows": [
+        "data/rcap-grade-a/packet-factory-24h/vf02/rows.json (ut_pet_acquittal-set)",
+        "data/rcap-grade-a/packet-factory-24h/vf03/rows.json (ut_pet_conviction-set)",
+        "data/rcap-grade-a/packet-factory-24h/vf04/rows.json (ut_pet_dismissed_with_prejudice-set)"
+      ],
+      "verifier": "FABLE-VT6, at base efda1c0aa5e8e5c6b2b519dca84b0adaee66c595",
+      "failedObligations": ["FILING_DESTINATION", "SERVICE"],
+      "defectConfirmedInThisLane": {
+        "what": "All three shipped a 1,167-byte participant-instructions.md whose only heading was '# Required before filing'. It named no court, no agency, no fee, no waiver route, no service recipient and no service method. It listed 'Judicial district and court street address for the filing venue' as a blank the participant must supply, which is the opposite of naming a destination, and 'Service method, address, date, and certification only after service occurs', which hands the participant the recipient and the method as blanks.",
+        "measuredHere": "sha256 of the three instruction files was identical (e9afeb4d484f3ad6..., 1167 bytes each), read at base 55f3cbeff before any change.",
+        "rootCause": "NOT a missing capability. The owning host scripts/build-census-v1-ut_pet_acquittal-set.mjs ALREADY carried a full participantInstructions() writing the filing destination, the $150 fee, the 1305GE waiver route and the prosecutor service step -- added by 1b682a791 and ad6056be5 (FIX01, ut_pet_no_charges-set). Four Utah families were rebuilt on the improved host and three were not. These three shipped stale artifacts: their committed instructions were the pre-repair output of a host that had since been fixed.",
+        "consequence": "The repair required no host source change at all. It is a rebuild through the owning script, which is what the method demands."
+      },
+      "whatChanged": {
+        "hostSourceChanged": false,
+        "hostSourceFile": "scripts/build-census-v1-ut_pet_acquittal-set.mjs (UNMODIFIED)",
+        "rebuiltThrough": [
+          "node scripts/build-census-v1-ut_pet_acquittal-set.mjs",
+          "node scripts/build-census-v1-ut_pet_conviction-set.mjs",
+          "node scripts/build-census-v1-ut_pet_dismissed_with_prejudice-set.mjs"
+        ],
+        "filesChangedPerFamily": [
+          "participant-instructions.md (1,167 bytes -> 6,356 bytes; now byte-identical to the sibling families that were already correct)",
+          "production-field-map.json",
+          "build-findings.json"
+        ],
+        "fixturePdfsChanged": false,
+        "rasterPngsChanged": false
+      },
+      "heldRecordBehindEachReplacement": {
+        "filingDestination": "Two destinations in order, from UT-BCI-EXP-INSTRUCTIONS (Utah Bureau of Criminal Identification, Expungement Applicant Instructions, sha256 9e03980f512fe3aa89418539407f542a34d734a8c12516b40682dd50b9dadefa) -- BCI issues the certificate of eligibility, then the Utah district court for the county where the case was heard receives 1044XX, 1000EX and 1020EX. The 180-day deadline between the two steps is from the same publication. Each cited authority is re-hashed against data/rcap-all50/local-source-corpus-index.json on the build, so a drifted source refuses rather than silently changes the text.",
+        "fee": "$150, stated because the repository holds the figure on the packet's own face: form 1044XX page 2 prints the row '$150 [ ] Expungement Petition - Criminal (E)' and the packet already selects it. Source 1044XX sha256 b99586289df6304da5b34181bee95ec2b7f098806c1c949a0f112daeb0244a52.",
+        "waiver": "Utah form 1305GE, Motion to Waive Fees for Expungement - Criminal, under Utah Code 78A-2-302 and CJA Rule 4-508. Named as a form, not gestured at; the packet says it is not included in the fixture and where to get it.",
+        "bciFee": "NOT invented. The BCI certificate fee is set per applicant in BCI's own letter, so the packet states that no held source gives an amount and names the Bureau of Criminal Identification as the office that answers it, alongside BCI's separately published Indigent Expungement Applicant Instructions (sha256 862e058f91200020f1f00752b05e52c955ea3972264a82915a4ed5da7664b9e0). This is the determination's third 'met' limb used exactly where it belongs: the repository genuinely does not hold the figure. Note the A1/A2 test was applied first and answered no for this one item only -- every other money and destination statement in the packet is stated because the repository does hold it.",
+        "service": "'Mail or email the prosecutor copies of what you file', quoted from UT-BCI-EXP-INSTRUCTIONS, plus form 1146XX (Acceptance of Service - Expungement (Prosecutor)) which ships in the packet, plus the Utah State Courts Self-Help Center on 888-583-0009 as the named checkable authority. Recipient and method are both stated, which is what the failed obligation asked for.",
+        "proximity": "Per A2's answersVT13B1 guidance, each money statement sits in the same section as the authority that answers it rather than being scattered."
+      },
+      "alsoCorrectedByTheRebuild": {
+        "blankId": "UT-BCI-EXP-APPLICATION p2-y37.35-x188.34, captured caption 'SID#R&F'",
+        "was": "REQUIRED_BEFORE_FILING",
+        "now": "PROTECTED_FIELD",
+        "why": "The blank sits inside the form's printed 'BUREAU USE ONLY' box (heading baseline y=58.14, blank at y=37.35) and the family's own field census marks it protectCategory 'government_identifier'. A blank the bureau completes cannot be an item the participant must supply. This was vf08's finding against ut_pet_limitations-set; the host fix that answered it there reaches these three on rebuild.",
+        "notClaimedAsScored": "Reported as a side effect of the rebuild, not as a verdict."
+      }
+    },
+
+    "westVirginia": {
+      "families": ["wv_conv_multiple_misdemeanors-set", "wv_conv_single_misdemeanor-set"],
+      "verifierRows": [
+        "data/rcap-grade-a/packet-factory-24h/vf10/rows.json (wv_conv_multiple_misdemeanors-set)",
+        "data/rcap-grade-a/packet-factory-24h/vf11/rows.json (wv_conv_single_misdemeanor-set)"
+      ],
+      "verifier": "FABLE-VT6, at base efda1c0aa5e8e5c6b2b519dca84b0adaee66c595",
+      "failedObligations": ["FEE_AND_WAIVER", "FILING_DESTINATION"],
+      "defectConfirmedInThisLane": {
+        "what": "participant-instructions.md was a blanks list with no filing section and no money statement anywhere. Searched here for '$', 'fee', 'waiver', 'indigent', 'in forma pauperis', 'cost': zero hits. The only direction toward a court was 'in the manner the form and filing court require'.",
+        "underA2": "Both answers were already in the repository. The committed track registry data/record-clearing/legal-design-track-registry.json holds destination.name 'Clerk of the circuit court of the county of conviction' and a destination.detail naming the fee, and the committed packet-set manifest's participantActionRequired entries hold pay_fee, apply_fee_waiver, serve_party and file verbatim. The committed route obligation census data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json carries the same destination and fee bound to this exact routeKey, and names the compiled profile src/lib/rcap-engine/compiled/profiles/WV-west-virginia.json as a requiredSourceId. A1's test is answered yes; naming an authority to ask would have substituted a question for an answer the repository already has.",
+        "rootCause": "The host held a single frozen PARTICIPANT_INSTRUCTIONS template string covering only the blanks list. Unlike Utah this was a genuine gap in the host, not a stale artifact -- a no-change rebuild reproduced the committed bytes exactly before I touched anything."
+      },
+      "whatChanged": {
+        "hostSourceChanged": true,
+        "hostSourceFile": "scripts/build-census-v1-wv_conv_multiple_misdemeanors-set.mjs",
+        "change": "Replaced the frozen PARTICIPANT_INSTRUCTIONS constant with participantInstructions(familyId, shipsC900, multiCounty), adding a 'Where you file this' section, a 'What it costs, and whether there is a waiver' section, a 'Who must receive a copy' section, a 'What this packet is not' section and a 'Where these directions come from' section naming the committed records each direction came from. The write site now passes whether SCA-C900 actually ships and whether the route is the multi-county one.",
+        "rebuiltThrough": [
+          "node scripts/build-census-v1-wv_conv_single_misdemeanor-set.mjs",
+          "node scripts/build-census-v1-wv_conv_multiple_misdemeanors-set.mjs"
+        ],
+        "filesChangedPerFamily": ["participant-instructions.md"],
+        "fixturePdfsChanged": false,
+        "rasterPngsChanged": false,
+        "incidentalCorrection": "The old shared constant told every reader 'The included SCA-C900 is an instructions/reference component only'. wv_conv_multiple_misdemeanors-set does not ship SCA-C900 -- the verifier noted the absence -- so that sentence was false in that packet. It is now emitted only where receipt.documents actually contains SCA-C900, which is the single-misdemeanour family alone."
+      },
+      "heldRecordBehindEachReplacement": {
+        "filingDestination": {
+          "stated": "Clerk of the circuit court of the county of conviction -- the circuit court in which the conviction(s) occurred. For the multi-county family, the petition identifies and groups by circuit court and the prosecuting attorney of every county of conviction is served.",
+          "heldIn": [
+            "data/record-clearing/legal-design-track-registry.json -> wv_conv_single_misdemeanor.destination.name / .detail / .venue, and wv_conv_multiple_misdemeanors.destination.name / .detail / .venue",
+            "data/record-clearing/legal-design-track-registry.json -> packetSet.participantActionRequired 'file' entry, per track",
+            "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json -> routeKey obligation:track-pathway:WV:<trackId>:eligible-conviction-expungement-under-w-va-code-61-11-26, destination.name / .detail"
+          ]
+        },
+        "fee": {
+          "stated": "The circuit clerk charges the W. Va. Code § 59-1-11(a)(1) civil-action filing fee, which the official text sets at $200. A further $100 is paid to the records division of the West Virginia State Police under § 61-11-26(n) only on grant.",
+          "heldIn": [
+            "track registry participantActionRequired 'pay_fee': 'The circuit clerk charges the same fee as for instituting a civil action under § 59-1-11(a)(1), which the official text sets at $200. A person obtaining an order of expungement pays a further $100 to the records division of the West Virginia State Police under § 61-11-26(n).'",
+            "track registry destination.detail, both tracks, which states $200 and the $100 on grant",
+            "route obligation census destination.detail for this exact routeKey"
+          ],
+          "figureNotInvented": "The $200 was NOT taken from the compiled state profile, which stops at 'the same fee as filing a civil action' and gives no number. It was taken from the committed track registry and the committed route census, which both state it in terms. The compiled profile was read and is recorded here as corroborating the $100 State Police fee and the shape of the clerk fee, not as the source of the figure."
+        },
+        "waiver": {
+          "stated": "No held source establishes a waiver route for this filing. The $100 State Police fee is waived only on a § 61-11-26a accelerated treatment/job-readiness petition, which is a different route. Any relief from the $200 clerk fee would be under the circuit court's ordinary civil indigency practice, which the controlling review did not establish -- so the packet names no form and tells no one they qualify, and directs the participant to ask the clerk of the circuit court of the county of conviction, the same office they file with.",
+          "heldIn": [
+            "track registry participantActionRequired 'apply_fee_waiver', wv_conv_single_misdemeanor: 'none under § 61-11-26. The $100 State Police fee is waived only on a § 61-11-26a petition. Any relief from the $200 circuit clerk fee would be under the circuit court's ordinary civil indigency practice, which the controlling review did not establish.'",
+            "track registry participantActionRequired 'apply_fee_waiver', wv_conv_multiple_misdemeanors: 'none under § 61-11-26. The $100 State Police fee is waived only on a § 61-11-26a petition.'",
+            "src/lib/rcap-engine/compiled/profiles/WV-west-virginia.json, searched here for 'waiver', 'waive', 'indigent', 'in forma pauperis', 'unable to pay', 'affidavit', '59-2-1': the only waiver it records is the § 61-11-26a State Police fee waiver, which is not this route."
+          ],
+          "standardApplied": "The refusal is itself a held record, so this is the determination's third 'met' limb applied where A1/A2 permit it: the repository was asked first, it establishes the fee (stated) and establishes that there is no waiver route under this section (stated), and only the residual question -- what this particular circuit court does for a petitioner who cannot pay -- is handed to a named, reachable office. Nothing was invented and no figure was guessed."
+        },
+        "service": {
+          "stated": "The five § 61-11-26(e) recipients, enumerated: Superintendent of the State Police; the prosecuting attorney of the county (or counties) of conviction; the chief law-enforcement officer of the arresting agency; the superintendent, warden or Commissioner of Corrections of any institution of confinement; and the circuit, magistrate or municipal court that disposed of the charge. Identified victims are served by the prosecuting attorney under § 61-11-26(f), not by the participant.",
+          "heldIn": [
+            "track registry wv_common_conv_procedure.mechanism, read at source 2026-08-06, enumerating the five subsection (e) recipients and the subsection (f) victim rule",
+            "track registry participantActionRequired 'serve_party', both tracks"
+          ],
+          "note": "SERVICE already PASSED for both families -- the verifier found the five recipients on the packet's own face. This section was added because the same held record that supplies the destination and the fee supplies the recipients, and a filing section that stops before service leaves the participant mid-process. It is an improvement to a passing obligation, not a claimed repair."
+        }
+      },
+      "openCounselQuestionRecorded": {
+        "raisedOriginallyBy": "FABLE-VT11, against wv_dui_deferral_expungement-set (not mine, not touched)",
+        "question": "Does relief obtained under W. Va. Code § 17C-5-2b count against the once-per-lifetime limit in § 61-11-26(o)?",
+        "presentInMyFamilies": true,
+        "howItPresentsHere": "It is the mirror image of VT11's finding and it bites harder on these two routes than on the DUI-deferral route. § 61-11-26(o) is listed as an exclusion in BOTH of my families' registry entries -- 'A person who has already obtained expungement under § 61-11-26 or § 61-11-26a. The relief is available only once.' A participant who has already taken § 17C-5-2b relief therefore needs to know whether they have spent their one shot before filing either of these petitions. No committed record answers it: the registry, the route census and the compiled WV profile all frame the once-per-lifetime limit strictly in terms of §§ 61-11-26 and 61-11-26a and are silent on 17C-5-2b.",
+        "whatIDidAboutIt": "Nothing in the packet. This is an open counsel question, not an obligation failure, so I recorded it rather than answering it. I did not add once-per-lifetime counsel to either packet, because any wording general enough to be useful would read as an answer to a question the repository has not answered, and § 61-11-26(o) counsel belongs to the shared wv_common_conv_procedure node rather than to either petition family.",
+        "forCaptain": "One counsel answer would settle it for at least three West Virginia families: wv_dui_deferral_expungement-set, wv_conv_single_misdemeanor-set and wv_conv_multiple_misdemeanors-set."
+      }
+    }
+  },
+
+  "controls": {
+    "method": "A host change must reach only families that opt into it. Every host touched or depended on was exercised on an unrelated family and the working tree inspected for any diff.",
+    "results": [
+      {
+        "host": "scripts/build-census-v1-ut_pet_acquittal-set.mjs",
+        "hostSourceChanged": false,
+        "controlFamily": "ut_pet_no_charges-set",
+        "result": "NO DIFF",
+        "detail": "Rebuilt through its own script; git reported no change under its overlay directory."
+      },
+      {
+        "host": "scripts/build-census-v1-ut_pet_acquittal-set.mjs",
+        "hostSourceChanged": false,
+        "controlFamily": "ut_pet_traffic-set",
+        "result": "NO DIFF",
+        "detail": "The traffic route takes the other branch of every conditional in participantInstructions(); rebuilding it proves the branch my three families take did not leak into it."
+      },
+      {
+        "host": "scripts/build-census-v1-ut_pet_acquittal-set.mjs",
+        "hostSourceChanged": false,
+        "controlFamily": "ut_pet_dismissed_without_prejudice-set",
+        "result": "NO DIFF",
+        "detail": "The strongest Utah control: it is the sibling whose instructions my three were repaired to match, so an unintended change would show here first."
+      },
+      {
+        "host": "scripts/build-census-v1-ut_pet_acquittal-set.mjs",
+        "hostSourceChanged": false,
+        "controlFamily": "ut_pet_limitations-set",
+        "result": "NO DIFF, AND NOT REBUILT",
+        "detail": "Explicitly excluded from this lane. I never invoked its build script. Confirmed clean in git status at the end of the run, and confirmed unchanged in the shared wave rows file."
+      },
+      {
+        "host": "scripts/build-census-v1-ne-setaside-custodial-set.mjs (shared baseline the WV host imports as runBaselineFamily; NOT modified by me)",
+        "hostSourceChanged": false,
+        "controlFamily": "ne-setaside-custodial-set",
+        "result": "NO DIFF"
+      },
+      {
+        "host": "scripts/build-census-v1-ne-setaside-custodial-set.mjs (shared baseline; NOT modified by me)",
+        "controlFamily": "sd_arrest_expungement-set",
+        "result": "NO DIFF, after correcting my own control method",
+        "detail": "First attempt invoked the baseline's runFamilyById directly and produced a large diff (fixtures, rasters, instructions, receipts). That was MY error, not a host defect: sd_arrest_expungement-set has its own owning script, scripts/build-census-v1-sd_arrest_expungement-set.mjs, which post-processes the baseline output, so the baseline alone emits a partial, pre-post-processing build with a different fixed CreationDate (D:20260101000000Z vs the committed D:20260831000000Z) and 6,130 fewer bytes. I reverted the directory with a path-scoped git checkout, confirmed it clean, then re-ran the control through the owning script and got NO DIFF. Recorded rather than quietly dropped, because the failed attempt is the reason a Captain should know the baseline is never the owning host for SD."
+      },
+      {
+        "host": "scripts/build-census-v1-wv_conv_multiple_misdemeanors-set.mjs (the one host whose SOURCE I changed)",
+        "hostSourceChanged": true,
+        "controlFamily": "none available on this host",
+        "result": "REACH BOUNDED BY INSPECTION",
+        "detail": "This host declares exactly two families in FAMILY_SPECS and both are mine. A repository-wide search for importers found exactly one: scripts/build-census-v1-wv_conv_single_misdemeanor-set.mjs, my other family. Nothing else in scripts/ or src/ imports it, so the change cannot reach a third family. Its only dependency, the NE baseline host, was left unmodified and controlled twice above."
+      }
+    ],
+    "controlsSummary": "6 control builds run, 6 NO DIFF (one after correcting my own invocation error). ut_pet_limitations-set deliberately not rebuilt and verified untouched."
+  },
+
+  "determinismProof": {
+    "method": "Build twice, hash every file under each family directory, diff the hash lists.",
+    "utah": {
+      "families": ["ut_pet_acquittal-set", "ut_pet_conviction-set", "ut_pet_dismissed_with_prejudice-set"],
+      "filesCompared": 150,
+      "result": "BYTE-IDENTICAL across two consecutive builds"
+    },
+    "westVirginia": {
+      "families": ["wv_conv_multiple_misdemeanors-set", "wv_conv_single_misdemeanor-set"],
+      "filesCompared": 50,
+      "result": "BYTE-IDENTICAL across two consecutive builds"
+    },
+    "creationDateHazard": {
+      "checkedFor": "the wall-clock /CreationDate that survives save({updateMetadata:false}) and silently invalidates a hash-bound raster receipt",
+      "utahHost": "NOT PRESENT. Two consecutive builds produced identical fixture bytes, and the fixtures also reproduced the bytes committed at base, so the committed raster receipts remain valid.",
+      "westVirginiaHost": "NOT PRESENT. scripts/build-census-v1-wv_conv_multiple_misdemeanors-set.mjs already pins packet.setCreationDate(FIXED_DATE) and packet.setModificationDate(FIXED_DATE) with FIXED_DATE = 2026-01-01T00:00:00Z before save({useObjectStreams:false, updateMetadata:false}). Proved empirically as well: a no-change rebuild run BEFORE I edited the host reproduced the committed fixture bytes exactly.",
+      "stampDeterministicNeeded": false,
+      "note": "Neither of my hosts needed the factory's stampDeterministic. The worked examples in scripts/build-census-v1-ky_void_seal_controlled_substance-set.mjs and scripts/build-census-v1-pa_pardon_expungement-set.mjs were read but not applied, because applying a fix to a host that does not have the defect would itself change bytes for no reason."
+    }
+  },
+
+  "completeness": {
+    "tool": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <familyId>",
+    "nineCountersAllZeroBeforeAndAfter": true,
+    "families": [
+      { "familyId": "ut_pet_acquittal-set", "before": { "verdict": "PASS_COMPLETE", "written": "38/444", "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0 }, "after": { "verdict": "PASS_COMPLETE", "written": "38/444", "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0 } },
+      { "familyId": "ut_pet_conviction-set", "before": { "verdict": "PASS_COMPLETE", "written": "38/444", "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0 }, "after": { "verdict": "PASS_COMPLETE", "written": "38/444", "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0 } },
+      { "familyId": "ut_pet_dismissed_with_prejudice-set", "before": { "verdict": "PASS_COMPLETE", "written": "38/444", "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0 }, "after": { "verdict": "PASS_COMPLETE", "written": "38/444", "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0 } },
+      { "familyId": "wv_conv_multiple_misdemeanors-set", "before": { "verdict": "PASS_COMPLETE", "written": "26/89", "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0 }, "after": { "verdict": "PASS_COMPLETE", "written": "26/89", "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0 } },
+      { "familyId": "wv_conv_single_misdemeanor-set", "before": { "verdict": "PASS_COMPLETE", "written": "21/166", "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0 }, "after": { "verdict": "PASS_COMPLETE", "written": "21/166", "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0 } }
+    ],
+    "note": "The nine counters were already all-zero before this lane, and stay all-zero after. That is expected and is not evidence the repair was unnecessary: the failed obligations were FILING_DESTINATION, FEE_AND_WAIVER and SERVICE, which this reader does not score. Both readings are reported because the instruction says to, and because an unchanged all-zero reading is the proof that a text repair did not disturb the field work."
+  },
+
+  "rasterOwed": {
+    "families": [],
+    "anyFixturePdfBytesChanged": false,
+    "detail": "No fixture PDF and no raster PNG changed in any of the five families. Verified by git status across every family directory after every build: the only modified paths were participant-instructions.md, production-field-map.json, build-findings.json and one shared build-lane rows file. Every family's hash-bound raster receipt therefore still matches its artifact bytes and no fresh central raster is owed. No old/new SHA-256 pair is reported because no fixture changed."
+  },
+
+  "utPetLimitationsSetFinding": {
+    "instruction": "Report explicitly what was found, because a passing family carrying the same defect would mean a verifier missed it.",
+    "touched": false,
+    "rebuilt": false,
+    "verdict": "THE PASS IS SOUND. ut_pet_limitations-set does NOT carry the 1,167-byte stub and did not carry it at the time VT6 said it did. No verifier missed anything; VT6 wrote a stale cross-reference.",
+    "whatVT6Claimed": "The vf02, vf03 and vf04 rows each carry alsoAffectedNotInThisLane: 'ut_pet_limitations-set ships the byte-identical artifact and the byte-identical 1,167-byte stub; it is not claimed by this lane and is named here so the repair is not scoped too narrowly', and the whyNotAPass narrative repeats it.",
+    "whatIsActuallyTrue": [
+      "At my base 55f3cbeff, ut_pet_limitations-set/participant-instructions.md is 6,356 bytes, sha256 prefix d11ba889207735fb, byte-identical to ut_pet_dismissed_without_prejudice-set. The three stub families were 1,167 bytes, sha256 prefix e9afeb4d484f3ad6.",
+      "At VT6's OWN declared base efda1c0aa5e8e5c6b2b519dca84b0adaee66c595, the same file was already 6,356 bytes. The claim was therefore false at the moment it was written, not merely overtaken later.",
+      "It was repaired by commit 5641cb20d, 'FIX08: repair ut_pet_limitations-set on the four failed obligations', at 2026-09-01 16:16:13 UTC -- before VT6's base.",
+      "The 'byte-identical artifact' half of VT6's claim IS correct and remains correct: ut_pet_limitations-set, ut_pet_acquittal-set, ut_pet_conviction-set and ut_pet_dismissed_with_prejudice-set all ship canonical.pdf with sha256 prefix ad594f0a40750195b67e. That shared artifact is very likely what led VT6 to assume the instructions were shared too. They were not.",
+      "Independent corroboration from this lane: I rebuilt ut_pet_limitations-set's three unrelated Utah siblings through the same host and all produced NO DIFF, which means the committed artifacts of the already-correct Utah families -- limitations among them -- already match what the repaired host emits."
+    ],
+    "onTheTwoConflictingRows": {
+      "vf08": "FAIL_REPAIR_REQUIRED on requiredBeforeFiling, filingDestination, feeAndWaiver and service. This is the PRE-FIX08 state and the findings were right; FIX08 is the repair that answered them.",
+      "vf09": "PASS_COMPLETE_INDEPENDENT by FABLE-VT3 at base edf5ff14b9bb418dfafc57b75e4a7acc6ece1666, dated 2026-09-01 23:40:51 UTC -- seven and a half hours AFTER FIX08 landed. The pass is a post-repair read of repaired bytes.",
+      "conclusion": "The two rows are not in conflict; they are the same family before and after its repair. Nothing here needs re-verification on my account."
+    }
+  },
+
+  "stoppedOn": [],
+  "observationsForCaptain": [
+    {
+      "id": "R15-OBS-1",
+      "subject": "VT6's stale cross-reference against ut_pet_limitations-set",
+      "what": "Three verifier rows (vf02, vf03, vf04) assert a defect in a family that had been repaired before those rows' own declared base. The assertion is wrong on the bytes. It caused no harm here because the family was excluded from my grant anyway, but a cross-reference to a family a lane does not hold is not measured by that lane and should be read as a pointer to check, not as a finding.",
+      "actionTaken": "Recorded only. I wrote nothing to any vf* row."
+    },
+    {
+      "id": "R15-OBS-2",
+      "subject": "Four Utah families ship byte-identical packet artifacts",
+      "what": "ut_pet_acquittal-set, ut_pet_conviction-set, ut_pet_dismissed_with_prejudice-set and ut_pet_limitations-set all ship canonical.pdf with sha256 prefix ad594f0a40750195b67e, and after this repair all four also ship byte-identical participant-instructions.md. Their product-wiring.json routeSelectionId values differ correctly (ut-acquittal-bci-plus-court, ut-conviction-bci-plus-court, ut-dismissed-with-prejudice-bci-plus-court, ut-limitations-bci-plus-court), so the wiring distinguishes the routes even though nothing on the delivered packet's face does.",
+      "whyItMayBeFine": "The Utah forms 1000EX, 1020EX and 1044XX may simply be route-independent on their face, and ROUTE_IDENTITY was scored PASS for all three of my families by VT6.",
+      "whyACaptainShouldStillLookAtIt": "Four routes with different eligibility rules and different waiting periods deliver a participant the same bytes. If that is correct it should be recorded as correct once, rather than re-discovered by each lane that notices it.",
+      "notAClaim": "I am not asserting a defect. I did not score it and I did not act on it."
+    },
+    {
+      "id": "R15-OBS-3",
+      "subject": "The SD baseline-host trap",
+      "what": "scripts/build-census-v1-ne-setaside-custodial-set.mjs declares thirteen families including sd_arrest_expungement-set and all seven Utah families, but for at least SD it is a baseline that a separate owning script post-processes. Invoking the baseline directly on such a family silently produces a materially different artifact -- different fixed CreationDate, 6,130 fewer bytes -- that looks like a legitimate rebuild. Any lane using that host for a control should invoke the family's own owning script.",
+      "actionTaken": "Reverted with a path-scoped checkout, re-ran correctly, reported."
+    }
+  ],
+
+  "hardRulesObserved": {
+    "wroteToVerifierArtifacts": false,
+    "ranFactoryGenerator": false,
+    "productionSupabaseRlsStripeSecretsMigrations": "none touched",
+    "commercialRoutesOpened": 0,
+    "familiesPromoted": 0,
+    "approvalsGranted": 0,
+    "gitAddAllUsed": false,
+    "modelIdentifierInCommittedFiles": false,
+    "otherAgentsWorktreesTouched": false
+  },
+
+  "filesChanged": [
+    "scripts/build-census-v1-wv_conv_multiple_misdemeanors-set.mjs",
+    "data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill/participant-instructions.md",
+    "data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill/production-field-map.json",
+    "data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill/build-findings.json",
+    "data/rcap-all50/overlays/census-v1/ut/ut-pet-conviction-set--official-pdf-fill/participant-instructions.md",
+    "data/rcap-all50/overlays/census-v1/ut/ut-pet-conviction-set--official-pdf-fill/production-field-map.json",
+    "data/rcap-all50/overlays/census-v1/ut/ut-pet-conviction-set--official-pdf-fill/build-findings.json",
+    "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-with-prejudice-set--official-pdf-fill/participant-instructions.md",
+    "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-with-prejudice-set--official-pdf-fill/production-field-map.json",
+    "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-with-prejudice-set--official-pdf-fill/build-findings.json",
+    "data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill/participant-instructions.md",
+    "data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill/participant-instructions.md",
+    "data/rcap-grade-a/wave-2/p1-ut-petition-expunge-completeness/rows.json",
+    "data/rcap-grade-a/packet-factory-24h/claim-ledger.json",
+    "data/rcap-grade-a/fable-packet-factory/returns/r15.json"
+  ],
+  "sharedRowsFileScope": "data/rcap-grade-a/wave-2/p1-ut-petition-expunge-completeness/rows.json changed for exactly ut_pet_acquittal-set, ut_pet_conviction-set and ut_pet_dismissed_with_prejudice-set. The other four Utah rows, ut_pet_limitations-set included, are byte-identical to base. The West Virginia lane rows file data/rcap-grade-a/wave-2/p3-wv-conviction-completeness/rows.json did not change at all.",
+
+  "perFamilyOutcome": [
+    { "familyId": "ut_pet_acquittal-set", "outcome": "REPAIRED", "fixtureBytesChanged": false, "awaiting": "fresh independent verification" },
+    { "familyId": "ut_pet_conviction-set", "outcome": "REPAIRED", "fixtureBytesChanged": false, "awaiting": "fresh independent verification" },
+    { "familyId": "ut_pet_dismissed_with_prejudice-set", "outcome": "REPAIRED", "fixtureBytesChanged": false, "awaiting": "fresh independent verification" },
+    { "familyId": "wv_conv_multiple_misdemeanors-set", "outcome": "REPAIRED", "fixtureBytesChanged": false, "awaiting": "fresh independent verification" },
+    { "familyId": "wv_conv_single_misdemeanor-set", "outcome": "REPAIRED", "fixtureBytesChanged": false, "awaiting": "fresh independent verification" }
+  ]
+}

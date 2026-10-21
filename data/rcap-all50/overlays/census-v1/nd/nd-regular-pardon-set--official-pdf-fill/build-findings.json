@@ -1,0 +1,62 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "nd-regular-pardon-set",
+  "blocking": [],
+  "findings": [
+    {
+      "finding": "THE SOURCE WAS NEVER MISSING FROM THE RECORD, ONLY FROM CUSTODY, AND TWO COMMITTED RECORDS STILL SAY OTHERWISE. MASTER_QUEUE.json's row for this family reads sourceBound true and sourceReadiness.ready true while its own sourceReadiness.custodyClass reads SOURCE_GENUINELY_MISSING, and SOURCE_IDENTITY_RESOLUTION_SWEEP.json answers GENUINELY_ABSENT with resolvedSourceCount 0 and buildableToday false.",
+      "consequence": "Measured here instead: the file is mounted at LegalEase North Dakota/source-acquisition-2026-09-04/North-Dakota-Pardon-Advisory-Board-Application-1.pdf under custody nationwide_recovery_pool_2026_09_02, hashes to b88cb559c375d2443c15dd33c19f3f42387010e494ade28fc25bdbfdd75e8d5b at 211478 bytes, and carries 8 pages and 229 AcroForm fields — matching the committed index entry, the acquisition receipt and the rematerialization record exactly. Both stale records predate the 2026-09-09 materialization. The build binds by digest and not by either record's readiness flag; the disagreement is reported rather than silently resolved."
+    },
+    {
+      "finding": "THE COMMITTED CORPUS INDEX CARRIES THIS BINARY WITH formNumber null AND assetClass null, because the Nationwide Recovery Pool is indexed under the filename each file was downloaded as rather than under a form slug.",
+      "consequence": "A resolver matching the queue's `official-form:SFN-14859` against the index finds nothing while the bytes sit there. This build resolves by SHA-256 alone — the identity all four records agree on — over every indexed path carrying that digest plus the declared path, across both mounted custody roots. The source receipt records the queue's sourceId and the acquisition receipt's ND-SFN-14859 together so the two names are never read as two documents."
+    },
+    {
+      "finding": "TWENTY-EIGHT BLANKS ON THIS FORM BIND A PARTICIPANT FACT BY FIELD NAME AND DESCRIBE SOMEONE OR SOMETHING ELSE. Measured by running decideBinding over all 229 authored names, not inferred: `NameRow1`..`NameRow7` return participant.full_legal_name and are the VICTIM name column of item 3; `AddressRow1`..`Row5` and `Telephone NumberRow1`..`Row5` return the participant's address and phone and are the EMPLOYER'S in item 11; `City or CountyRow1`..`Row9` return participant.city and are the VENUE of each offence; `Home Telephone Number` and `Work Telephone Number` both return participant.phone.",
+      "consequence": "Each is refused BY ROLE before anything is rendered and recorded in reports/blanks-left-for-the-participant.json under nearMissesRefusedByRole rather than quietly avoided. Left to the name channel this packet would have named the applicant as the victim of their own offence seven times over, given the employer the applicant's home address and telephone number, and recorded all nine offences as prosecuted in the town the applicant happens to live in. The byte proof confirms none of the twenty-eight carries ink in either fixture."
+    },
+    {
+      "finding": "ITEM 18'S RESIDENCE TABLE IS THE ONE NEAR-MISS THAT REALLY IS ABOUT THE APPLICANT, AND IT IS STILL REFUSED. `Residence AddressRow1`..`Row5` bind participant.street_address and the column genuinely holds the applicant's own addresses.",
+      "consequence": "The cell holds a DATED ROW of a five-row residence history — Start Date, End Date, Residence Address — and the platform holds a current mailing address with no dates. A dated row is a different fact from a current address; the form does not say whether row 1 is the most recent residence or the oldest; and a row with an address and two empty date cells reads as a finished row on a form whose instruction is that an incomplete application is RETURNED. The whole table is carried to the participant. THIS IS A JUDGEMENT RATHER THAN A MEASUREMENT and is flagged for the reviewer to challenge in approval-request.json."
+    },
+    {
+      "finding": "THE RELIEF ELECTION IS DETERMINED BY THE ROUTE AND THE PACKET MAKES IT. SFN 14859 offers Pardon, Commutation of Sentence, Reprieve of Sentence and Remission of Fine, and N.D.C.C. 12-55.1-01 defines them as four different things: a commutation changes a sentence to a less severe punishment, a reprieve postpones execution of a sentence, a remission releases a fine in whole or part, and a pardon removes the punishment or custody.",
+      "consequence": "This family's route is obligation:track-only:ND:nd-regular-pardon, so the packet ticks `Pardon` through finalizeOfficialForm's settled-selection channel with the route as its stated basis, and declares the other three NOT_APPLICABLE_ON_THIS_ROUTE with the statutory definition that distinguishes each. Left blank and declared route-determined, the completeness contract returns ROUTE_OPTION_NOT_SELECTED and counts it — correctly, because a packet built for one statutory route must state which route it is rather than ask the applicant which one they are on. The tick is measured in the OUTPUT BYTES as an appearance at its own rectangle, not taken from the finalizer's report, and a reported-but-undrawn mark is counted as an invisibleWrite."
+    },
+    {
+      "finding": "THIS FAMILY AND nd-summary-marijuana-pardon-set MUST NOT DELIVER THE SAME DOCUMENT, AND THEY DO NOT. They are different instruments before the same board.",
+      "consequence": "Measured: this family binds SFN 14859, sha256 b88cb559…, 8 pages, 229 AcroForm fields, four relief types, twenty-four numbered life-history questions and five repeating tables. The marijuana family binds SFN 61663, sha256 c59cd5b8…, a different digest and a different document, whose first page carries a fixed printed recital seeking an unconditional pardon with removal of guilt for possession of a controlled substance-marijuana and a certification about eligible marijuana offences and a five-year clean period. SFN 14859 carries neither recital nor certification. The two route keys differ (obligation:track-only:ND:nd-regular-pardon against obligation:track-pathway:ND:nd-summary-marijuana-pardon:…), and this packet's instructions say in terms that the marijuana application is a different form. No text, field map or instruction in this family was copied from that one."
+    },
+    {
+      "finding": "THE FORM PRINTS TWO DATE BLANKS IT PROVIDES NO WIDGET FOR, AND CROSS-REFERENCES A QUESTION IT DOES NOT HAVE.",
+      "consequence": "Two of the three Check All That Apply lines on page 1 end in the word \"on\" and expect a date, and there is no fillable box for either; the third reads \"(see question number 26)\" while the form ends at question 24, which is plainly the reapplication question meant. participant-instructions.md tells the applicant to write those two dates by hand. The packet does not renumber the form, does not correct its printed text and does not repeat the wrong cross-reference as if it were right. Both are recorded as source-fidelity observations about the Department's form."
+    },
+    {
+      "finding": "THE COMPLETENESS CONTRACT'S FIELD CLASSES READ SEVERAL OF THIS FORM'S COLUMNS AS SOMEBODY ELSE'S, AND ON AN AGENCY APPLICATION THEY ARE THE APPLICANT'S TO ANSWER. `Prosecutor/Defense` matches the prosecutor protect category, `Disposition` matches disposition_or_hearing, and `Employer` matches outside_party.",
+      "consequence": "None of the three is written, so the protect categories cost nothing at render time. All three are declared REQUIRED_BEFORE_FILING and printed in participant-instructions.md, because item 5's table asks the APPLICANT to name the prosecutor and defence counsel for each case and item 1 asks the APPLICANT for each disposition. Classifying them as somebody else's and stopping there would have excused the blanks and then never asked the participant for items the board requires — the failure these counters exist to prevent. Unlike the sibling family's Judge cells, none of these needed the case-determined exception: the completeness contract's own classifyField returns UNMATCHED for each, so the ordinary declared channel carries them."
+    },
+    {
+      "finding": "EVERY REPEATING TABLE'S AUTHORED ROW INDEX WAS CHECKED AGAINST THE PAPER RATHER THAN TRUSTED. Three of the five tables reuse the same `Row{n}` suffix, distinguished only by `_2` and `_3`.",
+      "consequence": "reports/caption-evidence.json orderingChecks records, per table, that row n sits strictly below row n-1 on the same page and that the authored column order runs left to right by widget x-coordinate, cross-checked against the x-order of the words in the table's own printed heading line. These tables print no row numbers, so there is no printed number for an index to disagree with; the absence of that check is recorded rather than passed over."
+    },
+    {
+      "finding": "THIS IS A PARDON APPLICATION AND NOT A RECORD-CLEARING FILING, AND SIGNING IT CONSENTS TO A BACKGROUND CHECK.",
+      "consequence": "The form's own first instruction is in capitals: a request for a pardon will not expunge a criminal history record. Its closing notes add that the application becomes a public record on receipt, that the hearing is minuted online, and that the Governor can pardon only North Dakota convictions. The paragraph above the signature line consents to a criminal history background check that may include fingerprints. participant-instructions.md leads with all of it, before any instruction about how to fill the form in. A packet that presented this relief as expungement would be misdescribing what the applicant is applying for, and the public-record consequence is one an applicant may reasonably decide against."
+    },
+    {
+      "severity": "advisory",
+      "finding": "A SHARED FIELD CLASS READS ITEM 17 OF THIS FORM AS COURT-ASSIGNED. The completeness contract's COURT_ASSIGNED class matches the bare word `time` — its pattern is /\\b(hearing date|date of hearing|dept\\.?|department|time|courtroom|filed on|filing stamp)\\b/i — and item 17 reads \"Tell us what you do in your leisure TIME (hobbies, groups you belong to, how you spend a typical day)\". classifyField returns requirement LATER_COMPLETION, meaning a field the court fills in at or after filing.",
+      "consequence": "It costs this packet nothing: LATER_COMPLETION is an allowed disposition, and this build declares item 17 required before filing and prints it in participant-instructions.md regardless, so the applicant is asked for it either way. reports/completeness-counters.json shows the effect — 165 REQUIRED_BEFORE_FILING and 1 LATER_COMPLETION, the one being item 17. It is recorded because a family that relied on the classifier alone would have this blank silently EXCUSED and therefore never disclosed, which is the failure these counters exist to prevent, and because any label containing the word `time` on any form is exposed to the same match. scripts/rcap-packet-completeness/completeness-contract.mjs is a shared path this lane does not own and was not edited."
+    },
+    {
+      "severity": "advisory",
+      "finding": "A boundary value that does not fit its line at the minimum readable font is refused by the shared finalizer rather than clipped.",
+      "consequence": "Recorded in reports/actual-writes.json under unfittable, with the measured width. That is the boundary fixture doing its job; the canonical fixture writes the value."
+    },
+    {
+      "severity": "advisory",
+      "finding": "The lane brief names data/rcap-grade-a/packet-factory-24h/DEFECTS_NO_COUNTER_CAN_SEE.json as the record of defects to check a finished packet against.",
+      "consequence": "That file does not exist in this worktree: it is absent from disk and untracked by git, and this checkout is not sparse, so its absence is not a materialization gap. The four defect classes the brief describes in prose were checked directly instead — the field map against the delivered bytes, the authored row indices against page geometry, the column order against the printed heading, and the delivered page text against the pinned source's own text. Reported so the record can be supplied rather than assumed to have been read."
+    }
+  ]
+}

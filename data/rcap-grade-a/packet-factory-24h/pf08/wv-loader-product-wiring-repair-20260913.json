@@ -1,0 +1,105 @@
+{
+  "schemaVersion": "rcap-wv-loader-product-wiring-repair/v1",
+  "status": "IMPLEMENTATION_COMPLETE_AWAITING_INDEPENDENT_REVIEW",
+  "recordedAt": "2026-09-13T08:02:00Z",
+  "familyId": "wv_nc_acquittal_dismissal-set",
+  "workspaceHeadAtReturn": "fd5da8a40a5c695828f561ca89d8416a4006b66b",
+  "scope": "Narrowly repair the existing product-wiring generation path so the WV two-branch family binding names the branch-selected acquittal civil petition while preserving the text-only filing instructions as an explicit non-page-backed component. No packet, source, raster, queue, owner decision, or runtime change was made.",
+  "independence": {
+    "implementer": "/root/resume_pf05_ut",
+    "independentReviewer": "/root/resume_vfar1",
+    "selfApproval": false,
+    "ownerCorrectionChanged": false
+  },
+  "defect": {
+    "reviewPath": "data/rcap-grade-a/packet-factory-24h/pf08/wv-loader-product-wiring-independent-review-20260913.json",
+    "reviewSha256": "7887a9dc4e69ae0dc5365cf4a76ea249a921ed30bb4d0c83fce5eab3d0dba74a",
+    "verdict": "FAIL_REPAIR_REQUIRED",
+    "missingBindingComponent": "component:wv_nc_acquittal_dismissal-acquittal-civil-petition-4",
+    "cause": "The central generator rebuilt the existing WV binding from the stale MASTER_QUEUE packetComponents list, which names only the dismissal primary and certificate. The family field map and rendered page manifests already carry both branches and the acquittal petition."
+  },
+  "change": {
+    "mechanism": "family-specific declared-delivery binder invoked by the existing central product-wiring generator",
+    "helper": {
+      "path": "scripts/grade-a-packet-factory-24h/wv-nc-acquittal-dismissal-declared-delivery.mjs",
+      "sha256": "d2c9138199557d79110dc254c56d00c3cde1c6423568b1282b4b054e6fb26dda",
+      "byteLength": 5436,
+      "behavior": "Reads the existing WV report and field map, asserts both branch fixture pairs and the four declared components, sets the binding to the three page-backed participant components, and explicitly records the text-only filing-instructions component and both branch selections."
+    },
+    "centralGenerator": {
+      "path": "scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs",
+      "sha256": "bd1cad9fce688d92eec3541231361f53011195c3aff2ffd75f6511243a931acb",
+      "byteLength": 41885,
+      "boundedEdit": "Imports the WV binder and invokes it only when family.familyId equals wv_nc_acquittal_dismissal-set."
+    },
+    "focusedTest": {
+      "path": "scripts/grade-a-packet-factory-24h/wv-nc-acquittal-dismissal-declared-delivery.test.mjs",
+      "sha256": "f1fcf705c6da52c646d1a96ce50d097e40143a15bb3f99836322e3ebfb091f12",
+      "byteLength": 5296,
+      "checks": [
+        "Both DISMISSED_STRAIGHT and ACQUITTED_OR_FOUND_NOT_GUILTY branch routes are exact.",
+        "The missing acquittal petition is present in binding.packetComponents.",
+        "The text-only filing-instructions component is explicitly represented by binding.instructions/instrumentKinds.",
+        "The existing current product-wiring input is not mutated by the binder.",
+        "An incomplete report is refused.",
+        "The central generator import and family hook are present.",
+        "Source receipt, all four frozen PDFs, field map, rendered-artifacts report, and current product-wiring bytes remain unchanged."
+      ]
+    }
+  },
+  "expectedGeneratedBinding": {
+    "branchRoutes": {
+      "DISMISSED_STRAIGHT": "wv_nc_acquittal_dismissal-primary-filing-1",
+      "ACQUITTED_OR_FOUND_NOT_GUILTY": "wv_nc_acquittal_dismissal-acquittal-civil-petition-4"
+    },
+    "packetComponents": [
+      "component:wv_nc_acquittal_dismissal-certificate-of-service-2",
+      "component:wv_nc_acquittal_dismissal-primary-filing-1",
+      "component:wv_nc_acquittal_dismissal-acquittal-civil-petition-4"
+    ],
+    "textOnlyInstructions": {
+      "component": "component:wv_nc_acquittal_dismissal-filing-instructions-3",
+      "representation": "binding.instructions plus instrumentKinds.filing_instructions",
+      "reasonExcludedFromPageBackedPacketComponents": "The existing report has no page manifest for the shared text-only instructions component."
+    },
+    "noGrantFlags": {
+      "generationAllowed": false,
+      "runtimeSelectable": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    }
+  },
+  "currentGeneratedInputPreserved": {
+    "path": "data/rcap-all50/overlays/census-v1/wv/wv-nc-acquittal-dismissal-set--official-pdf-fill/product-wiring.json",
+    "sha256": "e8fe1f2afbf2edcc69b34f0a1e386f51c3701e9ec313ca5d5378089ba700ae6d",
+    "byteLength": 2781,
+    "note": "This remains the Captain's current uncommitted generated input. The repair changes the generation path; Captain must run the supported family-scoped generator integration to materialize the expected binding and then send that frozen result for independent re-review."
+  },
+  "verification": {
+    "focusedNodeCheckAndTest": {
+      "command": "node --check scripts/grade-a-packet-factory-24h/wv-nc-acquittal-dismissal-declared-delivery.mjs && node --check scripts/grade-a-packet-factory-24h/wv-nc-acquittal-dismissal-declared-delivery.test.mjs && node scripts/grade-a-packet-factory-24h/wv-nc-acquittal-dismissal-declared-delivery.test.mjs",
+      "result": "PASS",
+      "observed": "2 branches; 4 declared components; 3 page-backed packet components; text-only instructions explicitly represented; sourceOrPdfMutation false; rasterDispatched false"
+    },
+    "familyScopedGeneratorCheck": {
+      "command": "source private/source-corpus-environment.txt && node scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs --check --family wv_nc_acquittal_dismissal-set",
+      "result": "HOOK_REACHED_CHECK_MODE_REPORTED_ONE_PENDING_REFRESH",
+      "exitCode": 1,
+      "observed": "0 wiring records need creation, 1 record needs refresh, 0 unchanged",
+      "writes": false,
+      "interpretation": "The nonzero check-mode status is the expected signal that the Captain input requires materialization; no authoritative file was written."
+    },
+    "diffCheck": {
+      "command": "git diff --check -- scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs scripts/grade-a-packet-factory-24h/wv-nc-acquittal-dismissal-declared-delivery.mjs scripts/grade-a-packet-factory-24h/wv-nc-acquittal-dismissal-declared-delivery.test.mjs",
+      "result": "PASS"
+    }
+  },
+  "preservedControls": [
+    "No PDF or source bytes changed and no builder/rebuild was run.",
+    "No raster was dispatched.",
+    "No queue, owner correction, legal decision, runtime, commercial, or production record was edited.",
+    "The separate WV diversion/deferred sibling remains outside this family binder.",
+    "The current independent semantic PASS remains historical until the repaired generated binding is frozen and re-read by the distinct reviewer."
+  ],
+  "nextAcceptance": "Captain runs the supported family-scoped product-wiring generation, verifies the exact resulting binding and current input comparison, then sends the frozen result to /root/resume_vfar1 for independent review. Captain applies any owner-row transition only after that review."
+}

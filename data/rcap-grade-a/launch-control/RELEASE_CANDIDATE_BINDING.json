@@ -1,0 +1,95 @@
+{
+  "schemaVersion": "rcap-release-candidate-binding/v1",
+  "status": "FROZEN_FOR_PREVIEW_ACCEPTANCE_AND_PRODUCTION_RELEASE",
+  "applicationSha": "4e16d6d8ebe991a8a3f529637b0d3a38c3149cbb",
+  "workerSourceSha": "c88f10341fec848b3f6f4dec9fc3381e6eea0530",
+  "workerDigest": "sha256:df6c2965e1f569fab5b2d9370b97723170c2c49da7a54f93ffc132525b781d06",
+  "workerDigestReference": "ghcr.io/roger-legalease/rcap-render-worker@sha256:df6c2965e1f569fab5b2d9370b97723170c2c49da7a54f93ffc132525b781d06",
+  "workerInputFingerprint": "sha256:36c9109540c8314886da58bba997df402b3a32c1a9e969e25b0097081da9a46d",
+  "acceptanceProjectRef": "hyflxnlhpmiqxvvcoiia",
+  "productionProjectRef": "wwtwtsmywnckfkdaqqeg",
+  "publication": {
+    "runId": 35227578682,
+    "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35227578682",
+    "conclusion": "success"
+  },
+  "readOnlyImageAcceptance": {
+    "runId": 35229311713,
+    "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35229311713",
+    "conclusion": "success"
+  },
+  "hostedAcceptanceStatus": "PENDING_ON_THIS_CANDIDATE",
+  "hostedAcceptance": {
+    "preview": "dpl_4VJ9SwLKsdiCSAy5T85tcab48698 (legalease-rcap-0fee79bd127e-roger947s-projects.vercel.app)",
+    "note": "Every journey below drove Stripe's own hosted Checkout page in a browser against this Preview and this worker digest, and read the session back from Stripe rather than asserting it.",
+    "journeys": [
+      {
+        "runId": 35178342916,
+        "order": "Mississippi, no promotion code, 5000 cents",
+        "result": "PASS — real Stripe event evt_1UGW7PRWROAHlAKymy25jkUD, worker render at sha256:d7e0d4a6, 33790-byte 12-page PDF, owner 200 / other participant 403 / anonymous 401 / legacy 404, replay refused as duplicate"
+      },
+      {
+        "runId": 35179247131,
+        "order": "Mississippi, ACCEPT40PCT",
+        "result": "PASS"
+      },
+      {
+        "runId": 35180723873,
+        "order": "Illinois, no promotion code",
+        "result": "PASS — the composed-route repair sells and delivers IL:felony-prostitution-relief through il-prostitution-j-vacate"
+      },
+      {
+        "runId": 35205114308,
+        "order": "Mississippi, ACCEPTFREE100, 5000 subtotal cleared to 0",
+        "result": "PASS — Stripe reported status=complete, payment_status=paid, amount_discount=5000, amount_total=0 and no PaymentIntent"
+      }
+    ]
+  },
+  "regressions": {
+    "sourceSha": "4e16d6d8ebe991a8a3f529637b0d3a38c3149cbb",
+    "note": "Run in this session against the final application. The worker is reused from c88f10341fec848b3f6f4dec9fc3381e6eea0530, an ancestor of this commit; the worker-input plan reports changedPaths=[] at this head, so the accepted digest stays valid.",
+    "productionCanary": "node scripts/verify-rcap-production-canary.mjs 41/41; mutations 19/19",
+    "productionActivation": "node scripts/verify-rcap-production-activation.mjs 39/39; mutations 18/18",
+    "forwardChain": "node scripts/verify-rcap-production-forward-chain-migrate.mjs 64/64; mutations 24/24",
+    "hostedCheckoutGate": "node scripts/verify-rcap-hosted-checkout-gate.mjs 95/95",
+    "gradeAAuthority": "node scripts/generate-rcap-grade-a-fulfillment-authority.mjs — 6 commercially eligible routes, regenerated against the accepted digest rather than edited",
+    "syntheticPublicationFixture": false,
+    "publishedWorkerDigest": "sha256:df6c2965e1f569fab5b2d9370b97723170c2c49da7a54f93ffc132525b781d06",
+    "publicationRunId": 35227578682,
+    "imageAcceptanceRunId": 35229311713,
+    "scope": "Real published authority binding. The hosted journeys are the runtime evidence and have not run yet on this candidate; these checks are the static contracts."
+  },
+  "publicationReceipt": {
+    "path": "data/rcap-render/worker-publication-evidence.json",
+    "sha256": "4f6f53dc05ce993f668b9ebe4305437b0825e4d590e2de9d8bf0b02cdc33f770"
+  },
+  "supersedes": [
+    {
+      "applicationSha": "0fee79bd127eb3dc072c2a35945177fa7e7b6683",
+      "workerSourceSha": "35d33755045ee1825fc281ab0eb451d34bccec0a",
+      "workerDigest": "sha256:d7e0d4a653cfbbd2c1f3627442b05b463866fc3a10d3bf9826bc4aa3029378c6",
+      "hostedAcceptanceStatus": "PASSED_ON_THIS_CANDIDATE",
+      "disposition": "superseded_by_the_stripe_catalog_product_correction",
+      "why": "The released tuple on expungement.ai. Superseded because Checkout sold an ad-hoc Product per Session, so a product-restricted coupon could never match the line item."
+    },
+    {
+      "applicationSha": "cc4d8275cca6310329ab0d2b8f2f5bcb3435eb1b",
+      "workerSourceSha": "c177eef11ad041165294f2d4a38e9bddeef031db",
+      "workerDigest": "sha256:57bb99a83e4c1b8e6d23d23103d0a1fe6d9bc49fc105a9c52a7a352a855c4832",
+      "why": "That binding froze cc4d8275 with worker c177eef1 / sha256:57bb99a8 and was never re-bound as the worker moved on. Production worker deploy run 35212154510 refused on exactly that: the publication evidence named 35d33755 / sha256:d7e0d4a6, published and accepted, while this record still named the older pair. The refusal was correct and this record is the repair.",
+      "hostedAcceptanceStatusThen": "NOT_RUN_ON_THIS_CANDIDATE"
+    }
+  ],
+  "participantReceiptPaths": [],
+  "independentReviewerIdentities": [],
+  "productionAuthorized": true,
+  "productionAuthorization": "Roger Roman, 2026-09-17 (chat): complete the Grade A production rollout to expungement.ai, including Illinois, covering in-scope application fixes, test-harness repairs, release configuration, truthful publication and Grade-A evidence updates, reviewed migrations, worker deployment, production activation, public verification and the authorized live $0 order.",
+  "scope": "Exact candidate freeze with published-worker and image-acceptance evidence, the four hosted journeys that passed on it, and the production phases it was released through. This record authorizes no runtime-pin change, hosted database write or migration by itself.",
+  "applicationPin": {
+    "sha": "4e16d6d8ebe991a8a3f529637b0d3a38c3149cbb",
+    "why": "The Vercel build takes a git commit, so the application pin is the commit whose TREE the deployment is built from -- not a filtered subset of it. This commit carries the publication receipt and the Grade-A route observations that name sha256:df6c2965e1f569fab5b2d9370b97723170c2c49da7a54f93ffc132525b781d06, the worker the deployment runs beside. Pinning c88f10341fec848b3f6f4dec9fc3381e6eea0530 instead would have deployed an application whose own records named the superseded worker.",
+    "workerSourceIsAnAncestor": true,
+    "workerReuseEvidence": "scripts/rcap-hosted-acceptance-worker-input-plan.mjs at this head: decision=reuse-accepted-digest, rebuildRequired=false, changedPaths=[]. The records that changed are not in deploy/rcap-render-worker/runtime-data-manifest.json, so the image's packaged inputs are unchanged and it is reused rather than rebuilt."
+  },
+  "productionReleasePending": "The previous candidate's production run ids are retained in supersedes[0]'s lane history; this candidate has not been released yet and claims no run of its own."
+}

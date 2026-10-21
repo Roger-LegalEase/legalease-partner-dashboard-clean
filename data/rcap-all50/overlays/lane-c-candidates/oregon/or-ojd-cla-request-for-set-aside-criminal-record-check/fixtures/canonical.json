@@ -1,0 +1,139 @@
+{
+  "schemaVersion": "rcap-canonical-fixture/v4",
+  "applied": true,
+  "facts": {
+    "participant.full_legal_name": "Jordan A. Reyes",
+    "participant.date_of_birth": "1991-04-17",
+    "participant.phone": "541-555-0134"
+  },
+  "written": [
+    {
+      "field": "NAME",
+      "factId": "participant.full_legal_name",
+      "kind": "text",
+      "fontSize": 11,
+      "outcome": "fit",
+      "lines": 1
+    },
+    {
+      "field": "DATE OF BIRTH",
+      "factId": "participant.date_of_birth",
+      "kind": "text",
+      "fontSize": 11,
+      "outcome": "fit",
+      "lines": 1
+    },
+    {
+      "field": "PHONE NUMBER",
+      "factId": "participant.phone",
+      "kind": "text",
+      "fontSize": 11,
+      "outcome": "fit",
+      "lines": 1
+    }
+  ],
+  "refused": [
+    {
+      "field": "AREA CODE",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Street, City, State, Zip code",
+      "reason": "explicit_mapping_conflicts_with_field_name",
+      "category": "mapping_conflict"
+    },
+    {
+      "field": "ALIAS NAME1",
+      "reason": "explicit_mapping_conflicts_with_field_name",
+      "category": "mapping_conflict"
+    },
+    {
+      "field": "ALIAS NAME2",
+      "reason": "explicit_mapping_conflicts_with_field_name",
+      "category": "mapping_conflict"
+    },
+    {
+      "field": "ALIAS NAME3",
+      "reason": "explicit_mapping_conflicts_with_field_name",
+      "category": "mapping_conflict"
+    },
+    {
+      "field": "1",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "6",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "7",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "3",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "8",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "4",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "9",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "5",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "10",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "YES",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "NO",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Fingerprint Card Form",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Fee for set aside of CONVICTION Include check or money order in the amount of 3300 payable",
+      "reason": "protected_category",
+      "category": "money"
+    }
+  ],
+  "expectedValues": [
+    "Jordan A. Reyes",
+    "1991-04-17",
+    "541-555-0134"
+  ],
+  "artifact": "fixtures/canonical-filled.pdf",
+  "reasonNotApplied": null
+}

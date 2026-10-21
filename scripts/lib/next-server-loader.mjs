@@ -20,7 +20,7 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..", ".
 export async function resolve(specifier, context, next) {
   if (specifier === "next/server") {
     return {
-      url: pathToFileURL(path.join(root, "node_modules/next/server.js")).href,
+      url: pathToFileURL(path.join(root, "scripts/lib/next-server-esm-bridge.mjs")).href,
       shortCircuit: true
     };
   }

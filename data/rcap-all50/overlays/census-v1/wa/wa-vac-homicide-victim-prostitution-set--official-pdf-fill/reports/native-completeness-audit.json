@@ -1,0 +1,75 @@
+{
+  "schemaVersion": "rcap-packet-completeness-matrix/v1",
+  "generatedBy": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs",
+  "contract": "scripts/rcap-packet-completeness/completeness-contract.mjs",
+  "question": "Does every built packet contain everything a filing needs, or only everything the build chose to write?",
+  "whatTheOldPassProved": "That every write was correct: bound to exact source bytes, inside a measured box, off every protected field. It never asked what was owed, so a family could pass having written 6 of 187 fields.",
+  "passRule": "A family returns PASS_COMPLETE only when all 9 counters are zero: knownRequiredFieldsMissing, requiredFactsNotCollected, unclassifiedBlanks, incompleteRows, requiredOptionsMissing, requiredComponentsMissing, invisibleWrites, protectedWrites, visualDefects.",
+  "resultClasses": [
+    "PASS_COMPLETE",
+    "FAIL_PROTECTED_WRITE",
+    "FAIL_VISIBLE_APPEARANCE",
+    "FAIL_MISSING_REQUIRED_FACTS",
+    "FAIL_ROUTE_SELECTION",
+    "FAIL_MISSING_PREFILLS",
+    "FAIL_COMPONENT_SET",
+    "FAIL_CURRENTNESS"
+  ],
+  "familiesAudited": 1,
+  "byResult": {
+    "PASS_COMPLETE": 1
+  },
+  "counterTotals": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+  },
+  "auditScope": {
+    "kind": "family-only",
+    "familyId": "wa_vac_homicide_victim_prostitution-set",
+    "nationalMatrixUpdated": false,
+    "reusedResults": 0,
+    "integrationRequiresFullAudit": true
+  },
+  "results": [
+    {
+      "familyId": "wa_vac_homicide_victim_prostitution-set",
+      "directory": "data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill",
+      "result": "PASS_COMPLETE",
+      "auditable": true,
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "failedCounters": [],
+      "totals": {
+        "terminalFields": 76,
+        "written": 44,
+        "blank": 32,
+        "blanksByDisposition": {
+          "PROTECTED_FIELD": 27,
+          "REQUIRED_BEFORE_FILING": 5
+        },
+        "rowsInspected": 0,
+        "fieldMapSchema": "maps-with-canonical-and-boundary"
+      },
+      "outputApprovalStatus": "PENDING_INDEPENDENT_VERIFICATION",
+      "sourceCurrentness": "EXACT",
+      "findings": [],
+      "findingsTruncated": 0
+    }
+  ]
+}

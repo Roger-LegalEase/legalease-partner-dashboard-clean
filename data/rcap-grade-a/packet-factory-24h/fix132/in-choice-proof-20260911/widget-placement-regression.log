@@ -1,0 +1,64 @@
+PASS  an unselected widget remains correctly located
+PASS  a selected widget is placed at the source widget coordinates
+PASS  the previous doubled-coordinate result fails
+{
+  "control": "widget appearance placement",
+  "results": [
+    {
+      "result": "an unselected widget remains correctly located",
+      "widget": "CurrentOrderCB1",
+      "sourceRect": {
+        "x": 147.92,
+        "y": 412.34
+      },
+      "landsOn": {
+        "x": 147.92,
+        "y": 412.34
+      },
+      "pass": true
+    },
+    {
+      "result": "a selected widget is placed at the source widget coordinates",
+      "widget": "SingleFelonyCB",
+      "sourceRect": {
+        "x": 91.68,
+        "y": 324.91
+      },
+      "landsOn": {
+        "x": 91.68,
+        "y": 324.91
+      },
+      "pass": true
+    },
+    {
+      "result": "the previous doubled-coordinate result fails",
+      "detected": [
+        {
+          "widget": "SingleFelonyCB",
+          "belongsIn": {
+            "x": 91.68,
+            "y": 324.91
+          },
+          "landsOn": {
+            "x": 183.36,
+            "y": 649.82
+          },
+          "displacementPoints": 337.6
+        },
+        {
+          "widget": "CurrentOrderCB1",
+          "belongsIn": {
+            "x": 147.92,
+            "y": 412.34
+          },
+          "landsOn": {
+            "x": 295.84,
+            "y": 824.68
+          },
+          "displacementPoints": 438.07
+        }
+      ],
+      "pass": true
+    }
+  ]
+}

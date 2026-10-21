@@ -1,0 +1,515 @@
+{
+  "schemaVersion": "rcap-grade-a-source-blocked-reclassification/v1",
+  "producedBy": "source-reconciliation lane, branch source-blocked-reclassification",
+  "producedOn": "2026-09-05",
+  "baseCommit": "6351836b1f53cb143cc6afb08a4bf0bc28dde7b1",
+  "question": "Eleven families read SOURCE_BLOCKED. The vocabulary defines that as 'a required source is not held; the conveyor can resolve it'. For each family, is that true, and if not what is the correct state?",
+
+  "answer": "It is true of three. Of the eleven, three are genuine acquisitions the conveyor can execute (AZ set-aside, ME juvenile sealing, UT path-m juvenile expungement). One is a custody transfer no conveyor can perform because the bytes sit in owner-only external storage (UT special certificate). One is not a byte problem at all and not even a packet: the Washington route is court-initiated and the participant files nothing. Five Rhode Island families are blocked on an instrument that does not exist as an official form anywhere, and their remaining question is a product/legal-design one that a held document already answers. One is a byte gap concealing an unanswered legal-vehicle question (UT path-l trafficking vacatur). So SOURCE_BLOCKED is correct for three of eleven, misleading for one, and wrong for seven.",
+
+  "measurement": {
+    "corpusRoot": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (symlinked into this worktree from /home/user/legalease-partner-dashboard-clean/private)",
+    "filesIndexed": 501,
+    "distinctSha256": 501,
+    "denominatorProof": "The index was checked against a positive control before any verdict was drawn: DC-33 at sha256 342337451d61e363e03febb384431dba2f9bb08b44ee46380b94fc91901e9908 resolves to exactly one mounted file. A zero result elsewhere is therefore a real zero and not an empty root. Nothing tracked under private/ exists in git; the directory is a symlink and `git ls-files private/` returns 0.",
+    "resolutionRule": "Every source was resolved by content hash. No declared path was trusted. The UT special-certificate sources are the demonstration: their declared paths point into private/source-imports/rcap-d-source-packs-2026-08-12/D3/... while the bytes actually resolve inside Expungement_AI_RCAP_Master_Library_Edition_1/STATES/UT/. Path resolution would have called them missing; hash resolution finds them.",
+    "corpusIdentityCaveat": "private/source-corpus-environment.txt records that the mounted Master Library is a DIFFERENT corpus from the operational 'Nationwide Record Clearing' tree, which this container does not carry, and that the operational-corpus precondition refuses substituting one for the other. 'Absent from the Master Library' therefore means absent from the corpus this measurement can see, not absent from every LegalEase custody."
+  },
+
+  "whyTheDeclaredDigestTestWasWeak": {
+    "finding": "Confirmed. The weak test asked only whether declared digests resolve. It cannot see a required component that declares no digest, and that is exactly where every one of these families is blocked.",
+    "evidence": "Six families passed the declared-digest test. All six have sourceIds carrying no digest at all: ri_decriminalized-set declares DC-33-ORDER and DC-33-AFFIDAVIT undigested; the three other RI DC-33/Superior-55 families each declare an undigested -ORDER; ut_pet_special_certificate-set declares nine sourceIds and digests only seven, leaving 1001EX and 1021EX undigested. The captain's prior notes on both points are confirmed rather than refuted."
+  },
+
+  "crossCuttingDefects": [
+    {
+      "id": "DEFECT-RI-CIRCULAR-ACQUISITION",
+      "severity": "high",
+      "what": "The acquisition ledger records the RI order obligations as satisfied by the digest of their own parent motion packet.",
+      "measured": "In data/rcap-grade-a/fable-packet-factory/SOURCE_BACKLOG_CLASSIFICATION.json, entries 156-160 list unboundSources 'official-form:DC-33-ORDER' with outcome 'acquired_bytes' and sha256 342337451d61e363e03febb384431dba2f9bb08b44ee46380b94fc91901e9908, which is byte-identical to official-form:DC-33. The same pattern holds for 'official-form:Superior-55-ORDER' at e5805c5482e61ef39a88d8b50ea5a3556b5ffc40d3abb2200973016af4a9afca, byte-identical to official-form:Superior-55.",
+      "whyItMatters": "The phantomObligationsRemoved block in those same entries states the prohibition the unboundSources block violates: the order 'must never be satisfied by re-binding the motion-and-affidavit packet under an order identity'. An order obligation recorded as 'acquired' against the motion's digest makes the family look like a pending fetch when nothing is fetchable.",
+      "owner": "engineering lane that maintains the acquisition ledger"
+    },
+    {
+      "id": "DEFECT-WA-HASH-BOUND-CLAIM-IS-FALSE",
+      "severity": "high",
+      "what": "A standing determination asserts JU 10.0320 is held. It is not held in any mounted custody.",
+      "measured": "DET row for census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260 states 'JU 10.0320 is already hash-bound' and 'The current governed corpus holds JU 10.0320 only'. Its declared digest bbe5a288b36a91b71cadbf1279ad6e10bfcc75732c2ef64bb5c21bc2d3ab5d86 matches none of the 501 mounted digests.",
+      "whyItMatters": "A recorded hash is not held bytes. The digest appears in five committed records, which is how it came to read as bound.",
+      "owner": "engineering lane that maintains the source-relationship registry"
+    },
+    {
+      "id": "DEFECT-PHANTOM-OBLIGATIONS-STILL-STANDING",
+      "severity": "medium",
+      "what": "Obligations already determined to name no document are still counted as unmet sources.",
+      "measured": "az_set_aside-set still carries official-form:AOCCR41FORM31A-082224-CONT although DET-AZ-CONT-IS-NOT-A-DOCUMENT-AOCCR41FORM31A-082224-CONT retired it as a region of the parent instrument. ri_decriminalized-set still carries official-form:DC-33-AFFIDAVIT although the affidavit is pages 3-4 of the DC-33 binary, the same shape as the settled AZ continuation determination.",
+      "owner": "engineering lane"
+    }
+  ],
+
+  "families": [
+    {
+      "familyId": "ri_decriminalized-set",
+      "jurisdiction": "RI",
+      "declaredState": "SOURCE_BLOCKED",
+      "declaredSourceStatus": "SOURCE_GENUINELY_MISSING",
+      "manifestRequires": [
+        "component:ri_decriminalized-primary-filing-1",
+        "component:ri_decriminalized-proposed-order-2",
+        "component:ri_decriminalized-decriminalization-affidavit-3"
+      ],
+      "held": [
+        {
+          "sourceId": "official-form:DC-33",
+          "sha256": "342337451d61e363e03febb384431dba2f9bb08b44ee46380b94fc91901e9908",
+          "mountedAt": "STATES/RI/02_PACKET_FORMS/RI__FORM__DC-33__district-court-motion-affidavit-and-instructions-to-expunge-or-seal-record__REV-2025-02__EN.pdf",
+          "structure": "acroform, 4 pages, 78 fields. Page 1 Instructions, page 2 Motion to Expunge or Seal Record, pages 3-4 Affidavit in Support with Parts One, Two, Three A and Three B."
+        }
+      ],
+      "missingComponents": [
+        {
+          "component": "proposed order",
+          "declaredAs": "official-form:DC-33-ORDER",
+          "category": "c",
+          "categoryMeaning": "an instrument that does not exist as an official form",
+          "evidence": "RI publishes four record-clearing forms and every one is a motion-affidavit-instructions packet: DC-33, FC-85, SUPERIOR-27, SUPERIOR-55. None is an order. The RI STATE_README records 'Missing/source-gap entries: 0', so the curators recorded no unfetched RI form. A prior exact official search of the live Forms library also exposed no standalone order binary. Contrast AZ, UT and WA, which each publish a separate order form the corpus does hold.",
+          "whoSuppliesIt": "The petitioner. DC-33 instruction 7 reads 'Bring the Order for Expungement or Sealing of Record to the hearing.' The held RI legal review states at line 553 that 'The participant brings a proposed order to the hearing for the judge to sign', at line 108 'Proposed order, required and brought to the hearing', and at line 465 'prepare the proposed order'. The earlier characterisation of this as a clerk-supplied order is refuted: the clerk's role is to prepare three certified copies after relief is granted, which is a different document at a different stage."
+        },
+        {
+          "component": "decriminalization affidavit",
+          "declaredAs": "official-form:DC-33-AFFIDAVIT",
+          "category": "c",
+          "categoryMeaning": "not a separate instrument; a region of the parent already held",
+          "evidence": "Pages 3-4 of the held DC-33 binary are the 'Affidavit in Support of Motion to Expunge or Seal Record'. Part Two is the decriminalized-offense branch this family needs. Same shape as the settled AZ continuation determination."
+        }
+      ],
+      "sourceBlockedCorrect": false,
+      "correctState": "PRODUCT_PATH_PENDING",
+      "why": "Every byte this family needs is mounted and hash-verified. Nothing is fetchable, so SOURCE_BLOCKED asserts a conveyor action that does not exist. What remains is a product/legal-design question, which is what PRODUCT_PATH_PENDING is for.",
+      "theExactQuestionNobodyHasAnswered": "May the product compose the proposed order for the participant to bring to the hearing, and does the RI District Court accept a self-composed proposed order? DET-RI-DC-33-ORDER-SOURCE-UNRESOLVED held that 'the record contains no Judiciary or clerk confirmation that a self-composed order is accepted' and cited only the form URL as evidence. That determination did not cite the RI legal review held in the same corpus, which at line 474 lists 'the completed court form and proposed order' under 'What LegalEase can prepare'.",
+      "nextAction": "Put the held RI legal review (STATES/RI/01_LEGAL_REVIEW/RI__LEGAL-REVIEW__STATEWIDE__rhode-island-record-clearing-legal-review__ASOF-2026-08-01__EN.md, lines 108, 465, 474, 553) in front of the determination owner and supersede DET-RI-DC-33-ORDER-SOURCE-UNRESOLVED. On supersession an engineering lane retires the DC-33-ORDER and DC-33-AFFIDAVIT obligations and re-models the family as official_pdf_fill on DC-33 plus a composed proposed order under CUSTOM_PLEADING_FROM_CODIFIED_TEXT.",
+      "owner": "Roger or counsel for the supersession; engineering lane for the re-model",
+      "buildLaneWouldNeed": "The held DC-33 acroform (78 fields) for the motion and affidavit, and the RI legal review plus G.L. 1956 s 12-1-12.1 and s 12-1.3-3 as the authority for the composed proposed order."
+    },
+    {
+      "familyId": "ri_first_offender_misdemeanor-set",
+      "jurisdiction": "RI",
+      "declaredState": "SOURCE_BLOCKED",
+      "declaredSourceStatus": "SOURCE_GENUINELY_MISSING",
+      "manifestRequires": [
+        "component:ri_first_offender_misdemeanor-primary-filing-1",
+        "component:ri_first_offender_misdemeanor-proposed-order-2"
+      ],
+      "held": [
+        {
+          "sourceId": "official-form:DC-33",
+          "sha256": "342337451d61e363e03febb384431dba2f9bb08b44ee46380b94fc91901e9908",
+          "mountedAt": "STATES/RI/02_PACKET_FORMS/RI__FORM__DC-33__district-court-motion-affidavit-and-instructions-to-expunge-or-seal-record__REV-2025-02__EN.pdf",
+          "structure": "acroform, 4 pages, 78 fields. Affidavit Part Three A is this family's branch: convicted of a single misdemeanor with no prior felony or misdemeanor conviction or probation."
+        }
+      ],
+      "missingComponents": [
+        {
+          "component": "proposed order",
+          "declaredAs": "official-form:DC-33-ORDER",
+          "category": "c",
+          "categoryMeaning": "an instrument that does not exist as an official form",
+          "evidence": "Same as ri_decriminalized-set. No RI order template is published; the petitioner brings a proposed order to the hearing."
+        }
+      ],
+      "sourceBlockedCorrect": false,
+      "correctState": "PRODUCT_PATH_PENDING",
+      "why": "All bytes held. Blocked on the same single unanswered compose question, not on an acquisition.",
+      "theExactQuestionNobodyHasAnswered": "Identical to ri_decriminalized-set; governed by DET-RI-DC-33-ORDER-SOURCE-UNRESOLVED, which lists this family.",
+      "nextAction": "Resolve as one decision with the other four RI families; then retire the DC-33-ORDER obligation and re-model.",
+      "owner": "Roger or counsel; then engineering lane",
+      "buildLaneWouldNeed": "Held DC-33 acroform plus the RI legal review and G.L. 1956 s 12-1-12.1 for the composed order."
+    },
+    {
+      "familyId": "ri_multiple_misdemeanors-set",
+      "jurisdiction": "RI",
+      "declaredState": "SOURCE_BLOCKED",
+      "declaredSourceStatus": "SOURCE_GENUINELY_MISSING",
+      "manifestRequires": [
+        "component:ri_multiple_misdemeanors-primary-filing-1",
+        "component:ri_multiple_misdemeanors-proposed-order-2"
+      ],
+      "held": [
+        {
+          "sourceId": "official-form:DC-33",
+          "sha256": "342337451d61e363e03febb384431dba2f9bb08b44ee46380b94fc91901e9908",
+          "mountedAt": "STATES/RI/02_PACKET_FORMS/RI__FORM__DC-33__district-court-motion-affidavit-and-instructions-to-expunge-or-seal-record__REV-2025-02__EN.pdf",
+          "structure": "acroform, 4 pages, 78 fields. Affidavit Part Three B, printed on page 4, is this family's branch: more than one but fewer than six misdemeanor convictions and no felony."
+        }
+      ],
+      "missingComponents": [
+        {
+          "component": "proposed order",
+          "declaredAs": "official-form:DC-33-ORDER",
+          "category": "c",
+          "categoryMeaning": "an instrument that does not exist as an official form",
+          "evidence": "Same as ri_decriminalized-set."
+        }
+      ],
+      "sourceBlockedCorrect": false,
+      "correctState": "PRODUCT_PATH_PENDING",
+      "why": "All bytes held. Blocked on the same compose question.",
+      "theExactQuestionNobodyHasAnswered": "Identical to ri_decriminalized-set; governed by DET-RI-DC-33-ORDER-SOURCE-UNRESOLVED, which lists this family.",
+      "nextAction": "Resolve as one decision with the other four RI families; then retire the DC-33-ORDER obligation and re-model.",
+      "owner": "Roger or counsel; then engineering lane",
+      "buildLaneWouldNeed": "Held DC-33 acroform plus the RI legal review and G.L. 1956 s 12-1-12.1 for the composed order."
+    },
+    {
+      "familyId": "ri_first_offender_felony-set",
+      "jurisdiction": "RI",
+      "declaredState": "SOURCE_BLOCKED",
+      "declaredSourceStatus": "SOURCE_GENUINELY_MISSING",
+      "manifestRequires": [
+        "component:ri_first_offender_felony-primary-filing-1",
+        "component:ri_first_offender_felony-proposed-order-2"
+      ],
+      "held": [
+        {
+          "sourceId": "official-form:Superior-55",
+          "sha256": "e5805c5482e61ef39a88d8b50ea5a3556b5ffc40d3abb2200973016af4a9afca",
+          "mountedAt": "STATES/RI/02_PACKET_FORMS/RI__FORM__SUPERIOR-55__superior-court-motion-affidavit-and-instructions-to-expunge-or-seal-record-felony__REV-2025-02__EN.pdf",
+          "structure": "acroform, 4 pages, 75 fields. Superior Court instructions, motion and affidavit for felonies."
+        }
+      ],
+      "missingComponents": [
+        {
+          "component": "proposed order",
+          "declaredAs": "official-form:Superior-55-ORDER",
+          "category": "c",
+          "categoryMeaning": "an instrument that does not exist as an official form",
+          "evidence": "Superior-55 instruction 7 reads 'Bring the Order for Expungement or Sealing of Record to the hearing.' No Superior Court order template is published and the RI corpus records zero source gaps."
+        }
+      ],
+      "sourceBlockedCorrect": false,
+      "correctState": "PRODUCT_PATH_PENDING",
+      "why": "All bytes held. Blocked on the same compose question, in Superior Court rather than District Court.",
+      "theExactQuestionNobodyHasAnswered": "May the product compose the proposed order for RI Superior Court? Governed by DET-RI-SUPERIOR-55-ORDER-SOURCE-UNRESOLVED, which lists this family.",
+      "nextAction": "Resolve as one decision with the other four RI families, superseding DET-RI-SUPERIOR-55-ORDER-SOURCE-UNRESOLVED as well; then retire the Superior-55-ORDER obligation and re-model.",
+      "owner": "Roger or counsel; then engineering lane",
+      "buildLaneWouldNeed": "Held Superior-55 acroform (75 fields) plus the RI legal review and G.L. 1956 s 12-1-12.1 for the composed order."
+    },
+    {
+      "familyId": "ri_deferred_sentence-set",
+      "jurisdiction": "RI",
+      "declaredState": "SOURCE_BLOCKED",
+      "declaredSourceStatus": "SOURCE_GENUINELY_MISSING",
+      "manifestRequires": [
+        "component:ri_deferred_sentence-primary-filing-1",
+        "component:ri_deferred_sentence-proposed-order-2"
+      ],
+      "held": [
+        {
+          "sourceId": "official-form:Superior-55",
+          "sha256": "e5805c5482e61ef39a88d8b50ea5a3556b5ffc40d3abb2200973016af4a9afca",
+          "mountedAt": "STATES/RI/02_PACKET_FORMS/RI__FORM__SUPERIOR-55__superior-court-motion-affidavit-and-instructions-to-expunge-or-seal-record-felony__REV-2025-02__EN.pdf",
+          "structure": "acroform, 4 pages, 75 fields. Part Three is the current deferred-sentence branch, which is why this family uses Superior-55 and not DC-33."
+        }
+      ],
+      "missingComponents": [
+        {
+          "component": "proposed order",
+          "declaredAs": "official-form:Superior-55-ORDER",
+          "category": "c",
+          "categoryMeaning": "an instrument that does not exist as an official form",
+          "evidence": "Same as ri_first_offender_felony-set."
+        }
+      ],
+      "sourceBlockedCorrect": false,
+      "correctState": "PRODUCT_PATH_PENDING",
+      "why": "All bytes held. Blocked on the same compose question.",
+      "theExactQuestionNobodyHasAnswered": "Identical to ri_first_offender_felony-set; governed by DET-RI-SUPERIOR-55-ORDER-SOURCE-UNRESOLVED, which lists this family.",
+      "nextAction": "Resolve as one decision with the other four RI families; then retire the Superior-55-ORDER obligation and re-model.",
+      "owner": "Roger or counsel; then engineering lane",
+      "buildLaneWouldNeed": "Held Superior-55 acroform plus the RI legal review. Note the review flags that a deferred sentence is not automatic relief and the hearing is still required, which the packet copy must carry."
+    },
+    {
+      "familyId": "ut_pet_special_certificate-set",
+      "jurisdiction": "UT",
+      "declaredState": "SOURCE_BLOCKED",
+      "declaredSourceStatus": "SOURCE_GENUINELY_MISSING",
+      "manifestRequires": [
+        "component:ut_pet_special_certificate-bci-certificate-application-1",
+        "component:ut_pet_special_certificate-bci-third-party-release-2",
+        "component:ut_pet_special_certificate-civil-cover-sheet-3",
+        "component:ut_pet_special_certificate-petition-4",
+        "component:ut_pet_special_certificate-proposed-order-5",
+        "component:ut_pet_special_certificate-acceptance-of-service-6",
+        "component:ut_pet_special_certificate-consent-and-waiver-of-hearing-7",
+        "component:ut_pet_special_certificate-victim-notice-form-8",
+        "component:ut_pet_special_certificate-reply-to-prosecutor-or-victim-statement-9"
+      ],
+      "heldCount": 7,
+      "held": [
+        {"sourceId": "official-form:1044XX", "sha256": "b99586289df6304da5b34181bee95ec2b7f098806c1c949a0f112daeb0244a52", "mountedAt": "STATES/UT/02_PACKET_FORMS/UT__FORM__1044XX__district-court-cover-sheet-for-civil-actions__REV-2026-05-06__EN.pdf"},
+        {"sourceId": "official-form:1146XX", "sha256": "39f1205f48bd73fc7b9686a101369be74a988b419697ea964c2ff5a5c0ce63ad", "mountedAt": "STATES/UT/05_SOURCE_GATED/UT__SOURCE-GATED__1146XX__acceptance-of-service-expungement__REV-2019-05-01__EN.pdf"},
+        {"sourceId": "official-form:1148XX", "sha256": "43c6d4fd232f67453357b342794cac209da82373ce4e93c686c285b42e553288", "mountedAt": "STATES/UT/05_SOURCE_GATED/UT__SOURCE-GATED__1148XX__consent-and-waiver-of-hearing-expungement__REV-2019-05-01__EN.pdf"},
+        {"sourceId": "official-form:1149XX", "sha256": "79f16112e639b74a3189dbde1a4bb725ea7e5f4f92988a476f8d1e9bd24662d3", "mountedAt": "STATES/UT/05_SOURCE_GATED/UT__SOURCE-GATED__1149XX__victim-s-or-prosecutor-s-statement__REV-2019-05-01__EN.pdf"},
+        {"sourceId": "official-form:1169XX", "sha256": "bd5594c76fd9d3b5a8017ae25c0df7951bf2fb9381b752ddd61c2c7a2d713244", "mountedAt": "STATES/UT/05_SOURCE_GATED/UT__SOURCE-GATED__1169XX__reply-to-victim-s-statement-prosecutor-s-statement-or-ap-p-response__REV-2010-07-16__EN.pdf"},
+        {"sourceId": "official-form:UT-BCI-EXP-APPLICATION", "sha256": "b4eacb2b9f78c9d69da76ee6528d12c58d0d896a7d2869aeb7ba77de24a91b13", "mountedAt": "STATES/UT/04_SUPPORTING_PROCESS/UT__SUPPORT__UT-BCI-EXP-APPLICATION__bci-application-for-certificate-of-eligibility-for-expungement__REV-UNKNOWN__EN.pdf"},
+        {"sourceId": "official-form:UT-BCI-THIRD-PARTY-RELEASE", "sha256": "c4b59e479aeb5dcef0229fdc924905e7cfaa5ea611403d05a7cf636a50528451", "mountedAt": "STATES/UT/04_SUPPORTING_PROCESS/UT__SUPPORT__UT-BCI-THIRD-PARTY-RELEASE__bci-third-party-release-form__REV-UNKNOWN__EN.pdf"}
+      ],
+      "heldPathCaveat": "All seven were declared at paths under private/source-imports/rcap-d-source-packs-2026-08-12/D3/, a custody not mounted here. They resolve by content hash inside the Master Library. Path resolution would have reported all seven missing.",
+      "missingComponents": [
+        {
+          "component": "petition (special certificate)",
+          "declaredAs": "official-form:1001EX",
+          "category": "a",
+          "categoryMeaning": "bytes exist but are unmounted here",
+          "formNumber": "1001EX, printed identity 1001EXF",
+          "officialTitle": "Petition to Expunge Records with Special Certificate",
+          "issuer": "Utah State Courts (Judicial Council approved forms)",
+          "revision": "Approved April 11, 2022; Revised April 10, 2023",
+          "sha256": "0f575aa4c08f9ce0001ea386177f08ed707ff72b55c0036d07d024693dbca1ed",
+          "byteLength": 112139,
+          "custody": "Owner-only Google Drive, fileId 1sHLFJOcqbdk2Z4Gs-KBP_PSib2rqw7HW, stored title CODEX-CS1-SRC4__1001EX__0f575aa4c08f.pdf, visibility owner_only, not shared",
+          "measuredHere": "Digest matches none of the 501 mounted files.",
+          "corpusCorroboration": "The UT STATE_README Open items list records '1001EX - Petition to Expunge under the special-certificate route - link_only_binary_missing / build_blocker'."
+        },
+        {
+          "component": "proposed order (special certificate)",
+          "declaredAs": "official-form:1021EX",
+          "category": "a",
+          "categoryMeaning": "bytes exist but are unmounted here",
+          "formNumber": "1021EX, printed identity 1021EXF",
+          "officialTitle": "Order on Petition to Expunge Records with Special Certificate",
+          "issuer": "Utah State Courts (Judicial Council approved forms)",
+          "revision": "Approved April 11, 2022; Revised April 14, 2025",
+          "sha256": "2b730d0a34f91a69f0316ac8a8e9ce78f559e554c564a9ebcc271533daefc174",
+          "byteLength": 104276,
+          "custody": "Owner-only Google Drive, fileId 1zHmG__sBZ3c41xBQIfBfXotHQ_fwp_Av, stored title CODEX-CS1-SRC4__1021EX__2b730d0a34f9.pdf, visibility owner_only, not shared",
+          "measuredHere": "Digest matches none of the 501 mounted files.",
+          "corpusCorroboration": "The UT STATE_README Open items list records '1021EX - Order on special-certificate expungement petition - link_only_binary_missing / build_blocker'."
+        }
+      ],
+      "sourceBlockedCorrect": "literally true but misleading",
+      "correctState": "SOURCE_BLOCKED with custody qualifier, or a dedicated custody-transfer state",
+      "why": "The bytes genuinely are not held locally, so the label is not false. But SOURCE_BLOCKED promises 'the conveyor can resolve it' and the conveyor cannot: identity, currentness and preservation are already settled and the acquisition is finished. What is left is moving bytes out of owner-only external storage that no container here can reach. Calling it an acquisition sends a lane to re-fetch a document that has already been fetched.",
+      "captainNoteConfirmed": "The earlier note that 1001EX and 1021EX are the missing forms is confirmed exactly.",
+      "nextAction": "Roger installs the two Drive files into governed repository custody, or re-shares them to a custody the conveyor can read; a lane then binds both by the recorded digests and recomputes them locally, since the recorded hashes are worker readbacks that no one here has verified against the documents.",
+      "owner": "Roger. Owner-only Drive visibility means no engineering lane can perform this.",
+      "buildLaneWouldNeed": "The seven held forms plus the two installed binaries. Once installed the family has all nine components and the UT legal review as design authority."
+    },
+    {
+      "familyId": "az_set_aside-set",
+      "jurisdiction": "AZ",
+      "declaredState": "SOURCE_BLOCKED",
+      "declaredSourceStatus": "SOURCE_GENUINELY_MISSING",
+      "manifestRequires": [
+        "component:az_set_aside-primary-filing-1",
+        "component:az_set_aside-proposed-order-2",
+        "component:az_set_aside-continuation-3"
+      ],
+      "held": [],
+      "missingComponents": [
+        {
+          "component": "primary filing",
+          "declaredAs": "official-form:R-26-0001 adopted Form 31(a)",
+          "category": "b",
+          "categoryMeaning": "bytes exist at the issuer and were never acquired",
+          "formNumber": "AOCCR41FORM31A, at the edition adopted in R-26-0001",
+          "officialTitle": "Application to Set Aside Conviction (Ariz. R. Crim. P. 41, Form 31(a))",
+          "issuer": "Arizona Supreme Court, Administrative Office of the Courts",
+          "authority": "A.R.S. s 13-905; Ariz. R. Crim. P. 41, Form 31(a)",
+          "governingEdition": "R-26-0001, adopted 2026-08-27, effective on filing",
+          "supersededEditions": ["AO-2025-215 (2025-12-17)", "AOCCR41FORM31A-082224"],
+          "officialLandingPage": "https://www.azcourts.gov/selfservicecenter/Criminal-Law/Criminal-Law-Forms",
+          "exactBinaryUrlEstablished": false,
+          "measuredHere": "The AZ corpus holds the seal forms AOCCRSL1F/2F, the marijuana expungement forms AOCCREM2F/3F and the second-chance forms AOCCRSA3F/4F. It holds no Rule 41 Form 31 set-aside form at any edition."
+        },
+        {
+          "component": "proposed order",
+          "declaredAs": "official-form:R-26-0001 adopted Form 31(b)",
+          "category": "b",
+          "categoryMeaning": "bytes exist at the issuer and were never acquired",
+          "formNumber": "AOCCR41FORM31B, at the edition adopted in R-26-0001",
+          "officialTitle": "Order Regarding Application to Set Aside Conviction and Restoration of Gun Rights (Ariz. R. Crim. P. 41, Form 31(b))",
+          "issuer": "Arizona Supreme Court, Administrative Office of the Courts",
+          "authority": "A.R.S. s 13-905, s 13-905(O); Ariz. R. Crim. P. 41, Form 31(b)",
+          "governingEdition": "R-26-0001, adopted 2026-08-27, effective on filing",
+          "officialLandingPage": "https://www.azcourts.gov/selfservicecenter/Criminal-Law/Criminal-Law-Forms",
+          "exactBinaryUrlEstablished": false,
+          "measuredHere": "Not held at any edition."
+        },
+        {
+          "component": "continuation",
+          "declaredAs": "official-form:AOCCR41FORM31A-082224-CONT",
+          "category": "c",
+          "categoryMeaning": "not a separate instrument; a region of the parent",
+          "evidence": "DET-AZ-CONT-IS-NOT-A-DOCUMENT-AOCCR41FORM31A-082224-CONT already retired this obligation as 'a region of the parent instrument, composed by the packet'. It is still counted as an unmet source."
+        }
+      ],
+      "sourceBlockedCorrect": true,
+      "correctState": "SOURCE_BLOCKED",
+      "why": "Two real, published, identified official forms are genuinely not held in any custody, local or external. This is what the label is for. The only correction is that one of its three obligations is a phantom that should stop being counted.",
+      "aggravatingFact": "The corpus holds Administrative Order AO-2025-215, 'temporary amendments to Rule 41 forms 31a and 31b' (2025-12-17), which is the amending order and not the form, and which R-26-0001 has superseded. It must not be bound as a substitute.",
+      "nextAction": "Acquire Forms 31(a) and 31(b) carrying the R-26-0001 text, either the form attachment to the R-26-0001 order or a current standalone AOC PDF incorporating it, into governed custody. No exact binary URL is yet established, so the acquisition begins at the AOC criminal-law forms landing page. Separately, retire the -CONT obligation per the settled determination.",
+      "owner": "An acquisition lane with external fetch, against the Arizona Supreme Court AOC as issuer. Engineering lane for the phantom retirement.",
+      "buildLaneWouldNeed": "Both forms at the R-26-0001 edition. Note also that the AZ STATE_README records the Arizona state legal-design review as 'missing_from_supplied_corpus / release_blocker', so a build lane has no AZ legal review to work from."
+    },
+    {
+      "familyId": "census-pending-family:ME:juvenile-sealing",
+      "jurisdiction": "ME",
+      "declaredState": "SOURCE_BLOCKED",
+      "declaredSourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
+      "manifestRequires": [
+        "petition under 15 M.R.S. s 3308-C for murder, Class A, B or C juvenile crimes, or OUI matters"
+      ],
+      "held": [],
+      "missingComponents": [
+        {
+          "component": "primary filing",
+          "declaredAs": "official-form:JV-043",
+          "category": "b",
+          "categoryMeaning": "bytes exist at the issuer and were never acquired into governed custody",
+          "formNumber": "JV-043",
+          "officialTitle": "Petition to Seal Juvenile Case Records",
+          "issuer": "Maine Judicial Branch",
+          "revision": "Rev. 12/21 as reviewed",
+          "measuredHere": "The ME corpus holds only CR-289 (ADA notice) and CR-307 (motion to seal for trafficking survivors). No juvenile form is held, and CR-218 is not held either.",
+          "provenanceEvidence": "The held ME legal review names JV-043 in its 'Source set reviewed' line: 'uploaded Maine Judicial Branch forms CR-218 (Rev. 7/24), CR-289 (Rev. 10/24), JV-043 (Rev. 12/21)'. The form is real and a copy was in the reviewer's upload set, but no digest was ever recorded and the bytes were never brought into governed custody.",
+          "acquisitionAddressHint": "The same review cites the Judicial Branch forms portal pattern for CR-218: https://mjbportal.courts.maine.gov/CourtForms/FormsLists/DownloadForm?strFormNumber=CR-218 . The JV-043 address should follow the same pattern.",
+          "sourceIdentityUnresolvedIsWrong": "The declared status SOURCE_IDENTITY_UNRESOLVED understates what is known. Issuer, form number, official title and a reviewed revision are all established. This is an acquisition, not an identity question."
+        }
+      ],
+      "sourceBlockedCorrect": true,
+      "correctState": "SOURCE_BLOCKED",
+      "why": "A real, identified, published form is not held. The conveyor can resolve it. The declared sourceStatus should move from SOURCE_IDENTITY_UNRESOLVED to a plain acquisition, since the identity is not in doubt.",
+      "nextAction": "Acquire JV-043 from the Maine Judicial Branch forms portal, record its digest, and confirm the acquired revision is current, since PL 2025 c. 513 amended the surrounding sealing scheme and the ME corpus already carries an open item on CR-289 currentness for that reason.",
+      "owner": "An acquisition lane, against the Maine Judicial Branch as issuer.",
+      "buildLaneWouldNeed": "JV-043 plus the held ME legal review. The review also warns that Maine seals rather than expunges and that the terminology must never be 'expungement', which the packet copy must respect."
+    },
+    {
+      "familyId": "census-pending-family:UT:path-m-juvenile-expungement",
+      "jurisdiction": "UT",
+      "declaredState": "SOURCE_BLOCKED",
+      "declaredSourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
+      "manifestRequires": ["Utah Juvenile Expungement Petition"],
+      "held": [],
+      "missingComponents": [
+        {
+          "component": "primary filing",
+          "declaredAs": "official-form:1174XX",
+          "category": "b",
+          "categoryMeaning": "bytes exist at the issuer and were never acquired",
+          "formNumber": "1174XX",
+          "officialTitle": "Petition to Expunge Juvenile Court Records",
+          "issuer": "Utah State Courts",
+          "revision": "Revised August 14, 2023",
+          "officialLandingPage": "https://www.utcourts.gov/en/forms/forms/court-forms.html?case-type=EX",
+          "officialBinary": "https://legacy.utcourts.gov/howto/expunge/docs/11_Petition_to_Expunge_Records_Juvenile.pdf",
+          "measuredHere": "The UT corpus holds no juvenile form. Its expungement forms are the adult series 1000EX, 1002EX, 1003EX, 1020EX, 1022EX plus supporting process forms.",
+          "sourceIdentityUnresolvedIsWrong": "Issuer, title, form number, revision, landing page and an exact binary URL are all established. This is an acquisition with a known address, not an identity question."
+        }
+      ],
+      "sourceBlockedCorrect": true,
+      "correctState": "SOURCE_BLOCKED",
+      "why": "A real, identified, published form with an established binary URL is not held. The conveyor can resolve it in one fetch.",
+      "nextAction": "Acquire the current Petition to Expunge Juvenile Court Records from the established Utah State Courts binary URL into governed custody and record its digest.",
+      "owner": "An acquisition lane, against Utah State Courts as issuer.",
+      "buildLaneWouldNeed": "1174XX plus the held UT legal review. The review warns at item 1 of its specialized matters that juvenile expungement is a separate juvenile court process and that BCI requires the adult criminal history certificate obtained with its Application for Criminal History rather than the adult expungement application, and that using the wrong form causes months of delay. A build lane must model that, and the corresponding BCI form is held (UT-BCI-ROA)."
+    },
+    {
+      "familyId": "census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement",
+      "jurisdiction": "UT",
+      "declaredState": "SOURCE_BLOCKED",
+      "declaredSourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
+      "manifestRequires": ["Utah Trafficking Vacatur and Expungement Petition"],
+      "held": [],
+      "missingComponents": [
+        {
+          "component": "primary filing",
+          "declaredAs": "official-form:1231XX",
+          "category": "b and d",
+          "categoryMeaning": "bytes exist at the issuer and were never acquired, AND a source-identity question nobody has answered",
+          "formNumber": "1231XX",
+          "officialTitle": "Petition for Relief Under the Post-Conviction Remedies Act",
+          "issuer": "Utah State Courts",
+          "revision": "Revised June 13, 2022",
+          "officialLandingPage": "https://www.utcourts.gov/en/forms/forms/court-forms/form-detail.detail.html?formNumber=1231XX",
+          "officialBinary": "https://legacy.utcourts.gov/resources/forms/criminal/04_PCRA_Petition.pdf",
+          "controllingAuthority": "Utah Code 78B-9-104(1)(h), 78B-9-108(2), and 77-40a-402",
+          "measuredHere": "Not held. No UT post-conviction or vacatur form is in the corpus."
+        }
+      ],
+      "theExactQuestionNobodyHasAnswered": "Is the Post-Conviction Remedies Act petition the correct legal vehicle for Utah trafficking-survivor vacatur, and what is the controlling vacatur authority? The held UT legal review states at its specialized-matters item 2: 'Utah Code 77-40a-402 governs distribution of an order for vacatur. The underlying vacatur authority, including trafficking-survivor vacatur, was not traced in this review.' The standing determination separately records that 'the route authority/strategy still names the wrong legal vehicle' and that the route must be corrected from a Title 77 Chapter 40a-only custom pleading to the official PCRA petition plus an authority-grounded attachment.",
+      "sourceBlockedCorrect": "incomplete",
+      "correctState": "LEGAL_BLOCKED first, then SOURCE_BLOCKED",
+      "why": "A byte is genuinely missing, so the label is not false. But it is the smaller half of the problem and it conceals the larger one. The controlling authority for this relief was never traced, and the route currently names a legal vehicle the determination itself calls wrong. Acquiring 1231XX would not make this family buildable, and SOURCE_BLOCKED invites a lane to think it would.",
+      "nextAction": "Two actions in order. First, counsel traces the controlling Utah trafficking-survivor vacatur authority and confirms whether the PCRA petition is the correct vehicle and what the authority-grounded attachment must contain. Second, once the vehicle is confirmed, acquire 1231XX from the established binary URL.",
+      "owner": "Counsel for the authority question; then an acquisition lane. Do not send a build lane at this family on the strength of the acquisition alone.",
+      "buildLaneWouldNeed": "The traced vacatur authority, the confirmed vehicle decision, and 1231XX. None of the three exists yet."
+    },
+    {
+      "familyId": "census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260",
+      "jurisdiction": "WA",
+      "declaredState": "SOURCE_BLOCKED",
+      "declaredSourceStatus": "SOURCE_IDENTITY_UNRESOLVED",
+      "manifestRequires": ["Washington Juvenile Sealing Motion under RCW 13.50.260"],
+      "declaredForms": ["JU 10.0300", "JU 10.0315", "JU 10.0320"],
+      "held": [],
+      "digestMeasurement": {
+        "declared": "official-form:JU 10.0320, sha256 bbe5a288b36a91b71cadbf1279ad6e10bfcc75732c2ef64bb5c21bc2d3ab5d86, tier exact_content_hash, declared path 'LegalEase Washington/JU 10_0320 Order re Sealing Records of Juvenile Offender_2022 01.pdf'",
+        "result": "Absent. Matches none of the 501 mounted digests. The declared path names a 'LegalEase Washington' custody that is not mounted here.",
+        "correctsStandingRecord": "The standing determination asserts 'JU 10.0320 is already hash-bound' and 'The current governed corpus holds JU 10.0320 only'. Both are false as measured."
+      },
+      "missingComponents": [
+        {
+          "component": "the entire participant-facing packet",
+          "category": "c",
+          "categoryMeaning": "an instrument that does not exist, because on this route nothing is filed",
+          "evidence": "RCW 13.50.260(1)-(2) relief is court-initiated. The court schedules the administrative sealing hearing at disposition, for a date after the latest of the respondent's eighteenth birthday, the anticipated end of probation, or anticipated release or completion of parole from juvenile rehabilitation, and enters the sealing order on its own findings. The participant files nothing. The held WA legal review's specialized-matters section states this, and a prior source-identity pass reached the same conclusion first-hand and classified the family NON_PACKET_TREATMENT with resolution NO_DOCUMENT_SHAPED_SOURCE_NAMED_CONFIRMED.",
+          "whatTheThreeJUFormsActuallyAre": "JU 10.0300 Motion and Declaration to Seal Records of Juvenile Offender, JU 10.0315 Notice of Respondent's Motion to Seal, and JU 10.0320 Order Re: Sealing Records of Juvenile Offender are real forms published by the Washington Administrative Office of the Courts, but they belong to the MOTION path under RCW 13.50.260(3), which is a different route from the one this family names. JU 10.0300 and JU 10.0315 are published as .doc, which is why they never appear in a PDF-only corpus index."
+        }
+      ],
+      "sourceBlockedCorrect": false,
+      "correctState": "a guidance treatment (GUIDANCE_READY)",
+      "why": "There is no document to acquire on this route because there is no document to file. SOURCE_BLOCKED asserts an acquisition that cannot exist, and it has already caused churn: the acquisition manifest's refused list carries the JU 10.0320 row refused twice for 'no jurisdiction', a bookkeeping refusal of something that should never have been queued.",
+      "theExactQuestionNobodyHasAnswered": "Does LegalEase want the RCW 13.50.260(3) motion-based sealing route as a separate family? That route is real and would need the three JU forms; this family is not it.",
+      "nextAction": "Roger or the Captain retires or reclassifies this family to a guidance treatment; a guidance lane then writes what the participant actually needs, namely that sealing is automatic and court-initiated, the three timing triggers, that unpaid restitution owed to an individual victim is the one thing that stops it, and how to check whether it happened. Separately and as a distinct product decision, decide whether to open the RCW 13.50.260(3) motion route as its own family, which would then need JU 10.0300 and JU 10.0315 in .doc from courts.wa.gov plus JU 10.0320.",
+      "owner": "Roger for the reclassification and the separate-family decision; then a guidance lane.",
+      "buildLaneWouldNeed": "Nothing. There is no packet to build here."
+    }
+  ],
+
+  "summary": {
+    "sourceBlockedCorrect": ["az_set_aside-set", "census-pending-family:ME:juvenile-sealing", "census-pending-family:UT:path-m-juvenile-expungement"],
+    "sourceBlockedLiterallyTrueButMisleading": ["ut_pet_special_certificate-set"],
+    "sourceBlockedIncomplete": ["census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement"],
+    "sourceBlockedWrong": [
+      "ri_decriminalized-set",
+      "ri_deferred_sentence-set",
+      "ri_first_offender_felony-set",
+      "ri_first_offender_misdemeanor-set",
+      "ri_multiple_misdemeanors-set",
+      "census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260"
+    ],
+    "byCategory": {
+      "a_unmounted_bytes_named_custody": ["ut_pet_special_certificate-set"],
+      "b_never_acquired_from_issuer": ["az_set_aside-set", "census-pending-family:ME:juvenile-sealing", "census-pending-family:UT:path-m-juvenile-expungement", "census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement"],
+      "c_not_an_official_form_at_all": ["ri_decriminalized-set", "ri_deferred_sentence-set", "ri_first_offender_felony-set", "ri_first_offender_misdemeanor-set", "ri_multiple_misdemeanors-set", "census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260", "az_set_aside-set (continuation obligation only)"],
+      "d_unanswered_source_identity_question": ["ri_decriminalized-set", "ri_deferred_sentence-set", "ri_first_offender_felony-set", "ri_first_offender_misdemeanor-set", "ri_multiple_misdemeanors-set", "census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement", "census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260"]
+    },
+    "ownerCounts": {
+      "Roger": ["ut_pet_special_certificate-set", "census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260", "the five RI families jointly, if the supersession is taken as an owner decision rather than a counsel one"],
+      "counsel": ["the five RI families jointly", "census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement"],
+      "acquisitionLane": ["az_set_aside-set", "census-pending-family:ME:juvenile-sealing", "census-pending-family:UT:path-m-juvenile-expungement"],
+      "engineeringLane": ["phantom-obligation retirement across RI and AZ", "the two ledger defects"]
+    },
+    "buildableToday": "None of the eleven is a complete packet a build lane could render today. The five Rhode Island families are the closest and are the only ones not waiting on bytes: every byte they need is mounted and hash-verified, and they are one owner decision away from a build. No family should be built by this lane."
+  },
+
+  "whatThisDoesNotEstablish": [
+    "That any held binary is the current official edition. Currentness was not re-verified against any issuer.",
+    "That the Rhode Island families are legally correct to compose a proposed order. This lane measured that the question is a product and legal-design question rather than a byte problem, and located a held document that bears on it. Answering it belongs to counsel or Roger.",
+    "That the recorded external-custody digests for 1001EX and 1021EX are correct. They are worker readbacks that no one in any container has recomputed from the documents.",
+    "That the corpus mounted here is the only LegalEase custody. The operational Nationwide Record Clearing tree is not carried by this container.",
+    "Any build status, route promotion, or commercial authority. No family was claimed, built, repaired or promoted, and no queue, manifest, fixture, field map or generated graph was modified."
+  ],
+
+  "claimDiscipline": "No packet-family claim was asserted or released. MASTER_QUEUE.json, the claim ledger, all fixtures, field maps, builders and generated graphs were read only. The single file written by this lane is this one."
+}

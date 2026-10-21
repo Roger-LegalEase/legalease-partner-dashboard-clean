@@ -2,6 +2,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import { isRcapPartnerOnboardingEnabled } from "@/lib/partners/onboarding/feature";
 import { shouldUseStaticWeMustVoteLanding } from "@/lib/partners/we-must-vote-routing";
+import { MVLP_STATIC_LANDING_PATH, shouldUseStaticMvlpLanding } from "@/lib/partners/mvlp-routing";
 import { getSupabasePublicConfig } from "@/lib/supabase/config";
 
 const INTERNAL_PATH_HEADER = "x-legalease-internal-path";
@@ -14,6 +15,10 @@ export async function proxy(request: NextRequest) {
 
   if (shouldUseStaticWeMustVoteLanding(request.nextUrl.pathname, request.headers.get("host"))) {
     return NextResponse.rewrite(new URL("/wemustvote-landing.html", request.url));
+  }
+
+  if (shouldUseStaticMvlpLanding(request.nextUrl.pathname, request.headers.get("host"))) {
+    return NextResponse.rewrite(new URL(MVLP_STATIC_LANDING_PATH, request.url));
   }
 
   if (request.nextUrl.pathname === "/legalease") {

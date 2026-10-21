@@ -1,0 +1,178 @@
+[
+  {
+    "name": "completeness",
+    "familyId": "va_seal_enumerated_seven_year-set",
+    "command": [
+      "node",
+      "scripts/rcap-packet-completeness/verify-packet-completeness.mjs",
+      "--family",
+      "va_seal_enumerated_seven_year-set"
+    ],
+    "exitCode": 0,
+    "seconds": 0.31,
+    "stdout": "  ok   va_seal_enumerated_seven_year-set              PASS_COMPLETE                30/150 written\n\n  1 famil(ies) audited \u00b7 1 PASS_COMPLETE\n\n  counters: knownRequiredFieldsMissing 0 \u00b7 requiredFactsNotCollected 0 \u00b7 unclassifiedBlanks 0 \u00b7 incompleteRows 0 \u00b7 requiredOptionsMissing 0 \u00b7 requiredComponentsMissing 0 \u00b7 invisibleWrites 0 \u00b7 protectedWrites 0 \u00b7 visualDefects 0\n",
+    "stderr": ""
+  },
+  {
+    "name": "source-values",
+    "familyId": "va_seal_enumerated_seven_year-set",
+    "command": [
+      "node",
+      "scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs",
+      "--family",
+      "va_seal_enumerated_seven_year-set"
+    ],
+    "exitCode": 2,
+    "seconds": 0.85,
+    "stdout": "",
+    "stderr": "BROKEN_DENOMINATOR\nno census matched --family va_seal_enumerated_seven_year-set. A filter that matches nothing is not a pass.\n"
+  },
+  {
+    "name": "preflight",
+    "familyId": "va_seal_enumerated_seven_year-set",
+    "command": [
+      "node",
+      "scripts/verify-packet-build-environment.mjs",
+      "--family",
+      "va_seal_enumerated_seven_year-set",
+      "--branch",
+      "codex/fix87-va-sealing-four"
+    ],
+    "exitCode": 1,
+    "seconds": 0.79,
+    "stdout": "  ok  repo_identity                          codex/fix87-va-sealing-four at d5eec242\n  ok  clone_is_complete                      full clone, all heads fetchable\n  ok  assigned_branch_tip_visible            origin/codex/fix87-va-sealing-four at d5eec242\n  ok  worktree_clean                         clean\n  ok  node_toolchain                         node 24.14.0\n  ok  pdf_lib_importable                     pdf-lib 1.17.1\n  -  browser_environment_exported           not applicable: this invocation renders nothing, so it needs no browser exported. Rendering is central (.github/workflows/rcap-packet-raster-acceptance-batch.yml); pass --require-rasterizer where a browser is actually about to be used.\n  -  build_time_rasterizer_available        not applicable: this invocation renders nothing. Pass --require-rasterizer where a build is actually about to raster.\n  -  page_rasterizer_available              not applicable: this invocation renders nothing. Rendering is central (.github/workflows/rcap-packet-raster-acceptance-batch.yml); pass --require-rasterizer where a browser is actually about to be used.\n  ok  private_is_git_ignored                 private/ is ignored and tracks nothing\n  ok  master_library_mounted                 mounted at ../../tmp/codex-fix87-20260906/master-subset\nFAIL  master_library_complete                below immutable minimum: 2/499 files, 2/329 PDFs\nFAIL  corpus_matches_committed_index         24 absent, 0 mismatched of 24 sampled\n  ok  family_sources_bind                    1/1 source(s) bind by exact SHA-256 (census_form_number_against_committed_index); 1 found by content hash because the declared path is in a custody that is not mounted here\n  ok  master_library_not_at_operational_path the operational path does not resolve to the Master Library\n  ok  absent_is_not_empty                    an absent tree returns null; an empty tree returns []\n  ok  stale_artifact_block_consulted         block consistent (12 hashes, 6 families); 0 artifact(s) under this family clear\n\nPACKET_BUILD_ENVIRONMENT_NOT_READY: 12/14 passed, 2 failed, 3 not applicable\n",
+    "stderr": ""
+  },
+  {
+    "name": "completeness",
+    "familyId": "va_seal_ancillary_matter_only-set",
+    "command": [
+      "node",
+      "scripts/rcap-packet-completeness/verify-packet-completeness.mjs",
+      "--family",
+      "va_seal_ancillary_matter_only-set"
+    ],
+    "exitCode": 0,
+    "seconds": 0.22,
+    "stdout": "  ok   va_seal_ancillary_matter_only-set              PASS_COMPLETE                30/150 written\n\n  1 famil(ies) audited \u00b7 1 PASS_COMPLETE\n\n  counters: knownRequiredFieldsMissing 0 \u00b7 requiredFactsNotCollected 0 \u00b7 unclassifiedBlanks 0 \u00b7 incompleteRows 0 \u00b7 requiredOptionsMissing 0 \u00b7 requiredComponentsMissing 0 \u00b7 invisibleWrites 0 \u00b7 protectedWrites 0 \u00b7 visualDefects 0\n",
+    "stderr": ""
+  },
+  {
+    "name": "source-values",
+    "familyId": "va_seal_ancillary_matter_only-set",
+    "command": [
+      "node",
+      "scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs",
+      "--family",
+      "va_seal_ancillary_matter_only-set"
+    ],
+    "exitCode": 2,
+    "seconds": 0.62,
+    "stdout": "",
+    "stderr": "BROKEN_DENOMINATOR\nno census matched --family va_seal_ancillary_matter_only-set. A filter that matches nothing is not a pass.\n"
+  },
+  {
+    "name": "preflight",
+    "familyId": "va_seal_ancillary_matter_only-set",
+    "command": [
+      "node",
+      "scripts/verify-packet-build-environment.mjs",
+      "--family",
+      "va_seal_ancillary_matter_only-set",
+      "--branch",
+      "codex/fix87-va-sealing-four"
+    ],
+    "exitCode": 1,
+    "seconds": 0.79,
+    "stdout": "  ok  repo_identity                          codex/fix87-va-sealing-four at d5eec242\n  ok  clone_is_complete                      full clone, all heads fetchable\n  ok  assigned_branch_tip_visible            origin/codex/fix87-va-sealing-four at d5eec242\n  ok  worktree_clean                         clean\n  ok  node_toolchain                         node 24.14.0\n  ok  pdf_lib_importable                     pdf-lib 1.17.1\n  -  browser_environment_exported           not applicable: this invocation renders nothing, so it needs no browser exported. Rendering is central (.github/workflows/rcap-packet-raster-acceptance-batch.yml); pass --require-rasterizer where a browser is actually about to be used.\n  -  build_time_rasterizer_available        not applicable: this invocation renders nothing. Pass --require-rasterizer where a build is actually about to raster.\n  -  page_rasterizer_available              not applicable: this invocation renders nothing. Rendering is central (.github/workflows/rcap-packet-raster-acceptance-batch.yml); pass --require-rasterizer where a browser is actually about to be used.\n  ok  private_is_git_ignored                 private/ is ignored and tracks nothing\n  ok  master_library_mounted                 mounted at ../../tmp/codex-fix87-20260906/master-subset\nFAIL  master_library_complete                below immutable minimum: 2/499 files, 2/329 PDFs\nFAIL  corpus_matches_committed_index         24 absent, 0 mismatched of 24 sampled\n  ok  family_sources_bind                    1/1 source(s) bind by exact SHA-256 (census_form_number_against_committed_index); 1 found by content hash because the declared path is in a custody that is not mounted here\n  ok  master_library_not_at_operational_path the operational path does not resolve to the Master Library\n  ok  absent_is_not_empty                    an absent tree returns null; an empty tree returns []\n  ok  stale_artifact_block_consulted         block consistent (12 hashes, 6 families); 0 artifact(s) under this family clear\n\nPACKET_BUILD_ENVIRONMENT_NOT_READY: 12/14 passed, 2 failed, 3 not applicable\n",
+    "stderr": ""
+  },
+  {
+    "name": "completeness",
+    "familyId": "va_seal_petition_misdemeanor-set",
+    "command": [
+      "node",
+      "scripts/rcap-packet-completeness/verify-packet-completeness.mjs",
+      "--family",
+      "va_seal_petition_misdemeanor-set"
+    ],
+    "exitCode": 0,
+    "seconds": 0.3,
+    "stdout": "  ok   va_seal_petition_misdemeanor-set               PASS_COMPLETE                30/122 written\n\n  1 famil(ies) audited \u00b7 1 PASS_COMPLETE\n\n  counters: knownRequiredFieldsMissing 0 \u00b7 requiredFactsNotCollected 0 \u00b7 unclassifiedBlanks 0 \u00b7 incompleteRows 0 \u00b7 requiredOptionsMissing 0 \u00b7 requiredComponentsMissing 0 \u00b7 invisibleWrites 0 \u00b7 protectedWrites 0 \u00b7 visualDefects 0\n",
+    "stderr": ""
+  },
+  {
+    "name": "source-values",
+    "familyId": "va_seal_petition_misdemeanor-set",
+    "command": [
+      "node",
+      "scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs",
+      "--family",
+      "va_seal_petition_misdemeanor-set"
+    ],
+    "exitCode": 2,
+    "seconds": 0.52,
+    "stdout": "",
+    "stderr": "BROKEN_DENOMINATOR\nno census matched --family va_seal_petition_misdemeanor-set. A filter that matches nothing is not a pass.\n"
+  },
+  {
+    "name": "preflight",
+    "familyId": "va_seal_petition_misdemeanor-set",
+    "command": [
+      "node",
+      "scripts/verify-packet-build-environment.mjs",
+      "--family",
+      "va_seal_petition_misdemeanor-set",
+      "--branch",
+      "codex/fix87-va-sealing-four"
+    ],
+    "exitCode": 1,
+    "seconds": 0.66,
+    "stdout": "  ok  repo_identity                          codex/fix87-va-sealing-four at d5eec242\n  ok  clone_is_complete                      full clone, all heads fetchable\n  ok  assigned_branch_tip_visible            origin/codex/fix87-va-sealing-four at d5eec242\n  ok  worktree_clean                         clean\n  ok  node_toolchain                         node 24.14.0\n  ok  pdf_lib_importable                     pdf-lib 1.17.1\n  -  browser_environment_exported           not applicable: this invocation renders nothing, so it needs no browser exported. Rendering is central (.github/workflows/rcap-packet-raster-acceptance-batch.yml); pass --require-rasterizer where a browser is actually about to be used.\n  -  build_time_rasterizer_available        not applicable: this invocation renders nothing. Pass --require-rasterizer where a build is actually about to raster.\n  -  page_rasterizer_available              not applicable: this invocation renders nothing. Rendering is central (.github/workflows/rcap-packet-raster-acceptance-batch.yml); pass --require-rasterizer where a browser is actually about to be used.\n  ok  private_is_git_ignored                 private/ is ignored and tracks nothing\n  ok  master_library_mounted                 mounted at ../../tmp/codex-fix87-20260906/master-subset\nFAIL  master_library_complete                below immutable minimum: 2/499 files, 2/329 PDFs\nFAIL  corpus_matches_committed_index         24 absent, 0 mismatched of 24 sampled\n  ok  family_sources_bind                    1/1 source(s) bind by exact SHA-256 (census_form_number_against_committed_index); 1 found by content hash because the declared path is in a custody that is not mounted here\n  ok  master_library_not_at_operational_path the operational path does not resolve to the Master Library\n  ok  absent_is_not_empty                    an absent tree returns null; an empty tree returns []\n  ok  stale_artifact_block_consulted         block consistent (12 hashes, 6 families); 0 artifact(s) under this family clear\n\nPACKET_BUILD_ENVIRONMENT_NOT_READY: 12/14 passed, 2 failed, 3 not applicable\n",
+    "stderr": ""
+  },
+  {
+    "name": "completeness",
+    "familyId": "va_seal_petition_felony-set",
+    "command": [
+      "node",
+      "scripts/rcap-packet-completeness/verify-packet-completeness.mjs",
+      "--family",
+      "va_seal_petition_felony-set"
+    ],
+    "exitCode": 0,
+    "seconds": 0.22,
+    "stdout": "  ok   va_seal_petition_felony-set                    PASS_COMPLETE                29/122 written\n\n  1 famil(ies) audited \u00b7 1 PASS_COMPLETE\n\n  counters: knownRequiredFieldsMissing 0 \u00b7 requiredFactsNotCollected 0 \u00b7 unclassifiedBlanks 0 \u00b7 incompleteRows 0 \u00b7 requiredOptionsMissing 0 \u00b7 requiredComponentsMissing 0 \u00b7 invisibleWrites 0 \u00b7 protectedWrites 0 \u00b7 visualDefects 0\n",
+    "stderr": ""
+  },
+  {
+    "name": "source-values",
+    "familyId": "va_seal_petition_felony-set",
+    "command": [
+      "node",
+      "scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs",
+      "--family",
+      "va_seal_petition_felony-set"
+    ],
+    "exitCode": 2,
+    "seconds": 0.45,
+    "stdout": "",
+    "stderr": "BROKEN_DENOMINATOR\nno census matched --family va_seal_petition_felony-set. A filter that matches nothing is not a pass.\n"
+  },
+  {
+    "name": "preflight",
+    "familyId": "va_seal_petition_felony-set",
+    "command": [
+      "node",
+      "scripts/verify-packet-build-environment.mjs",
+      "--family",
+      "va_seal_petition_felony-set",
+      "--branch",
+      "codex/fix87-va-sealing-four"
+    ],
+    "exitCode": 1,
+    "seconds": 0.47,
+    "stdout": "  ok  repo_identity                          codex/fix87-va-sealing-four at d5eec242\n  ok  clone_is_complete                      full clone, all heads fetchable\n  ok  assigned_branch_tip_visible            origin/codex/fix87-va-sealing-four at d5eec242\n  ok  worktree_clean                         clean\n  ok  node_toolchain                         node 24.14.0\n  ok  pdf_lib_importable                     pdf-lib 1.17.1\n  -  browser_environment_exported           not applicable: this invocation renders nothing, so it needs no browser exported. Rendering is central (.github/workflows/rcap-packet-raster-acceptance-batch.yml); pass --require-rasterizer where a browser is actually about to be used.\n  -  build_time_rasterizer_available        not applicable: this invocation renders nothing. Pass --require-rasterizer where a build is actually about to raster.\n  -  page_rasterizer_available              not applicable: this invocation renders nothing. Rendering is central (.github/workflows/rcap-packet-raster-acceptance-batch.yml); pass --require-rasterizer where a browser is actually about to be used.\n  ok  private_is_git_ignored                 private/ is ignored and tracks nothing\n  ok  master_library_mounted                 mounted at ../../tmp/codex-fix87-20260906/master-subset\nFAIL  master_library_complete                below immutable minimum: 2/499 files, 2/329 PDFs\nFAIL  corpus_matches_committed_index         24 absent, 0 mismatched of 24 sampled\n  ok  family_sources_bind                    1/1 source(s) bind by exact SHA-256 (census_form_number_against_committed_index); 1 found by content hash because the declared path is in a custody that is not mounted here\n  ok  master_library_not_at_operational_path the operational path does not resolve to the Master Library\n  ok  absent_is_not_empty                    an absent tree returns null; an empty tree returns []\n  ok  stale_artifact_block_consulted         block consistent (12 hashes, 6 families); 0 artifact(s) under this family clear\n\nPACKET_BUILD_ENVIRONMENT_NOT_READY: 12/14 passed, 2 failed, 3 not applicable\n",
+    "stderr": ""
+  }
+]

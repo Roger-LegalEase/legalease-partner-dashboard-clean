@@ -1,0 +1,208 @@
+{
+  "schemaVersion": "rcap-kansas-route-key-repair/v1",
+  "lane": "FIXKS",
+  "branch": "fable/fixks",
+  "repairedAt": "2026-09-02",
+  "baseCommit": "f933a6faa",
+  "familyId": "rcap-ks-custom-pleading",
+  "grantsNothing": "This is a repair record written by the lane that made the repair. It is not a verification, it opens no route, it sets no price and it changes no checkout. The lane that repaired may not verify its own repair; an independent lane reads this.",
+
+  "question": "rcap-ks-custom-pleading could not be rebuilt at f933a6faa. Why, and what does repairing it change?",
+  "answer": "The builder was pinned to superseded route keys. Commit 39b88c674 gave the two Kansas municipal mechanisms their own compiled runtime pathways, and the census rewrote both route keys from track-only form to track-pathway form. The builder's census anchors still named the track-only keys, which no longer occur anywhere in the census, so resolveRecords() refused and the build returned BLOCKED_SOURCE with no PDF at all. The repair re-points the builder to the keys the census actually carries. Nothing else about the packet changed.",
+
+  "theDefect": {
+    "symptom": "node scripts/build-census-v1-rcap-ks-custom-pleading.mjs exits 0 with status BLOCKED_SOURCE and produces no artifact.",
+    "mechanism": "SPEC.records carries a route-obligation-census record whose mustContain anchors are re-read from the committed census bytes before anything is composed. Both anchors were the superseded keys. resolveRecords() reported 2 missing anchor statements, runFamily() returned BLOCKED_SOURCE, and the overlay directory was never touched.",
+    "secondDefect": "source-receipt.json pinned the census at e881e8493e694cfcc99f714cbdcfc0424cab8c4a7d22b3e3a9913daab6816ab2 / 2596674 bytes while the committed census hashed 0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f / 2599752 bytes, and declared allSourcesExact true against that stale pin."
+  },
+
+  "theKeysAsTheCensusActuallyCarriesThem": {
+    "readFrom": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+    "censusSha256": "0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f",
+    "censusByteLength": 2599752,
+    "occurrencesOfEachSupersededKeyInTheCensus": 0,
+    "routes": [
+      {
+        "current": "obligation:track-pathway:KS:ks-12-4516-municipal:municipal-conviction-or-diversion-expungement-under-12-4516",
+        "superseded": "obligation:track-only:KS:ks-12-4516-municipal",
+        "trackId": "ks-12-4516-municipal",
+        "runtimePathwayId": "municipal-conviction-or-diversion-expungement-under-12-4516",
+        "routeContractId": "KS:municipal-conviction-or-diversion-expungement-under-12-4516"
+      },
+      {
+        "current": "obligation:track-pathway:KS:ks-12-4516a-municipal-arrest:municipal-arrest-record-expungement-under-12-4516a",
+        "superseded": "obligation:track-only:KS:ks-12-4516a-municipal-arrest",
+        "trackId": "ks-12-4516a-municipal-arrest",
+        "runtimePathwayId": "municipal-arrest-record-expungement-under-12-4516a",
+        "routeContractId": "KS:municipal-arrest-record-expungement-under-12-4516a"
+      }
+    ],
+    "crossCheckAgainstFirstCohortRuntimeIdentity": "AGREES_EXACTLY. data/rcap-grade-a/FIRST_COHORT_RUNTIME_IDENTITY.json states the same two obligationKey values, the same two priorObligationKey values, the same runtimePathwayId and the same routeContractId for both routes. No disagreement was found between it and the census."
+  },
+
+  "whatChanged": {
+    "scripts/build-census-v1-rcap-ks-custom-pleading.mjs": [
+      "12 occurrences of the two superseded route-key strings replaced by the two current ones: SPEC.routes (2), the census record's mustContain anchors (2), the routeKey on each of the 6 components, and SPEC.routeSelectionsMade (2).",
+      "allSourcesExact in the emitted source-receipt is now derived (failures.length === 0 && resolved.length === SPEC.records.length) rather than written as a literal true. Its value in this build is still true."
+    ],
+    "regeneratedByRebuild": [
+      "source-receipt.json",
+      "production-field-map.json",
+      "participant-instructions.md",
+      "reports/rendered-artifacts.json",
+      "fixtures/canonical.pdf",
+      "fixtures/boundary.pdf",
+      "fixtures/routes/ks-12-4516-municipal/canonical.pdf",
+      "fixtures/routes/ks-12-4516-municipal/boundary.pdf",
+      "fixtures/routes/ks-12-4516a-municipal-arrest/canonical.pdf",
+      "fixtures/routes/ks-12-4516a-municipal-arrest/boundary.pdf"
+    ],
+    "regeneratedIdenticalToHead": [
+      "build-status.json",
+      "build-findings.json",
+      "approval-request.json",
+      "reports/actual-writes.json",
+      "reports/blanks-left-for-the-participant.json",
+      "reports/completeness-counters.json"
+    ],
+    "notTouched": [
+      "product-wiring.json in the overlay directory — it is written by scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs, not by this builder, and it still carries the superseded keys",
+      "MASTER_QUEUE.json, VERIFIER_RETURNS.json, claim-ledger.json, every vf* directory",
+      "supabase/, .github/workflows/, production configuration",
+      "every route, price and checkout path"
+    ]
+  },
+
+  "thisWasARePointingAndNotARewrite": {
+    "howItWasChecked": "The page text of all six PDFs was extracted before and after, page by page, with the repository's own extractTextItems/groupIntoLines, and diffed.",
+    "result": "The ONLY textual difference anywhere in any of the six artifacts is the trailing `Route:` line on each composed page. Remedy text, component set, component order, prefilled values, required-before-filing items, participant instructions, filing destination, fee and waiver, service and notice, and self-help stop conditions are all textually identical to the frozen artifacts.",
+    "participantInstructionsDiff": "one line — the trailing _Route(s):_ footer.",
+    "consequenceOfTheLongerKey": "The current keys are 108 and 105 characters against 44 and 52. The composed-page renderer wraps at a fixed width, so the printed `Route:` line now occupies three wrapped lines instead of one. That overflow added one page to two of the six artifacts. No content was added; a wrap moved.",
+    "nothingWasContrivedToKeepBytesStable": true
+  },
+
+  "hashes": {
+    "buildInvocation": "node scripts/build-census-v1-rcap-ks-custom-pleading.mjs --no-raster",
+    "matchesTheInvocationThatProducedTheFrozenArtifacts": "yes — the committed build-status.json at f933a6faa records rasterPages 0 and rasterState BUILT_RASTER_PENDING",
+    "familyAssembly": [
+      {
+        "fixture": "canonical",
+        "was": "6a4ce684338f15386c42d19f53e56ed828ca51dcb748c64e5943ef01e483bfc8",
+        "wasPages": 12,
+        "now": "aca94f8f2ec3ae058e1a52b3d17cda4ffbabec5e6f8b087e5d58147f81a3f04f",
+        "nowPages": 13,
+        "moved": true
+      },
+      {
+        "fixture": "boundary",
+        "was": "682a6a4b1d64f6998135325d264af837fab045ae4828fa6a0b4a5e6bc88cdb67",
+        "wasPages": 13,
+        "now": "169a79518f0de79b70806e2800d1b512fc547bf7d84970edb1f0867a902e0421",
+        "nowPages": 13,
+        "moved": true
+      }
+    ],
+    "routeArtifacts": [
+      {
+        "route": "ks-12-4516-municipal",
+        "fixture": "canonical",
+        "was": "fbf3f59d049aa6b17e1df460957c331ba9585c8f1bcd0d6b668c5fc591d8aea6",
+        "wasPages": 6,
+        "now": "fd2956b89568f74c1ffca3c246358bc5db709e96bef747882aff41e2a4124140",
+        "nowPages": 7,
+        "moved": true
+      },
+      {
+        "route": "ks-12-4516-municipal",
+        "fixture": "boundary",
+        "was": "90c875fd8dd183dc767146ca303e1d60ecebf175edc83698b8b8fe590f921c5b",
+        "wasPages": 7,
+        "now": "ba01dee5509099273bffa76779339d206c63322d5d493bcd69272571ee4e7171",
+        "nowPages": 7,
+        "moved": true
+      },
+      {
+        "route": "ks-12-4516a-municipal-arrest",
+        "fixture": "canonical",
+        "was": "3feb0a58960ed550377f1d4c8fd9bee9c52175166da72326ab4230f5691e8685",
+        "wasPages": 6,
+        "now": "d1323019410419c90f0f98f9ab26451229ff4775b0a172a4f0d1631433fdbd56",
+        "nowPages": 6,
+        "moved": true
+      },
+      {
+        "route": "ks-12-4516a-municipal-arrest",
+        "fixture": "boundary",
+        "was": "f2411e4da02234137a7e7ae9a4f4106900699caff8a6f076b6ed758cf4ba334a",
+        "wasPages": 6,
+        "now": "45bb2ce127de5c3feff55393b22bf19dd94883a600cb146a78ddeaf5feca658a",
+        "nowPages": 6,
+        "moved": true
+      }
+    ],
+    "everyArtifactHashMoved": "yes, all six, as expected — the route key is printed on every composed page",
+    "everyPageCountHeld": "no — two of six gained a page to the wrapped key line: the canonical family assembly (12 to 13) and the canonical ks-12-4516-municipal route artifact (6 to 7)"
+  },
+
+  "sourceReceiptRePin": {
+    "everyPinnedRecordRecomputedFromTheCommittedBytesInThisRun": true,
+    "records": [
+      {
+        "path": "data/record-clearing/legal-design-track-registry.json",
+        "wasSha256": "49d08b90a767d616ebea55b7493b3121c70eee91aa270babf4a66da83ff7ac58",
+        "nowSha256": "49d08b90a767d616ebea55b7493b3121c70eee91aa270babf4a66da83ff7ac58",
+        "wasByteLength": 16469590,
+        "nowByteLength": 16469590,
+        "moved": false,
+        "anchorStatementsVerified": 56
+      },
+      {
+        "path": "data/record-clearing/legal-design-specifications.json",
+        "wasSha256": "cc0c79598a8406e08d606901fafb01972bb75ac1e7d0eca8df59209c0773f9c5",
+        "nowSha256": "cc0c79598a8406e08d606901fafb01972bb75ac1e7d0eca8df59209c0773f9c5",
+        "wasByteLength": 16829383,
+        "nowByteLength": 16829383,
+        "moved": false,
+        "anchorStatementsVerified": 4
+      },
+      {
+        "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+        "wasSha256": "e881e8493e694cfcc99f714cbdcfc0424cab8c4a7d22b3e3a9913daab6816ab2",
+        "nowSha256": "0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f",
+        "wasByteLength": 2596674,
+        "nowByteLength": 2599752,
+        "moved": true,
+        "anchorStatementsVerified": 2
+      }
+    ],
+    "allSourcesExact": true,
+    "whyThatIsNowTrue": "All three records resolved exactly in this run: each exists at its committed path, each carries every anchor statement the build relies on, and each sha256 and byteLength in the receipt was computed from the bytes read in this run rather than carried forward."
+  },
+
+  "determinism": {
+    "method": "The overlay directory was deleted entirely and the builder run from scratch, twice, with product-wiring.json restored from HEAD after each run because this builder does not write it.",
+    "filesCompared": 16,
+    "result": "IDENTICAL — every file byte-for-byte equal across both from-scratch builds, and the two build reports are identical.",
+    "buildStatus": "COMPLETED",
+    "nineCompletenessCountersZero": true,
+    "selfVerified": false
+  },
+
+  "whatAnIndependentLaneShouldStillLookAt": [
+    "The wrapped Route: line. The key is now hard-wrapped mid-token across three lines on every composed page. It is legible and it is the true key, but whether that presentation is acceptable is a visual-review question this lane did not decide, and it did not reflow the renderer to avoid it because that would have been a page-composition change rather than a re-pointing.",
+    "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/product-wiring.json still carries both superseded keys. It is generated by scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs and is that generator's to refresh.",
+    "The four route-artifact acceptance records — ROUTE_ARTIFACT_ACCEPTANCE.json, ROUTE_ARTIFACT_COMPLETENESS.json, ROUTE_ARTIFACT_DETERMINISM.json, ROUTE_ARTIFACT_RASTER_QUEUE.json and CENTRAL_RASTER_RUN.json in data/rcap-grade-a/route-artifact-acceptance/ — pin the superseded routeKeys and the frozen hashes. Every one of those acceptances is now stale for Kansas. This lane did not touch them: it may not verify its own repair.",
+    "data/rcap-grade-a/packet-factory-24h/pf01/rows.json, vf09/rows.json and vf10/rows.json also carry the superseded keys. They are other lanes' ledgers and were left alone.",
+    "scripts/verify-rcap-kansas-municipal-runtime-routes.mjs names both superseded keys, but only as priorObligationKey. That is a correct historical statement and no assertion in it demands the superseded key as a current one, so nothing there needed changing."
+  ],
+
+  "gatesAndAuthority": {
+    "verifiersWeakened": 0,
+    "assertionsRelaxed": 0,
+    "routesOpened": 0,
+    "pricesSet": 0,
+    "checkoutChanged": false,
+    "productionTouched": false,
+    "note": "Both Kansas municipal routes remain sellable false, creditConsumable false and UNFINISHED. A rebuilt packet is review evidence and authorizes no fulfillment."
+  }
+}

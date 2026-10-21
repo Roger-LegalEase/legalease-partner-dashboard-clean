@@ -1,0 +1,114 @@
+{
+  "schemaVersion": "rcap-ut-juvenile-preflight-code-review/v1",
+  "reviewedAt": "2026-09-13T04:56:51Z",
+  "reviewer": "/root/act346_order_review",
+  "independentOfAuthor": true,
+  "authorReturn": "data/rcap-grade-a/packet-factory-24h/pf20/ut-juvenile-preflight-repair-return-20260913.json",
+  "reviewBaseHead": "6867ee44777ce3c9e88afda8b4bad8c3d8e8e31a",
+  "reviewTargets": [
+    "scripts/verify-packet-build-environment.mjs",
+    "scripts/verify-family-source-resolution.test.mjs"
+  ],
+  "targetBytes": {
+    "scripts/verify-packet-build-environment.mjs": "67a48bd441d643cb45904dea48f2f82a1fe2fe8931376e7cd0a0507d84a9a788",
+    "scripts/verify-family-source-resolution.test.mjs": "358cd6b4976288fe25eb86605d0d4ffba1dc6e677d4211a2c06f7b6b829773de",
+    "data/rcap-grade-a/packet-factory-24h/pf20/ut-juvenile-preflight-repair.patch": "a095f2dcbb25c0294fc2f686c0afa128cedf8c9092673ab0329b46bd9aeda700"
+  },
+  "scope": {
+    "familyId": "census-pending-family:UT:path-m-juvenile-expungement",
+    "sourceId": "official-form:1174XX",
+    "admission": "data/rcap-grade-a/source-wave-integration/KNOWN_RESIDUAL_SOURCE_RECOVERY_2026-09-11.json",
+    "expectedPath": "reference/utah/11_Petition_to_Expunge_Records_Juvenile-Revised-2023-08-14.pdf",
+    "expectedSha256": "b8488a2ebb43d9f94615a52bf52545283c47c147e45a9a4f02fa872cc1baf458",
+    "expectedByteLength": 128760,
+    "queuePinUsedAsAdmission": false,
+    "sourceAdoptionOrCorpusSubstitution": false,
+    "packetOrBuildReview": false
+  },
+  "verdict": "CHANGES_REQUIRED",
+  "findings": [
+    {
+      "id": "UT-PREFLIGHT-CODE-01",
+      "severity": "BLOCKING",
+      "title": "Repository-relative check does not contain real parent symlinks",
+      "location": "scripts/verify-packet-build-environment.mjs:313-329",
+      "observed": "The lexical candidate check and lstat reject an absolute path, traversal, or a symlinked body, but realpath is compared only with the Master Library. A temporary repository with reference/utah as a symlink to an outside directory and the exact 128760-byte PDF was accepted by resolveCommittedKnownResidualBinding.",
+      "impact": "A path that is lexically below the repository can resolve to arbitrary external custody and still inherit the exact admission. This contradicts the helper comment that a symlink is refused and permits source-location substitution outside the verified repository namespace.",
+      "requiredFix": "Resolve the repository root itself and require the candidate realpath to equal or descend from that real root before accepting it; retain the explicit Master Library exclusion. Add a hermetic test with a symlinked parent directory, and assert refusal.",
+      "verificationProbe": {
+        "result": "FAIL",
+        "realpathObserved": "/tmp/ut-parent-symlink-outside-d3COER/11_Petition_to_Expunge_Records_Juvenile-Revised-2023-08-14.pdf",
+        "repositoryRootObserved": "/tmp/ut-parent-symlink-review-JeBeax",
+        "accepted": true
+      }
+    },
+    {
+      "id": "UT-PREFLIGHT-CODE-02",
+      "severity": "BLOCKING",
+      "title": "Conflicting custody-row path is not refused",
+      "location": "scripts/verify-packet-build-environment.mjs:347-369",
+      "observed": "When an existing row carries sourceId official-form:1174XX, familySources suppresses the admitted source because the source ID is present, without comparing the row path or digest to the exact admission. A hermetic row pointing to reference/utah/wrong-name.pdf containing the same expected bytes returned that wrong path as the family source.",
+      "impact": "The implementation comment promises that a conflicting row binding still fails, but a same-byte different-path binding can pass the downstream hash check. The exact admission therefore does not control the source path, and a conflicting custody row can substitute its identity.",
+      "requiredFix": "For this scoped family, reject a pre-existing source row with the expected raw/obligation source ID unless its path, SHA-256, and declared length match the admission exactly; represent the conflict in unresolvable so family_sources_bind fails. Add a negative test using a different path with the expected bytes.",
+      "verificationProbe": {
+        "result": "FAIL",
+        "rowPath": "reference/utah/wrong-name.pdf",
+        "admissionPath": "reference/utah/11_Petition_to_Expunge_Records_Juvenile-Revised-2023-08-14.pdf",
+        "familySourcesReturned": "reference/utah/wrong-name.pdf"
+      }
+    },
+    {
+      "id": "UT-PREFLIGHT-TEST-01",
+      "severity": "BLOCKING_TEST_HARNESS",
+      "title": "Existing MO negative test is stale in the recovered corpus",
+      "location": "scripts/verify-family-source-resolution.test.mjs:154-159",
+      "observed": "The unchanged test hardcodes mo-610-140-arrest-set, mo-610-140-conviction-set, and mo-610-145-mistaken-identity-set as DOES_NOT_BIND. In the current recovered corpus, mo-610-140-arrest-set and mo-610-140-conviction-set actually bind; the full file reports 9 passed and 1 failed on the first assertion.",
+      "impact": "The focused test file is not green, although this result is unrelated to the UT-only admission bridge. Treating it as a passing regression would conceal an environment-dependent assertion.",
+      "requiredFix": "Make the negative case hermetic or narrow the assertion to a source that is demonstrably absent in a fixture. Preserve the missing/corrupt-body refusal; do not weaken it and do not turn the test into a queue-pin-only check.",
+      "implementationCausality": "No UT patch branch changes MO resolution: the special admission is exact-family scoped, and the existing MO expectation predates the current recovered bytes."
+    }
+  ],
+  "verification": {
+    "nodeCheck": {
+      "result": "PASS",
+      "targets": [
+        "scripts/verify-packet-build-environment.mjs",
+        "scripts/verify-family-source-resolution.test.mjs"
+      ]
+    },
+    "focusedUtTests": {
+      "command": "node --test --test-name-pattern='committed known-residual admission|missing or corrupt admitted body|receipt with mismatched identity|exact admission is scoped' scripts/verify-family-source-resolution.test.mjs",
+      "result": "4 passed, 0 failed"
+    },
+    "existingResolverSubset": {
+      "command": "node --test --test-name-pattern='pool-held|same repair|form number no pin|pin is a lead|recovery pool' scripts/verify-family-source-resolution.test.mjs",
+      "result": "5 passed, 0 failed"
+    },
+    "fullFocusedFile": {
+      "result": "9 passed, 1 failed",
+      "failure": "The pre-existing MO identity-versus-held-bytes assertion expects DOES_NOT_BIND for mo-610-140-arrest-set, which now binds in the recovered corpus."
+    },
+    "patchWhitespace": "PASS git diff --check",
+    "admissionBody": {
+      "result": "PASS",
+      "path": "reference/utah/11_Petition_to_Expunge_Records_Juvenile-Revised-2023-08-14.pdf",
+      "sha256": "b8488a2ebb43d9f94615a52bf52545283c47c147e45a9a4f02fa872cc1baf458",
+      "byteLength": 128760
+    }
+  },
+  "preservedControls": [
+    "The helper is exact-family scoped and does not consume MASTER_QUEUE as an admission.",
+    "The committed known-residual schema, family, item, source identity, result, path, digest, and length are checked.",
+    "Missing and corrupt admitted bodies are refused by the focused tests.",
+    "Mismatched source identity, path, digest, and length are refused by the focused tests.",
+    "Unrelated families do not consume the UT admission.",
+    "Existing pool/index ambiguity and missing-body resolver tests pass in the exercised subset."
+  ],
+  "nonActions": [
+    "No packet or build was reviewed.",
+    "No source was adopted or copied.",
+    "No official PDF, queue, custody record, or corpus index was changed.",
+    "No shared code edit, commit, or dependency operation was performed."
+  ],
+  "nextAcceptance": "Apply the two scoped resolver guards and add their hermetic negative tests; repair the stale MO negative assertion without relaxing missing-body refusal; rerun this focused file and obtain a delta review."
+}

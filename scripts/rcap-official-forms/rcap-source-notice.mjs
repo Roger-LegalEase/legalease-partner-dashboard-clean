@@ -37,7 +37,32 @@ export function normalizeNoticeText(text) {
  * `id` names the shape so a hold can say which phrase it matched rather than
  * only that something matched.
  */
-export const NON_FILING_NOTICE_PATTERNS = Object.freeze([
+export /*
+ * "for informational purposes only" is a non-filing notice ONLY when the
+ * document says it about ITSELF.
+ *
+ * North Dakota's SFN 61663 is the Pardon Advisory Board application -- the
+ * filing document, nothing else -- and its explanatory page ends: "This is
+ * provided for informational purposes only and not for the purpose of
+ * providing legal advice. You should contact your attorney to obtain advice
+ * with respect to any particular issue or problem." That is a lawyer's
+ * disclaimer about the paragraph above it, and the gate read it as the form
+ * disclaiming its own filing status. The family stopped with a source that
+ * binds exactly, at three paths, and the lane that found it refused to trim the
+ * text or pass a falsy notice to get past -- correctly, because both would have
+ * weakened the safeguard rather than corrected it.
+ *
+ * So the phrase is excused only in the shape that names legal advice as what is
+ * being disclaimed. The reference-copy notice this pattern exists for -- a
+ * translation saying it is for informational purposes only and the English
+ * version is the one to file -- says nothing about legal advice and still
+ * fires, as does a document that disclaims advice somewhere and separately says
+ * do not file this form: every other pattern is tested independently.
+ */
+const LEGAL_ADVICE_DISCLAIMER =
+  /\bfor informational purposes only\b[^.]{0,80}\b(?:not (?:for the purpose of providing|intended as|to be construed as|)\s*legal advice|is not legal advice)\b/;
+
+const NON_FILING_NOTICE_PATTERNS = Object.freeze([
   { id: "not_for_filing", pattern: /\bnot for filing\b/ },
   { id: "sample_only", pattern: /\bsample only\b/ },
   { id: "specimen_copy", pattern: /\bspecimen copy\b/ },
@@ -46,7 +71,7 @@ export const NON_FILING_NOTICE_PATTERNS = Object.freeze([
   // The reference-only translation notice, in three independent parts. Each is
   // sufficient on its own: a document that says any one of them about itself is
   // telling the reader it is not the filing copy.
-  { id: "informational_purposes_only", pattern: /\bfor informational purposes only\b/ },
+  { id: "informational_purposes_only", pattern: /\bfor informational purposes only\b/, notWhen: LEGAL_ADVICE_DISCLAIMER },
   { id: "do_not_complete_for_filing", pattern: /\bdo not complete this (form|document) for filing\b/ },
   { id: "use_the_english_version", pattern: /\buse the english( language)? version\b/ }
 ]);
@@ -68,15 +93,18 @@ export function detectNonFilingNotice(lines = []) {
 
   for (const text of texts) {
     const normalized = normalizeNoticeText(text);
-    for (const { id, pattern } of NON_FILING_NOTICE_PATTERNS) {
-      if (pattern.test(normalized)) return { notice: text.trim(), matched: id, basis: "printed_line" };
+    for (const { id, pattern, notWhen } of NON_FILING_NOTICE_PATTERNS) {
+      if (!pattern.test(normalized)) continue;
+      if (notWhen && notWhen.test(normalized)) continue;
+      return { notice: text.trim(), matched: id, basis: "printed_line" };
     }
   }
 
   const joined = normalizeNoticeText(texts.join(" "));
-  for (const { id, pattern } of NON_FILING_NOTICE_PATTERNS) {
+  for (const { id, pattern, notWhen } of NON_FILING_NOTICE_PATTERNS) {
     const found = joined.match(pattern);
     if (!found) continue;
+    if (notWhen && notWhen.test(joined)) continue;
     // Quote the phrase as the court set it, not the whole page.
     const at = found.index ?? 0;
     return {

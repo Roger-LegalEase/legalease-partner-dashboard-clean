@@ -1,0 +1,24 @@
+
+== identity-refresh annotations survive
+   121 annotations across 76 families are what keep drifted shared-record pins honest. A build that failed after wiping its output directory can destroy one, and the next successful build reports zeros over the gap.
+
+== gate coverage matches its verdicts
+   The queue used to describe what the gate renders from an assumption rather than from the gate, and the assumption went stale: 36 rows said their boundary fixture went unrendered while the same run's verdict named it rendered and measured.
+
+== governance state survives
+   296 product-wiring records carry governance state and 61 carry withdrawn receipts. A rebuild that strips an acceptance receipt is invisible in a diff and turns into a silent withdrawal at the next generate.
+
+== builder self-tests actually run
+   A guard nothing invokes is not a guard. Assertions written to protect a repaired packet sat behind a flag no CI job and no chain step passed, and VF61 proved a repaired defect walks straight back into the delivered bytes with the build reporting success.
+
+FAILED at "builder self-tests actually run" (exit 1)
+  command: node scripts/rcap-packet-completeness/verify-builder-self-tests-run.mjs
+3 of 5 builder self-test(s) fail when actually run (257 assertions are gated behind --self-test):
+  build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs: node:internal/modules/cjs/loader:1564
+  build-census-v1-ca-1203-4-set.mjs: node:internal/modules/cjs/loader:1564
+  build-census-v1-mi_setaside_trafficking-set.mjs: node:internal/modules/cjs/loader:1564
+A guard nothing invokes is not a guard. These assertions were written to protect repairs and have never run.
+
+
+No later step ran and NO TRANSITION IS REPORTED. The counts in the queue are from before this run
+and reporting them now would be reporting a checkpoint that did not happen.

@@ -37,7 +37,7 @@ import { fileURLToPath } from 'node:url';
 // suppressed; whether that is TRUE is a question only the runtime can answer,
 // and asking a copy of its rules here would be a second system that drifts.
 register('./lib/ts-esm-loader.mjs', import.meta.url);
-const { resolvePacketRoute } = await import('../src/lib/rcap/documents/packet-route-resolver.ts');
+const { resolvePacketRoute, packetRouteCanRender } = await import('../src/lib/rcap/documents/packet-route-resolver.ts');
 // Terminal treatments are validated in exactly one place — the guidance-packet
 // registry — and read here rather than re-validated, so the ledger and the
 // runtime can never disagree about whether a treatment loaded.
@@ -45,6 +45,35 @@ const { terminalTreatmentForTrack } = await import('../src/lib/rcap/documents/gu
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const outJson = path.join(rootDir, 'data/rcap-ledger/track-terminalization.json');
+
+// Tracks the legal-design decision owner has retired. Read from the decision
+// record rather than from a list here, so a retirement exists exactly where the
+// authority for it does.
+const LEGAL_DECISION_RECORDS = ['data/record-clearing/legal-decisions/2026-08-29-lawrence-six-decisions.json'];
+const legalRetirements = new Map();
+for (const rel of LEGAL_DECISION_RECORDS) {
+  const abs = path.join(rootDir, rel);
+  if (!fs.existsSync(abs)) continue;
+  const record = JSON.parse(fs.readFileSync(abs, 'utf8'));
+  for (const decision of record.decisions ?? []) {
+    if (decision.classification !== 'RECORD_RETIREMENT_REQUIRED') continue;
+    for (const trackId of decision.tracks ?? []) {
+      legalRetirements.set(trackId, {
+        decisionId: decision.decisionId,
+        decisionOwner: record.decisionOwner,
+        decisionDate: record.decisionDate,
+        answer: decision.answer,
+        scope: 'the participant-facing prepared pleading only',
+        pathwayRemainsInServiceModel: true,
+        retainedAs: [
+          'same-hearing attorney action',
+          'attorney/legal-aid referral',
+          'no participant-facing prepared immediate-sealing pleading',
+        ],
+      });
+    }
+  }
+}
 const outDoc = path.join(rootDir, 'docs/record-clearing/track-terminalization.md');
 const checkOnly = process.argv.includes('--check');
 
@@ -114,6 +143,98 @@ const e4TerminalTracks = new Set(
     .filter((i) => i.subjectKind === 'registry_track')
     .map((i) => `${i.jurisdiction}:${i.subjectId}`)
 );
+
+// The 2026-08-24 legal authority replaces the pinned registry's unresolved
+// Mississippi routing note with an exact two-stage contract: active admission
+// is referral-only, while the completed and closed matter is the participant
+// packet route. The crosswalk cannot infer that one registry track intentionally
+// expands into both compiled pathways because its registry projection predates
+// the approved split. Promote only while every contract, compiled pathway and
+// shared runtime behavior below remains exact.
+const authorityStageSplitSpecs = [
+  {
+    trackKey: 'MS:ms-nonadj',
+    decisionId: 'LD-MS-01',
+    activeRouteKey: 'MS:nonadjudication-99-15-26-active-case-admission',
+    completedRouteKey: 'MS:nonadjudication-under-99-15-26',
+  },
+];
+const mississippiAuthority = JSON.parse(
+  fs.readFileSync(path.join(rootDir, 'src/lib/legal-authority/routes/mississippi.json'), 'utf8')
+);
+const authorityContractByKey = new Map(
+  (mississippiAuthority.routes || []).map((route) => [route.routeKey, route])
+);
+const compiledPathwayKeys = new Set(
+  (crosswalk.compiledPathways || []).map((pathway) => `${pathway.jurisdiction}:${pathway.compiledPathwayId}`)
+);
+const authorityStageSplitPromotions = new Map();
+for (const spec of authorityStageSplitSpecs) {
+  const [jurisdiction] = spec.trackKey.split(':');
+  const active = authorityContractByKey.get(spec.activeRouteKey);
+  const completed = authorityContractByKey.get(spec.completedRouteKey);
+  const exact = Boolean(
+    active
+    && completed
+    && active.decisionId === spec.decisionId
+    && completed.decisionId === spec.decisionId
+    && active.stage === 'active_case_admission'
+    && active.outcomeMode === 'referral'
+    && active.packetFamily === null
+    && completed.stage === 'post_completion'
+    && completed.outcomeMode === 'participant_packet'
+    && typeof completed.packetFamily === 'string'
+    && completed.packetFamily.trim().length > 0
+  );
+  if (!exact) {
+    fail(`${spec.trackKey}: approved authority stage-split contracts drifted`);
+    continue;
+  }
+  const pathwayIds = [active.pathwayId, completed.pathwayId];
+  const missingPathways = pathwayIds.filter((pathwayId) => !compiledPathwayKeys.has(`${jurisdiction}:${pathwayId}`));
+  if (missingPathways.length > 0) {
+    fail(`${spec.trackKey}: approved stage-split pathway(s) missing from compiled runtime: ${missingPathways.join(', ')}`);
+    continue;
+  }
+  const activeRuntime = resolvePacketRoute({ state: jurisdiction, pathway: active.pathwayId });
+  const completedRuntime = resolvePacketRoute({ state: jurisdiction, pathway: completed.pathwayId });
+  /**
+   * The stage split is proven at the contract layer, and the runtime is checked
+   * for the one thing it can still say.
+   *
+   * This used to read "the active admission is closed AND the completed stage is
+   * sellable and credit-consumable", which is how a split shows up in a runtime
+   * that can express one. Since ADR-0004 Mississippi's runtime cannot: the whole
+   * jurisdiction resolves legacy_retired and sells nothing, so both stages look
+   * identical through sellability and neither is commercially available.
+   *
+   * Reopening the completed stage to keep this check satisfiable would be
+   * restoring a retired generator's commercial authority to make a generator
+   * pass, which is exactly what the owner decision forbids. So the split is
+   * proven above, on the contracts' stage, outcomeMode and packetFamily — where
+   * it is actually recorded — and the runtime is held to the post-retirement
+   * truth: neither stage carries commercial authority.
+   */
+  if (activeRuntime.sellable || activeRuntime.creditConsumable) {
+    fail(`${spec.trackKey}: active admission is still sellable or credit-consumable`);
+    continue;
+  }
+  if (completedRuntime.sellable || completedRuntime.creditConsumable) {
+    fail(`${spec.trackKey}: completed packet stage regained commercial authority a retired generator cannot grant`);
+    continue;
+  }
+  if (!packetRouteCanRender(completedRuntime)) {
+    fail(`${spec.trackKey}: completed packet stage lost its renderer, so the stage split is no longer observable at all`);
+    continue;
+  }
+  authorityStageSplitPromotions.set(spec.trackKey, {
+    decisionId: spec.decisionId,
+    routeKeys: [spec.activeRouteKey, spec.completedRouteKey],
+    pathwayIds,
+    activeRuntimeKind: activeRuntime.routeKind,
+    completedRuntimeKind: completedRuntime.routeKind,
+  });
+}
 
 // --- delivered treatments (window 2: first terminalization integration) -----
 //
@@ -427,16 +548,21 @@ for (const row of crosswalk.registryTracks) {
   }
 
   const trackKey = `${row.jurisdiction}:${row.registryTrackId}`;
+  const authorityStageSplitPromotion = authorityStageSplitPromotions.get(trackKey);
+  const mappedCompiledPathwayIds = authorityStageSplitPromotion?.pathwayIds
+    ?? row.mappedCompiledPathwayIds
+    ?? [];
   const counselIds = new Set(counselByTrack.get(trackKey) || []);
   let sourceGap = false;
-  for (const pid of row.mappedCompiledPathwayIds || []) {
+  for (const pid of mappedCompiledPathwayIds) {
     const pKey = `${row.jurisdiction}:${pid}`;
     for (const id of counselByPathway.get(pKey) || []) counselIds.add(id);
     if (sourceGapPathways.has(pKey)) sourceGap = true;
   }
   const decisionCondition = decisionConditionOf(reg);
   const superseded = row.compiledCoverageDisposition === 'represented_with_superseded_runtime_text';
-  const runtimeCovered = ['exact_current_pathway', 'represented_by_compiled_variants'].includes(row.compiledCoverageDisposition);
+  const runtimeCovered = Boolean(authorityStageSplitPromotion)
+    || ['exact_current_pathway', 'represented_by_compiled_variants'].includes(row.compiledCoverageDisposition);
   const stateBuilt = stateByCode.get(row.jurisdiction)?.buildStatus === 'state_built';
   const e4Terminal = e4TerminalTracks.has(trackKey);
 
@@ -567,12 +693,22 @@ for (const row of crosswalk.registryTracks) {
     if (!TREATMENTS.has(requiredTreatment)) fail(`${trackKey}: derived treatment ${requiredTreatment} is not in the vocabulary`);
   }
 
+  // A track the decision owner has retired is no longer a promoted candidate.
+  // Its status has to say so, because the terminalization contract enumerates
+  // promoted candidates and would otherwise keep checking the provenance of a
+  // route that no longer exists -- and the only way to make that check pass
+  // would be to re-pin a retired record's hash, which asserts that a decision
+  // still holds when the decision is that there is no route.
+  const retirement = legalRetirements.get(row.registryTrackId) ?? null;
+
   rows.push({
     jurisdiction: row.jurisdiction,
     trackId: row.registryTrackId,
     declaredStrategy: declared,
-    coverageDisposition: row.compiledCoverageDisposition,
-    mappedCompiledPathwayIds: row.mappedCompiledPathwayIds || [],
+    coverageDisposition: authorityStageSplitPromotion
+      ? 'represented_by_approved_stage_split'
+      : row.compiledCoverageDisposition,
+    mappedCompiledPathwayIds,
     terminal: terminalNow,
     holds,
     requiredTreatment,
@@ -580,11 +716,32 @@ for (const row of crosswalk.registryTracks) {
       ? {
         candidateTreatment,
         candidateEvidence,
-        candidateStatus: approvedByReview
-          ? (terminalizationApprovals.has(trackKey) ? 'promoted_by_terminalization_review' : 'promoted_by_f2')
-          : (terminalizationOutcomes.get(trackKey)?.outcome
-            ?? reviewOutcomes.get(trackKey)?.outcome
-            ?? (terminalTreatment ? 'pending_terminalization_review' : 'pending_f2_review')),
+        candidateStatus: retirement
+          ? 'retired_by_legal_decision'
+          : approvedByReview
+            ? (terminalizationApprovals.has(trackKey) ? 'promoted_by_terminalization_review' : 'promoted_by_f2')
+            : (terminalizationOutcomes.get(trackKey)?.outcome
+              ?? reviewOutcomes.get(trackKey)?.outcome
+              ?? (terminalTreatment ? 'pending_terminalization_review' : 'pending_f2_review')),
+      }
+      : {}),
+    ...(retirement
+      ? {
+        legalRetirement: {
+          decisionId: retirement.decisionId,
+          decisionOwner: retirement.decisionOwner,
+          decisionDate: retirement.decisionDate,
+          answer: retirement.answer,
+          scope: retirement.scope,
+          pathwayRemainsInServiceModel: retirement.pathwayRemainsInServiceModel,
+          retainedAs: retirement.retainedAs,
+        },
+      }
+      : {}),
+    ...(authorityStageSplitPromotion
+      ? {
+        promotionStatus: 'promoted_by_legal_authority',
+        promotionEvidence: authorityStageSplitPromotion,
       }
       : {}),
     ...(treatmentSubstitution ? { treatmentSubstitution } : {}),

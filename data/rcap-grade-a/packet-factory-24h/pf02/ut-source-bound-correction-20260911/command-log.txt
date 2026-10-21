@@ -1,0 +1,53 @@
+checkout=/tmp/rcap-in-choice-proof-20260911
+base=a83c8edf48e7f328b81270f9093dbed7f62e2fb3
+
+$ node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF02 ut_pet_special_certificate-set
+exit=0
+CLAIM_OK PF02 ut_pet_special_certificate-set (packet-build, grant set 985ad4fa3a1cf07a)
+
+$ node --check scripts/build-census-v1-ut_pet_special_certificate-set.mjs
+exit=0
+
+$ node scripts/build-census-v1-ut_pet_special_certificate-set.mjs
+exit=1
+Input-preparation failure before source resolution: ENOENT data/rcap-grade-a/packet-factory-24h/checkpoint-232-to-250/ut-special-certificate-build-readiness.json.
+Captain then copied the exact referenced readiness JSON into this checkout. Its SHA-256 is 3b2471eb645fed2c2d3d6ab143c03d6d14a493c97a7058b91140ccdcce55c873, matching Captain's source copy.
+
+$ node scripts/build-census-v1-ut_pet_special_certificate-set.mjs
+exit=0
+Verdict: all 9 held sources matched their exact SHA-256 and byte-length pins; 10 components inventoried; component 10 remained sourceBound=false; raster DEFERRED.
+
+$ node scripts/lib/ut-special-certificate-stage-gate.test.mjs
+exit=0
+UT special-certificate stage-gate tests passed
+
+$ bounded conditional-role/source-pin/stage assertion
+exit=0
+Verdict: PASS. Nine source identities retained. Five source-backed conditional-role rows retain exact source paths and hashes. Component 10 has null sourcePath, null sourceSha256, sourceBound=false and role "process guidance; source and measurement pending". Report status is DRAFT_PENDING_INDEPENDENT_SOURCE_LABEL_REVIEW. Build status remains official_forms_ingested / UNVERIFIED_NO_RASTER.
+
+$ non-raster baseline/rebuilt PDF object and byte comparison
+exit=0
+Verdict: METADATA_ONLY_DRIFT. Both fixtures retain 589 indirect objects and identical lengths. Only object 3 0 R differs: /CreationDate and /ModDate. The only raw byte ranges that differ are 505..510 and 731..736. Normalizing those two date values makes each pair byte-identical; extracted-text hashes are identical.
+
+$ authorized deterministic-assembly correction
+Builder line 28 now calls packet.setCreationDate(new Date(0)) and packet.setModificationDate(new Date(0)) immediately after PDFDocument.create(), following the existing Arizona synthetic-fixture convention.
+
+$ node scripts/build-census-v1-ut_pet_special_certificate-set.mjs
+run1-start=2026-09-11T10:27:14Z
+exit=0
+canonical sha256=50e75d06844f90e3d28101c7ef172000c06ad9f643074f19d913de742dc30c0c
+boundary sha256=d9d8b904792feba796f54f75b2d7a2ccfde095458434d87e16ed75a724d5fd12
+
+$ node scripts/build-census-v1-ut_pet_special_certificate-set.mjs
+run2-start=2026-09-11T10:27:22Z
+exit=0
+canonical sha256=50e75d06844f90e3d28101c7ef172000c06ad9f643074f19d913de742dc30c0c
+boundary sha256=d9d8b904792feba796f54f75b2d7a2ccfde095458434d87e16ed75a724d5fd12
+
+$ node scripts/lib/ut-special-certificate-stage-gate.test.mjs
+exit=0
+UT special-certificate stage-gate tests passed
+
+$ final source/report/stage/determinism and baseline-object assertion
+exit=0
+Verdict: PASS. Both distinct-time builds are byte-stable. Against the original baseline, each final PDF has 589 objects and only object 3 0 R differs; only /CreationDate and /ModDate changed to D:19700101000000Z. Every stream is unchanged. The corrected component-10 source semantics and draft status remain intact.

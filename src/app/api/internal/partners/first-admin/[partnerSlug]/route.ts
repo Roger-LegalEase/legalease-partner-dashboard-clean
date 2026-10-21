@@ -6,6 +6,7 @@ import {
 } from "@/lib/observability/logger";
 import {
   createFirstAdminInvitation,
+  endPartnerAdministratorAccess,
   FirstAdminProvisioningError,
   getFirstAdminAccessView,
   revokeFirstAdminInvitation,
@@ -97,6 +98,17 @@ export async function POST(
         operatorUserId: gate.authUserId,
         invitationId: values.invitationId
       });
+    } else if (action === "end_access") {
+      const ended = await endPartnerAdministratorAccess({
+        partnerSlug,
+        operatorUserId: gate.authUserId,
+        membershipId: values.membershipId,
+        confirmEmail: values.confirmEmail
+      });
+      result = {
+        ended: ended.ended,
+        remainingAdministrators: ended.remainingAdministrators
+      };
     } else if (action === "send") {
       const delivery = await sendFirstAdminInvitationEmail({
         partnerSlug,
@@ -179,7 +191,8 @@ function errorResponse(error: unknown, requestId: string, action: string) {
   const status =
     known?.code === "invalid_input"
       ? 400
-      : known?.code === "partner_not_found"
+      : known?.code === "partner_not_found" ||
+          known?.code === "membership_not_found"
         ? 404
         : known?.code === "not_configured" ||
             known?.code === "write_failed" ||

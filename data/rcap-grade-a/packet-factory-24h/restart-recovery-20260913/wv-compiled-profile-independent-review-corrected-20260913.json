@@ -1,0 +1,125 @@
+{
+  "schemaVersion": "rcap-independent-code-review/v1",
+  "reviewId": "wv-compiled-profile-independent-review-corrected-20260913",
+  "reviewer": "/root/act346_order_review",
+  "reviewedAt": "2026-09-13T07:54:51.042Z",
+  "reviewHead": "426a28a6d1b2c0fe3f8fc8630bacdfa0763ef69f",
+  "status": "COMPLETE",
+  "verdict": "FAIL_REPAIR_REQUIRED",
+  "scope": {
+    "helper": {
+      "path": "scripts/grade-a-packet-factory-24h/repin-lapsed-source-identities.mjs",
+      "sha256": "b8e6e314d3500d9f13555f744806ecc725954f969979c3021101a06578d61b6c",
+      "byteLength": 69934
+    },
+    "focusedTest": {
+      "path": "scripts/grade-a-packet-factory-24h/repin-wv-compiled-profile.test.mjs",
+      "sha256": "364e7dcea6100f885a2c3e89ee8d996098d049af98e33650961d089bc0e4bbea",
+      "byteLength": 9087
+    },
+    "currentProfile": {
+      "path": "src/lib/rcap-engine/compiled/profiles/WV-west-virginia.json",
+      "sha256": "bf9709154f74544ea0f5089439b822c88226ea42a031f8ccdfc72f29417a5f00",
+      "byteLength": 221770
+    },
+    "historicalProfile": {
+      "sha256": "0d5885d3ee56f516ee8bb9c6ce8d99d9aaa72a90d6670f8b6c8a52242db08b78",
+      "recoveredBy": "recoverBytesByDigest",
+      "expectedHistoricalBlob": "b63bf67a56902e6ffb39973c1bc86eefd85e8a67"
+    },
+    "correctedReturn": {
+      "path": "data/rcap-grade-a/packet-factory-24h/restart-recovery-20260913/wv-compiled-profile-repin-return-corrected-20260913.json",
+      "sha256": "3ee310bc4461ff5d77c79c62d0742aa83fe99023fd2f9007aaad1d03ce4a079e",
+      "applied": false,
+      "outcome": "REFRESHABLE",
+      "anchorsCompared": 5,
+      "anchorsIdentical": 5
+    },
+    "priorFailPreserved": {
+      "path": "data/rcap-grade-a/packet-factory-24h/restart-recovery-20260913/wv-compiled-profile-independent-review-20260913.json",
+      "sha256": "0301ce5c4ba92f87fc087ffec38c5704f064b11655e95ae97a89e7672ba871be",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "preservedUnchanged": true
+    }
+  },
+  "checks": {
+    "c903FilteringScope": {
+      "governedPathway": "first-offense-drug-possession-conditional-discharge-relief",
+      "governedExactCurrentEntry": "accepted in the real 5/5 comparison; exact entry is filtered only in this pathway",
+      "ownRouteAddition": "visible in compiledProfile:packetGeneratorStable and therefore refuses refresh",
+      "unrelatedPathwayAddition": "visible in compiledProfile:packetGeneratorStable and therefore refuses refresh"
+    },
+    "completeIdentityEquality": {
+      "hiddenField": "Refusal",
+      "changedSha256": "Refusal",
+      "changedRelativePath": "Refusal",
+      "changedFileName": "Refusal",
+      "globalMissingC903Entries": "Refusal"
+    },
+    "scopedComparison": {
+      "anchorIds": [
+        "compiledProfile:sharedCore",
+        "compiledProfile:sourceStable",
+        "compiledProfile:packetGeneratorStable",
+        "compiledProfile:pathway:sex-trafficking-victim-vacatur-and-expungement",
+        "compiledProfile:sourceSections"
+      ],
+      "anchorsCompared": 5,
+      "anchorsIdentical": 5,
+      "differing": [],
+      "identicalAnchorSha256": {
+        "compiledProfile:packetGeneratorStable": "a5d944056166e31860cbfe8f1f60b2ffe07bf7de8ea699d3d5fbb842935f0036",
+        "compiledProfile:pathway:sex-trafficking-victim-vacatur-and-expungement": "b5dcd39ebf22e7bbebdc4736f4e336cf90dd80529d8a97b32612973c9ea1959b",
+        "compiledProfile:sharedCore": "3ede0a68b97195900608909833d6e59acb9390efc2dabc85cec04df9f0a6dc0d",
+        "compiledProfile:sourceSections": "124daec1e6ca53ebd0588f93497cdbc9f842d7ab4e7b0b27b75ffca1961b279f",
+        "compiledProfile:sourceStable": "779ea6dffa0b2bccbf082a4fc76592fb36017c46236fc09f849d2106965baaab"
+      },
+      "noRelaxedSharedDependencies": "Shared orderedDecisionRules mutation differs in compiledProfile:sharedCore; feeRules mutation differs in compiledProfile:packetGeneratorStable",
+      "inputsMutated": false,
+      "receiptMutated": false
+    },
+    "tests": [
+      {
+        "command": "node --test scripts/grade-a-packet-factory-24h/repin-wv-compiled-profile.test.mjs",
+        "tests": 7,
+        "passed": 7,
+        "failed": 0
+      },
+      {
+        "command": "node --test scripts/rcap-packet-recovery/ri-nonconviction-raster-order.test.mjs",
+        "tests": 10,
+        "passed": 10,
+        "failed": 0,
+        "result": "Existing RI behavior and unrelated-family ordering remain unchanged."
+      },
+      {
+        "command": "node --check scripts/grade-a-packet-factory-24h/repin-lapsed-source-identities.mjs",
+        "result": "PASS"
+      }
+    ],
+    "unscopedHelperTestObservation": {
+      "command": "node --test scripts/grade-a-packet-factory-24h/repin-lapsed-source-identities.test.mjs",
+      "tests": 1,
+      "passed": 0,
+      "failed": 1,
+      "location": "scripts/grade-a-packet-factory-24h/repin-lapsed-source-identities.test.mjs:70",
+      "message": "no revision of this receipt carries a stale registry pin, so the accept path has no fixture",
+      "relevance": "stale fixture assertion outside the WV adapter correction; it did not alter the focused WV or RI results"
+    }
+  },
+  "finding": {
+    "id": "CURRENT_C903_BINDING_FIELDS_OPTIONAL",
+    "severity": "blocking",
+    "cause": "wvValidateCurrentC903Selection only validates selectedOfficialEdition, historicalComparisonBindings, and sourceCorpusBindingNote when each property is present. wvSourceStable then deletes those properties before the five-anchor comparison.",
+    "reproduction": {
+      "mutation": "Delete one of source.selectedOfficialEdition, source.historicalComparisonBindings, or source.sourceCorpusBindingNote from an in-memory clone of the current profile.",
+      "result": "scopeFrom succeeds and compareAnchors reports anchorsCompared=5, anchorsIdentical=5, differing=[] for each deletion."
+    },
+    "impact": "The corrected return explicitly declares all three current C903 custody fields as part of the seven-field known transition. A missing current selection, historical comparison binding, or custody note can therefore ride an identity refresh even though the current profile no longer carries the recorded complete binding. This is a custody-boundary omission, not the permitted first-offense formCandidates transition.",
+    "requiredRepair": "For side=current require canonical equality and presence of all three recorded current C903 custody fields; retain the historical side's absent fields where the recovered old profile legitimately lacks them. Add focused negative tests deleting each field and assert Refusal. Keep the existing exact-object, own-route, unrelated-pathway, five-anchor, and shared-dependency checks."
+  },
+  "acceptanceGranted": false,
+  "integrationGate": "BLOCKED_PENDING_CURRENT_C903_BINDING_REQUIRED_GUARD",
+  "implementationChangedByReviewer": false,
+  "sourceReceiptOrSharedOutputChangedByReviewer": false
+}

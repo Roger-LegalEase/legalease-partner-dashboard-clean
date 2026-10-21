@@ -1,10 +1,13 @@
+import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
+import { answerBuilderStep } from "./rcap-packet-builder-filler.mjs";
 import { chromium } from "playwright";
+import { hostedVercelScopedUrl, resolveHostedVercelIdentity } from "./rcap-hosted-acceptance-vercel-identity.mjs";
 
-// Hosted browser proof for the sponsored RCAP lane only. This intentionally
-// stops at the packet-information builder: it never calls Stripe, creates a
-// consumer checkout, generates a packet, or runs a worker.
+// Hosted browser proof for the sponsored RCAP lane only. It crosses the
+// synchronous sponsored-generation boundary after explicit final verification;
+// it never calls Stripe, creates a consumer checkout, or runs a worker.
 //
 // Required fixture/runtime contract:
 // - an active `we-must-vote` partner_record (paid or demo_paid, qualified,
@@ -28,8 +31,17 @@ import { chromium } from "playwright";
 const baseUrl = requiredUrl("RCAP_BROWSER_BASE_URL");
 const email = required("RCAP_BROWSER_EMAIL");
 const password = required("RCAP_BROWSER_PASSWORD");
-const guidanceItemId = requiredUuid("RCAP_BROWSER_GUIDANCE_ITEM_ID");
+const guidanceItemId = process.env.RCAP_BROWSER_GUIDANCE_ITEM_ID?.trim()
+  ? requiredUuid("RCAP_BROWSER_GUIDANCE_ITEM_ID")
+  : null;
 const partnerSlug = process.env.RCAP_BROWSER_PARTNER_SLUG?.trim() || "we-must-vote";
+const clinicEventId = process.env.RCAP_BROWSER_CLINIC_EVENT_ID?.trim() || "";
+const clinicEventSlug = process.env.RCAP_BROWSER_CLINIC_EVENT_SLUG?.trim() || "";
+const clinicEventName = process.env.RCAP_BROWSER_CLINIC_EVENT_NAME?.trim() || "";
+const clinicAccessCode = process.env.RCAP_BROWSER_CLINIC_ACCESS_CODE?.trim() || "";
+const bypassSecret = process.env.RCAP_BROWSER_VERCEL_BYPASS_SECRET?.trim() || "";
+const clinicMode = Boolean(clinicEventSlug);
+const result = { schemaVersion: "rcap-sponsored-browser-result/v1", clinicMode, partnerSlug };
 const evidenceDir = path.resolve(
   process.env.RCAP_BROWSER_EVIDENCE_DIR?.trim() ||
     path.join(process.cwd(), "hosted-acceptance-evidence", "rcap-commercial-flow")
@@ -38,11 +50,25 @@ const evidenceDir = path.resolve(
 if (process.env.RCAP_BROWSER_ALLOW_MUTATION !== "1") {
   fail("RCAP_BROWSER_ALLOW_MUTATION=1 is required because this proof claims one sponsored screening result into the synthetic user's Briefcase.");
 }
-assertSafeAcceptanceOrigin(baseUrl);
+if (clinicMode && (!validUuid(clinicEventId) || !clinicEventName || clinicAccessCode.length < 8)) {
+  fail("Clinic mode requires an exact event id, slug, name, and 8+ character access code.");
+}
 fs.mkdirSync(evidenceDir, { recursive: true });
+const environmentClassification = await verifyExactHostedPreview(baseUrl, bypassSecret);
+result.environmentClassification = environmentClassification;
 
 const failures = [];
+// The Mississippi non-conviction packet re-checks these route facts before
+// final verification (mississippiNonConvictionPacketSafety): a first-option
+// or placeholder answer makes the review unsafe and hides the verify action
+// (run 35120640545). These are the demo fixture's safe answers.
+// Prompts the builder renders as free text although the profile validates them
+// as dates (the packet specification carries no question type for them).
 const browserErrors = [];
+const generationRequests = [];
+const stripeRequests = [];
+let screeningSessionId = null;
+let participantUserId = null;
 let browser;
 
 try {
@@ -55,6 +81,7 @@ try {
     viewport: { width: 1440, height: 1000 },
     colorScheme: "light"
   });
+  await attachBypass(context);
   const page = await context.newPage();
   page.on("pageerror", (error) => browserErrors.push(`pageerror at ${safeRequestPath(page.url())}: ${error.message}`));
   page.on("console", (message) => {
@@ -66,8 +93,45 @@ try {
       browserErrors.push(`requestfailed: ${request.method()} ${safeRequestPath(request.url())} (${detail})`);
     }
   });
+  page.on("request", (request) => {
+    const requestUrl = new URL(request.url());
+    if (/stripe\.com$/i.test(requestUrl.hostname) || /\/checkout(?:\/|$)|\/stripe(?:\/|$)/i.test(requestUrl.pathname)) {
+      stripeRequests.push({ method: request.method(), origin: requestUrl.origin, path: requestUrl.pathname });
+    }
+    if (request.method() === "POST" && requestUrl.pathname === "/api/expungement-ai/packet/generate") {
+      generationRequests.push({ method: request.method(), path: requestUrl.pathname });
+    }
+    if (request.method() === "POST" && requestUrl.pathname === "/api/expungement-ai/screening/pending") {
+      const body = request.postDataJSON?.();
+      if (validUuid(body?.anonymousSessionId)) screeningSessionId = body.anonymousSessionId;
+    }
+  });
 
-  // 1. The canonical partner entry must remain on the acceptance origin. On
+  // 1. Enter either the bounded Clinic event or the canonical partner page.
+  // Both paths create the sponsored screening session server-side; Clinic mode
+  // additionally proves the event-code and participant-owned assistance chain.
+  if (clinicMode) {
+    const clinicEntry = new URL(`/clinic/${encodeURIComponent(clinicEventSlug)}`, baseUrl).href;
+    const landingResponse = await page.goto(clinicEntry, { waitUntil: "networkidle" });
+    check(landingResponse?.ok(), `Clinic entry returned ${landingResponse?.status() ?? "no response"}.`);
+    await expectText(page, clinicEventName);
+    await page.getByLabel("Event access code").fill(clinicAccessCode);
+    await page.getByRole("button", { name: "Continue to participant consent", exact: true }).click();
+    await page.waitForURL((url) => url.pathname === `/clinic/${clinicEventSlug}/assist` || url.pathname === "/expungement-ai/sign-in");
+    if (new URL(page.url()).pathname === "/expungement-ai/sign-in") {
+      await page.goto(new URL(`/expungement-ai/sign-in?mode=signin&next=${encodeURIComponent(`/clinic/${clinicEventSlug}/assist`)}`, baseUrl).href);
+      const signedIn = await signIn(page, email, password);
+      participantUserId = signedIn?.user?.id ?? signedIn?.id ?? null;
+    }
+    await page.waitForURL((url) => url.pathname === `/clinic/${clinicEventSlug}/assist`);
+    await page.locator('select[name="eventStaffId"]').selectOption({ index: 1 });
+    await page.locator('input[name="consent"]').check();
+    await page.getByRole("button", { name: "Start assisted nationwide screening", exact: true }).click();
+    await page.waitForURL((url) => url.pathname === `/clinic/${clinicEventSlug}/screening/ms`);
+    await expectText(page, "Shared-device privacy is active");
+    result.clinicEntry = clinicEntry;
+  } else {
+  // The canonical partner entry must remain on the acceptance origin. On
   // production the protected static launch remains unchanged; preview hosts
   // deliberately render the dynamic page whose CTA is relative.
   const partnerEntry = new URL(`/p/${encodeURIComponent(partnerSlug)}`, baseUrl).href;
@@ -87,15 +151,8 @@ try {
   check(await signInLink.isVisible(), "Signed-out partner intake did not show Sign in to continue.");
   await signInLink.click();
   await page.waitForURL((url) => url.pathname === "/expungement-ai/sign-in" && url.searchParams.get("mode") === "signin");
-  await page.locator('input[name="email"]').fill(email);
-  await page.locator('input[name="password"]').fill(password);
-  const authResponsePromise = page.waitForResponse(
-    (response) => response.request().method() === "POST" && response.url().includes("/auth/v1/token") && response.url().includes("grant_type=password"),
-    { timeout: 20_000 }
-  );
-  await page.getByRole("button", { name: "Sign in", exact: true }).click();
-  const authResponse = await authResponsePromise;
-  check(authResponse.ok(), `Supabase password sign-in returned ${authResponse.status()}.`);
+  const signedIn = await signIn(page, email, password);
+  participantUserId = signedIn?.user?.id ?? signedIn?.id ?? null;
   await page.waitForURL((url) => url.origin === new URL(baseUrl).origin && url.pathname === `/intake/${partnerSlug}`);
 
   const authCookies = (await context.cookies(baseUrl)).filter((cookie) => /^sb-.*-auth-token/.test(cookie.name));
@@ -107,20 +164,61 @@ try {
   // non-conviction fixture. The engine remains authoritative for the result.
   await startButton.click();
   await page.waitForURL((url) => url.pathname === "/expungement-ai/screening/ms" && validUuid(url.searchParams.get("session")));
+  }
+
+  const authCookies = (await context.cookies(baseUrl)).filter((cookie) => /^sb-.*-auth-token/.test(cookie.name));
+  check(authCookies.length > 0, "Supabase session cookie was not written on the acceptance origin.");
+
+  // 2. Answer the deterministic Mississippi non-conviction fixture.
   await answerChoice(page, "Are you asking about your own record?", "Yes");
   await answerChoice(page, "Did this case happen in Mississippi (not a federal case)?", "State or local");
   await answerChoice(page, "How did the case end?", "The case was dropped or thrown out");
   await answerChoice(page, "What kind of charge was it?", "Misdemeanor");
   await answerChoice(page, "Do any of these sound like your situation?", "Non-conviction expungement for dismissal, no disposition, or acquittal");
-  await answerChoice(page, "About how long ago did this case end or get resolved?", "More than 10 years ago");
-  await answerChoice(page, "Have you completed everything the court ordered in this case?", "Yes", true);
+  // The engine orders the last two Mississippi questions itself and may
+  // evaluate before both have been shown (run 35115205679 timed out waiting
+  // for the timing question first; run 35115970406 hung because a swallowed
+  // timeout never resolved once the result appeared). Answer whichever is
+  // shown, stop as soon as the result heading is visible, and fail loudly
+  // with the visible headings if neither appears within the budget.
+  const resultHeading = page.getByRole("heading", { name: /path may be available|You may be able to prepare an expungement packet/i });
+  const evaluationStatuses = [];
+  page.on("response", (response) => {
+    if (response.request().method() === "POST" && new URL(response.url()).pathname === "/api/expungement-ai/evaluate") {
+      evaluationStatuses.push(response.status());
+    }
+  });
+  const remainingMississippi = new Map([
+    ["About how long ago did this case end or get resolved?", "More than 10 years ago"],
+    ["Have you completed everything the court ordered in this case?", "Yes"]
+  ]);
+  const answeredMississippi = [];
+  while (remainingMississippi.size > 0) {
+    const shown = await visibleScreeningPrompt(page, [...remainingMississippi.keys()], resultHeading);
+    if (shown === null) break;
+    const option = remainingMississippi.get(shown);
+    remainingMississippi.delete(shown);
+    answeredMississippi.push(shown);
+    await answerChoice(page, shown, option);
+  }
+  result.mississippiFollowUpOrder = answeredMississippi;
 
-  await page.getByRole("heading", { name: /A path may be available|You may be able to prepare an expungement packet/i }).waitFor({ state: "visible" });
-  await expectText(page, "This screening started through a partner program. You will not be asked to pay here.");
+  // The Mississippi clinic result heading reads "A Mississippi non-conviction
+  // expungement path may be available." (run 35118996706 timed out on the
+  // exact "A path may be available" form), so the heading is matched on its
+  // shared phrase; a timeout reports what was visible instead of nothing.
+  try {
+    await resultHeading.waitFor({ state: "visible", timeout: 45_000 });
+  } catch {
+    const visible = await page.locator("h1, h2").allInnerTexts().catch(() => []);
+    throw new Error(`Screening result heading did not appear after ${JSON.stringify(answeredMississippi)}; evaluation statuses ${JSON.stringify(evaluationStatuses)}; visible headings: ${JSON.stringify(visible)}`);
+  }
+  check(evaluationStatuses.length > 0 && evaluationStatuses[evaluationStatuses.length - 1] < 400, `Authoritative screening evaluation statuses were ${JSON.stringify(evaluationStatuses)}; the last must succeed before the result renders.`);
+  await expectText(page, "Your packet is covered by your partner program.");
   assertNoCommercialCopy(await page.locator("main").innerText(), "partner result");
   await screenshotPair(page, "01-partner-covered-result");
 
-  // 4. Persist and claim the server-re-evaluated pending result. Capture the
+  // 3. Persist and claim the server-re-evaluated pending result. Capture the
   // exact item id from the claim response instead of guessing from Briefcase.
   const pendingResponsePromise = page.waitForResponse(
     (response) => response.request().method() === "POST" && new URL(response.url()).pathname === "/api/expungement-ai/screening/pending",
@@ -130,7 +228,7 @@ try {
     (response) => response.request().method() === "POST" && new URL(response.url()).pathname === "/api/expungement-ai/screening/pending/claim",
     { timeout: 20_000 }
   );
-  await page.getByRole("button", { name: "Continue to packet builder", exact: true }).click();
+  await page.getByRole("button", { name: "Save to my Briefcase and continue", exact: true }).click();
   const pendingResponse = await pendingResponsePromise;
   check(pendingResponse.ok(), `Partner pending-result write returned ${pendingResponse.status()}.`);
   const claimResponse = await claimResponsePromise;
@@ -149,11 +247,12 @@ try {
   assertNoCommercialCopy(await page.locator("main").innerText(), "partner-covered Briefcase matter");
   await screenshotPair(page, "02-partner-covered-briefcase-matter");
 
-  // 5. The sponsored packet-information builder is available without a price
-  // or Stripe action. Stop here; generation and worker execution are outside
-  // this proof.
-  const builderLink = page.getByRole("link", { name: "Complete packet information", exact: true });
-  check(await builderLink.isVisible(), "Partner-covered Mississippi matter did not expose Complete packet information.");
+  // 4. Complete the sponsored packet-information builder. Saving the final
+  // fact must reach review without starting generation.
+  // The Briefcase labels a Mississippi clinic packet "Continue my Mississippi
+  // clinic packet"; other partner-covered matters keep "Complete packet information".
+  const builderLink = page.getByRole("link", { name: /^(?:Complete packet information|Continue my Mississippi clinic packet)$/ });
+  check(await builderLink.isVisible(), "Partner-covered Mississippi matter did not expose the packet-information link.");
   const builderHref = await builderLink.getAttribute("href");
   const builderUrl = builderHref ? new URL(builderHref, baseUrl) : null;
   check(builderUrl?.origin === new URL(baseUrl).origin, "Packet-information CTA must stay on the current acceptance origin.");
@@ -163,8 +262,199 @@ try {
   assertNoCommercialCopy(await page.locator("main").innerText(), "partner packet-information builder");
   await screenshotPair(page, "03-partner-covered-packet-builder");
 
-  // 6. A separately seeded guidance-only matter proves that the completed
+  for (let step = 0; step < 80 && new URL(page.url()).pathname.endsWith("/packet-information"); step += 1) {
+    await answerCurrentBuilderQuestion(page);
+    const saveResponsePromise = packetInformationResponse(page, packetItemId);
+    const finalButton = page.getByRole("button", { name: "Review packet facts", exact: true });
+    if (await finalButton.isVisible().catch(() => false)) {
+      await finalButton.click();
+    } else {
+      await page.getByRole("button", { name: "Save and continue", exact: true }).click();
+    }
+    const saveResponse = await saveResponsePromise;
+    check(saveResponse.ok(), `Partner packet-information save returned ${saveResponse.status()}.`);
+    if (!saveResponse.ok()) break;
+  }
+  await page.waitForURL((url) => url.pathname === `/briefcase/${packetItemId}/review`, { timeout: 20_000 });
+  // The review page has an outer "We can’t review this matter yet" branch
+  // whose heading also matches a partial "Review and confirm" text wait (runs
+  // 35120640545 and 35122300936). Require the actual verification panel and
+  // report the page's own branch diagnostics when it is absent.
+  const verificationPanel = page.locator("[data-packet-verification-state]");
+  const unavailableBranch = page.locator("[data-review-branch='unavailable']");
+  await Promise.race([
+    verificationPanel.waitFor({ state: "visible", timeout: 20_000 }).catch(() => null),
+    unavailableBranch.waitFor({ state: "visible", timeout: 20_000 }).catch(() => null)
+  ]);
+  if (!(await verificationPanel.count())) {
+    const branch = await unavailableBranch.evaluate((node) => Object.fromEntries(
+      Array.from(node.attributes).filter((attribute) => attribute.name.startsWith("data-")).map((attribute) => [attribute.name, attribute.value])
+    )).catch(() => null);
+    const crumbs = await page.locator("nav").first().innerText().catch(() => "");
+    await screenshotPair(page, "04-partner-review-unavailable");
+    throw new Error(`The review page rendered its unavailable branch instead of the verification panel: ${JSON.stringify(branch)}; breadcrumb ${JSON.stringify(crumbs.replace(/\s+/g, " ").trim())}`);
+  }
+  await expectText(page, "Review and confirm");
+  assertNoCommercialCopy(await page.locator("main").innerText(), "partner final verification");
+  check((await page.getByRole("button", { name: "Generate my packet", exact: true }).count()) === 0, "Sponsored generation was available before explicit verification.");
+  check(generationRequests.length === 0, "Sponsored generation was requested before explicit verification.");
+  await screenshotPair(page, "04-partner-facts-before-verification");
+
+  // 5. Verification uses the shared packet-information boundary. Only its
+  // ready response may reveal the sponsored generation action.
+  // The verify action renders only when the saved facts are complete and
+  // route-safe; report the review panel instead of an unhandled timeout
+  // (run 35120640545 crashed while the click waited on a missing button).
+  const verifyButton = page.getByRole("button", { name: "Verify and prepare clinic packet", exact: true });
+  try {
+    await verifyButton.waitFor({ state: "visible", timeout: 15_000 });
+  } catch {
+    const panel = await page.locator("[data-packet-verification-state]").innerText().catch(() => "(no verification panel)");
+    const reviewResult = await page.locator("main").innerText().then((text) => text.match(/Result[\s\S]{0,160}/)?.[0] ?? "").catch(() => "");
+    throw new Error(`Verify action unavailable on the review page. Panel: ${JSON.stringify(panel)}. ${reviewResult}`);
+  }
+  const verificationResponsePromise = packetInformationResponse(page, packetItemId);
+  const generationResponsePromise = page.waitForResponse(
+    (response) => response.request().method() === "POST" && new URL(response.url()).pathname === "/api/expungement-ai/packet/generate",
+    { timeout: 30_000 }
+  );
+  await verifyButton.click();
+  const verificationResponse = await verificationResponsePromise;
+  check(verificationResponse.ok(), `Partner final verification returned ${verificationResponse.status()}.`);
+  const generationResponse = await generationResponsePromise;
+  const generationResponseBody = await generationResponse.json().catch(() => null);
+  check(generationResponse.ok(), `Sponsored packet generation returned ${generationResponse.status()}.`);
+  check(generationRequests.length === 1, `Expected one sponsored generation request after verification; saw ${generationRequests.length}.`);
+  await page.waitForURL((url) => url.pathname === `/briefcase/${packetItemId}`, { timeout: 20_000 });
+  assertNoCommercialCopy(await page.locator("main").innerText(), "generated partner packet action");
+  await screenshotPair(page, "05-partner-packet-generated");
+
+  const download = page.getByRole("link", { name: /Download Mississippi non-conviction expungement packet/i });
+  await download.waitFor({ state: "visible" });
+  const downloadHref = await download.getAttribute("href");
+  check(Boolean(downloadHref), "Generated packet has no private download link.");
+  if (!downloadHref) throw new Error(failures.join("\n"));
+  const firstDownload = await context.request.get(new URL(downloadHref, baseUrl).href, { headers: bypassHeaders() });
+  const firstBytes = await firstDownload.body();
+  const secondDownload = await context.request.get(new URL(downloadHref, baseUrl).href, { headers: bypassHeaders() });
+  const secondBytes = await secondDownload.body();
+  const firstHash = crypto.createHash("sha256").update(firstBytes).digest("hex");
+  const secondHash = crypto.createHash("sha256").update(secondBytes).digest("hex");
+  check(firstDownload.status() === 200 && /^application\/pdf/i.test(firstDownload.headers()["content-type"] ?? ""), `First private packet download returned ${firstDownload.status()}.`);
+  check(secondDownload.status() === 200 && firstHash === secondHash, `Repeat packet download returned ${secondDownload.status()} with stable bytes=${firstHash === secondHash}.`);
+  result.packetItemId = packetItemId;
+  result.screeningSessionId = screeningSessionId;
+  result.generationResponseBody = generationResponseBody;
+  result.downloadPath = new URL(downloadHref, baseUrl).pathname;
+  result.artifactSha256 = firstHash;
+  result.artifactBytes = firstBytes.length;
+  result.repeatDownloadSha256 = secondHash;
+
+  if (clinicMode) {
+    const negativeEmail = required("RCAP_BROWSER_NEGATIVE_EMAIL");
+    const negativePassword = required("RCAP_BROWSER_NEGATIVE_PASSWORD");
+    const negativeContext = await browser.newContext({ viewport: { width: 390, height: 844 } });
+    await attachBypass(negativeContext);
+    const negativePage = await negativeContext.newPage();
+    await negativePage.goto(new URL("/expungement-ai/sign-in?mode=signin&next=%2Fbriefcase", baseUrl).href);
+    await signIn(negativePage, negativeEmail, negativePassword);
+    await negativePage.waitForURL((url) => url.pathname === "/briefcase");
+    const denied = await negativeContext.request.get(new URL(downloadHref, baseUrl).href, { headers: bypassHeaders() });
+    check(denied.status() === 404, `Participant B private artifact denial returned ${denied.status()} instead of indistinguishable 404.`);
+    await negativeContext.close();
+
+    const staffEmail = required("RCAP_BROWSER_STAFF_EMAIL");
+    const staffPassword = required("RCAP_BROWSER_STAFF_PASSWORD");
+    const staffContext = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
+    await attachBypass(staffContext);
+    const staffPage = await staffContext.newPage();
+    await staffPage.goto(new URL(`/expungement-ai/sign-in?mode=signin&next=${encodeURIComponent(`/clinic/staff/${clinicEventId}/queue`)}`, baseUrl).href);
+    await signIn(staffPage, staffEmail, staffPassword);
+    await staffPage.waitForURL((url) => url.pathname === `/clinic/staff/${clinicEventId}/queue`);
+    await expectText(staffPage, clinicEventName);
+    const participantSuffix = typeof participantUserId === "string" ? participantUserId.slice(-8) : "";
+    check(participantSuffix.length === 8, "Participant A auth identity was not captured for the event-scoped staff proof.");
+    const participantStatus = staffPage.getByLabel(`Packet status for participant ending ${participantSuffix}`);
+    await participantStatus.waitFor({ state: "visible" });
+    const staffCaseIsPacketReady = await participantStatus.inputValue() === "packet_ready";
+    check(staffCaseIsPacketReady, "Event staff did not see Participant A's newly prepared packet case.");
+    await expectText(staffPage, "Packet prepared");
+    result.staffView = `/clinic/staff/${clinicEventId}/queue`;
+    result.staffParticipantReference = `…${participantSuffix}`;
+    await staffContext.close();
+
+    await page.evaluate(async () => {
+      localStorage.setItem("rcap-reset-proof", "participant-a");
+      sessionStorage.setItem("rcap-reset-proof", "participant-a");
+      await new Promise((resolve, reject) => {
+        const request = indexedDB.open("rcap-reset-proof", 1);
+        request.onsuccess = () => { request.result.close(); resolve(null); };
+        request.onerror = () => reject(request.error);
+      });
+      await caches.open("rcap-reset-proof");
+    });
+    const resetResponsePromise = page.waitForResponse(
+      (response) => response.request().method() === "POST" && new URL(response.url()).pathname === "/api/clinic/session/reset"
+    );
+    await page.getByRole("button", { name: "End clinic session / Reset device", exact: true }).click();
+    const resetResponse = await resetResponsePromise;
+    const resetBody = await resetResponse.json().catch(() => null);
+    check(resetResponse.status() === 200, "Clinic reset endpoint did not return 200.");
+    check(resetBody?.signOutConfirmed === true, "Clinic reset did not confirm server-side participant sign-out.");
+    await page.waitForURL((url) => url.pathname === `/clinic/${clinicEventSlug}`);
+    const participantCookies = (await context.cookies()).filter((cookie) => cookie.name.startsWith("clinic_") || cookie.name.startsWith("sb-"));
+    check(participantCookies.length === 0, `Clinic reset retained ${participantCookies.length} participant cookie(s).`);
+    const storageState = await page.evaluate(async () => ({
+      localStorage: localStorage.length,
+      sessionStorage: sessionStorage.length,
+      indexedDB: typeof indexedDB.databases === "function" ? (await indexedDB.databases()).length : -1,
+      cacheStorage: (await caches.keys()).length,
+      serviceWorkers: (await navigator.serviceWorker.getRegistrations()).length
+    }));
+    check(Object.values(storageState).every((count) => count === 0), `Clinic reset retained browser storage: ${JSON.stringify(storageState)}.`);
+    const revokedDownload = await context.request.get(new URL(downloadHref, baseUrl).href, { headers: bypassHeaders() });
+    check([401, 404].includes(revokedDownload.status()), `Clinic reset left Participant A's private download usable (${revokedDownload.status()}).`);
+    const cleanEntryPath = `/clinic/${clinicEventSlug}`;
+    await page.evaluate((path) => {
+      history.replaceState({ resetProof: "back" }, "", path);
+      history.pushState({ resetProof: "forward" }, "", path);
+    }, cleanEntryPath);
+    await page.goBack({ waitUntil: "domcontentloaded" });
+    check((await page.evaluate(() => history.state?.resetProof)) === "back", "Browser Back did not traverse the clean reset history entry.");
+    check(new URL(page.url()).pathname === cleanEntryPath, `Browser Back restored participant state at ${new URL(page.url()).pathname}.`);
+    await page.goForward({ waitUntil: "domcontentloaded" });
+    check((await page.evaluate(() => history.state?.resetProof)) === "forward", "Browser Forward did not traverse the clean reset history entry.");
+    check(new URL(page.url()).pathname === cleanEntryPath, `Browser Forward restored participant state at ${new URL(page.url()).pathname}.`);
+    const historyTraversal = [];
+    for (const direction of ["back", "back", "back", "forward", "forward", "forward"]) {
+      if (direction === "back") await page.goBack({ waitUntil: "domcontentloaded" });
+      else await page.goForward({ waitUntil: "domcontentloaded" });
+      const observedPath = new URL(page.url()).pathname;
+      const participantContentVisible = (await page.locator("body").innerText()).includes(packetItemId);
+      historyTraversal.push({ direction, observedPath, participantContentVisible });
+      check(observedPath === cleanEntryPath && !participantContentVisible,
+        `Browser ${direction} traversal restored participant state at ${observedPath}.`);
+    }
+
+    await page.goto(new URL(`/expungement-ai/sign-in?mode=signin&next=${encodeURIComponent(`/briefcase/${packetItemId}`)}`, baseUrl).href);
+    await signIn(page, negativeEmail, negativePassword);
+    await page.waitForURL((url) => url.pathname === `/briefcase/${packetItemId}` || url.pathname === "/briefcase");
+    const sameDeviceDenied = await context.request.get(new URL(downloadHref, baseUrl).href, { headers: bypassHeaders() });
+    const sameDeviceParticipantBDenial = sameDeviceDenied.status() === 404;
+    check(sameDeviceParticipantBDenial, `Participant B on the reset device received ${sameDeviceDenied.status()} instead of indistinguishable 404 for Participant A's artifact.`);
+    result.participantBDenied = denied.status() === 404;
+    result.staffViewPassed = participantSuffix.length === 8 && staffCaseIsPacketReady;
+    result.deviceResetPassed = resetBody?.signOutConfirmed === true
+      && participantCookies.length === 0
+      && Object.values(storageState).every((count) => count === 0)
+      && [401, 404].includes(revokedDownload.status())
+      && sameDeviceParticipantBDenial;
+    result.deviceReset = { storageState, revokedDownloadStatus: revokedDownload.status(), historyTraversal, sameDeviceParticipantBDenial };
+  }
+
+  // 6. The legacy sponsored harness also keeps its guidance-only negative
   // guidance value has no disabled packet stepper or consumer payment copy.
+  if (guidanceItemId) {
   await page.goto(new URL(`/briefcase/${guidanceItemId}`, baseUrl).href, { waitUntil: "networkidle" });
   await expectText(page, "Next steps saved");
   await expectText(page, "Next steps");
@@ -172,11 +462,13 @@ try {
   check((await page.locator("main").getByText("Payment", { exact: true }).count()) === 0, "Guidance-only matter renders a Payment step.");
   check((await page.getByRole("link", { name: /checkout|pay \$50|continue to payment/i }).count()) === 0, "Guidance-only matter renders a payment action.");
   assertNoCommercialCopy(await page.locator("main").innerText(), "guidance-only matter");
-  await screenshotPair(page, "04-guidance-only-matter");
+  await screenshotPair(page, "06-guidance-only-matter");
+  }
 
   if (browserErrors.length > 0) {
     failures.push(...browserErrors);
   }
+  check(stripeRequests.length === 0, `Clinic journey observed ${stripeRequests.length} Stripe or Checkout request(s).`);
 
   if (failures.length > 0) {
     throw new Error(failures.join("\n"));
@@ -185,9 +477,20 @@ try {
   console.log("RCAP commercial browser proof passed.");
   console.log(`Partner start: ${new URL(`/p/${partnerSlug}`, baseUrl).href}`);
   console.log(`Packet-covered item: ${packetItemId}`);
-  console.log(`Guidance item: ${guidanceItemId}`);
+  if (guidanceItemId) console.log(`Guidance item: ${guidanceItemId}`);
   console.log(`Evidence directory: ${evidenceDir}`);
+  result.passed = true;
+  result.productionTouched = environmentClassification.previewVerified ? false : null;
+  result.stripeTouched = environmentClassification.stripeConfigured === false && stripeRequests.length === 0 ? false : null;
+  result.stripeEvidence = { deploymentConfigured: environmentClassification.stripeConfigured, browserRequests: stripeRequests };
+  fs.writeFileSync(path.join(evidenceDir, "sponsored-browser-result.json"), `${JSON.stringify(result, null, 2)}\n`);
 } catch (error) {
+  result.passed = false;
+  result.failure = error instanceof Error ? error.message : String(error);
+  result.productionTouched = environmentClassification.previewVerified ? false : null;
+  result.stripeTouched = environmentClassification.stripeConfigured === false && stripeRequests.length === 0 ? false : null;
+  result.stripeEvidence = { deploymentConfigured: environmentClassification.stripeConfigured, browserRequests: stripeRequests };
+  fs.writeFileSync(path.join(evidenceDir, "sponsored-browser-result.json"), `${JSON.stringify(result, null, 2)}\n`);
   console.error("RCAP commercial browser proof failed.");
   console.error(error instanceof Error ? error.stack ?? error.message : String(error));
   process.exitCode = 1;
@@ -195,8 +498,32 @@ try {
   await browser?.close();
 }
 
+// A screening question heading may carry the "Optional" badge inside the
+// heading element (run 35118102472 saw "…court ordered in this case?OPTIONAL"),
+// so the accessible name is matched from its start rather than exactly.
+function screeningHeading(page, prompt) {
+  return page.getByRole("heading", { name: new RegExp(`^${escapeRegExp(prompt)}(?:\\s*Optional)?$`, "i") });
+}
+
+// Polls for whichever remaining screening prompt is visible, or the result
+// heading (null) when the engine has already evaluated. Bounded: a step that
+// neither shows a question nor a result fails with the visible headings
+// instead of hanging until the job timeout.
+async function visibleScreeningPrompt(page, prompts, resultHeading, budgetMs = 45_000) {
+  const deadline = Date.now() + budgetMs;
+  while (Date.now() < deadline) {
+    if (await resultHeading.isVisible().catch(() => false)) return null;
+    for (const prompt of prompts) {
+      if (await screeningHeading(page, prompt).isVisible().catch(() => false)) return prompt;
+    }
+    await page.waitForTimeout(500);
+  }
+  const visible = await page.locator("h1, h2, legend").allInnerTexts().catch(() => []);
+  throw new Error(`Neither a remaining screening question (${prompts.join(" | ")}) nor the result appeared within ${budgetMs}ms; visible headings: ${JSON.stringify(visible)}`);
+}
+
 async function answerChoice(page, prompt, option, final = false) {
-  await page.getByRole("heading", { name: prompt, exact: true }).waitFor({ state: "visible" });
+  await screeningHeading(page, prompt).waitFor({ state: "visible" });
   await page.getByRole("radio", { name: new RegExp(`^${escapeRegExp(option)}(?:\\s|$)`, "i") }).check();
   const evaluationResponsePromise = final
     ? page.waitForResponse(
@@ -211,8 +538,59 @@ async function answerChoice(page, prompt, option, final = false) {
   }
 }
 
+/**
+ * Answer whatever the builder is showing, through the shared filler.
+ *
+ * This was a third copy of the filling logic, keyed on one `<h1>` per screen
+ * and one control beneath it. The builder now renders one packet-information
+ * section per screen, several questions under one heading, so that shape no
+ * longer describes the page. The shared filler answers every unanswered
+ * control on the screen by field identity, and it holds the one answer map, so
+ * the copies cannot drift apart again.
+ *
+ * A prefilled value is the participant's own screening answer projected into
+ * the packet (run 35122300936 overwrote case_outcome and failed the public
+ * validator). The shared filler never overwrites one.
+ */
+async function answerCurrentBuilderQuestion(page) {
+  await answerBuilderStep(page);
+}
+
+function packetInformationResponse(page, itemId) {
+  return page.waitForResponse(
+    (response) => response.request().method() === "POST"
+      && new URL(response.url()).pathname === `/api/expungement-ai/briefcase/${itemId}/packet-information`,
+    { timeout: 20_000 }
+  );
+}
+
+
 async function expectText(page, text) {
   await page.getByText(text, { exact: false }).first().waitFor({ state: "visible" });
+}
+
+async function signIn(page, accountEmail, accountPassword) {
+  await page.locator('input[name="email"]').fill(accountEmail);
+  await page.locator('input[name="password"]').fill(accountPassword);
+  const authResponsePromise = page.waitForResponse(
+    (response) => response.request().method() === "POST" && response.url().includes("/auth/v1/token") && response.url().includes("grant_type=password"),
+    { timeout: 20_000 }
+  );
+  await page.getByRole("button", { name: "Sign in", exact: true }).click();
+  const authResponse = await authResponsePromise;
+  check(authResponse.ok(), `Supabase password sign-in returned ${authResponse.status()}.`);
+  return authResponse.json().catch(() => null);
+}
+
+async function attachBypass(context) {
+  if (!bypassSecret) return;
+  await context.route(`${baseUrl}/**`, async (route) => {
+    await route.continue({ headers: { ...route.request().headers(), ...bypassHeaders() } });
+  });
+}
+
+function bypassHeaders() {
+  return bypassSecret ? { "x-vercel-protection-bypass": bypassSecret } : {};
 }
 
 async function screenshotPair(page, stem) {
@@ -256,18 +634,72 @@ function validUuid(value) {
 
 function exactBriefcaseItemId(value) {
   if (typeof value !== "string") return null;
-  const match = value.match(/^\/briefcase\/([0-9a-f-]{36})(?:[?#]|$)/i);
+  // The atomic claim lands on /briefcase/matters/<id> (matter-path.ts); the
+  // packet-information, review and generated-packet pages stay on /briefcase/<id>.
+  const match = value.match(/^\/briefcase\/(?:matters\/)?([0-9a-f-]{36})(?:[?#]|$)/i);
   return validUuid(match?.[1]) ? match[1] : null;
 }
 
-function assertSafeAcceptanceOrigin(origin) {
+async function verifyExactHostedPreview(origin, bypass) {
   const url = new URL(origin);
   const host = url.hostname.toLowerCase();
-  const safe = host === "127.0.0.1" || host === "localhost" || host.endsWith(".trycloudflare.com") || host.endsWith(".github.dev") || host.endsWith(".test");
   if (url.protocol !== "https:" && host !== "127.0.0.1" && host !== "localhost") {
     fail("RCAP_BROWSER_BASE_URL must use HTTPS outside localhost.");
   }
-  if (!safe) fail("RCAP_BROWSER_BASE_URL must be a local, Codespaces, test, or Cloudflare acceptance origin. Production and Vercel origins are refused.");
+  if (host === "127.0.0.1" || host === "localhost" || host.endsWith(".trycloudflare.com") || host.endsWith(".github.dev") || host.endsWith(".test")) {
+    return { previewVerified: false, localAcceptanceOrigin: true, stripeConfigured: null };
+  }
+  if (!host.endsWith(".vercel.app") || !bypass) {
+    fail("Hosted browser mutation requires an exact protected Vercel Preview identity.");
+  }
+
+  const token = required("RCAP_BROWSER_VERCEL_TOKEN");
+  const deploymentId = required("RCAP_BROWSER_PREVIEW_DEPLOYMENT_ID");
+  const applicationSha = required("RCAP_BROWSER_APPLICATION_SHA");
+  const projectRef = required("RCAP_BROWSER_ACCEPTANCE_PROJECT_REF");
+  const expectedScopeSha256 = clinicMode ? required("RCAP_BROWSER_EXPECTED_SCOPE_SHA256") : null;
+  if (!/^dpl_[A-Za-z0-9]+$/.test(deploymentId) || !/^[0-9a-f]{40}$/.test(applicationSha)) {
+    fail("Hosted browser mutation requires an exact deployment id and application SHA.");
+  }
+  if (clinicMode && projectRef !== "hyflxnlhpmiqxvvcoiia") {
+    fail("Clinic browser mutation is restricted to the pinned acceptance Supabase project.");
+  }
+
+  const identity = await resolveHostedVercelIdentity({ token });
+  const api = async (route) => {
+    const response = await fetch(hostedVercelScopedUrl(route, identity), { headers: { Authorization: `Bearer ${token}` } });
+    if (!response.ok) fail(`Vercel identity check failed for ${route} with HTTP ${response.status}.`);
+    return response.json();
+  };
+  const deployment = await api(`/v13/deployments/${encodeURIComponent(deploymentId)}`);
+  const meta = deployment.meta ?? {};
+  const alias = await api(`/v13/deployments/${encodeURIComponent(host)}`);
+  const aliases = await api(`/v2/deployments/${encodeURIComponent(deploymentId)}/aliases`);
+  const productionAliases = (aliases.aliases ?? []).filter((entry) => entry.target === "production" || entry.deployment?.target === "production");
+  const exact = (deployment.id ?? deployment.uid) === deploymentId
+    && (alias.id ?? alias.uid) === deploymentId
+    && (deployment.readyState ?? deployment.status) === "READY"
+    && (deployment.target === null || deployment.target === "preview")
+    && meta.rcapApplicationSha === applicationSha
+    && meta.rcapAcceptanceProjectRef === projectRef
+    && meta.rcapRouteState === "staging_scoped"
+    && (!clinicMode || meta.rcapClinicDemoMode === "mississippi_preview")
+    && (!clinicMode || meta.rcapStagingScopeSha256 === expectedScopeSha256)
+    && (!clinicMode || meta.rcapStripeConfigured === "false")
+    && productionAliases.length === 0;
+  if (!exact) fail("Hosted browser mutation refused: Vercel did not confirm the exact READY nonproduction Clinic Preview, scope hash, no-Stripe posture, and acceptance project metadata.");
+  return {
+    previewVerified: true,
+    deploymentId,
+    hostname: host,
+    applicationSha,
+    acceptanceProjectRef: projectRef,
+    routeState: meta.rcapRouteState,
+    clinicDemoMode: meta.rcapClinicDemoMode,
+    stagingScopeSha256: meta.rcapStagingScopeSha256,
+    stripeConfigured: meta.rcapStripeConfigured === "true",
+    productionAliasCount: productionAliases.length
+  };
 }
 
 function safeRequestPath(value) {

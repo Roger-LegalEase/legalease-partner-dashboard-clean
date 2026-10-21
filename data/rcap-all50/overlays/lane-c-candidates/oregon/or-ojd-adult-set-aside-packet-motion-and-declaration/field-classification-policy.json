@@ -1,0 +1,40 @@
+{
+  "schemaVersion": "rcap-field-classification-policy/v2",
+  "lane": "D3B",
+  "factoryVersion": "d0-remediated-v1",
+  "policy": "Every field starts protected. Writing requires all of: no protect rule matches the field name or its measured label; the PDF type is text or dropdown; the name matches an allowlisted fact descriptor; the resolved value matches the descriptor's declared type; a sensitive descriptor has been named for that exact field; and an indexed charge row resolves to a charge actually supplied.",
+  "defaultProtectedCategories": [
+    "money",
+    "race",
+    "responsible_official",
+    "signature",
+    "notarization",
+    "service_block",
+    "licensing_board",
+    "agency",
+    "court",
+    "clerk",
+    "prosecutor",
+    "attorney",
+    "outside_party",
+    "disposition_or_hearing",
+    "non_text_controls",
+    "unindexed_charge_rows"
+  ],
+  "bindingCorrections": {
+    "p4.r295.2.x144.rule": "matter.charges[n].charge",
+    "p4.r282.1.x477.rule": "matter.charges[n].count_number",
+    "p4.r128.4.x126.rule": "matter.charges[n].citation_or_arrest_offense",
+    "p5.r115.6.x288.rule": "service_recipient.certifying_defendant_name",
+    "p3.r256.2.x341.rule": "not_a_participant_blank.underline_inside_instruction_text"
+  },
+  "bindingCorrectionRationale": {
+    "p4.r295.2.x144.rule": "'Name of Charges' is the header of a seven-row charge table, and the descriptor list resolves it to participant.full_legal_name on a bare name match. A charge row may only be written from an indexed participant fact this lane does not supply, so every row stays blank.",
+    "p4.r282.1.x477.rule": "second column of the same charge table ('Count #'), resolved to participant.full_legal_name by the header above it for the same reason.",
+    "p4.r128.4.x126.rule": "'Name of Citation/Arrest Offenses' heads a second five-row table and resolves the same way. Offence rows are charge-row facts.",
+    "p5.r115.6.x288.rule": "'Defendant Name' inside the certificate of mailing. The block records service on the prosecuting attorney, and D0 keeps service blocks blank.",
+    "p3.r256.2.x341.rule": "an underline drawn inside a sentence on the instruction pages, not a blank. It follows '...contact the Oregon State Bar Lawyer Referral Service' and so resolves to participant.state. Recorded rather than dropped: the census reports every rule the document draws, and this one is not a field."
+  },
+  "explicitSensitiveMappingsAuthorized": [],
+  "weakeningsApplied": "none — no D0 protect rule, type guard or readable-size floor was relaxed for this family"
+}

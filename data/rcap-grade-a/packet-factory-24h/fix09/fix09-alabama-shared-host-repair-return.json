@@ -1,0 +1,244 @@
+{
+  "schemaVersion": "rcap-repair-lane-return/v2",
+  "lane": "FIX09",
+  "laneKind": "repair",
+  "worker": "FIX09 (Alabama shared-host repair; this lane built and verified none of these families before now)",
+  "baseSha": "1dabf8cc671c96e24ce679e96fba60b6d1bcfdc9",
+  "repairCommit": "1b60b8a79",
+  "claimCommit": "a6fc82c9b",
+  "selfVerified": false,
+  "productionTouched": false,
+  "commercialRoutesOpened": 0,
+  "grantsNothing": "This return records measurements and one machinery repair. It approves no artifact, promotes no route and opens nothing commercial.",
+
+  "whatThisLaneWasGranted": {
+    "families": ["al-diversion-set", "al-felony-dwop-set", "al-felony-nonconviction-90-set", "al-misd-conviction-set", "al-misd-dwop-set", "al-pardoned-felony-set"],
+    "howTheGrantWasObtained": "All six already carried a repair grant on FIX02..FIX07 and all six had been released, so --assert FIX09 answered GRANTED_ELSEWHERE on every one. --grant refuses with ALREADY_GRANTED and names --transfer as the remedy; --reissue would have re-opened on the releasing lane rather than this one. Each grant was therefore transferred FIX02..FIX07 -> FIX09 with a stated reason, recorded in ledger.transfers, in commit a6fc82c9b. No duplicate claim was minted and every original release remains in ledger.releases.",
+    "assertedBeforeAnyFamilyContentWasRead": true
+  },
+
+  "theRootQuestion": {
+    "asked": "KNOWN_PREFILLS and REQUIRED_BEFORE_FILING stand on all six. Is that one measured root defect in shared Alabama machinery, or six coincidences?",
+    "answer": "ONE root defect in shared machinery, and two of the six had already been carved out of it.",
+    "howItWasMeasured": "scripts/build-census-v1-al-diversion-set.mjs exports buildAlabamaFamily and is the shared host for four families that reach it through three-line wrappers: al-diversion-set, al-misd-conviction-set, al-misd-dwop-set, al-pardoned-felony-set. Their four committed production-field-map.json files were compared field by field and carry a byte-identical defect signature -- the same five semantically wrong writes, the same nine directions printed as held facts, the same 63 required blanks of which the same 45 are opaque, and the same unselected C-10 caption branch. al-felony-dwop-set and al-felony-nonconviction-90-set were built from the same host until FIX03 and FIX04 forked it; both now measure zero on every one of those five signature counts. The two source documents are identical across all six, and the field inventory was confirmed identical: 216 fields, 108 CR-65 and 108 C-10-CRIMINAL, with no name present in one family and absent from another.",
+    "soTheRepairWasMadeOnce": "at the root, in the shared host, rather than six times"
+  },
+
+  "theDefectClass": "The mapping matched the AcroForm field NAME with loose substring regexes, and an official form names its fields after the sentence they end rather than the fact they ask for. /full name/ caught \"Spouse's Full Name (if married)\"; /telephone number/ caught \"Employer's Telephone Number\" and CR-65 page 6 \"Telephone Number_2\" inside the attorney-only block; /court case number/ caught the page-6 blank asking for the COUNTY of a previous expungement; key === \"court of\" wrote \"Circuit\" where the printed sublabel asks for a county. Each is a false statement on a document sworn under penalty of perjury, and each scored zero on all nine counters, because the counters accept the field map as their classification authority and can therefore ask whether a write happened but never whether it was true.",
+
+  "environment": {
+    "preflight": "node scripts/verify-packet-build-environment.mjs --family al-diversion-set",
+    "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 11/13 passed, 2 failed, 4 not applicable",
+    "theTwoFailuresAreOneFact": "family_sources_bind (1 of 2 sources do not bind) and corpus_matches_committed_index (1 absent of 24 sampled) are both the absent CR-65.",
+    "absentCustody": "nationwide_recovery_pool_2026_09_02",
+    "absentSource": "official-form:CR-65 — LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf, sha256 c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39",
+    "mountedCustody": "master_library only; C-10-CRIMINAL binds, CR-65 does not. The recovery pool exists nowhere on this host and the recovery kit its receipt names (/tmp/legalease-nationwide-recovery) is absent.",
+    "consequence": "No packet can be rebuilt in this container. CR-65 is 8 of the 11 packet pages and carries most of the defect surface."
+  },
+
+  "aboutTheNineCounters": "All nine were zero on all six families BEFORE this lane touched anything, and are zero after. The baseline was green, not red, so the instrument was working; the counters simply cannot see this defect class. That is the verifiers' own recorded finding (VF01 'blindSpot', VF04 'counterBlindSpots', VF03/VF05/VF06 'semanticFalseNegativesFound') and it is why countersAfter being nine zeros is necessary here but nowhere near sufficient.",
+
+  "countersProvenance": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <itemId>, run over all six before the change and again after it. The two runs are byte-identical, because no artifact moved.",
+
+  "fixtureDigests": {
+    "everyOneUnchanged": true,
+    "participantFacingPdfBytesMoved": false,
+    "rasterConsequence": "No fresh raster is owed and every standing receipt stands. Each fixture was re-hashed from disk and compared against the sha256 recorded in its own reports/rendered-artifacts.json: all twelve MATCH.",
+    "families": {
+      "al-diversion-set":               { "canonical": "e48735ac0ce95d253521ae40b35af659177130ddb3ffdf798496a190b8304b9b", "boundary": "fd953692393c7184c3ee44b45be2abadf36afafccf920663c0d6f8a450c9ccb3", "moved": false },
+      "al-felony-dwop-set":             { "canonical": "d6d1c877ff6d2024182726aae7bca40c376a869256e6ae220673699457f61543", "boundary": "e4600e924c120bbc1821b41a500ce4f968d2293a1cd198b83fdff49a18cf726e", "moved": false },
+      "al-felony-nonconviction-90-set": { "canonical": "e472186921ffc2c56765b30ed426e4d8ffd163e97100f781c127ada4a7966924", "boundary": "ef61fac20c9966ef28d8192315bc0be9aacc5ebd6912ee5c0fda7a192eb89a05", "moved": false },
+      "al-misd-conviction-set":         { "canonical": "cb5ce94c56297469ffc63931234fd48f81e37aa2415f2fe93039792125d2dc3c", "boundary": "e6b6d470a9c3b65491db99d85f9ceca919d63653196bde0370831a67be75076c", "moved": false },
+      "al-misd-dwop-set":               { "canonical": "413a9995ba8cc968543bb28f7cb1155d70c4b72d9973f85e582ec815cd257987", "boundary": "9652926c43a5fcc237a46d363b922970316d6adfee7696ece6aa7d9f388f3c75", "moved": false },
+      "al-pardoned-felony-set":         { "canonical": "daebc229c57301406bbfea3babc6a9ec56bd56ee44b474e51b6b3308beb0158c", "boundary": "fbe8a1244ff5e6f4d6d57da2a238e911de2f5d70f27b6fbcd8574e299b3a8dbf", "moved": false }
+    }
+  },
+
+  "twoRowShapesInThisFile": "COMPLETED with repairedByThisLane false means this lane re-measured the family and found it already sound, so its standing FAIL is stale and is Captain's to clear. STOPPED means the repair is blocked and names what is missing. No row in this file claims a repair this lane performed on a delivered artifact, because this container could not produce one.",
+
+  "rows": [
+    {
+      "itemId": "al-felony-dwop-set",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": false,
+      "whyNotRepairedByThisLane": "FIX03 already repaired it in commit 1dcd88293 and this lane changed nothing in the family. Claiming otherwise is how a verdict gets superseded by nothing.",
+      "standingVerdict": "FAIL_REPAIR_REQUIRED from VF02, verified at base fbd22ae2ce6688d5a721c3ecfc2d1d649ac6269e (2026-09-04 00:24 -0400). FIX03's repair landed at 1dcd88293 (2026-09-04 01:25 -0400), AFTER that read. The verdict is stale.",
+      "failedObligationNames": ["CLIPPING_AND_OVERLAP", "KNOWN_PREFILLS", "PROTECTED_FIELDS", "REQUIRED_BEFORE_FILING", "ROUTE_OPTIONS", "SELF_HELP_STOP"],
+      "obligationByObligation": {
+        "KNOWN_PREFILLS": "CURED. Zero of the five semantically invalid writes remain in production-field-map.json, and zero writes carry matter.charge, matter.expungement_ground, matter.arresting_agency or matter.detention_agencies, so no direction is printed as a held fact.",
+        "PROTECTED_FIELDS": "CURED. CR-65 page 6 was rendered at 150 dpi and inspected: the attorney-only Telephone Number line is blank. The participant phone is no longer attorney ink.",
+        "REPEATING_ROWS_ADJACENT": "The prior-expungement group on the same page is blank in the same raster, consistent with the map.",
+        "REQUIRED_BEFORE_FILING": "CURED. 57 required blanks, 0 of them opaque; no label matches /undefined(_\\d+)?|Text\\d+/. The guide also carries the certified-record comparison the registry requires.",
+        "ROUTE_OPTIONS": "CURED. C-10-CRIMINAL:Check Box1.0 (STATE OF ALABAMA caption branch) is written and C-10-CRIMINAL:COURT OF carries the filing county.",
+        "CLIPPING_AND_OVERLAP": "CURED. The boundary petitioner name renders in full as \"Alexandria Catherine Montgomery-Washington\" in the CR-65 page 6 Printed Name of Petitioner field, not the \"...Montgomery-Wash\" VF02 saw. Confirmed in the 150 dpi raster, not only in the text layer.",
+        "SELF_HELP_STOP": "CURED. The guide names the minor-traffic-violation carve-out and licensing or firearm consequences, the two stops VF02 recorded as omitted."
+      },
+      "instrument": "node scripts/build-census-v1-al-felony-dwop-set.mjs --check -> 'repair invariants PASS'; plus an independent 150 dpi Poppler raster of CR-65 page 6 from the committed boundary fixture, read directly rather than inferred from the field map.",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0,
+        "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0,
+        "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0
+      },
+      "countersAfterMeasuredAtCommit": "1b60b8a79",
+      "fixturesMoved": false,
+      "untouched": true
+    },
+
+    {
+      "itemId": "al-felony-nonconviction-90-set",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": false,
+      "whyNotRepairedByThisLane": "FIX04 already repaired it, preserved in commit f133e556e, and this lane changed nothing in the family.",
+      "standingVerdict": "FAIL_REPAIR_REQUIRED from VF03, verified at base fbd22ae2ce6688d5a721c3ecfc2d1d649ac6269e (2026-09-04 00:24 -0400). FIX04's repairs landed at f133e556e (2026-09-04 11:36 UTC), AFTER that read. The verdict is stale.",
+      "failedObligationNames": ["KNOWN_PREFILLS", "REQUIRED_BEFORE_FILING", "SELF_HELP_STOP"],
+      "obligationByObligation": {
+        "KNOWN_PREFILLS": "CURED. The seven directions-as-facts VF03 counted are gone: zero writes carry matter.charge, matter.expungement_ground or matter.arresting_agency, and none of the five semantically invalid writes remains.",
+        "REQUIRED_BEFORE_FILING": "CURED. 57 required blanks, 0 opaque; the 33 'Complete undefined...' labels VF03 counted are replaced by printed captions.",
+        "SELF_HELP_STOP": "CURED. The guide carries the licensing and firearm consequences VF03 recorded as omitted."
+      },
+      "instrument": "node scripts/build-census-v1-al-felony-nonconviction-90-set.mjs --check -> 'repair invariants PASS'; plus a direct read of the committed production-field-map.json for the five signature counts.",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0,
+        "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0,
+        "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0
+      },
+      "countersAfterMeasuredAtCommit": "1b60b8a79",
+      "fixturesMoved": false,
+      "untouched": true
+    },
+
+    {
+      "itemId": "al-diversion-set",
+      "status": "STOPPED",
+      "laneKind": "repair",
+      "repairedByThisLane": false,
+      "failedObligationNames": ["KNOWN_PREFILLS", "PROTECTED_FIELDS", "REQUIRED_BEFORE_FILING", "SERVICE"],
+      "whatStoppedThisLane": "The CR-65 source custody nationwide_recovery_pool_2026_09_02 is not mounted in this container, so the packet cannot be rebuilt. Every one of KNOWN_PREFILLS, PROTECTED_FIELDS and REQUIRED_BEFORE_FILING lives in built PDF bytes and in the field map the build emits, and SERVICE lives in a guide the build writes. Editing the field map or the guide without re-rendering would make the record contradict the artifact -- it would convert a defect an independent reader can see into one they cannot -- so it was not done.",
+      "defectConfirmedStillPresent": "Yes, directly. CR-65 page 6 of the committed boundary fixture was rendered at 150 dpi and read: the current case number CC-2024-000001.99 sits on the prior-expungement COUNTY line while neither prior-application box is selected and the companion fields are blank (KNOWN_PREFILLS); the participant phone 205-555-0199 sits on the attorney-only Telephone Number line with every adjacent attorney field empty (PROTECTED_FIELDS); and the boundary name is visibly clipped to \"Alexandria Catherine Montgomery-Wash\" in the sworn Printed Name of Petitioner field. The field map still carries all five semantically invalid writes, nine directions written as held facts, and 45 of 63 opaque required-before-filing labels.",
+      "obligationByObligation": {
+        "KNOWN_PREFILLS": "Root cause fixed in the shared host; artifact not rebuilt, so still failing.",
+        "PROTECTED_FIELDS": "Root cause fixed in the shared host; artifact not rebuilt, so still failing.",
+        "REQUIRED_BEFORE_FILING": "Root cause fixed in the shared host; artifact not rebuilt, so still failing.",
+        "SERVICE": "Root cause fixed in the shared host; artifact not rebuilt, so still failing. The repair does NOT invent a service method: AL.memo.json track al-diversion holds rules.service = \"A certificate of service page per entity served.\" and states no method, so the repaired guide names the recipients and the per-recipient CR-65 page 7 certificate, then says plainly that the held record does not establish which method Alabama requires and directs the participant to the circuit clerk. That is honest residue, not a denial the repository can contradict."
+      },
+      "whatWasDoneInstead": "The root defect was repaired once in the shared host, scripts/build-census-v1-al-diversion-set.mjs, in commit 1b60b8a79. Running `node scripts/build-census-v1-al-diversion-set.mjs --check` against the committed output fails on 'semantically invalid write remains: C-10-CRIMINAL:Spouses Full Name if married' -- by design. That is the repaired machinery correctly reporting that this artifact has not been rebuilt.",
+      "whatIsNeededToFinish": "Mount nationwide_recovery_pool_2026_09_02, then run `node scripts/build-census-v1-al-diversion-set.mjs`. It rebuilds and then asserts the repair invariants itself.",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0,
+        "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0,
+        "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0
+      },
+      "whyNineZeroCountersDoNotClearThisRow": "They were nine zeros before this lane started and they are nine zeros now. The counters never saw this defect; they are reported for completeness and they supersede nothing. This row is STOPPED.",
+      "fixturesMoved": false
+    },
+
+    {
+      "itemId": "al-misd-conviction-set",
+      "status": "STOPPED",
+      "laneKind": "repair",
+      "repairedByThisLane": false,
+      "failedObligationNames": ["KNOWN_PREFILLS", "REQUIRED_BEFORE_FILING", "ROUTE_OPTIONS"],
+      "whatStoppedThisLane": "The CR-65 source custody nationwide_recovery_pool_2026_09_02 is not mounted, so the packet cannot be rebuilt. KNOWN_PREFILLS, REQUIRED_BEFORE_FILING and ROUTE_OPTIONS all live in built PDF bytes and in the field map the build emits.",
+      "defectConfirmedStillPresent": "Yes. The committed field map still carries participant.full_legal_name in C-10-CRIMINAL \"Spouses Full Name if married\", participant.phone in \"Employers Telephone Number\", the filing county after \"MUNICIPALITY OF\" on a circuit-court route, 9 directions written as held facts, and 45 of 63 opaque required-before-filing labels. C-10-CRIMINAL:Check Box1.0 is unwritten, so neither STATE OF ALABAMA nor MUNICIPALITY OF is elected.",
+      "obligationByObligation": {
+        "KNOWN_PREFILLS": "Root cause fixed in the shared host; artifact not rebuilt, so still failing.",
+        "REQUIRED_BEFORE_FILING": "Root cause fixed in the shared host; artifact not rebuilt, so still failing. The repaired guide additionally carries this track's own prerequisites from the record, including certified evidence that all court-ordered amounts with interest are satisfied.",
+        "ROUTE_OPTIONS": "Root cause fixed in the shared host; artifact not rebuilt, so still failing. The repair selects C-10-CRIMINAL:Check Box1.0, the state-court caption branch the known circuit route determines, and writes the filing county to COURT OF rather than to MUNICIPALITY OF."
+      },
+      "whatWasDoneInstead": "Root repair in the shared host, commit 1b60b8a79. `--check` against the committed output fails by design.",
+      "whatIsNeededToFinish": "Mount nationwide_recovery_pool_2026_09_02, then run `node scripts/build-census-v1-al-misd-conviction-set.mjs`.",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0,
+        "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0,
+        "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0
+      },
+      "whyNineZeroCountersDoNotClearThisRow": "Nine zeros before and after; the counters never saw this defect. This row is STOPPED.",
+      "fixturesMoved": false
+    },
+
+    {
+      "itemId": "al-misd-dwop-set",
+      "status": "STOPPED",
+      "laneKind": "repair",
+      "repairedByThisLane": false,
+      "failedObligationNames": ["KNOWN_PREFILLS", "PROTECTED_FIELDS", "REPEATING_ROWS", "REQUIRED_BEFORE_FILING", "SELF_HELP_STOP"],
+      "whatStoppedThisLane": "The CR-65 source custody nationwide_recovery_pool_2026_09_02 is not mounted, so the packet cannot be rebuilt. All five obligations live in built PDF bytes, in the field map the build emits, or in a guide the build writes.",
+      "defectConfirmedStillPresent": "Yes. The committed field map carries the same five semantically invalid writes, the same 9 directions-as-facts and the same 45 of 63 opaque labels as the other three shared-host families, byte for byte.",
+      "obligationByObligation": {
+        "KNOWN_PREFILLS": "Root cause fixed in the shared host; artifact not rebuilt, so still failing.",
+        "PROTECTED_FIELDS": "Root cause fixed in the shared host; artifact not rebuilt, so still failing.",
+        "REPEATING_ROWS": "Root cause fixed in the shared host; artifact not rebuilt, so still failing. The repair refuses the whole conditional prior-expungement group rather than half-populating it.",
+        "REQUIRED_BEFORE_FILING": "Root cause fixed in the shared host; artifact not rebuilt, so still failing. This also retires a denial the repository could contradict: the shipped guide directs notarization while AL.memo.json track al-misd-dwop holds rules.notarization = \"The source review does not state a notarization requirement for CR-65.\" The repaired guide quotes that line verbatim and directs the participant to the circuit clerk instead of asserting a requirement the record does not hold.",
+        "SELF_HELP_STOP": "Root cause fixed in the shared host; artifact not rebuilt, so still failing. The repaired guide carries all four stops the record holds, including \"Whether a prior offence is a \\\"minor traffic violation\\\" is unclear.\" -- the one VF05 recorded as omitted."
+      },
+      "whatWasDoneInstead": "Root repair in the shared host, commit 1b60b8a79. `--check` against the committed output fails by design.",
+      "whatIsNeededToFinish": "Mount nationwide_recovery_pool_2026_09_02, then run `node scripts/build-census-v1-al-misd-dwop-set.mjs`.",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0,
+        "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0,
+        "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0
+      },
+      "whyNineZeroCountersDoNotClearThisRow": "Nine zeros before and after; the counters never saw this defect. This row is STOPPED.",
+      "fixturesMoved": false
+    },
+
+    {
+      "itemId": "al-pardoned-felony-set",
+      "status": "STOPPED",
+      "laneKind": "repair",
+      "repairedByThisLane": false,
+      "failedObligationNames": ["KNOWN_PREFILLS", "PROTECTED_FIELDS", "REPEATING_ROWS", "REQUIRED_BEFORE_FILING", "SELF_HELP_STOP"],
+      "whatStoppedThisLane": "The CR-65 source custody nationwide_recovery_pool_2026_09_02 is not mounted, so the packet cannot be rebuilt. All five obligations live in built PDF bytes, in the field map the build emits, or in a guide the build writes.",
+      "defectConfirmedStillPresent": "Yes. The committed field map carries the same five semantically invalid writes, the same 9 directions-as-facts and the same 45 of 63 opaque labels as the other three shared-host families.",
+      "obligationByObligation": {
+        "KNOWN_PREFILLS": "Root cause fixed in the shared host; artifact not rebuilt, so still failing.",
+        "PROTECTED_FIELDS": "Root cause fixed in the shared host; artifact not rebuilt, so still failing.",
+        "REPEATING_ROWS": "Root cause fixed in the shared host; artifact not rebuilt, so still failing.",
+        "REQUIRED_BEFORE_FILING": "Root cause fixed in the shared host; artifact not rebuilt, so still failing. The repaired guide names this track's own prerequisites from the record -- obtain the pardon certificate from the Alabama Board of Pardons and Paroles, obtain the certified ALEA record, read the restoration language itself -- and it drops the notarization direction that conflicts with rules.notarization.",
+        "SELF_HELP_STOP": "Root cause fixed in the shared host; artifact not rebuilt, so still failing. The repaired guide carries all four stops the record holds, including \"The pardon withholds firearm rights and the restoration question controls.\" -- the pardon/firearm branch VF06 recorded as omitted."
+      },
+      "whatWasDoneInstead": "Root repair in the shared host, commit 1b60b8a79. `--check` against the committed output fails by design.",
+      "whatIsNeededToFinish": "Mount nationwide_recovery_pool_2026_09_02, then run `node scripts/build-census-v1-al-pardoned-felony-set.mjs`.",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0,
+        "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0,
+        "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0
+      },
+      "whyNineZeroCountersDoNotClearThisRow": "Nine zeros before and after; the counters never saw this defect. This row is STOPPED.",
+      "fixturesMoved": false
+    }
+  ],
+
+  "familiesRepaired": [],
+  "familiesLeftUnchangedBecauseTheVerdictIsStale": ["al-felony-dwop-set", "al-felony-nonconviction-90-set"],
+  "familiesStopped": ["al-diversion-set", "al-misd-conviction-set", "al-misd-dwop-set", "al-pardoned-felony-set"],
+  "nineCountersZeroOn": ["al-diversion-set", "al-felony-dwop-set", "al-felony-nonconviction-90-set", "al-misd-conviction-set", "al-misd-dwop-set", "al-pardoned-felony-set"],
+
+  "machineryRepairedAtTheRoot": {
+    "file": "scripts/build-census-v1-al-diversion-set.mjs",
+    "commit": "1b60b8a79",
+    "servesFamilies": ["al-diversion-set", "al-misd-conviction-set", "al-misd-dwop-set", "al-pardoned-felony-set"],
+    "notRun": "The repaired host has NOT been executed against any family, because CR-65 does not bind here. No artifact was produced and no artifact moved.",
+    "howFarItWasMeasured": [
+      "The real C-10-CRIMINAL AcroForm is mounted, so it was loaded and all 108 of its fields were classified by the repaired rules: \"Spouses Full Name if married\", \"Employers Telephone Number\" and \"MUNICIPALITY OF\" are all refused rather than written; Check Box1.0, COURT OF and IN THE write the correct facts; and 0 of 46 named blanks are opaque.",
+      "CR-65 cannot be loaded, so the repaired rules were replayed over its complete recorded 108-field inventory and compared field by field against al-felony-dwop-set's already-proven post-repair output: 108/108 classified identically.",
+      "All four guides were generated through the shipped writeGuides() and passed the shipped assertRepairInvariants().",
+      "The invariants were shown to bite: --check fails on all four unrebuilt families and passes on the two already-repaired ones."
+    ],
+    "whatIsStillUnmeasured": "The PDF bytes themselves. No raster of a repaired artifact exists, because no repaired artifact exists. Nothing in this return should be read as visual verification of a rendered packet.",
+    "legalRecordBoundByDigest": {
+      "path": "data/record-clearing/legal-design-intake/AL.memo.json",
+      "sha256": "7d484d636a1612c8a6c4648d1f070e1a21d2e3c0a0255afadd7780949e353391",
+      "why": "Both guides are now generated FROM the record and quote it verbatim, rather than being written alongside it, so a guide cannot drift from the record without the digest moving.",
+      "nothingWasInvented": "No fee, form number, service rule or filing destination was authored. Every rule line in both guides is a verbatim quote from this memo, and where the memo does not establish something -- the service method, whether notarization is required -- the guide says so."
+    }
+  },
+
+  "forCaptain": [
+    "Two of the six standing FAIL verdicts are stale reads, not open defects. VF02 read al-felony-dwop-set at fbd22ae2 and VF03 read al-felony-nonconviction-90-set at the same base; FIX03's and FIX04's repairs both landed after those reads. Both families now pass the repair invariants independently and both measure clean on all five signature counts. They need a re-read, not a repair.",
+    "The other four are one defect, not four. They are blocked on custody, not on analysis: mount nationwide_recovery_pool_2026_09_02 and four build commands finish them.",
+    "The nine counters read zero on all six families throughout. Every defect here was found by direct inspection of the field map, the guide text and a 150 dpi raster. A cohort cleared on counters alone would have shipped a participant's own name printed as their spouse's, their phone on an attorney's signature block, and a legal name truncated on a document sworn under penalty of perjury."
+  ]
+}

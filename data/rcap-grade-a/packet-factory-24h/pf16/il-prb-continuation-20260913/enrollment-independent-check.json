@@ -1,0 +1,396 @@
+{
+  "schemaVersion": "rcap-independent-enrollment-review/v1",
+  "reviewer": "/root/mt_deferred_final_review",
+  "author": "/root",
+  "reviewedCommit": "c132b2d574c7d920deb589fbc7f94b705c980e1a",
+  "script": "scripts/grade-a-packet-factory-24h/conditional-raster-documents.mjs",
+  "scriptSha256": "8b8a52c6bc4e5d5b3765361e2db3745f4c162b5522b63107e053b762bf537b42",
+  "verdict": "PASS",
+  "candidateRebuilt": false,
+  "sharedOutputsEdited": false,
+  "obligations": [
+    "Exact route-specific fixture and actual PDF page coverage",
+    "Every current PDF byte length and SHA256 verified by native reader",
+    "Prior deferred and misdemeanor report bytes and old/new reader outputs unchanged",
+    "Every fixture independently omitted or mutated in report: digest, byte length, page count; each must refuse"
+  ],
+  "results": [
+    {
+      "family": "mt_mmrta_completed-set",
+      "result": "PASS",
+      "documents": 5,
+      "pages": 42,
+      "priorReportAndReaderOutputUnchanged": null,
+      "reportSha256": "0a4f7b0b7f23a41cce8622e1622bbdd6b1615fce0a8afbb642720975fab8d623",
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "62af7aac1df1f960878468b179bb9588a30efa404ffc03dbb92d30d1293a5083",
+          "byteLength": 128690,
+          "pageCount": 8
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "5c12e9b294427331e555c800a0a7b2bb10e1eb2bbb91f49ea991cf839c52b0b9",
+          "byteLength": 128746,
+          "pageCount": 8
+        },
+        {
+          "fixture": "city-redesignation",
+          "file": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/fixtures/city-redesignation.pdf",
+          "sha256": "cc819e12abbfa521cfdf0994d42d135bd7498a41bdca9971da32b493942a0c5d",
+          "byteLength": 128489,
+          "pageCount": 8
+        },
+        {
+          "fixture": "expungement-order",
+          "file": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/fixtures/expungement-order.pdf",
+          "sha256": "f6cb17fa7e28f57d00e8cb37491d289d1df75b166e9846993fe952a0e4a475da",
+          "byteLength": 198925,
+          "pageCount": 10
+        },
+        {
+          "fixture": "boundary-separate-conviction",
+          "file": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/fixtures/boundary-separate-conviction.pdf",
+          "sha256": "1c50ba986038c52f67abfb1455bdcf0ffd73462330f1643f0d1366d94e6c88d4",
+          "byteLength": 128858,
+          "pageCount": 8
+        }
+      ],
+      "mutations": [
+        {
+          "fixture": "canonical",
+          "kind": "omitted fixture",
+          "result": "REFUSED",
+          "firstFailure": "Expected values to be strictly deep-equal:\n+ actual - expected\n\n  [\n    'boundary',\n    'boundary-separate-conviction',\n-   'canonical',\n    'city-redesignation',\n    'expungement-order'\n  ]\n"
+        },
+        {
+          "fixture": "canonical",
+          "kind": "wrong SHA256",
+          "result": "REFUSED",
+          "firstFailure": "Expected values to be strictly equal:\n+ actual - expected\n\n+ '62af7aac1df1f960878468b179bb9588a30efa404ffc03dbb92d30d1293a5083'\n- '0000000000000000000000000000000000000000000000000000000000000000'\n"
+        },
+        {
+          "fixture": "canonical",
+          "kind": "wrong byte length",
+          "result": "REFUSED",
+          "firstFailure": "Expected values to be strictly equal:\n\n128690 !== 128691\n"
+        },
+        {
+          "fixture": "canonical",
+          "kind": "wrong page count",
+          "result": "REFUSED",
+          "firstFailure": "Expected values to be strictly equal:\n\n8 !== 9\n"
+        },
+        {
+          "fixture": "boundary",
+          "kind": "omitted fixture",
+          "result": "REFUSED",
+          "firstFailure": "Expected values to be strictly deep-equal:\n+ actual - expected\n\n  [\n-   'boundary',\n    'boundary-separate-conviction',\n    'canonical',\n    'city-redesignation',\n    'expungement-order'\n  ]\n"
+        },
+        {
+          "fixture": "boundary",
+          "kind": "wrong SHA256",
+          "result": "REFUSED",
+          "firstFailure": "Expected values to be strictly equal:\n+ actual - expected\n\n+ '5c12e9b294427331e555c800a0a7b2bb10e1eb2bbb91f49ea991cf839c52b0b9'\n- '0000000000000000000000000000000000000000000000000000000000000000'\n"
+        },
+        {
+          "fixture": "boundary",
+          "kind": "wrong byte length",
+          "result": "REFUSED",
+          "firstFailure": "Expected values to be strictly equal:\n\n128746 !== 128747\n"
+        },
+        {
+          "fixture": "boundary",
+          "kind": "wrong page count",
+          "result": "REFUSED",
+          "firstFailure": "Expected values to be strictly equal:\n\n8 !== 9\n"
+        },
+        {
+          "fixture": "city-redesignation",
+          "kind": "omitted fixture",
+          "result": "REFUSED",
+          "firstFailure": "Expected values to be strictly deep-equal:\n+ actual - expected\n\n  [\n    'boundary',\n    'boundary-separate-conviction',\n    'canonical',\n-   'city-redesignation',\n    'expungement-order'\n  ]\n"
+        },
+        {
+          "fixture": "city-redesignation",
+          "kind": "wrong SHA256",
+          "result": "REFUSED",
+          "firstFailure": "Expected values to be strictly equal:\n+ actual - expected\n\n+ 'cc819e12abbfa521cfdf0994d42d135bd7498a41bdca9971da32b493942a0c5d'\n- '0000000000000000000000000000000000000000000000000000000000000000'\n"
+        },
+        {
+          "fixture": "city-redesignation",
+          "kind": "wrong byte length",
+          "result": "REFUSED",
+          "firstFailure": "Expected values to be strictly equal:\n\n128489 !== 128490\n"
+        },
+        {
+          "fixture": "city-redesignation",
+          "kind": "wrong page count",
+          "result": "REFUSED",
+          "firstFailure": "Expected values to be strictly equal:\n\n8 !== 9\n"
+        },
+        {
+          "fixture": "expungement-order",
+          "kind": "omitted fixture",
+          "result": "REFUSED",
+          "firstFailure": "Expected values to be strictly deep-equal:\n+ actual - expected\n\n  [\n    'boundary',\n    'boundary-separate-conviction',\n    'canonical',\n    'city-redesignation',\n-   'expungement-order'\n  ]\n"
+        },
+        {
+          "fixture": "expungement-order",
+          "kind": "wrong SHA256",
+          "result": "REFUSED",
+          "firstFailure": "Expected values to be strictly equal:\n+ actual - expected\n\n+ 'f6cb17fa7e28f57d00e8cb37491d289d1df75b166e9846993fe952a0e4a475da'\n- '0000000000000000000000000000000000000000000000000000000000000000'\n"
+        },
+        {
+          "fixture": "expungement-order",
+          "kind": "wrong byte length",
+          "result": "REFUSED",
+          "firstFailure": "Expected values to be strictly equal:\n\n198925 !== 198926\n"
+        },
+        {
+          "fixture": "expungement-order",
+          "kind": "wrong page count",
+          "result": "REFUSED",
+          "firstFailure": "Expected values to be strictly equal:\n\n10 !== 11\n"
+        },
+        {
+          "fixture": "boundary-separate-conviction",
+          "kind": "omitted fixture",
+          "result": "REFUSED",
+          "firstFailure": "Expected values to be strictly deep-equal:\n+ actual - expected\n\n  [\n    'boundary',\n-   'boundary-separate-conviction',\n    'canonical',\n    'city-redesignation',\n    'expungement-order'\n  ]\n"
+        },
+        {
+          "fixture": "boundary-separate-conviction",
+          "kind": "wrong SHA256",
+          "result": "REFUSED",
+          "firstFailure": "Expected values to be strictly equal:\n+ actual - expected\n\n+ '1c50ba986038c52f67abfb1455bdcf0ffd73462330f1643f0d1366d94e6c88d4'\n- '0000000000000000000000000000000000000000000000000000000000000000'\n"
+        },
+        {
+          "fixture": "boundary-separate-conviction",
+          "kind": "wrong byte length",
+          "result": "REFUSED",
+          "firstFailure": "Expected values to be strictly equal:\n\n128858 !== 128859\n"
+        },
+        {
+          "fixture": "boundary-separate-conviction",
+          "kind": "wrong page count",
+          "result": "REFUSED",
+          "firstFailure": "Expected values to be strictly equal:\n\n8 !== 9\n"
+        }
+      ]
+    },
+    {
+      "family": "mt_deferred_dismissal-set",
+      "result": "PASS",
+      "documents": 3,
+      "pages": 24,
+      "priorReportAndReaderOutputUnchanged": true,
+      "reportSha256": "442859943c4f49f176b45529aedad55a1f40a95f18c7cd25d73db850d1111f37",
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/mt/mt-deferred-dismissal-set--custom-pleading/fixtures/canonical.pdf",
+          "sha256": "7352688df07d1181b2f584bb00909f1b785c570e330e855856088946daa098ac",
+          "byteLength": 86418,
+          "pageCount": 8
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/mt/mt-deferred-dismissal-set--custom-pleading/fixtures/boundary.pdf",
+          "sha256": "b2b116487cb07d3ceb3fe44d223faa56732ccd43c0b98c70d309bbfc69ac852f",
+          "byteLength": 86630,
+          "pageCount": 8
+        },
+        {
+          "fixture": "verdict-justice",
+          "file": "data/rcap-all50/overlays/census-v1/mt/mt-deferred-dismissal-set--custom-pleading/fixtures/verdict-justice.pdf",
+          "sha256": "158ba02a7934cdf9c9cf74748f108d1d86461ab77e3c59e69472d9c93c0a871b",
+          "byteLength": 86252,
+          "pageCount": 8
+        }
+      ],
+      "mutations": [
+        {
+          "fixture": "canonical",
+          "kind": "omitted fixture",
+          "result": "REFUSED",
+          "firstFailure": "Expected values to be strictly deep-equal:\n+ actual - expected\n\n  [\n    'boundary',\n-   'canonical',\n    'verdict-justice'\n  ]\n"
+        },
+        {
+          "fixture": "canonical",
+          "kind": "wrong SHA256",
+          "result": "REFUSED",
+          "firstFailure": "Expected values to be strictly equal:\n+ actual - expected\n\n+ '7352688df07d1181b2f584bb00909f1b785c570e330e855856088946daa098ac'\n- '0000000000000000000000000000000000000000000000000000000000000000'\n"
+        },
+        {
+          "fixture": "canonical",
+          "kind": "wrong byte length",
+          "result": "REFUSED",
+          "firstFailure": "Expected values to be strictly equal:\n\n86418 !== 86419\n"
+        },
+        {
+          "fixture": "canonical",
+          "kind": "wrong page count",
+          "result": "REFUSED",
+          "firstFailure": "Expected values to be strictly equal:\n\n8 !== 9\n"
+        },
+        {
+          "fixture": "boundary",
+          "kind": "omitted fixture",
+          "result": "REFUSED",
+          "firstFailure": "Expected values to be strictly deep-equal:\n+ actual - expected\n\n  [\n-   'boundary',\n    'canonical',\n    'verdict-justice'\n  ]\n"
+        },
+        {
+          "fixture": "boundary",
+          "kind": "wrong SHA256",
+          "result": "REFUSED",
+          "firstFailure": "Expected values to be strictly equal:\n+ actual - expected\n\n+ 'b2b116487cb07d3ceb3fe44d223faa56732ccd43c0b98c70d309bbfc69ac852f'\n- '0000000000000000000000000000000000000000000000000000000000000000'\n"
+        },
+        {
+          "fixture": "boundary",
+          "kind": "wrong byte length",
+          "result": "REFUSED",
+          "firstFailure": "Expected values to be strictly equal:\n\n86630 !== 86631\n"
+        },
+        {
+          "fixture": "boundary",
+          "kind": "wrong page count",
+          "result": "REFUSED",
+          "firstFailure": "Expected values to be strictly equal:\n\n8 !== 9\n"
+        },
+        {
+          "fixture": "verdict-justice",
+          "kind": "omitted fixture",
+          "result": "REFUSED",
+          "firstFailure": "Expected values to be strictly deep-equal:\n+ actual - expected\n\n  [\n    'boundary',\n    'canonical',\n-   'verdict-justice'\n  ]\n"
+        },
+        {
+          "fixture": "verdict-justice",
+          "kind": "wrong SHA256",
+          "result": "REFUSED",
+          "firstFailure": "Expected values to be strictly equal:\n+ actual - expected\n\n+ '158ba02a7934cdf9c9cf74748f108d1d86461ab77e3c59e69472d9c93c0a871b'\n- '0000000000000000000000000000000000000000000000000000000000000000'\n"
+        },
+        {
+          "fixture": "verdict-justice",
+          "kind": "wrong byte length",
+          "result": "REFUSED",
+          "firstFailure": "Expected values to be strictly equal:\n\n86252 !== 86253\n"
+        },
+        {
+          "fixture": "verdict-justice",
+          "kind": "wrong page count",
+          "result": "REFUSED",
+          "firstFailure": "Expected values to be strictly equal:\n\n8 !== 9\n"
+        }
+      ]
+    },
+    {
+      "family": "mt_misdemeanor_expungement-set",
+      "result": "PASS",
+      "documents": 3,
+      "pages": 29,
+      "priorReportAndReaderOutputUnchanged": true,
+      "reportSha256": "4179c767f804e0f70526a07789480eae92df53131842ed54c5f2d9e06eca4164",
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/mt/mt-misdemeanor-expungement-set--custom-pleading/fixtures/canonical.pdf",
+          "sha256": "82a512f6eaa9f650fe4b69f6534f85be640fde3d968fcd70319658a90ed71289",
+          "byteLength": 90073,
+          "pageCount": 9
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/mt/mt-misdemeanor-expungement-set--custom-pleading/fixtures/boundary.pdf",
+          "sha256": "1e323f110fdd900db1b22416c35956a51c2107d43408b0d83790e5ce475c9607",
+          "byteLength": 96723,
+          "pageCount": 11
+        },
+        {
+          "fixture": "military",
+          "file": "data/rcap-all50/overlays/census-v1/mt/mt-misdemeanor-expungement-set--custom-pleading/fixtures/military.pdf",
+          "sha256": "94fb4b6ed7ab60269bea2e21ff2a06a0d6e364c5345f0114dfbf218e264c20af",
+          "byteLength": 90843,
+          "pageCount": 9
+        }
+      ],
+      "mutations": [
+        {
+          "fixture": "canonical",
+          "kind": "omitted fixture",
+          "result": "REFUSED",
+          "firstFailure": "Expected values to be strictly deep-equal:\n+ actual - expected\n\n  [\n    'boundary',\n-   'canonical',\n    'military'\n  ]\n"
+        },
+        {
+          "fixture": "canonical",
+          "kind": "wrong SHA256",
+          "result": "REFUSED",
+          "firstFailure": "Expected values to be strictly equal:\n+ actual - expected\n\n+ '82a512f6eaa9f650fe4b69f6534f85be640fde3d968fcd70319658a90ed71289'\n- '0000000000000000000000000000000000000000000000000000000000000000'\n"
+        },
+        {
+          "fixture": "canonical",
+          "kind": "wrong byte length",
+          "result": "REFUSED",
+          "firstFailure": "Expected values to be strictly equal:\n\n90073 !== 90074\n"
+        },
+        {
+          "fixture": "canonical",
+          "kind": "wrong page count",
+          "result": "REFUSED",
+          "firstFailure": "Expected values to be strictly equal:\n\n9 !== 10\n"
+        },
+        {
+          "fixture": "boundary",
+          "kind": "omitted fixture",
+          "result": "REFUSED",
+          "firstFailure": "Expected values to be strictly deep-equal:\n+ actual - expected\n\n  [\n-   'boundary',\n    'canonical',\n    'military'\n  ]\n"
+        },
+        {
+          "fixture": "boundary",
+          "kind": "wrong SHA256",
+          "result": "REFUSED",
+          "firstFailure": "Expected values to be strictly equal:\n+ actual - expected\n\n+ '1e323f110fdd900db1b22416c35956a51c2107d43408b0d83790e5ce475c9607'\n- '0000000000000000000000000000000000000000000000000000000000000000'\n"
+        },
+        {
+          "fixture": "boundary",
+          "kind": "wrong byte length",
+          "result": "REFUSED",
+          "firstFailure": "Expected values to be strictly equal:\n\n96723 !== 96724\n"
+        },
+        {
+          "fixture": "boundary",
+          "kind": "wrong page count",
+          "result": "REFUSED",
+          "firstFailure": "Expected values to be strictly equal:\n\n11 !== 12\n"
+        },
+        {
+          "fixture": "military",
+          "kind": "omitted fixture",
+          "result": "REFUSED",
+          "firstFailure": "Expected values to be strictly deep-equal:\n+ actual - expected\n\n  [\n    'boundary',\n    'canonical',\n-   'military'\n  ]\n"
+        },
+        {
+          "fixture": "military",
+          "kind": "wrong SHA256",
+          "result": "REFUSED",
+          "firstFailure": "Expected values to be strictly equal:\n+ actual - expected\n\n+ '94fb4b6ed7ab60269bea2e21ff2a06a0d6e364c5345f0114dfbf218e264c20af'\n- '0000000000000000000000000000000000000000000000000000000000000000'\n"
+        },
+        {
+          "fixture": "military",
+          "kind": "wrong byte length",
+          "result": "REFUSED",
+          "firstFailure": "Expected values to be strictly equal:\n\n90843 !== 90844\n"
+        },
+        {
+          "fixture": "military",
+          "kind": "wrong page count",
+          "result": "REFUSED",
+          "firstFailure": "Expected values to be strictly equal:\n\n9 !== 10\n"
+        }
+      ]
+    }
+  ]
+}

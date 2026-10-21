@@ -1,0 +1,251 @@
+{
+  "schemaVersion": "rcap-repair-rows/v1",
+  "lane": "FIX10",
+  "laneKind": "repair",
+  "generatedAtBase": "e189d518665e7b9836b671357354ef3a6982726a",
+  "worktree": "/home/user/ln2-worktree on branch lane-ln2-20260910",
+  "subjects": [
+    "al-pardoned-felony-set",
+    "il-seal-2yr-set",
+    "nj_indictable_conviction-set",
+    "nj_ordinance-set"
+  ],
+  "assignedFailure": "All four assigned as failing ROUTE_OPTIONS and nothing else.",
+  "priorReturnInThisDirectory": {
+    "path": "data/rcap-grade-a/packet-factory-24h/fix10/rows.json",
+    "sha256": "d4beae91b4eb4d4809f1b68d70663b0d371c91907a8cde68827155bf68e38a45",
+    "notOverwritten": true,
+    "relationship": "An earlier FIX10 session's return, on different subjects. This file is a separate return and replaces nothing in it."
+  },
+  "laneOutcome": "NO PACKET BYTE MOVED. Two of the four ROUTE_OPTIONS rows are stale -- the defect they describe was repaired after the verifier read, and this lane confirmed the repair at appearance level rather than from the repair report. The other two are live and are not repairable by a build lane. One new defect was found that no counter can see, on a family this lane holds.",
+  "packetPdfBytesMoved": 0,
+  "overlayDirectoriesModified": [],
+  "sharedModuleChanges": [],
+  "rasterPngsCommitted": 0,
+  "centralManifestsEdited": [],
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "selfVerified": false,
+  "grantsNothing": "This return sets no verdict, promotes nothing, opens no route and asserts no PASS. It records measurements and two refusals to act.",
+
+  "measurementMethod": {
+    "renderer": "pdftoppm -r 300 -gray -png (poppler), annotations drawn by the renderer",
+    "resolutionDpi": 300,
+    "greyThreshold": "8-bit grey value < 128 counted as dark ink",
+    "scope": "the named AcroForm widget /Rect ONLY, mapped from PDF user space to image space as col = x*300/72 and row = (pageHeight - y)*300/72; no surrounding printed label is inside the counted region",
+    "pixelsPerCountAreStated": true,
+    "apNProofRequiredBeforeAnyZeroWasTrusted": true,
+    "apNProofs": [
+      {
+        "form": "CR-65 (AL), pinned source sha256 c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39",
+        "widget": "Check Box10.6, page 3, /Rect [45.3804 79.5004 55.7001 93.8583], /AP /N states [/Yes,/Off]",
+        "blankSourceDark": 0,
+        "sameWidgetForcedToApNYesDark": 110,
+        "regionPixels": 2580,
+        "conclusion": "the render draws /AP /N ink in this rect, so a zero read from it is a measured zero"
+      },
+      {
+        "form": "CN-10557 (NJ), pinned source sha256 c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7",
+        "widget": "guilty, page 19, /Rect [34.971 591.363 52.971 609.363], /AP /N states [/Yes]",
+        "blankSourceDark": 696,
+        "sameWidgetForcedToApNYesDark": 2676,
+        "addedInk": 1980,
+        "regionPixels": 5625,
+        "conclusion": "the render draws /AP /N ink in this rect; the 696 baseline is the printed box outline"
+      },
+      {
+        "form": "EXP-AD Request (IL), pinned source sha256 44792beaede1d03f5ea65e61dba00cdf5cb9b7c617f7ff265e55e92576cd7853",
+        "widgets": "Sections 16, 18 and 19a on page 5 forced to /AP /N /Yes",
+        "blankSourceDark": { "s16": 564, "s18": 514, "s19a": 514 },
+        "forcedYesDark": { "s16": 710, "s18": 660, "s19a": 660 },
+        "addedInkPerTick": 146,
+        "conclusion": "the render draws /AP /N ink in these rects; a tick adds 146 dark pixels at 300 dpi"
+      }
+    ]
+  },
+
+  "deliveredDigests": {
+    "note": "sha256 read by tool from the committed tree at e189d518. before and after are identical on every file: this lane moved no packet byte.",
+    "al-pardoned-felony-set": {
+      "canonical": { "path": "data/rcap-all50/overlays/census-v1/al/al-pardoned-felony-set--official-pdf-fill/fixtures/canonical.pdf", "before": "b763d0872bd3058088aa4a9bf03bba49aa204a0e3aff59ebd4955cf72d2936fb", "after": "b763d0872bd3058088aa4a9bf03bba49aa204a0e3aff59ebd4955cf72d2936fb", "moved": false },
+      "boundary": { "path": "data/rcap-all50/overlays/census-v1/al/al-pardoned-felony-set--official-pdf-fill/fixtures/boundary.pdf", "before": "c7efd5ab764e9f96628290f0df18cebf51244b9d31beb1c9ebcc1cf79279165b", "after": "c7efd5ab764e9f96628290f0df18cebf51244b9d31beb1c9ebcc1cf79279165b", "moved": false }
+    },
+    "il-seal-2yr-set": {
+      "canonical": { "path": "data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill/fixtures/canonical.pdf", "before": "090c596e0116f172a925b5e34d8bf9c18019478509a918eac0aaa3abc0904166", "after": "090c596e0116f172a925b5e34d8bf9c18019478509a918eac0aaa3abc0904166", "moved": false },
+      "boundary": { "path": "data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill/fixtures/boundary.pdf", "before": "cb8874f3a42f1e7b0cb2042d05f76cd68aa0279b1aefdce4d10a034b52f74b0e", "after": "cb8874f3a42f1e7b0cb2042d05f76cd68aa0279b1aefdce4d10a034b52f74b0e", "moved": false }
+    },
+    "nj_indictable_conviction-set": {
+      "canonical": { "path": "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill/fixtures/cn-10557-canonical.pdf", "before": "03f6169d042fc1d5ed30df008dfc966ef3d03b382731f5956d0e8786ca8a234f", "after": "03f6169d042fc1d5ed30df008dfc966ef3d03b382731f5956d0e8786ca8a234f", "moved": false },
+      "boundary": { "path": "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill/fixtures/cn-10557-boundary.pdf", "before": "23a571af72985717963001120ba60116ae43054aaa1c2fddbeece944dac24494", "after": "23a571af72985717963001120ba60116ae43054aaa1c2fddbeece944dac24494", "moved": false }
+    },
+    "nj_ordinance-set": {
+      "canonical": { "path": "data/rcap-all50/overlays/census-v1/nj/nj-ordinance-set--official-pdf-fill/fixtures/cn-10557-canonical.pdf", "before": "03f6169d042fc1d5ed30df008dfc966ef3d03b382731f5956d0e8786ca8a234f", "after": "03f6169d042fc1d5ed30df008dfc966ef3d03b382731f5956d0e8786ca8a234f", "moved": false },
+      "boundary": { "path": "data/rcap-all50/overlays/census-v1/nj/nj-ordinance-set--official-pdf-fill/fixtures/cn-10557-boundary.pdf", "before": "23a571af72985717963001120ba60116ae43054aaa1c2fddbeece944dac24494", "after": "23a571af72985717963001120ba60116ae43054aaa1c2fddbeece944dac24494", "moved": false }
+    }
+  },
+
+  "rows": [
+    {
+      "familyId": "al-pardoned-felony-set",
+      "assignedObligation": "ROUTE_OPTIONS",
+      "verifierRowRead": { "lane": "vf06", "verifiedAtBase": "b5cb44279e39cc56d11f65be5dd3de0d16bab85e", "finding": "AL6-04: the packet ticks all eight CR-65 Section V boxes of a conjunctive sworn certification; six assert facts the route never establishes." },
+      "rowStatusNow": "STALE. That row was read at b5cb44279, which is an ancestor of 2957986ae (FIX119) and b191fbb60 (PFD). Both landed after it and both moved these bytes.",
+      "measuredAtHead": {
+        "cr65SectionVBoxesTicked": 0,
+        "ofEight": 8,
+        "readFrom": "delivered content streams, per-pixel, 300 dpi, grey<128, widget /Rect scope",
+        "perWidget": {
+          "Check Box10.6 (page 3, rect 45.3804 79.5004 55.7001 93.8583)": { "canonicalDark": 0, "boundaryDark": 0, "regionPixels": 2580, "appearanceState": "Off (no ink drawn; the flatten emitted no /Yes appearance)" },
+          "Check Box11.0 (page 4)": { "canonicalDark": 0, "boundaryDark": 0, "regionPixels": 1845, "appearanceState": "Off" },
+          "Check Box11.1 (page 4)": { "canonicalDark": 0, "boundaryDark": 0, "regionPixels": 1845, "appearanceState": "Off" },
+          "Check Box11.2 (page 4)": { "canonicalDark": 0, "boundaryDark": 0, "regionPixels": 1755, "appearanceState": "Off" },
+          "Check Box11.3 (page 4)": { "canonicalDark": 0, "boundaryDark": 0, "regionPixels": 1755, "appearanceState": "Off" },
+          "Check Box11.4 (page 4)": { "canonicalDark": 0, "boundaryDark": 0, "regionPixels": 1845, "appearanceState": "Off" },
+          "Check Box11.5 (page 4)": { "canonicalDark": 0, "boundaryDark": 0, "regionPixels": 1845, "appearanceState": "Off" },
+          "Check Box11.6 (page 4)": { "canonicalDark": 0, "boundaryDark": 0, "regionPixels": 1845, "appearanceState": "Off" }
+        },
+        "sourceOfTruthForTheState": "The delivered PDFs carry no AcroForm and no widget annotations at all (11 pages, 13 /Link annotations and nothing else), so the eight elections exist only as flattened ink. There is none.",
+        "corroboration": "production-field-map.json refuses all eight with refusalClass participant_sworn_narrative_or_legal_election and routeDetermined false; scripts/build-census-v1-al-diversion-set.mjs FAMILY_CONFIG['al-pardoned-felony-set'].selected is []; participant-instructions.md renders the eight-limb handback section at lines 93-144, one heading per box, actually present in the delivered file and not a source-authored default that never landed."
+      },
+      "repairMade": "NONE. This lane made no change to this family.",
+      "whyNoElectionWasAdded": "The assignment's rule governs: never elect a statutory ground the record does not establish. The only limb that names this route is Check Box10.6, and CR-65 prints it as 'I was granted a certificate of pardon WITH RESTORATION of civil and political rights'. AL.memo.json track al-pardoned-felony establishes that a pardon was granted (eligibleDispositions: ['a felony conviction for which a pardon has been granted']) and expressly does NOT establish the restoration limb: its legalDesignDecision classifies restoration language as a participant-entered fact ('Pardon date, restoration language, and certificate terms are participant-entered facts'), it carries restorationLanguage and firearmRightsExcluded as required participantInputs, it lists 'The pardon withholds firearm rights and the restoration question controls' as a selfHelpStopCondition, and it retains AL-7 as an unresolvedQuestion with impact build_blocker on affectedElement eligibility_branch: 'whether a pardon that withholds firearm rights satisfies the statutory restoration requirement remains dispositive and must be resolved before that branch ships'. Electing 10.6 would swear restoration on a sworn petition on a question the held record marks dispositive and unresolved. That is the one thing this lane is instructed to stop on rather than do.",
+      "escalation": "The AL-7 restoration question is the gate. Until its owner resolves it, no lane can make this petition state its ground, and the family cannot leave ROUTE_OPTIONS by any build change.",
+      "verdictProposed": null,
+      "stillFailing": true
+    },
+    {
+      "familyId": "il-seal-2yr-set",
+      "assignedObligation": "ROUTE_OPTIONS",
+      "verifierRowRead": { "lane": "vf03", "verifiedAtBase": "b8a2495f4a84bff00aeb268c81deec6114dc581b", "finding": "The route declares five dispositions, the packet delivers one, and Sections 16, 18 and 19.a are refused with the untrue boilerplate 'A participant election or financial fact not determined by this packet route'; the guide never mentions them." },
+      "rowStatusNow": "STALE. Repaired by cb736b20a (FIX06), which is after b8a2495f4 on this branch.",
+      "measuredAtHead": {
+        "fieldMap": "Sections 16, 18 and 19.a each now carry isAlternativeToElectedGround true, an alternativeSection, alternativeDispositions naming the registry disposition each states, and a route-specific reason that tells the participant to tick it and untick the elected one. 19.b and 19.c carry route-specific reasons naming them as the three-year route's limbs. The boilerplate is gone.",
+        "guide": "participant-instructions.md carries a dedicated section printing all four two-year grounds verbatim with their statutory cites and Outcome codes (lines 13-20), says which one was ticked and on what fact, and tells the participant how to swap and to change the Outcome cell with it.",
+        "elections": {
+          "canonical": { "ticked": "Section 17", "widget": "'17 - I received a misdemeanor conviction or ordinance violation...' page 5 /Rect [71.958 470.627 84.045 482.74]", "appearanceState": "Yes", "dark": 660, "blankBaseline": 514, "addedInk": 146, "regionPixels": 2500, "others": { "s15": 0, "s16": 0, "s18": 0, "s19a": 0, "s19b": 0, "s19c": 0 } },
+          "boundary": { "ticked": "Section 16", "widget": "'16 -' page 5 /Rect [71.958 495.979 84.045 508.092]", "appearanceState": "Yes", "dark": 710, "blankBaseline": 564, "addedInk": 146, "regionPixels": 2500, "others": { "s15": 0, "s17": 0, "s18": 0, "s19a": 0, "s19b": 0, "s19c": 0 } }
+        },
+        "whyTwoFixturesElectDifferentGrounds": "Declared and deliberate. scripts/build-census-v1-il-seal-2yr-set.mjs lines 158-186 state that the canonical elects Section 17 and the boundary elects Section 16 so that a delivered artifact exercises the refusing-Outcome path, because the printed 'Outcome Abbreviations for Sealing' legend on Request page 4 carries no abbreviation for a successfully completed supervision. This lane read the elections off the delivered pixels and they match the declaration exactly."
+      },
+      "repairMade": "NONE NEEDED. This lane made no change to this family.",
+      "observationNotRepaired": "production-field-map.json has no per-fixture dimension: it records Section 17 as the route's write and Section 16 as a refusal, while the delivered boundary fixture ticks Section 16 and leaves 17 blank. The builder comment declares this, the guide does not contradict it, and no counter reads it. Left for the record owner rather than changed here.",
+      "verdictProposed": null,
+      "stillFailing": false
+    },
+    {
+      "familyId": "nj_indictable_conviction-set",
+      "assignedObligation": "ROUTE_OPTIONS",
+      "verifierRowRead": { "lane": "vf11", "verifiedAtBase": "df524f2fd", "finding": "The family's own field map declares one route selection, `guilty`, as measured_route_selection, and it is unmarked on both fixtures; nothing on the delivered petition states which statutory route it is." },
+      "rowStatusNow": "LIVE. Confirmed independently at HEAD. No route-election repair has landed on this family since df524f2fd.",
+      "measuredAtHead": {
+        "widget": "guilty, Form A item (d), delivered page 19, /Rect [34.971 591.363 52.971 609.363] (300 dpi rows 761:836, cols 146:221)",
+        "appearanceState": "Off -- no /Yes appearance drawn",
+        "canonicalDark": 696,
+        "boundaryDark": 696,
+        "pinnedBlankSourceDark": 696,
+        "addedInk": 0,
+        "regionPixels": 5625,
+        "structure": "the delivered PDF carries no AcroForm and zero annotations on all 43 pages, so the election exists only as flattened ink and there is none"
+      },
+      "repairMade": "NONE. This lane made no change to this family.",
+      "whyNoElectionWasAdded": "Item (d) of Form A is one sworn compound sentence with nine blanks: date, offence name(s), N.J.S.A. statute(s), final sentence, court, jail/prison/incarceration term, the date that term was completed, the date probation was completed, and the date fines were paid. Read from this family's own production-field-map.json, exactly one of the nine (guiltyDt) is a candidate_write; guiltyStatute, guiltyFinal1/2, guiltyTimeType, guiltyDocCmpltDt, guiltyProbDt and guiltyFineDt are all refused as REQUIRED_BEFORE_FILING with 'the platform holds no exact fact for this cell'. reports/actual-writes.json records the election in heldButNotPrinted with reason withheld_for_row_integrity: 'a marked election over an empty row is a half-written row'. Ticking it would swear a guilty plea or finding for an offence the petition does not name, under a statute it does not cite, with a sentence it does not state. Filling the missing cells would mean inventing a sentence and a custodial term.",
+      "independentEnumerationOfEveryOtherRouteShapedControl": {
+        "howEnumerated": "every /Btn and /Ch leaf field in the pinned CN-10557 was listed with its page and appearance states, and the printed text beside each was read from the source pages",
+        "controls": [
+          { "field": "seek5yrs", "page": 22, "printed": "N.J.S.A. 2C:52-2(a)(2) after four years / 2C:52-3(b)(2) after three years, less than five years passed, plus a written statement of compelling circumstances", "usable": false, "why": "a different early-relief limb, and it requires a compelling-circumstances narrative the platform does not hold" },
+          { "field": "seek34degree", "page": 22, "printed": "N.J.S.A. 2C:52-2(c)(3) third or fourth degree controlled dangerous substance crime, plus compelling circumstances", "usable": false, "why": "a different limb, and it requires a narrative the platform does not hold" },
+          { "field": "seekJuvNever", "page": 24, "printed": "seeking expungement of a conviction pursuant to N.J.S.A. 2C:52-2 AND 'I have never been granted an expungement, sealing or similar relief regarding a criminal conviction, by any state or federal court'", "usable": false, "why": "it does name this route's authority, but it is a compound sworn oath whose second limb is a participant fact the platform does not hold; it is refused in the field map as REQUIRED_BEFORE_FILING and ticking it would fabricate" },
+          { "field": "cleanSlate / marijuana / gradDC / jdmnt", "page": "30, 32", "usable": false, "why": "other routes' elections; all refused as REQUIRED_BEFORE_FILING" }
+        ],
+        "conclusion": "no control on this kit can state this route from what the record holds. This lane reached the same conclusion FIX121 recorded, by its own enumeration of the pinned binary."
+      },
+      "whatWouldUnblockIt": "Three of item (d)'s cells are asked by no question on this track: the final sentence imposed, the jail/prison/incarceration term (whose dropdown options in the pinned binary are only ['  ','jail time','prison time','incarceration time'], with no 'none'), and the date fines were paid. Until the intake collects them, no fixture this family can build will complete the row, and no build lane can close ROUTE_OPTIONS. That is a legal-input decision, not a build change.",
+      "verdictProposed": null,
+      "stillFailing": true
+    },
+    {
+      "familyId": "nj_ordinance-set",
+      "assignedObligation": "ROUTE_OPTIONS",
+      "verifierRowRead": { "lane": "vf11", "verifiedAtBase": "df524f2fd", "finding": "identical finding to nj_indictable_conviction-set" },
+      "rowStatusNow": "LIVE. Confirmed independently at HEAD.",
+      "measuredAtHead": {
+        "widget": "guilty, Form A item (d), delivered page 19, /Rect [34.971 591.363 52.971 609.363]",
+        "appearanceState": "Off",
+        "canonicalDark": 696,
+        "boundaryDark": 696,
+        "pinnedBlankSourceDark": 696,
+        "addedInk": 0,
+        "regionPixels": 5625
+      },
+      "repairMade": "NONE. This lane made no change to this family.",
+      "whyNoElectionWasAdded": "Everything said for nj_indictable_conviction-set applies, and this family has a second and independent obstacle that no lane can build around: N.J.S.A. 2C:52-4, the municipal-ordinance authority this route rests on, is named by NO control anywhere on CN-10557. The kit's three route-shaped election controls name 2C:52-2(a)(2), 2C:52-3(b)(2), 2C:52-2(c)(3) and 2C:52-2. Item (d) offers only a printed 'in violation of N.J.S.A. (statute(s))' line, and a municipal ordinance has no N.J.S.A. citation. The family's own guide already states this at participant-instructions.md line 189 and refuses to substitute a state statute into that line, which is the correct refusal.",
+      "verdictProposed": null,
+      "stillFailing": true
+    }
+  ],
+
+  "defectsNoCounterCanSee": [
+    {
+      "id": "FIX10-01",
+      "title": "al-pardoned-felony-set and al-felony-nonconviction-90-set still deliver ONE document. The 2026-09-10 raster refusal stands unrepaired on both limbs, and the FIX119 repair is what keeps the second limb true.",
+      "familiesAffected": ["al-pardoned-felony-set", "al-felony-nonconviction-90-set"],
+      "onlyOneIsHeldByThisLane": "al-pardoned-felony-set. al-felony-nonconviction-90-set is not claimed by FIX10, was not read for repair and was not edited.",
+      "theStandingRecord": "data/rcap-grade-a/packet-factory-24h/raster-runs/REFUSED_34418960259_AL_IDENTICAL_PETITIONS.json refused both families admission on a clean RASTER_PASS, on two limbs: (1) the delivered document is byte-for-byte the same petition the other family delivers apart from the invisible /Title string, and (2) the petition ticks no eligibility ground on the CR-65 it files.",
+      "whatWasMeasuredHereAtHead": {
+        "limb1": "STILL TRUE, and the digests hide it. The two canonicals now carry DIFFERENT sha256 (b763d0872bd3058088aa4a9bf03bba49aa204a0e3aff59ebd4955cf72d2936fb vs 504731a37cda8b7b6ef801555bd380aee76c56da76ce22c65bb9eeddb3bad2c2) and different byte lengths (905623 vs 905655), so a digest comparison reads them as two documents. They are not. All ELEVEN page content streams hash identically page for page, and pdftotext -layout of the whole delivered document is byte-identical (sha256 of the extracted text b7a261e31cfcef801d8b77f601dbeaef22b7838e3b22953b41e8532e73255bca on both, 38944 bytes each, zero diff lines). The only difference in the two files is /Title: 'al-pardoned-felony-set canonical filing packet' vs 'al-felony-nonconviction-90-set canonical filing packet' -- a 32-byte delta that exactly accounts for the 32-byte size difference. Both carry 579 objects.",
+        "limb2": "STILL TRUE on al-pardoned-felony-set, measured per-pixel: 0 of 8 CR-65 Section V boxes ticked on canonical and boundary alike.",
+        "theContrastThatProvesItIsNotAFactoryProperty": "Four sibling AL families built by the same host differ from al-pardoned-felony-set on EXACTLY ONE page, page 3 -- al-felony-dwop-set, al-misd-conviction-set, al-diversion-set and al-misd-dwop-set each differ on page 3 and are identical on the other ten. Page 3 is where a CR-65 ground is ticked. The ground tick is the only thing that makes an Alabama petition its own document, and the two families that tick nothing are therefore the same document."
+      },
+      "whyNoLaneCouldSeeThis": "It is the joint consequence of two separately defensible decisions in two families held by different lanes. FIX119 set al-pardoned-felony-set to selected: [] because CR-65 Section V is a conjunctive sworn certification the record cannot support. scripts/build-census-v1-al-felony-nonconviction-90-set.mjs sets al-felony-nonconviction-90-set to selected: [] because 'the route family does not determine whether it was dismissal with prejudice, no-bill, acquittal, or unconditional nolle prosequi'. Each reasoning is sound in isolation. Neither lane rebuilt the other family, so neither could observe that together they produce one document for two eligibility routes. No counter compares two families' page content streams, and the digests differ, so every hash-based check reads them as distinct.",
+      "whyThisLaneDidNotRepairIt": "The cure to limb 1 is to make this petition state its own ground, and the only limb of CR-65 that names this route asserts restoration of civil and political rights -- the fact AL.memo.json marks as a dispositive unresolved build_blocker (AL-7). Electing it is forbidden. Any alternative -- writing the route's statute into the sworn 'Grounds for or reasons why you seek expungement' narrative on page 5, currently refused as role: participant -- is the AL6-01 defect class the verifier already scored on this family, and it is a legal-design decision, not a build change. Changing /Title alone is explicitly not a cure: the refusal record already calls the /Title difference invisible.",
+      "owner": "whoever owns AL-7 in AL.memo.json unresolvedQuestions",
+      "counterThatWouldHaveCaughtIt": "a cross-family page-content-stream identity check within a state, which does not exist"
+    },
+    {
+      "id": "FIX10-02",
+      "title": "il-seal-2yr-set holds an admitted RASTER_PASS whose boundary half describes bytes that no longer exist, and the boundary it now ships elects a different statutory ground from the one that was rastered.",
+      "familyAffected": "il-seal-2yr-set",
+      "receipt": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/il-seal-2yr-set/il-seal-2yr-set.verdict.json, RASTER_PASS, run 34407406641, packetCommitSha 686a2f65ee5b06d41a6634676b22ca13e7419490",
+      "boundOn": { "canonical": "090c596e0116f172a925b5e34d8bf9c18019478509a918eac0aaa3abc0904166", "boundary": "9ffc8a8edc19629d0725ce92daddaf0c432254521a2b81dc058db537405db553" },
+      "onDiskAtHead": { "canonical": "090c596e0116f172a925b5e34d8bf9c18019478509a918eac0aaa3abc0904166", "boundary": "cb8874f3a42f1e7b0cb2042d05f76cd68aa0279b1aefdce4d10a034b52f74b0e" },
+      "canonicalMatches": true,
+      "boundaryMatches": false,
+      "whenItMoved": "cb736b20a (FIX06 il-seal-2yr-set: ROUTE_OPTIONS, four printed grounds not one) moved boundary.pdf from 9ffc8a8e... to cb8874f3... and left canonical untouched. FIX06's own message states 'rasterState stays BUILT_RASTER_PENDING', so the lane did not claim the receipt still held; the admitted receipt file was simply never marked superseded.",
+      "whyItMatters": "The verdict is not a hash binding only. Its measurements array contains 26 entries: 13 canonical pages and 13 boundary pages, each with its own PNG sha256. Thirteen of those 26 measured pages are of a document this repository no longer contains. And the substitution is not cosmetic: the rastered boundary elected Section 17, and the delivered boundary elects Section 16 -- measured per-pixel here at 300 dpi, +146 dark pixels in the Section 16 widget rect and +0 in Section 17. A different statutory ground is inked on the page than the one the receipt looked at.",
+      "consequence": "il-seal-2yr-set owes a fresh raster. It owed one before this lane arrived; this lane spent nothing.",
+      "notCausedByThisLane": true
+    },
+    {
+      "id": "FIX10-03",
+      "title": "The two New Jersey families this lane holds deliver one identical document with a /Title that identifies neither of them.",
+      "familiesAffected": ["nj_indictable_conviction-set", "nj_ordinance-set", "nj_disorderly_persons-set (not held by this lane)"],
+      "measured": "cn-10557-canonical.pdf is sha256 03f6169d042fc1d5ed30df008dfc966ef3d03b382731f5956d0e8786ca8a234f on all three conviction families, and cn-10557-boundary.pdf is 23a571af72985717963001120ba60116ae43054aaa1c2fddbeece944dac24494 on those three plus nj_arrest_no_conviction-set. Byte-identical, not merely visually identical.",
+      "whatIsWorseThanTheAlabamaCase": "In the refused Alabama pair the /Title at least named the family. Here the delivered /Title on both files reads 'How to Expunge your Criminal and/or Juvenile Record' -- the pinned source kit's own title, inherited unchanged. The delivered document does not identify itself as any family's packet at all.",
+      "notRepairedHereAndWhy": "Setting a per-family /Title would move the bytes of four families, three of which this lane does not hold, and would not make any petition state its route. The standing raster refusal record already holds that an invisible /Title difference is not a cure. Reported rather than done."
+    }
+  ],
+
+  "familiesOwingAFreshRaster": [
+    { "familyId": "il-seal-2yr-set", "why": "FIX10-02: the admitted receipt's boundary half is bound to bytes that no longer exist. Not caused by this lane.", "causedByThisLane": false }
+  ],
+  "rasterReceiptsSpentByThisLane": 0,
+
+  "whatCouldNotBeMeasured": {
+    "requiredOptionsMissingCounterOnTheNewJerseyFamilies": null,
+    "why": "This lane did not run the completeness verifier. The counters are not reported as 0; they are reported as null, because this lane did not measure them. VF11 recorded that the counter is structurally blind to this election in any case ('readFieldRows sends a non-refuse row into writes, so this election is never classified as a blank')."
+  },
+
+  "checksRun": [
+    "claim.mjs --assert FIX10 on all four families, run with an explicit cd into /home/user/ln2-worktree; four CLAIM_OK, zero refusals, grant set 90af791927a76ff6",
+    "sha256sum of every delivered fixture before and after",
+    "pikepdf structural read of every delivered fixture: AcroForm presence, annotation inventory, /Info keys, per-page content-stream hashes",
+    "pdftoppm 300 dpi grey renders with annotations, one page at a time, each PNG deleted immediately",
+    "/AP /N ink proof on all three source forms before any zero was trusted"
+  ],
+  "whatThisDoesNotClaim": [
+    "that any family passes any obligation",
+    "that any repair was made -- none was",
+    "that the two live New Jersey rows are unrepairable in principle, only that no build lane can close them from what this repository holds",
+    "that the Alabama pair's identity is new: the refusal record recorded it on 2026-09-10 and this lane measured that it survives at e189d518"
+  ]
+}

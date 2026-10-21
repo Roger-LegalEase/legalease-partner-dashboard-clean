@@ -1,0 +1,167 @@
+{
+  "schemaVersion": "rcap-packet-factory-lane-return/v1",
+  "lane": "FIX05",
+  "laneKind": "repair",
+  "worker": "pfd-fix-20260909",
+  "workerBranch": "pfd-fix-20260909",
+  "baseSha": "181ac2ece",
+  "returnFilename": "rows-fix05-20260909-pfd.json",
+  "writtenAlongsideRatherThanOver": "control-hi-guide-carries-record.mjs, first-route-cohort-productization-return.json, repair-assignments.json, rows-fix05-20260909.json, rows.fable-fix05.json and rows.json survive byte-for-byte. Nothing in fix05/ was overwritten.",
+  "selfVerified": false,
+  "selfVerifiedNote": "This lane repaired this family and re-measured its own delivered bytes. It issues no PASS and sets no verdict. The family returns to independent verification by a lane that neither built nor repaired it.",
+  "grantsNothing": "This return grants nothing. It opens no route, sets no price, touches no checkout, promotes no build status and marks no packet proven.",
+  "productionTouched": false,
+  "commercialRoutesOpened": 0,
+  "claimsReleased": 0,
+  "centralStateEdits": 0,
+  "rows": [
+    {
+      "itemId": "mn_petition_609a02_subd3-set",
+      "familyId": "mn_petition_609a02_subd3-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/mn/mn-petition-609a02-subd3-set--custom-pleading",
+      "routeKeys": [
+        "obligation:track-only:MN:mn_petition_609a02_subd3"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "status": "COMPLETED",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "repairedByThisLane": true,
+      "claim": "CLAIM_OK FIX05 mn_petition_609a02_subd3-set (repair, grant set 914af21a28d51a60)",
+      "recordedFailureIStartedFrom": {
+        "where": "data/rcap-grade-a/packet-factory-24h/VERIFIER_RETURNS.json rows[485], with the full row at data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20260909d.json",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "vf02",
+        "verifiedAtBase": "26ab5d8641c0e366dfed8d75a34c3bf6690ffa7f",
+        "failedObligations": [
+          "SERVICE"
+        ],
+        "everyOtherObligationPassed": "VF02 recorded PASS on the other fourteen: ROUTE_IDENTITY, SOURCE_IDENTITY, COMPONENT_SET, KNOWN_PREFILLS, PROTECTED_FIELDS, CLIPPING_AND_OVERLAP, SELF_HELP_STOP, FILING_DESTINATION, REQUIRED_BEFORE_FILING, ARTIFACTS, PAGE_ORDER, ROUTE_OPTIONS, REPEATING_ROWS and FEE_AND_WAIVER. None was re-derived here.",
+        "reproducible": true,
+        "howIReproducedIt": "pdftotext -f 7 -l 8 -layout over the committed canonical.pdf, which is where EXP104's two pages sit in this 25-page packet, read against participant-instructions.md line 49 and the EXP104 blank table at lines 111-118. Both limbs are exactly as recorded."
+      },
+      "obligationsRepaired": [
+        "SERVICE"
+      ],
+      "serviceRepair": {
+        "limbOne": {
+          "whatFailed": "participant-instructions.md said 'Three of them are marked (Required) on the form itself and already carry their addresses printed: the MN Bureau of Criminal Apprehension, the Office of the MN Attorney General, and the MN Department of Human Services / Office of Inspector General. The rest are checked and completed only where they relate to your case.'",
+          "whatTheDeliveredPageSays": "SIX boxes print '(Required)': 1 MN Bureau of Criminal Apprehension, 2 Office of the MN Attorney General, 3 MN Dept. of Corrections, 4 ______ County Attorney's Office (Attn: Criminal Records), 5 ______ County Dept. of Corrections (Probation), 6 ______ County Sheriff's Office (Attn: Records). NINE print '(check box & use if related to your case)': 7 ______ Police Dept., 8 ______ City Attorney's Office (Prosecutor), 9 MN Dept. of Human Services / Office of Inspector General, 10 MN Dept. of Health, 11 MN Dept. of Natural Resources, 12 MN Driver and Vehicle Services, 13 MN State Patrol, 14 and 15 (unlabelled). The MN Dept. of Human Services / Office of Inspector General, which the guide named as one of the three Required, is box 9 and is conditional.",
+          "whyItMattered": "The sentence told the participant that service on the prosecuting authority (box 4), on county probation (box 5) and on the county sheriff (box 6) was discretionary, on a petition whose committed record states that the prosecuting authority and each agency holding records receive notice and may object.",
+          "whatIWrote": "The paragraph now names all six Required boxes by printed number and agency, says all six are served, distinguishes boxes 1-3 (address printed) from boxes 4-6 (Required but printing blank rules the participant fills), and adds a second paragraph naming all nine conditional boxes by printed number, ending with the correction that MN DHS / Office of Inspector General is box 9 and is one of the nine. The service-list election reason in the field map was corrected the same way, from 'the form marks three boxes (Required)' to the six it marks."
+        },
+        "limbTwo": {
+          "whatFailed": "Two fields both claimed box 8. service_county_attorney was labelled 'Service list box 8 - ______ County Attorney's Office (Prosecutor) name and address' and service_city_attorney 'Service list box 8 - ______ City Attorney's Office name and address'. Box 4 was named nowhere under its printed number, and '(Prosecutor)' was attached to the wrong office.",
+          "whatTheDeliveredPageSays": "Box 4 prints '_________________ County / Attorney's Office / Attn: Criminal Records' with no '(Prosecutor)'. Box 8 prints '___________________ City / Attorney's Office (Prosecutor) / Attn: Criminal Division'.",
+          "whatIWrote": "service_county_attorney is now 'Service list box 4 - ______ County Attorney's Office name and address' and carries that it is marked (Required) and is the prosecuting authority. service_city_attorney is now 'Service list box 8 - ______ City Attorney's Office (Prosecutor) name and address' and carries that box 8 is conditional. Boxes 5, 6 and 7 gained their Required-or-conditional status in the same table. The seven EXP104 service entries were reordered into the form's own printed box order (4, 5, 6, 7, 8, 14, 15); before this they ran 5, 6, 7, 8, 8, 13, 14, 15."
+        },
+        "limbThreeNotInTheRecordedRowAndDemonstratedOnThePage": {
+          "whatFailed": "A third field, service_additional_agency_13, was labelled 'Service list box 13 - additional agency name and address' on EXP104 page 1, and the guide told the participant to write a further agency and address into it.",
+          "whatTheDeliveredPageSays": "Box 13 is on EXP104 page 2, not page 1, and it is not an empty box. It prints 'MN State Patrol / Attn: Expungements / 445 Minnesota Street, Suite 190 / St. Paul, MN 55101-5190' with '(check box & use if related to your case)' beneath it. The only two boxes on the whole fifteen-box list with no agency printed in them are 14 and 15, both on page 2.",
+          "whyItMattered": "A participant following that row would have written an unrelated agency's name and address over the MN State Patrol's printed address on a document sworn under Minn. Stat. 358.116.",
+          "whatIWrote": "The phantom entry was removed rather than relabelled, because there is no third fillable additional-agency box to relabel it to. Boxes 14 and 15 now say in the table that they are the only two boxes on the list with no agency printed in them. requiredBeforeFilingCount falls from 60 to 59 and blankDispositions.REQUIRED_BEFORE_FILING from 56 to 55; that fall is the removal of a blank that does not exist on the form."
+        }
+      },
+      "thingsThisDispatchToldMeToCheckThatDidNotReproduceHere": [
+        {
+          "check": "Whether this subd. 3 family lodges the wrong proposed order -- EXP106 instead of EXP105 -- which would be a COMPONENT_SET and ROUTE_IDENTITY failure.",
+          "measured": "It binds EXP105 and does not bind EXP106. source-receipt.json and reports/rendered-artifacts.json both list five bound documents, EXP102 / EXP104 / EXP105 / EXP101 / FEE102, with EXP105 as the proposed_order at sha256 754cd7a55b07409fe8752906d38dcccc45ab6a13cda5a3d7d061a689b837b4a0. On the delivered canonical.pdf, packet pages 13-16 print the EXP105 footer 'EXP105 State Eng Rev 7/24 ... Page N of 4'. No EXP106 page appears anywhere in the 25.",
+          "result": "NO DEFECT. The order matches the elected subdivision. Nothing repaired."
+        },
+        {
+          "check": "Disclosure of marks the packet makes on sworn forms -- the class that failed the two Minnesota siblings today.",
+          "measured": "This family makes NO mark. A content-stream scan (python zlib inflate of every stream object, regex for an 'x y m x y l S' line pair) over the delivered canonical.pdf returns ZERO vector line segments, against four on the mn_petition_juvenile_as_adult-set canonical I measured on the same tool this shift. The build's own read-back agrees: 21 text values, 294 added glyphs, 0 flattened widget appearances, 0 glyphs outside measured write boxes. There is no tick, no X and no checkbox mark on any of the 25 pages, so there is no mark to disclose. EXP102 item 9 is deliberately left unticked: the builder classes options (a), (b) and (k) NOT_APPLICABLE_ON_THIS_ROUTE with the form's own bracketed EXP106/EXP107 instruction as the reason, and carries all eight subdivision 3 clauses to the participant with the form's printed wording and the registry's waiting period beside each.",
+          "result": "NO DEFECT. Nothing repaired."
+        },
+        {
+          "check": "Writable rules left blank and unnamed -- EXP104's 'Judicial District' and FEE102's 'Case Type'.",
+          "measured": "Both are named on this family. participant-instructions.md carries 'Caption - Judicial District' in the EXP104 table with 'the same judicial district as the caption of the petition', and carries it again for EXP102, EXP105 and FEE102. It carries 'Caption - Case Type' for FEE102 with 'write Criminal. The petition form EXP102 prints \"Case Type: Criminal\" in the same caption for this same proceeding'. Both are REQUIRED_BEFORE_FILING entries in production-field-map.json, not silent blanks.",
+          "result": "NO DEFECT ON THIS FAMILY. This finding belongs to the siblings, not here. Nothing repaired."
+        }
+      ],
+      "beforeArtifacts": [
+        {
+          "fixture": "canonical",
+          "sha256": "52680b1fcec81eee5538ea4cb23f1d37d8519384baff73bd754f38fa1bc0df71",
+          "byteLength": 1213693,
+          "pageCount": 25
+        },
+        {
+          "fixture": "boundary",
+          "sha256": "46bc49d539edbb8dd18470188c14299f81f0ab6c541d23a1c4a6de7146fd19a9",
+          "byteLength": 1214100,
+          "pageCount": 25
+        }
+      ],
+      "afterArtifacts": [
+        {
+          "fixture": "canonical",
+          "sha256": "52680b1fcec81eee5538ea4cb23f1d37d8519384baff73bd754f38fa1bc0df71",
+          "byteLength": 1213693,
+          "pageCount": 25,
+          "addedGlyphsReadFromOutputBytes": 294,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        },
+        {
+          "fixture": "boundary",
+          "sha256": "46bc49d539edbb8dd18470188c14299f81f0ab6c541d23a1c4a6de7146fd19a9",
+          "byteLength": 1214100,
+          "pageCount": 25,
+          "addedGlyphsReadFromOutputBytes": 294,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        }
+      ],
+      "noInkMoved": "Both fixture digests are byte-identical before and after. This repair is entirely in participant copy and in the field map's disclosure labels; the packet draws nothing new and removes nothing it drew. The admitted acceptance receipt in product-wiring.json, workflowRunId 34407406641, binds canonical 52680b1fcec81eee5538ea4cb23f1d37d8519384baff73bd754f38fa1bc0df71, which is still the exact canonical this lane leaves behind, so it still pins the bytes it measured and no re-raster is required by this repair. This lane issues no receipt and sets no verdict.",
+      "digestsRecordedWith": "sha256sum(1) and python hashlib.sha256 over the committed fixture bytes; page counts from pdfinfo(1) and from the build's own artifactHashes. No digest in this row was transcribed or reconstructed by hand.",
+      "whatIReMeasuredOnTheDeliveredBytesAfterTheRepair": [
+        "pdftotext -f 7 -l 8 -layout over the rebuilt canonical.pdf: EXP104's two pages read the same as before the repair, box for box. Six '(Required)' markers under boxes 1-6, nine '(check box & use if related to your case)' markers under boxes 7-15, box 13 still printing MN State Patrol's address on page 2. The form did not change; the copy that describes it did.",
+        "Content-stream scan of the rebuilt canonical.pdf: still zero added vector line segments.",
+        "sha256sum on both rebuilt fixtures: identical to the committed pre-repair digests, so no ink moved.",
+        "git diff over the family directory: exactly four files changed -- participant-instructions.md, production-field-map.json, reports/blanks-left-for-the-participant.json and reports/completeness-counters.json. fixtures/canonical.pdf, fixtures/boundary.pdf, product-wiring.json, source-receipt.json, build-status.json, approval-request.json, build-findings.json, reports/actual-writes.json and reports/rendered-artifacts.json are untouched.",
+        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mn_petition_609a02_subd3-set => PASS_COMPLETE, 21/131 written, all nine counters zero.",
+        "Determinism: two complete executions of node scripts/build-census-v1-mn_petition_609a02_subd3-set.mjs --no-raster produced identical artifactHashes and identical byte lengths."
+      ],
+      "aBlockerIHitAndResolvedRatherThanReported": {
+        "what": "The first build returned status BLOCKED_SOURCE with failedSourceIdentities naming data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json, 'the committed record does not exist at this path'.",
+        "whatItActuallyWas": "A sparse-checkout gap, not a missing record. git sparse-checkout add data/rcap-grade-a/route-obligation-census-candidate materialised the directory and the build proceeded. The record is committed and 2,629,290 bytes on disk. No source was substituted and no digest was relaxed.",
+        "worthKnowing": "A lane on a sparse checkout that reads this builder's BLOCKED_SOURCE output at face value would report a committed record as missing. The builder's message says 'does not exist at this path', which is true of the working tree and false of the repository."
+      },
+      "aBuildTimeSideEffectIDidNotCommit": {
+        "what": "Run without --no-raster, this builder renders all 25 pages of both fixtures through Chromium into <familyDirectory>/raster/, 50 page images. The committed reports/rendered-artifacts.json records rasterSkipped true, rasterEngine null and rasterPages 0, so the committed tree was built with --no-raster and carries no raster directory.",
+        "whatIDid": "Rebuilt with --no-raster to match, and deleted the raster directory the first run created. It is not staged and not committed. A local Chromium render is not a receipt in any case; only the central workflow produces one."
+      },
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersBeforeNote": "VF02 measured all nine zero on this family and failed it anyway. Its own note: 'All nine measure zero here and the family still fails. The decisive defect is a false statement in participant-instructions.md about which agencies EXP104 requires be served. No counter reads participant copy against the form's own printed page.'",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfterNote": "Measured by node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mn_petition_609a02_subd3-set on the committed bytes. Every one of the nine was measured; none is estimated. They were zero before the repair too, so these nine zeros are not evidence the SERVICE defect is gone. The evidence is the delivered-page measurements listed above.",
+      "obligationsThisRowDoesNotDischarge": [
+        "RASTER_PASS -- this lane produces no raster receipt and issues no verdict. The fixture bytes did not move, so the admitted receipt bound to canonical 52680b1f... still describes this packet; that is a fact about the bytes, not a pass from this lane.",
+        "Independent verification -- this family must be re-verified by a lane that neither built nor repaired it.",
+        "The fourteen obligations VF02 passed were not re-derived here. Three of them are touched by these edits and want a fresh read: REQUIRED_BEFORE_FILING because one entry was removed and seven were relabelled and reordered, ARTIFACTS because production-field-map.json and two reports changed, and FILING_DESTINATION because the service paragraph it sits beside was rewritten."
+      ],
+      "returnedForIndependentReverification": true,
+      "selfVerificationPerformed": 0,
+      "routesOpened": 0,
+      "productionTouched": false
+    }
+  ]
+}

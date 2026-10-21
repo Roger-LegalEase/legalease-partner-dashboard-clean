@@ -1,0 +1,231 @@
+{
+  "schemaVersion": "rcap-independent-verification-rows/v1",
+  "lane": "VF01",
+  "laneKind": "independent-verification",
+  "generatedBy": "VF01 independent-verification lane, 2026-09-10",
+  "whatThisLaneDidNotDo": "This lane built nothing, repaired nothing, rendered no packet, dispatched no workflow, released no claim and changed no packet byte, no overlay directory, no central manifest and no script. Every digest, page raster, widget rect, appearance stream, glyph count and quotation below was recomputed in this lane's own container from the committed bytes and the mounted source custody.",
+  "grantsNothing": "A verification row is a measurement. It approves no output, promotes no route, opens no commercial path and creates no fulfillment record.",
+  "rows": [
+    {
+      "itemId": "al-felony-dwop-set",
+      "lane": "VF01",
+      "laneKind": "independent-verification",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "a45cb2767f70febb451503d7e4da2bb92676982d",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/al/al-felony-dwop-set--official-pdf-fill",
+      "implementationStrategy": "official_pdf_fill",
+      "postRepairReread": false,
+      "claimStatus": {
+        "assertedBeforeAnyRead": true,
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF01 'al-felony-dwop-set'",
+        "result": "CLAIM_OK VF01 al-felony-dwop-set (independent-verification, grant set 9ac192889b89fd14)"
+      },
+      "receiptBindsTheBytes": {
+        "recomputedWith": "sha256sum, run in this lane's container on the two files in the family's fixtures directory",
+        "canonicalSha256": "f5b365db7086f038634561e1f0baadd7cc8cc53fdfd5b6b6d02aa68643948027",
+        "boundarySha256": "0fecc946850f1f70d472a40b6144efdfc2dd371c61c6c117608903b56afa9856",
+        "matchesRasterQueueRow": true,
+        "matchesRasterReceiptBinding": true,
+        "pageCounts": { "canonical": 11, "boundary": 11 },
+        "rasterRun": "34418960259",
+        "renderedCommitSha": "deead9f250e606887d80837a2f4cb7423d7afa49"
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 3,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 1
+      },
+      "countersHowMeasured": {
+        "knownRequiredFieldsMissing": "Every fact the route holds is written. The field map declares 31 writes; all 31 land, each at the widget its fieldId names, read from the delivered content streams with scripts/grade-a-packet-factory-24h/classify-flattened-widget-appearances.mjs. No field the controlling record supplies a value for is left blank. 0.",
+        "requiredFactsNotCollected": "AL.memo.json track al-felony-dwop declares four required participantInputs: dismissedWithoutPrejudice, dismissalDate, interveningConvictions, countyOfFiling. countyOfFiling is written to CR-65 page 1 'Name of County' and to C-10 'COURT OF'; the other three are the predicate of the single ground the packet ticks, and the guide's step 3 directs the participant to re-read the certified record against that ground's printed text. 0.",
+        "unclassifiedBlanks": "The delivered packet carries 216 flattened widget appearances. production-field-map.json accounts for exactly 216 fields: 31 writes plus 185 refusals, each refusal carrying one of five stated reasons. 31 + 185 = 216, so no blank is unclassified. 0. One refusal is MISCLASSIFIED rather than unclassified and is recorded in prose under REQUIRED_BEFORE_FILING.",
+        "incompleteRows": "CR-65 carries no repeating table. Page 5's numbered items each have two ruled continuation lines whose AcroForm suffixes (…1, …2) are line indices inside one printed item, not row numbers; all four pairs are present and both members of each pair carry the same refusal reason. C-10's income and expense schedule is a fixed itemised list, every line classified and every line blank. 0.",
+        "requiredOptionsMissing": "Counted by reading the form's own printed mandate beside each selection and then reading whether any of the 216 flattened appearances carries a mark there. Three mandatory selections are unmade in both fixtures: CR-65 page 5 Check Box1.2 (the form prints 'All Petitions must include item 3'), one of CR-65 page 5 Check Box1.0/1.1 (the form prints 'Petition must include either item 1 or item 2'), and one of CR-65 page 6 Check Box2.0/2.1 (the form prints '(3) (Select one of the following)' under the heading 'I swear or affirm, under the penalty of perjury'). These are participant elections the route may not make for the participant, so they are scored under REQUIRED_BEFORE_FILING and not under ROUTE_OPTIONS; ROUTE_OPTIONS passes on the two options the route does determine. 3.",
+        "requiredComponentsMissing": "Checked against data/record-clearing/legal-design-packet-set-manifests.json for packetSetId al-felony-dwop-set, not against the family's own counter. The manifest names three component roles and all three are delivered: primary_filing (CR-65 pages 1-6, 8), certificate_of_service (CR-65 page 7, the form's own Certificate of Service page), fee_waiver (C-10-CRIMINAL, packet pages 9-11). 0.",
+        "invisibleWrites": "All 31 declared writes carry visible ink in the delivered bytes: 29 SHOW_TEXT_ONLY appearances with non-empty string operands plus 2 PAINTS_AND_SHOWS_TEXT appearances drawing a ZapfDingbats (4). Same in the boundary fixture. 0.",
+        "protectedWrites": "No write lands on a signature, date, notary, attorney, clerk, prosecutor, agency or judicial field. Packet page 11, the C-10 ORDER ON AFFIDAVIT OF SUBSTANTIAL HARDSHIP, is the judge's page and carries no text-drawing appearance at all: every one of its flattened appearances is stroke-only with zero glyphs. 0.",
+        "visualDefects": "1. Measured by rendering delivered page 3 and pinned-source CR-65 page 3 at 300 dpi with pdftoppm and comparing the region the misplaced appearance covers. See CLIPPING_AND_OVERLAP. Present in both fixtures; counted once as one defect."
+      },
+      "perArtifactOutputByteGlyphReadings": [
+        {
+          "fixture": "canonical",
+          "sha256": "f5b365db7086f038634561e1f0baadd7cc8cc53fdfd5b6b6d02aa68643948027",
+          "addedGlyphsReadFromOutputBytes": 403,
+          "addedNonWhitespaceGlyphs": 387,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "howMeasured": "scripts/grade-a-packet-factory-24h/classify-flattened-widget-appearances.mjs over the delivered bytes, then every placedRect matched against the widget /Rect the appearance claims, taken from the two pinned sources with the C-10 pages offset by 8. Read the caveat under CLIPPING_AND_OVERLAP before treating the zero as proof."
+        },
+        {
+          "fixture": "boundary",
+          "sha256": "0fecc946850f1f70d472a40b6144efdfc2dd371c61c6c117608903b56afa9856",
+          "addedGlyphsReadFromOutputBytes": 653,
+          "addedNonWhitespaceGlyphs": 627,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "howMeasured": "same tool, same method, on the boundary bytes."
+        }
+      ],
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "One route key, declared identically in product-wiring.json and production-field-map.json: obligation:track-only:AL:al-felony-dwop. It resolves to AL.memo.json track al-felony-dwop, 'Petition to Expunge Felony Charges Dismissed Without Prejudice, Ala. Code § 15-27-2(a)(7)', and the ground the packet ticks is that track's ground. The two fixtures are genuinely different documents and not one document under two names: canonical carries Jordan Avery Reyes / Montgomery / CC-2021-004217 / 06-14-1988 and boundary carries Alexandria Catherine Montgomery-Washington / Jefferson / CC-2024-000001.99 / 12-31-1979, across 29 text appearances each.",
+          "observation": "NEAR-CLONE, RAISED RATHER THAN CLEARED. The delivered petition is one printed line away from two families refused from the same raster run. pdftotext -layout over all 11 pages of the three canonical fixtures: al-pardoned-felony-set and al-felony-nonconviction-90-set extract to byte-identical text, and al-felony-dwop-set differs from both on exactly one line — the tick inside the DWOP ground's printed brackets on page 3. Nothing else in this 11-page filing is route-specific. This family is not listed in CLONED_FAMILY_PACKETS.json under either the clone or the near-clone heading."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Both declared sources resolve BY CONTENT DIGEST in mounted custody. C-10-CRIMINAL 527d4cfdde5bea564a8729e6425f1042627b03435ec634509fe32fdb80a5c6f8 (711433 bytes) at /home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AL/02_PACKET_FORMS/AL__FORM__C-10-CRIMINAL__affidavit-of-substantial-hardship-and-order__REV-2024-05__EN.pdf. CR-65 c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39 (468056 bytes) at private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf. Found by hashing all 1298 PDFs under the Master Library and private/ and looking the two digests up in that index, not by filename. Page counts 8 and 3 sum to the delivered 11.",
+          "contradictsAPriorRecord": "VF09 scored this obligation NOT_MEASURABLE_HERE at base ba5dc7e5a because CR-65 'is in NO custody this container mounts'. That was true of that container and is not true of this one: the Nationwide_Recovery_Pool_2026-09-02 import is mounted under private/source-imports here. The packet was never the problem."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Read against data/record-clearing/legal-design-packet-set-manifests.json for packetSetId al-felony-dwop-set rather than against the family's own counter, whose denominator comes from the family's own field map. The manifest names primary_filing (CR-65, required), certificate_of_service (CR-65, required) and fee_waiver (C-10-CRIMINAL, conditional on indigency). All three are delivered and each page's printed identity was read from the delivered bytes: CR-65 pages 1-6 and 8, CR-65 page 7 which prints '(Certificate of Service)', and C-10-CRIMINAL pages 1-3."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All 31 writes land where the field map says and say what the printed label under them asks for. Name is split correctly across the three separate CR-65 widgets (Last 'Reyes', First 'Jordan', Middle 'Avery') and joined only where the form asks for a single name ('Printed Name of Petitioner', C-10 'Full Name', C-10 'v'). The C-10 caption is not swapped: read by x-position, 'IN THE' (x 75.96-246.24) carries 'Circuit' above the printed sublabel '(Circuit, District, or Municipal)' and 'COURT OF' (x 303.12-518.4) carries 'Montgomery' above '(Name of County or Municipality)'. C-10 'Spouse's Full Name (if married)' and 'Employer's Telephone Number' are blank. No aliases line is filled with a legal name. Nothing on any delivered page recites the packet's own record: a case-insensitive scan of the full extracted text for 'in its own words', 'route record', 'packet record', 'the record states', 'controlling record', 'legal-design', 'memo.json', 'sha256' and 'may not say' returns zero hits, and the only 'as follows' occurrences are the official form's own printed text.",
+          "observation": "One refusal reason is factually wrong, which matters for disclosure rather than for prefill. Every blank on CR-65 page 7 is refused with 'signature or date field; never prefilled', including 'Court Case Number_3', 'I' (the server's printed name), 'Other agency department or entity not listed above' and 'PetitionersServers Telephone Number'. Those are case and participant facts, not signature or date fields. The consequence is recorded under REQUIRED_BEFORE_FILING."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Nothing is written to a protected field, and nothing strays onto one. Measured two ways. First, by write: none of the 31 writes targets a signature, date, notary, attorney, judicial or clerk field, and packet page 11 — the C-10 ORDER, which the judge completes — carries no text-drawing appearance at all. Second, by ink: scripts/grade-a-packet-factory-24h/classify-flattened-widget-appearances.mjs classifies all 216 appearances per fixture, and only 31 carry a non-empty string operand. The 80 stroke-only appearances per fixture were then accounted against the family's own pinned sources by the method of scripts/grade-a-packet-factory-24h/account-stroke-only-against-pinned-sources.mjs (SHA-256 of the decompressed appearance-stream bytes; that script writes BORDER_COHORT_REMEDIATION.json, which this lane must not edit, and neither of this lane's families is a row in it, so the identical comparison was run read-only here). Result EVERY_STROKE_IS_THE_FORMS_OWN: 160 of 160 stroke-only streams across both fixtures are byte-identical to an /AP stream the pinned sources themselves ship, 0 matching nothing, against a pool of 118 source appearance streams. No border is synthesized."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "FAIL",
+          "finding": "THE DELIVERED PETITION ERASES PART OF THE OFFICIAL FORM'S PRINTED ELIGIBILITY TEXT ON THE PAGE THE ROUTE TURNS ON. On packet page 3, CR-65's page-3 check box named '2' carries the source /Rect [45.317, 623.137, 56.5341, 608.779] — the only inverted (y1 > y2) widget rectangle in either pinned source, out of 229. PDF requires /Rect to be normalized before use; the flatten did not normalize it and emitted 'q 1 0 0 1 45.317 623.137 cm /FlatWidget-5373953175 Do Q', taking the rectangle's TOP as its origin. The appearance stream is '1 g 0 0 11.2171 14.3578 re f' — a white filled rectangle — so it is painted 14.358 pt, exactly one box height, above the box it belongs to, over the running text of eligibility ground (1). The other six page-3 check boxes are each placed at their own /Rect exactly.",
+          "howProved": "Rendered delivered page 3 and pinned-source CR-65 page 3 at 300 dpi with pdftoppm and compared the covered region (45.317, 623.137)-(56.534, 637.495). The source carries 267 dark pixels there; the delivered carries 19. Read at the glyph: the source prints 'expired or the prosecuting agency confirms that the charge or charges will not be refiled.' and the delivered page has the 'x' and 'p' of 'expired' gouged out by the white fill. Ground (2)'s own box, at (45.317, 608.779)-(56.534, 623.137), has no appearance placed at it at all.",
+          "presentIn": "both fixtures — /FlatWidget-5373953175 is placed at y0 623.137 in canonical.pdf and in boundary.pdf alike",
+          "whyNoCounterSeesIt": "The stray appearance draws no glyphs, so nonWhitespaceGlyphsOutsideMeasuredWriteBoxes is honestly zero with the defect present. Its stream is byte-identical to the form's own /AP stream, so the stroke-only source accounting returns MATCHED. Both tools say so themselves: this is byte classification, not a raster, and over-suppression — ink the official form itself draws that something removed — is visible only in a directional raster difference against a render of the pinned source. That difference is what found it."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Counted against the registry's own conditions rather than by impression. AL.memo.json (sha256 7d484d636a1612c8a6c4648d1f070e1a21d2e3c0a0255afadd7780949e353391) track al-felony-dwop declares four selfHelpStopConditions. participant-instructions.md carries a 'Stop and get help' section and all four appear in it verbatim: prosecutor or victim objection; the court sets a hearing; whether a prior offence is a 'minor traffic violation' is unclear; immigration, licensing or firearm consequences. 4 of 4 reached the delivered guide, and the section names an Alabama lawyer as the person to speak with."
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The guide's 'Where to file' line is verbatim from the memo's rules.filing: 'File CR-65 in the criminal division of the circuit court in the county where the charges were filed.' The memo's destination block agrees ('Criminal division of the circuit court, county where the charges were filed'). The delivered bytes are consistent with it: the C-10 caption ticks 'STATE OF ALABAMA' rather than 'MUNICIPALITY OF', which is the state-court branch, and 'IN THE' reads 'Circuit'. No clerk's practice, address, division name or filing window is invented anywhere in the guide."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The guide quotes the memo's rules.service verbatim ('A certificate of service page per entity served'), delivers CR-65 page 7, which is the form's own Certificate of Service, and refuses to name a service method: 'The held record does not state which service method Alabama requires for this petition, and this packet will not guess one. Ask the circuit clerk in the filing county which method that court accepts before you serve.' Nothing on page 7 is prefilled — service date, agent, address, telephone, method and the server's own name are all blank, which is correct because service has not happened.",
+          "observation": "The guide names three recipients — district attorney, the law-enforcement agency holding the records, and the clerk of the court for the filing county — which the memo does not enumerate. Each is on CR-65 page 7's own printed recipient list ('District Attorney', 'Clerk of the Circuit Court of the Jurisdiction where the Petition is filed', and the agency boxes), so this is read off the form rather than invented, but its provenance is the form and not the controlling record."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "FAIL",
+          "finding": "THREE MANDATORY SELECTIONS ARE UNMADE AND THE GUIDE NEVER NAMES ANY OF THEM, AND TWO CONDITIONAL SUB-BLANKS ARE DIRECTED UNCONDITIONALLY. (a) CR-65 page 6 prints '(3) (Select one of the following)' under 'I swear or affirm, under the penalty of perjury' — 'that I have not previously applied for an expungement in this or any other jurisdiction' / 'that I have previously filed for an expungement'. Neither Check Box2.0 nor Check Box2.1 is ticked in either fixture, so a sworn selection is delivered unmade. (b) CR-65 page 5 prints 'Petition must include either item 1 or item 2; All Petitions must include item 3' over Check Box1.0/1.1/1.2. None is ticked. The route may not make either election for the participant, and the field map refuses all five correctly as 'A genuine participant election not determined by this route' — but that refusal class never reaches the guide. participant-instructions.md contains zero occurrences of 'Select one', 'previously applied', 'previously filed', 'pro se', 'swear' or 'perjury' (case-insensitive). (c) WORSE, the guide's 'Blanks you must fill in' list opens 'Fill every one on both the canonical and the boundary-style packet before filing' and then lists 'County where any previous expungement was filed' and 'Court case number of any previous expungement' — the two blanks that exist only on the branch a petitioner who has never filed before is not on. A petitioner following the guide as written is told to fill in a prior expungement they do not have, on the page they swear to under penalty of perjury.",
+          "alsoUndisclosed": "CR-65 page 7's blanks are all refused as 'signature or date field; never prefilled', including its Court Case Number, the server's printed name, the agency name and the telephone number. That reason routes them away from the 'Blanks you must fill in' list, so the certificate of service's case number is never mentioned anywhere in the guide. C-10 page 1's third request line — 'unable to pay the expungement petition administrative filing fee' — is the line this route's fee waiver needs and is likewise unticked and unnamed.",
+          "standingFinding": "This is the same obligation VF09 failed at base ba5dc7e5a and VF02 failed at fbd22ae2c. It is re-measured here on the current bytes f5b365db/0fecc946 and it is still present; the page-5 and page-7 limbs are added by this read."
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "FAIL",
+          "finding": "A PUBLISHED ZERO WHERE A MEASUREMENT EXISTED, which is defect 'a-published-zero-where-a-measurement-existed' in DEFECTS_NO_COUNTER_CAN_SEE.json. reports/actual-writes.json publishes, for BOTH fixtures, 'addedGlyphsReadFromOutputBytes': 0 beside 'flattenedWidgetAppearancesReadFromOutputBytes': 31. The second is a real reading of the delivered bytes; the first is zero and the same bytes read 403 added glyphs (387 non-whitespace) in canonical and 653 (627 non-whitespace) in boundary, measured with the factory's own classify-flattened-widget-appearances.mjs. The same file publishes 'nonWhitespaceGlyphsOutsideMeasuredWriteBoxes': 0, which is arithmetically honest but is not the proof it reads as: the geometry defect this lane found draws no glyphs at all.",
+          "whatIsCorrect": "The artifact set itself is sound. Both fixtures exist at the declared paths, both digests recompute to the values in the queue row and the raster receipt, page counts are 11 and 11 as declared, rendered-artifacts.json names both documents with their component kinds, and build-summary.json honestly records selfVerified: false and visualDefects: null rather than a fabricated zero."
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Read from each delivered page's own printed page number and form number rather than from the assembly order. Packet pages 1-8 are CR-65 Rev. 10/2024 pages 1 through 8 in order, page 7 printing '(Certificate of Service)' and page 8 '(Instructions for Petitioner)'; packet pages 9-11 are C-10-CRIMINAL Rev. 5/2024 'Page 1 of 3', page 2 and the ORDER page in order. Primary filing precedes the certificate of service, which precedes the fee-waiver affidavit, matching the manifest's component order 1, 2, 3."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "MEASURED INDEPENDENTLY FROM THE DELIVERED CONTENT STREAMS, NOT FROM THE REFUSAL RECORD. Of 216 flattened widget appearances per fixture, exactly two carry a mark, and both are the two the field map declares. CR-65 page 3 /FlatWidget-1836459056, placed at (45.317, 517.46)-(55.637, 531.818), draws a ZapfDingbats (4) with '/ZaDb 7.4195 Tf 2.0214 4.6675 Td (4) Tj' inside its own BBox [0 0 10.3197 14.3578] with an identity /Matrix, and the cm translate equals that widget's own /Rect origin exactly. That widget is CR-65 page 3 check box '3' (field map: CR-65:Check Box10.3 <- route.selection), and the text printed beside it, read from the pinned source, is 'the charge was dismissed without prejudice more than five years ago, has not been refiled, and I have not been convicted of any other felony or misdemeanor crime, any violation, or any traffic violation, excluding minor traffic violations, during the previous five years.' That is the ground Ala. Code § 15-27-2(a)(7) route al-felony-dwop asserts, on the felony page — page 2 carries the misdemeanor list and page 3 the felony list. The extracted text confirms the mark lands between the form's own printed brackets: '[ ✔ ] the charge was dismissed without prejudice...'. The second mark, C-10 page 1 /FlatWidget-9032007329 (CR-65 field map: C-10-CRIMINAL:Check Box1.0 <- route.court_caption), is the 'STATE OF ALABAMA' caption box, a caption selection and not a ground, and it is the correct branch for a circuit-court route. No other eligibility ground on any page is ticked.",
+          "crossFamilyCheck": "Independently confirmed by classifying the siblings' delivered bytes with the same tool: al-pardoned-felony-set and al-felony-nonconviction-90-set each carry exactly one mark, the C-10 caption box, and tick no eligibility ground at all. al-misd-dwop-set ticks 2, al-diversion-set 2, al-misd-nonconviction-90-set 5 and al-misd-conviction-set 8. This family is the one that ticks a felony non-conviction ground.",
+          "observationOnTheGroundItself": "AL.memo.json's own unresolvedQuestions carry, for this track, 'The meaning of \"minor traffic violations\" remains a legal-design blocker wherever that definition changes eligibility or the clock' with impact build_blocker and affectedElement eligibility_branch, and a second entry with impact release_blocker on governing_mechanism. That carve-out sits inside the sentence this packet ticks. The guide surfaces it as a stop condition and its step 3 directs the participant to confirm every part of the ground against the certified record and to stop if the record does not establish it, so the packet does not conceal the blocker; but the registry carries an open build blocker on the eligibility branch while the queue carries the family at RASTER_PASS / VERIFY_PENDING. Both records are named here rather than reconciled."
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "MEASURED, AND THE ANSWER IS THAT NO REPEATING ROW SET EXISTS TO MISINDEX. CR-65 carries no charge table: page 5's printed items are '1. Criminal charge or conviction from the record to be considered', '2. Grounds for, or reasons why, you seek expungement' and '3. The agency or department that made the arrest', each with two ruled continuation lines whose AcroForm names end …1 and …2. Those suffixes are line indices within one printed item, not row numbers — verified by reading the printed item numbers off the page and the widget /Rect y-positions off the source, which run 501.3/473.5, 413.3/385.0 and 324.2/297.4, two lines per item. All eight lines are blank and all eight carry the same refusal reason. C-10's income, expense and asset schedule is a fixed itemised list rather than a repeating set, every line is classified, and every line is blank — so no value can land on a neighbouring line, which is the failure mode the AcroForm-index defect describes."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The guide states the fee only as the record states it, verbatim: 'Filing fee: \"$500, or C-10-Criminal where indigency is claimed.\"' and 'Fee waiver: \"C-10-Criminal, Affidavit of Substantial Hardship and Order.\"' Both match AL.memo.json rules.fees and rules.feeWaiver exactly. No fee, waiver standard, indigency threshold or clerk's practice is invented. The waiver instrument is delivered as packet pages 9-11 and its caption is prefilled with case facts only; its financial schedule is left entirely blank because the platform holds no financial fact, and its ORDER page is left entirely to the judge — 'the judge, not you, completes its order page' in the guide, and no ink on that page in the bytes.",
+          "observation": "The memo marks fee_waiver 'conditional — Where indigency is claimed', and the packet ships it to every petitioner on this route. That is defensible as an included option and the guide frames it as one ('If you are claiming indigency, complete the C-10-CRIMINAL affidavit included in this packet'), but the packet also ticks the C-10's court caption for every petitioner, so a petitioner not claiming indigency files a captioned hardship affidavit unless they remove it. The guide does not tell them they may."
+        }
+      },
+      "crossChecks": {
+        "DEFECTS_NO_COUNTER_CAN_SEE": "All eight checked deliberately. 'map-honest-writes-not' — not present: all 31 declared writes appear in the delivered bytes and no undeclared value does; the aliases failure mode has no analogue here because CR-65 splits the name across three separate widgets and each carries its own part. 'a-participant-fact-written-into-a-field-about-someone-else' — not present: C-10 'Spouse's Full Name (if married)' and 'Employer's Telephone Number' are blank. 'acroform-index-is-not-the-printed-row' — not present; see REPEATING_ROWS. 'extracted-line-order-is-not-column-order' — checked by x-position on the C-10 caption; not present. 'internal-record-text-printed-on-a-filing' — not present; scanned. 'a-published-zero-where-a-measurement-existed' — PRESENT; scored under ARTIFACTS. 'a-geometry-counter-with-no-teeth' — PRESENT in the sense the entry describes; scored under CLIPPING_AND_OVERLAP. 'two-families-one-filing' — this family is the survivor of that refusal, and its own near-clone relationship to both refused families is recorded under ROUTE_IDENTITY.",
+        "CLONED_FAMILY_PACKETS": "al-felony-dwop-set appears nowhere in that record, under clonedDeliverables, nearClones or sharedDocuments. Measured here: its delivered text differs from both refused siblings' by exactly one line out of an 11-page filing.",
+        "REFUSED_34418960259_AL_IDENTICAL_PETITIONS": "Every measurement in that record that bears on this family was re-derived independently and each held: 216 flattened checkbox widgets, exactly one CR-65 eligibility ground ticked on page 3 at FlatWidget-1836459056, the C-10 'STATE OF ALABAMA' caption box as the only other mark, the two refused siblings ticking no ground at all, and canonical and boundary being genuinely different documents. Nothing in it is contradicted."
+      },
+      "recordsThatDisagree": [
+        {
+          "what": "packetCommitSha versus renderedCommitSha in the family's RASTER_QUEUE.json row",
+          "queueRowSays": "packetCommitSha 90eab8052bdc7d73dcbe0a91b3e1694d65bbd7e2",
+          "receiptSays": "renderedCommitSha deead9f250e606887d80837a2f4cb7423d7afa49",
+          "whatThisLaneMeasuredAgainst": "the delivered bytes themselves. Both fixture digests recompute to exactly the values both records bind, so the two commit identifiers do not disagree about the bytes and the read is unaffected. Recorded rather than reconciled."
+        },
+        {
+          "what": "AL.memo.json unresolvedQuestions versus the family's queue state",
+          "registrySays": "an open build_blocker on eligibility_branch and an open release_blocker on governing_mechanism for track al-felony-dwop",
+          "queueSays": "RASTER_PASS, VERIFY_PENDING",
+          "whatThisLaneMeasuredAgainst": "the memo, as the controlling record for the route's legal content. Named, not reconciled; it does not change this verdict, which fails on other grounds."
+        },
+        {
+          "what": "VF09's SOURCE_IDENTITY reading",
+          "priorRowSays": "NOT_MEASURABLE_HERE, CR-65 'is in NO custody this container mounts'",
+          "measuredHere": "CR-65 c2e0c7bd... resolves by content digest at private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf. A container fact that has changed, not a packet fact."
+        }
+      ],
+      "evidenceRead": [
+        "data/rcap-all50/overlays/census-v1/al/al-felony-dwop-set--official-pdf-fill/fixtures/canonical.pdf",
+        "data/rcap-all50/overlays/census-v1/al/al-felony-dwop-set--official-pdf-fill/fixtures/boundary.pdf",
+        "data/rcap-all50/overlays/census-v1/al/al-felony-dwop-set--official-pdf-fill/production-field-map.json",
+        "data/rcap-all50/overlays/census-v1/al/al-felony-dwop-set--official-pdf-fill/participant-instructions.md",
+        "data/rcap-all50/overlays/census-v1/al/al-felony-dwop-set--official-pdf-fill/product-wiring.json",
+        "data/rcap-all50/overlays/census-v1/al/al-felony-dwop-set--official-pdf-fill/source-receipt.json",
+        "data/rcap-all50/overlays/census-v1/al/al-felony-dwop-set--official-pdf-fill/reports/actual-writes.json",
+        "data/rcap-all50/overlays/census-v1/al/al-felony-dwop-set--official-pdf-fill/reports/build-summary.json",
+        "data/rcap-all50/overlays/census-v1/al/al-felony-dwop-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf",
+        "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AL/02_PACKET_FORMS/AL__FORM__C-10-CRIMINAL__affidavit-of-substantial-hardship-and-order__REV-2024-05__EN.pdf",
+        "data/record-clearing/legal-design-intake/AL.memo.json",
+        "data/record-clearing/legal-design-packet-set-manifests.json",
+        "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+        "data/rcap-grade-a/packet-factory-24h/raster-runs/REFUSED_34418960259_AL_IDENTICAL_PETITIONS.json",
+        "data/rcap-grade-a/packet-factory-24h/DEFECTS_NO_COUNTER_CAN_SEE.json",
+        "data/rcap-grade-a/packet-factory-24h/CLONED_FAMILY_PACKETS.json",
+        "data/rcap-grade-a/packet-factory-24h/BORDER_COHORT_REMEDIATION.json",
+        "the delivered canonical.pdf of al-pardoned-felony-set, al-felony-nonconviction-90-set, al-misd-dwop-set, al-misd-conviction-set, al-misd-nonconviction-90-set and al-diversion-set, read only to answer the clone and single-ground questions"
+      ],
+      "toolsRun": [
+        "sha256sum on both fixtures and on all 1298 PDFs under the mounted custodies",
+        "scripts/grade-a-packet-factory-24h/classify-flattened-widget-appearances.mjs on both fixtures and on six sibling fixtures",
+        "the source-accounting comparison of account-stroke-only-against-pinned-sources.mjs, re-run read-only because that script writes a central ledger this lane must not edit",
+        "pikepdf 10.12.0 for widget /Rect, /AP, /BBox, /Matrix and page content-stream reads",
+        "pdftotext 300-dpi-independent text extraction, with -x/-y/-W/-H region reads for label-to-widget matching",
+        "pdftoppm at 300 dpi for the directional raster difference against the pinned source"
+      ],
+      "visualDefects": [
+        {
+          "page": 3,
+          "document": "CR-65",
+          "appearance": "/FlatWidget-5373953175",
+          "what": "the white Off appearance of CR-65 page-3 check box '2' is painted 14.358 pt above its own widget rectangle, over the printed text of eligibility ground (1), erasing part of the word 'expired'",
+          "cause": "the source /Rect [45.317, 623.137, 56.5341, 608.779] is inverted and was not normalized before being used as the placement origin; it is the only inverted widget rectangle in either pinned source",
+          "measuredHow": "300 dpi pdftoppm render of delivered page 3 against the pinned source's page 3; 267 dark pixels in the source region, 19 in the delivered",
+          "presentIn": ["canonical.pdf", "boundary.pdf"]
+        }
+      ],
+      "failedObligationNames": ["CLIPPING_AND_OVERLAP", "REQUIRED_BEFORE_FILING", "ARTIFACTS"],
+      "grantsNothing": "This row is a measurement of delivered bytes. It approves no output, promotes no route, opens no commercial path, creates no fulfillment record and authorizes no repair beyond the three named obligations."
+    }
+  ]
+}

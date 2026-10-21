@@ -1,0 +1,87 @@
+{
+  "schemaVersion": "rcap-field-classification-policy/v2-d0",
+  "factoryVersion": "d0-remediated-v1",
+  "basis": "scripts/rcap-official-forms/rcap-field-semantics.mjs — typed fail-closed binder, unmodified",
+  "everyFieldStartsProtected": true,
+  "writableRequires": [
+    "no protect rule matches the field name or its measured label",
+    "the PDF control type is text or dropdown, or the anchor is a measured caption blank",
+    "the name or printed label matches exactly one allowlisted fact descriptor",
+    "the fact is one of the caption facts a court-issued document accepts",
+    "the resolved value matches the descriptor's declared type"
+  ],
+  "documentAcceptsFill": true,
+  "captionOnly": true,
+  "ownership": "court_issued_caption_only",
+  "ownershipDetermination": "JDF 611 Guide to Sealing Conviction Records (district or county court case) (R: August 7, 2024) lists this document among the forms the petitioner files and says how much of it to complete: \"JDF 614 Notice (Just do §§ A-C)\". The caption is the petitioner's and everything after it is the court's, so only caption facts bind and every other field is refused by role.",
+  "explicitMappings": {},
+  "reviewedWithholdings": [
+    {
+      "field": "Court Address",
+      "rationale": "the mailing address of the court handling the case, which the platform does not hold; the Judicial Department publishes each courthouse address"
+    },
+    {
+      "field": "Group_CourtType",
+      "rationale": "the participant ticks the court type of the existing criminal case; the platform does not decide it"
+    }
+  ],
+  "courtOwnedAfterTheCaption": [
+    {
+      "field": "Division",
+      "section": "C. Case Details",
+      "why": "court-use caption field; the court assigns the division"
+    },
+    {
+      "field": "Courtroom",
+      "section": "C. Case Details",
+      "why": "court-use caption field; the court assigns the courtroom"
+    },
+    {
+      "field": "1.1",
+      "section": "1. Hearing Scheduled",
+      "why": "the court decides whether to set a hearing and supplies its date"
+    },
+    {
+      "field": "1.3",
+      "section": "1. Hearing Scheduled",
+      "why": "the court decides whether attendance is required"
+    },
+    {
+      "field": "1.2",
+      "section": "1. Hearing Scheduled",
+      "why": "the court decides whether to set a hearing and supplies its time"
+    },
+    {
+      "field": "2.1",
+      "section": "2. Decision",
+      "why": "the court records whether the district attorney objects"
+    },
+    {
+      "field": "2.2",
+      "section": "2. Decision",
+      "why": "the court records the victim-rights finding"
+    },
+    {
+      "field": "2.3",
+      "section": "2. Decision",
+      "why": "the court records the statutory hearing finding"
+    },
+    {
+      "field": "2.4",
+      "section": "2. Decision",
+      "why": "the court sets this deadline"
+    },
+    {
+      "field": "Sig_date",
+      "section": "3. So Ordered",
+      "why": "the court dates its own order"
+    },
+    {
+      "field": "Sig-by",
+      "section": "3. So Ordered",
+      "why": "the judicial officer signs the order"
+    }
+  ],
+  "protectionsWeakened": false,
+  "note": "The shared binder was not edited and no protection was weakened. captionOnly refuses every non-caption fact by construction, and every field after the caption is refused by role before the binder is asked."
+}

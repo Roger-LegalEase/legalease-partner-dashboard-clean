@@ -1,0 +1,24 @@
+{
+  "schemaVersion": "rcap-reviewed-withholdings/v1",
+  "basis": "the field is named with a fact its own name does not resolve to, so D0's binder fails closed with explicit_mapping_conflicts_with_field_name; no protection was weakened and the shared binder was not edited",
+  "count": 4,
+  "withheld": [
+    {
+      "field": "Court Address",
+      "rationale": "The caption block's court address: the address of the court the motion is filed in, not the participant's. The binder reaches it through the street-address descriptor's general '\\baddress\\b' alternative."
+    },
+    {
+      "field": "CoS_Date",
+      "rationale": "Certificate-of-service block. These name the party the filing is served on — in these forms the prosecuting attorney — and never the participant."
+    },
+    {
+      "field": "CoS_Mail",
+      "rationale": "Certificate-of-service block. These name the party the filing is served on — in these forms the prosecuting attorney — and never the participant."
+    },
+    {
+      "field": "CoS_Other",
+      "rationale": "Certificate-of-service block. These name the party the filing is served on — in these forms the prosecuting attorney — and never the participant."
+    }
+  ],
+  "exemptions": []
+}

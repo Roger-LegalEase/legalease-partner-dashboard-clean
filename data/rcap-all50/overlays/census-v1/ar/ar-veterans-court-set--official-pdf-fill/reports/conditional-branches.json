@@ -1,0 +1,40 @@
+{
+  "schemaVersion": "rcap-ar-veterans-conditional-branches/v1",
+  "familyId": "ar-veterans-court-set",
+  "preAdjudication": {
+    "status": "SUPPORTED_BOUNDED_BRANCH",
+    "conditions": [
+      "deferred proceedings",
+      "no entered judgment of guilt",
+      "successful Veterans Treatment Court completion",
+      "prosecuting attorney recommendation for dismissal and sealing",
+      "specialty-court judge considers past criminal history and determines appropriateness"
+    ]
+  },
+  "crossCourt": {
+    "status": "CONDITIONAL_HANDOFF",
+    "authority": "A.C.A. § 16-90-1602(d)",
+    "conditions": [
+      "successful specialty-court completion",
+      "sentence entered by the other court completed",
+      "same-level other court agrees sealing is appropriate",
+      "other court judge signs the ACIC uniform sealing order"
+    ],
+    "sameLevelRule": "circuit specialty-court judge to circuit conviction; district specialty-court judge to district conviction",
+    "oldFormShortcutsRejected": [
+      "target-group checkbox",
+      "obsolete exclusion list",
+      "generic concurrence language"
+    ]
+  },
+  "postAdjudication": {
+    "status": "HANDOFF_REQUIRED",
+    "action": "stop generated-form branch and identify the supported current instrument for the participant-specific record; do not deny substantive relief because this held pair is limited to its deferred/no-judgment branch"
+  },
+  "actorProtection": {
+    "prosecutorRecommendation": "blank until prosecutor supplies it",
+    "judgeFindings": "blank until specialty-court judge supplies them",
+    "service": "participant serves county prosecutor within 3 days; clerk distributes certified order after entry",
+    "fee": "$0 uniform sealing-petition filing fee; no fee-waiver application solely for this petition"
+  }
+}

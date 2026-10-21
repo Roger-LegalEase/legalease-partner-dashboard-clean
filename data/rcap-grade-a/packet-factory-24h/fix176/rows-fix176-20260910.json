@@ -1,0 +1,163 @@
+{
+  "schemaVersion": "rcap-verifier-rows/v2",
+  "lane": "FIX176",
+  "laneKind": "complex-execution-repair",
+  "isIndependentVerification": false,
+  "laneComplete": false,
+  "WIP": "FROZEN MID-DIAGNOSIS ON COORDINATOR INSTRUCTION. This file preserves measurements only. NOTHING WAS REPAIRED, NOTHING WAS BUILT, NOTHING WAS RELEASED. No file in either family directory and neither builder was modified: the worktree was byte-identical to its base when this row was written.",
+  "worktree": "/home/user/fixb-worktree",
+  "branch": "lane-fix176-20260910",
+  "repairedAtBase": "e3966692693a8b252524daf8eb4f49d40743593d",
+  "commits": [],
+  "builtAnything": false,
+  "repairsMade": 0,
+  "repairsMadeForADISPATCHEDFINDING": 0,
+  "packetsSelfVerified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "routesChanged": 0,
+  "verdictsSet": 0,
+  "receiptsIssued": 0,
+  "grantsReleased": "NONE. Both grants remain held by FIX176 on the ledger. claim.mjs --release was NOT run.",
+  "sharedManifestsTouched": "None. MASTER_QUEUE.json, RASTER_QUEUE.json, the completeness verifier and the completeness contract were READ and never modified. The claim ledger was not touched.",
+
+  "families": ["mn_petition_15218-set", "mn_petition_juvenile_as_adult-set"],
+
+  "reproducedTheDISPATCHEDREADING": {
+    "mn_petition_15218-set": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mn_petition_15218-set -> FAIL_ROUTE_SELECTION, 30/482 written, requiredOptionsMissing 2, every other counter 0.",
+    "mn_petition_juvenile_as_adult-set": "same command -> FAIL_ROUTE_SELECTION, 28/480 written, requiredOptionsMissing 2, every other counter 0.",
+    "theDENOMINATORMOVED": "387 -> 482 on the 15218 family. 482 - 387 = 95, which is exactly the number of selection controls that family declares, so commit ba57b99ce did put all 95 into the audit. 30 anchors + 357 withheld + 95 selection = 482. On the juvenile family 28 + 357 + 95 = 480."
+  },
+
+  "FINDING1_ITEM9_BOX1_CONTRADICTION": {
+    "settled": true,
+    "answer": "THE PACKET DOES TICK IT. The audit's ROUTE_OPTION_NOT_SELECTED is wrong and the field map is the defect, so the repair is to the map -- not to the filing.",
+    "howItWasMeasured": "An independent read of the delivered PDF bytes, not of any report the build wrote. canonical.pdf and boundary.pdf were loaded with pdf-lib, every content stream of the page was decoded, and every path-construction operator was replayed through the q/Q/cm stack so its operands land in page space. Every reading below is from that replay.",
+    "mn_petition_15218-set": {
+      "control": "p4-cb-y660-x90.4, EXP102 item 9 box 1, the Minn. Stat. Sec 152.18 discharge",
+      "boxGeometryFromTheFieldMap": "x0 91.99, y0 660, x1 100.85, y1 668.81",
+      "packetPage": "4 (EXP102 source page 4, per reports/rendered-artifacts.json pageManifest)",
+      "canonical.pdf": "TICKED. Two strokes forming an X inside the box: m(93.19,661.2) -> l(99.65,667.61) and m(93.19,667.61) -> l(99.65,661.20).",
+      "boundary.pdf": "TICKED. Identical two strokes at the same coordinates.",
+      "negativeControl": "The pinned source EXP102_Current-2.pdf, sha256 c98430f1a9c7a6d399b7d01de1ef2eee0df5f0a1a07e89a703b307977d7bf541, page 4, same box: 0 path-construction operators. The strokes are added by this build and are absent from the source, so this is a measurement of the packet and not of the form."
+    },
+    "mn_petition_juvenile_as_adult-set": {
+      "GRANTNAMEDTHEWRONGCONTROLONTHISFAMILY": "The dispatch names p4-cb-y660-x90.4 as finding 1 on BOTH families. On the juvenile family that is not the failing control. p4-cb-y660-x90.4 is correctly EMPTY there -- 0 path operators inside it in canonical.pdf -- because box 1 is the Sec 152.18 discharge, which is the sibling family's route. The failing control here is p4-cb-y572-x90.41, EXP102 item 9 BOX 2, 'You were certified or referenced for prosecution as an adult for a crime you committed when you were a juvenile', which is this packet's own statutory route.",
+      "control": "p4-cb-y572-x90.41",
+      "boxGeometryFromTheFieldMap": "x0 92, y0 572, x1 100.86, y1 580.81",
+      "canonical.pdf": "TICKED. m(93.2,573.2) -> l(99.66,579.61) and m(93.2,579.61) -> l(99.66,573.20).",
+      "boundary.pdf": "TICKED. Identical two strokes at the same coordinates.",
+      "box1OnThisFamily": "EMPTY, 0 path operators, which is correct for this route."
+    },
+    "soWHATISTHEMAPSDEFECT": "The field-map row for the ticked control carries marked: true, routeDetermined: true, approvedDisposition: 'ROUTE_ELECTION_MADE' and completenessDisposition: null, and it carries NO `disposition` key at all. readFieldRows decides write-versus-blank on exactly one test -- String(c.disposition ?? '').toLowerCase().startsWith('select') -- so a row that names its selectedness in `marked` and `approvedDisposition` and says nothing in `disposition` falls to the blank side, and a blank that declares routeDetermined true is ROUTE_OPTION_NOT_SELECTED by the contract's own rule. The map states the election in its own vocabulary and is silent in the one key the shared audit reads.",
+    "andTHEMAPCONTRADICTSITSELF": "The same control is published TWICE in production-field-map.json. The marked ones appear in writableAnchors (where the reader counts them as WRITES) and again in selectionControls (where the reader counts them as BLANKS). So one array of the map says the box is written and the other says nothing, and the audit believes the second. The 93 unmarked controls are likewise published twice, in withheld and again in selectionControls; both copies classify identically so no counter moves, but the denominator is inflated by 95 on each family. Measured per document -- 15218: EXP102 1 of 27 controls in writableAnchors and 26 in withheld, EXP106 36 in withheld, FEE102 1 in writableAnchors and 31 in withheld. Juvenile: identical counts.",
+    "theREPAIRTHATWASABOUTTOBEMADE": "Emit `disposition` on every selection-control row of production-field-map.json in both builders: 'selected_route_option' where marked is true, and otherwise the row's existing completenessDisposition. 'selected_route_option' is the corpus's plurality name for a route election the build made (53 rows across other families use it, against 35 'selected_by_route' and 10 'selected_by_the_route'), and it is a token the shared reader recognises. NOT MADE -- this is a statement of intent, not of work done."
+  },
+
+  "FINDING2_FEE102_CHOOSE_ONE": {
+    "settled": true,
+    "control": "p1-cb-y350-x108, FEE102 item 2, 'I am including my pleadings with this Affidavit', on both families",
+    "measuredFromTheBYTES": "TICKED on both families and in both fixtures. 15218 canonical.pdf packet page 12 (FEE102 source page 1), box x0 108.88 y0 350 x1 116.57 y1 357.69: m(110.08,351.2) -> l(115.37,356.49) and m(110.08,356.49) -> l(115.37,351.20). Juvenile canonical.pdf page 12: identical two strokes at identical coordinates. Negative control: the pinned FEE102 source, sha256 b8415cddaa06a9c76cf2c4949aee36efe22e3b0ba98783a74063094150c72da8, page 1, same box: 0 path operators.",
+    "doesTheCASEDETERMINEDEXCEPTIONAPPLY": "NO, and invoking it would have been a false repair.",
+    "why": "scripts/rcap-packet-completeness/verify-case-determined-exception.mjs was read before deciding. The exception resolves a control to REQUIRED_BEFORE_FILING -- a blank the participant must fill before filing, disclosed as such in participant-instructions.md. This control is not blank. The packet has already made the election and drawn it, and the delivered bytes prove it. Declaring a ticked box required-before-filing would publish a record that contradicts the artifact, and it would trade requiredOptionsMissing for a disclosure obligation on a blank that does not exist -- which is the trade completeness-contract.mjs warns about in terms ('or the family would trade requiredOptionsMissing for unclassifiedBlanks and call it a repair'). The exception exists for a cell the route cannot decide and that must therefore be LEFT to the participant; that is not this cell.",
+    "isTHEDECLAREDREASONSTILLRIGHT": "Yes, and it is the reason the box is TICKED rather than a reason it is empty. The argument in the row -- that this packet contains the petition, the proof of service and the proposed order, so which branch of FEE102 item 2 is true is a fact about the packet rather than a choice, and that marking both branches would swear to two contradictory statements on one affidavit under Minn. Stat. Sec 563.01 -- is the justification for the build having made the election. The other branch is correctly left empty. Finding 2 therefore has the same disposition as finding 1: the map is silent in the key the audit reads, and the repair is the same one-key repair. NOT MADE."
+  },
+
+  "FINDING3_TEN_NULL_REASONS_JUVENILE_ONLY": {
+    "reproduced": true,
+    "what": "mn_petition_juvenile_as_adult-set production-field-map.json carries ten EXP102 selection controls with approvedDisposition NOT_APPLICABLE_ON_THIS_ROUTE and reason: null. Measured by tabulating every selection control in both families: the juvenile family's ten EXP102 not-applicable rows have no reason, where the 15218 family's ten carry the distinct reasons FIX172 wrote. All other juvenile rows carry a reason.",
+    "whereItComesFrom": "scripts/build-census-v1-mn_petition_juvenile_as_adult-set.mjs, decideSelection(), the branch for control.page === 4 || (page 5 and /You were convicted|does not qualify/). It returns approvedDisposition NOT_APPLICABLE_ON_THIS_ROUTE with a routeConditionThatMakesItInapplicable and NO reason key, and selectionRow() then sets reason: decision.reason ?? decision.why ?? null.",
+    "andTHEBOILERPLATE": "All ten share ONE routeConditionThatMakesItInapplicable, the same sweeping sentence repeated ten times. That is the defect the dispatch names, arriving through the one field the row does carry.",
+    "whichTENTHEYARE": "Item 9 prints eleven grounds. This packet ticks box 2 (juvenile certification), so its ten unused grounds are box 1 (the Sec 152.18 discharge -- the sibling family's route) and boxes 3 through 11. That is a DIFFERENT ten from the sibling's, whose unused set is boxes 2 through 11.",
+    "sourceForTHEREASONSWASREADANDNOTYETWRITTEN": "The printed face of EXP102 Rev 7/24 pages 4 and 5 was read back from the exact binary the family binds, sha256 c98430f1a9c7a6d399b7d01de1ef2eee0df5f0a1a07e89a703b307977d7bf541, through the same shared anchor-capture path the census uses (extractTextItems + groupIntoLines + normalizeHarvestedText). All eleven grounds and their bracketed routed-order instructions were captured with their printed baselines. NO REASON TEXT WAS WRITTEN. The ten reasons do not exist yet.",
+    "sweepSentence": "NOT YET CHECKED. participant-instructions.md of the juvenile family was not searched for 'Every other box in this packet is empty and is yours' or a sentence like it. This is an open item."
+  },
+
+  "determinismControlBeforeEditing": {
+    "ranBeforeAnyEdit": true,
+    "mn_petition_15218-set": {
+      "command": "node scripts/build-census-v1-mn_petition_15218-set.mjs",
+      "exit": 0,
+      "filesInTheFamilyDirectory": 16,
+      "reproducedByteForByte": 15,
+      "didNotReproduce": ["product-wiring.json"],
+      "VF61andFIX172REPORTOFNONIDEMPOTENCEREPRODUCES": "YES. The rebuild adds binding.filingInstructions and moves binding.acceptanceReceipt to after binding.lastIndependentVerification. Committed sha256 3139dbba99582e1ab39969c638d3ea3ca2f8433ef74641bde3e9e1acf5b70964, rebuilt 9d8f944223133674843bcd4f893bf6e27752c18017d648f1e7465f78dc7fa6dc -- the identical rebuilt digest FIX172 reported. 15 top-level keys before and after, 0 lost, and every value present in both is byte-equal including the RASTER_PASS acceptance receipt.",
+      "ONECORRECTIONTOFIX172SNUMBERS": "FIX172 reports '15 top-level and 17 binding keys before and after'. Binding keys are 17 before and 18 after: the rebuild GAINS binding.filingInstructions, which FIX172's own prose says in the next sentence. Nothing is lost either way.",
+      "restoredWith": "git checkout on that one path, re-hashed back to 3139dbba9958...",
+      "productWiringWasNEVERCOMMITTED": true
+    },
+    "mn_petition_juvenile_as_adult-set": {
+      "command": "node scripts/build-census-v1-mn_petition_juvenile_as_adult-set.mjs",
+      "exit": 0,
+      "filesInTheFamilyDirectory": 15,
+      "reproducedByteForByte": 13,
+      "didNotReproduce": ["product-wiring.json", "field-census.census-v1.json"],
+      "ITDOESNOTBEHAVETHESAMEANDITISWORSE": "The juvenile family is non-idempotent on TWO files, and its product-wiring rebuild LOSES A GOVERNANCE KEY rather than merely reordering.",
+      "productWiring": {
+        "committedSha256": "12389d77feaf07c2370e48484ae2357c95752604fcf89bf3b8ee2ae0b009ca49",
+        "rebuiltSha256": "e9de1c40eafe857cf27e8771612ff325f3c4f1e124410812eb399c109f86d40e",
+        "bindingKeysLOST": ["acceptanceReceiptWithdrawn"],
+        "bindingKeysGAINED": ["filingInstructions"],
+        "whyTHATMATTERS": "binding.acceptanceReceiptWithdrawn is the withdrawal record for an earlier RASTER_PASS receipt (workflowRunId 34413372916, bound to canonical sha256 9a2680a8a4b0994ad8f3a8e979b8b85eca2bbfaa37391cd904b36182dd788fb5, replaced by ccd5f00f...). It is kept as history precisely so a superseded receipt is not carried forward as though it still applied. A rebuild erases it. Any lane that rebuilds this family and commits product-wiring.json destroys that history.",
+        "valueALSOCHANGED": "binding.sourceVersion for official-form:FEE102 upgrades its tier from 'exact_form_number' to 'exact_content_hash'. MASTER_QUEUE.json records exact_form_number for that source, resolved by form number against the committed index. The rebuild would publish a stronger source claim than the queue holds.",
+        "restoredWith": "git checkout, never committed"
+      },
+      "fieldCensus": {
+        "committedSha256": "4bc40793c140812021cce47f81e63b0fc98a130dbced79bc18e266daa24454b8",
+        "rebuiltSha256": "8179f55fbfb2d5d605ae39a08b887baacda4968d178542797779c93ebae0081c",
+        "whatMoved": "All 95 selectionControls change glyphAdvance: EXP102 and EXP106 from 12 to 0, FEE102 from 10.98 to an integer. One blank changes printedInkFractionOnTheRule from 0.4 to 0.23 (documents[0].blanks[41], p3-y385.6-x72). Nothing else in the census moves, and both fixture PDFs reproduce byte for byte.",
+        "cause": "Commit e258e47a0 'Measure a drawn string with the font the page actually uses' corrected scripts/rcap-official-forms/rcap-pdf-anchor-capture.mjs, which had been giving every glyph of an unidentified base-14 face a uniform 500/1000 half-em. This family's census was last written at 63025cc0d, which does NOT contain e258e47a0. So the COMMITTED census publishes the fabricated half-em (12 = 2 x 0.5 x 12pt) and the current extractor returns no per-character width at all.",
+        "andTHEBUILDERTURNSTHATABSENCEINTOZERO": "scripts/build-census-v1-mn_petition_juvenile_as_adult-set.mjs line 517: `const advance = (chars[i].w ?? 0) + (chars[i + 1].w ?? 0);`. An advance this build cannot measure is published as the number 0, which reads as a measurement of a zero-width ballot box. The sibling builder already fixed exactly this -- scripts/build-census-v1-mn_petition_15218-set.mjs carries the comment 'AN ADVANCE THIS BUILD CANNOT MEASURE IS null, NOT ZERO', computes `widths.every(Number.isFinite) ? sum : null`, publishes glyphAdvanceMeasured and whyGlyphAdvanceIsNull, and FAILS the build when a control has neither a readable outline nor a measurable advance. The 15218 family's committed census carries glyphAdvance null on all 95 controls and reproduces byte for byte.",
+        "consequenceForTHISLANE": "Any repair to this family requires a rebuild, and a rebuild as the builder stands would publish 95 zeros. Porting the sibling's null-not-zero fix to this builder was going to be part of the repair. NOT DONE.",
+        "restoredWith": "git checkout, never committed"
+      }
+    },
+    "gitStatusAfterwards": "clean -- `git status --porcelain` empty, and `sha256sum -c` against the pinned pre-edit lists passes on every file of both families and on both builders"
+  },
+
+  "howTheOUTPUTWASPROTECTEDBEFORERUNNINGANYTHING": "Both builders were read for a delete-first pattern before either was run. NEITHER contains rmSync, rimraf or any directory removal -- `grep -n rmSync` over both returns nothing and exits 1 -- so each only mkdirSync({recursive:true}) and writes per file, and a failed build leaves the previous output intact. That was checked by reading, not assumed. A full copy of both family directories and both builders was taken to the scratchpad first anyway, and `git checkout` remained the primary restore path.",
+
+  "fixtureDigests": {
+    "note": "Before-digests only. No repair was made, so there is no after. Both families were re-verified byte-identical to these values at freeze.",
+    "mn_petition_15218-set": {
+      "fixtures/canonical.pdf": "cbdea2b8edd3e7151fc376273ac59832c2dbbb0486ad04b7cb08073fce5b3346",
+      "fixtures/boundary.pdf": "9ef91d9772ab7307e8877fc52e4db7878b1c4c2a2bf0106d8d63ce10fa7deeda"
+    },
+    "mn_petition_juvenile_as_adult-set": {
+      "fixtures/canonical.pdf": "ccd5f00fd86da007606780b15cb45462e80187731404f07694ec015775bfefa3",
+      "fixtures/boundary.pdf": "c5f2e418ad4471ffb42d73f96d01daa4ce7821e9c9f10ce511883f2a4a080cc5"
+    },
+    "buildersAtFreeze": {
+      "scripts/build-census-v1-mn_petition_15218-set.mjs": "1795074bba02ea891374a09f2f9d2daaac49aa5b2e57f4eb6e452e77b23612e1",
+      "scripts/build-census-v1-mn_petition_juvenile_as_adult-set.mjs": "82ca05dce299855281c37d9ca2b64b9a3b8261aa6af843077fa78ab5816cc0c4"
+    }
+  },
+
+  "guards": {
+    "written": 0,
+    "provedByBreaking": 0,
+    "note": "No guard was written and none was proved. Every guard this repair owes is outstanding."
+  },
+
+  "whatWasNOTDone": [
+    "No repair to either builder and no repair to either family directory.",
+    "The ten juvenile reasons were not written. The source was read; the text does not exist.",
+    "The juvenile participant guide was not searched for the sweep sentence and was not amended. No box was named to the participant in the form's own words.",
+    "No selection-disclosure.json was generated for the juvenile family.",
+    "No guard was written, so nothing was proved by breaking and restoring.",
+    "Neither family was rebuilt with any repair applied, so no after-digests exist and no statement can be made about whether a repair would move a fixture.",
+    "The claim ledger was not touched and neither grant was released."
+  ],
+
+  "observedNotActedOn": [
+    "Every selection control is published twice in production-field-map.json on both families -- marked ones in writableAnchors and again in selectionControls, unmarked ones in withheld and again in selectionControls. Since commit ba57b99ce made the reader read selectionControls on this shape, that duplication inflates the audited denominator by 95 on each family (387 -> 482 and 385 -> 480). It moves no counter, because both copies of an unmarked control classify identically, but it means the two ROUTE_OPTION_NOT_SELECTED rows are duplicate copies of controls the same map already counts as writes.",
+    "The two Minnesota families are the ONLY families in the corpus whose field map uses the documents/anchors-and-withheld shape AND declares selectionControls: a sweep of every production-field-map.json under data/rcap-all50/overlays/census-v1 finds 190 selection controls on that shape, all with disposition absent, and 190 is exactly 95 + 95. This confirms the dispatch's claim that the reader's blindness was bounded to these two families.",
+    "scripts/build-census-v1-mn_petition_juvenile_as_adult-set.mjs lacks the ruleLiesBetween() test its sibling carries, which stops a large heading from being counted as ink on a second rule further below it. Not measured for effect on this family; noted only because it is a second place the juvenile builder lags the one FIX172 worked on."
+  ],
+
+  "grantsNothing": "This lane opened no commercial route, issued no receipt, set no verdict, changed no live RCAP route, promoted no build status, built nothing and self-verified nothing. Both families' state in MASTER_QUEUE.json is untouched.",
+
+  "independentReVerificationOwed": "NOT YET OWED -- nothing was repaired. When the repair is made it will be owed on both families to a lane that is neither FIX176, FIX172, VF61 nor FIX164. The byte readings in this file are re-derivable by any lane: load the fixture with pdf-lib, decode the page content streams, replay the path operators through the q/Q/cm stack, and look inside the box geometry the field map publishes.",
+
+  "rows": []
+}

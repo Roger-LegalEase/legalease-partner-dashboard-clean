@@ -1,0 +1,169 @@
+{
+  "schemaVersion": "rcap-fable-lane-return/v1",
+  "worker": "FABLE-VT14",
+  "lanes": ["VF01", "VF02", "VF03", "VF04"],
+  "laneKind": "independent-verification",
+  "branch": "fable/vt14",
+  "baseSha": "7fcfb7d40aafe7bd7350fc735ea09d16524cb757",
+  "baseShaNote": "Every row carries verifiedAtBase on the row itself, set to this commit, which is the base I actually read at. I did not restamp rows to a later commit. Where a determination amendment published after this base governed my scoring, I read it out of the later commit by name and said so in the row rather than moving my base.",
+  "independence": "I built, repaired and rendered none of these packets. Every finding below was measured in this container from committed bytes.",
+  "familiesAssigned": 7,
+  "familiesReturned": 7,
+  "claimDiscipline": {
+    "method": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert <LANE> <familyId> before reading any artifact of that family, one family at a time, and --release when finished.",
+    "assertsAttempted": 7,
+    "assertsGranted": 7,
+    "refusals": 0,
+    "reissueOrTransferUsed": false,
+    "allReleased": true,
+    "ledgerLeftInDiff": true
+  },
+  "environment": {
+    "corpus": "MOUNTED. scripts/rcap-corpus/bootstrap-private-corpus.sh resolved and extracted the pinned Master Library in this container, verifying archive SHA-256 a26e3ca7d52db4460e53c2eddd893109037702f5c8035f2c698a7e16bad84e89 and the corpus's own governance checksums (51 jurisdictions, 499 files, 329 PDFs). SOURCE_IDENTITY was therefore recomputed from source bytes for every family, not scored NOT_MEASURABLE_HERE.",
+    "sourcesRehashed": 24,
+    "sourcesMatchedExactly": 24,
+    "sourcesMismatched": 0,
+    "completenessVerifier": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id>, run per family in this container.",
+    "additionalMeasurement": "pdftotext -bbox word-geometry reads for clipping, run over 30 delivered fixtures plus pristine sources as controls; committed rasters read directly; SHA-256 recomputation over every declared artifact."
+  },
+  "verdicts": {
+    "ky_void_seal_controlled_substance-set": {
+      "lane": "VF01",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "rasterState": "RASTER_PASS",
+      "failed": [],
+      "unmeasured": [],
+      "whatIVerified": "The repair holds on every limb. One route key in the family and it is the canonical track-only key, printed on the rendered face; the dead track-pathway key that was the recorded failure occurs zero times. Filing destination, fee, waiver answer and service party are all stated in the instructions and on the paper, each traced back by me to the committed track registry entry for this track. AOC-334 rehashes exact at 252268 bytes. 12 of 12 declared digests recompute. Nine counters zero over a populated 39-disposition universe. Twenty required-before-filing labels reconcile exactly against twenty instruction rows, including two whose AcroForm names are misleading and which I checked against the raster rather than the map."
+    },
+    "ky_void_seal_marijuana_synthetic_salvia-set": {
+      "lane": "VF02",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "rasterState": "RASTER_PASS",
+      "failed": [],
+      "unmeasured": [],
+      "whatIVerified": "The same repair on the shared host, verified separately rather than carried over from the sibling. The thing worth reporting is that the repair did not copy text between the two: this packet's destination detail ends where the marijuana track's own registry entry ends and does not carry the controlled-substance entry's extra clause, and its statute is KRS 218A.276 throughout. Twenty labels reconcile, 12 of 12 digests recompute, nine counters zero over 39 dispositions."
+    },
+    "pa_pardon_expungement-set": {
+      "lane": "VF03",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "rasterState": "RASTER_PASS",
+      "failed": ["ROUTE_IDENTITY", "ARTIFACTS"],
+      "unmeasured": [],
+      "whatIVerified": "The Vermont contamination is gone and I searched for it four ways — recursive grep over every .json and .md, a binary-inclusive grep over the six PDFs, my own decompressed text-layer extraction of both delivered packets, and a targeted search for the fourteen State's Attorney ownership reasons. Zero hits in every pass; State's Attorney occurs zero times against nineteen for Commonwealth. All four contaminated records re-read and clean, including the fifth defect inside the fourth: the routeSelectionNote is now true about its own file. Every Pennsylvania replacement I could test is sourced — destination and venue against the track registry and the census, service against the registry and the delivered petition's own printed face, the in forma pauperis answer against the registry, and the $132-$215 range against authority-ledger.json, where it is recorded specifically for a Rule 790 expungement petition.",
+      "whyItStillFails": "Two things. ROUTE_IDENTITY is the open question the repair deliberately left alone and it is still open: the field map, the instruction footer and the process-guidance page printed into both delivered PDFs all declare obligation:track-pathway:PA:pa_pardon_expungement:rule-790-expungement, which I counted zero times in canonical-route-universe.json and zero times in route-obligation-candidate.json, while the two real unit keys product-wiring.json carries appear five times in the universe. ARTIFACTS is mine and is new: product-wiring.json declares canonical sha256 4a7113112f29b05f… for a file that computes to fb5024c3acb10682…, the pre-repair digest the Vermont rebuild superseded. The render report itself is perfect at 12 of 12."
+    },
+    "wi_nc_doj_fingerprint_removal-set": {
+      "lane": "VF01",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "rasterState": "RASTER_PASS",
+      "failed": [],
+      "unmeasured": [],
+      "whatIVerified": "The amendment-A2 fee repair is correct and is a clean worked example of A3 before A3 existed. Two held records establish the answer for this exact route — the compiled Wisconsin profile's 'DOJ-CIB fingerprint arrest removal Wisconsin DOJ says no fee is required', which the census names as this route's first requiredSourceId, and the census's own destination detail. The packet states it, attributes it by path, and separately carries the fee-based WORCS background-check line labelled as a different transaction, taking the line that names this route's filing and no other from a table that also carries CR-266, juvenile JD-1780 and certified-disposition lines. Twenty-two labels reconcile exactly. The eighteen-cell arrest table is entirely unwritten with the partial-row warning repeated on every row. Source rehashes exact. The receipt predates the repair and is still valid because git shows the repair touched only participant-instructions.md."
+    },
+    "ny_160_59_petition-set": {
+      "lane": "VF02",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "rasterState": "RASTER_PASS",
+      "failed": ["REQUIRED_BEFORE_FILING", "CLIPPING_AND_OVERLAP", "SERVICE", "SELF_HELP_STOP"],
+      "unmeasured": [],
+      "expectedToFailAndDoes": "I was told this family is expected to fail and not to soften it. It fails, on four obligations, and I did not soften it. Its fee repair is genuinely good and I passed that obligation on its merits.",
+      "confirmedFromTheBytes": {
+        "REQUIRED_BEFORE_FILING": "CONFIRMED. The off-by-one is systematic and its mechanism is named in the field census itself: nine pro se packet fields carry labelBasis 'printed_directly_above_in_the_same_column' on a form whose captions are printed below their rules, which I confirmed by eye on the raster. The census records the result openly — field 'City State Zip' has effectiveLabel 'Street Address', field 'Email' has effectiveLabel 'Phone'. Descending the certificate-of-disposition identifier stack the shift runs for nine consecutive fields and reaches the participant page, so a participant is told to write their NYSID in the box captioned Partial Docket Number. Two further classes alongside it: ten fields reach the instruction page with no human label at all, just their AcroForm name, and several labels are nonsense caught mid-shift ('Weight' for Conviction_Date, 'That' for Date_of_Service, bare numerals for the attachment stack). The set itself reconciles perfectly, 66 against 65 with no difference either way, so nothing is missing — the names are wrong.",
+        "CLIPPING_AND_OVERLAP": "CONFIRMED, by my own measurement and then by eye. A word-geometry read over all six fixtures finds five words outside the 612-point page box, all in pro-se-packet-boundary.pdf on pages 9 and 11, worst at 5.21 points; the pristine source reads zero. On raster/pro-se-packet-boundary/page-11.png four participant values are cut off mid-word at the paper's edge — name, street address, city and email. Measured against the build's own widget geometry the email overruns its box by 44.89 points. reports/actual-writes.json records all three as outcome 'shrunk', so the shrink-to-fit path ran, returned success, and under-shrank.",
+        "SELF_HELP_STOP": "CONFIRMED absent, with one limb of the earlier finding now spent and recorded as such: the A2 fee repair added a legal-aid sentence, so 'no referral to legal aid' is no longer accurate. It does not close the obligation — that sentence is a cost fact inside the cost section. There is still no 'not legal advice', no 'not filed for you', no 'does not decide whether the conviction can be sealed', no stop section and no counsel referral, while the committed track registry holds ten stop conditions for this track including immigration exposure and district attorney objection."
+      },
+      "foundIndependently": "SERVICE also fails and no prior lane recorded it. The repository establishes in three places that the county district attorney must be served — the track registry's rules.service, rules.notice and rules.filing, and the census destination detail — and the census names a service_instructions instrument for this route that the family does not publish. The packet never tells the participant that anyone must be served. Its one operative line asks them to 'Confirm current revision, filing destination, local procedures, attachments, service, and proposed-order requirements before filing', which is the substitution A1 forbids, while handing them eight blank service and affidavit-of-service fields."
+    },
+    "ut_pet_acquittal-set": {
+      "lane": "VF04",
+      "verdict": "BLOCKED_LEGAL_INPUT",
+      "rasterState": "RASTER_PASS",
+      "failed": [],
+      "blocked": ["SERVICE"],
+      "unmeasured": [],
+      "whatIVerified": "The rebuild-only claim is true and checkable: git show --stat restricted to this family lists three text-layer files changed and no fixture, no raster, so the earlier receipt still describes the delivered bytes. FILING_DESTINATION is properly repaired — both stages in legal sequence with the 180-day window, matching the registry and the census. The instructions grew from a 1,167-byte stub to a sourced page that publishes the SHA-256 of all five publications it quotes, and I recomputed all five against the corpus and every one matches. All nine bound sources rehash exact, 40 of 40 declared digests recompute, nine counters zero over 444 dispositions — the largest universe in my set. 186 selection controls all classified, and on a 74-control fee grid exactly one box is marked and it is the right one.",
+      "whyBlocked": "SERVICE turns on a direct conflict between two committed records about the same fact for this same route, and resolving it is counsel's call rather than a verifier's. The packet says the prosecutor must receive a copy by mail or email, attributed to BCI's Expungement Applicant Instructions — an attribution I verified from the source bytes, where Step 2 reads 'File the petition with the court and serve the Prosecutor'. The committed track registry for track ut_pet_acquittal says the opposite: 'The petitioner does not effect service in the ordinary case: the court sends the filing to the prosecuting attorney', that the Proof of Service form is optional and used only where the prosecutor's office will not accept service, and it warns that general service of process 'must not be wired to this track'. The census agrees with the registry: 'the petitioner does not serve'. Both records address this exact route, so A3 does not break the tie and I did not invent a rule that would. I did not score it FAIL because I cannot show the packet is wrong, and I did not score it PASS because a prior lane failed this obligation citing the sentence the packet now contradicts."
+    },
+    "ca-851-91-set": {
+      "lane": "VF04",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "rasterState": "RASTER_NOT_ELIGIBLE_CENTRALLY",
+      "failed": ["CLIPPING_AND_OVERLAP"],
+      "unmeasured": [],
+      "whatIVerified": "All three recorded failures are repaired and repaired to the committed packet-set manifest's own words, which I compared sentence by sentence rather than by section heading. FILING_DESTINATION now carries both venue branches, the 15-day deadline and the one-arrest-per-petition limit. SERVICE names both recipients and the deadline, explains why CR-106 is in the packet, and states that service comes before certifying it and that the clock runs backwards from the hearing. FEE_AND_WAIVER now names FW-001, which the earlier finding recorded as absent from the whole directory. Four sources rehash exact; the pikepdf derivative is disclosed and proven equivalent on a published contract with identical page content streams and an identical XFA digest; 40 of 40 declared digests recompute; 46 required-before-filing labels reconcile exactly against 46 instruction rows; 131 terminal fields with 0 unmapped; and the two statutory branches are elected correctly in two separate variants, bound by widget on-state and the form's own tooltip.",
+      "whyItStillFails": "A clipped run of the official form's own text on the delivered primary filing, in all four variants, found by measurement and confirmed by eye. All four cr-409-filled.pdf fixtures have one word outside the page box and all twelve unchanged-official fixtures have none, which isolates it to the fill step. The form's two-line viewer notice at the foot of page 2 is re-flowed into one over-wide line and runs off the left edge, so the rendered page reads 'd privacy, please press the Clear This Form button after you' truncated at the paper's edge and overlapping the Print this form button. Severity is lower than New York's and I said so in the row: this is the form's chrome, not a participant's data, and nobody's petition is wrong because of it. It is still a delivered page with visibly broken text and a fidelity defect against the official form, in a family no visual gate has ever looked at."
+    }
+  },
+  "summary": {
+    "PASS_COMPLETE_INDEPENDENT": 3,
+    "FAIL_REPAIR_REQUIRED": 3,
+    "BLOCKED_LEGAL_INPUT": 1,
+    "obligationsScoredPerFamily": 15,
+    "totalObligationsScored": 105,
+    "obligationsFailed": 7,
+    "obligationsBlocked": 1,
+    "obligationsUnmeasured": 0
+  },
+  "whatICouldNotMeasureAndWhy": [
+    "Nothing was left unmeasured. The corpus mounted, so SOURCE_IDENTITY was recomputed from source bytes on all seven families rather than scored NOT_MEASURABLE_HERE, and no obligation in any row carries that result.",
+    "Two qualifications on how CLIPPING_AND_OVERLAP was measured rather than whether it was. For ca-851-91-set there is no central raster receipt at all — the family is in RASTER_QUEUE.json's notEligible list — so I measured it entirely myself, from a word-geometry read of all sixteen fixtures against their pristine sources plus the twenty-four committed local rasters. For ny_160_59_petition-set the central receipt exists but covers only the three canonical fixtures, and the defect is in a boundary fixture, so the receipt did not help and my own measurement did.",
+    "The raster receipt artifact zips are named and digested in the queue rows but this environment cannot fetch artifact blobs, so where I relied on a RASTER_PASS I relied on the receipt's recorded verdict and its digest binding to the on-disk fixtures, which I recomputed in every case. I did not download a receipt."
+  ],
+  "forACaptainToDecide": [
+    {
+      "id": "VT14-C1",
+      "issue": "Does A1's establish-then-state ordering extend from FILING_DESTINATION, FEE_AND_WAIVER and SERVICE to SELF_HELP_STOP?",
+      "why": "Six of my seven families state a self-help boundary and I passed all six on the standard these lanes have actually applied. But five of them are silent on stop conditions their own committed track registry holds, and the registry entries are substantive rather than boilerplate: immigration exposure on Kentucky, New York and Utah; an absolute statutory bar under KRS 218A.275(12) with its own controlling decision record on Kentucky; district attorney objection converting New York into a contested hearing. Utah's registry does not merely list the immigration condition, it labels it 'a hard stop, not a caveat' and gives the reason, and the packet is silent on it.",
+      "whyIDidNotDecideIt": "A1 and A2 confine the ordering to three named obligations. Extending it is a scoring change that would move many families at once, so it belongs to a Captain rather than to one verifier, and I flagged it identically on every affected row rather than applying it unevenly.",
+      "ifYouActOnItAnywhere": "ut_pet_acquittal-set first, because its registry states the hard-stop label itself."
+    },
+    {
+      "id": "VT14-C2",
+      "issue": "The central raster gate does not cover boundary fixtures, and declares complete coverage anyway.",
+      "why": "The RASTER_QUEUE row for ny_160_59_petition-set declares coversTheWholeFamily true and documentsNotCovered empty, while its covered set is three canonical fixtures. The family's only visual defect is in a boundary fixture. The receipt is nevertheless bound to application-boundary.pdf's digest, which makes it read as boundary-aware when the coverage rule is not. Boundary fixtures are the long-value stress fixtures — they are the case the gate exists for.",
+      "scope": "This is a queue-generator rule, not a New York defect. Repairing New York will not fix it and it will keep hiding this class of defect elsewhere."
+    },
+    {
+      "id": "VT14-C3",
+      "issue": "No California family built from encrypted XFA Judicial Council sources can be visually gated centrally, and the capability to do it already exists in the repository.",
+      "why": "ca-851-91-set is notEligible because the queue's page counter cannot open those forms. The build can — it ships a disclosed, equivalence-proven pikepdf unlock and twenty-four committed local rasters. The clipping defect I found there was introduced by the flatten path for that class of source, so other California families built the same way should be measured before any is treated as visually clean."
+    },
+    {
+      "id": "VT14-C4",
+      "issue": "Utah's service rule: the BCI applicant instructions and the committed track registry contradict each other for ut_pet_acquittal.",
+      "why": "Set out in full in the row and summarised in the verdict above. It blocks that family and it will block its sibling ut_pet_no_charges-set, which ships nearly the same nine forms from the same host and states the same service step.",
+      "theQuestion": "Must the petitioner mail or email the prosecutor a copy of what is filed, as BCI's Expungement Applicant Instructions direct, or does the court transmit the filing with no service obligation on the petitioner, as the track registry and the census both state? If both are true, which should the packet say, and is form 1146XX a required acceptance of service or the registry's optional fallback?"
+    },
+    {
+      "id": "VT14-C5",
+      "issue": "pa_pardon_expungement-set's route key is still unresolved, and it is a product-identity decision rather than a text repair.",
+      "why": "The family prints a key that resolves nowhere while its wiring carries two real unit keys. The repair correctly declined to pick. The reason it needs a Captain is that this family genuinely has two routes, one of which files nothing, and its process-guidance page is the deliverable for that second route — so someone must say which key the fallback petition prints and which the guidance page prints, because one string is currently doing both jobs."
+    }
+  ],
+  "correctionsToEarlierRecords": [
+    "An earlier VF03 row for wi_nc_doj_fingerprint_removal-set states that the canonical obligation key agrees across product-wiring.json, production-field-map.json, source-receipt.json and the MASTER_QUEUE row. It does not: the field map and the receipt carry track:WI:wi_nc_doj_fingerprint_removal and the obligation key's literal text occurs zero times in either. I checked each field by name. I did not fail the family for it — 12 of 125 census-v1 families use the track: namespace and no lane has failed one for it, and unlike the Kentucky and Pennsylvania defects it does not impersonate an obligation key and it resolves unambiguously — but the earlier row's factual claim is wrong and should not be relied on.",
+    "The determination's notReExamined entry for wi_nc_doj_fingerprint_removal-set describes a packet with 'no amount, no no-fee statement and no office to ask'. That was overtaken twice: FIX04 added an office 94 seconds later, and the A2 repair added the amount the repository holds. Neither the original note nor the intermediate FAIL describes the packet at this base. A2's alsoCorrected block already records the first half; this records that the second is now done.",
+    "The committed track registry's rules.fees for track ut_pet_acquittal says the Utah Courts page directs filers to the cover sheet for the amount 'so the packet does not quote one', and records the current amount as an open release-blocking question. The packet now quotes $150, correctly, off the bound cover sheet the registry itself points at. The packet is the better record and the registry line is stale."
+  ],
+  "hardRuleCompliance": {
+    "packetsOverlaysBuildScriptsFixturesOrFieldMapsEdited": 0,
+    "filesIWrote": [
+      "data/rcap-grade-a/packet-factory-24h/vf01/rows.json (appended 2 rows, annotated 2)",
+      "data/rcap-grade-a/packet-factory-24h/vf02/rows.json (appended 2 rows, annotated 1)",
+      "data/rcap-grade-a/packet-factory-24h/vf03/rows.json (appended 1 row, annotated 1)",
+      "data/rcap-grade-a/packet-factory-24h/vf04/rows.json (appended 2 rows)",
+      "data/rcap-grade-a/packet-factory-24h/claim-ledger.json (7 asserts and 7 releases, left in the diff)",
+      "data/rcap-grade-a/fable-packet-factory/returns/vt14.json (this file)"
+    ],
+    "existingRowsPreserved": "Yes. Every append was additive and the prior row count is recoverable from the diff: vf01 8 to 10, vf02 12 to 14, vf03 9 to 10, vf04 12 to 14. No existing row was edited; the only modification to existing content was adding a feeStandardAmendmentsApplied field to my own four earlier rows after amendment A3 was published.",
+    "filesIDidNotTouch": ["MASTER_QUEUE.json", "RASTER_QUEUE.json", "ACTIVE_ASSIGNMENTS.json", "VERIFIER_RETURNS.json", "any other lane's rows.json", "Production", "Supabase", "Stripe", "secrets", "migrations"],
+    "factoryGeneratorsRun": 0,
+    "returnExtractorRun": false,
+    "gitAddAllUsed": false,
+    "commercialRoutesOpened": 0,
+    "productionTouched": false,
+    "familiesPromoted": 0,
+    "approvalsGranted": 0
+  },
+  "grantsNothing": "This return records one worker's verification reading of seven families. It promotes no family, opens no commercial route, grants no approval, and overrides no legal decision."
+}

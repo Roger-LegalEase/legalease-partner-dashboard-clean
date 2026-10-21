@@ -1,0 +1,53 @@
+{
+  "basis": "src/lib/rcap/state-packs/colorado/official-forms — a typed fail-closed binder driven by a per-document specification, with protection re-derived independently from each field's own name and printed label",
+  "captionOnly": false,
+  "documentAcceptsFill": true,
+  "everyFieldStartsProtected": true,
+  "factoryVersion": "d0-remediated-v1",
+  "ownership": "participant_completed",
+  "protectedCategories": [
+    "judicial_signature",
+    "judicial_finding",
+    "clerk_only",
+    "prosecutor_only",
+    "agency_only",
+    "court_use_only",
+    "participant_signature",
+    "participant_execution_date",
+    "counsel_signature",
+    "counsel_attestation"
+  ],
+  "protectionsWeakened": false,
+  "schemaVersion": "rcap-field-classification-policy/v3-colorado-spec",
+  "specSha256": "bbaaaca47c287eb1fcf410ac5d8ce784fd7840f4c51a4fea135038afdce1ece7",
+  "specVersion": "co-jdf-612-binding/2026-08-29.1",
+  "supersedes": {
+    "basis": "scripts/rcap-official-forms/rcap-field-semantics.mjs — typed fail-closed binder, unmodified",
+    "reviewedWithholdingsReconsidered": [
+      {
+        "field": "Court Address",
+        "now": "written from filing.court_address",
+        "previously": "withheld_by_review",
+        "why": "The withholding was correct about the risk and wrong about the field: the shared binder reached the court's address through a participant street-address descriptor. Given its own fact id, the field is the filing destination and no participant descriptor can reach it."
+      },
+      {
+        "field": "CoS_Date",
+        "now": "written from service.service_date",
+        "previously": "withheld_by_review",
+        "why": "The withholding reasoned that the certificate block names the party served rather than the participant. That is true of the recipient fields and false of the service date, which is the participant's own act and without which the certificate is unusable."
+      }
+    ],
+    "why": "The shared binder matches fact descriptors against field names. Colorado names its fields 3B.1, 4A.1A and 6E.3, which no descriptor reaches, so 58 of JDF 417's 62 fields and 57 of JDF 612's 63 were refused as 'no allowlisted fact matches' — a refusal about the name, not about the field. The shared binder also type-guards every checkbox and radio group, so no election on either form could ever bind through it. Neither refusal is weakened here: this specification names each field explicitly, and the protections are re-derived rather than inherited."
+  },
+  "writableRequires": [
+    "the specification names this exact field",
+    "the specification gives it a class other than protected or unmapped",
+    "protection re-derived from the field's name and printed label does not reach it",
+    "the specification names the fact it is written from",
+    "the fact is supplied and is not empty once whitespace is collapsed",
+    "any condition the specification attaches to the field holds",
+    "for a choice control, the value is one the document itself offers",
+    "for an indexed offence row, a charge exists at that row's index",
+    "for a text control, the value is within the length the document declares"
+  ]
+}

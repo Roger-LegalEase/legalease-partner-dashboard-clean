@@ -1,0 +1,100 @@
+{
+  "schemaVersion": "rcap-product-wiring/v1",
+  "familyId": "wv_nc_acquittal_dismissal-set",
+  "jurisdiction": "WV",
+  "routeKeys": [
+    "obligation:track-pathway:WV:wv_nc_acquittal_dismissal:no-conviction-expungement-for-acquittal-dismissal-diversion-or-deferred-adjudication"
+  ],
+  "branchRoutes": {
+    "DISMISSED_STRAIGHT": "wv_nc_acquittal_dismissal-primary-filing-1",
+    "ACQUITTED_OR_FOUND_NOT_GUILTY": "wv_nc_acquittal_dismissal-acquittal-civil-petition-4"
+  },
+  "generationAllowed": false,
+  "runtimeSelectable": false,
+  "independentReviewRequired": true,
+  "rasterReviewRequired": true,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "binding": {
+    "family": "wv_nc_acquittal_dismissal-set",
+    "jurisdiction": "WV",
+    "routeKeys": [
+      "obligation:track-pathway:WV:wv_nc_acquittal_dismissal:no-conviction-expungement-for-acquittal-dismissal-diversion-or-deferred-adjudication"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "certificate_of_service",
+      "filing_instructions",
+      "primary_filing"
+    ],
+    "packetComponents": [
+      "component:wv_nc_acquittal_dismissal-certificate-of-service-2",
+      "component:wv_nc_acquittal_dismissal-primary-filing-1",
+      "component:wv_nc_acquittal_dismissal-acquittal-civil-petition-4"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/wv/wv-nc-acquittal-dismissal-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/wv/wv-nc-acquittal-dismissal-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/wv/wv-nc-acquittal-dismissal-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/wv/wv-nc-acquittal-dismissal-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:SCA-C903",
+        "sha256": "bbfcd767b02230300e2164a40cc2d81967c87fb9b7ddf4f0677622e1319fe878",
+        "tier": "exact_form_number"
+      }
+    ],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "34747882153",
+      "jobId": "103699490163",
+      "artifactId": "10315305518",
+      "boundToCanonicalSha256": "bbfcd767b02230300e2164a40cc2d81967c87fb9b7ddf4f0677622e1319fe878",
+      "coversTheWholeFamily": true
+    },
+    "lastIndependentVerification": {
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vfar1",
+      "verifiedAtBase": "f80057e54b3e791043bd00e648c99f77a74744d0"
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-wv_nc_acquittal_dismissal-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    },
+    "componentConditions": {
+      "wv_nc_acquittal_dismissal-primary-filing-1": "Only actual outright dismissal supported by the certified record.",
+      "wv_nc_acquittal_dismissal-certificate-of-service-2": "Completed after actual service of the source motion.",
+      "wv_nc_acquittal_dismissal-filing-instructions-3": "Applies to both branch choices and their record/stop rules.",
+      "wv_nc_acquittal_dismissal-acquittal-civil-petition-4": "Only actual acquittal or found-not-guilty order supported by the certified record."
+    },
+    "packetComponentsScope": {
+      "meaning": "page-backed participant-delivery components",
+      "declaredComponentSet": [
+        "component:wv_nc_acquittal_dismissal-primary-filing-1",
+        "component:wv_nc_acquittal_dismissal-certificate-of-service-2",
+        "component:wv_nc_acquittal_dismissal-filing-instructions-3",
+        "component:wv_nc_acquittal_dismissal-acquittal-civil-petition-4"
+      ],
+      "pageBackedComponents": [
+        "component:wv_nc_acquittal_dismissal-acquittal-civil-petition-4",
+        "component:wv_nc_acquittal_dismissal-certificate-of-service-2",
+        "component:wv_nc_acquittal_dismissal-primary-filing-1"
+      ],
+      "textOnlyComponent": "component:wv_nc_acquittal_dismissal-filing-instructions-3",
+      "textOnlyRepresentation": "Represented by binding.instructions and instrumentKinds.filing_instructions; it has no page-backed PDF entry.",
+      "branchCoverage": {
+        "DISMISSED_STRAIGHT": [
+          "component:wv_nc_acquittal_dismissal-primary-filing-1",
+          "component:wv_nc_acquittal_dismissal-certificate-of-service-2"
+        ],
+        "ACQUITTED_OR_FOUND_NOT_GUILTY": [
+          "component:wv_nc_acquittal_dismissal-acquittal-civil-petition-4"
+        ]
+      }
+    }
+  }
+}

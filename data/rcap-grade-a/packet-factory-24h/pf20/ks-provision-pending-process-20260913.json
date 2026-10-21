@@ -1,0 +1,73 @@
+{
+  "schemaVersion": "rcap-pf20-ks-provision-pending-process/v1",
+  "recordedAt": "2026-09-13T05:53:44Z",
+  "purpose": "Durable record of the original PF20 provisioning bundle writer and its natural completion after its existing output consumer continued.",
+  "codespace": "rcap-finish-worker-77jr7gx76jq3rg65",
+  "repositoryRoot": "/workspaces/legalease-partner-dashboard-clean",
+  "worktree": "/workspaces/legalease-partner-dashboard-clean/private/worker-worktrees/pf20-ks-arrest-registration-resume-20260913",
+  "workerBranch": "pf20-ks-22-2410-arrest-20260912b",
+  "writer": {
+    "originalObservedAt": "2026-09-13T05:52:35Z",
+    "remoteSshdPid": 25157,
+    "remoteBundlePid": 25158,
+    "remotePackObjectsPid": 25159,
+    "remoteBundleCommand": "git -C /workspaces/legalease-partner-dashboard-clean/private/worker-worktrees/pf20-ks-arrest-registration-resume-20260913 bundle create - refs/heads/pf20-ks-22-2410-arrest-20260912b",
+    "sshTransport": "gh codespace ssh -c rcap-finish-worker-77jr7gx76jq3rg65 -- <bundle command>",
+    "localToolSessionId": null,
+    "localConsumerProcessAtObservation": {
+      "shellPid": 251731,
+      "ghPid": 251732,
+      "sshPid": 251772,
+      "command": "gh codespace ssh -c rcap-finish-worker-77jr7gx76jq3rg65 -- <bundle command> > /tmp/pf20-ks-provision-dc16ef93.bundle.18545"
+    },
+    "intendedLocalScratchPath": "/tmp/pf20-ks-provision-dc16ef93.bundle.18545",
+    "remoteScratchPath": null,
+    "initialObservedLocalBytes": 102,
+    "blockingState": {
+      "remoteBundleWchan": "do_wait",
+      "remotePackObjectsWchan": "pipe_write",
+      "meaning": "The pack-objects child was blocked writing through the bundle process to the SSH stdout channel while the caller had no returned tool session handle."
+    },
+    "whyCallerConsideredItAbandoned": "The initial 30-second tool call returned without a session_id or usable output beyond the bundle header; process inspection showed the SSH consumer and writer were still alive, so no kill or replacement was performed."
+  },
+  "naturalCompletion": {
+    "attempted": true,
+    "method": "Allowed the already-running local redirection and SSH transport to continue; no new writer or bundle operation was started during this attempt.",
+    "completedAt": "2026-09-13T05:52:54.533284923Z",
+    "remoteProcessesAfterCompletion": [],
+    "localBundlePath": "/tmp/pf20-ks-provision-dc16ef93.bundle.18545",
+    "localBundleBytes": 1719605799,
+    "bundleVerify": "PASS: bundle is okay; complete history; SHA-1",
+    "bundleHead": "dc16ef93e5ffdf2a02bf2db17c0996f92d443e01 refs/heads/pf20-ks-22-2410-arrest-20260912b",
+    "noKill": true,
+    "noTruncation": true,
+    "noCleanup": true
+  },
+  "otherExistingScratchObserved": [
+    {
+      "path": "/tmp/pf20-ks-provision-dc16ef93-remote.bundle",
+      "bytes": 1719380802,
+      "status": "Existing completed remote bundle observed; untouched."
+    },
+    {
+      "path": "/tmp/pf20-ks-provision-range-dc16ef93.pack",
+      "bytes": 856975,
+      "status": "Existing bounded transfer pack observed; untouched."
+    }
+  ],
+  "workerState": {
+    "head": "dc16ef93e5ffdf2a02bf2db17c0996f92d443e01",
+    "remoteBranch": "pf20-ks-22-2410-arrest-20260912b",
+    "remoteBranchVerified": true,
+    "packetImplementationStarted": false,
+    "packetImplementationPaused": true,
+    "nextAction": "After PF05 repair clearance, implement ks-22-2410-arrest-set first, then ks-22-4908-registration-relief-set."
+  },
+  "controls": {
+    "writerKilled": false,
+    "scratchTruncated": false,
+    "scratchDeleted": false,
+    "newBundleStartedDuringNaturalCompletion": false,
+    "privateSourceStaged": false
+  }
+}

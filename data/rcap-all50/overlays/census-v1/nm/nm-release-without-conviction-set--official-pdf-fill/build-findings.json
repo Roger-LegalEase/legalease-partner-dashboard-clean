@@ -1,0 +1,78 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "nm_release_without_conviction-set",
+  "blocking": [],
+  "findings": [
+    {
+      "severity": "resolved_by_governed_source_replacement",
+      "finding": "The governed Form 4-222 source prints STATE OF NEW MEXICO, a blank COUNTY OF line, and a blank court line. The county and full judicial-district designation can therefore be written from held matter facts without district-local page content beneath them.",
+      "measuredFrom": "the pinned statewide binary at ef54fbdc9485157d8c85735ff3d66d5a39968ebde68c60de8a7eb094107348de",
+      "supersedes": "The historical 809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a source printed SIXTH JUDICIAL DISTRICT COURT."
+    },
+    {
+      "finding": "THE ONE-LINE MAILING ADDRESS WAS HELD IN FOUR PARTS AND WRITTEN IN NONE. Every form in this packet prints at least one blank asking for street, city, state and ZIP together, and the platform holds all four -- it writes them separately elsewhere in the same packet. Those blanks were declared REQUIRED_BEFORE_FILING on the ground that \"the shared fact registry has no one-line mailing-address fact\". That is true of the shared DESCRIPTOR LIST and says nothing about what the platform holds, and stating the first as though it were the second is the defect VF03 named: a held fact left off a filing under a reason that reads like an unavailable one.",
+      "consequence": "The fixtures compose participant.full_mailing_address from the four parts they already hold, and each of those blanks is now a WRITE bound under the caption the shared registry does resolve for it -- participant.street_address, the registry's one participant address descriptor -- with the binding, and what the printed caption resolves to on its own, recorded on the field-map row. Nothing in scripts/rcap-official-forms/rcap-field-semantics.mjs is changed. Where a court's printed line is too short to show the value at the shared six-point readable floor, the host measures that with the same fitter the finalizer uses and the row becomes KNOWN_FACT_NOT_WRITTEN carrying the measurement -- the width the value needs at the floor against the width the form printed -- rather than claiming the platform holds nothing. Nothing is truncated and nothing is drawn outside a measured blank."
+    },
+    {
+      "finding": "THE LOWER-COURT CASE NUMBER IS NOW ON THE PAGE. FIX79 left Form 4-952 paragraph 4's Metropolitan/Magistrate/Municipal case-number line blank on the magistrate fixture and declared it KNOWN_FACT_NOT_WRITTEN, because the shared protect rules match /magistrate/ under the \"court\" category and refuse the printed caption whatever fact is offered.",
+      "consequence": "That rule protects the blanks a COURT fills. This blank is the petitioner's own case number, on their own petition, on the line the Supreme Court's form prints for it directly below the district-court line the same paragraph writes, and the platform holds both the number and the intake's required originating-court answer that decides which of the two lines it belongs on. The row is bound under a caption naming what the blank holds, and the build asserts on every run that the bound caption carries no protect category and resolves matter.case_number in the shared registry, recording on the field-map row that the printed caption resolves the same fact and does carry the \"court\" category. Nothing in scripts/rcap-official-forms/rcap-field-semantics.mjs is changed, and paragraph 12's magistrate and municipal LOCATION lines are still refused and still blank -- the platform holds no location for them."
+    },
+    {
+      "finding": "TWO PARTIES ARE SERVED ON THIS TRACK, NOT THREE. Rule 1-077.1(E)(1) NMRA and the committed track record name the district attorney for the judicial district where the charge originated and the New Mexico Department of Public Safety; the arresting agency is not served. Forms 4-955 and 4-959 print exactly two service lines.",
+      "consequence": "The instructions say two parties in terms, and Form 4-960.1's page-2 service blocks are REQUIRED_BEFORE_FILING here -- an objector can exist because somebody is served -- through the same shared dictionary that gives the identity-theft family NOT_APPLICABLE_ON_THIS_ROUTE for the same twenty blanks."
+    },
+    {
+      "finding": "THE CASE NUMBER AND THE PARAGRAPH-12 DISTRICT ARE NOW WRITTEN BY THE HELD ORIGINATING-COURT ANSWER. Form 4-952 paragraph 4 asks for the case number by the court it was in -- a District Court line and a Metropolitan/Magistrate/Municipal Court line -- and paragraph 12 is a printed select-one over four courts. The track's intake collects rwcOriginatingCourt as a REQUIRED answer for exactly that reason. The previous build had a static dictionary, one blank one fact, and it produced both halves of the same defect: the case number was written on neither line under a row that said the platform holds no value for it, which the finding above contradicted in terms, and the judicial district WAS written into the District Court branch of paragraph 12 on the magistrate-court fixture.",
+      "consequence": "The dictionary for this form is now a function of the facts, and the fixtures carry matter.originating_court. Where the held answer is the district court the case number is written on the District Court line of paragraph 4 and the judicial district on the District Court branch of paragraph 12; where it is not, both lines are left empty, the District Court lines are declared NOT_APPLICABLE_ON_THIS_ROUTE with the held answer named as the condition, and the participant is told which line is theirs under a heading of its own. This no longer diverges from nm_conviction-set on the district-court branch, and the lower-court line is now written too. The shared field semantics protect every blank whose printed line names a magistrate (PROTECT_RULES matches /magistrate/ under the \"court\" category), and the previous build left the lower-court case-number line blank on that ground and declared it KNOWN_FACT_NOT_WRITTEN. That rule protects the blanks a COURT fills; this one is the petitioner's own case number on their own petition, on the line the Supreme Court's own form prints for it directly under the district-court line the same paragraph writes. The row is now bound under a caption naming what the blank holds, through the shared host's WRITE_BOUND_AS mechanism, and the build asserts on every run that the bound caption carries no protect category and resolves matter.case_number in the shared registry -- recording on the field-map row that the printed caption resolves the same fact and does carry the \"court\" category. Nothing in scripts/rcap-official-forms/rcap-field-semantics.mjs is changed, and paragraph 12's magistrate and municipal LOCATION lines are still refused and still blank: the platform holds no location for them."
+    },
+    {
+      "finding": "The intake's required originating-court answer has two halves: which court, and in what location. These fixtures carry the court half as matter.originating_court, which is the half that decides which branch of paragraph 4 and paragraph 12 the case uses.",
+      "consequence": "The location half is left to the participant on every lower-court line, with the reason on the row. Holding it would not change the delivered page: those same lines are refused by the shared protect rule above, so a held location would be a held fact this host still could not write."
+    },
+    {
+      "finding": "THE PROPOSED-ORDER COMPONENT IS BOUND BY CONTENT HASH AND NOT RENDERED. The manifest conditions it on filing in San Juan County and neither fixture does. The bound binary (d804959b212e2a0df2e3aa51f17609ef237d583ff2cc189747e76b38c2520638) is the Eleventh Judicial District's whole 31-page self-help packet rather than an order: instructions, a county petition, a certificate, an objection, a non-objection, a notice of completion, an affirmation, a notice of hearing, and the order on its last five pages. Its caption prints \"COUNTY OF SAN JUAN\" and \"ELEVENTH JUDICIAL DISTRICT COURT\" as page content, its case-number template is \"D-1116-EX-____\", it is dated January 28, 2022, and the order recites \"NMSA 1978 Sections 29-3A-4 to -7 (2019)\" -- the statute before the 2021 amendment this track's eligibility list is taken from. The track's record already carries the currency of the district packets as a release blocker.",
+      "consequence": "The shared host renders whole pinned binaries and this lane may not change it, so the order pages cannot be rendered alone; rendering all thirty-one would put a county-captioned, pre-amendment petition into a statewide family. The component is reconciled against the manifest as a conditional component whose condition is not met, the digest is recorded in source-receipt.json under referenceSourcesBoundByHashNotRendered, and the participant is told to take the order from their own district's current packet. A later lane could render the order pages alone if the host gains a page-range capability and the district packet is confirmed current."
+    },
+    {
+      "finding": "THE HEARING IS CONDITIONAL. Relief is mandatory on the findings, and where no objection is filed the court may decide on the pleadings and the affirmation. The manifest marks Form 4-960.1 conditional here where the conviction family marks it required.",
+      "consequence": "The form is rendered so the participant has it if the court sets a hearing, with every hearing detail, the judge's name and the TCAA signature block left to the court, and the instructions say a hearing may not happen."
+    },
+    {
+      "finding": "Form 4-959 page 1 carries four short stroked rules with no printed text ON them that are STRIKE-THROUGHS, not blanks: the 2025 amendments mark deleted words -- \"[Attorney]\", \"[Has]\", \"[Safety]\", \"[Has]\" -- by bracketing and striking them, and a strike sits through the word rather than under it, so the underline reader (which looks for glyphs above a stroke) does not classify it. The same page prints an empty bracket pair around the Department of Public Safety response heading's tick glyph.",
+      "consequence": "All five are recorded as printed rules that are not blanks, with the struck word named, and carried in the field census rather than in the field map. Nothing is written on any of them."
+    },
+    {
+      "finding": "Form 4-952 page 3 prints five short 15pt rules in the left margin on baselines that carry no text, and a full-width divider at the foot of the page immediately before the SIGNATURE SECTION heading that opens page 4.",
+      "consequence": "All six are recorded as printed rules that are not blanks. Nothing is written on any of them."
+    },
+    {
+      "finding": "Forms 4-955 and 4-959 carry a certificate of service. Everything below the caption of Form 4-955, and the certificate at the foot of Form 4-959, is the petitioner certifying under penalty of perjury when they posted a document and to whom.",
+      "consequence": "The caption is written and nothing else is. Service has not happened when this packet is prepared and the platform has no knowledge of it; the shared field semantics protect a service block for the same reason."
+    },
+    {
+      "finding": "The shared fact registry has no descriptor for other names or aliases and no one-line mailing-address fact. Form 4-952 asks for aliases on one line, and four blanks in this packet -- Form 4-952 page 4, Form 4-959 page 2, Form 4-960.2 page 1 and Form 4-960.1 page 1 -- give a single line for a whole mailing address.",
+      "consequence": "Those five are left to the participant with the reason stated. Reported for the owner of the registry alongside the case-number gap."
+    },
+    {
+      "finding": "The adopted statewide Form 4-222 is a five-page flat PDF with 147 measured underscore blanks and no AcroForm fields.",
+      "consequence": "Every measured blank has an explicit dictionary disposition. Held caption and identity facts are written only inside measured blank rectangles; financial assertions, elections, signatures, notarization and court-use fields remain empty for the responsible actor."
+    }
+  ],
+  "selfHelpStopConditionsAsPrinted": {
+    "trackId": "nm_release_without_conviction",
+    "conditions": [
+      "Any objection filed by the district attorney or the Department of Public Safety.",
+      "Any charge or proceeding pending against the participant anywhere.",
+      "Any question about whether a preprosecution diversion or a conditional discharge actually completed.",
+      "Records in more than one judicial district, which need separate petitions.",
+      "A contested hearing.",
+      "Any non-citizen participant, because the Judiciary's own packet directs non-citizens to seek legal advice about the consequences of expungement.",
+      "A participant who also wants a conviction cleared and does not understand that combining the two filings destroys the seal."
+    ],
+    "registry": "data/record-clearing/legal-design-track-registry.json",
+    "registrySha256": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+    "memo": "data/record-clearing/legal-design-intake/NM.memo.json",
+    "memoSha256": "94fe9d381be4e2b03e78397bb67a76c30c5005854d178606604689d19e002f25",
+    "quotedVerbatim": true
+  }
+}

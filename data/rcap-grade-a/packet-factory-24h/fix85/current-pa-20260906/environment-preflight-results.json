@@ -1,0 +1,38 @@
+[
+  {
+    "command": [
+      "node",
+      "scripts/verify-packet-build-environment.mjs",
+      "--family",
+      "pa_490_nonconviction-set",
+      "--branch",
+      "codex/fix85-fix89-pa-va-repair"
+    ],
+    "exitCode": 1,
+    "output": "  ok  repo_identity                          codex/fix85-fix89-pa-va-repair at 3b2ea5ca\n  ok  clone_is_complete                      full clone, all heads fetchable\n  ok  assigned_branch_tip_visible            origin/codex/fix85-fix89-pa-va-repair at 3b2ea5ca\nFAIL  worktree_clean                         2 uncommitted path(s)\n  ok  node_toolchain                         node 24.14.0\n  ok  pdf_lib_importable                     pdf-lib 1.17.1\n  -  browser_environment_exported           not applicable: this invocation renders nothing, so it needs no browser exported. Rendering is central (.github/workflows/rcap-packet-raster-acceptance-batch.yml); pass --require-rasterizer where a browser is actually about to be used.\n  -  build_time_rasterizer_available        not applicable: this invocation renders nothing. Pass --require-rasterizer where a build is actually about to raster.\n  -  page_rasterizer_available              not applicable: this invocation renders nothing. Rendering is central (.github/workflows/rcap-packet-raster-acceptance-batch.yml); pass --require-rasterizer where a browser is actually about to be used.\n  ok  private_is_git_ignored                 private/ is ignored and tracks nothing\n  ok  master_library_mounted                 mounted at ../../tmp/vf01-four/recovered-master\nFAIL  master_library_complete                below immutable minimum: 7/499 files, 7/329 PDFs\nFAIL  corpus_matches_committed_index         23 absent, 0 mismatched of 24 sampled\n  ok  family_sources_bind                    5/5 source(s) bind by exact SHA-256 (custody_reconciliation)\n  ok  master_library_not_at_operational_path the operational path does not resolve to the Master Library\n  ok  absent_is_not_empty                    an absent tree returns null; an empty tree returns []\n  ok  stale_artifact_block_consulted         block consistent (12 hashes, 6 families); 0 artifact(s) under this family clear\n\nPACKET_BUILD_ENVIRONMENT_NOT_READY: 11/14 passed, 3 failed, 3 not applicable\n"
+  },
+  {
+    "command": [
+      "node",
+      "scripts/verify-packet-build-environment.mjs",
+      "--family",
+      "pa_790_nonconviction-set",
+      "--branch",
+      "codex/fix85-fix89-pa-va-repair"
+    ],
+    "exitCode": 1,
+    "output": "  ok  repo_identity                          codex/fix85-fix89-pa-va-repair at 3b2ea5ca\n  ok  clone_is_complete                      full clone, all heads fetchable\n  ok  assigned_branch_tip_visible            origin/codex/fix85-fix89-pa-va-repair at 3b2ea5ca\nFAIL  worktree_clean                         2 uncommitted path(s)\n  ok  node_toolchain                         node 24.14.0\n  ok  pdf_lib_importable                     pdf-lib 1.17.1\n  -  browser_environment_exported           not applicable: this invocation renders nothing, so it needs no browser exported. Rendering is central (.github/workflows/rcap-packet-raster-acceptance-batch.yml); pass --require-rasterizer where a browser is actually about to be used.\n  -  build_time_rasterizer_available        not applicable: this invocation renders nothing. Pass --require-rasterizer where a build is actually about to raster.\n  -  page_rasterizer_available              not applicable: this invocation renders nothing. Rendering is central (.github/workflows/rcap-packet-raster-acceptance-batch.yml); pass --require-rasterizer where a browser is actually about to be used.\n  ok  private_is_git_ignored                 private/ is ignored and tracks nothing\n  ok  master_library_mounted                 mounted at ../../tmp/vf01-four/recovered-master\nFAIL  master_library_complete                below immutable minimum: 7/499 files, 7/329 PDFs\nFAIL  corpus_matches_committed_index         23 absent, 0 mismatched of 24 sampled\n  ok  family_sources_bind                    5/5 source(s) bind by exact SHA-256 (custody_reconciliation)\n  ok  master_library_not_at_operational_path the operational path does not resolve to the Master Library\n  ok  absent_is_not_empty                    an absent tree returns null; an empty tree returns []\n  ok  stale_artifact_block_consulted         block consistent (12 hashes, 6 families); 0 artifact(s) under this family clear\n\nPACKET_BUILD_ENVIRONMENT_NOT_READY: 11/14 passed, 3 failed, 3 not applicable\n"
+  },
+  {
+    "command": [
+      "node",
+      "scripts/verify-packet-build-environment.mjs",
+      "--family",
+      "va_exp_nonconviction-set",
+      "--branch",
+      "codex/fix85-fix89-pa-va-repair"
+    ],
+    "exitCode": 1,
+    "output": "  ok  repo_identity                          codex/fix85-fix89-pa-va-repair at 3b2ea5ca\n  ok  clone_is_complete                      full clone, all heads fetchable\n  ok  assigned_branch_tip_visible            origin/codex/fix85-fix89-pa-va-repair at 3b2ea5ca\nFAIL  worktree_clean                         2 uncommitted path(s)\n  ok  node_toolchain                         node 24.14.0\n  ok  pdf_lib_importable                     pdf-lib 1.17.1\n  -  browser_environment_exported           not applicable: this invocation renders nothing, so it needs no browser exported. Rendering is central (.github/workflows/rcap-packet-raster-acceptance-batch.yml); pass --require-rasterizer where a browser is actually about to be used.\n  -  build_time_rasterizer_available        not applicable: this invocation renders nothing. Pass --require-rasterizer where a build is actually about to raster.\n  -  page_rasterizer_available              not applicable: this invocation renders nothing. Rendering is central (.github/workflows/rcap-packet-raster-acceptance-batch.yml); pass --require-rasterizer where a browser is actually about to be used.\n  ok  private_is_git_ignored                 private/ is ignored and tracks nothing\n  ok  master_library_mounted                 mounted at ../../tmp/vf01-four/recovered-master\nFAIL  master_library_complete                below immutable minimum: 7/499 files, 7/329 PDFs\nFAIL  corpus_matches_committed_index         23 absent, 0 mismatched of 24 sampled\n  ok  family_sources_bind                    1/1 source(s) bind by exact SHA-256 (census_form_number_against_committed_index); 1 found by content hash because the declared path is in a custody that is not mounted here\n  ok  master_library_not_at_operational_path the operational path does not resolve to the Master Library\n  ok  absent_is_not_empty                    an absent tree returns null; an empty tree returns []\n  ok  stale_artifact_block_consulted         block consistent (12 hashes, 6 families); 0 artifact(s) under this family clear\n\nPACKET_BUILD_ENVIRONMENT_NOT_READY: 11/14 passed, 3 failed, 3 not applicable\n"
+  }
+]

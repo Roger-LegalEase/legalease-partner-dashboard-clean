@@ -1,0 +1,256 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-worker-rows/v1",
+  "assignmentId": "PF06",
+  "lane": "packet-build",
+  "workerBranch": "pf06-20260909",
+  "shiftBaseSha": "18b5f4270",
+  "writtenAlongside": "rows.json in this directory is a different worker's return (FABLE-PA, families id_isp_expungement-set, tx_nd_probation_misdemeanor-set, az_marijuana_expungement_limited_jurisdiction-set, mi_setaside_trafficking-set). It was not overwritten; this return is a separate file.",
+  "laneGate": "PACKET_BUILD_ENVIRONMENT_READY: 13/13 passed, 0 failed, 4 not applicable (codex-cloud mode, minimum captain sha c8bc1b1fdfa5500324f6be44e1592b10c5feddd5 present and an ancestor of HEAD)",
+  "familiesAssigned": 5,
+  "rowsReturned": 5,
+  "familiesCompleted": 1,
+  "familiesStopped": 4,
+  "blockedSource": ["de_pardon_expungement-set", "fl-sealing-set", "ia-901c3-set"],
+  "blockedLegalInput": ["nh_conviction_streamlined-set"],
+  "blockedBeforeClaim": [],
+  "overlayDirectoriesTouchedByAStoppedFamily": 0,
+  "everyFamilyGetsExactlyOneRow": true,
+  "packetsSelfVerified": 0,
+  "verdictsSet": 0,
+  "neverSelfVerified": "PF06 built these bytes. A builder verdict is not a verdict; an independent lane that did not build them decides. No PASS is issued here.",
+  "rasterState": "BUILT_RASTER_PENDING",
+  "rasterNote": "ENV-RAS01: this container cannot resolve or fetch a Chromium the page rasterizer can execute. That is a fact about the container, not about the packet. BUILT_RASTER_PENDING zeroes nothing and waives nothing, and no packet becomes PASS_COMPLETE without RASTER_PASS.",
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "grantsNothing": "A built family is built. It is not verified, not approved, not sellable.",
+  "sharedCentralArtifactsRegenerated": "none. scan-synthesized-widget-borders.mjs rewrites data/rcap-grade-a/packet-factory-24h/fix80/MK_BORDER_COHORT.json as a side effect of running; it was reverted with git checkout after each run and is not in any PF06 commit.",
+  "rows": [
+    {
+      "itemId": "al-trafficking-set",
+      "status": "COMPLETED",
+      "buildState": "BUILT_RASTER_PENDING",
+      "jurisdiction": "AL",
+      "routeKeys": ["obligation:track-pathway:AL:al-trafficking:human-trafficking-victim-expungement"],
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/al/al-trafficking-set--custom-pleading",
+      "builder": "scripts/build-census-v1-al-trafficking-set.mjs",
+      "implementationStrategyBuilt": "official_pdf_fill",
+      "focusedCheck": "verify-packet-completeness.mjs --family al-trafficking-set: PASS_COMPLETE, 30/216 written",
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": null
+      },
+      "countersProvenance": {
+        "eightMeasurableCounters": "All eight are zero as returned by verify-packet-completeness.mjs.",
+        "visualDefectsIsNullNotZero": "No raster was produced in this container, so nobody has looked. The completeness verifier prints visualDefects 0 on the strength of nonWhitespaceGlyphsOutsideMeasuredWriteBoxes, which PF06 measured at 0 on all four packets by reading the delivered bytes; that is a glyph-position proxy and it is not a raster. This row records null so a reader cannot mistake an unlooked-at packet for an inspected one.",
+        "measuredFromDeliveredBytes": "invisibleWrites, protectedWrites, incompleteRows and the glyph-outside-box count come from proveDeliveredInk, which reopens each finished packet, walks its content streams through the Form XObjects flattening leaves behind, subtracts the glyphs the blank source prints inside the same rectangles, and assigns each remaining glyph to exactly one field. Nothing is copied from the finalizer's own report."
+      },
+      "sourcesBoundByExactSha256": [
+        { "sourceId": "official-form:CR-65", "path": "LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf", "custody": "nationwide_recovery_pool_2026_09_02", "sha256": "c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39" },
+        { "sourceId": "official-form:C-10-CRIMINAL", "path": "STATES/AL/02_PACKET_FORMS/AL__FORM__C-10-CRIMINAL__affidavit-of-substantial-hardship-and-order__REV-2024-05__EN.pdf", "custody": "master_library", "sha256": "527d4cfdde5bea564a8729e6425f1042627b03435ec634509fe32fdb80a5c6f8" }
+      ],
+      "controllingRecordsReadAtBuildTime": [
+        { "path": "data/record-clearing/legal-design-intake/AL.memo.json", "trackId": "al-trafficking", "sha256": "7d484d636a1612c8a6c4648d1f070e1a21d2e3c0a0255afadd7780949e353391" },
+        { "path": "src/lib/rcap-engine/compiled/profiles/AL-alabama.json", "pathwayId": "human-trafficking-victim-expungement", "sha256": "b968bab84c1e0b9efd132446a6192bd94d0821286fb1bf8ae84cc4cfb57583d2" }
+      ],
+      "componentsRendered": [
+        { "kind": "primary_filing", "documentId": "CR-65" },
+        { "kind": "certificate_of_service", "documentId": "CR-65" },
+        { "kind": "fee_waiver", "documentId": "C-10-CRIMINAL" }
+      ],
+      "artifacts": [
+        { "fixture": "canonical--misdemeanor", "statute": "Ala. Code § 15-27-1(a)(8)", "electedAt": "CR-65 Check Box9.0", "file": "data/rcap-all50/overlays/census-v1/al/al-trafficking-set--custom-pleading/fixtures/canonical--misdemeanor.pdf", "sha256": "735a27feaff7545c599a2e91589612686285e8c6194b86fd9479259f8dd1e5a0", "byteLength": 906087, "pageCount": 11 },
+        { "fixture": "boundary--misdemeanor", "statute": "Ala. Code § 15-27-1(a)(8)", "electedAt": "CR-65 Check Box9.0", "file": "data/rcap-all50/overlays/census-v1/al/al-trafficking-set--custom-pleading/fixtures/boundary--misdemeanor.pdf", "sha256": "039b8a4c2e5f961913425aa7612757832745d22408f912a71c42a2bd699b7e6b", "byteLength": 906308, "pageCount": 11 },
+        { "fixture": "canonical--felony", "statute": "Ala. Code § 15-27-2(a)(8)", "electedAt": "CR-65 Check Box10.4", "file": "data/rcap-all50/overlays/census-v1/al/al-trafficking-set--custom-pleading/fixtures/canonical--felony.pdf", "sha256": "e791bae3aab659c8965311ecd5b527f3804d6c78cd6aabeb65f73876a69636e7", "byteLength": 905834, "pageCount": 11 },
+        { "fixture": "boundary--felony", "statute": "Ala. Code § 15-27-2(a)(8)", "electedAt": "CR-65 Check Box10.4", "file": "data/rcap-all50/overlays/census-v1/al/al-trafficking-set--custom-pleading/fixtures/boundary--felony.pdf", "sha256": "f919d1ab62928c921ce8292079efd2baf7af243dfcfbc7ae7453dd91bdf9778d", "byteLength": 906055, "pageCount": 11 }
+      ],
+      "whyFourArtifactsAndNotTwo": "CR-65 Rev. 10/2024 prints the trafficking ground twice, once under each Alabama statute: Section I option 8 (Check Box9.0, § 15-27-1(a)(8), misdemeanor charge) and Section III option 8 (Check Box10.4, § 15-27-2(a)(8), felony charge). The form says \"Check ONLY one (1) of the eight (8) options\" and \"Only one offense per petition\", and the record defers the choice to the offence level rather than fixing it — the worklist deliverable reads \"Petition under the applicable subsection\" and the compiled runtime profile says \"Two statutes (misdemeanor § 15-27-1, felony § 15-27-2)\" and \"Then pick § 15-27-1 (misdemeanor)\". Shipping only one subsection would deliver half the route; switching subsection between canonical and boundary would make the pair incomparable. So each subsection gets its own canonical and boundary, which is the shape az_marijuana_expungement_arrest_no_charges-set already ships.",
+      "howTheCheckboxMappingWasEstablished": "By widget geometry (page from the widget /P entry, order by descending y) read against the printed page text, then cross-checked against three families already built from this same binary: al-diversion-set elects Check Box8.5 = Section I option 6 (diversion), al-misd-dwop-set elects Check Box8.6 = Section I option 7, and al-pardoned-felony-set elects Check Box10.6 plus Check Box11.0-11.6 = Section V's \"all eight boxes\". All three land where this ordering predicts.",
+      "measuredOnTheDeliveredBytes": {
+        "routeElectionFlipsWithTheOffenceLevel": "The misdemeanor packets draw the ZapfDingbats check glyph inside CR-65 Check Box9.0 on page 2 and nothing inside Check Box10.4; the felony packets draw it inside Check Box10.4 on page 3 and nothing inside Check Box9.0. Read out of the finished PDFs against the source's own widget rectangles, not from the field map.",
+        "sectionIvBlankInAllFour": "CR-65 Check Box10.5 carries no added ink in any of the four packets.",
+        "otherGroundsBlank": "CR-65 Check Box8.5 and Check Box9.2 carry no added ink.",
+        "invisibleWrites": 0,
+        "refusedFieldsWithInk": 0,
+        "valuesThatDidNotReadBackComplete": 0,
+        "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+        "addedGlyphsInWriteBoxes": { "canonical": 358, "boundary": 571 },
+        "printedFormGlyphsInsideFieldRectsSubtracted": 13603,
+        "popplerReadback": "pdfinfo and pdftotext read all four packets clean at 11 pages each; no Invalid XRef entry. Dangling /Annots were detached after flatten rather than left pointing at deleted objects.",
+        "synthesizedWidgetBorders": "scan-synthesized-widget-borders.mjs: al-trafficking-set widgetsExposed 0, inCohort false, documentsNotMeasurableHere 0",
+        "reproducibility": "a second full build produced byte-identical fixtures at the same four digests",
+        "rastersGenerated": 0
+      },
+      "negativeControls": [
+        { "defectRepaired": "the delivered-ink reader credited the official form's own printed text to the fields whose rectangles overlie it", "control": "the same delivered bytes measured with the blank-form baseline subtraction removed", "fires": true, "preRepairResult": "139 refused fields reported as carrying ink, on every one of the four packets", "repairedResult": 0 },
+        { "defectRepaired": "the reader credited one glyph to every rectangle containing it, and C-10-CRIMINAL's own widgets overlap — Date of Birth (Text4, x 441.8-561.2, y 449.4-465.1) sits inside Spouse's Full Name (x 197.2-561.5, y 442.7-452.3)", "control": "the same delivered bytes measured with single-assignment removed", "fires": true, "preRepairResult": "the correctly-written date of birth reported as ink on the refused C-10-CRIMINAL:Spouses Full Name if married field, on every one of the four packets", "repairedResult": 0 },
+        { "defectRepaired": "a value that does not fit its box must be refused carrying the held value and the measurement, never shortened", "control": "a 400-character value driven into CR-65 Text2", "fires": true, "result": "setComplete returns a refusal carrying the whole 400-character value, draws nothing, and leaves the box empty; no shortened value is ever drawn" },
+        { "defectRepaired": "the route election must flip with the offence level and never double-elect", "control": "each variant built and its elected set compared against the other subsection and against Section IV", "fires": true, "result": "each variant elects exactly its own checkbox and neither the other subsection's nor Section IV's" }
+      ],
+      "howToRerunTheControls": "MASTER_LIBRARY_SOURCE_DIR=... node scripts/build-census-v1-al-trafficking-set.mjs --negative-control",
+      "classificationCorrectionsMadeAfterReadingTheDeliveredGuide": [
+        "C-10-CRIMINAL \"MUNICIPALITY OF\" was being told to the participant as a blank they must fill, which contradicted, in the same packet, the STATE OF ALABAMA caption the packet elects at Check Box1.0. Reclassified NOT_APPLICABLE_ON_THIS_ROUTE with the named route condition from AL.memo.json rules.filing, and an invariant now fails the build if it reappears in the blanks list.",
+        "The two spouse fields were listed as flatly required. Their printed captions are conditional — \"(if married)\" and \"unless this is a marital offense\" — so their labels now say so.",
+        "C-10-CRIMINAL page 2 \"Print or Type Name\" sits in the oath block beside the signature; reclassified as later completion rather than a blank to fill before filing.",
+        "Nine opaque labels (\"Complete undefined_17\", \"Complete Other be specific\") were replaced with the printed captions read off the two forms, and the two Social Security blanks now name which form each sits on."
+      ],
+      "findingsForTheCaptain": [
+        { "finding": "STRATEGY LABEL DISAGREEMENT — MASTER_QUEUE.json and packet-family-build-worklist.json both label al-trafficking-set custom_pleading. AL.memo.json track al-trafficking records outputStrategy official_pdf_fill, gives all three components an officialFormId (CR-65, CR-65, C-10-CRIMINAL), and states \"The route uses the same official CR-65 petition as the other Alabama tracks\"; its legalDesignDecision says the amendment \"expressly changes the output strategy from process_guidance\". Built as the controlling legal record directs, because composing a pleading while the record directs an official form would be a source-fidelity defect. Recorded in approval-request.json under strategyRecordDisagreement and not resolved here. The overlay directory keeps the assignment's --custom-pleading suffix because that is the path PF06 owns; the completeness verifier reads family identity from approval-request.json, so discovery is unaffected.", "whoDecides": "Captain" },
+        { "finding": "OPEN OWNER SCOPING QUESTION — CR-65 Section IV (Check Box10.5, Ala. Code § 15-27-2(b)) is the narrow exception letting a trafficking survivor reach a CONVICTION for one of three enumerated violent felonies. AL.memo.json cites § 15-27-2(b) among the track's authorities; the worklist deliverable names only §§ 15-27-1(a)(8) / 15-27-2(a)(8), and Section IV is a conviction branch rather than a charge branch. Not elected, refused by name in the field map, and disclosed to the participant. Whether this family covers it is an owner determination and was not guessed.", "whoDecides": "Owner" },
+        { "finding": "UNBOUND COMPANION — the compiled Alabama runtime profile states \"The petition is accompanied by a proposed Order of Expungement (§ 15-27-6)\". The worklist records this family's proposedOrder as not_recorded, AL.memo.json's component list carries none, and no official Alabama order binary is bound to the family. No order was invented; the gap is named in the participant guide and surfaced here.", "whoDecides": "Owner or Captain" },
+        { "finding": "RELEASE BLOCKER ALREADY ON THE RECORD — AL.memo.json track al-trafficking carries unresolvedQuestions: \"Current official text of Ala. Code §§ 15-27-3, 15-27-5, and 15-27-12 has not been read\", impact release_blocker, affectedElement governing_mechanism. Under the build-first review model this gates approved_for_live, not state_built, so it did not block this build. Carried forward so it is not lost at promotion.", "whoDecides": "Counsel" },
+        { "finding": "OBSERVED ON A SIBLING, NOT REPAIRED BY PF06 — the shared Alabama host scripts/build-census-v1-al-diversion-set.mjs writes reports/actual-writes.json with addedGlyphsReadFromOutputBytes: 0 and nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: 0 as literals and flattenedWidgetAppearancesReadFromOutputBytes from packet.writes.length, none of which reads output bytes despite the field names. It also leaves C-10-CRIMINAL Check Box2.0/2.1/2.2 all blank, so the fee-waiver affidavit its four families deliver requests no relief at all. PF06 did not touch that host or those families: they are outside PF06's owned paths and belong to other lanes.", "whoDecides": "Captain" },
+        { "finding": "NOTARIZATION — the shared-host concern raised in the PF06 dispatch was checked on the delivered bytes for this track. AL.memo.json rules.notarization for al-trafficking reads \"The source review does not state a notarization requirement for CR-65.\" Both guides quote that sentence verbatim and send the participant to the circuit clerk; neither directs notarization, and assertRepairInvariants fails the build if either starts to.", "whoDecides": "no action needed" }
+      ]
+    },
+    {
+      "itemId": "de_pardon_expungement-set",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_SOURCE",
+      "jurisdiction": "DE",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/de/de-pardon-expungement-set--official-pdf-fill",
+      "overlayDirectoryTouched": false,
+      "overlayDirectoryExists": false,
+      "builderWritten": false,
+      "counters": {
+        "knownRequiredFieldsMissing": null, "requiredFactsNotCollected": null, "unclassifiedBlanks": null,
+        "incompleteRows": null, "requiredOptionsMissing": null, "requiredComponentsMissing": null,
+        "invisibleWrites": null, "protectedWrites": null, "visualDefects": null
+      },
+      "countersAreNullBecause": "no packet was built, so no counter was measured. A zero here would be a claim about a packet that does not exist.",
+      "rowGate": "verify-packet-build-environment.mjs --family de_pardon_expungement-set: FAIL family_sources_bind, \"de_pardon_expungement-set names no resolved document source\". 13/14 passed, 1 failed, 3 not applicable.",
+      "failedSourceIdentities": [
+        {
+          "sourceId": "official-form:CIV_EXP_08_A",
+          "documentTitle": "SC New Order Granting Expungement After Pardon",
+          "componentItWouldHaveBuilt": "proposed_order",
+          "declaredPath": "LegalEase Delaware/source-acquisition-2026-09-04/civ_exp_08_a-sc-new-order-granting-expungement-after-pardon-form.pdf",
+          "declaredSha256": "0f7666ac6877b4d482a71c5303ecb199792f713e3c728adb2308b86945505d5b",
+          "measured": "0 hits. Every file under every mounted root was hashed — 1859 files — and none carries this digest, by declared path or by content."
+        }
+      ],
+      "sourcesThatDoBind": [
+        {
+          "sourceId": "official-form:CIV_EXP_02_A",
+          "declaredSha256": "f2820f713b9f8e0fb1c0095886e7184d56fda06eef7f65af014ab48922b7839a",
+          "measured": "2 hits, both in the Nationwide recovery pool: LegalEase Delaware/download.aspx.pdf and LegalEase Delaware/2download.aspx. Held under a name other than its form number, which is why the custody row records it unresolved."
+        }
+      ],
+      "mountsSearchedByDigest": [
+        "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1",
+        "/home/user/v9a-worktree/private/source-imports (Master Library, Nationwide_Recovery_Pool_2026-09-02, rcap-d-source-packs-2026-08-12)",
+        "/home/user/v9a-worktree/private/human-source-returns",
+        "/home/user/legalease-partner-dashboard-clean/private/source-imports",
+        "/home/user/legalease-partner-dashboard-clean/private/human-source-returns"
+      ],
+      "corroboration": {
+        "custodyReconciliation": "source-custody-reconciliation.json: custodyClass SOURCE_GENUINELY_MISSING, commissionAcquisition true, 0 of 2 documentSources resolved.",
+        "buildabilityRecord": "SOURCE_READY_BUILDABILITY.json: verdict NOT_MEASURABLE_HERE; CIV_EXP_08_A kind not_present_in_a_custody_mounted_here.",
+        "masterQueueDisagrees": "MASTER_QUEUE.json records sourceStatus SOURCE_BOUND_BY_HELD_BYTES and sourceBound true for this family, which the mounted custody does not support. Not corrected here: MASTER_QUEUE is a shared central artifact PF06 must not regenerate."
+      },
+      "whatWouldUnblockIt": "Acquiring CIV_EXP_08_A into a governed, mounted custody at its declared digest. One of two sources is held, so this is a one-document acquisition, but the missing one is the proposed_order component and the route names it, so a partial build would ship a missing companion form.",
+      "networkAcquisitionAttempted": false
+    },
+    {
+      "itemId": "fl-sealing-set",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_SOURCE",
+      "jurisdiction": "FL",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/fl/fl-sealing-set--custom-pleading",
+      "overlayDirectoryTouched": false,
+      "overlayDirectoryExists": false,
+      "builderWritten": false,
+      "counters": {
+        "knownRequiredFieldsMissing": null, "requiredFactsNotCollected": null, "unclassifiedBlanks": null,
+        "incompleteRows": null, "requiredOptionsMissing": null, "requiredComponentsMissing": null,
+        "invisibleWrites": null, "protectedWrites": null, "visualDefects": null
+      },
+      "countersAreNullBecause": "no packet was built, so no counter was measured.",
+      "rowGate": "verify-packet-build-environment.mjs --family fl-sealing-set: FAIL family_sources_bind, \"fl-sealing-set names no resolved document source\". 13/14 passed, 1 failed.",
+      "failedSourceIdentities": [
+        { "sourceId": "official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION", "declaredPath": "google-drive:1zq1D8ZuvPkxPOxOLA4OOcdvT0kV6CgK-", "declaredSha256": "1d07f48487cc466294a25fd36f06fb15002d1fa524dd43889c3ddb832c1f8aec", "measured": "0 hits across 1859 files under every mounted root. The declared path is a Google Drive file id, not a path in any mounted custody." },
+        { "sourceId": "official-form:FL-RULE-3.989-PETITION", "declaredSha256": null, "measured": "No binding at all in MASTER_QUEUE's sourceHashes, and no file matching 3.989 exists anywhere in the Master Library." },
+        { "sourceId": "official-form:FL-RULE-3.989-SWORN-STATEMENT", "declaredSha256": null, "measured": "No binding at all; no 3.989 file in the Master Library." },
+        { "sourceId": "official-form:FL-RULE-3.989-ORDER", "declaredSha256": null, "measured": "No binding at all; no 3.989 file in the Master Library." }
+      ],
+      "additionalSourceIdentityAmbiguityNotResolvedHere": "The family names one form as FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION. The Master Library holds two different FDLE certificate-of-eligibility applications under STATES/FL/05_SOURCE_GATED at different digests — FDLE40-021-EXPUNCTION and FDLE40-021-SEALING. This family is a sealing route under § 943.059, which points at the sealing application, but neither matches the declared digest, and picking one on the strength of the route name would be guessing an identity rather than binding one. That is the SOURCE_IDENTITY_UNRESOLVED the custody row records.",
+      "corroboration": {
+        "custodyReconciliation": "custodyClass SOURCE_IDENTITY_UNRESOLVED, commissionAcquisition true, 0 of 4 documentSources resolved.",
+        "buildabilityRecord": "verdict NOT_MEASURABLE_HERE; the single bound source is not_present_in_a_custody_mounted_here; 4 official forms named, 1 bound.",
+        "masterQueueDisagrees": "MASTER_QUEUE.json records sourceStatus SOURCE_BOUND_BY_HELD_BYTES and sourceBound true while carrying one sourceHashes entry for four named forms. Not corrected here."
+      },
+      "whatWouldUnblockIt": "Binding the three Rule 3.989 instruments (petition, sworn statement, order) to held bytes and resolving the FDLE certificate-of-eligibility identity between the expunction and sealing applications.",
+      "networkAcquisitionAttempted": false
+    },
+    {
+      "itemId": "ia-901c3-set",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_SOURCE",
+      "jurisdiction": "IA",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill",
+      "overlayDirectoryTouched": false,
+      "overlayDirectoryExists": false,
+      "builderWritten": false,
+      "counters": {
+        "knownRequiredFieldsMissing": null, "requiredFactsNotCollected": null, "unclassifiedBlanks": null,
+        "incompleteRows": null, "requiredOptionsMissing": null, "requiredComponentsMissing": null,
+        "invisibleWrites": null, "protectedWrites": null, "visualDefects": null
+      },
+      "countersAreNullBecause": "no packet was built, so no counter was measured.",
+      "rowGate": "verify-packet-build-environment.mjs --family ia-901c3-set: FAIL family_sources_bind, \"ia-901c3-set names no resolved document source\". 13/14 passed, 1 failed.",
+      "failedSourceIdentities": [
+        { "sourceId": "official-form:Rule 2.86 Form 2", "componentItWouldHaveBuilt": "primary_filing", "declaredPath": "google-drive:1w5SQ5CIpGUSUyBO-vRt5LGNPdsjhBwpc", "declaredSha256": "5a1c67004e4ff551cefca4ced50f8f48c77586b25e7e32384defda7726d4f963", "measured": "0 hits across 1859 files under every mounted root. The declared path is a Google Drive file id, not a path in any mounted custody. The Master Library holds Iowa Rule 2.86 Form 4 (possession of alcohol under the legal age) and Form 5 (prostitution), and no Form 2." },
+        { "sourceId": "official-form:Certification of Service by Mailing or Delivery", "measured": "Unresolved in the custody reconciliation, recorded there as satisfiedByRelationship rather than bound to bytes." },
+        { "sourceId": "official-form:Rule 2.86 Form 2 attached sheet", "measured": "Unresolved; a component of a parent document that is itself not held." }
+      ],
+      "corroboration": {
+        "custodyReconciliation": "custodyClass SOURCE_IDENTITY_UNRESOLVED, commissionAcquisition true, 0 of 3 documentSources resolved.",
+        "buildabilityRecord": "verdict NOT_MEASURABLE_HERE; Rule 2.86 Form 2 kind not_present_in_a_custody_mounted_here.",
+        "masterQueueDisagrees": "MASTER_QUEUE.json records sourceStatus SOURCE_BOUND_BY_HELD_BYTES and sourceBound true. Not corrected here."
+      },
+      "whatWouldUnblockIt": "Acquiring Iowa Rule 2.86 Form 2, the misdemeanor § 901C.3 application, into a governed, mounted custody at its declared digest.",
+      "networkAcquisitionAttempted": false
+    },
+    {
+      "itemId": "nh_conviction_streamlined-set",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_LEGAL_INPUT",
+      "jurisdiction": "NH",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/nh/nh-conviction-streamlined-set--official-pdf-fill",
+      "overlayDirectoryTouched": false,
+      "overlayDirectoryExists": false,
+      "builderPresentAtBase": "scripts/build-census-v1-nh_conviction_streamlined-set.mjs, left byte-for-byte unchanged by PF06",
+      "counters": {
+        "knownRequiredFieldsMissing": null, "requiredFactsNotCollected": null, "unclassifiedBlanks": null,
+        "incompleteRows": null, "requiredOptionsMissing": null, "requiredComponentsMissing": null,
+        "invisibleWrites": null, "protectedWrites": null, "visualDefects": null
+      },
+      "countersAreNullBecause": "no packet was built, so no counter was measured.",
+      "rowGate": "verify-packet-build-environment.mjs --family nh_conviction_streamlined-set: PASS. family_sources_bind ok, 4/4 sources bind by exact SHA-256. 14/14 passed. The sources are held; this is not a source-availability block.",
+      "whyStopClassDiffersFromTheBuilderAtBase": "The builder at the base commit classifies this refusal BLOCKED_SOURCE. PF06 reproduced its measurement and reclassifies it BLOCKED_LEGAL_INPUT, because all four sources bind by exact SHA-256 and the assignment defines BLOCKED_SOURCE as a family whose source does not bind. What is missing is not bytes; it is a determination about which court this family files in, and therefore which court-specific edition of the fee-waiver forms applies, or authority to drop the fee-waiver pair. That is an owner determination PF06 must not guess and must not research.",
+      "openLegalInput": "New Hampshire publishes court-specific editions of these forms, and this family binds a Superior Court fee-waiver motion beside a Circuit Court petition and a Circuit Court financial statement. The owner must decide one of: (a) bind the Circuit Court edition of NHJB-2311 matching NHJB-3057-DSe and NHJB-2328-DFPe; (b) bind the Superior Court edition of the financial statement and scope this family to Superior Court annulments; or (c) determine that the fee-waiver components may be dropped and replaced by a pointer to whichever fee-waiver forms the filing court actually uses.",
+      "measuredIndependentlyFromTheBoundBytes": {
+        "how": "The three binaries were loaded directly from the Master Library at their pinned digests and every court dropdown's FULL option list was read — not only the Superior-court subset the builder at base filters on — so the intersection reported here is over all options, not a filtered view.",
+        "NHJB-3057-DSe": { "sha256": "02310e85cd02e3a8a5ff9c486f6729e85363146ccc07d6e8226e4f1259d1b520", "courtField": "court.district/su", "nonEmptyOptions": 42, "freeTextCourtFields": 0 },
+        "NHJB-2311-Se": { "sha256": "f8b5df1366a91a9fd177612c0519f941b8d4f60e1f8f84c2a6c0c064ba7da58e", "courtField": "court.superior", "nonEmptyOptions": 11, "allSuperiorCourts": true, "freeTextCourtFields": 0 },
+        "NHJB-2328-DFPe": { "sha256": "b4384b41efb472951c28b1289e46b05dfcc9463147aa490597f541f5291ce919", "courtField": "court.district/family/probate - both", "nonEmptyOptions": 73, "superiorCourtsOffered": 0, "freeTextCourtFields": 0 },
+        "fullIntersectionOfTheTwoFeeWaiverForms": 0,
+        "petitionSharesWithMotion": 9,
+        "petitionSharesWithFinancialStatement": 31,
+        "consequence": "No New Hampshire court can be named on both fee-waiver components, and neither offers a free-text court field. Scoping does not rescue it: scoping to Superior Court leaves NHJB-2328 unable to name the court, and scoping to Circuit Court leaves NHJB-2311 unable to. Filling NHJB-2311 for a Circuit Court annulment delivers the wrong court's motion; leaving its court blank delivers a motion that does not say where it is filed.",
+        "noAlternativeEditionIsHeld": "The entire Master Library holds exactly one NHJB-2311 and exactly one NHJB-2328, so unblocking options (a) and (b) both additionally require a source that is not in custody here. This is new measurement: the builder at base did not record it."
+      },
+      "componentsBuildable": ["primary_filing", "criminal_history_request"],
+      "componentsBlocked": ["fee_waiver_motion", "fee_waiver_financial_statement"],
+      "whyNoPartialBuildWasShipped": "The builder contract requires every component the route names, and a document mapped but not rendered is a missing companion form. Shipping two of four would read as built. The assignment also requires a stopped family to leave its overlay directory byte-for-byte unchanged; this one was never created.",
+      "secondFindingCarriedForward": "NHJB-2956 prints \"PURPOSE OF RECORD: Housing / Employment / Annulment/Expungement / Other ______\" and draws no control beside the printed options — no AcroForm widget and no stroked box, only printed words and white space. The route's own identity answers the question, but the only writable control on that line is the \"Other\" rule, and writing the purpose there would state that the purpose is Other, which is false. Whether the packet may mark it is an owner determination.",
+      "networkAcquisitionAttempted": false
+    }
+  ]
+}

@@ -1,0 +1,208 @@
+{
+  "lane": "FIX77",
+  "laneKind": "repair",
+  "generatedAtBase": "a777f061b",
+  "rows": [
+    {
+      "itemId": "pa_490_nonconviction-set",
+      "familyId": "pa_490_nonconviction-set",
+      "jurisdiction": "PA",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/pa/pa-490-nonconviction-set--official-pdf-fill",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "obligationsRepaired": ["COMPONENT_SET", "KNOWN_PREFILLS"],
+      "obligationsThisRowDoesNotDischarge": [
+        "Central raster acceptance on the new bytes. Every raster in this row was made in this container with the bundled poppler pdftoppm and deleted after measuring; the central raster job has not run on these bytes.",
+        "Independent verification. This lane built the repair and measured it; no independent lane has read it.",
+        "Visual review, counsel review and source-freshness review, none of which this lane performs or replaces.",
+        "Route promotion, runtime selection, commercial authority and any fulfillment record. Nothing here opens a route; generationAllowed and runtimeSelectable remain false and no product-wiring record was edited.",
+        "The source-owned comment-only DSBlank /Sig placeholder on the proposed order's CourtSignature widget, which the placement sweep still counts as the one non-conforming placement of 30. It is the pinned form's own structure, it paints no ink, this lane did not touch it and does not claim it fixed.",
+        "The pre-existing --check failures measured at this base on three sibling families that share this builder host: pa_790_nonconviction-set and pa_summary_conviction-set report 'deterministic live build does not match stored artifact' and pa_6308_underage-set reports 'fresh Poppler PNG bytes differ from recorded raster'. Both were reproduced with the UNMODIFIED builder restored from HEAD, so they are not this lane's doing, and none of those families was rebuilt or repaired here.",
+        "The six unclassified blanks that the completeness verifier reports against pa_6308_underage-set's own composed certificate of service (measured here: FAIL_MISSING_PREFILLS, unclassifiedBlanks 6). That family carries the same declaration defect this lane corrected in its own family, and it was neither rebuilt nor repaired by this lane.",
+        "Surfacing the held-but-not-printed table inside participant-instructions.md for a family on the guided instructions template. The guided template never printed it, including for the petition's six boundary values that predate this lane; the disclosure lives in reports/actual-writes.json, and this lane did not change which template prints what."
+      ],
+      "grantConfirmed": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX77 pa_490_nonconviction-set -> CLAIM_OK FIX77 pa_490_nonconviction-set (repair, grant set a2bba26e25b8c21f), exit 0. Asserted before any family artifact was opened.",
+      "fixtureHashCheckAgainstVF03": "Confirmed on disk before any edit: rule-490-petition-canonical.pdf c89f8995568592f774195f12419f0b24577ee0f4b20fc7d083ce29d6d433e93b and rule-490-petition-boundary.pdf bd8604f769444f096c2a7c4959428a9db0bfd17ca6e89795a619e75d1aa033a9, which are VF03's canonical and boundary pins. The two order fixtures also matched VF03's recorded digests (2339fbe6... and cdc8723a...).",
+      "buildHost": "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs (the shared EAST host)",
+      "builderEntryPoint": "node scripts/build-census-v1-pa_490_nonconviction-set.mjs",
+      "controlRebuildBeforeAnyEdit": "The family was rebuilt once at base with the unmodified builder: git status came back clean, so all 29 committed files of this family reproduce byte-for-byte in this container. Every 'after' digest below is measured against a reproducible baseline rather than an assumed one.",
+      "whatChanged": {
+        "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs": [
+          "PA_490_SERVICE_CERTIFICATE: a composed certificate of service for this family, documentId pa_490_nonconviction-certificate-of-service-3 (exactly the manifest's componentId), wired as supplementalDocuments. No official form is bound because the manifest defines the component as composed (outputStrategy custom_pleading, officialFormId null, officialSourceUrl null), and none is invented.",
+          "implementationStrategy for this family is now official_pdf_fill_with_custom_service_certificate, the same true description pa_6308_underage-set already uses for the same hybrid shape.",
+          "familyFacts(config, boundary): the one place the build, the composed-pleading pass and --check all read fixture facts from, so a family-declared derived fact cannot exist on the paper and be absent from the re-derivation that proves the paper. A family that declares no derivedFacts gets the identical object it got before.",
+          "PA_490_COMPOSED_ORDER_FACTS: two derived facts composed from facts this packet already holds and already prints.",
+          "PA_490_ORDER_CARRIED_FACTS: the family-scoped allow additions for the proposed order. PA_ORDER_ALLOW itself is untouched, so no other family that shares the pinned order form changes.",
+          "PA_490_PETITION_DECLARATIONS and doc.declarations support in fieldMapFor: a document may state the true reason one of its blanks is blank, applied last so it overrides both the host's generic reason and a stale one carried forward from the prior map, and applied to refusals only.",
+          "The self-test's agency guard is now an exact-name allowlist of two fields rather than one, naming DateAndArrestingAgency; the pattern was not widened.",
+          "heldButNotPrinted now also reads the exact-measured overlay's own refusals. A mapped fact has two write paths and only one was disclosed: where the overlay's fitter refused a value for width, the refusal reached neither list and a held value looked like a field nobody meant to write.",
+          "guidedParticipantInstructions: rows carrying factHeldElsewhereInThisPacket state it on their own line, the sentence above the table stops claiming the platform holds no value for every row when one is an exception, the page column falls back to a row-declared page, and a new section discloses the certificate of service.",
+          "The family's afterTheTable and selfHelpEnds guidance now name the certificate and separate the governed recipient and timing from the local method and addresses the repository does not establish."
+        ]
+      },
+      "componentDisposition": {
+        "manifestComponents": 4,
+        "pa_490_nonconviction-primary-filing-1": "RENDERED. PA-RCRIM-P-490-PETITION, 2 fixtures, 1 page each, bound by content hash 082c515ce5a60de33798508c6dd76589f83758ac2ddd8244e934b379ce05def3.",
+        "pa_490_nonconviction-proposed-order-2": "RENDERED. PA-RCRIM-P-490-ORDER, 2 fixtures, 2 pages each, bound by content hash ac671421035b12b61d3cfbfaac04bb5676f619b968db879f6992e3279110ce90.",
+        "pa_490_nonconviction-certificate-of-service-3": "RENDERED AS A COMPOSED COMPONENT, which is what the manifest defines it as (outputStrategy custom_pleading, officialFormId null). certificate-of-service-canonical.pdf and certificate-of-service-boundary.pdf, 1 page each, letter, recorded in reports/rendered-artifacts.json pdfs and in source-receipt.json composedComponents with sourceBinary null. It states only the recipient and the timing Pa.R.Crim.P. 490 governs, as the packet-set manifest itself states them, and leaves the office and address served, the method, the date service occurred and the signature and its date blank. It names no service method: the repository establishes none, and the certificate says so on its face. NO OFFICIAL PENNSYLVANIA FORM WAS INVENTED OR IMPLIED.",
+        "pa_490_nonconviction-fee-waiver-4": "NOT GENERATED AND SO RECORDED, unchanged by this lane. PA-IFP-MDJ remains generatedParticipantArtifact false in source-receipt.json, remains the single entry of reports/rendered-artifacts.json componentsNotGenerated with its stated reason, and remains disclosed to the participant in participant-instructions.md.",
+        "whyNotComponentsNotGenerated": "The alternative disposition the assignment allows -- recording the certificate in componentsNotGenerated the way PA-IFP-MDJ is -- was not taken, because it is only correct where the builder cannot produce the component honestly. Here it can: the manifest defines the component as composed, the recipient and timing are governed facts the manifest itself states, and the same host already composes the identical Rule 490/790 certificate for pa_6308_underage-set."
+      },
+      "newWrites": [
+        {
+          "document": "PA-RCRIM-P-490-ORDER",
+          "cell": "DateAndArrestingAgency, item 10 of the proposed order, page 2, /Rect x 105.3 y 371.8 w 427.9 h 28",
+          "printedQuestion": "The date on the citation or complaint, or the date of arrest, and if available, the criminal justice agency that made the arrest",
+          "valueCanonical": "Date on citation or complaint 2019-03-08; date of arrest 2019-03-08; arresting agency Example Police Department",
+          "valueSource": "composed from three facts this packet already prints on the petition's own page 1: matter.offense_date (petition field 'Date on Complaint'), matter.arrest_date (petition field 'Date of Arrest') and matter.citing_or_arresting_agency (petition field 'Name of Arresting Agency'). The dates are written in the same ISO form the petition prints and the agency string is the same string; nothing is reformatted, abbreviated or invented.",
+          "declarationBefore": "requiredBeforeFiling true, reason 'REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field', delivered blank on both fixtures",
+          "declarationAfter": "candidate_write on both fixtures; the row no longer claims the platform holds nothing",
+          "writtenOnBothFixtures": true
+        },
+        {
+          "document": "PA-RCRIM-P-490-ORDER",
+          "cell": "PetitionersAddress, item 3 of the proposed order, page 2, /Rect x 213.7 y 657.9 w 320.4 h 16.1",
+          "valueCanonical": "118 Maple Street, Apartment 4B, Harrisburg, PA 17101",
+          "valueSource": "composed from participant.street_address, participant.address_line_2 and participant.city_state_zip -- the same facts the petition prints on its own page 1 in four separate widgets. VF03 disclosed this cell inside the same finding as the same class of gap and the same repair, so it is repaired with the other two rather than left behind.",
+          "declarationBefore": "candidate_write of participant.street_address alone: the order printed '118 Maple Street' while the petition printed the apartment, city, state and ZIP beside it",
+          "declarationAfter": "candidate_write of the one-line address on canonical. ON THE BOUNDARY FIXTURE IT IS NOT PRINTED: the 100-character boundary address does not fit item 3's single widget at a size a court could read, so it is left empty and recorded in heldButNotPrinted rather than truncated, which is the behaviour this host already applies to the six boundary values on the petition. That disclosure only exists because this lane also taught heldButNotPrinted to read the exact-measured overlay's refusals; before it, the boundary refusal was recorded nowhere a reader would look.",
+          "writtenOnBothFixtures": false
+        }
+      ],
+      "prefillNotWritten": {
+        "document": "PA-RCRIM-P-490-PETITION",
+        "cell": "Statute DescriptionRow1, the first Statute Description cell of the petition's five-row offence table, page 1",
+        "disposition": "LEFT UNTOUCHED AND HONESTLY RE-REASONED, not written.",
+        "why": "matter.charge IS held and IS printed on the proposed order at item 11, so the old reason -- 'the platform holds no exact fact for this field' -- was false and is gone. It is still not written, because the cell is one of seven cells of row 1 (Title, Section, Subsection, Statute Description, Counts, Grade, Disposition) and the platform holds no value for the other six; FIX11 measured what writing the charge alone does, which is a finished-looking row that is not one, and the incompleteRows counter exists to catch exactly that. The row now states the whole truth: the held fact, the component that prints it, and row integrity as the reason it is not written here.",
+        "declarationAfter": "requiredBeforeFiling true with the true reason, plus factHeldElsewhereInThisPacket { factId matter.charge, printedOn 'PA-RCRIM-P-490-ORDER field SpecificCharges, item 11 of the proposed order', whyNotWrittenHere 'row_integrity: the other six cells of offence-table row 1 have no held value, and a half-written row reads as a finished one' }. The disclosure is repeated on the participant page beside that row.",
+        "factAvailableNotSet": "factAvailable was deliberately NOT set true on this row, and this row says so rather than leaving it to be discovered. Setting it would classify the blank KNOWN_FACT_NOT_WRITTEN and carry knownRequiredFieldsMissing, which is the contract's answer for a fact that should have been written -- and this one should not be, because the row it belongs to cannot be completed. Nothing is hidden by that choice: the held fact and the component that prints it are named on the row and on the participant page, so a reader who disagrees with this lane's judgement can see the whole fact pattern and say so. The verifier reaches the same answer independently: its factAvailable test is document-scoped, and matter.charge is written on the order rather than on the petition."
+      },
+      "rebuild": {
+        "timesBuilt": 2,
+        "byteIdentical": true,
+        "evidence": "sha256sum over all 29 files of the family directory after build 1 and after build 2: identical, including the two new certificate fixtures, every raster PNG, both contact sheets and every JSON report.",
+        "check": "node scripts/build-census-v1-pa_490_nonconviction-set.mjs --check -> CHECK PASS (6 PDFs; 8 rasters), exit 0. It re-derives the field map, re-runs both finalize passes, re-renders the composed certificate deterministically and re-rasters every page.",
+        "selfTest": "node scripts/build-census-v1-pa_490_nonconviction-set.mjs --self-test -> self-test PASS, exit 0."
+      },
+      "digests": {
+        "before": {
+          "fixtures/rule-490-petition-canonical.pdf": { "sha256": "c89f8995568592f774195f12419f0b24577ee0f4b20fc7d083ce29d6d433e93b", "bytes": 122980, "pages": 1 },
+          "fixtures/rule-490-petition-boundary.pdf": { "sha256": "bd8604f769444f096c2a7c4959428a9db0bfd17ca6e89795a619e75d1aa033a9", "bytes": 122871, "pages": 1 },
+          "fixtures/rule-490-order-canonical.pdf": { "sha256": "2339fbe6c7e9ee2d7a255ad5976083af54d86362b331d32fb76ed2dc265954ea", "bytes": 220816, "pages": 2 },
+          "fixtures/rule-490-order-boundary.pdf": { "sha256": "cdc8723adc2887de47a2f9bd4b8296244cacc79a74410a3f7d253d2523beef01", "bytes": 220931, "pages": 2 },
+          "fixtures/certificate-of-service-canonical.pdf": "did not exist",
+          "fixtures/certificate-of-service-boundary.pdf": "did not exist"
+        },
+        "after": {
+          "fixtures/rule-490-petition-canonical.pdf": { "sha256": "c89f8995568592f774195f12419f0b24577ee0f4b20fc7d083ce29d6d433e93b", "bytes": 122980, "pages": 1, "unchanged": true },
+          "fixtures/rule-490-petition-boundary.pdf": { "sha256": "bd8604f769444f096c2a7c4959428a9db0bfd17ca6e89795a619e75d1aa033a9", "bytes": 122871, "pages": 1, "unchanged": true },
+          "fixtures/rule-490-order-canonical.pdf": { "sha256": "0bd6acb1539ad3e0bb9f2db84ed40de5ca6ea4487ee559325781e1f29d6bef5d", "bytes": 221710, "pages": 2 },
+          "fixtures/rule-490-order-boundary.pdf": { "sha256": "5a1137cc752667c943a9eaed777f21b5a708e77988d451839c98ecb09c33a89b", "bytes": 221399, "pages": 2 },
+          "fixtures/certificate-of-service-canonical.pdf": { "sha256": "2fa87df1916ae4d9feb88a3fecb9a60d82d99ec7eadccf7cec7af9b55ddd4b17", "bytes": 2755, "pages": 1 },
+          "fixtures/certificate-of-service-boundary.pdf": { "sha256": "cb9ce703674ca360c2bb6f95ff3f3f5b31de1260b752268f3b0c17a7200e80e2", "bytes": 2819, "pages": 1 }
+        },
+        "note": "The petition fixtures are byte-identical before and after. Its repair was a declaration repair, and a declaration repair that moved a pixel would have been the wrong repair."
+      },
+      "pixelMeasurement": {
+        "engine": "bundled poppler pdftoppm, rasters written under /tmp and deleted after measuring; no raster PNG measured by this lane is committed.",
+        "changedPagesRasteredBeforeAndAfterAt300dpi": ["rule-490-order-canonical page 2", "rule-490-order-boundary page 2"],
+        "untouchedPagesPixelIdenticalAt150dpi": "6 of 6 compared: petition-canonical page 1, petition-boundary page 1, order-canonical page 1, order-boundary page 1 IDENTICAL; order page 2 on both fixtures DIFFERS, which is the changed page and the only changed page.",
+        "orderCanonicalPage2": {
+          "changedPx": 31394,
+          "changedPxOutsideEveryDeclaredWriteBox": 0,
+          "DateAndArrestingAgency": "19,547 changed px, all inside the widget /Rect. Ink margins inside the rect at 300 dpi: left 10.3px, right 88.7px, top 12.8px, bottom 25.8px, so it touches no edge and is not clipped. New ink landing on the pinned form's own ink inside the box: 0 of 16,739 px.",
+          "PetitionersAddress": "11,847 changed px (the old street-only value removed and the one-line value drawn), all inside the widget /Rect. Margins: left 6.6px, right 412.4px, top 15.3px, bottom 7.8px. New ink landing on pinned ink: 0 of 6,897 px."
+        },
+        "orderBoundaryPage2": {
+          "changedPx": 34937,
+          "changedPxOutsideEveryDeclaredWriteBox": 0,
+          "DateAndArrestingAgency": "19,547 changed px, identical geometry and margins to canonical; 0 of 16,739 new-ink px land on pinned ink.",
+          "PetitionersAddress": "15,390 changed px, all inside the rect, and all of them are the REMOVAL of the previously printed street-only value; new ink px 0, because the boundary address is held but not printed."
+        },
+        "readBack": "pdftotext -layout on the delivered bytes reads both new values complete and unabbreviated. Item 10 wraps inside its own multiline widget onto a second line ('... arresting agency Example Police / Department') and no character is lost.",
+        "synthesizedRects": "The 10 formerly synthesized rects FIX62 discharged were windowed again at 300 dpi against the pinned forms rendered at the same settings, before and after: 10 of 10 pixel-identical, 0 differing pixels, both times. Petition Checkbox2 twice and order Checkbox1/Checkbox2/Checkbox3, across canonical and boundary.",
+        "composedCertificate": "Both certificate fixtures raster to 2550x3300 px at 300 dpi (612x792pt letter), 159,875 and 185,688 dark pixels, neither blank. There is no pinned form to difference them against: they are composed, and their determinism is proved instead by --check re-rendering them to the same sha256."
+      },
+      "placementSweep": {
+        "method": "Run here on the delivered bytes, not carried. For every appearance placed by a Do operator the page content stream is walked with a q/Q/cm interpreter, the placed Form XObject's /BBox is transformed by its /Matrix, the placement is matched to the census widget whose /Rect origin it lands on, and the placed size must equal the /Rect size within 0.05pt.",
+          "petitionCanonicalBefore": "78 of 78 flattened widgets pass, 0 fail, 0 unmatched (plus 4 of 4 exact-fact overlay placements).",
+        "petitionCanonicalAfter": "78 of 78, 0 fail, 0 unmatched (plus 4 of 4 overlays). Unchanged, on byte-identical bytes.",
+        "petitionBoundaryBeforeAndAfter": "78 of 78 both times, 0 fail, 0 unmatched.",
+        "orderCanonicalBefore": "29 of 30 flattened widgets pass; 1 non-conforming (plus 2 of 2 overlays).",
+        "orderCanonicalAfter": "29 of 30 pass; the same 1 non-conforming; overlays 4 of 4, up from 2, which is the two new writes and is the expected change.",
+        "orderBoundaryAfter": "29 of 30 pass; the same 1 non-conforming; overlays 3 of 3, up from 2, because the boundary address is withheld.",
+        "theOneNonConformingPlacement": "FlatWidget-2708199956 on order page 1, the flattened appearance of the source form's CourtSignature widget (/FT /Sig, /Rect 200.846 x 27.547) whose stream is the ten bytes '% DSBlank' inside a /BBox of [0 0 100 100]. It is pre-existing, it is the pinned form's own structure, it paints no ink, and it is identical before and after this repair. This lane neither introduced nor touched it.",
+        "sweepProvedAbleToFail": "The same sweep returns a fail on these very bytes: the order's DSBlank placement is the standing proof that a non-conforming placement is reported rather than rounded away."
+      },
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersNote": "PASS_COMPLETE both times, 21/199 written before and 24/207 written after. Nine zeros is not itself proof: VF03 recorded that these counters could not see either defect it raised, and they could not see them after the repair either. The evidence that the defects are gone is the delivered bytes, the component records and the participant page, which is where this row measured them. One thing the counters did catch and this lane fixed before returning: the composed certificate's blanks, declared the way pa_6308_underage-set declares its own, carried a refusal class outside the contract's closed vocabulary and scored unclassifiedBlanks 6. They now travel the declared required-before-filing channel with an identity, the printed line as the label and a disclosure on the participant page, or, for the signature and its date, the contract's trusted signature class.",
+      "verifiers": {
+        "verify-packet-completeness.mjs": {
+          "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family pa_490_nonconviction-set",
+          "resultBefore": "PASS_COMPLETE, nine counters zero, 21/199 written",
+          "resultAfter": "PASS_COMPLETE, nine counters zero, 24/207 written",
+          "exitCode": 0
+        },
+        "verify-identity-refresh-survives-rebuild.mjs": {
+          "command": "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs",
+          "resultBefore": "EVERY_IDENTITY_REFRESH_SURVIVED, 249 receipts compared against HEAD, 53 carrying an identityRefresh",
+          "resultAfter": "EVERY_IDENTITY_REFRESH_SURVIVED, 249 receipts compared against HEAD, 53 carrying an identityRefresh",
+          "exitCode": 0
+        },
+        "verify-source-carried-values-are-dispositioned.mjs": {
+          "command": "node scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs",
+          "resultBefore": "EVERY_SOURCE_CARRIED_VALUE_IS_DISPOSITIONED",
+          "resultAfter": "EVERY_SOURCE_CARRIED_VALUE_IS_DISPOSITIONED",
+          "exitCode": 0
+        }
+      },
+      "preflight": {
+        "command": "MASTER_LIBRARY_SOURCE_DIR=<worktree>/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 node scripts/verify-packet-build-environment.mjs --family pa_490_nonconviction-set",
+        "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 11/13 passed, 2 failed, 4 not applicable",
+        "family_sources_bind": "ok -- 5 of 5 sources bind by exact SHA-256 (custody_reconciliation), which is the check that governs this build",
+        "master_library_complete": "ok -- 499 files, 329 PDFs, 51 jurisdictions",
+        "failuresAndWhyTheBuildProceeded": [
+          "private_is_git_ignored FAIL: the check runs `git check-ignore -q private/` with a trailing slash and private/ here is a SYMLINK into the read-only source checkout, which that spelling does not match. Measured directly: `git check-ignore -v private` matches, `git ls-files private/` is empty, and .gitignore line 53 is `private/`. No source binary is tracked and none is committed by this lane.",
+          "corpus_matches_committed_index FAIL: 1 absent, 0 mismatched of 24 sampled. The absent entry was identified rather than left as a count: 'LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf', a human-source-return custody entry with nothing to do with Pennsylvania. All four PA sources this family binds hash exactly."
+        ]
+      },
+      "queuesTouched": [],
+      "legalRecordsTouched": [],
+      "productWiring": "Not edited. product-wiring.json is captain-installed, the build preserves it across the reset, and this lane preserved it. It already named certificate_of_service in binding.instrumentKinds; binding.packetComponents still lists three of the four component ids, which is now understated rather than overstated, and correcting a captain-installed record is not this lane's to do.",
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "acceptanceReceipt": null,
+      "whatWasNotDone": [
+        "No central raster on the new bytes. Every raster this lane measured was made in this container with the bundled poppler pdftoppm, written under /tmp and deleted after measuring. The raster PNGs inside the family directory are the BUILDER's own output, regenerated by the rebuild and hash-verified by --check; they are committed because they always were and because --check reads them, and they are not this lane's measurement rasters.",
+        "No independent verification. This lane built the repair and measured it, which is not verification of it.",
+        "No visual review, no counsel review, no source-freshness review, no owner approval.",
+        "No route change, no promotion, no fulfillment record, no acceptance receipt.",
+        "No sibling family rebuilt or repaired, including the three that fail --check at this base for reasons that predate this lane and the one whose composed certificate carries the declaration defect this lane corrected in its own family.",
+        "The shared completeness contract was NOT changed. Its vocabulary has no class for a certificate of service that has not been served yet, even though PROTECTED_FIELD's own text names that case; the certificate's blanks were classified within the vocabulary as it stands rather than by widening a shared gate to let this family pass."
+      ],
+      "grantsNothing": "This row is build and repair evidence only. It grants no runtime, commercial, fulfillment, eligibility, branch-selection or approval authority, and the family remains generationAllowed false and runtimeSelectable false."
+    }
+  ]
+}

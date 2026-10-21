@@ -1,0 +1,40 @@
+{
+  "schemaVersion": "rcap-field-classification-policy/v2-d0",
+  "factoryVersion": "d0-remediated-v1",
+  "basis": "scripts/rcap-official-forms/rcap-field-semantics.mjs — typed fail-closed binder, unmodified",
+  "everyFieldStartsProtected": true,
+  "writableRequires": [
+    "no protect rule matches the field name or its measured label",
+    "the PDF control type is text or dropdown, or the anchor is a measured caption blank",
+    "the name or printed label matches exactly one allowlisted fact descriptor",
+    "the fact is one of the caption facts a court-issued document accepts",
+    "the resolved value matches the descriptor's declared type"
+  ],
+  "documentAcceptsFill": true,
+  "captionOnly": true,
+  "ownership": "court_issued_caption_only",
+  "ownershipDetermination": "JDF 416 Guide to Sealing Arrest Records (No Charges Filed) (R: July 1, 2025) lists this document among the forms the petitioner files and says how much of it to complete: \"JDF 435 Order (just do §§ A-C)\". The caption is the petitioner's and everything after it is the court's, so only caption facts bind and every other field is refused by role.",
+  "explicitMappings": {},
+  "reviewedWithholdings": [
+    {
+      "field": "courtAddress",
+      "rationale": "the mailing address of the court handling the case, which the platform does not hold; the Judicial Department publishes each courthouse address"
+    }
+  ],
+  "courtOwnedAfterTheCaption": [
+    {
+      "field": "division",
+      "why": "court-use caption field; the court assigns the division"
+    },
+    {
+      "field": "courtroom",
+      "why": "court-use caption field; the court assigns the courtroom"
+    },
+    {
+      "field": "bodyAndSignature",
+      "why": "the finding, the hearing or denial particulars, the judge's signature and date, and the clerk's certificate of service are the court's; nothing is drawn there"
+    }
+  ],
+  "protectionsWeakened": false,
+  "note": "The shared binder was not edited and no protection was weakened. captionOnly refuses every non-caption fact by construction, and every field after the caption is refused by role before the binder is asked."
+}

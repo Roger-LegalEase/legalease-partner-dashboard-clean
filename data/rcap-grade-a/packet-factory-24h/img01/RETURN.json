@@ -1,0 +1,158 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-return/v1",
+  "lane": "IMG01",
+  "title": "Render-worker image built from the integrated code and smoke-tested inside the container in three stages",
+  "branch": "img01-render-worker-image",
+  "baseCommit": "c6b497cbee9f2c8fdf9567366d3bc26a89da68f4",
+  "commit": "99a959aeecf28249630b2193c4c1532629afc350",
+  "commitMeaning": "The image was built from this commit. The commit carrying this RETURN is its child and changes no image input, so it does not change the image.",
+  "recordedAt": "2026-09-06T17:30:00Z",
+  "dockerAvailable": true,
+  "dockerVersion": "29.3.1",
+  "filesPackaged": {
+    "count": 122,
+    "bytes": 13777640,
+    "manifest": "deploy/rcap-render-worker/runtime-data-manifest.json",
+    "manifestSha256": "008e5c3b7c009372a0c69b879bd9a8e49b68a812acac2c5c742ef46a48eab264",
+    "previous": "67 files / 10625170 bytes at DEL-D",
+    "added": "data/rcap-all50/composed-routes/**/route.json (16) and data/rcap-all50/terminalization-treatments/*.json (39)",
+    "whyAdded": "resolvePacketRoute is on the worker's own import graph through src/lib/rcap/render/job-contract.ts buildRenderJobSpec, and it calls componentDeferralForTrack and terminalTreatmentForTrack before it classifies a route. Both loaders FAIL OPEN - guidance-packet-registry.ts loadComponentDeferrals and loadTerminalTreatments return an empty Map when their directory is absent - so an image without them does not crash: it silently stops suppressing 10 component-deferred tracks and 114 terminally-treated tracks. DEL-D excluded both on the belief they were reached only from briefcase item CREATION clamps; packet-route-resolver.ts lines 571 and 633 call them directly.",
+    "reconciliation": "Static traversal of the import graph from scripts/rcap-render-worker.mjs at this commit resolved 100 local modules; the DEL-A family src/lib/rcap/grade-a/families/il-prostitution-j-vacate-set.ts, scripts/lib/il-prostitution-j-vacate-composition.mjs, src/lib/rcap/grade-a/participant-packet.ts, composer.ts and renderer.ts are all on it and none of them performs any filesystem read - they are code, already carried by COPY src/ and COPY scripts/lib/. Every 'data/'-rooted path constant in the whole graph was enumerated (12 constants); the only two not already packaged were the two added here. The guarded-regeneration migration supabase/migrations/20260906130000_verified_artifact_regeneration.sql is server-side and is not an image input.",
+    "notPackaged": "No data/ wholesale (14 MB of 1.1 GB), no private/, no secrets, no synthetic test-authority fixtures. scripts/lib/*-test-*.mjs, scripts/lib/rcap-ephemeral-pg.mjs and scripts/lib/rcap-onboarding-artifact-fixture.mjs remain excluded by the build-context allowlist; the image was checked and carries no certificate material from the build secret."
+  },
+  "imageId": "sha256:6fe672fdb0f2178bcefcaf9d8816b2813771e5b599f628a598a4200f45f3a019",
+  "imageRepoDigest": "rcap-render-worker@sha256:6fe672fdb0f2178bcefcaf9d8816b2813771e5b599f628a598a4200f45f3a019",
+  "imageRepoDigestScope": "LOCAL content digest reported by the containerd snapshotter for a tag that exists only on this host. It is NOT a registry digest: nothing was pushed, no registry holds this image, and this value must never be recorded on an artifact as container_digest or as RCAP_WORKER_CONTAINER_DIGEST.",
+  "imageTag": "rcap-render-worker:img01",
+  "imageSizeBytes": 258952391,
+  "rootfsLayerCount": 25,
+  "rootfsLayerSetSha256": "227694c2c6911d5597064bd99ce3f5b84894b0fe2c5eefa3f1125eecdfd03f35",
+  "baseImage": {
+    "reference": "node:22-slim",
+    "id": "sha256:83f487e0a63425e5b4d146fb5e5be574bcbe1b7b843d3ebafdd95eaf7767a7e5",
+    "obtainedVia": "Already present locally as node:22-slim, pulled earlier from mirror.gcr.io/library/node:22-slim and retagged because Docker Hub's blob CDN is denied by this session's egress policy. The Dockerfile still reads FROM node:22-slim and was not changed for this."
+  },
+  "buildCommand": {
+    "asAssigned": "docker build -f deploy/rcap-render-worker/Dockerfile -t rcap-render-worker:img01 .",
+    "asAssignedExitCode": 1,
+    "asAssignedFailure": "npm error Exit handler never called! - npm ci in the deps stage cannot complete because the build network re-signs TLS and the container does not trust the egress proxy CA. Identical to the obstacle DEL-D recorded.",
+    "asRun": "docker build -f deploy/rcap-render-worker/Dockerfile --secret id=proxy_ca,src=/root/.ccr/ca-bundle.crt -t rcap-render-worker:img01 .",
+    "asRunExitCode": 0,
+    "note": "The proxy_ca BuildKit secret is the Dockerfile's own documented, optional escape for exactly this network. It is a secret rather than a build arg, only node_modules leaves the deps stage, and the built image was checked: docker history carries no certificate material and /run/secrets does not exist inside the container."
+  },
+  "fingerprintVerifier": {
+    "command": "node scripts/verify-rcap-image-input-fingerprint.mjs",
+    "exitCode": 1,
+    "tail": [
+      "Image-input fingerprint verification FAILED:",
+      "  - scripts/rcap-render-worker.mjs hashes to 20cc5c3dd811\u2026, fingerprint records e021e936bb67\u2026; the input changed after the fingerprint was taken",
+      "  - deploy/rcap-render-worker/Dockerfile hashes to c5db0a593258\u2026, fingerprint records 6079456600e0\u2026; the input changed after the fingerprint was taken",
+      "  - scripts/lib/ at HEAD is f26d37ea214f\u2026, fingerprint records a79a75118969\u2026; the tree changed after the fingerprint was taken",
+      "  - src/ at HEAD is cbe50171e1d0\u2026, fingerprint records 7c5ec7b387e6\u2026; the tree changed after the fingerprint was taken",
+      "  - HEAD differs from the fingerprint base 3285b660 on image-input paths: deploy/rcap-render-worker/Dockerfile, scripts/lib/il-prostitution-j-vacate-composition.mjs, scripts/lib/indiana-cca-section1-guide.mjs, scripts/lib/route-artifact-scope.mjs, scripts/rcap-render-worker.mjs, src/app/api/rcap/packets/[jobId]/download/route.ts, src/lib/clinic-mode/result-follow-up.ts, src/lib/expungement-ai/consumer-render-request.ts, src/lib/expungement-ai/packet-fulfillment-authority.ts, src/lib/expungement-ai/packet-generation.ts, src/lib/expungement-ai/payment-adapter.ts, src/lib/legal-authority/authority.json, src/lib/legal-authority/routes/single-routes.json, src/lib/rcap-engine/compiled/profiles/AZ-arizona.json, src/lib/rcap-engine/compiled/profiles/CA-california.json, src/lib/rcap-engine/compiled/profiles/CT-connecticut.json, src/lib/rcap-engine/compiled/profiles/KY-kentucky.json, src/lib/rcap-engine/compiled/profiles/LA-louisiana.json, src/lib/rcap-engine/compiled/profiles/MA-massachusetts.json, src/lib/rcap-engine/compiled/profiles/MD-maryland.json, src/lib/rcap-engine/compiled/profiles/MT-montana.json, src/lib/rcap-engine/compiled/profiles/NE-nebraska.json, src/lib/rcap-engine/compiled/profiles/NJ-new-jersey.json, src/lib/rcap-engine/compiled/profiles/NV-nevada.json, src/lib/rcap-engine/compiled/profiles/OR-oregon.json, src/lib/rcap-engine/compiled/profiles/PA-pennsylvania.json, src/lib/rcap-engine/compiled/profiles/RI-rhode-island.json, src/lib/rcap-engine/compiled/profiles/SC-south-carolina.json, src/lib/rcap-engine/compiled/profiles/SD-south-dakota.json, src/lib/rcap-engine/compiled/profiles/UT-utah.json, src/lib/rcap/documents/factory-v2-registry.ts, src/lib/rcap/documents/packet-route-resolver.ts, src/lib/rcap/fulfillment/consumer-specification-binding.ts, src/lib/rcap/grade-a/composer.ts, src/lib/rcap/grade-a/families/il-prostitution-j-vacate-set.ts, src/lib/rcap/grade-a/packet-specification.ts, src/lib/rcap/grade-a/participant-packet.ts, src/lib/rcap/grade-a/renderer.ts, src/lib/rcap/render/commercial-admission.ts, src/lib/rcap/render/job-queue.ts, src/lib/rcap/render/packet-delivery.ts, src/lib/rcap/render/personalized-packet.ts, src/lib/rcap/render/sponsored-packet.ts; the fingerprint no longer describes what a build at HEAD would copy",
+      "  - the staging action does not survive its own generator --check (hand-edited or stale): Staging action cannot be generated:"
+    ],
+    "madePass": false,
+    "generatorRefusal": {
+      "command": "node scripts/generate-rcap-staging-action.mjs",
+      "exitCode": 1,
+      "exactMessage": "Staging action cannot be generated:\n  - worker publication evidence was built from b680a4e4, which is not image-input-equivalent to the fingerprint base 99a959ae; differs on: deploy/rcap-render-worker/Dockerfile, scripts/lib/il-prostitution-j-vacate-composition.mjs, scripts/lib/indiana-cca-section1-guide.mjs, scripts/lib/route-artifact-scope.mjs, scripts/rcap-render-worker.mjs, src/app/api/rcap/packets/[jobId]/download/route.ts, src/lib/clinic-mode/result-follow-up.ts, src/lib/expungement-ai/consumer-render-request.ts, src/lib/expungement-ai/packet-fulfillment-authority.ts, src/lib/expungement-ai/packet-generation.ts, src/lib/expungement-ai/payment-adapter.ts, src/lib/legal-authority/authority.json, src/lib/legal-authority/routes/single-routes.json, src/lib/rcap-engine/compiled/profiles/{AZ,CA,CT,KY,LA,MA,MD,MT,NE,NJ,NV,OR,PA,RI,SC,SD,UT}.json, src/lib/rcap/documents/factory-v2-registry.ts, src/lib/rcap/documents/packet-route-resolver.ts, src/lib/rcap/fulfillment/consumer-specification-binding.ts, src/lib/rcap/grade-a/composer.ts, src/lib/rcap/grade-a/families/il-prostitution-j-vacate-set.ts, src/lib/rcap/grade-a/packet-specification.ts, src/lib/rcap/grade-a/participant-packet.ts, src/lib/rcap/grade-a/renderer.ts, src/lib/rcap/render/commercial-admission.ts, src/lib/rcap/render/job-queue.ts, src/lib/rcap/render/packet-delivery.ts, src/lib/rcap/render/personalized-packet.ts, src/lib/rcap/render/sponsored-packet.ts - the published image is for other bytes and must be republished at the freeze",
+      "outsideThisLane": true,
+      "why": "The refusing input is data/rcap-render/worker-publication-evidence.json, which records the GHCR publication ghcr.io/roger-legalease/rcap-render-worker@sha256:bf4589d3432f396f08196b2a619e445b75f1b4e2d2a0c404fbb06c4017e61864 built from sourceSha b680a4e4. Forty-three image-input paths already differ between b680a4e4 and the base commit c6b497cbe, before any change of mine: git diff --name-only b680a4e4 c6b497cbe -- <the seven image inputs> lists 43 files. So the generator refuses identically at the pristine base commit, and neither the Dockerfile edit in this lane nor anything else in deploy/ is the cause. Clearing it requires either republishing the worker image at the current source (a registry push, which this lane is forbidden to do and did not do) or updating that evidence file, which is not writable by this lane.",
+      "consequence": "data/rcap-staging-action.json was NOT modified - the generator writes nothing when it refuses - and the fingerprint verifier therefore still fails at this commit, for the same pre-existing reasons DEL-D reported plus the Dockerfile delta."
+    }
+  },
+  "stages": {
+    "preflight": {
+      "ran": true,
+      "inContainer": true,
+      "command": "docker run --rm --network none rcap-render-worker:img01 node deploy/rcap-render-worker/preflight.mjs",
+      "exitCode": 0,
+      "outputTail": [
+        "  OR:marijuana-specific-set-aside-redesignation -> refused: OR:marijuana-specific-set-aside-redesignation: INCOMPLETE. OR:marijuana-specific-set-aside-redesignation is mi",
+        "  OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c -> refused: OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c: INCOMPLETE. OR:set-aside-of-arres",
+        "  OR:set-aside-of-eligible-convictions-under-ors-137-225-1-a -> refused: OR:set-aside-of-eligible-convictions-under-ors-137-225-1-a: INCOMPLETE. OR:set-aside-of-eligible-convictions-u",
+        "  WY:felony-conviction-expungement-w-s-7-13-1502 -> ALLOWED",
+        "authority gate: 14 records, 2 allowed, 12 reasoned refusals, 0 undecided",
+        "specification directory: 19 files scannable at data/record-clearing/packet-specifications",
+        "fail-open loaders: 10 component-deferral tracks and 114 terminal treatments loaded from packaged data; all resolve unsellable with rendererKind none",
+        "ALL OK: packaged assets, worker imports and registry decisions verified"
+      ],
+      "proved": "All 122 packaged files present inside the image and byte-identical to the manifest; the worker's module graph loaded from the packaged layout, which is what requires the @/../data ESM JSON imports; 51 compiled jurisdiction profiles resolved; 19 specifications scannable; and the two fail-open loaders really loaded from the packaged tree, with all 10 component-deferral tracks and all 114 terminal treatments still resolving unsellable with rendererKind none inside the container."
+    },
+    "authority": {
+      "ran": true,
+      "inContainer": true,
+      "command": "docker run --rm --network none rcap-render-worker:img01 node deploy/rcap-render-worker/preflight.mjs --stage=authority",
+      "exitCode": 0,
+      "outputTail": [
+        "  ND:general-conviction-sealing-under-n-d-c-c-chapter-12-60-1 -> refused: ND:general-conviction-sealing-under-n-d-c-c-chapter-12-60-1: INCOMPLETE. ND:general-conviction-sealing-under-n",
+        "  ND:marijuana-specific-summary-pardon-or-sealing-relief -> refused: ND:marijuana-specific-summary-pardon-or-sealing-relief: INCOMPLETE. ND:marijuana-specific-summary-pardon-or-se",
+        "  OR:marijuana-specific-set-aside-redesignation -> refused: OR:marijuana-specific-set-aside-redesignation: INCOMPLETE. OR:marijuana-specific-set-aside-redesignation is mi",
+        "  OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c -> refused: OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c: INCOMPLETE. OR:set-aside-of-arres",
+        "  OR:set-aside-of-eligible-convictions-under-ors-137-225-1-a -> refused: OR:set-aside-of-eligible-convictions-under-ors-137-225-1-a: INCOMPLETE. OR:set-aside-of-eligible-convictions-u",
+        "  WY:felony-conviction-expungement-w-s-7-13-1502 -> ALLOWED",
+        "authority gate: 14 records, 2 allowed, 12 reasoned refusals, 0 undecided",
+        "AUTHORITY OK: packaged registry decisions checked without test authority"
+      ],
+      "proved": "Every one of the 14 records in the packaged data/rcap-grade-a/fulfillment-authority-registry.json was evaluated inside the container through packetFulfillmentAuthority over the packaged specification directory, with no test-authority fixture present in the image. 2 ALLOWED (DC:dc_actual_innocence_expungement_16_803, WY:felony-conviction-expungement-w-s-7-13-1502), 12 reasoned refusals, 0 undecided, and no revoked record was allowed. IL:felony-prostitution-relief - the family rendered in stage (c) - is REVOKED and refused."
+    },
+    "render": {
+      "ran": true,
+      "inContainer": true,
+      "command": "docker run --rm --network none -v <host-out>:/out -i rcap-render-worker:img01 node --input-type=module -   (the stage driver is fed on stdin; every module and every data file it uses is the packaged copy inside the image, nothing from the source checkout is mounted)",
+      "exitCode": 0,
+      "outputTail": [
+        "specification: IL:felony-prostitution-relief family=il-prostitution-j-vacate-set resolved from the packaged image",
+        "participant A: composed 2 documents, rendered 11132 bytes, sha256 ecba3db9645efb29a28a40485eb97ce6ccb77329a2d4e6d71e8d5a3d5d72538e",
+        "  written to filesystem storage /out/il-prostitution-j-vacate-set-participant-A.pdf",
+        "participant B: composed 2 documents, rendered 11174 bytes, sha256 60dec409660943d432d9ed7aef8d4dd2e9ddf44ef8542dbc59a13bf722a66579",
+        "  written to filesystem storage /out/il-prostitution-j-vacate-set-participant-B.pdf",
+        "isolation: each composed packet carries only its own participant's written facts",
+        "determinism: identical inputs reproduced byte-identical output",
+        "RENDER OK: 2 synthetic participants composed through composeParticipantDeliveryPacket and rendered inside rcap-render-worker:img01; no database and no network were used"
+      ],
+      "database": "None. composeParticipantDeliveryPacket and renderGradeAPacketPdf are pure functions over the packaged specification and the participant's facts - the entry point contacts no database, no queue and no storage - so no PostgreSQL was started and the container ran with --network none. Storage was a bind-mounted host directory the container wrote the two PDFs into.",
+      "proved": "il-prostitution-j-vacate-set composed through composeParticipantDeliveryPacket for two synthetic participants who do not exist, and rendered to two real PDFs inside the image: 11132 bytes / sha256 ecba3db9645efb29a28a40485eb97ce6ccb77329a2d4e6d71e8d5a3d5d72538e and 11174 bytes / sha256 60dec409660943d432d9ed7aef8d4dd2e9ddf44ef8542dbc59a13bf722a66579. Both are 5-page pleadings; text extraction on the host confirms each carries its own participant's name in the caption and the body ('The movant, Wren Isabel Castellanos, moves under 20 ILCS 2630/5.2(j)(3)...'), the family's approved REQUIRED_BEFORE_FILING blanks stay blank (county and case number print as dotted rules), and the provenance footer names the verification hash. Distinct participants produced distinct bytes with no cross-contamination of name, address, phone or email, and identical inputs reproduced byte-identical output.",
+      "notProved": "Nothing about approval, delivery, payment or the Illinois route. IL:felony-prostitution-relief is REVOKED in the packaged registry and stage (b) refuses it; a successful composition and render approves nothing and opens nothing."
+    }
+  },
+  "mutationEvidence": {
+    "command": "docker run --rm --network none -v <empty>:/app/data/rcap-all50/composed-routes:ro -v <empty>:/app/data/rcap-all50/terminalization-treatments:ro rcap-render-worker:img01 node deploy/rcap-render-worker/preflight.mjs",
+    "exitCode": 1,
+    "outputTail": [
+      "FAIL no component-deferral track loaded from the packaged composed-routes tree",
+      "FAIL no terminalization treatment loaded from the packaged directory",
+      "PREFLIGHT FAILED: 57 problem(s)"
+    ],
+    "proved": "Hiding the two newly packaged directories produces 57 preflight failures. The added data is load-bearing, not decorative - and without the new preflight assertion the same image would have started, resolved routes and refused nothing."
+  },
+  "typecheck": {
+    "command": "npx tsc --noEmit -p .",
+    "exitCode": 0,
+    "cwd": "/home/user/img01-worktree"
+  },
+  "notDone": [
+    "data/rcap-staging-action.json was not regenerated and node scripts/verify-rcap-image-input-fingerprint.mjs does not pass at this commit. The generator refuses for a reason outside this lane's files (see fingerprintVerifier.generatorRefusal): the committed worker-publication evidence names an image built from b680a4e4, and 43 image-input paths already differed from it at the pristine base commit c6b497cbe.",
+    "Nothing was pushed to any registry. No registry digest exists for this image and none may be recorded as container_digest. The fulfillment registry still pins provider.imageDigest sha256:bf4589d3432f396f08196b2a619e445b75f1b4e2d2a0c404fbb06c4017e61864, which was built from b680a4e4 and does not contain this code or this packaging.",
+    "No disposable PostgreSQL was started: the stage-(c) entry point needs no database. The queue-driven worker path against a database was therefore not exercised here.",
+    "deploy/rcap-render-worker/IMAGE_BUILD_RECORD.json still records DEL-D's build and was not rewritten; this RETURN is the record for the img01 build.",
+    "scripts/rcap-render-worker.mjs, src/**, the composer and scripts/generate-rcap-staging-action.mjs were not modified. No change to any of them was needed to run from the packaged layout: WORKDIR /app preserves the repository-relative paths every reader resolves against process.cwd()."
+  ],
+  "changesNeededOutsideThisLane": [
+    {
+      "file": "data/rcap-render/worker-publication-evidence.json (and the publication workflow behind it)",
+      "issue": "It is the sole blocker on scripts/generate-rcap-staging-action.mjs and therefore on scripts/verify-rcap-image-input-fingerprint.mjs. Its digest was built from b680a4e4 and is not image-input-equivalent to any recent commit.",
+      "requiredChange": "Republish the worker image at the accepted freeze SHA through the existing publish-only workflow and re-import the evidence, or have the record's owner mark it superseded. Not writable by this lane."
+    },
+    {
+      "file": "scripts/generate-rcap-staging-action.mjs",
+      "issue": "IMAGE_INPUT_PATHS is a hardcoded list of seven paths and the record still says 'Exactly the paths the Dockerfile copies'. The Dockerfile now also copies deploy/rcap-render-worker/runtime-data-manifest.json, deploy/rcap-render-worker/preflight.mjs and the 122-file read-only data closure, none of which the fingerprint covers. A change to any of them silently leaves the fingerprint 'current'.",
+      "requiredChange": "Extend IMAGE_INPUT_PATHS (and verify-rcap-image-input-fingerprint.mjs's matching hardcoded list) to consume deploy/rcap-render-worker/runtime-data-manifest.json. DEL-D reported this too; it is still open. Not writable by this lane and not edited."
+    }
+  ],
+  "productionTouched": false,
+  "production": "No production surface, no Supabase hosted project, no Stripe, no registry, no environment variable and no secret store was touched. The one build secret was a read-only mount of this session's own egress CA bundle into a build stage whose only output is node_modules.",
+  "routesOpened": 0,
+  "publishedAnywhere": false
+}

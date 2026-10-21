@@ -1,0 +1,34 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-worker-checkpoints/v1",
+  "assignmentId": "PF03",
+  "workerBranch": "pf03-20260909",
+  "returnFilename": "checkpoints-pf03-20260909.json",
+  "writtenAlongsideRatherThanOver": "checkpoints.json and checkpoints.pf-a-cohort-2026-09-04.json survive byte-for-byte.",
+  "note": "PF03.md asks for one entry per five-family checkpoint. This lane was granted two families, so one checkpoint closes the shift. Each family was committed and pushed as it finished rather than batched.",
+  "checkpoints": [
+    {
+      "checkpoint": 1,
+      "closedAt": "2026-09-09T14:22:49.209Z",
+      "familiesInThisCheckpoint": [
+        "ma-seal-decrim-set",
+        "ma-seal-admin-set"
+      ],
+      "familiesCompleted": 2,
+      "familiesStopped": 1,
+      "stoppedFamilies": [
+        {
+          "itemId": "tx_nd_automatic_misdemeanor_deferred-set",
+          "stopReason": "BLOCKED_BEFORE_CLAIM",
+          "overlayDirectoryTouched": false
+        }
+      ],
+      "headShaAtCheckpoint": "2479a9d752b91f02c94c98c1dab5c69d0ede87cf",
+      "pushedTo": "origin/pf03-20260909",
+      "nineCountersZeroOn": [
+        "ma-seal-decrim-set",
+        "ma-seal-admin-set"
+      ],
+      "packetsSelfVerified": 0
+    }
+  ]
+}

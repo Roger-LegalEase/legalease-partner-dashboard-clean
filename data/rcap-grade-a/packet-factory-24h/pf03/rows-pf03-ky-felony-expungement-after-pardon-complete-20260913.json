@@ -1,0 +1,202 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-worker-return/v1",
+  "assignmentId": "PF03",
+  "workerId": "PF03",
+  "lane": "packet-build",
+  "workerBranch": "claude/legalease-sprint-captain-utucnw",
+  "engine": "Codex",
+  "returnFilename": "rows-pf03-ky-felony-expungement-after-pardon-complete-20260913.json",
+  "writtenAlongsideRatherThanOver": "rows.json and prior PF03 return files remain untouched; this return is a distinct file.",
+  "shiftBaseSha": "d188a90c953b74c7fbf8a79e20a744dd026a18a9",
+  "candidateCommit": "4c8efaad0dbc88fd89f1684c09042713511bcce8",
+  "headShaAtCandidate": "4c8efaad0dbc88fd89f1684c09042713511bcce8",
+  "worktree": "/workspaces/legalease-partner-dashboard-clean",
+  "familiesAssignedByPrompt": 1,
+  "familiesGrantedByClaimLedger": 1,
+  "rowsReturned": 1,
+  "familiesCompleted": 1,
+  "familiesStopped": 0,
+  "blockedSource": [],
+  "blockedLegalInput": [],
+  "blockedBeforeClaim": [],
+  "overlayDirectoriesTouchedByAStoppedFamily": 0,
+  "claim": {
+    "assignmentId": "PF03",
+    "familyId": "ky_felony_expungement_after_pardon-set",
+    "claimCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF03 'ky_felony_expungement_after_pardon-set'",
+    "claimResult": "CLAIM_OK PF03 ky_felony_expungement_after_pardon-set (packet-build, grant set 67d7da433bf26889)",
+    "claimLedgerReleased": false,
+    "sharedClaimMutationByThisWorker": false
+  },
+  "sourceTransfer": {
+    "fromCaptainHeldPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-496.3__in-support-of-this-application-the-defendant-states-as-follows__REV-UNKNOWN__EN.pdf",
+    "governedWorkerPath": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-496.3__in-support-of-this-application-the-defendant-states-as-follows__REV-UNKNOWN__EN.pdf",
+    "sourceSha256": "3225f34ea85bb9e4649e41257530d40e9565a4a7b95628148ee115edced47eaa",
+    "byteLength": 385938,
+    "captainSha256": "3225f34ea85bb9e4649e41257530d40e9565a4a7b95628148ee115edced47eaa",
+    "workerSha256": "3225f34ea85bb9e4649e41257530d40e9565a4a7b95628148ee115edced47eaa",
+    "workerByteLength": 385938,
+    "pageCount": 3,
+    "sourceBinaryCommitted": false,
+    "transferResult": "exact SHA-256 and byte length matched; source was not staged"
+  },
+  "prerequisiteRecord": {
+    "command": "node scripts/verify-packet-build-environment.mjs --family 'ky_felony_expungement_after_pardon-set' --codex-cloud --minimum-captain-sha 3a9ef08889a3ef63f4e8bfb5c3366b9e126234cd",
+    "initial": {
+      "status": "PACKET_BUILD_ENVIRONMENT_NOT_READY",
+      "passed": 9,
+      "failed": 5,
+      "notApplicable": 3,
+      "workerHead": "d188a90c953b74c7fbf8a79e20a744dd026a18a9",
+      "failedGates": [
+        "private_is_git_ignored",
+        "master_library_complete (13/499 files; 11/329 PDFs)",
+        "corpus_matches_committed_index (24 absent)",
+        "cloud_checkout_base_is_ancestor_of_captain (worker base is stale)",
+        "family_sources_bind (1 of 1 source does not bind)"
+      ],
+      "firstFailureMeaning": "The family source was absent on this worker; the remaining failures are the known partial-corpus/stale-base environment conditions."
+    },
+    "boundedRepair": {
+      "operation": "missing-only exact-byte Captain-to-worker transfer",
+      "sourcePath": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-496.3__in-support-of-this-application-the-defendant-states-as-follows__REV-UNKNOWN__EN.pdf",
+      "noSourceHunt": true,
+      "noReraster": true,
+      "noCorpusRestore": true
+    },
+    "rerunAffectedGate": {
+      "status": "PACKET_BUILD_ENVIRONMENT_NOT_READY",
+      "passed": 10,
+      "failed": 4,
+      "notApplicable": 3,
+      "familySourcesBind": "PASS — 1/1 source(s) bind by exact SHA-256 (census_form_number_against_committed_index)",
+      "remainingKnownFailures": [
+        "private_is_git_ignored",
+        "master_library_complete (13/499 files; 11/329 PDFs)",
+        "corpus_matches_committed_index (24 absent)",
+        "cloud_checkout_base_is_ancestor_of_captain (worker base is stale)"
+      ],
+      "buildDecision": "family source/legal inputs bind; proceed with native build"
+    }
+  },
+  "focusedCheck": {
+    "command": "source \"$HOME/.legalease-corpus-env\" && node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ky_felony_expungement_after_pardon-set",
+    "result": "PASS_COMPLETE",
+    "familiesAudited": 1,
+    "written": "8/62",
+    "counters": {
+      "knownRequiredFieldsMissing": 0,
+      "requiredFactsNotCollected": 0,
+      "unclassifiedBlanks": 0,
+      "incompleteRows": 0,
+      "requiredOptionsMissing": 0,
+      "requiredComponentsMissing": 0,
+      "invisibleWrites": 0,
+      "protectedWrites": 0,
+      "visualDefects": 0
+    },
+    "allNineZero": true
+  },
+  "nativeBuild": {
+    "command": "MASTER_LIBRARY_SOURCE_DIR=. node scripts/build-census-v1-ky_felony_expungement_after_pardon-set.mjs",
+    "familyId": "ky_felony_expungement_after_pardon-set",
+    "status": "COMPLETED",
+    "routeKey": "obligation:track-pathway:KY:ky_felony_expungement_after_pardon:felony-conviction-431073",
+    "implementationStrategy": "official_pdf_fill",
+    "officialForm": "AOC-496.3",
+    "officialFormSha256": "3225f34ea85bb9e4649e41257530d40e9565a4a7b95628148ee115edced47eaa",
+    "selectedRouteOption": {
+      "field": "27",
+      "selectedOption": "3",
+      "selectionText": "a full pardon has been granted by the Governor",
+      "basis": "KRS 431.073(1)(c)"
+    },
+    "componentSet": [
+      "component:ky_felony_expungement_after_pardon-primary-filing-1",
+      "component:ky_felony_expungement_after_pardon-pardon-attachment-instructions-2",
+      "component:ky_felony_expungement_after_pardon-certification-attachment-3"
+    ],
+    "written": 8,
+    "terminalFields": 62,
+    "requiredBeforeFiling": 24,
+    "blankDispositions": {
+      "REQUIRED_BEFORE_FILING": 24,
+      "NOT_APPLICABLE_ON_THIS_ROUTE": 3,
+      "OPTIONAL_PARTICIPANT_CONTENT": 23,
+      "PROTECTED_FIELD": 2,
+      "PARTICIPANT_ELECTION_GENUINE": 2
+    },
+    "rasterState": "BUILT_RASTER_PENDING",
+    "rasterPages": 0,
+    "packetsSelfVerified": 0,
+    "commercialRoutesOpened": 0,
+    "productionTouched": false
+  },
+  "artifacts": [
+    {
+      "fixture": "canonical",
+      "file": "data/rcap-all50/overlays/census-v1/ky/ky-felony-expungement-after-pardon-set--official-pdf-fill/fixtures/canonical.pdf",
+      "sha256": "5c757ed8c07c7ed75a2e55b0d1d6fd8c524c31b5c15c5325201a58305ceb501a",
+      "byteLength": 327771,
+      "pageCount": 3
+    },
+    {
+      "fixture": "boundary",
+      "file": "data/rcap-all50/overlays/census-v1/ky/ky-felony-expungement-after-pardon-set--official-pdf-fill/fixtures/boundary.pdf",
+      "sha256": "585a3a90aba6f8617d0589e8ba990e02004c45fb71f226c9aeb72da6d53eff5f",
+      "byteLength": 327844,
+      "pageCount": 3
+    },
+    {
+      "fixture": "canonical-form",
+      "file": "data/rcap-all50/overlays/census-v1/ky/ky-felony-expungement-after-pardon-set--official-pdf-fill/fixtures/canonical--aoc-496-3.pdf",
+      "sha256": "5b21610f79bf7b1638ece054c38c7878fac070e0fd7dba9d7628d7d11374c8b8",
+      "byteLength": 327235,
+      "pageCount": 3
+    },
+    {
+      "fixture": "boundary-form",
+      "file": "data/rcap-all50/overlays/census-v1/ky/ky-felony-expungement-after-pardon-set--official-pdf-fill/fixtures/boundary--aoc-496-3.pdf",
+      "sha256": "52dc69cca4d12ed90ebdbd2a6b5086c69ccfe33ae69ffc91f3acb2e893cf6924",
+      "byteLength": 327312,
+      "pageCount": 3
+    }
+  ],
+  "guidanceComponents": [
+    {
+      "component": "component:ky_felony_expungement_after_pardon-pardon-attachment-instructions-2",
+      "role": "pardon_attachment_instructions",
+      "file": "data/rcap-all50/overlays/census-v1/ky/ky-felony-expungement-after-pardon-set--official-pdf-fill/guidance/pardon-attachment-instructions.md",
+      "sha256": "9ef7794556e96251202ad673cff67bff44541f87b35fe8e0da6c604f559cf189",
+      "byteLength": 440
+    },
+    {
+      "component": "component:ky_felony_expungement_after_pardon-certification-attachment-3",
+      "role": "certification_attachment",
+      "file": "data/rcap-all50/overlays/census-v1/ky/ky-felony-expungement-after-pardon-set--official-pdf-fill/guidance/certification-attachment-instructions.md",
+      "sha256": "2c3667d91cf96e683ed723d19b7a93a0d570613217c47f5da959c2e7d8d750ca",
+      "byteLength": 385
+    }
+  ],
+  "changedFilesInCandidateCommit": [
+    "data/rcap-all50/overlays/census-v1/ky/ky-felony-expungement-after-pardon-set--official-pdf-fill/approval-request.json",
+    "data/rcap-all50/overlays/census-v1/ky/ky-felony-expungement-after-pardon-set--official-pdf-fill/build-findings.json",
+    "data/rcap-all50/overlays/census-v1/ky/ky-felony-expungement-after-pardon-set--official-pdf-fill/build-status.json",
+    "data/rcap-all50/overlays/census-v1/ky/ky-felony-expungement-after-pardon-set--official-pdf-fill/field-census.census-v1.json",
+    "data/rcap-all50/overlays/census-v1/ky/ky-felony-expungement-after-pardon-set--official-pdf-fill/fixtures/boundary--aoc-496-3.pdf",
+    "data/rcap-all50/overlays/census-v1/ky/ky-felony-expungement-after-pardon-set--official-pdf-fill/fixtures/boundary.pdf",
+    "data/rcap-all50/overlays/census-v1/ky/ky-felony-expungement-after-pardon-set--official-pdf-fill/fixtures/canonical--aoc-496-3.pdf",
+    "data/rcap-all50/overlays/census-v1/ky/ky-felony-expungement-after-pardon-set--official-pdf-fill/fixtures/canonical.pdf",
+    "data/rcap-all50/overlays/census-v1/ky/ky-felony-expungement-after-pardon-set--official-pdf-fill/guidance/certification-attachment-instructions.md",
+    "data/rcap-all50/overlays/census-v1/ky/ky-felony-expungement-after-pardon-set--official-pdf-fill/guidance/pardon-attachment-instructions.md",
+    "data/rcap-all50/overlays/census-v1/ky/ky-felony-expungement-after-pardon-set--official-pdf-fill/packet-set-manifest.json",
+    "data/rcap-all50/overlays/census-v1/ky/ky-felony-expungement-after-pardon-set--official-pdf-fill/participant-instructions.md",
+    "data/rcap-all50/overlays/census-v1/ky/ky-felony-expungement-after-pardon-set--official-pdf-fill/production-field-map.json",
+    "data/rcap-all50/overlays/census-v1/ky/ky-felony-expungement-after-pardon-set--official-pdf-fill/reports/actual-writes.json",
+    "data/rcap-all50/overlays/census-v1/ky/ky-felony-expungement-after-pardon-set--official-pdf-fill/reports/builder-completeness-counters.json",
+    "data/rcap-all50/overlays/census-v1/ky/ky-felony-expungement-after-pardon-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "data/rcap-all50/overlays/census-v1/ky/ky-felony-expungement-after-pardon-set--official-pdf-fill/source-receipt.json",
+    "scripts/build-census-v1-ky_felony_expungement_after_pardon-set.mjs"
+  ],
+  "grantsNothing": "This is a native build return only; the family remains BUILT_RASTER_PENDING and awaits independent semantic, visual and counsel review."
+}

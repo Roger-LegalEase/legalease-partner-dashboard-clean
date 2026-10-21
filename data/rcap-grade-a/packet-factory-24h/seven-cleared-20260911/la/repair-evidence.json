@@ -1,0 +1,87 @@
+{
+  "schemaVersion": "rcap-seven-cleared-repair-evidence/v1",
+  "familyId": "la-987-set-aside-and-dismiss-set",
+  "captainStartSha": "5400efe1c14dd0f4d83145ec7b769f173043c1d8",
+  "startingQueueState": "VERIFY_PENDING",
+  "actualDefect": "The former packet was a bespoke questionnaire that omitted prescribed Article 987 fields and service recipients, paraphrased the rule, and replaced the prescribed proposed order. It also lacked truthful collection, freshness, and review state for the four later-stage Article 978.1 documents.",
+  "implementationAction": "Rebuilt the three-part Article 987 Motion, Rule to Show Cause, and Order of Dismissal from the exact held codified text; bound Article 986, Article 987, and 2026 Article 978.1 held bytes; protected court-owned fields; and added participant-input-only status modeling for all four Article 978.1 documents.",
+  "sourceAction": {
+    "sourceAcquisitionReopened": false,
+    "allHeldSourcesRehashed": true,
+    "authorities": [
+      {
+        "sourceId": "official-authority:LA-CCRP-ART-986",
+        "sha256": "fd66fa19bf5fbfb1953d629a9e703dd2e56920758b903afef9f4c1549a286968"
+      },
+      {
+        "sourceId": "official-authority:LA-CCRP-ART-978.1",
+        "sha256": "141be4863d1789aa5c85cbd1e13d7fc753b8c1b513dd5562bf352820f8e9247a"
+      },
+      {
+        "sourceId": "official-authority:LA-CCRP-ART-987",
+        "sha256": "6f1498a70bc0cbc7f88e721ea24a9d08ab37d757d0c884feeb6db615844fd850"
+      }
+    ]
+  },
+  "packetBytesChanged": true,
+  "artifacts": [
+    {
+      "fixture": "canonical",
+      "oldSha256": "8b931df1a91a68f0313e8ec51f9cdd8aa3478695efe80a825513b59a28a624ca",
+      "currentSha256": "60a02dedae1ee57114c73a613257388f5ce7a87b5bd19308025f9e49b5047382",
+      "byteLength": 15622,
+      "pageCount": 6
+    },
+    {
+      "fixture": "boundary",
+      "oldSha256": "8e967c9dfc1c41c0c41f851759d773360e001efb01574de1698774f4de9cec36",
+      "currentSha256": "71534f30ea3c53985dd9fd01b5a7194e0e186794a05e4df343eefa5c56aa456c",
+      "byteLength": 15940,
+      "pageCount": 6
+    }
+  ],
+  "article9781Model": {
+    "currentArticle987PacketRequiresTheseDocuments": false,
+    "laterArticle978FelonyPacketRequiresTheseDocuments": true,
+    "requirements": [
+      "criminal background check measured against the planned filing date and current through day 60",
+      "district attorney certification",
+      "court minute entries, charge disposition report, or clerk no-record letter",
+      "bill of information, indictment, or affidavit"
+    ],
+    "allowedCollectionMethods": [
+      "authenticated participant private upload",
+      "authorized staff handoff into participant-owned matter"
+    ],
+    "providedIsValidated": false,
+    "fabricatedOrSilentlyPresumed": false,
+    "boundaryStatuses": [
+      "stale",
+      "not_provided",
+      "provided_pending_human_content_review",
+      "not_provided"
+    ]
+  },
+  "focusedChecks": [
+    "builder syntax and source-binding check PASS",
+    "two consecutive deterministic builds produced identical exact PDF hashes",
+    "family repair verifier PASS, including 60-day/61-day, impossible-date, future-date, and malformed planned-filing-date cases",
+    "packet completeness PASS_COMPLETE 14/30 written with nine structural counters zero",
+    "Poppler reports two six-page US Letter PDFs"
+  ],
+  "raster": {
+    "required": true,
+    "manifest": "data/rcap-grade-a/packet-factory-24h/seven-cleared-20260911/la/raster-manifest.json",
+    "documentsDigest": "86438e3ea44f23a0c233b281732e86fbc48702fc8b32c289d95dd80a51cc9657",
+    "state": "RASTER_PENDING",
+    "runId": null
+  },
+  "independentReview": {
+    "state": "PENDING_CURRENT_BYTE_RASTER_AND_REVIEW",
+    "result": null,
+    "selfReviewed": false
+  },
+  "historicalEvidence": "data/rcap-grade-a/packet-factory-24h/seven-cleared-20260911/la/pre-rebuild-byte-lineage.json",
+  "recommendedQueueStateBeforeIndependentAcceptance": "VERIFY_PENDING",
+  "terminal": false
+}

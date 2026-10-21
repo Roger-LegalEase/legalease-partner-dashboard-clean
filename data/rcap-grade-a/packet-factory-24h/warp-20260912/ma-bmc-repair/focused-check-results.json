@@ -1,0 +1,52 @@
+{
+  "schemaVersion": "rcap-focused-check-results/v1",
+  "preparedOn": "2026-09-12",
+  "familyIds": ["ma-bmc-multi-set"],
+  "checks": [
+    {
+      "command": "node scripts/build-census-v1-ma-bmc-multi-set.mjs --no-raster",
+      "exit": 0,
+      "result": "PASS",
+      "measurements": "2 components x 2 fixtures; both four-page packet PDFs rebuilt; six mapped writes; six required-before-filing blanks; all nine builder counters zero"
+    },
+    {
+      "command": "node scripts/rcap-packet-recovery/ma-bmc-current-copy.test.mjs",
+      "exit": 0,
+      "result": "PASS",
+      "log": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ma-bmc-repair/focused-copy-test.log",
+      "assertions": 100,
+      "negativeControls": 3
+    },
+    {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ma-bmc-multi-set",
+      "exit": 0,
+      "result": "PASS_COMPLETE",
+      "log": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ma-bmc-repair/completeness.log",
+      "written": "6/14",
+      "nineCounters": "all zero as emitted by completeness; current-byte visual acceptance remains pending"
+    },
+    {
+      "command": "node scripts/build-census-v1-ma-bmc-multi-set.mjs --check --no-raster",
+      "exit": 0,
+      "result": "PASS",
+      "log": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ma-bmc-repair/source-binding-check.log",
+      "measurements": "two existing composition records and additive LEGAL_CLEAR decision all verified; decision hash 5e3b6fb6..."
+    },
+    {
+      "command": "node scripts/rcap-packet-recovery/test-recovery.mjs",
+      "exit": 0,
+      "result": "PASS",
+      "log": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ma-bmc-repair/existing-recovery-tests.log",
+      "assertions": 40
+    }
+  ],
+  "commandsRun": 5,
+  "commandsPassed": 5,
+  "commandsFailed": 0,
+  "countedAssertions": 140,
+  "negativeControlsRejected": 3,
+  "result": "PASS",
+  "packetBytesFrozen": true,
+  "rasterDispatched": false,
+  "independentReview": "PENDING_PRE_RASTER_SEMANTIC_REVIEW"
+}

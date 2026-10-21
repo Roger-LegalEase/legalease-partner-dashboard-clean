@@ -1,0 +1,567 @@
+{
+  "schemaVersion": "rcap-vf02-bounded-semantic-review/v2",
+  "familyId": "de_discretionary_family_court-set",
+  "trackId": "de_discretionary_family_court",
+  "lane": "VF02",
+  "laneKind": "independent-verification",
+  "reviewer": "/root/review_wa",
+  "sessionIdentity": "/root/review_wa",
+  "reviewPhase": "INDEPENDENT_CURRENT_BYTE_NONVISUAL_SEMANTIC_REVIEW",
+  "status": "BLOCKED_LEGAL_INPUT",
+  "verdict": "BLOCKED_LEGAL_INPUT",
+  "reviewedAtBase": "2dfce7292b8678cb485a24efff9b14b1cb0a6d41",
+  "packetCommitSha": "8e54ef10376312e76cfb166d8112e817e7af494a",
+  "rasterFreezeCommitSha": "909caa63ad7d9e685e98435d0f7085bca20b5b5b",
+  "queueEnrollmentCommitSha": "602623bf1089f2107d60d2641ecbc2ea18e23e00",
+  "scope": "Bounded independent semantic review of the complete Delaware Family Court packet-set candidate: Form 281, conditional Form 281E overflow and required custom assembly sheet. Current source, bytes, guide, components, row conditions and protected-field behavior were measured; legal release blockers remain explicit; raster and original-page visual acceptance were not measured.",
+  "claimEvidence": {
+    "assertCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF02 de_discretionary_family_court-set",
+    "result": "CLAIM_OK",
+    "grantSet": "0463e957a5dc4d60",
+    "laneKind": "independent-verification",
+    "assertedBeforeFamilyReads": true,
+    "claimLedger": {
+      "path": "data/rcap-grade-a/packet-factory-24h/claim-ledger.json",
+      "sha256": "88b58bedd17b2efb411fb36480d67a352933d93e5ffa39a4adcdede57457e667",
+      "byteLength": 3297151
+    },
+    "note": "Claim was asserted before family artifact reads. The reviewer did not edit the ledger outside the required claim protocol."
+  },
+  "historicalBuildDisposition": {
+    "path": "data/rcap-grade-a/packet-factory-24h/pf02/rows-pf02-de-family-court-complete-20260912.json",
+    "sha256": "e5390eeef61f9337025fbc453f772e22790db68d0c63eda5d6c8b2b6924e45ec",
+    "byteLength": 3179,
+    "status": "COMPLETED",
+    "buildCommit": "8e54ef10376312e76cfb166d8112e817e7af494a",
+    "historicalStopCleared": "The prior packet-build claim stop was cleared by the completed PF02 return and native BUILT_RASTER_PENDING queue transition; this does not substitute for VF02 semantic/legal acceptance."
+  },
+  "sourceIdentity": {
+    "status": "PASS",
+    "sourceReceipt": {
+      "path": "data/rcap-all50/overlays/census-v1/de/de-discretionary-family-court-set--official-pdf-fill/source-receipt.json",
+      "sha256": "54cbb4464d7fc8a9e2e2d500bfad08796a139678f64eae0a2e1b6cacc0fc9fbf",
+      "byteLength": 7384
+    },
+    "allSourcesExact": true,
+    "documents": [
+      {
+        "sourceId": "official-form:FORM-281",
+        "officialFormId": "FORM-281",
+        "path": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Delaware/source-acquisition-2026-09-04/281---petition-for-expungement-of-adult-record-11192025.doc",
+        "sha256": "84300768ad7f0724d6bd85f94bb06a07f18cf512494da9b02492cff838018eda",
+        "byteLength": 97280,
+        "pageCount": 1,
+        "expectedSha256": "84300768ad7f0724d6bd85f94bb06a07f18cf512494da9b02492cff838018eda",
+        "expectedByteLength": 97280,
+        "exactMatch": true
+      },
+      {
+        "sourceId": "official-form:FORM-281E",
+        "officialFormId": "FORM-281E",
+        "path": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Delaware/forms/Form-281E__petition-for-expungement-of-adult-record-charge-sheet__rev-2018-09.docx",
+        "sha256": "aaca121e3bb4ce51ab9ab4ff6d933138bf7a36b6d97269c02cbf3c0290e87b33",
+        "byteLength": 26118,
+        "pageCount": 1,
+        "expectedSha256": "aaca121e3bb4ce51ab9ab4ff6d933138bf7a36b6d97269c02cbf3c0290e87b33",
+        "expectedByteLength": 26118,
+        "exactMatch": true
+      }
+    ],
+    "selectedSourcePrintBases": [
+      {
+        "path": "/tmp/rcap-de-office/print-bases/form281.pdf",
+        "sha256": "1865ddec131fc77ea353ac3253751877b68fd305639dfc5df9c1bfd05482ba77",
+        "byteLength": 103220,
+        "purpose": "selected Form 281 source-derived print page"
+      },
+      {
+        "path": "/tmp/rcap-de-office/print-bases/form281e.pdf",
+        "sha256": "43e76bceb54e0707412eebd8efb9008e1de8c91b4d0f82a468fa33e384cef175",
+        "byteLength": 29188,
+        "purpose": "selected Form 281E substantive page; receipt full office export records a converter-only repeated-header page 2"
+      }
+    ],
+    "receiptDerivedPrintEvidence": [
+      {
+        "sourceId": "official-form:FORM-281",
+        "derivedPrint": {
+          "sha256": "2945ec445fe8f5026f67ce8d328f60af6432d7287527241d721a49f9aa56751d",
+          "byteLength": 103220,
+          "exportedPages": 1,
+          "selectedSubstantivePages": 1,
+          "pageSize": {
+            "width": 612,
+            "height": 792
+          },
+          "firstPageAnchors": [
+            "The Family Court of the State of Delaware",
+            "PETITION FOR EXPUNGEMENT OF ADULT RECORD",
+            "Crim. Case No.",
+            "Civil Petition No.",
+            "The following information MUST be completed for the Court to consider the petition",
+            "The Petitioner hereby declares"
+          ],
+          "firstPageTextSha256": "8450b8e060063de5b05dce0041a49c7367c3e9afe470648da5a32e265663f43f",
+          "trailingPage": null,
+          "conversion": {
+            "converter": "/tmp/rcap-de-office/soffice",
+            "fontConfig": "/tmp/rcap-de-office/fontconfig.conf",
+            "sourceIdentityRemainsOriginal": true,
+            "originalMetadataPages": 1,
+            "selectedSubstantivePages": 1
+          }
+        }
+      },
+      {
+        "sourceId": "official-form:FORM-281E",
+        "derivedPrint": {
+          "sha256": "31135c8a001b68eaef1551d8ef9a9726a088de83b389ce58a70cbdc3b3a9dc9f",
+          "byteLength": 82872,
+          "exportedPages": 2,
+          "selectedSubstantivePages": 1,
+          "pageSize": {
+            "width": 612,
+            "height": 792
+          },
+          "firstPageAnchors": [
+            "The Family Court of the State of Delaware",
+            "PETITION FOR EXPUNGEMENT OF ADULT RECORD CHARGE SHEET",
+            "Crim. Case No.",
+            "File No.",
+            "The charges listed below are a continuation",
+            "Disposition Date",
+            "Disposition"
+          ],
+          "firstPageTextSha256": "7f5c291c900e6deeb430d62dd6b384f129298e209732a85771f7f11d17255e8a",
+          "trailingPage": {
+            "page": 2,
+            "text": "Form 281E Dev 9/18",
+            "disposition": "converter_only_repeated_header_not_delivered"
+          },
+          "conversion": {
+            "converter": "/tmp/rcap-de-office/soffice",
+            "fontConfig": "/tmp/rcap-de-office/fontconfig.conf",
+            "sourceIdentityRemainsOriginal": true,
+            "originalMetadataPages": 1,
+            "selectedSubstantivePages": 1
+          }
+        }
+      }
+    ],
+    "sourceTextEvidence": {
+      "path": "data/rcap-all50/overlays/census-v1/de/de-discretionary-family-court-set--official-pdf-fill/reports/source-text-evidence.json",
+      "sha256": "775af98e98cf2dd23c42e7a4245be9997e8ac61df1b469737ddcf2c489d2f5ac",
+      "byteLength": 1846
+    },
+    "sourceFidelityMethod": "Exact source SHA rehash, selected print-base rehash, source/current page anchor readback and independent 150dpi source-pixel comparison outside declared write boxes."
+  },
+  "legalGate": {
+    "status": "OPEN_RELEASE_BLOCKERS",
+    "controllingMemo": {
+      "path": "data/record-clearing/legal-design-intake/DE.memo.json",
+      "sha256": "fdb976a3cf5b47de42ebca1285dbd4f067bfa5461a0fac0c6efc98668fd1e618",
+      "byteLength": 83644
+    },
+    "trackId": "de_discretionary_family_court",
+    "legalName": "Petition for Expungement of Adult Record, Family Court, 11 Del. C. § 4374(c)",
+    "controllingCitations": [
+      "11 Del. C. § 4374, most recently amended at 85 Del. Laws, c. 142, § 10",
+      "11 Del. C. § 4374(c)"
+    ],
+    "unresolvedQuestions": [
+      {
+        "question": "Which proposed order the Family Court expects the petitioner to lodge. The Family Court equivalent of the Superior Court order set is unresolved.",
+        "impact": "release_blocker",
+        "affectedElement": "packet_components",
+        "provenance": {
+          "classificationBasis": "explicit_state_addendum",
+          "sourceFile": "LegalEase-Delaware-Legal-Review.md",
+          "sourceHeading": "Delaware operational amendments / True blockers retained",
+          "sourceStatement": "Missing current order sets or court forms remain source/form blockers where LegalEase cannot identify the accepted packet."
+        }
+      },
+      {
+        "question": "Whether Family Court adult petitions carry the same $75 fee and the same packet order, since § 4374(j) lets each court set its own schedule.",
+        "impact": "release_blocker",
+        "affectedElement": "filing_process",
+        "provenance": {
+          "classificationBasis": "mechanical_translation",
+          "sourceFile": "LegalEase-Delaware-Legal-Review.md",
+          "sourceHeading": "PART 5 - JURISDICTION COMPLETENESS / Open questions",
+          "sourceStatement": "Whether Family Court adult petitions carry the same $75 fee and the same packet order, since § 4374(j) lets each court set its own schedule.",
+          "normalizerInferred": true
+        }
+      },
+      {
+        "question": "What 85 Del. Laws, c. 142, § 10 changed in § 4374. It is the most recent amendment and was not read in this review.",
+        "impact": "release_blocker",
+        "affectedElement": "governing_mechanism",
+        "provenance": {
+          "classificationBasis": "mechanical_translation",
+          "sourceFile": "LegalEase-Delaware-Legal-Review.md",
+          "sourceHeading": "PART 5 - JURISDICTION COMPLETENESS / Open questions",
+          "sourceStatement": "What 85 Del. Laws, c. 142, § 10 changed in § 4374. It is the most recent amendment and was not read in this review.",
+          "normalizerInferred": true
+        }
+      }
+    ],
+    "whyVerdictBlockedNotFail": "The current packet follows the locally declared forms and truthfully discloses the unresolved fee/order facts; VF02 requires an open legal input to be BLOCKED_LEGAL_INPUT. No packet byte defect was found and no legal question was invented or waived.",
+    "obligationMapping": {
+      "COMPONENT_SET": "The unresolved accepted Family Court proposed-order identity affects the authoritative component set.",
+      "FEE_AND_WAIVER": "The unresolved Family Court fee and packet-order question affects filing/waiver release.",
+      "globalGoverningMechanism": "The most recent § 4374 amendment was not read in the controlling record and remains a release blocker even though route-key identity is measured."
+    }
+  },
+  "obligations": {
+    "ROUTE_IDENTITY": {
+      "measured": true,
+      "result": "PASS",
+      "detail": "The current family, local packet-set manifest, product wiring, field map, source receipt and guide all bind de_discretionary_family_court-set to obligation:track-only:DE:de_discretionary_family_court and 11 Del. C. § 4374(c). The legal memo leaves the latest amendment question open, recorded separately in legalGate; that does not make this file-to-route identity ambiguous."
+    },
+    "SOURCE_IDENTITY": {
+      "measured": true,
+      "result": "PASS",
+      "detail": "Both held source bytes were rehashed directly: FORM-281 84300768ad7f0724d6bd85f94bb06a07f18cf512494da9b02492cff838018eda / 97280 bytes and FORM-281E aaca121e3bb4ce51ab9ab4ff6d933138bf7a36b6d97269c02cbf3c0290e87b33 / 26118 bytes. The source-derived anchors are present in the current official pages; selected print bases rehash to the current saved-byte proof. The Form 281E converter-only repeated-header page is excluded."
+    },
+    "COMPONENT_SET": {
+      "measured": true,
+      "result": "BLOCKED_LEGAL_INPUT",
+      "detail": "The current candidate physically renders the three locally declared components: required Form 281, conditional Form 281E when charges exceed four petition rows, and required custom assembly sheet; both fixtures and page manifests contain them. The controlling Family Court track still asks which proposed order the court expects, and no accepted order source or packet order has been resolved. The physically measured local set therefore cannot be promoted to the authoritative component set."
+    },
+    "KNOWN_PREFILLS": {
+      "measured": true,
+      "result": "PASS_NONVISUAL",
+      "detail": "Current actual-writes has 21 canonical and 41 boundary writes, including supplied name/contact/P.O. box/email/interpreter/language, criminal case number and 2 versus 5 charge rows. Every declared write was independently checked for non-empty text readback on its current page; 62/62 passed."
+    },
+    "REQUIRED_BEFORE_FILING": {
+      "measured": true,
+      "result": "PASS",
+      "detail": "The participant blank report declares 11 required-before-filing items; every effective label occurs in the current participant guide. All seven controlling track participant questions also occur. The guide keeps certified-history acquisition, charge cross-check, Family Court disposition, venue, manifest-injustice facts, fines/fees/restitution, fee confirmation and notarization as participant work."
+    },
+    "ROUTE_OPTIONS": {
+      "measured": true,
+      "result": "PASS",
+      "detail": "The guide leaves county selection, the manifest-injustice assertion, Civil Petition No. and signature/jurat to the participant or court. The participant election report lists six election blanks; the supplied interpreter-needed Yes is the only corresponding participant fact written, while the No alternative remains unselected. No route-owned county or legal assertion was invented."
+    },
+    "REPEATING_ROWS": {
+      "measured": true,
+      "result": "PASS_NONVISUAL",
+      "detail": "The field map declares four primary rows and 23 continuation rows. Canonical writes two complete primary charge rows; boundary writes four complete primary rows plus one complete Form 281E continuation row. No partial populated row was found."
+    },
+    "PROTECTED_FIELDS": {
+      "measured": true,
+      "result": "PASS_NONVISUAL",
+      "detail": "The current field map has 20 refusal rows; their field IDs have no intersection with actual writes, and both actual-writes documents report no refused field with ink. Civil Petition No., petitioner signature and sworn jurat remain blank; no court/attorney approval is synthesized."
+    },
+    "ARTIFACTS": {
+      "measured": true,
+      "result": "PASS_NONVISUAL",
+      "detail": "The frozen current PDFs rehash exactly to the manifest and rendered-artifacts bindings: canonical 0fa7f874fd1cba94e6a5fb775b7feaa7f2f07d9e6aba62d5057bb7f4e0cae8d9 / 55926 bytes / 2 pages; boundary 1a7c70f9bd6e78bb56b5b7206d1078bf7a6a9c0c1688763e6e3ffe3235fd5479 / 87635 bytes / 3 pages."
+    },
+    "PAGE_ORDER": {
+      "measured": true,
+      "result": "PASS_NONVISUAL",
+      "detail": "Canonical page order is Form 281 then custom assembly. Boundary order is Form 281, conditional Form 281E page 1, then custom assembly. The exact rendered-artifacts page manifests and current page counts agree."
+    },
+    "CLIPPING_AND_OVERLAP": {
+      "measured": false,
+      "result": "NOT_MEASURABLE_HERE",
+      "detail": "No central raster or original page images were available in this review. The independent source-pixel check found no substantive added ink outside declared write boxes with a conservative 3-pixel edge guard, but that is source-preservation evidence and does not substitute for the central visual gate."
+    },
+    "FILING_DESTINATION": {
+      "measured": true,
+      "result": "PASS",
+      "detail": "The guide and filing instructions direct filing in Family Court for the county where the most recent case terminated, only when all sought charges/convictions were disposed of there; no county is selected by the builder."
+    },
+    "FEE_AND_WAIVER": {
+      "measured": true,
+      "result": "BLOCKED_LEGAL_INPUT",
+      "detail": "The guide truthfully states that § 4374(j) lets each court set the fee, that whether Family Court adult petitions carry the same $75 fee is unresolved, inserts no fee amount, and describes the conditional § 4372(l) waiver/conversion. The controlling track retains this fee and packet-order question as a release blocker, so this obligation cannot pass the legal gate."
+    },
+    "SERVICE": {
+      "measured": true,
+      "result": "PASS",
+      "detail": "The guide states petitioner service on the Attorney General, the 120-day objection/answer period, the 30-day response period after opposition, and clerk email after assignment of a case number."
+    },
+    "SELF_HELP_STOP": {
+      "measured": true,
+      "result": "PASS",
+      "detail": "The guide provides stop/self-help handoffs for AG or victim opposition, hearings or contested facts, pending charges, current supervision/incarceration, § 4373(b) victim categories, unclear venue, unpaid fines/fees/restitution and collateral consequences."
+    }
+  },
+  "obligationCounts": {
+    "pass": 12,
+    "fail": 0,
+    "blocked": 2,
+    "notMeasurable": 1,
+    "failedObligationNames": [],
+    "blockedObligationNames": [
+      "COMPONENT_SET",
+      "FEE_AND_WAIVER"
+    ],
+    "unmeasuredObligations": [
+      "CLIPPING_AND_OVERLAP"
+    ]
+  },
+  "nonvisualCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": null,
+    "allNonvisualZero": true,
+    "visualMeasuredHere": false,
+    "basis": "Current completeness report plus independent write/readback, source, page-order and protected-field checks; central visual counter remains null."
+  },
+  "authorCounterEvidence": {
+    "path": "data/rcap-all50/overlays/census-v1/de/de-discretionary-family-court-set--official-pdf-fill/reports/completeness-counters.json",
+    "sha256": "070ad2db7e9a12533999f0e6d6e137c98eee1cf792904948b058617bd463811b",
+    "byteLength": 587,
+    "reportedCounters": {
+      "knownRequiredFieldsMissing": 0,
+      "requiredFactsNotCollected": 0,
+      "unclassifiedBlanks": 0,
+      "incompleteRows": 0,
+      "requiredOptionsMissing": 0,
+      "requiredComponentsMissing": 0,
+      "invisibleWrites": 0,
+      "protectedWrites": 0,
+      "visualDefects": 0
+    },
+    "reportedAllNineZero": true
+  },
+  "currentCandidateBindings": {
+    "reviewedAtBase": "2dfce7292b8678cb485a24efff9b14b1cb0a6d41",
+    "packetCommitSha": "8e54ef10376312e76cfb166d8112e817e7af494a",
+    "rasterFreezeCommitSha": "909caa63ad7d9e685e98435d0f7085bca20b5b5b",
+    "queueEnrollmentCommitSha": "602623bf1089f2107d60d2641ecbc2ea18e23e00",
+    "packetSetManifest": {
+      "path": "data/rcap-all50/overlays/census-v1/de/de-discretionary-family-court-set--official-pdf-fill/packet-set-manifest.json",
+      "sha256": "fd20867c7354fc38a2cba67e742c8bbe6e395dc3d3455d6a57709e6f3b48a32f",
+      "byteLength": 2083
+    },
+    "productWiring": {
+      "path": "data/rcap-all50/overlays/census-v1/de/de-discretionary-family-court-set--official-pdf-fill/product-wiring.json",
+      "sha256": "17f96368b34ea79a59076fa0171f8cf5ef88925f3be045b5c7d1b765c47d282b",
+      "byteLength": 3492
+    },
+    "fieldMap": {
+      "path": "data/rcap-all50/overlays/census-v1/de/de-discretionary-family-court-set--official-pdf-fill/production-field-map.json",
+      "sha256": "2fd0478171fcd59e8c7ada42bdd22ba9e458fe1e0ad00c0b6cff302cef29161b",
+      "byteLength": 143484
+    },
+    "builder": {
+      "path": "scripts/build-census-v1-de_discretionary_family_court-set.mjs",
+      "sha256": "26e85cc05c1a09cdcb15377337c933bd77ad0f429f794524bec97e8501ae6a4b",
+      "byteLength": 75525
+    },
+    "fixtures": [
+      {
+        "role": "canonical",
+        "path": "data/rcap-all50/overlays/census-v1/de/de-discretionary-family-court-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "0fa7f874fd1cba94e6a5fb775b7feaa7f2f07d9e6aba62d5057bb7f4e0cae8d9",
+        "byteLength": 55926,
+        "pageCount": 2,
+        "pageSize": "612 x 792 pts (letter)",
+        "manifestSha256": "0fa7f874fd1cba94e6a5fb775b7feaa7f2f07d9e6aba62d5057bb7f4e0cae8d9",
+        "manifestByteLength": 55926,
+        "manifestPageCount": 2,
+        "matchesManifest": true
+      },
+      {
+        "role": "boundary",
+        "path": "data/rcap-all50/overlays/census-v1/de/de-discretionary-family-court-set--official-pdf-fill/fixtures/boundary.pdf",
+        "sha256": "1a7c70f9bd6e78bb56b5b7206d1078bf7a6a9c0c1688763e6e3ffe3235fd5479",
+        "byteLength": 87635,
+        "pageCount": 3,
+        "pageSize": "612 x 792 pts (letter)",
+        "manifestSha256": "1a7c70f9bd6e78bb56b5b7206d1078bf7a6a9c0c1688763e6e3ffe3235fd5479",
+        "manifestByteLength": 87635,
+        "manifestPageCount": 3,
+        "matchesManifest": true
+      }
+    ],
+    "sourceReceipt": {
+      "path": "data/rcap-all50/overlays/census-v1/de/de-discretionary-family-court-set--official-pdf-fill/source-receipt.json",
+      "sha256": "54cbb4464d7fc8a9e2e2d500bfad08796a139678f64eae0a2e1b6cacc0fc9fbf",
+      "byteLength": 7384
+    },
+    "actualWrites": {
+      "path": "data/rcap-all50/overlays/census-v1/de/de-discretionary-family-court-set--official-pdf-fill/reports/actual-writes.json",
+      "sha256": "22aa2b073310057a30790c719351539dd795e1173f2f6525a83e41a30e191a21",
+      "byteLength": 76863
+    },
+    "completenessCounters": {
+      "path": "data/rcap-all50/overlays/census-v1/de/de-discretionary-family-court-set--official-pdf-fill/reports/completeness-counters.json",
+      "sha256": "070ad2db7e9a12533999f0e6d6e137c98eee1cf792904948b058617bd463811b",
+      "byteLength": 587
+    },
+    "savedBytePreflight": {
+      "path": "data/rcap-all50/overlays/census-v1/de/de-discretionary-family-court-set--official-pdf-fill/reports/saved-byte-preflight.json",
+      "sha256": "50a340cd3575a2630c1821c3d9406efda13236f4f53de38a191b6e2c1f0b1c09",
+      "byteLength": 1006
+    },
+    "sourceTextEvidence": {
+      "path": "data/rcap-all50/overlays/census-v1/de/de-discretionary-family-court-set--official-pdf-fill/reports/source-text-evidence.json",
+      "sha256": "775af98e98cf2dd23c42e7a4245be9997e8ac61df1b469737ddcf2c489d2f5ac",
+      "byteLength": 1846
+    },
+    "focusedSelfTest": {
+      "path": "data/rcap-all50/overlays/census-v1/de/de-discretionary-family-court-set--official-pdf-fill/reports/focused-self-test.json",
+      "sha256": "2516f826c359c3587ab4471c7d924a5bc31a758a2b6a28c68389c74ea1b4301d",
+      "byteLength": 634
+    },
+    "renderedArtifacts": {
+      "path": "data/rcap-all50/overlays/census-v1/de/de-discretionary-family-court-set--official-pdf-fill/reports/rendered-artifacts.json",
+      "sha256": "22955b3af5f97e4a1ba527349aca4f0db123d501061736d309db8ac5b538303d",
+      "byteLength": 15971
+    },
+    "participantBlanks": {
+      "path": "data/rcap-all50/overlays/census-v1/de/de-discretionary-family-court-set--official-pdf-fill/reports/blanks-left-for-the-participant.json",
+      "sha256": "e96a69ae4b1ee55d9a53d85f9212daeeb57d7a24878098ceb955f94f084b3415",
+      "byteLength": 14473
+    },
+    "participantInstructions": {
+      "path": "data/rcap-all50/overlays/census-v1/de/de-discretionary-family-court-set--official-pdf-fill/participant-instructions.md",
+      "sha256": "e5aee2de83e4167f5931fad67e4151c978051785511229c7b2a433a48d5df39a",
+      "byteLength": 7642
+    },
+    "filingInstructions": {
+      "path": "data/rcap-all50/overlays/census-v1/de/de-discretionary-family-court-set--official-pdf-fill/filing-instructions.md",
+      "sha256": "2671a2a98fb6d3edac787746523c0d9cd05a04446efd9d822c91f721b8652131",
+      "byteLength": 2453
+    },
+    "rasterManifest": {
+      "path": "data/rcap-grade-a/packet-factory-24h/fix112/de-family-court-current-raster-manifest-20260912.json",
+      "sha256": "e30ba661569c0dbff985faa8e342bd744dd79f7db50c03498fc55b8f4f8a0341",
+      "byteLength": 2446
+    },
+    "packetBuildReturn": {
+      "path": "data/rcap-grade-a/packet-factory-24h/pf02/rows-pf02-de-family-court-complete-20260912.json",
+      "sha256": "e5390eeef61f9337025fbc453f772e22790db68d0c63eda5d6c8b2b6924e45ec",
+      "byteLength": 3179
+    },
+    "masterQueue": {
+      "path": "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+      "sha256": "e88ed7c33e9643b9f5deb50a941c788e4bd7436045e825e9a81aa1d70890b6a2",
+      "byteLength": 2397238
+    },
+    "trackRegistry": {
+      "path": "data/record-clearing/legal-design-track-registry.json",
+      "sha256": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+      "byteLength": 16781025
+    },
+    "packetSetRegistry": {
+      "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+      "sha256": "5a3c9748b55fca6a76e270b4a75f38e89c7615743062ce57501957471828a585",
+      "byteLength": 3710466
+    },
+    "legalMemo": {
+      "path": "data/record-clearing/legal-design-intake/DE.memo.json",
+      "sha256": "fdb976a3cf5b47de42ebca1285dbd4f067bfa5461a0fac0c6efc98668fd1e618",
+      "byteLength": 83644
+    },
+    "queueSnapshot": {
+      "familyId": "de_discretionary_family_court-set",
+      "state": "BUILT_RASTER_PENDING",
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "legalInputStatus": "SETTLED",
+      "currentLegalResolution": null,
+      "artifactStatus": "RENDERED",
+      "completenessStatus": "PASS_COMPLETE",
+      "rasterEnrolmentRefusal": [
+        "packet build has not completed"
+      ]
+    }
+  },
+  "derivedFactLineage": [
+    "The candidate writes only supplied participant identity/contact/interpreter facts and supplied charge rows; the criminal case number is a held matter fact.",
+    "The canonical fixture has two complete primary rows and no continuation; the boundary fixture has four complete primary rows and one overflow Form 281E row, exercising the declared conditional.",
+    "County, manifest-injustice assertion/explanation, certified-history proof, eligibility, Civil Petition No., signature/jurat, fee amount, court order and approval remain participant/court/legal-owned. The guide names each required handoff.",
+    "The custom assembly is an internal required preparation sheet; it does not claim to be a court form or an accepted Family Court proposed order."
+  ],
+  "independentByteProof": {
+    "status": "PASS_NONVISUAL",
+    "method": "Independent SHA-256 and byte-length checks; Poppler page-size/count and page-text readback; exact source rehash; current write text readback; refusal/write intersection; component/page-manifest check; guide/required-question check; and 150dpi source-pixel preservation comparison using a conservative 3-pixel edge guard. No central raster/original PNG visual claim.",
+    "checkReport": {
+      "path": "/tmp/de-family-court-independent/de-family-court-independent-check.json",
+      "sha256": "efe130f60fd579bd775f40076409b3b30a5f9ac18544e96c14d2c9d2172a457d",
+      "byteLength": 27035,
+      "checkCount": 16,
+      "passedChecks": 16
+    },
+    "exactPdfBindings": [
+      {
+        "role": "canonical",
+        "path": "data/rcap-all50/overlays/census-v1/de/de-discretionary-family-court-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "0fa7f874fd1cba94e6a5fb775b7feaa7f2f07d9e6aba62d5057bb7f4e0cae8d9",
+        "byteLength": 55926,
+        "pageCount": 2,
+        "pageSize": "612 x 792 pts (letter)",
+        "manifestSha256": "0fa7f874fd1cba94e6a5fb775b7feaa7f2f07d9e6aba62d5057bb7f4e0cae8d9",
+        "manifestByteLength": 55926,
+        "manifestPageCount": 2,
+        "matchesManifest": true
+      },
+      {
+        "role": "boundary",
+        "path": "data/rcap-all50/overlays/census-v1/de/de-discretionary-family-court-set--official-pdf-fill/fixtures/boundary.pdf",
+        "sha256": "1a7c70f9bd6e78bb56b5b7206d1078bf7a6a9c0c1688763e6e3ffe3235fd5479",
+        "byteLength": 87635,
+        "pageCount": 3,
+        "pageSize": "612 x 792 pts (letter)",
+        "manifestSha256": "1a7c70f9bd6e78bb56b5b7206d1078bf7a6a9c0c1688763e6e3ffe3235fd5479",
+        "manifestByteLength": 87635,
+        "manifestPageCount": 3,
+        "matchesManifest": true
+      }
+    ],
+    "sourcePixelPreservation": "All three official source-page comparisons had zero substantive output-darkening pixels outside the declared write boxes with the 3px edge guard; the unguarded 2px run observed six canonical lower-edge antialias pixels, so this is not used as a clipping/visual pass.",
+    "visualPagesMeasured": 0
+  },
+  "commandsActuallyPassed": [
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF02 de_discretionary_family_court-set (CLAIM_OK; recorded before family reads)",
+    "python /tmp/de-family-court-independent/run-check.py (16/16 independent bounded checks PASS)",
+    "pdfinfo on both current fixtures and both selected source print bases (letter pages and expected counts)",
+    "pdftotext -layout page readback on source bases and current official pages (all declared source anchors present)",
+    "pdftoppm 150dpi source/current comparison with declared-write masks (zero substantive added ink outside guarded masks)"
+  ],
+  "rasterDispatchAuthorized": false,
+  "rasterEvidence": {
+    "status": "NOT_DISPATCHED_BLOCKED_LEGAL_INPUT",
+    "manifest": {
+      "path": "data/rcap-grade-a/packet-factory-24h/fix112/de-family-court-current-raster-manifest-20260912.json",
+      "sha256": "e30ba661569c0dbff985faa8e342bd744dd79f7db50c03498fc55b8f4f8a0341",
+      "byteLength": 2446
+    },
+    "manifestPacketCommitSha": "8e54ef10376312e76cfb166d8112e817e7af494a",
+    "documentsDigest": "1a1f2108e32068ce56ce1b3fcdcdf66ee2d880cafdf72fdee8f36128daf09c41",
+    "runId": null,
+    "artifactId": null,
+    "visualPagesMeasured": 0,
+    "visual": null
+  },
+  "finalAcceptance": false,
+  "terminalPromotionAuthorized": false,
+  "unfinishedGates": [
+    "resolve which current Family Court proposed order, if any, belongs in the accepted packet and confirm the packet order",
+    "resolve the Family Court § 4374(j) fee schedule and its relationship to the waiver/conversion path",
+    "read and reconcile the most recent 85 Del. Laws, c. 142, § 10 amendment in the governing legal record",
+    "central raster/original-page visual measurement (not dispatched because the legal stop remains open)",
+    "independent final acceptance and native integration after all legal and visual gates close"
+  ],
+  "independence": {
+    "implementationEditsByReviewer": false,
+    "overlayDirectoriesModifiedByReviewer": false,
+    "buildScriptModifiedByReviewer": false,
+    "sharedManifestOrLedgerEditsByReviewer": false,
+    "claimAssertionWasRequiredProtocolMutation": true,
+    "visualAcceptanceClaimed": false,
+    "rasterDispatchedByReviewer": false,
+    "commercialRoutesOpened": false
+  }
+}

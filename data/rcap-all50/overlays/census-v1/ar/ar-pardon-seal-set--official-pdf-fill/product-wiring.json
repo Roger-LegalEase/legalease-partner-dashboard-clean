@@ -1,0 +1,115 @@
+{
+  "schemaVersion": "rcap-packet-family-product-wiring/v1",
+  "familyId": "ar-pardon-seal-set",
+  "worklistGroupId": "ar-pardon-seal-set",
+  "routeKeys": [
+    "obligation:unit:AR:ar-pardon-seal:ar-pardon-seal-stage-2"
+  ],
+  "packetSetId": "ar-pardon-seal-set",
+  "implementationStrategy": "official_pdf_fill",
+  "renderStrategy": "flat_overlay_draw",
+  "documents": [
+    {
+      "documentId": "AR-ACIC-PETITION-TO-SEAL-RECORDS-OF-PARDONED-OFFENDER-OR-YOUTHFUL",
+      "documentRole": "PETITION",
+      "officialTitle": "Petition to Seal Records of a Pardoned Offender or Pardoned Youthful Felony Offender",
+      "revision": "REV-2022-03-08",
+      "sha256": "59ba1407a5a6c2b8c327a9ca549b379ab88d65105ade1c7e69110d8c1ac6c5d0",
+      "ownership": "participant_completed",
+      "order": 1
+    },
+    {
+      "documentId": "AR-ACIC-ORDER-TO-SEAL-RECORDS-OF-PARDONED-OFFENDER-OR-YOUTHFUL-FEL",
+      "documentRole": "PROPOSED_ORDER",
+      "officialTitle": "Order to Seal Records of a Pardoned Offender or Pardoned Youthful Felony Offender",
+      "revision": "REV-2022-03-07",
+      "sha256": "741fda999c348d763848b98053f93e8c28d25dcc1ba5e8438e98b1bdf555ae6e",
+      "ownership": "court_issued_order",
+      "order": 2
+    }
+  ],
+  "fieldMap": "data/rcap-all50/overlays/census-v1/ar/ar-pardon-seal-set--official-pdf-fill/production-field-map.json",
+  "fieldCensus": "data/rcap-all50/overlays/census-v1/ar/ar-pardon-seal-set--official-pdf-fill/field-census.census-v1.json",
+  "sourceReceipt": "data/rcap-all50/overlays/census-v1/ar/ar-pardon-seal-set--official-pdf-fill/source-receipt.json",
+  "localFilingVariation": "data/rcap-all50/overlays/census-v1/ar/ar-pardon-seal-set--official-pdf-fill/local-filing-variation.json",
+  "componentSet": "data/rcap-all50/overlays/census-v1/ar/ar-pardon-seal-set--official-pdf-fill/reports/component-set.json",
+  "generationAllowed": false,
+  "runtimeSelectable": false,
+  "commercialRouteOpened": false,
+  "fulfilmentRecordCreated": false,
+  "outputApprovalGranted": false,
+  "packetFamilyId": null,
+  "packetFamilyIdNote": "Left null. A packet-family identity is a route identity, and route identities are not this family's to mint. The committed route record still carries packetFamilyId null and unit-packet-identity-status 'not recorded'.",
+  "routeAvailabilityUnchanged": {
+    "committedState": "unit:ar-pardon-seal-stage-2:available=true",
+    "thisBuildChangesIt": false,
+    "why": "Availability was already true in the committed record before this build and is untouched by it. It is not an output approval and this build does not treat it as one."
+  },
+  "whatWouldOpenTheRoute": [
+    "output-level legal approval for this exact packet family and route scope",
+    "counsel's answer to the two questions this build records rather than resolves: the order's A.C.A. § 14-90-1411 citation, and whether the charged and convicted offence blanks may ever be filled from a single held charge fact",
+    "human independent visual review of the rendered pages",
+    "a Grade-A fulfilment record keyed to the exact route and packet family — which is the ONLY thing that creates commercial authority, and which this build does not and cannot create"
+  ],
+  "paymentOrSponsorshipTouched": false,
+  "productionConfigurationTouched": false,
+  "sharedManifestsTouched": false,
+  "otherFamiliesTouched": false,
+  "legacyGeneratorsTouched": false,
+  "liveRcapRoutesTouched": false,
+  "binding": {
+    "family": "ar-pardon-seal-set",
+    "jurisdiction": "AR",
+    "routeKeys": [
+      "obligation:unit:AR:ar-pardon-seal:ar-pardon-seal-stage-1",
+      "obligation:unit:AR:ar-pardon-seal:ar-pardon-seal-stage-2"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "ACIC pardoned-offender petition and order (official_pdf_fill)",
+      "no filing — process guidance"
+    ],
+    "packetComponents": [
+      "component:ar-pardon-seal-primary-filing-2",
+      "component:ar-pardon-seal-proposed-order-3"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/ar/ar-pardon-seal-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/ar/ar-pardon-seal-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/ar/ar-pardon-seal-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/ar/ar-pardon-seal-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:ACIC-ORDER-TO-SEAL-PARDONED-OFFENDER",
+        "sha256": "741fda999c348d763848b98053f93e8c28d25dcc1ba5e8438e98b1bdf555ae6e",
+        "tier": "exact_identity_confirmed_from_document_text"
+      },
+      {
+        "sourceId": "official-form:ACIC-PETITION-TO-SEAL-PARDONED-OFFENDER",
+        "sha256": "59ba1407a5a6c2b8c327a9ca549b379ab88d65105ade1c7e69110d8c1ac6c5d0",
+        "tier": "exact_identity_confirmed_from_document_text"
+      }
+    ],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "33844904078",
+      "jobId": "100935414040",
+      "artifactId": "9926415353",
+      "boundToCanonicalSha256": "3b1576d92c2008ba2548522fd16e8025b3e4cbff1f0f40343577ab29477af9ea",
+      "coversTheWholeFamily": true
+    },
+    "lastIndependentVerification": {
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf01",
+      "verifiedAtBase": "ba2ffe76cc9513a3b61127ce8d473debbecade97"
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-ar-pardon-seal-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  }
+}

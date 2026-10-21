@@ -1,0 +1,9 @@
+The exact existing Iowa adapter is ready for scoped host integration after the current six-family closing batch. No blocking adapter defect was found. Adapter SHA-256: `b042b5a7b665200ef19a35ab8a7d195ed324e45e23a1fb3a08ce93b0e362e32a`.
+
+Independent read-only execution checked all 65 guarded files against publication `774e1c3e3fa7ffd8e4f2aefea384440e4b1dab90`, rehashed both retained historical review records, observed seven actual shared-importer calls, and parsed all five whole PDFs/26 pages. All candidate files stayed unchanged. The existing 53-control suite was reused, not rerun.
+
+Three supported unexecuted drafts measure 171 areas/74 writes/97 blanks with zero counters. The raw 285-area aggregate still fails only the two required day-180 choices. Day-180 and missing-contact require diagnostic-preview selection; 12 missing contact controls represent 11 unknown facts. All outputs remain synthetic, unexecuted and without filing or delivery authority.
+
+Integration still needs the exact-family `auditFamily` hook, the five-output raster resolver hook, declared-delivery create/refresh/error propagation hooks, publication of currently untracked executable review/source dependencies, and a publication-bound independently attributed successor review under existing rules. Existing approval-request discovery already works. Preserve the guarded raw completeness reports and original Chat10 review; publish supported-versus-diagnostic accounting in the derived matrix. The source/fee delta stays a separately attributed narrow closure, not a rewritten original review.
+
+No host changes or proposal patch were applied. No central acceptance, rerender, fresh visual/source research, runtime installation or production change is claimed. Exact hook details and limitations are in `review.json`.

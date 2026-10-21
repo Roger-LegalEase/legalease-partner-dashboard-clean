@@ -1,0 +1,381 @@
+{
+  "schemaVersion": "rcap-packet-factory-lane-rows/v1",
+  "assignmentId": "pf25-build-d-cohort",
+  "lane": "PF25",
+  "laneName": "build-d packet build lane",
+  "baseSha": "6351836b1f53cb143cc6afb08a4bf0bc28dde7b1",
+  "captainBranch": "claude/legalease-sprint-captain-utucnw",
+  "workedOnBranch": "build-d-cohort",
+  "familiesAssigned": 7,
+  "rowsReturned": 7,
+  "familiesCompleted": 1,
+  "familiesStopped": 6,
+  "howEveryFamilyWasClaimed": "Every SOURCE_READY family already carried a packet-build grant, so --assert refuses all 87. The seven taken here were the seven whose grant a prior lane had RELEASED, moved to PF25 with claim.mjs --transfer, which refuses any grant that is still live. No live grant was taken from any lane.",
+  "howEverySourceWasResolved": "By content hash across the mounted corpus — master_library and human_source_returns — never by declared path. Of 25 declared source bindings across the seven families, 21 resolved by hash and 4 are absent by hash. All four absent digests are named on their stopped rows.",
+  "overlayDirectoriesTouchedByAStoppedFamily": 0,
+  "packetsSelfVerified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "neverSelfVerify": "This lane issues no verdict on its own packets. The completeness run recorded here is the repository's own contract functions over this family's field map, byte proof and participant instructions; it is not an independent verification.",
+  "rasterRule": "No browser resolves in this container. A built family returns BUILT_RASTER_PENDING with its canonical and boundary SHA-256 and every non-visual obligation finished.",
+  "centralFileTouched": {
+    "file": "data/rcap-all50/shared/field-appearance-semantics.json",
+    "change": "Additive only: one new family key, tx_nd_veterans_court-set:tx_nd_veterans_court-fee-waiver-statement-4, carrying three field entries. 41 insertions, 0 deletions. No other family's entry is read or changed.",
+    "why": "The Statement of Inability is a shared national record that ships three of its own values. Every family enclosing it carries its own measured entry; without one, two sworn zeroes and a 2022 declaration date would flatten onto the delivered pages."
+  },
+  "rows": [
+    {
+      "itemId": "tx_nd_veterans_court-set",
+      "status": "COMPLETED",
+      "jurisdiction": "TX",
+      "implementationStrategy": "official_pdf_fill",
+      "familyKind": "ORDINARY_PARTICIPANT_FILED_PACKET",
+      "whyThatKind": "The committed track registry records a participant-filed petition to the clerk of the sentencing court under Tex. Gov't Code 411.0727, with the court as the deciding actor. The participant files; nothing here is automatic and nothing is agency-run.",
+      "directory": "data/rcap-all50/overlays/census-v1/tx/tx-nd-veterans-court-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-tx_nd_veterans_court-set.mjs",
+      "routeKeys": [
+        "obligation:track-only:TX:tx_nd_veterans_court"
+      ],
+      "componentSet": [
+        "tx_nd_veterans_court-petition-1",
+        "tx_nd_veterans_court-proposed-order-2",
+        "tx_nd_veterans_court-proof-of-delivery-to-prosecutor-3",
+        "tx_nd_veterans_court-fee-waiver-statement-4",
+        "tx_nd_veterans_court-filing-and-after-order-instructions-5"
+      ],
+      "componentCount": 5,
+      "boundSources": [
+        {
+          "sourceId": "official-form:OCA Model Petition for an Order of Nondisclosure under Section 411.0727",
+          "sha256": "7c34e5f5aeee2ce9bb7e757f3c2c9aa9899d536c8917f5329f0d4dc28f6bfa9d",
+          "custody": "master_library",
+          "pages": 6,
+          "acroFields": 14
+        },
+        {
+          "sourceId": "official-form:OCA Model Order of Nondisclosure under Section 411.0727",
+          "sha256": "2c9500206f032b2195a6d99ea04310d520413d8ecdc6978da4ba284c2d01189f",
+          "custody": "master_library",
+          "pages": 3,
+          "acroFields": 15
+        },
+        {
+          "sourceId": "official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
+          "sha256": "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d",
+          "custody": "human_source_returns",
+          "pages": 12,
+          "acroFields": 132,
+          "sharedNationalRecord": true,
+          "pinnedTwice": "the family pins its own SOURCES entry by SHA-256 and the whole file is hashed in the source receipt"
+        }
+      ],
+      "howSourcesWereResolved": "By CONTENT HASH through the committed corpus index. The family declares paths into the rcap-d-source-packs custody, which is not mounted here; resolving by path would have produced a false BLOCKED_SOURCE.",
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersMeasured": true,
+      "allNineCountersZero": true,
+      "completenessVerdict": "PASS_COMPLETE (scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family tx_nd_veterans_court-set)",
+      "fieldsClassified": 161,
+      "writes": 15,
+      "requiredBeforeFiling": 114,
+      "hiddenWidgetCheck": "Every widget on all three pinned sources read for the annotation Hidden flag; 0 of 14, 0 of 15 and 0 of 132 carry it. No write lands in a widget that would carry no ink.",
+      "formOwnInkCheck": "Four fields ship the source's own ink: the petition's Dropdown6 carrying 'is not' (a choice field, cleared and classified as the participant's election), and the Statement's 'Value / Valor 11' = '0', 'Amount Cantidad 15' = '0' and 'Today' = '12/15/2022', classified in the appearance registry under this family's own key so they contribute nothing unless this run wrote them. Each pinned source was flattened unwritten and compared.",
+      "identifierBlankCheck": "No identifier or third-party blank is written. The Statement carries no Social Security or driver-licence blank; its only date-of-birth blank asks the participant for their own date of birth, which is the only condition under which one is written.",
+      "pageBoundaryCheck": "Both fixtures checked page by page: no page carries a single drawn line, minimum 13. The composed renderer was changed to paginate BY BLOCK after the canonical fixture stranded a stop-list lead-in at a page foot with its seven bullets overleaf; the build now asserts the no-single-line rule for both fixtures.",
+      "determinism": "Rebuilt from unchanged inputs; whole directory compared recursively; all 13 files byte-identical.",
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "packetSha256": "4a5d3bec8d9a3261df8bb20965aea7ae133a46edb09165a40ab3089199849e28",
+          "pages": 25
+        },
+        {
+          "fixture": "boundary",
+          "packetSha256": "5a24261a37f2fc801ae6361075c8573b0bf45af94adca766a38dcbc48a36d3ed",
+          "pages": 25
+        }
+      ],
+      "rasterState": "BUILT_RASTER_PENDING",
+      "whyRasterPending": "No browser resolves in this container. Every non-visual obligation is finished.",
+      "buildStatus": "state_built",
+      "reviewStatus": "qa_review_pending",
+      "selfVerified": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "md_10110_conviction-set",
+      "status": "STOPPED",
+      "verdict": "BLOCKED_SOURCE",
+      "stopClass": "BLOCKED_SOURCE",
+      "jurisdiction": "MD",
+      "implementationStrategy": "official_pdf_fill",
+      "counters": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "countersMeasured": false,
+      "rowGateResult": "PACKET_BUILD_ENVIRONMENT_NOT_READY: family_sources_bind: 1 of 2 source relationships does not bind",
+      "howSourcesWereResolved": "By CONTENT HASH across every mounted corpus (master_library and human_source_returns), not by declared path.",
+      "sourcesThatBound": [
+        {
+          "sourceId": "official-form:CC-DC-089",
+          "sha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
+          "resolvedAt": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MD/02_PACKET_FORMS/MD__FORM__CC-DC-089__request-for-waiver-of-prepaid-costs__REV-2025-11__EN.pdf"
+        }
+      ],
+      "sourcesThatDidNotBind": [
+        {
+          "sourceId": "official-form:CC-DC-CR-072B",
+          "sha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469",
+          "declaredPath": "LegalEase Maryland/LegalEase Maryland forms /ccdccr072B.pdf",
+          "why": "These bytes are absent from every mounted corpus BY HASH. The Master Library holds five Maryland forms — CC-DC-089, CC-DC-CR-078, CC-DC-CR-148, MDJ-008 and DC-CR-071 — and no CC-DC-CR-072B under any name or revision. This is the PRIMARY FILING form for both Maryland families, so neither can be built. Substituting a different Maryland form for a pinned digest is not open to a build lane.",
+          "whatWouldUnblock": "A source-acquisition lane obtaining the exact binary whose SHA-256 is 3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469, or a source-reconciliation lane re-pinning the family to a digest the corpus holds."
+        }
+      ],
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill",
+      "overlayDirectoryTouched": false,
+      "artifacts": []
+    },
+    {
+      "itemId": "md_pardon_expungement-set",
+      "status": "STOPPED",
+      "verdict": "BLOCKED_SOURCE",
+      "stopClass": "BLOCKED_SOURCE",
+      "jurisdiction": "MD",
+      "implementationStrategy": "official_pdf_fill",
+      "counters": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "countersMeasured": false,
+      "rowGateResult": "PACKET_BUILD_ENVIRONMENT_NOT_READY: family_sources_bind: 1 of 2 source relationships does not bind",
+      "howSourcesWereResolved": "By CONTENT HASH across every mounted corpus (master_library and human_source_returns), not by declared path.",
+      "sourcesThatBound": [
+        {
+          "sourceId": "official-form:CC-DC-089",
+          "sha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
+          "resolvedAt": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MD/02_PACKET_FORMS/MD__FORM__CC-DC-089__request-for-waiver-of-prepaid-costs__REV-2025-11__EN.pdf"
+        }
+      ],
+      "sourcesThatDidNotBind": [
+        {
+          "sourceId": "official-form:CC-DC-CR-072B",
+          "sha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469",
+          "declaredPath": "LegalEase Maryland/LegalEase Maryland forms /ccdccr072B.pdf",
+          "why": "These bytes are absent from every mounted corpus BY HASH. The Master Library holds five Maryland forms — CC-DC-089, CC-DC-CR-078, CC-DC-CR-148, MDJ-008 and DC-CR-071 — and no CC-DC-CR-072B under any name or revision. This is the PRIMARY FILING form for both Maryland families, so neither can be built. Substituting a different Maryland form for a pinned digest is not open to a build lane.",
+          "whatWouldUnblock": "A source-acquisition lane obtaining the exact binary whose SHA-256 is 3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469, or a source-reconciliation lane re-pinning the family to a digest the corpus holds."
+        }
+      ],
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/md/md-pardon-expungement-set--official-pdf-fill",
+      "overlayDirectoryTouched": false,
+      "artifacts": []
+    },
+    {
+      "itemId": "nc_145_8a_youthful-set",
+      "status": "STOPPED",
+      "verdict": "BLOCKED_SOURCE",
+      "stopClass": "BLOCKED_SOURCE",
+      "jurisdiction": "NC",
+      "implementationStrategy": "official_pdf_fill",
+      "counters": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "countersMeasured": false,
+      "rowGateResult": "PACKET_BUILD_ENVIRONMENT_NOT_READY: family_sources_bind: 2 of 5 source relationships do not bind",
+      "howSourcesWereResolved": "By CONTENT HASH across every mounted corpus, not by declared path.",
+      "sourcesThatBound": [
+        {
+          "sourceId": "official-form:AOC-CV-226",
+          "sha256": "74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f"
+        },
+        {
+          "sourceId": "source-sha256:48cc30cdc4681822e9be5b8a94e4ca10c07f9dafa67b01b17c78d5cc05cb0f4d",
+          "sha256": "48cc30cdc4681822e9be5b8a94e4ca10c07f9dafa67b01b17c78d5cc05cb0f4d"
+        },
+        {
+          "sourceId": "source-sha256:74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f",
+          "sha256": "74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f"
+        }
+      ],
+      "sourcesThatDidNotBind": [
+        {
+          "sourceId": "official-form:AOC-CR-293",
+          "sha256": "37308914289a01649bd5cf009a91902386d6ec9658de8d7a1f99054b31310086",
+          "declaredPath": "LegalEase North Carolina/AOC-CR-293_Rev-3-25.pdf",
+          "why": "Absent from every mounted corpus BY HASH. The Master Library holds AOC-CR-287, 288, 296, 297 and 298 but no AOC-CR-293 under any name or revision. This is the PRIMARY FILING form for the family."
+        },
+        {
+          "sourceId": "official-form:AOC-CR-293-INSTRUCTIONS",
+          "sha256": "ae9e161bf5a190b2956662216afe5738f99be4416d5902e66a3c3bea5fe87fe3",
+          "declaredPath": "LegalEase North Carolina/AOC-CR-293-INSTRUCTIONS_Rev-3-25.pdf",
+          "why": "Absent from every mounted corpus BY HASH. The library holds instruction sheets for 287, 288, 297 and 298 but none for 293."
+        }
+      ],
+      "whatWouldUnblock": "A source-acquisition lane obtaining the two exact binaries by digest. Substituting a neighbouring AOC form for a pinned digest is not open to a build lane.",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/nc/nc-145-8a-youthful-set--official-pdf-fill",
+      "overlayDirectoryTouched": false,
+      "artifacts": []
+    },
+    {
+      "itemId": "nm_conviction-set",
+      "status": "STOPPED",
+      "verdict": "NOT_BUILT_IN_THIS_LANE",
+      "stopClass": "LANE_CAPACITY",
+      "jurisdiction": "NM",
+      "implementationStrategy": "official_pdf_fill",
+      "counters": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "countersMeasured": false,
+      "sourcesAllBind": true,
+      "sourcesConfirmedByHash": [
+        "b8f2e017a71ca73d8d9f0aed104882c99cb2c1e77e43e07c1042d18aed8a51c4",
+        "809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a",
+        "2ee3d41243e0a7e807ed52e77ac08fda9e0c55c7abdef3195a53de29a0f90c40",
+        "a6a01d6853d6ae3199bf81a355065ecf40cf20e76a8d1131d9bc5b56527b4c0e",
+        "79c8556655ee6e36a5a5516309e869637401f753c70172ecd78bfa138655d4de",
+        "3cbc2e6eb35e29bdc10c42fee90221a7f9d470fa077fc0b9620bf1fb7e3f4f5c",
+        "14d16b83fe55e3b872f233118305fecac27a7c48e839cba323db2d8bd48c2226"
+      ],
+      "howSourcesWereResolved": "By CONTENT HASH through the committed corpus index. EVERY declared source of all three New Mexico families resolves and is mounted, even though each declares a path into the rcap-d-source-packs custody that is not mounted here. Path resolution would have produced a false BLOCKED_SOURCE for all eighteen bindings.",
+      "structuralFinding": "Every New Mexico form these families bind is a FLAT PDF with zero AcroForm fields, except the shared Form 4-222 free-process application, which carries 158. A flat form cannot be filled through an AcroForm: each blank must be placed as a measured write box read from the form's own printed text runs and their x extents, in the manner of scripts/build-census-v1-ma-expunge-time-set.mjs. No New Mexico court-form builder exists to work from.",
+      "blockersAreNotBuildBlockers": "The three tracks carry release blockers and output-review, visual-review and technical-proof gates. Under the build-first review model those gate approved_for_live and live, not the build. Recorded here so a later lane does not mistake them for a source problem.",
+      "whyStopped": "Not a source problem and not a legal one. Each family needs per-blank measured overlays written from scratch for three flat forms, plus an ordered rule table for the 158-field Form 4-222, with no sibling builder to adapt. This lane had capacity to take one such family to the standard the cohort requires and chose to finish the Texas family properly rather than ship measured overlays it could not verify onto a petition signed under penalty of perjury.",
+      "groundworkHandedOn": [
+        "All declared sources confirmed present and mounted, by hash — listed in sourcesConfirmedByHash on this row.",
+        "Structural class of every bound form established from the pinned binaries: flat versus AcroForm, page counts and field counts.",
+        "Form 4-222 read for annotation flags and shipped values: 158 fields, 0 widgets carrying the Hidden flag, 0 fields shipping the form's own ink.",
+        "The committed track registry carries full venue, destination, service, fee and self-help stop-condition text for all three tracks; nm_conviction records ten stop conditions and the other two seven each."
+      ],
+      "grantReleased": true,
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/nm/nm-conviction-set--official-pdf-fill",
+      "overlayDirectoryTouched": false,
+      "artifacts": []
+    },
+    {
+      "itemId": "nm_identity_theft-set",
+      "status": "STOPPED",
+      "verdict": "NOT_BUILT_IN_THIS_LANE",
+      "stopClass": "LANE_CAPACITY",
+      "jurisdiction": "NM",
+      "implementationStrategy": "official_pdf_fill",
+      "counters": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "countersMeasured": false,
+      "sourcesAllBind": true,
+      "sourcesConfirmedByHash": [
+        "80a70804dff453a8c1a2c775e90dc6ddec3090895aee860d0cc4474b22f39abd",
+        "809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a",
+        "b8a0dba2cd21f9fed317ccea57e568a360345608782cea2a3f0e34b769ae67e4",
+        "3cbc2e6eb35e29bdc10c42fee90221a7f9d470fa077fc0b9620bf1fb7e3f4f5c"
+      ],
+      "howSourcesWereResolved": "By CONTENT HASH through the committed corpus index. EVERY declared source of all three New Mexico families resolves and is mounted, even though each declares a path into the rcap-d-source-packs custody that is not mounted here. Path resolution would have produced a false BLOCKED_SOURCE for all eighteen bindings.",
+      "structuralFinding": "Every New Mexico form these families bind is a FLAT PDF with zero AcroForm fields, except the shared Form 4-222 free-process application, which carries 158. A flat form cannot be filled through an AcroForm: each blank must be placed as a measured write box read from the form's own printed text runs and their x extents, in the manner of scripts/build-census-v1-ma-expunge-time-set.mjs. No New Mexico court-form builder exists to work from.",
+      "blockersAreNotBuildBlockers": "The three tracks carry release blockers and output-review, visual-review and technical-proof gates. Under the build-first review model those gate approved_for_live and live, not the build. Recorded here so a later lane does not mistake them for a source problem.",
+      "whyStopped": "Not a source problem and not a legal one. Each family needs per-blank measured overlays written from scratch for three flat forms, plus an ordered rule table for the 158-field Form 4-222, with no sibling builder to adapt. This lane had capacity to take one such family to the standard the cohort requires and chose to finish the Texas family properly rather than ship measured overlays it could not verify onto a petition signed under penalty of perjury.",
+      "groundworkHandedOn": [
+        "All declared sources confirmed present and mounted, by hash — listed in sourcesConfirmedByHash on this row.",
+        "Structural class of every bound form established from the pinned binaries: flat versus AcroForm, page counts and field counts.",
+        "Form 4-222 read for annotation flags and shipped values: 158 fields, 0 widgets carrying the Hidden flag, 0 fields shipping the form's own ink.",
+        "The committed track registry carries full venue, destination, service, fee and self-help stop-condition text for all three tracks; nm_conviction records ten stop conditions and the other two seven each."
+      ],
+      "grantReleased": true,
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/nm/nm-identity-theft-set--official-pdf-fill",
+      "overlayDirectoryTouched": false,
+      "artifacts": []
+    },
+    {
+      "itemId": "nm_release_without_conviction-set",
+      "status": "STOPPED",
+      "verdict": "NOT_BUILT_IN_THIS_LANE",
+      "stopClass": "LANE_CAPACITY",
+      "jurisdiction": "NM",
+      "implementationStrategy": "official_pdf_fill",
+      "counters": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "countersMeasured": false,
+      "sourcesAllBind": true,
+      "sourcesConfirmedByHash": [
+        "d804959b212e2a0df2e3aa51f17609ef237d583ff2cc189747e76b38c2520638",
+        "809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a",
+        "951e5b8114dc6c31fa05b6230e2fe45509fa9c8f9ef99e3e6f384270a40977ca",
+        "99482e163d9addac8440be3c5628e88501061c82adf8ea4320167bda67952e11",
+        "1ec4057eef1340456e65abe4708c9b174b5ffacd313e7b52c145989963b53148",
+        "3cbc2e6eb35e29bdc10c42fee90221a7f9d470fa077fc0b9620bf1fb7e3f4f5c",
+        "fc22cdcb28d74dfd23de5931fc2d2825c9488589894f5ea75a284bfb4347154e"
+      ],
+      "howSourcesWereResolved": "By CONTENT HASH through the committed corpus index. EVERY declared source of all three New Mexico families resolves and is mounted, even though each declares a path into the rcap-d-source-packs custody that is not mounted here. Path resolution would have produced a false BLOCKED_SOURCE for all eighteen bindings.",
+      "structuralFinding": "Every New Mexico form these families bind is a FLAT PDF with zero AcroForm fields, except the shared Form 4-222 free-process application, which carries 158. A flat form cannot be filled through an AcroForm: each blank must be placed as a measured write box read from the form's own printed text runs and their x extents, in the manner of scripts/build-census-v1-ma-expunge-time-set.mjs. No New Mexico court-form builder exists to work from.",
+      "blockersAreNotBuildBlockers": "The three tracks carry release blockers and output-review, visual-review and technical-proof gates. Under the build-first review model those gate approved_for_live and live, not the build. Recorded here so a later lane does not mistake them for a source problem.",
+      "whyStopped": "Not a source problem and not a legal one. Each family needs per-blank measured overlays written from scratch for three flat forms, plus an ordered rule table for the 158-field Form 4-222, with no sibling builder to adapt. This lane had capacity to take one such family to the standard the cohort requires and chose to finish the Texas family properly rather than ship measured overlays it could not verify onto a petition signed under penalty of perjury.",
+      "groundworkHandedOn": [
+        "All declared sources confirmed present and mounted, by hash — listed in sourcesConfirmedByHash on this row.",
+        "Structural class of every bound form established from the pinned binaries: flat versus AcroForm, page counts and field counts.",
+        "Form 4-222 read for annotation flags and shipped values: 158 fields, 0 widgets carrying the Hidden flag, 0 fields shipping the form's own ink.",
+        "The committed track registry carries full venue, destination, service, fee and self-help stop-condition text for all three tracks; nm_conviction records ten stop conditions and the other two seven each."
+      ],
+      "grantReleased": true,
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/nm/nm-release-without-conviction-set--official-pdf-fill",
+      "overlayDirectoryTouched": false,
+      "artifacts": []
+    }
+  ]
+}

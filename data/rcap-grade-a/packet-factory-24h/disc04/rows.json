@@ -1,0 +1,244 @@
+{
+  "schemaVersion": "rcap-source-discovery-rows/v1",
+  "lane": "DISC04",
+  "laneKind": "source-discovery",
+  "operation": "exact-source-identity",
+  "baseSha": "2db38a3bf37c2faf38adeba609ff4e78ee7f4ab5",
+  "researchedOn": "2026-09-03",
+  "preflight": "SOURCE_CONVEYOR_PREFLIGHT_READY: 2/2 gate(s) passed",
+  "counts": {
+    "obligations": 8,
+    "completed": 4,
+    "stopped": 4
+  },
+  "claimGrantSet": "0bd999d518a8639e",
+  "method": "Each exact obligation was asserted before its evidence was read. Four prior releases were stopped before evidence. For the four claimed Michigan obligations, the relationship registry was read first, then committed inventories were reconciled to the current official SCAO binary. The official binary was fetched temporarily on 2026-09-03 and was byte-identical to the held governed copy.",
+  "familiesActuallyReleasedNow": [],
+  "familiesEligibleForPromotionAfterThisReturn": [
+    "mi_setaside_application-set",
+    "mi_setaside_first_owi-set"
+  ],
+  "releaseNote": "Identity plus exact current bytes are proven for every Michigan obligation in this lane, but this DISC return does not itself rewrite source custody. PROMO must bind the one parent MC 227 binary and its embedded component relationships before either family is counted SOURCE_READY.",
+  "identitiesGuessed": 0,
+  "sourceBodiesCommitted": 0,
+  "promotionsWithoutExactBytes": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "rows": [
+    {
+      "itemId": "ar-act346-set::official-form:ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS",
+      "sourceId": "official-form:ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS",
+      "jurisdiction": "AR",
+      "familyIds": [
+        "ar-act346-set"
+      ],
+      "status": "STOPPED",
+      "resolution": "BLOCKED_BEFORE_CLAIM",
+      "claimResult": "ALREADY_RELEASED",
+      "claimReleaseTimestamp": "2026-09-02T20:41:59.856Z",
+      "sourceInspectionPerformed": false,
+      "identityGuessed": false,
+      "reason": "The exact claim assertion returned ALREADY_RELEASED. DISC04 stopped this row before reading its evidence, as required.",
+      "handoffOperation": "NONE"
+    },
+    {
+      "itemId": "ar-misdemeanor-seal-set::official-form:ACIC-UNIFORM-PETITION-TO-SEAL",
+      "sourceId": "official-form:ACIC-UNIFORM-PETITION-TO-SEAL",
+      "jurisdiction": "AR",
+      "familyIds": [
+        "ar-misdemeanor-seal-set"
+      ],
+      "status": "STOPPED",
+      "resolution": "BLOCKED_BEFORE_CLAIM",
+      "claimResult": "ALREADY_RELEASED",
+      "claimReleaseTimestamp": "2026-09-02T20:41:59.944Z",
+      "sourceInspectionPerformed": false,
+      "identityGuessed": false,
+      "reason": "The exact claim assertion returned ALREADY_RELEASED. DISC04 stopped this row before reading its evidence, as required.",
+      "handoffOperation": "NONE"
+    },
+    {
+      "itemId": "ar-veterans-court-set::official-form:ACIC-ORDER-VETERANS-COURT",
+      "sourceId": "official-form:ACIC-ORDER-VETERANS-COURT",
+      "jurisdiction": "AR",
+      "familyIds": [
+        "ar-veterans-court-set"
+      ],
+      "status": "STOPPED",
+      "resolution": "BLOCKED_BEFORE_CLAIM",
+      "claimResult": "ALREADY_RELEASED",
+      "claimReleaseTimestamp": "2026-09-02T20:42:00.026Z",
+      "sourceInspectionPerformed": false,
+      "identityGuessed": false,
+      "reason": "The exact claim assertion returned ALREADY_RELEASED. DISC04 stopped this row before reading its evidence, as required.",
+      "handoffOperation": "NONE"
+    },
+    {
+      "itemId": "de_mandatory_expungement-set::official-form:DE-SBI-MANDATORY-EXPUNGEMENT-APPLICATION",
+      "sourceId": "official-form:DE-SBI-MANDATORY-EXPUNGEMENT-APPLICATION",
+      "jurisdiction": "DE",
+      "familyIds": [
+        "de_mandatory_expungement-set"
+      ],
+      "status": "STOPPED",
+      "resolution": "BLOCKED_BEFORE_CLAIM",
+      "claimResult": "ALREADY_RELEASED",
+      "claimReleaseTimestamp": "2026-09-02T09:28:04.790Z",
+      "sourceInspectionPerformed": false,
+      "identityGuessed": false,
+      "reason": "The exact claim assertion returned ALREADY_RELEASED. DISC04 stopped this row before reading its evidence, as required.",
+      "handoffOperation": "NONE"
+    },
+    {
+      "itemId": "mi_setaside_application-set::official-form:MC 227",
+      "sourceId": "official-form:MC 227",
+      "jurisdiction": "MI",
+      "familyIds": [
+        "mi_setaside_application-set"
+      ],
+      "registrySourceState": "FAMILY_IDENTITY_AMBIGUOUS",
+      "status": "COMPLETED",
+      "resolution": "EXACT_CURRENT_OFFICIAL_BINARY_AND_FAMILY_RELATIONSHIP_PROVEN",
+      "identityGuessed": false,
+      "issuingAuthority": "Michigan State Court Administrative Office (SCAO)",
+      "resolvedIdentity": {
+        "formNumber": "MC 227",
+        "officialTitle": "Application to Set Aside Conviction(s)",
+        "revision": "Rev. 3/25",
+        "officialUrl": "https://www.courts.michigan.gov/siteassets/forms/scao-approved/MC227.pdf",
+        "urlKind": "direct_official_binary",
+        "sha256": "9fec389975f06640aff057fbace9375866f64761c33e30c86e9798609f93b8a7",
+        "byteSize": 374474,
+        "pageCount": 4,
+        "technology": "acroform"
+      },
+      "statewideOrLocal": "statewide",
+      "intendedPacketRole": "primary participant application to set aside eligible conviction(s)",
+      "familiesThisReleases": [],
+      "familiesEligibleAfterPromotion": [
+        "mi_setaside_application-set"
+      ],
+      "handoffOperation": "PROMO",
+      "evidencePaths": [
+        "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+        "data/rcap-grade-a/packet-factory-24h/SOURCE_ACQUISITION_MANIFEST.json",
+        "data/record-clearing/source-artifact-registry.json",
+        "data/rcap-all50/local-source-corpus-index.json",
+        "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Michigan/mc227.pdf"
+      ],
+      "officialEvidenceUrl": "https://www.courts.michigan.gov/siteassets/forms/scao-approved/MC227.pdf",
+      "currentnessProof": "On 2026-09-03 the official SCAO URL returned HTTP 200 application/pdf, 374474 bytes. Its SHA-256 was 9fec389975f06640aff057fbace9375866f64761c33e30c86e9798609f93b8a7, byte-identical to the governed held copy. The form face prints Form MC 227, Rev. 3/25."
+    },
+    {
+      "itemId": "mi_setaside_application-set::official-form:MC 227 page 3 Proof of Service",
+      "sourceId": "official-form:MC 227 page 3 Proof of Service",
+      "jurisdiction": "MI",
+      "familyIds": [
+        "mi_setaside_application-set"
+      ],
+      "registrySourceState": "EMBEDDED_SECTION",
+      "status": "COMPLETED",
+      "resolution": "EMBEDDED_SECTION_BOUND_TO_EXACT_CURRENT_PARENT_BINARY",
+      "identityGuessed": false,
+      "issuingAuthority": "Michigan State Court Administrative Office (SCAO)",
+      "resolvedIdentity": {
+        "formNumber": "MC 227 (parent form)",
+        "officialTitle": "Proof of Service — page 3 of Application to Set Aside Conviction(s)",
+        "revision": "parent Rev. 3/25",
+        "officialUrl": "https://www.courts.michigan.gov/siteassets/forms/scao-approved/MC227.pdf",
+        "urlKind": "embedded_section_in_direct_official_binary",
+        "sha256": "9fec389975f06640aff057fbace9375866f64761c33e30c86e9798609f93b8a7"
+      },
+      "componentLocator": "printed page 3 of 3; PDF page 3 / zero-based page 2, heading PROOF OF SERVICE",
+      "statewideOrLocal": "statewide",
+      "intendedPacketRole": "certificate of service after mailing the application packet",
+      "familiesThisReleases": [],
+      "familiesEligibleAfterPromotion": [
+        "mi_setaside_application-set"
+      ],
+      "handoffOperation": "PROMO",
+      "handoffInstruction": "Bind this component to the one parent MC 227 binary; never acquire or create a separate Proof of Service file.",
+      "evidencePaths": [
+        "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+        "data/record-clearing/legal-design-intake/MI.memo.json",
+        "data/record-clearing/legal-design-track-registry.json",
+        "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Michigan/mc227.pdf"
+      ],
+      "officialEvidenceUrl": "https://www.courts.michigan.gov/siteassets/forms/scao-approved/MC227.pdf"
+    },
+    {
+      "itemId": "mi_setaside_first_owi-set::official-form:MC 227 item 2.c",
+      "sourceId": "official-form:MC 227 item 2.c",
+      "jurisdiction": "MI",
+      "familyIds": [
+        "mi_setaside_first_owi-set"
+      ],
+      "registrySourceState": "EMBEDDED_SECTION",
+      "status": "COMPLETED",
+      "resolution": "EMBEDDED_SECTION_BOUND_TO_EXACT_CURRENT_PARENT_BINARY",
+      "identityGuessed": false,
+      "issuingAuthority": "Michigan State Court Administrative Office (SCAO)",
+      "resolvedIdentity": {
+        "formNumber": "MC 227 (parent form)",
+        "officialTitle": "Item 2.c — first-violation operating-while-intoxicated set-aside request and once-only affirmation",
+        "revision": "parent Rev. 3/25",
+        "officialUrl": "https://www.courts.michigan.gov/siteassets/forms/scao-approved/MC227.pdf",
+        "urlKind": "embedded_section_in_direct_official_binary",
+        "sha256": "9fec389975f06640aff057fbace9375866f64761c33e30c86e9798609f93b8a7"
+      },
+      "componentLocator": "printed page 1 of 3; PDF page 1 / zero-based page 0, item 2.c",
+      "statewideOrLocal": "statewide",
+      "intendedPacketRole": "primary filing selection and affirmation for a first-violation OWI set-aside",
+      "familiesThisReleases": [],
+      "familiesEligibleAfterPromotion": [
+        "mi_setaside_first_owi-set"
+      ],
+      "handoffOperation": "PROMO",
+      "handoffInstruction": "Bind this component to the one parent MC 227 binary; never acquire or create a separate item 2.c file.",
+      "evidencePaths": [
+        "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+        "data/record-clearing/legal-design-intake/MI.memo.json",
+        "data/record-clearing/legal-design-track-registry.json",
+        "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Michigan/mc227.pdf"
+      ],
+      "officialEvidenceUrl": "https://www.courts.michigan.gov/siteassets/forms/scao-approved/MC227.pdf"
+    },
+    {
+      "itemId": "mi_setaside_first_owi-set::official-form:MC 227 page 3 Proof of Service",
+      "sourceId": "official-form:MC 227 page 3 Proof of Service",
+      "jurisdiction": "MI",
+      "familyIds": [
+        "mi_setaside_first_owi-set"
+      ],
+      "registrySourceState": "EMBEDDED_SECTION",
+      "status": "COMPLETED",
+      "resolution": "EMBEDDED_SECTION_BOUND_TO_EXACT_CURRENT_PARENT_BINARY",
+      "identityGuessed": false,
+      "issuingAuthority": "Michigan State Court Administrative Office (SCAO)",
+      "resolvedIdentity": {
+        "formNumber": "MC 227 (parent form)",
+        "officialTitle": "Proof of Service — page 3 of Application to Set Aside Conviction(s)",
+        "revision": "parent Rev. 3/25",
+        "officialUrl": "https://www.courts.michigan.gov/siteassets/forms/scao-approved/MC227.pdf",
+        "urlKind": "embedded_section_in_direct_official_binary",
+        "sha256": "9fec389975f06640aff057fbace9375866f64761c33e30c86e9798609f93b8a7"
+      },
+      "componentLocator": "printed page 3 of 3; PDF page 3 / zero-based page 2, heading PROOF OF SERVICE",
+      "statewideOrLocal": "statewide",
+      "intendedPacketRole": "certificate of service after mailing the first-violation OWI application packet",
+      "familiesThisReleases": [],
+      "familiesEligibleAfterPromotion": [
+        "mi_setaside_first_owi-set"
+      ],
+      "handoffOperation": "PROMO",
+      "handoffInstruction": "Bind this component to the one parent MC 227 binary; never acquire or create a separate Proof of Service file.",
+      "evidencePaths": [
+        "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+        "data/record-clearing/legal-design-intake/MI.memo.json",
+        "data/record-clearing/legal-design-track-registry.json",
+        "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Michigan/mc227.pdf"
+      ],
+      "officialEvidenceUrl": "https://www.courts.michigan.gov/siteassets/forms/scao-approved/MC227.pdf"
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+{
+ "schemaVersion": "fable-packet-factory-return/v1",
+ "agent": "FABLE-VT4",
+ "branch": "fable/vt4",
+ "lane": "VF08",
+ "laneKind": "independent-verification",
+ "mergedCaptainHead": "f1cb31429 (merge of origin/claude/legalease-sprint-captain-utucnw)",
+ "subjects": 12,
+ "claims": "All twelve --assert calls on VF08 returned CLAIM_OK (grant set 573bba8a85de8544); every subject was released with --reason \"independent verdict recorded\" after its row was written.",
+ "method": "Per family: MASTER_QUEUE row and overlay directory located; scripts/rcap-packet-completeness/verify-packet-completeness.mjs run in this lane and its result read directly; source-receipt hashes recomputed against the Master Library bytes bootstrapped in this container (archive sha256 a26e3ca7d52db4460e53c2eddd893109037702f5c8035f2c698a7e16bad84e89) and repository-path sources against committed files; rendered-artifact hashes recomputed from disk; canonical fixture text extracted and checked for route/statute on the face, correct-state caption, populated participant fields and placeholder text; participant instructions read for destination, fee/waiver and service treatment; reports (actual-writes, completeness-counters, blanks-left, approval-request) read as the thing being checked. The two repaired families were re-proven against the exact prior failing obligations, not rubber-stamped.",
+ "standardNote": "Where a fee, address or service mechanic is not held by any committed source, a dedicated instruction line naming the checkable authority (the clerk of the specific named court or the named agency) is treated as meeting the obligation, following the PASS standard vf18 recorded on ak-courtview-set; a catch-all line naming nobody is not. VERMONT_REPAIR.json records the filingDestination standard divergence; the standard applied is stated in every row.",
+ "verdicts": {
+  "co_pardoned_conviction_seal-set": "PASS_COMPLETE_INDEPENDENT",
+  "ct-pardon-erasure-set": "PASS_COMPLETE_INDEPENDENT",
+  "ct-under18-misdemeanor-set": "PASS_COMPLETE_INDEPENDENT",
+  "ga-deaddocket-j3-set": "PASS_COMPLETE_INDEPENDENT",
+  "ky_criminal_record_segregation-set": "PASS_COMPLETE_INDEPENDENT",
+  "ne-expunge-le-error-set": "PASS_COMPLETE_INDEPENDENT",
+  "ny_mrta_marijuana-set": "BLOCKED_LEGAL_INPUT",
+  "oh_marijuana_expungement-set": "FAIL_REPAIR_REQUIRED",
+  "ut_pet_dismissed_without_prejudice-set": "PASS_COMPLETE_INDEPENDENT",
+  "va_exp_identity_used_by_another-set": "PASS_COMPLETE_INDEPENDENT",
+  "va_exp_nonconviction-set": "PASS_COMPLETE_INDEPENDENT",
+  "wi_nc_doj_challenge-set": "PASS_COMPLETE_INDEPENDENT"
+ },
+ "notableFindings": {
+  "ut_pet_dismissed_without_prejudice-set": "REPAIRED family, fresh read. All four obligations vf07 failed are proven fixed: both filing destinations named in order with the 180-day deadline; $150 fee stated with the 1305GE waiver route and BCI's separate fee/indigent route; prosecutor service by mail or email with 1146XX; the SID#R&F BUREAU-USE blank reclassified PROTECTED with the agency region's measured baseline in the map, and all 12 remaining REQUIRED_BEFORE_FILING blanks named in the instructions. Registered verifier: PASS_COMPLETE, all nine counters zero. All 9 sources rehashed against Master Library bytes: match.",
+  "oh_marijuana_expungement-set": "REPAIRED family, fresh read. The prior vf02 ARTIFACTS defect IS repaired and proven (canonical.txt 13a210a2..., boundary.txt 025dee08... both rehash to exactly what the render reports now record). But the registered completeness verifier still returns FAIL_COMPONENT_SET: the tracks/ layout publishes no production-field-map.json and no actual-writes/completeness-counters/blanks reports, so nothing in the schema the completeness contract reads states what the packet was supposed to write. Repair required: publish the family's field-disposition evidence in the contract schema, then re-verify. The missing companion PDF on disk is the recorded corpus-binary exclusion (commit c01b87d15); its receipt hash was re-proven against Master Library bytes and its committed raster matches.",
+  "ne-expunge-le-error-set": "The queue-row label's § 29-3523(6) is a recorded label discrepancy only: build-findings.json records it and follows the memo and settled decisions Q-023/Q-024/Q-025 (§ 29-3523(9)); this lane read Q-023 (venue: district court of the county of arrest) and Q-024 (respondent: county attorney, served as a new civil action) in 2026-08-28-national-legal-decisions.json and the rendered petition matches both holdings on its face.",
+  "ny_mrta_marijuana-set": "Every technical obligation measured here passes (verifier PASS_COMPLETE, source and artifact hashes match, official form face correct with populated participant fields), but MASTER_QUEUE records OPEN_LEGAL_INPUT (basis LEGAL_APPROVAL_VERDICT) and WAVE_2_LEGAL_INPUT_ASSIGNMENTS.json records the decisive fee-and-waiver input as still to be supplied and recorded. An independent verifier does not settle open legal inputs; the family is BLOCKED_LEGAL_INPUT until the input is recorded, then re-verify."
+ },
+ "overlayDirectoriesModified": 0,
+ "buildScriptsModified": 0,
+ "commercialRoutesOpened": 0,
+ "productionTouched": false,
+ "filesWritten": [
+  "data/rcap-grade-a/packet-factory-24h/vf08/rows.json",
+  "data/rcap-grade-a/packet-factory-24h/VERIFIER_RETURNS.json",
+  "data/rcap-grade-a/fable-packet-factory/returns/vt4.json"
+ ],
+ "obligationSet": "the factory's canonical fifteen, scored individually by name: ROUTE_IDENTITY, SOURCE_IDENTITY, COMPONENT_SET, KNOWN_PREFILLS, REQUIRED_BEFORE_FILING, ROUTE_OPTIONS, REPEATING_ROWS, PROTECTED_FIELDS, ARTIFACTS, PAGE_ORDER, CLIPPING_AND_OVERLAP, FILING_DESTINATION, FEE_AND_WAIVER, SERVICE, SELF_HELP_STOP",
+ "l9Rescore": {
+  "why": "The first revision of this lane scored a narrower seven-item obligation set, which lane contract L9 refuses for the strongest verdict. All ten PASS families were re-scored over the canonical fifteen; the OH FAIL and NY BLOCKED_LEGAL_INPUT rows were already the weaker verdicts and stand unchanged.",
+  "whatTheWiderReadAdded": "ROUTE_IDENTITY, COMPONENT_SET, KNOWN_PREFILLS, REQUIRED_BEFORE_FILING, ROUTE_OPTIONS, REPEATING_ROWS, PROTECTED_FIELDS, PAGE_ORDER and CLIPPING_AND_OVERLAP were measured rather than assumed, and FILING_DESTINATION, FEE_AND_WAIVER, SERVICE and SELF_HELP_STOP were split out of the single filingInstructions obligation and scored one by one.",
+  "verdictChanges": "None. Every one of the ten still passes on all fifteen, so no PASS was preserved that the wider read could not support.",
+  "thingsTheWiderReadSurfaced": [
+   "co_pardoned_conviction_seal-set: reports/actual-writes.json records five boundary-fixture writes as matchesExpected false on the participant surname. Read on the bytes, fixtures/boundary.pdf carries 'Maria-Alejandra O’Shaughnessy-Whitfield' with U+2019 (e2 80 99) in place, so the page is correct and the report's own read-back extractor drops the apostrophe. Recorded because the family's byte-proof report contradicts its own artifact and leaves blockingFindings empty.",
+   "co_pardoned_conviction_seal-set and wi_nc_doj_challenge-set: the field map spells the route key 'track:XX:...' where product-wiring and the MASTER_QUEUE spell it 'obligation:track-only:XX:...'. Same track, same family, routeSelectionId agreeing everywhere, queue routeMappingStatus BOUND; twelve census families use the short spelling and twenty-three the long one, so it is a vocabulary alias rather than a disagreement.",
+   "va_exp_nonconviction-set: the page manifest names the CC-1473 pages by component and by documentId, and its five composed-page writes are outside the byte-proof report; this lane proved them directly on the fixture bytes (petitioner name on packet pages 3-6, date of birth on page 4).",
+   "ga-deaddocket-j3-set: the field map lists proposed_order.order_otn twice, so fifteen declared required-before-filing rows cover fourteen distinct fields; both are named in the instructions."
+  ]
+ },
+ "verification": {
+  "laneContracts": "node scripts/grade-a-packet-factory-24h/verify-lane-contracts.mjs — 9/9 passed, LANE_CONTRACTS_HELD, L9 included",
+  "completenessVerifier": "re-run per family on the merged base; ten PASS_COMPLETE, oh_marijuana_expungement-set FAIL_COMPONENT_SET, ny_mrta_marijuana-set PASS_COMPLETE",
+  "extractor": "node scripts/grade-a-packet-factory-24h/extract-verifier-returns.mjs — 13 vf08 rows parsed, every PASS row with zero failed and zero unmeasured obligations"
+ }
+}

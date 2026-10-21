@@ -47,7 +47,7 @@ requireCondition(source.page.includes("<ExpungementHomeV3"), "The marketing rout
 requireCondition(!source.page.includes("ExpungementLandingHandoff"), "The legacy landing handoff still renders underneath V3.");
 
 const orderedSections = [
-  "<HeroVideo", 'id="barrier"', 'id="guided-check"', 'id="how-it-works"', 'id="briefcase"', 'id="what-you-get"',
+  "<HeroVideo", 'id="barrier"', 'id="screening"', 'id="how-it-works"', 'id="briefcase"', 'id="what-you-get"',
   'id="pricing"', 'id="privacy"', 'id="wilma"', 'id="coverage"', 'id="faq"'
 ];
 let previousIndex = -1;
@@ -128,7 +128,7 @@ for (const value of ["stroke-linecap: square", "stroke-linejoin: miter", "--path
 }
 requireCondition(!/(parallax|scroll-jacking|typewriter|spring|particle|cursor-follow|countdown|pulseBtn|@keyframes\s+(?:drift|float|breathe))/i.test(runtimeSource), "A prohibited motion pattern remains in V3.");
 
-requireCondition(source.home.includes('src="/expungement-ai/shot-eligibility.webp"'), "Current guided-check evidence is missing.");
+requireCondition(source.home.includes('src="/expungement-ai/shot-eligibility.webp"'), "Current screening evidence is missing.");
 requireCondition(source.home.includes('src="/expungement-ai/shot-briefcase.webp"'), "Current Briefcase evidence is missing.");
 requireCondition(!runtimeSource.includes("shot-result-reference-only"), "The retired result-reference screenshot is public.");
 requireCondition(count(source.documents, /^\s*\["[^\n]+/gm) === 5, "Document set must expose five conditional document categories.");
@@ -151,7 +151,7 @@ requireCondition(wilmaMetadata.hasAlpha === true && wilmaStats.isOpaque === fals
 const compiledProfiles = fs.readdirSync(path.join(ROOT, "src/lib/rcap-engine/compiled/profiles")).filter((file) => /^[A-Z]{2}-.+\.json$/.test(file));
 const jurisdictions = compiledProfiles.map((file) => file.slice(0, 2));
 requireCondition(jurisdictions.length === 51 && new Set(jurisdictions).size === 51 && jurisdictions.includes("DC"), "Coverage source must contain exactly 50 states plus D.C.");
-requireCondition(source.coverageData.includes("getAllJurisdictionProfiles") && source.coverageData.includes("projectPublicProfile"), "Coverage summaries are not derived from the public guided-check projection at build time.");
+requireCondition(source.coverageData.includes("getAllJurisdictionProfiles") && source.coverageData.includes("projectPublicProfile"), "Coverage summaries are not derived from the public screening projection at build time.");
 requireCondition(source.coverageData.includes("questions.length") && source.coverageData.includes("question.translations?.es?.prompt"), "Coverage summaries do not derive state counts and bilingual public prompts.");
 requireCondition(source.coverageData.includes("summaries.length !== 51") && source.coverageData.includes("uniqueCodes.size !== 51"), "Coverage build-time data does not enforce 51 unique jurisdictions.");
 requireCondition(!source.coverage.includes("coverage_glance_suffix") && !source.copy.includes("at a glance") && !source.copy.includes("de un vistazo"), "The generic at-a-glance card remains in the homepage.");

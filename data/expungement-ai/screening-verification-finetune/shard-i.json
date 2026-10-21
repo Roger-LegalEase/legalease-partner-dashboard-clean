@@ -1,0 +1,55 @@
+{
+  "schemaVersion": "screening-verification-finetune-shard/v1",
+  "lane": "I",
+  "status": "implemented",
+  "baseSha": "de28d4220e21710b9e340b461b6dc2c5403951cf",
+  "states": ["TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"],
+  "before": {
+    "flows": 58,
+    "browserWitnessVariants": 98,
+    "freeQuestions": 93,
+    "completionOverlaps": 8,
+    "genericSpecialRouteAsks": 21,
+    "rawPacketFields": 38
+  },
+  "after": {
+    "flows": 58,
+    "browserWitnessVariants": 98,
+    "freeQuestions": {
+      "emptyContext": 83,
+      "maxExactRoute": 85
+    },
+    "routeConsumerFacts": 2,
+    "routeConsumerEdges": 2,
+    "exactPacketFactIds": 44,
+    "completionAliasIds": 8
+  },
+  "selectedQuestionCounts": {
+    "TX": { "emptyContext": 11, "maxExactRoute": 11 },
+    "UT": { "emptyContext": 6, "maxExactRoute": 6 },
+    "VT": { "emptyContext": 11, "maxExactRoute": 11 },
+    "VA": { "emptyContext": 11, "maxExactRoute": 11 },
+    "WA": { "emptyContext": 11, "maxExactRoute": 11 },
+    "WV": { "emptyContext": 11, "maxExactRoute": 11 },
+    "WI": { "emptyContext": 10, "maxExactRoute": 12 },
+    "WY": { "emptyContext": 12, "maxExactRoute": 12 }
+  },
+  "representativeSelectedFlowIds": [
+    "EXPAI-UT-124f0e6624",
+    "EXPAI-VA-121670834f",
+    "EXPAI-WA-24a861f8e0"
+  ],
+  "utFreeCheckQuestions": 6,
+  "authority": {
+    "policy": "No legal rule was added or inferred from prose.",
+    "routeConsumers": "The two Wisconsin facts exactly mirror ROUTE_ESCALATION_FACT_IDS for the adult Wis. Stat. 973.015 route.",
+    "exactPacketFactIds": "Existing compiled questions whose stage is case_details or record_readiness, plus existing date_or_unknown facts.",
+    "completionAliasIds": "Existing completion aliases only where the projected profile also carries the canonical court_requirements_completed authority fact.",
+    "utShortCheck": "UT receives no route details, packet facts, or aliases in its lifecycle envelope."
+  },
+  "unchanged": ["questions", "pathways", "orderedDecisionRules", "legalAuthority", "packetGenerator", "forms", "terminal outcomes", "payment outcomes"],
+  "blockers": [
+    "The remaining generic special-route asks cannot be safely scoped without approved machine mappings; no prose predicates were invented.",
+    "Lane B metadata validation must admit approved projection-added Wisconsin question IDs."
+  ]
+}

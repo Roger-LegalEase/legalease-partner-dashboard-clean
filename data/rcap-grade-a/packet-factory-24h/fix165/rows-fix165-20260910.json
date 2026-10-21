@@ -1,0 +1,446 @@
+{
+  "schemaVersion": "rcap-verifier-rows/v2",
+  "lane": "FIX165",
+  "laneKind": "repair",
+  "isIndependentVerification": false,
+  "worktree": "/home/user/vfa-worktree",
+  "branch": "lane-fix165-20260910",
+  "base": "e89a2d69d4ea9c11b720047eab5037ddc3939e4d",
+  "grantSet": "75d93020280616c1. Two --assert calls in the three-token form, both CLAIM_OK against the ledger in this worktree (994 claims, generatedAtCommit 66f0930b1).",
+  "actedOnReturns": [
+    "VF56 rows-vf56-20260910.json, the fresh measurement of ar-drug-court-set at base 6483ce246.",
+    "VF57 rows-vf57-20260910.json, the fresh measurement of ar-felony-seal-set at base 6483ce246."
+  ],
+  "packetsSelfVerified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "sharedManifestsTouched": "None. No file under data/record-clearing/ was modified. data/rcap-grade-a/packet-factory-24h/pf13/rows.json was modified BY THE BUILDER on every felony-seal build and was restored with `git checkout --` every time; see builderWritesAnotherLanesRow.",
+  "howBytesWereMeasured": "sha256sum on the files on disk. pdfinfo / pdftotext -layout (poppler) for page counts and page text. pdftoppm -r 300 -gray writing binary P5 PGM, never -png, parsed by a P5 reader written in this lane that refuses any magic other than P5 and any maxval other than 255; annotations are drawn (poppler's default), each delivered page differenced against the pinned official source page its component order claims, ink threshold grey < 128 of 255. Every zero below is stated beside a non-zero taken by the same detector at the same settings on the same page.",
+  "everyZeroHasAPositiveControl": "Yes. See rasterPixelCounts.positiveControls on each row.",
+  "theCOMPLETENESSVERIFIERWASNOTTREATEDASEVIDENCE": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs was not run and nothing in this return is transcribed from it.",
+  "rows": [
+    {
+      "familyId": "ar-felony-seal-set",
+      "itemId": "ar-felony-seal-set",
+      "jurisdiction": "AR",
+      "verdict": "REPAIRED_BUILT_RASTER_PENDING",
+      "repairedBy": "FIX165",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ar/ar-felony-seal-set--official-pdf-fill",
+      "whatThisRowIsNot": "This is a repair row. This lane built these bytes and verifies nothing about them. Independent re-verification is owed to a lane that is neither FIX165, VF56 nor VF57.",
+      "determinismControlRunFIRSTBeforeAnyEdit": {
+        "why": "FIX153 found the unmodified builder moves both petition digests on a font-metrics difference on a sibling Arkansas family, so this lane was told to run the unmodified builder as a control before editing anything.",
+        "howMany": "Two consecutive runs of the UNMODIFIED builder at base e89a2d69d, MASTER_LIBRARY_SOURCE_DIR set, --no-raster (the worker asserts that flag).",
+        "result": "BYTE-REPRODUCIBLE. Run 1 and run 2 each reproduced canonical 483fe0c25c9b13fedc13befffab96ac19dd535a0dbe134601619b40200ac0d9a and boundary daec3853fd6b99aa0c91cf330eb7ea2bd20f40efe453b0d83b2a8c0c3bc90ceb exactly. diff -r against a pre-build copy of the whole family directory reported no difference on either run, and git status --porcelain was completely empty after both - not one report, receipt or markdown byte moved.",
+        "soTheRepairIsSafe": "Yes, and the control is what makes the repair legible: because a no-op rebuild moves nothing, every byte that moved afterwards is attributable to this lane's edit and to nothing else. FIX153's finding is not contradicted - it was made on a different family - but it does not reproduce here.",
+        "aThirdReproductionAfterTheRepair": "The repaired builder was also run from a clean git checkout -- of the family directory and reproduced the new pair 5ba805c03c70078ae4cd5089e7dbebb66890709d7e1e77e769b49d01a73c7bf6 / 9d64a53d2c613b56eb526064abff364d72941de616bafe0fd8573c9735921a3c, which it had already produced twice. The repaired builder is byte-reproducible too."
+      },
+      "fixtureDigests": {
+        "before": {
+          "fixtures/canonical.pdf": "483fe0c25c9b13fedc13befffab96ac19dd535a0dbe134601619b40200ac0d9a",
+          "canonicalByteLength": 415348,
+          "fixtures/boundary.pdf": "daec3853fd6b99aa0c91cf330eb7ea2bd20f40efe453b0d83b2a8c0c3bc90ceb",
+          "boundaryByteLength": 415570
+        },
+        "after": {
+          "fixtures/canonical.pdf": "5ba805c03c70078ae4cd5089e7dbebb66890709d7e1e77e769b49d01a73c7bf6",
+          "canonicalByteLength": 415121,
+          "fixtures/boundary.pdf": "9d64a53d2c613b56eb526064abff364d72941de616bafe0fd8573c9735921a3c",
+          "boundaryByteLength": 415343
+        },
+        "bothMovedAndWhy": "Both moved, and only the ROUTE_OPTIONS repair moved them: two flattened selection appearances - the paragraph 9 X and the paragraph 10 check - are no longer drawn. The SELF_HELP_STOP repair is markdown-only and moves no PDF byte; that was proved separately by rebuilding after a markdown-only wording change and getting the same two PDF digests.",
+        "beforeDigestsMatchVF57": true,
+        "pageCountBothFixturesBeforeAndAfter": 7
+      },
+      "obligations": {
+        "ROUTE_OPTIONS": {
+          "before": "FAIL (VF57)",
+          "after": "REPAIRED",
+          "whatWasWrong": "Delivered page 3 is a VERIFICATION taken under oath before a notary, so every numbered paragraph of the petition is sworn. The packet pre-marked five elections. Two were authorised by nothing: paragraph 9 (no pending felony charges) and paragraph 10 (IS NOT required to register as a sex offender). The track's six generationRequirements - convictionDetails, convictionDate, sentenceComplete, violenceQuestion, sameEpisodeCount, interestsOfJusticeFacts - ask about neither, so the platform holds neither fact, and the field map recorded routeDetermined false, factId null, factAvailable null on all five while classifying the unselected half of the same either/or as PARTICIPANT_ELECTION_GENUINE, a sworn assertion or legal election the route does not determine. A fixture value is not authority.",
+          "whatWasChanged": [
+            "scripts/build-census-v1-ar-felony-seal-set.mjs: SELECTED_PETITION_CONTROLS drops the paragraph 9 control and the paragraph 10 control. It now holds exactly felony, felony_2 and 8.",
+            "A new PARTICIPANT_ELECTED_PARAGRAPHS set gives the four paragraph 9 and 10 controls their own refusal reason, because the old unselected reason claimed to be the unselected complement to the option established by the fixture and no branch of either paragraph is now established.",
+            "The conditional paragraph 9 narrative refusal no longer says it is unused because the fixture selects no pending felony matters; it says the narrative belongs to the second branch and the packet marks neither branch.",
+            "production-field-map.json routeSelectionsMade: the paragraph 9 and paragraph 10 entries now read value NOT MARKED BY THIS PACKET, determinedBy null, with a why field naming the missing generationRequirement. The paragraph 8 entry additionally cites the packetInstruction that authorises it.",
+            "participant-instructions.md: a new section headed Paragraphs 9 and 10 are left blank on purpose quotes BOTH branches of each paragraph verbatim from the pinned ACIC petition and states the consequence the form itself carries - the two printed lines under paragraph 9 are filled only on the second branch. The opening paragraph now says the packet marks three elections and only three, and names the authority for each."
+          ],
+          "whatWasDELIBERATELYNotChanged": "Paragraphs 1, 2 and 8 are still marked. VF57 does not fail them and this lane did not touch them: the route key situation-c-felony-convictions binds the FELONY form family so paragraphs 1 and 2 follow from the form selection, and paragraph 8's first statement rests on sentenceComplete, which IS a collected generationRequirement, plus the track packetInstruction 'Fill paragraph 8 per the approved convention.' Re-measured after the repair, all three still carry their ink unchanged.",
+          "noNewFACTWASINVENTED": "Nothing was added to the delivered documents that is not either the issuer's own printed form text quoted verbatim or a statement of what this packet does and does not do."
+        },
+        "SELF_HELP_STOP": {
+          "before": "FAIL (VF57): six declared, 0 verbatim, 2 in substance; 0 occurrences of immigration, licensing, firearm, violence, same episode, interests of justice; lawyer 0 times.",
+          "after": "REPAIRED, markdown only, no PDF byte moved.",
+          "whatWasChanged": "participant-instructions.md carries a new section headed Stop and get a lawyer if any of these is true, with all SIX of the track record's selfHelpStopConditions in the record's own words, each bolded verbatim and each followed by a plain-words statement of what to do. The section frames each condition as the point where this packet's help ends rather than as something that may happen.",
+          "theTWOTHEROUTEITSELFCOLLECTS": "violenceQuestion and sameEpisodeCount are two of the six generationRequirements and the track's scopeRestrictions say in terms 'Do not automate the violence determination or the same-episode count.' Both now reach the participant, and the violence entry ties itself to the printed form: paragraph 6 of the petition swears the conviction was not a felony involving violence under 5-4-501(d)(2), which is the sworn statement the unclear determination sits under.",
+          "theINTERESTSOFJUSTICEONE": "Delivered paragraph 11 asks the court to find the Defendant rehabilitated. The record's packetInstruction is 'Do not generate argument on the interests-of-justice standard', which the build obeys. The guidance now says so and names A.C.A. 16-90-1415(b) as the standard - which is the registry's own authority entry, 'Standard: 16-90-1415(b)' - and says a lawyer has to make that showing.",
+          "verbatimNowMeasured": "6 of 6 carried verbatim, asserted at build time rather than claimed: the build fails if any of the six is not an exact substring of the delivered markdown. The word lawyer now occurs 6 times; immigration, licensing, firearm, violence, same criminal episode and interests-of-justice all now occur.",
+          "noSTOPCONDITIONWASINVENTED": "Exactly the six the registry declares. verifyStopConditions() re-reads data/record-clearing/legal-design-track-registry.json on every build and assert.deepEqual's the six strings against track ar-felony-seal selfHelpStopConditions, so a seventh cannot be added by hand and one cannot drift."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "VERIFIED BOUND, NOT RE-OPENED",
+          "what": "data/record-clearing/legal-design-packet-set-manifests.json on disk hashes b28edfb93eb2e3953dea5bdbe2915476c9752c12df2a46cb61f98e786a77cc5c, which is exactly what the family's source-receipt.json declares, with the identityRefresh block recording the move from 80b5e071.. and the two-anchor comparison. The pin binds. Nothing about it was touched.",
+          "andTheREBUILDDIDNOTSTRIPIT": "Checked explicitly rather than assumed: from a clean git checkout -- of the family directory the repaired builder was run once and the identityRefresh block is still present and byte-identical. carryForwardIdentityRefresh() carried it because the rebuild recomputes the same pin sha256 the annotation was written against."
+        }
+      },
+      "aNEWRECORDBINDINGTHISLANEADDEDANDWHY": {
+        "what": "source-receipt.json gains a contentAnchoredRecords array naming data/record-clearing/legal-design-track-registry.json, track ar-felony-seal, with the six stop-condition strings as its anchors and anchorKind content_anchor_no_whole_file_pin.",
+        "whyNotAWholeFilePin": "The delivered guidance now makes six assertions drawn from that record, so the receipt must name it. But it is NOT added to committedLegalRecords, because that path records a whole-file sha256 and this record moved 33 times in the last 30 days against the packet-set manifest's 12. A whole-file pin on it would go stale within days without the bound content moving - manufacturing exactly the SOURCE_IDENTITY failure VF57 spent its measurement disproving. The content anchor is the stronger check for this use: it fails the build the moment any of the six strings moves, which a digest cannot distinguish from any other edit anywhere in the record.",
+        "aVERIFIERSHOULDRULEONTHIS": "This lane thinks a content anchor is right here and says so openly rather than burying it. If the contract requires a whole-file pin for any record a delivered document quotes, this is the place to say so and the fix is one line."
+      },
+      "guardsAddedAndPROVEDTOFIRE": [
+        {
+          "guard": "verifyStopConditions() assert.deepEqual against the committed registry",
+          "brokenBy": "changing one stored condition to drop its terminal period",
+          "fired": "AssertionError: ar-felony-seal: the committed selfHelpStopConditions no longer match the six this packet delivers",
+          "restored": true
+        },
+        {
+          "guard": "every stop condition must appear verbatim in the delivered markdown",
+          "brokenBy": "rendering the bullet label as STOP instead of the condition",
+          "fired": "AssertionError: self-help stop condition not carried verbatim: The prosecuting attorney objects within the 30-day window.",
+          "restored": true
+        },
+        {
+          "guard": "every paragraph 9 and 10 branch must appear verbatim in the delivered markdown",
+          "brokenBy": "truncating the quoted branch to its first 12 characters",
+          "fired": "AssertionError: paragraph 9 branch not disclosed verbatim: Defendant has no pending felony charges in any state or federal court",
+          "restored": true
+        }
+      ],
+      "rasterPixelCounts": {
+        "parameters": "pdftoppm -r 300 -gray, binary P5 PGM, annotations drawn, ink threshold grey < 128 of 255. Each delivered page differenced against the pinned official source page its component order claims. Per-control figures are the added ink falling inside that control's own declared widget rect from production-field-map.json, mapped to pixels at 300/72 with the rect floored on x0/y0 and ceiled on x1/y1.",
+        "scope": "All 14 delivered pages (7 per fixture) for the page totals; all 11 petition selection-control rects on petition pages 1 and 2 for the per-control figures. Both fixtures measured before and after.",
+        "theTWOELECTIONSCORRECTED": {
+          "paragraph 9 - no pending felony matters (control 9, petition page 2)": {
+            "beforeCanonical": 79,
+            "beforeBoundary": 79,
+            "afterCanonical": 0,
+            "afterBoundary": 0,
+            "boxPx": 2346
+          },
+          "paragraph 10 - IS NOT required to register (petition page 2)": {
+            "beforeCanonical": 1600,
+            "beforeBoundary": 1600,
+            "afterCanonical": 0,
+            "afterBoundary": 0,
+            "boxPx": 3720
+          }
+        },
+        "theTHREELEFTALONE": {
+          "paragraph 1 - felony": {
+            "before": 1927,
+            "after": 1927
+          },
+          "paragraph 2 - felony_2": {
+            "before": 2100,
+            "after": 2100
+          },
+          "paragraph 8 - first eligibility statement": {
+            "before": 88,
+            "after": 88
+          }
+        },
+        "everyUNSELECTEDCOMPLEMENT": "0 px before and after, on both fixtures, at all six rects that carry no mark: misdemeanor, misdemeanor_2, paragraph 8 second and third statements, and now both paragraph 9 branches and both paragraph 10 branches.",
+        "whereTHISLANEDIFFERSFROMVF57SNUMBERS": "VF57 published +107 for paragraph 8 and +97 for paragraph 9; this lane measures +88 and +79 at the same dpi and threshold. The three large figures - 1,927 / 2,100 / 1,600 - reproduce EXACTLY, and every unselected complement reproduces at 0 on both lanes. The delta on the two small marks is 19 px each and is a rect-to-pixel rounding difference at the box edge, not a disagreement about what is on the page: both lanes read the same two boxes as marked and the same six as empty. Recorded rather than smoothed over.",
+        "wholePageAccountingTHATCLOSESEXACTLY": "Petition page 2 whole-page added ink falls 12,723 to 11,044 on canonical and 26,746 to 25,067 on boundary. Both deltas are 1,679, and 1,679 = 79 + 1,600, the two marks removed. No other ink on that page moved, and packet pages 1, 3, 4, 5, 6 and 7 are unchanged.",
+        "removedInk": "0 px on all 14 delivered pages of both fixtures, before and after. Nothing the ACIC form prints has been erased by this repair.",
+        "positiveControls": [
+          {
+            "kind": "natural, on the page carrying the zeros",
+            "what": "The same detector at the same settings reads 1,927 / 2,100 / 88 px at three other selection rects on the same two pages of the same post-repair fixtures. A detector reading zero at two boxes and non-zero at three others on the same page is reading ink, not saturated."
+          },
+          {
+            "kind": "before-and-after on the same rects",
+            "what": "The two rects that now read 0 read 79 and 1,600 on the committed pre-repair bytes, same detector, same dpi, same threshold, same rect arithmetic."
+          },
+          {
+            "kind": "the text-only check would have missed one, which is why the pixel read is primary",
+            "what": "Confirmed independently here: on the pre-repair canonical, pdftotext -layout shows 9. X Defendant has no pending felony charges but shows NOTHING at paragraph 10 - the paragraph 10 mark is a flattened checkbox appearance invisible to text extraction. A text-only verifier would have recorded paragraph 10 as never elected. Post-repair the X at paragraph 9 is gone from the text layer as well as from the ink."
+          }
+        ]
+      },
+      "rasterState": {
+        "state": "BUILT_RASTER_PENDING",
+        "freshCentralRasterOwed": true,
+        "why": "Both delivered digests moved, so a fresh whole-family raster is owed over 5ba805c0.. and 9d64a53d... It was already owed before this lane touched anything: VF57 found neither pre-repair digest in any file under raster-runs/, admitted or otherwise, and reports/independent-visual-review.json reads required true, granted false, reviewedBy null. This lane creates no new raster debt; it moves the debt onto new bytes.",
+        "theSTALEACCEPTANCERECEIPTWASWITHDRAWNCORRECTLY": "product-wiring.json carried a RASTER_PASS acceptanceReceipt bound to canonical 483fe0c2.. with coversTheWholeFamily true, which VF57 could not find behind any raster run. The governance module withdrew it on this rebuild rather than carrying it forward: it now sits under acceptanceReceiptWithdrawn with the bytes it bound, the bytes that replaced them, and the reason. This lane issued no receipt and set no verdict.",
+        "claimedByThisLane": "No raster, no acceptance, no approval, no route."
+      },
+      "builderWritesAnotherLanesRow": {
+        "what": "scripts/build-census-v1-ar-felony-seal-set.mjs upserts its build row into data/rcap-grade-a/packet-factory-24h/pf13/rows.json on every run - another lane's row file, which this lane has no grant to write.",
+        "whatThisLaneDid": "Restored it with git checkout -- after every build. It is unmodified at the commit and git status was checked after every single build to confirm it.",
+        "theCONSEQUENCEALANESHOULDPICKUP": "pf13/rows.json therefore still publishes canonical 483fe0c2.. / 415,348 and boundary daec3853.. / 415,570 for ar-felony-seal-set, and neither file is on disk any more. That is the ADMITTED_RECEIPT_BINDS_BYTES_NOT_ON_DISK shape in a lane row rather than a receipt. The current digests are in THIS row and in the family's own reports. A lane holding the pf13 grant, or the Captain, owns the correction; this lane will not write another lane's row to fix it."
+      },
+      "aDEFECTTHISLANECAUSEDANDUNDIDANDWILLNAME": {
+        "what": "A build that fails an assertion AFTER runFamily() calls fs.rmSync(OUT, recursive) leaves the family directory deleted. The NEXT successful build then finds no prior source-receipt.json to snapshot, so carryForwardIdentityRefresh() has no previous document, preserveIdentityRefresh() is fail-safe on a missing file, and the hand-written identityRefresh block is silently gone - with the build reporting success and all nine counters zero.",
+        "howItWasFound": "This lane hit it by deliberately breaking its own guards to prove they fire. Two of the three guard failures land after the wipe. The block was restored by git checkout -- of the family directory followed by one clean build, and its survival was then verified explicitly.",
+        "whyItIsWORTHRECORDING": "scripts/rcap-packet-completeness/identity-refresh.mjs was written precisely to stop a rebuild erasing that annotation, and it does stop a SUCCESSFUL rebuild. It does not stop a FAILED rebuild followed by a successful one, because the failure destroys the evidence the module reads. Seventeen families are recorded as resting on these annotations. Out of scope for this lane's grant; named so it is not lost."
+      }
+    },
+    {
+      "familyId": "ar-drug-court-set",
+      "itemId": "ar-drug-court-set",
+      "jurisdiction": "AR",
+      "verdict": "REPAIRED_BUILT_RASTER_PENDING",
+      "repairedBy": "FIX165",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ar/ar-drug-court-set--official-pdf-fill",
+      "whatThisRowIsNot": "A repair row. This lane built these bytes and verifies nothing about them. Independent re-verification is owed to a lane that is neither FIX165, VF56 nor VF57.",
+      "determinismControlOnThisBuilderToo": {
+        "why": "Not asked for on this family, but run for the same reason: without it no byte that moves can be attributed to the repair.",
+        "result": "THE PDF PATH IS REPRODUCIBLE; THE REPORT PATH IS NOT. One run of the UNMODIFIED builder at base e89a2d69d reproduced all four fixture digests exactly, and left build-findings.json, field-census.census-v1.json and production-field-map.json MODIFIED - 20 effectiveLabel values and one extra labelCorrectedFromAnotherPrintedRow entry, imported from shared-library commit e258e47a0. VF56 predicted exactly this cost.",
+        "soTheDRIFTWASSEPARATEDFROMTHEREPAIR": "The unmodified builder's output was captured, the repaired builder's output was captured, and the two were differenced. The repair's own effect is exactly: the two class lines corrected on four rows, the four oense rows disclosed, one effectiveLabel improved from 'Defendant or Def endant’s Attorney' to 'Defendant or Defendant’s Attorney', and the withheld-blank disclosure. Nothing else.",
+        "isTHEDRIFTPARTICIPANTFACING": "No, and this was measured rather than assumed: participant-instructions.md is BYTE-IDENTICAL between the committed tree and the unmodified rebuild, and all four fixture digests are unchanged by the drift. The 20 effectiveLabel moves are record-quality only. Two of them are worse than what they replace - 'T he defendant was arrested on the' becomes 'he defendant was arrested on the', and three City/State/Zip labels become the synthetic '<documentId> printed blank <name>' form - and this lane is importing them, not making them. A lane with a shared-library grant owns e258e47a0."
+      },
+      "fixtureDigests": {
+        "before": {
+          "fixtures/pre-adjudication-canonical.pdf": "954fbaf9ef5109c70f8d91f5d9ae592261952bc425749302d20dd582462dea09",
+          "fixtures/pre-adjudication-boundary.pdf": "d9ab88a45149e6a22215a48cb2ff4e397ca3e5499cc5d1a88d65511a2aed1bc4",
+          "fixtures/post-adjudication-canonical.pdf": "568c6ddf4817e4679d6636b2cfa61f914915158f5dd55c138291e50f0f05ff5c",
+          "fixtures/post-adjudication-boundary.pdf": "4a8768dae5a22dd6b376161bf5e96185571a4c023f9cdb621ca785647d888422"
+        },
+        "after": {
+          "fixtures/pre-adjudication-canonical.pdf": "954fbaf9ef5109c70f8d91f5d9ae592261952bc425749302d20dd582462dea09",
+          "fixtures/pre-adjudication-boundary.pdf": "2c4bf29088d5561ecb6f7b15ac0db242c39c02b32229423c48196b31ad865758",
+          "fixtures/post-adjudication-canonical.pdf": "568c6ddf4817e4679d6636b2cfa61f914915158f5dd55c138291e50f0f05ff5c",
+          "fixtures/post-adjudication-boundary.pdf": "8e96fb584f474149be2b557a762b535d4a141362df844bf665475bd0979c325e"
+        },
+        "whichMovedAndWhy": "The two BOUNDARY fixtures only. Both canonical fixtures are byte-identical before and after, because a packet that withheld nothing prints no disclosure. The two boundary packets moved because their generated page 1 now lists the five blanks each one leaves for the participant's hand. The REQUIRED_BEFORE_FILING repair moved no PDF byte at all: it changes production-field-map.json and participant-instructions.md only, which was confirmed by building that repair alone and finding all four digests unchanged.",
+        "beforeDigestsMatchVF56": true,
+        "pageCountAllFourBeforeAndAfter": 9
+      },
+      "obligations": {
+        "KNOWN_PREFILLS": {
+          "before": "FAIL (VF56). Ten held facts withheld from the delivered pages by the CLIPPING_AND_OVERLAP repair, and no delivered document said so: 'does not fit', 'by hand', 'too long', 'truncat' and 'smallest readable' 0 times on all 36 delivered pages, 'Case No' 0 times in participant-instructions.md.",
+          "after": "REPAIRED BY DISCLOSURE, NOT BY REFILLING.",
+          "theDECISIONTHISLANEWASASKEDTOMAKE": {
+            "question": "Should a fact that cannot fit be disclosed as a fill-by-hand instruction, or should the layout be fixed so it fits?",
+            "answer": "DISCLOSE. The layout cannot be fixed inside the issuer's own blank without doing something worse.",
+            "fromTheRECORD": [
+              "Every mapped field on all four ACIC documents is flagged single-line by the form itself, so wrapping to a second line is not available honestly. That is the builder's own recorded finding and it is true of the widgets.",
+              "Draw smaller: the shared fitter already stepped to MIN_READABLE_FONT_SIZE, 6.0 pt, and the values still need up to 42.94 pt more width than the blank has (VF56's per-appearance figures: case number over by 2.29 and 14.20 pt, name by 33.38, 25.82, 18.02, 7.91, 42.94 and 37.00). Clearing 42.94 pt by shrinking means roughly 4.5 pt type on a filed pleading.",
+              "Truncate: a truncated case number is a different case number, and it is the exact defect VF05 originally failed this family on.",
+              "Draw past the blank: that is ink over the issuer's printed form, which CLIPPING_AND_OVERLAP and PROTECTED_FIELDS both exist to refuse - and VF05 recorded it happening, with 'Fitzwilliam' and 'III' printed over the words 'prays', 'to' and 'Dismiss'.",
+              "The official ACIC pair controls this route. The packet may not redraw the issuer's form to make its own value fit."
+            ],
+            "soTheREFUSALSTANDS": "The refusal was right. What was wrong was that it was silent. CLIPPING_AND_OVERLAP stays at zero, PROTECTED_FIELDS stays at zero, no value is shortened and no ink goes on the form - and the participant is now told, on a delivered page, exactly which blanks were left and what to write in them."
+          },
+          "whatWasChanged": [
+            "The refusal record now carries the withheld VALUE (withheldValue). Without it the disclosure could name the blank but not say what to write in it.",
+            "Packet page 1 - which is generated per packet and already printed this participant's name and case number - now ends with a section 'Blanks this packet left for you to fill in by hand (N)', the participant sentence the build already composed, and one line per refusal giving the PACKET page, the official title, the form page, the printed blank the value belongs in, and the value itself.",
+            "A packet that withheld nothing prints nothing extra, so the canonical fixtures do not move.",
+            "participant-instructions.md gains a section 'Blanks the packet may leave for your hand' explaining the rule and pointing to page 1 of the reader's own packet. 'Case No' now occurs in the guide, where VF56 measured 0."
+          ],
+          "measuredOnTheDELIVEREDBYTES": {
+            "the disclosure is on the page": "pdftotext over the delivered fixtures: 'fill in by hand' occurs 1 time on each boundary packet and 0 times on each canonical packet. 'Case No.' occurs 4 times on each boundary packet (two form captions plus two disclosure lines) and 2 times on each canonical packet.",
+            "all five refusals per boundary packet are listed": "Read back from the assembled bytes at build time, not from the report: every withheld value string and every 'Packet page N' locator must be present in the extracted text of delivered page 1 or the build stops.",
+            "the refusal itself is unchanged": "Packet page 8 of both boundary fixtures still carries 0 added px against the canonicals' 1,973 and 1,996 at 300 dpi. This repair does not fill the blanks; it says they are blank."
+          }
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "before": "FAIL (VF56). 66 of 66 rows named in the guide, but in 8 of them the quoted printed line is not what the page prints, in three distinct corruptions.",
+          "after": "THE TWO COMPOSITION CLASSES ARE FIXED; THE THIRD IS DETECTED AND DISCLOSED.",
+          "allTHREECLASSESFOUNDANDCAUSED": [
+            {
+              "class": "1 of 3 - a DECODING loss, shared, not this family's",
+              "rows": 4,
+              "rowIds": [
+                "ACIC-PETITION-DRUG-COURT-POST:1",
+                "ACIC-PETITION-DRUG-COURT-POST:2",
+                "ACIC-PETITION-DRUG-COURT-POST:Month",
+                "ACIC-PETITION-DRUG-COURT-POST:Year"
+              ],
+              "quoted": "______________, _____, and charged with the oense(s) of",
+              "printed": "the same sentence with 'offense(s)'",
+              "cause": "The 'ff' ligature on ACIC-PETITION-DRUG-COURT-POST page 1 has no mapping, so it decodes to nothing. Confirmed independently here: poppler reads the same line as 'charge d with the o ense(s ) of', so BOTH extractors lose it and neither can recover it. The identical sentence on the PRE petition reads correctly in both, which is what proves it is the binary rather than the reader.",
+              "whatWasDoneAboutIt": "Not repaired at cause - that is a shared text-extraction change 309 builders depend on and no family grant reaches it. Instead it is DETECTED geometrically and DISCLOSED. The shared reader publishes each run's measured origin and width, so ink between two letters that no character sits over is measurable: the loss is 8.00 pt of ink at 14.04 pt type between 'o' and 'ens'. All four rows now end '- this quotation is incomplete: at least one character your printed form shows between \"o\" and \"ens\" could not be read from the form file (8 pt of ink at 14.04 pt type), so read the line on the paper'. The missing characters are NOT guessed."
+            },
+            {
+              "class": "2 of 3 - REORDERING, this family's own composition",
+              "rows": 2,
+              "rowIds": [
+                "ACIC-PETITION-DRUG-COURT-PRE:CLASS",
+                "ACIC-PETITION-DRUG-COURT-PRE:ACA"
+              ],
+              "quoted": "A Class _____ [_] felony in violation of A.C.A.§[_] misdemeanor",
+              "printed": "A Class _____ [_] felony [_] misdemeanor in violation of A.C.A.§",
+              "cause": "MEASURED, not inferred. The shared reader flags a run whose glyph advances it could not resolve (widthIsUnmeasurable) and every later run placed from that cursor (originEstimated). Seven runs on this line carry the first flag and six the second, and their estimated origins run about twice the true advance: '[_] misdemeanor' is placed at x 450.4 and 506.5 where poppler's word boxes put it at 255.5 and 274.9. groupIntoLines() then orders the line BY THAT X. The reader was honest; the family sorted by an estimate anyway.",
+              "whatWasDoneAboutIt": "The quoted line is now composed in the order the page DRAWS it - content stream order - while the x order is kept for geometry. Nothing in the shared reader changed."
+            },
+            {
+              "class": "3 of 3 - a LOST SPACE, this family's own composition, same root",
+              "rows": 2,
+              "rowIds": [
+                "ACIC-PETITION-DRUG-COURT-POST:Class Letter",
+                "ACIC-PETITION-DRUG-COURT-POST:ACA Code"
+              ],
+              "quoted": "A Class _____ [_] felony [_] misdemeanor in violationof A.C.A.§",
+              "printed": "A Class _____ [_] felony [_] misdemeanor in violation of A.C.A.§",
+              "cause": "On the POST petition every advance IS measured, but the last four runs are drawn out of x order: ' ' at 439.5, 'of' at 422.5, ' ' at 454.3, 'A.C.A.§ ' at 440.2. Sorting by x moves both spaces to the wrong side of 'of' and fuses 'violation' to 'of'. Same fix, same one-line cause.",
+              "whatWasDoneAboutIt": "Fixed by the same stream-order composition."
+            }
+          ],
+          "whyTHEEXISTINGGATEDIDNOTCATCHANYOFIT": "assertRequiredBlanksAreIdentified() already proved every quoted line is printed on its page - against PRINTED_PAGE_TEXT, which is assembled by the SAME ordering that produced the quote. The quote and its proof shared one defect, so the gate was self-consistent and blind. It now also proves each quoted line against poppler's independent extraction of the same pinned page, compared as a word sequence so that layout whitespace washes out while a reordering or a fused word does not.",
+          "measuredAFTER": "0 of 66 rows misquote their printed line, checked independently of the builder by re-extracting each cited source page with pdftotext and whitespace-squash-comparing every quoted line. 66 of 66 rows are still named verbatim in participant-instructions.md. 4 of 66 carry the incomplete-quotation disclosure.",
+          "oneMORELOSSOBSERVEDNOTSCORED": "The same decoding loss appears a second time on ACIC-PETITION-DRUG-COURT-POST page 3, where the form prints a line poppler renders as '12. The Defendant has paid all        g fees mandated by'. No requiredBeforeFiling row quotes that line, so it reaches no participant and is not scored here. It is the same shared-library cause and it belongs to whoever repairs e258e47a0's neighbourhood."
+        }
+      },
+      "guardsAddedAndPROVEDTOFIRE": [
+        {
+          "guard": "the local line grouping must match the shared one in geometry and differ only in text order",
+          "brokenBy": "reversing the x sort used for geometry",
+          "fired": "AssertionError: ACIC-PETITION-DRUG-COURT-PRE p1 line 0: left edge moved",
+          "restored": true
+        },
+        {
+          "guard": "every quoted printed line must also be what an independent extractor reads",
+          "brokenBy": "putting the stream-order composition back to x order",
+          "fired": "AssertionError: ACIC-PETITION-DRUG-COURT-PRE:CLASS: quoted line is not what an independent extractor reads on page 1 ... 'A Class _____ [_] felony in violation of A.C.A.§[_] misdemeanor'",
+          "restored": true,
+          "whyTHISONEMATTERSMOST": "Breaking the fix reproduces the exact corruption VF56 found, and the new gate catches it. That is the proof that the gate now sees what the old gate could not."
+        },
+        {
+          "guard": "every withheld value and its packet-page locator must be on delivered page 1",
+          "brokenBy": "raising the threshold that decides whether the disclosure block is drawn",
+          "fired": "AssertionError: pre-adjudication/boundary: the withheld blank at ACIC-PETITION-DRUG-COURT-PRE:Case No is not located for the participant",
+          "restored": true
+        },
+        {
+          "guard": "a quoted line with unreadable ink must disclose it",
+          "brokenBy": "suppressing the caveat",
+          "fired": "AssertionError: ACIC-PETITION-DRUG-COURT-POST:1: the quoted line has 1 unreadable span(s) and the row does not disclose it",
+          "restored": true
+        },
+        {
+          "guard": "the generated guidance page must not overflow (a dropped disclosure is the defect this exists to close)",
+          "brokenBy": "not broken - stated because it is a new assertion; y ends at a measured margin above the floor on both boundary packets",
+          "restored": null
+        }
+      ],
+      "rasterPixelCounts": {
+        "parameters": "pdftoppm -r 300 -gray, binary P5 PGM, annotations drawn, ink threshold grey < 128 of 255, whole page. Packet pages 2-9 differenced against the pinned official source page each claims; packet page 1 is generated and has no source, so it is differenced against packet page 1 of the PRE-REPAIR bytes recovered from git at HEAD.",
+        "scope": "32 source-backed pages (packet pages 2-9 of all four fixtures) plus packet page 1 of all four fixtures.",
+        "afterTheRepair": {
+          "pre-adjudication-canonical": {
+            "totalAddedPages2to9": 19445,
+            "totalRemoved": 0,
+            "perPacketPage": {
+              "2": 3511,
+              "3": 0,
+              "4": 5189,
+              "5": 4086,
+              "6": 3511,
+              "7": 0,
+              "8": 1973,
+              "9": 1175
+            }
+          },
+          "pre-adjudication-boundary": {
+            "totalAddedPages2to9": 18170,
+            "totalRemoved": 0,
+            "perPacketPage": {
+              "2": 4267,
+              "3": 0,
+              "4": 702,
+              "5": 8232,
+              "6": 4267,
+              "7": 0,
+              "8": 0,
+              "9": 702
+            }
+          },
+          "post-adjudication-canonical": {
+            "totalAddedPages2to9": 15393,
+            "totalRemoved": 0,
+            "perPacketPage": {
+              "2": 3519,
+              "3": 0,
+              "4": 5181,
+              "5": 0,
+              "6": 3522,
+              "7": 0,
+              "8": 1996,
+              "9": 1175
+            }
+          },
+          "post-adjudication-boundary": {
+            "totalAddedPages2to9": 9925,
+            "totalRemoved": 0,
+            "perPacketPage": {
+              "2": 4267,
+              "3": 0,
+              "4": 689,
+              "5": 0,
+              "6": 4267,
+              "7": 0,
+              "8": 0,
+              "9": 702
+            }
+          }
+        },
+        "theseAGREEWITHVF56ATTHEOTHERRESOLUTION": "VF56 measured the same pages at 150 dpi and published 846 / 1,298 / 994 and 474 / 488 where this lane measures 3,511 / 5,189 / 4,086 and 1,973 / 1,996 at 300 dpi. Ink area scales with the square of resolution, so a 150-to-300 dpi step is a factor of about four, and every one of these lands within a few percent of four times VF56's figure. Two lanes, two resolutions, one page.",
+        "packetPageOneWhereTheDISCLOSUREWENT": {
+          "pre-adjudication-boundary": {
+            "addedVsPreRepair": 174059,
+            "removedVsPreRepair": 6651,
+            "totalInkBefore": 253001,
+            "totalInkAfter": 420409
+          },
+          "post-adjudication-boundary": {
+            "addedVsPreRepair": 175431,
+            "removedVsPreRepair": 6651,
+            "totalInkBefore": 253302,
+            "totalInkAfter": 422082
+          },
+          "pre-adjudication-canonical": {
+            "addedVsPreRepair": 0,
+            "removedVsPreRepair": 0,
+            "totalInkBefore": 237309,
+            "totalInkAfter": 237309
+          },
+          "post-adjudication-canonical": {
+            "addedVsPreRepair": 0,
+            "removedVsPreRepair": 0
+          },
+          "whatTheREMOVEDPIXELSARE": "The 6,651 removed pixels on each boundary page 1 are the 7 pt 'Routes:' footer moving down to make room for the disclosure; the same glyphs are counted again in the added figure at their new baseline. No content was deleted."
+        },
+        "removedInk": "0 px on all 32 source-backed pages of all four fixtures. Nothing the ACIC forms print has been erased.",
+        "positiveControls": [
+          {
+            "kind": "natural, on the pages carrying the zeros",
+            "what": "Packet page 8 reads 0 added px on both boundary fixtures and 1,973 and 1,996 px on the two canonical fixtures, same detector, same dpi, same threshold. Packet pages 3 and 7 read 0 on every fixture and pages 2 and 6 read 3,511-4,267 on all four."
+          },
+          {
+            "kind": "before-and-after on the generated page",
+            "what": "Packet page 1 of both canonical fixtures reads 0 added and 0 removed against its own pre-repair bytes while both boundary pages read about 175,000 added on the same run. A detector reading zero on two files and 175,000 on two others in one pass is reading bytes."
+          }
+        ],
+        "aWARNINGTHISLANEDIDNOTSUPPRESS": "poppler emits 'Couldn’t find trailer dictionary' and 'Invalid XRef entry' and reconstructs the xref on all four PINNED ACIC SOURCE binaries. That is a property of the issuer's files, not of anything built here; it is recorded because every source-backed figure above rests on poppler's reconstruction of those files, and a reader should know that."
+      },
+      "rasterState": {
+        "state": "BUILT_RASTER_PENDING",
+        "freshCentralRasterOwed": true,
+        "why": "Both boundary digests moved again. A whole-family raster was already owed before this lane existed - product-wiring.json's RASTER_PASS receipt carries coversTheWholeFamily false, invalidatedBy naming the CLIPPING_AND_OVERLAP repair and wholeFamilyReRasterRequired true, and reports/independent-visual-review.json reads granted false, reviewedBy null. This lane moves that debt onto new bytes and creates none.",
+        "theRECEIPTWASUPDATEDBYHANDBECAUSETHISBUILDERDOESNOTWRITEIT": "product-wiring.json is not written by scripts/build-census-v1-ar-drug-court-set.mjs, so no governance module withdrew anything. Left alone it would have gone on naming d9ab88a4.. and 4a8768da.. as the current boundary bytes, which are no longer on disk - the ADMITTED_RECEIPT_BINDS_BYTES_NOT_ON_DISK shape. This lane added acceptanceReceipt.movedAgainBy recording the second move old-to-new, a binding.currentFixtureSha256 map hashed from the files on disk, and lastIndependentVerification.appliesToTheCurrentBytes false with the reason. No verdict was set, no receipt was issued and no route was opened.",
+        "claimedByThisLane": "Nothing."
+      },
+      "whatTHISLANECOULDNOTREPAIR": [
+        "The 'oense(s)' decoding loss at cause. It is in shared text extraction that 309 builders use, and both this repository's reader and poppler lose the same glyphs, so it needs a shared-library grant. It is detected, measured and disclosed on all four affected rows instead.",
+        "The second instance of that same loss on ACIC-PETITION-DRUG-COURT-POST page 3 ('paid all g fees'). No participant-facing row quotes it, so it is recorded rather than repaired.",
+        "The 20 effectiveLabel values that shared-library commit e258e47a0 changes on any rebuild of this family. Two of them are worse than what they replace. They are record-only - the delivered guide and all four fixtures are byte-identical across that drift - and they belong to a shared-library grant.",
+        "PARTICIPANT_DOCUMENT_PRINTS_ROUTE_KEYS. Both raw route keys are still printed on packet page 1 of every fixture and participant-instructions.md still names blanks with internal field identifiers in backticks on all 66 rows. VF56 recorded it against the corpus-wide record and this lane has no grant to change that participant copy."
+      ]
+    }
+  ],
+  "grantsReleased": [
+    "ar-drug-court-set",
+    "ar-felony-seal-set"
+  ],
+  "whatThisLaneCouldNotDo": [
+    "Repair the shared text-extraction losses at cause. Two are recorded: the 'ff' ligature that both this repository's reader and poppler lose on ACIC-PETITION-DRUG-COURT-POST, and the same loss a second time on that document's page 3.",
+    "Avoid importing shared-library commit e258e47a0's 20 effectiveLabel changes into ar-drug-court-set. Any rebuild of that family carries them. They are record-only and were separated from this lane's own effect by differencing an unmodified rebuild against the repaired one.",
+    "Correct data/rcap-grade-a/packet-factory-24h/pf13/rows.json, which the felony-seal builder writes on every run and which now names two digests that are not on disk. It is another lane's row file and was restored after every build.",
+    "Raster either family. Both owe a fresh whole-family raster and this lane claims none."
+  ],
+  "sharedLedgerNote": "data/rcap-grade-a/packet-factory-24h/claim-ledger.json is MODIFIED AND LEFT UNCOMMITTED. It was written only by scripts/grade-a-packet-factory-24h/claim.mjs, two --assert calls at the start and two --release calls at the end. It is a shared manifest this lane does not own, so it is deliberately not staged.",
+  "independentReVerificationOwed": "Both families. Owed to a lane that is neither FIX165 (which built these bytes), VF56 nor VF57 (whose findings these repairs answer).",
+  "aDEFECTINTHEFACTORYTHISLANEHITANDNAMED": "A build that fails an assertion AFTER the felony-seal builder wipes its output directory destroys the hand-written identityRefresh annotation that the NEXT successful build would have carried forward, because preserveIdentityRefresh reads the file the failure deleted and is fail-safe on a missing file. The rebuild then reports success with all nine counters zero. identity-refresh.mjs stops a successful rebuild erasing that annotation; it does not stop a failed one followed by a successful one. Seventeen families are recorded as resting on these annotations."
+}

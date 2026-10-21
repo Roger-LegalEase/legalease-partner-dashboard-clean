@@ -1,0 +1,94 @@
+{
+  "scope": "Bounded disposition of Alabama shared-caption integration failures; no source, binder, PDF, census-total or packet-status changes.",
+  "outcome": "AL_EXACT_EXPECTATIONS_RECONCILED_WITH_GLOBAL_HISTORICAL_TOTAL_ASSERTION_UNRESOLVED",
+  "expectations": "data/rcap-grade-a/packet-factory-24h/pf07/al-misd-nonconviction-90/shared-semantics-expectations.json",
+  "expectationsSha256": "3649c05278501f59919871439cf454c8bbcd04f97cc662248b88bca073c1d0d2",
+  "sourceBackedFieldCounts": {
+    "chargeProjection": 2,
+    "nameDateProjection": 11
+  },
+  "sourceCaptionChecks": {
+    "result": "PASS",
+    "exactSourcePositiveCases": 6,
+    "protectedNegativeControls": 13,
+    "ruleRemovalMutations": 5,
+    "anchoredOwnerAndDirectiveNegativeCases": 10,
+    "explicitAnswerAndWrongTrackNegativeCases": 12
+  },
+  "sharedChecks": [
+    {
+      "script": "scripts/rcap-official-forms/verify-full-name-charge-caption-semantics.mjs",
+      "result": "PASS",
+      "families": 156,
+      "fields": 5286,
+      "exactExpectedChangedFields": 92,
+      "chargeNameMisbindingsBefore": 10,
+      "chargeNameMisbindingsAfter": 0
+    },
+    {
+      "script": "scripts/rcap-official-forms/test-full-name-charge-caption-semantics-mutations.mjs",
+      "result": "PASS",
+      "detectedMutations": 10,
+      "mutatedFilesRestoredByteIdentically": 3
+    },
+    {
+      "script": "scripts/rcap-official-forms/verify-name-date-component-semantics.mjs",
+      "result": "FAIL",
+      "remainingAssertions": [
+        {
+          "assertion": "the record scanned every committed census, including census-v1",
+          "historicalCensuses": 243,
+          "observedCensuses": 253,
+          "historicalFields": 10829,
+          "observedFields": 11602
+        }
+      ],
+      "alExactExpectationAssertions": "PASS",
+      "protectedNegativeAssertions": "PASS",
+      "noRefusedFieldBecomesWritable": "PASS",
+      "noProtectedFieldBecomesWritable": "PASS"
+    }
+  ],
+  "previousFailuresPreserved": [
+    {
+      "script": "verify-full-name-charge-caption-semantics.mjs",
+      "failures": [
+        "two source-backed AL production CR-65 arresting-agency fields outside the recorded expected-change set"
+      ],
+      "scratchLog": "/tmp/pf07-al-misd/verify-full-name-charge-caption-semantics.mjs.integration-check.log"
+    },
+    {
+      "script": "verify-name-date-component-semantics.mjs",
+      "failures": [
+        "AL source-caption changes outside expected set",
+        "AL source-caption protection-category corrections",
+        "historical census/field total mismatch"
+      ],
+      "scratchLog": "/tmp/pf07-al-misd/verify-name-date-component-semantics.mjs.integration-check.log"
+    }
+  ],
+  "preserved": [
+    {
+      "path": "scripts/rcap-official-forms/rcap-field-semantics.mjs",
+      "sha256": "99e425f64ab8d340d02855edf00cf59cb9fa9747f6f061cfac4bb761d6fe8956",
+      "unchanged": true
+    },
+    {
+      "path": "data/rcap-grade-a/field-semantics/full-name-charge-caption-classification-diff.json",
+      "sha256": "305b5f20f5fea5fa6741ea5801149c0c677ff3096945952ca713d49a3b65bd57",
+      "unchanged": true
+    },
+    {
+      "path": "data/rcap-grade-a/field-semantics/name-date-component-classification-diff.json",
+      "sha256": "2cb24de758099b9069de9d6a6d819e3e2afba8fe57ade48e5e9cbcfae94b0ceb",
+      "unchanged": true
+    }
+  ],
+  "limits": [
+    "The shared name/date mutation suite requires a green global baseline and was not run while its unchanged historical census-total assertion fails.",
+    "The supplement admits only full exact recorded refusal transitions. Unknown fields, changed sources, changed decisions, new automatic writes and protected negative regressions still fail.",
+    "No independent packet acceptance, legal approval, commercial authority, completed-family count or measured packet counter changes."
+  ],
+  "verificationWorktree": "/workspaces/legalease-vf03",
+  "verificationBaseCommit": "7406387a1dc6a70368adb000f0ccf2b61d8ebc8c"
+}

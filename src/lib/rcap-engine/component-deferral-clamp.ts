@@ -9,6 +9,7 @@ import {
   type ExactSupportedDeferral,
   type TerminalTreatment
 } from "@/lib/rcap/documents/guidance-packet-registry";
+import { routeMustFailClosed, unavailablePacketRouteFor } from "@/lib/rcap-engine/unavailable-packet-routes";
 
 /**
  * The single component-deferral clamp on the screening engine.
@@ -43,7 +44,7 @@ export function applyComponentDeferralClamp(
     // outranks a pending candidate. A candidate still clamps the evaluation the
     // moment it is registered: suppression is not what review decides.
     const treatment = terminalTreatmentForTrack(request.selectedTrackId ?? null);
-    return treatment ? applyTerminalTreatmentClamp(treatment, evaluation) : evaluation;
+    return treatment ? applyTerminalTreatmentClamp(treatment, evaluation) : applyUnavailablePacketClamp(evaluation);
   }
 
   const { packetPlan: _discardedPaidPlan, ...withoutPlan } = evaluation;
@@ -59,6 +60,31 @@ export function applyComponentDeferralClamp(
     treatmentClassification: "component_deferral",
     selectedTrackId: deferral.trackId,
     deferralComponentIds: deferral.componentIds
+  };
+}
+
+function applyUnavailablePacketClamp(evaluation: ScreeningEvaluation): ScreeningEvaluation {
+  const packetOutcome = evaluation.resultCode === "packet_ready"
+    || evaluation.resultCode === "packet_ready_with_caution";
+  const unavailableRoute = unavailablePacketRouteFor(evaluation.jurisdiction, evaluation.pathwayId);
+  if (!packetOutcome || !routeMustFailClosed(unavailableRoute)) return evaluation;
+
+  const { packetPlan: _discardedUnavailablePlan, ...withoutPlan } = evaluation;
+  void _discardedUnavailablePlan;
+
+  return {
+    ...withoutPlan,
+    resultCode: "guidance_only",
+    userLabel: "This route is guidance-only while its official packet mapping is unavailable.",
+    paymentAllowed: false,
+    cautions: [
+      ...evaluation.cautions,
+      "Colorado juvenile expungement uses JDF 302, but this release has no authoritative JDF 302 packet mapping or deterministic renderer. No packet is prepared and no packet credit is used."
+    ],
+    nextSteps: [
+      "Review the Colorado juvenile-expungement guidance and the official JDF 302 source before filing.",
+      "Your saved work stays available; no packet render job starts and no packet credit is used."
+    ]
   };
 }
 

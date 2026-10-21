@@ -1,0 +1,112 @@
+{
+  "schemaVersion": "chat5-ga-real-importer-controls/v1",
+  "familyId": "ga-nonconv-pre2013-set",
+  "actualReaderExecuted": true,
+  "actualCandidateResult": {
+    "familyId": "ga-nonconv-pre2013-set",
+    "directory": "data/rcap-all50/overlays/census-v1/ga/ga-nonconv-pre2013-set--official-pdf-fill",
+    "result": "FAIL_MISSING_REQUIRED_FACTS",
+    "auditable": true,
+    "counters": {
+      "knownRequiredFieldsMissing": 4,
+      "requiredFactsNotCollected": 0,
+      "unclassifiedBlanks": 0,
+      "incompleteRows": 0,
+      "requiredOptionsMissing": 0,
+      "requiredComponentsMissing": 0,
+      "invisibleWrites": 0,
+      "protectedWrites": 0,
+      "visualDefects": 0
+    },
+    "failedCounters": [
+      "knownRequiredFieldsMissing"
+    ],
+    "totals": {
+      "terminalFields": 52,
+      "written": 13,
+      "blank": 39,
+      "blanksByDisposition": {
+        "PROTECTED_FIELD": 34,
+        "KNOWN_FACT_NOT_WRITTEN": 4,
+        "REQUIRED_BEFORE_FILING": 1
+      },
+      "rowsInspected": 1,
+      "fieldMapSchema": "writes-and-refusals"
+    },
+    "outputApprovalStatus": null,
+    "sourceCurrentness": "EXACT",
+    "findings": [
+      {
+        "counter": "knownRequiredFieldsMissing",
+        "field": "agency.3",
+        "label": "Arresting Agency Name",
+        "disposition": "KNOWN_FACT_NOT_WRITTEN",
+        "basis": "refusal class court_prosecutor_clerk_or_agency_owned does not excuse a AGENCY_FACT field",
+        "reasonGiven": "Exact source page 3 assigns this blank to arresting agency official, not the applicant."
+      },
+      {
+        "counter": "knownRequiredFieldsMissing",
+        "field": "agency.4",
+        "label": "Arresting Agency ORI Number",
+        "disposition": "KNOWN_FACT_NOT_WRITTEN",
+        "basis": "refusal class court_prosecutor_clerk_or_agency_owned does not excuse a AGENCY_FACT field",
+        "reasonGiven": "Exact source page 3 assigns this blank to arresting agency official, not the applicant."
+      },
+      {
+        "counter": "knownRequiredFieldsMissing",
+        "field": "prosecutor.2",
+        "label": "Prosecuting Agency ORI Number",
+        "disposition": "KNOWN_FACT_NOT_WRITTEN",
+        "basis": "refusal class court_prosecutor_clerk_or_agency_owned does not excuse a AGENCY_FACT field",
+        "reasonGiven": "Exact source page 4 assigns this blank to prosecutor, not the applicant."
+      },
+      {
+        "counter": "knownRequiredFieldsMissing",
+        "field": "prosecutor.9",
+        "label": "No Information Available at Prosecutor's Office; Returned to Arresting Agency for Further Research",
+        "disposition": "KNOWN_FACT_NOT_WRITTEN",
+        "basis": "refusal class court_prosecutor_clerk_or_agency_owned does not excuse a AGENCY_FACT field",
+        "reasonGiven": "Exact source page 4 assigns this blank to prosecutor, not the applicant."
+      }
+    ],
+    "findingsTruncated": 0
+  },
+  "passed": 8,
+  "failed": 0,
+  "tests": [
+    {
+      "name": "real candidate imports 52 fields, preserving four exact source-actor findings",
+      "pass": true
+    },
+    {
+      "name": "does not excuse blank applicant arresting agency",
+      "pass": true
+    },
+    {
+      "name": "detects signature write in map",
+      "pass": true
+    },
+    {
+      "name": "detects omitted manual-SSN disclosure",
+      "pass": true
+    },
+    {
+      "name": "detects absent official source component in inventory",
+      "pass": true
+    },
+    {
+      "name": "detects finalizer writes without glyph evidence",
+      "pass": true
+    },
+    {
+      "name": "detects actual-report protected region ink",
+      "pass": true
+    },
+    {
+      "name": "detects receipt reporting inexact source",
+      "pass": true
+    }
+  ],
+  "packetAccepted": false,
+  "remainingRequirement": "A source-actor reconciliation: comment5574431671; no shared reader change made."
+}

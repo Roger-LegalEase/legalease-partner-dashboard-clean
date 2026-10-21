@@ -1,0 +1,142 @@
+{
+  "schemaVersion": "rcap-repair-evidence/v1",
+  "lane": "FIX03",
+  "familyId": "nj_ordinance-set",
+  "baseSha": "87a6ce081b63ddcdb360d8344df232276aaf014d",
+  "source": {
+    "documentId": "NJ-CN-10557",
+    "path": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NJ/02_PACKET_FORMS/NJ__FORM__CN-10557__cn-10557-new-jersey-expungement-kit__REV-2020-06__EN.pdf",
+    "sha256": "c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7",
+    "pageCount": 43,
+    "sourceReceiptPreserved": true
+  },
+  "establishedFinding": {
+    "path": "data/rcap-grade-a/packet-factory-24h/vf62/rows-vf62-20260910.json",
+    "failedObligations": [
+      "KNOWN_PREFILLS",
+      "REQUIRED_BEFORE_FILING"
+    ],
+    "defects": {
+      "misclassifiedFields": [
+        "dismissOff1",
+        "dismissPlea",
+        "acquitOff1",
+        "dismissPtiOff1",
+        "contDismissOff1",
+        "contDismissPlea",
+        "contAcquitOff1",
+        "contAcquitCrt",
+        "contDismissPtiOff1",
+        "contDismissPtiCrt",
+        "contGuiltyDt",
+        "contGuiltyStatute",
+        "contGuiltyCrt",
+        "contGuiltyProbDt",
+        "ExpungeDocketNum"
+      ],
+      "courtOwnedRequiredBeforeFilingFields": [
+        "sigHearJdg",
+        "orderHearMnth",
+        "orderHearYr",
+        "hearDay",
+        "hearMnth",
+        "hearYr",
+        "hearTime",
+        "hearTimeM",
+        "orderFinalDay",
+        "orderFinalMnth",
+        "orderFinalYr"
+      ],
+      "mislabelledParticipantFields": [
+        "DefSbiNum",
+        "arrest3Statute",
+        "arrest4Statute",
+        "arrest5Statute"
+      ]
+    }
+  },
+  "repair": {
+    "routeInapplicableFieldsDeclared": 14,
+    "routeInapplicableReason": "The named fields belong to dismissal, acquittal, diversion, or additional-conviction branches that this exact municipal-ordinance conviction packet does not use.",
+    "clerkOwnedFieldsDeclared": [
+      "ExpungeDocketNum"
+    ],
+    "clerkOwnedReason": "CN-10557 says the expungement docket number is left blank for the clerk; the Form E and Form G fields use that assigned number after filing.",
+    "alreadyCorrectAtBaseAndPreserved": {
+      "courtOwnedFields": 11,
+      "correctedParticipantLabels": 4,
+      "participantGuidanceSha256BeforeAndAfter": "858a362d58b8bf72f730763b5dc7623e9d2d236473768e6c67dd0db37085e956"
+    },
+    "positiveControls": {
+      "guilty": "remains requiredBeforeFiling with determinedByTheCaseNotTheRoute true and remains named in participant guidance",
+      "DefSbiNum": "remains requiredBeforeFiling under its source-printed SBI label"
+    }
+  },
+  "pdfIdentity": {
+    "changed": false,
+    "before": {
+      "canonical": "03f6169d042fc1d5ed30df008dfc966ef3d03b382731f5956d0e8786ca8a234f",
+      "boundary": "23a571af72985717963001120ba60116ae43054aaa1c2fddbeece944dac24494"
+    },
+    "after": {
+      "canonical": "03f6169d042fc1d5ed30df008dfc966ef3d03b382731f5956d0e8786ca8a234f",
+      "boundary": "23a571af72985717963001120ba60116ae43054aaa1c2fddbeece944dac24494"
+    }
+  },
+  "rasterIdentity": {
+    "localRasterRun": false,
+    "preservedRasterPngCount": 86,
+    "preservedRasterListingDigest": "97234f5852745c2403ed2382f16931be2bafad6aba116d3d3430ad071115c117",
+    "preservedRenderedArtifactManifestSha256": "d22b5f671f65491782ddbd873b2dd80972facfe2d9f6a4c04b049100bd21fac7",
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "34292115043",
+      "jobId": "102281414246",
+      "boundToCanonicalSha256": "03f6169d042fc1d5ed30df008dfc966ef3d03b382731f5956d0e8786ca8a234f"
+    },
+    "captainRetrievedOriginalArtifact": {
+      "zipSha256": "ecb876c20fb5ba4bbd8440b3d35cbb64b2b62c04755063ee5e83e67ddbc0acd7",
+      "coverage": "canonical and boundary, 86 pages",
+      "verdict": "RASTER_PASS",
+      "provenance": "reported by Captain; not used as author self-approval"
+    }
+  },
+  "validation": [
+    {
+      "command": "RCAP_NO_LOCAL_RASTER=1 MASTER_LIBRARY_SOURCE_DIR=private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 node scripts/build-census-v1-nj_ordinance-set.mjs --no-raster",
+      "status": "PASS",
+      "verdict": "2 PDFs rebuilt deterministically; 86 prior raster-page identities preserved; no local raster"
+    },
+    {
+      "command": "RCAP_NO_LOCAL_RASTER=1 MASTER_LIBRARY_SOURCE_DIR=private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 node scripts/build-census-v1-nj_ordinance-set.mjs --check-nonvisual",
+      "status": "PASS",
+      "verdict": "saved-byte proof and committed map reproduction pass without raster replay"
+    },
+    {
+      "command": "node --test scripts/rcap-packet-completeness/nj-ordinance-refusals.test.mjs",
+      "status": "PASS",
+      "verdict": "4 tests pass: finite refusals, court ownership/guidance, participant positive controls, source/PDF/raster/protected-write identity"
+    },
+    {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nj_ordinance-set",
+      "status": "EXPECTED_NONTERMINAL",
+      "verdict": "NOT_MEASURABLE_HERE",
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": null,
+        "protectedWrites": 0,
+        "visualDefects": null
+      },
+      "reason": "The shared verifier's two visual counters remain explicitly unmeasured; this author return does not convert retained raster evidence into independent verification."
+    }
+  ],
+  "commercialRoutesOpened": 0,
+  "packetsSelfVerified": 0,
+  "productionTouched": false,
+  "remainingGate": "Independent re-verification of the repaired field map and guidance ownership; no reraster is required because both PDF digests and their 86-page RASTER_PASS binding are unchanged."
+}

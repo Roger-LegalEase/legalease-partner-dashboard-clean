@@ -1,0 +1,77 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "wv_acc_treatment_job_readiness-set",
+  "blocking": [],
+  "findings": [
+    {
+      "severity": "blocking_if_unfixed_elsewhere",
+      "finding": "SCA-C906's FIELD NAMES DESCRIBE THE WRONG FORM. All four of its Part (c) eligibility check boxes are named SingleFelonyCB, MultipleFelonyCB, SingleSatisfiedCB and MultilpleSatisfiedCB (the misspelling is the issuer's), and their date blanks SingleFelonyCompletionDate, MultipleFelonyCompletionDate, SingleFelonySatisfiesDate and MulitipleFelonlySatisfiesDate — on a petition whose own caption reads PETITION FOR EXPUNGEMENT OF MISDEMEANOR VIOLATIONS AND TRAFFIC CITATIONS. The form was plainly derived from SCA-C907 and kept its names.",
+      "consequence": "Which statutory branch each box elects is read from the PARAGRAPH the form prints beside it, never from the name: the build reads the text between each box and the next, classifies it by whether it cites § 61-11-26a and by whether it recites a single conviction or several, and refuses to build if that reading stops producing exactly two accelerated and two ordinary branches, one single and one multiple in each pair."
+    },
+    {
+      "severity": "blocking_if_unfixed_elsewhere",
+      "finding": "THE TWO PETITIONS DO NOT LIST THE SAME CERTIFICATE-OF-SERVICE RECIPIENTS, AND THEIR WIDGETS SHARE NAMES. SCA-C906 prints 8 numbered recipients and SCA-C907 prints 7. SCA-C907 has no \"Chief Law Enforcement Officer of any other Law Enforcement Agency\" line at all, and its widgets are still named ChiefLEO1 and ChiefLEO2 — sitting, on that form, beneath \"The Superintendent or Warden of any Institution in which Petitioner was confined\".",
+      "consequence": "A build that labelled these by field name would tell a participant to address a police department on the line the court reads as the prison, on a certificate of service they sign. Every recipient line is labelled from the numbered item the form PRINTS above the widget, matched by geometry, and the build refuses if any line matches none. Returned as a factory-level finding: shared field names across two revisions of a form are not evidence of shared meaning."
+    },
+    {
+      "severity": "blocking_if_unfixed_elsewhere",
+      "finding": "ON SCA-C907 THE TWO CASE-NUMBER WIDGETS SIT UNDER EACH OTHER'S PRINTED CAPTIONS. Measured: [{\"form\":\"SCA-C907\",\"field\":\"CircuitCaseNo\",\"printedCaption\":\"Magistrate Court Case No.\",\"printedAtY\":698,\"widgetY\":693.03,\"fieldNameSaysCircuit\":true,\"printedCaptionSaysCircuit\":false,\"nameAgreesWithThePaper\":false},{\"form\":\"SCA-C907\",\"field\":\"MagCaseNo\",\"printedCaption\":\"Circuit Court Case No.\",\"printedAtY\":680,\"widgetY\":675.03,\"fieldNameSaysCircuit\":false,\"printedCaptionSaysCircuit\":true,\"nameAgreesWithThePaper\":false}]. SCA-C907 prints \"Magistrate Court Case No.\" at y 698 over the widget NAMED CircuitCaseNo at y 693, and \"Circuit Court Case No.\" at y 680 over the widget NAMED MagCaseNo at y 675. On SCA-C906 the same two names agree with the same two captions, so the disagreement is C907's alone: [true,true].",
+      "consequence": "A build that trusted the field names would print the magistrate court's case number on the line the circuit court reads as its own, and the reverse, on a petition the participant signs under a verification sworn before a notary — and no field counter would see it, because both blanks would be filled and both would be labelled. Both blanks are labelled from the printed caption above them and the build refuses if either cannot be matched to one, or if the two do not resolve to one circuit and one magistrate caption. This is the same defect class as the eligibility box names and the certificate-of-service recipients on these forms, and as the AcroForm-index-versus-printed-row finding this lane returned on the Massachusetts TC0057 charge table: a field name is not evidence of what the paper says."
+    },
+    {
+      "severity": "blocking_if_unfixed_elsewhere",
+      "finding": "PetDOBDay, PetDOBMonth AND PetDOBYear ALL BIND TO participant.date_of_birth IN THE SHARED REGISTRY, measured with decideBinding against each binary's own field names. The form prints DOB as three slots separated by two printed slashes and prints NO order beneath them.",
+      "consequence": "Left to the descriptor channel the full ISO date would have been written into all three boxes, the first of which is 26 points wide. Beyond that, the field names say day-month-year while the American convention these courts' forms use is month-day-year, and the paper does not say which is right. All three are passed as unwritable by ROLE, all three are declared required-before-filing with the measurement stated, and the participant is told why the packet left their own date of birth blank. Returned for whoever owns the descriptor list: three component slots of one date are not three instances of that date."
+    },
+    {
+      "finding": "PetitionersCurrentName1/2 bind to participant.full_legal_name under a printed question asking for \"Petitioner's current name, previous names, and all aliases\", and PetitionersOffenseAddress1/2 bind to participant.street_address under one asking for \"All of petitioner's addresses from the date of offense to current\".",
+      "consequence": "Both would have answered a question about a HISTORY with a single current value, on a sworn petition. Both are refused by role, declared required-before-filing and disclosed; the route-obligation census independently names the address history a manual completion item. Same registry shape as the four third-party name boxes ma-seal-decrim-set measured on the Massachusetts OCP petition: the full_legal_name descriptor's catch-all reaches every box whose caption contains the word name."
+    },
+    {
+      "finding": "CertifyName binds to participant.full_legal_name inside the block the form captions CERTIFICATE OF SERVICE — a statement that copies have ALREADY been given to each recipient.",
+      "consequence": "Nothing on that page is written, not even the participant's own name, and the whole page is disclosed as the last thing they complete, on the day they actually serve. The service-method boxes and the certificate date carry the same refusal."
+    },
+    {
+      "finding": "THREE WIDGET RECTANGLES ARE STORED WITH A NEGATIVE HEIGHT: [\"SCA-C906/PetitionersCurrentName1\",\"SCA-C906/OffensesCommittedAt1\",\"SCA-C907/MulitipleFelonlySatisfiesDate\"].",
+      "consequence": "None of them is a box this build writes into, so no value was fitted against a negative height. Recorded because a fitter measuring one of these would compute a negative available height and could either refuse a value that fits or accept one that does not, and because a visual reviewer should know the issuer's own geometry is malformed there."
+    },
+    {
+      "finding": "SCA-C906 MIS-CITES THE ACCELERATED SECTION IN ITS OWN CAPTION AND CERTIFICATE. Its page 1 heading reads \"W.Va. Code §61-11-26 and §61-11-26(a)\" and its certificate of service repeats \"§61-11-26(a)\", while SCA-C907 reads \"§61-11-26 and §61-11-26a\". Section 61-11-26(a) is a subsection of the ordinary section; § 61-11-26a is the separate accelerated section this family is built for. SCA-C906's own Part (c) paragraphs then cite \"§61-11-26a(1) or §61-11-26a(2)\" where SCA-C907 cites \"§61-11-26a(a)(1) or §61-11-26a(a)(2)\".",
+      "consequence": "Recorded as a source-fidelity finding and raised for counsel. Nothing in this packet repeats the mis-citation: every statutory reference this build prints comes from the route-obligation census or the packet-set manifest, both of which say § 61-11-26a."
+    },
+    {
+      "finding": "The MASTER_QUEUE row's own requiredForms list reads [\"SCA-C906\",\"SCA-C907\"] — while its sourceIds, its sourceHashes and its officialFormFamily (SCA-C906+SCA-C907) all name both petitions.",
+      "consequence": "The build takes the two documents from the digests rather than from that list, and asserts each digest three times before rendering. Recorded for whoever owns the queue row."
+    },
+    {
+      "finding": "The queue declares FOUR sources for TWO documents: each petition appears once as official-form:SCA-C90x and once as source-sha256:<its own digest>, at the same declared path.",
+      "consequence": "Those are aliases of one identity, not two named forms sharing one digest — which is the separate defect the source-identity sweep measured on ia-dci77-set, where DCI-76 and DCI-77 share a hash. The build asserts the alias shape explicitly and stops if it ever becomes the other one."
+    },
+    {
+      "finding": "The verification page of both petitions carries exactly ONE widget — the petitioner's name in the \"I, ____\" recital. The signature line, the date, the notarial block and the commission-expiry line have no widgets at all.",
+      "consequence": "The packet writes the name and nothing else there, and the participant instructions say in terms that the notarial block has no fillable boxes and is completed on paper by the notary. Recorded because a notarial block invisible to the field census is exactly the kind of omission these packets exist to prevent."
+    },
+    {
+      "severity": "blocking_if_unfixed_elsewhere",
+      "finding": "EVERY CHECK BOX ON BOTH BINARIES SHIPS AN /AP /N STREAM WHOSE /BBox IS IN PAGE COORDINATES, WITH NO /Matrix. SingleFelonyCB has Rect [91.7 324.9 103.2 336.4] and BBox [91.7 324.9 103.2 336.4]. Under ISO 32000-1 12.5.5 the BBox is mapped onto the Rect, which here is a translation of (0, 0) — the stream's own absolute coordinates already place the square. pdf-lib's flatten emits the widget's own offset as a translation instead, adding it a second time.",
+      "consequence": "The first render of this family delivered four squares scattered across page 1 of each petition — beside \"IN RE: Expungement of Record of:\", on the petition's own caption rule, inside the fourth CHARGE line and inside the word \"traffic\" — and not one box in the left margin where the paper prints them. MEASURED: with the fix off, 52 appearances draw outside their own widget rectangles, the first at (183.364, 649.822) against a widget rectangle at (91.7, 324.9) — exactly twice the offset. fitAppearancesToRect is passed, and the byte proof now computes each appearance's /BBox through its /Matrix and the placement and compares the result with the widget's rectangle, so the build can see this class rather than rely on someone looking at the page."
+    },
+    {
+      "severity": "blocking_if_unfixed_elsewhere",
+      "finding": "NO COUNTER COULD SEE THAT DEFECT, AND THE BYTE PROOF AS FIRST WRITTEN COULD NOT EITHER. `drawnAt` matches the placement operator's translation against the widget rectangle, which answers whether an appearance was PLACED at a widget and not whether its ink FALLS INSIDE one. Every rectangle-based reading called the misdrawn packet clean; it was found by rendering the page and looking at it.",
+      "consequence": "Returned as a factory-level finding. Any family whose source ships its own widget appearances needs the placement measurement, not only the rectangle reading — and a family that only ever reads appearances it generated itself will not notice, because a generated appearance carries an origin-based BBox."
+    },
+    {
+      "finding": "TWO DELIVERED-PAGE DEFECTS ON THE COMPOSED PLEADING, BOTH FOUND BY LOOKING AT THE RENDERED PAGE. First, the signature block was written as one line with the two captions separated by spaces; a composed page is laid out by a word-wrapping renderer that collapses runs of whitespace, so it arrived as \"Signature of Petitioner Date\" beneath two rules that lined up with neither. Second, item 4 quoted the route census's eligibility-clock cell through the audit quoter, which joins the whole newline-separated tuple — so \"elapsed_eligibility_clock - 90 days - disposition_date - ...\" was printed on a page filed with a circuit judge.",
+      "consequence": "The signature block is now one rule per line with its caption beneath it. A delivered page now quotes through recordProse, which takes the record's own last segment — its prose sentence, not one word changed — and asserts it non-empty and still carrying the phrase the family reasons from; the full tuple stays in production-field-map.json for the audit. This build's own internal field names do not belong on a court filing."
+    },
+    {
+      "finding": "Neither pinned binary is encrypted — checked directly for an /Encrypt entry, because pdf-lib with ignoreEncryption parses ciphertext as plaintext and reports something unrelated rather than an encryption error.",
+      "consequence": "No unlocked derivative was generated or used. The repository's data/rcap-all50/overlays/rescued-encrypted-pdfs/west-virginia-sca-c906-rescued.pdf is a DIFFERENT SCA-C906 revision — 150,937 bytes and 71 fields against this family's pinned 176,072 bytes and 75, with the caption field named PetitionerName rather than PetitionerName1 — and binding it would have satisfied one identity with another document's bytes, on a form whose field dictionary would then have been built against the wrong paper."
+    },
+    {
+      "finding": "The route-obligation census records nothing for this route on proposedOrder, coverSheet, notice, filingMethod, serviceRecipients, serviceMethod, serviceTiming, filingDeadline, postFilingInstructions or uncontestedHearingTreatment: [\"coverSheet\",\"filingDeadline\",\"filingMethod\",\"notice\",\"postFilingInstructions\",\"proposedOrder\",\"serviceMethod\",\"serviceRecipients\",\"serviceTiming\",\"uncontestedHearingTreatment\"].",
+      "consequence": "The participant instructions state no service deadline, no filing method and no hearing step. Who is served comes from the packet-set manifest's own serve_party action and from the recipient list the FORM prints; the fee and the waiver come from the census cells that are recorded. Nothing is stated that no record carries."
+    }
+  ]
+}

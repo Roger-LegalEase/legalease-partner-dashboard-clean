@@ -1,0 +1,167 @@
+{
+  "status": "PASS",
+  "verifierSha256": "10671c7d06ba6a8e169e8351b9e1eff3782de3d4e4560d52c574bab692369eb5",
+  "baselinePassed": true,
+  "mutationsRejected": 11,
+  "sourcesUnchanged": [
+    {
+      "path": "src/lib/expungement-ai/claim/claim-handoff.ts",
+      "sha256": "67cec6441bd7a7534584ced4f0e3b3ae472457d92f83b62859222ff35d93f445"
+    },
+    {
+      "path": "src/app/auth/set-password/page.tsx",
+      "sha256": "1503c48bf033c146548d06e03b099b1c41a6d9b323a6c54c9ed2ccd7b187708d"
+    }
+  ],
+  "results": [
+    {
+      "name": "baseline",
+      "exitCode": 0,
+      "elapsedSeconds": 1.568,
+      "rejectedBy": [],
+      "logPath": "baseline.log"
+    },
+    {
+      "name": "all-responses-strip",
+      "exitCode": 1,
+      "elapsedSeconds": 1.785,
+      "rejectedBy": [
+        "  FAIL claim network: token retained for retry -- AssertionError",
+        "  FAIL claim 401: token retained for retry -- AssertionError",
+        "  FAIL claim 500: token retained for retry -- AssertionError",
+        "  FAIL claim 502: token retained for retry -- AssertionError",
+        "  FAIL claim 503: token retained for retry -- AssertionError",
+        "  FAIL claim 599: token retained for retry -- AssertionError"
+      ],
+      "logPath": "all-responses-strip.log"
+    },
+    {
+      "name": "never-strip",
+      "exitCode": 1,
+      "elapsedSeconds": 1.557,
+      "rejectedBy": [
+        "  FAIL claim 200: token removed after definitive response -- AssertionError",
+        "  FAIL claim 201: token removed after definitive response -- AssertionError",
+        "  FAIL claim 204: token removed after definitive response -- AssertionError",
+        "  FAIL claim 400: token removed after definitive response -- AssertionError",
+        "  FAIL claim 403: token removed after definitive response -- AssertionError",
+        "  FAIL claim 404: token removed after definitive response -- AssertionError",
+        "  FAIL claim 409: token removed after definitive response -- AssertionError",
+        "  FAIL claim 410: token removed after definitive response -- AssertionError",
+        "  FAIL claim 422: token removed after definitive response -- AssertionError",
+        "  FAIL claim 429: token removed after definitive response -- AssertionError",
+        "  FAIL claim 499: token removed after definitive response -- AssertionError"
+      ],
+      "logPath": "never-strip.log"
+    },
+    {
+      "name": "definitive-client-errors-retained",
+      "exitCode": 1,
+      "elapsedSeconds": 1.775,
+      "rejectedBy": [
+        "  FAIL claim 400: token removed after definitive response -- AssertionError",
+        "  FAIL claim 403: token removed after definitive response -- AssertionError",
+        "  FAIL claim 404: token removed after definitive response -- AssertionError",
+        "  FAIL claim 409: token removed after definitive response -- AssertionError",
+        "  FAIL claim 410: token removed after definitive response -- AssertionError",
+        "  FAIL claim 422: token removed after definitive response -- AssertionError",
+        "  FAIL claim 429: token removed after definitive response -- AssertionError",
+        "  FAIL claim 499: token removed after definitive response -- AssertionError"
+      ],
+      "logPath": "definitive-client-errors-retained.log"
+    },
+    {
+      "name": "success-retained",
+      "exitCode": 1,
+      "elapsedSeconds": 1.596,
+      "rejectedBy": [
+        "  FAIL claim 200: token removed after definitive response -- AssertionError",
+        "  FAIL claim 201: token removed after definitive response -- AssertionError",
+        "  FAIL claim 204: token removed after definitive response -- AssertionError"
+      ],
+      "logPath": "success-retained.log"
+    },
+    {
+      "name": "unauthenticated-token-lost",
+      "exitCode": 1,
+      "elapsedSeconds": 1.55,
+      "rejectedBy": [
+        "  FAIL claim 401: token retained for retry -- AssertionError"
+      ],
+      "logPath": "unauthenticated-token-lost.log"
+    },
+    {
+      "name": "network-assumed-success",
+      "exitCode": 1,
+      "elapsedSeconds": 1.484,
+      "rejectedBy": [
+        "  FAIL claim network: token retained for retry -- AssertionError"
+      ],
+      "logPath": "network-assumed-success.log"
+    },
+    {
+      "name": "claim-parameter-not-deleted",
+      "exitCode": 1,
+      "elapsedSeconds": 1.672,
+      "rejectedBy": [
+        "  FAIL stripping removes the claim parameter",
+        "  FAIL claim 200: token removed after definitive response -- AssertionError",
+        "  FAIL claim 201: token removed after definitive response -- AssertionError",
+        "  FAIL claim 204: token removed after definitive response -- AssertionError",
+        "  FAIL claim 400: token removed after definitive response -- AssertionError",
+        "  FAIL claim 403: token removed after definitive response -- AssertionError",
+        "  FAIL claim 404: token removed after definitive response -- AssertionError",
+        "  FAIL claim 409: token removed after definitive response -- AssertionError",
+        "  FAIL claim 410: token removed after definitive response -- AssertionError",
+        "  FAIL claim 422: token removed after definitive response -- AssertionError",
+        "  FAIL claim 429: token removed after definitive response -- AssertionError",
+        "  FAIL claim 499: token removed after definitive response -- AssertionError"
+      ],
+      "logPath": "claim-parameter-not-deleted.log"
+    },
+    {
+      "name": "callback-drops-valid-token",
+      "exitCode": 1,
+      "elapsedSeconds": 1.745,
+      "rejectedBy": [
+        "  FAIL auth callback: valid token continues -- AssertionError"
+      ],
+      "logPath": "callback-drops-valid-token.log"
+    },
+    {
+      "name": "callback-skips-token-validation",
+      "exitCode": 1,
+      "elapsedSeconds": 1.808,
+      "rejectedBy": [
+        "  FAIL auth callback: invalid or absent token excluded -- AssertionError",
+        "  FAIL auth callback: invalid or absent token excluded -- AssertionError"
+      ],
+      "logPath": "callback-skips-token-validation.log"
+    },
+    {
+      "name": "callback-retains-auth-fragment",
+      "exitCode": 1,
+      "elapsedSeconds": 1.666,
+      "rejectedBy": [
+        "  FAIL auth callback: valid token continues -- AssertionError",
+        "  FAIL auth callback: invalid or absent token excluded -- AssertionError",
+        "  FAIL auth callback: invalid or absent token excluded -- AssertionError",
+        "  FAIL auth callback: invalid or absent token excluded -- AssertionError"
+      ],
+      "logPath": "callback-retains-auth-fragment.log"
+    },
+    {
+      "name": "callback-retains-auth-query",
+      "exitCode": 1,
+      "elapsedSeconds": 1.573,
+      "rejectedBy": [
+        "  FAIL auth callback: valid token continues -- AssertionError",
+        "  FAIL auth callback: invalid or absent token excluded -- AssertionError",
+        "  FAIL auth callback: invalid or absent token excluded -- AssertionError",
+        "  FAIL auth callback: invalid or absent token excluded -- AssertionError"
+      ],
+      "logPath": "callback-retains-auth-query.log"
+    }
+  ],
+  "boundary": "Only verifier read results are altered in memory. No auth source, migration, database, browser installation or external service is changed."
+}

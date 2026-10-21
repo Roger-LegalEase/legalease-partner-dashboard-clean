@@ -1,0 +1,339 @@
+{
+  "schemaVersion": "rcap-preflight-intake/v1",
+  "observedAtCommit": "41b08386b09db582834aa6ffd1a85d3149aff2eb",
+  "selectionBasis": "Already-built families with held sources and mechanical counters passing, awaiting current raster. This is a review-stage grouping, not a claim of shared implementation cause.",
+  "priority": "After current AZ/Kansas/Indiana review handoffs; no new active reviewer or worker created.",
+  "claimsChanged": false,
+  "packetBytesChanged": false,
+  "dispatchAuthorized": false,
+  "terminalAcceptance": false,
+  "familyCount": 3,
+  "pdfCount": 6,
+  "pages": 56,
+  "rows": [
+    {
+      "familyId": "ma-bmc-multi-set",
+      "queueState": "BUILT_RASTER_PENDING",
+      "builder": "scripts/build-census-v1-ma-bmc-multi-set.mjs",
+      "sourceBound": true,
+      "lastIndependentVerdict": {
+        "verdict": "BLOCKED_LEGAL_INPUT",
+        "lane": "vf09",
+        "verifiedAtBase": "3a2f1cf3d",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf09/rows.json"
+      },
+      "bindingDecision": {
+        "disposition": "LEGAL_CLEAR",
+        "decisionId": "MA-BMC-CONSOLIDATED-THREE-PLUS-RECORDS",
+        "bindingProductRule": "Implement the amended BMC Standing Order 1-09 consolidated branch for a person with three or more qualifying criminal records arising in two or more BMC divisions. Outside those predicates, use the ordinary docket/division treatment.",
+        "authority": "Boston Municipal Court Amended Standing Order 1-09, effective May 10, 2024, cited in the supplied disposition.",
+        "liftCondition": null,
+        "producedOn": "2026-09-11",
+        "decisionRecord": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
+        "decisionRecords": [
+          "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json"
+        ],
+        "supersedesDecisionId": null,
+        "supersededDecisionRecord": null,
+        "evidenceType": "legal_design_disposition",
+        "documentaryPermissionStoredInRepository": null,
+        "owner": null,
+        "independentReviewSawExactDecisionRecord": {
+          "verifiedAtBase": "3a2f1cf3d",
+          "decisionRecord": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
+          "decisionRecords": [
+            "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json"
+          ],
+          "available": false,
+          "reason": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json was unavailable at verifiedAtBase",
+          "recordBindings": [
+            {
+              "path": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
+              "currentSha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
+              "matches": false
+            }
+          ]
+        },
+        "historicalLegalEntrancesRemainEvidenceOnly": true,
+        "changesNoSourceBuildRasterReviewOwnerOrProductGate": true
+      },
+      "currentNonvisualCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "documents": [
+        {
+          "name": "canonical.pdf",
+          "pageCount": 4,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "pageCount": 4,
+            "sourceSha256": "298318f7e8354d0fb00c018eaeed19421d99b35a468480e4ffaa671a18bacde8",
+            "version": "1.17.1"
+          },
+          "path": "data/rcap-all50/overlays/census-v1/ma/ma-bmc-multi-set--custom-pleading/fixtures/canonical.pdf",
+          "role": "canonical",
+          "sha256": "298318f7e8354d0fb00c018eaeed19421d99b35a468480e4ffaa671a18bacde8",
+          "byteLength": 11833
+        },
+        {
+          "name": "boundary.pdf",
+          "pageCount": 4,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "pageCount": 4,
+            "sourceSha256": "bac9000aaf807fede67c20439dd1e42627af915077c9148e7d94781dda60a93d",
+            "version": "1.17.1"
+          },
+          "path": "data/rcap-all50/overlays/census-v1/ma/ma-bmc-multi-set--custom-pleading/fixtures/boundary.pdf",
+          "role": "boundary",
+          "sha256": "bac9000aaf807fede67c20439dd1e42627af915077c9148e7d94781dda60a93d",
+          "byteLength": 12070
+        }
+      ],
+      "coverage": {
+        "basis": "the family ships one assembled packet, so rendering it covers every canonical page of the family",
+        "complete": true,
+        "documents": [
+          "canonical.pdf"
+        ],
+        "notRastered": [],
+        "notRenderedByThisGate": [],
+        "notRenderedByThisGateBasis": "every PDF present in the family's fixture discovery that this row does not queue. The gate renders every document a row queues, whatever its role, so a queued boundary fixture is rendered and is not named here.",
+        "rastered": [
+          "canonical.pdf",
+          "boundary.pdf"
+        ],
+        "whatCompleteMeansHere": "every PDF this family declares is queued to the gate and rendered, canonical and boundary alike. `complete` remains the narrower question -- every canonical document rendered -- because that is what promotion depends on."
+      },
+      "currentRasterState": "RASTER_PENDING",
+      "nextGate": "Independent semantic preflight, including current binding decision treatment; no dispatch or terminal permission conferred by this intake."
+    },
+    {
+      "familyId": "nh_petition_vacated-set",
+      "queueState": "BUILT_RASTER_PENDING",
+      "builder": "scripts/build-census-v1-nh_petition_vacated-set.mjs",
+      "sourceBound": true,
+      "lastIndependentVerdict": {
+        "verdict": "BLOCKED_LEGAL_INPUT",
+        "lane": "vf03",
+        "verifiedAtBase": "d974bcdd8",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
+      },
+      "bindingDecision": {
+        "disposition": "LEGAL_CLEAR",
+        "decisionId": "NH-FEE-WAIVER-2886-WITH-2328-CONFIDENTIAL",
+        "bindingProductRule": "NHJB-2328 is the confidential Statement of Assets and Liabilities, not the fee-waiver motion. Use NHJB-2886-DFPe Motion to Waive Filing Fees with NHJB-2328 attached as required; preserve confidentiality and follow the motion's own service certification/form rules.",
+        "authority": "New Hampshire Courts NHJB-2886-DFPe and NHJB-2328 cited in the supplied disposition.",
+        "liftCondition": null,
+        "producedOn": "2026-09-11",
+        "decisionRecord": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
+        "decisionRecords": [
+          "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json"
+        ],
+        "supersedesDecisionId": null,
+        "supersededDecisionRecord": null,
+        "evidenceType": "legal_design_disposition",
+        "documentaryPermissionStoredInRepository": null,
+        "owner": null,
+        "independentReviewSawExactDecisionRecord": {
+          "verifiedAtBase": "d974bcdd8",
+          "decisionRecord": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
+          "decisionRecords": [
+            "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json"
+          ],
+          "available": false,
+          "reason": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json was unavailable at verifiedAtBase",
+          "recordBindings": [
+            {
+              "path": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
+              "currentSha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
+              "matches": false
+            }
+          ]
+        },
+        "historicalLegalEntrancesRemainEvidenceOnly": true,
+        "changesNoSourceBuildRasterReviewOwnerOrProductGate": true
+      },
+      "currentNonvisualCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "documents": [
+        {
+          "name": "canonical.pdf",
+          "pageCount": 15,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "pageCount": 15,
+            "sourceSha256": "436ed4d5ddff113fbed55aa7b58370745a31a38ce9083e49a84f00372ed9e376",
+            "version": "1.17.1"
+          },
+          "path": "data/rcap-all50/overlays/census-v1/nh/nh-petition-vacated-set--official-pdf-fill/fixtures/canonical.pdf",
+          "role": "canonical",
+          "sha256": "436ed4d5ddff113fbed55aa7b58370745a31a38ce9083e49a84f00372ed9e376",
+          "byteLength": 202264
+        },
+        {
+          "name": "boundary.pdf",
+          "pageCount": 15,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "pageCount": 15,
+            "sourceSha256": "f53a1a29120ce9bea9c0c5d049846898909bdb29e36358a659021f9ccb1b56c2",
+            "version": "1.17.1"
+          },
+          "path": "data/rcap-all50/overlays/census-v1/nh/nh-petition-vacated-set--official-pdf-fill/fixtures/boundary.pdf",
+          "role": "boundary",
+          "sha256": "f53a1a29120ce9bea9c0c5d049846898909bdb29e36358a659021f9ccb1b56c2",
+          "byteLength": 202315
+        }
+      ],
+      "coverage": {
+        "basis": "the family ships one assembled packet, so rendering it covers every canonical page of the family",
+        "complete": true,
+        "documents": [
+          "canonical.pdf"
+        ],
+        "notRastered": [],
+        "notRenderedByThisGate": [],
+        "notRenderedByThisGateBasis": "every PDF present in the family's fixture discovery that this row does not queue. The gate renders every document a row queues, whatever its role, so a queued boundary fixture is rendered and is not named here.",
+        "rastered": [
+          "canonical.pdf",
+          "boundary.pdf"
+        ],
+        "whatCompleteMeansHere": "every PDF this family declares is queued to the gate and rendered, canonical and boundary alike. `complete` remains the narrower question -- every canonical document rendered -- because that is what promotion depends on."
+      },
+      "currentRasterState": "RASTER_PENDING",
+      "nextGate": "Independent semantic preflight, including current binding decision treatment; no dispatch or terminal permission conferred by this intake."
+    },
+    {
+      "familyId": "va_exp_nonconviction-set",
+      "queueState": "BUILT_RASTER_PENDING",
+      "builder": "scripts/build-census-v1-va_exp_nonconviction-set.mjs",
+      "sourceBound": true,
+      "lastIndependentVerdict": {
+        "verdict": "BLOCKED_LEGAL_INPUT",
+        "lane": "vf01",
+        "verifiedAtBase": "b70ec78ef",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
+      },
+      "bindingDecision": {
+        "disposition": "LEGAL_CLEAR",
+        "decisionId": "VA-EXPUNGEMENT-ALL-PARTY-AGREEMENT-GATE",
+        "bindingProductRule": "Remove the blanket Dotson stop. Encode the narrow current Section 19.2-298.02 all-party-agreement fact gate that permits the qualifying deferred-disposition dismissal/reduction to be treated as otherwise dismissed for expungement. Do not infer agreement. Use current CC-1473 and version the rule for the statutory change effective December 1, 2026.",
+        "authority": "Current Virginia Code Section 19.2-298.02 and CC-1473 cited in the supplied disposition.",
+        "liftCondition": null,
+        "producedOn": "2026-09-11",
+        "decisionRecord": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
+        "decisionRecords": [
+          "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json"
+        ],
+        "supersedesDecisionId": null,
+        "supersededDecisionRecord": null,
+        "evidenceType": "legal_design_disposition",
+        "documentaryPermissionStoredInRepository": null,
+        "owner": null,
+        "independentReviewSawExactDecisionRecord": {
+          "verifiedAtBase": "b70ec78ef",
+          "decisionRecord": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
+          "decisionRecords": [
+            "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json"
+          ],
+          "available": false,
+          "reason": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json was unavailable at verifiedAtBase",
+          "recordBindings": [
+            {
+              "path": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
+              "currentSha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
+              "matches": false
+            }
+          ]
+        },
+        "historicalLegalEntrancesRemainEvidenceOnly": true,
+        "changesNoSourceBuildRasterReviewOwnerOrProductGate": true
+      },
+      "currentNonvisualCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "documents": [
+        {
+          "name": "canonical.pdf",
+          "pageCount": 9,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "pageCount": 9,
+            "sourceSha256": "da41e860789d91e45ba7bbc8c33476fbebb7b39eee8769a65750e289b62d43ed",
+            "version": "1.17.1"
+          },
+          "path": "data/rcap-all50/overlays/census-v1/va/va-exp-nonconviction-set--official-pdf-fill/fixtures/canonical.pdf",
+          "role": "canonical",
+          "sha256": "da41e860789d91e45ba7bbc8c33476fbebb7b39eee8769a65750e289b62d43ed",
+          "byteLength": 135456
+        },
+        {
+          "name": "boundary.pdf",
+          "pageCount": 9,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "pageCount": 9,
+            "sourceSha256": "33a0a21aeb9a09451332bc37a9e68d9e3b9f4d834e0536d084cf77dc224b7da6",
+            "version": "1.17.1"
+          },
+          "path": "data/rcap-all50/overlays/census-v1/va/va-exp-nonconviction-set--official-pdf-fill/fixtures/boundary.pdf",
+          "role": "boundary",
+          "sha256": "33a0a21aeb9a09451332bc37a9e68d9e3b9f4d834e0536d084cf77dc224b7da6",
+          "byteLength": 135701
+        }
+      ],
+      "coverage": {
+        "basis": "the family ships one assembled packet, so rendering it covers every canonical page of the family",
+        "complete": true,
+        "documents": [
+          "canonical.pdf"
+        ],
+        "notRastered": [],
+        "notRenderedByThisGate": [
+          "boundary--CC-1473-primary-filing.pdf",
+          "canonical--CC-1473-primary-filing.pdf"
+        ],
+        "notRenderedByThisGateBasis": "every PDF present in the family's fixture discovery that this row does not queue. The gate renders every document a row queues, whatever its role, so a queued boundary fixture is rendered and is not named here.",
+        "rastered": [
+          "canonical.pdf",
+          "boundary.pdf"
+        ],
+        "whatCompleteMeansHere": "every canonical document is rendered, and so is every other document this row queues. The 2 fixture(s) named in notRenderedByThisGate are present in the family's fixture set and are not queued here, so they are unrendered and a defect appearing only in them is not something a RASTER_PASS has excluded."
+      },
+      "currentRasterState": "RASTER_PENDING",
+      "nextGate": "Independent semantic preflight, including current binding decision treatment; no dispatch or terminal permission conferred by this intake."
+    }
+  ]
+}

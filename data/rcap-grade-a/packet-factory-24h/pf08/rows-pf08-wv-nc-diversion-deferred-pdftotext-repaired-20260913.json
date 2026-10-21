@@ -1,0 +1,220 @@
+{
+  "schemaVersion": "rcap-packet-factory-family-return/v1",
+  "assignmentId": "PF08",
+  "workerId": "rcap-finish-worker-77jr7gx76jq3rg65",
+  "lane": "packet-build",
+  "engine": "Codex Codespaces worker",
+  "shiftBaseSha": "6867ee44777ce3c9e88afda8b4bad8c3d8e8e31a",
+  "workerBranch": "pf20-ks-22-2410-arrest-20260912b",
+  "workerHeadBeforeReturn": "9fa7c57d67cf2abe0d4518b857354562ea95502a",
+  "familiesAssigned": 1,
+  "rowsReturned": 1,
+  "claim": {
+    "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF08 'wv_nc_diversion_deferred-set'",
+    "result": "CLAIM_OK PF08 wv_nc_diversion_deferred-set (packet-build, grant set a6ef9ebd94267c7e)",
+    "captainLedgerPath": "data/rcap-grade-a/packet-factory-24h/claim-ledger.json",
+    "captainLedgerSha256": "b4eadc16ceec48f132bdcfbc9d17290a4c8fd55425c2aa071a84cd7d121d4bfc",
+    "captainLedgerGeneratedAtCommit": "46f58905a130a3168c34851d4ea387802117767c"
+  },
+  "itemId": "wv_nc_diversion_deferred-set",
+  "status": "STOPPED",
+  "stopClass": "BLOCKED_SOURCE",
+  "jurisdiction": "WV",
+  "routeKeys": [
+    "obligation:track-pathway:WV:wv_nc_diversion_deferred:no-conviction-expungement-for-acquittal-dismissal-diversion-or-deferred-adjudication"
+  ],
+  "implementationStrategy": "official_pdf_fill",
+  "officialFormFamily": "SCA-C903",
+  "requiredComponents": [
+    "component:wv_nc_diversion_deferred-certificate-of-service-3",
+    "component:wv_nc_diversion_deferred-primary-filing-1"
+  ],
+  "buildScript": "scripts/build-census-v1-wv_nc_diversion_deferred-set.mjs",
+  "buildScriptExists": true,
+  "overlayDirectory": "data/rcap-all50/overlays/census-v1/wv/wv-nc-diversion-deferred-set--official-pdf-fill",
+  "overlayDirectoryExists": false,
+  "overlayDirectoryTouched": false,
+  "builderCreated": false,
+  "testCreated": false,
+  "filingPacketsGenerated": 0,
+  "rasterGenerated": false,
+  "runtimeRepairReceiptPath": "data/rcap-grade-a/packet-factory-24h/pf08/wv-pdftotext-runtime-repair-receipt-20260913.json",
+  "runtimeRepair": {
+    "tool": "pdftotext",
+    "path": "/usr/bin/pdftotext",
+    "version": "24.02.0",
+    "binarySha256": "0fb98ea179e19154a90202608c164f2a319b79f16576fa6534b2d601033565e",
+    "package": "poppler-utils",
+    "packageVersion": "24.02.0-1ubuntu9.9",
+    "installCommand": "sudo apt-get install -y --no-install-recommends poppler-utils",
+    "receiptStatus": "INSTALLED"
+  },
+  "sourceBinding": {
+    "queueSourcesNamed": 1,
+    "familyGate": {
+      "result": "PASS",
+      "detail": "1/1 source(s) bind by exact SHA-256 (census_form_number_against_committed_index)",
+      "boundSourceCount": 1,
+      "completeQueueSourceBind": true,
+      "resolverTier": "census_form_number_against_committed_index"
+    },
+    "queuePinnedSources": [
+      {
+        "sourceId": "official-form:SCA-C903",
+        "declaredPath": "STATES/WV/02_PACKET_FORMS/WV__FORM__SCA-C903__sca-c903-motion-for-expungement-after-acquittal-or-dismissal__REV-2010-04__EN.pdf",
+        "sha256": "bbfcd767b02230300e2164a40cc2d81967c87fb9b7ddf4f0677622e1319fe878",
+        "statusAtWorker": "BOUND_EXACT",
+        "byteLength": 23275
+      }
+    ],
+    "custodyRecord": {
+      "row": "none; family resolves through worklist/index fallback",
+      "queueSourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "legalInputStatus": "SETTLED",
+      "sharedRecordModified": false
+    }
+  },
+  "preflight": {
+    "command": "source \"$HOME/.legalease-corpus-env\" && node scripts/verify-packet-build-environment.mjs --family 'wv_nc_diversion_deferred-set' --codex-cloud --minimum-captain-sha 6867ee44777ce3c9e88afda8b4bad8c3d8e8e31a",
+    "resultBeforeRuntimeRepair": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 10/14 passed, 4 failed, 3 not applicable",
+    "exitCodeBeforeRuntimeRepair": 1,
+    "familySourcesBind": "PASS: 1/1 source(s) bind by exact SHA-256",
+    "runtimeRepairAppliedAfterPreflight": true,
+    "treatment": "The source gate had already passed; no prerequisite re-audit was run after the bounded pdftotext repair."
+  },
+  "builderExecution": {
+    "command": "node scripts/build-census-v1-wv_nc_diversion_deferred-set.mjs",
+    "result": "STOPPED",
+    "stopClass": "BLOCKED_SOURCE",
+    "overlayDirectoryTouched": false,
+    "counters": null,
+    "countersAreNullBecause": "no packet was built, so no counter was measured. A zero here would be a claim about a packet that does not exist.",
+    "sourceCustody": {
+      "custodyIsSettled": true,
+      "sourceId": "official-form:SCA-C903",
+      "formNumber": "SCA-C903",
+      "revision": "REV-2010-04",
+      "pathInArchive": "STATES/WV/02_PACKET_FORMS/WV__FORM__SCA-C903__sca-c903-motion-for-expungement-after-acquittal-or-dismissal__REV-2010-04__EN.pdf",
+      "sha256": "bbfcd767b02230300e2164a40cc2d81967c87fb9b7ddf4f0677622e1319fe878",
+      "byteLength": 23275,
+      "custody": "master_library",
+      "boundBy": "exact_content_sha256",
+      "pageCount": 3,
+      "structuralClassInTheCommittedIndex": "unreadable",
+      "pdfLibLoadError": null,
+      "printedTextReadBy": "poppler pdftotext",
+      "printedTextReaderVersion": "24.02.0"
+    },
+    "measuredPrintedFace": {
+      "captionSaysReasonsOtherThanEntryOfAPlea": {
+        "present": true,
+        "occurrences": 5,
+        "printed": "MOTION FOR EXPUNGEMENT OF CRIMINAL RECORDS DUE TO ACQUITTAL OR DISMISSAL FOR REASONS OTHER THAN ENTRY OF A PLEA"
+      },
+      "paragraphFourSwearsTheDismissalWasNotForAPlea": {
+        "present": true,
+        "printed": "That 60 days have elapsed since the above referenced dismissal and that same dismissal was not in exchange for a guilty plea to another offense."
+      },
+      "noDiversionOrDeferredAdjudicationParagraph": {
+        "mentionsDiversion": false,
+        "mentionsDeferred": false
+      },
+      "noSameTransactionOrOccurrenceParagraph": {
+        "mentionsSameTransactionOrOccurrence": false
+      },
+      "chargeBlocks": 1,
+      "reasonForDismissalFreeTextLines": 1,
+      "recitedStatute": {
+        "citesTheTwoThousandText": true,
+        "printedRevision": "Rev. 04/2010"
+      }
+    },
+    "deliveryGateOfRecord": {
+      "routeKey": "WV:no-conviction-expungement-for-acquittal-dismissal-diversion-or-deferred-adjudication",
+      "ruleId": "WV-61-11-25-SCA-C903-STALE-FORM",
+      "statute": "W. Va. Code 61-11-25, as amended by H.B. 4399 (2024)",
+      "artifactApprovalRequired": true,
+      "requiredFacts": [
+        "Did the case end in acquittal, in dismissal, or in a dismissal following diversion or deferred adjudication?",
+        "Are there other charges arising from the same transaction or occurrence?",
+        "Which circuit court held the case?"
+      ],
+      "gate": {
+        "id": "wv_61_11_25_sca_c903_currency",
+        "kind": "artifact_legal_review",
+        "items": [
+          "a rendered petition and its hash",
+          "a current-law supplement covering what the published form omits",
+          "counsel's reading of whether SCA-C903 may be used at all for a deferred-adjudication dismissal"
+        ],
+        "owner": "RCAP packet factory, then artifact-level counsel review",
+        "statusSource": "server_configuration_record",
+        "status": "PENDING",
+        "evidenceReference": "pending: SCA-C903 read at source 2026-08-06, revision date 04/01/2010"
+      }
+    },
+    "mechanismOfRecord": {
+      "readFrom": "src/lib/rcap-engine/compiled/profiles/WV-west-virginia.json ruleClauses",
+      "ruleClausesInspected": 139,
+      "deferredAdjudicationInvolvesAnEnteredPlea": true,
+      "sameTransactionExtension": true,
+      "bothClausesPresent": true
+    },
+    "stopIsNotAboutCustody": "The one declared source binds byte-exact and the buildability measurement records EVERY_BOUND_SOURCE_IS_A_HELD_PDF. This family stops because the form that is held cannot carry the branch of the route this family is, not because the bytes are missing.",
+    "failedSourceIdentities": [
+      {
+        "sourceIdentity": "official-form:SCA-C903",
+        "declaredPath": "STATES/WV/02_PACKET_FORMS/WV__FORM__SCA-C903__sca-c903-motion-for-expungement-after-acquittal-or-dismissal__REV-2010-04__EN.pdf",
+        "declaredSha256": "bbfcd767b02230300e2164a40cc2d81967c87fb9b7ddf4f0677622e1319fe878",
+        "resolvedExactly": true,
+        "why": "SCA-C903 Rev. 04/2010 is captioned for reasons other than entry of a plea and recites W. Va. Code 61-11-25 (2000). This family is the diversion and deferred-adjudication branch, where the profile says a person may withdraw the guilty plea and the case is dismissed. The form contains no diversion, deferred, or same transaction or occurrence language, one charge block, and one free-text reason line."
+      }
+    ],
+    "componentsBuildable": [],
+    "componentsBlocked": [
+      "component:wv_nc_diversion_deferred-primary-filing-1",
+      "component:wv_nc_diversion_deferred-certificate-of-service-3"
+    ],
+    "declaredInstrumentWithNoBoundSource": {
+      "instrumentKind": "supplemental_pleading",
+      "namedInTheWorklistAs": "supplemental_pleading: wv_nc_diversion_deferred-supplemental-pleading-2",
+      "describedAs": "a current-law supplement covering what the published form omits",
+      "packetComponentDeclared": false,
+      "sourceBound": false
+    },
+    "whyNoPartialBuild": "The blocked instrument is the primary filing itself. Filling the caption of a motion whose body this route cannot use would produce an artifact that looks finished and is not filable, and the certificate of service certifies service of that motion.",
+    "whatWouldUnblockIt": [
+      "A pending artifact-level legal reading of whether SCA-C903 may be used for a deferred-adjudication dismissal.",
+      "A bound source for the current-law supplemental pleading covering the diversion or deferred-adjudication basis and same-transaction-or-occurrence extension.",
+      "An owner decision to build this family as the preferred custom current-law civil petition.",
+      "An owner decision to narrow this family to the straight acquittal-or-dismissal case or retire it."
+    ],
+    "packetsSelfVerified": 0,
+    "commercialRoutesOpened": 0,
+    "productionTouched": false
+  },
+  "blocker": {
+    "exactClass": "BLOCKED_SOURCE",
+    "statement": "The exact SCA-C903 source binds and is readable after the bounded Poppler repair, but the native builder refuses to create a packet because the stale form cannot carry the deferred-adjudication route and the declared supplemental pleading has no bound source. This is the builder's document-level result, not a custody failure.",
+    "noSourceHunt": true,
+    "noSharedResolverEdit": true,
+    "noLegalResearch": true,
+    "noClosedFamilyTouched": true
+  },
+  "nextExecutableAction": "Resolve the existing artifact gate or bind the declared current-law supplemental pleading/owner-approved custom route, then run the existing builder in the same scope.",
+  "counters": null,
+  "allNineCountersZero": null,
+  "artifactsProduced": [],
+  "commercialAuthorityGranted": false,
+  "productionTouched": false,
+  "selfVerified": false,
+  "privateSourceBytesCommitted": false,
+  "privateSourceBytesModified": false,
+  "returnNotes": [
+    "Claim used PF08, the lane recorded in Captain's current claim ledger.",
+    "The bounded pdftotext repair installed poppler-utils 24.02.0 and enabled the existing builder's printed-face measurement.",
+    "The existing WV builder was run once after repair and returned its native BLOCKED_SOURCE result; no overlay was created.",
+    "The runtime repair receipt and this native return are additive files; shared manifests, source custody, resolver logic, closed WV outputs, and the active TX/KY slot were not modified.",
+    "The worker claim ledger remains intentionally uncommitted."
+  ]
+}

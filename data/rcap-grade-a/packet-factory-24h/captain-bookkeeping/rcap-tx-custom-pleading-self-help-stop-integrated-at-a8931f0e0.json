@@ -1,0 +1,32 @@
+{
+  "schemaVersion": "rcap-packet-factory-focused-repair-return/v1",
+  "lane": "CAPTAIN-BOOKKEEPING",
+  "laneKind": "repair",
+  "writtenBy": "Claude Code Captain",
+  "writtenAtBase": "3850ccdb1",
+  "whatThisIs": "A repair return for a repair the Captain integrated without a return row that claims it, so the state machine can see it. It grants no PASS: the family goes to a fresh independent read, which decides.",
+  "whyItExists": "VF10 failed rcap-tx-custom-pleading at 88d688b8b on KNOWN_PREFILLS, REQUIRED_BEFORE_FILING and SELF_HELP_STOP. The SELF_HELP_STOP repair -- the 3 common and 17 route-specific stop conditions carried into the filing instructions -- landed in the Captain integration commit a8931f0e0 (fix(packet-factory): return focused FIX01 repairs), which changed this family's participant-instructions.md and builder; FIX01's own rows for the family read STOPPED with obligationRepaired naming SELF_HELP_STOP, so no completed row claims it. FIX29 (d214579b3) re-measured the delivered bytes and found all 26 registry stop conditions printed verbatim in both fixtures and the markdown, and honestly listed SELF_HELP_STOP as not discharged by its own row. The reader that supersedes a FAIL needs a completed row naming the obligation; this is that row, written by the party that integrated the change.",
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "rows": [{
+    "itemId": "rcap-tx-custom-pleading",
+    "status": "COMPLETED",
+    "laneKind": "repair",
+    "repairedByThisLane": true,
+    "repairKind": "INTEGRATED_REPAIR_WITHOUT_A_CLAIMING_ROW",
+    "obligationsRepaired": ["SELF_HELP_STOP"],
+    "obligationRepaired": "SELF_HELP_STOP",
+    "obligationsThisRowDoesNotDischarge": ["KNOWN_PREFILLS", "REQUIRED_BEFORE_FILING"],
+    "whatChanged": "At a8931f0e0: data/rcap-all50/overlays/census-v1/tx/rcap-tx-custom-pleading--custom-pleading/participant-instructions.md and scripts/build-census-v1-rcap-tx-custom-pleading.mjs carry the route's stop conditions into the filing instructions component. Measured on the current bytes by FIX29 at d214579b3: 26 of 26 registry stop conditions print verbatim in canonical a2f87783 and boundary a037710f and in the markdown.",
+    "repairCommit": "a8931f0e0",
+    "measuredBy": "FIX29 return, data/rcap-grade-a/packet-factory-24h/fix29/rows.json (its row lists SELF_HELP_STOP as not discharged by that lane because it did not make the change; it verified the change)",
+    "verdictRepaired": { "lane": "vf10", "verdict": "FAIL_REPAIR_REQUIRED", "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b", "failedObligationNames": ["KNOWN_PREFILLS", "REQUIRED_BEFORE_FILING", "SELF_HELP_STOP"] },
+    "canonicalSha256": "a2f87783",
+    "boundarySha256": "a037710f",
+    "digestNote": "Short forms above are the prefixes FIX29 reported; the full digests are in fix29/rows.json and reports/rendered-artifacts.json and are what the raster queue pins.",
+    "countersBefore": { "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0 },
+    "countersAfter": { "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0 },
+    "countersNote": "Nine zeros before and after; the counters never saw missing stop conditions.",
+    "notAPass": "Together with FIX29's row this discharges VF10's three obligations only into a fresh independent read over the current bytes, which still owes a central raster."
+  }]
+}

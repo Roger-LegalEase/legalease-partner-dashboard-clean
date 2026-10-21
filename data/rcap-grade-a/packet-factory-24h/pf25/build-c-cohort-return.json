@@ -1,0 +1,423 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-rows/v1",
+  "assignmentId": "PF25",
+  "workerId": "BUILD-C",
+  "lane": "packet-build",
+  "engine": "remote agent session",
+  "shiftBaseSha": "6351836b1f53cb143cc6afb08a4bf0bc28dde7b1",
+  "workerBranch": "build-c-cohort",
+  "noExistingReturnInThisLaneDirectory": {
+    "checked": "data/rcap-grade-a/packet-factory-24h/pf25/",
+    "result": "the directory did not exist before this lane created it, so nothing was written over and this file is the only return here"
+  },
+  "howTheCohortWasChosen": "All 87 SOURCE_READY families in MASTER_QUEUE were intersected against the live packet-build claims. Seven held no live claim: their grants had been released unbuilt by PF01, PF02, PF03, PF05, PF06 and PF18, and all seven were still artifactStatus NOT_RENDERED and completenessStatus NOT_BUILT. Every other SOURCE_READY family is live on another lane, so those seven were the whole available set and the cohort is all of them. No two share a writable path: each owns one exclusive overlay directory and one exclusive build script, and none names a shared build host.",
+  "preflight": {
+    "command": "not run: scripts/verify-packet-build-environment.mjs is the Codex Cloud lane gate and this lane runs in a different container",
+    "environmentFactsEstablishedInstead": [
+      "only two of the five source custodies are mounted: master_library and human_source_returns. Every source in this cohort was resolved BY CONTENT HASH across every custody the committed index names, never by declared path.",
+      "the disk was at 98% with 862MB free and a full worktree needs about 1.4GB, so this lane ran from a sparse checkout that excludes data/rcap-all50 except the corpus index, the shared field-appearance-semantics registry and the tx/ and nm/ overlay trees. private/ and node_modules were symlinked from the shared checkout rather than copied.",
+      "no browser resolves here, so the built family is returned BUILT_RASTER_PENDING with its exact canonical and boundary hashes"
+    ]
+  },
+  "familiesClaimed": 7,
+  "familiesBuilt": 0,
+  "familiesStopped": 6,
+  "selfVerification": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "rows": [
+    {
+      "itemId": "md_10110_conviction-set",
+      "familyId": "md_10110_conviction-set",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_SOURCE",
+      "claim": {
+        "result": "CLAIM_OK",
+        "releasedAtEndOfThisLane": true
+      },
+      "route": {
+        "jurisdiction": "MD",
+        "implementationStrategy": "official_pdf_fill",
+        "routeKeys": [
+          "obligation:track-pathway:MD:md_10110_conviction:conviction-expungement-under-cp-10-110"
+        ]
+      },
+      "overlayBytesWritten": false,
+      "directory": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill",
+      "sourcesDeclared": 2,
+      "sourcesResolvedByHash": 1,
+      "failedSourceIdentities": [
+        {
+          "sourceId": "official-form:CC-DC-CR-072B",
+          "missingSha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469",
+          "declaredPath": "LegalEase Maryland/LegalEase Maryland forms /ccdccr072B.pdf",
+          "why": "absent by content hash from the whole mounted corpus. Every file under both mounted custodies was hashed and no file carries this digest. This is not a path problem: the Master Library's Maryland holdings are CC-DC-089, CC-DC-CR-078, CC-DC-CR-148, MDJ-008 and the source-gated DC-CR-071, and CC-DC-CR-072B is not among them under any name.",
+          "custodyTheIndexNames": "an unmounted custody"
+        }
+      ],
+      "sourceThatDoesResolve": {
+        "sourceId": "official-form:CC-DC-089",
+        "sha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
+        "custody": "master_library"
+      },
+      "whatWouldUnblockIt": "the bytes of CC-DC-CR-072B at 3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469, or the d_source_packs custody mounted"
+    },
+    {
+      "itemId": "md_pardon_expungement-set",
+      "familyId": "md_pardon_expungement-set",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_SOURCE",
+      "claim": {
+        "result": "CLAIM_OK",
+        "releasedAtEndOfThisLane": true
+      },
+      "route": {
+        "jurisdiction": "MD",
+        "implementationStrategy": "official_pdf_fill"
+      },
+      "overlayBytesWritten": false,
+      "directory": "data/rcap-all50/overlays/census-v1/md/md-pardon-expungement-set--official-pdf-fill",
+      "sourcesDeclared": 2,
+      "sourcesResolvedByHash": 1,
+      "failedSourceIdentities": [
+        {
+          "sourceId": "official-form:CC-DC-CR-072B",
+          "missingSha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469",
+          "declaredPath": "LegalEase Maryland/LegalEase Maryland forms /ccdccr072B.pdf",
+          "why": "the same absent digest as md_10110_conviction-set: these two families share the CC-DC-089 plus CC-DC-CR-072B form family, and the petition half of it is not held here by hash"
+        }
+      ],
+      "whatWouldUnblockIt": "the same single digest unblocks both Maryland families"
+    },
+    {
+      "itemId": "nc_145_8a_youthful-set",
+      "familyId": "nc_145_8a_youthful-set",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_SOURCE",
+      "claim": {
+        "result": "CLAIM_OK",
+        "releasedAtEndOfThisLane": true
+      },
+      "route": {
+        "jurisdiction": "NC",
+        "implementationStrategy": "official_pdf_fill",
+        "statute": "G.S. 15A-145.8A"
+      },
+      "overlayBytesWritten": false,
+      "directory": "data/rcap-all50/overlays/census-v1/nc/nc-145-8a-youthful-set--official-pdf-fill",
+      "sourcesDeclared": 5,
+      "sourcesResolvedByHash": 3,
+      "failedSourceIdentities": [
+        {
+          "sourceId": "official-form:AOC-CR-293",
+          "missingSha256": "37308914289a01649bd5cf009a91902386d6ec9658de8d7a1f99054b31310086",
+          "declaredPath": "LegalEase North Carolina/AOC-CR-293_Rev-3-25.pdf",
+          "why": "absent by content hash from the whole mounted corpus. The Master Library's North Carolina packet forms are AOC-CR-287, 288, 296, 297 and 298; there is no AOC-CR-293 under any name or revision, so the PRIMARY FILING of this family is not held."
+        },
+        {
+          "sourceId": "official-form:AOC-CR-293-INSTRUCTIONS",
+          "missingSha256": "ae9e161bf5a190b2956662216afe5738f99be4416d5902e66a3c3bea5fe87fe3",
+          "declaredPath": "LegalEase North Carolina/AOC-CR-293-INSTRUCTIONS_Rev-3-25.pdf",
+          "why": "absent by content hash. The library holds instruction sheets for AOC-CR-287, 288, 297 and 298 only."
+        }
+      ],
+      "sourcesThatDoResolve": [
+        {
+          "sourceId": "official-form:AOC-CV-226",
+          "sha256": "74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f",
+          "custody": "master_library"
+        },
+        {
+          "sourceId": "source-sha256:48cc30cdc4681822e9be5b8a94e4ca10c07f9dafa67b01b17c78d5cc05cb0f4d",
+          "resolvesTo": "AOC-CR-296",
+          "custody": "master_library"
+        }
+      ],
+      "whatWouldUnblockIt": "the two AOC-CR-293 digests above. Nothing else in this family is missing, and the substitution that is available is not one a build lane may make: AOC-CR-296 is a different section's petition, not a stand-in for the 15A-145.8A one."
+    },
+    {
+      "itemId": "nm_identity_theft-set",
+      "familyId": "nm_identity_theft-set",
+      "status": "STOPPED",
+      "stopClass": "COMPLETENESS_CONTRACT_HAS_NO_DISPOSITION_FOR_A_BLANK_THIS_PACKET_MUST_LEAVE",
+      "claim": {
+        "result": "CLAIM_OK",
+        "releasedAtEndOfThisLane": true
+      },
+      "route": {
+        "jurisdiction": "NM",
+        "trackId": "nm_identity_theft",
+        "implementationStrategy": "official_pdf_fill",
+        "statute": "NMSA 1978, Section 29-3A-3; Rule 1-077.1 NMRA"
+      },
+      "overlayBytesWritten": false,
+      "directory": "data/rcap-all50/overlays/census-v1/nm/nm-identity-theft-set--official-pdf-fill",
+      "sourceStatus": {
+        "allFourSourcesResolveByHash": true,
+        "resolved": [
+          {
+            "sourceId": "official-form:4-951",
+            "sha256": "b8a0dba2cd21f9fed317ccea57e568a360345608782cea2a3f0e34b769ae67e4",
+            "custody": "master_library"
+          },
+          {
+            "sourceId": "official-form:4-960.1",
+            "sha256": "3cbc2e6eb35e29bdc10c42fee90221a7f9d470fa077fc0b9620bf1fb7e3f4f5c",
+            "custody": "master_library"
+          },
+          {
+            "sourceId": "official-form:NM-LOCAL-IDENTITY-THEFT-ORDER",
+            "sha256": "80a70804dff453a8c1a2c775e90dc6ddec3090895aee860d0cc4474b22f39abd",
+            "custody": "master_library"
+          },
+          {
+            "sourceId": "official-form:4-222",
+            "sha256": "809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a",
+            "custody": "master_library"
+          }
+        ],
+        "thisIsNotASourceStop": "every byte is held and every digest matches. The stop is about what a builder would have to declare, not about what it can read."
+      },
+      "theBlocker": {
+        "what": "Form 4-960.1 NMRA, the statewide notice of hearing bound as component 2, carries four repeated service blocks — Name, Agency (if applicable), Address, Telephone Number and Email Address, twenty measured blanks in all — for the people served with the notice.",
+        "whyItCannotBeClassified": "On THIS track no one is served. The held record states it twice: rules.notice records that no responding party is entitled to notice under Rule 1-077.1(E) NMRA, and rules.service records \"none. Service of the petition and attachments is required only for the release-without-conviction and conviction tracks.\" The correct disposition is therefore NOT_APPLICABLE_ON_THIS_ROUTE with a named route condition, which is exactly what BLANK_DISPOSITIONS describes. But that disposition is not reachable by declaration: classifyBlank validates a declared disposition against the vocabulary and then falls through to class inference and the APPROVED_REASONS prose table, whose only routes to NOT_APPLICABLE_ON_THIS_ROUTE are the attorney-only, viewer-control and never-a-filing-fact patterns. None of them describes a service block on a track that requires no service.",
+        "whatThisLaneWouldHaveHadToDoInstead": "either edit scripts/rcap-packet-completeness/completeness-contract.mjs, which is shared machinery every family's counters are read through and not a packet-build lane's to change mid-cohort, or dress the refusal in prose that matches an existing pattern in order to clear a counter. The second is the thing the counters exist to prevent, and a family whose nine counters are zeroed by a matched regex rather than by a correct classification is a worse artifact than an unbuilt one.",
+        "whoResolvesIt": "the owner of the completeness contract, by making NOT_APPLICABLE_ON_THIS_ROUTE reachable from an explicit declaration that names its route condition, on the same discipline REQUIRED_BEFORE_FILING already uses"
+      },
+      "twoLegalFindingsThatOutliveThisStop": [
+        {
+          "finding": "The bound local order form asks, on its page 4, for \"Name of actual offender:\" and \"Contact information:\" — measured at p4 y405.48 and y391.68, plus two continuation lines.",
+          "whyItMatters": "The same track's own record forbids exactly that. selfHelpStopConditions names \"Any suggestion, from the participant or anyone else, that LegalEase name the true offender anywhere in the packet or the proposed order\" as a stop condition, and the legal-design decision carries a self_help_boundary limitation headed \"Never name an alleged identity thief in a proposed order\", explaining that Rule 1-077.1 deliberately omits the Section 29-3A-3(D) requirement that the court insert the true offender's name because naming an alleged identity thief in a civil proceeding without notice to that person would violate due process.",
+          "consequence": "whoever builds this family must refuse those blanks explicitly and tell the participant why, and must not treat them as ordinary required-before-filing facts. They are the clearest third-party blanks in the cohort."
+        },
+        {
+          "finding": "The local order is the retained order form of ONE judicial district, filed in the Master Library under 05_SOURCE_GATED. Its manifest entry records its official_title as \"Petitioner.\" — the harvest could not read a title off it — and notes that no statewide Supreme Court order form exists in the mandatory 4-951 to 4-960.3 set.",
+          "whyItMatters": "the packet-set manifest already marks the component conditional on the participant filing in that district, and the record requires a local_order_form_instructions component telling everyone else to obtain their own district's form. A build that shipped the retained order unconditionally would assert one district's practice as statewide.",
+          "notAStopOnItsOwn": "source-gated is a release gate rather than a build gate in this factory — many built families bind 05_SOURCE_GATED assets — so this is a finding for counsel and the raster gate, not a refusal."
+        }
+      ],
+      "workThatIsFinishedAndTransferable": {
+        "file": "data/rcap-grade-a/packet-factory-24h/pf25/nm-flat-form-blank-census.json",
+        "what": "every blank on all four bound documents, measured first hand from the pinned binaries and bound to their digests: 71 on Form 4-951, 36 on Form 4-960.1, 41 on the local order and all 158 AcroForm fields of Form 4-222, with annotation flags, source-authored values and the printed context of each blank",
+        "alsoEstablished": [
+          "these New Mexico rule forms are FLAT: three of the four carry no AcroForm at all, so this family needs the measured-overlay builder pattern (finalizeFlatOverlay plus measured write boxes) rather than the AcroForm pattern the Texas family in this cohort uses",
+          "their blanks are underscore GLYPH runs far more often than stroked rules, which the existing measureRuledBlank does not find. A run-based measurer reading the per-glyph x and advance from the shared anchor-capture walker was written and proved against the pinned bytes; the census file records the geometry it produced.",
+          "New Mexico rule forms mark amended text by underlining and bracketing it, so a builder that read every horizontal stroke as a blank would invent write boxes under the amendment marks. Ten such strokes on Form 4-951 alone are recorded separately as underlinesOfPrintedText.",
+          "finalizeFlatOverlay was smoke-tested against the pinned Form 4-951 bytes and writes and fits correctly, so nothing about the drawing path blocks this family",
+          "no widget on Form 4-222 is Hidden or NoView, and no document in the family ships a source-authored value"
+        ]
+      },
+      "captainDisposition": {
+        "finding": "UPHELD AND CLOSED. classifyBlank accepted NOT_APPLICABLE_ON_THIS_ROUTE as in vocabulary and then never honoured a declaration of it: the only paths that reached the disposition were the attorney-only and viewer-control prose patterns and the NOT_A_FILING_FACT class. A Maryland builder had written the same finding into a comment at scripts/build-census-v1-md_second_chance_shielding-set.mjs:1501.",
+        "change": "A declared channel now exists. A row may state disposition NOT_APPLICABLE_ON_THIS_ROUTE together with routeConditionThatMakesItInapplicable naming the branch, rule or route fact that puts the blank outside the route. The declaration is refused when the named condition is policy-shaped prose, when the row also declares routeDetermined, or when the packet writes the same fact elsewhere. A row that names no condition falls through to every path that existed before, so the gate adds a channel and removes none.",
+        "measured": "All 29 rows in the repository that declare this disposition were read through both contract versions. Zero read differently. ca-1203-4-set and hi_dag_danc_expungement-set were verified before and after and both still return PASS_COMPLETE.",
+        "whatThisFamilyNeedsNow": "A build lane that declares the twenty Form 4-960.1 service blanks with the route condition this lane already measured -- Rule 1-077.1(E) NMRA and the track's own rules.service of none -- and states it to the participant. The stop is lifted; the build is not done."
+      }
+    },
+    {
+      "itemId": "nm_conviction-set",
+      "familyId": "nm_conviction-set",
+      "status": "STOPPED",
+      "stopClass": "COMPLETENESS_CONTRACT_HAS_NO_DISPOSITION_FOR_A_BLANK_THIS_PACKET_MUST_LEAVE",
+      "claim": {
+        "result": "CLAIM_OK",
+        "releasedAtEndOfThisLane": true
+      },
+      "route": {
+        "jurisdiction": "NM",
+        "trackId": "nm_conviction",
+        "implementationStrategy": "official_pdf_fill"
+      },
+      "overlayBytesWritten": false,
+      "directory": "data/rcap-all50/overlays/census-v1/nm/nm-conviction-set--official-pdf-fill",
+      "sourceStatus": {
+        "allSevenSourcesResolveByHash": true,
+        "note": "every declared digest was found in the mounted Master Library, including the 05_SOURCE_GATED local conviction order at b8f2e017a71ca73d8d9f0aed104882c99cb2c1e77e43e07c1042d18aed8a51c4. This is not a source stop."
+      },
+      "theBlocker": {
+        "sharedWith": "nm_identity_theft-set",
+        "what": "the same statewide Form 4-960.1 notice of hearing is component 5 of this family, and the same twenty service blanks have no reachable disposition",
+        "differenceFromTheIdentityTheftTrack": "on THIS track service IS required, so the service blocks are the participant's to complete rather than not-applicable — but the family still needs the flat-overlay builder pattern that does not yet exist for New Mexico, and the identity-theft family is the smaller place to establish it"
+      },
+      "alsoTrue": "all seven bound documents are flat New Mexico rule forms except Form 4-222, so this family is ten components of measured-overlay work and is the wrong place to start the pattern",
+      "captainDisposition": {
+        "finding": "UPHELD AND CLOSED. classifyBlank accepted NOT_APPLICABLE_ON_THIS_ROUTE as in vocabulary and then never honoured a declaration of it: the only paths that reached the disposition were the attorney-only and viewer-control prose patterns and the NOT_A_FILING_FACT class. A Maryland builder had written the same finding into a comment at scripts/build-census-v1-md_second_chance_shielding-set.mjs:1501.",
+        "change": "A declared channel now exists. A row may state disposition NOT_APPLICABLE_ON_THIS_ROUTE together with routeConditionThatMakesItInapplicable naming the branch, rule or route fact that puts the blank outside the route. The declaration is refused when the named condition is policy-shaped prose, when the row also declares routeDetermined, or when the packet writes the same fact elsewhere. A row that names no condition falls through to every path that existed before, so the gate adds a channel and removes none.",
+        "measured": "All 29 rows in the repository that declare this disposition were read through both contract versions. Zero read differently. ca-1203-4-set and hi_dag_danc_expungement-set were verified before and after and both still return PASS_COMPLETE.",
+        "whatThisFamilyNeedsNow": "A build lane that declares the twenty Form 4-960.1 service blanks with the route condition this lane already measured -- Rule 1-077.1(E) NMRA and the track's own rules.service of none -- and states it to the participant. The stop is lifted; the build is not done."
+      }
+    },
+    {
+      "itemId": "nm_release_without_conviction-set",
+      "familyId": "nm_release_without_conviction-set",
+      "status": "STOPPED",
+      "stopClass": "COMPLETENESS_CONTRACT_HAS_NO_DISPOSITION_FOR_A_BLANK_THIS_PACKET_MUST_LEAVE",
+      "claim": {
+        "result": "CLAIM_OK",
+        "releasedAtEndOfThisLane": true
+      },
+      "route": {
+        "jurisdiction": "NM",
+        "trackId": "nm_release_without_conviction",
+        "implementationStrategy": "official_pdf_fill"
+      },
+      "overlayBytesWritten": false,
+      "directory": "data/rcap-all50/overlays/census-v1/nm/nm-release-without-conviction-set--official-pdf-fill",
+      "sourceStatus": {
+        "allSevenSourcesResolveByHash": true,
+        "note": "every declared digest was found in the mounted Master Library. This is not a source stop."
+      },
+      "theBlocker": {
+        "sharedWith": "nm_identity_theft-set",
+        "what": "the same Form 4-960.1 service blanks, as component 5"
+      },
+      "aSeparateFindingThisFamilyCarriesAlone": {
+        "finding": "the component bound as this family's proposed_order is NM-SAN-JUAN-NONCONVICTION-PACKET at d804959b212e2a0df2e3aa51f17609ef237d583ff2cc189747e76b38c2520638 — a THIRTY-ONE PAGE district packet, not an order form. Its own Master Library manifest entry says so: \"The last link is a district packet rather than a standalone statewide numbered form.\"",
+        "whyItMatters": "bound as declared it would add 31 pages of one county's packet to a statewide family and present them as the proposed order. The component identity needs settling before this family is built, and that is a source-identity question rather than a build one.",
+        "whoResolvesIt": "the source-reconciliation lane, or counsel"
+      },
+      "captainDisposition": {
+        "finding": "UPHELD AND CLOSED. classifyBlank accepted NOT_APPLICABLE_ON_THIS_ROUTE as in vocabulary and then never honoured a declaration of it: the only paths that reached the disposition were the attorney-only and viewer-control prose patterns and the NOT_A_FILING_FACT class. A Maryland builder had written the same finding into a comment at scripts/build-census-v1-md_second_chance_shielding-set.mjs:1501.",
+        "change": "A declared channel now exists. A row may state disposition NOT_APPLICABLE_ON_THIS_ROUTE together with routeConditionThatMakesItInapplicable naming the branch, rule or route fact that puts the blank outside the route. The declaration is refused when the named condition is policy-shaped prose, when the row also declares routeDetermined, or when the packet writes the same fact elsewhere. A row that names no condition falls through to every path that existed before, so the gate adds a channel and removes none.",
+        "measured": "All 29 rows in the repository that declare this disposition were read through both contract versions. Zero read differently. ca-1203-4-set and hi_dag_danc_expungement-set were verified before and after and both still return PASS_COMPLETE.",
+        "whatThisFamilyNeedsNow": "A build lane that declares the twenty Form 4-960.1 service blanks with the route condition this lane already measured -- Rule 1-077.1(E) NMRA and the track's own rules.service of none -- and states it to the participant. The stop is lifted; the build is not done."
+      }
+    }
+  ],
+  "whatThisLaneAddedToTheFactoryBeyondTheOneFamily": [
+    "a hidden-widget audit on an official_pdf_fill build: every widget's annotation /F word read from the pinned binary, recorded in the field census, and asserted against the write set, so a write cannot be reported written and print nothing",
+    "an explicit declaration channel for a printed blank that carries NO AcroForm widget, asserted against the binary, classified through the completeness contract and disclosed to the participant. Every audit in this factory walks AcroForm fields, so such a blank was previously invisible to all of them.",
+    "the block-aware paginator from the North Dakota repair carried onto an official_pdf_fill family, measured on the finished bytes of BOTH fixtures rather than only the canonical one the visual gate renders",
+    "record bindings pinned twice — whole file and this family's own entry — on a family that was not previously pinning them at all",
+    "a measured blank census for four New Mexico official documents, and the finding that New Mexico rule forms blank with underscore glyph runs rather than stroked rules and mark amendments with underlines that a naive stroke reader would take for blanks"
+  ],
+  "issuesNoVerdict": "This lane built one family and returned six. It verified nothing of its own, opened no commercial route, touched no production surface and approved nothing.",
+  "captainIntegration": {
+    "integratedAt": "2026-09-05",
+    "integratedBy": "Claude Code Captain",
+    "whatWasTakenFromThisLane": [
+      "data/rcap-grade-a/packet-factory-24h/pf25/nm-flat-form-blank-census.json -- every blank on the four bound New Mexico documents, measured first hand and digest-bound. Nothing else in the repository holds this measurement.",
+      "the six stop rows below, unchanged",
+      "the contract finding, which was acted on: see scripts/rcap-packet-completeness/completeness-contract.mjs"
+    ],
+    "whatWasNotTaken": [
+      "commit 36d47c534, this lane's build of tx_nd_veterans_court-set. Another lane built the same family independently and its build was committed first at ce473e7ef. Two lanes took one family; the earlier build stands and this one is recorded, not merged.",
+      "commit a05b35573 and the ledger half of 5a7dace3e. Both PF25 claim sets were transferred from already-released grants and released again at the end of the lane, so the ledger outcome is identical either way and replaying them would only re-key claims."
+    ]
+  },
+  "duplicateBuildNotTaken": {
+    "familyId": "tx_nd_veterans_court-set",
+    "whyThereIsNoRowForThisFamily": "This lane built it, and so did another lane, independently. The other build was committed first at ce473e7ef and stands. Because this lane's build was not taken, this lane has no return row for the family: a STOPPED row would have been read by the state machine as no build having happened, and it was -- the first shape of this correction sent a whole committed family back to SOURCE_READY.",
+    "theBuildThatStands": {
+      "commit": "ce473e7ef",
+      "canonical": "4a5d3bec8d9a3261df8bb20965aea7ae133a46edb09165a40ab3089199849e28",
+      "boundary": "5a24261a37f2fc801ae6361075c8573b0bf45af94adca766a38dcbc48a36d3ed",
+      "pages": 25,
+      "whyThatOneStands": "It is the build in the tree, it was committed first, and it carries a page-boundary repair this build does not: the composed renderer had stranded a self-help lead-in at the foot of a page with its bullets on the next, and that build found and fixed it. This build renders 26 pages and did not."
+    },
+    "theBuildThatWasNotTaken": {
+      "commit": "36d47c534",
+      "branch": "build-c-cohort",
+      "canonical": "7d5d8c04832eabef3dadac29d1fe1119412f8658884005153c9b93eb024ce750",
+      "boundary": "94cf8c14d95229b8c1af65f1f76f7efffc21c4b41f9ce01732d311bdb80502b9",
+      "pages": 26,
+      "note": "Recorded so the two builds can be compared, not bound. No raster is owed on these digests and no receipt may cite them."
+    },
+    "whatTheTwoBuildsAgreeOn": "Both resolved every source by content hash, both reached nine completeness counters at zero, both returned PASS_COMPLETE from the independent completeness reader at 15 written fields, and both classified the same three Statement of Inability /V values -- Value / Valor 11, Amount Cantidad 15 and Today -- under the same family key in the shared appearance registry, measured separately. Two lanes reaching the same reading from the same pinned bytes is the strongest evidence this family has; it is also two lanes of capacity spent on one family.",
+    "laneMeasurementsPreservedForComparison": {
+      "components": {
+        "declaredByTheManifest": 5,
+        "generated": [
+          "tx_nd_veterans_court-petition-1",
+          "tx_nd_veterans_court-proposed-order-2",
+          "tx_nd_veterans_court-proof-of-delivery-to-prosecutor-3",
+          "tx_nd_veterans_court-fee-waiver-statement-4",
+          "tx_nd_veterans_court-filing-and-after-order-instructions-5"
+        ],
+        "notGenerated": [],
+        "boundOfficialForms": [
+          {
+            "componentId": "tx_nd_veterans_court-petition-1",
+            "formNumber": "TX-GC-411.0727-PETITION",
+            "sha256": "7c34e5f5aeee2ce9bb7e757f3c2c9aa9899d536c8917f5329f0d4dc28f6bfa9d",
+            "custodyThatSuppliedTheBytes": "master_library",
+            "pages": 6,
+            "acroFields": 14
+          },
+          {
+            "componentId": "tx_nd_veterans_court-proposed-order-2",
+            "formNumber": "TX-GC-411.0727-ORDER",
+            "sha256": "2c9500206f032b2195a6d99ea04310d520413d8ecdc6978da4ba284c2d01189f",
+            "custodyThatSuppliedTheBytes": "master_library",
+            "pages": 3,
+            "acroFields": 15
+          },
+          {
+            "componentId": "tx_nd_veterans_court-fee-waiver-statement-4",
+            "formNumber": "TX-SCT-22-9090-STATEMENT-OF-INABILITY",
+            "sha256": "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d",
+            "custodyThatSuppliedTheBytes": "human_source_returns",
+            "pages": 12,
+            "acroFields": 132
+          }
+        ],
+        "composedByThisBuild": [
+          "tx_nd_veterans_court-proof-of-delivery-to-prosecutor-3",
+          "tx_nd_veterans_court-filing-and-after-order-instructions-5"
+        ]
+      },
+      "sourceResolution": {
+        "method": "content hash across every custody the committed corpus index names, taking the bytes from the first custody actually mounted",
+        "whyItMattersHere": "both OCA models are indexed twice, under master_library and under the unmounted d_source_packs custody. A path-shaped resolver would have reported this family BLOCKED_SOURCE on bytes it holds.",
+        "allSourcesExact": true
+      },
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "independentCompletenessRead": {
+        "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family tx_nd_veterans_court-set",
+        "result": "PASS_COMPLETE",
+        "written": "15/193"
+      },
+      "terminalFields": {
+        "total": 193,
+        "written": 15,
+        "requiredBeforeFilingAndDisclosed": 115,
+        "genuineParticipantElections": 21,
+        "signatureOrSignatureDateRefusals": 11,
+        "courtOwnedRefusals": 10
+      },
+      "guardsAssertedOnTheBytes": {
+        "noWriteOnAHiddenWidget": "171 widgets read from the pinned binaries; annotation flag words 4 and 132 only; none Hidden and none NoView",
+        "theFormsOwnInkToldFromAWrite": "zero refused fields carry ink and zero document-authored appearances survive, on both fixtures. The petition ships its evidence chooser at /V \"is not\" and the Statement ships three /Tx values; the chooser is handled by the shared structural rule and the three /Tx values are classified for this family in the shared appearance-semantics registry, measured first hand here rather than copied from a sibling entry.",
+        "identifierAndThirdPartyBlanks": "date of birth is written only on the Statement of Inability, which asks the participant for that exact fact; no district attorney name or address, no notary, no judge and no prosecutor blank is written anywhere",
+        "fitOrRefuse": "the fitter's unfittable list is asserted empty on both fixtures, so a value that does not fit its measured blank fails the build rather than being truncated or drawn over printed ink",
+        "pagination": "measured on the finished bytes of BOTH fixtures: no block that fits a page is split across a page break, and no composed page carries a single drawn line. Minimum drawn runs on any page of either fixture: 10.",
+        "printedBlanksWithNoWidget": "the petition prints fifteen numbered blanks and carries fourteen widgets. The unfielded page-1 cause-number rule is declared, asserted against the binary, classified through the completeness contract and disclosed to the participant."
+      },
+      "recordBindings": {
+        "recordsPinned": 8,
+        "everyRecordPinnedTwice": true,
+        "whyTwice": "a whole-file pin on a shared national record goes stale whenever an unrelated jurisdiction is productised; the entry pin says whether the change touched this family",
+        "file": "data/rcap-all50/overlays/census-v1/tx/tx-nd-veterans-court-set--official-pdf-fill/reports/record-bindings.json"
+      },
+      "determinism": {
+        "method": "rebuilt from unchanged inputs and compared recursively over the whole family directory",
+        "result": "byte-identical, every file"
+      },
+      "whatCounselIsAskedToSettle": [
+        "the $28. The track's rules block says the $28 belongs only to the no-petition route under Gov't Code 411.072(c) and is not a filing fee; the same track's unresolved-questions entry quotes the underlying legal review as saying the fee is the civil filing fee PLUS an additional $28. The packet reports both and prints no figure.",
+        "whether carrying the sixth self-help stop condition verbatim, including its citation to Sec. 411.0735 rather than Sec. 411.0727, is the right treatment"
+      ]
+    }
+  },
+  "whyThisFileAndNotRowsJson": "data/rcap-grade-a/packet-factory-24h/pf25/rows.json holds another lane return. Two lanes ran under the name PF25 on the same shift and both built tx_nd_veterans_court-set; that file is the other one, and writing this return over it destroyed the build row for a family that is committed and whole, which sent it back to SOURCE_READY. Returns are found by shape rather than by filename, so this one is written beside it and that file is left byte-for-byte intact."
+}

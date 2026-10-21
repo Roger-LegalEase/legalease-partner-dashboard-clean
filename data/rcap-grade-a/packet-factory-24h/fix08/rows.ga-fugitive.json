@@ -1,0 +1,399 @@
+{
+  "schemaVersion": "rcap-packet-factory-focused-repair-return/v1",
+  "workerId": "CLAUDE-FIX08-GA-FUGITIVE",
+  "assignmentId": "FIX08",
+  "assignedBase": "1b373f2ee",
+  "branch": "fix08-ga-fugitive",
+  "laneKind": "shared-host-repair",
+  "grantsConfirmed": [
+    {
+      "familyId": "ga-fugitive-j5-set",
+      "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 ga-fugitive-j5-set",
+      "result": "CLAIM_OK FIX08 ga-fugitive-j5-set (repair, grant set b11e4652a721f7fd)",
+      "exitCode": 0,
+      "assertedBeforeAnythingWasReadOrWrittenInTheFamilyDirectory": true
+    }
+  ],
+  "scope": "The one failed obligation, CLIPPING_AND_OVERLAP, on the one granted family. Every obligation VF08 carried as PASS was left alone.",
+  "preflight": {
+    "worktree": "/home/user/fix08b-worktree, branch fix08-ga-fugitive from 1b373f2ee on claude/legalease-sprint-captain-utucnw",
+    "coreSparseCheckout": "false",
+    "skipWorktreeBits": 0,
+    "privateCorpus": "private symlinked read-only to /home/user/legalease-partner-dashboard-clean/private; nothing under it was written",
+    "nodeModules": "symlinked to /home/user/captain-worktree/node_modules",
+    "masterLibrarySourceDir": "exported as scripts/verify-packet-build-environment.mjs resolves it",
+    "buildEnvironmentGate": "node scripts/verify-packet-build-environment.mjs --family ga-fugitive-j5-set reports 11/13 with two pre-existing container failures: private_is_git_ignored (private/ is ignored by .gitignore line 53 and by the configured excludes file; git status is clean and nothing under it is tracked) and corpus_matches_committed_index (1 absent of 24 sampled). Neither is caused by this lane and neither touches a zero-source composition, which binds committed legal records by hash rather than corpus document bytes.",
+    "throwawayCheckout": "/home/user/fix08b-throwaway, a detached worktree at the same base, used for the control rebuild, the sibling byte-identity test and the before measurements. Nothing there was committed; it was deleted when done.",
+    "otherWorktreesTouched": 0,
+    "subagentsCreated": 0
+  },
+  "hostChanged": {
+    "path": "scripts/build-census-v1-ga-host.mjs",
+    "diff": "+60 / -8 lines",
+    "changes": [
+      "TRAILER_LINE added at module scope, the same regex the Oklahoma composer uses to recognise the machine trailer.",
+      "renderComposedPdf's row-by-row draw loop now lays its rows into the same 45-row grid before drawing, so the layout can be inspected while it is still a plan.",
+      "The sole-occupant trailer pull-down, ported from scripts/build-census-v1-rcap-ok-custom-pleading.mjs: same soleOccupant predicate, same whole-block move, same refusal to move a block that would not fit, same guard.",
+      "assert.ok(!pages.some(soleOccupant), ...) after the layout settles, so a future edit that strands a trailer fails the build instead of shipping the page."
+    ],
+    "whyTheHostAndNotTheBuilder": "scripts/build-census-v1-ga-fugitive-j5-set.mjs is three lines - a shebang, an import and runGaFamily(\"ga-fugitive-j5-set\"). All nine Georgia builders are the same shim, so there is no family builder that can hold a pagination change. The defect is the host's own pagination and the change is proved to leave every sibling byte-identical.",
+    "whatWasNotChanged": "rowsPerPage arithmetic, font, font size, line height, page size, margins, the wrap rule, the shared splitter FIX21 installed, stampDeterministic, the save options, byteProof, the completeness counting, the field maps, the source pins, every line of composedBody including the whole proposed_order block, and the order in which pages are created and drawn. No block-cohesion rule (Oklahoma's Rule 1 or Rule 1b) was imported."
+  },
+  "buildersModified": [],
+  "otherFamiliesOnThisHost": {
+    "gate": "Every family this host builds must stay byte-identical or be reported with page and verbatim text and left uncommitted. All eight siblings stay byte-identical, so nothing had to be withheld.",
+    "howTheHostImportersWereFound": "grep -rln \"build-census-v1-ga-host\" over the repository: nine family builders plus the host itself (and scripts/rcap-custom-pleading/split-token.test.mjs, which names it in a comment and builds nothing).",
+    "buildersOnThisHost": 9,
+    "repairedByThisLane": 1,
+    "otherFamilies": 8,
+    "control": "Before anything was changed, all nine families were rebuilt with --no-raster at the assigned base in the throwaway checkout with the host UNMODIFIED. Every canonical and boundary fixture reproduced its committed bytes exactly - git reported no PDF modified - so the second run's differences are attributable to the edit and not to build noise. (The control did rewrite source-receipt.json and reports/rendered-artifacts.json for all nine, from pre-existing manifest drift; see receiptDriftNotCausedByThisLane.)",
+    "method": "The repaired host was copied into the throwaway at the same base with every builder left unmodified, all nine families rebuilt with --no-raster, and the whole of each family directory compared file by file against the control snapshot with diff -rq.",
+    "controlReproducedCommittedBytesForAllNine": true,
+    "byteIdenticalUnderRepairedHost": 8,
+    "moved": 1,
+    "movedFamilies": [
+      "ga-fugitive-j5-set"
+    ],
+    "siblingsThatWouldMove": [],
+    "table": [
+      {
+        "familyId": "ga-misd-j4-set",
+        "builder": "scripts/build-census-v1-ga-misd-j4-set.mjs",
+        "controlReproducedCommittedBytes": true,
+        "canonicalSha256Control": "b0bdee422f27e0071aa80c690e0cca34c2db05011401408d891e1be2dbc45890",
+        "canonicalSha256UnderRepairedHost": "b0bdee422f27e0071aa80c690e0cca34c2db05011401408d891e1be2dbc45890",
+        "canonicalByteLength": 20001,
+        "boundarySha256Control": "682fb675da02adc43528a0d6d841bd7c3a428287b36e940788558589586a5470",
+        "boundarySha256UnderRepairedHost": "682fb675da02adc43528a0d6d841bd7c3a428287b36e940788558589586a5470",
+        "boundaryByteLength": 20328,
+        "byteIdentical": true,
+        "everyOtherFileInTheFamilyDirectoryByteIdentical": true,
+        "committedHere": false,
+        "wouldMove": false
+      },
+      {
+        "familyId": "ga-seal-m-set",
+        "builder": "scripts/build-census-v1-ga-seal-m-set.mjs",
+        "controlReproducedCommittedBytes": true,
+        "canonicalSha256Control": "9b57311c3b69ac540a711dd174de9bec6d5b1b1fd7870dde4cbb592e2edf4796",
+        "canonicalSha256UnderRepairedHost": "9b57311c3b69ac540a711dd174de9bec6d5b1b1fd7870dde4cbb592e2edf4796",
+        "canonicalByteLength": 17047,
+        "boundarySha256Control": "09abd2c2eacdc14fe2840688202ccf62d8506dd19f801e926cb2614c5b420182",
+        "boundarySha256UnderRepairedHost": "09abd2c2eacdc14fe2840688202ccf62d8506dd19f801e926cb2614c5b420182",
+        "boundaryByteLength": 17397,
+        "byteIdentical": true,
+        "everyOtherFileInTheFamilyDirectoryByteIdentical": true,
+        "committedHere": false,
+        "wouldMove": false
+      },
+      {
+        "familyId": "ga-pardon-j7-set",
+        "builder": "scripts/build-census-v1-ga-pardon-j7-set.mjs",
+        "controlReproducedCommittedBytes": true,
+        "canonicalSha256Control": "6a1c18a1587a4d7c8e686545c1a8c2b35bdb1347c8e5dd720115045b26ebc9fa",
+        "canonicalSha256UnderRepairedHost": "6a1c18a1587a4d7c8e686545c1a8c2b35bdb1347c8e5dd720115045b26ebc9fa",
+        "canonicalByteLength": 16941,
+        "boundarySha256Control": "48a85fc1d7793b1d76c30cf100da6a273b5b325ad5c162822bf6c5c747a6240d",
+        "boundarySha256UnderRepairedHost": "48a85fc1d7793b1d76c30cf100da6a273b5b325ad5c162822bf6c5c747a6240d",
+        "boundaryByteLength": 17294,
+        "byteIdentical": true,
+        "everyOtherFileInTheFamilyDirectoryByteIdentical": true,
+        "committedHere": false,
+        "wouldMove": false
+      },
+      {
+        "familyId": "ga-felony-j1-set",
+        "builder": "scripts/build-census-v1-ga-felony-j1-set.mjs",
+        "controlReproducedCommittedBytes": true,
+        "canonicalSha256Control": "87acee6328e42485183be789b94914bccd92fe6728807bd4c976f3dc74cdb856",
+        "canonicalSha256UnderRepairedHost": "87acee6328e42485183be789b94914bccd92fe6728807bd4c976f3dc74cdb856",
+        "canonicalByteLength": 17646,
+        "boundarySha256Control": "c637ec1cd28c48db48adc796c67e5ba2401f001815e3cf09c2500e7d0914aec4",
+        "boundarySha256UnderRepairedHost": "c637ec1cd28c48db48adc796c67e5ba2401f001815e3cf09c2500e7d0914aec4",
+        "boundaryByteLength": 17955,
+        "byteIdentical": true,
+        "everyOtherFileInTheFamilyDirectoryByteIdentical": true,
+        "committedHere": false,
+        "wouldMove": false
+      },
+      {
+        "familyId": "ga-deaddocket-j3-set",
+        "builder": "scripts/build-census-v1-ga-deaddocket-j3-set.mjs",
+        "controlReproducedCommittedBytes": true,
+        "canonicalSha256Control": "0860a52c8b3607370fee4757b2224ade00b514f13df43ee92589099c69a278fd",
+        "canonicalSha256UnderRepairedHost": "0860a52c8b3607370fee4757b2224ade00b514f13df43ee92589099c69a278fd",
+        "canonicalByteLength": 14575,
+        "boundarySha256Control": "65217c5b184350454e5dac9e0d0986162ac9edc600e1291c9638ea2572f95f96",
+        "boundarySha256UnderRepairedHost": "65217c5b184350454e5dac9e0d0986162ac9edc600e1291c9638ea2572f95f96",
+        "boundaryByteLength": 14859,
+        "byteIdentical": true,
+        "everyOtherFileInTheFamilyDirectoryByteIdentical": true,
+        "committedHere": false,
+        "wouldMove": false
+      },
+      {
+        "familyId": "ga-vacated-j2-set",
+        "builder": "scripts/build-census-v1-ga-vacated-j2-set.mjs",
+        "controlReproducedCommittedBytes": true,
+        "canonicalSha256Control": "6c2ce97c8086b9f64684f20680feb603b903de1a7888ce1ab4b5a29686b4181c",
+        "canonicalSha256UnderRepairedHost": "6c2ce97c8086b9f64684f20680feb603b903de1a7888ce1ab4b5a29686b4181c",
+        "canonicalByteLength": 15740,
+        "boundarySha256Control": "490dcbf4d162cc3c91fbf6a76147661285c3934e361ae70011e798e232cd0be5",
+        "boundarySha256UnderRepairedHost": "490dcbf4d162cc3c91fbf6a76147661285c3934e361ae70011e798e232cd0be5",
+        "boundaryByteLength": 16084,
+        "byteIdentical": true,
+        "everyOtherFileInTheFamilyDirectoryByteIdentical": true,
+        "committedHere": false,
+        "wouldMove": false
+      },
+      {
+        "familyId": "ga-fo-active-pre2026-set",
+        "builder": "scripts/build-census-v1-ga-fo-active-pre2026-set.mjs",
+        "controlReproducedCommittedBytes": true,
+        "canonicalSha256Control": "e3ecc96b782b313a09977491d76d96c065a2c2082ef3375d025d1f9071b9e862",
+        "canonicalSha256UnderRepairedHost": "e3ecc96b782b313a09977491d76d96c065a2c2082ef3375d025d1f9071b9e862",
+        "canonicalByteLength": 14852,
+        "boundarySha256Control": "95eafa84a182bb34d9274f9d62b26d4eb78665df47dea34b8deb0a367f6a93d6",
+        "boundarySha256UnderRepairedHost": "95eafa84a182bb34d9274f9d62b26d4eb78665df47dea34b8deb0a367f6a93d6",
+        "boundaryByteLength": 15135,
+        "byteIdentical": true,
+        "everyOtherFileInTheFamilyDirectoryByteIdentical": true,
+        "committedHere": false,
+        "wouldMove": false
+      },
+      {
+        "familyId": "ga-fo-discharged-pre2026-set",
+        "builder": "scripts/build-census-v1-ga-fo-discharged-pre2026-set.mjs",
+        "controlReproducedCommittedBytes": true,
+        "canonicalSha256Control": "3ba5a61a33555e0a0663c3aad11cd62d6a24e3c2e8a72e955f4898bc39f2d62d",
+        "canonicalSha256UnderRepairedHost": "3ba5a61a33555e0a0663c3aad11cd62d6a24e3c2e8a72e955f4898bc39f2d62d",
+        "canonicalByteLength": 15670,
+        "boundarySha256Control": "f5e381285ebc4e0c6250efcaa32c40f069bd805f29176a2c5714f48be3046029",
+        "boundarySha256UnderRepairedHost": "f5e381285ebc4e0c6250efcaa32c40f069bd805f29176a2c5714f48be3046029",
+        "boundaryByteLength": 15977,
+        "byteIdentical": true,
+        "everyOtherFileInTheFamilyDirectoryByteIdentical": true,
+        "committedHere": false,
+        "wouldMove": false
+      },
+      {
+        "familyId": "ga-fugitive-j5-set",
+        "builder": "scripts/build-census-v1-ga-fugitive-j5-set.mjs",
+        "controlReproducedCommittedBytes": true,
+        "canonicalSha256Control": "98b8c3f6db936186d9429707af2ef62c34a53d5c8d0ae1acb7d2c00ddfcc8d02",
+        "canonicalSha256UnderRepairedHost": "f5d5ed92060a864fd2f6c162e7941b2190862ac1329f36a25360e20192577759",
+        "canonicalByteLength": 14449,
+        "boundarySha256Control": "9480dd333b55a8adcd3cc6f6bfd2294de83ff187151182cce2a2910eaab738c7",
+        "boundarySha256UnderRepairedHost": "b187407464de55069fc7185e9d721acef7c90f9f9830315d7ddad860d4533c8c",
+        "boundaryByteLength": 14744,
+        "byteIdentical": false,
+        "everyOtherFileInTheFamilyDirectoryByteIdentical": false,
+        "committedHere": true,
+        "wouldMove": true,
+        "note": "The family this lane holds the grant for, and the only family on this host whose bytes move."
+      }
+    ]
+  },
+  "rows": [
+    {
+      "itemId": "ga-fugitive-j5-set",
+      "familyId": "ga-fugitive-j5-set",
+      "jurisdiction": "GA",
+      "implementationStrategy": "custom_pleading",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ga/ga-fugitive-j5-set--custom-pleading",
+      "status": "COMPLETED",
+      "laneKind": "shared-host-repair",
+      "repairedByThisLane": true,
+      "buildHost": "scripts/build-census-v1-ga-host.mjs",
+      "routeKeys": [
+        "obligation:track-only:GA:ga-fugitive-j5"
+      ],
+      "verdictRepaired": {
+        "lane": "vf08",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "aefd46f7c",
+        "failedObligationNames": [
+          "CLIPPING_AND_OVERLAP"
+        ]
+      },
+      "obligationsRepaired": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "obligationsThisRowDoesNotDischarge": [
+        "RASTER. The RASTER_PASS receipt for workflow run 33547709781 / job 99990088611 was bound to canonical 98b8c3f6.. and boundary 9480dd33.., the digests this repair supersedes. It stops binding; a fresh central raster is owed on the new bytes. RASTER_QUEUE.json and MASTER_QUEUE.json were NOT edited by this lane.",
+        "INDEPENDENT VERIFICATION. This lane changed these bytes and verifies none of them. product-wiring.json acceptanceReceipt is null, no verdict was written, and no build status or review status was promoted.",
+        "OWNER RE-REVIEW. The family is owner-pinned (OWN-ADOPT-2026-09-02-BATCH-53). Every byte this lane moved is owed back to the owner for re-review before it counts as adopted."
+      ],
+      "whatChanged": "ONE CHANGE, IN THE SHARED HOST, BECAUSE THE DEFECT IS THE HOST'S AND THIS FAMILY'S BUILDER IS A THREE-LINE SHIM.\nscripts/build-census-v1-ga-fugitive-j5-set.mjs contains nothing but `runGaFamily(\"ga-fugitive-j5-set\")`; every line of Georgia content, and the pagination that produced the defect, lives in scripts/build-census-v1-ga-host.mjs. There is no builder to put the change in, so it went into the host and was proved to leave every sibling byte-identical.\n\n(1) THE ROUTE-KEY-ONLY PAGE IS GONE. renderComposedPdf drew row by row and started a new page whenever y fell below the margin, which is exactly rowsPerPage = Math.floor((height - 2 * margin) / lineHeight) + 1 = 45 rows a page. The certificate of service filled those 45 rows exactly, so the blank line and the trailer that follow it were pushed onto a page of their own and page 5 of six was delivered carrying one line of ink: \"Route: obligation:track-only:GA:ga-fugitive-j5\". The same rows are now laid into the same 45-row grid before anything is drawn, and the sole-occupant trailer pull-down from the Oklahoma composer (scripts/build-census-v1-rcap-ok-custom-pleading.mjs) is applied to the settled layout: same soleOccupant predicate (page.length > 0 && page.every(r => r.trailer || r.text === \"\")), same whole-block move of the previous page's last block, same refusal to move a block that would not fit, same guard. This is FIX35's move onto this host's own pagination rather than a new scheme. No constant moved, no block-cohesion rule (OK's Rule 1 / Rule 1b) was imported, and pages are still created and drawn one at a time in the original order, which is why every component that did not end on a trailer-only page is byte-identical.\nDelivered page 5 now reads, verbatim and in this order: \"This page is not proof of service and does not say that anything has been served. It is completed and\" / \"signed when the copies actually go out. A date or a signature written before the copies go out would be\" / \"false.\" / \"Route: obligation:track-only:GA:ga-fugitive-j5\". Those three prose rows are the ones that stood at the foot of page 4 before; nothing was written and nothing was removed. Page count 6 -> 6.\nA build-time assertion now proves it on every build: assert.ok(!pages.some(soleOccupant), \"renderComposedPdf left a page carrying only the route trailer in ...\").\n\n(2) THE PREPARER-VOICE LINE ON PAGE 3 WAS ALREADY THERE, VERBATIM, AND NOTHING WAS CHANGED IN THE ORDER. The assignment offered two remedies for the key printing under \"JUDGE, SUPERIOR COURT\": give this family the preparer-voice line the passing Georgia siblings carry between the JUDGE caption and the trailer, verbatim, or move the trailer above the block. Read off the delivered bytes at the base, this family already carries the first one. Line 1101 of the host pushes it for every family, and canonical and boundary page 3 print, in this order and nothing between them: \"JUDGE, SUPERIOR COURT\" (y=140.0) / \"(The judge's signature block is a third-party block. It is never prefilled, and the court dates its own order.)\" (y=125.5) / \"Route: obligation:track-only:GA:ga-fugitive-j5\" (y=96.5). Character for character, that middle line is the line VF07 recorded as linesDrawnBetweenSignatureLineAndTrailer on ga-felony-j1-set, ga-misd-j4-set and ga-vacated-j2-set and passed them on. The only textual difference from those three is the caption itself, \"JUDGE, SUPERIOR COURT\" against \"JUDGE, COURT NAMED IN THE CAPTION\", which is F.captionKind and not a placement.\nSo the remedy the assignment named is already in place and there was nothing verbatim to add. The second remedy was refused, and refused deliberately: moving the trailer above the JUDGE block is a host rule, it would move all eight siblings, and doing it for this family alone would break the parity with the three siblings that passed on precisely this shape. Page 3 is untouched - its 110dpi raster is byte-identical before and after (sha256 84bc2e34997909fcaa49bfc183f94ce3b48b5bec20cc24538ed6ee4828c5a470) - and nothing in the decretal block, the findings, the SO ORDERED line, the signature rule, the entry date or the court terms moved. This is reported rather than repaired, and an independent reader should treat SCAN02 class c on this family as the open question VF07 and VF08 answered differently on identical structure.",
+      "verbatimLines": {
+        "preparerVoiceLineOnPage3": "(The judge's signature block is a third-party block. It is never prefilled, and the court dates its own order.)",
+        "judgeCaptionOnPage3": "JUDGE, SUPERIOR COURT",
+        "trailerOnPage3": "Route: obligation:track-only:GA:ga-fugitive-j5",
+        "page5Before": [
+          "Route: obligation:track-only:GA:ga-fugitive-j5"
+        ],
+        "page5After": [
+          "This page is not proof of service and does not say that anything has been served. It is completed and",
+          "signed when the copies actually go out. A date or a signature written before the copies go out would be",
+          "false.",
+          "Route: obligation:track-only:GA:ga-fugitive-j5"
+        ]
+      },
+      "placementDiff": {
+        "instrument": "extractTextItems + groupIntoLines over the composed content stream of every page of both fixtures, before and after, diffed line by line with the drawn y of each line.",
+        "canonicalPagesWhosePrintedTextChanged": {
+          "4": "34 -> 31 drawn lines",
+          "5": "1 -> 4 drawn lines"
+        },
+        "boundaryPagesWhosePrintedTextChanged": {
+          "4": "34 -> 31 drawn lines",
+          "5": "1 -> 4 drawn lines"
+        },
+        "pagesUnchanged": "1, 2, 3 and 6 of both fixtures - every drawn line at the same y, character for character",
+        "pageCount": "6 -> 6, both fixtures",
+        "linesAddedOrRemoved": "none; three rows moved from the foot of page 4 to the head of page 5"
+      },
+      "artifacts": {
+        "canonical": {
+          "path": "data/rcap-all50/overlays/census-v1/ga/ga-fugitive-j5-set--custom-pleading/fixtures/canonical.pdf",
+          "oldSha256": "98b8c3f6db936186d9429707af2ef62c34a53d5c8d0ae1acb7d2c00ddfcc8d02",
+          "oldByteLength": 14410,
+          "pagesBefore": 6,
+          "newSha256": "f5d5ed92060a864fd2f6c162e7941b2190862ac1329f36a25360e20192577759",
+          "newByteLength": 14449,
+          "pagesAfter": 6
+        },
+        "boundary": {
+          "path": "data/rcap-all50/overlays/census-v1/ga/ga-fugitive-j5-set--custom-pleading/fixtures/boundary.pdf",
+          "oldSha256": "9480dd333b55a8adcd3cc6f6bfd2294de83ff187151182cce2a2910eaab738c7",
+          "oldByteLength": 14704,
+          "pagesBefore": 6,
+          "newSha256": "b187407464de55069fc7185e9d721acef7c90f9f9830315d7ddad860d4533c8c",
+          "newByteLength": 14744,
+          "pagesAfter": 6
+        },
+        "oldDigestsEqualTheVerdictRow": "Both old digests are the ones VF08 recorded at aefd46f7c, and the control rebuild at the base reproduced them exactly before anything was changed."
+      },
+      "deterministicRebuild": "Built with --no-raster, then built again from the same tree: canonical f5d5ed92.., boundary b1874074.., reports/rendered-artifacts.json md5 05bee5331448d4040396b120507c0453 and source-receipt.json md5 3f3ec0ddd4fa9c247fc8b7586041ac88 identical across the two runs.",
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersNote": "Nine zeros before and nine zeros after, measured here with node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ga-fugitive-j5-set - before at the assigned base in the throwaway checkout, after in this worktree. They are the starting condition, not the evidence: no counter sees page composition, which is why VF08 reached its verdict at appearance level and why this repair is proved the same way. Corpus-wide the run is also unchanged: 241 families audited, 240 PASS_COMPLETE, 1 FAIL_MISSING_PREFILLS and unclassifiedBlanks 6 both before and after, all of it belonging to a family this lane did not touch.",
+      "scan01": {
+        "instrument": "node scripts/rcap-scan01-composed-pdf-text-integrity.mjs, whole corpus, 249 family directories, run at the assigned base in the throwaway checkout and again in this worktree after the rebuild. Its raw-sweep.json was written to /tmp and removed from both trees; nothing was committed.",
+        "corpusBefore": {
+          "hard_split_token": 20,
+          "route_key_only_page": 11,
+          "thin_page": 41,
+          "fragment_page": 50,
+          "orphaned_execution_block": 10,
+          "widowed_labelled_value": 1
+        },
+        "corpusAfter": {
+          "hard_split_token": 20,
+          "route_key_only_page": 9,
+          "thin_page": 41,
+          "fragment_page": 52,
+          "orphaned_execution_block": 10,
+          "widowed_labelled_value": 1
+        },
+        "thisFamilyBefore": {
+          "route_key_only_page": 2,
+          "hard_split_token": 0,
+          "thin_page": 0,
+          "fragment_page": 0
+        },
+        "thisFamilyAfter": {
+          "route_key_only_page": 0,
+          "hard_split_token": 0,
+          "thin_page": 0,
+          "fragment_page": 2
+        },
+        "nothingElseMoved": "One family of 249 differs between the two sweeps - ga-fugitive-j5-set. Every other directory reports the same defect list, the same pageCount, the same composedPageCount, the same composedLineCount and the same widestToken.",
+        "readHonestly": "The two route-key-only pages (one per fixture) became two fragment pages: page 5 now carries 4 drawn lines against SCAN01's thinnest-legitimate-page benchmark of 8. That is a reclassification of the same page from SCAN01's worse class to a lesser one, which is what the pull-down does and what FIX35 recorded on Rhode Island. It was not chased further: pulling a second block down is not the Oklahoma convention and would be a pagination rule invented here."
+      },
+      "appearanceCheck": {
+        "method": "Composed content stream of every page of both fixtures read with extractTextItems + groupIntoLines from scripts/rcap-official-forms/rcap-pdf-anchor-capture.mjs, with the drawn y of each line, before and after; then canonical pages 3, 4 and 5 rastered locally at 110 dpi with pdftoppm into /tmp/fix08-raster from the pre-repair and post-repair bytes and read by eye.",
+        "page5Before": "A blank sheet carrying one line of ink near the top - \"Route: obligation:track-only:GA:ga-fugitive-j5\" - and nothing else. Confirmed on the raster, not inferred from the counters.",
+        "page5After": "The closing paragraph of the certificate of service, three lines, then a blank line, then the trailer. No page of either fixture carries only the trailer.",
+        "page3": "Unchanged. The two 110dpi rasters of canonical page 3, pre-repair and post-repair, are the same file: sha256 84bc2e34997909fcaa49bfc183f94ce3b48b5bec20cc24538ed6ee4828c5a470. The JUDGE caption, the preparer-voice line and the trailer stand exactly where they stood.",
+        "routeKeyOnlyPagesAfter": 0,
+        "hardSplitTokensAfter": 0,
+        "rasteredLocally": "/tmp/fix08-raster/{old,new}-3.png, {old,new}-4.png, {old,new}-5.png - under /tmp, deleted after measuring. Nothing was rastered into the delivered tree and no rasterState was set."
+      },
+      "everythingElseHeldStill": "Nothing in the decretal block, the findings, the SO ORDERED line, the judge's signature rule, the entry date or the court terms changed - pages 1, 2, 3 and 6 of both fixtures are character-identical at identical y. No component was added or removed, no field map row changed, no route key changed, no source pin changed, no legal record and no specification was touched, and build-status.json and approval-request.json were not rewritten.",
+      "verifiersRun": {
+        "verifyPacketCompleteness": "PASS_COMPLETE for ga-fugitive-j5-set, nine counters zero, run before (throwaway, base bytes) and after; corpus-wide run also identical before and after.",
+        "verifyIdentityRefreshSurvivesRebuild": "EVERY_IDENTITY_REFRESH_SURVIVED - 249 receipts compared against HEAD, 53 carrying an identityRefresh.",
+        "scan01": "whole-corpus before and after; see scan01 above.",
+        "sharedSplitterUnitTests": "node --test scripts/rcap-custom-pleading/split-token.test.mjs - 1 test, 0 failures.",
+        "buildAssertions": "The host already asserted splitToken.hardSplits === 0 per composed document (FIX21) and still does; it now also asserts that no laid-out page is a sole-occupant trailer page. Both passed on both fixtures."
+      },
+      "receiptDriftNotCausedByThisLane": "source-receipt.json and reports/rendered-artifacts.json also record a new sha256 for data/record-clearing/legal-design-packet-set-manifests.json (80d88d69.. -> 6076f734..) and byteLength null on that record. The control rebuild at the base with the UNMODIFIED host produced exactly the same two lines for all nine Georgia families, so this is pre-existing drift between the committed receipts and that manifest, not an effect of this repair. It is reported rather than papered over; this lane did not edit the manifest.",
+      "productWiring": {
+        "acceptanceReceipt": null,
+        "wasBoundTo": "canonical 98b8c3f6.., workflow run 33547709781 - digests this repair supersedes",
+        "lastIndependentVerification": "left as VF08 FAIL_REPAIR_REQUIRED at aefd46f7c; this lane issues no verdict on its own bytes",
+        "paymentEligible": false,
+        "sponsorshipEligible": false
+      },
+      "filesChanged": [
+        "scripts/build-census-v1-ga-host.mjs",
+        "data/rcap-all50/overlays/census-v1/ga/ga-fugitive-j5-set--custom-pleading/fixtures/canonical.pdf",
+        "data/rcap-all50/overlays/census-v1/ga/ga-fugitive-j5-set--custom-pleading/fixtures/boundary.pdf",
+        "data/rcap-all50/overlays/census-v1/ga/ga-fugitive-j5-set--custom-pleading/reports/rendered-artifacts.json",
+        "data/rcap-all50/overlays/census-v1/ga/ga-fugitive-j5-set--custom-pleading/source-receipt.json",
+        "data/rcap-all50/overlays/census-v1/ga/ga-fugitive-j5-set--custom-pleading/product-wiring.json",
+        "data/rcap-grade-a/packet-factory-24h/fix08/rows.ga-fugitive.json"
+      ],
+      "rasterOwed": true,
+      "ownerPinned": true,
+      "ownerPinnedRecord": "OWN-ADOPT-2026-09-02-BATCH-53",
+      "ownerRereviewOwed": true,
+      "selfVerified": false,
+      "selfVerificationPerformed": false,
+      "routesOpened": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "grantsNothing": "A repaired packet is review evidence. It authorizes no fulfillment, opens no commercial route, and promotes no build or review status."
+    }
+  ],
+  "notDone": [
+    "The central raster. The new bytes carry no acceptance receipt; RASTER_QUEUE.json and MASTER_QUEUE.json were deliberately not touched.",
+    "Independent verification of these bytes. This lane changed them and verifies none of them.",
+    "The owner re-review. The family is owner-pinned; every byte moved here is owed back to the owner.",
+    "SCAN02 class c on page 3 was NOT changed. The preparer-voice line the assignment names as the remedy is already present verbatim, identical to what VF07 passed on three Georgia siblings; moving the trailer above the JUDGE block would be a host rule that moves all eight siblings, and doing it for this family alone would break that parity. Reported in the row, not repaired.",
+    "The page-5 fragment classification. Page 5 now carries 4 drawn lines against SCAN01's benchmark of 8. Pulling a second block down is not the Oklahoma convention and would be a pagination rule invented here.",
+    "The receipt drift on legal-design-packet-set-manifests.json. It reproduces on the unmodified host for all nine families and belongs to whoever owns that manifest, not to this lane."
+  ],
+  "packetBytesChanged": [
+    "ga-fugitive-j5-set canonical and boundary"
+  ],
+  "overlayDirectoriesModified": [
+    "data/rcap-all50/overlays/census-v1/ga/ga-fugitive-j5-set--custom-pleading"
+  ],
+  "centralStateEdits": "None. RASTER_QUEUE.json, MASTER_QUEUE.json, every specification and every legal record are untouched. The only central file written is the claim ledger the release command writes.",
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "selfVerificationPerformed": false,
+  "grantsNothing": "A repaired packet is review evidence. It authorizes no fulfillment and opens no commercial route."
+}

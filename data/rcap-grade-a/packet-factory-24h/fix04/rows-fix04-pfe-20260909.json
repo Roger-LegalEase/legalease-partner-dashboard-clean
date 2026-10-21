@@ -1,0 +1,167 @@
+{
+  "schemaVersion": "rcap-packet-factory-lane-return/v1",
+  "lane": "FIX04",
+  "worker": "CLAUDE-PFE-FIX04-CO-MUNICIPAL",
+  "laneKind": "repair",
+  "baseSha": "181ac2ece03f417076170e7227a76f4f5f6116b5",
+  "workerBranch": "pfe-fix-20260909",
+  "worktree": "/home/user/pfe-worktree",
+  "whyThisFileHasItsOwnName": "data/rcap-grade-a/packet-factory-24h/fix04/rows.json is another worker's committed FIX04 return. This return is written alongside it rather than over it.",
+  "claimHandling": "One FIX04 repair grant was asserted for co_municipal_conviction_seal-set. No claim was released, transferred or modified.",
+  "selfVerified": false,
+  "productionTouched": false,
+  "commercialRoutesOpened": 0,
+  "familiesRepaired": [
+    "co_municipal_conviction_seal-set"
+  ],
+  "familiesStopped": [],
+  "nineCountersZeroOn": [],
+  "rasterRuleApplied": "The delivered PDFs are byte-identical before and after this repair; only generated prose changed. Both fixtures remain BUILT_RASTER_PENDING. visualDefects is not measured by this lane and is recorded null, not 0.",
+  "grantsNothing": "This repair return issues no independent verdict, proves no family, releases no claim, opens no commercial route, touches no Production path, and weakens no gate.",
+  "rows": [
+    {
+      "itemId": "co_municipal_conviction_seal-set",
+      "familyId": "co_municipal_conviction_seal-set",
+      "routeKeys": [
+        "obligation:track-only:CO:co_municipal_conviction_seal"
+      ],
+      "status": "COMPLETED",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "claim": "CLAIM_OK FIX04 co_municipal_conviction_seal-set (repair, grant set 914af21a28d51a60)",
+      "factoryState": "BUILT_RASTER_PENDING",
+      "obligationRepaired": [
+        "KNOWN_PREFILLS"
+      ],
+      "recordedFailureRepaired": {
+        "source": "data/rcap-grade-a/packet-factory-24h/VERIFIER_RETURNS.json rows[164]",
+        "lane": "vf01",
+        "verifiedAtBase": "7d6453f51dacd9064f9a2b2d4d16618d0669add8",
+        "obligation": "KNOWN_PREFILLS",
+        "summary": "The delivered participant guide contradicted itself about one field. participant-instructions.md said the packet wrote 'city, state and ZIP on the proposed order' and then listed that same order's State line, at section 1, under 'What the platform deliberately left blank' with 'Write your state on it yourself'."
+      },
+      "whichSentenceWasTrue": {
+        "decision": "The packet DOES write the state on JDF 686's section-1 rule whenever the value held for the participant fits it. The 'deliberately left blank' bullet was the false sentence and has been removed.",
+        "controllingEvidence": [
+          "reports/actual-writes.json documents[1] (canonical JDF-686) carries field defendant-state, factId participant.state, drawnText ['CO'], expected 'CO', matchesExpected true, at rect x 393.93 y 380.38 w 27.25 on the measured rule x 391.93 to 423.18, width 31.25.",
+          "production-field-map.json places JDF-686/defendant-state in JDF-686 canonicalWrites with factId participant.state, and in JDF-686 boundaryRefusals with unfittable.value 'Colorado'. The map was already correct and per-fixture; it was not the defect.",
+          "reports/blanks-left-for-the-participant.json nearMissesRefusedByRole already said 'writes the state on the form's own drawn rule'.",
+          "pdftotext -layout of the delivered canonical.pdf reads 'City: Denver  State: CO  Zip Code: 80202' on the JDF 686 page; of the delivered boundary.pdf it reads 'City: Colorado Springs  State:  Zip Code: 80921-2214'."
+        ],
+        "whyItIsConditionalRatherThanAlwaysTrue": "The write is decided per packet by scripts/rcap-official-forms/rcap-text-fitting.mjs. Canonical binds participant.state='CO' and it fits; boundary binds 'Colorado' and it is refused as unfittable and left for the participant. An unconditional sentence in either direction is false for one of the two fixtures."
+      },
+      "whatWasDone": "Three changes, all in scripts/build-census-v1-co_municipal_conviction_seal-set.mjs, all in generated prose. (1) Deleted the 'What the platform deliberately left blank' bullet claiming the order's State line is left blank and telling the participant to write a state on it; a comment in its place records why it may not be listed there. (2) Added narrowRuleWrittenInOneFixtureOnly(maps), which finds the one write whose rule is below the shared reader's default minimum AND which the boundary column refuses as unfittable, and emits a measured, conditional note in 'What the platform filled in, and what it did not': it names the rule's measured width, says the line is written for some participants and left for others, tells the participant to look at it, to leave a state already printed there alone, to write one only if the rule is empty, and says which key of reports/actual-writes.json answers it for the packet in hand. The note is derived from the field map, not asserted, so it disappears if the geometry or the fitting outcome ever changes. (3) Qualified the 'Written for you' sentence with 'where the value held for you fits the rule the form draws'. Also extended the nearMissesRefusedByRole finding for 'State (section 1)' so the near-miss record states the same conditional fact as the guide and the map.",
+      "whatWasDeliberatelyNotDone": [
+        "No overlay geometry, no anchor, no write box and no fixture fact was touched. The bytes were already right; the guide was wrong about them.",
+        "No fee, waiting period, exclusion set, objection mechanic, service rule or notarization was added. legal-design-track-registry.json still carries rules.fees 'Unconfirmed. The fee must be confirmed before building.' and the builder still asserts on that sentence; the packet still states no amount.",
+        "No sweep across Colorado. Only this family was read or written."
+      ],
+      "checkedAndFoundAbsent": {
+        "synthesizedCheckBoxOutlines": "Not possible on this family and confirmed absent in the delivered bytes. Both bound documents are flat: `grep`-count over the delivered canonical.pdf and boundary.pdf gives /AcroForm 0, /Widget 0, /Btn 0. build-findings.json records checkboxCandidates finding zero stroked paths on all five pages; the 22 printed controls are the glyph U+2751 in the source text stream and none is marked. VF01 additionally pixel-differenced all four pages carrying writes and measured 0 removed pixels and 0 added pixels outside the 16 declared write rects.",
+        "internalRecordTextPrintedOnAFiling": "Absent. reports/actual-writes.json lists 7 + 9 canonical and 6 + 8 boundary writes and every drawnText is a participant fact (name, DOB, case number, address, city, state, ZIP, phone, email). nonWhitespaceGlyphsOutsideMeasuredWriteBoxes is 0 on all four documents. No build rationale, route key or record sentence reaches either page."
+      },
+      "deterministicRebuild": "Built twice from the mounted Master Library at MASTER_LIBRARY_SOURCE_DIR=/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1 (once before the edit as a determinism control, once after). Both fixtures came back at the same SHA-256 and byte length on every run, before and after the repair. The only artifact deltas across the whole directory are participant-instructions.md, reports/blanks-left-for-the-participant.json, and source-receipt.json (whose custody strings carry the worktree path and whose MASTER_QUEUE pin moved because that shared record has changed since the original build).",
+      "measuredAfterTheRepair": {
+        "measuredFrom": "the committed fixture PDFs, not the build report",
+        "tools": [
+          "sha256sum and node crypto.createHash('sha256') on both fixtures",
+          "pdfinfo for page counts",
+          "pdftotext -layout for the printed City/State/ZIP line on both fixtures",
+          "byte scan of the delivered PDFs for /AcroForm, /Widget and /Btn"
+        ],
+        "canonicalStateLine": "City: Denver  State: CO  Zip Code: 80202",
+        "boundaryStateLine": "City: Colorado Springs  State:  Zip Code: 80921-2214",
+        "guideNowSays": "the State line is written for some participants and left for others, with reports/actual-writes.json naming which happened; it no longer appears on the deliberately-left-blank list"
+      },
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": null
+      },
+      "countersNote": "The first eight are the builder's own count over this family's field maps, byte proof, rendered artifacts and participant-instructions.md, recomputed after the repair. visualDefects is null because this lane did not raster the pages; a central RASTER_PASS bound to the two SHA-256 values below is what measures it, and a repair worker may not certify its own visual state.",
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "path": "data/rcap-all50/overlays/census-v1/co/co-municipal-conviction-seal-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "676d922f062ce75605d4aa1bd57cf16d6fe917ef408cfc82c49ae4863d3cb022",
+          "byteLength": 144207,
+          "pageCount": 5,
+          "unchangedByThisRepair": true,
+          "documents": [
+            {
+              "document": "JDF-683",
+              "addedGlyphsReadFromOutputBytes": 107,
+              "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+            },
+            {
+              "document": "JDF-686",
+              "addedGlyphsReadFromOutputBytes": 96,
+              "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+            }
+          ]
+        },
+        {
+          "fixture": "boundary",
+          "path": "data/rcap-all50/overlays/census-v1/co/co-municipal-conviction-seal-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "1c483f89703a4547c4a4ae1689ff3efa1b0be92c1aca12b17454138994a9e2b5",
+          "byteLength": 144266,
+          "pageCount": 5,
+          "unchangedByThisRepair": true,
+          "documents": [
+            {
+              "document": "JDF-683",
+              "addedGlyphsReadFromOutputBytes": 171,
+              "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+            },
+            {
+              "document": "JDF-686",
+              "addedGlyphsReadFromOutputBytes": 200,
+              "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+            }
+          ]
+        }
+      ],
+      "sourcesBound": [
+        {
+          "sourceId": "official-form:JDF-683",
+          "sha256": "6b451ae32c01ef1e637a460df627d246e1b4a61d4ac4f166005a7349fa87202e",
+          "custody": "master_library"
+        },
+        {
+          "sourceId": "official-form:JDF-686",
+          "sha256": "abf997d8e701df0c74b1eb7833b35f30c006b50bf71b019abf7754d898433200",
+          "custody": "master_library"
+        }
+      ],
+      "filesChanged": [
+        "scripts/build-census-v1-co_municipal_conviction_seal-set.mjs",
+        "data/rcap-all50/overlays/census-v1/co/co-municipal-conviction-seal-set--official-pdf-fill/participant-instructions.md",
+        "data/rcap-all50/overlays/census-v1/co/co-municipal-conviction-seal-set--official-pdf-fill/reports/blanks-left-for-the-participant.json",
+        "data/rcap-all50/overlays/census-v1/co/co-municipal-conviction-seal-set--official-pdf-fill/source-receipt.json"
+      ],
+      "measurementsThatContradictARecordInThisRepository": [
+        {
+          "record": "data/rcap-all50/overlays/census-v1/co/co-municipal-conviction-seal-set--official-pdf-fill/reports/actual-writes.json, boundary JDF-686 unfittable[0], and the same object in production-field-map.json",
+          "whatItSays": "reason 'value_exceeds_widget_width_at_minimum_font', rect.width 27.25, requiredWidthAtMin 24.3",
+          "whatIsWrongWithIt": "24.3 is less than 27.25, so on its own numbers the refusal reads as a refusal of a value that fits. The refusal is in fact correct: scripts/rcap-official-forms/rcap-text-fitting.mjs compares against usableWidth = rect.width - HORIZONTAL_PADDING = 27.25 - 4 = 23.25, and 24.3 > 23.25. The comparison basis simply is not in the record.",
+          "notedNotRepaired": "The omission is in the shared module's refusal object, which is emitted by finalizeFlatOverlay and consumed by many families in other lanes. That module's own comment already names this exact gap on the North Dakota close-petition boundary fixture and exports usableWidthOf for it. Repairing it here would be a cross-lane edit outside this dispatch, so it is reported rather than changed.",
+          "effectOnThisRepair": "None. The corrected guide states the mechanism and points at the record; it quotes no width comparison."
+        },
+        {
+          "record": "data/rcap-grade-a/source-wave-integration/SOURCE_READY_BUILDABILITY.json rows[familyId=co_municipal_conviction_seal-set]",
+          "whatItSays": "buildScriptExists: false",
+          "whatIsWrongWithIt": "scripts/build-census-v1-co_municipal_conviction_seal-set.mjs exists, is 1969+ lines, and was run to completion twice in this session. The same file's verdict EVERY_BOUND_SOURCE_IS_A_HELD_PDF is correct and both declared digests resolved in custody.",
+          "notedNotRepaired": "A stale field in a shared national measurement record; not this family's artifact and not in this dispatch."
+        }
+      ],
+      "notScoredAndNotActedOn": {
+        "legalReviewQueue": "data/rcap-grade-a/.../legal-review-queue-v2.json holds no counsel question on this route, which is why MASTER_QUEUE reads SETTLED. The track registry nevertheless carries two open build blockers and rules.fees 'Unconfirmed. The fee must be confirmed before building.' This repair states no fee and adds no eligibility, waiting-period or objection language; the packet's existing silences and its explicit statement of those silences are unchanged."
+      }
+    }
+  ]
+}

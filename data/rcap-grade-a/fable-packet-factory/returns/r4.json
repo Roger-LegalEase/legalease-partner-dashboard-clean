@@ -1,0 +1,48 @@
+{
+  "schemaVersion": "rcap-fable-repairer-return/v1",
+  "worker": "FABLE-R4",
+  "assignmentId": "FR4-FIX11-V4-BATCH-001",
+  "lane": "FIX11",
+  "branch": "fable/r4",
+  "familiesRepaired": [
+    {
+      "familyId": "pa_490_nonconviction-set",
+      "obligationsRepaired": ["REPEATING_ROWS", "SELF_HELP_STOP"],
+      "packetDefectVsEvidenceDefect": "PACKET_DEFECT: both findings reproduced from the committed fixture bytes before any change — the flattened widget appearance streams showed Statute DescriptionRow1 carrying the charge beside six empty Row1 cells, and participant-instructions.md stated no self-help stop. The verifier's record was correct; no evidence record was repaired.",
+      "packetBytesChanged": true,
+      "rasterReceiptInvalidated": true,
+      "completeness": "PASS_COMPLETE, all nine counters zero (was incompleteRows=1)",
+      "determinism": "two consecutive builds byte-identical across all 22 family files",
+      "afterRepair": "central re-raster required, then an independent read by a different worker"
+    },
+    {
+      "familyId": "pa_9122_1_limited_access-set",
+      "obligationsRepaired": ["KNOWN_PREFILLS", "REPEATING_ROWS", "SELF_HELP_STOP"],
+      "packetDefectVsEvidenceDefect": "PACKET_DEFECT: all three findings reproduced from the committed fixture bytes before any change — the petition's docket-number field and the order's ComplaintArrestDate carried no ink although matter.case_number and matter.arrest_date are held, Row1 was half-written, and the instructions stated no self-help stop. The verifier's record was correct; no evidence record was repaired.",
+      "packetBytesChanged": true,
+      "rasterReceiptInvalidated": true,
+      "completeness": "PASS_COMPLETE, all nine counters zero (was knownRequiredFieldsMissing=2, incompleteRows=1)",
+      "determinism": "two consecutive builds byte-identical across all 22 family files",
+      "afterRepair": "central re-raster required, then an independent read by a different worker"
+    }
+  ],
+  "familiesStopped": [],
+  "commits": [
+    "2688bb12c FIX11: repair pa_490_nonconviction-set — REPEATING_ROWS and SELF_HELP_STOP",
+    "222ebc25d FIX11: repair pa_9122_1_limited_access-set — KNOWN_PREFILLS, REPEATING_ROWS, SELF_HELP_STOP"
+  ],
+  "sharedBuildPathChanges": [
+    "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs: the east builder now emits the completeness contract's closed vocabulary — required-before-filing rows travel on the declared channel (requiredBeforeFiling, identity, no refusal class), the signature class uses the contract's spelling signature_or_date_participant_completion, arresting/citing-agency fact fields are carried to the participant instead of the court-owned class, and a proposed order's AND-NOW date line is never listed as a participant blank",
+    "proofFromArtifact now proves overlay-stage writes from page text items read out of the artifact bytes (source-page text excluded); overlay ink was invisible to the widget-appearance reader, which made every rebuild of an overlay-writing family fail",
+    "rendered-artifacts.json names source-only companions under componentsNotGenerated so a deliberately non-rendered fee-waiver source does not read as a missing component",
+    "families can declare a guidance block and the build path then generates the full filing-guidance instructions (destination, fee and waiver, service, where self-help ends, required-blanks tables) so a rebuild can no longer clobber repaired filing guidance; families without a guidance block keep the legacy template unchanged"
+  ],
+  "claims": {
+    "pa_490_nonconviction-set": "asserted CLAIM_OK, released after repair",
+    "pa_9122_1_limited_access-set": "asserted CLAIM_OK, released after repair"
+  },
+  "notWritten": "no signature, notarization, judicial finding, clerk field, court date or hand-supplied docket number; the docket write on the 791 petition is the held participant fact on its allowlisted field",
+  "productionTouched": false,
+  "commercialRoutesOpened": 0,
+  "selfVerification": "none — completeness counters and builder checks were run as build gates; verdict-grade verification remains with an independent reader"
+}

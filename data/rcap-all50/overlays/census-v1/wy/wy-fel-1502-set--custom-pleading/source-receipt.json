@@ -1,0 +1,80 @@
+{
+  "schemaVersion": "rcap-family-source-receipt/v1",
+  "familyId": "wy_fel_1502-set",
+  "worklistGroupId": "wy_fel_1502-set",
+  "jurisdiction": "WY",
+  "implementationStrategy": "custom_pleading",
+  "custodyClass": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+  "acquisitionCommissioned": false,
+  "bindingMethod": "no source bytes are bound: the MASTER_QUEUE row for this family binds zero sources (sourceStatus CUSTOM_PLEADING_FROM_CODIFIED_TEXT, boundCount 0, officialFormFamily NONE, forms []). Every composed page is grounded on the committed legal-design records named in groundingRecords, and nothing else.",
+  "routeKeys": [
+    "obligation:track-pathway:WY:wy_fel_1502:felony-conviction-expungement-w-s-7-13-1502"
+  ],
+  "routeSelectionId": "wy_fel_1502-composed-set",
+  "statutoryAuthority": "Wyo. Stat. § 7-13-1502",
+  "legalName": "Petition for Expungement of Records of Conviction of Certain Felonies (Wyo. Stat. § 7-13-1502)",
+  "allSourcesExact": true,
+  "allSourcesExactNote": "true vacuously: this family binds zero source binaries, so there is no source that is not bound by exact SHA-256. No official form exists for this route per the legal-design record, and none was invented.",
+  "documents": [],
+  "groundingRecords": [
+    {
+      "record": "data/record-clearing/legal-design-intake/WY.memo.json",
+      "track": "wy_fel_1502"
+    },
+    {
+      "record": "data/record-clearing/legal-design-packet-set-manifests.json",
+      "packetSetId": "wy_fel_1502-set"
+    },
+    {
+      "record": "src/lib/rcap-engine/compiled/profiles/WY-wyoming.json",
+      "read": "packetGenerator.filingDestinationRules[2] and packetGenerator.feeRules[2], both keyed to section 7-13-1502"
+    },
+    {
+      "record": "data/record-clearing/production-factory/legal-design-decisions/rcap-wy-eligibility-waiting-period-and-effect-reconciliation.json",
+      "read": "the answer-as-if asymmetry: it exists on 7-13-1401 and not on 7-13-1502"
+    }
+  ],
+  "officialSourcesRecordedInIntake": [
+    {
+      "title": "Wyo. Stat. Title 7, Chapter 13, Article 15 — Expungement of Records of Convictions (official statute text)",
+      "url": "https://wyoleg.gov/statutes/compress/title07.pdf",
+      "retrievedOn": "2026-08-05"
+    },
+    {
+      "title": "2011 SF0088 — creates W.S. 7-13-1502; effective July 1, 2011",
+      "url": "https://wyoleg.gov/2011/Enroll/SF0088.pdf",
+      "retrievedOn": "2026-08-05"
+    },
+    {
+      "title": "2014 HB0006, Enrolled Act No. 9 — amends W.S. 7-13-1502(a)(iv)(E); effective July 1, 2014",
+      "url": "https://wyoleg.gov/2014/Enroll/HB0006.pdf",
+      "retrievedOn": "2026-08-05"
+    },
+    {
+      "title": "Expungements — Wyoming Judicial Branch self-help page",
+      "url": "https://www.wyocourts.gov/legal-help-by-topic/expungements/",
+      "retrievedOn": "2026-08-01"
+    },
+    {
+      "title": "2026 HB0044, House Enrolled Act No. 40, Session Laws of Wyoming 2026 ch. 98 — Revisor's bill; amends W.S. 7-13-1401(h), 7-13-1501(j) and 7-13-1502(j); effective July 1, 2026",
+      "url": "https://www.wyoleg.gov/2026/Enroll/HB0044.pdf",
+      "retrievedOn": "2026-08-08"
+    }
+  ],
+  "formIdentityNote": "No official form exists for a W.S. § 7-13-1502 petition. The compiled Wyoming profile records that the statewide self-help page does not provide one complete mandatory petition packet and that the person prepares a Petition for Expungement and, if granted, an Order for Expungement for the judge's signature. The MASTER_QUEUE row agrees: officialFormFamily NONE, implementationStrategy custom_pleading, forms [], boundCount 0. No form was substituted and none was invented.",
+  "composedComponentsAuthoredByThisBuild": [
+    "wy_fel_1502-primary-filing-1",
+    "wy_fel_1502-proposed-order-2",
+    "wy_fel_1502-verification-3",
+    "wy_fel_1502-certificate-of-service-4",
+    "wy_fel_1502-filing-instructions-5"
+  ],
+  "sourceBinaryCommitted": false,
+  "commercialRoutesOpened": 0,
+  "whatThisReceiptDoesNotEstablish": [
+    "that any output is approved for participant delivery",
+    "that this participant is eligible under § 7-13-1502 — the exclusion list, the other-felony bar and the substantial-danger finding are not encoded and are left to the participant, counsel and the court",
+    "whether the convicting court requires the statutory verification to be sworn before a notary — the committed record does not settle it and the packet directs the participant to the clerk",
+    "the current service address of the Wyoming Division of Criminal Investigation, which the participant confirms with the Division"
+  ]
+}

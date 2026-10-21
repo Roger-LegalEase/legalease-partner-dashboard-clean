@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 2,
+  "purpose": "Legacy-matter revalidation, NOT route aliasing. An alias asserts two ids name the same thing. GA:youthful-first-offender-restriction-route and GA:retroactive-first-offender-treatment-under-42-8-66 are different statutory mechanisms, so an alias between them would be false and would redirect genuine matters on one route to the other.",
+  "rule": "A legacy matter is migrated only when its own saved facts prove which mechanism it represented. Re-evaluation is deterministic and idempotent: running it twice migrates nothing new, and a matter that cannot be proven stays where it is with its history intact.",
+  "aliases": [],
+  "revalidations": [
+    {
+      "id": "GA-2026-08-28-42-8-66-SPLIT",
+      "jurisdiction": "GA",
+      "legacyPathwayId": "youthful-first-offender-restriction-route",
+      "candidatePathwayId": "retroactive-first-offender-treatment-under-42-8-66",
+      "controllingDecision": "NATIONAL-2026-08-28-LA-IMM-01",
+      "whyNotAnAlias": "The two routes govern different statutes. O.C.G.A. § 42-8-66 is retroactive First Offender treatment, exoneration and discharge; the legacy route's contract asserts § 42-8-62.1 first-offender restriction and sealing. Treating them as one identity would move § 42-8-62.1 matters onto a petition that does not govern them.",
+      "migrateOnlyWhen": {
+        "operator": "all",
+        "conditions": [
+          { "operator": "equals", "factId": "ga_legacy_matter_mechanism", "value": "retroactive_first_offender_42_8_66", "requiredProvenance": "verified_record" },
+          { "operator": "exists", "factId": "ga_legacy_matter_saved_facts_snapshot", "requiredProvenance": "verified_record" }
+        ]
+      },
+      "preserveWhen": "The saved facts do not prove the matter represented § 42-8-66. Those matters stay on the legacy route with their history unchanged.",
+      "neverDo": "Do not rewrite matter history. A migrated matter records both the route it was created on and the route it was revalidated to, with the evaluation that proved it.",
+      "idempotence": "Migration is keyed on the matter's recorded revalidationId. A matter already carrying GA-2026-08-28-42-8-66-SPLIT is skipped, so re-running migrates nothing new.",
+      "openRouteIdentityDefect": "No Georgia pathway's own text cites § 42-8-62.1 or § 42-8-62.2 — the only appearance is what apply-legal-authority-to-profiles writes from the LD-GA-01 contract. The three § 42-8-62 memo tracks reach no compiled pathway. Until the owner decides whether the legacy pathway is a § 42-8-62.1 route that was mis-texted or a § 42-8-66 route that was mis-contracted, no legacy matter is migrated automatically and this revalidation stays proposed."
+    }
+  ]
+}

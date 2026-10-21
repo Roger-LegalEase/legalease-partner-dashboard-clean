@@ -1,0 +1,44 @@
+{
+  "schemaVersion":"rcap-verifier-return/v1",
+  "lane":"VF03",
+  "laneKind":"independent-verification",
+  "worker":"VF03",
+  "reviewer":"/root/ar_independent_review",
+  "sessionIdentity":"/root/ar_independent_review",
+  "familyId":"ri_decriminalized-set",
+  "baseSha":"9f01c2f894f8d839e3f079b3204466ac2b0046d0",
+  "dispatchSha":"9f01c2f894f8d839e3f079b3204466ac2b0046d0",
+  "verifiedAtBase":"9f01c2f894f8d839e3f079b3204466ac2b0046d0",
+  "verdict":"PASS",
+  "scope":"Independent pre-raster reread of the repaired DC-33 family. The changed PDFs are byte-checked and the source-authored Group2 Off appearances and internal route trailer handling are verified. Visual clipping/overlap remains unmeasured pending a fresh central raster; no old raster receipt is reused.",
+  "rows":[
+    {
+      "itemId":"ri_decriminalized-set",
+      "familyId":"ri_decriminalized-set",
+      "lane":"VF03",
+      "verdict":"PASS",
+      "proofObligations":{
+        "ROUTE_IDENTITY":{"measured":true,"result":"PASS","finding":"Current route key obligation:track-pathway:RI:ri_decriminalized:path-g-decriminalized-offense-expungement agrees across source receipt, field map, product wiring and instructions."},
+        "SOURCE_IDENTITY":{"measured":true,"result":"PASS","finding":"DC-33 source was checked at the declared master-library path and SHA-256 342337451d61e363e03febb384431dba2f9bb08b44ee46380b94fc91901e9908 matches source-receipt, committed index and the checkpoint source check; 4 pages and 77 fields agree."},
+        "COMPONENT_SET":{"measured":true,"result":"PASS","finding":"The four declared components are present: primary filing, decriminalization affidavit, proposed order and filing instructions. The first two are carved from the exact DC-33 source; the latter two are the declared composed components."},
+        "KNOWN_PREFILLS":{"measured":true,"result":"PASS","finding":"Current actual-writes evidence identifies only the intended name and date-of-birth caption writes across motion, affidavit, proposed order and instructions; no case facts, BCI number, charge or disposition is prefilled."},
+        "REQUIRED_BEFORE_FILING":{"measured":true,"result":"PASS","finding":"The current field map and blanks report disclose 25 required-before-filing items, including BCI number, docket, counts/charges/dispositions, court complex, notice and affidavit statements; instructions enumerate the same participant work."},
+        "ROUTE_OPTIONS":{"measured":true,"result":"PASS","finding":"The route's two selections are explicit and byte-observed: EXPUNGED and the all-records relief bullet. The four court-location boxes and five Part Two affidavit statements remain participant elections and are not silently marked."},
+        "REPEATING_ROWS":{"measured":true,"result":"PASS","finding":"The map and instructions define four count/charge/disposition rows and the proposed order mirrors four rows; the current evidence reports no incomplete row group."},
+        "PROTECTED_FIELDS":{"measured":true,"result":"PASS","finding":"Role handling is preserved: signatures, dates, notice certification, affidavit oath boxes, court findings and proposed-order court terms remain withheld. The focused repair evidence independently matches both complete source-authored Group2 Off appearances in both changed PDFs; no court selection box was redrawn."},
+        "ARTIFACTS":{"measured":true,"result":"PASS","finding":"Current PDF bytes were hashed directly: canonical 8f816dce34a9d64e1c195e3ceed97871b048ec28ada230b424c8afc4105930c7 and boundary 25954bf32f14108df69ec87ee92a62d88adcd2d416e9c6ecaf9fcde1b6f39961, each 10 pages. They match the focused post-repair evidence. No stale pre-repair raster receipt is used."},
+        "PAGE_ORDER":{"measured":true,"result":"PASS","finding":"Both changed PDFs parse as 10-page packets; current rendered-artifacts and component records preserve the declared component/page sequence."},
+        "CLIPPING_AND_OVERLAP":{"measured":false,"result":"NOT_MEASURABLE_HERE","finding":"No local raster was created and no fresh central raster receipt exists for these changed bytes."},
+        "FILING_DESTINATION":{"measured":true,"result":"PASS","finding":"Instructions direct filing to the Rhode Island District Court where the case was heard and identify the judicial-complex choices for the participant."},
+        "FEE_AND_WAIVER":{"measured":true,"result":"PASS","finding":"Instructions disclose the route's filing-cost posture and the participant's obligation to resolve fines, fees, costs and restitution before/after filing as stated by the packet; no unsupported fee answer is invented."},
+        "SERVICE":{"measured":true,"result":"PASS","finding":"Instructions state notice to the Office of the Attorney General and the police force that brought the charge at least ten days before hearing, then completion of the certification line."},
+        "SELF_HELP_STOP":{"measured":true,"result":"PASS","finding":"Instructions identify stops requiring advice: decriminalization proof, reclassification relationship, incomplete sentence conditions or unpaid amounts, immigration, and federal/out-of-state/military/tribal records."}
+      },
+      "nineCounters":{"knownRequiredFieldsMissing":0,"requiredFactsNotCollected":0,"unclassifiedBlanks":0,"incompleteRows":0,"requiredOptionsMissing":0,"requiredComponentsMissing":0,"invisibleWrites":null,"protectedWrites":null,"visualDefects":null,"allZero":false,"measuredHere":false,"counterNote":"Structural and obligation checks above are independently read; invisible/protected/visual counters are null because no raster or completeness instrument was rerun. No builder zero was copied."},
+      "repairVerification":{"change":"preserveSourceAuthoredSelectionPaint and machineRouteTrailerIsInternalRecordText","focusedEvidence":"data/rcap-grade-a/packet-factory-24h/checkpoint-231-production/ri-focused-checks.json","sourceAppearanceEvidence":"data/rcap-grade-a/packet-factory-24h/checkpoint-231-production/ri-source-appearance-before.json","canonicalSha256":"8f816dce34a9d64e1c195e3ceed97871b048ec28ada230b424c8afc4105930c7","boundarySha256":"25954bf32f14108df69ec87ee92a62d88adcd2d416e9c6ecaf9fcde1b6f39961","noBareMachineRouteTrailer":true,"sourceBytesUnchanged":true},
+      "remainingRequirements":["Fresh central raster acceptance bound to both changed PDF hashes.","Independent visual measurement of clipping and overlap from original raster evidence.","Rerun or equivalent direct measurement of invisible/protected/visual counters before terminal family admission."],
+      "evidenceRead":["data/rcap-grade-a/packet-factory-24h/checkpoint-231-production/ri-source-check.json","data/rcap-grade-a/packet-factory-24h/checkpoint-231-production/ri-focused-checks.json","data/rcap-grade-a/packet-factory-24h/checkpoint-231-production/ri-source-appearance-before.json","data/rcap-all50/overlays/census-v1/ri/ri-decriminalized-set--official-pdf-fill/source-receipt.json","data/rcap-all50/overlays/census-v1/ri/ri-decriminalized-set--official-pdf-fill/production-field-map.json","data/rcap-all50/overlays/census-v1/ri/ri-decriminalized-set--official-pdf-fill/reports/actual-writes.json","data/rcap-all50/overlays/census-v1/ri/ri-decriminalized-set--official-pdf-fill/participant-instructions.md"],
+      "sharedWrites":{"queue":false,"manifests":false,"familyArtifacts":false,"commits":false,"dispatch":false}
+    }
+  ]
+}

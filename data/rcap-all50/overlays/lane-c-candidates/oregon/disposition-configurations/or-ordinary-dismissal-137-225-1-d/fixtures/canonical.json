@@ -1,0 +1,117 @@
+{
+  "schemaVersion": "rcap-or-disposition-canonical-fixture/v1",
+  "configurationId": "or-ordinary-dismissal-137-225-1-d",
+  "facts": {
+    "participant.full_legal_name": "Jordan A. Reyes",
+    "participant.date_of_birth": "1991-04-17",
+    "participant.street_address": "418 Larch Street Apt 12",
+    "participant.city_state_zip": "Springfield, OR 97477",
+    "participant.phone": "541-555-0134",
+    "participant.email": "jordan.reyes@example.org",
+    "matter.county": "Lane",
+    "matter.case_number": "22CR13094"
+  },
+  "written": [
+    {
+      "anchor": "FOR THE COUNTY OF",
+      "factId": "matter.county",
+      "fontSize": 10.5,
+      "outcome": "fit"
+    },
+    {
+      "anchor": "Case No:",
+      "factId": "matter.case_number",
+      "fontSize": 10.5,
+      "outcome": "fit"
+    },
+    {
+      "anchor": "Defendant",
+      "factId": "participant.full_legal_name",
+      "fontSize": 10.5,
+      "outcome": "fit"
+    },
+    {
+      "anchor": "DOB:",
+      "factId": "participant.date_of_birth",
+      "fontSize": 10.5,
+      "outcome": "fit"
+    },
+    {
+      "anchor": "Name (typed or printed)",
+      "factId": "participant.full_legal_name",
+      "fontSize": 10.5,
+      "outcome": "fit"
+    },
+    {
+      "anchor": "Email",
+      "factId": "participant.email",
+      "fontSize": 10.5,
+      "outcome": "fit"
+    },
+    {
+      "anchor": "Address",
+      "factId": "participant.street_address",
+      "fontSize": 10.5,
+      "outcome": "fit"
+    },
+    {
+      "anchor": "City, State, ZIP",
+      "factId": "participant.city_state_zip",
+      "fontSize": 10.5,
+      "outcome": "fit"
+    }
+  ],
+  "refused": [
+    {
+      "anchor": "Phone",
+      "reason": "value_exceeds_widget_width_at_minimum_font",
+      "category": "unfittable"
+    }
+  ],
+  "unfittable": [
+    {
+      "anchor": "Phone",
+      "factId": "participant.phone",
+      "outcome": "refused",
+      "reason": "value_exceeds_widget_width_at_minimum_font",
+      "value": "541-555-0134",
+      "rect": {
+        "x": 504,
+        "y": 305.44,
+        "width": 34,
+        "height": 12.5
+      },
+      "minFontSize": 6,
+      "requiredWidthAtMin": 37.4
+    }
+  ],
+  "selections": [
+    {
+      "control": "Option 2",
+      "page": 4,
+      "box": {
+        "x0": 128.52,
+        "y0": 186.24,
+        "x1": 138.72,
+        "y1": 196.44
+      },
+      "inset": 2,
+      "lineWidth": 1.2,
+      "mark": "two_diagonal_strokes_inset",
+      "drewANewBox": false,
+      "redrewTheCourtsBox": false
+    }
+  ],
+  "expectedValues": [
+    "Lane",
+    "22CR13094",
+    "Jordan A. Reyes",
+    "1991-04-17",
+    "Jordan A. Reyes",
+    "jordan.reyes@example.org",
+    "418 Larch Street Apt 12",
+    "Springfield, OR 97477"
+  ],
+  "artifact": "fixtures/canonical-filled.pdf",
+  "outputSha256": "29b2b41e5cba5c6fe24ec99aca09a66bc4dfae62c1526c3fc1fd47e265bc2dcb"
+}

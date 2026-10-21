@@ -1,0 +1,58 @@
+{
+  "schemaVersion": "rcap-family-source-receipt/v1",
+  "familyId": "ms-nonadj-set",
+  "worklistGroupId": "ms-nonadj-set",
+  "jurisdiction": "MS",
+  "implementationStrategy": "custom_pleading",
+  "custodyClass": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+  "acquisitionCommissioned": false,
+  "bindingMethod": "no source bytes are bound: the MASTER_QUEUE row for this family binds zero sources (sourceStatus CUSTOM_PLEADING_FROM_CODIFIED_TEXT, boundCount 0, officialFormFamily NONE, forms []). Every composed page is grounded on the committed legal-design records named in groundingRecords, and nothing else.",
+  "routeKeys": [
+    "obligation:track-only:MS:ms-nonadj"
+  ],
+  "routeSelectionId": "ms-nonadj-composed-set",
+  "statutoryAuthority": "Miss. Code Ann. § 99-15-26",
+  "legalName": "Expungement After Nonadjudication (Miss. Code Ann. § 99-15-26)",
+  "allSourcesExact": true,
+  "allSourcesExactNote": "true vacuously: this family binds zero source binaries, so there is no source that is not bound by exact SHA-256. No official form exists for this route per the legal-design record, and none was invented.",
+  "documents": [],
+  "groundingRecords": [
+    {
+      "record": "data/record-clearing/legal-design-intake/MS.memo.json",
+      "track": "ms-nonadj",
+      "reviewedAsOf": "2026-08-03"
+    },
+    {
+      "record": "data/record-clearing/legal-design-packet-set-manifests.json",
+      "packetSetId": "ms-nonadj-set"
+    }
+  ],
+  "officialSourcesRecordedInIntake": [
+    {
+      "title": "Miss. Code Ann. § 99-15-26 — Nonadjudication of guilt; conditions; dismissal; expungement",
+      "url": "https://law.justia.com/codes/mississippi/",
+      "retrievedOn": "2026-08-03"
+    },
+    {
+      "title": "2026 Mississippi House Bill 1546 (enrolled), Chapter 430, Laws of 2026",
+      "url": "https://billstatus.ls.state.ms.us/documents/2026/html/HB/1500-1599/HB1546SG.htm",
+      "retrievedOn": "2026-08-03"
+    }
+  ],
+  "formIdentityNote": "Mississippi has no statewide expungement form and § 99-19-71 prescribes none. The four archived petition and order PDFs are Fourth Circuit Court District local models covering Leflore, Sunflower and Washington counties only, and the legal-design record classifies them as drafting references and nothing more, with recorded defects (dual-statute citation, mandatory indictment allegation, mis-captioned certificate, hardcoded county/year/address, race field) that this build deliberately does not inherit. The MASTER_QUEUE row agrees: officialFormFamily NONE, implementationStrategy custom_pleading, forms [], boundCount 0. Every Mississippi track carries localFormOverride: where the court publishes its own preferred form, that local form governs, and the instructions require a call to that court's office before filing.",
+  "composedComponentsAuthoredByThisBuild": [
+    "primary_filing",
+    "proposed_order",
+    "certificate_of_service",
+    "attachment",
+    "instructions"
+  ],
+  "sourceBinaryCommitted": false,
+  "commercialRoutesOpened": 0,
+  "whatThisReceiptDoesNotEstablish": [
+    "that no local court form governs in the participant's county or district (localFormOverride: the participant asks the court's office first)",
+    "that any output is approved for participant delivery",
+    "that any record is eligible for expungement under Miss. Code Ann. § 99-15-26",
+    "whether a § 99-15-26(4) nonadjudication dismissal also qualifies under § 99-19-71(4) — the routing question is preserved as unresolved and the petition pleads § 99-15-26 alone"
+  ]
+}

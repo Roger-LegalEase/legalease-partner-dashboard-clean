@@ -213,6 +213,25 @@ export function FirstAdminAccessPanel({
     return result;
   }
 
+  async function endAccess(membershipId: string, email: string | null) {
+    const confirmed = window.confirm(
+      `End Partner Administrator access for ${email ?? "this administrator"}? Their account and history are kept; they lose access to this organization on their next request.`
+    );
+    if (!confirmed) return;
+    setBusyAction(`end:${membershipId}`);
+    setMessage(null);
+    setError(null);
+    try {
+      const result = await postAction("end_access", { membershipId, confirmEmail: email ?? undefined });
+      if (result.access) setAccess(result.access);
+      setMessage(`Administrator access ended for ${email ?? "the selected administrator"}.`);
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : "Administrator access could not be ended.");
+    } finally {
+      setBusyAction(null);
+    }
+  }
+
   const invitation = access.invitation;
   const canCreate =
     access.workspaceExists &&
@@ -319,6 +338,49 @@ export function FirstAdminAccessPanel({
             <p className="font-black text-navy">Information still required</p>
             <ul className="mt-2 grid gap-2 text-sm leading-6 text-grayWilma-700">
               {presentation.missingInformation.map((item) => <li key={item}>{item}</li>)}
+            </ul>
+          </div>
+        ) : null}
+
+        {access.administrators.length > 0 ? (
+          <div className="mt-6 rounded-md border border-grayWilma-200 bg-[#f7f8f6] p-4 md:p-5" data-administrator-handoff="true">
+            <p className="font-black text-navy">Active administrators</p>
+            <p className="mt-1 text-sm leading-6 text-grayWilma-700">
+              {access.administrators.length > 1
+                ? "Two administrators are active: the administrator handoff is in progress. When the replacement has signed in and their access is verified, end the outgoing administrator's access below."
+                : "The organization's last working administrator cannot be removed. To hand the role over, add the replacement as a Partner Administrator first, wait until they have accepted and signed in, then return here to end this access."}
+            </p>
+            <ul className="mt-3 grid gap-2">
+              {access.administrators.map((administrator) => (
+                <li
+                  key={administrator.membershipId}
+                  className="flex flex-col gap-2 rounded-md border border-grayWilma-200 bg-white px-4 py-3 sm:flex-row sm:items-center sm:justify-between"
+                >
+                  <div className="min-w-0">
+                    <p className="break-words text-sm font-semibold text-navy">
+                      {administrator.email ?? "Email not recorded"}
+                    </p>
+                    <p className="text-xs text-grayWilma-600">
+                      Partner Administrator · active
+                      {administrator.createdAt ? ` since ${formatDateTime(administrator.createdAt)}` : ""}
+                      {administrator.invitationHolder ? " · accepted the first-administrator invitation" : ""}
+                    </p>
+                  </div>
+                  {access.administrators.length > 1 ? (
+                    <button
+                      className={secondaryButton}
+                      disabled={Boolean(busyAction)}
+                      onClick={() => endAccess(administrator.membershipId, administrator.email)}
+                      type="button"
+                    >
+                      <XCircle className="h-4 w-4" aria-hidden="true" />
+                      {busyAction === `end:${administrator.membershipId}` ? "Ending access…" : "End administrator access"}
+                    </button>
+                  ) : (
+                    <span className="text-xs font-semibold text-grayWilma-600">Protected: last administrator</span>
+                  )}
+                </li>
+              ))}
             </ul>
           </div>
         ) : null}

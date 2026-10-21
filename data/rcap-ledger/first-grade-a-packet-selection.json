@@ -1,0 +1,121 @@
+{
+  "schemaVersion": 3,
+  "selectedOn": "2026-08-28",
+  "supersedesSelection": {
+    "route": "LA:human-trafficking-survivor-expungement-fee-exempt-route",
+    "withdrawnOn": "2026-08-28",
+    "whyWithdrawn": "It is held to guidance in BOTH per-route ratification records: HELD_GUIDANCE_ROUTES in the live evaluator, and lawrenceRatification.status hold_guidance with packet_capable false in the compiled profile. The first scoring pass consulted the legal-authority route contract and the factory_v2 registry and never consulted either ratification record, so it read a route counsel has held as though nothing were open. Recorded rather than deleted: the miss is that a route contract with zero gates is not the same fact as counsel having ratified the route."
+  },
+  "materialArchitectureConflict": {
+    "id": "dual-lawrence-ratification-records",
+    "finding": "There are two independent per-route records of counsel's ratification and they disagree.",
+    "recordA": {
+      "location": "src/lib/rcap-engine/evaluator.ts :: RATIFIED_DEPLOYABLE_ROUTES",
+      "count": 81,
+      "isAuthority": true,
+      "why": "isRatifiedDeployable() reads it at screening time. It is what actually runs."
+    },
+    "recordB": {
+      "location": "compiled profiles :: pathways[].lawrenceRatification",
+      "counts": {
+        "ratified_deployable": 53,
+        "packet_capable_false": 118,
+        "absent": 166
+      },
+      "isAuthority": false,
+      "why": "Nothing in src/ reads it except INTERNAL_LEAK_MARKERS in src/lib/content/state-resources.ts, which lists it as a field that must never reach the public projection. It is data with no reader."
+    },
+    "overlap": 40,
+    "resolution": "Record B is a stale snapshot. The compiled profiles are profileVersion 2026-06-19-source-conversion-1; docs/RCAP_HELD_ROUTE_RATIFICATION_WORKSHEET.md records counsel promoting 16 route keys on 2026-07-01, and those promotions appear in Record A and not in Record B. Louisiana's 894(B) and 893(E) routes are the visible proof: promoted by the worksheet, ratified in the evaluator, still hold_guidance in the compiled snapshot.",
+    "consequence": "Route selection must be taken from Record A. Record B is usable only as corroboration, and agreement between the two is treated here as extra confidence rather than as a requirement.",
+    "openItem": "The compiled snapshot should either be regenerated from the evaluator or removed. Leaving a second per-route legal-status record that disagrees with the authority is how the first selection went wrong, and it will go wrong again."
+  },
+  "selectionMethod": "Scored every route in RATIFIED_DEPLOYABLE_ROUTES (the live authority), excluding the five retired legacy jurisdictions, on repository evidence only: route contract present, packet family named, factory_v2 admission and resolution, zero unmet build inputs, packet-family status BUILT, owner-approved legal design, payment allowed at the evaluator, public-witness reachability, zero open blockers, corroboration from the compiled ratification snapshot, official form identities, and a negative weight for delivery gates, packet-release preconditions and failure dispositions. Then applied the one constraint that is a fact about this container rather than about the routes: whether the packet can be composed here at all.",
+  "bestRouteOnLegalEvidence": {
+    "route": "OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+    "score": 31,
+    "marginOverNext": 5,
+    "whyItWon": "The only route that is ratified in both records, owner-approved on legal design, payment-allowed at the evaluator, witness-reachable, carrying zero open blockers and zero contract gates, with packet family BUILT, factory_v2 resolving, zero unmet build inputs, and a seven-component owner-approved packet set.",
+    "status": "BLOCKED \u2014 not selected, and for a different reason than first recorded",
+    "exactBlocker": {
+      "kind": "artifact_technical_and_source_currency",
+      "sourceCustody": "SOURCE_PRESENT_AND_REVERIFIED",
+      "statement": "OR-OJD-ADULT-SET-ASIDE-PACKET is present and re-verified: CriminalSetAside_AdultCases2.pdf, sha256 6d1f70c6079d56dc49fff49ac356d53e1b3c3749515f1c5029d3e39e1899b69a, 253,599 bytes, 5 pages. The blocker is not the bytes. The approved packet set fills this form with outputStrategy official_pdf_fill and it is a SCANNED pdf with zero AcroForm fields, so there is nothing to fill; its revision, currency and issuing authority are all recorded unknown, and its runtimeEligibility is ineligible_pending_source_legal_technical_visual_approval.",
+      "secondForm": {
+        "officialFormId": "OR-OSP-SET-ASIDE-CCH",
+        "custodyStatus": "SOURCE_IDENTIFIED_NOT_MATERIALIZED",
+        "note": "Named by the approved packet set; no artifact with this identity exists in the 583-file inventory and none was found in any searched location. Not called genuinely missing: Roger holds official forms on an external drive that is not mounted here."
+      },
+      "whatWouldUnblockIt": "Either the fillable OJD form at an established revision, or an approved decision to overlay this capture by coordinates once revision and currency are established; plus the OSP criminal-history request form materialised and inventoried.",
+      "whatWasNotDone": "The approved official_pdf_fill strategy was NOT changed to custom_pleading. The container lacking bytes was never a reason to change it, and it is even less of one now that the bytes are here.",
+      "consequence": "Oregon may still become the first COMMERCIAL Grade-A packet if its source position is resolved before North Dakota completes acceptance. North Dakota continues as the provisional engineering reference route."
+    }
+  },
+  "secondFinding": {
+    "id": "no-output-strategy-runtime",
+    "statement": "Nothing in src/ reads outputStrategy at all. Neither official_pdf_fill nor custom_pleading has a composer behind it. The 497 packet-set manifests in data/record-clearing/legal-design-packet-set-manifests.json are an owner-approved design record with no runtime.",
+    "consequence": "The delta for the first Grade-A packet is not a missing renderer for one family. It is that the composer does not exist for any family. That is what this build creates."
+  },
+  "route": "ND:first-offense-possession-sealing",
+  "jurisdiction": "ND",
+  "pathwayId": "first-offense-possession-sealing",
+  "packetFamily": "rcap-nd-custom-pleading",
+  "packetFamilyLabel": "North Dakota First-Offense Possession Sealing Motion under N.D.C.C. ch. 19-03.1",
+  "whySelected": [
+    "It is the highest-scoring route (21) among those whose owner-approved packet set can be composed in this container \u2014 that is, whose components are custom_pleading and process_guidance and need no official PDF bytes.",
+    "Ratified in BOTH records: RATIFIED_DEPLOYABLE_ROUTES in the evaluator, and ratified_deployable in the compiled snapshot. The conflict recorded above does not touch it.",
+    "ownerApprovedLegalDesign is true, under decision record auth-2026-08-19-owner-legal-approval-completed-output. It is the only composable-here candidate that is both owner-approved and ratified in both records.",
+    "Its packet set names a primary_filing and a proposed_order, the two components a filing packet cannot invent, plus a legal_effect_explanation. All seven factory_v2 build inputs are met and unmetBuildInputs is empty.",
+    "Zero delivery gates, zero packet-release preconditions, zero failure dispositions, zero open blockers.",
+    "The statute makes sealing mandatory on motion, so the packet asks for something the court must grant rather than something it may. There is no discretionary-relief argument for the composer to get wrong.",
+    "No fee is identified and no service is required, so the packet needs no parish or county fee schedule and no certificate of service \u2014 the two components most likely to be wrong in a first build.",
+    "The packet-set manifest already carries a full participantActionRequired list naming signature, notarisation, fee and waiver, so the participant checklist is drawn from the approved design rather than composed.",
+    "It is not a retired legacy jurisdiction, so it exercises the Grade-A path rather than inheriting anything from a retired generator."
+  ],
+  "knownCostOfThisChoice": {
+    "paymentAllowedAtTheEvaluator": false,
+    "why": "The evaluator does not admit payment for this route. That costs nothing here: ADR-0004 holds every commercial posture closed regardless, and the Grade-A record proves the packet exists without opening a sale. It does mean the end-to-end proof exercises generation and delivery rather than a paid checkout \u2014 which is the correct scope, because reopening payment is not something a local proof may do.",
+    "packetFamilyStatusLedger": "The route does not appear in data/rcap-ledger/packet-family-build-status.json, and its family name comes from the factory_v2 registry (packetFamilies: rcap-nd-custom-pleading) rather than from the compiled profile's legalAuthority block, which this route does not carry. Recorded so the family name is not read as a compiled legal statement.",
+    "noRouteContract": "This route has no entry in src/lib/legal-authority/routes/. Every route that does have one requires official PDF bytes; the two sets are disjoint. The packet specification therefore draws its legal statements from the compiled profile's extracted rules and from the owner-approved packet-set manifest, and names both.",
+    "officialPdfRequired": false,
+    "sourceCustody": "OFFICIAL_PDF_NOT_REQUIRED_COMPOSED_PLEADING. All twelve inventoried North Dakota artifacts are present and hash-matched. The approved packet set names no official form id, and N.D.C.C. ch. 19-03.1 prescribes no form, so no mandatory official PDF is omitted."
+  },
+  "legalStatus": "N.D.C.C. ch. 19-03.1 first-offense possession sealing. Sealing is mandatory on motion where the offence was a first offence involving one ounce or less of marijuana or two grams or less of THC, judgment was entered, and no further controlled-substance conviction followed within two years. Once sealed, the court record may not be opened even by court order.",
+  "sourceStatus": "SOURCE_PRESENT_AND_REVERIFIED for all twelve inventoried North Dakota artifacts, plus the owner-approved packet-set manifest. The earlier note that the compiled-profile source identities could not be re-verified here is superseded: the source workspace is materialised and every North Dakota identity matches on SHA-256 and byte length.",
+  "mapStatus": "No official form and no field map. Every filing component is custom_pleading, which is why this route is buildable here.",
+  "rendererStatus": "To be built. A Grade-A composer and an application/pdf provider are the delta.",
+  "artifactStatus": "Not yet produced.",
+  "packetSpecification": {
+    "path": "data/record-clearing/packet-specifications/ND-first-offense-possession-sealing.v1.json",
+    "specificationId": "nd-first-offense-possession-sealing",
+    "version": "1.0.0",
+    "sha256": "3ca17d0425a62b3da1842a3f8f6723a6f224669b0aa1923d7f653029c991c262",
+    "documents": 5,
+    "requiredFacts": 14,
+    "finalVerificationRequirements": 5,
+    "attachments": 3,
+    "participantChecklistItems": 7
+  },
+  "exactRemainingDelta": [
+    "A Grade-A composer that turns the specification plus a verified matter into the document set.",
+    "A Grade-A provider that renders the document set to application/pdf.",
+    "The Grade-A fulfillment record, naming the specification hash, the source identities and their verification states, the provider and renderer with versions, the required facts, the final-verification requirements, the artifact-approval status, both commercial postures and the hold reason.",
+    "A proof through the real product surfaces, with both postures held throughout."
+  ],
+  "notSelectedAndWhy": {
+    "OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c": "Best on legal evidence; blocked on missing official PDF bytes. See bestRouteOnLegalEvidence.",
+    "UT:path-i-traffic-offense-expungement-or-deletion": "Score 26, owner-approved and payment-allowed, but its packet set needs official_pdf_fill against five Utah forms that are not in this container.",
+    "MN:petition-based-expungement-under-609a-02-03": "Score 26 and ratified in both records, but ownerApprovedLegalDesign is false and its packet set needs official_pdf_fill against EXP101, EXP102, EXP104, EXP105 and FEE102.",
+    "GA:sb-288-misdemeanor-conviction-restriction-and-sealing": "The richest composable-here set at thirteen components, all custom_pleading, and ratified in both records \u2014 but ownerApprovedLegalDesign is false. Building the first commercially-authoritative packet on a legal design the owner has not approved is the wrong first case whatever its component count.",
+    "WY, OK, NV, WA, VA, ND:deferred-imposition, NH, WI, CA:tool-4, NM, TN, MD": "Composable here but each loses to ND:first-offense-possession-sealing on the combination of owner approval, ratification in both records, and a packet set that names both a primary filing and a proposed order.",
+    "MS, IL, DC, PA, TX routes": "Excluded on principle: the point is to prove the Grade-A path, not to inherit a retired generator's material."
+  },
+  "sourceCustodyCorrection": {
+    "correctedOn": "2026-08-28",
+    "whatWasSaid": "That private/Nationwide Record Clearing is absent from this container, that Louisiana's eight source files were not present, and that Oregon was BLOCKED_ON_OFFICIAL_FORM_BYTES.",
+    "whyItWasWrong": "The repository working tree had no private/ directory and that was read as the source package being unavailable. A real census \u2014 every mounted location, the git history, the linked worktree, matching on SHA-256 and byte length rather than filename \u2014 found the package materialised in this session's scratchpad. It is now copied into the approved source workspace. 493 of 583 inventoried files are present and re-verified; 90 are identified and not materialised; none is genuinely missing.",
+    "rule": "A source is never called missing because a container did not have it mounted. Absence of bytes in one runtime is a custody fact, not a fact about the form.",
+    "census": "data/rcap-ledger/source-custody-census.json"
+  },
+  "route_role": "Provisional engineering reference route. It proves the Grade-A path end to end; it is not the first commercial packet, and both its commercial postures are held."
+}

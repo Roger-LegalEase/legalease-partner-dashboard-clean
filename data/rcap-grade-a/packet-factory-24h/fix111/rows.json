@@ -1,0 +1,181 @@
+{
+  "schemaVersion": "rcap-grade-a-packet-factory-24h-lane-rows/v1",
+  "lane": "FIX111",
+  "laneKind": "repair",
+  "status": "COMPLETED",
+  "repairedByThisLane": true,
+  "rows": [
+    {
+      "itemId": "de_mandatory_expungement-set",
+      "lane": "FIX111",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill",
+      "grantConfirmed": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX111 de_mandatory_expungement-set returned CLAIM_OK FIX111 de_mandatory_expungement-set (repair, grant set 0dd8ced7fd1857bc), exit 0, asserted inside /home/user/fix111-worktree before any family artifact was edited. Not released by this lane; the claim ledger is not committed here.",
+      "builtAtBase": "ca6158a53",
+
+      "whatWasRepaired": "The guide said in terms that how the certified SBI history is ordered and what it costs are not source-approved. Four sentences said that (builder lines 70, 75, 141, 143). They are replaced with the SBI process the 2026-09-06 owner-relayed batch-02 research records, in the handoff's own participant wording: enrollment through the State Police's linked fingerprint service under code 27S23V, the $72 initial application fee, the registration instructions for appointment or permitted mail-in option and identification, reading SBI's eligibility notice, and - only if that notice says mandatory expungement - returning the signed paperwork within 30 days after receipt with a $75 money order payable to Delaware State Police; otherwise following the separate discretionary court process; and not using personal-background-check code 27RVGT as a substitute.",
+
+      "obligationsRepaired": ["FEE_AND_WAIVER", "FILING_DESTINATION"],
+      "whyThoseTwo": "FEE_AND_WAIVER: the guide previously refused to state any SBI cost; it now states the $72 initial fee and the conditional $75 money order alongside the unchanged court $75 filing fee and the 11 Del. C. Sec. 4372(l) waiver-or-conversion limb. FILING_DESTINATION: the guide previously refused to state how the certified history is ordered; it now states the enrollment route (the linked fingerprint service under code 27S23V) and where the signed paperwork goes back, while still asserting no mailing address.",
+
+      "constraintsHeld": [
+        "The $75 money order is stated as conditional on SBI's mandatory-eligibility notice in every place it appears, never unconditional.",
+        "The existing court $75 filing-fee sentence and the 11 Del. C. Sec. 4372(l) waiver-or-conversion sentence are unchanged.",
+        "The automatic-relief screening step is preserved: 'SBI identifies mandatory-eligible cases monthly for automatic expungement under Sec. 4373A. That automatic branch requires no participant filing.'",
+        "The SBI contact line is preserved: 302-739-5884, and the process page https://dsp.delaware.gov/expungements/.",
+        "The telephone alternative 1-866-761-8069 and the valid, unexpired photo-identification requirement are added from the record.",
+        "No mail-in destination is hardcoded; the guide says 'No mailing destination is asserted here; use the registration instructions.'",
+        "No generic application and no court form was invented; the descriptive-label and no-public-binary statements are unchanged.",
+        "Nothing about eligibility rules or the Cornette partial-expungement question was touched."
+      ],
+
+      "sourceNamedInTheGuide": "Delaware State Police, \"Obtaining a Certified Delaware Criminal History\" (https://dsp.delaware.gov/obtaining-a-certified-criminal-history/) and its linked service-code sheet 27S23V, as recorded in the decision record.",
+      "honestLimitCarried": "The guide states, in participant-facing text, that the issuer service-code sheet is not held here by hash and its printed revision is not established, so the participant confirms the current instructions, codes and amounts with SBI before enrolling, paying or sending anything. The builder's receiptLimits carry the same limit.",
+
+      "recordBasis": {
+        "decisionRecord": "data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-batch-02.json",
+        "decisionRecordId": "OWNER-RELAYED-RESEARCH-2026-09-06-BATCH-02",
+        "researchHandoff": "docs/rcap/grade-a/research/2026-09-06-batch-02/Packet_Blocker_Batch_02_Handoff.md",
+        "researchHandoffSha256Prefix": "3544f6477ebf",
+        "researchHandoffSha256VerifiedHere": "3544f6477ebf8f0d8aed5381b8f2f998860abf46391bde0d5ef9eac3f16b68b8",
+        "researchSourceIndex": "docs/rcap/grade-a/research/2026-09-06-batch-02/Research_Source_Index.json",
+        "trackRules": "data/record-clearing/legal-design-track-registry.json track de_mandatory_expungement, rules.researchSbiProcess (process and participantText) and researchResolvedQuestions",
+        "memo": "data/record-clearing/legal-design-intake/DE.memo.json",
+        "isNotCounselApproval": "Research relayed by the owner, not counsel approval and not a packet verdict. createsApproval false, createsOutputLevelApproval false. This lane carried the record into the guide and nothing more.",
+        "recordsNotEditedByThisLane": [
+          "MASTER_QUEUE.json", "RASTER_QUEUE.json", "claim-ledger.json",
+          "data/record-clearing/legal-design-track-registry.json",
+          "data/record-clearing/legal-design-intake/DE.memo.json",
+          "data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-batch-02.json"
+        ]
+      },
+
+      "digests": {
+        "before": {
+          "fixtures/canonical.pdf": "79ac2a683a83c6d0cb1554a458bf1349c2db9fe65afc7b640843e34dc3731747",
+          "fixtures/boundary.pdf": "8049dcee06160b54febf021de4866bd9056527795626fd1f6bfcdb57669a1118",
+          "participant-instructions.md": "b3f5f943927a92d19cf82b5bdd85d8bdf397520b6965f60a5e436bd286f3bb20"
+        },
+        "after": {
+          "fixtures/canonical.pdf": "1234befd09bd234d02f341b6170148e6ef4167e81520f9417957cdacec0b81e1",
+          "fixtures/boundary.pdf": "508aba1109f3a7369a0d8e8caeecf58f70b8a5825b431e2a536f0fe50f3ef130",
+          "participant-instructions.md": "3ac1fccf5b7925499e6d4fb807d6d8fb981bffa6441c024157da1b223b50dd1f"
+        },
+        "pageCounts": { "canonical": 3, "boundary": 3 },
+        "note": "Both fixture PDFs moved because the guide is part of the packet. Every one of the six pages moved."
+      },
+
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersCommand": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family de_mandatory_expungement-set -> 1 PASS_COMPLETE, all nine counters zero.",
+
+      "determinism": {
+        "buildsRun": 3,
+        "byteIdentical": true,
+        "how": "Built, copied both fixture PDFs and participant-instructions.md aside, rebuilt, and cmp'd; identical. A third build after the product-wiring refresh reproduced the same three digests.",
+        "command": "MASTER_LIBRARY_SOURCE_DIR=/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1 node scripts/build-census-v1-de_mandatory_expungement-set.mjs"
+      },
+
+      "greppedInTheRenderedGuide": {
+        "removedAndNowAbsent": {
+          "not source-approved": 0,
+          "what it now costs": 0,
+          "The SBI's own current fee": 0
+        },
+        "addedAndNowPresent": {
+          "27S23V": 2,
+          "27RVGT": 1,
+          "initial application fee is $72": 1,
+          "30 days after you receive it": 1,
+          "money order payable to Delaware State Police": 2,
+          "discretionary-expungement information": 1,
+          "Obtaining a Certified Delaware Criminal History": 1,
+          "obtaining-a-certified-criminal-history": 1,
+          "not held here by hash": 2,
+          "printed revision is not established": 1,
+          "1-866-761-8069": 1,
+          "valid, unexpired photo identification": 1,
+          "No mailing destination is asserted": 1
+        },
+        "preservedAndStillPresent": {
+          "302-739-5884": 2,
+          "dsp.delaware.gov/expungements/": 1,
+          "$75 filing fee on the mandatory path": 1,
+          "4372(l)": 1,
+          "monthly for automatic expungement": 1,
+          "Sec. 4373A": 1
+        },
+        "measuredOn": "participant-instructions.md and pdftotext over fixtures/canonical.pdf"
+      },
+
+      "rasterLookedAtHere": {
+        "dpi": 300,
+        "pagesMoved": ["canonical p1", "canonical p2", "canonical p3", "boundary p1", "boundary p2", "boundary p3"],
+        "howPagesMovedWasDetermined": "pdftoppm -r 300 -png over the HEAD bytes and the new bytes, then cmp per page. All six differ.",
+        "whatWasSeen": "All six pages were opened and read. The new process paragraph and the source/limit paragraph set fully on page 1 of both fixtures; the revised cost paragraph sets on page 2 of both. No clipping, no overflow past the text block, no overlapping runs, no truncation, no empty page. The boundary fixture's long name, address and email still wrap without spilling.",
+        "rastersDeleted": true,
+        "rasterPngsCommitted": "none - this family tracks no raster PNGs",
+        "thisIsNotAcceptance": "A lane looking at its own rasters is not the central raster acceptance and is not an independent read."
+      },
+
+      "standingPassLapses": {
+        "priorRow": "VF01 PASS_COMPLETE_INDEPENDENT at b8424a7ec, bound to canonical 79ac2a68... / boundary 8049dcee...",
+        "priorRasterReceipt": "RASTER_PASS workflowRunId 33982597868, boundToCanonicalSha256 79ac2a68...",
+        "statement": "Those bytes no longer exist. The standing VF01 PASS and the standing RASTER_PASS therefore LAPSE. This family is not proven on the new bytes. Central raster on the new hashes and an independent re-read by a lane that did not build or repair this family are both owed before it may be called proven again.",
+        "reflectedInTheDirectory": "product-wiring.json was refreshed by its declared generator scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs: the component digest was re-pinned 79ac2a683a83 -> 1234befd09bd and acceptanceReceipt is now null rather than a RASTER_PASS bound to bytes that are gone."
+      },
+
+      "obligationsThisRowDoesNotDischarge": [
+        "Central raster acceptance on canonical 1234befd09bd... and boundary 508aba1109f3... - owed, not held.",
+        "An independent re-read by a lane that did not build, repair, raster or productize this family - owed, not held.",
+        "Counsel approval. The record applied here is owner-relayed research, expressly not counsel of record and not Lawrence Blackmon's approval.",
+        "Output-level approval on exact hashes, which remains a separate act.",
+        "Binding the issuer service-code sheet 27S23V by hash. dsp.delaware.gov is blocked from the build container; no issuer file, hash or byte length is held or claimed, and the sheet's printed revision is not established.",
+        "The Cornette partial-expungement question, untouched here.",
+        "Any commercial authority. No route was opened, no checkout, no packet credit, no compiled runtime change."
+      ],
+
+      "hostFamilyIsolation": {
+        "host": "scripts/build-census-v1-agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge.mjs",
+        "hostChanged": false,
+        "why": "This family's module is a pure configuration object passed to makeAgencyGuidanceFamily. The repair is entirely within that object, so the host was not touched and no other family it hosts can have moved. git status shows changes only under this family's own directory and its own build script.",
+        "otherFamilyDirectoriesCommitted": "none"
+      },
+
+      "preflight": {
+        "command": "MASTER_LIBRARY_SOURCE_DIR=/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1 node scripts/verify-packet-build-environment.mjs --family de_mandatory_expungement-set",
+        "verdict": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 11/13 passed, 2 failed, 4 not applicable, exit 1",
+        "runBeforeAnyEdit": true,
+        "theTwoFailures": [
+          "private_is_git_ignored: an artifact of the required read-only symlink. The check runs `git check-ignore -q private/` and git answers 'fatal: pathspec private/ is beyond a symbolic link' (exit 128). Measured here: without the trailing slash it exits 0. .gitignore line 53 is 'private/', `git ls-files private/` is empty, and nothing under private/ was opened for writing. VF01, FIX54, FIX48, FIX45 and FIX08 record the identical failure for the identical reason.",
+          "corpus_matches_committed_index: 1 absent, 0 mismatched of 24 sampled. The absent entry is 'LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf' - an Alabama file, not Delaware. It is also inert for this family: family_sources_bind passes and records that de_mandatory_expungement-set is a zero-source composition binding committed legal records by hash inside its builder, not corpus document bytes."
+        ],
+        "neitherFailureTouchesThisFamily": true
+      },
+
+      "safety": {
+        "packetsSelfVerified": 0,
+        "subagentsCreated": 0,
+        "commercialRoutesOpened": 0,
+        "productionTouched": false,
+        "stripeSupabaseAuthRlsTouched": false,
+        "mainOrCaptainBranchTouched": false,
+        "forcePushed": false,
+        "gitAddAllUsed": false,
+        "claimGrantReleased": false,
+        "claimLedgerCommitted": false
+      }
+    }
+  ]
+}

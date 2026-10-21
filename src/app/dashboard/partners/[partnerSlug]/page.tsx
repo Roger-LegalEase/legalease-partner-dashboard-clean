@@ -134,7 +134,7 @@ function WeMustVoteDashboard({
   const readinessMilestones = [
     {
       title: "Initial Screening / Possible Match",
-      body: "A participant's answers may match basic screening criteria for a possible Mississippi record-clearing pathway."
+      body: "A participant's answers may match the basic screening criteria for a Mississippi record-clearing option."
     },
     {
       title: "Self-Represented Filing Option",

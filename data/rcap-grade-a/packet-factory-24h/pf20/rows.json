@@ -1,0 +1,388 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-pf-return/v1",
+  "assignmentId": "PF20",
+  "workerId": "CODEX-CS2-PF20-CO-FL",
+  "workerBranch": "codex/cs2-pf20-co-fl-82f",
+  "shiftBaseSha": "82f9e4323e402f71a8beeee553e5f2006246e6a9",
+  "claimAssertions": [
+    {
+      "itemId": "co_municipal_conviction_seal-set",
+      "result": "CLAIM_OK PF20 co_municipal_conviction_seal-set (packet-build, grant set ff7cb57cff11d215)"
+    },
+    {
+      "itemId": "fl-administrative-set",
+      "result": "CLAIM_OK PF20 fl-administrative-set (packet-build, grant set ff7cb57cff11d215)"
+    },
+    {
+      "itemId": "fl-early-juvenile-set",
+      "result": "CLAIM_OK PF20 fl-early-juvenile-set (packet-build, grant set ff7cb57cff11d215)"
+    }
+  ],
+  "preflight": {
+    "mode": "codespaces",
+    "codexCloudFlagUsed": false,
+    "masterLibrarySourceDir": "/workspaces/cs2src05/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
+    "globalResult": "PACKET_BUILD_ENVIRONMENT_NOT_READY",
+    "globalFindings": [
+      "origin/codex/cs2-pf20-co-fl-82f had no remote tip before the first commit",
+      "the supplied Master Library root contained 14 files and 14 PDFs, below the immutable 499-file/329-PDF minimum",
+      "19 of 24 sampled committed-index entries were absent from the supplied mounts"
+    ],
+    "familySourceGate": {
+      "co_municipal_conviction_seal-set": "FAIL: 2 of 2 sources did not bind from the supplied mounts",
+      "fl-administrative-set": "PASS: zero-source CUSTOM_PLEADING_FROM_CODIFIED_TEXT composition",
+      "fl-early-juvenile-set": "preflight resolver reported no mounted resolved document source; the committed acquisition return's exact staging byte was separately located and hash-bound read-only"
+    }
+  },
+  "rows": [
+    {
+      "itemId": "co_municipal_conviction_seal-set",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_SOURCE",
+      "jurisdiction": "CO",
+      "routeKeys": [
+        "obligation:track-pathway:CO:co_municipal_conviction_seal:municipal-conviction-sealing"
+      ],
+      "directory": "data/rcap-all50/overlays/census-v1/co/co-municipal-conviction-seal-set--official-pdf-fill",
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES_NOT_PRESENT_IN_SUPPLIED_MOUNTS",
+      "blockedSources": [
+        {
+          "sourceId": "official-form:JDF-683",
+          "formNumber": "JDF-683",
+          "expectedSha256": "6b451ae32c01ef1e637a460df627d246e1b4a61d4ac4f166005a7349fa87202e",
+          "expectedByteLength": 82760,
+          "expectedPageCount": 3,
+          "presentInSharedRoots": false
+        },
+        {
+          "sourceId": "official-form:JDF-686",
+          "formNumber": "JDF-686",
+          "role": "granting_order",
+          "expectedSha256": "abf997d8e701df0c74b1eb7833b35f30c006b50bf71b019abf7754d898433200",
+          "expectedByteLength": 63657,
+          "expectedPageCount": 2,
+          "presentInSharedRoots": false
+        }
+      ],
+      "substitutionsRefused": [
+        "JDF-684 denial order"
+      ],
+      "counters": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "artifacts": [],
+      "determinism": {
+        "buildRuns": 0,
+        "notApplicableBecauseStoppedBeforeBuild": true
+      },
+      "focusedCompleteness": {
+        "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family co_municipal_conviction_seal-set",
+        "result": "REFUSED_NOT_AUDITABLE_STOPPED_ROW",
+        "exitCode": 2
+      },
+      "overlayTouched": false
+    },
+    {
+      "itemId": "fl-administrative-set",
+      "status": "COMPLETED",
+      "jurisdiction": "FL",
+      "implementationStrategy": "participant_agency_application",
+      "renderStrategy": "composed_agency_application",
+      "sourceStatus": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+      "sourceDisposition": "No uniform downloadable FDLE form exists. The application and written-endorsement section are composed only from committed authority records.",
+      "routeKeys": [
+        "obligation:track-pathway:FL:fl-administrative:administrative-expunction-mistaken-or-unlawful-arrest"
+      ],
+      "directory": "data/rcap-all50/overlays/census-v1/fl/fl-administrative-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-fl-administrative-set.mjs",
+      "componentSet": [
+        "FDLE-ADMINISTRATIVE-WRITTEN-APPLICATION"
+      ],
+      "componentCount": 1,
+      "knownWrites": 10,
+      "requiredBeforeSubmissionFacts": 4,
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "allNineCountersZero": true,
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "path": "data/rcap-all50/overlays/census-v1/fl/fl-administrative-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "232aa2581086d5c9cf371fc439ee15883ca63829522bc2d6101b12f2a494f6e0",
+          "byteLength": 5476,
+          "pageCount": 2,
+          "components": [
+            "FDLE-ADMINISTRATIVE-WRITTEN-APPLICATION"
+          ]
+        },
+        {
+          "fixture": "boundary",
+          "path": "data/rcap-all50/overlays/census-v1/fl/fl-administrative-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "c09404577e4eff32ea6aab244b479c15307bb7ec6917144c68aa78948cafc09e",
+          "byteLength": 5578,
+          "pageCount": 2,
+          "components": [
+            "FDLE-ADMINISTRATIVE-WRITTEN-APPLICATION"
+          ]
+        }
+      ],
+      "determinism": {
+        "buildRuns": 2,
+        "allGeneratedHashesLengthsPageCountsAndComponentManifestsMatch": true
+      },
+      "focusedCompleteness": {
+        "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family fl-administrative-set",
+        "result": "PASS_COMPLETE",
+        "exitCode": 0,
+        "writtenFields": 10,
+        "terminalFields": 22
+      },
+      "rasterState": "BUILT_RASTER_PENDING",
+      "independentVerificationStatus": "PENDING",
+      "selfVerified": false,
+      "generationAllowed": false,
+      "runtimeSelectable": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "fl-early-juvenile-set",
+      "status": "COMPLETED",
+      "jurisdiction": "FL",
+      "implementationStrategy": "official_pdf_fill",
+      "renderStrategy": "official_pdf_overlay",
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBinding": {
+        "sourceId": "official-form:FDLE-EARLY-JUVENILE-EXPUNCTION-APPLICATION",
+        "printedFormNumber": "FDLE40-028",
+        "sha256": "d9417ea382c9c1ea170153b5aa25e63230799de836b8aefca0ee80a47e23f6eb",
+        "byteLength": 22449,
+        "pageCount": 5,
+        "exact": true
+      },
+      "routeKeys": [
+        "obligation:track-pathway:FL:fl-early-juvenile:early-juvenile-expunction-943-0515"
+      ],
+      "directory": "data/rcap-all50/overlays/census-v1/fl/fl-early-juvenile-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-fl-early-juvenile-set.mjs",
+      "componentSet": [
+        "FDLE-EARLY-JUVENILE-EXPUNCTION-APPLICATION"
+      ],
+      "componentCount": 1,
+      "knownWrites": 28,
+      "requiredBeforeSubmissionFields": 2,
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "allNineCountersZero": true,
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "path": "data/rcap-all50/overlays/census-v1/fl/fl-early-juvenile-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "ec718a25b1cff95cc2814a08914613e6b1b89211c020004370a16b11aa550fb7",
+          "byteLength": 28231,
+          "pageCount": 5,
+          "components": [
+            "FDLE-EARLY-JUVENILE-EXPUNCTION-APPLICATION"
+          ]
+        },
+        {
+          "fixture": "boundary",
+          "path": "data/rcap-all50/overlays/census-v1/fl/fl-early-juvenile-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "3d58ac3dc66a8e6f284c11488a1fe8274569117e4690ddc1d0b9285f201e840f",
+          "byteLength": 28361,
+          "pageCount": 5,
+          "components": [
+            "FDLE-EARLY-JUVENILE-EXPUNCTION-APPLICATION"
+          ]
+        }
+      ],
+      "determinism": {
+        "buildRuns": 2,
+        "allGeneratedHashesLengthsPageCountsAndComponentManifestsMatch": true
+      },
+      "focusedCompleteness": {
+        "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family fl-early-juvenile-set",
+        "result": "PASS_COMPLETE",
+        "exitCode": 0,
+        "writtenFields": 28,
+        "terminalFields": 93
+      },
+      "rasterState": "BUILT_RASTER_PENDING",
+      "independentVerificationStatus": "PENDING",
+      "selfVerified": false,
+      "generationAllowed": false,
+      "runtimeSelectable": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "ne-seal-pardoned-set",
+      "lane": "PF20",
+      "shift": "build-five-20260909, worktree /home/user/b5-worktree, branch build-five-20260909 from Captain head c476cfc66",
+      "claimCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF20 ne-seal-pardoned-set",
+      "claimResult": "CLAIM_OK PF20 ne-seal-pardoned-set (packet-build, grant set 2c60a5484079c44b)",
+      "rowGate": "node scripts/verify-packet-build-environment.mjs --family ne-seal-pardoned-set -> family_sources_bind ok, 2/2 source(s) bind by exact SHA-256 (custody_reconciliation); PACKET_BUILD_ENVIRONMENT_READY 13/13",
+      "status": "COMPLETED",
+      "builtFreshNotResumed": "The interrupted run preserved at 02e7e7a9f was not read, not merged and not used as evidence of anything. This family was built from the source binaries.",
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "directory": "data/rcap-all50/overlays/census-v1/ne/ne-seal-pardoned-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-ne-seal-pardoned-set.mjs",
+      "officialForms": [
+        {
+          "formNumber": "CC-6-12",
+          "revision": "CC 6:12 Rev. 04/2024",
+          "sha256": "68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28",
+          "custody": "master_library"
+        },
+        {
+          "formNumber": "CC-6-12a",
+          "revision": "CC 6:12a Rev. 06/2024",
+          "sha256": "b76a0931b781a97de38d17d5856996de307e8c3fb9a67fb48e5679bd232da26a",
+          "custody": "master_library"
+        }
+      ],
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersMeasuredBy": "scripts/rcap-packet-completeness/completeness-contract.mjs, called from the builder over its own field map and its own byte proof",
+      "aZeroOverAnEmptySet": "requiredFactsNotCollected = 0 over an empty set: this family declares no required-before-filing blank at all, because every fact the motion needs is a case fact the fixture holds. It is a true zero, not a measured one.",
+      "totals": {
+        "terminalFields": 25,
+        "written": 15,
+        "blank": 10
+      },
+      "blanksByDisposition": {
+        "NOT_APPLICABLE_ON_THIS_ROUTE": 8,
+        "PROTECTED_FIELD": 2
+      },
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "path": "data/rcap-all50/overlays/census-v1/ne/ne-seal-pardoned-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "06f5fae3ff55d3d23302157f847153ade429a221a879beb865639b55f7666979",
+          "byteLength": 505612,
+          "pageCount": 4
+        },
+        {
+          "fixture": "boundary",
+          "path": "data/rcap-all50/overlays/census-v1/ne/ne-seal-pardoned-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "a6b1d085e19c376e5a9c3bb9decfa7f4ee116e8e53aad6e7318e51d71f8f9b4f",
+          "byteLength": 505795,
+          "pageCount": 4
+        }
+      ],
+      "components": [
+        {
+          "kind": "primary_filing",
+          "documentId": "CC 6:12",
+          "packetPages": [
+            1,
+            2
+          ]
+        },
+        {
+          "kind": "instructions",
+          "documentId": "CC 6:12a",
+          "packetPages": [
+            3,
+            4
+          ],
+          "carriedUnchanged": "0 AcroForm fields, asserted before assembly; nothing is written on the court's own instructions"
+        }
+      ],
+      "routeElectionsMade": [
+        "CC 6:12 item 2, a select-one: \"Resulted in a conviction that was later pardoned\". This family IS that branch, so the packet states it and declares the other three not applicable naming the selection made.",
+        "the caption: the packet writes \"IN THE <court> COURT OF <county> COUNTY, NEBRASKA\" into the two fields the form's own script drives, and sets both drop-downs to match."
+      ],
+      "defectsFoundInTheDeliveredBytesAndFixed": [
+        "The caption is not printed page text. It is the default value of TYPEOFCOURTRESULTS and fullcountystatementRIGHT. Three fill strategies were rendered and looked at before one was chosen: selecting only the drop-downs leaves the caption line empty and prints the selection over the chooser prompt beneath it, and writing the free-text alternates collides with the right-aligned caption still in the caption field.",
+        "A boundary charge line read \"a Class IV felony\" in the bytes and \"a Class IV felo\" on the paper: the value overran its widget and the appearance's own clip cut it. Every value is now fitted to its own widget before it is written, and every drawn run is measured against its own box afterwards."
+      ],
+      "sourceCarriedDefaultsCleared": [
+        {
+          "field": "CC 6:12:enter the type of court",
+          "sourceCarriedValue": "           \r    (Enter the type of court)",
+          "why": "a chooser prompt left in place prints on the filed caption beside the court the packet states"
+        },
+        {
+          "field": "CC 6:12:enter the county",
+          "sourceCarriedValue": "\r   (Enter the county name)",
+          "why": "the same"
+        }
+      ],
+      "byteProof": {
+        "method": "each saved fixture is re-opened, page content streams decompressed, the source page's own streams excluded, each /FlatWidget-n Do resolved to its XObject and every show-text operator decoded with the matrix that precedes it. A marked box is proved against the source's own Off appearance: Nebraska draws its tick as two stroked line segments, not as a glyph, and a show-text proof alone reported the pardon box unmarked.",
+        "report": "data/rcap-all50/overlays/census-v1/ne/ne-seal-pardoned-set--official-pdf-fill/reports/actual-writes.json",
+        "everyDeclaredWriteReadBackFromTheSavedBytes": true,
+        "pardonCheckboxProof": "markKind stroked_vector_mark, differsFromTheSourceOffAppearance true, 2 moveto operators against 1 clip path",
+        "unaccountedInkInTheAddedStreams": 0
+      },
+      "determinism": {
+        "buildRuns": 2,
+        "allGeneratedFilesIdenticalAcrossRuns": true
+      },
+      "rasterState": "BUILT_RASTER_PENDING",
+      "buildStatus": "state_built",
+      "reviewStatus": "qa_review_pending",
+      "independentVerification": "PENDING. This lane built this packet and issues no verdict on it.",
+      "couldNotMeasureHere": [
+        "That a pardon was granted, or on what date. CC 6:12 has no place to attach the pardon and this build creates none; the participant is told to bring the Board of Pardons document and ask the clerk whether a copy should be filed.",
+        "Any Nebraska filing fee, and whether a Nebraska in forma pauperis application should be a component of this family. The family's instrument kinds name a fee waiver and no Nebraska fee-waiver form is bound to it by any source record, so none is built and none is implied.",
+        "No raster was produced and none was measured."
+      ],
+      "packetsSelfVerified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "grantsNothing": "A rendered packet is review evidence. It authorizes no fulfillment and opens no commercial route, and this lane issues no verdict on a packet it built."
+    }
+  ],
+  "summary": {
+    "familiesAssigned": 3,
+    "rowsReturned": 3,
+    "familiesCompleted": 2,
+    "familiesStopped": 1,
+    "nineCountersZeroOn": 2,
+    "blockedSource": 1,
+    "blockedLegalInput": 0,
+    "stoppedFamilyOverlayDirectoriesTouched": 0,
+    "packetsSelfVerified": 0,
+    "claimsReleased": 0,
+    "centralEdits": 0,
+    "commercialRoutesOpened": 0,
+    "productionTouched": false
+  }
+}

@@ -1,0 +1,318 @@
+{
+  "schemaVersion": "rcap-wa-two-route-next-gates/v1",
+  "assignmentId": "PF24-WA-TWO-ROUTE-NEXT-GATES-20260913",
+  "lane": "read-only-blocker-reconciliation",
+  "status": "COMPLETE_READ_ONLY_NO_PACKET_MUTATION",
+  "observedAt": "2026-09-13T05:56:00Z",
+  "workspaceHeadAtRead": "a3edcf401e4328c6cf55430144586b9fcbad0119",
+  "scope": [
+    "wa_vac_substance_use_disorder-set",
+    "wa_vac_homicide_victim_prostitution-set"
+  ],
+  "writtenReturnPath": "data/rcap-grade-a/packet-factory-24h/pf24/wa-two-route-next-gates-20260913.json",
+  "mutatedPaths": [
+    "data/rcap-grade-a/packet-factory-24h/pf24/wa-two-route-next-gates-20260913.json"
+  ],
+  "protectedPathsUntouched": [
+    "packet/source/queue/code/shared integration artifacts"
+  ],
+  "grantsNothing": "This is a read-only reconciliation. It grants no legal approval, packet acceptance, raster approval, commercial route, or terminal disposition.",
+  "evidence": {
+    "queue": {
+      "path": "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+      "sha256": "e8c1acb7e4d0b3510834be83b888f25496e6de06a4d80e2dfa73fb874be3e243"
+    },
+    "vf06Return": {
+      "path": "data/rcap-grade-a/packet-factory-24h/vf06/rows.json",
+      "sha256": "ffb5c56599a98f0ada3854a53064a0c0aacd659cb5cef68f67ba3bc9e071f9a2"
+    },
+    "vf34Return": {
+      "path": "data/rcap-grade-a/packet-factory-24h/vf34/rows.json",
+      "sha256": "95c0020e6f888ee6a35f116931ab8df8689d4da3a1790b467e53f9c12d8ce5e7"
+    },
+    "adoptedLegalResolution": {
+      "path": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
+      "sha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2"
+    },
+    "trackRegistry": {
+      "path": "data/record-clearing/legal-design-track-registry.json",
+      "sha256": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0"
+    },
+    "sourceCustody": {
+      "path": "data/rcap-grade-a/route-obligation-census-v1/source-custody-reconciliation.json",
+      "sha256": "c60d47b329d4a92587a9ace12426f1595b0e02fc3f3713de4a1dac4037f6fad1"
+    },
+    "corpusIndex": {
+      "path": "data/rcap-all50/local-source-corpus-index.json",
+      "sha256": "cf1af3035ef444f822846372668df4653814dbd68c96b8525fa75908d3d2495c"
+    }
+  },
+  "adoptedDecisions": [
+    {
+      "decisionId": "WA-SUD-VACATUR-CUSTOM-96060-6",
+      "familyId": "wa_vac_substance_use_disorder-set",
+      "disposition": "LEGAL_CLEAR",
+      "authority": "RCW 9.96.060(6), Washington State Legislature.",
+      "bindingProductRule": "Do not force RCW 9.96.060(6) into the general AOC petition's residual category. Generate a route-specific petition/declaration under RCW 9.96.060(6), plus appropriate notice/order handling, using the required program proof or assessment/status documentation."
+    },
+    {
+      "decisionId": "WA-HOMICIDE-VICTIM-FAMILY-MEMBER-96060-7",
+      "familyId": "wa_vac_homicide_victim_prostitution-set",
+      "disposition": "LEGAL_CLEAR",
+      "authority": "RCW 9.96.060(7), Washington State Legislature.",
+      "bindingProductRule": "Authorize a route-specific custom petition and proposed order under RCW 9.96.060(7) for a qualifying family member applying in the sentencing court on behalf of a homicide victim's RCW 9A.88.030 prostitution conviction. Do not force this route into the ordinary CrRLJ 09.0100 residual box and do not import ordinary three-year/new-crime/sentence-completion conditions into this special route."
+    }
+  ],
+  "sourceBindings": {
+    "custodyRecord": "data/rcap-grade-a/route-obligation-census-v1/source-custody-reconciliation.json",
+    "corpusRootRecordedByIndex": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
+    "familyReceipts": [
+      {
+        "familyId": "wa_vac_substance_use_disorder-set",
+        "receiptPath": "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/source-receipt.json",
+        "receiptSha256": "e230b0f908420735f20ea616d3c2c5aeea340a69b8f26ffd38b5ca839f1b800a",
+        "custodyClass": "SOURCE_ALREADY_HELD",
+        "documentsNamed": 2
+      },
+      {
+        "familyId": "wa_vac_homicide_victim_prostitution-set",
+        "receiptPath": "data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/source-receipt.json",
+        "receiptSha256": "6cff164ee96168f8cf5da5aefc823fb4cab9fef513cfe6a5333f01d32e7ebabc",
+        "custodyClass": "SOURCE_ALREADY_HELD",
+        "documentsNamed": 2
+      }
+    ],
+    "exactObjects": [
+      {
+        "formNumber": "CRRLJ-09.0100",
+        "revision": "REV-2024-11",
+        "expectedArchivePath": "STATES/WA/02_PACKET_FORMS/WA__FORM__CRRLJ-09.0100__crrlj-09-0100-crrlj-09-0100-petition-to-vacate-conviction-f-u__REV-2024-11__EN.pdf",
+        "expectedSha256": "1f72e901e93d576cf6c7ecad910d253da65b6af1a89ca75304c9739fa159909b",
+        "expectedByteLength": 161259,
+        "masterLibraryPath": {
+          "path": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/WA/02_PACKET_FORMS/WA__FORM__CRRLJ-09.0100__crrlj-09-0100-crrlj-09-0100-petition-to-vacate-conviction-f-u__REV-2024-11__EN.pdf",
+          "exists": true,
+          "sha256": "1f72e901e93d576cf6c7ecad910d253da65b6af1a89ca75304c9739fa159909b",
+          "byteLength": 161259
+        },
+        "partialRecoveryPoolExactPath": {
+          "path": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Washington/CrRLJ 09.0100 Petition to Vacate Conviction_(f)(U).pdf",
+          "exists": true,
+          "sha256": "1f72e901e93d576cf6c7ecad910d253da65b6af1a89ca75304c9739fa159909b",
+          "byteLength": 161259
+        }
+      },
+      {
+        "formNumber": "CRRLJ-09.0200",
+        "revision": "REV-2024-11",
+        "expectedArchivePath": "STATES/WA/02_PACKET_FORMS/WA__FORM__CRRLJ-09.0200__crrlj-09-0200-crrlj-09-0200-ord-pet-vacate-conviction-f-u__REV-2024-11__EN.pdf",
+        "expectedSha256": "b53035ddc5ea31aa9bd6816d5f157a58c8c8201db8e4a2cbb15f9874b4c851f2",
+        "expectedByteLength": 160460,
+        "masterLibraryPath": {
+          "path": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/WA/02_PACKET_FORMS/WA__FORM__CRRLJ-09.0200__crrlj-09-0200-crrlj-09-0200-ord-pet-vacate-conviction-f-u__REV-2024-11__EN.pdf",
+          "exists": true,
+          "sha256": "b53035ddc5ea31aa9bd6816d5f157a58c8c8201db8e4a2cbb15f9874b4c851f2",
+          "byteLength": 160460
+        },
+        "partialRecoveryPoolExactPath": {
+          "path": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Washington/CrRLJ 09.0200 Ord Pet Vacate Conviction_(f)(U).pdf",
+          "exists": true,
+          "sha256": "b53035ddc5ea31aa9bd6816d5f157a58c8c8201db8e4a2cbb15f9874b4c851f2",
+          "byteLength": 160460
+        }
+      },
+      {
+        "formNumber": "CRRLJ-09.0300",
+        "revision": "REV-2022-07",
+        "expectedArchivePath": "STATES/WA/03_INSTRUCTIONS/WA__INSTRUCTIONS__CRRLJ-09.0300__crrlj-09-0300-crrlj-09-0300-instructvacatemisdconvictions-2022-07-2__REV-2022-07__EN.pdf",
+        "expectedSha256": "42ac9ccb16474172ee3b4076b416e9d949c2dfdbb43edc0cdc734eca299f4176",
+        "expectedByteLength": 128109,
+        "masterLibraryIndexedPathExists": false,
+        "knownD2IndexedPathExists": false,
+        "partialRecoveryPoolExactPath": {
+          "path": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Washington/CrRLJ 09.0300 InstructVacateMisdConvictions_2022 07.pdf",
+          "exists": true,
+          "sha256": "42ac9ccb16474172ee3b4076b416e9d949c2dfdbb43edc0cdc734eca299f4176",
+          "byteLength": 128109
+        },
+        "bindingNote": "The current family source receipts name only 09.0100 and 09.0200. The packet's filing-obligations records and corpus index cite 09.0300; its exact bytes are held in the partial recovery pool, while the indexed Master Library and D2 paths are absent in this workspace. This is a custody-path distinction, not a reason to substitute another edition."
+      }
+    ],
+    "conclusion": "The two named family receipts have exact held 09.0100/09.0200 bytes. No exact source-byte acquisition is needed for this bounded reconciliation. The source problem is separate from the legal/product problem: the ordinary CrRLJ pair is the wrong instrument for these two special statutory routes."
+  },
+  "routes": {
+    "wa_vac_substance_use_disorder-set": {
+      "queue": {
+        "state": "PRODUCT_PATH_PENDING",
+        "routeMappingStatus": "OWNER_DIRECTED_MAPPING_PENDING",
+        "implementationStrategy": "official_pdf_fill",
+        "currentPacketComponents": [
+          "component:wa_vac_substance_use_disorder-primary-filing-1",
+          "component:wa_vac_substance_use_disorder-proposed-order-2"
+        ],
+        "currentForms": ["CrRLJ-09.0100", "CrRLJ-09.0200"],
+        "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+        "artifactStatus": "RENDERED",
+        "completenessStatus": "PASS_COMPLETE",
+        "allNineCountersZero": true,
+        "selectedIndependentVerdict": "BLOCKED_LEGAL_INPUT"
+      },
+      "latestIndependentReturn": {
+        "path": "data/rcap-grade-a/packet-factory-24h/vf06/rows.json",
+        "lane": "VF06",
+        "verdict": "BLOCKED_LEGAL_INPUT",
+        "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
+        "blockedProofObligations": ["ROUTE_OPTIONS", "FEE_AND_WAIVER"],
+        "failedProofObligations": ["SELF_HELP_STOP"],
+        "measuredResult": "The nine completeness counters are zero, but the form has no RCW 9.96.060(6) election. Its only substance-use-disorder phrase is the unrelated RCW 46.61.5055 DUI deferred-prosecution entry. The fee is not established and the participant is directed to the sentencing-court clerk. The independent return also records a separate SELF_HELP_STOP failure."
+      },
+      "nextExecutableMapping": {
+        "status": "ROUTE_SPECIFIC_CUSTOM_VEHICLE_REQUIRED",
+        "requiredScope": [
+          "Author a route-specific petition/declaration under RCW 9.96.060(6).",
+          "Map route-appropriate notice and order handling without assuming the general CrRLJ petition/order pair is the vehicle.",
+          "Request and bind the qualifying program evidence: proof of completed substance-use-disorder programming, or a qualifying assessment plus written status update showing six months of substantial compliance and progress toward recovery goals.",
+          "Retain records checklist and filing instructions, including the sentencing-court destination, prosecutor service, clerk fee/waiver lookup, and local court check."
+        ],
+        "currentOfficialPairDisposition": "Held source evidence only. Do not mark CrRLJ 09.0100 section 5's DUI phrase or section 7 as this route, and do not let an all-zero form completeness result authorize the route.",
+        "preserve": [
+          "Current source hashes and bytes.",
+          "Participant-owned sworn narrative and signature fields.",
+          "Judge, clerk, prosecutor, hearing, findings and ruling fields as protected.",
+          "The existing accepted PDF/raster evidence unchanged until a new route-specific candidate is independently reviewed."
+        ]
+      },
+      "remainingFactsAndFields": {
+        "semanticIntakeKeys": [
+          "applicantName",
+          "dateOfBirth",
+          "convictionIdentity (exact RCW or municipal ordinance; one of the six enumerated drug statutes)",
+          "sentencingCourt",
+          "causeNumber",
+          "sentencingDates (sentencing, release from confinement, supervision/probation end)",
+          "pendingCharges",
+          "newConvictions",
+          "drugStatute",
+          "programPath (completion or qualifying assessment/status path)",
+          "programName and provider",
+          "complianceMonths (conditional; six months on the assessment path)",
+          "blakeEligible"
+        ],
+        "heldProgramEvidence": "The program must provide proof of completion, or the assessment and written status update. The packet cannot invent this evidence.",
+        "existingPdfMapFacts": "The current map only writes court/county, case and plaintiff/defendant names, conviction date, up to three count/offense pairs and mailing address. It has no field or election naming RCW 9.96.060(6)."
+      },
+      "sourceNeeds": {
+        "currentBytes": "No missing 09.0100/09.0200 raw bytes; both match their receipts and the Master Library/recovery-pool exact bindings.",
+        "instructionBytes": "09.0300 exact bytes are available in the recorded partial recovery pool; the indexed Master Library and D2 paths are absent locally. Do not silently call the absent path present.",
+        "customVehicle": "The adopted rule requires a route-specific vehicle. A citation-only authority record and the existing form pair do not establish a mandatory custom template; use the existing bounded design/review process and preserve fail-closed behavior until the candidate is accepted.",
+        "feeAndLocalPractice": "Court filing fee/waiver and local attachment or hearing practice remain clerk/local lookups already recorded by the packet; no new source hunt was performed."
+      },
+      "unansweredOwnerQuestion": {
+        "status": "EXISTING_UNADOPTED_QUESTION_PRESERVED",
+        "question": "Whether RCW 9.96.060(2)'s bars apply to the standalone subsection (6) treatment route remains recorded as an unanswered eligibility question in the track registry.",
+        "record": "data/record-clearing/legal-design-track-registry.json (track wa_vac_substance_use_disorder buildBlockers)",
+        "treatment": "Do not reopen or broaden the adopted route-treatment decision in this handoff. Keep the affected branch fail-closed and surface the question to the existing owner/counsel gate before widening eligibility."
+      },
+      "selfHelpStopEvidence": {
+        "status": "FAILED_INDEPENDENTLY_AND_REMAINS_UNREPAIRED",
+        "conditions": [
+          "pending charge in Washington, another state, federal or tribal court",
+          "domestic-violence element charged or findable from the court file",
+          "protection, no-contact, antiharassment or civil restraining order currently in effect or violated in the last five years",
+          "DUI, physical control, or alcohol/drug-related driving offense, including a reduced charge",
+          "firearm, deadly-weapon or sexual-motivation enhancement",
+          "uncertain offense class or exact RCW",
+          "immigration consequences",
+          "firearm-rights restoration as the actual goal",
+          "domestic-violence history or pending charge while subsection (2) applicability is unresolved",
+          "program will not provide documentation",
+          "unclear whether the program is one of the three named alternatives"
+        ]
+      },
+      "nextGate": "Bounded route-specific petition/declaration and notice/order mapping, preserving the fail-closed eligibility question and independent review of the complete candidate."
+    },
+    "wa_vac_homicide_victim_prostitution-set": {
+      "queue": {
+        "state": "VERIFYING",
+        "routeMappingStatus": "BOUND",
+        "implementationStrategy": "official_pdf_fill",
+        "currentPacketComponents": [
+          "component:wa_vac_homicide_victim_prostitution-primary-filing-1",
+          "component:wa_vac_homicide_victim_prostitution-proposed-order-2"
+        ],
+        "currentForms": ["CrRLJ-09.0100", "CrRLJ-09.0200"],
+        "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+        "artifactStatus": "RENDERED",
+        "completenessStatus": "PASS_COMPLETE",
+        "allNineCountersZero": true,
+        "selectedIndependentVerdict": "BLOCKED_LEGAL_INPUT"
+      },
+      "latestIndependentReturn": {
+        "path": "data/rcap-grade-a/packet-factory-24h/vf34/rows.json",
+        "lane": "VF34",
+        "verdict": "BLOCKED_LEGAL_INPUT",
+        "verifiedAtBase": "fc95a33ac24622e70e86114eaca363d3c4b1f350",
+        "blockedProofObligations": ["COMPONENT_SET", "KNOWN_PREFILLS", "ROUTE_OPTIONS"],
+        "failedProofObligations": [],
+        "measuredResult": "The nine completeness counters are zero and all 26 declared artifacts (four PDFs and 22 rasters) bind, but the current first-person defendant form does not supply a family-member/deceased-victim pleading. Its ordinary grounds cannot be selected for RCW 9.96.060(7)."
+      },
+      "nextExecutableMapping": {
+        "status": "ROUTE_SPECIFIC_CUSTOM_PETITION_AND_PROPOSED_ORDER_REQUIRED",
+        "requiredScope": [
+          "Author a custom petition/application under RCW 9.96.060(7) in which the living family member is the applicant and the deceased victim remains the original defendant/case subject.",
+          "Author the route-specific proposed order required by the adopted decision, preserving judge-owned findings, ruling, signature and agency-recipient fields.",
+          "Separate the applicant's first-person identity/relationship declaration from third-person facts about the deceased victim's conviction and homicide status, with records supporting those facts.",
+          "Carry the sentencing-court filing destination, prosecutor service, local hearing/scheduling check, and proof of death and family relationship."
+        ],
+        "currentOfficialPairDisposition": "Held source evidence only and a wrong instrument for this route. Never mark CrRLJ 09.0100 sections 3, 5, 6 or 7, and never import its defendant-only first-person declaration or ordinary three-year/new-crime/sentence-completion conditions.",
+        "preserve": [
+          "Current source hashes and bytes.",
+          "Applicant-owned relationship and supporting facts; no builder-invented sworn statement.",
+          "Court, clerk, prosecutor, hearing, findings, ruling and order-recipient fields as protected.",
+          "The existing accepted PDF/raster evidence unchanged until the custom vehicle is independently reviewed."
+        ]
+      },
+      "remainingFactsAndFields": {
+        "semanticIntakeKeys": [
+          "applicantName",
+          "relationshipToVictim",
+          "victimName and aliases",
+          "convictionIdentity (exact RCW 9A.88.030 prostitution conviction)",
+          "sentencingCourt",
+          "causeNumber (conditional; clerk may search by name)",
+          "homicideConfirmed"
+        ],
+        "requiredEvidence": [
+          "death certificate or equivalent court/police record showing the death/homicide",
+          "court docket for the prostitution conviction",
+          "proof of the applicant's family relationship"
+        ],
+        "existingPdfMapMismatch": "The current map writes participant.full_legal_name into Defendant and Declarant fields and has no applicantName/victimName distinction. Those values cannot be validated as route-correct on this vehicle."
+      },
+      "sourceNeeds": {
+        "currentBytes": "No missing 09.0100/09.0200 raw bytes; both match their receipts and the Master Library/recovery-pool exact bindings.",
+        "instructionBytes": "09.0300 exact bytes are available in the recorded partial recovery pool; the indexed Master Library and D2 paths are absent locally. Do not silently call the absent path present.",
+        "courtVehicle": "The current registry records the Kitsap Form 950780 branch as local-only and its bytes as not held. Outside Kitsap, the custom vehicle needs the actual filing court's accepted procedure and the existing design/review gate; no new source search was started here.",
+        "feeAndLocalPractice": "Court filing fee/waiver, local scheduling and local attachment requirements remain clerk/local checks already carried in the packet; they do not authorize reuse of the ordinary form."
+      },
+      "unansweredOwnerQuestion": {
+        "status": "IMPLEMENTATION_AND_LOCAL_PRACTICE_REMAINING",
+        "question": "For a non-Kitsap filing, which court-accepted custom vehicle and local scheduling/service/declaration-execution/proposed-order practice applies remains unresolved in the existing registry handoff.",
+        "record": "data/record-clearing/legal-design-track-registry.json (track wa_vac_homicide_victim_prostitution openLegalQuestions and buildBlockers)",
+        "treatment": "The owner-adopted route treatment is already final for this sprint: custom petition and proposed order with applicant/deceased-victim separation. Do not request that adoption again; resolve only the bounded filing-court implementation input before acceptance."
+      },
+      "selfHelpStopEvidence": {
+        "status": "PASS_IN_LATEST_VF34_RETURN",
+        "conditions": [
+          "applicant is not a family member of the person who died",
+          "conviction is not a RCW 9A.88.030 prostitution conviction",
+          "person whose record is at issue is living",
+          "applicant is distressed and needs a person rather than a packet"
+        ]
+      },
+      "nextGate": "Bounded custom petition/proposed-order mapping for the actual filing-court vehicle, followed by independent semantic and visual review; no ordinary CrRLJ checkbox inheritance."
+    }
+  },
+  "crossRouteFinding": "Both routes have exact held ordinary-form bytes and clean existing artifacts, but those facts do not cure the route-specific legal instrument mismatch. The adopted decisions control: retain the current evidence, do not select a residual CrRLJ checkbox, and advance only a route-specific mapping with the required facts, evidence and independent review.",
+  "nextAction": "Captain may assign the bounded route-specific mapping gates above. No packet, source, queue, build, raster, or shared-script mutation was performed in this return."
+}

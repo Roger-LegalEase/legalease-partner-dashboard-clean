@@ -1,0 +1,213 @@
+{
+  "schemaVersion": "rcap-verification-lane-narrative/v1",
+  "lane": "VF09",
+  "laneKind": "independent-verification",
+  "assignment": "Re-read seven families whose standing FAIL verdicts were believed stale.",
+  "verifiedAtBase": "ba5dc7e5ac97cb6227e753970bd880e3cf373704",
+  "branch": "vf09-stale-verdict-reread",
+  "verdictsAreIn": "data/rcap-grade-a/packet-factory-24h/vf09/rows.json — appended, 28 prior rows preserved and verified byte-equal after the write. This file is narrative only; extract-verifier-returns.mjs reads rows.json and nothing else.",
+  "independence": "This lane built none of these seven, repaired none, rendered none, and changed no packet byte. Its only writes are its own two files in this directory.",
+  "outcome": {
+    "PASS": [
+      "ar-nonconviction-seal-set",
+      "nc_146_dismissal_petition-set"
+    ],
+    "FAIL_REPAIR_REQUIRED": [
+      "al-felony-dwop-set",
+      "al-felony-nonconviction-90-set",
+      "nv_seal_probation_family-set",
+      "rcap-ok-custom-pleading",
+      "rcap-wa-custom-pleading-clean-tracks"
+    ],
+    "note": "Two of the five failures are stale-verdict families whose ORIGINAL defect really was repaired and which fail on something else the re-read found. Three earlier verdicts on these seven were confirmed stale and superseded on measurement: VF03's Alabama SELF_HELP_STOP, and FABLE-VA9's Arkansas FILING_DESTINATION and SELF_HELP_STOP."
+  },
+  "whyNoRowSaysPASS_COMPLETE_INDEPENDENT": {
+    "reason": "This lane holds no verification grant on any of the seven, so the two clean families are recorded as PASS rather than PASS_COMPLETE_INDEPENDENT. PASS is a true statement of what was measured and, by the extractor's own comment, is a verdict the terminal transition does not act on — so a clean read is on the record without promoting a family on an unclaimed grant.",
+    "claimGateResults": {
+      "al-felony-dwop-set": "exit 8 GRANTED_ELSEWHERE — VF02 (released)",
+      "al-felony-nonconviction-90-set": "exit 8 GRANTED_ELSEWHERE — VF03 (released)",
+      "ar-nonconviction-seal-set": "exit 8 GRANTED_ELSEWHERE — VF01 (released)",
+      "nc_146_dismissal_petition-set": "exit 8 GRANTED_ELSEWHERE — VF04 (released)",
+      "nv_seal_probation_family-set": "exit 6 NOT_GRANTED — no independent-verification lane holds it",
+      "rcap-ok-custom-pleading": "exit 8 GRANTED_ELSEWHERE — VF01 (released)",
+      "rcap-wa-custom-pleading-clean-tracks": "exit 8 GRANTED_ELSEWHERE — VF08 (released)"
+    },
+    "nothingWasTransferredOrMinted": "No --transfer, --reissue or --grant was run. The ledger is unchanged by this lane.",
+    "aStructuralPointForCaptain": "Every family carrying a standing FAIL necessarily has a released independent-verification grant on the lane that issued that FAIL, because that is how the grant got used. So a lane dispatched to re-read stale FAILs will hit GRANTED_ELSEWHERE on essentially all of them, and an instruction to skip on exit 8 makes such a lane a guaranteed no-op. The ledger has the right instrument for this (--transfer, whose comment says in terms that independence is about workers rather than lanes) but a worker may not use it on itself. This needs resolving centrally, or re-read lanes will keep having to choose between doing nothing and working unclaimed."
+  },
+  "instrumentsAndTheirControls": {
+    "hashIndex": {
+      "filesHashed": 9274,
+      "distinctDigests": 7873,
+      "assertedNonEmptyBeforeBelievingAnyAbsence": true,
+      "positiveControl": "C-10-CRIMINAL 527d4cf... was looked up by hash and FOUND at its declared path before CR-65's absence was believed.",
+      "roots": [
+        "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1",
+        "<worktree>/private",
+        "<worktree>/data/rcap-all50"
+      ]
+    },
+    "sparseCheckout": {
+      "hazard": "git worktree add inherited a cone excluding /data/* except /data/rcap-grade-a/. In the fresh worktree data/record-clearing (150 files), data/rcap-ledger (124) and data/rcap-all50 (8773) were TRACKED IN HEAD AND ABSENT FROM DISK.",
+      "whatWasDone": "git sparse-checkout disable, then tracked-vs-present recounted per directory and git status confirmed clean at 15641 tracked files, 0 modifications. Every absence reported by this lane was measured after that."
+    },
+    "markDetection": {
+      "hazard": "A prior withdrawn finding in this cohort came from a probe that collected only rectangle fills and missed marks drawn as stroked paths over flattened widgets.",
+      "control": "Every Alabama fixture is fully flattened (0 AcroForm fields), so marks were read from 150 dpi rasters, not from field state. Two positive controls on the same bytes: C-10-CRIMINAL 'STATE OF ALABAMA' renders a visible tick, and CR-65 page 3's dismissed-without-prejudice ground renders a visible tick. Only then was the empty item (3) selection on page 6 treated as a real zero."
+    },
+    "digestStamp": {
+      "hazard": "A prior withdrawn finding came from recomputing a digest without its deterministic stamp.",
+      "control": "North Carolina's exactObject digests were recomputed in Node with exactly the canonicalisation the receipt states — keys sorted recursively, JSON.stringify with no spacing, one trailing newline, UTF-8. Both match. Dropping the trailing newline gives different digests, so the stamp was shown to be load-bearing rather than assumed."
+    },
+    "resolutionByHashNotName": {
+      "hazard": "A prior withdrawn finding came from locating a file by name rather than hash.",
+      "control": "All five Arkansas and North Carolina binaries carry a digest and no repository path. Each was resolved by content hash across the mounted custodies, and each landed at exactly the pathInCustody its receipt declares."
+    },
+    "pinWalkByShape": {
+      "keysCovered": [
+        "pathInRepository",
+        "path",
+        "pathInPack",
+        "pathInArchive",
+        "recordPath",
+        "record",
+        "file",
+        "filePath",
+        "sourcePath",
+        "href",
+        "location",
+        "documentPath",
+        "recordFile"
+      ],
+      "whatItCaught": "Nevada's two codified grounds sit under `record`; a walker knowing only `path`/`pathInRepository` reports the family as binding nothing, which is what an earlier verifier recorded. It also showed Arkansas and North Carolina using `pathInCustody`, which is in no key list — those came back digest-only and were resolved by hash."
+    }
+  },
+  "correctionsThisLaneMadeToItsOwnDraft": [
+    {
+      "family": "rcap-ok-custom-pleading",
+      "was": "PASS",
+      "now": "FAIL_REPAIR_REQUIRED",
+      "why": "My clipping check tested only within-line truncation and overflow, on which both fixtures are clean. It cannot see a value broken across a PAGE break. I went looking only because vf29 and vf37 had failed this exact obligation on this exact family and a verifier does not get to overturn a finding it has not re-measured. vf37's defect reproduces five times per fixture at new page numbers after the 160->83 repagination, and a sixth page splits the petitioner's contact block."
+    },
+    {
+      "family": "rcap-wa-custom-pleading-clean-tracks",
+      "was": "PASS",
+      "now": "FAIL_REPAIR_REQUIRED",
+      "why": "Found by applying to Washington the probe Oklahoma had just failed. No earlier lane had failed Washington on this obligation. My first thin-page threshold of 200 non-space characters would have missed the boundary fixture's split page at 216, so every flagged page was read rather than counted, and the two decisive pages were rendered at 150 dpi."
+    }
+  ],
+  "findingsIWithdrewBeforeReporting": [
+    {
+      "finding": "North Carolina binds a whole-file digest that post-dates its build with no identityRefresh disclosing that the record moved.",
+      "whyItLookedRight": "Both bound records genuinely did move since the build at ffc275013 (80d88d69->6076f734 and 49d08b90->232466b6) and the receipt carries no identityRefresh, while three of its four sibling families in the same repair window do.",
+      "whyIWithdrewIt": "The repair gave North Carolina something stronger instead: an `exactObject` block per committed record carrying a canonicalObjectSha256 over the bound object itself. An object digest is invariant to whole-file rewrite, so it answers the drift question an identityRefresh exists to answer. Both recompute exactly with the stated stamp. The absence of a refresh block is not a defect where the object is pinned directly."
+    },
+    {
+      "finding": "North Carolina's guide drops the recorded stop condition 'a deferred prosecution or conditional discharge dismissal, which carries the fee and different rules'.",
+      "whyIWithdrewIt": "It is not a stop bullet, but its substance is carried in more detail than the registry states it — a dedicated passage in the fee section, step 8 of the ordered instructions, and an entry under 'What this packet does not tell you, and who does'. Identifier-literal matching where the substance is present in paraphrase is a withdrawn-finding class in this cohort already."
+    },
+    {
+      "finding": "Oklahoma and Washington write a participant address that is out of state — '42 Magnolia Street, Springfield 62704' (an Illinois postcode) on an Oklahoma petition and a Washington motion, and 'Fort Saint Clairsville 39501-2214' (a Mississippi postcode) in the boundary fixtures.",
+      "whyIWithdrewIt": "It is fixture data, not delivery logic: no value lands under a wrong caption and no participant fact is misstated. And it is not specific to these families — 31 custom-pleading families across the census share the same generic address. Carried below as a cohort observation instead."
+    },
+    {
+      "finding": "Alabama's PARTICIPANT_ELECTION_GENUINE refusals are a contract violation.",
+      "whyIWithdrewIt": "completeness-contract.mjs makes that disposition allowed and, unlike REQUIRED_BEFORE_FILING, attaches no DISCLOSED condition to it. The builder did what the contract permits. The finding I kept is narrower and does not depend on the contract: the guide directs two CONDITIONAL blanks unconditionally while never mentioning the condition."
+    },
+    {
+      "finding": "Alabama's notarization direction should fail an obligation.",
+      "whyIWithdrewIt": "CR-65 page 6's own printed face is a jurat. A direction to swear the petition before an authorized officer is supported by the delivered document's bytes even though the memo records only an absence of finding, and stripping it could leave a participant filing an unsworn affidavit. Reported as a finding for a human rather than scored as a packet defect — but the CLAIM that it was retired is false and that is recorded."
+    },
+    {
+      "finding": "Nevada is a laundered refresh — a packet grounded on a record that changed underneath it.",
+      "whyIPartlyWithdrewIt": "The bound anchor is object-for-object IDENTICAL from the build blob at d6b594038 to the bytes on disk, and identical again from the pagination fix at a120d8bd5. Nothing moved underneath the packet. What survives is narrower and is what the row says: the receipt asserts a binding 'at build time' for a digest that did not exist until three days after the build, and carries neither an identityRefresh nor an exactObject, so nothing in it evidences the fact I had to establish from git."
+    }
+  ],
+  "thingsThatOutliveTheseSeven": [
+    {
+      "id": "one-composer-pagination-defect-across-two-live-families-and-a-third-already-fixed",
+      "what": "Oklahoma and Washington share a composer whose page-break logic orphans a component's contact block and its route footer onto a near-empty page, and wraps the route key mid-token. Nevada had the identical defect, was failed for it by vf02, and was repaired at a120d8bd5 ('Fix NV proposed order footer pagination', 20 pages -> 9). The same repair was never applied to the other two.",
+      "whyItMatters": "One fix closes two standing failures, and the fix already exists in the tree. Worth sweeping the other 29 custom-pleading families built on the same composer before any of them is read.",
+      "howToFindIt": "For each page of each fixture, flag a page whose first non-blank line continues a PRINTED NAME / MAILING ADDRESS / TELEPHONE / EMAIL block opened on the previous page, or is a bare postcode fragment after a MAILING ADDRESS; and read, do not merely count, every page under ~260 non-space characters."
+    },
+    {
+      "id": "requiredComponentsMissing-cannot-see-the-manifest",
+      "what": "Confirmed on this cohort. verify-packet-completeness.mjs derives its component denominator from the family's own field map and receipt and never opens legal-design-packet-set-manifests.json. North Carolina's manifest names FIVE roles while rendered-artifacts.json declares THREE, and the counter reads 0. In North Carolina's case nothing required is actually missing — the two extra roles are process_guidance and are satisfied by the guide — but the counter could not have told anyone that either way.",
+      "alsoObserved": "Two of the seven, rcap-ok-custom-pleading and rcap-wa-custom-pleading-clean-tracks, have NO packetSetId in the manifest at all, so for them the manifest check has no denominator to compare and the component authority is legal-design-specifications.json instead.",
+      "alsoObserved2": "componentSet vocabulary drifts from the manifest's: North Carolina says 'petition' where the manifest says 'primary_filing'."
+    },
+    {
+      "id": "eleven-receipts-pin-a-rewritten-record-with-no-disclosure",
+      "what": "36 source receipts across the census pin legal-design-packet-set-manifests.json at its current digest 6076f734. 25 carry an identityRefresh; 11 carry neither a refresh nor an exactObject. Two of those 11 are in this cohort (Nevada, and North Carolina — which turned out to have exactObject after all). The other nine are co/co-motion-seal-conviction-set, in/in-conviction-d6-set, in/in-conviction-felony-set, in/in-conviction-misd-set, la/la-977-misdemeanor-conviction-set, la/la-978-felony-conviction-set, la/la-987-set-aside-and-dismiss-set, nc/nc-145-5-felony-set and nc/nc-146-acquittal-petition-set.",
+      "whyItMatters": "Each is worth the check this lane did on Nevada: recover the record at the family's own build commit, and compare the bound anchor object-for-object to disk. It is cheap and it is the only thing that distinguishes a harmless re-pin from a packet grounded on content that moved.",
+      "theBestShapeIsAlreadyInTheTree": "North Carolina's exactObject / canonicalObjectSha256 is strictly better than identityRefresh: it survives any number of whole-file rewrites without needing a new block each time. Consider making it the standard."
+    },
+    {
+      "id": "an-identityRefresh-may-disclose-one-hop-of-a-longer-chain",
+      "what": "Arkansas's receipt was silently re-pinned FOUR times before the fifth re-pin arrived with an identityRefresh, and that block names only the immediately previous hop (bd6ceaa6 at 1061539c4), not the build-time pin (80d88d69 at b152cda2d). Oklahoma's and Washington's refresh blocks, by contrast, name previous pins that ARE their build-time pins, so their chains are complete.",
+      "whyItMatters": "'anchorsIdentical: 1' is a true statement about one hop and reads as a statement about the whole history. Arkansas passes here only because this lane did the build-to-now comparison the block does not contain.",
+      "suggestedField": "previousPinLastSeenAtCommit should be the family's own build commit, or the block should say which hop it covers."
+    },
+    {
+      "id": "generic-out-of-state-fixture-address-in-31-families",
+      "what": "31 custom-pleading families write the canonical participant address as '42 Magnolia Street, Springfield 62704' (Illinois) and the boundary as '1188 Upper <river> Crossing Road, Apartment 14B, Fort Saint Clairsville 39501-2214' (Mississippi), regardless of the state whose court the pleading names.",
+      "whyItMatters": "Not a delivery defect, but it is what visual and counsel reviewers will be shown, and a fixture that cannot exercise state-specific address or venue consistency is not testing much. Nevada, North Carolina and Arkansas use in-state fixtures and read correctly."
+    },
+    {
+      "id": "a-mandatory-election-can-be-refused-silently-by-contract",
+      "what": "completeness-contract.mjs gives PARTICIPANT_ELECTION_GENUINE no DISCLOSED condition, so a selection control that is MANDATORY on the form can be refused, left unmarked, and never surfaced to the participant, with requiredOptionsMissing reading 0. Alabama's CR-65 item (3) is the instance found here. Arkansas shows the right handling of the same shape ('you must tick exactly one'), so the fix is a convention that already exists somewhere in the factory.",
+      "suggestion": "Either give PARTICIPANT_ELECTION_GENUINE a DISCLOSED condition when the form marks the election mandatory, or add a mandatory-selection flag the guide generator reads."
+    }
+  ],
+  "digestsAndWhetherTheyMoved": {
+    "al-felony-dwop-set": {
+      "canonical": "d6d1c877ff6d2024182726aae7bca40c376a869256e6ae220673699457f61543",
+      "boundary": "e4600e924c120bbc1821b41a500ce4f968d2293a1cd198b83fdff49a18cf726e",
+      "movedSinceStandingVerdict": true,
+      "standingBase": "fbd22ae2c"
+    },
+    "al-felony-nonconviction-90-set": {
+      "canonical": "e472186921ffc2c56765b30ed426e4d8ffd163e97100f781c127ada4a7966924",
+      "boundary": "ef61fac20c9966ef28d8192315bc0be9aacc5ebd6912ee5c0fda7a192eb89a05",
+      "movedSinceStandingVerdict": true,
+      "standingBase": "fbd22ae2c"
+    },
+    "ar-nonconviction-seal-set": {
+      "canonical": "28436bb896bcf2e8ca414f6a0635af19df9cf2b07317dbd5fe4a2614a7d591e5",
+      "boundary": "8737d13ab5c420759139c2f880bb4785013753d356729464350cfe6fe4f3d871",
+      "movedSinceStandingVerdict": false,
+      "standingBase": "bebc04896"
+    },
+    "nc_146_dismissal_petition-set": {
+      "canonical": "81d71db0020bdef1204898013cb9fd16a8cf3155c0f864c837a21945b1e40fb1",
+      "boundary": "af582b143c3ef2da24ed5e769e7e1fbe240309186b8fc72dccbceeb3ecc6f251",
+      "movedSinceStandingVerdict": false,
+      "standingBase": "46360ba12"
+    },
+    "nv_seal_probation_family-set": {
+      "canonical": "8fe5e209783ff5f70a18f8a37045f25126b020b23373aeba98956347440cd041",
+      "boundary": "40f2540537bc5d72b3a91cda1746f91065e16884ea1d611ae0f75fce16d19055",
+      "movedSinceStandingVerdict": false,
+      "standingBase": "21d53521f",
+      "note": "Did move since vf02's much older base 759046bd9 — 20 pages to 9 — which is the pagination repair at a120d8bd5."
+    },
+    "rcap-ok-custom-pleading": {
+      "canonical": "78151b1304b9445d9bc269fd0a8a6d1cc7b97bd4b0284f6af52d2176ba21d1a1",
+      "boundary": "18a2adfa5d1a8d67dfb413be61952c0501da42dc0bf03a53bff744bcba5e0d18",
+      "movedSinceStandingVerdict": false,
+      "standingBase": "d6f430105",
+      "note": "Did move since vf37's base — 160 pages to 83 — but the defect vf37 recorded survived the repagination."
+    },
+    "rcap-wa-custom-pleading-clean-tracks": {
+      "canonical": "e94f1370126b771fdf1c64a75c38e299285cc032250009b72a2711b0efd3a9c0",
+      "boundary": "bca669c04bea2852a0a5fce26b52bad2d2cf89d6ab652ebd59daa411089e5756",
+      "movedSinceStandingVerdict": false,
+      "standingBase": "d6f430105"
+    },
+    "allRecordedDigestsMatchTheBytesOnDisk": true
+  },
+  "grantsNothing": "A verification row is review evidence. It authorizes no fulfillment, opens no commercial route and promotes nothing.",
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "overlayDirectoriesModified": 0
+}

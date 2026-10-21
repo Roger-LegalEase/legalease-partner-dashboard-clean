@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "rcap-packet-factory-family-return/v1",
+  "assignmentId": "PF01",
+  "workerId": "rcap-finish-worker-77jr7gx76jq3rg65",
+  "lane": "packet-build",
+  "engine": "Codex Codespaces worker",
+  "shiftBaseSha": "169e191bd8b4892120ce16a8ff358e9a89de42ce",
+  "workerBranch": "pf20-ks-22-2410-arrest-20260912b",
+  "workerHeadBeforeReturn": "a899b7e6f325",
+  "familiesAssigned": 1,
+  "rowsReturned": 1,
+  "itemId": "fl-sealing-set",
+  "status": "STOPPED",
+  "stopClass": "BLOCKED_BEFORE_CLAIM",
+  "claim": {
+    "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF01 'fl-sealing-set'",
+    "exitCode": 9,
+    "result": "ALREADY_RELEASED: fl-sealing-set at 2026-09-09T14:02:42.013Z",
+    "ledger": "data/rcap-grade-a/packet-factory-24h/claim-ledger.json",
+    "generatedAtCommit": "6867ee44777ce3c9e88afda8b4bad8c3d8e8e31a"
+  },
+  "preflight": {
+    "result": "NOT_RUN",
+    "reason": "The lane contract requires a non-zero claim assertion to stop before reading family artifacts or running the family prerequisite."
+  },
+  "overlayDirectory": "data/rcap-all50/overlays/census-v1/fl/fl-sealing-set--custom-pleading",
+  "overlayDirectoryTouched": false,
+  "builderCreated": false,
+  "sourceBytesRead": false,
+  "sourceGateRun": false,
+  "rasterGenerated": false,
+  "counters": null,
+  "allNineCountersZero": null,
+  "protectedScopes": [
+    "data/rcap-all50/overlays/census-v1/fl/fl-expunction-set--official-pdf-fill",
+    "scripts/build-census-v1-fl-expunction-set.mjs",
+    "shared manifests and source custody"
+  ],
+  "commercialAuthorityGranted": false,
+  "productionTouched": false,
+  "selfVerified": false,
+  "nextExecutableAction": "Captain must resolve the existing ALREADY_RELEASED claim state before this family can be dispatched; do not reopen or read the family until a valid claim is available.",
+  "returnNotes": [
+    "No source hunt or legal research performed.",
+    "No family artifact or source file was read after the claim refusal.",
+    "PF05's active FL expunction scope and shared records were not modified.",
+    "CA native-return transfer receipt already exists at data/rcap-grade-a/packet-factory-24h/pf08/oh-clean-tracks-ca-return-transfer-20260913.json."
+  ]
+}

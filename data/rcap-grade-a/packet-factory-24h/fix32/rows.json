@@ -1,0 +1,216 @@
+{
+  "schemaVersion": "rcap-packet-factory-focused-repair-return/v1",
+  "workerId": "CLAUDE-FIX32-LA-987-SET-ASIDE-AND-DISMISS",
+  "assignmentId": "FIX32",
+  "assignedBase": "382a0843c",
+  "branch": "fix32-la-987",
+  "laneKind": "repair",
+  "grantConfirmed": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX32 la-987-set-aside-and-dismiss-set returned CLAIM_OK FIX32 la-987-set-aside-and-dismiss-set (repair, grant set 753a84360f1717d1), exit 0, before any file in the family was read or written.",
+  "verdictRepaired": {
+    "lane": "VF01",
+    "verifier": "FABLE-VF01-4F",
+    "verdict": "FAIL_REPAIR_REQUIRED",
+    "verifiedAtBase": "aa866d1657a84bf7779d946ee34ca812990fdf63",
+    "rowLocation": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json, the second la-987-set-aside-and-dismiss-set row (index 73), which supersedes the earlier VF-E row at base 5b74dd31 by commit ancestry",
+    "failedObligationNames": ["KNOWN_PREFILLS", "SOURCE_IDENTITY"]
+  },
+  "assignmentDiscrepancyNoted": "The assignment named the family directory ...--custom-pleading. No such directory exists. The family is built and delivered at data/rcap-all50/overlays/census-v1/la/la-987-set-aside-and-dismiss-set--official-pdf-fill, which is the directory the verdict row, the packet-set manifest and the build script all name, and it is the directory this lane repaired. The catalog strategy is official_pdf_fill even though the instrument is composed from codified authority; the receipt's custodyClass is CUSTOM_PLEADING_FROM_CODIFIED_TEXT, which is probably where the assignment's wording came from.",
+  "scope": "Exactly the two failed obligations. No other obligation VF01 proved was touched: the route key, the component set, the page order, the protected blanks, the filing destination, the fee and waiver statements, the service statements and the self-help stop are unchanged, and the extracted page text of both fixtures differs from the pre-repair bytes on the three placeholder lines of page 1 and one sentence of the instructions component, and on nothing else.",
+  "preflight": {
+    "worktree": "/home/user/fix32-worktree, created from /home/user/captain-worktree at 382a0843c on branch fix32-la-987",
+    "coreSparseCheckout": "false",
+    "skipWorktreeBits": 0,
+    "privateCorpus": "The assignment said to copy /home/user/captain-worktree/private. That worktree holds no private/ directory. private/ was symlinked to /home/user/legalease-partner-dashboard-clean/private instead, which is what three sibling lanes in this container do; nothing under it was read or written. This family binds committed repository records rather than corpus binaries - sourceBinariesRequired 0, sources[] and documents[] both empty - so no corpus file resolves any of its sources and the mount is irrelevant to its build.",
+    "masterLibrarySourceDir": "exported as /home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1, the path scripts/verify-packet-build-environment.mjs resolves MASTER_LIBRARY_RELATIVE to",
+    "nodeModules": "symlinked to /home/user/legalease-partner-dashboard-clean/node_modules; pdf-lib importable; neither symlink changed a tracked file",
+    "otherWorktreesTouched": 0,
+    "subagentsCreated": 0,
+    "centralStateTouched": "none. RASTER_QUEUE.json and MASTER_QUEUE.json were not opened for writing and are unchanged."
+  },
+  "rows": [
+    {
+      "itemId": "la-987-set-aside-and-dismiss-set",
+      "familyId": "la-987-set-aside-and-dismiss-set",
+      "jurisdiction": "LA",
+      "implementationStrategy": "official_pdf_fill",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/la/la-987-set-aside-and-dismiss-set--official-pdf-fill",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "routeKeys": ["obligation:track-only:LA:la-987-set-aside-and-dismiss"],
+      "obligationsRepaired": ["KNOWN_PREFILLS", "SOURCE_IDENTITY"],
+      "obligationsThisRowDoesNotDischarge": [
+        "ARTIFACTS - the delivered bytes moved in this lane, so the RASTER_PASS receipt that covered the old canonical no longer describes anything on disk. A fresh central raster is owed and this lane performed none.",
+        "Every obligation VF01 marked PASS at base aa866d165 - ROUTE_IDENTITY, COMPONENT_SET, REQUIRED_BEFORE_FILING, ROUTE_OPTIONS, REPEATING_ROWS, PROTECTED_FIELDS, PAGE_ORDER, CLIPPING_AND_OVERLAP, FILING_DESTINATION, FEE_AND_WAIVER, SERVICE, SELF_HELP_STOP - was measured over the pre-repair bytes. The bytes moved. This lane did not re-prove any of them and issues no verdict on its own repair; a fresh independent read is owed.",
+        "The three observations VF01 recorded as not-obligation-failures are untouched: the build metadata printed on the face of the instrument (the assigned component identity line and the route-key footer), build-status.json still recording rasterState BUILT_RASTER_PENDING, and build-findings.json still not naming the placeholder ink."
+      ],
+      "obligationsAddressed": {
+        "KNOWN_PREFILLS": {
+          "findingAsWritten": "Page 1 of the delivered Motion printed placeholder prose where the case facts belong. Canonical: 'Conviction statute: Statute citation from the canonical fixture court record' at yMin 265.0 and 'Conviction offense wording: Offense wording from the canonical fixture court record' at yMin 251.75. Boundary: the same two fields, plus 'Period of the deferred sentence: Five years and the full period stated in the boundary fixture court record'. All three were declared writes bound to case.conviction_statute, case.conviction_offense and case.deferral_period, so the completeness verifier counted them written and returned knownRequiredFieldsMissing 0 over fields whose value described where the value should have come from.",
+          "repaired": true,
+          "whatTheLegalDesignRecordsHold": "Checked in data/record-clearing/ for this track (art. 987) rather than assumed. LA.memo.json tracks[trackId=la-987-set-aside-and-dismiss] and legal-design-specifications.json officialFormAssignments[trackId=la-987-set-aside-and-dismiss] both record the offence and its statute as a participant input - the required question 'What offence were you convicted of, and under what statute?' - and neither record, nor the track registry, nor the packet-set manifest, nor the source relationships names any offence or any statute of conviction for this track. The fixture's own declared court record (the FACTS map in the build script, which is the only court-record input this family declares) carried no offence and no statute either. The period of the deferred sentence is different: the fixture's own declared court record does hold it, in the two dates it already prints.",
+          "howEachOfTheThreeWasResolved": {
+            "case.deferral_period": "HELD, so it is printed. The boundary fixture declares deferred_sentence_date 2019-02-28 and probation_completion_date 2024-02-28, which is five years, and the line now reads 'Period of the deferred sentence: Five years'. This is the same derivation the canonical fixture already satisfied: 2021-06-01 to 2023-06-01, printed as 'Two years'. Nothing was invented; the placeholder tail was removed from a value the fixture's own court-record dates state.",
+            "case.conviction_offense": "NOT HELD, so it is a declared, disclosed participant blank with its printed caption. Page 1 now prints 'Conviction offense wording: ' followed by a dotted rule of the same house form the attorney and signature blanks on that page already use. The field-map row moved from canonicalWrites/boundaryWrites to canonicalRefusals/boundaryRefusals as a required() row: completenessDisposition REQUIRED_BEFORE_FILING, requiredBeforeFiling true, routeDetermined false, factId null, printed label 'Conviction offense wording', and participantMustSupply 'write the offense exactly as it is worded on your court record, taken from the minute entry or sentencing order for this docket that the clerk of the sentencing court holds' - the document the memo's supportingDocuments entry names and the office it names as its custodian.",
+            "case.conviction_statute": "NOT HELD, resolved the same way. 'Conviction statute: ' plus a dotted rule; participantMustSupply 'write the statutory citation exactly as it appears on your court record, taken from the same minute entry or sentencing order'."
+          },
+          "whyNotSyntheticValues": "The verdict's own repair note asked for an offence description and a Louisiana statutory citation to be supplied, and the Arizona family it compares against does carry one. This lane did not supply either, because the assignment forbids inventing and no committed record under data/record-clearing/ supplies an offence or a statute for art. 987. Writing a Louisiana criminal statute into the fixture would have been this lane authoring a case fact no record holds, onto a motion that asks a court to set aside a conviction. The assignment's own fallback - a declared, disclosed participant blank with its printed caption where a fact is genuinely not held - is what was used instead. This is recorded as a tension rather than settled: LA.memo.json's primary_filing component note says LegalEase completes 'the offence and statute' among the neutral case fields, which describes the runtime product where the participant's answer is in hand. It is not satisfied by a fixture that declares no answer. Closing that gap by giving the fixture court record an offence needs a legal-design record, which is not a repair lane's to write.",
+          "disclosure": "Both new blanks are named in participant-instructions.md's 'Required before filing' table and, because the instructions are a rendered component, on the delivered packet's own page 4. requiredBeforeFiling went from 2 items to 4. The table's lead-in sentence said 'The two assertions below remain yours alone and are intentionally blank', which four rows would have made false; it now reads 'Every item below remains yours alone and is intentionally left blank on the instrument.'",
+          "appearanceLevelCheck": {
+            "instruments": "pdftotext -layout and pdftotext -bbox-layout over page 1 of both delivered fixtures at HEAD and after the repair; the page-1 composed content stream decoded from the PDF object graph (Tm placement plus the hex-encoded Tj strings, read directly rather than through a text extractor); and a 110 dpi local raster of page 1 of both fixtures written to /tmp and read as an image.",
+            "placeholderProseRemaining": "0. No content-stream text operation on page 1 of either fixture contains 'fixture court record', and neither does any page of either fixture.",
+            "whatPageOneNowCarries": "canonical - 'Conviction offense wording: .....' and 'Conviction statute: .....' as captioned blanks at x=60, y=533.25 and y=520, and the held facts 'Conviction or plea date: 2021-04-17', 'Misdemeanor or felony and selected Article: Misdemeanor - Article 894(B)', 'Deferred sentence and probation date: 2021-06-01', 'Period of the deferred sentence: Two years', 'Probation completion date: 2023-06-01'. boundary - the same two captioned blanks at the same coordinates, and 'Conviction or plea date: 2018-12-31', 'Felony - Article 893(E)', '2019-02-28', 'Period of the deferred sentence: Five years', '2024-02-28'.",
+            "placementDiff": {
+              "method": "Every word box on page 1 was read from pdftotext -bbox-layout for the HEAD bytes and the repaired bytes and keyed by (text, xMin), then the yMin of every shared key compared.",
+              "canonical": "233 shared word boxes, 0 of them moved. Distinct text baselines 36 before and 36 after. The only differences are 16 placeholder-prose word boxes removed and 2 dotted-rule boxes added, on the two lines named in the verdict. Nothing else on the page moved by any amount, horizontally or vertically.",
+              "boundary": "233 shared word boxes: 83 unmoved and 164 shifted by exactly -13.25pt, which is one line height. Distinct baselines 37 before, 36 after. Every unmoved box sits above yMin 251.75 and every shifted box at or below it, and no box moved horizontally. The cause is the one thing that had to change: the boundary offence placeholder was long enough to wrap onto a second line, and a captioned blank does not, so page 1 below the offence line rises by one line. 40 placeholder word boxes removed, 2 dotted-rule boxes added. Page count is 5 before and after in both fixtures, and the primary filing is still exactly 3 pages, which the build asserts."
+            }
+          }
+        },
+        "SOURCE_IDENTITY": {
+          "findingAsWritten": "source-receipt.json groundingRecords[1] pinned data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json at 9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1 / 2607149 B; the file at this base hashes 4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f / 2625273 B. The other six pins re-hash equal. The receipt's bindingMethod binds each record twice, whole file and this family's own entry, and only the whole-file half was stale.",
+          "repaired": true,
+          "howItWasRepaired": "A pin refresh with anchors compared, not a rebuild of the source. route-obligation-candidate.json was not written to by this lane and is unchanged. The builder re-reads and re-hashes each grounding record at build time, so the rebuild carried the whole-file pin to the current bytes; the identityRefresh block recording the comparison was written by hand onto that pin, and scripts/rcap-packet-completeness/identity-refresh.mjs was wired into the builder's writeJson (preserveIdentityRefresh) so the annotation survives every later rebuild rather than being silently regenerated away.",
+          "anchorsCompared": {
+            "anchorTheReceiptQuotes": "routes[routeKey=obligation:track-only:LA:la-987-set-aside-and-dismiss] - the only anchor this pin declares, in its boundEntry.pointer",
+            "historicalBlobRecovered": "git cat-file -p ecd2bde79:data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json, recomputed here as 9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1 / 2607149 B, which is exactly the pin the receipt carried",
+            "presentInTheRePinnedRecord": true,
+            "comparison": "The route object was extracted from both blobs by exact routeKey and compared. JSON.stringify identical, and identical again under the receipt's own canonicalisation (object keys sorted at every depth, no whitespace): 3071 bytes and 0cbbf35e2709ddacfb815f16d539a1806d008bfefdfee1d1275d87451d265349 on both sides, which is the boundEntry digest the receipt already recorded and which is therefore unchanged by this repair. The census carries 708 routes in both blobs.",
+            "whatMovedTheFile": "Exactly one commit touched the file between the previous pin and this base: 2d01b84f7, 'Regenerate the census at the five-route runtime head'. git log ecd2bde79..HEAD over that path returns that commit and no other.",
+            "corroboration": "data/rcap-all50/overlays/census-v1/ct/ct-decriminalized-set--custom-pleading/source-receipt.json already records this same file making this same 9816a479 to 4d0eb74b move, with previousPinLastSeenAtCommit ecd2bde79. Both halves of that were re-derived here from the blobs rather than copied from that receipt."
+          },
+          "blockWritten": {
+            "at": "source-receipt.json groundingRecords[1].identityRefresh",
+            "refreshedOn": "2026-09-05",
+            "was": {"sha256": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1", "byteLength": 2607149},
+            "now": {"sha256": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f", "byteLength": 2625273},
+            "anchorsCompared": 1,
+            "anchorsIdentical": 1,
+            "previousPinLastSeenAtCommit": "ecd2bde79",
+            "survivesRebuild": "proved by rebuilding twice after the block was written: the annotation is present in the receipt both times and the receipt bytes are identical across the two runs. The builder's writeJson now routes the document through preserveIdentityRefresh, which carries the block only while the rebuild re-measures the exact sha256 it was written against and drops it if the census moves again."
+          },
+          "whatWasNotTouched": "The bound route node, which was already correct and still recomputes to 0cbbf35e… / 3071 B. The six pins that already bound. allSourcesExact, which the builder writes from the binding it performs and which remains true. data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json, which this family deliberately does not bind and which the receipt's notGroundedIn block explains at length."
+        }
+      },
+      "whatChanged": "Three source edits in scripts/build-census-v1-la-987-set-aside-and-dismiss-set.mjs and one hand-written annotation. (1) The fixture fact maps lost case.conviction_offense and case.conviction_statute in both fixtures - facts no committed record and no fixture court record holds - and the boundary case.deferral_period lost its placeholder tail, from 'Five years and the full period stated in the boundary fixture court record' to 'Five years', which is what the fixture's own deferred-sentence and probation-completion dates state. (2) The two lost facts became declared REQUIRED_BEFORE_FILING rows in the primary field map and captioned dotted blanks on page 1, and the participant-instructions lead-in that counted two blanks now describes the four. (3) writeJson routes the receipt through preserveIdentityRefresh from scripts/rcap-packet-completeness/identity-refresh.mjs. (4) The identityRefresh block on the census pin was written by hand into source-receipt.json after the first rebuild had refreshed the pin, and the two rebuilds that followed carried it verbatim. product-wiring.json was edited by hand for the byte move: binding.acceptanceReceipt is null with acceptanceReceiptWithdrawnBecause naming the superseded canonical, and the two proposedRepresentation component digests now name the current canonical instead of bytes that no longer exist. No other family, no queue, no census, no compiled runtime and no route was touched.",
+      "filesChanged": [
+        "scripts/build-census-v1-la-987-set-aside-and-dismiss-set.mjs",
+        "data/rcap-all50/overlays/census-v1/la/la-987-set-aside-and-dismiss-set--official-pdf-fill/source-receipt.json",
+        "data/rcap-all50/overlays/census-v1/la/la-987-set-aside-and-dismiss-set--official-pdf-fill/product-wiring.json",
+        "data/rcap-all50/overlays/census-v1/la/la-987-set-aside-and-dismiss-set--official-pdf-fill/production-field-map.json",
+        "data/rcap-all50/overlays/census-v1/la/la-987-set-aside-and-dismiss-set--official-pdf-fill/participant-instructions.md",
+        "data/rcap-all50/overlays/census-v1/la/la-987-set-aside-and-dismiss-set--official-pdf-fill/component-page-manifest.json",
+        "data/rcap-all50/overlays/census-v1/la/la-987-set-aside-and-dismiss-set--official-pdf-fill/fixtures/canonical.pdf",
+        "data/rcap-all50/overlays/census-v1/la/la-987-set-aside-and-dismiss-set--official-pdf-fill/fixtures/boundary.pdf",
+        "data/rcap-all50/overlays/census-v1/la/la-987-set-aside-and-dismiss-set--official-pdf-fill/reports/actual-writes.json",
+        "data/rcap-all50/overlays/census-v1/la/la-987-set-aside-and-dismiss-set--official-pdf-fill/reports/blanks-left-for-the-participant.json",
+        "data/rcap-all50/overlays/census-v1/la/la-987-set-aside-and-dismiss-set--official-pdf-fill/reports/completeness-counters.json",
+        "data/rcap-all50/overlays/census-v1/la/la-987-set-aside-and-dismiss-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "data/rcap-grade-a/packet-factory-24h/fix32/rows.json"
+      ],
+      "deterministicRebuild": {
+        "command": "node scripts/build-census-v1-la-987-set-aside-and-dismiss-set.mjs --no-raster",
+        "runs": 3,
+        "bothFixturesByteIdenticalAcrossBuilds": true,
+        "howChecked": "After the identityRefresh block was written, the family was built twice and sha256sum taken over every file in the family directory after each run; diff of the two manifests was empty - both PDFs and all sixteen records, source-receipt.json with its annotation included. A third build after the product-wiring edit reproduced the same sixteen digests for every file the builder writes.",
+        "returnedStatus": "COMPLETED, nineCountersZero true, writes 13, requiredBeforeFiling 4"
+      },
+      "artifacts": {
+        "canonical": {
+          "path": "data/rcap-all50/overlays/census-v1/la/la-987-set-aside-and-dismiss-set--official-pdf-fill/fixtures/canonical.pdf",
+          "oldSha256": "9e06893a923609beb34e285c6a1bf68044feb518f37cd8a1422a833ef8ca5450",
+          "oldByteLength": 14642,
+          "newSha256": "e3cf9c7c97c61d68a90baf983a8b0f22d5e5555df9cb49c46e59123b714a593c",
+          "newByteLength": 14924,
+          "pagesBefore": 5,
+          "pagesAfter": 5
+        },
+        "boundary": {
+          "path": "data/rcap-all50/overlays/census-v1/la/la-987-set-aside-and-dismiss-set--official-pdf-fill/fixtures/boundary.pdf",
+          "oldSha256": "a8412820377682280b6646600860ec4a1cb3316143137331791d64997b79bc02",
+          "oldByteLength": 14980,
+          "newSha256": "df7bc15003233c72d81ee9b0dfdd7b4f3e63705308caa26e5958eae2cbc9be1c",
+          "newByteLength": 15146,
+          "pagesBefore": 5,
+          "pagesAfter": 5
+        },
+        "digestsMovedInThisLane": true,
+        "renderedArtifactsAgrees": "reports/rendered-artifacts.json names the two new digests and byte lengths and both recompute from disk."
+      },
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersBeforeNotes": "Measured here at the assigned base, not read from the builder's report: PASS_COMPLETE, 15/33 written. The nine zeros are why this repair was needed rather than evidence against it - a field whose written value is a sentence describing where the value should have come from counts as written, and a stale whole-file pin on a grounding record is not something the nine counters measure at all. Both defects were invisible to this instrument before and after.",
+      "countersAfterNotes": "PASS_COMPLETE, 13/33 written - two fewer writes because two placeholder writes became declared blanks, and requiredBeforeFiling rose from 2 to 4. requiredFactsNotCollected stayed 0 because both new blanks are named in participant-instructions.md, which is the condition the verifier checks for a declared required-before-filing item. The corpus-wide run reports one FAIL_MISSING_PREFILLS, pa_6308_underage-set with unclassifiedBlanks 6; it is a Pennsylvania family this lane never opened and it fails identically at the assigned base.",
+      "verifiersRun": {
+        "verifyPacketCompleteness": {
+          "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs",
+          "familyBefore": "PASS_COMPLETE, 15/33 written, all nine counters 0",
+          "familyAfter": "PASS_COMPLETE, 13/33 written, all nine counters 0",
+          "corpusAfter": "241 families audited, 240 PASS_COMPLETE, 1 FAIL_MISSING_PREFILLS (pa_6308_underage-set, pre-existing and untouched); exit 0",
+          "readOnly": "no --write and no mutation flag"
+        },
+        "verifyIdentityRefreshSurvivesRebuild": {
+          "command": "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs",
+          "before": "EVERY_IDENTITY_REFRESH_SURVIVED - 249 receipts compared against HEAD, 52 carrying an identityRefresh, exit 0",
+          "after": "EVERY_IDENTITY_REFRESH_SURVIVED - 249 receipts compared against HEAD, 52 carrying an identityRefresh, exit 0",
+          "note": "The count against HEAD is 52 both times because this family's block is new in the working tree and the tripwire only fails on a refresh HEAD carries that the tree has lost. The annotation's survival was proved separately, by rebuilding twice with it in place and diffing the receipt bytes."
+        },
+        "verifySourceCarriedValuesAreDispositioned": {
+          "command": "node scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs",
+          "before": "7 families carrying a non-null source value, 21 values examined, 21 dispositioned, 0 UNDISPOSITIONED; EVERY_SOURCE_CARRIED_VALUE_IS_DISPOSITIONED, exit 0",
+          "after": "identical - 21 examined, 21 dispositioned, 0 UNDISPOSITIONED, 0 not examinable; EVERY_SOURCE_CARRIED_VALUE_IS_DISPOSITIONED, exit 0",
+          "note": "corpus-green before and after; this family carries no source binary and appears in neither denominator"
+        }
+      },
+      "sharedHostSiblings": {
+        "question": "whether la-977, la-978 or la-985 share a build host with this family and whether their fixtures moved",
+        "la-985": "no such family exists in this tree - no overlay directory under data/rcap-all50/overlays/census-v1/la/ and no build script",
+        "sharedHost": "none. la-977 and la-978 have their own build scripts (build-census-v1-la-977-misdemeanor-conviction-set.mjs and build-census-v1-la-978-felony-conviction-set.mjs); nothing in this repair ran either, and product-wiring.json for la-987 records sharedBuildHost null.",
+        "byteIdentityProved": "All four sibling fixtures were re-hashed from disk and compared to the same paths at HEAD: la-977 canonical fd2d1324bab0740bf0c05ac3680baaba851524fd8e5997062ea27b48b90c3446 and boundary 35e8a1e90c10289940347d2471b2872f3582eb59a547ea9e48e14f9f0c363efe, la-978 canonical f5d6c4ec066846ac9488d45b5603bba6fb6b912bf7413dc5f75bee882d19b8f9 and boundary bff90eb1821357e76d240278f264beac71557c6652e5ef8f8d317291053ac997. All four identical before and after. Neither sibling directory was written to and no sibling rebuild was run or committed.",
+        "sameDefectClassFoundInBoth": "Reported rather than repaired, because it is outside this assignment. la-977 and la-978 carry the same placeholder class on their delivered pages, read with pdftotext -layout over the committed fixtures. la-977 canonical prints 'Misdemeanor conviction offense: Misdemeanor offense wording from the canonical fixture court record' and 'Statute of conviction: Statutory citation from the canonical fixture court record'; its boundary prints the boundary-worded variant of the statute line. la-978 canonical and boundary print the felony-worded equivalents of both. Each string appears twice per fixture, on the pleading page and again inside the rendered instructions component. The source is the same construct this repair fixed: the FACTS maps at lines 323-324 and 342-343 of the la-977 builder and 324-325 and 343-344 of the la-978 builder."
+      },
+      "rasterOwed": true,
+      "rasterNote": "A fresh whole-family central raster is owed, over canonical e3cf9c7c97c61d68a90baf983a8b0f22d5e5555df9cb49c46e59123b714a593c and boundary df7bc15003233c72d81ee9b0dfdd7b4f3e63705308caa26e5958eae2cbc9be1c. The receipt that stood before this repair - RASTER_PASS, workflow run 33923497915, job 101187692760, artifact 9956158929 - is bound to canonical 9e06893a…, which the family no longer ships, so it is superseded. product-wiring.json binding.acceptanceReceipt is now null and binding.acceptanceReceiptWithdrawnBecause says why. RASTER_QUEUE.json and MASTER_QUEUE.json were not touched by this lane and still name the superseded digests; enrolling the new ones is Captain's, not this lane's.",
+      "whatIsOwedNext": "A central raster on the two digests above, then a fresh independent read of the whole obligation set over the new bytes. Separately, and outside this assignment: la-977 and la-978 carry the same placeholder class and need their own repair lanes, and someone with legal-design authority should decide whether the art. 987 fixture court record ought to declare an offence and a statute at all, which would turn the two blanks this lane declared back into printed facts.",
+      "selfVerified": 0,
+      "selfVerificationPerformed": false,
+      "claimReleased": true,
+      "routesOpened": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "grantsNothing": "This is a repair return. It opens no route, proves no packet, accepts no artifact and approves nothing for participant delivery. The lane that built and repaired these bytes does not get to say they are good."
+    }
+  ],
+  "notDone": [
+    "No raster: --no-raster on every build and no rasterizer invoked. Central raster owed.",
+    "No self-verification: this lane repaired the family and therefore issues no verdict on it.",
+    "RASTER_QUEUE.json and MASTER_QUEUE.json untouched, as instructed.",
+    "la-977 and la-978 not repaired and not rebuilt, though both carry the same placeholder class; they are named above so a lane can be dispatched.",
+    "The offence and statute are left as declared participant blanks rather than printed values. The verdict asked for values; no committed record holds any, and the assignment forbids inventing one."
+  ],
+  "packetBytesChanged": 2,
+  "overlayDirectoriesModified": 1,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "grantsNothing": "Nothing in this file is an approval, an acceptance or a route change. Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and this is not that record."
+}

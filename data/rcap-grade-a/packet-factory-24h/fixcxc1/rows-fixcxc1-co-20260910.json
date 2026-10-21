@@ -1,0 +1,44 @@
+{
+  "schemaVersion": "rcap-packet-factory-lane-rows/v1",
+  "lane": "FIXCXC1",
+  "laneKind": "repair",
+  "baseSha": "4b0c86373decb82a9046d84a7510cfd04523ec2a",
+  "branch": "lane-fixcxc1-co-guidance-20260910",
+  "isIndependentVerification": false,
+  "stopped": true,
+  "rows": [
+    {
+      "itemId": "co_municipal_conviction_seal-set",
+      "familyId": "co_municipal_conviction_seal-set",
+      "status": "COMPLETED",
+      "repairedByThisLane": true,
+      "scope": "VF40 SERVICE guidance only; generate concrete item 14 service and item 15 signature follow-up; assert participant actions before first artifact write",
+      "obligationRepaired": [
+        "SERVICE"
+      ],
+      "finding": "Direct service/notarization sections repeated internal source-review gaps rather than giving participant action. Existing fee correction retained.",
+      "correction": "Source-bound certificate-of-service task and clerk-directed clarification before signing in both guides; no invented service deadline or notarization rule. Buffer PDFs and assert composed guidance before publishing.",
+      "evidence": "data/rcap-grade-a/packet-factory-24h/fixcxc1/co-evidence/plain-entrypoint-proof.json",
+      "originalPlainMutation": {
+        "exit": 0,
+        "defectiveGuidanceAccepted": true
+      },
+      "fixedPlainMutation": {
+        "exit": 1,
+        "changedFiles": []
+      },
+      "validPlainBuild": {
+        "exit": 0,
+        "pdfBytesIdentical": true,
+        "publishedFiles": [
+          "participant-instructions.md",
+          "filing-instructions.md"
+        ],
+        "scratchOnlyReceiptDelta": "Changed environment custody inventory and whole national record/queue hashes; source document entries and controlling legal track/packet-set slices unchanged. Original historical receipt retained without repinning; scratch receipt preserved separately."
+      },
+      "countersAfter": null,
+      "countersNote": "Guidance repair is not independent acceptance; prior other obligation coverage and identical current PDF raster must be assessed by independent delta reviewer.",
+      "grantsNothing": "No verdict, owner adoption, route change or raster receipt."
+    }
+  ]
+}

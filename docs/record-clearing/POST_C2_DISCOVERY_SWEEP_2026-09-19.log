@@ -1,0 +1,453 @@
+=== STEP 1/154: node scripts/verify-rcap-terminalize-c3.mjs ===
+  FAIL
+      - WA:wa_vac_post_probation_9_95_240: provenance.fingerprint does not match sha256 of src/lib/rcap-engine/compiled/profiles/WA-washington.json.
+      - NE:ne-seal-enforcement: provenance.fingerprint does not match sha256 of src/lib/rcap-engine/compiled/profiles/NE-nebraska.json.
+      - OH:oh_2953_32_sealing: provenance.fingerprint does not match sha256 of src/lib/rcap-engine/compiled/profiles/OH-ohio.json.
+      - OK:ok_identity_theft: provenance.fingerprint does not match sha256 of src/lib/rcap-engine/compiled/profiles/OK-oklahoma.json.
+      - VA:va_exp_identity_used_by_another: provenance.fingerprint does not match sha256 of src/lib/rcap-engine/compiled/profiles/VA-virginia.json.
+      - WI:wi_exp_certificate_of_discharge_followup: provenance.fingerprint does not match sha256 of src/lib/rcap-engine/compiled/profiles/WI-wisconsin.json.
+=== STEP 2/154: node scripts/verify-rcap-no-null-presentation.mjs ===
+  PASS
+=== STEP 3/154: node scripts/verify-rcap-component-deferral-runtime.mjs ===
+  PASS
+=== STEP 4/154: node scripts/verify-rcap-component-deferral-runtime.mjs --mutations ===
+  PASS
+=== STEP 5/154: node docs/record-clearing/terminalize-c/verify-c-dependency-deferrals.mjs ===
+  FAIL
+        "[runtime-patch-spec/patches/10] file bytes match no recorded state (baseSha256, appliedSha256 or priorAppliedSha256)",
+        "[runtime-patch-spec/patches/11] file bytes match no recorded state (baseSha256, appliedSha256 or priorAppliedSha256)",
+        "[runtime-patch-spec/patches/12] file bytes match no recorded state (baseSha256, appliedSha256 or priorAppliedSha256)",
+        "[runtime-patch-spec/patches/13] file bytes match no recorded state (baseSha256, appliedSha256 or priorAppliedSha256)"
+      ]
+    }
+=== STEP 6/154: node scripts/verify-rcap-hard-form-rendered-assertions.mjs ===
+  PASS
+=== STEP 7/154: node scripts/verify-rcap-no-checkout-on-automatic-routes.mjs ===
+  PASS
+=== STEP 8/154: node scripts/verify-rcap-official-forms-d1.mjs ===
+  PASS
+=== STEP 9/154: node scripts/verify-rcap-hard-form-dispositions.mjs ===
+  PASS
+=== STEP 10/154: node scripts/verify-rcap-hard-form-outputs.mjs ===
+  PASS
+=== STEP 11/154: node scripts/generate-rcap-track-terminalization.mjs --check ===
+  FAIL
+    stale: /home/user/hotfix-61a2f018/data/rcap-ledger/track-terminalization.json, /home/user/hotfix-61a2f018/docs/record-clearing/track-terminalization.md; re-run without --check
+=== STEP 12/154: node scripts/generate-rcap-d-track-queue.mjs --check ===
+  FAIL
+    FAIL generate-rcap-d-track-queue (1 problem(s))
+      - expected 67 D tracks, found 68
+=== STEP 13/154: node scripts/generate-rcap-d-adoption-reconciliation.mjs --check ===
+  PASS
+=== STEP 14/154: node scripts/verify-rcap-lane-b-exact-deferrals.mjs ===
+  PASS
+=== STEP 15/154: node scripts/verify-rcap-lane-b-exact-deferrals.mjs --mutations ===
+  FAIL
+        at Object.apply (file:///home/user/hotfix-61a2f018/scripts/verify-rcap-lane-b-exact-deferrals.mjs:614:20)
+        at runMutations (file:///home/user/hotfix-61a2f018/scripts/verify-rcap-lane-b-exact-deferrals.mjs:653:16)
+        at file:///home/user/hotfix-61a2f018/scripts/verify-rcap-lane-b-exact-deferrals.mjs:51:9
+        at ModuleJob.run (node:internal/modules/esm/module_job:343:25)
+        at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:665:26)
+        at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
+=== STEP 16/154: node scripts/generate-rcap-terminalization-briefs.mjs --check ===
+  PASS
+=== STEP 17/154: node scripts/verify-rcap-terminalization-treatments.mjs ===
+  FAIL
+      - SC:sc_17_1_65_handgun: a treatment exists for a track this window never briefed
+      - SC:sc_22_5_910: a treatment exists for a track this window never briefed
+      - SC:sc_22_5_920_yoa: a treatment exists for a track this window never briefed
+      - SC:sc_22_5_930_drug: a treatment exists for a track this window never briefed
+      - SC:sc_34_11_90e_check: a treatment exists for a track this window never briefed
+      - SC:sc_56_5_750f: a treatment exists for a track this window never briefed
+=== STEP 18/154: node scripts/verify-rcap-terminalization-treatments.mjs --mutations ===
+  FAIL
+        - SC:sc_17_1_65_handgun: a treatment exists for a track this window never briefed
+        - SC:sc_22_5_910: a treatment exists for a track this window never briefed
+        - SC:sc_22_5_920_yoa: a treatment exists for a track this window never briefed
+        - SC:sc_22_5_930_drug: a treatment exists for a track this window never briefed
+        - SC:sc_34_11_90e_check: a treatment exists for a track this window never briefed
+        - SC:sc_56_5_750f: a treatment exists for a track this window never briefed
+=== STEP 19/154: node scripts/generate-rcap-terminalization-review-dispositions.mjs --check ===
+  PASS
+=== STEP 20/154: node scripts/generate-rcap-problematic-pdf-register.mjs --check ===
+  PASS
+=== STEP 21/154: node scripts/generate-rcap-review-manifests.mjs --check ===
+  PASS
+=== STEP 22/154: node scripts/verify-rcap-verifier-dispositions.mjs ===
+  FAIL
+    - verify-review-summary-packet-plan.mjs: no recorded disposition
+    - verify-source-acquisition-provenance.test.mjs: no recorded disposition
+    - verify-url-promotion-host-policy.test.mjs: no recorded disposition
+    - verify-external-participant-language.mjs: is in the npm test chain but recorded as keep_available; the register must match reality
+    
+    Regenerate with: npm run rcap:generate-verifier-dispositions
+=== STEP 23/154: node scripts/verify-expungement-dtc-flow-unchanged.mjs ===
+  PASS
+=== STEP 24/154: node scripts/verify-shared-claim-boundary-db.mjs ===
+  PASS
+=== STEP 25/154: node scripts/verify-shared-claim-boundary-app.mjs ===
+  PASS
+=== STEP 26/154: node scripts/test-lane-e-review-edit-ownership.mjs ===
+  FAIL
+      expected: 'verified',
+      operator: 'strictEqual',
+      diff: 'simple'
+    }
+    
+    Node.js v22.22.2
+=== STEP 27/154: node scripts/test-shared-claim-boundary-mutations.mjs ===
+  FAIL
+    test-shared-claim-boundary-mutations FAILED: verifier not green on clean source
+      - scripts/test-lane-e-review-edit-ownership.mjs
+    A mutation judged by an already-failing verifier is not evidence.
+=== STEP 28/154: node scripts/generate-all51-branch-port-evidence.mjs --check ===
+  FAIL
+    data/rcap-all50/all51-branch-port-evidence.json is stale or missing; regenerate it.
+=== STEP 29/154: node scripts/generate-all51-coverage-reconciliation.mjs --check ===
+  FAIL
+    All-51 coverage reconciliation failed:
+      - data/rcap-all50/all51-coverage-reconciliation.json is stale; regenerate it
+=== STEP 30/154: node scripts/generate-legal-review-decision-sets.mjs --check ===
+  FAIL
+    Legal review decision-set register failed:
+      - data/rcap-ledger/legal-review-decision-sets.json is stale; regenerate it
+      - docs/record-clearing/LEGAL_REVIEW_DECISION_SETS.md is stale; regenerate it
+=== STEP 31/154: node scripts/generate-all51-legal-authority-reconciliation.mjs --check ===
+  FAIL
+    All-51 legal authority reconciliation failed:
+      - data/rcap-ledger/all51-legal-authority-reconciliation.json is stale; regenerate it
+      - docs/record-clearing/ALL51_LEGAL_AUTHORITY_RECONCILIATION.md is stale; regenerate it
+=== STEP 32/154: node scripts/verify-legal-design-memo-import.mjs ===
+  FAIL
+      - data/record-clearing/legal-design-intake/PA.memo.json differs from origin/feat/record-clearing-production-integration (local 7be7826d4bc4, source 3291a5ce3e08) -- the import has been edited in place
+      - data/record-clearing/legal-design-intake/RI.memo.json differs from origin/feat/record-clearing-production-integration (local dfd9d6cd3f13, source 918bdea81d68) -- the import has been edited in place
+      - data/record-clearing/legal-design-intake/VA.memo.json differs from origin/feat/record-clearing-production-integration (local 32269fdc2343, source d1900eb5282f) -- the import has been edited in place
+      - data/record-clearing/legal-design-intake/VT.memo.json differs from origin/feat/record-clearing-production-integration (local c274dbd6b586, source 4bcd3fa16e73) -- the import has been edited in place
+      - data/record-clearing/legal-design-intake/WA.memo.json differs from origin/feat/record-clearing-production-integration (local 45eeed5807e5, source 8f43ce3e1b28) -- the import has been edited in place
+      - data/record-clearing/legal-design-intake/WY.memo.json differs from origin/feat/record-clearing-production-integration (local f210755837e1, source de2239036a9b) -- the import has been edited in place
+=== STEP 33/154: node scripts/generate-all51-legal-authority-finalization.mjs --check ===
+  FAIL
+    All-51 legal authority finalization failed:
+      - 3 question(s) have a provenance with no owner mapping
+      - data/rcap-ledger/all51-legal-authority-finalization.json is stale; regenerate it
+      - docs/record-clearing/ALL51_LEGAL_AUTHORITY_FINALIZATION.md is stale; regenerate it
+=== STEP 34/154: node scripts/generate-controlling-legal-decisions-doc.mjs --check ===
+  PASS
+=== STEP 35/154: node scripts/verify-controlling-legal-decisions.mjs ===
+  PASS
+=== STEP 36/154: node scripts/generate-all51-current-legal-questions.mjs --check ===
+  FAIL
+    Current legal questions register failed:
+      - data/record-clearing/all51-current-legal-questions.json is stale; regenerate it
+      - docs/record-clearing/ALL51_CURRENT_LEGAL_QUESTIONS.md is stale; regenerate it
+=== STEP 37/154: node scripts/generate-legal-authority-chain-reconciliation.mjs --check ===
+  PASS
+=== STEP 38/154: node scripts/verify-legal-authority-chain-reconciliation.mjs ===
+  PASS
+=== STEP 39/154: node scripts/generate-renderer-gap-decomposition.mjs --check ===
+  FAIL
+    Renderer gap decomposition failed:
+      - data/rcap-ledger/renderer-gap-decomposition.json is stale; regenerate it
+      - docs/record-clearing/RENDERER_GAP_DECOMPOSITION.md is stale; regenerate it
+=== STEP 40/154: node scripts/generate-pathway-bridge-adjudication.mjs --check ===
+  FAIL
+    Pathway bridge adjudication failed:
+      - data/rcap-ledger/pathway-bridge-adjudication.json is stale; regenerate it
+      - docs/record-clearing/PATHWAY_BRIDGE_ADJUDICATION.md is stale; regenerate it
+=== STEP 41/154: node scripts/generate-closure-authority-contradictions.mjs --check ===
+  FAIL
+      - NJ:clean-slate-petition-under-n-j-s-a-2c-52-5-3 has no individual adjudication; the eleven rows are not one move
+      - NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247 has no individual adjudication; the eleven rows are not one move
+      - OR:marijuana-specific-set-aside-redesignation has no individual adjudication; the eleven rows are not one move
+      - SD:juvenile-trafficking-expungement has no individual adjudication; the eleven rows are not one move
+      - data/rcap-ledger/closure-authority-contradictions.json is stale; regenerate it
+      - docs/record-clearing/CLOSURE_AUTHORITY_CONTRADICTIONS.md is stale; regenerate it
+=== STEP 42/154: node scripts/generate-national-legal-decision-overlay.mjs --check ===
+  PASS
+=== STEP 43/154: node scripts/verify-national-legal-decision-overlay.mjs ===
+  PASS
+=== STEP 44/154: node scripts/verify-rcap-phase52-consumer-payment-authority.mjs ===
+  PASS
+=== STEP 45/154: node scripts/test-rcap-phase52-mutations.mjs ===
+  PASS
+=== STEP 46/154: node scripts/verify-rcap-phase53-consumer-job-binding.mjs ===
+  PASS
+=== STEP 47/154: node scripts/test-rcap-phase53-mutations.mjs ===
+  PASS
+=== STEP 48/154: node scripts/verify-rcap-phase51-consumer-payment-security.mjs ===
+  PASS
+=== STEP 49/154: node scripts/verify-expungement-consumer-payment-http.mjs ===
+  PASS
+=== STEP 50/154: node scripts/test-rcap-consumer-payment-http-mutations.mjs ===
+  FAIL
+      caught   the enqueue route stops requiring a recorded payment
+      caught   the matter stops being derived from the item
+    
+    test-rcap-consumer-payment-http-mutations FAILED: 2 mutation(s) left the suite green.
+      - the webhook stops checking the charged amount (no-op mutation)
+      - the webhook stops checking the currency
+=== STEP 51/154: node scripts/verify-rcap-consumer-person-namespace.mjs ===
+  PASS
+=== STEP 52/154: node scripts/test-rcap-phase54-mutations.mjs ===
+  PASS
+=== STEP 53/154: node scripts/verify-rcap-final-official-sources.mjs ===
+  PASS
+=== STEP 54/154: node scripts/verify-rcap-official-source-mutations.mjs ===
+  PASS
+=== STEP 55/154: node scripts/verify-rcap-md-pardon-pathway.mjs ===
+  PASS
+=== STEP 56/154: node scripts/verify-rcap-person-identity-post-phase54.mjs ===
+  PASS
+=== STEP 57/154: node scripts/generate-rcap-staging-action.mjs --check ===
+  PASS
+=== STEP 58/154: node scripts/verify-rcap-worker-publication-workflow.mjs ===
+  FAIL
+    test-rcap-image-fingerprint-mutations passed: 11/11 mutations red, files restored.
+    The fingerprint is a constraint on the build source, not a description that drifts.
+    
+    verify-rcap-worker-publication-workflow FAILED: 2 check(s)
+      - a full integration SHA is a required input — integration_sha is not declared required
+      - the only tag is the full commit SHA — tag line does not interpolate the input SHA:           tags: ${{ env.IMAGE_REPOSITORY }}:${{ steps.resolve.outputs.sha }}
+=== STEP 59/154: node scripts/verify-rcap-migration-apply-evidence.mjs ===
+  PASS
+=== STEP 60/154: node scripts/test-rcap-apply-evidence-mutations.mjs ===
+  PASS
+=== STEP 61/154: node scripts/generate-rcap-sellable-pathway-closure.mjs --check ===
+  PASS
+=== STEP 62/154: node scripts/verify-rcap-sellable-pathway-closure.mjs --governance-only ===
+  PASS
+=== STEP 63/154: node scripts/verify-rcap-sellable-pathway-closure.mjs --mutations ===
+  PASS
+=== STEP 64/154: node scripts/verify-rcap-money-gate-delivery-binding.mjs ===
+  PASS
+=== STEP 65/154: node scripts/verify-rcap-money-gate-delivery-binding.mjs --mutations ===
+  PASS
+=== STEP 66/154: node scripts/generate-rcap-public-witness-answer-sets.mjs --check ===
+  PASS
+=== STEP 67/154: node scripts/generate-rcap-session-a-evidence-packet.mjs --check ===
+  PASS
+=== STEP 68/154: node scripts/verify-rcap-session-a-evidence-packet.mjs ===
+  PASS
+=== STEP 69/154: node scripts/verify-rcap-session-a-evidence-packet.mjs --mutations ===
+  PASS
+=== STEP 70/154: node scripts/generate-rcap-factory-v2-registry.mjs --check ===
+  PASS
+=== STEP 71/154: node scripts/verify-rcap-factory-v2-route.mjs ===
+  PASS
+=== STEP 72/154: node scripts/verify-rcap-factory-v2-route.mjs --mutations ===
+  PASS
+=== STEP 73/154: node scripts/generate-rcap-launch-graph.mjs --check ===
+  PASS
+=== STEP 74/154: node scripts/verify-rcap-launch-graph.mjs ===
+  PASS
+=== STEP 75/154: node scripts/verify-rcap-launch-graph.mjs --mutations ===
+  PASS
+=== STEP 76/154: node scripts/verify-rcap-shared-pdf-contract.mjs ===
+  PASS
+=== STEP 77/154: node scripts/verify-rcap-shared-pdf-contract.mjs --mutations ===
+  PASS
+=== STEP 78/154: node scripts/generate-rcap-registry-gap-dossier.mjs --check ===
+  FAIL
+    data/rcap-ledger/registry-gap-dossier.json is stale.
+    docs/record-clearing/registry-gap-dossier.md is stale.
+=== STEP 79/154: node scripts/generate-rcap-witness-divergence-diagnosis.mjs --check ===
+  FAIL
+    data/rcap-ledger/witness-divergence-diagnosis.json is stale.
+    data/rcap-ledger/public-witness-fixtures.json is stale.
+    docs/record-clearing/witness-divergence-diagnosis.md is stale.
+=== STEP 80/154: node scripts/verify-rcap-reachability-evidence.mjs ===
+  FAIL
+    
+    verify-rcap-reachability-evidence FAILED — 3 problem(s):
+    
+     - the diagnosis was built against a different canonical graph than the one on disk
+     - the diagnosis must cover exactly Session A's 267 pathways; it covers 262
+     - IL:felony-prostitution-relief: replay result code guidance_only, fixture expects likely_not_eligible
+=== STEP 81/154: node scripts/verify-rcap-reachability-evidence.mjs --mutations ===
+  FAIL
+    caught   a cluster with no stated correction
+    caught   a fixture that expects a different pathway than it names
+    caught   a fixture invented for a pathway that failed
+    MISSED   the diagnosis built against a different graph
+    
+    verify-rcap-reachability-evidence --mutations FAILED — 1 undetected.
+=== STEP 82/154: node scripts/verify-rcap-evaluator-clock-boundary.mjs ===
+  PASS
+=== STEP 83/154: node scripts/verify-rcap-evaluator-clock-boundary.mjs --mutations ===
+  PASS
+=== STEP 84/154: node scripts/verify-rcap-manifest-only-retention.mjs ===
+  PASS
+=== STEP 85/154: node scripts/verify-rcap-manifest-only-retention.mjs --mutations ===
+  PASS
+=== STEP 86/154: node scripts/generate-rcap-artifact-dispositions.mjs --check ===
+  PASS
+=== STEP 87/154: node scripts/verify-rcap-non-filing-components.mjs ===
+  PASS
+=== STEP 88/154: node scripts/verify-rcap-non-filing-components.mjs --mutations ===
+  PASS
+=== STEP 89/154: node scripts/verify-legal-authority-contracts.mjs ===
+  PASS
+=== STEP 90/154: node scripts/verify-legal-authority-delivery-schema.mjs ===
+  PASS
+=== STEP 91/154: node scripts/verify-route-resolution.mjs ===
+  PASS
+=== STEP 92/154: node scripts/generate-route-kind-adjudications.mjs --check ===
+  PASS
+=== STEP 93/154: node scripts/verify-route-kind-adjudications.mjs ===
+  PASS
+=== STEP 94/154: node scripts/verify-route-presentation-conflicts.mjs ===
+  PASS
+=== STEP 95/154: node scripts/generate-packet-family-build-status.mjs --check ===
+  PASS
+=== STEP 96/154: node scripts/verify-packet-family-build-status.mjs ===
+  PASS
+=== STEP 97/154: node scripts/verify-batch-a-product-boundaries.mjs ===
+  PASS
+=== STEP 98/154: node scripts/verify-batch-b-product-boundaries.mjs ===
+  PASS
+=== STEP 99/154: node scripts/verify-batch-c-product-boundaries.mjs ===
+  PASS
+=== STEP 100/154: node scripts/verify-free-screening-boundary.mjs ===
+  PASS
+=== STEP 101/154: node scripts/verify-screening-verification-finetune-shard-f.mjs ===
+  FAIL
+    Lane F screening-verification verifier failed (4):
+    - LA: legal/route/packet profile surface changed (cb912598c285c0a7f598e42b10c87eae0c8d7372414f656090b6a3d3d85c2bec)
+    - MD: legal/route/packet profile surface changed (36be6bbc3d24856bd12dd39a700ba70a783b6131d35cc7b1b7298e176bac4e2d)
+    - MA: legal/route/packet profile surface changed (88a60b013f1e0d6cbc0703173e8f4480eb5f3261ca18f8924b57deb995a7aa00)
+    - MT: legal/route/packet profile surface changed (0097fa8710970de4209af06ed911f6dada0c557484d4bd7dda07eb9af4eced37)
+=== STEP 102/154: node scripts/verify-legal-authority-routing.mjs ===
+  PASS
+=== STEP 103/154: node scripts/apply-legal-authority-to-profiles.mjs --check ===
+  PASS
+=== STEP 104/154: node scripts/verify-ms-paid-packet-proof-reconciliation.mjs ===
+  PASS
+=== STEP 105/154: node scripts/verify-ms-paid-packet-proof-reconciliation.mjs --mutations ===
+  PASS
+=== STEP 106/154: node scripts/generate-rcap-grade-a-fulfillment-authority.mjs --check ===
+  PASS
+=== STEP 107/154: node scripts/verify-rcap-grade-a-fulfillment-authority.mjs ===
+  PASS
+=== STEP 108/154: node scripts/verify-rcap-grade-a-fulfillment-authority.mjs --mutations ===
+  PASS
+=== STEP 109/154: node scripts/verify-il-artifact-carry-forward.mjs ===
+  PASS
+=== STEP 110/154: node scripts/verify-il-artifact-carry-forward.mjs --mutations ===
+  PASS
+=== STEP 111/154: node scripts/verify-rcap-lane-f-commercial-admission.mjs ===
+  PASS
+=== STEP 112/154: node scripts/generate-nd-composed-packet-artifacts.mjs --check ===
+  PASS
+=== STEP 113/154: node scripts/verify-nd-composed-packet.mjs ===
+  PASS
+=== STEP 114/154: node scripts/verify-nd-nonconviction-product-path.mjs ===
+  PASS
+=== STEP 115/154: node scripts/verify-nd-grade-a-packet.mjs ===
+  PASS
+=== STEP 116/154: node scripts/generate-nd-grade-a-packet.mjs --check ===
+  PASS
+=== STEP 117/154: node scripts/verify-nd-grade-a-product-path.mjs ===
+  PASS
+=== STEP 118/154: node scripts/verify-nd-shared-renderer-byte-preservation.mjs ===
+  PASS
+=== STEP 119/154: node scripts/verify-rcap-oregon-official-pdf-grade-a.mjs ===
+  PASS
+=== STEP 120/154: node scripts/verify-active-lane-envelopes.mjs ===
+  PASS
+=== STEP 121/154: node scripts/verify-active-lane-envelopes.mjs --mutations ===
+  PASS
+=== STEP 122/154: node scripts/verify-rcap-answer-dependent-patches.mjs ===
+  FAIL
+      Q-J-04: that profile still hashes to what the matrix recorded: live bf9709154f74, matrix 0d5885d3ee56
+      Q-J-04/A: wv_dui_deferral_expungement-primary-filing-1 is repinned to the profile's live digest: 0d5885d3ee56f516ee8bb9c6ce8d99d9aaa72a90d6670f8b6c8a52242db08b78 vs bf9709154f74544ea0f5089439b822c88226ea42a031f8ccdfc72f29417a5f00
+      Q-J-04/A: wv_dui_deferral_expungement-supporting-affidavit-2 is repinned to the profile's live digest: 0d5885d3ee56f516ee8bb9c6ce8d99d9aaa72a90d6670f8b6c8a52242db08b78 vs bf9709154f74544ea0f5089439b822c88226ea42a031f8ccdfc72f29417a5f00
+      Q-J-04/A: wv_dui_deferral_expungement-secondary-filing-3 is repinned to the profile's live digest: 0d5885d3ee56f516ee8bb9c6ce8d99d9aaa72a90d6670f8b6c8a52242db08b78 vs bf9709154f74544ea0f5089439b822c88226ea42a031f8ccdfc72f29417a5f00
+      Q-J-04/A: wv_dui_deferral_expungement-supporting-timeline-4 is repinned to the profile's live digest: 0d5885d3ee56f516ee8bb9c6ce8d99d9aaa72a90d6670f8b6c8a52242db08b78 vs bf9709154f74544ea0f5089439b822c88226ea42a031f8ccdfc72f29417a5f00
+      Q-J-04/A: wv_dui_deferral_expungement-certificate-of-service-5 is repinned to the profile's live digest: 0d5885d3ee56f516ee8bb9c6ce8d99d9aaa72a90d6670f8b6c8a52242db08b78 vs bf9709154f74544ea0f5089439b822c88226ea42a031f8ccdfc72f29417a5f00
+=== STEP 123/154: node scripts/verify-rcap-oregon-decision-alternatives.mjs ===
+  FAIL
+      ok   the three disposition-bound configurations exist
+      ok   the previously selected route is recorded as superseded
+      ok   no configuration is commercially open
+    
+    Oregon alternatives: 1 problem(s).
+      it is not commercially eligible and is not proven: INCOMPLETE / not_commercially_eligible / eligible 6
+=== STEP 124/154: node scripts/generate-rcap-oregon-disposition-configurations.mjs --check ===
+  PASS
+=== STEP 125/154: node scripts/verify-rcap-oregon-disposition-configurations.mjs ===
+  PASS
+=== STEP 126/154: node scripts/verify-rcap-status-currentness.mjs ===
+  PASS
+=== STEP 127/154: node scripts/verify-rcap-status-currentness.mjs --mutations ===
+  PASS
+=== STEP 128/154: node scripts/generate-rcap-official-source-registry.mjs --check ===
+  PASS
+=== STEP 129/154: node scripts/generate-rcap-oregon-grade-a-authority-proofs.mjs --check ===
+  PASS
+=== STEP 130/154: node scripts/verify-rcap-oregon-grade-a-lane-c.mjs ===
+  PASS
+=== STEP 131/154: node scripts/generate-rcap-grade-a-lane-b-v2-candidate.mjs --check ===
+  FAIL
+    No packet fulfillment record for ND:first-offense-possession-sealing; the artifact evidence would have to be invented.
+=== STEP 132/154: node scripts/verify-rcap-grade-a-fulfillment-hardening.mjs ===
+  FAIL
+    
+    GRADE-A FULFILLMENT HARDENING — 1 FAILURE(S):
+      ✗ the shipped registry admits only the five exact evidence-complete productized records: MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal was unexpectedly admitted at consumer_checkout
+=== STEP 133/154: node scripts/verify-rcap-grade-a-fulfillment-db-proposal.mjs ===
+  PASS
+=== STEP 134/154: node scripts/verify-consumer-auth-continuation.mjs ===
+  PASS
+=== STEP 135/154: node scripts/verify-rcap-route-holds.mjs ===
+  PASS
+=== STEP 136/154: node scripts/verify-rcap-route-holds.mjs --mutations ===
+  PASS
+=== STEP 137/154: node scripts/verify-rcap-kansas-municipal-runtime-routes.mjs ===
+  PASS
+=== STEP 138/154: node scripts/grade-a-packet-factory-24h/test-border-scan-third-write-proof-shape.mjs ===
+  PASS
+=== STEP 139/154: python3 scripts/rcap-packet-recovery/test-full-set-raster-admission.py ===
+  PASS
+=== STEP 140/154: node scripts/rcap-official-forms/test-non-filing-notice-legal-advice.mjs ===
+  PASS
+=== STEP 141/154: node scripts/grade-a-packet-factory-24h/test-verification-return-filenames.mjs ===
+  PASS
+=== STEP 142/154: node --test scripts/verify-family-source-resolution.test.mjs scripts/grade-a-packet-factory-24h/verify-finding-extraction.test.mjs scripts/grade-a-packet-factory-24h/verify-raster-declared-enrolment.test.mjs scripts/rcap-packet-completeness/verify-absent-is-not-zero.test.mjs scripts/verify-source-acquisition-provenance.test.mjs scripts/verify-url-promotion-host-policy.test.mjs scripts/verify-corpus-index-custody-attribution.test.mjs ===
+  FAIL
+    # pass 72
+    # fail 6
+    # cancelled 0
+    # skipped 0
+    # todo 0
+    # duration_ms 2130.533921
+=== STEP 143/154: node scripts/rcap-packet-completeness/verify-governance-state-survives-rebuild.mjs ===
+  PASS
+=== STEP 144/154: node scripts/rcap-packet-completeness/test-governance-state-preserved-on-rebuild.mjs ===
+  FAIL
+      expected: 'fe6116767ab21cd12f5448c6cb389072f32e4650e3a3b7f8d8bb82168e124f00',
+      operator: 'notStrictEqual',
+      diff: 'simple'
+    }
+    
+    Node.js v22.22.2
+=== STEP 145/154: node scripts/legal-aid/verify-legal-aid-schema.mjs ===
+  PASS
+=== STEP 146/154: node scripts/legal-aid/verify-legal-aid-intake-schema.mjs ===
+  PASS
+=== STEP 147/154: node scripts/legal-aid/generate-legal-aid-field-map.mjs --check ===
+  PASS
+=== STEP 148/154: node scripts/legal-aid/local-stack/self-test.mjs ===
+  PASS
+=== STEP 149/154: node scripts/partners/build-mvlp-landing.mjs --check ===
+  PASS
+=== STEP 150/154: node scripts/verify-external-participant-language.mjs ===
+  PASS
+=== STEP 151/154: node scripts/test-rcap-packet-invariants.mjs ===
+  PASS
+=== STEP 152/154: node scripts/verify-packet-collection.mjs ===
+  PASS
+=== STEP 153/154: node scripts/generate-packet-collection-audit.mjs --check ===
+  PASS
+=== STEP 154/154: node scripts/generate-mississippi-collection-ledger.mjs --check ===
+  PASS
+SWEEP PASS=121 FAIL=33

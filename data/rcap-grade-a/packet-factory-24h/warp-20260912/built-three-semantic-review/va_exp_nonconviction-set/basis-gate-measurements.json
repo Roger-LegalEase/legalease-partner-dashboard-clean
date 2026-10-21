@@ -1,0 +1,278 @@
+{
+  "method": "Pure evaluator imported from immutable snapshot; no builder run",
+  "ordinaryAndAgreementBranchesAreNotBlanketBlocked": true,
+  "reducedOriginalChargeCaseIsNotARequestToExpungeAlternativeConviction": true,
+  "cases": [
+    {
+      "name": "current subsection-D dismissal",
+      "record": {
+        "disposition": "dismissed",
+        "deferredStatute": "19.2-298.02",
+        "subsectionDAgreement": "established",
+        "agreementEvidence": "Final disposition order, page2, separate all-party expungement agreement",
+        "admittedFactsOrFinding": true,
+        "prosecutionResponse": "none"
+      },
+      "asOf": "2026-09-12",
+      "expectedContinue": true,
+      "result": {
+        "status": "SUBSECTION_D_EXCEPTION_CONTINUE",
+        "reason": "Evaluate the statutory exception and all remaining route requirements.",
+        "basis": "otherwise_dismissed",
+        "continueExistingChecks": true,
+        "eligibilityDetermined": false,
+        "automaticallySelectsBox": false,
+        "grantsFilingOrCommercialAuthority": false
+      },
+      "matchesExpected": true
+    },
+    {
+      "name": "original charge reduced under subsection-D with separate agreement",
+      "record": {
+        "disposition": "reduced",
+        "deferredStatute": "19.2-298.02",
+        "subsectionDAgreement": "established",
+        "agreementEvidence": "Final disposition order, page2, separate all-party expungement agreement",
+        "admittedFactsOrFinding": true,
+        "prosecutionResponse": "none",
+        "targetIsOriginalReducedCharge": true
+      },
+      "asOf": "2026-09-12",
+      "expectedContinue": true,
+      "result": {
+        "status": "RECORD_REVIEW_REQUIRED",
+        "reason": "An exact supported non-conviction disposition is required.",
+        "basis": null,
+        "continueExistingChecks": false,
+        "eligibilityDetermined": false,
+        "automaticallySelectsBox": false,
+        "grantsFilingOrCommercialAuthority": false
+      },
+      "matchesExpected": false
+    },
+    {
+      "name": "ordinary acquittal",
+      "record": {
+        "disposition": "acquitted",
+        "admittedFactsOrFinding": false
+      },
+      "asOf": "2026-09-12",
+      "expectedContinue": true,
+      "result": {
+        "status": "ORDINARY_BASIS_CONTINUE",
+        "reason": "Continue the existing exact route and all remaining checks.",
+        "basis": "acquitted",
+        "continueExistingChecks": true,
+        "eligibilityDetermined": false,
+        "automaticallySelectsBox": false,
+        "grantsFilingOrCommercialAuthority": false
+      },
+      "matchesExpected": true
+    },
+    {
+      "name": "agreement absent",
+      "record": {
+        "disposition": "dismissed",
+        "deferredStatute": "19.2-298.02",
+        "subsectionDAgreement": "absent",
+        "agreementEvidence": "Final disposition order, page2, separate all-party expungement agreement",
+        "admittedFactsOrFinding": true,
+        "prosecutionResponse": "none"
+      },
+      "asOf": "2026-09-12",
+      "expectedContinue": false,
+      "result": {
+        "status": "RECORD_REVIEW_REQUIRED",
+        "reason": "A separate established all-party subsection D agreement and its actual documentary reference are required.",
+        "basis": null,
+        "continueExistingChecks": false,
+        "eligibilityDetermined": false,
+        "automaticallySelectsBox": false,
+        "grantsFilingOrCommercialAuthority": false
+      },
+      "matchesExpected": true
+    },
+    {
+      "name": "no documentary agreement reference",
+      "record": {
+        "disposition": "dismissed",
+        "deferredStatute": "19.2-298.02",
+        "subsectionDAgreement": "established",
+        "agreementEvidence": "  ",
+        "admittedFactsOrFinding": true,
+        "prosecutionResponse": "none"
+      },
+      "asOf": "2026-09-12",
+      "expectedContinue": false,
+      "result": {
+        "status": "RECORD_REVIEW_REQUIRED",
+        "reason": "A separate established all-party subsection D agreement and its actual documentary reference are required.",
+        "basis": null,
+        "continueExistingChecks": false,
+        "eligibilityDetermined": false,
+        "automaticallySelectsBox": false,
+        "grantsFilingOrCommercialAuthority": false
+      },
+      "matchesExpected": true
+    },
+    {
+      "name": "later no-objection cannot establish agreement",
+      "record": {
+        "disposition": "dismissed",
+        "deferredStatute": "19.2-298.02",
+        "subsectionDAgreement": "unknown",
+        "agreementEvidence": "Final disposition order, page2, separate all-party expungement agreement",
+        "admittedFactsOrFinding": true,
+        "prosecutionResponse": "no_objection"
+      },
+      "asOf": "2026-09-12",
+      "expectedContinue": false,
+      "result": {
+        "status": "RECORD_REVIEW_REQUIRED",
+        "reason": "A separate established all-party subsection D agreement and its actual documentary reference are required.",
+        "basis": null,
+        "continueExistingChecks": false,
+        "eligibilityDetermined": false,
+        "automaticallySelectsBox": false,
+        "grantsFilingOrCommercialAuthority": false
+      },
+      "matchesExpected": true
+    },
+    {
+      "name": "other deferred statute",
+      "record": {
+        "disposition": "dismissed",
+        "deferredStatute": "18.2-251",
+        "subsectionDAgreement": "established",
+        "agreementEvidence": "Final disposition order, page2, separate all-party expungement agreement",
+        "admittedFactsOrFinding": true,
+        "prosecutionResponse": "none"
+      },
+      "asOf": "2026-09-12",
+      "expectedContinue": false,
+      "result": {
+        "status": "OTHER_ROUTE_REVIEW",
+        "reason": "Do not import subsection D into another or unidentified deferred-disposition statute.",
+        "basis": null,
+        "continueExistingChecks": false,
+        "eligibilityDetermined": false,
+        "automaticallySelectsBox": false,
+        "grantsFilingOrCommercialAuthority": false
+      },
+      "matchesExpected": true
+    },
+    {
+      "name": "December future window",
+      "record": {
+        "disposition": "dismissed",
+        "deferredStatute": "19.2-298.02",
+        "subsectionDAgreement": "established",
+        "agreementEvidence": "Final disposition order, page2, separate all-party expungement agreement",
+        "admittedFactsOrFinding": true,
+        "prosecutionResponse": "none"
+      },
+      "asOf": "2026-12-01",
+      "expectedContinue": false,
+      "result": {
+        "status": "POLICY_REVIEW_REQUIRED",
+        "reason": "This version does not decide a filing outside its reviewed current-law window.",
+        "basis": null,
+        "continueExistingChecks": false,
+        "eligibilityDetermined": false,
+        "automaticallySelectsBox": false,
+        "grantsFilingOrCommercialAuthority": false
+      },
+      "matchesExpected": true
+    },
+    {
+      "name": "future authority on earlier filing",
+      "record": {
+        "disposition": "dismissed",
+        "deferredStatute": "19.2-298.02",
+        "subsectionDAgreement": "established",
+        "agreementEvidence": "Final disposition order, page2, separate all-party expungement agreement",
+        "admittedFactsOrFinding": true,
+        "prosecutionResponse": "none",
+        "basisVersion": "2026-12-01"
+      },
+      "asOf": "2026-09-12",
+      "expectedContinue": false,
+      "result": {
+        "status": "FUTURE_LAW_NOT_ENABLED",
+        "reason": "The December 1, 2026 replacement wording is not enabled for this filing.",
+        "basis": null,
+        "continueExistingChecks": false,
+        "eligibilityDetermined": false,
+        "automaticallySelectsBox": false,
+        "grantsFilingOrCommercialAuthority": false
+      },
+      "matchesExpected": true
+    },
+    {
+      "name": "opposition stop",
+      "record": {
+        "disposition": "dismissed",
+        "deferredStatute": "19.2-298.02",
+        "subsectionDAgreement": "established",
+        "agreementEvidence": "Final disposition order, page2, separate all-party expungement agreement",
+        "admittedFactsOrFinding": true,
+        "prosecutionResponse": "objection"
+      },
+      "asOf": "2026-09-12",
+      "expectedContinue": false,
+      "result": {
+        "status": "SELF_HELP_STOP",
+        "reason": "An existing opposition or legal-review boundary is present.",
+        "basis": null,
+        "continueExistingChecks": false,
+        "eligibilityDetermined": false,
+        "automaticallySelectsBox": false,
+        "grantsFilingOrCommercialAuthority": false
+      },
+      "matchesExpected": true
+    },
+    {
+      "name": "unknown outcome",
+      "record": {
+        "disposition": "unconfirmed",
+        "deferredStatute": "19.2-298.02",
+        "subsectionDAgreement": "established",
+        "agreementEvidence": "Final disposition order, page2, separate all-party expungement agreement",
+        "admittedFactsOrFinding": true,
+        "prosecutionResponse": "none"
+      },
+      "asOf": "2026-09-12",
+      "expectedContinue": false,
+      "result": {
+        "status": "RECORD_REVIEW_REQUIRED",
+        "reason": "An exact supported non-conviction disposition is required.",
+        "basis": null,
+        "continueExistingChecks": false,
+        "eligibilityDetermined": false,
+        "automaticallySelectsBox": false,
+        "grantsFilingOrCommercialAuthority": false
+      },
+      "matchesExpected": true
+    },
+    {
+      "name": "unknown ordinary admitted-facts screen",
+      "record": {
+        "disposition": "dismissed"
+      },
+      "asOf": "2026-09-12",
+      "expectedContinue": false,
+      "result": {
+        "status": "RECORD_REVIEW_REQUIRED",
+        "reason": "The facts-sufficient/deferral screen is affirmative or unknown; do not infer an ordinary dismissal.",
+        "basis": null,
+        "continueExistingChecks": false,
+        "eligibilityDetermined": false,
+        "automaticallySelectsBox": false,
+        "grantsFilingOrCommercialAuthority": false
+      },
+      "matchesExpected": true
+    }
+  ],
+  "pass": 11,
+  "fail": 1
+}

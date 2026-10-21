@@ -1,0 +1,136 @@
+{
+  "schemaVersion": "rcap-independent-code-review/v1",
+  "reviewId": "wv-compiled-profile-independent-review-final-20260913",
+  "reviewer": "/root/act346_order_review",
+  "reviewedAt": "2026-09-13T08:01:02.468Z",
+  "reviewHead": "a2874e207de285cb231a50db32aaf4356270d4f3",
+  "status": "COMPLETE",
+  "verdict": "PASS",
+  "scope": {
+    "helper": {
+      "path": "scripts/grade-a-packet-factory-24h/repin-lapsed-source-identities.mjs",
+      "sha256": "735e73b13b2bd641cfee4b071ede0b318f218ae9847dcb2e8d39310c0324ba81"
+    },
+    "focusedTest": {
+      "path": "scripts/grade-a-packet-factory-24h/repin-wv-compiled-profile.test.mjs",
+      "sha256": "ccf1704d7e76173316101578c61bbadf91ccf3c958ab9cb2ce6cff21a9f4b7ec"
+    },
+    "currentProfile": {
+      "path": "src/lib/rcap-engine/compiled/profiles/WV-west-virginia.json",
+      "sha256": "bf9709154f74544ea0f5089439b822c88226ea42a031f8ccdfc72f29417a5f00",
+      "byteLength": 221770
+    },
+    "historicalProfile": {
+      "sha256": "0d5885d3ee56f516ee8bb9c6ce8d99d9aaa72a90d6670f8b6c8a52242db08b78",
+      "recoveredBlob": "b63bf67a56902e6ffb39973c1bc86eefd85e8a67"
+    },
+    "correctedReturn": {
+      "path": "data/rcap-grade-a/packet-factory-24h/restart-recovery-20260913/wv-compiled-profile-repin-return-corrected-20260913.json",
+      "sha256": "3ee310bc4461ff5d77c79c62d0742aa83fe99023fd2f9007aaad1d03ce4a079e",
+      "applied": false,
+      "recordedOutcome": "REFRESHABLE",
+      "recordedAnchorsCompared": 5,
+      "recordedAnchorsIdentical": 5
+    },
+    "liveReceipt": {
+      "path": "data/rcap-all50/overlays/census-v1/wv/composed-treatment:obligation:runtime-only:wv:sex-trafficking-victim-vacatur-and-expungement--custom-pleading/source-receipt.json",
+      "sha256": "56e4395420ebf0db2c505c89598a9dc704cd64d0228c4f26f51aeebaa661d3fb",
+      "mutatedByReview": false
+    },
+    "priorReviewsPreserved": [
+      {
+        "path": "data/rcap-grade-a/packet-factory-24h/restart-recovery-20260913/wv-compiled-profile-independent-review-20260913.json",
+        "sha256": "0301ce5c4ba92f87fc087ffec38c5704f064b11655e95ae97a89e7672ba871be",
+        "verdict": "FAIL_REPAIR_REQUIRED"
+      },
+      {
+        "path": "data/rcap-grade-a/packet-factory-24h/restart-recovery-20260913/wv-compiled-profile-independent-review-corrected-20260913.json",
+        "sha256": "a1876954dbe4ed529128a385a8f801c965065deaa3203fb19b28775203e455a2",
+        "verdict": "FAIL_REPAIR_REQUIRED"
+      }
+    ]
+  },
+  "checks": {
+    "repairedCurrentBindingGuard": {
+      "fields": [
+        "source.selectedOfficialEdition",
+        "source.historicalComparisonBindings",
+        "source.sourceCorpusBindingNote"
+      ],
+      "omissionTests": {
+        "tested": 3,
+        "refused": 3
+      },
+      "result": "PASS: current side requires all three exact recorded custody-selection fields; historical side remains compatible with the recovered old profile that lacks them."
+    },
+    "completeC903Identity": {
+      "hiddenField": "Refusal",
+      "changedSha256": "Refusal",
+      "changedRelativePath": "Refusal",
+      "changedFileName": "Refusal",
+      "missingGlobalSourceOrInventoryEntry": "Refusal",
+      "result": "PASS: marked entries must equal the complete recorded binding, including exact keys and values."
+    },
+    "filteringScope": {
+      "governedPathway": "first-offense-drug-possession-conditional-discharge-relief",
+      "governedTransition": "PASS: exact current SCA-C903 transition remains refreshable.",
+      "ownRouteAddition": "PASS: exact C903 addition remains visible in compiledProfile:packetGeneratorStable and blocks refresh.",
+      "unrelatedPathwayAddition": "PASS: exact C903 addition remains visible in compiledProfile:packetGeneratorStable and blocks refresh."
+    },
+    "fiveAnchorAdmission": {
+      "anchorIds": [
+        "compiledProfile:sharedCore",
+        "compiledProfile:sourceStable",
+        "compiledProfile:packetGeneratorStable",
+        "compiledProfile:pathway:sex-trafficking-victim-vacatur-and-expungement",
+        "compiledProfile:sourceSections"
+      ],
+      "anchorsCompared": 5,
+      "anchorsIdentical": 5,
+      "differing": [],
+      "result": "PASS"
+    },
+    "sharedDependencyProtection": {
+      "sharedRuleMutation": "differs in compiledProfile:sharedCore",
+      "feeRuleMutation": "differs in compiledProfile:packetGeneratorStable",
+      "routePathwayMutation": "differs in selected pathway anchor",
+      "result": "PASS: no global or shared dependency relaxation."
+    },
+    "immutability": {
+      "adapterInputMutation": false,
+      "sourceReceiptMutation": false,
+      "packetOrSourceOutputMutation": false
+    }
+  },
+  "tests": [
+    {
+      "command": "node --test scripts/grade-a-packet-factory-24h/repin-wv-compiled-profile.test.mjs",
+      "tests": 8,
+      "passed": 8,
+      "failed": 0
+    },
+    {
+      "command": "node --check scripts/grade-a-packet-factory-24h/repin-lapsed-source-identities.mjs",
+      "result": "PASS"
+    }
+  ],
+  "postApplyDurability": {
+    "method": "read-only/in-memory: clone the live receipt, restore the old compiled-profile pin, compose the refresh, then repeat from the simulated applied receipt",
+    "firstPlan": {
+      "outcome": "REFRESHABLE",
+      "anchorsCompared": 5,
+      "anchorsIdentical": 5,
+      "doctrineAdmission": true
+    },
+    "simulatedPostApplyPlan": {
+      "outcome": "REFRESHABLE",
+      "anchorsCompared": 5,
+      "anchorsIdentical": 5,
+      "doctrineAdmission": true
+    },
+    "liveReceiptUnchanged": true,
+    "result": "PASS: focused proof remains executable after the live receipt has been applied; no live apply was performed."
+  },
+  "integrationGate": "CODE_REVIEW_CLEAR; Captain may perform the native plan/apply gate with the separate original receipt admission controls.",
+  "reviewerChanges": "No implementation, receipt, queue, packet, source, or shared output changes; only this additive review was written."
+}

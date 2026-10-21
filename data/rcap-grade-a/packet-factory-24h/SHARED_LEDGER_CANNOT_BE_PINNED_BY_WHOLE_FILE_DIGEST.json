@@ -1,0 +1,18 @@
+{
+ "schemaVersion": "rcap-a-shared-ledger-cannot-be-pinned-by-whole-file-digest/v1",
+ "generatedBy": "Captain, checking FIX04's provenance finding and getting a different number",
+ "generatedAt": "2026-09-10T11:05:24.223573Z",
+ "atCommit": "b05db29a9e0705edec94694b2166d62fcef34bb0",
+ "theFinding": "source-receipt.json files pin MASTER_QUEUE.json by whole-file SHA-256. Every such pin is stale, and cannot be otherwise: MASTER_QUEUE is a shared national ledger that nearly every lane commits to, so any whole-file pin of it is stale the moment another family lands.",
+ "foundBy": "FIX04, which noticed its three families pinned a digest that did not match the MASTER_QUEUE committed in the same commit",
+ "twoMeasurementsThatDisagree": {
+  "FIX04": "9 of 302 receipts carry a MASTER_QUEUE pin, and all 9 are stale",
+  "Captain": "78 of 302 mention MASTER_QUEUE and 12 carry a digest that does not match the current file",
+  "whyTheyDiffer": "different detection. I matched any 64-hex digest inside a node that mentions MASTER_QUEUE, which catches receipts referencing it without pinning it and may miss a pin stored away from the mention. I have NOT reconciled the two and neither number is published as the count.",
+  "whatBothAgreeOn": "every receipt that pins MASTER_QUEUE by digest is stale. That is the finding, and it does not depend on which count is right."
+ },
+ "whyItIsStructuralRatherThanNeglect": "The pin's stated job is to detect any edit to a shared national record. It cannot do that job: the record is edited by design, continuously, by every lane that lands a family. A pin that must be wrong is not a weak guarantee, it is a false one -- and a reader who trusts it learns nothing about whether anything relevant changed.",
+ "whatWouldWork": "pinning the FIELDS a receipt actually depends on, rather than the whole file. VF36 established that the entry pin -- the family's own row -- does reproduce correctly, and that the whole-file pin moved at a bookkeeping commit that touched no field the build prints. The per-entry pin is already the working mechanism; the whole-file one is the broken one.",
+ "notFixedHere": "Changing what receipts pin touches every family that carries one, under five running lanes. Recorded for scheduling.",
+ "grantsNothing": "This records a measurement of the receipts."
+}

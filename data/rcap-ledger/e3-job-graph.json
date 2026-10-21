@@ -9,35 +9,37 @@
   },
   "input": {
     "crosswalk": "data/rcap-ledger/track-pathway-crosswalk.json",
-    "crosswalkContentHash": "13ed7157db3397286510caf4f1e7292470964377124fa908ef2ebc0350abcd24",
-    "crosswalkEvidenceHash": "d204b14fd91ca549e208ebfc8b8ebea5e04bf79300c1c902c577c911c1e861fe",
+    "crosswalkContentHash": "7040af64e9abf09ecd0673d19646cc8e44fda0625704c2cffd4a4a961a812039",
+    "crosswalkEvidenceHash": "6dbc8fc7a5b66006e17b72d77008398b1795ae253a18d14565e56bdfb86a4bc5",
     "registryTracks": 497,
-    "compiledPathways": 325
+    "compiledPathways": 344
   },
   "milestone1Item2": {
-    "closed": true,
+    "closed": false,
     "blockedBy": {
-      "unresolvedPathways": 0,
-      "unresolvedTracks": 0
+      "unresolvedPathways": 9,
+      "unresolvedTracks": 1
     },
     "note": "Item 2 closes when both sets are empty. No other obligation in this graph blocks it."
   },
   "counts": {
-    "jobs": 247,
-    "obligations": 254,
-    "blockingJobs": 8,
-    "milestone1Item2Jobs": 0,
+    "jobs": 249,
+    "obligations": 256,
+    "blockingJobs": 18,
+    "milestone1Item2Jobs": 10,
     "byObligation": {
       "pin_subsection_citation": 2,
       "registry_owner_action": 33,
       "materialize_official_source": 7,
-      "implement_runtime_pathway": 211,
+      "resolve_or_terminalize_pathway": 9,
+      "implement_runtime_pathway": 203,
+      "resolve_or_terminalize_track": 1,
       "correct_superseded_runtime_text": 1
     },
     "bySubjectKind": {
       "authority_residual": 2,
-      "compiled_pathway": 33,
-      "registry_track": 212
+      "compiled_pathway": 42,
+      "registry_track": 205
     }
   },
   "jobs": [
@@ -516,6 +518,132 @@
       }
     },
     {
+      "id": "compiled_pathway:MS:controlled-substance-conditional-discharge-active-case-admission",
+      "kind": "compiled_pathway",
+      "jurisdiction": "MS",
+      "subjectId": "controlled-substance-conditional-discharge-active-case-admission",
+      "obligations": [
+        {
+          "obligation": "resolve_or_terminalize_pathway",
+          "blocking": true,
+          "milestone1Item2": true,
+          "need": [
+            "a statutory citation in the compiled pathway id or label",
+            "or an official form identifier shared with a registry track"
+          ],
+          "stopCondition": "a registry track is named on cited authority, or the pathway is terminally classified (registry gap, scoped out, routing) with a published blocker"
+        }
+      ],
+      "label": "Controlled-substance conditional discharge — admission to deferred adjudication",
+      "profilePath": "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json",
+      "reason": "no statutory citation, official form or scope restriction links this pathway to any registry track in its jurisdiction",
+      "facets": {
+        "jobClass": [
+          "resolve_or_terminalize_pathway"
+        ],
+        "affectedTracks": [],
+        "affectedTrackCount": 0,
+        "dependency": {
+          "blockedBy": [],
+          "note": "no intra-job dependency"
+        },
+        "implementationFamily": [
+          "crosswalk_resolution"
+        ],
+        "ownedPaths": [
+          "data/rcap-ledger/crosswalk-adjudications.json"
+        ],
+        "reviewRequirement": [
+          "counsel_review"
+        ],
+        "terminalEffect": "closes one of the 38 Milestone 1 item 2 blockers; does not by itself add runtime coverage"
+      }
+    },
+    {
+      "id": "compiled_pathway:MS:human-trafficking-survivor-expungement-97-3-54-6-6",
+      "kind": "compiled_pathway",
+      "jurisdiction": "MS",
+      "subjectId": "human-trafficking-survivor-expungement-97-3-54-6-6",
+      "obligations": [
+        {
+          "obligation": "resolve_or_terminalize_pathway",
+          "blocking": true,
+          "milestone1Item2": true,
+          "need": [
+            "a statutory citation in the compiled pathway id or label",
+            "or an official form identifier shared with a registry track"
+          ],
+          "stopCondition": "a registry track is named on cited authority, or the pathway is terminally classified (registry gap, scoped out, routing) with a published blocker"
+        }
+      ],
+      "label": "Human-trafficking survivor expungement",
+      "profilePath": "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json",
+      "reason": "no statutory citation, official form or scope restriction links this pathway to any registry track in its jurisdiction",
+      "facets": {
+        "jobClass": [
+          "resolve_or_terminalize_pathway"
+        ],
+        "affectedTracks": [],
+        "affectedTrackCount": 0,
+        "dependency": {
+          "blockedBy": [],
+          "note": "no intra-job dependency"
+        },
+        "implementationFamily": [
+          "crosswalk_resolution"
+        ],
+        "ownedPaths": [
+          "data/rcap-ledger/crosswalk-adjudications.json"
+        ],
+        "reviewRequirement": [
+          "counsel_review"
+        ],
+        "terminalEffect": "closes one of the 38 Milestone 1 item 2 blockers; does not by itself add runtime coverage"
+      }
+    },
+    {
+      "id": "compiled_pathway:MS:human-trafficking-survivor-vacatur-97-3-54-6-5",
+      "kind": "compiled_pathway",
+      "jurisdiction": "MS",
+      "subjectId": "human-trafficking-survivor-vacatur-97-3-54-6-5",
+      "obligations": [
+        {
+          "obligation": "resolve_or_terminalize_pathway",
+          "blocking": true,
+          "milestone1Item2": true,
+          "need": [
+            "a statutory citation in the compiled pathway id or label",
+            "or an official form identifier shared with a registry track"
+          ],
+          "stopCondition": "a registry track is named on cited authority, or the pathway is terminally classified (registry gap, scoped out, routing) with a published blocker"
+        }
+      ],
+      "label": "Human-trafficking survivor vacatur",
+      "profilePath": "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json",
+      "reason": "no statutory citation, official form or scope restriction links this pathway to any registry track in its jurisdiction",
+      "facets": {
+        "jobClass": [
+          "resolve_or_terminalize_pathway"
+        ],
+        "affectedTracks": [],
+        "affectedTrackCount": 0,
+        "dependency": {
+          "blockedBy": [],
+          "note": "no intra-job dependency"
+        },
+        "implementationFamily": [
+          "crosswalk_resolution"
+        ],
+        "ownedPaths": [
+          "data/rcap-ledger/crosswalk-adjudications.json"
+        ],
+        "reviewRequirement": [
+          "counsel_review"
+        ],
+        "terminalEffect": "closes one of the 38 Milestone 1 item 2 blockers; does not by itself add runtime coverage"
+      }
+    },
+    {
       "id": "compiled_pathway:MS:human-trafficking-survivor-vacatur-and-expungement",
       "kind": "compiled_pathway",
       "jurisdiction": "MS",
@@ -555,6 +683,256 @@
           "registry_owner_decision"
         ],
         "terminalEffect": "adds a registry track (raising the 497 denominator) or records the mechanism as out of scope; no runtime effect"
+      }
+    },
+    {
+      "id": "compiled_pathway:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
+      "kind": "compiled_pathway",
+      "jurisdiction": "MS",
+      "subjectId": "intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
+      "obligations": [
+        {
+          "obligation": "resolve_or_terminalize_pathway",
+          "blocking": true,
+          "milestone1Item2": true,
+          "need": [
+            "a statutory citation in the compiled pathway id or label",
+            "or an official form identifier shared with a registry track"
+          ],
+          "stopCondition": "a registry track is named on cited authority, or the pathway is terminally classified (registry gap, scoped out, routing) with a published blocker"
+        }
+      ],
+      "label": "Intervention-court completion — dismissal-only branch where a record remains",
+      "profilePath": "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json",
+      "reason": "no statutory citation, official form or scope restriction links this pathway to any registry track in its jurisdiction",
+      "facets": {
+        "jobClass": [
+          "resolve_or_terminalize_pathway"
+        ],
+        "affectedTracks": [],
+        "affectedTrackCount": 0,
+        "dependency": {
+          "blockedBy": [],
+          "note": "no intra-job dependency"
+        },
+        "implementationFamily": [
+          "crosswalk_resolution"
+        ],
+        "ownedPaths": [
+          "data/rcap-ledger/crosswalk-adjudications.json"
+        ],
+        "reviewRequirement": [
+          "counsel_review"
+        ],
+        "terminalEffect": "closes one of the 38 Milestone 1 item 2 blockers; does not by itself add runtime coverage"
+      }
+    },
+    {
+      "id": "compiled_pathway:MS:intervention-court-statutory-result-enforcement-referral",
+      "kind": "compiled_pathway",
+      "jurisdiction": "MS",
+      "subjectId": "intervention-court-statutory-result-enforcement-referral",
+      "obligations": [
+        {
+          "obligation": "resolve_or_terminalize_pathway",
+          "blocking": true,
+          "milestone1Item2": true,
+          "need": [
+            "a statutory citation in the compiled pathway id or label",
+            "or an official form identifier shared with a registry track"
+          ],
+          "stopCondition": "a registry track is named on cited authority, or the pathway is terminally classified (registry gap, scoped out, routing) with a published blocker"
+        }
+      ],
+      "label": "Intervention-court completion — enforcement of the statutory result",
+      "profilePath": "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json",
+      "reason": "no statutory citation, official form or scope restriction links this pathway to any registry track in its jurisdiction",
+      "facets": {
+        "jobClass": [
+          "resolve_or_terminalize_pathway"
+        ],
+        "affectedTracks": [],
+        "affectedTrackCount": 0,
+        "dependency": {
+          "blockedBy": [],
+          "note": "no intra-job dependency"
+        },
+        "implementationFamily": [
+          "crosswalk_resolution"
+        ],
+        "ownedPaths": [
+          "data/rcap-ledger/crosswalk-adjudications.json"
+        ],
+        "reviewRequirement": [
+          "counsel_review"
+        ],
+        "terminalEffect": "closes one of the 38 Milestone 1 item 2 blockers; does not by itself add runtime coverage"
+      }
+    },
+    {
+      "id": "compiled_pathway:MS:nonadjudication-99-15-26-active-case-admission",
+      "kind": "compiled_pathway",
+      "jurisdiction": "MS",
+      "subjectId": "nonadjudication-99-15-26-active-case-admission",
+      "obligations": [
+        {
+          "obligation": "resolve_or_terminalize_pathway",
+          "blocking": true,
+          "milestone1Item2": true,
+          "need": [
+            "a composition declaration on the registry track, or subsection-level authority separating these pathways"
+          ],
+          "stopCondition": "a registry track is named on cited authority, or the pathway is terminally classified (registry gap, scoped out, routing) with a published blocker"
+        }
+      ],
+      "label": "Nonadjudication under § 99-15-26 — admission while the case is active",
+      "profilePath": "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json",
+      "reason": "several compiled pathways share this track's statutory section and the registry does not declare the track composed",
+      "facets": {
+        "jobClass": [
+          "resolve_or_terminalize_pathway"
+        ],
+        "affectedTracks": [],
+        "affectedTrackCount": 0,
+        "dependency": {
+          "blockedBy": [],
+          "note": "no intra-job dependency"
+        },
+        "implementationFamily": [
+          "crosswalk_resolution"
+        ],
+        "ownedPaths": [
+          "data/rcap-ledger/crosswalk-adjudications.json"
+        ],
+        "reviewRequirement": [
+          "counsel_review"
+        ],
+        "terminalEffect": "closes one of the 38 Milestone 1 item 2 blockers; does not by itself add runtime coverage"
+      }
+    },
+    {
+      "id": "compiled_pathway:MS:nonadjudication-under-99-15-26",
+      "kind": "compiled_pathway",
+      "jurisdiction": "MS",
+      "subjectId": "nonadjudication-under-99-15-26",
+      "obligations": [
+        {
+          "obligation": "resolve_or_terminalize_pathway",
+          "blocking": true,
+          "milestone1Item2": true,
+          "need": [
+            "a composition declaration on the registry track, or subsection-level authority separating these pathways"
+          ],
+          "stopCondition": "a registry track is named on cited authority, or the pathway is terminally classified (registry gap, scoped out, routing) with a published blocker"
+        }
+      ],
+      "label": "Nonadjudication under § 99-15-26",
+      "profilePath": "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json",
+      "reason": "several compiled pathways share this track's statutory section and the registry does not declare the track composed",
+      "facets": {
+        "jobClass": [
+          "resolve_or_terminalize_pathway"
+        ],
+        "affectedTracks": [],
+        "affectedTrackCount": 0,
+        "dependency": {
+          "blockedBy": [],
+          "note": "no intra-job dependency"
+        },
+        "implementationFamily": [
+          "crosswalk_resolution"
+        ],
+        "ownedPaths": [
+          "data/rcap-ledger/crosswalk-adjudications.json"
+        ],
+        "reviewRequirement": [
+          "counsel_review"
+        ],
+        "terminalEffect": "closes one of the 38 Milestone 1 item 2 blockers; does not by itself add runtime coverage"
+      }
+    },
+    {
+      "id": "compiled_pathway:MS:pretrial-intervention-active-case-admission",
+      "kind": "compiled_pathway",
+      "jurisdiction": "MS",
+      "subjectId": "pretrial-intervention-active-case-admission",
+      "obligations": [
+        {
+          "obligation": "resolve_or_terminalize_pathway",
+          "blocking": true,
+          "milestone1Item2": true,
+          "need": [
+            "a statutory citation in the compiled pathway id or label",
+            "or an official form identifier shared with a registry track"
+          ],
+          "stopCondition": "a registry track is named on cited authority, or the pathway is terminally classified (registry gap, scoped out, routing) with a published blocker"
+        }
+      ],
+      "label": "Pretrial intervention or diversion — admission while the case is active",
+      "profilePath": "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json",
+      "reason": "no statutory citation, official form or scope restriction links this pathway to any registry track in its jurisdiction",
+      "facets": {
+        "jobClass": [
+          "resolve_or_terminalize_pathway"
+        ],
+        "affectedTracks": [],
+        "affectedTrackCount": 0,
+        "dependency": {
+          "blockedBy": [],
+          "note": "no intra-job dependency"
+        },
+        "implementationFamily": [
+          "crosswalk_resolution"
+        ],
+        "ownedPaths": [
+          "data/rcap-ledger/crosswalk-adjudications.json"
+        ],
+        "reviewRequirement": [
+          "counsel_review"
+        ],
+        "terminalEffect": "closes one of the 38 Milestone 1 item 2 blockers; does not by itself add runtime coverage"
+      }
+    },
+    {
+      "id": "compiled_pathway:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
+      "kind": "compiled_pathway",
+      "jurisdiction": "MS",
+      "subjectId": "uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
+      "obligations": [
+        {
+          "obligation": "resolve_or_terminalize_pathway",
+          "blocking": true,
+          "milestone1Item2": true,
+          "need": [
+            "a statutory citation in the compiled pathway id or label",
+            "or an official form identifier shared with a registry track"
+          ],
+          "stopCondition": "a registry track is named on cited authority, or the pathway is terminally classified (registry gap, scoped out, routing) with a published blocker"
+        }
+      ],
+      "label": "Uncharged or unprosecuted misdemeanor — dismissal branch",
+      "profilePath": "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json",
+      "reason": "no statutory citation, official form or scope restriction links this pathway to any registry track in its jurisdiction",
+      "facets": {
+        "jobClass": [
+          "resolve_or_terminalize_pathway"
+        ],
+        "affectedTracks": [],
+        "affectedTrackCount": 0,
+        "dependency": {
+          "blockedBy": [],
+          "note": "no intra-job dependency"
+        },
+        "implementationFamily": [
+          "crosswalk_resolution"
+        ],
+        "ownedPaths": [
+          "data/rcap-ledger/crosswalk-adjudications.json"
+        ],
+        "reviewRequirement": [
+          "counsel_review"
+        ],
+        "terminalEffect": "closes one of the 38 Milestone 1 item 2 blockers; does not by itself add runtime coverage"
       }
     },
     {
@@ -2660,50 +3038,6 @@
       }
     },
     {
-      "id": "registry_track:AZ:az_wrongful_arrest_clearance",
-      "kind": "registry_track",
-      "jurisdiction": "AZ",
-      "subjectId": "az_wrongful_arrest_clearance",
-      "obligations": [
-        {
-          "obligation": "implement_runtime_pathway",
-          "blocking": false,
-          "milestone1Item2": false,
-          "participantTreatment": true,
-          "need": "a compiled pathway implementing this track, or a decision that it stays out of the runtime",
-          "stopCondition": "the track has a compiled pathway, or a recorded decision that it is intentionally unimplemented. Until then a participant eligible under this track receives nothing for it"
-        }
-      ],
-      "label": "Petition for Notation of Clearance after a Wrongful Arrest or Charge, A.R.S. § 13-4051",
-      "mechanismAuthority": [
-        "A.R.S. § 13-4051"
-      ],
-      "reason": "registry track with no compiled runtime representation",
-      "facets": {
-        "jobClass": [
-          "implement_runtime_pathway"
-        ],
-        "affectedTracks": [
-          "AZ:az_wrongful_arrest_clearance"
-        ],
-        "affectedTrackCount": 1,
-        "dependency": {
-          "blockedBy": [],
-          "note": "no intra-job dependency"
-        },
-        "implementationFamily": [
-          "runtime_implementation"
-        ],
-        "ownedPaths": [
-          "src/lib/rcap-engine/compiled/profiles/"
-        ],
-        "reviewRequirement": [
-          "counsel_review + visual_review"
-        ],
-        "terminalEffect": "moves one track from uncompiled to represented; raises runtime coverage against the 497 denominator"
-      }
-    },
-    {
       "id": "registry_track:CA:ca-1203-41",
       "kind": "registry_track",
       "jurisdiction": "CA",
@@ -2824,53 +3158,6 @@
         ],
         "affectedTracks": [
           "CA:ca-1203-43"
-        ],
-        "affectedTrackCount": 1,
-        "dependency": {
-          "blockedBy": [],
-          "note": "no intra-job dependency"
-        },
-        "implementationFamily": [
-          "runtime_implementation"
-        ],
-        "ownedPaths": [
-          "src/lib/rcap-engine/compiled/profiles/"
-        ],
-        "reviewRequirement": [
-          "counsel_review + visual_review"
-        ],
-        "terminalEffect": "moves one track from uncompiled to represented; raises runtime coverage against the 497 denominator"
-      }
-    },
-    {
-      "id": "registry_track:CA:ca-1203-4a",
-      "kind": "registry_track",
-      "jurisdiction": "CA",
-      "subjectId": "ca-1203-4a",
-      "obligations": [
-        {
-          "obligation": "implement_runtime_pathway",
-          "blocking": false,
-          "milestone1Item2": false,
-          "participantTreatment": true,
-          "need": "a compiled pathway implementing this track, or a decision that it stays out of the runtime",
-          "stopCondition": "the track has a compiled pathway, or a recorded decision that it is intentionally unimplemented. Until then a participant eligible under this track receives nothing for it"
-        }
-      ],
-      "label": "Petition for Dismissal and Set-Aside Without Probation, Misdemeanor or Infraction, Cal. Penal Code § 1203.4a",
-      "mechanismAuthority": [
-        "Cal. Penal Code § 1203.4a, as amended by SB 1106 (2022), operative 1 January 2023",
-        "Cal. Penal Code § 1203.4a(e), reimbursement cap and ability to pay",
-        "Cal. Penal Code § 1203.4a(f), infraction notice and written declaration",
-        "Judicial Council forms CR-180 box 3, CR-181, CR-106"
-      ],
-      "reason": "registry track with no compiled runtime representation",
-      "facets": {
-        "jobClass": [
-          "implement_runtime_pathway"
-        ],
-        "affectedTracks": [
-          "CA:ca-1203-4a"
         ],
         "affectedTrackCount": 1,
         "dependency": {
@@ -3372,56 +3659,6 @@
         ],
         "affectedTracks": [
           "CO:co_pardoned_conviction_seal"
-        ],
-        "affectedTrackCount": 1,
-        "dependency": {
-          "blockedBy": [],
-          "note": "no intra-job dependency"
-        },
-        "implementationFamily": [
-          "runtime_implementation"
-        ],
-        "ownedPaths": [
-          "src/lib/rcap-engine/compiled/profiles/"
-        ],
-        "reviewRequirement": [
-          "counsel_review + visual_review"
-        ],
-        "terminalEffect": "moves one track from uncompiled to represented; raises runtime coverage against the 497 denominator"
-      }
-    },
-    {
-      "id": "registry_track:CT:ct-cannabis-petition",
-      "kind": "registry_track",
-      "jurisdiction": "CT",
-      "subjectId": "ct-cannabis-petition",
-      "obligations": [
-        {
-          "obligation": "implement_runtime_pathway",
-          "blocking": false,
-          "milestone1Item2": false,
-          "participantTreatment": true,
-          "need": "a compiled pathway implementing this track, or a decision that it stays out of the runtime",
-          "stopCondition": "the track has a compiled pathway, or a recorded decision that it is intentionally unimplemented. Until then a participant eligible under this track receives nothing for it"
-        }
-      ],
-      "label": "Petition for Erasure of Cannabis Conviction Records, C.G.S. § 54-142v",
-      "mechanismAuthority": [
-        "C.G.S. § 54-142v",
-        "C.G.S. § 54-142v(a)(1), the three eligible conviction categories",
-        "C.G.S. § 54-142v(a)(2), required content: a copy of the arrest record or a supporting affidavit",
-        "C.G.S. § 54-142v(a)(3), the court shall direct erasure if the petition is in order",
-        "C.G.S. § 54-142v(a)(4), no fee",
-        "C.G.S. § 54-142v(b), the multi-count bar",
-        "C.G.S. § 54-142a, erasure mechanics"
-      ],
-      "reason": "registry track with no compiled runtime representation",
-      "facets": {
-        "jobClass": [
-          "implement_runtime_pathway"
-        ],
-        "affectedTracks": [
-          "CT:ct-cannabis-petition"
         ],
         "affectedTrackCount": 1,
         "dependency": {
@@ -5267,112 +5504,6 @@
       }
     },
     {
-      "id": "registry_track:KS:ks-12-4516-municipal",
-      "kind": "registry_track",
-      "jurisdiction": "KS",
-      "subjectId": "ks-12-4516-municipal",
-      "obligations": [
-        {
-          "obligation": "implement_runtime_pathway",
-          "blocking": false,
-          "milestone1Item2": false,
-          "participantTreatment": true,
-          "need": "a compiled pathway implementing this track, or a decision that it stays out of the runtime",
-          "stopCondition": "the track has a compiled pathway, or a recorded decision that it is intentionally unimplemented. Until then a participant eligible under this track receives nothing for it"
-        }
-      ],
-      "label": "Petition for Expungement of a Kansas Municipal Court Conviction or Diversion under K.S.A. 12-4516",
-      "mechanismAuthority": [
-        "K.S.A. 12-4516(a)",
-        "K.S.A. 12-4516(b)",
-        "K.S.A. 12-4516(c)",
-        "K.S.A. 12-4516(d)",
-        "K.S.A. 12-4516(e)",
-        "K.S.A. 12-4516(f)",
-        "K.S.A. 12-4516(g)",
-        "K.S.A. 12-4516(h)",
-        "K.S.A. 12-4516(i)",
-        "K.S.A. 12-16,134"
-      ],
-      "reason": "registry track with no compiled runtime representation",
-      "facets": {
-        "jobClass": [
-          "implement_runtime_pathway"
-        ],
-        "affectedTracks": [
-          "KS:ks-12-4516-municipal"
-        ],
-        "affectedTrackCount": 1,
-        "dependency": {
-          "blockedBy": [],
-          "note": "no intra-job dependency"
-        },
-        "implementationFamily": [
-          "runtime_implementation"
-        ],
-        "ownedPaths": [
-          "src/lib/rcap-engine/compiled/profiles/"
-        ],
-        "reviewRequirement": [
-          "counsel_review + visual_review"
-        ],
-        "terminalEffect": "moves one track from uncompiled to represented; raises runtime coverage against the 497 denominator"
-      }
-    },
-    {
-      "id": "registry_track:KS:ks-12-4516a-municipal-arrest",
-      "kind": "registry_track",
-      "jurisdiction": "KS",
-      "subjectId": "ks-12-4516a-municipal-arrest",
-      "obligations": [
-        {
-          "obligation": "implement_runtime_pathway",
-          "blocking": false,
-          "milestone1Item2": false,
-          "participantTreatment": true,
-          "need": "a compiled pathway implementing this track, or a decision that it stays out of the runtime",
-          "stopCondition": "the track has a compiled pathway, or a recorded decision that it is intentionally unimplemented. Until then a participant eligible under this track receives nothing for it"
-        }
-      ],
-      "label": "Petition for Expungement of a City Ordinance Arrest Record under K.S.A. 12-4516a",
-      "mechanismAuthority": [
-        "K.S.A. 12-4516a(a)",
-        "K.S.A. 12-4516a(b)",
-        "K.S.A. 12-4516a(c)",
-        "K.S.A. 12-4516a(d)",
-        "K.S.A. 12-4516a(e)",
-        "K.S.A. 12-4516a(f)",
-        "K.S.A. 12-4516a(g)",
-        "K.S.A. 12-4516a(h)",
-        "K.S.A. 21-6107",
-        "K.S.A. 12-16,134"
-      ],
-      "reason": "registry track with no compiled runtime representation",
-      "facets": {
-        "jobClass": [
-          "implement_runtime_pathway"
-        ],
-        "affectedTracks": [
-          "KS:ks-12-4516a-municipal-arrest"
-        ],
-        "affectedTrackCount": 1,
-        "dependency": {
-          "blockedBy": [],
-          "note": "no intra-job dependency"
-        },
-        "implementationFamily": [
-          "runtime_implementation"
-        ],
-        "ownedPaths": [
-          "src/lib/rcap-engine/compiled/profiles/"
-        ],
-        "reviewRequirement": [
-          "counsel_review + visual_review"
-        ],
-        "terminalEffect": "moves one track from uncompiled to represented; raises runtime coverage against the 497 denominator"
-      }
-    },
-    {
       "id": "registry_track:KS:ks-21-6614-diversion",
       "kind": "registry_track",
       "jurisdiction": "KS",
@@ -5749,55 +5880,6 @@
         ],
         "affectedTracks": [
           "KY:ky_void_seal_controlled_substance"
-        ],
-        "affectedTrackCount": 1,
-        "dependency": {
-          "blockedBy": [],
-          "note": "no intra-job dependency"
-        },
-        "implementationFamily": [
-          "runtime_implementation"
-        ],
-        "ownedPaths": [
-          "src/lib/rcap-engine/compiled/profiles/"
-        ],
-        "reviewRequirement": [
-          "counsel_review + visual_review"
-        ],
-        "terminalEffect": "moves one track from uncompiled to represented; raises runtime coverage against the 497 denominator"
-      }
-    },
-    {
-      "id": "registry_track:KY:ky_void_seal_marijuana_synthetic_salvia",
-      "kind": "registry_track",
-      "jurisdiction": "KY",
-      "subjectId": "ky_void_seal_marijuana_synthetic_salvia",
-      "obligations": [
-        {
-          "obligation": "implement_runtime_pathway",
-          "blocking": false,
-          "milestone1Item2": false,
-          "participantTreatment": true,
-          "need": "a compiled pathway implementing this track, or a decision that it stays out of the runtime",
-          "stopCondition": "the track has a compiled pathway, or a recorded decision that it is intentionally unimplemented. Until then a participant eligible under this track receives nothing for it"
-        }
-      ],
-      "label": "Motion to Void a First Marijuana, Synthetic Drug or Salvia Possession Conviction and Seal the Records (KRS 218A.276)",
-      "mechanismAuthority": [
-        "KRS 218A.276(1)",
-        "KRS 218A.276(8)",
-        "KRS 218A.276(9)",
-        "KRS 218A.276(10)",
-        "KRS 27A.099",
-        "KRS 431.078(2)"
-      ],
-      "reason": "registry track with no compiled runtime representation",
-      "facets": {
-        "jobClass": [
-          "implement_runtime_pathway"
-        ],
-        "affectedTracks": [
-          "KY:ky_void_seal_marijuana_synthetic_salvia"
         ],
         "affectedTrackCount": 1,
         "dependency": {
@@ -6947,41 +7029,38 @@
       }
     },
     {
-      "id": "registry_track:MO:mo-610-141-automatic-drug",
+      "id": "registry_track:MS:ms-nonadj",
       "kind": "registry_track",
-      "jurisdiction": "MO",
-      "subjectId": "mo-610-141-automatic-drug",
+      "jurisdiction": "MS",
+      "subjectId": "ms-nonadj",
       "obligations": [
         {
-          "obligation": "implement_runtime_pathway",
-          "blocking": false,
-          "milestone1Item2": false,
-          "participantTreatment": true,
-          "need": "a compiled pathway implementing this track, or a decision that it stays out of the runtime",
-          "stopCondition": "the track has a compiled pathway, or a recorded decision that it is intentionally unimplemented. Until then a participant eligible under this track receives nothing for it"
+          "obligation": "resolve_or_terminalize_track",
+          "blocking": true,
+          "milestone1Item2": true,
+          "need": "a discriminator that selects among the candidate pathways, or proof that no candidate represents this track",
+          "candidates": [
+            "eligible-felony-conviction-expungement-99-19-71",
+            "first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1",
+            "nonadjudication-99-15-26-active-case-admission",
+            "nonadjudication-under-99-15-26"
+          ],
+          "stopCondition": "exactly one candidate is selected on cited authority, or the track is terminally classified"
         }
       ],
-      "label": "State-Initiated Automatic Expungement of Eligible Drug Offenses (Mo. Rev. Stat. § 610.141, enacted by CCS SS SB 1421, 2026)",
+      "label": "Expungement After Nonadjudication (Miss. Code Ann. § 99-15-26)",
       "mechanismAuthority": [
-        "Mo. Rev. Stat. § 610.141 (enacted 2026)",
-        "Mo. Rev. Stat. § 610.143 (enacted 2026)",
-        "Mo. Rev. Stat. § 610.144 (enacted 2026)",
-        "Mo. Rev. Stat. § 610.120",
-        "Mo. Rev. Stat. § 610.140",
-        "Mo. Rev. Stat. § 195.202 (as it existed prior to 1 January 2017)",
-        "Mo. Rev. Stat. § 195.233 (as it existed prior to 1 January 2017)",
-        "Mo. Rev. Stat. § 579.015",
-        "Mo. Rev. Stat. § 579.074",
-        "Mo. Rev. Stat. §§ 43.500 to 43.530",
-        "CCS SS SB 1421, 103rd General Assembly, Second Regular Session (2026), file 5940S.07T"
+        "Miss. Code Ann. § 99-15-26",
+        "Miss. Code Ann. § 99-15-26(5)",
+        "Miss. Code Ann. § 99-19-71(4)"
       ],
-      "reason": "registry track with no compiled runtime representation",
+      "reason": "candidate compiled pathways remain ambiguous",
       "facets": {
         "jobClass": [
-          "implement_runtime_pathway"
+          "resolve_or_terminalize_track"
         ],
         "affectedTracks": [
-          "MO:mo-610-141-automatic-drug"
+          "MS:ms-nonadj"
         ],
         "affectedTrackCount": 1,
         "dependency": {
@@ -6989,15 +7068,15 @@
           "note": "no intra-job dependency"
         },
         "implementationFamily": [
-          "runtime_implementation"
+          "crosswalk_resolution"
         ],
         "ownedPaths": [
-          "src/lib/rcap-engine/compiled/profiles/"
+          "data/rcap-ledger/crosswalk-adjudications.json"
         ],
         "reviewRequirement": [
-          "counsel_review + visual_review"
+          "counsel_review"
         ],
-        "terminalEffect": "moves one track from uncompiled to represented; raises runtime coverage against the 497 denominator"
+        "terminalEffect": "closes one of the 38 Milestone 1 item 2 blockers; does not by itself add runtime coverage"
       }
     },
     {
@@ -8468,53 +8547,6 @@
         ],
         "affectedTracks": [
           "NM:nm_identity_theft"
-        ],
-        "affectedTrackCount": 1,
-        "dependency": {
-          "blockedBy": [],
-          "note": "no intra-job dependency"
-        },
-        "implementationFamily": [
-          "runtime_implementation"
-        ],
-        "ownedPaths": [
-          "src/lib/rcap-engine/compiled/profiles/"
-        ],
-        "reviewRequirement": [
-          "counsel_review + visual_review"
-        ],
-        "terminalEffect": "moves one track from uncompiled to represented; raises runtime coverage against the 497 denominator"
-      }
-    },
-    {
-      "id": "registry_track:NV:nv_repository_removal",
-      "kind": "registry_track",
-      "jurisdiction": "NV",
-      "subjectId": "nv_repository_removal",
-      "obligations": [
-        {
-          "obligation": "implement_runtime_pathway",
-          "blocking": false,
-          "milestone1Item2": false,
-          "participantTreatment": true,
-          "need": "a compiled pathway implementing this track, or a decision that it stays out of the runtime",
-          "stopCondition": "the track has a compiled pathway, or a recorded decision that it is intentionally unimplemented. Until then a participant eligible under this track receives nothing for it"
-        }
-      ],
-      "label": "Removal of a Record from the Central Repository After a Favourable Disposition (NRS 179A.160)",
-      "mechanismAuthority": [
-        "NRS 179A.160",
-        "NRS 179.245",
-        "NRS 179.255",
-        "NRS 179.275"
-      ],
-      "reason": "registry track with no compiled runtime representation",
-      "facets": {
-        "jobClass": [
-          "implement_runtime_pathway"
-        ],
-        "affectedTracks": [
-          "NV:nv_repository_removal"
         ],
         "affectedTrackCount": 1,
         "dependency": {

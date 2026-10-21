@@ -1,0 +1,246 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-worker-rows/v1",
+  "lane": "FIX119",
+  "laneRole": "flattener-geometry",
+  "laneKind": "repair",
+  "workerBranch": "pfd-inv-20260910",
+  "baseSha": "2b45ac2be",
+  "returnFilename": "rows-fix119-20260910-pfd.json",
+  "writtenAlongsideRatherThanOver": "rows-fix119-20260909b.json survives byte-for-byte. This lane wrote alongside it and overwrote nothing.",
+  "baseShaDiscrepancy": "The assignment names base 2b45ac2be and the common brief names 181ac2ece. HEAD of this worktree is 2b45ac2be and that is what was built from.",
+  "rasterNote": "This lane has no browser and cannot produce a raster receipt. It DID render locally with pdftoppm at 300 dpi to measure a directional pixel difference against the pinned source, which is a measurement and not a receipt. Both families return BUILT_RASTER_PENDING and neither is PASS_COMPLETE until the central workflow returns RASTER_PASS bound to the exact digests recorded here.",
+  "populationScan": "data/rcap-grade-a/packet-factory-24h/INVERTED_WIDGET_RECTANGLES.json, measured with scripts/rcap-official-forms/scan-inverted-widget-rects.mjs.",
+  "rows": [
+    {
+      "itemId": "al-felony-dwop-set",
+      "status": "STOPPED",
+      "stopReason": "BLOCKED_BEFORE_CLAIM",
+      "repairedByThisLane": false,
+      "laneKind": "repair",
+      "claimAttempted": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX119 'al-felony-dwop-set'",
+      "claimExitCode": 8,
+      "exactRefusalText": "GRANTED_ELSEWHERE_BUT_RELEASED: al-felony-dwop-set is recorded on FIX01, not FIX119, and FIX01 RELEASED it at 2026-09-09T18:19:12.920Z. No lane is executing it. Captain can hand it over with: --transfer FIX01 FIX119 al-felony-dwop-set --reason \"...\". Do not transfer it to yourself -- choosing a released grant's destination is a dispatch act.",
+      "whatThisLaneDidNotDo": "Nothing. No artifact of this family was read, rebuilt, rendered or measured, and it was not used as the control the assignment proposed. The proof was moved to al-pardoned-felony-set, which this lane holds and which binds the same CR-65 and carries the same defect at the same widget.",
+      "theDefectIsStillThere": "al-felony-dwop-set binds CR-65 c2e0c7bd and therefore carries the same misplaced white rectangle over the word \"expired\". It is reported here rather than repaired.",
+      "countersBefore": null,
+      "countersAfter": null,
+      "countersNote": "Not measured. This lane never opened the family.",
+      "rasterState": null,
+      "selfVerified": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "al-pardoned-felony-set",
+      "status": "COMPLETED",
+      "repairedByThisLane": true,
+      "laneKind": "repair",
+      "claim": "CLAIM_OK FIX119 al-pardoned-felony-set (repair, grant set 32a79ceb6b593de1)",
+      "whatWasRepaired": "A flattener geometry defect on the delivered bytes. Nothing about the family's legal content changed.",
+      "theDefect": "CR-65 page 3 check box Check Box10.2 stores /Rect [45.317 623.137 56.5341 608.779] -- corners in the inverted order, which ISO 32000-1 7.9.5 expressly permits and requires a consumer to normalise in situ. pdf-lib normalises nothing and PDFForm.flatten() translates the appearance to the raw first corner, so the widget's own /N /Off stream -- `1 g / 0 0 11.2171 14.3578 re / f`, a WHITE FILLED RECTANGLE -- was stamped 14.358pt high, across the word \"expired\" in the quashed-indictment ground's printed sentence. Repaired by normalising the rectangle in situ before anything reads it, via normalizeInvertedWidgetRectangles in scripts/rcap-official-forms/rcap-active-content.mjs, opt-in per caller and set on these two families only.",
+      "whereTheFixWent": {
+        "atCause": "scripts/rcap-official-forms/rcap-active-content.mjs \u2014 normalizeInvertedWidgetRectangles, run before appearance regeneration and before flatten, because all three steps resolve the rectangle through the same accessor.",
+        "whyNotThePlacementModule": "Established before editing, by measurement, not by reading. rcap-widget-appearance-placement.mjs already normalises internally, and running it over CR-65 corrects FOUR appearances -- Check Box9.0 and Check Box11.0 pairs, sub-tenth-of-a-point BBox/Rect scale corrections -- and Check Box10.2 is NOT among them, because its BBox already maps onto its rectangle with the identity, so the computed displacement is 0 and the module skips it. fitAppearancesToRect cannot fix an inverted rectangle and neither family passes it. Editing that module would have repeated the earlier mistake the assignment warned about.",
+        "aLatentBugTheFixAlsoCloses": "rcap-widget-appearance-placement.mjs computes its 12.5.5 mapping against a NORMALISED rectangle while flatten prepends the RAW origin. On an inverted rectangle those disagree by the box height, so the module would have mis-corrected any inverted rectangle that also needed a scale. Normalising the rectangle first makes the two agree.",
+        "optInAndWhy": "normalizeInvertedWidgetRects, defaulting false, on the same reasoning as the ten flags already in the finalizer: the families sharing these modules are rebuilt by different workers at different times, and a repair lane holding two families does not get to decide what the other six binding CR-65 produce on their next rebuild. Every caller that does not pass it is byte-unaffected.",
+        "twoFlattenPathsExist": "The finalizer's sanitizeAndFlatten is not the only one. The Alabama host calls form.updateFieldAppearances(font); form.flatten() DIRECTLY, so the flag was threaded to both: sanitizeAndFlatten for the families that route through it, and the two Alabama builders for these."
+      },
+      "proof": {
+        "method": "300 dpi directional raster: the pinned source CR-65 rendered page for page against the delivered packet, and the pre-repair delivered bytes against the post-repair ones.",
+        "regionPt": [
+          45.317,
+          623.137,
+          56.5341,
+          637.495
+        ],
+        "darkPixelsInThatRegion_pinnedSource": 208,
+        "darkPixelsInThatRegion_beforeRepair": 10,
+        "darkPixelsInThatRegion_afterRepair": 208,
+        "wordRegionPt": [
+          41.0,
+          631.0,
+          78.0,
+          643.0
+        ],
+        "darkPixelsAcrossTheWordExpired": {
+          "pinnedSource": 1234,
+          "afterRepair": 1234,
+          "added": 0,
+          "lost": 0
+        },
+        "pageWideInkLostAgainstThePinnedSource_beforeRepair": 198,
+        "pageWideInkLostAgainstThePinnedSource_afterRepair": 0,
+        "negativeControl": "20 of the 22 page images across both fixtures are pixel-identical before and after: 0 added, 0 lost. Only page 3 of each fixture moved, gaining back 198 pixels of the form's own text and losing 13 that the misplacement had put inside the checkbox's own interior, where the pinned source has none.",
+        "placementsCompared": "216 flattened widget placements per fixture, every `cm` translate read from the delivered content stream. Exactly ONE changed: FlatWidget-5373953175, 45.317 623.137 -> 45.317 608.779. The other 215 are byte-identical.",
+        "tickUnmoved": "This family ticks no CR-65 eligibility ground. Its one tick is the C-10-CRIMINAL caption box Check Box1.0 on packet page 9, a ZapfDingbats (4) inside BBox [0 0 9.75581 9.7558] at cm translate 50.92 633.421 -- exactly that widget's own /Rect origin, unchanged by this repair, and all 665 of its dark pixels at 300 dpi fall inside that /Rect."
+      },
+      "outputByteGlyphReadings": {
+        "canonical": {
+          "addedGlyphsReadFromOutputBytes": 402,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        },
+        "boundary": {
+          "addedGlyphsReadFromOutputBytes": 652,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        },
+        "howMeasured": "Read from the produced PDF, not from intent. Every value this pipeline writes reaches the page inside a flattened /FlatWidget appearance, so the added glyphs are the glyphs in those XObjects, decoded against the font each stream's own /Tf names -- /Helvetica and /ZaDb, both simple fonts, one byte per glyph. The outside-write-box reading is taken against the SOURCE form's own widget /Rect normalised per 7.9.5, never against the delivered placement: measuring a glyph against the box the packet itself placed it in is circular, because a misplaced appearance is always inside its own misplacement. On that basis the only placement whose box overhangs its rectangle is the C-10 caption tick, by 0.057pt, and at 300 dpi it draws 0 dark pixels outside.",
+        "whatWasThereBefore": "The shared Alabama host wrote addedGlyphsReadFromOutputBytes as a hardcoded literal 0 for every family it builds. On this family that literal was false. It is now measured for the two families this lane holds and left as the existing literal for the four it does not rebuild."
+      },
+      "eligibilityGroundElection": "SECTION V PARDON GROUND \u2014 REFUSED, AND IT IS A LEGAL BLOCK. CR-65 Section V is a CONJUNCTIVE sworn certification: the form prints \"AND ALL OF THE FOLLOWING HAVE OCCURRED. If you have not checked all eight boxes, the conviction is not eligible for expungement\", and the petition is sworn on page 6. There is therefore no way to elect the pardon ground alone -- the election on this form is all eight limbs or none. The first limb, Check Box10.6, is not merely the pardon fact: it reads \"I was granted a certificate of pardon WITH RESTORATION OF CIVIL AND POLITICAL RIGHTS for the conviction from the Board of Pardons and Paroles\", and restoration is the exact question AL.memo.json track al-pardoned-felony holds OPEN as impact build_blocker, affectedElement eligibility_branch: \"whether a pardon that withholds firearm rights satisfies the statutory restoration requirement remains dispositive and must be resolved before that branch ships.\" The memo also makes restorationLanguage and firearmRightsExcluded REQUIRED participant inputs, which the platform does not hold. Ticking it would swear a fact the record marks unresolved and dispositive. The remaining seven limbs assert violence, sex-offence, moral-turpitude, serious-traffic, commercial-licence and 15-year arrest-free facts the track never establishes, plus a 180-day period the memo records as waitingPeriods [] -- empty.",
+      "whatThatLeavesUnfixed": "This family still ticks no CR-65 eligibility ground, and after this repair its 22 page images remain identical to the other family in this pair. That is the defect RX2 recorded in REFUSED_34418960259_AL_IDENTICAL_PETITIONS.json and it is NOT repaired here. It cannot be repaired by inventing a tick: on this record neither route's ground can be honestly elected, and a tick made to move a counter would be a false sworn statement on a filed petition. It is a legal block and it is returned as one.",
+      "factsNotInvented": "No ground was ticked, no filing fee, clerk practice, service rule, deadline, signature, notarization or approval was added, and no quotation was written that the record does not carry. The only bytes this lane authored into the packets are a corrected translate on one widget.",
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": null
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": null
+      },
+      "countersNote": "The eight zeros are verify-packet-completeness.mjs on the delivered artifacts (PASS_COMPLETE, 30/216 written) and they read exactly the same before this repair, which is the point: not one of them could see a white rectangle painted over a statutory ground. visualDefects is null, not 0. This lane measured ONE visual defect class by directional raster against a render of the pinned source and repaired it; it did not conduct a visual census of the other eleven page images, it has no browser, and it may not verify its own repair. A 0 here would be a verdict this lane is not entitled to issue.",
+      "artifacts": {
+        "canonical": {
+          "sha256": "b763d0872bd3058088aa4a9bf03bba49aa204a0e3aff59ebd4955cf72d2936fb",
+          "pageCount": 11
+        },
+        "boundary": {
+          "sha256": "c7efd5ab764e9f96628290f0df18cebf51244b9d31beb1c9ebcc1cf79279165b",
+          "pageCount": 11
+        }
+      },
+      "governance": {
+        "canonicalDigestMoved": true,
+        "acceptanceReceiptOnRecord": null,
+        "acceptanceReceiptWithdrawn": null,
+        "whyNothingWasWithdrawn": "product-wiring.json binding.acceptanceReceipt was already null for both families. Run 34418960259 did produce a clean RASTER_PASS for each, but RX2 REFUSED both admission on the delivered bytes, so neither receipt was ever installed and there was none to withdraw. The refusal record binds the superseded digests and is named below.",
+        "supersededDigestsNowRecordedElsewhere": "data/rcap-grade-a/packet-factory-24h/raster-runs/REFUSED_34418960259_AL_IDENTICAL_PETITIONS.json still names the pre-repair canonical and boundary digests. It is another lane's record and was not edited.",
+        "wiringRebound": "proposedRepresentation.components carried the superseded canonical digest for both documents in each family; both were rebound to the delivered bytes through writeWiringChecked, which asserts no governance key is lost. npm run rcap:verify-governance-preservation: EVERY_GOVERNANCE_KEY_SURVIVED, GOVERNANCE_PRESERVATION_OK 16 checks, 295 of 295 wiring records carrying governance state.",
+        "lastIndependentVerificationCarriedNotCleared": "binding.lastIndependentVerification still holds vf06's FAIL_REPAIR_REQUIRED at base b5cb44279e39cc56d11f65be5dd3de0d16bab85e. It is carried verbatim, not cleared: this lane does not author or retire a verdict. It now stands against superseded bytes and needs re-verification."
+      },
+      "rasterState": "BUILT_RASTER_PENDING",
+      "selfVerified": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "al-felony-nonconviction-90-set",
+      "status": "COMPLETED",
+      "repairedByThisLane": true,
+      "laneKind": "repair",
+      "claim": "CLAIM_OK FIX119 al-felony-nonconviction-90-set (repair, grant set 32a79ceb6b593de1)",
+      "whatWasRepaired": "A flattener geometry defect on the delivered bytes. Nothing about the family's legal content changed.",
+      "theDefect": "CR-65 page 3 check box Check Box10.2 stores /Rect [45.317 623.137 56.5341 608.779] -- corners in the inverted order, which ISO 32000-1 7.9.5 expressly permits and requires a consumer to normalise in situ. pdf-lib normalises nothing and PDFForm.flatten() translates the appearance to the raw first corner, so the widget's own /N /Off stream -- `1 g / 0 0 11.2171 14.3578 re / f`, a WHITE FILLED RECTANGLE -- was stamped 14.358pt high, across the word \"expired\" in the quashed-indictment ground's printed sentence. Repaired by normalising the rectangle in situ before anything reads it, via normalizeInvertedWidgetRectangles in scripts/rcap-official-forms/rcap-active-content.mjs, opt-in per caller and set on these two families only.",
+      "whereTheFixWent": {
+        "atCause": "scripts/rcap-official-forms/rcap-active-content.mjs \u2014 normalizeInvertedWidgetRectangles, run before appearance regeneration and before flatten, because all three steps resolve the rectangle through the same accessor.",
+        "whyNotThePlacementModule": "Established before editing, by measurement, not by reading. rcap-widget-appearance-placement.mjs already normalises internally, and running it over CR-65 corrects FOUR appearances -- Check Box9.0 and Check Box11.0 pairs, sub-tenth-of-a-point BBox/Rect scale corrections -- and Check Box10.2 is NOT among them, because its BBox already maps onto its rectangle with the identity, so the computed displacement is 0 and the module skips it. fitAppearancesToRect cannot fix an inverted rectangle and neither family passes it. Editing that module would have repeated the earlier mistake the assignment warned about.",
+        "aLatentBugTheFixAlsoCloses": "rcap-widget-appearance-placement.mjs computes its 12.5.5 mapping against a NORMALISED rectangle while flatten prepends the RAW origin. On an inverted rectangle those disagree by the box height, so the module would have mis-corrected any inverted rectangle that also needed a scale. Normalising the rectangle first makes the two agree.",
+        "optInAndWhy": "normalizeInvertedWidgetRects, defaulting false, on the same reasoning as the ten flags already in the finalizer: the families sharing these modules are rebuilt by different workers at different times, and a repair lane holding two families does not get to decide what the other six binding CR-65 produce on their next rebuild. Every caller that does not pass it is byte-unaffected.",
+        "twoFlattenPathsExist": "The finalizer's sanitizeAndFlatten is not the only one. The Alabama host calls form.updateFieldAppearances(font); form.flatten() DIRECTLY, so the flag was threaded to both: sanitizeAndFlatten for the families that route through it, and the two Alabama builders for these."
+      },
+      "proof": {
+        "method": "300 dpi directional raster: the pinned source CR-65 rendered page for page against the delivered packet, and the pre-repair delivered bytes against the post-repair ones.",
+        "regionPt": [
+          45.317,
+          623.137,
+          56.5341,
+          637.495
+        ],
+        "darkPixelsInThatRegion_pinnedSource": 208,
+        "darkPixelsInThatRegion_beforeRepair": 10,
+        "darkPixelsInThatRegion_afterRepair": 208,
+        "wordRegionPt": [
+          41.0,
+          631.0,
+          78.0,
+          643.0
+        ],
+        "darkPixelsAcrossTheWordExpired": {
+          "pinnedSource": 1234,
+          "afterRepair": 1234,
+          "added": 0,
+          "lost": 0
+        },
+        "pageWideInkLostAgainstThePinnedSource_beforeRepair": 198,
+        "pageWideInkLostAgainstThePinnedSource_afterRepair": 0,
+        "negativeControl": "20 of the 22 page images across both fixtures are pixel-identical before and after: 0 added, 0 lost. Only page 3 of each fixture moved, gaining back 198 pixels of the form's own text and losing 13 that the misplacement had put inside the checkbox's own interior, where the pinned source has none.",
+        "placementsCompared": "216 flattened widget placements per fixture, every `cm` translate read from the delivered content stream. Exactly ONE changed: FlatWidget-5373953175, 45.317 623.137 -> 45.317 608.779. The other 215 are byte-identical.",
+        "tickUnmoved": "This family ticks no CR-65 eligibility ground. Its one tick is the C-10-CRIMINAL caption box Check Box1.0 on packet page 9, a ZapfDingbats (4) inside BBox [0 0 9.75581 9.7558] at cm translate 50.92 633.421 -- exactly that widget's own /Rect origin, unchanged by this repair, and all 665 of its dark pixels at 300 dpi fall inside that /Rect."
+      },
+      "outputByteGlyphReadings": {
+        "canonical": {
+          "addedGlyphsReadFromOutputBytes": 402,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        },
+        "boundary": {
+          "addedGlyphsReadFromOutputBytes": 652,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        },
+        "howMeasured": "Read from the produced PDF, not from intent. Every value this pipeline writes reaches the page inside a flattened /FlatWidget appearance, so the added glyphs are the glyphs in those XObjects, decoded against the font each stream's own /Tf names -- /Helvetica and /ZaDb, both simple fonts, one byte per glyph. The outside-write-box reading is taken against the SOURCE form's own widget /Rect normalised per 7.9.5, never against the delivered placement: measuring a glyph against the box the packet itself placed it in is circular, because a misplaced appearance is always inside its own misplacement. On that basis the only placement whose box overhangs its rectangle is the C-10 caption tick, by 0.057pt, and at 300 dpi it draws 0 dark pixels outside.",
+        "whatWasThereBefore": "The shared Alabama host wrote addedGlyphsReadFromOutputBytes as a hardcoded literal 0 for every family it builds. On this family that literal was false. It is now measured for the two families this lane holds and left as the existing literal for the four it does not rebuild."
+      },
+      "eligibilityGroundElection": "NOLLE-PROSSED-90-DAYS GROUND \u2014 REFUSED. The record does not establish that this family's ground is nolle prosequi. AL.memo.json track al-felony-nonconviction-90 is the FIVE-basis track: its legalName is \"Ala. Code \u00a7 15-27-2(a)(1)-(a)(5)\", its publicName is \"Felony Non-Conviction, 90-Day Bases\" (plural), and its eligibleDispositions carries five printed outcomes -- dismissal with prejudice, no bill, not guilty, unconditional nolle prosequi, and quashed indictment. Which one applies is a REQUIRED participant input (howMatterEnded), and the memo's own legalDesignDecision classifies it participant_question: \"Ask how the matter ended and explain the CR-65 disposition choices. GENERATE FROM THE PARTICIPANT'S SELECTED ANSWER.\" Electing nolle prosequi out of a route label would be a sworn election on a fact the platform does not hold. Independently, the same track holds an OPEN build_blocker on eligibility_branch: whether \"any felony offense\" survived the most recent amendments to \u00a7 15-27-2(a), \"because the archive and the internal reference both carry the older non-violent framing\".",
+      "whatThatLeavesUnfixed": "This family still ticks no CR-65 eligibility ground, and after this repair its 22 page images remain identical to the other family in this pair. That is the defect RX2 recorded in REFUSED_34418960259_AL_IDENTICAL_PETITIONS.json and it is NOT repaired here. It cannot be repaired by inventing a tick: on this record neither route's ground can be honestly elected, and a tick made to move a counter would be a false sworn statement on a filed petition. It is a legal block and it is returned as one.",
+      "factsNotInvented": "No ground was ticked, no filing fee, clerk practice, service rule, deadline, signature, notarization or approval was added, and no quotation was written that the record does not carry. The only bytes this lane authored into the packets are a corrected translate on one widget.",
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": null
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": null
+      },
+      "countersNote": "The eight zeros are verify-packet-completeness.mjs on the delivered artifacts (PASS_COMPLETE, 30/216 written) and they read exactly the same before this repair, which is the point: not one of them could see a white rectangle painted over a statutory ground. visualDefects is null, not 0. This lane measured ONE visual defect class by directional raster against a render of the pinned source and repaired it; it did not conduct a visual census of the other eleven page images, it has no browser, and it may not verify its own repair. A 0 here would be a verdict this lane is not entitled to issue.",
+      "artifacts": {
+        "canonical": {
+          "sha256": "504731a37cda8b7b6ef801555bd380aee76c56da76ce22c65bb9eeddb3bad2c2",
+          "pageCount": 11
+        },
+        "boundary": {
+          "sha256": "645a143db875a9e0ee38b5ba20a4060d06b2f0efa88db87ba651984b941a5208",
+          "pageCount": 11
+        }
+      },
+      "governance": {
+        "canonicalDigestMoved": true,
+        "acceptanceReceiptOnRecord": null,
+        "acceptanceReceiptWithdrawn": null,
+        "whyNothingWasWithdrawn": "product-wiring.json binding.acceptanceReceipt was already null for both families. Run 34418960259 did produce a clean RASTER_PASS for each, but RX2 REFUSED both admission on the delivered bytes, so neither receipt was ever installed and there was none to withdraw. The refusal record binds the superseded digests and is named below.",
+        "supersededDigestsNowRecordedElsewhere": "data/rcap-grade-a/packet-factory-24h/raster-runs/REFUSED_34418960259_AL_IDENTICAL_PETITIONS.json still names the pre-repair canonical and boundary digests. It is another lane's record and was not edited.",
+        "wiringRebound": "proposedRepresentation.components carried the superseded canonical digest for both documents in each family; both were rebound to the delivered bytes through writeWiringChecked, which asserts no governance key is lost. npm run rcap:verify-governance-preservation: EVERY_GOVERNANCE_KEY_SURVIVED, GOVERNANCE_PRESERVATION_OK 16 checks, 295 of 295 wiring records carrying governance state.",
+        "lastIndependentVerificationCarriedNotCleared": "binding.lastIndependentVerification still holds vf06's FAIL_REPAIR_REQUIRED at base b5cb44279e39cc56d11f65be5dd3de0d16bab85e. It is carried verbatim, not cleared: this lane does not author or retire a verdict. It now stands against superseded bytes and needs re-verification."
+      },
+      "rasterState": "BUILT_RASTER_PENDING",
+      "selfVerified": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    }
+  ]
+}

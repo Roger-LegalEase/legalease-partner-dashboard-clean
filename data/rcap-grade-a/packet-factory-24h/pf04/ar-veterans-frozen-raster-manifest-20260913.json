@@ -1,0 +1,99 @@
+{
+  "schemaVersion": "rcap-raster-queue/v1",
+  "rows": [
+    {
+      "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/ar/ar-veterans-court-set--official-pdf-fill/fixtures/petition-boundary-filled.pdf",
+      "boundaryPdfSha256": "2a8d8964897939f503496d92d592dcb84fdc2be30f37bd2fffe77f98de8f44b4",
+      "builderAssignment": null,
+      "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/ar/ar-veterans-court-set--official-pdf-fill/fixtures/petition-canonical-filled.pdf",
+      "canonicalPdfSha256": "31a08f2b50a8221b71d4e22ec5c7e3cec9348dacefd86dd1196368ca597f1faf",
+      "coverage": {
+        "basis": "the family ships 2 canonical document(s) with no assembled packet, and the row renders all of them",
+        "complete": true,
+        "documents": [
+          "order-canonical-filled.pdf",
+          "petition-canonical-filled.pdf"
+        ],
+        "notRastered": [],
+        "notRenderedByThisGate": [],
+        "notRenderedByThisGateBasis": "every PDF present in the family's fixture discovery that this row does not queue. The gate renders every document a row queues, whatever its role, so a queued boundary fixture is rendered and is not named here.",
+        "rastered": [
+          "order-canonical-filled.pdf",
+          "petition-canonical-filled.pdf",
+          "order-boundary-filled.pdf",
+          "petition-boundary-filled.pdf"
+        ],
+        "whatCompleteMeansHere": "every PDF this family declares is queued to the gate and rendered, canonical and boundary alike. `complete` remains the narrower question -- every canonical document rendered -- because that is what promotion depends on."
+      },
+      "currentRasterState": "RASTER_PENDING",
+      "documents": [
+        {
+          "name": "order-canonical-filled.pdf",
+          "pageCount": 4,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "pageCount": 4,
+            "sourceSha256": "5694c59831da43f009336f5af4608ccde26c0e2d5704ec1e332971ce154b8554",
+            "version": "1.17.1"
+          },
+          "path": "data/rcap-all50/overlays/census-v1/ar/ar-veterans-court-set--official-pdf-fill/fixtures/order-canonical-filled.pdf",
+          "role": "canonical",
+          "sha256": "5694c59831da43f009336f5af4608ccde26c0e2d5704ec1e332971ce154b8554"
+        },
+        {
+          "name": "petition-canonical-filled.pdf",
+          "pageCount": 5,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "pageCount": 5,
+            "sourceSha256": "31a08f2b50a8221b71d4e22ec5c7e3cec9348dacefd86dd1196368ca597f1faf",
+            "version": "1.17.1"
+          },
+          "path": "data/rcap-all50/overlays/census-v1/ar/ar-veterans-court-set--official-pdf-fill/fixtures/petition-canonical-filled.pdf",
+          "role": "canonical",
+          "sha256": "31a08f2b50a8221b71d4e22ec5c7e3cec9348dacefd86dd1196368ca597f1faf"
+        },
+        {
+          "name": "order-boundary-filled.pdf",
+          "pageCount": 4,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "pageCount": 4,
+            "sourceSha256": "f4251723d33bddcd6e04401aca1e54fa4a0b2312d84d894ed2b7322c40ef118f",
+            "version": "1.17.1"
+          },
+          "path": "data/rcap-all50/overlays/census-v1/ar/ar-veterans-court-set--official-pdf-fill/fixtures/order-boundary-filled.pdf",
+          "role": "boundary",
+          "sha256": "f4251723d33bddcd6e04401aca1e54fa4a0b2312d84d894ed2b7322c40ef118f"
+        },
+        {
+          "name": "petition-boundary-filled.pdf",
+          "pageCount": 5,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "pageCount": 5,
+            "sourceSha256": "2a8d8964897939f503496d92d592dcb84fdc2be30f37bd2fffe77f98de8f44b4",
+            "version": "1.17.1"
+          },
+          "path": "data/rcap-all50/overlays/census-v1/ar/ar-veterans-court-set--official-pdf-fill/fixtures/petition-boundary-filled.pdf",
+          "role": "boundary",
+          "sha256": "2a8d8964897939f503496d92d592dcb84fdc2be30f37bd2fffe77f98de8f44b4"
+        }
+      ],
+      "documentsDigest": "41bc02621931e6d456578ee0d09655ab48f6d930c0e93c3fa344df76ec469bef",
+      "expectedPages": 5,
+      "familyId": "ar-veterans-court-set",
+      "fixtureSelection": {
+        "boundary": "declared by the builder as the boundary artifact in reports/rendered-artifacts.json",
+        "canonical": "declared by the builder as the canonical artifact in reports/rendered-artifacts.json"
+      },
+      "nextOwner": "RAS04",
+      "packetCommitSha": "d000129af154e10a629d37565c5a607437ecf00f",
+      "requestedScale": 2.5
+    }
+  ]
+}

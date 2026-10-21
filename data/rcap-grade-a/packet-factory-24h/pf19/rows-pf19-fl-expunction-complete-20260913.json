@@ -1,0 +1,133 @@
+{
+  "schemaVersion": "rcap-packet-build-return/v1",
+  "lane": "PF19",
+  "laneKind": "packet-build",
+  "baseSha": "8e393eee67ca23952acacaaa9209d5945e048baf",
+  "headShaAtReturn": "7c92b8462cdde27a2f308ed82399a593201b18ac",
+  "headShaAtReturnIs": "candidate implementation and generated evidence are frozen at this commit; this native return is written alongside it",
+  "isIndependentVerification": false,
+  "writtenAlongsideRatherThanOver": true,
+  "rows": [
+    {
+      "itemId": "fl-expunction-set",
+      "familyId": "fl-expunction-set",
+      "status": "COMPLETED",
+      "laneKind": "packet-build",
+      "implementedBy": [
+        "PF19"
+      ],
+      "buildCommit": "7c92b8462cdde27a2f308ed82399a593201b18ac",
+      "implementationCommit": "7c92b8462cdde27a2f308ed82399a593201b18ac",
+      "completion": "Built the ordinary Florida expunction packet from the exact held FDLE40-021 expunction byte and the persisted FL-RULE-3989 authority composition. The six-page FDLE application is overlaid at measured source placements; the petition, Rule 3.989 sworn statement, proposed order, and three-recipient certificate of service are composed and remain disabled for runtime and commercial delivery pending central raster and independent review.",
+      "jurisdiction": "FL",
+      "implementationStrategy": "official_pdf_fill",
+      "routeKeys": [
+        "obligation:track-only:FL:fl-expunction"
+      ],
+      "buildScript": "scripts/build-census-v1-fl-expunction-set.mjs",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/fl/fl-expunction-set--official-pdf-fill",
+      "changedScope": {
+        "builder": "scripts/build-census-v1-fl-expunction-set.mjs",
+        "generatedFiles": [
+          "data/rcap-all50/overlays/census-v1/fl/fl-expunction-set--official-pdf-fill/approval-request.json",
+          "data/rcap-all50/overlays/census-v1/fl/fl-expunction-set--official-pdf-fill/build-findings.json",
+          "data/rcap-all50/overlays/census-v1/fl/fl-expunction-set--official-pdf-fill/build-status.json",
+          "data/rcap-all50/overlays/census-v1/fl/fl-expunction-set--official-pdf-fill/field-census.census-v1.json",
+          "data/rcap-all50/overlays/census-v1/fl/fl-expunction-set--official-pdf-fill/fixtures/boundary.pdf",
+          "data/rcap-all50/overlays/census-v1/fl/fl-expunction-set--official-pdf-fill/fixtures/canonical.pdf",
+          "data/rcap-all50/overlays/census-v1/fl/fl-expunction-set--official-pdf-fill/packet-set-manifest.json",
+          "data/rcap-all50/overlays/census-v1/fl/fl-expunction-set--official-pdf-fill/participant-instructions.md",
+          "data/rcap-all50/overlays/census-v1/fl/fl-expunction-set--official-pdf-fill/product-wiring.json",
+          "data/rcap-all50/overlays/census-v1/fl/fl-expunction-set--official-pdf-fill/production-field-map.json",
+          "data/rcap-all50/overlays/census-v1/fl/fl-expunction-set--official-pdf-fill/reports/actual-writes.json",
+          "data/rcap-all50/overlays/census-v1/fl/fl-expunction-set--official-pdf-fill/reports/blanks-left-for-the-participant.json",
+          "data/rcap-all50/overlays/census-v1/fl/fl-expunction-set--official-pdf-fill/reports/completeness-counters.json",
+          "data/rcap-all50/overlays/census-v1/fl/fl-expunction-set--official-pdf-fill/reports/rendered-artifacts.json",
+          "data/rcap-all50/overlays/census-v1/fl/fl-expunction-set--official-pdf-fill/source-receipt.json"
+        ],
+        "durableEvidenceFiles": [
+          "data/rcap-grade-a/packet-factory-24h/pf19/rows-pf19-fl-expunction-complete-20260913.json"
+        ],
+        "sharedGovernanceFilesChanged": [],
+        "sourceBytesCommitted": false,
+        "localRasterPages": 0
+      },
+      "sourceBinding": {
+        "sourceReceipt": "data/rcap-all50/overlays/census-v1/fl/fl-expunction-set--official-pdf-fill/source-receipt.json",
+        "allSourcesExact": true,
+        "sources": [
+          {
+            "sourceId": "official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+            "documentId": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+            "sha256": "ced5d88f7305780a0d2f6354eca313f32729aa25c1b6782013f8bc6847d4c650",
+            "byteLength": 26602,
+            "pageCount": 6,
+            "custody": "tracked_reference"
+          }
+        ],
+        "composedAuthority": {
+          "determination": "FL-RULE-3989",
+          "documents": [
+            "FL-RULE-3.989-PETITION",
+            "FL-RULE-3.989-SWORN-STATEMENT",
+            "FL-RULE-3.989-ORDER"
+          ],
+          "certificateOfService": "fl-expunction-certificate-of-service-5"
+        },
+        "sourceAdmission": "data/rcap-grade-a/packet-factory-24h/pf20/remaining-family-handoff-20260913.json"
+      },
+      "terminalFields": 156,
+      "written": 49,
+      "protectedOrConditionalBlanks": 107,
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "nineCountersZero": true,
+      "completenessResult": "PASS_COMPLETE",
+      "focusedCompletenessCommand": "source \"$HOME/.legalease-corpus-env\" && node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family fl-expunction-set",
+      "focusedCompleteness": "PASS_COMPLETE \u2014 49/156 written; all nine counters zero",
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "path": "data/rcap-all50/overlays/census-v1/fl/fl-expunction-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "d4ae558c7bab2beba6c529a6cfdaa13cd480cc98f422f1e0545ab85b127ab436",
+          "byteLength": 40593,
+          "pageCount": 10
+        },
+        {
+          "fixture": "boundary",
+          "path": "data/rcap-all50/overlays/census-v1/fl/fl-expunction-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "efbeff7d0b1dc8d65122b2f7a8c08fd973f669f4922e1745b51853b08ffdeb0d",
+          "byteLength": 41017,
+          "pageCount": 10
+        }
+      ],
+      "sourceSha256": "ced5d88f7305780a0d2f6354eca313f32729aa25c1b6782013f8bc6847d4c650",
+      "determinism": "Builder self-verification and focused completeness passed with identical current fixture hashes; no local raster was run.",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "packetsSelfVerified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "claimLedger": {
+        "changed": false,
+        "note": "No claim ledger or shared assignment manifest was edited. Current family lane remains PF19 per Captain ledger."
+      }
+    }
+  ],
+  "familiesAssigned": 1,
+  "rowsReturned": 1,
+  "familiesCompleted": 1,
+  "familiesStopped": 0,
+  "familiesRemaining": 0,
+  "packetsSelfVerified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false
+}

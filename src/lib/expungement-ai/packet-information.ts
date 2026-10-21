@@ -2,7 +2,11 @@ import "server-only";
 
 import { createHash } from "node:crypto";
 
-import type { ConsumerBriefcaseItem } from "@/lib/expungement-ai/types";
+import type {
+  ConsumerBriefcaseItem,
+  PacketVerificationRecord,
+  PacketVerificationSnapshot
+} from "@/lib/expungement-ai/types";
 import type { AnswerValue, PacketPlan, ProfileQuestion } from "@/lib/expungement-ai/frontend/contracts";
 import { getProfileByJurisdiction } from "@/lib/rcap-engine/profile-registry";
 import { packetPlanForPathway } from "@/lib/rcap-engine/packet-planner";
@@ -11,8 +15,67 @@ import type { PublicQuestion } from "@/lib/rcap-engine/contracts";
 import { evaluateAuthoritativeScreeningResult } from "@/lib/expungement-ai/authoritative-screening-result";
 import { InvalidAnswerError } from "@/lib/rcap-engine/evaluator";
 import { toScreeningAnswers } from "@/components/expungement-ai/screening/answers";
+import {
+  readProtectedPacketVerification,
+  type ProtectedPacketDraftSnapshot,
+  type ProtectedPacketVerificationRecord,
+  type ProtectedPacketVerificationTransition
+} from "@/lib/expungement-ai/verification-cas";
+import {
+  packetSpecificationFactFor,
+  packetSpecificationFor,
+  type PacketSpecificationFact
+} from "@/lib/rcap/grade-a/packet-specification";
+import { MISSISSIPPI_NON_CONVICTION_NEUTRAL_FACTS, routeSafetyGateFactIds } from "@/lib/expungement-ai/packet-route-safety";
+import { baselineCarriedFactIds, routeCollectionOverrideFor } from "@/lib/expungement-ai/packet-collection-overrides";
+import {
+  prepayGateFactIds,
+  resolvePacketCollection,
+  resolvedFactValues,
+  type PacketCollectionResolution
+} from "@/lib/expungement-ai/packet-collection";
+import { pathwayRelevantFactIds } from "@/lib/rcap-engine/route-fact-relevance";
 
-export type PacketInformationStage = "not_started" | "in_progress" | "ready_to_generate";
+export type PacketInformationStage = "not_started" | "in_progress" | "facts_complete" | "ready_to_generate";
+
+export type PacketVerificationSummaryFact = {
+  key: string;
+  id: string;
+  label: string;
+  value: unknown;
+  source: "screeningAnswers" | "prefilledAnswers" | "packetAnswers" | "serverFacts";
+  /** Jurisdiction and selected-pathway ids are display context, not participant answers. */
+  systemContext: boolean;
+};
+
+export type PacketVerificationContextFact = {
+  key: string;
+  label: string;
+  value: unknown;
+  /** Display-only server context. It is never participant answer authority. */
+  systemContext: true;
+};
+
+export type PacketVerificationManifest = {
+  schemaVersion: "expungement-ai/verification-review-manifest/v1";
+  factKeys: string[];
+  systemContextKeys: string[];
+};
+
+/**
+ * One participant section of the builder, carrying the questions it asks.
+ *
+ * The heading travels with its Spanish translation because the section is
+ * authored here rather than in the component, and a heading that reached the
+ * participant without one would be an English-only surface.
+ */
+export type PacketInformationSection = {
+  id: string;
+  heading: string;
+  description: string;
+  translations: { es: { heading: string; description: string } };
+  questionIds: string[];
+};
 
 export type PacketInformationModel = {
   stateCode: string;
@@ -22,8 +85,17 @@ export type PacketInformationModel = {
   packetPlan: PacketPlan | null;
   questions: ProfileQuestion[];
   builderQuestions: ProfileQuestion[];
+  /** The grouping the builder renders. Empty where the route cannot be resolved. */
+  builderSections: PacketInformationSection[];
   initialAnswers: Record<string, AnswerValue>;
   screeningAnswers: Record<string, AnswerValue>;
+  /** Explicit protected-authority facts; arbitrary persisted serverFacts are discarded. */
+  serverFacts: Record<string, AnswerValue>;
+  /** Canonical review surface for every fact map covered by the verification hash. */
+  verificationSummary: PacketVerificationSummaryFact[];
+  /** Completeness surface for every non-participant snapshot dependency. */
+  verificationContext: PacketVerificationContextFact[];
+  verificationManifest: PacketVerificationManifest;
   requiredInputIds: string[];
   missingInputIds: string[];
   stage: PacketInformationStage;
@@ -31,12 +103,44 @@ export type PacketInformationModel = {
   reviewedAt: string | null;
 };
 
+export type ProtectedPacketInformationModel = Pick<
+  PacketInformationModel,
+  | "stateCode"
+  | "pathwayId"
+  | "packetPlan"
+  | "questions"
+  | "builderQuestions"
+  | "builderSections"
+  | "initialAnswers"
+  | "screeningAnswers"
+  | "serverFacts"
+  | "requiredInputIds"
+  | "missingInputIds"
+  | "stage"
+  | "reviewedAt"
+  | "verificationSummary"
+  | "verificationContext"
+  | "verificationManifest"
+> & {
+  prefilledAnswers: Record<string, AnswerValue>;
+  packetAnswers: Record<string, AnswerValue>;
+  capturedAt: string;
+  reviewSafety: { safe: boolean; reason: string };
+  expectedComponents: string[];
+};
+
 type CommercialFlow = {
+  version?: unknown;
+  entitlementSource?: unknown;
+  productId?: unknown;
   screening?: {
     profileVersion?: unknown;
     screeningMatterId?: unknown;
     pathwayId?: unknown;
     pathwayLabel?: unknown;
+    resultCode?: unknown;
+    paymentAllowed?: unknown;
+    packetType?: unknown;
     packetPlan?: unknown;
     answers?: unknown;
   };
@@ -50,6 +154,7 @@ type CommercialFlow = {
     updatedAt?: unknown;
     reviewedAt?: unknown;
   };
+  verification?: unknown;
 };
 
 /** Build the exact state/pathway questionnaire from the server-saved packet plan. */
@@ -68,11 +173,7 @@ export function packetInformationModelFor(item: ConsumerBriefcaseItem): PacketIn
   const pathwayId = typeof screening.pathwayId === "string"
     ? screening.pathwayId
     : packetPlan?.pathwayId ?? null;
-  const serverFacts: Record<string, AnswerValue> = {
-    ...answerRecord(progress.serverFacts),
-    jurisdiction: profile.jurisdiction.code,
-    ...(pathwayId ? { pathway_id: pathwayId } : {})
-  };
+  const serverFacts = canonicalServerFacts(profile.jurisdiction.code, pathwayId);
   const screeningAnswers = answerRecord(screening.answers);
   const prefilledAnswers = answerRecord(progress.prefilledAnswers);
   const savedAnswers = answerRecord(progress.answers);
@@ -97,10 +198,30 @@ export function packetInformationModelFor(item: ConsumerBriefcaseItem): PacketIn
     }
   }
 
+  // The collection policy, applied to every route rather than to one. It only
+  // ever ADDS a value the participant already gave or that follows
+  // deterministically from one; an id already present keeps whatever it has,
+  // so nothing above this line is overwritten and no saved answer is touched.
+  const collection = packetCollectionFor({
+    jurisdiction: profile.jurisdiction.code,
+    pathwayId,
+    requiredInputIds,
+    serverFacts,
+    screeningAnswers,
+    prefilledAnswers,
+    savedAnswers
+  });
+  if (collection) {
+    for (const [id, value] of Object.entries(resolvedFactValues(collection))) {
+      if (!(id in serverFacts) && !answerIsKnown(initialAnswers[id])) initialAnswers[id] = value;
+    }
+  }
+
   const questionById = new Map<string, ProfileQuestion>();
   for (const question of allPublicQuestions(publicProfile)) {
     questionById.set(question.id, toProfileQuestion(question));
   }
+  installPacketSpecificationQuestions(questionById, profile.jurisdiction.code, pathwayId, requiredInputIds);
 
   let questions = requiredInputIds
     .filter((id) => !(id in serverFacts))
@@ -123,10 +244,21 @@ export function packetInformationModelFor(item: ConsumerBriefcaseItem): PacketIn
       if (known && !questions.some((question) => question.id === id)) questions.push({ ...known, required: true, contextOnly: false });
     }
   }
-  const builderQuestions = mississippiNonConviction
-    ? questions.filter((question) => !["offense_category", "offense_level", "sentence_completion_date", "court_requirements_completed", "ownership_scope", "jurisdiction_scope", "resolved_timing_bucket"].includes(question.id))
-    : questions;
-  const missingInputIds = missingRequiredInputs(requiredInputIds, serverFacts, initialAnswers);
+  const builderQuestions = builderQuestionsFor(questions, collection, requiredInputIds, serverFacts);
+  const missingInputIds = missingRequiredInputs(
+    collectionGateInputIds(collection, requiredInputIds, serverFacts),
+    serverFacts,
+    initialAnswers
+  );
+  const verificationSummary = verificationSummaryFor(flow, questionById, serverFacts);
+  const verificationContext = verificationContextFor(
+    verificationContextSourceFor(item, flow, profile, pathwayId)
+  );
+  const verificationManifest: PacketVerificationManifest = {
+    schemaVersion: "expungement-ai/verification-review-manifest/v1",
+    factKeys: verificationSummary.map((fact) => fact.key),
+    systemContextKeys: verificationContext.map((entry) => entry.key)
+  };
 
   return {
     stateCode: profile.jurisdiction.code,
@@ -138,8 +270,13 @@ export function packetInformationModelFor(item: ConsumerBriefcaseItem): PacketIn
     packetPlan,
     questions,
     builderQuestions,
+    builderSections: builderSectionsFor(collection, builderQuestions),
     initialAnswers,
     screeningAnswers,
+    serverFacts,
+    verificationSummary,
+    verificationContext,
+    verificationManifest,
     requiredInputIds,
     missingInputIds,
     stage: packetInformationStage(progress.stage),
@@ -148,24 +285,9 @@ export function packetInformationModelFor(item: ConsumerBriefcaseItem): PacketIn
   };
 }
 
-const MATERIAL_REVIEW_FIELDS = [
-  "age_at_offense", "case_outcome", "charge", "disposition_date", "financial_obligations",
-  "offense_category", "offense_level", "pending_cases", "prior_relief", "record_type",
-  "residency_or_location", "sentence_completion_date", "trafficking_status", "court_requirements_completed"
-];
-
 export function reviewedPacketInputHash(item: ConsumerBriefcaseItem) {
-  const model = packetInformationModelFor(item);
-  if (!model) return null;
-  const materialAnswers = Object.fromEntries(MATERIAL_REVIEW_FIELDS
-    .filter((id) => id in model.initialAnswers)
-    .sort()
-    .map((id) => [id, model.initialAnswers[id]]));
-  return createHash("sha256").update(JSON.stringify({
-    state: model.stateCode,
-    pathwayId: model.pathwayId,
-    answers: materialAnswers
-  })).digest("hex");
+  const verification = packetVerificationState(item);
+  return verification.status === "verified" ? verification.hash : null;
 }
 
 export function missingRequiredInputs(
@@ -177,6 +299,15 @@ export function missingRequiredInputs(
 }
 
 export function expectedPacketComponents(plan: PacketPlan | null): string[] {
+  if (plan?.pathwayId === "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal") {
+    return [
+      "Petition for Expungement",
+      "Proposed Order",
+      "Certificate of Service",
+      "Attachment and Records Checklist",
+      "Filing Instructions and Attorney Handoff Conditions"
+    ];
+  }
   if (plan?.mode === "official_form_overlay_or_source_form_set") {
     return [
       "Completed self-help court forms for this matter",
@@ -194,56 +325,983 @@ export function expectedPacketComponents(plan: PacketPlan | null): string[] {
 export function packetInformationPatch(input: {
   existingItem: ConsumerBriefcaseItem;
   answers: Record<string, AnswerValue>;
-  reviewed: boolean;
+  verify?: boolean;
+  /** Service-role protected state read immediately before deriving this transition. */
+  protectedVerification: ProtectedPacketVerificationRecord;
+  /** Compatibility only. Saving the final fact is never verification. */
+  reviewed?: boolean;
 }) {
-  const current = packetInformationModelFor(input.existingItem);
+  const priorProtected = input.protectedVerification;
+  const current = protectedPacketInformationModelFor(priorProtected);
   if (!current) return null;
-  const profile = getProfileByJurisdiction(input.existingItem.state);
-  const persistedFlow = readCommercialFlow(input.existingItem.artifactRefs);
-  const flow = profile ? commercialFlowForItem(input.existingItem, profile) : null;
-  const progress = isRecord(flow?.packetInformation) ? flow?.packetInformation : {};
-  const pathwayId = current.pathwayId ?? current.packetPlan?.pathwayId ?? null;
-  const serverFacts: Record<string, AnswerValue> = {
-    ...answerRecord(progress.serverFacts),
-    jurisdiction: current.stateCode,
-    ...(pathwayId ? { pathway_id: pathwayId } : {})
-  };
-  const prefilledAnswers = answerRecord(progress.prefilledAnswers);
-  const allowedIds = new Set(current.questions.map((question) => question.id));
+  const allowedIds = new Set(current.requiredInputIds.filter((id) => !(id in current.serverFacts)));
   const acceptedAnswers = Object.fromEntries(
     Object.entries(input.answers).filter(([id, answer]) => allowedIds.has(id) && isAnswerValue(answer))
   );
-  const mergedAnswers = { ...current.initialAnswers, ...acceptedAnswers };
-  const missingInputIds = missingRequiredInputs(current.requiredInputIds, serverFacts, mergedAnswers);
-  const review = input.reviewed && missingInputIds.length === 0
-    ? packetInformationReviewSafety(input.existingItem, mergedAnswers)
-    : { safe: false, reason: "packet_information_incomplete" };
+  const answerDelta = Object.fromEntries(
+    Object.entries(acceptedAnswers).filter(([id, answer]) => !canonicalEqual(current.initialAnswers[id], answer))
+  );
+  const savedAnswers = { ...answerRecordForIds(current.packetAnswers, allowedIds), ...answerDelta };
+  const materialFactChange = Object.keys(answerDelta).length > 0;
+  const currentVerification = packetVerificationStateForRecord(input.existingItem, priorProtected, true);
+  if (!materialFactChange && (input.verify !== true || currentVerification.status === "verified")) {
+    const ready = currentVerification.status === "verified";
+    const packetInformation = {
+      stage: ready ? "ready_to_generate" as const : current.stage,
+      requiredInputIds: current.requiredInputIds,
+      serverFacts: current.serverFacts,
+      prefilledAnswers: current.prefilledAnswers,
+      answers: current.packetAnswers,
+      missingInputIds: current.missingInputIds,
+      updatedAt: current.capturedAt,
+      reviewedAt: current.reviewedAt,
+      reviewSafety: { safe: ready, reason: ready ? "authoritative_route_confirmed" : currentVerification.reason }
+    };
+    const protectedTransition: ProtectedPacketVerificationTransition = {
+      expectedPriorHash: priorProtected.status === "verified" ? priorProtected.hash ?? null : null,
+      expectedPriorRevision: priorProtected.revision,
+      answerDelta,
+      packetInformationMetadata: packetInformationMetadata(packetInformation),
+      nextVerification: priorProtected
+    };
+    return {
+      patch: {
+        commercialFlow: {
+          packetInformation,
+          verification: priorProtected
+        }
+      },
+      protectedTransition,
+      missingInputIds: current.missingInputIds,
+      readyToGenerate: ready,
+      reviewReason: ready ? "current_verification_preserved" : "semantic_noop_preserved"
+    };
+  }
   const now = new Date().toISOString();
+  const nextDraft = !materialFactChange && priorProtected.draftSnapshot
+    ? priorProtected.draftSnapshot
+    : deriveProtectedPacketDraftSnapshot(priorProtected, savedAnswers, now);
+  if (!nextDraft) return null;
+  const nextDraftHash = protectedPacketDraftHash(nextDraft);
+  const draftRecord: ProtectedPacketVerificationRecord = {
+    ...priorProtected,
+    status: "invalidated",
+    reason: "draft_rederived_pending_verification",
+    hash: undefined,
+    snapshot: undefined,
+    draftHash: nextDraftHash,
+    draftSnapshot: nextDraft
+  };
+  const nextModel = protectedPacketInformationModelFor(draftRecord);
+  if (!nextModel) return null;
+  const review = input.verify === true && nextModel.missingInputIds.length === 0
+    ? protectedPacketDraftReviewSafety(nextDraft)
+    : {
+      safe: false,
+      reason: nextModel.missingInputIds.length === 0 ? "final_verification_required" : "packet_information_incomplete"
+    };
+  const stage: PacketInformationStage = review.safe
+    ? "ready_to_generate"
+    : nextModel.missingInputIds.length === 0 ? "facts_complete" : "in_progress";
+  const packetInformation = {
+    stage,
+    requiredInputIds: nextModel.requiredInputIds,
+    serverFacts: nextModel.serverFacts,
+    prefilledAnswers: nextModel.prefilledAnswers,
+    answers: nextModel.packetAnswers,
+    missingInputIds: nextModel.missingInputIds,
+    updatedAt: now,
+    reviewedAt: review.safe ? now : null,
+    reviewSafety: review
+  };
+  const verification = review.safe
+    ? verifiedPacketRecordFromDraft(nextDraft, now)
+    : unverifiedOrInvalidatedPacketRecord(priorProtected, now, input.verify === true
+      ? review.reason
+      : "facts_saved_after_verification");
+  const nextVerification: ProtectedPacketVerificationRecord = {
+    ...verification,
+    draftHash: nextDraftHash,
+    draftSnapshot: nextDraft,
+    revision: priorProtected.revision + 1
+  };
+  const protectedTransition: ProtectedPacketVerificationTransition = {
+    expectedPriorHash: priorProtected.status === "verified" ? priorProtected.hash ?? null : null,
+    expectedPriorRevision: priorProtected.revision,
+    answerDelta,
+    packetInformationMetadata: packetInformationMetadata(packetInformation),
+    nextVerification
+  };
 
   return {
     patch: {
       commercialFlow: {
-        // A legacy accepted matter may predate commercialFlow metadata. Its
-        // exact server-stored pathway is reconciled once into the same shape;
-        // subsequent saves use the ordinary nested merge path.
-        ...(persistedFlow ? {} : flow),
-        packetInformation: {
-          stage: review.safe ? "ready_to_generate" : "in_progress",
-          requiredInputIds: current.requiredInputIds,
-          serverFacts,
-          prefilledAnswers,
-          answers: acceptedAnswers,
-          missingInputIds,
-          updatedAt: now,
-          reviewedAt: review.safe ? now : null,
-          reviewSafety: review
-        }
+        packetInformation,
+        verification: nextVerification
       }
     },
-    missingInputIds,
+    protectedTransition,
+    missingInputIds: nextModel.missingInputIds,
     readyToGenerate: review.safe,
     reviewReason: review.reason
   };
+}
+
+export function packetVerificationState(item: ConsumerBriefcaseItem): PacketVerificationRecord {
+  const flow = readCommercialFlow(item.artifactRefs);
+  const stored = readVerificationRecord(flow?.verification);
+  return packetVerificationStateForRecord(item, stored);
+}
+
+/** Pure authority check used after a protected service-role read. JSON verification is ignored. */
+export function requireCurrentPacketVerificationRecord(
+  item: ConsumerBriefcaseItem,
+  protectedVerification: ProtectedPacketVerificationRecord | null
+): {
+  hash: string;
+  snapshot: PacketVerificationSnapshot;
+  revision: number;
+  draftHash: string;
+  draftSnapshot: ProtectedPacketDraftSnapshot;
+} {
+  if (!protectedVerification) {
+    throw new CurrentPacketVerificationRequiredError("protected_verification_missing");
+  }
+  const verification = packetVerificationStateForRecord(item, protectedVerification, true);
+  if (verification.status !== "verified" || !verification.hash || !verification.snapshot) {
+    throw new CurrentPacketVerificationRequiredError(verification.reason);
+  }
+  return {
+    hash: verification.hash,
+    snapshot: verification.snapshot,
+    revision: protectedVerification.revision,
+    draftHash: protectedVerification.draftHash,
+    draftSnapshot: protectedVerification.draftSnapshot
+  };
+}
+
+/** Every commerce boundary reloads protected authority and then rederives it. */
+export async function requireCurrentPacketVerification(
+  consumerAuthUserId: string,
+  item: ConsumerBriefcaseItem
+): Promise<ReturnType<typeof requireCurrentPacketVerificationRecord>> {
+  const protectedRead = await readProtectedPacketVerification({
+    consumerAuthUserId,
+    briefcaseItemId: item.id
+  });
+  if (!protectedRead.ok) {
+    throw new CurrentPacketVerificationRequiredError(protectedRead.reason);
+  }
+  return requireCurrentPacketVerificationRecord(item, protectedRead.value);
+}
+
+function packetVerificationStateForRecord(
+  item: ConsumerBriefcaseItem,
+  stored: PacketVerificationRecord | ProtectedPacketVerificationRecord | null,
+  protectedAuthority = false
+): PacketVerificationRecord {
+  if (protectedAuthority && stored) {
+    return protectedPacketInformationModelFor(stored as ProtectedPacketVerificationRecord)
+      ? stored
+      : { status: "invalidated", reason: "protected_verification_dependencies_changed" };
+  }
+  const flow = readCommercialFlow(item.artifactRefs);
+  if (!flow || !stored || stored.status !== "verified" || !stored.hash || !stored.snapshot) {
+    return stored ?? { status: "unverified", reason: "final_verification_missing" };
+  }
+  const model = packetInformationModelFor(item);
+  if (!model || model.stage !== "ready_to_generate" || model.missingInputIds.length > 0 || !model.reviewedAt) {
+    return { status: "invalidated", reason: "packet_information_not_ready" };
+  }
+  if (!packetInformationReviewSafety(item).safe) {
+    return { status: "invalidated", reason: "authoritative_verification_failed" };
+  }
+  const currentSnapshot = buildPacketVerificationSnapshot(item, flow, stored.snapshot.verifiedAt);
+  const currentHash = currentSnapshot ? packetVerificationHash(currentSnapshot) : null;
+  if (!currentSnapshot || currentHash !== stored.hash) {
+    return { status: "invalidated", reason: "verification_dependencies_changed" };
+  }
+  return stored;
+}
+
+/**
+ * Reconstruct the exact reviewed packet facts from protected authority alone.
+ * The participant JSON commercialFlow is a compatibility mirror and is never
+ * required after the protected snapshot exists.
+ */
+export function protectedPacketInformationModelFor(
+  verification: ProtectedPacketVerificationRecord
+): ProtectedPacketInformationModel | null {
+  const snapshot = protectedAuthoritySnapshotFor(verification);
+  if (!snapshot) return null;
+  const profile = getProfileByJurisdiction(snapshot.jurisdiction);
+  if (!profile || profile.profileVersion !== snapshot.profileVersion) return null;
+  if (snapshot.profileSourceFingerprint !== (profile.source?.sourceCorpusSha256 ?? null)
+    || snapshot.profileAuthorityFingerprint !== profileAuthorityFingerprint(profile, snapshot.pathwayId)) return null;
+  const authoritative = evaluateProtectedPacketFacts(snapshot);
+  if (!authoritative) return null;
+  const evaluation = authoritative.evaluation;
+  if ((evaluation.pathwayId ?? null) !== snapshot.pathwayId
+    || evaluation.resultCode !== snapshot.resultCode
+    || evaluation.paymentAllowed !== snapshot.paymentAllowed
+    || (authoritative.packetType ?? null) !== (snapshot.packetType ?? null)
+    || (authoritative.selectedTrackId ?? null) !== snapshot.selectedTrackId
+    || (evaluation.treatmentClassification ?? null) !== snapshot.treatmentClassification
+    || !canonicalEqual(evaluation.deferralComponentIds ?? [], snapshot.deferralComponentIds)
+    || !canonicalEqual(evaluation.packetPlan ?? null, snapshot.packetPlan)) return null;
+  const packetPlan = readPacketPlan(snapshot.packetPlan);
+  if (packetPlan && packetPlan.pathwayId !== snapshot.pathwayId) return null;
+  const {
+    screeningAnswers,
+    prefilledAnswers,
+    packetAnswers,
+    serverFacts
+  } = sourceDisjointFactMaps({
+    screeningAnswers: snapshot.screeningAnswers,
+    prefilledAnswers: snapshot.prefilledAnswers,
+    packetAnswers: snapshot.packetAnswers,
+    serverFacts: snapshot.serverFacts
+  });
+  const initialAnswers = { ...screeningAnswers, ...prefilledAnswers, ...packetAnswers };
+  const requiredInputIds = stringArray(snapshot.requiredInputIds);
+  if (!canonicalEqual(requiredInputIds, packetPlan?.requiredInputIds ?? [])) return null;
+  const questionSurface = protectedPacketQuestionSurface(
+    profile,
+    snapshot.pathwayId,
+    screeningAnswers,
+    requiredInputIds,
+    serverFacts,
+    prefilledAnswers,
+    packetAnswers
+  );
+  // What the participant still owes, which is what "missing" has always meant.
+  // Where the route cannot be resolved this is every required input the server
+  // does not own -- the behaviour this line had before the collection policy.
+  const missingInputIds = missingRequiredInputs(
+    collectionGateInputIds(questionSurface.collection, requiredInputIds, serverFacts),
+    serverFacts,
+    initialAnswers
+  );
+  const summaryFlow: CommercialFlow = {
+    screening: { answers: screeningAnswers },
+    packetInformation: {
+      prefilledAnswers,
+      answers: packetAnswers,
+      serverFacts
+    }
+  };
+  const verificationSummary = verificationSummaryFor(summaryFlow, questionSurface.questionById, serverFacts);
+  const verificationContext = verificationContextFor(snapshot as unknown as Record<string, unknown>);
+  const verificationManifest: PacketVerificationManifest = {
+    schemaVersion: "expungement-ai/verification-review-manifest/v1",
+    factKeys: verificationSummary.map((fact) => fact.key),
+    systemContextKeys: verificationContext.map((entry) => entry.key)
+  };
+  const reviewSafety = verification.status === "verified"
+    ? { safe: true, reason: "authoritative_route_confirmed" }
+    : "capturedAt" in snapshot ? protectedPacketDraftReviewSafety(snapshot) : { safe: false, reason: verification.reason };
+  return {
+    stateCode: snapshot.jurisdiction,
+    pathwayId: snapshot.pathwayId,
+    packetPlan,
+    questions: questionSurface.questions,
+    builderQuestions: questionSurface.builderQuestions,
+    builderSections: questionSurface.builderSections,
+    initialAnswers,
+    screeningAnswers,
+    prefilledAnswers,
+    packetAnswers,
+    serverFacts,
+    requiredInputIds,
+    missingInputIds,
+    stage: verification.status === "verified"
+      ? "ready_to_generate"
+      : missingInputIds.length === 0 ? "facts_complete" : "in_progress",
+    reviewedAt: verification.status === "verified" && "verifiedAt" in snapshot ? snapshot.verifiedAt : null,
+    capturedAt: "capturedAt" in snapshot ? snapshot.capturedAt : snapshot.verifiedAt,
+    verificationSummary,
+    verificationContext,
+    verificationManifest,
+    reviewSafety,
+    expectedComponents: expectedPacketComponents(packetPlan)
+  };
+}
+
+type ProtectedPacketAuthoritySnapshot = PacketVerificationSnapshot | ProtectedPacketDraftSnapshot;
+
+/**
+ * Resolve one route's required facts to their collection classes.
+ *
+ * This is the single point where packet authority ("what the finished packet
+ * must know") meets collection policy ("how each of those facts is obtained").
+ * It returns null only where the route itself cannot be read, which every
+ * caller treats as it always has: fail closed, ask everything.
+ */
+export function packetCollectionFor(input: {
+  jurisdiction: string;
+  pathwayId: string | null;
+  requiredInputIds: string[];
+  serverFacts: Record<string, AnswerValue>;
+  screeningAnswers: Record<string, AnswerValue>;
+  prefilledAnswers?: Record<string, AnswerValue>;
+  savedAnswers?: Record<string, AnswerValue>;
+}): PacketCollectionResolution | null {
+  const profile = getProfileByJurisdiction(input.jurisdiction);
+  if (!profile) return null;
+  const pathway = profile.pathways.find((candidate) => candidate.id === input.pathwayId) ?? null;
+  const decidingFactIds = new Set<string>([
+    ...(pathway ? pathwayRelevantFactIds(profile, pathway) : []),
+    ...routeSafetyGateFactIds(input.jurisdiction, input.pathwayId)
+  ]);
+  return resolvePacketCollection({
+    jurisdiction: input.jurisdiction,
+    pathwayId: input.pathwayId,
+    requiredInputIds: input.requiredInputIds,
+    serverFacts: input.serverFacts,
+    screeningAnswers: input.screeningAnswers,
+    prefilledAnswers: input.prefilledAnswers,
+    savedAnswers: input.savedAnswers,
+    specification: packetSpecificationFor(`${input.jurisdiction}:${input.pathwayId ?? ""}`) ?? null,
+    routeDecidingFactIds: decidingFactIds,
+    baselineCarriedFactIds: baselineCarriedFactIds(`${input.jurisdiction}:${input.pathwayId ?? ""}`),
+    override: routeCollectionOverrideFor(`${input.jurisdiction}:${input.pathwayId ?? ""}`)
+  });
+}
+
+/**
+ * Packet inputs a route carries forward instead of asking again.
+ *
+ * This used to be one hand-written Mississippi rule. It is now the collection
+ * policy's own answer for every route: a fact the participant already gave in
+ * screening is reused under the id the packet knows it by, and a fact that
+ * follows deterministically from another is computed. The two Mississippi
+ * carries this function used to perform are both still performed, by the
+ * general rule rather than by a special case —
+ *
+ *   offense_category, which has no question of its own and is the
+ *   classification of the offense the participant already chose as the charge
+ *   level, and which carries nothing when that answer is unsure or absent;
+ *
+ *   sentence_completion_date, which the profile defines as a completion STATUS
+ *   rather than a date, and which carries only from an explicit "yes" to
+ *   everything the court ordered. "No", "not sure" and "not applicable" are
+ *   about obligations this fact does not cover, so none of them carries and
+ *   the builder asks the profile's own question.
+ *
+ * Nothing is invented anywhere: where the inputs do not determine the answer,
+ * nothing carries and the fact stays a question.
+ */
+export function carriedForwardPacketAnswers(
+  jurisdiction: string,
+  pathwayId: string | null,
+  screeningAnswers: Record<string, AnswerValue>,
+  savedAnswers: Record<string, AnswerValue> = {},
+  requiredInputIds?: string[]
+): Record<string, AnswerValue> {
+  const serverFacts = canonicalServerFacts(jurisdiction, pathwayId);
+  const required = requiredInputIds
+    ?? packetRequiredInputIdsFor(jurisdiction, pathwayId);
+  if (required.length === 0) return {};
+  const resolution = packetCollectionFor({
+    jurisdiction,
+    pathwayId,
+    requiredInputIds: required,
+    serverFacts,
+    screeningAnswers,
+    savedAnswers
+  });
+  if (!resolution) return {};
+  // Server facts travel in their own map and are stripped from the prefilled
+  // one anyway; carrying them here would only make two maps disagree.
+  return Object.fromEntries(
+    Object.entries(resolvedFactValues(resolution)).filter(([id]) => !(id in serverFacts))
+  );
+}
+
+/**
+ * The questions the builder actually renders, in section order.
+ *
+ * A question survives here only while its fact is still the participant's to
+ * answer, and the order follows the participant sections rather than the order
+ * the packet plan happens to list its inputs in. Questions the review surface
+ * needs but the builder never asked — the route facts appended for
+ * verification — are not required inputs and so are never included, which is
+ * the behaviour they already had.
+ *
+ * Without a resolution this falls back to exactly what the builder rendered
+ * before: every required input the server does not own.
+ */
+function builderQuestionsFor(
+  questions: ProfileQuestion[],
+  collection: PacketCollectionResolution | null,
+  requiredInputIds: string[],
+  serverFacts: Record<string, AnswerValue>
+): ProfileQuestion[] {
+  const requiredOfParticipant = new Set(requiredInputIds.filter((id) => !(id in serverFacts)));
+  if (!collection) return questions.filter((question) => requiredOfParticipant.has(question.id));
+
+  const owed = new Set(prepayGateFactIds(collection));
+  const order = new Map<string, number>();
+  let position = 0;
+  for (const section of collection.groupedParticipantSections) {
+    for (const factId of section.factIds) order.set(factId, position++);
+  }
+  return questions
+    .filter((question) => owed.has(question.id))
+    .sort((left, right) => (order.get(left.id) ?? Number.MAX_SAFE_INTEGER) - (order.get(right.id) ?? Number.MAX_SAFE_INTEGER));
+}
+
+/** The participant sections, carrying only the facts the builder still asks. */
+function builderSectionsFor(
+  collection: PacketCollectionResolution | null,
+  builderQuestions: ProfileQuestion[]
+): PacketInformationSection[] {
+  if (!collection) return [];
+  const rendered = new Set(builderQuestions.map((question) => question.id));
+  return collection.groupedParticipantSections
+    .map((section) => ({
+      id: section.id,
+      heading: section.heading,
+      description: section.description,
+      translations: section.translations,
+      questionIds: section.factIds.filter((factId) => rendered.has(factId))
+    }))
+    .filter((section) => section.questionIds.length > 0);
+}
+
+function packetRequiredInputIdsFor(jurisdiction: string, pathwayId: string | null): string[] {
+  if (!pathwayId) return [];
+  const profile = getProfileByJurisdiction(jurisdiction);
+  if (!profile) return [];
+  return packetPlanForPathway(profile, pathwayId)?.requiredInputIds ?? [];
+}
+
+/**
+ * The facts the participant still owes on this route, which is what "missing"
+ * has always meant. A fact leaves this set only by ceasing to be theirs to
+ * answer — the server owns it, it follows deterministically from another
+ * answer, another actor fills it later, or its own gate says it does not apply
+ * to this matter — and each of those keeps a recorded disposition.
+ *
+ * Where the route cannot be resolved, every required input is owed, which is
+ * exactly the behaviour this function had before the collection policy existed.
+ */
+function collectionGateInputIds(
+  resolution: PacketCollectionResolution | null,
+  requiredInputIds: string[],
+  serverFacts: Record<string, AnswerValue>
+): string[] {
+  if (!resolution) return requiredInputIds.filter((id) => !(id in serverFacts));
+  return prepayGateFactIds(resolution);
+}
+
+function protectedPacketQuestionSurface(
+  profile: NonNullable<ReturnType<typeof getProfileByJurisdiction>>,
+  pathwayId: string | null,
+  screeningAnswers: Record<string, AnswerValue>,
+  requiredInputIds: string[],
+  serverFacts: Record<string, AnswerValue>,
+  prefilledAnswers: Record<string, AnswerValue> = {},
+  savedAnswers: Record<string, AnswerValue> = {}
+) {
+  const questionById = new Map<string, ProfileQuestion>();
+  for (const question of allPublicQuestions(projectPublicProfile(profile))) {
+    questionById.set(question.id, toProfileQuestion(question));
+  }
+  installPacketSpecificationQuestions(questionById, profile.jurisdiction.code, pathwayId, requiredInputIds);
+  let questions = requiredInputIds
+    .filter((id) => !(id in serverFacts))
+    .map((id) => questionById.get(id) ?? fallbackPacketQuestion(id))
+    .map((question) => ({ ...question, required: true, contextOnly: false }));
+  const mississippiNonConviction = profile.jurisdiction.code === "MS"
+    && pathwayId === "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal";
+  if (mississippiNonConviction) {
+    const owner = answerTextRaw(screeningAnswers.ownership_scope).toLowerCase() === "yes";
+    questions = questions.map((question) => question.id === "pending_cases"
+      ? { ...question, prompt: owner ? "Do you currently have any pending criminal charges?" : "Does this person currently have any pending criminal charges?" }
+      : question.id === "residency_or_location"
+        ? { ...question, prompt: "What city do you currently live in?", helperText: "This is used for the petitioner city in the packet." }
+        : question.id === "offense_category"
+          ? { ...question, prompt: "How is the offense classified on the court record?", helperText: "Use the classification printed on the record; for this route it is carried forward from the charge level when they match." }
+          : question);
+    const courtCompletion = questionById.get("court_requirements_completed")
+      ?? packetQuestion("court_requirements_completed", owner ? "Have you completed everything the court ordered in this case?" : "Has this person completed everything the court ordered in this case?", "yes_no_unsure");
+    if (!questions.some((question) => question.id === courtCompletion.id)) {
+      questions.push({ ...courtCompletion, required: true, contextOnly: false });
+    }
+    for (const id of ["ownership_scope", "jurisdiction_scope", "resolved_timing_bucket"]) {
+      const known = questionById.get(id);
+      if (known && !questions.some((question) => question.id === id)) {
+        questions.push({ ...known, required: true, contextOnly: false });
+      }
+    }
+  }
+  // Which of these the builder actually asks, and in what grouping, is the
+  // collection policy's decision. A fact leaves the builder only by ceasing to
+  // be the participant's to answer, and a fact that could not be carried
+  // forward is asked, so a matter can never be stuck as incomplete on a
+  // question it never shows.
+  const collection = packetCollectionFor({
+    jurisdiction: profile.jurisdiction.code,
+    pathwayId,
+    requiredInputIds,
+    serverFacts,
+    screeningAnswers,
+    prefilledAnswers,
+    savedAnswers
+  });
+  const builderQuestions = builderQuestionsFor(questions, collection, requiredInputIds, serverFacts);
+  const builderSections = builderSectionsFor(collection, builderQuestions);
+  return { questionById, questions, builderQuestions, builderSections, collection };
+}
+
+function protectedAuthoritySnapshotFor(
+  verification: ProtectedPacketVerificationRecord
+): ProtectedPacketAuthoritySnapshot | null {
+  if (verification.status === "verified") {
+    if (!verification.snapshot || !verification.hash
+      || packetVerificationHash(verification.snapshot) !== verification.hash) return null;
+    if (!verification.draftSnapshot || !verification.draftHash
+      || protectedPacketDraftHash(verification.draftSnapshot) !== verification.draftHash
+      || !protectedDraftMatchesFinal(verification.draftSnapshot, verification.snapshot)) return null;
+    return verification.snapshot;
+  }
+  if (!verification.draftSnapshot || !verification.draftHash
+    || protectedPacketDraftHash(verification.draftSnapshot) !== verification.draftHash) return null;
+  return verification.draftSnapshot;
+}
+
+function protectedDraftMatchesFinal(
+  draft: ProtectedPacketDraftSnapshot,
+  finalSnapshot: PacketVerificationSnapshot
+) {
+  const draftFacts = Object.fromEntries(
+    Object.entries(draft).filter(([key]) => key !== "capturedAt" && key !== "schemaVersion")
+  );
+  const finalFacts = Object.fromEntries(
+    Object.entries(finalSnapshot).filter(([key]) => key !== "verifiedAt" && key !== "schemaVersion")
+  );
+  return canonicalEqual(draftFacts, finalFacts);
+}
+
+function evaluateProtectedPacketFacts(snapshot: ProtectedPacketAuthoritySnapshot) {
+  const profile = getProfileByJurisdiction(snapshot.jurisdiction);
+  if (!profile || profile.profileVersion !== snapshot.profileVersion) return null;
+  const answers = toScreeningAnswers({
+    ...answerRecord(snapshot.screeningAnswers),
+    ...answerRecord(snapshot.prefilledAnswers),
+    ...answerRecord(snapshot.packetAnswers)
+  });
+  try {
+    return evaluateAuthoritativeScreeningResult({
+      jurisdiction: snapshot.jurisdiction,
+      profileVersion: snapshot.profileVersion,
+      matterId: `protected:${snapshot.pathwayId ?? "no-pathway"}`,
+      answers
+    });
+  } catch (error) {
+    if (!(error instanceof InvalidAnswerError)) return null;
+    for (const id of error.invalidQuestionIds) delete answers[id];
+    try {
+      return evaluateAuthoritativeScreeningResult({
+        jurisdiction: snapshot.jurisdiction,
+        profileVersion: snapshot.profileVersion,
+        matterId: `protected:${snapshot.pathwayId ?? "no-pathway"}`,
+        answers
+      });
+    } catch {
+      return null;
+    }
+  }
+}
+
+function deriveProtectedPacketDraftSnapshot(
+  verification: ProtectedPacketVerificationRecord,
+  packetAnswers: Record<string, AnswerValue>,
+  capturedAt: string
+): ProtectedPacketDraftSnapshot | null {
+  const base = protectedAuthoritySnapshotFor(verification);
+  if (!base) return null;
+  const candidate: ProtectedPacketAuthoritySnapshot = {
+    ...base,
+    packetAnswers
+  };
+  const authoritative = evaluateProtectedPacketFacts(candidate);
+  if (!authoritative) return null;
+  return protectedPacketDraftSeedFromAuthoritative({
+    authoritative,
+    screeningAnswers: answerRecord(base.screeningAnswers),
+    prefilledAnswers: answerRecord(base.prefilledAnswers),
+    packetAnswers,
+    dependencies: base.dependencies,
+    capturedAt
+  })?.snapshot ?? null;
+}
+
+export function protectedPacketDraftSeedFromAuthoritative(input: {
+  authoritative: ReturnType<typeof evaluateAuthoritativeScreeningResult>;
+  screeningAnswers: Record<string, AnswerValue>;
+  prefilledAnswers?: Record<string, AnswerValue>;
+  packetAnswers?: Record<string, AnswerValue>;
+  dependencies: PacketVerificationSnapshot["dependencies"];
+  capturedAt: string;
+}): { snapshot: ProtectedPacketDraftSnapshot; hash: string } | null {
+  const { evaluation } = input.authoritative;
+  const profile = getProfileByJurisdiction(evaluation.jurisdiction);
+  if (!profile || profile.profileVersion !== evaluation.profileVersion) return null;
+  const packetPlan = evaluation.packetPlan ?? null;
+  const factMaps = sourceDisjointFactMaps({
+    screeningAnswers: input.screeningAnswers,
+    prefilledAnswers: {
+      ...carriedForwardPacketAnswers(
+        evaluation.jurisdiction,
+        evaluation.pathwayId ?? null,
+        input.screeningAnswers,
+        input.packetAnswers ?? {},
+        packetPlan?.requiredInputIds
+      ),
+      ...(input.prefilledAnswers ?? {})
+    },
+    packetAnswers: input.packetAnswers,
+    serverFacts: canonicalServerFacts(evaluation.jurisdiction, evaluation.pathwayId ?? null)
+  });
+  const snapshot = canonicalize({
+    schemaVersion: "expungement-ai/protected-packet-draft/v1",
+    capturedAt: input.capturedAt,
+    jurisdiction: evaluation.jurisdiction,
+    profileVersion: evaluation.profileVersion,
+    profileSourceFingerprint: profile.source?.sourceCorpusSha256 ?? null,
+    profileAuthorityFingerprint: profileAuthorityFingerprint(profile, evaluation.pathwayId ?? null),
+    pathwayId: evaluation.pathwayId ?? null,
+    resultCode: evaluation.resultCode,
+    paymentAllowed: evaluation.paymentAllowed,
+    packetType: input.authoritative.packetType ?? null,
+    packetPlan: packetPlan ? { ...packetPlan } : null,
+    requiredInputIds: packetPlan?.requiredInputIds ?? [],
+    packetFamilyIdentifiers: {
+      mode: packetPlan?.mode ?? null,
+      sourceFormIds: packetPlan?.sourceFormIds ?? []
+    },
+    selectedTrackId: input.authoritative.selectedTrackId,
+    treatmentClassification: evaluation.treatmentClassification ?? null,
+    deferralComponentIds: [...(evaluation.deferralComponentIds ?? [])].sort(),
+    screeningAnswers: factMaps.screeningAnswers,
+    packetAnswers: factMaps.packetAnswers,
+    serverFacts: factMaps.serverFacts,
+    prefilledAnswers: factMaps.prefilledAnswers,
+    dependencies: canonicalize(input.dependencies)
+  }) as ProtectedPacketDraftSnapshot;
+  return { snapshot, hash: protectedPacketDraftHash(snapshot) };
+}
+
+function protectedPacketDraftReviewSafety(draft: ProtectedPacketDraftSnapshot) {
+  const authoritative = evaluateProtectedPacketFacts(draft);
+  if (!authoritative) return { safe: false, reason: "authoritative_reevaluation_failed" };
+  const { evaluation } = authoritative;
+  if ((evaluation.resultCode !== "packet_ready" && evaluation.resultCode !== "packet_ready_with_caution")
+    || !evaluation.paymentAllowed
+    || !evaluation.packetPlan) return { safe: false, reason: "authoritative_route_changed" };
+  const answers = {
+    ...answerRecord(draft.screeningAnswers),
+    ...answerRecord(draft.prefilledAnswers),
+    ...answerRecord(draft.packetAnswers),
+    ...answerRecord(draft.serverFacts)
+  };
+  const publicProfile = projectPublicProfile(getProfileByJurisdiction(draft.jurisdiction)!);
+  const questionById = new Map(allPublicQuestions(publicProfile).map((question) => [question.id, toProfileQuestion(question)]));
+  for (const id of draft.requiredInputIds) {
+    if (id in draft.serverFacts) continue;
+    const validation = validatePacketAnswer(questionById.get(id) ?? fallbackPacketQuestion(id), answers[id]);
+    if (!validation.safe) return validation;
+  }
+  return { safe: true, reason: "authoritative_route_confirmed" };
+}
+
+export function protectedPacketDraftHash(snapshot: ProtectedPacketDraftSnapshot) {
+  return createHash("sha256").update(JSON.stringify(canonicalize(snapshot))).digest("hex");
+}
+
+export class CurrentPacketVerificationRequiredError extends Error {
+  constructor(readonly reason: string) {
+    super(`A current final verification is required: ${reason}`);
+    this.name = "CurrentPacketVerificationRequiredError";
+  }
+}
+
+function verifiedPacketRecordFromDraft(
+  draft: ProtectedPacketDraftSnapshot,
+  verifiedAt: string
+): PacketVerificationRecord {
+  const facts = Object.fromEntries(
+    Object.entries(draft).filter(([key]) => key !== "capturedAt" && key !== "schemaVersion")
+  ) as Omit<PacketVerificationSnapshot, "schemaVersion" | "verifiedAt">;
+  const snapshot: PacketVerificationSnapshot = {
+    ...facts,
+    schemaVersion: "expungement-ai/final-verification/v1",
+    verifiedAt
+  };
+  return {
+    status: "verified",
+    reason: "explicit_final_verification",
+    snapshot,
+    hash: packetVerificationHash(snapshot)
+  };
+}
+
+function unverifiedOrInvalidatedPacketRecord(
+  existing: unknown,
+  now: string,
+  reason: string
+): PacketVerificationRecord {
+  const prior = readVerificationRecord(existing);
+  if (prior?.status === "verified" || prior?.status === "invalidated" || reason !== "facts_saved_after_verification") {
+    return invalidatedPacketRecord(now, reason);
+  }
+  return { status: "unverified", reason: "final_verification_not_completed" };
+}
+
+function invalidatedPacketRecord(now: string, reason: string): PacketVerificationRecord {
+  return {
+    status: "invalidated",
+    reason,
+    invalidatedAt: now
+  };
+}
+
+function packetInformationMetadata(packetInformation: Record<string, unknown>): Record<string, unknown> {
+  return {
+    stage: packetInformation.stage,
+    requiredInputIds: packetInformation.requiredInputIds,
+    serverFacts: packetInformation.serverFacts,
+    prefilledAnswers: packetInformation.prefilledAnswers,
+    missingInputIds: packetInformation.missingInputIds,
+    updatedAt: packetInformation.updatedAt,
+    reviewedAt: packetInformation.reviewedAt,
+    reviewSafety: packetInformation.reviewSafety
+  };
+}
+
+function answerRecordForIds(value: unknown, allowedIds: ReadonlySet<string>): Record<string, AnswerValue> {
+  return Object.fromEntries(Object.entries(answerRecord(value)).filter(([id]) => allowedIds.has(id)));
+}
+
+function buildPacketVerificationSnapshot(
+  item: ConsumerBriefcaseItem,
+  flow: CommercialFlow,
+  verifiedAt: string
+): PacketVerificationSnapshot | null {
+  const authority = authoritativePacketContext(item, undefined, flow);
+  if (!authority.safe) return null;
+  const { profile, evaluation, packetType, selectedTrackId } = authority.authoritative;
+  const packetPlan = evaluation.packetPlan ?? null;
+  const factDependencies = verificationFactDependencies(
+    flow,
+    canonicalServerFacts(profile.jurisdiction.code, evaluation.pathwayId ?? null)
+  );
+  return canonicalize({
+    schemaVersion: "expungement-ai/final-verification/v1",
+    verifiedAt,
+    jurisdiction: profile.jurisdiction.code,
+    profileVersion: profile.profileVersion,
+    profileSourceFingerprint: profile.source?.sourceCorpusSha256 ?? null,
+    profileAuthorityFingerprint: profileAuthorityFingerprint(profile, packetPlan?.pathwayId ?? null),
+    pathwayId: evaluation.pathwayId ?? null,
+    resultCode: evaluation.resultCode,
+    paymentAllowed: evaluation.paymentAllowed,
+    packetType: packetType ?? null,
+    packetPlan: packetPlan ? { ...packetPlan } : null,
+    requiredInputIds: packetPlan?.requiredInputIds ?? [],
+    packetFamilyIdentifiers: {
+      mode: packetPlan?.mode ?? null,
+      sourceFormIds: packetPlan?.sourceFormIds ?? []
+    },
+    selectedTrackId,
+    treatmentClassification: item.treatmentClassification ?? null,
+    deferralComponentIds: [...(item.deferralComponentIds ?? [])].sort(),
+    ...factDependencies,
+    dependencies: {
+      commercialFlowVersion: typeof flow.version === "number" ? flow.version : null,
+      entitlementSource: typeof flow.entitlementSource === "string" ? flow.entitlementSource : null,
+      productId: typeof flow.productId === "string" ? flow.productId : null
+    }
+  }) as PacketVerificationSnapshot;
+}
+
+function packetVerificationHash(snapshot: PacketVerificationSnapshot) {
+  // jsonb does not preserve JavaScript insertion order. Final verification must
+  // survive a protected database round trip, just like the draft hash does.
+  return createHash("sha256").update(JSON.stringify(canonicalize(snapshot))).digest("hex");
+}
+
+function profileAuthorityFingerprint(
+  profile: NonNullable<ReturnType<typeof getProfileByJurisdiction>>,
+  pathwayId: string | null
+) {
+  const selectedPathway = profile.pathways.find((pathway) => pathway.id === pathwayId) ?? null;
+  const selectedPacketPathway = profile.packetGenerator.pathways.find((pathway) => pathway.pathwayId === pathwayId) ?? null;
+  const applicableRules = profile.orderedDecisionRules.filter((rule) => {
+    if (rule.when.backendPathwayId && rule.when.backendPathwayId !== pathwayId) return false;
+    if (rule.candidatePathwayIds?.length && pathwayId && !rule.candidatePathwayIds.includes(pathwayId)) return false;
+    return true;
+  });
+  const authority = canonicalize({
+    schemaVersion: profile.schemaVersion,
+    jurisdiction: profile.jurisdiction.code,
+    flowStages: profile.flowStages,
+    questionLifecycle: profile.questionLifecycle ?? null,
+    questionMachineSurface: profile.questions.map((question) => ({
+      id: question.id,
+      stage: question.stage,
+      type: question.type,
+      required: question.required,
+      contextOnly: question.contextOnly ?? false,
+      lifecyclePhase: question.lifecyclePhase ?? null,
+      options: question.options ?? null
+    })),
+    selectedPathway,
+    applicableRules,
+    waitingPeriodRules: profile.waitingPeriodRules ?? [],
+    exclusionRules: profile.exclusionRules ?? [],
+    packetGenerator: {
+      architecture: profile.packetGenerator.architecture,
+      legacyGeneratorAllowed: profile.packetGenerator.legacyGeneratorAllowed,
+      genericLegalFallbackAllowed: profile.packetGenerator.genericLegalFallbackAllowed,
+      requiredInputs: profile.packetGenerator.requiredInputs,
+      selectedPathway: selectedPacketPathway
+    }
+  });
+  return createHash("sha256").update(JSON.stringify(authority)).digest("hex");
+}
+
+function readVerificationRecord(value: unknown): PacketVerificationRecord | null {
+  if (!isRecord(value)
+    || (value.status !== "unverified" && value.status !== "verified" && value.status !== "invalidated")
+    || typeof value.reason !== "string") return null;
+  return value as PacketVerificationRecord;
+}
+
+function canonicalize(value: unknown): unknown {
+  if (Array.isArray(value)) return value.map(canonicalize);
+  if (!isRecord(value)) return value;
+  return Object.fromEntries(Object.keys(value).sort().map((key) => [key, canonicalize(value[key])]));
+}
+
+function verificationFactDependencies(
+  flow: CommercialFlow,
+  serverFacts: Record<string, AnswerValue>
+) {
+  const screening = isRecord(flow.screening) ? flow.screening : {};
+  const packetInformation = isRecord(flow.packetInformation) ? flow.packetInformation : {};
+  return sourceDisjointFactMaps({
+    screeningAnswers: screening.answers,
+    prefilledAnswers: packetInformation.prefilledAnswers,
+    packetAnswers: packetInformation.answers,
+    serverFacts
+  });
+}
+
+function sourceDisjointFactMaps(input: {
+  screeningAnswers: unknown;
+  prefilledAnswers: unknown;
+  packetAnswers: unknown;
+  serverFacts: unknown;
+}) {
+  const serverFacts = answerRecord(input.serverFacts);
+  const serverIds = new Set(Object.keys(serverFacts));
+  const packetAnswers = omitAnswerIds(answerRecord(input.packetAnswers), serverIds);
+  const packetOrServerIds = new Set([...serverIds, ...Object.keys(packetAnswers)]);
+  const prefilledAnswers = omitAnswerIds(answerRecord(input.prefilledAnswers), packetOrServerIds);
+  const effectiveIds = new Set([...packetOrServerIds, ...Object.keys(prefilledAnswers)]);
+  const screeningAnswers = omitAnswerIds(answerRecord(input.screeningAnswers), effectiveIds);
+  return { screeningAnswers, prefilledAnswers, packetAnswers, serverFacts };
+}
+
+function omitAnswerIds(
+  answers: Record<string, AnswerValue>,
+  omittedIds: ReadonlySet<string>
+): Record<string, AnswerValue> {
+  return Object.fromEntries(Object.entries(answers).filter(([id]) => !omittedIds.has(id)));
+}
+
+function verificationSummaryFor(
+  flow: CommercialFlow,
+  questionById: Map<string, ProfileQuestion>,
+  serverFacts: Record<string, AnswerValue>
+): PacketVerificationSummaryFact[] {
+  const factDependencies = verificationFactDependencies(flow, serverFacts);
+  const sources: PacketVerificationSummaryFact["source"][] = [
+    "screeningAnswers",
+    "prefilledAnswers",
+    "packetAnswers",
+    "serverFacts"
+  ];
+  return sources.flatMap((source) => Object.keys(factDependencies[source]).sort().map((id) => ({
+    key: `${source}:${id}`,
+    id,
+    label: questionById.get(id)?.prompt ?? answerLabel(id),
+    value: factDependencies[source][id],
+    source,
+    systemContext: source === "serverFacts" && (id === "jurisdiction" || id === "pathway_id")
+  })));
+}
+
+const VERIFICATION_FACT_KEYS = new Set([
+  "screeningAnswers",
+  "prefilledAnswers",
+  "packetAnswers",
+  "serverFacts"
+]);
+
+function verificationContextFor(source: Record<string, unknown>): PacketVerificationContextFact[] {
+  return Object.keys(source)
+    .filter((key) => !VERIFICATION_FACT_KEYS.has(key))
+    .sort()
+    .map((key) => ({
+      key,
+      label: answerLabel(key),
+      value: source[key],
+      systemContext: true as const
+    }));
+}
+
+function verificationContextSourceFor(
+  item: ConsumerBriefcaseItem,
+  flow: CommercialFlow,
+  profile: NonNullable<ReturnType<typeof getProfileByJurisdiction>>,
+  pathwayId: string | null
+): Record<string, unknown> {
+  const stored = readVerificationRecord(flow.verification);
+  const screening = isRecord(flow.screening) ? flow.screening : {};
+  const authoritativePlan = pathwayId ? packetPlanForPathway(profile, pathwayId) : null;
+  return canonicalize({
+    schemaVersion: "expungement-ai/final-verification/v1",
+    verifiedAt: stored?.status === "verified" && stored.snapshot?.verifiedAt
+      ? stored.snapshot.verifiedAt
+      : null,
+    jurisdiction: profile.jurisdiction.code,
+    profileVersion: profile.profileVersion,
+    profileSourceFingerprint: profile.source?.sourceCorpusSha256 ?? null,
+    profileAuthorityFingerprint: profileAuthorityFingerprint(profile, pathwayId),
+    pathwayId,
+    resultCode: typeof screening.resultCode === "string" ? screening.resultCode : item.resultCode ?? null,
+    paymentAllowed: typeof screening.paymentAllowed === "boolean" ? screening.paymentAllowed : item.paymentAllowed,
+    packetType: typeof screening.packetType === "string" ? screening.packetType : item.packetType ?? null,
+    packetPlan: authoritativePlan ? { ...authoritativePlan } : null,
+    requiredInputIds: authoritativePlan?.requiredInputIds ?? [],
+    packetFamilyIdentifiers: {
+      mode: authoritativePlan?.mode ?? null,
+      sourceFormIds: authoritativePlan?.sourceFormIds ?? []
+    },
+    selectedTrackId: item.selectedTrackId
+      ?? (typeof item.artifactRefs?.selectedTrackId === "string" ? item.artifactRefs.selectedTrackId : null),
+    treatmentClassification: item.treatmentClassification ?? null,
+    deferralComponentIds: [...(item.deferralComponentIds ?? [])].sort(),
+    dependencies: {
+      commercialFlowVersion: typeof flow.version === "number" ? flow.version : null,
+      entitlementSource: typeof flow.entitlementSource === "string" ? flow.entitlementSource : null,
+      productId: typeof flow.productId === "string" ? flow.productId : null
+    }
+  }) as Record<string, unknown>;
 }
 
 /**
@@ -255,46 +1313,84 @@ export function packetInformationReviewSafety(
   item: ConsumerBriefcaseItem,
   answerOverride?: Record<string, AnswerValue>
 ): { safe: boolean; reason: string } {
-  const model = packetInformationModelFor(item);
-  const flow = readCommercialFlow(item.artifactRefs);
-  const screening = isRecord(flow?.screening) ? flow.screening : {};
-  if (!model || !flow || typeof screening.profileVersion !== "string") {
-    return { safe: false, reason: "authoritative_screening_context_missing" };
+  const result = authoritativePacketContext(item, answerOverride);
+  return { safe: result.safe, reason: result.reason };
+}
+
+export function mississippiNonConvictionPacketSafety(
+  answers: Record<string, AnswerValue>
+): { safe: true; reason: string } | { safe: false; reason: string } {
+  // The same list the collection policy reads, so a fact this gate decides on
+  // can never be classified as one the participant is not asked before
+  // Checkout. The gate and its thresholds are unchanged.
+  const requiredNeutralFacts = MISSISSIPPI_NON_CONVICTION_NEUTRAL_FACTS;
+  for (const [id, expected] of requiredNeutralFacts) {
+    if (answerText(answers[id]) !== expected.toLowerCase()) {
+      return { safe: false, reason: `route_changing_answer:${id}` };
+    }
   }
 
-  const answers = { ...model.initialAnswers, ...answerOverride };
+  const dispositionWording = answerText(answers.disposition_record_wording);
+  const ambiguous = /passed\s+to\s+(?:the\s+)?file|retired\s+to\s+(?:the\s+)?file|remand|non.?adjudication|diversion|intervention\s+court|drug\s+court/;
+  const statutoryEnding = /dismiss|charges?\s+dropped|no\s+disposition|not\s+guilty|acquit|no.?bill|nolle|not\s+prosecuted/;
+  if (!dispositionWording || ambiguous.test(dispositionWording) || !statutoryEnding.test(dispositionWording)) {
+    return { safe: false, reason: "route_changing_answer:disposition_record_wording" };
+  }
+  return { safe: true, reason: "route_safety_confirmed" };
+}
+
+type AuthoritativePacketContext =
+  | { safe: false; reason: string }
+  | {
+    safe: true;
+    reason: string;
+    authoritative: ReturnType<typeof evaluateAuthoritativeScreeningResult>;
+  };
+
+function authoritativePacketContext(
+  item: ConsumerBriefcaseItem,
+  answerOverride?: Record<string, AnswerValue>,
+  flowOverride?: CommercialFlow
+): AuthoritativePacketContext {
+  const model = packetInformationModelFor(item);
+  const flow = flowOverride ?? readCommercialFlow(item.artifactRefs);
+  const screening = isRecord(flow?.screening) ? flow.screening : {};
+  const packetInformation = isRecord(flow?.packetInformation) ? flow.packetInformation : {};
+  const currentProfile = getProfileByJurisdiction(item.state);
+  if (!model || !flow || !currentProfile || typeof screening.profileVersion !== "string") {
+    return { safe: false, reason: "authoritative_screening_context_missing" };
+  }
+  if (screening.profileVersion !== currentProfile.profileVersion) {
+    return { safe: false, reason: "authoritative_profile_changed" };
+  }
+
+  const answers = {
+    ...model.initialAnswers,
+    ...answerRecord(packetInformation.answers),
+    ...answerOverride
+  };
   for (const question of model.questions) {
     const validation = validatePacketAnswer(question, answers[question.id]);
-    if (!validation.safe) return validation;
+    if (!validation.safe) return { safe: false, reason: validation.reason };
   }
 
   // These Mississippi facts are source-rule inputs. A contradictory answer
   // cannot remain attached to the ordinary non-conviction packet.
   if (model.stateCode === "MS" && model.pathwayId === "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal") {
-    const requiredNeutralFacts: Array<[string, string]> = [
-      ["pending_cases", "No"],
-      ["trafficking_status", "No"],
-      ["prior_relief", "No"],
-      ["sentence_completion_date", "Yes"],
-      ["financial_obligations", "Yes"]
-    ];
-    for (const [id, expected] of requiredNeutralFacts) {
-      if (answerText(answers[id]) !== expected.toLowerCase()) {
-        return { safe: false, reason: `route_changing_answer:${id}` };
-      }
-    }
+    const routeSafety = mississippiNonConvictionPacketSafety(answers);
+    if (!routeSafety.safe) return routeSafety;
   }
 
   const screeningAnswers = answerRecord(screening.answers);
   const evaluationAnswers = toScreeningAnswers({ ...screeningAnswers, ...answers });
-  let evaluation;
+  let authoritative: ReturnType<typeof evaluateAuthoritativeScreeningResult>;
   try {
-    evaluation = evaluateAuthoritativeScreeningResult({
+    authoritative = evaluateAuthoritativeScreeningResult({
       jurisdiction: model.stateCode,
-      profileVersion: screening.profileVersion,
-      matterId: typeof screening.screeningMatterId === "string" ? screening.screeningMatterId : item.id,
+      profileVersion: currentProfile.profileVersion,
+      matterId: item.id,
       answers: evaluationAnswers
-    }).evaluation;
+    });
   } catch (error) {
     // Some packet-only form fields intentionally are not evaluator questions.
     // Remove only the ids the authoritative evaluator explicitly identifies;
@@ -302,22 +1398,64 @@ export function packetInformationReviewSafety(
     if (!(error instanceof InvalidAnswerError)) return { safe: false, reason: "authoritative_reevaluation_failed" };
     for (const id of error.invalidQuestionIds) delete evaluationAnswers[id];
     try {
-      evaluation = evaluateAuthoritativeScreeningResult({
+      authoritative = evaluateAuthoritativeScreeningResult({
         jurisdiction: model.stateCode,
-        profileVersion: screening.profileVersion,
-        matterId: typeof screening.screeningMatterId === "string" ? screening.screeningMatterId : item.id,
+        profileVersion: currentProfile.profileVersion,
+        matterId: item.id,
         answers: evaluationAnswers
-      }).evaluation;
+      });
     } catch {
       return { safe: false, reason: "authoritative_reevaluation_failed" };
     }
   }
 
+  const { evaluation } = authoritative;
   const packetReady = evaluation.resultCode === "packet_ready" || evaluation.resultCode === "packet_ready_with_caution";
-  if (!packetReady || !evaluation.paymentAllowed || evaluation.pathwayId !== model.pathwayId) {
+  if (!packetReady || !evaluation.paymentAllowed) {
     return { safe: false, reason: "authoritative_route_changed" };
   }
-  return { safe: true, reason: "authoritative_route_confirmed" };
+  const storedPlan = readPacketPlan(screening.packetPlan);
+  const authoritativePlan = evaluation.packetPlan ?? null;
+  if (typeof screening.pathwayId !== "string" || screening.pathwayId !== evaluation.pathwayId) {
+    return { safe: false, reason: "stored_pathway_mismatch" };
+  }
+  const storedServerFacts = answerRecord(packetInformation.serverFacts);
+  if (("jurisdiction" in storedServerFacts
+      && answerTextRaw(storedServerFacts.jurisdiction) !== currentProfile.jurisdiction.code)
+    || ("pathway_id" in storedServerFacts
+      && answerTextRaw(storedServerFacts.pathway_id) !== (evaluation.pathwayId ?? ""))) {
+    return { safe: false, reason: "stored_server_fact_mismatch" };
+  }
+  if (screening.resultCode !== evaluation.resultCode || item.resultCode !== evaluation.resultCode) {
+    return { safe: false, reason: "stored_result_mismatch" };
+  }
+  const expectedMatterPaymentAllowed = flow.entitlementSource === "partner_sponsorship"
+    ? false
+    : evaluation.paymentAllowed;
+  if (screening.paymentAllowed !== evaluation.paymentAllowed || item.paymentAllowed !== expectedMatterPaymentAllowed) {
+    return { safe: false, reason: "stored_payment_authority_mismatch" };
+  }
+  if (screening.packetType !== (authoritative.packetType ?? null) || item.packetType !== authoritative.packetType) {
+    return { safe: false, reason: "stored_packet_type_mismatch" };
+  }
+  if (!canonicalEqual(comparableStoredPacketPlan(storedPlan), comparableStoredPacketPlan(authoritativePlan))) {
+    return { safe: false, reason: "stored_packet_plan_mismatch" };
+  }
+  if (!canonicalEqual(stringArray(packetInformation.requiredInputIds), authoritativePlan?.requiredInputIds ?? [])) {
+    return { safe: false, reason: "stored_required_inputs_mismatch" };
+  }
+  const storedTrackId = item.selectedTrackId
+    ?? (typeof item.artifactRefs?.selectedTrackId === "string" ? item.artifactRefs.selectedTrackId : null);
+  if (storedTrackId !== authoritative.selectedTrackId
+    || (item.treatmentClassification ?? null) !== (evaluation.treatmentClassification ?? null)
+    || !canonicalEqual(item.deferralComponentIds ?? [], evaluation.deferralComponentIds ?? [])) {
+    return { safe: false, reason: "stored_treatment_mismatch" };
+  }
+  return { safe: true, reason: "authoritative_route_confirmed", authoritative };
+}
+
+function canonicalEqual(left: unknown, right: unknown) {
+  return JSON.stringify(canonicalize(left)) === JSON.stringify(canonicalize(right));
 }
 
 function validatePacketAnswer(question: ProfileQuestion, value: AnswerValue | undefined) {
@@ -371,10 +1509,7 @@ function commercialFlowForItem(
   const packetPlan = packetPlanForPathway(profile, pathway.pathwayId);
   if (!packetPlan) return null;
 
-  const serverFacts: Record<string, AnswerValue> = {
-    jurisdiction: profile.jurisdiction.code,
-    pathway_id: pathway.pathwayId
-  };
+  const serverFacts = canonicalServerFacts(profile.jurisdiction.code, pathway.pathwayId);
   return {
     screening: {
       profileVersion: profile.profileVersion,
@@ -396,6 +1531,13 @@ function commercialFlowForItem(
   };
 }
 
+function canonicalServerFacts(jurisdiction: string, pathwayId: string | null): Record<string, AnswerValue> {
+  return {
+    jurisdiction,
+    ...(pathwayId ? { pathway_id: pathwayId } : {})
+  };
+}
+
 function readPacketPlan(value: unknown): PacketPlan | null {
   if (!isRecord(value)
     || typeof value.pathwayId !== "string"
@@ -407,7 +1549,25 @@ function readPacketPlan(value: unknown): PacketPlan | null {
     formMappingStatus: value.formMappingStatus as PacketPlan["formMappingStatus"],
     sourceFormIds: stringArray(value.sourceFormIds),
     requiredInputIds: stringArray(value.requiredInputIds),
-    sourceRuleRefs: stringArray(value.sourceRuleRefs)
+    sourceRuleRefs: stringArray(value.sourceRuleRefs),
+    // The compiled plan always carries packetReadyWhen and the protected
+    // snapshot stores the plan as evaluated. Dropping it here made the model's
+    // plan differ from the stored verification context, so verificationSummary
+    // returned null and the review page rendered "Final verification is not
+    // available" for every matter. Read it back exactly when it is stored.
+    ...(Array.isArray(value.packetReadyWhen) ? { packetReadyWhen: stringArray(value.packetReadyWhen) } : {})
+  };
+}
+
+function comparableStoredPacketPlan(value: PacketPlan | null): PacketPlan | null {
+  if (!value) return null;
+  return {
+    pathwayId: value.pathwayId,
+    mode: value.mode,
+    formMappingStatus: value.formMappingStatus,
+    sourceFormIds: [...value.sourceFormIds],
+    requiredInputIds: [...value.requiredInputIds],
+    sourceRuleRefs: [...value.sourceRuleRefs]
   };
 }
 
@@ -466,6 +1626,30 @@ function fallbackPacketQuestion(id: string): ProfileQuestion {
     ?? packetQuestion(id, answerLabel(id), "text_or_unknown", "Enter the wording from your court or agency record when possible.");
 }
 
+function installPacketSpecificationQuestions(
+  questions: Map<string, ProfileQuestion>,
+  jurisdiction: string,
+  pathwayId: string | null,
+  requiredInputIds: string[]
+) {
+  const routeKey = `${jurisdiction}:${pathwayId ?? ""}`;
+  for (const factId of requiredInputIds) {
+    const fact = packetSpecificationFactFor(routeKey, factId);
+    if (!fact?.prompt) continue;
+    questions.set(factId, packetQuestionFromSpecification(fact));
+  }
+}
+
+function packetQuestionFromSpecification(fact: PacketSpecificationFact): ProfileQuestion {
+  return packetQuestion(
+    fact.factId,
+    fact.prompt ?? answerLabel(fact.factId),
+    fact.questionType ?? "text",
+    fact.helperText,
+    fact.options ?? null
+  );
+}
+
 function packetQuestion(
   id: string,
   prompt: string,
@@ -487,7 +1671,7 @@ function packetQuestion(
 }
 
 function packetInformationStage(value: unknown): PacketInformationStage {
-  if (value === "in_progress" || value === "ready_to_generate") return value;
+  if (value === "in_progress" || value === "facts_complete" || value === "ready_to_generate") return value;
   return "not_started";
 }
 

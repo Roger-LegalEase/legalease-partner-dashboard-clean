@@ -1,0 +1,746 @@
+{
+  "schemaVersion": "rcap-grade-a-packet-factory-24h-lane-rows/v1",
+  "lane": "FIX109",
+  "laneKind": "shared-host-repair",
+  "status": "COMPLETED",
+  "repairedByThisLane": true,
+  "wave": "FIX109-RI-FEE-FOUR-2026-09-06",
+  "branch": "fix109-ri-fee-four",
+  "builtAtBase": "2495d6d9b",
+  "whatThisLaneDid": "Carried the 2026-09-06 owner-relayed research answer to the Rhode Island filing-fee question into the packet text of the four Chapter 12-1.3 motion families, and bound the Superior Court FAQ answer as the fee source on each family's source receipt. One shared build host was edited; the change is route-conditional to the four tracks the record names.",
+  "recordBasis": {
+    "decisionRecord": "data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-four-holds.json",
+    "researchHandoff": "docs/rcap/grade-a/research/2026-09-06-packet-blocker-research-handoff.md",
+    "researchHandoffSha256": "8a5996fcf36a4e776aae643dac0444455ab8be9f712ec53f13c21c72842f75ad",
+    "isNotCounselApproval": "Research relayed by the owner, not Lawrence Blackmon's approval and not packet acceptance."
+  },
+  "sharedHost": {
+    "file": "scripts/build-census-v1-ri_decriminalized-set.mjs",
+    "familiesOnThisHost": [
+      "ri_decriminalized-set",
+      "ri_first_offender_misdemeanor-set",
+      "ri_multiple_misdemeanors-set",
+      "ri_first_offender_felony-set",
+      "ri_deferred_sentence-set"
+    ],
+    "editedFunctions": [
+      "feeSection",
+      "the source-receipt groundingRecords and whatThisReceiptDoesNotEstablish blocks",
+      "counselQuestions"
+    ],
+    "routeGuard": "const FEE_ANSWER_CARRIED_TRACKS = new Set([ri_first_offender_misdemeanor, ri_first_offender_felony, ri_multiple_misdemeanors, ri_deferred_sentence]) - a positive list of the four routes the record names, not a negation of ri_decriminalized",
+    "noSharedMachineryChanged": "no field-map machinery, no protect rules, no finalizeOfficialForm option, no verifier, no manifest, no queue and no shared record was touched"
+  },
+  "recordsThisLaneDidNotEdit": [
+    "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+    "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+    "data/rcap-grade-a/packet-factory-24h/claim-ledger.json",
+    "data/record-clearing/legal-design-track-registry.json",
+    "data/record-clearing/legal-design-intake/RI.memo.json",
+    "data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-four-holds.json"
+  ],
+  "provenFamiliesOnThisHostDidNotMove": {
+    "ri_decriminalized-set": {
+      "rebuiltAfterTheEdit": true,
+      "filesCompared": 13,
+      "result": "every file byte-identical to the committed bytes, fixtures included",
+      "canonicalSha256": "f11ec35188b0b1941c37cb207c4113fdade2ae096d30e652b48ddf3c73074ffc",
+      "boundarySha256": "3b50486ac1ab516a3ac0b0965b61f9772894958ce1fb31f09556bf06d260279a",
+      "beforeEqualsAfter": true,
+      "whyItCouldNotMove": "the fee change is guarded by FEE_ANSWER_CARRIED_TRACKS, which does not contain ri_decriminalized; its own no-cost paragraph, its receipt item and its counsel questions are untouched",
+      "committed": false
+    },
+    "ri_marijuana-set": {
+      "rebuiltAfterTheEdit": true,
+      "filesCompared": 14,
+      "builtBy": "scripts/build-census-v1-ri_marijuana-set.mjs, which does not import the edited host",
+      "canonicalSha256": "79bcf52eb9014313303adc20c37ec9d20d127de1dd28e5b738f2c823f0eba8f0",
+      "boundarySha256": "fc9c6c8ae3934798ba7dd5eff9bf58629da65a390ba9cf0318032f8b37945312",
+      "fixturesMoved": false,
+      "oneFileDrifts": {
+        "file": "data/rcap-all50/overlays/census-v1/ri/ri-marijuana-set--custom-pleading/source-receipt.json",
+        "committedSha256": "b7de281161ede588bc9a740d734aefcff49e5b8d29ac58471d98609932b7e89b",
+        "rebuildSha256": "6273684159fe1a16eb891f6044d4955ccaeff2f9538c755b1ec276add667b86e",
+        "theWholeDifference": "the two recorded fields of its memo ground: sha256 918bdea81d68d75e072b8034dc22ba2cce0d6c86451c9ebdc3607b1225cfd62f -> 2308deabaac4887a95ae9e3453b3d29743a9864f18373e311871e63bec4ae539 and byteLength 252097 -> 265681",
+        "cause": "RI.memo.json changed when the research answer was recorded on the four RI tracks, before this lane existed. The marijuana build re-hashes that memo on every build.",
+        "predatesThisLane": "yes, and it was proved: the identical drift was reproduced by a rebuild at base 2495d6d9b BEFORE any edit of this lane was made, and the diff after the edit is the same blob.",
+        "actionTaken": "the file was restored to its committed bytes and this family's directory is not committed by this lane",
+        "notThisLanesToFix": "it is a rebuild-drift finding about a proven family whose grant this lane does not hold; it is reported, not repaired"
+      },
+      "committed": false
+    }
+  },
+  "environment": {
+    "worktree": "/home/user/fix109-worktree, branch fix109-ri-fee-four from 2495d6d9b, sparse checkout off, 0 skip-worktree entries",
+    "preflight": "MASTER_LIBRARY_SOURCE_DIR=/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1 node scripts/verify-packet-build-environment.mjs --family <id>, run for all four",
+    "preflightResult": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 11/13 passed, 2 failed, 4 not applicable, identically for all four families",
+    "failure1": {
+      "check": "private_is_git_ignored",
+      "reported": "private/ is NOT git-ignored",
+      "whatItActuallyIs": "private is a read-only symlink to /home/user/legalease-partner-dashboard-clean/private, as the assignment directed. git check-ignore -q 'private/' exits 128 with 'pathspec beyond a symbolic link' rather than 0, so the check reads a symlink as an unignored directory. Nothing is tracked beneath private (git ls-files private/ finds none), the symlink itself never appeared in git status, and every commit here names its files explicitly - no git add ., -A or --all was used.",
+      "notWorkedAround": "no ignore rule, git config or repository setting was changed to silence it"
+    },
+    "failure2": {
+      "check": "corpus_matches_committed_index",
+      "reported": "1 absent, 0 mismatched of 24 sampled",
+      "theAbsentEntry": "LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf, master_library custody",
+      "relevanceHere": "none to these four families. family_sources_bind passed 1/1 by exact SHA-256 for each of them, and the bound binaries DC-33 (342337451d61e363e03febb384431dba2f9bb08b44ee46380b94fc91901e9908) and Superior-55 are present and exact. Reported rather than dismissed.",
+      "alsoObserved": "four Rhode Island entries of the nationwide_recovery_pool_2026_09_02 custody resolve under private/source-imports/, which is not mounted in this container; the resolver excludes unmounted custodies from the sample, so they are not part of the failure."
+    }
+  },
+  "grantsNothing": "A repair is not an acceptance. This lane built these bytes and verified none of them independently. No family is proven, no build status is promoted, no route is opened, no packet credit is consumable and no delivery is authorized. The grants were not released and the claim ledger was not written.",
+  "rows": [
+    {
+      "itemId": "ri_first_offender_misdemeanor-set",
+      "lane": "FIX109",
+      "status": "COMPLETED",
+      "repairedByThisLane": true,
+      "obligationsRepaired": [
+        "FEE_AND_WAIVER"
+      ],
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-misdemeanor-set--official-pdf-fill",
+      "trackId": "ri_first_offender_misdemeanor",
+      "builder": "scripts/build-census-v1-ri_first_offender_misdemeanor-set.mjs",
+      "sharedBuildHost": "scripts/build-census-v1-ri_decriminalized-set.mjs",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersCommand": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_first_offender_misdemeanor-set",
+      "countersResult": "PASS_COMPLETE, exit 0, measured here on the rebuilt bytes",
+      "whatChanged": {
+        "theRepair": "The fee section of the composed filing-instructions component now states the record's answer instead of the record's gap. The 'THE HONEST ANSWER IS THAT NO HELD RECORD STATES A FILING FEE FOR THIS MOTION' paragraph and the clerk question 'So no figure is printed here. Ask the clerk of the division you are filing in what, if anything, it costs, before you go.' are gone from the delivered bytes; the handoff's participant text is printed verbatim in their place, followed by a paragraph naming the source and the court that gave it.",
+        "addedVerbatim": "The Rhode Island Superior Court does not charge an expungement filing fee. This is separate from fines, costs, restitution, or other obligations already ordered in your case. Follow the requirements for your particular expungement route concerning any remaining obligations. A no-fee filing does not cancel an unpaid court obligation.",
+        "sourceNamedInTheDeliveredText": "the Rhode Island Superior Court's own expungement FAQ, \"Is there a fee associated with my expungement?\", published at https://www.courts.ri.gov/Courts/superiorcourt/Pages/FAQs.aspx",
+        "courtCaveatInTheDeliveredText": "That is the SUPERIOR COURT's answer. If your case is in the District Court or the Family Court, ask that court's clerk to confirm that it applies to your filing before you go.",
+        "keptUnchanged": [
+          "the A SEPARATE MONEY QUESTION, WHICH IS NOT THE FILING FEE paragraph, word for word: court-imposed and court-related fines, fees, costs, assessments and charges on the underlying case must be satisfied in full, may be waived or reduced by court order, and that waiver or reduction satisfies the eligibility condition",
+          "every route-specific condition, exclusion, waiting period, Part selection and discrepancy note on this route",
+          "the composed proposed order and the OWN-RI-PROPOSED-ORDER-2026-09-05 treatment, which this lane did not reopen"
+        ],
+        "removedBecauseTheGapClosed": [
+          "source-receipt.json whatThisReceiptDoesNotEstablish: 'what, if anything, it costs to file a Chapter 12-1.3 motion - no held record states a filing fee'",
+          "approval-request.json counselQuestionsRaised: 'Confirm that publishing no filing-fee figure is right. ...'"
+        ],
+        "noWaiverStepAdded": "No filing-fee-waiver application step was added; the record says none is required solely to waive a $0 filing fee. rules.feeWaiver is unchanged and the underlying-case obligations keep their own separate treatment.",
+        "noDollarAmountAttributed": "No dollar amount is attributed to DC-33, to Superior-55, to DC-33 or to any other form. The delivered text says no dollar figure appears on the court's motion form and none is printed.",
+        "noGeneralisation": "The first-offender routes' own conditions were not carried to the deferred-sentence or multiple-misdemeanor routes, and no first-offender waiver or reduction rule was generalised. The change is one fee statement, applied route-conditionally.",
+        "routeConditionality": "The host now names the four Chapter 12-1.3 motion tracks in FEE_ANSWER_CARRIED_TRACKS rather than testing 'not ri_decriminalized', so the answer reaches exactly the four routes the record names and a family later added to the host keeps the honest no-figure text."
+      },
+      "feeSourceBinding": {
+        "boundIn": "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-misdemeanor-set--official-pdf-fill/source-receipt.json groundingRecords[]",
+        "boundAs": "the fee source for this packet, as a recorded authority statement, alongside the family's other committed authorities (the track registry and OWN-RI-PROPOSED-ORDER-2026-09-05)",
+        "record": "data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-four-holds.json",
+        "recordId": "OWNER-RELAYED-RESEARCH-2026-09-06-FOUR-HOLDS",
+        "faqAnswerBound": "Rhode Island Superior Court expungement FAQ, \"Is there a fee associated with my expungement?\": the Superior Court charges no expungement filing fee",
+        "supportUrl": "https://www.courts.ri.gov/Courts/superiorcourt/Pages/FAQs.aspx",
+        "pageBytesHeld": false,
+        "provenanceLimitRecordedOnTheReceipt": "courts.ri.gov is blocked by this container's egress proxy. The FAQ page was not fetched, hashed or held by this build; no page bytes exist here and none were invented. The answer is carried from the committed decision record, which carries it from the research handoff that inspected the page on 2026-09-06.",
+        "productWiring": "product-wiring.json is generated by scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs from rendered-artifacts.json and carries no authority statements; it did not move and this lane did not hand-edit it. The authority binding lives on the source receipt, which product-wiring.json binds by path."
+      },
+      "digests": {
+        "fixtures": {
+          "canonical": {
+            "path": "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-misdemeanor-set--official-pdf-fill/fixtures/canonical.pdf",
+            "before": "4887cbead4a42a3baf7a622e74cbf4bacba7e4a98f1ae24136a02dba087a4db6",
+            "after": "f2c5beb7a2356f71c9f189c5bcc676370f8a819c7a7980292e53930214b48b69",
+            "moved": true
+          },
+          "boundary": {
+            "path": "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-misdemeanor-set--official-pdf-fill/fixtures/boundary.pdf",
+            "before": "9a7211c9e517d11b10105a3bba27c08adf6dafec682baf5b3e0dfad2b75dd0fb",
+            "after": "5b40c0b127c7fcfb332a5b887ec77fe397efae45756687bc1bfa151d0144e796",
+            "moved": true
+          }
+        },
+        "otherFilesThatMoved": {
+          "source-receipt.json": {
+            "before": "3701c568fd20d32557078382a3d72c6303eddef779354a9b666a3d1c72e27525",
+            "after": "ebcae557ab5c45bdfe72f03b3a96cec8512988b97148f451c00e458be1460ba4",
+            "moved": true
+          },
+          "approval-request.json": {
+            "before": "4b7dd51e33e2a8b534e4e6af7c0e3310eeb6cc597e495a570dc5219145bdb1af",
+            "after": "ed1764a2de51bd17fdd31f9c0e8955942dd31d4083bb8319afc7f813d8411c86",
+            "moved": true
+          },
+          "reports/rendered-artifacts.json": {
+            "before": "13ddacbd35579b16a7ccfcf7f6afd601a114b6e269177fbe95a019cc11586b84",
+            "after": "36fac7510d672a8158744f189abb01ab9651e3b8a0aa92fe46c99e89820ca83d",
+            "moved": true
+          }
+        },
+        "filesThatDidNotMove": {
+          "participant-instructions.md": {
+            "digest": "a664e50ca6b2ec4ee518521fbd07b7083e5e3ab06b1f6b2fc0a9b8eff2928938",
+            "moved": false
+          },
+          "production-field-map.json": {
+            "digest": "0e9a7a457349b7373f5992f98585a80c618bac40aeee98df2293ed6511231b35",
+            "moved": false
+          },
+          "field-census.census-v1.json": {
+            "digest": "6135028d8bead9e142ca64a0f973b58555f72332fc4b0a3e1222803015135abf",
+            "moved": false
+          },
+          "build-status.json": {
+            "digest": "44bbd015b50106a1d80f32c4ae93298c3e94446bb53e2b4a8418d152e59d6f27",
+            "moved": false
+          },
+          "product-wiring.json": {
+            "digest": "c9f08658a85d8d33e50518a6d63c92b7c6320c314d171cdc37715bad35639a4e",
+            "moved": false
+          },
+          "reports/actual-writes.json": {
+            "digest": "23aeaa940d8bcd1104763ac789ec1c878b06ee8a0f201c93e4ae33e5f9a8571b",
+            "moved": false
+          },
+          "reports/blanks-left-for-the-participant.json": {
+            "digest": "06af00e3fe410e508c859353ac6ac66f3ea3892ec24702529c91d42cc679e797",
+            "moved": false
+          },
+          "reports/completeness-counters.json": {
+            "digest": "323afd879026be13e0d71f7aee4438b04edc50817a69310514057b818265fe8e",
+            "moved": false
+          }
+        }
+      },
+      "determinism": {
+        "builds": 2,
+        "command": "MASTER_LIBRARY_SOURCE_DIR=<mounted Master Library> node scripts/build-census-v1-ri_first_offender_misdemeanor-set.mjs --no-raster",
+        "result": "byte-identical across both builds; all 56 files under the four family directories hashed after each run and compared, zero differences",
+        "whyNoRaster": "the committed artifacts of these families record rasterSkipped true / BUILT_RASTER_PENDING, so a rastering build would move build-status.json and rendered-artifacts.json for a reason unrelated to this repair. A plain rebuild in the committed mode reproduced the committed bytes exactly before any edit was made, which is how this lane knows the two moved files below moved because of the repair."
+      },
+      "appearance": {
+        "pagesWhoseBytesMoved": {
+          "canonical": [
+            10
+          ],
+          "boundary": [
+            10
+          ]
+        },
+        "pagesUnchanged": "every other page of both fixtures (13 pages each) is pixel-identical to the committed bytes at 100 dpi",
+        "officialFormFixturesDidNotMove": "pages 1-4, the DC-33 official form pages, are pixel-identical. The fee lives only in the composed filing-instructions component on page 10. No official-form fixture digest moved and none needed to.",
+        "rasteredAt": "300 dpi, poppler pdftoppm, under /tmp, deleted after measuring",
+        "lookedAt": "yes. Page 10 of all eight fixtures rasters to one identical PNG (sha256 31abe291599e17f1211e425c14593ff189bc4ee05d590cb61a75537ccc58a7f2), so one image is the appearance of all eight; the pre-repair page 10 was likewise one identical PNG (sha256 d07340ded642b6c9567526580c028c45d41423f51ede501b4f082ed3c9d61d6a) and both were compared side by side.",
+        "whatTheEyeFound": "The WHAT IT COSTS section reads: the verbatim answer, then WHERE THAT ANSWER COMES FROM, AND WHICH COURT GAVE IT, then the unchanged A SEPARATE MONEY QUESTION paragraph. No clipping, no overlap, no truncation, no text in the margins. The section occupies the same vertical extent as the paragraphs it replaced, so the page break is where it was: DOCUMENTS TO GET FIRST, AND WHO HAS THEM. still ends page 10 exactly as before, and pages 11 onward are untouched.",
+        "noRasterPngCommitted": "these families track no raster PNGs; the build's own raster directories were not produced (--no-raster) and the measurement rasters were written under /tmp and deleted."
+      },
+      "obligationsThisRowDoesNotDischarge": [
+        "the independent re-read. This lane built these bytes and cannot verify them. Every obligation on the family's latest VF03 row - ROUTE_IDENTITY, SOURCE_IDENTITY, COMPONENT_SET, KNOWN_PREFILLS, REQUIRED_BEFORE_FILING, ROUTE_OPTIONS, REPEATING_ROWS, PROTECTED_FIELDS, ARTIFACTS, PAGE_ORDER, FILING_DESTINATION, SERVICE, SELF_HELP_STOP and CLIPPING_AND_OVERLAP - is owed again on these bytes by a lane that did not build them.",
+        "central raster acceptance. The fixture bytes moved, so the standing RASTER_PASS receipt (run 33983515494) binds superseded digests and stops binding. Central raster is owed on the new canonical digest before any raster claim is made about these bytes.",
+        "counsel review of the fee statement. The record this lane carried is research relayed by the owner and is expressly not counsel approval; the approval-request now asks counsel to confirm the answer and its District Court / Family Court treatment.",
+        "the remaining release blockers on these tracks, which this lane did not touch: the waiting-period framing, the DC-33 / Superior-55 / Family Court revision-date confirmation, the Sec. 12-1.3-1(5) reclassification list, and for ri_multiple_misdemeanors the 'fewer than six' and no-felony-bar questions.",
+        "output approval, promotion, delivery and commercial authority. This repair opens no route and proves no packet."
+      ],
+      "recordBasis": {
+        "decisionRecord": "data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-four-holds.json",
+        "decisionRecordId": "OWNER-RELAYED-RESEARCH-2026-09-06-FOUR-HOLDS",
+        "researchHandoff": "docs/rcap/grade-a/research/2026-09-06-packet-blocker-research-handoff.md",
+        "researchHandoffSha256": "8a5996fcf36a4e776aae643dac0444455ab8be9f712ec53f13c21c72842f75ad",
+        "handoffSha256VerifiedHere": true,
+        "trackRegistry": "data/record-clearing/legal-design-track-registry.json, track ri_first_offender_misdemeanor, rules.fees, rules.researchParticipantText.fee and researchResolvedQuestions[0], read and not edited",
+        "intakeMemo": "data/record-clearing/legal-design-intake/RI.memo.json, same track, read and not edited",
+        "isNotCounselApproval": "Research relayed by the owner. It creates implementation and re-read obligations only. No checkout, sponsorship, packet-credit consumption, delivery or COMPLETE_PACKET_PROVEN follows from it."
+      },
+      "claim": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX109 ri_first_offender_misdemeanor-set -> CLAIM_OK FIX109 ri_first_offender_misdemeanor-set (repair, grant set 071925142f8fd3ce), exit 0, asserted before any artifact of this family was opened. The grant was not released and the claim ledger was not written."
+    },
+    {
+      "itemId": "ri_first_offender_felony-set",
+      "lane": "FIX109",
+      "status": "COMPLETED",
+      "repairedByThisLane": true,
+      "obligationsRepaired": [
+        "FEE_AND_WAIVER"
+      ],
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-felony-set--official-pdf-fill",
+      "trackId": "ri_first_offender_felony",
+      "builder": "scripts/build-census-v1-ri_first_offender_felony-set.mjs",
+      "sharedBuildHost": "scripts/build-census-v1-ri_decriminalized-set.mjs",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersCommand": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_first_offender_felony-set",
+      "countersResult": "PASS_COMPLETE, exit 0, measured here on the rebuilt bytes",
+      "whatChanged": {
+        "theRepair": "The fee section of the composed filing-instructions component now states the record's answer instead of the record's gap. The 'THE HONEST ANSWER IS THAT NO HELD RECORD STATES A FILING FEE FOR THIS MOTION' paragraph and the clerk question 'So no figure is printed here. Ask the clerk of the division you are filing in what, if anything, it costs, before you go.' are gone from the delivered bytes; the handoff's participant text is printed verbatim in their place, followed by a paragraph naming the source and the court that gave it.",
+        "addedVerbatim": "The Rhode Island Superior Court does not charge an expungement filing fee. This is separate from fines, costs, restitution, or other obligations already ordered in your case. Follow the requirements for your particular expungement route concerning any remaining obligations. A no-fee filing does not cancel an unpaid court obligation.",
+        "sourceNamedInTheDeliveredText": "the Rhode Island Superior Court's own expungement FAQ, \"Is there a fee associated with my expungement?\", published at https://www.courts.ri.gov/Courts/superiorcourt/Pages/FAQs.aspx",
+        "courtCaveatInTheDeliveredText": "That is the SUPERIOR COURT's answer. If your case is in the District Court or the Family Court, ask that court's clerk to confirm that it applies to your filing before you go.",
+        "keptUnchanged": [
+          "the A SEPARATE MONEY QUESTION, WHICH IS NOT THE FILING FEE paragraph, word for word: court-imposed and court-related fines, fees, costs, assessments and charges on the underlying case must be satisfied in full, may be waived or reduced by court order, and that waiver or reduction satisfies the eligibility condition",
+          "every route-specific condition, exclusion, waiting period, Part selection and discrepancy note on this route",
+          "the composed proposed order and the OWN-RI-PROPOSED-ORDER-2026-09-05 treatment, which this lane did not reopen"
+        ],
+        "removedBecauseTheGapClosed": [
+          "source-receipt.json whatThisReceiptDoesNotEstablish: 'what, if anything, it costs to file a Chapter 12-1.3 motion - no held record states a filing fee'",
+          "approval-request.json counselQuestionsRaised: 'Confirm that publishing no filing-fee figure is right. ...'"
+        ],
+        "noWaiverStepAdded": "No filing-fee-waiver application step was added; the record says none is required solely to waive a $0 filing fee. rules.feeWaiver is unchanged and the underlying-case obligations keep their own separate treatment.",
+        "noDollarAmountAttributed": "No dollar amount is attributed to Superior-55, to Superior-55, to DC-33 or to any other form. The delivered text says no dollar figure appears on the court's motion form and none is printed.",
+        "noGeneralisation": "The first-offender routes' own conditions were not carried to the deferred-sentence or multiple-misdemeanor routes, and no first-offender waiver or reduction rule was generalised. The change is one fee statement, applied route-conditionally.",
+        "routeConditionality": "The host now names the four Chapter 12-1.3 motion tracks in FEE_ANSWER_CARRIED_TRACKS rather than testing 'not ri_decriminalized', so the answer reaches exactly the four routes the record names and a family later added to the host keeps the honest no-figure text."
+      },
+      "feeSourceBinding": {
+        "boundIn": "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-felony-set--official-pdf-fill/source-receipt.json groundingRecords[]",
+        "boundAs": "the fee source for this packet, as a recorded authority statement, alongside the family's other committed authorities (the track registry and OWN-RI-PROPOSED-ORDER-2026-09-05)",
+        "record": "data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-four-holds.json",
+        "recordId": "OWNER-RELAYED-RESEARCH-2026-09-06-FOUR-HOLDS",
+        "faqAnswerBound": "Rhode Island Superior Court expungement FAQ, \"Is there a fee associated with my expungement?\": the Superior Court charges no expungement filing fee",
+        "supportUrl": "https://www.courts.ri.gov/Courts/superiorcourt/Pages/FAQs.aspx",
+        "pageBytesHeld": false,
+        "provenanceLimitRecordedOnTheReceipt": "courts.ri.gov is blocked by this container's egress proxy. The FAQ page was not fetched, hashed or held by this build; no page bytes exist here and none were invented. The answer is carried from the committed decision record, which carries it from the research handoff that inspected the page on 2026-09-06.",
+        "productWiring": "product-wiring.json is generated by scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs from rendered-artifacts.json and carries no authority statements; it did not move and this lane did not hand-edit it. The authority binding lives on the source receipt, which product-wiring.json binds by path."
+      },
+      "digests": {
+        "fixtures": {
+          "canonical": {
+            "path": "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-felony-set--official-pdf-fill/fixtures/canonical.pdf",
+            "before": "1a5aaac6c5405b418c314afd889912a2715a97ea26c4cd1c588e5286d789a642",
+            "after": "996116c6634a4689f10a79fe3b156e4272e4c7e24a65b5d9c15744e8571d2e64",
+            "moved": true
+          },
+          "boundary": {
+            "path": "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-felony-set--official-pdf-fill/fixtures/boundary.pdf",
+            "before": "7f3793591663be2984e77bb9de24094752f7bb416f7ecc7b60db0009bb1b7c49",
+            "after": "465a24d481f21856e314f75ef1325004f59ecba036829c6bcfbbfa0932a052c1",
+            "moved": true
+          }
+        },
+        "otherFilesThatMoved": {
+          "source-receipt.json": {
+            "before": "9dd66e7d0f8611d14e642133da2ef52c9cce94c2976640cca03eef68c3675c0a",
+            "after": "f9ad8d303549c1492e35da5186df88039d174136b0b5b29fd6a9871f0415b4f4",
+            "moved": true
+          },
+          "approval-request.json": {
+            "before": "060052ceee7c20e64b331d00869df45a6324d92ee7039a350d8bd69fed39ac06",
+            "after": "c3b650d58b9554df2b1a586af35b87668c745d2ce85455d97f0554a20f290abf",
+            "moved": true
+          },
+          "reports/rendered-artifacts.json": {
+            "before": "24b4dab1cc5d5e8a3b8fe44b603b4497ed095cfddbfdbdf2c3f67aae2806fae1",
+            "after": "44584d4478a05aad5485609bb113889ff496939fbf9ee113da2fe54567455431",
+            "moved": true
+          }
+        },
+        "filesThatDidNotMove": {
+          "participant-instructions.md": {
+            "digest": "061ff1f43ee0658201a5232166befc780738bb1bc9a3818cd6ab98f2c852608d",
+            "moved": false
+          },
+          "production-field-map.json": {
+            "digest": "c9274fef1fef0de854c563b297f7f08466758d740af2ed737f9fa636f6363988",
+            "moved": false
+          },
+          "field-census.census-v1.json": {
+            "digest": "8dd3a606fd3dc1ec4f0c6f8db2f57959d412d07949cac34aca84991f8c1db5d7",
+            "moved": false
+          },
+          "build-status.json": {
+            "digest": "942cb985c01123363db818e5a28d66d2fc79916122b842e3a88b56d147fd162f",
+            "moved": false
+          },
+          "product-wiring.json": {
+            "digest": "d352ab6e376db190319fd03b347c8e46be12bc90c07d0270dacf3c50b0239b48",
+            "moved": false
+          },
+          "reports/actual-writes.json": {
+            "digest": "33265898dac6ec849bbf16961371f9af854c6042b0f653f691437e8febe7e599",
+            "moved": false
+          },
+          "reports/blanks-left-for-the-participant.json": {
+            "digest": "ef21aa02a22b84621b281a3f60b9f5322d187ddad679fb9e3a3b7edd3d4a0de9",
+            "moved": false
+          },
+          "reports/completeness-counters.json": {
+            "digest": "d7f393e17d85d524158e09c2195f7752fca309d8a27ee57b0833e03e8a7c8714",
+            "moved": false
+          }
+        }
+      },
+      "determinism": {
+        "builds": 2,
+        "command": "MASTER_LIBRARY_SOURCE_DIR=<mounted Master Library> node scripts/build-census-v1-ri_first_offender_felony-set.mjs --no-raster",
+        "result": "byte-identical across both builds; all 56 files under the four family directories hashed after each run and compared, zero differences",
+        "whyNoRaster": "the committed artifacts of these families record rasterSkipped true / BUILT_RASTER_PENDING, so a rastering build would move build-status.json and rendered-artifacts.json for a reason unrelated to this repair. A plain rebuild in the committed mode reproduced the committed bytes exactly before any edit was made, which is how this lane knows the two moved files below moved because of the repair."
+      },
+      "appearance": {
+        "pagesWhoseBytesMoved": {
+          "canonical": [
+            10
+          ],
+          "boundary": [
+            10
+          ]
+        },
+        "pagesUnchanged": "every other page of both fixtures (14 pages each) is pixel-identical to the committed bytes at 100 dpi",
+        "officialFormFixturesDidNotMove": "pages 1-4, the Superior-55 official form pages, are pixel-identical. The fee lives only in the composed filing-instructions component on page 10. No official-form fixture digest moved and none needed to.",
+        "rasteredAt": "300 dpi, poppler pdftoppm, under /tmp, deleted after measuring",
+        "lookedAt": "yes. Page 10 of all eight fixtures rasters to one identical PNG (sha256 31abe291599e17f1211e425c14593ff189bc4ee05d590cb61a75537ccc58a7f2), so one image is the appearance of all eight; the pre-repair page 10 was likewise one identical PNG (sha256 d07340ded642b6c9567526580c028c45d41423f51ede501b4f082ed3c9d61d6a) and both were compared side by side.",
+        "whatTheEyeFound": "The WHAT IT COSTS section reads: the verbatim answer, then WHERE THAT ANSWER COMES FROM, AND WHICH COURT GAVE IT, then the unchanged A SEPARATE MONEY QUESTION paragraph. No clipping, no overlap, no truncation, no text in the margins. The section occupies the same vertical extent as the paragraphs it replaced, so the page break is where it was: DOCUMENTS TO GET FIRST, AND WHO HAS THEM. still ends page 10 exactly as before, and pages 11 onward are untouched.",
+        "noRasterPngCommitted": "these families track no raster PNGs; the build's own raster directories were not produced (--no-raster) and the measurement rasters were written under /tmp and deleted."
+      },
+      "obligationsThisRowDoesNotDischarge": [
+        "the independent re-read. This lane built these bytes and cannot verify them. Every obligation on the family's latest VF03 row - ROUTE_IDENTITY, SOURCE_IDENTITY, COMPONENT_SET, KNOWN_PREFILLS, REQUIRED_BEFORE_FILING, ROUTE_OPTIONS, REPEATING_ROWS, PROTECTED_FIELDS, ARTIFACTS, PAGE_ORDER, FILING_DESTINATION, SERVICE, SELF_HELP_STOP and CLIPPING_AND_OVERLAP - is owed again on these bytes by a lane that did not build them.",
+        "central raster acceptance. The fixture bytes moved, so the standing RASTER_PASS receipt (run 33983515494) binds superseded digests and stops binding. Central raster is owed on the new canonical digest before any raster claim is made about these bytes.",
+        "counsel review of the fee statement. The record this lane carried is research relayed by the owner and is expressly not counsel approval; the approval-request now asks counsel to confirm the answer and its District Court / Family Court treatment.",
+        "the remaining release blockers on these tracks, which this lane did not touch: the waiting-period framing, the DC-33 / Superior-55 / Family Court revision-date confirmation, the Sec. 12-1.3-1(5) reclassification list, and for ri_multiple_misdemeanors the 'fewer than six' and no-felony-bar questions.",
+        "output approval, promotion, delivery and commercial authority. This repair opens no route and proves no packet."
+      ],
+      "recordBasis": {
+        "decisionRecord": "data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-four-holds.json",
+        "decisionRecordId": "OWNER-RELAYED-RESEARCH-2026-09-06-FOUR-HOLDS",
+        "researchHandoff": "docs/rcap/grade-a/research/2026-09-06-packet-blocker-research-handoff.md",
+        "researchHandoffSha256": "8a5996fcf36a4e776aae643dac0444455ab8be9f712ec53f13c21c72842f75ad",
+        "handoffSha256VerifiedHere": true,
+        "trackRegistry": "data/record-clearing/legal-design-track-registry.json, track ri_first_offender_felony, rules.fees, rules.researchParticipantText.fee and researchResolvedQuestions[0], read and not edited",
+        "intakeMemo": "data/record-clearing/legal-design-intake/RI.memo.json, same track, read and not edited",
+        "isNotCounselApproval": "Research relayed by the owner. It creates implementation and re-read obligations only. No checkout, sponsorship, packet-credit consumption, delivery or COMPLETE_PACKET_PROVEN follows from it."
+      },
+      "claim": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX109 ri_first_offender_felony-set -> CLAIM_OK FIX109 ri_first_offender_felony-set (repair, grant set 071925142f8fd3ce), exit 0, asserted before any artifact of this family was opened. The grant was not released and the claim ledger was not written."
+    },
+    {
+      "itemId": "ri_multiple_misdemeanors-set",
+      "lane": "FIX109",
+      "status": "COMPLETED",
+      "repairedByThisLane": true,
+      "obligationsRepaired": [
+        "FEE_AND_WAIVER"
+      ],
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ri/ri-multiple-misdemeanors-set--official-pdf-fill",
+      "trackId": "ri_multiple_misdemeanors",
+      "builder": "scripts/build-census-v1-ri_multiple_misdemeanors-set.mjs",
+      "sharedBuildHost": "scripts/build-census-v1-ri_decriminalized-set.mjs",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersCommand": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_multiple_misdemeanors-set",
+      "countersResult": "PASS_COMPLETE, exit 0, measured here on the rebuilt bytes",
+      "whatChanged": {
+        "theRepair": "The fee section of the composed filing-instructions component now states the record's answer instead of the record's gap. The 'THE HONEST ANSWER IS THAT NO HELD RECORD STATES A FILING FEE FOR THIS MOTION' paragraph and the clerk question 'So no figure is printed here. Ask the clerk of the division you are filing in what, if anything, it costs, before you go.' are gone from the delivered bytes; the handoff's participant text is printed verbatim in their place, followed by a paragraph naming the source and the court that gave it.",
+        "addedVerbatim": "The Rhode Island Superior Court does not charge an expungement filing fee. This is separate from fines, costs, restitution, or other obligations already ordered in your case. Follow the requirements for your particular expungement route concerning any remaining obligations. A no-fee filing does not cancel an unpaid court obligation.",
+        "sourceNamedInTheDeliveredText": "the Rhode Island Superior Court's own expungement FAQ, \"Is there a fee associated with my expungement?\", published at https://www.courts.ri.gov/Courts/superiorcourt/Pages/FAQs.aspx",
+        "courtCaveatInTheDeliveredText": "That is the SUPERIOR COURT's answer. If your case is in the District Court or the Family Court, ask that court's clerk to confirm that it applies to your filing before you go.",
+        "keptUnchanged": [
+          "the A SEPARATE MONEY QUESTION, WHICH IS NOT THE FILING FEE paragraph, word for word: court-imposed and court-related fines, fees, costs, assessments and charges on the underlying case must be satisfied in full, may be waived or reduced by court order, and that waiver or reduction satisfies the eligibility condition",
+          "every route-specific condition, exclusion, waiting period, Part selection and discrepancy note on this route",
+          "the composed proposed order and the OWN-RI-PROPOSED-ORDER-2026-09-05 treatment, which this lane did not reopen"
+        ],
+        "removedBecauseTheGapClosed": [
+          "source-receipt.json whatThisReceiptDoesNotEstablish: 'what, if anything, it costs to file a Chapter 12-1.3 motion - no held record states a filing fee'",
+          "approval-request.json counselQuestionsRaised: 'Confirm that publishing no filing-fee figure is right. ...'"
+        ],
+        "noWaiverStepAdded": "No filing-fee-waiver application step was added; the record says none is required solely to waive a $0 filing fee. rules.feeWaiver is unchanged and the underlying-case obligations keep their own separate treatment.",
+        "noDollarAmountAttributed": "No dollar amount is attributed to DC-33, to Superior-55, to DC-33 or to any other form. The delivered text says no dollar figure appears on the court's motion form and none is printed.",
+        "noGeneralisation": "The first-offender routes' own conditions were not carried to the deferred-sentence or multiple-misdemeanor routes, and no first-offender waiver or reduction rule was generalised. The change is one fee statement, applied route-conditionally.",
+        "routeConditionality": "The host now names the four Chapter 12-1.3 motion tracks in FEE_ANSWER_CARRIED_TRACKS rather than testing 'not ri_decriminalized', so the answer reaches exactly the four routes the record names and a family later added to the host keeps the honest no-figure text."
+      },
+      "feeSourceBinding": {
+        "boundIn": "data/rcap-all50/overlays/census-v1/ri/ri-multiple-misdemeanors-set--official-pdf-fill/source-receipt.json groundingRecords[]",
+        "boundAs": "the fee source for this packet, as a recorded authority statement, alongside the family's other committed authorities (the track registry and OWN-RI-PROPOSED-ORDER-2026-09-05)",
+        "record": "data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-four-holds.json",
+        "recordId": "OWNER-RELAYED-RESEARCH-2026-09-06-FOUR-HOLDS",
+        "faqAnswerBound": "Rhode Island Superior Court expungement FAQ, \"Is there a fee associated with my expungement?\": the Superior Court charges no expungement filing fee",
+        "supportUrl": "https://www.courts.ri.gov/Courts/superiorcourt/Pages/FAQs.aspx",
+        "pageBytesHeld": false,
+        "provenanceLimitRecordedOnTheReceipt": "courts.ri.gov is blocked by this container's egress proxy. The FAQ page was not fetched, hashed or held by this build; no page bytes exist here and none were invented. The answer is carried from the committed decision record, which carries it from the research handoff that inspected the page on 2026-09-06.",
+        "productWiring": "product-wiring.json is generated by scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs from rendered-artifacts.json and carries no authority statements; it did not move and this lane did not hand-edit it. The authority binding lives on the source receipt, which product-wiring.json binds by path."
+      },
+      "digests": {
+        "fixtures": {
+          "canonical": {
+            "path": "data/rcap-all50/overlays/census-v1/ri/ri-multiple-misdemeanors-set--official-pdf-fill/fixtures/canonical.pdf",
+            "before": "626459e1e8c041254ff4540ef939f5bdb7bdf25ed10c4e5b91968fb78b601708",
+            "after": "c76bc560fe74d5887d0af00e940d01937134deec0bcb95eac54b425e4a13955f",
+            "moved": true
+          },
+          "boundary": {
+            "path": "data/rcap-all50/overlays/census-v1/ri/ri-multiple-misdemeanors-set--official-pdf-fill/fixtures/boundary.pdf",
+            "before": "8b1c4fb17096980cdaeaf7b5ca36c55be96b0266e0217afb9bdf07fe24c16998",
+            "after": "89fc3966f0f48ff5ec247f9d0cc75805f8ee7e2513cc45d270ebd0f6f796d015",
+            "moved": true
+          }
+        },
+        "otherFilesThatMoved": {
+          "source-receipt.json": {
+            "before": "863bb1083694881a9ca31b9344b32a7c5579a35b7622d3f46aa2c9204fdca67f",
+            "after": "5457aef27e29f11b9ef2d9e8271c1ae227ab9e36f458e8e935aa0db27a46341f",
+            "moved": true
+          },
+          "approval-request.json": {
+            "before": "a9d39de24b5f3db861044ba1674a088fbf708c004caae2c6a36353b616d918e4",
+            "after": "7b249da7bd67ffb38f9eb9d1a946da59f5f0a91a7d72074a8dcd47ec8a30bbce",
+            "moved": true
+          },
+          "reports/rendered-artifacts.json": {
+            "before": "eba2167832e6ef0237c72d8ebb3b2d3f36e5047a8207b3a0ae25ebee51a73cfb",
+            "after": "bdfe258a334252b940a7166b2e7475113c8f4eb8dcaf9af06528a4ef47d984d1",
+            "moved": true
+          }
+        },
+        "filesThatDidNotMove": {
+          "participant-instructions.md": {
+            "digest": "4c73053853ffcd4ee5d3f51cddfa7150986da91c6fc80218acc12ac637f8d5cd",
+            "moved": false
+          },
+          "production-field-map.json": {
+            "digest": "ed83fcfb3dabed8580c9690919e5cf921f05d4795bd437832bb0ee4ecd2ccaf9",
+            "moved": false
+          },
+          "field-census.census-v1.json": {
+            "digest": "5dea9343ebc3b94c7becc15c605508c43654058edabd03e221af0e3ff81f5050",
+            "moved": false
+          },
+          "build-status.json": {
+            "digest": "eb60ed3b8f9cb2d369bb9b23cba042c6660e42468af62258d4685bfbf4c19b43",
+            "moved": false
+          },
+          "product-wiring.json": {
+            "digest": "8044b2b8c195bae0c809c405d70112dad40c5511cce70f9bcd3a8de492e46fc6",
+            "moved": false
+          },
+          "reports/actual-writes.json": {
+            "digest": "381e9c88ee7bfd8191cc80f9e7d14ff452dffc7ae30effb164f9fc753451fc7e",
+            "moved": false
+          },
+          "reports/blanks-left-for-the-participant.json": {
+            "digest": "4a93bbe388aed33342d4f3b59cc4ab25178655bf94233c4eac95f5e3be219017",
+            "moved": false
+          },
+          "reports/completeness-counters.json": {
+            "digest": "707c622fddb4761b9db3342d5c9f35f7ff8856fcb0179c37353658ff0c095ee0",
+            "moved": false
+          }
+        }
+      },
+      "determinism": {
+        "builds": 2,
+        "command": "MASTER_LIBRARY_SOURCE_DIR=<mounted Master Library> node scripts/build-census-v1-ri_multiple_misdemeanors-set.mjs --no-raster",
+        "result": "byte-identical across both builds; all 56 files under the four family directories hashed after each run and compared, zero differences",
+        "whyNoRaster": "the committed artifacts of these families record rasterSkipped true / BUILT_RASTER_PENDING, so a rastering build would move build-status.json and rendered-artifacts.json for a reason unrelated to this repair. A plain rebuild in the committed mode reproduced the committed bytes exactly before any edit was made, which is how this lane knows the two moved files below moved because of the repair."
+      },
+      "appearance": {
+        "pagesWhoseBytesMoved": {
+          "canonical": [
+            10
+          ],
+          "boundary": [
+            10
+          ]
+        },
+        "pagesUnchanged": "every other page of both fixtures (13 pages each) is pixel-identical to the committed bytes at 100 dpi",
+        "officialFormFixturesDidNotMove": "pages 1-4, the DC-33 official form pages, are pixel-identical. The fee lives only in the composed filing-instructions component on page 10. No official-form fixture digest moved and none needed to.",
+        "rasteredAt": "300 dpi, poppler pdftoppm, under /tmp, deleted after measuring",
+        "lookedAt": "yes. Page 10 of all eight fixtures rasters to one identical PNG (sha256 31abe291599e17f1211e425c14593ff189bc4ee05d590cb61a75537ccc58a7f2), so one image is the appearance of all eight; the pre-repair page 10 was likewise one identical PNG (sha256 d07340ded642b6c9567526580c028c45d41423f51ede501b4f082ed3c9d61d6a) and both were compared side by side.",
+        "whatTheEyeFound": "The WHAT IT COSTS section reads: the verbatim answer, then WHERE THAT ANSWER COMES FROM, AND WHICH COURT GAVE IT, then the unchanged A SEPARATE MONEY QUESTION paragraph. No clipping, no overlap, no truncation, no text in the margins. The section occupies the same vertical extent as the paragraphs it replaced, so the page break is where it was: DOCUMENTS TO GET FIRST, AND WHO HAS THEM. still ends page 10 exactly as before, and pages 11 onward are untouched.",
+        "noRasterPngCommitted": "these families track no raster PNGs; the build's own raster directories were not produced (--no-raster) and the measurement rasters were written under /tmp and deleted."
+      },
+      "obligationsThisRowDoesNotDischarge": [
+        "the independent re-read. This lane built these bytes and cannot verify them. Every obligation on the family's latest VF03 row - ROUTE_IDENTITY, SOURCE_IDENTITY, COMPONENT_SET, KNOWN_PREFILLS, REQUIRED_BEFORE_FILING, ROUTE_OPTIONS, REPEATING_ROWS, PROTECTED_FIELDS, ARTIFACTS, PAGE_ORDER, FILING_DESTINATION, SERVICE, SELF_HELP_STOP and CLIPPING_AND_OVERLAP - is owed again on these bytes by a lane that did not build them.",
+        "central raster acceptance. The fixture bytes moved, so the standing RASTER_PASS receipt (run 33983515494) binds superseded digests and stops binding. Central raster is owed on the new canonical digest before any raster claim is made about these bytes.",
+        "counsel review of the fee statement. The record this lane carried is research relayed by the owner and is expressly not counsel approval; the approval-request now asks counsel to confirm the answer and its District Court / Family Court treatment.",
+        "the remaining release blockers on these tracks, which this lane did not touch: the waiting-period framing, the DC-33 / Superior-55 / Family Court revision-date confirmation, the Sec. 12-1.3-1(5) reclassification list, and for ri_multiple_misdemeanors the 'fewer than six' and no-felony-bar questions.",
+        "output approval, promotion, delivery and commercial authority. This repair opens no route and proves no packet."
+      ],
+      "recordBasis": {
+        "decisionRecord": "data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-four-holds.json",
+        "decisionRecordId": "OWNER-RELAYED-RESEARCH-2026-09-06-FOUR-HOLDS",
+        "researchHandoff": "docs/rcap/grade-a/research/2026-09-06-packet-blocker-research-handoff.md",
+        "researchHandoffSha256": "8a5996fcf36a4e776aae643dac0444455ab8be9f712ec53f13c21c72842f75ad",
+        "handoffSha256VerifiedHere": true,
+        "trackRegistry": "data/record-clearing/legal-design-track-registry.json, track ri_multiple_misdemeanors, rules.fees, rules.researchParticipantText.fee and researchResolvedQuestions[0], read and not edited",
+        "intakeMemo": "data/record-clearing/legal-design-intake/RI.memo.json, same track, read and not edited",
+        "isNotCounselApproval": "Research relayed by the owner. It creates implementation and re-read obligations only. No checkout, sponsorship, packet-credit consumption, delivery or COMPLETE_PACKET_PROVEN follows from it."
+      },
+      "claim": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX109 ri_multiple_misdemeanors-set -> CLAIM_OK FIX109 ri_multiple_misdemeanors-set (repair, grant set 071925142f8fd3ce), exit 0, asserted before any artifact of this family was opened. The grant was not released and the claim ledger was not written."
+    },
+    {
+      "itemId": "ri_deferred_sentence-set",
+      "lane": "FIX109",
+      "status": "COMPLETED",
+      "repairedByThisLane": true,
+      "obligationsRepaired": [
+        "FEE_AND_WAIVER"
+      ],
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ri/ri-deferred-sentence-set--official-pdf-fill",
+      "trackId": "ri_deferred_sentence",
+      "builder": "scripts/build-census-v1-ri_deferred_sentence-set.mjs",
+      "sharedBuildHost": "scripts/build-census-v1-ri_decriminalized-set.mjs",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersCommand": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_deferred_sentence-set",
+      "countersResult": "PASS_COMPLETE, exit 0, measured here on the rebuilt bytes",
+      "whatChanged": {
+        "theRepair": "The fee section of the composed filing-instructions component now states the record's answer instead of the record's gap. The 'THE HONEST ANSWER IS THAT NO HELD RECORD STATES A FILING FEE FOR THIS MOTION' paragraph and the clerk question 'So no figure is printed here. Ask the clerk of the division you are filing in what, if anything, it costs, before you go.' are gone from the delivered bytes; the handoff's participant text is printed verbatim in their place, followed by a paragraph naming the source and the court that gave it.",
+        "addedVerbatim": "The Rhode Island Superior Court does not charge an expungement filing fee. This is separate from fines, costs, restitution, or other obligations already ordered in your case. Follow the requirements for your particular expungement route concerning any remaining obligations. A no-fee filing does not cancel an unpaid court obligation.",
+        "sourceNamedInTheDeliveredText": "the Rhode Island Superior Court's own expungement FAQ, \"Is there a fee associated with my expungement?\", published at https://www.courts.ri.gov/Courts/superiorcourt/Pages/FAQs.aspx",
+        "courtCaveatInTheDeliveredText": "That is the SUPERIOR COURT's answer. If your case is in the District Court or the Family Court, ask that court's clerk to confirm that it applies to your filing before you go.",
+        "keptUnchanged": [
+          "the A SEPARATE MONEY QUESTION, WHICH IS NOT THE FILING FEE paragraph, word for word: court-imposed and court-related fines, fees, costs, assessments and charges on the underlying case must be satisfied in full, may be waived or reduced by court order, and that waiver or reduction satisfies the eligibility condition",
+          "every route-specific condition, exclusion, waiting period, Part selection and discrepancy note on this route",
+          "the composed proposed order and the OWN-RI-PROPOSED-ORDER-2026-09-05 treatment, which this lane did not reopen"
+        ],
+        "removedBecauseTheGapClosed": [
+          "source-receipt.json whatThisReceiptDoesNotEstablish: 'what, if anything, it costs to file a Chapter 12-1.3 motion - no held record states a filing fee'",
+          "approval-request.json counselQuestionsRaised: 'Confirm that publishing no filing-fee figure is right. ...'"
+        ],
+        "noWaiverStepAdded": "No filing-fee-waiver application step was added; the record says none is required solely to waive a $0 filing fee. rules.feeWaiver is unchanged and the underlying-case obligations keep their own separate treatment.",
+        "noDollarAmountAttributed": "No dollar amount is attributed to Superior-55, to Superior-55, to DC-33 or to any other form. The delivered text says no dollar figure appears on the court's motion form and none is printed.",
+        "noGeneralisation": "The first-offender routes' own conditions were not carried to the deferred-sentence or multiple-misdemeanor routes, and no first-offender waiver or reduction rule was generalised. The change is one fee statement, applied route-conditionally.",
+        "routeConditionality": "The host now names the four Chapter 12-1.3 motion tracks in FEE_ANSWER_CARRIED_TRACKS rather than testing 'not ri_decriminalized', so the answer reaches exactly the four routes the record names and a family later added to the host keeps the honest no-figure text."
+      },
+      "feeSourceBinding": {
+        "boundIn": "data/rcap-all50/overlays/census-v1/ri/ri-deferred-sentence-set--official-pdf-fill/source-receipt.json groundingRecords[]",
+        "boundAs": "the fee source for this packet, as a recorded authority statement, alongside the family's other committed authorities (the track registry and OWN-RI-PROPOSED-ORDER-2026-09-05)",
+        "record": "data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-four-holds.json",
+        "recordId": "OWNER-RELAYED-RESEARCH-2026-09-06-FOUR-HOLDS",
+        "faqAnswerBound": "Rhode Island Superior Court expungement FAQ, \"Is there a fee associated with my expungement?\": the Superior Court charges no expungement filing fee",
+        "supportUrl": "https://www.courts.ri.gov/Courts/superiorcourt/Pages/FAQs.aspx",
+        "pageBytesHeld": false,
+        "provenanceLimitRecordedOnTheReceipt": "courts.ri.gov is blocked by this container's egress proxy. The FAQ page was not fetched, hashed or held by this build; no page bytes exist here and none were invented. The answer is carried from the committed decision record, which carries it from the research handoff that inspected the page on 2026-09-06.",
+        "productWiring": "product-wiring.json is generated by scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs from rendered-artifacts.json and carries no authority statements; it did not move and this lane did not hand-edit it. The authority binding lives on the source receipt, which product-wiring.json binds by path."
+      },
+      "digests": {
+        "fixtures": {
+          "canonical": {
+            "path": "data/rcap-all50/overlays/census-v1/ri/ri-deferred-sentence-set--official-pdf-fill/fixtures/canonical.pdf",
+            "before": "dc91e5dce2448db8d95354f2c0f58e84bdf0490a596bc079b69752309b6d3f9d",
+            "after": "f391540bc7293bd17519d57b49291be13ae3592f720bcef745b1ad4a5a12f8c5",
+            "moved": true
+          },
+          "boundary": {
+            "path": "data/rcap-all50/overlays/census-v1/ri/ri-deferred-sentence-set--official-pdf-fill/fixtures/boundary.pdf",
+            "before": "9cbeb6adeb7e138a393beed18ad9008323f566d28b6db743bbb16abf2c88e16a",
+            "after": "980b5077f1f41f85ef08ad9cd0e471972ef4dd1cff1219572a3b8bcbaded0ec8",
+            "moved": true
+          }
+        },
+        "otherFilesThatMoved": {
+          "source-receipt.json": {
+            "before": "4d5de4d2722684e325ff359c80e55769f859b08b78ad70d44f482424a25aba59",
+            "after": "9294e1779906c5a7bc9d4cdf525148541daa2584bb8f5c56a68c4c99e2b01f1c",
+            "moved": true
+          },
+          "approval-request.json": {
+            "before": "4d63647939c9a09f5287a7c0277f0100327fb10d7d7b2cc84851939987a1c8ff",
+            "after": "bfd3e13bb551c907417f30ee8d4def6c87efd599a6f94c11cd5a6183617d662d",
+            "moved": true
+          },
+          "reports/rendered-artifacts.json": {
+            "before": "68367e4dec0d783b05e42ae29b5e504f454da614ebe0f77baffa82eed8ed263f",
+            "after": "9f1a3d136fcb69744c21f887685dfc7ea8bda309954723adb0719835d285783e",
+            "moved": true
+          }
+        },
+        "filesThatDidNotMove": {
+          "participant-instructions.md": {
+            "digest": "93462cd31e52cb3a3f678ca275d09f5de790cd2c68ffa41681d29e2fca201df6",
+            "moved": false
+          },
+          "production-field-map.json": {
+            "digest": "158f9d90df79496771582a10064abb166d329ecd81148dfab42cd7770692d8c3",
+            "moved": false
+          },
+          "field-census.census-v1.json": {
+            "digest": "1b908aee82001ea7eeb3f3e39e02f7cae1c629d1fb00c0a8ae1e69d7d426363a",
+            "moved": false
+          },
+          "build-status.json": {
+            "digest": "ca7df5754a327706c55384909ff0625cff46beb8297e28da215a7a258e5f58b7",
+            "moved": false
+          },
+          "product-wiring.json": {
+            "digest": "e46675328a79bf6eef1775d912ca64e32346d1055d4cc6ae49caf6eccb29cc7f",
+            "moved": false
+          },
+          "reports/actual-writes.json": {
+            "digest": "a0a720f2cb273ef8f13664a033fcc6257292e7164c75d1b59818931a204819f5",
+            "moved": false
+          },
+          "reports/blanks-left-for-the-participant.json": {
+            "digest": "744005065160d50e6916007f053d20ba8ed580adb10f00b47a4f3194b83efcc1",
+            "moved": false
+          },
+          "reports/completeness-counters.json": {
+            "digest": "f1d8ec526c60d5cb8c49479cd836429dcc81ad91ab7fb2bfc5ea03dcdec3a89b",
+            "moved": false
+          }
+        }
+      },
+      "determinism": {
+        "builds": 2,
+        "command": "MASTER_LIBRARY_SOURCE_DIR=<mounted Master Library> node scripts/build-census-v1-ri_deferred_sentence-set.mjs --no-raster",
+        "result": "byte-identical across both builds; all 56 files under the four family directories hashed after each run and compared, zero differences",
+        "whyNoRaster": "the committed artifacts of these families record rasterSkipped true / BUILT_RASTER_PENDING, so a rastering build would move build-status.json and rendered-artifacts.json for a reason unrelated to this repair. A plain rebuild in the committed mode reproduced the committed bytes exactly before any edit was made, which is how this lane knows the two moved files below moved because of the repair."
+      },
+      "appearance": {
+        "pagesWhoseBytesMoved": {
+          "canonical": [
+            10
+          ],
+          "boundary": [
+            10
+          ]
+        },
+        "pagesUnchanged": "every other page of both fixtures (14 pages each) is pixel-identical to the committed bytes at 100 dpi",
+        "officialFormFixturesDidNotMove": "pages 1-4, the Superior-55 official form pages, are pixel-identical. The fee lives only in the composed filing-instructions component on page 10. No official-form fixture digest moved and none needed to.",
+        "rasteredAt": "300 dpi, poppler pdftoppm, under /tmp, deleted after measuring",
+        "lookedAt": "yes. Page 10 of all eight fixtures rasters to one identical PNG (sha256 31abe291599e17f1211e425c14593ff189bc4ee05d590cb61a75537ccc58a7f2), so one image is the appearance of all eight; the pre-repair page 10 was likewise one identical PNG (sha256 d07340ded642b6c9567526580c028c45d41423f51ede501b4f082ed3c9d61d6a) and both were compared side by side.",
+        "whatTheEyeFound": "The WHAT IT COSTS section reads: the verbatim answer, then WHERE THAT ANSWER COMES FROM, AND WHICH COURT GAVE IT, then the unchanged A SEPARATE MONEY QUESTION paragraph. No clipping, no overlap, no truncation, no text in the margins. The section occupies the same vertical extent as the paragraphs it replaced, so the page break is where it was: DOCUMENTS TO GET FIRST, AND WHO HAS THEM. still ends page 10 exactly as before, and pages 11 onward are untouched.",
+        "noRasterPngCommitted": "these families track no raster PNGs; the build's own raster directories were not produced (--no-raster) and the measurement rasters were written under /tmp and deleted."
+      },
+      "obligationsThisRowDoesNotDischarge": [
+        "the independent re-read. This lane built these bytes and cannot verify them. Every obligation on the family's latest VF03 row - ROUTE_IDENTITY, SOURCE_IDENTITY, COMPONENT_SET, KNOWN_PREFILLS, REQUIRED_BEFORE_FILING, ROUTE_OPTIONS, REPEATING_ROWS, PROTECTED_FIELDS, ARTIFACTS, PAGE_ORDER, FILING_DESTINATION, SERVICE, SELF_HELP_STOP and CLIPPING_AND_OVERLAP - is owed again on these bytes by a lane that did not build them.",
+        "central raster acceptance. The fixture bytes moved, so the standing RASTER_PASS receipt (run 33983515494) binds superseded digests and stops binding. Central raster is owed on the new canonical digest before any raster claim is made about these bytes.",
+        "counsel review of the fee statement. The record this lane carried is research relayed by the owner and is expressly not counsel approval; the approval-request now asks counsel to confirm the answer and its District Court / Family Court treatment.",
+        "the remaining release blockers on these tracks, which this lane did not touch: the waiting-period framing, the DC-33 / Superior-55 / Family Court revision-date confirmation, the Sec. 12-1.3-1(5) reclassification list, and for ri_multiple_misdemeanors the 'fewer than six' and no-felony-bar questions.",
+        "output approval, promotion, delivery and commercial authority. This repair opens no route and proves no packet."
+      ],
+      "recordBasis": {
+        "decisionRecord": "data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-four-holds.json",
+        "decisionRecordId": "OWNER-RELAYED-RESEARCH-2026-09-06-FOUR-HOLDS",
+        "researchHandoff": "docs/rcap/grade-a/research/2026-09-06-packet-blocker-research-handoff.md",
+        "researchHandoffSha256": "8a5996fcf36a4e776aae643dac0444455ab8be9f712ec53f13c21c72842f75ad",
+        "handoffSha256VerifiedHere": true,
+        "trackRegistry": "data/record-clearing/legal-design-track-registry.json, track ri_deferred_sentence, rules.fees, rules.researchParticipantText.fee and researchResolvedQuestions[0], read and not edited",
+        "intakeMemo": "data/record-clearing/legal-design-intake/RI.memo.json, same track, read and not edited",
+        "isNotCounselApproval": "Research relayed by the owner. It creates implementation and re-read obligations only. No checkout, sponsorship, packet-credit consumption, delivery or COMPLETE_PACKET_PROVEN follows from it."
+      },
+      "claim": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX109 ri_deferred_sentence-set -> CLAIM_OK FIX109 ri_deferred_sentence-set (repair, grant set 071925142f8fd3ce), exit 0, asserted before any artifact of this family was opened. The grant was not released and the claim ledger was not written."
+    }
+  ]
+}

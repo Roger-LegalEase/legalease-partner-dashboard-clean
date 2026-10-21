@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "va_exp_identity_used_by_another-set",
+  "blocking": [],
+  "findings": [
+    {
+      "finding": "The bound source CC-1473 prints VA. CODE § 19.2-392.2(A) — ACQUITTAL/DISMISSAL — as its sole authority, and its Part 1 basis ('the petitioner was charged … and has been acquitted / a nolle prosequi has been taken or the charge otherwise dismissed') is one a § 19.2-392.2(B) petitioner cannot truthfully swear, because on this route another person was the one charged. The family's own legal-design record says in terms that CC-1473 'is captioned to subsection (A) alone and is not it', and no official (B) form was located at the official library on 2026-08-06.",
+      "consequence": "The primary filing is a composed petition, exactly as the packet-set manifest and the MASTER_QUEUE row (implementationStrategy custom_pleading, officialFormFamily NONE) direct. CC-1473 is bound as the reference instrument for the shared § 19.2-392.2 petition procedure — caption structure, Part 2 content items, the manifest-injustice prayer, the § 19.2-392.2(K) forwarding, the CCRE and Commonwealth's-Attorney steps — verified byte-exact and face-read on every build, and never included in the packet. No form was substituted and none was invented."
+    },
+    {
+      "finding": "Va. Code § 19.2-392.2(H) supplies a second, faster procedural door to the same relief — a motion to the dismissing court where the charge was dismissed because the court found the person charged was not the person named in the charging document — and the legal-design record models it as a conditional component of this track, not a separate one.",
+      "consequence": "The packet renders the § 19.2-392.2(H) motion as a conditional instrument with its condition printed on its own face, and the instructions tell the participant to file exactly one of the two instruments and to ask the circuit court clerk when unsure. The fork is not route-determined, so neither instrument is selected for the participant."
+    },
+    {
+      "finding": "Every case fact on this route lives on a record created by another person's use of the participant's identity — a record the platform has not seen.",
+      "consequence": "The platform writes only the participant's own identity and contact facts (name, date of birth, mailing address, telephone, email). Every case fact is a labelled dotted blank declared REQUIRED_BEFORE_FILING, disclosed by its printed label, with the clerk of the court that disposed of the charge named as the checkable authority for the case papers."
+    },
+    {
+      "finding": "No held source establishes the manner of service on the attorney for the Commonwealth, or whether the clerk requires a local cover sheet for a composed (B) petition.",
+      "consequence": "The service page names its recipient class from the recorded rule (the attorney for the Commonwealth of the filing locality, twenty-one days to respond) and delegates the MECHANICS to the circuit court clerk by name. No method, no address and no local requirement was guessed."
+    },
+    {
+      "finding": "The legal-design record names two content items for the filing-instructions component — the no-prior-record misdemeanor presumption at § 19.2-392.2(F) and a three-year voidability rule — whose substance no held source in this container records.",
+      "consequence": "Neither is stated in the packet, because naming a rule without its recorded substance invites the participant to guess at it. Both are raised as counsel questions in approval-request.json instead."
+    },
+    {
+      "finding": "§ 19.2-392.2 carries a second version effective December 1, 2026, recorded in the legal-design record as a release blocker with a counsel question about the cutover.",
+      "consequence": "This build ends at state_built and the version question travels with the family into counsel review; nothing here resolves it."
+    }
+  ]
+}

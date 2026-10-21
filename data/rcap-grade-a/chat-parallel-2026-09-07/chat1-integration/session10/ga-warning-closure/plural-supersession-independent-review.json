@@ -1,0 +1,237 @@
+{
+  "schemaVersion": "rcap-independent-delta-review/v1",
+  "reviewer": "/root/independent_md_review",
+  "reviewedAt": "2026-09-08T13:00:57.383Z",
+  "verdict": "PASS",
+  "scope": "Finite explicit plural review supersession; actual row extraction and selection, preserving all original verdicts",
+  "authorReviewerSeparation": "Root authored shared helper/extractor; separate reviewer authored and executed these controls. Reviewer owns the GA static review declaration, not this selection implementation.",
+  "independentCases": 25,
+  "cases": [
+    {
+      "name": "published actual reviewer declaration names both finite prior reviews",
+      "result": "PASS",
+      "singularCompatibilityPreserved": true,
+      "declaredPaths": [
+        "ga-independent-review-03.json",
+        "ga-warning-delta-04.json"
+      ]
+    },
+    {
+      "name": "document default applies only to a row without a plural declaration",
+      "result": "PASS",
+      "nullishFallbackPreserved": true,
+      "rowPrecedence": true
+    },
+    {
+      "name": "invalid explicit list is rejected atomically: []",
+      "result": "PASS",
+      "noPartialGrant": true,
+      "noDefaultFallback": true
+    },
+    {
+      "name": "invalid explicit list is rejected atomically: false",
+      "result": "PASS",
+      "noPartialGrant": true,
+      "noDefaultFallback": true
+    },
+    {
+      "name": "invalid explicit list is rejected atomically: 7",
+      "result": "PASS",
+      "noPartialGrant": true,
+      "noDefaultFallback": true
+    },
+    {
+      "name": "invalid explicit list is rejected atomically: \"old.json\"",
+      "result": "PASS",
+      "noPartialGrant": true,
+      "noDefaultFallback": true
+    },
+    {
+      "name": "invalid explicit list is rejected atomically: [\"valid.json\",\"../old.json\"]",
+      "result": "PASS",
+      "noPartialGrant": true,
+      "noDefaultFallback": true
+    },
+    {
+      "name": "invalid explicit list is rejected atomically: [\"sub/old.json\"]",
+      "result": "PASS",
+      "noPartialGrant": true,
+      "noDefaultFallback": true
+    },
+    {
+      "name": "invalid explicit list is rejected atomically: [\"sub\\\\old.json\"]",
+      "result": "PASS",
+      "noPartialGrant": true,
+      "noDefaultFallback": true
+    },
+    {
+      "name": "invalid explicit list is rejected atomically: [\"/old.json\"]",
+      "result": "PASS",
+      "noPartialGrant": true,
+      "noDefaultFallback": true
+    },
+    {
+      "name": "invalid explicit list is rejected atomically: [\"old.md\"]",
+      "result": "PASS",
+      "noPartialGrant": true,
+      "noDefaultFallback": true
+    },
+    {
+      "name": "invalid explicit list is rejected atomically: [\"\"]",
+      "result": "PASS",
+      "noPartialGrant": true,
+      "noDefaultFallback": true
+    },
+    {
+      "name": "invalid explicit list is rejected atomically: [null]",
+      "result": "PASS",
+      "noPartialGrant": true,
+      "noDefaultFallback": true
+    },
+    {
+      "name": "invalid explicit list is rejected atomically: [\"valid.json\",false]",
+      "result": "PASS",
+      "noPartialGrant": true,
+      "noDefaultFallback": true
+    },
+    {
+      "name": "absent declarations grant nothing and duplicate explicit paths are deduplicated",
+      "result": "PASS"
+    },
+    {
+      "name": "actual comparator selects complete review in GA permutation 1",
+      "result": "PASS",
+      "inputOrder": [
+        "data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/ga-independent-review-03.json",
+        "data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/ga-session10-acceptance.json",
+        "data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/ga-warning-delta-04.json"
+      ],
+      "selected": "data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/ga-session10-acceptance.json"
+    },
+    {
+      "name": "actual comparator selects complete review in GA permutation 2",
+      "result": "PASS",
+      "inputOrder": [
+        "data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/ga-independent-review-03.json",
+        "data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/ga-warning-delta-04.json",
+        "data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/ga-session10-acceptance.json"
+      ],
+      "selected": "data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/ga-session10-acceptance.json"
+    },
+    {
+      "name": "actual comparator selects complete review in GA permutation 3",
+      "result": "PASS",
+      "inputOrder": [
+        "data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/ga-session10-acceptance.json",
+        "data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/ga-independent-review-03.json",
+        "data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/ga-warning-delta-04.json"
+      ],
+      "selected": "data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/ga-session10-acceptance.json"
+    },
+    {
+      "name": "actual comparator selects complete review in GA permutation 4",
+      "result": "PASS",
+      "inputOrder": [
+        "data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/ga-session10-acceptance.json",
+        "data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/ga-warning-delta-04.json",
+        "data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/ga-independent-review-03.json"
+      ],
+      "selected": "data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/ga-session10-acceptance.json"
+    },
+    {
+      "name": "actual comparator selects complete review in GA permutation 5",
+      "result": "PASS",
+      "inputOrder": [
+        "data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/ga-warning-delta-04.json",
+        "data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/ga-independent-review-03.json",
+        "data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/ga-session10-acceptance.json"
+      ],
+      "selected": "data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/ga-session10-acceptance.json"
+    },
+    {
+      "name": "actual comparator selects complete review in GA permutation 6",
+      "result": "PASS",
+      "inputOrder": [
+        "data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/ga-warning-delta-04.json",
+        "data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/ga-session10-acceptance.json",
+        "data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/ga-independent-review-03.json"
+      ],
+      "selected": "data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/ga-session10-acceptance.json"
+    },
+    {
+      "name": "cross-family paths cannot supersede a distinct family",
+      "result": "PASS"
+    },
+    {
+      "name": "unknown explicit path leaves ordinary same-family selection unchanged",
+      "result": "PASS"
+    },
+    {
+      "name": "non-reading verdict remains ineligible despite explicit declarations",
+      "result": "PASS"
+    },
+    {
+      "name": "executed full extractor selects published acceptance and preserves original review bytes",
+      "result": "PASS",
+      "currentReview": "data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/ga-session10-acceptance.json",
+      "originalsRetained": 2,
+      "wholeExtractorExitCode": 0,
+      "executionSession": 3971
+    }
+  ],
+  "inputs": [
+    {
+      "path": "scripts/grade-a-packet-factory-24h/chat-review-inputs.mjs",
+      "sha256": "339853477569b1100c62592b792d14002f939bf9aa2bef27a95819c988337b1e",
+      "bytes": 10513
+    },
+    {
+      "path": "scripts/grade-a-packet-factory-24h/extract-verifier-returns.mjs",
+      "sha256": "9f8af0e501e5fdfd47dae03fb4f5b4ae88f71bbc952403b4535f556741b6f76b",
+      "bytes": 29140
+    },
+    {
+      "path": "data/rcap-grade-a/packet-factory-24h/VERIFIER_RETURNS.json",
+      "sha256": "542deaabed5c1b9099a719e525146d97a06e0137d5df2a674cbab47b9a6c5aa2",
+      "bytes": 2197160
+    },
+    {
+      "path": "data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/ga-session10-acceptance.json",
+      "sha256": "ef618f21a667949fb30de5c80d64b83685d0d1bb45ba7b5d419e6157c7443450",
+      "bytes": 26691
+    },
+    {
+      "path": "data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/ga-independent-review-03.json",
+      "sha256": "48f0e0b7bdb305b4d9f6c92ce685eb7ba8afeb36f92c4024f711b680a95ef71c",
+      "bytes": 15120
+    },
+    {
+      "path": "data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/ga-warning-delta-04.json",
+      "sha256": "f8ab275e580e82a7ad8f52abd12ccc4dddbfb920d9d50e06cfb9cf8e4bcaea53",
+      "bytes": 15602
+    }
+  ],
+  "script": {
+    "path": "scripts/rcap-packet-recovery/session10/review-chat-plural-supersession.mjs",
+    "sha256": "0144d88c4a89d78021b2e1d3c6ae7196e5dbbc6508659b417a454c2dd1c3cede",
+    "bytes": 7632
+  },
+  "fullExtractor": {
+    "command": "node scripts/grade-a-packet-factory-24h/extract-verifier-returns.mjs",
+    "exitCode": 0,
+    "executionSession": 3971,
+    "log": {
+      "path": "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session10/ga-warning-closure/plural-extractor.log",
+      "sha256": "ee8591a0646e112166a0f8c537f0f4a542d9a21f75bd3ce9d710343a65fb7e7f",
+      "bytes": 3227
+    },
+    "independentVerdicts": 249,
+    "existingFailRepairRequired": 46
+  },
+  "limits": [
+    "No review verdict, counter, original author attribution or packet bytes were changed by the implementation.",
+    "Selection remains per family; unknown paths grant no acceptance. Existing reading/schema/whole-output checks still precede selection.",
+    "No legal, runtime, payment, raster issuer or production authority is granted."
+  ],
+  "sharedImplementationModifiedByReviewer": false
+}

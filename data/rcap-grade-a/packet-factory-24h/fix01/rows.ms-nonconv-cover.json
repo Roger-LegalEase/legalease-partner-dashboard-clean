@@ -1,0 +1,244 @@
+{
+  "schemaVersion": "rcap-packet-factory-focused-repair-return/v1",
+  "workerId": "CLAUDE-FIX01-MS-NONCONV-COVER",
+  "assignmentId": "FIX01",
+  "assignedBase": "82aeff657",
+  "branch": "fix01-ms-nonconv-cover",
+  "laneKind": "repair",
+  "grantsConfirmed": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 ms-nonconv-set returned CLAIM_OK FIX01 ms-nonconv-set (repair, grant set 52ac48f16f0796ae), exit 0, before anything was read or written.",
+  "scope": "Exactly one failed obligation, COMPONENT_SET. The fourteen obligations VF06 passed were not touched: build-status.json, build-findings.json, approval-request.json, reports/completeness-counters.json and reports/blanks-left-for-the-participant.json are byte-identical to 82aeff657, the petition, proposed order, certificate of service, exhibit checklist and filing instructions are byte-identical in drawn text and in rasterised pixels, and two pages were ADDED at the front, which is the repair.",
+  "preflight": {
+    "worktree": "/home/user/fix01-worktree, created from /home/user/captain-worktree at 82aeff657 on branch fix01-ms-nonconv-cover",
+    "coreSparseCheckout": "false; git ls-files -v carries zero skip-worktree bits",
+    "privateCorpus": "private/ symlinked read-only to /home/user/legalease-partner-dashboard-clean/private. Nothing under it was opened for writing; this family binds no corpus bytes (custodyClass CUSTOM_PLEADING_FROM_CODIFIED_TEXT).",
+    "masterLibrary": "MASTER_LIBRARY_SOURCE_DIR exported to <worktree>/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1, the path scripts/verify-packet-build-environment.mjs resolves",
+    "nodeModules": "symlinked to /home/user/captain-worktree/node_modules; pdf-lib importable",
+    "gitStatusBeforeAnyChange": "empty",
+    "otherWorktreesTouched": 0,
+    "subagentsCreated": 0
+  },
+  "hostChanged": {
+    "file": "scripts/rcap-custom-pleading/composed-family-host.mjs",
+    "change": "One opt-in function, specificationConformance(), plus its call site and one conditional key in reports/rendered-artifacts.json. A family that declares no packetSpecification takes no new code path and gets byte-identical records.",
+    "provenOnTheOtherTwelveFamilies": true
+  },
+  "rows": [
+    {
+      "itemId": "ms-nonconv-set",
+      "familyId": "ms-nonconv-set",
+      "jurisdiction": "MS",
+      "implementationStrategy": "custom_pleading",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "selfVerified": false,
+      "ownerPinned": true,
+      "ownerRereviewOwed": true,
+      "buildHost": "scripts/build-census-v1-ms-nonconv-set.mjs on scripts/rcap-custom-pleading/composed-family-host.mjs",
+      "routeKeys": [
+        "obligation:track-pathway:MS:ms-nonconv:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal"
+      ],
+      "verdictRepaired": {
+        "lane": "vf06",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "b3467e894",
+        "failedObligationNames": [
+          "COMPONENT_SET"
+        ]
+      },
+      "obligationsRepaired": [
+        "COMPONENT_SET"
+      ],
+      "obligationsThisRowDoesNotDischarge": {
+        "centralRaster": "Owed, on canonical 0441d16c75b90f5e1d199a0f32e28433a5db1e7fe6af3e381db016f31520f5dc and boundary 379dae5a452fcc65209d020ee9d9b0c3b3910149c45d9e51ee90c4313258b40d. The standing RASTER_PASS receipt (workflow run 33973869055, job 101327371890) is bound to the superseded 8-page digests e9ca98c5.. and b483d29c.. and stops binding here. The build ran --no-raster as instructed; the only rasters made were local, at 100 dpi into /tmp, read as images and deleted after measuring. RASTER_QUEUE.json, MASTER_QUEUE.json and the fulfillment-authority registry were not opened for writing.",
+        "independentVerification": "VF06's FAIL_REPAIR_REQUIRED at b3467e894 stands until an independent lane re-reads these bytes. This lane built the packet and therefore verified nothing it built; every measurement recorded here is a build measurement, not a verdict.",
+        "ownerReReview": "The family is owner-pinned and carries the Mississippi clinic Grade-A record. Two new participant-facing pages are owed a fresh owner read before anything moves; nothing here asks for or implies that read.",
+        "theCounselQuestion": "The jurat contradiction between data/record-clearing/legal-design-intake/MS.memo.json and the packet specification is recorded below and is NOT resolved here. No verification block and no notarial certificate was added to any pleading page. Counsel or the owner settles which record governs."
+      },
+      "baseSha": "82aeff657",
+      "branch": "fix01-ms-nonconv-cover",
+      "whatChanged": {
+        "newPagesAdded": {
+          "count": 2,
+          "where": "packet pages 1-2 of both fixtures, ahead of the petition; every pre-existing page moved from page N to page N+2 and nothing else moved",
+          "component": "cover_and_contents, order 1, rendering specification document ms-cover-and-contents",
+          "headingsVerbatimAsDrawnOnThePages": [
+            "YOUR MISSISSIPPI NON-CONVICTION EXPUNGEMENT PACKET",
+            "WHAT THIS PACKET IS",
+            "PACKET CONTENTS",
+            "RECORDS TO HAVE BESIDE YOU",
+            "SIGNING AND NOTARIZATION",
+            "IMPORTANT LIMITS"
+          ],
+          "headingOrderIsTheSpecificationsOwn": "The builder asserts, before composing anything, that the specification's cover document carries exactly the five sections What this packet is / Packet contents / Records to have beside you / Signing and notarization / Important limits, in that order. A section added, removed or renamed in the specification stops the build rather than silently dropping off the page.",
+          "whatEachSectionCarries": {
+            "WHAT THIS PACKET IS": "the specification's static body, printed word for word: the five-part self-help packet for the Miss. Code Ann. Section 99-19-71(4) non-conviction pathway, prepared from facts the participant verified against their records.",
+            "PACKET CONTENTS": "the six delivered documents in delivery order, each named by the title printed on its own page - the cover, the petition, the proposed order, the certificate of service, the exhibit checklist and the filing instructions - with one line stating that the specification groups the certificate of service and the exhibit checklist as one document, which is why it describes a five-part packet where six items are listed.",
+            "RECORDS TO HAVE BESIDE YOU": "the four records to have in hand (certified disposition or sentencing order, docket sheet, indictment only where one was returned, own Mississippi criminal history record), then all nine of the specification's requiredBeforeFiling participantChecklist items printed verbatim from the specification.",
+            "SIGNING AND NOTARIZATION": "the specification's static body verbatim, opening DO NOT SIGN THE PETITION IN ADVANCE and ending 'The packet is not filing-ready until those steps are complete'; then one paragraph saying on the page that the wording is printed from the packet specification this route binds, that the composed petition carries a simple truth statement and no separate verification or notarial block because the intake record records notarization as unresolved, that the packet does not settle which record governs, and that the records office of the court that heard the case is the authority to ask - the same office the filing instructions already name for the same question.",
+            "IMPORTANT LIMITS": "the specification's static body verbatim: LegalEase does not file the packet and does not guarantee relief, confirm filing method, local form preference, fee or waiver treatment, copy count and service practice with the records office, and stop for an ambiguous record."
+          },
+          "nothingOnThePageWasInvented": "Every static sentence is read out of the specification at build time rather than restated in the builder, so an edit to the specification reaches the packet instead of drifting from it. The only lines authored here are the four records to have beside you (already in this family's own participant-instructions.md and its exhibit checklist), the contents descriptions (each describing a page this packet actually delivers), and the attribution paragraph under SIGNING AND NOTARIZATION.",
+          "participantFacingRegister": "Uppercase section headings and second-person prose, the register the packet's own instructions and exhibit checklist pages already use; the page states in its second line that it is a guide to the packet, not a filing, and is not given to the court."
+        },
+        "files": [
+          "scripts/build-census-v1-ms-nonconv-set.mjs - the cover_and_contents component added at order 1 with its composed body, its field map and its one write; the specification read and hashed at build time; the packetSpecification declaration binding all five specification documents to composed components, carrying the manifest gap and the open counsel question as data; and the composedBody chain's trailing `else` converted from the instructions branch into a refusal. That last one is a real defect this repair found in itself: the first build of the cover fell through into the instructions branch and printed the filing instructions under the cover's heading, producing a 12-page packet. A component with no body of its own now stops the build.",
+          "scripts/rcap-custom-pleading/composed-family-host.mjs - specificationConformance(), opt-in on family.packetSpecification, plus its call site and one conditional key in reports/rendered-artifacts.json and in the builder's console result.",
+          "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading/fixtures/canonical.pdf - rebuilt; two composed pages prepended. 8 pages -> 10.",
+          "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading/fixtures/boundary.pdf - rebuilt; the identical change. 8 pages -> 10.",
+          "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading/participant-instructions.md - one row added to the 'What is in this packet' table for cover_and_contents. Nothing else in the file changed.",
+          "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading/production-field-map.json - the cover's map, one write and no refusal; componentSet gains cover_and_contents at the front. No pre-existing row changed and no refusal was added or removed.",
+          "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading/reports/rendered-artifacts.json - new fixture digests, page counts and page manifests; componentSet gains cover_and_contents; the new specificationConformance block records the specification by SHA-256, all five of its documents, which composed components render each, the packet pages each lands on in both fixtures, the manifest gap and the open counsel question.",
+          "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading/reports/actual-writes.json - the tenth write per fixture, the participant's name on the cover, read back from the extracted text of the cover's own pages in the saved bytes.",
+          "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading/source-receipt.json - the packet specification added to compositionSources, bound by SHA-256 3a1bed79e3760feb84563a638893942ab557683f6bbe7fb0fddec7e74723257f (59843 B); cover_and_contents added to composedComponentsAuthoredByThisBuild.",
+          "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading/product-wiring.json - hand-edited, purely additive. censusV1ComponentIds added to each of the five proposedRepresentation components, binding each specification document to the composed components that render it; and a new censusV1Representation block recording the overlay directory, the builder, the specification digest, 5 of 5 specification documents rendered, the new and superseded fixture digests, acceptanceReceipt null with the reason, the manifest gap and the counsel question. No existing key's value was changed. binding.artifacts, binding.counselReview and every hash Lawrence Blackmon approved are byte-identical.",
+          "data/rcap-grade-a/packet-factory-24h/fix01/rows.ms-nonconv-cover.json - this return",
+          "data/rcap-grade-a/packet-factory-24h/GRANT_LEDGER.json - written by claim.mjs on assert and on release"
+        ],
+        "notChanged": [
+          "data/record-clearing/packet-specifications/MS-nonconviction-expungement-99-19-71-4.v1.json - read only. It still hashes to 3a1bed79e3760feb84563a638893942ab557683f6bbe7fb0fddec7e74723257f.",
+          "data/record-clearing/legal-design-packet-set-manifests.json - not opened for writing. The manifest still declares five components for ms-nonconv-set and still has none for the cover; see manifestGap below.",
+          "data/record-clearing/legal-design-intake/MS.memo.json and every other legal-design record - not opened for writing.",
+          "build-status.json, build-findings.json, approval-request.json, reports/completeness-counters.json, reports/blanks-left-for-the-participant.json - byte-identical to 82aeff657.",
+          "The petition, the proposed order, the certificate of service, the exhibit checklist and the filing instructions - byte-identical in drawn text and in rasterised pixels; see placementDiff.",
+          "RASTER_QUEUE.json, MASTER_QUEUE.json, the fulfillment-authority registry and every other central record - not opened for writing.",
+          "data/rcap-ledger/grade-a/** - the Grade-A clinic artifacts, the ledger and the counsel-review package are untouched. The 12- and 13-page participant-delivery PDFs still hash to 413f6226.. and 9f766f22..",
+          "data/rcap-grade-a/packet-factory-24h/scan01/raw-sweep.json - written by scripts/rcap-scan01-composed-pdf-text-integrity.mjs when this lane ran it. Untracked at 82aeff657 and deleted afterwards; not committed."
+        ]
+      },
+      "obligationsAddressed": {
+        "COMPONENT_SET": {
+          "findingAsWritten": "The specification data/record-clearing/packet-specifications/MS-nonconviction-expungement-99-19-71-4.v1.json, bound by SHA-256 in this family's own product-wiring.json, names five documents. Four mapped to manifest components and rendered. The fifth, ms-cover-and-contents, role cover_and_contents, order 1, requirement required, mapped to manifestComponentIds [] and nothing rendered it, so the delivered 8-page packet opened directly on the petition with no cover, no packet-contents list, no records-to-have-beside-you summary and no signing-and-notarization page. requiredComponentsMissing read 0 because the counter compares the delivered pages against the build's own rendered-artifacts.json componentSet, which declared exactly the four documents it rendered.",
+          "repaired": true,
+          "howItWasRepaired": "ms-cover-and-contents is now a composed component, cover_and_contents, at order 1, rendered as packet pages 1-2 of both fixtures and carrying the four things the specification's document definition requires - the cover, the packet contents in delivery order, the records to have beside you, and the signing-and-notarization page - in the participant-facing register the packet already uses. The component set is now measured against the specification and not against the build's own report of itself: the builder declares, per specification document, either which composed components render it or an explicit disposition with a stated reason, and the shared host asserts at build time that every specification document is accounted for, that every named component is one this family declares, and that every named component actually reaches a page in EVERY fixture, reading each fixture's own page manifest rather than the component list the build intended.",
+          "whereEachSpecificationDocumentLands": {
+            "ms-cover-and-contents": "cover_and_contents -> canonical pages 1, 2; boundary pages 1, 2",
+            "ms-petition-for-expungement": "primary_filing -> canonical pages 3, 4; boundary pages 3, 4",
+            "ms-proposed-order": "proposed_order -> canonical pages 5, 6; boundary pages 5, 6",
+            "ms-service-and-attachments": "certificate_of_service + attachment -> canonical pages 7, 8; boundary pages 7, 8",
+            "ms-filing-and-next-steps": "instructions -> canonical pages 9, 10; boundary pages 9, 10"
+          },
+          "documentsTheSpecificationNames": 5,
+          "documentsRendered": 5,
+          "documentsDispositionedWithoutRendering": 0,
+          "theAssertionIsNotVacuous": "Both new refusals were exercised against this family before the final build. Removing the ms-cover-and-contents binding produced 'specification document ms-cover-and-contents (required) is neither rendered nor dispositioned by scripts/build-census-v1-ms-nonconv-set.mjs' and a non-zero exit; binding it to a component name this family does not declare produced 'binds component a_component_that_does_not_exist, which this family does not declare' and a non-zero exit. The builder was restored from a kept copy and rebuilt to the digests recorded here after each.",
+          "aDefectThisRepairFoundInItself": "The first build of the cover produced a 12-page packet whose pages 1-4 carried the cover text followed by the whole of the filing instructions under the cover's heading. composedBody()'s branch chain ended in a bare `else` that WAS the instructions branch, so a sixth component added ahead of it inherited that body. It was caught by reading the delivered pages rather than the builder's report, which reported COMPLETED with nine zero counters over those very bytes. The `else` is now a refusal naming the component."
+        }
+      },
+      "manifestGap": {
+        "record": "data/record-clearing/legal-design-packet-set-manifests.json",
+        "gap": "The packet-set manifest declares five components for ms-nonconv-set - ms-nonconv-primary-filing-1, ms-nonconv-proposed-order-2, ms-nonconv-certificate-of-service-3, ms-nonconv-attachment-4, ms-nonconv-instructions-5 - and none of them is the specification's required order-1 cover_and_contents document, which is why product-wiring.json maps that document to manifestComponentIds []. This lane rendered the document as a composed component and did NOT edit the manifest, the specification or any legal-design record.",
+        "owedTo": "the productization lane: giving ms-cover-and-contents a manifest component id, so the manifest and the specification stop disagreeing about how many documents this family has.",
+        "recordedIn": [
+          "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading/reports/rendered-artifacts.json (specificationConformance.manifestGaps)",
+          "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading/product-wiring.json (censusV1Representation.manifestGap)"
+        ]
+      },
+      "jurat": {
+        "counselQuestion": "Which committed record governs the notarised verification on a Miss. Code Ann. Section 99-19-71(4) petition: the packet specification v2.0.0, which makes the jurat mandatory, names five notary-owned fields, and states the packet is not filing-ready until the participant signs the petition and verification in a notary's physical presence after an oath or affirmation; or data/record-clearing/legal-design-intake/MS.memo.json, track ms-nonconv, which records notarization as unresolved, classifies it nonblocking_research_note, and has the petition carry a simple truth statement rather than a notarized verification? Neither supersedes the other on its face.",
+        "thisLaneDidNotResolveIt": true,
+        "whatWasDoneInstead": "The pleading text was not changed. No verification block and no notarial certificate was added to the petition, the proposed order or the certificate of service, and the petition's existing 'I declare that the facts stated in this petition are true and correct' is byte-identical. The cover's signing-and-notarization page prints the SPECIFICATION's wording verbatim, because the specification is the server-owned document that defines what that page carries, and the page says so in terms: it states that the paragraph is printed word for word from the packet specification this route binds, that the composed petition carries a simple truth statement and no separate verification or notarial block because the intake record records notarization as unresolved, that this packet does not settle which record governs, and that the participant should ask the records office of the court that heard the case - the same authority the filing instructions already name for the same question.",
+        "alreadyRaisedByTheFamily": "approval-request.json counsel question 4, unanswered, and unchanged by this lane."
+      },
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersNote": "Nine zeros before and nine zeros after, measured with node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ms-nonconv-set: PASS_COMPLETE, 9/40 written before and 10/41 written after, the tenth write being the participant's name on the new cover page. Corpus-wide the same verifier reports 241 families audited, 240 PASS_COMPLETE and unclassifiedBlanks 6 both before and after; the single FAIL_MISSING_PREFILLS is pa_6308_underage-set and is pre-existing and untouched. The nine zeros are the starting condition rather than the evidence for this repair, exactly as VF06 recorded: requiredComponentsMissing could not have seen this defect.",
+      "artifacts": {
+        "before": {
+          "canonical": {
+            "sha256": "e9ca98c502347a0743447ec0c00acc77e40ae3fd47538a1d550a3aa2ca229f51",
+            "byteLength": 22815,
+            "pageCount": 8
+          },
+          "boundary": {
+            "sha256": "b483d29cffb0eee94a813ada8e5b1568c2fc755194ff18dbb9dd468b5103585e",
+            "byteLength": 23066,
+            "pageCount": 8
+          }
+        },
+        "after": {
+          "canonical": {
+            "sha256": "0441d16c75b90f5e1d199a0f32e28433a5db1e7fe6af3e381db016f31520f5dc",
+            "byteLength": 29578,
+            "pageCount": 10
+          },
+          "boundary": {
+            "sha256": "379dae5a452fcc65209d020ee9d9b0c3b3910149c45d9e51ee90c4313258b40d",
+            "byteLength": 29851,
+            "pageCount": 10
+          }
+        },
+        "equalsRenderedArtifactsJson": true
+      },
+      "determinism": "Built twice with --no-raster in this worktree; all thirteen files in the family directory, both fixtures included, are byte-identical across the two runs.",
+      "verifierResults": {
+        "scripts/rcap-packet-completeness/verify-packet-completeness.mjs": "family: PASS_COMPLETE, nine counters zero, before and after. Corpus-wide: 241 audited, 240 PASS_COMPLETE, one pre-existing FAIL_MISSING_PREFILLS (pa_6308_underage-set), unclassifiedBlanks 6 unchanged, every other counter 0 before and after.",
+        "scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs": "EVERY_IDENTITY_REFRESH_SURVIVED - 249 receipts compared against HEAD, 53 carrying an identityRefresh, exit 0.",
+        "scripts/rcap-scan01-composed-pdf-text-integrity.mjs": "exit 0. 249 families before and after; 131 total defects before and 131 after. Exactly one family's measurements moved: ms-nonconv-set, canonical 8 pages / 222 composed lines -> 10 pages / 290, boundary 8 / 223 -> 10 / 291, defects 0 before and 0 after. No hard split, no route-key-only page, no fragment page and no thin page on either new page; the widest token stays the route key at 462.14 pt against a 468 pt column. Nothing else in the corpus moved.",
+        "scripts/grade-a-packet-factory-24h/verify-lane-contracts.mjs": "9/9, LANE_CONTRACTS_HELD.",
+        "scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs --check --family ms-nonconv-set": "0 need creation, 0 need refresh, 1 unchanged, 1 bespoke installed binding preserved - the generator recognises this family's Clinic Mode record as bespoke and would not rewrite the hand edit.",
+        "scripts/grade-a-packet-factory-24h/test-product-wiring-refreshes-artifact-identity.mjs": "PASS.",
+        "scripts/grade-a-packet-factory-24h/test-product-wiring-v2-packets.mjs": "FAILS here, and fails identically at 82aeff657 with this lane's changes stashed away: its own temp fixture copies generate-product-wiring.mjs without acceptance-identity.mjs and dies ERR_MODULE_NOT_FOUND. Pre-existing and not this lane's; recorded rather than smoothed."
+      },
+      "appearanceLevelCheck": {
+        "method": "composed content stream page by page with pdftotext -layout over all 10 pages of both fixtures, plus pdftoppm -r 100 -png -gray of every page of the old and the new bytes into /tmp, read as images and pixel-differenced; the two new pages were also read as images. Nothing was rastered into the delivered tree and every raster was deleted after measuring.",
+        "placementDiff": {
+          "pagesAdded": 2,
+          "existingPagesUnchangedInDrawnText": "All 8 pre-existing pages of BOTH fixtures: the pdftotext -layout output of old page N is byte-identical to that of new page N+2, for N = 1..8, on canonical and on boundary. 16 of 16 pages identical.",
+          "existingPagesUnchangedInPixels": "The same 16 pages differ by ZERO pixels at 100 dpi: every difference bounding box is empty. No glyph moved on any page the participant already had.",
+          "newPagesInk": "Pages 1 and 2, identical geometry on both fixtures: ink bounding box x 72.0..540.0 pt, exactly the renderer's 72 pt margins, and y 64.1..712.1 pt from the top - inside the page on every side, nothing clipped, nothing overlapping. Page 1 draws 35 non-empty lines and page 2 draws 34, measured from the delivered bytes and both far above the 8-line thinnest-legitimate-page benchmark scan01 applies, so neither is a fragment or thin page. The route trailer sits at the foot of page 2 beneath the IMPORTANT LIMITS paragraph, not alone on a page of its own.",
+          "protectedBlocksUntouched": "No signature line, no notarial certificate, no entry date, no judicial-officer rule and no approved-as-to-form rule was added, moved or filled. The new pages carry no dotted blank at all: cover_and_contents declares one write and no refusal."
+        },
+        "writesReadBackFromTheBytes": "10 per fixture, up from 9, all read back from the extracted text of their own component's pages in the saved packet bytes. The new one is the participant's full legal name on the cover, printed as 'Prepared for <name>'."
+      },
+      "grantsNothing": "Rendering the specification's fifth document opens no commercial route, consumes no packet credit, marks nothing proven, changes no live RCAP route and touches no compiled runtime. The counsel approval this family carries is bound to the Grade-A clinic artifact hashes, which did not move."
+    }
+  ],
+  "notDone": [
+    "The packet-set manifest still has no component for ms-cover-and-contents. Recorded as owed to the productization lane; not edited here.",
+    "The jurat contradiction between MS.memo.json and the specification is unresolved. Recorded as a counsel question; the pleading text was not changed either way.",
+    "No raster of any kind covers the new bytes. RASTER_QUEUE.json and MASTER_QUEUE.json were not touched; enrolling the new digests is Captain's.",
+    "Independent verification of these bytes is owed and this lane performed none.",
+    "The owner re-read of the two new participant-facing pages is owed."
+  ],
+  "packetBytesChanged": 2,
+  "overlayDirectoriesModified": [
+    "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading"
+  ],
+  "buildersModified": [
+    "scripts/build-census-v1-ms-nonconv-set.mjs",
+    "scripts/rcap-custom-pleading/composed-family-host.mjs"
+  ],
+  "otherFamiliesOnThisHost": {
+    "familiesImportingTheHost": 13,
+    "rebuiltAsControls": 12,
+    "result": "Every other family on this host was rebuilt with --no-raster twice: once with this lane's two script changes in place, and once with both scripts restored to 82aeff657. The two runs produce byte-identical trees across all 864 files of the al, ct, de, fl, me, nd, nm and vt overlay directories these builders write, so the drift some of them show against HEAD (stale composition-source hashes in source-receipt.json for al, ct, de, fl and nm, and DE's fixtures) is pre-existing and is NOT this lane's. Those directories were restored with git checkout and are not committed. ms-misd-1st-set, me-nonconv-set, ct-under18-misdemeanor-set, nd-deferred-imposition-records-set and vt_seal_under_25-set drift not at all.",
+    "thrownAwayCheckouts": "none beyond this worktree; the control was run in place and reverted"
+  },
+  "centralStateEdits": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "selfVerificationPerformed": false,
+  "grantsNothing": "A focused repair return. It records what this lane changed and what it measured. It is not an independent verdict, not a raster acceptance and not an owner approval, and it promotes nothing."
+}

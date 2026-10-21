@@ -1,0 +1,1594 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-rows/v1",
+  "lane": "FIX57",
+  "laneKind": "repair",
+  "generatedBy": "lane FIX57",
+  "baseSha": "760c6285d",
+  "branch": "fix57-nj-optin",
+  "rows": [
+    {
+      "itemId": "nj_disorderly_persons-set",
+      "familyId": "nj_disorderly_persons-set",
+      "jurisdiction": "NJ",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill",
+      "status": "STOPPED_OPTION_DOES_NOT_REACH_THE_DEFECT_ON_THIS_HOST",
+      "statusReason": "The opt-in was made exactly as Vermont's is -- one option, suppressSynthesizedAppearances, carried per document through finalizeOfficialForm, default-off for every other caller -- and it changed not one byte of this family's fixtures, because on this host the synthesized square is already painted BEFORE the finalizer is called. scripts/build-census-v1-nj_arrest_no_conviction-set.mjs finalizeEastOfficialForm neutralizes the source's choices (deletes /V and /DV, forces every button widget to /AS /Off) and then writes preparedSourceBytes with sourceDoc.save({ useObjectStreams: false, updateMetadata: false }). pdf-lib's save() defaults updateFieldAppearances to true, so it regenerates an appearance for exactly the condition FIX50 describes -- a current /AS state with no stream in /AP /N -- and stamps a stroked square into /AP /N /Off of all 22 widgets in the bytes the finalizer then receives. By the time suppressSynthesizedSelectionAppearances runs, every widget's current state already has a stream, so it correctly installs nothing: installedCount 0, skippedStateAlreadyDrawn 22, on both fixtures. Measured directly on the pinned source in this container: saving the neutralized document with the pdf-lib default gives 22 of 22 widgets an /Off stream; saving it with updateFieldAppearances: false gives 0 of 22. Clearing the square here therefore needs a change to the host's own pre-finalize save, which is not the one option this assignment authorizes and is not made. The builder edit was reverted; the three family directories are byte-identical to base 760c6285d.",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "obligationsRepaired": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "obligationsRepairedNote": "Claimed and worked as the one obligation this lane holds. It is NOT delivered on these bytes: the status above is STOPPED and the per-widget measurement below shows the square still present. The name is recorded here because it is what this lane opted the family in to repair and what a later lane must finish, never as a discharge.",
+      "obligationsThisRowDoesNotDischarge": [
+        "RASTER. No central raster was run and none is owed on new bytes, because this lane produced no new bytes. Each family's standing RASTER_PASS receipt still binds the fixtures on disk exactly, since those fixtures did not move. RASTER_QUEUE.json and MASTER_QUEUE.json were read and never opened for writing.",
+        "INDEPENDENT VERIFICATION. None. This lane made and reverted a change on the shared host and measured these families itself, so it verifies nothing. No verdict was written or replaced and no acceptance receipt was created.",
+        "THE OTHER FAMILIES ON THIS HOST. nj_arrest_no_conviction-set, nj_clean_slate-set and the two New York families share finalizeEastOfficialForm and the same pre-finalize save, so the same square is expected on any of them that ships a widget without an /Off appearance. None was claimed, opened for writing, measured or rebuilt here, and nothing in this row should be read as clearing or condemning them.",
+        "THE HOST-LEVEL FIX ITSELF. Passing updateFieldAppearances: false to the neutralization save in scripts/build-census-v1-nj_arrest_no_conviction-set.mjs, or otherwise moving the square's birth to a point the opt-in can reach, is the change these three families need. It is a change to the host's write path rather than one option through the finalizer, it would move the bytes of every family the host builds, and it is left to whoever holds that decision.",
+        "A PRE-EXISTING TEXT DRIFT FOUND IN PASSING. At base 760c6285d, with no source change at all, rebuilding any of the three families rewrites participant-instructions.md and reports/actual-writes.json: the committed text is missing a 'Values this platform holds but did not print' section the current host emits, and its actual-writes refusal rows differ. Reproduced with the working tree clean before this lane edited anything, so it is not introduced here; it is reported and not repaired, and the tree was restored."
+      ],
+      "grantConfirmed": {
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX57 nj_disorderly_persons-set",
+        "exitCode": 0,
+        "output": "CLAIM_OK FIX57 nj_disorderly_persons-set (repair, grant set e65ade4647fc32cb)",
+        "assertedBeforeAnyFamilyArtifactWasOpened": true
+      },
+      "fixtureHashCheckAgainstVF08": {
+        "recordedBy": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json and vf08/COHORT_MEASUREMENT.json",
+        "canonicalMatches": true,
+        "boundaryMatches": true,
+        "note": "Both fixtures recomputed byte-exact from disk before the builder was touched, and again after the revert."
+      },
+      "buildHost": "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs (runEastFamily / finalizeEastOfficialForm)",
+      "builderEntryPoint": "scripts/build-census-v1-nj_disorderly_persons-set.mjs",
+      "whatChanged": {
+        "onDisk": "NOTHING. Every file of this family directory is byte-identical to base 760c6285d, proved by a sha256 of all 5438 files under data/rcap-all50/overlays/census-v1 taken before the edit and again after the revert: zero differences.",
+        "whatWasTried": "One option, per document and default-off, in the pattern of alignWidgetFontSizeToFit and fitTextPerWidget already on this host: suppressSynthesizedAppearances: true on this family's document entry, forwarded at both finalizeEastOfficialForm call sites as doc.suppressSynthesizedAppearances === true. No field map, no write, no participant text and no other family's configuration was touched.",
+        "whyItWasReverted": "It moved no byte, so leaving it in would put an inert flag on a shared host and read as a repair that was not made. The tree carries no half-repair.",
+        "whereTheSquareIsActuallyBorn": "finalizeEastOfficialForm's own neutralization save. sourceDoc.save({ useObjectStreams: false, updateMetadata: false }) leaves pdf-lib's updateFieldAppearances at its default true, and pdf-lib synthesizes the /Off appearance there, into preparedSourceBytes, before finalizeOfficialForm is entered.",
+        "measuredOnThePinnedSourceInThisContainer": {
+          "sourceSha256": "c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7",
+          "buttonWidgets": 22,
+          "widgetsShippingAnOffAppearanceInTheSource": 0,
+          "statesTheSourceShips": [
+            "/Yes",
+            "/yes",
+            "/No"
+          ],
+          "afterTheNeutralizationSaveWithPdfLibsDefault": "22 of 22 widgets carry an /Off stream",
+          "afterTheSameSaveWithUpdateFieldAppearancesFalse": "0 of 22 widgets carry an /Off stream"
+        },
+        "sanitizeReportUnderTheOptIn": {
+          "installedCount": 0,
+          "skippedStateAlreadyDrawn": 22,
+          "skippedWritten": 0,
+          "skippedNoAppearanceState": 0,
+          "skippedNonDictionaryAppearance": 0,
+          "onBothFixtures": true
+        }
+      },
+      "rebuild": {
+        "command": "MASTER_LIBRARY_SOURCE_DIR=<mounted Master Library> node scripts/build-census-v1-nj_disorderly_persons-set.mjs",
+        "exit": 0,
+        "runTwice": "Built with the opt-in, the whole family directory copied aside, built again and diffed with diff -r: zero differences. The build is deterministic under the option.",
+        "effectOnTheDeliveredPdfs": "none: both fixtures hashed identically before and after the opt-in build."
+      },
+      "digests": {
+        "before": {
+          "canonical": {
+            "sha256": "c22cfd2d61ecd5f1b9f6b1eab65a5ad94b61aa6d3c7090950e54708a22b9630e",
+            "bytes": 575122,
+            "pages": 43
+          },
+          "boundary": {
+            "sha256": "5415f4f4992e3229962bcf4b69e1d1b0a4388117c454723a95e4107a6a8f4693",
+            "bytes": 577793,
+            "pages": 43
+          }
+        },
+        "after": {
+          "canonical": {
+            "sha256": "c22cfd2d61ecd5f1b9f6b1eab65a5ad94b61aa6d3c7090950e54708a22b9630e",
+            "bytes": 575122,
+            "pages": 43
+          },
+          "boundary": {
+            "sha256": "5415f4f4992e3229962bcf4b69e1d1b0a4388117c454723a95e4107a6a8f4693",
+            "bytes": 577793,
+            "pages": 43
+          }
+        },
+        "unchanged": true,
+        "note": "Before and after are the same bytes. Both equal the digests VF08 recorded and the digests each family's live RASTER_PASS receipt pins."
+      },
+      "perWidgetMeasurement": {
+        "method": "Every page of both fixtures rastered with pdftoppm at 150 dpi, greyscale, into /tmp, before the edit and again after the opt-in build; a pixel is ink below 200. The 22 button-widget rectangles were read from the pinned CN-10557 by content hash. The kit is 43 pages and both fixtures are 43 pages, so a widget's source page is its delivered page. The pinned form itself was rastered at the same settings and the same rectangles measured, so each rect is read against the form's OWN ink rather than against a threshold. Rasters deleted after measuring.",
+        "widgetsVF08Counted": 44,
+        "widgetsCountedHere": "44 per family: the same 22 rects on each of the two fixtures.",
+        "widgetsCleared": 0,
+        "pagesAffected": [
+          18,
+          19,
+          20,
+          21,
+          22,
+          24,
+          30,
+          32
+        ],
+        "pagesAffectedMatchVF08": true,
+        "pixelsChangedByTheOptIn": 0,
+        "changedPixelsOutsideEveryWidgetRect": 0,
+        "everyParticipantWriteAndIntendedMarkUnchanged": "Trivially: the delivered bytes did not move, so no write, mark or other pixel changed anywhere on any of the 43 pages.",
+        "widgets": [
+          {
+            "field": "dismiss",
+            "deliveredPage": 18,
+            "rectPts": {
+              "x": 33.793,
+              "y": 214.365,
+              "width": 18,
+              "height": 18
+            },
+            "inkAtRectBefore": 289,
+            "inkAtRectAfterTheOptIn": 289,
+            "inkAtRectInThePinnedOfficialForm": 185,
+            "extraInkOverTheOfficialForm": 104,
+            "cleared": false,
+            "reading": "the delivered rect still carries more ink than the pinned form's own ink at the same rect, by the perimeter of a synthesized square. The opt-in installed nothing here (skippedStateAlreadyDrawn), so the count did not move."
+          },
+          {
+            "field": "dismissPlea",
+            "deliveredPage": 18,
+            "rectPts": {
+              "x": 317.593,
+              "y": 159.98,
+              "width": 18,
+              "height": 17.333
+            },
+            "inkAtRectBefore": 330,
+            "inkAtRectAfterTheOptIn": 330,
+            "inkAtRectInThePinnedOfficialForm": 184,
+            "extraInkOverTheOfficialForm": 146,
+            "cleared": false,
+            "reading": "the delivered rect still carries more ink than the pinned form's own ink at the same rect, by the perimeter of a synthesized square. The opt-in installed nothing here (skippedStateAlreadyDrawn), so the count did not move."
+          },
+          {
+            "field": "dismissPlea",
+            "deliveredPage": 18,
+            "rectPts": {
+              "x": 368.621,
+              "y": 159.98,
+              "width": 18,
+              "height": 17.333
+            },
+            "inkAtRectBefore": 330,
+            "inkAtRectAfterTheOptIn": 330,
+            "inkAtRectInThePinnedOfficialForm": 184,
+            "extraInkOverTheOfficialForm": 146,
+            "cleared": false,
+            "reading": "the delivered rect still carries more ink than the pinned form's own ink at the same rect, by the perimeter of a synthesized square. The opt-in installed nothing here (skippedStateAlreadyDrawn), so the count did not move."
+          },
+          {
+            "field": "acquit",
+            "deliveredPage": 18,
+            "rectPts": {
+              "x": 35.132,
+              "y": 128.949,
+              "width": 18,
+              "height": 18.001
+            },
+            "inkAtRectBefore": 288,
+            "inkAtRectAfterTheOptIn": 288,
+            "inkAtRectInThePinnedOfficialForm": 141,
+            "extraInkOverTheOfficialForm": 147,
+            "cleared": false,
+            "reading": "the delivered rect still carries more ink than the pinned form's own ink at the same rect, by the perimeter of a synthesized square. The opt-in installed nothing here (skippedStateAlreadyDrawn), so the count did not move."
+          },
+          {
+            "field": "dismissPti",
+            "deliveredPage": 19,
+            "rectPts": {
+              "x": 34.313,
+              "y": 707.901,
+              "width": 18,
+              "height": 18
+            },
+            "inkAtRectBefore": 246,
+            "inkAtRectAfterTheOptIn": 246,
+            "inkAtRectInThePinnedOfficialForm": 96,
+            "extraInkOverTheOfficialForm": 150,
+            "cleared": false,
+            "reading": "the delivered rect still carries more ink than the pinned form's own ink at the same rect, by the perimeter of a synthesized square. The opt-in installed nothing here (skippedStateAlreadyDrawn), so the count did not move."
+          },
+          {
+            "field": "guilty",
+            "deliveredPage": 19,
+            "rectPts": {
+              "x": 34.971,
+              "y": 591.363,
+              "width": 18,
+              "height": 18
+            },
+            "inkAtRectBefore": 528,
+            "inkAtRectAfterTheOptIn": 528,
+            "inkAtRectInThePinnedOfficialForm": 171,
+            "extraInkOverTheOfficialForm": 357,
+            "cleared": false,
+            "reading": "the delivered rect still carries more ink than the pinned form's own ink at the same rect, by the perimeter of a synthesized square. The opt-in installed nothing here (skippedStateAlreadyDrawn), so the count did not move."
+          },
+          {
+            "field": "contOwe",
+            "deliveredPage": 19,
+            "rectPts": {
+              "x": 33.031,
+              "y": 416.859,
+              "width": 18,
+              "height": 18
+            },
+            "inkAtRectBefore": 246,
+            "inkAtRectAfterTheOptIn": 246,
+            "inkAtRectInThePinnedOfficialForm": 96,
+            "extraInkOverTheOfficialForm": 150,
+            "cleared": false,
+            "reading": "the delivered rect still carries more ink than the pinned form's own ink at the same rect, by the perimeter of a synthesized square. The opt-in installed nothing here (skippedStateAlreadyDrawn), so the count did not move."
+          },
+          {
+            "field": "contOwe",
+            "deliveredPage": 21,
+            "rectPts": {
+              "x": 33.934,
+              "y": 678.768,
+              "width": 18,
+              "height": 18
+            },
+            "inkAtRectBefore": 246,
+            "inkAtRectAfterTheOptIn": 246,
+            "inkAtRectInThePinnedOfficialForm": 96,
+            "extraInkOverTheOfficialForm": 150,
+            "cleared": false,
+            "reading": "the delivered rect still carries more ink than the pinned form's own ink at the same rect, by the perimeter of a synthesized square. The opt-in installed nothing here (skippedStateAlreadyDrawn), so the count did not move."
+          },
+          {
+            "field": "contDismiss",
+            "deliveredPage": 20,
+            "rectPts": {
+              "x": 34.588,
+              "y": 468.558,
+              "width": 18,
+              "height": 18
+            },
+            "inkAtRectBefore": 244,
+            "inkAtRectAfterTheOptIn": 244,
+            "inkAtRectInThePinnedOfficialForm": 96,
+            "extraInkOverTheOfficialForm": 148,
+            "cleared": false,
+            "reading": "the delivered rect still carries more ink than the pinned form's own ink at the same rect, by the perimeter of a synthesized square. The opt-in installed nothing here (skippedStateAlreadyDrawn), so the count did not move."
+          },
+          {
+            "field": "contDismissPlea",
+            "deliveredPage": 20,
+            "rectPts": {
+              "x": 372.429,
+              "y": 418.12,
+              "width": 18,
+              "height": 13.657
+            },
+            "inkAtRectBefore": 228,
+            "inkAtRectAfterTheOptIn": 228,
+            "inkAtRectInThePinnedOfficialForm": 96,
+            "extraInkOverTheOfficialForm": 132,
+            "cleared": false,
+            "reading": "the delivered rect still carries more ink than the pinned form's own ink at the same rect, by the perimeter of a synthesized square. The opt-in installed nothing here (skippedStateAlreadyDrawn), so the count did not move."
+          },
+          {
+            "field": "contDismissPlea",
+            "deliveredPage": 20,
+            "rectPts": {
+              "x": 421.266,
+              "y": 417.617,
+              "width": 18,
+              "height": 13.656
+            },
+            "inkAtRectBefore": 228,
+            "inkAtRectAfterTheOptIn": 228,
+            "inkAtRectInThePinnedOfficialForm": 96,
+            "extraInkOverTheOfficialForm": 132,
+            "cleared": false,
+            "reading": "the delivered rect still carries more ink than the pinned form's own ink at the same rect, by the perimeter of a synthesized square. The opt-in installed nothing here (skippedStateAlreadyDrawn), so the count did not move."
+          },
+          {
+            "field": "contAcquit",
+            "deliveredPage": 20,
+            "rectPts": {
+              "x": 33.005,
+              "y": 384.231,
+              "width": 18,
+              "height": 18
+            },
+            "inkAtRectBefore": 246,
+            "inkAtRectAfterTheOptIn": 246,
+            "inkAtRectInThePinnedOfficialForm": 96,
+            "extraInkOverTheOfficialForm": 150,
+            "cleared": false,
+            "reading": "the delivered rect still carries more ink than the pinned form's own ink at the same rect, by the perimeter of a synthesized square. The opt-in installed nothing here (skippedStateAlreadyDrawn), so the count did not move."
+          },
+          {
+            "field": "contDismissPti",
+            "deliveredPage": 20,
+            "rectPts": {
+              "x": 33.474,
+              "y": 298.343,
+              "width": 18,
+              "height": 18
+            },
+            "inkAtRectBefore": 296,
+            "inkAtRectAfterTheOptIn": 296,
+            "inkAtRectInThePinnedOfficialForm": 144,
+            "extraInkOverTheOfficialForm": 152,
+            "cleared": false,
+            "reading": "the delivered rect still carries more ink than the pinned form's own ink at the same rect, by the perimeter of a synthesized square. The opt-in installed nothing here (skippedStateAlreadyDrawn), so the count did not move."
+          },
+          {
+            "field": "contGuilty",
+            "deliveredPage": 20,
+            "rectPts": {
+              "x": 36.291,
+              "y": 180.541,
+              "width": 18,
+              "height": 18
+            },
+            "inkAtRectBefore": 294,
+            "inkAtRectAfterTheOptIn": 294,
+            "inkAtRectInThePinnedOfficialForm": 144,
+            "extraInkOverTheOfficialForm": 150,
+            "cleared": false,
+            "reading": "the delivered rect still carries more ink than the pinned form's own ink at the same rect, by the perimeter of a synthesized square. The opt-in installed nothing here (skippedStateAlreadyDrawn), so the count did not move."
+          },
+          {
+            "field": "seek5yrs",
+            "deliveredPage": 22,
+            "rectPts": {
+              "x": 100.901,
+              "y": 598.238,
+              "width": 18,
+              "height": 18
+            },
+            "inkAtRectBefore": 317,
+            "inkAtRectAfterTheOptIn": 317,
+            "inkAtRectInThePinnedOfficialForm": 169,
+            "extraInkOverTheOfficialForm": 148,
+            "cleared": false,
+            "reading": "the delivered rect still carries more ink than the pinned form's own ink at the same rect, by the perimeter of a synthesized square. The opt-in installed nothing here (skippedStateAlreadyDrawn), so the count did not move."
+          },
+          {
+            "field": "seek34degree",
+            "deliveredPage": 22,
+            "rectPts": {
+              "x": 100.589,
+              "y": 362.01,
+              "width": 18,
+              "height": 18
+            },
+            "inkAtRectBefore": 319,
+            "inkAtRectAfterTheOptIn": 319,
+            "inkAtRectInThePinnedOfficialForm": 169,
+            "extraInkOverTheOfficialForm": 150,
+            "cleared": false,
+            "reading": "the delivered rect still carries more ink than the pinned form's own ink at the same rect, by the perimeter of a synthesized square. The opt-in installed nothing here (skippedStateAlreadyDrawn), so the count did not move."
+          },
+          {
+            "field": "seekJuvNever",
+            "deliveredPage": 24,
+            "rectPts": {
+              "x": 106.147,
+              "y": 522.421,
+              "width": 18,
+              "height": 18
+            },
+            "inkAtRectBefore": 349,
+            "inkAtRectAfterTheOptIn": 349,
+            "inkAtRectInThePinnedOfficialForm": 201,
+            "extraInkOverTheOfficialForm": 148,
+            "cleared": false,
+            "reading": "the delivered rect still carries more ink than the pinned form's own ink at the same rect, by the perimeter of a synthesized square. The opt-in installed nothing here (skippedStateAlreadyDrawn), so the count did not move."
+          },
+          {
+            "field": "changeName",
+            "deliveredPage": 24,
+            "rectPts": {
+              "x": 106.909,
+              "y": 425.294,
+              "width": 18,
+              "height": 18
+            },
+            "inkAtRectBefore": 321,
+            "inkAtRectAfterTheOptIn": 321,
+            "inkAtRectInThePinnedOfficialForm": 171,
+            "extraInkOverTheOfficialForm": 150,
+            "cleared": false,
+            "reading": "the delivered rect still carries more ink than the pinned form's own ink at the same rect, by the perimeter of a synthesized square. The opt-in installed nothing here (skippedStateAlreadyDrawn), so the count did not move."
+          },
+          {
+            "field": "gradDC",
+            "deliveredPage": 30,
+            "rectPts": {
+              "x": 322.524,
+              "y": 459.931,
+              "width": 18,
+              "height": 18
+            },
+            "inkAtRectBefore": 294,
+            "inkAtRectAfterTheOptIn": 294,
+            "inkAtRectInThePinnedOfficialForm": 144,
+            "extraInkOverTheOfficialForm": 150,
+            "cleared": false,
+            "reading": "the delivered rect still carries more ink than the pinned form's own ink at the same rect, by the perimeter of a synthesized square. The opt-in installed nothing here (skippedStateAlreadyDrawn), so the count did not move."
+          },
+          {
+            "field": "marijuana",
+            "deliveredPage": 30,
+            "rectPts": {
+              "x": 323.35,
+              "y": 409,
+              "width": 18,
+              "height": 18
+            },
+            "inkAtRectBefore": 294,
+            "inkAtRectAfterTheOptIn": 294,
+            "inkAtRectInThePinnedOfficialForm": 144,
+            "extraInkOverTheOfficialForm": 150,
+            "cleared": false,
+            "reading": "the delivered rect still carries more ink than the pinned form's own ink at the same rect, by the perimeter of a synthesized square. The opt-in installed nothing here (skippedStateAlreadyDrawn), so the count did not move."
+          },
+          {
+            "field": "cleanSlate",
+            "deliveredPage": 30,
+            "rectPts": {
+              "x": 323.634,
+              "y": 358.016,
+              "width": 18,
+              "height": 18
+            },
+            "inkAtRectBefore": 294,
+            "inkAtRectAfterTheOptIn": 294,
+            "inkAtRectInThePinnedOfficialForm": 144,
+            "extraInkOverTheOfficialForm": 150,
+            "cleared": false,
+            "reading": "the delivered rect still carries more ink than the pinned form's own ink at the same rect, by the perimeter of a synthesized square. The opt-in installed nothing here (skippedStateAlreadyDrawn), so the count did not move."
+          },
+          {
+            "field": "jdmnt",
+            "deliveredPage": 32,
+            "rectPts": {
+              "x": 71.505,
+              "y": 663.474,
+              "width": 18.0,
+              "height": 18
+            },
+            "inkAtRectBefore": 321,
+            "inkAtRectAfterTheOptIn": 321,
+            "inkAtRectInThePinnedOfficialForm": 171,
+            "extraInkOverTheOfficialForm": 150,
+            "cleared": false,
+            "reading": "the delivered rect still carries more ink than the pinned form's own ink at the same rect, by the perimeter of a synthesized square. The opt-in installed nothing here (skippedStateAlreadyDrawn), so the count did not move."
+          }
+        ]
+      },
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersNote": "Nine zeros before and nine zeros after, on unchanged bytes. This is not evidence of a repair and no counter could ever have seen this defect: the counters read the field map and the square was never a declared write.",
+      "verifiers": {
+        "verify-packet-completeness.mjs": {
+          "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nj_disorderly_persons-set",
+          "result": "PASS_COMPLETE, nine counters zero",
+          "exitCode": 0,
+          "runBeforeAndAfter": true
+        },
+        "verify-identity-refresh-survives-rebuild.mjs": {
+          "command": "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs",
+          "result": "EVERY_IDENTITY_REFRESH_SURVIVED, 249 receipts compared against HEAD, 53 carrying an identityRefresh",
+          "exitCode": 0
+        },
+        "verify-source-carried-values-are-dispositioned.mjs": {
+          "command": "node scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs",
+          "result": "EVERY_SOURCE_CARRIED_VALUE_IS_DISPOSITIONED",
+          "exitCode": 0
+        }
+      },
+      "preflight": {
+        "command": "MASTER_LIBRARY_SOURCE_DIR=<mounted Master Library> node scripts/verify-packet-build-environment.mjs --family nj_disorderly_persons-set --codex-cloud --minimum-captain-sha 760c6285d",
+        "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 13/14 passed, 1 failed, 3 not applicable",
+        "theOneFailure": "corpus_matches_committed_index: 1 absent, 0 mismatched of 24 sampled. The same single gap VF02 and FIX50 recorded, and it is not a New Jersey entry: family_sources_bind passes 1/1 by exact SHA-256 and CN-10557 was re-resolved by content hash in this container.",
+        "notApplicable": "the three rasterizer and browser checks; this lane renders nothing centrally and its rasters are local measurement only.",
+        "worktree": "/home/user/fix57-worktree, branch fix57-nj-optin from 760c6285d on claude/legalease-sprint-captain-utucnw. core.sparseCheckout false, 0 skip-worktree bits, worktree clean. private/ is a real directory of read-only symlinks into the mounted corpus; node_modules symlinked to the captain worktree. node 22.22.2, pdf-lib 1.17.1."
+      },
+      "queuesTouched": "none. RASTER_QUEUE.json and MASTER_QUEUE.json were read and never opened for writing.",
+      "legalRecordsTouched": "none.",
+      "productWiring": "not edited. No acceptance receipt was created and VF08's FAIL_REPAIR_REQUIRED still stands on these bytes, correctly.",
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "acceptanceReceipt": null,
+      "whatWasNotDone": [
+        "CENTRAL RASTER ON THE NEW BYTES. Not run, and there are no new bytes to run it on: this lane delivered none. The local pdftoppm rasters behind the measurement above are measurement in this container only and were deleted.",
+        "INDEPENDENT VERIFICATION. None. This lane made the change, measured it and reverted it; nothing here is a verdict, and CLIPPING_AND_OVERLAP remains open on all three families."
+      ],
+      "grantsNothing": "This row repairs nothing, promotes nothing, opens no route and clears no obligation. It records why the shared opt-in does not reach this defect on this host, and where the defect is actually produced."
+    },
+    {
+      "itemId": "nj_indictable_conviction-set",
+      "familyId": "nj_indictable_conviction-set",
+      "jurisdiction": "NJ",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill",
+      "status": "STOPPED_OPTION_DOES_NOT_REACH_THE_DEFECT_ON_THIS_HOST",
+      "statusReason": "The opt-in was made exactly as Vermont's is -- one option, suppressSynthesizedAppearances, carried per document through finalizeOfficialForm, default-off for every other caller -- and it changed not one byte of this family's fixtures, because on this host the synthesized square is already painted BEFORE the finalizer is called. scripts/build-census-v1-nj_arrest_no_conviction-set.mjs finalizeEastOfficialForm neutralizes the source's choices (deletes /V and /DV, forces every button widget to /AS /Off) and then writes preparedSourceBytes with sourceDoc.save({ useObjectStreams: false, updateMetadata: false }). pdf-lib's save() defaults updateFieldAppearances to true, so it regenerates an appearance for exactly the condition FIX50 describes -- a current /AS state with no stream in /AP /N -- and stamps a stroked square into /AP /N /Off of all 22 widgets in the bytes the finalizer then receives. By the time suppressSynthesizedSelectionAppearances runs, every widget's current state already has a stream, so it correctly installs nothing: installedCount 0, skippedStateAlreadyDrawn 22, on both fixtures. Measured directly on the pinned source in this container: saving the neutralized document with the pdf-lib default gives 22 of 22 widgets an /Off stream; saving it with updateFieldAppearances: false gives 0 of 22. Clearing the square here therefore needs a change to the host's own pre-finalize save, which is not the one option this assignment authorizes and is not made. The builder edit was reverted; the three family directories are byte-identical to base 760c6285d.",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "obligationsRepaired": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "obligationsRepairedNote": "Claimed and worked as the one obligation this lane holds. It is NOT delivered on these bytes: the status above is STOPPED and the per-widget measurement below shows the square still present. The name is recorded here because it is what this lane opted the family in to repair and what a later lane must finish, never as a discharge.",
+      "obligationsThisRowDoesNotDischarge": [
+        "RASTER. No central raster was run and none is owed on new bytes, because this lane produced no new bytes. Each family's standing RASTER_PASS receipt still binds the fixtures on disk exactly, since those fixtures did not move. RASTER_QUEUE.json and MASTER_QUEUE.json were read and never opened for writing.",
+        "INDEPENDENT VERIFICATION. None. This lane made and reverted a change on the shared host and measured these families itself, so it verifies nothing. No verdict was written or replaced and no acceptance receipt was created.",
+        "THE OTHER FAMILIES ON THIS HOST. nj_arrest_no_conviction-set, nj_clean_slate-set and the two New York families share finalizeEastOfficialForm and the same pre-finalize save, so the same square is expected on any of them that ships a widget without an /Off appearance. None was claimed, opened for writing, measured or rebuilt here, and nothing in this row should be read as clearing or condemning them.",
+        "THE HOST-LEVEL FIX ITSELF. Passing updateFieldAppearances: false to the neutralization save in scripts/build-census-v1-nj_arrest_no_conviction-set.mjs, or otherwise moving the square's birth to a point the opt-in can reach, is the change these three families need. It is a change to the host's write path rather than one option through the finalizer, it would move the bytes of every family the host builds, and it is left to whoever holds that decision.",
+        "A PRE-EXISTING TEXT DRIFT FOUND IN PASSING. At base 760c6285d, with no source change at all, rebuilding any of the three families rewrites participant-instructions.md and reports/actual-writes.json: the committed text is missing a 'Values this platform holds but did not print' section the current host emits, and its actual-writes refusal rows differ. Reproduced with the working tree clean before this lane edited anything, so it is not introduced here; it is reported and not repaired, and the tree was restored."
+      ],
+      "grantConfirmed": {
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX57 nj_indictable_conviction-set",
+        "exitCode": 0,
+        "output": "CLAIM_OK FIX57 nj_indictable_conviction-set (repair, grant set e65ade4647fc32cb)",
+        "assertedBeforeAnyFamilyArtifactWasOpened": true
+      },
+      "fixtureHashCheckAgainstVF08": {
+        "recordedBy": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json and vf08/COHORT_MEASUREMENT.json",
+        "canonicalMatches": true,
+        "boundaryMatches": true,
+        "note": "Both fixtures recomputed byte-exact from disk before the builder was touched, and again after the revert."
+      },
+      "buildHost": "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs (runEastFamily / finalizeEastOfficialForm)",
+      "builderEntryPoint": "scripts/build-census-v1-nj_indictable_conviction-set.mjs",
+      "whatChanged": {
+        "onDisk": "NOTHING. Every file of this family directory is byte-identical to base 760c6285d, proved by a sha256 of all 5438 files under data/rcap-all50/overlays/census-v1 taken before the edit and again after the revert: zero differences.",
+        "whatWasTried": "One option, per document and default-off, in the pattern of alignWidgetFontSizeToFit and fitTextPerWidget already on this host: suppressSynthesizedAppearances: true on this family's document entry, forwarded at both finalizeEastOfficialForm call sites as doc.suppressSynthesizedAppearances === true. No field map, no write, no participant text and no other family's configuration was touched.",
+        "whyItWasReverted": "It moved no byte, so leaving it in would put an inert flag on a shared host and read as a repair that was not made. The tree carries no half-repair.",
+        "whereTheSquareIsActuallyBorn": "finalizeEastOfficialForm's own neutralization save. sourceDoc.save({ useObjectStreams: false, updateMetadata: false }) leaves pdf-lib's updateFieldAppearances at its default true, and pdf-lib synthesizes the /Off appearance there, into preparedSourceBytes, before finalizeOfficialForm is entered.",
+        "measuredOnThePinnedSourceInThisContainer": {
+          "sourceSha256": "c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7",
+          "buttonWidgets": 22,
+          "widgetsShippingAnOffAppearanceInTheSource": 0,
+          "statesTheSourceShips": [
+            "/Yes",
+            "/yes",
+            "/No"
+          ],
+          "afterTheNeutralizationSaveWithPdfLibsDefault": "22 of 22 widgets carry an /Off stream",
+          "afterTheSameSaveWithUpdateFieldAppearancesFalse": "0 of 22 widgets carry an /Off stream"
+        },
+        "sanitizeReportUnderTheOptIn": {
+          "installedCount": 0,
+          "skippedStateAlreadyDrawn": 22,
+          "skippedWritten": 0,
+          "skippedNoAppearanceState": 0,
+          "skippedNonDictionaryAppearance": 0,
+          "onBothFixtures": true
+        }
+      },
+      "rebuild": {
+        "command": "MASTER_LIBRARY_SOURCE_DIR=<mounted Master Library> node scripts/build-census-v1-nj_indictable_conviction-set.mjs",
+        "exit": 0,
+        "runTwice": "Built with the opt-in, the whole family directory copied aside, built again and diffed with diff -r: zero differences. The build is deterministic under the option.",
+        "effectOnTheDeliveredPdfs": "none: both fixtures hashed identically before and after the opt-in build."
+      },
+      "digests": {
+        "before": {
+          "canonical": {
+            "sha256": "343407a30f38beffccde4c51b8060065bd6eed27356a999d8e321e01a1baca33",
+            "bytes": 575116,
+            "pages": 43
+          },
+          "boundary": {
+            "sha256": "6256ba7f621c25a8f8a501c0a9af0191c151074fc8d3b2bb6ff2ef36354788ea",
+            "bytes": 577786,
+            "pages": 43
+          }
+        },
+        "after": {
+          "canonical": {
+            "sha256": "343407a30f38beffccde4c51b8060065bd6eed27356a999d8e321e01a1baca33",
+            "bytes": 575116,
+            "pages": 43
+          },
+          "boundary": {
+            "sha256": "6256ba7f621c25a8f8a501c0a9af0191c151074fc8d3b2bb6ff2ef36354788ea",
+            "bytes": 577786,
+            "pages": 43
+          }
+        },
+        "unchanged": true,
+        "note": "Before and after are the same bytes. Both equal the digests VF08 recorded and the digests each family's live RASTER_PASS receipt pins."
+      },
+      "perWidgetMeasurement": {
+        "method": "Every page of both fixtures rastered with pdftoppm at 150 dpi, greyscale, into /tmp, before the edit and again after the opt-in build; a pixel is ink below 200. The 22 button-widget rectangles were read from the pinned CN-10557 by content hash. The kit is 43 pages and both fixtures are 43 pages, so a widget's source page is its delivered page. The pinned form itself was rastered at the same settings and the same rectangles measured, so each rect is read against the form's OWN ink rather than against a threshold. Rasters deleted after measuring.",
+        "widgetsVF08Counted": 44,
+        "widgetsCountedHere": "44 per family: the same 22 rects on each of the two fixtures.",
+        "widgetsCleared": 0,
+        "pagesAffected": [
+          18,
+          19,
+          20,
+          21,
+          22,
+          24,
+          30,
+          32
+        ],
+        "pagesAffectedMatchVF08": true,
+        "pixelsChangedByTheOptIn": 0,
+        "changedPixelsOutsideEveryWidgetRect": 0,
+        "everyParticipantWriteAndIntendedMarkUnchanged": "Trivially: the delivered bytes did not move, so no write, mark or other pixel changed anywhere on any of the 43 pages.",
+        "widgets": [
+          {
+            "field": "dismiss",
+            "deliveredPage": 18,
+            "rectPts": {
+              "x": 33.793,
+              "y": 214.365,
+              "width": 18,
+              "height": 18
+            },
+            "inkAtRectBefore": 289,
+            "inkAtRectAfterTheOptIn": 289,
+            "inkAtRectInThePinnedOfficialForm": 185,
+            "extraInkOverTheOfficialForm": 104,
+            "cleared": false,
+            "reading": "the delivered rect still carries more ink than the pinned form's own ink at the same rect, by the perimeter of a synthesized square. The opt-in installed nothing here (skippedStateAlreadyDrawn), so the count did not move."
+          },
+          {
+            "field": "dismissPlea",
+            "deliveredPage": 18,
+            "rectPts": {
+              "x": 317.593,
+              "y": 159.98,
+              "width": 18,
+              "height": 17.333
+            },
+            "inkAtRectBefore": 330,
+            "inkAtRectAfterTheOptIn": 330,
+            "inkAtRectInThePinnedOfficialForm": 184,
+            "extraInkOverTheOfficialForm": 146,
+            "cleared": false,
+            "reading": "the delivered rect still carries more ink than the pinned form's own ink at the same rect, by the perimeter of a synthesized square. The opt-in installed nothing here (skippedStateAlreadyDrawn), so the count did not move."
+          },
+          {
+            "field": "dismissPlea",
+            "deliveredPage": 18,
+            "rectPts": {
+              "x": 368.621,
+              "y": 159.98,
+              "width": 18,
+              "height": 17.333
+            },
+            "inkAtRectBefore": 330,
+            "inkAtRectAfterTheOptIn": 330,
+            "inkAtRectInThePinnedOfficialForm": 184,
+            "extraInkOverTheOfficialForm": 146,
+            "cleared": false,
+            "reading": "the delivered rect still carries more ink than the pinned form's own ink at the same rect, by the perimeter of a synthesized square. The opt-in installed nothing here (skippedStateAlreadyDrawn), so the count did not move."
+          },
+          {
+            "field": "acquit",
+            "deliveredPage": 18,
+            "rectPts": {
+              "x": 35.132,
+              "y": 128.949,
+              "width": 18,
+              "height": 18.001
+            },
+            "inkAtRectBefore": 288,
+            "inkAtRectAfterTheOptIn": 288,
+            "inkAtRectInThePinnedOfficialForm": 141,
+            "extraInkOverTheOfficialForm": 147,
+            "cleared": false,
+            "reading": "the delivered rect still carries more ink than the pinned form's own ink at the same rect, by the perimeter of a synthesized square. The opt-in installed nothing here (skippedStateAlreadyDrawn), so the count did not move."
+          },
+          {
+            "field": "dismissPti",
+            "deliveredPage": 19,
+            "rectPts": {
+              "x": 34.313,
+              "y": 707.901,
+              "width": 18,
+              "height": 18
+            },
+            "inkAtRectBefore": 246,
+            "inkAtRectAfterTheOptIn": 246,
+            "inkAtRectInThePinnedOfficialForm": 96,
+            "extraInkOverTheOfficialForm": 150,
+            "cleared": false,
+            "reading": "the delivered rect still carries more ink than the pinned form's own ink at the same rect, by the perimeter of a synthesized square. The opt-in installed nothing here (skippedStateAlreadyDrawn), so the count did not move."
+          },
+          {
+            "field": "guilty",
+            "deliveredPage": 19,
+            "rectPts": {
+              "x": 34.971,
+              "y": 591.363,
+              "width": 18,
+              "height": 18
+            },
+            "inkAtRectBefore": 528,
+            "inkAtRectAfterTheOptIn": 528,
+            "inkAtRectInThePinnedOfficialForm": 171,
+            "extraInkOverTheOfficialForm": 357,
+            "cleared": false,
+            "reading": "the delivered rect still carries more ink than the pinned form's own ink at the same rect, by the perimeter of a synthesized square. The opt-in installed nothing here (skippedStateAlreadyDrawn), so the count did not move."
+          },
+          {
+            "field": "contOwe",
+            "deliveredPage": 19,
+            "rectPts": {
+              "x": 33.031,
+              "y": 416.859,
+              "width": 18,
+              "height": 18
+            },
+            "inkAtRectBefore": 246,
+            "inkAtRectAfterTheOptIn": 246,
+            "inkAtRectInThePinnedOfficialForm": 96,
+            "extraInkOverTheOfficialForm": 150,
+            "cleared": false,
+            "reading": "the delivered rect still carries more ink than the pinned form's own ink at the same rect, by the perimeter of a synthesized square. The opt-in installed nothing here (skippedStateAlreadyDrawn), so the count did not move."
+          },
+          {
+            "field": "contOwe",
+            "deliveredPage": 21,
+            "rectPts": {
+              "x": 33.934,
+              "y": 678.768,
+              "width": 18,
+              "height": 18
+            },
+            "inkAtRectBefore": 246,
+            "inkAtRectAfterTheOptIn": 246,
+            "inkAtRectInThePinnedOfficialForm": 96,
+            "extraInkOverTheOfficialForm": 150,
+            "cleared": false,
+            "reading": "the delivered rect still carries more ink than the pinned form's own ink at the same rect, by the perimeter of a synthesized square. The opt-in installed nothing here (skippedStateAlreadyDrawn), so the count did not move."
+          },
+          {
+            "field": "contDismiss",
+            "deliveredPage": 20,
+            "rectPts": {
+              "x": 34.588,
+              "y": 468.558,
+              "width": 18,
+              "height": 18
+            },
+            "inkAtRectBefore": 244,
+            "inkAtRectAfterTheOptIn": 244,
+            "inkAtRectInThePinnedOfficialForm": 96,
+            "extraInkOverTheOfficialForm": 148,
+            "cleared": false,
+            "reading": "the delivered rect still carries more ink than the pinned form's own ink at the same rect, by the perimeter of a synthesized square. The opt-in installed nothing here (skippedStateAlreadyDrawn), so the count did not move."
+          },
+          {
+            "field": "contDismissPlea",
+            "deliveredPage": 20,
+            "rectPts": {
+              "x": 372.429,
+              "y": 418.12,
+              "width": 18,
+              "height": 13.657
+            },
+            "inkAtRectBefore": 228,
+            "inkAtRectAfterTheOptIn": 228,
+            "inkAtRectInThePinnedOfficialForm": 96,
+            "extraInkOverTheOfficialForm": 132,
+            "cleared": false,
+            "reading": "the delivered rect still carries more ink than the pinned form's own ink at the same rect, by the perimeter of a synthesized square. The opt-in installed nothing here (skippedStateAlreadyDrawn), so the count did not move."
+          },
+          {
+            "field": "contDismissPlea",
+            "deliveredPage": 20,
+            "rectPts": {
+              "x": 421.266,
+              "y": 417.617,
+              "width": 18,
+              "height": 13.656
+            },
+            "inkAtRectBefore": 228,
+            "inkAtRectAfterTheOptIn": 228,
+            "inkAtRectInThePinnedOfficialForm": 96,
+            "extraInkOverTheOfficialForm": 132,
+            "cleared": false,
+            "reading": "the delivered rect still carries more ink than the pinned form's own ink at the same rect, by the perimeter of a synthesized square. The opt-in installed nothing here (skippedStateAlreadyDrawn), so the count did not move."
+          },
+          {
+            "field": "contAcquit",
+            "deliveredPage": 20,
+            "rectPts": {
+              "x": 33.005,
+              "y": 384.231,
+              "width": 18,
+              "height": 18
+            },
+            "inkAtRectBefore": 246,
+            "inkAtRectAfterTheOptIn": 246,
+            "inkAtRectInThePinnedOfficialForm": 96,
+            "extraInkOverTheOfficialForm": 150,
+            "cleared": false,
+            "reading": "the delivered rect still carries more ink than the pinned form's own ink at the same rect, by the perimeter of a synthesized square. The opt-in installed nothing here (skippedStateAlreadyDrawn), so the count did not move."
+          },
+          {
+            "field": "contDismissPti",
+            "deliveredPage": 20,
+            "rectPts": {
+              "x": 33.474,
+              "y": 298.343,
+              "width": 18,
+              "height": 18
+            },
+            "inkAtRectBefore": 296,
+            "inkAtRectAfterTheOptIn": 296,
+            "inkAtRectInThePinnedOfficialForm": 144,
+            "extraInkOverTheOfficialForm": 152,
+            "cleared": false,
+            "reading": "the delivered rect still carries more ink than the pinned form's own ink at the same rect, by the perimeter of a synthesized square. The opt-in installed nothing here (skippedStateAlreadyDrawn), so the count did not move."
+          },
+          {
+            "field": "contGuilty",
+            "deliveredPage": 20,
+            "rectPts": {
+              "x": 36.291,
+              "y": 180.541,
+              "width": 18,
+              "height": 18
+            },
+            "inkAtRectBefore": 294,
+            "inkAtRectAfterTheOptIn": 294,
+            "inkAtRectInThePinnedOfficialForm": 144,
+            "extraInkOverTheOfficialForm": 150,
+            "cleared": false,
+            "reading": "the delivered rect still carries more ink than the pinned form's own ink at the same rect, by the perimeter of a synthesized square. The opt-in installed nothing here (skippedStateAlreadyDrawn), so the count did not move."
+          },
+          {
+            "field": "seek5yrs",
+            "deliveredPage": 22,
+            "rectPts": {
+              "x": 100.901,
+              "y": 598.238,
+              "width": 18,
+              "height": 18
+            },
+            "inkAtRectBefore": 317,
+            "inkAtRectAfterTheOptIn": 317,
+            "inkAtRectInThePinnedOfficialForm": 169,
+            "extraInkOverTheOfficialForm": 148,
+            "cleared": false,
+            "reading": "the delivered rect still carries more ink than the pinned form's own ink at the same rect, by the perimeter of a synthesized square. The opt-in installed nothing here (skippedStateAlreadyDrawn), so the count did not move."
+          },
+          {
+            "field": "seek34degree",
+            "deliveredPage": 22,
+            "rectPts": {
+              "x": 100.589,
+              "y": 362.01,
+              "width": 18,
+              "height": 18
+            },
+            "inkAtRectBefore": 319,
+            "inkAtRectAfterTheOptIn": 319,
+            "inkAtRectInThePinnedOfficialForm": 169,
+            "extraInkOverTheOfficialForm": 150,
+            "cleared": false,
+            "reading": "the delivered rect still carries more ink than the pinned form's own ink at the same rect, by the perimeter of a synthesized square. The opt-in installed nothing here (skippedStateAlreadyDrawn), so the count did not move."
+          },
+          {
+            "field": "seekJuvNever",
+            "deliveredPage": 24,
+            "rectPts": {
+              "x": 106.147,
+              "y": 522.421,
+              "width": 18,
+              "height": 18
+            },
+            "inkAtRectBefore": 349,
+            "inkAtRectAfterTheOptIn": 349,
+            "inkAtRectInThePinnedOfficialForm": 201,
+            "extraInkOverTheOfficialForm": 148,
+            "cleared": false,
+            "reading": "the delivered rect still carries more ink than the pinned form's own ink at the same rect, by the perimeter of a synthesized square. The opt-in installed nothing here (skippedStateAlreadyDrawn), so the count did not move."
+          },
+          {
+            "field": "changeName",
+            "deliveredPage": 24,
+            "rectPts": {
+              "x": 106.909,
+              "y": 425.294,
+              "width": 18,
+              "height": 18
+            },
+            "inkAtRectBefore": 321,
+            "inkAtRectAfterTheOptIn": 321,
+            "inkAtRectInThePinnedOfficialForm": 171,
+            "extraInkOverTheOfficialForm": 150,
+            "cleared": false,
+            "reading": "the delivered rect still carries more ink than the pinned form's own ink at the same rect, by the perimeter of a synthesized square. The opt-in installed nothing here (skippedStateAlreadyDrawn), so the count did not move."
+          },
+          {
+            "field": "gradDC",
+            "deliveredPage": 30,
+            "rectPts": {
+              "x": 322.524,
+              "y": 459.931,
+              "width": 18,
+              "height": 18
+            },
+            "inkAtRectBefore": 294,
+            "inkAtRectAfterTheOptIn": 294,
+            "inkAtRectInThePinnedOfficialForm": 144,
+            "extraInkOverTheOfficialForm": 150,
+            "cleared": false,
+            "reading": "the delivered rect still carries more ink than the pinned form's own ink at the same rect, by the perimeter of a synthesized square. The opt-in installed nothing here (skippedStateAlreadyDrawn), so the count did not move."
+          },
+          {
+            "field": "marijuana",
+            "deliveredPage": 30,
+            "rectPts": {
+              "x": 323.35,
+              "y": 409,
+              "width": 18,
+              "height": 18
+            },
+            "inkAtRectBefore": 294,
+            "inkAtRectAfterTheOptIn": 294,
+            "inkAtRectInThePinnedOfficialForm": 144,
+            "extraInkOverTheOfficialForm": 150,
+            "cleared": false,
+            "reading": "the delivered rect still carries more ink than the pinned form's own ink at the same rect, by the perimeter of a synthesized square. The opt-in installed nothing here (skippedStateAlreadyDrawn), so the count did not move."
+          },
+          {
+            "field": "cleanSlate",
+            "deliveredPage": 30,
+            "rectPts": {
+              "x": 323.634,
+              "y": 358.016,
+              "width": 18,
+              "height": 18
+            },
+            "inkAtRectBefore": 294,
+            "inkAtRectAfterTheOptIn": 294,
+            "inkAtRectInThePinnedOfficialForm": 144,
+            "extraInkOverTheOfficialForm": 150,
+            "cleared": false,
+            "reading": "the delivered rect still carries more ink than the pinned form's own ink at the same rect, by the perimeter of a synthesized square. The opt-in installed nothing here (skippedStateAlreadyDrawn), so the count did not move."
+          },
+          {
+            "field": "jdmnt",
+            "deliveredPage": 32,
+            "rectPts": {
+              "x": 71.505,
+              "y": 663.474,
+              "width": 18.0,
+              "height": 18
+            },
+            "inkAtRectBefore": 321,
+            "inkAtRectAfterTheOptIn": 321,
+            "inkAtRectInThePinnedOfficialForm": 171,
+            "extraInkOverTheOfficialForm": 150,
+            "cleared": false,
+            "reading": "the delivered rect still carries more ink than the pinned form's own ink at the same rect, by the perimeter of a synthesized square. The opt-in installed nothing here (skippedStateAlreadyDrawn), so the count did not move."
+          }
+        ]
+      },
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersNote": "Nine zeros before and nine zeros after, on unchanged bytes. This is not evidence of a repair and no counter could ever have seen this defect: the counters read the field map and the square was never a declared write.",
+      "verifiers": {
+        "verify-packet-completeness.mjs": {
+          "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nj_indictable_conviction-set",
+          "result": "PASS_COMPLETE, nine counters zero",
+          "exitCode": 0,
+          "runBeforeAndAfter": true
+        },
+        "verify-identity-refresh-survives-rebuild.mjs": {
+          "command": "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs",
+          "result": "EVERY_IDENTITY_REFRESH_SURVIVED, 249 receipts compared against HEAD, 53 carrying an identityRefresh",
+          "exitCode": 0
+        },
+        "verify-source-carried-values-are-dispositioned.mjs": {
+          "command": "node scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs",
+          "result": "EVERY_SOURCE_CARRIED_VALUE_IS_DISPOSITIONED",
+          "exitCode": 0
+        }
+      },
+      "preflight": {
+        "command": "MASTER_LIBRARY_SOURCE_DIR=<mounted Master Library> node scripts/verify-packet-build-environment.mjs --family nj_indictable_conviction-set --codex-cloud --minimum-captain-sha 760c6285d",
+        "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 13/14 passed, 1 failed, 3 not applicable",
+        "theOneFailure": "corpus_matches_committed_index: 1 absent, 0 mismatched of 24 sampled. The same single gap VF02 and FIX50 recorded, and it is not a New Jersey entry: family_sources_bind passes 1/1 by exact SHA-256 and CN-10557 was re-resolved by content hash in this container.",
+        "notApplicable": "the three rasterizer and browser checks; this lane renders nothing centrally and its rasters are local measurement only.",
+        "worktree": "/home/user/fix57-worktree, branch fix57-nj-optin from 760c6285d on claude/legalease-sprint-captain-utucnw. core.sparseCheckout false, 0 skip-worktree bits, worktree clean. private/ is a real directory of read-only symlinks into the mounted corpus; node_modules symlinked to the captain worktree. node 22.22.2, pdf-lib 1.17.1."
+      },
+      "queuesTouched": "none. RASTER_QUEUE.json and MASTER_QUEUE.json were read and never opened for writing.",
+      "legalRecordsTouched": "none.",
+      "productWiring": "not edited. No acceptance receipt was created and VF08's FAIL_REPAIR_REQUIRED still stands on these bytes, correctly.",
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "acceptanceReceipt": null,
+      "whatWasNotDone": [
+        "CENTRAL RASTER ON THE NEW BYTES. Not run, and there are no new bytes to run it on: this lane delivered none. The local pdftoppm rasters behind the measurement above are measurement in this container only and were deleted.",
+        "INDEPENDENT VERIFICATION. None. This lane made the change, measured it and reverted it; nothing here is a verdict, and CLIPPING_AND_OVERLAP remains open on all three families."
+      ],
+      "grantsNothing": "This row repairs nothing, promotes nothing, opens no route and clears no obligation. It records why the shared opt-in does not reach this defect on this host, and where the defect is actually produced."
+    },
+    {
+      "itemId": "nj_ordinance-set",
+      "familyId": "nj_ordinance-set",
+      "jurisdiction": "NJ",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nj/nj-ordinance-set--official-pdf-fill",
+      "status": "STOPPED_OPTION_DOES_NOT_REACH_THE_DEFECT_ON_THIS_HOST",
+      "statusReason": "The opt-in was made exactly as Vermont's is -- one option, suppressSynthesizedAppearances, carried per document through finalizeOfficialForm, default-off for every other caller -- and it changed not one byte of this family's fixtures, because on this host the synthesized square is already painted BEFORE the finalizer is called. scripts/build-census-v1-nj_arrest_no_conviction-set.mjs finalizeEastOfficialForm neutralizes the source's choices (deletes /V and /DV, forces every button widget to /AS /Off) and then writes preparedSourceBytes with sourceDoc.save({ useObjectStreams: false, updateMetadata: false }). pdf-lib's save() defaults updateFieldAppearances to true, so it regenerates an appearance for exactly the condition FIX50 describes -- a current /AS state with no stream in /AP /N -- and stamps a stroked square into /AP /N /Off of all 22 widgets in the bytes the finalizer then receives. By the time suppressSynthesizedSelectionAppearances runs, every widget's current state already has a stream, so it correctly installs nothing: installedCount 0, skippedStateAlreadyDrawn 22, on both fixtures. Measured directly on the pinned source in this container: saving the neutralized document with the pdf-lib default gives 22 of 22 widgets an /Off stream; saving it with updateFieldAppearances: false gives 0 of 22. Clearing the square here therefore needs a change to the host's own pre-finalize save, which is not the one option this assignment authorizes and is not made. The builder edit was reverted; the three family directories are byte-identical to base 760c6285d.",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "obligationsRepaired": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "obligationsRepairedNote": "Claimed and worked as the one obligation this lane holds. It is NOT delivered on these bytes: the status above is STOPPED and the per-widget measurement below shows the square still present. The name is recorded here because it is what this lane opted the family in to repair and what a later lane must finish, never as a discharge.",
+      "obligationsThisRowDoesNotDischarge": [
+        "RASTER. No central raster was run and none is owed on new bytes, because this lane produced no new bytes. Each family's standing RASTER_PASS receipt still binds the fixtures on disk exactly, since those fixtures did not move. RASTER_QUEUE.json and MASTER_QUEUE.json were read and never opened for writing.",
+        "INDEPENDENT VERIFICATION. None. This lane made and reverted a change on the shared host and measured these families itself, so it verifies nothing. No verdict was written or replaced and no acceptance receipt was created.",
+        "THE OTHER FAMILIES ON THIS HOST. nj_arrest_no_conviction-set, nj_clean_slate-set and the two New York families share finalizeEastOfficialForm and the same pre-finalize save, so the same square is expected on any of them that ships a widget without an /Off appearance. None was claimed, opened for writing, measured or rebuilt here, and nothing in this row should be read as clearing or condemning them.",
+        "THE HOST-LEVEL FIX ITSELF. Passing updateFieldAppearances: false to the neutralization save in scripts/build-census-v1-nj_arrest_no_conviction-set.mjs, or otherwise moving the square's birth to a point the opt-in can reach, is the change these three families need. It is a change to the host's write path rather than one option through the finalizer, it would move the bytes of every family the host builds, and it is left to whoever holds that decision.",
+        "A PRE-EXISTING TEXT DRIFT FOUND IN PASSING. At base 760c6285d, with no source change at all, rebuilding any of the three families rewrites participant-instructions.md and reports/actual-writes.json: the committed text is missing a 'Values this platform holds but did not print' section the current host emits, and its actual-writes refusal rows differ. Reproduced with the working tree clean before this lane edited anything, so it is not introduced here; it is reported and not repaired, and the tree was restored."
+      ],
+      "grantConfirmed": {
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX57 nj_ordinance-set",
+        "exitCode": 0,
+        "output": "CLAIM_OK FIX57 nj_ordinance-set (repair, grant set e65ade4647fc32cb)",
+        "assertedBeforeAnyFamilyArtifactWasOpened": true
+      },
+      "fixtureHashCheckAgainstVF08": {
+        "recordedBy": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json and vf08/COHORT_MEASUREMENT.json",
+        "canonicalMatches": true,
+        "boundaryMatches": true,
+        "note": "Both fixtures recomputed byte-exact from disk before the builder was touched, and again after the revert."
+      },
+      "buildHost": "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs (runEastFamily / finalizeEastOfficialForm)",
+      "builderEntryPoint": "scripts/build-census-v1-nj_ordinance-set.mjs",
+      "whatChanged": {
+        "onDisk": "NOTHING. Every file of this family directory is byte-identical to base 760c6285d, proved by a sha256 of all 5438 files under data/rcap-all50/overlays/census-v1 taken before the edit and again after the revert: zero differences.",
+        "whatWasTried": "One option, per document and default-off, in the pattern of alignWidgetFontSizeToFit and fitTextPerWidget already on this host: suppressSynthesizedAppearances: true on this family's document entry, forwarded at both finalizeEastOfficialForm call sites as doc.suppressSynthesizedAppearances === true. No field map, no write, no participant text and no other family's configuration was touched.",
+        "whyItWasReverted": "It moved no byte, so leaving it in would put an inert flag on a shared host and read as a repair that was not made. The tree carries no half-repair.",
+        "whereTheSquareIsActuallyBorn": "finalizeEastOfficialForm's own neutralization save. sourceDoc.save({ useObjectStreams: false, updateMetadata: false }) leaves pdf-lib's updateFieldAppearances at its default true, and pdf-lib synthesizes the /Off appearance there, into preparedSourceBytes, before finalizeOfficialForm is entered.",
+        "measuredOnThePinnedSourceInThisContainer": {
+          "sourceSha256": "c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7",
+          "buttonWidgets": 22,
+          "widgetsShippingAnOffAppearanceInTheSource": 0,
+          "statesTheSourceShips": [
+            "/Yes",
+            "/yes",
+            "/No"
+          ],
+          "afterTheNeutralizationSaveWithPdfLibsDefault": "22 of 22 widgets carry an /Off stream",
+          "afterTheSameSaveWithUpdateFieldAppearancesFalse": "0 of 22 widgets carry an /Off stream"
+        },
+        "sanitizeReportUnderTheOptIn": {
+          "installedCount": 0,
+          "skippedStateAlreadyDrawn": 22,
+          "skippedWritten": 0,
+          "skippedNoAppearanceState": 0,
+          "skippedNonDictionaryAppearance": 0,
+          "onBothFixtures": true
+        }
+      },
+      "rebuild": {
+        "command": "MASTER_LIBRARY_SOURCE_DIR=<mounted Master Library> node scripts/build-census-v1-nj_ordinance-set.mjs",
+        "exit": 0,
+        "runTwice": "Built with the opt-in, the whole family directory copied aside, built again and diffed with diff -r: zero differences. The build is deterministic under the option.",
+        "effectOnTheDeliveredPdfs": "none: both fixtures hashed identically before and after the opt-in build."
+      },
+      "digests": {
+        "before": {
+          "canonical": {
+            "sha256": "343407a30f38beffccde4c51b8060065bd6eed27356a999d8e321e01a1baca33",
+            "bytes": 575116,
+            "pages": 43
+          },
+          "boundary": {
+            "sha256": "6256ba7f621c25a8f8a501c0a9af0191c151074fc8d3b2bb6ff2ef36354788ea",
+            "bytes": 577786,
+            "pages": 43
+          }
+        },
+        "after": {
+          "canonical": {
+            "sha256": "343407a30f38beffccde4c51b8060065bd6eed27356a999d8e321e01a1baca33",
+            "bytes": 575116,
+            "pages": 43
+          },
+          "boundary": {
+            "sha256": "6256ba7f621c25a8f8a501c0a9af0191c151074fc8d3b2bb6ff2ef36354788ea",
+            "bytes": 577786,
+            "pages": 43
+          }
+        },
+        "unchanged": true,
+        "note": "Before and after are the same bytes. Both equal the digests VF08 recorded and the digests each family's live RASTER_PASS receipt pins."
+      },
+      "perWidgetMeasurement": {
+        "method": "Every page of both fixtures rastered with pdftoppm at 150 dpi, greyscale, into /tmp, before the edit and again after the opt-in build; a pixel is ink below 200. The 22 button-widget rectangles were read from the pinned CN-10557 by content hash. The kit is 43 pages and both fixtures are 43 pages, so a widget's source page is its delivered page. The pinned form itself was rastered at the same settings and the same rectangles measured, so each rect is read against the form's OWN ink rather than against a threshold. Rasters deleted after measuring.",
+        "widgetsVF08Counted": 44,
+        "widgetsCountedHere": "44 per family: the same 22 rects on each of the two fixtures.",
+        "widgetsCleared": 0,
+        "pagesAffected": [
+          18,
+          19,
+          20,
+          21,
+          22,
+          24,
+          30,
+          32
+        ],
+        "pagesAffectedMatchVF08": true,
+        "pixelsChangedByTheOptIn": 0,
+        "changedPixelsOutsideEveryWidgetRect": 0,
+        "everyParticipantWriteAndIntendedMarkUnchanged": "Trivially: the delivered bytes did not move, so no write, mark or other pixel changed anywhere on any of the 43 pages.",
+        "widgets": [
+          {
+            "field": "dismiss",
+            "deliveredPage": 18,
+            "rectPts": {
+              "x": 33.793,
+              "y": 214.365,
+              "width": 18,
+              "height": 18
+            },
+            "inkAtRectBefore": 289,
+            "inkAtRectAfterTheOptIn": 289,
+            "inkAtRectInThePinnedOfficialForm": 185,
+            "extraInkOverTheOfficialForm": 104,
+            "cleared": false,
+            "reading": "the delivered rect still carries more ink than the pinned form's own ink at the same rect, by the perimeter of a synthesized square. The opt-in installed nothing here (skippedStateAlreadyDrawn), so the count did not move."
+          },
+          {
+            "field": "dismissPlea",
+            "deliveredPage": 18,
+            "rectPts": {
+              "x": 317.593,
+              "y": 159.98,
+              "width": 18,
+              "height": 17.333
+            },
+            "inkAtRectBefore": 330,
+            "inkAtRectAfterTheOptIn": 330,
+            "inkAtRectInThePinnedOfficialForm": 184,
+            "extraInkOverTheOfficialForm": 146,
+            "cleared": false,
+            "reading": "the delivered rect still carries more ink than the pinned form's own ink at the same rect, by the perimeter of a synthesized square. The opt-in installed nothing here (skippedStateAlreadyDrawn), so the count did not move."
+          },
+          {
+            "field": "dismissPlea",
+            "deliveredPage": 18,
+            "rectPts": {
+              "x": 368.621,
+              "y": 159.98,
+              "width": 18,
+              "height": 17.333
+            },
+            "inkAtRectBefore": 330,
+            "inkAtRectAfterTheOptIn": 330,
+            "inkAtRectInThePinnedOfficialForm": 184,
+            "extraInkOverTheOfficialForm": 146,
+            "cleared": false,
+            "reading": "the delivered rect still carries more ink than the pinned form's own ink at the same rect, by the perimeter of a synthesized square. The opt-in installed nothing here (skippedStateAlreadyDrawn), so the count did not move."
+          },
+          {
+            "field": "acquit",
+            "deliveredPage": 18,
+            "rectPts": {
+              "x": 35.132,
+              "y": 128.949,
+              "width": 18,
+              "height": 18.001
+            },
+            "inkAtRectBefore": 288,
+            "inkAtRectAfterTheOptIn": 288,
+            "inkAtRectInThePinnedOfficialForm": 141,
+            "extraInkOverTheOfficialForm": 147,
+            "cleared": false,
+            "reading": "the delivered rect still carries more ink than the pinned form's own ink at the same rect, by the perimeter of a synthesized square. The opt-in installed nothing here (skippedStateAlreadyDrawn), so the count did not move."
+          },
+          {
+            "field": "dismissPti",
+            "deliveredPage": 19,
+            "rectPts": {
+              "x": 34.313,
+              "y": 707.901,
+              "width": 18,
+              "height": 18
+            },
+            "inkAtRectBefore": 246,
+            "inkAtRectAfterTheOptIn": 246,
+            "inkAtRectInThePinnedOfficialForm": 96,
+            "extraInkOverTheOfficialForm": 150,
+            "cleared": false,
+            "reading": "the delivered rect still carries more ink than the pinned form's own ink at the same rect, by the perimeter of a synthesized square. The opt-in installed nothing here (skippedStateAlreadyDrawn), so the count did not move."
+          },
+          {
+            "field": "guilty",
+            "deliveredPage": 19,
+            "rectPts": {
+              "x": 34.971,
+              "y": 591.363,
+              "width": 18,
+              "height": 18
+            },
+            "inkAtRectBefore": 528,
+            "inkAtRectAfterTheOptIn": 528,
+            "inkAtRectInThePinnedOfficialForm": 171,
+            "extraInkOverTheOfficialForm": 357,
+            "cleared": false,
+            "reading": "the delivered rect still carries more ink than the pinned form's own ink at the same rect, by the perimeter of a synthesized square. The opt-in installed nothing here (skippedStateAlreadyDrawn), so the count did not move."
+          },
+          {
+            "field": "contOwe",
+            "deliveredPage": 19,
+            "rectPts": {
+              "x": 33.031,
+              "y": 416.859,
+              "width": 18,
+              "height": 18
+            },
+            "inkAtRectBefore": 246,
+            "inkAtRectAfterTheOptIn": 246,
+            "inkAtRectInThePinnedOfficialForm": 96,
+            "extraInkOverTheOfficialForm": 150,
+            "cleared": false,
+            "reading": "the delivered rect still carries more ink than the pinned form's own ink at the same rect, by the perimeter of a synthesized square. The opt-in installed nothing here (skippedStateAlreadyDrawn), so the count did not move."
+          },
+          {
+            "field": "contOwe",
+            "deliveredPage": 21,
+            "rectPts": {
+              "x": 33.934,
+              "y": 678.768,
+              "width": 18,
+              "height": 18
+            },
+            "inkAtRectBefore": 246,
+            "inkAtRectAfterTheOptIn": 246,
+            "inkAtRectInThePinnedOfficialForm": 96,
+            "extraInkOverTheOfficialForm": 150,
+            "cleared": false,
+            "reading": "the delivered rect still carries more ink than the pinned form's own ink at the same rect, by the perimeter of a synthesized square. The opt-in installed nothing here (skippedStateAlreadyDrawn), so the count did not move."
+          },
+          {
+            "field": "contDismiss",
+            "deliveredPage": 20,
+            "rectPts": {
+              "x": 34.588,
+              "y": 468.558,
+              "width": 18,
+              "height": 18
+            },
+            "inkAtRectBefore": 244,
+            "inkAtRectAfterTheOptIn": 244,
+            "inkAtRectInThePinnedOfficialForm": 96,
+            "extraInkOverTheOfficialForm": 148,
+            "cleared": false,
+            "reading": "the delivered rect still carries more ink than the pinned form's own ink at the same rect, by the perimeter of a synthesized square. The opt-in installed nothing here (skippedStateAlreadyDrawn), so the count did not move."
+          },
+          {
+            "field": "contDismissPlea",
+            "deliveredPage": 20,
+            "rectPts": {
+              "x": 372.429,
+              "y": 418.12,
+              "width": 18,
+              "height": 13.657
+            },
+            "inkAtRectBefore": 228,
+            "inkAtRectAfterTheOptIn": 228,
+            "inkAtRectInThePinnedOfficialForm": 96,
+            "extraInkOverTheOfficialForm": 132,
+            "cleared": false,
+            "reading": "the delivered rect still carries more ink than the pinned form's own ink at the same rect, by the perimeter of a synthesized square. The opt-in installed nothing here (skippedStateAlreadyDrawn), so the count did not move."
+          },
+          {
+            "field": "contDismissPlea",
+            "deliveredPage": 20,
+            "rectPts": {
+              "x": 421.266,
+              "y": 417.617,
+              "width": 18,
+              "height": 13.656
+            },
+            "inkAtRectBefore": 228,
+            "inkAtRectAfterTheOptIn": 228,
+            "inkAtRectInThePinnedOfficialForm": 96,
+            "extraInkOverTheOfficialForm": 132,
+            "cleared": false,
+            "reading": "the delivered rect still carries more ink than the pinned form's own ink at the same rect, by the perimeter of a synthesized square. The opt-in installed nothing here (skippedStateAlreadyDrawn), so the count did not move."
+          },
+          {
+            "field": "contAcquit",
+            "deliveredPage": 20,
+            "rectPts": {
+              "x": 33.005,
+              "y": 384.231,
+              "width": 18,
+              "height": 18
+            },
+            "inkAtRectBefore": 246,
+            "inkAtRectAfterTheOptIn": 246,
+            "inkAtRectInThePinnedOfficialForm": 96,
+            "extraInkOverTheOfficialForm": 150,
+            "cleared": false,
+            "reading": "the delivered rect still carries more ink than the pinned form's own ink at the same rect, by the perimeter of a synthesized square. The opt-in installed nothing here (skippedStateAlreadyDrawn), so the count did not move."
+          },
+          {
+            "field": "contDismissPti",
+            "deliveredPage": 20,
+            "rectPts": {
+              "x": 33.474,
+              "y": 298.343,
+              "width": 18,
+              "height": 18
+            },
+            "inkAtRectBefore": 296,
+            "inkAtRectAfterTheOptIn": 296,
+            "inkAtRectInThePinnedOfficialForm": 144,
+            "extraInkOverTheOfficialForm": 152,
+            "cleared": false,
+            "reading": "the delivered rect still carries more ink than the pinned form's own ink at the same rect, by the perimeter of a synthesized square. The opt-in installed nothing here (skippedStateAlreadyDrawn), so the count did not move."
+          },
+          {
+            "field": "contGuilty",
+            "deliveredPage": 20,
+            "rectPts": {
+              "x": 36.291,
+              "y": 180.541,
+              "width": 18,
+              "height": 18
+            },
+            "inkAtRectBefore": 294,
+            "inkAtRectAfterTheOptIn": 294,
+            "inkAtRectInThePinnedOfficialForm": 144,
+            "extraInkOverTheOfficialForm": 150,
+            "cleared": false,
+            "reading": "the delivered rect still carries more ink than the pinned form's own ink at the same rect, by the perimeter of a synthesized square. The opt-in installed nothing here (skippedStateAlreadyDrawn), so the count did not move."
+          },
+          {
+            "field": "seek5yrs",
+            "deliveredPage": 22,
+            "rectPts": {
+              "x": 100.901,
+              "y": 598.238,
+              "width": 18,
+              "height": 18
+            },
+            "inkAtRectBefore": 317,
+            "inkAtRectAfterTheOptIn": 317,
+            "inkAtRectInThePinnedOfficialForm": 169,
+            "extraInkOverTheOfficialForm": 148,
+            "cleared": false,
+            "reading": "the delivered rect still carries more ink than the pinned form's own ink at the same rect, by the perimeter of a synthesized square. The opt-in installed nothing here (skippedStateAlreadyDrawn), so the count did not move."
+          },
+          {
+            "field": "seek34degree",
+            "deliveredPage": 22,
+            "rectPts": {
+              "x": 100.589,
+              "y": 362.01,
+              "width": 18,
+              "height": 18
+            },
+            "inkAtRectBefore": 319,
+            "inkAtRectAfterTheOptIn": 319,
+            "inkAtRectInThePinnedOfficialForm": 169,
+            "extraInkOverTheOfficialForm": 150,
+            "cleared": false,
+            "reading": "the delivered rect still carries more ink than the pinned form's own ink at the same rect, by the perimeter of a synthesized square. The opt-in installed nothing here (skippedStateAlreadyDrawn), so the count did not move."
+          },
+          {
+            "field": "seekJuvNever",
+            "deliveredPage": 24,
+            "rectPts": {
+              "x": 106.147,
+              "y": 522.421,
+              "width": 18,
+              "height": 18
+            },
+            "inkAtRectBefore": 349,
+            "inkAtRectAfterTheOptIn": 349,
+            "inkAtRectInThePinnedOfficialForm": 201,
+            "extraInkOverTheOfficialForm": 148,
+            "cleared": false,
+            "reading": "the delivered rect still carries more ink than the pinned form's own ink at the same rect, by the perimeter of a synthesized square. The opt-in installed nothing here (skippedStateAlreadyDrawn), so the count did not move."
+          },
+          {
+            "field": "changeName",
+            "deliveredPage": 24,
+            "rectPts": {
+              "x": 106.909,
+              "y": 425.294,
+              "width": 18,
+              "height": 18
+            },
+            "inkAtRectBefore": 321,
+            "inkAtRectAfterTheOptIn": 321,
+            "inkAtRectInThePinnedOfficialForm": 171,
+            "extraInkOverTheOfficialForm": 150,
+            "cleared": false,
+            "reading": "the delivered rect still carries more ink than the pinned form's own ink at the same rect, by the perimeter of a synthesized square. The opt-in installed nothing here (skippedStateAlreadyDrawn), so the count did not move."
+          },
+          {
+            "field": "gradDC",
+            "deliveredPage": 30,
+            "rectPts": {
+              "x": 322.524,
+              "y": 459.931,
+              "width": 18,
+              "height": 18
+            },
+            "inkAtRectBefore": 294,
+            "inkAtRectAfterTheOptIn": 294,
+            "inkAtRectInThePinnedOfficialForm": 144,
+            "extraInkOverTheOfficialForm": 150,
+            "cleared": false,
+            "reading": "the delivered rect still carries more ink than the pinned form's own ink at the same rect, by the perimeter of a synthesized square. The opt-in installed nothing here (skippedStateAlreadyDrawn), so the count did not move."
+          },
+          {
+            "field": "marijuana",
+            "deliveredPage": 30,
+            "rectPts": {
+              "x": 323.35,
+              "y": 409,
+              "width": 18,
+              "height": 18
+            },
+            "inkAtRectBefore": 294,
+            "inkAtRectAfterTheOptIn": 294,
+            "inkAtRectInThePinnedOfficialForm": 144,
+            "extraInkOverTheOfficialForm": 150,
+            "cleared": false,
+            "reading": "the delivered rect still carries more ink than the pinned form's own ink at the same rect, by the perimeter of a synthesized square. The opt-in installed nothing here (skippedStateAlreadyDrawn), so the count did not move."
+          },
+          {
+            "field": "cleanSlate",
+            "deliveredPage": 30,
+            "rectPts": {
+              "x": 323.634,
+              "y": 358.016,
+              "width": 18,
+              "height": 18
+            },
+            "inkAtRectBefore": 294,
+            "inkAtRectAfterTheOptIn": 294,
+            "inkAtRectInThePinnedOfficialForm": 144,
+            "extraInkOverTheOfficialForm": 150,
+            "cleared": false,
+            "reading": "the delivered rect still carries more ink than the pinned form's own ink at the same rect, by the perimeter of a synthesized square. The opt-in installed nothing here (skippedStateAlreadyDrawn), so the count did not move."
+          },
+          {
+            "field": "jdmnt",
+            "deliveredPage": 32,
+            "rectPts": {
+              "x": 71.505,
+              "y": 663.474,
+              "width": 18.0,
+              "height": 18
+            },
+            "inkAtRectBefore": 321,
+            "inkAtRectAfterTheOptIn": 321,
+            "inkAtRectInThePinnedOfficialForm": 171,
+            "extraInkOverTheOfficialForm": 150,
+            "cleared": false,
+            "reading": "the delivered rect still carries more ink than the pinned form's own ink at the same rect, by the perimeter of a synthesized square. The opt-in installed nothing here (skippedStateAlreadyDrawn), so the count did not move."
+          }
+        ]
+      },
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersNote": "Nine zeros before and nine zeros after, on unchanged bytes. This is not evidence of a repair and no counter could ever have seen this defect: the counters read the field map and the square was never a declared write.",
+      "verifiers": {
+        "verify-packet-completeness.mjs": {
+          "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nj_ordinance-set",
+          "result": "PASS_COMPLETE, nine counters zero",
+          "exitCode": 0,
+          "runBeforeAndAfter": true
+        },
+        "verify-identity-refresh-survives-rebuild.mjs": {
+          "command": "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs",
+          "result": "EVERY_IDENTITY_REFRESH_SURVIVED, 249 receipts compared against HEAD, 53 carrying an identityRefresh",
+          "exitCode": 0
+        },
+        "verify-source-carried-values-are-dispositioned.mjs": {
+          "command": "node scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs",
+          "result": "EVERY_SOURCE_CARRIED_VALUE_IS_DISPOSITIONED",
+          "exitCode": 0
+        }
+      },
+      "preflight": {
+        "command": "MASTER_LIBRARY_SOURCE_DIR=<mounted Master Library> node scripts/verify-packet-build-environment.mjs --family nj_ordinance-set --codex-cloud --minimum-captain-sha 760c6285d",
+        "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 13/14 passed, 1 failed, 3 not applicable",
+        "theOneFailure": "corpus_matches_committed_index: 1 absent, 0 mismatched of 24 sampled. The same single gap VF02 and FIX50 recorded, and it is not a New Jersey entry: family_sources_bind passes 1/1 by exact SHA-256 and CN-10557 was re-resolved by content hash in this container.",
+        "notApplicable": "the three rasterizer and browser checks; this lane renders nothing centrally and its rasters are local measurement only.",
+        "worktree": "/home/user/fix57-worktree, branch fix57-nj-optin from 760c6285d on claude/legalease-sprint-captain-utucnw. core.sparseCheckout false, 0 skip-worktree bits, worktree clean. private/ is a real directory of read-only symlinks into the mounted corpus; node_modules symlinked to the captain worktree. node 22.22.2, pdf-lib 1.17.1."
+      },
+      "queuesTouched": "none. RASTER_QUEUE.json and MASTER_QUEUE.json were read and never opened for writing.",
+      "legalRecordsTouched": "none.",
+      "productWiring": "not edited. No acceptance receipt was created and VF08's FAIL_REPAIR_REQUIRED still stands on these bytes, correctly.",
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "acceptanceReceipt": null,
+      "whatWasNotDone": [
+        "CENTRAL RASTER ON THE NEW BYTES. Not run, and there are no new bytes to run it on: this lane delivered none. The local pdftoppm rasters behind the measurement above are measurement in this container only and were deleted.",
+        "INDEPENDENT VERIFICATION. None. This lane made the change, measured it and reverted it; nothing here is a verdict, and CLIPPING_AND_OVERLAP remains open on all three families."
+      ],
+      "grantsNothing": "This row repairs nothing, promotes nothing, opens no route and clears no obligation. It records why the shared opt-in does not reach this defect on this host, and where the defect is actually produced."
+    }
+  ]
+}

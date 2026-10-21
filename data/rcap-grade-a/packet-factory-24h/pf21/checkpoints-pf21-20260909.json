@@ -1,0 +1,71 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-checkpoints/v1",
+  "assignmentId": "PF21",
+  "workerId": "PF21-20260909 packet-build, worktree /home/user/v2mm-worktree",
+  "workerBranch": "v2mm-src-20260909",
+  "shiftBaseSha": "537fd26ff624d812c095fc504c724adda0022211",
+  "writtenAlongsideNotOverIt": "data/rcap-grade-a/packet-factory-24h/pf21/checkpoints.json holds an earlier PF21 shift and is left untouched.",
+  "checkpoints": [
+    {
+      "checkpoint": 1,
+      "at": "2026-09-09",
+      "reason": "nd-regular-pardon-set built, read at appearance level and returned",
+      "familiesCompleted": 1,
+      "itemIds": [
+        "nd-regular-pardon-set"
+      ],
+      "routeKeys": [
+        "obligation:track-only:ND:nd-regular-pardon"
+      ],
+      "status": "COMPLETED",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "sourceBoundByDigest": {
+        "sourceId": "ND-SFN-14859",
+        "sha256": "b88cb559c375d2443c15dd33c19f3f42387010e494ade28fc25bdbfdd75e8d5b",
+        "byteLength": 211478,
+        "pages": 8,
+        "acroFields": 229
+      },
+      "canonicalArtifact": {
+        "sha256": "c0a8d543dc45047ff0ddf20558239ffe10ba3a3e8af3ef034922a7be5cbcd7c7",
+        "byteLength": 148314,
+        "pageCount": 8
+      },
+      "boundaryArtifact": {
+        "sha256": "8cce6850a548e96559cb59f31128463e7277b0e4d487d26682388532bb735507",
+        "byteLength": 148403,
+        "pageCount": 8
+      },
+      "digestsRecordedBy": "sha256sum and crypto.createHash over the delivered files; none transcribed by hand",
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAreTheBuildersOwnCount": true,
+      "packetsSelfVerified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "determinism": "three independent full runs produced identical canonical and boundary digests",
+      "openForTheNextLane": [
+        "The central raster gate runs on the two digests above.",
+        "Independent verification is a different lane. This lane issues no verdict and no PASS.",
+        "The relief election — this packet ticks Pardon and declares Commutation, Reprieve and Remission of Fine outside the route — is the judgement most worth challenging, and is flagged in approval-request.json.",
+        "The item 18 residence table is refused although it is genuinely about the applicant. That is a judgement, not a measurement, and is flagged for review.",
+        "Four central records still say this family has no resolved source. They predate the materialization and were not edited; see rows-pf21-20260909.json sourceMeasurementThisLaneMade."
+      ]
+    }
+  ],
+  "familiesNotBuilt": [
+    {
+      "familyId": "fl-juvenile-diversion-set",
+      "why": "assignment instructed this lane not to build it; not claimed, not read, not touched."
+    }
+  ]
+}

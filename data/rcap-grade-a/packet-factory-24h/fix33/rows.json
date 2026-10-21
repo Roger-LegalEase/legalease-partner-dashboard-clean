@@ -1,0 +1,282 @@
+{
+  "schemaVersion": "rcap-packet-factory-focused-repair-return/v1",
+  "workerId": "CLAUDE-FIX33-MI-SETASIDE-TRAFFICKING",
+  "assignmentId": "FIX33",
+  "assignedBase": "8edfc3f5e",
+  "branch": "fix33b-mi-trafficking-settle",
+  "supersedes": "the FIX33 return integrated at 91f425678, whose row named KNOWN_PREFILLS in obligationsRepaired and again in obligationsThisRowDoesNotDischarge. This row replaces it.",
+  "laneKind": "repair",
+  "grantConfirmed": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX33 mi_setaside_trafficking-set returned CLAIM_OK FIX33 mi_setaside_trafficking-set (repair, grant set 3a27063693277965), exit 0, before anything was read or written on this branch.",
+  "whyThisRowExists": "The state machine held the family at FAIL_REPAIR_REQUIRED because the previous row withdrew its own KNOWN_PREFILLS claim: it listed the obligation as repaired and then, under obligationsThisRowDoesNotDischarge, explained that item 1 and item 2 were still blank. The coordinator directed that this be settled on the contract rather than on the wording - measure whether a builder-readable fact path exists for those blanks, and either write them or name the residual under the obligation it actually carries. The measurement found a path. Branch 1 applies, and item 1 and item 2 are now written.",
+  "verdictRepaired": {
+    "lane": "VF01",
+    "verifier": "FABLE-VF01-4F",
+    "verdict": "FAIL_REPAIR_REQUIRED",
+    "verifiedAtBase": "aa866d1657a84bf7779d946ee34ca812990fdf63",
+    "failedObligationNames": ["KNOWN_PREFILLS", "REQUIRED_BEFORE_FILING"]
+  },
+  "measurement": {
+    "question": "Can the platform hold the item-1 conviction facts (crime, charge code, conviction date, case number per conviction) and the item-2 nexus statement anywhere a builder may read?",
+    "whereILooked": [
+      {
+        "place": "the fact schema this builder consumes - FIXTURES in scripts/build-census-v1-mi_setaside_trafficking-set.mjs",
+        "heldBefore": [
+          "participant.full_legal_name", "participant.date_of_birth", "participant.street_address",
+          "participant.phone", "participant.email", "matter.county", "matter.case_number"
+        ],
+        "finding": "seven flat participant and matter facts, no charge row and no narrative. That is a property of THIS family's fixtures, not of the schema."
+      },
+      {
+        "place": "the shared fact registry - scripts/rcap-official-forms/rcap-field-semantics.mjs",
+        "finding": "a repeating charge row has been in it from the beginning. ROW_FACTS holds matter.case_number, matter.citation_number, matter.charge, matter.arrest_date, matter.offense_date, matter.conviction_date and matter.disposition_date; resolveFact resolves matter.charges[n].<leaf>; decideBinding takes the row index off the field name through rowIndexOf and refuses a row the facts do not reach. MC 227b's conviction cells are named c1..c4, ch1..ch4, cdate1..cdate4 and cno1..cno4, which is exactly the shape rowIndexOf reads.",
+        "narrativeFacts": "the registry has no descriptor for a statement of any kind. It carries 23 fact ids and every one is an identifier, a contact detail, a date or a charge value."
+      },
+      {
+        "place": "other set-aside families that print a conviction row",
+        "finding": "twenty builders supply matter.charges. The decisive one is scripts/build-census-v1-mi-setaside-marihuana-set.mjs - the sibling MICHIGAN set-aside family, on the neighbouring SCAO form MC 227a, whose conviction listing has the same four columns and the same field names. Its canonical fixture holds one charge row and its boundary fixture holds four, chosen from the form's own printed capacity. So the answer for item 1 is not merely that the schema allows it: an adjacent family on an adjacent form already does it."
+      },
+      {
+        "place": "other set-aside families that print a sworn narrative",
+        "finding": "scripts/build-census-v1-az_record_sealing_conviction-set.mjs holds matter.best_interests_statement as one string in both fixtures and lays it out across the petition's three printed lines through its own NARRATIVES mechanism. A held participant narrative is therefore a shape this factory already uses on a set-aside filing; what was missing here was a channel in the shared finalizer, not a reason."
+      }
+    ],
+    "conclusion": "A builder-readable fact path exists for item 1's crime and case number and for item 2's statement. Branch 1 applies to all three and they are written. Two of item 1's four columns are NOT written, for two different measured reasons, and neither is a known prefill: see notWritten below.",
+    "notWritten": [
+      {
+        "column": "CHARGE CODE(S) - MCL citation/PACC Code (ch1..ch4)",
+        "reason": "no fact exists anywhere. The registry holds no MCL citation and no PACC code. matter.citation_number is a citation number, a different thing; printing it in the citation column is the defect the sibling Michigan family refuses by role on its own ch1.",
+        "disposition": "REQUIRED_BEFORE_FILING, declared on all four rows and disclosed"
+      },
+      {
+        "column": "DATE OF CONVICTION (cdate1..cdate4)",
+        "reason": "the descriptor exists and is unreachable. decideBinding consults protectCategoryOf BEFORE it matches any descriptor, and the protect vocabulary holds /\\bconvict(ed|ion)\\b/ under `disposition_or_hearing`. Measured in this worktree: protectCategoryOf(\"Conviction date\") and protectCategoryOf(\"Date of conviction\") both return disposition_or_hearing, and the form's own printed heading is DATE OF CONVICTION. matter.conviction_date, flagged requiresExplicitMapping so a caller must name it deliberately, is therefore reachable from no caption at all.",
+        "whatThisLaneDidNotDo": "word the binding label until the protect rule stops firing. That is the same move as wording a refusal until an approved-reason regex accepts it, and it would have put a court's determination on a sworn filing through a rule written to stop exactly that. The shared rule was not changed either: it governs forty-odd families under other lanes' claims.",
+        "consequence": "this family deliberately holds NO conviction_date in its charge rows, so that declaring the column participant-supplied is a true statement rather than a convenient one. The self-test asserts the absence in both fixtures.",
+        "disposition": "REQUIRED_BEFORE_FILING, declared on all four rows and disclosed, with the form's instruction 4 and the certified-copy attachment cited",
+        "raisedFor": "the shared registry owner, in build-findings.json under severity shared-registry: a descriptor no caption can reach proves nothing."
+      }
+    ]
+  },
+  "rows": [
+    {
+      "itemId": "mi_setaside_trafficking-set",
+      "familyId": "mi_setaside_trafficking-set",
+      "jurisdiction": "MI",
+      "implementationStrategy": "official_pdf_fill",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-trafficking-set--official-pdf-fill",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "routeKeys": [
+        "obligation:track-pathway:MI:mi_setaside_trafficking:human-trafficking-related-set-aside-application"
+      ],
+      "obligationsRepaired": ["KNOWN_PREFILLS", "REQUIRED_BEFORE_FILING"],
+      "obligationsThisRowDoesNotDischarge": [
+        "Central raster. RASTER_QUEUE.json and MASTER_QUEUE.json were not touched, the receipt bound to the previous digests is void, and product-wiring binding.acceptanceReceipt is null.",
+        "Independent verification. This lane built these bytes and verifies none of them."
+      ],
+      "residualBlanksAndTheObligationTheyCarry": {
+        "obligation": "REQUIRED_BEFORE_FILING",
+        "note": "These are declared blanks, not withheld known prefills. Each is a fact the platform does not hold, every one carries the REQUIRED_BEFORE_FILING disposition in production-field-map.json, and every one is named to the filer in participant-instructions.md. They are listed here so the residual is visible without being attached to an obligation it does not carry.",
+        "count": 61,
+        "groups": [
+          {
+            "group": "item 1, the charge-code column and the date-of-conviction column, 8 cells",
+            "why": "measured above: no fact exists for the code, and the descriptor for the date is unreachable behind the shared protect rule.",
+            "citedToTheParticipant": "instruction 4 - get the exact date and each charge FROM THE COURT, and attach a certified copy of each conviction"
+          },
+          {
+            "group": "item 1, every cell of a conviction row the platform does not hold or cannot deliver whole, 8 cells in the canonical map",
+            "why": "the canonical record holds one conviction, so rows b, c and d are declared. A row is written whole or withheld whole; a row with a crime and no case number beside it reads as finished."
+          },
+          {
+            "group": "items 3 and 4, the earlier-application tables, and item 5's deferred list, 37 cells",
+            "why": "the platform holds no application history and no deferred-and-dismissed list, and no fact id for either exists anywhere in the registry or in any other family's fixtures."
+          },
+          {
+            "group": "court and agency identifiers - district, circuit, ctaddress, cttelno, ori, prno, ctntcn, sid, proofficial, peopleof",
+            "why": "each comes off the applicant's own court or police paperwork; none is held and none is written elsewhere in this packet."
+          }
+        ]
+      },
+      "obligationsAddressed": {
+        "KNOWN_PREFILLS": {
+          "findingAsWritten": "The delivered MC 227b named the applicant nowhere, all sixteen cells of item 1 were blank, and all five lines of item 2 - the statutory ground for the application - were blank. Two of 102 fields carried ink.",
+          "repaired": true,
+          "whatIsWrittenNow": {
+            "fieldsInked": 8,
+            "of": 102,
+            "wasBeforeThisLane": 2,
+            "wasAfterTheFirstFIX33Pass": 3,
+            "partiesBox": "MC-227B/dinfo, page 1, rect 320/581.4 253.3x46.8, printed caption \"Defendant's name, address, and telephone no.\", composed from participant.full_legal_name, participant.street_address and participant.phone at a measured 9pt ceiling. Unchanged from the pass integrated at 91f425678.",
+            "item1": "the CRIME and CASE NUMBER columns, written from matter.charges[n].charge and matter.charges[n].case_number through the shared repeating-row channel - bindingLabel plus explicitMappings, the row index off the field name, no new binding machinery. Canonical delivers row a; boundary delivers rows b, c and d.",
+            "item2": "the held statement matter.trafficking_nexus_statement, laid out across the five ruled lines the form prints, through a new opt-in finalizer channel that takes a fact id and nothing else. Canonical uses three lines, boundary five.",
+            "captionElection": "MC-227B/multcaseno is now settled by the build from the case numbers it DELIVERS into item 1 - three convictions under two case numbers in the boundary fixture, so it is ticked; one in the canonical fixture, so it is not."
+          },
+          "rowAtomicity": {
+            "why": "The fitter refuses a value the issuer's box cannot show, which is right one cell at a time and wrong one ROW at a time: the first render of the boundary record left rows a and c empty while b and d were filled, and no counter can see that - rowKeyOf reads a row number out of a field name or a printed label and this form numbers its lines a to d, so the table is never measured as rows.",
+            "how": "the document is rendered twice. The first render is a measurement through the same fitter that will draw the cells; any conviction row with a refused cell then goes to the second render as unwritable-by-role, whole, and is declared and disclosed like a row the platform never held. The second render produces the bytes.",
+            "measuredHere": "boundary row a repeats the caption's own 28-character case number, which needs 92.4pt in 92pt of usable column; the row is withheld whole and the delivered table lists three convictions.",
+            "enforced": "the self-test asserts that no conviction row has one writable cell written and another declared."
+          },
+          "whatIsNotWritten": "the charge-code and conviction-date columns, for the two measured reasons in the measurement block above, and every conviction row the platform does not hold. None of them is a held fact the build declined to write.",
+          "appearanceProof": {
+            "method": "flattened widget appearances read back from the finalized bytes at every measured /Rect; each appearance stream's own /BBox, clip, /Tf and per-line /Tm; a 150 dpi local raster of all four pages of both fixtures with a page-by-page pixel diff against the integrated bytes; and 200 and 600 dpi crops of item 1, item 2 and the caption box",
+            "inkedAppearances": { "canonical": 10, "boundary": 16 },
+            "item1Canonical": "c1 \"Accosting or soliciting to commit prostitution\" and cno1 \"2019-004217-FY\", both inside their columns; rows b, c and d blank",
+            "item1Boundary": "rows b, c and d each carrying a crime and a case number; row a blank",
+            "item2": "each line inside its ruled line, reading continuously across the breaks, nothing past the right margin",
+            "tickProof": "the issuer draws its check as a Bezier glyph, not as text, so a text-only read-back reported the marked box as unmarked - the worst direction for a caption election to be wrong in. The byte proof now counts moveto operators against clip paths: a checkbox appearance carries no clip path, so a moveto in it is the glyph rather than the border, which is drawn with `re`. Measured: canonical marked false / on page false, boundary marked true / on page true, and the 200 dpi crop shows the tick inside its box.",
+            "placementDiff": "150 dpi against the integrated bytes: canonical page 1 differs over x 53.3..566.9, y 205.0..398.4; boundary page 1 over x 52.8..571.2, y 157.0..683.5. Pages 2, 3 and 4 pixel-identical in both fixtures."
+          }
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "findingAsWritten": "The dinfo declaration did not meet GENUINELY UNAVAILABLE, and all fourteen checkboxes lacked a disposition from the closed vocabulary.",
+          "repaired": true,
+          "carriedForwardFromTheIntegratedPass": "the dinfo declaration is gone, and all fourteen checkboxes carry printed captions, closed-vocabulary dispositions, who marks each and when, and a line in the participant inventory. The correction to the verdict stands: they were never absent from the field map - they sit in maps[].selectionControls, which the completeness verifier does read.",
+          "changedByThisPass": {
+            "requiredBeforeFilingCount": "68 -> 61",
+            "multcaseno": "no longer only an election. It is settled from the delivered table, ticked in the boundary fixture and left unticked in the canonical one, and it keeps its election class because a filer who adds a conviction from another case on an additional sheet must tick it. Both states carry the basis the build computed, so a reviewer can see why the box is in the state it is in.",
+            "item2SpareLines": "the two ruled lines the canonical statement does not reach are declared OPTIONAL_PARTICIPANT_CONTENT - spare ruled space the participant may continue on, which the platform does not invent - rather than as required facts nobody supplied.",
+            "participantInventory": "the instructions now open by telling the filer, in bold, to read every line the platform filled in before signing, because the oath is theirs; item 2 is named as the sworn part to check; and the conviction-table step names the two columns the filer completes and why."
+          },
+          "terminalFieldCoverage": {
+            "acroFormFieldsInTheBoundBinary": 102,
+            "rowsInTheFieldMap": 102,
+            "writes": 8,
+            "composedWrites": 1,
+            "refusals": 80,
+            "selectionControls": 14,
+            "blankDispositions": {
+              "REQUIRED_BEFORE_FILING": 61,
+              "PROTECTED_FIELD": 21,
+              "PARTICIPANT_ELECTION_GENUINE": 9,
+              "OPTIONAL_PARTICIPANT_CONTENT": 2,
+              "NOT_APPLICABLE_ON_THIS_ROUTE": 1
+            }
+          }
+        }
+      },
+      "whatTheFreshIndependentReadShouldRuleOn": [
+        "Whether item 1 as delivered states the record correctly: the crime and case number in their own columns, the charge-code and date columns blank, and no row half-written. The row-atomicity rule is enforced in the builder and asserted in its self-test; it is not visible to any of the nine counters, so it needs eyes.",
+        "Whether writing item 2 at all is right on an application sworn under penalty of perjury. This lane's position is that the platform lays out the participant's own held words and composes none of them, that a statement it does not hold leaves all five lines blank, and that the instructions tell the filer in bold to read and correct item 2 before signing. That is a judgement a reviewer may take differently, and it is the single most consequential thing in this repair.",
+        "Whether the caption's multiple-case-numbers box should be settled by the build at all, and whether settling it from the DELIVERED table rather than from the held facts is the right rule. A withheld row is not a listed one, which is why it is decided after the measurement render.",
+        "Whether leaving the conviction-date column blank is right, given that the platform's schema has a slot for the fact and the shared protect vocabulary is what forbids writing it. The alternative was to word the binding label until the protect rule stopped firing; this lane refused to and raised the unreachable descriptor instead.",
+        "The two new shared-finalizer channels, narrativeAcrossFields and selectionsFromHeldFacts, and the composedFieldValues channel from the integrated pass. All three are opt-in and default to empty; three other families were rebuilt byte-identical under them.",
+        "Everything VF01 passed and this lane did not touch: pages 2, 3 and 4 of both fixtures are pixel-identical to the integrated bytes."
+      ],
+      "whatChanged": {
+        "files": [
+          "scripts/rcap-official-forms/rcap-official-form-finalize.mjs - two further opt-in options, narrativeAcrossFields (default []) and selectionsFromHeldFacts (default {}), each with its own pass after the ordinary writes; both added to the guard that routes a field past the single-fact decide loop. Byte-neutral for every caller that does not pass them, measured below.",
+          "scripts/build-census-v1-mi_setaside_trafficking-set.mjs - the ROW, NARRATIVE and SETTLED policies; matter.charges and matter.trafficking_nexus_statement in both fixtures; the two-pass render that enforces conviction-row atomicity; settlements decided from the delivered table; the vector-mark read-back; the field-map branches for the three policies; the participant disclosures; five build-findings entries; new self-test assertions and new artifact digests.",
+          "data/rcap-all50/overlays/census-v1/mi/mi-setaside-trafficking-set--official-pdf-fill/fixtures/canonical.pdf - rebuilt; page 1 only",
+          "data/rcap-all50/overlays/census-v1/mi/mi-setaside-trafficking-set--official-pdf-fill/fixtures/boundary.pdf - rebuilt; page 1 only",
+          "data/rcap-all50/overlays/census-v1/mi/mi-setaside-trafficking-set--official-pdf-fill/production-field-map.json - item 1 and item 2 writes; the settled caption box; requiredBeforeFilingCount 68 to 61",
+          "data/rcap-all50/overlays/census-v1/mi/mi-setaside-trafficking-set--official-pdf-fill/participant-instructions.md - the read-before-you-sign warning, the conviction-table step, the filled-in-for-you table",
+          "data/rcap-all50/overlays/census-v1/mi/mi-setaside-trafficking-set--official-pdf-fill/field-census.census-v1.json - the new policies per field",
+          "data/rcap-all50/overlays/census-v1/mi/mi-setaside-trafficking-set--official-pdf-fill/reports/actual-writes.json - per-cell, per-line and per-mark appearance proof",
+          "data/rcap-all50/overlays/census-v1/mi/mi-setaside-trafficking-set--official-pdf-fill/reports/blanks-left-for-the-participant.json",
+          "data/rcap-all50/overlays/census-v1/mi/mi-setaside-trafficking-set--official-pdf-fill/reports/completeness-counters.json - regenerated; nine zeros",
+          "data/rcap-all50/overlays/census-v1/mi/mi-setaside-trafficking-set--official-pdf-fill/reports/independent-visual-review.json - what to look at on item 1, item 2 and the caption box",
+          "data/rcap-all50/overlays/census-v1/mi/mi-setaside-trafficking-set--official-pdf-fill/reports/rendered-artifacts.json - new digests",
+          "data/rcap-all50/overlays/census-v1/mi/mi-setaside-trafficking-set--official-pdf-fill/build-findings.json - item 1, the charge-code column, the unreachable conviction-date descriptor, item 2 and the settled caption box",
+          "data/rcap-all50/overlays/census-v1/mi/mi-setaside-trafficking-set--official-pdf-fill/product-wiring.json - refreshed by its own generator; acceptanceReceipt null, canonical component digest re-pinned e05db917... -> acb9bf49...",
+          "data/rcap-grade-a/packet-factory-24h/fix33/rows.json - this return, replacing the row integrated at 91f425678",
+          "data/rcap-grade-a/packet-factory-24h/claim-ledger.json - written by claim.mjs on assert and release"
+        ],
+        "centralRecordsNotTouched": ["RASTER_QUEUE.json", "MASTER_QUEUE.json", "the census candidate", "the track registry", "the specifications", "every other family directory", "every other build script"],
+        "sharedScriptsChanged": 1,
+        "buildScriptsChanged": 1,
+        "otherFamiliesTouched": 0
+      },
+      "sharedFinalizerByteNeutrality": {
+        "argument": "Both new options are inert without a caller: two destructured parameters defaulting to [] and {}, two guards over empty sets, and two loops over empty collections.",
+        "measured": [
+          { "family": "wi_nc_doj_challenge-set", "canonical": "edb7338200e12436a22390b6857b54bb0b44d074abc745b5c02c158f85457b4f", "boundary": "365d25ebf98bc23dba12805e97f985d6f39fc2403cec591b9646a6be8f35596e", "result": "rebuilt byte-identical to its committed fixtures; rebuild reverted" },
+          { "family": "wi_nc_doj_fingerprint_removal-set", "canonical": "5b475b11c17c35f8edc37bada78716e8b14471b1951966604b7a678412fc6cc6", "boundary": "3fd596ff112fd2f6ef55ca9a14c2fe0702eb107af9f715554b45503e3d7861f3", "result": "rebuilt byte-identical to its committed fixtures; rebuild reverted" },
+          { "family": "mi_setaside_marihuana-set", "result": "measured in the integrated pass under the same finalizer edits: identical digests with the HEAD finalizer and with this one. Its divergence from its committed bytes is a pre-existing disagreement between the two builders that write that directory, not this lane's; the rebuild was reverted and that family is untouched here." }
+        ],
+        "sharedFittersAndContractsUnchanged": [
+          "scripts/rcap-official-forms/rcap-text-fitting.mjs",
+          "scripts/rcap-official-forms/rcap-field-semantics.mjs",
+          "scripts/rcap-official-forms/pdf-flattened-widgets.mjs",
+          "scripts/rcap-packet-completeness/completeness-contract.mjs",
+          "scripts/rcap-packet-completeness/verify-packet-completeness.mjs"
+        ]
+      },
+      "deterministicRebuild": {
+        "command": "node scripts/build-census-v1-mi_setaside_trafficking-set.mjs --no-raster",
+        "runs": 2,
+        "bothFixturesByteIdenticalAcrossBuilds": true,
+        "howChecked": "the whole family directory was copied after the first build and diff -r against it after the second returned no differences at all",
+        "selfTest": "SELF_TEST_OK mi_setaside_trafficking-set"
+      },
+      "artifacts": {
+        "canonical": {
+          "path": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-trafficking-set--official-pdf-fill/fixtures/canonical.pdf",
+          "oldSha256": "e05db91780c8a17066b86f5bbb130ac6a6957c4c48d02e34203f9a439a156382",
+          "oldByteLength": 378665,
+          "newSha256": "acb9bf49ab83059266162eb046e4e55be6f44d9f0647e7099325bedae31e28ee",
+          "newByteLength": 379008,
+          "pagesBefore": 4,
+          "pagesAfter": 4
+        },
+        "boundary": {
+          "path": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-trafficking-set--official-pdf-fill/fixtures/boundary.pdf",
+          "oldSha256": "23f2acdd397cf53494d02bd9c81366bed47c35e60d38bff0f55923980b9d3aea",
+          "oldByteLength": 378792,
+          "newSha256": "08551383a970f6bb2b53719980beb7277094518b8fc807a77018d3e48aa5735d",
+          "newByteLength": 379757,
+          "pagesBefore": 4,
+          "pagesAfter": 4
+        },
+        "digestsBeforeAnyFIX33Work": {
+          "canonical": "5adcf1335b6fbedb01880c9559f2a0d06b5fbfab8ae36e54e0a3eae3df358e65",
+          "boundary": "8f24ca2af0e6b6d04f5e19f5a68455285e44100b9431690ba8d19806c17f44dd"
+        },
+        "sourceBinaryUnchanged": {
+          "sourceId": "official-form:MC-227B",
+          "sha256": "1620aa798830917707112ce6fb770aeeedc24c44e69f15b05f8b0c1c20e478a6",
+          "byteLength": 370315,
+          "note": "the issuer's bytes are loaded, verified by digest and never written; source-receipt.json is byte-identical to the pre-repair record"
+        }
+      },
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersDidNotMoveAndWhyThatIsTheWholePoint": "Nine zeros before and after, measured with the repository's own verifier at this base. VF01 said so in advance. What moved is what the packet delivers: fields inked 2 -> 8, the applicant named, item 1 carrying the convictions in the two columns the form can take, item 2 carrying the statutory ground, the caption election answered, and declared blanks 100 -> 94 with 61 rather than 69 of them required before filing.",
+      "verifierResults": {
+        "verifyPacketCompleteness_family": "PASS_COMPLETE, 8/102 written, nine counters zero (2/102 before any FIX33 work; 3/102 after the integrated pass)",
+        "verifyPacketCompleteness_corpus": "241 families audited, 240 PASS_COMPLETE, 1 FAIL_MISSING_PREFILLS, unclassifiedBlanks 6, every other counter 0 - identical to the reading taken at this base before any edit, and the one failing family is not this one",
+        "verifyIdentityRefreshSurvivesRebuild": "EVERY_IDENTITY_REFRESH_SURVIVED, 249 receipts compared against HEAD, 53 carrying an identityRefresh",
+        "verifySourceCarriedValuesAreDispositioned": "EVERY_SOURCE_CARRIED_VALUE_IS_DISPOSITIONED, 21 examined, 0 undispositioned - corpus-green and unchanged",
+        "flattenedAppearanceCheck": "104 appearances per fixture; 10 inked in the canonical and 16 in the boundary, and every one of them is a field this map declares written. No refused field carries ink and no protected field carries ink.",
+        "localRaster": "pdftoppm at 150 dpi for all four pages of both fixtures into the scratchpad with a per-page pixel diff, plus 200 and 600 dpi crops of item 1, item 2 and the caption box. Poppler was used only for this local inspection; the build ran --no-raster."
+      },
+      "rasterState": "BUILT_RASTER_PENDING",
+      "rasterOwed": "central raster. The receipt in RASTER_QUEUE.json is bound to digests that are no longer the bytes on disk. RASTER_QUEUE.json was not touched, as instructed.",
+      "productWiring": { "acceptanceReceipt": null, "componentDigestsRePinned": 1, "noHashHandEdited": true },
+      "selfVerification": "none. This lane built these bytes and verifies none of them.",
+      "grantsNothing": "A repaired packet is review evidence. It authorizes no fulfillment, opens no commercial route and promotes no status."
+    }
+  ]
+}

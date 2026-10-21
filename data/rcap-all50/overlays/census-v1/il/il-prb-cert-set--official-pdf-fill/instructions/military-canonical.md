@@ -1,0 +1,37 @@
+# Certificate application: limits and eligibility
+
+This is the Illinois Prisoner Review Board Certificate of Expungement for Military application stage. The Board decides whether to issue a certificate; the certificate is not itself an order sealing or expunging records. A separate circuit-court petition and issued certificate are required at stage 2. Do not send the statewide court Request as a substitute for this Board application.
+
+Read and complete the Eligibility Acknowledgement first, include it with the application, and personally initial its two statements. The Board may authorize only Class 3 and Class 4 felony convictions from one information or indictment. Only one certificate under the applicable provision may be received during a lifetime. The Board has sole discretion; generation of these forms promises no result.
+
+This application is military-specific. Confirm the military eligibility basis, Class 3 or 4 felony requirement, service and discharge facts, DD-214 and proof of a tour of duty. Read the acknowledgement's listed sex, assault/battery, domestic violence, protection-order, firearm and crime-of-violence exclusions. Do not use this application for general nonmilitary expungement; that application vehicle is unverified and no packet is generated for it.
+
+The adopted route calls for legal help at the discretionary Board stage and for any advocacy or Board hearing. The application may be prepared from your own answers, but a template cannot make the rehabilitation case for you. For referral, contact the Office of the State Appellate Defender, Expungement Unit, 866-787-1776. Stop self-representation if the court stage is contested or an objection or contested hearing arises.
+
+Understand the outcome before paying for assistance. Applying for a certificate does not clear a record, erase all copies or guarantee Board or court approval. Sealing restricts public access rather than destroying the record; authorized law-enforcement and other legally permitted access can remain. Expungement and sealing are different remedies, and the eventual order determines the records and relief covered.
+
+# Records and personal statements
+
+Obtain the Illinois State Police statewide criminal-history transcript through Access and Review by supplying fingerprints and identifying information at a law-enforcement/correctional facility or licensed fingerprint vendor. The held ISP schedule makes Access and Review free; vendor or local costs may differ. If there were Chicago arrests, obtain the Chicago Police Department RAP sheet, for which a local fee may apply. Obtain certified dispositions from each relevant circuit clerk and reconcile case numbers, charges, arrest dates and outcomes.
+
+Use the actual conviction, aliases, sentence, discharge and appeal records. Include every relevant conviction from the information or indictment and all non-traffic nonconviction incidents asked about in the application. Add typewritten pages for additional incidents or a longer factual account, retaining each case and its complete facts. Never shorten a person's name or remove a charge to fit a field.
+
+The attached personal-history and reasons statements contain participant-provided words. Review them for accuracy. The history must address date/place of birth, education, employment, marital status, children, residences and lengths of residence, occupation in each place, substance-abuse and mental-health information, military record and community activities. Describe the offense dates, places and circumstances in your own words and explain why you want this certificate.
+
+Obtain supporting educational diplomas/transcripts and five years of employment records, such as W-2s, pay stubs or employer letters. Provide proof of completed counseling where applicable, current child support if applicable, DD-214 and military/tour records for the military branch, and available awards, certificates, recommendation or character letters. Follow Guidelines paragraph B-5 for fingerprint-based criminal-history timing. The packet does not create any of these external records.
+
+No petition will be accepted for review within four years of a prior petition denial for the same individual unless the Chairman permits an exception for compelling reasons. Check the actual denial date and obtain the Chairman permission for any claimed exception. Original signatures and notarization are required. Do not sign the application oath until before a notary. Personally sign the acknowledgement; the witness/attorney supplies their own name, signature and date. Initials, all signing dates and notary controls stay blank during preparation. Read the perjury declaration; false statements can carry criminal penalties.
+
+# Delivery, timing and later court stage
+
+Type the application. Mail or deliver the original to Illinois Prisoner Review Board, 1001 North Walnut Street, Springfield, IL 62702. No faxes are accepted. Staple or clip pages so they can be separated; do not bind them or use plastic sleeves. The adopted Guidelines require receipt at least 75 days before the first hearing date on the docket. Confirm the actual docket and delivery requirements with the Board.
+
+Send a copy to the sentencing judge, or the chief judge if the sentencing judge is no longer on the bench, and to the current State's Attorney for the county of conviction. Include proof of delivery to the Board, such as a notarized affidavit or registered/certified-mail receipts. These Board-stage participant deliveries are different from court-stage clerk service. Do not certify a delivery that has not occurred.
+
+The Board may ask you to attend at a scheduled date, time and location in Springfield or Chicago. The selected location is your preference, not a scheduled hearing. No more than two people may speak in a personal presentation. Obtain legal help if a hearing or advocacy is needed. The Board otherwise reviews the application and notifies the participant by mail.
+
+Only after the Board issues the applicable certificate may you proceed to the circuit court of conviction: its Chief Judge, a designated judge, or in counties under 3,000,000 inhabitants the presiding trial judge. Attach the issued certificate to the statewide Request and complete every required companion, including the separate Case List. A PRB application or a certificate request receipt is not an issued certificate.
+
+For the court stage, ask the circuit clerk for the actual county fee, filing method, copy count and self-represented e-filing exemption process. The held ISP fee schedule states no fee to file a petition and $60 to process a court order; these are different events, and the county collects the applicable total. No statewide county total is quoted here. If unable to pay, use the Supreme Court Rule 298 Application for Waiver of Court Fees and obtain the waiver order. Under section 5.2(d)(4), the circuit clerk performs court-stage service; do not treat Board-stage delivery instructions as court-stage personal service.
+
+These are synthetic diagnostic fixtures for independent review. For actual preparation, verify every supplied fact and external record; leave signature, witness, notary and agency-only controls to the person who must complete them.

@@ -1,0 +1,127 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-rows/v1",
+  "assignmentId": "PF18",
+  "workerId": "BUILD-FIVE-20260909",
+  "lane": "packet-build",
+  "engine": "Claude packet-build lane in an isolated git worktree",
+  "workerBranch": "build-five-20260909",
+  "shiftBaseSha": "c476cfc66",
+  "writtenAlongsideNotOverIt": {
+    "existingFile": "data/rcap-grade-a/packet-factory-24h/pf18/build-b-rows.json",
+    "whyThisFileExists": "this lane directory held no rows.json. The earlier BUILD-B return is left exactly as it is and nothing in it is contradicted; this file carries only the one family PF18 was dispatched in the build-five-20260909 shift."
+  },
+  "familiesAssignedInThisShift": 1,
+  "familiesBuilt": 0,
+  "familiesStopped": 1,
+  "preflight": {
+    "command": "node scripts/verify-packet-build-environment.mjs && node scripts/verify-packet-build-environment.mjs --family tx_nd_automatic_misdemeanor_deferred-set",
+    "result": "PACKET_BUILD_ENVIRONMENT_READY: 13/13 passed, 0 failed, 4 not applicable; family_sources_bind ok, 3/3 source(s) bind by exact SHA-256 (custody_reconciliation)"
+  },
+  "packetsSelfVerified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "grantsNothing": "This lane built no packet for this family and issues no verdict. A refusal authorizes nothing either.",
+  "laneNote": "One family dispatched, one row returned, stopped BLOCKED_SOURCE on a measurement of the held binaries rather than on a claim or a mount. All nine counters are null, not zero: a zero would be a claim about a packet that does not exist. No overlay directory was created or touched.",
+  "rows": [
+    {
+      "itemId": "tx_nd_automatic_misdemeanor_deferred-set",
+      "lane": "PF18",
+      "shift": "build-five-20260909, worktree /home/user/b5-worktree, branch build-five-20260909 from Captain head c476cfc66",
+      "claimCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF18 tx_nd_automatic_misdemeanor_deferred-set",
+      "claimResult": "CLAIM_OK PF18 tx_nd_automatic_misdemeanor_deferred-set (packet-build, grant set 2c60a5484079c44b)",
+      "rowGate": "node scripts/verify-packet-build-environment.mjs --family tx_nd_automatic_misdemeanor_deferred-set -> family_sources_bind ok, 3/3 source(s) bind by exact SHA-256 (custody_reconciliation); PACKET_BUILD_ENVIRONMENT_READY 13/13",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_SOURCE",
+      "directory": "data/rcap-all50/overlays/census-v1/tx/tx-nd-automatic-misdemeanor-deferred-set--official-pdf-fill",
+      "overlayDirectoryTouched": false,
+      "buildScript": "scripts/build-census-v1-tx_nd_automatic_misdemeanor_deferred-set.mjs",
+      "refusalReproduces": "the builder's output is byte-identical across two runs and creates no directory",
+      "counters": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "countersAreNullBecause": "no packet was built, so no counter was measured. A zero here would be a claim about a packet that does not exist.",
+      "artifacts": [],
+      "whatStopsIt": {
+        "sourceIdentity": "official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
+        "sha256": "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d",
+        "custody": "human_source_returns",
+        "measurement": "Group10 is one top-level radio field with four kid widgets and export values Choice1..Choice4. Two widgets are on page 3 at item 3, \"Are you represented by Legal Aid? Check only one box\", and two are on page 9 at item 9, \"Ability to Pay Court Costs. Check only one box\". A radio group holds one selection.",
+        "whyThatMatters": "this route determines both answers - a self-represented filer who cannot afford court costs - and the form can record one of them or the other, never both.",
+        "threeWaysPastItThatThisLaneDidNotTake": [
+          "declaring the two as participant elections, which would launder route-determined elections to keep a counter at zero",
+          "drawing marks beside the widgets, which would put ink on a declaration sworn under penalty of perjury through a control the form does not provide",
+          "editing the binary to split the field, which would change the structure of a form the Supreme Court of Texas approved in Misc. Docket No. 22-9090"
+        ],
+        "whichReadingIsTrueCannotBeSettledHere": "whether the Court's own published form carries this, or whether the copy held under private/human-source-returns/TX/ was re-fielded by whoever returned it, cannot be established from what is mounted. Both readings make it a source question."
+      },
+      "whatWouldUnblockIt": [
+        "a Statement of Inability binary whose item-3 and item-9 elections are separate AcroForm fields, or",
+        "an owner determination that this packet may mark those two elections outside the form's own controls, or",
+        "an owner determination that the fee-waiver component may be dropped from this family's declared set and replaced by the $28 fee the OCA instructions name as its alternative"
+      ],
+      "surveyRecordedSoTheNextLaneDoesNotRepeatIt": {
+        "recoveryLetter": {
+          "sourceId": "official-form:OCA Instructions and Model Letter for an Order of Nondisclosure under Section 411.072",
+          "sha256": "ae4427a75eb7c10c33d8e8cd3c4dca2092a8a83237204ec72cdcfc8c504ba1c7",
+          "encryptedInTheCustody": true,
+          "encryption": "AES-256, empty user password, copy and change disallowed",
+          "pdfLibCanOpenItDirectly": false,
+          "pikepdfDerivative": {
+            "createdBy": "pikepdf.open(exact_source).save(derived_path, deterministic_id=True)",
+            "sha256": "8197d7bba301f97bbaef5e1434975fc3aeb1650faae66ad007d57e9aeb4bb240",
+            "byteLength": 251614,
+            "pageCount": 7,
+            "acroFormFields": 25,
+            "twoRunsIdentical": true
+          },
+          "buildable": true,
+          "note": "the same bridge scripts/build-census-v1-ca-1203-4-set.mjs already records for the encrypted California Judicial Council forms"
+        },
+        "proposedOrder": {
+          "sourceId": "official-form:OCA Model Order of Nondisclosure under Section 411.072",
+          "sha256": "7e35a724b6de6aac1f0cc11296596377df19786e597090c73384c87fd067fa39",
+          "pageCount": 3,
+          "acroFormFields": 0,
+          "buildable": true,
+          "note": "a flat proposed order the court completes; nothing on it is the participant's to fill"
+        },
+        "feeWaiverStatementSourceCarriedDefaults": [
+          {
+            "field": "Today",
+            "sourceCarriedValue": "12/15/2022",
+            "why": "a date already stored on the line beneath a declaration under penalty of perjury. A build must clear it."
+          },
+          {
+            "field": "Value / Valor 11",
+            "sourceCarriedValue": "0",
+            "why": "a computed total that reads as a statement that the filer owns nothing"
+          },
+          {
+            "field": "Amount Cantidad 15",
+            "sourceCarriedValue": "0",
+            "why": "a computed total that reads as a statement that the filer spends nothing"
+          }
+        ],
+        "letterElectionsTheRouteWouldDetermine": "the five numbered eligibility statements on pages 4 and 5 are the route's own eligibility, and the OCA instructions say in terms that a filer unable to mark each one is ineligible. Two drop-downs on the letter carry source-authored defaults that make substantive statements: Dropdown1 defaults to \"nolo contendere\" and Dropdown4 and Dropdown6 both default to \"have not\", which read as \"I have not attached a copy\". Any build of this component must decide each of those deliberately."
+      },
+      "componentsBuildable": [
+        "recovery_letter",
+        "proposed_order"
+      ],
+      "componentsBlocked": [
+        "fee_waiver_statement"
+      ],
+      "packetsSelfVerified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    }
+  ]
+}

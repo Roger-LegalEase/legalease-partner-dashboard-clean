@@ -1,0 +1,39 @@
+{
+  "schemaVersion": "rcap-independent-code-review/v1",
+  "reviewer": "/root/resolver_review",
+  "reviewedAt": "2026-09-13T16:48:43.319244+00:00",
+  "verdict": "PASS",
+  "scope": "Direct-entry-only completeness CLI parsing; imported helper caller flags isolated.",
+  "reviewedBindings": [
+    {
+      "path": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs",
+      "sha256": "c1e0727381b2bfe2ac97e96cf91f422e2cdea84671fdc0164dbc7ce7cedb2264",
+      "byteLength": 70641
+    },
+    {
+      "path": "scripts/rcap-packet-completeness/verify-packet-completeness-cli.test.mjs",
+      "sha256": "c27edfc72706128058772801ac1db0f1a2211a05aecaca1af807a1f102b43c0c",
+      "byteLength": 1379
+    }
+  ],
+  "findings": [],
+  "evidence": {
+    "tests": 7,
+    "passed": 7,
+    "failed": 0,
+    "exitCode": 0,
+    "freshIndependentRun": true,
+    "command": "source private/source-corpus-environment.txt; node --test scripts/rcap-packet-completeness/verify-packet-completeness-cli.test.mjs"
+  },
+  "assessment": [
+    "New direct-entry predicate is identical to existing bottom-of-file main guard. Direct invocation receives identical original argv and parser behavior.",
+    "Imported helper receives empty CLI args; importing generators no longer fail on their own --check or other caller arguments.",
+    "All ARGS-derived WRITE/MUTATIONS/ONLY uses beyond parser are within existing guarded main. Exported audit logic, counters, source checks, verdict ordering and acceptance rules are unchanged.",
+    "Regression suite confirms four imported flag shapes work and direct unknown --check, missing family and bare argument still reject with exit2."
+  ],
+  "authoritativeOutputsModified": false,
+  "acceptanceLogicChanged": false,
+  "limits": [
+    "Generator convergence must be rerun by Captain; reviewer ran bounded CLI/import tests only."
+  ]
+}

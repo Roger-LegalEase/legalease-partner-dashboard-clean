@@ -1,0 +1,61 @@
+{
+  "schemaVersion": "rcap-route-artifact-raster-queue/v1",
+  "generatedBy": ".kspath-tools/family-raster-manifest.mjs (FIX03, fable/kspath)",
+  "whyThisExists": "The Kansas family assembly moved when the printed route line changed from the machine key to the human label. RASTER_QUEUE.json is the Captain's and still pins the pre-label bytes, so this lane renders the assembly against a manifest of its own rather than writing the Captain's queue.",
+  "thisIsNotTheCaptainsQueue": "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json and MASTER_QUEUE.json are the Captain's and are not written by this lane.",
+  "consumedBy": "node scripts/rcap-raster-batch.mjs --manifest <this file> --family rcap-ks-custom-pleading --out <dir>",
+  "requestedScale": 2.5,
+  "counts": {
+    "rows": 1,
+    "documents": 2,
+    "pages": 25
+  },
+  "rows": [
+    {
+      "familyId": "rcap-ks-custom-pleading",
+      "unitOfDelivery": "family_assembly",
+      "packetCommitSha": "feefa606e6b1477fe92a627949a979af9c0e0243",
+      "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/canonical.pdf",
+      "canonicalPdfSha256": "006811ccb975a156a19a8ee2ed8a5a92a50f2c7d4c25a8f498d146202a58fc24",
+      "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/boundary.pdf",
+      "boundaryPdfSha256": "3f903f57859d75026d4e5885ac0ab23abc80f3363df713820c4e24d7af3c7fe2",
+      "expectedPages": 12,
+      "documents": [
+        {
+          "role": "boundary",
+          "name": "family-assembly--boundary.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/boundary.pdf",
+          "sha256": "3f903f57859d75026d4e5885ac0ab23abc80f3363df713820c4e24d7af3c7fe2",
+          "pageCount": 13
+        },
+        {
+          "role": "canonical",
+          "name": "family-assembly--canonical.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/canonical.pdf",
+          "sha256": "006811ccb975a156a19a8ee2ed8a5a92a50f2c7d4c25a8f498d146202a58fc24",
+          "pageCount": 12
+        }
+      ],
+      "documentsDigest": "f8df406e8ed593a5854e7b080b18f2219d17a6addd33ecbde7001a32946d79bc",
+      "coverage": {
+        "documents": [
+          "family-assembly--boundary.pdf",
+          "family-assembly--canonical.pdf"
+        ],
+        "rastered": [
+          "family-assembly--boundary.pdf",
+          "family-assembly--canonical.pdf"
+        ],
+        "notRastered": [],
+        "complete": true,
+        "basis": "both family-assembly fixtures are rendered. The family assembly is build and review evidence on this two-route family and is not itself a participant deliverable; the route artifacts are."
+      },
+      "requestedScale": 2.5,
+      "currentRasterState": "RASTER_PENDING"
+    }
+  ],
+  "packetPdfsModified": 0,
+  "packetContentChanged": false,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false
+}

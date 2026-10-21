@@ -1,0 +1,340 @@
+{
+  "schemaVersion": "fable-packet-factory-builder-return/v1",
+  "builder": "FABLE-B7",
+  "branch": "fable/b7",
+  "grantSet": "d6e21c15ec2a5046",
+  "dispatchNote": "Captain lane correction applied: the claim ledger is ground truth, and every family was asserted and released on its ledger lane (PF16/PF03/PF05), not the lanes in the original brief. ca-1203-4-set dropped entirely per captain instruction. All six buildable families are CUSTOM_PLEADING_FROM_CODIFIED_TEXT rows binding no corpus bytes; each was composed from its committed legal-design intake record and the packet-set manifest, hashed at build time into source-receipt.json, through a new shared composed-pleading host following the working va_exp_identity_used_by_another-set pattern.",
+  "sharedHost": "scripts/rcap-custom-pleading/composed-family-host.mjs (new; stampDeterministic on every created PDF; save with useObjectStreams:false, updateMetadata:false; write values read back from saved packet bytes; builder self-counts the nine counters with the repository's own contract functions, mirroring the verifier's selection-control detection)",
+  "families": {
+    "ca-1203-4-set": {
+      "lane": null,
+      "status": "SKIPPED_PER_CAPTAIN_INSTRUCTION",
+      "claimResult": {
+        "assert": "GRANTED_ELSEWHERE: ca-1203-4-set is granted to PF17, not PF03 (exit 8). Ledger: the PF17 packet-build grant is RELEASED (releasedAt 2026-09-01T12:48:31.753Z; external Codespace A stood down without building; transfer record PF03->PF17 of 2026-09-01T11:38:03.496Z).",
+        "transferAttempt": "claim.mjs --transfer PF17 PF03 ca-1203-4-set was denied by the session permission classifier; no ledger operation was performed outside claim.mjs and the ledger was never hand-edited."
+      },
+      "why": "Captain instruction: drop entirely - the family holds no live packet-build grant, its source PDFs are AES-256 encrypted (FACTORY_MEMORY: pdf-lib cannot open them; STOP, do not hunt for alternates), and the blocker is already recorded. Nothing of this family was read or built.",
+      "commits": []
+    },
+    "ms-misd-1st-set": {
+      "lane": "PF16",
+      "status": "BUILT",
+      "claimResult": {
+        "assert": "CLAIM_OK PF16 ms-misd-1st-set (packet-build, grant set d6e21c15ec2a5046)",
+        "release": "RELEASED PF16 ms-misd-1st-set"
+      },
+      "sourcesVerified": {
+        "note": "No corpus bytes are bound for this family (sourceStatus CUSTOM_PLEADING_FROM_CODIFIED_TEXT, officialFormFamily NONE); the composition sources are the committed legal-design records, hashed at build time.",
+        "compositionSources": [
+          { "path": "data/record-clearing/legal-design-intake/MS.memo.json", "sha256": "6982ae0c69373c196b763c84ebd8f8ff85ce1a6954a2806953591f82ff7845f2", "byteLength": 395826 },
+          { "path": "data/record-clearing/legal-design-packet-set-manifests.json", "sha256": "80d88d69dc5710b9a763abb31c6864069f9bb6d74b942c5e5849925144693ffa", "byteLength": 3674510 }
+        ]
+      },
+      "whatWasWritten": {
+        "note": "Only facts the platform holds about the participant: 9 writes across five composed components.",
+        "facts": [
+          "participant.full_legal_name (petition, order and certificate captions; every process page)",
+          "participant.date_of_birth (petition identifying block)",
+          "participant.street_address, participant.phone, participant.email (petition contact block)"
+        ]
+      },
+      "whatWasCarriedToParticipant": {
+        "requiredBeforeFiling": 19,
+        "items": [
+          "petition: convicting court+county, cause number, offence wording, offence/arrest/conviction dates, arresting agency and its case number, the participant-initialled nontraffic and first-offender assertions",
+          "proposed order: caption court and cause number, the fillable agency list (arresting agency, sheriff's department, other record-keepers)",
+          "certificate of service: caption, prosecuting authority name and mailing address"
+        ],
+        "checkableAuthorities": "records office of the convicting court for every case fact, fee and local-form question (localFormOverride: mandatory clerk-contact step); Mississippi Criminal Information Center for the criminal history behind the first-offender initials; no fee amount published anywhere (99-19-72 reach is a recorded open question)",
+        "protectedNeverWritten": "petitioner signature and date, the judicial entry and signing block, the APPROVED AS TO FORM block, certificate service date and signature; none written and none pre-selected"
+      },
+      "nineCounters": { "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0 },
+      "independentFocusedCheck": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ms-misd-1st-set -> PASS_COMPLETE, 9/37 written, all nine counters zero (a builder-run focused check, not a verification verdict)",
+      "rebuildByteIdentical": true,
+      "rebuildProof": "two full builds; sha256 over every emitted file in the family directory identical between runs",
+      "artifacts": [
+        { "fixture": "canonical", "packetSha256": "e9483733fabca9e031a024a30444a37b49f3d14c0fd84e6d579bd3f2209be897", "pages": 8 },
+        { "fixture": "boundary", "packetSha256": "90608c6244d1999dece4f87dc22632e7dda36f0302de22d3996437aebd7458b5", "pages": 8 }
+      ],
+      "rasterState": "BUILT_RASTER_PENDING",
+      "renderedArtifactsShape": "rcap-rendered-artifacts/v1 with a pdfs[] row per fixture (file, documentId, fixture, sha256, byteLength, pageCount)",
+      "components": ["primary_filing", "proposed_order", "certificate_of_service", "attachment", "instructions"],
+      "familyEndsAt": "state_built",
+      "commits": ["75c07bdef factory(PF16/fable-b7): build ms-misd-1st-set to state_built"],
+      "counselQuestionsRaised": [
+        "99-19-72 fee reach in justice/municipal court",
+        "whether 'first offender' is measured statewide or by court",
+        "the traffic-violation line",
+        "zero-balance practice on a subsection (1) petition",
+        "form sufficiency in the least standardized courts"
+      ],
+      "packetsSelfVerified": 0, "commercialRoutesOpened": 0, "productionTouched": false
+    },
+    "ms-nonconv-set": {
+      "lane": "PF05",
+      "status": "BUILT",
+      "claimResult": {
+        "assert": "CLAIM_OK PF05 ms-nonconv-set (packet-build, grant set d6e21c15ec2a5046)",
+        "release": "RELEASED PF05 ms-nonconv-set"
+      },
+      "sourcesVerified": {
+        "note": "No corpus bytes bound (CUSTOM_PLEADING_FROM_CODIFIED_TEXT); composed from the committed legal-design records, hashed at build time.",
+        "compositionSources": [
+          { "path": "data/record-clearing/legal-design-intake/MS.memo.json", "sha256": "6982ae0c69373c196b763c84ebd8f8ff85ce1a6954a2806953591f82ff7845f2", "byteLength": 395826 },
+          { "path": "data/record-clearing/legal-design-packet-set-manifests.json", "sha256": "80d88d69dc5710b9a763abb31c6864069f9bb6d74b942c5e5849925144693ffa", "byteLength": 3674510 }
+        ]
+      },
+      "whatWasWritten": {
+        "note": "Only held participant facts: 9 writes across five composed components.",
+        "facts": [
+          "participant.full_legal_name",
+          "participant.date_of_birth",
+          "participant.street_address, participant.phone, participant.email"
+        ]
+      },
+      "whatWasCarriedToParticipant": {
+        "requiredBeforeFiling": 18,
+        "participantElections": 6,
+        "items": [
+          "petition: pending court+county, cause number, charge wording, offence/arrest dates, agency and its number, case-end date, conditional indictment statement, and the FOUR statutory disposition categories as participant marks (mark exactly one; ambiguous docket entries route to advice; no 'with prejudice' qualifier added unless the participant's own order says so)",
+          "proposed order: caption facts and the fillable agency list",
+          "certificate of service: caption, prosecuting authority name and address, manner-of-delivery marks"
+        ],
+        "checkableAuthorities": "records office of the court that heard the case for every case fact, fee and local-form question; circuit records office for the indictment; Mississippi Criminal Information Center for the history; no fee amount published (whether 99-19-72 reaches a subsection (4) petition at all is a recorded open question)",
+        "protectedNeverWritten": "petitioner signature and date, judicial entry/signing block, APPROVED AS TO FORM block, certificate date and signature"
+      },
+      "nineCounters": { "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0 },
+      "independentFocusedCheck": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ms-nonconv-set -> PASS_COMPLETE, 9/40 written, all nine counters zero (a builder-run focused check, not a verification verdict)",
+      "rebuildByteIdentical": true,
+      "rebuildProof": "two full builds; sha256 over every emitted file in the family directory identical between runs",
+      "artifacts": [
+        { "fixture": "canonical", "packetSha256": "4ae768075a7f5aa534813a2303b24260e2b08308c0f3c7f18a4cc21531812ecf", "pages": 8 },
+        { "fixture": "boundary", "packetSha256": "c52fc25286a857e49767228c88647f6b8f9364cff08dd4354fd8750294dffa13", "pages": 8 }
+      ],
+      "rasterState": "BUILT_RASTER_PENDING",
+      "renderedArtifactsShape": "rcap-rendered-artifacts/v1 with a pdfs[] row per fixture",
+      "components": ["primary_filing", "proposed_order", "certificate_of_service", "attachment", "instructions"],
+      "familyEndsAt": "state_built",
+      "commits": ["2ace37828 factory(PF05/fable-b7): build ms-nonconv-set to state_built"],
+      "counselQuestionsRaised": [
+        "99-19-72 fee reach for a subsection (4) petition and in lower courts",
+        "'passed to the file' / 'retired to the file' as 'no disposition'",
+        "the (2)(b) ten-day DA notice outside the felony subsection",
+        "verification/notarization practice",
+        "form sufficiency in justice/municipal courts"
+      ],
+      "packetsSelfVerified": 0, "commercialRoutesOpened": 0, "productionTouched": false
+    },
+    "me-nonconv-set": {
+      "lane": "PF03",
+      "status": "BUILT",
+      "claimResult": {
+        "assert": "CLAIM_OK PF03 me-nonconv-set (packet-build, grant set d6e21c15ec2a5046)",
+        "release": "RELEASED PF03 me-nonconv-set"
+      },
+      "sourcesVerified": {
+        "note": "No corpus bytes bound (CUSTOM_PLEADING_FROM_CODIFIED_TEXT); composed from the committed legal-design records, hashed at build time.",
+        "compositionSources": [
+          { "path": "data/record-clearing/legal-design-intake/ME.memo.json", "sha256": "fadc5e312ee3f225d27359efb3c89c7eb2336d919201afd00be39f0b1c7f798b", "byteLength": 203341 },
+          { "path": "data/record-clearing/legal-design-packet-set-manifests.json", "sha256": "80d88d69dc5710b9a763abb31c6864069f9bb6d74b942c5e5849925144693ffa", "byteLength": 3674510 }
+        ]
+      },
+      "whatWasWritten": {
+        "note": "Only held participant facts: 8 writes across four composed components. Nothing is filed at all on the base branch - 703(2) confidentiality is by operation of law.",
+        "facts": [
+          "participant.full_legal_name",
+          "participant.date_of_birth (709 request)",
+          "participant.street_address, participant.phone, participant.email (709 request contact block)"
+        ]
+      },
+      "whatWasCarriedToParticipant": {
+        "requiredBeforeFiling": 8,
+        "items": [
+          "worksheet: where the record is actually causing the problem (Bureau record / court docket / private vendor - three problems, three remedies)",
+          "709 request (conditional, condition on its face): court+county, docket number, charge, the disposition copied exactly (with-prejudice and plea-agreement wording never inferred; silent orders route to the records office or advice), disposition date, what the Bureau record currently shows, the correction requested with its 703(2) paragraph"
+        ],
+        "checkableAuthorities": "records office of the court that handled the case for disposition facts; Maine State Police, State Bureau of Identification (State House Station #42, Augusta, ME 04333-0042, printed from the record) for the Bureau record and its own current fees; the escalation path (agency-head appeal, statement of disagreement, Superior Court review) described only - attorney work",
+        "protectedNeverWritten": "requester signature and date; no confidentiality promised on the deferred-disposition branch (recorded open question); court dockets stated as not cured (709(6))"
+      },
+      "nineCounters": { "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0 },
+      "independentFocusedCheck": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family me-nonconv-set -> PASS_COMPLETE, 8/18 written, all nine counters zero (a builder-run focused check, not a verification verdict)",
+      "rebuildByteIdentical": true,
+      "rebuildProof": "two full builds; sha256 over every emitted file in the family directory identical between runs",
+      "artifacts": [
+        { "fixture": "canonical", "packetSha256": "d9ea11c3b618cf92863f653ef964f32bf893ef91a602269d1950cbda68c5b007", "pages": 7 },
+        { "fixture": "boundary", "packetSha256": "4f7c2fad8a0c2a2dbd0681b5c48bea156401b82cd87746659cd8077b9df4d665", "pages": 7 }
+      ],
+      "rasterState": "BUILT_RASTER_PENDING",
+      "renderedArtifactsShape": "rcap-rendered-artifacts/v1 with a pdfs[] row per fixture",
+      "components": ["process_guidance", "primary_filing (conditional)", "attachment (conditional)", "instructions"],
+      "familyEndsAt": "state_built",
+      "commits": ["4cecf009c factory(PF03/fable-b7): build me-nonconv-set to state_built"],
+      "counselQuestionsRaised": [
+        "deferred-disposition status under 703(2)(G)",
+        "public docket accessibility treatment",
+        "703(2) paragraphs K and L mapping",
+        "sufficiency of the composed 709 request where no form exists"
+      ],
+      "packetsSelfVerified": 0, "commercialRoutesOpened": 0, "productionTouched": false
+    },
+    "nd-deferred-imposition-records-set": {
+      "lane": "PF03",
+      "status": "BUILT",
+      "claimResult": {
+        "assert": "CLAIM_OK PF03 nd-deferred-imposition-records-set (packet-build, grant set d6e21c15ec2a5046)",
+        "release": "RELEASED PF03 nd-deferred-imposition-records-set"
+      },
+      "sourcesVerified": {
+        "note": "No corpus bytes bound (CUSTOM_PLEADING_FROM_CODIFIED_TEXT); composed from the committed legal-design records, hashed at build time.",
+        "compositionSources": [
+          { "path": "data/record-clearing/legal-design-intake/ND.memo.json", "sha256": "b39b420c37ac318ca070cb13eaf402ece23d6af90755827bba0647410276e8a0", "byteLength": 218868 },
+          { "path": "data/record-clearing/legal-design-packet-set-manifests.json", "sha256": "80d88d69dc5710b9a763abb31c6864069f9bb6d74b942c5e5849925144693ffa", "byteLength": 3674510 }
+        ]
+      },
+      "whatWasWritten": {
+        "note": "Only held participant facts: 6 writes across three composed components. Nothing is filed on the verification unit - Rule 32.1 makes the withdrawal/dismissal/sealing a mandatory term of the court's own deferral order.",
+        "facts": [
+          "participant.full_legal_name",
+          "participant.street_address, participant.phone, participant.email (motion contact block)"
+        ]
+      },
+      "whatWasCarriedToParticipant": {
+        "requiredBeforeFiling": 5,
+        "participantElections": 1,
+        "items": [
+          "motion (conditional - only where the automatic term did not operate; condition on its face): sentencing county, existing case number, deferral order date (decides which Rule 32.1 version applies; pre-2019 felony deferral routes to advice), probation end date, offence level; the felony-reduction application as the participant's own mark"
+        ],
+        "checkableAuthorities": "clerk of court of the sentencing court for the deferral order, discharge, revocation/bench-warrant check and the final order; DOCR Parole and Probation for the discharge record; no fee stated because none is identified in the record; the legal-effect page states plainly what the seal is not (12.1-32-02(4) pleadability, 62.1-02-01(2) firearm disability, 12.1-32-15 registration survival, 12.1-32-07.2(2) restricted access)",
+        "protectedNeverWritten": "defendant signature and date; the court's dismissal order is deliberately not in the packet"
+      },
+      "nineCounters": { "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0 },
+      "independentFocusedCheck": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nd-deferred-imposition-records-set -> PASS_COMPLETE, 6/14 written, all nine counters zero (a builder-run focused check, not a verification verdict)",
+      "rebuildByteIdentical": true,
+      "rebuildProof": "two full builds; sha256 over every emitted file in the family directory identical between runs",
+      "artifacts": [
+        { "fixture": "canonical", "packetSha256": "8d6c31287e83b99aa8a78568bab7aff0b8eb50efdf59f65c0de5ded7a20c9bf1", "pages": 4 },
+        { "fixture": "boundary", "packetSha256": "c972e9582608a156bd8ab7b1792d66c829edb8c93a50c1be28f5fcf526134a29", "pages": 4 }
+      ],
+      "rasterState": "BUILT_RASTER_PENDING",
+      "renderedArtifactsShape": "rcap-rendered-artifacts/v1 with a pdfs[] row per fixture",
+      "components": ["verification_instructions", "primary_filing (conditional)", "legal_effect_explanation"],
+      "familyEndsAt": "state_built",
+      "commits": ["aa3030461 factory(PF03/fable-b7): build nd-deferred-imposition-records-set to state_built"],
+      "counselQuestionsRaised": [
+        "pre-2019 felony deferral and the sixty-one-day term",
+        "composed-node vs split normalization (recorded counsel-classification question)",
+        "motion structure sufficiency where no form exists",
+        "notice expectations on a 12.1-32-07.1 motion"
+      ],
+      "packetsSelfVerified": 0, "commercialRoutesOpened": 0, "productionTouched": false
+    },
+    "ct-under18-misdemeanor-set": {
+      "lane": "PF16",
+      "status": "BUILT",
+      "claimResult": {
+        "assert": "CLAIM_OK PF16 ct-under18-misdemeanor-set (packet-build, grant set d6e21c15ec2a5046)",
+        "release": "RELEASED PF16 ct-under18-misdemeanor-set"
+      },
+      "sourcesVerified": {
+        "note": "No corpus bytes bound (CUSTOM_PLEADING_FROM_CODIFIED_TEXT); composed from the committed legal-design records, hashed at build time.",
+        "compositionSources": [
+          { "path": "data/record-clearing/legal-design-intake/CT.memo.json", "sha256": "90d96d9d8a25ed7d64b86c3777f753eecfdb651ac083c0f9b53cbda06db5d448", "byteLength": 171609 },
+          { "path": "data/record-clearing/legal-design-packet-set-manifests.json", "sha256": "80d88d69dc5710b9a763abb31c6864069f9bb6d74b942c5e5849925144693ffa", "byteLength": 3674510 }
+        ]
+      },
+      "whatWasWritten": {
+        "note": "1 write: the participant's name on the worksheet. GUIDANCE-ONLY packet: the packet-set manifest names exactly one component (process_guidance) and the legal-design decision retains the 54-142a(f)(2) petition branch as a true blocker ('a known automatic branch does not authorise guessing the petition branch'), so NO petition was composed.",
+        "facts": ["participant.full_legal_name"]
+      },
+      "whatWasCarriedToParticipant": {
+        "requiredBeforeFiling": 5,
+        "items": [
+          "worksheet: offense date (selects the branch), age at offense, statute sections (motor vehicle / title 14 / 51-164r carve-out check), same-information charges ((f)(3) limitation), conviction location (petition branch only)"
+        ],
+        "checkableAuthorities": "Connecticut Judicial Branch online case look-up for the case facts; clerk's office of the Superior Court where the conviction was effected for what that court's file shows and what filings it accepts; no fee at any point (54-142a(k)); the pre-2000 petition branch is a printed stop-and-get-help condition",
+        "protectedNeverWritten": "nothing signable exists on the worksheet; no filing is generated on either branch",
+        "discrepancyRecorded": "MASTER_QUEUE instrumentKinds name an (f)(2) petition instrument; the packet-set manifest and the legal-design decision withhold it behind two standing build_blocker questions. Built to the manifest; discrepancy recorded in build-findings and raised as a counsel question rather than resolved by inventing an instrument no record authorizes."
+      },
+      "nineCounters": { "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0 },
+      "independentFocusedCheck": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ct-under18-misdemeanor-set -> PASS_COMPLETE, 1/6 written, all nine counters zero (a builder-run focused check, not a verification verdict)",
+      "rebuildByteIdentical": true,
+      "rebuildProof": "two full builds; sha256 over every emitted file in the family directory identical between runs",
+      "artifacts": [
+        { "fixture": "canonical", "packetSha256": "590845d99eebe8690b046e6e165e2774307f008eb81def64b009603b70b556ae", "pages": 2 },
+        { "fixture": "boundary", "packetSha256": "3a951c8005870a9f49b4f426d2602fb4400430ff40c85af54b87adf5a7bb5888", "pages": 2 }
+      ],
+      "rasterState": "BUILT_RASTER_PENDING",
+      "renderedArtifactsShape": "rcap-rendered-artifacts/v1 with a pdfs[] row per fixture",
+      "components": ["process_guidance"],
+      "familyEndsAt": "state_built",
+      "commits": ["bc61d9943 factory(PF16/fable-b7): build ct-under18-misdemeanor-set to state_built"],
+      "counselQuestionsRaised": [
+        "whether the Judicial Branch publishes an (f)(2) form and whether JD-CR-202 is used in practice",
+        "the accepted (f)(2) vehicle and the historical offense-date/classification rule",
+        "the instrumentKinds-vs-manifest discrepancy",
+        "confirming a deemed erasure of scanned/non-electronic records"
+      ],
+      "packetsSelfVerified": 0, "commercialRoutesOpened": 0, "productionTouched": false
+    },
+    "vt_seal_under_25-set": {
+      "lane": "PF05",
+      "status": "BUILT",
+      "claimResult": {
+        "assert": "CLAIM_OK PF05 vt_seal_under_25-set (packet-build, grant set d6e21c15ec2a5046)",
+        "release": "RELEASED PF05 vt_seal_under_25-set"
+      },
+      "sourcesVerified": {
+        "note": "No corpus bytes bound (CUSTOM_PLEADING_FROM_CODIFIED_TEXT); composed from the committed legal-design records, hashed at build time. The VT host's corpusRoot() was not involved: this family reads no corpus bytes, so the BLOCKED_SOURCE hazard class did not arise.",
+        "compositionSources": [
+          { "path": "data/record-clearing/legal-design-intake/VT.memo.json", "sha256": "4bcd3fa16e73781234c2ebaabbd24e20dc25967049a86c66b6064aaa25fab079", "byteLength": 283822 },
+          { "path": "data/record-clearing/legal-design-packet-set-manifests.json", "sha256": "80d88d69dc5710b9a763abb31c6864069f9bb6d74b942c5e5849925144693ffa", "byteLength": 3674510 }
+        ]
+      },
+      "whatWasWritten": {
+        "note": "Only held participant facts: 7 writes across three composed components.",
+        "facts": [
+          "participant.full_legal_name",
+          "participant.date_of_birth (application first paragraph)",
+          "participant.street_address, participant.phone, participant.email (application contact block)"
+        ]
+      },
+      "whatWasCarriedToParticipant": {
+        "requiredBeforeFiling": 5,
+        "items": [
+          "application: Superior Court unit (county), docket number, age at the offence, final discharge date (the two-year clock), and the rehabilitation account in the participant's own words - never auto-completed; the controlling review lists it among fields that must not be"
+        ],
+        "checkableAuthorities": "Criminal Division clerk's office for the discharge record and the 5119(k) assistance duty; Vermont Crime Information Center for the ten-year listed-crime lookback (its record fee read live, never stored); Restitution Unit of the Vermont Center for Crime Victim Services for the 5119(m) balance; no filing fee (32 V.S.A. 1431(e)); notice to all parties of record is the Court's own step, so no service mechanic was invented",
+        "protectedNeverWritten": "applicant signature and date; the rehabilitation lines carry no platform words; no notarization required by the section"
+      },
+      "nineCounters": { "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0 },
+      "independentFocusedCheck": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_under_25-set -> PASS_COMPLETE, 7/14 written, all nine counters zero (a builder-run focused check, not a verification verdict)",
+      "rebuildByteIdentical": true,
+      "rebuildProof": "two full builds; sha256 over every emitted file in the family directory identical between runs",
+      "artifacts": [
+        { "fixture": "canonical", "packetSha256": "cd71dce93a3404558c3d2fc33e55a3838867868781c801c7487ebad8ea049a07", "pages": 5 },
+        { "fixture": "boundary", "packetSha256": "ddf00f9ef8f86bb54495dd12a379d7edfc906a03c6e94a37a3b1e8a8df832492", "pages": 5 }
+      ],
+      "rasterState": "BUILT_RASTER_PENDING",
+      "renderedArtifactsShape": "rcap-rendered-artifacts/v1 with a pdfs[] row per fixture",
+      "components": ["application_for_sealing", "rehabilitation_statement_prompts", "hearing_and_notice_instructions"],
+      "familyEndsAt": "state_built",
+      "commits": ["60361c01b factory(PF05/fable-b7): build vt_seal_under_25-set to state_built"],
+      "counselQuestionsRaised": [
+        "sufficiency of the composed application where the Judiciary publishes no form (recorded release blocker)",
+        "the three-findings statement structure",
+        "the 5119(k) assistance duty in practice",
+        "confirmation that notice belongs to the Court"
+      ],
+      "packetsSelfVerified": 0, "commercialRoutesOpened": 0, "productionTouched": false
+    }
+  },
+  "totals": {
+    "familiesBuilt": 6,
+    "familiesSkipped": 1,
+    "passComplete": 6,
+    "rebuildsByteIdentical": 6,
+    "packetsSelfVerified": 0,
+    "commercialRoutesOpened": 0,
+    "productionTouched": false
+  }
+}

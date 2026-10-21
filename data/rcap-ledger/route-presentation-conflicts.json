@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "note": "Routes whose contract and whose participant-facing compiled text describe different things. A contract can be exactly right while the summary and rule clauses a participant reads still carry an older, broader description — usually a whole-chapter corpus dump the route was cut from. That is not a legal defect and it is not a contract defect; it is a presentation defect, and it is a money-gate risk, because the route can sell a petition under one statute while telling the participant about another. A route recorded here is held closed on this conflict specifically, not incidentally on some other hold that might later be lifted.",
+  "release": [
+    "Retire or rewrite the compiled pathway text so it describes only what the contract covers.",
+    "Re-run the route and confirm the participant-facing summary and the contract name the same mechanism.",
+    "Remove the row. The verifier fails if a row survives without a live conflict, so a fixed route cannot keep an exemption."
+  ],
+  "rows": [
+    {
+      "routeKey": "GA:youthful-first-offender-restriction-route",
+      "status": "held",
+      "raisedOn": "2026-08-28",
+      "classification": "proven_statute_with_conflated_compiled_text",
+      "contractIsCorrect": true,
+      "provenStatute": "O.C.G.A. § 42-8-62.1",
+      "provenBy": "LD-GA-01 / GA-35-3-37-42-8-62.1-THREE-MECHANISM-MAP. The contract names § 42-8-62.1, effectiveFrom 2026-07-01, mechanism \"First-offender restriction and sealing under the July 1, 2026 amendments\", packetFamily \"Georgia First-Offender Restriction and Sealing Petition under § 42-8-62.1\", packetComponents \"Petition or motion under § 42-8-62.1\" and \"First-offender discharge documentation\". Its own exclusions push the other mechanisms away by name: \"Separate post-July 1, 2013 nonconviction, pardoned-felony, and first-offender mechanisms\". The contract is specific, coherent and self-consistent.",
+      "whatIsConflated": "The compiled pathway text, not the contract. src/lib/rcap-engine/compiled/profiles/GA-georgia.json carries this route's summary and ruleClauses straight from corpus-unit:29 (pathways:68-115), which is the whole Georgia restriction-and-sealing chapter. Its clauses describe § 35-3-37(h) non-conviction restriction, § 35-3-37(j.1) automatic restriction, § 35-3-37(j)(4) SB 288 misdemeanor restriction, § 35-3-37(j)(7) pardoned-felony restriction, § 35-3-37(m) clerk-file sealing, and § 42-8-66 retroactive First Offender treatment. Five of those six have their own separate Georgia routes. Section 42-8-62.1 — the statute the contract is about — appears in none of the route's own clauses.",
+      "whyItIsHeld": "A participant on this route can be shown a summary about GCIC restriction under § 35-3-37 while the packet family and components prepare a petition under § 42-8-62.1. The canonical resolver already treats this route as a sellable participant packet: serviceDisposition participant_packet, paymentAuthority packet_checkout, no open delivery gates, delivery.paymentAllowed true. Today the evaluator returns guidance_only for an unrelated reason — ga.lawrence_hold_guidance_only — so nothing sells. That hold is not about this conflict and could be lifted without anyone noticing this one. This row makes the hold specific to the defect.",
+      "notAnAlias": "This is also the answer to whether the new § 42-8-66 route is a rename of this one. It is not. The texts overlap because this route's text is a chapter dump that happens to mention § 42-8-66; the contracts do not overlap at all, and LD-GA-01 excludes the § 42-8-66 mechanism by name.",
+      "doesNotChange": [
+        "the contract, which is correct as written",
+        "the legal conclusion about § 42-8-62.1",
+        "any other Georgia route"
+      ]
+    }
+  ]
+}

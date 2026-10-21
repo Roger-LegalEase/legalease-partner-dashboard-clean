@@ -1,0 +1,79 @@
+{
+  "schemaVersion": "rcap-family-approval-request/v1",
+  "familyId": "nh_marijuana_annulment-set",
+  "requested": "independent completeness verification, visual review and counsel review",
+  "buildStatus": "state_built",
+  "status": "BUILT_RASTER_PENDING",
+  "routeKeys": [
+    "obligation:track-pathway:NH:nh_marijuana_annulment:marijuana-possession-annulment-under-rsa-651-5-b"
+  ],
+  "components": [
+    {
+      "kind": "primary_filing",
+      "documentId": "NHJB-3124",
+      "outputStrategy": "official_pdf_fill"
+    },
+    {
+      "kind": "fee_waiver_motion",
+      "documentId": "NHJB-2311",
+      "outputStrategy": "official_pdf_fill"
+    },
+    {
+      "kind": "fee_waiver_financial_statement",
+      "documentId": "NHJB-2328",
+      "outputStrategy": "official_pdf_fill"
+    },
+    {
+      "kind": "prosecutor_copy",
+      "documentId": null,
+      "outputStrategy": "process_guidance",
+      "deliveredAs": "participant-instructions.md § The copy you send to the prosecutor"
+    },
+    {
+      "kind": "proof_of_service",
+      "documentId": null,
+      "outputStrategy": "process_guidance",
+      "deliveredAs": "participant-instructions.md § Keeping proof of what you sent, and when"
+    },
+    {
+      "kind": "post_filing_instructions",
+      "documentId": null,
+      "outputStrategy": "process_guidance",
+      "deliveredAs": "participant-instructions.md § What happens after you file, and the ten-day clock"
+    },
+    {
+      "kind": "effect_and_limits_disclosure",
+      "documentId": null,
+      "outputStrategy": "process_guidance",
+      "deliveredAs": "participant-instructions.md § What annulment does, and what it does not do"
+    }
+  ],
+  "artifacts": [
+    {
+      "fixture": "canonical",
+      "file": "data/rcap-all50/overlays/census-v1/nh/nh-marijuana-annulment-set--official-pdf-fill/fixtures/canonical.pdf",
+      "sha256": "23390b7f9cc6013681dfe40910233737a0410c2bb11454f6c551b4fd1abbbed8",
+      "byteLength": 110626,
+      "pageCount": 7
+    },
+    {
+      "fixture": "boundary",
+      "file": "data/rcap-all50/overlays/census-v1/nh/nh-marijuana-annulment-set--official-pdf-fill/fixtures/boundary.pdf",
+      "sha256": "661ff0044bc4442c7c760fb39b4f5b6c83415b7dd42fc9f61dddcc8d00fd3f1e",
+      "byteLength": 110674,
+      "pageCount": 7
+    }
+  ],
+  "independentVerificationStatus": "PENDING",
+  "approvedForLive": false,
+  "live": false,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "mattersForTheReviewersAttention": [
+    "This route is the one where the PETITIONER serves the prosecutor. Confirm the packet says so and that NHJB-2328's certificate of service is nonetheless delivered blank.",
+    "The record forbids this packet from stating a price. Confirm no currency figure appears in either instruction document outside a sentence quoted from the record.",
+    "The statement that the amount was three quarters of an ounce or less is the participant's own and is nowhere asserted by this build. Confirm on the paper.",
+    "NHJB-3124 carries no widget anywhere in its court-completed half. Confirm nothing was drawn over those printed rules.",
+    "The NHJB-2311 signature placeholder and the three NHJB-2328 zero totals are suppressed under an appearance disposition this family reuses from a sibling family's registry entry, proved to describe the same bytes by digest. See source-receipt.json appearanceDispositionProvenance and build-findings.json."
+  ]
+}

@@ -1,0 +1,166 @@
+{
+  "itemId": "nh_petition_nonconviction_pre2019-set",
+  "lane": "FIX92",
+  "laneKind": "repair",
+  "status": "COMPLETED",
+  "repairedByThisLane": true,
+  "obligationsRepaired": [
+    "KNOWN_PREFILLS",
+    "REQUIRED_BEFORE_FILING"
+  ],
+  "workerBranch": "codex/fix92-nh-printed-prefills",
+  "workerBase": "abeeb087677b6557f5572bc241b55494ca25ea49",
+  "familyDirectory": "data/rcap-all50/overlays/census-v1/nh/nh-petition-nonconviction-pre2019-set--official-pdf-fill",
+  "builder": "scripts/build-census-v1-nh_petition_nonconviction_pre2019-set.mjs",
+  "claim": "CLAIM_OK FIX92 nh_petition_nonconviction_pre2019-set (repair, grant set de2d57e0e0454273); asserted before family writes and again before completion; left live for Captain integration.",
+  "repairAssignment": "data/rcap-grade-a/packet-factory-24h/vf06/nc-nh-current-20260906/repair-assignments.json",
+  "countersAfter": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+  },
+  "countersAfterEvidence": "data/rcap-grade-a/packet-factory-24h/fix92/nh-printed-prefills-20260906/build-2.json",
+  "counterLimitations": "Builder counters and focused completeness check only. These do not constitute independent or central raster acceptance.",
+  "repair": {
+    "printedCaseNumber": "Inventoried both flat NHJB-2311 page2 case-caption blanks above FOR COURT USE ONLY from exact source captions and underline paths. The held complete case number is written at 11pt through the shared flat-overlay finalizer and read back from delivered page content in both fixtures.",
+    "residenceAddress": "NHJB-2328 field 2.1 uses the complete held street, city, state abbreviation and ZIP at 11pt through the existing named-fact channel. No participant fact is invented; NHJB-2956 existing address composition is preserved.",
+    "requiredBeforeFiling": "The unheld printed Case Name header is now inventoried and explicitly disclosed, raising required-before-filing entries from 89 to 90. Guide distinguishes case captions from the ruling section below.",
+    "preservation": "All original drawing paths and all text on the seven other pages are unchanged in each fixture. On page5 the case number is the only added text; on page6 street-only is replaced with complete address. Existing FIX90 conditional MaxLen refusals (6 fields / 8 widgets), mailing/notarization/recipient limitations and removed placeholder/zero totals remain. No signature, ruling, election, service act or financial figure is populated."
+  },
+  "measuredCounts": {
+    "canonicalWrites": 23,
+    "boundaryWrites": 17,
+    "sourceAcroFormFields": 168,
+    "additionalPrintedHeaders": 2,
+    "requiredBeforeFiling": 90,
+    "retainedMaxLenRefusedFields": 6,
+    "retainedMaxLenRefusedWidgetInstances": 8,
+    "changedPageWritesMeasuredAt11pt": 4,
+    "currentCalibratedPagesInspected": 4,
+    "maxCalibrationResidualPx": 0
+  },
+  "sourceBinding": {
+    "status": "PASS",
+    "sourceRoot": "/home/codespace/.local/share/legalease/private/source-imports/restart-recovered-20260906",
+    "exactPinnedSha256": true,
+    "sources": [
+      {
+        "sourceIds": [
+          "official-form:NHJB-2317-DSe"
+        ],
+        "documentId": "NHJB-2317",
+        "formNumber": "NHJB-2317",
+        "revision": "REV-2019-06",
+        "pathInArchive": "STATES/NH/02_PACKET_FORMS/NH__FORM__NHJB-2317__petition-to-annul-record__REV-2019-06__EN.pdf",
+        "sha256": "2fc2e1ede5201c17aa6a6e7726aff4659a649131429f8fec69771bc2b62f662c",
+        "byteLength": 85115,
+        "instrumentKind": "primary_filing"
+      },
+      {
+        "sourceIds": [
+          "official-form:NHJB-2311"
+        ],
+        "documentId": "NHJB-2311",
+        "formNumber": "NHJB-2311",
+        "revision": "REV-2018-01",
+        "pathInArchive": "STATES/NH/04_SUPPORTING_PROCESS/NH__SUPPORT__NHJB-2311__nhjb-2311-motion-for-waiver-of-filing-fee__REV-2018-01__EN.pdf",
+        "sha256": "f8b5df1366a91a9fd177612c0519f941b8d4f60e1f8f84c2a6c0c064ba7da58e",
+        "byteLength": 64896,
+        "instrumentKind": "fee_waiver_motion"
+      },
+      {
+        "sourceIds": [
+          "official-form:NHJB-2328"
+        ],
+        "documentId": "NHJB-2328",
+        "formNumber": "NHJB-2328",
+        "revision": "REV-UNKNOWN",
+        "pathInArchive": "STATES/NH/04_SUPPORTING_PROCESS/NH__SUPPORT__NHJB-2328__nhjb-2328-statement-of-assets-and-liabilities-individual__REV-UNKNOWN__EN.pdf",
+        "sha256": "b4384b41efb472951c28b1289e46b05dfcc9463147aa490597f541f5291ce919",
+        "byteLength": 66063,
+        "instrumentKind": "fee_waiver_financial_statement"
+      },
+      {
+        "sourceIds": [
+          "official-form:NHJB-2956"
+        ],
+        "documentId": "NHJB-2956",
+        "formNumber": "NHJB-2956",
+        "revision": "REV-UNKNOWN",
+        "pathInArchive": "STATES/NH/04_SUPPORTING_PROCESS/NH__SUPPORT__NHJB-2956__nhjb-2956-criminal-record-release-authorization__REV-UNKNOWN__EN.pdf",
+        "sha256": "c8e5e9fead600ad30a956eac98c43d30d9ca3a3b8b4bc619713e50c83524f569",
+        "byteLength": 62291,
+        "instrumentKind": "criminal_history_request"
+      }
+    ],
+    "bytes": 278365,
+    "newDownloads": 0,
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/nh/nh-petition-nonconviction-pre2019-set--official-pdf-fill/source-receipt.json"
+  },
+  "artifactIdentity": [
+    {
+      "fixture": "canonical",
+      "sha256": "adcd250e96f50e380bc9d15529130865be9d1a2c0336c139978c81acea70f0c6",
+      "byteLength": 183194,
+      "pageCount": 9
+    },
+    {
+      "fixture": "boundary",
+      "sha256": "b9cf9a1724750739ce93945ee01ed2939c97de2446dc95051c6628ef5f34af6f",
+      "byteLength": 183294,
+      "pageCount": 9
+    }
+  ],
+  "determinism": {
+    "status": "PASS",
+    "finalCodeGenerationsCompleted": 2,
+    "comparedNonRasterFiles": 16,
+    "evidence": "data/rcap-grade-a/packet-factory-24h/fix92/nh-printed-prefills-20260906/determinism.json"
+  },
+  "verification": {
+    "checks": "data/rcap-grade-a/packet-factory-24h/fix92/nh-printed-prefills-20260906/checks.json",
+    "byteMeasurement": "data/rcap-grade-a/packet-factory-24h/fix92/nh-printed-prefills-20260906/measurement.json",
+    "measurementScript": "data/rcap-grade-a/packet-factory-24h/fix92/nh-printed-prefills-20260906/measure-current.mjs",
+    "calibratedCurrentPageEvidence": "data/rcap-grade-a/packet-factory-24h/fix92/nh-printed-prefills-20260906/affected-raster.json",
+    "authorVisualInspection": {
+      "independent": false,
+      "pagesOpened": [
+        "canonical page 5",
+        "canonical page 6",
+        "boundary page 5",
+        "boundary page 6"
+      ],
+      "finding": "All corrected values are fully legible on their own rules, at 11 pt without clipping. Printed Case Name remains blank; all ruling choices, ruling amount/date/signature and financial lines remain blank. Boundary AcroForm case-number blanks remain correctly refused for MaxLen."
+    }
+  },
+  "priorAttemptEvidence": {
+    "durableDirectory": "/home/codespace/.local/share/legalease/evidence/fix92-nh-printed-prefills-20260906/first-pass-full-state-spelling",
+    "note": "Initial two builds used the existing combined city_state_zip value on Residence Address; measurement caught boundary New Hampshire spelling at 10 pt. Preserved logs/rasters; revised only the new residence composition to held state abbreviation and ran two final builds. Canonical PDF unchanged and its current-hash raster evidence reused; boundary affected pages rerendered on final SHA. Superseded evidence is not current acceptance."
+  },
+  "centralRasterLimitation": "Both delivered PDF hashes changed from integrated baseline. Family rendered-artifacts metadata reports zero newly generated full-family raster pages and independent review pending; existing family raster images are preserved historical evidence. The 4 focused current-page images here are author evidence only. Captain must obtain central acceptance and independent reread for current PDFs.",
+  "obligationsThisRowDoesNotDischarge": [
+    "INDEPENDENT_RE_READ",
+    "CENTRAL_RASTER_RECEIPT_CONFIRMATION",
+    "COUNSEL_REVIEW",
+    "SOURCE_FRESHNESS_REVIEW",
+    "APPROVED_FOR_LIVE"
+  ],
+  "independentlyAccepted": false,
+  "centralRasterPass": false,
+  "routesOpened": 0,
+  "productionTouched": false,
+  "commercialRoutesOpened": 0,
+  "reproductionEnvironment": {
+    "MASTER_LIBRARY_SOURCE_DIR": "/home/codespace/.local/share/legalease/private/source-imports/restart-recovered-20260906",
+    "NODE_PATH": "/home/codespace/.local/share/legalease-raster-tools/node_modules",
+    "NODE_OPTIONS": "--import=/home/codespace/.local/share/legalease-raster-tools/resolve-sharp.mjs",
+    "RCAP_CHROMIUM_PATH": "/home/codespace/.cache/ms-playwright/chromium-1223/chrome-linux64/chrome",
+    "RCAP_RASTER_SETTLE_MS": "15000"
+  }
+}

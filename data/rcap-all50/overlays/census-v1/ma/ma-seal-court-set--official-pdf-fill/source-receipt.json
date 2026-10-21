@@ -1,0 +1,75 @@
+{
+  "schemaVersion": "rcap-family-source-receipt/v1",
+  "familyId": "ma-seal-court-set",
+  "worklistGroupId": "ma-seal-court-set",
+  "jurisdiction": "MA",
+  "implementationStrategy": "official_pdf_fill",
+  "custodyClass": "SOURCE_ALREADY_HELD",
+  "acquisitionCommissioned": false,
+  "networkAcquisitionsMade": 0,
+  "bindingMethod": "the MASTER_QUEUE row's own declared path and SHA-256, read at build time, matched byte-for-byte against the first mounted custody root that holds it. Two further independent statements of the same identity must agree before anything renders: a digest asserted in the builder itself, and the per-source measurement in SOURCE_IDENTITY_RESOLUTION_SWEEP.json.",
+  "routeKey": "obligation:track-pathway:MA:ma-seal-court:court-requested-sealing-for-dismissal-or-nolle-prosequi-100c",
+  "statutoryAuthority": "G.L. c. 276, § 100C — court-requested sealing of a charge that ended in a nolle prosequi or a dismissal",
+  "remedy": "sealing (who may see the record is limited), not expungement",
+  "distinctFrom": {
+    "familyId": "ma-expunge-k-set",
+    "why": "that family is G.L. c. 276, § 100K EXPUNGEMENT, on a different Trial Court petition, which asks a judge to destroy the record on one of eight enumerated grounds. This family is court-requested SEALING on a disposition of nolle prosequi or dismissal. The two share a state and a kind of filing office and nothing else; no recital, authority or filing rule is carried between them."
+  },
+  "allSourcesExact": true,
+  "custodyRootsSearched": [
+    {
+      "root": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02",
+      "exists": true,
+      "sha256": "f83d441b6ddaf1efd02349519256996aea6e7c4bd812f3f1515ba89b58815bb0"
+    }
+  ],
+  "custodyRootUsed": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02",
+  "documents": [
+    {
+      "sourceIds": [
+        "official-form:TC0057"
+      ],
+      "documentId": "TC0057",
+      "formNumber": "TC0057",
+      "officialFormFamily": "TC0057",
+      "pathInArchive": "LegalEase massachusetts/jud-tc-Petition-to-Seal-Criminal-Records-for-Nolle-Prosequi-or-Dismissal.pdf",
+      "sha256": "f83d441b6ddaf1efd02349519256996aea6e7c4bd812f3f1515ba89b58815bb0",
+      "byteLength": 1374671,
+      "instrumentKind": "primary_filing",
+      "pageCount": 3,
+      "acroFieldCount": 135,
+      "editionFooterPrintedOnTheForm": "Standardized (Multi - BMC, DC, JC, SC) - Criminal - TC0057 (2/24)"
+    }
+  ],
+  "sweepMeasurement": {
+    "sourceId": "official-form:TC0057",
+    "priorCustodyClass": "SOURCE_GENUINELY_MISSING",
+    "actualPath": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase massachusetts/jud-tc-Petition-to-Seal-Criminal-Records-for-Nolle-Prosequi-or-Dismissal.pdf",
+    "copiesInCustody": 1,
+    "custodies": [
+      "nationwide_recovery_pool_2026_09_02"
+    ],
+    "pageCount": 3,
+    "acroFieldCount": 135,
+    "byteLength": 1374671,
+    "agreesWithThisBuild": true
+  },
+  "custodyRecordDisagreement": {
+    "finding": "SOURCE_READY_BUILDABILITY.json and the MASTER_QUEUE row both classify this family custodyClass \"SOURCE_GENUINELY_MISSING\" — SOURCE_GENUINELY_MISSING — with documentSourcesResolved 0, while the declared path holds the declared digest exactly.",
+    "basis": "The same buildability row carries kind 'held_pdf', firstBytes '%PDF-' and resolvedBy 'declared_path' for this very source, and the MASTER_QUEUE row reads sourceStatus SOURCE_BOUND_BY_HELD_BYTES and sourceBound true beside the scalar that says it is missing. The row contradicts itself. This build looked: the bytes bind, in a mounted custody root, at the digest three records name.",
+    "consequence": "recorded for whoever owns the custody scalar. GENUINELY_MISSING is the strongest thing that record can say about a source and it was said about a file that was in custody the whole time."
+  },
+  "sanitationObserved": {
+    "xfaPresentInInput": false,
+    "xfaRemoved": false,
+    "synthesizedAppearancesSuppressed": null,
+    "synthesizedWidgetBordersSuppressed": null
+  },
+  "sourceBinaryCommitted": false,
+  "commercialRoutesOpened": 0,
+  "whatThisReceiptDoesNotEstablish": [
+    "that TC0057 (2/24) is the current published edition — no freshness review has been done here",
+    "that any output is approved for participant delivery",
+    "that any record is eligible for sealing under G.L. c. 276, § 100C"
+  ]
+}

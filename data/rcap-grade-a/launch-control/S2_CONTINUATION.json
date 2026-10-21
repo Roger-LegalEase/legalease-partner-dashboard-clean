@@ -1,0 +1,1440 @@
+{
+  "schemaVersion": "rcap-s2-continuation/v1",
+  "generatedBy": "scripts/grade-a-launch-control/generate-s2-continuation.mjs",
+  "question": "The shared host is corrected and integrated. What exactly changed for the eleven families that import it?",
+  "everyCountIsDerived": "No number here is typed. The before counters are read from the matrix at the commit before the repairs, the after counters from the matrix this integration wrote, and the artifact drift from hashing the rendered bytes at both commits.",
+  "theChain": {
+    "s1Integrated": "9a484a666e611e5b31199eced691a2baccc8e862",
+    "s2Integrated": "85c1ca90accd40ab2b7e4f5b49780512601bc879",
+    "contractFixCommits": [
+      "8dcf9b12138bf980a6ac75b08096331c8baca986",
+      "0c8f25d9810bdf66f81457636489da9e60b547f6"
+    ],
+    "whyTwoContractCommits": "The first made REQUIRED_BEFORE_FILING reachable. The second corrected three defects that only became visible once it was: a checkbox read as a text field, a boxed entry read as a checkbox, and a field name read as a fact identity across documents.",
+    "repairsApplied": {
+      "P1_UT_PETITION_EXPUNGE_COMPLETENESS": {
+        "workerCommit": "af7eebbdc3f7aaeda0f910a2b750f7dbd67c3f95",
+        "integratedAs": "1b682a7911aec7a38751775c97591f291c739082"
+      },
+      "P3_WV_CONVICTION_COMPLETENESS": {
+        "workerCommit": "bb82d09d51b5563a34a46dda8e51df09e3b6280a",
+        "integratedAs": "49fbca0836d69b7bd631a3e25fdfa5e6e9b5c97d"
+      },
+      "P4_NE_SD_SETASIDE_COMPLETENESS": {
+        "workerCommit": "498fb601069129ab4eba26d5985e73e31bc11aac",
+        "integratedAs": "23353d3c2feb3b76f77c4788f0de2250b6de0088"
+      }
+    },
+    "rerenderAndAudit": "98a7a57e2a354eeb8b33b3873e62f7a9785fedaf",
+    "continuationBase": "98a7a57e2a354eeb8b33b3873e62f7a9785fedaf",
+    "ancestryCheck": "git merge-base --is-ancestor 98a7a57e2a354eeb8b33b3873e62f7a9785fedaf HEAD",
+    "order": [
+      "S1 integrated by cherry-pick",
+      "S2 integrated by cherry-pick; it modified the shared host and nothing else",
+      "the completeness contract corrected as Captain work, twice",
+      "P1, P3 and P4 integrated by cherry-pick",
+      "all eleven families re-rendered on the integrated base",
+      "the fleet audit regenerated from what came out"
+    ]
+  },
+  "theContractDefectThatWasFixed": {
+    "what": "REQUIRED_BEFORE_FILING was in the closed vocabulary, marked allowed, and no path through classifyBlank returned it.",
+    "consequence": "A genuinely unavailable participant fact was always counted as KNOWN_FACT_NOT_WRITTEN, even for a family that classified it, disclosed it and told the participant to supply it before filing.",
+    "fix": "The disposition is reachable only through an explicit declaration on the field-map row, and only when all six conditions hold. It is never inferred from prose.",
+    "provedBy": "Twenty mutations in scripts/rcap-packet-completeness/verify-packet-completeness.mjs, two of which are controls. A negative test whose subject cannot exist proves nothing, so the group opens by showing the accepted path is reachable and then breaks one condition at a time."
+  },
+  "families": {
+    "count": 11,
+    "derivedFrom": "data/rcap-grade-a/launch-control/S2_SHARED_HOST_ASSIGNMENT.json — the host family plus every BUILT importer in its closure",
+    "rerendered": 11,
+    "passComplete": 11,
+    "awaitingIndependentVerification": 1,
+    "independentlyVerified": 10,
+    "failing": 0,
+    "ids": [
+      "ne-setaside-custodial-set",
+      "sd_arrest_expungement-set",
+      "ut_pet_acquittal-set",
+      "ut_pet_conviction-set",
+      "ut_pet_dismissed_with_prejudice-set",
+      "ut_pet_dismissed_without_prejudice-set",
+      "ut_pet_limitations-set",
+      "ut_pet_no_charges-set",
+      "ut_pet_traffic-set",
+      "wv_conv_multiple_misdemeanors-set",
+      "wv_conv_single_misdemeanor-set"
+    ]
+  },
+  "fleet": {
+    "familiesAudited": 43,
+    "passCompleteBefore": 0,
+    "passCompleteAfter": 20,
+    "counterTotalsBefore": {
+      "knownRequiredFieldsMissing": 1550,
+      "requiredFactsNotCollected": 0,
+      "unclassifiedBlanks": 6024,
+      "incompleteRows": 11,
+      "requiredOptionsMissing": 121,
+      "requiredComponentsMissing": 31,
+      "invisibleWrites": 0,
+      "protectedWrites": 0,
+      "visualDefects": 0
+    },
+    "counterTotalsAfter": {
+      "knownRequiredFieldsMissing": 1198,
+      "requiredFactsNotCollected": 0,
+      "unclassifiedBlanks": 779,
+      "incompleteRows": 11,
+      "requiredOptionsMissing": 121,
+      "requiredComponentsMissing": 31,
+      "invisibleWrites": 0,
+      "protectedWrites": 0,
+      "visualDefects": 0
+    }
+  },
+  "rows": [
+    {
+      "familyId": "ne-setaside-custodial-set",
+      "directory": "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill",
+      "owningLane": "P4_NE_SD_SETASIDE_COMPLETENESS",
+      "resultBefore": "FAIL_MISSING_REQUIRED_FACTS",
+      "resultAfter": "PASS_COMPLETE",
+      "allNineCountersZero": true,
+      "failingCounters": [],
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 10,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 158,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "counterMovement": {
+        "knownRequiredFieldsMissing": {
+          "before": 10,
+          "after": 0,
+          "moved": true
+        },
+        "requiredFactsNotCollected": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        },
+        "unclassifiedBlanks": {
+          "before": 158,
+          "after": 0,
+          "moved": true
+        },
+        "incompleteRows": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        },
+        "requiredOptionsMissing": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        },
+        "requiredComponentsMissing": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        },
+        "invisibleWrites": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        },
+        "protectedWrites": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        },
+        "visualDefects": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        }
+      },
+      "writtenBefore": "5/173",
+      "writtenAfter": "5/173",
+      "requiredBeforeFilingAccepted": 130,
+      "blanksByDispositionAfter": {
+        "REQUIRED_BEFORE_FILING": 130,
+        "PARTICIPANT_ELECTION_GENUINE": 24,
+        "PROTECTED_FIELD": 10,
+        "LATER_COMPLETION": 4
+      },
+      "artifactDrift": [
+        {
+          "fixture": "canonical",
+          "asReturnedByTheRepairLane": "22db4582ad438e82155ff26bd9a7fd89ba748fca69c423cf10a00c3fdaf4b3f3",
+          "atContinuationBase": "a099c0a10c739d9876c8cf0653cedffecdde2e8df20c759b24fcd354fc7e65f7",
+          "changed": true
+        },
+        {
+          "fixture": "boundary",
+          "asReturnedByTheRepairLane": "47bb55b925bf924cc4bca67b7091311f6da2c19310f12d8938f4e0afe5239dff",
+          "atContinuationBase": "ec477f8f52382e7820289bb727ee123f961396dc8fbb151980f91a92690722f3",
+          "changed": true
+        }
+      ],
+      "rasterFilesChanged": 8,
+      "findingsRemaining": [],
+      "independentVerdict": "PASS_COMPLETE_INDEPENDENT",
+      "verifiedByShard": "VS01"
+    },
+    {
+      "familyId": "sd_arrest_expungement-set",
+      "directory": "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill",
+      "owningLane": "P4_NE_SD_SETASIDE_COMPLETENESS",
+      "resultBefore": "FAIL_MISSING_REQUIRED_FACTS",
+      "resultAfter": "PASS_COMPLETE",
+      "allNineCountersZero": true,
+      "failingCounters": [],
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 139,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 219,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "counterMovement": {
+        "knownRequiredFieldsMissing": {
+          "before": 139,
+          "after": 0,
+          "moved": true
+        },
+        "requiredFactsNotCollected": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        },
+        "unclassifiedBlanks": {
+          "before": 219,
+          "after": 0,
+          "moved": true
+        },
+        "incompleteRows": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        },
+        "requiredOptionsMissing": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        },
+        "requiredComponentsMissing": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        },
+        "invisibleWrites": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        },
+        "protectedWrites": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        },
+        "visualDefects": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        }
+      },
+      "writtenBefore": "1/366",
+      "writtenAfter": "67/222",
+      "requiredBeforeFilingAccepted": 5,
+      "blanksByDispositionAfter": {
+        "OPTIONAL_PARTICIPANT_CONTENT": 59,
+        "PROTECTED_FIELD": 90,
+        "REQUIRED_BEFORE_FILING": 5,
+        "LATER_COMPLETION": 1
+      },
+      "artifactDrift": [
+        {
+          "fixture": "canonical",
+          "asReturnedByTheRepairLane": "627e6502e0340f5d6d75ae855314cad53160d92acab710a1d43add2341dbe47d",
+          "atContinuationBase": "627e6502e0340f5d6d75ae855314cad53160d92acab710a1d43add2341dbe47d",
+          "changed": false
+        },
+        {
+          "fixture": "boundary",
+          "asReturnedByTheRepairLane": "79b2e9ac4ca0cfadba32a9896f39fe82ae7d0dc543d3a7a42d2a338bf318a8ed",
+          "atContinuationBase": "79b2e9ac4ca0cfadba32a9896f39fe82ae7d0dc543d3a7a42d2a338bf318a8ed",
+          "changed": false
+        }
+      ],
+      "rasterFilesChanged": 20,
+      "findingsRemaining": [],
+      "independentVerdict": null,
+      "verifiedByShard": null
+    },
+    {
+      "familyId": "ut_pet_acquittal-set",
+      "directory": "data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill",
+      "owningLane": "P1_UT_PETITION_EXPUNGE_COMPLETENESS",
+      "resultBefore": "FAIL_MISSING_PREFILLS",
+      "resultAfter": "PASS_COMPLETE",
+      "allNineCountersZero": true,
+      "failingCounters": [],
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 617,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "counterMovement": {
+        "knownRequiredFieldsMissing": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        },
+        "requiredFactsNotCollected": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        },
+        "unclassifiedBlanks": {
+          "before": 617,
+          "after": 0,
+          "moved": true
+        },
+        "incompleteRows": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        },
+        "requiredOptionsMissing": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        },
+        "requiredComponentsMissing": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        },
+        "invisibleWrites": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        },
+        "protectedWrites": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        },
+        "visualDefects": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        }
+      },
+      "writtenBefore": "11/628",
+      "writtenAfter": "38/444",
+      "requiredBeforeFilingAccepted": 0,
+      "blanksByDispositionAfter": {
+        "NOT_APPLICABLE_ON_THIS_ROUTE": 110,
+        "OPTIONAL_PARTICIPANT_CONTENT": 135,
+        "PROTECTED_FIELD": 63,
+        "PARTICIPANT_ELECTION_GENUINE": 98
+      },
+      "artifactDrift": [
+        {
+          "fixture": "canonical",
+          "asReturnedByTheRepairLane": "ad594f0a40750195b67e36916f3628df5b96d337e4955c9063b415747d6e36d6",
+          "atContinuationBase": "ad594f0a40750195b67e36916f3628df5b96d337e4955c9063b415747d6e36d6",
+          "changed": false
+        },
+        {
+          "fixture": "boundary",
+          "asReturnedByTheRepairLane": "b3ba83a65754f96fe58083de62a3ce879654d6362170e11bae2f043e4c39a765",
+          "atContinuationBase": "b3ba83a65754f96fe58083de62a3ce879654d6362170e11bae2f043e4c39a765",
+          "changed": false
+        }
+      ],
+      "rasterFilesChanged": 22,
+      "findingsRemaining": [],
+      "independentVerdict": "PASS_COMPLETE_INDEPENDENT",
+      "verifiedByShard": "VS01"
+    },
+    {
+      "familyId": "ut_pet_conviction-set",
+      "directory": "data/rcap-all50/overlays/census-v1/ut/ut-pet-conviction-set--official-pdf-fill",
+      "owningLane": "P1_UT_PETITION_EXPUNGE_COMPLETENESS",
+      "resultBefore": "FAIL_MISSING_PREFILLS",
+      "resultAfter": "PASS_COMPLETE",
+      "allNineCountersZero": true,
+      "failingCounters": [],
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 617,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "counterMovement": {
+        "knownRequiredFieldsMissing": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        },
+        "requiredFactsNotCollected": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        },
+        "unclassifiedBlanks": {
+          "before": 617,
+          "after": 0,
+          "moved": true
+        },
+        "incompleteRows": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        },
+        "requiredOptionsMissing": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        },
+        "requiredComponentsMissing": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        },
+        "invisibleWrites": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        },
+        "protectedWrites": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        },
+        "visualDefects": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        }
+      },
+      "writtenBefore": "11/628",
+      "writtenAfter": "38/444",
+      "requiredBeforeFilingAccepted": 0,
+      "blanksByDispositionAfter": {
+        "NOT_APPLICABLE_ON_THIS_ROUTE": 110,
+        "OPTIONAL_PARTICIPANT_CONTENT": 135,
+        "PROTECTED_FIELD": 63,
+        "PARTICIPANT_ELECTION_GENUINE": 98
+      },
+      "artifactDrift": [
+        {
+          "fixture": "canonical",
+          "asReturnedByTheRepairLane": "ad594f0a40750195b67e36916f3628df5b96d337e4955c9063b415747d6e36d6",
+          "atContinuationBase": "ad594f0a40750195b67e36916f3628df5b96d337e4955c9063b415747d6e36d6",
+          "changed": false
+        },
+        {
+          "fixture": "boundary",
+          "asReturnedByTheRepairLane": "b3ba83a65754f96fe58083de62a3ce879654d6362170e11bae2f043e4c39a765",
+          "atContinuationBase": "b3ba83a65754f96fe58083de62a3ce879654d6362170e11bae2f043e4c39a765",
+          "changed": false
+        }
+      ],
+      "rasterFilesChanged": 22,
+      "findingsRemaining": [],
+      "independentVerdict": "PASS_COMPLETE_INDEPENDENT",
+      "verifiedByShard": "VS01"
+    },
+    {
+      "familyId": "ut_pet_dismissed_with_prejudice-set",
+      "directory": "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-with-prejudice-set--official-pdf-fill",
+      "owningLane": "P1_UT_PETITION_EXPUNGE_COMPLETENESS",
+      "resultBefore": "FAIL_MISSING_PREFILLS",
+      "resultAfter": "PASS_COMPLETE",
+      "allNineCountersZero": true,
+      "failingCounters": [],
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 617,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "counterMovement": {
+        "knownRequiredFieldsMissing": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        },
+        "requiredFactsNotCollected": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        },
+        "unclassifiedBlanks": {
+          "before": 617,
+          "after": 0,
+          "moved": true
+        },
+        "incompleteRows": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        },
+        "requiredOptionsMissing": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        },
+        "requiredComponentsMissing": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        },
+        "invisibleWrites": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        },
+        "protectedWrites": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        },
+        "visualDefects": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        }
+      },
+      "writtenBefore": "11/628",
+      "writtenAfter": "38/444",
+      "requiredBeforeFilingAccepted": 0,
+      "blanksByDispositionAfter": {
+        "NOT_APPLICABLE_ON_THIS_ROUTE": 110,
+        "OPTIONAL_PARTICIPANT_CONTENT": 135,
+        "PROTECTED_FIELD": 63,
+        "PARTICIPANT_ELECTION_GENUINE": 98
+      },
+      "artifactDrift": [
+        {
+          "fixture": "canonical",
+          "asReturnedByTheRepairLane": "ad594f0a40750195b67e36916f3628df5b96d337e4955c9063b415747d6e36d6",
+          "atContinuationBase": "ad594f0a40750195b67e36916f3628df5b96d337e4955c9063b415747d6e36d6",
+          "changed": false
+        },
+        {
+          "fixture": "boundary",
+          "asReturnedByTheRepairLane": "b3ba83a65754f96fe58083de62a3ce879654d6362170e11bae2f043e4c39a765",
+          "atContinuationBase": "b3ba83a65754f96fe58083de62a3ce879654d6362170e11bae2f043e4c39a765",
+          "changed": false
+        }
+      ],
+      "rasterFilesChanged": 22,
+      "findingsRemaining": [],
+      "independentVerdict": "PASS_COMPLETE_INDEPENDENT",
+      "verifiedByShard": "VS01"
+    },
+    {
+      "familyId": "ut_pet_dismissed_without_prejudice-set",
+      "directory": "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-without-prejudice-set--official-pdf-fill",
+      "owningLane": "P1_UT_PETITION_EXPUNGE_COMPLETENESS",
+      "resultBefore": "FAIL_MISSING_PREFILLS",
+      "resultAfter": "PASS_COMPLETE",
+      "allNineCountersZero": true,
+      "failingCounters": [],
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 617,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "counterMovement": {
+        "knownRequiredFieldsMissing": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        },
+        "requiredFactsNotCollected": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        },
+        "unclassifiedBlanks": {
+          "before": 617,
+          "after": 0,
+          "moved": true
+        },
+        "incompleteRows": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        },
+        "requiredOptionsMissing": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        },
+        "requiredComponentsMissing": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        },
+        "invisibleWrites": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        },
+        "protectedWrites": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        },
+        "visualDefects": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        }
+      },
+      "writtenBefore": "11/628",
+      "writtenAfter": "39/444",
+      "requiredBeforeFilingAccepted": 0,
+      "blanksByDispositionAfter": {
+        "NOT_APPLICABLE_ON_THIS_ROUTE": 109,
+        "OPTIONAL_PARTICIPANT_CONTENT": 135,
+        "PROTECTED_FIELD": 63,
+        "PARTICIPANT_ELECTION_GENUINE": 98
+      },
+      "artifactDrift": [
+        {
+          "fixture": "canonical",
+          "asReturnedByTheRepairLane": "8efb78f3f885af303bc74f461172d319f63b60bb747720329e401c1bd4d417f4",
+          "atContinuationBase": "8efb78f3f885af303bc74f461172d319f63b60bb747720329e401c1bd4d417f4",
+          "changed": false
+        },
+        {
+          "fixture": "boundary",
+          "asReturnedByTheRepairLane": "6d9406adbba1c50f34b9349ed41f14a68295547c3838a08a141c69e2e228d142",
+          "atContinuationBase": "6d9406adbba1c50f34b9349ed41f14a68295547c3838a08a141c69e2e228d142",
+          "changed": false
+        }
+      ],
+      "rasterFilesChanged": 22,
+      "findingsRemaining": [],
+      "independentVerdict": "PASS_COMPLETE_INDEPENDENT",
+      "verifiedByShard": "VS02"
+    },
+    {
+      "familyId": "ut_pet_limitations-set",
+      "directory": "data/rcap-all50/overlays/census-v1/ut/ut-pet-limitations-set--official-pdf-fill",
+      "owningLane": "P1_UT_PETITION_EXPUNGE_COMPLETENESS",
+      "resultBefore": "FAIL_MISSING_PREFILLS",
+      "resultAfter": "PASS_COMPLETE",
+      "allNineCountersZero": true,
+      "failingCounters": [],
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 617,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "counterMovement": {
+        "knownRequiredFieldsMissing": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        },
+        "requiredFactsNotCollected": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        },
+        "unclassifiedBlanks": {
+          "before": 617,
+          "after": 0,
+          "moved": true
+        },
+        "incompleteRows": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        },
+        "requiredOptionsMissing": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        },
+        "requiredComponentsMissing": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        },
+        "invisibleWrites": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        },
+        "protectedWrites": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        },
+        "visualDefects": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        }
+      },
+      "writtenBefore": "11/628",
+      "writtenAfter": "38/444",
+      "requiredBeforeFilingAccepted": 0,
+      "blanksByDispositionAfter": {
+        "NOT_APPLICABLE_ON_THIS_ROUTE": 110,
+        "OPTIONAL_PARTICIPANT_CONTENT": 135,
+        "PROTECTED_FIELD": 63,
+        "PARTICIPANT_ELECTION_GENUINE": 98
+      },
+      "artifactDrift": [
+        {
+          "fixture": "canonical",
+          "asReturnedByTheRepairLane": "ad594f0a40750195b67e36916f3628df5b96d337e4955c9063b415747d6e36d6",
+          "atContinuationBase": "ad594f0a40750195b67e36916f3628df5b96d337e4955c9063b415747d6e36d6",
+          "changed": false
+        },
+        {
+          "fixture": "boundary",
+          "asReturnedByTheRepairLane": "b3ba83a65754f96fe58083de62a3ce879654d6362170e11bae2f043e4c39a765",
+          "atContinuationBase": "b3ba83a65754f96fe58083de62a3ce879654d6362170e11bae2f043e4c39a765",
+          "changed": false
+        }
+      ],
+      "rasterFilesChanged": 22,
+      "findingsRemaining": [],
+      "independentVerdict": "PASS_COMPLETE_INDEPENDENT",
+      "verifiedByShard": "VS02"
+    },
+    {
+      "familyId": "ut_pet_no_charges-set",
+      "directory": "data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill",
+      "owningLane": "P1_UT_PETITION_EXPUNGE_COMPLETENESS",
+      "resultBefore": "FAIL_MISSING_PREFILLS",
+      "resultAfter": "PASS_COMPLETE",
+      "allNineCountersZero": true,
+      "failingCounters": [],
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 617,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "counterMovement": {
+        "knownRequiredFieldsMissing": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        },
+        "requiredFactsNotCollected": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        },
+        "unclassifiedBlanks": {
+          "before": 617,
+          "after": 0,
+          "moved": true
+        },
+        "incompleteRows": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        },
+        "requiredOptionsMissing": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        },
+        "requiredComponentsMissing": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        },
+        "invisibleWrites": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        },
+        "protectedWrites": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        },
+        "visualDefects": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        }
+      },
+      "writtenBefore": "11/628",
+      "writtenAfter": "38/444",
+      "requiredBeforeFilingAccepted": 0,
+      "blanksByDispositionAfter": {
+        "NOT_APPLICABLE_ON_THIS_ROUTE": 110,
+        "OPTIONAL_PARTICIPANT_CONTENT": 135,
+        "PROTECTED_FIELD": 63,
+        "PARTICIPANT_ELECTION_GENUINE": 98
+      },
+      "artifactDrift": [
+        {
+          "fixture": "canonical",
+          "asReturnedByTheRepairLane": "86290244b6882ee9bb403b2b3fff4035d136abf33352b9c8fcb064eb125c3c0f",
+          "atContinuationBase": "86290244b6882ee9bb403b2b3fff4035d136abf33352b9c8fcb064eb125c3c0f",
+          "changed": false
+        },
+        {
+          "fixture": "boundary",
+          "asReturnedByTheRepairLane": "089eb4af218055e9e90c94d28058060abe2ce1679f2fc74bfe4f720b558f4733",
+          "atContinuationBase": "089eb4af218055e9e90c94d28058060abe2ce1679f2fc74bfe4f720b558f4733",
+          "changed": false
+        }
+      ],
+      "rasterFilesChanged": 22,
+      "findingsRemaining": [],
+      "independentVerdict": "PASS_COMPLETE_INDEPENDENT",
+      "verifiedByShard": "VS02"
+    },
+    {
+      "familyId": "ut_pet_traffic-set",
+      "directory": "data/rcap-all50/overlays/census-v1/ut/ut-pet-traffic-set--official-pdf-fill",
+      "owningLane": "P1_UT_PETITION_EXPUNGE_COMPLETENESS",
+      "resultBefore": "FAIL_MISSING_PREFILLS",
+      "resultAfter": "PASS_COMPLETE",
+      "allNineCountersZero": true,
+      "failingCounters": [],
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 296,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "counterMovement": {
+        "knownRequiredFieldsMissing": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        },
+        "requiredFactsNotCollected": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        },
+        "unclassifiedBlanks": {
+          "before": 296,
+          "after": 0,
+          "moved": true
+        },
+        "incompleteRows": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        },
+        "requiredOptionsMissing": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        },
+        "requiredComponentsMissing": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        },
+        "invisibleWrites": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        },
+        "protectedWrites": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        },
+        "visualDefects": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        }
+      },
+      "writtenBefore": "9/305",
+      "writtenAfter": "31/214",
+      "requiredBeforeFilingAccepted": 0,
+      "blanksByDispositionAfter": {
+        "OPTIONAL_PARTICIPANT_CONTENT": 29,
+        "PROTECTED_FIELD": 39,
+        "NOT_APPLICABLE_ON_THIS_ROUTE": 103,
+        "PARTICIPANT_ELECTION_GENUINE": 12
+      },
+      "artifactDrift": [
+        {
+          "fixture": "canonical",
+          "asReturnedByTheRepairLane": "b5fcdd1601c823f3ebc6b18f74f5b639789220ec9e8363202c6e1492f9d90909",
+          "atContinuationBase": "b5fcdd1601c823f3ebc6b18f74f5b639789220ec9e8363202c6e1492f9d90909",
+          "changed": false
+        },
+        {
+          "fixture": "boundary",
+          "asReturnedByTheRepairLane": "ef8b488fe1f78f87a47419ddf2123ad9909b88612931a8c031ade0299a8d6e03",
+          "atContinuationBase": "ef8b488fe1f78f87a47419ddf2123ad9909b88612931a8c031ade0299a8d6e03",
+          "changed": false
+        }
+      ],
+      "rasterFilesChanged": 18,
+      "findingsRemaining": [],
+      "independentVerdict": "PASS_COMPLETE_INDEPENDENT",
+      "verifiedByShard": "VS02"
+    },
+    {
+      "familyId": "wv_conv_multiple_misdemeanors-set",
+      "directory": "data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill",
+      "owningLane": "P3_WV_CONVICTION_COMPLETENESS",
+      "resultBefore": "FAIL_MISSING_PREFILLS",
+      "resultAfter": "PASS_COMPLETE",
+      "allNineCountersZero": true,
+      "failingCounters": [],
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 128,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "counterMovement": {
+        "knownRequiredFieldsMissing": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        },
+        "requiredFactsNotCollected": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        },
+        "unclassifiedBlanks": {
+          "before": 128,
+          "after": 0,
+          "moved": true
+        },
+        "incompleteRows": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        },
+        "requiredOptionsMissing": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        },
+        "requiredComponentsMissing": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        },
+        "invisibleWrites": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        },
+        "protectedWrites": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        },
+        "visualDefects": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        }
+      },
+      "writtenBefore": "2/130",
+      "writtenAfter": "26/89",
+      "requiredBeforeFilingAccepted": 0,
+      "blanksByDispositionAfter": {
+        "NOT_APPLICABLE_ON_THIS_ROUTE": 17,
+        "OPTIONAL_PARTICIPANT_CONTENT": 23,
+        "PROTECTED_FIELD": 23
+      },
+      "artifactDrift": [
+        {
+          "fixture": "canonical",
+          "asReturnedByTheRepairLane": "d477bc4a7f18aaac153c56760fc11dca69a317dc49b2eff7362b1d41ba27b4e4",
+          "atContinuationBase": "d477bc4a7f18aaac153c56760fc11dca69a317dc49b2eff7362b1d41ba27b4e4",
+          "changed": false
+        },
+        {
+          "fixture": "boundary",
+          "asReturnedByTheRepairLane": "27ed521c46fc25fd8edb60501a47322db459aa2196b0b4fd54a6fd5182d12860",
+          "atContinuationBase": "27ed521c46fc25fd8edb60501a47322db459aa2196b0b4fd54a6fd5182d12860",
+          "changed": false
+        }
+      ],
+      "rasterFilesChanged": 6,
+      "findingsRemaining": [],
+      "independentVerdict": "PASS_COMPLETE_INDEPENDENT",
+      "verifiedByShard": "VS03"
+    },
+    {
+      "familyId": "wv_conv_single_misdemeanor-set",
+      "directory": "data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill",
+      "owningLane": "P3_WV_CONVICTION_COMPLETENESS",
+      "resultBefore": "FAIL_MISSING_PREFILLS",
+      "resultAfter": "PASS_COMPLETE",
+      "allNineCountersZero": true,
+      "failingCounters": [],
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 272,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "counterMovement": {
+        "knownRequiredFieldsMissing": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        },
+        "requiredFactsNotCollected": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        },
+        "unclassifiedBlanks": {
+          "before": 272,
+          "after": 0,
+          "moved": true
+        },
+        "incompleteRows": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        },
+        "requiredOptionsMissing": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        },
+        "requiredComponentsMissing": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        },
+        "invisibleWrites": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        },
+        "protectedWrites": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        },
+        "visualDefects": {
+          "before": 0,
+          "after": 0,
+          "moved": false
+        }
+      },
+      "writtenBefore": "2/274",
+      "writtenAfter": "21/166",
+      "requiredBeforeFilingAccepted": 0,
+      "blanksByDispositionAfter": {
+        "NOT_APPLICABLE_ON_THIS_ROUTE": 99,
+        "OPTIONAL_PARTICIPANT_CONTENT": 23,
+        "PROTECTED_FIELD": 23
+      },
+      "artifactDrift": [
+        {
+          "fixture": "canonical",
+          "asReturnedByTheRepairLane": "dc8ec89cc5760e1a02d789216885c91bf477a264a000bd58f1c3608fdc0c0d21",
+          "atContinuationBase": "dc8ec89cc5760e1a02d789216885c91bf477a264a000bd58f1c3608fdc0c0d21",
+          "changed": false
+        },
+        {
+          "fixture": "boundary",
+          "asReturnedByTheRepairLane": "85462388778b3e78519e54169e981721ade269a7aeaf092ccdbc7fe1fb995d8d",
+          "atContinuationBase": "85462388778b3e78519e54169e981721ade269a7aeaf092ccdbc7fe1fb995d8d",
+          "changed": false
+        }
+      ],
+      "rasterFilesChanged": 16,
+      "findingsRemaining": [],
+      "independentVerdict": "PASS_COMPLETE_INDEPENDENT",
+      "verifiedByShard": "VS03"
+    }
+  ],
+  "whatStillFails": [],
+  "theSharedSurfaceShrank": {
+    "host": "scripts/build-census-v1-ne-setaside-custodial-set.mjs",
+    "importersWhenS2WasDispatched": 12,
+    "importersNow": 4,
+    "stillImporting": [
+      "build-census-v1-ne-setaside-noncustodial-set.mjs",
+      "build-census-v1-ne-trafficking-setaside-and-seal-set.mjs",
+      "build-census-v1-sd_arrest_expungement-set.mjs",
+      "build-census-v1-wv_conv_multiple_misdemeanors-set.mjs"
+    ],
+    "finding": "The repairs made most of the closure self-contained: the host that forced a dedicated lane into existence is imported by 4 script(s) now, down from 12.",
+    "whyItMatters": "A later reader deciding whether this host may be owned by one lane should recompute the graph rather than reuse the twelve. The number was right when it was derived and is not right now, which is the difference between a derived number and a remembered one.",
+    "thisChangesNoOwnership": "No lane's owned paths move because of this. It is an observation about the tree, not a re-dispatch."
+  },
+  "artifactDrift": {
+    "measuredBy": "hashing fixtures/canonical.pdf and fixtures/boundary.pdf at the repair-integration commit and at the continuation base",
+    "familiesWithChangedPdfBytes": [
+      "ne-setaside-custodial-set"
+    ],
+    "familiesByteIdentical": [
+      "sd_arrest_expungement-set",
+      "ut_pet_acquittal-set",
+      "ut_pet_conviction-set",
+      "ut_pet_dismissed_with_prejudice-set",
+      "ut_pet_dismissed_without_prejudice-set",
+      "ut_pet_limitations-set",
+      "ut_pet_no_charges-set",
+      "ut_pet_traffic-set",
+      "wv_conv_multiple_misdemeanors-set",
+      "wv_conv_single_misdemeanor-set"
+    ],
+    "finding": "Only the host's own family moved, which is the family whose build script S2 corrected. Integrating a field-map correction should not change a rendered page anywhere else, and it did not.",
+    "rasters": {
+      "changedOnEveryFamily": true,
+      "why": "This environment's poppler is not the build the repair lanes used, and identical PDFs raster to different PNG bytes under different builds. The PDF is the artifact; the raster is a derived visual proof of it, regenerated here alongside the audit that reads it."
+    }
+  },
+  "independentVerification": {
+    "rule": "Assigned only to a family whose nine counters are zero. A verifier handed an incomplete packet spends its slot rediscovering what the audit already published.",
+    "eligible": [
+      "sd_arrest_expungement-set"
+    ],
+    "alreadyVerified": [
+      {
+        "familyId": "ne-setaside-custodial-set",
+        "shard": "VS01",
+        "verdict": "PASS_COMPLETE_INDEPENDENT"
+      },
+      {
+        "familyId": "ut_pet_acquittal-set",
+        "shard": "VS01",
+        "verdict": "PASS_COMPLETE_INDEPENDENT"
+      },
+      {
+        "familyId": "ut_pet_conviction-set",
+        "shard": "VS01",
+        "verdict": "PASS_COMPLETE_INDEPENDENT"
+      },
+      {
+        "familyId": "ut_pet_dismissed_with_prejudice-set",
+        "shard": "VS01",
+        "verdict": "PASS_COMPLETE_INDEPENDENT"
+      },
+      {
+        "familyId": "ut_pet_dismissed_without_prejudice-set",
+        "shard": "VS02",
+        "verdict": "PASS_COMPLETE_INDEPENDENT"
+      },
+      {
+        "familyId": "ut_pet_limitations-set",
+        "shard": "VS02",
+        "verdict": "PASS_COMPLETE_INDEPENDENT"
+      },
+      {
+        "familyId": "ut_pet_no_charges-set",
+        "shard": "VS02",
+        "verdict": "PASS_COMPLETE_INDEPENDENT"
+      },
+      {
+        "familyId": "ut_pet_traffic-set",
+        "shard": "VS02",
+        "verdict": "PASS_COMPLETE_INDEPENDENT"
+      },
+      {
+        "familyId": "wv_conv_multiple_misdemeanors-set",
+        "shard": "VS03",
+        "verdict": "PASS_COMPLETE_INDEPENDENT"
+      },
+      {
+        "familyId": "wv_conv_single_misdemeanor-set",
+        "shard": "VS03",
+        "verdict": "PASS_COMPLETE_INDEPENDENT"
+      }
+    ],
+    "eligibleMeans": "complete and NOT yet independently verified. A family with a verdict is finished here; dispatching a second shard for it would re-prove what a first shard proved.",
+    "notEligible": [],
+    "shardSize": 4,
+    "assignments": [
+      {
+        "assignmentId": "VS01_S2_CONTINUATION_INDEPENDENT_VERIFICATION",
+        "wave": "s2-continuation",
+        "engine": "Codex",
+        "lane": "independent-verification",
+        "workerBranch": "codex/s2-continuation-verify-01",
+        "captainBaseSha": "98a7a57e2a354eeb8b33b3873e62f7a9785fedaf",
+        "readAssignmentFrom": {
+          "branch": "claude/legalease-sprint-captain-utucnw",
+          "file": "data/rcap-grade-a/launch-control/S2_CONTINUATION.json",
+          "verify": "continuationBase must equal 98a7a57e2a354eeb8b33b3873e62f7a9785fedaf"
+        },
+        "itemKind": "packetFamily",
+        "itemCount": 1,
+        "items": [
+          "sd_arrest_expungement-set"
+        ],
+        "ownedPaths": [
+          "data/rcap-grade-a/wave-2/s2-continuation-verify-01/**"
+        ],
+        "prohibitedPaths": [
+          "data/rcap-all50/overlays/census-v1/**",
+          "scripts/build-census-v1-*.mjs",
+          "scripts/rcap-packet-completeness/**",
+          "data/rcap-grade-a/launch-control/**"
+        ],
+        "mission": "Verify independently that each family's packet is complete. The completeness audit says all nine counters are zero; you are asked whether that is true of the artifact, not whether the report says so.",
+        "proofObligations": [
+          "COMPLETENESS: recompute the nine counters from the family's own field map and rendered artifacts, and say whether each is zero",
+          "COMPLETENESS: every REQUIRED_BEFORE_FILING blank is named in participant-instructions.md, checked against the file rather than the count",
+          "COMPLETENESS: no fact the packet writes elsewhere in the same document is refused as required-before-filing",
+          "ARTIFACT: the canonical and boundary bytes hash to what the record names",
+          "SOURCE: every source the receipt names is exact, by form number or content hash",
+          "BOUNDARY: no protected field carries ink -- participant signature, signature date, certificate of mailing before mailing, court-only or prosecutor-only"
+        ],
+        "verdicts": [
+          "PASS_COMPLETE_INDEPENDENT",
+          "FAIL_REPAIR_REQUIRED",
+          "BLOCKED_SOURCE",
+          "BLOCKED_LEGAL_INPUT"
+        ],
+        "independenceRule": "You did not build these families and you may not repair them. A defect you find is a verdict, never an edit.",
+        "requiredOutputs": [
+          "data/rcap-grade-a/wave-2/s2-continuation-verify-01/rows.json — one row per family: itemId, verdict, the nine counters as you measured them, and the evidence read"
+        ],
+        "outputSchema": {
+          "arrayKey": "rows",
+          "itemKeyField": "itemId",
+          "completionVocabulary": [
+            "PASS_COMPLETE_INDEPENDENT",
+            "FAIL_REPAIR_REQUIRED",
+            "BLOCKED_SOURCE",
+            "BLOCKED_LEGAL_INPUT"
+          ],
+          "rule": "An unrecognised verdict is refused at integration rather than translated."
+        },
+        "focusedTests": [
+          "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <familyId>"
+        ],
+        "stopConditions": [
+          "LANE STOP — you write into no overlay directory and no build script.",
+          "ROW STOP — a counter you cannot reproduce is a FAIL_REPAIR_REQUIRED naming the counter and the rows that make it nonzero, never a silent agreement with the audit."
+        ],
+        "grantsNothing": "An independent PASS proves a packet is complete. It approves no output and opens no commercial route."
+      }
+    ]
+  },
+  "commercialPosture": "Ten complete packets are ten complete packets. Completeness is not independent verification, independent verification is not output approval, and none of the three opens a commercial route. No route was opened here and Production was not touched.",
+  "totals": {
+    "familiesRerendered": 11,
+    "passComplete": 11,
+    "awaitingIndependentVerification": 1,
+    "independentlyVerified": 10,
+    "failures": 0,
+    "verificationAssignments": 1,
+    "familiesAwaitingVerification": 1,
+    "verifiedFamilies": [
+      "ne-setaside-custodial-set",
+      "ut_pet_acquittal-set",
+      "ut_pet_conviction-set",
+      "ut_pet_dismissed_with_prejudice-set",
+      "ut_pet_dismissed_without_prejudice-set",
+      "ut_pet_limitations-set",
+      "ut_pet_no_charges-set",
+      "ut_pet_traffic-set",
+      "wv_conv_multiple_misdemeanors-set",
+      "wv_conv_single_misdemeanor-set"
+    ],
+    "commercialRoutesOpened": 0,
+    "productionTouched": false
+  }
+}

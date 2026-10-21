@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "or_conviction_setaside-set",
+  "findings": [
+    {
+      "finding": "The OJD adult set-aside packet carries no AcroForm at all: its blanks are printed rules.",
+      "consequence": "Values are drawn into page content at measured coordinates through the flat-overlay path. Every coordinate comes from measurements this repository already holds against this exact binary, and the build refuses if any of the three measurement records was taken against different bytes."
+    },
+    {
+      "finding": "PF03 names this family's component assembly 'Oregon Marijuana Set-Aside Motion under ORS 475C.397'.",
+      "consequence": "That is a different route on a different form. The track's recorded authority is ORS 137.225 and the assigned official forms are the ORS 137.225 packet and its Oregon State Police companion; the label is reported and the family is built on its own forms."
+    },
+    {
+      "finding": "Page 4 says to check one option only, and this track is a motion to set aside a CONVICTION.",
+      "consequence": "Option 1 is marked as the route's own determination and Options 2 and 3 are refused as branches this route does not take. The mark is two diagonals inside the box the court printed, at the measured inset."
+    },
+    {
+      "finding": "The seven declaration boxes on page 5 are the participant's sworn attestations, and the measurement that found them says no configuration marks them.",
+      "consequence": "They are carried as participant elections, left unmarked, and disclosed in the participant instructions in terms."
+    },
+    {
+      "finding": "Pages 1 to 3 of the binary are the court's printed instruction sheet.",
+      "consequence": "Every rule the measurement found on them is a typographic underline in prose and is classified as never a filing fact, rather than being left unclassified or read as a blank."
+    },
+    {
+      "finding": "The Phone column on the page-5 contact line is the court's own 34 points — the measured sub-region runs from the printed 'Phone' label at x 504 to the rule's end at x 538 — and no phone number fits that at the minimum readable machine font; offered, the anchor is refused as value_exceeds_widget_width_at_minimum_font on every fixture.",
+      "consequence": "The phone is carried as a disclosed required-before-filing item the participant writes by hand, the anchor is never offered to the renderer, and the field-map row records participant.phone as the fact it names so the declaration fails if any future revision of this packet starts writing the phone elsewhere."
+    }
+  ]
+}

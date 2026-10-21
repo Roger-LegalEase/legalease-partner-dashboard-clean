@@ -1,0 +1,58 @@
+{
+  "schemaVersion": "rcap-family-source-receipt/v1",
+  "familyId": "ne-seal-enforcement-set",
+  "worklistGroupId": "ne-seal-enforcement-set",
+  "jurisdiction": "NE",
+  "implementationStrategy": "custom_pleading",
+  "custodyClass": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+  "acquisitionCommissioned": false,
+  "bindingMethod": "no source bytes are bound: the MASTER_QUEUE row for this family binds zero sources (sourceStatus CUSTOM_PLEADING_FROM_CODIFIED_TEXT, boundCount 0, officialFormFamily NONE, forms []). Every composed page is grounded on the committed legal-design records named in groundingRecords, and nothing else.",
+  "routeKeys": [
+    "obligation:track-only:NE:ne-seal-enforcement"
+  ],
+  "routeSelectionId": "ne-seal-enforcement-composed-set",
+  "statutoryAuthority": "Neb. Rev. Stat. § 29-3528",
+  "legalName": "Action to Compel Compliance With the Criminal History Record Information Act (Neb. Rev. Stat. § 29-3528)",
+  "allSourcesExact": true,
+  "allSourcesExactNote": "true vacuously: this family binds zero source binaries, so there is no source that is not bound by exact SHA-256. No official form exists for this route per the legal-design record, and none was invented.",
+  "documents": [],
+  "groundingRecords": [
+    {
+      "record": "data/record-clearing/legal-design-intake/NE.memo.json",
+      "track": "ne-seal-enforcement",
+      "reviewedAsOf": "2026-08-06"
+    },
+    {
+      "record": "data/record-clearing/legal-design-packet-set-manifests.json",
+      "packetSetId": "ne-seal-enforcement-set"
+    }
+  ],
+  "officialSourcesRecordedInIntake": [
+    {
+      "title": "Neb. Rev. Stat. § 29-3528, Failure to comply; action to compel",
+      "url": "https://nebraskalegislature.gov/laws/statutes.php?statute=29-3528",
+      "retrievedOn": "2026-08-06"
+    },
+    {
+      "title": "Neb. Rev. Stat. § 29-3523, Criminal history record information; confidentiality; sealing",
+      "url": "https://nebraskalegislature.gov/laws/statutes.php?statute=29-3523",
+      "retrievedOn": "2026-08-06"
+    }
+  ],
+  "formIdentityNote": "No official form exists for a § 29-3528 demand or action. The legal-design record settles the vehicle (a separate civil action, as State v. Coble, 299 Neb. 434 (2018) directs — not a motion in the criminal case) and the venue (statutory: any district where the records are located, or Lancaster County), and leads with a written demand letter as the cheaper step. The MASTER_QUEUE row agrees: officialFormFamily NONE, implementationStrategy custom_pleading, forms [], boundCount 0. The complaint is a conditional component used only where the demand fails, with attorney review strongly recommended before filing because mandamus procedure and service on a public body were not surveyed.",
+  "composedComponentsAuthoredByThisBuild": [
+    "informal_demand_letter",
+    "primary_filing",
+    "venue_election_guidance",
+    "attorney_review_recommendation"
+  ],
+  "sourceBinaryCommitted": false,
+  "commercialRoutesOpened": 0,
+  "whatThisReceiptDoesNotEstablish": [
+    "Nebraska mandamus procedure — whether an application, affidavit and alternative writ must accompany the complaint (recorded as unresolved)",
+    "the rule for service on a Nebraska state agency or political subdivision (recorded as unresolved)",
+    "whether relief under § 29-3528 is mandatory or discretionary once non-compliance is shown",
+    "that any output is approved for participant delivery, or that any record qualifies under § 29-3523(3)",
+    "that generating this demand letter and complaint is confirmed by counsel against the controlling review's outside-self-help classification — the override is recorded as requiring counsel confirmation"
+  ]
+}

@@ -1,0 +1,3371 @@
+{
+  "schemaVersion": "rcap-preservation-review/v1",
+  "reviewId": "wv-shared-manifest-preservation-review-20260913",
+  "reviewer": "/root/act346_order_review",
+  "reviewedAt": "2026-09-13T07:17:59.598932+00:00",
+  "reviewHead": "e9db632f3f4792b58fda0e5b8fd727bc75d8eca6",
+  "status": "COMPLETE",
+  "verdict": "PASS",
+  "scope": {
+    "appliedReport": {
+      "path": "data/rcap-grade-a/packet-factory-24h/restart-recovery-20260913/wv-shared-manifest-preservation-applied-20260913.json",
+      "sha256": "17980844cb399981362ac19d78802ed7f675720f5b231bc00d67f523f4308582",
+      "byteLength": 47158,
+      "ranAt": "2026-09-13T07:04:49.846Z",
+      "applied": true,
+      "summary": {
+        "REFRESHED": 11
+      }
+    },
+    "familiesReviewed": [
+      "ar-nonconviction-seal-set",
+      "az_certificate_second_chance-set",
+      "de_discretionary_superior_court-set",
+      "de_pardon_expungement-set",
+      "me-seal-gen-set",
+      "mn_petition_609a02_subd3-set",
+      "nc_145_5_felony-set",
+      "nc_145_5_misdemeanor-set",
+      "nc_146_acquittal_petition-set",
+      "nc_146_dismissal_petition-set",
+      "wv_conv_nonviolent_felony-set"
+    ],
+    "familyCount": 11,
+    "sharedManifest": {
+      "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+      "beforeSha256": "9898a2ca999c7eae95bdb68337af91556855e46a005bcd63589fa2b1c52880b8",
+      "beforeByteLength": 3711575,
+      "afterSha256": "83d91d31bf8b0b6c76c5623f4c39cffddcf6b154c1d8de96ffbcb74073d6befb",
+      "afterByteLength": 3711585,
+      "expectedAfterSha256": "83d91d31bf8b0b6c76c5623f4c39cffddcf6b154c1d8de96ffbcb74073d6befb",
+      "expectedAfterByteLength": 3711585,
+      "entriesThatMovedInThisApply": [
+        "wv_nc_acquittal_dismissal-set",
+        "wv_nc_diversion_deferred-set"
+      ]
+    },
+    "outOfScopeRefusal": [
+      {
+        "familyId": "composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement",
+        "directory": "data/rcap-all50/overlays/census-v1/wv/composed-treatment:obligation:runtime-only:wv:sex-trafficking-victim-vacatur-and-expungement--custom-pleading",
+        "receiptPath": "data/rcap-all50/overlays/census-v1/wv/composed-treatment:obligation:runtime-only:wv:sex-trafficking-victim-vacatur-and-expungement--custom-pleading/source-receipt.json",
+        "unmeasurablePins": [],
+        "outcome": "REFUSED",
+        "why": "src/lib/rcap-engine/compiled/profiles/WV-west-virginia.json: no adapter describes src/lib/rcap-engine/compiled/profiles/WV-west-virginia.json, so which entries this family depends on cannot be decided; guessing the scope would make the comparison meaningless",
+        "records": [
+          {
+            "path": "src/lib/rcap-engine/compiled/profiles/WV-west-virginia.json",
+            "pinned": "0d5885d3ee56f516ee8bb9c6ce8d99d9aaa72a90d6670f8b6c8a52242db08b78",
+            "now": "bf9709154f74544ea0f5089439b822c88226ea42a031f8ccdfc72f29417a5f00",
+            "resolvedFrom": "working tree (repository root)",
+            "recordId": "compiled-profile:WV-west-virginia#sex-trafficking-victim-vacatur-and-expungement",
+            "outcome": "REFUSED",
+            "why": "no adapter describes src/lib/rcap-engine/compiled/profiles/WV-west-virginia.json, so which entries this family depends on cannot be decided; guessing the scope would make the comparison meaningless"
+          }
+        ]
+      }
+    ]
+  },
+  "nativeComparison": {
+    "helper": "scripts/grade-a-packet-factory-24h/repin-lapsed-source-identities.mjs",
+    "adapter": "packet-set manifests (complete scoped packet sets + shared/default metadata)",
+    "method": "Imported and invoked the existing ADAPTERS packet-manifest adapter, recoverBytesByDigest, and compareAnchors against the old pinned bytes and current manifest; no manual anchor reconstruction.",
+    "focusedTestCommand": "node --test scripts/grade-a-packet-factory-24h/repin-packet-set-manifests.test.mjs",
+    "focusedTestResult": {
+      "tests": 14,
+      "pass": 14,
+      "fail": 0
+    },
+    "currentManifestSha256": "83d91d31bf8b0b6c76c5623f4c39cffddcf6b154c1d8de96ffbcb74073d6befb",
+    "currentManifestByteLength": 3711585,
+    "allFamiliesPass": true,
+    "families": [
+      {
+        "familyId": "ar-nonconviction-seal-set",
+        "recordId": "packet-set-manifest:ar-nonconviction-seal-set",
+        "scope": {
+          "anchorIds": [
+            "ar-nonconviction-seal-set"
+          ],
+          "derivation": {
+            "declarations": [
+              {
+                "basis": "pin.recordId",
+                "packetSetId": "ar-nonconviction-seal-set"
+              },
+              {
+                "basis": "receipt.familyId exact packetSetId",
+                "packetSetId": "ar-nonconviction-seal-set"
+              },
+              {
+                "basis": "receipt.routeKeys:obligation:track-only:AR:ar-nonconviction-seal",
+                "packetSetId": "ar-nonconviction-seal-set"
+              }
+            ],
+            "globalMetadataComparedAsOneAnchor": true
+          }
+        },
+        "recovery": {
+          "method": "git rev-list --all -- <path>, deduplicated by blob id, each blob hashed until the pin matched",
+          "blobId": "8b6acc3d0f42620902434d0869d89551097f9961",
+          "commit": "d70e5995ef28155a4baf16edf0f1dc68293522a1",
+          "commitsWithThisPath": 67,
+          "distinctBlobs": 60,
+          "blobsHashed": 2
+        },
+        "checks": {
+          "oldDigest": true,
+          "oldLength": true,
+          "anchorsCompared": true,
+          "anchorsIdentical": true,
+          "anchorDetail": true,
+          "identicalAnchorSha256": true,
+          "differing": true
+        },
+        "comparison": {
+          "anchorsCompared": 5,
+          "anchorsIdentical": 5,
+          "anchorNames": [
+            "packetManifestSharedMetadata",
+            "packetSet:ar-nonconviction-seal-set",
+            "packetSet:dc_innocence_expungement-set",
+            "packetSet:il-prostitution-j-vacate-set",
+            "packetSet:ms-misd-addl-set"
+          ],
+          "anchorDetail": [
+            "packetManifestSharedMetadata: identical",
+            "packetSet:ar-nonconviction-seal-set: identical",
+            "packetSet:dc_innocence_expungement-set: identical",
+            "packetSet:il-prostitution-j-vacate-set: identical",
+            "packetSet:ms-misd-addl-set: identical"
+          ],
+          "differing": [],
+          "identicalAnchorSha256": {
+            "packetManifestSharedMetadata": "cb026b3c9058bf43be30ef637b88a3819076dce69cda50b9ab42968aecf79298",
+            "packetSet:ar-nonconviction-seal-set": "ae22de06a6075b7f20fa29606fd47d93e6fbfebadbcd82909a86f69d95fd79c5",
+            "packetSet:dc_innocence_expungement-set": "1534c812ff61dd053c78273e92b99c0fd7424407f9a0a0f35f5b2cb2a7cf2374",
+            "packetSet:il-prostitution-j-vacate-set": "7979cb3ffa4903e16a943b12772d110fa4a0d83af5f36d431b0c06cd89881257",
+            "packetSet:ms-misd-addl-set": "c2213f54e772adf855ac2c04cabf6a65678dfd7d89de463d9fd23eb5f20b7f7a"
+          },
+          "canonicalisation": "keys sorted recursively, JSON.stringify with no spacing, one trailing newline, UTF-8"
+        }
+      },
+      {
+        "familyId": "az_certificate_second_chance-set",
+        "recordId": "packet-set-manifest:az_certificate_second_chance-set",
+        "scope": {
+          "anchorIds": [
+            "az_certificate_second_chance-set"
+          ],
+          "derivation": {
+            "declarations": [
+              {
+                "basis": "pin.recordId",
+                "packetSetId": "az_certificate_second_chance-set"
+              },
+              {
+                "basis": "receipt.familyId exact packetSetId",
+                "packetSetId": "az_certificate_second_chance-set"
+              },
+              {
+                "basis": "receipt.routeKeys:obligation:track-only:AZ:az_certificate_second_chance",
+                "packetSetId": "az_certificate_second_chance-set"
+              }
+            ],
+            "globalMetadataComparedAsOneAnchor": true
+          }
+        },
+        "recovery": {
+          "method": "git rev-list --all -- <path>, deduplicated by blob id, each blob hashed until the pin matched",
+          "blobId": "8b6acc3d0f42620902434d0869d89551097f9961",
+          "commit": "d70e5995ef28155a4baf16edf0f1dc68293522a1",
+          "commitsWithThisPath": 67,
+          "distinctBlobs": 60,
+          "blobsHashed": 2
+        },
+        "checks": {
+          "oldDigest": true,
+          "oldLength": true,
+          "anchorsCompared": true,
+          "anchorsIdentical": true,
+          "anchorDetail": true,
+          "identicalAnchorSha256": true,
+          "differing": true
+        },
+        "comparison": {
+          "anchorsCompared": 5,
+          "anchorsIdentical": 5,
+          "anchorNames": [
+            "packetManifestSharedMetadata",
+            "packetSet:az_certificate_second_chance-set",
+            "packetSet:dc_innocence_expungement-set",
+            "packetSet:il-prostitution-j-vacate-set",
+            "packetSet:ms-misd-addl-set"
+          ],
+          "anchorDetail": [
+            "packetManifestSharedMetadata: identical",
+            "packetSet:az_certificate_second_chance-set: identical",
+            "packetSet:dc_innocence_expungement-set: identical",
+            "packetSet:il-prostitution-j-vacate-set: identical",
+            "packetSet:ms-misd-addl-set: identical"
+          ],
+          "differing": [],
+          "identicalAnchorSha256": {
+            "packetManifestSharedMetadata": "cb026b3c9058bf43be30ef637b88a3819076dce69cda50b9ab42968aecf79298",
+            "packetSet:az_certificate_second_chance-set": "8f6e8f250912295f39e14b23b97f4a16af0b0f088f7a685374f3120a1806dbf1",
+            "packetSet:dc_innocence_expungement-set": "1534c812ff61dd053c78273e92b99c0fd7424407f9a0a0f35f5b2cb2a7cf2374",
+            "packetSet:il-prostitution-j-vacate-set": "7979cb3ffa4903e16a943b12772d110fa4a0d83af5f36d431b0c06cd89881257",
+            "packetSet:ms-misd-addl-set": "c2213f54e772adf855ac2c04cabf6a65678dfd7d89de463d9fd23eb5f20b7f7a"
+          },
+          "canonicalisation": "keys sorted recursively, JSON.stringify with no spacing, one trailing newline, UTF-8"
+        }
+      },
+      {
+        "familyId": "de_discretionary_superior_court-set",
+        "recordId": "packet-set-manifest:de_discretionary_superior_court-set",
+        "scope": {
+          "anchorIds": [
+            "de_discretionary_superior_court-set"
+          ],
+          "derivation": {
+            "declarations": [
+              {
+                "basis": "pin.recordId",
+                "packetSetId": "de_discretionary_superior_court-set"
+              },
+              {
+                "basis": "receipt.familyId exact packetSetId",
+                "packetSetId": "de_discretionary_superior_court-set"
+              },
+              {
+                "basis": "receipt.routeKeys:obligation:track-pathway:DE:de_discretionary_superior_court:discretionary-court-expungement-under-11-del-c-4374",
+                "packetSetId": "de_discretionary_superior_court-set"
+              }
+            ],
+            "globalMetadataComparedAsOneAnchor": true
+          }
+        },
+        "recovery": {
+          "method": "git rev-list --all -- <path>, deduplicated by blob id, each blob hashed until the pin matched",
+          "blobId": "8b6acc3d0f42620902434d0869d89551097f9961",
+          "commit": "d70e5995ef28155a4baf16edf0f1dc68293522a1",
+          "commitsWithThisPath": 67,
+          "distinctBlobs": 60,
+          "blobsHashed": 2
+        },
+        "checks": {
+          "oldDigest": true,
+          "oldLength": true,
+          "anchorsCompared": true,
+          "anchorsIdentical": true,
+          "anchorDetail": true,
+          "identicalAnchorSha256": true,
+          "differing": true
+        },
+        "comparison": {
+          "anchorsCompared": 5,
+          "anchorsIdentical": 5,
+          "anchorNames": [
+            "packetManifestSharedMetadata",
+            "packetSet:dc_innocence_expungement-set",
+            "packetSet:de_discretionary_superior_court-set",
+            "packetSet:il-prostitution-j-vacate-set",
+            "packetSet:ms-misd-addl-set"
+          ],
+          "anchorDetail": [
+            "packetManifestSharedMetadata: identical",
+            "packetSet:dc_innocence_expungement-set: identical",
+            "packetSet:de_discretionary_superior_court-set: identical",
+            "packetSet:il-prostitution-j-vacate-set: identical",
+            "packetSet:ms-misd-addl-set: identical"
+          ],
+          "differing": [],
+          "identicalAnchorSha256": {
+            "packetManifestSharedMetadata": "cb026b3c9058bf43be30ef637b88a3819076dce69cda50b9ab42968aecf79298",
+            "packetSet:dc_innocence_expungement-set": "1534c812ff61dd053c78273e92b99c0fd7424407f9a0a0f35f5b2cb2a7cf2374",
+            "packetSet:de_discretionary_superior_court-set": "18a65595a8ece1697cfdc26ada3622e019dc595b1c82366d888338a74a354b93",
+            "packetSet:il-prostitution-j-vacate-set": "7979cb3ffa4903e16a943b12772d110fa4a0d83af5f36d431b0c06cd89881257",
+            "packetSet:ms-misd-addl-set": "c2213f54e772adf855ac2c04cabf6a65678dfd7d89de463d9fd23eb5f20b7f7a"
+          },
+          "canonicalisation": "keys sorted recursively, JSON.stringify with no spacing, one trailing newline, UTF-8"
+        }
+      },
+      {
+        "familyId": "de_pardon_expungement-set",
+        "recordId": "packet-set-manifest:de_pardon_expungement-set",
+        "scope": {
+          "anchorIds": [
+            "de_pardon_expungement-set"
+          ],
+          "derivation": {
+            "declarations": [
+              {
+                "basis": "pin.recordId",
+                "packetSetId": "de_pardon_expungement-set"
+              },
+              {
+                "basis": "receipt.familyId exact packetSetId",
+                "packetSetId": "de_pardon_expungement-set"
+              },
+              {
+                "basis": "receipt.routeKeys:obligation:track-pathway:DE:de_pardon_expungement:pardon-based-discretionary-expungement-under-11-del-c-4375",
+                "packetSetId": "de_pardon_expungement-set"
+              }
+            ],
+            "globalMetadataComparedAsOneAnchor": true
+          }
+        },
+        "recovery": {
+          "method": "git rev-list --all -- <path>, deduplicated by blob id, each blob hashed until the pin matched",
+          "blobId": "8b6acc3d0f42620902434d0869d89551097f9961",
+          "commit": "d70e5995ef28155a4baf16edf0f1dc68293522a1",
+          "commitsWithThisPath": 67,
+          "distinctBlobs": 60,
+          "blobsHashed": 2
+        },
+        "checks": {
+          "oldDigest": true,
+          "oldLength": true,
+          "anchorsCompared": true,
+          "anchorsIdentical": true,
+          "anchorDetail": true,
+          "identicalAnchorSha256": true,
+          "differing": true
+        },
+        "comparison": {
+          "anchorsCompared": 5,
+          "anchorsIdentical": 5,
+          "anchorNames": [
+            "packetManifestSharedMetadata",
+            "packetSet:dc_innocence_expungement-set",
+            "packetSet:de_pardon_expungement-set",
+            "packetSet:il-prostitution-j-vacate-set",
+            "packetSet:ms-misd-addl-set"
+          ],
+          "anchorDetail": [
+            "packetManifestSharedMetadata: identical",
+            "packetSet:dc_innocence_expungement-set: identical",
+            "packetSet:de_pardon_expungement-set: identical",
+            "packetSet:il-prostitution-j-vacate-set: identical",
+            "packetSet:ms-misd-addl-set: identical"
+          ],
+          "differing": [],
+          "identicalAnchorSha256": {
+            "packetManifestSharedMetadata": "cb026b3c9058bf43be30ef637b88a3819076dce69cda50b9ab42968aecf79298",
+            "packetSet:dc_innocence_expungement-set": "1534c812ff61dd053c78273e92b99c0fd7424407f9a0a0f35f5b2cb2a7cf2374",
+            "packetSet:de_pardon_expungement-set": "fe0e0d0f180b63a98eb7a9e04630b3fa9b0fb4c2efda839d0c9884775ca069a1",
+            "packetSet:il-prostitution-j-vacate-set": "7979cb3ffa4903e16a943b12772d110fa4a0d83af5f36d431b0c06cd89881257",
+            "packetSet:ms-misd-addl-set": "c2213f54e772adf855ac2c04cabf6a65678dfd7d89de463d9fd23eb5f20b7f7a"
+          },
+          "canonicalisation": "keys sorted recursively, JSON.stringify with no spacing, one trailing newline, UTF-8"
+        }
+      },
+      {
+        "familyId": "me-seal-gen-set",
+        "recordId": "packet-set-manifest:me-seal-gen-set",
+        "scope": {
+          "anchorIds": [
+            "me-seal-gen-set"
+          ],
+          "derivation": {
+            "declarations": [
+              {
+                "basis": "pin.recordId",
+                "packetSetId": "me-seal-gen-set"
+              },
+              {
+                "basis": "receipt.familyId exact packetSetId",
+                "packetSetId": "me-seal-gen-set"
+              },
+              {
+                "basis": "receipt.routeKeys:obligation:track-pathway:ME:me-seal-gen:adult-conviction-sealing",
+                "packetSetId": "me-seal-gen-set"
+              }
+            ],
+            "globalMetadataComparedAsOneAnchor": true
+          }
+        },
+        "recovery": {
+          "method": "git rev-list --all -- <path>, deduplicated by blob id, each blob hashed until the pin matched",
+          "blobId": "8b6acc3d0f42620902434d0869d89551097f9961",
+          "commit": "d70e5995ef28155a4baf16edf0f1dc68293522a1",
+          "commitsWithThisPath": 67,
+          "distinctBlobs": 60,
+          "blobsHashed": 2
+        },
+        "checks": {
+          "oldDigest": true,
+          "oldLength": true,
+          "anchorsCompared": true,
+          "anchorsIdentical": true,
+          "anchorDetail": true,
+          "identicalAnchorSha256": true,
+          "differing": true
+        },
+        "comparison": {
+          "anchorsCompared": 5,
+          "anchorsIdentical": 5,
+          "anchorNames": [
+            "packetManifestSharedMetadata",
+            "packetSet:dc_innocence_expungement-set",
+            "packetSet:il-prostitution-j-vacate-set",
+            "packetSet:me-seal-gen-set",
+            "packetSet:ms-misd-addl-set"
+          ],
+          "anchorDetail": [
+            "packetManifestSharedMetadata: identical",
+            "packetSet:dc_innocence_expungement-set: identical",
+            "packetSet:il-prostitution-j-vacate-set: identical",
+            "packetSet:me-seal-gen-set: identical",
+            "packetSet:ms-misd-addl-set: identical"
+          ],
+          "differing": [],
+          "identicalAnchorSha256": {
+            "packetManifestSharedMetadata": "cb026b3c9058bf43be30ef637b88a3819076dce69cda50b9ab42968aecf79298",
+            "packetSet:dc_innocence_expungement-set": "1534c812ff61dd053c78273e92b99c0fd7424407f9a0a0f35f5b2cb2a7cf2374",
+            "packetSet:il-prostitution-j-vacate-set": "7979cb3ffa4903e16a943b12772d110fa4a0d83af5f36d431b0c06cd89881257",
+            "packetSet:me-seal-gen-set": "cc7a793611f8ca3ea7007f8e3950dd46176d0c59bc177b58c29b48b914c2dab6",
+            "packetSet:ms-misd-addl-set": "c2213f54e772adf855ac2c04cabf6a65678dfd7d89de463d9fd23eb5f20b7f7a"
+          },
+          "canonicalisation": "keys sorted recursively, JSON.stringify with no spacing, one trailing newline, UTF-8"
+        }
+      },
+      {
+        "familyId": "mn_petition_609a02_subd3-set",
+        "recordId": "legal-design-packet-set-manifests:mn_petition_609a02_subd3-set",
+        "scope": {
+          "anchorIds": [
+            "mn_petition_609a02_subd3-set"
+          ],
+          "derivation": {
+            "declarations": [
+              {
+                "basis": "pin.recordId",
+                "packetSetId": "mn_petition_609a02_subd3-set"
+              },
+              {
+                "basis": "receipt.familyId exact packetSetId",
+                "packetSetId": "mn_petition_609a02_subd3-set"
+              },
+              {
+                "basis": "receipt.routeKeys:obligation:track-pathway:MN:mn_petition_609a02_subd3:petition-based-expungement-under-609a-02-03",
+                "packetSetId": "mn_petition_609a02_subd3-set"
+              }
+            ],
+            "globalMetadataComparedAsOneAnchor": true
+          }
+        },
+        "recovery": {
+          "method": "git rev-list --all -- <path>, deduplicated by blob id, each blob hashed until the pin matched",
+          "blobId": "8b6acc3d0f42620902434d0869d89551097f9961",
+          "commit": "d70e5995ef28155a4baf16edf0f1dc68293522a1",
+          "commitsWithThisPath": 67,
+          "distinctBlobs": 60,
+          "blobsHashed": 2
+        },
+        "checks": {
+          "oldDigest": true,
+          "oldLength": true,
+          "anchorsCompared": true,
+          "anchorsIdentical": true,
+          "anchorDetail": true,
+          "identicalAnchorSha256": true,
+          "differing": true
+        },
+        "comparison": {
+          "anchorsCompared": 5,
+          "anchorsIdentical": 5,
+          "anchorNames": [
+            "packetManifestSharedMetadata",
+            "packetSet:dc_innocence_expungement-set",
+            "packetSet:il-prostitution-j-vacate-set",
+            "packetSet:mn_petition_609a02_subd3-set",
+            "packetSet:ms-misd-addl-set"
+          ],
+          "anchorDetail": [
+            "packetManifestSharedMetadata: identical",
+            "packetSet:dc_innocence_expungement-set: identical",
+            "packetSet:il-prostitution-j-vacate-set: identical",
+            "packetSet:mn_petition_609a02_subd3-set: identical",
+            "packetSet:ms-misd-addl-set: identical"
+          ],
+          "differing": [],
+          "identicalAnchorSha256": {
+            "packetManifestSharedMetadata": "cb026b3c9058bf43be30ef637b88a3819076dce69cda50b9ab42968aecf79298",
+            "packetSet:dc_innocence_expungement-set": "1534c812ff61dd053c78273e92b99c0fd7424407f9a0a0f35f5b2cb2a7cf2374",
+            "packetSet:il-prostitution-j-vacate-set": "7979cb3ffa4903e16a943b12772d110fa4a0d83af5f36d431b0c06cd89881257",
+            "packetSet:mn_petition_609a02_subd3-set": "9efbae9a28d6abe0f77847e93e4d8e6a337fef277eb9aad3b7bac9014958a5dc",
+            "packetSet:ms-misd-addl-set": "c2213f54e772adf855ac2c04cabf6a65678dfd7d89de463d9fd23eb5f20b7f7a"
+          },
+          "canonicalisation": "keys sorted recursively, JSON.stringify with no spacing, one trailing newline, UTF-8"
+        }
+      },
+      {
+        "familyId": "nc_145_5_felony-set",
+        "recordId": "packet-set-manifest:nc_145_5_felony-set",
+        "scope": {
+          "anchorIds": [
+            "nc_145_5_felony-set"
+          ],
+          "derivation": {
+            "declarations": [
+              {
+                "basis": "pin.recordId",
+                "packetSetId": "nc_145_5_felony-set"
+              },
+              {
+                "basis": "receipt.familyId exact packetSetId",
+                "packetSetId": "nc_145_5_felony-set"
+              },
+              {
+                "basis": "receipt.routeKeys:obligation:track-pathway:NC:nc_145_5_felony:nonviolent-conviction-expunction-under-g-s-15a-145-5",
+                "packetSetId": "nc_145_5_felony-set"
+              }
+            ],
+            "globalMetadataComparedAsOneAnchor": true
+          }
+        },
+        "recovery": {
+          "method": "git rev-list --all -- <path>, deduplicated by blob id, each blob hashed until the pin matched",
+          "blobId": "8b6acc3d0f42620902434d0869d89551097f9961",
+          "commit": "d70e5995ef28155a4baf16edf0f1dc68293522a1",
+          "commitsWithThisPath": 67,
+          "distinctBlobs": 60,
+          "blobsHashed": 2
+        },
+        "checks": {
+          "oldDigest": true,
+          "oldLength": true,
+          "anchorsCompared": true,
+          "anchorsIdentical": true,
+          "anchorDetail": true,
+          "identicalAnchorSha256": true,
+          "differing": true
+        },
+        "comparison": {
+          "anchorsCompared": 5,
+          "anchorsIdentical": 5,
+          "anchorNames": [
+            "packetManifestSharedMetadata",
+            "packetSet:dc_innocence_expungement-set",
+            "packetSet:il-prostitution-j-vacate-set",
+            "packetSet:ms-misd-addl-set",
+            "packetSet:nc_145_5_felony-set"
+          ],
+          "anchorDetail": [
+            "packetManifestSharedMetadata: identical",
+            "packetSet:dc_innocence_expungement-set: identical",
+            "packetSet:il-prostitution-j-vacate-set: identical",
+            "packetSet:ms-misd-addl-set: identical",
+            "packetSet:nc_145_5_felony-set: identical"
+          ],
+          "differing": [],
+          "identicalAnchorSha256": {
+            "packetManifestSharedMetadata": "cb026b3c9058bf43be30ef637b88a3819076dce69cda50b9ab42968aecf79298",
+            "packetSet:dc_innocence_expungement-set": "1534c812ff61dd053c78273e92b99c0fd7424407f9a0a0f35f5b2cb2a7cf2374",
+            "packetSet:il-prostitution-j-vacate-set": "7979cb3ffa4903e16a943b12772d110fa4a0d83af5f36d431b0c06cd89881257",
+            "packetSet:ms-misd-addl-set": "c2213f54e772adf855ac2c04cabf6a65678dfd7d89de463d9fd23eb5f20b7f7a",
+            "packetSet:nc_145_5_felony-set": "a356f54666409f11afd9bda51741b4e92f30ef2c20b7604d1f1b25bc2392bec9"
+          },
+          "canonicalisation": "keys sorted recursively, JSON.stringify with no spacing, one trailing newline, UTF-8"
+        }
+      },
+      {
+        "familyId": "nc_145_5_misdemeanor-set",
+        "recordId": "packet-set-manifest:nc_145_5_misdemeanor-set",
+        "scope": {
+          "anchorIds": [
+            "nc_145_5_misdemeanor-set"
+          ],
+          "derivation": {
+            "declarations": [
+              {
+                "basis": "pin.recordId",
+                "packetSetId": "nc_145_5_misdemeanor-set"
+              },
+              {
+                "basis": "receipt.familyId exact packetSetId",
+                "packetSetId": "nc_145_5_misdemeanor-set"
+              },
+              {
+                "basis": "receipt.routeKeys:obligation:track-only:NC:nc_145_5_misdemeanor",
+                "packetSetId": "nc_145_5_misdemeanor-set"
+              }
+            ],
+            "globalMetadataComparedAsOneAnchor": true
+          }
+        },
+        "recovery": {
+          "method": "git rev-list --all -- <path>, deduplicated by blob id, each blob hashed until the pin matched",
+          "blobId": "8b6acc3d0f42620902434d0869d89551097f9961",
+          "commit": "d70e5995ef28155a4baf16edf0f1dc68293522a1",
+          "commitsWithThisPath": 67,
+          "distinctBlobs": 60,
+          "blobsHashed": 2
+        },
+        "checks": {
+          "oldDigest": true,
+          "oldLength": true,
+          "anchorsCompared": true,
+          "anchorsIdentical": true,
+          "anchorDetail": true,
+          "identicalAnchorSha256": true,
+          "differing": true
+        },
+        "comparison": {
+          "anchorsCompared": 5,
+          "anchorsIdentical": 5,
+          "anchorNames": [
+            "packetManifestSharedMetadata",
+            "packetSet:dc_innocence_expungement-set",
+            "packetSet:il-prostitution-j-vacate-set",
+            "packetSet:ms-misd-addl-set",
+            "packetSet:nc_145_5_misdemeanor-set"
+          ],
+          "anchorDetail": [
+            "packetManifestSharedMetadata: identical",
+            "packetSet:dc_innocence_expungement-set: identical",
+            "packetSet:il-prostitution-j-vacate-set: identical",
+            "packetSet:ms-misd-addl-set: identical",
+            "packetSet:nc_145_5_misdemeanor-set: identical"
+          ],
+          "differing": [],
+          "identicalAnchorSha256": {
+            "packetManifestSharedMetadata": "cb026b3c9058bf43be30ef637b88a3819076dce69cda50b9ab42968aecf79298",
+            "packetSet:dc_innocence_expungement-set": "1534c812ff61dd053c78273e92b99c0fd7424407f9a0a0f35f5b2cb2a7cf2374",
+            "packetSet:il-prostitution-j-vacate-set": "7979cb3ffa4903e16a943b12772d110fa4a0d83af5f36d431b0c06cd89881257",
+            "packetSet:ms-misd-addl-set": "c2213f54e772adf855ac2c04cabf6a65678dfd7d89de463d9fd23eb5f20b7f7a",
+            "packetSet:nc_145_5_misdemeanor-set": "d3ff51cc226c46eeaa146bc4e8df58df4c71501348126bcb3263b9f65ad37bb7"
+          },
+          "canonicalisation": "keys sorted recursively, JSON.stringify with no spacing, one trailing newline, UTF-8"
+        }
+      },
+      {
+        "familyId": "nc_146_acquittal_petition-set",
+        "recordId": "packet-set-manifest:nc_146_acquittal_petition-set",
+        "scope": {
+          "anchorIds": [
+            "nc_146_acquittal_petition-set"
+          ],
+          "derivation": {
+            "declarations": [
+              {
+                "basis": "pin.recordId",
+                "packetSetId": "nc_146_acquittal_petition-set"
+              },
+              {
+                "basis": "receipt.familyId exact packetSetId",
+                "packetSetId": "nc_146_acquittal_petition-set"
+              },
+              {
+                "basis": "receipt.routeKeys:obligation:track-pathway:NC:nc_146_acquittal_petition:dismissal-and-not-guilty-expunction-under-g-s-15a-146",
+                "packetSetId": "nc_146_acquittal_petition-set"
+              }
+            ],
+            "globalMetadataComparedAsOneAnchor": true
+          }
+        },
+        "recovery": {
+          "method": "git rev-list --all -- <path>, deduplicated by blob id, each blob hashed until the pin matched",
+          "blobId": "8b6acc3d0f42620902434d0869d89551097f9961",
+          "commit": "d70e5995ef28155a4baf16edf0f1dc68293522a1",
+          "commitsWithThisPath": 67,
+          "distinctBlobs": 60,
+          "blobsHashed": 2
+        },
+        "checks": {
+          "oldDigest": true,
+          "oldLength": true,
+          "anchorsCompared": true,
+          "anchorsIdentical": true,
+          "anchorDetail": true,
+          "identicalAnchorSha256": true,
+          "differing": true
+        },
+        "comparison": {
+          "anchorsCompared": 5,
+          "anchorsIdentical": 5,
+          "anchorNames": [
+            "packetManifestSharedMetadata",
+            "packetSet:dc_innocence_expungement-set",
+            "packetSet:il-prostitution-j-vacate-set",
+            "packetSet:ms-misd-addl-set",
+            "packetSet:nc_146_acquittal_petition-set"
+          ],
+          "anchorDetail": [
+            "packetManifestSharedMetadata: identical",
+            "packetSet:dc_innocence_expungement-set: identical",
+            "packetSet:il-prostitution-j-vacate-set: identical",
+            "packetSet:ms-misd-addl-set: identical",
+            "packetSet:nc_146_acquittal_petition-set: identical"
+          ],
+          "differing": [],
+          "identicalAnchorSha256": {
+            "packetManifestSharedMetadata": "cb026b3c9058bf43be30ef637b88a3819076dce69cda50b9ab42968aecf79298",
+            "packetSet:dc_innocence_expungement-set": "1534c812ff61dd053c78273e92b99c0fd7424407f9a0a0f35f5b2cb2a7cf2374",
+            "packetSet:il-prostitution-j-vacate-set": "7979cb3ffa4903e16a943b12772d110fa4a0d83af5f36d431b0c06cd89881257",
+            "packetSet:ms-misd-addl-set": "c2213f54e772adf855ac2c04cabf6a65678dfd7d89de463d9fd23eb5f20b7f7a",
+            "packetSet:nc_146_acquittal_petition-set": "ddef12e9aa38e522e19e96102a11096a89e2e9b0566fb7c30b4847f6ae02b64a"
+          },
+          "canonicalisation": "keys sorted recursively, JSON.stringify with no spacing, one trailing newline, UTF-8"
+        }
+      },
+      {
+        "familyId": "nc_146_dismissal_petition-set",
+        "recordId": "packet-set-manifest:nc_146_dismissal_petition-set",
+        "scope": {
+          "anchorIds": [
+            "nc_146_dismissal_petition-set"
+          ],
+          "derivation": {
+            "declarations": [
+              {
+                "basis": "pin.recordId",
+                "packetSetId": "nc_146_dismissal_petition-set"
+              },
+              {
+                "basis": "receipt.familyId exact packetSetId",
+                "packetSetId": "nc_146_dismissal_petition-set"
+              },
+              {
+                "basis": "receipt.routeKeys:obligation:track-only:NC:nc_146_dismissal_petition",
+                "packetSetId": "nc_146_dismissal_petition-set"
+              }
+            ],
+            "globalMetadataComparedAsOneAnchor": true
+          }
+        },
+        "recovery": {
+          "method": "git rev-list --all -- <path>, deduplicated by blob id, each blob hashed until the pin matched",
+          "blobId": "8b6acc3d0f42620902434d0869d89551097f9961",
+          "commit": "d70e5995ef28155a4baf16edf0f1dc68293522a1",
+          "commitsWithThisPath": 67,
+          "distinctBlobs": 60,
+          "blobsHashed": 2
+        },
+        "checks": {
+          "oldDigest": true,
+          "oldLength": true,
+          "anchorsCompared": true,
+          "anchorsIdentical": true,
+          "anchorDetail": true,
+          "identicalAnchorSha256": true,
+          "differing": true
+        },
+        "comparison": {
+          "anchorsCompared": 5,
+          "anchorsIdentical": 5,
+          "anchorNames": [
+            "packetManifestSharedMetadata",
+            "packetSet:dc_innocence_expungement-set",
+            "packetSet:il-prostitution-j-vacate-set",
+            "packetSet:ms-misd-addl-set",
+            "packetSet:nc_146_dismissal_petition-set"
+          ],
+          "anchorDetail": [
+            "packetManifestSharedMetadata: identical",
+            "packetSet:dc_innocence_expungement-set: identical",
+            "packetSet:il-prostitution-j-vacate-set: identical",
+            "packetSet:ms-misd-addl-set: identical",
+            "packetSet:nc_146_dismissal_petition-set: identical"
+          ],
+          "differing": [],
+          "identicalAnchorSha256": {
+            "packetManifestSharedMetadata": "cb026b3c9058bf43be30ef637b88a3819076dce69cda50b9ab42968aecf79298",
+            "packetSet:dc_innocence_expungement-set": "1534c812ff61dd053c78273e92b99c0fd7424407f9a0a0f35f5b2cb2a7cf2374",
+            "packetSet:il-prostitution-j-vacate-set": "7979cb3ffa4903e16a943b12772d110fa4a0d83af5f36d431b0c06cd89881257",
+            "packetSet:ms-misd-addl-set": "c2213f54e772adf855ac2c04cabf6a65678dfd7d89de463d9fd23eb5f20b7f7a",
+            "packetSet:nc_146_dismissal_petition-set": "0128cfa76837a4f84449ab01b5f663264b5fe783a7a00bd819ce2513addb8f63"
+          },
+          "canonicalisation": "keys sorted recursively, JSON.stringify with no spacing, one trailing newline, UTF-8"
+        }
+      },
+      {
+        "familyId": "wv_conv_nonviolent_felony-set",
+        "recordId": "packet-set-manifest:wv_conv_nonviolent_felony-set",
+        "scope": {
+          "anchorIds": [
+            "wv_conv_nonviolent_felony-set"
+          ],
+          "derivation": {
+            "declarations": [
+              {
+                "basis": "pin.recordId",
+                "packetSetId": "wv_conv_nonviolent_felony-set"
+              },
+              {
+                "basis": "receipt.familyId exact packetSetId",
+                "packetSetId": "wv_conv_nonviolent_felony-set"
+              },
+              {
+                "basis": "receipt.routeKeys:obligation:track-pathway:WV:wv_conv_nonviolent_felony:eligible-conviction-expungement-under-w-va-code-61-11-26",
+                "packetSetId": "wv_conv_nonviolent_felony-set"
+              }
+            ],
+            "globalMetadataComparedAsOneAnchor": true
+          }
+        },
+        "recovery": {
+          "method": "git rev-list --all -- <path>, deduplicated by blob id, each blob hashed until the pin matched",
+          "blobId": "8b6acc3d0f42620902434d0869d89551097f9961",
+          "commit": "d70e5995ef28155a4baf16edf0f1dc68293522a1",
+          "commitsWithThisPath": 67,
+          "distinctBlobs": 60,
+          "blobsHashed": 2
+        },
+        "checks": {
+          "oldDigest": true,
+          "oldLength": true,
+          "anchorsCompared": true,
+          "anchorsIdentical": true,
+          "anchorDetail": true,
+          "identicalAnchorSha256": true,
+          "differing": true
+        },
+        "comparison": {
+          "anchorsCompared": 5,
+          "anchorsIdentical": 5,
+          "anchorNames": [
+            "packetManifestSharedMetadata",
+            "packetSet:dc_innocence_expungement-set",
+            "packetSet:il-prostitution-j-vacate-set",
+            "packetSet:ms-misd-addl-set",
+            "packetSet:wv_conv_nonviolent_felony-set"
+          ],
+          "anchorDetail": [
+            "packetManifestSharedMetadata: identical",
+            "packetSet:dc_innocence_expungement-set: identical",
+            "packetSet:il-prostitution-j-vacate-set: identical",
+            "packetSet:ms-misd-addl-set: identical",
+            "packetSet:wv_conv_nonviolent_felony-set: identical"
+          ],
+          "differing": [],
+          "identicalAnchorSha256": {
+            "packetManifestSharedMetadata": "cb026b3c9058bf43be30ef637b88a3819076dce69cda50b9ab42968aecf79298",
+            "packetSet:dc_innocence_expungement-set": "1534c812ff61dd053c78273e92b99c0fd7424407f9a0a0f35f5b2cb2a7cf2374",
+            "packetSet:il-prostitution-j-vacate-set": "7979cb3ffa4903e16a943b12772d110fa4a0d83af5f36d431b0c06cd89881257",
+            "packetSet:ms-misd-addl-set": "c2213f54e772adf855ac2c04cabf6a65678dfd7d89de463d9fd23eb5f20b7f7a",
+            "packetSet:wv_conv_nonviolent_felony-set": "d6958f52ecb6230642ed0d9294f0f88f8bf2b39e6b998a41c1b884e066a6166a"
+          },
+          "canonicalisation": "keys sorted recursively, JSON.stringify with no spacing, one trailing newline, UTF-8"
+        }
+      }
+    ]
+  },
+  "sourceReceiptComparison": {
+    "allReceiptsCurrentAfterHash": true,
+    "allDiffsOnlyAllowedPinOrIdentityRefresh": true,
+    "families": [
+      {
+        "familyId": "ar-nonconviction-seal-set",
+        "receiptPath": "data/rcap-all50/overlays/census-v1/ar/ar-nonconviction-seal-set--official-pdf-fill/source-receipt.json",
+        "beforeSha256": "6fc7d7d7d6fd075e70ef7f4cf11aaf98accb1a131681e2a011f4c8e131ee4b64",
+        "beforeByteLength": 14809,
+        "beforeRecovered": {
+          "method": "git rev-list --all -- <path>, deduplicated by blob id, each blob hashed until the pin matched",
+          "blobId": "9b60491d962edb566b31d87cab98b1744e147568",
+          "commit": "d3378a23b432afc908e82d76500189f86f8027b8",
+          "commitsWithThisPath": 15,
+          "distinctBlobs": 1,
+          "blobsHashed": 1,
+          "byteLength": 14809
+        },
+        "afterSha256": "7f9c53c961db3a91761460bef47abc6214095c46559c24c1c7b80cad016829ac",
+        "currentSha256": "7f9c53c961db3a91761460bef47abc6214095c46559c24c1c7b80cad016829ac",
+        "currentByteLength": 18414,
+        "sharedRecordIndex": 0,
+        "sharedPin": {
+          "recordId": "packet-set-manifest:ar-nonconviction-seal-set",
+          "before": {
+            "sha256": "9898a2ca999c7eae95bdb68337af91556855e46a005bcd63589fa2b1c52880b8",
+            "byteLength": 3711575
+          },
+          "after": {
+            "sha256": "83d91d31bf8b0b6c76c5623f4c39cffddcf6b154c1d8de96ffbcb74073d6befb",
+            "byteLength": 3711585
+          },
+          "current": {
+            "sha256": "83d91d31bf8b0b6c76c5623f4c39cffddcf6b154c1d8de96ffbcb74073d6befb",
+            "byteLength": 3711585
+          }
+        },
+        "diffSummary": {
+          "leafDiffCount": 53,
+          "identityRefreshLeafDiffCount": 51,
+          "nonIdentityDiffPaths": [
+            "/committedRecords/0/byteLength",
+            "/committedRecords/0/sha256"
+          ],
+          "disallowedDiffPaths": [],
+          "onlyAllowedPinOrIdentityRefresh": true
+        },
+        "identityRefreshChecks": {
+          "was": true,
+          "entriesThatMovedInThisRecord": true,
+          "anchorsCompared": true,
+          "anchorsIdentical": true,
+          "anchorDetail": true,
+          "identicalAnchorSha256": true,
+          "canonicalisation": true,
+          "anchorScope": true,
+          "recoveredFrom": true,
+          "refreshedOn": true
+        },
+        "rowPass": true
+      },
+      {
+        "familyId": "az_certificate_second_chance-set",
+        "receiptPath": "data/rcap-all50/overlays/census-v1/az/az-certificate-second-chance-set--official-pdf-fill/source-receipt.json",
+        "beforeSha256": "563f19c89d46d97c982b58a91b9217f1ba811944a8aa62e4f9eeaaf7495c0641",
+        "beforeByteLength": 22981,
+        "beforeRecovered": {
+          "method": "git rev-list --all -- <path>, deduplicated by blob id, each blob hashed until the pin matched",
+          "blobId": "4e167a4f7a78590c29f7534e3bf2e697b172115e",
+          "commit": "d3378a23b432afc908e82d76500189f86f8027b8",
+          "commitsWithThisPath": 10,
+          "distinctBlobs": 1,
+          "blobsHashed": 1,
+          "byteLength": 22981
+        },
+        "afterSha256": "c9549ff5639848415d2911dbcdc29d473943c3e3225ad7726424d2381f1928fe",
+        "currentSha256": "c9549ff5639848415d2911dbcdc29d473943c3e3225ad7726424d2381f1928fe",
+        "currentByteLength": 26635,
+        "sharedRecordIndex": 0,
+        "sharedPin": {
+          "recordId": "packet-set-manifest:az_certificate_second_chance-set",
+          "before": {
+            "sha256": "9898a2ca999c7eae95bdb68337af91556855e46a005bcd63589fa2b1c52880b8",
+            "byteLength": 3711575
+          },
+          "after": {
+            "sha256": "83d91d31bf8b0b6c76c5623f4c39cffddcf6b154c1d8de96ffbcb74073d6befb",
+            "byteLength": 3711585
+          },
+          "current": {
+            "sha256": "83d91d31bf8b0b6c76c5623f4c39cffddcf6b154c1d8de96ffbcb74073d6befb",
+            "byteLength": 3711585
+          }
+        },
+        "diffSummary": {
+          "leafDiffCount": 53,
+          "identityRefreshLeafDiffCount": 51,
+          "nonIdentityDiffPaths": [
+            "/committedRecords/0/byteLength",
+            "/committedRecords/0/sha256"
+          ],
+          "disallowedDiffPaths": [],
+          "onlyAllowedPinOrIdentityRefresh": true
+        },
+        "identityRefreshChecks": {
+          "was": true,
+          "entriesThatMovedInThisRecord": true,
+          "anchorsCompared": true,
+          "anchorsIdentical": true,
+          "anchorDetail": true,
+          "identicalAnchorSha256": true,
+          "canonicalisation": true,
+          "anchorScope": true,
+          "recoveredFrom": true,
+          "refreshedOn": true
+        },
+        "rowPass": true
+      },
+      {
+        "familyId": "de_discretionary_superior_court-set",
+        "receiptPath": "data/rcap-all50/overlays/census-v1/de/de-discretionary-superior-court-set--official-pdf-fill/source-receipt.json",
+        "beforeSha256": "824925a0bbb590ce9e767bb785c4739543a58dfba2b6d92962c82d70253e41f3",
+        "beforeByteLength": 22718,
+        "beforeRecovered": {
+          "method": "git rev-list --all -- <path>, deduplicated by blob id, each blob hashed until the pin matched",
+          "blobId": "606b587bf2cce4089daf93c23bb57f4a43e248a9",
+          "commit": "d3378a23b432afc908e82d76500189f86f8027b8",
+          "commitsWithThisPath": 5,
+          "distinctBlobs": 1,
+          "blobsHashed": 1,
+          "byteLength": 22718
+        },
+        "afterSha256": "d6de3f5cdbce6bdd13bb02934105642d12891f600a37692602cee05c2af96659",
+        "currentSha256": "d6de3f5cdbce6bdd13bb02934105642d12891f600a37692602cee05c2af96659",
+        "currentByteLength": 26342,
+        "sharedRecordIndex": 0,
+        "sharedPin": {
+          "recordId": "packet-set-manifest:de_discretionary_superior_court-set",
+          "before": {
+            "sha256": "9898a2ca999c7eae95bdb68337af91556855e46a005bcd63589fa2b1c52880b8",
+            "byteLength": 3711575
+          },
+          "after": {
+            "sha256": "83d91d31bf8b0b6c76c5623f4c39cffddcf6b154c1d8de96ffbcb74073d6befb",
+            "byteLength": 3711585
+          },
+          "current": {
+            "sha256": "83d91d31bf8b0b6c76c5623f4c39cffddcf6b154c1d8de96ffbcb74073d6befb",
+            "byteLength": 3711585
+          }
+        },
+        "diffSummary": {
+          "leafDiffCount": 39,
+          "identityRefreshLeafDiffCount": 37,
+          "nonIdentityDiffPaths": [
+            "/committedRecords/0/byteLength",
+            "/committedRecords/0/sha256"
+          ],
+          "disallowedDiffPaths": [],
+          "onlyAllowedPinOrIdentityRefresh": true
+        },
+        "identityRefreshChecks": {
+          "was": true,
+          "entriesThatMovedInThisRecord": true,
+          "anchorsCompared": true,
+          "anchorsIdentical": true,
+          "anchorDetail": true,
+          "identicalAnchorSha256": true,
+          "canonicalisation": true,
+          "anchorScope": true,
+          "recoveredFrom": true,
+          "refreshedOn": true
+        },
+        "rowPass": true
+      },
+      {
+        "familyId": "de_pardon_expungement-set",
+        "receiptPath": "data/rcap-all50/overlays/census-v1/de/de-pardon-expungement-set--official-pdf-fill/source-receipt.json",
+        "beforeSha256": "70bda18f4b244c421b4280aaff1652716e6d7590a94d7ff5a707995d0b662320",
+        "beforeByteLength": 22144,
+        "beforeRecovered": {
+          "method": "git rev-list --all -- <path>, deduplicated by blob id, each blob hashed until the pin matched",
+          "blobId": "e84b97c2385d7cbf25546116342ff81ac18b1748",
+          "commit": "d3378a23b432afc908e82d76500189f86f8027b8",
+          "commitsWithThisPath": 7,
+          "distinctBlobs": 1,
+          "blobsHashed": 1,
+          "byteLength": 22144
+        },
+        "afterSha256": "fe0c5e9daf6692ab924a86bc34544a1e355797a0b635f8704b7aa945abaf8bed",
+        "currentSha256": "fe0c5e9daf6692ab924a86bc34544a1e355797a0b635f8704b7aa945abaf8bed",
+        "currentByteLength": 25811,
+        "sharedRecordIndex": 0,
+        "sharedPin": {
+          "recordId": "packet-set-manifest:de_pardon_expungement-set",
+          "before": {
+            "sha256": "9898a2ca999c7eae95bdb68337af91556855e46a005bcd63589fa2b1c52880b8",
+            "byteLength": 3711575
+          },
+          "after": {
+            "sha256": "83d91d31bf8b0b6c76c5623f4c39cffddcf6b154c1d8de96ffbcb74073d6befb",
+            "byteLength": 3711585
+          },
+          "current": {
+            "sha256": "83d91d31bf8b0b6c76c5623f4c39cffddcf6b154c1d8de96ffbcb74073d6befb",
+            "byteLength": 3711585
+          }
+        },
+        "diffSummary": {
+          "leafDiffCount": 54,
+          "identityRefreshLeafDiffCount": 52,
+          "nonIdentityDiffPaths": [
+            "/committedRecords/0/byteLength",
+            "/committedRecords/0/sha256"
+          ],
+          "disallowedDiffPaths": [],
+          "onlyAllowedPinOrIdentityRefresh": true
+        },
+        "identityRefreshChecks": {
+          "was": true,
+          "entriesThatMovedInThisRecord": true,
+          "anchorsCompared": true,
+          "anchorsIdentical": true,
+          "anchorDetail": true,
+          "identicalAnchorSha256": true,
+          "canonicalisation": true,
+          "anchorScope": true,
+          "recoveredFrom": true,
+          "refreshedOn": true
+        },
+        "rowPass": true
+      },
+      {
+        "familyId": "me-seal-gen-set",
+        "receiptPath": "data/rcap-all50/overlays/census-v1/me/me-seal-gen-set--official-pdf-fill/source-receipt.json",
+        "beforeSha256": "2cf61e7ee4a0591c2d3b1bc1354b85ddf552b680fa80b3176e1f8f49a1c9b77a",
+        "beforeByteLength": 18883,
+        "beforeRecovered": {
+          "method": "git rev-list --all -- <path>, deduplicated by blob id, each blob hashed until the pin matched",
+          "blobId": "b4b840f0de36702e5e2d3929cbb5cb5d77000c07",
+          "commit": "d3378a23b432afc908e82d76500189f86f8027b8",
+          "commitsWithThisPath": 7,
+          "distinctBlobs": 1,
+          "blobsHashed": 1,
+          "byteLength": 18883
+        },
+        "afterSha256": "421d278615cc0e25d656af912a480f7a4c00d8c6551de909344e55b365211d9a",
+        "currentSha256": "421d278615cc0e25d656af912a480f7a4c00d8c6551de909344e55b365211d9a",
+        "currentByteLength": 22446,
+        "sharedRecordIndex": 0,
+        "sharedPin": {
+          "recordId": "packet-set-manifest:me-seal-gen-set",
+          "before": {
+            "sha256": "9898a2ca999c7eae95bdb68337af91556855e46a005bcd63589fa2b1c52880b8",
+            "byteLength": 3711575
+          },
+          "after": {
+            "sha256": "83d91d31bf8b0b6c76c5623f4c39cffddcf6b154c1d8de96ffbcb74073d6befb",
+            "byteLength": 3711585
+          },
+          "current": {
+            "sha256": "83d91d31bf8b0b6c76c5623f4c39cffddcf6b154c1d8de96ffbcb74073d6befb",
+            "byteLength": 3711585
+          }
+        },
+        "diffSummary": {
+          "leafDiffCount": 54,
+          "identityRefreshLeafDiffCount": 52,
+          "nonIdentityDiffPaths": [
+            "/committedRecords/0/byteLength",
+            "/committedRecords/0/sha256"
+          ],
+          "disallowedDiffPaths": [],
+          "onlyAllowedPinOrIdentityRefresh": true
+        },
+        "identityRefreshChecks": {
+          "was": true,
+          "entriesThatMovedInThisRecord": true,
+          "anchorsCompared": true,
+          "anchorsIdentical": true,
+          "anchorDetail": true,
+          "identicalAnchorSha256": true,
+          "canonicalisation": true,
+          "anchorScope": true,
+          "recoveredFrom": true,
+          "refreshedOn": true
+        },
+        "rowPass": true
+      },
+      {
+        "familyId": "mn_petition_609a02_subd3-set",
+        "receiptPath": "data/rcap-all50/overlays/census-v1/mn/mn-petition-609a02-subd3-set--custom-pleading/source-receipt.json",
+        "beforeSha256": "84074a405adfe6394d3d5ca927f2246e6e9b98389f662f143ca051d0317b46b4",
+        "beforeByteLength": 17423,
+        "beforeRecovered": {
+          "method": "git rev-list --all -- <path>, deduplicated by blob id, each blob hashed until the pin matched",
+          "blobId": "db29b7d7970539b38b575feb056227a4a1b64aa0",
+          "commit": "d3378a23b432afc908e82d76500189f86f8027b8",
+          "commitsWithThisPath": 6,
+          "distinctBlobs": 1,
+          "blobsHashed": 1,
+          "byteLength": 17423
+        },
+        "afterSha256": "189c0d281573f035922ab078e74fde416a4b0f3543ee195b4fba267eb61cc106",
+        "currentSha256": "189c0d281573f035922ab078e74fde416a4b0f3543ee195b4fba267eb61cc106",
+        "currentByteLength": 21096,
+        "sharedRecordIndex": 1,
+        "sharedPin": {
+          "recordId": "legal-design-packet-set-manifests:mn_petition_609a02_subd3-set",
+          "before": {
+            "sha256": "9898a2ca999c7eae95bdb68337af91556855e46a005bcd63589fa2b1c52880b8",
+            "byteLength": 3711575
+          },
+          "after": {
+            "sha256": "83d91d31bf8b0b6c76c5623f4c39cffddcf6b154c1d8de96ffbcb74073d6befb",
+            "byteLength": 3711585
+          },
+          "current": {
+            "sha256": "83d91d31bf8b0b6c76c5623f4c39cffddcf6b154c1d8de96ffbcb74073d6befb",
+            "byteLength": 3711585
+          }
+        },
+        "diffSummary": {
+          "leafDiffCount": 54,
+          "identityRefreshLeafDiffCount": 52,
+          "nonIdentityDiffPaths": [
+            "/committedRecords/1/byteLength",
+            "/committedRecords/1/sha256"
+          ],
+          "disallowedDiffPaths": [],
+          "onlyAllowedPinOrIdentityRefresh": true
+        },
+        "identityRefreshChecks": {
+          "was": true,
+          "entriesThatMovedInThisRecord": true,
+          "anchorsCompared": true,
+          "anchorsIdentical": true,
+          "anchorDetail": true,
+          "identicalAnchorSha256": true,
+          "canonicalisation": true,
+          "anchorScope": true,
+          "recoveredFrom": true,
+          "refreshedOn": true
+        },
+        "rowPass": true
+      },
+      {
+        "familyId": "nc_145_5_felony-set",
+        "receiptPath": "data/rcap-all50/overlays/census-v1/nc/nc-145-5-felony-set--official-pdf-fill/source-receipt.json",
+        "beforeSha256": "849cc6f1d4bf08f133c303b85d87024b7266c4196707117cf0fc1d3115563b7d",
+        "beforeByteLength": 18786,
+        "beforeRecovered": {
+          "method": "git rev-list --all -- <path>, deduplicated by blob id, each blob hashed until the pin matched",
+          "blobId": "0049122b7d893d7c832c3c92bde5ce847fa895f3",
+          "commit": "d3378a23b432afc908e82d76500189f86f8027b8",
+          "commitsWithThisPath": 20,
+          "distinctBlobs": 1,
+          "blobsHashed": 1,
+          "byteLength": 18786
+        },
+        "afterSha256": "ffe343dcaced977539e5fb9a8f206fa72c142564002f5c250f40de678db3eb64",
+        "currentSha256": "ffe343dcaced977539e5fb9a8f206fa72c142564002f5c250f40de678db3eb64",
+        "currentByteLength": 22405,
+        "sharedRecordIndex": 0,
+        "sharedPin": {
+          "recordId": "packet-set-manifest:nc_145_5_felony-set",
+          "before": {
+            "sha256": "9898a2ca999c7eae95bdb68337af91556855e46a005bcd63589fa2b1c52880b8",
+            "byteLength": 3711575
+          },
+          "after": {
+            "sha256": "83d91d31bf8b0b6c76c5623f4c39cffddcf6b154c1d8de96ffbcb74073d6befb",
+            "byteLength": 3711585
+          },
+          "current": {
+            "sha256": "83d91d31bf8b0b6c76c5623f4c39cffddcf6b154c1d8de96ffbcb74073d6befb",
+            "byteLength": 3711585
+          }
+        },
+        "diffSummary": {
+          "leafDiffCount": 54,
+          "identityRefreshLeafDiffCount": 52,
+          "nonIdentityDiffPaths": [
+            "/committedRecords/0/byteLength",
+            "/committedRecords/0/sha256"
+          ],
+          "disallowedDiffPaths": [],
+          "onlyAllowedPinOrIdentityRefresh": true
+        },
+        "identityRefreshChecks": {
+          "was": true,
+          "entriesThatMovedInThisRecord": true,
+          "anchorsCompared": true,
+          "anchorsIdentical": true,
+          "anchorDetail": true,
+          "identicalAnchorSha256": true,
+          "canonicalisation": true,
+          "anchorScope": true,
+          "recoveredFrom": true,
+          "refreshedOn": true
+        },
+        "rowPass": true
+      },
+      {
+        "familyId": "nc_145_5_misdemeanor-set",
+        "receiptPath": "data/rcap-all50/overlays/census-v1/nc/nc-145-5-misdemeanor-set--official-pdf-fill/source-receipt.json",
+        "beforeSha256": "124b06190ad5f67397320081d13147cc49c13ddb546976aaf6216994edff6da9",
+        "beforeByteLength": 18539,
+        "beforeRecovered": {
+          "method": "git rev-list --all -- <path>, deduplicated by blob id, each blob hashed until the pin matched",
+          "blobId": "c992d1f9368a54126a7b4dd927094bafbbe2c7e8",
+          "commit": "d3378a23b432afc908e82d76500189f86f8027b8",
+          "commitsWithThisPath": 9,
+          "distinctBlobs": 1,
+          "blobsHashed": 1,
+          "byteLength": 18539
+        },
+        "afterSha256": "be4528c0f8f04fc9f8f721a68c80ee6ff6cd87c20b10002a564cf26c64053055",
+        "currentSha256": "be4528c0f8f04fc9f8f721a68c80ee6ff6cd87c20b10002a564cf26c64053055",
+        "currentByteLength": 22137,
+        "sharedRecordIndex": 0,
+        "sharedPin": {
+          "recordId": "packet-set-manifest:nc_145_5_misdemeanor-set",
+          "before": {
+            "sha256": "9898a2ca999c7eae95bdb68337af91556855e46a005bcd63589fa2b1c52880b8",
+            "byteLength": 3711575
+          },
+          "after": {
+            "sha256": "83d91d31bf8b0b6c76c5623f4c39cffddcf6b154c1d8de96ffbcb74073d6befb",
+            "byteLength": 3711585
+          },
+          "current": {
+            "sha256": "83d91d31bf8b0b6c76c5623f4c39cffddcf6b154c1d8de96ffbcb74073d6befb",
+            "byteLength": 3711585
+          }
+        },
+        "diffSummary": {
+          "leafDiffCount": 54,
+          "identityRefreshLeafDiffCount": 52,
+          "nonIdentityDiffPaths": [
+            "/committedRecords/0/byteLength",
+            "/committedRecords/0/sha256"
+          ],
+          "disallowedDiffPaths": [],
+          "onlyAllowedPinOrIdentityRefresh": true
+        },
+        "identityRefreshChecks": {
+          "was": true,
+          "entriesThatMovedInThisRecord": true,
+          "anchorsCompared": true,
+          "anchorsIdentical": true,
+          "anchorDetail": true,
+          "identicalAnchorSha256": true,
+          "canonicalisation": true,
+          "anchorScope": true,
+          "recoveredFrom": true,
+          "refreshedOn": true
+        },
+        "rowPass": true
+      },
+      {
+        "familyId": "nc_146_acquittal_petition-set",
+        "receiptPath": "data/rcap-all50/overlays/census-v1/nc/nc-146-acquittal-petition-set--official-pdf-fill/source-receipt.json",
+        "beforeSha256": "42739e502a41cd1c70ad90eef354f8e01fd066cd75941441e8feaf2cf597d6a5",
+        "beforeByteLength": 18217,
+        "beforeRecovered": {
+          "method": "git rev-list --all -- <path>, deduplicated by blob id, each blob hashed until the pin matched",
+          "blobId": "80d70926a1a0136fc2ae06b7fb9fbb9152154568",
+          "commit": "d3378a23b432afc908e82d76500189f86f8027b8",
+          "commitsWithThisPath": 20,
+          "distinctBlobs": 1,
+          "blobsHashed": 1,
+          "byteLength": 18217
+        },
+        "afterSha256": "3ad150da724605174b2ff53ae0fa342149f0102062484ccc8ef44013fac4a6d6",
+        "currentSha256": "3ad150da724605174b2ff53ae0fa342149f0102062484ccc8ef44013fac4a6d6",
+        "currentByteLength": 21907,
+        "sharedRecordIndex": 0,
+        "sharedPin": {
+          "recordId": "packet-set-manifest:nc_146_acquittal_petition-set",
+          "before": {
+            "sha256": "9898a2ca999c7eae95bdb68337af91556855e46a005bcd63589fa2b1c52880b8",
+            "byteLength": 3711575
+          },
+          "after": {
+            "sha256": "83d91d31bf8b0b6c76c5623f4c39cffddcf6b154c1d8de96ffbcb74073d6befb",
+            "byteLength": 3711585
+          },
+          "current": {
+            "sha256": "83d91d31bf8b0b6c76c5623f4c39cffddcf6b154c1d8de96ffbcb74073d6befb",
+            "byteLength": 3711585
+          }
+        },
+        "diffSummary": {
+          "leafDiffCount": 54,
+          "identityRefreshLeafDiffCount": 52,
+          "nonIdentityDiffPaths": [
+            "/committedRecords/0/byteLength",
+            "/committedRecords/0/sha256"
+          ],
+          "disallowedDiffPaths": [],
+          "onlyAllowedPinOrIdentityRefresh": true
+        },
+        "identityRefreshChecks": {
+          "was": true,
+          "entriesThatMovedInThisRecord": true,
+          "anchorsCompared": true,
+          "anchorsIdentical": true,
+          "anchorDetail": true,
+          "identicalAnchorSha256": true,
+          "canonicalisation": true,
+          "anchorScope": true,
+          "recoveredFrom": true,
+          "refreshedOn": true
+        },
+        "rowPass": true
+      },
+      {
+        "familyId": "nc_146_dismissal_petition-set",
+        "receiptPath": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/source-receipt.json",
+        "beforeSha256": "3ed54c53567e6970a1fd9e39f04156fd9d92380cf0e2297a95589483bf5ac424",
+        "beforeByteLength": 21729,
+        "beforeRecovered": {
+          "method": "git rev-list --all -- <path>, deduplicated by blob id, each blob hashed until the pin matched",
+          "blobId": "ac413c017b8f2815b0170dbefeae49beb8663e41",
+          "commit": "d3378a23b432afc908e82d76500189f86f8027b8",
+          "commitsWithThisPath": 20,
+          "distinctBlobs": 1,
+          "blobsHashed": 1,
+          "byteLength": 21729
+        },
+        "afterSha256": "9feadb084c529ca7e6c6f39a607bb3cff2f791472093ab823373613e859f5e6c",
+        "currentSha256": "9feadb084c529ca7e6c6f39a607bb3cff2f791472093ab823373613e859f5e6c",
+        "currentByteLength": 25362,
+        "sharedRecordIndex": 1,
+        "sharedPin": {
+          "recordId": "packet-set-manifest:nc_146_dismissal_petition-set",
+          "before": {
+            "sha256": "9898a2ca999c7eae95bdb68337af91556855e46a005bcd63589fa2b1c52880b8",
+            "byteLength": 3711575
+          },
+          "after": {
+            "sha256": "83d91d31bf8b0b6c76c5623f4c39cffddcf6b154c1d8de96ffbcb74073d6befb",
+            "byteLength": 3711585
+          },
+          "current": {
+            "sha256": "83d91d31bf8b0b6c76c5623f4c39cffddcf6b154c1d8de96ffbcb74073d6befb",
+            "byteLength": 3711585
+          }
+        },
+        "diffSummary": {
+          "leafDiffCount": 54,
+          "identityRefreshLeafDiffCount": 52,
+          "nonIdentityDiffPaths": [
+            "/committedRecords/1/byteLength",
+            "/committedRecords/1/sha256"
+          ],
+          "disallowedDiffPaths": [],
+          "onlyAllowedPinOrIdentityRefresh": true
+        },
+        "identityRefreshChecks": {
+          "was": true,
+          "entriesThatMovedInThisRecord": true,
+          "anchorsCompared": true,
+          "anchorsIdentical": true,
+          "anchorDetail": true,
+          "identicalAnchorSha256": true,
+          "canonicalisation": true,
+          "anchorScope": true,
+          "recoveredFrom": true,
+          "refreshedOn": true
+        },
+        "rowPass": true
+      },
+      {
+        "familyId": "wv_conv_nonviolent_felony-set",
+        "receiptPath": "data/rcap-all50/overlays/census-v1/wv/wv-conv-nonviolent-felony-set--official-pdf-fill/source-receipt.json",
+        "beforeSha256": "e07e99a2dacd62c7f31e2e1aaaedfc512a3c423e2016e0e31c48748ce96caee8",
+        "beforeByteLength": 14954,
+        "beforeRecovered": {
+          "method": "git rev-list --all -- <path>, deduplicated by blob id, each blob hashed until the pin matched",
+          "blobId": "f5249ba6c95b47d0f4de3ddbc0ab1f034082f2ea",
+          "commit": "d3378a23b432afc908e82d76500189f86f8027b8",
+          "commitsWithThisPath": 6,
+          "distinctBlobs": 1,
+          "blobsHashed": 1,
+          "byteLength": 14954
+        },
+        "afterSha256": "4b173b97ab32e0cc5d201a2cc2ca5aabcc8d180a15eb4a37701333a3d7e8a59e",
+        "currentSha256": "4b173b97ab32e0cc5d201a2cc2ca5aabcc8d180a15eb4a37701333a3d7e8a59e",
+        "currentByteLength": 18647,
+        "sharedRecordIndex": 0,
+        "sharedPin": {
+          "recordId": "packet-set-manifest:wv_conv_nonviolent_felony-set",
+          "before": {
+            "sha256": "9898a2ca999c7eae95bdb68337af91556855e46a005bcd63589fa2b1c52880b8",
+            "byteLength": 3711575
+          },
+          "after": {
+            "sha256": "83d91d31bf8b0b6c76c5623f4c39cffddcf6b154c1d8de96ffbcb74073d6befb",
+            "byteLength": 3711585
+          },
+          "current": {
+            "sha256": "83d91d31bf8b0b6c76c5623f4c39cffddcf6b154c1d8de96ffbcb74073d6befb",
+            "byteLength": 3711585
+          }
+        },
+        "diffSummary": {
+          "leafDiffCount": 54,
+          "identityRefreshLeafDiffCount": 52,
+          "nonIdentityDiffPaths": [
+            "/committedRecords/0/byteLength",
+            "/committedRecords/0/sha256"
+          ],
+          "disallowedDiffPaths": [],
+          "onlyAllowedPinOrIdentityRefresh": true
+        },
+        "identityRefreshChecks": {
+          "was": true,
+          "entriesThatMovedInThisRecord": true,
+          "anchorsCompared": true,
+          "anchorsIdentical": true,
+          "anchorDetail": true,
+          "identicalAnchorSha256": true,
+          "canonicalisation": true,
+          "anchorScope": true,
+          "recoveredFrom": true,
+          "refreshedOn": true
+        },
+        "rowPass": true
+      }
+    ]
+  },
+  "artifactPreservation": {
+    "applyWritesOnly": [
+      "data/record-clearing/legal-design-packet-set-manifests.json",
+      "data/record-clearing/legal-design-packet-set-manifests.json",
+      "data/record-clearing/legal-design-packet-set-manifests.json",
+      "data/record-clearing/legal-design-packet-set-manifests.json",
+      "data/record-clearing/legal-design-packet-set-manifests.json",
+      "data/record-clearing/legal-design-packet-set-manifests.json",
+      "data/record-clearing/legal-design-packet-set-manifests.json",
+      "data/record-clearing/legal-design-packet-set-manifests.json",
+      "data/record-clearing/legal-design-packet-set-manifests.json",
+      "data/record-clearing/legal-design-packet-set-manifests.json",
+      "data/record-clearing/legal-design-packet-set-manifests.json"
+    ],
+    "applyWritesOnlyExpectedReceiptPaths": false,
+    "pdfFamilyChecks": [
+      {
+        "familyId": "ar-nonconviction-seal-set",
+        "directory": "data/rcap-all50/overlays/census-v1/ar/ar-nonconviction-seal-set--official-pdf-fill",
+        "pdfs": [
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ar/ar-nonconviction-seal-set--official-pdf-fill/fixtures/canonical.pdf",
+            "expectedSha256": "4cf919a7c096f3e8afadb99826a3fc8bb866a5d79e8d49c6ec649cad1a769661",
+            "expectedByteLength": 820032,
+            "actualSha256": "4cf919a7c096f3e8afadb99826a3fc8bb866a5d79e8d49c6ec649cad1a769661",
+            "actualByteLength": 820032,
+            "match": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ar/ar-nonconviction-seal-set--official-pdf-fill/fixtures/boundary.pdf",
+            "expectedSha256": "7353903f1880212d28926ab41f11f7af157a056856d8585b4fe175dbe556fed6",
+            "expectedByteLength": 820236,
+            "actualSha256": "7353903f1880212d28926ab41f11f7af157a056856d8585b4fe175dbe556fed6",
+            "actualByteLength": 820236,
+            "match": true
+          }
+        ],
+        "pdfsMatchCurrentRenderedArtifacts": true,
+        "independentVerdict": {
+          "path": "data/rcap-grade-a/packet-factory-24h/vf31/rows-vf31-20260910-ar.json",
+          "sha256": "0fd44611d3790bbe25699abdcb3784e19834a5ae3c7d6d948f6ecd1cebd646ee",
+          "byteLength": 98614,
+          "verifiedAtBase": "aa23761c0d142c3bc796537a04f281897c497487",
+          "queueVerdict": "PASS_COMPLETE_INDEPENDENT",
+          "matchingRows": [
+            {
+              "index": 1,
+              "itemId": "ar-nonconviction-seal-set",
+              "familyId": null,
+              "verdict": "PASS_COMPLETE_INDEPENDENT"
+            }
+          ],
+          "passRows": [
+            1
+          ],
+          "cleanInCurrentWorktree": true
+        },
+        "raster": {
+          "currentRasterState": "RASTER_PASS",
+          "receiptVerdict": "RASTER_PASS",
+          "workflowRunId": "34445997139",
+          "jobId": "102771555148",
+          "renderedCommitSha": null,
+          "boundToCanonicalSha256": "4cf919a7c096f3e8afadb99826a3fc8bb866a5d79e8d49c6ec649cad1a769661",
+          "boundToBoundarySha256": "7353903f1880212d28926ab41f11f7af157a056856d8585b4fe175dbe556fed6",
+          "documentsDigest": "2b2d4171f9a2af27aeff072e73daddf1960f40f32fdbb371fbeb60e3ef479b5f",
+          "pagesMeasured": 14,
+          "documentsCovered": [
+            "canonical.pdf",
+            "boundary.pdf"
+          ],
+          "documentsNotCovered": [],
+          "coversTheWholeFamily": true,
+          "receiptArtifact": {
+            "digest": "sha256:ab8de9175f440c9e232f343a0f4bb5e0ca618796ed087d5601eb3fa813e6b44c",
+            "expiresAt": "2026-09-24T06:44:38Z",
+            "id": "10139868269",
+            "name": "rcap-raster-ar-nonconviction-seal-set-34445997139"
+          },
+          "verdictPath": null,
+          "localAdmissionFiles": [],
+          "localAdmissionFilesCleanInCurrentWorktree": true,
+          "bindingMatchesCurrentPdfs": true,
+          "rasterPreservedForThisApply": true
+        }
+      },
+      {
+        "familyId": "az_certificate_second_chance-set",
+        "directory": "data/rcap-all50/overlays/census-v1/az/az-certificate-second-chance-set--official-pdf-fill",
+        "pdfs": [
+          {
+            "path": "data/rcap-all50/overlays/census-v1/az/az-certificate-second-chance-set--official-pdf-fill/fixtures/canonical.pdf",
+            "expectedSha256": "5fa7e6d4f0761fa26d932ca667878a4acb50bdf18b6854cd25a9a2cb3ab7a27a",
+            "expectedByteLength": 378707,
+            "actualSha256": "5fa7e6d4f0761fa26d932ca667878a4acb50bdf18b6854cd25a9a2cb3ab7a27a",
+            "actualByteLength": 378707,
+            "match": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/az/az-certificate-second-chance-set--official-pdf-fill/fixtures/boundary.pdf",
+            "expectedSha256": "e8414477b71352df8e01ebfdce17bd1c66e07c9ca09af30fef062313deef2bfa",
+            "expectedByteLength": 378893,
+            "actualSha256": "e8414477b71352df8e01ebfdce17bd1c66e07c9ca09af30fef062313deef2bfa",
+            "actualByteLength": 378893,
+            "match": true
+          }
+        ],
+        "pdfsMatchCurrentRenderedArtifacts": true,
+        "independentVerdict": {
+          "path": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260909c.json",
+          "sha256": "fc0c284d486764b003e3ca0f2997b0cb7877f50ccd85b78ca0f0f41271526a3f",
+          "byteLength": 72288,
+          "verifiedAtBase": "285c9b91c4cc345c77cdad6a37d015e6f61f45bc",
+          "queueVerdict": "PASS_COMPLETE_INDEPENDENT",
+          "matchingRows": [
+            {
+              "index": 0,
+              "itemId": "az_certificate_second_chance-set",
+              "familyId": null,
+              "verdict": "PASS_COMPLETE_INDEPENDENT"
+            }
+          ],
+          "passRows": [
+            0
+          ],
+          "cleanInCurrentWorktree": true
+        },
+        "raster": {
+          "currentRasterState": "RASTER_PASS",
+          "receiptVerdict": "RASTER_PASS",
+          "workflowRunId": "34364359375",
+          "jobId": "102510268111",
+          "renderedCommitSha": "159c0b5cf25e10a7fad6a7defb60bd6692e52480",
+          "boundToCanonicalSha256": "5fa7e6d4f0761fa26d932ca667878a4acb50bdf18b6854cd25a9a2cb3ab7a27a",
+          "boundToBoundarySha256": "e8414477b71352df8e01ebfdce17bd1c66e07c9ca09af30fef062313deef2bfa",
+          "documentsDigest": "b1504cbc171ff6d0731cd2d2b9c4ad89ba3ae9e12f53589738320840c3ec0955",
+          "pagesMeasured": 10,
+          "documentsCovered": [
+            "canonical.pdf",
+            "boundary.pdf"
+          ],
+          "documentsNotCovered": [],
+          "coversTheWholeFamily": true,
+          "receiptArtifact": {
+            "id": "10109471408",
+            "name": "rcap-raster-az_certificate_second_chance-set-34364359375",
+            "zipSha256": "sha256:e3b1b329d2b3244698953403341bf545bb042b665ba8b0fdae37b5119a67a267"
+          },
+          "verdictPath": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/az_certificate_second_chance-set/az_certificate_second_chance-set.verdict.json",
+          "localAdmissionFiles": [
+            {
+              "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/az_certificate_second_chance-set/admission-proof.json",
+              "sha256": "5e12e5bee89e32de846e24f710a41bd5a5525e020b48b60588c039839711297f",
+              "byteLength": 5890
+            },
+            {
+              "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/az_certificate_second_chance-set/az_certificate_second_chance-set.verdict.json",
+              "sha256": "0c50d3b62b9eb5fc4d397d93485f75cd09e9b2b08564ad21565af697ba0bd35b",
+              "byteLength": 9952
+            }
+          ],
+          "localAdmissionFilesCleanInCurrentWorktree": true,
+          "bindingMatchesCurrentPdfs": true,
+          "rasterPreservedForThisApply": true
+        }
+      },
+      {
+        "familyId": "de_discretionary_superior_court-set",
+        "directory": "data/rcap-all50/overlays/census-v1/de/de-discretionary-superior-court-set--official-pdf-fill",
+        "pdfs": [
+          {
+            "path": "data/rcap-all50/overlays/census-v1/de/de-discretionary-superior-court-set--official-pdf-fill/fixtures/canonical.pdf",
+            "expectedSha256": "05033793dcf746e364ff4fdd67506e60778752ce52f647cdd68fe8387882af06",
+            "expectedByteLength": 1075754,
+            "actualSha256": "05033793dcf746e364ff4fdd67506e60778752ce52f647cdd68fe8387882af06",
+            "actualByteLength": 1075754,
+            "match": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/de/de-discretionary-superior-court-set--official-pdf-fill/fixtures/boundary.pdf",
+            "expectedSha256": "254189a3489271b2b72cb9f9448ef0e0b01feb6bdadd072c5c1b12bcd94ab17d",
+            "expectedByteLength": 1075950,
+            "actualSha256": "254189a3489271b2b72cb9f9448ef0e0b01feb6bdadd072c5c1b12bcd94ab17d",
+            "actualByteLength": 1075950,
+            "match": true
+          }
+        ],
+        "pdfsMatchCurrentRenderedArtifacts": true,
+        "independentVerdict": {
+          "path": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-de-discretionary-superior-court-original-final-20260912.json",
+          "sha256": "d07a04cf37dbb2e45b7be1e914482fe683358205dd373dcf74a4d3695412914b",
+          "byteLength": 32196,
+          "verifiedAtBase": "ff074aece3979d1683d7f2390bb692c221e8952a",
+          "queueVerdict": "PASS_COMPLETE_INDEPENDENT",
+          "matchingRows": [
+            {
+              "index": 0,
+              "itemId": "de_discretionary_superior_court-set",
+              "familyId": "de_discretionary_superior_court-set",
+              "verdict": "PASS_COMPLETE_INDEPENDENT"
+            }
+          ],
+          "passRows": [
+            0
+          ],
+          "cleanInCurrentWorktree": true
+        },
+        "raster": {
+          "currentRasterState": "RASTER_PASS",
+          "receiptVerdict": "RASTER_PASS",
+          "workflowRunId": "34703163686",
+          "jobId": "103578889503",
+          "renderedCommitSha": null,
+          "boundToCanonicalSha256": "05033793dcf746e364ff4fdd67506e60778752ce52f647cdd68fe8387882af06",
+          "boundToBoundarySha256": "254189a3489271b2b72cb9f9448ef0e0b01feb6bdadd072c5c1b12bcd94ab17d",
+          "documentsDigest": "fa4afb4f86abfed8535ffdde4b96742086d2a00af40faecd61114cd59330d8e2",
+          "pagesMeasured": 4,
+          "documentsCovered": [
+            "canonical.pdf",
+            "boundary.pdf"
+          ],
+          "documentsNotCovered": [],
+          "coversTheWholeFamily": true,
+          "receiptArtifact": {
+            "digest": "sha256:80ae8260674a61ae7155dfe482b427f7d722ae5d2dc5a0c223198f37e3319d51",
+            "expiresAt": "2026-09-26T15:51:36Z",
+            "id": "10301071854",
+            "name": "rcap-raster-de_discretionary_superior_court-set-34703163686"
+          },
+          "verdictPath": null,
+          "localAdmissionFiles": [
+            {
+              "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/de_discretionary_superior_court-set/admission-proof.json",
+              "sha256": "41d96301006f1e5982499573f603e3fdccdd3dbd0c865cf10a42a9a6efc92033",
+              "byteLength": 5729
+            },
+            {
+              "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/de_discretionary_superior_court-set/de_discretionary_superior_court-set.verdict.json",
+              "sha256": "784650c7dfead81e4e310d26d644c84e02ef09ae692763c51f71808e4d6ace76",
+              "byteLength": 7774
+            }
+          ],
+          "localAdmissionFilesCleanInCurrentWorktree": true,
+          "bindingMatchesCurrentPdfs": true,
+          "rasterPreservedForThisApply": true
+        }
+      },
+      {
+        "familyId": "de_pardon_expungement-set",
+        "directory": "data/rcap-all50/overlays/census-v1/de/de-pardon-expungement-set--official-pdf-fill",
+        "pdfs": [
+          {
+            "path": "data/rcap-all50/overlays/census-v1/de/de-pardon-expungement-set--official-pdf-fill/fixtures/canonical.pdf",
+            "expectedSha256": "7bce0bddd5eef1c0f23f264da8146805c52d4cc8dff16b8871ef78bfe1a97fe9",
+            "expectedByteLength": 1202521,
+            "actualSha256": "7bce0bddd5eef1c0f23f264da8146805c52d4cc8dff16b8871ef78bfe1a97fe9",
+            "actualByteLength": 1202521,
+            "match": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/de/de-pardon-expungement-set--official-pdf-fill/fixtures/boundary.pdf",
+            "expectedSha256": "68f209017dc63ff37828c0bfb35e4f162a380a533ad821274b8beee0ad34dfb9",
+            "expectedByteLength": 1202719,
+            "actualSha256": "68f209017dc63ff37828c0bfb35e4f162a380a533ad821274b8beee0ad34dfb9",
+            "actualByteLength": 1202719,
+            "match": true
+          }
+        ],
+        "pdfsMatchCurrentRenderedArtifacts": true,
+        "independentVerdict": {
+          "path": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20260911-de-pardon-restored.json",
+          "sha256": "43c975bbcecb93e222341bc43e18a2b68fbb04264b13d7ca8611090c7e9deb22",
+          "byteLength": 52932,
+          "verifiedAtBase": "ca8ffa9fb57041ee0d113e7cfb72f244fd17d75c",
+          "queueVerdict": "PASS_COMPLETE_INDEPENDENT",
+          "matchingRows": [
+            {
+              "index": 0,
+              "itemId": "de_pardon_expungement-set",
+              "familyId": "de_pardon_expungement-set",
+              "verdict": "PASS_COMPLETE_INDEPENDENT"
+            }
+          ],
+          "passRows": [
+            0
+          ],
+          "cleanInCurrentWorktree": true
+        },
+        "raster": {
+          "currentRasterState": "RASTER_PASS",
+          "receiptVerdict": "RASTER_PASS",
+          "workflowRunId": "34413372916",
+          "jobId": "102673422739",
+          "renderedCommitSha": "0cb44ee92a33b4d7b48b145ae57e192ef5c2c438",
+          "boundToCanonicalSha256": "7bce0bddd5eef1c0f23f264da8146805c52d4cc8dff16b8871ef78bfe1a97fe9",
+          "boundToBoundarySha256": "68f209017dc63ff37828c0bfb35e4f162a380a533ad821274b8beee0ad34dfb9",
+          "documentsDigest": "95cb2adf3a7ef8b12fdafb7c5221d8ba3352811aa24ff773c4b7c61b011376b1",
+          "pagesMeasured": 6,
+          "documentsCovered": [
+            "canonical.pdf",
+            "boundary.pdf"
+          ],
+          "documentsNotCovered": [],
+          "coversTheWholeFamily": true,
+          "receiptArtifact": {
+            "id": "10128263552",
+            "name": "rcap-raster-de_pardon_expungement-set-34413372916",
+            "zipSha256": "sha256:2118b717af31a16946639ab81ed314e7880fa64c2efaf8d6c4f55f7944e49ff0"
+          },
+          "verdictPath": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/de_pardon_expungement-set/de_pardon_expungement-set.verdict.json",
+          "localAdmissionFiles": [
+            {
+              "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/de_pardon_expungement-set/admission-proof.json",
+              "sha256": "834165f4643fc30fcc8e338d307c0bc883c5662fdb925f982ca59dbae9cd6422",
+              "byteLength": 5659
+            },
+            {
+              "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/de_pardon_expungement-set/de_pardon_expungement-set.verdict.json",
+              "sha256": "4939bab4cf59a8c03e099a8bc4cd889b8d3ce1b978fe92a3794a42f11ae476f7",
+              "byteLength": 7663
+            }
+          ],
+          "localAdmissionFilesCleanInCurrentWorktree": true,
+          "bindingMatchesCurrentPdfs": true,
+          "rasterPreservedForThisApply": true
+        }
+      },
+      {
+        "familyId": "me-seal-gen-set",
+        "directory": "data/rcap-all50/overlays/census-v1/me/me-seal-gen-set--official-pdf-fill",
+        "pdfs": [
+          {
+            "path": "data/rcap-all50/overlays/census-v1/me/me-seal-gen-set--official-pdf-fill/fixtures/canonical.pdf",
+            "expectedSha256": "10e5a82b626d98851b525f380000e9435aa49c303f7f334d771f002dd89ade78",
+            "expectedByteLength": 171623,
+            "actualSha256": "10e5a82b626d98851b525f380000e9435aa49c303f7f334d771f002dd89ade78",
+            "actualByteLength": 171623,
+            "match": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/me/me-seal-gen-set--official-pdf-fill/fixtures/boundary.pdf",
+            "expectedSha256": "43593b8922759124491186b0a8460ff1b21633ed85eccba1fa11a7c88c0730cc",
+            "expectedByteLength": 171667,
+            "actualSha256": "43593b8922759124491186b0a8460ff1b21633ed85eccba1fa11a7c88c0730cc",
+            "actualByteLength": 171667,
+            "match": true
+          }
+        ],
+        "pdfsMatchCurrentRenderedArtifacts": true,
+        "independentVerdict": {
+          "path": "data/rcap-grade-a/packet-factory-24h/vf06/rows-vf06-20260909d.json",
+          "sha256": "f50a0a14e21e5e241259a627c8d726cd5651c416771d4381f60c95ee733269b8",
+          "byteLength": 35865,
+          "verifiedAtBase": "ba6d4fb9526db37213a67dcb0a05763dd9066cf7",
+          "queueVerdict": "PASS_COMPLETE_INDEPENDENT",
+          "matchingRows": [
+            {
+              "index": 0,
+              "itemId": "me-seal-gen-set",
+              "familyId": null,
+              "verdict": "PASS_COMPLETE_INDEPENDENT"
+            }
+          ],
+          "passRows": [
+            0
+          ],
+          "cleanInCurrentWorktree": true
+        },
+        "raster": {
+          "currentRasterState": "RASTER_PASS",
+          "receiptVerdict": "RASTER_PASS",
+          "workflowRunId": "34364359375",
+          "jobId": "102510268368",
+          "renderedCommitSha": "159c0b5cf25e10a7fad6a7defb60bd6692e52480",
+          "boundToCanonicalSha256": "10e5a82b626d98851b525f380000e9435aa49c303f7f334d771f002dd89ade78",
+          "boundToBoundarySha256": "43593b8922759124491186b0a8460ff1b21633ed85eccba1fa11a7c88c0730cc",
+          "documentsDigest": "565d3f2ef6981041b1bb14935736fd5f318ab9435206ed64581117f2b7e63a2c",
+          "pagesMeasured": 2,
+          "documentsCovered": [
+            "canonical.pdf",
+            "boundary.pdf"
+          ],
+          "documentsNotCovered": [],
+          "coversTheWholeFamily": true,
+          "receiptArtifact": {
+            "id": "10109409164",
+            "name": "rcap-raster-me-seal-gen-set-34364359375",
+            "zipSha256": "sha256:fb9e93a6373697b26e10af692401194046390f8f54cc0f87a33f3a195a2034bc"
+          },
+          "verdictPath": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/me-seal-gen-set/me-seal-gen-set.verdict.json",
+          "localAdmissionFiles": [
+            {
+              "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/me-seal-gen-set/admission-proof.json",
+              "sha256": "d7603375c51b845e1852c0ad0b7573f413c108ad6bb9a1f4a1a3668aa3be5eac",
+              "byteLength": 1710
+            },
+            {
+              "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/me-seal-gen-set/me-seal-gen-set.verdict.json",
+              "sha256": "adc9eaf79353aba6bcd1adbf60245b85c58cbd0f6a59f29494995b1443e3f4ed",
+              "byteLength": 3779
+            }
+          ],
+          "localAdmissionFilesCleanInCurrentWorktree": true,
+          "bindingMatchesCurrentPdfs": true,
+          "rasterPreservedForThisApply": true
+        }
+      },
+      {
+        "familyId": "mn_petition_609a02_subd3-set",
+        "directory": "data/rcap-all50/overlays/census-v1/mn/mn-petition-609a02-subd3-set--custom-pleading",
+        "pdfs": [
+          {
+            "path": "data/rcap-all50/overlays/census-v1/mn/mn-petition-609a02-subd3-set--custom-pleading/fixtures/canonical.pdf",
+            "expectedSha256": "52680b1fcec81eee5538ea4cb23f1d37d8519384baff73bd754f38fa1bc0df71",
+            "expectedByteLength": 1213693,
+            "actualSha256": "52680b1fcec81eee5538ea4cb23f1d37d8519384baff73bd754f38fa1bc0df71",
+            "actualByteLength": 1213693,
+            "match": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/mn/mn-petition-609a02-subd3-set--custom-pleading/fixtures/boundary.pdf",
+            "expectedSha256": "46bc49d539edbb8dd18470188c14299f81f0ab6c541d23a1c4a6de7146fd19a9",
+            "expectedByteLength": 1214100,
+            "actualSha256": "46bc49d539edbb8dd18470188c14299f81f0ab6c541d23a1c4a6de7146fd19a9",
+            "actualByteLength": 1214100,
+            "match": true
+          }
+        ],
+        "pdfsMatchCurrentRenderedArtifacts": true,
+        "independentVerdict": {
+          "path": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01b-20260910.json",
+          "sha256": "94a86930f11df464bc56229442f5567f673e764ff9e5168e0353d0d160684cf2",
+          "byteLength": 76425,
+          "verifiedAtBase": "1718e9231ce178c108a6bc3b307e3b9f24da77ce",
+          "queueVerdict": "PASS_COMPLETE_INDEPENDENT",
+          "matchingRows": [
+            {
+              "index": 1,
+              "itemId": "mn_petition_609a02_subd3-set",
+              "familyId": "mn_petition_609a02_subd3-set",
+              "verdict": "PASS_COMPLETE_INDEPENDENT"
+            }
+          ],
+          "passRows": [
+            1
+          ],
+          "cleanInCurrentWorktree": true
+        },
+        "raster": {
+          "currentRasterState": "RASTER_PASS",
+          "receiptVerdict": "RASTER_PASS",
+          "workflowRunId": "34407406641",
+          "jobId": "102654459288",
+          "renderedCommitSha": "686a2f65ee5b06d41a6634676b22ca13e7419490",
+          "boundToCanonicalSha256": "52680b1fcec81eee5538ea4cb23f1d37d8519384baff73bd754f38fa1bc0df71",
+          "boundToBoundarySha256": "46bc49d539edbb8dd18470188c14299f81f0ab6c541d23a1c4a6de7146fd19a9",
+          "documentsDigest": "a988105074232b03b11496103f602e48ff37bf721f4f1ac84ce4d7a51bf6b7bd",
+          "pagesMeasured": 50,
+          "documentsCovered": [
+            "canonical.pdf",
+            "boundary.pdf"
+          ],
+          "documentsNotCovered": [],
+          "coversTheWholeFamily": true,
+          "receiptArtifact": {
+            "id": "10126332402",
+            "name": "rcap-raster-mn_petition_609a02_subd3-set-34407406641",
+            "zipSha256": "sha256:5686818ece0eff1297140aeed61988b77f3327f7097ba1cd0bd0dd990573d5df"
+          },
+          "verdictPath": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/mn_petition_609a02_subd3-set/mn_petition_609a02_subd3-set.verdict.json",
+          "localAdmissionFiles": [
+            {
+              "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/mn_petition_609a02_subd3-set/admission-proof.json",
+              "sha256": "0e10ebfb628d2f0055a9f1083aa01fc065ff20aeb848b85b5866d0aa4239c9a9",
+              "byteLength": 40067
+            },
+            {
+              "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/mn_petition_609a02_subd3-set/mn_petition_609a02_subd3-set.verdict.json",
+              "sha256": "e2462f4e681e9c31896bdabc59d35d05f36491fa786298f71c678d1a27aee4ea",
+              "byteLength": 46821
+            }
+          ],
+          "localAdmissionFilesCleanInCurrentWorktree": true,
+          "bindingMatchesCurrentPdfs": true,
+          "rasterPreservedForThisApply": true
+        }
+      },
+      {
+        "familyId": "nc_145_5_felony-set",
+        "directory": "data/rcap-all50/overlays/census-v1/nc/nc-145-5-felony-set--official-pdf-fill",
+        "pdfs": [
+          {
+            "path": "data/rcap-all50/overlays/census-v1/nc/nc-145-5-felony-set--official-pdf-fill/fixtures/canonical.pdf",
+            "expectedSha256": "c66b5e4246a39b0cc1d5fcbebcde8000080ac1cabcc1dec89815809eb71bacbb",
+            "expectedByteLength": 766220,
+            "actualSha256": "c66b5e4246a39b0cc1d5fcbebcde8000080ac1cabcc1dec89815809eb71bacbb",
+            "actualByteLength": 766220,
+            "match": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/nc/nc-145-5-felony-set--official-pdf-fill/fixtures/boundary.pdf",
+            "expectedSha256": "e0bd1765da62d1708f1ce334fbbe603ceaeaaf69dd1d7f3c262e234769e3223d",
+            "expectedByteLength": 766425,
+            "actualSha256": "e0bd1765da62d1708f1ce334fbbe603ceaeaaf69dd1d7f3c262e234769e3223d",
+            "actualByteLength": 766425,
+            "match": true
+          }
+        ],
+        "pdfsMatchCurrentRenderedArtifacts": true,
+        "independentVerdict": {
+          "path": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
+          "sha256": "52a4c3169cd0e575e1441fae7a104d5f707cb12d5855b87bf59193a17409cbc6",
+          "byteLength": 2109747,
+          "verifiedAtBase": "5326f747d",
+          "queueVerdict": "PASS_COMPLETE_INDEPENDENT",
+          "matchingRows": [
+            {
+              "index": 65,
+              "itemId": "nc_145_5_felony-set",
+              "familyId": null,
+              "verdict": "FAIL_REPAIR_REQUIRED"
+            },
+            {
+              "index": 89,
+              "itemId": "nc_145_5_felony-set",
+              "familyId": null,
+              "verdict": "FAIL_REPAIR_REQUIRED"
+            },
+            {
+              "index": 90,
+              "itemId": "nc_145_5_felony-set",
+              "familyId": null,
+              "verdict": "PASS_COMPLETE_INDEPENDENT"
+            }
+          ],
+          "passRows": [
+            90
+          ],
+          "cleanInCurrentWorktree": true
+        },
+        "raster": {
+          "currentRasterState": "RASTER_PASS",
+          "receiptVerdict": "RASTER_PASS",
+          "workflowRunId": "33993431924",
+          "jobId": "101379940111",
+          "renderedCommitSha": "a8f99a33abe2fe19ad10a153220eb9fe8896a566",
+          "boundToCanonicalSha256": "c66b5e4246a39b0cc1d5fcbebcde8000080ac1cabcc1dec89815809eb71bacbb",
+          "boundToBoundarySha256": "e0bd1765da62d1708f1ce334fbbe603ceaeaaf69dd1d7f3c262e234769e3223d",
+          "documentsDigest": "082795929e3ed33131d2dd223a03e4132e598dd73e431047985bb44f7e26d826",
+          "pagesMeasured": null,
+          "documentsCovered": [
+            "canonical.pdf",
+            "boundary.pdf"
+          ],
+          "documentsNotCovered": [],
+          "coversTheWholeFamily": true,
+          "receiptArtifact": null,
+          "verdictPath": null,
+          "localAdmissionFiles": [],
+          "localAdmissionFilesCleanInCurrentWorktree": true,
+          "bindingMatchesCurrentPdfs": true,
+          "rasterPreservedForThisApply": true
+        }
+      },
+      {
+        "familyId": "nc_145_5_misdemeanor-set",
+        "directory": "data/rcap-all50/overlays/census-v1/nc/nc-145-5-misdemeanor-set--official-pdf-fill",
+        "pdfs": [
+          {
+            "path": "data/rcap-all50/overlays/census-v1/nc/nc-145-5-misdemeanor-set--official-pdf-fill/fixtures/canonical.pdf",
+            "expectedSha256": "10d06d346fffa0b9c534922a1450880c6d26efdc15dc0b52035c081c72ebbdf9",
+            "expectedByteLength": 764739,
+            "actualSha256": "10d06d346fffa0b9c534922a1450880c6d26efdc15dc0b52035c081c72ebbdf9",
+            "actualByteLength": 764739,
+            "match": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/nc/nc-145-5-misdemeanor-set--official-pdf-fill/fixtures/boundary.pdf",
+            "expectedSha256": "e31a578a70709a2c03426163ed724bc316a935551a338e4f2ceef7e1b3fd561a",
+            "expectedByteLength": 764942,
+            "actualSha256": "e31a578a70709a2c03426163ed724bc316a935551a338e4f2ceef7e1b3fd561a",
+            "actualByteLength": 764942,
+            "match": true
+          }
+        ],
+        "pdfsMatchCurrentRenderedArtifacts": true,
+        "independentVerdict": {
+          "path": "data/rcap-grade-a/packet-factory-24h/vf07/rows-vf07-20260909c.json",
+          "sha256": "5cd834c3ba92095800bd0279b37742fefd3a9fbfc4ba78bc60eb1c9688f7646e",
+          "byteLength": 29606,
+          "verifiedAtBase": "285c9b91c4cc345c77cdad6a37d015e6f61f45bc",
+          "queueVerdict": "PASS_COMPLETE_INDEPENDENT",
+          "matchingRows": [
+            {
+              "index": 0,
+              "itemId": "nc_145_5_misdemeanor-set",
+              "familyId": null,
+              "verdict": "PASS_COMPLETE_INDEPENDENT"
+            }
+          ],
+          "passRows": [
+            0
+          ],
+          "cleanInCurrentWorktree": true
+        },
+        "raster": {
+          "currentRasterState": "RASTER_PASS",
+          "receiptVerdict": "RASTER_PASS",
+          "workflowRunId": "34364359375",
+          "jobId": "102510268221",
+          "renderedCommitSha": "159c0b5cf25e10a7fad6a7defb60bd6692e52480",
+          "boundToCanonicalSha256": "10d06d346fffa0b9c534922a1450880c6d26efdc15dc0b52035c081c72ebbdf9",
+          "boundToBoundarySha256": "e31a578a70709a2c03426163ed724bc316a935551a338e4f2ceef7e1b3fd561a",
+          "documentsDigest": "62357260c221afaebfeff30e10903c1e243bb01782160a274bf21f55f42bc6f4",
+          "pagesMeasured": 10,
+          "documentsCovered": [
+            "canonical.pdf",
+            "boundary.pdf"
+          ],
+          "documentsNotCovered": [],
+          "coversTheWholeFamily": true,
+          "receiptArtifact": {
+            "id": "10109472816",
+            "name": "rcap-raster-nc_145_5_misdemeanor-set-34364359375",
+            "zipSha256": "sha256:0236501a9164c02141e93ec92a9ba228c50b116a90da828201b2b643e4ebdcee"
+          },
+          "verdictPath": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/nc_145_5_misdemeanor-set/nc_145_5_misdemeanor-set.verdict.json",
+          "localAdmissionFiles": [
+            {
+              "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/nc_145_5_misdemeanor-set/admission-proof.json",
+              "sha256": "b7580ff9bece5a3fb3cf25adaeeeea09a431da8e390474ebfd37026c5140e814",
+              "byteLength": 5812
+            },
+            {
+              "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/nc_145_5_misdemeanor-set/nc_145_5_misdemeanor-set.verdict.json",
+              "sha256": "e45029f34b91db73f39ae0f7dbb61b7a0aaec1fa7d7773d1a653b8274802d0c2",
+              "byteLength": 9872
+            }
+          ],
+          "localAdmissionFilesCleanInCurrentWorktree": true,
+          "bindingMatchesCurrentPdfs": true,
+          "rasterPreservedForThisApply": true
+        }
+      },
+      {
+        "familyId": "nc_146_acquittal_petition-set",
+        "directory": "data/rcap-all50/overlays/census-v1/nc/nc-146-acquittal-petition-set--official-pdf-fill",
+        "pdfs": [
+          {
+            "path": "data/rcap-all50/overlays/census-v1/nc/nc-146-acquittal-petition-set--official-pdf-fill/fixtures/canonical.pdf",
+            "expectedSha256": "135dc7b9c0f104788512f1e313a6d88b4497c88a70fc6b18b92abe45bceecf17",
+            "expectedByteLength": 486581,
+            "actualSha256": "135dc7b9c0f104788512f1e313a6d88b4497c88a70fc6b18b92abe45bceecf17",
+            "actualByteLength": 486581,
+            "match": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/nc/nc-146-acquittal-petition-set--official-pdf-fill/fixtures/boundary.pdf",
+            "expectedSha256": "5597a2818dc8914554b24418cba87d418676dc1ddfe2111967df1a6c4f30a3da",
+            "expectedByteLength": 486673,
+            "actualSha256": "5597a2818dc8914554b24418cba87d418676dc1ddfe2111967df1a6c4f30a3da",
+            "actualByteLength": 486673,
+            "match": true
+          }
+        ],
+        "pdfsMatchCurrentRenderedArtifacts": true,
+        "independentVerdict": {
+          "path": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json",
+          "sha256": "f53772e1cc5b75bda014d76902337797b1c1602cc52fbc6cda375714caf98a0c",
+          "byteLength": 1376179,
+          "verifiedAtBase": "c8dd4f751",
+          "queueVerdict": "PASS_COMPLETE_INDEPENDENT",
+          "matchingRows": [
+            {
+              "index": 60,
+              "itemId": "nc_146_acquittal_petition-set",
+              "familyId": null,
+              "verdict": "BLOCKED_LEGAL_INPUT"
+            },
+            {
+              "index": 61,
+              "itemId": "nc_146_acquittal_petition-set",
+              "familyId": null,
+              "verdict": "PASS_COMPLETE_INDEPENDENT"
+            }
+          ],
+          "passRows": [
+            61
+          ],
+          "cleanInCurrentWorktree": true
+        },
+        "raster": {
+          "currentRasterState": "RASTER_PASS",
+          "receiptVerdict": "RASTER_PASS",
+          "workflowRunId": "33984155760",
+          "jobId": 101354889417,
+          "renderedCommitSha": "9c20f8c7c7aaaf8adc610b10d9b4c31d497eb2c4",
+          "boundToCanonicalSha256": "135dc7b9c0f104788512f1e313a6d88b4497c88a70fc6b18b92abe45bceecf17",
+          "boundToBoundarySha256": "5597a2818dc8914554b24418cba87d418676dc1ddfe2111967df1a6c4f30a3da",
+          "documentsDigest": "30ecc0ccf893e1bf3e8a4105ebf57d4086495ff84eb0f3545b4130ac892ee6e6",
+          "pagesMeasured": null,
+          "documentsCovered": [
+            "canonical.pdf",
+            "boundary.pdf"
+          ],
+          "documentsNotCovered": [],
+          "coversTheWholeFamily": true,
+          "receiptArtifact": null,
+          "verdictPath": null,
+          "localAdmissionFiles": [],
+          "localAdmissionFilesCleanInCurrentWorktree": true,
+          "bindingMatchesCurrentPdfs": true,
+          "rasterPreservedForThisApply": true
+        }
+      },
+      {
+        "familyId": "nc_146_dismissal_petition-set",
+        "directory": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill",
+        "pdfs": [
+          {
+            "path": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/canonical.pdf",
+            "expectedSha256": "3c4fbfc4260ee871340643b6ddcbb8351559785428fd9ff34c207893ad1fd039",
+            "expectedByteLength": 1010047,
+            "actualSha256": "3c4fbfc4260ee871340643b6ddcbb8351559785428fd9ff34c207893ad1fd039",
+            "actualByteLength": 1010047,
+            "match": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/branches/canonical-no_fee.pdf",
+            "expectedSha256": "b0eb631bb5ec212352ef841f6df5668593fa923b1a8cd3452f57ed052b410aa7",
+            "expectedByteLength": 497377,
+            "actualSha256": "b0eb631bb5ec212352ef841f6df5668593fa923b1a8cd3452f57ed052b410aa7",
+            "actualByteLength": 497377,
+            "match": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/branches/canonical-fee_paid.pdf",
+            "expectedSha256": "3512077fa889867167feaab293245fea9d2fbe5488110613aecbcf088d732d7a",
+            "expectedByteLength": 497385,
+            "actualSha256": "3512077fa889867167feaab293245fea9d2fbe5488110613aecbcf088d732d7a",
+            "actualByteLength": 497385,
+            "match": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/branches/canonical-indigency_requested.pdf",
+            "expectedSha256": "739bad827110e4040c9f80d98691e750d40f66694016d0e3dd9d956fa92625f3",
+            "expectedByteLength": 738532,
+            "actualSha256": "739bad827110e4040c9f80d98691e750d40f66694016d0e3dd9d956fa92625f3",
+            "actualByteLength": 738532,
+            "match": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/branches/canonical-requested_financial_supplement.pdf",
+            "expectedSha256": "3888f73d61335835dd00597f7a0b894ccb1f746987f0966d06ac9df7f6df1ac5",
+            "expectedByteLength": 1009847,
+            "actualSha256": "3888f73d61335835dd00597f7a0b894ccb1f746987f0966d06ac9df7f6df1ac5",
+            "actualByteLength": 1009847,
+            "match": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/boundary.pdf",
+            "expectedSha256": "5e6e479a3dad1f85957fb16cca060c009aaee7151f70d177e2af7a44ae325717",
+            "expectedByteLength": 1010403,
+            "actualSha256": "5e6e479a3dad1f85957fb16cca060c009aaee7151f70d177e2af7a44ae325717",
+            "actualByteLength": 1010403,
+            "match": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/branches/boundary-no_fee.pdf",
+            "expectedSha256": "1ed90492e01f527cbf4dee117629dbe8e510700bc9b3a3520558210aadbf2762",
+            "expectedByteLength": 497505,
+            "actualSha256": "1ed90492e01f527cbf4dee117629dbe8e510700bc9b3a3520558210aadbf2762",
+            "actualByteLength": 497505,
+            "match": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/branches/boundary-fee_paid.pdf",
+            "expectedSha256": "72246e0eb69dfb7a4b1a96fe0104b7b796fde2bfce2f225054e250df4c7e6028",
+            "expectedByteLength": 497513,
+            "actualSha256": "72246e0eb69dfb7a4b1a96fe0104b7b796fde2bfce2f225054e250df4c7e6028",
+            "actualByteLength": 497513,
+            "match": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/branches/boundary-indigency_requested.pdf",
+            "expectedSha256": "cbfaa98d08dcf27ea869a28f370e5616c48b6f9d64490e7d33587a1092cc4cf2",
+            "expectedByteLength": 738788,
+            "actualSha256": "cbfaa98d08dcf27ea869a28f370e5616c48b6f9d64490e7d33587a1092cc4cf2",
+            "actualByteLength": 738788,
+            "match": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/branches/boundary-requested_financial_supplement.pdf",
+            "expectedSha256": "34b533fbec138a6fce309b49cd4cbd29bbdf92d2cdec0bfc2f204619c8efc292",
+            "expectedByteLength": 1010207,
+            "actualSha256": "34b533fbec138a6fce309b49cd4cbd29bbdf92d2cdec0bfc2f204619c8efc292",
+            "actualByteLength": 1010207,
+            "match": true
+          }
+        ],
+        "pdfsMatchCurrentRenderedArtifacts": true,
+        "independentVerdict": {
+          "path": "data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/nc-session08-acceptance.json",
+          "sha256": "b9b85d67135756a7952542fa2a324f2b5d2b0868c204bd31cb82b9a5b91cd887",
+          "byteLength": 27906,
+          "verifiedAtBase": "32b4cd6639edb8fc43cb9e9b3afdb92371111a78",
+          "queueVerdict": "PASS_COMPLETE_INDEPENDENT",
+          "matchingRows": [
+            {
+              "index": 0,
+              "itemId": "nc_146_dismissal_petition-set",
+              "familyId": "nc_146_dismissal_petition-set",
+              "verdict": "PASS_COMPLETE_INDEPENDENT"
+            }
+          ],
+          "passRows": [
+            0
+          ],
+          "cleanInCurrentWorktree": true
+        },
+        "raster": {
+          "currentRasterState": "RASTER_PASS",
+          "receiptVerdict": "RASTER_PASS",
+          "workflowRunId": "34121189163",
+          "jobId": "101740185655",
+          "renderedCommitSha": "49ff69cdf9a110696cdf8dc5c29cb1b54ee6e54a",
+          "boundToCanonicalSha256": "3c4fbfc4260ee871340643b6ddcbb8351559785428fd9ff34c207893ad1fd039",
+          "boundToBoundarySha256": "5e6e479a3dad1f85957fb16cca060c009aaee7151f70d177e2af7a44ae325717",
+          "documentsDigest": "8744fb3776bda61ae2bd5e43fde5ff1ae2a921d446e8af36c203e658625838e7",
+          "pagesMeasured": 60,
+          "documentsCovered": [
+            "canonical.pdf",
+            "branches/canonical-fee_paid.pdf",
+            "branches/canonical-indigency_requested.pdf",
+            "branches/canonical-no_fee.pdf",
+            "branches/canonical-requested_financial_supplement.pdf",
+            "boundary.pdf",
+            "branches/boundary-fee_paid.pdf",
+            "branches/boundary-indigency_requested.pdf",
+            "branches/boundary-no_fee.pdf",
+            "branches/boundary-requested_financial_supplement.pdf"
+          ],
+          "documentsNotCovered": [],
+          "coversTheWholeFamily": true,
+          "receiptArtifact": {
+            "id": "10018791229",
+            "name": "rcap-raster-nc_146_dismissal_petition-set-34121189163",
+            "zipSha256": "sha256:83e44710275ed350349fd130e24a67f6d0cc974721d5c2dae47b90c37752f608"
+          },
+          "verdictPath": "data/rcap-grade-a/completion-pass-2026-09-07/nc-full-raster/nc_146_dismissal_petition-set.verdict.json",
+          "localAdmissionFiles": [],
+          "localAdmissionFilesCleanInCurrentWorktree": true,
+          "bindingMatchesCurrentPdfs": true,
+          "rasterPreservedForThisApply": true
+        }
+      },
+      {
+        "familyId": "wv_conv_nonviolent_felony-set",
+        "directory": "data/rcap-all50/overlays/census-v1/wv/wv-conv-nonviolent-felony-set--official-pdf-fill",
+        "pdfs": [
+          {
+            "path": "data/rcap-all50/overlays/census-v1/wv/wv-conv-nonviolent-felony-set--official-pdf-fill/fixtures/canonical.pdf",
+            "expectedSha256": "c3c5edd72b617541bbceaa7ac1c791b0d2f251dde9365a1c8a1c16995dd5edd9",
+            "expectedByteLength": 353021,
+            "actualSha256": "c3c5edd72b617541bbceaa7ac1c791b0d2f251dde9365a1c8a1c16995dd5edd9",
+            "actualByteLength": 353021,
+            "match": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/wv/wv-conv-nonviolent-felony-set--official-pdf-fill/fixtures/boundary.pdf",
+            "expectedSha256": "0eb1fbdd0c559bde89cd3d4e595044bb7d17b949d53e9ee8f2a64e1fc5647573",
+            "expectedByteLength": 353085,
+            "actualSha256": "0eb1fbdd0c559bde89cd3d4e595044bb7d17b949d53e9ee8f2a64e1fc5647573",
+            "actualByteLength": 353085,
+            "match": true
+          }
+        ],
+        "pdfsMatchCurrentRenderedArtifacts": true,
+        "independentVerdict": {
+          "path": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260910c-wv.json",
+          "sha256": "327fe0e374c151dc9f1178675de25eaf7ceb22f4a13fc443876a177f248093ca",
+          "byteLength": 42588,
+          "verifiedAtBase": "03093a9234911fe252c05284a9478c00f5995ae8",
+          "queueVerdict": "PASS_COMPLETE_INDEPENDENT",
+          "matchingRows": [
+            {
+              "index": 0,
+              "itemId": "wv_conv_nonviolent_felony-set",
+              "familyId": null,
+              "verdict": "PASS_COMPLETE_INDEPENDENT"
+            }
+          ],
+          "passRows": [
+            0
+          ],
+          "cleanInCurrentWorktree": true
+        },
+        "raster": {
+          "currentRasterState": "RASTER_PASS",
+          "receiptVerdict": "RASTER_PASS",
+          "workflowRunId": "34418960259",
+          "jobId": "102690667448",
+          "renderedCommitSha": "deead9f250e606887d80837a2f4cb7423d7afa49",
+          "boundToCanonicalSha256": "c3c5edd72b617541bbceaa7ac1c791b0d2f251dde9365a1c8a1c16995dd5edd9",
+          "boundToBoundarySha256": "0eb1fbdd0c559bde89cd3d4e595044bb7d17b949d53e9ee8f2a64e1fc5647573",
+          "documentsDigest": "88cdd811bef6270afab98b1e0499c41dcd88c65335b208342853f3567241d200",
+          "pagesMeasured": 8,
+          "documentsCovered": [
+            "canonical.pdf",
+            "boundary.pdf"
+          ],
+          "documentsNotCovered": [],
+          "coversTheWholeFamily": true,
+          "receiptArtifact": {
+            "id": "10130316935",
+            "name": "rcap-raster-wv_conv_nonviolent_felony-set-34418960259",
+            "zipSha256": "sha256:c76cec1bce889a7901dfa4c87e5ee7d95f82b8c0c9e303fff3c3f1dea8196305"
+          },
+          "verdictPath": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/wv_conv_nonviolent_felony-set/wv_conv_nonviolent_felony-set.verdict.json",
+          "localAdmissionFiles": [
+            {
+              "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/wv_conv_nonviolent_felony-set/admission-proof.json",
+              "sha256": "af6f229bea313f70ec9e04dcdd321b7f1a2090863ef2d0c0c69b560256e20c2f",
+              "byteLength": 9466
+            },
+            {
+              "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/wv_conv_nonviolent_felony-set/wv_conv_nonviolent_felony-set.verdict.json",
+              "sha256": "7398698e0439ed22b7fe2cf0608031de4c9b8061f10f5c69b908002429ad42c3",
+              "byteLength": 9488
+            }
+          ],
+          "localAdmissionFilesCleanInCurrentWorktree": true,
+          "bindingMatchesCurrentPdfs": true,
+          "rasterPreservedForThisApply": true
+        }
+      }
+    ],
+    "allCurrentPdfHashesMatchTheirRenderedArtifacts": true,
+    "originalIndependentVerdicts": {
+      "allHaveCurrentPassRowAndCleanPath": true
+    },
+    "rasterEvidence": {
+      "allCurrentQueueRowsPassAndRemainBoundToCurrentPdfs": true,
+      "families": [
+        {
+          "familyId": "ar-nonconviction-seal-set",
+          "directory": "data/rcap-all50/overlays/census-v1/ar/ar-nonconviction-seal-set--official-pdf-fill",
+          "pdfs": [
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ar/ar-nonconviction-seal-set--official-pdf-fill/fixtures/canonical.pdf",
+              "expectedSha256": "4cf919a7c096f3e8afadb99826a3fc8bb866a5d79e8d49c6ec649cad1a769661",
+              "expectedByteLength": 820032,
+              "actualSha256": "4cf919a7c096f3e8afadb99826a3fc8bb866a5d79e8d49c6ec649cad1a769661",
+              "actualByteLength": 820032,
+              "match": true
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ar/ar-nonconviction-seal-set--official-pdf-fill/fixtures/boundary.pdf",
+              "expectedSha256": "7353903f1880212d28926ab41f11f7af157a056856d8585b4fe175dbe556fed6",
+              "expectedByteLength": 820236,
+              "actualSha256": "7353903f1880212d28926ab41f11f7af157a056856d8585b4fe175dbe556fed6",
+              "actualByteLength": 820236,
+              "match": true
+            }
+          ],
+          "pdfsMatchCurrentRenderedArtifacts": true,
+          "independentVerdict": {
+            "path": "data/rcap-grade-a/packet-factory-24h/vf31/rows-vf31-20260910-ar.json",
+            "sha256": "0fd44611d3790bbe25699abdcb3784e19834a5ae3c7d6d948f6ecd1cebd646ee",
+            "byteLength": 98614,
+            "verifiedAtBase": "aa23761c0d142c3bc796537a04f281897c497487",
+            "queueVerdict": "PASS_COMPLETE_INDEPENDENT",
+            "matchingRows": [
+              {
+                "index": 1,
+                "itemId": "ar-nonconviction-seal-set",
+                "familyId": null,
+                "verdict": "PASS_COMPLETE_INDEPENDENT"
+              }
+            ],
+            "passRows": [
+              1
+            ],
+            "cleanInCurrentWorktree": true
+          },
+          "raster": {
+            "currentRasterState": "RASTER_PASS",
+            "receiptVerdict": "RASTER_PASS",
+            "workflowRunId": "34445997139",
+            "jobId": "102771555148",
+            "renderedCommitSha": null,
+            "boundToCanonicalSha256": "4cf919a7c096f3e8afadb99826a3fc8bb866a5d79e8d49c6ec649cad1a769661",
+            "boundToBoundarySha256": "7353903f1880212d28926ab41f11f7af157a056856d8585b4fe175dbe556fed6",
+            "documentsDigest": "2b2d4171f9a2af27aeff072e73daddf1960f40f32fdbb371fbeb60e3ef479b5f",
+            "pagesMeasured": 14,
+            "documentsCovered": [
+              "canonical.pdf",
+              "boundary.pdf"
+            ],
+            "documentsNotCovered": [],
+            "coversTheWholeFamily": true,
+            "receiptArtifact": {
+              "digest": "sha256:ab8de9175f440c9e232f343a0f4bb5e0ca618796ed087d5601eb3fa813e6b44c",
+              "expiresAt": "2026-09-24T06:44:38Z",
+              "id": "10139868269",
+              "name": "rcap-raster-ar-nonconviction-seal-set-34445997139"
+            },
+            "verdictPath": null,
+            "localAdmissionFiles": [],
+            "localAdmissionFilesCleanInCurrentWorktree": true,
+            "bindingMatchesCurrentPdfs": true,
+            "rasterPreservedForThisApply": true
+          }
+        },
+        {
+          "familyId": "az_certificate_second_chance-set",
+          "directory": "data/rcap-all50/overlays/census-v1/az/az-certificate-second-chance-set--official-pdf-fill",
+          "pdfs": [
+            {
+              "path": "data/rcap-all50/overlays/census-v1/az/az-certificate-second-chance-set--official-pdf-fill/fixtures/canonical.pdf",
+              "expectedSha256": "5fa7e6d4f0761fa26d932ca667878a4acb50bdf18b6854cd25a9a2cb3ab7a27a",
+              "expectedByteLength": 378707,
+              "actualSha256": "5fa7e6d4f0761fa26d932ca667878a4acb50bdf18b6854cd25a9a2cb3ab7a27a",
+              "actualByteLength": 378707,
+              "match": true
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/az/az-certificate-second-chance-set--official-pdf-fill/fixtures/boundary.pdf",
+              "expectedSha256": "e8414477b71352df8e01ebfdce17bd1c66e07c9ca09af30fef062313deef2bfa",
+              "expectedByteLength": 378893,
+              "actualSha256": "e8414477b71352df8e01ebfdce17bd1c66e07c9ca09af30fef062313deef2bfa",
+              "actualByteLength": 378893,
+              "match": true
+            }
+          ],
+          "pdfsMatchCurrentRenderedArtifacts": true,
+          "independentVerdict": {
+            "path": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260909c.json",
+            "sha256": "fc0c284d486764b003e3ca0f2997b0cb7877f50ccd85b78ca0f0f41271526a3f",
+            "byteLength": 72288,
+            "verifiedAtBase": "285c9b91c4cc345c77cdad6a37d015e6f61f45bc",
+            "queueVerdict": "PASS_COMPLETE_INDEPENDENT",
+            "matchingRows": [
+              {
+                "index": 0,
+                "itemId": "az_certificate_second_chance-set",
+                "familyId": null,
+                "verdict": "PASS_COMPLETE_INDEPENDENT"
+              }
+            ],
+            "passRows": [
+              0
+            ],
+            "cleanInCurrentWorktree": true
+          },
+          "raster": {
+            "currentRasterState": "RASTER_PASS",
+            "receiptVerdict": "RASTER_PASS",
+            "workflowRunId": "34364359375",
+            "jobId": "102510268111",
+            "renderedCommitSha": "159c0b5cf25e10a7fad6a7defb60bd6692e52480",
+            "boundToCanonicalSha256": "5fa7e6d4f0761fa26d932ca667878a4acb50bdf18b6854cd25a9a2cb3ab7a27a",
+            "boundToBoundarySha256": "e8414477b71352df8e01ebfdce17bd1c66e07c9ca09af30fef062313deef2bfa",
+            "documentsDigest": "b1504cbc171ff6d0731cd2d2b9c4ad89ba3ae9e12f53589738320840c3ec0955",
+            "pagesMeasured": 10,
+            "documentsCovered": [
+              "canonical.pdf",
+              "boundary.pdf"
+            ],
+            "documentsNotCovered": [],
+            "coversTheWholeFamily": true,
+            "receiptArtifact": {
+              "id": "10109471408",
+              "name": "rcap-raster-az_certificate_second_chance-set-34364359375",
+              "zipSha256": "sha256:e3b1b329d2b3244698953403341bf545bb042b665ba8b0fdae37b5119a67a267"
+            },
+            "verdictPath": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/az_certificate_second_chance-set/az_certificate_second_chance-set.verdict.json",
+            "localAdmissionFiles": [
+              {
+                "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/az_certificate_second_chance-set/admission-proof.json",
+                "sha256": "5e12e5bee89e32de846e24f710a41bd5a5525e020b48b60588c039839711297f",
+                "byteLength": 5890
+              },
+              {
+                "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/az_certificate_second_chance-set/az_certificate_second_chance-set.verdict.json",
+                "sha256": "0c50d3b62b9eb5fc4d397d93485f75cd09e9b2b08564ad21565af697ba0bd35b",
+                "byteLength": 9952
+              }
+            ],
+            "localAdmissionFilesCleanInCurrentWorktree": true,
+            "bindingMatchesCurrentPdfs": true,
+            "rasterPreservedForThisApply": true
+          }
+        },
+        {
+          "familyId": "de_discretionary_superior_court-set",
+          "directory": "data/rcap-all50/overlays/census-v1/de/de-discretionary-superior-court-set--official-pdf-fill",
+          "pdfs": [
+            {
+              "path": "data/rcap-all50/overlays/census-v1/de/de-discretionary-superior-court-set--official-pdf-fill/fixtures/canonical.pdf",
+              "expectedSha256": "05033793dcf746e364ff4fdd67506e60778752ce52f647cdd68fe8387882af06",
+              "expectedByteLength": 1075754,
+              "actualSha256": "05033793dcf746e364ff4fdd67506e60778752ce52f647cdd68fe8387882af06",
+              "actualByteLength": 1075754,
+              "match": true
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/de/de-discretionary-superior-court-set--official-pdf-fill/fixtures/boundary.pdf",
+              "expectedSha256": "254189a3489271b2b72cb9f9448ef0e0b01feb6bdadd072c5c1b12bcd94ab17d",
+              "expectedByteLength": 1075950,
+              "actualSha256": "254189a3489271b2b72cb9f9448ef0e0b01feb6bdadd072c5c1b12bcd94ab17d",
+              "actualByteLength": 1075950,
+              "match": true
+            }
+          ],
+          "pdfsMatchCurrentRenderedArtifacts": true,
+          "independentVerdict": {
+            "path": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-de-discretionary-superior-court-original-final-20260912.json",
+            "sha256": "d07a04cf37dbb2e45b7be1e914482fe683358205dd373dcf74a4d3695412914b",
+            "byteLength": 32196,
+            "verifiedAtBase": "ff074aece3979d1683d7f2390bb692c221e8952a",
+            "queueVerdict": "PASS_COMPLETE_INDEPENDENT",
+            "matchingRows": [
+              {
+                "index": 0,
+                "itemId": "de_discretionary_superior_court-set",
+                "familyId": "de_discretionary_superior_court-set",
+                "verdict": "PASS_COMPLETE_INDEPENDENT"
+              }
+            ],
+            "passRows": [
+              0
+            ],
+            "cleanInCurrentWorktree": true
+          },
+          "raster": {
+            "currentRasterState": "RASTER_PASS",
+            "receiptVerdict": "RASTER_PASS",
+            "workflowRunId": "34703163686",
+            "jobId": "103578889503",
+            "renderedCommitSha": null,
+            "boundToCanonicalSha256": "05033793dcf746e364ff4fdd67506e60778752ce52f647cdd68fe8387882af06",
+            "boundToBoundarySha256": "254189a3489271b2b72cb9f9448ef0e0b01feb6bdadd072c5c1b12bcd94ab17d",
+            "documentsDigest": "fa4afb4f86abfed8535ffdde4b96742086d2a00af40faecd61114cd59330d8e2",
+            "pagesMeasured": 4,
+            "documentsCovered": [
+              "canonical.pdf",
+              "boundary.pdf"
+            ],
+            "documentsNotCovered": [],
+            "coversTheWholeFamily": true,
+            "receiptArtifact": {
+              "digest": "sha256:80ae8260674a61ae7155dfe482b427f7d722ae5d2dc5a0c223198f37e3319d51",
+              "expiresAt": "2026-09-26T15:51:36Z",
+              "id": "10301071854",
+              "name": "rcap-raster-de_discretionary_superior_court-set-34703163686"
+            },
+            "verdictPath": null,
+            "localAdmissionFiles": [
+              {
+                "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/de_discretionary_superior_court-set/admission-proof.json",
+                "sha256": "41d96301006f1e5982499573f603e3fdccdd3dbd0c865cf10a42a9a6efc92033",
+                "byteLength": 5729
+              },
+              {
+                "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/de_discretionary_superior_court-set/de_discretionary_superior_court-set.verdict.json",
+                "sha256": "784650c7dfead81e4e310d26d644c84e02ef09ae692763c51f71808e4d6ace76",
+                "byteLength": 7774
+              }
+            ],
+            "localAdmissionFilesCleanInCurrentWorktree": true,
+            "bindingMatchesCurrentPdfs": true,
+            "rasterPreservedForThisApply": true
+          }
+        },
+        {
+          "familyId": "de_pardon_expungement-set",
+          "directory": "data/rcap-all50/overlays/census-v1/de/de-pardon-expungement-set--official-pdf-fill",
+          "pdfs": [
+            {
+              "path": "data/rcap-all50/overlays/census-v1/de/de-pardon-expungement-set--official-pdf-fill/fixtures/canonical.pdf",
+              "expectedSha256": "7bce0bddd5eef1c0f23f264da8146805c52d4cc8dff16b8871ef78bfe1a97fe9",
+              "expectedByteLength": 1202521,
+              "actualSha256": "7bce0bddd5eef1c0f23f264da8146805c52d4cc8dff16b8871ef78bfe1a97fe9",
+              "actualByteLength": 1202521,
+              "match": true
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/de/de-pardon-expungement-set--official-pdf-fill/fixtures/boundary.pdf",
+              "expectedSha256": "68f209017dc63ff37828c0bfb35e4f162a380a533ad821274b8beee0ad34dfb9",
+              "expectedByteLength": 1202719,
+              "actualSha256": "68f209017dc63ff37828c0bfb35e4f162a380a533ad821274b8beee0ad34dfb9",
+              "actualByteLength": 1202719,
+              "match": true
+            }
+          ],
+          "pdfsMatchCurrentRenderedArtifacts": true,
+          "independentVerdict": {
+            "path": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20260911-de-pardon-restored.json",
+            "sha256": "43c975bbcecb93e222341bc43e18a2b68fbb04264b13d7ca8611090c7e9deb22",
+            "byteLength": 52932,
+            "verifiedAtBase": "ca8ffa9fb57041ee0d113e7cfb72f244fd17d75c",
+            "queueVerdict": "PASS_COMPLETE_INDEPENDENT",
+            "matchingRows": [
+              {
+                "index": 0,
+                "itemId": "de_pardon_expungement-set",
+                "familyId": "de_pardon_expungement-set",
+                "verdict": "PASS_COMPLETE_INDEPENDENT"
+              }
+            ],
+            "passRows": [
+              0
+            ],
+            "cleanInCurrentWorktree": true
+          },
+          "raster": {
+            "currentRasterState": "RASTER_PASS",
+            "receiptVerdict": "RASTER_PASS",
+            "workflowRunId": "34413372916",
+            "jobId": "102673422739",
+            "renderedCommitSha": "0cb44ee92a33b4d7b48b145ae57e192ef5c2c438",
+            "boundToCanonicalSha256": "7bce0bddd5eef1c0f23f264da8146805c52d4cc8dff16b8871ef78bfe1a97fe9",
+            "boundToBoundarySha256": "68f209017dc63ff37828c0bfb35e4f162a380a533ad821274b8beee0ad34dfb9",
+            "documentsDigest": "95cb2adf3a7ef8b12fdafb7c5221d8ba3352811aa24ff773c4b7c61b011376b1",
+            "pagesMeasured": 6,
+            "documentsCovered": [
+              "canonical.pdf",
+              "boundary.pdf"
+            ],
+            "documentsNotCovered": [],
+            "coversTheWholeFamily": true,
+            "receiptArtifact": {
+              "id": "10128263552",
+              "name": "rcap-raster-de_pardon_expungement-set-34413372916",
+              "zipSha256": "sha256:2118b717af31a16946639ab81ed314e7880fa64c2efaf8d6c4f55f7944e49ff0"
+            },
+            "verdictPath": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/de_pardon_expungement-set/de_pardon_expungement-set.verdict.json",
+            "localAdmissionFiles": [
+              {
+                "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/de_pardon_expungement-set/admission-proof.json",
+                "sha256": "834165f4643fc30fcc8e338d307c0bc883c5662fdb925f982ca59dbae9cd6422",
+                "byteLength": 5659
+              },
+              {
+                "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/de_pardon_expungement-set/de_pardon_expungement-set.verdict.json",
+                "sha256": "4939bab4cf59a8c03e099a8bc4cd889b8d3ce1b978fe92a3794a42f11ae476f7",
+                "byteLength": 7663
+              }
+            ],
+            "localAdmissionFilesCleanInCurrentWorktree": true,
+            "bindingMatchesCurrentPdfs": true,
+            "rasterPreservedForThisApply": true
+          }
+        },
+        {
+          "familyId": "me-seal-gen-set",
+          "directory": "data/rcap-all50/overlays/census-v1/me/me-seal-gen-set--official-pdf-fill",
+          "pdfs": [
+            {
+              "path": "data/rcap-all50/overlays/census-v1/me/me-seal-gen-set--official-pdf-fill/fixtures/canonical.pdf",
+              "expectedSha256": "10e5a82b626d98851b525f380000e9435aa49c303f7f334d771f002dd89ade78",
+              "expectedByteLength": 171623,
+              "actualSha256": "10e5a82b626d98851b525f380000e9435aa49c303f7f334d771f002dd89ade78",
+              "actualByteLength": 171623,
+              "match": true
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/me/me-seal-gen-set--official-pdf-fill/fixtures/boundary.pdf",
+              "expectedSha256": "43593b8922759124491186b0a8460ff1b21633ed85eccba1fa11a7c88c0730cc",
+              "expectedByteLength": 171667,
+              "actualSha256": "43593b8922759124491186b0a8460ff1b21633ed85eccba1fa11a7c88c0730cc",
+              "actualByteLength": 171667,
+              "match": true
+            }
+          ],
+          "pdfsMatchCurrentRenderedArtifacts": true,
+          "independentVerdict": {
+            "path": "data/rcap-grade-a/packet-factory-24h/vf06/rows-vf06-20260909d.json",
+            "sha256": "f50a0a14e21e5e241259a627c8d726cd5651c416771d4381f60c95ee733269b8",
+            "byteLength": 35865,
+            "verifiedAtBase": "ba6d4fb9526db37213a67dcb0a05763dd9066cf7",
+            "queueVerdict": "PASS_COMPLETE_INDEPENDENT",
+            "matchingRows": [
+              {
+                "index": 0,
+                "itemId": "me-seal-gen-set",
+                "familyId": null,
+                "verdict": "PASS_COMPLETE_INDEPENDENT"
+              }
+            ],
+            "passRows": [
+              0
+            ],
+            "cleanInCurrentWorktree": true
+          },
+          "raster": {
+            "currentRasterState": "RASTER_PASS",
+            "receiptVerdict": "RASTER_PASS",
+            "workflowRunId": "34364359375",
+            "jobId": "102510268368",
+            "renderedCommitSha": "159c0b5cf25e10a7fad6a7defb60bd6692e52480",
+            "boundToCanonicalSha256": "10e5a82b626d98851b525f380000e9435aa49c303f7f334d771f002dd89ade78",
+            "boundToBoundarySha256": "43593b8922759124491186b0a8460ff1b21633ed85eccba1fa11a7c88c0730cc",
+            "documentsDigest": "565d3f2ef6981041b1bb14935736fd5f318ab9435206ed64581117f2b7e63a2c",
+            "pagesMeasured": 2,
+            "documentsCovered": [
+              "canonical.pdf",
+              "boundary.pdf"
+            ],
+            "documentsNotCovered": [],
+            "coversTheWholeFamily": true,
+            "receiptArtifact": {
+              "id": "10109409164",
+              "name": "rcap-raster-me-seal-gen-set-34364359375",
+              "zipSha256": "sha256:fb9e93a6373697b26e10af692401194046390f8f54cc0f87a33f3a195a2034bc"
+            },
+            "verdictPath": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/me-seal-gen-set/me-seal-gen-set.verdict.json",
+            "localAdmissionFiles": [
+              {
+                "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/me-seal-gen-set/admission-proof.json",
+                "sha256": "d7603375c51b845e1852c0ad0b7573f413c108ad6bb9a1f4a1a3668aa3be5eac",
+                "byteLength": 1710
+              },
+              {
+                "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/me-seal-gen-set/me-seal-gen-set.verdict.json",
+                "sha256": "adc9eaf79353aba6bcd1adbf60245b85c58cbd0f6a59f29494995b1443e3f4ed",
+                "byteLength": 3779
+              }
+            ],
+            "localAdmissionFilesCleanInCurrentWorktree": true,
+            "bindingMatchesCurrentPdfs": true,
+            "rasterPreservedForThisApply": true
+          }
+        },
+        {
+          "familyId": "mn_petition_609a02_subd3-set",
+          "directory": "data/rcap-all50/overlays/census-v1/mn/mn-petition-609a02-subd3-set--custom-pleading",
+          "pdfs": [
+            {
+              "path": "data/rcap-all50/overlays/census-v1/mn/mn-petition-609a02-subd3-set--custom-pleading/fixtures/canonical.pdf",
+              "expectedSha256": "52680b1fcec81eee5538ea4cb23f1d37d8519384baff73bd754f38fa1bc0df71",
+              "expectedByteLength": 1213693,
+              "actualSha256": "52680b1fcec81eee5538ea4cb23f1d37d8519384baff73bd754f38fa1bc0df71",
+              "actualByteLength": 1213693,
+              "match": true
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/mn/mn-petition-609a02-subd3-set--custom-pleading/fixtures/boundary.pdf",
+              "expectedSha256": "46bc49d539edbb8dd18470188c14299f81f0ab6c541d23a1c4a6de7146fd19a9",
+              "expectedByteLength": 1214100,
+              "actualSha256": "46bc49d539edbb8dd18470188c14299f81f0ab6c541d23a1c4a6de7146fd19a9",
+              "actualByteLength": 1214100,
+              "match": true
+            }
+          ],
+          "pdfsMatchCurrentRenderedArtifacts": true,
+          "independentVerdict": {
+            "path": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01b-20260910.json",
+            "sha256": "94a86930f11df464bc56229442f5567f673e764ff9e5168e0353d0d160684cf2",
+            "byteLength": 76425,
+            "verifiedAtBase": "1718e9231ce178c108a6bc3b307e3b9f24da77ce",
+            "queueVerdict": "PASS_COMPLETE_INDEPENDENT",
+            "matchingRows": [
+              {
+                "index": 1,
+                "itemId": "mn_petition_609a02_subd3-set",
+                "familyId": "mn_petition_609a02_subd3-set",
+                "verdict": "PASS_COMPLETE_INDEPENDENT"
+              }
+            ],
+            "passRows": [
+              1
+            ],
+            "cleanInCurrentWorktree": true
+          },
+          "raster": {
+            "currentRasterState": "RASTER_PASS",
+            "receiptVerdict": "RASTER_PASS",
+            "workflowRunId": "34407406641",
+            "jobId": "102654459288",
+            "renderedCommitSha": "686a2f65ee5b06d41a6634676b22ca13e7419490",
+            "boundToCanonicalSha256": "52680b1fcec81eee5538ea4cb23f1d37d8519384baff73bd754f38fa1bc0df71",
+            "boundToBoundarySha256": "46bc49d539edbb8dd18470188c14299f81f0ab6c541d23a1c4a6de7146fd19a9",
+            "documentsDigest": "a988105074232b03b11496103f602e48ff37bf721f4f1ac84ce4d7a51bf6b7bd",
+            "pagesMeasured": 50,
+            "documentsCovered": [
+              "canonical.pdf",
+              "boundary.pdf"
+            ],
+            "documentsNotCovered": [],
+            "coversTheWholeFamily": true,
+            "receiptArtifact": {
+              "id": "10126332402",
+              "name": "rcap-raster-mn_petition_609a02_subd3-set-34407406641",
+              "zipSha256": "sha256:5686818ece0eff1297140aeed61988b77f3327f7097ba1cd0bd0dd990573d5df"
+            },
+            "verdictPath": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/mn_petition_609a02_subd3-set/mn_petition_609a02_subd3-set.verdict.json",
+            "localAdmissionFiles": [
+              {
+                "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/mn_petition_609a02_subd3-set/admission-proof.json",
+                "sha256": "0e10ebfb628d2f0055a9f1083aa01fc065ff20aeb848b85b5866d0aa4239c9a9",
+                "byteLength": 40067
+              },
+              {
+                "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/mn_petition_609a02_subd3-set/mn_petition_609a02_subd3-set.verdict.json",
+                "sha256": "e2462f4e681e9c31896bdabc59d35d05f36491fa786298f71c678d1a27aee4ea",
+                "byteLength": 46821
+              }
+            ],
+            "localAdmissionFilesCleanInCurrentWorktree": true,
+            "bindingMatchesCurrentPdfs": true,
+            "rasterPreservedForThisApply": true
+          }
+        },
+        {
+          "familyId": "nc_145_5_felony-set",
+          "directory": "data/rcap-all50/overlays/census-v1/nc/nc-145-5-felony-set--official-pdf-fill",
+          "pdfs": [
+            {
+              "path": "data/rcap-all50/overlays/census-v1/nc/nc-145-5-felony-set--official-pdf-fill/fixtures/canonical.pdf",
+              "expectedSha256": "c66b5e4246a39b0cc1d5fcbebcde8000080ac1cabcc1dec89815809eb71bacbb",
+              "expectedByteLength": 766220,
+              "actualSha256": "c66b5e4246a39b0cc1d5fcbebcde8000080ac1cabcc1dec89815809eb71bacbb",
+              "actualByteLength": 766220,
+              "match": true
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/nc/nc-145-5-felony-set--official-pdf-fill/fixtures/boundary.pdf",
+              "expectedSha256": "e0bd1765da62d1708f1ce334fbbe603ceaeaaf69dd1d7f3c262e234769e3223d",
+              "expectedByteLength": 766425,
+              "actualSha256": "e0bd1765da62d1708f1ce334fbbe603ceaeaaf69dd1d7f3c262e234769e3223d",
+              "actualByteLength": 766425,
+              "match": true
+            }
+          ],
+          "pdfsMatchCurrentRenderedArtifacts": true,
+          "independentVerdict": {
+            "path": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
+            "sha256": "52a4c3169cd0e575e1441fae7a104d5f707cb12d5855b87bf59193a17409cbc6",
+            "byteLength": 2109747,
+            "verifiedAtBase": "5326f747d",
+            "queueVerdict": "PASS_COMPLETE_INDEPENDENT",
+            "matchingRows": [
+              {
+                "index": 65,
+                "itemId": "nc_145_5_felony-set",
+                "familyId": null,
+                "verdict": "FAIL_REPAIR_REQUIRED"
+              },
+              {
+                "index": 89,
+                "itemId": "nc_145_5_felony-set",
+                "familyId": null,
+                "verdict": "FAIL_REPAIR_REQUIRED"
+              },
+              {
+                "index": 90,
+                "itemId": "nc_145_5_felony-set",
+                "familyId": null,
+                "verdict": "PASS_COMPLETE_INDEPENDENT"
+              }
+            ],
+            "passRows": [
+              90
+            ],
+            "cleanInCurrentWorktree": true
+          },
+          "raster": {
+            "currentRasterState": "RASTER_PASS",
+            "receiptVerdict": "RASTER_PASS",
+            "workflowRunId": "33993431924",
+            "jobId": "101379940111",
+            "renderedCommitSha": "a8f99a33abe2fe19ad10a153220eb9fe8896a566",
+            "boundToCanonicalSha256": "c66b5e4246a39b0cc1d5fcbebcde8000080ac1cabcc1dec89815809eb71bacbb",
+            "boundToBoundarySha256": "e0bd1765da62d1708f1ce334fbbe603ceaeaaf69dd1d7f3c262e234769e3223d",
+            "documentsDigest": "082795929e3ed33131d2dd223a03e4132e598dd73e431047985bb44f7e26d826",
+            "pagesMeasured": null,
+            "documentsCovered": [
+              "canonical.pdf",
+              "boundary.pdf"
+            ],
+            "documentsNotCovered": [],
+            "coversTheWholeFamily": true,
+            "receiptArtifact": null,
+            "verdictPath": null,
+            "localAdmissionFiles": [],
+            "localAdmissionFilesCleanInCurrentWorktree": true,
+            "bindingMatchesCurrentPdfs": true,
+            "rasterPreservedForThisApply": true
+          }
+        },
+        {
+          "familyId": "nc_145_5_misdemeanor-set",
+          "directory": "data/rcap-all50/overlays/census-v1/nc/nc-145-5-misdemeanor-set--official-pdf-fill",
+          "pdfs": [
+            {
+              "path": "data/rcap-all50/overlays/census-v1/nc/nc-145-5-misdemeanor-set--official-pdf-fill/fixtures/canonical.pdf",
+              "expectedSha256": "10d06d346fffa0b9c534922a1450880c6d26efdc15dc0b52035c081c72ebbdf9",
+              "expectedByteLength": 764739,
+              "actualSha256": "10d06d346fffa0b9c534922a1450880c6d26efdc15dc0b52035c081c72ebbdf9",
+              "actualByteLength": 764739,
+              "match": true
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/nc/nc-145-5-misdemeanor-set--official-pdf-fill/fixtures/boundary.pdf",
+              "expectedSha256": "e31a578a70709a2c03426163ed724bc316a935551a338e4f2ceef7e1b3fd561a",
+              "expectedByteLength": 764942,
+              "actualSha256": "e31a578a70709a2c03426163ed724bc316a935551a338e4f2ceef7e1b3fd561a",
+              "actualByteLength": 764942,
+              "match": true
+            }
+          ],
+          "pdfsMatchCurrentRenderedArtifacts": true,
+          "independentVerdict": {
+            "path": "data/rcap-grade-a/packet-factory-24h/vf07/rows-vf07-20260909c.json",
+            "sha256": "5cd834c3ba92095800bd0279b37742fefd3a9fbfc4ba78bc60eb1c9688f7646e",
+            "byteLength": 29606,
+            "verifiedAtBase": "285c9b91c4cc345c77cdad6a37d015e6f61f45bc",
+            "queueVerdict": "PASS_COMPLETE_INDEPENDENT",
+            "matchingRows": [
+              {
+                "index": 0,
+                "itemId": "nc_145_5_misdemeanor-set",
+                "familyId": null,
+                "verdict": "PASS_COMPLETE_INDEPENDENT"
+              }
+            ],
+            "passRows": [
+              0
+            ],
+            "cleanInCurrentWorktree": true
+          },
+          "raster": {
+            "currentRasterState": "RASTER_PASS",
+            "receiptVerdict": "RASTER_PASS",
+            "workflowRunId": "34364359375",
+            "jobId": "102510268221",
+            "renderedCommitSha": "159c0b5cf25e10a7fad6a7defb60bd6692e52480",
+            "boundToCanonicalSha256": "10d06d346fffa0b9c534922a1450880c6d26efdc15dc0b52035c081c72ebbdf9",
+            "boundToBoundarySha256": "e31a578a70709a2c03426163ed724bc316a935551a338e4f2ceef7e1b3fd561a",
+            "documentsDigest": "62357260c221afaebfeff30e10903c1e243bb01782160a274bf21f55f42bc6f4",
+            "pagesMeasured": 10,
+            "documentsCovered": [
+              "canonical.pdf",
+              "boundary.pdf"
+            ],
+            "documentsNotCovered": [],
+            "coversTheWholeFamily": true,
+            "receiptArtifact": {
+              "id": "10109472816",
+              "name": "rcap-raster-nc_145_5_misdemeanor-set-34364359375",
+              "zipSha256": "sha256:0236501a9164c02141e93ec92a9ba228c50b116a90da828201b2b643e4ebdcee"
+            },
+            "verdictPath": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/nc_145_5_misdemeanor-set/nc_145_5_misdemeanor-set.verdict.json",
+            "localAdmissionFiles": [
+              {
+                "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/nc_145_5_misdemeanor-set/admission-proof.json",
+                "sha256": "b7580ff9bece5a3fb3cf25adaeeeea09a431da8e390474ebfd37026c5140e814",
+                "byteLength": 5812
+              },
+              {
+                "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/nc_145_5_misdemeanor-set/nc_145_5_misdemeanor-set.verdict.json",
+                "sha256": "e45029f34b91db73f39ae0f7dbb61b7a0aaec1fa7d7773d1a653b8274802d0c2",
+                "byteLength": 9872
+              }
+            ],
+            "localAdmissionFilesCleanInCurrentWorktree": true,
+            "bindingMatchesCurrentPdfs": true,
+            "rasterPreservedForThisApply": true
+          }
+        },
+        {
+          "familyId": "nc_146_acquittal_petition-set",
+          "directory": "data/rcap-all50/overlays/census-v1/nc/nc-146-acquittal-petition-set--official-pdf-fill",
+          "pdfs": [
+            {
+              "path": "data/rcap-all50/overlays/census-v1/nc/nc-146-acquittal-petition-set--official-pdf-fill/fixtures/canonical.pdf",
+              "expectedSha256": "135dc7b9c0f104788512f1e313a6d88b4497c88a70fc6b18b92abe45bceecf17",
+              "expectedByteLength": 486581,
+              "actualSha256": "135dc7b9c0f104788512f1e313a6d88b4497c88a70fc6b18b92abe45bceecf17",
+              "actualByteLength": 486581,
+              "match": true
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/nc/nc-146-acquittal-petition-set--official-pdf-fill/fixtures/boundary.pdf",
+              "expectedSha256": "5597a2818dc8914554b24418cba87d418676dc1ddfe2111967df1a6c4f30a3da",
+              "expectedByteLength": 486673,
+              "actualSha256": "5597a2818dc8914554b24418cba87d418676dc1ddfe2111967df1a6c4f30a3da",
+              "actualByteLength": 486673,
+              "match": true
+            }
+          ],
+          "pdfsMatchCurrentRenderedArtifacts": true,
+          "independentVerdict": {
+            "path": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json",
+            "sha256": "f53772e1cc5b75bda014d76902337797b1c1602cc52fbc6cda375714caf98a0c",
+            "byteLength": 1376179,
+            "verifiedAtBase": "c8dd4f751",
+            "queueVerdict": "PASS_COMPLETE_INDEPENDENT",
+            "matchingRows": [
+              {
+                "index": 60,
+                "itemId": "nc_146_acquittal_petition-set",
+                "familyId": null,
+                "verdict": "BLOCKED_LEGAL_INPUT"
+              },
+              {
+                "index": 61,
+                "itemId": "nc_146_acquittal_petition-set",
+                "familyId": null,
+                "verdict": "PASS_COMPLETE_INDEPENDENT"
+              }
+            ],
+            "passRows": [
+              61
+            ],
+            "cleanInCurrentWorktree": true
+          },
+          "raster": {
+            "currentRasterState": "RASTER_PASS",
+            "receiptVerdict": "RASTER_PASS",
+            "workflowRunId": "33984155760",
+            "jobId": 101354889417,
+            "renderedCommitSha": "9c20f8c7c7aaaf8adc610b10d9b4c31d497eb2c4",
+            "boundToCanonicalSha256": "135dc7b9c0f104788512f1e313a6d88b4497c88a70fc6b18b92abe45bceecf17",
+            "boundToBoundarySha256": "5597a2818dc8914554b24418cba87d418676dc1ddfe2111967df1a6c4f30a3da",
+            "documentsDigest": "30ecc0ccf893e1bf3e8a4105ebf57d4086495ff84eb0f3545b4130ac892ee6e6",
+            "pagesMeasured": null,
+            "documentsCovered": [
+              "canonical.pdf",
+              "boundary.pdf"
+            ],
+            "documentsNotCovered": [],
+            "coversTheWholeFamily": true,
+            "receiptArtifact": null,
+            "verdictPath": null,
+            "localAdmissionFiles": [],
+            "localAdmissionFilesCleanInCurrentWorktree": true,
+            "bindingMatchesCurrentPdfs": true,
+            "rasterPreservedForThisApply": true
+          }
+        },
+        {
+          "familyId": "nc_146_dismissal_petition-set",
+          "directory": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill",
+          "pdfs": [
+            {
+              "path": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/canonical.pdf",
+              "expectedSha256": "3c4fbfc4260ee871340643b6ddcbb8351559785428fd9ff34c207893ad1fd039",
+              "expectedByteLength": 1010047,
+              "actualSha256": "3c4fbfc4260ee871340643b6ddcbb8351559785428fd9ff34c207893ad1fd039",
+              "actualByteLength": 1010047,
+              "match": true
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/branches/canonical-no_fee.pdf",
+              "expectedSha256": "b0eb631bb5ec212352ef841f6df5668593fa923b1a8cd3452f57ed052b410aa7",
+              "expectedByteLength": 497377,
+              "actualSha256": "b0eb631bb5ec212352ef841f6df5668593fa923b1a8cd3452f57ed052b410aa7",
+              "actualByteLength": 497377,
+              "match": true
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/branches/canonical-fee_paid.pdf",
+              "expectedSha256": "3512077fa889867167feaab293245fea9d2fbe5488110613aecbcf088d732d7a",
+              "expectedByteLength": 497385,
+              "actualSha256": "3512077fa889867167feaab293245fea9d2fbe5488110613aecbcf088d732d7a",
+              "actualByteLength": 497385,
+              "match": true
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/branches/canonical-indigency_requested.pdf",
+              "expectedSha256": "739bad827110e4040c9f80d98691e750d40f66694016d0e3dd9d956fa92625f3",
+              "expectedByteLength": 738532,
+              "actualSha256": "739bad827110e4040c9f80d98691e750d40f66694016d0e3dd9d956fa92625f3",
+              "actualByteLength": 738532,
+              "match": true
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/branches/canonical-requested_financial_supplement.pdf",
+              "expectedSha256": "3888f73d61335835dd00597f7a0b894ccb1f746987f0966d06ac9df7f6df1ac5",
+              "expectedByteLength": 1009847,
+              "actualSha256": "3888f73d61335835dd00597f7a0b894ccb1f746987f0966d06ac9df7f6df1ac5",
+              "actualByteLength": 1009847,
+              "match": true
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/boundary.pdf",
+              "expectedSha256": "5e6e479a3dad1f85957fb16cca060c009aaee7151f70d177e2af7a44ae325717",
+              "expectedByteLength": 1010403,
+              "actualSha256": "5e6e479a3dad1f85957fb16cca060c009aaee7151f70d177e2af7a44ae325717",
+              "actualByteLength": 1010403,
+              "match": true
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/branches/boundary-no_fee.pdf",
+              "expectedSha256": "1ed90492e01f527cbf4dee117629dbe8e510700bc9b3a3520558210aadbf2762",
+              "expectedByteLength": 497505,
+              "actualSha256": "1ed90492e01f527cbf4dee117629dbe8e510700bc9b3a3520558210aadbf2762",
+              "actualByteLength": 497505,
+              "match": true
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/branches/boundary-fee_paid.pdf",
+              "expectedSha256": "72246e0eb69dfb7a4b1a96fe0104b7b796fde2bfce2f225054e250df4c7e6028",
+              "expectedByteLength": 497513,
+              "actualSha256": "72246e0eb69dfb7a4b1a96fe0104b7b796fde2bfce2f225054e250df4c7e6028",
+              "actualByteLength": 497513,
+              "match": true
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/branches/boundary-indigency_requested.pdf",
+              "expectedSha256": "cbfaa98d08dcf27ea869a28f370e5616c48b6f9d64490e7d33587a1092cc4cf2",
+              "expectedByteLength": 738788,
+              "actualSha256": "cbfaa98d08dcf27ea869a28f370e5616c48b6f9d64490e7d33587a1092cc4cf2",
+              "actualByteLength": 738788,
+              "match": true
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/branches/boundary-requested_financial_supplement.pdf",
+              "expectedSha256": "34b533fbec138a6fce309b49cd4cbd29bbdf92d2cdec0bfc2f204619c8efc292",
+              "expectedByteLength": 1010207,
+              "actualSha256": "34b533fbec138a6fce309b49cd4cbd29bbdf92d2cdec0bfc2f204619c8efc292",
+              "actualByteLength": 1010207,
+              "match": true
+            }
+          ],
+          "pdfsMatchCurrentRenderedArtifacts": true,
+          "independentVerdict": {
+            "path": "data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/nc-session08-acceptance.json",
+            "sha256": "b9b85d67135756a7952542fa2a324f2b5d2b0868c204bd31cb82b9a5b91cd887",
+            "byteLength": 27906,
+            "verifiedAtBase": "32b4cd6639edb8fc43cb9e9b3afdb92371111a78",
+            "queueVerdict": "PASS_COMPLETE_INDEPENDENT",
+            "matchingRows": [
+              {
+                "index": 0,
+                "itemId": "nc_146_dismissal_petition-set",
+                "familyId": "nc_146_dismissal_petition-set",
+                "verdict": "PASS_COMPLETE_INDEPENDENT"
+              }
+            ],
+            "passRows": [
+              0
+            ],
+            "cleanInCurrentWorktree": true
+          },
+          "raster": {
+            "currentRasterState": "RASTER_PASS",
+            "receiptVerdict": "RASTER_PASS",
+            "workflowRunId": "34121189163",
+            "jobId": "101740185655",
+            "renderedCommitSha": "49ff69cdf9a110696cdf8dc5c29cb1b54ee6e54a",
+            "boundToCanonicalSha256": "3c4fbfc4260ee871340643b6ddcbb8351559785428fd9ff34c207893ad1fd039",
+            "boundToBoundarySha256": "5e6e479a3dad1f85957fb16cca060c009aaee7151f70d177e2af7a44ae325717",
+            "documentsDigest": "8744fb3776bda61ae2bd5e43fde5ff1ae2a921d446e8af36c203e658625838e7",
+            "pagesMeasured": 60,
+            "documentsCovered": [
+              "canonical.pdf",
+              "branches/canonical-fee_paid.pdf",
+              "branches/canonical-indigency_requested.pdf",
+              "branches/canonical-no_fee.pdf",
+              "branches/canonical-requested_financial_supplement.pdf",
+              "boundary.pdf",
+              "branches/boundary-fee_paid.pdf",
+              "branches/boundary-indigency_requested.pdf",
+              "branches/boundary-no_fee.pdf",
+              "branches/boundary-requested_financial_supplement.pdf"
+            ],
+            "documentsNotCovered": [],
+            "coversTheWholeFamily": true,
+            "receiptArtifact": {
+              "id": "10018791229",
+              "name": "rcap-raster-nc_146_dismissal_petition-set-34121189163",
+              "zipSha256": "sha256:83e44710275ed350349fd130e24a67f6d0cc974721d5c2dae47b90c37752f608"
+            },
+            "verdictPath": "data/rcap-grade-a/completion-pass-2026-09-07/nc-full-raster/nc_146_dismissal_petition-set.verdict.json",
+            "localAdmissionFiles": [],
+            "localAdmissionFilesCleanInCurrentWorktree": true,
+            "bindingMatchesCurrentPdfs": true,
+            "rasterPreservedForThisApply": true
+          }
+        },
+        {
+          "familyId": "wv_conv_nonviolent_felony-set",
+          "directory": "data/rcap-all50/overlays/census-v1/wv/wv-conv-nonviolent-felony-set--official-pdf-fill",
+          "pdfs": [
+            {
+              "path": "data/rcap-all50/overlays/census-v1/wv/wv-conv-nonviolent-felony-set--official-pdf-fill/fixtures/canonical.pdf",
+              "expectedSha256": "c3c5edd72b617541bbceaa7ac1c791b0d2f251dde9365a1c8a1c16995dd5edd9",
+              "expectedByteLength": 353021,
+              "actualSha256": "c3c5edd72b617541bbceaa7ac1c791b0d2f251dde9365a1c8a1c16995dd5edd9",
+              "actualByteLength": 353021,
+              "match": true
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/wv/wv-conv-nonviolent-felony-set--official-pdf-fill/fixtures/boundary.pdf",
+              "expectedSha256": "0eb1fbdd0c559bde89cd3d4e595044bb7d17b949d53e9ee8f2a64e1fc5647573",
+              "expectedByteLength": 353085,
+              "actualSha256": "0eb1fbdd0c559bde89cd3d4e595044bb7d17b949d53e9ee8f2a64e1fc5647573",
+              "actualByteLength": 353085,
+              "match": true
+            }
+          ],
+          "pdfsMatchCurrentRenderedArtifacts": true,
+          "independentVerdict": {
+            "path": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260910c-wv.json",
+            "sha256": "327fe0e374c151dc9f1178675de25eaf7ceb22f4a13fc443876a177f248093ca",
+            "byteLength": 42588,
+            "verifiedAtBase": "03093a9234911fe252c05284a9478c00f5995ae8",
+            "queueVerdict": "PASS_COMPLETE_INDEPENDENT",
+            "matchingRows": [
+              {
+                "index": 0,
+                "itemId": "wv_conv_nonviolent_felony-set",
+                "familyId": null,
+                "verdict": "PASS_COMPLETE_INDEPENDENT"
+              }
+            ],
+            "passRows": [
+              0
+            ],
+            "cleanInCurrentWorktree": true
+          },
+          "raster": {
+            "currentRasterState": "RASTER_PASS",
+            "receiptVerdict": "RASTER_PASS",
+            "workflowRunId": "34418960259",
+            "jobId": "102690667448",
+            "renderedCommitSha": "deead9f250e606887d80837a2f4cb7423d7afa49",
+            "boundToCanonicalSha256": "c3c5edd72b617541bbceaa7ac1c791b0d2f251dde9365a1c8a1c16995dd5edd9",
+            "boundToBoundarySha256": "0eb1fbdd0c559bde89cd3d4e595044bb7d17b949d53e9ee8f2a64e1fc5647573",
+            "documentsDigest": "88cdd811bef6270afab98b1e0499c41dcd88c65335b208342853f3567241d200",
+            "pagesMeasured": 8,
+            "documentsCovered": [
+              "canonical.pdf",
+              "boundary.pdf"
+            ],
+            "documentsNotCovered": [],
+            "coversTheWholeFamily": true,
+            "receiptArtifact": {
+              "id": "10130316935",
+              "name": "rcap-raster-wv_conv_nonviolent_felony-set-34418960259",
+              "zipSha256": "sha256:c76cec1bce889a7901dfa4c87e5ee7d95f82b8c0c9e303fff3c3f1dea8196305"
+            },
+            "verdictPath": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/wv_conv_nonviolent_felony-set/wv_conv_nonviolent_felony-set.verdict.json",
+            "localAdmissionFiles": [
+              {
+                "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/wv_conv_nonviolent_felony-set/admission-proof.json",
+                "sha256": "af6f229bea313f70ec9e04dcdd321b7f1a2090863ef2d0c0c69b560256e20c2f",
+                "byteLength": 9466
+              },
+              {
+                "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/wv_conv_nonviolent_felony-set/wv_conv_nonviolent_felony-set.verdict.json",
+                "sha256": "7398698e0439ed22b7fe2cf0608031de4c9b8061f10f5c69b908002429ad42c3",
+                "byteLength": 9488
+              }
+            ],
+            "localAdmissionFilesCleanInCurrentWorktree": true,
+            "bindingMatchesCurrentPdfs": true,
+            "rasterPreservedForThisApply": true
+          }
+        }
+      ]
+    },
+    "scopedWorktreeCheck": {
+      "pathsChecked": 55,
+      "gitDiffAgainstReviewHead": "",
+      "gitStatus": "",
+      "clean": true
+    }
+  },
+  "independenceAndLimits": {
+    "readOnlyReview": true,
+    "queueWritten": false,
+    "buildsOrRastersRun": false,
+    "sourceReceiptsMutatedByThisReview": false,
+    "oneRefusedOutOfScopeProfileApproved": false,
+    "remoteHostedRasterCustodyNote": "Where no durable admitted directory is present, the current RASTER_QUEUE receipt retains its workflow/job/artifact identity and exact PDF bindings. A missing historical /tmp archive is not treated as a new apply mutation or silently re-created.",
+    "grantsNothing": "This review validates source-identity preservation only. It renews no legal decision, semantic PASS, raster PASS, terminal count, route, or production approval."
+  },
+  "conclusion": "PASS: all eleven native packet-manifest comparisons recovered the recorded old pin and matched every scoped anchor; each source-receipt delta is limited to the shared-manifest pin/length and its source-bound identityRefresh block. Current PDFs match their rendered-artifact records, original independent PASS return files and durable raster admission files are clean in the review worktree, and current raster rows remain hash-bound. The refused WV compiled-profile item remains explicitly outside scope and unapproved."
+}

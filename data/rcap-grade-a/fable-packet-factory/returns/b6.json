@@ -1,0 +1,151 @@
+{
+  "schemaVersion": "fable-packet-factory-return/v1",
+  "agent": "FABLE-B6",
+  "lane": "PF02",
+  "branch": "fable/b6",
+  "date": "2026-09-01",
+  "assignment": "nine Georgia custom_pleading families to state_built",
+  "architecture": {
+    "sharedHost": "scripts/build-census-v1-ga-host.mjs",
+    "hostCommit": "d493c813f",
+    "pattern": "one shared GA host, nine per-family stub scripts importing runGaFamily(), the way the east host serves NJ/NY/PA",
+    "why": "all nine families share the state review's PART 3 custom-pleading specification: existing-criminal-case caption (State of Georgia v. Defendant, never IN RE, never Civil Action No.), OTN wherever known, no default to Superior Court, signature block with Defendant Pro Se, proposed order that names GCIC + OTN + arrest date, certificate of service naming DA-or-Solicitor-General and clerk, local-form warning, and the terminology discipline (restrict/seal, never removal vocabulary, the 35-3-37(u) qualification stated)."
+  },
+  "sourceBinding": {
+    "boundOfficialForms": 0,
+    "queueBoundSources": "empty for all nine rows (officialFormFamily NONE, forms [], sourceStatus CUSTOM_PLEADING_FROM_CODIFIED_TEXT)",
+    "codifiedTextSource": {
+      "documentId": "GA-LEGAL-REVIEW-2026-07-30",
+      "pathInArchive": "STATES/GA/01_LEGAL_REVIEW/GA__LEGAL-REVIEW__STATEWIDE__georgia-record-clearing-legal-review__ASOF-2026-07-30__EN.md",
+      "sha256": "85e22768a4cfc27dd0633791fe6ed8a020682c39899144239bbcb95727d6fd22",
+      "verification": "hashed on every build, cross-checked against the archive's own STATE_MANIFEST.csv recorded SHA-256, 24 printed-statement face anchors asserted present before composing; drift or a missing anchor is a build STOP"
+    },
+    "committedRecords": {
+      "gaMemo": "data/record-clearing/legal-design-intake/GA.memo.json sha256 44e596a27f9aa2bc053968f6d469ae3c69ba492629af848d335b757842f42183",
+      "packetSetManifests": "data/record-clearing/legal-design-packet-set-manifests.json sha256 80d88d69dc5710b9a763abb31c6864069f9bb6d74b942c5e5849925144693ffa",
+      "assertions": "track exists, outputStrategy custom_pleading, manifest component roles and attachment counts match the rendered component set - asserted per family before composing"
+    },
+    "unresolvableNamedHashes": {
+      "families": ["ga-fo-active-pre2026-set", "ga-fo-discharged-pre2026-set"],
+      "sourceIds": [
+        "source-sha256:05e8621c5addcf06a7e2c52e909035c54ce55a3df5e8894bef06973a98ad8be5",
+        "source-sha256:91ff699f809ee9c78e9c0fe1e99a392624b01e0173f4754bf80a8bd3410cdec8"
+      ],
+      "finding": "recorded by source-custody-reconciliation as named_content_hash_not_in_corpus / SOURCE_GENUINELY_MISSING; every file in the mounted Master Library was hashed and neither matched - no bytes exist in this container. Stated in each family's source-receipt.json and build-findings.json, never guessed. The MASTER_QUEUE marks both families ready on the codified text alone (boundCount 0, ready true), which is what the build used."
+    }
+  },
+  "families": {
+    "ga-misd-j4-set": {
+      "claimResult": "CLAIM_OK PF02 (grant set d6e21c15ec2a5046), RELEASED after commit",
+      "sourcesVerified": ["GA-LEGAL-REVIEW-2026-07-30 sha 85e22768 exact + face-read", "GA.memo.json track ga-misd-j4", "packet-set manifest ga-misd-j4-set (7 components)"],
+      "writtenVsCarried": { "writes": 11, "blanks": 24, "requiredBeforeFiling": 15 },
+      "nineCounters": "all zero (builder count and independent verify-packet-completeness PASS_COMPLETE, 11/35 written)",
+      "rebuildByteIdentical": true,
+      "status": "state_built",
+      "commit": "b857aa080",
+      "fixtures": { "canonical": "b0bdee422f27e0071aa80c690e0cca34c2db05011401408d891e1be2dbc45890", "boundary": "682fb675da02adc43528a0d6d841bd7c3a428287b36e940788558589586a5470" }
+    },
+    "ga-seal-m-set": {
+      "claimResult": "CLAIM_OK PF02, RELEASED after commit",
+      "sourcesVerified": ["GA-LEGAL-REVIEW-2026-07-30 sha 85e22768 exact + face-read", "GA.memo.json track ga-seal-m", "packet-set manifest ga-seal-m-set (6 components)"],
+      "writtenVsCarried": { "writes": 10, "blanks": 23, "requiredBeforeFiling": 14 },
+      "nineCounters": "all zero (independent PASS_COMPLETE, 10/33 written)",
+      "rebuildByteIdentical": true,
+      "status": "state_built",
+      "commit": "17b352e99",
+      "fixtures": { "canonical": "9b57311c3b69ac540a711dd174de9bec6d5b1b1fd7870dde4cbb592e2edf4796", "boundary": "09abd2c2eacdc14fe2840688202ccf62d8506dd19f801e926cb2614c5b420182" },
+      "note": "serves both dispatched route keys (pardoned-felony and SB-288 pathways); prior restriction is the gate, criminal-history-showing-restriction is a required exhibit"
+    },
+    "ga-pardon-j7-set": {
+      "claimResult": "CLAIM_OK PF02, RELEASED after commit",
+      "sourcesVerified": ["GA-LEGAL-REVIEW-2026-07-30 sha 85e22768 exact + face-read", "GA.memo.json track ga-pardon-j7", "packet-set manifest ga-pardon-j7-set (6 components)"],
+      "writtenVsCarried": { "writes": 10, "blanks": 23, "requiredBeforeFiling": 14 },
+      "nineCounters": "all zero (independent PASS_COMPLETE, 10/33 written)",
+      "rebuildByteIdentical": true,
+      "status": "state_built",
+      "commit": "127c4d3ca"
+    },
+    "ga-felony-j1-set": {
+      "claimResult": "CLAIM_OK PF02, RELEASED after commit",
+      "sourcesVerified": ["GA-LEGAL-REVIEW-2026-07-30 sha 85e22768 exact + face-read", "GA.memo.json track ga-felony-j1", "packet-set manifest ga-felony-j1-set (5 components)"],
+      "writtenVsCarried": { "writes": 9, "blanks": 26, "requiredBeforeFiling": 17 },
+      "nineCounters": "all zero (independent PASS_COMPLETE, 9/35 written)",
+      "rebuildByteIdentical": true,
+      "status": "state_built",
+      "commit": "6900b0ec3",
+      "note": "lesser-included conclusion pleaded as the participant's own assertion, attorney review recommended on the face; four-year period stated as a filing deadline from arrest everywhere; notice to arresting agency AND prosecutor; order restricts the felony charge only"
+    },
+    "ga-deaddocket-j3-set": {
+      "claimResult": "CLAIM_OK PF02, RELEASED after commit",
+      "sourcesVerified": ["GA-LEGAL-REVIEW-2026-07-30 sha 85e22768 exact + face-read", "GA.memo.json track ga-deaddocket-j3", "packet-set manifest ga-deaddocket-j3-set (4 components)"],
+      "writtenVsCarried": { "writes": 8, "blanks": 24, "requiredBeforeFiling": 15 },
+      "nineCounters": "all zero (independent PASS_COMPLETE, 8/32 written)",
+      "rebuildByteIdentical": true,
+      "status": "state_built",
+      "commit": "ef888c666",
+      "note": "memo-internal discrepancy recorded in build-findings: component note says 'final disposition' but a dead-docketed case has none; Exhibit A attaches the dead docket entry per the track's own supporting-documents list. Active-warrant absolute bar pleaded and asked before filing; dead-docket-is-not-a-dismissal stated three places."
+    },
+    "ga-vacated-j2-set": {
+      "claimResult": "CLAIM_OK PF02, RELEASED after commit",
+      "sourcesVerified": ["GA-LEGAL-REVIEW-2026-07-30 sha 85e22768 exact + face-read", "GA.memo.json track ga-vacated-j2", "packet-set manifest ga-vacated-j2-set (5 components)"],
+      "writtenVsCarried": { "writes": 9, "blanks": 25, "requiredBeforeFiling": 16 },
+      "nineCounters": "all zero (independent PASS_COMPLETE, 9/34 written)",
+      "rebuildByteIdentical": true,
+      "status": "state_built",
+      "commit": "7d041435a",
+      "note": "review said process_guidance, adopted record reclassified to custom_pleading; recorded as a finding and counsel question. Petition pleads objective procedural history only, argues nothing."
+    },
+    "ga-fugitive-j5-set": {
+      "claimResult": "CLAIM_OK PF02, RELEASED after commit",
+      "sourcesVerified": ["GA-LEGAL-REVIEW-2026-07-30 sha 85e22768 exact + face-read", "GA.memo.json track ga-fugitive-j5", "packet-set manifest ga-fugitive-j5-set (4 components)"],
+      "writtenVsCarried": { "writes": 8, "blanks": 24, "requiredBeforeFiling": 15 },
+      "nineCounters": "all zero (independent PASS_COMPLETE, 8/32 written)",
+      "rebuildByteIdentical": true,
+      "status": "state_built",
+      "commit": "4f9e18268",
+      "note": "only family with a fixed caption court (statute names the Superior Court of the county of arrest); Georgia-records-only warning carried; exhibit discrepancy (final disposition vs criminal history report) recorded like deaddocket's"
+    },
+    "ga-fo-active-pre2026-set": {
+      "claimResult": "CLAIM_OK PF02, RELEASED after commit",
+      "sourcesVerified": ["GA-LEGAL-REVIEW-2026-07-30 sha 85e22768 exact + face-read", "GA.memo.json track ga-fo-active-pre2026", "packet-set manifest ga-fo-active-pre2026-set (4 components)", "two named content hashes verified ABSENT from the container and stated, not guessed"],
+      "writtenVsCarried": { "writes": 8, "blanks": 22, "requiredBeforeFiling": 13 },
+      "nineCounters": "all zero (independent PASS_COMPLETE, 8/30 written)",
+      "rebuildByteIdentical": true,
+      "status": "state_built",
+      "commit": "05535a612",
+      "note": "Act 403 struck the preponderance findings: no narrative pleaded or prompted; mandatory 90-day order / 60-day clerk seal / 30-day agency compliance stated as the record states them; notice-not-consent stated; enrolled-Act verification and the 62.1/62.2 crosswalk travel to counsel review"
+    },
+    "ga-fo-discharged-pre2026-set": {
+      "claimResult": "CLAIM_OK PF02, RELEASED after commit",
+      "sourcesVerified": ["GA-LEGAL-REVIEW-2026-07-30 sha 85e22768 exact + face-read", "GA.memo.json track ga-fo-discharged-pre2026", "packet-set manifest ga-fo-discharged-pre2026-set (4 components)", "two named content hashes verified ABSENT from the container and stated, not guessed"],
+      "writtenVsCarried": { "writes": 8, "blanks": 24, "requiredBeforeFiling": 15 },
+      "nineCounters": "all zero (independent PASS_COMPLETE, 8/32 written)",
+      "rebuildByteIdentical": true,
+      "status": "state_built",
+      "commit": "e2e980060",
+      "note": "discharge-mode blank reaches the discharged-as-a-matter-of-law population (a discharge frequently was never entered); stop where the participant is unsure whether discharged at all"
+    }
+  },
+  "sharedDiscipline": {
+    "protectedFieldsNeverWritten": "no signature, signature date, judge, clerk, hearing-date or SO-ORDERED field is written on any family; judge blocks declared court_prosecutor_clerk_or_agency_owned, signatures declared signature_or_date_participant_completion",
+    "terminologyEnforcedOverBytes": "every rendered page asserted free of expunge/erased/destroyed/deleted/'record does not exist' on every build; instructions state the 35-3-37(u) disqualification qualification and the no-denial rule in terms",
+    "feesDelegated": "fee, fee waiver and e-filing for a filing in an existing Georgia criminal case are unresolved and county-specific (release blocker in the review); no figure quoted anywhere; delegated to the clerk of the named court by name; carried to counsel review on all nine",
+    "referralDesks": "the four Judicial Council A2J desks (Georgia Justice Project, Cobb County Second Chance Desk, Henry County Records Restriction Desk, Middle Georgia Justice 'The Desk') wired into every family's stop-and-get-help section",
+    "raster": "built with --no-raster (BUILT_RASTER_PENDING) per the proven VA custom_pleading pattern; central raster workflow picks the fixtures up from rendered-artifacts.json (v1 pdfs shape, fixture+documentId+sha256)"
+  },
+  "commits": [
+    "d493c813f scripts/build-census-v1-ga-host.mjs (shared host)",
+    "b857aa080 ga-misd-j4-set",
+    "17b352e99 ga-seal-m-set",
+    "127c4d3ca ga-pardon-j7-set",
+    "6900b0ec3 ga-felony-j1-set",
+    "ef888c666 ga-deaddocket-j3-set",
+    "7d041435a ga-vacated-j2-set",
+    "4f9e18268 ga-fugitive-j5-set",
+    "05535a612 ga-fo-active-pre2026-set",
+    "e2e980060 ga-fo-discharged-pre2026-set"
+  ],
+  "stops": [],
+  "commercialRoutesOpened": 0,
+  "queuesTouched": "claim-ledger.json only, and only through claim.mjs --assert/--release"
+}

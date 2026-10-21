@@ -1,0 +1,122 @@
+{
+  "schemaVersion": "rcap-independent-diagnostic-applicability-review/v1",
+  "familyId": "nc_auto_146_a4_agency_followup-set",
+  "reviewer": "/root/resolver_review",
+  "sessionIdentity": "/root/resolver_review:vfnc3-protected-baseline-20260913",
+  "generatedAt": "2026-09-13T18:19:47.851121+00:00",
+  "actualHeadAtReview": "c643f0dc05d5af78633eeb4059d50835f7010b06",
+  "verdict": "PASS_SCOPED_BASELINE_APPLICABILITY",
+  "isIndependentVerification": true,
+  "source": {
+    "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS1-SRC4__AOC-G-260__cf998cecefea.pdf",
+    "sha256": "cf998cecefea090e4b3fce260b330b6f3896d66ae65ab9f9e7a698e6586a1817",
+    "byteLength": 290429
+  },
+  "currentBoundaryPacket": {
+    "path": "data/rcap-all50/overlays/census-v1/nc/nc-auto-146-a4-agency-followup-set--custom-pleading/fixtures/boundary.pdf",
+    "sha256": "17f0bc40514810c63de1884aeccc481977996f4be220e250dda3ad571ffd2a84",
+    "byteLength": 299316
+  },
+  "currentFieldClassifications": {
+    "path": "data/rcap-all50/overlays/census-v1/nc/nc-auto-146-a4-agency-followup-set--custom-pleading/reports/field-classifications.json",
+    "sha256": "dc27bcb46b83884d261e52424e46f62e55e8bf22b596f37567a715cc03137b24",
+    "byteLength": 73992
+  },
+  "baselineProof": {
+    "path": "private/transfers/pf05-nc-off-baseline-20260913/BASELINE_APPLICABILITY.json",
+    "sha256": "e55d08ae962601b2332fa9f8bca4fee40ddb088e0b000662a8eeec1c7c010701",
+    "byteLength": 110926
+  },
+  "diagnosticCode": [
+    {
+      "path": "private/transfers/pf05-nc-off-baseline-20260913/nc-off-baseline.mjs",
+      "sha256": "11fca5cb9519e173a5bceb147b368e38018687ea0e08cf6aadc6551ae884c61f",
+      "byteLength": 8104
+    },
+    {
+      "path": "private/transfers/pf05-nc-off-baseline-20260913/nc-off-conditions.mjs",
+      "sha256": "489a26133c284d7a265ea8221c84066d8e069f7c5cf3c01d4a2ee503698080b8",
+      "byteLength": 3731
+    }
+  ],
+  "rawDiagnostic": {
+    "path": "private/transfers/pf05-nc-protected-ink-20260913/PROTECTED_INK_COMPARISON.json",
+    "sha256": "32cac7983a1c65533ee7acad2caacbebb770fc0e79a0a2ff8dcf03df39a47f7b",
+    "byteLength": 45369
+  },
+  "rawPairedCropsDirectlyViewed": [
+    {
+      "path": "private/transfers/pf05-nc-protected-ink-20260913/page1-source-difference-region.png",
+      "sha256": "b09767c854c16cbc6f5857be6abf6a71b9907a119449a536fd7284f92401db52",
+      "byteLength": 284410
+    },
+    {
+      "path": "private/transfers/pf05-nc-protected-ink-20260913/page1-delivered-difference-region.png",
+      "sha256": "6f137833aa227c992e74c1e62e5491e8d488babce5b321fd206e7e919a1767f6",
+      "byteLength": 284780
+    },
+    {
+      "path": "private/transfers/pf05-nc-protected-ink-20260913/page2-source-difference-region.png",
+      "sha256": "a75fe57d32c742c23b9c791a997a483444d0e8d543416fa91545a7bfa76dda87",
+      "byteLength": 271163
+    },
+    {
+      "path": "private/transfers/pf05-nc-protected-ink-20260913/page2-delivered-difference-region.png",
+      "sha256": "d5ea67ca3af21d40dcda6c7e4df1482ed687f318eeb52ca54039e585a9c4625a",
+      "byteLength": 271514
+    }
+  ],
+  "ownerDecision": {
+    "binding": {
+      "path": "data/rcap-grade-a/legal-decisions/OWNER_DETERMINATIONS_2026-09-02.json",
+      "sha256": "16b95e3d4881db3e21420765b83543d26038583484c2fa6c642bcf094d4d6ca7",
+      "byteLength": 11095
+    },
+    "id": "RI-OFF-APPEARANCE",
+    "application": "Narrow unchanged blank-appearance structure principle, with no family/field whitelist and no actual-state or added-mark exemption."
+  },
+  "independentChecks": [
+    "Read both diagnostic programs against exact current NC source-load/text-write/updateFieldAppearances/flatten implementation; no EAST sanitizer imported into the NC baseline.",
+    "Verified report source and packet SHA256 against current bytes and raw diagnostic.",
+    "Verified exact coverage of81 distinct unwritten fields against91 current source rows;10authorized written fields excluded, every reported rectangle matches.",
+    "Verified all81six-condition rows report no participant writes, absent/Off value and appearance states, no beyond-baseline paths/text and exact nonempty region hash equality.",
+    "Verified all3fullpage comparisons report zero changed pixels outside exactly10write rectangles with no extra masks; field-region checks use an additional1pixel guard, not expanded exemptions.",
+    "Read both native negative-control results and code: participant-added line and NoRecord selected state fail the unchanged exported gate for paths beyond baseline.",
+    "Directly viewed both raw source/delivered paired region crops; observed empty-box outlines with altered border realization, not selected checkmarks."
+  ],
+  "rawFindingPreserved": {
+    "addedBlackPixelsOutsideWrites": 2242,
+    "lostBlackPixels": 0,
+    "unwrittenWidgetsWithRawPixelDifferences": 15,
+    "totalUnwrittenWidgets": 81,
+    "sourcePage3RawExact": true
+  },
+  "assessment": "The exact NC zero-write baseline explains the observed empty-border rendering differences on these exact bytes. Complete outside-write pixel equality accounts for raw differences at widget edges as well as inside widgets. This supports no participant-added protected ink for the delivered G260 component; it does not erase raw source differences or independently establish final whole-packet readability.",
+  "measurementAttribution": {
+    "workerPerformedRasterComparisons": true,
+    "independentReviewerRecheckedProofAndCodeWithoutRerender": true,
+    "preFlattenStates": "Deterministic reconstruction from exact source and actual10writes, NOT retained production preflatten bytes. Final artifact is independently tied by exact outside-write pixel comparison; no historical-state custody claim.",
+    "nativeExcusedArray": "Empty; native vector walks report no extra operators. Six conditions are separately reported measurements, not emitted native-exemption entries.",
+    "actualMarkControls": "Both recorded native negative controls refuse; zero-difference assertion never excuses a mark beyond the baseline."
+  },
+  "scopeLimits": [
+    "Only boundary packet sourcepages1..3/packetpages3..5 and exactcf998source/17f0bcpacket bytes.",
+    "No global tolerance, new mask, path ignore, source replacement or acceptance-gate waiver.",
+    "Original run34773855638 page custody and all9page independent final reading still required."
+  ],
+  "grantsCentralRasterOrFinalAcceptance": false,
+  "grantsCommercialAuthority": false,
+  "outputState": "PRIVATE_STAGED_FOR_CAPTAIN_IMPORT",
+  "supplementalExecutionProvenance": {
+    "reportedBy": "/root/ia_reader_review worker read-only followup",
+    "workerHelperSHA256MatchingCurrentCaptain": {
+      "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs": "3860353559d1031c22e3ffd4e26a65ae384051ef5b71dd17b368feccaacb8098",
+      "scripts/rcap-official-forms/pdf-flattened-widgets.mjs": "b1b563da2af49fa32de5348fefbda3808dc8d89de44ffab2339fa8244ffc7af4",
+      "scripts/rcap-official-forms/printed-source-ink-survival.mjs": "15c5daad567fb331de93aa7d8a97526d0b53c2d5153a2effaa4ee07935b42157"
+    },
+    "pdfLibVersion": "1.17.1",
+    "baselineAndDeliveredComponentPdfinfoGeometry": "612x792 points both",
+    "baselineRasterDimensions": "Not persisted by baseline diagnostic;2550x3300 inferred from page size and300dpi, not asserted as a new measured fact. Strict raw diagnostic recorded2550x3300.",
+    "nativeFocusedGate": "Not invoked on positive path because zero added vector paths; separate explicit fullpage and81region pixel comparisons provide measured coverage."
+  }
+}

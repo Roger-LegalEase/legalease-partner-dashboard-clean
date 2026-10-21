@@ -1,0 +1,233 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-return/v1",
+  "lane": "PF01",
+  "generatedBy": "the PF-A packet-build cohort, in one worktree, running lanes PF01, PF02 and PF03",
+  "environment": {
+    "container": "a local git worktree, not Codex Cloud: origin is present, the checkout is complete and the return is a set of commits on the worktree branch",
+    "masterLibraryMounted": true,
+    "custodiesTheCommittedIndexDeclares": [
+      "master_library",
+      "human_source_returns",
+      "d_source_packs",
+      "nationwide_recovery_pool_2026_09_02"
+    ],
+    "custodiesMountedHere": [
+      "master_library",
+      "human_source_returns"
+    ],
+    "whyThatMatters": "Two of the four custodies the corpus index names are absent from this container, and every family this cohort stopped for source reasons names its missing binary in one of them. Where the same digest is recorded in the mounted Master Library as well, the build binds it there and says so; where it is not, the family stops."
+  },
+  "preflight": {
+    "command": "node scripts/verify-packet-build-environment.mjs --family <id> --require-rasterizer",
+    "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 13/16 passed at the time of the first run",
+    "checksThatFailedAndWhy": [
+      "family_sources_bind — the check resolves a family's sources through the path the queue names, and those paths are in the unmounted custodies. Each built family re-establishes the same fact by binding the digest the assignment pins to the mounted Master Library copy and re-hashing the file on disk; each source receipt records the path actually read.",
+      "corpus_matches_committed_index — one sampled entry of 24, 'LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf', is recorded under custody master_library with a recovery-pool-shaped path that does not exist in the mounted library. That is an index-labelling defect on the dispatch base, not corpus corruption here, and it is the same defect that hides two North Carolina sources.",
+      "worktree_clean and private_is_git_ignored failed on the first run only, because private/ had been mounted as a symlink and git's 'private/' rule matches directories. Remounting private/ as a real directory of symlinked children cleared both."
+    ]
+  },
+  "whatThisReturnIsNot": "A verdict. This lane built these packets and does not verify its own work; independent verification belongs to a lane that did not build them. A built family is not approved, not sellable, and opens no commercial route.",
+  "rasterState": "Every rendered page of every built family was rastered locally through scripts/raster/pdf-page-raster.mjs against a Chromium the preflight resolved and executed. That is build-time raster evidence; it is not a RASTER_PASS, which the central acceptance workflow issues.",
+  "familiesAssigned": 4,
+  "rowsReturned": 4,
+  "familiesCompleted": [],
+  "familiesStopped": [
+    "ma-seal-admin-set",
+    "ma-seal-decrim-set",
+    "md_10110_conviction-set",
+    "md_pardon_expungement-set"
+  ],
+  "blockedSource": [
+    "ma-seal-admin-set",
+    "ma-seal-decrim-set",
+    "md_10110_conviction-set",
+    "md_pardon_expungement-set"
+  ],
+  "blockedLegalInput": [],
+  "overlayDirectoriesTouchedByAStoppedFamily": 0,
+  "packetsSelfVerified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "rows": [
+    {
+      "itemId": "ma-seal-admin-set",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_SOURCE",
+      "jurisdiction": "MA",
+      "routeKeys": [
+        "obligation:track-pathway:MA:ma-seal-admin:adult-conviction-sealing-under-m-g-l-c-276-100a",
+        "obligation:track-pathway:MA:ma-seal-admin:juvenile-record-sealing-under-100b"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/ma/ma-seal-admin-set--official-pdf-fill",
+      "overlayDirectoryExists": false,
+      "overlayDirectoryTouched": false,
+      "why": "The family's only source does not bind by exact SHA-256. The bytes are not held anywhere under private/ in this container: every file under that tree was hashed (501 files) and none matches this digest. The committed corpus index records the digest only in a custody this container does not mount. Nothing was rendered and the overlay directory was not created.",
+      "sourcesNamed": 1,
+      "sourcesThatBind": 0,
+      "sourcesThatDoNotBind": [
+        "official-form:Petition to Seal (Office of the Commissioner of Probation)"
+      ],
+      "sourceBinding": [
+        {
+          "sourceId": "official-form:Petition to Seal (Office of the Commissioner of Probation)",
+          "sha256": "416f9a1d1a7ade6e71ffe3964a30c2d247bd1aca3982f4ff8e55550a730506ce",
+          "pathTheAssignmentNames": "LegalEase massachusetts/fillable-jud-mps-Petition-to-Seal.pdf",
+          "custodiesTheCommittedIndexRecordsItIn": [
+            "nationwide_recovery_pool_2026_09_02"
+          ],
+          "aCustodyMountedHere": false,
+          "bytesFoundUnderPrivate": null,
+          "bindsByExactSha256": false
+        }
+      ],
+      "counters": null,
+      "allNineCountersZero": null
+    },
+    {
+      "itemId": "ma-seal-decrim-set",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_SOURCE",
+      "jurisdiction": "MA",
+      "routeKeys": [
+        "obligation:track-only:MA:ma-seal-decrim"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/ma/ma-seal-decrim-set--official-pdf-fill",
+      "overlayDirectoryExists": false,
+      "overlayDirectoryTouched": false,
+      "why": "The family's only source — the same Petition to Seal parent PDF as ma-seal-admin-set — does not bind by exact SHA-256. The bytes are not held anywhere under private/ in this container: every file under that tree was hashed (501 files) and none matches this digest. The committed corpus index records the digest only in a custody this container does not mount. Nothing was rendered and the overlay directory was not created.",
+      "sourcesNamed": 1,
+      "sourcesThatBind": 0,
+      "sourcesThatDoNotBind": [
+        "official-form:Petition to Seal (Office of the Commissioner of Probation)"
+      ],
+      "sourceBinding": [
+        {
+          "sourceId": "official-form:Petition to Seal (Office of the Commissioner of Probation)",
+          "sha256": "416f9a1d1a7ade6e71ffe3964a30c2d247bd1aca3982f4ff8e55550a730506ce",
+          "pathTheAssignmentNames": "LegalEase massachusetts/fillable-jud-mps-Petition-to-Seal.pdf",
+          "custodiesTheCommittedIndexRecordsItIn": [
+            "nationwide_recovery_pool_2026_09_02"
+          ],
+          "aCustodyMountedHere": false,
+          "bytesFoundUnderPrivate": null,
+          "bindsByExactSha256": false
+        }
+      ],
+      "counters": null,
+      "allNineCountersZero": null
+    },
+    {
+      "itemId": "md_10110_conviction-set",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_SOURCE",
+      "jurisdiction": "MD",
+      "routeKeys": [
+        "obligation:track-pathway:MD:md_10110_conviction:eligible-conviction-expungement-under-crim-proc-10-110"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill",
+      "overlayDirectoryExists": false,
+      "overlayDirectoryTouched": false,
+      "why": "CC-DC-089 binds from the Master Library, but the primary filing CC-DC-CR-072B does not. The bytes are not held anywhere under private/ in this container: every file under that tree was hashed (501 files) and none matches this digest. The committed corpus index records the digest only in a custody this container does not mount. A packet rendered from the fee-waiver form alone would be missing the instrument the route is for, so nothing was rendered and the overlay directory was not created.",
+      "sourcesNamed": 2,
+      "sourcesThatBind": 1,
+      "sourcesThatDoNotBind": [
+        "official-form:CC-DC-CR-072B"
+      ],
+      "sourceBinding": [
+        {
+          "sourceId": "official-form:CC-DC-089",
+          "sha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
+          "pathTheAssignmentNames": "STATES/MD/02_PACKET_FORMS/MD__FORM__CC-DC-089__request-for-waiver-of-prepaid-costs__REV-2025-11__EN.pdf",
+          "custodiesTheCommittedIndexRecordsItIn": [
+            "master_library",
+            "nationwide_recovery_pool_2026_09_02"
+          ],
+          "aCustodyMountedHere": true,
+          "bytesFoundUnderPrivate": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MD/02_PACKET_FORMS/MD__FORM__CC-DC-089__request-for-waiver-of-prepaid-costs__REV-2025-11__EN.pdf",
+          "bindsByExactSha256": true
+        },
+        {
+          "sourceId": "official-form:CC-DC-CR-072B",
+          "sha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469",
+          "pathTheAssignmentNames": "LegalEase Maryland/LegalEase Maryland forms /ccdccr072B.pdf",
+          "custodiesTheCommittedIndexRecordsItIn": [
+            "nationwide_recovery_pool_2026_09_02"
+          ],
+          "aCustodyMountedHere": false,
+          "bytesFoundUnderPrivate": null,
+          "bindsByExactSha256": false
+        }
+      ],
+      "correctsAnEarlierReturn": {
+        "theEarlierReturnSaid": "STOPPED — COMPLETENESS_COUNTER_NOT_ZERO: \"The dispatched family-specific builder is absent at authoritative base a293c0a93685a1b45be5e55200e8cf2dcc96391e and the target overlay is empty.\"",
+        "inFile": "data/rcap-grade-a/packet-factory-24h/pf03/rows.json",
+        "whatThisReturnFound": "A different obstacle, in a different container. Here the builder could have been written — the Colorado pair in this same return is the pattern — and the source is what is missing: CC-DC-CR-072B does not bind by exact SHA-256 anywhere under private/. Between the two returns, neither container has held both the builder and the bytes at once."
+      },
+      "counters": null,
+      "allNineCountersZero": null
+    },
+    {
+      "itemId": "md_pardon_expungement-set",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_SOURCE",
+      "jurisdiction": "MD",
+      "routeKeys": [
+        "obligation:track-pathway:MD:md_pardon_expungement:pardoned-conviction-expungement-under-crim-proc-10-105-a-8"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/md/md-pardon-expungement-set--official-pdf-fill",
+      "overlayDirectoryExists": false,
+      "overlayDirectoryTouched": false,
+      "why": "CC-DC-089 binds from the Master Library, but the primary filing CC-DC-CR-072B does not. The bytes are not held anywhere under private/ in this container: every file under that tree was hashed (501 files) and none matches this digest. The committed corpus index records the digest only in a custody this container does not mount. Nothing was rendered and the overlay directory was not created.",
+      "sourcesNamed": 2,
+      "sourcesThatBind": 1,
+      "sourcesThatDoNotBind": [
+        "official-form:CC-DC-CR-072B"
+      ],
+      "sourceBinding": [
+        {
+          "sourceId": "official-form:CC-DC-089",
+          "sha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
+          "pathTheAssignmentNames": "STATES/MD/02_PACKET_FORMS/MD__FORM__CC-DC-089__request-for-waiver-of-prepaid-costs__REV-2025-11__EN.pdf",
+          "custodiesTheCommittedIndexRecordsItIn": [
+            "master_library",
+            "nationwide_recovery_pool_2026_09_02"
+          ],
+          "aCustodyMountedHere": true,
+          "bytesFoundUnderPrivate": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MD/02_PACKET_FORMS/MD__FORM__CC-DC-089__request-for-waiver-of-prepaid-costs__REV-2025-11__EN.pdf",
+          "bindsByExactSha256": true
+        },
+        {
+          "sourceId": "official-form:CC-DC-CR-072B",
+          "sha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469",
+          "pathTheAssignmentNames": "LegalEase Maryland/LegalEase Maryland forms /ccdccr072B.pdf",
+          "custodiesTheCommittedIndexRecordsItIn": [
+            "nationwide_recovery_pool_2026_09_02"
+          ],
+          "aCustodyMountedHere": false,
+          "bytesFoundUnderPrivate": null,
+          "bindsByExactSha256": false
+        }
+      ],
+      "correctsAnEarlierReturn": {
+        "theEarlierReturnSaid": "STOPPED — COMPLETENESS_COUNTER_NOT_ZERO: the dispatched family-specific builder absent at that base",
+        "inFile": "data/rcap-grade-a/packet-factory-24h/pf03/rows.json",
+        "whatThisReturnFound": "Same as md_10110_conviction-set: the shared primary filing CC-DC-CR-072B does not bind here."
+      },
+      "counters": null,
+      "allNineCountersZero": null
+    }
+  ],
+  "relationToTheReturnAlreadyInThisDirectory": {
+    "file": "data/rcap-grade-a/packet-factory-24h/pf01/rows.json",
+    "left": "untouched",
+    "itsAssignmentId": "PF01",
+    "itsBase": "b0a004484d9904a2a4db742a7890f4cdc5da1699",
+    "itsFamilies": 35,
+    "familiesBothReturnsCover": [],
+    "whereTheyDisagree": "This cohort's grants came from the live claim ledger, not from that return. Where both cover a family and the results differ, the difference is the container: the earlier return was written where the family's sources did not resolve, and every disagreement below is evidenced in this return's sourceBinding block, digest by digest."
+  }
+}

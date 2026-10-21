@@ -1,0 +1,268 @@
+{
+  "schemaVersion": "rcap-wv-loader-product-wiring-independent-review/v2",
+  "reviewType": "bounded-independent-review-of-repaired-WV-product-wiring-hook",
+  "reviewer": "/root/resume_vfar1",
+  "reviewedAt": "2026-09-13T08:10:49.017Z",
+  "verifiedAtBase": "fd5da8a40a5c695828f561ca89d8416a4006b66b",
+  "currentHead": "fd5da8a40a5c695828f561ca89d8416a4006b",
+  "verdict": "FAIL_REPAIR_REQUIRED",
+  "status": "COMPLETED_WITH_TEST_FIX_REQUIRED",
+  "scope": "Independent review of the repaired WV family-specific product-wiring generation hook, declared-delivery binder/test, materialized WV wiring, and its dependency bindings. No generator execution, packet/source/raster mutation, owner-row transition, or shared output edit was performed by this reviewer.",
+  "independence": {
+    "independentOfRepairAuthor": true,
+    "independentOfPacketImplementer": true,
+    "independentOfOwnerAdoptionAuthor": true,
+    "centralGeneratorEditedByReviewer": false,
+    "declaredDeliveryHelperEditedByReviewer": false,
+    "focusedTestEditedByReviewer": false,
+    "productWiringEditedByReviewer": false,
+    "sourceReceiptEditedByReviewer": false,
+    "sourcePdfEditedByReviewer": false,
+    "packetOrRasterBuiltByReviewer": false,
+    "queueOrOwnerRecordsEditedByReviewer": false,
+    "ownerCorrectionTransitionApplied": false,
+    "reviewOnlyWrite": "data/rcap-grade-a/packet-factory-24h/pf08/wv-loader-product-wiring-independent-review-final-20260913.json"
+  },
+  "implementationReview": {
+    "result": "PASS",
+    "centralGenerator": {
+      "path": "scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs",
+      "sha256": "bd1cad9fce688d92eec3541231361f53011195c3aff2ffd75f6511243a931acb",
+      "byteLength": 41885,
+      "finding": "The repair adds one import and one family-gated alignFamilyDeclaredDelivery branch for wv_nc_acquittal_dismissal-set. The hook is scoped to this family and supplies only the existing report and production field map to the binder."
+    },
+    "declaredDeliveryHelper": {
+      "path": "scripts/grade-a-packet-factory-24h/wv-nc-acquittal-dismissal-declared-delivery.mjs",
+      "sha256": "d2c9138199557d79110dc254c56d00c3cde1c6423568b1282b4b054e6fb26dda",
+      "byteLength": 5436,
+      "finding": "The binder requires the exact WV route, four declared components, two branch selections, four canonical/boundary artifact identities, and the three page-backed delivery components. It explicitly represents filing instructions as text-only and preserves both branch coverage."
+    },
+    "materializedWiring": {
+      "path": "data/rcap-all50/overlays/census-v1/wv/wv-nc-acquittal-dismissal-set--official-pdf-fill/product-wiring.json",
+      "sha256": "3d2857e389f251d08f01c2b9986ac3605a580255348b9046ed707aeecffa3ce9",
+      "byteLength": 4641,
+      "binderProjectionMatchesCurrentBytes": true,
+      "routeKeys": [
+        "obligation:track-pathway:WV:wv_nc_acquittal_dismissal:no-conviction-expungement-for-acquittal-dismissal-diversion-or-deferred-adjudication"
+      ],
+      "branchRoutes": {
+        "DISMISSED_STRAIGHT": "wv_nc_acquittal_dismissal-primary-filing-1",
+        "ACQUITTED_OR_FOUND_NOT_GUILTY": "wv_nc_acquittal_dismissal-acquittal-civil-petition-4"
+      },
+      "packetComponents": [
+        "component:wv_nc_acquittal_dismissal-certificate-of-service-2",
+        "component:wv_nc_acquittal_dismissal-primary-filing-1",
+        "component:wv_nc_acquittal_dismissal-acquittal-civil-petition-4"
+      ],
+      "declaredComponentSet": [
+        "component:wv_nc_acquittal_dismissal-primary-filing-1",
+        "component:wv_nc_acquittal_dismissal-certificate-of-service-2",
+        "component:wv_nc_acquittal_dismissal-filing-instructions-3",
+        "component:wv_nc_acquittal_dismissal-acquittal-civil-petition-4"
+      ],
+      "textOnlyInstructions": {
+        "component": "component:wv_nc_acquittal_dismissal-filing-instructions-3",
+        "representedBy": [
+          "binding.instructions",
+          "binding.instrumentKinds.filing_instructions",
+          "binding.packetComponentsScope.textOnlyRepresentation"
+        ],
+        "pageBacked": false
+      },
+      "componentConditions": {
+        "wv_nc_acquittal_dismissal-primary-filing-1": "Only actual outright dismissal supported by the certified record.",
+        "wv_nc_acquittal_dismissal-certificate-of-service-2": "Completed after actual service of the source motion.",
+        "wv_nc_acquittal_dismissal-filing-instructions-3": "Applies to both branch choices and their record/stop rules.",
+        "wv_nc_acquittal_dismissal-acquittal-civil-petition-4": "Only actual acquittal or found-not-guilty order supported by the certified record."
+      }
+    },
+    "noAuthorityReview": {
+      "topLevel": {
+        "generationAllowed": false,
+        "runtimeSelectable": false,
+        "independentReviewRequired": true,
+        "rasterReviewRequired": true,
+        "commercialRoutesOpened": 0,
+        "productionTouched": false
+      },
+      "binding": {
+        "acceptanceReceipt": null,
+        "paymentEligible": false,
+        "sponsorshipEligible": false
+      },
+      "ownerAdoption": {
+        "path": "data/rcap-grade-a/legal-decisions/WV_ACQUITTAL_DISMISSAL_OWNER_ADOPTION_2026-09-13.json",
+        "sha256": "3b8c097d46900756e43527a96fb57e52b07e08f26909820ce4912a6c67c02a63",
+        "byteLength": 8946,
+        "ownerAdoption": true,
+        "counselApproval": false,
+        "packetPass": false,
+        "rasterPass": false,
+        "terminalPromotion": false,
+        "commercialAuthority": false,
+        "productionAuthorization": false
+      },
+      "finding": "The repaired binding remains descriptive metadata and retains every fail-closed authority control."
+    }
+  },
+  "focusedTestReview": {
+    "path": "scripts/grade-a-packet-factory-24h/wv-nc-acquittal-dismissal-declared-delivery.test.mjs",
+    "sha256": "f1fcf705c6da52c646d1a96ce50d097e40143a15bb3f99836322e3ebfb091f12",
+    "byteLength": 5296,
+    "syntaxChecks": {
+      "command": "node --check scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs && node --check scripts/grade-a-packet-factory-24h/wv-nc-acquittal-dismissal-declared-delivery.mjs && node --check scripts/grade-a-packet-factory-24h/wv-nc-acquittal-dismissal-declared-delivery.test.mjs",
+      "result": "PASS"
+    },
+    "command": "node scripts/grade-a-packet-factory-24h/wv-nc-acquittal-dismissal-declared-delivery.test.mjs",
+    "result": "FAIL_REPAIR_REQUIRED",
+    "failure": {
+      "path": "scripts/grade-a-packet-factory-24h/wv-nc-acquittal-dismissal-declared-delivery.test.mjs",
+      "line": 80,
+      "assertion": "currentWiring.binding.packetComponents must equal only certificate-of-service-2 and primary-filing-1",
+      "actual": [
+        "component:wv_nc_acquittal_dismissal-certificate-of-service-2",
+        "component:wv_nc_acquittal_dismissal-primary-filing-1",
+        "component:wv_nc_acquittal_dismissal-acquittal-civil-petition-4"
+      ],
+      "expectedByTest": [
+        "component:wv_nc_acquittal_dismissal-certificate-of-service-2",
+        "component:wv_nc_acquittal_dismissal-primary-filing-1"
+      ],
+      "evidence": "The current materialized wiring already contains the repaired acquittal component. The test was written against the pre-repair stale input and now fails before its remaining protected-file assertions."
+    },
+    "requiredTestCorrection": "Keep the repaired three-component current wiring. To test non-mutation, create an explicit stale cloned fixture with the old two-component binding, pass that clone to the binder, and assert the actual current wiring remains the repaired three-component value. Do not remove the acquittal component from the expected binding."
+  },
+  "dependencyBindings": {
+    "sourceReceipt": {
+      "path": "data/rcap-all50/overlays/census-v1/wv/wv-nc-acquittal-dismissal-set--official-pdf-fill/source-receipt.json",
+      "sha256": "91bd83f6ebdcb8b91ad5ce40f1526e52f7b1449ce2480142d73c0e70642893cf",
+      "byteLength": 4933,
+      "selectedSourceId": "official-form:SCA-C903",
+      "selectedSha256": "bbfcd767b02230300e2164a40cc2d81967c87fb9b7ddf4f0677622e1319fe878",
+      "selectedByteLength": 23275,
+      "custody": "master_library",
+      "historicalComparisonOnlySha256": "242048f1ff5b2e795ca43900bec6d9c353c59950bffd3c7776374ff1cc6c7035"
+    },
+    "productionFieldMap": {
+      "path": "data/rcap-all50/overlays/census-v1/wv/wv-nc-acquittal-dismissal-set--official-pdf-fill/production-field-map.json",
+      "sha256": "259e74988d3f3be1b36692d41e9cb6c213ec7ff86a27d0932706dd6751c9d6eb",
+      "byteLength": 218124,
+      "componentSet": [
+        "wv_nc_acquittal_dismissal-primary-filing-1",
+        "wv_nc_acquittal_dismissal-certificate-of-service-2",
+        "wv_nc_acquittal_dismissal-filing-instructions-3",
+        "wv_nc_acquittal_dismissal-acquittal-civil-petition-4"
+      ],
+      "branchSet": [
+        "DISMISSED_STRAIGHT",
+        "ACQUITTED_OR_FOUND_NOT_GUILTY"
+      ]
+    },
+    "participantInstructions": {
+      "path": "data/rcap-all50/overlays/census-v1/wv/wv-nc-acquittal-dismissal-set--official-pdf-fill/participant-instructions.md",
+      "sha256": "3a29a2624f554170d7005f3622876658f5944207bd93fe620173f2bdd8b6a9c1",
+      "byteLength": 13055,
+      "finding": "Instructions retain exclusive dismissal/SCA-C903 and acquittal/civil-petition branches, required certified orders and case records, shared timing/destination/fee/stop rules, charge overflow refusal, and no manufactured court or agency fields."
+    },
+    "renderedArtifacts": {
+      "path": "data/rcap-all50/overlays/census-v1/wv/wv-nc-acquittal-dismissal-set--official-pdf-fill/reports/rendered-artifacts.json",
+      "sha256": "0cf753e46748444628d59b6344c68e12a8cb3ef78a94497b45646767492d051d",
+      "byteLength": 13907,
+      "branchFixtureCount": 4,
+      "branches": [
+        "DISMISSED_STRAIGHT/canonical",
+        "DISMISSED_STRAIGHT/boundary",
+        "ACQUITTED_OR_FOUND_NOT_GUILTY/canonical",
+        "ACQUITTED_OR_FOUND_NOT_GUILTY/boundary"
+      ]
+    },
+    "branchFixtureCoverage": {
+      "path": "data/rcap-all50/overlays/census-v1/wv/wv-nc-acquittal-dismissal-set--official-pdf-fill/reports/branch-fixture-coverage.json",
+      "sha256": "decdd42e448f21ede3f777826a54ad95af8732060c519498f19a1ff8caa4f7ad",
+      "byteLength": 5554,
+      "finding": "Both branches retain canonical and boundary fixtures; one assembled sample is not used for both."
+    },
+    "fixtures": [
+      {
+        "branchId": "DISMISSED_STRAIGHT",
+        "fixture": "canonical",
+        "path": "data/rcap-all50/overlays/census-v1/wv/wv-nc-acquittal-dismissal-set--official-pdf-fill/fixtures/dismissal-canonical.pdf",
+        "sha256": "bbfcd767b02230300e2164a40cc2d81967c87fb9b7ddf4f0677622e1319fe878",
+        "byteLength": 23275
+      },
+      {
+        "branchId": "DISMISSED_STRAIGHT",
+        "fixture": "boundary",
+        "path": "data/rcap-all50/overlays/census-v1/wv/wv-nc-acquittal-dismissal-set--official-pdf-fill/fixtures/dismissal-boundary.pdf",
+        "sha256": "bbfcd767b02230300e2164a40cc2d81967c87fb9b7ddf4f0677622e1319fe878",
+        "byteLength": 23275
+      },
+      {
+        "branchId": "ACQUITTED_OR_FOUND_NOT_GUILTY",
+        "fixture": "canonical",
+        "path": "data/rcap-all50/overlays/census-v1/wv/wv-nc-acquittal-dismissal-set--official-pdf-fill/fixtures/acquittal-canonical.pdf",
+        "sha256": "247de4231f6d6aa0c654ef60a6e6e5725d71fff254a1c39f3ee356d44287ba70",
+        "byteLength": 8801
+      },
+      {
+        "branchId": "ACQUITTED_OR_FOUND_NOT_GUILTY",
+        "fixture": "boundary",
+        "path": "data/rcap-all50/overlays/census-v1/wv/wv-nc-acquittal-dismissal-set--official-pdf-fill/fixtures/acquittal-boundary.pdf",
+        "sha256": "e6bf76a7a50c6e38af1b00f70d8ff0178b4c01390d1bba4323cd472833bc1086",
+        "byteLength": 8919
+      }
+    ]
+  },
+  "priorSemanticDependencyComparison": {
+    "priorReturn": {
+      "path": "data/rcap-grade-a/packet-factory-24h/pf08/rows-wv-two-branch-independent-semantic-20260913.json",
+      "sha256": "7d84bffb905e6d734be39556b8f54d1a0fbd723353b7ca4d5bd8c043334122e0",
+      "byteLength": 60581,
+      "reviewedAtBase": "71568ed47bb79b66af3418bc17326ae0a43bf128",
+      "verdict": "PASS",
+      "status": "PASS_PRE_RASTER_SEMANTIC",
+      "visualMeasured": false,
+      "priorProductWiringSha256": "236980ef8551cbf760fca556ff0cd2f076f329e56ba3a6cc4e1419d7844247ab",
+      "priorProductWiringByteLength": 665
+    },
+    "unchangedSemanticInputs": [
+      "source-receipt.json",
+      "production-field-map.json",
+      "participant-instructions.md",
+      "reports/rendered-artifacts.json",
+      "reports/branch-fixture-coverage.json",
+      "reports/actual-writes.json",
+      "reports/saved-output-check.json",
+      "all four frozen branch fixture PDFs"
+    ],
+    "finding": "The repaired product-wiring metadata changed after the prior semantic PASS, but the selected source bytes, source receipt, field map, instructions, rendered evidence, saved output proofs, owner adoption and all four candidate PDFs retain their recorded bindings. The prior fourteen semantic obligations therefore remain the dependency comparison for the packet/legal inputs; this review independently covers the changed binding metadata. CLIPPING_AND_OVERLAP remains unmeasured and no final packet acceptance is asserted."
+  },
+  "preservedControls": {
+    "sourceOrPdfMutationByReviewer": false,
+    "generatorExecutedByReviewer": false,
+    "rasterDispatched": false,
+    "sharedQueueOrManifestWrite": false,
+    "ownerDecisionChanged": false,
+    "currentRouteOpened": false,
+    "packetPass": false,
+    "rasterPass": false,
+    "terminalPromotion": false,
+    "commercialAuthority": false,
+    "productionAuthorization": false
+  },
+  "conclusion": {
+    "implementation": "PASS",
+    "currentBinding": "PASS",
+    "focusedTest": "FAIL_REPAIR_REQUIRED",
+    "overall": "FAIL_REPAIR_REQUIRED",
+    "exactBlocker": "The new focused test still asserts the pre-repair two-component current wiring at line 80 and fails against the materialized three-component repaired record.",
+    "downstream": "Do not consume this review as the required independent PASS until the test uses an explicit stale cloned fixture while expecting the current repaired wiring to retain the acquittal component. The existing owner mapping handoff remains unapproved by this return."
+  },
+  "repairReturn": {
+    "path": "data/rcap-grade-a/packet-factory-24h/pf08/wv-loader-product-wiring-repair-20260913.json",
+    "sha256": "2d5c40d47becc587e3348b34c6406d8176c9d0903b03075ec0c3e017d2de6e95",
+    "byteLength": 7171,
+    "priorReviewSha256": "7887a9dc4e69ae0dc5365cf4a76ea249a921ed30bb4d0c83fce5eab3d0dba74a",
+    "currentWiringSha256": "3d2857e389f251d08f01c2b9986ac3605a580255348b9046ed707aeecffa3ce9"
+  }
+}

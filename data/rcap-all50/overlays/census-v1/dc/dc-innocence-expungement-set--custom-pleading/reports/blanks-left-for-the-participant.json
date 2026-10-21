@@ -1,0 +1,115 @@
+{
+  "schemaVersion": "rcap-blanks-left-for-the-participant/v1",
+  "familyId": "dc_innocence_expungement-set",
+  "requiredBeforeFiling": [
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.charge_description",
+      "page": 1,
+      "printedContext": "What the movant was charged with, worded exactly as the court record words it",
+      "disclosureLabel": "What the movant was charged with, worded exactly as the court record words it",
+      "identity": "primary_filing field charge_description",
+      "why": "the case lives on records the platform has not seen, so its facts are the participant's to copy from the record itself",
+      "participantMustSupply": "what you were charged with, worded exactly as the court record words it"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.disposition_and_date",
+      "page": 1,
+      "printedContext": "Disposition of the case - how it ended, and the date of final disposition",
+      "disclosureLabel": "Disposition of the case - how it ended, and the date of final disposition",
+      "identity": "primary_filing field disposition_and_date",
+      "why": "the case lives on records the platform has not seen, so its facts are the participant's to copy from the record itself",
+      "participantMustSupply": "how the case ended and on what date, checked against the disposition you obtain from the court in step two - correct the packet if they disagree"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.innocence_statement",
+      "page": 1,
+      "printedContext": "Your own statement of why the offence did not occur, or why the movant was not the person who committed it",
+      "disclosureLabel": "Your own statement of why the offence did not occur, or why the movant was not the person who committed it",
+      "identity": "primary_filing field innocence_statement",
+      "why": "the showing of actual innocence is the movant's own evidentiary burden; the platform judges nothing and writes none of it",
+      "participantMustSupply": "your own first-hand account of why the offence did not occur or why you were not the person who committed it - you carry the burden of demonstrating it by a preponderance of the evidence, and the packet does not write it for you"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.prior_motions",
+      "page": 1,
+      "printedContext": "Prior expungement motions like this one you have filed, and when each was resolved",
+      "disclosureLabel": "Prior expungement motions like this one you have filed, and when each was resolved",
+      "identity": "primary_filing field prior_motions",
+      "why": "the case lives on records the platform has not seen, so its facts are the participant's to copy from the record itself",
+      "participantMustSupply": "any earlier motion like this one and when it was resolved - write NONE if none; a second motion waits one year after the first is resolved, a third and final one year after the second, though a motion on different grounds may be filed at any time"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.supporting_materials",
+      "page": 1,
+      "printedContext": "Statement of points and authorities, exhibits, affidavits and supporting documents attached to the motion",
+      "disclosureLabel": "Statement of points and authorities, exhibits, affidavits and supporting documents attached to the motion",
+      "identity": "primary_filing field supporting_materials",
+      "why": "the movant carries the burden and supplies the supporting material",
+      "participantMustSupply": "the supporting material you attach - points and authorities, exhibits, affidavits and supporting documents; you supply them and the platform does not judge sufficiency"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.underlying_case_number",
+      "page": 1,
+      "printedContext": "Case number of the case this motion addresses",
+      "disclosureLabel": "Case number of the case this motion addresses",
+      "identity": "primary_filing field underlying_case_number",
+      "why": "the case lives on records the platform has not seen, so its facts are the participant's to copy from the record itself",
+      "participantMustSupply": "the case number, copied exactly from the court record - the disposition you request in step two of the filing instructions states it"
+    },
+    {
+      "document": "prosecutor_service",
+      "field": "prosecutor_service.prosecuting_office_name_address",
+      "page": 1,
+      "printedContext": "Name and mailing address of the prosecuting office for the case",
+      "disclosureLabel": "Name and mailing address of the prosecuting office for the case",
+      "identity": "prosecutor_service field prosecuting_office_name_address",
+      "why": "no held source states the prosecutor-routing rule or a service address, so the participant obtains both from the named checkable authority",
+      "participantMustSupply": "the name and mailing address of the office that prosecuted your case - the United States Attorney's Office for the District of Columbia or the Office of the Attorney General for the District of Columbia; the Criminal Division clerk's office (202-879-1373) or the Seal Team (criminalmotionsealteam@dcsc.gov) can tell you which, and the address"
+    }
+  ],
+  "protectedBlanks": [
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.motion_case_number",
+      "label": "Motion case number, which the Seal Team assigns at filing",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the instruction sheet's own face states the Seal Team gives the motion a case number at filing"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.movant_signature",
+      "label": "Signature of the movant on the motion",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "the movant signs the motion personally"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.signature_date",
+      "label": "Date beside the movant's signature on the motion",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "a date written before the motion is signed would be false"
+    },
+    {
+      "document": "prosecutor_service",
+      "field": "prosecutor_service.service_date",
+      "label": "Date of service of the copy",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "a date written before the copy is actually served would be false"
+    },
+    {
+      "document": "prosecutor_service",
+      "field": "prosecutor_service.movant_signature",
+      "label": "Signature of the movant on the service page",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "the movant signs this page when the copy actually goes out"
+    }
+  ],
+  "everyRequiredBeforeFilingItemIsDisclosed": true,
+  "disclosedIn": "data/rcap-all50/overlays/census-v1/dc/dc-innocence-expungement-set--custom-pleading/participant-instructions.md"
+}

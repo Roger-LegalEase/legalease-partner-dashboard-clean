@@ -20,12 +20,7 @@ import { renderToStaticMarkup } from "react-dom/server";
 
 const { ScreeningResult } = await import("../src/components/expungement-ai/screening/ScreeningResult.tsx");
 const { isSafeSessionId } = await import("../src/components/expungement-ai/screening/partner-session.ts");
-const {
-  BriefcaseItemCard,
-  BriefcaseOverview,
-  MatterStepper,
-  PaymentsView
-} = await import("../src/components/expungement-ai/BriefcaseViews.tsx");
+const { humanMatterState, matterCareState } = await import("../src/lib/expungement-ai/frontend/briefcase-presentation.ts");
 
 const failures = [];
 function assert(condition, message) {
@@ -92,7 +87,7 @@ function renderResultWithCode(resultCode, hasScreeningSession, paymentAllowed) {
 
 // Partner result lanes: each result code maps to exactly one forward CTA and never a price.
 const PARTNER_LANES = [
-  { code: "packet_ready", label: "Continue to packet builder", pay: true },
+  { code: "packet_ready", label: "Save to my Briefcase and continue", pay: true },
   { code: "needs_more_info", label: "Continue to my Briefcase", pay: false },
   { code: "guidance_only", label: "View my next steps", pay: false },
   { code: "not_yet", label: "View my Briefcase", pay: false }
@@ -102,7 +97,17 @@ for (const lane of PARTNER_LANES) {
   assert(partnerHtml.includes(lane.label), `Partner lane ${lane.code} must render "${lane.label}".`);
   assert(!/\$50|stripe|checkout/i.test(partnerHtml), `Partner lane ${lane.code} must never render price, Stripe, or Checkout copy.`);
   const dtcHtml = renderResultWithCode(lane.code, false, lane.pay);
-  assert(!dtcHtml.includes(lane.label), `DTC must never render the partner lane label "${lane.label}".`);
+  // The partner lane is entered from an authenticated partner or Clinic context,
+  // so naming the Briefcase there is accurate. The DTC lane is anonymous until
+  // the claim transaction wins, so it may never name a matter or a Briefcase --
+  // every DTC lane saves a preliminary result instead.
+  assert(!dtcHtml.includes(lane.label), `DTC must never render the partner-only lane label "${lane.label}".`);
+  if (lane.code === "packet_ready") {
+    assert(
+      dtcHtml.includes("Save my result and continue"),
+      "The anonymous DTC packet-ready lane must offer the approved preliminary-result action."
+    );
+  }
 }
 
 // Shared Briefcase regression: sponsored and guidance matters use the same
@@ -110,105 +115,88 @@ for (const lane of PARTNER_LANES) {
 // never inherit consumer checkout copy. Render the real shared components so
 // this stays implementation-agnostic.
 const fixtureBase = {
-  type: "result",
-  state: "Mississippi",
+  authorityStatus: "trusted_source",
+  unavailableReason: null,
+  jurisdiction: "MS",
   createdAt: "2026-08-15T00:00:00.000Z",
   summary: "Saved result.",
   nextSteps: ["Review your saved next steps."],
-  packetReady: false,
-  packetStatus: "not_started"
+  checklist: [],
+  pathwayId: "non-conviction-expungement",
+  selectedTrackId: null,
+  treatmentClassification: null,
+  verificationStatus: "trusted_source",
+  packetProgress: "not_started",
+  packetDraft: { status: "unavailable" },
+  artifact: { status: "absent", canDownload: false, documents: [] }
 };
 const sponsoredPacket = {
   ...fixtureBase,
   id: "11111111-1111-4111-8111-111111111111",
   title: "Mississippi partner-covered packet",
-  status: "packet_ready",
   resultCode: "packet_ready_with_caution",
   pathwayLabel: "Non-conviction expungement",
   packetType: "custom_pleading",
-  packetReady: true,
-  paymentAllowed: false,
-  paymentStatus: "not_applicable",
-  sourceSessionId: VALID_SESSION
+  packetDraft: { status: "available" },
+  paymentState: "sponsored"
 };
 const guidanceMatter = {
   ...fixtureBase,
   id: "22222222-2222-4222-8222-222222222222",
   title: "Mississippi guidance",
-  status: "guidance_saved",
   resultCode: "guidance_only",
   pathwayLabel: "State-specific next steps",
   packetType: "guidance_packet",
-  paymentAllowed: false,
-  paymentStatus: "not_applicable",
-  sourceSessionId: VALID_SESSION
+  paymentState: "sponsored"
 };
 const dtcPacket = {
   ...fixtureBase,
   id: "33333333-3333-4333-8333-333333333333",
   title: "Mississippi consumer packet",
-  status: "packet_ready",
   resultCode: "packet_ready_with_caution",
   pathwayLabel: "Non-conviction expungement",
   packetType: "custom_pleading",
-  packetReady: true,
-  paymentAllowed: true,
-  paymentStatus: "unpaid"
+  packetDraft: { status: "available" },
+  paymentState: "unpaid"
 };
 const dtcPaidPacket = {
   ...dtcPacket,
   id: "44444444-4444-4444-8444-444444444444",
-  paymentStatus: "paid"
+  paymentState: "paid",
+  verificationStatus: "verified",
+  packetProgress: "verified"
 };
 
-const sponsoredOverviewHtml = renderToStaticMarkup(
-  React.createElement(BriefcaseOverview, { items: [sponsoredPacket], userEmail: "synthetic@example.test" })
-);
-const sponsoredStepperHtml = renderToStaticMarkup(React.createElement(MatterStepper, { item: sponsoredPacket }));
-const sponsoredPaymentsHtml = renderToStaticMarkup(React.createElement(PaymentsView, { items: [sponsoredPacket] }));
-for (const [surface, html] of [
-  ["sponsored Briefcase overview", sponsoredOverviewHtml],
-  ["sponsored matter stepper", sponsoredStepperHtml],
-  ["sponsored payment history", sponsoredPaymentsHtml]
-]) {
-  assert(!/\$50|stripe|checkout|continue to payment|you only pay/i.test(html), `${surface} must not leak DTC payment copy.`);
-}
-assert(!/>Payment</.test(sponsoredStepperHtml), "Sponsored matter stepper must not include a Payment stage.");
-assert(/covered through your partner|partner-covered/i.test(sponsoredOverviewHtml), "Sponsored Briefcase overview must explain partner coverage.");
+assert(humanMatterState(sponsoredPacket) === "A self-help packet may be available", "Sponsored packet state must come from canonical result authority.");
+assert(matterCareState(sponsoredPacket) === "packet_ready", "Sponsored packet must remain in the protected packet-ready care state.");
+assert(humanMatterState(guidanceMatter) === "Next steps saved", "Guidance state must come from canonical result authority.");
+assert(matterCareState(guidanceMatter) === "guidance_only", "Guidance matter must not gain a packet state.");
+assert(humanMatterState(dtcPacket) === "A self-help packet may be available", "Unpaid DTC packet must remain pre-verification.");
+assert(humanMatterState(dtcPaidPacket) === "Payment confirmed", "Protected paid state must remain visible on DTC matters.");
 
-const guidanceOverviewHtml = renderToStaticMarkup(
-  React.createElement(BriefcaseOverview, { items: [guidanceMatter], userEmail: "synthetic@example.test" })
-);
-const guidanceCardHtml = renderToStaticMarkup(React.createElement(BriefcaseItemCard, { item: guidanceMatter }));
-const guidanceStepperHtml = renderToStaticMarkup(React.createElement(MatterStepper, { item: guidanceMatter }));
-assert(guidanceOverviewHtml.includes("Guidance saved"), "Guidance matter must render its completed Guidance saved value.");
-assert(guidanceStepperHtml === "", "Guidance matter must not render a disabled packet stepper.");
-assert(!/\$50|stripe|checkout|payment|generate my packet/i.test(`${guidanceOverviewHtml}\n${guidanceCardHtml}`), "Guidance surfaces must not leak packet payment or generation copy.");
-
-const dtcStepperHtml = renderToStaticMarkup(React.createElement(MatterStepper, { item: dtcPacket }));
-const dtcPaymentsHtml = renderToStaticMarkup(React.createElement(PaymentsView, { items: [dtcPaidPacket] }));
-assert(/>Payment</.test(dtcStepperHtml), "DTC packet matter must retain its Payment stage.");
-assert(
-  dtcStepperHtml.indexOf("Packet information") < dtcStepperHtml.indexOf("Payment"),
-  "DTC matter stepper must put free packet information before the later Payment stage."
-);
-assert(dtcPaymentsHtml.includes("$50"), "DTC payment history must retain its matter-level $50 price.");
+const briefcaseSrc = readFileSync(path.join(process.cwd(), "src/components/expungement-ai/BriefcaseViews.tsx"), "utf8");
+assert(briefcaseSrc.includes('item.paymentState === "sponsored"'), "Briefcase sponsored presentation must come from the server-decorated payment state.");
+assert(briefcaseSrc.includes('DTC_STAGES.filter((stage) => stage.label !== "Payment")'), "Sponsored matter stepper must omit the Payment stage.");
+assert(briefcaseSrc.indexOf('label: "Packet information"') < briefcaseSrc.indexOf('label: "Payment"'), "DTC matter stepper must put free packet information before Payment.");
+assert(/covered through your partner/i.test(briefcaseSrc), "Sponsored Briefcase next-step copy must explain partner coverage.");
+assert(!briefcaseSrc.includes("ConsumerBriefcaseItem"), "Briefcase UI must consume only Lane B's protected presentation model.");
 
 // 1) Only a server-verified partner prop renders the sponsored lane.
 const serverVerifiedPartner = renderResult(true);
 assert(!serverVerifiedPartner.includes("$50"), "A server-verified partner session must not render '$50'.");
-assert(serverVerifiedPartner.includes("Continue to packet builder"), "A server-verified partner session must render the partner packet-builder lane CTA.");
+assert(serverVerifiedPartner.includes("Save to my Briefcase and continue"), "A server-verified partner session must describe the Briefcase handoff accurately.");
 assert(
-  serverVerifiedPartner.includes("This screening started through a partner program. You will not be asked to pay here."),
-  "A server-verified partner session must render the no-charge partner helper text."
+  serverVerifiedPartner.includes("Your packet is covered by your partner program."),
+  "A server-verified partner session must render the partner coverage helper text."
 );
 
 // 2) No verified server prop keeps the DTC price disclosure and saves before payment.
 const noSession = renderResult(false);
 assert(noSession.includes("$50 one time when you are ready to generate this packet"), "No session must render the DTC $50 packet disclosure.");
-assert(noSession.includes("Save this matter and continue"), "No session must render the DTC save-before-payment CTA.");
+assert(noSession.includes("Save my result and continue"), "The anonymous DTC lane must save a preliminary result, never promise a Briefcase before the claim.");
+assert(!noSession.includes("Save to my Briefcase and continue"), "The anonymous DTC lane must not name a Briefcase before the claim transaction wins.");
+assert(!noSession.includes("covered by your partner program"), "Ordinary DTC results must not claim partner coverage.");
 assert(!noSession.includes("Generate my packet - $50"), "The result must not offer immediate pay-and-generate before the builder/review gate.");
-assert(!noSession.includes("Continue to packet builder"), "No session must not render a partner lane CTA.");
 
 // 3) URL shape validation is only an input gate for the server lookup. Invalid
 // query values are rejected before lookup, and even a valid UUID is not itself
@@ -237,9 +225,17 @@ assert(flowSrc.includes("hasScreeningSession={isPartnerSession}"), "ScreeningFlo
 // result to the consumer payment page.
 assert(flowSrc.includes("onPacketAction={() => void handlePacketAction()}"), "ScreeningFlow must route the packet action through handlePacketAction.");
 assert(flowSrc.includes('/api/expungement-ai/screening/pending'), "Screening result action must persist server-verifiable inputs before claiming a matter.");
-assert(flowSrc.includes('/api/expungement-ai/screening/pending/claim'), "Authenticated screening result action must claim the pending result into the exact Briefcase matter.");
-assert(flowSrc.includes('product: isPartnerSession ? "rcap_partner" : "expungement_ai_dtc"'), "Pending handoff must keep RCAP and DTC product identity distinct.");
-assert(flowSrc.includes("router.push(claimed.redirectTo)"), "Authenticated pending claim must follow the server-authored exact-matter destination.");
+const claimHandoffSrc = readFileSync(path.join(process.cwd(), "src/lib/expungement-ai/claim/claim-handoff.ts"), "utf8");
+assert(claimHandoffSrc.includes('/api/expungement-ai/screening/pending/claim'), "Authenticated screening result action must claim the pending result into the exact matter.");
+// Product identity is now decided by the server from its own record of the
+// anonymous session. A browser that could name its product could elect itself
+// into sponsorship it was never granted.
+assert(flowSrc.includes("anonymousSessionId:"), "Pending handoff must name the anonymous session so the server can keep RCAP and DTC identity distinct.");
+assert(!flowSrc.includes('product: isPartnerSession'), "The browser must not declare RCAP versus DTC product identity.");
+assert(readFileSync(path.join(process.cwd(), "src/app/api/expungement-ai/screening/pending/route.ts"), "utf8")
+  .includes('attribution.isPartnerSession ? "rcap_partner" : "expungement_ai_dtc"'),
+  "Pending storage must keep RCAP and DTC product identity distinct, server-side.");
+assert(flowSrc.includes("router.push(claim.redirectTo)"), "Authenticated pending claim must follow the server-authored exact-matter destination.");
 assert(!flowSrc.includes('router.push(`/expungement-ai/pay?briefcaseItemId=${encodeURIComponent(result.itemId)}`)'), "DTC result must not bypass the builder/review flow by routing directly to payment.");
 assert(!flowSrc.includes('next: "/expungement-ai/pay"'), "Anonymous DTC result handoff must not bypass the saved matter and builder with payment as next.");
 assert(!flowSrc.includes('/expungement-ai/packet-ready"'), "DTC packet action must not bypass payment to packet-ready.");

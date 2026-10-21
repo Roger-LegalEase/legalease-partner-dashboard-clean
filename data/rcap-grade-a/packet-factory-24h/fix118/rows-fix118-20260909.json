@@ -1,0 +1,252 @@
+{
+  "schemaVersion": "rcap-lane-return/v2",
+  "lane": "FIX118",
+  "laneKind": "repair",
+  "returnedAt": "2026-09-09",
+  "baseSha": "a60a1237b",
+  "grantSet": "1129e50e83d7836f",
+  "rasterCapability": {
+    "canRasterHere": false,
+    "reason": "No browser in this container. No pdftoppm, no apt-get, no playwright install was attempted. visualDefects is therefore not measured by this lane: it records that nobody has looked, and the value 0 printed by verify-packet-completeness.mjs is that verifier's unrastered value, not a measurement of the delivered pages.",
+    "everyFamilyReturns": "BUILT_RASTER_PENDING"
+  },
+  "measurementTools": {
+    "note": "Every finding below was read from the delivered PDF bytes in the committed tree, not from a builder's report of its own writes. The builders' own reports were read only to cross-check.",
+    "negativeControlNowInTheBuilders": "inkWithoutGlyphs(), asserted == 0 on the reopened packet inside buildPacket() in all three builders"
+  },
+  "rows": [
+    {
+      "itemId": "il-seal-2yr-set",
+      "status": "COMPLETED",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "repairedByThisLane": true,
+      "failedObligationsHandled": ["CLIPPING_AND_OVERLAP", "KNOWN_PREFILLS", "REPEATING_ROWS", "SERVICE"],
+      "obligationCoverage": {
+        "CLIPPING_AND_OVERLAP": {
+          "verdict": "REPAIRED BY THIS LANE",
+          "whatWasStillWrongAtBase": "The ellipsis half of the VF01 finding was already gone at a60a1237b: this lane re-read both delivered fixtures and found no ellipsized value anywhere, and every multiline value inside its widget box. What remained was the mechanism the assignment named. Each delivered fixture carried 443 flattened Form XObjects, of which 91 were stroke-only - each one '0 0 0 RG', '0 w', a single closed four-segment path, 'S', and no text operator - one for every check-box widget the route does not tick, plus one wrapping the widget for item 12 which it does tick.",
+          "whyItIsADefect": "None of that ink comes from the official form. All 94 Illinois check-box widgets carry an /AP /N dictionary holding only their on state (/Yes or /No) and no /Off entry, which is how a form says an unticked box draws nothing. pdf-lib reads that absence as a missing appearance - PDFCheckBox.needsAppearancesUpdate() returns true whenever a widget's /AS is absent from /AP /N - so form.updateFieldAppearances() replaced every check box's appearance streams with its own: an /Off state stroking a hairline rectangle around the whole widget /Rect, and an on state discarding the form's ZapfDingbats mark for a 1.5 w drawn check. The form's own empty box is a glyph, not the widget rectangle: on Request page 1 the printed box is a 12 pt glyph on a baseline at y=343.5, while the widget /Rect spans x=71.9114..84.0799, y=341.175..353.179, so pdf-lib's square prints as a second, larger, offset hairline box around the printed one. VF03 and VF04 scored 19 and 20 of these as visualDefects from a raster.",
+          "repair": "scripts/build-census-v1-il-seal-2yr-set.mjs: preserveOfficialCheckBoxAppearances() installs the /Off appearance the official form omits - an empty Form XObject the size of the widget - on all 94 check-box widgets before any field is touched, which makes needsAppearancesUpdate() false so pdf-lib regenerates nothing; form.flatten() is now called with { updateFieldAppearances: false } so the flatten cannot re-synthesize. No participant fact is written and no ink is added; ink the source never authored is removed.",
+          "evidence": "inkWithoutGlyphs() on the pre-repair committed bytes: 91 on canonical (a099347fd0f56bc771df70549a69d67d9da505e1e74a76dd5dae1afcdbe7c096) and 91 on boundary (bd75164956cdf709a5202af164e51ccd662bd0dcf166f94a9134bfe550760612). On the delivered bytes after the repair: 0 and 0. Ticked boxes are unchanged in meaning and now carry the official form's own ZapfDingbats mark: item 12 Yes on Request page 4, Section 17 on page 5, the self-represented box on Request page 6 and on the fee-waiver signature page.",
+          "notMeasurableHere": "Whether any residual overlap survives on the rendered page. That needs a raster this container cannot perform."
+        },
+        "KNOWN_PREFILLS": {
+          "verdict": "ALREADY SOUND AT BASE - RE-MEASURED, NOT REPAIRED BY THIS LANE",
+          "finding": "VF01 failed this on three counts. All three were repaired before this lane by FIX03/FIX13 (commits 8f2701e0f, f9a76fc9f) and this lane confirms each on the delivered bytes rather than on the builder's report. (1) The 'List all charges for each case number' cells carry a charge, not a case number: canonical Request page 4 row 1 reads 'Retail theft, Class A misdemeanor'; the builder writes matter.charge there and its self-test refuses matter.case_number in a charge cell. (2) The inactive expungement table on Request page 2 is wholly blank - zero flattened widget appearances carry text on that page in either fixture. (3) The Case List's held value is the case number '2021-CF-004217', not the ellipsized placeholder 'Charge exactly as shown o...'; that string appears nowhere in either fixture."
+        },
+        "REPEATING_ROWS": {
+          "verdict": "PART ALREADY SOUND, PART REPAIRED BY THIS LANE",
+          "alreadySound": "The Request's 10-row tables are clean on the delivered bytes: on page 4 only row 1 carries ink, in all five cells, and rows 2-10 are wholly blank in both fixtures; page 2 is wholly blank. The '18 visibly partial rows per fixture' VF01 measured are gone.",
+          "stillWrongAtBase": "The Case List's own repeating group was still split at an arbitrary boundary. optionalUnusedSlot() tested /^arrest(?:[2-9]|[1-5]\\d)$/, which reaches arrest59 and stops, so arrest60 through arrest70 - eleven cells of the same 70-cell group, adjacent in the same column, identically unlabelled on the printed form - fell through to REQUIRED_BEFORE_FILING. The delivered participant-instructions.md printed them to the petitioner as 'Complete arrest60 on EXP-AD Case List page 1' through 'Complete arrest70', named by raw AcroForm identifiers that appear nowhere on the form, while arrest2 through arrest59 were correctly classified OPTIONAL_PARTICIPANT_CONTENT.",
+          "repair": "caseListArrestSlot() now reads the cell number from the field name and classifies every cell above 1 as an unused optional slot, so the seventy cells of the group are treated as one group. Eleven refusals in production-field-map.json moved from REQUIRED_BEFORE_FILING/requiredBeforeFiling:true to OPTIONAL_PARTICIPANT_CONTENT with the same reason text as arrest2-arrest59, and the eleven 'Complete arrestNN' lines are gone from participant-instructions.md (grep -c 'Complete arrest' is now 0, was 11).",
+          "sourceOfTheFinding": "VF05 named this same off-by-N under REPEATING_ROWS on il-seal-3yr-set; the identical classifier bug was present in this family's builder and is repaired here under the REPEATING_ROWS grant this lane holds on it."
+        },
+        "SERVICE": {
+          "verdict": "ALREADY SOUND AT BASE - RE-MEASURED, NOT REPAIRED BY THIS LANE",
+          "finding": "The delivered participant-instructions.md '## Who serves, and how' now answers both halves of the question VF01 asked. Method: 'The circuit court clerk serves, under section 5.2(d)(4). The participant serves no one.' Recipients: 'Notice goes to the State's Attorney, the Illinois State Police, the arresting agency, and for municipal ordinance violations the chief legal officer.' It also gives the 60-day objection period under 5.2(d)(5)(B) and what follows under 5.2(d)(6)(B). Both sentences are the controlling record's own (track.rules.service and track.rules.notice), and the builder's self-test asserts each is present verbatim."
+        }
+      },
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0,
+        "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0,
+        "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0
+      },
+      "countersSource": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-seal-2yr-set (no --write), PASS_COMPLETE, 44/424 written",
+      "countersHonesty": "countersBefore and countersAfter are identical because none of the defects repaired here is one this verifier counts. The 91 synthesized check-box borders are raster-visible ink, and the eleven misclassified Case List cells moved between two dispositions the verifier treats as equally accounted for. A repair that does not move a counter is still a repair; a counter that did not move is not evidence the packet was already right.",
+      "visualDefectsMeasuredByThisLane": null,
+      "visualDefectsNote": "Not measured. This lane cannot raster. The 0 above is verify-packet-completeness.mjs's unrastered value, carried forward unchanged.",
+      "negativeControl": {
+        "control": "inkWithoutGlyphs(), the function the builder now asserts is 0, run unchanged against the pre-repair committed bytes",
+        "firedOnPreRepairBytes": true,
+        "preRepair": { "canonical": 91, "boundary": 91 },
+        "postRepair": { "canonical": 0, "boundary": 0 }
+      },
+      "artifacts": [
+        { "fixture": "canonical", "file": "data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill/fixtures/canonical.pdf", "sha256": "d3b76c60daa620f75db925264e7a7adee5df52932401b718ab7bac262ac09003", "byteLength": 1728326, "pageCount": 13, "sha256Before": "a099347fd0f56bc771df70549a69d67d9da505e1e74a76dd5dae1afcdbe7c096" },
+        { "fixture": "boundary", "file": "data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill/fixtures/boundary.pdf", "sha256": "d0aa2d5029a993d6eeb0328fce8c3200e6b3270f9920dea7272506dfa4d04a0d", "byteLength": 1729052, "pageCount": 13, "sha256Before": "bd75164956cdf709a5202af164e51ccd662bd0dcf166f94a9134bfe550760612" }
+      ],
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "selfVerified": false
+    },
+    {
+      "itemId": "il-seal-3yr-set",
+      "status": "COMPLETED",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "repairedByThisLane": true,
+      "failedObligationsHandled": ["CLIPPING_AND_OVERLAP", "KNOWN_PREFILLS", "REPEATING_ROWS", "PROTECTED_FIELDS", "REQUIRED_BEFORE_FILING", "ROUTE_IDENTITY", "ROUTE_OPTIONS"],
+      "obligationCoverage": {
+        "CLIPPING_AND_OVERLAP": {
+          "verdict": "REPAIRED BY THIS LANE",
+          "whatWasStillWrongAtBase": "No ellipsized value survives in either fixture - VF02's 'canonical Case List charge text ending in an ellipsis and boundary Request/Case List agency, charge and outcome values ending in ellipses' is gone, and every multiline value sits inside its widget box. What remained is the same pdf-lib mechanism: 443 flattened Form XObjects per fixture, 91 of them stroke-only ('0 0 0 RG', '0 w', closed path, 'S', no text operator), one per unticked check-box widget.",
+          "repair": "Identical to the repair on il-seal-2yr-set: preserveOfficialCheckBoxAppearances() installs the /Off appearance the official form omits on all 94 check-box widgets, and form.flatten({ updateFieldAppearances: false }) prevents re-synthesis. Ticked boxes now carry the form's own ZapfDingbats mark.",
+          "evidence": "inkWithoutGlyphs(): canonical 91 -> 0, boundary 91 -> 0. Ticks after the repair, read from the delivered bytes and matched to the blank form's widget rectangles: item 12 Yes, Section 19c on canonical and Section 19b on boundary, and the two self-represented boxes.",
+          "notMeasurableHere": "Residual overlap on the rendered page. Needs a raster."
+        },
+        "KNOWN_PREFILLS": {
+          "verdict": "ALREADY SOUND AT BASE - RE-MEASURED, NOT REPAIRED BY THIS LANE",
+          "finding": "VF02 found the case number written into all 20 Charge cells on Request pages 2 and 4, and agency/charge/arrest date/outcome written into Case List blanks that ask only for another arrest or case number. Neither reproduces. On the delivered bytes the only Request write of a charge is page 4 row 1 ('Possession of a controlled substance, Class 4 felony' canonical), the Outcome cell carries the printed abbreviation FC derived from the route, page 2 is wholly blank, and the only Case List write is arrest1 carrying the case number."
+        },
+        "REPEATING_ROWS": {
+          "verdict": "PART ALREADY SOUND, PART REPAIRED BY THIS LANE",
+          "alreadySound": "The Request's Section 13 grid is clean in both fixtures: row 1 carries ink in all five cells and rows 2-10 are wholly blank. VF02's '18 incomplete rows per fixture' are gone; VF05 independently confirmed this at 159c0b5cf.",
+          "stillWrongAtBase": "The Case List's 70-cell repeating group was split at arrest59 by /^arrest(?:[2-9]|[1-5]\\d)$/, exactly the off-by-N VF05 named: arrest60 through arrest70 were classified REQUIRED_BEFORE_FILING while the 58 identical cells below them were OPTIONAL_PARTICIPANT_CONTENT, and the guide printed 'Complete arrest60 on EXP-AD Case List page 1' through 'Complete arrest70' to the petitioner.",
+          "repair": "caseListArrestSlot() classifies every cell above arrest1 as an unused optional slot, so all seventy cells are one group. Eleven refusals moved to OPTIONAL_PARTICIPANT_CONTENT and eleven 'Complete arrestNN' lines left participant-instructions.md."
+        },
+        "PROTECTED_FIELDS": {
+          "verdict": "ALREADY SOUND AT BASE - RE-MEASURED, NOT REPAIRED BY THIS LANE",
+          "finding": "VF02 found the participant's criminal case number written into four clerk-reserved case-number captions. It reproduces nowhere. Every write in the delivered packet was enumerated: no field matching /^\\d+ - Case Number$/ is written on the Request, the Case List or the proposed Order, and the fee waiver's '(Clerk fills in)' number is not written either. The builder's protectedField() refuses them as court_prosecutor_clerk_or_agency_owned, and its self-test asserts the judge's four Order controls stay refused with role 'court'. Signatures, the judge's name and the entered date remain blank."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "verdict": "PART ALREADY SOUND, PART REPAIRED BY THIS LANE, ONE PART STOPPED",
+          "alreadySound": "VF02 found the guide omitted the ISP statewide transcript, both outcome-comparison steps, the per-case election and the post-objection hearing date. FIX13 made the builder read track.packetSet.requiredBeforeFiling and print all ten lines verbatim, and its self-test fails the build if any line is missing. This lane confirmed all ten by exact string containment against data/record-clearing/legal-design-track-registry.json tracks[trackId=il-seal-3yr]: the transcript, both comparison lines, the certified dispositions, the signature and verification, the wet-signature expectation, the expunge-versus-seal election, the hearing date, the fee and the Rule 298 waiver.",
+          "stillWrongAtBase": "The builder's own operative sentence around those lines was wrong. It read: 'For each case, make the per-case expunge-or-seal election in the Case List's per-case election column, which is where the record places it -- not on the Request.' That column does not exist. This lane enumerated the blank official ATJ 2902.1 Case List independently: 78 AcroForm fields - 1 dropdown (county), 76 text fields (five caption fields, '7 - Case Number', and arrest1 through arrest70), 1 check box ('Page 1 - More Arrests or Case Numbers'). There is no election field of any kind. The sentence sent the filer to a column that is not on the form and, worse, away from where this packet did make the election: Request item 12 and the Section 19 limb.",
+          "repair": "The builder's own sentence now states the discrepancy and points at the Request: it says the record places the election in a Case List per-case election column, that the official Case List carries no such column and what its 78 fields actually are, that this packet made the election on the Request at item 12 and the Section 19 limb, and that a wrong election is corrected on the Request rather than on the Case List. The record's line is still printed verbatim above it - the record is quoted, not edited.",
+          "stopped": "The controlling record itself still says 'Expunge-versus-seal selection for each case - Case List, per-case election column', and IL.memo.json's manualCompletionItems say the same. Correcting a controlling legal record is not this lane's to make, and the same line reaches il-seal-2yr-set and il-exp-qualprob-set, over which this lane holds no REQUIRED_BEFORE_FILING grant. It needs an owner of data/record-clearing/legal-design-track-registry.json and data/record-clearing/legal-design-intake/IL.memo.json to decide whether the record is corrected to name the Request, or the discrepancy is ratified as a known form-versus-record divergence."
+        },
+        "ROUTE_IDENTITY": {
+          "verdict": "ALREADY SOUND AT BASE - RE-MEASURED, NOT REPAIRED BY THIS LANE",
+          "finding": "VF02 found both artifacts selecting Section 15, the no-wait Second Chance Probation / First Time Weapon Offense branch, on a three-year adult-conviction sealing route. It does not reproduce. Every ticked check box in both delivered fixtures was read from the bytes and matched by geometry to the blank form's widget rectangles: canonical ticks item 12 Yes and '19c - I completed an Illinois prison or jail sentence AND 3 years have passed since the end of my last sentence'; boundary ticks item 12 Yes and '19b - My sentence of conditional discharge or probation was revoked AND 3 years have passed since the end of my last sentence'. Section 15 is ticked in neither, and the builder's ELECTIONS table is exhaustive - a box not named there is never written."
+        },
+        "ROUTE_OPTIONS": {
+          "verdict": "ALREADY SOUND AT BASE - RE-MEASURED, NOT REPAIRED BY THIS LANE",
+          "finding": "Section 12 is answered Yes and the route's ground is one limb of Section 19, chosen from the fixture's certified record and recorded as participant-supplied with the alternative limb named. The guide's '## The Section 19 ground this packet ticked' section tells the filer which limb was ticked, how to change it, not to tick both, and not to tick 19.a because that is the two-year limb. One side effect of the CLIPPING_AND_OVERLAP repair belongs here: before it, item 12's mark was pdf-lib's own 1.5 w drawn check inside a synthesized hairline square; it is now the official form's ZapfDingbats mark, so the elected option is stated in the form's own ink."
+        }
+      },
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0,
+        "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0,
+        "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0
+      },
+      "countersSource": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-seal-3yr-set (no --write), PASS_COMPLETE, 44/424 written",
+      "countersHonesty": "Identical before and after, for the same reason as il-seal-2yr-set: none of the defects repaired here is one this verifier counts.",
+      "visualDefectsMeasuredByThisLane": null,
+      "visualDefectsNote": "Not measured. This lane cannot raster.",
+      "negativeControl": {
+        "control": "inkWithoutGlyphs() run unchanged against the pre-repair committed bytes",
+        "firedOnPreRepairBytes": true,
+        "preRepair": { "canonical": 91, "boundary": 91 },
+        "postRepair": { "canonical": 0, "boundary": 0 }
+      },
+      "artifacts": [
+        { "fixture": "canonical", "file": "data/rcap-all50/overlays/census-v1/il/il-seal-3yr-set--official-pdf-fill/fixtures/canonical.pdf", "sha256": "d95efc94bfc48f1347062d313486333bd67959fb167d948d712b31bdb4293eab", "byteLength": 1728343, "pageCount": 13, "sha256Before": "3406669cadd2e9d88c5aee730bef6fec765d4ae3041df55253a5ad1921f92165" },
+        { "fixture": "boundary", "file": "data/rcap-all50/overlays/census-v1/il/il-seal-3yr-set--official-pdf-fill/fixtures/boundary.pdf", "sha256": "d211932ef08d5363629b5f23d045564162ec55f4a24604ec7fd0eacd69ebcc90", "byteLength": 1729034, "pageCount": 13, "sha256Before": "0ca002a720e0f2f9d44fea383a8d3d2a5a46c9868e0af50e36dd136260f7462c" }
+      ],
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "selfVerified": false
+    },
+    {
+      "itemId": "il-exp-qualprob-set",
+      "status": "COMPLETED",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "repairedByThisLane": true,
+      "failedObligationsHandled": ["CLIPPING_AND_OVERLAP", "KNOWN_PREFILLS", "REPEATING_ROWS", "SERVICE"],
+      "obligationCoverage": {
+        "CLIPPING_AND_OVERLAP": {
+          "verdict": "REPAIRED BY THIS LANE",
+          "whatWasStillWrongAtBase": "No ellipsized value survives in either fixture; VF01's clipped Case List and Request page 2 values are gone. The pdf-lib mechanism remained: 443 flattened Form XObjects per fixture, 91 stroke-only, one per unticked check-box widget.",
+          "repair": "preserveOfficialCheckBoxAppearances() installs the /Off appearance the official form omits on all 94 check-box widgets before any field is touched; form.flatten({ updateFieldAppearances: false }) stops the flatten re-synthesizing.",
+          "evidence": "inkWithoutGlyphs(): canonical 91 -> 0, boundary 91 -> 0. This family gained the most from the repair, because both of its route elections were pdf-lib ink: 'Page 1 - Request to Expunge Records' Yes and '12 - Seal Records' No now carry the official form's own ZapfDingbats mark instead of pdf-lib's drawn check inside a synthesized hairline square, alongside Section 8 and the two self-represented boxes.",
+          "notMeasurableHere": "Residual overlap on the rendered page. Needs a raster."
+        },
+        "KNOWN_PREFILLS": {
+          "verdict": "ALREADY SOUND AT BASE - RE-MEASURED, NOT REPAIRED BY THIS LANE",
+          "finding": "VF01 failed this on four counts and none reproduces on the delivered bytes. The charge cells carry a charge ('Possession of a controlled substance' canonical, the long statutory description on boundary), not the case number. The active expungement row's Outcome is QP, the printed expungement abbreviation for qualified probation, not 'Dismissed'. The inactive sealing table on Request page 4 is wholly blank in both fixtures. The Case List carries the case number in arrest1 and not the ellipsized placeholder 'Charge exactly as shown o...', which appears nowhere in either fixture."
+        },
+        "REPEATING_ROWS": {
+          "verdict": "PART ALREADY SOUND, PART REPAIRED BY THIS LANE",
+          "alreadySound": "On the delivered bytes the Request's expungement table on page 2 carries ink in all five cells of row 1 and rows 2-10 are wholly blank, and the inactive sealing table on page 4 is wholly blank. VF01's '18 visibly partial rows per fixture' are gone.",
+          "stillWrongAtBase": "The Case List's 70-cell repeating group was split at arrest59 by the same /^arrest(?:[2-9]|[1-5]\\d)$/ off-by-N, so arrest60 through arrest70 were classified REQUIRED_BEFORE_FILING and printed to the petitioner as 'Complete arrest60 on EXP-AD Case List page 1' through 'Complete arrest70' while the 58 identical cells below them were optional.",
+          "repair": "caseListArrestSlot() treats all seventy cells as one repeating group; eleven refusals moved to OPTIONAL_PARTICIPANT_CONTENT and the eleven 'Complete arrestNN' lines are gone from participant-instructions.md."
+        },
+        "SERVICE": {
+          "verdict": "ALREADY SOUND AT BASE - RE-MEASURED, NOT REPAIRED BY THIS LANE",
+          "finding": "'## Who serves, and how' now names the method ('The circuit court clerk serves, under section 5.2(d)(4). The participant serves no one.') and the recipients ('the State's Attorney, the Illinois State Police, the arresting agency, and for municipal ordinance violations the chief legal officer'), plus the 60-day objection period under 5.2(d)(5)(B). Both sentences are the controlling record's own and the builder's self-test asserts them verbatim."
+        }
+      },
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0,
+        "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0,
+        "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0
+      },
+      "countersSource": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-exp-qualprob-set (no --write), PASS_COMPLETE, 45/424 written",
+      "countersHonesty": "Identical before and after; none of the defects repaired here is one this verifier counts.",
+      "visualDefectsMeasuredByThisLane": null,
+      "visualDefectsNote": "Not measured. This lane cannot raster.",
+      "negativeControl": {
+        "control": "inkWithoutGlyphs() run unchanged against the pre-repair committed bytes",
+        "firedOnPreRepairBytes": true,
+        "preRepair": { "canonical": 91, "boundary": 91 },
+        "postRepair": { "canonical": 0, "boundary": 0 }
+      },
+      "artifacts": [
+        { "fixture": "canonical", "file": "data/rcap-all50/overlays/census-v1/il/il-exp-qualprob-set--official-pdf-fill/fixtures/canonical.pdf", "sha256": "2657c0232a36e8741e6f6d51e5c73f3fcb1d45ebb19a441e86928291268a5e68", "byteLength": 1728424, "pageCount": 13, "sha256Before": "dc55ad08565d7255c8992dda6a63bd942e14f09570d1283913d8f17b84b02b9a" },
+        { "fixture": "boundary", "file": "data/rcap-all50/overlays/census-v1/il/il-exp-qualprob-set--official-pdf-fill/fixtures/boundary.pdf", "sha256": "8a036785cce6eeea581ce10f71892f29685e775ac977081a2256cd7d81a9bf56", "byteLength": 1729148, "pageCount": 13, "sha256Before": "bb52fc825160724f1b7f42a7331486434e23d62962588127db017c3140411ffc" }
+      ],
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "selfVerified": false
+    }
+  ],
+  "foundAndNotFixed": [
+    {
+      "finding": "The controlling record places the per-case expunge-versus-seal election on a Case List column the official form does not have.",
+      "where": "data/record-clearing/legal-design-track-registry.json tracks[il-seal-2yr, il-seal-3yr, il-exp-qualprob].packetSet.requiredBeforeFiling, and data/record-clearing/legal-design-intake/IL.memo.json manualCompletionItems",
+      "evidence": "The blank official Case List has 78 AcroForm fields: 1 dropdown (county), 76 text fields (five caption fields, '7 - Case Number', arrest1..arrest70) and 1 check box ('Page 1 - More Arrests or Case Numbers'). No election field exists.",
+      "whyNotFixed": "Editing a controlling legal record is not a repair lane's act, and the same line reaches two families over which this lane holds no REQUIRED_BEFORE_FILING grant. The 3yr guide now states the discrepancy in the builder's own voice; the record is untouched.",
+      "needsFrom": "The owner of the Illinois legal-design record."
+    },
+    {
+      "finding": "The 'Every item this packet leaves for you' list omits every check-box election the participant must still make, including all 53 FW-CIV-APPLICATION check-box widgets and Request Section 20.",
+      "where": "All three families' participant-instructions.md, generated from refusals carrying requiredBeforeFiling:true; check-box refusals are recorded with refusalClass participant_sworn_narrative_or_legal_election and no completenessDisposition, so they never reach the list.",
+      "whyNotFixed": "VF05 raised it under REQUIRED_BEFORE_FILING on il-seal-3yr-set only, and the fix is a change to how every check-box refusal is dispositioned - a completeness-contract-shaped change that would move counters on families this lane does not hold. Out of a rapid-repair lane's grant.",
+      "needsFrom": "Captain routing, as its own repair with a grant over all the families it touches."
+    },
+    {
+      "finding": "The guide directs 69 completions onto documents the packet deliberately delivers flattened and un-fillable, without ever telling the participant to print them; only the signature paragraph says 'in ink'.",
+      "where": "All three families' participant-instructions.md.",
+      "whyNotFixed": "Same reason: VF05 raised it on il-seal-3yr-set alone, and repairing it on one family of three would leave the other two saying the opposite. Not widened without a grant.",
+      "needsFrom": "Captain routing."
+    },
+    {
+      "finding": "SELF_HELP_STOP: the delivered '## Stop and get help' section carries four of the eight selfHelpStopConditions the registry names for these tracks. Absent: an unrecognized case on the transcript (possible identity theft), federal or out-of-state records an Illinois court cannot reach, a motion to vacate/modify/reconsider under 5.2(d)(12), and denial of the petition.",
+      "where": "All three families' participant-instructions.md; the section is a hardcoded sentence in each builder rather than a read of track.selfHelpStopConditions.",
+      "whyNotFixed": "SELF_HELP_STOP is not among the obligations this lane was handed on any of its three families. VF03, VF04 and VF05 already hold non-superseded FAIL verdicts naming it.",
+      "needsFrom": "Captain routing to a lane granted SELF_HELP_STOP."
+    },
+    {
+      "finding": "reports/actual-writes.json reports flattenedWidgetAppearancesReadFromOutputBytes as writes.length and nonWhitespaceGlyphsOutsideMeasuredWriteBoxes as a literal 0. Neither is read from the output bytes despite the field names saying so.",
+      "where": "All three builders' build() function.",
+      "whyNotFixed": "Not one of the obligations handed to this lane, and correcting the numbers would change a report shape other lanes and the completeness verifier read. Recorded rather than changed.",
+      "needsFrom": "The owner of the rcap-actual-writes/v2 report shape."
+    },
+    {
+      "finding": "Every Illinois official_pdf_fill fixture still ships an invalid cross-reference table and dangling /Annots left by pdf-lib's flatten(). A working repair exists in this repository as pruneDanglingAnnots() in scripts/build-census-v1-il-exp-pardon-set.mjs.",
+      "where": "All Illinois families, not only these three.",
+      "whyNotFixed": "It reproduces on families outside this lane's grant and is not among the obligations handed to it. The previous lane recorded the same decision in the il-seal-2yr builder header; this lane confirms the finding and leaves it there.",
+      "needsFrom": "The owner of the Illinois writer."
+    }
+  ],
+  "neverDone": {
+    "rasterAttempted": false,
+    "pdftoppm": false,
+    "aptGet": false,
+    "playwrightInstall": false,
+    "centralArtifactsRegenerated": false,
+    "claimsReleased": false,
+    "gitAddAll": false,
+    "forcePush": false,
+    "pushedToMain": false,
+    "ownVerdictIssued": false
+  }
+}

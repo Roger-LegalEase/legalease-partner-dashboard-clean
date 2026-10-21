@@ -1,0 +1,64 @@
+{
+  "schemaVersion": "rcap-raster-queue/v1",
+  "preparedOn": "2026-09-11",
+  "packetCommitSha": null,
+  "packetCommitShaStatus": "Captain must stamp the commit containing these exact bytes before dispatch",
+  "rows": [
+    {
+      "familyId": "nm_conviction-set",
+      "currentRasterState": "RASTER_PENDING",
+      "requestedScale": 2.5,
+      "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/nm/nm-conviction-set--official-pdf-fill/fixtures/canonical.pdf",
+      "canonicalPdfSha256": "b943cf5b16d95882e1a096504438d792fdbdddcc82acab09e58076421978658a",
+      "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/nm/nm-conviction-set--official-pdf-fill/fixtures/boundary.pdf",
+      "boundaryPdfSha256": "8eb9f0f13fd2afc3077e7d99d50c9dad65ef36b2b53f9e6abf95c505b723a9f7",
+      "expectedPages": 24,
+      "documents": [
+        {
+          "role": "canonical",
+          "name": "canonical.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/nm/nm-conviction-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "b943cf5b16d95882e1a096504438d792fdbdddcc82acab09e58076421978658a",
+          "byteLength": 718220,
+          "pageCount": 24,
+          "pageCountBasis": "parsed from the exact queued PDF bytes with pdf-lib and cross-checked with Poppler pdfinfo",
+          "pageCountEvidence": {
+            "method": "pdf-lib 1.17.1 and Poppler pdfinfo 24.02.0",
+            "pageCount": 24,
+            "sourceSha256": "b943cf5b16d95882e1a096504438d792fdbdddcc82acab09e58076421978658a"
+          }
+        },
+        {
+          "role": "boundary",
+          "name": "boundary.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/nm/nm-conviction-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "8eb9f0f13fd2afc3077e7d99d50c9dad65ef36b2b53f9e6abf95c505b723a9f7",
+          "byteLength": 718383,
+          "pageCount": 24,
+          "pageCountBasis": "parsed from the exact queued PDF bytes with pdf-lib and cross-checked with Poppler pdfinfo",
+          "pageCountEvidence": {
+            "method": "pdf-lib 1.17.1 and Poppler pdfinfo 24.02.0",
+            "pageCount": 24,
+            "sourceSha256": "8eb9f0f13fd2afc3077e7d99d50c9dad65ef36b2b53f9e6abf95c505b723a9f7"
+          }
+        }
+      ],
+      "documentsDigest": "a02ed8149843a7df0a7a1afd4c36d963df674a410747397dc5d4585f88697aa6",
+      "coverage": {
+        "complete": true,
+        "basis": "Both current assembled fixture PDFs are enrolled by exact path and SHA-256.",
+        "documents": [
+          "canonical.pdf",
+          "boundary.pdf"
+        ],
+        "rastered": [
+          "canonical.pdf",
+          "boundary.pdf"
+        ],
+        "notRastered": [],
+        "notRenderedByThisGate": []
+      }
+    }
+  ],
+  "retryReason": "Original run34659428344 reports Render and measure and Print verdict steps success, but GitHub upload-artifact failed after5timeouts; no conviction archive exists and available job log omits the measurement/verdict output. No acceptance is claimed. Only this family is retried; identity and release retain their successful original jobs."
+}

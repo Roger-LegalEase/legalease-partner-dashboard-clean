@@ -1,0 +1,131 @@
+#!/usr/bin/env node
+/**
+ * The batch acquisition result, in one file.
+ *
+ * Runs in .github/workflows/rcap-official-source-acquisition-batch.yml after
+ * every matrix job, and it runs on failure too: a batch where nothing was
+ * acquired must produce a result saying so, because an absent result is
+ * indistinguishable from a batch nobody dispatched.
+ *
+ * Three verdicts, and the middle one is the important one:
+ *
+ *   COMPLETE  every planned URL produced a receipt with a SHA-256.
+ *   PARTIAL   some did. The ones that did not are named with their reason, and
+ *             the batch is not reported as a success because most of it worked.
+ *   REFUSED   the manifest never validated, or nothing was acquired at all.
+ *
+ * It reads receipts, never bodies, and it commits nothing.
+ */
+import fs from "node:fs";
+import path from "node:path";
+
+const ROOT = process.cwd();
+const ARTIFACTS = "batch-artifacts";
+const OUT = "SOURCE_ACQUISITION_BATCH_RESULT.json";
+const planned = Number.parseInt(process.env.RCAP_PLANNED ?? "0", 10) || 0;
+const planResult = process.env.RCAP_PLAN_RESULT ?? "unknown";
+const acquireResult = process.env.RCAP_ACQUIRE_RESULT ?? "unknown";
+const acquisitionRunId = process.env.RCAP_ACQUISITION_RUN_ID ?? null;
+
+const receipts = [];
+const unreadable = [];
+const dir = path.join(ROOT, ARTIFACTS);
+if (fs.existsSync(dir)) {
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    if (!entry.isDirectory()) continue;
+    const files = fs.readdirSync(path.join(dir, entry.name), { recursive: true })
+      .filter((f) => String(f).endsWith(".json"));
+    if (files.length === 0) { unreadable.push({ artifact: entry.name, why: "the artifact carries no receipt" }); continue; }
+    for (const f of files) {
+      try {
+        const r = JSON.parse(fs.readFileSync(path.join(dir, entry.name, String(f)), "utf8"));
+        receipts.push({ artifact: entry.name, receiptFile: String(f), ...r });
+      } catch (e) { unreadable.push({ artifact: entry.name, receiptFile: String(f), why: `unreadable receipt: ${e.message}` }); }
+    }
+  }
+}
+
+/*
+ * "Acquired" is the receipt's own word, not an inference from the presence of a
+ * hash. A receipt whose outcome is anything else -- not_acquired, or the
+ * hash-mismatch outcome the acquire script now writes instead of claiming an
+ * acquisition it cannot vouch for -- is not an acquisition.
+ */
+const acquired = receipts.filter((r) => r.outcome === "acquired" && /^[0-9a-f]{64}$/.test(String(r.sha256 ?? "")));
+const failed = receipts.filter((r) => !acquired.includes(r))
+  .map((r) => ({ artifact: r.artifact, jurisdiction: r.jurisdiction ?? null, formNumber: r.formNumber ?? null, outcome: r.outcome ?? null, why: r.failure ?? (r.outcome && r.outcome !== "acquired" ? `the receipt's outcome is ${r.outcome}` : "the receipt carries no SHA-256") }));
+/*
+ * A receipt with no run id and no artifact name cannot be matched to the
+ * artifact it describes, so PROMO will refuse it. That is a batch outcome, not
+ * a detail: reporting COMPLETE over receipts nothing can promote would be
+ * reporting the fetch and calling it the handoff.
+ */
+const missingProvenance = acquired.filter((r) =>
+  !/^\d+$/.test(String(r.acquisitionRunId ?? "")) || !/^[A-Za-z0-9][A-Za-z0-9._-]+$/.test(String(r.artifactName ?? "")))
+  .map((r) => ({ artifact: r.artifact, assetId: r.assetId ?? null, acquisitionRunId: r.acquisitionRunId ?? null, artifactName: r.artifactName ?? null }));
+const provenanceRunIdMismatch = acquired.filter((r) => acquisitionRunId && String(r.acquisitionRunId ?? "") !== String(acquisitionRunId))
+  .map((r) => ({ artifact: r.artifact, receiptSaid: r.acquisitionRunId ?? null, runWas: acquisitionRunId }));
+const hashMismatches = acquired.filter((r) => r.matchesExpectedSha256 === false)
+  .map((r) => ({ artifact: r.artifact, expected: r.expectedSha256, retrieved: r.sha256 }));
+
+let verdict;
+if (planResult !== "success") verdict = "REFUSED";
+else if (planned === 0) verdict = "REFUSED";
+else if (acquired.length === 0) verdict = "REFUSED";
+else if (acquired.length === planned && failed.length === 0 && unreadable.length === 0 && hashMismatches.length === 0 && missingProvenance.length === 0 && provenanceRunIdMismatch.length === 0) verdict = "COMPLETE";
+else verdict = "PARTIAL";
+
+const result = {
+  schemaVersion: "rcap-source-acquisition-batch-result/v1",
+  acquisitionRunId,
+  batchResultArtifactName: "rcap-source-acquisition-batch-result",
+  verdict,
+  verdictVocabulary: ["COMPLETE", "PARTIAL", "REFUSED"],
+  verdictBasis: {
+    COMPLETE: "every planned URL produced a receipt carrying a SHA-256, and no expected hash disagreed",
+    PARTIAL: "some planned URLs produced a receipt and some did not; the failures are named below",
+    REFUSED: "the manifest did not validate, nothing was planned, or nothing was acquired"
+  }[verdict],
+  planJobResult: planResult,
+  acquireJobResult: acquireResult,
+  counts: {
+    planned,
+    acquired: acquired.length,
+    failed: failed.length,
+    unreadableArtifacts: unreadable.length,
+    expectedHashMismatches: hashMismatches.length,
+    missingProvenance: missingProvenance.length,
+    provenanceRunIdMismatch: provenanceRunIdMismatch.length
+  },
+  acquired: acquired.map((r) => ({
+    jurisdiction: r.jurisdiction ?? null, formNumber: r.formNumber ?? null,
+    /*
+     * These read the key names rcap-acquire-official-source.mjs writes. They
+     * previously read officialUrl/url, byteLength, mediaTypeObserved, pageCount
+     * and technology -- five names no receipt has ever carried -- so every
+     * descriptive field published per acquired source was null, including the
+     * URL, the only field that says which document the bytes are. The batch
+     * still reported COMPLETE, because nothing here gates. H5 now asserts that
+     * every field name this file reads is a key the acquire script writes.
+     */
+    officialUrl: r.finalResolvedUrl ?? r.requestedUrl ?? null, sha256: r.sha256,
+    expectedSha256: r.expectedSha256 ?? null, publisherHost: r.publisherHost ?? null,
+    byteLength: r.observedByteLength ?? null, mediaTypeObserved: r.contentType ?? null,
+    pageCount: r.observedPageCount ?? null, technology: r.observedStructuralClass ?? null,
+    acquisitionRunId: r.acquisitionRunId ?? null, artifactName: r.artifactName ?? null,
+    bodyCommitted: false, promotedToCorpus: false, custodyClass: "RECEIPT_AND_ARTIFACT_ONLY_BODY_NOT_COMMITTED"
+  })),
+  failed, unreadable, hashMismatches, missingProvenance, provenanceRunIdMismatch,
+  promotable: acquired.length - missingProvenance.length - provenanceRunIdMismatch.length,
+  promotableMeaning: "receipts carrying a run id and an artifact name that match this run. Only these can reach PROMO; the rest are fetched bytes with no way back to the artifact.",
+  bodiesCommitted: 0,
+  commercialRoutesOpened: 0,
+  productionTouched: false,
+  promoLaunchNow: false,
+  promoHandoff: "Materialize with scripts/rcap-materialize-acquisition-handoff.mjs; PROMO remains refused until run id, artifact, receipt and hashes all bind.",
+  grantsNothing: "An acquired source is bytes with a receipt. It is not promoted custody, it builds no packet, and it opens no commercial route."
+};
+
+fs.writeFileSync(path.join(ROOT, OUT), `${JSON.stringify(result, null, 2)}\n`);
+console.log(`${verdict}: ${acquired.length}/${planned} acquired, ${failed.length} failed, ${hashMismatches.length} hash mismatch(es).`);
+for (const f of failed.slice(0, 20)) console.log(`  FAILED ${f.jurisdiction ?? "??"} ${f.formNumber ?? f.artifact}: ${f.why}`);

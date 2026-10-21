@@ -1,0 +1,36 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "ma-expunge-k-set",
+  "blocking": [],
+  "findings": [
+    {
+      "finding": "SOURCE_READY_BUILDABILITY.json classifies this family SOURCE_IDENTITY_UNRESOLVED_IN_THE_CUSTODY_RECORD with documentSourcesResolved 0, and the MASTER_QUEUE row repeats the scalar as custodyClass \"SOURCE_IDENTITY_UNRESOLVED\" — beside sourceStatus SOURCE_BOUND_BY_HELD_BYTES and sourceBound true in the SAME row.",
+      "consequence": "The declared path holds the declared digest exactly, in a mounted custody root, verified before this build wrote anything, and the buildability row's own per-source entry for it reads kind 'held_pdf', firstBytes '%PDF-' and resolvedBy 'declared_path'. The row contradicts itself and the scalar is the wrong half. Recorded in source-receipt.json for whoever owns it."
+    },
+    {
+      "finding": "SOURCE_IDENTITY_RESOLUTION_SWEEP.json records identityEvidence.xfaPresent false for these bytes. The AcroForm dictionary of the pinned binary carries an /XFA entry, and pdf-lib announces 'Removing XFA form data' on load. This build reads xfaPresentInTheAcroFormDictionary true.",
+      "consequence": "The binary is an XFA HYBRID. Its AcroForm side is complete — 26 widgets over static page content that extracts cleanly — so the ordinary fill-and-flatten path applies and the delivered artifact is the flattened rendering of the static pages after the XFA packet is removed. The sanitation report records xfaPresentInInput and xfaRemoved. The sweep's scalar is wrong about this binary and is recorded rather than resolved here: the same disagreement was measured on TC0021 by ma-expunge-mj-set, so it is a property of how that field is generated rather than of this file."
+    },
+    {
+      "severity": "blocking_if_unfixed_elsewhere",
+      "finding": "This form's AcroForm names are XFA-era and carry no word a descriptor can match — every one of the 26 measures sharedRegistryWouldBindFromName null. The finalizer is also handed this build's own effectiveLabel, and the shared registry DOES match several of those: the measurement per field is recorded in field-census.census-v1.json as sharedRegistryWouldBindFromThisBuildsLabel.",
+      "consequence": "Every widget except the one composed contact block is passed as unwritable by ROLE, which is the one gate the descriptor channel cannot reverse, so no label of this build's own writing can cause a write. Recorded because a family that labelled its fields for the participant's benefit and did NOT pass the role list would have written participant facts into the charges box and the narrative box on a sworn petition."
+    },
+    {
+      "finding": "Every check box on this form ships an appearance for its ON state ('/1') and NO '/Off' appearance at all.",
+      "consequence": "That is the precondition of the measured Vermont defect: pdf-lib's updateFieldAppearances regenerates an appearance for a widget whose current /AS has no /AP /N entry, using its default check-box provider, which paints a stroked square the size of the rectangle — twenty-two of them here, on a petition that ticks none. suppressSynthesizedAppearances and suppressSynthesizedWidgetBorders are both passed, and reports/actual-writes.json reads every one of the twenty-two rectangles in the output on the INK-operator channel to confirm nothing paints there. What is stamped at each is the EMPTY appearance the suppression installs: measured at zero stroke, fill, shading and XObject operators, against the source's own on-state stream for the same box, which strokes."
+    },
+    {
+      "finding": "Page 1 prints 'DATE:' and \"PETITIONER'S SIGNATURE\" on a rule at y 62 and the AcroForm carries NO widget at either.",
+      "consequence": "There is nothing for this build to protect and nothing for it to write, and no field counter would ever have shown the gap. The participant is told in participant-instructions.md that the signature rule has no fillable box on this form and is signed by hand. Recorded because a signature line invisible to the field census is exactly the kind of omission these packets exist to prevent."
+    },
+    {
+      "finding": "The route-obligation census records nothing for this route on proposedOrder, coverSheet, notice, certificateOfService, affidavitOrVerification, schedulesOrContinuationPages, requiredParticipantAttachments, notarizationRequirements, filingMethod, filingFee, feeWaiverTreatment, serviceRecipients, serviceMethod, serviceTiming, filingDeadline and postFilingInstructions: [\"affidavitOrVerification\",\"certificateOfService\",\"coverSheet\",\"feeWaiverTreatment\",\"filingDeadline\",\"filingFee\",\"filingMethod\",\"notarizationRequirements\",\"notice\",\"postFilingInstructions\",\"proposedOrder\",\"requiredParticipantAttachments\",\"schedulesOrContinuationPages\",\"serviceMethod\",\"serviceRecipients\",\"serviceTiming\"].",
+      "consequence": "The participant instructions state no filing fee, no fee waiver, no deadline and no service recipient beyond the district attorney's copy the FORM ITSELF describes, and they name the clerk's office as the place to ask about a fee. Every sentence about giving the district attorney a copy is quoted from the court's own instruction sheet on page 2 of the pinned binary, read at build time. An unsourced figure in a filing instruction is worse than none."
+    },
+    {
+      "finding": "MASTER_QUEUE lists this family's officialFormFamily as the free-text string 'Petition for Expungement, G.L. c. 276, § 100K'. The form itself prints no form number on either page — only the edition footer \"(Rev. 12.20.18)\".",
+      "consequence": "The document id used throughout this family's artifacts is this packet's own handle, built from the caption the form does print, and source-receipt.json records formNumberPrintedOnTheForm as null rather than inventing one."
+    }
+  ]
+}

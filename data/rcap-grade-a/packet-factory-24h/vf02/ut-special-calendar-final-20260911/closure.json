@@ -1,0 +1,80 @@
+{
+  "schemaVersion": "rcap-independent-defect-closure/v1",
+  "familyId": "ut_pet_special_certificate-set",
+  "lane": "VF02",
+  "verifiedAtBase": "5c52ec5a7931e45d58fb0b259c5657a8f7c77923",
+  "priorIndependentCommit": "1cdeabcd99d6de8165ad6e9b352b51efd5b0d1bd",
+  "authorCorrectionCommit": "0b588b9e9c07d7a61c502c4d5bc114dcb9f0a47c",
+  "defectId": "UT-VF02-CURRENT-01",
+  "result": "CLOSED",
+  "remainingReachableDefects": [],
+  "productionCaller": {
+    "path": "scripts/build-census-v1-ut_pet_special_certificate-set.mjs",
+    "currentSha256": "c0af25e5db0736e214899fb72b7740f8f0c1bca7c4eb881d63067fcf3e151862",
+    "parserLines": "55-77",
+    "gateLines": "80-106",
+    "actualWrapper": "buildUtahSpecialCertificate",
+    "actualWrapperCallLine": 209,
+    "refusalAssertionLines": "210-211",
+    "firstWriteLine": 212,
+    "trace": "Actual wrapper first verifies exact sources, registry and census. In its build path it passes stageInput to specialCertificateStageGate and asserts ALLOW_STAGE_2 before writeJson. Invalid calendar inputs now return INVALID_AS_OF or CERTIFICATE_DATES_REQUIRED and trigger that assertion before any mutator. The separate --check branch remains read-only."
+  },
+  "correctionAssessment": "The complete narrow correction validates date or timestamp syntax, Gregorian month/day and time components before Date construction for issuedAt, expiresAt and asOf. Finite Date objects and the omitted-asOf current Date default remain supported. Existing episode, independently expected certificate hash, future issue, expiry and 180-day guards remain unchanged. No new reachable defect identified.",
+  "freshEvidence": {
+    "pureGateChecks": 14406,
+    "oracle": "Independent Date.UTC round-trip against stated year/month/day; production leap/month logic was not copied. All 12 months, day 0 through 32, six common/leap/century years, all three inputs, date-only and timestamp forms. Additional format, type, null, undefined, Date object, offset and existing guard cases.",
+    "actualWrapperCases": 57,
+    "refuseBeforeMutation": 37,
+    "validReachFirstMutationBarrier": 20,
+    "failures": 0,
+    "originalThreeCounterexamplesNowRefuse": true,
+    "successfulBuilds": 0,
+    "filesystemMutationsByProductionCalls": 0,
+    "evidence": "data/rcap-grade-a/packet-factory-24h/vf02/ut-special-calendar-final-20260911/calendar-closure-results.json"
+  },
+  "reusedEvidence": {
+    "obligations": 14,
+    "acceptanceInputRecordsFreshlyHashed": 78,
+    "onlyExpectedWrapperChanged": true,
+    "unchangedFamilyFiles": 15,
+    "priorSourcePdfs": 9,
+    "priorAuthorityBindings": 8,
+    "originalPngsPreviouslyViewed": 33,
+    "originalPngsViewedAgain": 0,
+    "actualWritesPreviouslyMeasured": 115,
+    "sourceTerminalsPreviouslyDisposed": 459,
+    "controlComparisonsPreviouslyPassed": 6930,
+    "fixtureControlChecksPreviouslyPassed": 44,
+    "sourceLegalInterpretationsRepeated": 0,
+    "identityEvidence": "data/rcap-grade-a/packet-factory-24h/vf02/ut-special-calendar-final-20260911/acceptance-input-identity.json",
+    "pdfBindings": [
+      {
+        "fixture": "canonical",
+        "path": "data/rcap-all50/overlays/census-v1/ut/ut-pet-special-certificate-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "c6a058ff36f009423b82f53f9269815023d1d1624c2e42a8cdc57b7463b28f58",
+        "pages": 13
+      },
+      {
+        "fixture": "boundary",
+        "path": "data/rcap-all50/overlays/census-v1/ut/ut-pet-special-certificate-set--official-pdf-fill/fixtures/boundary.pdf",
+        "sha256": "3b1425d7636cbebdb055d4a8f863251fb0970d8e0b35b3354278630d16d601ba",
+        "pages": 20
+      }
+    ]
+  },
+  "dormantHostHookObservations": "The two previously disclosed helper-only branch/reply observations remain excluded from current defects. No new host hook probes or expanded design requirements were introduced.",
+  "rasterState": "Run 34629454670 and its pinned commit 4abaf4f7dc9e7c9be6d9b0e1c053da401942cf15 continue to bind these exact PDFs and 33 original pages. Central RASTER_QUEUE currently retains the receipt as historical because the prior independent FAIL remains selected. This closure changes no central state and claims no current gate authority.",
+  "commandsEvidence": "data/rcap-grade-a/packet-factory-24h/vf02/ut-special-calendar-final-20260911/commands.json",
+  "reviewedDiff": "data/rcap-grade-a/packet-factory-24h/vf02/ut-special-calendar-final-20260911/reviewed-correction.diff",
+  "reviewedDiffSha256": "06573ff5ca9ef3b9fada4ce9ffb308bffc9646e24801673128c93ccfc4767ba3",
+  "verdict": "PASS_COMPLETE_INDEPENDENT",
+  "obligationSummary": {
+    "PASS": 15,
+    "FAIL": 0,
+    "NOT_MEASURABLE_HERE": 0,
+    "BLOCKED_LEGAL_INPUT": 0
+  },
+  "commercialAuthorityGranted": false,
+  "centralAdmissionChanged": false,
+  "reviewedDiffFormatting": "Trailing whitespace removed from context-only lines for evidence storage; no semantic diff content removed."
+}

@@ -1,0 +1,63 @@
+[
+  {
+    "name": "grant-can-assert",
+    "argv": [
+      "node",
+      "scripts/grade-a-packet-factory-24h/claim.mjs",
+      "--can-assert",
+      "VF01",
+      "composed-treatment:nd-nonconviction-auto-close-verify"
+    ],
+    "exit": 0,
+    "stdout": "grant-can-assert.stdout.log",
+    "stderr": "grant-can-assert.stderr.log"
+  },
+  {
+    "name": "grant-assert",
+    "argv": [
+      "node",
+      "scripts/grade-a-packet-factory-24h/claim.mjs",
+      "--assert",
+      "VF01",
+      "composed-treatment:nd-nonconviction-auto-close-verify"
+    ],
+    "exit": 0,
+    "stdout": "grant-assert.stdout.log",
+    "stderr": "grant-assert.stderr.log"
+  },
+  {
+    "name": "production-check",
+    "argv": [
+      "node",
+      "scripts/build-census-v1-composed-treatment:nd-nonconviction-auto-close-verify.mjs",
+      "--check"
+    ],
+    "exit": 0,
+    "stdout": "production-check.stdout.log",
+    "stderr": "production-check.stderr.log"
+  },
+  {
+    "name": "existing-focused-tests",
+    "argv": [
+      "node",
+      "--test",
+      "scripts/rcap-packet-recovery/test-nd-nonconviction-timing.mjs"
+    ],
+    "exit": 1,
+    "stdout": "existing-focused-tests.stdout.log",
+    "stderr": "existing-focused-tests.stderr.log",
+    "logNormalization": "trailing whitespace only"
+  },
+  {
+    "name": "completeness",
+    "argv": [
+      "node",
+      "scripts/rcap-packet-completeness/verify-packet-completeness.mjs",
+      "--family",
+      "composed-treatment:nd-nonconviction-auto-close-verify"
+    ],
+    "exit": 0,
+    "stdout": "completeness.stdout.log",
+    "stderr": "completeness.stderr.log"
+  }
+]

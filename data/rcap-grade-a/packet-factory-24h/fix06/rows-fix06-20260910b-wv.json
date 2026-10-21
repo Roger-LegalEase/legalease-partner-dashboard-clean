@@ -1,0 +1,81 @@
+{
+  "schemaVersion": "rcap-packet-factory-lane-rows/v1",
+  "lane": "FIX06",
+  "laneKind": "repair",
+  "shift": "20260910b-wv",
+  "worktree": "/home/user/pfc-worktree",
+  "branch": "pfc-ky2-20260910",
+  "baseSha": "52ce39dd30ebfdc383dc904a509c49bbd5ac2a0c",
+  "headSha": null,
+  "headShaNote": "null until this file is committed; not transcribed by hand.",
+  "writtenAlongsideRatherThanOver": "New file under a distinct name in data/rcap-grade-a/packet-factory-24h/fix06/. Nothing was overwritten. The Kentucky return of this shift is rows-fix06-20260910b-ky.json, already committed and pushed.",
+  "independence": "No verdict is set and no PASS is issued.",
+  "measurementNote": "Every one of the nine counters in this row is null, because this lane measured none of them for this family. Null is not zero and none of them may be read as a pass.",
+  "grantsAsserted": [
+    "CLAIM_OK FIX06 wv_conv_nonviolent_felony-set (repair, grant set aa0782a09b6186ce)"
+  ],
+  "notTouchedThisShift": "No artifact of this family, no other lane's worktree, no shared manifest, no queue row. The sparse checkout was not widened.",
+  "rows": [
+    {
+      "itemId": "wv_conv_nonviolent_felony-set",
+      "lane": "FIX06",
+      "laneKind": "repair",
+      "status": "STOPPED",
+      "stopClass": "FAMILY_DIRECTORY_NOT_IN_THIS_SPARSE_CHECKOUT",
+      "repairedByThisLane": false,
+      "rasterState": null,
+      "rasterStateIsNullNotAValue": "This lane produced no bytes for this family, so it has no raster state to report. Whatever the committed build-status.json carries is unchanged.",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/wv/wv-conv-nonviolent-felony-set--official-pdf-fill",
+      "implementationStrategy": "official_pdf_fill",
+      "claim": "CLAIM_OK FIX06 wv_conv_nonviolent_felony-set (repair, grant set aa0782a09b6186ce)",
+      "claimNote": "The grant asserted cleanly and is NOT released here — the Captain owns releases. It was asserted before anything about this family was read, per the standing rule.",
+      "whyStopped": "The family's directory is not materialized in this worktree, and the assignment directed this lane to say so and do Kentucky only rather than widen the sparse checkout.",
+      "provedRatherThanAssumed": {
+        "onDisk": "ls -d data/rcap-all50/overlays/census-v1/wv -> No such file or directory.",
+        "inTheRepositoryAtHead": "git ls-tree -r --name-only HEAD data/rcap-all50/overlays/census-v1/wv/ returns 139 paths, 13 of them under data/rcap-all50/overlays/census-v1/wv/wv-conv-nonviolent-felony-set--official-pdf-fill (approval-request.json, build-findings.json, build-status.json, fixtures/boundary.pdf, fixtures/canonical.pdf, participant-instructions.md, product-wiring.json, production-field-map.json, reports/actual-writes.json, reports/blanks-left-for-the-participant.json, reports/completeness-counters.json, reports/rendered-artifacts.json, source-receipt.json).",
+        "whyItIsAbsentHere": "git sparse-checkout list carries data/rcap-all50/overlays/census-v1/de, .../ky and .../mn and no wv pattern. The family is sparse-excluded, NOT missing from the repository, and nothing here should be read as a custody or source finding.",
+        "whatWouldMakeItReachable": "git sparse-checkout add data/rcap-all50/overlays/census-v1/wv — deliberately NOT run, per the assignment."
+      },
+      "whatWasRead": "Only scripts/build-census-v1-wv_conv_nonviolent_felony-set.mjs, which IS materialized because scripts/ is in the sparse set, and only far enough to establish where the family's output directory is and whether a rebuild would be safe. No artifact under data/rcap-all50/overlays/census-v1/wv/wv-conv-nonviolent-felony-set--official-pdf-fill was read, because none is present. The two observations below come from the builder source alone and are offered to whoever picks the family up; neither is a verification and neither was measured against delivered bytes.",
+      "observationsFromTheBuilderSourceOnly": [
+        {
+          "obligation": "ARTIFACTS",
+          "observation": "VF01's finding is visible in the source. The builder hardcodes flattenedWidgetAppearancesReadFromOutputBytes: 0 with the note 'zero by construction rather than by failure: an AcroForm document is flattened into page content before it is copied into the packet...'. That is the published-zero-where-a-measurement-existed class: the reasoning may be right about where the marks end up and is still not a reading of the output bytes, so a delivered canonical carrying 70 /FlatWidget XObjects cannot contradict it. The sibling column on the same object, addedGlyphsReadFromOutputBytes, IS read from the bytes; this one must be too, or be null with the reason, never 0.",
+          "notVerifiedHere": "The 70-XObject count is VF01's measurement, not this lane's. This lane cannot open the delivered file."
+        },
+        {
+          "obligation": "governance, before any rebuild",
+          "observation": "scripts/build-census-v1-wv_conv_nonviolent_felony-set.mjs does NOT import scripts/rcap-packet-completeness/governance-preservation.mjs — grep for governance-preservation, preserveGovernanceState and writeWiringChecked over the file returns nothing — and the file contains no occurrence of the string 'wiring' at all, so it does not appear to author data/rcap-all50/overlays/census-v1/wv/wv-conv-nonviolent-felony-set--official-pdf-fill/product-wiring.json even though that file exists in the committed tree. Whoever rebuilds this family must establish what writes that wiring and wire governance preservation into it BEFORE the first rebuild, or the family's acceptance receipt and commercial guards can be erased invisibly — the REBUILD_ERASES_GOVERNANCE_STATE class. Kentucky's builder was one of the erasing ones and was wired in an earlier shift; this one is not wired.",
+          "notVerifiedHere": "Whether some other host writes that wiring could not be determined without the directory."
+        },
+        {
+          "obligation": "the inverted /Rect note in the assignment",
+          "observation": "The assignment names the normalizer as normalizeInvertedWidgetRects. The actual export of scripts/rcap-official-forms/rcap-active-content.mjs is normalizeInvertedWidgetRectangles. The concern behind the note is real in this codebase: rcap-active-content.mjs calls form.flatten() directly at line 1580, and the WV builder's own source refers at line 2299 to hosts that 'call sanitizeAndFlatten directly and never reach' the other path — so the flag genuinely may need threading. Recorded so the next lane does not import a symbol that does not exist.",
+          "notVerifiedHere": "SCA-C907's MulitipleFelonlySatisfiesDate was not examined; the form was not opened."
+        }
+      ],
+      "countersAfter": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "countersAfterHowMeasured": "All nine are null because none was measured. This lane produced no bytes for this family and could not open the delivered ones. A counter that was not measured is null, never 0, and none of these may be read as a pass. The counters the family carries in its committed reports/completeness-counters.json are untouched by this lane and were not read.",
+      "whatWasDeliberatelyNotDone": [
+        "The sparse checkout was NOT widened. `git sparse-checkout add data/rcap-all50/overlays/census-v1/wv` was not run.",
+        "No artifact of this family was read, edited or rebuilt.",
+        "The claim was not released and not transferred.",
+        "No verdict was set and no PASS issued.",
+        "scripts/build-census-v1-wv_conv_nonviolent_felony-set.mjs was read but NOT edited — repairing a builder whose output cannot be inspected would be self-verification by a different name."
+      ],
+      "whatTheNextLaneNeeds": "A worktree whose sparse set includes data/rcap-all50/overlays/census-v1/wv. With that, the three VF01 items are addressable: the two sworn yes/no election groups (item i current order, item i prior order) and item m prior expungement, six boxes, which are unmade and absent from both the guide's blanks table and its deliberately-left-blank list while the track registry declares protectiveOrders and priorExpungementGranted as required intake; and the published flattened-widget zero.",
+      "independence": "This lane repaired nothing here and verifies nothing here. Every observation above is from builder source, is labelled as such, and is not a verification.",
+      "grantsNothing": "Nothing was built, nothing was approved, no route was opened and no commercial guard was touched."
+    }
+  ]
+}

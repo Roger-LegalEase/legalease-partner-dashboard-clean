@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "rcap-owner-grant-vs-manifest-sweep/v1",
+  "recordedBy": "Captain, 2026-09-09",
+  "why": "A build lane found that two Louisiana families' owner-determination grants omit the very form the same owner's packet-set manifest makes a REQUIRED component, and which the family's own bound source IS. It asked whether the shape repeats elsewhere. This is the answer for every family any determination covers.",
+  "question": "For every family named in OWNER_DETERMINATIONS_2026-09-02.json, does its grant name every officialFormId the packet-set manifest marks requirement: required?",
+  "howItWasMeasured": "Per family, the union of composedFromAuthority, remainOfficialAndMustBeHeld, forms and officialFormIds -- because the key that carries a form identity depends on the decision kind -- compared against the required components of the packet set with the same id.",
+  "familiesChecked": 18,
+  "grantsOmittingARequiredForm": 2,
+  "aCorrectionToMyOwnFirstPass": "My first sweep read only composedFromAuthority and reported four Arizona families as gaps. They are not. AZ-R-26-0001 is a USE_THE_ADOPTED_AMENDMENTS decision and its families carry their identities under 'forms'. Reading one key across decision kinds manufactured four false positives, and the corrected sweep clears Arizona and Florida entirely.",
+  "theFinding": "The pattern is real and it is confined to Louisiana. Two of seven LA families, both under LA-STATUTORY-FORMS, COMPOSE_FROM_AUTHORITY.",
+  "whyItMatters": "If a grant is read as exhaustive, each of these two families' REQUIRED primary filing has no authority behind it and the build should be withdrawn. If the determination's operative text governs, both are authorized: the text names 'arts. 987 through 995 and 998' by number, which covers art. 998 and art. 995 explicitly. The per-family lists are narrower than the text of the decision they sit inside.",
+  "whatTheLaneDid": "Built under the determination's operative text and asserted both halves in the builder, so neither can drift silently. That is the right call under the build-first model and it is not a substitute for the answer.",
+  "theOwnerQuestion": "Is a per-family composedFromAuthority list exhaustive, or is it a non-exhaustive index into the decision's operative text? One answer settles both families and tells every future lane how to read a grant.",
+  "gaps": [
+    {
+      "determination": "LA-STATUTORY-FORMS",
+      "decision": "COMPOSE_FROM_AUTHORITY",
+      "familyId": "la-977d-marijuana-first-offense-set",
+      "requiredButNotGranted": [
+        "LA-CCRP-ART-998"
+      ],
+      "grant": [
+        "LA-CCRP-ART-988",
+        "LA-CCRP-ART-991",
+        "LA-CCRP-ART-992"
+      ]
+    },
+    {
+      "determination": "LA-STATUTORY-FORMS",
+      "decision": "COMPOSE_FROM_AUTHORITY",
+      "familyId": "la-985-1-interim-expungement-set",
+      "requiredButNotGranted": [
+        "LA-CCRP-ART-995"
+      ],
+      "grant": [
+        "LA-CCRP-ART-988",
+        "LA-CCRP-ART-994"
+      ]
+    }
+  ],
+  "notAProductionClaim": "This sweep promotes nothing and withdraws nothing. It names a question about authority, which is counsel's to answer."
+}

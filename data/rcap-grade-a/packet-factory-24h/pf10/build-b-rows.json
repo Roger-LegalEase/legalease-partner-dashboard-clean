@@ -1,0 +1,401 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-rows/v1",
+  "assignmentId": "PF10",
+  "workerId": "BUILD-B",
+  "lane": "packet-build",
+  "engine": "remote agent session",
+  "shiftBaseSha": "3fcdb0f292f31d1a1bbc5778832d54401ef9c782",
+  "workerBranch": "claude/build-b-custom-pleading-cohort",
+  "writtenAlongsideNotOverIt": {
+    "existingFile": "data/rcap-grade-a/packet-factory-24h/pf10/rows.json",
+    "existingWorker": "FABLE-PB",
+    "existingBase": "ee5bdb5b56d69c00750663087e5e8c5a6d144acf",
+    "existingItems": [
+      "rcap-tx-custom-pleading",
+      "wy_fel_1502-set",
+      "la-987-set-aside-and-dismiss-set"
+    ],
+    "whyThisFileExists": "this lane directory already held a rows.json from an earlier cohort, and overwriting it would erase that cohort's return. This file is written beside it.",
+    "itemsInBoth": [],
+    "whereTheTwoDisagree": "nowhere. The two files describe disjoint sets of families, so neither contradicts the other on any family, counter, hash or verdict."
+  },
+  "familiesAssigned": 1,
+  "familiesBuilt": 1,
+  "familiesStopped": 0,
+  "preflight": {
+    "command": "not run: scripts/verify-packet-build-environment.mjs is the Codex Cloud lane gate and this lane runs in a different container",
+    "environmentFactsEstablishedInstead": [
+      "only two of the five source custodies are mounted: the Master Library and human-source-returns",
+      "no browser resolves here, so every family is returned BUILT_RASTER_PENDING with its exact canonical and boundary hashes"
+    ]
+  },
+  "selfVerification": 0,
+  "rows": [
+    {
+      "itemId": "in_conviction_d6-set",
+      "status": "BUILT_RASTER_PENDING",
+      "familyId": "in_conviction_d6-set",
+      "claim": {
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF10 in_conviction_d6-set",
+        "result": "CLAIM_OK",
+        "releasedAtEndOfThisLane": true
+      },
+      "route": {
+        "jurisdiction": "IN",
+        "trackId": "in_conviction_d6",
+        "packetSetId": "in_conviction_d6-set",
+        "packetSetVersion": "1.0.0",
+        "routeKeys": [
+          "obligation:track-pathway:IN:in_conviction_d6:conviction-expungement-with-sealed-confidential-access"
+        ],
+        "implementationStrategy": "custom_pleading",
+        "statute": "I.C. 35-38-9-3"
+      },
+      "buildScript": "scripts/build-census-v1-in_conviction_d6-set.mjs",
+      "directory": "data/rcap-all50/overlays/census-v1/in/in-conviction-d6-set--custom-pleading",
+      "components": {
+        "authoritative": 6,
+        "generated": [
+          "in_conviction_d6-primary-filing-1",
+          "in_conviction_d6-proposed-order-2",
+          "in_conviction_d6-attachment-3",
+          "in_conviction_d6-attachment-4",
+          "in_conviction_d6-attachment-5",
+          "in_conviction_d6-attachment-6"
+        ],
+        "notGenerated": [],
+        "retainedOfficialDocuments": [
+          {
+            "componentId": "in_conviction_d6-attachment-3",
+            "documentId": "CCA-XP-0220-7009",
+            "sourceSha256": "499ed8a49c785fa949bcce19c3783f84318b73bc162cb5db8576094a321990b1",
+            "pagesTaken": [
+              1,
+              2,
+              3
+            ],
+            "markerProvedOnEveryPage": "CCA-XP-0220-7009",
+            "widgetCount": 134,
+            "filledByThisBuild": false,
+            "fieldMappedByThisBuild": false
+          },
+          {
+            "componentId": "in_conviction_d6-attachment-4",
+            "documentId": "CCA-GF-0120-3016",
+            "sourceSha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+            "pagesTaken": [
+              1,
+              2
+            ],
+            "markerProvedOnEveryPage": "CCA-GF-0120-3016",
+            "widgetCount": 33,
+            "filledByThisBuild": false,
+            "fieldMappedByThisBuild": false
+          },
+          {
+            "componentId": "in_conviction_d6-attachment-5",
+            "documentId": "CCA-XP-0120-7002 Form ACR",
+            "sourceSha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+            "pagesTaken": [
+              7
+            ],
+            "markerProvedOnEveryPage": "CCA-XP-0120-7002",
+            "widgetCount": 13,
+            "filledByThisBuild": false,
+            "fieldMappedByThisBuild": false
+          },
+          {
+            "componentId": "in_conviction_d6-attachment-6",
+            "documentId": "Confidential Information Form",
+            "sourceSha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+            "pagesTaken": [
+              8
+            ],
+            "markerProvedOnEveryPage": "CONFIDENTIAL INFORMATION FORM",
+            "widgetCount": 2,
+            "filledByThisBuild": false,
+            "fieldMappedByThisBuild": false
+          }
+        ]
+      },
+      "pageCounts": [
+        {
+          "fixture": "canonical",
+          "pages": 10
+        },
+        {
+          "fixture": "boundary",
+          "pages": 10
+        }
+      ],
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "path": "data/rcap-all50/overlays/census-v1/in/in-conviction-d6-set--custom-pleading/fixtures/canonical.pdf",
+          "sha256": "37fa7ae2bfc2aa8fd969fe16502f5acb26de315fc2d33cf2aa88f25c956b535a",
+          "bytes": 1727505,
+          "pages": 10,
+          "componentPages": {
+            "in_conviction_d6-primary-filing-1": [
+              1,
+              2
+            ],
+            "in_conviction_d6-proposed-order-2": [
+              3
+            ],
+            "in_conviction_d6-attachment-3": [
+              4,
+              5,
+              6
+            ],
+            "in_conviction_d6-attachment-4": [
+              7,
+              8
+            ],
+            "in_conviction_d6-attachment-5": [
+              9
+            ],
+            "in_conviction_d6-attachment-6": [
+              10
+            ]
+          }
+        },
+        {
+          "fixture": "boundary",
+          "path": "data/rcap-all50/overlays/census-v1/in/in-conviction-d6-set--custom-pleading/fixtures/boundary.pdf",
+          "sha256": "5cbca55230f082a5ede6be2bfb3749e6f8b28a2d2e2c7c23ce5012ca2f84d4e6",
+          "bytes": 1728002,
+          "pages": 10,
+          "componentPages": {
+            "in_conviction_d6-primary-filing-1": [
+              1,
+              2
+            ],
+            "in_conviction_d6-proposed-order-2": [
+              3
+            ],
+            "in_conviction_d6-attachment-3": [
+              4,
+              5,
+              6
+            ],
+            "in_conviction_d6-attachment-4": [
+              7,
+              8
+            ],
+            "in_conviction_d6-attachment-5": [
+              9
+            ],
+            "in_conviction_d6-attachment-6": [
+              10
+            ]
+          }
+        }
+      ],
+      "participantGuidancePdfs": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/in/in-conviction-d6-set--custom-pleading/fixtures/participant-guidance-canonical.pdf",
+          "sha256": "c1b5d4a3d88ca37e81d53d0b2e21ff5653a47138f7a6cf7ea761a22553fbf23b",
+          "byteLength": 21388,
+          "pageCount": 7
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/in/in-conviction-d6-set--custom-pleading/fixtures/participant-guidance-boundary.pdf",
+          "sha256": "61a9a728bc2c6b7fe640b6a7d3ba94687e844092552a4e4a3f572fbb2169059a",
+          "byteLength": 21427,
+          "pageCount": 7
+        }
+      ],
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "allNineCountersZero": true,
+      "countersBasis": "data/rcap-all50/overlays/census-v1/in/in-conviction-d6-set--custom-pleading/reports/completeness-counters.json - computed with scripts/rcap-packet-completeness/completeness-contract.mjs",
+      "countersScope": "the builder's own count using the repository completeness contract, over the two documents this build authored",
+      "fields": {
+        "terminal": 41,
+        "written": 24,
+        "blank": 17,
+        "requiredBeforeFiling": 6,
+        "blankDispositions": {
+          "REQUIRED_BEFORE_FILING": 6,
+          "PROTECTED_FIELD": 11
+        }
+      },
+      "legalCarriage": {
+        "selfHelpStopConditionsInTheRecord": 13,
+        "selfHelpStopConditionsCarriedInFull": true,
+        "obtainOrConfirmBeforeFilingCarried": 13,
+        "everyRequiredBeforeFilingItemDisclosedIn": "data/rcap-all50/overlays/census-v1/in/in-conviction-d6-set--custom-pleading/participant-instructions.md"
+      },
+      "sourceBinding": {
+        "rule": "sources are resolved by SHA-256 across the mounted corpus and never by declared path",
+        "mountedCustodies": [
+          "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
+          "private/human-source-returns"
+        ],
+        "declared": 4,
+        "resolvedByContentHash": 4,
+        "allSourcesExact": true,
+        "sources": [
+          {
+            "sourceId": "official-form:CCA-XP-0220-7009",
+            "sha256": "499ed8a49c785fa949bcce19c3783f84318b73bc162cb5db8576094a321990b1",
+            "declaredPath": "STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-XP-0220-7009__conviction-expungement-insert-i-c-35-38-9-3__REV-2020-02__EN.pdf",
+            "resolvedPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-XP-0220-7009__conviction-expungement-insert-i-c-35-38-9-3__REV-2020-02__EN.pdf",
+            "roleInThisPacket": "retained official form delivered verbatim into the packet, unfilled"
+          },
+          {
+            "sourceId": "official-form:CCA-GF-0120-3016",
+            "sha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+            "declaredPath": "STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
+            "resolvedPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
+            "roleInThisPacket": "retained official form delivered verbatim into the packet, unfilled"
+          },
+          {
+            "sourceId": "official-form:CCA-XP-0120-7002 Form ACR",
+            "sha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+            "declaredPath": "STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
+            "resolvedPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
+            "roleInThisPacket": "retained official form delivered verbatim into the packet, unfilled"
+          },
+          {
+            "sourceId": "official-form:Confidential Information Form",
+            "sha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+            "declaredPath": "STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
+            "resolvedPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
+            "roleInThisPacket": "retained official form delivered verbatim into the packet, unfilled"
+          }
+        ]
+      },
+      "recordBindings": {
+        "everyRecordPinnedTwice": true,
+        "whyTwice": "a whole-file pin on a shared national record goes stale whenever an unrelated jurisdiction is productised; the entry pin says whether the change touched this family",
+        "bindings": [
+          {
+            "record": "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json",
+            "wholeFileSha256": "cda4420e55b6d0604bf24e1e4624ba8258cf769456e3a5545af65ca9626701c3",
+            "thisFamilysEntry": "determinations[id=DET-IN-CCA-CANDIDATES-ARE-NOT-OFFICIAL-in_conviction_d6-set]",
+            "thisFamilysEntrySha256": "158196dd9fdeeea2448ba7427cc61fb8ab7d9ed2504e496ba77fba7be0f9ce18"
+          },
+          {
+            "record": "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+            "wholeFileSha256": "09fccf1bffacade4565a7a98e86a4bbc38a92488ef99e502aa5e0b1077b1838d",
+            "thisFamilysEntry": "families[familyId=in_conviction_d6-set]",
+            "thisFamilysEntrySha256": "69061c4725d55f19927ecf0aaff73758fad9fa69657aeab800f2bd15398b5896"
+          },
+          {
+            "record": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+            "wholeFileSha256": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
+            "thisFamilysEntry": "routes[packetSetId=in_conviction_d6-set]",
+            "thisFamilysEntrySha256": "b5f4dbc8b50b5754c4714c7f699cda8bb79ad6d0d044b0efd5c3ba2cc947a3df"
+          },
+          {
+            "record": "data/record-clearing/legal-design-intake/IN.memo.json",
+            "wholeFileSha256": "eea7b6933c5e5a9703d7cdb59026bada6468de934dffec5ce13be7963834eccb",
+            "thisFamilysEntry": "tracks[trackId=in_conviction_d6]",
+            "thisFamilysEntrySha256": "ef6b68357f063ce9314271227cab0e09438ddf33a430cb27aae6c190ba8429ff"
+          },
+          {
+            "record": "data/record-clearing/legal-design-track-registry.json",
+            "wholeFileSha256": "232466b66958cea78b6595cbbe4824f08216de42516d4afcef17f698140719ee",
+            "thisFamilysEntry": "tracks[trackId=in_conviction_d6]",
+            "thisFamilysEntrySha256": "0f77a47fd8d43164ea87f426e2e0f4870efdcedf852bfe010994ec2520b0281e"
+          },
+          {
+            "record": "data/record-clearing/legal-design-packet-set-manifests.json",
+            "wholeFileSha256": "6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec",
+            "thisFamilysEntry": "packetSets[packetSetId=in_conviction_d6-set]",
+            "thisFamilysEntrySha256": "725e3960125cb5395826f181cf6328a753ba056f430bfb37b91379c5775c2798"
+          },
+          {
+            "record": "data/record-clearing/legal-design-track-source-relationships.json",
+            "wholeFileSha256": "c24c9cf4edc2336f2560497324737cc361aef5dcdae0bda60cec77488d4bf591",
+            "thisFamilysEntry": "relationships[trackId=in_conviction_d6]",
+            "thisFamilysEntrySha256": "f60ed6a53ab04717e0aa6bd906e1b2a9dae7b0055a7358398afa0d8e38bb1bb9"
+          }
+        ]
+      },
+      "determinism": {
+        "runs": 2,
+        "arguments": [
+          "--no-raster"
+        ],
+        "comparison": "recursive diff of the whole family directory between two consecutive runs from unchanged inputs",
+        "result": "PASS",
+        "byteIdentical": true,
+        "filesCompared": 19
+      },
+      "tests": [
+        {
+          "name": "claim assertion",
+          "result": "CLAIM_OK",
+          "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF10 in_conviction_d6-set"
+        },
+        {
+          "name": "builder syntax",
+          "result": "PASS",
+          "command": "node --check scripts/build-census-v1-in_conviction_d6-set.mjs"
+        },
+        {
+          "name": "builder authority and component check",
+          "result": "PASS",
+          "command": "node scripts/build-census-v1-in_conviction_d6-set.mjs --check"
+        },
+        {
+          "name": "deterministic no-raster build, twice, compared recursively",
+          "result": "PASS",
+          "command": "node scripts/build-census-v1-in_conviction_d6-set.mjs --no-raster",
+          "runs": 2
+        },
+        {
+          "name": "packet completeness",
+          "result": "PASS_COMPLETE",
+          "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family in_conviction_d6-set",
+          "note": "completeness only; the packet stays BUILT_RASTER_PENDING and no independent verification is claimed"
+        }
+      ],
+      "rasterState": "BUILT_RASTER_PENDING",
+      "rasterPerformed": false,
+      "whyNoRaster": "no browser resolves in this container. The raster gate runs centrally against the exact bytes the canonical and boundary hashes above pin.",
+      "changedPaths": [
+        "scripts/build-census-v1-in_conviction_d6-set.mjs",
+        "data/rcap-all50/overlays/census-v1/in/in-conviction-d6-set--custom-pleading/approval-request.json",
+        "data/rcap-all50/overlays/census-v1/in/in-conviction-d6-set--custom-pleading/build-findings.json",
+        "data/rcap-all50/overlays/census-v1/in/in-conviction-d6-set--custom-pleading/build-status.json",
+        "data/rcap-all50/overlays/census-v1/in/in-conviction-d6-set--custom-pleading/component-page-manifest.json",
+        "data/rcap-all50/overlays/census-v1/in/in-conviction-d6-set--custom-pleading/filing-instructions.md",
+        "data/rcap-all50/overlays/census-v1/in/in-conviction-d6-set--custom-pleading/fixtures/boundary.pdf",
+        "data/rcap-all50/overlays/census-v1/in/in-conviction-d6-set--custom-pleading/fixtures/canonical.pdf",
+        "data/rcap-all50/overlays/census-v1/in/in-conviction-d6-set--custom-pleading/fixtures/participant-guidance-boundary.pdf",
+        "data/rcap-all50/overlays/census-v1/in/in-conviction-d6-set--custom-pleading/fixtures/participant-guidance-canonical.pdf",
+        "data/rcap-all50/overlays/census-v1/in/in-conviction-d6-set--custom-pleading/packet-set-manifest.json",
+        "data/rcap-all50/overlays/census-v1/in/in-conviction-d6-set--custom-pleading/participant-instructions.md",
+        "data/rcap-all50/overlays/census-v1/in/in-conviction-d6-set--custom-pleading/production-field-map.json",
+        "data/rcap-all50/overlays/census-v1/in/in-conviction-d6-set--custom-pleading/reports/actual-writes.json",
+        "data/rcap-all50/overlays/census-v1/in/in-conviction-d6-set--custom-pleading/reports/blanks-left-for-the-participant.json",
+        "data/rcap-all50/overlays/census-v1/in/in-conviction-d6-set--custom-pleading/reports/completeness-counters.json",
+        "data/rcap-all50/overlays/census-v1/in/in-conviction-d6-set--custom-pleading/reports/record-bindings.json",
+        "data/rcap-all50/overlays/census-v1/in/in-conviction-d6-set--custom-pleading/reports/rendered-artifacts.json",
+        "data/rcap-all50/overlays/census-v1/in/in-conviction-d6-set--custom-pleading/reports/retained-official-form-widgets.json",
+        "data/rcap-all50/overlays/census-v1/in/in-conviction-d6-set--custom-pleading/source-receipt.json"
+      ],
+      "centralEdits": 0,
+      "selfVerification": 0,
+      "routesOpened": 0,
+      "productionTouched": false,
+      "verdictIssued": "none - this lane issues no verdict on its own work"
+    }
+  ],
+  "laneNote": "BUILD-B, custom_pleading cohort. Five families built and returned BUILT_RASTER_PENDING, three stopped and named. No verdict is issued on this lane's own work, no commercial route is opened, and nothing in production is touched."
+}

@@ -1,0 +1,137 @@
+{
+  "schemaVersion": "rcap-repair-checkpoints/v1",
+  "lane": "FIX121",
+  "laneKind": "repair",
+  "date": "2026-09-09",
+  "base": "e064bf4ab8fe8da9a7de69646ede74f3ee48d8a8",
+  "worktree": "/home/user/v2mm-worktree on branch fix-nj-routeoptions-20260909",
+  "rowsReturn": "data/rcap-grade-a/packet-factory-24h/fix121/rows-fix121-nj-20260909.json",
+  "outcome": "No obligation closed. Three families reported BLOCKED_LEGAL_INPUT with the exact questions. Zero participant-facing bytes moved. Zero central manifests touched. Zero grants released.",
+
+  "checkpoints": [
+    {
+      "n": 1,
+      "step": "Assert all three grants before reading any artifact",
+      "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX121 <familyId>",
+      "result": "CLAIM_OK on all three, grant set 15ec7de6bd2832ef, exit 0. Verified against data/rcap-grade-a/packet-factory-24h/claim-ledger.json claims 423, 425 and 427, each operation rapid-repair, lane FIX121, released false.",
+      "boundaryHonoured": "nj_arrest_no_conviction-set claim 419 is released and was never asserted, never claimed and never built."
+    },
+    {
+      "n": 2,
+      "step": "Bind the source by its own bytes",
+      "command": "sha256sum on the pinned CN-10557",
+      "result": "c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7, 1924831 bytes, 43 pages, 179 AcroForm fields. Equals the sourceHashes entry every one of the three MASTER_QUEUE rows declares."
+    },
+    {
+      "n": 3,
+      "step": "Digest every delivered fixture before anything else",
+      "command": "sha256sum over all four New Jersey families' fixtures/",
+      "result": "Three subjects share canonical 03f6169d042fc1d5ed30df008dfc966ef3d03b382731f5956d0e8786ca8a234f (571718 B); all four share boundary 23a571af72985717963001120ba60116ae43054aaa1c2fddbeece944dac24494 (574020 B); nj_arrest_no_conviction-set canonical 922b89598d0b7b57d0fd40623d404a7d9cf24ba507a9eba82472815d9b74ee7d. Every digest equals the value VF11 recorded at df524f2fd, so the bytes have not moved since the verdict."
+    },
+    {
+      "n": 4,
+      "step": "Measure the nine counters before touching anything",
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <each>",
+      "result": "FAIL_ROUTE_SELECTION on all three subjects, requiredOptionsMissing 1, everything else 0 except invisibleWrites and visualDefects which print UNMEASURED and are therefore null. nj_arrest_no_conviction-set returns NOT_MEASURABLE_HERE with requiredOptionsMissing 0."
+    },
+    {
+      "n": 5,
+      "step": "Establish why the two counters are unmeasurable rather than zero",
+      "command": "read scripts/rcap-packet-completeness/verify-packet-completeness.mjs lines 440-470 and 630-660, then read each family's reports/actual-writes.json artifact records",
+      "result": "The verifier raises invisibleWrites and visualDefects only from addedGlyphsReadFromOutputBytes, flattenedWidgetAppearancesReadFromOutputBytes and nonWhitespaceGlyphsOutsideMeasuredWriteBoxes. None of the three keys exists on any New Jersey artifact record. Reported as null."
+    },
+    {
+      "n": 6,
+      "step": "Read the form before reading anyone's account of it",
+      "command": "pdftotext -layout over the pinned source, pages 17 to 43",
+      "result": "Item (d) of the Petition (Form A) is one compound sworn sentence with nine blanks. Items a, b, c, d, e are dispositions, not statutes. The only printed statutory citations on the participant's petition are 2C:52-2(a)(2) / 2C:52-3(b)(2) and 2C:52-2(c)(3) at the two compelling-circumstances boxes on delivered page 22, 2C:52-2 at Verification paragraph 3 on delivered page 24, and 2C:52-1 et seq. as fixed printed text. The proposed order adds 2C:35-14(m), 2C:52-5.1 and 2C:52-5.3."
+    },
+    {
+      "n": 7,
+      "step": "Enumerate every selection control on the kit from the family's own census",
+      "command": "read field-census.census-v1.json, all fields of type checkbox / dropdown",
+      "result": "19 checkboxes and 14 dropdowns. Nothing names N.J.S.A. 2C:52-3 outside the early-pathway box, and nothing names 2C:52-4 anywhere."
+    },
+    {
+      "n": 8,
+      "step": "Read the dropdown options first-hand from the binary rather than carrying a prior lane's number",
+      "command": "node -e with pdf-lib over the pinned source",
+      "result": "guiltyTimeType and contGuiltyTimeType are PDFDropdown with options exactly [\"  \",\"jail time\",\"prison time\",\"incarceration time\"]. No none-or-not-applicable value exists."
+    },
+    {
+      "n": 9,
+      "step": "Test each of item (d)'s nine cells against the route's own intake, in the controlling record",
+      "command": "read data/record-clearing/legal-design-track-registry.json generationRequirements for nj_indictable_conviction, nj_disorderly_persons and nj_ordinance (sha256 555e5700c049608b0766cc7f5f65adfa748bbd32fae790d2220652bf08b958dc)",
+      "result": "Three of the nine are collected by no question on any of the three tracks: the final sentence imposed, the custodial term type, and the date fines were paid. The financial question on every track asks whether, never when, while every track's waiting period runs from the date of payment.",
+      "consequence": "Filling those three in a fixture would manufacture a capability the product does not have. Not done."
+    },
+    {
+      "n": 10,
+      "step": "Prove the build is reproducible before running any experiment in-tree",
+      "command": "node scripts/build-census-v1-nj_disorderly_persons-set.mjs, then git status --porcelain",
+      "result": "BUILD PASS (2 PDFs; 86 page rasters) and 0 lines of diff. Safe to experiment and restore."
+    },
+    {
+      "n": 11,
+      "step": "Test the assignment's hypothesis by measurement rather than argument",
+      "command": "one-line environment-flag branch on scripts/build-census-v1-nj_arrest_no_conviction-set.mjs line 4936, then FIX121_FORCE_ELECTION=1 node scripts/build-census-v1-<each of the three>.mjs",
+      "result": "BUILD PASS each, selections 1 on both fixtures of each. Canonicals IDENTICAL across all three at 0b32e8397ddab6fccc441defc7ac3a4645fbba93cd5afa71c0da35a9da093cac; boundaries IDENTICAL at cc91a4ca00d317329cec8dd1b204ed3e390047dd4d634878becca53f46ff8777.",
+      "finding": "Marking the election does not stop the clone."
+    },
+    {
+      "n": 12,
+      "step": "Measure what the counter does on the forced bytes",
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nj_ordinance-set",
+      "result": "requiredOptionsMissing falls to 0 and the verdict becomes NOT_MEASURABLE_HERE -- all nine zero or unmeasured -- on a document that still names no statutory route.",
+      "finding": "This is the green-counters-past-a-real-failure shape. Recorded, not shipped."
+    },
+    {
+      "n": 13,
+      "step": "Look at the forced page rather than trusting the counter",
+      "command": "pdftoppm -r 150 -png -f 19 over the forced canonical, opened and read",
+      "result": "A marked X beside `d.` over nine wholly blank cells, under a notarised verification. A sworn admission of a conviction the paragraph declines to identify. Worse than the document shipped today."
+    },
+    {
+      "n": 14,
+      "step": "Restore the tree and prove the restoration",
+      "command": "git checkout -- <host script> <the three family directories>; sha256sum; git status --porcelain",
+      "result": "Host back to 0b1506cda50ba546b6f856de2c9ec92fa8b7efcac77242104cd0228a0fbb3357; all six subject fixtures back to 03f6169d… / 23a571af…; nj_arrest_no_conviction-set unchanged at 922b8959… / 23a571af… and its build never run; worktree 0 lines dirty; counters back to requiredOptionsMissing 1."
+    },
+    {
+      "n": 15,
+      "step": "Read the delivered PDFs at appearance level, not the build report",
+      "command": "pdftotext -layout and pdftoppm -r 150 over the committed canonical, delivered pages 18, 19, 24, 35, 43",
+      "result": "Paragraph 1 entirely blank; no disposition elected; the delivered primary filing is the blank Judiciary petition with a name and address on it. Signature and notary lines blank on pages 24 and 35. Every participant fact sits in a box whose printed caption asks for the petitioner's own fact -- the Form D court address block and the Form E and G agency address blocks are separate fields and are untouched. The named defect class 'a participant fact written into a field about someone else' is NOT present on CN-10557."
+    },
+    {
+      "n": 16,
+      "step": "Verify every quoted legal string against its committed record",
+      "command": "read rules.notice, mechanism and releaseBlockers for each track and compare with the delivered guide text",
+      "result": "The disorderly-persons objections paragraph quotes its own track's rules.notice verbatim and states no period; the counting section quotes the track's mechanism whole. No filing fee, service rule, deadline, clerk practice, signature or notarisation was invented anywhere by this lane."
+    },
+    {
+      "n": 17,
+      "step": "Write the return without overwriting the existing one",
+      "command": "write data/rcap-grade-a/packet-factory-24h/fix121/rows-fix121-nj-20260909.json and this file",
+      "result": "The pre-existing data/rcap-grade-a/packet-factory-24h/fix121/rows.json (sha256 3c6873ecbbefb5ed74225a5dd915ccc43ec4e87d471b8b9763eaf422f229ff33) is untouched."
+    }
+  ],
+
+  "boundariesObserved": {
+    "centralManifests": "MASTER_QUEUE.json, RASTER_QUEUE.json, ACTIVE_ASSIGNMENTS.json and claim-ledger.json were read and not written. Nothing under scripts/grade-a-packet-factory-24h/ was edited.",
+    "otherWorktrees": "None entered. All work in /home/user/v2mm-worktree.",
+    "gitAdd": "Only the two exact return paths were staged. No `git add .`, `-A` or `--all`.",
+    "production": "Untouched. No Stripe, no Supabase, no environment variable, no credential, no live route.",
+    "releases": "None. The Captain owns releases; all three grants remain held and unreleased.",
+    "subagents": "None created.",
+    "selfVerification": "None claimed. No verdict is set and no PASS is issued anywhere in this return."
+  },
+
+  "whatTheCaptainOwesNext": [
+    "A legal-input decision on whether the platform asks a participant for the sentence imposed, the custodial term type and the date fines were paid -- and what a participant with no custodial term puts in a dropdown offering only jail, prison and incarceration. Until that is answered, no lane can complete item (d) on any of the three, and all three will keep returning blocked.",
+    "A decision on where a 2C:52-3 or 2C:52-4 petition states its statute, given that CN-10557 provides no place. That is a component question, not a route-option one.",
+    "A decision on whether the platform may mark Verification paragraph 3 on nj_indictable_conviction-set, and on what held fact it swears the never-previously-expunged limb. That family is the one of the three closest to closable.",
+    "An independent read of nj_disorderly_persons-set's COMPONENT_SET, which FIX121 addressed and FIX121 cannot verify.",
+    "A decision on the primary_filing deliveredIn strings, which describe numbered petition items that the delivered pages do not carry, on all four New Jersey families including one not in this grant."
+  ]
+}

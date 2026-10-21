@@ -1,0 +1,103 @@
+{
+  "schemaVersion": "rcap-grade-a-fix06-product-crosswalk-return/v1",
+  "worker": "CODEX-CS1-FIX06-VA-PRODUCT-CROSSWALK",
+  "branch": "codex/cs1-fix06-va-product-crosswalk-31cf",
+  "assignedBase": "31cf727c0cb7b31719b206900973c973e9273161",
+  "preflight": {
+    "headMatchedAssignedBase": true,
+    "mergeBaseMatchedAssignedBase": true,
+    "worktreeCleanBeforeClaim": true
+  },
+  "claim": {
+    "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX06 va_exp_absolute_pardon-set",
+    "result": "CLAIM_OK FIX06 va_exp_absolute_pardon-set (repair, grant set defc45360a709680)",
+    "assertedBeforeFamilyContentRead": true,
+    "releasedByThisWorker": false
+  },
+  "family": "va_exp_absolute_pardon-set",
+  "runtimeRoute": "VA:regime-1-expungement-available-now",
+  "registryTrackId": "va_exp_absolute_pardon",
+  "trackRoute": "obligation:track-pathway:VA:va_exp_absolute_pardon:regime-1-expungement-available-now",
+  "authoritativeChange": {
+    "file": "data/rcap-codex/d-track-terminalization/track-family-map.json",
+    "whyThisFile": "scripts/generate-rcap-paid-pathway-legal-join.mjs reads this file as familyMap and consumes tracks[].exactFamilyJobIds as a track-to-family bridge.",
+    "before": {
+      "registryTrackId": "va_exp_absolute_pardon",
+      "matchingRows": 0,
+      "exactFamilyJobIds": [],
+      "familyBridgePresent": false
+    },
+    "after": {
+      "registryTrackId": "va_exp_absolute_pardon",
+      "matchingRows": 1,
+      "runtimeRouteKey": "VA:regime-1-expungement-available-now",
+      "obligationRouteKey": "obligation:track-pathway:VA:va_exp_absolute_pardon:regime-1-expungement-available-now",
+      "exactFamilyJobIds": [
+        "va_exp_absolute_pardon-set"
+      ],
+      "familyBridgePresent": true
+    },
+    "approvalDataAdded": false
+  },
+  "existingOwnerDecision": {
+    "recordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+    "file": "data/rcap-grade-a/legal-decisions/OWNER_BATCH_ADOPTION_2026-09-02.json",
+    "decisionOwner": "Roger Roman",
+    "familyNamed": true,
+    "createdOrModifiedByThisWorker": false,
+    "note": "The crosswalk supplies only the missing family identity. The paid-pathway generator must resolve legal status from the existing owner-decision authority after Captain integration; this worker created no approval."
+  },
+  "currentPacketArtifactsPreserved": {
+    "canonical": {
+      "sha256": "b56af08c1b796b78a26ebac56a3580299e5e06022976941ba0b7fd68cf810188",
+      "byteLength": 14666,
+      "pageCount": 5
+    },
+    "boundary": {
+      "sha256": "f7691bc33addbaef446ccccb09c551e673bd5369410c363044794a429fea29eb",
+      "byteLength": 14860,
+      "pageCount": 5
+    },
+    "pdfContentReadOrRebuilt": false,
+    "packetOrLegalTextChanged": false
+  },
+  "focusedCommands": [
+    {
+      "command": "git show 31cf727c0cb7b31719b206900973c973e9273161:data/rcap-codex/d-track-terminalization/track-family-map.json | node -e '<assert no va_exp_absolute_pardon row>'",
+      "exitCode": 0,
+      "result": "BEFORE_ASSERT_OK trackId=va_exp_absolute_pardon rows=0 familyBridgePresent=false"
+    },
+    {
+      "command": "node -e '<assert current track-family map, packet specification, product wiring, and 19-input factory route agree>'",
+      "exitCode": 0,
+      "result": "AFTER_ASSERT_OK runtime=VA:regime-1-expungement-available-now track=va_exp_absolute_pardon obligation=obligation:track-pathway:VA:va_exp_absolute_pardon:regime-1-expungement-available-now family=va_exp_absolute_pardon-set exactFamilyCount=1 requiredInputs=19"
+    },
+    {
+      "command": "node -e '<assert existing owner decision names the family and pins both current digests>'",
+      "exitCode": 0,
+      "result": "OWNER_DECISION_ASSERT_OK recordId=OWN-ADOPT-2026-09-02-BATCH-53 family=va_exp_absolute_pardon-set canonical=b56af08c1b796b78a26ebac56a3580299e5e06022976941ba0b7fd68cf810188 boundary=f7691bc33addbaef446ccccb09c551e673bd5369410c363044794a429fea29eb approvalCreated=false"
+    },
+    {
+      "command": "node -e '<assert packet-specification artifact metadata without opening either PDF>'",
+      "exitCode": 0,
+      "result": "PACKET_METADATA_ASSERT_OK canonical=b56af08c1b796b78a26ebac56a3580299e5e06022976941ba0b7fd68cf810188/14666/5 boundary=f7691bc33addbaef446ccccb09c551e673bd5369410c363044794a429fea29eb/14860/5"
+    },
+    {
+      "command": "git status --porcelain=v1 | node -e '<assert the two-path allowlist and no PDF edits>'",
+      "exitCode": 0,
+      "result": "SCOPE_ASSERT_OK changed=data/rcap-codex/d-track-terminalization/track-family-map.json,data/rcap-grade-a/packet-factory-24h/fix06/va-absolute-pardon-product-crosswalk-return.json centralGeneratedEdits=0 pdfEdits=0"
+    }
+  ],
+  "captainPostIntegrationGeneratorsInOrder": [
+    "node scripts/generate-rcap-paid-pathway-legal-join.mjs",
+    "node scripts/generate-rcap-session-a-evidence-packet.mjs",
+    "node scripts/generate-rcap-completed-output-counsel-manifest.mjs",
+    "node scripts/generate-rcap-factory-v2-registry.mjs",
+    "node scripts/generate-rcap-launch-graph.mjs",
+    "node scripts/generate-rcap-grade-a-fulfillment-authority.mjs"
+  ],
+  "centralGeneratedEdits": 0,
+  "claimsReleased": 0,
+  "routesOpened": 0,
+  "Production": false
+}

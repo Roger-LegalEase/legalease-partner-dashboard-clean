@@ -6,6 +6,7 @@
 //  - DNT is honored and surface is derived server-side
 
 import fs from "node:fs";
+import { checkoutAnalyticsPrivacyProblems } from "./lib/checkout-analytics-privacy-check.mjs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -102,7 +103,10 @@ assertIncludes("src/lib/analytics/event-names.ts", ["SERVER_ONLY_EVENT_NAMES", '
 assertIncludes("src/app/api/analytics/web/route.ts", ["isServerOnlyEventName", "server_only_event"]);
 // checkout_completed must be emitted only from the trusted server path, never the browser tracker.
 assert(!read("src/lib/analytics/client.ts").includes("checkout_completed"), "client tracker must not emit checkout_completed");
-assertIncludes("src/app/api/expungement-ai/payment/confirm/route.ts", ["recordServerFunnelEvent", '"checkout_completed"']);
+failures.push(...await checkoutAnalyticsPrivacyProblems(
+  read("src/app/api/expungement-ai/payment/confirm/route.ts"),
+  read("src/lib/expungement-ai/checkout-analytics.ts")
+));
 
 // 5. DNT honored + surface derived server-side.
 assertIncludes("src/lib/analytics/client.ts", ["doNotTrack", "analyticsEnabled"]);

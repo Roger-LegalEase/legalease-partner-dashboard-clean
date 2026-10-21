@@ -1,0 +1,73 @@
+{
+  "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
+  "lane": "VF06",
+  "assignments": [
+    {
+      "itemId": "nh_petition_nonconviction_pre2019-set",
+      "lane": "VF06",
+      "verifiedAtBase": "21ae5b3d6e79ec2958445847e6bf780600394e94",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nh/nh-petition-nonconviction-pre2019-set--official-pdf-fill",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "decisiveDefect": "The widget-only census misses the printed NHJB-2311 page2 case caption, leaving a known case number blank on packet page5; NHJB-2328 Residence Address also omits the held city/state/ZIP on packet page6.",
+      "failedProofObligations": [
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/vf06/nc-nh-current-20260906/measurements.json",
+        "data/rcap-grade-a/packet-factory-24h/vf06/nc-nh-current-20260906/source-fields.json",
+        "data/rcap-grade-a/packet-factory-24h/vf06/nc-nh-current-20260906/missing-prefill-fit.json",
+        "data/rcap-grade-a/packet-factory-24h/vf06/nc-nh-current-20260906/nh-waiver-source-page2.png"
+      ],
+      "repairRequirements": [
+        "Repair and inventory the flat NHJB-2311 page2 case caption, preserving court ruling fields.",
+        "Write the complete held residence address on NHJB-2328 or document a source-grounded reason if that field has a different requirement.",
+        "Reconcile guide disclosures with every actual printed caption after repair, then obtain current-byte independent reread and central acceptance for changed PDFs."
+      ],
+      "missingKnownPrefills": [
+        {
+          "form": "NHJB-2311",
+          "sourcePage": 2,
+          "packetPage": 5,
+          "field": "printed Case Number header",
+          "facts": [
+            "matter.case_number"
+          ],
+          "canonical": "473-2016-CR-00218",
+          "boundary": "218-2018-CR-00119821-SUPPLEMENTAL",
+          "scope": "header above FOR COURT USE ONLY; no source text widget; source header words y34.48872..43.70172 points from top"
+        },
+        {
+          "form": "NHJB-2328",
+          "sourcePage": 1,
+          "packetPage": 6,
+          "field": "2.1 Residence Address",
+          "facts": [
+            "participant.city",
+            "participant.state",
+            "participant.zip"
+          ],
+          "canonicalMissing": "Concord, NH 03301",
+          "boundaryMissing": "Portsmouth, NH 03801-2214",
+          "sourceWidgetWidth": 420.342,
+          "sourceMaxLength": null
+        }
+      ],
+      "unclassifiedPrintedBlanks": [
+        "NHJB-2311 page2 Case Name",
+        "NHJB-2311 page2 Case Number"
+      ],
+      "repairsAlreadyVerifiedAndMustRemain": [
+        "Six conditional MaxLen refusals spanning eight boundary widgets, all explicitly disclosed.",
+        "Source-carried Enter /s/ before name and three 0.00 totals removed.",
+        "In-person/third-party/all-mailed request rules, notarization and recipient-dropdown limitation disclosed.",
+        "No fabricated signature, service act, financial amount or court ruling."
+      ],
+      "repairMustNotDo": [
+        "No route opening or legal approval.",
+        "No change to unrelated families or shared acceptance gates.",
+        "Do not substitute different source bytes merely to fit a receipt."
+      ]
+    }
+  ]
+}

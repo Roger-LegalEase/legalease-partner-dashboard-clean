@@ -1,0 +1,142 @@
+{
+  "schemaVersion": "rcap-pf20-family-build-return/v1",
+  "recordedAt": "2026-09-13T00:00:00Z",
+  "familyId": "ks-22-2410-arrest-set",
+  "routeKey": "obligation:track-only:KS:ks-22-2410-arrest",
+  "workerBranch": "pf20-ks-22-2410-arrest-20260912b",
+  "head": "generated-before-commit",
+  "command": "node scripts/build-census-v1-ks-22-2410-arrest-set.mjs --no-raster",
+  "status": "COMPLETE_BUILDER_CANDIDATE",
+  "counters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+  },
+  "directory": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill",
+  "outputs": [
+    {
+      "file": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/fixtures/canonical.pdf",
+      "sha256": "07bcda32a0700091871c819f4f03d17c9babf8b6627bc691ffc48871968e12a8",
+      "byteLength": 224380,
+      "pageCount": 7
+    },
+    {
+      "file": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/fixtures/boundary.pdf",
+      "sha256": "7ca350c37451fd8aa12ea101ced3ee5ea8c0538c0192d42264aa301b09e9f559",
+      "byteLength": 224696,
+      "pageCount": 7
+    }
+  ],
+  "sources": [
+    {
+      "documentId": "KS-CRIMINAL-COVER-SHEET-10-14-2025",
+      "path": "LegalEase Kansas/Criminal Cover Sheet 102025.pdf",
+      "custody": "nationwide_recovery_pool_2026_09_02",
+      "sha256": "6384f934dc431601dfd07d0822c32b83ee8fcd0412cff5496af1481169cdea60",
+      "byteLength": 126589
+    },
+    {
+      "documentId": "KSJC-PETITION-EXPUNGEMENT-ARREST-RECORD-02-2013",
+      "path": "private/Nationwide Record Clearing/LegalEase Kansas/source-gated/KSJC__petition-for-expungement-of-arrest-record__rev-2013-02.pdf",
+      "custody": "ks_historical_recovery_20260913",
+      "sha256": "bf4b2309f831aa317d235389a6bd1f24bca55075290ddb3d916083c6f64d840d",
+      "byteLength": 51084
+    },
+    {
+      "documentId": "KSJC-ORDER-EXPUNGEMENT-ARREST-RECORD-COVER-SHEET-12-2016",
+      "path": "private/Nationwide Record Clearing/LegalEase Kansas/source-gated/KSJC__order-of-expungement-of-arrest-record-cover-sheet__rev-2016-12.pdf",
+      "custody": "ks_historical_recovery_20260913",
+      "sha256": "d13bc7b7b2a9c5367c785c1de4f3a8d6d79410ef29a3c9c86a5b903057d249d5",
+      "byteLength": 55112
+    }
+  ],
+  "sourceIndexSha256": "512a489ab79705c4b607bd09c5197e9e8beb2a22180ee0848e4673ab5fe3aca0",
+  "records": [
+    {
+      "recordId": "ks-arrest-legal-design-track-registry",
+      "path": "data/record-clearing/legal-design-track-registry.json",
+      "sha256": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+      "anchorsVerified": 4
+    },
+    {
+      "recordId": "ks-arrest-master-queue",
+      "path": "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+      "sha256": "e8c1acb7e4d0b3510834be83b888f25496e6de06a4d80e2dfa73fb874be3e243",
+      "anchorsVerified": 3
+    },
+    {
+      "recordId": "owner-kjc-permission-attestation",
+      "path": "data/rcap-grade-a/legal-decisions/OWNER_KJC_PERMISSION_ATTESTATION_2026-09-11.json",
+      "sha256": "9b5008f945fefe26899f767b705ce57139324b0f94f9a6d472accbc2526826f6",
+      "anchorsVerified": 3
+    },
+    {
+      "recordId": "ks-source-acquisition-receipt",
+      "path": "data/rcap-grade-a/packet-factory-24h/src01/CODEX_CS1_SRC1_ACQUISITION.json",
+      "sha256": "2825c6af0f25168a0a3e0e31700ee167490f5bc27d1b18a84ea3218792d78551",
+      "anchorsVerified": 3
+    }
+  ],
+  "actualFindings": {
+    "proofDocuments": [
+      {
+        "fixture": "canonical",
+        "formNumber": "KS-CRIMINAL-COVER-SHEET-10-14-2025",
+        "valuesReportedByFinalizer": 6,
+        "actualWrites": 6,
+        "refusedFieldsWithInk": 0,
+        "outsideMeasuredWriteBox": 0
+      },
+      {
+        "fixture": "canonical",
+        "formNumber": "KSJC-PETITION-EXPUNGEMENT-ARREST-RECORD-02-2013",
+        "valuesReportedByFinalizer": 14,
+        "actualWrites": 14,
+        "refusedFieldsWithInk": 0,
+        "outsideMeasuredWriteBox": 0
+      },
+      {
+        "fixture": "canonical",
+        "formNumber": "KSJC-ORDER-EXPUNGEMENT-ARREST-RECORD-COVER-SHEET-12-2016",
+        "valuesReportedByFinalizer": 4,
+        "actualWrites": 4,
+        "refusedFieldsWithInk": 0,
+        "outsideMeasuredWriteBox": 0
+      },
+      {
+        "fixture": "boundary",
+        "formNumber": "KS-CRIMINAL-COVER-SHEET-10-14-2025",
+        "valuesReportedByFinalizer": 6,
+        "actualWrites": 6,
+        "refusedFieldsWithInk": 0,
+        "outsideMeasuredWriteBox": 0
+      },
+      {
+        "fixture": "boundary",
+        "formNumber": "KSJC-PETITION-EXPUNGEMENT-ARREST-RECORD-02-2013",
+        "valuesReportedByFinalizer": 14,
+        "actualWrites": 14,
+        "refusedFieldsWithInk": 0,
+        "outsideMeasuredWriteBox": 0
+      },
+      {
+        "fixture": "boundary",
+        "formNumber": "KSJC-ORDER-EXPUNGEMENT-ARREST-RECORD-COVER-SHEET-12-2016",
+        "valuesReportedByFinalizer": 4,
+        "actualWrites": 4,
+        "refusedFieldsWithInk": 0,
+        "outsideMeasuredWriteBox": 0
+      }
+    ],
+    "blockingCounterFindings": []
+  },
+  "nextGate": "freeze current bytes and send the complete candidate to an independent completeness/raster/visual reviewer; do not self-approve or raster in PF20",
+  "conditionalProposedOrder": "not emitted; requires local-court expectation and counsel-approved source",
+  "commercialRoutesOpened": 0
+}

@@ -1,0 +1,30 @@
+[
+  {
+    "command": [
+      "node",
+      "--check",
+      "scripts/build-census-v1-nc_146_dismissal_petition-set.mjs"
+    ],
+    "exitCode": 0,
+    "log": "syntax.log"
+  },
+  {
+    "command": [
+      "npx",
+      "eslint",
+      "scripts/build-census-v1-nc_146_dismissal_petition-set.mjs"
+    ],
+    "exitCode": 0,
+    "log": "eslint.log"
+  },
+  {
+    "command": [
+      "node",
+      "scripts/rcap-packet-completeness/verify-packet-completeness.mjs",
+      "--family",
+      "nc_146_dismissal_petition-set"
+    ],
+    "exitCode": 0,
+    "log": "completeness.log"
+  }
+]

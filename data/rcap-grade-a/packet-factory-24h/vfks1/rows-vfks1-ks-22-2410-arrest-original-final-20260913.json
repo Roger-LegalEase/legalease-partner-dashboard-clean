@@ -1,0 +1,2483 @@
+{
+  "schemaVersion": "rcap-independent-verifier-return/v1",
+  "lane": "VFKS1",
+  "laneKind": "independent-verification",
+  "status": "COMPLETED",
+  "semanticStatus": "PASS_COMPLETE_INDEPENDENT",
+  "rasterDispatchAuthorized": true,
+  "finalAcceptance": true,
+  "visualMeasured": true,
+  "reviewer": "/root/ks_arrest_final",
+  "sessionIdentity": "/root/ks_arrest_final",
+  "verifiedAt": "2026-09-13T11:05:47.313Z",
+  "verifiedAtBase": "a7c892d6891120fae5f04b367bcd0d1d6695d2ad",
+  "actualHeadAtReview": "5e0c278667813a0b4af909577154901f311efad6",
+  "rows": [
+    {
+      "familyId": "ks-22-2410-arrest-set",
+      "itemId": "ks-22-2410-arrest-set",
+      "jurisdiction": "KS",
+      "lane": "VFKS1",
+      "reviewer": "/root/ks_arrest_final",
+      "sessionIdentity": "/root/ks_arrest_final",
+      "reviewPhase": "INDEPENDENT_CURRENT_BYTE_ORIGINAL_PAGE_FINAL_REVIEW",
+      "verifiedAt": "2026-09-13T11:05:47.313Z",
+      "verifiedAtBase": "a7c892d6891120fae5f04b367bcd0d1d6695d2ad",
+      "actualHeadAtReview": "5e0c278667813a0b4af909577154901f311efad6",
+      "packetCommitSha": "de82161d28ab1cc5ab689fd7b6a2878ff3f58829",
+      "manifestCommitSha": "de82161d28ab1cc5ab689fd7b6a2878ff3f58829",
+      "candidateCodeCommit": "8767db43872bb22cd3e2780e477931fd8de0ba38",
+      "workerCandidateCommit": "202d134b5e5908077b0a8116a02a74f15f8f7d62",
+      "status": "PASS_COMPLETE_INDEPENDENT",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "scope": "Bounded independent final review of the frozen Kansas arrest-only candidate. The prior 14-obligation semantic PASS remains explicitly bound; current candidate and source bytes were rechecked; all 14 immutable original raster pages were directly viewed for clipping, overlap, crop, missing ink and boundary overflow. No source, packet, queue, manifest, claim, implementation or raster bytes were changed.",
+      "claimEvidence": {
+        "result": "PRESERVED_ASSIGNMENT",
+        "assignment": "PF20 semantic review was assigned independently of the /root/resume_ks_custody implementer; no claim-ledger or reviewer-ownership mutation was made.",
+        "implementer": "/root/resume_ks_custody",
+        "selfApproval": false,
+        "claimMutation": "none"
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "basis": "Current route registry, field map, queue route key and candidate family identity.",
+          "finding": "The candidate and its route key identify the statewide Kansas arrest-only expungement route under K.S.A. 22-2410. The existing owner legal adoption is carried as permission evidence only; no runtime or commercial authority is inferred.",
+          "evidence": [
+            {
+              "path": "data/record-clearing/legal-design-track-registry.json",
+              "sha256": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+              "byteLength": 16781025
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/production-field-map.json",
+              "sha256": "6ee97a0bb9c21650ce429db892d4c8800dfdf6cd78e7cfd717d91007b8debbee",
+              "byteLength": 394562
+            },
+            {
+              "path": "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+              "sha256": "832b20a3bf6921737da56e6f713aafa08fd7c31e392ce72237935c21d2381c22",
+              "byteLength": 2397811
+            }
+          ]
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "basis": "Independent current resolver path, SHA-256 and byte-length checks against the candidate source receipt and current index tuples.",
+          "finding": "All three exact source binaries resolve under their declared custody and match the receipt: the 2025 Criminal Cover Sheet from the partial recovery pool, and the 2013 petition plus 2016 KBI cover from the separate historical Kansas custody. The current index is newer (cf1af303...) than the receipt snapshot (512a489...), so the historical digest is retained as a pinned candidate reference; current KS tuples were checked directly. The Master Library was not substituted for either custody.",
+          "evidence": {
+            "sourceReceipt": {
+              "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/source-receipt.json",
+              "sha256": "3b897dadfb70fae34a5f5b9762d28316ae98d98b1e987e94983adddedbd7030f",
+              "byteLength": 7022
+            },
+            "receiptSourceIndexSnapshotSha256": "512a489ab79705c4b607bd09c5197e9e8beb2a22180ee0848e4673ab5fe3aca0",
+            "currentSourceIndex": {
+              "path": "data/rcap-all50/local-source-corpus-index.json",
+              "sha256": "cf1af3035ef444f822846372668df4653814dbd68c96b8525fa75908d3d2495c",
+              "byteLength": 1042895,
+              "entryCount": 996,
+              "currentKansasEntryCount": 17,
+              "exactKansasEntriesRechecked": true
+            },
+            "historicalAdmissionReview": {
+              "path": "data/rcap-grade-a/packet-factory-24h/pf20/ks-native-source-index-admission-review-20260913.json",
+              "sha256": "1ea7e1aa8b3608cc610a90cdf890a4bdafb29f29482cadcc03ec60bd0b83b1b5",
+              "byteLength": 10305,
+              "recordedAfterIndexSha256": "512a489ab79705c4b607bd09c5197e9e8beb2a22180ee0848e4673ab5fe3aca0",
+              "addedEntryCount": 4,
+              "historicalEntryCountPreserved": 992
+            },
+            "sources": [
+              {
+                "documentId": "KS-CRIMINAL-COVER-SHEET-10-14-2025",
+                "officialFormId": "KS-CRIMINAL-COVER-SHEET-10-14-2025",
+                "role": "cover_sheet",
+                "custody": "nationwide_recovery_pool_2026_09_02",
+                "custodyRootDeclared": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02",
+                "pathInReceipt": "LegalEase Kansas/Criminal Cover Sheet 102025.pdf",
+                "resolvedPath": "/workspaces/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Kansas/Criminal Cover Sheet 102025.pdf",
+                "realpath": "/workspaces/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Kansas/Criminal Cover Sheet 102025.pdf",
+                "expectedSha256": "6384f934dc431601dfd07d0822c32b83ee8fcd0412cff5496af1481169cdea60",
+                "actualSha256": "6384f934dc431601dfd07d0822c32b83ee8fcd0412cff5496af1481169cdea60",
+                "expectedByteLength": 126589,
+                "actualByteLength": 126589,
+                "pageCount": 1,
+                "acroFormPresent": true,
+                "acroFieldCount": 36,
+                "structuralClassObserved": "acroform",
+                "indexEntryExact": true,
+                "bodyHashAndLengthExact": true
+              },
+              {
+                "documentId": "KSJC-PETITION-EXPUNGEMENT-ARREST-RECORD-02-2013",
+                "officialFormId": "KSJC-PETITION-EXPUNGEMENT-ARREST-RECORD-02-2013",
+                "role": "primary_filing",
+                "custody": "ks_historical_recovery_20260913",
+                "custodyRootDeclared": "private/Nationwide Record Clearing/LegalEase Kansas/source-gated",
+                "pathInReceipt": "private/Nationwide Record Clearing/LegalEase Kansas/source-gated/KSJC__petition-for-expungement-of-arrest-record__rev-2013-02.pdf",
+                "resolvedPath": "/workspaces/legalease-partner-dashboard-clean/private/Nationwide Record Clearing/LegalEase Kansas/source-gated/KSJC__petition-for-expungement-of-arrest-record__rev-2013-02.pdf",
+                "realpath": "/workspaces/legalease-partner-dashboard-clean/private/Nationwide Record Clearing/LegalEase Kansas/source-gated/KSJC__petition-for-expungement-of-arrest-record__rev-2013-02.pdf",
+                "expectedSha256": "bf4b2309f831aa317d235389a6bd1f24bca55075290ddb3d916083c6f64d840d",
+                "actualSha256": "bf4b2309f831aa317d235389a6bd1f24bca55075290ddb3d916083c6f64d840d",
+                "expectedByteLength": 51084,
+                "actualByteLength": 51084,
+                "pageCount": 3,
+                "acroFormPresent": false,
+                "acroFieldCount": 0,
+                "structuralClassObserved": "flat_pdf",
+                "indexEntryExact": true,
+                "bodyHashAndLengthExact": true
+              },
+              {
+                "documentId": "KSJC-ORDER-EXPUNGEMENT-ARREST-RECORD-COVER-SHEET-12-2016",
+                "officialFormId": "KSJC-ORDER-EXPUNGEMENT-ARREST-RECORD-COVER-SHEET-12-2016",
+                "role": "cover_sheet",
+                "custody": "ks_historical_recovery_20260913",
+                "custodyRootDeclared": "private/Nationwide Record Clearing/LegalEase Kansas/source-gated",
+                "pathInReceipt": "private/Nationwide Record Clearing/LegalEase Kansas/source-gated/KSJC__order-of-expungement-of-arrest-record-cover-sheet__rev-2016-12.pdf",
+                "resolvedPath": "/workspaces/legalease-partner-dashboard-clean/private/Nationwide Record Clearing/LegalEase Kansas/source-gated/KSJC__order-of-expungement-of-arrest-record-cover-sheet__rev-2016-12.pdf",
+                "realpath": "/workspaces/legalease-partner-dashboard-clean/private/Nationwide Record Clearing/LegalEase Kansas/source-gated/KSJC__order-of-expungement-of-arrest-record-cover-sheet__rev-2016-12.pdf",
+                "expectedSha256": "d13bc7b7b2a9c5367c785c1de4f3a8d6d79410ef29a3c9c86a5b903057d249d5",
+                "actualSha256": "d13bc7b7b2a9c5367c785c1de4f3a8d6d79410ef29a3c9c86a5b903057d249d5",
+                "expectedByteLength": 55112,
+                "actualByteLength": 55112,
+                "pageCount": 1,
+                "acroFormPresent": false,
+                "acroFieldCount": 0,
+                "structuralClassObserved": "flat_pdf",
+                "indexEntryExact": true,
+                "bodyHashAndLengthExact": true
+              }
+            ]
+          }
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "basis": "Current production field map, adopted route packet set, rendered page manifest and participant guidance.",
+          "finding": "The packet contains the three required official documents in order plus the required process guidance. The registry's proposed granting order is conditional; it is intentionally absent because no arrest-record granting order is published and local practice plus counsel approval remain required before adding one. No unsupported scaffold was emitted.",
+          "evidence": {
+            "registryPacketComponents": [
+              {
+                "componentId": "ks-22-2410-arrest-cover-sheet-1",
+                "role": "cover_sheet",
+                "requirement": "required",
+                "conditionDescription": null,
+                "outputStrategy": "official_pdf_fill",
+                "officialFormId": "KS-CRIMINAL-COVER-SHEET-10-14-2025",
+                "officialSourceUrl": "https://www.kjc.ks.gov/legal-forms/expungement-adult",
+                "order": 1
+              },
+              {
+                "componentId": "ks-22-2410-arrest-primary-filing-2",
+                "role": "primary_filing",
+                "requirement": "required",
+                "conditionDescription": null,
+                "outputStrategy": "official_pdf_fill",
+                "officialFormId": "KSJC-PETITION-EXPUNGEMENT-ARREST-RECORD-02-2013",
+                "officialSourceUrl": "https://www.kjc.ks.gov/legal-forms/expungement-adult/arrest-record-only",
+                "order": 2
+              },
+              {
+                "componentId": "ks-22-2410-arrest-cover-sheet-3",
+                "role": "cover_sheet",
+                "requirement": "required",
+                "conditionDescription": null,
+                "outputStrategy": "official_pdf_fill",
+                "officialFormId": "KSJC-ORDER-EXPUNGEMENT-ARREST-RECORD-COVER-SHEET-12-2016",
+                "officialSourceUrl": "https://www.kjc.ks.gov/legal-forms/expungement-adult/arrest-record-only",
+                "order": 3
+              },
+              {
+                "componentId": "ks-22-2410-arrest-process-guidance-4",
+                "role": "process_guidance",
+                "requirement": "required",
+                "conditionDescription": null,
+                "outputStrategy": "process_guidance",
+                "officialFormId": null,
+                "officialSourceUrl": null,
+                "order": 4
+              },
+              {
+                "componentId": "ks-22-2410-arrest-proposed-order-5",
+                "role": "proposed_order",
+                "requirement": "conditional",
+                "conditionDescription": "Where the district court expects a proposed order to be brought to the hearing, as the conviction and diversion packet requires.",
+                "outputStrategy": "custom_pleading",
+                "officialFormId": null,
+                "officialSourceUrl": null,
+                "order": 5
+              }
+            ],
+            "fieldMapComponentSet": [
+              "ks-22-2410-arrest-cover-sheet-1",
+              "ks-22-2410-arrest-primary-filing-2",
+              "ks-22-2410-arrest-cover-sheet-3",
+              "ks-22-2410-arrest-process-guidance-4",
+              "ks-22-2410-arrest-proposed-order-5"
+            ],
+            "renderedDocuments": [
+              {
+                "fixture": "canonical",
+                "documents": [
+                  "KS-CRIMINAL-COVER-SHEET-10-14-2025",
+                  "KSJC-PETITION-EXPUNGEMENT-ARREST-RECORD-02-2013",
+                  "KSJC-ORDER-EXPUNGEMENT-ARREST-RECORD-COVER-SHEET-12-2016",
+                  "KS-22-2410-ARREST-PROCESS-GUIDANCE"
+                ]
+              },
+              {
+                "fixture": "boundary",
+                "documents": [
+                  "KS-CRIMINAL-COVER-SHEET-10-14-2025",
+                  "KSJC-PETITION-EXPUNGEMENT-ARREST-RECORD-02-2013",
+                  "KSJC-ORDER-EXPUNGEMENT-ARREST-RECORD-COVER-SHEET-12-2016",
+                  "KS-22-2410-ARREST-PROCESS-GUIDANCE"
+                ]
+              }
+            ],
+            "fieldMap": {
+              "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/production-field-map.json",
+              "sha256": "6ee97a0bb9c21650ce429db892d4c8800dfdf6cd78e7cfd717d91007b8debbee",
+              "byteLength": 394562
+            },
+            "instructions": {
+              "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/participant-instructions.md",
+              "sha256": "41b26526a966d002968b956ccfd8f17b7d0232e77c0a03d1b6fc27a2a3a32235",
+              "byteLength": 5041
+            }
+          }
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "basis": "Current synthetic fixture facts, saved PDF text/byte hashes and nested actual-write proof.",
+          "finding": "Only held participant and case facts are written. Canonical and boundary values cover the name, address, contact, DOB, district/county, case number, arrest date, agency and offense; the long boundary name/address/charge are retained. All 48 saved fixture write rows match their expected values, with no unfittable values, refused-field ink or glyphs outside measured boxes.",
+          "evidence": {
+            "participantFacts": {
+              "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/fixtures/participant-facts.json",
+              "sha256": "7ae139fb0a700fc0e20dd3d3daaeb8c7ca50d7e24546d6d3a8bbc47b07171dc8",
+              "byteLength": 2244
+            },
+            "theseAreSyntheticTestFacts": "No fixture value is any person's record. They exercise source binding, field mapping and overflow fitting only.",
+            "actualWrites": {
+              "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/reports/actual-writes.json",
+              "sha256": "cccf5ca26863919e2acdd854403f1888bb9584fdd9c905960026c5855c4e25db",
+              "derivedFromArtifactBytes": true,
+              "totalActualWrites": 48,
+              "documentCount": 6,
+              "nestedWriteRows": 48,
+              "nestedExpectedMatches": 48,
+              "nestedMismatches": 0,
+              "refusedFieldsWithInk": 0,
+              "unfittableValues": 0,
+              "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+              "perDocument": [
+                {
+                  "fixture": "canonical",
+                  "formNumber": "KS-CRIMINAL-COVER-SHEET-10-14-2025",
+                  "actualWrites": 6,
+                  "valuesReportedByFinalizer": 6,
+                  "nestedExpectedMatches": 6,
+                  "refusedFieldsWithInk": 0,
+                  "unfittable": 0,
+                  "outsideMeasuredWriteBox": 0
+                },
+                {
+                  "fixture": "canonical",
+                  "formNumber": "KSJC-PETITION-EXPUNGEMENT-ARREST-RECORD-02-2013",
+                  "actualWrites": 14,
+                  "valuesReportedByFinalizer": 14,
+                  "nestedExpectedMatches": 14,
+                  "refusedFieldsWithInk": 0,
+                  "unfittable": 0,
+                  "outsideMeasuredWriteBox": 0
+                },
+                {
+                  "fixture": "canonical",
+                  "formNumber": "KSJC-ORDER-EXPUNGEMENT-ARREST-RECORD-COVER-SHEET-12-2016",
+                  "actualWrites": 4,
+                  "valuesReportedByFinalizer": 4,
+                  "nestedExpectedMatches": 4,
+                  "refusedFieldsWithInk": 0,
+                  "unfittable": 0,
+                  "outsideMeasuredWriteBox": 0
+                },
+                {
+                  "fixture": "boundary",
+                  "formNumber": "KS-CRIMINAL-COVER-SHEET-10-14-2025",
+                  "actualWrites": 6,
+                  "valuesReportedByFinalizer": 6,
+                  "nestedExpectedMatches": 6,
+                  "refusedFieldsWithInk": 0,
+                  "unfittable": 0,
+                  "outsideMeasuredWriteBox": 0
+                },
+                {
+                  "fixture": "boundary",
+                  "formNumber": "KSJC-PETITION-EXPUNGEMENT-ARREST-RECORD-02-2013",
+                  "actualWrites": 14,
+                  "valuesReportedByFinalizer": 14,
+                  "nestedExpectedMatches": 14,
+                  "refusedFieldsWithInk": 0,
+                  "unfittable": 0,
+                  "outsideMeasuredWriteBox": 0
+                },
+                {
+                  "fixture": "boundary",
+                  "formNumber": "KSJC-ORDER-EXPUNGEMENT-ARREST-RECORD-COVER-SHEET-12-2016",
+                  "actualWrites": 4,
+                  "valuesReportedByFinalizer": 4,
+                  "nestedExpectedMatches": 4,
+                  "refusedFieldsWithInk": 0,
+                  "unfittable": 0,
+                  "outsideMeasuredWriteBox": 0
+                }
+              ]
+            },
+            "outputArtifacts": [
+              {
+                "fixture": "canonical",
+                "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/fixtures/canonical.pdf",
+                "sha256": "07bcda32a0700091871c819f4f03d17c9babf8b6627bc691ffc48871968e12a8",
+                "byteLength": 224380,
+                "workerReturnSha256": "07bcda32a0700091871c819f4f03d17c9babf8b6627bc691ffc48871968e12a8",
+                "workerReturnByteLength": 224380,
+                "workerReturnPageCount": 7,
+                "renderedReportSha256": "07bcda32a0700091871c819f4f03d17c9babf8b6627bc691ffc48871968e12a8",
+                "renderedReportByteLength": 224380,
+                "renderedReportPageCount": 7,
+                "matchesWorkerReturn": true,
+                "matchesRenderedReport": true,
+                "documentOrder": [
+                  "KS-CRIMINAL-COVER-SHEET-10-14-2025",
+                  "KSJC-PETITION-EXPUNGEMENT-ARREST-RECORD-02-2013",
+                  "KSJC-ORDER-EXPUNGEMENT-ARREST-RECORD-COVER-SHEET-12-2016",
+                  "KS-22-2410-ARREST-PROCESS-GUIDANCE"
+                ]
+              },
+              {
+                "fixture": "boundary",
+                "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/fixtures/boundary.pdf",
+                "sha256": "7ca350c37451fd8aa12ea101ced3ee5ea8c0538c0192d42264aa301b09e9f559",
+                "byteLength": 224696,
+                "workerReturnSha256": "7ca350c37451fd8aa12ea101ced3ee5ea8c0538c0192d42264aa301b09e9f559",
+                "workerReturnByteLength": 224696,
+                "workerReturnPageCount": 7,
+                "renderedReportSha256": "7ca350c37451fd8aa12ea101ced3ee5ea8c0538c0192d42264aa301b09e9f559",
+                "renderedReportByteLength": 224696,
+                "renderedReportPageCount": 7,
+                "matchesWorkerReturn": true,
+                "matchesRenderedReport": true,
+                "documentOrder": [
+                  "KS-CRIMINAL-COVER-SHEET-10-14-2025",
+                  "KSJC-PETITION-EXPUNGEMENT-ARREST-RECORD-02-2013",
+                  "KSJC-ORDER-EXPUNGEMENT-ARREST-RECORD-COVER-SHEET-12-2016",
+                  "KS-22-2410-ARREST-PROCESS-GUIDANCE"
+                ]
+              }
+            ]
+          }
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "basis": "Independent comparison of every field-map required-before-filing item to the participant instructions and blank disposition report.",
+          "finding": "The field map declares 20 required-before-filing items and its list contains 20; all 20 disclosure labels are present in the instructions, including identity/alias fields, officer fields, the violation-date distinction, KDR number and petition identity fields. Signature, grounds, court-owned hearing/case/findings and sensitive choices remain explicitly assigned to the correct participant or court owner. The native blank-disposition aggregate reports 19 because its grouping is not the field-map item count; the saved blank list still contains 20 and declares every item disclosed.",
+          "evidence": {
+            "fieldMap": {
+              "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/production-field-map.json",
+              "sha256": "6ee97a0bb9c21650ce429db892d4c8800dfdf6cd78e7cfd717d91007b8debbee",
+              "requiredBeforeFilingCount": 20,
+              "requiredBeforeFilingListLength": 20
+            },
+            "blankReport": {
+              "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/reports/blanks-left-for-the-participant.json",
+              "sha256": "b5409b405d3a8f593d4f31cdd68449aa8f17ff65e5bfa779523260641af8010d",
+              "byteLength": 27430,
+              "requiredBeforeFilingListLength": 20,
+              "everyRequiredBeforeFilingItemIsDisclosed": true
+            },
+            "instructions": {
+              "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/participant-instructions.md",
+              "sha256": "41b26526a966d002968b956ccfd8f17b7d0232e77c0a03d1b6fc27a2a3a32235",
+              "byteLength": 5041
+            },
+            "nativeBlankDispositionAggregate": {
+              "OPTIONAL_PARTICIPANT_CONTENT": 3,
+              "REQUIRED_BEFORE_FILING": 19,
+              "LATER_COMPLETION": 1,
+              "NOT_APPLICABLE_ON_THIS_ROUTE": 12,
+              "PARTICIPANT_ELECTION_GENUINE": 22,
+              "PROTECTED_FIELD": 3
+            }
+          }
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "basis": "Field-map selection inventory and direct current PDF text review.",
+          "finding": "No route selection was made by the platform. The four statutory grounds remain unmarked for participant selection, as do the participant race/ethnicity/sex controls; the instructions require exactly one statutory ground and tell the participant to check it against the disposition record. The synthetic fixture answers for these choices remain null.",
+          "evidence": {
+            "routeKeys": [
+              "obligation:track-only:KS:ks-22-2410-arrest"
+            ],
+            "routeSelectionsMade": [],
+            "selectionControlCount": 22,
+            "participantFacts": {
+              "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/fixtures/participant-facts.json",
+              "sha256": "7ae139fb0a700fc0e20dd3d3daaeb8c7ca50d7e24546d6d3a8bbc47b07171dc8",
+              "byteLength": 2244
+            },
+            "actualWrites": {
+              "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/reports/actual-writes.json",
+              "sha256": "cccf5ca26863919e2acdd854403f1888bb9584fdd9c905960026c5855c4e25db",
+              "byteLength": 35702
+            },
+            "instructions": {
+              "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/participant-instructions.md",
+              "sha256": "41b26526a966d002968b956ccfd8f17b7d0232e77c0a03d1b6fc27a2a3a32235",
+              "byteLength": 5041
+            }
+          }
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "basis": "Current component/page manifest and native completeness check.",
+          "finding": "This route has one static cover, one three-page petition, one KBI cover and two guidance pages per fixture; no repeating participant rows are declared or silently omitted. The native family checker reports PASS_COMPLETE 24/62 written with incompleteRows 0.",
+          "evidence": {
+            "renderedArtifacts": {
+              "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/reports/rendered-artifacts.json",
+              "sha256": "b006ed698c5446473b716e864015181a48ec04b1852759c9fc0059c3099d5635",
+              "byteLength": 10495
+            },
+            "nativeCompleteness": "ok ks-22-2410-arrest-set PASS_COMPLETE 24/62 written; exit 0",
+            "incompleteRows": 0
+          }
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "basis": "Current field-map refusal/selection inventory, actual-write byte proof and current PDF text.",
+          "finding": "The candidate leaves statutory grounds, identity selections, SSN/aliases, signature, officer/KDR/violation fields and court/attorney-controlled fields for their declared owners. Actual-write proof shows zero refused fields with ink, zero outside-box glyphs and zero unfittable values across both fixtures.",
+          "evidence": {
+            "fieldMap": {
+              "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/production-field-map.json",
+              "sha256": "6ee97a0bb9c21650ce429db892d4c8800dfdf6cd78e7cfd717d91007b8debbee",
+              "byteLength": 394562
+            },
+            "refusalCount": 38,
+            "selectionControlCount": 22,
+            "blankReport": {
+              "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/reports/blanks-left-for-the-participant.json",
+              "sha256": "b5409b405d3a8f593d4f31cdd68449aa8f17ff65e5bfa779523260641af8010d",
+              "byteLength": 27430
+            },
+            "actualWrites": {
+              "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/reports/actual-writes.json",
+              "sha256": "cccf5ca26863919e2acdd854403f1888bb9584fdd9c905960026c5855c4e25db",
+              "derivedFromArtifactBytes": true,
+              "totalActualWrites": 48,
+              "documentCount": 6,
+              "nestedWriteRows": 48,
+              "nestedExpectedMatches": 48,
+              "nestedMismatches": 0,
+              "refusedFieldsWithInk": 0,
+              "unfittableValues": 0,
+              "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+              "perDocument": [
+                {
+                  "fixture": "canonical",
+                  "formNumber": "KS-CRIMINAL-COVER-SHEET-10-14-2025",
+                  "actualWrites": 6,
+                  "valuesReportedByFinalizer": 6,
+                  "nestedExpectedMatches": 6,
+                  "refusedFieldsWithInk": 0,
+                  "unfittable": 0,
+                  "outsideMeasuredWriteBox": 0
+                },
+                {
+                  "fixture": "canonical",
+                  "formNumber": "KSJC-PETITION-EXPUNGEMENT-ARREST-RECORD-02-2013",
+                  "actualWrites": 14,
+                  "valuesReportedByFinalizer": 14,
+                  "nestedExpectedMatches": 14,
+                  "refusedFieldsWithInk": 0,
+                  "unfittable": 0,
+                  "outsideMeasuredWriteBox": 0
+                },
+                {
+                  "fixture": "canonical",
+                  "formNumber": "KSJC-ORDER-EXPUNGEMENT-ARREST-RECORD-COVER-SHEET-12-2016",
+                  "actualWrites": 4,
+                  "valuesReportedByFinalizer": 4,
+                  "nestedExpectedMatches": 4,
+                  "refusedFieldsWithInk": 0,
+                  "unfittable": 0,
+                  "outsideMeasuredWriteBox": 0
+                },
+                {
+                  "fixture": "boundary",
+                  "formNumber": "KS-CRIMINAL-COVER-SHEET-10-14-2025",
+                  "actualWrites": 6,
+                  "valuesReportedByFinalizer": 6,
+                  "nestedExpectedMatches": 6,
+                  "refusedFieldsWithInk": 0,
+                  "unfittable": 0,
+                  "outsideMeasuredWriteBox": 0
+                },
+                {
+                  "fixture": "boundary",
+                  "formNumber": "KSJC-PETITION-EXPUNGEMENT-ARREST-RECORD-02-2013",
+                  "actualWrites": 14,
+                  "valuesReportedByFinalizer": 14,
+                  "nestedExpectedMatches": 14,
+                  "refusedFieldsWithInk": 0,
+                  "unfittable": 0,
+                  "outsideMeasuredWriteBox": 0
+                },
+                {
+                  "fixture": "boundary",
+                  "formNumber": "KSJC-ORDER-EXPUNGEMENT-ARREST-RECORD-COVER-SHEET-12-2016",
+                  "actualWrites": 4,
+                  "valuesReportedByFinalizer": 4,
+                  "nestedExpectedMatches": 4,
+                  "refusedFieldsWithInk": 0,
+                  "unfittable": 0,
+                  "outsideMeasuredWriteBox": 0
+                }
+              ]
+            }
+          }
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "basis": "Independent transfer comparison plus current output/report hash, length and page checks.",
+          "finding": "All 17 files in the Captain candidate commit are present byte-identically at the current review base, including both PDFs, source-bound maps/reports, the build script and the worker return. Current canonical and boundary PDFs exactly match the worker return and rendered-artifact report.",
+          "evidence": {
+            "candidateCommit": "8767db43872bb22cd3e2780e477931fd8de0ba38",
+            "workerCommit": "202d134b5e5908077b0a8116a02a74f15f8f7d62",
+            "transferFileCount": 17,
+            "all17CurrentBodiesMatch": true,
+            "transferFiles": [
+              {
+                "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/approval-request.json",
+                "sha256AtCandidateCommit": "d9d0a47810cb16ae039e093acfd4317600510550916c3e9abede0a798e6c176b",
+                "byteLengthAtCandidateCommit": 734,
+                "currentSha256": "d9d0a47810cb16ae039e093acfd4317600510550916c3e9abede0a798e6c176b",
+                "currentByteLength": 734,
+                "currentExists": true,
+                "currentMatchesCandidateCommit": true
+              },
+              {
+                "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/build-findings.json",
+                "sha256AtCandidateCommit": "9f2ce63352256e8ac885b53c1cf57fb3343f3a3793925596ea868ae39b70f871",
+                "byteLengthAtCandidateCommit": 1924,
+                "currentSha256": "9f2ce63352256e8ac885b53c1cf57fb3343f3a3793925596ea868ae39b70f871",
+                "currentByteLength": 1924,
+                "currentExists": true,
+                "currentMatchesCandidateCommit": true
+              },
+              {
+                "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/build-status.json",
+                "sha256AtCandidateCommit": "8b894522ae48aeb9c900a0fe1810525cbac15c09d5dcbeda111e76913613892f",
+                "byteLengthAtCandidateCommit": 914,
+                "currentSha256": "8b894522ae48aeb9c900a0fe1810525cbac15c09d5dcbeda111e76913613892f",
+                "currentByteLength": 914,
+                "currentExists": true,
+                "currentMatchesCandidateCommit": true
+              },
+              {
+                "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/field-census.census-v1.json",
+                "sha256AtCandidateCommit": "f9a1deaff2e665913c5664bf2c614082687fe9e53f7bee6500deee057dfe90ff",
+                "byteLengthAtCandidateCommit": 70221,
+                "currentSha256": "f9a1deaff2e665913c5664bf2c614082687fe9e53f7bee6500deee057dfe90ff",
+                "currentByteLength": 70221,
+                "currentExists": true,
+                "currentMatchesCandidateCommit": true
+              },
+              {
+                "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/fixtures/boundary.pdf",
+                "sha256AtCandidateCommit": "7ca350c37451fd8aa12ea101ced3ee5ea8c0538c0192d42264aa301b09e9f559",
+                "byteLengthAtCandidateCommit": 224696,
+                "currentSha256": "7ca350c37451fd8aa12ea101ced3ee5ea8c0538c0192d42264aa301b09e9f559",
+                "currentByteLength": 224696,
+                "currentExists": true,
+                "currentMatchesCandidateCommit": true
+              },
+              {
+                "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/fixtures/canonical.pdf",
+                "sha256AtCandidateCommit": "07bcda32a0700091871c819f4f03d17c9babf8b6627bc691ffc48871968e12a8",
+                "byteLengthAtCandidateCommit": 224380,
+                "currentSha256": "07bcda32a0700091871c819f4f03d17c9babf8b6627bc691ffc48871968e12a8",
+                "currentByteLength": 224380,
+                "currentExists": true,
+                "currentMatchesCandidateCommit": true
+              },
+              {
+                "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/fixtures/participant-facts.json",
+                "sha256AtCandidateCommit": "7ae139fb0a700fc0e20dd3d3daaeb8c7ca50d7e24546d6d3a8bbc47b07171dc8",
+                "byteLengthAtCandidateCommit": 2244,
+                "currentSha256": "7ae139fb0a700fc0e20dd3d3daaeb8c7ca50d7e24546d6d3a8bbc47b07171dc8",
+                "currentByteLength": 2244,
+                "currentExists": true,
+                "currentMatchesCandidateCommit": true
+              },
+              {
+                "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/participant-instructions.md",
+                "sha256AtCandidateCommit": "41b26526a966d002968b956ccfd8f17b7d0232e77c0a03d1b6fc27a2a3a32235",
+                "byteLengthAtCandidateCommit": 5041,
+                "currentSha256": "41b26526a966d002968b956ccfd8f17b7d0232e77c0a03d1b6fc27a2a3a32235",
+                "currentByteLength": 5041,
+                "currentExists": true,
+                "currentMatchesCandidateCommit": true
+              },
+              {
+                "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/production-field-map.json",
+                "sha256AtCandidateCommit": "6ee97a0bb9c21650ce429db892d4c8800dfdf6cd78e7cfd717d91007b8debbee",
+                "byteLengthAtCandidateCommit": 394562,
+                "currentSha256": "6ee97a0bb9c21650ce429db892d4c8800dfdf6cd78e7cfd717d91007b8debbee",
+                "currentByteLength": 394562,
+                "currentExists": true,
+                "currentMatchesCandidateCommit": true
+              },
+              {
+                "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/reports/actual-writes.json",
+                "sha256AtCandidateCommit": "cccf5ca26863919e2acdd854403f1888bb9584fdd9c905960026c5855c4e25db",
+                "byteLengthAtCandidateCommit": 35702,
+                "currentSha256": "cccf5ca26863919e2acdd854403f1888bb9584fdd9c905960026c5855c4e25db",
+                "currentByteLength": 35702,
+                "currentExists": true,
+                "currentMatchesCandidateCommit": true
+              },
+              {
+                "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/reports/blanks-left-for-the-participant.json",
+                "sha256AtCandidateCommit": "b5409b405d3a8f593d4f31cdd68449aa8f17ff65e5bfa779523260641af8010d",
+                "byteLengthAtCandidateCommit": 27430,
+                "currentSha256": "b5409b405d3a8f593d4f31cdd68449aa8f17ff65e5bfa779523260641af8010d",
+                "currentByteLength": 27430,
+                "currentExists": true,
+                "currentMatchesCandidateCommit": true
+              },
+              {
+                "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/reports/completeness-counters.json",
+                "sha256AtCandidateCommit": "825cbccdb6c73a7a14d25eb7aa5118a1b7e10f26aed93c4b129df998d09f3601",
+                "byteLengthAtCandidateCommit": 935,
+                "currentSha256": "825cbccdb6c73a7a14d25eb7aa5118a1b7e10f26aed93c4b129df998d09f3601",
+                "currentByteLength": 935,
+                "currentExists": true,
+                "currentMatchesCandidateCommit": true
+              },
+              {
+                "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/reports/independent-visual-review.json",
+                "sha256AtCandidateCommit": "45cc8aea2b8034614f924f537264dd09e14943bed54d7dc15025149a54aafb99",
+                "byteLengthAtCandidateCommit": 1394,
+                "currentSha256": "45cc8aea2b8034614f924f537264dd09e14943bed54d7dc15025149a54aafb99",
+                "currentByteLength": 1394,
+                "currentExists": true,
+                "currentMatchesCandidateCommit": true
+              },
+              {
+                "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/reports/rendered-artifacts.json",
+                "sha256AtCandidateCommit": "b006ed698c5446473b716e864015181a48ec04b1852759c9fc0059c3099d5635",
+                "byteLengthAtCandidateCommit": 10495,
+                "currentSha256": "b006ed698c5446473b716e864015181a48ec04b1852759c9fc0059c3099d5635",
+                "currentByteLength": 10495,
+                "currentExists": true,
+                "currentMatchesCandidateCommit": true
+              },
+              {
+                "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/source-receipt.json",
+                "sha256AtCandidateCommit": "3b897dadfb70fae34a5f5b9762d28316ae98d98b1e987e94983adddedbd7030f",
+                "byteLengthAtCandidateCommit": 7022,
+                "currentSha256": "3b897dadfb70fae34a5f5b9762d28316ae98d98b1e987e94983adddedbd7030f",
+                "currentByteLength": 7022,
+                "currentExists": true,
+                "currentMatchesCandidateCommit": true
+              },
+              {
+                "path": "data/rcap-grade-a/packet-factory-24h/pf20/ks-22-2410-arrest-return-20260913.json",
+                "sha256AtCandidateCommit": "d46cfcccdd1645e013a5465cb335f495a9bf919eb46fcbd158a39f96d053b690",
+                "byteLengthAtCandidateCommit": 5576,
+                "currentSha256": "d46cfcccdd1645e013a5465cb335f495a9bf919eb46fcbd158a39f96d053b690",
+                "currentByteLength": 5576,
+                "currentExists": true,
+                "currentMatchesCandidateCommit": true
+              },
+              {
+                "path": "scripts/build-census-v1-ks-22-2410-arrest-set.mjs",
+                "sha256AtCandidateCommit": "6723ab7f0945b6cebb7ef21c799834b32bddc8a9dd341c3d8083f1bfeca16697",
+                "byteLengthAtCandidateCommit": 80665,
+                "currentSha256": "6723ab7f0945b6cebb7ef21c799834b32bddc8a9dd341c3d8083f1bfeca16697",
+                "currentByteLength": 80665,
+                "currentExists": true,
+                "currentMatchesCandidateCommit": true
+              }
+            ],
+            "outputs": [
+              {
+                "fixture": "canonical",
+                "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/fixtures/canonical.pdf",
+                "sha256": "07bcda32a0700091871c819f4f03d17c9babf8b6627bc691ffc48871968e12a8",
+                "byteLength": 224380,
+                "workerReturnSha256": "07bcda32a0700091871c819f4f03d17c9babf8b6627bc691ffc48871968e12a8",
+                "workerReturnByteLength": 224380,
+                "workerReturnPageCount": 7,
+                "renderedReportSha256": "07bcda32a0700091871c819f4f03d17c9babf8b6627bc691ffc48871968e12a8",
+                "renderedReportByteLength": 224380,
+                "renderedReportPageCount": 7,
+                "matchesWorkerReturn": true,
+                "matchesRenderedReport": true,
+                "documentOrder": [
+                  "KS-CRIMINAL-COVER-SHEET-10-14-2025",
+                  "KSJC-PETITION-EXPUNGEMENT-ARREST-RECORD-02-2013",
+                  "KSJC-ORDER-EXPUNGEMENT-ARREST-RECORD-COVER-SHEET-12-2016",
+                  "KS-22-2410-ARREST-PROCESS-GUIDANCE"
+                ]
+              },
+              {
+                "fixture": "boundary",
+                "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/fixtures/boundary.pdf",
+                "sha256": "7ca350c37451fd8aa12ea101ced3ee5ea8c0538c0192d42264aa301b09e9f559",
+                "byteLength": 224696,
+                "workerReturnSha256": "7ca350c37451fd8aa12ea101ced3ee5ea8c0538c0192d42264aa301b09e9f559",
+                "workerReturnByteLength": 224696,
+                "workerReturnPageCount": 7,
+                "renderedReportSha256": "7ca350c37451fd8aa12ea101ced3ee5ea8c0538c0192d42264aa301b09e9f559",
+                "renderedReportByteLength": 224696,
+                "renderedReportPageCount": 7,
+                "matchesWorkerReturn": true,
+                "matchesRenderedReport": true,
+                "documentOrder": [
+                  "KS-CRIMINAL-COVER-SHEET-10-14-2025",
+                  "KSJC-PETITION-EXPUNGEMENT-ARREST-RECORD-02-2013",
+                  "KSJC-ORDER-EXPUNGEMENT-ARREST-RECORD-COVER-SHEET-12-2016",
+                  "KS-22-2410-ARREST-PROCESS-GUIDANCE"
+                ]
+              }
+            ]
+          }
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "basis": "Current rendered-artifact page manifests and PDF page counts.",
+          "finding": "Both seven-page fixtures use the declared order: 2025 Criminal Cover Sheet, petition pages 1-3, 2016 KBI cover sheet, then two process-guidance pages. The page manifests carry the exact three source hashes on the official pages and no proposed-order pages.",
+          "evidence": {
+            "renderedArtifacts": {
+              "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/reports/rendered-artifacts.json",
+              "sha256": "b006ed698c5446473b716e864015181a48ec04b1852759c9fc0059c3099d5635",
+              "byteLength": 10495
+            },
+            "fixtures": [
+              {
+                "fixture": "canonical",
+                "pageCount": 7,
+                "documents": [
+                  "KS-CRIMINAL-COVER-SHEET-10-14-2025",
+                  "KSJC-PETITION-EXPUNGEMENT-ARREST-RECORD-02-2013",
+                  "KSJC-ORDER-EXPUNGEMENT-ARREST-RECORD-COVER-SHEET-12-2016",
+                  "KS-22-2410-ARREST-PROCESS-GUIDANCE"
+                ],
+                "pageManifest": [
+                  {
+                    "packetPage": 1,
+                    "componentId": "ks-22-2410-arrest-cover-sheet-1",
+                    "documentId": "KS-CRIMINAL-COVER-SHEET-10-14-2025",
+                    "sourcePage": 1,
+                    "sourceSha256": "6384f934dc431601dfd07d0822c32b83ee8fcd0412cff5496af1481169cdea60"
+                  },
+                  {
+                    "packetPage": 2,
+                    "componentId": "ks-22-2410-arrest-primary-filing-2",
+                    "documentId": "KSJC-PETITION-EXPUNGEMENT-ARREST-RECORD-02-2013",
+                    "sourcePage": 1,
+                    "sourceSha256": "bf4b2309f831aa317d235389a6bd1f24bca55075290ddb3d916083c6f64d840d"
+                  },
+                  {
+                    "packetPage": 3,
+                    "componentId": "ks-22-2410-arrest-primary-filing-2",
+                    "documentId": "KSJC-PETITION-EXPUNGEMENT-ARREST-RECORD-02-2013",
+                    "sourcePage": 2,
+                    "sourceSha256": "bf4b2309f831aa317d235389a6bd1f24bca55075290ddb3d916083c6f64d840d"
+                  },
+                  {
+                    "packetPage": 4,
+                    "componentId": "ks-22-2410-arrest-primary-filing-2",
+                    "documentId": "KSJC-PETITION-EXPUNGEMENT-ARREST-RECORD-02-2013",
+                    "sourcePage": 3,
+                    "sourceSha256": "bf4b2309f831aa317d235389a6bd1f24bca55075290ddb3d916083c6f64d840d"
+                  },
+                  {
+                    "packetPage": 5,
+                    "componentId": "ks-22-2410-arrest-cover-sheet-3",
+                    "documentId": "KSJC-ORDER-EXPUNGEMENT-ARREST-RECORD-COVER-SHEET-12-2016",
+                    "sourcePage": 1,
+                    "sourceSha256": "d13bc7b7b2a9c5367c785c1de4f3a8d6d79410ef29a3c9c86a5b903057d249d5"
+                  },
+                  {
+                    "packetPage": 6,
+                    "componentId": "ks-22-2410-arrest-process-guidance-4",
+                    "documentId": "KS-22-2410-ARREST-PROCESS-GUIDANCE",
+                    "sourcePage": 1,
+                    "sourceSha256": null
+                  },
+                  {
+                    "packetPage": 7,
+                    "componentId": "ks-22-2410-arrest-process-guidance-4",
+                    "documentId": "KS-22-2410-ARREST-PROCESS-GUIDANCE",
+                    "sourcePage": 2,
+                    "sourceSha256": null
+                  }
+                ]
+              },
+              {
+                "fixture": "boundary",
+                "pageCount": 7,
+                "documents": [
+                  "KS-CRIMINAL-COVER-SHEET-10-14-2025",
+                  "KSJC-PETITION-EXPUNGEMENT-ARREST-RECORD-02-2013",
+                  "KSJC-ORDER-EXPUNGEMENT-ARREST-RECORD-COVER-SHEET-12-2016",
+                  "KS-22-2410-ARREST-PROCESS-GUIDANCE"
+                ],
+                "pageManifest": [
+                  {
+                    "packetPage": 1,
+                    "componentId": "ks-22-2410-arrest-cover-sheet-1",
+                    "documentId": "KS-CRIMINAL-COVER-SHEET-10-14-2025",
+                    "sourcePage": 1,
+                    "sourceSha256": "6384f934dc431601dfd07d0822c32b83ee8fcd0412cff5496af1481169cdea60"
+                  },
+                  {
+                    "packetPage": 2,
+                    "componentId": "ks-22-2410-arrest-primary-filing-2",
+                    "documentId": "KSJC-PETITION-EXPUNGEMENT-ARREST-RECORD-02-2013",
+                    "sourcePage": 1,
+                    "sourceSha256": "bf4b2309f831aa317d235389a6bd1f24bca55075290ddb3d916083c6f64d840d"
+                  },
+                  {
+                    "packetPage": 3,
+                    "componentId": "ks-22-2410-arrest-primary-filing-2",
+                    "documentId": "KSJC-PETITION-EXPUNGEMENT-ARREST-RECORD-02-2013",
+                    "sourcePage": 2,
+                    "sourceSha256": "bf4b2309f831aa317d235389a6bd1f24bca55075290ddb3d916083c6f64d840d"
+                  },
+                  {
+                    "packetPage": 4,
+                    "componentId": "ks-22-2410-arrest-primary-filing-2",
+                    "documentId": "KSJC-PETITION-EXPUNGEMENT-ARREST-RECORD-02-2013",
+                    "sourcePage": 3,
+                    "sourceSha256": "bf4b2309f831aa317d235389a6bd1f24bca55075290ddb3d916083c6f64d840d"
+                  },
+                  {
+                    "packetPage": 5,
+                    "componentId": "ks-22-2410-arrest-cover-sheet-3",
+                    "documentId": "KSJC-ORDER-EXPUNGEMENT-ARREST-RECORD-COVER-SHEET-12-2016",
+                    "sourcePage": 1,
+                    "sourceSha256": "d13bc7b7b2a9c5367c785c1de4f3a8d6d79410ef29a3c9c86a5b903057d249d5"
+                  },
+                  {
+                    "packetPage": 6,
+                    "componentId": "ks-22-2410-arrest-process-guidance-4",
+                    "documentId": "KS-22-2410-ARREST-PROCESS-GUIDANCE",
+                    "sourcePage": 1,
+                    "sourceSha256": null
+                  },
+                  {
+                    "packetPage": 7,
+                    "componentId": "ks-22-2410-arrest-process-guidance-4",
+                    "documentId": "KS-22-2410-ARREST-PROCESS-GUIDANCE",
+                    "sourcePage": 2,
+                    "sourceSha256": null
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "basis": "Direct viewing of all 14 original PNG pages from immutable run 34747882153 custody after exact SHA-256 and byte-length checks against the page-image inventory.",
+          "finding": "All seven canonical and seven boundary pages are complete and legible. No clipping, overlap, crop, missing ink, protected-field ink, page-order defect or boundary overflow was observed.",
+          "evidence": [
+            {
+              "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34747882153/ks-22-2410-arrest-set.verdict.json",
+              "sha256": "4bcb70f5e2a4586d9c9e843e7463edb7dfe301fdd20e0e759160a347d66022e7",
+              "byteLength": 14837
+            },
+            {
+              "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34747882153/ks-22-2410-arrest-set.PAGE_IMAGES_SHA256.json",
+              "sha256": "f1fda7427ce862830c57f0ecd23590f68706504b92fcd449cc37d987fc03b831",
+              "byteLength": 3188
+            },
+            {
+              "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34747882153/ks-22-2410-arrest-set.ORIGINAL_EVIDENCE_VERIFIED.json",
+              "sha256": "d542447c56647c7688d5ef03ee6bb0c721893d20d5c2227673e41f2687a58956",
+              "byteLength": 2533,
+              "pagesMeasured": 14,
+              "originalPngBytesVerified": true
+            }
+          ],
+          "pagesMeasured": 14,
+          "allPagesDirectlyViewed": true,
+          "visualDefects": 0
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "basis": "Current route registry and extracted participant guidance against the exact source form roles.",
+          "finding": "Guidance tells the participant to file the 2025 Criminal Cover Sheet with the petition and file the Judicial Council arrest petition with the clerk of the district court. It identifies the post-order KBI cover sheet handoff and does not tell the participant to file it as the petition. Court notice, hearing and court-owned fields remain court controlled.",
+          "evidence": {
+            "instructions": {
+              "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/participant-instructions.md",
+              "sha256": "41b26526a966d002968b956ccfd8f17b7d0232e77c0a03d1b6fc27a2a3a32235",
+              "byteLength": 5041
+            },
+            "registry": {
+              "path": "data/record-clearing/legal-design-track-registry.json",
+              "sha256": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+              "byteLength": 16781025
+            },
+            "sourceReceipt": {
+              "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/source-receipt.json",
+              "sha256": "3b897dadfb70fae34a5f5b9762d28316ae98d98b1e987e94983adddedbd7030f",
+              "byteLength": 7022
+            },
+            "sourceDocumentRoles": [
+              {
+                "documentId": "KS-CRIMINAL-COVER-SHEET-10-14-2025",
+                "role": "cover_sheet"
+              },
+              {
+                "documentId": "KSJC-PETITION-EXPUNGEMENT-ARREST-RECORD-02-2013",
+                "role": "primary_filing"
+              },
+              {
+                "documentId": "KSJC-ORDER-EXPUNGEMENT-ARREST-RECORD-COVER-SHEET-12-2016",
+                "role": "cover_sheet"
+              }
+            ]
+          }
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "basis": "Current route registry fee rule and participant guidance.",
+          "finding": "Guidance states the $176 docket fee, the supreme-court charge not exceeding $19 per docket fee through June 30, 2030, the statutory (b)(3)(B) no-fee exemption categories, and that no discretionary waiver exists. It tells the participant to ask the clerk about the exemption and invents no waiver or amount. Current-form freshness remains a release gate in the adopted registry and is not silently resolved here.",
+          "evidence": {
+            "instructions": {
+              "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/participant-instructions.md",
+              "sha256": "41b26526a966d002968b956ccfd8f17b7d0232e77c0a03d1b6fc27a2a3a32235",
+              "byteLength": 5041
+            },
+            "registry": {
+              "path": "data/record-clearing/legal-design-track-registry.json",
+              "sha256": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+              "byteLength": 16781025
+            },
+            "queue": {
+              "path": "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+              "sha256": "832b20a3bf6921737da56e6f713aafa08fd7c31e392ce72237935c21d2381c22",
+              "byteLength": 2397811
+            }
+          }
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "basis": "Current route registry and participant guidance.",
+          "finding": "Guidance states that the court sets the hearing and causes notice to the prosecuting attorney and arresting law-enforcement agency, and expressly tells the participant not to serve them. It assigns hearing/date/time/courtroom/case number when unassigned, findings and signature to the court.",
+          "evidence": {
+            "instructions": {
+              "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/participant-instructions.md",
+              "sha256": "41b26526a966d002968b956ccfd8f17b7d0232e77c0a03d1b6fc27a2a3a32235",
+              "byteLength": 5041
+            },
+            "registry": {
+              "path": "data/record-clearing/legal-design-track-registry.json",
+              "sha256": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+              "byteLength": 16781025
+            }
+          }
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "basis": "Current participant guidance and adopted route self-help boundaries.",
+          "finding": "The packet directs the participant to stop self-help and obtain legal help for prosecutor opposition, a contested evidentiary hearing, a disputed ground, conviction or completed diversion, a city-ordinance arrest or immigration consequences. It preserves the arrest-only versus K.S.A. 21-6614 and municipal-route distinctions and does not decide eligibility.",
+          "evidence": {
+            "instructions": {
+              "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/participant-instructions.md",
+              "sha256": "41b26526a966d002968b956ccfd8f17b7d0232e77c0a03d1b6fc27a2a3a32235",
+              "byteLength": 5041
+            },
+            "registry": {
+              "path": "data/record-clearing/legal-design-track-registry.json",
+              "sha256": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+              "byteLength": 16781025
+            }
+          }
+        }
+      },
+      "obligationCounts": {
+        "PASS": 15,
+        "NOT_MEASURABLE_HERE": 0,
+        "FAIL": 0,
+        "BLOCKED_LEGAL_INPUT": 0,
+        "allMeasured": true
+      },
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allNonvisualZero": true,
+        "allZero": true,
+        "measuredHere": true,
+        "visualMeasuredHere": true,
+        "counterNote": "All nine counters are zero after the native current-byte proofs and direct independent review of all 14 immutable original PNG pages."
+      },
+      "currentCandidateBindings": {
+        "familyId": "ks-22-2410-arrest-set",
+        "routeKey": "obligation:track-only:KS:ks-22-2410-arrest",
+        "candidateDirectory": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill",
+        "workerBranch": "pf20-ks-22-2410-arrest-20260912b",
+        "workerCandidateCommit": "202d134b5e5908077b0a8116a02a74f15f8f7d62",
+        "captainCandidateCommit": "8767db43872bb22cd3e2780e477931fd8de0ba38",
+        "currentReviewHead": "5e0c278667813a0b4af909577154901f311efad6",
+        "all17TransferredPathsCurrentByteIdentical": true,
+        "transferredFileCount": 17,
+        "keyFiles": [
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/production-field-map.json",
+            "sha256": "6ee97a0bb9c21650ce429db892d4c8800dfdf6cd78e7cfd717d91007b8debbee",
+            "byteLength": 394562
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/participant-instructions.md",
+            "sha256": "41b26526a966d002968b956ccfd8f17b7d0232e77c0a03d1b6fc27a2a3a32235",
+            "byteLength": 5041
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/source-receipt.json",
+            "sha256": "3b897dadfb70fae34a5f5b9762d28316ae98d98b1e987e94983adddedbd7030f",
+            "byteLength": 7022
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/reports/actual-writes.json",
+            "sha256": "cccf5ca26863919e2acdd854403f1888bb9584fdd9c905960026c5855c4e25db",
+            "byteLength": 35702
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/reports/blanks-left-for-the-participant.json",
+            "sha256": "b5409b405d3a8f593d4f31cdd68449aa8f17ff65e5bfa779523260641af8010d",
+            "byteLength": 27430
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/reports/completeness-counters.json",
+            "sha256": "825cbccdb6c73a7a14d25eb7aa5118a1b7e10f26aed93c4b129df998d09f3601",
+            "byteLength": 935
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/reports/rendered-artifacts.json",
+            "sha256": "b006ed698c5446473b716e864015181a48ec04b1852759c9fc0059c3099d5635",
+            "byteLength": 10495
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/reports/independent-visual-review.json",
+            "sha256": "45cc8aea2b8034614f924f537264dd09e14943bed54d7dc15025149a54aafb99",
+            "byteLength": 1394
+          },
+          {
+            "path": "data/rcap-grade-a/packet-factory-24h/pf20/ks-22-2410-arrest-return-20260913.json",
+            "sha256": "d46cfcccdd1645e013a5465cb335f495a9bf919eb46fcbd158a39f96d053b690",
+            "byteLength": 5576
+          }
+        ],
+        "currentVerifiedCaptain": "a7c892d6891120fae5f04b367bcd0d1d6695d2ad",
+        "currentFinalPacketCommitSha": "de82161d28ab1cc5ab689fd7b6a2878ff3f58829",
+        "currentPdfHashes": [
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/fixtures/canonical.pdf",
+            "sha256": "07bcda32a0700091871c819f4f03d17c9babf8b6627bc691ffc48871968e12a8",
+            "byteLength": 224380,
+            "pageCount": 7,
+            "role": "canonical",
+            "document": "canonical.pdf"
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/fixtures/boundary.pdf",
+            "sha256": "7ca350c37451fd8aa12ea101ced3ee5ea8c0538c0192d42264aa301b09e9f559",
+            "byteLength": 224696,
+            "pageCount": 7,
+            "role": "boundary",
+            "document": "boundary.pdf"
+          }
+        ],
+        "currentPageHashInventory": {
+          "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34747882153/ks-22-2410-arrest-set.PAGE_IMAGES_SHA256.json",
+          "sha256": "f1fda7427ce862830c57f0ecd23590f68706504b92fcd449cc37d987fc03b831",
+          "byteLength": 3188,
+          "pagesMeasured": 14
+        },
+        "currentRasterVerdict": {
+          "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34747882153/ks-22-2410-arrest-set.verdict.json",
+          "sha256": "4bcb70f5e2a4586d9c9e843e7463edb7dfe301fdd20e0e759160a347d66022e7",
+          "byteLength": 14837,
+          "verdict": "RASTER_PASS",
+          "pagesMeasured": 14,
+          "packetCommitSha": "de82161d28ab1cc5ab689fd7b6a2878ff3f58829"
+        },
+        "currentRasterCustody": {
+          "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34747882153/ks-22-2410-arrest-set.ORIGINAL_EVIDENCE_VERIFIED.json",
+          "sha256": "d542447c56647c7688d5ef03ee6bb0c721893d20d5c2227673e41f2687a58956",
+          "byteLength": 2533,
+          "archiveSha256": "921e1fbf834bc12fd24fa3d2f1f77d23a317cb509822194e12b3dd63f4155ea6",
+          "originalPngBytesVerified": true
+        }
+      },
+      "byteProof": {
+        "workerReturn": {
+          "path": "data/rcap-grade-a/packet-factory-24h/pf20/ks-22-2410-arrest-return-20260913.json",
+          "sha256": "d46cfcccdd1645e013a5465cb335f495a9bf919eb46fcbd158a39f96d053b690",
+          "byteLength": 5576
+        },
+        "workerReturnStatus": "COMPLETE_BUILDER_CANDIDATE",
+        "workerReturnOutputs": [
+          {
+            "file": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/fixtures/canonical.pdf",
+            "sha256": "07bcda32a0700091871c819f4f03d17c9babf8b6627bc691ffc48871968e12a8",
+            "byteLength": 224380,
+            "pageCount": 7
+          },
+          {
+            "file": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/fixtures/boundary.pdf",
+            "sha256": "7ca350c37451fd8aa12ea101ced3ee5ea8c0538c0192d42264aa301b09e9f559",
+            "byteLength": 224696,
+            "pageCount": 7
+          }
+        ],
+        "currentOutputs": [
+          {
+            "fixture": "canonical",
+            "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/fixtures/canonical.pdf",
+            "sha256": "07bcda32a0700091871c819f4f03d17c9babf8b6627bc691ffc48871968e12a8",
+            "byteLength": 224380,
+            "pageCount": 7,
+            "exactAgainstRasterVerdict": true,
+            "exactAgainstFrozenManifest": true
+          },
+          {
+            "fixture": "boundary",
+            "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/fixtures/boundary.pdf",
+            "sha256": "7ca350c37451fd8aa12ea101ced3ee5ea8c0538c0192d42264aa301b09e9f559",
+            "byteLength": 224696,
+            "pageCount": 7,
+            "exactAgainstRasterVerdict": true,
+            "exactAgainstFrozenManifest": true
+          }
+        ],
+        "all17TransferBodiesMatch": true,
+        "pdfsRehashedHere": true,
+        "currentPdfHashesExactAtReview": true,
+        "candidateBytesEditedByReviewer": false
+      },
+      "actualWriteProof": {
+        "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/reports/actual-writes.json",
+        "sha256": "cccf5ca26863919e2acdd854403f1888bb9584fdd9c905960026c5855c4e25db",
+        "derivedFromArtifactBytes": true,
+        "totalActualWrites": 48,
+        "documentCount": 6,
+        "nestedWriteRows": 48,
+        "nestedExpectedMatches": 48,
+        "nestedMismatches": 0,
+        "refusedFieldsWithInk": 0,
+        "unfittableValues": 0,
+        "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+        "perDocument": [
+          {
+            "fixture": "canonical",
+            "formNumber": "KS-CRIMINAL-COVER-SHEET-10-14-2025",
+            "actualWrites": 6,
+            "valuesReportedByFinalizer": 6,
+            "nestedExpectedMatches": 6,
+            "refusedFieldsWithInk": 0,
+            "unfittable": 0,
+            "outsideMeasuredWriteBox": 0
+          },
+          {
+            "fixture": "canonical",
+            "formNumber": "KSJC-PETITION-EXPUNGEMENT-ARREST-RECORD-02-2013",
+            "actualWrites": 14,
+            "valuesReportedByFinalizer": 14,
+            "nestedExpectedMatches": 14,
+            "refusedFieldsWithInk": 0,
+            "unfittable": 0,
+            "outsideMeasuredWriteBox": 0
+          },
+          {
+            "fixture": "canonical",
+            "formNumber": "KSJC-ORDER-EXPUNGEMENT-ARREST-RECORD-COVER-SHEET-12-2016",
+            "actualWrites": 4,
+            "valuesReportedByFinalizer": 4,
+            "nestedExpectedMatches": 4,
+            "refusedFieldsWithInk": 0,
+            "unfittable": 0,
+            "outsideMeasuredWriteBox": 0
+          },
+          {
+            "fixture": "boundary",
+            "formNumber": "KS-CRIMINAL-COVER-SHEET-10-14-2025",
+            "actualWrites": 6,
+            "valuesReportedByFinalizer": 6,
+            "nestedExpectedMatches": 6,
+            "refusedFieldsWithInk": 0,
+            "unfittable": 0,
+            "outsideMeasuredWriteBox": 0
+          },
+          {
+            "fixture": "boundary",
+            "formNumber": "KSJC-PETITION-EXPUNGEMENT-ARREST-RECORD-02-2013",
+            "actualWrites": 14,
+            "valuesReportedByFinalizer": 14,
+            "nestedExpectedMatches": 14,
+            "refusedFieldsWithInk": 0,
+            "unfittable": 0,
+            "outsideMeasuredWriteBox": 0
+          },
+          {
+            "fixture": "boundary",
+            "formNumber": "KSJC-ORDER-EXPUNGEMENT-ARREST-RECORD-COVER-SHEET-12-2016",
+            "actualWrites": 4,
+            "valuesReportedByFinalizer": 4,
+            "nestedExpectedMatches": 4,
+            "refusedFieldsWithInk": 0,
+            "unfittable": 0,
+            "outsideMeasuredWriteBox": 0
+          }
+        ],
+        "present": true,
+        "currentByteRecheck": true
+      },
+      "sourceIdentity": {
+        "sourceReceipt": {
+          "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/source-receipt.json",
+          "sha256": "3b897dadfb70fae34a5f5b9762d28316ae98d98b1e987e94983adddedbd7030f",
+          "byteLength": 7022
+        },
+        "receiptAllSourcesExact": true,
+        "receiptCustodyClass": "SOURCE_BOUND_BY_HELD_BYTES",
+        "receiptSourceIndexSha256": "512a489ab79705c4b607bd09c5197e9e8beb2a22180ee0848e4673ab5fe3aca0",
+        "currentSourceIndex": {
+          "path": "data/rcap-all50/local-source-corpus-index.json",
+          "sha256": "cf1af3035ef444f822846372668df4653814dbd68c96b8525fa75908d3d2495c",
+          "byteLength": 1042895,
+          "entryCount": 996,
+          "currentKansasEntryCount": 17,
+          "historicalReceiptDigestIsNotUsedAsCurrentAssertion": true
+        },
+        "historicalAdmissionReview": {
+          "path": "data/rcap-grade-a/packet-factory-24h/pf20/ks-native-source-index-admission-review-20260913.json",
+          "sha256": "1ea7e1aa8b3608cc610a90cdf890a4bdafb29f29482cadcc03ec60bd0b83b1b5",
+          "byteLength": 10305
+        },
+        "sources": [
+          {
+            "documentId": "KS-CRIMINAL-COVER-SHEET-10-14-2025",
+            "officialFormId": "KS-CRIMINAL-COVER-SHEET-10-14-2025",
+            "role": "cover_sheet",
+            "custody": "nationwide_recovery_pool_2026_09_02",
+            "custodyRootDeclared": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02",
+            "pathInReceipt": "LegalEase Kansas/Criminal Cover Sheet 102025.pdf",
+            "resolvedPath": "/workspaces/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Kansas/Criminal Cover Sheet 102025.pdf",
+            "realpath": "/workspaces/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Kansas/Criminal Cover Sheet 102025.pdf",
+            "expectedSha256": "6384f934dc431601dfd07d0822c32b83ee8fcd0412cff5496af1481169cdea60",
+            "actualSha256": "6384f934dc431601dfd07d0822c32b83ee8fcd0412cff5496af1481169cdea60",
+            "expectedByteLength": 126589,
+            "actualByteLength": 126589,
+            "pageCount": 1,
+            "acroFormPresent": true,
+            "acroFieldCount": 36,
+            "structuralClassObserved": "acroform",
+            "indexEntryExact": true,
+            "bodyHashAndLengthExact": true
+          },
+          {
+            "documentId": "KSJC-PETITION-EXPUNGEMENT-ARREST-RECORD-02-2013",
+            "officialFormId": "KSJC-PETITION-EXPUNGEMENT-ARREST-RECORD-02-2013",
+            "role": "primary_filing",
+            "custody": "ks_historical_recovery_20260913",
+            "custodyRootDeclared": "private/Nationwide Record Clearing/LegalEase Kansas/source-gated",
+            "pathInReceipt": "private/Nationwide Record Clearing/LegalEase Kansas/source-gated/KSJC__petition-for-expungement-of-arrest-record__rev-2013-02.pdf",
+            "resolvedPath": "/workspaces/legalease-partner-dashboard-clean/private/Nationwide Record Clearing/LegalEase Kansas/source-gated/KSJC__petition-for-expungement-of-arrest-record__rev-2013-02.pdf",
+            "realpath": "/workspaces/legalease-partner-dashboard-clean/private/Nationwide Record Clearing/LegalEase Kansas/source-gated/KSJC__petition-for-expungement-of-arrest-record__rev-2013-02.pdf",
+            "expectedSha256": "bf4b2309f831aa317d235389a6bd1f24bca55075290ddb3d916083c6f64d840d",
+            "actualSha256": "bf4b2309f831aa317d235389a6bd1f24bca55075290ddb3d916083c6f64d840d",
+            "expectedByteLength": 51084,
+            "actualByteLength": 51084,
+            "pageCount": 3,
+            "acroFormPresent": false,
+            "acroFieldCount": 0,
+            "structuralClassObserved": "flat_pdf",
+            "indexEntryExact": true,
+            "bodyHashAndLengthExact": true
+          },
+          {
+            "documentId": "KSJC-ORDER-EXPUNGEMENT-ARREST-RECORD-COVER-SHEET-12-2016",
+            "officialFormId": "KSJC-ORDER-EXPUNGEMENT-ARREST-RECORD-COVER-SHEET-12-2016",
+            "role": "cover_sheet",
+            "custody": "ks_historical_recovery_20260913",
+            "custodyRootDeclared": "private/Nationwide Record Clearing/LegalEase Kansas/source-gated",
+            "pathInReceipt": "private/Nationwide Record Clearing/LegalEase Kansas/source-gated/KSJC__order-of-expungement-of-arrest-record-cover-sheet__rev-2016-12.pdf",
+            "resolvedPath": "/workspaces/legalease-partner-dashboard-clean/private/Nationwide Record Clearing/LegalEase Kansas/source-gated/KSJC__order-of-expungement-of-arrest-record-cover-sheet__rev-2016-12.pdf",
+            "realpath": "/workspaces/legalease-partner-dashboard-clean/private/Nationwide Record Clearing/LegalEase Kansas/source-gated/KSJC__order-of-expungement-of-arrest-record-cover-sheet__rev-2016-12.pdf",
+            "expectedSha256": "d13bc7b7b2a9c5367c785c1de4f3a8d6d79410ef29a3c9c86a5b903057d249d5",
+            "actualSha256": "d13bc7b7b2a9c5367c785c1de4f3a8d6d79410ef29a3c9c86a5b903057d249d5",
+            "expectedByteLength": 55112,
+            "actualByteLength": 55112,
+            "pageCount": 1,
+            "acroFormPresent": false,
+            "acroFieldCount": 0,
+            "structuralClassObserved": "flat_pdf",
+            "indexEntryExact": true,
+            "bodyHashAndLengthExact": true
+          }
+        ],
+        "masterLibrarySubstitution": false,
+        "operationalNationwideCompletenessClaim": false,
+        "sourceBytesChangedByReviewer": false,
+        "sourceFreshnessReleaseClaimed": false
+      },
+      "currentArtifacts": {
+        "renderedReport": {
+          "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/reports/rendered-artifacts.json",
+          "sha256": "b006ed698c5446473b716e864015181a48ec04b1852759c9fc0059c3099d5635",
+          "byteLength": 10495
+        },
+        "renderedFresh": true,
+        "derivedFromBytes": true,
+        "fixtures": [
+          {
+            "fixture": "canonical",
+            "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/fixtures/canonical.pdf",
+            "sha256": "07bcda32a0700091871c819f4f03d17c9babf8b6627bc691ffc48871968e12a8",
+            "byteLength": 224380,
+            "workerReturnSha256": "07bcda32a0700091871c819f4f03d17c9babf8b6627bc691ffc48871968e12a8",
+            "workerReturnByteLength": 224380,
+            "workerReturnPageCount": 7,
+            "renderedReportSha256": "07bcda32a0700091871c819f4f03d17c9babf8b6627bc691ffc48871968e12a8",
+            "renderedReportByteLength": 224380,
+            "renderedReportPageCount": 7,
+            "matchesWorkerReturn": true,
+            "matchesRenderedReport": true,
+            "documentOrder": [
+              "KS-CRIMINAL-COVER-SHEET-10-14-2025",
+              "KSJC-PETITION-EXPUNGEMENT-ARREST-RECORD-02-2013",
+              "KSJC-ORDER-EXPUNGEMENT-ARREST-RECORD-COVER-SHEET-12-2016",
+              "KS-22-2410-ARREST-PROCESS-GUIDANCE"
+            ]
+          },
+          {
+            "fixture": "boundary",
+            "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/fixtures/boundary.pdf",
+            "sha256": "7ca350c37451fd8aa12ea101ced3ee5ea8c0538c0192d42264aa301b09e9f559",
+            "byteLength": 224696,
+            "workerReturnSha256": "7ca350c37451fd8aa12ea101ced3ee5ea8c0538c0192d42264aa301b09e9f559",
+            "workerReturnByteLength": 224696,
+            "workerReturnPageCount": 7,
+            "renderedReportSha256": "7ca350c37451fd8aa12ea101ced3ee5ea8c0538c0192d42264aa301b09e9f559",
+            "renderedReportByteLength": 224696,
+            "renderedReportPageCount": 7,
+            "matchesWorkerReturn": true,
+            "matchesRenderedReport": true,
+            "documentOrder": [
+              "KS-CRIMINAL-COVER-SHEET-10-14-2025",
+              "KSJC-PETITION-EXPUNGEMENT-ARREST-RECORD-02-2013",
+              "KSJC-ORDER-EXPUNGEMENT-ARREST-RECORD-COVER-SHEET-12-2016",
+              "KS-22-2410-ARREST-PROCESS-GUIDANCE"
+            ]
+          }
+        ],
+        "documentOrder": [
+          {
+            "fixture": "canonical",
+            "documents": [
+              "KS-CRIMINAL-COVER-SHEET-10-14-2025",
+              "KSJC-PETITION-EXPUNGEMENT-ARREST-RECORD-02-2013",
+              "KSJC-ORDER-EXPUNGEMENT-ARREST-RECORD-COVER-SHEET-12-2016",
+              "KS-22-2410-ARREST-PROCESS-GUIDANCE"
+            ]
+          },
+          {
+            "fixture": "boundary",
+            "documents": [
+              "KS-CRIMINAL-COVER-SHEET-10-14-2025",
+              "KSJC-PETITION-EXPUNGEMENT-ARREST-RECORD-02-2013",
+              "KSJC-ORDER-EXPUNGEMENT-ARREST-RECORD-COVER-SHEET-12-2016",
+              "KS-22-2410-ARREST-PROCESS-GUIDANCE"
+            ]
+          }
+        ]
+      },
+      "rasterManifest": {
+        "rasterState": "BUILT_RASTER_PENDING",
+        "everyPageRastered": false,
+        "rasterSkipped": true,
+        "rasterPages": [],
+        "independentVisualReviewGranted": false,
+        "visualMeasured": false,
+        "originalPageRasterRequired": true
+      },
+      "rasterWorkflowPath": null,
+      "rasterDispatchAuthorized": true,
+      "rasterEvidence": {
+        "status": "RASTER_PASS",
+        "runId": 34747882153,
+        "jobId": 103699490069,
+        "artifactId": 10315200688,
+        "visualPagesMeasured": 14,
+        "documentsDigest": "5a15e008bc722e5c6ac41a9bd8dd687e6523c8a084fed46c041382be1af37453",
+        "currentAndPinnedPdfHashesVerified": true,
+        "originalPngBytesVerified": true,
+        "allOriginalPagesDirectlyViewed": true
+      },
+      "finalAcceptance": true,
+      "terminalPromotionAuthorized": false,
+      "unfinishedGates": [
+        "Native Captain integration and terminal closure.",
+        "Current-form freshness release and the conditional local-court proposed-order decision remain unresolved release gates."
+      ],
+      "independence": {
+        "independentOfImplementer": true,
+        "independentOfSourceRestorationAuthor": true,
+        "packetModifiedByReviewer": false,
+        "sourceModifiedByReviewer": false,
+        "queueModifiedByReviewer": false,
+        "buildOrRegenerationPerformed": false,
+        "rasterOrVisualReviewPerformed": true,
+        "sourceAcquisitionPerformed": false
+      },
+      "executionState": {
+        "reviewOnly": true,
+        "candidateFrozenToCommit": "de82161d28ab1cc5ab689fd7b6a2878ff3f58829",
+        "currentHeadObserved": "5e0c278667813a0b4af909577154901f311efad6",
+        "currentCandidateMatchesPinnedCommit": true,
+        "originalPdfBytesChangedByReviewer": false,
+        "originalSourceBytesChangedByReviewer": false,
+        "originalRasterBytesChangedByReviewer": false
+      },
+      "commandsActuallyPassed": [
+        {
+          "command": "git diff-tree --no-commit-id --name-only -r 8767db43872bb22cd3e2780e477931fd8de0ba38 plus current-body comparison",
+          "result": "PASS; all 17 transferred file bodies match the Captain candidate commit byte for byte."
+        },
+        {
+          "command": "Existing requireMasterLibraryEnvironment + makeCorpusEntryResolver current exact source binding check",
+          "result": "PASS; all three receipt entries resolved under declared custody and matched expected SHA-256 and byte length. Master Library was validated separately and not substituted."
+        },
+        {
+          "command": "pdfinfo and pdftotext -layout on current canonical.pdf and boundary.pdf",
+          "result": "PASS; both seven-page unencrypted PDFs were read; canonical and long boundary participant/case values, protected grounds and guidance were present as declared."
+        },
+        {
+          "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ks-22-2410-arrest-set",
+          "result": "PASS_COMPLETE 24/62 written; exit 0; all nine native counters zero. This is builder/native evidence, not independent visual or final acceptance."
+        },
+        {
+          "command": "Read-only route/map/instructions/source/report reconciliation",
+          "result": "PASS; 15 obligations classified in the native closed result vocabulary; no implementation, source, queue, packet or legal-decision file was edited."
+        }
+      ],
+      "commercialAuthority": false,
+      "commercialAuthorityGranted": false,
+      "runtimeSelectable": false,
+      "reviewConclusion": "PASS_COMPLETE_INDEPENDENT: the prior 14-obligation semantic PASS remains valid under explicit current-byte dependency comparison, and run 34747882153 supplies RASTER_PASS custody for both seven-page fixtures. All 14 original PNG pages were hash-verified and directly viewed at native resolution; no visual, clipping, overlap, crop, missing-ink, page-order, protected-field or boundary-overflow defect was observed. Current canonical and boundary PDF hashes remain exact. This return records final independent acceptance for the lane but grants no terminal promotion, runtime selection or commercial authority; Captain must complete native integration and closure. Current-form freshness and the conditional proposed-order decision remain separate release gates.",
+      "amendment": {
+        "currentIndexRelation": "The source receipt and transferred candidate pin historical source-index digest 512a489...; current source index is cf1af303... after unrelated later changes. Exact Kansas source tuples were rechecked at current bytes, so no blanket repin was made.",
+        "nativeShape": "rows array with closed 15-obligation proof vocabulary PASS/FAIL/NOT_MEASURABLE_HERE/BLOCKED_LEGAL_INPUT only.",
+        "historicalLegalAdoptionPreserved": true
+      },
+      "laneKind": "independent-verification",
+      "workerReturnHead": "generated-before-commit",
+      "obligationSet": [
+        "ROUTE_IDENTITY",
+        "SOURCE_IDENTITY",
+        "COMPONENT_SET",
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS",
+        "REPEATING_ROWS",
+        "PROTECTED_FIELDS",
+        "ARTIFACTS",
+        "PAGE_ORDER",
+        "CLIPPING_AND_OVERLAP",
+        "FILING_DESTINATION",
+        "FEE_AND_WAIVER",
+        "SERVICE",
+        "SELF_HELP_STOP"
+      ],
+      "allowedDispositionVocabulary": [
+        "signature_or_date_participant_completion",
+        "court_prosecutor_clerk_or_agency_owned",
+        "participant_sworn_narrative_or_legal_election",
+        "REQUIRED_BEFORE_FILING",
+        "LATER_COMPLETION"
+      ],
+      "allowedObligationResults": [
+        "PASS",
+        "FAIL",
+        "NOT_MEASURABLE_HERE",
+        "BLOCKED_LEGAL_INPUT"
+      ],
+      "obligationSummary": {
+        "PASS": 15,
+        "NOT_MEASURABLE_HERE": 0,
+        "FAIL": 0,
+        "BLOCKED_LEGAL_INPUT": 0,
+        "allMeasured": true
+      },
+      "failedProofObligations": [],
+      "nativeCompleteness": {
+        "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/reports/completeness-counters.json",
+        "present": true,
+        "byteLength": 935,
+        "sha256": "825cbccdb6c73a7a14d25eb7aa5118a1b7e10f26aed93c4b129df998d09f3601",
+        "savedResult": "PASS_COMPLETE",
+        "savedCounters": {
+          "knownRequiredFieldsMissing": 0,
+          "requiredFactsNotCollected": 0,
+          "unclassifiedBlanks": 0,
+          "incompleteRows": 0,
+          "requiredOptionsMissing": 0,
+          "requiredComponentsMissing": 0,
+          "invisibleWrites": 0,
+          "protectedWrites": 0,
+          "visualDefects": 0
+        },
+        "savedAllCountersZero": true,
+        "independentVisualMeasurement": true
+      },
+      "nativeChecksConsumed": [
+        {
+          "check": "Current saved PDFs and frozen raster bindings",
+          "result": "PASS",
+          "evidence": [
+            "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/fixtures/canonical.pdf",
+            "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/fixtures/boundary.pdf",
+            "data/rcap-grade-a/packet-factory-24h/pf08/wv-ks-arrest-frozen-raster-manifest-20260913.json",
+            "data/rcap-grade-a/packet-factory-24h/raster-runs/34747882153/ks-22-2410-arrest-set.verdict.json"
+          ],
+          "finding": "Both current fixture PDFs match the frozen manifest and RASTER_PASS verdict hashes and page counts."
+        },
+        {
+          "check": "Original page custody and hash inventory",
+          "result": "PASS",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/raster-runs/34747882153/ks-22-2410-arrest-set.ORIGINAL_EVIDENCE_VERIFIED.json",
+            "data/rcap-grade-a/packet-factory-24h/raster-runs/34747882153/ks-22-2410-arrest-set.PAGE_IMAGES_SHA256.json",
+            "data/rcap-grade-a/packet-factory-24h/raster-runs/34747882153/ks-22-2410-arrest-set.zip"
+          ],
+          "finding": "The run custody record, archive, page inventory and all 14 current page files agree byte-for-byte."
+        },
+        {
+          "check": "Native completeness and actual-write proof",
+          "result": "PASS_COMPLETE",
+          "evidence": [
+            "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/reports/completeness-counters.json",
+            "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/reports/actual-writes.json"
+          ],
+          "finding": "All nine native counters are zero; all 48 actual writes match expected values with no refused ink, unfittable values or outside-box glyphs."
+        },
+        {
+          "check": "Prior independent semantic return",
+          "result": "PASS_PRE_RASTER_SEMANTIC",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/pf20/ks-22-2410-arrest-independent-semantic-20260913.json",
+          "finding": "All 14 pre-raster semantic obligations were consumed without reopening or altering the accepted semantic record."
+        },
+        {
+          "check": "Independent original-page review",
+          "result": "PASS",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/raster-runs/34747882153/ks-22-2410-arrest-set.verdict.json",
+            "data/rcap-grade-a/packet-factory-24h/raster-runs/34747882153/ks-22-2410-arrest-set.PAGE_IMAGES_SHA256.json"
+          ],
+          "finding": "All 14 original pages were directly viewed; no visual defect was observed."
+        }
+      ],
+      "raster": {
+        "status": "RASTER_PASS",
+        "artifactId": 10315200688,
+        "runId": 34747882153,
+        "jobId": 103699490069,
+        "documents": [
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/fixtures/canonical.pdf",
+            "sha256": "07bcda32a0700091871c819f4f03d17c9babf8b6627bc691ffc48871968e12a8",
+            "byteLength": 224380,
+            "pageCount": 7,
+            "role": "canonical",
+            "document": "canonical.pdf"
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/fixtures/boundary.pdf",
+            "sha256": "7ca350c37451fd8aa12ea101ced3ee5ea8c0538c0192d42264aa301b09e9f559",
+            "byteLength": 224696,
+            "pageCount": 7,
+            "role": "boundary",
+            "document": "boundary.pdf"
+          }
+        ],
+        "newCentralRasterRequired": false,
+        "visualPagesMeasured": 14,
+        "originalPagesReviewed": true
+      },
+      "rasterCustody": {
+        "workflowPath": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+        "workflowName": "RCAP Packet Raster Acceptance (batch)",
+        "runId": 34747882153,
+        "jobId": 103699490069,
+        "workflowHeadSha": "de82161d28ab1cc5ab689fd7b6a2878ff3f58829",
+        "commitSha": "de82161d28ab1cc5ab689fd7b6a2878ff3f58829",
+        "packetCommitSha": "de82161d28ab1cc5ab689fd7b6a2878ff3f58829",
+        "semanticPacketCommitSha": "8767db43872bb22cd3e2780e477931fd8de0ba38",
+        "manifestPath": "data/rcap-grade-a/packet-factory-24h/pf08/wv-ks-arrest-frozen-raster-manifest-20260913.json",
+        "manifestSha256": "4e90a97728c21566646b84e7a8b17bc7f916af177ca412b4afe6ec533d33f255",
+        "manifestByteLength": 8510,
+        "manifestPacketCommitSha": "b3149e4eebca45bc24c894aeba8de004611178e9",
+        "familyBatch": "ks-22-2410-arrest-set,wv_nc_acquittal_dismissal-set",
+        "requestedScale": 2.5,
+        "verdict": "RASTER_PASS",
+        "pagesMeasured": 14,
+        "currentAndPinnedPdfHashesVerified": true,
+        "originalArtifactAndJobLogAgree": true,
+        "originalPngBytesVerified": true,
+        "artifactId": 10315200688,
+        "artifactName": "rcap-raster-ks-22-2410-arrest-set-34747882153",
+        "artifactSizeInBytes": 4111893,
+        "artifactDigest": "sha256:921e1fbf834bc12fd24fa3d2f1f77d23a317cb509822194e12b3dd63f4155ea6",
+        "archiveSha256": "921e1fbf834bc12fd24fa3d2f1f77d23a317cb509822194e12b3dd63f4155ea6",
+        "archive": {
+          "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34747882153/ks-22-2410-arrest-set.zip",
+          "sha256": "921e1fbf834bc12fd24fa3d2f1f77d23a317cb509822194e12b3dd63f4155ea6",
+          "byteLength": 4111893,
+          "runId": 34747882153,
+          "artifactId": 10315200688
+        },
+        "jobLog": {
+          "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34747882153/ks-22-2410-arrest-set.job.log",
+          "sha256": "31a5f6e61da91bd7dd9626e72b6836dbfc3a2ca6ea2fa67126c8e1f8a4f3c7c8",
+          "byteLength": 178189,
+          "runId": 34747882153,
+          "artifactId": 10315200688
+        },
+        "jobLogSha256": "31a5f6e61da91bd7dd9626e72b6836dbfc3a2ca6ea2fa67126c8e1f8a4f3c7c8",
+        "verdictEvidence": {
+          "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34747882153/ks-22-2410-arrest-set.verdict.json",
+          "sha256": "4bcb70f5e2a4586d9c9e843e7463edb7dfe301fdd20e0e759160a347d66022e7",
+          "byteLength": 14837,
+          "runId": 34747882153,
+          "artifactId": 10315200688,
+          "verdict": "RASTER_PASS",
+          "pagesMeasured": 14
+        },
+        "originalCustodyEvidence": {
+          "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34747882153/ks-22-2410-arrest-set.ORIGINAL_EVIDENCE_VERIFIED.json",
+          "sha256": "d542447c56647c7688d5ef03ee6bb0c721893d20d5c2227673e41f2687a58956",
+          "byteLength": 2533,
+          "runId": 34747882153,
+          "artifactId": 10315200688,
+          "verdict": "RASTER_PASS",
+          "pagesMeasured": 14
+        },
+        "pageHashInventory": {
+          "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34747882153/ks-22-2410-arrest-set.PAGE_IMAGES_SHA256.json",
+          "sha256": "f1fda7427ce862830c57f0ecd23590f68706504b92fcd449cc37d987fc03b831",
+          "byteLength": 3188,
+          "runId": 34747882153,
+          "artifactId": 10315200688,
+          "pagesMeasured": 14,
+          "allHashesMatch": true
+        },
+        "documentsDigest": "5a15e008bc722e5c6ac41a9bd8dd687e6523c8a084fed46c041382be1af37453",
+        "coversTheWholeFamily": true,
+        "dependencyBoundary": {
+          "dispatchCommit": "de82161d28ab1cc5ab689fd7b6a2878ff3f58829",
+          "currentPdfHashesMatchManifest": true,
+          "currentPdfHashesMatchFrozenVerdict": true,
+          "currentPdfHashesMatchGitPin": true,
+          "currentPageHashesMatchPageImageManifest": true,
+          "custodyRunAndJobsMatch": true,
+          "rasterRunPacketCommit": "de82161d28ab1cc5ab689fd7b6a2878ff3f58829",
+          "generationStampDiffersFromRasterRunPin": true,
+          "interpretation": "The frozen manifest generation stamp is retained. Current canonical and boundary PDFs, raster verdict, custody archive, job log and all 14 page hashes bind to the exact candidate bytes rendered by run 34747882153."
+        }
+      },
+      "originalEvidence": [
+        {
+          "member": "ks-22-2410-arrest-set/canonical/page-001.png",
+          "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34747882153/ks-22-2410-arrest-set/canonical/page-001.png",
+          "sha256": "5a0575a2e1a732da78ccef4a630eac7ffaabe279c26f0c1b2383f6df390ed52d",
+          "byteLength": 317965,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "result": "PASS",
+          "directlyViewed": true,
+          "directlyViewedOriginalPng": true,
+          "exactByteReuseVerified": true,
+          "clippingOrOverlapObserved": false,
+          "missingInkObserved": false,
+          "unintendedBlankPageObserved": false,
+          "protectedFieldInkObserved": false,
+          "overflowObserved": false,
+          "pageOrderDefectObserved": false,
+          "observation": "Canonical page 1 was directly viewed at native PNG resolution; printed content and held values remain complete and legible with no clipping, overlap, crop, missing ink, protected-field ink, page-order defect or overflow."
+        },
+        {
+          "member": "ks-22-2410-arrest-set/canonical/page-002.png",
+          "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34747882153/ks-22-2410-arrest-set/canonical/page-002.png",
+          "sha256": "e24bffe2ccf1459284e9fcef97dd6c5b25bf08034ceed0c7e4d160500752202c",
+          "byteLength": 281848,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "result": "PASS",
+          "directlyViewed": true,
+          "directlyViewedOriginalPng": true,
+          "exactByteReuseVerified": true,
+          "clippingOrOverlapObserved": false,
+          "missingInkObserved": false,
+          "unintendedBlankPageObserved": false,
+          "protectedFieldInkObserved": false,
+          "overflowObserved": false,
+          "pageOrderDefectObserved": false,
+          "observation": "Canonical page 2 was directly viewed at native PNG resolution; printed content and held values remain complete and legible with no clipping, overlap, crop, missing ink, protected-field ink, page-order defect or overflow."
+        },
+        {
+          "member": "ks-22-2410-arrest-set/canonical/page-003.png",
+          "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34747882153/ks-22-2410-arrest-set/canonical/page-003.png",
+          "sha256": "121408c6f3203b9787a5240031786ad3c254ce9df33065f549c96ec60b5f7e1b",
+          "byteLength": 181406,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "result": "PASS",
+          "directlyViewed": true,
+          "directlyViewedOriginalPng": true,
+          "exactByteReuseVerified": true,
+          "clippingOrOverlapObserved": false,
+          "missingInkObserved": false,
+          "unintendedBlankPageObserved": false,
+          "protectedFieldInkObserved": false,
+          "overflowObserved": false,
+          "pageOrderDefectObserved": false,
+          "observation": "Canonical page 3 was directly viewed at native PNG resolution; printed content and held values remain complete and legible with no clipping, overlap, crop, missing ink, protected-field ink, page-order defect or overflow."
+        },
+        {
+          "member": "ks-22-2410-arrest-set/canonical/page-004.png",
+          "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34747882153/ks-22-2410-arrest-set/canonical/page-004.png",
+          "sha256": "7e0924b995c1ac3e7978347625bc8b04d9bf53ce84dcb155a51c66b9e274f621",
+          "byteLength": 210898,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "result": "PASS",
+          "directlyViewed": true,
+          "directlyViewedOriginalPng": true,
+          "exactByteReuseVerified": true,
+          "clippingOrOverlapObserved": false,
+          "missingInkObserved": false,
+          "unintendedBlankPageObserved": false,
+          "protectedFieldInkObserved": false,
+          "overflowObserved": false,
+          "pageOrderDefectObserved": false,
+          "observation": "Canonical page 4 was directly viewed at native PNG resolution; printed content and held values remain complete and legible with no clipping, overlap, crop, missing ink, protected-field ink, page-order defect or overflow."
+        },
+        {
+          "member": "ks-22-2410-arrest-set/canonical/page-005.png",
+          "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34747882153/ks-22-2410-arrest-set/canonical/page-005.png",
+          "sha256": "a855d1b9bb088a1babccbe6e6d4dff7d649ceeb3f0a0a54308e6b4b12d4d909f",
+          "byteLength": 201123,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "result": "PASS",
+          "directlyViewed": true,
+          "directlyViewedOriginalPng": true,
+          "exactByteReuseVerified": true,
+          "clippingOrOverlapObserved": false,
+          "missingInkObserved": false,
+          "unintendedBlankPageObserved": false,
+          "protectedFieldInkObserved": false,
+          "overflowObserved": false,
+          "pageOrderDefectObserved": false,
+          "observation": "Canonical page 5 was directly viewed at native PNG resolution; printed content and held values remain complete and legible with no clipping, overlap, crop, missing ink, protected-field ink, page-order defect or overflow."
+        },
+        {
+          "member": "ks-22-2410-arrest-set/canonical/page-006.png",
+          "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34747882153/ks-22-2410-arrest-set/canonical/page-006.png",
+          "sha256": "a39099b48a00d2943e3bca02bfa44fa4c6f3d91f408f28a1490807255c0b28b0",
+          "byteLength": 462349,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "result": "PASS",
+          "directlyViewed": true,
+          "directlyViewedOriginalPng": true,
+          "exactByteReuseVerified": true,
+          "clippingOrOverlapObserved": false,
+          "missingInkObserved": false,
+          "unintendedBlankPageObserved": false,
+          "protectedFieldInkObserved": false,
+          "overflowObserved": false,
+          "pageOrderDefectObserved": false,
+          "observation": "Canonical page 6 was directly viewed at native PNG resolution; printed content and held values remain complete and legible with no clipping, overlap, crop, missing ink, protected-field ink, page-order defect or overflow."
+        },
+        {
+          "member": "ks-22-2410-arrest-set/canonical/page-007.png",
+          "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34747882153/ks-22-2410-arrest-set/canonical/page-007.png",
+          "sha256": "0e076b5000ae8af7bcaa5ee5738a925e148905ad5d5948f39aff48efbfb691ed",
+          "byteLength": 332722,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "result": "PASS",
+          "directlyViewed": true,
+          "directlyViewedOriginalPng": true,
+          "exactByteReuseVerified": true,
+          "clippingOrOverlapObserved": false,
+          "missingInkObserved": false,
+          "unintendedBlankPageObserved": false,
+          "protectedFieldInkObserved": false,
+          "overflowObserved": false,
+          "pageOrderDefectObserved": false,
+          "observation": "Canonical page 7 was directly viewed at native PNG resolution; printed content and held values remain complete and legible with no clipping, overlap, crop, missing ink, protected-field ink, page-order defect or overflow."
+        },
+        {
+          "member": "ks-22-2410-arrest-set/boundary/page-001.png",
+          "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34747882153/ks-22-2410-arrest-set/boundary/page-001.png",
+          "sha256": "20a774551abec9069869afa048b6c5522e1a04b6641a754d1c47aaf2d8aa77aa",
+          "byteLength": 323835,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "result": "PASS",
+          "directlyViewed": true,
+          "directlyViewedOriginalPng": true,
+          "exactByteReuseVerified": true,
+          "clippingOrOverlapObserved": false,
+          "missingInkObserved": false,
+          "unintendedBlankPageObserved": false,
+          "protectedFieldInkObserved": false,
+          "overflowObserved": false,
+          "pageOrderDefectObserved": false,
+          "observation": "Boundary page 1 was directly viewed at native PNG resolution; long participant and case values remain within their printed regions, and the page is complete and legible with no clipping, overlap, crop, missing ink, protected-field ink, page-order defect or overflow."
+        },
+        {
+          "member": "ks-22-2410-arrest-set/boundary/page-002.png",
+          "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34747882153/ks-22-2410-arrest-set/boundary/page-002.png",
+          "sha256": "9b1289b180f77e8464d012ed8c4ddb34fd00abecdc20e2a688b01baaf5e56df2",
+          "byteLength": 302728,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "result": "PASS",
+          "directlyViewed": true,
+          "directlyViewedOriginalPng": true,
+          "exactByteReuseVerified": true,
+          "clippingOrOverlapObserved": false,
+          "missingInkObserved": false,
+          "unintendedBlankPageObserved": false,
+          "protectedFieldInkObserved": false,
+          "overflowObserved": false,
+          "pageOrderDefectObserved": false,
+          "observation": "Boundary page 2 was directly viewed at native PNG resolution; long participant and case values remain within their printed regions, and the page is complete and legible with no clipping, overlap, crop, missing ink, protected-field ink, page-order defect or overflow."
+        },
+        {
+          "member": "ks-22-2410-arrest-set/boundary/page-003.png",
+          "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34747882153/ks-22-2410-arrest-set/boundary/page-003.png",
+          "sha256": "9d1fecf5256c1bc301b57f8b8208ad2b6cc7528eb5267f23f919fb0b81ab6098",
+          "byteLength": 186551,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "result": "PASS",
+          "directlyViewed": true,
+          "directlyViewedOriginalPng": true,
+          "exactByteReuseVerified": true,
+          "clippingOrOverlapObserved": false,
+          "missingInkObserved": false,
+          "unintendedBlankPageObserved": false,
+          "protectedFieldInkObserved": false,
+          "overflowObserved": false,
+          "pageOrderDefectObserved": false,
+          "observation": "Boundary page 3 was directly viewed at native PNG resolution; long participant and case values remain within their printed regions, and the page is complete and legible with no clipping, overlap, crop, missing ink, protected-field ink, page-order defect or overflow."
+        },
+        {
+          "member": "ks-22-2410-arrest-set/boundary/page-004.png",
+          "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34747882153/ks-22-2410-arrest-set/boundary/page-004.png",
+          "sha256": "7e0924b995c1ac3e7978347625bc8b04d9bf53ce84dcb155a51c66b9e274f621",
+          "byteLength": 210898,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "result": "PASS",
+          "directlyViewed": true,
+          "directlyViewedOriginalPng": true,
+          "exactByteReuseVerified": true,
+          "clippingOrOverlapObserved": false,
+          "missingInkObserved": false,
+          "unintendedBlankPageObserved": false,
+          "protectedFieldInkObserved": false,
+          "overflowObserved": false,
+          "pageOrderDefectObserved": false,
+          "observation": "Boundary page 4 was directly viewed at native PNG resolution; long participant and case values remain within their printed regions, and the page is complete and legible with no clipping, overlap, crop, missing ink, protected-field ink, page-order defect or overflow."
+        },
+        {
+          "member": "ks-22-2410-arrest-set/boundary/page-005.png",
+          "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34747882153/ks-22-2410-arrest-set/boundary/page-005.png",
+          "sha256": "e31116386c3fa4ebd76840742598e23f224f0deecf689b58d43782c0e960ee3c",
+          "byteLength": 210340,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "result": "PASS",
+          "directlyViewed": true,
+          "directlyViewedOriginalPng": true,
+          "exactByteReuseVerified": true,
+          "clippingOrOverlapObserved": false,
+          "missingInkObserved": false,
+          "unintendedBlankPageObserved": false,
+          "protectedFieldInkObserved": false,
+          "overflowObserved": false,
+          "pageOrderDefectObserved": false,
+          "observation": "Boundary page 5 was directly viewed at native PNG resolution; long participant and case values remain within their printed regions, and the page is complete and legible with no clipping, overlap, crop, missing ink, protected-field ink, page-order defect or overflow."
+        },
+        {
+          "member": "ks-22-2410-arrest-set/boundary/page-006.png",
+          "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34747882153/ks-22-2410-arrest-set/boundary/page-006.png",
+          "sha256": "47b160412d7fe9314085f7558f646f3e8676bc85f8b8e5e9fe94bea4c8431fe4",
+          "byteLength": 467306,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "result": "PASS",
+          "directlyViewed": true,
+          "directlyViewedOriginalPng": true,
+          "exactByteReuseVerified": true,
+          "clippingOrOverlapObserved": false,
+          "missingInkObserved": false,
+          "unintendedBlankPageObserved": false,
+          "protectedFieldInkObserved": false,
+          "overflowObserved": false,
+          "pageOrderDefectObserved": false,
+          "observation": "Boundary page 6 was directly viewed at native PNG resolution; long participant and case values remain within their printed regions, and the page is complete and legible with no clipping, overlap, crop, missing ink, protected-field ink, page-order defect or overflow."
+        },
+        {
+          "member": "ks-22-2410-arrest-set/boundary/page-007.png",
+          "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34747882153/ks-22-2410-arrest-set/boundary/page-007.png",
+          "sha256": "0e076b5000ae8af7bcaa5ee5738a925e148905ad5d5948f39aff48efbfb691ed",
+          "byteLength": 332722,
+          "dimensions": [
+            2448,
+            3168
+          ],
+          "result": "PASS",
+          "directlyViewed": true,
+          "directlyViewedOriginalPng": true,
+          "exactByteReuseVerified": true,
+          "clippingOrOverlapObserved": false,
+          "missingInkObserved": false,
+          "unintendedBlankPageObserved": false,
+          "protectedFieldInkObserved": false,
+          "overflowObserved": false,
+          "pageOrderDefectObserved": false,
+          "observation": "Boundary page 7 was directly viewed at native PNG resolution; long participant and case values remain within their printed regions, and the page is complete and legible with no clipping, overlap, crop, missing ink, protected-field ink, page-order defect or overflow."
+        }
+      ],
+      "visualReview": {
+        "reviewer": "/root/ks_arrest_final",
+        "result": "PASS",
+        "measuredHere": true,
+        "method": "Direct viewing of all 14 original PNG pages from immutable custody in run 34747882153 after exact SHA-256, byte-length and dimension comparison to the PAGE_IMAGES_SHA256 inventory. No raster was generated, downloaded, copied, edited or rerendered.",
+        "pageHashInventoryBinding": {
+          "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34747882153/ks-22-2410-arrest-set.PAGE_IMAGES_SHA256.json",
+          "sha256": "f1fda7427ce862830c57f0ecd23590f68706504b92fcd449cc37d987fc03b831",
+          "byteLength": 3188,
+          "runId": 34747882153,
+          "pagesMeasured": 14
+        },
+        "pages": [
+          {
+            "member": "ks-22-2410-arrest-set/canonical/page-001.png",
+            "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34747882153/ks-22-2410-arrest-set/canonical/page-001.png",
+            "sha256": "5a0575a2e1a732da78ccef4a630eac7ffaabe279c26f0c1b2383f6df390ed52d",
+            "byteLength": 317965,
+            "dimensions": [
+              2448,
+              3168
+            ],
+            "result": "PASS",
+            "directlyViewed": true,
+            "directlyViewedOriginalPng": true,
+            "exactByteReuseVerified": true,
+            "clippingOrOverlapObserved": false,
+            "missingInkObserved": false,
+            "unintendedBlankPageObserved": false,
+            "protectedFieldInkObserved": false,
+            "overflowObserved": false,
+            "pageOrderDefectObserved": false,
+            "observation": "Canonical page 1 was directly viewed at native PNG resolution; printed content and held values remain complete and legible with no clipping, overlap, crop, missing ink, protected-field ink, page-order defect or overflow."
+          },
+          {
+            "member": "ks-22-2410-arrest-set/canonical/page-002.png",
+            "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34747882153/ks-22-2410-arrest-set/canonical/page-002.png",
+            "sha256": "e24bffe2ccf1459284e9fcef97dd6c5b25bf08034ceed0c7e4d160500752202c",
+            "byteLength": 281848,
+            "dimensions": [
+              2448,
+              3168
+            ],
+            "result": "PASS",
+            "directlyViewed": true,
+            "directlyViewedOriginalPng": true,
+            "exactByteReuseVerified": true,
+            "clippingOrOverlapObserved": false,
+            "missingInkObserved": false,
+            "unintendedBlankPageObserved": false,
+            "protectedFieldInkObserved": false,
+            "overflowObserved": false,
+            "pageOrderDefectObserved": false,
+            "observation": "Canonical page 2 was directly viewed at native PNG resolution; printed content and held values remain complete and legible with no clipping, overlap, crop, missing ink, protected-field ink, page-order defect or overflow."
+          },
+          {
+            "member": "ks-22-2410-arrest-set/canonical/page-003.png",
+            "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34747882153/ks-22-2410-arrest-set/canonical/page-003.png",
+            "sha256": "121408c6f3203b9787a5240031786ad3c254ce9df33065f549c96ec60b5f7e1b",
+            "byteLength": 181406,
+            "dimensions": [
+              2448,
+              3168
+            ],
+            "result": "PASS",
+            "directlyViewed": true,
+            "directlyViewedOriginalPng": true,
+            "exactByteReuseVerified": true,
+            "clippingOrOverlapObserved": false,
+            "missingInkObserved": false,
+            "unintendedBlankPageObserved": false,
+            "protectedFieldInkObserved": false,
+            "overflowObserved": false,
+            "pageOrderDefectObserved": false,
+            "observation": "Canonical page 3 was directly viewed at native PNG resolution; printed content and held values remain complete and legible with no clipping, overlap, crop, missing ink, protected-field ink, page-order defect or overflow."
+          },
+          {
+            "member": "ks-22-2410-arrest-set/canonical/page-004.png",
+            "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34747882153/ks-22-2410-arrest-set/canonical/page-004.png",
+            "sha256": "7e0924b995c1ac3e7978347625bc8b04d9bf53ce84dcb155a51c66b9e274f621",
+            "byteLength": 210898,
+            "dimensions": [
+              2448,
+              3168
+            ],
+            "result": "PASS",
+            "directlyViewed": true,
+            "directlyViewedOriginalPng": true,
+            "exactByteReuseVerified": true,
+            "clippingOrOverlapObserved": false,
+            "missingInkObserved": false,
+            "unintendedBlankPageObserved": false,
+            "protectedFieldInkObserved": false,
+            "overflowObserved": false,
+            "pageOrderDefectObserved": false,
+            "observation": "Canonical page 4 was directly viewed at native PNG resolution; printed content and held values remain complete and legible with no clipping, overlap, crop, missing ink, protected-field ink, page-order defect or overflow."
+          },
+          {
+            "member": "ks-22-2410-arrest-set/canonical/page-005.png",
+            "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34747882153/ks-22-2410-arrest-set/canonical/page-005.png",
+            "sha256": "a855d1b9bb088a1babccbe6e6d4dff7d649ceeb3f0a0a54308e6b4b12d4d909f",
+            "byteLength": 201123,
+            "dimensions": [
+              2448,
+              3168
+            ],
+            "result": "PASS",
+            "directlyViewed": true,
+            "directlyViewedOriginalPng": true,
+            "exactByteReuseVerified": true,
+            "clippingOrOverlapObserved": false,
+            "missingInkObserved": false,
+            "unintendedBlankPageObserved": false,
+            "protectedFieldInkObserved": false,
+            "overflowObserved": false,
+            "pageOrderDefectObserved": false,
+            "observation": "Canonical page 5 was directly viewed at native PNG resolution; printed content and held values remain complete and legible with no clipping, overlap, crop, missing ink, protected-field ink, page-order defect or overflow."
+          },
+          {
+            "member": "ks-22-2410-arrest-set/canonical/page-006.png",
+            "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34747882153/ks-22-2410-arrest-set/canonical/page-006.png",
+            "sha256": "a39099b48a00d2943e3bca02bfa44fa4c6f3d91f408f28a1490807255c0b28b0",
+            "byteLength": 462349,
+            "dimensions": [
+              2448,
+              3168
+            ],
+            "result": "PASS",
+            "directlyViewed": true,
+            "directlyViewedOriginalPng": true,
+            "exactByteReuseVerified": true,
+            "clippingOrOverlapObserved": false,
+            "missingInkObserved": false,
+            "unintendedBlankPageObserved": false,
+            "protectedFieldInkObserved": false,
+            "overflowObserved": false,
+            "pageOrderDefectObserved": false,
+            "observation": "Canonical page 6 was directly viewed at native PNG resolution; printed content and held values remain complete and legible with no clipping, overlap, crop, missing ink, protected-field ink, page-order defect or overflow."
+          },
+          {
+            "member": "ks-22-2410-arrest-set/canonical/page-007.png",
+            "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34747882153/ks-22-2410-arrest-set/canonical/page-007.png",
+            "sha256": "0e076b5000ae8af7bcaa5ee5738a925e148905ad5d5948f39aff48efbfb691ed",
+            "byteLength": 332722,
+            "dimensions": [
+              2448,
+              3168
+            ],
+            "result": "PASS",
+            "directlyViewed": true,
+            "directlyViewedOriginalPng": true,
+            "exactByteReuseVerified": true,
+            "clippingOrOverlapObserved": false,
+            "missingInkObserved": false,
+            "unintendedBlankPageObserved": false,
+            "protectedFieldInkObserved": false,
+            "overflowObserved": false,
+            "pageOrderDefectObserved": false,
+            "observation": "Canonical page 7 was directly viewed at native PNG resolution; printed content and held values remain complete and legible with no clipping, overlap, crop, missing ink, protected-field ink, page-order defect or overflow."
+          },
+          {
+            "member": "ks-22-2410-arrest-set/boundary/page-001.png",
+            "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34747882153/ks-22-2410-arrest-set/boundary/page-001.png",
+            "sha256": "20a774551abec9069869afa048b6c5522e1a04b6641a754d1c47aaf2d8aa77aa",
+            "byteLength": 323835,
+            "dimensions": [
+              2448,
+              3168
+            ],
+            "result": "PASS",
+            "directlyViewed": true,
+            "directlyViewedOriginalPng": true,
+            "exactByteReuseVerified": true,
+            "clippingOrOverlapObserved": false,
+            "missingInkObserved": false,
+            "unintendedBlankPageObserved": false,
+            "protectedFieldInkObserved": false,
+            "overflowObserved": false,
+            "pageOrderDefectObserved": false,
+            "observation": "Boundary page 1 was directly viewed at native PNG resolution; long participant and case values remain within their printed regions, and the page is complete and legible with no clipping, overlap, crop, missing ink, protected-field ink, page-order defect or overflow."
+          },
+          {
+            "member": "ks-22-2410-arrest-set/boundary/page-002.png",
+            "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34747882153/ks-22-2410-arrest-set/boundary/page-002.png",
+            "sha256": "9b1289b180f77e8464d012ed8c4ddb34fd00abecdc20e2a688b01baaf5e56df2",
+            "byteLength": 302728,
+            "dimensions": [
+              2448,
+              3168
+            ],
+            "result": "PASS",
+            "directlyViewed": true,
+            "directlyViewedOriginalPng": true,
+            "exactByteReuseVerified": true,
+            "clippingOrOverlapObserved": false,
+            "missingInkObserved": false,
+            "unintendedBlankPageObserved": false,
+            "protectedFieldInkObserved": false,
+            "overflowObserved": false,
+            "pageOrderDefectObserved": false,
+            "observation": "Boundary page 2 was directly viewed at native PNG resolution; long participant and case values remain within their printed regions, and the page is complete and legible with no clipping, overlap, crop, missing ink, protected-field ink, page-order defect or overflow."
+          },
+          {
+            "member": "ks-22-2410-arrest-set/boundary/page-003.png",
+            "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34747882153/ks-22-2410-arrest-set/boundary/page-003.png",
+            "sha256": "9d1fecf5256c1bc301b57f8b8208ad2b6cc7528eb5267f23f919fb0b81ab6098",
+            "byteLength": 186551,
+            "dimensions": [
+              2448,
+              3168
+            ],
+            "result": "PASS",
+            "directlyViewed": true,
+            "directlyViewedOriginalPng": true,
+            "exactByteReuseVerified": true,
+            "clippingOrOverlapObserved": false,
+            "missingInkObserved": false,
+            "unintendedBlankPageObserved": false,
+            "protectedFieldInkObserved": false,
+            "overflowObserved": false,
+            "pageOrderDefectObserved": false,
+            "observation": "Boundary page 3 was directly viewed at native PNG resolution; long participant and case values remain within their printed regions, and the page is complete and legible with no clipping, overlap, crop, missing ink, protected-field ink, page-order defect or overflow."
+          },
+          {
+            "member": "ks-22-2410-arrest-set/boundary/page-004.png",
+            "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34747882153/ks-22-2410-arrest-set/boundary/page-004.png",
+            "sha256": "7e0924b995c1ac3e7978347625bc8b04d9bf53ce84dcb155a51c66b9e274f621",
+            "byteLength": 210898,
+            "dimensions": [
+              2448,
+              3168
+            ],
+            "result": "PASS",
+            "directlyViewed": true,
+            "directlyViewedOriginalPng": true,
+            "exactByteReuseVerified": true,
+            "clippingOrOverlapObserved": false,
+            "missingInkObserved": false,
+            "unintendedBlankPageObserved": false,
+            "protectedFieldInkObserved": false,
+            "overflowObserved": false,
+            "pageOrderDefectObserved": false,
+            "observation": "Boundary page 4 was directly viewed at native PNG resolution; long participant and case values remain within their printed regions, and the page is complete and legible with no clipping, overlap, crop, missing ink, protected-field ink, page-order defect or overflow."
+          },
+          {
+            "member": "ks-22-2410-arrest-set/boundary/page-005.png",
+            "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34747882153/ks-22-2410-arrest-set/boundary/page-005.png",
+            "sha256": "e31116386c3fa4ebd76840742598e23f224f0deecf689b58d43782c0e960ee3c",
+            "byteLength": 210340,
+            "dimensions": [
+              2448,
+              3168
+            ],
+            "result": "PASS",
+            "directlyViewed": true,
+            "directlyViewedOriginalPng": true,
+            "exactByteReuseVerified": true,
+            "clippingOrOverlapObserved": false,
+            "missingInkObserved": false,
+            "unintendedBlankPageObserved": false,
+            "protectedFieldInkObserved": false,
+            "overflowObserved": false,
+            "pageOrderDefectObserved": false,
+            "observation": "Boundary page 5 was directly viewed at native PNG resolution; long participant and case values remain within their printed regions, and the page is complete and legible with no clipping, overlap, crop, missing ink, protected-field ink, page-order defect or overflow."
+          },
+          {
+            "member": "ks-22-2410-arrest-set/boundary/page-006.png",
+            "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34747882153/ks-22-2410-arrest-set/boundary/page-006.png",
+            "sha256": "47b160412d7fe9314085f7558f646f3e8676bc85f8b8e5e9fe94bea4c8431fe4",
+            "byteLength": 467306,
+            "dimensions": [
+              2448,
+              3168
+            ],
+            "result": "PASS",
+            "directlyViewed": true,
+            "directlyViewedOriginalPng": true,
+            "exactByteReuseVerified": true,
+            "clippingOrOverlapObserved": false,
+            "missingInkObserved": false,
+            "unintendedBlankPageObserved": false,
+            "protectedFieldInkObserved": false,
+            "overflowObserved": false,
+            "pageOrderDefectObserved": false,
+            "observation": "Boundary page 6 was directly viewed at native PNG resolution; long participant and case values remain within their printed regions, and the page is complete and legible with no clipping, overlap, crop, missing ink, protected-field ink, page-order defect or overflow."
+          },
+          {
+            "member": "ks-22-2410-arrest-set/boundary/page-007.png",
+            "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34747882153/ks-22-2410-arrest-set/boundary/page-007.png",
+            "sha256": "0e076b5000ae8af7bcaa5ee5738a925e148905ad5d5948f39aff48efbfb691ed",
+            "byteLength": 332722,
+            "dimensions": [
+              2448,
+              3168
+            ],
+            "result": "PASS",
+            "directlyViewed": true,
+            "directlyViewedOriginalPng": true,
+            "exactByteReuseVerified": true,
+            "clippingOrOverlapObserved": false,
+            "missingInkObserved": false,
+            "unintendedBlankPageObserved": false,
+            "protectedFieldInkObserved": false,
+            "overflowObserved": false,
+            "pageOrderDefectObserved": false,
+            "observation": "Boundary page 7 was directly viewed at native PNG resolution; long participant and case values remain within their printed regions, and the page is complete and legible with no clipping, overlap, crop, missing ink, protected-field ink, page-order defect or overflow."
+          }
+        ],
+        "allPagesDirectlyViewed": true,
+        "visualDefects": 0,
+        "overflowDefects": 0,
+        "pagesMeasured": 14,
+        "clippingAndLegibility": {
+          "valuesClipped": 0,
+          "overlappingWrites": 0,
+          "valuesDrawnBelowTheReadableFloor": 0,
+          "missingInk": 0,
+          "cropDefects": 0
+        },
+        "notes": [
+          "Canonical pages 1-3 are the arrest petition, page 4 is the source notes page, page 5 is the KBI cover sheet, and pages 6-7 are process guidance.",
+          "Boundary pages exercise long participant name, address, e-mail and charge values; they remain within the intended printed regions.",
+          "Participant-completed and court-controlled fields remain blank or unselected according to the saved current-byte field map and actual-write proof."
+        ]
+      },
+      "currentDependencyComparison": {
+        "reviewedBy": "/root/ks_arrest_final",
+        "reviewMode": "INDEPENDENT_CURRENT_BYTE_ORIGINAL_PAGE_FINAL_REVIEW",
+        "reviewedAt": "2026-09-13T11:05:47.313Z",
+        "currentRepositoryHead": "5e0c278667813a0b4af909577154901f311efad6",
+        "currentVerifiedCaptain": "a7c892d6891120fae5f04b367bcd0d1d6695d2ad",
+        "packetCommitSha": "de82161d28ab1cc5ab689fd7b6a2878ff3f58829",
+        "currentCandidateAndSourceBindings": {
+          "familyId": "ks-22-2410-arrest-set",
+          "routeKey": "obligation:track-only:KS:ks-22-2410-arrest",
+          "candidateDirectory": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill",
+          "workerBranch": "pf20-ks-22-2410-arrest-20260912b",
+          "workerCandidateCommit": "202d134b5e5908077b0a8116a02a74f15f8f7d62",
+          "captainCandidateCommit": "8767db43872bb22cd3e2780e477931fd8de0ba38",
+          "currentReviewHead": "5e0c278667813a0b4af909577154901f311efad6",
+          "all17TransferredPathsCurrentByteIdentical": true,
+          "transferredFileCount": 17,
+          "keyFiles": [
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/production-field-map.json",
+              "sha256": "6ee97a0bb9c21650ce429db892d4c8800dfdf6cd78e7cfd717d91007b8debbee",
+              "byteLength": 394562
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/participant-instructions.md",
+              "sha256": "41b26526a966d002968b956ccfd8f17b7d0232e77c0a03d1b6fc27a2a3a32235",
+              "byteLength": 5041
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/source-receipt.json",
+              "sha256": "3b897dadfb70fae34a5f5b9762d28316ae98d98b1e987e94983adddedbd7030f",
+              "byteLength": 7022
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/reports/actual-writes.json",
+              "sha256": "cccf5ca26863919e2acdd854403f1888bb9584fdd9c905960026c5855c4e25db",
+              "byteLength": 35702
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/reports/blanks-left-for-the-participant.json",
+              "sha256": "b5409b405d3a8f593d4f31cdd68449aa8f17ff65e5bfa779523260641af8010d",
+              "byteLength": 27430
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/reports/completeness-counters.json",
+              "sha256": "825cbccdb6c73a7a14d25eb7aa5118a1b7e10f26aed93c4b129df998d09f3601",
+              "byteLength": 935
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/reports/rendered-artifacts.json",
+              "sha256": "b006ed698c5446473b716e864015181a48ec04b1852759c9fc0059c3099d5635",
+              "byteLength": 10495
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/reports/independent-visual-review.json",
+              "sha256": "45cc8aea2b8034614f924f537264dd09e14943bed54d7dc15025149a54aafb99",
+              "byteLength": 1394
+            },
+            {
+              "path": "data/rcap-grade-a/packet-factory-24h/pf20/ks-22-2410-arrest-return-20260913.json",
+              "sha256": "d46cfcccdd1645e013a5465cb335f495a9bf919eb46fcbd158a39f96d053b690",
+              "byteLength": 5576
+            }
+          ],
+          "currentVerifiedCaptain": "a7c892d6891120fae5f04b367bcd0d1d6695d2ad",
+          "currentFinalPacketCommitSha": "de82161d28ab1cc5ab689fd7b6a2878ff3f58829",
+          "currentPdfHashes": [
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/fixtures/canonical.pdf",
+              "sha256": "07bcda32a0700091871c819f4f03d17c9babf8b6627bc691ffc48871968e12a8",
+              "byteLength": 224380,
+              "pageCount": 7,
+              "role": "canonical",
+              "document": "canonical.pdf"
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/fixtures/boundary.pdf",
+              "sha256": "7ca350c37451fd8aa12ea101ced3ee5ea8c0538c0192d42264aa301b09e9f559",
+              "byteLength": 224696,
+              "pageCount": 7,
+              "role": "boundary",
+              "document": "boundary.pdf"
+            }
+          ],
+          "currentPageHashInventory": {
+            "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34747882153/ks-22-2410-arrest-set.PAGE_IMAGES_SHA256.json",
+            "sha256": "f1fda7427ce862830c57f0ecd23590f68706504b92fcd449cc37d987fc03b831",
+            "byteLength": 3188,
+            "pagesMeasured": 14
+          },
+          "currentRasterVerdict": {
+            "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34747882153/ks-22-2410-arrest-set.verdict.json",
+            "sha256": "4bcb70f5e2a4586d9c9e843e7463edb7dfe301fdd20e0e759160a347d66022e7",
+            "byteLength": 14837,
+            "verdict": "RASTER_PASS",
+            "pagesMeasured": 14,
+            "packetCommitSha": "de82161d28ab1cc5ab689fd7b6a2878ff3f58829"
+          },
+          "currentRasterCustody": {
+            "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34747882153/ks-22-2410-arrest-set.ORIGINAL_EVIDENCE_VERIFIED.json",
+            "sha256": "d542447c56647c7688d5ef03ee6bb0c721893d20d5c2227673e41f2687a58956",
+            "byteLength": 2533,
+            "archiveSha256": "921e1fbf834bc12fd24fa3d2f1f77d23a317cb509822194e12b3dd63f4155ea6",
+            "originalPngBytesVerified": true
+          }
+        },
+        "priorSemanticReturn": {
+          "path": "data/rcap-grade-a/packet-factory-24h/pf20/ks-22-2410-arrest-independent-semantic-20260913.json",
+          "sha256": "b48194a1ee018fbed20ed35ab432217e6bc0b2a421611d3f8a9032fcba81ddfb",
+          "byteLength": 81879
+        },
+        "priorSemanticVerdict": "PASS",
+        "priorSemanticFindingsConsumedWithoutReopening": true,
+        "currentPdfHashesMatchRasterVerdict": true,
+        "currentParticipantGuidanceRead": true,
+        "sourceOrPacketMutation": false,
+        "queueOrManifestMutation": false,
+        "noReraster": true,
+        "noRebuild": true
+      },
+      "productionAuthorization": false,
+      "nativeRecognition": {
+        "priorSemanticReturn": {
+          "path": "data/rcap-grade-a/packet-factory-24h/pf20/ks-22-2410-arrest-independent-semantic-20260913.json",
+          "sha256": "b48194a1ee018fbed20ed35ab432217e6bc0b2a421611d3f8a9032fcba81ddfb",
+          "byteLength": 81879
+        },
+        "nativeReturnDirectory": "data/rcap-grade-a/packet-factory-24h/vfks1",
+        "noSharedWrites": true,
+        "visualMeasured": true,
+        "currentIndependentVerdict": "PASS_COMPLETE_INDEPENDENT"
+      }
+    }
+  ]
+}

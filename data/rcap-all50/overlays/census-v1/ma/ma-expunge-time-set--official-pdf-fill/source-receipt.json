@@ -1,0 +1,84 @@
+{
+  "schemaVersion": "rcap-family-source-receipt/v1",
+  "familyId": "ma-expunge-time-set",
+  "worklistGroupId": "ma-expunge-time-set",
+  "jurisdiction": "MA",
+  "implementationStrategy": "official_pdf_fill",
+  "custodyClass": "SOURCE_ALREADY_HELD",
+  "acquisitionCommissioned": false,
+  "bindingMethod": "the source binds by exact SHA-256 against THREE records that must agree: the committed corpus index entry, the bytes mounted in the custody that index declares, and the pin carried in this family's builder. The custody root is resolved through scripts/lib/corpus-index-paths.mjs, which follows what the index declares rather than the shape of the path.",
+  "routeKeys": [
+    "obligation:unit:MA:ma-expunge-time:ma-expunge-time-commissioner-certification",
+    "obligation:unit:MA:ma-expunge-time:ma-expunge-time-court-determination"
+  ],
+  "routeSelectionId": "ma-expunge-time-official-set",
+  "statutoryAuthority": "G.L. c. 276, §§ 100F, 100G, 100H, 100I, 100J and 100N",
+  "legalName": "Petition to Expunge under G.L. c. 276, §§ 100F, 100G and 100H (Massachusetts Probation Service)",
+  "allSourcesExact": true,
+  "documents": [
+    {
+      "documentId": "ma-expunge-time-primary-filing-1",
+      "formNumber": "MA-PROBATION-SERVICE",
+      "title": "Petition to Expunge under G.L. c. 276, §§ 100F, 100G or 100H",
+      "instrumentKind": "primary_filing",
+      "sourceId": "official-form:Massachusetts Probation Service Petition to Expunge",
+      "custody": "master_library",
+      "alsoHeldIdenticallyIn": [
+        "master_library",
+        "d_source_packs",
+        "nationwide_recovery_pool_2026_09_02"
+      ],
+      "pathInArchive": "STATES/MA/05_SOURCE_GATED/MA__SOURCE-GATED__MA-PROBATION-SERVICE__petition-to-expunge-under-g-l-c-276-sections-100f-100g-or-100h__REV-2018-10-11__EN.pdf",
+      "revision": "REV-2018-10-11",
+      "sha256": "5ccb13e55c07a520526cad72fe48b506f6a67c51a2c879817feb49829853b0b1",
+      "sha256Exact": true,
+      "byteLength": 13137,
+      "pageCount": 2,
+      "acroFormPresent": false,
+      "acroFieldCount": 0,
+      "structuralClassObserved": "flat_pdf"
+    }
+  ],
+  "composedComponentsAuthoredByThisBuild": [
+    "ma-expunge-time-process-guidance-2"
+  ],
+  "groundingRecords": [
+    {
+      "record": "data/record-clearing/legal-design-intake/MA.memo.json",
+      "track": "ma-expunge-time"
+    },
+    {
+      "record": "data/record-clearing/legal-design-packet-set-manifests.json",
+      "packetSetId": "ma-expunge-time-set"
+    },
+    {
+      "record": "src/lib/rcap-engine/compiled/profiles/MA-massachusetts.json",
+      "read": "packetGenerator.serviceAndNoticeRules[1] and pathways[4], both keyed to time-based expungement under §§ 100F–100J"
+    },
+    {
+      "record": "the pinned form's own page-2 instruction sheet",
+      "read": "the filing destination, the district-attorney notification, and the hearing rule, all printed on the document the participant receives"
+    }
+  ],
+  "officialSourcesRecordedInIntake": [
+    {
+      "title": "Massachusetts Probation Service Petition to Expunge form (Rev. 10/11/2018)",
+      "url": "https://www.mass.gov/info-details/massachusetts-probation-service-petition-to-expunge-form",
+      "retrievedOn": "2026-08-02"
+    },
+    {
+      "title": "G.L. c. 276, §§ 100F, 100G, 100H, 100I, 100J and 100N",
+      "url": "https://malegislature.gov/Laws/GeneralLaws/PartIV/TitleII/Chapter276",
+      "retrievedOn": "2026-08-02"
+    }
+  ],
+  "formIdentityNote": "The committed corpus index records this binary as acroFormPresent false, acroFieldCount 0 and structuralClassObserved flat_pdf, and the binary agrees: there are no widgets to fill. Every value is drawn as a measured overlay into a write box placed from the form's own printed text runs. The index holds the same SHA-256 in TWO custodies — the Master Library and the D source packs — which is one document held twice, not two documents; the first custody mounted supplies the bytes and is recorded. The asset sits under 05_SOURCE_GATED, which is the corpus's own currentness gate: the 2018 revision is the edition held, and whether it remains the published edition is a source-freshness question this build does not answer.",
+  "sourceBinaryCommitted": false,
+  "commercialRoutesOpened": 0,
+  "whatThisReceiptDoesNotEstablish": [
+    "that any output is approved for participant delivery",
+    "that the 10/11/2018 revision is still the edition the Massachusetts Probation Service publishes — the asset is source-gated for exactly that reason",
+    "that this participant is eligible: all offences must have been committed before the 21st birthday, the record must hold not more than two convictions or two non-conviction records, and the Commissioner certifies eligibility under §§ 100I and 100J",
+    "what, if anything, it costs to file — no held source establishes a fee or a waiver route for this petition"
+  ]
+}

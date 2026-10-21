@@ -1,0 +1,60 @@
+{
+  "schemaVersion": "rcap-ar-veterans-owner-registration/v1",
+  "status": "IMPLEMENTED_AWAITING_INDEPENDENT_REVIEW",
+  "label": "Additive AR veterans owner product adoption registration",
+  "workspaceHeadAtReturn": "7bc17e7dd3e2b470bd797ddd91d5b9c3643191dc",
+  "adoptionRecord": {
+    "path": "data/rcap-grade-a/legal-decisions/AR_VETERANS_OWNER_PRODUCT_ADOPTION_2026-09-13.json",
+    "sha256": "9c07c6aa8586c65cef7ca92d7591970eb068ad79f28e91df4f0e7430a75aca8c",
+    "byteLength": 13614,
+    "heldUnchanged": true
+  },
+  "registryTargets": [
+    "scripts/grade-a-packet-factory-24h/legal-block-resolution.mjs",
+    "scripts/grade-a-packet-factory-24h/test-legal-block-resolution.mjs"
+  ],
+  "workingTreeRegistryDiff": {
+    "againstHead": "7bc17e7dd3e2b470bd797ddd91d5b9c3643191dc",
+    "sha256": "4ccbd935382f8d2f8296ea901b45bdb74baf6a5afab12d8a2b093cfbd2c27647",
+    "byteLength": 7423,
+    "whitespaceCheck": "PASS"
+  },
+  "registration": {
+    "result": "PASS",
+    "change": "Added the exact AR_VETERANS_OWNER_PRODUCT_ADOPTION_2026-09-13.json path to LEGAL_BLOCK_RESOLUTION_PATHS; no queue, custody, source, packet, or build output was changed.",
+    "baseResolutionCounts": {
+      "records": 6,
+      "legalClearFamilies": 34,
+      "legalHoldFamilies": 6
+    },
+    "effectiveResolutionCounts": {
+      "records": 7,
+      "legalClearFamilies": 40,
+      "legalHoldFamilies": 0
+    }
+  },
+  "focusedTests": {
+    "command": "source private/source-corpus-environment.txt && node scripts/grade-a-packet-factory-24h/test-legal-block-resolution.mjs",
+    "result": "PASS",
+    "assertions": [
+      "owner adoption is true while counselApproval, courtRuling, packetPass, terminalPromotion, and productionAuthorization remain false",
+      "scope is exactly ar-veterans-court-set and the sole decision names only ar-veterans-court-set",
+      "all ten adopted revision numbers and IDs are exact",
+      "the preserved historical draft remains NOT_ADOPTED",
+      "the additive record is unavailable at the draft's reviewedAtBase cca277d233d3aca3032a0aa58b0753c471507215",
+      "existing legal resolutions, Kansas supersession controls, and unrelated family protections continue to pass"
+    ],
+    "output": "LEGAL_BLOCK_RESOLUTION_SCHEMA_OK: base 29+1+1+1+1+1 clear and 6 hold; exact owner-attestation supersession yields 40 clear"
+  },
+  "syntaxAndWhitespace": {
+    "nodeCheck": "PASS",
+    "gitDiffCheck": "PASS"
+  },
+  "preservedControls": [
+    "Original AR veterans draft remains historical and unadopted.",
+    "Owner product adoption grants no counsel, packet, raster, terminal, production, or route authority.",
+    "Held ACIC source bytes and their recorded hashes remain unchanged.",
+    "This registry addition does not create packet admission or terminal coverage."
+  ],
+  "nextAcceptance": "Independent review of this registration by the existing reviewer, followed by Captain's scoped legal-resolution integration."
+}

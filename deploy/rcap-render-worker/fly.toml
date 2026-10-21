@@ -1,0 +1,41 @@
+# Production execution target for the RCAP render worker: one always-on
+# Fly.io Machine. The contract it satisfies is docs/RCAP_RENDER_WORKER_DEPLOYMENT.md
+# ("managed always-on container service — single instance, restart: always,
+# platform secret store, stdout log drain; outbound HTTPS to Supabase only,
+# no inbound ports, no browser").
+#
+# Nothing in this file names an image. The image is supplied at deploy time by
+# .github/workflows/deploy-rcap-render-worker-production.yml as the exact
+# immutable digest that the committed publication evidence and the frozen
+# release candidate bind, and the same digest is exported to the process as
+# RCAP_WORKER_CONTAINER_DIGEST so every finalized artifact records it.
+#
+# Secrets (NEXT_PUBLIC_SUPABASE_URL, SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY)
+# live only in the Fly app's secret store; they are never in this file, the
+# image, the repository or a workflow log.
+
+app = "legalease-rcap-render-worker"
+primary_region = "iad"
+
+# SIGTERM interrupts an idle sleep immediately and lets an in-flight cycle
+# finish (scripts/lib/rcap-render-worker-loop.mjs). The kill grace must stay
+# shorter than the claim lease so a terminated worker's claim always expires
+# rather than staying half-alive.
+kill_signal = "SIGTERM"
+kill_timeout = "30s"
+
+[env]
+  NODE_ENV = "production"
+  # Without this flag the packet reader returns null without querying the
+  # table and every job fails "packet not found" (acceptance run 32416556886).
+  ENABLE_SUPABASE_PARTNER_DATA = "true"
+  RCAP_WORKER_CLAIM_SECONDS = "600"
+
+# No [[services]]: the worker accepts no inbound traffic.
+
+[[restart]]
+  policy = "always"
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "1gb"

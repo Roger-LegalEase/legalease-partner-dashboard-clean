@@ -1,0 +1,79 @@
+{
+  "schemaVersion": "rcap-fable-repairer-return/v1",
+  "lane": "FIX02+FIX04+FIX06",
+  "worker": "FABLE-R9",
+  "branch": "fable/r9",
+  "baseSha": "edf5ff14b",
+  "assignedFamilies": [
+    "ca-1203-41-set",
+    "ca-1203-42-set",
+    "ca-1203-4a-set",
+    "ca-851-91-set",
+    "ca-prop64-set"
+  ],
+  "inheritedFrom": "fable/r7's worktree (agent-ac231aecd9277690e, base 1338a0bcf) held uncommitted repairs: the shared west host's typed refusal-disposition layer, the rcap-text-fitting boundary-space fix, the completeness-contract rowKeyOf fix, and one rebuilt family (ca-1203-41). The three script repairs were ported into this worktree and every family was rebuilt through its OWNING build script here; no generated output was copied by hand. The textfit fix was applied onto HEAD's newer committed version (evaluateDeclaredMinimumSize preserved), not r7's older base.",
+  "sharedScriptChangesCommitted": [
+    "scripts/build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs (shared west host: typed blank dispositions with refusalClass/requiredBeforeFiling/routeDetermined/isSelectionControl; S1 shared-fact-allowlist bound writes; per-family CA participant instructions with a named checkable authority and an explicit self-help stop; documentId on rendered records; Form-XObject participant ink so evidence readers decode every write; pikepdf deterministic_id for byte-identical rebuilds)",
+    "scripts/rcap-official-forms/rcap-text-fitting.mjs (a line wrapped at a word boundary keeps its boundary space, budgeted inside maxWidth; fixes the west-host CA finalizer read-back failure 'Northern Reaches' -> 'NorthernReaches' that blocked every CA rebuild)",
+    "scripts/rcap-packet-completeness/completeness-contract.mjs (rowKeyOf: a bare trailing '[0]' is not a row marker; XFA terminal names index every segment, and the old pattern collapsed nearly every CA field into one 'table::[0]' pseudo-row spanning different PDFs; proven by the verifier's own 20-case mutation suite, every injected defect still caught)"
+  ],
+  "familiesRepaired": [
+    {
+      "familyId": "ca-851-91-set",
+      "lane": "FIX06",
+      "commit": "ca-851-91-set: PASS_COMPLETE — all nine counters zero",
+      "defectFound": "vf17: KNOWN_PREFILLS (knownRequiredFieldsMissing=6 — the CR-409 protected-person street/city/state/zip/phone/email cells, all held S1-allowlisted facts) and REPEATING_ROWS (incompleteRows=1, the 'table::[0]' pseudo-row). The owed re-render was blocked by the shared-host line-wrap read-back defect.",
+      "fix": "Rebuilt on the repaired host: the six held contact facts are written (Form-XObject appearances, wrapped county value reads back intact), and the rowKeyOf fix ends the pseudo-row collapse.",
+      "proof": "verify-packet-completeness: PASS_COMPLETE, 14/129 written, all nine counters zero. Double build byte-identical: all 47 output files sha256-equal across two runs. Contract mutation suite on this family: 20/20 injected defects caught.",
+      "rasterNote": "Packet bytes changed; any prior raster receipt is superseded and a fresh central raster is owed.",
+      "claim": "asserted and released under FIX06: repair complete, awaiting fresh independent read"
+    },
+    {
+      "familyId": "ca-prop64-set",
+      "lane": "FIX06",
+      "commit": "ca-prop64-set: PASS_COMPLETE — all nine counters zero",
+      "defectFound": "FIX06 assignment: FAIL_MISSING_REQUIRED_FACTS at 2/148 written — knownRequiredFieldsMissing, unclassifiedBlanks, incompleteRows, requiredOptionsMissing, requiredComponentsMissing all nonzero from the prose-only refusal layer.",
+      "fix": "Rebuilt on the repaired host: typed dispositions classify every blank on CR-400/CR-401/CR-403, held facts written, components carry documentId, rowKeyOf fix ends the pseudo-row.",
+      "proof": "verify-packet-completeness: PASS_COMPLETE, 3/148 written, all nine counters zero. Double build byte-identical: all 40 output files sha256-equal across two runs.",
+      "rasterNote": "Packet bytes changed; fresh central raster owed.",
+      "claim": "asserted and released under FIX06: repair complete, awaiting fresh independent read"
+    },
+    {
+      "familyId": "ca-1203-41-set",
+      "lane": "FIX02",
+      "commit": "ca-1203-41-set: repair completeness via the shared west host's typed declaration layer",
+      "defectFound": "FIX02 assignment: five counters nonzero (knownRequiredFieldsMissing 56, unclassifiedBlanks 89, incompleteRows 1, requiredOptionsMissing 15, requiredComponentsMissing 4).",
+      "fix": "Rebuilt on the repaired host. Four counters zeroed outright; requiredOptionsMissing fell 15 -> 10: the CR-180 statutory-route checkboxes (LI2-LI7 and their sub-elections) are now written as route-determined marks.",
+      "residual": "requiredOptionsMissing=10 — exactly the CR-180 ConvTable Reduce1-5/Offense1-5 'Eligible for reduction under § 17(b) / § 17(d)(2) (yes or no)' cells, declared route-determined and left unmade. Writing a yes/no there is a per-conviction legal determination (wobbler eligibility) that no route record or legal decision in this repository makes; FIX09/r1 reached the same wall and returned BLOCKED_LEGAL_INPUT. Guessing would be an invented legal determination, so the cells are named as unmade.",
+      "whatWouldUnblock": "A captain/counsel field-classification determination stating who answers the CR-180 conviction-table reduction-eligibility cells on dismissal routes (route-determined value per family, a per-election evidence-variant design, or a ruling that they are the participant's to answer, which would also need the contract's ROUTE_ELECTION label class revisited).",
+      "proof": "verify-packet-completeness: FAIL_ROUTE_SELECTION with the single counter requiredOptionsMissing=10 and every other counter zero; the ten findings are all ConvTable Reduce/Offense cells. Double build byte-identical: all 33 output files sha256-equal across two runs.",
+      "claim": "asserted and released under FIX02 with the residual named in the release reason"
+    },
+    {
+      "familyId": "ca-1203-42-set",
+      "lane": "FIX04",
+      "commit": "ca-1203-42-set: zero REPEATING_ROWS; requiredOptionsMissing narrowed to the ten 17(b)/17(d)(2) cells",
+      "defectFound": "vf17: ROUTE_OPTIONS (requiredOptionsMissing=10) and REPEATING_ROWS (incompleteRows=1).",
+      "fix": "Rebuilt on the repaired host. REPEATING_ROWS fixed (incompleteRows 0). ROUTE_OPTIONS unchanged in count and identical in membership: the ten ConvTable reduction-eligibility cells.",
+      "residual": "Same ten-cell legal-input block as ca-1203-41-set; see whatWouldUnblock there.",
+      "proof": "verify-packet-completeness: FAIL_ROUTE_SELECTION, requiredOptionsMissing=10 (all ConvTable Reduce/Offense cells), every other counter zero. Double build byte-identical: all 33 output files sha256-equal across two runs.",
+      "claim": "asserted and released under FIX04 with the residual named in the release reason"
+    },
+    {
+      "familyId": "ca-1203-4a-set",
+      "lane": "FIX04",
+      "commit": "ca-1203-4a-set: zero four counters; requiredOptionsMissing narrowed to the ten 17(b)/17(d)(2) cells",
+      "defectFound": "FIX04 assignment: five counters nonzero (FAIL_MISSING_REQUIRED_FACTS at 6/204 written).",
+      "fix": "Rebuilt on the repaired host. Four counters zeroed; requiredOptionsMissing=10, the same ten ConvTable reduction-eligibility cells.",
+      "residual": "Same ten-cell legal-input block as ca-1203-41-set; see whatWouldUnblock there.",
+      "proof": "verify-packet-completeness: FAIL_ROUTE_SELECTION, requiredOptionsMissing=10 (all ConvTable Reduce/Offense cells), every other counter zero. Double build byte-identical: all 33 output files sha256-equal across two runs.",
+      "claim": "asserted and released under FIX04 with the residual named in the release reason"
+    }
+  ],
+  "familiesStopped": [],
+  "queuesTouched": 0,
+  "ledgerNote": "claim-ledger.json changed only through claim.mjs --assert/--release; never hand-edited.",
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "selfVerificationDisclaimer": "The counter measurements above are this repairer's own runs and are not verdicts. Every family named here still needs an independent read by a verifier that did not repair it, and the byte-changed families need a fresh central raster. All VF lanes were left alone."
+}

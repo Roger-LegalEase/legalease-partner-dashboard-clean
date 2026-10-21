@@ -1,0 +1,333 @@
+{
+  "schemaVersion": "rcap-lane-rows/v1",
+  "lane": "VF51",
+  "laneKind": "independent-verification",
+  "worktree": "/home/user/ln1-worktree",
+  "branch": "lane-vf51-20260910",
+  "verifiedAtBase": "5f71e0d664a321f148a9e06f09820bf878c4d7be",
+  "generatedAtBase": "5f71e0d664a321f148a9e06f09820bf878c4d7be",
+  "whatWasRead": "FIX149's repair at 85a9e5ce69da7c473f65010efe44834c882b7243, which is an ancestor of this lane's base. Both families' fixture blobs are byte-identical at 85a9e5ce and at 5f71e0d6, so no lane moved these bytes between FIX149's commit and this read.",
+  "grantSet": "d4f287cd5d8549bf. Checked first with `claim.mjs --can-assert VF51 la-976-arrest-no-conviction-set,la-977d-marijuana-first-offense-set` against the ledger in THIS worktree (988 claims, generatedAtCommit 8bffaa9d5): 2 assertable, 0 would refuse, nothing written. Then asserted individually, CLAIM_OK on each. NEITHER GRANT RELEASED.",
+  "aNoteOnTheCanAssertInvocation": "`--can-assert` takes ONE comma-separated argument, not a list of space-separated ids. Invoked with spaces it silently checks only the FIRST id and reports \"1 famil(ies) checked\". A lane that reads \"1 assertable, 0 would refuse\" and believes it has confirmed two grants has confirmed one. The dispatch's phrasing (`--can-assert VF51` reads 2 assertable) is only reproducible with the comma form.",
+  "builtAnything": false,
+  "packetsSelfVerified": 0,
+  "repairsMade": "none. This lane read two families it did not build and repaired nothing. Every defect and every limitation found is recorded here, not fixed.",
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "centralArtifactsEdited": "none. MASTER_QUEUE.json, RASTER_QUEUE.json, VERIFIER_RETURNS.json and claim-ledger.json were read and not written. VERIFIER_RETURNS.json was NOT regenerated. Both family directories were restored byte-identical after every rebuild and every mutation; `git status --porcelain` at the end of measurement showed only this lane's own untracked vf51/ directory.",
+  "grantsReleased": "none. Both VF51 grants remain live and held.",
+  "grantsNothing": "A verification return is review evidence. It opens no commercial route, promotes no family and authorises no fulfilment. A PASS here is a statement about the obligation named PASS and about nothing else.",
+  "whichCorpusPathWasUsed": {
+    "answer": "MASTER_LIBRARY_SOURCE_DIR=/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1, the path this lane's dispatch names, for both rebuilds and for every source re-hash. The builders' own default for that one mount slot is `private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1` (line 360 of the la-976 builder: `process.env.MASTER_LIBRARY_SOURCE_DIR ?? \"private/source-imports/...\"`).",
+    "theSiblingLanesFindingIsReproducedButItsCauseIsNotTheCorpusPath": "An unchanged rebuild of each family rewrote three committed JSONs -- reports/record-bindings.json, reports/rendered-artifacts.json and source-receipt.json -- and no source digest moved in either family (`git diff | grep '\"sha256\"'` is empty on both). But the moved lines are NOT the env-var mount. The corpus-x entry does not appear in the diff at all. What moved is `resolvedPath` on every source and every entry of `mountedCustodies`, from `/home/user/ln2-worktree/private/...` to `/home/user/ln1-worktree/private/...`: the FOUR mounts the builder hardcodes as repo-relative and then records as ABSOLUTE. The recorded path is therefore a function of WHICH WORKTREE RAN THE BUILD, not of which corpus was mounted. FIX149 built in ln2-worktree and this lane read in ln1-worktree; same corpus, same bytes, same digests, different committed provenance string.",
+    "whyThatMatters": "A family's source receipt records the builder's own filesystem location in a field that reads as custody provenance. Two lanes building identical bytes from the identical corpus produce different committed records, and a reviewer diffing them sees custody drift where there is none. Recorded, not repaired: it is shared generator behaviour across the census-v1 builders and not this lane's to change.",
+    "secondCauseOfTheSameDrift": "the MASTER_QUEUE pin, recorded separately below."
+  },
+  "howBytesWereMeasured": "sha256sum over files on disk and `git cat-file blob <commit>:<path> | sha256sum` for historical bytes. Page counts, page size, metadata and form state from pdfinfo; embedded-image counts from `pdfimages -list`. Delivered text page by page from `pdftotext -layout -f N -l N`. Word geometry from `pdftotext -bbox-layout`. Raw object layer read directly from the PDF bytes with zlib inflation of each page content stream. NO PIXEL MEASUREMENT WAS TAKEN AND NO RASTER IS CLAIMED: every finding here is text, geometry or metadata on delivered bytes, so nothing was rendered to PGM or PNG and the render-mode trap does not arise. All four fixtures carry ZERO embedded images (pdfimages), so every mark on every page is text and word boxes are the complete ink -- which is what makes an analytical clipping measurement complete here without a raster.",
+  "everyZeroHasAPositiveControl": "No zero in this file stands alone, and this lane caught two of its own dead detectors before publishing them. (1) The content-stream extractor first searched for `(...) Tj` literal strings and returned '0 drawn strings, 0 hidden' on every page -- a zero from a detector that could not fire, because these builders draw every line as a HEX string `<...> Tj`. Rebuilt for hex it finds 219 strings on la-976's filed pages and 146 on la-977d's, and the 'none hidden from pdftotext' result is only meaningful at that count. (2) The protected-blank check first reported 4 and 3 'present but NOT blank' -- an artifact of truncating the label to 45 characters so the dots fell outside the matched span. Re-run on full labels: 0 and 0. Neither false result was published. (3) The overlap detector was controlled with TWO DISTINCT WORDS (ALPHAWORD/BRAVOWORD) at near-identical Tm, precisely because identical words can be coalesced by pdftotext into one word that cannot overlap anything: it returns overlapFractionOfSmaller 0.987 and pdftotext keeps them separate. (4) The clipping detector was controlled with a run starting at x=560pt on a 612pt sheet: measured xMax 619.34, +7.34pt past the right edge, detected. (5) The vocabulary scans were controlled on the PRE-REPAIR bytes of these same two families, where they return 7 and 5. (6) Every pattern class in this lane's own set was fired on a synthetic control before use.",
+  "theResidueReMeasurement": {
+    "withVF47sCommittedTool": {
+      "tool": "data/rcap-grade-a/packet-factory-24h/vf47/tools/internal-vocabulary-scan.py, run unmodified",
+      "positiveControlOnRealBytes": "the pre-repair fixtures recovered from git at 85a9e5ce^ (la-976 canonical fbc0adbb, la-977d canonical 66ab020b) return 7 hits on la-976 filed pages 1-8 (5x E2_document_id, 1x B1_participant, 1x B3_commerce) and 5 on la-977d filed pages 1-5 (4x E2_document_id, 1x B4_routing). The detector demonstrably fires on this exact defect class in these exact families.",
+      "postRepair": "la-976 filed pages 1-8: 1 hit on BOTH fixtures. la-977d filed pages 1-5: 0 hits on BOTH fixtures. FIX149's headline (7 -> 1, 5 -> 0) is reproduced exactly.",
+      "theRemainingOne": "B3_commerce \"entitlement\", inside \"factual innocence with entitlement to compensation under R.S. 15:572.8\" on la-976 filed page 8. That is Article 976(A) statute text and is VF47's own declared false positive. Net defective residue 6 -> 0 and 5 -> 0."
+    },
+    "withThisLanesOwnSet": {
+      "tool": "data/rcap-grade-a/packet-factory-24h/vf51/tools/vf51-residue-scan.py, committed here so this count can be re-run -- 21 pattern classes in 8 groups, written from the blind spots of a WORD scan over pdftotext output rather than from VF47's list",
+      "whatItAddsThatVF47sEighteenCannotSee": [
+        "tokens that are not words: hex digests, ISO timestamps, UUIDs, file paths, URLs, file extensions, markdown and HTML residue",
+        "JavaScript sentinels reaching the page: undefined, NaN, null, Infinity, [object Object], ${} and {{}} template residue -- none of which carry an underscore or a capital and so match none of VF47's eighteen",
+        "identifiers pdftotext does not hand back as ONE word: N1_split_doc_id matches LA-CCRP-ART-989 across an intervening line break or space, which VF47's E2 (\\bLA-CCRP-ART-\\d+\\b) cannot",
+        "CROSS-JURISDICTION LEAKAGE (M1/M2): these builders are clones of one another across states, and a surviving Nebraska, North Dakota or Illinois citation on a Louisiana filed page matches none of the eighteen patterns",
+        "build/test/draft markers (H1/H2) including the TEST- specimen docket, which no prior lane's set scores at all"
+      ],
+      "allTwentyOneClassesProvenToFire": "on a synthetic control carrying one instance of each: 65 hits across all 21 classes. One limb is weaker than intended and is declared rather than hidden -- Q1's `grade[- ]a` alternative is case-sensitive and did not fire on 'Grade-A'; the Q1 class fired on its five other limbs.",
+      "resultOnDeliveredFiledPages": "la-976 filed 1-8: 6 hits on canonical and 6 on boundary. la-977d filed 1-5: 4 and 4. EVERY ONE IS A DECLARED FALSE POSITIVE, and each was checked against the source rather than waved away.",
+      "thefalsePositivesOneByOne": [
+        "H1_specimen_marker x5 (la-976) and x3 (la-977d): the fixture docket TEST-2026-000001 / TEST-BOUNDARY-2026-0000000000000001. These are fixtures, and FIX149's assertEveryFixtureDocketIsASpecimen() REQUIRES this marker on every fixture persona. Its presence is the guard being satisfied, not a defect.",
+        "H2_placeholder \"BAR\" (la-976 p3): inside the heading \"ARTICLE 975 - CUSTODY BAR\". Louisiana's own word.",
+        "H2_placeholder \"XXX\" (la-977d p1): inside \"SSN (last 4 digits): XXX-XX-........\". Verified against the pinned Article 998 source, which prints \"SSN (last 4 digits): XXX-XX-________\" at line 24 of its own text. Source text."
+      ],
+      "theZerosThatMatter": "N1_split_doc_id 0, N2_split_family_id 0, M1/M2 cross-jurisdiction 0, J1-J4 machine identifiers 0, K1-K3 paths and URLs 0, I1-I3 programming residue 0, L1-L2 markup residue 0, O1 price 0, P1 wrong-actor 0, Q1 governance voice 0 -- on the filed pages of all four fixtures, from a set every class of which was proven to fire first."
+    },
+    "theLayerNeitherPriorPageScanCanReach": {
+      "contentStreamEquivalence": "Every string DRAWN on a filed page was compared against what pdftotext reconstructs. la-976 filed pages: 219 drawn hex strings, 0 not reconstructed. la-977d: 146, 0 not reconstructed. So the page-text scans above see ALL the ink -- there is no text hidden from them by render mode, clipping or coalescence. Text origins outside the MediaBox on filed pages: 0.",
+      "annotationsAndAttachments": "0 annotation objects, 0 embedded files, 0 JavaScript, 0 OpenAction, 0 XMP metadata stream, 0 outline entries on all four fixtures. pdfinfo reads `Form: none`. NOTE: a naive substring count of `/Annot` returns 25 and 20 -- these are the empty `/Annots [ ]` array on each page, not annotation objects. This lane checked before reporting it.",
+      "theInfoDictionaryIsTHECLASSNOPAGESCANCANFAIL": "recorded as a finding below."
+    }
+  },
+  "digestsConfirmed": {
+    "method": "hashed on disk by this lane, and independently from `git cat-file blob 85a9e5ce:<path>`",
+    "la-976-arrest-no-conviction-set": {
+      "canonical": "43883382166f27e4f890f3af7af3a0540db8af30a58b1205754539919c5f523c",
+      "boundary": "2ea20aec7732ef4e890efe1d686b6bb76ad83483621b232ef94ed87442657f49",
+      "FIX149reported": "43883382 / 2ea20aec -- MATCH on both, and identical at 85a9e5ce and at this lane's base"
+    },
+    "la-977d-marijuana-first-offense-set": {
+      "canonical": "b8a25f5af5f330544bab69beced7973988e697a0e2bd69dceb6bc14747112ede",
+      "boundary": "2d475ea417604dc304a62ead55a411ab033744584ec06260f697a8cd88cb2aad",
+      "FIX149reported": "b8a25f5a / 2d475ea4 -- MATCH on both, and identical at 85a9e5ce and at this lane's base"
+    },
+    "preRepairBytesAlsoConfirmed": "la-976 canonical fbc0adbb and la-977d canonical 66ab020b recovered from 85a9e5ce^ and re-hashed here. MATCH with what FIX149 and VF47 both reported."
+  },
+  "determinismConfirmedByThisLane": "Both families were rebuilt UNCHANGED at this lane's base with MASTER_LIBRARY_SOURCE_DIR=/home/user/corpus-x/... and --no-raster. All four fixture PDFs came back BYTE-IDENTICAL: 43883382, 2ea20aec, b8a25f5a, 2d475ea4. The only drift on either rebuild was the three JSONs analysed under whichCorpusPathWasUsed and theMasterQueuePin; both family directories were restored with `git checkout --` and re-hashed to confirm.",
+  "theProveThenWriteReorderingFIX149FoundInItsOwnWork": {
+    "whatWasClaimed": "FIX149's guard originally ran AFTER the fixture was written, so its first three mutations exited 1 AND moved canonical.pdf. It says it reordered to prove-then-write and that all seven mutations now leave the fixture unmoved.",
+    "verdict": "CONFIRMED, on the source and on the behaviour.",
+    "inTheSource": "scripts/build-census-v1-la-976-arrest-no-conviction-set.mjs line 2056 `const proof = await proveWritesFromBytes(...)` precedes line 2057 `fs.writeFileSync(path.join(ROOT, file), packetBytes)`.",
+    "inTheBehaviour": "NINE mutations run in this worktree, each applied to the builder, built, then reverted. EVERY ONE: exit 1, canonical.pdf digest UNCHANGED, and `git status --porcelain` over the whole family directory EMPTY -- not even a report JSON moved.",
+    "theNineMutations": [
+      "M1 la-976 documentIdentifier back in the caption -> exit 1, fixture unmoved, caught as documentIdentifier \"LA-CCRP-ART-989\" on filed page 1",
+      "M2 la-976 componentIdentity back in the caption -> exit 1, unmoved, componentIdentity \"la-976-arrest-no-conviction-primary-filing-1\" filed page 1",
+      "M3 la-976 the PARTICIPANT-COMPLETED heading restored -> exit 1, unmoved, platformActor \"PARTICIPANT\" filed page 7 (the district-attorney-facing Article 988 page)",
+      "M4 la-977d documentIdentifier back in the caption -> exit 1, unmoved, documentIdentifier \"LA-CCRP-ART-998\" filed page 1",
+      "M5 la-977d componentIdentity back in the caption -> exit 1, unmoved, componentIdentity \"la-977d-marijuana-first-offense-primary-filing-1\" filed page 1",
+      "M6 la-977d platformActor on a filed page -> exit 1, unmoved, platformActor \"PARTICIPANT\" filed page 1",
+      "M7 la-976 identifier back under the SIGNATURE BLOCKS heading -> exit 1, unmoved, documentIdentifier \"LA-CCRP-ART-989\" filed page 3. This is the second site FIX149 repaired and it is guarded.",
+      "M8 la-976 fixture docket changed to a plausible Louisiana docket 2019-CR-004417 -> exit 1, unmoved, stopped by assertEveryFixtureDocketIsASpecimen with 'does not carry the specimen marker'",
+      "M9 la-977d same -> exit 1, unmoved, same guard"
+    ],
+    "eachStoppedFromTheClassItTargeted": "yes, and each names the exact filed page. The builders are byte-identical to HEAD after the run (e454424337cff1f1 and f577f3d9e413d0f5 on disk and at HEAD)."
+  },
+  "theFindingTHISLaneMakesThatNeitherPriorLaneMade": {
+    "title": "THE NEW GUARD IS REAL, NARROW, AND EVADED BY A ONE-CHARACTER CHANGE -- AND BY THE VERY CLASSES THE LAST TWO REPAIRS REMOVED BY HAND.",
+    "severity": "not a defect in the bytes shipped today; a defect in the protection those bytes are said to have going forward",
+    "why": "assertNoBuildIdentifierOnAFiledPage() carries exactly three literal patterns: /LA-CCRP-ART-\\d+/g, /la-976-arrest-no-conviction-[a-z-]+-\\d+/g and /\\bparticipants?\\b/gi. That set defends the sentence FIX149 wrote on delivered page 11, and it defends it correctly. It does NOT defend the page.",
+    "provedByBuilding": [
+      "EVASION 1 -- VENDOR NAME. Inserting 'Prepared by LegalEase on the Expungement.ai track registry.' into la-977d's caption: build EXIT 0, fixture MOVED b8a25f5a -> 3dd4017e, and 'LegalEase' prints once on delivered FILED PAGE 1. This is the same class FIX146 removed by hand from the Article 988 form ('LegalEase completes only the participant-owned identifying fields') and the same class FIX149 removed by hand from la-977d page 1 ('the other Louisiana tracks'). TWO consecutive repairs removed vocabulary of a class the guard that followed them does not cover.",
+      "EVASION 2 -- ONE CHARACTER. Inserting 'LA-CCRP-ART 998' -- a space where the last hyphen was -- into the same caption: build EXIT 0, fixture MOVED b8a25f5a -> 49d65b5c, and the identifier prints on delivered FILED PAGE 1, legible to a clerk exactly as before, invisible to the guard."
+    ],
+    "bothMutationsWereReverted": "and both fixtures re-hashed to b8a25f5a / 2d475ea4 afterwards.",
+    "whatThisDoesAndDoesNotMean": "It does NOT mean the delivered bytes carry a defect: this lane's own 21-class set, including a whitespace-tolerant identifier pattern and a vendor-name pattern, reads zero real residues on the filed pages of all four fixtures. It means the guard's coverage is narrower than the class of defect that has actually recurred here three times, so the next regression of the recurring class ships silently exactly as the last two did. The nine completeness counters still read allNineZero true on both families -- they could not see any of this either.",
+    "whoShouldFixIt": "not this lane and not a per-family patch. The pattern set belongs where the recurring class is measured, and the class now has an independently committed, controlled definition to draw on."
+  },
+  "theThreeThingsFIX149DeliberatelyLEFT": {
+    "1_buildVocabularyInAuthorCreatorProducer": {
+      "rightlyLeft": "YES, on FIX149's reasoning, which this lane confirms: it spans all ten fixtures of the five-family cohort, three of which are the PROVEN three FIX149 holds no grant on, and repairing four of ten would fragment the cohort and hide the class from whoever measures it next. What a court filing's Author should say is also a legal-voice and data-protection question and is one decision for a lane holding the whole cohort.",
+      "confirmedOnTheseFourFixtures": "Author 'RCAP packet factory, packet-build lane', Creator 'RCAP deterministic Louisiana statutory-form composer', Producer 'RCAP census-v1 artifact renderer' on all four.",
+      "BUTTHESCOPEISWIDERTHANEITHERPRIORLANESAID": "VF47 and FIX149 both scope this class as Author/Creator/Producer. The /Title carries it too, and carries something worse than build vocabulary -- the ARTIFACT VARIANT NAME. la-976 canonical reads 'Motion to Expunge Record of Arrest That Did Not Result in a Conviction (La. C.Cr.P. art. 976) - canonical' and the boundary fixture reads '- boundary'. That is the fixture identity welded into the document title: the string a PDF reader prints in its window title bar and that many print pipelines stamp into the job name. The cohort lane should be told the scope is Title/Author/Creator/Producer, four fields, not three.",
+      "andItIsStructurallyUNGUARDED": "assertNoBuildIdentifierOnAFiledPage() scans page TEXT. The Info dictionary is not page text and no page scan -- VF47's, FIX149's guard, or this lane's -- can ever fail on it. It is the one class in this family that is invisible to every text detector any of the three lanes built."
+    },
+    "2_theUnguardedSpecimenDocket": {
+      "rightlyLeft": "YES, and the reasoning is sound rather than convenient. These builders compose fixtures only; every fact is a frozen literal and no participant datum reaches them, so the render path is genuinely out of reach from a family builder and a guard placed here could only ever be a statement about fixtures. FIX149 says so in the function's own comment and in caption-evidence.json rather than letting the guard imply more than it proves.",
+      "independentlyExercised": "M8 and M9 above. This lane did not take FIX149's word for it: a plausible Louisiana docket (2019-CR-004417) on each family stopped the build at exit 1 BEFORE any page was composed, left both fixtures unmoved and left both family directories clean.",
+      "theTESTMarkerOnFiledPagesIsNotADefect": "TEST-2026-000001 prints on la-976 filed pages 1, 4, 5 and twice on 7, and la-977d filed pages 1, 3, 4. That is the guard's requirement being met on fixture bytes, not vocabulary leaking onto a filing. It is scored here as a declared false positive of this lane's own H1 class, which is the only reason it is visible at all -- no prior lane's pattern set scores it."
+    },
+    "3_theMasterQueueWholeFilePin": {
+      "rightlyLeftAsToTHEREPAIR": "YES. The defect is already named centrally at SHARED_LEDGER_CANNOT_BE_PINNED_BY_WHOLE_FILE_DIGEST.json, it affects every family that pins the queue, and changing the pin scheme in two builders would make two families disagree with roughly two hundred others about what a binding means.",
+      "BUTITSCHARACTERISATIONISNOWWRONGANDMATTERS": "FIX149 reported that the whole-file limb moved 57c7de41 -> 920241d0 while 'the family-entry limb thisFamilysEntrySha256 did not appear in the diff at all -- which is the pin working'. At this lane's base that is no longer true. An unchanged rebuild moved BOTH limbs: wholeFileSha256 920241d0 -> 5759940e AND thisFamilysEntrySha256 f360af28 -> 72e95f2f, on both families.",
+      "why": "this family's own MASTER_QUEUE row changed between 85a9e5ce and 5f71e0d6. Diffed key by key, exactly two fields moved: selectedIndependentVerdict went from lane vf43 to lane vf47, and failedObligations was rewritten. The queue row is WHERE INDEPENDENT VERDICTS LAND, so every verification of this family mutates the very entry that family's own record pins.",
+      "consequence": "narrowing the pin from the whole file to the family entry -- the obvious remedy the central note implies -- does not fix it. The family-entry pin is circular: it cannot be stable across the act of verifying the family it pins. Whoever takes SHARED_LEDGER_CANNOT_BE_PINNED_BY_WHOLE_FILE_DIGEST.json needs that, and it is not in the note today."
+    }
+  },
+  "aSeparateFindingAboutHOWTHISVERYFILEISREAD": {
+    "title": "VF47'S SUBSTANTIVE FINDING REACHED THE CENTRAL RECORD AS null, BECAUSE OF THE SHAPE IT WAS WRITTEN IN.",
+    "what": "la-976's MASTER_QUEUE row at this lane's base reads failedObligations: [{\"obligation\": \"KNOWN_PREFILLS\", \"finding\": null, \"findingReadFrom\": null, \"evidence\": null}]. At 85a9e5ce the same field carried VF47's full eighteen-instance finding text.",
+    "cause": "read from the extractor rather than guessed. scripts/grade-a-packet-factory-24h/extract-verifier-returns.mjs line 322 reads `v?.finding` and line 325 `v?.detail` -- both require the obligation VALUE to be an OBJECT. VF47 wrote its proofObligations as bare strings (\"KNOWN_PREFILLS\": \"FAIL\") and put its reasoning in a separate `findings` array, so the extractor found the failing obligation and no finding beside it, and wrote null.",
+    "whyItMatters": "the finding still exists in VF47's own row file, but the central record -- the thing a promotion decision reads -- carries a failing obligation with no stated reason. A reader of the queue alone would see la-976 failing KNOWN_PREFILLS for no recorded cause.",
+    "whatThisLaneDidAboutIt": "wrote every obligation below in the OBJECT form with `result`, `finding` and `evidence` beside it, so this row's reasoning survives extraction. Not repaired: VF47's file is another lane's return and is not this lane's to rewrite."
+  },
+  "rasterPosition": {
+    "aRasterIsOWEDONBOTHFAMILIESANDTHISLANECLAIMSNONE": "Neither family has raster evidence covering the bytes now on disk. la-976-arrest-no-conviction-set (2 artifacts) and la-977d-marijuana-first-offense-set (2 artifacts) each owe a fresh central raster against canonical 43883382 / boundary 2ea20aec and canonical b8a25f5a / boundary 2d475ea4 respectively. build-status.json reads BUILT_RASTER_PENDING with rasterPages 0 on both, which is correct.",
+    "thisLaneRenderedNOTHING": "no PGM, no PNG, no pdftoppm invocation of any kind. Every measurement here is text, word geometry or object-layer, taken from the delivered bytes directly.",
+    "rasterPixelCounts": null,
+    "rasterPixelCountsWhyNull": "this lane took no pixel measurement. Null, not 0.",
+    "perWidgetAppearanceCounts": null,
+    "perWidgetAppearanceCountsWhyNull": "all four fixtures read `Form: none` under pdfinfo -- zero AcroForm dictionaries and zero /Widget annotations, every mark flattened page content. A per-widget appearance count is not measurable on these bytes. Null, not 0.",
+    "doesTheAbsenceOfARasterBlockTheVerdictBelow": "No, and this is said plainly rather than assumed. The fifteen proof obligations are the verdict's subject and every one of them was measured here. A raster is separately owed evidence about the same bytes, it is recorded as owed, and no row here claims it or treats its absence as a pass. All four fixtures carry zero embedded images, so the clipping measurement below is complete from vector text geometry and does not depend on the missing raster."
+  },
+  "rows": [
+    {
+      "familyId": "la-976-arrest-no-conviction-set",
+      "itemId": "la-976-arrest-no-conviction-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "verifiedAtBase": "5f71e0d664a321f148a9e06f09820bf878c4d7be",
+      "jurisdiction": "LA",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/la/la-976-arrest-no-conviction-set--official-pdf-fill",
+      "supersedes": "VF47's FAIL_REPAIR_REQUIRED at 3a3d0f140, on the KNOWN_PREFILLS defect FIX149 repaired at 85a9e5ce",
+      "deliveredDigestsHashedByThisLane": {
+        "canonical": "43883382166f27e4f890f3af7af3a0540db8af30a58b1205754539919c5f523c",
+        "boundary": "2ea20aec7732ef4e890efe1d686b6bb76ad83483621b232ef94ed87442657f49",
+        "pages": 25,
+        "filedPages": "1-8",
+        "guidePages": "9-25"
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "finding": "The receipt's routeKeys and the MASTER_QUEUE row's routeKeys are the identical single key obligation:track-pathway:LA:la-976-arrest-no-conviction:non-conviction-arrest-expungement, and the delivered filed pages name the matching authority: page 1 heads 'ARTICLE 989 MOTION FOR EXPUNGEMENT OF A RECORD OF ARREST THAT DID NOT RESULT IN A CONVICTION, UNDER ARTICLE 976' and cites 'La. C.Cr.P. art. 976, on the statutory Article 989 form.'",
+          "evidence": "source-receipt.json routeKeys vs MASTER_QUEUE.json row; pdftotext of filed page 1"
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "finding": "Both declared sources resolve byte-exact by content digest in the corpus this lane mounted: 0e455d3decea4b9e (Article 993 supplemental sheet) and 13396bb180962be6 (Article 990 affidavit of response). Re-hashed here from the corpus files, not read from the receipt. Separately, FIX149's source claim was re-derived rather than trusted: pdftotext over ALL FIVE gated Louisiana sources returns ZERO occurrences of 'LA-CCRP-ART', and zero again under a whitespace- and hyphen-collapsed search for 'LACCRPART'. The detector is live -- the same five files yield 3,264 to 17,263 characters of text each, so the zero is not empty extraction.",
+          "evidence": "sha256 index over 501 corpus files at /home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1"
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "finding": "The queue row's officialFormFamily LA-CCRP-ART-988+989+991+992 is exactly what the packet delivers: Article 989 motion pages 1-3, Article 991 order page 4, Article 992 order pages 5-6, Article 988 fee exemption pages 7-8. No disagreement to record on this family. The conditional Article 993 continuation is correctly absent and its condition is printed.",
+          "evidence": "component-page-manifest.json artifacts[].pages vs MASTER_QUEUE row"
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "finding": "This is the obligation VF47 failed and FIX149 repaired, and it now passes on the bytes. VF47's own committed eighteen-pattern set: 7 hits on filed pages 1-8 pre-repair, 1 post-repair on BOTH fixtures, that 1 being 'entitlement' inside the Article 976(A) statute phrase 'factual innocence with entitlement to compensation under R.S. 15:572.8' -- VF47's declared false positive. Net defective residue 6 -> 0. This lane's independent 21-class set finds 6 hits, all declared false positives (the TEST- specimen docket the fixture guard requires, and 'BAR' inside 'ARTICLE 975 - CUSTODY BAR'). Whitespace-tolerant identifier scan: 0. Cross-jurisdiction leakage: 0. Machine identifiers, paths, URLs, programming residue, markup residue: 0. Content-stream equivalence proves the page scans see all the ink: 219 drawn hex strings on filed pages, 0 not reconstructed by pdftotext, 0 text origins outside the MediaBox. Prefilled facts are internally consistent across pages: the docket and mover name on page 7 match page 1.",
+          "evidence": "vf47/tools/internal-vocabulary-scan.py and vf51/tools/vf51-residue-scan.py, both controlled",
+          "nonBlockingFinding": "the guard protecting this obligation is evadable -- see theFindingTHISLaneMakesThatNeitherPriorLaneMade. That is about future regressions, not these bytes."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "finding": "16 requiredBeforeFiling items declared; all 16 located in the delivered guide text by string match against the rendered pages, not read from the report's own boolean. everyRequiredBeforeFilingItemIsDisclosed and everyIntentionalBlankClassified both true and both corroborated on the bytes. 19 obtain-or-confirm items carried.",
+          "evidence": "reports/blanks-left-for-the-participant.json cross-matched against pdftotext of guide pages 9-25"
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "finding": "MEASURED, where VF47 recorded NOT_MEASURABLE_HERE. The only election on this route is which Article 976(A) ground applies, and the packet elects none: filed page 1 prints 'Which Article 976(A) ground applies to each charge on this arrest:' followed by a blank, with the reason printed beside it -- 'This line is the mover's to complete and is left blank. Article 976(A) lists separate grounds, and which one a charge ended on is a legal conclusion you own.' The same line is carried and left blank on the Article 992 order. No ground is chosen for the participant anywhere in the filed set. Choosing correctly is measurable: there are no checkbox or marked-option glyphs on any filed page.",
+          "evidence": "pdftotext of filed pages 1 and 5"
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "finding": "MEASURED, where VF47 recorded NOT_MEASURABLE_HERE. Louisiana's repeating-row instrument for this track is the Article 993 supplemental sheet. The packet does not generate it and states the condition on the delivered page: 'Used only where the arrest carries more charges or counts than the Article 989 motion's own fields hold. This packet does not meet that condition, so the component is not generated.' The refusal is grounded, not a gap: the committed legal-design record states no template exists, none is counsel-approved, no implementation is authorised and it is not in this family's authority grant, and the guide directs the participant to ask the clerk for the Article 993 sheet rather than adding pages of their own, citing Article 986(B). The boundary fixture stresses this at THREE charges on one arrest and still renders 25 pages with zero clipping and zero overlap, and the motion's own per-count field is two free-text lines that three hand-written charges do not exceed.",
+          "evidence": "pdftotext of guide pages; builder CONTINUATION constant; boundary fixture page 1"
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "finding": "All 30 declared protectedBlanks were located on a filed page by full-label match and all 30 are blank on the bytes. Named checks: last four of the Social Security number blank in both places it appears (pages 1 and 7), Louisiana driver's licence number blank, Race blank, Gender blank -- the last two blank because the committed manual-completion record classifies both as pending a data-protection review, which the page itself states. Date of birth IS printed and correctly so: it is a required identifying field of the statutory form, not a declared protected blank.",
+          "evidence": "reports/blanks-left-for-the-participant.json protectedBlanks cross-matched against filed page text; the first run of this check was discarded as a truncation artifact"
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "finding": "Two artifacts declared, two on disk. Both on-disk digests and both byte lengths (82,512 and 82,877) appear in reports/rendered-artifacts.json. actual-writes.json declares derivedFromArtifactBytes true with 0 blockingFindings.",
+          "evidence": "sha256sum and stat vs reports/rendered-artifacts.json"
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "finding": "25 pages on both fixtures, packetPage strictly sequential 1..25, every component's pages contiguous with no interleaving, and the realised component order equal to the manifest's declared componentOrder. Filed pages 1-8, guide 9-25; both pages added by FIX149's repair are guide pages, so the filed span is unchanged at 1-8.",
+          "evidence": "component-page-manifest.json artifacts[].pages, both artifacts"
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "finding": "Zero clipping and zero overlap, from detectors both proven to fire. Scope: ALL 25 pages of BOTH fixtures, 11,292 and 11,329 word boxes. Words extending past the sheet edge: 0. Words outside a 36pt margin box (36,36)-(576,756): 0. Text-on-text overlap at overlapFractionOfSmaller >= 0.30: 0; at >= 0.10: 0. Controls in separate bytes: a run starting at x=560pt on a 612pt sheet measures xMax 619.34 (+7.34pt, detected), and two DISTINCT words at near-identical Tm measure 0.987 overlap (detected, and pdftotext does not coalesce them). Zero embedded images on the fixtures means word boxes are the complete ink, so this measurement is complete without a raster.",
+          "evidence": "pdftotext -bbox-layout; vf47/tools/text-overlap.py at 0.30 and 0.10"
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "finding": "The court is named in the caption of every filed document ('Twenty-First Judicial District Court, STATE OF LOUISIANA', PARISH: Tangipahoa Parish) and the destination chain is stated: Article 979 for service of the motion and Article 982 for what the clerk serves once expungement is granted. Page 7 additionally routes the Article 988 fee-exemption motion correctly and separately -- to the District Attorney's Office BEFORE filing, appended to the motion at filing only if eligible -- in the form's own printed words.",
+          "evidence": "pdftotext of filed pages 1, 4, 5, 7"
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "finding": "Both limbs delivered and both correct. Fee: 'Article 983(A) caps the total cost of obtaining a court order of expungement at five hundred fifty dollars. The clerk collects at the time of filing and Article 983 makes the fees non-refundable even if the motion is denied.' Waiver: the Article 983(F) exemption is delivered as an actual instrument, the Article 988 Motion for Fee Exemption on pages 7-8, with the certification section correctly left entirely to the district attorney. The filed page prints the committed fee rule WITHOUT its final routing sentence and the guide prints the rule whole -- a deliberate split this lane read in the source and confirmed on the bytes.",
+          "evidence": "pdftotext of filed pages 7-8; guide page carrying the full committed rule"
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "finding": "Article 979 correctly stated and correctly allocated: 'Under Article 979 the clerk serves the motion on the district attorney of the parish of conviction, the Louisiana Bureau of Criminal Identification and Information and the arresting law enforcement agency, and files the certificate of service. The mover serves nobody.' The certificate-of-service line is left blank for the clerk under a 'FOR THE CLERK - LEAVE BLANK' heading, and the Article 991 order carries the direction setting the sixty-day objection window.",
+          "evidence": "pdftotext of filed page 3 and page 4"
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "finding": "9 self-help stop conditions declared and 9 carried in the delivered guide ('Stop N of 9' x9). Three are printed on the face of the motion itself in the participant's own reading path: a charge on this arrest that ended in a conviction, an arrest for operating a vehicle while intoxicated in any form, and a record naming anyone besides the mover -- each followed by 'stop and get a lawyer's advice before filing anything.'",
+          "evidence": "reports/blanks-left-for-the-participant.json selfHelpStopConditionsCarried=9; pdftotext of filed pages 1-2 and guide pages"
+        }
+      },
+      "whatThisRowDoesNotEstablish": "It does not establish anything about the render path, about a packet composed for a real participant, or about pixels. It claims no raster. It does not establish that the Info-dictionary build vocabulary is acceptable -- that class is unrepaired, cohort-wide, and outside this family's grant. It does not establish that the new guard would catch the next regression: this lane proved it would not."
+    },
+    {
+      "familyId": "la-977d-marijuana-first-offense-set",
+      "itemId": "la-977d-marijuana-first-offense-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "verifiedAtBase": "5f71e0d664a321f148a9e06f09820bf878c4d7be",
+      "jurisdiction": "LA",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/la/la-977d-marijuana-first-offense-set--custom-pleading",
+      "supersedes": "VF47's FAIL_REPAIR_REQUIRED at 3a3d0f140 on COMPONENT_SET and KNOWN_PREFILLS, both repaired by FIX149 at 85a9e5ce",
+      "deliveredDigestsHashedByThisLane": {
+        "canonical": "b8a25f5af5f330544bab69beced7973988e697a0e2bd69dceb6bc14747112ede",
+        "boundary": "2d475ea417604dc304a62ead55a411ab033744584ec06260f697a8cd88cb2aad",
+        "pages": 20,
+        "filedPages": "1-5",
+        "guidePages": "6-20"
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "finding": "Receipt and queue row carry the identical single routeKey obligation:track-pathway:LA:la-977d-marijuana-first-offense:first-offense-marijuana-expungement-after-90-days-art-998, and the delivered primary filing is the Article 998 motion composed from the pinned Article 998 source. FIX149's removal of 'the other Louisiana tracks' from filed page 1 is confirmed on the bytes: the word 'track' does not appear on any filed page of either fixture.",
+          "evidence": "source-receipt.json vs MASTER_QUEUE row; VF47's B4_routing class reads 0 post-repair where it read 1 pre-repair"
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "finding": "Both declared sources resolve byte-exact by content digest in the mounted corpus and were re-hashed here: 13396bb180962be6 (Article 990 affidavit) and 8625ccd4043e2045 (the Article 998 statutory text this packet's primary filing is composed from, 92,697 bytes). The pinned Article 998 was read directly and it names itself exactly as FIX149 reported: 'CCRP 998' at line 6 and 'Art. 998. Motion for expungement form to be used for certain misdemeanor convictions' at line 8. It contains no occurrence of 'LA-CCRP-ART' in any spacing.",
+          "evidence": "sha256 index over the mounted corpus; pdftotext of the pinned source"
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "finding": "This is the obligation VF47 failed, and the failure was the receipt copying the queue row verbatim rather than measuring the delivery. It is repaired and the repair is on the committed bytes. source-receipt.json now carries officialFormFamilyOnTheQueueRow (LA-CCRP-ART-988+991+992, under the queue's own name) beside officialFormFamilyDelivered (LA-CCRP-ART-991+992+998, measured from the rendered components), with officialFormFamilyDisagreement recording BOTH directions: Article 988 named but not delivered, Article 998 delivered but not named. product-wiring.json carries the same split at component level -- packetComponents measured from the rendered page manifest (instructions-5, primary-filing-1, proposed-order-2, proposed-order-3) against packetComponentsOnTheQueueRow (fee-waiver-4, proposed-order-2, proposed-order-3), with fee-waiver-4 recorded as declared-but-in-no-delivered-artifact. This lane verified the MEASURED list independently against component-page-manifest.json: those four components and no others carry pages. MASTER_QUEUE.json was correctly not edited.",
+          "evidence": "source-receipt.json, product-wiring.json proposedRepresentation/currentState, component-page-manifest.json"
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "finding": "VF47's committed eighteen-pattern set: 5 hits on filed pages 1-5 pre-repair, 0 post-repair on BOTH fixtures. This lane's independent 21-class set: 4 hits, all declared false positives -- the TEST- specimen docket the fixture guard requires (x3) and 'XXX' inside 'SSN (last 4 digits): XXX-XX-........' on page 1, which was checked against the pinned Article 998 source and is the FORM'S OWN mask, printed there as 'SSN (last 4 digits): XXX-XX-________'. Whitespace-tolerant identifier scan 0, cross-jurisdiction 0, machine identifiers 0, paths and URLs 0, programming residue 0. FIX149's page-2 repair confirmed on the bytes: 'LA-CCRP-ART-998. Statutory source note:' no longer sits between 'Respectfully submitted,' and the attorney block, and the enactment citation now prints unlabelled at the foot of the form below both signature blocks as 'Acts 2023, No. 342, Sec. 1.' -- which is where the pinned source prints it (its line 79, 'Acts 2023, No. 342, \u00a71.'). Content-stream equivalence: 146 drawn hex strings on filed pages, 0 not reconstructed, 0 origins outside the MediaBox.",
+          "evidence": "both scanners; pdftotext of filed page 2 vs the pinned source"
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "finding": "14 items declared -- FIX149 reports 15 before and 14 after, and 14 is what the committed record carries -- and all 14 were located in the delivered guide text by string match against the rendered pages. 15 obtain-or-confirm items carried. Item 4 (the returned Article 988 fee-exemption motion) is disclosed together with the explanation of why this packet does not supply that form.",
+          "evidence": "reports/blanks-left-for-the-participant.json cross-matched against pdftotext of guide pages 6-20"
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "finding": "MEASURED, where VF47 recorded NOT_MEASURABLE_HERE. The pinned Article 998 source carries NO ground election, no checkbox and no alternative to select -- grepped for fee, cost, waiver, exempt, check, ground, option, either and select across its full text, zero hits. The route is a single statutory ground (first offence possession of marijuana, after ninety days), so there is no option to elect and none is elected. The one option-shaped line the form does print, 'GENDER: ........ Female ........ Male' on page 1, is the form's own and is left unmarked on both fixtures.",
+          "evidence": "pdftotext of the pinned Article 998 source; pdftotext of filed page 1, both fixtures"
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "finding": "MEASURED, where VF47 recorded NOT_MEASURABLE_HERE. The Article 998 statutory motion prints no per-count fields at all, and the packet says so on the delivered page rather than silently omitting them: 'The Article 998 statutory motion prints no field for the date of arrest, for how many charges or counts the arrest carries, for the original arrest charges, for whether the conviction is a misdemeanour or a felony, for the statute of conviction, or for whether this was a first possession offence. Article 986(A) makes the statutory forms exclusive and Article 986(C) allows only the name of the court to vary on one. All six are needed to identify the record this decree reaches, so all six are carried here, on the order, rather than added to the face of a mandatory form.' That is the correct handling under Article 986(A) exclusivity: the repeating facts move to the Article 992 order rather than being appended to a mandatory form. The boundary fixture stresses it at three charges on one arrest and renders clean.",
+          "evidence": "pdftotext of filed page 4, both fixtures"
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "finding": "All 24 declared protectedBlanks are blank on the bytes; 0 present-but-filled. RACE blank and GENDER unmarked on page 1, SSN last-4 left as the form's own XXX-XX- mask with the digits blank. Seven of the 24 could not be located by the report's own label wording and were checked individually under the FORM'S wording, where all seven are present and blank on page 2: 'Signature of Attorney for Mover/Defendant:', 'Attorney for Mover/Defendant Name:', \"Attorney's Bar Roll No.:\", 'Address:', 'City, State, ZIP Code:', 'Telephone Number:', 'Signature of Mover/Defendant:'. FIX149's NAME-line repair is confirmed and is right: the (Last, First, MI) ruled line is not filled from a single whole-name string.",
+          "evidence": "reports/blanks-left-for-the-participant.json cross-matched against filed page 2",
+          "nonBlockingObservation": "blanks-left-for-the-participant.json describes these seven blanks in this build's generic label vocabulary ('Attorney name in the represented-mover block') rather than the Article 998 form's printed wording, so an automated cross-check of the report against the delivered bytes cannot match them. Not a defect in the delivered pages -- the blanks are present and blank -- but it defeats exactly the kind of independent report-to-bytes check this lane ran."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "finding": "Two artifacts declared, two on disk, both digests and both byte lengths (68,138 and 68,404) present in reports/rendered-artifacts.json. actual-writes.json declares derivedFromArtifactBytes true with 0 blockingFindings.",
+          "evidence": "sha256sum and stat vs reports/rendered-artifacts.json"
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "finding": "20 pages on both fixtures, packetPage strictly sequential 1..20, components contiguous, realised order equal to declared componentOrder. Filed 1-5, guide 6-20; the page FIX149 added is a guide page and the filed span is unchanged at 1-5.",
+          "evidence": "component-page-manifest.json, both artifacts"
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "finding": "Scope: ALL 20 pages of BOTH fixtures, 9,198 and 9,230 word boxes. Words past the sheet edge: 0. Words outside a 36pt margin box: 0. Text-on-text overlap at >= 0.30: 0; at >= 0.10: 0. Same two controls as the sibling family, both firing. Zero embedded images, so word boxes are the complete ink.",
+          "evidence": "pdftotext -bbox-layout; vf47/tools/text-overlap.py at both thresholds"
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "finding": "Court named in the caption of every filed document; Article 979 service route and Article 982 post-grant service by the clerk both stated on the filed pages.",
+          "evidence": "pdftotext of filed pages 1, 2, 3"
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "finding": "MEASURED, where VF47 recorded NOT_MEASURABLE_HERE -- and the absence of fee text from the filed pages is CORRECT rather than unmeasurable. The pinned Article 998 source carries no fee content whatsoever (grepped for fee, cost, $, waiver, exempt: zero hits across its full text), and Article 986(A) makes the statutory form exclusive, so a fee paragraph added to its face would itself be the defect. The fee position is instead delivered in the guide, completely and currently: the ordinary Article 983(A) five-hundred-fifty-dollar cap applies; the three-hundred-dollar cap formerly in Article 983(M) 'was null, void and without effect and terminated by its own terms under Article 983(M)(5)', with the guide explicitly warning that advice to the contrary is stale; the packet states that it does NOT supply the Article 988 form and why -- the Article 983(F) exemption's grounds are non-conviction grounds and this is a conviction track -- and states the consequence of filing without it, that the fee is payable and non-refundable under Article 983 even if the motion is denied, and that the participant may ask the clerk if they believe the exemption nonetheless reaches them. Both limbs of the obligation are answered.",
+          "evidence": "pdftotext of the pinned Article 998 source; guide pages 6-20 lines carrying Article 983(A), 983(M)(5) and 983(F)"
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "finding": "Article 979 stated and allocated identically to the sibling family: the clerk serves the district attorney, the Louisiana Bureau of Criminal Identification and Information and the arresting agency and files the certificate of service; 'The mover serves nobody.' Certificate line left blank under 'FOR THE CLERK - LEAVE BLANK'; the Article 991 order carries the sixty-day objection window direction.",
+          "evidence": "pdftotext of filed pages 2 and 3"
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "finding": "5 self-help stop conditions declared and 5 carried in the delivered guide. One is printed on the face of the motion in the participant's reading path: where it is unclear whether the offence is a first possession offence under Article 977(D) or falls under Article 977(A) instead, 'stop and get a lawyer's advice before filing'.",
+          "evidence": "reports/blanks-left-for-the-participant.json selfHelpStopConditionsCarried=5; pdftotext of filed page 1 and guide pages"
+        }
+      },
+      "whatThisRowDoesNotEstablish": "Nothing about the render path, a real participant's packet, or pixels; no raster is claimed. It does not resolve the queue row's own error -- the queue still names an Article 988 form this packet does not deliver and omits the Article 998 motion it does. That disagreement is correctly RECORDED in the family's records and correctly NOT reconciled by a family builder, but the central queue row is still wrong and a route described to a buyer from that row alone would promise the wrong instrument. That is a central-record repair this lane holds no grant for and does not make."
+    }
+  ],
+  "noVerdictClaimsMoreThanItMeasured": "Both rows are PASS_COMPLETE_INDEPENDENT: fifteen of fifteen obligations measured, none NOT_MEASURABLE_HERE, none BLOCKED_LEGAL_INPUT, none FAIL. Three obligations that VF47 recorded as NOT_MEASURABLE_HERE (ROUTE_OPTIONS and REPEATING_ROWS on both families, FEE_AND_WAIVER on la-977d) are scored PASS here, and in each case the reason is recorded in the row: VF47 measured the FILED PAGES and these obligations are answered by the packet -- by the source form's own content, by the deliberate blank and its printed reason, and by the guide. Each was re-derived from the source and the delivered bytes, not inferred from the family's own reports.",
+  "whatWouldChangeTheseVerdicts": "A raster measurement on these exact bytes finding anything the vector-text geometry above could not see. A central repair to the la-977d MASTER_QUEUE row's officialFormFamily. Any rebuild that moves a fixture digest away from 43883382 / 2ea20aec / b8a25f5a / 2d475ea4."
+}

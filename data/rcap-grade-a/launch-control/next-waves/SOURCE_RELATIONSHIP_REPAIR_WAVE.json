@@ -1,0 +1,4169 @@
+{
+  "schemaVersion": "source-relationship-repair-wave/v1",
+  "createdBy": "CAPTAIN-9H, from the Codex sidecar evidence",
+  "createdAt": "2026-09-01T08:27:06Z",
+  "measurementSnapshot": "110c028aaeccad30d5d673d46110d5fc3859db4e",
+  "snapshotWarning": "Every count here is as of the sidecar snapshot, not the current Captain head. Re-measure before executing; do not restate these as current-head numbers.",
+  "executionState": "CREATED_NOT_EXECUTED",
+  "authorizes": "nothing. Creating a wave grants no packet, route, promotion, commercial or PASS_COMPLETE authority.",
+  "derivedFrom": [
+    "CB06 ambiguous-held-artifacts.json",
+    "CB06 misrouted-obligations.json",
+    "CB06 relationship-gaps.json"
+  ],
+  "priorityOrder": [
+    "1. ambiguous held-artifact matches (67 at snapshot: 8 family-identity, 1 scope-or-version, 58 currentness-unverified)",
+    "2. misrouted statute, bundle, alias and embedded-section rows (53 concretely misrouted of 82 reviewed at snapshot)",
+    "3. remaining exact relationship gaps"
+  ],
+  "counts": {
+    "total": 120,
+    "priority1": 67,
+    "priority2": 53
+  },
+  "reviewedButNotMisrouted": 29,
+  "reviewedButNotMisroutedNote": "CB06 reviewed 82 obligations and found 53 concretely misrouted to SRC or ACQ. The other 29 are not wave rows: they were reviewed and found correctly routed or unclaimed. Listing all 82 would have overstated the finding by 29.",
+  "honestScope": "Priority 3, the remaining exact relationship gaps, is named but not enumerated here: CB06's relationship-gaps.json groups them by state rather than as a flat row list, and inventing row identities for them would be fabricating work items. Enumerate them from that file when the wave is executed.",
+  "rows": [
+    {
+      "priority": 1,
+      "priorityReason": "ambiguous held-artifact match: a held file exists but which identity it satisfies is not settled",
+      "rowId": "SRR-001",
+      "currentSourceIdentity": {
+        "jurisdiction": "MO",
+        "canonicalArtifactId": "FI-05",
+        "sourceState": "SOURCE_SCOPE_AND_VERSION_AMBIGUITY"
+      },
+      "heldPath": "private/Nationwide Record Clearing/LegalEase Missouri/Conf Case Filing Info Sheet(FI-05).pdf",
+      "heldSha256": null,
+      "heldShaAvailable": false,
+      "heldCandidates": [],
+      "ambiguity": "identity or scope not settled by the held bytes alone",
+      "aliases": [],
+      "requiredCanonicalRelationship": "exactly one canonical artifact identity bound to the held bytes by recomputed SHA-256, with every alias resolved to it",
+      "affectedFamilies": [
+        "mo-575-120-identity-theft-correction-set",
+        "mo-610-122-arrest-expungement-set",
+        "mo-610-140-arrest-set",
+        "mo-610-140-conviction-set",
+        "mo-610-145-mistaken-identity-set",
+        "mo-art-xiv-marijuana-set"
+      ],
+      "exactOwner": "DISC and Captain settle statewide versus local scope and the alias relationship before any inquiry",
+      "independentVerification": "a worker that did not settle the identity recomputes the digest from bytes and confirms the family relationships"
+    },
+    {
+      "priority": 1,
+      "priorityReason": "ambiguous held-artifact match: a held file exists but which identity it satisfies is not settled",
+      "rowId": "SRR-002",
+      "currentSourceIdentity": {
+        "jurisdiction": "MO",
+        "canonicalArtifactId": "GN10",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": "private/Nationwide Record Clearing/LegalEase Missouri/source-gated/GN10__motion-and-affidavit-to-proceed-as-a-poor-person__rev-2015-07.docx",
+      "heldSha256": null,
+      "heldShaAvailable": false,
+      "heldCandidates": [],
+      "ambiguity": "bytes are held but their currentness against the publisher is unestablished",
+      "aliases": [],
+      "requiredCanonicalRelationship": "exactly one canonical artifact identity bound to the held bytes by recomputed SHA-256, with every alias resolved to it",
+      "affectedFamilies": [
+        "mo-575-120-identity-theft-correction-set",
+        "mo-610-122-arrest-expungement-set",
+        "mo-610-140-arrest-set",
+        "mo-610-140-conviction-set"
+      ],
+      "exactOwner": "DISC compares the held edition against the publisher's own forms index",
+      "independentVerification": "a worker that did not settle the identity recomputes the digest from bytes and confirms the family relationships"
+    },
+    {
+      "priority": 1,
+      "priorityReason": "ambiguous held-artifact match: a held file exists but which identity it satisfies is not settled",
+      "rowId": "SRR-003",
+      "currentSourceIdentity": {
+        "jurisdiction": "MD",
+        "canonicalArtifactId": "CC-DC-089",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": "private/Nationwide Record Clearing/LegalEase Maryland/forms/CC-DC-089__request-for-waiver-of-prepaid-costs__rev-2025-11.pdf",
+      "heldSha256": null,
+      "heldShaAvailable": false,
+      "heldCandidates": [],
+      "ambiguity": "bytes are held but their currentness against the publisher is unestablished",
+      "aliases": [],
+      "requiredCanonicalRelationship": "exactly one canonical artifact identity bound to the held bytes by recomputed SHA-256, with every alias resolved to it",
+      "affectedFamilies": [
+        "md_10110_conviction-set",
+        "md_cannabis_petition-set",
+        "md_pardon_expungement-set"
+      ],
+      "exactOwner": "DISC compares the held edition against the publisher's own forms index",
+      "independentVerification": "a worker that did not settle the identity recomputes the digest from bytes and confirms the family relationships"
+    },
+    {
+      "priority": 1,
+      "priorityReason": "ambiguous held-artifact match: a held file exists but which identity it satisfies is not settled",
+      "rowId": "SRR-004",
+      "currentSourceIdentity": {
+        "jurisdiction": "MN",
+        "canonicalArtifactId": "EXP102",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": "private/Nationwide Record Clearing/LegalEase Minnesota/EXP102_Current-2.pdf",
+      "heldSha256": null,
+      "heldShaAvailable": false,
+      "heldCandidates": [],
+      "ambiguity": "bytes are held but their currentness against the publisher is unestablished",
+      "aliases": [],
+      "requiredCanonicalRelationship": "exactly one canonical artifact identity bound to the held bytes by recomputed SHA-256, with every alias resolved to it",
+      "affectedFamilies": [
+        "mn_petition_15218-set",
+        "mn_petition_609a02_subd3-set",
+        "mn_petition_juvenile_as_adult-set"
+      ],
+      "exactOwner": "DISC compares the held edition against the publisher's own forms index",
+      "independentVerification": "a worker that did not settle the identity recomputes the digest from bytes and confirms the family relationships"
+    },
+    {
+      "priority": 1,
+      "priorityReason": "ambiguous held-artifact match: a held file exists but which identity it satisfies is not settled",
+      "rowId": "SRR-005",
+      "currentSourceIdentity": {
+        "jurisdiction": "MN",
+        "canonicalArtifactId": "EXP104",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": "private/Nationwide Record Clearing/LegalEase Minnesota/EXP104_Current.pdf",
+      "heldSha256": null,
+      "heldShaAvailable": false,
+      "heldCandidates": [],
+      "ambiguity": "bytes are held but their currentness against the publisher is unestablished",
+      "aliases": [],
+      "requiredCanonicalRelationship": "exactly one canonical artifact identity bound to the held bytes by recomputed SHA-256, with every alias resolved to it",
+      "affectedFamilies": [
+        "mn_petition_15218-set",
+        "mn_petition_609a02_subd3-set",
+        "mn_petition_juvenile_as_adult-set"
+      ],
+      "exactOwner": "DISC compares the held edition against the publisher's own forms index",
+      "independentVerification": "a worker that did not settle the identity recomputes the digest from bytes and confirms the family relationships"
+    },
+    {
+      "priority": 1,
+      "priorityReason": "ambiguous held-artifact match: a held file exists but which identity it satisfies is not settled",
+      "rowId": "SRR-006",
+      "currentSourceIdentity": {
+        "jurisdiction": "MN",
+        "canonicalArtifactId": "FEE102",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": "private/Nationwide Record Clearing/LegalEase Minnesota/forms/FEE102__affidavit-to-request-fee-waiver__rev-2024-07.pdf",
+      "heldSha256": null,
+      "heldShaAvailable": false,
+      "heldCandidates": [],
+      "ambiguity": "bytes are held but their currentness against the publisher is unestablished",
+      "aliases": [],
+      "requiredCanonicalRelationship": "exactly one canonical artifact identity bound to the held bytes by recomputed SHA-256, with every alias resolved to it",
+      "affectedFamilies": [
+        "mn_petition_15218-set",
+        "mn_petition_609a02_subd3-set",
+        "mn_petition_juvenile_as_adult-set"
+      ],
+      "exactOwner": "DISC compares the held edition against the publisher's own forms index",
+      "independentVerification": "a worker that did not settle the identity recomputes the digest from bytes and confirms the family relationships"
+    },
+    {
+      "priority": 1,
+      "priorityReason": "ambiguous held-artifact match: a held file exists but which identity it satisfies is not settled",
+      "rowId": "SRR-007",
+      "currentSourceIdentity": {
+        "jurisdiction": "NH",
+        "canonicalArtifactId": "NHJB-2317-DSe",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": "private/Nationwide Record Clearing/LegalEase New Hampshire/nhjb-2317-dse.pdf",
+      "heldSha256": null,
+      "heldShaAvailable": false,
+      "heldCandidates": [],
+      "ambiguity": "bytes are held but their currentness against the publisher is unestablished",
+      "aliases": [],
+      "requiredCanonicalRelationship": "exactly one canonical artifact identity bound to the held bytes by recomputed SHA-256, with every alias resolved to it",
+      "affectedFamilies": [
+        "nh_conviction_standard-set",
+        "nh_petition_nonconviction_pre2019-set",
+        "nh_petition_vacated-set"
+      ],
+      "exactOwner": "DISC compares the held edition against the publisher's own forms index",
+      "independentVerification": "a worker that did not settle the identity recomputes the digest from bytes and confirms the family relationships"
+    },
+    {
+      "priority": 1,
+      "priorityReason": "ambiguous held-artifact match: a held file exists but which identity it satisfies is not settled",
+      "rowId": "SRR-008",
+      "currentSourceIdentity": {
+        "jurisdiction": "NM",
+        "canonicalArtifactId": "4-960.1",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": "private/Nationwide Record Clearing/LegalEase New Mexico/4-960.1-Notice-of-hearing.pdf",
+      "heldSha256": null,
+      "heldShaAvailable": false,
+      "heldCandidates": [],
+      "ambiguity": "bytes are held but their currentness against the publisher is unestablished",
+      "aliases": [],
+      "requiredCanonicalRelationship": "exactly one canonical artifact identity bound to the held bytes by recomputed SHA-256, with every alias resolved to it",
+      "affectedFamilies": [
+        "nm_conviction-set",
+        "nm_identity_theft-set",
+        "nm_release_without_conviction-set"
+      ],
+      "exactOwner": "DISC compares the held edition against the publisher's own forms index",
+      "independentVerification": "a worker that did not settle the identity recomputes the digest from bytes and confirms the family relationships"
+    },
+    {
+      "priority": 1,
+      "priorityReason": "ambiguous held-artifact match: a held file exists but which identity it satisfies is not settled",
+      "rowId": "SRR-009",
+      "currentSourceIdentity": {
+        "jurisdiction": "IN",
+        "canonicalArtifactId": "CCA Section 1 non-conviction expungement petition",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": "private/Nationwide Record Clearing/LegalEase Indiana/forms/CCA__section-1-nonconviction-expungement-petition-and-order-bundle__source-2021.pdf",
+      "heldSha256": null,
+      "heldShaAvailable": false,
+      "heldCandidates": [],
+      "ambiguity": "bytes are held but their currentness against the publisher is unestablished",
+      "aliases": [],
+      "requiredCanonicalRelationship": "exactly one canonical artifact identity bound to the held bytes by recomputed SHA-256, with every alias resolved to it",
+      "affectedFamilies": [
+        "in_arrest_no_charges-set",
+        "in_section1_petition-set"
+      ],
+      "exactOwner": "DISC compares the held edition against the publisher's own forms index",
+      "independentVerification": "a worker that did not settle the identity recomputes the digest from bytes and confirms the family relationships"
+    },
+    {
+      "priority": 1,
+      "priorityReason": "ambiguous held-artifact match: a held file exists but which identity it satisfies is not settled",
+      "rowId": "SRR-010",
+      "currentSourceIdentity": {
+        "jurisdiction": "MD",
+        "canonicalArtifactId": "CC-DC-CR-072B",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": "private/Nationwide Record Clearing/LegalEase Maryland/LegalEase Maryland forms /ccdccr072B.pdf",
+      "heldSha256": null,
+      "heldShaAvailable": false,
+      "heldCandidates": [],
+      "ambiguity": "bytes are held but their currentness against the publisher is unestablished",
+      "aliases": [],
+      "requiredCanonicalRelationship": "exactly one canonical artifact identity bound to the held bytes by recomputed SHA-256, with every alias resolved to it",
+      "affectedFamilies": [
+        "md_10110_conviction-set",
+        "md_pardon_expungement-set"
+      ],
+      "exactOwner": "DISC compares the held edition against the publisher's own forms index",
+      "independentVerification": "a worker that did not settle the identity recomputes the digest from bytes and confirms the family relationships"
+    },
+    {
+      "priority": 1,
+      "priorityReason": "ambiguous held-artifact match: a held file exists but which identity it satisfies is not settled",
+      "rowId": "SRR-011",
+      "currentSourceIdentity": {
+        "jurisdiction": "MN",
+        "canonicalArtifactId": "EXP106",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": "private/Nationwide Record Clearing/LegalEase Minnesota/EXP106_Current.pdf",
+      "heldSha256": null,
+      "heldShaAvailable": false,
+      "heldCandidates": [],
+      "ambiguity": "bytes are held but their currentness against the publisher is unestablished",
+      "aliases": [],
+      "requiredCanonicalRelationship": "exactly one canonical artifact identity bound to the held bytes by recomputed SHA-256, with every alias resolved to it",
+      "affectedFamilies": [
+        "mn_petition_15218-set",
+        "mn_petition_juvenile_as_adult-set"
+      ],
+      "exactOwner": "DISC compares the held edition against the publisher's own forms index",
+      "independentVerification": "a worker that did not settle the identity recomputes the digest from bytes and confirms the family relationships"
+    },
+    {
+      "priority": 1,
+      "priorityReason": "ambiguous held-artifact match: a held file exists but which identity it satisfies is not settled",
+      "rowId": "SRR-012",
+      "currentSourceIdentity": {
+        "jurisdiction": "MO",
+        "canonicalArtifactId": "CR360",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": "private/Nationwide Record Clearing/LegalEase Missouri/forms/CR360__petition-for-expungement-under-section-610.140__rev-2024-10.pdf",
+      "heldSha256": null,
+      "heldShaAvailable": false,
+      "heldCandidates": [],
+      "ambiguity": "bytes are held but their currentness against the publisher is unestablished",
+      "aliases": [],
+      "requiredCanonicalRelationship": "exactly one canonical artifact identity bound to the held bytes by recomputed SHA-256, with every alias resolved to it",
+      "affectedFamilies": [
+        "mo-610-140-arrest-set",
+        "mo-610-140-conviction-set"
+      ],
+      "exactOwner": "DISC compares the held edition against the publisher's own forms index",
+      "independentVerification": "a worker that did not settle the identity recomputes the digest from bytes and confirms the family relationships"
+    },
+    {
+      "priority": 1,
+      "priorityReason": "ambiguous held-artifact match: a held file exists but which identity it satisfies is not settled",
+      "rowId": "SRR-013",
+      "currentSourceIdentity": {
+        "jurisdiction": "MT",
+        "canonicalArtifactId": "MT-OCA-MMRTA",
+        "sourceState": "FAMILY_IDENTITY_AMBIGUOUS"
+      },
+      "heldPath": null,
+      "heldSha256": null,
+      "heldShaAvailable": false,
+      "heldCandidates": [
+        {
+          "artifactId": "mt-oca-mmrta-certificate-of-service-source-2022-03",
+          "fileName": "MT-OCA-MMRTA__certificate-of-service__source-2022-03.docx",
+          "sha256": "d9096c176ca3ac4efb5de0dfd76f0b245ea1487fe1b1b76f265c8a9d6ce6aec9"
+        },
+        {
+          "artifactId": "mt-oca-mmrta-proposed-order-granting-expungement-resentencing-or-redesignation-source-2022",
+          "fileName": "MT-OCA-MMRTA__proposed-order-granting-expungement-resentencing-or-redesignation__source-2022-02.docx",
+          "sha256": "2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e"
+        }
+      ],
+      "ambiguity": "2 held candidates match; none is uniquely bound",
+      "aliases": [],
+      "requiredCanonicalRelationship": "exactly one canonical artifact identity bound to the held bytes by recomputed SHA-256, with every alias resolved to it",
+      "affectedFamilies": [
+        "mt_mmrta_completed-set",
+        "mt_mmrta_serving-set"
+      ],
+      "exactOwner": "DISC settles which document the route actually requires",
+      "independentVerification": "a worker that did not settle the identity recomputes the digest from bytes and confirms the family relationships"
+    },
+    {
+      "priority": 1,
+      "priorityReason": "ambiguous held-artifact match: a held file exists but which identity it satisfies is not settled",
+      "rowId": "SRR-014",
+      "currentSourceIdentity": {
+        "jurisdiction": "NE",
+        "canonicalArtifactId": "CC-6-12",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": "private/Nationwide Record Clearing/LegalEase Nebraska/CC-6-12.pdf",
+      "heldSha256": null,
+      "heldShaAvailable": false,
+      "heldCandidates": [],
+      "ambiguity": "bytes are held but their currentness against the publisher is unestablished",
+      "aliases": [],
+      "requiredCanonicalRelationship": "exactly one canonical artifact identity bound to the held bytes by recomputed SHA-256, with every alias resolved to it",
+      "affectedFamilies": [
+        "ne-seal-pardoned-set",
+        "ne-seal-pre2017-set"
+      ],
+      "exactOwner": "DISC compares the held edition against the publisher's own forms index",
+      "independentVerification": "a worker that did not settle the identity recomputes the digest from bytes and confirms the family relationships"
+    },
+    {
+      "priority": 1,
+      "priorityReason": "ambiguous held-artifact match: a held file exists but which identity it satisfies is not settled",
+      "rowId": "SRR-015",
+      "currentSourceIdentity": {
+        "jurisdiction": "NH",
+        "canonicalArtifactId": "NHJB-3057-DSe",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": "private/Nationwide Record Clearing/LegalEase New Hampshire/nhjb-3057-dse.pdf",
+      "heldSha256": null,
+      "heldShaAvailable": false,
+      "heldCandidates": [],
+      "ambiguity": "bytes are held but their currentness against the publisher is unestablished",
+      "aliases": [],
+      "requiredCanonicalRelationship": "exactly one canonical artifact identity bound to the held bytes by recomputed SHA-256, with every alias resolved to it",
+      "affectedFamilies": [
+        "nh_conviction_standard-set",
+        "nh_conviction_streamlined-set"
+      ],
+      "exactOwner": "DISC compares the held edition against the publisher's own forms index",
+      "independentVerification": "a worker that did not settle the identity recomputes the digest from bytes and confirms the family relationships"
+    },
+    {
+      "priority": 1,
+      "priorityReason": "ambiguous held-artifact match: a held file exists but which identity it satisfies is not settled",
+      "rowId": "SRR-016",
+      "currentSourceIdentity": {
+        "jurisdiction": "WV",
+        "canonicalArtifactId": "SCA-C907",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": "private/Nationwide Record Clearing/LegalEase West Virginia/SCA-C907.pdf",
+      "heldSha256": null,
+      "heldShaAvailable": false,
+      "heldCandidates": [],
+      "ambiguity": "bytes are held but their currentness against the publisher is unestablished",
+      "aliases": [],
+      "requiredCanonicalRelationship": "exactly one canonical artifact identity bound to the held bytes by recomputed SHA-256, with every alias resolved to it",
+      "affectedFamilies": [
+        "wv_acc_treatment_job_readiness-set",
+        "wv_conv_nonviolent_felony-set"
+      ],
+      "exactOwner": "DISC compares the held edition against the publisher's own forms index",
+      "independentVerification": "a worker that did not settle the identity recomputes the digest from bytes and confirms the family relationships"
+    },
+    {
+      "priority": 1,
+      "priorityReason": "ambiguous held-artifact match: a held file exists but which identity it satisfies is not settled",
+      "rowId": "SRR-017",
+      "currentSourceIdentity": {
+        "jurisdiction": "AR",
+        "canonicalArtifactId": "ACIC-ORDER-TO-SEAL-ARREST",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": "private/Nationwide Record Clearing/LegalEase Arkanasa/source-gated/ACIC__order-to-seal-arrest-under-act-1460__rev-2014-01-01.pdf",
+      "heldSha256": null,
+      "heldShaAvailable": false,
+      "heldCandidates": [],
+      "ambiguity": "bytes are held but their currentness against the publisher is unestablished",
+      "aliases": [],
+      "requiredCanonicalRelationship": "exactly one canonical artifact identity bound to the held bytes by recomputed SHA-256, with every alias resolved to it",
+      "affectedFamilies": [
+        "ar-arrest-seal-set"
+      ],
+      "exactOwner": "DISC compares the held edition against the publisher's own forms index",
+      "independentVerification": "a worker that did not settle the identity recomputes the digest from bytes and confirms the family relationships"
+    },
+    {
+      "priority": 1,
+      "priorityReason": "ambiguous held-artifact match: a held file exists but which identity it satisfies is not settled",
+      "rowId": "SRR-018",
+      "currentSourceIdentity": {
+        "jurisdiction": "AR",
+        "canonicalArtifactId": "ACIC-PETITION-TO-SEAL-ARREST",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": "private/Nationwide Record Clearing/LegalEase Arkanasa/source-gated/ACIC__petition-to-seal-arrest-under-act-1460__rev-2014-08-25.pdf",
+      "heldSha256": null,
+      "heldShaAvailable": false,
+      "heldCandidates": [],
+      "ambiguity": "bytes are held but their currentness against the publisher is unestablished",
+      "aliases": [],
+      "requiredCanonicalRelationship": "exactly one canonical artifact identity bound to the held bytes by recomputed SHA-256, with every alias resolved to it",
+      "affectedFamilies": [
+        "ar-arrest-seal-set"
+      ],
+      "exactOwner": "DISC compares the held edition against the publisher's own forms index",
+      "independentVerification": "a worker that did not settle the identity recomputes the digest from bytes and confirms the family relationships"
+    },
+    {
+      "priority": 1,
+      "priorityReason": "ambiguous held-artifact match: a held file exists but which identity it satisfies is not settled",
+      "rowId": "SRR-019",
+      "currentSourceIdentity": {
+        "jurisdiction": "AZ",
+        "canonicalArtifactId": "AOC-CREM2F-071221",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": "private/Nationwide Record Clearing/LegalEase Arizona/AOCCREM2F-071221.pdf",
+      "heldSha256": null,
+      "heldShaAvailable": false,
+      "heldCandidates": [],
+      "ambiguity": "bytes are held but their currentness against the publisher is unestablished",
+      "aliases": [],
+      "requiredCanonicalRelationship": "exactly one canonical artifact identity bound to the held bytes by recomputed SHA-256, with every alias resolved to it",
+      "affectedFamilies": [
+        "az_marijuana_expungement_limited_jurisdiction-set"
+      ],
+      "exactOwner": "DISC compares the held edition against the publisher's own forms index",
+      "independentVerification": "a worker that did not settle the identity recomputes the digest from bytes and confirms the family relationships"
+    },
+    {
+      "priority": 1,
+      "priorityReason": "ambiguous held-artifact match: a held file exists but which identity it satisfies is not settled",
+      "rowId": "SRR-020",
+      "currentSourceIdentity": {
+        "jurisdiction": "AZ",
+        "canonicalArtifactId": "AOCCRSL1F-050825",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": "private/Nationwide Record Clearing/LegalEase Arizona/forms/AOCCRSL1F-050825__petition-to-seal-criminal-case-records.pdf",
+      "heldSha256": null,
+      "heldShaAvailable": false,
+      "heldCandidates": [],
+      "ambiguity": "bytes are held but their currentness against the publisher is unestablished",
+      "aliases": [],
+      "requiredCanonicalRelationship": "exactly one canonical artifact identity bound to the held bytes by recomputed SHA-256, with every alias resolved to it",
+      "affectedFamilies": [
+        "az_record_sealing_conviction-set"
+      ],
+      "exactOwner": "DISC compares the held edition against the publisher's own forms index",
+      "independentVerification": "a worker that did not settle the identity recomputes the digest from bytes and confirms the family relationships"
+    },
+    {
+      "priority": 1,
+      "priorityReason": "ambiguous held-artifact match: a held file exists but which identity it satisfies is not settled",
+      "rowId": "SRR-021",
+      "currentSourceIdentity": {
+        "jurisdiction": "AZ",
+        "canonicalArtifactId": "AOCCRSL2F-050825",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": "private/Nationwide Record Clearing/LegalEase Arizona/forms/AOCCRSL2F-050825__order-regarding-petition-to-seal-criminal-case-records.pdf",
+      "heldSha256": null,
+      "heldShaAvailable": false,
+      "heldCandidates": [],
+      "ambiguity": "bytes are held but their currentness against the publisher is unestablished",
+      "aliases": [],
+      "requiredCanonicalRelationship": "exactly one canonical artifact identity bound to the held bytes by recomputed SHA-256, with every alias resolved to it",
+      "affectedFamilies": [
+        "az_record_sealing_conviction-set"
+      ],
+      "exactOwner": "DISC compares the held edition against the publisher's own forms index",
+      "independentVerification": "a worker that did not settle the identity recomputes the digest from bytes and confirms the family relationships"
+    },
+    {
+      "priority": 1,
+      "priorityReason": "ambiguous held-artifact match: a held file exists but which identity it satisfies is not settled",
+      "rowId": "SRR-022",
+      "currentSourceIdentity": {
+        "jurisdiction": "CO",
+        "canonicalArtifactId": "JDF-417",
+        "sourceState": "FAMILY_IDENTITY_AMBIGUOUS"
+      },
+      "heldPath": null,
+      "heldSha256": null,
+      "heldShaAvailable": false,
+      "heldCandidates": [
+        {
+          "artifactId": "jdf417",
+          "fileName": "JDF417.pdf",
+          "sha256": null
+        },
+        {
+          "artifactId": "jdf-417-petition-to-seal-arrest-records-no-charges-filed-rev-2025-07-01",
+          "fileName": "JDF-417__petition-to-seal-arrest-records-no-charges-filed__rev-2025-07-01.pdf",
+          "sha256": "e0e1aefac85269087ca0f69252c501b14020a301d2cf6e5fbcc26aa5338f6dd4"
+        }
+      ],
+      "ambiguity": "2 held candidates match; none is uniquely bound",
+      "aliases": [],
+      "requiredCanonicalRelationship": "exactly one canonical artifact identity bound to the held bytes by recomputed SHA-256, with every alias resolved to it",
+      "affectedFamilies": [
+        "co_petition_seal_arrest-set"
+      ],
+      "exactOwner": "DISC settles which document the route actually requires",
+      "independentVerification": "a worker that did not settle the identity recomputes the digest from bytes and confirms the family relationships"
+    },
+    {
+      "priority": 1,
+      "priorityReason": "ambiguous held-artifact match: a held file exists but which identity it satisfies is not settled",
+      "rowId": "SRR-023",
+      "currentSourceIdentity": {
+        "jurisdiction": "CO",
+        "canonicalArtifactId": "JDF-683",
+        "sourceState": "FAMILY_IDENTITY_AMBIGUOUS"
+      },
+      "heldPath": null,
+      "heldSha256": null,
+      "heldShaAvailable": false,
+      "heldCandidates": [
+        {
+          "artifactId": "jdf683",
+          "fileName": "JDF683.pdf",
+          "sha256": null
+        },
+        {
+          "artifactId": "jdf-683-petition-to-seal-municipal-conviction-records-rev-2023-02-08",
+          "fileName": "JDF-683__petition-to-seal-municipal-conviction-records__rev-2023-02-08.pdf",
+          "sha256": "6b451ae32c01ef1e637a460df627d246e1b4a61d4ac4f166005a7349fa87202e"
+        }
+      ],
+      "ambiguity": "2 held candidates match; none is uniquely bound",
+      "aliases": [],
+      "requiredCanonicalRelationship": "exactly one canonical artifact identity bound to the held bytes by recomputed SHA-256, with every alias resolved to it",
+      "affectedFamilies": [
+        "co_municipal_conviction_seal-set"
+      ],
+      "exactOwner": "DISC settles which document the route actually requires",
+      "independentVerification": "a worker that did not settle the identity recomputes the digest from bytes and confirms the family relationships"
+    },
+    {
+      "priority": 1,
+      "priorityReason": "ambiguous held-artifact match: a held file exists but which identity it satisfies is not settled",
+      "rowId": "SRR-024",
+      "currentSourceIdentity": {
+        "jurisdiction": "CO",
+        "canonicalArtifactId": "JDF-684",
+        "sourceState": "FAMILY_IDENTITY_AMBIGUOUS"
+      },
+      "heldPath": null,
+      "heldSha256": null,
+      "heldShaAvailable": false,
+      "heldCandidates": [
+        {
+          "artifactId": "jdf-684-order-denying-petition-to-seal-criminal-conviction-municipal-records",
+          "fileName": "JDF 684 Order Denying Petition to Seal Criminal Conviction Municipal Records.pdf",
+          "sha256": null
+        },
+        {
+          "artifactId": "jdf-684-order-denying-petition-to-seal-municipal-conviction-records-rev-2019-08",
+          "fileName": "JDF-684__order-denying-petition-to-seal-municipal-conviction-records__rev-2019-08.pdf",
+          "sha256": "36fc6a2acbfcd7ce032b5a2d43645517aa53541f25c7c5395dd782395d67f874"
+        }
+      ],
+      "ambiguity": "2 held candidates match; none is uniquely bound",
+      "aliases": [],
+      "requiredCanonicalRelationship": "exactly one canonical artifact identity bound to the held bytes by recomputed SHA-256, with every alias resolved to it",
+      "affectedFamilies": [
+        "co_municipal_conviction_seal-set"
+      ],
+      "exactOwner": "DISC settles which document the route actually requires",
+      "independentVerification": "a worker that did not settle the identity recomputes the digest from bytes and confirms the family relationships"
+    },
+    {
+      "priority": 1,
+      "priorityReason": "ambiguous held-artifact match: a held file exists but which identity it satisfies is not settled",
+      "rowId": "SRR-025",
+      "currentSourceIdentity": {
+        "jurisdiction": "DE",
+        "canonicalArtifactId": "FORM-281",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": "private/Nationwide Record Clearing/LegalEase Delaware/forms/Form-281E__petition-for-expungement-of-adult-record-charge-sheet__rev-2018-09.docx",
+      "heldSha256": null,
+      "heldShaAvailable": false,
+      "heldCandidates": [],
+      "ambiguity": "bytes are held but their currentness against the publisher is unestablished",
+      "aliases": [],
+      "requiredCanonicalRelationship": "exactly one canonical artifact identity bound to the held bytes by recomputed SHA-256, with every alias resolved to it",
+      "affectedFamilies": [
+        "de_discretionary_family_court-set"
+      ],
+      "exactOwner": "DISC compares the held edition against the publisher's own forms index",
+      "independentVerification": "a worker that did not settle the identity recomputes the digest from bytes and confirms the family relationships"
+    },
+    {
+      "priority": 1,
+      "priorityReason": "ambiguous held-artifact match: a held file exists but which identity it satisfies is not settled",
+      "rowId": "SRR-026",
+      "currentSourceIdentity": {
+        "jurisdiction": "DE",
+        "canonicalArtifactId": "FORM-281E",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": "private/Nationwide Record Clearing/LegalEase Delaware/forms/Form-281E__petition-for-expungement-of-adult-record-charge-sheet__rev-2018-09.docx",
+      "heldSha256": null,
+      "heldShaAvailable": false,
+      "heldCandidates": [],
+      "ambiguity": "bytes are held but their currentness against the publisher is unestablished",
+      "aliases": [],
+      "requiredCanonicalRelationship": "exactly one canonical artifact identity bound to the held bytes by recomputed SHA-256, with every alias resolved to it",
+      "affectedFamilies": [
+        "de_discretionary_family_court-set"
+      ],
+      "exactOwner": "DISC compares the held edition against the publisher's own forms index",
+      "independentVerification": "a worker that did not settle the identity recomputes the digest from bytes and confirms the family relationships"
+    },
+    {
+      "priority": 1,
+      "priorityReason": "ambiguous held-artifact match: a held file exists but which identity it satisfies is not settled",
+      "rowId": "SRR-027",
+      "currentSourceIdentity": {
+        "jurisdiction": "IA",
+        "canonicalArtifactId": "Rule 2.86 Form 1",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": "private/Nationwide Record Clearing/LegalEase Iowa/forms/IA-RULE-2.86-FORM-1__application-to-expunge-court-record-901c-2__rev-2022-01.pdf",
+      "heldSha256": null,
+      "heldShaAvailable": false,
+      "heldCandidates": [],
+      "ambiguity": "bytes are held but their currentness against the publisher is unestablished",
+      "aliases": [],
+      "requiredCanonicalRelationship": "exactly one canonical artifact identity bound to the held bytes by recomputed SHA-256, with every alias resolved to it",
+      "affectedFamilies": [
+        "ia-901c2-set"
+      ],
+      "exactOwner": "DISC compares the held edition against the publisher's own forms index",
+      "independentVerification": "a worker that did not settle the identity recomputes the digest from bytes and confirms the family relationships"
+    },
+    {
+      "priority": 1,
+      "priorityReason": "ambiguous held-artifact match: a held file exists but which identity it satisfies is not settled",
+      "rowId": "SRR-028",
+      "currentSourceIdentity": {
+        "jurisdiction": "IA",
+        "canonicalArtifactId": "Rule 2.86 Form 3",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": "private/Nationwide Record Clearing/LegalEase Iowa/forms/IA-RULE-2.86-FORM-3__application-to-expunge-public-intoxication-records-123-46__rev-2022-01.pdf",
+      "heldSha256": null,
+      "heldShaAvailable": false,
+      "heldCandidates": [],
+      "ambiguity": "bytes are held but their currentness against the publisher is unestablished",
+      "aliases": [],
+      "requiredCanonicalRelationship": "exactly one canonical artifact identity bound to the held bytes by recomputed SHA-256, with every alias resolved to it",
+      "affectedFamilies": [
+        "ia-12346-set"
+      ],
+      "exactOwner": "DISC compares the held edition against the publisher's own forms index",
+      "independentVerification": "a worker that did not settle the identity recomputes the digest from bytes and confirms the family relationships"
+    },
+    {
+      "priority": 1,
+      "priorityReason": "ambiguous held-artifact match: a held file exists but which identity it satisfies is not settled",
+      "rowId": "SRR-029",
+      "currentSourceIdentity": {
+        "jurisdiction": "IA",
+        "canonicalArtifactId": "Rule 2.86 Form 4",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": "private/Nationwide Record Clearing/LegalEase Iowa/forms/Rule-2.86-Form-4__application-to-expunge-possession-of-alcohol-under-legal-age-records__rev-2024-08.pdf",
+      "heldSha256": null,
+      "heldShaAvailable": false,
+      "heldCandidates": [],
+      "ambiguity": "bytes are held but their currentness against the publisher is unestablished",
+      "aliases": [],
+      "requiredCanonicalRelationship": "exactly one canonical artifact identity bound to the held bytes by recomputed SHA-256, with every alias resolved to it",
+      "affectedFamilies": [
+        "ia-12347-set"
+      ],
+      "exactOwner": "DISC compares the held edition against the publisher's own forms index",
+      "independentVerification": "a worker that did not settle the identity recomputes the digest from bytes and confirms the family relationships"
+    },
+    {
+      "priority": 1,
+      "priorityReason": "ambiguous held-artifact match: a held file exists but which identity it satisfies is not settled",
+      "rowId": "SRR-030",
+      "currentSourceIdentity": {
+        "jurisdiction": "IA",
+        "canonicalArtifactId": "Rule 2.86 Form 5",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": "private/Nationwide Record Clearing/LegalEase Iowa/forms/Rule-2.86-Form-5__application-to-expunge-prostitution-court-records__rev-2024-08.pdf",
+      "heldSha256": null,
+      "heldShaAvailable": false,
+      "heldCandidates": [],
+      "ambiguity": "bytes are held but their currentness against the publisher is unestablished",
+      "aliases": [],
+      "requiredCanonicalRelationship": "exactly one canonical artifact identity bound to the held bytes by recomputed SHA-256, with every alias resolved to it",
+      "affectedFamilies": [
+        "ia-7251-set"
+      ],
+      "exactOwner": "DISC compares the held edition against the publisher's own forms index",
+      "independentVerification": "a worker that did not settle the identity recomputes the digest from bytes and confirms the family relationships"
+    },
+    {
+      "priority": 1,
+      "priorityReason": "ambiguous held-artifact match: a held file exists but which identity it satisfies is not settled",
+      "rowId": "SRR-031",
+      "currentSourceIdentity": {
+        "jurisdiction": "IL",
+        "canonicalArtifactId": "CXP Additional Cannabis Convictions",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": "private/Nationwide Record Clearing/LegalEase Illinois/CXP Additional Cannabis Convictions.pdf",
+      "heldSha256": null,
+      "heldShaAvailable": false,
+      "heldCandidates": [],
+      "ambiguity": "bytes are held but their currentness against the publisher is unestablished",
+      "aliases": [],
+      "requiredCanonicalRelationship": "exactly one canonical artifact identity bound to the held bytes by recomputed SHA-256, with every alias resolved to it",
+      "affectedFamilies": [
+        "il-cannabis-vacate-set"
+      ],
+      "exactOwner": "DISC compares the held edition against the publisher's own forms index",
+      "independentVerification": "a worker that did not settle the identity recomputes the digest from bytes and confirms the family relationships"
+    },
+    {
+      "priority": 1,
+      "priorityReason": "ambiguous held-artifact match: a held file exists but which identity it satisfies is not settled",
+      "rowId": "SRR-032",
+      "currentSourceIdentity": {
+        "jurisdiction": "IL",
+        "canonicalArtifactId": "CXP Additional Notice of Court Date",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": "private/Nationwide Record Clearing/LegalEase Illinois/CXP Additional Notice of Court Date.pdf",
+      "heldSha256": null,
+      "heldShaAvailable": false,
+      "heldCandidates": [],
+      "ambiguity": "bytes are held but their currentness against the publisher is unestablished",
+      "aliases": [],
+      "requiredCanonicalRelationship": "exactly one canonical artifact identity bound to the held bytes by recomputed SHA-256, with every alias resolved to it",
+      "affectedFamilies": [
+        "il-cannabis-vacate-set"
+      ],
+      "exactOwner": "DISC compares the held edition against the publisher's own forms index",
+      "independentVerification": "a worker that did not settle the identity recomputes the digest from bytes and confirms the family relationships"
+    },
+    {
+      "priority": 1,
+      "priorityReason": "ambiguous held-artifact match: a held file exists but which identity it satisfies is not settled",
+      "rowId": "SRR-033",
+      "currentSourceIdentity": {
+        "jurisdiction": "IL",
+        "canonicalArtifactId": "CXP Getting Started Motion to Vacate and Expunge",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": "private/Nationwide Record Clearing/LegalEase Illinois/CXP Getting Started Motion to Vacate and Expunge.pdf",
+      "heldSha256": null,
+      "heldShaAvailable": false,
+      "heldCandidates": [],
+      "ambiguity": "bytes are held but their currentness against the publisher is unestablished",
+      "aliases": [],
+      "requiredCanonicalRelationship": "exactly one canonical artifact identity bound to the held bytes by recomputed SHA-256, with every alias resolved to it",
+      "affectedFamilies": [
+        "il-cannabis-vacate-set"
+      ],
+      "exactOwner": "DISC compares the held edition against the publisher's own forms index",
+      "independentVerification": "a worker that did not settle the identity recomputes the digest from bytes and confirms the family relationships"
+    },
+    {
+      "priority": 1,
+      "priorityReason": "ambiguous held-artifact match: a held file exists but which identity it satisfies is not settled",
+      "rowId": "SRR-034",
+      "currentSourceIdentity": {
+        "jurisdiction": "IL",
+        "canonicalArtifactId": "CXP Motion to Vacate and Expunge",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": "private/Nationwide Record Clearing/LegalEase Illinois/CXP Motion to Vacate and Expunge.pdf",
+      "heldSha256": null,
+      "heldShaAvailable": false,
+      "heldCandidates": [],
+      "ambiguity": "bytes are held but their currentness against the publisher is unestablished",
+      "aliases": [],
+      "requiredCanonicalRelationship": "exactly one canonical artifact identity bound to the held bytes by recomputed SHA-256, with every alias resolved to it",
+      "affectedFamilies": [
+        "il-cannabis-vacate-set"
+      ],
+      "exactOwner": "DISC compares the held edition against the publisher's own forms index",
+      "independentVerification": "a worker that did not settle the identity recomputes the digest from bytes and confirms the family relationships"
+    },
+    {
+      "priority": 1,
+      "priorityReason": "ambiguous held-artifact match: a held file exists but which identity it satisfies is not settled",
+      "rowId": "SRR-035",
+      "currentSourceIdentity": {
+        "jurisdiction": "IL",
+        "canonicalArtifactId": "CXP Notice of Court Date for Motion",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": "private/Nationwide Record Clearing/LegalEase Illinois/CXP Notice of Court Date for Motion.pdf",
+      "heldSha256": null,
+      "heldShaAvailable": false,
+      "heldCandidates": [],
+      "ambiguity": "bytes are held but their currentness against the publisher is unestablished",
+      "aliases": [],
+      "requiredCanonicalRelationship": "exactly one canonical artifact identity bound to the held bytes by recomputed SHA-256, with every alias resolved to it",
+      "affectedFamilies": [
+        "il-cannabis-vacate-set"
+      ],
+      "exactOwner": "DISC compares the held edition against the publisher's own forms index",
+      "independentVerification": "a worker that did not settle the identity recomputes the digest from bytes and confirms the family relationships"
+    },
+    {
+      "priority": 1,
+      "priorityReason": "ambiguous held-artifact match: a held file exists but which identity it satisfies is not settled",
+      "rowId": "SRR-036",
+      "currentSourceIdentity": {
+        "jurisdiction": "IL",
+        "canonicalArtifactId": "CXP Order Granting or Denying Motion",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": "private/Nationwide Record Clearing/LegalEase Illinois/CXP Order Granting or Denying Motion.pdf",
+      "heldSha256": null,
+      "heldShaAvailable": false,
+      "heldCandidates": [],
+      "ambiguity": "bytes are held but their currentness against the publisher is unestablished",
+      "aliases": [],
+      "requiredCanonicalRelationship": "exactly one canonical artifact identity bound to the held bytes by recomputed SHA-256, with every alias resolved to it",
+      "affectedFamilies": [
+        "il-cannabis-vacate-set"
+      ],
+      "exactOwner": "DISC compares the held edition against the publisher's own forms index",
+      "independentVerification": "a worker that did not settle the identity recomputes the digest from bytes and confirms the family relationships"
+    },
+    {
+      "priority": 1,
+      "priorityReason": "ambiguous held-artifact match: a held file exists but which identity it satisfies is not settled",
+      "rowId": "SRR-037",
+      "currentSourceIdentity": {
+        "jurisdiction": "IL",
+        "canonicalArtifactId": "EXP-AD Additional Cases Expungement",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": "private/Nationwide Record Clearing/LegalEase Illinois/EXP-AD Additional Cases Expungement.pdf",
+      "heldSha256": null,
+      "heldShaAvailable": false,
+      "heldCandidates": [],
+      "ambiguity": "bytes are held but their currentness against the publisher is unestablished",
+      "aliases": [],
+      "requiredCanonicalRelationship": "exactly one canonical artifact identity bound to the held bytes by recomputed SHA-256, with every alias resolved to it",
+      "affectedFamilies": [
+        "il-exp-nonconv-set"
+      ],
+      "exactOwner": "DISC compares the held edition against the publisher's own forms index",
+      "independentVerification": "a worker that did not settle the identity recomputes the digest from bytes and confirms the family relationships"
+    },
+    {
+      "priority": 1,
+      "priorityReason": "ambiguous held-artifact match: a held file exists but which identity it satisfies is not settled",
+      "rowId": "SRR-038",
+      "currentSourceIdentity": {
+        "jurisdiction": "IL",
+        "canonicalArtifactId": "PRB Certificate of Expungement for Military Application",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": "private/Nationwide Record Clearing/LegalEase Illinois/forms/PRB-Certificate-of-Expungement-for-Military-Application__military-certificate-of-expungement-application__rev-2024-09-18.pdf",
+      "heldSha256": null,
+      "heldShaAvailable": false,
+      "heldCandidates": [],
+      "ambiguity": "bytes are held but their currentness against the publisher is unestablished",
+      "aliases": [],
+      "requiredCanonicalRelationship": "exactly one canonical artifact identity bound to the held bytes by recomputed SHA-256, with every alias resolved to it",
+      "affectedFamilies": [
+        "il-prb-cert-set"
+      ],
+      "exactOwner": "DISC compares the held edition against the publisher's own forms index",
+      "independentVerification": "a worker that did not settle the identity recomputes the digest from bytes and confirms the family relationships"
+    },
+    {
+      "priority": 1,
+      "priorityReason": "ambiguous held-artifact match: a held file exists but which identity it satisfies is not settled",
+      "rowId": "SRR-039",
+      "currentSourceIdentity": {
+        "jurisdiction": "IL",
+        "canonicalArtifactId": "PRB Certificate of Sealing Application",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": "private/Nationwide Record Clearing/LegalEase Illinois/forms/PRB-Certificate-of-Sealing-Application__certificate-of-sealing-application__rev-2024-09-18.pdf",
+      "heldSha256": null,
+      "heldShaAvailable": false,
+      "heldCandidates": [],
+      "ambiguity": "bytes are held but their currentness against the publisher is unestablished",
+      "aliases": [],
+      "requiredCanonicalRelationship": "exactly one canonical artifact identity bound to the held bytes by recomputed SHA-256, with every alias resolved to it",
+      "affectedFamilies": [
+        "il-prb-cert-set"
+      ],
+      "exactOwner": "DISC compares the held edition against the publisher's own forms index",
+      "independentVerification": "a worker that did not settle the identity recomputes the digest from bytes and confirms the family relationships"
+    },
+    {
+      "priority": 1,
+      "priorityReason": "ambiguous held-artifact match: a held file exists but which identity it satisfies is not settled",
+      "rowId": "SRR-040",
+      "currentSourceIdentity": {
+        "jurisdiction": "IN",
+        "canonicalArtifactId": "CCA-XP-0220-7008",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": "private/Nationwide Record Clearing/LegalEase Indiana/forms/CCA-XP-0220-7008__section-2-conviction-expungement-insert__rev-2020-02.pdf",
+      "heldSha256": null,
+      "heldShaAvailable": false,
+      "heldCandidates": [],
+      "ambiguity": "bytes are held but their currentness against the publisher is unestablished",
+      "aliases": [],
+      "requiredCanonicalRelationship": "exactly one canonical artifact identity bound to the held bytes by recomputed SHA-256, with every alias resolved to it",
+      "affectedFamilies": [
+        "in_conviction_misd-set"
+      ],
+      "exactOwner": "DISC compares the held edition against the publisher's own forms index",
+      "independentVerification": "a worker that did not settle the identity recomputes the digest from bytes and confirms the family relationships"
+    },
+    {
+      "priority": 1,
+      "priorityReason": "ambiguous held-artifact match: a held file exists but which identity it satisfies is not settled",
+      "rowId": "SRR-041",
+      "currentSourceIdentity": {
+        "jurisdiction": "IN",
+        "canonicalArtifactId": "CCA-XP-0220-7009",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": "private/Nationwide Record Clearing/LegalEase Indiana/forms/CCA-XP-0220-7009__section-3-conviction-expungement-insert__rev-2020-02.pdf",
+      "heldSha256": null,
+      "heldShaAvailable": false,
+      "heldCandidates": [],
+      "ambiguity": "bytes are held but their currentness against the publisher is unestablished",
+      "aliases": [],
+      "requiredCanonicalRelationship": "exactly one canonical artifact identity bound to the held bytes by recomputed SHA-256, with every alias resolved to it",
+      "affectedFamilies": [
+        "in_conviction_d6-set"
+      ],
+      "exactOwner": "DISC compares the held edition against the publisher's own forms index",
+      "independentVerification": "a worker that did not settle the identity recomputes the digest from bytes and confirms the family relationships"
+    },
+    {
+      "priority": 1,
+      "priorityReason": "ambiguous held-artifact match: a held file exists but which identity it satisfies is not settled",
+      "rowId": "SRR-042",
+      "currentSourceIdentity": {
+        "jurisdiction": "IN",
+        "canonicalArtifactId": "CCA-XP-0220-7010",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": "private/Nationwide Record Clearing/LegalEase Indiana/forms/CCA-XP-0220-7010__section-4-conviction-expungement-insert__rev-2020-02.pdf",
+      "heldSha256": null,
+      "heldShaAvailable": false,
+      "heldCandidates": [],
+      "ambiguity": "bytes are held but their currentness against the publisher is unestablished",
+      "aliases": [],
+      "requiredCanonicalRelationship": "exactly one canonical artifact identity bound to the held bytes by recomputed SHA-256, with every alias resolved to it",
+      "affectedFamilies": [
+        "in_conviction_felony-set"
+      ],
+      "exactOwner": "DISC compares the held edition against the publisher's own forms index",
+      "independentVerification": "a worker that did not settle the identity recomputes the digest from bytes and confirms the family relationships"
+    },
+    {
+      "priority": 1,
+      "priorityReason": "ambiguous held-artifact match: a held file exists but which identity it satisfies is not settled",
+      "rowId": "SRR-043",
+      "currentSourceIdentity": {
+        "jurisdiction": "MD",
+        "canonicalArtifactId": "CC-DC-CR-072A",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": "private/Nationwide Record Clearing/LegalEase Maryland/LegalEase Maryland forms /ccdccr072A.pdf",
+      "heldSha256": null,
+      "heldShaAvailable": false,
+      "heldCandidates": [],
+      "ambiguity": "bytes are held but their currentness against the publisher is unestablished",
+      "aliases": [],
+      "requiredCanonicalRelationship": "exactly one canonical artifact identity bound to the held bytes by recomputed SHA-256, with every alias resolved to it",
+      "affectedFamilies": [
+        "md_10105_favorable-set"
+      ],
+      "exactOwner": "DISC compares the held edition against the publisher's own forms index",
+      "independentVerification": "a worker that did not settle the identity recomputes the digest from bytes and confirms the family relationships"
+    },
+    {
+      "priority": 1,
+      "priorityReason": "ambiguous held-artifact match: a held file exists but which identity it satisfies is not settled",
+      "rowId": "SRR-044",
+      "currentSourceIdentity": {
+        "jurisdiction": "MD",
+        "canonicalArtifactId": "CC-DC-CR-072C",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": "private/Nationwide Record Clearing/LegalEase Maryland/LegalEase Maryland forms /ccdccr072c.pdf",
+      "heldSha256": null,
+      "heldShaAvailable": false,
+      "heldCandidates": [],
+      "ambiguity": "bytes are held but their currentness against the publisher is unestablished",
+      "aliases": [],
+      "requiredCanonicalRelationship": "exactly one canonical artifact identity bound to the held bytes by recomputed SHA-256, with every alias resolved to it",
+      "affectedFamilies": [
+        "md_10105_early-set"
+      ],
+      "exactOwner": "DISC compares the held edition against the publisher's own forms index",
+      "independentVerification": "a worker that did not settle the identity recomputes the digest from bytes and confirms the family relationships"
+    },
+    {
+      "priority": 1,
+      "priorityReason": "ambiguous held-artifact match: a held file exists but which identity it satisfies is not settled",
+      "rowId": "SRR-045",
+      "currentSourceIdentity": {
+        "jurisdiction": "MD",
+        "canonicalArtifactId": "CC-DC-CR-072D",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": "private/Nationwide Record Clearing/LegalEase Maryland/LegalEase Maryland forms /ccdccr072d.pdf",
+      "heldSha256": null,
+      "heldShaAvailable": false,
+      "heldCandidates": [],
+      "ambiguity": "bytes are held but their currentness against the publisher is unestablished",
+      "aliases": [],
+      "requiredCanonicalRelationship": "exactly one canonical artifact identity bound to the held bytes by recomputed SHA-256, with every alias resolved to it",
+      "affectedFamilies": [
+        "md_cannabis_petition-set"
+      ],
+      "exactOwner": "DISC compares the held edition against the publisher's own forms index",
+      "independentVerification": "a worker that did not settle the identity recomputes the digest from bytes and confirms the family relationships"
+    },
+    {
+      "priority": 1,
+      "priorityReason": "ambiguous held-artifact match: a held file exists but which identity it satisfies is not settled",
+      "rowId": "SRR-046",
+      "currentSourceIdentity": {
+        "jurisdiction": "MD",
+        "canonicalArtifactId": "CC-DC-CR-078",
+        "sourceState": "FAMILY_IDENTITY_AMBIGUOUS"
+      },
+      "heldPath": null,
+      "heldSha256": null,
+      "heldShaAvailable": false,
+      "heldCandidates": [
+        {
+          "artifactId": "ccdccr078",
+          "fileName": "ccdccr078.pdf",
+          "sha256": null
+        },
+        {
+          "artifactId": "cc-dc-cr-078-general-waiver-and-release-rev-2025-01",
+          "fileName": "CC-DC-CR-078__general-waiver-and-release__rev-2025-01.pdf",
+          "sha256": "6dc8f576c2fe488b488948c6d50e0137c2fd9781a904179219c491b2f776ea1b"
+        }
+      ],
+      "ambiguity": "2 held candidates match; none is uniquely bound",
+      "aliases": [],
+      "requiredCanonicalRelationship": "exactly one canonical artifact identity bound to the held bytes by recomputed SHA-256, with every alias resolved to it",
+      "affectedFamilies": [
+        "md_10105_early-set"
+      ],
+      "exactOwner": "DISC settles which document the route actually requires",
+      "independentVerification": "a worker that did not settle the identity recomputes the digest from bytes and confirms the family relationships"
+    },
+    {
+      "priority": 1,
+      "priorityReason": "ambiguous held-artifact match: a held file exists but which identity it satisfies is not settled",
+      "rowId": "SRR-047",
+      "currentSourceIdentity": {
+        "jurisdiction": "ME",
+        "canonicalArtifactId": "CR-218",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": "private/Nationwide Record Clearing/LegalEase Maine/MJB-Form-cr-218.pdf",
+      "heldSha256": null,
+      "heldShaAvailable": false,
+      "heldCandidates": [],
+      "ambiguity": "bytes are held but their currentness against the publisher is unestablished",
+      "aliases": [],
+      "requiredCanonicalRelationship": "exactly one canonical artifact identity bound to the held bytes by recomputed SHA-256, with every alias resolved to it",
+      "affectedFamilies": [
+        "me-seal-gen-set"
+      ],
+      "exactOwner": "DISC compares the held edition against the publisher's own forms index",
+      "independentVerification": "a worker that did not settle the identity recomputes the digest from bytes and confirms the family relationships"
+    },
+    {
+      "priority": 1,
+      "priorityReason": "ambiguous held-artifact match: a held file exists but which identity it satisfies is not settled",
+      "rowId": "SRR-048",
+      "currentSourceIdentity": {
+        "jurisdiction": "ME",
+        "canonicalArtifactId": "CR-307",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": "private/Nationwide Record Clearing/LegalEase Maine/source-gated/CR-307__motion-to-seal-conviction-for-victims-of-sex-trafficking-or-sexual-exploitation__rev-2026-06.pdf",
+      "heldSha256": null,
+      "heldShaAvailable": false,
+      "heldCandidates": [],
+      "ambiguity": "bytes are held but their currentness against the publisher is unestablished",
+      "aliases": [],
+      "requiredCanonicalRelationship": "exactly one canonical artifact identity bound to the held bytes by recomputed SHA-256, with every alias resolved to it",
+      "affectedFamilies": [
+        "me-seal-survivor-set"
+      ],
+      "exactOwner": "DISC compares the held edition against the publisher's own forms index",
+      "independentVerification": "a worker that did not settle the identity recomputes the digest from bytes and confirms the family relationships"
+    },
+    {
+      "priority": 1,
+      "priorityReason": "ambiguous held-artifact match: a held file exists but which identity it satisfies is not settled",
+      "rowId": "SRR-049",
+      "currentSourceIdentity": {
+        "jurisdiction": "ME",
+        "canonicalArtifactId": "CR-308",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": "private/Nationwide Record Clearing/LegalEase Maine/forms/ME-CR-308__order-on-motion-to-seal-criminal-history-victims-of-sex-trafficking-or-sexual-exploitation__rev-2026-06.pdf",
+      "heldSha256": null,
+      "heldShaAvailable": false,
+      "heldCandidates": [],
+      "ambiguity": "bytes are held but their currentness against the publisher is unestablished",
+      "aliases": [],
+      "requiredCanonicalRelationship": "exactly one canonical artifact identity bound to the held bytes by recomputed SHA-256, with every alias resolved to it",
+      "affectedFamilies": [
+        "me-seal-survivor-set"
+      ],
+      "exactOwner": "DISC compares the held edition against the publisher's own forms index",
+      "independentVerification": "a worker that did not settle the identity recomputes the digest from bytes and confirms the family relationships"
+    },
+    {
+      "priority": 1,
+      "priorityReason": "ambiguous held-artifact match: a held file exists but which identity it satisfies is not settled",
+      "rowId": "SRR-050",
+      "currentSourceIdentity": {
+        "jurisdiction": "MI",
+        "canonicalArtifactId": "MC 227",
+        "sourceState": "FAMILY_IDENTITY_AMBIGUOUS"
+      },
+      "heldPath": null,
+      "heldSha256": null,
+      "heldShaAvailable": false,
+      "heldCandidates": [
+        {
+          "artifactId": "mc227",
+          "fileName": "mc227.pdf",
+          "sha256": "9fec389975f06640aff057fbace9375866f64761c33e30c86e9798609f93b8a7"
+        },
+        {
+          "artifactId": "mc-227a-application-to-set-aside-misdemeanor-marihuana-convictions-rev-2024-07",
+          "fileName": "MC-227a__application-to-set-aside-misdemeanor-marihuana-convictions__rev-2024-07.pdf",
+          "sha256": "d361c2082ecc761fe4e9eadda0cabd307f2d6bb3c7af9a3917a9afecad698757"
+        },
+        {
+          "artifactId": "mc-227b-application-by-human-trafficking-victim-to-set-aside-convictions-rev-2024-07",
+          "fileName": "MC-227b__application-by-human-trafficking-victim-to-set-aside-convictions__rev-2024-07.pdf",
+          "sha256": "1620aa798830917707112ce6fb770aeeedc24c44e69f15b05f8b0c1c20e478a6"
+        }
+      ],
+      "ambiguity": "3 held candidates match; none is uniquely bound",
+      "aliases": [],
+      "requiredCanonicalRelationship": "exactly one canonical artifact identity bound to the held bytes by recomputed SHA-256, with every alias resolved to it",
+      "affectedFamilies": [
+        "mi_setaside_application-set"
+      ],
+      "exactOwner": "DISC settles which document the route actually requires",
+      "independentVerification": "a worker that did not settle the identity recomputes the digest from bytes and confirms the family relationships"
+    },
+    {
+      "priority": 1,
+      "priorityReason": "ambiguous held-artifact match: a held file exists but which identity it satisfies is not settled",
+      "rowId": "SRR-051",
+      "currentSourceIdentity": {
+        "jurisdiction": "MI",
+        "canonicalArtifactId": "MC 227b",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": "private/Nationwide Record Clearing/LegalEase Michigan/forms/MC-227b__application-by-human-trafficking-victim-to-set-aside-convictions__rev-2024-07.pdf",
+      "heldSha256": null,
+      "heldShaAvailable": false,
+      "heldCandidates": [],
+      "ambiguity": "bytes are held but their currentness against the publisher is unestablished",
+      "aliases": [],
+      "requiredCanonicalRelationship": "exactly one canonical artifact identity bound to the held bytes by recomputed SHA-256, with every alias resolved to it",
+      "affectedFamilies": [
+        "mi_setaside_trafficking-set"
+      ],
+      "exactOwner": "DISC compares the held edition against the publisher's own forms index",
+      "independentVerification": "a worker that did not settle the identity recomputes the digest from bytes and confirms the family relationships"
+    },
+    {
+      "priority": 1,
+      "priorityReason": "ambiguous held-artifact match: a held file exists but which identity it satisfies is not settled",
+      "rowId": "SRR-052",
+      "currentSourceIdentity": {
+        "jurisdiction": "MN",
+        "canonicalArtifactId": "EXP101",
+        "sourceState": "FAMILY_IDENTITY_AMBIGUOUS"
+      },
+      "heldPath": null,
+      "heldSha256": null,
+      "heldShaAvailable": false,
+      "heldCandidates": [
+        {
+          "artifactId": "exp101-hmong",
+          "fileName": "EXP101-Hmong.pdf",
+          "sha256": "309dc776f79bbcd767fb09d618e956647fc0bc105f67698821bf845bc86209d7"
+        },
+        {
+          "artifactId": "exp101-somali",
+          "fileName": "EXP101-Somali.pdf",
+          "sha256": "d46241f3bb85167901d9930b453b0095e46fb876bb5c0361dc9c8afcf7658658"
+        },
+        {
+          "artifactId": "exp101-spanish",
+          "fileName": "EXP101-Spanish.pdf",
+          "sha256": "b29927d6c862bdbbeaa63e7f6f93ed562fd5355b4458d0e1f2eb0ec15d86476a"
+        },
+        {
+          "artifactId": "exp101",
+          "fileName": "EXP101.pdf",
+          "sha256": "0ccdc99ec3cbb86300b00f5d93bf724d795541d426709f4e97708119d1b1c5de"
+        }
+      ],
+      "ambiguity": "4 held candidates match; none is uniquely bound",
+      "aliases": [],
+      "requiredCanonicalRelationship": "exactly one canonical artifact identity bound to the held bytes by recomputed SHA-256, with every alias resolved to it",
+      "affectedFamilies": [
+        "mn_petition_609a02_subd3-set"
+      ],
+      "exactOwner": "DISC settles which document the route actually requires",
+      "independentVerification": "a worker that did not settle the identity recomputes the digest from bytes and confirms the family relationships"
+    },
+    {
+      "priority": 1,
+      "priorityReason": "ambiguous held-artifact match: a held file exists but which identity it satisfies is not settled",
+      "rowId": "SRR-053",
+      "currentSourceIdentity": {
+        "jurisdiction": "MN",
+        "canonicalArtifactId": "EXP105",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": "private/Nationwide Record Clearing/LegalEase Minnesota/EXP105_Current.pdf",
+      "heldSha256": null,
+      "heldShaAvailable": false,
+      "heldCandidates": [],
+      "ambiguity": "bytes are held but their currentness against the publisher is unestablished",
+      "aliases": [],
+      "requiredCanonicalRelationship": "exactly one canonical artifact identity bound to the held bytes by recomputed SHA-256, with every alias resolved to it",
+      "affectedFamilies": [
+        "mn_petition_609a02_subd3-set"
+      ],
+      "exactOwner": "DISC compares the held edition against the publisher's own forms index",
+      "independentVerification": "a worker that did not settle the identity recomputes the digest from bytes and confirms the family relationships"
+    },
+    {
+      "priority": 1,
+      "priorityReason": "ambiguous held-artifact match: a held file exists but which identity it satisfies is not settled",
+      "rowId": "SRR-054",
+      "currentSourceIdentity": {
+        "jurisdiction": "MO",
+        "canonicalArtifactId": "CR145",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": "private/Nationwide Record Clearing/LegalEase Missouri/forms/CR145__petition-for-expungement-of-arrest-records__rev-2024-04.pdf",
+      "heldSha256": null,
+      "heldShaAvailable": false,
+      "heldCandidates": [],
+      "ambiguity": "bytes are held but their currentness against the publisher is unestablished",
+      "aliases": [],
+      "requiredCanonicalRelationship": "exactly one canonical artifact identity bound to the held bytes by recomputed SHA-256, with every alias resolved to it",
+      "affectedFamilies": [
+        "mo-610-122-arrest-expungement-set"
+      ],
+      "exactOwner": "DISC compares the held edition against the publisher's own forms index",
+      "independentVerification": "a worker that did not settle the identity recomputes the digest from bytes and confirms the family relationships"
+    },
+    {
+      "priority": 1,
+      "priorityReason": "ambiguous held-artifact match: a held file exists but which identity it satisfies is not settled",
+      "rowId": "SRR-055",
+      "currentSourceIdentity": {
+        "jurisdiction": "MO",
+        "canonicalArtifactId": "CR300",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": "private/Nationwide Record Clearing/LegalEase Missouri/source-gated/CR300__petition-for-correction-of-arrest-court-records-identity-theft__rev-2010-04.pdf",
+      "heldSha256": null,
+      "heldShaAvailable": false,
+      "heldCandidates": [],
+      "ambiguity": "bytes are held but their currentness against the publisher is unestablished",
+      "aliases": [],
+      "requiredCanonicalRelationship": "exactly one canonical artifact identity bound to the held bytes by recomputed SHA-256, with every alias resolved to it",
+      "affectedFamilies": [
+        "mo-575-120-identity-theft-correction-set"
+      ],
+      "exactOwner": "DISC compares the held edition against the publisher's own forms index",
+      "independentVerification": "a worker that did not settle the identity recomputes the digest from bytes and confirms the family relationships"
+    },
+    {
+      "priority": 1,
+      "priorityReason": "ambiguous held-artifact match: a held file exists but which identity it satisfies is not settled",
+      "rowId": "SRR-056",
+      "currentSourceIdentity": {
+        "jurisdiction": "MO",
+        "canonicalArtifactId": "CR375",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": "private/Nationwide Record Clearing/LegalEase Missouri/forms/CR375__petition-for-expungement-marijuana-related-offenses__rev-2024-10.pdf",
+      "heldSha256": null,
+      "heldShaAvailable": false,
+      "heldCandidates": [],
+      "ambiguity": "bytes are held but their currentness against the publisher is unestablished",
+      "aliases": [],
+      "requiredCanonicalRelationship": "exactly one canonical artifact identity bound to the held bytes by recomputed SHA-256, with every alias resolved to it",
+      "affectedFamilies": [
+        "mo-art-xiv-marijuana-set"
+      ],
+      "exactOwner": "DISC compares the held edition against the publisher's own forms index",
+      "independentVerification": "a worker that did not settle the identity recomputes the digest from bytes and confirms the family relationships"
+    },
+    {
+      "priority": 1,
+      "priorityReason": "ambiguous held-artifact match: a held file exists but which identity it satisfies is not settled",
+      "rowId": "SRR-057",
+      "currentSourceIdentity": {
+        "jurisdiction": "NH",
+        "canonicalArtifactId": "NHJB-3124-DS",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": "private/Nationwide Record Clearing/LegalEase New Hampshire/nhjb-3124-ds.pdf",
+      "heldSha256": null,
+      "heldShaAvailable": false,
+      "heldCandidates": [],
+      "ambiguity": "bytes are held but their currentness against the publisher is unestablished",
+      "aliases": [],
+      "requiredCanonicalRelationship": "exactly one canonical artifact identity bound to the held bytes by recomputed SHA-256, with every alias resolved to it",
+      "affectedFamilies": [
+        "nh_marijuana_annulment-set"
+      ],
+      "exactOwner": "DISC compares the held edition against the publisher's own forms index",
+      "independentVerification": "a worker that did not settle the identity recomputes the digest from bytes and confirms the family relationships"
+    },
+    {
+      "priority": 1,
+      "priorityReason": "ambiguous held-artifact match: a held file exists but which identity it satisfies is not settled",
+      "rowId": "SRR-058",
+      "currentSourceIdentity": {
+        "jurisdiction": "NM",
+        "canonicalArtifactId": "4-951",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": "private/Nationwide Record Clearing/LegalEase New Mexico/4-951-Petition-to-expunge-arrest-records-and-public-records-identity-theft.-1.pdf",
+      "heldSha256": null,
+      "heldShaAvailable": false,
+      "heldCandidates": [],
+      "ambiguity": "bytes are held but their currentness against the publisher is unestablished",
+      "aliases": [],
+      "requiredCanonicalRelationship": "exactly one canonical artifact identity bound to the held bytes by recomputed SHA-256, with every alias resolved to it",
+      "affectedFamilies": [
+        "nm_identity_theft-set"
+      ],
+      "exactOwner": "DISC compares the held edition against the publisher's own forms index",
+      "independentVerification": "a worker that did not settle the identity recomputes the digest from bytes and confirms the family relationships"
+    },
+    {
+      "priority": 1,
+      "priorityReason": "ambiguous held-artifact match: a held file exists but which identity it satisfies is not settled",
+      "rowId": "SRR-059",
+      "currentSourceIdentity": {
+        "jurisdiction": "NM",
+        "canonicalArtifactId": "4-952",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": "private/Nationwide Record Clearing/LegalEase New Mexico/4-952-Petition-to-expunge-arrest-records-and-public-records-upon-release-without-conviction.-1.pdf",
+      "heldSha256": null,
+      "heldShaAvailable": false,
+      "heldCandidates": [],
+      "ambiguity": "bytes are held but their currentness against the publisher is unestablished",
+      "aliases": [],
+      "requiredCanonicalRelationship": "exactly one canonical artifact identity bound to the held bytes by recomputed SHA-256, with every alias resolved to it",
+      "affectedFamilies": [
+        "nm_release_without_conviction-set"
+      ],
+      "exactOwner": "DISC compares the held edition against the publisher's own forms index",
+      "independentVerification": "a worker that did not settle the identity recomputes the digest from bytes and confirms the family relationships"
+    },
+    {
+      "priority": 1,
+      "priorityReason": "ambiguous held-artifact match: a held file exists but which identity it satisfies is not settled",
+      "rowId": "SRR-060",
+      "currentSourceIdentity": {
+        "jurisdiction": "NM",
+        "canonicalArtifactId": "4-953",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": "private/Nationwide Record Clearing/LegalEase New Mexico/4-953-Petition-to-expunge-arrest-records-and-public-records-upon-conviction.-1.pdf",
+      "heldSha256": null,
+      "heldShaAvailable": false,
+      "heldCandidates": [],
+      "ambiguity": "bytes are held but their currentness against the publisher is unestablished",
+      "aliases": [],
+      "requiredCanonicalRelationship": "exactly one canonical artifact identity bound to the held bytes by recomputed SHA-256, with every alias resolved to it",
+      "affectedFamilies": [
+        "nm_conviction-set"
+      ],
+      "exactOwner": "DISC compares the held edition against the publisher's own forms index",
+      "independentVerification": "a worker that did not settle the identity recomputes the digest from bytes and confirms the family relationships"
+    },
+    {
+      "priority": 1,
+      "priorityReason": "ambiguous held-artifact match: a held file exists but which identity it satisfies is not settled",
+      "rowId": "SRR-061",
+      "currentSourceIdentity": {
+        "jurisdiction": "NM",
+        "canonicalArtifactId": "4-955",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": "private/Nationwide Record Clearing/LegalEase New Mexico/4-955-Certificate-of-service-expungement-of-records-upon-release-without-conviction.pdf",
+      "heldSha256": null,
+      "heldShaAvailable": false,
+      "heldCandidates": [],
+      "ambiguity": "bytes are held but their currentness against the publisher is unestablished",
+      "aliases": [],
+      "requiredCanonicalRelationship": "exactly one canonical artifact identity bound to the held bytes by recomputed SHA-256, with every alias resolved to it",
+      "affectedFamilies": [
+        "nm_release_without_conviction-set"
+      ],
+      "exactOwner": "DISC compares the held edition against the publisher's own forms index",
+      "independentVerification": "a worker that did not settle the identity recomputes the digest from bytes and confirms the family relationships"
+    },
+    {
+      "priority": 1,
+      "priorityReason": "ambiguous held-artifact match: a held file exists but which identity it satisfies is not settled",
+      "rowId": "SRR-062",
+      "currentSourceIdentity": {
+        "jurisdiction": "NM",
+        "canonicalArtifactId": "4-959",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": "private/Nationwide Record Clearing/LegalEase New Mexico/4-959-Notice-of-completion-of-briefing-upon-release-without-conviction.pdf",
+      "heldSha256": null,
+      "heldShaAvailable": false,
+      "heldCandidates": [],
+      "ambiguity": "bytes are held but their currentness against the publisher is unestablished",
+      "aliases": [],
+      "requiredCanonicalRelationship": "exactly one canonical artifact identity bound to the held bytes by recomputed SHA-256, with every alias resolved to it",
+      "affectedFamilies": [
+        "nm_release_without_conviction-set"
+      ],
+      "exactOwner": "DISC compares the held edition against the publisher's own forms index",
+      "independentVerification": "a worker that did not settle the identity recomputes the digest from bytes and confirms the family relationships"
+    },
+    {
+      "priority": 1,
+      "priorityReason": "ambiguous held-artifact match: a held file exists but which identity it satisfies is not settled",
+      "rowId": "SRR-063",
+      "currentSourceIdentity": {
+        "jurisdiction": "NM",
+        "canonicalArtifactId": "4-960",
+        "sourceState": "FAMILY_IDENTITY_AMBIGUOUS"
+      },
+      "heldPath": null,
+      "heldSha256": null,
+      "heldShaAvailable": false,
+      "heldCandidates": [
+        {
+          "artifactId": "4-960-1-notice-of-hearing",
+          "fileName": "4-960.1-Notice-of-hearing.pdf",
+          "sha256": "3cbc2e6eb35e29bdc10c42fee90221a7f9d470fa077fc0b9620bf1fb7e3f4f5c"
+        },
+        {
+          "artifactId": "4-960-2-affirmation-in-support-of-expungement-upon-release-without-conviction",
+          "fileName": "4-960.2-Affirmation-in-support-of-expungement-upon-release-without-conviction.pdf",
+          "sha256": "fc22cdcb28d74dfd23de5931fc2d2825c9488589894f5ea75a284bfb4347154e"
+        }
+      ],
+      "ambiguity": "2 held candidates match; none is uniquely bound",
+      "aliases": [],
+      "requiredCanonicalRelationship": "exactly one canonical artifact identity bound to the held bytes by recomputed SHA-256, with every alias resolved to it",
+      "affectedFamilies": [
+        "nm_conviction-set"
+      ],
+      "exactOwner": "DISC settles which document the route actually requires",
+      "independentVerification": "a worker that did not settle the identity recomputes the digest from bytes and confirms the family relationships"
+    },
+    {
+      "priority": 1,
+      "priorityReason": "ambiguous held-artifact match: a held file exists but which identity it satisfies is not settled",
+      "rowId": "SRR-064",
+      "currentSourceIdentity": {
+        "jurisdiction": "NM",
+        "canonicalArtifactId": "4-960.2",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": "private/Nationwide Record Clearing/LegalEase New Mexico/4-960.2-Affirmation-in-support-of-expungement-upon-release-without-conviction.pdf",
+      "heldSha256": null,
+      "heldShaAvailable": false,
+      "heldCandidates": [],
+      "ambiguity": "bytes are held but their currentness against the publisher is unestablished",
+      "aliases": [],
+      "requiredCanonicalRelationship": "exactly one canonical artifact identity bound to the held bytes by recomputed SHA-256, with every alias resolved to it",
+      "affectedFamilies": [
+        "nm_release_without_conviction-set"
+      ],
+      "exactOwner": "DISC compares the held edition against the publisher's own forms index",
+      "independentVerification": "a worker that did not settle the identity recomputes the digest from bytes and confirms the family relationships"
+    },
+    {
+      "priority": 1,
+      "priorityReason": "ambiguous held-artifact match: a held file exists but which identity it satisfies is not settled",
+      "rowId": "SRR-065",
+      "currentSourceIdentity": {
+        "jurisdiction": "UT",
+        "canonicalArtifactId": "1003EX",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": "private/Nationwide Record Clearing/LegalEase Utah/1003EX_Petition_to_Expunge_Records_Cannabis_Conviction.pdf",
+      "heldSha256": null,
+      "heldShaAvailable": false,
+      "heldCandidates": [],
+      "ambiguity": "bytes are held but their currentness against the publisher is unestablished",
+      "aliases": [],
+      "requiredCanonicalRelationship": "exactly one canonical artifact identity bound to the held bytes by recomputed SHA-256, with every alias resolved to it",
+      "affectedFamilies": [
+        "ut_pet_cannabis-set"
+      ],
+      "exactOwner": "DISC compares the held edition against the publisher's own forms index",
+      "independentVerification": "a worker that did not settle the identity recomputes the digest from bytes and confirms the family relationships"
+    },
+    {
+      "priority": 1,
+      "priorityReason": "ambiguous held-artifact match: a held file exists but which identity it satisfies is not settled",
+      "rowId": "SRR-066",
+      "currentSourceIdentity": {
+        "jurisdiction": "UT",
+        "canonicalArtifactId": "1023EX",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": "private/Nationwide Record Clearing/LegalEase Utah/1023EX_Order_Cannabis_Conviction.pdf",
+      "heldSha256": null,
+      "heldShaAvailable": false,
+      "heldCandidates": [],
+      "ambiguity": "bytes are held but their currentness against the publisher is unestablished",
+      "aliases": [],
+      "requiredCanonicalRelationship": "exactly one canonical artifact identity bound to the held bytes by recomputed SHA-256, with every alias resolved to it",
+      "affectedFamilies": [
+        "ut_pet_cannabis-set"
+      ],
+      "exactOwner": "DISC compares the held edition against the publisher's own forms index",
+      "independentVerification": "a worker that did not settle the identity recomputes the digest from bytes and confirms the family relationships"
+    },
+    {
+      "priority": 1,
+      "priorityReason": "ambiguous held-artifact match: a held file exists but which identity it satisfies is not settled",
+      "rowId": "SRR-067",
+      "currentSourceIdentity": {
+        "jurisdiction": "WV",
+        "canonicalArtifactId": "SCA-C906",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": "private/Nationwide Record Clearing/LegalEase West Virginia/SCA-C906.pdf",
+      "heldSha256": null,
+      "heldShaAvailable": false,
+      "heldCandidates": [],
+      "ambiguity": "bytes are held but their currentness against the publisher is unestablished",
+      "aliases": [],
+      "requiredCanonicalRelationship": "exactly one canonical artifact identity bound to the held bytes by recomputed SHA-256, with every alias resolved to it",
+      "affectedFamilies": [
+        "wv_acc_treatment_job_readiness-set"
+      ],
+      "exactOwner": "DISC compares the held edition against the publisher's own forms index",
+      "independentVerification": "a worker that did not settle the identity recomputes the digest from bytes and confirms the family relationships"
+    },
+    {
+      "priority": 2,
+      "priorityReason": "misrouted statute, bundle, alias or embedded-section row: sent to a lane that cannot satisfy it",
+      "rowId": "SRR-068",
+      "currentSourceIdentity": {
+        "jurisdiction": "IN",
+        "canonicalArtifactId": "CCA-GF-0120-3016",
+        "sourceState": "BUNDLE_COMPONENT"
+      },
+      "heldPath": null,
+      "heldSha256": null,
+      "ambiguity": "registry state BUNDLE_COMPONENT is assigned to DISC02, SRC04",
+      "currentClaims": [
+        {
+          "itemId": "in_arrest_no_charges-set::official-form:CCA Section 1 expungement order",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "in_arrest_no_charges-set::official-form:CCA Section 1 non-conviction expungement petition",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "in_arrest_no_charges-set::official-form:CCA-GF-0120-3016",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "in_arrest_no_charges-set::official-form:CCA-XP-0120-7002 Form ACR",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "in_arrest_no_charges-set::official-form:Confidential Information Form",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "in_conviction_d6-set::official-form:CCA conviction expungement order",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "in_conviction_d6-set::official-form:CCA conviction expungement petition",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "in_conviction_d6-set::official-form:CCA-GF-0120-3016",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "in_conviction_d6-set::official-form:CCA-XP-0120-7002 Form ACR",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "in_conviction_d6-set::official-form:Confidential Information Form",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "in_conviction_felony-set::official-form:CCA conviction expungement order",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "in_conviction_felony-set::official-form:CCA conviction expungement petition",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "in_conviction_felony-set::official-form:CCA-GF-0120-3016",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "in_conviction_felony-set::official-form:CCA-XP-0120-7002 Form ACR",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "in_conviction_felony-set::official-form:Confidential Information Form",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "in_conviction_misd-set::official-form:CCA conviction expungement order",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "in_conviction_misd-set::official-form:CCA conviction expungement petition",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "in_conviction_misd-set::official-form:CCA-GF-0120-3016",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "in_conviction_misd-set::official-form:CCA-XP-0120-7002 Form ACR",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "in_conviction_misd-set::official-form:Confidential Information Form",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "in_section1_petition-set::official-form:CCA Section 1 expungement order",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "in_section1_petition-set::official-form:CCA Section 1 non-conviction expungement petition",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "in_section1_petition-set::official-form:CCA-GF-0120-3016",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "in_section1_petition-set::official-form:CCA-XP-0120-7002 Form ACR",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "in_section1_petition-set::official-form:Confidential Information Form",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        }
+      ],
+      "requiredCanonicalRelationship": "route to DISC then one bundle ACQ rather than the lane currently holding it",
+      "affectedFamilies": [],
+      "exactOwner": "DISC then one bundle ACQ",
+      "independentVerification": "confirm the destination lane can actually satisfy the obligation before the row is worked",
+      "whyThisMatters": "an obligation sent to ACQ that has no fetchable artifact returns BLOCKED_SOURCE and leaves its families looking permanently source-blocked when they are not"
+    },
+    {
+      "priority": 2,
+      "priorityReason": "misrouted statute, bundle, alias or embedded-section row: sent to a lane that cannot satisfy it",
+      "rowId": "SRR-069",
+      "currentSourceIdentity": {
+        "jurisdiction": "IN",
+        "canonicalArtifactId": "CCA-XP-0120-7002 Form ACR",
+        "sourceState": "BUNDLE_COMPONENT"
+      },
+      "heldPath": null,
+      "heldSha256": null,
+      "ambiguity": "registry state BUNDLE_COMPONENT is assigned to DISC02, SRC04",
+      "currentClaims": [
+        {
+          "itemId": "in_arrest_no_charges-set::official-form:CCA Section 1 expungement order",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "in_arrest_no_charges-set::official-form:CCA Section 1 non-conviction expungement petition",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "in_arrest_no_charges-set::official-form:CCA-GF-0120-3016",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "in_arrest_no_charges-set::official-form:CCA-XP-0120-7002 Form ACR",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "in_arrest_no_charges-set::official-form:Confidential Information Form",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "in_conviction_d6-set::official-form:CCA conviction expungement order",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "in_conviction_d6-set::official-form:CCA conviction expungement petition",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "in_conviction_d6-set::official-form:CCA-GF-0120-3016",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "in_conviction_d6-set::official-form:CCA-XP-0120-7002 Form ACR",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "in_conviction_d6-set::official-form:Confidential Information Form",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "in_conviction_felony-set::official-form:CCA conviction expungement order",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "in_conviction_felony-set::official-form:CCA conviction expungement petition",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "in_conviction_felony-set::official-form:CCA-GF-0120-3016",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "in_conviction_felony-set::official-form:CCA-XP-0120-7002 Form ACR",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "in_conviction_felony-set::official-form:Confidential Information Form",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "in_conviction_misd-set::official-form:CCA conviction expungement order",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "in_conviction_misd-set::official-form:CCA conviction expungement petition",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "in_conviction_misd-set::official-form:CCA-GF-0120-3016",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "in_conviction_misd-set::official-form:CCA-XP-0120-7002 Form ACR",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "in_conviction_misd-set::official-form:Confidential Information Form",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "in_section1_petition-set::official-form:CCA Section 1 expungement order",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "in_section1_petition-set::official-form:CCA Section 1 non-conviction expungement petition",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "in_section1_petition-set::official-form:CCA-GF-0120-3016",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "in_section1_petition-set::official-form:CCA-XP-0120-7002 Form ACR",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "in_section1_petition-set::official-form:Confidential Information Form",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        }
+      ],
+      "requiredCanonicalRelationship": "route to DISC then one bundle ACQ rather than the lane currently holding it",
+      "affectedFamilies": [],
+      "exactOwner": "DISC then one bundle ACQ",
+      "independentVerification": "confirm the destination lane can actually satisfy the obligation before the row is worked",
+      "whyThisMatters": "an obligation sent to ACQ that has no fetchable artifact returns BLOCKED_SOURCE and leaves its families looking permanently source-blocked when they are not"
+    },
+    {
+      "priority": 2,
+      "priorityReason": "misrouted statute, bundle, alias or embedded-section row: sent to a lane that cannot satisfy it",
+      "rowId": "SRR-070",
+      "currentSourceIdentity": {
+        "jurisdiction": "IN",
+        "canonicalArtifactId": "Confidential Information Form",
+        "sourceState": "BUNDLE_COMPONENT"
+      },
+      "heldPath": null,
+      "heldSha256": null,
+      "ambiguity": "registry state BUNDLE_COMPONENT is assigned to DISC02, SRC04",
+      "currentClaims": [
+        {
+          "itemId": "in_arrest_no_charges-set::official-form:CCA Section 1 expungement order",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "in_arrest_no_charges-set::official-form:CCA Section 1 non-conviction expungement petition",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "in_arrest_no_charges-set::official-form:CCA-GF-0120-3016",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "in_arrest_no_charges-set::official-form:CCA-XP-0120-7002 Form ACR",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "in_arrest_no_charges-set::official-form:Confidential Information Form",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "in_conviction_d6-set::official-form:CCA conviction expungement order",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "in_conviction_d6-set::official-form:CCA conviction expungement petition",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "in_conviction_d6-set::official-form:CCA-GF-0120-3016",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "in_conviction_d6-set::official-form:CCA-XP-0120-7002 Form ACR",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "in_conviction_d6-set::official-form:Confidential Information Form",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "in_conviction_felony-set::official-form:CCA conviction expungement order",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "in_conviction_felony-set::official-form:CCA conviction expungement petition",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "in_conviction_felony-set::official-form:CCA-GF-0120-3016",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "in_conviction_felony-set::official-form:CCA-XP-0120-7002 Form ACR",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "in_conviction_felony-set::official-form:Confidential Information Form",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "in_conviction_misd-set::official-form:CCA conviction expungement order",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "in_conviction_misd-set::official-form:CCA conviction expungement petition",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "in_conviction_misd-set::official-form:CCA-GF-0120-3016",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "in_conviction_misd-set::official-form:CCA-XP-0120-7002 Form ACR",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "in_conviction_misd-set::official-form:Confidential Information Form",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "in_section1_petition-set::official-form:CCA Section 1 expungement order",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "in_section1_petition-set::official-form:CCA Section 1 non-conviction expungement petition",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "in_section1_petition-set::official-form:CCA-GF-0120-3016",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "in_section1_petition-set::official-form:CCA-XP-0120-7002 Form ACR",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "in_section1_petition-set::official-form:Confidential Information Form",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        }
+      ],
+      "requiredCanonicalRelationship": "route to DISC then one bundle ACQ rather than the lane currently holding it",
+      "affectedFamilies": [],
+      "exactOwner": "DISC then one bundle ACQ",
+      "independentVerification": "confirm the destination lane can actually satisfy the obligation before the row is worked",
+      "whyThisMatters": "an obligation sent to ACQ that has no fetchable artifact returns BLOCKED_SOURCE and leaves its families looking permanently source-blocked when they are not"
+    },
+    {
+      "priority": 2,
+      "priorityReason": "misrouted statute, bundle, alias or embedded-section row: sent to a lane that cannot satisfy it",
+      "rowId": "SRR-071",
+      "currentSourceIdentity": {
+        "jurisdiction": "NH",
+        "canonicalArtifactId": "NHJB-2311",
+        "sourceState": "STALE_OR_VARIANT_ID"
+      },
+      "heldPath": null,
+      "heldSha256": null,
+      "ambiguity": "registry state STALE_OR_VARIANT_ID is assigned to SRC03",
+      "currentClaims": [
+        {
+          "itemId": "nh_conviction_standard-set::official-form:NHJB-2317-DSe",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "nh_conviction_standard-set::official-form:NHJB-3057-DSe",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "nh_conviction_streamlined-set::official-form:NHJB-3057-DSe",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "nh_marijuana_annulment-set::official-form:NHJB-3124-DS",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "nh_petition_nonconviction_pre2019-set::official-form:NHJB-2317-DSe",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "nh_petition_vacated-set::official-form:NHJB-2317-DSe",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        }
+      ],
+      "requiredCanonicalRelationship": "route to DISC before ACQ rather than the lane currently holding it",
+      "affectedFamilies": [],
+      "exactOwner": "DISC before ACQ",
+      "independentVerification": "confirm the destination lane can actually satisfy the obligation before the row is worked",
+      "whyThisMatters": "an obligation sent to ACQ that has no fetchable artifact returns BLOCKED_SOURCE and leaves its families looking permanently source-blocked when they are not"
+    },
+    {
+      "priority": 2,
+      "priorityReason": "misrouted statute, bundle, alias or embedded-section row: sent to a lane that cannot satisfy it",
+      "rowId": "SRR-072",
+      "currentSourceIdentity": {
+        "jurisdiction": "NH",
+        "canonicalArtifactId": "NHJB-2328",
+        "sourceState": "STALE_OR_VARIANT_ID"
+      },
+      "heldPath": null,
+      "heldSha256": null,
+      "ambiguity": "registry state STALE_OR_VARIANT_ID is assigned to SRC03",
+      "currentClaims": [
+        {
+          "itemId": "nh_conviction_standard-set::official-form:NHJB-2317-DSe",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "nh_conviction_standard-set::official-form:NHJB-3057-DSe",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "nh_conviction_streamlined-set::official-form:NHJB-3057-DSe",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "nh_marijuana_annulment-set::official-form:NHJB-3124-DS",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "nh_petition_nonconviction_pre2019-set::official-form:NHJB-2317-DSe",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "nh_petition_vacated-set::official-form:NHJB-2317-DSe",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        }
+      ],
+      "requiredCanonicalRelationship": "route to DISC before ACQ rather than the lane currently holding it",
+      "affectedFamilies": [],
+      "exactOwner": "DISC before ACQ",
+      "independentVerification": "confirm the destination lane can actually satisfy the obligation before the row is worked",
+      "whyThisMatters": "an obligation sent to ACQ that has no fetchable artifact returns BLOCKED_SOURCE and leaves its families looking permanently source-blocked when they are not"
+    },
+    {
+      "priority": 2,
+      "priorityReason": "misrouted statute, bundle, alias or embedded-section row: sent to a lane that cannot satisfy it",
+      "rowId": "SRR-073",
+      "currentSourceIdentity": {
+        "jurisdiction": "FL",
+        "canonicalArtifactId": "FL-RULE-3.989-ORDER",
+        "sourceState": "EMBEDDED_SECTION"
+      },
+      "heldPath": null,
+      "heldSha256": null,
+      "ambiguity": "registry state EMBEDDED_SECTION is assigned to DISC06, SRC04",
+      "currentClaims": [
+        {
+          "itemId": "fl-10yr-bridge-set::official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+          "lane": "DISC06",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "fl-10yr-bridge-set::official-form:FL-RULE-3.989-ORDER",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "fl-10yr-bridge-set::official-form:FL-RULE-3.989-PETITION",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "fl-expunction-set::official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+          "lane": "DISC06",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "fl-expunction-set::official-form:FL-RULE-3.989-ORDER",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "fl-expunction-set::official-form:FL-RULE-3.989-PETITION",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "fl-expunction-set::official-form:FL-RULE-3.989-SWORN-STATEMENT",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "fl-sealing-set::official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+          "lane": "DISC06",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "fl-sealing-set::official-form:FL-RULE-3.989-ORDER",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "fl-sealing-set::official-form:FL-RULE-3.989-PETITION",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "fl-sealing-set::official-form:FL-RULE-3.989-SWORN-STATEMENT",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "fl-trafficking-set::official-form:FL-RULE-3.989-ORDER",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "fl-trafficking-set::official-form:FL-RULE-3.989-PETITION",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "fl-trafficking-set::official-form:FL-RULE-3.9895-SWORN-STATEMENT",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        }
+      ],
+      "requiredCanonicalRelationship": "route to DISC; no separate acquisition rather than the lane currently holding it",
+      "affectedFamilies": [],
+      "exactOwner": "DISC; no separate acquisition",
+      "independentVerification": "confirm the destination lane can actually satisfy the obligation before the row is worked",
+      "whyThisMatters": "an obligation sent to ACQ that has no fetchable artifact returns BLOCKED_SOURCE and leaves its families looking permanently source-blocked when they are not"
+    },
+    {
+      "priority": 2,
+      "priorityReason": "misrouted statute, bundle, alias or embedded-section row: sent to a lane that cannot satisfy it",
+      "rowId": "SRR-074",
+      "currentSourceIdentity": {
+        "jurisdiction": "FL",
+        "canonicalArtifactId": "FL-RULE-3.989-PETITION",
+        "sourceState": "EMBEDDED_SECTION"
+      },
+      "heldPath": null,
+      "heldSha256": null,
+      "ambiguity": "registry state EMBEDDED_SECTION is assigned to DISC06, SRC04",
+      "currentClaims": [
+        {
+          "itemId": "fl-10yr-bridge-set::official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+          "lane": "DISC06",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "fl-10yr-bridge-set::official-form:FL-RULE-3.989-ORDER",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "fl-10yr-bridge-set::official-form:FL-RULE-3.989-PETITION",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "fl-expunction-set::official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+          "lane": "DISC06",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "fl-expunction-set::official-form:FL-RULE-3.989-ORDER",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "fl-expunction-set::official-form:FL-RULE-3.989-PETITION",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "fl-expunction-set::official-form:FL-RULE-3.989-SWORN-STATEMENT",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "fl-sealing-set::official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+          "lane": "DISC06",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "fl-sealing-set::official-form:FL-RULE-3.989-ORDER",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "fl-sealing-set::official-form:FL-RULE-3.989-PETITION",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "fl-sealing-set::official-form:FL-RULE-3.989-SWORN-STATEMENT",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "fl-trafficking-set::official-form:FL-RULE-3.989-ORDER",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "fl-trafficking-set::official-form:FL-RULE-3.989-PETITION",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "fl-trafficking-set::official-form:FL-RULE-3.9895-SWORN-STATEMENT",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        }
+      ],
+      "requiredCanonicalRelationship": "route to DISC; no separate acquisition rather than the lane currently holding it",
+      "affectedFamilies": [],
+      "exactOwner": "DISC; no separate acquisition",
+      "independentVerification": "confirm the destination lane can actually satisfy the obligation before the row is worked",
+      "whyThisMatters": "an obligation sent to ACQ that has no fetchable artifact returns BLOCKED_SOURCE and leaves its families looking permanently source-blocked when they are not"
+    },
+    {
+      "priority": 2,
+      "priorityReason": "misrouted statute, bundle, alias or embedded-section row: sent to a lane that cannot satisfy it",
+      "rowId": "SRR-075",
+      "currentSourceIdentity": {
+        "jurisdiction": "MD",
+        "canonicalArtifactId": "CC-DC-089",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": null,
+      "heldSha256": null,
+      "ambiguity": "registry state CURRENTNESS_UNVERIFIED is assigned to SRC02",
+      "currentClaims": [
+        {
+          "itemId": "md_10110_conviction-set::official-form:CC-DC-CR-072B",
+          "lane": "SRC02",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "md_cannabis_petition-set::official-form:CC-DC-CR-072D",
+          "lane": "SRC02",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "md_pardon_expungement-set::official-form:CC-DC-CR-072B",
+          "lane": "SRC02",
+          "operation": "held-inventory-reconciliation"
+        }
+      ],
+      "requiredCanonicalRelationship": "route to DISC; not ACQ rather than the lane currently holding it",
+      "affectedFamilies": [],
+      "exactOwner": "DISC; not ACQ",
+      "independentVerification": "confirm the destination lane can actually satisfy the obligation before the row is worked",
+      "whyThisMatters": "an obligation sent to ACQ that has no fetchable artifact returns BLOCKED_SOURCE and leaves its families looking permanently source-blocked when they are not"
+    },
+    {
+      "priority": 2,
+      "priorityReason": "misrouted statute, bundle, alias or embedded-section row: sent to a lane that cannot satisfy it",
+      "rowId": "SRR-076",
+      "currentSourceIdentity": {
+        "jurisdiction": "MN",
+        "canonicalArtifactId": "EXP102",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": null,
+      "heldSha256": null,
+      "ambiguity": "registry state CURRENTNESS_UNVERIFIED is assigned to SRC04",
+      "currentClaims": [
+        {
+          "itemId": "mn_petition_15218-set::official-form:EXP102",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "mn_petition_15218-set::official-form:EXP104",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "mn_petition_15218-set::official-form:EXP106",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "mn_petition_609a02_subd3-set::official-form:EXP101",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "mn_petition_609a02_subd3-set::official-form:EXP102",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "mn_petition_609a02_subd3-set::official-form:EXP104",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "mn_petition_609a02_subd3-set::official-form:EXP105",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "mn_petition_juvenile_as_adult-set::official-form:EXP102",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "mn_petition_juvenile_as_adult-set::official-form:EXP104",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "mn_petition_juvenile_as_adult-set::official-form:EXP106",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        }
+      ],
+      "requiredCanonicalRelationship": "route to DISC; not ACQ rather than the lane currently holding it",
+      "affectedFamilies": [],
+      "exactOwner": "DISC; not ACQ",
+      "independentVerification": "confirm the destination lane can actually satisfy the obligation before the row is worked",
+      "whyThisMatters": "an obligation sent to ACQ that has no fetchable artifact returns BLOCKED_SOURCE and leaves its families looking permanently source-blocked when they are not"
+    },
+    {
+      "priority": 2,
+      "priorityReason": "misrouted statute, bundle, alias or embedded-section row: sent to a lane that cannot satisfy it",
+      "rowId": "SRR-077",
+      "currentSourceIdentity": {
+        "jurisdiction": "MN",
+        "canonicalArtifactId": "EXP104",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": null,
+      "heldSha256": null,
+      "ambiguity": "registry state CURRENTNESS_UNVERIFIED is assigned to SRC04",
+      "currentClaims": [
+        {
+          "itemId": "mn_petition_15218-set::official-form:EXP102",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "mn_petition_15218-set::official-form:EXP104",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "mn_petition_15218-set::official-form:EXP106",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "mn_petition_609a02_subd3-set::official-form:EXP101",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "mn_petition_609a02_subd3-set::official-form:EXP102",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "mn_petition_609a02_subd3-set::official-form:EXP104",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "mn_petition_609a02_subd3-set::official-form:EXP105",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "mn_petition_juvenile_as_adult-set::official-form:EXP102",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "mn_petition_juvenile_as_adult-set::official-form:EXP104",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "mn_petition_juvenile_as_adult-set::official-form:EXP106",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        }
+      ],
+      "requiredCanonicalRelationship": "route to DISC; not ACQ rather than the lane currently holding it",
+      "affectedFamilies": [],
+      "exactOwner": "DISC; not ACQ",
+      "independentVerification": "confirm the destination lane can actually satisfy the obligation before the row is worked",
+      "whyThisMatters": "an obligation sent to ACQ that has no fetchable artifact returns BLOCKED_SOURCE and leaves its families looking permanently source-blocked when they are not"
+    },
+    {
+      "priority": 2,
+      "priorityReason": "misrouted statute, bundle, alias or embedded-section row: sent to a lane that cannot satisfy it",
+      "rowId": "SRR-078",
+      "currentSourceIdentity": {
+        "jurisdiction": "MN",
+        "canonicalArtifactId": "FEE102",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": null,
+      "heldSha256": null,
+      "ambiguity": "registry state CURRENTNESS_UNVERIFIED is assigned to SRC04",
+      "currentClaims": [
+        {
+          "itemId": "mn_petition_15218-set::official-form:EXP102",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "mn_petition_15218-set::official-form:EXP104",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "mn_petition_15218-set::official-form:EXP106",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "mn_petition_609a02_subd3-set::official-form:EXP101",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "mn_petition_609a02_subd3-set::official-form:EXP102",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "mn_petition_609a02_subd3-set::official-form:EXP104",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "mn_petition_609a02_subd3-set::official-form:EXP105",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "mn_petition_juvenile_as_adult-set::official-form:EXP102",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "mn_petition_juvenile_as_adult-set::official-form:EXP104",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "mn_petition_juvenile_as_adult-set::official-form:EXP106",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        }
+      ],
+      "requiredCanonicalRelationship": "route to DISC; not ACQ rather than the lane currently holding it",
+      "affectedFamilies": [],
+      "exactOwner": "DISC; not ACQ",
+      "independentVerification": "confirm the destination lane can actually satisfy the obligation before the row is worked",
+      "whyThisMatters": "an obligation sent to ACQ that has no fetchable artifact returns BLOCKED_SOURCE and leaves its families looking permanently source-blocked when they are not"
+    },
+    {
+      "priority": 2,
+      "priorityReason": "misrouted statute, bundle, alias or embedded-section row: sent to a lane that cannot satisfy it",
+      "rowId": "SRR-079",
+      "currentSourceIdentity": {
+        "jurisdiction": "NH",
+        "canonicalArtifactId": "NHJB-2317-DSe",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": null,
+      "heldSha256": null,
+      "ambiguity": "registry state CURRENTNESS_UNVERIFIED is assigned to SRC03",
+      "currentClaims": [
+        {
+          "itemId": "nh_conviction_standard-set::official-form:NHJB-2317-DSe",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "nh_conviction_standard-set::official-form:NHJB-3057-DSe",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "nh_petition_nonconviction_pre2019-set::official-form:NHJB-2317-DSe",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "nh_petition_vacated-set::official-form:NHJB-2317-DSe",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        }
+      ],
+      "requiredCanonicalRelationship": "route to DISC; not ACQ rather than the lane currently holding it",
+      "affectedFamilies": [],
+      "exactOwner": "DISC; not ACQ",
+      "independentVerification": "confirm the destination lane can actually satisfy the obligation before the row is worked",
+      "whyThisMatters": "an obligation sent to ACQ that has no fetchable artifact returns BLOCKED_SOURCE and leaves its families looking permanently source-blocked when they are not"
+    },
+    {
+      "priority": 2,
+      "priorityReason": "misrouted statute, bundle, alias or embedded-section row: sent to a lane that cannot satisfy it",
+      "rowId": "SRR-080",
+      "currentSourceIdentity": {
+        "jurisdiction": "NM",
+        "canonicalArtifactId": "4-960.1",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": null,
+      "heldSha256": null,
+      "ambiguity": "registry state CURRENTNESS_UNVERIFIED is assigned to SRC03",
+      "currentClaims": [
+        {
+          "itemId": "nm_conviction-set::official-form:4-222",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "nm_conviction-set::official-form:4-953",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "nm_conviction-set::official-form:4-956",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "nm_conviction-set::official-form:4-960",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "nm_conviction-set::official-form:4-960.1",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "nm_conviction-set::official-form:4-960.3",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "nm_identity_theft-set::official-form:4-222",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "nm_identity_theft-set::official-form:4-951",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "nm_identity_theft-set::official-form:4-960.1",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "nm_release_without_conviction-set::official-form:4-222",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "nm_release_without_conviction-set::official-form:4-952",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "nm_release_without_conviction-set::official-form:4-955",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "nm_release_without_conviction-set::official-form:4-959",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "nm_release_without_conviction-set::official-form:4-960.1",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "nm_release_without_conviction-set::official-form:4-960.2",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        }
+      ],
+      "requiredCanonicalRelationship": "route to DISC; not ACQ rather than the lane currently holding it",
+      "affectedFamilies": [],
+      "exactOwner": "DISC; not ACQ",
+      "independentVerification": "confirm the destination lane can actually satisfy the obligation before the row is worked",
+      "whyThisMatters": "an obligation sent to ACQ that has no fetchable artifact returns BLOCKED_SOURCE and leaves its families looking permanently source-blocked when they are not"
+    },
+    {
+      "priority": 2,
+      "priorityReason": "misrouted statute, bundle, alias or embedded-section row: sent to a lane that cannot satisfy it",
+      "rowId": "SRR-081",
+      "currentSourceIdentity": {
+        "jurisdiction": "IN",
+        "canonicalArtifactId": "CCA Section 1 non-conviction expungement petition",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": null,
+      "heldSha256": null,
+      "ambiguity": "registry state CURRENTNESS_UNVERIFIED is assigned to DISC02, SRC04",
+      "currentClaims": [
+        {
+          "itemId": "in_arrest_no_charges-set::official-form:CCA Section 1 expungement order",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "in_arrest_no_charges-set::official-form:CCA Section 1 non-conviction expungement petition",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "in_arrest_no_charges-set::official-form:CCA-GF-0120-3016",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "in_arrest_no_charges-set::official-form:CCA-XP-0120-7002 Form ACR",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "in_arrest_no_charges-set::official-form:Confidential Information Form",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "in_section1_petition-set::official-form:CCA Section 1 expungement order",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "in_section1_petition-set::official-form:CCA Section 1 non-conviction expungement petition",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "in_section1_petition-set::official-form:CCA-GF-0120-3016",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "in_section1_petition-set::official-form:CCA-XP-0120-7002 Form ACR",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "in_section1_petition-set::official-form:Confidential Information Form",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        }
+      ],
+      "requiredCanonicalRelationship": "route to DISC; not ACQ rather than the lane currently holding it",
+      "affectedFamilies": [],
+      "exactOwner": "DISC; not ACQ",
+      "independentVerification": "confirm the destination lane can actually satisfy the obligation before the row is worked",
+      "whyThisMatters": "an obligation sent to ACQ that has no fetchable artifact returns BLOCKED_SOURCE and leaves its families looking permanently source-blocked when they are not"
+    },
+    {
+      "priority": 2,
+      "priorityReason": "misrouted statute, bundle, alias or embedded-section row: sent to a lane that cannot satisfy it",
+      "rowId": "SRR-082",
+      "currentSourceIdentity": {
+        "jurisdiction": "MD",
+        "canonicalArtifactId": "CC-DC-CR-072B",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": null,
+      "heldSha256": null,
+      "ambiguity": "registry state CURRENTNESS_UNVERIFIED is assigned to SRC02",
+      "currentClaims": [
+        {
+          "itemId": "md_10110_conviction-set::official-form:CC-DC-CR-072B",
+          "lane": "SRC02",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "md_pardon_expungement-set::official-form:CC-DC-CR-072B",
+          "lane": "SRC02",
+          "operation": "held-inventory-reconciliation"
+        }
+      ],
+      "requiredCanonicalRelationship": "route to DISC; not ACQ rather than the lane currently holding it",
+      "affectedFamilies": [],
+      "exactOwner": "DISC; not ACQ",
+      "independentVerification": "confirm the destination lane can actually satisfy the obligation before the row is worked",
+      "whyThisMatters": "an obligation sent to ACQ that has no fetchable artifact returns BLOCKED_SOURCE and leaves its families looking permanently source-blocked when they are not"
+    },
+    {
+      "priority": 2,
+      "priorityReason": "misrouted statute, bundle, alias or embedded-section row: sent to a lane that cannot satisfy it",
+      "rowId": "SRR-083",
+      "currentSourceIdentity": {
+        "jurisdiction": "MN",
+        "canonicalArtifactId": "EXP106",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": null,
+      "heldSha256": null,
+      "ambiguity": "registry state CURRENTNESS_UNVERIFIED is assigned to SRC04",
+      "currentClaims": [
+        {
+          "itemId": "mn_petition_15218-set::official-form:EXP102",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "mn_petition_15218-set::official-form:EXP104",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "mn_petition_15218-set::official-form:EXP106",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "mn_petition_juvenile_as_adult-set::official-form:EXP102",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "mn_petition_juvenile_as_adult-set::official-form:EXP104",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "mn_petition_juvenile_as_adult-set::official-form:EXP106",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        }
+      ],
+      "requiredCanonicalRelationship": "route to DISC; not ACQ rather than the lane currently holding it",
+      "affectedFamilies": [],
+      "exactOwner": "DISC; not ACQ",
+      "independentVerification": "confirm the destination lane can actually satisfy the obligation before the row is worked",
+      "whyThisMatters": "an obligation sent to ACQ that has no fetchable artifact returns BLOCKED_SOURCE and leaves its families looking permanently source-blocked when they are not"
+    },
+    {
+      "priority": 2,
+      "priorityReason": "misrouted statute, bundle, alias or embedded-section row: sent to a lane that cannot satisfy it",
+      "rowId": "SRR-084",
+      "currentSourceIdentity": {
+        "jurisdiction": "MT",
+        "canonicalArtifactId": "MT-OCA-MMRTA",
+        "sourceState": "FAMILY_IDENTITY_AMBIGUOUS"
+      },
+      "heldPath": null,
+      "heldSha256": null,
+      "ambiguity": "registry state FAMILY_IDENTITY_AMBIGUOUS is assigned to DISC02, SRC03",
+      "currentClaims": [
+        {
+          "itemId": "mt_mmrta_completed-set::official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "mt_mmrta_completed-set::official-form:MT-FORM-B",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "mt_mmrta_completed-set::official-form:MT-OCA-MMRTA",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "mt_mmrta_completed-set::source-sha256:2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "mt_mmrta_completed-set::source-sha256:4606815523c3d2a77d1874ca3de8909250abd9349f2973230473116c962109a7",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "mt_mmrta_completed-set::source-sha256:cb2fa9c3d9f38b0b7b0b11b503b05c91cd61c491ad37b74ea1298a6f12747207",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "mt_mmrta_completed-set::source-sha256:d9096c176ca3ac4efb5de0dfd76f0b245ea1487fe1b1b76f265c8a9d6ce6aec9",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "mt_mmrta_serving-set::official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "mt_mmrta_serving-set::official-form:MT-FORM-A",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "mt_mmrta_serving-set::official-form:MT-OCA-MMRTA",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "mt_mmrta_serving-set::source-sha256:2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "mt_mmrta_serving-set::source-sha256:4606815523c3d2a77d1874ca3de8909250abd9349f2973230473116c962109a7",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "mt_mmrta_serving-set::source-sha256:968f68c78ce0d421b3751244bfcbd01c309eb7cea26027845b5e5dc6dbdb003d",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "mt_mmrta_serving-set::source-sha256:d9096c176ca3ac4efb5de0dfd76f0b245ea1487fe1b1b76f265c8a9d6ce6aec9",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        }
+      ],
+      "requiredCanonicalRelationship": "route to DISC; not ACQ rather than the lane currently holding it",
+      "affectedFamilies": [],
+      "exactOwner": "DISC; not ACQ",
+      "independentVerification": "confirm the destination lane can actually satisfy the obligation before the row is worked",
+      "whyThisMatters": "an obligation sent to ACQ that has no fetchable artifact returns BLOCKED_SOURCE and leaves its families looking permanently source-blocked when they are not"
+    },
+    {
+      "priority": 2,
+      "priorityReason": "misrouted statute, bundle, alias or embedded-section row: sent to a lane that cannot satisfy it",
+      "rowId": "SRR-085",
+      "currentSourceIdentity": {
+        "jurisdiction": "NE",
+        "canonicalArtifactId": "CC-6-12",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": null,
+      "heldSha256": null,
+      "ambiguity": "registry state CURRENTNESS_UNVERIFIED is assigned to SRC02",
+      "currentClaims": [
+        {
+          "itemId": "ne-seal-pardoned-set::official-form:CC-6-12a",
+          "lane": "SRC02",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "ne-seal-pre2017-set::official-form:CC-6-12a",
+          "lane": "SRC02",
+          "operation": "held-inventory-reconciliation"
+        }
+      ],
+      "requiredCanonicalRelationship": "route to DISC; not ACQ rather than the lane currently holding it",
+      "affectedFamilies": [],
+      "exactOwner": "DISC; not ACQ",
+      "independentVerification": "confirm the destination lane can actually satisfy the obligation before the row is worked",
+      "whyThisMatters": "an obligation sent to ACQ that has no fetchable artifact returns BLOCKED_SOURCE and leaves its families looking permanently source-blocked when they are not"
+    },
+    {
+      "priority": 2,
+      "priorityReason": "misrouted statute, bundle, alias or embedded-section row: sent to a lane that cannot satisfy it",
+      "rowId": "SRR-086",
+      "currentSourceIdentity": {
+        "jurisdiction": "NH",
+        "canonicalArtifactId": "NHJB-3057-DSe",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": null,
+      "heldSha256": null,
+      "ambiguity": "registry state CURRENTNESS_UNVERIFIED is assigned to SRC03",
+      "currentClaims": [
+        {
+          "itemId": "nh_conviction_standard-set::official-form:NHJB-2317-DSe",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "nh_conviction_standard-set::official-form:NHJB-3057-DSe",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "nh_conviction_streamlined-set::official-form:NHJB-3057-DSe",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        }
+      ],
+      "requiredCanonicalRelationship": "route to DISC; not ACQ rather than the lane currently holding it",
+      "affectedFamilies": [],
+      "exactOwner": "DISC; not ACQ",
+      "independentVerification": "confirm the destination lane can actually satisfy the obligation before the row is worked",
+      "whyThisMatters": "an obligation sent to ACQ that has no fetchable artifact returns BLOCKED_SOURCE and leaves its families looking permanently source-blocked when they are not"
+    },
+    {
+      "priority": 2,
+      "priorityReason": "misrouted statute, bundle, alias or embedded-section row: sent to a lane that cannot satisfy it",
+      "rowId": "SRR-087",
+      "currentSourceIdentity": {
+        "jurisdiction": "WV",
+        "canonicalArtifactId": "SCA-C907",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": null,
+      "heldSha256": null,
+      "ambiguity": "registry state CURRENTNESS_UNVERIFIED is assigned to SRC03",
+      "currentClaims": [
+        {
+          "itemId": "wv_acc_treatment_job_readiness-set::official-form:SCA-C907",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "wv_acc_treatment_job_readiness-set::source-sha256:2a72314146636c4120d87bdfb83f8609e35e9e904eed2f8169bc2375fba30222",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "wv_conv_nonviolent_felony-set::official-form:SCA-C907",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        }
+      ],
+      "requiredCanonicalRelationship": "route to DISC; not ACQ rather than the lane currently holding it",
+      "affectedFamilies": [],
+      "exactOwner": "DISC; not ACQ",
+      "independentVerification": "confirm the destination lane can actually satisfy the obligation before the row is worked",
+      "whyThisMatters": "an obligation sent to ACQ that has no fetchable artifact returns BLOCKED_SOURCE and leaves its families looking permanently source-blocked when they are not"
+    },
+    {
+      "priority": 2,
+      "priorityReason": "misrouted statute, bundle, alias or embedded-section row: sent to a lane that cannot satisfy it",
+      "rowId": "SRR-088",
+      "currentSourceIdentity": {
+        "jurisdiction": "AR",
+        "canonicalArtifactId": "ACIC-ORDER-TO-SEAL-ARREST",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": null,
+      "heldSha256": null,
+      "ambiguity": "registry state CURRENTNESS_UNVERIFIED is assigned to SRC04",
+      "currentClaims": [
+        {
+          "itemId": "ar-arrest-seal-set::official-form:ACIC-ORDER-TO-SEAL-ARREST",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "ar-arrest-seal-set::official-form:ACIC-PETITION-TO-SEAL-ARREST",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        }
+      ],
+      "requiredCanonicalRelationship": "route to DISC; not ACQ rather than the lane currently holding it",
+      "affectedFamilies": [],
+      "exactOwner": "DISC; not ACQ",
+      "independentVerification": "confirm the destination lane can actually satisfy the obligation before the row is worked",
+      "whyThisMatters": "an obligation sent to ACQ that has no fetchable artifact returns BLOCKED_SOURCE and leaves its families looking permanently source-blocked when they are not"
+    },
+    {
+      "priority": 2,
+      "priorityReason": "misrouted statute, bundle, alias or embedded-section row: sent to a lane that cannot satisfy it",
+      "rowId": "SRR-089",
+      "currentSourceIdentity": {
+        "jurisdiction": "AR",
+        "canonicalArtifactId": "ACIC-PETITION-TO-SEAL-ARREST",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": null,
+      "heldSha256": null,
+      "ambiguity": "registry state CURRENTNESS_UNVERIFIED is assigned to SRC04",
+      "currentClaims": [
+        {
+          "itemId": "ar-arrest-seal-set::official-form:ACIC-ORDER-TO-SEAL-ARREST",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "ar-arrest-seal-set::official-form:ACIC-PETITION-TO-SEAL-ARREST",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        }
+      ],
+      "requiredCanonicalRelationship": "route to DISC; not ACQ rather than the lane currently holding it",
+      "affectedFamilies": [],
+      "exactOwner": "DISC; not ACQ",
+      "independentVerification": "confirm the destination lane can actually satisfy the obligation before the row is worked",
+      "whyThisMatters": "an obligation sent to ACQ that has no fetchable artifact returns BLOCKED_SOURCE and leaves its families looking permanently source-blocked when they are not"
+    },
+    {
+      "priority": 2,
+      "priorityReason": "misrouted statute, bundle, alias or embedded-section row: sent to a lane that cannot satisfy it",
+      "rowId": "SRR-090",
+      "currentSourceIdentity": {
+        "jurisdiction": "AZ",
+        "canonicalArtifactId": "AOC-CREM2F-071221",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": null,
+      "heldSha256": null,
+      "ambiguity": "registry state CURRENTNESS_UNVERIFIED is assigned to SRC03",
+      "currentClaims": [
+        {
+          "itemId": "az_marijuana_expungement_limited_jurisdiction-set::official-form:AOC-CREM2F-071221-CONT",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        }
+      ],
+      "requiredCanonicalRelationship": "route to DISC; not ACQ rather than the lane currently holding it",
+      "affectedFamilies": [],
+      "exactOwner": "DISC; not ACQ",
+      "independentVerification": "confirm the destination lane can actually satisfy the obligation before the row is worked",
+      "whyThisMatters": "an obligation sent to ACQ that has no fetchable artifact returns BLOCKED_SOURCE and leaves its families looking permanently source-blocked when they are not"
+    },
+    {
+      "priority": 2,
+      "priorityReason": "misrouted statute, bundle, alias or embedded-section row: sent to a lane that cannot satisfy it",
+      "rowId": "SRR-091",
+      "currentSourceIdentity": {
+        "jurisdiction": "AZ",
+        "canonicalArtifactId": "AOCCRSL1F-050825",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": null,
+      "heldSha256": null,
+      "ambiguity": "registry state CURRENTNESS_UNVERIFIED is assigned to SRC03",
+      "currentClaims": [
+        {
+          "itemId": "az_record_sealing_conviction-set::official-form:AOCCRSL1F-050825-CONT",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        }
+      ],
+      "requiredCanonicalRelationship": "route to DISC; not ACQ rather than the lane currently holding it",
+      "affectedFamilies": [],
+      "exactOwner": "DISC; not ACQ",
+      "independentVerification": "confirm the destination lane can actually satisfy the obligation before the row is worked",
+      "whyThisMatters": "an obligation sent to ACQ that has no fetchable artifact returns BLOCKED_SOURCE and leaves its families looking permanently source-blocked when they are not"
+    },
+    {
+      "priority": 2,
+      "priorityReason": "misrouted statute, bundle, alias or embedded-section row: sent to a lane that cannot satisfy it",
+      "rowId": "SRR-092",
+      "currentSourceIdentity": {
+        "jurisdiction": "AZ",
+        "canonicalArtifactId": "AOCCRSL2F-050825",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": null,
+      "heldSha256": null,
+      "ambiguity": "registry state CURRENTNESS_UNVERIFIED is assigned to SRC03",
+      "currentClaims": [
+        {
+          "itemId": "az_record_sealing_conviction-set::official-form:AOCCRSL1F-050825-CONT",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        }
+      ],
+      "requiredCanonicalRelationship": "route to DISC; not ACQ rather than the lane currently holding it",
+      "affectedFamilies": [],
+      "exactOwner": "DISC; not ACQ",
+      "independentVerification": "confirm the destination lane can actually satisfy the obligation before the row is worked",
+      "whyThisMatters": "an obligation sent to ACQ that has no fetchable artifact returns BLOCKED_SOURCE and leaves its families looking permanently source-blocked when they are not"
+    },
+    {
+      "priority": 2,
+      "priorityReason": "misrouted statute, bundle, alias or embedded-section row: sent to a lane that cannot satisfy it",
+      "rowId": "SRR-093",
+      "currentSourceIdentity": {
+        "jurisdiction": "CO",
+        "canonicalArtifactId": "JDF-417",
+        "sourceState": "FAMILY_IDENTITY_AMBIGUOUS"
+      },
+      "heldPath": null,
+      "heldSha256": null,
+      "ambiguity": "registry state FAMILY_IDENTITY_AMBIGUOUS is assigned to SRC02",
+      "currentClaims": [
+        {
+          "itemId": "co_petition_seal_arrest-set::official-form:JDF-417-ORDER",
+          "lane": "SRC02",
+          "operation": "held-inventory-reconciliation"
+        }
+      ],
+      "requiredCanonicalRelationship": "route to DISC; not ACQ rather than the lane currently holding it",
+      "affectedFamilies": [],
+      "exactOwner": "DISC; not ACQ",
+      "independentVerification": "confirm the destination lane can actually satisfy the obligation before the row is worked",
+      "whyThisMatters": "an obligation sent to ACQ that has no fetchable artifact returns BLOCKED_SOURCE and leaves its families looking permanently source-blocked when they are not"
+    },
+    {
+      "priority": 2,
+      "priorityReason": "misrouted statute, bundle, alias or embedded-section row: sent to a lane that cannot satisfy it",
+      "rowId": "SRR-094",
+      "currentSourceIdentity": {
+        "jurisdiction": "CO",
+        "canonicalArtifactId": "JDF-683",
+        "sourceState": "FAMILY_IDENTITY_AMBIGUOUS"
+      },
+      "heldPath": null,
+      "heldSha256": null,
+      "ambiguity": "registry state FAMILY_IDENTITY_AMBIGUOUS is assigned to SRC02",
+      "currentClaims": [
+        {
+          "itemId": "co_municipal_conviction_seal-set::official-form:JDF-684",
+          "lane": "SRC02",
+          "operation": "held-inventory-reconciliation"
+        }
+      ],
+      "requiredCanonicalRelationship": "route to DISC; not ACQ rather than the lane currently holding it",
+      "affectedFamilies": [],
+      "exactOwner": "DISC; not ACQ",
+      "independentVerification": "confirm the destination lane can actually satisfy the obligation before the row is worked",
+      "whyThisMatters": "an obligation sent to ACQ that has no fetchable artifact returns BLOCKED_SOURCE and leaves its families looking permanently source-blocked when they are not"
+    },
+    {
+      "priority": 2,
+      "priorityReason": "misrouted statute, bundle, alias or embedded-section row: sent to a lane that cannot satisfy it",
+      "rowId": "SRR-095",
+      "currentSourceIdentity": {
+        "jurisdiction": "CO",
+        "canonicalArtifactId": "JDF-684",
+        "sourceState": "FAMILY_IDENTITY_AMBIGUOUS"
+      },
+      "heldPath": null,
+      "heldSha256": null,
+      "ambiguity": "registry state FAMILY_IDENTITY_AMBIGUOUS is assigned to SRC02",
+      "currentClaims": [
+        {
+          "itemId": "co_municipal_conviction_seal-set::official-form:JDF-684",
+          "lane": "SRC02",
+          "operation": "held-inventory-reconciliation"
+        }
+      ],
+      "requiredCanonicalRelationship": "route to DISC; not ACQ rather than the lane currently holding it",
+      "affectedFamilies": [],
+      "exactOwner": "DISC; not ACQ",
+      "independentVerification": "confirm the destination lane can actually satisfy the obligation before the row is worked",
+      "whyThisMatters": "an obligation sent to ACQ that has no fetchable artifact returns BLOCKED_SOURCE and leaves its families looking permanently source-blocked when they are not"
+    },
+    {
+      "priority": 2,
+      "priorityReason": "misrouted statute, bundle, alias or embedded-section row: sent to a lane that cannot satisfy it",
+      "rowId": "SRR-096",
+      "currentSourceIdentity": {
+        "jurisdiction": "DE",
+        "canonicalArtifactId": "FORM-281",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": null,
+      "heldSha256": null,
+      "ambiguity": "registry state CURRENTNESS_UNVERIFIED is assigned to SRC01",
+      "currentClaims": [
+        {
+          "itemId": "de_discretionary_family_court-set::official-form:FORM-281",
+          "lane": "SRC01",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "de_discretionary_family_court-set::official-form:FORM-281E",
+          "lane": "SRC01",
+          "operation": "held-inventory-reconciliation"
+        }
+      ],
+      "requiredCanonicalRelationship": "route to DISC; not ACQ rather than the lane currently holding it",
+      "affectedFamilies": [],
+      "exactOwner": "DISC; not ACQ",
+      "independentVerification": "confirm the destination lane can actually satisfy the obligation before the row is worked",
+      "whyThisMatters": "an obligation sent to ACQ that has no fetchable artifact returns BLOCKED_SOURCE and leaves its families looking permanently source-blocked when they are not"
+    },
+    {
+      "priority": 2,
+      "priorityReason": "misrouted statute, bundle, alias or embedded-section row: sent to a lane that cannot satisfy it",
+      "rowId": "SRR-097",
+      "currentSourceIdentity": {
+        "jurisdiction": "DE",
+        "canonicalArtifactId": "FORM-281E",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": null,
+      "heldSha256": null,
+      "ambiguity": "registry state CURRENTNESS_UNVERIFIED is assigned to SRC01",
+      "currentClaims": [
+        {
+          "itemId": "de_discretionary_family_court-set::official-form:FORM-281",
+          "lane": "SRC01",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "de_discretionary_family_court-set::official-form:FORM-281E",
+          "lane": "SRC01",
+          "operation": "held-inventory-reconciliation"
+        }
+      ],
+      "requiredCanonicalRelationship": "route to DISC; not ACQ rather than the lane currently holding it",
+      "affectedFamilies": [],
+      "exactOwner": "DISC; not ACQ",
+      "independentVerification": "confirm the destination lane can actually satisfy the obligation before the row is worked",
+      "whyThisMatters": "an obligation sent to ACQ that has no fetchable artifact returns BLOCKED_SOURCE and leaves its families looking permanently source-blocked when they are not"
+    },
+    {
+      "priority": 2,
+      "priorityReason": "misrouted statute, bundle, alias or embedded-section row: sent to a lane that cannot satisfy it",
+      "rowId": "SRR-098",
+      "currentSourceIdentity": {
+        "jurisdiction": "IN",
+        "canonicalArtifactId": "CCA-XP-0220-7008",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": null,
+      "heldSha256": null,
+      "ambiguity": "registry state CURRENTNESS_UNVERIFIED is assigned to DISC02, SRC04",
+      "currentClaims": [
+        {
+          "itemId": "in_conviction_misd-set::official-form:CCA conviction expungement order",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "in_conviction_misd-set::official-form:CCA conviction expungement petition",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "in_conviction_misd-set::official-form:CCA-GF-0120-3016",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "in_conviction_misd-set::official-form:CCA-XP-0120-7002 Form ACR",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "in_conviction_misd-set::official-form:Confidential Information Form",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        }
+      ],
+      "requiredCanonicalRelationship": "route to DISC; not ACQ rather than the lane currently holding it",
+      "affectedFamilies": [],
+      "exactOwner": "DISC; not ACQ",
+      "independentVerification": "confirm the destination lane can actually satisfy the obligation before the row is worked",
+      "whyThisMatters": "an obligation sent to ACQ that has no fetchable artifact returns BLOCKED_SOURCE and leaves its families looking permanently source-blocked when they are not"
+    },
+    {
+      "priority": 2,
+      "priorityReason": "misrouted statute, bundle, alias or embedded-section row: sent to a lane that cannot satisfy it",
+      "rowId": "SRR-099",
+      "currentSourceIdentity": {
+        "jurisdiction": "IN",
+        "canonicalArtifactId": "CCA-XP-0220-7009",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": null,
+      "heldSha256": null,
+      "ambiguity": "registry state CURRENTNESS_UNVERIFIED is assigned to DISC02, SRC04",
+      "currentClaims": [
+        {
+          "itemId": "in_conviction_d6-set::official-form:CCA conviction expungement order",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "in_conviction_d6-set::official-form:CCA conviction expungement petition",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "in_conviction_d6-set::official-form:CCA-GF-0120-3016",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "in_conviction_d6-set::official-form:CCA-XP-0120-7002 Form ACR",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "in_conviction_d6-set::official-form:Confidential Information Form",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        }
+      ],
+      "requiredCanonicalRelationship": "route to DISC; not ACQ rather than the lane currently holding it",
+      "affectedFamilies": [],
+      "exactOwner": "DISC; not ACQ",
+      "independentVerification": "confirm the destination lane can actually satisfy the obligation before the row is worked",
+      "whyThisMatters": "an obligation sent to ACQ that has no fetchable artifact returns BLOCKED_SOURCE and leaves its families looking permanently source-blocked when they are not"
+    },
+    {
+      "priority": 2,
+      "priorityReason": "misrouted statute, bundle, alias or embedded-section row: sent to a lane that cannot satisfy it",
+      "rowId": "SRR-100",
+      "currentSourceIdentity": {
+        "jurisdiction": "IN",
+        "canonicalArtifactId": "CCA-XP-0220-7010",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": null,
+      "heldSha256": null,
+      "ambiguity": "registry state CURRENTNESS_UNVERIFIED is assigned to DISC02, SRC04",
+      "currentClaims": [
+        {
+          "itemId": "in_conviction_felony-set::official-form:CCA conviction expungement order",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "in_conviction_felony-set::official-form:CCA conviction expungement petition",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "in_conviction_felony-set::official-form:CCA-GF-0120-3016",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "in_conviction_felony-set::official-form:CCA-XP-0120-7002 Form ACR",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        },
+        {
+          "itemId": "in_conviction_felony-set::official-form:Confidential Information Form",
+          "lane": "DISC02",
+          "operation": "exact-source-identity"
+        }
+      ],
+      "requiredCanonicalRelationship": "route to DISC; not ACQ rather than the lane currently holding it",
+      "affectedFamilies": [],
+      "exactOwner": "DISC; not ACQ",
+      "independentVerification": "confirm the destination lane can actually satisfy the obligation before the row is worked",
+      "whyThisMatters": "an obligation sent to ACQ that has no fetchable artifact returns BLOCKED_SOURCE and leaves its families looking permanently source-blocked when they are not"
+    },
+    {
+      "priority": 2,
+      "priorityReason": "misrouted statute, bundle, alias or embedded-section row: sent to a lane that cannot satisfy it",
+      "rowId": "SRR-101",
+      "currentSourceIdentity": {
+        "jurisdiction": "MD",
+        "canonicalArtifactId": "CC-DC-CR-072A",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": null,
+      "heldSha256": null,
+      "ambiguity": "registry state CURRENTNESS_UNVERIFIED is assigned to SRC02",
+      "currentClaims": [
+        {
+          "itemId": "md_10105_favorable-set::official-form:CC-DC-CR-072A",
+          "lane": "SRC02",
+          "operation": "held-inventory-reconciliation"
+        }
+      ],
+      "requiredCanonicalRelationship": "route to DISC; not ACQ rather than the lane currently holding it",
+      "affectedFamilies": [],
+      "exactOwner": "DISC; not ACQ",
+      "independentVerification": "confirm the destination lane can actually satisfy the obligation before the row is worked",
+      "whyThisMatters": "an obligation sent to ACQ that has no fetchable artifact returns BLOCKED_SOURCE and leaves its families looking permanently source-blocked when they are not"
+    },
+    {
+      "priority": 2,
+      "priorityReason": "misrouted statute, bundle, alias or embedded-section row: sent to a lane that cannot satisfy it",
+      "rowId": "SRR-102",
+      "currentSourceIdentity": {
+        "jurisdiction": "MD",
+        "canonicalArtifactId": "CC-DC-CR-072C",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": null,
+      "heldSha256": null,
+      "ambiguity": "registry state CURRENTNESS_UNVERIFIED is assigned to SRC02",
+      "currentClaims": [
+        {
+          "itemId": "md_10105_early-set::official-form:CC-DC-CR-072C",
+          "lane": "SRC02",
+          "operation": "held-inventory-reconciliation"
+        }
+      ],
+      "requiredCanonicalRelationship": "route to DISC; not ACQ rather than the lane currently holding it",
+      "affectedFamilies": [],
+      "exactOwner": "DISC; not ACQ",
+      "independentVerification": "confirm the destination lane can actually satisfy the obligation before the row is worked",
+      "whyThisMatters": "an obligation sent to ACQ that has no fetchable artifact returns BLOCKED_SOURCE and leaves its families looking permanently source-blocked when they are not"
+    },
+    {
+      "priority": 2,
+      "priorityReason": "misrouted statute, bundle, alias or embedded-section row: sent to a lane that cannot satisfy it",
+      "rowId": "SRR-103",
+      "currentSourceIdentity": {
+        "jurisdiction": "MD",
+        "canonicalArtifactId": "CC-DC-CR-072D",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": null,
+      "heldSha256": null,
+      "ambiguity": "registry state CURRENTNESS_UNVERIFIED is assigned to SRC02",
+      "currentClaims": [
+        {
+          "itemId": "md_cannabis_petition-set::official-form:CC-DC-CR-072D",
+          "lane": "SRC02",
+          "operation": "held-inventory-reconciliation"
+        }
+      ],
+      "requiredCanonicalRelationship": "route to DISC; not ACQ rather than the lane currently holding it",
+      "affectedFamilies": [],
+      "exactOwner": "DISC; not ACQ",
+      "independentVerification": "confirm the destination lane can actually satisfy the obligation before the row is worked",
+      "whyThisMatters": "an obligation sent to ACQ that has no fetchable artifact returns BLOCKED_SOURCE and leaves its families looking permanently source-blocked when they are not"
+    },
+    {
+      "priority": 2,
+      "priorityReason": "misrouted statute, bundle, alias or embedded-section row: sent to a lane that cannot satisfy it",
+      "rowId": "SRR-104",
+      "currentSourceIdentity": {
+        "jurisdiction": "MD",
+        "canonicalArtifactId": "CC-DC-CR-078",
+        "sourceState": "FAMILY_IDENTITY_AMBIGUOUS"
+      },
+      "heldPath": null,
+      "heldSha256": null,
+      "ambiguity": "registry state FAMILY_IDENTITY_AMBIGUOUS is assigned to SRC02",
+      "currentClaims": [
+        {
+          "itemId": "md_10105_early-set::official-form:CC-DC-CR-072C",
+          "lane": "SRC02",
+          "operation": "held-inventory-reconciliation"
+        }
+      ],
+      "requiredCanonicalRelationship": "route to DISC; not ACQ rather than the lane currently holding it",
+      "affectedFamilies": [],
+      "exactOwner": "DISC; not ACQ",
+      "independentVerification": "confirm the destination lane can actually satisfy the obligation before the row is worked",
+      "whyThisMatters": "an obligation sent to ACQ that has no fetchable artifact returns BLOCKED_SOURCE and leaves its families looking permanently source-blocked when they are not"
+    },
+    {
+      "priority": 2,
+      "priorityReason": "misrouted statute, bundle, alias or embedded-section row: sent to a lane that cannot satisfy it",
+      "rowId": "SRR-105",
+      "currentSourceIdentity": {
+        "jurisdiction": "ME",
+        "canonicalArtifactId": "CR-218",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": null,
+      "heldSha256": null,
+      "ambiguity": "registry state CURRENTNESS_UNVERIFIED is assigned to SRC04",
+      "currentClaims": [
+        {
+          "itemId": "me-seal-gen-set::official-form:CR-218",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        }
+      ],
+      "requiredCanonicalRelationship": "route to DISC; not ACQ rather than the lane currently holding it",
+      "affectedFamilies": [],
+      "exactOwner": "DISC; not ACQ",
+      "independentVerification": "confirm the destination lane can actually satisfy the obligation before the row is worked",
+      "whyThisMatters": "an obligation sent to ACQ that has no fetchable artifact returns BLOCKED_SOURCE and leaves its families looking permanently source-blocked when they are not"
+    },
+    {
+      "priority": 2,
+      "priorityReason": "misrouted statute, bundle, alias or embedded-section row: sent to a lane that cannot satisfy it",
+      "rowId": "SRR-106",
+      "currentSourceIdentity": {
+        "jurisdiction": "ME",
+        "canonicalArtifactId": "CR-307",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": null,
+      "heldSha256": null,
+      "ambiguity": "registry state CURRENTNESS_UNVERIFIED is assigned to SRC04",
+      "currentClaims": [
+        {
+          "itemId": "me-seal-survivor-set::official-form:CR-308",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        }
+      ],
+      "requiredCanonicalRelationship": "route to DISC; not ACQ rather than the lane currently holding it",
+      "affectedFamilies": [],
+      "exactOwner": "DISC; not ACQ",
+      "independentVerification": "confirm the destination lane can actually satisfy the obligation before the row is worked",
+      "whyThisMatters": "an obligation sent to ACQ that has no fetchable artifact returns BLOCKED_SOURCE and leaves its families looking permanently source-blocked when they are not"
+    },
+    {
+      "priority": 2,
+      "priorityReason": "misrouted statute, bundle, alias or embedded-section row: sent to a lane that cannot satisfy it",
+      "rowId": "SRR-107",
+      "currentSourceIdentity": {
+        "jurisdiction": "ME",
+        "canonicalArtifactId": "CR-308",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": null,
+      "heldSha256": null,
+      "ambiguity": "registry state CURRENTNESS_UNVERIFIED is assigned to SRC04",
+      "currentClaims": [
+        {
+          "itemId": "me-seal-survivor-set::official-form:CR-308",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        }
+      ],
+      "requiredCanonicalRelationship": "route to DISC; not ACQ rather than the lane currently holding it",
+      "affectedFamilies": [],
+      "exactOwner": "DISC; not ACQ",
+      "independentVerification": "confirm the destination lane can actually satisfy the obligation before the row is worked",
+      "whyThisMatters": "an obligation sent to ACQ that has no fetchable artifact returns BLOCKED_SOURCE and leaves its families looking permanently source-blocked when they are not"
+    },
+    {
+      "priority": 2,
+      "priorityReason": "misrouted statute, bundle, alias or embedded-section row: sent to a lane that cannot satisfy it",
+      "rowId": "SRR-108",
+      "currentSourceIdentity": {
+        "jurisdiction": "MN",
+        "canonicalArtifactId": "EXP101",
+        "sourceState": "FAMILY_IDENTITY_AMBIGUOUS"
+      },
+      "heldPath": null,
+      "heldSha256": null,
+      "ambiguity": "registry state FAMILY_IDENTITY_AMBIGUOUS is assigned to SRC04",
+      "currentClaims": [
+        {
+          "itemId": "mn_petition_609a02_subd3-set::official-form:EXP101",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "mn_petition_609a02_subd3-set::official-form:EXP102",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "mn_petition_609a02_subd3-set::official-form:EXP104",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "mn_petition_609a02_subd3-set::official-form:EXP105",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        }
+      ],
+      "requiredCanonicalRelationship": "route to DISC; not ACQ rather than the lane currently holding it",
+      "affectedFamilies": [],
+      "exactOwner": "DISC; not ACQ",
+      "independentVerification": "confirm the destination lane can actually satisfy the obligation before the row is worked",
+      "whyThisMatters": "an obligation sent to ACQ that has no fetchable artifact returns BLOCKED_SOURCE and leaves its families looking permanently source-blocked when they are not"
+    },
+    {
+      "priority": 2,
+      "priorityReason": "misrouted statute, bundle, alias or embedded-section row: sent to a lane that cannot satisfy it",
+      "rowId": "SRR-109",
+      "currentSourceIdentity": {
+        "jurisdiction": "MN",
+        "canonicalArtifactId": "EXP105",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": null,
+      "heldSha256": null,
+      "ambiguity": "registry state CURRENTNESS_UNVERIFIED is assigned to SRC04",
+      "currentClaims": [
+        {
+          "itemId": "mn_petition_609a02_subd3-set::official-form:EXP101",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "mn_petition_609a02_subd3-set::official-form:EXP102",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "mn_petition_609a02_subd3-set::official-form:EXP104",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "mn_petition_609a02_subd3-set::official-form:EXP105",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        }
+      ],
+      "requiredCanonicalRelationship": "route to DISC; not ACQ rather than the lane currently holding it",
+      "affectedFamilies": [],
+      "exactOwner": "DISC; not ACQ",
+      "independentVerification": "confirm the destination lane can actually satisfy the obligation before the row is worked",
+      "whyThisMatters": "an obligation sent to ACQ that has no fetchable artifact returns BLOCKED_SOURCE and leaves its families looking permanently source-blocked when they are not"
+    },
+    {
+      "priority": 2,
+      "priorityReason": "misrouted statute, bundle, alias or embedded-section row: sent to a lane that cannot satisfy it",
+      "rowId": "SRR-110",
+      "currentSourceIdentity": {
+        "jurisdiction": "NH",
+        "canonicalArtifactId": "NHJB-3124-DS",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": null,
+      "heldSha256": null,
+      "ambiguity": "registry state CURRENTNESS_UNVERIFIED is assigned to SRC03",
+      "currentClaims": [
+        {
+          "itemId": "nh_marijuana_annulment-set::official-form:NHJB-3124-DS",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        }
+      ],
+      "requiredCanonicalRelationship": "route to DISC; not ACQ rather than the lane currently holding it",
+      "affectedFamilies": [],
+      "exactOwner": "DISC; not ACQ",
+      "independentVerification": "confirm the destination lane can actually satisfy the obligation before the row is worked",
+      "whyThisMatters": "an obligation sent to ACQ that has no fetchable artifact returns BLOCKED_SOURCE and leaves its families looking permanently source-blocked when they are not"
+    },
+    {
+      "priority": 2,
+      "priorityReason": "misrouted statute, bundle, alias or embedded-section row: sent to a lane that cannot satisfy it",
+      "rowId": "SRR-111",
+      "currentSourceIdentity": {
+        "jurisdiction": "NM",
+        "canonicalArtifactId": "4-951",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": null,
+      "heldSha256": null,
+      "ambiguity": "registry state CURRENTNESS_UNVERIFIED is assigned to SRC03",
+      "currentClaims": [
+        {
+          "itemId": "nm_identity_theft-set::official-form:4-222",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "nm_identity_theft-set::official-form:4-951",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "nm_identity_theft-set::official-form:4-960.1",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        }
+      ],
+      "requiredCanonicalRelationship": "route to DISC; not ACQ rather than the lane currently holding it",
+      "affectedFamilies": [],
+      "exactOwner": "DISC; not ACQ",
+      "independentVerification": "confirm the destination lane can actually satisfy the obligation before the row is worked",
+      "whyThisMatters": "an obligation sent to ACQ that has no fetchable artifact returns BLOCKED_SOURCE and leaves its families looking permanently source-blocked when they are not"
+    },
+    {
+      "priority": 2,
+      "priorityReason": "misrouted statute, bundle, alias or embedded-section row: sent to a lane that cannot satisfy it",
+      "rowId": "SRR-112",
+      "currentSourceIdentity": {
+        "jurisdiction": "NM",
+        "canonicalArtifactId": "4-952",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": null,
+      "heldSha256": null,
+      "ambiguity": "registry state CURRENTNESS_UNVERIFIED is assigned to SRC03",
+      "currentClaims": [
+        {
+          "itemId": "nm_release_without_conviction-set::official-form:4-222",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "nm_release_without_conviction-set::official-form:4-952",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "nm_release_without_conviction-set::official-form:4-955",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "nm_release_without_conviction-set::official-form:4-959",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "nm_release_without_conviction-set::official-form:4-960.1",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "nm_release_without_conviction-set::official-form:4-960.2",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        }
+      ],
+      "requiredCanonicalRelationship": "route to DISC; not ACQ rather than the lane currently holding it",
+      "affectedFamilies": [],
+      "exactOwner": "DISC; not ACQ",
+      "independentVerification": "confirm the destination lane can actually satisfy the obligation before the row is worked",
+      "whyThisMatters": "an obligation sent to ACQ that has no fetchable artifact returns BLOCKED_SOURCE and leaves its families looking permanently source-blocked when they are not"
+    },
+    {
+      "priority": 2,
+      "priorityReason": "misrouted statute, bundle, alias or embedded-section row: sent to a lane that cannot satisfy it",
+      "rowId": "SRR-113",
+      "currentSourceIdentity": {
+        "jurisdiction": "NM",
+        "canonicalArtifactId": "4-953",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": null,
+      "heldSha256": null,
+      "ambiguity": "registry state CURRENTNESS_UNVERIFIED is assigned to SRC03",
+      "currentClaims": [
+        {
+          "itemId": "nm_conviction-set::official-form:4-222",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "nm_conviction-set::official-form:4-953",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "nm_conviction-set::official-form:4-956",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "nm_conviction-set::official-form:4-960",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "nm_conviction-set::official-form:4-960.1",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "nm_conviction-set::official-form:4-960.3",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        }
+      ],
+      "requiredCanonicalRelationship": "route to DISC; not ACQ rather than the lane currently holding it",
+      "affectedFamilies": [],
+      "exactOwner": "DISC; not ACQ",
+      "independentVerification": "confirm the destination lane can actually satisfy the obligation before the row is worked",
+      "whyThisMatters": "an obligation sent to ACQ that has no fetchable artifact returns BLOCKED_SOURCE and leaves its families looking permanently source-blocked when they are not"
+    },
+    {
+      "priority": 2,
+      "priorityReason": "misrouted statute, bundle, alias or embedded-section row: sent to a lane that cannot satisfy it",
+      "rowId": "SRR-114",
+      "currentSourceIdentity": {
+        "jurisdiction": "NM",
+        "canonicalArtifactId": "4-955",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": null,
+      "heldSha256": null,
+      "ambiguity": "registry state CURRENTNESS_UNVERIFIED is assigned to SRC03",
+      "currentClaims": [
+        {
+          "itemId": "nm_release_without_conviction-set::official-form:4-222",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "nm_release_without_conviction-set::official-form:4-952",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "nm_release_without_conviction-set::official-form:4-955",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "nm_release_without_conviction-set::official-form:4-959",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "nm_release_without_conviction-set::official-form:4-960.1",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "nm_release_without_conviction-set::official-form:4-960.2",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        }
+      ],
+      "requiredCanonicalRelationship": "route to DISC; not ACQ rather than the lane currently holding it",
+      "affectedFamilies": [],
+      "exactOwner": "DISC; not ACQ",
+      "independentVerification": "confirm the destination lane can actually satisfy the obligation before the row is worked",
+      "whyThisMatters": "an obligation sent to ACQ that has no fetchable artifact returns BLOCKED_SOURCE and leaves its families looking permanently source-blocked when they are not"
+    },
+    {
+      "priority": 2,
+      "priorityReason": "misrouted statute, bundle, alias or embedded-section row: sent to a lane that cannot satisfy it",
+      "rowId": "SRR-115",
+      "currentSourceIdentity": {
+        "jurisdiction": "NM",
+        "canonicalArtifactId": "4-959",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": null,
+      "heldSha256": null,
+      "ambiguity": "registry state CURRENTNESS_UNVERIFIED is assigned to SRC03",
+      "currentClaims": [
+        {
+          "itemId": "nm_release_without_conviction-set::official-form:4-222",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "nm_release_without_conviction-set::official-form:4-952",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "nm_release_without_conviction-set::official-form:4-955",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "nm_release_without_conviction-set::official-form:4-959",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "nm_release_without_conviction-set::official-form:4-960.1",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "nm_release_without_conviction-set::official-form:4-960.2",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        }
+      ],
+      "requiredCanonicalRelationship": "route to DISC; not ACQ rather than the lane currently holding it",
+      "affectedFamilies": [],
+      "exactOwner": "DISC; not ACQ",
+      "independentVerification": "confirm the destination lane can actually satisfy the obligation before the row is worked",
+      "whyThisMatters": "an obligation sent to ACQ that has no fetchable artifact returns BLOCKED_SOURCE and leaves its families looking permanently source-blocked when they are not"
+    },
+    {
+      "priority": 2,
+      "priorityReason": "misrouted statute, bundle, alias or embedded-section row: sent to a lane that cannot satisfy it",
+      "rowId": "SRR-116",
+      "currentSourceIdentity": {
+        "jurisdiction": "NM",
+        "canonicalArtifactId": "4-960",
+        "sourceState": "FAMILY_IDENTITY_AMBIGUOUS"
+      },
+      "heldPath": null,
+      "heldSha256": null,
+      "ambiguity": "registry state FAMILY_IDENTITY_AMBIGUOUS is assigned to SRC03",
+      "currentClaims": [
+        {
+          "itemId": "nm_conviction-set::official-form:4-222",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "nm_conviction-set::official-form:4-953",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "nm_conviction-set::official-form:4-956",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "nm_conviction-set::official-form:4-960",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "nm_conviction-set::official-form:4-960.1",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "nm_conviction-set::official-form:4-960.3",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        }
+      ],
+      "requiredCanonicalRelationship": "route to DISC; not ACQ rather than the lane currently holding it",
+      "affectedFamilies": [],
+      "exactOwner": "DISC; not ACQ",
+      "independentVerification": "confirm the destination lane can actually satisfy the obligation before the row is worked",
+      "whyThisMatters": "an obligation sent to ACQ that has no fetchable artifact returns BLOCKED_SOURCE and leaves its families looking permanently source-blocked when they are not"
+    },
+    {
+      "priority": 2,
+      "priorityReason": "misrouted statute, bundle, alias or embedded-section row: sent to a lane that cannot satisfy it",
+      "rowId": "SRR-117",
+      "currentSourceIdentity": {
+        "jurisdiction": "NM",
+        "canonicalArtifactId": "4-960.2",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": null,
+      "heldSha256": null,
+      "ambiguity": "registry state CURRENTNESS_UNVERIFIED is assigned to SRC03",
+      "currentClaims": [
+        {
+          "itemId": "nm_release_without_conviction-set::official-form:4-222",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "nm_release_without_conviction-set::official-form:4-952",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "nm_release_without_conviction-set::official-form:4-955",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "nm_release_without_conviction-set::official-form:4-959",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "nm_release_without_conviction-set::official-form:4-960.1",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "nm_release_without_conviction-set::official-form:4-960.2",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        }
+      ],
+      "requiredCanonicalRelationship": "route to DISC; not ACQ rather than the lane currently holding it",
+      "affectedFamilies": [],
+      "exactOwner": "DISC; not ACQ",
+      "independentVerification": "confirm the destination lane can actually satisfy the obligation before the row is worked",
+      "whyThisMatters": "an obligation sent to ACQ that has no fetchable artifact returns BLOCKED_SOURCE and leaves its families looking permanently source-blocked when they are not"
+    },
+    {
+      "priority": 2,
+      "priorityReason": "misrouted statute, bundle, alias or embedded-section row: sent to a lane that cannot satisfy it",
+      "rowId": "SRR-118",
+      "currentSourceIdentity": {
+        "jurisdiction": "UT",
+        "canonicalArtifactId": "1003EX",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": null,
+      "heldSha256": null,
+      "ambiguity": "registry state CURRENTNESS_UNVERIFIED is assigned to SRC04",
+      "currentClaims": [
+        {
+          "itemId": "ut_pet_cannabis-set::official-form:1023EX",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        }
+      ],
+      "requiredCanonicalRelationship": "route to DISC; not ACQ rather than the lane currently holding it",
+      "affectedFamilies": [],
+      "exactOwner": "DISC; not ACQ",
+      "independentVerification": "confirm the destination lane can actually satisfy the obligation before the row is worked",
+      "whyThisMatters": "an obligation sent to ACQ that has no fetchable artifact returns BLOCKED_SOURCE and leaves its families looking permanently source-blocked when they are not"
+    },
+    {
+      "priority": 2,
+      "priorityReason": "misrouted statute, bundle, alias or embedded-section row: sent to a lane that cannot satisfy it",
+      "rowId": "SRR-119",
+      "currentSourceIdentity": {
+        "jurisdiction": "UT",
+        "canonicalArtifactId": "1023EX",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": null,
+      "heldSha256": null,
+      "ambiguity": "registry state CURRENTNESS_UNVERIFIED is assigned to SRC04",
+      "currentClaims": [
+        {
+          "itemId": "ut_pet_cannabis-set::official-form:1023EX",
+          "lane": "SRC04",
+          "operation": "held-inventory-reconciliation"
+        }
+      ],
+      "requiredCanonicalRelationship": "route to DISC; not ACQ rather than the lane currently holding it",
+      "affectedFamilies": [],
+      "exactOwner": "DISC; not ACQ",
+      "independentVerification": "confirm the destination lane can actually satisfy the obligation before the row is worked",
+      "whyThisMatters": "an obligation sent to ACQ that has no fetchable artifact returns BLOCKED_SOURCE and leaves its families looking permanently source-blocked when they are not"
+    },
+    {
+      "priority": 2,
+      "priorityReason": "misrouted statute, bundle, alias or embedded-section row: sent to a lane that cannot satisfy it",
+      "rowId": "SRR-120",
+      "currentSourceIdentity": {
+        "jurisdiction": "WV",
+        "canonicalArtifactId": "SCA-C906",
+        "sourceState": "CURRENTNESS_UNVERIFIED"
+      },
+      "heldPath": null,
+      "heldSha256": null,
+      "ambiguity": "registry state CURRENTNESS_UNVERIFIED is assigned to SRC03",
+      "currentClaims": [
+        {
+          "itemId": "wv_acc_treatment_job_readiness-set::official-form:SCA-C907",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        },
+        {
+          "itemId": "wv_acc_treatment_job_readiness-set::source-sha256:2a72314146636c4120d87bdfb83f8609e35e9e904eed2f8169bc2375fba30222",
+          "lane": "SRC03",
+          "operation": "held-inventory-reconciliation"
+        }
+      ],
+      "requiredCanonicalRelationship": "route to DISC; not ACQ rather than the lane currently holding it",
+      "affectedFamilies": [],
+      "exactOwner": "DISC; not ACQ",
+      "independentVerification": "confirm the destination lane can actually satisfy the obligation before the row is worked",
+      "whyThisMatters": "an obligation sent to ACQ that has no fetchable artifact returns BLOCKED_SOURCE and leaves its families looking permanently source-blocked when they are not"
+    }
+  ]
+}

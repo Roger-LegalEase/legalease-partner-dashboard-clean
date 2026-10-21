@@ -1,0 +1,73 @@
+{
+  "schemaVersion": "rcap-packet-factory-lane-checkpoints/v1",
+  "lane": "FIX06",
+  "laneKind": "repair",
+  "shift": "20260910b-ky",
+  "worktree": "/home/user/pfc-worktree",
+  "branch": "pfc-ky2-20260910",
+  "baseSha": "52ce39dd30ebfdc383dc904a509c49bbd5ac2a0c",
+  "headSha": null,
+  "headShaNote": "null until this file is committed; the commit carrying it is the head. Not transcribed by hand.",
+  "checkpoints": [
+    {
+      "at": "grant assertion, before reading any family artifact",
+      "what": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX06 ky_protective_order_record_expungement-set",
+      "result": "CLAIM_OK FIX06 ky_protective_order_record_expungement-set (repair, grant set aa0782a09b6186ce), exit 0."
+    },
+    {
+      "at": "grant assertion, second family, before reading any of its artifacts",
+      "what": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX06 wv_conv_nonviolent_felony-set",
+      "result": "CLAIM_OK FIX06 wv_conv_nonviolent_felony-set (repair, grant set aa0782a09b6186ce), exit 0. Kentucky is returned first, per the instruction to return each family the moment it is done."
+    },
+    {
+      "at": "environment, before building",
+      "what": "df -h on the worktree filesystem",
+      "result": "82 MB free at the start of the shift, not the ~2.4 GB the brief expected. Recorded before any build so that a failure would be attributable. It rose to 2.0 GB during the shift without this lane deleting anything. No sparse path was added and no npm install was run."
+    },
+    {
+      "at": "the findings were tested before they were acted on",
+      "what": "Read the controlling record's rules node, components, waitingPeriods, destination, geography, manualCompletionItems, supportingDocuments and unresolvedQuestions in full; and grepped the builder for use of the five record fields the previous repair loaded.",
+      "result": "All three VF24 findings hold, and one is worse than stated. rules carries 7 keys and the builder captured 4; feeWaiver reads 'not applicable; no fee is identified.' while the guide said the record does not record one. `grep -n 'RECORD\\.\\(fees\\|service\\|notarization\\|participantSignature\\|clerkDuties\\)'` over the builder returned NOTHING — all five loaded fields were unused by every document, so filing-instructions.md was literals end to end, and rules.filing, rules.notice, destination.name and geography.venue were paraphrased without being read either."
+    },
+    {
+      "at": "the certificate question, decided from the record and the source rather than from the finding",
+      "what": "Extracted the printed text of AOC-275.18 through the build's own extractTextItems/groupIntoLines, and read every service-related node of the record.",
+      "result": "The form prints no certificate of service anywhere. What it prints is the clerk's own distribution list ('Copies to: Court file / Petitioner / Respondent') inside the NOTIFICATION OF EXPUNGEMENT HEARING block, above '_____ Clerk' and 'By: _____ D.C.'. The record binds one binary and names one other form, AOC-275.19, which was never retrieved and is itself a release blocker. Building a certificate would need that missing form plus the petitioner's name and address, the clerk-set hearing date and the mailing date — none of which is held. STOP, not invention. The build now asserts the 'no form' half at build time so the question is re-decided if the form ever changes."
+    },
+    {
+      "at": "governance, before the first rebuild",
+      "what": "Confirmed preserveGovernanceState/writeWiringChecked were already imported and wired into this builder by the previous FIX06 shift.",
+      "result": "Wired. The first rebuild logged 'governance: carried' for lastIndependentVerification, paymentEligible, sponsorshipEligible, whyPaymentIsClosed and maintenanceRelationship."
+    },
+    {
+      "at": "measurement before deciding the movant line",
+      "what": "Composed participant.full_legal_name from the persona's own name parts, rebuilt, and read the movant band out of the delivered boundary.pdf rather than trusting the prediction that it would be refused.",
+      "result": "Written, not refused: 'Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran Fitzwilliam III' at x 101.06, y 549.77, 9.5pt, width 303.04 inside the 315.36pt widget — 12.32pt to spare and 3.5pt above the 6pt readable floor. The caption band of the same file names the same person the same way. Had it not fitted, the blank line would have been taken and disclosed."
+    },
+    {
+      "at": "the settled parts were re-measured rather than assumed to still hold",
+      "what": "Read the PETITIONER band of both delivered fixtures; checked all 16 widget rectangles for inversion; left the Case.County '000' default untouched.",
+      "result": "Petitioner block: only the source's own printed label at x 469.50 and a whitespace-only run at x 38.00 present in the source. Zero participant ink in both fixtures, unchanged. Zero inverted or degenerate rects. The county default was not touched."
+    },
+    {
+      "at": "governance verification, before commit",
+      "what": "npm run rcap:verify-governance-preservation",
+      "result": "GOVERNANCE_PRESERVATION_OK, 16 checks, EVERY_GOVERNANCE_KEY_SURVIVED_WHERE_MEASURABLE (279 not measured — sparse checkout, and the verifier says so itself)."
+    },
+    {
+      "at": "digests",
+      "what": "sha256sum on the delivered fixtures, and git show | sha256sum on the previous committed boundary blob.",
+      "result": "canonical dd797c6d4783f58979d964d0d483a9270261a1832177fe9b0a0150e2ef04d63e (byte-identical to the committed one, so no second receipt withdrawal was needed); boundary b219565f8e930db532f7613a3302e8433b4a933c32c679aab3eb1edb7df6a97d, was a225cbe6a35b8a07325142e1839f0bddb3be2ac150f2f123a99c50ebcdf0d29a. No digest was transcribed by hand."
+    },
+    {
+      "at": "what this lane refused to do",
+      "what": "Decided not to edit data/record-clearing/legal-design-intake/KY.memo.json and not to hand-edit MASTER_QUEUE.json.",
+      "result": "The memo is a counsel-authored legal record, not a manifest; striking its clause to make a build report clean is not an implementation repair. MASTER_QUEUE.json is derived by scripts/grade-a-packet-factory-24h/generate.mjs from routes[].participantFacingInstrument in the route-obligation candidate census, a shared Captain input; a hand edit would be overwritten and would collide with other lanes. The family's own manifest was corrected instead and the upstream field is named for the Captain."
+    },
+    {
+      "at": "return",
+      "what": "Kentucky returned as STOPPED with requiredComponentsMissing 1.",
+      "result": "FEE_AND_WAIVER and KNOWN_PREFILLS repaired and measured from the delivered bytes. COMPONENT_SET is a stop that needs either a certificate form bound into custody for this route or counsel striking the clause. No verdict set, no PASS issued."
+    }
+  ]
+}

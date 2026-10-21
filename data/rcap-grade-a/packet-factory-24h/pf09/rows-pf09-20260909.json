@@ -1,0 +1,278 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-rows/v1",
+  "assignmentId": "PF09",
+  "workerId": "PF09-20260909",
+  "lane": "packet-build",
+  "engine": "Claude Code remote session",
+  "shiftBaseSha": "159c0b5cf25e10a7fad6a7defb60bd6692e52480",
+  "workerBranch": "pf09-20260909",
+  "writtenAlongsideNotOverIt": {
+    "existingFiles": [
+      "data/rcap-grade-a/packet-factory-24h/pf09/rows.json",
+      "data/rcap-grade-a/packet-factory-24h/pf09/build-a-rows.json",
+      "data/rcap-grade-a/packet-factory-24h/pf09/build-b-rows.json",
+      "data/rcap-grade-a/packet-factory-24h/pf09/LANE_GATE_STOP.json",
+      "data/rcap-grade-a/packet-factory-24h/pf09/checkpoints.json"
+    ],
+    "whyThisFileExists": "this lane directory already held returns from earlier cohorts. None of them is overwritten or edited; this file is written beside them.",
+    "itemsInCommonWithAnyExistingFile": [],
+    "whereTheTwoDisagree": "nowhere. This shift's three families — fl-self-defense-set, mo-610-122-arrest-expungement-set, ne-seal-pre2017-set — appear in none of the existing returns."
+  },
+  "familiesAssigned": [
+    "fl-self-defense-set",
+    "mo-610-122-arrest-expungement-set",
+    "ne-seal-pre2017-set"
+  ],
+  "rowsReturned": 3,
+  "claim": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF09 <familyId> returned CLAIM_OK for all three (grant set 450a6605eca74200) before any family artifact was read. No claim released.",
+  "selfVerification": "none. This lane built these bytes and issues no verdict.",
+  "laneGate": {
+    "command": "node scripts/verify-packet-build-environment.mjs --codex-cloud --minimum-captain-sha efa84da4a9bfd60083f47fa03a67d78090c185b6 --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json",
+    "result": "PACKET_BUILD_ENVIRONMENT_READY: 13/13 passed, 0 failed, 4 not applicable"
+  },
+  "sourceResolutionMethod": {
+    "whatWasDone": "Every file under every mounted custody root was hashed and each declared digest resolved BY CONTENT, not by declared path and not by any custody class field. Roots hashed: /home/user/legalease-partner-dashboard-clean/private (1375 files, the tree the worktree's private/ symlinks reach: Expungement_AI_RCAP_Master_Library_Edition_1, Nationwide_Recovery_Pool_2026-09-02, rcap-d-source-packs-2026-08-12, human-source-returns) and /home/user/corpus-x (1184 files). 2559 digests in all.",
+    "whyItWasDone": "The shared custody records are wrong in both directions and were not relied on. For these three families the content measurement and the per-family gate agreed; the agreement was measured, not assumed."
+  },
+  "rows": [
+    {
+      "itemId": "fl-self-defense-set",
+      "status": "COMPLETED",
+      "jurisdiction": "FL",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "directory": "data/rcap-all50/overlays/census-v1/fl/fl-self-defense-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-fl-self-defense-set.mjs",
+      "implementationStrategyBuilt": "official_pdf_fill (measured flat overlay)",
+      "implementationStrategyInQueue": "participant_agency_application",
+      "strategyDisagreementRecordedNotResolved": "FL.memo.json track fl-self-defense records outputStrategy official_pdf_fill and gives its single component an officialFormId; MASTER_QUEUE and the build worklist label the family participant_agency_application. Built as the legal record directs and recorded in approval-request.json.",
+      "sourcesBoundByContent": [
+        {
+          "sourceId": "official-form:FDLE-SELF-DEFENSE-EXPUNCTION-APPLICATION",
+          "sha256": "d7bdbbb546cf6280fd07710e3132885db771400ba778d111835b5de281c58602",
+          "contentHitsUnderMountedRoots": 4,
+          "custodies": ["master_library", "d_source_packs", "nationwide_recovery_pool_2026_09_02", "corpus-x master library mirror"]
+        }
+      ],
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersSource": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family fl-self-defense-set → PASS_COMPLETE, 25/113 written",
+      "visualDefectsCaveat": "The verifier's visualDefects counter is measured from nonWhitespaceGlyphsOutsideMeasuredWriteBoxes and is a real measured zero for that question only. NO PAGE RASTER WAS PRODUCED. Nobody has looked at these pages, so the family is BUILT_RASTER_PENDING and is not PASS_COMPLETE for launch purposes.",
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/fl/fl-self-defense-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "a217288839ba7e3ed5b54ade1098e342dd07f6f72e915119b010933d151f853b",
+          "pageCount": 5,
+          "writes": 25,
+          "classifiedBlanks": 88,
+          "glyphsMeasuredInWriteCells": 278
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/fl/fl-self-defense-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "627dfa777177431cb5cb8c8f9939a62b184e8628f0b007cb74059b84afe317ba",
+          "pageCount": 5,
+          "writes": 29,
+          "classifiedBlanks": 84,
+          "glyphsMeasuredInWriteCells": 596
+        }
+      ],
+      "blanksByDisposition": {
+        "PROTECTED_FIELD": 50,
+        "OPTIONAL_PARTICIPANT_CONTENT": 17,
+        "NOT_APPLICABLE_ON_THIS_ROUTE": 14,
+        "REQUIRED_BEFORE_FILING": 7
+      },
+      "measuredOnTheDeliveredBytes": [
+        "Both packets carry 5 pages and zero AcroForm fields.",
+        "Every write reads back complete from the delivered content stream; 0 invisible writes, 0 refused cells carrying ink, 0 glyphs outside every measured cell, on both fixtures.",
+        "The printed statutory title 'LAWFUL SELF-DEFENSE EXPUNCTION (s. 943.0578, F.S.)' was read back from page 1 of both delivered packets. This form carries no election box; the route is stated by the paper's identity, and that claim is checked rather than assumed.",
+        "Signature, notary, prosecutor-certification and fingerprint-official blocks carry no ink in either packet.",
+        "113 cell positions were re-measured against the source's own printed rules and empty text runs; 71 bound by a printed rule and 42 by a printed empty run."
+      ],
+      "factsTheRecordDoesNotEstablishAndThisBuildDidNotInvent": [
+        "participant race (declared REQUIRED_BEFORE_FILING on the application page and again on the fingerprint card)",
+        "participant sex (same)",
+        "Florida driver licence number",
+        "place of birth",
+        "ORI or agency stamp on the fingerprint card",
+        "Social Security number, on both pages, which the form itself marks voluntary"
+      ],
+      "ownerDeterminationsSurfaced": [
+        "FL.memo.json rules.fees reads 'The source review does not state a fee for this application' while FDLE40-026's own checklist page prints a $75.00 nonrefundable processing fee. Both are quoted; not resolved here.",
+        "FL.memo.json rules.notarization reads 'The source review does not state a notarization requirement' while FDLE's checklist states 'Applicant must sign the application in the presence of a notary public or a deputy clerk of the court.' Both are quoted; the notary block is left blank; not resolved here.",
+        "Release blocker on the record: 'Current FDLE application and instructions specific to this track have not been acquired.' The packet is built on FDLE40-026 Rev. 10/2019 bound to an exact SHA-256, and the guide says so beside the blocker.",
+        "Strategy label disagreement, above."
+      ],
+      "negativeControlsThatFired": [
+        "Dropping the blank-form baseline makes the application's own printed ink read as writes: 8 refused cells carry ink on each fixture (repaired reader: 0).",
+        "A cell moved 40pt off its printed anchor is refused by assertAnchorsBind rather than drawn.",
+        "A cell narrowed below 4pt is refused.",
+        "A table declared at 7 rows against a source that measures 8 stops the build.",
+        "A 200-character value in the 26pt state cell is refused carrying its whole value, not shortened.",
+        "The half-row check rejects a row with one cell written of two."
+      ],
+      "selfVerified": false,
+      "verdictIssued": "none"
+    },
+    {
+      "itemId": "mo-610-122-arrest-expungement-set",
+      "status": "STOPPED",
+      "stopReason": "BLOCKED_SOURCE",
+      "jurisdiction": "MO",
+      "rasterState": null,
+      "directory": "data/rcap-all50/overlays/census-v1/mo/mo-610-122-arrest-expungement-set--official-pdf-fill",
+      "overlayDirectoryCreated": false,
+      "overlayDirectoryState": "does not exist; nothing was created, written or touched under data/rcap-all50/overlays/census-v1/mo/",
+      "counters": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "whyCountersAreNull": "Nothing was built, so nothing was measured. An unmeasured quantity is null, never 0.",
+      "artifacts": [],
+      "identityThatDidNotBind": {
+        "sourceId": "official-form:CR143",
+        "declaredSha256": "e39619185578a4a29ef99e7c91b71c1346309bf91ab2b4670a01711b5a4c1441",
+        "declaredPath": "LegalEase Missouri/MO_CR143.pdf",
+        "declaredCustodyInTheCommittedIndex": "src05_worker_materialization_2026_09_02",
+        "contentHitsUnderMountedRoots": 0,
+        "alsoAbsentByName": "No file named CR143, CR-143 or cr_143 in any case exists under any mounted root either.",
+        "rootsSearched": [
+          "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
+          "/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02",
+          "/home/user/legalease-partner-dashboard-clean/private/source-imports/rcap-d-source-packs-2026-08-12",
+          "/home/user/legalease-partner-dashboard-clean/private/human-source-returns",
+          "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1"
+        ],
+        "howItWasSearched": "every file under every root above hashed with sha256sum (2559 files) and the declared digest looked up by content; then a separate name search."
+      },
+      "sourcesThatDidBind": [
+        { "sourceId": "official-form:CR145", "sha256": "7c527bf351e9ab08658f901abc9be15e12e5beb2afe7ded14a8c5e2f0d6eb641", "contentHits": 3, "kind": "held_pdf" },
+        { "sourceId": "official-form:FI-05", "sha256": "53f1e04eba653d7ed8e2f2f059e57854d3780845e6364bb6b2a57c7728cd412e", "contentHits": 1, "kind": "held_pdf" },
+        { "sourceId": "official-form:GN10", "sha256": "13ff25147df2c70eec85b2d498f486aae9c2b46c535f9f9d7992b6247480421e", "contentHits": 4, "kind": "held_but_not_a_pdf (.docx)" }
+      ],
+      "secondIndependentReasonThisFamilyCannotBeBuiltHere": "official-form:GN10 binds by exact digest and is a .docx, not a PDF. An official_pdf_fill route cannot overlay it, and converting or acquiring a PDF is an owner decision rather than a build step. This is a second blocker, not the reported one; the reported one is CR143.",
+      "sharedRecordsThatDisagreeWithThisMeasurement": {
+        "note": "Reported, not corrected. Left for the Captain to integrate.",
+        "MASTER_QUEUE.json": "the row states sourceStatus SOURCE_BOUND_BY_HELD_BYTES, sourceBound true, sourceReadiness.ready true, sourceReadiness.boundCount 4 and custodyClass SOURCE_ALREADY_HELD, and lists CR143 among boundSources with resolvedBy 'census_form_number_against_committed_index'. CR143 resolves nowhere in this container, by digest or by name.",
+        "SOURCE_READY_BUILDABILITY.json": "this record agrees with the measurement — its CR143 entry reads kind 'not_present_in_a_custody_mounted_here' with the note 'No file under any mounted root hashes to this digest, by declared path or by content', and its verdict is NOT_MEASURABLE_HERE. It is MASTER_QUEUE that is wrong for this family.",
+        "verify-packet-build-environment.mjs --family": "agrees with the measurement: 'FAIL family_sources_bind: 1 of 4 source(s) do not bind'."
+      },
+      "acquisitionAttempted": "none. Nothing was fetched from the network.",
+      "selfVerified": false,
+      "verdictIssued": "none"
+    },
+    {
+      "itemId": "ne-seal-pre2017-set",
+      "status": "COMPLETED",
+      "jurisdiction": "NE",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "directory": "data/rcap-all50/overlays/census-v1/ne/ne-seal-pre2017-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-ne-seal-pre2017-set.mjs",
+      "implementationStrategyBuilt": "official_pdf_fill",
+      "sourcesBoundByContent": [
+        { "sourceId": "official-form:CC-6-12", "sha256": "68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28", "contentHitsUnderMountedRoots": 4 },
+        { "sourceId": "official-form:CC-6-15.1", "sha256": "d1fb1340b1ef42bab9da89f9ed6bc8d669057158065bd6bfcb37e762777a6b79", "contentHitsUnderMountedRoots": 3 },
+        { "sourceId": "official-form:CC-6-12a", "sha256": "b76a0931b781a97de38d17d5856996de307e8c3fb9a67fb48e5679bd232da26a", "contentHitsUnderMountedRoots": 3 }
+      ],
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersSource": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ne-seal-pre2017-set → PASS_COMPLETE, 23/45 written",
+      "visualDefectsCaveat": "As for FL: the verifier's visualDefects zero answers the glyph-geometry question only. NO PAGE RASTER WAS PRODUCED. Nobody has looked at these pages.",
+      "routeVariantsDelivered": [
+        "Dismissed on the motion of the prosecuting attorney — CC 6:12 Check Box1, CC 6:15.1 Check Box1",
+        "Dismissed after completing a problem-solving-court programme — CC 6:12 Check Box1, CC 6:15.1 Check Box5 + Check Box7",
+        "Acquitted — CC 6:12 Check Box2, CC 6:15.1 Check Box3"
+      ],
+      "artifacts": [
+        { "fixture": "canonical--dismissed-prosecutor-motion", "sha256": "b1d925196b99ecd3699cc9100edaf1ee171a70195ecec84575ba6435aab5465a", "pageCount": 5 },
+        { "fixture": "boundary--dismissed-prosecutor-motion", "sha256": "f3f282bcc1d89bdb9ab829665c29abffe939db712a764925c70bfec92307c7ca", "pageCount": 5 },
+        { "fixture": "canonical--dismissed-problem-solving-court", "sha256": "8276f744a698a9f409ad8e5355cd0b904ba0ef395022656d4708360941025cc3", "pageCount": 5 },
+        { "fixture": "boundary--dismissed-problem-solving-court", "sha256": "5304c510290377d00333290c4d0948de13f44e40d5dd9b749fe57f44a98bd892", "pageCount": 5 },
+        { "fixture": "canonical--acquitted", "sha256": "99fa983e5b037b19d64e853eb0aa6ef530c06911140f1d39b93c5e8800f57cc3", "pageCount": 5 },
+        { "fixture": "boundary--acquitted", "sha256": "6927025913e151db1ee30de011784109d70aefbaf6bb85a5a51f130679760910", "pageCount": 5 }
+      ],
+      "blanksByDisposition": {
+        "PARTICIPANT_ELECTION_GENUINE": 8,
+        "NOT_APPLICABLE_ON_THIS_ROUTE": 8,
+        "NON_FILING_SOURCE_ELEMENT": 4,
+        "PROTECTED_FIELD": 2
+      },
+      "defectsFoundInTheDeliveredBytesAndFixed": [
+        {
+          "defect": "pdf-lib PDFForm.flatten() stamps every widget's appearance and reads no annotation flag. CC 6:12 and CC 6:15.1 both author TYPEOFCOURTDROPDOWN and DROPDOWNCOUNTY2 with /F absent (flags 0), which does not set the Print bit: the source states these controls never reach paper. The pre-repair flatten prints 'Choose the court' and 'Choose the county' onto a motion filed with a Nebraska court.",
+          "repair": "the non-printing fields are detached before flatten rather than stamped",
+          "negativeControl": "the same fixtures driven through the pre-repair flatten add 12 glyph runs inside the dropdown rectangles that the delivered packets do not carry, on all six packets; the added text is exactly 'Choose', 'the', 'court', 'county'"
+        },
+        {
+          "defect": "a ticked box on these forms draws as vector strokes (a filled rect, a stroked rect and two stroked lines), not text, so a glyph-only reader reported every election the packet makes as an invisible write — 4 to 5 per packet.",
+          "repair": "the measurement now reads path segments from the same walk as the text and subtracts the same blank-form baseline, so the box's own printed border never counts as a tick",
+          "negativeControl": "verified directly on the delivered bytes: every elected box carries 4 path segments and every unelected box carries 2, on all three variants"
+        },
+        {
+          "defect": "a smallest-rectangle glyph-assignment rule handed the printed caption 'DOUGLAS COUNTY, NEBRASKA' to the form's own guidance widget '(Enter the county name)', which contains the run's first glyph and not its last. That reported the caption as ink on a refused field AND the caption field itself as an invisible write — both artefacts of the rule.",
+          "repair": "a box that contains the WHOLE run outranks one that merely contains where it starts",
+          "negativeControl": "on FL the same reader without whole-run containment reports 1 refused cell with ink and 4 invisible writes that the repaired reader does not"
+        }
+      ],
+      "measuredOnTheDeliveredBytes": [
+        "All six packets carry 5 pages (CC 6:12 ×2, CC 6:15.1 ×1, CC 6:12a ×2) and zero live form fields.",
+        "0 invisible writes, 0 refused fields carrying ink, 0 incomplete values, 0 glyphs outside every measured box, on all six.",
+        "The caption line reads 'IN THE COUNTY COURT OF DOUGLAS COUNTY, NEBRASKA' on the canonical packets and 'IN THE DISTRICT COURT OF LANCASTER COUNTY, NEBRASKA' on the boundary packets. Flattening the blank binary delivers a motion naming no court at all: both motions leave the whole caption to field values.",
+        "Ticks verified box by box on the delivered bytes for all three variants: exactly the intended boxes carry a mark, every other box carries only the form's own printed border, and the no-email declaration box is never ticked.",
+        "The charge text occupies BOTH of CC 6:12's printed continuation lines on every packet, and both lines reassemble to the whole held value.",
+        "Every signature date is blank on every packet."
+      ],
+      "howTheCaptionWasWritten": "The source wires each dropdown to its read-only printable companion with its own calculation, asserted verbatim on every build: event.value = this.getField(\"TYPEOFCOURTDROPDOWN\").value; and the same for DROPDOWNCOUNTY2. The build copies the export value the source itself attaches to the selected option into the companion. No JavaScript was executed.",
+      "ownerDeterminationsSurfaced": [
+        "Release blocker: which form is primary, CC 6:12 or CC 6:15.1. Both are delivered, CC 6:12 as primary exactly as NE.memo.json itself decides, and the open question is named to the participant.",
+        "Release blocker: the filing fee for a motion filed inside an existing Nebraska criminal case is not established. No fee figure is printed anywhere in the packet.",
+        "Release blocker: the fee-waiver branch has no fitting official form. Registry component ne-seal-pre2017-fee-waiver-4 is reported unrendered rather than answered with a drafted affidavit.",
+        "Registry component ne-seal-pre2017-hearing-instructions-5 is process_guidance with no form; delivered as written guidance quoting the record's own hearing script, and reported as not a PDF component."
+      ],
+      "negativeControlsThatFired": [
+        "The pre-repair flatten stamps the screen-only dropdowns (above).",
+        "Dropping the blank-form baseline makes the forms' own printed ink read as writes: 16-17 refused fields carry ink per packet (repaired reader: 0).",
+        "A 400-character value in CC 6:12 Text5 is refused carrying its whole value, not shortened, and leaves the box empty.",
+        "A 120-word charge text that cannot fit the two printed continuation lines is refused whole, not cut, and leaves both lines empty.",
+        "Each variant elects exactly its own boxes and never an off-route option."
+      ],
+      "selfVerified": false,
+      "verdictIssued": "none"
+    }
+  ],
+  "familiesCompleted": 2,
+  "familiesStopped": 1,
+  "overlayDirectoriesTouchedByAStoppedFamily": 0,
+  "packetsSelfVerified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "rastersGenerated": 0,
+  "sharedCentralArtifactsRegenerated": [],
+  "claimsReleased": []
+}

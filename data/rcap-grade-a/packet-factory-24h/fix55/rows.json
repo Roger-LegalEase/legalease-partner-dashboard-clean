@@ -1,0 +1,618 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-rows/v1",
+  "lane": "FIX55",
+  "laneKind": "repair",
+  "generatedBy": "lane FIX55",
+  "baseSha": "760c6285d",
+  "branch": "fix55-nc146-optin",
+  "rows": [
+    {
+      "itemId": "nc_146_acquittal_petition-set",
+      "familyId": "nc_146_acquittal_petition-set",
+      "jurisdiction": "NC",
+      "implementationStrategy": "official_pdf_fill",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nc/nc-146-acquittal-petition-set--official-pdf-fill",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "buildHost": "scripts/build-census-v1-nc_146_acquittal_petition-set.mjs",
+      "sharedHost": "scripts/rcap-official-forms/rcap-active-content.mjs (sanitizeAndFlatten) via scripts/rcap-official-forms/rcap-official-form-finalize.mjs (finalizeOfficialForm). NEITHER FILE WAS EDITED BY THIS LANE; both already carried the remedy and the opt-in, built by FIX50.",
+      "grantConfirmed": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX55 nc_146_acquittal_petition-set -> CLAIM_OK FIX55 nc_146_acquittal_petition-set (repair, grant set e65ade4647fc32cb), exit 0. Asserted before any family artifact was opened for writing.",
+      "baseSha": "760c6285d",
+      "branch": "fix55-nc146-optin",
+      "fixturesConfirmedAtVF07Digests": {
+        "canonicalSha256": "f3859799a675bf55b98239d0f2c9128ce0a003d4dc1fb9b7c787897549741151",
+        "boundarySha256": "e13fb2da03898b7e54f04263112160cb827afb9eafe92fa595e4c4965e300b09",
+        "confirmedBeforeAnyEdit": true
+      },
+      "verdictRepaired": {
+        "lane": "VF07",
+        "verdict": "BLOCKED_LEGAL_INPUT",
+        "verifiedAtBase": "ff4dee3ab",
+        "blockedObligationNames": [
+          "CLIPPING_AND_OVERLAP"
+        ],
+        "whatVF07Measured": "All 14 checkbox widgets of AOC-CR-288 carry /AS /Off with /Yes as the only state under /AP /N and no /MK /BC, so under ISO 32000-1 12.5.5 a conforming viewer paints nothing; the delivered packet carried a black stroked square of the full widget rect at each. VF07's zero-write baseline through the same sanitizer reproduced all 14 pixel-identically, proving the square is the shared normalization's and not this family's. Fourteen other obligations PASS.",
+        "howItIsAnswered": "By opting this family into the remedy FIX50 built into the shared step, not by a new determination, a whitelist or any change to what may be drawn: the option installs an EMPTY appearance for the state the source omits, so nothing is synthesized and nothing is flattened there."
+      },
+      "obligationsRepaired": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "obligationsThisRowDoesNotDischarge": [
+        "RASTER. The RASTER_PASS receipt in RASTER_QUEUE.json for this family (workflow run 33927262022, job 101199158302) was bound to canonical f3859799... and boundary e13fb2da..., both of which this repair supersedes. It stops binding and a fresh central raster is owed on the new bytes. RASTER_QUEUE.json and MASTER_QUEUE.json were not opened for writing by this lane; the 150 dpi rasters below are measurement only, were written under /tmp and were deleted.",
+        "INDEPENDENT VERIFICATION. This lane rebuilt these bytes, so it verifies none of them. No verdict was written or replaced, product-wiring.json binding.acceptanceReceipt is null, and no obligation is scored here.",
+        "THE OTHER FAMILIES STILL ON THE DEFAULT. The option remains default-off in sanitizeAndFlatten and finalizeOfficialForm. Only Vermont (FIX50) and this family pass it. Every other family exposed to the same shared behaviour is untouched, unrebuilt and unrepaired by this lane.",
+        "THE FOUR CASES THE OPTION DELIBERATELY LEAVES ALONE. A widget that ships its own appearance for its current state, a widget with no /AS at all, a widget whose /AP /N is a bare stream rather than a state dictionary, and any widget of a field this run wrote. None is altered here, so if any of them is a defect it is an open one.",
+        "THE PREFLIGHT'S TWO FAILURES. private_is_git_ignored and corpus_matches_committed_index fail here exactly as VF07 recorded them at ff4dee3ab; both are container artefacts of the read-only private symlink and of one absent Alabama corpus file. Neither is introduced nor repaired by this lane."
+      ],
+      "whatChanged": {
+        "theOneEdit": "scripts/build-census-v1-nc_146_acquittal_petition-set.mjs, its single finalizeOfficialForm call, now passes suppressSynthesizedAppearances: true beside evaluateDeclaredMinimumSize and alignWidgetFontSizeToFit, with a comment naming the measurement. That is the whole change: 14 added lines, 13 of them comment.",
+        "exactlyAsVermontDidIt": "The same one named option through the same finalizer, in the same position in the same call shape as scripts/build-census-v1-vt_seal_nonconviction-set.mjs. No shared module, field map, census, mapping, fact, write or text was touched.",
+        "whatTheOptionDoes": "For every check-box or radio widget whose field this run did not write and whose current /AS state has no stream under /AP /N, it installs an EMPTY form XObject for that state sized to the widget's own /Rect. pdf-lib then reports no appearance update is needed, synthesizes no square, and flattens a stream that paints nothing. It supplies the state the source omitted rather than suppressing a drawing.",
+        "whatDidNotChange": "No default anywhere. No other family's builder, directory or bytes. The six participant writes (ConsJdgmntFileNum, County, NamePetitioner, StreetAddr, City, State) are the same six fields with the same values before and after; actual-writes.json's written lists are byte-identical and only the two outputSha256 values moved. No checkbox is written by this family, before or after. build-status.json is unchanged: both rebuilds were run --no-raster, matching how the committed artifacts were produced, and the local raster/ directory the first exploratory build produced was deleted.",
+        "buildCommand": "MASTER_LIBRARY_SOURCE_DIR=/home/user/fix55-worktree/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 node scripts/build-census-v1-nc_146_acquittal_petition-set.mjs --no-raster"
+      },
+      "determinism": {
+        "rebuiltTwice": true,
+        "result": "Both rebuilds produce a byte-identical family directory: diff -r over the whole directory reports no difference, and both fixtures hash to the digests below. Two earlier full rebuilds with rasterizing produced the same two fixture digests, so the delivered bytes do not depend on whether rasters were written.",
+        "exitCodes": [
+          0,
+          0
+        ]
+      },
+      "digestsBefore": {
+        "canonical": {
+          "sha256": "f3859799a675bf55b98239d0f2c9128ce0a003d4dc1fb9b7c787897549741151",
+          "bytes": 487245,
+          "pages": 3
+        },
+        "boundary": {
+          "sha256": "e13fb2da03898b7e54f04263112160cb827afb9eafe92fa595e4c4965e300b09",
+          "bytes": 487337,
+          "pages": 3
+        }
+      },
+      "digestsAfter": {
+        "canonical": {
+          "sha256": "135dc7b9c0f104788512f1e313a6d88b4497c88a70fc6b18b92abe45bceecf17",
+          "bytes": 486581,
+          "pages": 3
+        },
+        "boundary": {
+          "sha256": "5597a2818dc8914554b24418cba87d418676dc1ddfe2111967df1a6c4f30a3da",
+          "bytes": 486673,
+          "pages": 3
+        }
+      },
+      "pixelMeasurement": {
+        "method": "Every page of both fixtures rastered with pdftoppm at 150 dpi, greyscale, before and after, into /tmp; the pinned AOC-CR-288 (776210116d1ee07a2a53aab41cd3f0a51e382fd3c6f5a7bba9798fc667246a08) rastered the same way. Pixels thresholded dark at <128 and compared one by one. Widget rects converted from the recorded /Rect at 150/72 with a 2 px pad. Rasters deleted after measuring.",
+        "rasterDpi": 150,
+        "rastersDeletedAfterMeasuring": true,
+        "pageTotals": {
+          "canonical-p1": {
+            "size": [
+              1275,
+              1650
+            ],
+            "changedPixels": 225,
+            "changedInsideWidgetRects": 225,
+            "changedOutsideWidgetRects": 0
+          },
+          "canonical-p2": {
+            "size": [
+              1275,
+              1650
+            ],
+            "changedPixels": 493,
+            "changedInsideWidgetRects": 493,
+            "changedOutsideWidgetRects": 0
+          },
+          "canonical-p3": {
+            "size": [
+              1275,
+              1650
+            ],
+            "changedPixels": 0,
+            "changedInsideWidgetRects": 0,
+            "changedOutsideWidgetRects": 0
+          },
+          "boundary-p1": {
+            "size": [
+              1275,
+              1650
+            ],
+            "changedPixels": 225,
+            "changedInsideWidgetRects": 225,
+            "changedOutsideWidgetRects": 0
+          },
+          "boundary-p2": {
+            "size": [
+              1275,
+              1650
+            ],
+            "changedPixels": 493,
+            "changedInsideWidgetRects": 493,
+            "changedOutsideWidgetRects": 0
+          },
+          "boundary-p3": {
+            "size": [
+              1275,
+              1650
+            ],
+            "changedPixels": 0,
+            "changedInsideWidgetRects": 0,
+            "changedOutsideWidgetRects": 0
+          }
+        },
+        "changedPixelsOutsideTheFourteenWidgetRects": 0,
+        "changedPixelsTotal": {
+          "canonicalP1": 225,
+          "canonicalP2": 493,
+          "canonicalP3": 0,
+          "boundaryP1": 225,
+          "boundaryP2": 493,
+          "boundaryP3": 0
+        },
+        "atEachWidgetRectAfter": "exactly the pinned form's own ink: 0 pixels differ from the pinned source at all 14 rects in both fixtures. Before the repair the same 14 rects differed from the pinned source by 20 to 82 pixels each (canonical and boundary alike), the added square.",
+        "participantWritesUnchanged": "0 changed pixels anywhere outside the 14 rects on all six pages, so every one of the six participant values, and every printed line of the form, is pixel-identical before and after. Page 3 (the instructions component) is unchanged in both fixtures.",
+        "checkedBoxesUnchanged": "This family writes no checkbox on AOC-CR-288 \u2014 the six writes are all text fields \u2014 so no intended mark exists to lose, and none of the 14 rects carries a tick before or after. A widget of a field this run wrote is untouched by the option in any case.",
+        "perWidget": [
+          {
+            "widget": "District",
+            "page": "p1",
+            "rectPt": {
+              "x": 369.04,
+              "y": 715.738,
+              "size": 9.48
+            },
+            "rectPxAt150dpiWith2pxPad": [
+              766,
+              137,
+              791,
+              161
+            ],
+            "darkPixelsPinnedSource": 76,
+            "canonical": {
+              "darkPixelsBefore": 96,
+              "darkPixelsAfter": 76,
+              "pixelsDifferingFromPinnedSourceBefore": 20,
+              "pixelsDifferingFromPinnedSourceAfter": 0
+            },
+            "boundary": {
+              "darkPixelsBefore": 96,
+              "darkPixelsAfter": 76,
+              "pixelsDifferingFromPinnedSourceBefore": 20,
+              "pixelsDifferingFromPinnedSourceAfter": 0
+            }
+          },
+          {
+            "widget": "Superior",
+            "page": "p1",
+            "rectPt": {
+              "x": 425.8,
+              "y": 715.738,
+              "size": 9.48
+            },
+            "rectPxAt150dpiWith2pxPad": [
+              885,
+              137,
+              909,
+              161
+            ],
+            "darkPixelsPinnedSource": 94,
+            "canonical": {
+              "darkPixelsBefore": 114,
+              "darkPixelsAfter": 94,
+              "pixelsDifferingFromPinnedSourceBefore": 20,
+              "pixelsDifferingFromPinnedSourceAfter": 0
+            },
+            "boundary": {
+              "darkPixelsBefore": 114,
+              "darkPixelsAfter": 94,
+              "pixelsDifferingFromPinnedSourceBefore": 20,
+              "pixelsDifferingFromPinnedSourceAfter": 0
+            }
+          },
+          {
+            "widget": "CkBox_Attchmt",
+            "page": "p1",
+            "rectPt": {
+              "x": 41.5,
+              "y": 472.789,
+              "size": 9.48
+            },
+            "rectPxAt150dpiWith2pxPad": [
+              84,
+              643,
+              109,
+              668
+            ],
+            "darkPixelsPinnedSource": 91,
+            "canonical": {
+              "darkPixelsBefore": 152,
+              "darkPixelsAfter": 91,
+              "pixelsDifferingFromPinnedSourceBefore": 61,
+              "pixelsDifferingFromPinnedSourceAfter": 0
+            },
+            "boundary": {
+              "darkPixelsBefore": 152,
+              "darkPixelsAfter": 91,
+              "pixelsDifferingFromPinnedSourceBefore": 61,
+              "pixelsDifferingFromPinnedSourceAfter": 0
+            }
+          },
+          {
+            "widget": "SeekingExpunge15A-146Cbx",
+            "page": "p1",
+            "rectPt": {
+              "x": 56.0,
+              "y": 213.787,
+              "size": 9.68
+            },
+            "rectPxAt150dpiWith2pxPad": [
+              114,
+              1182,
+              139,
+              1207
+            ],
+            "darkPixelsPinnedSource": 94,
+            "canonical": {
+              "darkPixelsBefore": 136,
+              "darkPixelsAfter": 94,
+              "pixelsDifferingFromPinnedSourceBefore": 42,
+              "pixelsDifferingFromPinnedSourceAfter": 0
+            },
+            "boundary": {
+              "darkPixelsBefore": 136,
+              "darkPixelsAfter": 94,
+              "pixelsDifferingFromPinnedSourceBefore": 42,
+              "pixelsDifferingFromPinnedSourceAfter": 0
+            }
+          },
+          {
+            "widget": "PetitionerCbx",
+            "page": "p1",
+            "rectPt": {
+              "x": 502.93,
+              "y": 175.566,
+              "size": 9.68
+            },
+            "rectPxAt150dpiWith2pxPad": [
+              1045,
+              1262,
+              1070,
+              1287
+            ],
+            "darkPixelsPinnedSource": 96,
+            "canonical": {
+              "darkPixelsBefore": 138,
+              "darkPixelsAfter": 96,
+              "pixelsDifferingFromPinnedSourceBefore": 42,
+              "pixelsDifferingFromPinnedSourceAfter": 0
+            },
+            "boundary": {
+              "darkPixelsBefore": 138,
+              "darkPixelsAfter": 96,
+              "pixelsDifferingFromPinnedSourceBefore": 42,
+              "pixelsDifferingFromPinnedSourceAfter": 0
+            }
+          },
+          {
+            "widget": "PetitionerAttorneyCbx",
+            "page": "p1",
+            "rectPt": {
+              "x": 502.93,
+              "y": 164.932,
+              "size": 9.68
+            },
+            "rectPxAt150dpiWith2pxPad": [
+              1045,
+              1284,
+              1070,
+              1309
+            ],
+            "darkPixelsPinnedSource": 76,
+            "canonical": {
+              "darkPixelsBefore": 138,
+              "darkPixelsAfter": 76,
+              "pixelsDifferingFromPinnedSourceBefore": 62,
+              "pixelsDifferingFromPinnedSourceAfter": 0
+            },
+            "boundary": {
+              "darkPixelsBefore": 138,
+              "darkPixelsAfter": 76,
+              "pixelsDifferingFromPinnedSourceBefore": 62,
+              "pixelsDifferingFromPinnedSourceAfter": 0
+            }
+          },
+          {
+            "widget": "PetitionerNotConvictedFelonyMisdemeanorCbx",
+            "page": "p2",
+            "rectPt": {
+              "x": 41.43,
+              "y": 701.232,
+              "size": 9.68
+            },
+            "rectPxAt150dpiWith2pxPad": [
+              84,
+              166,
+              109,
+              192
+            ],
+            "darkPixelsPinnedSource": 94,
+            "canonical": {
+              "darkPixelsBefore": 156,
+              "darkPixelsAfter": 94,
+              "pixelsDifferingFromPinnedSourceBefore": 62,
+              "pixelsDifferingFromPinnedSourceAfter": 0
+            },
+            "boundary": {
+              "darkPixelsBefore": 156,
+              "darkPixelsAfter": 94,
+              "pixelsDifferingFromPinnedSourceBefore": 62,
+              "pixelsDifferingFromPinnedSourceAfter": 0
+            }
+          },
+          {
+            "widget": "PetitionerIsEligibleCbx",
+            "page": "p2",
+            "rectPt": {
+              "x": 116.4,
+              "y": 689.979,
+              "size": 9.68
+            },
+            "rectPxAt150dpiWith2pxPad": [
+              240,
+              190,
+              265,
+              215
+            ],
+            "darkPixelsPinnedSource": 74,
+            "canonical": {
+              "darkPixelsBefore": 135,
+              "darkPixelsAfter": 74,
+              "pixelsDifferingFromPinnedSourceBefore": 61,
+              "pixelsDifferingFromPinnedSourceAfter": 0
+            },
+            "boundary": {
+              "darkPixelsBefore": 135,
+              "darkPixelsAfter": 74,
+              "pixelsDifferingFromPinnedSourceBefore": 61,
+              "pixelsDifferingFromPinnedSourceAfter": 0
+            }
+          },
+          {
+            "widget": "PetitionerIsNotEligibleCbx",
+            "page": "p2",
+            "rectPt": {
+              "x": 144.99,
+              "y": 689.979,
+              "size": 9.68
+            },
+            "rectPxAt150dpiWith2pxPad": [
+              300,
+              190,
+              325,
+              215
+            ],
+            "darkPixelsPinnedSource": 76,
+            "canonical": {
+              "darkPixelsBefore": 117,
+              "darkPixelsAfter": 76,
+              "pixelsDifferingFromPinnedSourceBefore": 41,
+              "pixelsDifferingFromPinnedSourceAfter": 0
+            },
+            "boundary": {
+              "darkPixelsBefore": 117,
+              "darkPixelsAfter": 76,
+              "pixelsDifferingFromPinnedSourceBefore": 41,
+              "pixelsDifferingFromPinnedSourceAfter": 0
+            }
+          },
+          {
+            "widget": "PetitionGrantedCbx",
+            "page": "p2",
+            "rectPt": {
+              "x": 41.7,
+              "y": 617.636,
+              "size": 9.68
+            },
+            "rectPxAt150dpiWith2pxPad": [
+              84,
+              341,
+              110,
+              366
+            ],
+            "darkPixelsPinnedSource": 74,
+            "canonical": {
+              "darkPixelsBefore": 156,
+              "darkPixelsAfter": 74,
+              "pixelsDifferingFromPinnedSourceBefore": 82,
+              "pixelsDifferingFromPinnedSourceAfter": 0
+            },
+            "boundary": {
+              "darkPixelsBefore": 156,
+              "darkPixelsAfter": 74,
+              "pixelsDifferingFromPinnedSourceBefore": 82,
+              "pixelsDifferingFromPinnedSourceAfter": 0
+            }
+          },
+          {
+            "widget": "PetitionDeniedCbx",
+            "page": "p2",
+            "rectPt": {
+              "x": 41.33,
+              "y": 545.817,
+              "size": 9.68
+            },
+            "rectPxAt150dpiWith2pxPad": [
+              84,
+              490,
+              109,
+              515
+            ],
+            "darkPixelsPinnedSource": 74,
+            "canonical": {
+              "darkPixelsBefore": 116,
+              "darkPixelsAfter": 74,
+              "pixelsDifferingFromPinnedSourceBefore": 42,
+              "pixelsDifferingFromPinnedSourceAfter": 0
+            },
+            "boundary": {
+              "darkPixelsBefore": 116,
+              "darkPixelsAfter": 74,
+              "pixelsDifferingFromPinnedSourceBefore": 42,
+              "pixelsDifferingFromPinnedSourceAfter": 0
+            }
+          },
+          {
+            "widget": "DeputyCSCCbx",
+            "page": "p2",
+            "rectPt": {
+              "x": 435.23,
+              "y": 433.069,
+              "size": 9.68
+            },
+            "rectPxAt150dpiWith2pxPad": [
+              904,
+              725,
+              929,
+              750
+            ],
+            "darkPixelsPinnedSource": 74,
+            "canonical": {
+              "darkPixelsBefore": 135,
+              "darkPixelsAfter": 74,
+              "pixelsDifferingFromPinnedSourceBefore": 61,
+              "pixelsDifferingFromPinnedSourceAfter": 0
+            },
+            "boundary": {
+              "darkPixelsBefore": 135,
+              "darkPixelsAfter": 74,
+              "pixelsDifferingFromPinnedSourceBefore": 61,
+              "pixelsDifferingFromPinnedSourceAfter": 0
+            }
+          },
+          {
+            "widget": "AssistantCSCCbx",
+            "page": "p2",
+            "rectPt": {
+              "x": 487.8,
+              "y": 432.898,
+              "size": 9.68
+            },
+            "rectPxAt150dpiWith2pxPad": [
+              1014,
+              725,
+              1039,
+              751
+            ],
+            "darkPixelsPinnedSource": 76,
+            "canonical": {
+              "darkPixelsBefore": 138,
+              "darkPixelsAfter": 76,
+              "pixelsDifferingFromPinnedSourceBefore": 62,
+              "pixelsDifferingFromPinnedSourceAfter": 0
+            },
+            "boundary": {
+              "darkPixelsBefore": 138,
+              "darkPixelsAfter": 76,
+              "pixelsDifferingFromPinnedSourceBefore": 62,
+              "pixelsDifferingFromPinnedSourceAfter": 0
+            }
+          },
+          {
+            "widget": "ClerkOfSuperiorCourtCbx",
+            "page": "p2",
+            "rectPt": {
+              "x": 435.23,
+              "y": 421.416,
+              "size": 9.68
+            },
+            "rectPxAt150dpiWith2pxPad": [
+              904,
+              749,
+              929,
+              775
+            ],
+            "darkPixelsPinnedSource": 99,
+            "canonical": {
+              "darkPixelsBefore": 181,
+              "darkPixelsAfter": 99,
+              "pixelsDifferingFromPinnedSourceBefore": 82,
+              "pixelsDifferingFromPinnedSourceAfter": 0
+            },
+            "boundary": {
+              "darkPixelsBefore": 181,
+              "darkPixelsAfter": 99,
+              "pixelsDifferingFromPinnedSourceBefore": 82,
+              "pixelsDifferingFromPinnedSourceAfter": 0
+            }
+          }
+        ]
+      },
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersCommand": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nc_146_acquittal_petition-set -> ok nc_146_acquittal_petition-set PASS_COMPLETE 6/128 written, exit 0. Run before the edit and again after; nine zeros both times.",
+      "verifiers": {
+        "scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs": {
+          "result": "EVERY_IDENTITY_REFRESH_SURVIVED, 249 receipts compared against HEAD, 53 carrying an identityRefresh",
+          "exitCode": 0
+        },
+        "scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs": {
+          "result": "EVERY_SOURCE_CARRIED_VALUE_IS_DISPOSITIONED, 29 dispositioned, 0 UNDISPOSITIONED, 0 not examinable",
+          "exitCode": 0
+        },
+        "scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nc_146_acquittal_petition-set": {
+          "result": "PASS_COMPLETE, nine counters zero",
+          "exitCode": 0
+        }
+      },
+      "everyOtherFamilyDirectoryByteIdentical": {
+        "measured": true,
+        "how": "git status --porcelain over data/rcap-all50/overlays/census-v1 after the rebuilds: 0 paths outside this family's directory are modified, added or removed, and the whole worktree carries only five modified paths.",
+        "changedPathsInTheWholeTree": [
+          "data/rcap-all50/overlays/census-v1/nc/nc-146-acquittal-petition-set--official-pdf-fill/fixtures/canonical.pdf",
+          "data/rcap-all50/overlays/census-v1/nc/nc-146-acquittal-petition-set--official-pdf-fill/fixtures/boundary.pdf",
+          "data/rcap-all50/overlays/census-v1/nc/nc-146-acquittal-petition-set--official-pdf-fill/reports/actual-writes.json",
+          "data/rcap-all50/overlays/census-v1/nc/nc-146-acquittal-petition-set--official-pdf-fill/reports/rendered-artifacts.json",
+          "scripts/build-census-v1-nc_146_acquittal_petition-set.mjs"
+        ]
+      },
+      "preflight": {
+        "command": "MASTER_LIBRARY_SOURCE_DIR=/home/user/fix55-worktree/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 node scripts/verify-packet-build-environment.mjs --family nc_146_acquittal_petition-set",
+        "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 11/13 passed, 2 failed, 4 not applicable",
+        "recordedRatherThanArguedWith": true,
+        "failure1": "private_is_git_ignored. private is a read-only symlink in this container, so `git check-ignore -q 'private/'` exits 128 and the check reads it as not ignored. A container artefact of the mount.",
+        "failure2": "corpus_matches_committed_index: 1 absent, 0 mismatched of 24 sampled; the absent entry is an Alabama file. Neither NC source is in the absent set.",
+        "checkThatMattersHere": "family_sources_bind ok - 4/4 sources bind by exact SHA-256, 3 found by content hash because the declared custody is not mounted here. Identical to what VF07 recorded."
+      },
+      "acceptanceReceipt": null,
+      "whatWasNotDone": [
+        "No central raster on the new bytes. The superseded RASTER_PASS receipt no longer binds and a fresh central render is owed; the 150 dpi rasters used here were local, measurement-only and deleted.",
+        "No independent verification. This lane rebuilt the bytes it measured and verifies none of them; a verifier lane that built none of this must re-read it.",
+        "No verdict, queue, ledger-of-record, legal-decision or product-wiring binding was written or replaced; no route was promoted and no packet was self-verified."
+      ]
+    }
+  ]
+}

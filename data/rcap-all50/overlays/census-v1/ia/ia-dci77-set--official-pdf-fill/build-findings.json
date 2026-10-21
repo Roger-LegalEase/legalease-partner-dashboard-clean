@@ -1,0 +1,28 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "ia-dci77-set",
+  "findings": [
+    {
+      "finding": "The held combined source contains 45 fields and 54 widgets across DCI-76 page 1, DCI-77 page 2 and the official instructions page 3; every widget is censused.",
+      "disposition": "source_bound"
+    },
+    {
+      "finding": "Source-carried Number_Requests=0 and Total_Due=0 are cleared before flattening so the packet does not assert a request count or fee the participant has not supplied.",
+      "disposition": "participant_completion"
+    },
+    {
+      "finding": "Release signature, payment method/details, delivery choice, notarization choice and DCI result fields remain blank or protected for the participant/agency.",
+      "disposition": "protected_or_participant_completion"
+    },
+    {
+      "finding": "The route is a supporting_action only. LegalEase does not submit the request or receive, inspect, authenticate or store a returned criminal-history record.",
+      "disposition": "scope_restriction"
+    },
+    {
+      "finding": "The memo's fee/method refresh is a nonblocking research note; the current Iowa DPS information page and exact printed source instructions agree on $15 per last name and mail, fax, email or in-person submission.",
+      "disposition": "current_process_note"
+    }
+  ],
+  "blockers": [],
+  "visualMeasurements": null
+}

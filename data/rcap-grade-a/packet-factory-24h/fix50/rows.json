@@ -1,0 +1,256 @@
+{
+ "schemaVersion": "rcap-packet-factory-24h-lane-rows/v1",
+ "lane": "FIX50",
+ "laneKind": "shared-host-repair",
+ "generatedBy": "lane FIX50",
+ "baseSha": "30a8b3b71",
+ "branch": "fix50-off-appearance",
+ "rows": [
+  {
+   "itemId": "vt_seal_nonconviction-set",
+   "familyId": "vt_seal_nonconviction-set",
+   "jurisdiction": "VT",
+   "implementationStrategy": "official_pdf_fill",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill",
+   "status": "COMPLETED",
+   "laneKind": "shared-host-repair",
+   "repairedByThisLane": true,
+   "buildHost": "scripts/build-census-v1-vt_seal_nonconviction-set.mjs",
+   "sharedHost": "scripts/rcap-official-forms/rcap-active-content.mjs (sanitizeAndFlatten) and scripts/rcap-official-forms/rcap-official-form-finalize.mjs (finalizeOfficialForm)",
+   "grantConfirmed": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX50 vt_seal_nonconviction-set -> CLAIM_OK FIX50 vt_seal_nonconviction-set (repair, grant set ad10f9b142ce57c0), exit 0. Asserted before any family artifact was opened.",
+   "baseSha": "30a8b3b71",
+   "branch": "fix50-off-appearance",
+   "verdictRepaired": {
+    "lane": "VF02",
+    "verdict": "BLOCKED_LEGAL_INPUT",
+    "verifiedAtBase": "a71d69523",
+    "blockedObligationNames": [
+     "CLIPPING_AND_OVERLAP"
+    ],
+    "theOpenQuestionAsVF02PutIt": "whether a synthesized border at a widget whose /AS state has no appearance stream is source-owned form structure like an unchanged /Off appearance, or ink the packet must not add",
+    "howItIsAnswered": "Neither by a whitelist nor by a new determination. RI-OFF-APPEARANCE turns on whether the appearance is the SOURCE'S; a zero-write baseline shows this family added nothing, and the pinned binaries show the official form paints nothing, so the square belongs to neither the court nor the family. It is produced by the shared normalization, and the repair is made where it is produced."
+   },
+   "obligationsRepaired": [
+    "CLIPPING_AND_OVERLAP"
+   ],
+   "obligationsThisRowDoesNotDischarge": [
+    "RASTER. The RASTER_PASS receipt recorded in RASTER_QUEUE.json for this family (workflow run 33975085036, job 101330622892) was bound to canonical 0b657ac8491a6ece183b3523ad2163e2bd73b6fdc3a516f58bfb283188b8d3e2 and boundary 4851f377fef33a03857976a33c0e9543b6f6de14dc00146890232d3e571a6d12, both of which this repair supersedes. It stops binding and a fresh central raster is owed on the new bytes. RASTER_QUEUE.json and MASTER_QUEUE.json were NOT opened for writing by this lane, and the local rasters below are measurement only and were deleted.",
+    "INDEPENDENT VERIFICATION. This lane changed the shared flattening step, opted this family into it and rebuilt these bytes, so it verifies none of them. No verdict was written or replaced; product-wiring.json binding.acceptanceReceipt is null and no obligation is scored here.",
+    "THE COHORT'S OWN REPAIRS. The read-only scan below finds 47 families exposed to the same shared behaviour, 46 of them still on the default. Not one of them is repaired, rebuilt, opted in or touched by this lane. Measuring a cohort is not fixing it, and the option stays default-off precisely so that listing a family changes nothing about its bytes.",
+    "THE FOUR CASES THE OPTION DELIBERATELY LEAVES ALONE. A widget that ships its own appearance for its current state, a widget with no /AS at all, a widget whose /AP /N is a bare stream rather than a state dictionary, and any widget of a field this run wrote. Each is counted in the sanitize report and none is altered, so if any of them is a defect it is an open one and this row does not close it.",
+    "THE PRE-EXISTING FAILURE IN scripts/verify-rcap-finalizer-widget-contribution.mjs. Controls 6 and 7 fail on the KY and NE probe forms. Confirmed by stashing this lane's three script edits and re-running at base 30a8b3b71: the same two controls fail with the same two messages, so the failure predates this change and is neither introduced nor repaired here."
+   ],
+   "whatChanged": {
+    "theMeasuredDefect": "scripts/rcap-official-forms/rcap-active-content.mjs sanitizeAndFlatten calls form.updateFieldAppearances() before flatten(). pdf-lib's PDFCheckBox.needsAppearancesUpdate returns true for any widget whose CURRENT /AS state has no entry in /AP /N, and its default provider answers with a stroked square the size of the widget rectangle, which flatten() then stamps onto the page. ISO 32000-1 12.5.5 says a viewer draws the stream named by /AS, so where there is none a conforming viewer paints nothing. Read from the pinned binaries in this container: 200-00130 carries 12 non-pushbutton button widgets and all 12 are /AS /Off with /Yes as the only state in /AP /N; 200-00132 carries 2 and both are the same; 600-00228 carries 6 and all 6 ship their own /Off. 12 + 2 = the 14 squares VF02 measured.",
+    "theSharedModule": "rcap-active-content.mjs gains one exported function, suppressSynthesizedSelectionAppearances(pdfDoc, form, writtenFields), and one OPT-IN option on sanitizeAndFlatten named suppressSynthesizedAppearances, default false. When on, it runs immediately after restrictWidgetContributions and immediately before updateFieldAppearances: for every check-box or radio widget whose field is not in writtenFields and whose current /AS state has no stream under /AP /N, it installs an EMPTY form XObject for that state, with a /BBox sized to the widget's own /Rect, an identity /Matrix, empty /Resources and zero-length content. pdf-lib then reports no update is needed, synthesizes nothing, and flattens a stream that paints nothing. The remedy supplies the state the source omitted rather than suppressing a drawing, which is why it needs no new rule about what may be drawn.",
+    "howTheClassificationIsMade": "By pdf-lib's own field classes (PDFCheckBox, PDFRadioGroup) and by three structural facts on the widget: whether /AS is a name, whether /AP /N is a dictionary, and whether that dictionary carries the /AS key. No family, form number, field name, caption, jurisdiction or route is read anywhere in the function. There is no list of any kind in it.",
+    "whatIsNeverTouched": "A widget whose /AS state already has a stream (600-00228's six, which are the court's own and which RI-OFF-APPEARANCE settles stay); a widget of a field this run wrote, so a ticked box still renders its mark from the /Yes stream this never goes near; text fields, choosers and pushbuttons; a widget with no /AS; a widget whose /AP /N is a bare stream. The last two and the first are counted in the report as skippedNoAppearanceState, skippedNonDictionaryAppearance and skippedStateAlreadyDrawn so the skips can be checked rather than trusted.",
+    "theReport": "report.synthesizedSelectionAppearancesSuppressed carries installedCount, one row per installed appearance with the field name, the state and the widget rect, and the four skip counts. The key is absent entirely when the option is off, so no family's report gains a field it did not have.",
+    "theFinalizerPlumbing": "rcap-official-form-finalize.mjs takes suppressSynthesizedAppearances = false in its options and passes it straight into sanitizeAndFlatten, in the pattern FIX33 used for composedFieldValues and FIX44 for wrapInCellFields: one named option, defaulted off, documented where the other seven opt-in flags are documented, and inert for every caller that does not pass it.",
+    "theVermontBuilder": "scripts/build-census-v1-vt_seal_nonconviction-set.mjs passes suppressSynthesizedAppearances: true in its single finalizeOfficialForm call, beside evaluateDeclaredMinimumSize and alignWidgetFontSizeToFit, with a comment naming the measurement and naming 600-00228 as the case it does not reach. That is the only opt-in anywhere in the tree.",
+    "whatDidNotChange": "No default behaviour anywhere. No other family's builder, directory or bytes. No whitelist by family, form, field or route exists to change. MASTER_QUEUE.json, RASTER_QUEUE.json, the legal-decision records and the claim ledger's other entries were not opened for writing."
+   },
+   "theUnitTest": {
+    "file": "scripts/rcap-official-forms/test-synthesized-off-appearances.mjs",
+    "invocation": "node scripts/rcap-official-forms/test-synthesized-off-appearances.mjs",
+    "result": "5 controls, all PASS, exit 0",
+    "whatItMeasures": "INK, not a report count. Each probe is rastered with pdftoppm at 300 dpi and the dark pixels inside the widget's own rectangle are counted. Rasters are written under the OS temp directory and removed in a finally block.",
+    "probesAreSynthetic": "Three one-page documents built in memory, not a fixture of any family: pdf-lib's own createCheckBox with its /AP /N dictionary replaced wholesale, because what is under test is a form that ships FEWER states than pdf-lib would.",
+    "controls": [
+     "1 NEGATIVE CONTROL. With the option OFF, an unwritten box whose /AS /Off state has no appearance and whose /AP /N carries /Yes alone is delivered as a bordered square: 240 dark pixels in the widget rect. The test asserts this is greater than zero and fails loudly if it is not, because a test that passes either way proves nothing.",
+     "2 With the option ON, the same widget flattens to ZERO dark pixels at its rect. 240 -> 0.",
+     "3 The count is reported per document and only when the option is on: installedCount 1, state /Off with the option on; no synthesizedSelectionAppearancesSuppressed key at all with it off.",
+     "4 A written, checked box still renders its mark with the option on: 706 dark pixels, installedCount 0 on that field, skippedWritten 1.",
+     "5 A widget that ships its own /Off appearance is BYTE-IDENTICAL either way: 1172 bytes both ways, Buffer.equals true, the source's own box still printed (948 dark pixels), skippedStateAlreadyDrawn 1."
+    ]
+   },
+   "rebuild": {
+    "command": "MASTER_LIBRARY_SOURCE_DIR=<mounted Master Library> node scripts/build-census-v1-vt_seal_nonconviction-set.mjs --no-raster",
+    "exit": 0,
+    "runTwice": "The whole family directory was copied aside after the first build and diffed against the second with diff -r. Zero differences across every file: the rebuild is deterministic."
+   },
+   "digests": {
+    "before": {
+     "canonical": {
+      "sha256": "0b657ac8491a6ece183b3523ad2163e2bd73b6fdc3a516f58bfb283188b8d3e2",
+      "bytes": 861953,
+      "pages": 9
+     },
+     "boundary": {
+      "sha256": "4851f377fef33a03857976a33c0e9543b6f6de14dc00146890232d3e571a6d12",
+      "bytes": 862320,
+      "pages": 9
+     }
+    },
+    "after": {
+     "canonical": {
+      "sha256": "1da18e3ffaa4780697a7595546059ab183d04cb992a6de10f8bf1686dff2831f",
+      "bytes": 861284,
+      "pages": 9
+     },
+     "boundary": {
+      "sha256": "e3e8c13d9e0f0a1cf9b38401732fd86fd5f6dd15061c55bda64e5e344fef6595",
+      "bytes": 861651,
+      "pages": 9
+     }
+    },
+    "pageCountUnchanged": "9 -> 9 in both fixtures. Nothing was added to or removed from the packet.",
+    "perFormFixtures": {
+     "canonical--200-00130.pdf": "651120a460f7e088 -> c59b8753bc34fe89, 245680 -> 245115 bytes",
+     "canonical--200-00132.pdf": "bdad609567e6e6db -> 10d9adde949dba68, 260809 -> 260705 bytes",
+     "canonical--600-00228.pdf": "2d600575153c1614 -> 2d600575153c1614, 347251 -> 347251 bytes: BYTE-IDENTICAL",
+     "boundary--200-00130.pdf": "a4f23c6a5e9bbc5c -> 6720e4647b5b1905, 245842 -> 245277 bytes",
+     "boundary--200-00132.pdf": "b2cfb7e1792ade56 -> e108d33e4fe5789e, 260959 -> 260855 bytes",
+     "boundary--600-00228.pdf": "2d600575153c1614 -> 2d600575153c1614, 347251 -> 347251 bytes: BYTE-IDENTICAL"
+    },
+    "whyTheFileGotSMALLER": "An empty appearance stream replaces a generated one carrying a rectangle path, a stroke and a graphics-state block, so each of the 14 widgets costs fewer bytes than the square it replaces."
+   },
+   "appearanceLevelProof": {
+    "method": "Both fixtures at HEAD and both rebuilt fixtures were rastered locally with pdftoppm at 150 dpi, greyscale, pages 1-9, into /tmp. Every pixel of every page was compared. The 20 button-widget rectangles were read from the three pinned binaries by content hash and mapped to packet pages. Rasters deleted after measuring.",
+    "widgetsByPacketPage": "The 14 with no appearance for their current state: 10 on page 1 (200-00130 p1), 2 on page 2 (200-00130 p2), 2 on page 3 (200-00132 p1). Exactly the distribution VF02 recorded. The 6 that ship their own /Off: 4 on page 5, 2 on page 6 (600-00228).",
+    "pagesChanged": "canonical and boundary alike: page 1 1176 pixels, page 2 240, page 3 240, pages 4, 5, 6, 7, 8 and 9 PIXEL-IDENTICAL.",
+    "changedPixelsOutsideEveryCheckboxRect": 0,
+    "theSquaresAreGone": "Every one of the 14 widgets lost exactly 120 dark pixels in both fixtures. 120 is the perimeter of a 14.4pt square at 150 dpi (14.4 * 150/72 = 30 px a side, 4 x 30 = 120).",
+    "measuredAgainstTheOfficialFORM": "Page 1 and 2 of the pinned 200-00130 and page 1 of the pinned 200-00132 were rastered at the same settings and the same rectangles measured. 13 of the 14 widget rects now carry EXACTLY the official form's own ink count (120/120, 140/140, 104/104, 130/130, 104/104, 104/104, 120/120, 121/121, 189/189, 105/105, 136/136, 143/143, 136/136). Before the repair all 14 carried MORE than the official form.",
+    "theOneException": "Field 18 on page 1, the route-election box: official form 120, packet before 413, packet after 293. It lost the same 120 pixels as every other widget; the 173 that remain above the form's own box are the packet's own route mark, two diagonals struck inside the box by markRouteSelections. That mark is drawn as page content after flatten and is untouched by this change.",
+    "the600_00228_squaresRemain": "All 12 measurements across both fixtures unchanged and non-zero: p5 206, 328, 328, 352 and p6 320, 307, identical before and after. Those boxes are the court's own /Off appearance reproduced, which is what RI-OFF-APPEARANCE covers.",
+    "everyParticipantWriteIsUnchanged": "pdftotext -layout over all 9 pages of both fixtures is CHARACTER-IDENTICAL before and after. reports/actual-writes.json is byte-identical. The three composed pages (7, 8, 9) and packet pages 4, 5 and 6 are pixel-identical. Not one write moved, changed size or changed value.",
+    "rastersDeleted": true
+   },
+   "countersBefore": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "countersAfter": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "countersNote": "All nine were zero before and are zero after, and that is not what makes this a repair. The counters read the field map; the square was never a declared write, so no counter could ever have seen it. The evidence for the repair is the raster, not the counters.",
+   "verifiers": {
+    "verify-packet-completeness.mjs": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_nonconviction-set -> PASS_COMPLETE, 21/169 written, nine counters zero, exit 0. Run before the edit and again after the rebuild, same result both times.",
+    "verify-identity-refresh-survives-rebuild.mjs": "EVERY_IDENTITY_REFRESH_SURVIVED, 249 receipts compared against HEAD, 53 carrying an identityRefresh, exit 0",
+    "verify-source-carried-values-are-dispositioned.mjs": "EVERY_SOURCE_CARRIED_VALUE_IS_DISPOSITIONED, 0 UNDISPOSITIONED, 0 not examinable, 26 by appearance-registry and 3 by clearSourceCarriedTextValues, exit 0",
+    "test-synthesized-off-appearances.mjs": "5 controls PASS, exit 0 (this lane's new test)",
+    "test-widget-appearance-placement.mjs": "3 PASS, exit 0",
+    "verify-rcap-appearance-semantics.mjs": "OK appearance semantics, 10 controls hold and 4 mutations each turn their control red, exit 0",
+    "verify-rcap-finalizer-widget-contribution.mjs": "exit 1, controls 6 and 7 FAIL. PRE-EXISTING: the identical two failures with the identical messages were reproduced at base 30a8b3b71 by stashing this lane's three script edits. Not introduced here and not repaired here."
+   },
+   "corpusIdentityForOtherFamilies": {
+    "method": "sha256 of every file under data/rcap-all50/overlays/census-v1 (5460 files) taken before the module change and again after the rebuild, and diffed.",
+    "familyDirectories": 249,
+    "directoriesWithAnyChangedFile": 1,
+    "theOneDirectory": "vt/vt-seal-nonconviction-set--official-pdf-fill",
+    "filesChangedInIt": [
+     "fixtures/canonical.pdf",
+     "fixtures/boundary.pdf",
+     "fixtures/canonical--200-00130.pdf",
+     "fixtures/boundary--200-00130.pdf",
+     "fixtures/canonical--200-00132.pdf",
+     "fixtures/boundary--200-00132.pdf",
+     "reports/rendered-artifacts.json"
+    ],
+    "result": "248 of 249 family directories are BYTE-IDENTICAL after the change, which is what a default-off option is supposed to mean. Inside the one directory that moved, both 600-00228 fixtures are also byte-identical."
+   },
+   "cohortScan": {
+    "script": "scripts/rcap-official-forms/scan-synthesized-off-appearances.mjs",
+    "readOnly": "It opens receipts and official binaries and writes only its own two report files. No family's builder, directory or bytes are touched.",
+    "resolution": "Every mounted custody is indexed by SHA-256 first (500 files under private/source-imports and private/human-source-returns, nested and duplicate roots collapsed by realpath) and each document is looked up by the digest its receipt pins. The declared pathInArchive is recorded and never opened.",
+    "outputs": [
+     "data/rcap-grade-a/packet-factory-24h/fix50/SYNTHESIZED_OFF_APPEARANCE_COHORT.json",
+     "data/rcap-grade-a/packet-factory-24h/fix50/SYNTHESIZED_OFF_APPEARANCE_COHORT.md"
+    ],
+    "familyDirectoriesWithASourceReceipt": 249,
+    "familiesInCohort": 47,
+    "widgetsInCohort": 1062,
+    "familiesInCohortStillOnTheOldDefault": 46,
+    "familiesInCohortAlreadyOptedIn": 1,
+    "byJurisdiction": {
+     "AK": 2,
+     "CO": 2,
+     "CT": 1,
+     "MA": 1,
+     "MD": 1,
+     "ME": 1,
+     "NC": 3,
+     "ND": 1,
+     "NH": 2,
+     "NJ": 5,
+     "OR": 1,
+     "PA": 7,
+     "RI": 6,
+     "SD": 1,
+     "VA": 6,
+     "VT": 7
+    },
+    "widgetsByJurisdiction": {
+     "AK": 15,
+     "CO": 28,
+     "CT": 2,
+     "MA": 19,
+     "MD": 48,
+     "ME": 3,
+     "NC": 112,
+     "ND": 5,
+     "NH": 38,
+     "NJ": 110,
+     "OR": 2,
+     "PA": 39,
+     "RI": 214,
+     "SD": 15,
+     "VA": 312,
+     "VT": 100
+    },
+    "notMeasurableHere": "46 documents across 17 families, listed by family and digest in both outputs. They are absences, never zeros: a family whose source no mounted custody holds by hash is NOT_MEASURABLE_HERE and is excluded from the cohort count rather than counted as clean.",
+    "whatIsNotCounted": "A widget that ships its own appearance for its current state. 600-00228's six are the case in point, and RI-OFF-APPEARANCE settles that they stay.",
+    "grantsNothing": "A cohort is a measurement. It authorizes no rebuild, no route change and no promotion, and it is not this lane's to repair."
+   },
+   "preflight": {
+    "command": "MASTER_LIBRARY_SOURCE_DIR=<mounted Master Library> node scripts/verify-packet-build-environment.mjs --family vt_seal_nonconviction-set --codex-cloud --minimum-captain-sha 30a8b3b71",
+    "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 12/14 passed, 2 failed, 3 not applicable",
+    "theTwoFailures": [
+     "worktree_clean: 13 uncommitted paths. This is the lane's own work in progress; the preflight was run after the build rather than before it, and that is stated rather than worked around.",
+     "corpus_matches_committed_index: 1 absent, 0 mismatched of 24 sampled. The same single gap VF02 recorded, and it is not a Vermont entry: family_sources_bind passes 3/3 by exact SHA-256, and all three Vermont digests were independently re-resolved by content hash in this container by the cohort scan."
+    ],
+    "notApplicable": "The three rasterizer and browser checks. This lane renders nothing centrally; its rasters are local measurement only.",
+    "worktree": "/home/user/fix50-worktree, branch fix50-off-appearance from 30a8b3b71 on claude/legalease-sprint-captain-utucnw. core.sparseCheckout false, 0 skip-worktree bits. private/ is a real directory of read-only symlinks into the mounted corpus, so private/ matches the committed .gitignore rule and tracks nothing; node_modules symlinked to the captain worktree. node 22.22.2, pdf-lib 1.17.1."
+   },
+   "filesChanged": [
+    "scripts/rcap-official-forms/rcap-active-content.mjs - one exported function and one default-off option on sanitizeAndFlatten",
+    "scripts/rcap-official-forms/rcap-official-form-finalize.mjs - the option accepted and forwarded, in the FIX33/FIX44 pattern",
+    "scripts/rcap-official-forms/test-synthesized-off-appearances.mjs - new, 5 controls including the negative one",
+    "scripts/build-census-v1-vt_seal_nonconviction-set.mjs - the single opt-in",
+    "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/ - rebuilt fixtures and rendered-artifacts.json",
+    "scripts/rcap-official-forms/scan-synthesized-off-appearances.mjs - new, read-only",
+    "data/rcap-grade-a/packet-factory-24h/fix50/ - the cohort JSON, its Markdown twin and this row"
+   ],
+   "queuesTouched": "none. MASTER_QUEUE.json and RASTER_QUEUE.json were read and never opened for writing.",
+   "legalRecordsTouched": "none. OWNER_DETERMINATIONS_2026-09-02.json was read for RI-OFF-APPEARANCE and not edited. No new determination is asserted: the repair turns on that determination's own test rather than on an extension of it.",
+   "claimLedgerTouched": "this lane's own FIX50 grant only, asserted at the start and released at the end.",
+   "productWiring": "not edited. binding.acceptanceReceipt is null and binding.lastIndependentVerification still records VF02's BLOCKED_LEGAL_INPUT at a71d69523, read over superseded bytes.",
+   "commercialRoutesOpened": 0,
+   "productionTouched": false,
+   "acceptanceReceipt": null,
+   "whatWasNotDone": [
+    "CENTRAL RASTER. Not run and not requested. The local pdftoppm rasters in this row are measurement in this container only, and they were deleted. The family's standing RASTER_PASS receipt is bound to digests this repair supersedes and no longer binds.",
+    "INDEPENDENT VERIFICATION. None. This lane changed the shared step, opted the family in and built the bytes, so it is disqualified from verifying any of them. VF02's own CLIPPING_AND_OVERLAP question is answered on the bytes here, but it is answered by the lane that made the change and that is not a verdict.",
+    "THE COHORT'S OWN REPAIRS. 47 families are exposed and 46 remain on the default. None was rebuilt, opted in or altered. Flipping the default for all of them is a rebuild-everything decision and belongs to whoever can rebuild them together, which is the same decision the seven other opt-in flags in the finalizer are already waiting on.",
+    "THE 46 NOT-MEASURABLE DOCUMENTS. Their sources are not in a custody mounted here, so their exposure is unknown rather than zero, and nothing in this row should be read as clearing them."
+   ],
+   "grantsNothing": "This row repairs one measured defect on one family and records a cohort. It promotes nothing, opens no route and authorizes no rebuild of any other family."
+  }
+ ]
+}

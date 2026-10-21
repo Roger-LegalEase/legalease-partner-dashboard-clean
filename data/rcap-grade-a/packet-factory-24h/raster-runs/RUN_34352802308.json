@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "rcap-raster-run-record/v1",
+  "whatThisIs": "A record of one central raster batch, written from tool-obtained identifiers only. It is NOT a receipt and admits nothing. No family moves on the strength of this file.",
+  "workflowRunId": "34352802308",
+  "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+  "dispatchedFromRef": "main",
+  "workflowFileCommit": "a3d4587b0fbbbfa887c78372afbfdb8824906333",
+  "packetCommitSha": "4bf305425ddd1bb524421a36087c0bb095c6a183",
+  "rasterManifestPath": "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+  "requestedScale": "2.5",
+  "runConclusion": "success",
+  "controlJobs": [
+    { "name": "Synthetic canary and live negative controls", "jobId": "102469957789", "conclusion": "success" },
+    { "name": "Plan the family matrix", "jobId": "102470608021", "conclusion": "success" }
+  ],
+  "whyEveryFamilyBelowIsARasterPass": "scripts/rcap-raster-batch.mjs ends with process.exit(verdict === \"RASTER_PASS\" ? 0 : 1), and the workflow runs it under set -e as the job's own step. A family whose 'Render and measure' step concluded success therefore emitted RASTER_PASS. This is read from the code in this repository and from the job conclusions the API returned; it is not inferred from the run's overall colour.",
+  "families": [
+    { "familyId": "hi_712_1200_deferred_expungement-set", "jobId": "102470875547", "renderStepConclusion": "success", "artifactId": "10104609538", "artifactZipSha256": "25960c54e2b5827b1cc8207dc4d63ac19c460e3e2080b2bb2660e72b49efe576", "artifactBytes": 3715651, "verdictLineReadFromTheLog": "RASTER_PASS hi_712_1200_deferred_expungement-set — 2 document(s), 2 page(s) measured, 0 problem(s)" },
+    { "familyId": "ia-12347-set", "jobId": "102470875416", "renderStepConclusion": "success", "artifactId": null, "artifactZipSha256": null, "verdictLineReadFromTheLog": null },
+    { "familyId": "il-exp-nonconv-set", "jobId": "102470875374", "renderStepConclusion": "success", "artifactId": null, "artifactZipSha256": null, "verdictLineReadFromTheLog": null },
+    { "familyId": "il-exp-pardon-set", "jobId": "102470875384", "renderStepConclusion": "success", "artifactId": null, "artifactZipSha256": null, "verdictLineReadFromTheLog": null },
+    { "familyId": "il-exp-precompletion-set", "jobId": "102470875515", "renderStepConclusion": "success", "artifactId": null, "artifactZipSha256": null, "verdictLineReadFromTheLog": null },
+    { "familyId": "il-seal-edu-set", "jobId": "102470875388", "renderStepConclusion": "success", "artifactId": null, "artifactZipSha256": null, "verdictLineReadFromTheLog": null },
+    { "familyId": "il-seal-nonconv-set", "jobId": "102470875386", "renderStepConclusion": "success", "artifactId": null, "artifactZipSha256": null, "verdictLineReadFromTheLog": null }
+  ],
+  "nullsAreNotZeros": "artifactId, artifactZipSha256 and verdictLineReadFromTheLog are null on six families because this session did not read those job logs, not because the values do not exist. Only the Hawaii job's log was read in full. A null here means unread, and no one should fill one in from the pattern of the one that was read.",
+  "whyNoReceiptWasWritten": "The admit path -- scripts/rcap-packet-recovery/admit-completed-fixture-raster.py -- requires the uploaded zip: the verdict document with one measurement per page, and the page images to hash against it. This session's egress policy denies Actions artifact blob storage (CONNECT answered 403 for the artifact zip endpoint), so those bytes are unreachable here. A file in a receipts directory that looks like a receipt but omits the evidence the gate checks is worse than no file, so none was written and no family was moved.",
+  "whatWouldEndThis": "One step in the workflow that prints the verdict document and a SHA-256 per rendered page to the job LOG, which this session's policy does allow. It is prepared and validated on the captain branch and needs an owner decision to reach main, because the batch is dispatched from main.",
+  "grantsNothing": "This record opens no commercial route, promotes no family, and creates no Grade-A fulfillment record.",
+  "familiesRemainAt": "BUILT_RASTER_PENDING"
+}

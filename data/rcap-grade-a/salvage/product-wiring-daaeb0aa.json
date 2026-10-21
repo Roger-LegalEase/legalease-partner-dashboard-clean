@@ -1,0 +1,66 @@
+{
+  "schemaVersion": "rcap-salvage-finding/v1",
+  "commit": "daaeb0aa644f550238cbc6985109c44f39d74657",
+  "branch": "claude/product-wiring-batch-yropbq",
+  "subject": "fix(rcap): bind the money and credit gates to the resolver's own decision",
+  "recordedBy": "Captain A",
+  "recordedAt": "2026-08-30",
+
+  "treatment": "SALVAGE_FINDING_ONLY_CURRENT_HEAD_REPLAY_REQUIRED",
+  "directlyIntegrated": false,
+  "cherryPicked": false,
+
+  "whyNotIntegrated": [
+    "Its parent is 07675789, which is the repository's main and HEAD. The Captain branch has advanced far beyond it, so this commit is not one commit behind — it is a different lineage.",
+    "It changes 4,233 lines across 13 files, including package.json, a 3,185-line generated readiness record, and three runtime modules. A diff that size cannot be reviewed as an increment onto a head it never saw.",
+    "It predates the current Grade-A commercial-admission system.",
+    "Its own commit message states: 'The preserved legacy generators (MS, IL, DC, PA, TX) resolve legacy_verified, keep their price and keep building jobs.' The current classification is legacy_retired, sellable false, creditConsumable false. Integrating this would restore a direct-consumer price that Roger Roman's 2026-08-28 decision retired, which AGENTS.md forbids by name.",
+    "It carries its own readiness ledger and edits data/rcap-verifier-dispositions.json, which would import a second commercial rule alongside governCommercialAdmission."
+  ],
+
+  "findingsWorthReplaying": {
+    "note": "These are the substantive claims the commit makes. They are recorded so the current-head replay knows what to look for. None of them is accepted here: every one must be re-established on the current head, against the current commercial-admission system, or discarded.",
+    "claims": [
+      {
+        "claim": "The packet route resolver answers three questions per route — rendererKind, sellable, creditConsumable — and nothing read the second or the third. Both the money gate and the credit gate asked packetRouteCanRender instead.",
+        "whyItMatters": "'The factory has everything it needs to build this packet' is not 'this route may be sold'. If true, the two questions were being answered by one.",
+        "mustBeReprovenOn": "the current head, by exercising the shipped resolver, payment adapter and job builder — not by reading them."
+      },
+      {
+        "claim": "factory_v2 is the only route kind where the two answers diverge: it resolves WITH the shared renderer and WITH sellable false, creditConsumable false.",
+        "consequenceAlleged": "a shadow route the resolver declared unsellable was shown a price, admitted to Stripe Checkout, and given a durable render job — the path into artifact finalisation and into spending a sponsored packet credit."
+      },
+      {
+        "claim": "60 factory_v2 routes were payment-eligible at the evaluator; 39 of them with no recorded counsel approval; all 60 served by families recording runtimeStatus runtime_disabled, packetReady false, productionEnabled false.",
+        "doNotReuse": "The 60-route count is measured against that lineage and must not be carried forward. The current-head replay recounts from compiled pathway IDs and reports its own number."
+      },
+      {
+        "claim": "The money-gate verifier never caught this because it probed with pathway.label while the runtime carries the pathway id in pathwayLabel, so no probe ever matched a compiled pathway and the factory_v2 branch was never exercised.",
+        "whyItMatters": "This is the most reusable finding in the commit. A verifier that never reaches the branch it is meant to guard is vacuous, and reports green for that reason. Any replacement must fail if it fails to reach the shadow branch at all, and must take its mutation subject from that branch.",
+        "mustBeReprovenOn": "the current head — the label/id confusion may or may not still exist here."
+      }
+    ]
+  },
+
+  "constraintsOnAnyReplay": [
+    "legacy_retired jurisdictions remain commercially closed. Do not restore a direct-consumer price, do not create a state-specific exception, and do not let a partner-only generator become a direct-consumer one.",
+    "Already-generated historical artifacts remain reachable through protected owner-authorized access. Closing a route must not delete access to what was already produced.",
+    "factory_v2 remains shadow-only unless current Grade-A admission authorizes it.",
+    "governCommercialAdmission remains the commercial authority. No second commercial rule.",
+    "Do not import the old readiness ledger or the old verifier-disposition file.",
+    "Commercial authority comes from a Grade-A fulfilment record keyed to an exact route and packet family, and from nothing else."
+  ],
+
+  "replayAssignedTo": {
+    "branch": "claude/census-v1-current-money-credit-gate",
+    "sessionId": "session_0124yYMJbqN3WZ49fvfU5v6C",
+    "dispatchedAt": "2026-08-30",
+    "instruction": "Determine on the current head whether any sellable-false route can display a price, create a Stripe Checkout session, reserve sponsored entitlement, create a credit-consuming render job, or attach or deliver a new commercial artifact; and whether any creditConsumable-false route can create a render job that reaches packet-credit accounting. Drive exact compiled pathway IDs, not display labels. Recount from the current head."
+  },
+
+  "thisRecordGrantsNothing": [
+    "It integrates no code and accepts no claim.",
+    "It opens no commercial route and closes none.",
+    "It creates no fulfilment record and approves no output."
+  ]
+}

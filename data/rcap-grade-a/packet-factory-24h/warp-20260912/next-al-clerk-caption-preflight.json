@@ -1,0 +1,147 @@
+{
+  "schemaVersion": "rcap-captain-repair-preflight/v1",
+  "recordedOn": "2026-09-12",
+  "observedAtCommit": "c7e645f375ccc246f4415b563c88a437f9012ff9",
+  "classification": "DEMONSTRATED_SHARED_IMPLEMENTATION_DEFECT",
+  "authority": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
+  "decisionId": "AL-CLERK-ASSIGNED-EXPUNGEMENT-CASE-NUMBER",
+  "requiredBehavior": "Preserve underlying criminal record number in its separate field; clerk-assigned expungement case caption remains blank until clerk supplies that distinct number.",
+  "rows": [
+    {
+      "familyId": "al-diversion-set",
+      "currentState": "BUILT_RASTER_PENDING",
+      "packet": {
+        "path": "data/rcap-all50/overlays/census-v1/al/al-diversion-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "bd0881fb24b1e781c329bde7f33d8aff34944e47582b7054a8ede3cf1c2a517d"
+      },
+      "observedValue": "CC-2021-004217",
+      "observedFields": [
+        "Court Case Number (Assigned by Clerk)",
+        "COURT CASE NUMBER TO BE EXPUNGED"
+      ],
+      "page": 1,
+      "byteInspection": "pdftotext -f 1 -l 1 -layout; same underlying case number occurs in both separately labeled fields",
+      "implementationCause": "knownValue maps CR-65 Text1 and named Court Case Number fields to matter.case_number; the underlying-record field Text3 uses the same fact",
+      "independentVerdictAtRead": {
+        "verdict": "BLOCKED_LEGAL_INPUT",
+        "lane": "vf01",
+        "verifiedAtBase": "b5cb44279e39cc56d11f65be5dd3de0d16bab85e",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
+      }
+    },
+    {
+      "familyId": "al-misd-conviction-set",
+      "currentState": "BUILT_RASTER_PENDING",
+      "packet": {
+        "path": "data/rcap-all50/overlays/census-v1/al/al-misd-conviction-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "a161be5bf3924fdd86192a548e3ba78e9f7c929985f165370529fc91cc11e093"
+      },
+      "observedValue": "CC-2021-004217",
+      "observedFields": [
+        "Court Case Number (Assigned by Clerk)",
+        "COURT CASE NUMBER TO BE EXPUNGED"
+      ],
+      "page": 1,
+      "byteInspection": "pdftotext -f 1 -l 1 -layout; same underlying case number occurs in both separately labeled fields",
+      "implementationCause": "knownValue maps CR-65 Text1 and named Court Case Number fields to matter.case_number; the underlying-record field Text3 uses the same fact",
+      "independentVerdictAtRead": {
+        "verdict": "BLOCKED_LEGAL_INPUT",
+        "lane": "vf04",
+        "verifiedAtBase": "b5cb44279e39cc56d11f65be5dd3de0d16bab85e",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json"
+      }
+    },
+    {
+      "familyId": "al-misd-dwop-set",
+      "currentState": "BUILT_RASTER_PENDING",
+      "packet": {
+        "path": "data/rcap-all50/overlays/census-v1/al/al-misd-dwop-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "d29b3da197d38df0f347b41335261fd3564b1cb20c93491b384ccbc7ade01780"
+      },
+      "observedValue": "CC-2021-004217",
+      "observedFields": [
+        "Court Case Number (Assigned by Clerk)",
+        "COURT CASE NUMBER TO BE EXPUNGED"
+      ],
+      "page": 1,
+      "byteInspection": "pdftotext -f 1 -l 1 -layout; same underlying case number occurs in both separately labeled fields",
+      "implementationCause": "knownValue maps CR-65 Text1 and named Court Case Number fields to matter.case_number; the underlying-record field Text3 uses the same fact",
+      "independentVerdictAtRead": {
+        "verdict": "BLOCKED_LEGAL_INPUT",
+        "lane": "vf05",
+        "verifiedAtBase": "b5cb44279e39cc56d11f65be5dd3de0d16bab85e",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json"
+      }
+    },
+    {
+      "familyId": "al-pardoned-felony-set",
+      "currentState": "FAIL_REPAIR_REQUIRED",
+      "packet": {
+        "path": "data/rcap-all50/overlays/census-v1/al/al-pardoned-felony-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "b763d0872bd3058088aa4a9bf03bba49aa204a0e3aff59ebd4955cf72d2936fb"
+      },
+      "observedValue": "CC-2021-004217",
+      "observedFields": [
+        "Court Case Number (Assigned by Clerk)",
+        "COURT CASE NUMBER TO BE EXPUNGED"
+      ],
+      "page": 1,
+      "byteInspection": "pdftotext -f 1 -l 1 -layout; same underlying case number occurs in both separately labeled fields",
+      "implementationCause": "knownValue maps CR-65 Text1 and named Court Case Number fields to matter.case_number; the underlying-record field Text3 uses the same fact",
+      "independentVerdictAtRead": {
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "vf06",
+        "verifiedAtBase": "b5cb44279e39cc56d11f65be5dd3de0d16bab85e",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows.json"
+      }
+    },
+    {
+      "familyId": "al-felony-dwop-set",
+      "currentState": "COMPLETE_PACKET_PROVEN",
+      "packet": {
+        "path": "data/rcap-all50/overlays/census-v1/al/al-felony-dwop-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "620dbb629211bea88ef5a5a22148c7153154d5c22081bfcfcc8c2d02c89f1dfe"
+      },
+      "observedValue": "CC-2021-004217",
+      "observedFields": [
+        "Court Case Number (Assigned by Clerk)",
+        "COURT CASE NUMBER TO BE EXPUNGED"
+      ],
+      "page": 1,
+      "byteInspection": "pdftotext -f 1 -l 1 -layout; same underlying case number occurs in both separately labeled fields",
+      "implementationCause": "knownValue maps CR-65 Text1 and named Court Case Number fields to matter.case_number; the underlying-record field Text3 uses the same fact",
+      "independentVerdictAtRead": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf55",
+        "verifiedAtBase": "6d549091c90330c82f684d18e99460d4ff70f641",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf55/rows-vf55-20260910.json"
+      }
+    },
+    {
+      "familyId": "al-felony-nonconviction-90-set",
+      "currentState": "COMPLETE_PACKET_PROVEN",
+      "packet": {
+        "path": "data/rcap-all50/overlays/census-v1/al/al-felony-nonconviction-90-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "504731a37cda8b7b6ef801555bd380aee76c56da76ce22c65bb9eeddb3bad2c2"
+      },
+      "observedValue": "CC-2021-004217",
+      "observedFields": [
+        "Court Case Number (Assigned by Clerk)",
+        "COURT CASE NUMBER TO BE EXPUNGED"
+      ],
+      "page": 1,
+      "byteInspection": "pdftotext -f 1 -l 1 -layout; same underlying case number occurs in both separately labeled fields",
+      "implementationCause": "knownValue maps CR-65 Text1 and named Court Case Number fields to matter.case_number; the underlying-record field Text3 uses the same fact",
+      "independentVerdictAtRead": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf41",
+        "verifiedAtBase": "380620df6aa089ea5e0cfd58c2ab6dd2f472cd1d",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf41/rows-vf41-20260911-al90-final.json"
+      }
+    }
+  ],
+  "scopeNote": "Queued after current NM/CO acceptance and AZ repair. This preflight neither replaces independent acceptance nor changes packet bytes, historical evidence, queue state, or commercial admission. Two current terminal rows are affected and must be repaired before claiming final legitimate completeness.",
+  "additionalPerFamilyDefects": {
+    "al-pardoned-felony-set": "Existing ROUTE_OPTIONS failure must also be measured/repaired separately."
+  }
+}

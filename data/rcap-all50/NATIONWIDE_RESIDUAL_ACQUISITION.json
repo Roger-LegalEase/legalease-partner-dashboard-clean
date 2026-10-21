@@ -1,0 +1,858 @@
+{
+  "schemaVersion": "rcap-nationwide-residual-acquisition/v1",
+  "generatedBy": "scripts/rcap-corpus/generate-nationwide-residual-acquisition.mjs",
+  "atCommit": "3d68ef38adab7f0f4cf45bfaee6c92248e368c9c",
+  "derivedFrom": {
+    "recoveryReport": "legalease-nationwide-corpus-recovery-report/v1",
+    "manifest": "data/rcap-all50/nationwide-restore-manifest.json",
+    "recoveryKitSha256": "db8a02db11f3951dfffe34fa443d444d53ab4e09bce25767960905396a54f6f1",
+    "recoveryKitBytes": 228260257
+  },
+  "outcome": "NATIONWIDE_CORPUS_RESIDUAL_HASHES_REQUIRED",
+  "counts": {
+    "expectedFiles": 583,
+    "recoveredFromThePoolAtExactHash": 513,
+    "absentFromThePool": 70,
+    "distinctHashesAbsentFromThePool": 69,
+    "ofThoseAlreadyHeldInThisCheckout": 4,
+    "trueAcquisitionTaskPaths": 66,
+    "trueAcquisitionTaskDistinctHashes": 65,
+    "wrongSize": 0,
+    "jurisdictionsStillOwingFiles": 17
+  },
+  "whyTwoCountsDiffer": "Seventy manifest PATHS are absent from the pool, but two Wisconsin paths name the same bytes, so they are sixty-nine distinct hashes. Four of those are already held in this checkout's Master Library at their exact recorded SHA-256, so what Roger is actually being asked to find is smaller than the number the reconstructor prints.",
+  "whatWasInstalled": {
+    "operationalTree": false,
+    "releaseArchive": false,
+    "why": "The reconstructor refuses partial recovery, and so does the bootstrap. A tree short of its manifest may not be installed under private/Nationwide Record Clearing, and an archive short of its manifest may not be published as Nationwide_Record_Clearing.zip. Nothing was renamed, nothing was substituted, and the Master Library was not put in its place."
+  },
+  "whatTheRecoveredFilesDoNotAuthorize": [
+    "The 513 recovered files are staged nowhere and mounted nowhere. They are recoverable from the pool on demand once the denominator is complete.",
+    "No family moved on the strength of this recovery, because no source is mounted at its recorded hash.",
+    "The residual list opens no commercial route and proves no packet."
+  ],
+  "howToRecheckOnceMoreBytesArrive": "Add the missing bytes to the pool and re-run the kit's reconstruct_nationwide_corpus.py against this repository's manifest. It exits 2 with a shorter residual list, or writes the archive at 583/583.",
+  "dependentFamiliesCaveat": "The restore manifest carries no artifact id and no family binding, so no per-file dependency exists to report. The per-jurisdiction roll-up below is an UPPER BOUND on what a state's residual files could unblock, never a forecast that any listed family depends on any listed file.",
+  "byClassification": {
+    "reference": 14,
+    "pdf": 56
+  },
+  "perJurisdiction": {
+    "CO": {
+      "filesStillOwed": 22,
+      "byClassification": {
+        "reference": 7,
+        "pdf": 15
+      },
+      "sourceBlockedFamiliesInThisJurisdiction": [
+        "co_municipal_conviction_seal-set"
+      ]
+    },
+    "FL": {
+      "filesStillOwed": 6,
+      "byClassification": {
+        "pdf": 6
+      },
+      "sourceBlockedFamiliesInThisJurisdiction": [
+        "fl-10yr-bridge-set",
+        "fl-administrative-set",
+        "fl-early-juvenile-set",
+        "fl-expunction-set",
+        "fl-juvenile-diversion-set",
+        "fl-sealing-set"
+      ]
+    },
+    "GA": {
+      "filesStillOwed": 1,
+      "byClassification": {
+        "pdf": 1
+      },
+      "sourceBlockedFamiliesInThisJurisdiction": [
+        "ga-nonconv-pre2013-set"
+      ]
+    },
+    "IL": {
+      "filesStillOwed": 7,
+      "byClassification": {
+        "pdf": 7
+      },
+      "sourceBlockedFamiliesInThisJurisdiction": [
+        "il-cannabis-vacate-set",
+        "il-exp-nonconv-set",
+        "il-exp-pardon-set",
+        "il-exp-precompletion-set",
+        "il-exp-qualprob-set",
+        "il-exp-supervision-set",
+        "il-prb-cert-set",
+        "il-seal-2yr-set",
+        "il-seal-3yr-set",
+        "il-seal-edu-set",
+        "il-seal-nonconv-set"
+      ]
+    },
+    "IN": {
+      "filesStillOwed": 3,
+      "byClassification": {
+        "pdf": 3
+      },
+      "sourceBlockedFamiliesInThisJurisdiction": [
+        "in_conviction_d6-set",
+        "in_conviction_felony-set",
+        "in_conviction_misd-set"
+      ]
+    },
+    "IA": {
+      "filesStillOwed": 3,
+      "byClassification": {
+        "pdf": 3
+      },
+      "sourceBlockedFamiliesInThisJurisdiction": [
+        "ia-12346-set",
+        "ia-901c2-set",
+        "ia-901c3-set",
+        "ia-dci77-set"
+      ]
+    },
+    "KS": {
+      "filesStillOwed": 5,
+      "byClassification": {
+        "pdf": 5
+      },
+      "sourceBlockedFamiliesInThisJurisdiction": [
+        "ks-21-6614-conviction-set",
+        "ks-21-6614-diversion-set",
+        "ks-21-6614-prostitution-coercion-set",
+        "ks-21-6614-specialty-court-set",
+        "ks-22-2410-arrest-set",
+        "ks-22-4908-registration-relief-set"
+      ]
+    },
+    "LA": {
+      "filesStillOwed": 6,
+      "byClassification": {
+        "reference": 6
+      },
+      "sourceBlockedFamiliesInThisJurisdiction": []
+    },
+    "ME": {
+      "filesStillOwed": 1,
+      "byClassification": {
+        "pdf": 1
+      },
+      "sourceBlockedFamiliesInThisJurisdiction": [
+        "census-pending-family:ME:juvenile-sealing",
+        "me-seal-gen-set",
+        "me-seal-survivor-set"
+      ]
+    },
+    "MD": {
+      "filesStillOwed": 1,
+      "byClassification": {
+        "pdf": 1
+      },
+      "sourceBlockedFamiliesInThisJurisdiction": [
+        "md_10105_early-set",
+        "md_10105_favorable-set",
+        "md_10110_conviction-set",
+        "md_cannabis_petition-set",
+        "md_pardon_expungement-set"
+      ]
+    },
+    "MN": {
+      "filesStillOwed": 1,
+      "byClassification": {
+        "pdf": 1
+      },
+      "sourceBlockedFamiliesInThisJurisdiction": [
+        "mn_petition_15218-set",
+        "mn_petition_609a02_subd3-set",
+        "mn_petition_juvenile_as_adult-set"
+      ]
+    },
+    "MS": {
+      "filesStillOwed": 1,
+      "byClassification": {
+        "pdf": 1
+      },
+      "sourceBlockedFamiliesInThisJurisdiction": []
+    },
+    "MO": {
+      "filesStillOwed": 4,
+      "byClassification": {
+        "pdf": 4
+      },
+      "sourceBlockedFamiliesInThisJurisdiction": [
+        "mo-575-120-identity-theft-correction-set",
+        "mo-610-122-arrest-expungement-set",
+        "mo-610-140-arrest-set",
+        "mo-610-140-conviction-set",
+        "mo-610-145-mistaken-identity-set",
+        "mo-art-xiv-marijuana-set",
+        "rcap-mo-custom-pleading"
+      ]
+    },
+    "NC": {
+      "filesStillOwed": 4,
+      "byClassification": {
+        "pdf": 4
+      },
+      "sourceBlockedFamiliesInThisJurisdiction": [
+        "nc_145_8a_youthful-set",
+        "nc_auto_146_a4_agency_followup-set"
+      ]
+    },
+    "OK": {
+      "filesStillOwed": 1,
+      "byClassification": {
+        "reference": 1
+      },
+      "sourceBlockedFamiliesInThisJurisdiction": []
+    },
+    "WI": {
+      "filesStillOwed": 3,
+      "byClassification": {
+        "pdf": 3
+      },
+      "sourceBlockedFamiliesInThisJurisdiction": []
+    },
+    "WY": {
+      "filesStillOwed": 1,
+      "byClassification": {
+        "pdf": 1
+      },
+      "sourceBlockedFamiliesInThisJurisdiction": []
+    }
+  },
+  "missing": [
+    {
+      "relativePath": "LegalEase Colorado/guide-sealing-conviction-records-multiple-cases.html",
+      "sha256": "3a28cafa4bf3f79c7461d6870405a2028790d57a7222371d431b3959156fe227",
+      "byteLength": 60043,
+      "classification": "reference",
+      "jurisdiction": "CO",
+      "alreadyHeldInThisCheckoutAt": null,
+      "isAnAcquisitionTask": true
+    },
+    {
+      "relativePath": "LegalEase Colorado/how-expunge-juvenile-delinquency-records.html",
+      "sha256": "dfdd6af6b2c34c37dcd8fdbb4128dacd2458b009026e52208dab4ac2961cb2c7",
+      "byteLength": 60480,
+      "classification": "reference",
+      "jurisdiction": "CO",
+      "alreadyHeldInThisCheckoutAt": null,
+      "isAnAcquisitionTask": true
+    },
+    {
+      "relativePath": "LegalEase Colorado/how-seal-criminal-records-non-convictions.html",
+      "sha256": "815c34baa1c35141ddd79d56d6d2a9f8da802a0052f59246d4ba303646e9808e",
+      "byteLength": 60001,
+      "classification": "reference",
+      "jurisdiction": "CO",
+      "alreadyHeldInThisCheckoutAt": null,
+      "isAnAcquisitionTask": true
+    },
+    {
+      "relativePath": "LegalEase Colorado/JDF302.pdf",
+      "sha256": "53459fde5fcd0d22ca4b93766fe7f2bc6c6c8a578b5044f46bc0317be2b702c5",
+      "byteLength": 121346,
+      "classification": "pdf",
+      "jurisdiction": "CO",
+      "alreadyHeldInThisCheckoutAt": null,
+      "isAnAcquisitionTask": true
+    },
+    {
+      "relativePath": "LegalEase Colorado/JDF302.spanish.pdf",
+      "sha256": "e11492a29e5edcfe17269cbb4282b08ad747f4b10545715397e343b74f3a1eeb",
+      "byteLength": 165950,
+      "classification": "pdf",
+      "jurisdiction": "CO",
+      "alreadyHeldInThisCheckoutAt": null,
+      "isAnAcquisitionTask": true
+    },
+    {
+      "relativePath": "LegalEase Colorado/JDF304.pdf",
+      "sha256": "64bd7f9879719bb257b9a794cd1022d27e6c94b5e18ac102cc203064d8109eba",
+      "byteLength": 1083204,
+      "classification": "pdf",
+      "jurisdiction": "CO",
+      "alreadyHeldInThisCheckoutAt": null,
+      "isAnAcquisitionTask": true
+    },
+    {
+      "relativePath": "LegalEase Colorado/JDF324.pdf",
+      "sha256": "fa436ee1561713cad238b33fd761b0a97afbe0e9c0f8b70bdc6662990d7852fa",
+      "byteLength": 30539,
+      "classification": "pdf",
+      "jurisdiction": "CO",
+      "alreadyHeldInThisCheckoutAt": null,
+      "isAnAcquisitionTask": true
+    },
+    {
+      "relativePath": "LegalEase Colorado/JDF324.spanish.pdf",
+      "sha256": "14c2de516ad4c4d159fa941b114e1bce01f67c85c47b7b480c4fa4ac81f4c795",
+      "byteLength": 37438,
+      "classification": "pdf",
+      "jurisdiction": "CO",
+      "alreadyHeldInThisCheckoutAt": null,
+      "isAnAcquisitionTask": true
+    },
+    {
+      "relativePath": "LegalEase Colorado/JDF326.pdf",
+      "sha256": "7abccec3a4e65e227661f2716f8e61c4e88e6c33c8c5ded4dd8140bab84b23cd",
+      "byteLength": 91947,
+      "classification": "pdf",
+      "jurisdiction": "CO",
+      "alreadyHeldInThisCheckoutAt": null,
+      "isAnAcquisitionTask": true
+    },
+    {
+      "relativePath": "LegalEase Colorado/JDF326.spanish.pdf",
+      "sha256": "ee6cb8c259ee0c683a927878bd09d890ef977e8566677c32cdeaf811f9546dd1",
+      "byteLength": 154831,
+      "classification": "pdf",
+      "jurisdiction": "CO",
+      "alreadyHeldInThisCheckoutAt": null,
+      "isAnAcquisitionTask": true
+    },
+    {
+      "relativePath": "LegalEase Colorado/JDF418.pdf",
+      "sha256": "1fae098394b532e45c85ac04019ce3ecff54be2a8382badba4749f25527a5e9d",
+      "byteLength": 596551,
+      "classification": "pdf",
+      "jurisdiction": "CO",
+      "alreadyHeldInThisCheckoutAt": null,
+      "isAnAcquisitionTask": true
+    },
+    {
+      "relativePath": "LegalEase Colorado/JDF477.pdf",
+      "sha256": "9bb822f0163adefb1da1748b50b7323f027b90e32a759e737c0a321c8b47404d",
+      "byteLength": 666230,
+      "classification": "pdf",
+      "jurisdiction": "CO",
+      "alreadyHeldInThisCheckoutAt": null,
+      "isAnAcquisitionTask": true
+    },
+    {
+      "relativePath": "LegalEase Colorado/JDF478.pdf",
+      "sha256": "cbe8ed7ce129cc35a1af1ba778507c771265e326ea0e3c9d94940e3cabeed096",
+      "byteLength": 652768,
+      "classification": "pdf",
+      "jurisdiction": "CO",
+      "alreadyHeldInThisCheckoutAt": null,
+      "isAnAcquisitionTask": true
+    },
+    {
+      "relativePath": "LegalEase Colorado/JDF493.pdf",
+      "sha256": "3dbd29f70847fc488fdba00b0a549b2276ea335bcfd1e72eb19ac2dd220d68d9",
+      "byteLength": 552269,
+      "classification": "pdf",
+      "jurisdiction": "CO",
+      "alreadyHeldInThisCheckoutAt": null,
+      "isAnAcquisitionTask": true
+    },
+    {
+      "relativePath": "LegalEase Colorado/JDF493.spanish.pdf",
+      "sha256": "037c41260cd352b7b20a8a3ed909e4bffedb1de5ee1e0b174bfbb2f59421f476",
+      "byteLength": 1027753,
+      "classification": "pdf",
+      "jurisdiction": "CO",
+      "alreadyHeldInThisCheckoutAt": null,
+      "isAnAcquisitionTask": true
+    },
+    {
+      "relativePath": "LegalEase Colorado/JDF611.pdf",
+      "sha256": "8f7983af4346e8ccfdc218d01622263af4e783e24a3d7654772d502a74d44fc5",
+      "byteLength": 631473,
+      "classification": "pdf",
+      "jurisdiction": "CO",
+      "alreadyHeldInThisCheckoutAt": null,
+      "isAnAcquisitionTask": true
+    },
+    {
+      "relativePath": "LegalEase Colorado/JDF612.pdf",
+      "sha256": "4a45070b9332e73ddbb3ec9cb8d326b707589856d3104b8ab7d9ab991d9d496b",
+      "byteLength": 737628,
+      "classification": "pdf",
+      "jurisdiction": "CO",
+      "alreadyHeldInThisCheckoutAt": null,
+      "isAnAcquisitionTask": true
+    },
+    {
+      "relativePath": "LegalEase Colorado/JDF613.pdf.html",
+      "sha256": "5099d021a5cd9f17962d53e112b2ec938bc78080101182c6b7bb9e33efb88df7",
+      "byteLength": 58186,
+      "classification": "reference",
+      "jurisdiction": "CO",
+      "alreadyHeldInThisCheckoutAt": null,
+      "isAnAcquisitionTask": true
+    },
+    {
+      "relativePath": "LegalEase Colorado/JDF615.pdf",
+      "sha256": "184a33faf5d800a189f4c0fbd180912a02888d60e1100ca586064a8c753a0a26",
+      "byteLength": 1054204,
+      "classification": "pdf",
+      "jurisdiction": "CO",
+      "alreadyHeldInThisCheckoutAt": null,
+      "isAnAcquisitionTask": true
+    },
+    {
+      "relativePath": "LegalEase Colorado/motion-seal-conviction-record-pardoned.html",
+      "sha256": "91410ea5959e8a741bc78774d5f57de81ee86fe14d4a6b21363249affcb3c401",
+      "byteLength": 60593,
+      "classification": "reference",
+      "jurisdiction": "CO",
+      "alreadyHeldInThisCheckoutAt": null,
+      "isAnAcquisitionTask": true
+    },
+    {
+      "relativePath": "LegalEase Colorado/order-seal-pardoned-conviction-records.html",
+      "sha256": "52fd67da32b7c561fd8775f728951c419411e16dd16a96c6ce39f3c62a698b76",
+      "byteLength": 59975,
+      "classification": "reference",
+      "jurisdiction": "CO",
+      "alreadyHeldInThisCheckoutAt": null,
+      "isAnAcquisitionTask": true
+    },
+    {
+      "relativePath": "LegalEase Colorado/request-hearing-automatic-sealing.html",
+      "sha256": "02f72b5a7a5b5789f89d5fda6352a30a38f22672fbd5d02b136287b7d10d5e98",
+      "byteLength": 59977,
+      "classification": "reference",
+      "jurisdiction": "CO",
+      "alreadyHeldInThisCheckoutAt": null,
+      "isAnAcquisitionTask": true
+    },
+    {
+      "relativePath": "LegalEase Florida/2026_07-JAN-Criminal-Procedure-Rules-1-1-2026.pdf",
+      "sha256": "794119a4aa9e7f731941609922658963b5e1146c434ccf2fa03b2ecf46b7031c",
+      "byteLength": 2036583,
+      "classification": "pdf",
+      "jurisdiction": "FL",
+      "alreadyHeldInThisCheckoutAt": null,
+      "isAnAcquisitionTask": true
+    },
+    {
+      "relativePath": "LegalEase Florida/se (1).pdf",
+      "sha256": "457f7af43bc3cffbab3abce2e63df0655175a70502a92dc03fcf5613c3fc7c08",
+      "byteLength": 26597,
+      "classification": "pdf",
+      "jurisdiction": "FL",
+      "alreadyHeldInThisCheckoutAt": null,
+      "isAnAcquisitionTask": true
+    },
+    {
+      "relativePath": "LegalEase Florida/se (2).pdf",
+      "sha256": "8bc405aae745a8d21a14944be00ecb322a26ffe64a2d8af89d89a4463a1227df",
+      "byteLength": 22449,
+      "classification": "pdf",
+      "jurisdiction": "FL",
+      "alreadyHeldInThisCheckoutAt": null,
+      "isAnAcquisitionTask": true
+    },
+    {
+      "relativePath": "LegalEase Florida/se (3).pdf",
+      "sha256": "16c6d2afa3e7a94a00d30466637ef2de3f3aa4c673ea96f90a654f6e1af95023",
+      "byteLength": 23982,
+      "classification": "pdf",
+      "jurisdiction": "FL",
+      "alreadyHeldInThisCheckoutAt": null,
+      "isAnAcquisitionTask": true
+    },
+    {
+      "relativePath": "LegalEase Florida/se (4).pdf",
+      "sha256": "e8efa1cae99d3463a099d2ed60d4070a195afb24e932f4e0e68113f469634358",
+      "byteLength": 21700,
+      "classification": "pdf",
+      "jurisdiction": "FL",
+      "alreadyHeldInThisCheckoutAt": null,
+      "isAnAcquisitionTask": true
+    },
+    {
+      "relativePath": "LegalEase Florida/se (5).pdf",
+      "sha256": "5ee3bca6ad7814c92c69255e447a51a8b6a498bdf6fca7199edc0bf16e825006",
+      "byteLength": 26593,
+      "classification": "pdf",
+      "jurisdiction": "FL",
+      "alreadyHeldInThisCheckoutAt": null,
+      "isAnAcquisitionTask": true
+    },
+    {
+      "relativePath": "LegalEase Georgia/reference-only/GBI-Time-Expired-Restrictions__georgia-law-regarding-time-expired-restrictions__source-2013-10-08.pdf",
+      "sha256": "0e2f11700b8793c13f848b4837f9a5c56a7e15429f04aa3d41467835bf913f4d",
+      "byteLength": 167750,
+      "classification": "pdf",
+      "jurisdiction": "GA",
+      "alreadyHeldInThisCheckoutAt": null,
+      "isAnAcquisitionTask": true
+    },
+    {
+      "relativePath": "LegalEase Illinois/forms/PRB-Certificate-of-Expungement-for-Military-Acknowledgement__eligibility-acknowledgement__source-2024.pdf",
+      "sha256": "691ce0bffc30190f76c4ad555be454685d8da24cf772fd1ccbbf4b33cf23664c",
+      "byteLength": 84623,
+      "classification": "pdf",
+      "jurisdiction": "IL",
+      "alreadyHeldInThisCheckoutAt": null,
+      "isAnAcquisitionTask": true
+    },
+    {
+      "relativePath": "LegalEase Illinois/forms/PRB-Certificate-of-Expungement-for-Military-Application__military-certificate-of-expungement-application__rev-2024-09-18.pdf",
+      "sha256": "87d693a24931de3bd17ad0f38a848cadbb5500aacb8c5468517baa6a1869bd1e",
+      "byteLength": 222490,
+      "classification": "pdf",
+      "jurisdiction": "IL",
+      "alreadyHeldInThisCheckoutAt": null,
+      "isAnAcquisitionTask": true
+    },
+    {
+      "relativePath": "LegalEase Illinois/forms/PRB-Certificate-of-Sealing-Acknowledgement__eligibility-acknowledgement__source-2024.pdf",
+      "sha256": "b204190533f203005fc2a70690d5630ace9d862a03e61f0352d33062ee8b8361",
+      "byteLength": 89530,
+      "classification": "pdf",
+      "jurisdiction": "IL",
+      "alreadyHeldInThisCheckoutAt": null,
+      "isAnAcquisitionTask": true
+    },
+    {
+      "relativePath": "LegalEase Illinois/forms/PRB-Certificate-of-Sealing-Application__certificate-of-sealing-application__rev-2024-09-18.pdf",
+      "sha256": "5aa1b7803bfae4fe320a84201416c0882b956e778bc5c24024cd86655155eedd",
+      "byteLength": 226488,
+      "classification": "pdf",
+      "jurisdiction": "IL",
+      "alreadyHeldInThisCheckoutAt": null,
+      "isAnAcquisitionTask": true
+    },
+    {
+      "relativePath": "LegalEase Illinois/reference-only/PRB-Guidelines-for-Certificate-of-Expungement-for-Military__guidelines__rev-2024-09-18.pdf",
+      "sha256": "cd9f2e021e7ad90b167d8c9477527896edd7e103fe66cbd9aed05cc5c21bb9c2",
+      "byteLength": 123508,
+      "classification": "pdf",
+      "jurisdiction": "IL",
+      "alreadyHeldInThisCheckoutAt": null,
+      "isAnAcquisitionTask": true
+    },
+    {
+      "relativePath": "LegalEase Illinois/reference-only/PRB-Guidelines-for-Certificate-of-Sealing__guidelines__rev-2024-09-18.pdf",
+      "sha256": "b3ad8e361eb51ce05c4ecb917efe59f084add596e4cf1c91d2a2cdca45820e86",
+      "byteLength": 123555,
+      "classification": "pdf",
+      "jurisdiction": "IL",
+      "alreadyHeldInThisCheckoutAt": null,
+      "isAnAcquisitionTask": true
+    },
+    {
+      "relativePath": "LegalEase Illinois/reference-only/PRB-Sealable-Convictions-List__offences-eligible-for-certificate-of-sealing__source-undated.pdf",
+      "sha256": "dc2b2c63688ee8028d1d11154f43e7a2aa517fd4d3cd153f320abd8af696f40b",
+      "byteLength": 85779,
+      "classification": "pdf",
+      "jurisdiction": "IL",
+      "alreadyHeldInThisCheckoutAt": null,
+      "isAnAcquisitionTask": true
+    },
+    {
+      "relativePath": "LegalEase Indiana/forms/IN-FORM-ACR__notice-of-exclusion-of-confidential-information-from-public-access__source-2026-08.docx",
+      "sha256": "21001a1265eb8ff2872f0771ef6e7e75b6b0ad664b2d43aaed912f4e0f4c76c3",
+      "byteLength": 27518,
+      "classification": "pdf",
+      "jurisdiction": "IN",
+      "alreadyHeldInThisCheckoutAt": null,
+      "isAnAcquisitionTask": true
+    },
+    {
+      "relativePath": "LegalEase Indiana/reference-only/CCA-XP-0320-7000B__conviction-petition-instructions__rev-2020-03.pdf",
+      "sha256": "9ca0d41ef75a99e6ae9da9fc67c79dc521794b6b9923bcf1669b5c3c42281429",
+      "byteLength": 493853,
+      "classification": "pdf",
+      "jurisdiction": "IN",
+      "alreadyHeldInThisCheckoutAt": null,
+      "isAnAcquisitionTask": true
+    },
+    {
+      "relativePath": "LegalEase Indiana/reference-only/IOCS__detailed-information-on-criminal-case-expungement__rev-2026-07-01.pdf",
+      "sha256": "9c3485e666aa7baaa051e30302b1da39072f97817f076f4b04b3a3e681003510",
+      "byteLength": 294237,
+      "classification": "pdf",
+      "jurisdiction": "IN",
+      "alreadyHeldInThisCheckoutAt": null,
+      "isAnAcquisitionTask": true
+    },
+    {
+      "relativePath": "LegalEase Iowa/forms/DCI-76-and-DCI-77__criminal-history-record-check-billing-and-request-forms-fillable__source-2026.pdf",
+      "sha256": "321062c91b3d9e2c8f255d62d20186352a2b5884e0ccd4310a18a3a073d7f516",
+      "byteLength": 1076864,
+      "classification": "pdf",
+      "jurisdiction": "IA",
+      "alreadyHeldInThisCheckoutAt": null,
+      "isAnAcquisitionTask": true
+    },
+    {
+      "relativePath": "LegalEase Iowa/forms/IA-RULE-2.86-FORM-1__application-to-expunge-court-record-901c-2__rev-2022-01.pdf",
+      "sha256": "d3e68933c4ed878c72784c5b2b191281116f87d953fa6203aecb702584cb5053",
+      "byteLength": 268162,
+      "classification": "pdf",
+      "jurisdiction": "IA",
+      "alreadyHeldInThisCheckoutAt": null,
+      "isAnAcquisitionTask": true
+    },
+    {
+      "relativePath": "LegalEase Iowa/forms/IA-RULE-2.86-FORM-3__application-to-expunge-public-intoxication-records-123-46__rev-2022-01.pdf",
+      "sha256": "6f222685001373ba2e1ef63509e3b42e7e47d5067bfb0ed3b130b62040d80f01",
+      "byteLength": 263607,
+      "classification": "pdf",
+      "jurisdiction": "IA",
+      "alreadyHeldInThisCheckoutAt": null,
+      "isAnAcquisitionTask": true
+    },
+    {
+      "relativePath": "LegalEase Kansas/source-gated/KSJC__order-for-expungement-of-conviction-or-diversion__rev-2022-08.pdf",
+      "sha256": "104c40187f530d4a55306550f262ba9eefdec8ba732e2adbb1790dfd9378e683",
+      "byteLength": 124641,
+      "classification": "pdf",
+      "jurisdiction": "KS",
+      "alreadyHeldInThisCheckoutAt": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/KS/05_SOURCE_GATED/KS__SOURCE-GATED__KSJC__order-for-expungement-of-conviction-or-diversion__REV-2022-08__EN.pdf",
+      "isAnAcquisitionTask": false
+    },
+    {
+      "relativePath": "LegalEase Kansas/source-gated/KSJC__order-of-expungement-of-arrest-record-cover-sheet__rev-2016-12.pdf",
+      "sha256": "d13bc7b7b2a9c5367c785c1de4f3a8d6d79410ef29a3c9c86a5b903057d249d5",
+      "byteLength": 55112,
+      "classification": "pdf",
+      "jurisdiction": "KS",
+      "alreadyHeldInThisCheckoutAt": null,
+      "isAnAcquisitionTask": true
+    },
+    {
+      "relativePath": "LegalEase Kansas/source-gated/KSJC__order-of-relief-from-offender-registration-cover-sheet__rev-2022-06.pdf",
+      "sha256": "0c9c5a751086eee0098925e6e7398f2f0b13dd62cc95bcbffab8732d11b6a0bd",
+      "byteLength": 217564,
+      "classification": "pdf",
+      "jurisdiction": "KS",
+      "alreadyHeldInThisCheckoutAt": null,
+      "isAnAcquisitionTask": true
+    },
+    {
+      "relativePath": "LegalEase Kansas/source-gated/KSJC__petition-for-expungement-of-arrest-record__rev-2013-02.pdf",
+      "sha256": "bf4b2309f831aa317d235389a6bd1f24bca55075290ddb3d916083c6f64d840d",
+      "byteLength": 51084,
+      "classification": "pdf",
+      "jurisdiction": "KS",
+      "alreadyHeldInThisCheckoutAt": null,
+      "isAnAcquisitionTask": true
+    },
+    {
+      "relativePath": "LegalEase Kansas/source-gated/KSJC__petition-for-relief-from-offender-registration__rev-2022-06.pdf",
+      "sha256": "9264dc51531cd8eea47fd99b00871ff49205e0f2c9ab10cb0d7420d6ca3cf396",
+      "byteLength": 401878,
+      "classification": "pdf",
+      "jurisdiction": "KS",
+      "alreadyHeldInThisCheckoutAt": null,
+      "isAnAcquisitionTask": true
+    },
+    {
+      "relativePath": "LegalEase Louisiana/forms/LA-CCRP-ART-987__motion-to-set-aside-conviction-rule-to-show-cause-and-order-of-dismissal-forms__source-2026-08.html",
+      "sha256": "6f1498a70bc0cbc7f88e721ea24a9d08ab37d757d0c884feeb6db615844fd850",
+      "byteLength": 44421,
+      "classification": "reference",
+      "jurisdiction": "LA",
+      "alreadyHeldInThisCheckoutAt": null,
+      "isAnAcquisitionTask": true
+    },
+    {
+      "relativePath": "LegalEase Louisiana/forms/LA-CCRP-ART-988__motion-for-fee-exemption-certification-of-fee-waiver-form__source-2026-08.html",
+      "sha256": "efa0a8631a1c26122dc6f6ac26777eb53e4077e188bc0b5adc54ace5cd6defe7",
+      "byteLength": 52058,
+      "classification": "reference",
+      "jurisdiction": "LA",
+      "alreadyHeldInThisCheckoutAt": null,
+      "isAnAcquisitionTask": true
+    },
+    {
+      "relativePath": "LegalEase Louisiana/forms/LA-CCRP-ART-989__motion-for-expungement-form__source-2026-08.html",
+      "sha256": "4c593e60f5c0c67366cab929359e9002a731b7a32523d3b8e24a9299e4a24365",
+      "byteLength": 145325,
+      "classification": "reference",
+      "jurisdiction": "LA",
+      "alreadyHeldInThisCheckoutAt": null,
+      "isAnAcquisitionTask": true
+    },
+    {
+      "relativePath": "LegalEase Louisiana/forms/LA-CCRP-ART-991__order-form__source-2026-08.html",
+      "sha256": "a6872580f648c33f766c43c41771a0c1b3f9d91a50e9d0d77bdf4919bf2a79c2",
+      "byteLength": 30784,
+      "classification": "reference",
+      "jurisdiction": "LA",
+      "alreadyHeldInThisCheckoutAt": null,
+      "isAnAcquisitionTask": true
+    },
+    {
+      "relativePath": "LegalEase Louisiana/forms/LA-CCRP-ART-992__order-of-expungement-form__source-2026-08.html",
+      "sha256": "fc715f0eea69f2ad56f1c3245ac9570a85e274b7743fc6b488dc8fac763c3bf4",
+      "byteLength": 79503,
+      "classification": "reference",
+      "jurisdiction": "LA",
+      "alreadyHeldInThisCheckoutAt": null,
+      "isAnAcquisitionTask": true
+    },
+    {
+      "relativePath": "LegalEase Louisiana/forms/LA-CCRP-ART-994__motion-for-interim-expungement-form__source-2026-08.html",
+      "sha256": "07b0ad437bcd4fceb8fbfd7235d0729ee404f58c342640d399e46f05aa9d1ef3",
+      "byteLength": 82688,
+      "classification": "reference",
+      "jurisdiction": "LA",
+      "alreadyHeldInThisCheckoutAt": null,
+      "isAnAcquisitionTask": true
+    },
+    {
+      "relativePath": "LegalEase Maine/forms/ME-CR-308__order-on-motion-to-seal-criminal-history-victims-of-sex-trafficking-or-sexual-exploitation__rev-2026-06.pdf",
+      "sha256": "b2e78f24cb33d52c692d20b5bff3f0ab58115da9f26363df99cf2970f0a645f5",
+      "byteLength": 162514,
+      "classification": "pdf",
+      "jurisdiction": "ME",
+      "alreadyHeldInThisCheckoutAt": null,
+      "isAnAcquisitionTask": true
+    },
+    {
+      "relativePath": "LegalEase Maryland/dccr071.pdf",
+      "sha256": "d81027ee0dd84ceac09ce9a1dff0195143e225cdcafa7d953530b7fa8c161e8a",
+      "byteLength": 426706,
+      "classification": "pdf",
+      "jurisdiction": "MD",
+      "alreadyHeldInThisCheckoutAt": null,
+      "isAnAcquisitionTask": true
+    },
+    {
+      "relativePath": "LegalEase Minnesota/EXP103_Current.pdf",
+      "sha256": "8dd66a22329559fd434f014814dd2895ea434e60f17d652a9816e8f65dae2fd4",
+      "byteLength": 10256,
+      "classification": "pdf",
+      "jurisdiction": "MN",
+      "alreadyHeldInThisCheckoutAt": null,
+      "isAnAcquisitionTask": true
+    },
+    {
+      "relativePath": "LegalEase Mississippi/reference-only/MS-HB-1546-2026__enrolled-act-chapter-430-laws-of-2026-expunction-waiting-period__source-2026-08.pdf",
+      "sha256": "d5d7169a9553f5c6126602e34165f9ac290773c05800c27e1536bcf86c7a02e4",
+      "byteLength": 101784,
+      "classification": "pdf",
+      "jurisdiction": "MS",
+      "alreadyHeldInThisCheckoutAt": null,
+      "isAnAcquisitionTask": true
+    },
+    {
+      "relativePath": "LegalEase Missouri/forms/CR145__petition-for-expungement-of-arrest-records__rev-2024-04.pdf",
+      "sha256": "7c527bf351e9ab08658f901abc9be15e12e5beb2afe7ded14a8c5e2f0d6eb641",
+      "byteLength": 1256968,
+      "classification": "pdf",
+      "jurisdiction": "MO",
+      "alreadyHeldInThisCheckoutAt": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MO/02_PACKET_FORMS/MO__FORM__CR145__petition-for-expungement-of-arrest-records__REV-2024-04__EN.pdf",
+      "isAnAcquisitionTask": false
+    },
+    {
+      "relativePath": "LegalEase Missouri/forms/CR360__petition-for-expungement-under-section-610.140__rev-2024-10.pdf",
+      "sha256": "6bfbf26a54f374f7c6bd6dcb59bc199bfe897890c1b3265513b2e7df43990745",
+      "byteLength": 707097,
+      "classification": "pdf",
+      "jurisdiction": "MO",
+      "alreadyHeldInThisCheckoutAt": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MO/02_PACKET_FORMS/MO__FORM__CR360__petition-for-expungement-section-610-140-rsmo__REV-2024-10__EN.pdf",
+      "isAnAcquisitionTask": false
+    },
+    {
+      "relativePath": "LegalEase Missouri/forms/CR375__petition-for-expungement-marijuana-related-offenses__rev-2024-10.pdf",
+      "sha256": "2cfca7e9bea55d27de82b9aed2875db02872345592cc69af7a5aab400e4b0780",
+      "byteLength": 694722,
+      "classification": "pdf",
+      "jurisdiction": "MO",
+      "alreadyHeldInThisCheckoutAt": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MO/02_PACKET_FORMS/MO__FORM__CR375__petition-for-expungement-marijuana-related-offense-s__REV-2024-10__EN.pdf",
+      "isAnAcquisitionTask": false
+    },
+    {
+      "relativePath": "LegalEase Missouri/Judgment and Order of Expungement - Section 610.140 RSMo CR370.pdf",
+      "sha256": "8a4d32d66d3fc05a41fdcd362a6f744c4536d95a8a600eb9d3d524192de60eb6",
+      "byteLength": 103658,
+      "classification": "pdf",
+      "jurisdiction": "MO",
+      "alreadyHeldInThisCheckoutAt": null,
+      "isAnAcquisitionTask": true
+    },
+    {
+      "relativePath": "LegalEase North Carolina/cr287_1.pdf",
+      "sha256": "d686847a6f824de9c5f34058f23d2e4fded5ee97961a1e7fd57ff5c94196e742",
+      "byteLength": 255132,
+      "classification": "pdf",
+      "jurisdiction": "NC",
+      "alreadyHeldInThisCheckoutAt": null,
+      "isAnAcquisitionTask": true
+    },
+    {
+      "relativePath": "LegalEase North Carolina/cr297-instr_2.pdf",
+      "sha256": "ea47d3aca9de38a1ce61a1de3ab5eb0bccc736553759b0eebba122558778da9b",
+      "byteLength": 202667,
+      "classification": "pdf",
+      "jurisdiction": "NC",
+      "alreadyHeldInThisCheckoutAt": null,
+      "isAnAcquisitionTask": true
+    },
+    {
+      "relativePath": "LegalEase North Carolina/cr297.pdf",
+      "sha256": "1dcfc4594a9dc7e1adc2211d18ec655c885d7728926b77d68c660cd5c4a9f9b6",
+      "byteLength": 277150,
+      "classification": "pdf",
+      "jurisdiction": "NC",
+      "alreadyHeldInThisCheckoutAt": null,
+      "isAnAcquisitionTask": true
+    },
+    {
+      "relativePath": "LegalEase North Carolina/cr298_1.pdf",
+      "sha256": "af50c33a8d0e8844919bc8a2aaf043953e9ba1ed4b014a49615ea304c3a64ac4",
+      "byteLength": 295511,
+      "classification": "pdf",
+      "jurisdiction": "NC",
+      "alreadyHeldInThisCheckoutAt": null,
+      "isAnAcquisitionTask": true
+    },
+    {
+      "relativePath": "LegalEase Oklahoma/Facets of Expungement of Criminal Records in Oklahoma - Oklahoma Bar Association.html",
+      "sha256": "189922562fb855c91a674e4f556fd2a598807619948e2d573bec5ff0f408c0c9",
+      "byteLength": 103570,
+      "classification": "reference",
+      "jurisdiction": "OK",
+      "alreadyHeldInThisCheckoutAt": null,
+      "isAnAcquisitionTask": true
+    },
+    {
+      "relativePath": "LegalEase Wisconsin/CR-266_summary.pdf",
+      "sha256": "6ea76724d0295ad87b0a474850d0fb9ef2988cb9250f6eb1360ba007d02591a1",
+      "byteLength": 248786,
+      "classification": "pdf",
+      "jurisdiction": "WI",
+      "alreadyHeldInThisCheckoutAt": null,
+      "isAnAcquisitionTask": true
+    },
+    {
+      "relativePath": "LegalEase Wisconsin/CR-267_summary.pdf",
+      "sha256": "1c6481cc584bd09196de6122ab5b84572fcabe42d1acc2ee24130e417e5f6342",
+      "byteLength": 69889,
+      "classification": "pdf",
+      "jurisdiction": "WI",
+      "alreadyHeldInThisCheckoutAt": null,
+      "isAnAcquisitionTask": true
+    },
+    {
+      "relativePath": "LegalEase Wisconsin/forms-download/CR-266_summary_en.pdf",
+      "sha256": "6ea76724d0295ad87b0a474850d0fb9ef2988cb9250f6eb1360ba007d02591a1",
+      "byteLength": 248786,
+      "classification": "pdf",
+      "jurisdiction": "WI",
+      "alreadyHeldInThisCheckoutAt": null,
+      "isAnAcquisitionTask": true
+    },
+    {
+      "relativePath": "LegalEase Wyoming/Wyoming Expungement-Handout_05.01.25.pdf",
+      "sha256": "0ad46f3b216f77af4fc571b24042a2b4c57bdd794b14818c5e6975170be3108d",
+      "byteLength": 136787,
+      "classification": "pdf",
+      "jurisdiction": "WY",
+      "alreadyHeldInThisCheckoutAt": null,
+      "isAnAcquisitionTask": true
+    }
+  ]
+}

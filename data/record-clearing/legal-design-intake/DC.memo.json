@@ -1,0 +1,1368 @@
+{
+  "schemaVersion": 1,
+  "jurisdiction": "DC",
+  "memoVersion": "2.0.0-batch-1-amended",
+  "submittedAt": "2026-07-30T00:00:00.000Z",
+  "tracks": [
+    {
+      "trackId": "dc_auto_expungement",
+      "legalName": "Automatic expungement, decriminalized or legalized offenses and pre-2015 marijuana possession, D.C. Code § 16-802",
+      "publicName": "Automatic Expungement",
+      "controllingAuthority": {
+        "citations": [
+          "D.C. Code § 16-802, as enacted by the Second Chance Amendment Act of 2022 (D.C. Law 24-284) and amended by D.C. Law 25-175"
+        ],
+        "summary": "Mandatory on the Court, subject to the prosecutor's contest right. Expungement by October 1, 2027, or within 90 days after termination or final disposition, whichever is later. Nothing is filed by the participant."
+      },
+      "effectiveDates": { "effectiveFrom": "2025-03-01", "effectiveTo": null, "reviewedAsOf": "2026-07-30" },
+      "eligibleRecordTypes": ["citation", "arrest", "charge", "conviction"],
+      "eligibleDispositions": [
+        "records related only to an offense that has since been decriminalized, legalized, or held unconstitutional by the D.C. Court of Appeals or the Supreme Court",
+        "records related only to simple possession of any quantity of marijuana under § 48-904.01(d)(1) before February 15, 2015"
+      ],
+      "exclusions": [
+        "The prosecutor may file a motion, which may be ex parte, to retain and sequester the record for a limited period or to contest that the person qualifies, on clear and convincing evidence that retention is necessary for a lawful purpose or that the person does not qualify."
+      ],
+      "waitingPeriods": [],
+      "outputStrategy": "process_guidance",
+      "guidanceRationales": ["no_participant_filing_exists"],
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "District-wide automatic process administered by the Superior Court and relevant agencies."
+      },
+      "destination": {
+        "kind": "automatic",
+        "name": "Superior Court of the District of Columbia and relevant agencies",
+        "detail": "There is nothing to file. LegalEase verifies whether the record is still publicly visible, tracks the statutory deadline, and routes to a motion track or legal aid if relief does not arrive."
+      },
+      "components": [
+        {
+          "role": "process_guidance",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Verification and deadline-tracking guidance, not a filing."
+        }
+      ],
+      "participantInputs": [
+        { "key": "offenceDecriminalized", "question": "Was the offence later decriminalized, legalized, or held unconstitutional?", "requirement": "required" },
+        { "key": "marijuanaPossessionPre2015", "question": "Was this simple possession of marijuana before 15 February 2015?", "requirement": "conditional", "conditionDescription": "Asked on the pre-2015 marijuana branch." },
+        { "key": "recordStillVisible", "question": "Does the record still appear when you or an employer look you up?", "requirement": "required" }
+      ],
+      "supportingDocuments": [],
+      "manualCompletionItems": [],
+      "officialSources": [
+        {
+          "title": "Superior Court of the District of Columbia, Criminal Division, Sealing Criminal Records",
+          "url": "https://www.dccourts.gov/superior-court/superior-court-divisions/criminal-division/sealing-criminal-records",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "none. Nothing is filed by the participant.",
+        "fees": "none",
+        "feeWaiver": "none",
+        "notice": "none. No motion, no prosecutor or victim objection step for the participant.",
+        "service": "none",
+        "participantSignature": "none",
+        "notarization": "none"
+      },
+      "selfHelpStopConditions": [
+        "The record is federal, military, tribal, or from another jurisdiction.",
+        "Immigration, firearm, licensing, security clearance, childcare, healthcare, or law enforcement employment consequences are in play."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Superior Court Administrative Order 25-11 (May 30, 2025), on reports and lists substituting for individual orders in high-volume sealing, expungement, and set-aside cases, has not been acquired.",
+          "impact": "release_blocker",
+          "affectedElement": "legal_effect_or_warning",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-DC-Legal-Review.md",
+            "sourceHeading": "PART 5 / source acquisition queue",
+            "sourceStatement": "Superior Court Administrative Order 25-11 (May 30, 2025), on reports and lists substituting for individual orders in high-volume sealing, expungement, and set-aside cases.",
+            "normalizerInferred": true
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Original review: \"Process guidance only.\" The amendment retains the route as process_guidance and resolves the former blocker about whether automatic relief is operating: it determines that the current automatic track is guidance/verification, not a packet.",
+        "limitations": [
+          {
+            "classification": "scope_restriction",
+            "statement": "Remain process_guidance; there is no participant filing.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-DC-Legal-Review.md",
+              "sourceHeading": "District of Columbia operational amendments / Process-guidance routes reviewed",
+              "sourceStatement": "DC-1 and DC-2, automatic relief | Remain `process_guidance`; there is no participant filing."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "The D.C. Courts page says no cases are presently being automatically sealed or expunged. The product must not promise completed automatic relief and should route eligible participants to verification and available motion-based alternatives.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-DC-Legal-Review.md",
+              "sourceHeading": "District of Columbia operational amendments / Process-guidance routes reviewed",
+              "sourceStatement": "Current operational statement: the D.C. Courts page says no cases are presently being automatically sealed or expunged. The product must not promise completed automatic relief and should route eligible participants to verification and available motion-based alternatives."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "The Court's deadline is expungement by October 1, 2027, or within 90 days after termination or final disposition, whichever is later.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-DC-Legal-Review.md",
+              "sourceHeading": "TRACK 1 - AUTOMATIC EXPUNGEMENT, § 16-802",
+              "sourceStatement": "Deadline on the Court: expungement by October 1, 2027, or within 90 days after termination or final disposition, whichever is later",
+              "normalizerInferred": true
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "dc_auto_sealing",
+      "legalName": "Automatic sealing, non-convictions and 10-year misdemeanor convictions, D.C. Code § 16-805",
+      "publicName": "Automatic sealing, non-convictions and 10-year misdemeanor convictions",
+      "controllingAuthority": {
+        "citations": ["D.C. Code § 16-805, as amended by D.C. Law 25-175 and D.C. Law 26-52"],
+        "summary": "Mandatory on the Court, no motion, no prosecutor or victim objection step. Non-convictions sealed by October 1, 2027 or within 90 days after termination or final disposition, whichever is later; qualifying misdemeanor convictions by October 1, 2027 or within 90 days after the waiting period expires, whichever is later."
+      },
+      "effectiveDates": { "effectiveFrom": "2025-03-01", "effectiveTo": null, "reviewedAsOf": "2026-07-30" },
+      "eligibleRecordTypes": ["citation", "arrest", "charge", "conviction"],
+      "eligibleDispositions": [
+        "citations, arrests, or charges where the case was terminated by the prosecutor or reached a final disposition and did not result in a conviction or an insanity acquittal under § 24-501",
+        "misdemeanor convictions where at least 10 years have elapsed since completion of the sentence"
+      ],
+      "exclusions": [
+        "§ 16-805(b), 17 categories: intrafamily offense (§ 16-1001(8)); parental kidnapping (§ 16-1022); criminal abuse of a vulnerable adult or elderly person (§ 22-933); financial exploitation of a vulnerable adult or elderly person (§ 22-933.01); refusal or neglect of a guardian to provide for a child under 14 (§ 22-1102); incest (§ 22-1901); misdemeanor sexual abuse (§ 22-3006); Chapter 30A of Title 22 (non-consensual pornography); Chapter 31 (sexual performance using minors); Chapter 31A (stalking); an offense requiring sex offender registration under Chapter 40 where the registration period has not expired; violation of Chapter 40 as described in § 22-4015; a dangerous crime under § 23-1331(3); a crime of violence under § 23-1331(4); DUI (§ 50-2206.11); commercial vehicle DUI (§ 50-2206.12); and operating while impaired (§ 50-2206.14)."
+      ],
+      "waitingPeriods": [
+        { "condition": "Misdemeanor convictions", "duration": "10 years since completion of the sentence" }
+      ],
+      "outputStrategy": "process_guidance",
+      "guidanceRationales": ["no_participant_filing_exists"],
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "District-wide automatic process administered by the Superior Court and relevant agencies."
+      },
+      "destination": {
+        "kind": "automatic",
+        "name": "Superior Court of the District of Columbia and relevant agencies",
+        "detail": "There is nothing to file. LegalEase verifies whether the record is still publicly visible, tracks the statutory deadline, and routes to a motion track or legal aid if relief does not arrive."
+      },
+      "components": [
+        {
+          "role": "process_guidance",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Verification and deadline-tracking guidance, not a filing."
+        }
+      ],
+      "participantInputs": [
+        { "key": "caseOutcome", "question": "Did the case end without a conviction, or were you convicted of a misdemeanor?", "requirement": "required" },
+        { "key": "offenceOnExclusionList", "question": "What was the offence and statute section?", "requirement": "required" },
+        { "key": "sentenceCompletionDate", "question": "On what date did you complete the sentence?", "requirement": "conditional", "conditionDescription": "Asked on the misdemeanor-conviction branch, where the 10-year clock runs from completion." },
+        { "key": "recordStillVisible", "question": "Does the record still appear when you or an employer look you up?", "requirement": "required" }
+      ],
+      "supportingDocuments": [],
+      "manualCompletionItems": [],
+      "officialSources": [
+        {
+          "title": "Superior Court of the District of Columbia, Criminal Division, Sealing Criminal Records",
+          "url": "https://www.dccourts.gov/superior-court/superior-court-divisions/criminal-division/sealing-criminal-records",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "none. Nothing is filed by the participant.",
+        "fees": "none",
+        "feeWaiver": "none",
+        "notice": "none. No motion, no prosecutor or victim objection step.",
+        "service": "none",
+        "participantSignature": "none",
+        "notarization": "none"
+      },
+      "selfHelpStopConditions": [
+        "The record is federal, military, tribal, or from another jurisdiction.",
+        "Immigration, firearm, licensing, security clearance, childcare, healthcare, or law enforcement employment consequences are in play."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Superior Court Administrative Order 25-11 (May 30, 2025) and current materials governing high-volume automatic relief have not been acquired.",
+          "impact": "release_blocker",
+          "affectedElement": "legal_effect_or_warning",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-DC-Legal-Review.md",
+            "sourceHeading": "PART 5 / source acquisition queue",
+            "sourceStatement": "Superior Court Administrative Order 25-11 and current materials governing high-volume automatic relief.",
+            "normalizerInferred": true
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Original review: \"Process guidance only. The operational status of automatic relief is open question 1 and must be resolved before any user-facing claim is made about it.\" The amendment resolves that former blocker for current product copy and retains the route as guidance.",
+        "limitations": [
+          {
+            "classification": "scope_restriction",
+            "statement": "Remain process_guidance; there is no participant filing.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-DC-Legal-Review.md",
+              "sourceHeading": "District of Columbia operational amendments / Process-guidance routes reviewed",
+              "sourceStatement": "DC-1 and DC-2, automatic relief | Remain `process_guidance`; there is no participant filing."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "The statutes authorize automatic relief, but the court's current public guidance states that no cases are presently being automatically sealed or expunged. This determines that the current automatic track is guidance/verification, not a packet.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-DC-Legal-Review.md",
+              "sourceHeading": "District of Columbia operational amendments / Resolved former blocker",
+              "sourceStatement": "the statutes authorize it, but the court's current public guidance states that no cases are presently being automatically sealed or expunged. ... This issue no longer prevents LegalEase from knowing what to generate; it determines that the current automatic track is guidance/verification, not a packet."
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "The § 16-805(b) exclusion list applies to automatic sealing, not to motion sealing of convictions. The routing logic should not treat the (b) list as a bar on motion sealing.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-DC-Legal-Review.md",
+              "sourceHeading": "0.4 Corrections and additions to the internal DC reference, item 2",
+              "sourceStatement": "The § 16-805(b) exclusion list applies to automatic sealing, not to motion sealing of convictions. ... the routing logic should not treat the (b) list as a bar on motion sealing.",
+              "normalizerInferred": true
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "dc_innocence_expungement",
+      "legalName": "Motion for Expungement on Grounds of Actual Innocence, D.C. Code § 16-803",
+      "publicName": "Expungement by motion, actual innocence",
+      "controllingAuthority": {
+        "citations": ["D.C. Code § 16-803"],
+        "summary": "The case was terminated by the prosecutor or reached a final disposition and did not result in a conviction or an insanity acquittal under § 24-501, and the movant demonstrates by a preponderance of the evidence that the offense did not occur or was not committed by the movant. § 16-803 creates a motion."
+      },
+      "effectiveDates": { "effectiveFrom": "2025-03-01", "effectiveTo": null, "reviewedAsOf": "2026-07-30" },
+      "eligibleRecordTypes": ["citation", "arrest", "charge"],
+      "eligibleDispositions": [
+        "the case was terminated by the prosecutor or reached a final disposition and did not result in a conviction or an insanity acquittal under § 24-501"
+      ],
+      "exclusions": [],
+      "waitingPeriods": [],
+      "outputStrategy": "custom_pleading",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "District of Columbia Superior Court, Criminal Division; one motion per case number in the case being addressed."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "Superior Court of the District of Columbia, Criminal Division",
+        "detail": "The motion and any amended motion are served on the prosecutor. Filing window: any time."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "custom_pleading",
+          "notes": "§ 16-803 creates a motion. Participant facts can populate the initial motion."
+        }
+      ],
+      "participantInputs": [
+        { "key": "caseIdentifiers", "question": "What is the case number, and what were you charged with?", "requirement": "required" },
+        { "key": "caseOutcome", "question": "How did the case end?", "requirement": "required" },
+        { "key": "innocenceFacts", "question": "In your own words, why did the offence not occur, or why were you not the person who committed it?", "requirement": "required" },
+        { "key": "priorMotions", "question": "Have you filed a motion like this before, and when was it resolved?", "requirement": "required" }
+      ],
+      "supportingDocuments": [],
+      "manualCompletionItems": [
+        {
+          "item": "Statement of points and authorities, exhibits, affidavits and supporting documents",
+          "whereInPacket": "Attachments to the motion",
+          "why": "The movant carries the burden and supplies the supporting material. LegalEase does not judge whether the showing is sufficient."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "Superior Court of the District of Columbia, Criminal Division, Sealing Criminal Records",
+          "url": "https://www.dccourts.gov/superior-court/superior-court-divisions/criminal-division/sealing-criminal-records",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "File with the Criminal Division. Filing window: any time.",
+        "fees": "The court's instruction sheet states no fee and secondary sources say there is none. No statutory or fee-schedule source was located in this review.",
+        "feeWaiver": "The source review does not address a fee waiver.",
+        "notice": "The court may dismiss or deny on initial review; if not, it decides whether a hearing is required and may order a prosecutor response with a deadline.",
+        "service": "The motion and any amended motion are served on the prosecutor. The prosecutor need not respond unless the court orders it.",
+        "participantSignature": "The movant signs their own motion.",
+        "notarization": "The source review does not state a notarization requirement for this motion."
+      },
+      "selfHelpStopConditions": [
+        "The prosecutor files an opposition or the court orders a response.",
+        "The court sets a hearing, at which both sides may present witnesses or proceed by proffer.",
+        "The relief turns on an affirmative evidentiary showing of innocence on disputed facts.",
+        "The record is federal, military, tribal, or from another jurisdiction.",
+        "A prior motion was denied inside the one-year window.",
+        "Immigration, firearm, licensing, security clearance, childcare, healthcare, or law enforcement employment consequences are in play."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Current Criminal Division sealing page and any standing order, rule, or practice guidance issued since March 1, 2025.",
+          "impact": "release_blocker",
+          "affectedElement": "filing_process",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-DC-Legal-Review.md",
+            "sourceHeading": "PART 5 / source acquisition queue",
+            "sourceStatement": "Any Superior Court standing order, rule, or practice guidance issued for Chapter 8 motions since March 1, 2025.",
+            "normalizerInferred": true
+          }
+        },
+        {
+          "question": "Whether product scope should enable this track at all, given that the relief turns on an evidentiary showing the movant must carry. The addendum makes this a scope_restriction rather than an output-identity problem, and leaves the scope decision open.",
+          "impact": "counsel_classification_required",
+          "affectedElement": "output_strategy",
+          "provenance": {
+            "classificationBasis": "counsel_confirmation_required",
+            "sourceFile": "LegalEase-DC-Legal-Review.md",
+            "sourceHeading": "District of Columbia operational amendments / Process-guidance routes reviewed",
+            "sourceStatement": "DC-3, actual-innocence expungement | `custom_pleading` is technically available because § 16-803 creates a motion. Whether LegalEase enables it is a `scope_restriction`, not an output-identity problem.",
+            "counselQuestion": "Does LegalEase enable the actual-innocence motion as a self-help track, or restrict it out of product scope? The addendum resolves that the packet identity is a motion but expressly leaves the enablement decision to a scope restriction, and the original review's recommendation was referral. Confirm whether this is build-blocking or release-blocking."
+          }
+        },
+        {
+          "question": "The rule for determining whether the U.S. Attorney's Office or the Office of the Attorney General is the prosecuting agency for a given case, and the correct service address for each.",
+          "impact": "release_blocker",
+          "affectedElement": "notice_or_service",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-DC-Legal-Review.md",
+            "sourceHeading": "PART 5 / Open questions, item 5",
+            "sourceStatement": "**Prosecutor routing.** The rule for determining whether the U.S. Attorney's Office or the Office of the Attorney General is the prosecuting agency for a given case, and the correct service address for each.",
+            "normalizerInferred": true
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "The amendment expressly changes the output strategy: \"DC-3 is no longer guidance-only merely because actual innocence is evidence-driven. It is packet-capable as a motion, while remaining eligible for a product-scope restriction and early handoff.\" The original review's legal research on eligibility, service, court process and repeat motions is unchanged.",
+        "limitations": [
+          {
+            "classification": "scope_restriction",
+            "statement": "custom_pleading is technically available because § 16-803 creates a motion. Whether LegalEase enables it is a scope_restriction, not an output-identity problem.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-DC-Legal-Review.md",
+              "sourceHeading": "District of Columbia operational amendments / Process-guidance routes reviewed",
+              "sourceStatement": "DC-3, actual-innocence expungement | `custom_pleading` is technically available because § 16-803 creates a motion. Whether LegalEase enables it is a `scope_restriction`, not an output-identity problem. Participant facts can populate the initial motion; contested evidence and the merits proceeding trigger handoff."
+            }
+          },
+          {
+            "classification": "post_generation_handoff",
+            "statement": "Participant facts can populate the initial motion; contested evidence and the merits proceeding trigger handoff.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-DC-Legal-Review.md",
+              "sourceHeading": "District of Columbia operational amendments / Process-guidance routes reviewed",
+              "sourceStatement": "Participant facts can populate the initial motion; contested evidence and the merits proceeding trigger handoff."
+            }
+          },
+          {
+            "classification": "participant_question",
+            "statement": "The participant supplies the arrest and conviction history as reasonably known, case identifiers, requested relief, and rehabilitation or interests-of-justice facts. LegalEase generates the approved motion structure and does not verify the history or judge persuasiveness.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-DC-Legal-Review.md",
+              "sourceHeading": "District of Columbia operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "For motion tracks, the participant supplies the arrest and conviction history “as reasonably known,” case identifiers, requested relief, and rehabilitation or interests-of-justice facts. LegalEase generates the approved motion structure and does not verify the history or judge persuasiveness."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Statutory warning to carry into product copy: an acquittal or dismissal does not establish a presumption of innocence, § 16-803(e).",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-DC-Legal-Review.md",
+              "sourceHeading": "TRACK 3 - EXPUNGEMENT BY MOTION, ACTUAL INNOCENCE, § 16-803",
+              "sourceStatement": "Statutory warning to carry into product copy: an acquittal or dismissal does not establish a presumption of innocence, § 16-803(e)",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Repeat motions: a second motion no sooner than one year after the first is resolved, a third and final no sooner than one year after the second, except that a motion on different grounds may be filed at any time.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-DC-Legal-Review.md",
+              "sourceHeading": "TRACK 3 - EXPUNGEMENT BY MOTION, ACTUAL INNOCENCE, § 16-803",
+              "sourceStatement": "Repeat motions: second motion no sooner than one year after the first is resolved, third and final no sooner than one year after the second, except that a motion on different grounds may be filed at any time",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "LegalEase can explain the remedy, assemble the record set, and refer to the Public Defender Service duty day attorney for seal cases, Legal Aid DC, Neighborhood Legal Services Program, Rising for Justice, or Christian Legal Society.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-DC-Legal-Review.md",
+              "sourceHeading": "TRACK 3 - EXPUNGEMENT BY MOTION, ACTUAL INNOCENCE, § 16-803",
+              "sourceStatement": "LegalEase can explain the remedy, assemble the record set, and refer to the Public Defender Service duty day attorney for seal cases, Legal Aid DC, Neighborhood Legal Services Program, Rising for Justice, or Christian Legal Society.",
+              "normalizerInferred": true
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "dc_seal_nonconviction",
+      "legalName": "Motion to Seal a Non-Conviction Record, D.C. Code § 16-806(a)(1)",
+      "publicName": "Sealing by motion, non-conviction",
+      "controllingAuthority": {
+        "citations": [
+          "D.C. Code § 16-806(a)(1), as amended by D.C. Law 24-284 (applicable March 1, 2025), D.C. Law 26-52 (October 28, 2025), and D.C. Law 26-81 (temporary, January 29, 2026)"
+        ],
+        "summary": "The Court shall grant if sealing is in the interests of justice, § 16-806(b)(1), weighing the movant's interest, the community's interest in rehabilitation and reintegration, and the community's interest in retaining access. The published section carries amendments by temporary legislation that expire September 11, 2026."
+      },
+      "effectiveDates": { "effectiveFrom": "2025-03-01", "effectiveTo": null, "reviewedAsOf": "2026-07-30" },
+      "eligibleRecordTypes": ["citation", "arrest", "charge"],
+      "eligibleDispositions": [
+        "case terminated by the prosecutor or reached final disposition, no conviction and no § 24-501 insanity acquittal"
+      ],
+      "exclusions": [
+        "If the offense is not on the § 16-805(b) list, the motion must be filed before October 1, 2027. If the offense is on that list, there is no deadline."
+      ],
+      "waitingPeriods": [],
+      "outputStrategy": "custom_pleading",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "District of Columbia Superior Court, Criminal Division; one motion per case number in the case being addressed."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "Superior Court of the District of Columbia, Criminal Division",
+        "detail": "Court-controlled, with a clerk intake step through the Criminal Division Seal Team. The motion is served on the prosecutor, who need not respond unless the court orders it."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "custom_pleading",
+          "notes": "No official form exists. The statute fixes the content of the motion, which makes a controlled template both possible and safe, and it is the only way to deliver this relief."
+        }
+      ],
+      "participantInputs": [
+        { "key": "caseIdentifiers", "question": "What is the case number, and what were you charged with?", "requirement": "required" },
+        { "key": "caseOutcome", "question": "How did the case end?", "requirement": "required" },
+        { "key": "fullKnownHistory", "question": "List every citation, arrest, charge and conviction of yours that has not already been sealed or expunged, as far as you know them.", "requirement": "required" },
+        { "key": "offenceOn805bList", "question": "What was the offence and statute section?", "requirement": "required" },
+        { "key": "interestsOfJusticeFacts", "question": "In your own words, why is sealing this record in the interests of justice — what does it stop you doing now?", "requirement": "required" },
+        { "key": "recordsToSeal", "question": "Which of your records do you want sealed? You do not have to ask for all of them.", "requirement": "required" },
+        { "key": "priorMotions", "question": "Have you filed a sealing motion before, and when was it resolved?", "requirement": "required" }
+      ],
+      "supportingDocuments": [],
+      "manualCompletionItems": [
+        {
+          "item": "Statement of points and authorities, exhibits, affidavits and supporting documents",
+          "whereInPacket": "Optional attachments to the motion",
+          "why": "§ 16-806(c)(1) permits them. The movant supplies them; LegalEase does not judge sufficiency."
+        },
+        {
+          "item": "Signature and date",
+          "whereInPacket": "Motion, signature block",
+          "why": "The movant signs their own motion."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "Superior Court of the District of Columbia, Criminal Division, How to Seal or Expunge Your Criminal Record (Rev. April 10, 2024)",
+          "url": "https://www.dccourts.gov/superior-court/superior-court-divisions/criminal-division/sealing-criminal-records",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "File with the Criminal Division; clerk intake through the Seal Team. One motion per case number in the case being addressed.",
+        "fees": "The court's instruction sheet states no fee and secondary sources say there is none. No statutory or fee-schedule source was located in this review.",
+        "feeWaiver": "The source review does not address a fee waiver.",
+        "notice": "Initial review may dismiss or deny; otherwise the court decides whether a hearing is required and may order a response. Written order with reasons, final for appeal, due within 180 days absent good cause.",
+        "service": "Served on the prosecutor; the prosecutor need not respond unless ordered.",
+        "participantSignature": "The movant signs their own motion.",
+        "notarization": "The source review does not state a notarization requirement for this motion."
+      },
+      "selfHelpStopConditions": [
+        "The prosecutor files an opposition or the court orders a response.",
+        "The court sets a hearing.",
+        "A victim submits a statement.",
+        "The case has co-defendants and redaction is at issue.",
+        "The record is federal, military, tribal, or from another jurisdiction.",
+        "The person is asking to attack the conviction rather than seal it.",
+        "The person needs the prosecutor to waive a waiting period in writing.",
+        "Immigration, firearm, licensing, security clearance, childcare, healthcare, or law enforcement employment consequences are in play.",
+        "A prior motion was denied inside the one-year window.",
+        "The person is at the third and final motion."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "What expires on September 11, 2026. The current codification of § 16-806 carries temporary amendments with that expiration date, and the permanent codification omits the § 16-806(a)(1)(B)(i) route that lets a person move to seal a non-conviction for an offense not listed in § 16-805(b) before October 1, 2027. Confirm which subsections revert on September 11, 2026, and whether § 16-806(i)(7) is the only temporary piece.",
+          "impact": "build_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-DC-Legal-Review.md",
+            "sourceHeading": "District of Columbia operational amendments / True blockers retained",
+            "sourceStatement": "Any temporary-law provision whose current applicability changes which motion route, waiting period, or deadline applies."
+          }
+        },
+        {
+          "question": "The rule for determining whether the U.S. Attorney's Office or the Office of the Attorney General is the prosecuting agency for a given case, and the correct service address for each.",
+          "impact": "release_blocker",
+          "affectedElement": "notice_or_service",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-DC-Legal-Review.md",
+            "sourceHeading": "PART 5 / Open questions, item 5",
+            "sourceStatement": "**Prosecutor routing.** The rule for determining whether the U.S. Attorney's Office or the Office of the Attorney General is the prosecuting agency for a given case, and the correct service address for each.",
+            "normalizerInferred": true
+          }
+        },
+        {
+          "question": "Filing channel: whether the Seal Team email is now the exclusive or preferred channel, whether e-filing is available for these motions, and whether the original-plus-one-copy requirement still applies to in-person filings.",
+          "impact": "release_blocker",
+          "affectedElement": "filing_process",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-DC-Legal-Review.md",
+            "sourceHeading": "PART 5 / Open questions, item 4",
+            "sourceStatement": "**Filing channel.** Whether the Seal Team email is now the exclusive or preferred channel, whether e-filing is available for these motions, and whether the original-plus-one-copy requirement still applies to in-person filings.",
+            "normalizerInferred": true
+          }
+        },
+        {
+          "question": "Filing fee. The court's instruction sheet states no fee and secondary sources say there is none. No statutory or fee-schedule source was located in this review.",
+          "impact": "release_blocker",
+          "affectedElement": "filing_process",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-DC-Legal-Review.md",
+            "sourceHeading": "PART 5 / Open questions, item 3",
+            "sourceStatement": "**Filing fee.** The court's instruction sheet states no fee and secondary sources say there is none. No statutory or fee-schedule source was located in this review.",
+            "normalizerInferred": true
+          }
+        },
+        {
+          "question": "Current Chapter 8 standing orders and post-March 1, 2025 filing practice must be confirmed.",
+          "impact": "release_blocker",
+          "affectedElement": "filing_process",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-DC-Legal-Review.md",
+            "sourceHeading": "TRACKS 4 to 7 - SEALING BY MOTION, § 16-806",
+            "sourceStatement": "Current Chapter 8 standing orders and post-March 1, 2025 filing practice must be confirmed.",
+            "normalizerInferred": true
+          }
+        },
+        {
+          "question": "Section 16-808 and § 16-809 were not read in this review. Confirm the applicability and savings provisions, particularly for records predating March 1, 2025.",
+          "impact": "release_blocker",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-DC-Legal-Review.md",
+            "sourceHeading": "PART 5 / Open questions, item 9",
+            "sourceStatement": "**Section 16-808 and § 16-809** were not read in this review. Confirm the applicability and savings provisions, particularly for records predating March 1, 2025.",
+            "normalizerInferred": true
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Original review: \"Approved with limitations.\" The amendment expressly changes the operational treatment of the participant's history and of routine hearings, and leaves the eligibility research, the October 1, 2027 gate and the pleading specification unchanged.",
+        "limitations": [
+          {
+            "classification": "participant_question",
+            "statement": "The participant supplies the arrest and conviction history as reasonably known, case identifiers, requested relief, and rehabilitation or interests-of-justice facts. LegalEase generates the approved motion structure and does not verify the history or judge persuasiveness.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-DC-Legal-Review.md",
+              "sourceHeading": "District of Columbia operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "For motion tracks, the participant supplies the arrest and conviction history “as reasonably known,” case identifiers, requested relief, and rehabilitation or interests-of-justice facts. LegalEase generates the approved motion structure and does not verify the history or judge persuasiveness."
+            }
+          },
+          {
+            "classification": "post_generation_handoff",
+            "statement": "A court request for a response or a routine hearing does not block the initial motion. Prosecutor opposition, disputed material facts, an evidentiary hearing, or individualized advocacy triggers handoff.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-DC-Legal-Review.md",
+              "sourceHeading": "District of Columbia operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "A court request for a response or a routine hearing does not block the initial motion. Prosecutor opposition, disputed material facts, an evidentiary hearing, or individualized advocacy triggers handoff."
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "The motion must be filed before October 1, 2027 when the offense is not on the § 16-805(b) list. If the offense is on that list, there is no deadline.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-DC-Legal-Review.md",
+              "sourceHeading": "TRACKS 4 to 7 / Track-specific fields",
+              "sourceStatement": "If the offense is not on the § 16-805(b) list, the motion must be filed **before October 1, 2027**. If the offense is on that list, no deadline.",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Note the October 1, 2027 gate in product copy from day one.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-DC-Legal-Review.md",
+              "sourceHeading": "OVERALL JURISDICTION DECISION / Build in this order",
+              "sourceStatement": "Track 4, non-conviction sealing. Largest population, no waiting period, cleanest showing. Note the October 1, 2027 gate in product copy from day one.",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Motion content, § 16-806(c)(1): the motion must state all of the movant's unsealed and unexpunged citations, arrests, charges, and convictions as reasonably known, the grounds for eligibility, and facts in support. If the motion does not comply, the movant has 30 days after notice to amend, or the motion is dismissed without prejudice.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-DC-Legal-Review.md",
+              "sourceHeading": "TRACKS 4 to 7 / Shared legal design",
+              "sourceStatement": "Motion content, § 16-806(c)(1): must state all of the movant's unsealed and unexpunged citations, arrests, charges, and convictions as reasonably known, the grounds for eligibility, and facts in support. ... Cure period: if the motion does not comply, the movant has 30 days after notice to amend, or the motion is dismissed without prejudice",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Scope relief, § 16-806(h): the movant need not satisfy the waiting periods for all records and need not seek relief for every eligible record. Packets can be scoped to what the person actually wants cleared.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-DC-Legal-Review.md",
+              "sourceHeading": "0.4 Corrections and additions to the internal DC reference, item 4",
+              "sourceStatement": "Section 16-806(h) is missing and it is good news for the product. A movant does not have to satisfy the waiting periods for all of their records, and does not have to seek relief for every eligible arrest, charge, or conviction. Packets can be scoped to what the person actually wants cleared.",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "The prosecutor is not required to respond. Under § 16-806(d) the motion is served on the prosecutor, but the prosecutor need not respond unless the court orders it. Do not tell users to expect an opposition by default.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-DC-Legal-Review.md",
+              "sourceHeading": "0.4 Corrections and additions to the internal DC reference, item 5",
+              "sourceStatement": "The prosecutor is not required to respond. Under § 16-806(d) the motion is served on the prosecutor, but the prosecutor need not respond unless the court orders it. Wilma should not tell users to expect an opposition by default.",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Repeat-motion limits: under § 16-806(i)(6), after a denial the court entertains a second motion no sooner than one year, and a third and final motion no sooner than one year after that. A temporary provision, § 16-806(i)(7), exempts motions dismissed between March 1, 2025 and July 14, 2025 from the one-year wait.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-DC-Legal-Review.md",
+              "sourceHeading": "0.4 Corrections and additions to the internal DC reference, item 3",
+              "sourceStatement": "Repeat-motion limits are missing. Under § 16-806(i)(6), after a denial the court entertains a second motion no sooner than one year, and a third and final motion no sooner than one year after that.",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Completion of the sentence, § 16-801(2), is unconditional discharge from incarceration, commitment, probation, parole, or supervised release, whichever is latest, and nonpayment of fines, restitution, or other monetary assessments does not prevent completion.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-DC-Legal-Review.md",
+              "sourceHeading": "0.4 Corrections and additions to the internal DC reference, item 9",
+              "sourceStatement": "Section 16-801(2) defines completion of the sentence as unconditional discharge from incarceration, commitment, probation, parole, or supervised release, whichever is latest, and expressly provides that nonpayment of fines, restitution, or other monetary assessments does not prevent completion.",
+              "normalizerInferred": true
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "dc_seal_fugitive",
+      "legalName": "Motion to Seal a Fugitive-from-Justice Arrest Record, D.C. Code § 16-806(a)(2)",
+      "publicName": "Sealing by motion, fugitive-from-justice arrest",
+      "controllingAuthority": {
+        "citations": ["D.C. Code § 16-806(a)(2)"],
+        "summary": "Arrested in DC as a fugitive, waived extradition under § 23-702(f)(1) and released or detained under (f)(2) or (f)(3), the fugitive case reached final disposition, and the person has appeared before the proper official in the other jurisdiction. The Court shall grant if sealing is in the interests of justice."
+      },
+      "effectiveDates": { "effectiveFrom": "2025-03-01", "effectiveTo": null, "reviewedAsOf": "2026-07-30" },
+      "eligibleRecordTypes": ["arrest"],
+      "eligibleDispositions": [
+        "fugitive case reached final disposition, extradition waived under § 23-702(f)(1), released or detained under (f)(2) or (f)(3), and the person has appeared before the proper official in the other jurisdiction"
+      ],
+      "exclusions": [],
+      "waitingPeriods": [],
+      "outputStrategy": "custom_pleading",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "District of Columbia Superior Court, Criminal Division; one motion per case number in the case being addressed."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "Superior Court of the District of Columbia, Criminal Division",
+        "detail": "Court-controlled, with a clerk intake step through the Criminal Division Seal Team."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "custom_pleading",
+          "notes": "No official form exists. The statute fixes the content of the motion."
+        }
+      ],
+      "participantInputs": [
+        { "key": "caseIdentifiers", "question": "What is the DC case number for the fugitive arrest?", "requirement": "required" },
+        { "key": "extraditionWaived", "question": "Did you waive extradition?", "requirement": "required" },
+        { "key": "appearedInOriginatingJurisdiction", "question": "Have you appeared before the proper official in the jurisdiction that wanted you?", "requirement": "required" },
+        { "key": "fullKnownHistory", "question": "List every citation, arrest, charge and conviction of yours that has not already been sealed or expunged, as far as you know them.", "requirement": "required" },
+        { "key": "interestsOfJusticeFacts", "question": "In your own words, why is sealing this record in the interests of justice?", "requirement": "required" }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Proof that the movant appeared before the proper official in the originating jurisdiction",
+          "obtainedFrom": "The court or official in the jurisdiction that issued the warrant",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Ask the court or official in the originating jurisdiction for confirmation of your appearance.",
+          "confirms": "appearedInOriginatingJurisdiction"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Signature and date",
+          "whereInPacket": "Motion, signature block",
+          "why": "The movant signs their own motion."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "Superior Court of the District of Columbia, Criminal Division, How to Seal or Expunge Your Criminal Record (Rev. April 10, 2024)",
+          "url": "https://www.dccourts.gov/superior-court/superior-court-divisions/criminal-division/sealing-criminal-records",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "File with the Criminal Division; clerk intake through the Seal Team.",
+        "fees": "The court's instruction sheet states no fee. No statutory or fee-schedule source was located in this review.",
+        "feeWaiver": "The source review does not address a fee waiver.",
+        "notice": "Initial review may dismiss or deny; otherwise the court decides whether a hearing is required and may order a response.",
+        "service": "Served on the prosecutor; the prosecutor need not respond unless ordered.",
+        "participantSignature": "The movant signs their own motion.",
+        "notarization": "The source review does not state a notarization requirement for this motion."
+      },
+      "selfHelpStopConditions": [
+        "The prosecutor files an opposition or the court orders a response.",
+        "The court sets a hearing.",
+        "A victim submits a statement.",
+        "The record is federal, military, tribal, or from another jurisdiction.",
+        "Immigration, firearm, licensing, security clearance, childcare, healthcare, or law enforcement employment consequences are in play.",
+        "A prior motion was denied inside the one-year window."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "What expires on September 11, 2026, and which subsections of § 16-806 revert.",
+          "impact": "build_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-DC-Legal-Review.md",
+            "sourceHeading": "District of Columbia operational amendments / True blockers retained",
+            "sourceStatement": "Any temporary-law provision whose current applicability changes which motion route, waiting period, or deadline applies."
+          }
+        },
+        {
+          "question": "The rule for determining whether the U.S. Attorney's Office or the Office of the Attorney General is the prosecuting agency for a given case, and the correct service address for each.",
+          "impact": "release_blocker",
+          "affectedElement": "notice_or_service",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-DC-Legal-Review.md",
+            "sourceHeading": "PART 5 / Open questions, item 5",
+            "sourceStatement": "**Prosecutor routing.** The rule for determining whether the U.S. Attorney's Office or the Office of the Attorney General is the prosecuting agency for a given case, and the correct service address for each.",
+            "normalizerInferred": true
+          }
+        },
+        {
+          "question": "Current Chapter 8 standing orders and post-March 1, 2025 filing practice must be confirmed.",
+          "impact": "release_blocker",
+          "affectedElement": "filing_process",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-DC-Legal-Review.md",
+            "sourceHeading": "TRACKS 4 to 7 - SEALING BY MOTION, § 16-806",
+            "sourceStatement": "Current Chapter 8 standing orders and post-March 1, 2025 filing practice must be confirmed.",
+            "normalizerInferred": true
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Original review: \"Approved with limitations.\" The amendment changes the operational treatment of the participant's history and of routine hearings; the appearance requirement and the pleading specification are unchanged.",
+        "limitations": [
+          {
+            "classification": "required_before_filing",
+            "statement": "The movant must establish appearance before the proper official in the originating jurisdiction.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-DC-Legal-Review.md",
+              "sourceHeading": "TRACKS 4 to 7 / Track-specific fields",
+              "sourceStatement": "Extra showing | Appearance before the proper official plus interests of justice",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "participant_question",
+            "statement": "The participant supplies the arrest and conviction history as reasonably known, case identifiers, requested relief, and rehabilitation or interests-of-justice facts. LegalEase generates the approved motion structure and does not verify the history or judge persuasiveness.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-DC-Legal-Review.md",
+              "sourceHeading": "District of Columbia operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "For motion tracks, the participant supplies the arrest and conviction history “as reasonably known,” case identifiers, requested relief, and rehabilitation or interests-of-justice facts. LegalEase generates the approved motion structure and does not verify the history or judge persuasiveness."
+            }
+          },
+          {
+            "classification": "post_generation_handoff",
+            "statement": "A court request for a response or a routine hearing does not block the initial motion. Prosecutor opposition, disputed material facts, an evidentiary hearing, or individualized advocacy triggers handoff.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-DC-Legal-Review.md",
+              "sourceHeading": "District of Columbia operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "A court request for a response or a routine hearing does not block the initial motion. Prosecutor opposition, disputed material facts, an evidentiary hearing, or individualized advocacy triggers handoff."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Sealed-record access nuance: records sealed as fugitive-from-justice arrests are not available to the § 16-801(5)(D), (E), (F) licensing, school and childcare, and senior government employer entities.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-DC-Legal-Review.md",
+              "sourceHeading": "TRACKS 4 to 7 / Track-specific fields",
+              "sourceStatement": "Sealed-record access nuance | Not available to the § 16-801(5)(D), (E), (F) entities",
+              "normalizerInferred": true
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "dc_seal_conviction",
+      "legalName": "Motion to Seal a Conviction Record, D.C. Code § 16-806(a)(3)",
+      "publicName": "Sealing by motion, conviction",
+      "controllingAuthority": {
+        "citations": ["D.C. Code § 16-806(a)(3)"],
+        "summary": "Conviction sealing once the waiting period has run, on the interests-of-justice standard. A felony in Offense Severity Group 1, 2, or 3 of the Sentencing Commission Master Grid as of March 10, 2023 is not eligible."
+      },
+      "effectiveDates": { "effectiveFrom": "2025-03-01", "effectiveTo": null, "reviewedAsOf": "2026-07-30" },
+      "eligibleRecordTypes": ["conviction"],
+      "eligibleDispositions": ["conviction, with the waiting period run"],
+      "exclusions": [
+        "A felony in Offense Severity Group 1, 2, or 3 of the Sentencing Commission Master Grid as of March 10, 2023 is not eligible.",
+        "The § 16-805(b) exclusion list applies to automatic sealing, not to motion sealing of convictions. A DUI conviction, an intrafamily offense conviction, and the other categories remain eligible for motion sealing once the waiting period runs."
+      ],
+      "waitingPeriods": [
+        { "condition": "Misdemeanor conviction", "duration": "5 years from completion of the sentence" },
+        { "condition": "Felony conviction", "duration": "8 years from completion of the sentence" }
+      ],
+      "outputStrategy": "custom_pleading",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "District of Columbia Superior Court, Criminal Division; one motion per case number in the case being addressed."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "Superior Court of the District of Columbia, Criminal Division",
+        "detail": "Court-controlled, with a clerk intake step through the Criminal Division Seal Team. The conviction waiting periods may be waived by the prosecutor in writing, § 16-806(e)."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "custom_pleading",
+          "notes": "No official form exists. The statute fixes the content of the motion."
+        }
+      ],
+      "participantInputs": [
+        { "key": "caseIdentifiers", "question": "What is the case number, and what were you convicted of?", "requirement": "required" },
+        { "key": "offenceLevelAndSection", "question": "Was the conviction a misdemeanor or a felony, and what was the statute section?", "requirement": "required" },
+        { "key": "sentenceCompletionDate", "question": "On what date did you complete the sentence — the latest of discharge from incarceration, commitment, probation, parole or supervised release?", "requirement": "required" },
+        { "key": "fullKnownHistory", "question": "List every citation, arrest, charge and conviction of yours that has not already been sealed or expunged, as far as you know them.", "requirement": "required" },
+        { "key": "interestsOfJusticeFacts", "question": "In your own words, why is sealing this record in the interests of justice — what does it stop you doing now?", "requirement": "required" },
+        { "key": "recordsToSeal", "question": "Which of your records do you want sealed? You do not have to ask for all of them.", "requirement": "required" }
+      ],
+      "supportingDocuments": [],
+      "manualCompletionItems": [
+        {
+          "item": "Statement of points and authorities, exhibits, affidavits and supporting documents",
+          "whereInPacket": "Optional attachments to the motion",
+          "why": "§ 16-806(c)(1) permits them. The movant supplies them; LegalEase does not judge sufficiency."
+        },
+        {
+          "item": "Signature and date",
+          "whereInPacket": "Motion, signature block",
+          "why": "The movant signs their own motion."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "Superior Court of the District of Columbia, Criminal Division, How to Seal or Expunge Your Criminal Record (Rev. April 10, 2024)",
+          "url": "https://www.dccourts.gov/superior-court/superior-court-divisions/criminal-division/sealing-criminal-records",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "File with the Criminal Division; clerk intake through the Seal Team.",
+        "fees": "The court's instruction sheet states no fee. No statutory or fee-schedule source was located in this review.",
+        "feeWaiver": "The source review does not address a fee waiver.",
+        "notice": "Initial review may dismiss or deny; otherwise the court decides whether a hearing is required and may order a response.",
+        "service": "Served on the prosecutor; the prosecutor need not respond unless ordered.",
+        "participantSignature": "The movant signs their own motion.",
+        "notarization": "The source review does not state a notarization requirement for this motion."
+      },
+      "selfHelpStopConditions": [
+        "The prosecutor files an opposition or the court orders a response.",
+        "The court sets a hearing.",
+        "A victim submits a statement.",
+        "The felony Offense Severity Group cannot be established from the record.",
+        "The case has co-defendants and redaction is at issue.",
+        "The record is federal, military, tribal, or from another jurisdiction.",
+        "The person is asking to attack the conviction rather than seal it.",
+        "The person needs the prosecutor to waive a waiting period in writing.",
+        "Immigration, firearm, licensing, security clearance, childcare, healthcare, or law enforcement employment consequences are in play.",
+        "A prior motion was denied inside the one-year window.",
+        "The person is at the third and final motion."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Master Grid mapping. An authoritative, machine-usable source for Offense Severity Groups 1, 2, and 3 as of March 10, 2023.",
+          "impact": "build_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-DC-Legal-Review.md",
+            "sourceHeading": "TRACKS 4 to 7 / required follow up",
+            "sourceStatement": "Enforce the 5-year misdemeanor and 8-year felony waits and the Offense Severity Group 1–3 exclusion.",
+            "normalizerInferred": true
+          }
+        },
+        {
+          "question": "What expires on September 11, 2026, and which subsections of § 16-806 revert.",
+          "impact": "build_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-DC-Legal-Review.md",
+            "sourceHeading": "District of Columbia operational amendments / True blockers retained",
+            "sourceStatement": "Any temporary-law provision whose current applicability changes which motion route, waiting period, or deadline applies."
+          }
+        },
+        {
+          "question": "The rule for determining whether the U.S. Attorney's Office or the Office of the Attorney General is the prosecuting agency for a given case, and the correct service address for each.",
+          "impact": "release_blocker",
+          "affectedElement": "notice_or_service",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-DC-Legal-Review.md",
+            "sourceHeading": "PART 5 / Open questions, item 5",
+            "sourceStatement": "**Prosecutor routing.** The rule for determining whether the U.S. Attorney's Office or the Office of the Attorney General is the prosecuting agency for a given case, and the correct service address for each.",
+            "normalizerInferred": true
+          }
+        },
+        {
+          "question": "Current Chapter 8 standing orders and post-March 1, 2025 filing practice must be confirmed.",
+          "impact": "release_blocker",
+          "affectedElement": "filing_process",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-DC-Legal-Review.md",
+            "sourceHeading": "TRACKS 4 to 7 - SEALING BY MOTION, § 16-806",
+            "sourceStatement": "Current Chapter 8 standing orders and post-March 1, 2025 filing practice must be confirmed.",
+            "normalizerInferred": true
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Original review: \"Approved with limitations.\" The amendment changes the operational treatment of the participant's history and of routine hearings. The Master Grid screen and the instruction not to generate individualized advocacy are unchanged.",
+        "limitations": [
+          {
+            "classification": "scope_restriction",
+            "statement": "Map the felony to the March 10, 2023 Master Grid; Offense Severity Group 1, 2, or 3 felonies are excluded.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-DC-Legal-Review.md",
+              "sourceHeading": "TRACKS 4 to 7 / limitations",
+              "sourceStatement": "Map the felony to the March 10, 2023 Master Grid; Offense Severity Group 1, 2, or 3 felonies are excluded. Do not generate individualized interests-of-justice advocacy; any opposition, victim statement, or hearing ends self-help.",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Do not generate individualized interests-of-justice advocacy.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-DC-Legal-Review.md",
+              "sourceHeading": "TRACKS 4 to 7 / required follow up",
+              "sourceStatement": "Do not generate individualized interests-of-justice advocacy.",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "participant_question",
+            "statement": "The participant supplies the arrest and conviction history as reasonably known, case identifiers, requested relief, and rehabilitation or interests-of-justice facts. LegalEase generates the approved motion structure and does not verify the history or judge persuasiveness.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-DC-Legal-Review.md",
+              "sourceHeading": "District of Columbia operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "For motion tracks, the participant supplies the arrest and conviction history “as reasonably known,” case identifiers, requested relief, and rehabilitation or interests-of-justice facts. LegalEase generates the approved motion structure and does not verify the history or judge persuasiveness."
+            }
+          },
+          {
+            "classification": "post_generation_handoff",
+            "statement": "A court request for a response or a routine hearing does not block the initial motion. Prosecutor opposition, disputed material facts, an evidentiary hearing, or individualized advocacy triggers handoff.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-DC-Legal-Review.md",
+              "sourceHeading": "District of Columbia operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "A court request for a response or a routine hearing does not block the initial motion. Prosecutor opposition, disputed material facts, an evidentiary hearing, or individualized advocacy triggers handoff."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "The conviction waiting periods may be waived by the prosecutor in writing, § 16-806(e).",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-DC-Legal-Review.md",
+              "sourceHeading": "TRACKS 4 to 7 / Shared legal design",
+              "sourceStatement": "Prosecutor waiver: the conviction waiting periods may be waived by the prosecutor in writing, § 16-806(e)",
+              "normalizerInferred": true
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "dc_correct_misattributed_arrest",
+      "legalName": "Motion to Correct a Misattributed Arrest Record, D.C. Code § 16-806(g)",
+      "publicName": "Motion to correct a misattributed arrest record",
+      "controllingAuthority": {
+        "citations": ["D.C. Code § 16-806(g)"],
+        "summary": "An arrest attributed to the person who attests under oath that they were incorrectly identified or named, where the agency took no fingerprints at arrest and the arrested person presented no other reliable identification. Correction of publicly available records rather than sealing."
+      },
+      "effectiveDates": { "effectiveFrom": "2025-03-01", "effectiveTo": null, "reviewedAsOf": "2026-07-30" },
+      "eligibleRecordTypes": ["arrest"],
+      "eligibleDispositions": [
+        "an arrest attributed to the person who attests under oath that they were incorrectly identified or named, where the agency took no fingerprints at arrest and the arrested person presented no other reliable identification"
+      ],
+      "exclusions": [],
+      "waitingPeriods": [],
+      "outputStrategy": "custom_pleading",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "District of Columbia Superior Court, Criminal Division; one motion per case number in the case being addressed."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "Superior Court of the District of Columbia, Criminal Division",
+        "detail": "Court-controlled, with a clerk intake step through the Criminal Division Seal Team."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "custom_pleading",
+          "notes": "No official form exists. The statute fixes the content of the motion."
+        }
+      ],
+      "participantInputs": [
+        { "key": "caseIdentifiers", "question": "What is the case number of the arrest wrongly attributed to you?", "requirement": "required" },
+        { "key": "misidentificationFacts", "question": "In your own words, why was this arrest wrongly attributed to you?", "requirement": "required" },
+        { "key": "noFingerprintsTaken", "question": "As far as you know, did the agency take fingerprints at that arrest?", "requirement": "required" },
+        { "key": "noOtherIdentification", "question": "As far as you know, did the person arrested present any other reliable identification?", "requirement": "required" }
+      ],
+      "supportingDocuments": [],
+      "manualCompletionItems": [
+        {
+          "item": "Sworn attestation of misidentification",
+          "whereInPacket": "Motion, attestation block",
+          "why": "The statute requires the movant to attest under oath that they were incorrectly identified or named."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "Superior Court of the District of Columbia, Criminal Division, How to Seal or Expunge Your Criminal Record (Rev. April 10, 2024)",
+          "url": "https://www.dccourts.gov/superior-court/superior-court-divisions/criminal-division/sealing-criminal-records",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "File with the Criminal Division; clerk intake through the Seal Team.",
+        "fees": "The court's instruction sheet states no fee. No statutory or fee-schedule source was located in this review.",
+        "feeWaiver": "The source review does not address a fee waiver.",
+        "notice": "Initial review may dismiss or deny; otherwise the court decides whether a hearing is required and may order a response.",
+        "service": "Served on the prosecutor; the prosecutor need not respond unless ordered.",
+        "participantSignature": "The movant signs and attests under oath.",
+        "notarization": "The motion carries a sworn attestation. The source review does not state whether a notary is required in addition."
+      },
+      "selfHelpStopConditions": [
+        "The prosecutor files an opposition or the court orders a response.",
+        "The court sets a hearing.",
+        "The record is federal, military, tribal, or from another jurisdiction.",
+        "Immigration, firearm, licensing, security clearance, childcare, healthcare, or law enforcement employment consequences are in play."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Current Chapter 8 standing orders and post-March 1, 2025 filing practice must be confirmed.",
+          "impact": "release_blocker",
+          "affectedElement": "filing_process",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-DC-Legal-Review.md",
+            "sourceHeading": "TRACKS 4 to 7 - SEALING BY MOTION, § 16-806",
+            "sourceStatement": "Current Chapter 8 standing orders and post-March 1, 2025 filing practice must be confirmed.",
+            "normalizerInferred": true
+          }
+        },
+        {
+          "question": "The rule for determining whether the U.S. Attorney's Office or the Office of the Attorney General is the prosecuting agency for a given case, and the correct service address for each.",
+          "impact": "release_blocker",
+          "affectedElement": "notice_or_service",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-DC-Legal-Review.md",
+            "sourceHeading": "PART 5 / Open questions, item 5",
+            "sourceStatement": "**Prosecutor routing.** The rule for determining whether the U.S. Attorney's Office or the Office of the Attorney General is the prosecuting agency for a given case, and the correct service address for each.",
+            "normalizerInferred": true
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Original review: \"Approved with limitations.\" The amendment changes the operational treatment of the participant's history and of routine hearings; the sworn-attestation requirement is unchanged.",
+        "limitations": [
+          {
+            "classification": "manual_completion_item",
+            "statement": "Requires a sworn misidentification attestation, no fingerprints at arrest, and no other reliable identification.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-DC-Legal-Review.md",
+              "sourceHeading": "TRACKS 4 to 7 / limitations",
+              "sourceStatement": "Requires a sworn misidentification attestation, no fingerprints at arrest, and no other reliable identification; any opposition or hearing ends self-help.",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "post_generation_handoff",
+            "statement": "A court request for a response or a routine hearing does not block the initial motion. Prosecutor opposition, disputed material facts, an evidentiary hearing, or individualized advocacy triggers handoff.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-DC-Legal-Review.md",
+              "sourceHeading": "District of Columbia operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "A court request for a response or a routine hearing does not block the initial motion. Prosecutor opposition, disputed material facts, an evidentiary hearing, or individualized advocacy triggers handoff."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "This route corrects publicly available records rather than sealing them.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-DC-Legal-Review.md",
+              "sourceHeading": "TRACKS 4 to 7 / Track-specific fields",
+              "sourceStatement": "Sealed-record access nuance | Correction of publicly available records rather than sealing",
+              "normalizerInferred": true
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "dc_yra_set_aside",
+      "legalName": "Motion to Set Aside a Conviction under the Youth Rehabilitation Act, D.C. Code § 24-906(e-1)",
+      "publicName": "Youth Act Set-Aside",
+      "controllingAuthority": {
+        "citations": ["D.C. Code § 24-906(e-1)", "D.C. Code § 24-903(c)(2)", "D.C. Code § 24-906(e-2)"],
+        "summary": "A youth offender, meaning a person who was 24 or younger at the time of the offense, may move to set aside the conviction after completing probation, incarceration, supervised release, or parole, whichever is later, regardless of whether they were sentenced under the YRA. Discretionary: the court considers the § 24-903(c)(2) factors and makes a written statement on the record of its reasons."
+      },
+      "effectiveDates": { "effectiveFrom": "2025-03-01", "effectiveTo": null, "reviewedAsOf": "2026-07-30" },
+      "eligibleRecordTypes": ["conviction"],
+      "eligibleDispositions": [
+        "a conviction for an offense committed when the person was 24 or younger, after completing probation, incarceration, supervised release, or parole, whichever is later"
+      ],
+      "exclusions": [],
+      "waitingPeriods": [
+        {
+          "condition": "Completion of probation, incarceration, supervised release, or parole",
+          "duration": "Whichever is later; no further period stated"
+        }
+      ],
+      "outputStrategy": "custom_pleading",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "District of Columbia Superior Court, Criminal Division; one motion per case number in the case being addressed."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "Superior Court of the District of Columbia, Criminal Division",
+        "detail": "Service and response mechanics are unresolved. Whether the set-aside and the sealing motion are filed together or in sequence is unresolved."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "custom_pleading",
+          "notes": "Provisional. No Superior Court form or standing practice for these motions has been confirmed."
+        }
+      ],
+      "participantInputs": [
+        { "key": "ageAtOffence", "question": "How old were you when the offence happened?", "requirement": "required" },
+        { "key": "supervisionCompletionDate", "question": "On what date did you finish probation, incarceration, supervised release or parole, whichever came last?", "requirement": "required" },
+        { "key": "caseIdentifiers", "question": "What is the case number, and what were you convicted of?", "requirement": "required" },
+        { "key": "rehabilitationFacts", "question": "In your own words, what have you done since, and why should the court set this conviction aside?", "requirement": "required" }
+      ],
+      "supportingDocuments": [],
+      "manualCompletionItems": [],
+      "officialSources": [
+        {
+          "title": "Superior Court of the District of Columbia, Criminal Division, Sealing Criminal Records",
+          "url": "https://www.dccourts.gov/superior-court/superior-court-divisions/criminal-division/sealing-criminal-records",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "Blocked pending confirmation of Superior Court form or standing practice for YRA set-aside motions.",
+        "fees": "The source review does not state a filing fee for this motion.",
+        "feeWaiver": "The source review does not address a fee waiver.",
+        "notice": "Unresolved. Service and response mechanics are among the items counsel must confirm.",
+        "service": "Unresolved. Service and response mechanics are among the items counsel must confirm.",
+        "participantSignature": "The youth offender signs their own motion.",
+        "notarization": "The source review does not state a notarization requirement for this motion."
+      },
+      "selfHelpStopConditions": [
+        "The prosecutor files an opposition or the court orders a response.",
+        "The court sets a hearing.",
+        "The record is federal, military, tribal, or from another jurisdiction.",
+        "Immigration, firearm, licensing, security clearance, childcare, healthcare, or law enforcement employment consequences are in play."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Section 24-903(c)(2) factors and current Superior Court practice for YRA set-aside motions.",
+          "impact": "build_blocker",
+          "affectedElement": "packet_components",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-DC-Legal-Review.md",
+            "sourceHeading": "District of Columbia operational amendments / True blockers retained",
+            "sourceStatement": "**DC-8:** current YRA factors, service/response mechanics, and whether set-aside and sealing are combined or sequential."
+          }
+        },
+        {
+          "question": "Service and response mechanics for a YRA set-aside motion.",
+          "impact": "build_blocker",
+          "affectedElement": "notice_or_service",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-DC-Legal-Review.md",
+            "sourceHeading": "District of Columbia operational amendments / True blockers retained",
+            "sourceStatement": "**DC-8:** current YRA factors, service/response mechanics, and whether set-aside and sealing are combined or sequential."
+          }
+        },
+        {
+          "question": "Whether the set-aside and the sealing motion are filed together or in sequence.",
+          "impact": "build_blocker",
+          "affectedElement": "packet_components",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-DC-Legal-Review.md",
+            "sourceHeading": "District of Columbia operational amendments / True blockers retained",
+            "sourceStatement": "**DC-8:** current YRA factors, service/response mechanics, and whether set-aside and sealing are combined or sequential."
+          }
+        },
+        {
+          "question": "Whether the Superior Court has any form or standing practice for these motions.",
+          "impact": "build_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-DC-Legal-Review.md",
+            "sourceHeading": "District of Columbia operational amendments / True blockers retained",
+            "sourceStatement": "**DC-8:** current YRA factors, service/response mechanics, and whether set-aside and sealing are combined or sequential."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Original review: \"Additional research required.\" The amendment retains DC-8 as a true blocker. The known legal design — eligibility, discretion, certificate, and the point that a set-aside is not sealing — is imported and the blockers are preserved, so the track is recorded rather than lost.",
+        "limitations": [
+          {
+            "classification": "legal_design_blocker",
+            "statement": "Current YRA factors, service/response mechanics, and whether set-aside and sealing are combined or sequential.",
+            "undeterminedElement": "packet_components",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-DC-Legal-Review.md",
+              "sourceHeading": "District of Columbia operational amendments / True blockers retained",
+              "sourceStatement": "**DC-8:** current YRA factors, service/response mechanics, and whether set-aside and sealing are combined or sequential."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "A set-aside is not sealing. The person still needs a § 16-806 motion to seal the associated arrest and case records.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-DC-Legal-Review.md",
+              "sourceHeading": "TRACK 8 - YOUTH REHABILITATION ACT SET-ASIDE, § 24-906(e-1)",
+              "sourceStatement": "Effect and limit: a set-aside is not sealing. The person still needs a § 16-806 motion to seal the associated arrest and case records.",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "A certificate issues in any case where the conviction is set aside, § 24-906(e-2).",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-DC-Legal-Review.md",
+              "sourceHeading": "TRACK 8 - YOUTH REHABILITATION ACT SET-ASIDE, § 24-906(e-1)",
+              "sourceStatement": "Certificate: a certificate issues in any case where the conviction is set aside, § 24-906(e-2)",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Related automatic relief: under § 24-906(a) an unconditional discharge of a committed youth offender before expiration of the sentence automatically sets aside the conviction, and under § 24-906(c) automatic set-aside follows early termination of supervised release by the Parole Commission.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-DC-Legal-Review.md",
+              "sourceHeading": "TRACK 8 - YOUTH REHABILITATION ACT SET-ASIDE, § 24-906(e-1)",
+              "sourceStatement": "Related automatic relief: under § 24-906(a) an unconditional discharge of a committed youth offender before expiration of the sentence automatically sets aside the conviction, and under § 24-906(c) automatic set-aside follows early termination of supervised release by the Parole Commission",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "participant_question",
+            "statement": "The youth offender may present facts bearing on the decision. LegalEase does not judge the showing.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-DC-Legal-Review.md",
+              "sourceHeading": "District of Columbia operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "For motion tracks, the participant supplies the arrest and conviction history “as reasonably known,” case identifiers, requested relief, and rehabilitation or interests-of-justice facts. LegalEase generates the approved motion structure and does not verify the history or judge persuasiveness."
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

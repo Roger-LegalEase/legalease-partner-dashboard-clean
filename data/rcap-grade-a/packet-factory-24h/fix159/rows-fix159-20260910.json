@@ -1,0 +1,189 @@
+{
+  "schemaVersion": "rcap-verifier-rows/v2",
+  "lane": "FIX159",
+  "laneKind": "repair",
+  "worktree": "/home/user/vfa-worktree",
+  "branch": "lane-fix159-20260910",
+  "verifiedAtBase": null,
+  "generatedAtBase": "7dbe69631c704176cc850b898ae5d71441a38553",
+  "grantSet": "81f60e8db1623fc8",
+  "whatWasRead": "The current non-superseded verifier return for each granted family and the full findings behind it: vf22 rows-vf22-20260910.json for me-seal-survivor-set (base 8db74d6e5), vf05 rows.json for ar-drug-court-set (base 5de917b35). For ar-drug-court-set the pre-repair fixture bytes VF05 measured were recovered from git at 26838a27b^ and re-measured here, so this lane's before/after figures are its own measurements of both states rather than a reproduction of VF05's report.",
+  "builtAnything": true,
+  "packetsSelfVerified": false,
+  "repairsMade": 3,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "setsNoVerdict": "This is a repair lane. It sets no verdict on either family and claims no PASS. Independent re-verification of me-seal-survivor-set is owed to a lane that is not this one; ar-drug-court-set was not repaired here and its verification is owed against bytes this lane did not move.",
+  "areTheseTheBytesTheCentralRasterCarries": false,
+  "whyNotTheBytesTheCentralRasterCarries": "me-seal-survivor-set moved both fixtures in this lane, so every receipt the family has ever held binds a digest no longer on disk and it owes a fresh central raster. ar-drug-court-set was not rebuilt here; its four fixtures are byte-identical to HEAD, and two of them (both boundary fixtures) already differed from the digests VF05 pinned, having been moved by 26838a27b before this lane existed. This lane claims no receipt, produced no retained raster, and deleted every raster it rendered in the same session.",
+  "corpusMountUsed": "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1 (read only for source identity; not re-pinned here)",
+  "howBytesWereMeasured": "Pixels: pdftoppm -r 150 -gray writing binary P5 PGM directly, WITH annotation appearances drawn (no -hide-annotations), ink threshold 128 (a pixel with grey value < 128 is ink), read by a PGM reader written for this lane. Scope: all 3 pages of both me-seal-survivor-set fixtures, before against after, 6 page pairs, whole page, no masking; each raster deleted immediately after it was read. Glyph geometry: every flattened widget appearance and every AcroForm /AP /N appearance stream in all six ar-drug-court-set fixture states decoded with pikepdf 10.12.0, the drawn string read from Tj/TJ operators including hex strings, the font size read from the Tf operator, and the string width computed against the widget BBox. Text: pdftotext -layout, -raw and -bbox (poppler 24.02.0). Digests: sha256sum. Every digest reported here was produced by a tool in this lane, never transcribed from a report.",
+  "everyZeroHasAPositiveControl": "Yes, both zeros this lane reports carry a control it ran itself. (1) Raster zero: pages 3 of both me-seal-survivor-set fixtures measured 0 added and 0 removed pixels before against after. Control: one white pixel of new-canonical page 3 was forced to black and the same differ reported added=1, removed=0, bbox (600,800)-(600,800). The differ can see a single pixel, so the zero is a real zero. (2) Clipping zero: all four current ar-drug-court-set fixtures measured 0 appearances exceeding their widget BBox width. Control: the same detector, unchanged, was run on the pre-repair boundary bytes recovered from 26838a27b^ (sha256 cc5470f4faf9a92eafdf529e386f015015517514988ca1c7415a961668028f98 and 5ee9b46cac392fd7f6af81179084cf92906ed38d05578656057566d9f0dedd0f, the exact digests VF05 pinned) and fired on 10 appearances, reproducing VF05's case-number figure exactly - 118.05pt of text in a 104.85pt box. A detector that fires on the positive control and reports zero on the current bytes is reporting a real zero.",
+  "toleranceAndWhatItCanConceal": "The clipping measurement is reported at two tolerances and both read zero. TOL=0 asks whether the drawn string is wider than the widget BBox. TOL=-2 asks whether it is wider than BBox minus 2pt, which is the width actually visible: each appearance stream sets its clip path inset 1pt on each side (the streams read 'q 1 1 m 1 <h-1> l <w-1> <h-1> l <w-1> 1 l h W n'), and the text origin is at x=1. The stricter figure is the honest one and it is the one that governs. What neither figure can conceal: a string wider than its box, at any magnitude down to 0.01pt. What both would conceal: ink drawn OUTSIDE any widget appearance, vertical overflow, and a collision between two appearances that each individually fit - none of which this instrument measures. It is a per-appearance width test, not a page test, and it is not a substitute for a raster of the delivered page against its pinned source. This lane did not run that raster on ar-drug-court-set because it moved none of its bytes.",
+  "perWidgetAppearanceCounts": {
+    "ar-drug-court-set": {
+      "instrument": "flattened widget XObject appearance streams decoded; drawn string and Tf size read; string width computed against BBox width",
+      "preRepairBytesAt26838a27bCaret": {
+        "pre-adjudication-boundary.pdf": { "appearancesCarryingText": 15, "exceedingBBoxAtTol0": 5, "exceedingBBoxAtTolMinus2": 5 },
+        "post-adjudication-boundary.pdf": { "appearancesCarryingText": 9, "exceedingBBoxAtTol0": 5, "exceedingBBoxAtTolMinus2": 5 }
+      },
+      "currentBytesAtHEAD": {
+        "pre-adjudication-canonical.pdf": { "appearancesCarryingText": 15, "exceedingBBoxAtTol0": 0, "exceedingBBoxAtTolMinus2": 0 },
+        "pre-adjudication-boundary.pdf": { "appearancesCarryingText": 10, "exceedingBBoxAtTol0": 0, "exceedingBBoxAtTolMinus2": 0 },
+        "post-adjudication-canonical.pdf": { "appearancesCarryingText": 9, "exceedingBBoxAtTol0": 0, "exceedingBBoxAtTolMinus2": 0 },
+        "post-adjudication-boundary.pdf": { "appearancesCarryingText": 4, "exceedingBBoxAtTol0": 0, "exceedingBBoxAtTolMinus2": 0 }
+      },
+      "howTheZeroWasReached": "By refusal, not by fitting. Comparing the two states appearance by appearance, exactly the 10 overflowing writes lost their text and nothing else changed: no appearance was reflowed, resized or moved, and no appearance gained text. The 5 removed from each boundary fixture are the case number (118.05pt of text) and the petitioner's full legal name (196.06pt), the two values VF05 named."
+    },
+    "me-seal-survivor-set": null,
+    "meSeltSurvivorSetWhyNull": "Not measured. This lane's me-seal-survivor-set repair is a value reformat inside an existing write rect and a markdown rewrite; CLIPPING_AND_OVERLAP is not a granted obligation on this family and VF22 measured it PASS on the bytes this repair started from. A counter this lane did not measure is null, not 0."
+  },
+  "rasterPixelCounts": {
+    "me-seal-survivor-set": {
+      "parameters": "pdftoppm -r 150 -gray, binary P5 PGM, annotations drawn, ink threshold 128 of 255, whole page, no masking. Compared: the HEAD fixture against the fixture this lane built.",
+      "canonical": {
+        "page1": { "added": 325, "removed": 303, "addedBBoxPx150dpi": [427, 291, 528, 305], "removedBBoxPx150dpi": [427, 291, 530, 305] },
+        "page2": { "added": 336, "removed": 293, "addedBBoxPx150dpi": [415, 294, 516, 308], "removedBBoxPx150dpi": [415, 294, 518, 308] },
+        "page3": { "added": 0, "removed": 0, "addedBBoxPx150dpi": null, "removedBBoxPx150dpi": null }
+      },
+      "boundary": {
+        "page1": { "added": 325, "removed": 303, "addedBBoxPx150dpi": [427, 291, 528, 305], "removedBBoxPx150dpi": [427, 291, 530, 305] },
+        "page2": { "added": 336, "removed": 293, "addedBBoxPx150dpi": [415, 294, 516, 308], "removedBBoxPx150dpi": [415, 294, 518, 308] },
+        "page3": { "added": 0, "removed": 0, "addedBBoxPx150dpi": null, "removedBBoxPx150dpi": null }
+      },
+      "whatThisEstablishes": "The byte move is confined to two boxes about 101 by 14 px at 150 dpi - about 48 by 7 pt - one on each of pages 1 and 2, on both fixtures. That is the DOB string and nothing else. No ink appeared anywhere else on any page, no previously blank region gained ink, and page 3 is untouched in both directions. This is the check the survivor-route warning asks for: no identity fact reached a page that should be blank."
+    },
+    "ar-drug-court-set": null,
+    "arDrugCourtSetWhyNull": "Not measured. This lane moved none of this family's bytes, so there is no before/after raster to take, and a raster of the delivered pages against their pinned sources is a measurement this lane did not make. Null, not 0."
+  },
+  "grantsNothing": "This lane opened no commercial route, issued no receipt, set no verdict, promoted no build status, and touched no shared manifest under data/rcap-grade-a/packet-factory-24h/ outside its own fix159/ directory.",
+  "conditionsOnApprovedForLive": "Unchanged and not this lane's to move. me-seal-survivor-set additionally carries open source-acquisition gates and the open gate me_2264_7_cr308_warning_conflict, which the packet itself says makes it a review artifact that is not delivered to a participant.",
+  "outOfScopeObservedNotActedOn": [
+    "Both committed families were NOT reproducible from their committed builders at base 7dbe69631, and this was found by running each unmodified builder as a determinism control before editing anything. Neither builder is non-deterministic: each is byte-stable across consecutive runs, and both reproduce their PDF fixtures exactly. The drift is in the JSON records, and its cause for ar-drug-court-set is the shared library commit e258e47a0 'Measure a drawn string with the font the page actually uses' (2026-09-09), which landed after the family was last built (c656f17f5, 2026-09-05). Rerunning the AR builder at HEAD rewrites 11 effectiveLabel values in production-field-map.json, pushing 3 of them (City, State, Zip code on ACIC-PETITION-DRUG-COURT-PRE) into the synthetic fallback '<documentId> printed blank <name>' and losing a real printed caption on ACIC-PETITION-DRUG-COURT-PRE:Defendant Address Street 2. effectiveLabel is not participant-facing on this family - the guide is built from identifiedBy, and the builder asserts identifiedBy never contains 'printed blank' - so this is a record regression rather than a participant-copy one. This lane did not rebuild ar-drug-court-set and so did not import it.",
+    "The AR participant guide misquotes the printed line it tells the participant to find the blank by. In 4 places it prints 'charged with the oense(s) of' where the form prints 'charged with the offense(s) of'. Measured: pdftotext -bbox on the delivered ACIC-PETITION-DRUG-COURT-POST page gives 'o' ending at x=413.558 and 'ense(s' beginning at x=421.560, an 8.0pt gap of unmapped ink where the ff ligature is; the identical printed sentence in the sibling ORDER document in the same PDF extracts cleanly as 'charged with the offense(s) of'. The word on the page is 'offense(s)'. NOT REPAIRED: the loss is in the shared text extraction that 309 builders use, repairing it at cause is a shared-library change well outside this grant, and repairing it locally would require rebuilding ar-drug-court-set and importing the unrelated drift above.",
+    "The AR width refusals are recorded in reports/actual-writes.json (5 per boundary posture, each with its usable width and a participant-facing sentence) but do not appear in participant-instructions.md. Whether a given participant's name or case number overflows is runtime-dependent, so a statically generated guide arguably cannot carry it; this is left as an open question, not asserted as a defect.",
+    "The AR participant guide prints internal field identifiers such as `ACIC-PETITION-DRUG-COURT-POST:Sex` in backticks on every required-blank row. This is the PARTICIPANT_DOCUMENT_PRINTS_ROUTE_KEYS class, which the Captain tracks corpus-wide; ar-drug-court-set is not named in that record. Not acted on.",
+    "The VERIFIER_RETURNS.json row for ar-drug-court-set carries superseded: false, but VF05 verified at base 5de917b35 and both boundary fixtures were moved by 26838a27b afterwards. Its CLIPPING_AND_OVERLAP finding was measured on bytes that are no longer on disk. This is a ledger-currency matter for the Captain; this lane edited no shared manifest."
+  ],
+  "rows": [
+    {
+      "familyId": "me-seal-survivor-set",
+      "itemId": "me-seal-survivor-set",
+      "verdict": null,
+      "whyVerdictIsNull": "A repair lane cannot verify its own bytes. This lane repaired this family and sets no verdict on it.",
+      "jurisdiction": "ME",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/me/me-seal-survivor-set--official-pdf-fill",
+      "repairedHere": true,
+      "bytesMoved": true,
+      "freshCentralRasterOwed": true,
+      "deliveredDigestsHashedByThisLane": {
+        "fixtures/canonical.pdf": {
+          "before": "8c68fd472c6ecbf05e880299e4eeb9d1d6360739e99568040bc623c719f661b3",
+          "after": "55efeb2534e0b8ddb14514805fa299c0004970cb238d0e89c89b3f050635ceae"
+        },
+        "fixtures/boundary.pdf": {
+          "before": "b1f0e96409895339eba19a4ec5c563f01cec34b5cd8696993cce578f6840eb88",
+          "after": "220b2877b2232589fad019b48edcea55834c774ca8372889b9337dfc54e54747"
+        },
+        "reproducesBitIdenticallyOnASecondRebuildAtThisBase": true
+      },
+      "obligationFindings": {
+        "KNOWN_PREFILLS": {
+          "vf22Finding": "Placement right, format wrong. CR-307 prints 'Defendant's DOB (mm/dd/yyyy):' and CR-308 names the same widget 'Defendants DOB mmddyyyy', and the packet wrote '1991-04-17' in ISO-8601 on both fixtures, an undisclosed deviation from the official form's own printed instruction on a motion the participant signs.",
+          "measuredHereBeforeRepair": "Confirmed on the delivered bytes, not from the field map. pdftotext -layout on the HEAD fixtures reads \"Defendant's DOB (mm/dd/yyyy): 1991-04-17\" on packet page 1 (CR-307) and packet page 2 (CR-308) of BOTH fixtures. 4 instances. The literal '1991-04-17' occurred 4 times across the two fixtures.",
+          "repair": "The held fact is unchanged and still ISO-8601. A printed-format binding was added to the two DOB writes in scripts/build-census-v1-me-seal-survivor-set.mjs, driven by the format the form itself prints, and applied at the moment the value is drawn. Both the held value and the printed value are now recorded on each write in reports/actual-writes.json (heldValue, printedFormat, reformattedForPrintedCaption), so the conversion is disclosed rather than silent. A fact that does not parse as an ISO date is refused rather than guessed at.",
+          "measuredHereAfterRepair": "pdftotext -layout reads \"Defendant's DOB (mm/dd/yyyy): 04/17/1991\" on packet pages 1 and 2 of both fixtures. 4 of 4 instances corrected. The literal '1991-04-17' occurs 0 times in either delivered fixture.",
+          "finalState": "REPAIRED ON THE DELIVERED BYTES. No verdict set here.",
+          "movedBytes": true
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "vf22Finding": "The quantity FIX01 repaired is confirmed and is not what fails. All 11 manifest strings reach the guides verbatim. What fails is that two of them are addressed to the operator of the service and are printed to the participant under the heading 'You must supply these before you file'. Instance 1: the fee entry ending 'Confirm with the clerk and do not promise a refund.' Instance 2: the Documents-to-gather quote ending 'Frame the question so a no carries no implication, and never ask the participant to produce proof.' DEFECTS_NO_COUNTER_CAN_SEE, introduced by the repair.",
+          "countBefore": "11 of 11 manifest requiredBeforeFiling entries present verbatim in the delivered guidance, by whitespace-normalised exact substring match - the same method the verifier used - measured by this lane at base 7dbe69631 against participant-instructions.md and filing-instructions.md. The quantity was already at ceiling, so this repair had to hold 11 of 11 rather than raise it.",
+          "countAfter": "11 of 11, by the identical method and the identical script. No manifest string was reworded, reordered, split or paraphrased; every one is still an exact substring of the delivered guidance.",
+          "repair": "Three changes, none of which touch a verbatim string. (1) The record's list was moved out from under the heading 'You must supply these before you file' into its own heading, 'The record's own required-before-filing list', which states in terms that it is not a list of things the reader must supply and that it is written partly to the people who build and operate the service - the disclosure this packet already made 80 lines earlier for the self-help stop conditions. (2) Following the FIX152 precedent, each verbatim line gained an indented continuation naming the record's own step kind, taken from participantActionRequired.kind and matched on the description the record itself repeats into requiredBeforeFiling; the builder now FAILS the build if any entry stops matching exactly one such description. This is what makes 'none.' (notarize) and 'none expected, because no fee is expected.' (apply_fee_waiver) readable standing alone. (3) An entry that repeats wording the record also uses to instruct the builder gains a second indented line saying so and naming the shared clauses.",
+          "howTheOperatorDirectedEntriesWereIdentified": "From the records, not by this lane's reading. A legal-design limitation is by construction a rule the record sets for the builder, so an entry sharing a clause with one is carrying builder-directed wording. The test is clause-level containment of a legalDesignLimitations clause inside the entry, on lower-cased whitespace-normalised text, minimum clause length 18 characters. On this record it selects the fee entry and nothing else, naming the clauses 'confirm with the clerk' and 'do not promise a refund' as shared with the track's own limitation 'Treat as no fee, confirm with the clerk, and do not promise a refund...'. It reports what the two records share; it does not decide which clause is advice. Instance 2 needed no test: the Documents-to-gather block quotes a legalDesignLimitation directly, and it now says so.",
+          "finalState": "REPAIRED. Both instances VF22 named are addressed, and the 11-of-11 exact-match count is held. No verdict set here.",
+          "movedBytes": false
+        }
+      },
+      "alsoRepairedHereNotAGrantedObligation": {
+        "what": "Three rows under 'Choices only you can make' told the reader that CR-308 prints \"'X' the court for filing\" above its court boxes. It does not.",
+        "measured": "pdftotext -layout on the delivered bytes: packet page 1 (CR-307) prints the caption '“X” the court for filing:' above Superior Court / District Court / Unified Criminal Docket. Packet page 2 (CR-308) prints the same three court names with no caption above them, and the string 'the court for filing' occurs 0 times on that page.",
+        "cause": "A single COURT_BOX_ELECTION helper shared by both forms with CR-307 named in its text.",
+        "repair": "The helper now takes the form it is describing and each row describes the form it is actually on. Markdown and JSON records only; moved no PDF bytes.",
+        "whyItWasRepaired": "It is a measured misstatement about the form in the participant's hand, on a survivor route, in participant copy, and correcting it costs no bytes."
+      },
+      "governanceStatePreserved": {
+        "why": "This repair had to rebuild the family, and the unmodified builder was found to erase governance state on rebuild - the hazard recorded in REBUILD_ERASES_GOVERNANCE_STATE.json. Reverting that erasure was not optional: a rebuild that drops it is how the evidence disappears silently.",
+        "whatTheUnmodifiedBuilderDidOnRebuild": [
+          "Reverted lastIndependentVerification from vf22 at base 8db74d6e5 - the current controlling reading of these bytes - back to a hard-coded vf01 record at base 7d6453f51.",
+          "Replaced acceptanceReceiptWithdrawn, the append-only history recording BOTH the digest the receipt was bound to and the digest that replaced it, with a single supersededAcceptanceReceipt object naming only the first."
+        ],
+        "repair": "The six governance keys and the withdrawal history are now read from the committed product-wiring.json and carried forward rather than retyped as literals. appliesToTheCurrentBytes is recomputed against the rebuilt canonical digest rather than asserted, and currentCanonicalSha256 is recorded so a stale entry cannot read as current. The receipt is withdrawn and kept, never carried forward as though it still applied and never deleted.",
+        "checked": "scripts/rcap-packet-completeness/verify-governance-state-survives-rebuild.mjs: 296 product-wiring records compared against HEAD, 296 carrying governance state, 59 withdrawn receipts on the record, EVERY_GOVERNANCE_KEY_SURVIVED, exit 0. scripts/rcap-packet-completeness/test-governance-state-preserved-on-rebuild.mjs: all cases ok, exit 0.",
+        "twoRemainingDiffsThatAreTheBuildersDocumentedPositionNotAnErasure": [
+          "instrumentKinds becomes ['primary_filing','proposed_order'] instead of the MASTER_QUEUE label 'Maine § 2264(7) Survivor Sealing Motion'. The builder records the disagreement in declaredInstrumentKindMismatch rather than silently normalising it, and VF22 called this a record-naming disagreement and not a page defect.",
+          "sourceVersion loses a duplicate entry, 'source-sha256:c72e74f1...', which carries the same digest and the same tier as the 'official-form:CR-307' entry that remains. No source identity is lost."
+        ]
+      },
+      "determinismControl": "The unmodified builder was run first, before any edit. It reproduced both PDF fixtures byte-for-byte but did NOT leave git status --porcelain empty: it rewrote build-findings.json, product-wiring.json and source-receipt.json. Two of those were the governance erasure above; the third was an absolute worktree path baked into source-receipt.json (/home/user/pfa-worktree rewritten to /home/user/vfa-worktree), which is environment-dependent rather than a defect. After the repair, two consecutive rebuilds produce a byte-identical family directory.",
+      "verifierRun": {
+        "scripts/rcap-packet-completeness/verify-packet-completeness.mjs": "exit 0. Row: 'ok me-seal-survivor-set PASS_COMPLETE 10/30 written'. 294 families audited, 260 PASS_COMPLETE. This is the completeness auditor, not the obligation verifier, and PASS_COMPLETE here is not a verdict on the two granted obligations - VF22 recorded all nine counters at zero on bytes that failed two obligations.",
+        "scripts/grade-a-packet-factory-24h/verify.mjs": "exit 0 with 2 contract failures, both pre-existing and neither naming either granted family: F29 (wi_exp_cr266-set failed ROUTE_OPTIONS and is dispatched to no repair lane) and F34 (13 live verifier grants, 11 stale, naming VF02/ky_expungement_certification-set and VF08/pa_pardon_expungement-set and VF08/rcap-tx-custom-pleading)."
+      },
+      "whatMustBeRepairedBySomeoneElse": [
+        "Independent verification of these bytes. This lane repaired them and cannot verify them.",
+        "A fresh central raster. Both fixtures moved; every receipt this family has held binds a digest that is not on disk."
+      ]
+    },
+    {
+      "familyId": "ar-drug-court-set",
+      "itemId": "ar-drug-court-set",
+      "verdict": null,
+      "whyVerdictIsNull": "This lane holds a repair grant, not a verification grant, and it makes no finding of PASS. Both obligations VF05 failed were found already repaired at this lane's base by earlier lanes; establishing that is a measurement, not a verdict, and confirming it is owed to an independent lane.",
+      "jurisdiction": "AR",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ar/ar-drug-court-set--official-pdf-fill",
+      "repairedHere": false,
+      "bytesMoved": false,
+      "freshCentralRasterOwed": true,
+      "freshCentralRasterOwedWhy": "Not because of this lane. Both boundary fixtures were moved by 26838a27b after VF05 pinned them, so the digests VF05 recorded (pre-adjudication-boundary cc5470f4..., post-adjudication-boundary 5ee9b46c...) are not the digests on disk.",
+      "deliveredDigestsHashedByThisLane": {
+        "fixtures/pre-adjudication-canonical.pdf": { "before": "954fbaf9ef5109c70f8d91f5d9ae592261952bc425749302d20dd582462dea09", "after": "954fbaf9ef5109c70f8d91f5d9ae592261952bc425749302d20dd582462dea09" },
+        "fixtures/pre-adjudication-boundary.pdf": { "before": "d9ab88a45149e6a22215a48cb2ff4e397ca3e5499cc5d1a88d65511a2aed1bc4", "after": "d9ab88a45149e6a22215a48cb2ff4e397ca3e5499cc5d1a88d65511a2aed1bc4" },
+        "fixtures/post-adjudication-canonical.pdf": { "before": "568c6ddf4817e4679d6636b2cfa61f914915158f5dd55c138291e50f0f05ff5c", "after": "568c6ddf4817e4679d6636b2cfa61f914915158f5dd55c138291e50f0f05ff5c" },
+        "fixtures/post-adjudication-boundary.pdf": { "before": "4a8768dae5a22dd6b376161bf5e96185571a4c023f9cdb621ca785647d888422", "after": "4a8768dae5a22dd6b376161bf5e96185571a4c023f9cdb621ca785647d888422" },
+        "note": "before and after are identical because this lane moved none of this family's bytes."
+      },
+      "obligationFindings": {
+        "CLIPPING_AND_OVERLAP": {
+          "vf05Finding": "Eight writes across the two boundary assemblies exceed their measured write box - the case number '0123-45-2026-CR-900123.00-AB-CDE/2201' (118.05pt of text in a 104.85pt box) and the petitioner's full legal name. Because an AcroForm appearance is clipped at its BBox, the rendered page shows a silently truncated case number and name while the text layer still carries the whole string.",
+          "measuredHereOnTheBytesVF05MeasURED": "Reproduced from git at 26838a27b^. This lane's own detector fires on 10 overflowing appearances, 5 per boundary fixture: pre-adjudication +32.38, +24.82, +17.02, +1.29, +1.29 pt; post-adjudication +41.94, +36.00, +13.20, +12.82, +6.91 pt. The case-number figure reproduces VF05's exactly - 118.05pt of text, and the post-adjudication page-2 box measures 104.85pt. The name measures 196.06pt against VF05's 195.64pt, a 0.4pt difference attributable to the font width table used.",
+          "measuredHereOnCurrentBytes": "0 of 38 text-carrying appearances across all four fixtures exceed their BBox, at TOL=0 and at the stricter TOL=-2 that honours the 1pt clip inset on each side.",
+          "whoRepairedIt": "NOT THIS LANE. Commit 26838a27b, 'Fit or refuse every AR drug-court write, and label each blank by its own printed row', which landed after VF05's base 5de917b35.",
+          "howTheZeroWasReached": "By refusal, not by fitting. Appearance-by-appearance comparison of the two states shows exactly the 10 overflowing writes lost their text and nothing else changed - no appearance was reflowed, resized or moved, and none gained text. On the boundary fixtures the case number and petitioner name are therefore now BLANK on the delivered pages. That refusal is recorded, 5 per boundary posture, in reports/actual-writes.json with the usable width it was measured against and a participant-facing sentence.",
+          "finalState": "NOT FAILING ON THE CURRENT BYTES, by this lane's measurement, and repaired before this lane existed. No verdict set here; VF05's return was taken against bytes that no longer exist and is owed a fresh independent reading.",
+          "movedBytes": false
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "vf05Finding": "All 66 requiredBeforeFiling items appear, so a presence test passes; reading them defeats it. ACIC-PETITION-DRUG-COURT-POST:Sex carried effectiveLabel 'Race', so the guide printed two consecutive rows named 'Race' for that document, no row named 'Sex', and told the participant to supply Race against the Sex field. 43 further items were named by a mis-derived fragment of adjacent printed text; 57 of 66 had an effectiveLabel differing from the field name.",
+          "countBefore": "Measured by this lane at VF05's base 5de917b35: 66 REQUIRED_BEFORE_FILING items, 0 of 66 named in participant-instructions.md by a string that identifies the field, 8 with a degenerate effectiveLabel (punctuation-only or under 3 characters), and ACIC-PETITION-DRUG-COURT-POST:Sex carrying effectiveLabel 'Race' - VF05's decisive instance, confirmed.",
+          "countAfter": "Measured by this lane at base 7dbe69631 by the same method: 66 items, 66 of 66 now named by an identifying string present verbatim in the guide - an identifiedBy naming the field, its ordinal among the blanks on its printed line, that printed line quoted, and where the line carries no words, the line that introduces it. All four Sex fields carry effectiveLabel 'Sex'. 5 effectiveLabel values remain degenerate underscore runs, but effectiveLabel is not what the guide prints: each of the 5 renders through identifiedBy as an actionable instruction, and the builder asserts identifiedBy can never fall back to a synthetic name.",
+          "whoRepairedIt": "NOT THIS LANE. Commits 26838a27b and c656f17f5 (FIX49), both after VF05's base.",
+          "finalState": "NOT FAILING ON THE CURRENT RECORDS, by this lane's measurement, and repaired before this lane existed. One residual defect found and NOT repaired: the guide misquotes the printed line in 4 places as 'charged with the oense(s) of' where the form prints 'charged with the offense(s) of'. See outOfScopeObservedNotActedOn for the measurement and the reason it was not repaired here.",
+          "movedBytes": false
+        }
+      },
+      "determinismControl": "The unmodified builder was run first, before any edit. It reproduced all four PDF fixtures byte-for-byte but did NOT leave git status --porcelain empty: it rewrote build-findings.json, field-census.census-v1.json and production-field-map.json. The builder is deterministic run to run; the committed records are stale against it because shared library commit e258e47a0 landed after the family was last built. This lane made no edit to this family and so committed none of that drift.",
+      "verifierRun": {
+        "scripts/rcap-packet-completeness/verify-packet-completeness.mjs": "exit 0. Row: 'ok ar-drug-court-set PASS_COMPLETE 22/190 written'. Same caveat as for Maine: this is the completeness auditor, not the obligation verifier."
+      },
+      "whatMustBeRepairedBySomeoneElse": [
+        "The 'oense(s)' misquote, at cause in the shared text extraction, or locally by a lane willing to own the shared-library drift a rebuild of this family now imports.",
+        "The 11-value effectiveLabel drift a rebuild at HEAD imports, 3 of which fall through to a synthetic '<documentId> printed blank <name>' label.",
+        "A fresh independent verification. VF05's return is against bytes that no longer exist, and its ledger row still reads superseded: false.",
+        "A fresh central raster covering the current four digests."
+      ]
+    }
+  ],
+  "grantsReleased": ["me-seal-survivor-set", "ar-drug-court-set"]
+}

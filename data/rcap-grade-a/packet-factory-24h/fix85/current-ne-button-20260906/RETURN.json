@@ -1,0 +1,48 @@
+{
+  "status": "EXISTING_MECHANISM_PROVEN",
+  "scope": "Exact NE DC1:15 printed Button63.0 dependency only; no packet repair or independent verdict",
+  "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+  "sourceByteLength": 8485306,
+  "branch": "codex/fix85-fix89-pa-va-repair",
+  "baseSha": "93506865bf4da166467eb7ecf7014fe69039c0f6",
+  "existingCallerOptions": {
+    "appearanceDispositions": [
+      [
+        "Button63.0",
+        "preserve_source_appearance"
+      ]
+    ],
+    "detachNestedControlFields": true
+  },
+  "newSharedOption": false,
+  "testCommand": "NE_PRINTED_BUTTON_SOURCE=<exact bound NE DC1:15 PDF> NODE_PATH=/tmp/fix91-tools/node_modules node scripts/grade-a-packet-factory-24h/test-printed-source-buttons.mjs",
+  "exitCode": 0,
+  "comparisons": {
+    "box": {
+      "left": 53,
+      "top": 1258,
+      "width": 224,
+      "height": 92
+    },
+    "preservedDelta": 0,
+    "shallowDelta": 3679,
+    "deepDelta": 17845,
+    "nonprintingBox": {
+      "left": 1033,
+      "top": 90,
+      "width": 300,
+      "height": 84
+    },
+    "nonprintingInk": 0
+  },
+  "visuallyInspected": [
+    "source-crop.png",
+    "preserved-crop.png",
+    "suppressed-shallow-crop.png",
+    "suppressed-deep-crop.png"
+  ],
+  "remaining": "NE owner must opt existing caller in and run actual family finalizer/rebuild/check/source comparison, followed by independent review and current central raster. This direct sanitizer regression does not claim those boundaries passed.",
+  "publicationImplications": "This focused step changes only a regression and author evidence, no runtime dependency. The separate NE caller change and prior PA shared changes still require any applicable worker fingerprint/publication.",
+  "routesOpened": 0,
+  "productionTouched": "NO"
+}

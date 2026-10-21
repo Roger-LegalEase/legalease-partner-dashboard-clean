@@ -1,0 +1,30 @@
+{
+  "familyId": "nj_ordinance-set",
+  "candidateCommit": "ade93f966ff24110216a65d4a33850fbcc9815bf",
+  "decision": "HOLD_UNINTEGRATED",
+  "terminalEarned": false,
+  "findings": [
+    {
+      "id": "NJ-INTEGRATION-01",
+      "finding": "participantInstructions changes required-facts prose unconditionally, leaking CN-10557 full-history instructions into non-NJ families on the shared host.",
+      "action": "Guard NJ-only prose and demonstrate unchanged non-NJ instructions.",
+      "evidence": "candidate scripts/build-census-v1-nj_arrest_no_conviction-set.mjs participantInstructions"
+    },
+    {
+      "id": "NJ-INTEGRATION-02",
+      "finding": "njParticipantRequirement labels participant later court-copy, service-recipient and actual mailing tasks REQUIRED_BEFORE_FILING and requiredBeforeFiling=true. requiredBeforeInitialFiling=false/completionStage are not forwarded or consumed by the completeness reader. A green mechanical verdict does not resolve the independent timing failure.",
+      "action": "Represent actor and actual completion stage truthfully in both map and reader. Existing LATER_COMPLETION describes court/clerk acts; a participant later-task concept is absent. Do not mislabel the actor, preserve contradictory required flags, or relax acceptance to obtain zeros. Resolve this engineering concept before the three failed obligations are rechecked.",
+      "evidence": [
+        "candidate scripts/build-census-v1-nj_arrest_no_conviction-set.mjs njParticipantRequirement",
+        "scripts/rcap-packet-completeness/verify-packet-completeness.mjs normalized declared fields",
+        "scripts/rcap-packet-completeness/completeness-contract.mjs BLANK_DISPOSITIONS.LATER_COMPLETION and classifyBlank"
+      ]
+    }
+  ],
+  "unchangedEvidence": {
+    "pdfsUnchanged": true,
+    "rasterRun": "34292115043",
+    "independentPassObligationsReusable": 12
+  },
+  "ownership": "PF26 currently owns active shared-host writes for PA; FIX03 return remains preserved without concurrent shared-host editing."
+}

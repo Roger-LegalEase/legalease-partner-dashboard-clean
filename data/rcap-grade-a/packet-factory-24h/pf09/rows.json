@@ -1,0 +1,202 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-rows/v1",
+  "assignmentId": "PF09",
+  "workerId": "CODEX-CS2-PF09-FL-TRAFFICKING",
+  "lane": "packet-build",
+  "engine": "Codex Codespaces worker",
+  "shiftBaseSha": "e10890c114ef6f46907efa9fa660493700ecead1",
+  "branch": "codex/cs2-pf09-fl-trafficking-e108",
+  "familiesAssigned": 1,
+  "rowsReturned": 1,
+  "preflight": {
+    "command": "node scripts/verify-packet-build-environment.mjs --family fl-trafficking-set",
+    "mode": "normal Codespaces mode",
+    "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 10/13 passed, 3 failed, 4 not applicable",
+    "familySourcesBind": "PASS: fl-trafficking-set is a zero-source composition (CUSTOM_PLEADING_FROM_CODIFIED_TEXT)",
+    "globalFailures": [
+      "master_library_mounted: absent at private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
+      "master_library_complete: the corpus root cannot be walked because it is absent",
+      "corpus_matches_committed_index: the corpus root cannot be walked; nothing to compare"
+    ],
+    "treatment": "No source acquisition was authorized or performed. The family-specific zero-source gate passed, so this build used only committed codified-text/legal-design records and wrote only its owned paths."
+  },
+  "selfVerification": "none. The required completeness command was run as a builder diagnostic; no independent verification, raster acceptance, legal approval, source-authority approval, or release verdict is claimed.",
+  "rasterRule": "No page raster was produced. The exact canonical and boundary hashes are returned for central raster review, and the family remains BUILT_RASTER_PENDING.",
+  "rows": [
+    {
+      "itemId": "fl-trafficking-set",
+      "status": "COMPLETED",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "familyKind": "packet_family",
+      "jurisdiction": "FL",
+      "routeKeys": [
+        "obligation:track-pathway:FL:fl-trafficking:human-trafficking-victim-expunction-943-0583"
+      ],
+      "implementationStrategy": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/fl/fl-trafficking-set--custom-pleading",
+      "buildScript": "scripts/build-census-v1-fl-trafficking-set.mjs",
+      "componentSet": [
+        "FL-RULE-3.989-PETITION",
+        "FL-RULE-3.9895-SWORN-STATEMENT",
+        "FL-RULE-3.989-ORDER"
+      ],
+      "sourcesBound": [],
+      "sourceBinariesRequired": 0,
+      "sourceAcquisitionPerformed": false,
+      "fieldMapArithmetic": {
+        "terminalFields": 49,
+        "written": 9,
+        "blank": 40,
+        "requiredBeforeFiling": 25,
+        "protectedOrCourtOwned": 15,
+        "checks": "9 written + 40 blank = 49 terminal fields; all 40 blanks carry an allowed closed-vocabulary disposition"
+      },
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "allNineCountersZero": true,
+      "participantFacingObligations": {
+        "FILING_DESTINATION": {
+          "answer": "File in any court in the Florida circuit where the arrest occurred that has jurisdiction over the class of the offense or offenses requested for expunction.",
+          "disclosedIn": "filing-instructions.md"
+        },
+        "FEE_AND_WAIVER": {
+          "answer": "The committed pathway record states that the clerk may not charge filing, service, or copy fees for a section 943.0583 petition. The instructions still direct the participant to confirm the clerk's current intake procedure and local copy requirements.",
+          "disclosedIn": "filing-instructions.md"
+        },
+        "SERVICE": {
+          "answer": "The committed legal-design record does not establish a separate statewide service instruction for this petition; the participant is directed to ask the filing clerk about any local copy or service step.",
+          "disclosedIn": "filing-instructions.md"
+        },
+        "SELF_HELP_STOP": {
+          "answer": "Stop for disputed victim status, prosecutor opposition, a contested or evidentiary hearing, individualized advocacy, uncertainty whether an offense is excluded, or any immigration issue.",
+          "disclosedIn": "participant-instructions.md"
+        }
+      },
+      "builderObligations": [
+        {
+          "obligation": "ROUTE_IDENTITY",
+          "state": "BUILT_RASTER_PENDING",
+          "evidence": "The exact route key appears in the field map, packet-set manifest, both instruction files, and every composed component."
+        },
+        {
+          "obligation": "SOURCE_IDENTITY",
+          "state": "BUILT_RASTER_PENDING",
+          "evidence": "The source receipt records zero binaries, CUSTOM_PLEADING_FROM_CODIFIED_TEXT, acquisitionCommissioned false, and allSourcesExact true vacuously."
+        },
+        {
+          "obligation": "COMPONENT_SET",
+          "state": "BUILT_RASTER_PENDING",
+          "evidence": "Both fixtures render FL-RULE-3.989-PETITION, FL-RULE-3.9895-SWORN-STATEMENT, and FL-RULE-3.989-ORDER in the declared page order."
+        },
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "state": "BUILT_RASTER_PENDING",
+          "evidence": "Nine declared writes are read back from the final PDF bytes on their own component pages."
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "state": "BUILT_RASTER_PENDING",
+          "evidence": "Twenty-five case, venue, and proof facts are declared REQUIRED_BEFORE_FILING and disclosed verbatim in participant-instructions.md."
+        },
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "state": "BUILT_RASTER_PENDING",
+          "evidence": "EXPUNCTION under section 943.0583 is printed and recorded as route-determined; sealing and ordinary Florida routes are not offered as participant choices."
+        },
+        {
+          "obligation": "REPEATING_ROWS",
+          "state": "BUILT_RASTER_PENDING",
+          "evidence": "The record block is wholly required-before-filing and the instructions require a complete duplicated block for every additional case; no partially written row is represented as complete."
+        },
+        {
+          "obligation": "PROTECTED_FIELDS",
+          "state": "BUILT_RASTER_PENDING",
+          "evidence": "Participant signature/date, sworn/notary fields, judicial findings, order scope/date, judge fields, and clerk fields are refused and carry no declared write."
+        },
+        {
+          "obligation": "ARTIFACTS",
+          "state": "BUILT_RASTER_PENDING",
+          "evidence": "Canonical and boundary five-page PDFs were built twice with identical hashes and lengths."
+        },
+        {
+          "obligation": "PARTICIPANT_AND_FILING_INSTRUCTIONS",
+          "state": "BUILT_RASTER_PENDING",
+          "evidence": "participant-instructions.md and filing-instructions.md cover completion, venue, fee, proof, local-procedure checks, protected fields, and self-help stops."
+        }
+      ],
+      "artifactsForRasterBatch": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/fl/fl-trafficking-set--custom-pleading/fixtures/canonical.pdf",
+          "sha256": "dca3cd333f061c7b80176b5a815fd6266e8882ea51e6aa8e7e8e8ec7f6084570",
+          "byteLength": 13255,
+          "pageCount": 5
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/fl/fl-trafficking-set--custom-pleading/fixtures/boundary.pdf",
+          "sha256": "0ca00f36b857d97471e0ed2b5372c5501c796729aa9315a30e002b3801012e6a",
+          "byteLength": 13527,
+          "pageCount": 5
+        }
+      ],
+      "determinism": {
+        "builtTwice": true,
+        "canonicalHashEqual": true,
+        "canonicalByteLengthEqual": true,
+        "boundaryHashEqual": true,
+        "boundaryByteLengthEqual": true,
+        "method": "deterministic PDF dates and metadata; before/after SHA-256 and byte-length equality asserted in the build worktree"
+      },
+      "requiredCompletenessCommand": {
+        "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family fl-trafficking-set",
+        "result": "PASS_COMPLETE",
+        "countersZero": true,
+        "builderDiagnosticOnly": true
+      },
+      "selfVerified": false,
+      "packetsSelfVerified": 0,
+      "claimReleased": false,
+      "centralGeneratedStateEdited": false,
+      "legalOrSourceAuthorityEdited": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "composed-treatment:nc_146_dismissal_petition",
+      "status": "STOPPED",
+      "verdict": "BLOCKED_LEGAL_INPUT",
+      "worker": "CODEX-CS2-PF09-NC-IN",
+      "workerBranch": "codex/cs2-pf09-nc-in-3db",
+      "workerCommit": "6272cb1c715336490ffd16c122fe2a1632c21d1e",
+      "claim": "CLAIM_OK PF09 composed-treatment:nc_146_dismissal_petition (packet-build, grant set e5af0a189c908787)",
+      "routeKeys": [
+        "obligation:track-branch:NC:nc_146_dismissal_petition:dna-expunction-application-15a-146-b1"
+      ],
+      "decisiveConflict": "The assigned runtime route is the distinct G.S. 15A-146(b1) DNA-expunction application, while the pinned proposed primary filing AOC-CR-287 identifies only G.S. 15A-146(a) and (a1) dismissed-charge relief on its printed face.",
+      "exactLegalQuestion": "What exact filing instrument, component set, filing destination, fee treatment, and service method are approved for the G.S. 15A-146(b1) DNA-expunction route; specifically, is AOC-CR-287 legally usable for that route despite its printed (a)/(a1) scope, or must the route use a different instrument?",
+      "whyStopped": "A source with a conflicting printed statutory identity cannot be promoted as this route's filing instrument. The worker's proposed packet bytes are preserved on its pushed branch but were not integrated.",
+      "overlayDirectoryTouched": false,
+      "artifacts": [],
+      "claimReleaseRequired": true,
+      "packetsSelfVerified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    }
+  ],
+  "supersededAtReusedPath": {
+    "previousWorkerId": "FABLE-PB",
+    "previousShiftBaseSha": "ee5bdb5b56d69c00750663087e5e8c5a6d144acf",
+    "previousCurrentRow": "ms-diversion-set",
+    "preservation": "preserved in Git history; excluded from this exact one-family PF09 return"
+  }
+}

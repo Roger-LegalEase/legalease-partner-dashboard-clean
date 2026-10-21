@@ -1,0 +1,31 @@
+name: ChatGPT one-shot dispatch Florida bridge Texas automatic raster
+
+on:
+  push:
+    paths:
+      - .github/workflows/chatgpt-one-shot-dispatch-fl-bridge-tx-auto-20260911.yml
+
+permissions:
+  actions: write
+  contents: read
+
+jobs:
+  dispatch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dispatch pinned Florida bridge and Texas automatic raster
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ github.token }}
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'rcap-packet-raster-acceptance-batch.yml',
+              ref: 'claude/legalease-sprint-captain-utucnw',
+              inputs: {
+                commit_sha: '45bbfb5e86a19b40f55833792564ab86019147f5',
+                raster_manifest_path: 'data/rcap-grade-a/packet-factory-24h/checkpoint-232-to-250/fl-bridge-tx-automatic-raster-manifest-20260911.json'
+              }
+            });
+            core.info('Dispatched Florida bridge + Texas automatic raster pinned to 45bbfb5e86a19b40f55833792564ab86019147f5');

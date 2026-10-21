@@ -1,0 +1,221 @@
+{
+  "schemaVersion": "rcap-grade-a-wave-2-independent-verification/v1",
+  "assignmentId": "V4_INDEPENDENT_PACKET_VERIFICATION",
+  "assignmentReadFrom": "cbdfcd9ef9356182085ec1686e9084b244d5dc79:data/rcap-grade-a/launch-control/WAVE_2_ASSIGNMENTS.json",
+  "captainBaseSha": "ebb99d663f857f58a173c1d29eb73d0f15e70cbd",
+  "builderEvidenceCommit": "36e7a6a59449692329a6e0c31ab74f33fff96564",
+  "laneStop": null,
+  "sourceBootstrap": {
+    "environmentFile": "private/source-corpus-environment.txt",
+    "masterLibrarySourceDir": "/workspaces/.legalease-source-corpus/Expungement_AI_RCAP_Master_Library_Edition_1",
+    "observedShape": "51 jurisdictions; 499 files excluding .DS_Store; 329 PDFs",
+    "officialFormsSourceDir": "intentionally unset",
+    "result": "CORPUS_BOUND"
+  },
+  "preflightProtocol": {
+    "beforeEveryFamily": "source private/source-corpus-environment.txt; export MASTER_LIBRARY_SOURCE_DIR=\"$RCAP_BUNDLE_EXTRACT\"; unset OFFICIAL_FORMS_SOURCE_DIR; node scripts/verify-packet-build-environment.mjs --family <family>",
+    "requiredAndObservedResult": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing passed, 0 failed, 1 not applicable"
+  },
+  "rows": [
+    {
+      "itemId": "ca-1203-42-set",
+      "verdict": "BLOCKED_LEGAL_APPROVAL_INPUT",
+      "preflight": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing passed, 0 failed, 1 not applicable; family_sources_bind 4/4",
+      "rowStop": "Obligation 1: the controlling Master Library forbids mapping California form assets to eligibility tracks until the missing state legal-design review is supplied.",
+      "proofObligations": {
+        "exact route identity": {
+          "status": "BLOCKED_LEGAL_APPROVAL_INPUT",
+          "observed": "The build claims obligation:track-only:CA:ca-1203-42. The controlling CA README says no state legal review was supplied and existing form assets must not be mapped to eligibility tracks until that release-blocking review is supplied.",
+          "readFrom": ["data/rcap-all50/overlays/census-v1/ca/ca-1203-42-set--official-pdf-fill/approval-request.json", "$MASTER_LIBRARY_SOURCE_DIR/STATES/CA/STATE_README.md"]
+        },
+        "exact packet-family identity": {"status":"NOT_EVALUATED_DUE_TO_ROW_STOP","observed":"Stopped at obligation 1; no PASS asserted.","readFrom":"proofObligations.exact route identity"},
+        "source identities and SHA-256 values": {"status":"NOT_EVALUATED_DUE_TO_ROW_STOP","observed":"Stopped at obligation 1; preflight separately bound 4/4 sources before evaluation.","readFrom":["proofObligations.exact route identity","packet preflight"]},
+        "complete component set": {"status":"NOT_EVALUATED_DUE_TO_ROW_STOP","observed":"Stopped at obligation 1; no PASS asserted.","readFrom":"proofObligations.exact route identity"},
+        "correct official form or approved composer": {"status":"NOT_EVALUATED_DUE_TO_ROW_STOP","observed":"Stopped at obligation 1; no PASS asserted.","readFrom":"proofObligations.exact route identity"},
+        "canonical and boundary artifact hashes": {"status":"NOT_EVALUATED_DUE_TO_ROW_STOP","observed":"Stopped at obligation 1; no PASS asserted.","readFrom":"proofObligations.exact route identity"},
+        "actual-write verification": {"status":"NOT_EVALUATED_DUE_TO_ROW_STOP","observed":"Stopped at obligation 1; no PASS asserted.","readFrom":"proofObligations.exact route identity"},
+        "zero protected-field writes": {"status":"NOT_EVALUATED_DUE_TO_ROW_STOP","observed":"Stopped at obligation 1; no PASS asserted.","readFrom":"proofObligations.exact route identity"},
+        "signatures and service blocks preserved": {"status":"NOT_EVALUATED_DUE_TO_ROW_STOP","observed":"Stopped at obligation 1; no PASS asserted.","readFrom":"proofObligations.exact route identity"},
+        "page count and page order": {"status":"NOT_EVALUATED_DUE_TO_ROW_STOP","observed":"Stopped at obligation 1; no PASS asserted.","readFrom":"proofObligations.exact route identity"},
+        "no clipping or overlap": {"status":"NOT_EVALUATED_DUE_TO_ROW_STOP","observed":"Stopped at obligation 1; no PASS asserted.","readFrom":"proofObligations.exact route identity"},
+        "fee and waiver treatment": {"status":"NOT_EVALUATED_DUE_TO_ROW_STOP","observed":"Stopped at obligation 1; no PASS asserted.","readFrom":"proofObligations.exact route identity"},
+        "filing destination": {"status":"NOT_EVALUATED_DUE_TO_ROW_STOP","observed":"Stopped at obligation 1; no PASS asserted.","readFrom":"proofObligations.exact route identity"},
+        "service and notice": {"status":"NOT_EVALUATED_DUE_TO_ROW_STOP","observed":"Stopped at obligation 1; no PASS asserted.","readFrom":"proofObligations.exact route identity"},
+        "later-completion fields": {"status":"NOT_EVALUATED_DUE_TO_ROW_STOP","observed":"Stopped at obligation 1; no PASS asserted.","readFrom":"proofObligations.exact route identity"},
+        "no stale artifact": {"status":"NOT_EVALUATED_DUE_TO_ROW_STOP","observed":"Stopped at obligation 1; no PASS asserted.","readFrom":"proofObligations.exact route identity"},
+        "no wrong-route reuse": {"status":"NOT_EVALUATED_DUE_TO_ROW_STOP","observed":"Stopped at obligation 1; no PASS asserted.","readFrom":"proofObligations.exact route identity"},
+        "no source substitution": {"status":"NOT_EVALUATED_DUE_TO_ROW_STOP","observed":"Stopped at obligation 1; no PASS asserted.","readFrom":"proofObligations.exact route identity"},
+        "commercial status remains closed": {"status":"NOT_EVALUATED_DUE_TO_ROW_STOP","observed":"Stopped at obligation 1; lane audit independently observed zero routes opened.","readFrom":["proofObligations.exact route identity","data/rcap-grade-a/launch-control/C11_RETURN_REVIEW.json"]}
+      }
+    },
+    {
+      "itemId": "nj_arrest_no_conviction-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "preflight": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing passed, 0 failed, 1 not applicable; family_sources_bind 1/1",
+      "rowStop": "Obligation 7: production-field-map.json elects dismissal without a disposition fact although the exact route also covers acquittal and other nonconviction dispositions.",
+      "proofObligations": {
+        "exact route identity": {"status":"EVALUATED","observed":"obligation:track-pathway:NJ:nj_arrest_no_conviction:arrest-dismissal-and-other-non-conviction-expungement-under-n-j-s-a-2c-52-6","readFrom":["data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json","data/rcap-all50/overlays/census-v1/nj/nj-arrest-no-conviction-set--official-pdf-fill/source-receipt.json"]},
+        "exact packet-family identity": {"status":"EVALUATED","observed":"nj_arrest_no_conviction-set agrees across receipt, findings, field map, and reports.","readFrom":"data/rcap-all50/overlays/census-v1/nj/nj-arrest-no-conviction-set--official-pdf-fill/"},
+        "source identities and SHA-256 values": {"status":"EVALUATED","observed":"NJ-CN-10557 at STATES/NJ/02_PACKET_FORMS/NJ__FORM__CN-10557__cn-10557-new-jersey-expungement-kit__REV-2020-06__EN.pdf; c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7; 1,924,831 bytes; bound 1/1.","readFrom":["data/rcap-all50/overlays/census-v1/nj/nj-arrest-no-conviction-set--official-pdf-fill/source-receipt.json","$MASTER_LIBRARY_SOURCE_DIR/STATES/NJ/STATE_MANIFEST.csv","packet preflight"]},
+        "complete component set": {"status":"EVALUATED","observed":"The 43-page CN-10557 kit contains the petition, statements, order for hearing, proposed order, proof/service material, and instructions identified for Track 1.","readFrom":["$MASTER_LIBRARY_SOURCE_DIR/STATES/NJ/01_LEGAL_REVIEW/NJ__LEGAL-REVIEW__STATEWIDE__new-jersey-record-clearing-legal-review__ASOF-2026-08-01__EN.md","source-receipt.json"]},
+        "correct official form or approved composer": {"status":"EVALUATED","observed":"CN-10557 is the official statewide Judiciary kit acquired 2026-08-02 from the official njcourts.gov form URL as candidate_current_source.","readFrom":"$MASTER_LIBRARY_SOURCE_DIR/STATES/NJ/STATE_MANIFEST.csv"},
+        "canonical and boundary artifact hashes": {"status":"EVALUATED","observed":{"canonical":"b3c21cc9c11cd3ead5ca39cd155ec84562e8dd6fc4d855674dfd34ae85799c8e; 566230 bytes; 43 pages","boundary":"9b56176b9e8ae246e046b70e6b897e95929e329a59d2cf6fda03992fd3416d65; 566334 bytes; 43 pages","independentRehash":"both matched"},"readFrom":"data/rcap-all50/overlays/census-v1/nj/nj-arrest-no-conviction-set--official-pdf-fill/reports/rendered-artifacts.json plus sha256sum"},
+        "actual-write verification": {"status":"FAIL_REPAIR_REQUIRED","observed":"Artifact bytes contain the documented safe text and an X in control dismiss. The field map sets dismiss to measured_route_selection with factId=null, so dismissal is unconditional. The controlling route covers dismissal, acquittal, and charges otherwise not resulting in conviction. No disposition fact or alternate election exists; this is an observable write defect.","readFrom":["data/rcap-all50/overlays/census-v1/nj/nj-arrest-no-conviction-set--official-pdf-fill/reports/actual-writes.json","data/rcap-all50/overlays/census-v1/nj/nj-arrest-no-conviction-set--official-pdf-fill/production-field-map.json","$MASTER_LIBRARY_SOURCE_DIR/STATES/NJ/01_LEGAL_REVIEW/NJ__LEGAL-REVIEW__STATEWIDE__new-jersey-record-clearing-legal-review__ASOF-2026-08-01__EN.md"]},
+        "zero protected-field writes": {"status":"NOT_EVALUATED_DUE_TO_ROW_STOP","observed":"Stopped at obligation 7; no PASS asserted.","readFrom":"proofObligations.actual-write verification"},
+        "signatures and service blocks preserved": {"status":"NOT_EVALUATED_DUE_TO_ROW_STOP","observed":"Stopped at obligation 7; no PASS asserted.","readFrom":"proofObligations.actual-write verification"},
+        "page count and page order": {"status":"NOT_EVALUATED_DUE_TO_ROW_STOP","observed":"Stopped at obligation 7; no PASS asserted.","readFrom":"proofObligations.actual-write verification"},
+        "no clipping or overlap": {"status":"NOT_EVALUATED_DUE_TO_ROW_STOP","observed":"Stopped at obligation 7; no PASS asserted.","readFrom":"proofObligations.actual-write verification"},
+        "fee and waiver treatment": {"status":"NOT_EVALUATED_DUE_TO_ROW_STOP","observed":"Stopped at obligation 7; no PASS asserted.","readFrom":"proofObligations.actual-write verification"},
+        "filing destination": {"status":"NOT_EVALUATED_DUE_TO_ROW_STOP","observed":"Stopped at obligation 7; no PASS asserted.","readFrom":"proofObligations.actual-write verification"},
+        "service and notice": {"status":"NOT_EVALUATED_DUE_TO_ROW_STOP","observed":"Stopped at obligation 7; no PASS asserted.","readFrom":"proofObligations.actual-write verification"},
+        "later-completion fields": {"status":"NOT_EVALUATED_DUE_TO_ROW_STOP","observed":"Stopped at obligation 7; no PASS asserted.","readFrom":"proofObligations.actual-write verification"},
+        "no stale artifact": {"status":"NOT_EVALUATED_DUE_TO_ROW_STOP","observed":"Stopped at obligation 7; no PASS asserted.","readFrom":"proofObligations.actual-write verification"},
+        "no wrong-route reuse": {"status":"NOT_EVALUATED_DUE_TO_ROW_STOP","observed":"Stopped at obligation 7; wrong disposition election already recorded at the first decisive obligation.","readFrom":"proofObligations.actual-write verification"},
+        "no source substitution": {"status":"NOT_EVALUATED_DUE_TO_ROW_STOP","observed":"Stopped at obligation 7; no PASS asserted.","readFrom":"proofObligations.actual-write verification"},
+        "commercial status remains closed": {"status":"NOT_EVALUATED_DUE_TO_ROW_STOP","observed":"Stopped at obligation 7; lane audit independently observed zero routes opened.","readFrom":["proofObligations.actual-write verification","data/rcap-grade-a/launch-control/C11_RETURN_REVIEW.json"]}
+      }
+    },
+    {
+      "itemId": "oh_marijuana_expungement-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "preflight": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing passed, 0 failed, 1 not applicable; family_sources_bind 1/1",
+      "rowStop": "Obligation 5: the composer hardcodes R.C. 2953.321 even though the controlling review proves that is the wrong section and says both the correct authority and filing vehicle remain unresolved.",
+      "proofObligations": {
+        "exact route identity": {"status":"EVALUATED","observed":"obligation:track-pathway:OH:oh_marijuana_expungement:marijuana-hashish-possession-expungement-under-2953-321 is the exact assigned/build key; its legal error is tested at obligation 5.","readFrom":"data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/source-receipt.json"},
+        "exact packet-family identity": {"status":"EVALUATED","observed":"oh_marijuana_expungement-set agrees across receipt, pleading config, approval request, and reports.","readFrom":"data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/"},
+        "source identities and SHA-256 values": {"status":"EVALUATED","observed":"OH-BCI-SEALING-EXPUNGEMENT-REQUEST at STATES/OH/04_SUPPORTING_PROCESS/OH__SUPPORT__OH-BCI-SEALING-EXPUNGEMENT-REQUEST__re-sealing-and-or-expungements__REV-UNKNOWN__EN.pdf; 9234ec763403b1ccfbed796dfcf86f29bf7887390d1770460d0bcc9da31fc8cb; 235789 bytes; bound 1/1.","readFrom":["data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/source-receipt.json","packet preflight"]},
+        "complete component set": {"status":"EVALUATED","observed":"The builder-declared set contains the three-page composed review pleading/order and unchanged one-page BCI post-order companion; correctness of the selected vehicle is separate at obligation 5.","readFrom":"data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/reports/rendered-artifacts.json"},
+        "correct official form or approved composer": {"status":"FAIL_REPAIR_REQUIRED","observed":"The pleading cites R.C. 2953.321. The controlling review says that citation is wrong, the correct SB 56 section is unresolved, output strategy is undetermined and likely local official_pdf_fill, and no Ohio track is custom_pleading. The builder labels this output artifact-only/not filing-ready. The composer is not approved and is observably wrong.","readFrom":["$MASTER_LIBRARY_SOURCE_DIR/STATES/OH/01_LEGAL_REVIEW/OH__LEGAL-REVIEW__STATEWIDE__ohio-record-clearing-legal-review__ASOF-2026-08-01__EN.md","$MASTER_LIBRARY_SOURCE_DIR/STATES/OH/STATE_README.md","data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/tracks/oh_marijuana_expungement/rendered/canonical/canonical.txt","data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/tracks/oh_marijuana_expungement/rendered/canonical/render-report.json"]},
+        "canonical and boundary artifact hashes": {"status":"NOT_EVALUATED_DUE_TO_ROW_STOP","observed":"Stopped at obligation 5; no PASS asserted.","readFrom":"proofObligations.correct official form or approved composer"},
+        "actual-write verification": {"status":"NOT_EVALUATED_DUE_TO_ROW_STOP","observed":"Stopped at obligation 5; no PASS asserted.","readFrom":"proofObligations.correct official form or approved composer"},
+        "zero protected-field writes": {"status":"NOT_EVALUATED_DUE_TO_ROW_STOP","observed":"Stopped at obligation 5; no PASS asserted.","readFrom":"proofObligations.correct official form or approved composer"},
+        "signatures and service blocks preserved": {"status":"NOT_EVALUATED_DUE_TO_ROW_STOP","observed":"Stopped at obligation 5; no PASS asserted.","readFrom":"proofObligations.correct official form or approved composer"},
+        "page count and page order": {"status":"NOT_EVALUATED_DUE_TO_ROW_STOP","observed":"Stopped at obligation 5; no PASS asserted.","readFrom":"proofObligations.correct official form or approved composer"},
+        "no clipping or overlap": {"status":"NOT_EVALUATED_DUE_TO_ROW_STOP","observed":"Stopped at obligation 5; no PASS asserted.","readFrom":"proofObligations.correct official form or approved composer"},
+        "fee and waiver treatment": {"status":"NOT_EVALUATED_DUE_TO_ROW_STOP","observed":"Stopped at obligation 5; no PASS asserted.","readFrom":"proofObligations.correct official form or approved composer"},
+        "filing destination": {"status":"NOT_EVALUATED_DUE_TO_ROW_STOP","observed":"Stopped at obligation 5; no PASS asserted.","readFrom":"proofObligations.correct official form or approved composer"},
+        "service and notice": {"status":"NOT_EVALUATED_DUE_TO_ROW_STOP","observed":"Stopped at obligation 5; no PASS asserted.","readFrom":"proofObligations.correct official form or approved composer"},
+        "later-completion fields": {"status":"NOT_EVALUATED_DUE_TO_ROW_STOP","observed":"Stopped at obligation 5; no PASS asserted.","readFrom":"proofObligations.correct official form or approved composer"},
+        "no stale artifact": {"status":"NOT_EVALUATED_DUE_TO_ROW_STOP","observed":"Stopped at obligation 5; no PASS asserted.","readFrom":"proofObligations.correct official form or approved composer"},
+        "no wrong-route reuse": {"status":"NOT_EVALUATED_DUE_TO_ROW_STOP","observed":"Stopped at obligation 5; wrong authority/vehicle already recorded at the first decisive obligation.","readFrom":"proofObligations.correct official form or approved composer"},
+        "no source substitution": {"status":"NOT_EVALUATED_DUE_TO_ROW_STOP","observed":"Stopped at obligation 5; no PASS asserted.","readFrom":"proofObligations.correct official form or approved composer"},
+        "commercial status remains closed": {"status":"NOT_EVALUATED_DUE_TO_ROW_STOP","observed":"Stopped at obligation 5; lane audit independently observed zero routes opened.","readFrom":["proofObligations.correct official form or approved composer","data/rcap-grade-a/launch-control/C11_RETURN_REVIEW.json"]}
+      }
+    },
+    {
+      "itemId": "sd_arrest_expungement-set",
+      "verdict": "BLOCKED_LEGAL_APPROVAL_INPUT",
+      "preflight": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing passed, 0 failed, 1 not applicable; family_sources_bind 6/6",
+      "rowStop": "Obligation 12: the packet states $72, but the controlling review marks whether $72 is current as an unresolved release blocker.",
+      "proofObligations": {
+        "exact route identity": {"status":"EVALUATED","observed":"obligation:unit:SD:sd_arrest_expungement:sd-arrest-stage-2-ujs-motion-packet","readFrom":"data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/approval-request.json"},
+        "exact packet-family identity": {"status":"EVALUATED","observed":"sd_arrest_expungement-set agrees across receipt, field map, reports, product wiring, and approval request.","readFrom":"data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/"},
+        "source identities and SHA-256 values": {"status":"EVALUATED","observed":["UJS-232 308ed5e4386a9e223d510a1dfa6f49cb15b1c349a27db63e32dcf0164d6d7737","UJS-391 ec51457f51583006c76af9bcfe6db03eaf92fdd15e7cfff184b5b4805f18e6a8","UJS-392 08e44e091b60917fc4bb99ba1cf65a62eca4482d8517d43f6cbfd95aae9a2928","UJS-393 933c600b4516628b60ca20545633cc3c225279bb87b90008780ff406d9e19310","UJS-394 d6f2dab3ca32ca7fedd348635871d036dc90170c240ac416b4c9b770a7c7de3f","UJS-395 4ff12868beb1f4904856ba2751d9d31e99973a18e5e6b38164286c7341dd8e20","bound 6/6 exact corpus paths, hashes, and byte lengths"],"readFrom":["data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/source-receipt.json","packet preflight"]},
+        "complete component set": {"status":"EVALUATED","observed":"UJS-232, 391, 392, 393, 394, and 395 are present in the controlling sequence; waiver/hearing forms are conditional and UJS-395 is post-order.","readFrom":["$MASTER_LIBRARY_SOURCE_DIR/STATES/SD/01_LEGAL_REVIEW/SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md","rendered-artifacts.json"]},
+        "correct official form or approved composer": {"status":"EVALUATED","observed":"All six are statewide official UJS forms acquired from or retained against official UJS sources and exact-bound to the corpus.","readFrom":["$MASTER_LIBRARY_SOURCE_DIR/STATES/SD/STATE_MANIFEST.csv","source-receipt.json"]},
+        "canonical and boundary artifact hashes": {"status":"EVALUATED","observed":{"canonical":"f993a057e26892b127924299455905bec706a586d1a8d404437e0e481333c523; 566166 bytes; 14 pages","boundary":"999da11905dcfe7bb552a8a51a8a9a9c7c52812246f460c6fbf3af28cd9b2cd8; 566258 bytes; 14 pages","independentRehash":"both matched"},"readFrom":"data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/reports/rendered-artifacts.json plus sha256sum"},
+        "actual-write verification": {"status":"EVALUATED","observed":"Artifact-byte report shows only the allowlisted case number on UJS-391 in each fixture; every other UJS document has zero generated writes and blockingFindings is empty.","readFrom":"data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/reports/actual-writes.json"},
+        "zero protected-field writes": {"status":"EVALUATED","observed":"Protected selections and withheld-ink checks report zero protected generated ink in both artifacts.","readFrom":"data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/reports/actual-writes.json"},
+        "signatures and service blocks preserved": {"status":"EVALUATED","observed":"Participant, prosecutor, victim, judge, mailing/service signature, and date roles remain blank; only the case-number caption write exists.","readFrom":["production-field-map.json","reports/actual-writes.json"]},
+        "page count and page order": {"status":"EVALUATED","observed":"Both packets have 14 pages ordered UJS-232 (1), UJS-391 (4), UJS-392 (2), UJS-393 (3), UJS-394 (1), UJS-395 (3), with exact source-page hashes.","readFrom":"data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/reports/rendered-artifacts.json"},
+        "no clipping or overlap": {"status":"EVALUATED","observed":"Independent review of all 28 raster pages found no clipping or overlap; detailed UJS-391 boundary pages 3-5 confirm the case number remains inside its caption box.","readFrom":"data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/raster/{canonical,boundary}/page-*.png"},
+        "fee and waiver treatment": {"status":"BLOCKED_LEGAL_APPROVAL_INPUT","observed":"UJS material and the legal review state a $72 civil filing fee and indigency waiver, but the controlling review lists 'Whether the $72 fee is current' as a Release blocker. Current fee treatment cannot PASS.","readFrom":"$MASTER_LIBRARY_SOURCE_DIR/STATES/SD/01_LEGAL_REVIEW/SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md"},
+        "filing destination": {"status":"NOT_EVALUATED_DUE_TO_ROW_STOP","observed":"Stopped at obligation 12; no PASS asserted.","readFrom":"proofObligations.fee and waiver treatment"},
+        "service and notice": {"status":"NOT_EVALUATED_DUE_TO_ROW_STOP","observed":"Stopped at obligation 12; no PASS asserted.","readFrom":"proofObligations.fee and waiver treatment"},
+        "later-completion fields": {"status":"NOT_EVALUATED_DUE_TO_ROW_STOP","observed":"Stopped at obligation 12; no PASS asserted.","readFrom":"proofObligations.fee and waiver treatment"},
+        "no stale artifact": {"status":"NOT_EVALUATED_DUE_TO_ROW_STOP","observed":"Stopped at obligation 12; no PASS asserted.","readFrom":"proofObligations.fee and waiver treatment"},
+        "no wrong-route reuse": {"status":"NOT_EVALUATED_DUE_TO_ROW_STOP","observed":"Stopped at obligation 12; no PASS asserted.","readFrom":"proofObligations.fee and waiver treatment"},
+        "no source substitution": {"status":"NOT_EVALUATED_DUE_TO_ROW_STOP","observed":"Stopped at obligation 12; no PASS asserted.","readFrom":"proofObligations.fee and waiver treatment"},
+        "commercial status remains closed": {"status":"NOT_EVALUATED_DUE_TO_ROW_STOP","observed":"Stopped at obligation 12; lane audit independently observed zero routes opened.","readFrom":["proofObligations.fee and waiver treatment","data/rcap-grade-a/launch-control/C11_RETURN_REVIEW.json"]}
+      }
+    },
+    {
+      "itemId": "ut_pet_traffic-set",
+      "verdict": "BLOCKED_LEGAL_APPROVAL_INPUT",
+      "preflight": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing passed, 0 failed, 1 not applicable; family_sources_bind 5/5",
+      "rowStop": "Obligation 5: 1146XX and 1148XX bind exactly but the controlling manifest still classifies them source_gated/source_or_currentness_gate_open and disabled pending release gates.",
+      "proofObligations": {
+        "exact route identity": {"status":"EVALUATED","observed":"obligation:track-pathway:UT:ut_pet_traffic:path-i-traffic-offense-expungement-or-deletion","readFrom":"data/rcap-all50/overlays/census-v1/ut/ut-pet-traffic-set--official-pdf-fill/approval-request.json"},
+        "exact packet-family identity": {"status":"EVALUATED","observed":"ut_pet_traffic-set agrees across receipt, field map, reports, product wiring, and approval request.","readFrom":"data/rcap-all50/overlays/census-v1/ut/ut-pet-traffic-set--official-pdf-fill/"},
+        "source identities and SHA-256 values": {"status":"EVALUATED","observed":["1002EX fab0ba66e2ef50acf0e30ae781e8e38202da0cf39c788a0b1652c99fc6b0b0cd","1022EX b0d9c6f1100c7d40e63c1261fa55cc868f91d2fe7cc8df05b6ba0036ff37f952","1044XX b99586289df6304da5b34181bee95ec2b7f098806c1c949a0f112daeb0244a52","1146XX 39f1205f48bd73fc7b9686a101369be74a988b419697ea964c2ff5a5c0ce63ad","1148XX 43c6d4fd232f67453357b342794cac209da82373ce4e93c686c285b42e553288","bound 5/5 exact corpus paths, hashes, and byte lengths"],"readFrom":["data/rcap-all50/overlays/census-v1/ut/ut-pet-traffic-set--official-pdf-fill/source-receipt.json","packet preflight"]},
+        "complete component set": {"status":"EVALUATED","observed":"The controlling traffic packet is exactly 1044XX, 1002EX, 1022EX, 1146XX, and 1148XX; all five are present.","readFrom":["$MASTER_LIBRARY_SOURCE_DIR/STATES/UT/01_LEGAL_REVIEW/UT__LEGAL-REVIEW__STATEWIDE__utah-record-clearing-legal-review__ASOF-2026-08-01__EN.md","rendered-artifacts.json"]},
+        "correct official form or approved composer": {"status":"BLOCKED_LEGAL_APPROVAL_INPUT","observed":"1002EX, 1022EX, and 1044XX are packet/candidate-current forms. Despite exact bytes and titles, the manifest classifies 1146XX and 1148XX as source_gated, source_or_currentness_gate_open, release_gated_source, disabled_pending_release_gates, and directs verification of currentness/assignment. Correct-current form status lacks release input.","readFrom":["$MASTER_LIBRARY_SOURCE_DIR/STATES/UT/STATE_MANIFEST.csv","$MASTER_LIBRARY_SOURCE_DIR/STATES/UT/01_LEGAL_REVIEW/UT__LEGAL-REVIEW__STATEWIDE__utah-record-clearing-legal-review__ASOF-2026-08-01__EN.md"]},
+        "canonical and boundary artifact hashes": {"status":"NOT_EVALUATED_DUE_TO_ROW_STOP","observed":"Stopped at obligation 5; no PASS asserted.","readFrom":"proofObligations.correct official form or approved composer"},
+        "actual-write verification": {"status":"NOT_EVALUATED_DUE_TO_ROW_STOP","observed":"Stopped at obligation 5; no PASS asserted.","readFrom":"proofObligations.correct official form or approved composer"},
+        "zero protected-field writes": {"status":"NOT_EVALUATED_DUE_TO_ROW_STOP","observed":"Stopped at obligation 5; no PASS asserted.","readFrom":"proofObligations.correct official form or approved composer"},
+        "signatures and service blocks preserved": {"status":"NOT_EVALUATED_DUE_TO_ROW_STOP","observed":"Stopped at obligation 5; no PASS asserted.","readFrom":"proofObligations.correct official form or approved composer"},
+        "page count and page order": {"status":"NOT_EVALUATED_DUE_TO_ROW_STOP","observed":"Stopped at obligation 5; no PASS asserted.","readFrom":"proofObligations.correct official form or approved composer"},
+        "no clipping or overlap": {"status":"NOT_EVALUATED_DUE_TO_ROW_STOP","observed":"Stopped at obligation 5; no PASS asserted.","readFrom":"proofObligations.correct official form or approved composer"},
+        "fee and waiver treatment": {"status":"NOT_EVALUATED_DUE_TO_ROW_STOP","observed":"Stopped at obligation 5; no PASS asserted.","readFrom":"proofObligations.correct official form or approved composer"},
+        "filing destination": {"status":"NOT_EVALUATED_DUE_TO_ROW_STOP","observed":"Stopped at obligation 5; no PASS asserted.","readFrom":"proofObligations.correct official form or approved composer"},
+        "service and notice": {"status":"NOT_EVALUATED_DUE_TO_ROW_STOP","observed":"Stopped at obligation 5; no PASS asserted.","readFrom":"proofObligations.correct official form or approved composer"},
+        "later-completion fields": {"status":"NOT_EVALUATED_DUE_TO_ROW_STOP","observed":"Stopped at obligation 5; no PASS asserted.","readFrom":"proofObligations.correct official form or approved composer"},
+        "no stale artifact": {"status":"NOT_EVALUATED_DUE_TO_ROW_STOP","observed":"Stopped at obligation 5; no PASS asserted.","readFrom":"proofObligations.correct official form or approved composer"},
+        "no wrong-route reuse": {"status":"NOT_EVALUATED_DUE_TO_ROW_STOP","observed":"Stopped at obligation 5; no PASS asserted.","readFrom":"proofObligations.correct official form or approved composer"},
+        "no source substitution": {"status":"NOT_EVALUATED_DUE_TO_ROW_STOP","observed":"Stopped at obligation 5; no PASS asserted.","readFrom":"proofObligations.correct official form or approved composer"},
+        "commercial status remains closed": {"status":"NOT_EVALUATED_DUE_TO_ROW_STOP","observed":"Stopped at obligation 5; lane audit independently observed zero routes opened.","readFrom":["proofObligations.correct official form or approved composer","data/rcap-grade-a/launch-control/C11_RETURN_REVIEW.json"]}
+      }
+    },
+    {
+      "itemId": "wa_vac_survivor_felony-set",
+      "verdict": "BLOCKED_LEGAL_APPROVAL_INPUT",
+      "preflight": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing passed, 0 failed, 1 not applicable; family_sources_bind 2/2",
+      "rowStop": "Obligation 12: the controlling review has not established current vacation-petition filing fees and marks that question as a release blocker.",
+      "proofObligations": {
+        "exact route identity": {"status":"EVALUATED","observed":"obligation:track-pathway:WA:wa_vac_survivor_felony:victim-survivor-conviction-vacation-route; RCW 9.94A.648 through RCW 9.94A.640(3).","readFrom":["source-receipt.json","$MASTER_LIBRARY_SOURCE_DIR/STATES/WA/01_LEGAL_REVIEW/WA__LEGAL-REVIEW__STATEWIDE__washington-record-clearing-legal-review__ASOF-2026-08-01__EN.md"]},
+        "exact packet-family identity": {"status":"EVALUATED","observed":"wa_vac_survivor_felony-set agrees across receipt, field map, reports, participant-completion record, and approval request.","readFrom":"data/rcap-all50/overlays/census-v1/wa/wa-vac-survivor-felony-set--official-pdf-fill/"},
+        "source identities and SHA-256 values": {"status":"EVALUATED","observed":["CR-08.0900 ec8b175e3a2ccfdf247328822b7ed8ac570dacd27c8b728d09a10eca05c6559e; 133614 bytes; 3 pages","CR-08.0920 e5ccd2e0847fc9b0c2b54ef4ff75fd8d500b7b2af5a9eed963dd3855bb0226db; 160031 bytes; 3 pages","bound 2/2 exact corpus paths, hashes, and byte lengths"],"readFrom":["data/rcap-all50/overlays/census-v1/wa/wa-vac-survivor-felony-set--official-pdf-fill/source-receipt.json","packet preflight"]},
+        "complete component set": {"status":"EVALUATED","observed":"The statewide core set is CR-08.0900 motion/declaration plus CR-08.0920 proposed order. The review treats possible county supplements as a nonblocking local-check instruction.","readFrom":["$MASTER_LIBRARY_SOURCE_DIR/STATES/WA/01_LEGAL_REVIEW/WA__LEGAL-REVIEW__STATEWIDE__washington-record-clearing-legal-review__ASOF-2026-08-01__EN.md","$MASTER_LIBRARY_SOURCE_DIR/STATES/WA/STATE_README.md"]},
+        "correct official form or approved composer": {"status":"EVALUATED","observed":"CR-08.0900 and CR-08.0920 are current 2025-07 statewide pattern forms whose text cites RCW 9.94A.640 and .648, matching this route.","readFrom":["$MASTER_LIBRARY_SOURCE_DIR/STATES/WA/STATE_MANIFEST.csv","source-receipt.json"]},
+        "canonical and boundary artifact hashes": {"status":"EVALUATED","observed":{"CR-08.0900 canonical":"c7ac3d4a41e1388abbf5c45bc941db95ddf621a9ea22da3c9e96794379456cfb; 130041 bytes; 3 pages","CR-08.0900 boundary":"924a91d21893872af42e23dd8864d90b8730c33991d1079d7ba6024614fec7bf; 130033 bytes; 3 pages","CR-08.0920 canonical":"b2be97baefe283b4a255e4bf776652fc466f435db587c3197621acdc3738a153; 157225 bytes; 3 pages","CR-08.0920 boundary":"56d09dd8a43e0e251639ea739e3ac3c851835c88886945430a21e266f168a577; 157118 bytes; 3 pages","independentRehash":"all matched"},"readFrom":"data/rcap-all50/overlays/census-v1/wa/wa-vac-survivor-felony-set--official-pdf-fill/reports/rendered-artifacts.json plus sha256sum"},
+        "actual-write verification": {"status":"EVALUATED","observed":"Artifact-byte report records only safe caption facts. Canonical writes county/case/name; boundary writes fitting values and refuses unfittable county/name values. blockingFindings is empty and vectorPathsAdded is zero.","readFrom":"data/rcap-all50/overlays/census-v1/wa/wa-vac-survivor-felony-set--official-pdf-fill/reports/actual-writes.json"},
+        "zero protected-field writes": {"status":"EVALUATED","observed":"signatureAndCourtFieldsWritten=false, chargeOrOffenseFieldsWritten=false, selectionControlsMarked=false; all 14/29 protected controls remain blank.","readFrom":"data/rcap-all50/overlays/census-v1/wa/wa-vac-survivor-felony-set--official-pdf-fill/reports/protection-report.json"},
+        "signatures and service blocks preserved": {"status":"EVALUATED","observed":"Participant signature/dates, prosecutor/judge/court, and service/notice acts remain blank for later completion; no corresponding ink exists.","readFrom":["reports/protection-report.json","participant-completion-instructions.json"]},
+        "page count and page order": {"status":"EVALUATED","observed":"Each fixture has three-page CR-08.0900 followed by three-page CR-08.0920; artifact page counts and roles are exact.","readFrom":"data/rcap-all50/overlays/census-v1/wa/wa-vac-survivor-felony-set--official-pdf-fill/reports/rendered-artifacts.json"},
+        "no clipping or overlap": {"status":"EVALUATED","observed":"Independent review of all 12 raster pages found no clipping/overlap. Detailed page-one checks show fitting/shrunk captions inside regions; unfittable facts were refused.","readFrom":"data/rcap-all50/overlays/census-v1/wa/wa-vac-survivor-felony-set--official-pdf-fill/raster/*/page-*.png"},
+        "fee and waiver treatment": {"status":"BLOCKED_LEGAL_APPROVAL_INPUT","observed":"The review says current filing fees were not established, asks whether they vary among district, municipal, and superior court, and marks this a Release blocker. No exact current amount/waiver treatment can be proved.","readFrom":["$MASTER_LIBRARY_SOURCE_DIR/STATES/WA/01_LEGAL_REVIEW/WA__LEGAL-REVIEW__STATEWIDE__washington-record-clearing-legal-review__ASOF-2026-08-01__EN.md","participant-completion-instructions.json"]},
+        "filing destination": {"status":"NOT_EVALUATED_DUE_TO_ROW_STOP","observed":"Stopped at obligation 12; no PASS asserted.","readFrom":"proofObligations.fee and waiver treatment"},
+        "service and notice": {"status":"NOT_EVALUATED_DUE_TO_ROW_STOP","observed":"Stopped at obligation 12; no PASS asserted.","readFrom":"proofObligations.fee and waiver treatment"},
+        "later-completion fields": {"status":"NOT_EVALUATED_DUE_TO_ROW_STOP","observed":"Stopped at obligation 12; no PASS asserted.","readFrom":"proofObligations.fee and waiver treatment"},
+        "no stale artifact": {"status":"NOT_EVALUATED_DUE_TO_ROW_STOP","observed":"Stopped at obligation 12; no PASS asserted.","readFrom":"proofObligations.fee and waiver treatment"},
+        "no wrong-route reuse": {"status":"NOT_EVALUATED_DUE_TO_ROW_STOP","observed":"Stopped at obligation 12; no PASS asserted.","readFrom":"proofObligations.fee and waiver treatment"},
+        "no source substitution": {"status":"NOT_EVALUATED_DUE_TO_ROW_STOP","observed":"Stopped at obligation 12; no PASS asserted.","readFrom":"proofObligations.fee and waiver treatment"},
+        "commercial status remains closed": {"status":"NOT_EVALUATED_DUE_TO_ROW_STOP","observed":"Stopped at obligation 12; lane audit independently observed zero routes opened.","readFrom":["proofObligations.fee and waiver treatment","data/rcap-grade-a/launch-control/C11_RETURN_REVIEW.json"]}
+      }
+    }
+  ],
+  "independentReadOnlyChecks": {
+    "sourceHashBinding": "all 19 pinned source obligations across six families match exact corpus paths, SHA-256 values, byte lengths, and preflight binding",
+    "artifactHashAudit": "all tracked canonical/boundary artifacts independently rehashed to their manifests; excluded unchanged official companions bound from MASTER_LIBRARY_SOURCE_DIR",
+    "visualReview": "166 canonical/boundary raster pages reviewed: CA 16, NJ 86, OH 6, SD 28, UT 18, WA 12; no gross clipping/overlap observed; row entries obey the earlier WEC-6 stop",
+    "staleHashAudit": "no assigned artifact hash overlaps data/rcap-grade-a/stale-artifact-block.json",
+    "scope": "verification/v4 only; no packet, Production, R-lane, launch-control, private, or runtime file modified"
+  },
+  "focusedTests": [
+    {
+      "command": "source private/source-corpus-environment.txt; export MASTER_LIBRARY_SOURCE_DIR=\"$RCAP_BUNDLE_EXTRACT\"; unset OFFICIAL_FORMS_SOURCE_DIR; node scripts/verify-packet-build-environment.mjs --family <each assigned family>",
+      "result": "PASS",
+      "detail": "All 6 runs returned PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing passed, 0 failed, 1 not applicable; family_sources_bind was CA 4/4, NJ 1/1, OH 1/1, SD 6/6, UT 5/5, WA 2/2."
+    },
+    {
+      "command": "node scripts/grade-a-launch-control/verify-c11-return.mjs",
+      "result": "PASS_PROCESS_EXIT",
+      "detail": "Exit 0; 10/13 raw criteria; ACCEPTED_WITH_FOUR_VALID_STOPS_AFTER_CORPUS_BINARY_EXCLUSION. The three expected raw findings are the controlling corpus-binary/product-wiring exclusions."
+    },
+    {
+      "command": "node scripts/grade-a-launch-control/verify-launch-control.mjs",
+      "result": "PASS",
+      "detail": "33/33 checkpoint checks passed."
+    },
+    {
+      "command": "rows.json direct-evidence schema audit",
+      "result": "PASS",
+      "detail": "6 rows; 114 entries; exactly 19 ordered proof obligations per row; every entry has status, observed, and readFrom."
+    },
+    {
+      "command": "independent SHA-256 and visual audit",
+      "result": "PASS_WITH_WEC6_REPORTED_STOPS",
+      "detail": "14 present generated/companion artifacts matched their manifests; 7 intentionally excluded official companions bound through MASTER_LIBRARY_SOURCE_DIR; all 166 relevant raster pages reviewed."
+    }
+  ]
+}

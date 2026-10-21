@@ -1,0 +1,352 @@
+{
+  "defectId": "AZ_ARREST_FALSE_REQUIRED_FIELDS",
+  "obligation": "REQUIRED_BEFORE_FILING",
+  "severity": "admission_blocking",
+  "result": "FAIL",
+  "sourceForm": "AOCCRSL1F-050825",
+  "sourceSha256": "32c1e54d8a4135cfefe5d85d25f62afdb7c212f6a475e18664188524de34db05",
+  "sourceEvidence": [
+    {
+      "page": 1,
+      "text": "OR if no charges were filed:",
+      "observation": "The no-charge In Re caption is the alternative to Defendant. The output uses In Re correctly; the generated completion instructions also demand Defendant."
+    },
+    {
+      "page": 3,
+      "text": "I was arrested for a criminal offense and no charges were filed. If checked, please go to Section III.",
+      "observation": "Selected in both fixtures. This expressly skips Section II sentence compliance."
+    },
+    {
+      "page": 3,
+      "text": "A dismissal or not guilty verdict was entered on",
+      "field": "EnteredOn",
+      "observation": "Date belongs to the unselected charged/dismissed/not-guilty option."
+    },
+    {
+      "page": 3,
+      "text": "a judgment of guilt was entered on",
+      "field": "EnteredOn1",
+      "observation": "Date belongs to the unselected guilty-judgment option."
+    },
+    {
+      "page": 3,
+      "text": "SECTION II. SENTENCE COMPLIANCE",
+      "fields": [
+        "Check Box10",
+        "Check Box11",
+        "Check Box12",
+        "Check Box13"
+      ],
+      "observation": "These four source controls cover monetary terms, other sentence terms, absolute discharge and probation discharge. The selected no-charge option skips the section."
+    }
+  ],
+  "generatedContradictoryEntries": [
+    {
+      "field": "az_record_sealing_arrest_no_charges-primary-filing-1.Defendant",
+      "fieldName": "Defendant",
+      "printedLabel": "participant required field Defendant",
+      "effectiveLabel": "participant required field Defendant",
+      "regionHeading": "Defendant",
+      "sourceFieldInfo": {
+        "field": "Defendant",
+        "sourceWidgets": [
+          {
+            "page": 1,
+            "rect": {
+              "x": 71.6084,
+              "y": 412.2,
+              "width": 215.9996,
+              "height": 17.19999999999999
+            },
+            "onState": null
+          }
+        ],
+        "printedLabel": "Defendant (FIRST, MI, LAST) \u2014 charged-case caption"
+      },
+      "document": "az_record_sealing_arrest_no_charges-primary-filing-1",
+      "reason": "participant must supply this source field before filing",
+      "completenessDisposition": "REQUIRED_BEFORE_FILING",
+      "requiredBeforeFiling": true,
+      "conditionalRequirement": null,
+      "identity": "Defendant"
+    },
+    {
+      "field": "az_record_sealing_arrest_no_charges-primary-filing-1.EnteredOn",
+      "fieldName": "EnteredOn",
+      "printedLabel": "participant required field EnteredOn",
+      "effectiveLabel": "participant required field EnteredOn",
+      "regionHeading": "EnteredOn",
+      "sourceFieldInfo": {
+        "field": "EnteredOn",
+        "sourceWidgets": [
+          {
+            "page": 3,
+            "rect": {
+              "x": 170.608,
+              "y": 397.528,
+              "width": 97,
+              "height": 17.19999999999999
+            },
+            "onState": null
+          }
+        ],
+        "printedLabel": "source field EnteredOn (label retained in official PDF)"
+      },
+      "document": "az_record_sealing_arrest_no_charges-primary-filing-1",
+      "reason": "participant must supply this source field before filing",
+      "completenessDisposition": "REQUIRED_BEFORE_FILING",
+      "requiredBeforeFiling": true,
+      "conditionalRequirement": null,
+      "identity": "EnteredOn"
+    },
+    {
+      "field": "az_record_sealing_arrest_no_charges-primary-filing-1.EnteredOn1",
+      "fieldName": "EnteredOn1",
+      "printedLabel": "participant required field EnteredOn1",
+      "effectiveLabel": "participant required field EnteredOn1",
+      "regionHeading": "EnteredOn1",
+      "sourceFieldInfo": {
+        "field": "EnteredOn1",
+        "sourceWidgets": [
+          {
+            "page": 3,
+            "rect": {
+              "x": 489.608,
+              "y": 373.528,
+              "width": 80.99999999999994,
+              "height": 17.19999999999999
+            },
+            "onState": null
+          }
+        ],
+        "printedLabel": "source field EnteredOn1 (label retained in official PDF)"
+      },
+      "document": "az_record_sealing_arrest_no_charges-primary-filing-1",
+      "reason": "participant must supply this source field before filing",
+      "completenessDisposition": "REQUIRED_BEFORE_FILING",
+      "requiredBeforeFiling": true,
+      "conditionalRequirement": null,
+      "identity": "EnteredOn1"
+    },
+    {
+      "field": "az_record_sealing_arrest_no_charges-primary-filing-1.Check Box10",
+      "fieldName": "Check Box10",
+      "printedLabel": "participant required field Check Box10",
+      "effectiveLabel": "participant required field Check Box10",
+      "regionHeading": "Check Box10",
+      "sourceFieldInfo": {
+        "field": "Check Box10",
+        "sourceWidgets": [
+          {
+            "page": 3,
+            "rect": {
+              "x": 88.0166,
+              "y": 283.019,
+              "width": 14.183400000000006,
+              "height": 13.310000000000002
+            },
+            "onState": "1"
+          },
+          {
+            "page": 3,
+            "rect": {
+              "x": 127.58,
+              "y": 282.582,
+              "width": 14.184000000000012,
+              "height": 13.310999999999979
+            },
+            "onState": "2"
+          },
+          {
+            "page": 3,
+            "rect": {
+              "x": 164.017,
+              "y": 282.019,
+              "width": 14.182999999999993,
+              "height": 13.310000000000002
+            },
+            "onState": "3"
+          }
+        ],
+        "printedLabel": "source field Check Box10 (label retained in official PDF)"
+      },
+      "document": "az_record_sealing_arrest_no_charges-primary-filing-1",
+      "reason": "participant must supply this source field before filing",
+      "completenessDisposition": "REQUIRED_BEFORE_FILING",
+      "requiredBeforeFiling": true,
+      "conditionalRequirement": null,
+      "identity": "Check Box10"
+    },
+    {
+      "field": "az_record_sealing_arrest_no_charges-primary-filing-1.Check Box11",
+      "fieldName": "Check Box11",
+      "printedLabel": "participant required field Check Box11",
+      "effectiveLabel": "participant required field Check Box11",
+      "regionHeading": "Check Box11",
+      "sourceFieldInfo": {
+        "field": "Check Box11",
+        "sourceWidgets": [
+          {
+            "page": 3,
+            "rect": {
+              "x": 89.0166,
+              "y": 223.519,
+              "width": 14.183400000000006,
+              "height": 13.310000000000002
+            },
+            "onState": "1"
+          },
+          {
+            "page": 3,
+            "rect": {
+              "x": 128.58,
+              "y": 223.082,
+              "width": 14.183999999999997,
+              "height": 13.311000000000007
+            },
+            "onState": "2"
+          },
+          {
+            "page": 3,
+            "rect": {
+              "x": 165.017,
+              "y": 222.519,
+              "width": 14.182999999999993,
+              "height": 13.310000000000002
+            },
+            "onState": "3"
+          }
+        ],
+        "printedLabel": "source field Check Box11 (label retained in official PDF)"
+      },
+      "document": "az_record_sealing_arrest_no_charges-primary-filing-1",
+      "reason": "participant must supply this source field before filing",
+      "completenessDisposition": "REQUIRED_BEFORE_FILING",
+      "requiredBeforeFiling": true,
+      "conditionalRequirement": null,
+      "identity": "Check Box11"
+    },
+    {
+      "field": "az_record_sealing_arrest_no_charges-primary-filing-1.Check Box12",
+      "fieldName": "Check Box12",
+      "printedLabel": "participant required field Check Box12",
+      "effectiveLabel": "participant required field Check Box12",
+      "regionHeading": "Check Box12",
+      "sourceFieldInfo": {
+        "field": "Check Box12",
+        "sourceWidgets": [
+          {
+            "page": 3,
+            "rect": {
+              "x": 87.0166,
+              "y": 180.519,
+              "width": 14.183400000000006,
+              "height": 13.310000000000002
+            },
+            "onState": "1"
+          },
+          {
+            "page": 3,
+            "rect": {
+              "x": 126.58,
+              "y": 180.082,
+              "width": 14.184000000000012,
+              "height": 13.311000000000007
+            },
+            "onState": "2"
+          },
+          {
+            "page": 3,
+            "rect": {
+              "x": 163.017,
+              "y": 179.519,
+              "width": 14.182999999999993,
+              "height": 13.310000000000002
+            },
+            "onState": "3"
+          }
+        ],
+        "printedLabel": "source field Check Box12 (label retained in official PDF)"
+      },
+      "document": "az_record_sealing_arrest_no_charges-primary-filing-1",
+      "reason": "participant must supply this source field before filing",
+      "completenessDisposition": "REQUIRED_BEFORE_FILING",
+      "requiredBeforeFiling": true,
+      "conditionalRequirement": null,
+      "identity": "Check Box12"
+    },
+    {
+      "field": "az_record_sealing_arrest_no_charges-primary-filing-1.Check Box13",
+      "fieldName": "Check Box13",
+      "printedLabel": "participant required field Check Box13",
+      "effectiveLabel": "participant required field Check Box13",
+      "regionHeading": "Check Box13",
+      "sourceFieldInfo": {
+        "field": "Check Box13",
+        "sourceWidgets": [
+          {
+            "page": 3,
+            "rect": {
+              "x": 89.0166,
+              "y": 120.519,
+              "width": 14.183400000000006,
+              "height": 13.310000000000002
+            },
+            "onState": "1"
+          },
+          {
+            "page": 3,
+            "rect": {
+              "x": 128.58,
+              "y": 120.082,
+              "width": 14.183999999999997,
+              "height": 13.311000000000007
+            },
+            "onState": "2"
+          },
+          {
+            "page": 3,
+            "rect": {
+              "x": 165.017,
+              "y": 119.519,
+              "width": 14.182999999999993,
+              "height": 13.310000000000002
+            },
+            "onState": "3"
+          }
+        ],
+        "printedLabel": "source field Check Box13 (label retained in official PDF)"
+      },
+      "document": "az_record_sealing_arrest_no_charges-primary-filing-1",
+      "reason": "participant must supply this source field before filing",
+      "completenessDisposition": "REQUIRED_BEFORE_FILING",
+      "requiredBeforeFiling": true,
+      "conditionalRequirement": null,
+      "identity": "Check Box13"
+    }
+  ],
+  "participantInstructionPath": "data/rcap-all50/overlays/census-v1/az/az-record-sealing-arrest-no-charges-set--official-pdf-fill/participant-instructions.md",
+  "participantInstructionLine": 5,
+  "participantInstructionText": "The source fields still blank are explicitly listed in the production field map and must be supplied before filing where marked required. Required source fields:",
+  "allSevenEntriesListedInParticipantInstructions": true,
+  "owningBuilder": {
+    "path": "scripts/lib/az-record-sealing-official-builder.mjs",
+    "function": "buildArizonaRecordSealing",
+    "canonicalRefusalsConstructionLine": 44,
+    "instructionInterpolationLine": 87,
+    "captionPredicate": {
+      "function": "isConditionalCaption",
+      "line": 22,
+      "defect": "Predicate is restricted to role === order, so petition Defendant is never classified as the inactive alternative caption."
+    },
+    "routePredicate": {
+      "function": "isRouteOffControl",
+      "line": 21,
+      "defect": "No-charge exclusions cover only Check Box4 and Check Box5. EnteredOn, EnteredOn1 and skipped Section II controls fall through to unconditional REQUIRED_BEFORE_FILING."
+    },
+    "instructionInterpolation": "maps.flatMap(m => m.canonicalRefusals.filter(r => r.requiredBeforeFiling).map(r => r.effectiveLabel))"
+  },
+  "impact": "The completion checklist contradicts the exact source route and can demand impossible dismissal/conviction dates or completion of the expressly skipped section. The earlier nonvisual PASS did not establish these classifications correctly.",
+  "repairBoundary": "Correct the route applicability classification and generated completion instructions in the owning repair lane. This review changes no builder, field map, source, PDF, queue or approval.",
+  "confirmedMinimumIncorrectRequirements": 7
+}

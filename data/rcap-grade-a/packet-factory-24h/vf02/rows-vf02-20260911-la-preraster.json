@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "rcap-verifier-return/v1",
+  "lane": "VF02",
+  "laneKind": "independent-verification",
+  "worker": "VF02",
+  "reviewer": "/root/ar_independent_review",
+  "sessionIdentity": "/root/ar_independent_review",
+  "familyId": "la-985-1-interim-expungement-set",
+  "baseSha": "085678f0ca8d8d42a02a18da7895c328a75ae12a",
+  "dispatchSha": "085678f0ca8d8d42a02a18da7895c328a75ae12a",
+  "verifiedAtBase": "085678f0ca8d8d42a02a18da7895c328a75ae12a",
+  "verdict": "PASS",
+  "scope": "Independent pre-raster review of the repaired Louisiana Article 985.1 interim-expungement packet. Current bytes, source custody, semantic field roles, and artifact descriptions were reread. Visual clipping and overlap remain unmeasured pending fresh central raster evidence.",
+  "rows": [
+    {
+      "itemId": "la-985-1-interim-expungement-set",
+      "familyId": "la-985-1-interim-expungement-set",
+      "lane": "VF02",
+      "verdict": "PASS",
+      "proofObligations": {
+        "ROUTE_IDENTITY": {"measured": true, "result": "PASS", "finding": "The Article 985.1 interim-expungement route is consistent across the source receipt, production field map, packet manifest, wiring and participant instructions."},
+        "SOURCE_IDENTITY": {"measured": true, "result": "PASS", "finding": "The held Article 990 authority source recomputes to 13396bb180962be61788f0f7dd965fe4095d2262506b097623a86a6268e7a65a and the Article 995 statutory source recomputes to b90e8cc62a2762c7d52b0a2b0f712147ca2ead4703fe091e26e9927cbab71c39; source-receipt custody is exact by content digest."},
+        "COMPONENT_SET": {"measured": true, "result": "PASS", "finding": "The current packet contains the declared Article 994 motion, Article 995 proposed order and instructions; the conditional Article 988 component is correctly identified as not generated."},
+        "KNOWN_PREFILLS": {"measured": true, "result": "PASS", "finding": "Current actual-writes records and direct text review show only declared participant/caption facts. The motion retains the arresting law-enforcement agency fact where that fact belongs; the Article 995 service recipient rows are not treated as participant prefills."},
+        "REQUIRED_BEFORE_FILING": {"measured": true, "result": "PASS", "finding": "The current field map, blanks report and instructions disclose the 13 field-level required-before-filing items and the route's supporting/manual completion work."},
+        "ROUTE_OPTIONS": {"measured": true, "result": "PASS", "finding": "The Article 985.1 route is explicitly selected. Court-owned Article 995 grant/denial, denial-reason, date/place and judge fields remain participant/court elections rather than being silently selected."},
+        "REPEATING_ROWS": {"measured": true, "result": "PASS", "finding": "The Article 994 and Article 995 charge structures and the three PLEASE SERVE rows are present in the declared order; no row was dropped, duplicated or reordered."},
+        "PROTECTED_FIELDS": {"measured": true, "result": "PASS", "finding": "The repair is semantically correct: all three Article 995 PLEASE SERVE rows are court-owned service instructions and are blank in both current PDFs, including row 3 Arresting Agency. The motion's preceding arresting law-enforcement-agency fact remains written. This distinguishes the participant fact from the order's clerk service block and does not launder a participant value into a protected field; current actual-writes lists only Article 995 court caption/name fields and no serve_arresting_agency write."},
+        "ARTIFACTS": {"measured": true, "result": "PASS", "finding": "Current canonical.pdf hashes to 5cefe25a1f6a384fdf485738c842ed08e95dc62adfb512de1d4f144be957fc1 and current boundary.pdf hashes to f0300841fa1df4f6447c1eb243b47650a689e82fa95faaae7ce3b49d33069f08; both are 19-page outputs and agree with rendered-artifacts and refreshed wiring evidence. The prior row-3 agency leakage and stale artifact descriptions are repaired in the reviewed tree."},
+        "PAGE_ORDER": {"measured": true, "result": "PASS", "finding": "Both current packets preserve the declared sequence: Article 994 motion, Article 995 proposed order, then instructions, totaling 19 pages per fixture."},
+        "CLIPPING_AND_OVERLAP": {"measured": false, "result": "NOT_MEASURABLE_HERE", "finding": "No local raster was created. Fresh central raster evidence bound to the two current hashes is still required."},
+        "FILING_DESTINATION": {"measured": true, "result": "PASS", "finding": "The instructions direct filing to the clerk of court for the parish and identify filing of the Article 994 motion with the proposed Article 995 order."},
+        "FEE_AND_WAIVER": {"measured": true, "result": "PASS", "finding": "The packet states the Article 983 fee posture and conditional Article 988 waiver path without claiming that the ungenerated waiver form is included."},
+        "SERVICE": {"measured": true, "result": "PASS", "finding": "The instructions correctly state that the participant serves nobody and that the clerk serves the district attorney, Bureau and arresting agency; the order's three service lines are correspondingly blank."},
+        "SELF_HELP_STOP": {"measured": true, "result": "PASS", "finding": "The packet carries the route's stated self-help stop conditions and directs the participant to resolve them before filing or seek advice."}
+      },
+      "nineCounters": {"knownRequiredFieldsMissing": null, "requiredFactsNotCollected": null, "unclassifiedBlanks": null, "incompleteRows": null, "requiredOptionsMissing": null, "requiredComponentsMissing": null, "invisibleWrites": null, "protectedWrites": null, "visualDefects": null, "allZero": false, "measuredHere": false, "counterNote": "Obligation-level source and byte checks were reread independently. Counters are null because no completeness instrument or raster was rerun; no builder zeros were copied."},
+      "priorFindingDisposition": {"priorFailure": "Article 995 row 3 Arresting Agency was previously populated from the motion agency fact while rows 1 and 2 were treated as court-owned; artifact descriptions and guidance also required correction.", "currentDisposition": "Resolved in the reviewed repair: builder maps all three order service rows as court-owned, current PDFs leave all three blank, motion agency remains populated, and current instructions describe the same boundary."},
+      "repairVerification": {"currentCanonicalSha256": "5cefe25a1f6a384fdf485738c842ed08e95dc62adfb512de1d4f144be957fc1", "currentBoundarySha256": "f0300841fa1df4f6447c1eb243b47650a689e82fa95faaae7ce3b49d33069f08", "canonicalPages": 19, "boundaryPages": 19, "article995ServeRowsBlank": true, "motionAgencyFactRetained": true, "currentActualWritesContainOrderServeAgency": false, "evidence": "data/rcap-grade-a/packet-factory-24h/checkpoint-232-to-250/la-focused-completeness.log; data/rcap-grade-a/packet-factory-24h/checkpoint-232-to-250/la-source-check.log; data/rcap-grade-a/packet-factory-24h/checkpoint-232-to-250/la-wiring.log"},
+      "remainingRequirements": ["Fresh central raster acceptance bound to both current PDF hashes.", "Independent visual measurement of clipping and overlap from original raster evidence.", "Direct measurement of invisible/protected/visual counters before terminal family admission."],
+      "evidenceRead": ["data/rcap-all50/overlays/census-v1/la/la-985-1-interim-expungement-set--custom-pleading/source-receipt.json", "data/rcap-all50/overlays/census-v1/la/la-985-1-interim-expungement-set--custom-pleading/production-field-map.json", "data/rcap-all50/overlays/census-v1/la/la-985-1-interim-expungement-set--custom-pleading/reports/actual-writes.json", "data/rcap-all50/overlays/census-v1/la/la-985-1-interim-expungement-set--custom-pleading/reports/rendered-artifacts.json", "data/rcap-all50/overlays/census-v1/la/la-985-1-interim-expungement-set--custom-pleading/reports/blanks-left-for-the-participant.json", "data/rcap-all50/overlays/census-v1/la/la-985-1-interim-expungement-set--custom-pleading/participant-instructions.md", "data/rcap-all50/overlays/census-v1/la/la-985-1-interim-expungement-set--custom-pleading/filing-instructions.md", "data/rcap-grade-a/packet-factory-24h/checkpoint-232-to-250/la-source-check.log", "data/rcap-grade-a/packet-factory-24h/checkpoint-232-to-250/la-focused-completeness.log", "data/rcap-grade-a/packet-factory-24h/checkpoint-232-to-250/la-wiring.log", "data/rcap-grade-a/packet-factory-24h/checkpoint-232-to-250/la-build.log"],
+      "sharedWrites": {"queue": false, "manifests": false, "familyArtifacts": false, "commits": false, "dispatch": false}
+    }
+  ]
+}

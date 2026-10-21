@@ -1,0 +1,218 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-rows/v1",
+  "lane": "FIX61",
+  "laneKind": "shared-host-repair",
+  "generatedBy": "lane FIX61, /home/user/fix61-worktree on branch fix61-appearance-scale",
+  "baseSha": "b8424a7ec",
+  "rows": [
+    {
+      "itemId": "vt_seal_nonconviction-set",
+      "familyId": "vt_seal_nonconviction-set",
+      "jurisdiction": "VT",
+      "implementationStrategy": "official_pdf_fill",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill",
+      "status": "COMPLETED",
+      "laneKind": "shared-host-repair",
+      "repairedByThisLane": true,
+      "buildHost": "scripts/build-census-v1-vt_seal_nonconviction-set.mjs",
+      "sharedHost": "scripts/rcap-official-forms/rcap-active-content.mjs (sanitizeAndFlatten) and scripts/rcap-official-forms/rcap-official-form-finalize.mjs (finalizeOfficialForm)",
+      "grantConfirmed": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX61 vt_seal_nonconviction-set -> CLAIM_OK FIX61 vt_seal_nonconviction-set (repair, grant set 1cb30861f3d1cef8), exit 0. Asserted before any family artifact was opened for writing.",
+      "baseSha": "b8424a7ec",
+      "branch": "fix61-appearance-scale",
+      "worktree": "/home/user/fix61-worktree, cut from /home/user/captain-worktree at b8424a7ec on claude/legalease-sprint-captain-utucnw. No other worktree, the Captain branch and main were not touched; nothing was force-pushed.",
+      "verdictRepaired": {
+        "lane": "VF02",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "986f826de",
+        "blockedObligationNames": [
+          "CLIPPING_AND_OVERLAP"
+        ],
+        "howVF02PutIt": "The flattened widget placement emits a translation only, '1 0 0 1 <x> <y> cm', and never the BBox-to-Rect scale that ISO 32000-1 12.5.5 requires. 600-00228 field 15 is the measured instance: BBox [0 0 18 18], /Rect 14.4 x 14.4, required scale 0.8, applied scale 1.0, about 3.4pt of stroke outside the widget's own box on packet page 5 of both fixtures.",
+        "whereVF02SaidTheRepairBelongs": "the shared official-form flattening step, not this family and not any Vermont route; and no route or family may be whitelisted for it.",
+        "obeyed": "The repair is in the shared step. Nothing in it reads a family, a form number, a field name, a caption, a jurisdiction or a route, and it carries no list of any kind."
+      },
+      "obligationsRepaired": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "obligationsThisRowDoesNotDischarge": [
+        "RASTER. No central raster was run and none is claimed. The rasters below are local pdftoppm measurements under /tmp, taken to read the page and deleted after measuring. Both fixture digests move, so any central raster acceptance receipt bound to canonical 1da18e3f... or boundary e3e8c13d... stops binding and a fresh central raster is owed on the new bytes. Neither queue file was opened for writing by this lane.",
+        "INDEPENDENT VERIFICATION. This lane changed the shared flattening step, opted this family into it and rebuilt these bytes, so it verifies none of them. No verdict was written or replaced, product-wiring.json binding.acceptanceReceipt is null and unchanged, and no obligation is scored here.",
+        "THE COHORT'S OWN REPAIRS. The read-only scan finds 46 of 249 families exposed to the same shared behaviour across 12 jurisdictions and 383 source widgets; 45 of the 46 are still on the default. Not one of them is repaired, rebuilt, opted in or touched by this lane. Measuring a cohort is not fixing it, and the option stays default-off precisely so that listing a family changes nothing about its bytes.",
+        "WHETHER ANY COHORT WIDGET REACHES A DELIVERED PAGE. The scan reads pinned SOURCE binaries and counts widgets exposed to the behaviour. Whether such a widget survives to be flattened depends on each family's own writes and appearance dispositions, and the scan opens no packet artifact at all. A row in it is a reason to measure a family, never a finding about that family's delivered bytes.",
+        "THE SECOND APPEARANCE DIVERGENCE VF02 DISCLOSED AND DID NOT SCORE. All six 600-00228 boxes show a smaller inner box the pinned form hides, because each /Off stream opens with an opaque white fill that the shared background neutralization in restrictWidgetContributions strips, revealing the form's own printed checkbox underneath. That is a different mechanism in a different function and this row does not touch it; it remains open.",
+        "THE SUB-0.05pt MAPPINGS LEFT ALONE BY DESIGN. A mapping that displaces no appearance corner by more than APPEARANCE_FIT_TOLERANCE_PT is treated as the identity and its stream is not rewritten. 600-00228 field 16 is the measured instance, at 0.001pt. If a sub-pixel mapping is ever held to be a defect, this row does not close it.",
+        "THE PRE-EXISTING RED IN scripts/rcap-official-forms. verify-name-date-component-semantics.mjs reports 1 problem and test-name-date-component-semantics-mutations.mjs therefore refuses on a red baseline. Confirmed pre-existing by stashing this lane's two shared-module edits and re-running at base b8424a7ec: identical failures, identical messages. Neither introduced nor repaired here.",
+        "THE DEFAULT. fitAppearancesToRect is default-off. Every family that does not pass it keeps the bytes it has, so the specification is still not applied corpus-wide and the Captain decision to flip the default is not taken here."
+      ],
+      "whatChanged": {
+        "theMeasuredDefect": "ISO 32000-1 12.5.5 places a widget's appearance by transforming its /BBox by its /Matrix, taking the bounding box of the result, and computing the matrix that maps that box onto the annotation's /Rect. pdf-lib's PDFForm.flatten (node_modules/pdf-lib/cjs/api/form/PDFForm.js) emits pushGraphicsState, translate(rect.x, rect.y), rotateInPlace at rotation 0 -- which is translate(0,0) plus rotateDegrees(0), an identity -- then drawObject and popGraphicsState. The 12.5.5 fit is never computed and never applied. Read back from the delivered base bytes: packet page 5 places FlatWidget-1848524175 at '1 0 0 1 131.309 438.449 cm' with BBox [0 0 18 18], /Matrix [1 0 0 1 0 0] and content '0.5 0.5 17 17 re s', against a /Rect of 14.4 x 14.4 read from the pinned 600-00228. A 17pt stroked square where the Judiciary's form draws a 13.6pt one.",
+        "theSharedModule": "rcap-active-content.mjs gains one exported constant APPEARANCE_FIT_TOLERANCE_PT (0.05), one exported function fitAppearanceStreamsToRect(pdfDoc, form, { tolerancePt }), and one OPT-IN option on sanitizeAndFlatten named fitAppearancesToRect, default false. When on it runs immediately after form.updateFieldAppearances() and immediately before form.flatten(), so it operates on the streams that will actually be stamped, including any pdf-lib has just generated.",
+        "theTransform": "flatten() will translate to (rect.x, rect.y) whatever this does, so the mapping is folded into the appearance's own /Matrix rather than into the page. Wanted: content -> Matrix -> A, where A maps the transformed BBox onto /Rect absolutely. Given: content -> Matrix' -> T(rect.x, rect.y). So Matrix' = Matrix x A x T(-rect.x, -rect.y) = Matrix x B, where B = [sx 0 0 sy -bx0*sx -by0*sy], [bx0 by0 bx1 by1] is the BBox transformed by /Matrix, and sx, sy scale it to the /Rect's own width and height. /Rect's POSITION drops out entirely, because pdf-lib has already translated there. For field 15 that is B = [0.8 0 0 0.8 0 0] and Matrix' = [0.8 0 0 0.8 0 0]; the appearance's content bytes are not touched.",
+        "howTheClassificationIsMade": "By three geometric facts read off each widget: its /Rect, its appearance's /BBox and that appearance's /Matrix. No family, form number, field name, caption, jurisdiction or route is read anywhere in the function, and there is no list of any kind in it. The appearance examined is the one pdf-lib's flatten would place, resolved exactly the way PDFForm.findWidgetAppearanceRef resolves it -- by the FIELD's value falling back to /Off for a check box or radio, not by /AS.",
+        "whyItReadsRatherThanEnsures": "PDFAnnotation.getNormalAppearance calls ensureAP, which INSTALLS an empty /AP on a widget that has none. A function that changes bytes merely by looking is the defect this factory exists to catch, so the /AP is read directly off the widget dictionary and a widget flatten would itself refuse is counted and left alone.",
+        "theTolerance": "APPEARANCE_FIT_TOLERANCE_PT = 0.05pt, applied to the maximum displacement of any appearance corner from the widget box, uniformly, in every jurisdiction. It is a geometric threshold and not an exception: 0.05pt is a fifth of a pixel at 300 dpi, so a mapping under it cannot change a pixel, and rewriting a stream to apply it would change bytes without changing the page. The measured case is 600-00228 field 16, whose /Rect is 14.400 by 14.401 against a 14.4 by 14.4 BBox -- an exact scale of 1.00007, which is the form's own rounding. VF02's sweep requires that placement to stay byte-identical and it does. Field 15 is 3.6pt out, seventy-two times the threshold.",
+        "sharedStreams": "A stream placed by more than one widget needing more than one mapping is COPIED rather than mutated, because mutating it would repair one placement by breaking the other. A stream that cannot be copied raises rather than being silently skipped. Neither case occurs in this family: streamsCopiedForConflictingPlacements is 0 on all three binaries.",
+        "theFinalizer": "rcap-official-form-finalize.mjs gains the option fitAppearancesToRect, default false, plumbed to sanitizeAndFlatten the FIX50 way and documented beside the seven existing opt-in flags.",
+        "theBuilder": "scripts/build-census-v1-vt_seal_nonconviction-set.mjs passes fitAppearancesToRect: true at its single finalizeOfficialForm call, alongside FIX50's suppressSynthesizedAppearances: true which is kept on. No other builder is touched.",
+        "perDocumentCounts": "Reported per document in report.sanitation.appearancesFittedToRect. Measured over the three pinned binaries this family binds: 200-00130 examined 51 widgets and rescaled 0; 200-00132 examined 32 and rescaled 0; 600-00228 examined 78 and rescaled 1 -- field 15, BBox [0 0 18 18] into a 14.4 x 14.4 /Rect, required scale 0.8, displacement 3.6pt. skippedNoPlaceableAppearance and skippedDegenerateGeometry are empty and 0 on all three. With the option off the key is absent from the report entirely."
+      },
+      "sweep": {
+        "method": "VF02's own sweep, re-implemented from its description: for every flattened widget placement in the packet, compose the page-content cm operators, read the placed XObject's /BBox and /Matrix, match the placement to the source widget whose /Rect origin it translates to, and require cmScale x requiredScale to equal 1 -- judged as |transformedSize x cmScale - rectSize| <= 0.05pt, the same threshold the fit itself uses.",
+        "before": "160/161 pass, 1 fail, in EACH fixture. The failure is page 5, 600-00228 field 15, product 0.800 in both axes. This reproduces VF02's count exactly.",
+        "after": "161/161 pass, 0 fail, in EACH fixture.",
+        "sweptOver": "canonical.pdf and boundary.pdf, before and after, against the three pinned binaries resolved from the Master Library.",
+        "note": "The sweep script is a measurement tool and was run from the scratchpad; it is not committed. What is committed is the unit test, which proves the same transform against synthetic documents, and the read-only cohort scan."
+      },
+      "digests": {
+        "canonical": {
+          "before": "1da18e3ffaa4780697a7595546059ab183d04cb992a6de10f8bf1686dff2831f",
+          "beforeBytes": 861284,
+          "after": "1f510c618b3f87e50403f61273d7fd5175e6ebc5a67805870da932a3e875002a",
+          "afterBytes": 861318,
+          "pagesBefore": 9,
+          "pagesAfter": 9
+        },
+        "boundary": {
+          "before": "e3e8c13d9e0f0a1cf9b38401732fd86fd5f6dd15061c55bda64e5e344fef6595",
+          "beforeBytes": 861651,
+          "after": "8374cf99a4b43419043c8d809e46318812d8f766e9aab745e3806cee40c190e4",
+          "afterBytes": 861685,
+          "pagesBefore": 9,
+          "pagesAfter": 9
+        },
+        "canonical--600-00228": {
+          "before": "2d600575153c161442d4101a8c7a3b9b89d45b12df033074a45a9814cedf3e42",
+          "beforeBytes": 347251,
+          "after": "86e2e22863ddcfd3776738ffa38869b09922929f876a1cdca6421f07fa8ebf6c",
+          "afterBytes": 347285,
+          "pagesBefore": 2,
+          "pagesAfter": 2
+        },
+        "boundary--600-00228": {
+          "before": "2d600575153c161442d4101a8c7a3b9b89d45b12df033074a45a9814cedf3e42",
+          "beforeBytes": 347251,
+          "after": "86e2e22863ddcfd3776738ffa38869b09922929f876a1cdca6421f07fa8ebf6c",
+          "afterBytes": 347285,
+          "pagesBefore": 2,
+          "pagesAfter": 2
+        },
+        "unchangedSubFixtures": {
+          "canonical--200-00130": "c59b8753bc34fe899ba7cd643a5b9d53a426ff46ebd6dc14f851c6ebc53ef0f2 (245115 bytes, 2 pages) before and after",
+          "canonical--200-00132": "10d9adde949dba683f46e8638b77c2b1abae7d323003d186cc533b5b789f1d29 (260705 bytes, 2 pages) before and after",
+          "boundary--200-00130": "6720e4647b5b1905131aa70001b37aa525548103f1ed63f0770ad66b3f4a4d85 before and after",
+          "boundary--200-00132": "e108d33e4fe5789e145c2ed9f1b9ea5b420b5c2a85c59cf697b0c3d6f9d47401 before and after"
+        },
+        "digestsConfirmedFirst": "Before any edit, the committed fixtures were hashed and matched the canonical 1da18e3ffaa4... and boundary e3e8c13d9e0f... this dispatch named, and a rebuild at base b8424a7ec with no edits reproduced both digests exactly with a clean tree.",
+        "determinism": "Rebuilt twice with the option on. The second rebuild is byte-identical to the first across every file in the family directory (diff -r, no differences)."
+      },
+      "appearanceLevelEvidence": {
+        "placementBytes": "Before: FlatWidget-1848524175 on packet page 5, placed '1 0 0 1 131.309 438.449 cm', BBox [0 0 18 18], /Matrix [1 0 0 1 0 0]. After: same placement operator, same XObject name, same BBox, same content stream bytes ('0.5 0.5 17 17 re s'), /Matrix now [0.8000000000000003 0 0 0.7999999999999987 0 0]. The source's own stroke is reproduced, at the size the source draws it.",
+        "sizeDelivered": "0.8 x [0, 18] = [0, 14.4], exactly the /Rect. The stroked square's centreline is 0.8 x [0.5, 17.5] = [0.4, 14.0], i.e. 13.6pt across -- the form's own 13.6pt-class size -- wholly inside the 14.4pt box, where before it was 17pt across and overhung the box.",
+        "rasterAllNinePages": "Both fixtures rastered at 300 dpi with pdftoppm, all nine pages each, before and after, under /tmp/fix61 and deleted after measuring. Pages 1, 2, 3, 4, 6, 7, 8 and 9 are PIXEL-IDENTICAL in both fixtures. Only page 5 differs, and only page 5 carries 600-00228 page 1; page 6 carries its page 2 and is pixel-identical.",
+        "page5Difference": "1072 differing pixels in each fixture, 742 dark lost and 294 dark gained. Every one of them lies inside x 131.28-149.28, y 438.48-456.48 -- the exact 18pt footprint of the oversize appearance at field 15's rect origin. Zero differing pixels anywhere else on the page.",
+        "againstThePinnedForm": "The pinned 600-00228 page 1 was rastered at 300 dpi and the same 6pt-padded window around field 15's rect measured. Pinned: 899 dark, 624 inside the rect, 275 OUTSIDE it (neighbouring page ink), ink extent y 432.00-452.88. Base packet: 1634 dark, 694 inside, 940 outside, extent y 432.00-456.48. Repaired packet: 1186 dark, 911 inside, 275 outside, extent y 432.00-452.88. The outside-rect count now equals the official form's own, count for count, and the 665 extra dark pixels are gone -- VF02 measured about 670.",
+        "text": "pdftotext -layout over all nine pages of both fixtures is character-identical before and after."
+      },
+      "participantWrites": {
+        "unchanged": true,
+        "evidence": "reports/actual-writes.json is byte-identical before and after, as are production-field-map.json, product-wiring.json, build-status.json, build-findings.json, source-receipt.json, approval-request.json, participant-instructions.md, reports/builder-completeness-counters.json and the whole raster/ directory. 21 of 169 fields written, the same 21. The only files in the family directory that changed are the four PDFs carrying 600-00228 and reports/rendered-artifacts.json, which records their digests and byte lengths.",
+        "noNewWrite": "The repair writes no value into any field. It edits one appearance stream's /Matrix, and the appearance is the source's own."
+      },
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersMeasuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_nonconviction-set -> PASS_COMPLETE, 21/169 written, exit 0. Run on the committed base bytes before any edit and again on the rebuilt bytes.",
+      "whyNineZerosIsNotByItselfAPass": "The counters read the field map. The ink repaired here is an appearance the field map never declares as a write, so no counter could have seen it before or after -- which is exactly why VF02's block was invisible to them, and why nine zeros on both sides is a statement about the counters and not about the page.",
+      "testsRun": {
+        "scripts/rcap-official-forms/test-appearance-fit-to-rect.mjs": "NEW. 6 controls, all PASS, exit 0. (1) NEGATIVE CONTROL: with the option off an 18pt appearance in a 14.4pt widget is flattened at 18pt -- if it were not, the test would prove nothing. (2) With it on the same appearance is flattened at 14.4pt with its origin on the widget origin. (3) The same claim in ink at 300 dpi: painted extent 18.00pt off, 14.40pt on, ratio 0.8000. (4) The count is reported per document and the report key is absent when the option is off. (5) A widget whose BBox equals its Rect is BYTE-IDENTICAL either way and counts as alreadyCorrect. (6) An appearance with a non-identity /Matrix (a quarter turn plus an offset, BBox [0 0 20 10] under [0 1 -1 0 5 7], /Rect 10x20) lands off its rect at 55,47 with the option off and exactly on it at 60,40 with the option on, and the fitted matrix is still a quarter turn -- the mapping composes with /Matrix rather than replacing it.",
+        "scripts/rcap-official-forms/test-synthesized-off-appearances.mjs": "PASS, exit 0. FIX50's controls are unaffected.",
+        "scripts/rcap-official-forms/test-widget-appearance-placement.mjs": "PASS, 3 controls, exit 0.",
+        "scripts/rcap-official-forms/test-full-name-charge-caption-semantics-mutations.mjs": "PASS, exit 0.",
+        "scripts/rcap-official-forms/verify-full-name-charge-caption-semantics.mjs": "PASS, exit 0.",
+        "scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs": "EVERY_SOURCE_CARRIED_VALUE_IS_DISPOSITIONED, 0 UNDISPOSITIONED, 0 not examinable, exit 0.",
+        "scripts/rcap-official-forms/verify-name-date-component-semantics.mjs": "FAIL, 1 problem, exit 1 -- PRE-EXISTING. Stashing this lane's two shared-module edits and re-running at base b8424a7ec gives the identical failure with the identical message.",
+        "scripts/rcap-official-forms/test-name-date-component-semantics-mutations.mjs": "FAIL, exit 1, because it refuses on the red baseline the verifier above reports -- PRE-EXISTING, confirmed the same way.",
+        "scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs": "EVERY_IDENTITY_REFRESH_SURVIVED, 249 receipts compared against HEAD, 53 carrying an identityRefresh, exit 0.",
+        "scripts/rcap-packet-completeness/verify-packet-completeness.mjs": "PASS_COMPLETE, nine counters zero, exit 0, before and after."
+      },
+      "corpusIdentityCheckForOtherFamilies": {
+        "method": "Every file under data/rcap-all50/overlays/census-v1 hashed before the first edit and again after the rebuild and after the scan: 5438 files across 249 family directories.",
+        "result": "Exactly 5 files differ, all of them inside data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill: the four PDFs carrying 600-00228 and reports/rendered-artifacts.json. Every one of the other 248 family directories is byte-identical, file for file.",
+        "afterTheScan": "Re-hashed after the read-only scan ran: identical to the post-rebuild manifest. The scan changed no family's bytes.",
+        "prohibitedFilesNotOpenedForWriting": "MASTER_QUEUE.json, RASTER_QUEUE.json, every legal-decision record, and every other family's builder and directory. The claim ledger is written only by this lane's own release."
+      },
+      "preflight": {
+        "command": "node scripts/verify-packet-build-environment.mjs --family vt_seal_nonconviction-set",
+        "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 11/13 passed, 2 failed, 4 not applicable. Both failures are conditions of this container, not of the family, and neither touches the bytes this lane read or wrote.",
+        "failure_private_is_git_ignored": "Reported NOT git-ignored because this dispatch mounts private/ as a SYMLINK to /home/user/legalease-partner-dashboard-clean/private, and `git check-ignore -q private/` answers 'fatal: pathspec is beyond a symbolic link' rather than an exit code. Checked directly: `git check-ignore -q private` exits 0 (it is ignored, by .gitignore line 53) and `git ls-files private/` lists nothing. No source binary is tracked and none was committed.",
+        "failure_corpus_matches_committed_index": "1 absent, 0 mismatched of 24 sampled. The absent entry is 'LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf', an Alabama file this Master Library mount does not carry. No Vermont entry is absent or mismatched.",
+        "family_sources_bind": "ok -- 3/3 sources bind by exact SHA-256, all three found by content hash because the declared path is in a custody not mounted here. Those are the three binaries every measurement above was taken against.",
+        "environment": "node 22.22.2, pdf-lib 1.17.1, MASTER_LIBRARY_SOURCE_DIR exported to the mounted Master Library Edition 1, node_modules symlinked from /home/user/captain-worktree, sparse checkout disabled with 0 skip-worktree entries."
+      },
+      "readOnlyScan": {
+        "script": "scripts/rcap-official-forms/scan-appearance-bbox-rect-mismatch.mjs",
+        "outputs": [
+          "data/rcap-grade-a/packet-factory-24h/fix61/APPEARANCE_SCALE_COHORT.json",
+          "data/rcap-grade-a/packet-factory-24h/fix61/APPEARANCE_SCALE_COHORT.md"
+        ],
+        "sourceResolution": "By CONTENT HASH across every mounted custody, never by the declared path: 500 files indexed by their OBSERVED digest across master_library (499 files) and human_source_returns (1). d_source_packs and nationwide_recovery_pool_2026_09_02 are not mounted here.",
+        "familiesWithASourceReceipt": 249,
+        "familiesExposed": 46,
+        "familiesExposedStillOnTheDefault": 45,
+        "widgetsExposed": 383,
+        "exposedByJurisdiction": {
+          "AR": 3,
+          "CO": 5,
+          "ID": 2,
+          "NE": 2,
+          "NM": 3,
+          "NY": 1,
+          "PA": 7,
+          "RI": 6,
+          "SD": 1,
+          "TX": 7,
+          "VT": 7,
+          "WV": 2
+        },
+        "masterQueueStatesOfTheExposed": {
+          "COMPLETE_PACKET_PROVEN": 17,
+          "FAIL_REPAIR_REQUIRED": 13,
+          "BUILT_RASTER_PENDING": 10,
+          "GUIDANCE_READY": 3,
+          "PRODUCT_PATH_PENDING": 2,
+          "LEGAL_BLOCKED": 1
+        },
+        "largest": "ar-drug-court-set, 66 widgets, worst displacement 42.4pt, FAIL_REPAIR_REQUIRED. Then nm_conviction-set, nm_identity_theft-set and nm_release_without_conviction-set at 39 each; co_petition_seal_arrest-set at 25; wv_conv_single_misdemeanor-set and wv_conv_multiple_misdemeanors-set at 13 with a worst displacement of 682.7pt.",
+        "notMeasurableHere": "46 declared documents across 17 families, each listed by familyId, form number and digest with the reason. They are sources whose digest is in no custody mounted in this container; they are recorded as NOT_MEASURABLE_HERE and never folded into a count of zero.",
+        "changedNothing": "The scan writes only its own two report files. It opens no artifact for writing, rebuilds nothing, changes no builder and no family's bytes -- confirmed by re-hashing all 5438 overlay files after it ran."
+      },
+      "acceptanceReceipt": null,
+      "whatWasNotDone": [
+        "No central raster. Both fixture digests moved, so the raster receipt bound to the old digests stops binding and a fresh central raster is owed. RASTER_QUEUE.json was not opened.",
+        "No independent verification. This lane built what it would be verifying, so it verifies nothing; product-wiring.json binding.acceptanceReceipt stays null and no verdict was written or replaced.",
+        "None of the cohort's own repairs. 46 families are exposed, 45 still on the default, and not one of them was rebuilt, opted in or touched.",
+        "No change to the default behaviour of the shared step, and no whitelist by family, form or field name anywhere.",
+        "No PR. The branch is pushed and nothing else."
+      ]
+    }
+  ]
+}

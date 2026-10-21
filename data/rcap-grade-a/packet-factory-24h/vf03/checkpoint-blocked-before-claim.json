@@ -1,0 +1,71 @@
+{
+  "schemaVersion": "rcap-independent-verification-lane-checkpoint/v1",
+  "lane": "VF03",
+  "laneKind": "independent-verification",
+  "assignmentId": "VF03",
+  "checkpoint": "no-family-claimable",
+  "whyThisIsASeparateFileAndNotARowInRowsJson": "Every row this lane could add here would be BLOCKED_BEFORE_CLAIM, which extract-verifier-returns.mjs reads as a statement about the lane and not about the family. Eight of the twelve subjects below already carry real, measured verdicts in rows.json from earlier waves; appending a second row under the same itemId would put two conflicting rows on one family. This file also deliberately avoids naming the fifteen proof obligations, because the extractor derives a lane's scoredTokens from every uppercase token in rows.json and naming them in prose would make narrowly scored rows look fully scored. Nothing in this checkpoint is fed to extraction.",
+  "base": {
+    "captainBranch": "claude/legalease-sprint-captain-utucnw",
+    "baseSha": "0880e69cc0b839c1b02679a6b64c5c536c62a644",
+    "minimumCaptainSha": "b03b38d9055aa9d4fe2db98e74e109dee02d09fb",
+    "minimumAncestorSatisfied": true,
+    "environment": "local git worktree, not a Codex Cloud container; the shallow-checkout allowance does not apply and the clone is complete"
+  },
+  "preflight": {
+    "command": "node scripts/verify-packet-build-environment.mjs --minimum-captain-sha b03b38d9055aa9d4fe2db98e74e109dee02d09fb",
+    "result": "PACKET_BUILD_ENVIRONMENT_READY: 12/12 passed, 0 failed, 5 not applicable",
+    "familyFlagOmittedBecause": "no family was claimable, and --family resolves a dispatch assignment and binds that family's sources. Running it would have been a read against a family this lane holds no grant on.",
+    "masterLibrary": "mounted read-only from MASTER_LIBRARY_SOURCE_DIR; 499 files, 329 PDFs, 51 jurisdictions; corpus index sampled byte-exact"
+  },
+  "claimGate": {
+    "ledger": "data/rcap-grade-a/packet-factory-24h/claim-ledger.json",
+    "ledgerValidated": true,
+    "grantsHeldByThisLane": 12,
+    "grantsOpen": 0,
+    "everyAssertRefused": true,
+    "artifactsOpened": 0,
+    "refusals": [
+      { "familyId": "az_marijuana_expungement_superior_court-set", "verdict": "BLOCKED_BEFORE_CLAIM", "refusal": "ALREADY_RELEASED: az_marijuana_expungement_superior_court-set at 2026-09-02T18:05:56.059Z", "exitCode": 9 },
+      { "familyId": "ca-1203-41-set", "verdict": "BLOCKED_BEFORE_CLAIM", "refusal": "ALREADY_RELEASED: ca-1203-41-set at 2026-09-02T18:05:56.143Z", "exitCode": 9 },
+      { "familyId": "ca-prop64-set", "verdict": "BLOCKED_BEFORE_CLAIM", "refusal": "ALREADY_RELEASED: ca-prop64-set at 2026-09-02T17:51:17.694Z", "exitCode": 9 },
+      { "familyId": "dc_correct_misattributed_arrest-set", "verdict": "BLOCKED_BEFORE_CLAIM", "refusal": "ALREADY_RELEASED: dc_correct_misattributed_arrest-set at 2026-09-02T01:00:19.327Z", "exitCode": 9 },
+      { "familyId": "ga-seal-m-set", "verdict": "BLOCKED_BEFORE_CLAIM", "refusal": "ALREADY_RELEASED: ga-seal-m-set at 2026-09-01T23:59:40.264Z", "exitCode": 9 },
+      { "familyId": "id_set_aside_dismissal-set", "verdict": "BLOCKED_BEFORE_CLAIM", "refusal": "ALREADY_RELEASED: id_set_aside_dismissal-set at 2026-09-02T16:08:43.657Z", "exitCode": 9 },
+      { "familyId": "il-prostitution-j-vacate-set", "verdict": "BLOCKED_BEFORE_CLAIM", "refusal": "ALREADY_RELEASED: il-prostitution-j-vacate-set at 2026-09-02T02:01:18.798Z", "exitCode": 9 },
+      { "familyId": "ms-nonconv-set", "verdict": "BLOCKED_BEFORE_CLAIM", "refusal": "ALREADY_RELEASED: ms-nonconv-set at 2026-09-01T23:59:40.337Z", "exitCode": 9 },
+      { "familyId": "ne-expunge-le-error-set", "verdict": "BLOCKED_BEFORE_CLAIM", "refusal": "ALREADY_RELEASED: ne-expunge-le-error-set at 2026-09-01T23:58:16.089Z", "exitCode": 9 },
+      { "familyId": "rcap-tx-custom-pleading", "verdict": "BLOCKED_BEFORE_CLAIM", "refusal": "ALREADY_RELEASED: rcap-tx-custom-pleading at 2026-09-02T17:57:14.614Z", "exitCode": 9 },
+      { "familyId": "ut_pet_dismissed_without_prejudice-set", "verdict": "BLOCKED_BEFORE_CLAIM", "refusal": "ALREADY_RELEASED: ut_pet_dismissed_without_prejudice-set at 2026-09-02T18:05:56.304Z", "exitCode": 9 },
+      { "familyId": "vt_seal_18_to_21-set", "verdict": "BLOCKED_BEFORE_CLAIM", "refusal": "ALREADY_RELEASED: vt_seal_18_to_21-set at 2026-09-02T00:06:52.338Z", "exitCode": 9 }
+    ],
+    "whatARefusalMeansHere": "The claim gate is the read gate. A refused assert means this container opened no artifact of that family, so this checkpoint carries no verdict about any of the twelve and no lane should read one into its silence. None of these refusals is a FAIL and none is a PASS.",
+    "whyNoGrantWasReopened": "claim.mjs --reissue exists and would have made every subject assertable again, but re-opening a released grant is a deliberate dispatch act with a stated cause and an author, and it is the mechanism by which two workers can end up writing one family. A verification lane self-granting its own re-read is exactly the act that mechanism guards against. The lane stopped instead."
+  },
+  "observationsForCaptain": {
+    "notADefectFinding": "These are observations about the lane record, made without opening any family. None is a verdict about a packet and none is a repair assignment.",
+    "grantedFamiliesWithNoRowInThisLanesRowsJson": [
+      { "familyId": "ca-prop64-set", "verdictRecordedElsewhere": "vf01, vf05, vf06, vf07, vf12 rows.json" },
+      { "familyId": "ne-expunge-le-error-set", "verdictRecordedElsewhere": "vf08 rows.json" },
+      { "familyId": "rcap-tx-custom-pleading", "verdictRecordedElsewhere": "vf05, vf07 rows.json" },
+      { "familyId": "vt_seal_18_to_21-set", "verdictRecordedElsewhere": "vf04, vf11 rows.json" }
+    ],
+    "soNoGrantedFamilyIsUnread": "All four were released on the VF03 grant without a VF03 row, but each already carries an independent-verification verdict on another lane. No family in the VF03 grant set is silent across the factory.",
+    "laneMembershipDisagreesWithLedger": "rows.json declares a laneMembership of four families; the ledger holds twelve packet-family grants on VF03. The ledger is the authority; the membership block is a snapshot the ledger has moved past. This is the same drift the earlier FABLE-VA wave recorded in whatARefusalMeant.",
+    "unmeasuredSpellingIsNotAFreeze": "rows.json line 2813 records CLIPPING_AND_OVERLAP as UNMEASURED on the AK STOPPED row. extract-verifier-returns.mjs canonicalises UNMEASURED to NOT_MEASURABLE_HERE through UNMEASURED_SPELLINGS, so it does not freeze extraction. It was left exactly as the lane that measured it wrote it, because this container did not read that family and may not restate another reader's result.",
+    "verdictWordsOutsideTheBriefsFourAreAccepted": "STOPPED and BLOCKED_BEFORE_CLAIM appear in rows.json and are both in the extractor's VERDICTS list, so neither is refused at integration."
+  },
+  "laneInvariants": {
+    "overlayDirectoriesModified": 0,
+    "buildScriptsModified": 0,
+    "packetBytesModified": 0,
+    "centralManifestsModifiedByHand": 0,
+    "claimLedgerModified": false,
+    "familiesRepaired": 0,
+    "commercialRoutesOpened": 0,
+    "familiesPromoted": 0,
+    "productionTouched": false,
+    "nationalChainRun": false
+  },
+  "grantsNothing": "An independent PASS proves a packet is complete. It approves no output and opens no commercial route. This checkpoint records no PASS at all."
+}

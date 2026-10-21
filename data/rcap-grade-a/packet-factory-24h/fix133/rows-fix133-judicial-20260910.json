@@ -1,0 +1,190 @@
+{
+  "schemaVersion": "rcap-grade-a-packet-factory-24h-lane-rows/v1",
+  "lane": "FIX133",
+  "laneKind": "repair",
+  "dispatch": "The border-cohort unaccounted ink on the two judicial-tier families, plus the obligations recorded against them.",
+  "generatedAtBase": "8605e4b55",
+  "worktree": "/home/user/v5c-worktree",
+  "branch": "v5c-jud-20260910",
+  "subjects": ["pa_pardon_expungement-set", "mi_setaside_trafficking-set"],
+  "notThisLanesSubject": "pa_490_nonconviction-set and pa_790_nonconviction-set share the Pennsylvania jurisdiction but not this builder and not this assignment. Neither was claimed, read as family content or built. See sameMechanismElsewhereOnThisHost for what this lane's evidence does and does not say about them.",
+
+  "theDispatchedFRAMINGWasWrongAndTheBytesSayWhy": {
+    "dispatched": "pa_pardon_expungement-set -- 28 unaccounted strokes against 24 that are the form's own; named controls JudgeAddr2, JudgeAddrCity, JudgeAddrState, the judge's address block on the order. mi_setaside_trafficking-set -- 2 unaccounted against 26; MC227's judge and hjudge fields.",
+    "measured": "NOT ONE OF THE UNACCOUNTED STREAMS IS AT A JUDGE FIELD. On both families every stroke-only appearance matching nothing is a CHECK BOX. The judge's own block is untouched in both directions on both families.",
+    "whyTheDispatchSaidOtherwise": "namedControls in BORDER_COHORT_REMEDIATION.json is the family's JUDICIAL_CONTROL-tiered EXPOSED widget list, not a list of the widgets carrying the unaccounted ink. The record's own theTierIsAHeuristicAndItHasAlreadyBeenWrong says the tier is derived from field names and is a way to start a queue, never a claim about where the ink is. Here it named four Pennsylvania text fields and two Michigan text fields that carry no unaccounted ink at all.",
+    "whereTheJudgeFieldsActuallyAre": "JudgeAddr1/2/City/State/Zip and Judge are on PA-RCRIM-P-790-PETITION, not on the ORDER. The ORDER's judge field is NameAddrOfJudge at [105.854 523.019 534.23 564.199] on ORDER page 2. JudgeAddr2, JudgeAddrCity, JudgeAddrState and JudgeAddrZip carry hasAP false in the pinned source and flatten to MARKS_NOTHING -- pdf-lib builds their rectangle as a path and never paints it, because the widgets declare neither border colour nor border width.",
+    "judgeBlockDirectionalRead": "NameAddrOfJudge sits on delivered canonical page 5, which reads 0 added and 0 removed dark pixels against the pinned source and 0/0 across the repair. The PETITION judge-address band y 477-510 carries no added-ink cluster in any fixture. CourtSignature [332.692 228.4 532.053 256.688] is likewise untouched."
+  },
+
+  "howTheUNMATCHEDCLASSWasEstablishedPerStream": {
+    "method": "Every stroke-only appearance the ledger calls unmatched was decompressed out of the delivered fixture and compared against the pinned source's own /AP /N pool, then the pinned source's PAGE CONTENT STREAM was read for what its /AP covers. No stream was acted on from its label.",
+    "independentReproduction": "This lane's own extraction reproduces the ledger's recorded digests exactly before anything was changed -- e.g. the Michigan stream re-hashes to a0b9c92bb5aeaeb2b5b034cc7dceebc364f8153a8258ba9daf58b0ddf04927d1, the digest BORDER_COHORT_REMEDIATION.json records for it.",
+    "twoMECHANISMSNotOne": "The 28 Pennsylvania unaccounted entries are 7 DISTINCT streams and they split into two unrelated causes. The 2 Michigan entries are ONE distinct stream counted once per fixture."
+  },
+
+  "correctionToTheSHAREDLEDGER": {
+    "whatItRecords": "sourceAccounting.strokeOnlyThatIsASourceStreamMinusItsBackgroundFill = 0 and derivedFromSourceDetail = [] on BOTH families, with why saying the ink 'is invented and the remedy removes it'.",
+    "whatIsTrue": "THREE of the nine distinct streams across the two families are the source's own /AP /N /Off stream minus a leading opaque background fill, byte-exactly. They belong to the derivedFromSource class the same record defines, and for them the remedy RESTORES. Acting on the recorded label would have deleted the court's own check-box outline from a Michigan proof-of-service block and from two Pennsylvania Yes/No controls.",
+    "whyTheAccountingMissedThem": "The normaliser recognises a GREY background fill -- the record names 0.749023 g and its rg/scn equivalents. All three of these fills are PURE WHITE, `1 g`. A white fill is not in the pattern, so a stream that is the source's appearance minus its white fill failed the derived-from-source test and fell through to 'matches nothing, invented'.",
+    "proofMichigan": "source /Off for posnoticecheck is 64 bytes `q\\n1 g\\n0 0 8.2573 12.2473 re\\nf\\n0 G\\n0 w\\n0 0 8.2573 12.2473 re\\ns\\nQ\\n`; delivered is 37 bytes `q\\n\\n0 G\\n0 w\\n0 0 8.2573 12.2473 re\\ns\\nQ\\n`. Removing the 27-byte leading fill from the source yields the delivered stream character for character.",
+    "proofPennsylvania": "source /Off for each `Check Box1` widget is 58 bytes `1 g\\n0 0 15.0306 12.8043 re\\nf\\n0.5 0.5 14.0306 11.8043 re\\ns\\n` (and the 14.2886 variant); delivered is the same 31 bytes with `1 g` and the fill rectangle excised. 58 - 27 = 31 on both.",
+    "recommendation": "The fill normaliser should accept any fill whose grey is >= 0.9, which is the test stripOpaqueBackgroundPaint itself applies, rather than a named grey. Until it does, a SYNTHESIZED_INK_CONFIRMED row on any family whose source paints white widget backgrounds overstates the invented count. This lane edited no shared ledger; the correction is reported, not applied."
+  },
+
+  "rows": [
+    {
+      "familyId": "pa_pardon_expungement-set",
+      "status": "COMPLETED",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "claim": "CLAIM_OK FIX133 pa_pardon_expungement-set (repair, grant set fd46c4e43cd77795)",
+      "whatWasWrong": "Two independent check-box defects, both visible on a filing, both confirmed against the pinned sources and against the sources' own page-drawing operators.",
+      "defectOne": {
+        "class": "ink this packet ADDED -- pdf-lib synthesized widget border",
+        "widgets": [
+          "PA-RCRIM-P-790-ORDER Checkbox1 [66.549 511.516 75.69 519.361] page 1",
+          "PA-RCRIM-P-790-ORDER Checkbox2 [66.131 450.221 75.272 458.357] page 1",
+          "PA-RCRIM-P-790-ORDER Checkbox3 [66.5855 388.885 75.7266 397.021] page 1",
+          "PA-RCRIM-P-790-PETITION Checkbox2 [47.52 191.062 56.28 199.2] page 1",
+          "PA-RCRIM-P-790-PETITION Checkbox2 [47.52 166.56 56.28 175.691] page 1"
+        ],
+        "cause": "Each of these widgets ships an /AP /N carrying an /On state ONLY -- a ZapfDingbats check mark inside a clip, no box. Their /AS is /Off. Under ISO 32000-1 12.5.5 a state absent from /AP /N is drawn as nothing; pdf-lib instead synthesizes `0 0 0 RG / 0 w / [] 0 d / 0 0 m ... h / S` at the widget /Rect and flatten stamps it. The official page already prints its own box at each of those rectangles, so the stamp lands as a second, thickened outline over the court's.",
+        "measuredAt600dpi": "136 added dark pixels at ORDER Checkbox1, 136 and 80 at the two PETITION Checkbox2 widgets, every one of them on the left and right edges of the printed box. 0 removed.",
+        "remedy": "REMOVE -- suppressSynthesizedAppearances, which installs the empty appearance the source's silence means."
+      },
+      "defectTwo": {
+        "class": "ink this packet UNCOVERED -- the court's own white mask stripped off",
+        "widgets": [
+          "PA-RCRIM-P-790-PETITION Check Box1 [456.869 259.976 471.9 272.78] page 1",
+          "PA-RCRIM-P-790-PETITION Check Box1 [527.106 259.698 541.395 272.502] page 1"
+        ],
+        "cause": "These two are the Yes/No election under the printed question that ends '...due been paid?'. The petition's own page content stream draws a SMALLER box at each -- `0.72 w 1 J / 466.68 271.62 -9.3 -9.3 re / S` and the same at 538.68 -- and the widget's /Off appearance paints `1 g` over it and strokes a larger one, so the control reads as ONE hollow box, which is what a conforming viewer and the court's own PDF show. stripOpaqueBackgroundPaint removes any leading fill at grey >= 0.9 covering the widget, so it removed this white one, and the printed 9.3 x 9.3pt box reappeared INSIDE the widget's 15.03 x 12.80pt box.",
+        "measuredAt600dpi": "1,262 added dark pixels across the two widgets -- measured as rectangles at x 457.92-466.92 y 262.08-271.80 and x 529.12-538.96 y 261.96-271.32, which are the page's own two drawn rectangles to within antialiasing. Two concentric outlines at each of the two Yes/No controls on a filing.",
+        "remedy": "RESTORE -- preserveUnwrittenSelectionBackgrounds, which keeps the source's authored blank-state paint on a selection this run did not write. /MK /BG is still removed, so no background the form did not itself author is requested.",
+        "whyThisIsTheValuableHalf": "The ledger classed both of these as invented. Removing them would have deleted the court's own check-box stroke from the fee question on a Rule 790 petition."
+      },
+      "whatWasChanged": [
+        "scripts/build-census-v1-pa_pardon_expungement-set.mjs -- suppressSynthesizedAppearances: true and preserveUnwrittenSelectionBackgrounds: true passed at the single finalizeOfficialForm call, with the measurement recorded in the comment above it.",
+        "scripts/build-census-v1-pa_pardon_expungement-set.mjs -- declarePacketComponents now routes its write through scripts/rcap-packet-completeness/governance-preservation.mjs."
+      ],
+      "blastRadius": "This builder declares exactly one family in FAMILY_CONFIGS and nothing in scripts/ imports it. Both options are per-caller and default false in the shared module precisely so a repair lane holding one family does not decide what another family's next rebuild produces. No shared module was edited.",
+      "directionalRasterAgainstThePinnedSources": {
+        "method": "pdftoppm -gray at 300 dpi over whole pages and at 600 dpi over each affected widget, per-pixel at threshold 128, counted in BOTH directions.",
+        "canonicalOrderPage1": "16,939 added / 0 removed. All three added clusters are participant writes.",
+        "canonicalOrderPage2": "10,323 added / 0 removed. All three added clusters are participant writes.",
+        "canonicalPetitionPage1": "16,808 added / 0 removed. All nine added clusters are participant writes.",
+        "boundaryAllPages": "0 removed on every page; every added cluster is a participant write.",
+        "perWidgetAt600dpiAfterRepair": "ORDER Checkbox1, Checkbox2, Checkbox3 and PETITION Checkbox2 x2 and Check Box1 #2 all read 0 added / 0 removed. Check Box1 #1 reads 0 added / 106 removed, characterised below.",
+        "theOneResidual": "106 sub-threshold pixels in ONE 600-dpi column at the right edge of Check Box1 #1, source grey 89 against delivered 255. The stroke's solid core (value 0) occupies identical columns in both. It is the outer antialiased margin of the widget's own 1pt stroke, clipped by the appearance BBox [0 0 15.0306 12.8043] which the stroke reaches exactly, and it is inherent to flattening such an appearance. It measured 107 px BEFORE this repair and 106 after: pre-existing, not introduced, and not court ink."
+      },
+      "removedInkAccountedForLineByLine": {
+        "method": "The pre-repair canonical.pdf was taken from HEAD and rendered against the post-repair canonical.pdf at 300 dpi, all five pages, both directions.",
+        "addedByTheRepair": 0,
+        "removedByTheRepair": 968,
+        "page3thePetition": "791 px removed. 384 at (528.96,262.08)-(538.8,271.44) and 193+105 at (457.92,262.08)-(466.96,271.68) are the page's own printed 9.3pt boxes going back under the court's white mask. 41+37+31 at x 47.52-56.16, y 166.56 / 175.44 / 191.28 are the synthesized border edges at the two Checkbox2 widgets.",
+        "page4theOrder": "177 px removed, in five clusters: 39 at x66.0-66.48 y450.24-458.40, 35 at x66.48 y389.04-397.20, 35 at x75.60 y389.04-397.20, 34 at x66.48 y511.68-519.60, 34 at x75.60 y511.68-519.60. Every one is a left or right edge of ORDER Checkbox1/2/3.",
+        "nothingElse": "No removed pixel anywhere lies outside those seven check-box rectangles."
+      },
+      "negativeControl": "Canonical pages 1, 2 and 5 -- the two composed guidance pages and the second page of the order -- read 0 added and 0 removed across the repair. Page 5 is the page carrying NameAddrOfJudge and the judge's signature block. The builder's own local raster regenerated only page-03 and page-04 for both fixtures, which agrees.",
+      "signatureNotaryAndJuratAreas": "Untouched. ORDER CourtSignature [332.692 228.4 532.053 256.688] and NameAddrOfJudge [105.854 523.019 534.23 564.199] carry no added or removed pixel. The PETITION's Date of Arrest and Date on Complaint at y 432-443 are far from every removed cluster.",
+      "obligationsRecordedAgainstThisFamily": {
+        "COMPONENT_SET": "REPRODUCED and REPAIRED. binding.packetComponents named the two CONDITIONAL components and omitted component:pa_pardon_expungement-process-guidance-1, the only one the manifest marks required -- exactly inverted. The builder's declarePacketComponents restores all three in the manifest's declared order. One line of the wiring record.",
+        "REQUIRED_BEFORE_FILING": "NOT REPRODUCIBLE at this base, on both recorded limbs, and read from the delivered bytes rather than from a report. The vf30 limb -- obtain the pardon copy, confirm from that document whether it is unconditional, record the quarterly verification date -- is carried on delivered guidance page 1: 'First obtain a copy of the pardon from the Pennsylvania Board of Pardons... Confirm from that copy whether the pardon is unconditional or conditional...' and 'Quarterly verification date: ____________'. The vf07 limb -- the AddrState and AddrZip width refusals being undisclosed blanks -- is carried in participant-instructions.md lines 15-19, which state the two-character and five-digit limits, state that the packet leaves the blank empty rather than shortening a sworn address, and tell the participant to write them in by hand; reports/actual-writes.json records both refusals.",
+        "SELF_HELP_STOP": "NOT REPRODUCIBLE at this base. All three of the registry's selfHelpStopConditions are carried verbatim under STOP AND GET HELP on delivered guidance page 2. The DET-FEE-AND-WAIVER-001 A4 sentence vf07 quoted ('This page states no timetable and no criterion for that') is gone and the quarterly cycle is stated in its place.",
+        "notNamedInThisAssignmentAndCheckedAnyway": "The vf12 Vermont contamination -- filing destination, fee waiver 600-00228, State's Attorney service, and a stop describing Vermont forms and sealing -- returns zero matches in participant-instructions.md at this base. The vf12 ROUTE_IDENTITY key that named no route in the census is gone; the builder now carries the two canonical obligations and documents why."
+      },
+      "governance": {
+        "doesThisBuilderRegenerateWiringWholesale": "No. It sets one key on the committed document and leaves the rest as its generator wrote it, so the six-key erasure REBUILD_ERASES_GOVERNANCE_STATE.json describes was never reachable from here.",
+        "whatWasStillNeeded": "The other half of the rule. binding.acceptanceReceipt asserted RASTER_PASS over canonical bca67f48a63bc882b2a6c9017620c7379085d207a25a39e15b084f0d1f850d15. This repair moves the canonical to 2b14758a6d873324c116d3aa49c542d0c1a50ded2fce4a3eb5b6d61a126558fd, so the receipt stopped describing the packet and leaving it in place would have left a pass sitting on bytes nobody rendered.",
+        "whatWasDone": "declarePacketComponents now hands the wiring document to preserveGovernanceState with the canonical digests this build measured, and writes through writeWiringChecked. The five non-artifact-bound keys are carried forward verbatim; the receipt is WITHDRAWN under acceptanceReceiptWithdrawn, whole, carrying both digests, and is not deleted. The committed key order is captured and restored so a rebuild that changes nothing writes byte-identical wiring.",
+        "verification": "npm run rcap:verify-governance-preservation exits 0, including 'the canonical moves, and the receipt is withdrawn with both digests' and 'a second rebuild of unchanged inputs writes byte-identical wiring'.",
+        "receiptIssued": "none. Only the central raster acceptance workflow issues a receipt. This lane issued none and set no verdict."
+      },
+      "reproducibility": "Established before any edit, the way FIX121 established it: an unmodified rebuild at this base left every fixture byte-identical and touched only product-wiring.json. After the repair, two consecutive rebuilds produce byte-identical fixtures AND byte-identical wiring.",
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersNote": "Read from the family's own reports/builder-completeness-counters.json after the repair, computed by the shared completeness contract. visualDefects 0 is the builder's contract counter and is not this lane's verdict on the page; the directional raster read above is the measurement, and an independent lane decides.",
+      "artifacts": [
+        { "fixture": "canonical.pdf", "sha256": "2b14758a6d873324c116d3aa49c542d0c1a50ded2fce4a3eb5b6d61a126558fd", "pages": 5 },
+        { "fixture": "boundary.pdf", "sha256": "6291eef1ec82fff3da10ffea25db82652326eb7603c0a5d2db28c570b4ab2a1a", "pages": 5 },
+        { "fixture": "canonical--PA-RCRIM-P-790-PETITION.pdf", "sha256": "faee1eb47829735269ae139c1ff00bc50075ba33a989910a6a53cb10efe6c43f", "pages": 1, "addedGlyphsReadFromOutputBytes": 113, "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0 },
+        { "fixture": "canonical--PA-RCRIM-P-790-ORDER.pdf", "sha256": "fb028d3f41b3757296ff91c7e4b943e9aa8d001bc3321747f31b9a039f29f1eb", "pages": 2, "addedGlyphsReadFromOutputBytes": 100, "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0 },
+        { "fixture": "boundary--PA-RCRIM-P-790-PETITION.pdf", "sha256": "ce206b1eca6b9f1710b9e24bec6cae44828e03a7173ceeb55ccec0dac5bad500", "pages": 1, "addedGlyphsReadFromOutputBytes": 182, "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0 },
+        { "fixture": "boundary--PA-RCRIM-P-790-ORDER.pdf", "sha256": "8e8649aad630c3a14fdcc9e621f0667ce4a9bb45127063489b46d7c0b30cdacd", "pages": 2, "addedGlyphsReadFromOutputBytes": 137, "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0 }
+      ],
+      "strokeOnlyBeforeAndAfter": "ORDER 9 -> 6, PETITION 4 -> 2, measured with scripts/grade-a-packet-factory-24h/classify-flattened-widget-appearances.mjs against the pinned sources. Every remaining stroke-only appearance is the form's own: the ORDER's NameAddrOfJudge and page-2 boxes, and the two Check Box1 widgets now carrying operators f and s -- the fill is back.",
+      "preExistingAndNotThisLanesToFix": "classify-flattened-widget-appearances.mjs reports appearancesNotPlacedAtTheirOwnSourceWidget = 1 on the ORDER, both BEFORE and AFTER this repair. It is /FlatWidget-7888911063, the source's `% DSBlank` signature placeholder, placed from its BBox [0 0 100 100] rather than its widget /Rect [332.692 228.4 532.053 256.688]. It carries no painting operator and no glyph -- klass MARKS_NOTHING -- so it cannot be visible ink. Reported, not touched."
+    },
+    {
+      "familyId": "mi_setaside_trafficking-set",
+      "status": "COMPLETED",
+      "rasterState": "not applicable -- no packet byte was moved",
+      "claim": "CLAIM_OK FIX133 mi_setaside_trafficking-set (repair, grant set fd46c4e43cd77795)",
+      "outcome": "NO REPAIR WAS WARRANTED AND NONE WAS MADE. Both recorded problems fail to reproduce on the delivered bytes.",
+      "theUnaccountedInk": {
+        "whatTheLedgerSays": "strokeOnlyMatchingNothing 2, result SYNTHESIZED_INK_CONFIRMED, 'that ink is invented and the remedy removes it'.",
+        "whatItActuallyIs": "The 2 entries are ONE distinct stream, /FlatWidget-773902752, counted once in canonical.pdf and once in boundary.pdf. It sits at posnoticecheck [367.743 503.25 376 515.497] on page 3 -- a check box in the proof-of-service block, NOT at judge or hjudge.",
+        "cause": "It is the pinned MC-227B's own /AP /N /Off stream for that widget minus its leading `1 g` background fill, byte-exactly. The stroke `0 G 0 w 0 0 8.2573 12.2473 re s` is the court's own check-box outline.",
+        "whyItIsNotAlsoAVisualDEFECT": "Unlike the Pennsylvania case, nothing is printed underneath. Rendered at 600 dpi and compared per pixel, the source crop and the delivered crop are IDENTICAL BYTES -- 0 pixels differ at any grey level, not merely 0 above a threshold. The white mask was covering blank paper, so removing it changes nothing on the page.",
+        "remedyIfActedOn": "RESTORE, never remove. Deleting this stream would have erased the court's own check-box outline from the proof of service."
+      },
+      "directionalRasterAgainstThePinnedSource": {
+        "method": "pdftoppm -gray at 300 dpi over all four pages of canonical.pdf against MC-227B, per-pixel at threshold 128, both directions; 600 dpi at the flagged widget.",
+        "page1": "64,825 added / 0 removed. Every added cluster is a participant write. The one cluster that looked like a 1.44 x 13.68pt vertical rule was read at 600 dpi against the source: the form's own table rule is present and identical in both, and the pixels are the leading stroke of the first written glyph in dinfo, split off by the clustering gap.",
+        "page2": "2,591 added / 0 removed -- the case number in the caption box.",
+        "page3": "2,591 added / 0 removed -- the same.",
+        "page4": "0 added / 0 removed.",
+        "removedInkTotal": 0
+      },
+      "negativeControl": "Page 4 is a page this packet writes nothing on. It gains nothing and loses nothing: 0 added, 0 removed at 300 dpi.",
+      "obligationsRecordedAgainstThisFamily": {
+        "CLIPPING_AND_OVERLAP": "NOT REPRODUCIBLE at this base. The vf03 finding was that the boundary case number 2024-0011882-SUPPLEMENTAL-FY is drawn at Helvetica 10 into three caption widgets too small for it and the appearance stream clips it. Read from the delivered boundary bytes: the page-1 caption carries the full string at Helvetica 8.36 inside a clip 156.437pt wide; the page-2 and page-3 captions carry it at Helvetica 6 inside a clip 99pt wide; and the conviction-table cell WRAPS it onto two lines within its own clip (`<...535550504C454D454E54414C2D> Tj` at Tm y 12.34 and `<4659> Tj` at Tm y 5.68, clip y 2..19). Rendered at 600 dpi the page-2 caption shows the complete string ending in FY with clear space to the box edge. Nothing is clipped.",
+        "vf90Row": "The one non-superseded failing row for this family, vf90 at base a09ef20d, carries an empty failedObligations array and is listed in VERIFIER_RETURNS.json unactionableFailures -- 'rows carrying a failing verdict that name no obligation anywhere, so no repairer can be dispatched from them; each needs a fresh independent read, not a repair'. This lane did not re-derive the family from it."
+      },
+      "whatWasChanged": "Nothing. No fixture byte, no report, no manifest, no wiring record. The family's acceptanceReceipt remains bound to canonical acb9bf49ab83059266162eb046e4e55be6f44d9f0647e7099325bedae31e28ee, which is still the delivered digest, so a valid receipt was preserved by NOT rebuilding.",
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersNote": "Read from the family's committed reports/completeness-counters.json, unchanged by this lane because this lane changed nothing. They are the builder's contract counters and are not this lane's verdict.",
+      "artifacts": [
+        { "fixture": "canonical.pdf", "sha256": "acb9bf49ab83059266162eb046e4e55be6f44d9f0647e7099325bedae31e28ee", "pages": 4, "addedGlyphsReadFromOutputBytes": 474, "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0 },
+        { "fixture": "boundary.pdf", "sha256": "90bd30df3077f8dc819f4c227c7cc254d1773fc0db9fc51ecf42febe950b58a2", "pages": 4, "addedGlyphsReadFromOutputBytes": 1080, "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0 }
+      ],
+      "observationNotActedOn": "binding.packetComponents lists both required components but in reverse of the manifest's declared order -- certificate-of-service-2 before primary-filing-1, where legal-design-packet-set-manifests.json declares primary-filing-1 at order 1. Both are present, so this is not the omission COMPONENT_SET describes, it is not the obligation recorded against this family, and re-deriving the family from it is outside this assignment. Reported for whoever holds COMPONENT_SET on Michigan."
+    }
+  ],
+
+  "sameMechanismElsewhereOnThisHost": {
+    "question": "Whether the Pennsylvania unaccounted ink is one mechanism across the whole host, and which families it reaches.",
+    "answer": "It is NOT one mechanism, and the two mechanisms have different reaches.",
+    "mechanismA": "pdf-lib synthesizing an appearance for a check box whose current /AS state has no /AP /N entry. This is a property of the FORM, not of the family: it reaches any family that flattens PA-RCRIM-P-790-ORDER (Checkbox1/2/3) or PA-RCRIM-P-790-PETITION (both Checkbox2 widgets) through a finalizer call that does not pass suppressSynthesizedAppearances.",
+    "mechanismB": "stripOpaqueBackgroundPaint removing a WHITE `1 g` widget background that the form uses as a mask over its own printed art. On these sources it is confined to the two `Check Box1` widgets on PA-RCRIM-P-790-PETITION, because they are the only widgets whose /Off appearance masks a rectangle the page itself draws.",
+    "whatThisDoesAndDoesNotSayAboutOtherFamilies": "Any family binding either of these two PA forms and flattening without those options will carry the same ink, because the cause is in the source form and the shared default. That is a prediction about a form, exactly the kind of static prediction BORDER_COHORT_REMEDIATION.json warns must be measured on delivered bytes before it is acted on -- FIX121 measured such a prediction on New Jersey and found it did not hold. It should be checked per family against that family's own delivered fixtures, and this lane checked none but its own.",
+    "pa490AndPa790Nonconviction": "Recorded as cleared by the source accounting -- every stroke on them the form's own. This lane's reading does not contradict that and does not extend it: neither family was claimed or read. Note only that 'every stroke matches a source stream' and 'the page is right' are different statements, and that mechanism B produces a page defect while leaving every delivered stroke derived from the source.",
+    "recommendation": "Dispatch per family, on that family's delivered bytes, with the directional raster read in both directions. Do not treat this row as authority to turn the options on in another family's builder."
+  },
+
+  "packetsSelfVerified": 0,
+  "verdictSet": "none. This lane repaired and measured; it set no verdict and issued no PASS. Independent verification is a different lane and RASTER_PASS comes from the central workflow.",
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "sharedModuleChanges": "none. rcap-active-content.mjs, rcap-official-form-finalize.mjs and governance-preservation.mjs were read and are unchanged in the committed tree.",
+  "grantsNothing": "A repair is not an approval. Nothing here opens a commercial route, marks a packet proven, consumes a packet credit or authorizes a route promotion."
+}

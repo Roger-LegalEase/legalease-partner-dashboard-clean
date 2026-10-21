@@ -1,0 +1,99 @@
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile:
+#1 transferring dockerfile: 6.38kB 0.0s done
+#1 DONE 0.3s
+
+#2 [internal] load metadata for docker.io/library/node:22-slim
+#2 ...
+
+#3 [auth] library/node:pull token for registry-1.docker.io
+#3 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/node:22-slim
+#2 DONE 1.0s
+
+#4 [deps 1/4] FROM docker.io/library/node:22-slim@sha256:83f487e0a63425e5b4d146fb5e5be574bcbe1b7b843d3ebafdd95eaf7767a7e5
+#4 resolve docker.io/library/node:22-slim@sha256:83f487e0a63425e5b4d146fb5e5be574bcbe1b7b843d3ebafdd95eaf7767a7e5
+#4 resolve docker.io/library/node:22-slim@sha256:83f487e0a63425e5b4d146fb5e5be574bcbe1b7b843d3ebafdd95eaf7767a7e5 0.3s done
+#4 DONE 0.3s
+
+#5 [internal] load build context
+#5 transferring context:
+#5 transferring context: 35.75MB 5.0s
+#5 transferring context: 36.83MB 5.2s done
+#5 DONE 5.4s
+
+#6 [stage-1  6/19] COPY scripts/rcap-render-worker.mjs scripts/
+#6 CACHED
+
+#7 [stage-1  7/19] COPY scripts/lib/ scripts/lib/
+#7 CACHED
+
+#8 [stage-1  4/19] COPY --from=deps /app/node_modules ./node_modules
+#8 CACHED
+
+#9 [stage-1  5/19] COPY package.json tsconfig.json ./
+#9 CACHED
+
+#10 [deps 2/4] WORKDIR /app
+#10 CACHED
+
+#11 [stage-1  3/19] RUN useradd --system --create-home --shell /usr/sbin/nologin rcapworker   && mkdir -p /tmp/rcap-render-scratch && chown rcapworker /tmp/rcap-render-scratch
+#11 CACHED
+
+#12 [deps 3/4] COPY package.json package-lock.json ./
+#12 CACHED
+
+#13 [deps 4/4] RUN --mount=type=secret,id=proxy_ca,target=/run/secrets/proxy_ca     if [ -s /run/secrets/proxy_ca ]; then export NODE_EXTRA_CA_CERTS=/run/secrets/proxy_ca; fi;     npm ci --omit=dev --no-audit --no-fund
+#13 CACHED
+
+#14 [stage-1  8/19] COPY src/ src/
+#14 CACHED
+
+#15 [stage-1  9/19] COPY deploy/rcap-render-worker/runtime-data-manifest.json deploy/rcap-render-worker/preflight.mjs deploy/rcap-render-worker/
+#15 DONE 2.3s
+
+#16 [stage-1 10/19] COPY data/rcap-grade-a/fulfillment-authority-registry.json data/rcap-grade-a/fulfillment-observation-snapshot.json data/rcap-grade-a/
+#16 DONE 0.4s
+
+#17 [stage-1 11/19] COPY data/rcap-grade-a/maintenance/route-holds.json data/rcap-grade-a/maintenance/
+#17 DONE 0.2s
+
+#18 [stage-1 12/19] COPY data/rcap-codex/release-readiness.json data/rcap-codex/
+#18 DONE 0.3s
+
+#19 [stage-1 13/19] COPY data/rcap-all50/problematic-pdf-register.json data/rcap-all50/
+#19 DONE 0.4s
+
+#20 [stage-1 14/19] COPY data/rcap-all50/review-artifacts/f2-dispositions.json data/rcap-all50/review-artifacts/
+#20 DONE 0.2s
+
+#21 [stage-1 15/19] COPY data/rcap-all50/guidance-packets/ data/rcap-all50/guidance-packets/
+#21 DONE 0.8s
+
+#22 [stage-1 16/19] COPY data/rcap-ledger/packet-fulfillment-records.json data/rcap-ledger/packet-correction-required.json      data/rcap-ledger/route-kind-adjudications.json data/rcap-ledger/route-presentation-conflicts.json      data/rcap-ledger/track-pathway-crosswalk.json data/rcap-ledger/
+#22 DONE 0.3s
+
+#23 [stage-1 17/19] COPY data/record-clearing/factory-v2-route-registry.json data/record-clearing/legal-design-packet-set-manifests.json data/record-clearing/
+#23 DONE 0.5s
+
+#24 [stage-1 18/19] COPY data/record-clearing/legal-decisions/route-ratification-registry.json data/record-clearing/legal-decisions/
+#24 DONE 0.3s
+
+#25 [stage-1 19/19] COPY data/record-clearing/packet-specifications/ data/record-clearing/packet-specifications/
+#25 DONE 0.3s
+
+#26 exporting to image
+#26 exporting layers
+#26 exporting layers 2.1s done
+#26 exporting manifest sha256:428511e4ad2a852cb0c158fbe7880a804aae4e28078a0f0f5bab7b1ac9482c85 0.0s done
+#26 exporting config sha256:8fa6bc9360dd4a3baa4ae8da2441febf8dc660d414f1dd85acbf53da9d42c079 0.0s done
+#26 exporting attestation manifest sha256:04d49cf79529be14b40809c3828178ba5853d5a3cf1b01c333918f9f4ecb8a6b
+#26 exporting attestation manifest sha256:04d49cf79529be14b40809c3828178ba5853d5a3cf1b01c333918f9f4ecb8a6b 0.1s done
+#26 exporting manifest list sha256:937b8d9d7484c785808b85106b3f542535546a8aeb7d7b8f971b72b0e96ced78 0.0s done
+#26 naming to docker.io/library/rcap-render-worker:current-f63954e3a done
+#26 unpacking to docker.io/library/rcap-render-worker:current-f63954e3a
+#26 unpacking to docker.io/library/rcap-render-worker:current-f63954e3a 1.9s done
+#26 DONE 4.4s

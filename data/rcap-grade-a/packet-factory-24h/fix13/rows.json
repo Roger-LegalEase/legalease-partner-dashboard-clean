@@ -1,0 +1,282 @@
+{
+  "schemaVersion": "rcap-repair-lane-rows/v1",
+  "lane": "FIX13",
+  "laneKind": "packet-repair",
+  "worker": "FIX13 packet repair",
+  "branch": "fix13-20260909",
+  "base": "6749c7ad0",
+  "claimedUnderLiveGrants": true,
+  "grantsAsserted": [
+    "il-exp-qualprob-set",
+    "il-seal-2yr-set",
+    "il-seal-3yr-set",
+    "il-cannabis-vacate-set"
+  ],
+  "grantSet": "c5a0306778093dd7",
+  "grantsReleased": false,
+  "verdictSet": false,
+  "whyNoVerdict": "This lane BUILT these bytes. A builder does not measure its own output for acceptance, so no row here carries a verdict and none returns PASS. Every family goes back to an independent lane that neither built nor repaired it. What appears below is what was measured, and what it does and does not establish.",
+  "locatedBy": "VF13 at da781fd2f, data/rcap-grade-a/packet-factory-24h/vf13/rows.json, rows 11-14 (the second independent read of the Illinois five).",
+  "sourceCustody": {
+    "resolved": true,
+    "custodyId": "nationwide_recovery_pool_2026_09_02",
+    "root": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02",
+    "note": "This custody IS mounted in this worktree, contrary to the standing header comment in scripts/build-census-v1-il-cannabis-vacate-set.mjs. Every source hash for all four families was recomputed byte-exact from it by each builder's own resolveSources() before any packet was written, so all four were rebuilt from real source bytes rather than edited in place."
+  },
+  "rastersGenerated": 0,
+  "rastersDeleted": 0,
+  "howTheBytesWereReadWithoutRasters": "Appearance-level reads of the delivered PDFs directly: drawn text recovered from every page content stream and every flattened Form XObject (literal, hex and TJ-array operands), and each election scored against its own flattened appearance stream. Both tick mechanisms occur in this one packet -- some elections are the source form's own ZapfDingbats glyph (BT /ZaDb 8 Tf (4) Tj ET) and some are a pdf-lib vector check (q 0 G 1.5 w ... m ... l ... S Q, two paint ops and no glyph) -- so a show-text-only reading reports half of them invisible. The probe scores a widget INKED on a text-showing operator OR on more strokes than the single stroke the empty box border draws, which reads both mechanisms alike and reproduces VF13's per-box reading exactly on the pre-repair bytes.",
+  "centralArtifactsRegenerated": "none. VERIFIER_RETURNS.json, MASTER_QUEUE.json, RASTER_QUEUE.json and PACKET_COMPLETENESS_MATRIX.json were not read for writing and are unmodified.",
+  "familiesOutsideGrantTouched": 0,
+  "overlayDirectoriesModified": 4,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "countersAfterMeasuredBy": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs, run in this container against the delivered bytes after the repair. It returns PASS_COMPLETE with nine zeros for all four families -- and returned exactly the same nine zeros BEFORE the repair, when both defects were live. Passing it is necessary and not sufficient: it reads only canonical-side records, and it reads no participant-instructions.md against the controlling record at all. The evidence for each repair is the byte measurement recorded on the row, not the counters.",
+  "summary": {
+    "families": 4,
+    "rows": 4,
+    "COMPLETED": 4,
+    "defectsRepaired": 2,
+    "defectsFoundNotReal": 0,
+    "pdfBytesChanged": 1,
+    "participantDocumentsChanged": 4
+  },
+  "rows": [
+    {
+      "itemId": "il-exp-qualprob-set",
+      "familyId": "il-exp-qualprob-set",
+      "lane": "FIX13",
+      "status": "COMPLETED",
+      "repairedByThisLane": true,
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/il/il-exp-qualprob-set--official-pdf-fill",
+      "builder": "scripts/build-census-v1-il-exp-qualprob-set.mjs",
+      "buildStatus": "state_built",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "obligationRepaired": "REQUIRED_BEFORE_FILING",
+      "defect": "The builder never referenced data/record-clearing/legal-design-track-registry.json. The track carries ten packetSet.requiredBeforeFiling lines and zero of the ten reached participant-instructions.md, so the guide never told the petitioner to sign and verify the Request the packet deliberately leaves blank, never said a wet signature is expected, and never named the filing fee or the Rule 298 waiver in the participant document. It also directed the expunge-versus-seal election to 'the Request' where the record places it on the Case List's per-case election column.",
+      "repair": "controllingRecord() added, modelled on scripts/build-census-v1-il-exp-nonconv-set.mjs. The guide now prints track.packetSet.requiredBeforeFiling verbatim, plus track.rules.fees, feeWaiver, service, notice, filing, participantSignature and track.destination, all read at build time so the guide cannot drift from the record it quotes. A new '### The Request is not signed for you' section names the verification block, the wet signature and 735 ILCS 5/1-109. The election is directed to the Case List column the record names. filing-instructions.md now quotes the same record.",
+      "measuredOnTheDelivered": {
+        "probe": "registry packetSet.requiredBeforeFiling lines present verbatim in participant-instructions.md",
+        "before": "0 of 10",
+        "after": "10 of 10",
+        "recordRuleSentencesMissingBefore": ["fees", "feeWaiver", "filing"],
+        "recordRuleSentencesMissingAfter": [],
+        "participantSignatureSentencePresentBefore": false,
+        "participantSignatureSentencePresentAfter": true
+      },
+      "negativeControl": "The same probe run against the pre-repair participant-instructions.md exits 1 and lists all ten lines missing; against the repaired file it exits 0. It also passes on il-exp-nonconv-set and il-cannabis-vacate-set both before and after, so it is not a probe that trivially passes everything.",
+      "pdfBytesChanged": false,
+      "artifactsAfter": {
+        "canonical": "dc55ad08565d7255c8992dda6a63bd942e14f09570d1283913d8f17b84b02b9a",
+        "boundary": "bb52fc825160724f1b7f42a7331486434e23d62962588127db017c3140411ffc",
+        "note": "Byte-identical to the pre-repair fixtures, confirmed with cmp. This defect lived only in the participant document; the PDF was and is correct, and the rebuild reproduced it exactly."
+      },
+      "builderInvariantsRun": "node scripts/build-census-v1-il-exp-qualprob-set.mjs --self-test -- passed, including two new assertions that every requiredBeforeFiling line and every record rule sentence reaches the guide.",
+      "completenessVerifier": "PASS_COMPLETE, 45/424 written",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersUnchangedByThisRepair": true,
+      "whyCountersAreUnchanged": "None of the nine names a participant document, so the counters read the same nine zeros before and after. That is the point of the finding, not a reason to doubt it.",
+      "stillOpenForAnIndependentLane": [
+        "VF13's earlier first read (row 6) recorded SECTION-12-UNANSWERED-WHILE-SECTION-13-IS-POPULATED and ORDER-P2-ITEM-3-REFUSED-AS-A-SIGNATURE on this family. Both appear repaired at this base -- the second read (row 11) marks KNOWN_PREFILLS and ROUTE_OPTIONS PASS -- but neither was re-measured by this lane and neither was in this lane's assignment."
+      ]
+    },
+    {
+      "itemId": "il-seal-2yr-set",
+      "familyId": "il-seal-2yr-set",
+      "lane": "FIX13",
+      "status": "COMPLETED",
+      "repairedByThisLane": true,
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill",
+      "builder": "scripts/build-census-v1-il-seal-2yr-set.mjs",
+      "buildStatus": "state_built",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "obligationRepaired": "REQUIRED_BEFORE_FILING",
+      "defect": "The same missing registry read, and the worst instance of it. The whole 'Required before filing' section was one sentence plus a list of form field names and named no RECORD at all. The Illinois State Police statewide criminal history transcript -- a fingerprint-based Access and Review document with weeks of lead time, which IL.memo.json marks requiredBeforeFiling for this track -- was named nowhere as a document to obtain; 'Illinois State Police' occurred once, in the service paragraph, as a party the clerk serves. The one sentence that could have carried the obligation, 'Attach certified dispositions and other route-specific evidence identified above', pointed at an 'above' where nothing was identified. Zero of ten lines reached the file.",
+      "repair": "controllingRecord() added and the guide rebuilt from it: the ten lines verbatim, then a paragraph that says in plain words to start the ISP transcript now because it is fingerprint-based and in person, then the signature section, then fees, waiver, service, notice, filing and destination from track.rules. The closing attach sentence now names the two documents instead of pointing at 'above'.",
+      "measuredOnTheDelivered": {
+        "probe": "registry packetSet.requiredBeforeFiling lines present verbatim in participant-instructions.md",
+        "before": "0 of 10",
+        "after": "10 of 10",
+        "recordRuleSentencesMissingBefore": ["fees", "feeWaiver", "service", "notice", "filing"],
+        "recordRuleSentencesMissingAfter": [],
+        "ispNamedAsADocumentToObtainBefore": false,
+        "ispNamedAsADocumentToObtainAfter": true
+      },
+      "negativeControl": "Same probe, exits 1 on the pre-repair file listing all ten missing and all five rule sentences missing; exits 0 after. A separate assertion in the builder's own self-test fails if 'Obtain Illinois State Police statewide criminal history transcript' is absent from the guide.",
+      "pdfBytesChanged": false,
+      "artifactsAfter": {
+        "canonical": "a099347fd0f56bc771df70549a69d67d9da505e1e74a76dd5dae1afcdbe7c096",
+        "boundary": "bd75164956cdf709a5202af164e51ccd662bd0dcf166f94a9134bfe550760612",
+        "note": "Byte-identical to the pre-repair fixtures, confirmed with cmp."
+      },
+      "builderInvariantsRun": "node scripts/build-census-v1-il-seal-2yr-set.mjs --self-test -- passed. The pre-existing service assertion, which matched a hand-written paraphrase, was rebound to the record's own service and notice sentences, which is what the guide now prints.",
+      "completenessVerifier": "PASS_COMPLETE, 44/424 written",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersUnchangedByThisRepair": true,
+      "stillOpenForAnIndependentLane": [
+        "VF13's first read (row 7) recorded SECTION-15-ELECTS-A-GROUND-THIS-ROUTE-DOES-NOT-CARRY: Sections 15 and 17 both ticked about one case whose Section 13 outcome reads Dismissed. The second read (row 12) marks ROUTE_OPTIONS PASS at this base and the routeSummary now states that Section 15 is deliberately not elected. This lane did not re-measure that election on the bytes; it was not in the assignment and the PDF was not rebuilt in a way that could change it."
+      ]
+    },
+    {
+      "itemId": "il-seal-3yr-set",
+      "familyId": "il-seal-3yr-set",
+      "lane": "FIX13",
+      "status": "COMPLETED",
+      "repairedByThisLane": true,
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/il/il-seal-3yr-set--official-pdf-fill",
+      "builder": "scripts/build-census-v1-il-seal-3yr-set.mjs",
+      "buildStatus": "state_built",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "obligationRepaired": "REQUIRED_BEFORE_FILING",
+      "defect": "The same missing registry read. Both documents the memo marks requiredBeforeFiling were named to obtain and the guide closed with an attach sentence, so this family was not as bare as il-seal-2yr-set -- but zero of the ten packetSet.requiredBeforeFiling lines reached participant-instructions.md. No how-to-obtain was given for either record, so the fingerprint-based ISP Access and Review route was never explained, and the record's signature and verification lines were absent, so a filer following this guide filed a Request whose verification block the packet deliberately leaves blank and which nothing told them to sign. The fee and the Rule 298 waiver appeared only in filing-instructions.md.",
+      "repair": "controllingRecord() added and the guide rebuilt from it: the ten lines verbatim, the existing Section 19 election section kept intact, a plain-words paragraph on the in-person fingerprint route, the signature section, and fees, waiver, service, notice, filing and destination from track.rules. The expunge-or-seal election is directed to the Case List column the record names rather than to the Request.",
+      "measuredOnTheDelivered": {
+        "probe": "registry packetSet.requiredBeforeFiling lines present verbatim in participant-instructions.md",
+        "before": "0 of 10",
+        "after": "10 of 10",
+        "recordRuleSentencesMissingBefore": ["fees", "feeWaiver", "service", "notice", "filing"],
+        "recordRuleSentencesMissingAfter": [],
+        "participantSignatureSentencePresentBefore": false,
+        "participantSignatureSentencePresentAfter": true
+      },
+      "negativeControl": "Same probe, exits 1 on the pre-repair file, 0 after.",
+      "pdfBytesChanged": false,
+      "artifactsAfter": {
+        "canonical": "3406669cadd2e9d88c5aee730bef6fec765d4ae3041df55253a5ad1921f92165",
+        "boundary": "0ca002a720e0f2f9d44fea383a8d3d2a5a46c9868e0af50e36dd136260f7462c",
+        "note": "Byte-identical to the pre-repair fixtures, confirmed with cmp."
+      },
+      "builderInvariantsRun": "node scripts/build-census-v1-il-seal-3yr-set.mjs --self-test -- passed, including the pre-existing Section 19 assertions and the new record-binding ones.",
+      "completenessVerifier": "PASS_COMPLETE, 44/424 written",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersUnchangedByThisRepair": true,
+      "stillOpenForAnIndependentLane": [
+        "VF13's first read (row 8) recorded NO-SEALING-GROUND-IS-STATED-AT-ALL. The second read (row 13) marks ROUTE_OPTIONS PASS at this base and the builder now elects a Section 19 limb. This lane did not re-measure that election on the bytes."
+      ]
+    },
+    {
+      "itemId": "il-cannabis-vacate-set",
+      "familyId": "il-cannabis-vacate-set",
+      "lane": "FIX13",
+      "status": "COMPLETED",
+      "repairedByThisLane": true,
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/il/il-cannabis-vacate-set--official-pdf-fill",
+      "builder": "scripts/build-census-v1-il-cannabis-vacate-set.mjs",
+      "buildStatus": "state_built",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "obligationRepaired": "CLIPPING_AND_OVERLAP and ROUTE_OPTIONS",
+      "defects": [
+        {
+          "id": "ELLIPSIZED-FACT-ON-A-RULE-137-MOTION",
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "defect": "safeSet() shrank to 6pt and then sliced characters off the end and appended a horizontal ellipsis. On the delivered boundary fixture, CXP Motion to Vacate and Expunge page 2 field '4 - Arresting Agency1' (FlatWidget-1733050384) printed 'Springfield Police Department Rec' plus an ellipsis where the fixture value is 'Springfield Police Department Records Division' -- twelve characters dropped mid-word on a motion signed under Supreme Court Rule 137. Nothing in the reports could see it: reports/actual-writes.json records only the canonical fixture's drawn text.",
+          "repair": "safeSet() replaced with setComplete(), the writer the pardon repair put into the EXP-AD builders. It shrinks to 5.5pt, wraps where the cell is at least 24pt tall, and asserts that the value survives -- so it prints the value WHOLE or refuses to write it at all. The Arresting Agency cell is 104.04 x 26.64pt; the value needs 115.56pt at 5.5pt on one line, so it now wraps to two lines at 6pt.",
+          "measuredOnTheDelivered": {
+            "probe": "every drawn string in every page content stream and Form XObject of both fixtures, scanned for a horizontal ellipsis (U+2026 and the WinAnsi 0x85 byte)",
+            "beforeBoundary": "3778 strings scanned, 1 ellipsized: 'Springfield Police Department Rec' + ellipsis on page 2",
+            "afterBoundary": "3777 strings scanned, 0 ellipsized",
+            "afterCanonical": "3776 strings scanned, 0 ellipsized",
+            "wholeValueOnTheBytes": "The repaired boundary widget's appearance stream carries two hex Tj operands, <537072696E676669656C6420506F6C696365204465706172746D656E74> and <5265636F726473204469766973696F6E>, which decode to 'Springfield Police Department' and 'Records Division' -- the complete value across two lines. Baselines sit at y=18.98 and y=12.32 inside a clip rect of (1,1)-(103.04,25.64), so neither line is clipped.",
+            "noOtherValueRegressed": "All eight long boundary values -- the arresting agency, both hyphenated names, the 48-character street address, the 44-character email, the city/state/ZIP, the 17-character case number and the race string -- were checked to appear whole in some widget on the delivered bytes. 8 of 8 after; 3 of 4 before, failing only on the arresting agency."
+          },
+          "negativeControl": "The ellipsis probe exits 1 on the pre-repair boundary bytes and 0 on the repaired ones. The whole-value probe exits 1 on the pre-repair bytes and 0 after. A builder self-test assertion now fails if any refusal label carries an ellipsis or if the ellipsizing writer returns to the file."
+        },
+        {
+          "id": "ONE-FACT-TWO-CONTRADICTORY-TREATMENTS",
+          "obligation": "ROUTE_OPTIONS",
+          "defect": "Motion page 1 item 1 -- the gate the form prints as 'In 1, you cannot ask to vacate and expunge a criminal conviction unless one of the special situations listed under checkboxes a or b describes your case' -- was blank on both fixtures and declared a participant refusal, while '4 - Misdemeanor/Class 4 Felony Checkboxes1', the SAME classification for the SAME case, was a route.selection write with routeDetermined true and rendered ticked /Misdemeanor.",
+          "whichTreatmentIsCorrect": "The refusal. The record decides it and it decides against the write: registry track il-cannabis-vacate lists BOTH dispositions, misdemeanor_cannabis_conviction and class_4_felony_cannabis_conviction, so the route spans both and settles neither; and generationRequirements carries convictionClass, 'Was the conviction a misdemeanor or a Class 4 felony?', as a REQUIRED participant answer. A fact the record collects from the participant is not a fact the route determines. The form agrees: page 2's column header reads 'Cannabis Conviction (check the type of Cannabis conviction)', and the field carries two named appearance states, /Misdemeanor and /Class 4 Felony, so it is expressible either way and the packet was choosing one on no evidence. The builder's own routeSummary already said the classification 'remain[s] participant-supplied'.",
+          "repair": "The classification is no longer written anywhere. Item 1a, item 1b and the Section 4 per-case classification are all refused, all marked requiredBeforeFiling, and all named to the participant in the form's own printed words with the reason each is theirs. A new guide section, 'The printed elections this packet does not make for you', reproduces the form's gate sentence and warns that ticking misdemeanor in one place and Class 4 felony in the other contradicts the motion on its face. The refusal is visible rather than silent, which is what the assignment required if the platform does not hold the fact.",
+          "alsoRepairedWithIt": "Two further route.selection writes on the same Motion failed the same way and were recorded by VF13 under this same obligation, so they were corrected with it rather than left standing on bytes this lane was rebuilding. Item 2, 'I was convicted before June 25, 2019', was ticked although the record states no date limit anywhere -- mechanism reads 'Any individual may move to vacate and expunge a conviction for a misdemeanor or Class 4 felony violation of Cannabis Control Act section 4 or section 5' -- and although both fixtures' own printed arrest dates, 03/12/2021 and 11/29/2023, contradict it. Item 3, 'I have completed the sentences or conditions imposed by the conviction', was ticked although the record makes it a requiredBeforeFiling proof to obtain, a required generationRequirement, and a self-help stop condition. Both are now refused, owed before filing and named in the guide. THIS IS BEYOND THE TWO DEFECTS THIS LANE WAS ASSIGNED and is flagged here so an independent lane challenges it rather than inherits it.",
+          "measuredOnTheDelivered": {
+            "probe": "each named election scored against its own flattened appearance stream, on both fixtures, reading glyph ticks and vector ticks alike",
+            "before": {
+              "1a - Misdemeanor cannabis offenses": "blank (border stroke only)",
+              "1b - Class 4 felony cannabis offense": "blank",
+              "2 - I was convicted before June 25, 2019": "INKED (ZapfDingbats glyph tick)",
+              "3 - I have completed the sentences or conditions imposed by the conviction": "INKED (glyph tick)",
+              "4 - Misdemeanor/Class 4 Felony Checkboxes1 /Misdemeanor": "INKED (pdf-lib vector check, two strokes, no glyph)",
+              "4 - Misdemeanor/Class 4 Felony Checkboxes1 /Class 4 Felony": "blank",
+              "4 - I ask the court to VACATE AND EXPUNGE ...": "INKED (glyph tick)"
+            },
+            "after": {
+              "1a - Misdemeanor cannabis offenses": "blank",
+              "1b - Class 4 felony cannabis offense": "blank",
+              "2 - I was convicted before June 25, 2019": "blank",
+              "3 - I have completed the sentences or conditions imposed by the conviction": "blank",
+              "4 - Misdemeanor/Class 4 Felony Checkboxes1 /Misdemeanor": "blank",
+              "4 - Misdemeanor/Class 4 Felony Checkboxes1 /Class 4 Felony": "blank",
+              "4 - I ask the court to VACATE AND EXPUNGE ...": "INKED -- the relief this route asks for, and the only election the packet now makes on the Motion"
+            },
+            "identicalOnBothFixtures": true,
+            "guideNamesEveryRefusedElection": "5 of 5, each in the form's own printed words"
+          },
+          "negativeControl": "The election probe run against the pre-repair fixtures reproduces VF13's per-box reading exactly -- 1a and 1b blank while the Section 4 classification is inked -- which is the contradiction itself; run against the repaired fixtures it shows all five blank and only the relief election inked. The probe is not blind to ticks: it still reports the relief election INKED on both, and it reads the vector check and the glyph tick alike."
+        }
+      ],
+      "pdfBytesChanged": true,
+      "artifactsBefore": {
+        "canonical": "d6d8ec5b303e03156cf4fca139fb80137f19f11f5068fa08909804d96fad9160",
+        "boundary": "b57eed8f0151d26127da700b6c257f4412c9441fbdb88eda5e1a4ef97234c667"
+      },
+      "artifactsAfter": {
+        "canonical": "2dc3c706c55826196d6e0dec46209caa6bff5bacefcae4cf3d80a9fdc6d0d689",
+        "boundary": "3b6995830519a2d04e9233e3715e1c1c568dac1adf54c0eeaa9501bdd7a64b60"
+      },
+      "pageCountUnchanged": 11,
+      "componentOrderUnchanged": true,
+      "writesBefore": 71,
+      "writesAfter": 68,
+      "whyThreeFewerWrites": "The three route.selection checkbox writes that asserted the movant's own sworn facts are refusals now. No text write was removed.",
+      "builderInvariantsRun": "node scripts/build-census-v1-il-cannabis-vacate-set.mjs --self-test -- passed, including the manifest component order, the record's rule sentences in both guides, all ten requiredBeforeFiling lines, and five new FIX13 assertions: no ellipsis in any refusal label, the ellipsizing writer absent from the file, the relief election the only Motion selection write, every printed election refused and owed before filing and named in the guide, and no Section 4 classification written.",
+      "completenessVerifier": "PASS_COMPLETE, 68/439 written",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersUnchangedByThisRepair": true,
+      "whyCountersAreUnchanged": "The verifier returned the same nine zeros before the repair, with the ellipsized fact and the contradiction both live. It saw a non-empty value in the arresting-agency cell and had no way to know the value was cut, and it fires on elections only where the field map declares them route-determined, which the map did not for item 1. Neither counter moved because neither counter was ever measuring this.",
+      "stillOpenForAnIndependentLane": [
+        "Whether items 2 and 3 should instead have been kept as route assertions with the FIXTURE dates corrected is a legal-design call this lane did not make. It refused the facts rather than asserting them, which is the safe direction, but a lane with the eligibility rule in hand should confirm that 410 ILCS 705 and 20 ILCS 2630/5.2(i) impose no pre-June-25-2019 limit that the registry's mechanism text omits.",
+        "This lane extended the Order page 2 preparer-block adjudication no further than it found it, and did not re-measure VF13's CITY-STATE-ZIP finding, which the second read (row 14) marks repaired."
+      ]
+    }
+  ]
+}

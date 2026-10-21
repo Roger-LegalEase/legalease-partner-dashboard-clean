@@ -1,0 +1,273 @@
+{
+  "schemaVersion": "rcap-repair-evidence/v1",
+  "lane": "FIX03",
+  "familyId": "nj_ordinance-set",
+  "baseSha": "3bb298d136ccca78f63256dc6bef210692f42331",
+  "reviewReturnedTogether": {
+    "row": "data/rcap-grade-a/packet-factory-24h/vf62/rows-vf62-20260911-nj-ordinance-current.json",
+    "defects": "data/rcap-grade-a/packet-factory-24h/vf62/nj-ordinance-current-20260911/defects.json",
+    "reviewVerdict": "12 PASS / 3 FAIL",
+    "failedObligations": [
+      "KNOWN_PREFILLS",
+      "REQUIRED_BEFORE_FILING",
+      "SERVICE"
+    ],
+    "requiresNewLegalDecision": false
+  },
+  "defectToFixEvidence": [
+    {
+      "id": "NJ-VF62-01",
+      "fieldCount": 14,
+      "fields": [
+        "dismissOff1",
+        "dismissPlea",
+        "acquitOff1",
+        "dismissPtiOff1",
+        "contDismissOff1",
+        "contDismissPlea",
+        "contAcquitOff1",
+        "contAcquitCrt",
+        "contDismissPtiOff1",
+        "contDismissPtiCrt",
+        "contGuiltyDt",
+        "contGuiltyStatute",
+        "contGuiltyCrt",
+        "contGuiltyProbDt"
+      ],
+      "source": "CN-10557 p6; pp15-16 instructions 7-9; pp18 and 20 'Choose all that apply'; p20 addendum; p22 reminder",
+      "fix": "Removed every route-wide exclusion. Each field is a conditional case-history requirement before initial filing; N/A requires a verified complete record showing that the branch does not apply, and an unknown record requires participant verification. Plea-bargain controls remain case-specific participant elections."
+    },
+    {
+      "id": "NJ-VF62-02",
+      "fieldCount": 21,
+      "fields": [
+        "dismissDt",
+        "dismissOff2",
+        "acquitDt",
+        "acquitOff2",
+        "acquitCrt",
+        "dismissPtiDt",
+        "dismissPtiOff2",
+        "dismissCrt",
+        "contDismissDt",
+        "contDismissCrt",
+        "contAcquitDt",
+        "contAcquitOff2",
+        "contDismissPtiDt",
+        "contDismissPtiOff2",
+        "contGuiltyOff1",
+        "contGuiltyOff2",
+        "contGuiltyFinal1",
+        "contGuiltyFinal2",
+        "contGuiltyTimeType",
+        "contGuiltyDocCmpltDt",
+        "contGuiltyFineDt"
+      ],
+      "source": "CN-10557 p15 instruction 8(a)-(c); p16 instruction 8(d) and 9; pp18-21 printed disposition paragraphs",
+      "fix": "Classified all ordinary text/date/court/sentence cells as conditional participant case facts and supplied source-printed semantic labels in the field map and guide."
+    },
+    {
+      "id": "NJ-VF62-03",
+      "fieldCount": 4,
+      "fields": [
+        "ExpungeDocketNum",
+        "expungDocketNum",
+        "CoverLtrEHearDt",
+        "CoverLtrEHearTime"
+      ],
+      "source": "CN-10557 p15 instruction 3; p36 instructions 4-5; p39 instruction 3; p41 instruction 5",
+      "fix": "Recorded court-assigned origins and participant-copy ownership on Forms E/F/G as PARTICIPANT_LATER_COMPLETION with requiredBeforeFiling=false and exact sourceStage proof. Initial court captions remain blank and the guide forbids inventing docket or hearing facts."
+    },
+    {
+      "id": "NJ-VF62-04",
+      "fieldCount": 16,
+      "fields": [
+        "prosCntys",
+        "PoliceLoc",
+        "WardenLoc",
+        "SuperintendentLoc",
+        "deputyClerkSCCOCnty",
+        "SheriffLoc",
+        "SheriffAddrStr",
+        "SheriffAddr2",
+        "ProsCntyName",
+        "ProsAddrStr",
+        "PoliceAddrStr",
+        "PoliceAddr2",
+        "SuperintendentAddrStr",
+        "SuperintendentAddr2",
+        "WardenAddrStr",
+        "WardenAddr2"
+      ],
+      "source": "CN-10557 pp25-26 instructions 7-10; pp28-29 instructions 8-12; p36 instruction 2; p39 instruction 6; p41 instruction 2",
+      "fix": "Changed agency identity/location/address cells to participant tasks. Five initial recipient identities remain REQUIRED_BEFORE_FILING; eleven later recipient/address fields are PARTICIPANT_LATER_COMPLETION with requiredBeforeFiling=false, conditional-recipient handling and exact sourceStage proof."
+    },
+    {
+      "id": "NJ-VF62-05",
+      "fieldCount": 3,
+      "fields": [
+        "CoverLtrEDt",
+        "mailPetition",
+        "CoverLtrGDt"
+      ],
+      "source": "CN-10557 p36 instructions 1 and 4; p39 instruction 5; p41 instruction 1",
+      "fix": "Classified all three as PARTICIPANT_LATER_COMPLETION with requiredBeforeFiling=false, completesAfterService=true and exact sourceStage proof, and disclosed them only in the later-task section."
+    },
+    {
+      "id": "NJ-VF62-06",
+      "fieldCount": 3,
+      "fields": [
+        "gradDC",
+        "marijuana",
+        "cleanSlate"
+      ],
+      "source": "CN-10557 p28 instruction 5; p30 'Check only if applicable'",
+      "fix": "Retained unmarked output for this exact ordinance treatment while classifying each source-defined special-relief control as a conditional participant election rather than a court-owned act."
+    },
+    {
+      "id": "NJ-VF62-07",
+      "fieldCount": 1,
+      "fields": [
+        "guilty"
+      ],
+      "source": "CN-10557 pp18-19 item (d); source-facing field-map and guide evidence",
+      "fix": "Kept whole-row withholding, but moved the null election out of heldButNotPrinted into unresolvedParticipantElections. Guidance now calls it unresolved, requires verified facts and any necessary court clarification, and never calls null a held answer."
+    },
+    {
+      "id": "NJ-VF62-08",
+      "fieldCount": 0,
+      "fields": [],
+      "scope": "Both fixtures and all 169 saved refusal rows per fixture",
+      "source": "Effective production-field-map declarations plus actual row-integrity, exact-mapping and widget-fit results",
+      "fix": "Family-guarded refusal serialization and nonvisual recomputation now use the effective declaration or actual withholding cause. No saved refusal uses classified_unwritable_by_role; canonical row-integrity, boundary width and ExpungeCntyName mapping reasons agree with held evidence."
+    }
+  ],
+  "coverage": {
+    "distinctFields": 62,
+    "historyFacts": 35,
+    "laterCourtFactsCopiedByParticipant": 4,
+    "participantRecipientFields": 16,
+    "laterMailingOrProofFields": 3,
+    "specialReliefElections": 3,
+    "unresolvedGuiltyElection": 1,
+    "requiredBeforeInitialFiling": 40,
+    "sourceBoundParticipantLaterCompletion": 18
+  },
+  "sourceIdentity": {
+    "path": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NJ/02_PACKET_FORMS/NJ__FORM__CN-10557__cn-10557-new-jersey-expungement-kit__REV-2020-06__EN.pdf",
+    "sha256": "c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7",
+    "byteLength": 1924831,
+    "pageCount": 43,
+    "sourceReceiptPreserved": true
+  },
+  "pdfIdentity": {
+    "changed": false,
+    "canonical": {
+      "sha256": "03f6169d042fc1d5ed30df008dfc966ef3d03b382731f5956d0e8786ca8a234f",
+      "byteLength": 571718,
+      "pageCount": 43
+    },
+    "boundary": {
+      "sha256": "23a571af72985717963001120ba60116ae43054aaa1c2fddbeece944dac24494",
+      "byteLength": 574020,
+      "pageCount": 43
+    }
+  },
+  "rasterIdentity": {
+    "localRasterRun": false,
+    "preservedRasterPngCount": 86,
+    "preservedRasterListingDigest": "97234f5852745c2403ed2382f16931be2bafad6aba116d3d3430ad071115c117",
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "34292115043",
+      "jobId": "102281414246",
+      "boundToCanonicalSha256": "03f6169d042fc1d5ed30df008dfc966ef3d03b382731f5956d0e8786ca8a234f"
+    }
+  },
+  "substantiveOutcome": {
+    "completenessVerdict": "PASS_COMPLETE",
+    "written": 18,
+    "totalFields": 179,
+    "counters": {
+      "knownRequiredFieldsMissing": 0,
+      "requiredFactsNotCollected": 0,
+      "unclassifiedBlanks": 0,
+      "incompleteRows": 0,
+      "requiredOptionsMissing": 0,
+      "requiredComponentsMissing": 0,
+      "invisibleWrites": 0,
+      "protectedWrites": 0,
+      "visualDefects": 0
+    },
+    "savedReports": {
+      "canonical": {
+        "written": 10,
+        "refused": 169,
+        "heldButNotPrinted": 8,
+        "unresolvedParticipantElections": 1
+      },
+      "boundary": {
+        "written": 10,
+        "refused": 169,
+        "heldButNotPrinted": 8,
+        "unresolvedParticipantElections": 1
+      }
+    }
+  },
+  "validation": [
+    {
+      "command": "MASTER_LIBRARY_SOURCE_DIR=/workspaces/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 RCAP_NO_LOCAL_RASTER=1 node scripts/build-census-v1-nj_ordinance-set.mjs --no-raster",
+      "exit": 0,
+      "result": "BUILD PASS; 2 PDFs, retained 86-page raster inventory; canonical/boundary each wrote 10, refused 169, held 8, unresolved elections 1"
+    },
+    {
+      "command": "MASTER_LIBRARY_SOURCE_DIR=… RCAP_NO_LOCAL_RASTER=1 node scripts/build-census-v1-nj_ordinance-set.mjs --check-nonvisual",
+      "exit": 0,
+      "result": "NONVISUAL CHECK PASS; saved-byte proof checked"
+    },
+    {
+      "command": "MASTER_LIBRARY_SOURCE_DIR=… RCAP_NO_LOCAL_RASTER=1 node --test scripts/rcap-packet-completeness/nj-ordinance-refusals.test.mjs scripts/rcap-packet-completeness/nj-participant-later-completion.test.mjs",
+      "exit": 0,
+      "result": "26 tests passed; 0 failed, including positive real reader/CLI and fail-closed source-stage mutations"
+    },
+    {
+      "command": "MASTER_LIBRARY_SOURCE_DIR=… RCAP_NO_LOCAL_RASTER=1 node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nj_ordinance-set",
+      "exit": 0,
+      "result": "PASS_COMPLETE; 18/179 written; all nine counters zero; 18 source-stage proofs measured"
+    },
+    {
+      "command": "MASTER_LIBRARY_SOURCE_DIR=… RCAP_NO_LOCAL_RASTER=1 node scripts/build-census-v1-pa_6308_underage-set.mjs --check-nonvisual",
+      "exit": 0,
+      "result": "PA 6308 NONVISUAL CHECK PASS; shared-host governed actor output preserved"
+    },
+    {
+      "command": "MASTER_LIBRARY_SOURCE_DIR=… RCAP_NO_LOCAL_RASTER=1 node scripts/build-census-v1-nj_clean_slate-set.mjs --check-nonvisual",
+      "exit": 0,
+      "result": "NJ clean-slate NONVISUAL CHECK PASS; unopted generic instructions preserved"
+    },
+    {
+      "command": "sha256sum/stat exact source and both fixture PDFs; git diff --check",
+      "exit": 0,
+      "result": "Source and PDFs match recorded SHA-256/byte lengths; no whitespace errors"
+    }
+  ],
+  "checksNotRun": [
+    "No local raster rendering; RCAP_NO_LOCAL_RASTER=1 was enforced.",
+    "No full repository suite; the task requested focused tests and exact-family completeness only.",
+    "No independent VF62 re-review, legal approval, visual approval, source-freshness approval or admission was performed."
+  ],
+  "independentRecheckRequired": "Captain must reuse the 12 unchanged independent passes and recheck KNOWN_PREFILLS, REQUIRED_BEFORE_FILING and SERVICE against this repair.",
+  "commercialRoutesOpened": 0,
+  "packetsSelfVerified": 0,
+  "productionTouched": false,
+  "remainingBlocker": null,
+  "grantsNothing": "This author return grants no independent approval, route promotion, runtime selection, payment authority, sponsorship authority or commercial fulfillment authority.",
+  "finalAdoption": {
+    "baseSha": "ecc6338f490e5b03e6a0f61a4f86e484e3eb28f7",
+    "sourceStageReaderCommit": "7481cdd",
+    "laterCompletionDisposition": "PARTICIPANT_LATER_COMPLETION",
+    "participantLaterCompletionFields": 18,
+    "requiredBeforeInitialFilingFields": 40,
+    "crossFamilyGuidanceLeakResolved": true
+  }
+}

@@ -1,0 +1,286 @@
+{
+  "source": {
+    "path": "data/record-clearing/legal-design-intake/MA.memo.json",
+    "sha256": "fde00193af73df0b431300a17beb869827a4dd1f02034d45fc18af4e4ad3cdb6",
+    "byteLength": 110088
+  },
+  "track": {
+    "nodeType": "local_variant",
+    "outputStrategy": "custom_pleading",
+    "effectiveDates": {
+      "effectiveFrom": "2014-01-01",
+      "effectiveTo": null,
+      "reviewedAsOf": "2026-07-30"
+    },
+    "_participantInputsNote": "Questions LegalEase asks. Generation runs on the participant's answers.",
+    "_supportingDocumentsNote": "Records the participant obtains. LegalEase never collects, inspects or authenticates them.",
+    "_manualCompletionNote": "Fields the generated packet deliberately leaves blank.",
+    "officialSources": [
+      {
+        "title": "G.L. c. 276, \u00a7\u00a7 100A through 100N",
+        "url": "https://malegislature.gov/Laws/GeneralLaws/PartIV/TitleII/Chapter276",
+        "retrievedOn": "2026-07-30"
+      },
+      {
+        "title": "Massachusetts Trial Court sealing and expungement forms",
+        "url": "https://www.mass.gov/lists/sealing-and-expunging-criminal-records-forms",
+        "retrievedOn": "2026-07-30"
+      },
+      {
+        "title": "Commonwealth v. Pon, 469 Mass. 296 (2014); Commonwealth v. J.F., 491 Mass. 824 (2023)",
+        "url": "https://www.mass.gov/handbook/massachusetts-court-system",
+        "retrievedOn": "2026-07-30"
+      },
+      {
+        "title": "Boston Municipal Court Department Amended Standing Order No. 1-09",
+        "url": "https://www.mass.gov/boston-municipal-court-rules",
+        "retrievedOn": "2026-07-30"
+      }
+    ],
+    "_unresolvedQuestionsNote": "Each open question carries an impact and the element it affects.",
+    "_limitationsNote": "Every limitation is classified. Only legal_design_blocker withholds a track.",
+    "_provenanceNote": "Classifications carry classificationBasis, sourceFile, sourceHeading and the sourceStatement quoted from the controlling Massachusetts review or the adopted Batch 2 resolution memorandum.",
+    "trackId": "ma-bmc-multi",
+    "localFormOverride": true,
+    "legalName": "Consolidated Multi-Record Sealing Petition in the Boston Municipal Court Department",
+    "publicName": "Sealing several dismissed cases at once in Boston",
+    "controllingAuthority": {
+      "citations": [
+        "G.L. c. 276, \u00a7 100C",
+        "Boston Municipal Court Department Amended Standing Order No. 1-09",
+        "Commonwealth v. Pon, 469 Mass. 296 (2014)"
+      ],
+      "summary": "The Boston Municipal Court Department permits a single consolidated petition to seal three or more criminal records from two or more BMC divisions, under a Standing Order revised after Pon to conform to the new legal standard. It is a local implementation of the ordinary \u00a7 100C judicial-sealing remedy, not a separate statewide remedy. Below the threshold, the ordinary route applies with one form per case."
+    },
+    "eligibleRecordTypes": [
+      "court_record"
+    ],
+    "eligibleDispositions": [
+      "dismissal",
+      "nolle_prosequi",
+      "no_probable_cause",
+      "not_guilty"
+    ],
+    "exclusions": [
+      "Records outside the Boston Municipal Court Department. This does not reach District Court, Juvenile Court or Superior Court records.",
+      "Fewer than three criminal records, or records from fewer than two BMC divisions. Below that threshold the ordinary judicial sealing route applies with one form per case.",
+      "Records that ended in a finding of no probable cause or a not-guilty finding are outside this consolidated procedure: the May 10, 2024 amended Standing Order 1-09 limits it to dismissal and nolle prosequi records under the second paragraph of G.L. c. 276, \u00a7 100C. Those other dispositions arise under a different paragraph of \u00a7 100C and their separate procedural and case-law treatment is not decided here; they are not called ineligible for every form of relief (recorded 2026-09-06 from the owner-relayed research)."
+    ],
+    "waitingPeriods": [
+      {
+        "condition": "Dismissal, nolle prosequi, no probable cause or not guilty",
+        "duration": "None, the same as the ordinary judicial sealing route."
+      }
+    ],
+    "geography": {
+      "scope": "court_specific",
+      "keys": [
+        "boston-municipal-court"
+      ],
+      "venue": "Boston Municipal Court Department only, keyed by the Standing Order to the division in whose territorial jurisdiction the person resides, read with the general BMC rule that a person no longer residing in BMC territory files in the division where the most recent eligible record is from."
+    },
+    "destination": {
+      "kind": "clerk",
+      "name": "Boston Municipal Court division identified by the Standing Order",
+      "detail": "A consolidated petition supplements rather than replaces the statewide form. The judge may request additional information or documents about the listed cases from the Clerk-Magistrate or the Probation Department."
+    },
+    "components": [
+      {
+        "role": "primary_filing",
+        "requirement": "required",
+        "outputStrategy": "custom_pleading",
+        "notes": "Consolidated petition to seal multiple criminal records, drafted against the required contents and procedure of BMC Amended Standing Order No. 1-09 and the Pon standard, listing every qualifying BMC record across divisions."
+      },
+      {
+        "role": "instructions",
+        "requirement": "required",
+        "outputStrategy": "custom_pleading",
+        "notes": "Threshold and venue instruction: three or more records from two or more BMC divisions, filed in the division where the person resides or, if they no longer live in BMC territory, where the most recent eligible record is from. Preliminary hearing, public notice and final hearing follow."
+      }
+    ],
+    "participantInputs": [
+      {
+        "key": "bmcRecords",
+        "question": "List every Boston Municipal Court case you want sealed, with the division and docket number for each.",
+        "requirement": "required"
+      },
+      {
+        "key": "bmcDivisionCount",
+        "question": "How many different BMC divisions do those cases come from?",
+        "requirement": "required"
+      },
+      {
+        "key": "currentResidence",
+        "question": "Do you currently live in Boston Municipal Court territory, and in which division?",
+        "requirement": "required"
+      },
+      {
+        "key": "mostRecentEligibleRecordDivision",
+        "question": "If you no longer live in BMC territory, which division is your most recent eligible record from?",
+        "requirement": "conditional",
+        "conditionDescription": "Asked only where the participant has moved out of BMC territory, because it sets the venue."
+      },
+      {
+        "key": "dispositions",
+        "question": "How did each of those cases end?",
+        "requirement": "required"
+      },
+      {
+        "key": "disadvantagesFromRecord",
+        "question": "In your own words, what specific problems have these records caused you?",
+        "requirement": "required"
+      },
+      {
+        "key": "rehabilitationEvidence",
+        "question": "In your own words, what have you done since the cases ended?",
+        "requirement": "required"
+      }
+    ],
+    "supportingDocuments": [
+      {
+        "name": "Your own CORI from the Department of Criminal Justice Information Services",
+        "obtainedFrom": "Massachusetts Department of Criminal Justice Information Services",
+        "requirement": "required",
+        "requiredBeforeFiling": true,
+        "howToObtain": "Request your personal CORI from DCJIS. LegalEase never collects, inspects or authenticates it.",
+        "confirms": "bmcRecords"
+      }
+    ],
+    "manualCompletionItems": [
+      {
+        "item": "Petitioner signature",
+        "whereInPacket": "Consolidated petition signature block",
+        "why": "The participant signs their own petition."
+      },
+      {
+        "item": "The good-cause narrative across all listed records",
+        "whereInPacket": "Consolidated petition narrative",
+        "why": "Participant-authored through structured prompts against the Pon factors."
+      }
+    ],
+    "rules": {
+      "filing": "File the consolidated petition in the BMC division identified by the Standing Order's residence-based venue rule (the division covering the petitioner's residence; for a non-resident, the division of the most recent applicable criminal record).",
+      "fees": "No filing fee: the Massachusetts Court System's guide states that requesting sealing has no fee (MA2). Recorded 2026-09-06 from the owner-relayed research; before that date this rule read 'None identified in the review.'",
+      "feeWaiver": "Not applicable: no filing fee is charged for a request to seal.",
+      "notice": "The petitioner sends a copy of the petition to the Suffolk County District Attorney's Office at least 30 days before the final hearing unless that office waives the full notice period, and keeps proof of what was sent and when; the court's own notice to the Commonwealth does not remove that obligation. A preliminary hearing is discretionary and the court may proceed directly to a single final hearing; public notice and the final hearing follow under the Standing Order. Any evidence-of-service fields are product completion fields, not a claim that a separately named statutory certificate is universally required. (Recorded 2026-09-06 from the owner-relayed research; previously 'Preliminary hearing, public notice and final hearing per the Standing Order.')",
+      "service": "The petitioner's own 30-day notice to the Suffolk County District Attorney's Office before the final hearing, unless waived by that office; proof of what was sent and when is kept. (Previously 'Per the Standing Order.')",
+      "participantSignature": "Required.",
+      "notarization": "none",
+      "researchConsolidationScope": {
+        "on": "2026-09-06",
+        "source": "docs/rcap/grade-a/research/2026-09-06-batch-04/Packet_Blocker_Batch_04_Handoff.md",
+        "statement": "The May 10, 2024 amended Standing Order 1-09 limits this consolidation procedure to at least three dismissal or nolle-prosequi criminal records from at least two BMC divisions under \u00a7 100C's second paragraph; the Judiciary guide recommends rather than universally requires criminal records or certified dockets. The guide's stop when any hearing is set is a product boundary and is retained; supporting an ordinary uncontested hearing is a separate decision from correctly explaining the published process."
+      },
+      "researchFormIdentity": {
+        "on": "2026-09-06",
+        "source": "docs/rcap/grade-a/research/2026-09-06-batch-04/Packet_Blocker_Batch_04_Handoff.md",
+        "statement": "The Standing Order authorizes one petition and says a form is available, but an exact current dedicated consolidated form was not retrieved by the research. Neither unsupported universal assertion is perpetuated: that no such court form exists, or that a TC0057 must accompany every case. The accepted instrument, and whether any per-case forms are required for the selected court, remain to be confirmed with the issuing court; the existing release blocker on form identity stays."
+      },
+      "researchParticipantText": {
+        "on": "2026-09-06",
+        "source": "docs/rcap/grade-a/research/2026-09-06-batch-04/Packet_Blocker_Batch_04_Handoff.md",
+        "text": "Scope. Use this consolidated route for at least three criminal records ending in dismissal or nolle prosequi across at least two BMC divisions. Other dispositions require their own treatment. Confirm the proper filing division and list each applicable docket.\n\nFee and notice. There is no filing fee to request sealing. Send a copy of this petition to the Suffolk County District Attorney's Office at least 30 days before the final hearing unless that office waives the full notice period. Keep proof of what you sent and when. Court notice to the Commonwealth does not eliminate your separate obligation. Follow the hearing notice; a separate preliminary hearing is not always held."
+      }
+    },
+    "selfHelpStopConditions": [
+      "The threshold of three or more records from two or more BMC divisions is not met, in which case the ordinary route applies with one form per case.",
+      "Records fall outside the Boston Municipal Court Department.",
+      "The judge requests additional information about the listed cases.",
+      "A hearing is set."
+    ],
+    "unresolvedQuestions": [
+      {
+        "question": "Whether the Boston Municipal Court publishes a dedicated form for the consolidated multi-record petition. The Standing Order prescribes contents and procedure but no published form was established, so a controlled custom pleading is used against those required contents.",
+        "impact": "release_blocker",
+        "affectedElement": "correct_form",
+        "provenance": {
+          "classificationBasis": "explicit_state_addendum",
+          "sourceFile": "Massachusetts-LegalEase-Record-Clearing-Legal-Review.md",
+          "sourceHeading": "TRACK 8 / OUTPUT STRATEGY",
+          "sourceStatement": "Is an official form mandatory? Unresolved. The Standing Order prescribes contents and procedure; whether BMC publishes a form was not established."
+        }
+      }
+    ],
+    "legalDesignDecision": {
+      "status": "legal_design_approved_with_limitations",
+      "rationale": "Classified as a local_variant non-relief node under the adopted memorandum: the BMC multi-record procedure implements the ordinary \u00a7 100C judicial-sealing track locally and is not a separate statewide remedy, so the underlying relief is not double-counted. Re-reviewed under the packet-only model and classified as a single custom_pleading rather than a composed route: the review's stage 1 is threshold and venue routing rather than a legal unit, and stage 3 is hearings, which are post-generation handoffs. No published BMC form was established, and the Standing Order supplies the required contents and procedure, so a controlled consolidated pleading is generated with a local-form override.",
+      "limitations": [
+        {
+          "classification": "packet_instruction",
+          "statement": "Never use sealing and expungement interchangeably in Massachusetts copy. Sealing does not destroy the record; expungement does.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "Massachusetts-LegalEase-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 1",
+            "sourceStatement": "Massachusetts sealing does not destroy the record. Expungement does. Never use the two interchangeably in Massachusetts copy."
+          }
+        },
+        {
+          "classification": "scope_restriction",
+          "statement": "This is a local implementation of the ordinary \u00a7 100C judicial-sealing remedy, not a separate statewide remedy. Do not double-count the underlying relief mechanism.",
+          "provenance": {
+            "classificationBasis": "batch_decision_matrix",
+            "sourceFile": "LegalEase_Batch_2_Legal_Research_Resolution_Memo_ADOPTED.md",
+            "sourceHeading": "Additional issues resolved / Massachusetts BMC consolidated filing",
+            "sourceStatement": "Treat the BMC multi-record procedure under Amended Standing Order 1-09 as a local packet variant of the ordinary G.L. c. 276, \u00a7 100C judicial-sealing track, not a separate statewide remedy."
+          }
+        },
+        {
+          "classification": "scope_restriction",
+          "statement": "A counsel-approved custom consolidated petition may be used only for qualifying BMC records. Otherwise use the statewide form per case.",
+          "provenance": {
+            "classificationBasis": "batch_decision_matrix",
+            "sourceFile": "LegalEase_Batch_2_Legal_Research_Resolution_Memo_ADOPTED.md",
+            "sourceHeading": "Additional issues resolved / Massachusetts BMC consolidated filing",
+            "sourceStatement": "If no current BMC form is published, a counsel-approved custom consolidated petition may be used only for qualifying BMC records; otherwise use TC0057 per case."
+          }
+        },
+        {
+          "classification": "scope_restriction",
+          "statement": "Offer this route only where the participant has three or more criminal records from two or more BMC divisions. Below that threshold, use the ordinary judicial sealing route with one form per case.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "Massachusetts-LegalEase-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 8 / Threshold",
+            "sourceStatement": "Three or more criminal records from two or more court divisions within the BMC Department. Below that threshold, use Track 4 with one form per case."
+          }
+        },
+        {
+          "classification": "packet_instruction",
+          "statement": "The consolidated petition supplements rather than replaces the statewide form in BMC.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "Massachusetts-LegalEase-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 8",
+            "sourceStatement": "In BMC, a consolidated petition supplements rather than replaces TC0057."
+          }
+        },
+        {
+          "classification": "participant_question",
+          "statement": "The good-cause narrative across all listed records is participant-authored through structured prompts against the Pon factors.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "Massachusetts-LegalEase-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 8",
+            "sourceStatement": "All of the Track 4 judgment questions, plus whether the participant's records meet the three-record and two-division threshold, and which BMC division is the correct venue."
+          }
+        },
+        {
+          "classification": "post_generation_handoff",
+          "statement": "A preliminary hearing, public notice and a final hearing follow filing, and the judge may request additional information or documents about the listed cases from the Clerk-Magistrate or the Probation Department.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "Massachusetts-LegalEase-Record-Clearing-Legal-Review.md",
+            "sourceHeading": "TRACK 8 / PACKET OR PROCESS COMPONENTS",
+            "sourceStatement": "The Standing Order allows the judge to request additional information or documents about the listed cases from the Clerk-Magistrate or the Probation Department."
+          }
+        }
+      ]
+    },
+    "dispositions": [
+      "dismissal",
+      "nolle_prosequi"
+    ],
+    "venue": "Boston Municipal Court Department only. Under the May 10, 2024 amended Standing Order 1-09 the petition is filed in the BMC division whose territorial jurisdiction covers the petitioner's residence address; a petitioner who does not reside in BMC territory files in the division of the most recent applicable criminal record. (Recorded 2026-09-06 from the owner-relayed research; previously stated as the residence division read with the general BMC rule for non-residents.)"
+  }
+}

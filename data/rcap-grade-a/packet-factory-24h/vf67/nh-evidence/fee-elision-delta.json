@@ -1,0 +1,113 @@
+{
+  "schemaVersion": "vf67-nh-delta-evidence/v1",
+  "familyId": "nh_marijuana_annulment-set",
+  "baseSha": "727531f334f19b77110930cb7cb0d806f18efe94",
+  "branch": "lane-vf67-nh-delta-20260910",
+  "grant": "VF67 independent-verification, grant set 813ee51c133a6b19",
+  "sourceIdentity": {
+    "NHJB3124": {
+      "sha256": "eee788220b7e624f0294d00b01024bff251d5d1dbfe61062c9a8f78fab58529c",
+      "byteLength": 60749,
+      "pageCount": 2
+    },
+    "NHJB2311": {
+      "sha256": "f8b5df1366a91a9fd177612c0519f941b8d4f60e1f8f84c2a6c0c064ba7da58e",
+      "byteLength": 64896,
+      "pageCount": 2
+    },
+    "NHJB2328": {
+      "sha256": "b4384b41efb472951c28b1289e46b05dfcc9463147aa490597f541f5291ce919",
+      "byteLength": 66063,
+      "pageCount": 3
+    }
+  },
+  "artifactIdentity": {
+    "canonical": {
+      "sha256": "23390b7f9cc6013681dfe40910233737a0410c2bb11454f6c551b4fd1abbbed8",
+      "byteLength": 110626,
+      "pageCount": 7
+    },
+    "boundary": {
+      "sha256": "661ff0044bc4442c7c760fb39b4f5b6c83415b7dd42fc9f61dddcc8d00fd3f1e",
+      "byteLength": 110674,
+      "pageCount": 7
+    },
+    "unchangedFromVF02": true
+  },
+  "currentBuilderSha256": "5452e8a07f3763e1c2dedb9971142eeeddd2d5ff735c3ed29ba66eb023a82e0c",
+  "sourceReceiptSha256": "b49887f129fd1f7cca16173e19b0709e9483c7c996b4ec666ee3d2ac57b53ada",
+  "productionFieldMapSha256": "800df7a5ac8641ce3557eec5677934528045b58bea9d429fafada048ec62feb7",
+  "trackSliceSha256": "0874911360dbb47ed950cca14d10e04825fc67fbb1d8e4a37b00b25390471290",
+  "packetSetSliceSha256": "94c838a62d16e2caec3c7f83a55a2b814460db4f5523ee6da42f651dfeeedd5c",
+  "guidanceNormalization": {
+    "requiredBeforeFilingSteps": 9,
+    "participantGuideHits": 9,
+    "filingGuideHits": 9,
+    "feeStepRawHit": false,
+    "normalization": "replace current CURRENCY_FIGURE matches with [amount elided]; no other step text normalized"
+  },
+  "guardProof": {
+    "mutation": "FIX158 exact VF40 $487.25 injection",
+    "result": "delivery-boundary assertion throws; repaired self-test exit 1",
+    "validControls": "three positive controls throw and record sentence negative control elides then passes"
+  },
+  "priorCoverage": {
+    "lane": "VF02",
+    "base": "159c0b5cf25e10a7fad6a7defb60bd6692e52480",
+    "reusedObligations": [
+      "ROUTE_IDENTITY",
+      "SOURCE_IDENTITY",
+      "COMPONENT_SET",
+      "KNOWN_PREFILLS",
+      "REQUIRED_BEFORE_FILING",
+      "ROUTE_OPTIONS",
+      "REPEATING_ROWS",
+      "PROTECTED_FIELDS",
+      "PAGE_ORDER",
+      "CLIPPING_AND_OVERLAP",
+      "FILING_DESTINATION",
+      "SERVICE",
+      "SELF_HELP_STOP"
+    ],
+    "directMeasurementsRetainedUnderExactFixtureAndMapIdentity": true
+  },
+  "limitations": {
+    "newRaster": false,
+    "chromium": "unavailable",
+    "artifactVisuals": "No VF67 raster; prior direct artifact/geometry evidence retained solely under exact PDF/map identity",
+    "sourceReceipt": "Current receipt also refreshes shared legal-design registry digest to b62ae691...; source PDFs and current track/packet slices were independently checked."
+  },
+  "commands": [
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF67 nh_marijuana_annulment-set",
+    "node scripts/build-census-v1-nh_marijuana_annulment-set.mjs --check",
+    "node scripts/grade-a-packet-factory-24h/extract-verifier-returns.mjs --check",
+    "Isolated production proof executed separately; see production-proof-20260910.json and full before/after hash inventories."
+  ],
+  "renderedArtifactsSha256": "3409ca7969805ea1fd5d667c411615d8088c87c00ecd8348ab00d5ac309452ab",
+  "participantInstructionsSha256": "908468c0457fa6aad27093bb6b60f798b991033edd1885cf81cfda7d6135fdaa7",
+  "sourcePaths": {
+    "NHJB3124": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NH/02_PACKET_FORMS/NH__FORM__NHJB-3124__petition-of-eligibility-for-annulment-of-record-of-arrest-or__REV-2020-01__EN.pdf",
+    "NHJB2311": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NH/04_SUPPORTING_PROCESS/NH__SUPPORT__NHJB-2311__nhjb-2311-motion-for-waiver-of-filing-fee__REV-2018-01__EN.pdf",
+    "NHJB2328": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NH/04_SUPPORTING_PROCESS/NH__SUPPORT__NHJB-2328__nhjb-2328-statement-of-assets-and-liabilities-individual__REV-UNKNOWN__EN.pdf"
+  },
+  "currentReportPaths": [
+    "data/rcap-all50/overlays/census-v1/nh/nh-marijuana-annulment-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "data/rcap-all50/overlays/census-v1/nh/nh-marijuana-annulment-set--official-pdf-fill/reports/actual-writes.json",
+    "data/rcap-all50/overlays/census-v1/nh/nh-marijuana-annulment-set--official-pdf-fill/reports/independent-visual-review.json",
+    "data/rcap-all50/overlays/census-v1/nh/nh-marijuana-annulment-set--official-pdf-fill/build-findings.json"
+  ],
+  "verdictCorrection": {
+    "familyVerdict": "PASS_COMPLETE_INDEPENDENT",
+    "feeAndWaiver": "PASS",
+    "reason": "Bounded correction completed the previously missing actual plain production-caller proof.",
+    "plainCallerRequiredCommand": "MASTER_LIBRARY_SOURCE_DIR=/workspaces/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 node scripts/build-census-v1-nh_marijuana_annulment-set.mjs --no-raster",
+    "plainCallerEvidence": "data/rcap-grade-a/packet-factory-24h/vf67/nh-evidence/production-proof-20260910.json",
+    "sourceOrdering": {
+      "guardCalls": "builder lines 1983-1984 and 2026-2027",
+      "markdownWrites": "runFamily lines 2435-2437",
+      "fixtureWrites": "runFamily line 2390; earlier than guidance guard"
+    },
+    "observedBehavior": "Mutation exits 1 before guidance/report writes; valid exits 0. Mutation rewrites fixture PDFs before refusal (mtime changed) but canonical and boundary SHA-256 remain unchanged.",
+    "claimBoundary": "PASS_COMPLETE_INDEPENDENT covers the fee guidance refusal and unchanged bytes; it does not claim atomic protection of every output file."
+  }
+}

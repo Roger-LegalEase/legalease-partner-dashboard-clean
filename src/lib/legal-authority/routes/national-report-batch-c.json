@@ -1,0 +1,348 @@
+{
+  "batch": "national-report-2026-08-28-batch-c",
+  "authority": "National Record-Clearing Legal Decision Report, current through 2026-08-28 (docs/record-clearing/NATIONAL_LEGAL_DECISION_REPORT_2026-08-28.md, sha256 84ef2b61126aa26cd66dec5dfb39a112d87c5a92397ab92efd452cc1e5ad1336). Batch C: West Virginia, Ohio and New York.",
+  "note": "West Virginia carries ten of the report's decisions across three routes and had contracts on neither. Ohio and New York carry no register questions at all and one research-track decision each — Ohio's renames a track and identifies a statute that took effect 2026-03-20, New York's says the participant ordinarily files nothing. Each is projected as what the report says it is, and where the report identifies a published form as materially wrong for the current statute, that is an artifact-review gate rather than a legal question: the law is settled and the document is not.",
+  "routes": [
+    {
+      "routeKey": "WV:accelerated-treatment-recovery-job-readiness-expungement-under-61-11-26a",
+      "jurisdiction": "WV",
+      "pathwayId": "accelerated-treatment-recovery-job-readiness-expungement-under-61-11-26a",
+      "decisionId": "NATIONAL-2026-08-28-C-WV-01",
+      "ruleId": "WV-61-11-26A-JOB-READINESS-OR-TRIGGER",
+      "mechanism": "Accelerated expungement on treatment compliance or job-readiness completion",
+      "statute": "W. Va. Code § 61-11-26a(a)(1)",
+      "stage": "single_stage",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "elapsed_eligibility_clock",
+        "value": 90,
+        "unit": "days",
+        "anchorFactId": "disposition_date",
+        "anchorText": "ninety days of programme compliance OR completion of an approved job readiness adult training course, or both where applicable; the accelerated clock replaces the § 61-11-26(b)(1) one-year wait for a single misdemeanour"
+      },
+      "requiredFacts": [
+        "Is this a single misdemeanour conviction?",
+        "Has the participant completed ninety days of programme compliance, or an approved job readiness adult training course, or both?",
+        "Which circuit court entered the conviction?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "offense_level"
+      ],
+      "exclusions": [
+        "The accelerated trigger is available for a single misdemeanour only; a multiple-misdemeanour group takes the ordinary § 61-11-26 route and its one-year clock"
+      ],
+      "packetFamily": "West Virginia § 61-11-26a Accelerated Expungement Petition",
+      "commercialPosture": {
+        "checkoutEnabled": true,
+        "sponsoredGenerationEnabled": true,
+        "packetCreditsConsumed": 1,
+        "note": "Report disposition RELEASE — PACKET."
+      },
+      "notes": "Report decision: job-readiness is an OR trigger, for a single misdemeanour only. Subsection (a)(1) reads '90 days' of programme compliance 'or upon completion of an approved job readiness adult training course, or both, if applicable', so completing the course is an independent route to the accelerated clock and does not have to be accompanied by ninety days of treatment. The scope limit is the part that must not be lost: this does not accelerate a multiple-misdemeanour group."
+    },
+    {
+      "routeKey": "WV:eligible-conviction-expungement-under-w-va-code-61-11-26",
+      "jurisdiction": "WV",
+      "pathwayId": "eligible-conviction-expungement-under-w-va-code-61-11-26",
+      "decisionId": "NATIONAL-2026-08-28-C-WV-02",
+      "ruleId": "WV-61-11-26-VENUE-SEVERANCE-FORM-AND-REPLY",
+      "mechanism": "Expungement of eligible convictions by circuit-court petition",
+      "statute": "W. Va. Code § 61-11-26",
+      "stage": "single_stage",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "elapsed_eligibility_clock",
+        "value": 1,
+        "unit": "years",
+        "anchorFactId": "disposition_date",
+        "anchorText": "one year under § 61-11-26(b)(1) for a single misdemeanour; the statute sets longer periods for other categories"
+      },
+      "requiredFacts": [
+        "In which circuit court or courts did the conviction or convictions occur?",
+        "Does the group span more than one county?",
+        "Does the group contain a conviction the statute excludes?",
+        "Is any conviction a felony whose nonviolent character is a circuit-court finding?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "offense_level"
+      ],
+      "exclusions": [
+        "There is no residence-county venue option: subsections (a)(1) and (a)(2) both direct the petition to the circuit court in which the conviction occurred",
+        "The once-per-lifetime rule means a wrongly-composed petition is not simply refiled"
+      ],
+      "packetFamily": "West Virginia § 61-11-26 Expungement Petition (SCA-C906)",
+      "packetComponents": [
+        "SCA-C906 petition",
+        "Verification",
+        "Certificate of service",
+        "Grouping schedule identifying convictions by circuit court under the subsection (d) proviso"
+      ],
+      "artifactApprovalRequired": true,
+      "deliveryGates": [
+        {
+          "id": "wv_61_11_26_sca_c906_artifact_review",
+          "kind": "artifact_legal_review",
+          "items": [
+            "a rendered SCA-C906 petition and its hash",
+            "the current thirty-day reply period under subsection (g)(3), not the ten days the SCA-C900 instruction sheet prints",
+            "the subsection (d) grouping schedule",
+            "counsel's reading of the eligibility recital where a felony's nonviolent character is a circuit-court finding"
+          ],
+          "owner": "RCAP packet factory, then artifact-level counsel review",
+          "statusSource": "server_configuration_record",
+          "evidenceReference": "pending: no candidate artifact exists yet",
+          "note": "Report dispositions ARTIFACT REVIEW STILL REQUIRED for two questions on this route. The operative petition is SCA-C906, not SCA-C900: SCA-C900 is captioned 'Instructions for Expungement of Records Petition', revised 04/01/2021, and its pages 2 to 5 are themselves a petition — an embedded petition that is materially out of date. Its printed ten-day reply period cites subsection (e); opposition is at subsection (g), and subsection (g)(3) gives the petitioner thirty days after service. A packet that repeats the form's own printed deadline would tell a participant to reply three times faster than the statute requires."
+        }
+      ],
+      "failureDisposition": [
+        {
+          "id": "wv_61_11_26_multi_county_group",
+          "when": "the conviction group spans more than one county",
+          "selector": {
+            "operator": "is_true",
+            "factId": "wv_61_11_26_multi_county_group",
+            "requiredProvenance": "participant_authenticated"
+          },
+          "disposition": "retained_counsel",
+          "note": "Report disposition ATTORNEY / MULTI-PACKET. There is no residence-county venue and no single receiving court is identified by the statute. Subsection (a)(1) directs the petition to the circuit court in which the convictions occurred and the subsection (d) proviso requires grouping by circuit court, which together support one petition per circuit court rather than one petition anywhere. Choosing the receiving court wrongly on a once-per-lifetime remedy is not a self-help decision."
+        },
+        {
+          "id": "wv_61_11_26_excluded_conviction_in_group",
+          "when": "an excluded conviction sits inside an otherwise eligible group",
+          "selector": {
+            "operator": "is_true",
+            "factId": "wv_61_11_26_excluded_conviction_in_group",
+            "requiredProvenance": "participant_authenticated"
+          },
+          "disposition": "retained_counsel",
+          "note": "Report disposition RELEASE — PACKET; complex group to counsel. The decision is that the excluded conviction is omitted or severed rather than carried into the petition — the subsection (h)(1) burden is framed per conviction, which supports severance. A group that actually contains one is still individualized work, because the downside of getting it wrong is a summary denial under subsection (i)(4) against a once-per-lifetime remedy."
+        },
+        {
+          "id": "wv_61_11_26_nonviolent_felony_characterisation",
+          "when": "eligibility turns on whether a felony is nonviolent",
+          "selector": {
+            "operator": "is_true",
+            "factId": "wv_61_11_26_nonviolent_felony_characterisation",
+            "requiredProvenance": "participant_authenticated"
+          },
+          "disposition": "retained_counsel",
+          "note": "Report disposition: narrow felony self-help boundary. Subsection (p)(5) makes two of the four limbs of 'nonviolent felony' express circuit-court findings, so the eligibility recital is a characterisation LegalEase cannot make for the participant."
+        }
+      ],
+      "commercialPosture": {
+        "checkoutEnabled": true,
+        "sponsoredGenerationEnabled": true,
+        "packetCreditsConsumed": 1,
+        "note": "A real participant petition once its artifact is approved. artifactApprovalRequired closes checkout until then."
+      },
+      "notes": "Batch C. Six report decisions land on this one route: no residence-county venue, no single receiving court for a multi-county group, omit or sever an excluded conviction, the nonviolent-felony characterisation, the correct form SCA-C906, and the current thirty-day reply period. The count read four until each decision was traced to the element that carries it; the two it missed were implemented all along, as failure disposition wv_61_11_26_nonviolent_felony_characterisation and delivery gate wv_61_11_26_sca_c906_artifact_review. An undercount is how a holding stops being reviewed. The reply period is released as packet content; the venue and severance holdings are self-help boundaries. Per-decision traceability: data/rcap-ledger/wv-report-decision-traceability.json."
+    },
+    {
+      "routeKey": "WV:no-conviction-expungement-for-acquittal-dismissal-diversion-or-deferred-adjudication",
+      "jurisdiction": "WV",
+      "pathwayId": "no-conviction-expungement-for-acquittal-dismissal-diversion-or-deferred-adjudication",
+      "decisionId": "NATIONAL-2026-08-28-C-WV-03",
+      "ruleId": "WV-61-11-25-SCA-C903-STALE-FORM",
+      "mechanism": "Expungement where the case ended without a conviction",
+      "statute": "W. Va. Code § 61-11-25, as amended by H.B. 4399 (2024)",
+      "stage": "single_stage",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorText": "acquittal, dismissal, or the dismissal that follows a completed diversion or deferred adjudication"
+      },
+      "requiredFacts": [
+        "Did the case end in acquittal, in dismissal, or in a dismissal following diversion or deferred adjudication?",
+        "Are there other charges arising from the same transaction or occurrence?",
+        "Which circuit court held the case?"
+      ],
+      "screeningFactIds": [
+        "case_outcome"
+      ],
+      "exclusions": [
+        "A conviction takes the § 61-11-26 route"
+      ],
+      "packetFamily": "West Virginia § 61-11-25 No-Conviction Expungement Petition",
+      "artifactApprovalRequired": true,
+      "deliveryGates": [
+        {
+          "id": "wv_61_11_25_sca_c903_currency",
+          "kind": "artifact_legal_review",
+          "items": [
+            "a rendered petition and its hash",
+            "a current-law supplement covering what the published form omits",
+            "counsel's reading of whether SCA-C903 may be used at all for a deferred-adjudication dismissal"
+          ],
+          "owner": "RCAP packet factory, then artifact-level counsel review",
+          "statusSource": "server_configuration_record",
+          "evidenceReference": "pending: SCA-C903 read at source 2026-08-06, revision date 04/01/2010",
+          "note": "Report dispositions ARTIFACT REVIEW STILL REQUIRED for both questions on this route, with a custom current-law civil petition preferred. SCA-C903 recites 'W. Va. Code § 61-11-25 (2000)' and is dated 04/01/2010, so it predates the 2010, 2012, 2022, 2023 and 2024 amendments including the H.B. 4399 text now in force. Its operative paragraphs still track current subsection (a) for a straight acquittal or dismissal, so it is usable there with a supplement. For a deferred-adjudication dismissal it is a different matter: the form is captioned 'for Reasons Other than Entry of a Plea', carries one charge block with a single free-text reason field, and has no same-transaction-or-occurrence paragraph and no diversion or deferred-adjudication paragraph."
+        }
+      ],
+      "commercialPosture": {
+        "checkoutEnabled": true,
+        "sponsoredGenerationEnabled": true,
+        "packetCreditsConsumed": 1,
+        "note": "A real participant petition once its artifact is approved."
+      },
+      "notes": "Batch C. The legal answer is settled and the published form is stale; that is an artifact question, not a legal one, and it must not be sent to counsel as unresolved research."
+    },
+    {
+      "routeKey": "WV:pardon-based-expungement",
+      "jurisdiction": "WV",
+      "pathwayId": "pardon-based-expungement",
+      "decisionId": "NATIONAL-2026-08-28-C-WV-04",
+      "ruleId": "WV-5-1-16A-NARROW-STATUTORY-EFFECT",
+      "mechanism": "Expungement following a gubernatorial pardon",
+      "statute": "W. Va. Code § 5-1-16a(b)",
+      "stage": "single_stage",
+      "outcomeMode": "guidance_status",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorText": "a gubernatorial pardon must already have issued"
+      },
+      "requiredFacts": [
+        "Has a gubernatorial pardon issued, and on what date?"
+      ],
+      "screeningFactIds": [
+        "pardon_status"
+      ],
+      "exclusions": [
+        "Without a pardon this route does not exist"
+      ],
+      "packetFamily": null,
+      "commercialPosture": {
+        "checkoutEnabled": false,
+        "sponsoredGenerationEnabled": false,
+        "packetCreditsConsumed": 0,
+        "note": "Guidance is never sold and never consumes a sponsored credit."
+      },
+      "notes": "Report disposition RELEASE — GUIDANCE, narrow statutory effect, no universal nondisclosure. Subsection (b) provides only that the expunged record may not be considered in an application to a West Virginia educational institution or in an application for a licence required by a West Virginia professional organisation. Unlike §§ 61-11-25(e) and 61-11-26(l) it contains no general non-disclosure provision, so the guidance must describe the effect it actually has and may not promise the record becomes generally undisclosable."
+    },
+    {
+      "routeKey": "OH:marijuana-hashish-possession-expungement-under-2953-321",
+      "jurisdiction": "OH",
+      "pathwayId": "marijuana-hashish-possession-expungement-under-2953-321",
+      "decisionId": "NATIONAL-2026-08-28-C-OH-01",
+      "ruleId": "OH-2953-321-MARIJUANA-HASHISH-NOT-AGE-LIMITED",
+      "mechanism": "Expungement of marijuana or hashish possession offences",
+      "statute": "Ohio Rev. Code § 2953.321",
+      "stage": "single_stage",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorFactId": "disposition_date",
+        "anchorText": "the application may be made at any time on or after 2026-03-20 for a qualifying matter occurring before that date; there is no elapsed wait"
+      },
+      "requiredFacts": [
+        "Is the offence under R.C. 2925.11(C)(3)(a), (C)(7)(a) or (b), or (C)(7)(c) or (d) involving no more than 15 grams of hashish?",
+        "Did the matter occur before 2026-03-20?",
+        "Which court sentenced the applicant?",
+        "Is the applicant indigent for the purposes of the fifty-dollar filing fee?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "offense_level"
+      ],
+      "exclusions": [
+        "This route is not limited to people under 21; the age limit belonged to the superseded track name and is not in the current statute",
+        "A matter occurring on or after 2026-03-20 is outside the retroactive scope the statute defines"
+      ],
+      "packetFamily": "Ohio R.C. 2953.321 Marijuana or Hashish Possession Expungement Application",
+      "packetComponents": [
+        "Application identifying the applicant, offence, date, court and disposition",
+        "Evidence of the qualifying statutory subsection, the amount where relevant, and pre-effective-date timing",
+        "Request for expungement under R.C. 2953.321"
+      ],
+      "effectiveFrom": "2026-03-20",
+      "deliveryGates": [
+        {
+          "id": "oh_2953_321_application_artifact",
+          "kind": "artifact_generation",
+          "items": [
+            "the application, since no statewide Supreme Court form specific to R.C. 2953.321 was located",
+            "the qualifying-subsection evidence block",
+            "the pre-effective-date timing recital",
+            "the fifty-dollar fee and indigency instruction",
+            "the 45-to-90-day hearing expectation and prosecutor notice"
+          ],
+          "owner": "RCAP packet factory",
+          "statusSource": "server_configuration_record",
+          "evidenceReference": "pending: no statewide form located, so every component is custom",
+          "note": "The court sets a hearing 45 to 90 days after filing, notifies the prosecutor, obtains any required probation inquiry, and balances the applicant's interests against legitimate governmental needs. The fee is $50 unless the applicant is indigent."
+        }
+      ],
+      "commercialPosture": {
+        "checkoutEnabled": true,
+        "sponsoredGenerationEnabled": true,
+        "packetCreditsConsumed": 1,
+        "note": "A real participant application once its custom artifact exists."
+      },
+      "notes": "Report decision: rename the track and correct its identity. The current statute is Expungement of Marijuana or Hashish Possession Offenses and is not limited to people under 21. It took effect 2026-03-20 and reaches specified matters occurring before that date, covering a qualifying dismissed charge, conviction or guilty plea. If granted the court orders destruction, deletion and erasure of official records and index references."
+    },
+    {
+      "routeKey": "NY:automatic-non-conviction-sealing-under-cpl-160-50-160-55",
+      "jurisdiction": "NY",
+      "pathwayId": "automatic-non-conviction-sealing-under-cpl-160-50-160-55",
+      "decisionId": "NATIONAL-2026-08-28-C-NY-01",
+      "ruleId": "NY-CPL-160-55-AUTOMATIC-PARTIAL-SEAL-CORRECTION",
+      "mechanism": "Automatic partial sealing on a qualifying violation or traffic-infraction termination",
+      "statute": "N.Y. Crim. Proc. Law § 160.55",
+      "stage": "single_stage",
+      "outcomeMode": "automatic_relief",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorFactId": "disposition_date",
+        "anchorText": "sealing follows the qualifying termination by operation of law unless the prosecutor or court timely establishes that the interests of justice require otherwise"
+      },
+      "requiredFacts": [
+        "Did the action terminate in a qualifying violation or traffic-infraction conviction?",
+        "Was the disposition after 1991-11-01?",
+        "Did the court previously enter an interests-of-justice non-sealing order?"
+      ],
+      "screeningFactIds": [
+        "case_outcome"
+      ],
+      "exclusions": [
+        "A pre-November 1, 1991 qualifying case may require a motion under the statute's legacy branch and is not automatic",
+        "CPL § 160.57 Clean Slate is a separate mechanism and is not reached through this route"
+      ],
+      "packetFamily": null,
+      "failureDisposition": [
+        {
+          "id": "ny_160_55_interests_of_justice_order",
+          "when": "the court previously entered an interests-of-justice non-sealing order",
+          "selector": {
+            "operator": "is_true",
+            "factId": "ny_160_55_interests_of_justice_order",
+            "requiredProvenance": "participant_authenticated"
+          },
+          "disposition": "retained_counsel",
+          "note": "Report correction workflow. Undoing a non-sealing order is a motion, not a correction request."
+        },
+        {
+          "id": "ny_160_55_pre_1991_disposition",
+          "when": "the qualifying disposition predates 1991-11-01",
+          "selector": {
+            "operator": "date_before",
+            "factId": "disposition_date",
+            "value": "1991-11-01",
+            "requiredProvenance": "verified_record",
+            "requiredPhase": "FINAL_VERIFICATION"
+          },
+          "disposition": "retained_counsel",
+          "note": "The statute's legacy branch may require a motion, so the automatic description does not hold. The date is an exact record date and is confirmed at final verification, never estimated in screening."
+        }
+      ],
+      "commercialPosture": {
+        "checkoutEnabled": false,
+        "sponsoredGenerationEnabled": false,
+        "packetCreditsConsumed": 0,
+        "note": "The participant ordinarily files nothing, so there is nothing to sell."
+      },
+      "notes": "Report decision: for a post-1991-11-01 qualifying disposition the participant ordinarily files nothing and the clerk notifies DCJS and the appropriate law-enforcement agencies. The service is the correction workflow when the seal does not appear: obtain a certificate of disposition, check the official criminal-history result, ask the sentencing court to transmit or correct the sealing notice, and send the certified disposition to DCJS for correction. The product must not promise that ordinary § 160.55 violations receive full court-file sealing through this section — that is § 160.57 Clean Slate, which is separate."
+    }
+  ]
+}

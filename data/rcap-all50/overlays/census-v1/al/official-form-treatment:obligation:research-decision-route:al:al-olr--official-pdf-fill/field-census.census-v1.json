@@ -1,0 +1,1273 @@
+{
+  "schemaVersion": "rcap-official-form-field-census/v1-census-v1",
+  "familyId": "official-form-treatment:obligation:research-decision-route:AL:al-olr",
+  "censusBasis": "first_hand_inspection_of_the_pinned_verified_binary",
+  "geometryBasis": "Every write box is the AcroForm widget's own /Rect, read from the document. No box is derived from a label position; captions are captured separately and decide only what a blank means, never where it is.",
+  "filenameNote": "Deliberately NOT named field-census.json. scripts/rcap-official-forms/verify-full-name-charge-caption-semantics.mjs walks the overlays for that exact filename and asserts family and field totals equal counts frozen in a diff record outside this family's owned path. Enrolling a new census under that name would change those totals. The guard is not weakened or skipped: this family's own charge-caption projection is recorded in reports/charge-caption-proof.json.",
+  "documents": [
+    {
+      "documentId": "AL-AOC-C-94A-PETITION-FOR-ORDER-OF-LIMITED-RELIEF",
+      "documentRole": "PETITION",
+      "ownership": "participant_completed",
+      "captionOnly": false,
+      "pageGeometry": [
+        {
+          "page": 1,
+          "width": 612,
+          "height": 792
+        },
+        {
+          "page": 2,
+          "width": 612,
+          "height": 792
+        },
+        {
+          "page": 3,
+          "width": 612,
+          "height": 792
+        }
+      ],
+      "fieldCount": 39,
+      "fields": [
+        {
+          "name": "Court Case Number",
+          "type": "text",
+          "maxLength": null,
+          "effectiveLabel": "Court Case Number, page 1 header",
+          "harvestedLabel": "PETITION FOR ORDER OF",
+          "printedLabelCorrection": {
+            "printedLabel": "Court Case Number, page 1 header",
+            "readFrom": "page 1, printed header at y=732.8: \"State of Alabama    Court Case Number\"",
+            "measuredEvidence": "the widget occupies x 419.04-538.44 at y=698.79, in the header block beneath that caption",
+            "why": "Its harvested caption is \"PETITION FOR ORDER OF\", the form's title, which is the same on all three pages. Naming each header by its page is what lets the three be told apart on the field map."
+          },
+          "labelBasis": "printed_page_text_read_at_the_measured_widget_position",
+          "regionHeading": null,
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 419.04,
+                "y": 698.79,
+                "width": 119.4,
+                "height": 21.57
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document"
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [
+            "matter.case_number"
+          ],
+          "descriptorsByLabel": [
+            "matter.case_number"
+          ],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Name of County",
+          "type": "text",
+          "maxLength": null,
+          "effectiveLabel": "IN THE CIRCUIT COURT OF _",
+          "harvestedLabel": "IN THE CIRCUIT COURT OF _",
+          "printedLabelCorrection": null,
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": "LIMITED RELIEF",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 243.24,
+                "y": 665.24,
+                "width": 156.12,
+                "height": 19.92
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document"
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [
+            "matter.county"
+          ],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Please print all fields clearly",
+          "type": "text",
+          "maxLength": null,
+          "effectiveLabel": "Petitioner name",
+          "harvestedLabel": null,
+          "printedLabelCorrection": {
+            "printedLabel": "Petitioner name",
+            "readFrom": "page 1, printed line at y=629.5: \"________________________, Petitioner v. _____________________________, Respondent\", with the sub-caption \"(Please print all fields clearly) (Licensing Board or Commission)\" at y=615.7",
+            "measuredEvidence": "the widget occupies x 77.64-221.64 at y=624.20, over the first blank on that line — the one closed by the printed word \"Petitioner\"; the respondent's widget sits to its right at x 293.16-467.28",
+            "why": "The widget is named after the sub-caption printed beneath it, and beneath the petitioner's own blank the form prints the instruction \"(Please print all fields clearly)\". So the petitioner's name reached nothing at all and the caption shipped empty."
+          },
+          "labelBasis": "printed_page_text_read_at_the_measured_widget_position",
+          "regionHeading": "IN THE CIRCUIT COURT OF __________________________ COUNTY, ALABAMA",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 77.64,
+                "y": 624.2,
+                "width": 144,
+                "height": 19.92
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document"
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [
+            "participant.full_legal_name"
+          ],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Licensing Board or Commission",
+          "type": "text",
+          "maxLength": null,
+          "effectiveLabel": "________________________, Petitioner",
+          "harvestedLabel": "________________________, Petitioner",
+          "printedLabelCorrection": null,
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": "IN THE CIRCUIT COURT OF __________________________ COUNTY, ALABAMA",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 293.16,
+                "y": 624.2,
+                "width": 174.12,
+                "height": 19.92
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document"
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": "licensing_board",
+          "descriptorsByName": [],
+          "descriptorsByLabel": [
+            "participant.full_legal_name"
+          ],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Mailing Address of Board or other entity to be served",
+          "type": "text",
+          "maxLength": null,
+          "effectiveLabel": "(Please print all fields clearly) (Licensing Board or Commis",
+          "harvestedLabel": "(Please print all fields clearly) (Licensing Board or Commis",
+          "printedLabelCorrection": null,
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "regionHeading": "IN THE CIRCUIT COURT OF __________________________ COUNTY, ALABAMA",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 77.64,
+                "y": 582.8,
+                "width": 456,
+                "height": 19.92
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document"
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": "licensing_board",
+          "descriptorsByName": [
+            "participant.street_address"
+          ],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "City State Zip Code",
+          "type": "text",
+          "maxLength": null,
+          "effectiveLabel": "City, State, Zip Code of the Board or other entity to be served",
+          "harvestedLabel": "(Mailing Address of Board or other entity to be served)",
+          "printedLabelCorrection": {
+            "printedLabel": "City, State, Zip Code of the Board or other entity to be served",
+            "readFrom": "page 1: the sub-caption \"(City, State, Zip Code) (Telephone Number)\" at y=537.0, under the rule at y=549.0, which itself sits under \"(Mailing Address of Board or other entity to be served)\" at y=576.1",
+            "measuredEvidence": "the widget occupies x 77.64-317.64 at y=543.68, the left half of that rule, directly beneath the board's mailing-address rule at y=582.80",
+            "why": "This is the RESPONDENT's city, state and ZIP — the licensing board's, in the block the form says is \"to be served\". The shared binder wrote participant.city_state_zip into it: the petitioner's own address published as the address of the body they are suing. The correction names the blank; the role refusal below keeps it blank."
+          },
+          "labelBasis": "printed_page_text_read_at_the_measured_widget_position",
+          "regionHeading": "IN THE CIRCUIT COURT OF __________________________ COUNTY, ALABAMA",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 77.64,
+                "y": 543.68,
+                "width": 240,
+                "height": 19.92
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document"
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [
+            "participant.city_state_zip",
+            "participant.city",
+            "participant.zip",
+            "participant.state"
+          ],
+          "descriptorsByLabel": [
+            "participant.city_state_zip",
+            "participant.city",
+            "participant.zip",
+            "participant.state"
+          ],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Telephone Number",
+          "type": "text",
+          "maxLength": null,
+          "effectiveLabel": "Telephone Number of the Board or other entity to be served",
+          "harvestedLabel": "________________________________________",
+          "printedLabelCorrection": {
+            "printedLabel": "Telephone Number of the Board or other entity to be served",
+            "readFrom": "page 1, the same sub-caption at y=537.0: \"(City, State, Zip Code) (Telephone Number)\"",
+            "measuredEvidence": "the widget occupies x 332.64-530.64 at y=543.68, the right half of the same rule, in the same served-party block",
+            "why": "The RESPONDENT's telephone number. The shared binder wrote participant.phone into it, for the same reason and with the same effect as the line beside it."
+          },
+          "labelBasis": "printed_page_text_read_at_the_measured_widget_position",
+          "regionHeading": "IN THE CIRCUIT COURT OF __________________________ COUNTY, ALABAMA",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 332.64,
+                "y": 543.68,
+                "width": 198,
+                "height": 19.92
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document"
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [
+            "participant.phone"
+          ],
+          "descriptorsByLabel": [
+            "participant.phone"
+          ],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "If granted or denied list the county and case number",
+          "type": "text",
+          "maxLength": null,
+          "effectiveLabel": "If granted or denied, list the county and case number",
+          "harvestedLabel": "If granted or denied, list the county and case number",
+          "printedLabelCorrection": null,
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": "IN THE CIRCUIT COURT OF __________________________ COUNTY, ALABAMA",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 360.48,
+                "y": 214.08,
+                "width": 168,
+                "height": 19.92
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document"
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [
+            "matter.county",
+            "matter.case_number"
+          ],
+          "descriptorsByLabel": [
+            "matter.county",
+            "matter.case_number"
+          ],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "consequences to which the Order of Limited Relief should apply 1",
+          "type": "text",
+          "maxLength": null,
+          "effectiveLabel": "consequences to which the Order of Limited Relief should app",
+          "harvestedLabel": "consequences to which the Order of Limited Relief should app",
+          "printedLabelCorrection": null,
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "regionHeading": "IN THE CIRCUIT COURT OF __________________________ COUNTY, ALABAMA",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 77.64,
+                "y": 144.96,
+                "width": 456,
+                "height": 19.92
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document"
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "consequences to which the Order of Limited Relief should apply 2",
+          "type": "text",
+          "maxLength": null,
+          "effectiveLabel": "____________________________________________________________",
+          "harvestedLabel": "____________________________________________________________",
+          "printedLabelCorrection": null,
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "regionHeading": "IN THE CIRCUIT COURT OF __________________________ COUNTY, ALABAMA",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 77.64,
+                "y": 124.2,
+                "width": 456,
+                "height": 19.92
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document"
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "consequences to which the Order of Limited Relief should apply 3",
+          "type": "text",
+          "maxLength": null,
+          "effectiveLabel": "____________________________________________________________",
+          "harvestedLabel": "____________________________________________________________",
+          "printedLabelCorrection": null,
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "regionHeading": "IN THE CIRCUIT COURT OF __________________________ COUNTY, ALABAMA",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 77.64,
+                "y": 103.56,
+                "width": 456,
+                "height": 19.8
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document"
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "consequences to which the Order of Limited Relief should apply 4",
+          "type": "text",
+          "maxLength": null,
+          "effectiveLabel": "____________________________________________________________",
+          "harvestedLabel": "____________________________________________________________",
+          "printedLabelCorrection": null,
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "regionHeading": "IN THE CIRCUIT COURT OF __________________________ COUNTY, ALABAMA",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 77.64,
+                "y": 82.8,
+                "width": 456,
+                "height": 19.92
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document"
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "consequences to which the Order of Limited Relief should apply 5",
+          "type": "text",
+          "maxLength": null,
+          "effectiveLabel": "____________________________________________________________",
+          "harvestedLabel": "____________________________________________________________",
+          "printedLabelCorrection": null,
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "regionHeading": "IN THE CIRCUIT COURT OF __________________________ COUNTY, ALABAMA",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 77.64,
+                "y": 62.16,
+                "width": 456,
+                "height": 19.8
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document"
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Court Case Number_2",
+          "type": "text",
+          "maxLength": null,
+          "effectiveLabel": "Court Case Number, page 2 header",
+          "harvestedLabel": "PETITION FOR ORDER OF",
+          "printedLabelCorrection": {
+            "printedLabel": "Court Case Number, page 2 header",
+            "readFrom": "page 2, printed header at y=732.8: \"State of Alabama    Court Case Number\"",
+            "measuredEvidence": "the widget occupies x 429.00-538.44 at y=703.66",
+            "why": "See the header note: the trailing \"_2\" is read by the shared binder as charge row 1, so on a matter with more than one charge this box receives a different charge's case number."
+          },
+          "labelBasis": "printed_page_text_read_at_the_measured_widget_position",
+          "regionHeading": null,
+          "widgets": [
+            {
+              "page": 2,
+              "rect": {
+                "x": 429,
+                "y": 703.66,
+                "width": 109.44,
+                "height": 20.7
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document"
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [
+            "matter.case_number"
+          ],
+          "descriptorsByLabel": [
+            "matter.case_number"
+          ],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Name of Petitioner",
+          "type": "text",
+          "maxLength": null,
+          "effectiveLabel": "Alabama Sex Offender Registration and Community Notification",
+          "harvestedLabel": "Alabama Sex Offender Registration and Community Notification",
+          "printedLabelCorrection": null,
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "regionHeading": "LIMITED RELIEF",
+          "widgets": [
+            {
+              "page": 2,
+              "rect": {
+                "x": 77.64,
+                "y": 528.44,
+                "width": 205.08,
+                "height": 26.52
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document"
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [
+            "participant.full_legal_name"
+          ],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Name of Attorney if applicable",
+          "type": "text",
+          "maxLength": null,
+          "effectiveLabel": "_________________________________________",
+          "harvestedLabel": "_________________________________________",
+          "printedLabelCorrection": null,
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": "LIMITED RELIEF",
+          "widgets": [
+            {
+              "page": 2,
+              "rect": {
+                "x": 305.28,
+                "y": 528.44,
+                "width": 200.04,
+                "height": 26.52
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document"
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": "attorney",
+          "descriptorsByName": [
+            "participant.full_legal_name"
+          ],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Petitioner Mailing Address",
+          "type": "text",
+          "maxLength": null,
+          "effectiveLabel": "Petitioner Mailing Address",
+          "harvestedLabel": "[ ] pro se (Not represented by an attorney)",
+          "printedLabelCorrection": {
+            "printedLabel": "Petitioner Mailing Address",
+            "readFrom": "page 2, printed sub-caption at y=453.1: \"(Petitioner Mailing Address) (SSN Last 4 only)\", under the rule at y=464.5",
+            "measuredEvidence": "the widget occupies x 77.64-387.72 at y=459.44, the long left portion of that rule; the short \"XXX-XX-______\" box sits at x 451.98-491.90",
+            "why": "Its harvested caption is the pro se checkbox line printed above it, \"[ ] pro se (Not represented by an attorney)\", so the shared protect rules read the blank as an attorney field and refused the petitioner's own mailing address."
+          },
+          "labelBasis": "printed_page_text_read_at_the_measured_widget_position",
+          "regionHeading": "LIMITED RELIEF",
+          "widgets": [
+            {
+              "page": 2,
+              "rect": {
+                "x": 77.64,
+                "y": 459.44,
+                "width": 310.08,
+                "height": 26.52
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document"
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [
+            "participant.street_address"
+          ],
+          "descriptorsByLabel": [
+            "participant.street_address"
+          ],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Phone",
+          "type": "text",
+          "maxLength": null,
+          "effectiveLabel": "(Email)",
+          "harvestedLabel": "(Email)",
+          "printedLabelCorrection": null,
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": "______________________________________________________________ XXX-XX-__________",
+          "widgets": [
+            {
+              "page": 2,
+              "rect": {
+                "x": 275.28,
+                "y": 425,
+                "width": 105,
+                "height": 26.52
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document"
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [
+            "participant.phone"
+          ],
+          "descriptorsByLabel": [
+            "participant.email"
+          ],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Email",
+          "type": "text",
+          "maxLength": null,
+          "effectiveLabel": "Email",
+          "harvestedLabel": "(Petitioner Mailing Address) (SSN Last 4 only)",
+          "printedLabelCorrection": {
+            "printedLabel": "Email",
+            "readFrom": "page 2, printed sub-caption at y=418.5: \"(Email) (Phone) (Date of Birth)\", under the rule at y=430.1",
+            "measuredEvidence": "the widget occupies x 77.64-257.76 at y=425.00, the leftmost of the three boxes on that rule",
+            "why": "Its harvested caption is the sub-caption of the line ABOVE, \"(Petitioner Mailing Address) (SSN Last 4 only)\", so the shared protect rules read the blank as a government identifier and refused the petitioner's email."
+          },
+          "labelBasis": "printed_page_text_read_at_the_measured_widget_position",
+          "regionHeading": "______________________________________________________________ XXX-XX-__________",
+          "widgets": [
+            {
+              "page": 2,
+              "rect": {
+                "x": 77.64,
+                "y": 425,
+                "width": 180.12,
+                "height": 22.2
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document"
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [
+            "participant.email"
+          ],
+          "descriptorsByLabel": [
+            "participant.email"
+          ],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Date of Birth",
+          "type": "text",
+          "maxLength": null,
+          "effectiveLabel": "(Email)                                                     ",
+          "harvestedLabel": "(Email)                                                     ",
+          "printedLabelCorrection": null,
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": "______________________________________________________________ XXX-XX-__________",
+          "widgets": [
+            {
+              "page": 2,
+              "rect": {
+                "x": 395.28,
+                "y": 425,
+                "width": 129.96,
+                "height": 22.2
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document"
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [
+            "participant.date_of_birth"
+          ],
+          "descriptorsByLabel": [
+            "participant.email"
+          ],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Date",
+          "type": "text",
+          "maxLength": null,
+          "effectiveLabel": "Sworn to and subscribed before",
+          "harvestedLabel": "Sworn to and subscribed before",
+          "printedLabelCorrection": null,
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": null,
+          "widgets": [
+            {
+              "page": 2,
+              "rect": {
+                "x": 252.84,
+                "y": 320.12,
+                "width": 77.53,
+                "height": 18.05
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document"
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "PetitionerPrinted Name",
+          "type": "text",
+          "maxLength": null,
+          "effectiveLabel": "(Date)",
+          "harvestedLabel": "(Date)",
+          "printedLabelCorrection": null,
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "regionHeading": "(Date)",
+          "widgets": [
+            {
+              "page": 2,
+              "rect": {
+                "x": 78.03,
+                "y": 276.03,
+                "width": 294,
+                "height": 18.43
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document"
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [
+            "participant.full_legal_name"
+          ],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Court Case Number_3",
+          "type": "text",
+          "maxLength": null,
+          "effectiveLabel": "Court Case Number, page 3 header",
+          "harvestedLabel": "PETITION FOR ORDER OF",
+          "printedLabelCorrection": {
+            "printedLabel": "Court Case Number, page 3 header",
+            "readFrom": "page 3, printed header at y=710.2: \"State of Alabama    Court Case Number\"",
+            "measuredEvidence": "the widget occupies x 416.88-583.68 at y=681.32",
+            "why": "Same as the page 2 header, with \"_3\" read as charge row 2."
+          },
+          "labelBasis": "printed_page_text_read_at_the_measured_widget_position",
+          "regionHeading": null,
+          "widgets": [
+            {
+              "page": 3,
+              "rect": {
+                "x": 416.88,
+                "y": 681.32,
+                "width": 166.8,
+                "height": 22.42
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document"
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [
+            "matter.case_number"
+          ],
+          "descriptorsByLabel": [
+            "matter.case_number"
+          ],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Date_2",
+          "type": "text",
+          "maxLength": null,
+          "effectiveLabel": "Return receipt of certified mail received in this office on",
+          "harvestedLabel": "Return receipt of certified mail received in this office on",
+          "printedLabelCorrection": null,
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": "RETURN ON SERVICE",
+          "widgets": [
+            {
+              "page": 3,
+              "rect": {
+                "x": 269.52,
+                "y": 589.15,
+                "width": 289.2,
+                "height": 22.2
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document"
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Name of Person Served",
+          "type": "text",
+          "maxLength": null,
+          "effectiveLabel": "I certify that I personally delivered a copy of this Petitio",
+          "harvestedLabel": "I certify that I personally delivered a copy of this Petitio",
+          "printedLabelCorrection": null,
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": "RETURN ON SERVICE",
+          "widgets": [
+            {
+              "page": 3,
+              "rect": {
+                "x": 285.48,
+                "y": 551.96,
+                "width": 270.36,
+                "height": 22.2
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document"
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [
+            "participant.full_legal_name"
+          ],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Name of County_2",
+          "type": "text",
+          "maxLength": null,
+          "effectiveLabel": "in",
+          "harvestedLabel": "in",
+          "printedLabelCorrection": null,
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": null,
+          "widgets": [
+            {
+              "page": 3,
+              "rect": {
+                "x": 58.44,
+                "y": 517.52,
+                "width": 123.48,
+                "height": 22.2
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document"
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [
+            "matter.county"
+          ],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Date_3",
+          "type": "text",
+          "maxLength": null,
+          "effectiveLabel": "in __________________________ County, Alabama on",
+          "harvestedLabel": "in __________________________ County, Alabama on",
+          "printedLabelCorrection": null,
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": "RETURN ON SERVICE",
+          "widgets": [
+            {
+              "page": 3,
+              "rect": {
+                "x": 264.6,
+                "y": 517.03,
+                "width": 140.04,
+                "height": 22.2
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document"
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [
+            "matter.county"
+          ],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Type of Process Server",
+          "type": "text",
+          "maxLength": null,
+          "effectiveLabel": null,
+          "harvestedLabel": null,
+          "printedLabelCorrection": null,
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": null,
+          "widgets": [
+            {
+              "page": 3,
+              "rect": {
+                "x": 46.92,
+                "y": 477.68,
+                "width": 100.08,
+                "height": 22.2
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document"
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": "service_block",
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Address of Server",
+          "type": "text",
+          "maxLength": null,
+          "effectiveLabel": "____________________    __________________________",
+          "harvestedLabel": "____________________    __________________________",
+          "printedLabelCorrection": null,
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": "RETURN ON SERVICE",
+          "widgets": [
+            {
+              "page": 3,
+              "rect": {
+                "x": 319.44,
+                "y": 477.19,
+                "width": 225.12,
+                "height": 22.2
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document"
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [
+            "participant.street_address"
+          ],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Servers Printed Name",
+          "type": "text",
+          "maxLength": null,
+          "effectiveLabel": null,
+          "harvestedLabel": null,
+          "printedLabelCorrection": null,
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": "RETURN ON SERVICE",
+          "widgets": [
+            {
+              "page": 3,
+              "rect": {
+                "x": 166.92,
+                "y": 441.56,
+                "width": 130.08,
+                "height": 22.2
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document"
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [
+            "participant.full_legal_name"
+          ],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "1",
+          "type": "text",
+          "maxLength": null,
+          "effectiveLabel": "Address of Server, continuation rule",
+          "harvestedLabel": "__________________________",
+          "printedLabelCorrection": {
+            "printedLabel": "Address of Server, continuation rule",
+            "readFrom": "page 3, RETURN ON SERVICE: the sub-caption \"(Address of Server)\" at y=470.9 and its continuation rules at y=459.0 and y=447.1",
+            "measuredEvidence": "the widget occupies x 319.44-544.56 at y=457.44, the first continuation rule beneath the server's address line at y=477.19",
+            "why": "The widget is named \"1\" and harvests only a run of underscores."
+          },
+          "labelBasis": "printed_page_text_read_at_the_measured_widget_position",
+          "regionHeading": "RETURN ON SERVICE",
+          "widgets": [
+            {
+              "page": 3,
+              "rect": {
+                "x": 319.44,
+                "y": 457.44,
+                "width": 225.12,
+                "height": 14.44
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document"
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [
+            "participant.street_address"
+          ],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "2",
+          "type": "text",
+          "maxLength": null,
+          "effectiveLabel": "Phone Number of Server",
+          "harvestedLabel": null,
+          "printedLabelCorrection": {
+            "printedLabel": "Phone Number of Server",
+            "readFrom": "page 3, RETURN ON SERVICE: the sub-caption \"(Phone Number of Server)\" at y=423.5",
+            "measuredEvidence": "the widget occupies x 320.28-545.28 at y=429.80, on the rule directly above that sub-caption",
+            "why": "The widget is named \"2\" and harvests nothing."
+          },
+          "labelBasis": "printed_page_text_read_at_the_measured_widget_position",
+          "regionHeading": "RETURN ON SERVICE",
+          "widgets": [
+            {
+              "page": 3,
+              "rect": {
+                "x": 320.28,
+                "y": 429.8,
+                "width": 225,
+                "height": 22.2
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document"
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [
+            "participant.phone"
+          ],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Text1",
+          "type": "text",
+          "maxLength": null,
+          "effectiveLabel": "SSN Last 4 only",
+          "harvestedLabel": "____________________________________________________________",
+          "printedLabelCorrection": {
+            "printedLabel": "SSN Last 4 only",
+            "readFrom": "page 2, printed sub-caption at y=453.1: \"(Petitioner Mailing Address) (SSN Last 4 only)\", and the printed \"XXX-XX-__________\" on the rule at y=464.5",
+            "measuredEvidence": "the widget occupies x 451.98-491.90 at y=462.54, immediately after the printed \"XXX-XX-\"",
+            "why": "The widget is named \"Text1\" and harvests the wrong caption, so nothing on the row said what it holds."
+          },
+          "labelBasis": "printed_page_text_read_at_the_measured_widget_position",
+          "regionHeading": null,
+          "widgets": [
+            {
+              "page": 2,
+              "rect": {
+                "x": 451.98,
+                "y": 462.54,
+                "width": 39.92,
+                "height": 12.79
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document"
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": "government_identifier",
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Check Box2",
+          "type": "checkbox",
+          "maxLength": null,
+          "effectiveLabel": "convictions in any jurisdiction and the court",
+          "harvestedLabel": "convictions in any jurisdiction and the court",
+          "printedLabelCorrection": null,
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": "IN THE CIRCUIT COURT OF __________________________ COUNTY, ALABAMA",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 295.31,
+                "y": 256.13,
+                "width": 14.12,
+                "height": 13.64
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document"
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Check Box3",
+          "type": "checkbox",
+          "maxLength": null,
+          "effectiveLabel": "convictions in any jurisdiction and the court (    ) Granted",
+          "harvestedLabel": "convictions in any jurisdiction and the court (    ) Granted",
+          "printedLabelCorrection": null,
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": "IN THE CIRCUIT COURT OF __________________________ COUNTY, ALABAMA",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 363.29,
+                "y": 256.13,
+                "width": 14.12,
+                "height": 13.64
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document"
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Check Box4",
+          "type": "checkbox",
+          "maxLength": null,
+          "effectiveLabel": "convictions in any jurisdiction and the court (    ) Granted",
+          "harvestedLabel": "convictions in any jurisdiction and the court (    ) Granted",
+          "printedLabelCorrection": null,
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": "IN THE CIRCUIT COURT OF __________________________ COUNTY, ALABAMA",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 484.98,
+                "y": 256.13,
+                "width": 14.12,
+                "height": 13.64
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document"
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Text29",
+          "type": "text",
+          "maxLength": null,
+          "effectiveLabel": "the month in the notary's jurat",
+          "harvestedLabel": "Sworn to and subscribed before this _____________",
+          "printedLabelCorrection": {
+            "printedLabel": "the month in the notary's jurat",
+            "readFrom": "page 2, printed line at y=322.4: \"Sworn to and subscribed before this _____________ day of _________________, ________.\"",
+            "measuredEvidence": "three widgets sit on that line at x 252.84-330.37 (the day), 366.28-469.29 (the month) and 474.89-524.37 (the year); this is the middle one",
+            "why": "The widget is named \"Text29\" and says nothing about what it holds."
+          },
+          "labelBasis": "printed_page_text_read_at_the_measured_widget_position",
+          "regionHeading": null,
+          "widgets": [
+            {
+              "page": 2,
+              "rect": {
+                "x": 366.28,
+                "y": 318.6,
+                "width": 103.01,
+                "height": 16.99
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document"
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": "notarization",
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Text30",
+          "type": "text",
+          "maxLength": null,
+          "effectiveLabel": "the year in the notary's jurat",
+          "harvestedLabel": null,
+          "printedLabelCorrection": {
+            "printedLabel": "the year in the notary's jurat",
+            "readFrom": "page 2, the same printed line at y=322.4",
+            "measuredEvidence": "the rightmost of the three widgets on that line, x 474.89-524.37",
+            "why": "The widget is named \"Text30\" and says nothing about what it holds."
+          },
+          "labelBasis": "printed_page_text_read_at_the_measured_widget_position",
+          "regionHeading": null,
+          "widgets": [
+            {
+              "page": 2,
+              "rect": {
+                "x": 474.89,
+                "y": 320.53,
+                "width": 49.48,
+                "height": 14.68
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document"
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": "notarization",
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Text2",
+          "type": "text",
+          "maxLength": null,
+          "effectiveLabel": "Notary Public commission expiry date",
+          "harvestedLabel": null,
+          "printedLabelCorrection": {
+            "printedLabel": "Notary Public commission expiry date",
+            "readFrom": "page 2, printed line at y=141.2: \"(Notary Public Only: My Commission expires on ____________________________________________________(Date)).\"",
+            "measuredEvidence": "the widget occupies x 246.50-469.68 at y=137.42, on that line",
+            "why": "The widget is named \"Text2\". The form's own words mark the line Notary Public Only."
+          },
+          "labelBasis": "printed_page_text_read_at_the_measured_widget_position",
+          "regionHeading": "_________________________________________________",
+          "widgets": [
+            {
+              "page": 2,
+              "rect": {
+                "x": 246.5,
+                "y": 137.42,
+                "width": 223.18,
+                "height": 14.68
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document"
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": "notarization",
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        }
+      ]
+    }
+  ]
+}

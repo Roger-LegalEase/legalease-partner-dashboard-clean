@@ -1,0 +1,356 @@
+{
+  "schemaVersion": "rcap-vf62-bounded-semantic-review/v1",
+  "lane": "VF62",
+  "laneKind": "independent-verification",
+  "worker": "VF62",
+  "reviewer": "/root/review_wa",
+  "sessionIdentity": "/root/review_wa",
+  "familyId": "pa_6308_underage-set",
+  "baseSha": "8c593f33f9c42a25a0f7917faf4e1dbb7f9f1173",
+  "verifiedAtBase": "8c593f33f9c42a25a0f7917faf4e1dbb7f9f1173",
+  "dispatchSha": "8c593f33f9c42a25a0f7917faf4e1dbb7f9f1173",
+  "executionState": "VERIFYING",
+  "reviewPhase": "INDEPENDENT_CURRENT_BYTE_NONVISUAL_SEMANTIC_RECHECK",
+  "status": "PASS_PRE_RASTER_SEMANTIC",
+  "verdict": "PASS",
+  "scope": "Independent bounded semantic recheck of PA-VF62-08 against the current Rule 490 order bytes, current field map, participant guide and actual-write proof. The prior thirteen PASS groups are reused only after exact current source/PDF/metadata bindings were checked. No implementation, source, packet, raster, queue, manifest or ledger edits were made by this reviewer; no visual pass is claimed.",
+  "claimEvidence": {
+    "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF62 pa_6308_underage-set",
+    "result": "CLAIM_OK",
+    "assertedBeforeFamilyReads": true
+  },
+  "historicalFailure": {
+    "path": "data/rcap-grade-a/packet-factory-24h/vf62/rows-vf62-20260911-pa-final.json",
+    "sha256": "56c469e410becb86385f7bfd7d23b68cc8b6ae7d4531740ed069363aaecd3171",
+    "byteLength": 28920,
+    "priorVerifiedAtBase": "f5e4348df16648230bbb717f2bbceea55f221077",
+    "priorFailedObligationNames": [
+      "REQUIRED_BEFORE_FILING",
+      "REPEATING_ROWS"
+    ],
+    "priorBlockingDefectIds": [
+      "PA-VF62-08"
+    ]
+  },
+  "defectResolution": {
+    "path": "data/rcap-grade-a/packet-factory-24h/vf62/pa-final-20260911/defect-resolution.json",
+    "sha256": "91a1743ab0448a0a2c0786908d66387893b6619c4aa759a12b5b41cf44fdb8ab",
+    "byteLength": 9448,
+    "priorGroupsResolved": 13,
+    "currentDefect": "PA-VF62-08",
+    "currentStatus": "RESOLVED"
+  },
+  "resolvedFindings": [
+    "PA-VF62-08: current Rule 490 SpecificCharges is a refused whole composite with blankTreatment REQUIRED_BEFORE_FILING, no factId, and a reason requiring charge plus exact disposition before filing.",
+    "Current participant guide identifies the held charge, missing disposition and exact charging-document/docket or clerk-certified disposition task; it forbids printing charge alone.",
+    "Current actual-writes marks Rule 490 SpecificCharges refused and records no charge-only appearance; current Rule 790 Text15 has the same composite treatment."
+  ],
+  "proofObligations": {
+    "ROUTE_IDENTITY": {
+      "measured": true,
+      "result": "PASS",
+      "finding": "Current route, Rule 490/790 treatment and underage-drinking track remain bound to PA 6308; no alternate route is introduced."
+    },
+    "SOURCE_IDENTITY": {
+      "measured": true,
+      "result": "PASS",
+      "finding": "Current source receipt pins all four official PA forms by exact source path, SHA-256 and byte length; current source identities are unchanged."
+    },
+    "COMPONENT_SET": {
+      "measured": true,
+      "result": "PASS",
+      "finding": "Current six-PDF candidate contains the two petition/order route variants and both certificate variants required by the current manifest."
+    },
+    "KNOWN_PREFILLS": {
+      "measured": true,
+      "result": "PASS",
+      "finding": "Current actual-write and changed-byte evidence retains the repaired known facts and does not print a charge-only SpecificCharges composite."
+    },
+    "REQUIRED_BEFORE_FILING": {
+      "measured": true,
+      "result": "PASS",
+      "finding": "PA-VF62-08 is resolved: Rule 490 SpecificCharges is refused as a whole composite, identifies the held charge and missing disposition, and gives the exact charging-document/disposition handoff before filing."
+    },
+    "ROUTE_OPTIONS": {
+      "measured": true,
+      "result": "PASS",
+      "finding": "Current guide and route evidence preserve the Rule 490/790 court-record choice, six governed questions and three fail-closed stops."
+    },
+    "REPEATING_ROWS": {
+      "measured": true,
+      "result": "PASS",
+      "finding": "Both petition offense tables and both order SpecificCharges/Text15 composites use whole-entry treatment; the Rule 490 equivalent now matches the repaired Rule 790 integrity rule."
+    },
+    "PROTECTED_FIELDS": {
+      "measured": true,
+      "result": "PASS",
+      "finding": "Future order disposition, judge/court, signature and service/certification fields remain protected or participant-completion fields; no protected write is introduced."
+    },
+    "ARTIFACTS": {
+      "measured": true,
+      "result": "PASS",
+      "finding": "All six current PDFs match the current manifest and rendered-artifact identities by SHA-256, byte length and page count; visual acceptance is not claimed."
+    },
+    "PAGE_ORDER": {
+      "measured": true,
+      "result": "PASS",
+      "finding": "Current six-PDF delivery retains the declared one/two/one/two/one/one page component order."
+    },
+    "CLIPPING_AND_OVERLAP": {
+      "measured": false,
+      "result": "NOT_MEASURABLE_HERE",
+      "finding": "No current central Actions raster was inspected by this semantic lane; visual clipping/overlap and visualDefects remain open.",
+      "visualDefects": null
+    },
+    "FILING_DESTINATION": {
+      "measured": true,
+      "result": "PASS",
+      "finding": "Current participant guidance preserves clerk/judicial-district filing destination and unknown-court stop."
+    },
+    "FEE_AND_WAIVER": {
+      "measured": true,
+      "result": "PASS",
+      "finding": "Current guide states county fee variability and statewide in forma pauperis handoff without inventing a fee."
+    },
+    "SERVICE": {
+      "measured": true,
+      "result": "PASS",
+      "finding": "Current service certificate and participant guidance preserve concurrent filing service facts and leave future service/certification acts to the responsible actor."
+    },
+    "SELF_HELP_STOP": {
+      "measured": true,
+      "result": "PASS",
+      "finding": "Current guide retains unsatisfied suspension, other sentence condition and under-21 stops, with no invented disposition or court act."
+    }
+  },
+  "obligationCounts": {
+    "PASS": 14,
+    "NOT_MEASURABLE_HERE": 1,
+    "FAIL": 0
+  },
+  "failedObligationNames": [],
+  "unmeasuredObligations": [
+    "CLIPPING_AND_OVERLAP"
+  ],
+  "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": null,
+    "allNonvisualZero": true,
+    "allNineZero": false,
+    "measuredHere": true,
+    "visualMeasuredHere": false,
+    "verifierResult": "NOT_MEASURABLE_HERE",
+    "focusedCoverage": "45/217"
+  },
+  "currentCandidateBindings": {
+    "reviewedHead": "8c593f33f9c42a25a0f7917faf4e1dbb7f9f1173",
+    "rasterManifest": {
+      "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/pa6308-current/raster-manifest.json",
+      "sha256": "0dc1ec00cd19d20e02acbb13ed0da815fe92ef2b0e50dc87beebc50d09c5c3b8",
+      "byteLength": 5414,
+      "packetCommitShaRecorded": "2a9ccf4de30da46f08da1979b79d695cd7ad072e",
+      "currentRasterState": "RASTER_PENDING",
+      "coverage": "six current PDFs / eight pages"
+    },
+    "metadata": [
+      {
+        "path": "data/rcap-all50/overlays/census-v1/pa/pa-6308-underage-set--official-pdf-fill/participant-instructions.md",
+        "sha256": "1623eabc475cd5f8c816f9bd43222b643caac851ff044ddaed9e4814da884100",
+        "byteLength": 29041
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/pa/pa-6308-underage-set--official-pdf-fill/production-field-map.json",
+        "sha256": "f081c82a75adf9d40e2d6f0166b1bb8c7f2fa608b0e380619863212e249a98cf",
+        "byteLength": 195945
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/pa/pa-6308-underage-set--official-pdf-fill/source-receipt.json",
+        "sha256": "4bfdb998d8840d61b5934ccd4353be216139378178264992bc4bbe278e6c58d0",
+        "byteLength": 4167
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/pa/pa-6308-underage-set--official-pdf-fill/reports/actual-writes.json",
+        "sha256": "1575ab8c70d8c9e429d975db42c7888af7d1a87ce70a0e0328002743a897ff8c",
+        "byteLength": 72748
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/pa/pa-6308-underage-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "sha256": "956317e54c824af1f927bbf06c88aad604124093481b53ec674c4f9cf96588af",
+        "byteLength": 6413
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/pa/pa-6308-underage-set--official-pdf-fill/product-wiring.json",
+        "sha256": "f79316e5eaa3057c84b5c73a23f0fd80fd560f712a078d29855b5f27f2cf9f5b",
+        "byteLength": 5435
+      }
+    ],
+    "sourceReceipt": {
+      "path": "data/rcap-all50/overlays/census-v1/pa/pa-6308-underage-set--official-pdf-fill/source-receipt.json",
+      "sha256": "4bfdb998d8840d61b5934ccd4353be216139378178264992bc4bbe278e6c58d0",
+      "byteLength": 4167
+    },
+    "sourceDocuments": [
+      {
+        "form": "PA-RCRIM-P-490-PETITION",
+        "path": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/PA/02_PACKET_FORMS/PA__FORM__PA-RCRIM-P-490-PETITION__pa-r-crim-p-490-petition__REV-2009-03__EN.pdf",
+        "sha256": "082c515ce5a60de33798508c6dd76589f83758ac2ddd8244e934b379ce05def3",
+        "byteLength": 87204,
+        "pageCount": 1
+      },
+      {
+        "form": "PA-RCRIM-P-490-ORDER",
+        "path": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/PA/02_PACKET_FORMS/PA__FORM__PA-RCRIM-P-490-ORDER__pa-r-crim-blank-expungement-order__REV-2006-03__EN.pdf",
+        "sha256": "ac671421035b12b61d3cfbfaac04bb5676f619b968db879f6992e3279110ce90",
+        "byteLength": 143399,
+        "pageCount": 2
+      },
+      {
+        "form": "PA-RCRIM-P-790-PETITION",
+        "path": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/PA/02_PACKET_FORMS/PA__FORM__PA-RCRIM-P-790-PETITION__pa-r-crim-p-790-petition__REV-2009-03__EN.pdf",
+        "sha256": "fc06486e75773d4f6d81c263706827ab7f9facfb6dde9907cbee120c063289de",
+        "byteLength": 87647,
+        "pageCount": 1
+      },
+      {
+        "form": "PA-RCRIM-P-790-ORDER",
+        "path": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/PA/02_PACKET_FORMS/PA__FORM__PA-RCRIM-P-790-ORDER__pa-r-crim-blank-expungement-order__REV-2021-07__EN.pdf",
+        "sha256": "4d312ebde4aed7c1941e1ae9d734c90ba7183db273778839b15a84be8e611c95",
+        "byteLength": 151853,
+        "pageCount": 2
+      }
+    ],
+    "fixturePdfs": [
+      {
+        "role": "canonical-PA-RCRIM-P-490-PETITION",
+        "path": "data/rcap-all50/overlays/census-v1/pa/pa-6308-underage-set--official-pdf-fill/fixtures/rule-490-petition-canonical.pdf",
+        "sha256": "0bc45b2c0ac23fac1d5f64fbb340cf29cb93af01e29da5d6e1f0923121469a5d",
+        "byteLength": 123063,
+        "pageCount": 1
+      },
+      {
+        "role": "canonical-PA-RCRIM-P-490-ORDER",
+        "path": "data/rcap-all50/overlays/census-v1/pa/pa-6308-underage-set--official-pdf-fill/fixtures/rule-490-order-canonical.pdf",
+        "sha256": "39625c0e8b743019c6c080e33f5cff5485bd3559ab64b7d8ab896660b381aae6",
+        "byteLength": 221358,
+        "pageCount": 2
+      },
+      {
+        "role": "boundary-PA-RCRIM-P-790-PETITION",
+        "path": "data/rcap-all50/overlays/census-v1/pa/pa-6308-underage-set--official-pdf-fill/fixtures/rule-790-petition-boundary.pdf",
+        "sha256": "a88f0a3cbab962faf0cd06e1a916d8ebf40b34fdfe43041574979b64b0134cb9",
+        "byteLength": 120325,
+        "pageCount": 1
+      },
+      {
+        "role": "boundary-PA-RCRIM-P-790-ORDER",
+        "path": "data/rcap-all50/overlays/census-v1/pa/pa-6308-underage-set--official-pdf-fill/fixtures/rule-790-order-boundary.pdf",
+        "sha256": "5dcb402f6af5df9930d7283e62d15407f9734862b46063674f0c4c65302ef957",
+        "byteLength": 195781,
+        "pageCount": 2
+      },
+      {
+        "role": "canonical-pa_6308_underage-certificate-of-service-3",
+        "path": "data/rcap-all50/overlays/census-v1/pa/pa-6308-underage-set--official-pdf-fill/fixtures/certificate-of-service-canonical.pdf",
+        "sha256": "25ef4ba175037ab521617567dd1a1bd7293e96f1a4ee47fd25604f6d999bbfad",
+        "byteLength": 2711,
+        "pageCount": 1
+      },
+      {
+        "role": "boundary-pa_6308_underage-certificate-of-service-3",
+        "path": "data/rcap-all50/overlays/census-v1/pa/pa-6308-underage-set--official-pdf-fill/fixtures/certificate-of-service-boundary.pdf",
+        "sha256": "256d896fba6bf63c61838c7a736d4eeb8c3a62c074df559dd98ddf671c2692f8",
+        "byteLength": 2778,
+        "pageCount": 1
+      }
+    ],
+    "documentsDigest": "de220aab0cb3140df8bcc8e8f1e6d47f5588439207c87b20e2f02ef3f3083aec"
+  },
+  "evidenceBindings": [
+    {
+      "path": "data/rcap-grade-a/packet-factory-24h/vf62/pa-final-20260911/current-evidence-measurements.json",
+      "sha256": "b0449b4c1a9bd033cca44528bac44072effc931f495fed436392808dbd719c4e",
+      "byteLength": 84716
+    },
+    {
+      "path": "data/rcap-grade-a/packet-factory-24h/vf62/pa-final-20260911/semantic-recheck.json",
+      "sha256": "58cd1683f5991f7bd305d58a3e73d2551f243cd5dd781d4a873d5eef98deb5a8",
+      "byteLength": 49153
+    },
+    {
+      "path": "data/rcap-grade-a/packet-factory-24h/vf62/pa-final-20260911/verification-results.json",
+      "sha256": "45ae1ebdf3e5a9668aadb61ae9ca1e29108e76d7830d4a4d2bbdebb4cd3b9b2d",
+      "byteLength": 2321
+    },
+    {
+      "path": "data/rcap-grade-a/packet-factory-24h/vf62/pa-final-20260911/focused-tests.log",
+      "sha256": "f9acc35162310caf74efb29672f6faee2ca3a4836c791595e8c96910ab3d571c",
+      "byteLength": 495
+    },
+    {
+      "path": "data/rcap-grade-a/packet-factory-24h/vf62/pa-final-20260911/nonvisual.log",
+      "sha256": "e5aca34c19ba4a53d49716fa5f55143812c9f5c4c10965ad1a2932ca45f89588",
+      "byteLength": 133
+    },
+    {
+      "path": "data/rcap-grade-a/packet-factory-24h/vf62/pa-final-20260911/defect-resolution.json",
+      "sha256": "91a1743ab0448a0a2c0786908d66387893b6619c4aa759a12b5b41cf44fdb8ab",
+      "byteLength": 9448
+    }
+  ],
+  "commandsPassed": [
+    {
+      "command": "MASTER_LIBRARY_SOURCE_DIR=<exact held library> RCAP_NO_LOCAL_RASTER=1 node scripts/build-census-v1-pa_6308_underage-set.mjs --check-nonvisual",
+      "result": "PASS: 6 PDFs; saved-byte proof; no raster replay or visual acceptance",
+      "evidence": "data/rcap-grade-a/packet-factory-24h/vf62/pa-final-20260911/nonvisual.log"
+    },
+    {
+      "command": "node --test scripts/rcap-packet-recovery/pa-6308-complete-semantics.test.mjs",
+      "result": "4 passed, 0 failed",
+      "evidence": "data/rcap-grade-a/packet-factory-24h/vf62/pa-final-20260911/focused-tests.log"
+    },
+    {
+      "command": "node data/rcap-grade-a/packet-factory-24h/vf62/pa-final-20260911/measure-current-evidence.mjs",
+      "result": "4 sources / 6 PDFs / 8 original PNG identities matched; 34 changed writes measured; 4 unchanged certificate writes reused",
+      "evidence": "data/rcap-grade-a/packet-factory-24h/vf62/pa-final-20260911/current-evidence-measurements.json"
+    }
+  ],
+  "rasterDispatchAuthorized": true,
+  "raster": {
+    "status": "PENDING_CENTRAL_ACTIONS",
+    "newCentralRasterRequired": true,
+    "packetCommitStampRequired": true,
+    "visualDefects": null,
+    "reason": "Dispatch all six exact current PDFs from the manifest; central visual review remains the only unmeasured obligation."
+  },
+  "remainingRequirements": [
+    "Central Actions raster for the six exact PDF hashes/byte lengths bound above.",
+    "Independent visual clipping/overlap review and raster-dependent counter measurement.",
+    "Update the manifest semantic-review state and retain packet commit binding before final acceptance."
+  ],
+  "finalAcceptance": false,
+  "terminalPromotionAuthorized": false,
+  "runtimeAndCommercialBoundary": {
+    "generationAllowed": false,
+    "runtimeSelectable": false,
+    "commercialAuthorityGranted": false,
+    "fulfillmentRecordCreated": false,
+    "note": "This PASS authorizes central raster dispatch only; it grants no visual, legal, runtime, payment, sponsorship, fulfillment or commercial authority."
+  },
+  "independence": {
+    "implementationEdited": false,
+    "sourceEdited": false,
+    "packetBytesEdited": false,
+    "rasterEdited": false,
+    "queueEdited": false,
+    "sharedManifestEdited": false,
+    "claimLedgerEdited": false,
+    "onlyPublication": "this lane-owned nonterminal semantic record"
+  }
+}

@@ -28,10 +28,21 @@ import crypto from "node:crypto";
 import { spawnSync } from "node:child_process";
 import Module, { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
+import {
+  provenanceState,
+  loadSupersessions,
+  verifySupersessionDocumentIntegrity
+} from "./terminalization/terminalization-provenance-model.mjs";
 
 const require = createRequire(import.meta.url);
 const ts = require("typescript");
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+
+// Shared with C1 and C2 so the three controls cannot disagree about what a
+// satisfied provenance state is, and so this one also polices the evidence
+// file it reads rather than trusting it.
+const { byKey: supersessionsByKey } = loadSupersessions({ root: rootDir });
+const supersessionIntegrityProblems = verifySupersessionDocumentIntegrity({ root: rootDir });
 
 // On-the-fly TypeScript require hook (same pattern as verify-nd-pleading-state.mjs);
 // unlike the ESM loader it also resolves directory imports to index.ts.
@@ -55,6 +66,7 @@ const jurisdictionFilter = (() => {
 })();
 
 const failures = [];
+for (const problem of supersessionIntegrityProblems) failures.push(`supersession record: ${problem}`);
 const notes = [];
 
 // ---------------------------------------------------------------------------
@@ -628,8 +640,24 @@ for (const assignment of ASSIGNMENTS) {
     } else {
       const profileBuf = fs.readFileSync(path.join(rootDir, prov.profilePath));
       evidenceText += profileBuf.toString("utf8");
-      if (prov.fingerprint !== sha256(profileBuf)) {
-        failures.push(`${label}: provenance.fingerprint does not match sha256 of ${prov.profilePath}.`);
+      // The same two-state model C1 and C2 use, over the same supersession
+      // record. This control used to compare the fingerprint to the profile
+      // digest itself, which made it a third independent rule about the same
+      // fact -- and a control that enforces its own rule about provenance is a
+      // control that can be satisfied by moving a pin. Nothing here reads a
+      // fingerprint as anything but evidence, and nothing here moves one.
+      const verdict = provenanceState({
+        pin: {
+          record: path.relative(rootDir, configPath).split(path.sep).join("/"),
+          profilePath: prov.profilePath,
+          reviewedSha256: prov.fingerprint,
+          reviewedAsOf: prov.reviewedAsOf ?? null,
+          currentSha256: sha256(profileBuf)
+        },
+        supersessionsByKey
+      });
+      if (!verdict.satisfied) {
+        failures.push(`${label}: provenance is ${verdict.state} against ${prov.profilePath} — ${verdict.reason}`);
       }
     }
     if (prov.registryPin?.commit !== REGISTRY_PIN.commit || prov.registryPin?.sha256 !== REGISTRY_PIN.sha256) {

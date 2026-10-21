@@ -1,0 +1,34 @@
+{
+  "defectsFound": [
+    {
+      "correctedInSpecificationBy": "participant.city_state_zip",
+      "defect": "an address was filed without its state or its ZIP",
+      "detail": "The widget's printed label is 'City, State, & Zip:' and it is drawn 263 points wide. The binding wrote participant.city, so the retained canonical artifact carries 'Denver' where the form asks for 'Denver, CO 80202'.",
+      "field": "∆ City"
+    },
+    {
+      "correctedInSpecificationBy": "filing.court_address",
+      "defect": "the filing destination was left blank",
+      "detail": "Review withheld the field because the shared binder reached it through a participant street-address descriptor. The withholding was right about the risk and left the court's own address off the filing.",
+      "field": "Court Address"
+    },
+    {
+      "correctedInSpecificationBy": "service.service_date",
+      "defect": "the certificate of service was left undated",
+      "detail": "Withheld on the ground that the certificate block names the served party. True of the recipient fields; the service date is the participant's own act.",
+      "field": "CoS_Date"
+    },
+    {
+      "correctedInSpecificationBy": "options pinned to the widget geometry the document draws",
+      "defect": "no checkbox, radio group or dropdown could bind at all",
+      "detail": "The shared binder type-guards non-text controls, so all nine of this form's election controls were refused as 'non_text_field_type' — including the Bureau of Investigation box the form marks required.",
+      "field": "every election control"
+    }
+  ],
+  "family": "jdf-417-form-petition-en",
+  "note": "These are findings about the narrow binding the retained artifacts carry. Each one is corrected in the specification and none of them is corrected on any artifact, because nothing could be re-rendered here.",
+  "reviewOf": "the binding that produced the retained artifacts, read against the document itself",
+  "schemaVersion": "rcap-colorado-output-implementation-review/v1",
+  "specSha256": "f753ed8260d8f672cb5c15bdc2ff28bb773866545f120afa57db5e70f45fabf8",
+  "specVersion": "co-jdf-417-binding/2026-08-29.1"
+}

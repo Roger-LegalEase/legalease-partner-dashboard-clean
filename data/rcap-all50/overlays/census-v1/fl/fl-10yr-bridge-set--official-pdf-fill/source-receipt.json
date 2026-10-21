@@ -1,0 +1,156 @@
+{
+  "schemaVersion": "rcap-family-source-receipt/v1",
+  "familyId": "fl-10yr-bridge-set",
+  "jurisdiction": "FL",
+  "implementationStrategy": "official_pdf_fill",
+  "custodyClass": "SOURCE_BOUND_BY_HELD_BYTES",
+  "acquisitionCommissioned": false,
+  "bindingMethod": "the exact held FDLE byte is read directly from governed repository custody; no acquisition, copy, research, or substitution",
+  "allSourcesExact": true,
+  "routeKeys": [
+    "obligation:track-pathway:FL:fl-10yr-bridge:court-ordered-expunction-943-0585"
+  ],
+  "sourceBinaryCommitted": true,
+  "mountedReadOnlySource": {
+    "documentId": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+    "sourceId": "official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+    "custodyPath": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC2__FL-10YR-BRIDGE-SET__FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION__ced5d88f7305.pdf",
+    "sha256": "ced5d88f7305780a0d2f6354eca313f32729aa25c1b6782013f8bc6847d4c650",
+    "byteLength": 26602
+  },
+  "documents": [
+    {
+      "documentId": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "formNumber": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "kind": "held_official_pdf",
+      "sha256": "ced5d88f7305780a0d2f6354eca313f32729aa25c1b6782013f8bc6847d4c650",
+      "byteLength": 26602
+    },
+    {
+      "documentId": "FL-RULE-3.989-PETITION",
+      "formNumber": "FL-RULE-3.989-PETITION",
+      "kind": "composed_from_authority",
+      "ownerDetermination": "FL-RULE-3989"
+    },
+    {
+      "documentId": "FL-RULE-3.989-ORDER",
+      "formNumber": "FL-RULE-3.989-ORDER",
+      "kind": "composed_from_authority",
+      "ownerDetermination": "FL-RULE-3989"
+    }
+  ],
+  "compositionAuthority": {
+    "determination": "FL-RULE-3989",
+    "records": [
+      {
+        "path": "data/rcap-grade-a/legal-decisions/OWNER_DETERMINATIONS_2026-09-02.json",
+        "sha256": "16b95e3d4881db3e21420765b83543d26038583484c2fa6c642bcf094d4d6ca7",
+        "byteLength": 11095
+      },
+      {
+        "path": "data/record-clearing/legal-design-intake/FL.memo.json",
+        "sha256": "9b497440290abd5e254b3bd9e1ff6e5dda56abf4c2bfca63dc351090d76e4065",
+        "byteLength": 121810
+      },
+      {
+        "path": "data/record-clearing/legal-design-track-registry.json",
+        "sha256": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+        "byteLength": 16781025
+      },
+      {
+        "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+        "sha256": "83d91d31bf8b0b6c76c5623f4c39cffddcf6b154c1d8de96ffbcb74073d6befb",
+        "byteLength": 3711585,
+        "identityRefresh": {
+          "refreshedOn": "2026-09-13",
+          "was": {
+            "sha256": "b28edfb93eb2e3953dea5bdbe2915476c9752c12df2a46cb61f98e786a77cc5c",
+            "byteLength": 3708050
+          },
+          "why": "The record was rewritten around this receipt's anchors. 5 named entries moved between the blob carrying the previous pin and the bytes on disk (de_discretionary_family_court-set, de_discretionary_superior_court-set, il-seal-edu-set, wv_nc_acquittal_dismissal-set, wv_nc_diversion_deferred-set), and this receipt anchors no entry that moved: every entry it binds, and this record's global authority fields, were recovered from that blob and compared object-for-object, order-independent, against the current record, and all 5 were identical.",
+          "anchorsCompared": 5,
+          "anchorDetail": [
+            "packetManifestSharedMetadata: identical",
+            "packetSet:dc_innocence_expungement-set: identical",
+            "packetSet:fl-10yr-bridge-set: identical",
+            "packetSet:il-prostitution-j-vacate-set: identical",
+            "packetSet:ms-misd-addl-set: identical"
+          ],
+          "anchorsIdentical": 5,
+          "identicalAnchorSha256": {
+            "packetManifestSharedMetadata": "cb026b3c9058bf43be30ef637b88a3819076dce69cda50b9ab42968aecf79298",
+            "packetSet:dc_innocence_expungement-set": "1534c812ff61dd053c78273e92b99c0fd7424407f9a0a0f35f5b2cb2a7cf2374",
+            "packetSet:fl-10yr-bridge-set": "a44dc08f727afd6fe7fff4dc84959fcee4cc47182adef4c447c1038444ed5374",
+            "packetSet:il-prostitution-j-vacate-set": "7979cb3ffa4903e16a943b12772d110fa4a0d83af5f36d431b0c06cd89881257",
+            "packetSet:ms-misd-addl-set": "c2213f54e772adf855ac2c04cabf6a65678dfd7d89de463d9fd23eb5f20b7f7a"
+          },
+          "canonicalisation": "keys sorted recursively, JSON.stringify with no spacing, one trailing newline, UTF-8",
+          "anchorScope": {
+            "anchorIds": [
+              "fl-10yr-bridge-set"
+            ],
+            "derivation": {
+              "declarations": [
+                {
+                  "basis": "receipt.familyId exact packetSetId",
+                  "packetSetId": "fl-10yr-bridge-set"
+                },
+                {
+                  "basis": "receipt.routeKeys:obligation:track-pathway:FL:fl-10yr-bridge:court-ordered-expunction-943-0585",
+                  "packetSetId": "fl-10yr-bridge-set"
+                }
+              ],
+              "globalMetadataComparedAsOneAnchor": true
+            }
+          },
+          "entriesThatMovedInThisRecord": [
+            "de_discretionary_family_court-set",
+            "de_discretionary_superior_court-set",
+            "il-seal-edu-set",
+            "wv_nc_acquittal_dismissal-set",
+            "wv_nc_diversion_deferred-set"
+          ],
+          "recoveredFrom": {
+            "method": "git rev-list --all -- <path>, deduplicated by blob id, each blob hashed until the pin matched",
+            "blobId": "d744a59beb35f31bb71f66e6c57acc7886410fbc",
+            "commit": "b3f6fbc7acda9c96295eaa66636b49dc7ca2c656",
+            "commitsWithThisPath": 16,
+            "distinctBlobs": 16,
+            "blobsHashed": 5
+          },
+          "previousIdentityRefresh": {
+            "refreshedOn": "2026-09-10",
+            "was": {
+              "sha256": "6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec",
+              "byteLength": 3683419
+            },
+            "why": "data/record-clearing/legal-design-packet-set-manifests.json was rewritten around this receipt's anchors. This receipt binds no part of it that moved: the entry for fl-10yr-bridge-set and the record's global authority fields were recovered from the blob carrying the previous pin (d798dc66bb305d0ccdc79d7f0450dd4e4f333d9c) and compared object-for-object, order-independent, against the current record, and all 2 were identical.",
+            "recoveredFromCommit": "d798dc66bb305d0ccdc79d7f0450dd4e4f333d9c",
+            "anchorsCompared": 2,
+            "anchorDetail": [
+              "recordGlobalMetadata: identical",
+              "packetSet:fl-10yr-bridge-set: identical"
+            ],
+            "anchorsIdentical": 2,
+            "identicalAnchorSha256": {
+              "recordGlobalMetadata": "eb4a53fc38ac633369b073f1e43e3d322389a4add7a0f3deec0f0ef90a145ead",
+              "packetSet:fl-10yr-bridge-set": "4584798246802d87f9f0123a6c16c2f9e4548d56ef27b6afdc3cd77a51038bf6"
+            },
+            "canonicalisation": "keys sorted recursively, JSON.stringify with no spacing, UTF-8",
+            "whatThisDoesNotEstablish": "It re-anchors a whole-file pin whose bound content did not move. It renews no independent verification, no raster acceptance and no approval, and it opens no route."
+          },
+          "whatThisDoesNotClaim": "Nothing about the packet's bytes, its obligations, its counters or its verdict. It restores an identity binding that lapsed on an edit to entries this family does not bind, and it opens no route and grants no approval."
+        }
+      }
+    ]
+  },
+  "formIdentityNote": "The held official component is the expunction rendering of FDLE40-021. The two Rule 3.989 components are composed under FL-RULE-3989; they are not represented as held official PDF bytes.",
+  "commercialRoutesOpened": 0,
+  "whatThisReceiptDoesNotEstablish": [
+    "participant eligibility",
+    "source freshness beyond the exact PF17 binding",
+    "independent verification",
+    "visual acceptance",
+    "approval for fulfillment"
+  ]
+}

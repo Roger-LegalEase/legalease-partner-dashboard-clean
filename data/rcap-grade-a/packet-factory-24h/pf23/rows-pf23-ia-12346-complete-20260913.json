@@ -1,0 +1,789 @@
+{
+  "schemaVersion": "rcap-packet-build-return/v1",
+  "lane": "PF05",
+  "laneKind": "packet-build",
+  "status": "COMPLETED_AUTHOR_BUILD_PENDING_INDEPENDENT_REVIEW",
+  "baseSha": "5ae684ffac1590450550898b0cae6160405c1d5a",
+  "headShaAtReturn": "a9cbf6885aed10f2810e2b5ad43ad57f87d2dc29",
+  "headShaAtReturnIs": "candidate implementation and generated family evidence are frozen at this worker commit; this return receipt is written additively afterward",
+  "isIndependentVerification": false,
+  "writtenAlongsideRatherThanOver": true,
+  "claim": {
+    "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF23 'ia-12346-set'",
+    "grantId": "4cb248e7618fd712",
+    "result": "CLAIM_OK PF23 ia-12346-set (packet-build, grant set 4cb248e7618fd712)",
+    "claimLedgerChanged": false,
+    "claimLedgerSource": "data/rcap-grade-a/packet-factory-24h/claim-ledger.json"
+  },
+  "workerProvenance": {
+    "workerCodespace": "rcap-finish-worker-77jr7gx76jq3rg65",
+    "workerCheckoutActual": "/workspaces/legalease-partner-dashboard-clean",
+    "workerBranchActual": "claude/legalease-sprint-captain-utucnw",
+    "assignmentSlot": "PF05",
+    "claimLane": "PF23",
+    "assignmentWorkerBranchDeclared": "pf05-ut-cannabis-resume-20260913",
+    "provenanceNote": "The actual remote checkout and branch above govern this return; the assignment nickname/worktree is not asserted as the checkout."
+  },
+  "prerequisite": {
+    "command": "node scripts/verify-packet-build-environment.mjs --family 'ia-12346-set' --codex-cloud --minimum-captain-sha 6867ee44777ce3c9e88afda8b4bad8c3d8e8e31a",
+    "firstRun": {
+      "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY",
+      "summary": "9/14 passed, 5 failed, 3 not applicable",
+      "familySourcesBind": "FAIL: ia-12346-set names no resolved document source",
+      "historicalCustodyRecord": "data/rcap-grade-a/route-obligation-census-v1/source-custody-reconciliation.json",
+      "historicalResolvedSources": 0
+    },
+    "action": "Not rerun per assignment. The existing current queue/source-wave admission was used because the exact source bytes were already held and bound.",
+    "authoritativeCurrentQueueBinding": {
+      "queuePath": "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+      "familyId": "ia-12346-set",
+      "stateAtBuild": "SOURCE_READY",
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
+      "boundCount": 1,
+      "legalInputStatus": "SETTLED",
+      "exactNextAction": "Build from the owner-custodied August 2024 Form 3; render its embedded certification section.",
+      "routeKeys": [
+        "obligation:track-pathway:IA:ia-12346:public-intoxication-12346"
+      ]
+    },
+    "bindingMethod": "The builder reread SOURCE_RECOVERY_WAVE1_2026-09-11.json, required the exact ia-12346 family binding and official-form:Rule 2.86 Form 3 obligation, then reread the governed recovery path and checked SHA-256 and byte length. The stale custody resolver was not used or edited."
+  },
+  "environmentRepair": {
+    "scope": "bounded worker runtime only; no repository governance or source custody mutation",
+    "repairs": [
+      {
+        "issue": "builder import refused an unsourced bootstrap environment",
+        "repair": "reran with source \"$HOME/.legalease-corpus-env\""
+      },
+      {
+        "issue": "worker python lacked fitz",
+        "repair": "installed pinned PyMuPDF==1.26.7 in the existing worker Python 3.14 user environment and invoked python3"
+      },
+      {
+        "issue": "worker python lacked numpy",
+        "repair": "installed pinned numpy==2.3.3 in the existing worker Python 3.14 user environment"
+      }
+    ],
+    "sourceHunt": false,
+    "resolverEdit": false,
+    "sourceBytesModified": false
+  },
+  "rows": [
+    {
+      "itemId": "ia-12346-set",
+      "familyId": "ia-12346-set",
+      "status": "COMPLETED",
+      "laneKind": "packet-build",
+      "implementedBy": [
+        "PF05 existing authorized worker slot"
+      ],
+      "buildCommit": "a9cbf6885aed10f2810e2b5ad43ad57f87d2dc29",
+      "implementationCommit": "a9cbf6885aed10f2810e2b5ad43ad57f87d2dc29",
+      "completion": "Built the Iowa public-intoxication expungement packet from the exact held August 2024 Iowa Rule 2.86 Form 3. The official two-page Form 3 is preserved as the filing component, including its embedded page-two Certification of Service by Mailing or Delivery; participant instructions and six bounded fixtures cover the supported route and boundary/negative fact cases. The packet remains an author candidate pending independent semantic review and current-byte raster acceptance.",
+      "jurisdiction": "IA",
+      "implementationStrategy": "official_pdf_fill",
+      "routeKeys": [
+        "obligation:track-pathway:IA:ia-12346:public-intoxication-12346"
+      ],
+      "buildScript": "scripts/build-census-v1-ia-12346-set.mjs",
+      "supportingScripts": [
+        "scripts/rcap-packet-recovery/chat8/ia-12346.mjs",
+        "scripts/rcap-packet-recovery/chat8/verify-ia-alcohol-pdfs.py"
+      ],
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill",
+      "changedScope": {
+        "builder": "scripts/build-census-v1-ia-12346-set.mjs",
+        "supportingScripts": [
+          "scripts/rcap-packet-recovery/chat8/ia-12346.mjs",
+          "scripts/rcap-packet-recovery/chat8/verify-ia-alcohol-pdfs.py"
+        ],
+        "generatedFiles": [
+          "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/approval-request.json",
+          "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/components/boundary/form-3.pdf",
+          "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/components/boundary/participant-instructions.pdf",
+          "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/components/canonical/form-3.pdf",
+          "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/components/canonical/participant-instructions.pdf",
+          "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/components/later-conviction/form-3.pdf",
+          "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/components/later-conviction/participant-instructions.pdf",
+          "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/components/local-ordinance/form-3.pdf",
+          "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/components/local-ordinance/participant-instructions.pdf",
+          "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/components/missing-contact/form-3.pdf",
+          "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/components/missing-contact/participant-instructions.pdf",
+          "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/components/permitted-traffic/form-3.pdf",
+          "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/components/permitted-traffic/participant-instructions.pdf",
+          "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/field-census.census-v1.json",
+          "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/fixtures/boundary.json",
+          "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/fixtures/boundary.pdf",
+          "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/fixtures/canonical.json",
+          "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/fixtures/canonical.pdf",
+          "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/fixtures/later-conviction.json",
+          "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/fixtures/later-conviction.pdf",
+          "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/fixtures/local-ordinance.json",
+          "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/fixtures/local-ordinance.pdf",
+          "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/fixtures/missing-contact.json",
+          "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/fixtures/missing-contact.pdf",
+          "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/fixtures/permitted-traffic.json",
+          "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/fixtures/permitted-traffic.pdf",
+          "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/participant-instructions.md",
+          "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/production-field-map.json",
+          "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/reports/actual-writes.json",
+          "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/reports/blank-dispositions.json",
+          "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/reports/blanks-left-for-the-participant.json",
+          "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/reports/boundary.json",
+          "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/reports/canonical.json",
+          "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/reports/completeness-counters.json",
+          "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/reports/completeness-result.json",
+          "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/reports/later-conviction.json",
+          "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/reports/local-ordinance.json",
+          "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/reports/missing-contact.json",
+          "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/reports/packet-level-readiness.json",
+          "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/reports/pdf-byte-measurements.json",
+          "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/reports/permitted-traffic.json",
+          "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/reports/rendered-artifacts.json",
+          "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/route-contract.json",
+          "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/source-receipt.json"
+        ],
+        "durableEvidenceFiles": [
+          "data/rcap-grade-a/packet-factory-24h/pf23/rows-pf23-ia-12346-complete-20260913.json"
+        ],
+        "sharedGovernanceFilesChanged": [],
+        "sourceBytesCommitted": false,
+        "localRasterPages": 0
+      },
+      "sourceBinding": {
+        "sourceReceipt": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/source-receipt.json",
+        "sourceReceiptSha256": "d32785782f67bc0b90ce10043763904f2cbc329d6354c412d3951b0b6c1f43ba",
+        "sourceAdmission": "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json",
+        "allSourcesExact": true,
+        "sourceId": "official-form:Rule 2.86 Form 3",
+        "officialFormId": "Rule 2.86 Form 3",
+        "embeddedComponent": {
+          "sourceId": "official-form:Certification of Service by Mailing or Delivery",
+          "documentId": "Certification of Service by Mailing or Delivery",
+          "sourceSha256": "dd7685c6caf6d87979a31ce1639be6d08067a5c006a3d57eab68c1d097df49a5",
+          "separateSource": false,
+          "page": 2
+        },
+        "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC3__IA-12346-SET__RULE-2-86-FORM-3__dd7685c6caf6.pdf",
+        "sha256": "dd7685c6caf6d87979a31ce1639be6d08067a5c006a3d57eab68c1d097df49a5",
+        "byteLength": 1415336,
+        "sourceRecoveryIdentityStatus": "EXACT_BYTES_EXISTING_OBLIGATION",
+        "familyBindingStatus": "EXACT_BYTES_EXISTING_OBLIGATION",
+        "bindingMethod": "Current MASTER_QUEUE exact hash matched SOURCE_RECOVERY_WAVE1 record and governed source-recovery path; builder rehashed the bytes before rendering.",
+        "sourceBinaryCommitted": false
+      },
+      "componentSet": [
+        "Rule 2.86 Form 3 (primary filing; two pages)",
+        "Certification of Service by Mailing or Delivery (embedded page 2; no separate binary)",
+        "participant-instructions (not filed)"
+      ],
+      "terminalFields": 294,
+      "written": 122,
+      "protectedOrConditionalBlanks": 154,
+      "requiredBeforeFiling": 17,
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "nineCountersZero": true,
+      "completenessResult": "PASS_COMPLETE",
+      "focusedCompletenessCommand": "source \"$HOME/.legalease-corpus-env\" && node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'ia-12346-set'",
+      "focusedCompleteness": "PASS_COMPLETE \u2014 122/294 written; all nine counters zero",
+      "artifacts": [
+        {
+          "fixture": "boundary",
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "92795d893671fde33bd6d05c89c0474f6ee1f7f9d95a97c4f81d91c2ef328afe",
+          "byteLength": 835606,
+          "pageCount": 4,
+          "measurement": {
+            "addedGlyphs": 235,
+            "outsideGlyphs": 0,
+            "valuesReportedByFinalizer": 18,
+            "addedGlyphsReadFromOutputBytes": 235,
+            "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+          }
+        },
+        {
+          "fixture": "canonical",
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "9a058658022ea3ae36eac169faa4315d9d90514bbe46960ab50d46ab4a508197",
+          "byteLength": 836700,
+          "pageCount": 4,
+          "measurement": {
+            "addedGlyphs": 207,
+            "outsideGlyphs": 0,
+            "valuesReportedByFinalizer": 23,
+            "addedGlyphsReadFromOutputBytes": 207,
+            "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+          }
+        },
+        {
+          "fixture": "later-conviction",
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/fixtures/later-conviction.pdf",
+          "sha256": "aa4567bb6dbb9f8e94552b33cba3c5dc5a5d3524e623955032d97b48121e3728",
+          "byteLength": 836729,
+          "pageCount": 4,
+          "measurement": {
+            "addedGlyphs": 206,
+            "outsideGlyphs": 0,
+            "valuesReportedByFinalizer": 23,
+            "addedGlyphsReadFromOutputBytes": 206,
+            "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+          }
+        },
+        {
+          "fixture": "local-ordinance",
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/fixtures/local-ordinance.pdf",
+          "sha256": "9dde2189fe457e7777db5504f920659cfbd6753cd13b7aee2438267864ba4021",
+          "byteLength": 262779,
+          "pageCount": 4,
+          "measurement": {
+            "addedGlyphs": 219,
+            "outsideGlyphs": 0,
+            "valuesReportedByFinalizer": 24,
+            "addedGlyphsReadFromOutputBytes": 219,
+            "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+          }
+        },
+        {
+          "fixture": "missing-contact",
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/fixtures/missing-contact.pdf",
+          "sha256": "9de9271521a0c36c37c6505c86ec1818348acb7687f4bdc033227e52cdc1038a",
+          "byteLength": 834077,
+          "pageCount": 4,
+          "measurement": {
+            "addedGlyphs": 75,
+            "outsideGlyphs": 0,
+            "valuesReportedByFinalizer": 11,
+            "addedGlyphsReadFromOutputBytes": 75,
+            "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+          }
+        },
+        {
+          "fixture": "permitted-traffic",
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/fixtures/permitted-traffic.pdf",
+          "sha256": "747ac8d67d5091068b44ec8759917fe28d1d5e01d3057feed659b3cae3aa5192",
+          "byteLength": 836801,
+          "pageCount": 4,
+          "measurement": {
+            "addedGlyphs": 208,
+            "outsideGlyphs": 0,
+            "valuesReportedByFinalizer": 23,
+            "addedGlyphsReadFromOutputBytes": 208,
+            "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+          }
+        }
+      ],
+      "artifactFiles": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/approval-request.json",
+          "sha256": "9a6b655c383e7e47644dab5eb20bf8a36b7867562f7bbc1f67d1006990f5ae75",
+          "byteLength": 156
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/components/boundary/form-3.pdf",
+          "sha256": "73bee499f40a9bbefd1322c02ca72152f21de7d40392bac099aec4dc1e105698",
+          "byteLength": 829044
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/components/boundary/participant-instructions.pdf",
+          "sha256": "d771c81031ea4b3b71df882b9bef6d9b3443e492c8f0bacb959adfed9760786c",
+          "byteLength": 8063
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/components/canonical/form-3.pdf",
+          "sha256": "90a11bca2a14bf4cf6cd2f6b8125635dbcf5ee5b72df09a4374bebc57b8dd840",
+          "byteLength": 830125
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/components/canonical/participant-instructions.pdf",
+          "sha256": "c98e432c86803b38733e1cdb65a4cff64f8e7814da78a9f54f8a0f9a3e1c7150",
+          "byteLength": 8078
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/components/later-conviction/form-3.pdf",
+          "sha256": "33a69ef788edf04192f2be84f679d5426a6b96c478dfe5563ac85fc3ea9dca91",
+          "byteLength": 830124
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/components/later-conviction/participant-instructions.pdf",
+          "sha256": "b86077e92ff33067a670c5bb41d34c23b8df31f7b4e37e63cdff0ce9df2731f4",
+          "byteLength": 8108
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/components/local-ordinance/form-3.pdf",
+          "sha256": "38c6b22d61450e317674ccd6afacbb12653cc34c4e7a7d15b46e870ed35389db",
+          "byteLength": 256127
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/components/local-ordinance/participant-instructions.pdf",
+          "sha256": "32e2d118ee26b3c05254ecdbff72efedea76fddca3023a0aa4dc6267e907a577",
+          "byteLength": 8153
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/components/missing-contact/form-3.pdf",
+          "sha256": "72b0bb75a0962911e496e67c618c350ef743bba4e1e12fb90042928c9f4f6b4d",
+          "byteLength": 827355
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/components/missing-contact/participant-instructions.pdf",
+          "sha256": "2ba9c998cecf48a1de6bb8c43bfaabcdffea0dc3953a249542a9a8411fbec04c",
+          "byteLength": 8221
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/components/permitted-traffic/form-3.pdf",
+          "sha256": "9940c0f5f42aba38e7305a6565ef68d9ec1ef350246a58987d40ca9027582f2e",
+          "byteLength": 830125
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/components/permitted-traffic/participant-instructions.pdf",
+          "sha256": "a9c270429602893875c7e4f8bdd2bb2d6328ca26377ec163d40742130310c2a3",
+          "byteLength": 8177
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/field-census.census-v1.json",
+          "sha256": "3900ae2f630cc6ab49bec4cce05683fdf953f829c2840d4e0c3429a424718209",
+          "byteLength": 157934
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/fixtures/boundary.json",
+          "sha256": "a52392fde41dfc3308df06a8c9ad037ddd9c328723ee5a163f8b6995710138b1",
+          "byteLength": 960
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "92795d893671fde33bd6d05c89c0474f6ee1f7f9d95a97c4f81d91c2ef328afe",
+          "byteLength": 835606,
+          "fixture": "boundary",
+          "pageCount": 4
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/fixtures/canonical.json",
+          "sha256": "29806c890390c68e35a5d778f25e527ebc712ff48b9600fd00ceefea72ee73f3",
+          "byteLength": 1038
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "9a058658022ea3ae36eac169faa4315d9d90514bbe46960ab50d46ab4a508197",
+          "byteLength": 836700,
+          "fixture": "canonical",
+          "pageCount": 4
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/fixtures/later-conviction.json",
+          "sha256": "20d74991094ec6aa5591e8f45de5016d7bbda5e45b6a5da376fa3ff87a779d50",
+          "byteLength": 1165
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/fixtures/later-conviction.pdf",
+          "sha256": "aa4567bb6dbb9f8e94552b33cba3c5dc5a5d3524e623955032d97b48121e3728",
+          "byteLength": 836729,
+          "fixture": "later-conviction",
+          "pageCount": 4
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/fixtures/local-ordinance.json",
+          "sha256": "f9b8a6d23f445e3a1574b225fa836dc66873118d8b0e01286961df8734248825",
+          "byteLength": 1074
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/fixtures/local-ordinance.pdf",
+          "sha256": "9dde2189fe457e7777db5504f920659cfbd6753cd13b7aee2438267864ba4021",
+          "byteLength": 262779,
+          "fixture": "local-ordinance",
+          "pageCount": 4
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/fixtures/missing-contact.json",
+          "sha256": "19a5555b3188eb8029f633dc2790a4659783e09990b871bad1c950ee76e6ff5b",
+          "byteLength": 825
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/fixtures/missing-contact.pdf",
+          "sha256": "9de9271521a0c36c37c6505c86ec1818348acb7687f4bdc033227e52cdc1038a",
+          "byteLength": 834077,
+          "fixture": "missing-contact",
+          "pageCount": 4
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/fixtures/permitted-traffic.json",
+          "sha256": "559ae4124c217ce9de382fae1c86e44916f4009201b47c77eb0f13239b920e6b",
+          "byteLength": 1336
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/fixtures/permitted-traffic.pdf",
+          "sha256": "747ac8d67d5091068b44ec8759917fe28d1d5e01d3057feed659b3cae3aa5192",
+          "byteLength": 836801,
+          "fixture": "permitted-traffic",
+          "pageCount": 4
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/participant-instructions.md",
+          "sha256": "f4686d8a9d2a1ca29f8f1f6cb46fa375a0e1ed396a65b0553981936ffcfbc5b3",
+          "byteLength": 60143
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/production-field-map.json",
+          "sha256": "1e22f8eb7648b41292aa61ae9ca673d5b149e40b64792993ed9b91d02828edf9",
+          "byteLength": 281259
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/reports/actual-writes.json",
+          "sha256": "60b9942c48d5fe7ec573759511f51483a54bb817f4dbc95070a84f2ec824a6bf",
+          "byteLength": 186418
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/reports/blank-dispositions.json",
+          "sha256": "61480330ba696b74ef4b9678753040c45e71adbd30a4d5941a976846fcaac8d0",
+          "byteLength": 158541
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/reports/blanks-left-for-the-participant.json",
+          "sha256": "61480330ba696b74ef4b9678753040c45e71adbd30a4d5941a976846fcaac8d0",
+          "byteLength": 158541
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/reports/boundary.json",
+          "sha256": "ad676626a4a8367cced6498233c43c8bed6cbe2ed384f8a1eed2390f5aaa3e22",
+          "byteLength": 86044
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/reports/canonical.json",
+          "sha256": "60112c8f96249088b748ca31937353ca6b89a9c9fd2805d0d8626cdb5a68507a",
+          "byteLength": 83076
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/reports/completeness-counters.json",
+          "sha256": "f0eb2b6b3d2861080cc58b9a9f3e59f36faed66344537a8a0d1f8d7de51db983",
+          "byteLength": 257
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/reports/completeness-result.json",
+          "sha256": "44b14d63c9e1b29ccea5ed95f65f8b6eec36dc8535faed39efe1dfe4eff3214c",
+          "byteLength": 955
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/reports/later-conviction.json",
+          "sha256": "361b5da4b1c6030cc8604416d7aea19e62ee73b0fdd7153a839e43092d71f31d",
+          "byteLength": 83458
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/reports/local-ordinance.json",
+          "sha256": "08317d97af1183d14dceb091ee414905a57344d85fb5db45ee5d885ee1141671",
+          "byteLength": 82999
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/reports/missing-contact.json",
+          "sha256": "03f047804c4b3e34513d1db902b4e90bac668c7f1059c09c3c6d608d924beacc",
+          "byteLength": 83813
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/reports/packet-level-readiness.json",
+          "sha256": "123c0d988fb3001c7c22d4b60d1bd84e9c96710f775189cb389c18c1f37a0fb1",
+          "byteLength": 2042
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/reports/pdf-byte-measurements.json",
+          "sha256": "fdb079ea30a91de5fab655c1546e854b5cc6682e1a2374096f25ce5ba9df85b6",
+          "byteLength": 49535
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/reports/permitted-traffic.json",
+          "sha256": "c03ecda583422f02582a94f8b19d94f5ab6c4c6fa2a8a2f962ad952837570280",
+          "byteLength": 83921
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/reports/rendered-artifacts.json",
+          "sha256": "6df6292fab4e3ae68d14ba0826df8a7110292f0f836abf35b6fe0d345b438337",
+          "byteLength": 6920
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/route-contract.json",
+          "sha256": "25096d601fbda94c940a50fdc33fdab7a964970a5097728bc0dc8333e44fbbdd",
+          "byteLength": 1181
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/source-receipt.json",
+          "sha256": "d32785782f67bc0b90ce10043763904f2cbc329d6354c412d3951b0b6c1f43ba",
+          "byteLength": 4589
+        }
+      ],
+      "rasterState": "BUILT_RASTER_PENDING",
+      "rasterPages": 0,
+      "packetsSelfVerified": 0,
+      "independentVerification": "PENDING_INDEPENDENT_SEMANTIC_REVIEW",
+      "remainingGates": [
+        "independent semantic review of current candidate and participant instructions",
+        "current-byte central raster acceptance",
+        "Captain integration and preservation checks"
+      ],
+      "legalLimitations": "This is author build evidence only. It does not grant legal approval, production authorization, filing or delivery authority, raster acceptance, independent semantic PASS, or commercial route authority.",
+      "selfVerified": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "sourceBinaryCommitted": false,
+      "determinism": "Final build reran after report identity repair; all six fixture PDF hashes remained stable. Independent review and central raster remain pending.",
+      "claimLedger": {
+        "changed": false,
+        "grantId": "4cb248e7618fd712"
+      }
+    }
+  ],
+  "familiesAssigned": 1,
+  "rowsReturned": 1,
+  "familiesCompleted": 1,
+  "familiesStopped": 0,
+  "familiesRemaining": 0,
+  "packetsSelfVerified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "changedFiles": [
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/approval-request.json",
+      "commit": "a9cbf6885aed10f2810e2b5ad43ad57f87d2dc29",
+      "blobSha1": "5d5243d3793a309bbe930f1523450167b159a052"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/components/boundary/form-3.pdf",
+      "commit": "a9cbf6885aed10f2810e2b5ad43ad57f87d2dc29",
+      "blobSha1": "6096a9ccd4413995d0d1655cce5118c32d1e8bf4"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/components/boundary/participant-instructions.pdf",
+      "commit": "a9cbf6885aed10f2810e2b5ad43ad57f87d2dc29",
+      "blobSha1": "0c06ea0d6657a8d202f559f254d219869b86d7d2"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/components/canonical/form-3.pdf",
+      "commit": "a9cbf6885aed10f2810e2b5ad43ad57f87d2dc29",
+      "blobSha1": "cd6bb0f4a51ce4cc00c8d35c9cf7d381c051040c"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/components/canonical/participant-instructions.pdf",
+      "commit": "a9cbf6885aed10f2810e2b5ad43ad57f87d2dc29",
+      "blobSha1": "107a6bc43f841c747c9af066ba215913be8385c8"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/components/later-conviction/form-3.pdf",
+      "commit": "a9cbf6885aed10f2810e2b5ad43ad57f87d2dc29",
+      "blobSha1": "5af2e723ba7a7173ea60c786b13781995797af86"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/components/later-conviction/participant-instructions.pdf",
+      "commit": "a9cbf6885aed10f2810e2b5ad43ad57f87d2dc29",
+      "blobSha1": "61a26b7558ba6ec0c654b50bb33b471b467127ba"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/components/local-ordinance/form-3.pdf",
+      "commit": "a9cbf6885aed10f2810e2b5ad43ad57f87d2dc29",
+      "blobSha1": "6ea461634d75c6cfb9445ddeb17ff96f8f0ff68d"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/components/local-ordinance/participant-instructions.pdf",
+      "commit": "a9cbf6885aed10f2810e2b5ad43ad57f87d2dc29",
+      "blobSha1": "0bcd534cb35752c612be3d097eb422c063918c8b"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/components/missing-contact/form-3.pdf",
+      "commit": "a9cbf6885aed10f2810e2b5ad43ad57f87d2dc29",
+      "blobSha1": "33b19724814210d0e61b10791a3c4001ebacacc8"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/components/missing-contact/participant-instructions.pdf",
+      "commit": "a9cbf6885aed10f2810e2b5ad43ad57f87d2dc29",
+      "blobSha1": "8f92b6a8a4ab0fd34421e751d4941242c282f7f3"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/components/permitted-traffic/form-3.pdf",
+      "commit": "a9cbf6885aed10f2810e2b5ad43ad57f87d2dc29",
+      "blobSha1": "8f358d0db384ba90fea1cefebdaad447b20d8e48"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/components/permitted-traffic/participant-instructions.pdf",
+      "commit": "a9cbf6885aed10f2810e2b5ad43ad57f87d2dc29",
+      "blobSha1": "c4b8ff9f555144822268419e720c995b33283088"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/field-census.census-v1.json",
+      "commit": "a9cbf6885aed10f2810e2b5ad43ad57f87d2dc29",
+      "blobSha1": "6fc5565b2bfe738de9efb19e433c84b2c333743c"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/fixtures/boundary.json",
+      "commit": "a9cbf6885aed10f2810e2b5ad43ad57f87d2dc29",
+      "blobSha1": "92bc1d7a3283c1b872b454e1b8fc1ef7d38c01bf"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/fixtures/boundary.pdf",
+      "commit": "a9cbf6885aed10f2810e2b5ad43ad57f87d2dc29",
+      "blobSha1": "b758d604898afa1fc4609e3539f0563e425e28d4"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/fixtures/canonical.json",
+      "commit": "a9cbf6885aed10f2810e2b5ad43ad57f87d2dc29",
+      "blobSha1": "81f48a60d2556a5095ea9c784b4920e5367ad938"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/fixtures/canonical.pdf",
+      "commit": "a9cbf6885aed10f2810e2b5ad43ad57f87d2dc29",
+      "blobSha1": "84034d311837e67f726e5305e0652f2aec94f835"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/fixtures/later-conviction.json",
+      "commit": "a9cbf6885aed10f2810e2b5ad43ad57f87d2dc29",
+      "blobSha1": "65f04c230facf1d94874b58edca1ded5aa82002e"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/fixtures/later-conviction.pdf",
+      "commit": "a9cbf6885aed10f2810e2b5ad43ad57f87d2dc29",
+      "blobSha1": "27aca0886e27a86ae5633bd5f83a06722b8289e9"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/fixtures/local-ordinance.json",
+      "commit": "a9cbf6885aed10f2810e2b5ad43ad57f87d2dc29",
+      "blobSha1": "191246bd2365498c002c4668e529555dc29da47c"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/fixtures/local-ordinance.pdf",
+      "commit": "a9cbf6885aed10f2810e2b5ad43ad57f87d2dc29",
+      "blobSha1": "c12883414e745458b258c03e40d2fc48cd71a816"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/fixtures/missing-contact.json",
+      "commit": "a9cbf6885aed10f2810e2b5ad43ad57f87d2dc29",
+      "blobSha1": "4dd6a67a13ec9d06e97db92103414161fb03f74e"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/fixtures/missing-contact.pdf",
+      "commit": "a9cbf6885aed10f2810e2b5ad43ad57f87d2dc29",
+      "blobSha1": "5eab710a33e7bb484b235e8f30186d65b7ff8e13"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/fixtures/permitted-traffic.json",
+      "commit": "a9cbf6885aed10f2810e2b5ad43ad57f87d2dc29",
+      "blobSha1": "5602a81b787d6674c1ad87b20e7d6ce0e3591a93"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/fixtures/permitted-traffic.pdf",
+      "commit": "a9cbf6885aed10f2810e2b5ad43ad57f87d2dc29",
+      "blobSha1": "84d969aa5458687824d3b3a99fc96843850a5bf2"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/participant-instructions.md",
+      "commit": "a9cbf6885aed10f2810e2b5ad43ad57f87d2dc29",
+      "blobSha1": "ad8b0afa99312521d611763cf8d51f277c9b1cd2"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/production-field-map.json",
+      "commit": "a9cbf6885aed10f2810e2b5ad43ad57f87d2dc29",
+      "blobSha1": "0dcf9304ae4b3c6ed59f849737c17920d102f510"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/reports/actual-writes.json",
+      "commit": "a9cbf6885aed10f2810e2b5ad43ad57f87d2dc29",
+      "blobSha1": "a2596a1752ce46d3a723c8ac131ffd3011a3a648"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/reports/blank-dispositions.json",
+      "commit": "a9cbf6885aed10f2810e2b5ad43ad57f87d2dc29",
+      "blobSha1": "9665f9d3ecab953ee9944f8bea29de0c4aa42d87"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/reports/blanks-left-for-the-participant.json",
+      "commit": "a9cbf6885aed10f2810e2b5ad43ad57f87d2dc29",
+      "blobSha1": "9665f9d3ecab953ee9944f8bea29de0c4aa42d87"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/reports/boundary.json",
+      "commit": "a9cbf6885aed10f2810e2b5ad43ad57f87d2dc29",
+      "blobSha1": "0c78c357faa5ba45cf97a13b7d5ed1312e4f5345"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/reports/canonical.json",
+      "commit": "a9cbf6885aed10f2810e2b5ad43ad57f87d2dc29",
+      "blobSha1": "b62e12697a20d05cc42c6d9ab8872274ec732366"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/reports/completeness-counters.json",
+      "commit": "a9cbf6885aed10f2810e2b5ad43ad57f87d2dc29",
+      "blobSha1": "06e6d3b6a77cbf643046f589bfa51f88e3024582"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/reports/completeness-result.json",
+      "commit": "a9cbf6885aed10f2810e2b5ad43ad57f87d2dc29",
+      "blobSha1": "e25704f6879a946080f65a8b7544034d75fd6ab8"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/reports/later-conviction.json",
+      "commit": "a9cbf6885aed10f2810e2b5ad43ad57f87d2dc29",
+      "blobSha1": "163e3c3e6150e11ef620c11a84e2f879753b146f"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/reports/local-ordinance.json",
+      "commit": "a9cbf6885aed10f2810e2b5ad43ad57f87d2dc29",
+      "blobSha1": "6da3011956cc1d7e271f4d2d8485adadf2df9d9c"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/reports/missing-contact.json",
+      "commit": "a9cbf6885aed10f2810e2b5ad43ad57f87d2dc29",
+      "blobSha1": "60edb2236c2ce0797a0f830541c113c69ef3bea9"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/reports/packet-level-readiness.json",
+      "commit": "a9cbf6885aed10f2810e2b5ad43ad57f87d2dc29",
+      "blobSha1": "e6c88c097915ee2f9e72c4e7eb1ba89783e1038b"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/reports/pdf-byte-measurements.json",
+      "commit": "a9cbf6885aed10f2810e2b5ad43ad57f87d2dc29",
+      "blobSha1": "0010717b4e8ea1e9378e97d0855696cfc7f5d579"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/reports/permitted-traffic.json",
+      "commit": "a9cbf6885aed10f2810e2b5ad43ad57f87d2dc29",
+      "blobSha1": "00b9a1678f1e55e114bab9204fb845a5adfb6733"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/reports/rendered-artifacts.json",
+      "commit": "a9cbf6885aed10f2810e2b5ad43ad57f87d2dc29",
+      "blobSha1": "d0d4e2fc20313738a37b4e28450c40f6d421e49d"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/route-contract.json",
+      "commit": "a9cbf6885aed10f2810e2b5ad43ad57f87d2dc29",
+      "blobSha1": "c77d499308c64e4d806296948fc091485f51617a"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/source-receipt.json",
+      "commit": "a9cbf6885aed10f2810e2b5ad43ad57f87d2dc29",
+      "blobSha1": "ca9060531a8af815617888e609cf6d069a804776"
+    },
+    {
+      "path": "scripts/build-census-v1-ia-12346-set.mjs",
+      "commit": "a9cbf6885aed10f2810e2b5ad43ad57f87d2dc29",
+      "blobSha1": "c647664f211aa3ab3e59edf68c247f44605939d7"
+    },
+    {
+      "path": "scripts/rcap-packet-recovery/chat8/ia-12346.mjs",
+      "commit": "a9cbf6885aed10f2810e2b5ad43ad57f87d2dc29",
+      "blobSha1": "12ad14859ef987de2b2c390706e50ff6e92bacd6"
+    },
+    {
+      "path": "scripts/rcap-packet-recovery/chat8/verify-ia-alcohol-pdfs.py",
+      "commit": "a9cbf6885aed10f2810e2b5ad43ad57f87d2dc29",
+      "blobSha1": "7d13c5065bd89d4bd78612507d7977288651e223"
+    }
+  ],
+  "returnReceiptPath": "data/rcap-grade-a/packet-factory-24h/pf23/rows-pf23-ia-12346-complete-20260913.json",
+  "sourceBinaryCommitted": false,
+  "sharedGovernanceFilesChanged": []
+}

@@ -1,0 +1,636 @@
+{
+  "schemaVersion": "rcap-original-receipt-verification/v1",
+  "scope": {
+    "familyId": "pa_6308_underage-set",
+    "workflowRunId": 34627159438,
+    "baseWorkflowHeadSha": "4abaf4f7dc9e7c9be6d9b0e1c053da401942cf15",
+    "pinnedPacketCommitSha": "c200f0cec306a3d219371b7118893dd4d24d0536",
+    "mode": "read-only; no central ingestion/admission performed"
+  },
+  "localEvidence": {
+    "runMetadata": "/tmp/rcap-original-34627159438/run.json",
+    "runArtifactsApi": "/tmp/rcap-original-34627159438/run-artifacts.json",
+    "runJobsApi": "/tmp/rcap-original-34627159438/run-jobs.json",
+    "runLogsZip": "/tmp/rcap-original-34627159438/run-logs.zip",
+    "runLogsExtracted": "/tmp/rcap-original-34627159438/run-logs",
+    "familyZip": "/tmp/rcap-original-34627159438/family-10275441234.zip",
+    "familyExtracted": "/tmp/rcap-original-34627159438/family-10275441234",
+    "canaryZip": "/tmp/rcap-original-34627159438/canary-10273804789.zip",
+    "canaryExtracted": "/tmp/rcap-original-34627159438/canary-10273804789"
+  },
+  "run": {
+    "id": 34627159438,
+    "runNumber": 210,
+    "status": "completed",
+    "conclusion": "success",
+    "headSha": "4abaf4f7dc9e7c9be6d9b0e1c053da401942cf15",
+    "createdAt": "2026-09-11T17:20:50Z",
+    "updatedAt": "2026-09-11T17:27:44Z",
+    "jobs": [
+      {
+        "id": 103354933131,
+        "name": "Synthetic canary and live negative controls",
+        "headSha": "4abaf4f7dc9e7c9be6d9b0e1c053da401942cf15",
+        "status": "completed",
+        "conclusion": "success",
+        "startedAt": "2026-09-11T17:21:29Z",
+        "completedAt": "2026-09-11T17:23:42Z"
+      },
+      {
+        "id": 103355803988,
+        "name": "Plan the family matrix",
+        "headSha": "4abaf4f7dc9e7c9be6d9b0e1c053da401942cf15",
+        "status": "completed",
+        "conclusion": "success",
+        "startedAt": "2026-09-11T17:23:44Z",
+        "completedAt": "2026-09-11T17:24:45Z"
+      },
+      {
+        "id": 103356122596,
+        "name": "pa_6308_underage-set",
+        "headSha": "4abaf4f7dc9e7c9be6d9b0e1c053da401942cf15",
+        "status": "completed",
+        "conclusion": "success",
+        "startedAt": "2026-09-11T17:24:47Z",
+        "completedAt": "2026-09-11T17:27:43Z"
+      }
+    ]
+  },
+  "artifacts": [
+    {
+      "id": 10275441234,
+      "name": "rcap-raster-pa_6308_underage-set-34627159438",
+      "localZip": "/tmp/rcap-original-34627159438/family-10275441234.zip",
+      "zipSha256": "fa45d034a2f6eaf42895a8aaba16b68b2391f971a9a088efc6a4ac00cc559b69",
+      "apiDigest": "sha256:fa45d034a2f6eaf42895a8aaba16b68b2391f971a9a088efc6a4ac00cc559b69",
+      "apiDigestMatches": true,
+      "sizeBytes": 4293361,
+      "expired": false,
+      "expiresAt": "2026-09-25T17:27:40Z",
+      "workflowRunId": 34627159438
+    },
+    {
+      "id": 10273804789,
+      "name": "rcap-raster-canary",
+      "localZip": "/tmp/rcap-original-34627159438/canary-10273804789.zip",
+      "zipSha256": "969d52673f28e521ec497d4f58154c73a1f44b8ed73b662de962616a2b4cfeb3",
+      "apiDigest": "sha256:969d52673f28e521ec497d4f58154c73a1f44b8ed73b662de962616a2b4cfeb3",
+      "apiDigestMatches": true,
+      "sizeBytes": 5958,
+      "expired": false,
+      "expiresAt": "2026-09-25T17:23:40Z",
+      "workflowRunId": 34627159438
+    }
+  ],
+  "safeExtraction": {
+    "familyMemberCount": 22,
+    "canaryMemberCount": 7,
+    "unsafeMembers": []
+  },
+  "familyVerdict": {
+    "path": "/tmp/rcap-original-34627159438/family-10275441234/pa_6308_underage-set.verdict.json",
+    "schemaVersion": "rcap-raster-family-verdict/v1",
+    "familyId": "pa_6308_underage-set",
+    "verdict": "RASTER_PASS",
+    "workflowRunId": "34627159438",
+    "packetCommitSha": "c200f0cec306a3d219371b7118893dd4d24d0536",
+    "requestedScale": 2.5,
+    "documentsDigest": "c92d9ff21530754acd9b92d9cece62bb88e9205430cf7e42a7cc949a16028959",
+    "freshRenderedPages": 6,
+    "reusedPages": 2,
+    "pagesMeasured": 8,
+    "coversTheWholeFamily": true,
+    "problems": [],
+    "environmentProblems": [],
+    "documents": [
+      {
+        "path": "data/rcap-all50/overlays/census-v1/pa/pa-6308-underage-set--official-pdf-fill/fixtures/certificate-of-service-canonical.pdf",
+        "expectedSha256": "25ef4ba175037ab521617567dd1a1bd7293e96f1a4ee47fd25604f6d999bbfad",
+        "actualSha256": "25ef4ba175037ab521617567dd1a1bd7293e96f1a4ee47fd25604f6d999bbfad",
+        "shaMatch": true,
+        "actualBytes": 2711,
+        "pdfPages": 1,
+        "manifestPageCount": 1,
+        "manifestSha256": "25ef4ba175037ab521617567dd1a1bd7293e96f1a4ee47fd25604f6d999bbfad",
+        "exists": true
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/pa/pa-6308-underage-set--official-pdf-fill/fixtures/rule-490-order-canonical.pdf",
+        "expectedSha256": "e352022073c6b43b4f428a6d8e03f9a69800097d0e1cea02f0101f8484648c52",
+        "actualSha256": "e352022073c6b43b4f428a6d8e03f9a69800097d0e1cea02f0101f8484648c52",
+        "shaMatch": true,
+        "actualBytes": 221773,
+        "pdfPages": 2,
+        "manifestPageCount": 2,
+        "manifestSha256": "e352022073c6b43b4f428a6d8e03f9a69800097d0e1cea02f0101f8484648c52",
+        "exists": true
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/pa/pa-6308-underage-set--official-pdf-fill/fixtures/rule-490-petition-canonical.pdf",
+        "expectedSha256": "0bc45b2c0ac23fac1d5f64fbb340cf29cb93af01e29da5d6e1f0923121469a5d",
+        "actualSha256": "0bc45b2c0ac23fac1d5f64fbb340cf29cb93af01e29da5d6e1f0923121469a5d",
+        "shaMatch": true,
+        "actualBytes": 123063,
+        "pdfPages": 1,
+        "manifestPageCount": 1,
+        "manifestSha256": "0bc45b2c0ac23fac1d5f64fbb340cf29cb93af01e29da5d6e1f0923121469a5d",
+        "exists": true
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/pa/pa-6308-underage-set--official-pdf-fill/fixtures/certificate-of-service-boundary.pdf",
+        "expectedSha256": "256d896fba6bf63c61838c7a736d4eeb8c3a62c074df559dd98ddf671c2692f8",
+        "actualSha256": "256d896fba6bf63c61838c7a736d4eeb8c3a62c074df559dd98ddf671c2692f8",
+        "shaMatch": true,
+        "actualBytes": 2778,
+        "pdfPages": 1,
+        "manifestPageCount": 1,
+        "manifestSha256": "256d896fba6bf63c61838c7a736d4eeb8c3a62c074df559dd98ddf671c2692f8",
+        "exists": true
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/pa/pa-6308-underage-set--official-pdf-fill/fixtures/rule-790-order-boundary.pdf",
+        "expectedSha256": "5dcb402f6af5df9930d7283e62d15407f9734862b46063674f0c4c65302ef957",
+        "actualSha256": "5dcb402f6af5df9930d7283e62d15407f9734862b46063674f0c4c65302ef957",
+        "shaMatch": true,
+        "actualBytes": 195781,
+        "pdfPages": 2,
+        "manifestPageCount": 2,
+        "manifestSha256": "5dcb402f6af5df9930d7283e62d15407f9734862b46063674f0c4c65302ef957",
+        "exists": true
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/pa/pa-6308-underage-set--official-pdf-fill/fixtures/rule-790-petition-boundary.pdf",
+        "expectedSha256": "a88f0a3cbab962faf0cd06e1a916d8ebf40b34fdfe43041574979b64b0134cb9",
+        "actualSha256": "a88f0a3cbab962faf0cd06e1a916d8ebf40b34fdfe43041574979b64b0134cb9",
+        "shaMatch": true,
+        "actualBytes": 120325,
+        "pdfPages": 1,
+        "manifestPageCount": 1,
+        "manifestSha256": "a88f0a3cbab962faf0cd06e1a916d8ebf40b34fdfe43041574979b64b0134cb9",
+        "exists": true
+      }
+    ],
+    "pages": [
+      {
+        "member": "pa_6308_underage-set/certificate-of-service-canonical/page-001.png",
+        "exists": true,
+        "expectedSha256": "378ea59856308d1ae93f545bae89c20f01bc245d2df22bbe40158764b15eb2b9",
+        "actualSha256": "378ea59856308d1ae93f545bae89c20f01bc245d2df22bbe40158764b15eb2b9",
+        "shaMatch": true,
+        "expectedBytes": 197100,
+        "actualBytes": 197100,
+        "bytesMatch": true,
+        "expectedDims": [
+          2040,
+          2640
+        ],
+        "actualDims": [
+          2448,
+          3168
+        ],
+        "measurementSha256": "378ea59856308d1ae93f545bae89c20f01bc245d2df22bbe40158764b15eb2b9",
+        "measurementMatch": true,
+        "renderedInThisRun": false,
+        "evidenceOrigin": "REUSED_ORIGINAL_PAGE_EVIDENCE",
+        "measurementPaperPx": [
+          2040,
+          2640
+        ],
+        "originalOrigin": {
+          "workflowRunId": "34602289097",
+          "packetCommitSha": "3bb298d136ccca78f63256dc6bef210692f42331",
+          "verdictPath": "data/rcap-grade-a/packet-factory-24h/raster-runs/34602289097/pa_6308_underage-set.verdict.json",
+          "verdictSha256": "2030ef74f6deff16322ec6d17feb1da08e75fd15394efb9234f15729f1c1c982",
+          "verifiedEvidencePath": "data/rcap-grade-a/packet-factory-24h/raster-runs/34602289097/pa_6308_underage-set.ORIGINAL_EVIDENCE_VERIFIED.json",
+          "verifiedEvidenceSha256": "f45d870abfb4c29119b623918383fa06498bd376a916b4702a613fdc48a3a105",
+          "pageInventoryPath": "data/rcap-grade-a/packet-factory-24h/raster-runs/34602289097/pa_6308_underage-set.PAGE_IMAGES_SHA256.json",
+          "pageInventorySha256": "f0985c2db07cddb11fcb73559606491470458e8e2b879cea10e6785308bb5365",
+          "artifactId": 10265570395,
+          "artifactZipSha256": "ffe836e0433b8cc405443c78f541c0a89d84be56a5e30f411495744eeb3576c7",
+          "pngMember": "pa_6308_underage-set/certificate-of-service-canonical/page-001.png",
+          "pngSha256": "378ea59856308d1ae93f545bae89c20f01bc245d2df22bbe40158764b15eb2b9"
+        }
+      },
+      {
+        "member": "pa_6308_underage-set/rule-490-order-canonical/page-001.png",
+        "exists": true,
+        "expectedSha256": "58255c19dcb10eb9c0955c8b3eed437baff4756d92c252d302549c5e106b522e",
+        "actualSha256": "58255c19dcb10eb9c0955c8b3eed437baff4756d92c252d302549c5e106b522e",
+        "shaMatch": true,
+        "expectedBytes": 285247,
+        "actualBytes": 285247,
+        "bytesMatch": true,
+        "expectedDims": [
+          2040,
+          2640
+        ],
+        "actualDims": [
+          2448,
+          3168
+        ],
+        "measurementSha256": "58255c19dcb10eb9c0955c8b3eed437baff4756d92c252d302549c5e106b522e",
+        "measurementMatch": true,
+        "renderedInThisRun": true,
+        "evidenceOrigin": "FRESH_RENDER_THIS_RUN",
+        "measurementPaperPx": [
+          2040,
+          2640
+        ],
+        "originalOrigin": null
+      },
+      {
+        "member": "pa_6308_underage-set/rule-490-order-canonical/page-002.png",
+        "exists": true,
+        "expectedSha256": "f9e3e6abcce925d60d8f7d5b960d6d031db3a51afb5e23c3b884b1eaa4d5498a",
+        "actualSha256": "f9e3e6abcce925d60d8f7d5b960d6d031db3a51afb5e23c3b884b1eaa4d5498a",
+        "shaMatch": true,
+        "expectedBytes": 307142,
+        "actualBytes": 307142,
+        "bytesMatch": true,
+        "expectedDims": [
+          2040,
+          2640
+        ],
+        "actualDims": [
+          2448,
+          3168
+        ],
+        "measurementSha256": "f9e3e6abcce925d60d8f7d5b960d6d031db3a51afb5e23c3b884b1eaa4d5498a",
+        "measurementMatch": true,
+        "renderedInThisRun": true,
+        "evidenceOrigin": "FRESH_RENDER_THIS_RUN",
+        "measurementPaperPx": [
+          2040,
+          2640
+        ],
+        "originalOrigin": null
+      },
+      {
+        "member": "pa_6308_underage-set/rule-490-petition-canonical/page-001.png",
+        "exists": true,
+        "expectedSha256": "1e84b86c21c2eda02e8fefd7bf298e56d1d71bc51eda9baad6aaff34072ca83f",
+        "actualSha256": "1e84b86c21c2eda02e8fefd7bf298e56d1d71bc51eda9baad6aaff34072ca83f",
+        "shaMatch": true,
+        "expectedBytes": 481614,
+        "actualBytes": 481614,
+        "bytesMatch": true,
+        "expectedDims": [
+          2040,
+          2640
+        ],
+        "actualDims": [
+          2448,
+          3168
+        ],
+        "measurementSha256": "1e84b86c21c2eda02e8fefd7bf298e56d1d71bc51eda9baad6aaff34072ca83f",
+        "measurementMatch": true,
+        "renderedInThisRun": true,
+        "evidenceOrigin": "FRESH_RENDER_THIS_RUN",
+        "measurementPaperPx": [
+          2040,
+          2640
+        ],
+        "originalOrigin": null
+      },
+      {
+        "member": "pa_6308_underage-set/certificate-of-service-boundary/page-001.png",
+        "exists": true,
+        "expectedSha256": "4d09b8ea84165d8648e6eed6fcf953001c4ae40421af590409037e343447678b",
+        "actualSha256": "4d09b8ea84165d8648e6eed6fcf953001c4ae40421af590409037e343447678b",
+        "shaMatch": true,
+        "expectedBytes": 216875,
+        "actualBytes": 216875,
+        "bytesMatch": true,
+        "expectedDims": [
+          2040,
+          2640
+        ],
+        "actualDims": [
+          2448,
+          3168
+        ],
+        "measurementSha256": "4d09b8ea84165d8648e6eed6fcf953001c4ae40421af590409037e343447678b",
+        "measurementMatch": true,
+        "renderedInThisRun": false,
+        "evidenceOrigin": "REUSED_ORIGINAL_PAGE_EVIDENCE",
+        "measurementPaperPx": [
+          2040,
+          2640
+        ],
+        "originalOrigin": {
+          "workflowRunId": "34602289097",
+          "packetCommitSha": "3bb298d136ccca78f63256dc6bef210692f42331",
+          "verdictPath": "data/rcap-grade-a/packet-factory-24h/raster-runs/34602289097/pa_6308_underage-set.verdict.json",
+          "verdictSha256": "2030ef74f6deff16322ec6d17feb1da08e75fd15394efb9234f15729f1c1c982",
+          "verifiedEvidencePath": "data/rcap-grade-a/packet-factory-24h/raster-runs/34602289097/pa_6308_underage-set.ORIGINAL_EVIDENCE_VERIFIED.json",
+          "verifiedEvidenceSha256": "f45d870abfb4c29119b623918383fa06498bd376a916b4702a613fdc48a3a105",
+          "pageInventoryPath": "data/rcap-grade-a/packet-factory-24h/raster-runs/34602289097/pa_6308_underage-set.PAGE_IMAGES_SHA256.json",
+          "pageInventorySha256": "f0985c2db07cddb11fcb73559606491470458e8e2b879cea10e6785308bb5365",
+          "artifactId": 10265570395,
+          "artifactZipSha256": "ffe836e0433b8cc405443c78f541c0a89d84be56a5e30f411495744eeb3576c7",
+          "pngMember": "pa_6308_underage-set/certificate-of-service-boundary/page-001.png",
+          "pngSha256": "4d09b8ea84165d8648e6eed6fcf953001c4ae40421af590409037e343447678b"
+        }
+      },
+      {
+        "member": "pa_6308_underage-set/rule-790-order-boundary/page-001.png",
+        "exists": true,
+        "expectedSha256": "c34ada077fdbfb5a940b539227d49c015313122a0a206781ad4fd68df2c9550e",
+        "actualSha256": "c34ada077fdbfb5a940b539227d49c015313122a0a206781ad4fd68df2c9550e",
+        "shaMatch": true,
+        "expectedBytes": 323105,
+        "actualBytes": 323105,
+        "bytesMatch": true,
+        "expectedDims": [
+          2040,
+          2640
+        ],
+        "actualDims": [
+          2448,
+          3168
+        ],
+        "measurementSha256": "c34ada077fdbfb5a940b539227d49c015313122a0a206781ad4fd68df2c9550e",
+        "measurementMatch": true,
+        "renderedInThisRun": true,
+        "evidenceOrigin": "FRESH_RENDER_THIS_RUN",
+        "measurementPaperPx": [
+          2040,
+          2640
+        ],
+        "originalOrigin": null
+      },
+      {
+        "member": "pa_6308_underage-set/rule-790-order-boundary/page-002.png",
+        "exists": true,
+        "expectedSha256": "d7a97a33ef3954a5dd43cab3cd313a142cfa32efa7fdb9a5d82672a0f1cf2c22",
+        "actualSha256": "d7a97a33ef3954a5dd43cab3cd313a142cfa32efa7fdb9a5d82672a0f1cf2c22",
+        "shaMatch": true,
+        "expectedBytes": 280181,
+        "actualBytes": 280181,
+        "bytesMatch": true,
+        "expectedDims": [
+          2040,
+          2640
+        ],
+        "actualDims": [
+          2448,
+          3168
+        ],
+        "measurementSha256": "d7a97a33ef3954a5dd43cab3cd313a142cfa32efa7fdb9a5d82672a0f1cf2c22",
+        "measurementMatch": true,
+        "renderedInThisRun": true,
+        "evidenceOrigin": "FRESH_RENDER_THIS_RUN",
+        "measurementPaperPx": [
+          2040,
+          2640
+        ],
+        "originalOrigin": null
+      },
+      {
+        "member": "pa_6308_underage-set/rule-790-petition-boundary/page-001.png",
+        "exists": true,
+        "expectedSha256": "f79317603d2e1ff6a041a8c4e035c275c6a9582c41c54cb558d63e3057d83da7",
+        "actualSha256": "f79317603d2e1ff6a041a8c4e035c275c6a9582c41c54cb558d63e3057d83da7",
+        "shaMatch": true,
+        "expectedBytes": 455545,
+        "actualBytes": 455545,
+        "bytesMatch": true,
+        "expectedDims": [
+          2040,
+          2640
+        ],
+        "actualDims": [
+          2448,
+          3168
+        ],
+        "measurementSha256": "f79317603d2e1ff6a041a8c4e035c275c6a9582c41c54cb558d63e3057d83da7",
+        "measurementMatch": true,
+        "renderedInThisRun": true,
+        "evidenceOrigin": "FRESH_RENDER_THIS_RUN",
+        "measurementPaperPx": [
+          2040,
+          2640
+        ],
+        "originalOrigin": null
+      }
+    ]
+  },
+  "reusedEvidence": [
+    {
+      "document": "certificate-of-service-canonical.pdf",
+      "currentPinnedSha256": "25ef4ba175037ab521617567dd1a1bd7293e96f1a4ee47fd25604f6d999bbfad",
+      "originalRunId": "34602289097",
+      "originalPacketCommitSha": "3bb298d136ccca78f63256dc6bef210692f42331",
+      "verdictPath": "data/rcap-grade-a/packet-factory-24h/raster-runs/34602289097/pa_6308_underage-set.verdict.json",
+      "verdictSha256": "2030ef74f6deff16322ec6d17feb1da08e75fd15394efb9234f15729f1c1c982",
+      "verdictShaMatchesBound": true,
+      "verifiedEvidencePath": "data/rcap-grade-a/packet-factory-24h/raster-runs/34602289097/pa_6308_underage-set.ORIGINAL_EVIDENCE_VERIFIED.json",
+      "verifiedEvidenceSha256": "f45d870abfb4c29119b623918383fa06498bd376a916b4702a613fdc48a3a105",
+      "verifiedEvidenceShaMatchesBound": true,
+      "pageInventoryPath": "data/rcap-grade-a/packet-factory-24h/raster-runs/34602289097/pa_6308_underage-set.PAGE_IMAGES_SHA256.json",
+      "pageInventorySha256": "f0985c2db07cddb11fcb73559606491470458e8e2b879cea10e6785308bb5365",
+      "pageInventoryShaMatchesBound": true,
+      "originalEvidenceStatus": {
+        "verdict": "RASTER_PASS",
+        "documentsVerified": 6,
+        "pagesVerified": 8,
+        "documentsDigest": "3d6fc9ec01545fa24c61622bef9e864524c887a129413891276005c66d00da77",
+        "allCurrentPdfHashesMatch": true,
+        "allOriginalPngHashesAndLengthsMatch": true,
+        "independentApproval": "PENDING",
+        "centralAdmission": "NOT_GRANTED"
+      },
+      "oldVerdictStatus": {
+        "schemaVersion": "rcap-raster-family-verdict/v1",
+        "familyId": "pa_6308_underage-set",
+        "verdict": "RASTER_PASS",
+        "packetCommitSha": "3bb298d136ccca78f63256dc6bef210692f42331",
+        "workflowRunId": "34602289097"
+      }
+    },
+    {
+      "document": "certificate-of-service-boundary.pdf",
+      "currentPinnedSha256": "256d896fba6bf63c61838c7a736d4eeb8c3a62c074df559dd98ddf671c2692f8",
+      "originalRunId": "34602289097",
+      "originalPacketCommitSha": "3bb298d136ccca78f63256dc6bef210692f42331",
+      "verdictPath": "data/rcap-grade-a/packet-factory-24h/raster-runs/34602289097/pa_6308_underage-set.verdict.json",
+      "verdictSha256": "2030ef74f6deff16322ec6d17feb1da08e75fd15394efb9234f15729f1c1c982",
+      "verdictShaMatchesBound": true,
+      "verifiedEvidencePath": "data/rcap-grade-a/packet-factory-24h/raster-runs/34602289097/pa_6308_underage-set.ORIGINAL_EVIDENCE_VERIFIED.json",
+      "verifiedEvidenceSha256": "f45d870abfb4c29119b623918383fa06498bd376a916b4702a613fdc48a3a105",
+      "verifiedEvidenceShaMatchesBound": true,
+      "pageInventoryPath": "data/rcap-grade-a/packet-factory-24h/raster-runs/34602289097/pa_6308_underage-set.PAGE_IMAGES_SHA256.json",
+      "pageInventorySha256": "f0985c2db07cddb11fcb73559606491470458e8e2b879cea10e6785308bb5365",
+      "pageInventoryShaMatchesBound": true,
+      "originalEvidenceStatus": {
+        "verdict": "RASTER_PASS",
+        "documentsVerified": 6,
+        "pagesVerified": 8,
+        "documentsDigest": "3d6fc9ec01545fa24c61622bef9e864524c887a129413891276005c66d00da77",
+        "allCurrentPdfHashesMatch": true,
+        "allOriginalPngHashesAndLengthsMatch": true,
+        "independentApproval": "PENDING",
+        "centralAdmission": "NOT_GRANTED"
+      },
+      "oldVerdictStatus": {
+        "schemaVersion": "rcap-raster-family-verdict/v1",
+        "familyId": "pa_6308_underage-set",
+        "verdict": "RASTER_PASS",
+        "packetCommitSha": "3bb298d136ccca78f63256dc6bef210692f42331",
+        "workflowRunId": "34602289097"
+      }
+    }
+  ],
+  "canary": {
+    "artifactId": 10273804789,
+    "jobId": 103354933131,
+    "path": "/tmp/rcap-original-34627159438/canary-10273804789/canary-receipt.json",
+    "schemaVersion": "rcap-raster-canary/v1",
+    "verdict": "CANARY_PASSED",
+    "problems": [],
+    "syntheticPdfCreated": true,
+    "pngWritten": true,
+    "paper": {
+      "x0": 204,
+      "y0": 3,
+      "x1": 2243,
+      "y1": 2642,
+      "width": 2040,
+      "height": 2640
+    },
+    "packetPdfsModified": 0,
+    "bodiesCommitted": 0,
+    "commercialRoutesOpened": 0,
+    "productionTouched": false
+  },
+  "negativeControls": {
+    "path": "/tmp/rcap-original-34627159438/canary-10273804789/negative-controls.json",
+    "schemaVersion": "rcap-raster-negative-controls/v2",
+    "results": [
+      {
+        "id": "no_browser_refused",
+        "refused": true,
+        "detail": "an environment with no browser must resolve nothing"
+      },
+      {
+        "id": "non_executable_refused",
+        "refused": true,
+        "detail": "a non-executable file must not resolve as a browser"
+      },
+      {
+        "id": "directory_refused",
+        "refused": true,
+        "detail": "a directory must not resolve as a browser"
+      },
+      {
+        "id": "headless_shell_path_refused",
+        "refused": true,
+        "detail": "an executable at a headless_shell path must not resolve as a browser"
+      },
+      {
+        "id": "headless_shell_render_refused",
+        "refused": null,
+        "detail": "not exercised: no real headless_shell on this runner. The resolver-level refusal is proven by headless_shell_path_refused.",
+        "exercised": false
+      },
+      {
+        "id": "blank_page_is_detectable",
+        "refused": true,
+        "detail": "paper found, ink fraction 0.00e+0"
+      }
+    ],
+    "refusedCount": 5,
+    "notExercisedCount": 1,
+    "allExercisedRefused": true,
+    "failed": [],
+    "notExercised": [
+      "headless_shell_render_refused"
+    ]
+  },
+  "pinnedManifest": {
+    "gitBase": "c200f0cec306a3d219371b7118893dd4d24d0536",
+    "gitPath": "data/rcap-grade-a/packet-factory-24h/pf26/pa-raster-reuse-20260911/proposed-fresh-six-document-manifest.json",
+    "manifestRootGeneratedAtCommit": "6518eace0c61cae567250d7c6f57c6ec2f9a93b5",
+    "rowPacketCommitSha": "6518eace0c61cae567250d7c6f57c6ec2f9a93b5",
+    "rowCurrentRasterState": "RASTER_PENDING",
+    "documentsDigest": "c92d9ff21530754acd9b92d9cece62bb88e9205430cf7e42a7cc949a16028959",
+    "verdictDocumentsDigest": "c92d9ff21530754acd9b92d9cece62bb88e9205430cf7e42a7cc949a16028959",
+    "documentsDigestEqual": true,
+    "documentHashesAndPageCountsMatch": true,
+    "coverage": {
+      "complete": true,
+      "basis": "all six current family PDFs declared; two exact certificate PDFs reuse original passing pages and four changed PDFs render fresh",
+      "documents": [
+        "certificate-of-service-canonical.pdf",
+        "rule-490-order-canonical.pdf",
+        "rule-490-petition-canonical.pdf",
+        "certificate-of-service-boundary.pdf",
+        "rule-790-order-boundary.pdf",
+        "rule-790-petition-boundary.pdf"
+      ],
+      "rastered": [
+        "certificate-of-service-canonical.pdf",
+        "rule-490-order-canonical.pdf",
+        "rule-490-petition-canonical.pdf",
+        "certificate-of-service-boundary.pdf",
+        "rule-790-order-boundary.pdf",
+        "rule-790-petition-boundary.pdf"
+      ],
+      "notRastered": [],
+      "notRenderedByThisGate": []
+    }
+  },
+  "logEvidence": {
+    "familyPinnedCommitLine": true,
+    "familyReceiptBeginLine": true,
+    "familyLogVerdictParsed": true,
+    "familyLogVerdictEqualsArtifact": true,
+    "familyArtifactDigestLine": true,
+    "canaryPinnedCommitLine": true,
+    "canaryPassedLine": true,
+    "negativeControlsHeldLine": true,
+    "canaryArtifactDigestLine": true
+  },
+  "ingesterPreparation": {
+    "script": "scripts/grade-a-packet-factory-24h/ingest-raster-receipt.mjs",
+    "payloadPath": "/tmp/rcap-original-34627159438/ingester-payload.json",
+    "argsPath": "/tmp/rcap-original-34627159438/ingester-args.json",
+    "familyJobId": 103356122596,
+    "jobConclusion": "success",
+    "artifactId": 10275441234,
+    "artifactName": "rcap-raster-pa_6308_underage-set-34627159438",
+    "artifactDigest": "sha256:fa45d034a2f6eaf42895a8aaba16b68b2391f971a9a088efc6a4ac00cc559b69",
+    "artifactExpiresAt": "2026-09-25T17:27:40Z",
+    "preparedOnly": true,
+    "centralQueueWritten": false
+  },
+  "metadataWarnings": [
+    {
+      "kind": "manifest_packet_commit_mismatch",
+      "manifestRootGeneratedAtCommit": "6518eace0c61cae567250d7c6f57c6ec2f9a93b5",
+      "manifestRowPacketCommitSha": "6518eace0c61cae567250d7c6f57c6ec2f9a93b5",
+      "runVerdictPacketCommitSha": "c200f0cec306a3d219371b7118893dd4d24d0536",
+      "runPinnedPacketCommitSha": "c200f0cec306a3d219371b7118893dd4d24d0536",
+      "impact": "Manifest document hashes, page counts, coverage, and documentsDigest match the six current PDFs and verdict; retain this commit-identity mismatch for caller decision and do not silently relabel the manifest."
+    },
+    {
+      "kind": "negative_control_not_exercised",
+      "id": "headless_shell_render_refused",
+      "detail": "not exercised: no real headless_shell on this runner. The resolver-level refusal is proven by headless_shell_path_refused.",
+      "impact": "Five exercised controls refused and none failed; one render-level control was not exercised because no real headless_shell was present."
+    }
+  ],
+  "conclusion": {
+    "zipDigestsMatchApi": true,
+    "allSixCurrentPdfHashesMatch": true,
+    "allSixPdfPageCountsMatchManifest": true,
+    "allEightPngHashesAndLengthsMatch": true,
+    "allEightPngMeasurementsMatch": true,
+    "reusedLineageHashesMatch": true,
+    "canaryPassed": true,
+    "negativeControlsCleanForExercised": true,
+    "familyVerdictClean": true,
+    "payloadReadyForSeparateIngest": true,
+    "centralAdmission": false
+  }
+}

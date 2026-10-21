@@ -1,0 +1,143 @@
+{
+  "schemaVersion": 1,
+  "artifactType": "official_pdf_draft_field_map_review",
+  "status": "visual_review_required",
+  "lifecycle": "none",
+  "notices": [
+    "This is a tracked draft field-map review artifact only.",
+    "This is not visual approval.",
+    "This is not replacement_candidate.",
+    "This is not verified_replacement.",
+    "This is not production ready.",
+    "This is not live routed.",
+    "This does not replace human visual review, filled-data visual review, source freshness review, or counsel confirmation.",
+    "Do not wire this artifact to live routes."
+  ],
+  "jurisdictionCode": "CO",
+  "jurisdictionName": "Colorado",
+  "formSlug": "colorado-jdf419",
+  "sourcePdf": "LegalEase Colorado/JDF 419 Order and Notice of Hearing.pdf",
+  "sourcePdfSha256": "64012a2a3ef643f5b9a587e5181c3332f788764324003709913688d2f9bd86a2",
+  "sourcePdfRole": "blank official source PDF, nationwide_recovery_pool_2026_09_02 custody, bound by exact SHA-256",
+  "mappingMode": "manual_review",
+  "pdfClassification": "flat_pdf",
+  "recommendedMappingMode": "flat_overlay_caption_only",
+  "generatedFrom": "scripts/rcap-official-forms/build-colorado-caption-only-families.mjs",
+  "generatedOn": "2026-09-15",
+  "productionFamily": "data/rcap-all50/overlays/production/colorado/jdf-419-form-notice-en",
+  "reviewInput": {
+    "visualPlacementSanityReview": "not_started",
+    "reviewerNotes": [
+      "JDF 419 Notice (Just do §§ A-C) — the petitioner completes the caption only.",
+      "Flat PDF: 4 measured caption anchors; 3 bind.",
+      "The held binary is R 8/19 with an unlettered caption band and a printed CERTIFICATE OF SERVICE block; the JDF 416 that names it is R: July 1, 2025 and tells the filer to complete \"§§ A-C\", which this revision does not letter. A later revision of JDF 419 is therefore likely and was not obtainable.",
+      "Filled-data visual review, source freshness review, and counsel confirmation are still required before production use."
+    ]
+  },
+  "counts": {
+    "candidateCount": 4,
+    "pageGeometry": [
+      {
+        "page": 1,
+        "width": 612,
+        "height": 792,
+        "orientation": "portrait"
+      }
+    ]
+  },
+  "draftFieldMap": {
+    "formId": "co_colorado_jdf419",
+    "status": "visual_review_required",
+    "lifecycle": "none",
+    "mappingMode": "manual_review",
+    "fields": {},
+    "overlays": []
+  },
+  "candidates": [
+    {
+      "candidateId": "COL-JDF419-A001",
+      "anchorKey": "countyBlank",
+      "kind": "blank_between_labels",
+      "page": 1,
+      "writeBox": {
+        "x": 145.95,
+        "y": 711.3,
+        "width": 147.11,
+        "height": 10.96
+      },
+      "printedLabel": "County, Colorado",
+      "proposedClass": "participant",
+      "proposedFactId": "matter.county",
+      "measurement": {
+        "labelPositionMeasured": true,
+        "blankExtentMeasuredFromUnderscoreRun": true,
+        "rightBoundaryMeasured": true
+      },
+      "confidence": "high"
+    },
+    {
+      "candidateId": "COL-JDF419-A002",
+      "anchorKey": "courtAddress",
+      "kind": "trailing_label",
+      "page": 1,
+      "writeBox": {
+        "x": 154.59,
+        "y": 698.6,
+        "width": 237.41,
+        "height": 10.96
+      },
+      "printedLabel": "Court Address:",
+      "proposedClass": "withheld_by_review",
+      "proposedFactId": null,
+      "measurement": {
+        "labelPositionMeasured": true,
+        "rightBoundaryMeasured": false,
+        "rightBoundaryEstimatedAtCourtUseBox": 396
+      },
+      "confidence": "not_applicable"
+    },
+    {
+      "candidateId": "COL-JDF419-A003",
+      "anchorKey": "petitioner",
+      "kind": "blank_between_labels",
+      "page": 1,
+      "writeBox": {
+        "x": 84,
+        "y": 622.15,
+        "width": 304,
+        "height": 11.96
+      },
+      "printedLabel": "Petition of: Defendant (Primary subject of the criminal justice record)",
+      "proposedClass": "participant",
+      "proposedFactId": "participant.full_legal_name",
+      "measurement": {
+        "labelPositionMeasured": true,
+        "blankPlacedMidwayBetweenTheTwoPrintedLabels": true,
+        "rightBoundaryMeasured": false,
+        "rightBoundaryEstimatedAtCourtUseBox": 396
+      },
+      "confidence": "high"
+    },
+    {
+      "candidateId": "COL-JDF419-A004",
+      "anchorKey": "caseNumber",
+      "kind": "trailing_label",
+      "page": 1,
+      "writeBox": {
+        "x": 474.51,
+        "y": 609.6,
+        "width": 91.49,
+        "height": 10.96
+      },
+      "printedLabel": "Case Number:",
+      "proposedClass": "participant",
+      "proposedFactId": "matter.case_number",
+      "measurement": {
+        "labelPositionMeasured": true,
+        "rightBoundaryMeasured": false,
+        "rightBoundaryEstimatedAtPageMargin": 566
+      },
+      "confidence": "high"
+    }
+  ]
+}

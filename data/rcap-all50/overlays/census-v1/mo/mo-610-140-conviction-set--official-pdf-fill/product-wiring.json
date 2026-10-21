@@ -1,0 +1,79 @@
+{
+  "schemaVersion": "rcap-census-v1-product-wiring/v1",
+  "family": "mo-610-140-conviction-set",
+  "routeKeys": [
+    "obligation:track-pathway:MO:mo-610-140-conviction:general-arrest-charge-plea-trial-or-conviction-expungement-under-rsmo-610-140"
+  ],
+  "workType": "PRODUCT_WIRING_REQUIRED",
+  "status": "DECLARED_NOT_INSTALLED",
+  "authorityCreated": "none",
+  "explicitNonGrants": [
+    "No live route, fulfillment, entitlement, payment, sponsorship, generation, filing or participant-delivery authority is created."
+  ],
+  "binding": {
+    "family": "mo-610-140-conviction-set",
+    "jurisdiction": "MO",
+    "routeKeys": [
+      "obligation:track-pathway:MO:mo-610-140-conviction:general-arrest-charge-plea-trial-or-conviction-expungement-under-rsmo-610-140"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "Missouri § 610.140 Expungement Petition"
+    ],
+    "packetComponents": [
+      "component:mo-610-140-conviction-continuation-4",
+      "component:mo-610-140-conviction-cover-sheet-2",
+      "component:mo-610-140-conviction-fee-waiver-5",
+      "component:mo-610-140-conviction-primary-filing-1",
+      "component:mo-610-140-conviction-proposed-order-3"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-conviction-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-conviction-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-conviction-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-conviction-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:CR360",
+        "sha256": "6bfbf26a54f374f7c6bd6dcb59bc199bfe897890c1b3265513b2e7df43990745",
+        "tier": "exact_form_number"
+      },
+      {
+        "sourceId": "official-form:CR370",
+        "sha256": "8a4d32d66d3fc05a41fdcd362a6f744c4536d95a8a600eb9d3d524192de60eb6",
+        "tier": "exact_content_hash"
+      },
+      {
+        "sourceId": "official-form:FI-05",
+        "sha256": "53f1e04eba653d7ed8e2f2f059e57854d3780845e6364bb6b2a57c7728cd412e",
+        "tier": "exact_content_hash"
+      },
+      {
+        "sourceId": "official-form:GN10",
+        "sha256": "13ff25147df2c70eec85b2d498f486aae9c2b46c535f9f9d7992b6247480421e",
+        "tier": "exact_form_number"
+      }
+    ],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "34709401672",
+      "jobId": "103595760573",
+      "artifactId": "10302913908",
+      "boundToCanonicalSha256": "63fbcb28a5f03b4a6aedc4ffedbdf820964e80f1f43e5fe39de7496895682cde",
+      "coversTheWholeFamily": true
+    },
+    "lastIndependentVerification": {
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vfmo1",
+      "verifiedAtBase": "2682f7d032ff64d47459f277bbe496956b97fe1c"
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-mo-610-140-conviction-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  }
+}

@@ -1,0 +1,128 @@
+{
+  "schemaVersion": "rcap-ky-protective-order-service-amendment-draft/v1",
+  "producedOn": "2026-09-12",
+  "producedAt": "2026-09-12T22:04:00Z",
+  "reviewedAtBase": "1ee151721eceb46d50428cb489a9d1440f9c2114",
+  "familyId": "ky_protective_order_record_expungement-set",
+  "trackId": "ky_protective_order_record_expungement",
+  "status": "RESEARCH_DRAFT_NOT_ADOPTED",
+  "adoption": {
+    "ownerAdoptionSupplied": false,
+    "counselApprovalSupplied": false,
+    "governingResolutionWritten": false,
+    "packetAcceptanceGranted": false,
+    "commercialAuthorityCreated": false,
+    "preserveCurrentLegalBlock": true,
+    "note": "This is a bounded proposed amendment for Roger review. It is not an owner attestation, counsel opinion, governing legal resolution, packet PASS, production authorization, or runtime change."
+  },
+  "scope": {
+    "included": [
+      "The service_instructions contract note for ky_protective_order_record_expungement-set only",
+      "The manualCompletionItems reference to the delivered AOC-275.18 notification and distribution controls",
+      "The source-supported distinction between movant service and clerk fallback service"
+    ],
+    "excluded": [
+      "Any other Kentucky family or route",
+      "AOC-275.18 source PDF bytes and existing source receipt",
+      "Packet PDFs, product wiring, build findings, raster, or verifier rows",
+      "Creation of a certificate of service or assertion that service occurred",
+      "Owner/counsel adoption and production/commercial authority"
+    ]
+  },
+  "currentStateEvidence": {
+    "controllingMemo": {
+      "path": "data/record-clearing/legal-design-intake/KY.memo.json",
+      "sha256": "157d7de303a0d14bb7232575c34856e1f15ee7a3ffa9cf267cd65b79e4ccd8c2",
+      "byteLength": 202583
+    },
+    "builder": {
+      "path": "scripts/build-census-v1-ky_protective_order_record_expungement-set.mjs",
+      "finding": "Current component audit correctly retains service_instructions as required and discloses that no certificate is delivered; this draft proposes only the governing memo wording/manual item correction."
+    },
+    "currentSourcePdfUntouched": {
+      "path": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Kentucky/source-acquisition-2026-09-04/275.18.pdf",
+      "sha256": "b3d8278a85a56c5ac81ed9fedaf9081f5e6f5141d0f561ed6aa6ff4103d2cb51",
+      "byteLength": 192243,
+      "pageCount": 1
+    }
+  },
+  "primarySource": {
+    "title": "Kentucky Circuit Court Clerks' Manual, July 2026",
+    "officialIndexUrl": "https://www.kycourts.gov/Courts/County-Information/Pages/default.aspx",
+    "officialPdfUrl": "https://www.kycourts.gov/Courts/County-Information/Documents/ClerksManual.pdf",
+    "downloadPath": "/tmp/ky-clerks-manual-2026-check.pdf",
+    "sha256": "3d5c55025b617846b19537965a7ae453f4f8edbe00b7105ce5be1493882948b0",
+    "byteLength": 5128994,
+    "pageCount": 601,
+    "httpLastModified": "2026-07-22T15:13:06Z",
+    "relevantLocation": {
+      "section": "34.19 Expungement / 34.19.1 Motion to Expunge",
+      "pdfPage": 230,
+      "printedPage": 230
+    },
+    "sourceFacts": [
+      "Section 34.19.1(1) directs the clerk, on receipt of AOC 275.18, to verify the signature, apply the FILED stamp, and complete the form notification section.",
+      "Section 34.19.1(2) instructs the clerk to serve copies of the notice by first-class mail per the distribution list if the movant has not already done so; this is clerk fallback service, not a clerk-only rule.",
+      "The section note says the respondent need not provide a KSP Expungement Certification with the motion. It does not prescribe or identify a separate certificate of service.",
+      "The AOC-275.18 notification block itself prints the distribution list (Court file, Petitioner, Respondent); the held source set supplies no separate service-certificate form."
+    ],
+    "exactServiceText": "If the movant has not already done so, serve copies of the notice per the distribution list by first class mail."
+  },
+  "affectedMemoFields": {
+    "current": {
+      "components[2]": {
+        "role": "service_instructions",
+        "requirement": "required",
+        "outputStrategy": "process_guidance",
+        "notes": "The Clerks' Manual directs that if the movant has not already served copies of the notice per the distribution list by first class mail, the clerk does. The packet tells the movant how to serve and provides the certificate."
+      },
+      "manualCompletionItems[1]": {
+        "item": "Service of the notice by first class mail",
+        "whereInPacket": "Notice distribution list",
+        "why": "The Clerks' Manual permits the movant to serve, and the clerk serves only if the movant has not."
+      },
+      "rules.notice": "The clerk completes the notification-of-hearing section on the form and creates the scheduled event.",
+      "rules.service": "The movant may serve copies of the notice by first class mail per the distribution list; otherwise the clerk does."
+    },
+    "proposed": {
+      "components[2]": {
+        "role": "service_instructions",
+        "requirement": "required",
+        "outputStrategy": "process_guidance",
+        "notes": "The Clerks' Manual directs that if the movant has not already served copies of the notice per the distribution list by first class mail, the clerk does. This required component delivers the AOC-275.18 notification and distribution instructions and explains both service paths. The held official source set does not supply a separate certificate of service; this packet does not generate one or assert that service occurred."
+      },
+      "manualCompletionItems[1]": {
+        "item": "Service of the notice by first class mail",
+        "whereInPacket": "AOC-275.18 notification-of-expungement-hearing section and printed Copies to distribution list",
+        "why": "The clerk completes the notification section; if the movant has not already served copies by first class mail, the clerk serves them. The packet supplies the distribution instructions only and does not assert that service occurred."
+      },
+      "rules.notice": "The clerk completes the notification-of-hearing section on the form and creates the scheduled event.",
+      "rules.service": "The movant may serve copies of the notice by first class mail per the distribution list; otherwise the clerk does."
+    }
+  },
+  "proposedTreatment": [
+    "Retain service_instructions as a required component and retain all primary-filing, notice, distribution, and service coverage.",
+    "Remove only the unsupported statement that the packet provides a certificate; do not remove the service requirement or fallback rule.",
+    "Point manualCompletionItems[1] to the delivered AOC-275.18 notification-of-expungement-hearing section and its printed Copies to distribution list.",
+    "Keep participant and clerk ownership explicit: the movant may serve, the clerk serves when the movant has not already done so, and no product output states that service has occurred.",
+    "Do not author a blank or completed certificate from inference; any certificate adoption would require a separate source-backed owner/counsel decision."
+  ],
+  "adoptionRequirements": [
+    "Roger or an authorized governing legal-design owner must adopt or reject this KY-only memo amendment before any governing record is changed.",
+    "If adopted, update KY.memo.json and rerun the KY builder/component audit; the source PDF remains byte-for-byte unchanged.",
+    "Adoption does not grant packet PASS, raster PASS, commercial authority, production approval, or terminal status; those gates remain independent."
+  ],
+  "finalDisposition": {
+    "verdict": "RESEARCH_DRAFT_NOT_ADOPTED",
+    "effectiveLegalStatus": "OWNER_DECISION_REQUIRED",
+    "packetPass": false,
+    "rasterDispatchAuthorized": false,
+    "terminalPromotionAuthorized": false,
+    "productionAuthorized": false,
+    "sharedWrites": false,
+    "packetBytesChanged": false,
+    "scratchWrites": [
+      "/tmp/ky-protective-order-service-amendment-draft-20260912.json"
+    ]
+  }
+}

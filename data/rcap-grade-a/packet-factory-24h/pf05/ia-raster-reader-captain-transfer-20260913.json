@@ -1,0 +1,107 @@
+{
+  "schemaVersion": "rcap-exact-byte-worker-patch-transfer/v1",
+  "status": "CAPTAIN_PRIVATE_CUSTODY",
+  "transferId": "pf05-ia-raster-reader-20260913",
+  "familyIds": [
+    "ia-12346-set",
+    "ia-901c3-set"
+  ],
+  "lane": "PF05",
+  "workerCodespace": "rcap-finish-worker-77jr7gx76jq3rg65",
+  "workerCheckoutActual": "/workspaces/legalease-partner-dashboard-clean",
+  "workerBranchActual": "claude/legalease-sprint-captain-utucnw",
+  "candidateCommit": "282b3d914fff66fc9a789983cc6022550c55341d",
+  "parentCommits": [
+    "9032beaf738dc4599c78ccff6f5bb15ea0aa87f2"
+  ],
+  "commitAuthor": {
+    "name": "Roger-LegalEase",
+    "email": "roger@legalease.com",
+    "authoredAt": "2026-09-13T14:02:11Z"
+  },
+  "subject": "Enroll all Iowa whole-packet raster fixtures",
+  "normalPush": {
+    "attempted": true,
+    "succeeded": false,
+    "error": "fatal: could not read Username for 'https://github.com': No such device or address"
+  },
+  "archive": {
+    "path": "private/packet-factory-24h/transfers/pf05-ia-raster-reader-20260913/ia-raster-reader.patch.tar",
+    "sha256": "49a093037024de71e3f5153b31ab1ba23a8028dfec95027061498bec0041ea05",
+    "byteLength": 30720,
+    "format": "tar",
+    "memberFileCount": 2,
+    "sharedManifestFilesIncluded": false,
+    "closedOutputsIncluded": false
+  },
+  "changedFiles": [
+    {
+      "path": "scripts/grade-a-packet-factory-24h/conditional-raster-documents.mjs",
+      "workerGitBlobSha1": "41b9c34233522137958c02ee72e64be10e141498",
+      "extractedGitBlobSha1": "41b9c34233522137958c02ee72e64be10e141498",
+      "exact": true,
+      "sha256": "d2511f849d3d7de99473e2ee1ee3681f3526ea9651cbea27dfa69ee7b5e67fd4",
+      "byteLength": 13430
+    },
+    {
+      "path": "scripts/grade-a-packet-factory-24h/test-conditional-raster-documents.mjs",
+      "workerGitBlobSha1": "56f672b26fc7c610b7f4f6e5b0a7b908a2ceee77",
+      "extractedGitBlobSha1": "56f672b26fc7c610b7f4f6e5b0a7b908a2ceee77",
+      "exact": true,
+      "sha256": "eaa76c2e8b11a7766dad88143c961863c17854458e254bf455474badbe878693",
+      "byteLength": 9255
+    }
+  ],
+  "validation": {
+    "commands": [
+      "source \"$HOME/.legalease-corpus-env\" && node scripts/grade-a-packet-factory-24h/test-conditional-raster-documents.mjs",
+      "source \"$HOME/.legalease-corpus-env\" && node scripts/grade-a-packet-factory-24h/test-native-selectable-raster-documents.mjs"
+    ],
+    "result": "PASS",
+    "iaCoverage": [
+      {
+        "familyId": "ia-12346-set",
+        "fixtures": 6,
+        "pages": 24,
+        "missingFixtureRefused": true,
+        "changedFixtureRefused": true,
+        "reportControls": 7
+      },
+      {
+        "familyId": "ia-901c3-set",
+        "fixtures": 8,
+        "pages": 49,
+        "missingFixtureRefused": true,
+        "changedFixtureRefused": true,
+        "reportControls": 7
+      }
+    ],
+    "existingNativeControls": [
+      {
+        "familyId": "ky-nonconviction-expungement-set",
+        "completePdfs": 13,
+        "completePages": 90,
+        "selectablePdfs": 11,
+        "refusalControls": 13
+      },
+      {
+        "familyId": "md-10105-favorable-set",
+        "completePdfs": 15,
+        "completePages": 60,
+        "selectablePdfs": 13,
+        "refusalControls": 13
+      }
+    ],
+    "packetRebuilds": 0,
+    "rasterExecuted": false,
+    "terminalPromotions": 0
+  },
+  "scope": {
+    "packetPdfsModified": false,
+    "sourceBytesModified": false,
+    "sharedManifestFilesChanged": false,
+    "closedOutputsIncluded": false,
+    "commercialRoutesOpened": 0,
+    "productionTouched": false
+  }
+}

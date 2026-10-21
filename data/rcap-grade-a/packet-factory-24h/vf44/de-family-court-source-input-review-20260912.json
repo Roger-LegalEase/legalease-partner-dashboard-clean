@@ -1,0 +1,188 @@
+{
+  "schemaVersion": "rcap-vf44-source-blocker-review/v1",
+  "reviewedAt": "2026-09-12T19:45:32Z",
+  "reviewedAtBase": "cd60bf62a2186c46b6e245ade48c744ff189bae9",
+  "lane": "VF44",
+  "reviewKind": "independent-source-and-legal-input-review",
+  "familyId": "de_discretionary_family_court-set",
+  "trackId": "de_discretionary_family_court",
+  "claim": {
+    "assertCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF44 de_discretionary_family_court-set",
+    "result": "CLAIM_OK",
+    "claimType": "independent-verification",
+    "grantSet": "e99bcb4319457c35",
+    "claimLedgerPath": "data/rcap-grade-a/packet-factory-24h/claim-ledger.json",
+    "claimLedgerSha256": "acf99757bf1c92100998777811ef220de91b44e99a44a4995583006aa0bf7762"
+  },
+  "scope": {
+    "included": [
+      "the three prior DE Family Court legal/source blockers",
+      "the supplied held Form 1021IP source",
+      "the supplied official current Family Court cost schedule",
+      "the supplied enacted 85 Del. Laws c. 142, §10 markup",
+      "current candidate/native queue bindings"
+    ],
+    "excluded": [
+      "packet bytes and builder changes",
+      "semantic packet PASS",
+      "raster dispatch or visual acceptance",
+      "new legal research",
+      "shared verifier rows, queue, ledger, or manifest edits"
+    ]
+  },
+  "priorBlockedEvidence": [
+    {
+      "path": "data/rcap-grade-a/packet-factory-24h/vf02/de-discretionary-family-court-restart-semantic-blocked-20260912.json",
+      "sha256": "879dfb4bb26c474b6dd621c30bd9ab6fac272b36b15241b7594bc49ae0c053cf",
+      "byteLength": 30981
+    },
+    {
+      "path": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-de-family-court-semantic-blocked-20260912.json",
+      "sha256": "84bc7e71d3a0635837f5bb05ae2b43e7e13eff6c773f2f043656c355822a3818",
+      "byteLength": 6123
+    }
+  ],
+  "governingRecordsExamined": [
+    {
+      "path": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
+      "sha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
+      "byteLength": 22372,
+      "finding": "No exact DE Family Court determination; existing Delaware entries clear other routes only."
+    },
+    {
+      "path": "data/rcap-grade-a/legal-decisions/OWNER_KJC_PERMISSION_ATTESTATION_2026-09-11.json",
+      "sha256": "9b5008f945fefe26899f767b705ce57139324b0f94f9a6d472accbc2526826f6",
+      "byteLength": 1927,
+      "finding": "Scope is Kansas judicial permission; it does not resolve this Delaware Family Court family."
+    },
+    {
+      "path": "data/rcap-grade-a/source-wave-integration/SOURCE_USER_UPLOAD_ADOPTION_2026-09-11.json",
+      "sha256": "cd427f907b35214c58818f251c9eed6fc1aa618d3fa0be1b6b14a542c9789103",
+      "byteLength": 25825,
+      "finding": "No DE Family Court adoption or native legal resolution."
+    },
+    {
+      "path": "data/record-clearing/legal-design-intake/DE.memo.json",
+      "sha256": "fdb976a3cf5b47de42ebca1285dbd4f067bfa5461a0fac0c6efc98668fd1e618",
+      "byteLength": 83644,
+      "finding": "Family Court track retains the three release questions: proposed order, Family Court fee/packet order, and 85 Del. Laws c. 142 §10."
+    },
+    {
+      "path": "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+      "sha256": "c87fa0aa0f34fca2cff9927ec869f7f6243e56cd2e8ec928395dfa835c80a3f0",
+      "byteLength": 2390014,
+      "finding": "Family entry still has currentLegalResolution null, legalInputStatus OPEN_LEGAL_INPUT, selected independent verdict BLOCKED_LEGAL_INPUT, and no terminal treatment."
+    }
+  ],
+  "currentCandidate": {
+    "directory": "data/rcap-all50/overlays/census-v1/de/de-discretionary-family-court-set--official-pdf-fill",
+    "canonical": {
+      "path": "data/rcap-all50/overlays/census-v1/de/de-discretionary-family-court-set--official-pdf-fill/fixtures/canonical.pdf",
+      "sha256": "0fa7f874fd1cba94e6a5fb775b7feaa7f2f07d9e6aba62d5057bb7f4e0cae8d9",
+      "byteLength": 55926,
+      "pageCount": 2
+    },
+    "boundary": {
+      "path": "data/rcap-all50/overlays/census-v1/de/de-discretionary-family-court-set--official-pdf-fill/fixtures/boundary.pdf",
+      "sha256": "1a7c70f9bd6e78bb56b5b7206d1078bf7a6a9c0c1688763e6e3ffe3235fd5479",
+      "byteLength": 87635,
+      "pageCount": 3
+    },
+    "sourceReceipt": {
+      "path": "data/rcap-all50/overlays/census-v1/de/de-discretionary-family-court-set--official-pdf-fill/source-receipt.json",
+      "sha256": "54cbb4464d7fc8a9e2e2d500bfad08796a139678f64eae0a2e1b6cacc0fc9fbf",
+      "byteLength": 7384
+    },
+    "candidateFacts": [
+      "Current component set is Form 281 + conditional Form 281E + SBI cover sheet; it has no Form 283 proposed order.",
+      "Current filing instructions still say the Family Court adult filing fee is unresolved and retain a stale same-$75 question.",
+      "Current DE legal memo and queue remain unmodified by this review."
+    ]
+  },
+  "sourceInputs": [
+    {
+      "blocker": "proposed_order_packet_order",
+      "status": "FACTUAL_SOURCE_RESOLVED_NATIVE_ADOPTION_PENDING",
+      "officialReaderUrl": "https://courts.delaware.gov/forms/download.aspx?id=118608",
+      "heldSource": {
+        "path": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Delaware/reference-only/Form-1021IP__adult-expungement-instruction-packet__rev-2023-10.pdf",
+        "sha256": "f2c8a0b1b8a4b3d82e4041f25b8bbf62a61e8e93b8d243274c06aa1cc11fb602",
+        "byteLength": 630042,
+        "pageCount": 15,
+        "custody": "held Nationwide source; current remote binary hash not separately measured"
+      },
+      "verifiedFacts": [
+        "Official current reader identifies Form 283 as the Proposed Order.",
+        "Instruction pages 2-4 require two packets containing Form 281, Proposed Order Form 283, SBI cover letter, and certified criminal history in that order.",
+        "Page 15 is Form 283 Rev 6/20, Order Granting Expungement of Adult Record, Family Court."
+      ],
+      "releaseEffect": "The order identity is factually resolved, but the current candidate is missing the required component and no native legal-resolution/adoption record exists. Keep BLOCKED_LEGAL_INPUT pending governed source adoption, implementation, and re-review."
+    },
+    {
+      "blocker": "family_court_fee_and_security_cost",
+      "status": "CURRENT_SCHEDULE_FACT_RESOLVED_NATIVE_RECONCILIATION_PENDING",
+      "officialReaderUrl": "https://www.courts.delaware.gov/forms/download.aspx?id=116568",
+      "officialReaderObservation": {
+        "document": "Family Court Schedule of Assessed Costs",
+        "effectiveDate": "2026-07-20",
+        "pdfPage": 2,
+        "specificEntry": "Expungement of Criminal Adult or Juvenile Record — 0.00",
+        "specificNote": "No cost for criminal-record expungement, adult or juvenile, including archive fee and court security assessment.",
+        "pdfPage3Conflict": "The generic civil court security assessment list still names Petition for Expungement of Adult Record."
+      },
+      "assessment": "The specific expungement entry and its express no-archive/no-security note are the exact exception to the generic page-3 list for this filing. The conflict must be captured in the native legal/source record before release; it does not justify retaining the stale $75 statement.",
+      "invalidDirectDownloads": [
+        {
+          "path": "/tmp/de-family-court-exact-blocker-sources/fees.pdf",
+          "sha256": "e5f351c89391dac97939d98452f3fc3362099d81f80e502c04cb3c8ce81de36d",
+          "byteLength": 244,
+          "pageCount": 1,
+          "reason": "WAF URL-rejection response; not source custody"
+        }
+      ],
+      "releaseEffect": "The current fee amount is resolved by the official schedule, but the candidate instructions/metadata still say unresolved $75 and the queue currentLegalResolution is null. Keep family BLOCKED_LEGAL_INPUT until the native legal/source adoption updates the fee and reconciles the specific-vs-generic schedule text."
+    },
+    {
+      "blocker": "85_del_laws_c142_section10",
+      "status": "ENACTED_TEXT_SCOPE_RESOLVED_NATIVE_LEGAL_INTAKE_PENDING",
+      "officialReaderUrl": "https://legis.delaware.gov/SessionLaws/Chapter?id=42304",
+      "heldMarkup": {
+        "path": "/tmp/de-family-court-exact-blocker-sources/85-142.html",
+        "sha256": "1c4fb89b3ec68f4b094389d31e2e08421f31d3df298caf4930b2710d5bb94283",
+        "byteLength": 248038,
+        "format": "official session-law HTML with underline insertion and line-through deletion styling"
+      },
+      "verifiedFacts": [
+        "Section 10 amends §4374(e)'s victim-contact sentence: the struck address/telephone destination is replaced by contact under §9414(a) of Title 11.",
+        "The subsection's final definition, victim means as defined in §9401 of Title 11, remains unchanged.",
+        "The remaining §4374(e) obligations inspected here, including petitioner service, the Attorney General's 120-day response period, the criminal-history attachment, and reporting the victim position, are not changed by the marked replacement."
+      ],
+      "markupNote": "The source HTML splits the final r of the struck word number outside the strike-through span; this is a rendering markup artifact. The semantic old/new replacement is address/telephone contact → §9414(a) contact.",
+      "releaseEffect": "The enacted text resolves the amendment's scope, but the current native legal memo/guide and queue have not adopted it as a DE Family Court determination. Keep BLOCKED_LEGAL_INPUT pending governed legal-intake/source update and implementation review."
+    }
+  ],
+  "resolvedFactualInputs": [
+    "Family Court Form 283 is the proposed-order component and is required in the prescribed packet order.",
+    "The current Family Court schedule lists adult criminal-record expungement at $0.00 and expressly excludes archive and court-security costs; page 3 carries a generic conflicting label that requires explicit precedence recording.",
+    "85 Del. Laws c. 142 §10 changes §4374(e) victim contact to §9414(a) and leaves the §9401 victim definition in place."
+  ],
+  "remainingAuthorityCustodyImplementationWork": [
+    "Adopt the held Form 283 source through the governed native source/legal records and add the component to the Family Court candidate before any semantic PASS.",
+    "Replace the stale unresolved-$75 fee text with the current $0.00 schedule fact only after the native record documents the page-2 specific exception and page-3 generic-list conflict.",
+    "Update the native §4374(e) legal/guide/product wiring to carry §9414(a) victim contact while preserving the §9401 definition; no exact DE Family Court legal-resolution row currently exists."
+  ],
+  "verdict": "BLOCKED_LEGAL_INPUT",
+  "packetPass": false,
+  "rasterDispatchAuthorized": false,
+  "terminalPromotionAuthorized": false,
+  "independence": {
+    "implementationTouched": false,
+    "packetBytesTouched": false,
+    "sharedQueueTouched": false,
+    "sharedVerifierRowsTouched": false,
+    "sharedManifestTouched": false,
+    "writes": [
+      "/tmp/de-family-court-vf44-source-blocker-review-20260912.json"
+    ]
+  }
+}

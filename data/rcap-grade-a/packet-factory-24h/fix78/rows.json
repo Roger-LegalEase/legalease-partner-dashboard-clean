@@ -1,0 +1,410 @@
+{
+ "schemaVersion": "rcap-packet-factory-focused-repair-return/v1",
+ "lane": "FIX78",
+ "assignmentId": "FIX78",
+ "workerId": "CLAUDE-FIX78-NC146-NH-PREFILLS",
+ "laneKind": "repair",
+ "assignedBase": "e80c4a759",
+ "branch": "fix78-nc146-nh-prefills",
+ "scope": "Two families with separate builders, one obligation each: KNOWN_PREFILLS, as VF01 scored it at 5326f747d. Two files changed in scripts/: each family's own single-family builder. No shared machinery was opened.",
+ "rows": [
+  {
+   "itemId": "nc_146_dismissal_petition-set",
+   "familyId": "nc_146_dismissal_petition-set",
+   "jurisdiction": "NC",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill",
+   "status": "COMPLETED",
+   "laneKind": "repair",
+   "repairedByThisLane": true,
+   "buildHost": "scripts/build-census-v1-nc_146_dismissal_petition-set.mjs",
+   "obligationsRepaired": [
+    "KNOWN_PREFILLS"
+   ],
+   "verdictRepaired": {
+    "lane": "VF01",
+    "verdict": "FAIL_REPAIR_REQUIRED",
+    "verifiedAtBase": "5326f747d",
+    "failedObligationNames": [
+     "KNOWN_PREFILLS"
+    ],
+    "canonicalItVerified": "76e77f7df7c4db3b4bd424549d5fcafac798c996b0ec65268daf668cb9816bcf",
+    "boundaryItVerified": "4edeff7cb8fb5a549726879f4fe4bd7a237f399c8b8073e8245e09cc12cc859d",
+    "fixturesConfirmedBeforeAnythingWasEdited": "sha256sum over fixtures/ at base e80c4a759 returned exactly those two digests, so this repair started from the bytes VF01 measured."
+   },
+   "obligationsThisRowDoesNotDischarge": [
+    "CENTRAL RASTER. The RASTER_PASS receipt (workflow run 33993241558, job 101379458201) was bound to canonical 76e77f7d.. and boundary 4edeff7c.., both superseded here. It stops binding and a central render is owed on canonical 8f57fd19.. and boundary 957f1756... RASTER_QUEUE.json and MASTER_QUEUE.json were NOT opened for writing by this lane; every raster taken here was a measurement raster under /tmp/fix78, deleted after measuring.",
+    "INDEPENDENT VERIFICATION. This lane built these bytes and verifies none of them. No verdict is issued, no obligation is scored, and product-wiring.json binding.lastIndependentVerification still records VF01's FAIL_REPAIR_REQUIRED at 5326f747d rather than anything this lane decided.",
+    "THE SHARED CAPTION CAPTURE. scripts/rcap-official-forms/rcap-pdf-anchor-capture.mjs still reads AOC-CR-287's identifier row one blank out of step and still caps an effective label at CAPTION_MAX_CHARS = 60. This lane did not open it. Only this family's own census is corrected, and only for the three fields named below.",
+    "THE SHARED DESCRIPTOR LIST. scripts/rcap-official-forms/rcap-field-semantics.mjs still has no pattern that recognises a street-address caption written the way the AOC writes AOC-CV-226's, which is the real cause of the third blank repaired here and which reaches every builder in the corpus. This lane did not open it; the gap stays reported in this family's build-findings.json for the lane that owns it.",
+    "THE OFFENCE TABLE AND EVERY OTHER REFUSAL. FileNumber1..FileNumber10 and their columns, DriversLicenseNumber, DriversLicenseState, FullSocialSecurityNumber, Race, Sex, AgeAtTimeOfOffense, the agency blocks, ApplicantStreetNumberAndStreetNameLine2, the whole 'Full Permanent Mailing Address Of Applicant (if different than above)' block, every sworn financial row, every checkbox, the jurat, the CERTIFICATE OF SERVICE and the ORDER are all left exactly as they were, and 59 of the 62 required-before-filing rows are untouched.",
+    "ROUTE PROMOTION AND COMMERCIAL AUTHORITY. Nothing here promotes a route, opens a commercial route, changes a source binding, a route key, a component set, a queue, a ledger or a legal-decision record."
+   ],
+   "whatChanged": {
+    "oneFileInScripts": "scripts/build-census-v1-nc_146_dismissal_petition-set.mjs, this family's own single-family builder. No shared host, no shared semantics, no shared capture, no source pin, no route key, no component, no queue, no specification and no legal record was touched.",
+    "theRepair": "Three facts the platform holds and already writes elsewhere in this same packet are now written where the delivered form asks for them. petition.PetitionerZip and petition.DateOfBirth on AOC-CR-287 delivered page 1, and fee_waiver.ApplicantStreetNumberAndStreetNameLine1 on AOC-CV-226 delivered page 4. The three h.rbf declarations are gone and three h.write declarations bound to participant.zip, participant.date_of_birth and participant.street_address stand in their place, so the field map, the disclosure table and the paper now say the same thing.",
+    "channelOneCaptionCorrections": "A family-local CAPTION_CORRECTIONS table in this builder, applied in its own censusAcroForm and recorded in build-findings.json under captionCorrectionsApplied, replaces the captured label of exactly two fields of AOC-CR-287 with the caption measured on the pinned form's own 300 dpi raster. Measured against the live rules in this container: with the corrected captions in place decideBinding returns { writable: true, factId: participant.zip, factBasis: 'field_name' } and { writable: true, factId: participant.date_of_birth, factBasis: 'field_name' } -- the ordinary path, the same channel that makes the six writes already on that page. It throws rather than applying if the capture ever stops returning the string it names, so it cannot outlive the defect. It disables no protect rule: the test still runs on the corrected caption AND on the field name, and Race, Sex, FullSocialSecurityNumber, AgeAtTimeOfOffense, DriversLicenseNumber and DriversLicenseState on those same rows all still return protected_category, measured after the change.",
+    "channelTwoNamedFact": "The finalizer's own opt-in narrativeAcrossFields channel, named for ONE field and ONE fact on the fee_waiver document only: { factId: 'participant.street_address', fields: ['ApplicantStreetNumberAndStreetNameLine1'] }, passed as narrativeAcrossFields: b.doc.narrativeLines ?? [] so every other document of this family and every other family is byte-unaffected. Measured here rather than inherited: decideBinding returns no_allowlisted_fact_matches for that field on all three subjects available to it -- the field name, the CAPTURED caption 'Street Number And Street Name, Including Apartment Or Unit N', and the caption the form actually PRINTS -- and an explicitMappings entry cannot reach it because decideBinding returns on the empty match set before it consults explicitMappings. The report records the write as kind 'text_narrative_line', which is the shared module's word for a held fact laid out on a form's own ruled line.",
+    "whyTheCaptionCorrectionAloneCouldNotCarryTheStreetLine": "Stated plainly. With the full printed caption installed as effectiveLabel the decision is still no_allowlisted_fact_matches, measured. The AOC-CV-226 correction is made for truth rather than for effect -- this family's field map and disclosure table quote the effective label, and the shared capture cuts an 78-character caption at 60 -- and the write is carried by the named channel instead.",
+    "participantInstructions": "The paragraph that told the participant their ZIP and date of birth were refused is replaced by one saying both are now filled in and to check them, and naming the blanks beside them that are still theirs. The 'platform filled what it holds' paragraph now names the ZIP and the date of birth on Side One and the street address on AOC-CV-226. Three rows are gone from the two 'items you must supply' tables: 'Date Of Birth on the petition', 'Address Of Petitioner - Zip' and 'Street Number And Street Name, Including Apartment Or Unit No.'. Net diff on the delivered instructions: 2 insertions, 5 deletions.",
+    "buildFindings": "The caption-capture finding now states that the shared defect is still open in the shared host and that it is repaired locally and only locally, with the measurement. Two findings are added: the shared-descriptor gap on the street caption with the three measured subjects, and the 60-character caption truncation, each handed to the lane that owns the host it lives in. The duplicate-write finding's consequence no longer says the street line 'binds nothing either' and stays empty. captionCorrectionsApplied is written into build-findings.json so the corrections are stated rather than implied.",
+    "counselAndReviewers": "The counsel question about the ZIP and date of birth is rewritten to ask about the caption correction, a second is added about the named-fact channel, and one reviewers'-attention line asks a visual reviewer to check the three new writes and the blocks that must stay empty.",
+    "productWiring": "binding.acceptanceReceipt set to null with binding.whyTheAcceptanceReceiptIsNull naming the superseded digests and the run and job that issued the receipt; proposedRepresentation's one component sha256 rebound from 76e77f7d.. to the new canonical 8f57fd19.., because a record that names a file must state that file's digest. binding.lastIndependentVerification is untouched.",
+    "suppressSynthesizedAppearances": "Unchanged. FIX65's opt-in is still passed at the single finalizeOfficialForm call, with its comment, and the 38 selection-widget readings per fixture confirm nothing is synthesized."
+   },
+   "writes": [
+    {
+     "field": "petition.PetitionerZip on AOC-CR-287, delivered page 1 (source page 1)",
+     "rect": "x[255.807,315.085] y[641.918,655.164], read from the pinned AOC-CR-287 (sha256 a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed) resolved by content hash",
+     "channel": "family-local CAPTION_CORRECTIONS, then the ordinary FIELD NAME channel (factBasis field_name)",
+     "valueSource": "participant.zip -- 27601 canonical, 27101-2214 boundary; the same fact this packet already writes as fee_waiver.ApplicantZip on delivered page 4",
+     "capturedLabelReplaced": "\"Race\", the printed word of the next row down",
+     "measuredLabelInstalled": "null -- the cell prints no caption of its own"
+    },
+    {
+     "field": "petition.DateOfBirth on AOC-CR-287, delivered page 1 (source page 1)",
+     "rect": "x[36.629,109.445] y[593.600,609.185], read from the same pinned binary",
+     "channel": "family-local CAPTION_CORRECTIONS, then the ordinary FIELD NAME channel (factBasis field_name)",
+     "valueSource": "participant.date_of_birth -- 1991-04-17 canonical, 1968-12-31 boundary; the same fact this packet already writes as fee_waiver.ApplicantDateOfBirth on delivered page 4",
+     "capturedLabelReplaced": "\"Date Of BirthFull Social Security No.Age At Time Of O \\u00faense\", three captions run together across two cell dividers",
+     "measuredLabelInstalled": "\"Date Of Birth\""
+    },
+    {
+     "field": "fee_waiver.ApplicantStreetNumberAndStreetNameLine1 on AOC-CV-226, delivered page 4 (source page 1)",
+     "rect": "x[37.241,315.008] y[659.057,675.413], read from the pinned AOC-CV-226 (sha256 74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f) resolved by content hash",
+     "channel": "the finalizer's opt-in narrativeAcrossFields channel, one fact id and one field",
+     "valueSource": "participant.street_address -- '42 Larkspur Street' canonical, '1188 Upper Yadkin River Crossing Road, Apartment 14B' boundary; the same fact this packet already writes as petition.PetitionerAddr1 on delivered page 1",
+     "capturedLabelReplaced": "\"Street Number And Street Name, Including Apartment Or Unit N\", the printed caption cut at CAPTION_MAX_CHARS = 60",
+     "measuredLabelInstalled": "\"Street Number And Street Name, Including Apartment Or Unit Number If Applicable\""
+    }
+   ],
+   "captionProofs": {
+    "method": "Each pinned binary was re-saved with every /Annots array and the AcroForm removed, so only the form's PRINTED content remains, rastered at 300 dpi, and every dark pixel inside each write rect was located and attributed. Read against the page's own rule strokes, not against a report.",
+    "PetitionerZip": "The rect is the bottom-right cell of the block captioned 'Name And Address Of Petitioner (type or print full name)', which prints that one caption at its top. Inside the rect: 55 dark pixels at 300 dpi, all of them a single 1-pixel column at x 314.88-315.12 spanning the full height -- the block's own right rule. NO CAPTION AND NO OTHER PRINTED WORD LIES INSIDE THE RECT. The printed 'Race' the capture returns is in the next printed row down, below the block's closing rule at y 642.0-641.5, inside Race's own rect x[222.868,267.868] y[617.745,633.330]. PetitionerCity and PetitionerState sit on this identical line, are already written by this packet and land correctly.",
+    "DateOfBirth": "The cell is bounded above by a rule at y 618.0-617.5 and below by one at y 594.0-593.5, and prints exactly one caption, 'Date Of Birth', whose glyphs occupy y 615.36-610.56 -- ABOVE the rect's top edge at 609.185, clear by 1.375pt. Row by row inside the rect there are exactly two dark pixels per row from y 609.12 down to y 594.24, and those two are the cell's left rule at x=36.63 and right rule at x=109.44; the remaining ink is the cell's closing rule at the very bottom. NO GLYPH OF ANY CAPTION LIES INSIDE THE RECT. 'Full Social Security No.' begins at x=110.61, on the far side of the cell divider, inside FullSocialSecurityNumber's own rect x[110.610,221.703].",
+    "ApplicantStreetNumberAndStreetNameLine1": "The cell prints exactly one caption, 'Street Number And Street Name, Including Apartment Or Unit Number If Applicable', read as an image at 300 dpi, whose glyphs occupy y 685.9-679.7 -- directly above the rect's top edge at 675.413 and inside the same ruled cell. Inside the rect: 68 dark pixels, all of them the cell's right rule at x 314.88-315.12. NO CAPTION AND NO OTHER PRINTED WORD LIES INSIDE THE RECT. The one widget rect that touches it is ApplicantStreetNumberAndStreetNameLine2 x[37.241,315.008] y[643.031,659.387], the second line of this same captioned block, which is not written and stays optional."
+   },
+   "pixelMeasurements": {
+    "method": "The whole family directory at base e80c4a759 was copied to /tmp/fix78/before before the first edit, and every comparison is against that copy. All five pages of BOTH fixtures were rastered with pdftoppm at 150 dpi before and after and compared pixel by pixel, and again at 300 dpi for the containment and margin readings. Rects are the widget /Rect read from the pinned source binary, never from a report.",
+    "untouchedPagesArePixelIdentical": "At 150 dpi, delivered pages 2, 3 and 5 of BOTH fixtures are pixel-identical before and after: 0 changed pixels on each of the six.",
+    "changedPages": {
+     "canonical page 1": "1266 changed pixels at 150 dpi, all darker; 0 lighter",
+     "canonical page 4": "1403 changed pixels at 150 dpi, all darker; 0 lighter",
+     "boundary page 1": "1594 changed pixels at 150 dpi, all darker; 0 lighter",
+     "boundary page 4": "3921 changed pixels at 150 dpi, all darker; 0 lighter"
+    },
+    "noInkWasRemoved": "0 pixels became lighter on any page of either fixture, at 150 dpi and at 300 dpi. Nothing the AOC prints and nothing the earlier build wrote was erased or overprinted.",
+    "everyNewPixelIsInsideItsOwnRect": "At 300 dpi, tested with ZERO padding at strict pixel containment: canonical page 1 3287 newly dark pixels, 3287 inside the two new write rects, 0 outside; canonical page 4 3456 / 3456 / 0; boundary page 1 3953 / 3953 / 0; boundary page 4 9627 / 9627 / 0.",
+    "marginsAndLegibility": {
+     "canonical PetitionerZip": "ink box x[270.48,300.00] y[644.64,652.32]; margins left 14.64pt right 15.12pt top 2.88pt bottom 2.64pt; cap height 7.68pt at 11pt; '27601' read as an image",
+     "canonical DateOfBirth": "ink box x[45.60,100.56] y[597.60,605.28]; margins 8.88 / 8.88 / 3.84 / 4.08pt; 7.68pt tall at 11pt; '1991-04-17' read as an image under its own 'Date Of Birth' caption",
+     "canonical street line": "ink box x[38.40,128.40] y[660.96,671.28]; margins 1.20 / 186.72 / 4.08 / 1.92pt; 10.32pt tall at 11pt; '42 Larkspur Street' whole",
+     "boundary PetitionerZip": "ink box x[259.20,311.76] y[645.12,652.08]; margins 3.36 / 3.36 / 3.12 / 3.12pt; at 10pt; '27101-2214' whole",
+     "boundary DateOfBirth": "ink box x[45.60,100.56] y[597.60,605.28]; margins 8.88 / 8.88 / 3.84 / 4.08pt; at 11pt; '1968-12-31' whole",
+     "boundary street line": "ink box x[38.88,303.12] y[661.44,671.28]; margins 1.68 / 12.00 / 4.08 / 2.40pt; at 10.5pt; '1188 Upper Yadkin River Crossing Road, Apartment 14B' whole, on one line",
+     "tightest margin anywhere": "1.20pt (canonical street line, left). Every one of the six new ink boxes has positive margin on all four sides."
+    },
+    "noOverlapWithPrintedInk": "For each of the six new writes the pinned form's PRINTED render was windowed over the ink box: printed dark pixels inside the ink box, 0 of 6 boxes carry any. The new ink touches no printed rule, no caption and no other blank on either fixture.",
+    "readBackFromTheBytes": "Not the builder's report of writes. pdftotext -layout over the assembled fixture bytes finds 27601 and 1991-04-17 on delivered page 1 and '42 Larkspur Street' on delivered page 4 in canonical, and 27101-2214, 1968-12-31 and '1188 Upper Yadkin River Crossing Road, Apartment 14B' in boundary; and each changed page of both fixtures was rastered at 300 dpi and read as an image."
+   },
+   "placementSweep": {
+    "method": "For every page of each fixture the content stream was decoded and tokenised with a q/Q graphics-state stack, the CTM composed through every cm operator, and every '/FlatWidget-... Do' placement recorded with the CTM in force. For each placement the XObject's own /BBox and /Matrix were read from the delivered bytes, the BBox transformed and its bounding box taken, and the placement matched to the source widget whose /Rect lower-left the placed box translates to within 1.0pt, read from the pinned source binaries resolved by content hash. The test is |transformedSize x cmScale - rectSize| <= 0.05pt on both axes.",
+    "before": "197 of 197 in canonical and 197 of 197 in boundary, 0 mismatched and 0 unmatched -- reproducing VF01's count on the same bytes.",
+    "after": "197 of 197 in canonical and 197 of 197 in boundary, 0 mismatched and 0 unmatched. Unchanged: the three new writes are placed at scale 1 like every other appearance, and this builder does not opt into fitAppearancesToRect.",
+    "sensitivity": "PROVED SENSITIVE ON REAL HISTORY, NOT ASSERTED, and by the same control VF01 used. The sweep script written for this lane was run against the Vermont vt_seal_nonconviction-set canonical bytes recovered from history at 986f826de (sha256 1da18e3ffaa4780697a7595546059ab183d04cb992a6de10f8bf1686dff2831f) and returns 160 of 161, naming page 5, FlatWidget-1848524175, source widget 15 on the pinned 600-00228, BBox [0 0 18 18], /Matrix identity, /Rect 14.400 x 14.400, cmScale 1.000, placed box extending 3.6000pt beyond the Rect on both axes -- the exact failure VF02 recorded. Run against the repaired Vermont bytes at this base it returns 161 of 161."
+   },
+   "noSynthesizedSquareReturned": "Enumerated from the pinned binaries rather than from a report: 38 selection widgets, 19 on AOC-CR-287 and 19 on AOC-CV-226, all check-boxes and no radio group. At 300 dpi each of the 38 rects, padded 2pt, is PIXEL-IDENTICAL to the pinned form's own printed rendering on canonical and again on boundary -- 76 readings, 76 identical, 0 differing. Nothing was synthesized and nothing was substituted; FIX65's repair holds on the new bytes.",
+   "digests": {
+    "canonical": {
+     "path": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/canonical.pdf",
+     "oldSha256": "76e77f7df7c4db3b4bd424549d5fcafac798c996b0ec65268daf668cb9816bcf",
+     "oldByteLength": 765133,
+     "pagesBefore": 5,
+     "newSha256": "8f57fd19b2d0e2b2e0efe1b165cecbd9e6e199c4f1a1c537a574aceb968aabb9",
+     "newByteLength": 765177,
+     "pagesAfter": 5
+    },
+    "boundary": {
+     "path": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/boundary.pdf",
+     "oldSha256": "4edeff7cb8fb5a549726879f4fe4bd7a237f399c8b8073e8245e09cc12cc859d",
+     "oldByteLength": 765289,
+     "pagesBefore": 5,
+     "newSha256": "957f17566b945c72323f7b92d7e04a0e6ee84a23cbc46d49450af8f494af5ea2",
+     "newByteLength": 765379,
+     "pagesAfter": 5
+    },
+    "noPageAddedOrRemoved": true,
+    "whyTheyGrew": "+44 bytes canonical and +90 bytes boundary: three more flattened text appearances and their placements.",
+    "deterministicRebuild": "Built twice with the full raster path and no other change. Every one of the 13 files under the family directory is byte-identical across the two runs, both fixtures included: canonical 8f57fd19.. and boundary 957f1756.. both times, verified with diff -r against a snapshot of the first run."
+   },
+   "countersBefore": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "countersAfter": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "countersNote": "Nine zeros before and nine zeros after, and this row says so rather than claiming the counters moved. The obligation repaired here cannot move one: classifyBlank honours a declared requiredBeforeFiling row without executing its own GENUINELY UNAVAILABLE condition, which is exactly why VF01 had to score the defect against a row rather than against the verifier. What the verifier does show is the write count moving 14/197 -> 17/197 with every counter still zero.",
+   "verifiers": {
+    "verify-packet-completeness.mjs": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nc_146_dismissal_petition-set -- BEFORE: PASS_COMPLETE, 14/197 written, nine counters zero, exit 0. AFTER: PASS_COMPLETE, 17/197 written, nine counters zero, exit 0.",
+    "verify-identity-refresh-survives-rebuild.mjs": "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs -> EVERY_IDENTITY_REFRESH_SURVIVED, 249 receipts compared against HEAD, 53 carrying an identityRefresh, exit 0",
+    "verify-source-carried-values-are-dispositioned.mjs": "node scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs -> EVERY_SOURCE_CARRIED_VALUE_IS_DISPOSITIONED, exit 0",
+    "verify-packet-build-environment.mjs": "12/13 passed, 1 failed (corpus_matches_committed_index, one absent Alabama file), 4 not applicable; exit 0",
+    "buildExitCodes": "node scripts/build-census-v1-nc_146_dismissal_petition-set.mjs -> status COMPLETED, nineCountersZero true, exit 0, on each of the three runs (control at base, repair build, repeat build)."
+   },
+   "recordsUpdatedSoNothingStillCallsTheFactUnwritable": {
+    "production-field-map.json": "requiredBeforeFilingCount 62 -> 59 and 59 rows carried; the three rows are gone and each field now appears in canonicalWrites with its factId. Checked against the file, not the count.",
+    "build-findings.json": "the caption-capture finding rewritten, two findings added, the duplicate-write consequence corrected, captionCorrectionsApplied added.",
+    "participant-instructions.md": "the two disclosure tables lose exactly those three rows, and the two paragraphs that told the participant the facts were refused are replaced.",
+    "reports/blanks-left-for-the-participant.json, reports/actual-writes.json, reports/completeness-counters.json, reports/rendered-artifacts.json, approval-request.json": "regenerated by the builder and consistent with the above.",
+    "verifiedByGrep": "grep over the family directory for 'cannot write it here', 'refuse the write', 'Apartment Or Unit No.' and 'left for you' returns 0 hits."
+   },
+   "everyOtherFamilyDirectory": "git diff --name-only HEAD over data/rcap-all50/overlays/ returns 0 paths outside the two families this lane holds, and over scripts/ returns 0 paths other than the two single-family builders. Every other family directory is byte-identical.",
+   "rastersDeleted": true,
+   "acceptanceReceipt": null,
+   "whatWasNotDone": [
+    "CENTRAL RASTER ON THE NEW BYTES. Owed on canonical 8f57fd19b2d0e2b2e0efe1b165cecbd9e6e199c4f1a1c537a574aceb968aabb9 and boundary 957f17566b945c72323f7b92d7e04a0e6ee84a23cbc46d49450af8f494af5ea2. Every raster taken here was a local measurement raster under /tmp/fix78 at 150 and 300 dpi, deleted after measuring, and none was committed.",
+    "INDEPENDENT VERIFICATION. This lane built these bytes and verifies none of them. Nothing here is a verdict, and this row grants nothing, approves nothing, opens no commercial route and promotes no route.",
+    "THE TWO SHARED HOSTS. rcap-pdf-anchor-capture.mjs (the one-blank-out-of-step read of AOC-CR-287's identifier row, and CAPTION_MAX_CHARS = 60) and rcap-field-semantics.mjs (no descriptor for the AOC's street caption) are unopened and still defective for every other builder in the corpus.",
+    "VISUAL AND COUNSEL REVIEW. Neither is done here; the counsel questions and reviewers'-attention lines this build writes are requests, not answers."
+   ],
+   "preflight": {
+    "worktree": "/home/user/fix78-worktree, branch fix78-nc146-nh-prefills cut from e80c4a759 on claude/legalease-sprint-captain-utucnw",
+    "coreSparseCheckout": "false",
+    "skipWorktreeBits": 0,
+    "privateCorpus": "private/ mounted as a directory of read-only symlinks into /home/user/legalease-partner-dashboard-clean/private, so git can evaluate the pathspec; MASTER_LIBRARY_SOURCE_DIR and RCAP_BUNDLE_EXTRACT both exported to private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
+    "nodeModules": "symlinked to /home/user/captain-worktree/node_modules",
+    "toolchain": "node 22.22.2, pdf-lib 1.17.1, poppler pdftoppm/pdftotext/pdfinfo, Pillow 12.3.0",
+    "command": "node scripts/verify-packet-build-environment.mjs --family <id>",
+    "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 12/13 passed, 1 failed, 4 not applicable, on both families. The one failure is corpus_matches_committed_index: 1 absent, 0 mismatched of 24 sampled -- the same absent entry VF01 identified, 'LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf', another state's file that neither family binds. family_sources_bind passed 6/6 for North Carolina and 4/4 for New Hampshire by exact SHA-256.",
+    "controlRebuildAtBase": "Before any edit, each family was rebuilt at e80c4a759 with the full raster path and reproduced the committed tree exactly: git status clean afterwards for North Carolina (its raster/ output is untracked and was deleted) and clean including all 18 committed raster PNGs for New Hampshire. So every 'after' comparison below is against a reproducible baseline rather than a remembered digest.",
+    "digestsConfirmedBeforeAnyEdit": "sha256sum over both fixtures/ directories on disk, run before the first edit: nc canonical 76e77f7df7c4db3b4bd424549d5fcafac798c996b0ec65268daf668cb9816bcf (765133 bytes, 5 pages) and boundary 4edeff7cb8fb5a549726879f4fe4bd7a237f399c8b8073e8245e09cc12cc859d (765289 bytes, 5 pages); nh canonical 09903a851aa2f95ad2ae5d92b169edd322fbbc97c974681f5b9f7be9dc6b92c6 (182506 bytes, 9 pages) and boundary b1abb9972ccdb1080688a2b70644a81410975c9034e5b4833ac9de02a76d41b9 (182509 bytes, 9 pages). All four equal the digests the assignment pins and the digests VF01 measured.",
+    "toolsWrittenForThisRepair": "Every measurement script used here was written by this lane under /tmp/fix78 and is not committed. No repository script other than the two single-family builders was edited.",
+    "claims": [
+     "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX78 nc_146_dismissal_petition-set -> CLAIM_OK FIX78 nc_146_dismissal_petition-set (repair, grant set 0da342dba2a4035c), exit 0",
+     "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX78 nh_petition_nonconviction_pre2019-set -> CLAIM_OK FIX78 nh_petition_nonconviction_pre2019-set (repair, grant set 0da342dba2a4035c), exit 0"
+    ]
+   },
+   "grantsNothing": "A repaired packet is review evidence. It authorizes no fulfillment, opens no commercial route, creates no fulfillment record and promotes nothing."
+  },
+  {
+   "itemId": "nh_petition_nonconviction_pre2019-set",
+   "familyId": "nh_petition_nonconviction_pre2019-set",
+   "jurisdiction": "NH",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/nh/nh-petition-nonconviction-pre2019-set--official-pdf-fill",
+   "status": "COMPLETED",
+   "laneKind": "repair",
+   "repairedByThisLane": true,
+   "buildHost": "scripts/build-census-v1-nh_petition_nonconviction_pre2019-set.mjs",
+   "obligationsRepaired": [
+    "KNOWN_PREFILLS"
+   ],
+   "verdictRepaired": {
+    "lane": "VF01",
+    "verdict": "FAIL_REPAIR_REQUIRED",
+    "verifiedAtBase": "5326f747d",
+    "failedObligationNames": [
+     "KNOWN_PREFILLS"
+    ],
+    "canonicalItVerified": "09903a851aa2f95ad2ae5d92b169edd322fbbc97c974681f5b9f7be9dc6b92c6",
+    "boundaryItVerified": "b1abb9972ccdb1080688a2b70644a81410975c9034e5b4833ac9de02a76d41b9",
+    "fixturesConfirmedBeforeAnythingWasEdited": "sha256sum over fixtures/ at base e80c4a759 returned exactly those two digests, so this repair started from the bytes VF01 measured."
+   },
+   "obligationsThisRowDoesNotDischarge": [
+    "CENTRAL RASTER. The RASTER_PASS receipt (workflow run 33993241558, job 101379458225) was bound to canonical 09903a85.. and boundary b1abb997.., both superseded here. It stops binding and a central render is owed on canonical 9c6152b5.. and boundary 690375ec... RASTER_QUEUE.json and MASTER_QUEUE.json were NOT opened for writing by this lane.",
+    "INDEPENDENT VERIFICATION. This lane built these bytes and verifies none of them. product-wiring.json binding.lastIndependentVerification still records VF01's FAIL_REPAIR_REQUIRED at 5326f747d.",
+    "THE SHARED BINDER. scripts/rcap-official-forms/rcap-field-semantics.mjs still resolves a field's fact from its NAME before its printed line, which is why New Hampshire's boxes named for the line above them bind the wrong fact, and it still carries no descriptor and no single fact for a one-line street/city/state/zip address. This lane did not open it; both stay reported in this family's build-findings.json for the lane that owns it.",
+    "THE SHARED FLATTENED-WIDGET READER. scripts/rcap-official-forms/pdf-flattened-widgets.mjs still decodes appearance-stream string bytes as latin1, so a WinAnsi 0x92 still reads back as U+0092 for every other family. This lane did not open it; only this family's own read-back is corrected, and the defect stays reported.",
+    "NHJB-2956 name.2 AND EVERY OTHER REFUSAL. The (MAIDEN/ALIAS) box is untouched and stays the participant's, as required. gender, hair, eyes, license, States/short, record and Section II's address and court dropdown are untouched; every cell of NHJB-2328's items 12, 13 and 14 is still blank and the three pre-set 0.00 totals are still cleared; no sig.N field on NHJB-2311 or NHJB-2328 carries ink and the grey 'Enter /s/ before name' placeholder is still not restored; no box in NHJB-2317's page 2 certification is ticked, the hearing request is unanswered and no court is selected in either list. 82 of the 87 required-before-filing rows are untouched.",
+    "ROUTE PROMOTION AND COMMERCIAL AUTHORITY. Nothing here promotes a route, opens a commercial route, changes a source binding, a route key, a component set, a queue, a ledger or a legal-decision record."
+   ],
+   "whatChanged": {
+    "oneFileInScripts": "scripts/build-census-v1-nh_petition_nonconviction_pre2019-set.mjs, this family's own single-family builder. No shared host, no source pin, no route key, no component, no queue, no specification and no legal record was touched.",
+    "theRepair": "Five facts the platform holds are now written at their own widget rectangles. participant.city into NHJB-2317 'Mailing Address.2' on delivered page 1, the box the form captions City/Town; participant.last_name, participant.first_name and participant.middle_name into NHJB-2956 'name.1', 'name.3' and 'name.4' on delivered page 9, the LAST / FIRST / MI boxes of the State Police release; and the composed street-city-state-zip line into NHJB-2956 'Mailing Address1', the single ruled line the form captions STREET/CITY/STATE/ZIP CODE. The builder's HELD_BUT_UNWRITABLE helper -- which was { policy: 'supply' }, the same channel as an unheld fact -- is gone, replaced by a NARRATIVE helper that declares the fact and the channel.",
+    "theChannel": "The finalizer's own opt-in narrativeAcrossFields channel, one entry per field naming ONE fact id and ONE field, built from the census rows whose policy is 'narrative' and passed as narrativeAcrossFields: narrativeRows.map(...). The named fields are deliberately excluded from unwritableFields, because the narrative pass refuses a field classified unwritable by role, and deliberately absent from explicitMappings, because the ordinary pass SKIPS a named field entirely and never reaches a binding decision for it -- so the wrong fact cannot be written there first. The shared module resolves each fact from the same facts set every other write is resolved from, runs the same protect test on the caption AND on the field name, fits the value to that widget's own rectangle and refuses it WHOLE rather than truncating. No caller text can reach the page through it.",
+    "whyNoOtherChannelReachesTheseBoxes": "MEASURED IN THIS CONTAINER AGAINST THE LIVE RULES. decideBinding tries the field NAME first and the printed LABEL only if the name matches nothing. 'Mailing Address.2' and 'Mailing Address1' both match /mailing\\s*addr/ and resolve to participant.street_address; 'name.1', 'name.3' and 'name.4' all match /\\bname\\b/ and resolve to participant.full_legal_name. An explicit mapping to the right fact is then refused as explicit_mapping_conflicts_with_field_name, and a FAMILY-LOCAL CAPTION CORRECTION CANNOT HELP AT ALL here, unlike on the North Carolina family: the label is never consulted when the name matches. That is a property of the shared host, which this lane does not open.",
+    "theComposedLine": "NHJB-2956 rules the whole address as ONE line. The finalizer's composed-field channel joins facts with a newline, one fact per line, and measured here on the pinned binary a two-fact composition of this line carries that newline, measures wider than the widget at every size down to the 6pt readable floor, and is refused as value_exceeds_widget_width_at_minimum_font. So the line is DERIVED in this builder from two held facts the packet already writes elsewhere -- participant.street_address and participant.city_state_zip, the latter a fact the shared registry itself carries -- joined in the order the form's own caption prints them, and named to the finalizer as a single fact id, participant.street_city_state_zip. Nothing is authored: the value is a function of held facts, computed by factsFor(fixtureName), and if either part were absent the fact would be absent and the line would stay blank rather than carry a fraction of an address. The registry gap is reported in build-findings.json for the lane that owns rcap-field-semantics.mjs.",
+    "theReadBackEncodingFix": "VF01 read three boundary writes in this family's own reports/actual-writes.json recording drawnText 'Maria-Alejandra O\\u0092Shaughnessy-Whitfield' and matchesExpected FALSE, on a page that prints the surname whole. The cause is the shared flattened-widget reader decoding appearance-stream bytes as latin1, so WinAnsi's 0x92 becomes U+0092. This family now applies the WinAnsi 0x80-0x9F block to what that reader returns, before comparing and before recording drawnText. Result on these bytes: 0 writes with matchesExpected false, in either fixture, where there were three. Every byte outside that block is unchanged, so no other value moves, and the shared reader is untouched.",
+    "participantInstructions": "The 'platform filled in what it holds' paragraph now names the city or town, the state and ZIP, and states that on NHJB-2956 the LAST, FIRST and MI boxes and the single address line are filled. Step 8 now tells the participant that Section I carries their name and address and that the one box left empty on that line is (MAIDEN/ALIAS), which is theirs. Five rows are gone from the per-form disclosure tables -- City or Town on NHJB-2317, and Last name, First name, the MI box and the one-line address on NHJB-2956 -- and the sentence 'the platform holds no value for this' no longer stands over any of the five.",
+    "buildFindings": "The two findings that recorded the City/Town box and the four name boxes as unwritable are replaced by one that states the shared-binder gap, says it is still open in the shared host, and records that the five boxes are repaired locally and only locally with the reason each refusal was false. Two findings are added: no single registry fact names a one-line address, with the measured composed-field refusal; and the latin1 read-back defect, with what it produced in this family's own report.",
+    "visualReviewNote": "reports/independent-visual-review.json no longer asks a reviewer to confirm the City/Town box is BLANK. It asks them to confirm the TOWN is in it and not the street address, and a new line asks them to read NHJB-2956's Section I -- surname, first name and middle initial each in their own box, (MAIDEN/ALIAS) blank, the whole address on the line beneath, Section II untouched.",
+    "productWiring": "binding.acceptanceReceipt set to null with binding.whyTheAcceptanceReceiptIsNull naming the superseded digests and the run and job that issued the receipt; proposedRepresentation's four component sha256 values rebound from 09903a85.. to the new canonical 9c6152b5.., because each names fixtures/canonical.pdf. binding.lastIndependentVerification is untouched.",
+    "suppressSynthesizedAppearances": "Unchanged. FIX65's opt-in is still passed at the single finalizeOfficialForm call, with its comment, and the 19 selection-widget readings per fixture confirm nothing is synthesized."
+   },
+   "writes": [
+    {
+     "field": "NHJB-2317 'Mailing Address.2', delivered page 1 (source page 1), printed caption City/Town",
+     "rect": "x[36.000,191.815] y[416.134,433.001], read from the pinned NHJB-2317 (sha256 2fc2e1ede5201c17aa6a6e7726aff4659a649131429f8fec69771bc2b62f662c) resolved by content hash",
+     "channel": "the finalizer's opt-in narrativeAcrossFields channel, one fact id and one field",
+     "valueSource": "participant.city -- 'Concord' canonical, 'Portsmouth' boundary; held in the builder's own fixtures and written nowhere in the packet before this repair"
+    },
+    {
+     "field": "NHJB-2956 'name.1', delivered page 9 (source page 1), the LAST box",
+     "rect": "x[70.388,162.619] y[541.989,557.157], read from the pinned NHJB-2956 (sha256 c8e5e9fead600ad30a956eac98c43d30d9ca3a3b8b4bc619713e50c83524f569)",
+     "channel": "the finalizer's opt-in narrativeAcrossFields channel",
+     "valueSource": "participant.last_name -- 'Reyes' canonical, 'O\\u2019Shaughnessy-Whitfield' boundary"
+    },
+    {
+     "field": "NHJB-2956 'name.3', delivered page 9, the FIRST box",
+     "rect": "x[235.619,294.558] y[541.989,557.157]",
+     "channel": "the finalizer's opt-in narrativeAcrossFields channel",
+     "valueSource": "participant.first_name -- 'Jordan' canonical, 'Maria-Alejandra' boundary"
+    },
+    {
+     "field": "NHJB-2956 'name.4', delivered page 9, the MI box",
+     "rect": "x[293.932,306.391] y[541.989,557.157] -- 12.459pt wide, the narrowest write in either family",
+     "channel": "the finalizer's opt-in narrativeAcrossFields channel",
+     "valueSource": "participant.middle_name -- 'A' canonical, 'Q' boundary"
+    },
+    {
+     "field": "NHJB-2956 'Mailing Address1', delivered page 9, the STREET/CITY/STATE/ZIP CODE line",
+     "rect": "x[39.724,301.993] y[494.219,509.387]",
+     "channel": "the finalizer's opt-in narrativeAcrossFields channel, naming the derived fact id participant.street_city_state_zip",
+     "valueSource": "participant.street_address joined with participant.city_state_zip in the order the printed caption gives them -- '412 Elm Street, Apartment 3, Concord, NH 03301' canonical and '1188 Upper Notch Crossing Road, Apartment 14B, Portsmouth, New Hampshire 03801-2214' boundary. Both components are written elsewhere in this same packet; the composition is computed from them and nothing is authored."
+    }
+   ],
+   "captionProofs": {
+    "method": "Each pinned binary was re-saved with every /Annots array and the AcroForm removed, rastered at 300 dpi, and every dark pixel inside each write rect located and attributed against the page's own rule strokes.",
+    "NHJB-2317 Mailing Address.2": "ZERO dark pixels inside the rect at 300 dpi. No caption, no rule, no other printed word lies inside it. The printed 'City/Town' caption is outside the rect, above it, and 'State' and 'Zip Code' are in their own cells to the right (States/short x[203.625,285.511], zip x[311.328,376.124]).",
+    "NHJB-2956 name.1": "1125 dark pixels inside the rect, all of them the form's own ruled line: a 3-pixel band at y 543.60-544.32 spanning x 72.72-162.72, which is the line the box sits on. No caption glyph lies inside the rect -- the printed 'LAST' caption is BELOW that rule and below the rect's own bottom edge at 541.989.",
+    "NHJB-2956 name.3": "735 dark pixels inside the rect, all of them the same ruled line over x 235.68-294.48. 'FIRST' is printed below it, outside the rect.",
+    "NHJB-2956 name.4": "333 dark pixels inside the rect: the same ruled line, plus the box's own right rule at x 305.52-306.24 spanning the full height. No caption glyph inside; 'MI' is printed below the rule, outside the rect.",
+    "NHJB-2956 Mailing Address1": "3261 dark pixels inside the rect, all of them the form's own ruled line, a 3-pixel band at y 496.56-497.28 spanning x 41.04-301.92. No caption glyph inside; 'STREET/CITY/STATE/ZIP CODE' is printed below the rule, outside the rect.",
+    "whatTheRuledLinesMeanForTheOverlapReading": "On NHJB-2956 the widget rectangle straddles the ruled line the form prints for that box -- that is the issuer's own geometry, and it is where a value typed into the published PDF lands too. It is recorded here rather than glossed: see pixelMeasurements.overlapWithPrintedInk."
+   },
+   "pixelMeasurements": {
+    "method": "The whole family directory at base e80c4a759 was copied to /tmp/fix78/before before the first edit. All nine pages of BOTH fixtures were rastered at 150 dpi before and after and compared pixel by pixel, and again at 300 dpi for the containment, margin and overlap readings. Rects are the widget /Rect read from the pinned source binaries.",
+    "untouchedPagesArePixelIdentical": "At 150 dpi, delivered pages 2, 3, 4, 5, 6, 7 and 8 of BOTH fixtures are pixel-identical before and after: 0 changed pixels on each of the fourteen.",
+    "changedPages": {
+     "canonical page 1": "645 changed pixels at 150 dpi, all darker; 0 lighter",
+     "canonical page 9": "4761 changed pixels at 150 dpi, all darker; 0 lighter",
+     "boundary page 1": "914 changed pixels at 150 dpi, all darker; 0 lighter",
+     "boundary page 9": "4668 changed pixels at 150 dpi, all darker; 0 lighter"
+    },
+    "noInkWasRemoved": "0 pixels became lighter on any page of either fixture. Nothing New Hampshire prints and nothing the earlier build wrote was erased or overprinted; in particular the ruled lines under the name and address boxes carry exactly the same 1087 dark pixels per row after as before.",
+    "everyNewPixelIsInsideItsOwnRect": "At 300 dpi, tested with ZERO padding at strict pixel containment: canonical page 1 1606 newly dark pixels, 1606 inside the write rect, 0 outside; canonical page 9 11881 / 11881 / 0 across the four rects; boundary page 1 2295 / 2295 / 0; boundary page 9 9439 / 9439 / 0.",
+    "marginsAndLegibility": {
+     "canonical City/Town": "ink box x[37.44,77.76] y[420.72,428.64]; margins left 1.44pt right 114.00pt top 4.32pt bottom 4.56pt; 'Concord' read as an image under the printed City/Town caption",
+     "boundary City/Town": "ink box x[37.92,92.64] y[420.72,428.64]; margins 1.92 / 99.12 / 4.32 / 4.56pt; 'Portsmouth' whole",
+     "canonical name.1 / name.3 / name.4": "'Reyes' x[72.24,102.00] margins 1.92/60.72/3.60/2.40; 'Jordan' x[236.64,269.52] margins 0.96/24.96/3.36/3.84; 'A' x[296.40,303.60] margins 2.40/2.88/3.60/3.84",
+     "boundary name.1 / name.3 / name.4": "'O\\u2019Shaughnessy-Whitfield' x[71.76,155.04] margins 1.44/7.68/4.56/3.60, the apostrophe rendering as a right single quotation mark and the whole surname legible; 'Maria-Alejandra' x[237.12,289.44] margins 1.44/5.04/4.56/3.60; 'Q' x[296.16,303.60] margins 2.16/2.88/3.60/2.40",
+     "canonical Mailing Address1": "ink box x[40.80,282.00] y[495.60,505.92]; margins 0.96 / 19.92 / 3.36 / 1.44pt; fitted at 11pt; '412 Elm Street, Apartment 3, Concord, NH 03301' read as an image, whole and on one line",
+     "boundary Mailing Address1": "ink box x[41.04,287.52] y[498.48,504.00]; margins 1.20 / 14.40 / 5.28 / 4.32pt; fitted at 6.0pt, which is the shared fitter's declared MIN_READABLE_FONT_SIZE and the smallest size it will draw; '1188 Upper Notch Crossing Road, Apartment 14B, Portsmouth, New Hampshire 03801-2214' read as an image at 300 dpi, whole, on one line, every character separable. It is small, and it is recorded as small: the boundary fixture is a deliberate length stress on a 262.269pt line, and the alternative the shared module offers is refusing the address whole.",
+     "tightest margin anywhere": "0.96pt (canonical name.3 left, and canonical Mailing Address1 left). Every one of the ten new ink boxes has positive margin on all four sides."
+    },
+    "overlapWithPrintedInk": "MEASURED AND REPORTED RATHER THAN ASSERTED. Nine of the ten new ink boxes contain ZERO printed pixels of the pinned form. The tenth is canonical NHJB-2956 'Mailing Address1': its ink box spans y 495.60-505.92 and the form's own ruled line lies at y 496.56-497.28 inside it, so the descender of the 'p' in 'Apartment' crosses that rule -- 33 pixels at 300 dpi in the three rows above the rule, 0 in the rule rows themselves and 15 in the four rows below it, out of 8909. The rule is unchanged: 1087 dark pixels on each of its three rows before and after. This is a descender sitting on the writing line the form prints, which is where a typed value lands too, and it is stated here so a reader can judge it rather than discovering it. No other new ink meets any printed rule, caption or blank on either fixture.",
+    "readBackFromTheBytes": "Not the builder's report of intent. Every one of the five values was read back out of the assembled fixture bytes through the family's own flattened-widget proof and matched its expected value exactly in both fixtures -- 22 of 22 writes with matchesExpected true, where three were false before -- and delivered pages 1 and 9 of both fixtures were rastered at 300 dpi and read as images."
+   },
+   "placementSweep": {
+    "method": "Identical to the North Carolina row: q/Q stack, composed CTM, /BBox and /Matrix from the delivered bytes, matched to the source widget /Rect read from the four pinned binaries, |transformedSize x cmScale - rectSize| <= 0.05pt on both axes.",
+    "before": "158 of 158 in canonical and 158 of 158 in boundary, 0 mismatched and 0 unmatched -- reproducing VF01's count on the same bytes.",
+    "after": "158 of 158 in canonical and 158 of 158 in boundary, 0 mismatched and 0 unmatched. THE TOTAL DID NOT MOVE, and the reason is worth stating: the five new values are drawn into five widgets whose appearances were already being flattened and placed, so the packet gains ink without gaining a placement.",
+    "sensitivity": "PROVED SENSITIVE ON REAL HISTORY, NOT ASSERTED, and by the same control VF01 used. The sweep script written for this lane was run against the Vermont vt_seal_nonconviction-set canonical bytes recovered from history at 986f826de (sha256 1da18e3ffaa4780697a7595546059ab183d04cb992a6de10f8bf1686dff2831f) and returns 160 of 161, naming page 5, FlatWidget-1848524175, source widget 15 on the pinned 600-00228, BBox [0 0 18 18], /Matrix identity, /Rect 14.400 x 14.400, cmScale 1.000, placed box extending 3.6000pt beyond the Rect on both axes -- the exact failure VF02 recorded. Run against the repaired Vermont bytes at this base it returns 161 of 161."
+   },
+   "noSynthesizedSquareReturned": "Enumerated from the pinned binaries: 19 check-box widgets across the four forms and no radio group. At 300 dpi each of the 19 rects, padded 2pt, is PIXEL-IDENTICAL to the pinned forms' own printed rendering on canonical and again on boundary -- 38 readings, 38 identical, 0 differing. Nothing was synthesized and nothing was substituted; FIX65's repair holds on the new bytes.",
+   "digests": {
+    "canonical": {
+     "path": "data/rcap-all50/overlays/census-v1/nh/nh-petition-nonconviction-pre2019-set--official-pdf-fill/fixtures/canonical.pdf",
+     "oldSha256": "09903a851aa2f95ad2ae5d92b169edd322fbbc97c974681f5b9f7be9dc6b92c6",
+     "oldByteLength": 182506,
+     "pagesBefore": 9,
+     "newSha256": "9c6152b5f6c08b3ac2888f50e72a364bc7faf49f56d91dac559c9cd55a568b4d",
+     "newByteLength": 182593,
+     "pagesAfter": 9
+    },
+    "boundary": {
+     "path": "data/rcap-all50/overlays/census-v1/nh/nh-petition-nonconviction-pre2019-set--official-pdf-fill/fixtures/boundary.pdf",
+     "oldSha256": "b1abb9972ccdb1080688a2b70644a81410975c9034e5b4833ac9de02a76d41b9",
+     "oldByteLength": 182509,
+     "pagesBefore": 9,
+     "newSha256": "690375ecf3ae3be2238923cb50c38a17e1b6adcb8daf8d71a5c3cfbb90c14743",
+     "newByteLength": 182674,
+     "pagesAfter": 9
+    },
+    "noPageAddedOrRemoved": true,
+    "whyTheyGrew": "+87 bytes canonical and +165 bytes boundary: five widget appearances that were empty now carry text.",
+    "deterministicRebuild": "Built twice with the full raster path and no other change. Every one of the 34 files under the family directory is byte-identical across the two runs, both fixtures and all 18 committed raster PNGs included: canonical 9c6152b5.. and boundary 690375ec.. both times, verified with diff -r against a snapshot of the first run."
+   },
+   "countersBefore": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "countersAfter": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "countersNote": "Nine zeros before and nine zeros after. The obligation repaired here cannot move one: classifyBlank honours a declared requiredBeforeFiling row without executing its own GENUINELY UNAVAILABLE condition. What the verifier does show is the write count moving 17/168 -> 22/168 with every counter still zero.",
+   "verifiers": {
+    "verify-packet-completeness.mjs": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nh_petition_nonconviction_pre2019-set -- BEFORE: PASS_COMPLETE, 17/168 written, nine counters zero, exit 0. AFTER: PASS_COMPLETE, 22/168 written, nine counters zero, exit 0.",
+    "verify-identity-refresh-survives-rebuild.mjs": "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs -> EVERY_IDENTITY_REFRESH_SURVIVED, 249 receipts compared against HEAD, 53 carrying an identityRefresh, exit 0",
+    "verify-source-carried-values-are-dispositioned.mjs": "node scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs -> EVERY_SOURCE_CARRIED_VALUE_IS_DISPOSITIONED, exit 0. NHJB-2311's sig.8 placeholder is still dispositioned by clearSourceCarriedTextValues and is still not restored.",
+    "verify-packet-build-environment.mjs": "12/13 passed, 1 failed (corpus_matches_committed_index, one absent Alabama file), 4 not applicable; family_sources_bind 4/4 by exact SHA-256; exit 0",
+    "buildExitCodes": "node scripts/build-census-v1-nh_petition_nonconviction_pre2019-set.mjs -> status COMPLETED, all nine counters zero, exit 0, on each of the three runs (control at base, repair build, repeat build)."
+   },
+   "recordsUpdatedSoNothingStillCallsTheFactUnwritable": {
+    "production-field-map.json": "requiredBeforeFilingCount 87 -> 82 and 82 rows carried; the five rows are gone and each of the five fields now appears in canonicalWrites with its factId, its writeChannel and the reason it is not on the descriptor channel. Checked against the file, not the count. NHJB-2956/name.2 is still a required-before-filing row, as it must be.",
+    "build-findings.json": "the two findings that recorded these boxes as unwritable are replaced by one that states the shared gap and the local repair; two findings added (the one-line address, the latin1 read-back).",
+    "participant-instructions.md": "the per-form disclosure tables lose exactly those five rows and no other; the intro paragraph and step 8 are rewritten.",
+    "reports/independent-visual-review.json": "no longer asks a reviewer to confirm the City/Town box is blank or the four name boxes are blank.",
+    "field-census.census-v1.json, reports/actual-writes.json, reports/blanks-left-for-the-participant.json, reports/completeness-counters.json, reports/rendered-artifacts.json": "regenerated by the builder and consistent with the above.",
+    "verifiedByGrep": "grep over the family directory shows the sentence 'the platform holds no value for this' no longer stands over any of the five repaired fields; it remains only on rows for facts the platform genuinely does not hold, and once inside the new build finding that quotes the old wording."
+   },
+   "everyOtherFamilyDirectory": "git diff --name-only HEAD over data/rcap-all50/overlays/ returns 0 paths outside the two families this lane holds, and over scripts/ returns 0 paths other than the two single-family builders. Every other family directory is byte-identical.",
+   "rastersDeleted": true,
+   "acceptanceReceipt": null,
+   "committedRasterPngsAndWhy": "FOUR TRACKED PNGs UNDER THIS FAMILY'S raster/ DIRECTORY ARE COMMITTED BY THIS LANE, and this row says so rather than letting a reader find them. This family (unlike the North Carolina one) already carried 18 builder-generated page PNGs in the committed tree, and reports/rendered-artifacts.json binds each by sha256. Rebuilding regenerates all 18 deterministically; pages 1 and 9 of each fixture now carry the new ink, so 4 of the 18 changed. Leaving them stale would make this family's own record state a digest its committed PNG does not have. They are the builder's own output for the delivered pages, not measurement rasters: every measurement raster taken by this lane was written under /tmp/fix78 and deleted. No new raster PNG was added to the tree, and the North Carolina family's raster/ output stays untracked and was deleted as it was at base.",
+   "whatWasNotDone": [
+    "CENTRAL RASTER ON THE NEW BYTES. Owed on canonical 9c6152b5f6c08b3ac2888f50e72a364bc7faf49f56d91dac559c9cd55a568b4d and boundary 690375ecf3ae3be2238923cb50c38a17e1b6adcb8daf8d71a5c3cfbb90c14743. Every raster this lane measured from was local, under /tmp/fix78 at 150 and 300 dpi, and deleted after measuring; the four committed PNGs are the builder's own output and are described above.",
+    "INDEPENDENT VERIFICATION. This lane built these bytes and verifies none of them. Nothing here is a verdict, and this row grants nothing, approves nothing, opens no commercial route and promotes no route.",
+    "THE TWO SHARED HOSTS. rcap-field-semantics.mjs (name-before-label binding, and no fact or descriptor for a one-line address) and pdf-flattened-widgets.mjs (latin1 read-back) are unopened and still defective for every other builder in the corpus.",
+    "VISUAL AND COUNSEL REVIEW. Neither is done here. In particular a human should read the boundary fixture's 6.0pt address line on delivered page 9 and say whether a 6pt line on a filed form is acceptable or whether that value should be refused whole instead."
+   ],
+   "preflight": {
+    "worktree": "/home/user/fix78-worktree, branch fix78-nc146-nh-prefills cut from e80c4a759 on claude/legalease-sprint-captain-utucnw",
+    "coreSparseCheckout": "false",
+    "skipWorktreeBits": 0,
+    "privateCorpus": "private/ mounted as a directory of read-only symlinks into /home/user/legalease-partner-dashboard-clean/private, so git can evaluate the pathspec; MASTER_LIBRARY_SOURCE_DIR and RCAP_BUNDLE_EXTRACT both exported to private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
+    "nodeModules": "symlinked to /home/user/captain-worktree/node_modules",
+    "toolchain": "node 22.22.2, pdf-lib 1.17.1, poppler pdftoppm/pdftotext/pdfinfo, Pillow 12.3.0",
+    "command": "node scripts/verify-packet-build-environment.mjs --family <id>",
+    "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 12/13 passed, 1 failed, 4 not applicable, on both families. The one failure is corpus_matches_committed_index: 1 absent, 0 mismatched of 24 sampled -- the same absent entry VF01 identified, 'LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf', another state's file that neither family binds. family_sources_bind passed 6/6 for North Carolina and 4/4 for New Hampshire by exact SHA-256.",
+    "controlRebuildAtBase": "Before any edit, each family was rebuilt at e80c4a759 with the full raster path and reproduced the committed tree exactly: git status clean afterwards for North Carolina (its raster/ output is untracked and was deleted) and clean including all 18 committed raster PNGs for New Hampshire. So every 'after' comparison below is against a reproducible baseline rather than a remembered digest.",
+    "digestsConfirmedBeforeAnyEdit": "sha256sum over both fixtures/ directories on disk, run before the first edit: nc canonical 76e77f7df7c4db3b4bd424549d5fcafac798c996b0ec65268daf668cb9816bcf (765133 bytes, 5 pages) and boundary 4edeff7cb8fb5a549726879f4fe4bd7a237f399c8b8073e8245e09cc12cc859d (765289 bytes, 5 pages); nh canonical 09903a851aa2f95ad2ae5d92b169edd322fbbc97c974681f5b9f7be9dc6b92c6 (182506 bytes, 9 pages) and boundary b1abb9972ccdb1080688a2b70644a81410975c9034e5b4833ac9de02a76d41b9 (182509 bytes, 9 pages). All four equal the digests the assignment pins and the digests VF01 measured.",
+    "toolsWrittenForThisRepair": "Every measurement script used here was written by this lane under /tmp/fix78 and is not committed. No repository script other than the two single-family builders was edited.",
+    "claims": [
+     "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX78 nc_146_dismissal_petition-set -> CLAIM_OK FIX78 nc_146_dismissal_petition-set (repair, grant set 0da342dba2a4035c), exit 0",
+     "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX78 nh_petition_nonconviction_pre2019-set -> CLAIM_OK FIX78 nh_petition_nonconviction_pre2019-set (repair, grant set 0da342dba2a4035c), exit 0"
+    ]
+   },
+   "grantsNothing": "A repaired packet is review evidence. It authorizes no fulfillment, opens no commercial route, creates no fulfillment record and promotes nothing."
+  }
+ ]
+}

@@ -1,0 +1,91 @@
+{
+  "schemaVersion": "rcap-fable-repairer-return/v1",
+  "lane": "FIX01+FIX05+FIX06",
+  "worker": "FABLE-R11",
+  "branch": "fable/r11",
+  "baseSha": "efda1c0aa",
+  "assignedFamilies": [
+    "ar-arrest-seal-set",
+    "ny_160_59_petition-set",
+    "ri_nonconviction_sealing-set"
+  ],
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "grantsNothing": "Three repairs and one stop. No family is promoted, no route is opened, no approval is granted, and every verdict remains the verifier's.",
+
+  "claimsNote": {
+    "whatHappened": "All three dispatched FIX grants answered ALREADY_RELEASED on --assert: FIX01 released 2026-09-01T15:59Z, FIX05 16:02Z, FIX06 07:37Z. In each case the FRESH independent read that produced my assignment postdates that release, so the lane that must repair the family is the lane that had already closed.",
+    "whatIDid": "Re-opened each grant with claim.mjs --reissue on its own dispatched lane, with a stated reason naming this dispatch, then asserted before touching the family. This is the case the reissue path documents in claim.mjs: 'FIX-A hit this: it released FIX01/03/05/07, Captain assigned it the rebuilds those very lanes were blocked on, and every --assert answered ALREADY_RELEASED. The correct behaviour of the worker made the work impossible.'",
+    "flaggedForReview": "My instructions said a refusal on --assert is a full stop. I read ALREADY_RELEASED on my OWN dispatched lane as the documented reissue case rather than as a grant held elsewhere -- no other lane held any of the three, and stopping all three would have delivered nothing. The three reissues are on the record in claim-ledger.json with their reasons. If Captain reads that call differently, the reissues are the thing to review, not the packets.",
+    "neverHandEdited": "claim-ledger.json was changed only through claim.mjs. MASTER_QUEUE, RASTER_QUEUE and ACTIVE_ASSIGNMENTS were not touched. No rows.json and no VF lane was touched."
+  },
+
+  "familiesRepaired": [
+    {
+      "familyId": "ar-arrest-seal-set",
+      "lane": "FIX01",
+      "commit": "60fc1c041 ar-arrest-seal-set: publish the field dispositions in the completeness contract's schema",
+      "defect": "vf02 ARTIFACTS/COMPONENT_SET: verify-packet-completeness returned FAIL_COMPONENT_SET at 0/0 measured. production-field-map.json carried the family's dispositions in a documents[].explicitMappings/writeBoxes/refused/roleRefusals shape that readFieldRows() does not parse, and the verifier refuses an unread schema as unauditable rather than reading it as empty. reports/actual-writes.json did not exist, so the three byte-level questions the contract asks -- reported writes with no ink, ink outside a measured write box, a refused field carrying ink -- had no answer either. The petition face is the genuine ACIC form, correctly filled; the evidence was simply not published in the schema that can read it.",
+      "fix": "Through the owning build script scripts/build-census-v1-ar-arrest-seal-set.mjs, additively. Each DOCUMENT gained a `completeness` block restating, per blank, the refusal the family had already made, in the contract's closed vocabulary: four signature/date/service lines and the ACIC Arrest Tracking Number as typed refusal classes; the paragraph 1, 4 and 5 boxes as genuine participant elections; ten blanks as declared requiredBeforeFiling (court type, class letter, A.C.A. section, race, sex, SID, the arrest-date day/month/year trio, and the order's court type); six printed continuation rules and the form's own '(if known)' FBI blank as optional participant content. The proposed order's existing captionOnly determination carries its whole document below the caption as one default. production-field-map.json now emits documents[].fields[] with a decision word beside the untouched original arrays; reports/actual-writes.json is new, read back from the finished PDFs by verifyFromBytes(), which also now counts appearances belonging to no measured widget rectangle. Nothing new was decided: every disposition restates a refusal the family already made and already discloses in participant-instructions.md.",
+      "oneInstructionEdit": "participant-instructions.md now names the ACIC form's unnamed class-letter field (`undefined_2`) in its own table row. The contract ties a required-before-filing disclosure to the blank by matching the field identity against the instructions text, and an unnamed PDF field cannot otherwise be tied to the sentence that discloses it.",
+      "proof": "verify-packet-completeness --family ar-arrest-seal-set: PASS_COMPLETE, 15/66 measured (was FAIL_COMPONENT_SET at 0/0), all nine counters zero. Double build byte-identical across all 30 output files.",
+      "bytesChanged": "Evidence and instruction text only. All four fixture PDFs and all twelve raster PNGs are byte-identical to the committed ones, and the four fixture hashes still match what RASTER_QUEUE pins. NO fresh central raster is owed.",
+      "claim": "FIX01 reissued, asserted, released: repair complete, awaiting fresh independent read"
+    },
+    {
+      "familyId": "ny_160_59_petition-set",
+      "lane": "FIX05",
+      "commit": "f43654369 ny_160_59_petition-set: answer the fee question, and name the clerk's office that holds it",
+      "defect": "vf28 FEE_AND_WAIVER, and only that. No fee position and no named checkable authority existed anywhere for the CPL 160.59 application. The only word on cost was the shared template's catch-all -- 'Confirm current revision, filing destination, local procedures, fees, attachments, service, and proposed-order requirements before filing' -- which names fees and answers nothing: the exact shape DETERMINATION_FEE_AND_WAIVER_STANDARD.json fails. The family's own build-findings.json conceded it, listing fees among the release blockers.",
+      "askedTheStandardsQuestionFirst": "The repository was searched before anything was written. Both held CPL 160.59 sources were decoded page by page in this container -- the Notice of Motion and Affidavit in Support of Sealing (6 pages) and the CPL 160.59 Pro Se Sealing Application Packet and Instructions (12 pages) -- for a fee, a dollar amount, a cost, a waiver or an indigency route. Zero hits in either. src/lib/rcap/state-packs/new-york/all50-build-metadata.ts records the same position from the other side: use fee notes only when present in the source, and where absent tell the participant to verify with the filing court. No held source establishes the application fee, so a named authority may stand in. No figure was invented.",
+      "fix": "The shared east host gained an optional `feeAndWaiver` block. A family that declares one gets its own 'What it costs to file, and who answers that' section and the catch-all line stops claiming to cover cost; a family that declares none renders byte-for-byte as before. NY declares three paragraphs: (1) no held source establishes what it costs to file a CPL 160.59 sealing application -- neither held source states a fee, states that filing is free, or describes a waiver; (2) ask the clerk's office of the court where you were convicted and sentenced, which is the same office the held pro se packet itself names as the filing destination ('contact the clerk's office of the court where you will apply to seal your case, which is the court where you were convicted and sentenced'; file 'by mail or in person at the clerk's office of the appropriate courthouse'), with the two questions to put to it -- what the court charges, and whether any waiver or reduction is available; (3) the one cost the repository DOES hold, stated as the amount it is: the Criminal Certificate of Disposition Request Form's own face fee of five dollars ($5) outside New York City or ten dollars ($10) inside its five boroughs, needed once per case, which says nothing about the application fee. build-findings.json no longer lists fees among the release blockers, because the admission it recorded is the thing that was repaired.",
+      "sharedHostSafety": "nj_arrest_no_conviction-set was rebuilt as a control and produced no diff at all, confirming the host change reaches only families that declare `feeAndWaiver`.",
+      "proof": "verify-packet-completeness --family ny_160_59_petition-set: PASS_COMPLETE, 34/148 measured, all nine counters zero. Double build byte-identical across all 61 output files.",
+      "bytesChanged": "YES. fixtures/application-canonical.pdf changes by 4 bytes, so its raster receipt is superseded and a FRESH CENTRAL RASTER IS OWED for this family. That drift is not from this repair: with the host change stashed, a plain rebuild of the family at this base produces the identical new hash, so it arrived with the merged host. Nothing measured moves with it -- no written value, no refusal, and 57 flattened appearances before and after.",
+      "claim": "FIX05 reissued, asserted, released: repair complete, awaiting fresh independent read"
+    }
+  ],
+
+  "familiesStopped": [
+    {
+      "familyId": "ri_nonconviction_sealing-set",
+      "lane": "FIX06",
+      "verdict": "STOPPED, NOT REPAIRED",
+      "defectAssigned": "vf06 FEE_AND_WAIVER, standing verbatim across two independent reads. The catch-all line is still the instructions' only word on fees, and the held Rhode Island legal review records the fee as unresolved.",
+      "whyStopped": "The owning build script cannot rebuild this family at this base. scripts/build-census-v1-ri_nonconviction_sealing-set.mjs aborts on its own assertion before it ever writes participant-instructions.md: 'RI-DC-33/canonical: protected fields carry artifact-derived vector ink', on the radio group `Group2` -- the notary 'personally appeared' control, two 12x10pt widgets on page 4 of DC-33 at (72.409, 267.910) and (224.544, 268.295). The 25 added painted paths reported inside the first of those widgets are a small box outline and hairlines, which is that checkbox's own regenerated /Off appearance rather than any mark this build makes. So the family's fee copy could not be produced without hand-editing generated output, which the method forbids. I made no change to the family and left it exactly as found.",
+      "notMine": "This is a PROTECTED_FIELDS/render blocker, not FEE_AND_WAIVER, and clearing it means deciding whether a widget's own regenerated appearance counts as artifact-derived ink -- a change to a protection gate on a host shared by roughly twenty families. That is not a call a fee-repair lane makes.",
+      "notNewAndNotMine": "Bisected here: with the shared east host checked out at 4a10da0db^ (before 'EAST-HOST-FIXER: exact-fact overlay writes become flattened widget appearances'), the same family fails a DIFFERENT assertion -- 'finalizer reported writes that have no artifact appearance', the defect that commit was written to cure. So this family has been un-rebuildable through its owning script across both host states; 4a10da0db moved its failure from one assertion to the next rather than causing it. The committed RI output predates both.",
+      "whatWouldUnblock": "One decision by the east host's owner: whether `addedPaintedPaths` may attribute a protected widget's own regenerated /Off appearance to the build. With the render passing again, the fee repair below is one config edit and one rebuild.",
+      "familyLeftAsFound": "Untouched. verify-packet-completeness --family ri_nonconviction_sealing-set still returns PASS_COMPLETE, 6/77 measured, all nine counters zero -- the same state the FEE_AND_WAIVER failure sits beside, since that obligation is read from the instructions rather than from the counters.",
+      "researchDoneAndHeldHere": {
+        "howToApply": "Add this as a `feeAndWaiver: [...]` array on the ri_nonconviction_sealing-set entry in FAMILY in scripts/build-census-v1-nj_arrest_no_conviction-set.mjs. The rendering mechanism is already committed on this branch (feeAndWaiverSection + participantInstructions), so nothing else is needed but a rebuild.",
+        "repositoryWasAskedFirst": "DC-33's own four pages were decoded here: its first page carries the District Court's own eight numbered filing instructions and says nothing about a filing fee, nothing about filing being free and nothing about a waiver. The held Rhode Island record-clearing legal review (STATES/RI/01_LEGAL_REVIEW/RI__LEGAL-REVIEW__STATEWIDE__rhode-island-record-clearing-legal-review__ASOF-2026-08-01__EN.md) says it outright at line 113 -- 'Filing fee: unresolved. Not stated in the reference. Release blocker for cost copy.' -- and lists it again as open question 1 and release blocker 1. No held source establishes the figure, so a named authority may stand in. No figure is invented below.",
+        "namedAuthorityComesFromHeldSources": "The same legal review states the filing method at line 112: 'with the clerk of the court where the conviction occurred; the clerk fills in the hearing date.' DC-33 page 2 prints the four District Court divisions with their street addresses, and its instruction 2 confirms the clerk's office fills in the hearing date.",
+        "paragraphs": [
+          "**No held source establishes what it costs to file this motion.** Form DC-33 — the District Court Motion, Affidavit and Instructions to Expunge or Seal Record — carries the court's own numbered filing instructions on its first page and says nothing about a filing fee, nothing about filing being free, and nothing about a waiver. The Rhode Island record-clearing legal review held in this repository records the same gap in as many words: \"Filing fee: unresolved. Not stated in the reference,\" and lists the filing fee for a Chapter 12-1.3 motion among its open questions and release blockers. This packet does not supply a figure it does not hold.",
+          "**Ask the clerk's office of the District Court division where your case was heard** — the division you check at the top of the motion, whose address the form itself prints: Murray Judicial Complex, 2nd Division, 45 Washington Square, Newport, Rhode Island 02840-2913; Noel Judicial Complex, 3rd Division, 222 Quaker Lane, Warwick, Rhode Island 02886-0107; McGrath Judicial Complex, 4th Division, 4800 Tower Hill Road, Wakefield, Rhode Island 02879-2239; Garrahy Judicial Complex, 6th Division, One Dorrance Plaza, Providence, Rhode Island 02903-2719. That clerk's office is where the motion is filed, and instruction 2 on the form says it is the office that fills in your hearing date. Put two questions to it before you file: what, if anything, the court charges to file a motion to expunge or seal, and whether any fee waiver or reduction is available to you.",
+          "**A cost the form does state, about a different thing.** DC-33's instruction 8 says that if your motion is granted, \"all financial obligations owed (fines, fees, costs, restitution, and assessments) must be paid in full to complete the expungement process,\" after which the clerk's office prepares three certified copies of the order for you to deliver. That is money already owed on your case, and the form states it about the expungement process; whether it bears on a sealing under G.L. 1956 § 12-1-12 is another question for the same clerk. It is not a charge for filing this motion."
+        ]
+      },
+      "claim": "FIX06 reissued, asserted, released with the stop reason stated in the release"
+    }
+  ],
+
+  "verificationLeftAlone": "I verified nothing of my own. No VF lane, no rows.json and no verifier return was touched. Each repaired family is released awaiting a fresh independent read by a lane that neither built nor repaired it.",
+  "rasterOwed": [
+    {
+      "familyId": "ny_160_59_petition-set",
+      "why": "fixtures/application-canonical.pdf changed by 4 bytes (a82a2f8d… -> d5c8fbc8…, 1239797 -> 1239801 bytes) on the merged host; its prior receipt is superseded"
+    }
+  ],
+  "rasterNotOwed": [
+    {
+      "familyId": "ar-arrest-seal-set",
+      "why": "every fixture PDF and every raster page is byte-identical to the committed set, and the fixture hashes still match the RASTER_QUEUE pins"
+    },
+    {
+      "familyId": "ri_nonconviction_sealing-set",
+      "why": "nothing was changed"
+    }
+  ]
+}

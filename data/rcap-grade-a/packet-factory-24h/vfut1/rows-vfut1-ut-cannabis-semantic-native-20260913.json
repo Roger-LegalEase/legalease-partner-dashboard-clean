@@ -1,0 +1,786 @@
+{
+  "schemaVersion": "rcap-independent-verifier-return/v1",
+  "lane": "VFUT1",
+  "laneKind": "independent-verification",
+  "status": "COMPLETED",
+  "semanticStatus": "FAIL_REPAIR_REQUIRED",
+  "rasterDispatchAuthorized": false,
+  "finalAcceptance": false,
+  "visualMeasured": false,
+  "generatedAt": "2026-09-13T05:51:29Z",
+  "reviewedAt": "2026-09-13T05:51:29Z",
+  "verifiedAtBase": "255d9252a659cb0e1d618cc4d61189edf324e846",
+  "currentRepositoryHead": "255d9252a659cb0e1d618cc4d61189edf324e846",
+  "familyId": "ut_pet_cannabis-set",
+  "verdict": "FAIL_REPAIR_REQUIRED",
+  "terminalPromotionAuthorized": false,
+  "commercialAuthorityGranted": false,
+  "sourceSemanticReturn": {
+    "path": "data/rcap-grade-a/packet-factory-24h/vfut1/rows-vfut1-ut-cannabis-semantic-20260913.json",
+    "sha256": "c216982c40f699b75adc764e46f64522b31949b89ae52f98de958d7ec8ef89db",
+    "verdict": "FAIL_REPAIR_REQUIRED",
+    "preservedUnchanged": true
+  },
+  "originalCustody": {
+    "status": "NOT_HELD",
+    "path": null,
+    "sha256": null,
+    "runId": null,
+    "artifactId": null,
+    "pagesMeasured": 0
+  },
+  "rows": [
+    {
+      "familyId": "ut_pet_cannabis-set",
+      "itemId": "ut_pet_cannabis-set",
+    "jurisdiction": "UT",
+    "lane": "VFUT1",
+    "laneKind": "independent-verification",
+    "reviewer": "/root/act346_order_review",
+      "sessionIdentity": "/root/act346_order_review",
+      "reviewPhase": "INDEPENDENT_CURRENT_BYTE_NONVISUAL_SEMANTIC_REVIEW",
+      "verifiedAt": "2026-09-13T05:51:29Z",
+      "verifiedAtBase": "255d9252a659cb0e1d618cc4d61189edf324e846",
+      "actualHeadAtReview": "255d9252a659cb0e1d618cc4d61189edf324e846",
+      "packetCommitSha": "255d9252a659cb0e1d618cc4d61189edf324e846",
+      "manifestCommitSha": "255d9252a659cb0e1d618cc4d61189edf324e846",
+      "candidateCodeCommit": "e1be5a7909118b554b953ee9cbe3de22703d1796",
+      "status": "COMPLETED",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "scope": "Bounded independent current-byte semantic review of the frozen PF05 Utah cannabis packet candidate and participant instructions. The review records the exact current canonical/boundary bytes, source bindings, protected-field and write evidence, and the four participant-facing semantic failures. It does not edit packet/source/queue bytes, claim visual acceptance, or grant final, terminal, runtime or commercial authority. CLIPPING_AND_OVERLAP is not measurable until central original raster custody is available.",
+      "claimEvidence": {
+        "result": "PRESERVED_ASSIGNMENT",
+        "assignment": "The existing PF05/VFUT1 independent-review assignment was preserved; this native-format correction made no claim-ledger mutation.",
+        "claimMutation": "none"
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "reviewMode": "INDEPENDENT_CURRENT_BYTE_NONVISUAL_SEMANTIC_REVIEW",
+          "basis": "Independent current-byte review of the frozen PF05 candidate, source receipt, participant guidance and native reports; this correction changes return shape and declared vocabulary only.",
+          "finding": "familyId, route key and routeSelectionId agree across the frozen return, source receipt, production-field-map.json, product-wiring.json and the current track registry: ut_pet_cannabis-set, obligation:track-pathway:UT:ut_pet_cannabis:path-j-cannabis-possession-petition-without-a-bci-certificate, and ut-cannabis-possession-direct-court-no-bci.",
+          "evidence": [
+            "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/product-wiring.json",
+            "data/record-clearing/legal-design-track-registry.json",
+            "data/record-clearing/legal-design-packet-set-manifests.json"
+          ]
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "reviewMode": "INDEPENDENT_CURRENT_BYTE_NONVISUAL_SEMANTIC_REVIEW",
+          "basis": "Independent current-byte review of the frozen PF05 candidate, source receipt, participant guidance and native reports; this correction changes return shape and declared vocabulary only.",
+          "finding": "All five receipt bindings were independently resolved with makeCorpusEntryResolver after requireMasterLibraryEnvironment. Each actual path exists, resolves to the declared custody, and matches the receipt and corpus-index SHA-256, byte length and page count. 1003EX, 1044XX, 1146XX and 1148XX are in the Master Library; 1023EX is in Nationwide_Recovery_Pool_2026-09-02. The operational Nationwide directory remains a separate custody.",
+          "evidence": [
+            {
+              "sourceReceipt": "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/source-receipt.json",
+              "sourceReceiptSha256": "4cef50b7fa2679d54cb8605c264af54f581a483c70f0a850ce7248f1e4913f48",
+              "corpusIndex": "data/rcap-all50/local-source-corpus-index.json",
+              "corpusIndexSha256": "512a489ab79705c4b607bd09c5197e9e8beb2a22180ee0848e4673ab5fe3aca0",
+              "masterLibraryRoot": "/workspaces/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
+              "recoveredSecondaryCustodyRoot": "/workspaces/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02",
+              "allFiveExact": true
+            }
+          ]
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "reviewMode": "INDEPENDENT_CURRENT_BYTE_NONVISUAL_SEMANTIC_REVIEW",
+          "basis": "Independent current-byte review of the frozen PF05 candidate, source receipt, participant guidance and native reports; this correction changes return shape and declared vocabulary only.",
+          "finding": "The five required official components are present in both fixtures in the declared order: 1003EX petition, 1023EX proposed order, 1044XX civil cover sheet, 1146XX acceptance of service, and 1148XX consent and waiver. The sixth required process-guidance component is present as participant-instructions.md. The page manifest is 1003EX pages 1-4, 1023EX pages 1-3, 1044XX pages 1-2, 1146XX page 1 and 1148XX pages 1-2.",
+          "evidence": [
+            "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/reports/rendered-artifacts.json",
+            "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/source-receipt.json",
+            "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/participant-instructions.md"
+          ]
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "reviewMode": "INDEPENDENT_CURRENT_BYTE_NONVISUAL_SEMANTIC_REVIEW",
+          "basis": "Independent current-byte review of the frozen PF05 candidate, source receipt, participant guidance and native reports; this correction changes return shape and declared vocabulary only.",
+          "finding": "The actual-write byte proof independently reads 20 writes across the two fixtures. Every expected value equals drawnText and is visible in the artifact bytes: participant address/city/phone/name, plus the proposed-order name and case number. No unsupported legal, medical, cannabis, court, prosecutor or service fact is prefilled.",
+          "evidence": [
+            {
+              "actualWrites": "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/reports/actual-writes.json",
+              "actualWritesSha256": "17edcb6cab6b419629d66d45b53deb25025238ffe8b152aaf7a13d4119f01abe",
+              "writeCount": 20,
+              "allVisible": true,
+              "expectedEqualsDrawn": true
+            }
+          ]
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "FAIL",
+          "reviewMode": "INDEPENDENT_CURRENT_BYTE_NONVISUAL_SEMANTIC_REVIEW",
+          "basis": "Independent current-byte review of the frozen PF05 candidate, source receipt, participant guidance and native reports; this correction changes return shape and declared vocabulary only.",
+          "finding": "The production map correctly surfaces 30 blank PDF fields, and the guide names those fields. It does not surface the committed packet-set's additional required participant actions as actionable before-filing items: obtain and attach medical records or a clinician letter, obtain charging/police/laboratory evidence of form and amount, obtain a certified judgment, verify the three statutory showings, and confirm the conviction date. The final source note merely mentions evidence and the heading claims 30 required fields, so the participant-facing count and instructions understate what the repository declares required before filing.",
+          "evidence": [
+            {
+              "participantInstructions": "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/participant-instructions.md",
+              "productionFieldMap": "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/production-field-map.json",
+              "declaredFieldCount": 30,
+              "registrySource": "data/record-clearing/legal-design-packet-set-manifests.json",
+              "registryFact": "The keyed ut_pet_cannabis packet set declares six document/confirmation actions and the three statutory showings as requiredBeforeFiling."
+            }
+          ],
+          "repair": "Add explicit before-filing obtain/attach/verify instructions for the medical, charging/police/lab and certified-judgment evidence and the three showings, while preserving the refusal that LegalEase does not inspect or assert those facts."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "reviewMode": "INDEPENDENT_CURRENT_BYTE_NONVISUAL_SEMANTIC_REVIEW",
+          "basis": "Independent current-byte review of the frozen PF05 candidate, source receipt, participant guidance and native reports; this correction changes return shape and declared vocabulary only.",
+          "finding": "The production map has 130 selection controls and every one is an explicit refusal. The route does not silently select a court, medical condition, cannabis form or amount; 1003EX and the ancillary response forms remain participant/responding-party controlled. product-wiring carries the route selection separately and the saved PDFs contain no generated checkbox or radio ink.",
+          "evidence": [
+            "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/production-field-map.json",
+            "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/reports/actual-writes.json",
+            "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/product-wiring.json"
+          ]
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "reviewMode": "INDEPENDENT_CURRENT_BYTE_NONVISUAL_SEMANTIC_REVIEW",
+          "basis": "Independent current-byte review of the frozen PF05 candidate, source receipt, participant guidance and native reports; this correction changes return shape and declared vocabulary only.",
+          "finding": "The family has no repeating data rows. Native completeness records incompleteRows=0 and the candidate's two fixtures contain the same declared component cardinality and order.",
+          "evidence": [
+            "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/reports/completeness-counters.json",
+            "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/reports/rendered-artifacts.json"
+          ]
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "reviewMode": "INDEPENDENT_CURRENT_BYTE_NONVISUAL_SEMANTIC_REVIEW",
+          "basis": "Independent current-byte review of the frozen PF05 candidate, source receipt, participant guidance and native reports; this correction changes return shape and declared vocabulary only.",
+          "finding": "The actual-write proof records zero withheld ink and all 130 selection controls as explicit refusals. 1146XX and 1148XX are no-fill documents with zero writes; court, prosecutor, judge, agency, victim, service and other response fields remain blank.",
+          "evidence": [
+            "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/reports/actual-writes.json",
+            "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/production-field-map.json"
+          ]
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "reviewMode": "INDEPENDENT_CURRENT_BYTE_NONVISUAL_SEMANTIC_REVIEW",
+          "basis": "Independent current-byte review of the frozen PF05 candidate, source receipt, participant guidance and native reports; this correction changes return shape and declared vocabulary only.",
+          "finding": "I rehashed both saved PDFs from disk and loaded each with pdf-lib. Canonical is 703209 bytes, SHA f4910777945ca9d74da2b5a1f84d9a37581696dc47bc95546ee21ca9c628f207, 12 pages; boundary is 703617 bytes, SHA e37c533a78f72029c9f078fb1115146c77c809326ebab8ff7ffc1e4aabda8d6c, 12 pages. Both match the frozen return and rendered-artifacts record.",
+          "evidence": [
+            "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/reports/rendered-artifacts.json",
+            "data/rcap-grade-a/packet-factory-24h/pf05/captain-candidate-transfer-20260913.json"
+          ]
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "reviewMode": "INDEPENDENT_CURRENT_BYTE_NONVISUAL_SEMANTIC_REVIEW",
+          "basis": "Independent current-byte review of the frozen PF05 candidate, source receipt, participant guidance and native reports; this correction changes return shape and declared vocabulary only.",
+          "finding": "The canonical and boundary manifests are identical and contain all 12 pages in the required 1003EX, 1023EX, 1044XX, 1146XX, 1148XX sequence. Every page's source SHA matches the independently verified source binding.",
+          "evidence": [
+            "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/reports/rendered-artifacts.json",
+            "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/source-receipt.json"
+          ]
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "reviewMode": "INDEPENDENT_CURRENT_BYTE_NONVISUAL_SEMANTIC_REVIEW",
+          "basis": "Independent current-byte review of the frozen PF05 candidate, source receipt, participant guidance and native reports; this correction changes return shape and declared vocabulary only.",
+          "finding": "Original raster appearance is not available in PF05 custody, so clipping and overlap cannot be independently measured here. Supporting byte geometry observations remain recorded: all 20 actual writes are visible in the current artifact bytes, expected values equal drawn text, and field-map outcomes are 11 fit and 9 shrunk with no unfittable outcome. Those observations do not constitute an original-raster visual result.",
+          "evidence": [
+            "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/reports/actual-writes.json",
+            "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/reports/rendered-artifacts.json"
+          ],
+          "visualDefects": null,
+          "supportingByteGeometry": {
+            "actualWrites": 20,
+            "allVisible": true,
+            "expectedEqualsDrawn": true,
+            "fit": 11,
+            "shrunk": 9,
+            "unfittable": 0
+          }
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "FAIL",
+          "reviewMode": "INDEPENDENT_CURRENT_BYTE_NONVISUAL_SEMANTIC_REVIEW",
+          "basis": "Independent current-byte review of the frozen PF05 candidate, source receipt, participant guidance and native reports; this correction changes return shape and declared vocabulary only.",
+          "finding": "The guide says only: 'File this packet in the Utah district court for the case shown on the judgment.' The committed ut_pet_cannabis venue and destination establish the court that decided the conviction, district or justice court, plus fallback when that court no longer exists and no-charge/traffic destinations. The current sentence excludes justice-court convictions and gives the wrong or incomplete destination for the held fallback cases.",
+          "evidence": [
+            {
+              "participantInstructions": "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/participant-instructions.md",
+              "trackRegistry": "data/record-clearing/legal-design-track-registry.json",
+              "trackRegistrySha256": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+              "declaredVenue": "The court that decided the criminal case, district or justice court; if it no longer exists, the court that would have jurisdiction today; if charges were never filed, district court in the arrest county, or for traffic, the citation court."
+            }
+          ],
+          "repair": "State the registry venue and its fallback branches in the participant guidance; keep the court and justice checkboxes unfilled for the participant to complete."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "reviewMode": "INDEPENDENT_CURRENT_BYTE_NONVISUAL_SEMANTIC_REVIEW",
+          "basis": "Independent current-byte review of the frozen PF05 candidate, source receipt, participant guidance and native reports; this correction changes return shape and declared vocabulary only.",
+          "finding": "The guide says a current civil filing fee applies, does not invent an amount, directs the participant to confirm it with the clerk, and names the current fee-waiver process. This satisfies the settled fee standard because the exact amount is a recorded release blocker and a checkable authority is named. The open fee question still prevents release/production approval. The exact current civil filing fee remains a release blocker; the packet correctly names the clerk and fee-waiver authority without inventing an amount.",
+          "evidence": [
+            "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/participant-instructions.md",
+            "data/record-clearing/legal-design-track-registry.json"
+          ],
+          "observation": "The exact current fee remains open for release/production approval and does not change this obligation result."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "FAIL",
+          "reviewMode": "INDEPENDENT_CURRENT_BYTE_NONVISUAL_SEMANTIC_REVIEW",
+          "basis": "Independent current-byte review of the frozen PF05 candidate, source receipt, participant guidance and native reports; this correction changes return shape and declared vocabulary only.",
+          "finding": "The guide correctly says the ordinary petitioner does not complete 1146XX or 1148XX and must not sign a prosecutor response. It does not state the operative service/notice path or timing held by the route: the court sends the filing to the prosecutor; the prosecutor has 35 days, the victim 60 days, the court waits 60 days, a participant may reply within 14 days, and AP&P may be ordered to respond and serve the parties with another 14-day reply period. 'Follow the court clerk current filing-copy instructions' leaves these required actors and deadlines undisclosed.",
+          "evidence": [
+            {
+              "participantInstructions": "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/participant-instructions.md",
+              "trackRegistry": "data/record-clearing/legal-design-track-registry.json",
+              "declaredNoticeRule": "Court sends filing to prosecutor; prosecutor 35 days; victim 60 days; court waits 60 days; participant reply 14 days; AP&P response may be ordered and served with a 14-day reply."
+            }
+          ],
+          "repair": "Add the repository's service and notice actors, optional Proof of Service exception, and the 35/60/60/14 timing and AP&P conditional branch without assigning petitioner service or pre-signing a response."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "FAIL",
+          "reviewMode": "INDEPENDENT_CURRENT_BYTE_NONVISUAL_SEMANTIC_REVIEW",
+          "basis": "Independent current-byte review of the frozen PF05 candidate, source receipt, participant guidance and native reports; this correction changes return shape and declared vocabulary only.",
+          "finding": "The guide includes several useful stops, including non-citizens, hearings/objections, special certificates, public-interest disputes, conviction-count questions, protective orders, appellate records, medical evidence, cannabis form/amount evidence and non-possession offenses. It omits repository-established exclusions for an unfinished case, unpaid fines/fees/restitution/interest, a pending non-traffic criminal case, and current incarceration/probation/parole. A participant meeting one of those conditions is not told to stop.",
+          "evidence": [
+            {
+              "participantInstructions": "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/participant-instructions.md",
+              "trackRegistry": "data/record-clearing/legal-design-track-registry.json",
+              "declaredExclusions": [
+                "unfinished case",
+                "unpaid fines, fees, restitution or interest",
+                "pending criminal case other than traffic",
+                "current incarceration, probation or parole"
+              ]
+            }
+          ],
+          "repair": "Add each omitted exclusion as a hard stop, preserving the existing non-citizen, evidence and protected-actor warnings."
+        }
+      },
+      "obligationCounts": {
+        "PASS": 10,
+        "FAIL": 4,
+        "NOT_MEASURABLE_HERE": 1,
+        "allMeasured": false
+      },
+      "failedObligationNames": [
+        "REQUIRED_BEFORE_FILING",
+        "FILING_DESTINATION",
+        "SERVICE",
+        "SELF_HELP_STOP"
+      ],
+      "unmeasuredObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": null,
+        "allNonvisualZero": true,
+        "allNineZero": false,
+        "measuredHere": true,
+        "visualMeasuredHere": false,
+        "nativeCompletenessResult": "PASS_COMPLETE",
+        "nativeCompletenessInterpretation": "The native nine-counter result does not measure the four participant-facing semantic failures and is not an independent semantic PASS."
+      },
+      "currentCandidateBindings": {
+        "reviewedHead": "255d9252a659cb0e1d618cc4d61189edf324e846",
+        "packetCommitSha": "255d9252a659cb0e1d618cc4d61189edf324e846",
+        "candidateCodeCommit": "e1be5a7909118b554b953ee9cbe3de22703d1796",
+        "workerReturn": "data/rcap-grade-a/packet-factory-24h/pf05/rows-pf05-ut-cannabis-resume-complete-20260913.json",
+        "workerReturnSha256": "bc2538392a7c72630e6057b84df6a7c67bd7b68bb3c8e68270cf141fd683b705",
+        "captainTransferCommit": "255d9252a659cb0e1d618cc4d61189edf324e846",
+        "transferReceipt": "data/rcap-grade-a/packet-factory-24h/pf05/captain-candidate-transfer-20260913.json",
+        "transferReceiptSha256": "f8fb280f41cba3b7aa4f06c0991a97b1f1165923ea229a0ccf4a2fc5fcc65061",
+        "overlayDirectory": "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill",
+        "primaryCanonical": {
+          "fixture": "canonical",
+          "role": "primary canonical",
+          "formSet": [
+            "1003EX",
+            "1023EX",
+            "1044XX",
+            "1146XX",
+            "1148XX"
+          ],
+          "path": "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "f4910777945ca9d74da2b5a1f84d9a37581696dc47bc95546ee21ca9c628f207",
+          "byteLength": 703209,
+          "pageCount": 12,
+          "selected": true
+        },
+        "primaryBoundary": {
+          "fixture": "boundary",
+          "role": "primary boundary",
+          "formSet": [
+            "1003EX",
+            "1023EX",
+            "1044XX",
+            "1146XX",
+            "1148XX"
+          ],
+          "path": "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "e37c533a78f72029c9f078fb1115146c77c809326ebab8ff7ffc1e4aabda8d6c",
+          "byteLength": 703617,
+          "pageCount": 12,
+          "selected": true
+        },
+        "documents": [
+          {
+            "fixture": "canonical",
+            "role": "primary canonical",
+            "formSet": [
+              "1003EX",
+              "1023EX",
+              "1044XX",
+              "1146XX",
+              "1148XX"
+            ],
+            "path": "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/fixtures/canonical.pdf",
+            "sha256": "f4910777945ca9d74da2b5a1f84d9a37581696dc47bc95546ee21ca9c628f207",
+            "byteLength": 703209,
+            "pageCount": 12,
+            "selected": true
+          },
+          {
+            "fixture": "boundary",
+            "role": "primary boundary",
+            "formSet": [
+              "1003EX",
+              "1023EX",
+              "1044XX",
+              "1146XX",
+              "1148XX"
+            ],
+            "path": "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/fixtures/boundary.pdf",
+            "sha256": "e37c533a78f72029c9f078fb1115146c77c809326ebab8ff7ffc1e4aabda8d6c",
+            "byteLength": 703617,
+            "pageCount": 12,
+            "selected": true
+          }
+        ],
+        "metadata": [
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/source-receipt.json",
+            "sha256": "4cef50b7fa2679d54cb8605c264af54f581a483c70f0a850ce7248f1e4913f48",
+            "byteLength": 3314
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/production-field-map.json",
+            "sha256": "6a10b0e9d9045647e9e051698840061a077043242e0cfdc42a9ad2e3af20ddf2",
+            "byteLength": 646982
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/field-census.census-v1.json",
+            "sha256": "a612f6929ac03bcb88ea8d04b7bc725424e46f63aa81994a8e1cb385fe1dd608",
+            "byteLength": 365077
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/participant-instructions.md",
+            "sha256": "3b8684818df0b46247f5d15836afdc531b357bbed1521d409a83f927f5ad9fe0",
+            "byteLength": 8616
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/product-wiring.json",
+            "sha256": "a06985934210ff5a1ff731a3f71e36fb4c39da308bc3c2faedaa4e820f7584c5",
+            "byteLength": 897
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/reports/actual-writes.json",
+            "sha256": "17edcb6cab6b419629d66d45b53deb25025238ffe8b152aaf7a13d4119f01abe",
+            "byteLength": 194430
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/reports/completeness-counters.json",
+            "sha256": "993f91ab0af3d4763ef85822849481d27565b506bee11db8d2c144d078a2d88f",
+            "byteLength": 2765
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/reports/rendered-artifacts.json",
+            "sha256": "c6413425a0b030d162871bcac57bd20a7af4c410421ffba37413a2687a28ee4e",
+            "byteLength": 6277
+          },
+          {
+            "path": "data/rcap-grade-a/packet-factory-24h/pf05/captain-candidate-transfer-20260913.json",
+            "sha256": "f8fb280f41cba3b7aa4f06c0991a97b1f1165923ea229a0ccf4a2fc5fcc65061",
+            "byteLength": 2801
+          },
+          {
+            "path": "data/rcap-grade-a/packet-factory-24h/pf05/relocation-captain-verification-20260913.json",
+            "sha256": "f272f337a943ae959b5b6cf7a2635dbd53c0bfcf8d2518dd28491c9192aad607",
+            "byteLength": 621
+          }
+        ],
+        "sourceReceipt": {
+          "path": "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/source-receipt.json",
+          "sha256": "4cef50b7fa2679d54cb8605c264af54f581a483c70f0a850ce7248f1e4913f48",
+          "byteLength": 3314
+        },
+        "renderedArtifacts": {
+          "path": "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/reports/rendered-artifacts.json",
+          "sha256": "c6413425a0b030d162871bcac57bd20a7af4c410421ffba37413a2687a28ee4e",
+          "byteLength": 6277,
+          "rasterState": "BUILT_RASTER_PENDING",
+          "everyPageRastered": false
+        },
+        "dependencyDeltaFromFrozenReview": {
+          "candidatePdfBytesChanged": false,
+          "sourceBytesChanged": false,
+          "queueOrRasterMetadataChanged": false,
+          "returnShapeOnlyCorrection": true,
+          "note": "The original semantic report is preserved as historical evidence; this return records the same review findings in native shape and vocabulary."
+        }
+      },
+      "byteProof": {
+        "status": "PASS_NONVISUAL",
+        "method": "Independent exact current-PDF hash/length/page binding plus saved actual-writes and rendered-artifacts byte reports; no original PNG raster claim.",
+        "exactPdfBindings": [
+          {
+            "fixture": "canonical",
+            "role": "primary canonical",
+            "formSet": [
+              "1003EX",
+              "1023EX",
+              "1044XX",
+              "1146XX",
+              "1148XX"
+            ],
+            "path": "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/fixtures/canonical.pdf",
+            "sha256": "f4910777945ca9d74da2b5a1f84d9a37581696dc47bc95546ee21ca9c628f207",
+            "byteLength": 703209,
+            "pageCount": 12,
+            "selected": true
+          },
+          {
+            "fixture": "boundary",
+            "role": "primary boundary",
+            "formSet": [
+              "1003EX",
+              "1023EX",
+              "1044XX",
+              "1146XX",
+              "1148XX"
+            ],
+            "path": "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/fixtures/boundary.pdf",
+            "sha256": "e37c533a78f72029c9f078fb1115146c77c809326ebab8ff7ffc1e4aabda8d6c",
+            "byteLength": 703617,
+            "pageCount": 12,
+            "selected": true
+          }
+        ],
+        "actualWrites": {
+          "path": "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/reports/actual-writes.json",
+          "sha256": "17edcb6cab6b419629d66d45b53deb25025238ffe8b152aaf7a13d4119f01abe",
+          "byteLength": 194430,
+          "count": 20,
+          "allVisible": true,
+          "expectedEqualsDrawn": true
+        },
+        "geometryObservations": {
+          "fieldMapOutcomes": {
+            "fit": 11,
+            "shrunk": 9,
+            "unfittable": 0
+          },
+          "protectedSelectionControlsPerFixture": 130,
+          "noFillDocuments": [
+            "1146XX",
+            "1148XX"
+          ]
+        },
+        "protectedRefusalInk": 0,
+        "visualMeasurement": "NOT_MEASURABLE_HERE: original raster appearance was not available to this lane."
+      },
+      "actualWriteProof": {
+        "path": "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/reports/actual-writes.json",
+        "sha256": "17edcb6cab6b419629d66d45b53deb25025238ffe8b152aaf7a13d4119f01abe",
+        "byteLength": 194430,
+        "derivedFromArtifactBytes": true,
+        "totalActualWrites": 20,
+        "writesByFixture": {
+          "canonical": 10,
+          "boundary": 10
+        },
+        "allDeclaredWritesVisible": true,
+        "expectedEqualsDrawn": true,
+        "invisibleWrites": 0,
+        "protectedInk": 0,
+        "protectedSelectionControls": 130,
+        "fieldMapOutcomes": {
+          "fit": 11,
+          "shrunk": 9,
+          "unfittable": 0
+        },
+        "noFillDocuments": [
+          "canonical/1146XX",
+          "canonical/1148XX",
+          "boundary/1146XX",
+          "boundary/1148XX"
+        ],
+        "interpretation": "Supporting current-byte geometry evidence only; it does not measure original raster appearance."
+      },
+      "sourceIdentity": {
+        "status": "PASS",
+        "allSourcesExact": true,
+        "sourceReceipt": {
+          "path": "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/source-receipt.json",
+          "sha256": "4cef50b7fa2679d54cb8605c264af54f581a483c70f0a850ce7248f1e4913f48",
+          "byteLength": 3314
+        },
+        "corpusIndex": {
+          "path": "data/rcap-all50/local-source-corpus-index.json",
+          "sha256": "512a489ab79705c4b607bd09c5197e9e8beb2a22180ee0848e4673ab5fe3aca0",
+          "allFiveExact": true
+        },
+        "documents": [
+          {
+            "documentId": "official-form:1003EX",
+            "formNumber": "1003EX",
+            "revision": "REV-2020-03-09",
+            "custody": "MASTER_LIBRARY",
+            "resolvedPath": "/workspaces/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/UT/02_PACKET_FORMS/UT__FORM__1003EX__petition-to-expunge-records-cannabis-conviction__REV-2020-03-09__EN.pdf",
+            "pathInArchive": "STATES/UT/02_PACKET_FORMS/UT__FORM__1003EX__petition-to-expunge-records-cannabis-conviction__REV-2020-03-09__EN.pdf",
+            "sha256": "a8432deaa902e26c18a215d20fcc0f90eaedd5a62c28d0cec79f3f65d17c4352",
+            "byteLength": 129711,
+            "pageCount": 4,
+            "exactHashVerified": true,
+            "corpusIndexAgrees": true
+          },
+          {
+            "documentId": "official-form:1023EX",
+            "formNumber": "1023EX",
+            "revision": null,
+            "custody": "NATIONWIDE_RECOVERY_POOL_2026-09-02",
+            "resolvedPath": "/workspaces/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Utah/1023EX_Order_Cannabis_Conviction.pdf",
+            "pathInArchive": "LegalEase Utah/1023EX_Order_Cannabis_Conviction.pdf",
+            "sha256": "24868a504130440532dd51f47b212e925815abc91c086a3bf67d5c014b5d002a",
+            "byteLength": 110830,
+            "pageCount": 3,
+            "exactHashVerified": true,
+            "corpusIndexAgrees": true
+          },
+          {
+            "documentId": "official-form:1044XX",
+            "formNumber": "1044XX",
+            "revision": "REV-2026-05-06",
+            "custody": "MASTER_LIBRARY",
+            "resolvedPath": "/workspaces/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/UT/02_PACKET_FORMS/UT__FORM__1044XX__district-court-cover-sheet-for-civil-actions__REV-2026-05-06__EN.pdf",
+            "pathInArchive": "STATES/UT/02_PACKET_FORMS/UT__FORM__1044XX__district-court-cover-sheet-for-civil-actions__REV-2026-05-06__EN.pdf",
+            "sha256": "b99586289df6304da5b34181bee95ec2b7f098806c1c949a0f112daeb0244a52",
+            "byteLength": 119736,
+            "pageCount": 2,
+            "exactHashVerified": true,
+            "corpusIndexAgrees": true
+          },
+          {
+            "documentId": "official-form:1146XX",
+            "formNumber": "1146XX",
+            "revision": "REV-2019-05-01",
+            "custody": "MASTER_LIBRARY",
+            "resolvedPath": "/workspaces/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/UT/05_SOURCE_GATED/UT__SOURCE-GATED__1146XX__acceptance-of-service-expungement__REV-2019-05-01__EN.pdf",
+            "pathInArchive": "STATES/UT/05_SOURCE_GATED/UT__SOURCE-GATED__1146XX__acceptance-of-service-expungement__REV-2019-05-01__EN.pdf",
+            "sha256": "39f1205f48bd73fc7b9686a101369be74a988b419697ea964c2ff5a5c0ce63ad",
+            "byteLength": 192790,
+            "pageCount": 1,
+            "exactHashVerified": true,
+            "corpusIndexAgrees": true
+          },
+          {
+            "documentId": "official-form:1148XX",
+            "formNumber": "1148XX",
+            "revision": "REV-2019-05-01",
+            "custody": "MASTER_LIBRARY",
+            "resolvedPath": "/workspaces/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/UT/05_SOURCE_GATED/UT__SOURCE-GATED__1148XX__consent-and-waiver-of-hearing-expungement__REV-2019-05-01__EN.pdf",
+            "pathInArchive": "STATES/UT/05_SOURCE_GATED/UT__SOURCE-GATED__1148XX__consent-and-waiver-of-hearing-expungement__REV-2019-05-01__EN.pdf",
+            "sha256": "43c6d4fd232f67453357b342794cac209da823ce4e93c686c285b42e553288",
+            "byteLength": 191518,
+            "pageCount": 2,
+            "exactHashVerified": true,
+            "corpusIndexAgrees": true
+          }
+        ],
+        "masterLibraryRoot": "/workspaces/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
+        "recoveredSecondaryCustodyRoot": "/workspaces/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02",
+        "operationalNationwideRoot": "separate operational custody; not substituted by this review",
+        "environmentValidation": "requireMasterLibraryEnvironment and makeCorpusEntryResolver were recorded as successful for all five exact bindings."
+      },
+      "currentArtifacts": [
+        {
+          "fixture": "canonical",
+          "role": "primary canonical",
+          "formSet": [
+            "1003EX",
+            "1023EX",
+            "1044XX",
+            "1146XX",
+            "1148XX"
+          ],
+          "path": "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "f4910777945ca9d74da2b5a1f84d9a37581696dc47bc95546ee21ca9c628f207",
+          "byteLength": 703209,
+          "pageCount": 12,
+          "selected": true
+        },
+        {
+          "fixture": "boundary",
+          "role": "primary boundary",
+          "formSet": [
+            "1003EX",
+            "1023EX",
+            "1044XX",
+            "1146XX",
+            "1148XX"
+          ],
+          "path": "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "e37c533a78f72029c9f078fb1115146c77c809326ebab8ff7ffc1e4aabda8d6c",
+          "byteLength": 703617,
+          "pageCount": 12,
+          "selected": true
+        }
+      ],
+      "rasterManifest": {
+        "status": "NOT_HELD",
+        "path": null,
+        "sha256": null,
+        "familyBatch": "ut_pet_cannabis-set",
+        "requestedScale": null,
+        "documentsDigest": null,
+        "note": "PF05 has no ORIGINAL_EVIDENCE_VERIFIED.json or original-raster manifest in the reviewed custody. The rendered-artifacts report is byte metadata only."
+      },
+      "rasterWorkflowPath": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+      "rasterEvidence": {
+        "status": "PENDING",
+        "runId": null,
+        "artifactId": null,
+        "visualPagesMeasured": 0,
+        "originalEvidencePresent": false
+      },
+      "finalAcceptance": false,
+      "terminalPromotionAuthorized": false,
+      "unfinishedGates": [
+        "repair participant guidance for REQUIRED_BEFORE_FILING, FILING_DESTINATION, SERVICE and SELF_HELP_STOP",
+        "fresh independent VFUT1 semantic review of the repaired current candidate",
+        "central original raster custody and independent visual acceptance for the repaired unchanged PDFs",
+        "recheck the exact current civil filing fee before release/production approval",
+        "Captain native integration and terminal closure"
+      ],
+      "independence": {
+        "implementationAuthor": "/root/resume_pf05_ut",
+        "implementationCodeCommit": "e1be5a7909118b554b953ee9cbe3de22703d1796",
+        "implementationEditsByReviewer": false,
+        "sourceBytesEditedByReviewer": false,
+        "packetBytesEditedByReviewer": false,
+        "rasterEditedByReviewer": false,
+        "sharedQueueOrManifestEditedByReviewer": false,
+        "claimLedgerEditedByReviewer": false,
+        "semanticRecordWrittenByReviewer": true,
+        "visualAcceptanceClaimed": false,
+        "historicalReportPreserved": true
+      },
+      "executionState": "SEMANTIC_FAIL_PENDING_REPAIR_AND_RASTER",
+      "commandsActuallyPassed": [
+        {
+          "operation": "native-shape-and-vocabulary-validation",
+          "result": "PASS",
+          "evidence": "Read-only local validation passed for native rows shape, declared family verdict, fifteen obligation names, allowed obligation results and historical-report preservation; the national extractor was not run."
+        },
+        {
+          "operation": "current-PDF-and-source-bindings",
+          "result": "PASS_RECORDED",
+          "evidence": "Current candidate, source receipt, source resolver and metadata hashes recorded in this return."
+        },
+        {
+          "operation": "native-completeness",
+          "result": "PASS_COMPLETE_RECORDED",
+          "evidence": "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/reports/completeness-counters.json SHA-256 993f91ab0af3d4763ef85822849481d27565b506bee11db8d2c144d078a2d88"
+        }
+      ],
+      "commercialAuthority": false,
+      "commercialAuthorityGranted": false,
+      "runtimeSelectable": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "packetPdfsModified": false,
+      "currentCentralVisualAcceptancePerformed": false,
+      "rasterDispatchAuthorized": false,
+      "candidateAndEvidencePreserved": true,
+      "candidateEditedByReviewer": false,
+      "queueOrSourceModified": false,
+      "newTerminalClosure": false,
+      "reviewConclusion": "FAIL_REPAIR_REQUIRED: the current candidate remains semantically blocked by REQUIRED_BEFORE_FILING, FILING_DESTINATION, SERVICE and SELF_HELP_STOP. FEE_AND_WAIVER is PASS with the exact current fee retained as a release observation. CLIPPING_AND_OVERLAP is NOT_MEASURABLE_HERE because original raster appearance is unavailable; byte geometry observations are supporting only. This corrected native return grants no final acceptance, terminal promotion, runtime selection or commercial authority.",
+      "rasterCustody": {
+        "status": "MISSING_ORIGINAL_EVIDENCE",
+        "originalEvidencePath": null,
+        "runId": null,
+        "artifactId": null,
+        "visualPagesMeasured": 0
+      },
+      "originalEvidence": {
+        "present": false,
+        "path": null,
+        "sha256": null,
+        "runId": null,
+        "artifactId": null,
+        "note": "No PF05 original raster receipt was available to this semantic lane."
+      },
+      "visualReview": {
+        "result": "NOT_MEASURABLE_HERE",
+        "measured": false,
+        "status": "PENDING_CENTRAL_RASTER_AND_INDEPENDENT_VISUAL_REVIEW",
+        "rasterPages": 0,
+        "originalRasterEvidencePresent": false,
+        "noRasterPassClaimed": true
+      },
+      "rasterAcceptance": {
+        "result": "PENDING",
+        "visualMeasured": false,
+        "originalEvidenceVerified": false
+      },
+      "historicalReport": {
+        "path": "data/rcap-grade-a/packet-factory-24h/vfut1/rows-vfut1-ut-cannabis-semantic-20260913.json",
+        "sha256": "c216982c40f699b75adc764e46f64522b31949b89ae52f98de958d7ec8ef89db",
+        "preservedUnchanged": true
+      },
+      "evidenceRead": [
+        "data/rcap-grade-a/packet-factory-24h/pf05/rows-pf05-ut-cannabis-resume-complete-20260913.json",
+        "data/rcap-grade-a/packet-factory-24h/pf05/captain-candidate-transfer-20260913.json",
+        "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/source-receipt.json",
+        "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/reports/actual-writes.json",
+        "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/reports/completeness-counters.json",
+        "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/production-field-map.json",
+        "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/field-census.census-v1.json",
+        "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/participant-instructions.md",
+        "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/product-wiring.json",
+        "data/record-clearing/legal-design-track-registry.json",
+        "data/record-clearing/legal-design-packet-set-manifests.json",
+        "data/rcap-all50/local-source-corpus-index.json",
+        "data/rcap-grade-a/packet-factory-24h/pf05/relocation-captain-verification-20260913.json",
+        "data/rcap-grade-a/packet-factory-24h/pf05/captain-candidate-transfer-20260913.json",
+        "data/rcap-grade-a/packet-factory-24h/pf05/rows-pf05-ut-cannabis-resume-complete-20260913.json",
+        "data/rcap-grade-a/packet-factory-24h/pf05/relocation-captain-verification-20260913.json"
+      ]
+    }
+  ],
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "grantsNothing": "This semantic failure return grants no final acceptance, terminal promotion, runtime selection, production or commercial authority."
+}

@@ -1,0 +1,116 @@
+{
+  "schemaVersion": "rcap-charge-caption-proof/v1",
+  "familyId": "ct-cleanslate-petition-set",
+  "question": "Does any blank whose caption or field name names a crime, conviction, charge, offence, count, statute or violation carry a participant name token in the rendered artifact bytes?",
+  "method": "Read back from the flattened appearance streams of each rendered fixture with scripts/rcap-official-forms/pdf-flattened-widgets.mjs, at each field's own measured widget rectangle. This is the artifact answering, not the render report.",
+  "vocabularyNote": "Widened beyond the shared CHARGE_VALUE_WORDS on purpose. Connecticut says CRIME and CONVICTION. The shared vocabulary is /\\b(charges?|offen[cs]es?|counts?|statutes?|violations?)\\b/i and matches NEITHER, so a proof restricted to the shared words would examine zero blanks on JD-CR-202 and report a clean result on a form whose crimes box binds a participant name. Each row below records whether the shared vocabulary matched it.",
+  "consistentWith": "scripts/rcap-official-forms/verify-full-name-charge-caption-semantics.mjs",
+  "participantNameTokensSearchedFor": [
+    "Jordan Avery Reyes",
+    "Jordan",
+    "Avery",
+    "Reyes",
+    "Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III",
+    "Alexandrina",
+    "Katharine",
+    "Montgomery",
+    "Vandenberg",
+    "Oyelaran",
+    "Fitzwilliam",
+    "Alexandrina-Katharine",
+    "Montgomery-Vandenberg-Oyelaran"
+  ],
+  "chargeBlanksExamined": 4,
+  "chargeBlanksMatchedBySharedVocabulary": 0,
+  "chargeBlanksCarryingAParticipantName": 0,
+  "answer": "NO — no participant name lands in any crime or charge caption blank in any fixture",
+  "blanks": [
+    {
+      "document": "CT-JD-CR-202-PETITION-FOR-CLEAN-SLATE-ERASURE-CONVICTIONS-BEFORE-2000",
+      "fixture": "canonical",
+      "field": "form1[0].PAGE1[0].CRIMES2ERASE[0]",
+      "page": 1,
+      "rect": {
+        "x": 28.8,
+        "y": 504,
+        "width": 555.84,
+        "height": 45.12
+      },
+      "effectiveLabel": "Crime(s) defendant asks the court to erase",
+      "captionDescribesChargeValue": false,
+      "matchedSharedGuardVocabulary": false,
+      "drawnText": null,
+      "participantNameTokensFound": []
+    },
+    {
+      "document": "CT-JD-CR-202-PETITION-FOR-CLEAN-SLATE-ERASURE-CONVICTIONS-BEFORE-2000",
+      "fixture": "canonical",
+      "field": "form1[0].#subform[1].MODIFIED[0]",
+      "page": 2,
+      "rect": {
+        "x": 64.8,
+        "y": 614.16,
+        "width": 519.84,
+        "height": 69.84
+      },
+      "effectiveLabel": "Granted, as to the following convictions",
+      "captionDescribesChargeValue": false,
+      "matchedSharedGuardVocabulary": false,
+      "drawnText": null,
+      "participantNameTokensFound": []
+    },
+    {
+      "document": "CT-JD-CR-202-PETITION-FOR-CLEAN-SLATE-ERASURE-CONVICTIONS-BEFORE-2000",
+      "fixture": "boundary",
+      "field": "form1[0].PAGE1[0].CRIMES2ERASE[0]",
+      "page": 1,
+      "rect": {
+        "x": 28.8,
+        "y": 504,
+        "width": 555.84,
+        "height": 45.12
+      },
+      "effectiveLabel": "Crime(s) defendant asks the court to erase",
+      "captionDescribesChargeValue": false,
+      "matchedSharedGuardVocabulary": false,
+      "drawnText": null,
+      "participantNameTokensFound": []
+    },
+    {
+      "document": "CT-JD-CR-202-PETITION-FOR-CLEAN-SLATE-ERASURE-CONVICTIONS-BEFORE-2000",
+      "fixture": "boundary",
+      "field": "form1[0].#subform[1].MODIFIED[0]",
+      "page": 2,
+      "rect": {
+        "x": 64.8,
+        "y": 614.16,
+        "width": 519.84,
+        "height": 69.84
+      },
+      "effectiveLabel": "Granted, as to the following convictions",
+      "captionDescribesChargeValue": false,
+      "matchedSharedGuardVocabulary": false,
+      "drawnText": null,
+      "participantNameTokensFound": []
+    }
+  ],
+  "guardProjection": {
+    "question": "Applying the corpus guard's own offending-row test to this family's census: does any blank bind a writable participant.full_legal_name while its name or caption uses the SHARED charge vocabulary?",
+    "fieldsScanned": 22,
+    "offendingRows": 0,
+    "offending": [],
+    "andTheSameTestWidenedToThisFormsVocabulary": {
+      "question": "The identical test, asking instead whether the caption or name mentions a crime or conviction in ANY vocabulary — which is the question the guard is trying to ask.",
+      "offendingRows": 1,
+      "offending": [
+        {
+          "document": "CT-JD-CR-202-PETITION-FOR-CLEAN-SLATE-ERASURE-CONVICTIONS-BEFORE-2000",
+          "field": "form1[0].PAGE1[0].CRIMES2ERASE[0]",
+          "effectiveLabel": "Crime(s) defendant asks the court to erase",
+          "matchedSharedGuardVocabulary": false
+        }
+      ]
+    },
+    "finding": "GUARD GAP CONFIRMED: the shared vocabulary reports 0 offending rows while the widened test reports 1. The corpus guard cannot see this defect on this form. It is refused here by ROLE; closing the gap means adding 'crime' and 'conviction' to CHARGE_VALUE_WORDS in scripts/rcap-official-forms/rcap-field-semantics.mjs, which is outside this family's owned path."
+  }
+}

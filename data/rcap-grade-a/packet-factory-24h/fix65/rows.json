@@ -1,0 +1,3521 @@
+{
+ "schemaVersion": "rcap-packet-factory-24h-lane-rows/v1",
+ "lane": "FIX65",
+ "laneKind": "repair",
+ "generatedBy": "lane FIX65",
+ "baseSha": "d3312169e",
+ "branch": "fix65-nc-nd-nh-optin",
+ "whatThisLaneDid": "Opted three families with independent, direct-finalizer builders into the shared suppressSynthesizedAppearances option that FIX50 landed default-off, rebuilt them, and measured the delivered pages pixel for pixel against their pinned official forms. No shared machinery was edited and no default was changed.",
+ "everyOtherFamilyByteIdentical": {
+  "checked": "sha256 of every file under data/rcap-all50/overlays/census-v1, taken before the first edit and again after all three rebuilds",
+  "filesBefore": 5438,
+  "filesAfter": 5448,
+  "filesChanged": 34,
+  "filesChangedOutsideTheThreeFamilyDirectories": 0,
+  "whyTheFileCountRose": "10 new local page rasters under the NC family's own raster/ tree, which the builder emits in a container that has a rasterizer and which base did not carry. Every one of them is inside a family directory this lane holds a grant for.",
+  "result": true
+ },
+ "rows": [
+  {
+   "itemId": "nc_146_dismissal_petition-set",
+   "familyId": "nc_146_dismissal_petition-set",
+   "jurisdiction": "NC",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill",
+   "status": "COMPLETED",
+   "laneKind": "repair",
+   "repairedByThisLane": true,
+   "buildHost": "scripts/build-census-v1-nc_146_dismissal_petition-set.mjs",
+   "sharedHost": "scripts/rcap-official-forms/rcap-official-form-finalize.mjs (finalizeOfficialForm) -> scripts/rcap-official-forms/rcap-active-content.mjs (sanitizeAndFlatten)",
+   "baseSha": "d3312169e",
+   "branch": "fix65-nc-nd-nh-optin",
+   "grantConfirmed": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX65 nc_146_dismissal_petition-set -> CLAIM_OK FIX65 nc_146_dismissal_petition-set (repair, grant set 0c8ce1470fd2b59a), exit 0. Asserted before any artifact of this family was opened.",
+   "fixturesHashedToVF08sRecordedDigestsFirst": {
+    "checked": "before the builder was edited, both fixtures on disk were sha256'd and compared with the digests VF08 recorded in its row and in COHORT_MEASUREMENT.json",
+    "result": "both equal, for both fixtures",
+    "digests": {
+     "canonical.pdf": "81d71db0020bdef1204898013cb9fd16a8cf3155c0f864c837a21945b1e40fb1",
+     "boundary.pdf": "af582b143c3ef2da24ed5e769e7e1fbe240309186b8fc72dccbceeb3ecc6f251"
+    }
+   },
+   "verdictRepaired": {
+    "lane": "VF08",
+    "verdict": "FAIL_REPAIR_REQUIRED",
+    "verifiedAtBase": "942cab9b5",
+    "failedObligationNames": [
+     "CLIPPING_AND_OVERLAP"
+    ],
+    "measurement": "data/rcap-grade-a/packet-factory-24h/vf08/COHORT_MEASUREMENT.json",
+    "whatVF08Found": "74 of 76 selection-widget readings across the two bound fixtures delivered a stroked square that AOC-CR-287 and AOC-CV-226 does not print. VF08's zero-write baseline over the same pinned bytes painted the identical pixels, so the ink came from the shared flattening step and not from this family."
+   },
+   "obligationsRepaired": [
+    "CLIPPING_AND_OVERLAP"
+   ],
+   "obligationsThisRowDoesNotDischarge": [
+    "RASTER. The central acceptance receipt this family carried (RASTER_PASS, workflow run 33608483853, rendered commit 84045d06c9f14b29c8fb822343e0f390d5be98c3) was bound to the two fixture digests recorded under digests.before, both of which this repair supersedes. It stops binding and a fresh central raster is owed on the new bytes. RASTER_QUEUE.json and MASTER_QUEUE.json were not opened for writing by this lane, and the 150 dpi rasters recorded under perWidgetMeasurement were this lane's own measurement, taken under /tmp and deleted.",
+    "INDEPENDENT VERIFICATION. This lane opted the builder in and produced these bytes, so it verifies none of them. No verdict was written or replaced; acceptanceReceipt is null and nothing is scored here. VF08's reading was taken at base 942cab9b5 against the superseded bytes and does not transfer to the new ones.",
+    "THE COHORT'S OTHER FAMILIES. VF08 measured the same shared behaviour across a wider cohort. Only the three families named on this lane are opted in, rebuilt or touched; every other family directory under data/rcap-all50/overlays/census-v1 was proved byte-identical after all three rebuilds, and the shared option stays default-off.",
+    "THE CASES THE OPTION LEAVES ALONE BY DESIGN. A widget that ships its own stream for the state it is set to, a widget with no /AS at all, a widget whose /AP /N is a bare stream rather than a state dictionary, and any widget of a field this run wrote. None is altered, and this row makes no claim about any of them beyond having measured them unchanged.",
+    "THE PREFLIGHT'S ENVIRONMENT FAILURES. scripts/verify-packet-build-environment.mjs does not report READY in this container. The failures are properties of the container (private/ reached through the symlink the assignment specifies, one sampled corpus entry whose custody is not mounted here) plus the worktree carrying this repair's uncommitted work while it was in progress. None is repaired here.",
+    "REVIEW AND PROMOTION. No build status, review status, legal decision, product-wiring binding or route was changed. Visual review, counsel review and source freshness review are untouched and this row promotes nothing."
+   ],
+   "whatChanged": {
+    "theBuilder": "scripts/build-census-v1-nc_146_dismissal_petition-set.mjs now passes suppressSynthesizedAppearances: true in its finalizeOfficialForm call, with a comment naming the VF08 measurement it answers. That is the only change to this builder.",
+    "whyTheOptionAloneIsEnoughHere": "This builder hands finalizeOfficialForm the pinned source bytes themselves. It performs no intermediate pdf-lib save of the source document that feeds the finalizer, so the FIX57 pattern -- a neutralization save at pdf-lib's default updateFieldAppearances baking the square in before the finalizer is entered -- is absent, and no updateFieldAppearances: false repair was needed or made.",
+    "theSharedMachinery": "Nothing in scripts/rcap-official-forms/rcap-active-content.mjs or scripts/rcap-official-forms/rcap-official-form-finalize.mjs was edited. The option, its default of false and its behaviour are exactly as FIX50 landed them and as FIX55 and FIX64 opted into them; this lane only opts in.",
+    "whatTheOptionDoes": "For a check-box or radio widget whose field this run did not write and whose current /AS state has no stream under /AP /N, an empty form XObject sized to the widget's own /Rect is installed for that state before updateFieldAppearances runs. pdf-lib then reports no update is needed and synthesizes nothing, so the square is never drawn and never flattened. The missing state is supplied rather than a drawing suppressed.",
+    "whatIsNeverTouched": "A widget that already ships a stream for the state it is set to, a widget of a field this run wrote, a widget with no /AS, a widget whose /AP /N is a bare stream, and every text field, chooser and pushbutton. A ticked box still renders its mark from the stream the source ships.",
+    "whatDidNotChange": "No default behaviour anywhere. No other family's builder, directory or bytes. No whitelist by family, form, field or route exists to change and none was created. MASTER_QUEUE.json, RASTER_QUEUE.json, the legal-decision records, product-wiring.json and the claim ledger's other entries were not opened for writing.",
+    "regeneratedArtifacts": "The family's own build outputs moved with the bytes: both fixtures, and the reports the builder rewrites from them.",
+    "oneThingWorthNaming": "This family's bound documents are AOC-CR-287, its instructions sheet and AOC-CV-226. The assignment expected AOC-CR-288 to be shared with nc_146_acquittal; read from source-receipt.json in this tree it is not -- nc_146_acquittal binds AOC-CR-264 and AOC-CR-288, and this family binds neither. What is matched to FIX55 is the pattern, not a shared form: the same single option at the same finalizeOfficialForm call site, with no shared-machinery edit.",
+    "tenNewLocalRasterPages": "At base this family's directory carried no raster/ tree: build-status.json recorded rasterEngine \"not rendered in this run\", rasterPages 0, rasterState BUILT_RASTER_PENDING, because the container that built it had no rasterizer. This container does, so the same builder emitted 10 local page rasters (5 per fixture) and build-status.json now records rasterEngine chromium_calibrated, rasterPages 10, rasterState RASTER_LOCAL_PENDING_CENTRAL. They are committed as the builder's own local preview output, in the shape the NH and other families already carry. They are NOT an acceptance receipt and the central raster is still owed."
+   },
+   "rebuild": {
+    "command": "MASTER_LIBRARY_SOURCE_DIR=<mounted Master Library> node scripts/build-census-v1-nc_146_dismissal_petition-set.mjs",
+    "exit": 0,
+    "runTwiceByteIdentical": true,
+    "howProved": "The whole family directory was copied aside after the first build and compared with diff -r against the directory the second full build produced. Zero differences across every file.",
+    "pageCountUnchanged": true
+   },
+   "digests": {
+    "before": {
+     "canonical.pdf": {
+      "sha256": "81d71db0020bdef1204898013cb9fd16a8cf3155c0f864c837a21945b1e40fb1",
+      "bytes": 766940,
+      "pages": 5
+     },
+     "boundary.pdf": {
+      "sha256": "af582b143c3ef2da24ed5e769e7e1fbe240309186b8fc72dccbceeb3ecc6f251",
+      "bytes": 767096,
+      "pages": 5
+     }
+    },
+    "after": {
+     "canonical.pdf": {
+      "sha256": "76e77f7df7c4db3b4bd424549d5fcafac798c996b0ec65268daf668cb9816bcf",
+      "bytes": 765133,
+      "pages": 5
+     },
+     "boundary.pdf": {
+      "sha256": "4edeff7cb8fb5a549726879f4fe4bd7a237f399c8b8073e8245e09cc12cc859d",
+      "bytes": 765289,
+      "pages": 5
+     }
+    }
+   },
+   "perWidgetMeasurement": {
+    "method": "Every page of both fixtures rastered with pdftoppm at 150 dpi, greyscale, from the bytes before the edit and again from the committed bytes after it. Each bound pinned source was resolved by SHA-256 against the mounted Master Library and rastered the same way. Each delivered page was matched to a source page by ink overlap, never by a declared page manifest. Each exposed selection widget's /Rect was mapped to pixels through that source page's own CropBox and read three ways: dark pixels before, dark pixels after, and dark pixels the pinned form paints there itself.",
+    "dpi": 150,
+    "rastersDeletedAfterMeasuring": true,
+    "widgetRectsVF08Counted": 76,
+    "widgetRectsMeasuredHere": 76,
+    "widgetRectsNowCarryingExactlyThePinnedFormsOwnInk": 76,
+    "everyWidgetRectCleared": true,
+    "whatClearedMeans": "At that rect the delivered page after the repair equals the pinned form's own raster pixel for pixel -- pixelsDifferingFromPinnedSourceAfter is 0 -- so the page there carries the form's ink and nothing else.",
+    "exposedWidgetsPerSource": [
+     {
+      "sha256": "a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed",
+      "resolvedFrom": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-287__aoc-cr-287-petition-and-order-of-expunction__REV-2025-12__EN.pdf",
+      "selectionWidgets": 19,
+      "widgetsShippingTheirOwnState": 0,
+      "exposedWidgets": 19
+     },
+     {
+      "sha256": "fe22270401aa22ee5c801871aeb1c00f3b98cfb6867f7155681bab4af9c990d7",
+      "resolvedFrom": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-287__aoc-cr-287-instructions__REV-2025-12__EN.pdf",
+      "selectionWidgets": 0,
+      "widgetsShippingTheirOwnState": 0,
+      "exposedWidgets": 0
+     },
+     {
+      "sha256": "74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f",
+      "resolvedFrom": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NC/04_SUPPORTING_PROCESS/NC__SUPPORT__AOC-CV-226__aoc-cv-226-affidavit-of-indigency__REV-2023-04__EN.pdf",
+      "selectionWidgets": 19,
+      "widgetsShippingTheirOwnState": 0,
+      "exposedWidgets": 19
+     }
+    ],
+    "noOtherPixelMoved": {
+     "changedPixelsAcrossBothFixtures": 3772,
+     "changedPixelsOutsideTheMeasuredWidgetRects": 0,
+     "changedPixelsOutsideThoseRectsDilatedByOnePixel": 0,
+     "note": "Zero, dilated by one pixel as well. Every pixel that moved anywhere on any page of either fixture lies inside one of the measured widget rects.",
+     "participantWritesAndIntendedMarks": "Unchanged. Every participant write and every mark this run makes lies outside the measured rects, and no pixel outside those rects moved on any page of either fixture.",
+     "corroboration": "The changed-pixel totals reproduce VF08's own negative controls exactly: AOC-CR-287 1056, AOC-CV-226 830. That is the same number arrived at from the opposite direction, by an isolating control over the pinned bytes rather than by a before/after read of the delivered pages."
+    },
+    "perFixture": [
+     {
+      "fixture": "canonical.pdf",
+      "pages": 5,
+      "exposedWidgetRectsMeasured": 38,
+      "widgetsNowCarryingExactlyThePinnedFormsOwnInk": 38,
+      "changedPixelsWholeFixture": 1886,
+      "changedPixelsOutsideExposedRects": 0,
+      "changedPixelsOutsideExposedRectsDilatedOnePixel": 0,
+      "participantWriteRectsUnchanged": true,
+      "widgets": [
+       {
+        "deliveredPage": 1,
+        "sourceForm": "AOC-CR-287",
+        "field": "CkBox_Attchmt",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 41.85,
+         "y": 472.62,
+         "w": 9.48,
+         "h": 9.48
+        },
+        "rectPx150dpi": {
+         "x0": 87,
+         "x1": 107,
+         "y0": 645,
+         "y1": 666
+        },
+        "darkPixelsBefore": 131,
+        "darkPixelsAfter": 72,
+        "darkPixelsInPinnedSourceAtThisRect": 72,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 1,
+        "sourceForm": "AOC-CR-287",
+        "field": "SuperiorCourtCkBox",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 425.43,
+         "y": 715.66,
+         "w": 9.48,
+         "h": 9.48
+        },
+        "rectPx150dpi": {
+         "x0": 886,
+         "x1": 907,
+         "y0": 139,
+         "y1": 160
+        },
+        "darkPixelsBefore": 135,
+        "darkPixelsAfter": 94,
+        "darkPixelsInPinnedSourceAtThisRect": 94,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 1,
+        "sourceForm": "AOC-CR-287",
+        "field": "DistrictCourtCkBox",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 368.67,
+         "y": 715.66,
+         "w": 9.48,
+         "h": 9.48
+        },
+        "rectPx150dpi": {
+         "x0": 768,
+         "x1": 788,
+         "y0": 139,
+         "y1": 160
+        },
+        "darkPixelsBefore": 96,
+        "darkPixelsAfter": 76,
+        "darkPixelsInPinnedSourceAtThisRect": 76,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 1,
+        "sourceForm": "AOC-CR-287",
+        "field": "NoChargeDismissedDeferredProsecutionCkBox",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 41.32,
+         "y": 109.96,
+         "w": 9.68,
+         "h": 9.68
+        },
+        "rectPx150dpi": {
+         "x0": 86,
+         "x1": 107,
+         "y0": 1400,
+         "y1": 1421
+        },
+        "darkPixelsBefore": 135,
+        "darkPixelsAfter": 94,
+        "darkPixelsInPinnedSourceAtThisRect": 94,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 1,
+        "sourceForm": "AOC-CR-287",
+        "field": "PetitionerCkBox",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 503.53,
+         "y": 85.49,
+         "w": 9.68,
+         "h": 9.68
+        },
+        "rectPx150dpi": {
+         "x0": 1049,
+         "x1": 1070,
+         "y0": 1451,
+         "y1": 1472
+        },
+        "darkPixelsBefore": 116,
+        "darkPixelsAfter": 56,
+        "darkPixelsInPinnedSourceAtThisRect": 56,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 1,
+        "sourceForm": "AOC-CR-287",
+        "field": "PetitionersAttorneyCkBox",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 503.53,
+         "y": 75.23,
+         "w": 9.68,
+         "h": 9.68
+        },
+        "rectPx150dpi": {
+         "x0": 1049,
+         "x1": 1070,
+         "y0": 1473,
+         "y1": 1494
+        },
+        "darkPixelsBefore": 116,
+        "darkPixelsAfter": 56,
+        "darkPixelsInPinnedSourceAtThisRect": 56,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 1,
+        "sourceForm": "AOC-CR-287",
+        "field": "ThereIsACivilRevocationRecordCkBox",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 56.32,
+         "y": 146.89,
+         "w": 9.68,
+         "h": 9.68
+        },
+        "rectPx150dpi": {
+         "x0": 117,
+         "x1": 138,
+         "y0": 1323,
+         "y1": 1344
+        },
+        "darkPixelsBefore": 152,
+        "darkPixelsAfter": 91,
+        "darkPixelsInPinnedSourceAtThisRect": 91,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 1,
+        "sourceForm": "AOC-CR-287",
+        "field": "ChargedWithMultipleNotAllDismissedCkBox",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 80.99,
+         "y": 207.01,
+         "w": 9.68,
+         "h": 9.68
+        },
+        "rectPx150dpi": {
+         "x0": 168,
+         "x1": 189,
+         "y0": 1198,
+         "y1": 1219
+        },
+        "darkPixelsBefore": 133,
+        "darkPixelsAfter": 55,
+        "darkPixelsInPinnedSourceAtThisRect": 55,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 1,
+        "sourceForm": "AOC-CR-287",
+        "field": "ChargedWithMultipleAndAllDismissedCkBox",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 80.99,
+         "y": 228.69,
+         "w": 9.68,
+         "h": 9.68
+        },
+        "rectPx150dpi": {
+         "x0": 168,
+         "x1": 189,
+         "y0": 1153,
+         "y1": 1174
+        },
+        "darkPixelsBefore": 116,
+        "darkPixelsAfter": 56,
+        "darkPixelsInPinnedSourceAtThisRect": 56,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 2,
+        "sourceForm": "AOC-CR-287",
+        "field": "FindsNotAllDismissedCkBox",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 71.52,
+         "y": 685.01,
+         "w": 9.68,
+         "h": 9.68
+        },
+        "rectPx150dpi": {
+         "x0": 148,
+         "x1": 170,
+         "y0": 202,
+         "y1": 223
+        },
+        "darkPixelsBefore": 138,
+        "darkPixelsAfter": 76,
+        "darkPixelsInPinnedSourceAtThisRect": 76,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 2,
+        "sourceForm": "AOC-CR-287",
+        "field": "FindsAllDismissedCkBox",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 71.52,
+         "y": 698.3,
+         "w": 9.68,
+         "h": 9.68
+        },
+        "rectPx150dpi": {
+         "x0": 148,
+         "x1": 170,
+         "y0": 175,
+         "y1": 196
+        },
+        "darkPixelsBefore": 156,
+        "darkPixelsAfter": 74,
+        "darkPixelsInPinnedSourceAtThisRect": 74,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 2,
+        "sourceForm": "AOC-CR-287",
+        "field": "FindsThereIsACivilRevocationRecordCkBox",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 41.44,
+         "y": 611.25,
+         "w": 9.68,
+         "h": 9.68
+        },
+        "rectPx150dpi": {
+         "x0": 86,
+         "x1": 107,
+         "y0": 356,
+         "y1": 377
+        },
+        "darkPixelsBefore": 135,
+        "darkPixelsAfter": 94,
+        "darkPixelsInPinnedSourceAtThisRect": 94,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 2,
+        "sourceForm": "AOC-CR-287",
+        "field": "FindsShouldBeGrantedCkBox",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 283.07,
+         "y": 595.25,
+         "w": 9.68,
+         "h": 9.68
+        },
+        "rectPx150dpi": {
+         "x0": 589,
+         "x1": 610,
+         "y0": 389,
+         "y1": 410
+        },
+        "darkPixelsBefore": 116,
+        "darkPixelsAfter": 74,
+        "darkPixelsInPinnedSourceAtThisRect": 74,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 2,
+        "sourceForm": "AOC-CR-287",
+        "field": "FindsShouldNotBeGrantedCkBox",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 324.63,
+         "y": 595.25,
+         "w": 9.68,
+         "h": 9.68
+        },
+        "rectPx150dpi": {
+         "x0": 676,
+         "x1": 697,
+         "y0": 389,
+         "y1": 410
+        },
+        "darkPixelsBefore": 116,
+        "darkPixelsAfter": 74,
+        "darkPixelsInPinnedSourceAtThisRect": 74,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 2,
+        "sourceForm": "AOC-CR-287",
+        "field": "PetitionIsGrantedCkBox",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 41.16,
+         "y": 521.24,
+         "w": 9.68,
+         "h": 9.68
+        },
+        "rectPx150dpi": {
+         "x0": 85,
+         "x1": 106,
+         "y0": 543,
+         "y1": 565
+        },
+        "darkPixelsBefore": 136,
+        "darkPixelsAfter": 56,
+        "darkPixelsInPinnedSourceAtThisRect": 56,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 2,
+        "sourceForm": "AOC-CR-287",
+        "field": "PetitionIsDeniedCkBox",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 41.16,
+         "y": 449.05,
+         "w": 9.68,
+         "h": 9.68
+        },
+        "rectPx150dpi": {
+         "x0": 85,
+         "x1": 106,
+         "y0": 694,
+         "y1": 715
+        },
+        "darkPixelsBefore": 116,
+        "darkPixelsAfter": 56,
+        "darkPixelsInPinnedSourceAtThisRect": 56,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 2,
+        "sourceForm": "AOC-CR-287",
+        "field": "DeputyCSCCkBox",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 435.81,
+         "y": 337.94,
+         "w": 9.68,
+         "h": 9.68
+        },
+        "rectPx150dpi": {
+         "x0": 907,
+         "x1": 929,
+         "y0": 925,
+         "y1": 946
+        },
+        "darkPixelsBefore": 137,
+        "darkPixelsAfter": 74,
+        "darkPixelsInPinnedSourceAtThisRect": 74,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 2,
+        "sourceForm": "AOC-CR-287",
+        "field": "AssistantCSCCkBox",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 488.49,
+         "y": 337.77,
+         "w": 9.68,
+         "h": 9.68
+        },
+        "rectPx150dpi": {
+         "x0": 1017,
+         "x1": 1038,
+         "y0": 926,
+         "y1": 947
+        },
+        "darkPixelsBefore": 117,
+        "darkPixelsAfter": 76,
+        "darkPixelsInPinnedSourceAtThisRect": 76,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 2,
+        "sourceForm": "AOC-CR-287",
+        "field": "ClerkOfSuperiorCourtCkBox",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 435.81,
+         "y": 326.29,
+         "w": 9.68,
+         "h": 9.68
+        },
+        "rectPx150dpi": {
+         "x0": 907,
+         "x1": 929,
+         "y0": 950,
+         "y1": 971
+        },
+        "darkPixelsBefore": 137,
+        "darkPixelsAfter": 74,
+        "darkPixelsInPinnedSourceAtThisRect": 74,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 4,
+        "sourceForm": "AOC-CV-226",
+        "field": "DistrictCourtDivisionCkBox",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 403.22,
+         "y": 716.37,
+         "w": 9.48,
+         "h": 9.48
+        },
+        "rectPx150dpi": {
+         "x0": 840,
+         "x1": 860,
+         "y0": 137,
+         "y1": 158
+        },
+        "darkPixelsBefore": 114,
+        "darkPixelsAfter": 74,
+        "darkPixelsInPinnedSourceAtThisRect": 74,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 4,
+        "sourceForm": "AOC-CV-226",
+        "field": "SuperiorCourtDivisionCkBox",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 459.94,
+         "y": 716.37,
+         "w": 9.48,
+         "h": 9.48
+        },
+        "rectPx150dpi": {
+         "x0": 958,
+         "x1": 978,
+         "y0": 137,
+         "y1": 158
+        },
+        "darkPixelsBefore": 114,
+        "darkPixelsAfter": 74,
+        "darkPixelsInPinnedSourceAtThisRect": 74,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 4,
+        "sourceForm": "AOC-CV-226",
+        "field": "YesHaveServedInUnitedStatesArmedForcesCkBox",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 464.97,
+         "y": 523.83,
+         "w": 9.48,
+         "h": 9.48
+        },
+        "rectPx150dpi": {
+         "x0": 968,
+         "x1": 989,
+         "y0": 538,
+         "y1": 559
+        },
+        "darkPixelsBefore": 135,
+        "darkPixelsAfter": 74,
+        "darkPixelsInPinnedSourceAtThisRect": 74,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 4,
+        "sourceForm": "AOC-CV-226",
+        "field": "NoHaveNotServedInUnitedStatesArmedForcesCkBox",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 504.06,
+         "y": 523.76,
+         "w": 9.48,
+         "h": 9.48
+        },
+        "rectPx150dpi": {
+         "x0": 1050,
+         "x1": 1070,
+         "y0": 539,
+         "y1": 559
+        },
+        "darkPixelsBefore": 76,
+        "darkPixelsAfter": 76,
+        "darkPixelsInPinnedSourceAtThisRect": 76,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 4,
+        "sourceForm": "AOC-CV-226",
+        "field": "ApplicantIsDefendantCkBox",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 200.43,
+         "y": 527.35,
+         "w": 9.48,
+         "h": 9.48
+        },
+        "rectPx150dpi": {
+         "x0": 417,
+         "x1": 438,
+         "y0": 531,
+         "y1": 552
+        },
+        "darkPixelsBefore": 152,
+        "darkPixelsAfter": 72,
+        "darkPixelsInPinnedSourceAtThisRect": 72,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 4,
+        "sourceForm": "AOC-CV-226",
+        "field": "ApplicantIsPlaintiffCkBox",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 94.66,
+         "y": 527.39,
+         "w": 9.48,
+         "h": 9.48
+        },
+        "rectPx150dpi": {
+         "x0": 197,
+         "x1": 217,
+         "y0": 531,
+         "y1": 552
+        },
+        "darkPixelsBefore": 114,
+        "darkPixelsAfter": 74,
+        "darkPixelsInPinnedSourceAtThisRect": 74,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 4,
+        "sourceForm": "AOC-CV-226",
+        "field": "BuyingShelterCkBox",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 359.2,
+         "y": 472.27,
+         "w": 9.48,
+         "h": 9.48
+        },
+        "rectPx150dpi": {
+         "x0": 748,
+         "x1": 769,
+         "y0": 646,
+         "y1": 667
+        },
+        "darkPixelsBefore": 116,
+        "darkPixelsAfter": 74,
+        "darkPixelsInPinnedSourceAtThisRect": 74,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 4,
+        "sourceForm": "AOC-CV-226",
+        "field": "RentingShelterCkBox",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 406.72,
+         "y": 472.27,
+         "w": 9.48,
+         "h": 9.48
+        },
+        "rectPx150dpi": {
+         "x0": 847,
+         "x1": 868,
+         "y0": 646,
+         "y1": 667
+        },
+        "darkPixelsBefore": 117,
+        "darkPixelsAfter": 76,
+        "darkPixelsInPinnedSourceAtThisRect": 76,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 4,
+        "sourceForm": "AOC-CV-226",
+        "field": "VehicleInstallmentPaymentsCkBox",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 319.48,
+         "y": 385.61,
+         "w": 9.48,
+         "h": 9.48
+        },
+        "rectPx150dpi": {
+         "x0": 665,
+         "x1": 686,
+         "y0": 826,
+         "y1": 847
+        },
+        "darkPixelsBefore": 117,
+        "darkPixelsAfter": 76,
+        "darkPixelsInPinnedSourceAtThisRect": 76,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 4,
+        "sourceForm": "AOC-CV-226",
+        "field": "OtherInstallmentPaymentsCkBox",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 370.24,
+         "y": 385.61,
+         "w": 9.48,
+         "h": 9.48
+        },
+        "rectPx150dpi": {
+         "x0": 771,
+         "x1": 792,
+         "y0": 826,
+         "y1": 847
+        },
+        "darkPixelsBefore": 117,
+        "darkPixelsAfter": 76,
+        "darkPixelsInPinnedSourceAtThisRect": 76,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 4,
+        "sourceForm": "AOC-CV-226",
+        "field": "LastIncomeTaxFiledRefundCkBox",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 207.97,
+         "y": 118.46,
+         "w": 9.48,
+         "h": 9.48
+        },
+        "rectPx150dpi": {
+         "x0": 433,
+         "x1": 454,
+         "y0": 1383,
+         "y1": 1404
+        },
+        "darkPixelsBefore": 116,
+        "darkPixelsAfter": 74,
+        "darkPixelsInPinnedSourceAtThisRect": 74,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 4,
+        "sourceForm": "AOC-CV-226",
+        "field": "LastIncomeTaxFiledOweCkBox",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 257.88,
+         "y": 118.84,
+         "w": 9.48,
+         "h": 9.48
+        },
+        "rectPx150dpi": {
+         "x0": 537,
+         "x1": 557,
+         "y0": 1382,
+         "y1": 1403
+        },
+        "darkPixelsBefore": 131,
+        "darkPixelsAfter": 55,
+        "darkPixelsInPinnedSourceAtThisRect": 55,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 5,
+        "sourceForm": "AOC-CV-226",
+        "field": "SigningApplicantIsDefendantCkBox",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 473.57,
+         "y": 258.45,
+         "w": 9.48,
+         "h": 9.48
+        },
+        "rectPx150dpi": {
+         "x0": 986,
+         "x1": 1007,
+         "y0": 1091,
+         "y1": 1112
+        },
+        "darkPixelsBefore": 116,
+        "darkPixelsAfter": 74,
+        "darkPixelsInPinnedSourceAtThisRect": 74,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 5,
+        "sourceForm": "AOC-CV-226",
+        "field": "SigningApplicantIsPlaintiffCkBox",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 366.93,
+         "y": 258.45,
+         "w": 9.48,
+         "h": 9.48
+        },
+        "rectPx150dpi": {
+         "x0": 764,
+         "x1": 785,
+         "y0": 1091,
+         "y1": 1112
+        },
+        "darkPixelsBefore": 117,
+        "darkPixelsAfter": 76,
+        "darkPixelsInPinnedSourceAtThisRect": 76,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 5,
+        "sourceForm": "AOC-CV-226",
+        "field": "JuratDeputyCSCCkBox",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 42.27,
+         "y": 282.02,
+         "w": 9.48,
+         "h": 9.48
+        },
+        "rectPx150dpi": {
+         "x0": 88,
+         "x1": 108,
+         "y0": 1042,
+         "y1": 1063
+        },
+        "darkPixelsBefore": 96,
+        "darkPixelsAfter": 76,
+        "darkPixelsInPinnedSourceAtThisRect": 76,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 5,
+        "sourceForm": "AOC-CV-226",
+        "field": "JuratAssistantCSCCkBox",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 101.89,
+         "y": 282.02,
+         "w": 9.48,
+         "h": 9.48
+        },
+        "rectPx150dpi": {
+         "x0": 212,
+         "x1": 233,
+         "y0": 1042,
+         "y1": 1063
+        },
+        "darkPixelsBefore": 117,
+        "darkPixelsAfter": 76,
+        "darkPixelsInPinnedSourceAtThisRect": 76,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 5,
+        "sourceForm": "AOC-CV-226",
+        "field": "JuratClerkOfSuperiorCourtCkBox",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 168.39,
+         "y": 282.02,
+         "w": 9.48,
+         "h": 9.48
+        },
+        "rectPx150dpi": {
+         "x0": 350,
+         "x1": 371,
+         "y0": 1042,
+         "y1": 1063
+        },
+        "darkPixelsBefore": 135,
+        "darkPixelsAfter": 74,
+        "darkPixelsInPinnedSourceAtThisRect": 74,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 5,
+        "sourceForm": "AOC-CV-226",
+        "field": "JuratMagistrateCkBox",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 262.33,
+         "y": 282.02,
+         "w": 9.48,
+         "h": 9.48
+        },
+        "rectPx150dpi": {
+         "x0": 546,
+         "x1": 567,
+         "y0": 1042,
+         "y1": 1063
+        },
+        "darkPixelsBefore": 117,
+        "darkPixelsAfter": 76,
+        "darkPixelsInPinnedSourceAtThisRect": 76,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 5,
+        "sourceForm": "AOC-CV-226",
+        "field": "JuratNotaryCkBox",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 42.03,
+         "y": 256.82,
+         "w": 9.48,
+         "h": 9.48
+        },
+        "rectPx150dpi": {
+         "x0": 87,
+         "x1": 108,
+         "y0": 1095,
+         "y1": 1115
+        },
+        "darkPixelsBefore": 114,
+        "darkPixelsAfter": 74,
+        "darkPixelsInPinnedSourceAtThisRect": 74,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       }
+      ]
+     },
+     {
+      "fixture": "boundary.pdf",
+      "pages": 5,
+      "exposedWidgetRectsMeasured": 38,
+      "widgetsNowCarryingExactlyThePinnedFormsOwnInk": 38,
+      "changedPixelsWholeFixture": 1886,
+      "changedPixelsOutsideExposedRects": 0,
+      "changedPixelsOutsideExposedRectsDilatedOnePixel": 0,
+      "participantWriteRectsUnchanged": true,
+      "widgets": [
+       {
+        "deliveredPage": 1,
+        "sourceForm": "AOC-CR-287",
+        "field": "CkBox_Attchmt",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 41.85,
+         "y": 472.62,
+         "w": 9.48,
+         "h": 9.48
+        },
+        "rectPx150dpi": {
+         "x0": 87,
+         "x1": 107,
+         "y0": 645,
+         "y1": 666
+        },
+        "darkPixelsBefore": 131,
+        "darkPixelsAfter": 72,
+        "darkPixelsInPinnedSourceAtThisRect": 72,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 1,
+        "sourceForm": "AOC-CR-287",
+        "field": "SuperiorCourtCkBox",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 425.43,
+         "y": 715.66,
+         "w": 9.48,
+         "h": 9.48
+        },
+        "rectPx150dpi": {
+         "x0": 886,
+         "x1": 907,
+         "y0": 139,
+         "y1": 160
+        },
+        "darkPixelsBefore": 135,
+        "darkPixelsAfter": 94,
+        "darkPixelsInPinnedSourceAtThisRect": 94,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 1,
+        "sourceForm": "AOC-CR-287",
+        "field": "DistrictCourtCkBox",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 368.67,
+         "y": 715.66,
+         "w": 9.48,
+         "h": 9.48
+        },
+        "rectPx150dpi": {
+         "x0": 768,
+         "x1": 788,
+         "y0": 139,
+         "y1": 160
+        },
+        "darkPixelsBefore": 96,
+        "darkPixelsAfter": 76,
+        "darkPixelsInPinnedSourceAtThisRect": 76,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 1,
+        "sourceForm": "AOC-CR-287",
+        "field": "NoChargeDismissedDeferredProsecutionCkBox",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 41.32,
+         "y": 109.96,
+         "w": 9.68,
+         "h": 9.68
+        },
+        "rectPx150dpi": {
+         "x0": 86,
+         "x1": 107,
+         "y0": 1400,
+         "y1": 1421
+        },
+        "darkPixelsBefore": 135,
+        "darkPixelsAfter": 94,
+        "darkPixelsInPinnedSourceAtThisRect": 94,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 1,
+        "sourceForm": "AOC-CR-287",
+        "field": "PetitionerCkBox",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 503.53,
+         "y": 85.49,
+         "w": 9.68,
+         "h": 9.68
+        },
+        "rectPx150dpi": {
+         "x0": 1049,
+         "x1": 1070,
+         "y0": 1451,
+         "y1": 1472
+        },
+        "darkPixelsBefore": 116,
+        "darkPixelsAfter": 56,
+        "darkPixelsInPinnedSourceAtThisRect": 56,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 1,
+        "sourceForm": "AOC-CR-287",
+        "field": "PetitionersAttorneyCkBox",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 503.53,
+         "y": 75.23,
+         "w": 9.68,
+         "h": 9.68
+        },
+        "rectPx150dpi": {
+         "x0": 1049,
+         "x1": 1070,
+         "y0": 1473,
+         "y1": 1494
+        },
+        "darkPixelsBefore": 116,
+        "darkPixelsAfter": 56,
+        "darkPixelsInPinnedSourceAtThisRect": 56,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 1,
+        "sourceForm": "AOC-CR-287",
+        "field": "ThereIsACivilRevocationRecordCkBox",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 56.32,
+         "y": 146.89,
+         "w": 9.68,
+         "h": 9.68
+        },
+        "rectPx150dpi": {
+         "x0": 117,
+         "x1": 138,
+         "y0": 1323,
+         "y1": 1344
+        },
+        "darkPixelsBefore": 152,
+        "darkPixelsAfter": 91,
+        "darkPixelsInPinnedSourceAtThisRect": 91,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 1,
+        "sourceForm": "AOC-CR-287",
+        "field": "ChargedWithMultipleNotAllDismissedCkBox",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 80.99,
+         "y": 207.01,
+         "w": 9.68,
+         "h": 9.68
+        },
+        "rectPx150dpi": {
+         "x0": 168,
+         "x1": 189,
+         "y0": 1198,
+         "y1": 1219
+        },
+        "darkPixelsBefore": 133,
+        "darkPixelsAfter": 55,
+        "darkPixelsInPinnedSourceAtThisRect": 55,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 1,
+        "sourceForm": "AOC-CR-287",
+        "field": "ChargedWithMultipleAndAllDismissedCkBox",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 80.99,
+         "y": 228.69,
+         "w": 9.68,
+         "h": 9.68
+        },
+        "rectPx150dpi": {
+         "x0": 168,
+         "x1": 189,
+         "y0": 1153,
+         "y1": 1174
+        },
+        "darkPixelsBefore": 116,
+        "darkPixelsAfter": 56,
+        "darkPixelsInPinnedSourceAtThisRect": 56,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 2,
+        "sourceForm": "AOC-CR-287",
+        "field": "FindsNotAllDismissedCkBox",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 71.52,
+         "y": 685.01,
+         "w": 9.68,
+         "h": 9.68
+        },
+        "rectPx150dpi": {
+         "x0": 148,
+         "x1": 170,
+         "y0": 202,
+         "y1": 223
+        },
+        "darkPixelsBefore": 138,
+        "darkPixelsAfter": 76,
+        "darkPixelsInPinnedSourceAtThisRect": 76,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 2,
+        "sourceForm": "AOC-CR-287",
+        "field": "FindsAllDismissedCkBox",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 71.52,
+         "y": 698.3,
+         "w": 9.68,
+         "h": 9.68
+        },
+        "rectPx150dpi": {
+         "x0": 148,
+         "x1": 170,
+         "y0": 175,
+         "y1": 196
+        },
+        "darkPixelsBefore": 156,
+        "darkPixelsAfter": 74,
+        "darkPixelsInPinnedSourceAtThisRect": 74,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 2,
+        "sourceForm": "AOC-CR-287",
+        "field": "FindsThereIsACivilRevocationRecordCkBox",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 41.44,
+         "y": 611.25,
+         "w": 9.68,
+         "h": 9.68
+        },
+        "rectPx150dpi": {
+         "x0": 86,
+         "x1": 107,
+         "y0": 356,
+         "y1": 377
+        },
+        "darkPixelsBefore": 135,
+        "darkPixelsAfter": 94,
+        "darkPixelsInPinnedSourceAtThisRect": 94,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 2,
+        "sourceForm": "AOC-CR-287",
+        "field": "FindsShouldBeGrantedCkBox",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 283.07,
+         "y": 595.25,
+         "w": 9.68,
+         "h": 9.68
+        },
+        "rectPx150dpi": {
+         "x0": 589,
+         "x1": 610,
+         "y0": 389,
+         "y1": 410
+        },
+        "darkPixelsBefore": 116,
+        "darkPixelsAfter": 74,
+        "darkPixelsInPinnedSourceAtThisRect": 74,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 2,
+        "sourceForm": "AOC-CR-287",
+        "field": "FindsShouldNotBeGrantedCkBox",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 324.63,
+         "y": 595.25,
+         "w": 9.68,
+         "h": 9.68
+        },
+        "rectPx150dpi": {
+         "x0": 676,
+         "x1": 697,
+         "y0": 389,
+         "y1": 410
+        },
+        "darkPixelsBefore": 116,
+        "darkPixelsAfter": 74,
+        "darkPixelsInPinnedSourceAtThisRect": 74,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 2,
+        "sourceForm": "AOC-CR-287",
+        "field": "PetitionIsGrantedCkBox",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 41.16,
+         "y": 521.24,
+         "w": 9.68,
+         "h": 9.68
+        },
+        "rectPx150dpi": {
+         "x0": 85,
+         "x1": 106,
+         "y0": 543,
+         "y1": 565
+        },
+        "darkPixelsBefore": 136,
+        "darkPixelsAfter": 56,
+        "darkPixelsInPinnedSourceAtThisRect": 56,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 2,
+        "sourceForm": "AOC-CR-287",
+        "field": "PetitionIsDeniedCkBox",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 41.16,
+         "y": 449.05,
+         "w": 9.68,
+         "h": 9.68
+        },
+        "rectPx150dpi": {
+         "x0": 85,
+         "x1": 106,
+         "y0": 694,
+         "y1": 715
+        },
+        "darkPixelsBefore": 116,
+        "darkPixelsAfter": 56,
+        "darkPixelsInPinnedSourceAtThisRect": 56,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 2,
+        "sourceForm": "AOC-CR-287",
+        "field": "DeputyCSCCkBox",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 435.81,
+         "y": 337.94,
+         "w": 9.68,
+         "h": 9.68
+        },
+        "rectPx150dpi": {
+         "x0": 907,
+         "x1": 929,
+         "y0": 925,
+         "y1": 946
+        },
+        "darkPixelsBefore": 137,
+        "darkPixelsAfter": 74,
+        "darkPixelsInPinnedSourceAtThisRect": 74,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 2,
+        "sourceForm": "AOC-CR-287",
+        "field": "AssistantCSCCkBox",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 488.49,
+         "y": 337.77,
+         "w": 9.68,
+         "h": 9.68
+        },
+        "rectPx150dpi": {
+         "x0": 1017,
+         "x1": 1038,
+         "y0": 926,
+         "y1": 947
+        },
+        "darkPixelsBefore": 117,
+        "darkPixelsAfter": 76,
+        "darkPixelsInPinnedSourceAtThisRect": 76,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 2,
+        "sourceForm": "AOC-CR-287",
+        "field": "ClerkOfSuperiorCourtCkBox",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 435.81,
+         "y": 326.29,
+         "w": 9.68,
+         "h": 9.68
+        },
+        "rectPx150dpi": {
+         "x0": 907,
+         "x1": 929,
+         "y0": 950,
+         "y1": 971
+        },
+        "darkPixelsBefore": 137,
+        "darkPixelsAfter": 74,
+        "darkPixelsInPinnedSourceAtThisRect": 74,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 4,
+        "sourceForm": "AOC-CV-226",
+        "field": "DistrictCourtDivisionCkBox",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 403.22,
+         "y": 716.37,
+         "w": 9.48,
+         "h": 9.48
+        },
+        "rectPx150dpi": {
+         "x0": 840,
+         "x1": 860,
+         "y0": 137,
+         "y1": 158
+        },
+        "darkPixelsBefore": 114,
+        "darkPixelsAfter": 74,
+        "darkPixelsInPinnedSourceAtThisRect": 74,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 4,
+        "sourceForm": "AOC-CV-226",
+        "field": "SuperiorCourtDivisionCkBox",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 459.94,
+         "y": 716.37,
+         "w": 9.48,
+         "h": 9.48
+        },
+        "rectPx150dpi": {
+         "x0": 958,
+         "x1": 978,
+         "y0": 137,
+         "y1": 158
+        },
+        "darkPixelsBefore": 114,
+        "darkPixelsAfter": 74,
+        "darkPixelsInPinnedSourceAtThisRect": 74,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 4,
+        "sourceForm": "AOC-CV-226",
+        "field": "YesHaveServedInUnitedStatesArmedForcesCkBox",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 464.97,
+         "y": 523.83,
+         "w": 9.48,
+         "h": 9.48
+        },
+        "rectPx150dpi": {
+         "x0": 968,
+         "x1": 989,
+         "y0": 538,
+         "y1": 559
+        },
+        "darkPixelsBefore": 135,
+        "darkPixelsAfter": 74,
+        "darkPixelsInPinnedSourceAtThisRect": 74,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 4,
+        "sourceForm": "AOC-CV-226",
+        "field": "NoHaveNotServedInUnitedStatesArmedForcesCkBox",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 504.06,
+         "y": 523.76,
+         "w": 9.48,
+         "h": 9.48
+        },
+        "rectPx150dpi": {
+         "x0": 1050,
+         "x1": 1070,
+         "y0": 539,
+         "y1": 559
+        },
+        "darkPixelsBefore": 76,
+        "darkPixelsAfter": 76,
+        "darkPixelsInPinnedSourceAtThisRect": 76,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 4,
+        "sourceForm": "AOC-CV-226",
+        "field": "ApplicantIsDefendantCkBox",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 200.43,
+         "y": 527.35,
+         "w": 9.48,
+         "h": 9.48
+        },
+        "rectPx150dpi": {
+         "x0": 417,
+         "x1": 438,
+         "y0": 531,
+         "y1": 552
+        },
+        "darkPixelsBefore": 152,
+        "darkPixelsAfter": 72,
+        "darkPixelsInPinnedSourceAtThisRect": 72,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 4,
+        "sourceForm": "AOC-CV-226",
+        "field": "ApplicantIsPlaintiffCkBox",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 94.66,
+         "y": 527.39,
+         "w": 9.48,
+         "h": 9.48
+        },
+        "rectPx150dpi": {
+         "x0": 197,
+         "x1": 217,
+         "y0": 531,
+         "y1": 552
+        },
+        "darkPixelsBefore": 114,
+        "darkPixelsAfter": 74,
+        "darkPixelsInPinnedSourceAtThisRect": 74,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 4,
+        "sourceForm": "AOC-CV-226",
+        "field": "BuyingShelterCkBox",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 359.2,
+         "y": 472.27,
+         "w": 9.48,
+         "h": 9.48
+        },
+        "rectPx150dpi": {
+         "x0": 748,
+         "x1": 769,
+         "y0": 646,
+         "y1": 667
+        },
+        "darkPixelsBefore": 116,
+        "darkPixelsAfter": 74,
+        "darkPixelsInPinnedSourceAtThisRect": 74,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 4,
+        "sourceForm": "AOC-CV-226",
+        "field": "RentingShelterCkBox",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 406.72,
+         "y": 472.27,
+         "w": 9.48,
+         "h": 9.48
+        },
+        "rectPx150dpi": {
+         "x0": 847,
+         "x1": 868,
+         "y0": 646,
+         "y1": 667
+        },
+        "darkPixelsBefore": 117,
+        "darkPixelsAfter": 76,
+        "darkPixelsInPinnedSourceAtThisRect": 76,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 4,
+        "sourceForm": "AOC-CV-226",
+        "field": "VehicleInstallmentPaymentsCkBox",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 319.48,
+         "y": 385.61,
+         "w": 9.48,
+         "h": 9.48
+        },
+        "rectPx150dpi": {
+         "x0": 665,
+         "x1": 686,
+         "y0": 826,
+         "y1": 847
+        },
+        "darkPixelsBefore": 117,
+        "darkPixelsAfter": 76,
+        "darkPixelsInPinnedSourceAtThisRect": 76,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 4,
+        "sourceForm": "AOC-CV-226",
+        "field": "OtherInstallmentPaymentsCkBox",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 370.24,
+         "y": 385.61,
+         "w": 9.48,
+         "h": 9.48
+        },
+        "rectPx150dpi": {
+         "x0": 771,
+         "x1": 792,
+         "y0": 826,
+         "y1": 847
+        },
+        "darkPixelsBefore": 117,
+        "darkPixelsAfter": 76,
+        "darkPixelsInPinnedSourceAtThisRect": 76,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 4,
+        "sourceForm": "AOC-CV-226",
+        "field": "LastIncomeTaxFiledRefundCkBox",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 207.97,
+         "y": 118.46,
+         "w": 9.48,
+         "h": 9.48
+        },
+        "rectPx150dpi": {
+         "x0": 433,
+         "x1": 454,
+         "y0": 1383,
+         "y1": 1404
+        },
+        "darkPixelsBefore": 116,
+        "darkPixelsAfter": 74,
+        "darkPixelsInPinnedSourceAtThisRect": 74,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 4,
+        "sourceForm": "AOC-CV-226",
+        "field": "LastIncomeTaxFiledOweCkBox",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 257.88,
+         "y": 118.84,
+         "w": 9.48,
+         "h": 9.48
+        },
+        "rectPx150dpi": {
+         "x0": 537,
+         "x1": 557,
+         "y0": 1382,
+         "y1": 1403
+        },
+        "darkPixelsBefore": 131,
+        "darkPixelsAfter": 55,
+        "darkPixelsInPinnedSourceAtThisRect": 55,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 5,
+        "sourceForm": "AOC-CV-226",
+        "field": "SigningApplicantIsDefendantCkBox",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 473.57,
+         "y": 258.45,
+         "w": 9.48,
+         "h": 9.48
+        },
+        "rectPx150dpi": {
+         "x0": 986,
+         "x1": 1007,
+         "y0": 1091,
+         "y1": 1112
+        },
+        "darkPixelsBefore": 116,
+        "darkPixelsAfter": 74,
+        "darkPixelsInPinnedSourceAtThisRect": 74,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 5,
+        "sourceForm": "AOC-CV-226",
+        "field": "SigningApplicantIsPlaintiffCkBox",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 366.93,
+         "y": 258.45,
+         "w": 9.48,
+         "h": 9.48
+        },
+        "rectPx150dpi": {
+         "x0": 764,
+         "x1": 785,
+         "y0": 1091,
+         "y1": 1112
+        },
+        "darkPixelsBefore": 117,
+        "darkPixelsAfter": 76,
+        "darkPixelsInPinnedSourceAtThisRect": 76,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 5,
+        "sourceForm": "AOC-CV-226",
+        "field": "JuratDeputyCSCCkBox",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 42.27,
+         "y": 282.02,
+         "w": 9.48,
+         "h": 9.48
+        },
+        "rectPx150dpi": {
+         "x0": 88,
+         "x1": 108,
+         "y0": 1042,
+         "y1": 1063
+        },
+        "darkPixelsBefore": 96,
+        "darkPixelsAfter": 76,
+        "darkPixelsInPinnedSourceAtThisRect": 76,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 5,
+        "sourceForm": "AOC-CV-226",
+        "field": "JuratAssistantCSCCkBox",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 101.89,
+         "y": 282.02,
+         "w": 9.48,
+         "h": 9.48
+        },
+        "rectPx150dpi": {
+         "x0": 212,
+         "x1": 233,
+         "y0": 1042,
+         "y1": 1063
+        },
+        "darkPixelsBefore": 117,
+        "darkPixelsAfter": 76,
+        "darkPixelsInPinnedSourceAtThisRect": 76,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 5,
+        "sourceForm": "AOC-CV-226",
+        "field": "JuratClerkOfSuperiorCourtCkBox",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 168.39,
+         "y": 282.02,
+         "w": 9.48,
+         "h": 9.48
+        },
+        "rectPx150dpi": {
+         "x0": 350,
+         "x1": 371,
+         "y0": 1042,
+         "y1": 1063
+        },
+        "darkPixelsBefore": 135,
+        "darkPixelsAfter": 74,
+        "darkPixelsInPinnedSourceAtThisRect": 74,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 5,
+        "sourceForm": "AOC-CV-226",
+        "field": "JuratMagistrateCkBox",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 262.33,
+         "y": 282.02,
+         "w": 9.48,
+         "h": 9.48
+        },
+        "rectPx150dpi": {
+         "x0": 546,
+         "x1": 567,
+         "y0": 1042,
+         "y1": 1063
+        },
+        "darkPixelsBefore": 117,
+        "darkPixelsAfter": 76,
+        "darkPixelsInPinnedSourceAtThisRect": 76,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 5,
+        "sourceForm": "AOC-CV-226",
+        "field": "JuratNotaryCkBox",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 42.03,
+         "y": 256.82,
+         "w": 9.48,
+         "h": 9.48
+        },
+        "rectPx150dpi": {
+         "x0": 87,
+         "x1": 108,
+         "y0": 1095,
+         "y1": 1115
+        },
+        "darkPixelsBefore": 114,
+        "darkPixelsAfter": 74,
+        "darkPixelsInPinnedSourceAtThisRect": 74,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       }
+      ]
+     }
+    ]
+   },
+   "countersBefore": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "countersAfter": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "counters": {
+    "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nc_146_dismissal_petition-set",
+    "before": "PASS_COMPLETE, nine counters zero, exit 0",
+    "after": "PASS_COMPLETE, nine counters zero, exit 0",
+    "note": "The counters did not see the defect before the repair and do not see the repair after it, which is why VF08's appearance read was needed."
+   },
+   "verifiers": [
+    {
+     "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nc_146_dismissal_petition-set",
+     "when": "before the edit and again after the rebuilds",
+     "result": "PASS_COMPLETE, nine counters zero",
+     "exitCode": 0
+    },
+    {
+     "command": "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs",
+     "when": "after all three rebuilds",
+     "result": "EVERY_IDENTITY_REFRESH_SURVIVED; 249 receipts compared against HEAD, 53 carrying an identityRefresh",
+     "exitCode": 0
+    },
+    {
+     "command": "node scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs",
+     "when": "after all three rebuilds",
+     "result": "EVERY_SOURCE_CARRIED_VALUE_IS_DISPOSITIONED, 0 UNDISPOSITIONED, 0 not examinable; 26 by appearance-registry and 3 by clearSourceCarriedTextValues",
+     "exitCode": 0
+    }
+   ],
+   "preflight": {
+    "command": "MASTER_LIBRARY_SOURCE_DIR=<mounted Master Library> node scripts/verify-packet-build-environment.mjs --family nc_146_dismissal_petition-set",
+    "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 11/13 passed, 2 failed, 4 not applicable",
+    "exitCode": 1,
+    "when": "run before the edit, on a clean worktree",
+    "familySourcesBind": "6/6 source(s) bind by exact SHA-256 (custody_reconciliation); 4 found by content hash because the declared path is in a custody that is not mounted here",
+    "theFailures": [
+     "private_is_git_ignored: .gitignore line 53 is private/, and private is reached here as the read-only symlink the assignment specifies, which the trailing-slash rule does not match. Nothing under it is stageable and nothing from the corpus was committed.",
+     "corpus_matches_committed_index: 1 absent, 0 mismatched of 24 sampled -- a custody that is not mounted in this container. Every source of this family binds by exact SHA-256 regardless."
+    ],
+    "notRepairedHere": true
+   },
+   "acceptanceReceipt": null,
+   "whatWasNotDone": {
+    "centralRasterOnTheNewBytes": "Not done. The new fixtures have never been through .github/workflows/rcap-packet-raster-acceptance-batch.yml. The local pdftoppm rasters recorded above are this lane's own measurement, taken under /tmp and deleted; they are not an acceptance receipt, and no receipt was written, moved or re-pointed.",
+    "independentVerification": "Not done. This lane changed the builder and produced these bytes, so it cannot verify them. An independent lane has to re-read the repaired obligation on the new bytes at their own base."
+   }
+  },
+  {
+   "itemId": "nd-nonconviction-close-petition-set",
+   "familyId": "nd-nonconviction-close-petition-set",
+   "jurisdiction": "ND",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/nd/nd-nonconviction-close-petition-set--official-pdf-fill",
+   "status": "COMPLETED",
+   "laneKind": "repair",
+   "repairedByThisLane": true,
+   "buildHost": "scripts/build-census-v1-nd-nonconviction-close-petition-set.mjs",
+   "sharedHost": "scripts/rcap-official-forms/rcap-official-form-finalize.mjs (finalizeOfficialForm) -> scripts/rcap-official-forms/rcap-active-content.mjs (sanitizeAndFlatten)",
+   "baseSha": "d3312169e",
+   "branch": "fix65-nc-nd-nh-optin",
+   "grantConfirmed": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX65 nd-nonconviction-close-petition-set -> CLAIM_OK FIX65 nd-nonconviction-close-petition-set (repair, grant set 0c8ce1470fd2b59a), exit 0. Asserted before any artifact of this family was opened.",
+   "fixturesHashedToVF08sRecordedDigestsFirst": {
+    "checked": "before the builder was edited, both fixtures on disk were sha256'd and compared with the digests VF08 recorded in its row and in COHORT_MEASUREMENT.json",
+    "result": "both equal, for both fixtures",
+    "digests": {
+     "packet-canonical-filled.pdf": "2211ad2f8597d79a79151bc5850b222a664ba1ab935abb2d916c43612dddea58",
+     "packet-boundary-filled.pdf": "7f178d4a93edc84c72ea8123715f51da16b7bc1c91d709f575451101052ae747"
+    }
+   },
+   "verdictRepaired": {
+    "lane": "VF08",
+    "verdict": "FAIL_REPAIR_REQUIRED",
+    "verifiedAtBase": "942cab9b5",
+    "failedObligationNames": [
+     "CLIPPING_AND_OVERLAP"
+    ],
+    "measurement": "data/rcap-grade-a/packet-factory-24h/vf08/COHORT_MEASUREMENT.json",
+    "whatVF08Found": "10 of 10 selection-widget readings across the two bound fixtures delivered a stroked square that the single pinned ND petition-and-proposed-order document (sha256 21b3a790b35f...) does not print. VF08's zero-write baseline over the same pinned bytes painted the identical pixels, so the ink came from the shared flattening step and not from this family."
+   },
+   "obligationsRepaired": [
+    "CLIPPING_AND_OVERLAP"
+   ],
+   "obligationsThisRowDoesNotDischarge": [
+    "RASTER. The central acceptance receipt this family carried (RASTER_PASS, workflow run 33605354695, rendered commit 7edb05f621e6209c3660c66fd60e4f4b283faf1f) was bound to the two fixture digests recorded under digests.before, both of which this repair supersedes. It stops binding and a fresh central raster is owed on the new bytes. RASTER_QUEUE.json and MASTER_QUEUE.json were not opened for writing by this lane, and the 150 dpi rasters recorded under perWidgetMeasurement were this lane's own measurement, taken under /tmp and deleted.",
+    "INDEPENDENT VERIFICATION. This lane opted the builder in and produced these bytes, so it verifies none of them. No verdict was written or replaced; acceptanceReceipt is null and nothing is scored here. VF08's reading was taken at base 942cab9b5 against the superseded bytes and does not transfer to the new ones.",
+    "THE COHORT'S OTHER FAMILIES. VF08 measured the same shared behaviour across a wider cohort. Only the three families named on this lane are opted in, rebuilt or touched; every other family directory under data/rcap-all50/overlays/census-v1 was proved byte-identical after all three rebuilds, and the shared option stays default-off.",
+    "THE CASES THE OPTION LEAVES ALONE BY DESIGN. A widget that ships its own stream for the state it is set to, a widget with no /AS at all, a widget whose /AP /N is a bare stream rather than a state dictionary, and any widget of a field this run wrote. None is altered, and this row makes no claim about any of them beyond having measured them unchanged.",
+    "THE PREFLIGHT'S ENVIRONMENT FAILURES. scripts/verify-packet-build-environment.mjs does not report READY in this container. The failures are properties of the container (private/ reached through the symlink the assignment specifies, one sampled corpus entry whose custody is not mounted here) plus the worktree carrying this repair's uncommitted work while it was in progress. None is repaired here.",
+    "REVIEW AND PROMOTION. No build status, review status, legal decision, product-wiring binding or route was changed. Visual review, counsel review and source freshness review are untouched and this row promotes nothing."
+   ],
+   "whatChanged": {
+    "theBuilder": "scripts/build-census-v1-nd-nonconviction-close-petition-set.mjs now passes suppressSynthesizedAppearances: true in its finalizeOfficialForm call, with a comment naming the VF08 measurement it answers. That is the only change to this builder.",
+    "whyTheOptionAloneIsEnoughHere": "This builder hands finalizeOfficialForm the pinned source bytes themselves. It performs no intermediate pdf-lib save of the source document that feeds the finalizer, so the FIX57 pattern -- a neutralization save at pdf-lib's default updateFieldAppearances baking the square in before the finalizer is entered -- is absent, and no updateFieldAppearances: false repair was needed or made.",
+    "theSharedMachinery": "Nothing in scripts/rcap-official-forms/rcap-active-content.mjs or scripts/rcap-official-forms/rcap-official-form-finalize.mjs was edited. The option, its default of false and its behaviour are exactly as FIX50 landed them and as FIX55 and FIX64 opted into them; this lane only opts in.",
+    "whatTheOptionDoes": "For a check-box or radio widget whose field this run did not write and whose current /AS state has no stream under /AP /N, an empty form XObject sized to the widget's own /Rect is installed for that state before updateFieldAppearances runs. pdf-lib then reports no update is needed and synthesizes nothing, so the square is never drawn and never flattened. The missing state is supplied rather than a drawing suppressed.",
+    "whatIsNeverTouched": "A widget that already ships a stream for the state it is set to, a widget of a field this run wrote, a widget with no /AS, a widget whose /AP /N is a bare stream, and every text field, chooser and pushbutton. A ticked box still renders its mark from the stream the source ships.",
+    "whatDidNotChange": "No default behaviour anywhere. No other family's builder, directory or bytes. No whitelist by family, form, field or route exists to change and none was created. MASTER_QUEUE.json, RASTER_QUEUE.json, the legal-decision records, product-wiring.json and the claim ledger's other entries were not opened for writing.",
+    "regeneratedArtifacts": "The family's own build outputs moved with the bytes: both fixtures, and the reports the builder rewrites from them."
+   },
+   "rebuild": {
+    "command": "MASTER_LIBRARY_SOURCE_DIR=<mounted Master Library> node scripts/build-census-v1-nd-nonconviction-close-petition-set.mjs",
+    "exit": 0,
+    "runTwiceByteIdentical": true,
+    "howProved": "The whole family directory was copied aside after the first build and compared with diff -r against the directory the second full build produced. Zero differences across every file.",
+    "pageCountUnchanged": true
+   },
+   "digests": {
+    "before": {
+     "packet-canonical-filled.pdf": {
+      "sha256": "2211ad2f8597d79a79151bc5850b222a664ba1ab935abb2d916c43612dddea58",
+      "bytes": 180315,
+      "pages": 6
+     },
+     "packet-boundary-filled.pdf": {
+      "sha256": "7f178d4a93edc84c72ea8123715f51da16b7bc1c91d709f575451101052ae747",
+      "bytes": 180211,
+      "pages": 6
+     }
+    },
+    "after": {
+     "packet-canonical-filled.pdf": {
+      "sha256": "63b92427c2e60f8c1132a0e80effcc1c17adac1958ca1bdb28c22658c102add6",
+      "bytes": 180118,
+      "pages": 6
+     },
+     "packet-boundary-filled.pdf": {
+      "sha256": "31cbf55ac9671f1440732987b2d41c3cad80bcb8c43474e4b09e328b922ee401",
+      "bytes": 180014,
+      "pages": 6
+     }
+    }
+   },
+   "perWidgetMeasurement": {
+    "method": "Every page of both fixtures rastered with pdftoppm at 150 dpi, greyscale, from the bytes before the edit and again from the committed bytes after it. Each bound pinned source was resolved by SHA-256 against the mounted Master Library and rastered the same way. Each delivered page was matched to a source page by ink overlap, never by a declared page manifest. Each exposed selection widget's /Rect was mapped to pixels through that source page's own CropBox and read three ways: dark pixels before, dark pixels after, and dark pixels the pinned form paints there itself.",
+    "dpi": 150,
+    "rastersDeletedAfterMeasuring": true,
+    "widgetRectsVF08Counted": 10,
+    "widgetRectsMeasuredHere": 10,
+    "widgetRectsNowCarryingExactlyThePinnedFormsOwnInk": 10,
+    "everyWidgetRectCleared": true,
+    "whatClearedMeans": "At that rect the delivered page after the repair equals the pinned form's own raster pixel for pixel -- pixelsDifferingFromPinnedSourceAfter is 0 -- so the page there carries the form's ink and nothing else.",
+    "exposedWidgetsPerSource": [
+     {
+      "sha256": "21b3a790b35f35c345560d9840bf39ca6f1e46cf1b9166c0e5ae2cf8ff7e4d7f",
+      "resolvedFrom": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/ND/02_PACKET_FORMS/ND__FORM__EXPERTISE__instructions-for-petition-to-close-nonconviction-records__REV-2025-08-01__EN.pdf",
+      "selectionWidgets": 5,
+      "widgetsShippingTheirOwnState": 0,
+      "exposedWidgets": 5
+     }
+    ],
+    "noOtherPixelMoved": {
+     "changedPixelsAcrossBothFixtures": 1484,
+     "changedPixelsOutsideTheMeasuredWidgetRects": 0,
+     "changedPixelsOutsideThoseRectsDilatedByOnePixel": 0,
+     "note": "Zero, dilated by one pixel as well. Every pixel that moved anywhere on any page of either fixture lies inside one of the measured widget rects.",
+     "participantWritesAndIntendedMarks": "Unchanged. Every participant write and every mark this run makes lies outside the measured rects, and no pixel outside those rects moved on any page of either fixture.",
+     "corroboration": "The changed-pixel totals reproduce VF08's own negative controls exactly: 21b3a790b35f 742. That is the same number arrived at from the opposite direction, by an isolating control over the pinned bytes rather than by a before/after read of the delivered pages."
+    },
+    "perFixture": [
+     {
+      "fixture": "packet-canonical-filled.pdf",
+      "pages": 6,
+      "exposedWidgetRectsMeasured": 5,
+      "widgetsNowCarryingExactlyThePinnedFormsOwnInk": 5,
+      "changedPixelsWholeFixture": 742,
+      "changedPixelsOutsideExposedRects": 0,
+      "changedPixelsOutsideExposedRectsDilatedOnePixel": 0,
+      "participantWriteRectsUnchanged": true,
+      "widgets": [
+       {
+        "deliveredPage": 3,
+        "sourceForm": "EXPERTISE",
+        "field": "Check Box7",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 105.18,
+         "y": 313.59,
+         "w": 17.47,
+         "h": 18.53
+        },
+        "rectPx150dpi": {
+         "x0": 219,
+         "x1": 256,
+         "y0": 958,
+         "y1": 997
+        },
+        "darkPixelsBefore": 358,
+        "darkPixelsAfter": 210,
+        "darkPixelsInPinnedSourceAtThisRect": 210,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 3,
+        "sourceForm": "EXPERTISE",
+        "field": "Check Box8",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 105.18,
+         "y": 253.11,
+         "w": 18,
+         "h": 18
+        },
+        "rectPx150dpi": {
+         "x0": 219,
+         "x1": 257,
+         "y0": 1085,
+         "y1": 1123
+        },
+        "darkPixelsBefore": 358,
+        "darkPixelsAfter": 210,
+        "darkPixelsInPinnedSourceAtThisRect": 210,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 3,
+        "sourceForm": "EXPERTISE",
+        "field": "Check Box9",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 105.18,
+         "y": 165.66,
+         "w": 18,
+         "h": 18
+        },
+        "rectPx150dpi": {
+         "x0": 219,
+         "x1": 257,
+         "y0": 1267,
+         "y1": 1305
+        },
+        "darkPixelsBefore": 358,
+        "darkPixelsAfter": 210,
+        "darkPixelsInPinnedSourceAtThisRect": 210,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 5,
+        "sourceForm": "EXPERTISE",
+        "field": "Check Box10",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 105.64,
+         "y": 339.9,
+         "w": 18,
+         "h": 18
+        },
+        "rectPx150dpi": {
+         "x0": 220,
+         "x1": 258,
+         "y0": 904,
+         "y1": 942
+        },
+        "darkPixelsBefore": 358,
+        "darkPixelsAfter": 210,
+        "darkPixelsInPinnedSourceAtThisRect": 210,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 5,
+        "sourceForm": "EXPERTISE",
+        "field": "Check Box11",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 105.64,
+         "y": 221.65,
+         "w": 18,
+         "h": 18
+        },
+        "rectPx150dpi": {
+         "x0": 220,
+         "x1": 258,
+         "y0": 1150,
+         "y1": 1189
+        },
+        "darkPixelsBefore": 360,
+        "darkPixelsAfter": 210,
+        "darkPixelsInPinnedSourceAtThisRect": 210,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       }
+      ]
+     },
+     {
+      "fixture": "packet-boundary-filled.pdf",
+      "pages": 6,
+      "exposedWidgetRectsMeasured": 5,
+      "widgetsNowCarryingExactlyThePinnedFormsOwnInk": 5,
+      "changedPixelsWholeFixture": 742,
+      "changedPixelsOutsideExposedRects": 0,
+      "changedPixelsOutsideExposedRectsDilatedOnePixel": 0,
+      "participantWriteRectsUnchanged": true,
+      "widgets": [
+       {
+        "deliveredPage": 3,
+        "sourceForm": "EXPERTISE",
+        "field": "Check Box7",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 105.18,
+         "y": 313.59,
+         "w": 17.47,
+         "h": 18.53
+        },
+        "rectPx150dpi": {
+         "x0": 219,
+         "x1": 256,
+         "y0": 958,
+         "y1": 997
+        },
+        "darkPixelsBefore": 358,
+        "darkPixelsAfter": 210,
+        "darkPixelsInPinnedSourceAtThisRect": 210,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 3,
+        "sourceForm": "EXPERTISE",
+        "field": "Check Box8",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 105.18,
+         "y": 253.11,
+         "w": 18,
+         "h": 18
+        },
+        "rectPx150dpi": {
+         "x0": 219,
+         "x1": 257,
+         "y0": 1085,
+         "y1": 1123
+        },
+        "darkPixelsBefore": 358,
+        "darkPixelsAfter": 210,
+        "darkPixelsInPinnedSourceAtThisRect": 210,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 3,
+        "sourceForm": "EXPERTISE",
+        "field": "Check Box9",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 105.18,
+         "y": 165.66,
+         "w": 18,
+         "h": 18
+        },
+        "rectPx150dpi": {
+         "x0": 219,
+         "x1": 257,
+         "y0": 1267,
+         "y1": 1305
+        },
+        "darkPixelsBefore": 358,
+        "darkPixelsAfter": 210,
+        "darkPixelsInPinnedSourceAtThisRect": 210,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 5,
+        "sourceForm": "EXPERTISE",
+        "field": "Check Box10",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 105.64,
+         "y": 339.9,
+         "w": 18,
+         "h": 18
+        },
+        "rectPx150dpi": {
+         "x0": 220,
+         "x1": 258,
+         "y0": 904,
+         "y1": 942
+        },
+        "darkPixelsBefore": 358,
+        "darkPixelsAfter": 210,
+        "darkPixelsInPinnedSourceAtThisRect": 210,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 5,
+        "sourceForm": "EXPERTISE",
+        "field": "Check Box11",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 105.64,
+         "y": 221.65,
+         "w": 18,
+         "h": 18
+        },
+        "rectPx150dpi": {
+         "x0": 220,
+         "x1": 258,
+         "y0": 1150,
+         "y1": 1189
+        },
+        "darkPixelsBefore": 360,
+        "darkPixelsAfter": 210,
+        "darkPixelsInPinnedSourceAtThisRect": 210,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       }
+      ]
+     }
+    ]
+   },
+   "countersBefore": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "countersAfter": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "counters": {
+    "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nd-nonconviction-close-petition-set",
+    "before": "PASS_COMPLETE, nine counters zero, exit 0",
+    "after": "PASS_COMPLETE, nine counters zero, exit 0",
+    "note": "The counters did not see the defect before the repair and do not see the repair after it, which is why VF08's appearance read was needed."
+   },
+   "verifiers": [
+    {
+     "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nd-nonconviction-close-petition-set",
+     "when": "before the edit and again after the rebuilds",
+     "result": "PASS_COMPLETE, nine counters zero",
+     "exitCode": 0
+    },
+    {
+     "command": "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs",
+     "when": "after all three rebuilds",
+     "result": "EVERY_IDENTITY_REFRESH_SURVIVED; 249 receipts compared against HEAD, 53 carrying an identityRefresh",
+     "exitCode": 0
+    },
+    {
+     "command": "node scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs",
+     "when": "after all three rebuilds",
+     "result": "EVERY_SOURCE_CARRIED_VALUE_IS_DISPOSITIONED, 0 UNDISPOSITIONED, 0 not examinable; 26 by appearance-registry and 3 by clearSourceCarriedTextValues",
+     "exitCode": 0
+    }
+   ],
+   "preflight": {
+    "command": "MASTER_LIBRARY_SOURCE_DIR=<mounted Master Library> node scripts/verify-packet-build-environment.mjs --family nd-nonconviction-close-petition-set",
+    "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 10/13 passed, 3 failed, 4 not applicable",
+    "exitCode": 1,
+    "when": "run after the rebuilds, while the worktree still carried this repair's uncommitted work",
+    "familySourcesBind": "3/3 source(s) bind by exact SHA-256 (custody_reconciliation)",
+    "theFailures": [
+     "worktree_clean: 28 uncommitted path(s) -- this repair's own work in progress, not a property of the environment.",
+     "private_is_git_ignored: private is reached here as the read-only symlink the assignment specifies, which .gitignore's trailing-slash rule does not match. Nothing under it is stageable and nothing from the corpus was committed.",
+     "corpus_matches_committed_index: 1 absent, 0 mismatched of 24 sampled -- a custody that is not mounted in this container."
+    ],
+    "notRepairedHere": true
+   },
+   "acceptanceReceipt": null,
+   "whatWasNotDone": {
+    "centralRasterOnTheNewBytes": "Not done. The new fixtures have never been through .github/workflows/rcap-packet-raster-acceptance-batch.yml. The local pdftoppm rasters recorded above are this lane's own measurement, taken under /tmp and deleted; they are not an acceptance receipt, and no receipt was written, moved or re-pointed.",
+    "independentVerification": "Not done. This lane changed the builder and produced these bytes, so it cannot verify them. An independent lane has to re-read the repaired obligation on the new bytes at their own base."
+   }
+  },
+  {
+   "itemId": "nh_petition_nonconviction_pre2019-set",
+   "familyId": "nh_petition_nonconviction_pre2019-set",
+   "jurisdiction": "NH",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/nh/nh-petition-nonconviction-pre2019-set--official-pdf-fill",
+   "status": "COMPLETED",
+   "laneKind": "repair",
+   "repairedByThisLane": true,
+   "buildHost": "scripts/build-census-v1-nh_petition_nonconviction_pre2019-set.mjs",
+   "sharedHost": "scripts/rcap-official-forms/rcap-official-form-finalize.mjs (finalizeOfficialForm) -> scripts/rcap-official-forms/rcap-active-content.mjs (sanitizeAndFlatten)",
+   "baseSha": "d3312169e",
+   "branch": "fix65-nc-nd-nh-optin",
+   "grantConfirmed": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX65 nh_petition_nonconviction_pre2019-set -> CLAIM_OK FIX65 nh_petition_nonconviction_pre2019-set (repair, grant set 0c8ce1470fd2b59a), exit 0. Asserted before any artifact of this family was opened.",
+   "fixturesHashedToVF08sRecordedDigestsFirst": {
+    "checked": "before the builder was edited, both fixtures on disk were sha256'd and compared with the digests VF08 recorded in its row and in COHORT_MEASUREMENT.json",
+    "result": "both equal, for both fixtures",
+    "digests": {
+     "canonical.pdf": "efb8c5486ce521466e3ac1edd454f92aa1e9f2e54dfe4b68f56e5a6023798ff2",
+     "boundary.pdf": "749404b0b40cc2dd83e29f96aee7aadcec8b423fe0dc55ecd1bbb75f058ff74c"
+    }
+   },
+   "verdictRepaired": {
+    "lane": "VF08",
+    "verdict": "FAIL_REPAIR_REQUIRED",
+    "verifiedAtBase": "942cab9b5",
+    "failedObligationNames": [
+     "CLIPPING_AND_OVERLAP"
+    ],
+    "measurement": "data/rcap-grade-a/packet-factory-24h/vf08/COHORT_MEASUREMENT.json",
+    "whatVF08Found": "38 of 38 selection-widget readings across the two bound fixtures delivered a stroked square that NHJB-2317 and NHJB-2328 does not print. VF08's zero-write baseline over the same pinned bytes painted the identical pixels, so the ink came from the shared flattening step and not from this family."
+   },
+   "obligationsRepaired": [
+    "CLIPPING_AND_OVERLAP"
+   ],
+   "obligationsThisRowDoesNotDischarge": [
+    "RASTER. The central acceptance receipt this family carried (RASTER_PASS, workflow run 33965424724, rendered commit aefd46f7cf0925a1b71151c9e8ec14732c8e560f) was bound to the two fixture digests recorded under digests.before, both of which this repair supersedes. It stops binding and a fresh central raster is owed on the new bytes. RASTER_QUEUE.json and MASTER_QUEUE.json were not opened for writing by this lane, and the 150 dpi rasters recorded under perWidgetMeasurement were this lane's own measurement, taken under /tmp and deleted.",
+    "INDEPENDENT VERIFICATION. This lane opted the builder in and produced these bytes, so it verifies none of them. No verdict was written or replaced; acceptanceReceipt is null and nothing is scored here. VF08's reading was taken at base 942cab9b5 against the superseded bytes and does not transfer to the new ones.",
+    "THE COHORT'S OTHER FAMILIES. VF08 measured the same shared behaviour across a wider cohort. Only the three families named on this lane are opted in, rebuilt or touched; every other family directory under data/rcap-all50/overlays/census-v1 was proved byte-identical after all three rebuilds, and the shared option stays default-off.",
+    "THE CASES THE OPTION LEAVES ALONE BY DESIGN. A widget that ships its own stream for the state it is set to, a widget with no /AS at all, a widget whose /AP /N is a bare stream rather than a state dictionary, and any widget of a field this run wrote. None is altered, and this row makes no claim about any of them beyond having measured them unchanged.",
+    "THE PREFLIGHT'S ENVIRONMENT FAILURES. scripts/verify-packet-build-environment.mjs does not report READY in this container. The failures are properties of the container (private/ reached through the symlink the assignment specifies, one sampled corpus entry whose custody is not mounted here) plus the worktree carrying this repair's uncommitted work while it was in progress. None is repaired here.",
+    "REVIEW AND PROMOTION. No build status, review status, legal decision, product-wiring binding or route was changed. Visual review, counsel review and source freshness review are untouched and this row promotes nothing."
+   ],
+   "whatChanged": {
+    "theBuilder": "scripts/build-census-v1-nh_petition_nonconviction_pre2019-set.mjs now passes suppressSynthesizedAppearances: true in its finalizeOfficialForm call, with a comment naming the VF08 measurement it answers. That is the only change to this builder.",
+    "whyTheOptionAloneIsEnoughHere": "This builder hands finalizeOfficialForm the pinned source bytes themselves. It performs no intermediate pdf-lib save of the source document that feeds the finalizer, so the FIX57 pattern -- a neutralization save at pdf-lib's default updateFieldAppearances baking the square in before the finalizer is entered -- is absent, and no updateFieldAppearances: false repair was needed or made.",
+    "theSharedMachinery": "Nothing in scripts/rcap-official-forms/rcap-active-content.mjs or scripts/rcap-official-forms/rcap-official-form-finalize.mjs was edited. The option, its default of false and its behaviour are exactly as FIX50 landed them and as FIX55 and FIX64 opted into them; this lane only opts in.",
+    "whatTheOptionDoes": "For a check-box or radio widget whose field this run did not write and whose current /AS state has no stream under /AP /N, an empty form XObject sized to the widget's own /Rect is installed for that state before updateFieldAppearances runs. pdf-lib then reports no update is needed and synthesizes nothing, so the square is never drawn and never flattened. The missing state is supplied rather than a drawing suppressed.",
+    "whatIsNeverTouched": "A widget that already ships a stream for the state it is set to, a widget of a field this run wrote, a widget with no /AS, a widget whose /AP /N is a bare stream, and every text field, chooser and pushbutton. A ticked box still renders its mark from the stream the source ships.",
+    "whatDidNotChange": "No default behaviour anywhere. No other family's builder, directory or bytes. No whitelist by family, form, field or route exists to change and none was created. MASTER_QUEUE.json, RASTER_QUEUE.json, the legal-decision records, product-wiring.json and the claim ledger's other entries were not opened for writing.",
+    "regeneratedArtifacts": "The family's own build outputs moved with the bytes: both fixtures, and the reports the builder rewrites from them.",
+    "oneThingWorthNaming": "This builder does perform a pdf-lib save of the source at pdf-lib's default updateFieldAppearances, in sourceInkOf(). It is NOT the FIX57 pattern: that save produces a throwaway in-memory reading of what the pinned form draws by itself, is never handed to finalizeOfficialForm and never reaches a delivered byte. The delivered path passes source.bytes straight into the finalizer, so the option alone is the whole repair and no updateFieldAppearances: false change was needed or made."
+   },
+   "rebuild": {
+    "command": "MASTER_LIBRARY_SOURCE_DIR=<mounted Master Library> node scripts/build-census-v1-nh_petition_nonconviction_pre2019-set.mjs",
+    "exit": 0,
+    "runTwiceByteIdentical": true,
+    "howProved": "The whole family directory was copied aside after the first build and compared with diff -r against the directory the second full build produced. Zero differences across every file.",
+    "pageCountUnchanged": true
+   },
+   "digests": {
+    "before": {
+     "canonical.pdf": {
+      "sha256": "efb8c5486ce521466e3ac1edd454f92aa1e9f2e54dfe4b68f56e5a6023798ff2",
+      "bytes": 183524,
+      "pages": 9
+     },
+     "boundary.pdf": {
+      "sha256": "749404b0b40cc2dd83e29f96aee7aadcec8b423fe0dc55ecd1bbb75f058ff74c",
+      "bytes": 183527,
+      "pages": 9
+     }
+    },
+    "after": {
+     "canonical.pdf": {
+      "sha256": "09903a851aa2f95ad2ae5d92b169edd322fbbc97c974681f5b9f7be9dc6b92c6",
+      "bytes": 182506,
+      "pages": 9
+     },
+     "boundary.pdf": {
+      "sha256": "b1abb9972ccdb1080688a2b70644a81410975c9034e5b4833ac9de02a76d41b9",
+      "bytes": 182509,
+      "pages": 9
+     }
+    }
+   },
+   "perWidgetMeasurement": {
+    "method": "Every page of both fixtures rastered with pdftoppm at 150 dpi, greyscale, from the bytes before the edit and again from the committed bytes after it. Each bound pinned source was resolved by SHA-256 against the mounted Master Library and rastered the same way. Each delivered page was matched to a source page by ink overlap, never by a declared page manifest. Each exposed selection widget's /Rect was mapped to pixels through that source page's own CropBox and read three ways: dark pixels before, dark pixels after, and dark pixels the pinned form paints there itself.",
+    "dpi": 150,
+    "rastersDeletedAfterMeasuring": true,
+    "widgetRectsVF08Counted": 38,
+    "widgetRectsMeasuredHere": 38,
+    "widgetRectsNowCarryingExactlyThePinnedFormsOwnInk": 38,
+    "everyWidgetRectCleared": true,
+    "whatClearedMeans": "At that rect the delivered page after the repair equals the pinned form's own raster pixel for pixel -- pixelsDifferingFromPinnedSourceAfter is 0 -- so the page there carries the form's ink and nothing else.",
+    "exposedWidgetsPerSource": [
+     {
+      "sha256": "2fc2e1ede5201c17aa6a6e7726aff4659a649131429f8fec69771bc2b62f662c",
+      "resolvedFrom": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NH/02_PACKET_FORMS/NH__FORM__NHJB-2317__petition-to-annul-record__REV-2019-06__EN.pdf",
+      "selectionWidgets": 10,
+      "widgetsShippingTheirOwnState": 0,
+      "exposedWidgets": 10
+     },
+     {
+      "sha256": "f8b5df1366a91a9fd177612c0519f941b8d4f60e1f8f84c2a6c0c064ba7da58e",
+      "resolvedFrom": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NH/04_SUPPORTING_PROCESS/NH__SUPPORT__NHJB-2311__nhjb-2311-motion-for-waiver-of-filing-fee__REV-2018-01__EN.pdf",
+      "selectionWidgets": 0,
+      "widgetsShippingTheirOwnState": 0,
+      "exposedWidgets": 0
+     },
+     {
+      "sha256": "b4384b41efb472951c28b1289e46b05dfcc9463147aa490597f541f5291ce919",
+      "resolvedFrom": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NH/04_SUPPORTING_PROCESS/NH__SUPPORT__NHJB-2328__nhjb-2328-statement-of-assets-and-liabilities-individual__REV-UNKNOWN__EN.pdf",
+      "selectionWidgets": 9,
+      "widgetsShippingTheirOwnState": 0,
+      "exposedWidgets": 9
+     },
+     {
+      "sha256": "c8e5e9fead600ad30a956eac98c43d30d9ca3a3b8b4bc619713e50c83524f569",
+      "resolvedFrom": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NH/04_SUPPORTING_PROCESS/NH__SUPPORT__NHJB-2956__nhjb-2956-criminal-record-release-authorization__REV-UNKNOWN__EN.pdf",
+      "selectionWidgets": 0,
+      "widgetsShippingTheirOwnState": 0,
+      "exposedWidgets": 0
+     }
+    ],
+    "noOtherPixelMoved": {
+     "changedPixelsAcrossBothFixtures": 4416,
+     "changedPixelsOutsideTheMeasuredWidgetRects": 0,
+     "changedPixelsOutsideThoseRectsDilatedByOnePixel": 0,
+     "note": "Zero, dilated by one pixel as well. Every pixel that moved anywhere on any page of either fixture lies inside one of the measured widget rects.",
+     "participantWritesAndIntendedMarks": "Unchanged. Every participant write and every mark this run makes lies outside the measured rects, and no pixel outside those rects moved on any page of either fixture.",
+     "corroboration": "The changed-pixel totals reproduce VF08's own negative controls exactly: NHJB-2317 1122, NHJB-2328 1086. That is the same number arrived at from the opposite direction, by an isolating control over the pinned bytes rather than by a before/after read of the delivered pages."
+    },
+    "perFixture": [
+     {
+      "fixture": "canonical.pdf",
+      "pages": 9,
+      "exposedWidgetRectsMeasured": 19,
+      "widgetsNowCarryingExactlyThePinnedFormsOwnInk": 19,
+      "changedPixelsWholeFixture": 2208,
+      "changedPixelsOutsideExposedRects": 0,
+      "changedPixelsOutsideExposedRectsDilatedOnePixel": 0,
+      "participantWriteRectsUnchanged": true,
+      "widgets": [
+       {
+        "deliveredPage": 2,
+        "sourceForm": "NHJB-2317",
+        "field": "Check Box1",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 35.25,
+         "y": 344.25,
+         "w": 14.54,
+         "h": 13.71
+        },
+        "rectPx150dpi": {
+         "x0": 73,
+         "x1": 104,
+         "y0": 904,
+         "y1": 933
+        },
+        "darkPixelsBefore": 235,
+        "darkPixelsAfter": 144,
+        "darkPixelsInPinnedSourceAtThisRect": 144,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 2,
+        "sourceForm": "NHJB-2317",
+        "field": "Check Box2",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 467.98,
+         "y": 283.64,
+         "w": 14.54,
+         "h": 13.34
+        },
+        "rectPx150dpi": {
+         "x0": 974,
+         "x1": 1006,
+         "y0": 1031,
+         "y1": 1060
+        },
+        "darkPixelsBefore": 214,
+        "darkPixelsAfter": 96,
+        "darkPixelsInPinnedSourceAtThisRect": 96,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 2,
+        "sourceForm": "NHJB-2317",
+        "field": "cb1",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 35.11,
+         "y": 667.26,
+         "w": 14.54,
+         "h": 13.72
+        },
+        "rectPx150dpi": {
+         "x0": 73,
+         "x1": 104,
+         "y0": 231,
+         "y1": 260
+        },
+        "darkPixelsBefore": 245,
+        "darkPixelsAfter": 129,
+        "darkPixelsInPinnedSourceAtThisRect": 129,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 2,
+        "sourceForm": "NHJB-2317",
+        "field": "cb2",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 35.86,
+         "y": 633.4,
+         "w": 14.54,
+         "h": 13.71
+        },
+        "rectPx150dpi": {
+         "x0": 74,
+         "x1": 105,
+         "y0": 301,
+         "y1": 331
+        },
+        "darkPixelsBefore": 189,
+        "darkPixelsAfter": 96,
+        "darkPixelsInPinnedSourceAtThisRect": 96,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 2,
+        "sourceForm": "NHJB-2317",
+        "field": "cb3",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 35.65,
+         "y": 599.71,
+         "w": 14.54,
+         "h": 13.71
+        },
+        "rectPx150dpi": {
+         "x0": 74,
+         "x1": 105,
+         "y0": 372,
+         "y1": 401
+        },
+        "darkPixelsBefore": 212,
+        "darkPixelsAfter": 96,
+        "darkPixelsInPinnedSourceAtThisRect": 96,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 2,
+        "sourceForm": "NHJB-2317",
+        "field": "cb4",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 35.25,
+         "y": 552.39,
+         "w": 14.54,
+         "h": 13.72
+        },
+        "rectPx150dpi": {
+         "x0": 73,
+         "x1": 104,
+         "y0": 470,
+         "y1": 500
+        },
+        "darkPixelsBefore": 214,
+        "darkPixelsAfter": 96,
+        "darkPixelsInPinnedSourceAtThisRect": 96,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 2,
+        "sourceForm": "NHJB-2317",
+        "field": "cb5",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 35.25,
+         "y": 518.7,
+         "w": 14.54,
+         "h": 13.72
+        },
+        "rectPx150dpi": {
+         "x0": 73,
+         "x1": 104,
+         "y0": 540,
+         "y1": 570
+        },
+        "darkPixelsBefore": 214,
+        "darkPixelsAfter": 96,
+        "darkPixelsInPinnedSourceAtThisRect": 96,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 2,
+        "sourceForm": "NHJB-2317",
+        "field": "cb6",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 35.65,
+         "y": 457.74,
+         "w": 14.54,
+         "h": 13.71
+        },
+        "rectPx150dpi": {
+         "x0": 74,
+         "x1": 105,
+         "y0": 667,
+         "y1": 697
+        },
+        "darkPixelsBefore": 262,
+        "darkPixelsAfter": 144,
+        "darkPixelsInPinnedSourceAtThisRect": 144,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 2,
+        "sourceForm": "NHJB-2317",
+        "field": "cb7",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 35.25,
+         "y": 397.99,
+         "w": 14.54,
+         "h": 13.72
+        },
+        "rectPx150dpi": {
+         "x0": 73,
+         "x1": 104,
+         "y0": 792,
+         "y1": 821
+        },
+        "darkPixelsBefore": 212,
+        "darkPixelsAfter": 96,
+        "darkPixelsInPinnedSourceAtThisRect": 96,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 2,
+        "sourceForm": "NHJB-2317",
+        "field": "cb8",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 35.25,
+         "y": 364.7,
+         "w": 14.54,
+         "h": 13.72
+        },
+        "rectPx150dpi": {
+         "x0": 73,
+         "x1": 104,
+         "y0": 861,
+         "y1": 891
+        },
+        "darkPixelsBefore": 214,
+        "darkPixelsAfter": 96,
+        "darkPixelsInPinnedSourceAtThisRect": 96,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 6,
+        "sourceForm": "NHJB-2328",
+        "field": "cb.1",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 179.06,
+         "y": 542.83,
+         "w": 14.54,
+         "h": 13.71
+        },
+        "rectPx150dpi": {
+         "x0": 373,
+         "x1": 404,
+         "y0": 490,
+         "y1": 520
+        },
+        "darkPixelsBefore": 227,
+        "darkPixelsAfter": 109,
+        "darkPixelsInPinnedSourceAtThisRect": 109,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 6,
+        "sourceForm": "NHJB-2328",
+        "field": "cb.1",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 251.58,
+         "y": 542,
+         "w": 14.54,
+         "h": 13.71
+        },
+        "rectPx150dpi": {
+         "x0": 524,
+         "x1": 555,
+         "y0": 492,
+         "y1": 521
+        },
+        "darkPixelsBefore": 225,
+        "darkPixelsAfter": 109,
+        "darkPixelsInPinnedSourceAtThisRect": 109,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 6,
+        "sourceForm": "NHJB-2328",
+        "field": "cb.1",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 332.29,
+         "y": 542,
+         "w": 14.54,
+         "h": 13.71
+        },
+        "rectPx150dpi": {
+         "x0": 692,
+         "x1": 723,
+         "y0": 492,
+         "y1": 521
+        },
+        "darkPixelsBefore": 248,
+        "darkPixelsAfter": 132,
+        "darkPixelsInPinnedSourceAtThisRect": 132,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 6,
+        "sourceForm": "NHJB-2328",
+        "field": "cb.1",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 431.25,
+         "y": 542,
+         "w": 14.54,
+         "h": 13.71
+        },
+        "rectPx150dpi": {
+         "x0": 898,
+         "x1": 929,
+         "y0": 492,
+         "y1": 521
+        },
+        "darkPixelsBefore": 225,
+        "darkPixelsAfter": 109,
+        "darkPixelsInPinnedSourceAtThisRect": 109,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 6,
+        "sourceForm": "NHJB-2328",
+        "field": "cb.2",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 412.31,
+         "y": 450.8,
+         "w": 15.54,
+         "h": 14.71
+        },
+        "rectPx150dpi": {
+         "x0": 858,
+         "x1": 892,
+         "y0": 680,
+         "y1": 711
+        },
+        "darkPixelsBefore": 255,
+        "darkPixelsAfter": 129,
+        "darkPixelsInPinnedSourceAtThisRect": 129,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 6,
+        "sourceForm": "NHJB-2328",
+        "field": "cb.2",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 502.24,
+         "y": 450.8,
+         "w": 15.54,
+         "h": 14.71
+        },
+        "rectPx150dpi": {
+         "x0": 1046,
+         "x1": 1079,
+         "y0": 680,
+         "y1": 711
+        },
+        "darkPixelsBefore": 253,
+        "darkPixelsAfter": 129,
+        "darkPixelsInPinnedSourceAtThisRect": 129,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 6,
+        "sourceForm": "NHJB-2328",
+        "field": "cb.3",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 412.34,
+         "y": 391.28,
+         "w": 15.54,
+         "h": 14.71
+        },
+        "rectPx150dpi": {
+         "x0": 859,
+         "x1": 892,
+         "y0": 804,
+         "y1": 835
+        },
+        "darkPixelsBefore": 276,
+        "darkPixelsAfter": 152,
+        "darkPixelsInPinnedSourceAtThisRect": 152,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 6,
+        "sourceForm": "NHJB-2328",
+        "field": "cb.3",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 502.18,
+         "y": 390.82,
+         "w": 15.54,
+         "h": 14.71
+        },
+        "rectPx150dpi": {
+         "x0": 1046,
+         "x1": 1079,
+         "y0": 805,
+         "y1": 836
+        },
+        "darkPixelsBefore": 276,
+        "darkPixelsAfter": 152,
+        "darkPixelsInPinnedSourceAtThisRect": 152,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 8,
+        "sourceForm": "NHJB-2328",
+        "field": "cbcert.1",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 36.06,
+         "y": 713.27,
+         "w": 14.54,
+         "h": 14.72
+        },
+        "rectPx150dpi": {
+         "x0": 75,
+         "x1": 106,
+         "y0": 133,
+         "y1": 165
+        },
+        "darkPixelsBefore": 218,
+        "darkPixelsAfter": 96,
+        "darkPixelsInPinnedSourceAtThisRect": 96,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       }
+      ]
+     },
+     {
+      "fixture": "boundary.pdf",
+      "pages": 9,
+      "exposedWidgetRectsMeasured": 19,
+      "widgetsNowCarryingExactlyThePinnedFormsOwnInk": 19,
+      "changedPixelsWholeFixture": 2208,
+      "changedPixelsOutsideExposedRects": 0,
+      "changedPixelsOutsideExposedRectsDilatedOnePixel": 0,
+      "participantWriteRectsUnchanged": true,
+      "widgets": [
+       {
+        "deliveredPage": 2,
+        "sourceForm": "NHJB-2317",
+        "field": "Check Box1",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 35.25,
+         "y": 344.25,
+         "w": 14.54,
+         "h": 13.71
+        },
+        "rectPx150dpi": {
+         "x0": 73,
+         "x1": 104,
+         "y0": 904,
+         "y1": 933
+        },
+        "darkPixelsBefore": 235,
+        "darkPixelsAfter": 144,
+        "darkPixelsInPinnedSourceAtThisRect": 144,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 2,
+        "sourceForm": "NHJB-2317",
+        "field": "Check Box2",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 467.98,
+         "y": 283.64,
+         "w": 14.54,
+         "h": 13.34
+        },
+        "rectPx150dpi": {
+         "x0": 974,
+         "x1": 1006,
+         "y0": 1031,
+         "y1": 1060
+        },
+        "darkPixelsBefore": 214,
+        "darkPixelsAfter": 96,
+        "darkPixelsInPinnedSourceAtThisRect": 96,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 2,
+        "sourceForm": "NHJB-2317",
+        "field": "cb1",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 35.11,
+         "y": 667.26,
+         "w": 14.54,
+         "h": 13.72
+        },
+        "rectPx150dpi": {
+         "x0": 73,
+         "x1": 104,
+         "y0": 231,
+         "y1": 260
+        },
+        "darkPixelsBefore": 245,
+        "darkPixelsAfter": 129,
+        "darkPixelsInPinnedSourceAtThisRect": 129,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 2,
+        "sourceForm": "NHJB-2317",
+        "field": "cb2",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 35.86,
+         "y": 633.4,
+         "w": 14.54,
+         "h": 13.71
+        },
+        "rectPx150dpi": {
+         "x0": 74,
+         "x1": 105,
+         "y0": 301,
+         "y1": 331
+        },
+        "darkPixelsBefore": 189,
+        "darkPixelsAfter": 96,
+        "darkPixelsInPinnedSourceAtThisRect": 96,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 2,
+        "sourceForm": "NHJB-2317",
+        "field": "cb3",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 35.65,
+         "y": 599.71,
+         "w": 14.54,
+         "h": 13.71
+        },
+        "rectPx150dpi": {
+         "x0": 74,
+         "x1": 105,
+         "y0": 372,
+         "y1": 401
+        },
+        "darkPixelsBefore": 212,
+        "darkPixelsAfter": 96,
+        "darkPixelsInPinnedSourceAtThisRect": 96,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 2,
+        "sourceForm": "NHJB-2317",
+        "field": "cb4",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 35.25,
+         "y": 552.39,
+         "w": 14.54,
+         "h": 13.72
+        },
+        "rectPx150dpi": {
+         "x0": 73,
+         "x1": 104,
+         "y0": 470,
+         "y1": 500
+        },
+        "darkPixelsBefore": 214,
+        "darkPixelsAfter": 96,
+        "darkPixelsInPinnedSourceAtThisRect": 96,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 2,
+        "sourceForm": "NHJB-2317",
+        "field": "cb5",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 35.25,
+         "y": 518.7,
+         "w": 14.54,
+         "h": 13.72
+        },
+        "rectPx150dpi": {
+         "x0": 73,
+         "x1": 104,
+         "y0": 540,
+         "y1": 570
+        },
+        "darkPixelsBefore": 214,
+        "darkPixelsAfter": 96,
+        "darkPixelsInPinnedSourceAtThisRect": 96,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 2,
+        "sourceForm": "NHJB-2317",
+        "field": "cb6",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 35.65,
+         "y": 457.74,
+         "w": 14.54,
+         "h": 13.71
+        },
+        "rectPx150dpi": {
+         "x0": 74,
+         "x1": 105,
+         "y0": 667,
+         "y1": 697
+        },
+        "darkPixelsBefore": 262,
+        "darkPixelsAfter": 144,
+        "darkPixelsInPinnedSourceAtThisRect": 144,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 2,
+        "sourceForm": "NHJB-2317",
+        "field": "cb7",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 35.25,
+         "y": 397.99,
+         "w": 14.54,
+         "h": 13.72
+        },
+        "rectPx150dpi": {
+         "x0": 73,
+         "x1": 104,
+         "y0": 792,
+         "y1": 821
+        },
+        "darkPixelsBefore": 212,
+        "darkPixelsAfter": 96,
+        "darkPixelsInPinnedSourceAtThisRect": 96,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 2,
+        "sourceForm": "NHJB-2317",
+        "field": "cb8",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 35.25,
+         "y": 364.7,
+         "w": 14.54,
+         "h": 13.72
+        },
+        "rectPx150dpi": {
+         "x0": 73,
+         "x1": 104,
+         "y0": 861,
+         "y1": 891
+        },
+        "darkPixelsBefore": 214,
+        "darkPixelsAfter": 96,
+        "darkPixelsInPinnedSourceAtThisRect": 96,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 6,
+        "sourceForm": "NHJB-2328",
+        "field": "cb.1",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 179.06,
+         "y": 542.83,
+         "w": 14.54,
+         "h": 13.71
+        },
+        "rectPx150dpi": {
+         "x0": 373,
+         "x1": 404,
+         "y0": 490,
+         "y1": 520
+        },
+        "darkPixelsBefore": 227,
+        "darkPixelsAfter": 109,
+        "darkPixelsInPinnedSourceAtThisRect": 109,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 6,
+        "sourceForm": "NHJB-2328",
+        "field": "cb.1",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 251.58,
+         "y": 542,
+         "w": 14.54,
+         "h": 13.71
+        },
+        "rectPx150dpi": {
+         "x0": 524,
+         "x1": 555,
+         "y0": 492,
+         "y1": 521
+        },
+        "darkPixelsBefore": 225,
+        "darkPixelsAfter": 109,
+        "darkPixelsInPinnedSourceAtThisRect": 109,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 6,
+        "sourceForm": "NHJB-2328",
+        "field": "cb.1",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 332.29,
+         "y": 542,
+         "w": 14.54,
+         "h": 13.71
+        },
+        "rectPx150dpi": {
+         "x0": 692,
+         "x1": 723,
+         "y0": 492,
+         "y1": 521
+        },
+        "darkPixelsBefore": 248,
+        "darkPixelsAfter": 132,
+        "darkPixelsInPinnedSourceAtThisRect": 132,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 6,
+        "sourceForm": "NHJB-2328",
+        "field": "cb.1",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 431.25,
+         "y": 542,
+         "w": 14.54,
+         "h": 13.71
+        },
+        "rectPx150dpi": {
+         "x0": 898,
+         "x1": 929,
+         "y0": 492,
+         "y1": 521
+        },
+        "darkPixelsBefore": 225,
+        "darkPixelsAfter": 109,
+        "darkPixelsInPinnedSourceAtThisRect": 109,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 6,
+        "sourceForm": "NHJB-2328",
+        "field": "cb.2",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 412.31,
+         "y": 450.8,
+         "w": 15.54,
+         "h": 14.71
+        },
+        "rectPx150dpi": {
+         "x0": 858,
+         "x1": 892,
+         "y0": 680,
+         "y1": 711
+        },
+        "darkPixelsBefore": 255,
+        "darkPixelsAfter": 129,
+        "darkPixelsInPinnedSourceAtThisRect": 129,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 6,
+        "sourceForm": "NHJB-2328",
+        "field": "cb.2",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 502.24,
+         "y": 450.8,
+         "w": 15.54,
+         "h": 14.71
+        },
+        "rectPx150dpi": {
+         "x0": 1046,
+         "x1": 1079,
+         "y0": 680,
+         "y1": 711
+        },
+        "darkPixelsBefore": 253,
+        "darkPixelsAfter": 129,
+        "darkPixelsInPinnedSourceAtThisRect": 129,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 6,
+        "sourceForm": "NHJB-2328",
+        "field": "cb.3",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 412.34,
+         "y": 391.28,
+         "w": 15.54,
+         "h": 14.71
+        },
+        "rectPx150dpi": {
+         "x0": 859,
+         "x1": 892,
+         "y0": 804,
+         "y1": 835
+        },
+        "darkPixelsBefore": 276,
+        "darkPixelsAfter": 152,
+        "darkPixelsInPinnedSourceAtThisRect": 152,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 6,
+        "sourceForm": "NHJB-2328",
+        "field": "cb.3",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 502.18,
+         "y": 390.82,
+         "w": 15.54,
+         "h": 14.71
+        },
+        "rectPx150dpi": {
+         "x0": 1046,
+         "x1": 1079,
+         "y0": 805,
+         "y1": 836
+        },
+        "darkPixelsBefore": 276,
+        "darkPixelsAfter": 152,
+        "darkPixelsInPinnedSourceAtThisRect": 152,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "deliveredPage": 8,
+        "sourceForm": "NHJB-2328",
+        "field": "cbcert.1",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 36.06,
+         "y": 713.27,
+         "w": 14.54,
+         "h": 14.72
+        },
+        "rectPx150dpi": {
+         "x0": 75,
+         "x1": 106,
+         "y0": 133,
+         "y1": 165
+        },
+        "darkPixelsBefore": 218,
+        "darkPixelsAfter": 96,
+        "darkPixelsInPinnedSourceAtThisRect": 96,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       }
+      ]
+     }
+    ]
+   },
+   "countersBefore": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "countersAfter": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "counters": {
+    "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nh_petition_nonconviction_pre2019-set",
+    "before": "PASS_COMPLETE, nine counters zero, exit 0",
+    "after": "PASS_COMPLETE, nine counters zero, exit 0",
+    "note": "The counters did not see the defect before the repair and do not see the repair after it, which is why VF08's appearance read was needed."
+   },
+   "verifiers": [
+    {
+     "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nh_petition_nonconviction_pre2019-set",
+     "when": "before the edit and again after the rebuilds",
+     "result": "PASS_COMPLETE, nine counters zero",
+     "exitCode": 0
+    },
+    {
+     "command": "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs",
+     "when": "after all three rebuilds",
+     "result": "EVERY_IDENTITY_REFRESH_SURVIVED; 249 receipts compared against HEAD, 53 carrying an identityRefresh",
+     "exitCode": 0
+    },
+    {
+     "command": "node scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs",
+     "when": "after all three rebuilds",
+     "result": "EVERY_SOURCE_CARRIED_VALUE_IS_DISPOSITIONED, 0 UNDISPOSITIONED, 0 not examinable; 26 by appearance-registry and 3 by clearSourceCarriedTextValues",
+     "exitCode": 0
+    }
+   ],
+   "preflight": {
+    "command": "MASTER_LIBRARY_SOURCE_DIR=<mounted Master Library> node scripts/verify-packet-build-environment.mjs --family nh_petition_nonconviction_pre2019-set",
+    "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 10/13 passed, 3 failed, 4 not applicable",
+    "exitCode": 1,
+    "when": "run after the rebuilds, while the worktree still carried this repair's uncommitted work",
+    "familySourcesBind": "4/4 source(s) bind by exact SHA-256 (custody_reconciliation); 1 found by content hash because the declared path is in a custody that is not mounted here",
+    "theFailures": [
+     "worktree_clean: 28 uncommitted path(s) -- this repair's own work in progress, not a property of the environment.",
+     "private_is_git_ignored: private is reached here as the read-only symlink the assignment specifies, which .gitignore's trailing-slash rule does not match. Nothing under it is stageable and nothing from the corpus was committed.",
+     "corpus_matches_committed_index: 1 absent, 0 mismatched of 24 sampled -- a custody that is not mounted in this container."
+    ],
+    "notRepairedHere": true
+   },
+   "acceptanceReceipt": null,
+   "whatWasNotDone": {
+    "centralRasterOnTheNewBytes": "Not done. The new fixtures have never been through .github/workflows/rcap-packet-raster-acceptance-batch.yml. The local pdftoppm rasters recorded above are this lane's own measurement, taken under /tmp and deleted; they are not an acceptance receipt, and no receipt was written, moved or re-pointed.",
+    "independentVerification": "Not done. This lane changed the builder and produced these bytes, so it cannot verify them. An independent lane has to re-read the repaired obligation on the new bytes at their own base."
+   }
+  }
+ ]
+}

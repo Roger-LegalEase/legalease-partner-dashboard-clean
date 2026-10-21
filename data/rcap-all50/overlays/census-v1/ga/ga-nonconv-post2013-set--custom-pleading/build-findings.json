@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "ga-nonconv-post2013-set",
+  "blocking": [],
+  "findings": [
+    {
+      "finding": "Restriction under § 35-3-37(h) is mandatory and automatic — no application, no petition, no statewide form, no fee — and GBI's published restriction application is captioned 'Prior to 07/01/2013', the wrong instrument for this route. The participant filing that exists is the written request to the prosecuting attorney where the restriction was never entered, and the legal-design decision models the track as two sequential units for exactly that reason.",
+      "consequence": "The packet composes the request as a conditional covering instrument (only where the history does not show the cycle restricted), sets out the automatic mechanism as guidance, and never binds or imitates the pre-2013 form. Where a county office publishes its own intake form, the packet states on the request's own face that the local form governs (localFormOverride), and completes none of it."
+    },
+    {
+      "finding": "The single most common disqualifier — a dismissal or nolle prosse entered as part of a plea agreement with a conviction arising from the same transaction — is not visible on a GCIC report, and the § 35-3-37(i) exclusions include partial acquittals and the prosecutor's ten-day acquittal window.",
+      "consequence": "The guidance page walks every exclusion with the plea-agreement trap called out in terms, and the instructions make checking them a numbered step before anything is sent, with the four Judicial Council expungement desks (Georgia Justice Project, Cobb County Second Chance Desk, Henry County Records Restriction Desk, Middle Georgia Justice 'The Desk') as the destination when a stop condition is live."
+    },
+    {
+      "finding": "The counsel limitations require the packet to say 'restrict' and 'seal' rather than 'expungement', to state that a restriction may still be used to disqualify from employment or office under § 35-3-37(u) in the same manner as a first offender discharge under § 42-8-63.1 and does not supersede federal disclosure law, and never to tell a participant they may state the record does not exist.",
+      "consequence": "The terminology rule is followed throughout, the § 35-3-37(u) statement and the never-deny rule are printed on the guidance page and asserted from the output bytes on every build, and the what-restriction-does-not-reach list (clerk's file, jail records, federal and out-of-state records, private vendors) is stated in the record's own terms."
+    },
+    {
+      "finding": "The legal-design record carries two release-blocker open questions: whether a reduction to a local ordinance violation qualifies in a given county's charging practice, and which county offices require their own intake form.",
+      "consequence": "The ordinance-reduction question is carried as a stop condition rather than answered, the local-form question is handled by the recorded localFormOverride posture (ask the office; its form governs), and both travel with the family into counsel review in approval-request.json."
+    },
+    {
+      "finding": "If the prosecuting attorney declines, the route from a declination is a civil action under § 35-3-37(n)(3) or (l), which the record places outside self-help.",
+      "consequence": "The instructions state the boundary in terms and route a declination to the expungement desks; the packet does not draft or describe the civil action."
+    }
+  ]
+}

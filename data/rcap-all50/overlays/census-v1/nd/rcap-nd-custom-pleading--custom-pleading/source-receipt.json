@@ -1,0 +1,243 @@
+{
+  "schemaVersion": "rcap-family-source-receipt/v1",
+  "familyId": "rcap-nd-custom-pleading",
+  "worklistGroupId": "rcap-nd-custom-pleading",
+  "jurisdiction": "ND",
+  "implementationStrategy": "custom_pleading",
+  "custodyClass": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+  "acquisitionCommissioned": false,
+  "bindingMethod": "committed repository records bound by exact SHA-256 at build time, with every relied-on statement re-read from the committed bytes as an anchor before composing",
+  "routeKeys": [
+    "obligation:track-only:ND:nd-seal-felony-conviction",
+    "obligation:track-only:ND:nd-seal-misdemeanor-conviction",
+    "obligation:track-only:ND:nd-seal-pardoned-conviction",
+    "obligation:track-pathway:ND:nd-dui-record-seal:dui-record-sealing-under-the-separate-dui-statute",
+    "obligation:track-pathway:ND:nd-marijuana-first-offense-seal:first-offense-possession-sealing"
+  ],
+  "statutoryAuthority": [
+    "N.D.C.C. § 12-60.1-02(1)(b)",
+    "N.D.C.C. § 12-60.1-03",
+    "N.D.C.C. § 12-60.1-04",
+    "N.D.C.C. § 12-60.1-01(7)",
+    "N.D.C.C. § 12-60.1-02(2)",
+    "N.D.R.Ct. 3.4",
+    "N.D.R.Crim.P. 49",
+    "N.D.C.C. § 12-60.1-02(1)(a)",
+    "N.D.C.C. § 12-60.1-02(1)(c)",
+    "N.D.C.C. § 39-08-01.6(1)",
+    "N.D.C.C. § 39-08-01.6(2)",
+    "N.D.C.C. § 12.1-32-07.1",
+    "N.D.C.C. § 12.1-32-07.2",
+    "N.D.C.C. § 39-08-01",
+    "N.D.C.C. § 39-06.2-10",
+    "N.D.C.C. § 19-03.1-23(9)",
+    "N.D.C.C. ch. 19-03.1"
+  ],
+  "legalName": "North Dakota Record-Sealing Petitions — N.D.C.C. ch. 12-60.1, § 39-08-01.6 and the first-offense possession route",
+  "allSourcesExact": true,
+  "formIdentityNote": "No committed record names an official statewide participant form for this route; the committed specifications record its component set as composed pleadings. Every page in this packet is therefore composed by this build from the committed records, and no official form was substituted or invented.",
+  "committedRecords": [
+    {
+      "sourceIds": [
+        "committed-record:data/record-clearing/legal-design-track-registry.json"
+      ],
+      "recordId": "legal-design-track-registry:nd-seal-felony-conviction+nd-seal-misdemeanor-conviction+nd-seal-pardoned-conviction+nd-dui-record-seal+nd-marijuana-first-offense-seal",
+      "pathInRepository": "data/record-clearing/legal-design-track-registry.json",
+      "sha256": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+      "byteLength": 16781025,
+      "instrumentKind": "committed_record_bound_as_authority",
+      "role": "the committed legal-design track registry: this route's legal name, its statutory mechanism, its venue and destination, its recorded fee, notice and service rules, its required generation inputs, its packet instructions and its self-help stop conditions",
+      "anchorStatementsVerified": 81,
+      "identityRefresh": {
+        "refreshedOn": "2026-09-10",
+        "was": {
+          "sha256": "555e5700c049608b0766cc7f5f65adfa748bbd32fae790d2220652bf08b958dc",
+          "byteLength": 16778727
+        },
+        "why": "The record was rewritten around this receipt's anchors. 1 named entry moved between the blob carrying the previous pin and the bytes on disk (co_motion_seal_conviction), and this receipt anchors no entry that moved: every entry it binds, and this record's global authority fields, were recovered from that blob and compared object-for-object, order-independent, against the current record, and all 6 were identical.",
+        "anchorsCompared": 6,
+        "anchorDetail": [
+          "registryGlobalMetadata: identical",
+          "track:nd-dui-record-seal: identical",
+          "track:nd-marijuana-first-offense-seal: identical",
+          "track:nd-seal-felony-conviction: identical",
+          "track:nd-seal-misdemeanor-conviction: identical",
+          "track:nd-seal-pardoned-conviction: identical"
+        ],
+        "anchorsIdentical": 6,
+        "identicalAnchorSha256": {
+          "registryGlobalMetadata": "ca593e033b8c6b54aed3472f44e4303015296fdbafb2a3e875f11ef68e563661",
+          "track:nd-dui-record-seal": "310536bffd14886c99471f79a67fd96ef2cadbcd18b9b2c09d3eab755104a141",
+          "track:nd-marijuana-first-offense-seal": "7c462738e1d730f0f3a8c395d87509abb953344a785ee5145bba80d25fb0400e",
+          "track:nd-seal-felony-conviction": "7d93fa31768210ec35e9b227cdbc86191760f1dc9595c298948a45428938996d",
+          "track:nd-seal-misdemeanor-conviction": "01ac3d7a29fb5432dde91eaadc3822f1c71b347126f7d6f86b95b56806a5e394",
+          "track:nd-seal-pardoned-conviction": "5ce58b504a1803abd1b87613cd809400ac969e2dc2b2bb9d026ae2e60da4094e"
+        },
+        "canonicalisation": "keys sorted recursively, JSON.stringify with no spacing, one trailing newline, UTF-8",
+        "anchorScope": {
+          "anchorIds": [
+            "nd-dui-record-seal",
+            "nd-marijuana-first-offense-seal",
+            "nd-seal-felony-conviction",
+            "nd-seal-misdemeanor-conviction",
+            "nd-seal-pardoned-conviction"
+          ],
+          "derivation": {
+            "fromPinRecordId": [
+              "nd-seal-felony-conviction",
+              "nd-seal-misdemeanor-conviction",
+              "nd-seal-pardoned-conviction",
+              "nd-dui-record-seal",
+              "nd-marijuana-first-offense-seal"
+            ],
+            "fromReceiptRouteKeys": [
+              "nd-seal-felony-conviction",
+              "nd-seal-misdemeanor-conviction",
+              "nd-seal-pardoned-conviction",
+              "nd-dui-record-seal",
+              "nd-marijuana-first-offense-seal"
+            ],
+            "routeKeysNamingNoTrackDirectly": [],
+            "globalMetadataComparedAsOneAnchor": true
+          }
+        },
+        "entriesThatMovedInThisRecord": [
+          "co_motion_seal_conviction"
+        ],
+        "recoveredFrom": {
+          "method": "git rev-list --all -- <path>, deduplicated by blob id, each blob hashed until the pin matched",
+          "blobId": "6c02c7b6fdbd4a5e40870fef07d96e5d7e0c2d34",
+          "commit": "d4984cbc58923c10b3bfa71b684611980b5ae7d7",
+          "commitsWithThisPath": 99,
+          "distinctBlobs": 82,
+          "blobsHashed": 2
+        },
+        "previousIdentityRefresh": {
+          "refreshedOn": "2026-09-09",
+          "was": {
+            "sha256": "6aafbf81547931949a1b98364726aabc694ff2005625db0a5ee2f15f5b8997fe",
+            "byteLength": 16775681
+          },
+          "why": "The record was rewritten around this receipt's anchors. 2 named entr(ies) moved between the blob carrying the previous pin and the bytes on disk (ri_first_offender_misdemeanor, ri_multiple_misdemeanors), and this receipt anchors none of them: every entry it binds was recovered from that blob and compared object-for-object against disk, and all were identical.",
+          "anchorsCompared": 5,
+          "anchorDetail": [
+            "nd-seal-felony-conviction: identical",
+            "nd-seal-misdemeanor-conviction: identical",
+            "nd-seal-pardoned-conviction: identical",
+            "nd-dui-record-seal: identical",
+            "nd-marijuana-first-offense-seal: identical"
+          ],
+          "anchorsIdentical": 5,
+          "entriesThatMovedInThisRecord": [
+            "ri_first_offender_misdemeanor",
+            "ri_multiple_misdemeanors"
+          ],
+          "previousPinLastSeenAtCommit": "94445c6a4",
+          "whatThisDoesNotClaim": "Nothing about the packet's bytes, obligations or verdict. It restores an identity binding that lapsed on an unrelated edit."
+        },
+        "whatThisDoesNotClaim": "Nothing about the packet's bytes, its obligations, its counters or its verdict. It restores an identity binding that lapsed on an edit to entries this family does not bind, and it opens no route and grants no approval."
+      }
+    },
+    {
+      "sourceIds": [
+        "committed-record:data/record-clearing/legal-design-specifications.json"
+      ],
+      "recordId": "legal-design-specifications:nd-seal-felony-conviction+nd-seal-misdemeanor-conviction+nd-seal-pardoned-conviction+nd-dui-record-seal+nd-marijuana-first-offense-seal",
+      "pathInRepository": "data/record-clearing/legal-design-specifications.json",
+      "sha256": "10b02286702b27a3392530b6435ce3495614a194abc21560939ced0c5d082792",
+      "byteLength": 16830109,
+      "instrumentKind": "committed_record_bound_as_authority",
+      "role": "the committed custom-pleading specifications: the component set this packet must contain, and the participant actions the record requires before filing",
+      "anchorStatementsVerified": 13,
+      "identityRefresh": {
+        "refreshedOn": "2026-09-09",
+        "was": {
+          "sha256": "f66ce335d73a879352e4d3cd2b0d906229b686c9e260ba7d4ca396f16cc0445e",
+          "byteLength": 16829391
+        },
+        "why": "The record was rewritten around this receipt's anchors. 0 named entr(ies) moved between the blob carrying the previous pin and the bytes on disk (none), and this receipt anchors none of them: every entry it binds was recovered from that blob and compared object-for-object against disk, and all were identical.",
+        "anchorsCompared": 5,
+        "anchorDetail": [
+          "nd-seal-felony-conviction: identical",
+          "nd-seal-misdemeanor-conviction: identical",
+          "nd-seal-pardoned-conviction: identical",
+          "nd-dui-record-seal: identical",
+          "nd-marijuana-first-offense-seal: identical"
+        ],
+        "anchorsIdentical": 5,
+        "entriesThatMovedInThisRecord": [],
+        "previousPinLastSeenAtCommit": "HEAD~1",
+        "whatThisDoesNotClaim": "Nothing about the packet's bytes, obligations or verdict. It restores an identity binding that lapsed on an unrelated edit."
+      }
+    },
+    {
+      "sourceIds": [
+        "committed-record:data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json"
+      ],
+      "recordId": "route-obligation-census:5-route(s)",
+      "pathInRepository": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+      "sha256": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
+      "byteLength": 2629290,
+      "instrumentKind": "committed_record_bound_as_authority",
+      "role": "the committed route-obligation census: the exact route keys this family serves, their statutory authority and their recorded destinations",
+      "anchorStatementsVerified": 5,
+      "identityRefresh": {
+        "was": {
+          "sha256": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
+          "byteLength": 2625273
+        },
+        "recoveredFromCommit": "2d01b84f7a57d9bfb2717297783b1951940e506c",
+        "comparedAtCaptainCommit": "40b03f499f47450e7e9fa4e1f64ba9debddf0807",
+        "anchorsCompared": 5,
+        "anchorsIdentical": 5,
+        "method": "Recovered exact historical census blob and compared every bound route object, selected by the receipt family route keys, object-for-object against the current default-generated census. Only whole-file identity changed for these anchors.",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/captain-bookkeeping/census-pin-refresh-20260906.json",
+        "finalSnapshotReconciliation": {
+          "previousWholeFileSha256": "d83ba80ff84126e2de5c9f5309eb8b7145e3e078420b54ceedc3c0f5a83795c9",
+          "currentWholeFileSha256": "d03708cb98efce088f1ed40d5d7a0e768bb4fbee51a77c351739640ead7f6dea",
+          "anchorsCompared": 5,
+          "anchorsUnchanged": 5,
+          "reason": "After the final census regeneration, compared the same bound route objects against the preserved historical census before refreshing only whole-file identity. The subsequent reconciliation regenerates dependent state without rewriting this source snapshot.",
+          "newPacketAcceptances": 0
+        },
+        "integrationSnapshotReconciliation": {
+          "previousWholeFileSha256": "d03708cb98efce088f1ed40d5d7a0e768bb4fbee51a77c351739640ead7f6dea",
+          "currentWholeFileSha256": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
+          "anchorsCompared": 5,
+          "anchorsUnchanged": 5,
+          "reason": "Final worker integrations changed generated fulfillment bookkeeping fingerprints. After settling those inputs at one unchanged Captain commit, regenerate the census and verify every bound historical route object before refreshing only this whole-file reference. Packet bytes and approval verdicts are unchanged.",
+          "newPacketAcceptances": 0
+        }
+      }
+    }
+  ],
+  "composedComponentsAuthoredByThisBuild": [
+    "nd-seal-felony-conviction-primary-filing-1",
+    "nd-seal-felony-conviction-proposed-order-2",
+    "nd-seal-felony-conviction-proof-of-service-3",
+    "nd-seal-felony-conviction-filing-instructions-4",
+    "nd-seal-misdemeanor-conviction-primary-filing-1",
+    "nd-seal-misdemeanor-conviction-proposed-order-2",
+    "nd-seal-misdemeanor-conviction-proof-of-service-3",
+    "nd-seal-misdemeanor-conviction-filing-instructions-4",
+    "nd-seal-pardoned-conviction-primary-filing-1",
+    "nd-seal-pardoned-conviction-proposed-order-2",
+    "nd-seal-pardoned-conviction-proof-of-service-3",
+    "nd-seal-pardoned-conviction-filing-instructions-4",
+    "nd-dui-record-seal-primary-filing-1",
+    "nd-dui-record-seal-proposed-order-2",
+    "nd-dui-record-seal-filing-instructions-3",
+    "nd-marijuana-first-offense-seal-primary-filing-1",
+    "nd-marijuana-first-offense-seal-proposed-order-2",
+    "nd-marijuana-first-offense-seal-legal-effect-explanation-3",
+    "nd-marijuana-first-offense-seal-filing-instructions-4"
+  ],
+  "sourceBinaryCommitted": false,
+  "commercialRoutesOpened": 0,
+  "whatThisReceiptDoesNotEstablish": [
+    "that any output is approved for participant delivery",
+    "that any record is eligible for the relief this family composes for",
+    "that any particular record meets this route's recorded conditions",
+    "that any particular North Dakota case is in district rather than municipal court, which the committed record makes the fact that decides who the respondent is"
+  ]
+}

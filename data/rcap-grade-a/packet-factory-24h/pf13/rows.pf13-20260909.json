@@ -1,0 +1,374 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-rows/v1",
+  "assignmentId": "PF13",
+  "returnName": "rows.pf13-20260909",
+  "whyThisFileIsNotRowsJson": "data/rcap-grade-a/packet-factory-24h/pf13/rows.json already carries an earlier PF13 return, for a different four-family grant (AK ak-correct-record, ar-drug-court-set, ar-felony-seal-set, nd-summary-marijuana-pardon-set). That return is left byte-for-byte untouched and this one is written alongside it, because overwriting a return destroys work rather than integrating it.",
+  "lane": "packet-build",
+  "workerBranch": "pf13-20260909",
+  "shiftBaseSha": "18b5f4270",
+  "minimumCaptainSha": "c8bc1b1fdfa5500324f6be44e1592b10c5feddd5",
+  "laneGate": {
+    "command": "node scripts/verify-packet-build-environment.mjs --minimum-captain-sha c8bc1b1fdfa5500324f6be44e1592b10c5feddd5 --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json",
+    "result": "PACKET_BUILD_ENVIRONMENT_READY: 12/12 passed, 0 failed, 5 not applicable",
+    "corpus": "MASTER_LIBRARY_SOURCE_DIR=/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1; 501 files, 329 PDFs, 51 jurisdictions; 24 sampled entries byte-exact"
+  },
+  "familiesAssigned": 4,
+  "rowsReturned": 4,
+  "familiesCompleted": 2,
+  "familiesStopped": 2,
+  "overlayDirectoriesTouchedByAStoppedFamily": 0,
+  "packetsSelfVerified": 0,
+  "otherPfPromptsExecutedInThisWorktree": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "grantsNothing": "A built packet is review evidence. This lane built these bytes, sets no verdict on them, issues no PASS, requests no approval and opens no route. Independent verification decides.",
+  "laneNotes": [
+    "Both completed families print what they print FROM the controlling record, read at build time, and refuse to build if the record stops declaring it. Each carries a negative control in both directions: emptying a printed list stops the build, and a sentinel added to the record reaches the delivered bytes.",
+    "The nine counters were also read from the delivered bytes rather than believed from the builder. On both families addedGlyphs and glyphs-outside-boxes are computed by decoding the saved PDF's own content stream; on Hawaii the added-glyph count equals, exactly, the non-whitespace characters of the six written values.",
+    "No raster was taken in this container and no visual claim is made. visualDefects records that nobody has looked, not that there is nothing to see. Both families return BUILT_RASTER_PENDING."
+  ],
+  "rows": [
+    {
+      "itemId": "hi_nonconviction_expungement-set",
+      "status": "COMPLETED",
+      "jurisdiction": "HI",
+      "implementationStrategy": "participant_agency_application",
+      "routeKeys": [
+        "obligation:track-pathway:HI:hi_nonconviction_expungement:nonconviction-arrest-expungement"
+      ],
+      "directory": "data/rcap-all50/overlays/census-v1/hi/hi-nonconviction-expungement-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-hi_nonconviction_expungement-set.mjs",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersMeasuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family hi_nonconviction_expungement-set => PASS_COMPLETE, 6/20 written. The verifier is the unmodified central one and this is the author's own run of it, not a verdict.",
+      "sourcesBound": [
+        {
+          "sourceId": "official-form:HCJDC-159B",
+          "printedIdentity": "HCJDC 159(b) Rev. 06/03/2026",
+          "indexPath": "LegalEase Hawaii/EXPUNGEMENT_APPLICATION_Rev-2026-06.pdf",
+          "custody": "nationwide_recovery_pool_2026_09_02",
+          "sha256": "1cb4f3acc20d569820379410c3aeb67c59fe3e24866932696371f25efaad935a",
+          "byteLength": 181711
+        }
+      ],
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/hi/hi-nonconviction-expungement-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "f15b906a649280d5bab03a81078d7f283a38eb3a81519773c15a2881f71b4d43",
+          "byteLength": 197487,
+          "pageCount": 1
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/hi/hi-nonconviction-expungement-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "696e190fa18b54f8e7694eaed727dc7f8b10d7515a847d9fec904b9a3b3879a1",
+          "byteLength": 197603,
+          "pageCount": 1
+        }
+      ],
+      "measuredOnTheDeliveredBytes": {
+        "howMeasured": "each artifact re-loaded from the bytes written to disk and its page content stream decoded; the blank source's own text items differenced out, so every count is ink that is in the delivered file and is not in the source",
+        "canonical": {
+          "addedGlyphs": 125,
+          "glyphsOutsideMeasuredWriteBoxes": 0,
+          "widgetAnnotations": 0,
+          "acroFields": 0,
+          "refusedFieldsWithInk": 0
+        },
+        "boundary": {
+          "addedGlyphs": 234,
+          "glyphsOutsideMeasuredWriteBoxes": 0,
+          "widgetAnnotations": 0,
+          "acroFields": 0,
+          "refusedFieldsWithInk": 0
+        },
+        "crossCheck": "125 and 234 equal, exactly, the non-whitespace character counts of the six written values in each fixture",
+        "synthesizedWidgetBorders": "structurally impossible here and measured as absent: the source is a flat PDF, the output carries 0 AcroForm fields and 0 widget annotations, and nothing is flattened",
+        "valuesHeldButNotPrinted": 0
+      },
+      "writes": 6,
+      "classifiedBlanks": 14,
+      "notesForTheVerifier": [
+        "The form's route mark is an INITIAL CELL beside a sworn paragraph that includes 'I hereby declare that I am not a fugitive from justice'. No applicant initials are written. The route is stated in the field map's routeSelectionNote, in participant-instructions.md and in filing-instructions.md instead. The sibling family hi_dag_danc_expungement-set carries the identical treatment on the identical source and holds PASS_COMPLETE_INDEPENDENT from vf01.",
+        "Three checklist boxes reach REQUIRED_BEFORE_FILING through the contract's case-determined channel, each with an explicit reason the ROUTE cannot determine it. The contract has no participant-completable requirement for a selection control, so that channel is the only one that keeps the disclosure check binding on them; the alternative disposition would have left them undisclosed by the contract. Every one is disclosed in participant-instructions.md regardless.",
+        "initial_conviction_paragraph is labelled by its statutory branch rather than by its printed caption, because the classifier reads the bare word 'time' inside 'First-time' as a court-assigned hearing time and would have recorded an applicant's initial cell as a field the court completes after filing. The exact printed caption is preserved on printedLabel."
+      ],
+      "sourceDigestSweep": "1 of 1 HELD. digest 1cb4f3ac…ad935a found at private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Hawaii/EXPUNGEMENT_APPLICATION_Rev-2026-06.pdf, which is the declared path."
+    },
+    {
+      "itemId": "la-985-expungement-by-redaction-set",
+      "status": "COMPLETED",
+      "jurisdiction": "LA",
+      "implementationStrategy": "custom_pleading",
+      "routeKeys": [
+        "obligation:track-pathway:LA:la-985-expungement-by-redaction:expungement-by-redaction-for-multi-person-records"
+      ],
+      "directory": "data/rcap-all50/overlays/census-v1/la/la-985-expungement-by-redaction-set--custom-pleading",
+      "buildScript": "scripts/build-census-v1-la-985-expungement-by-redaction-set.mjs",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersMeasuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family la-985-expungement-by-redaction-set => PASS_COMPLETE, 37/66 written. Author's own run of the unmodified central verifier; not a verdict.",
+      "authorityDecision": {
+        "id": "LA-STATUTORY-FORMS",
+        "decision": "COMPOSE_FROM_AUTHORITY",
+        "composedFromAuthority": [
+          "LA-CCRP-ART-988",
+          "LA-CCRP-ART-989",
+          "LA-CCRP-ART-991",
+          "LA-CCRP-ART-992"
+        ],
+        "remainOfficialAndMustBeHeld": []
+      },
+      "sourcesBound": [
+        {
+          "sourceId": "source-sha256:0e455d3decea4b9e6299e1d39ceeb2b19ddaad93de19b2faa38d311f2d989ea2",
+          "officialFormId": "LA-CCRP-ART-993",
+          "sha256": "0e455d3decea4b9e6299e1d39ceeb2b19ddaad93de19b2faa38d311f2d989ea2",
+          "resolvedBy": "content_hash_across_the_mounted_corpus",
+          "roleInThisPacket": "authority reference bound by digest; not a rendered component"
+        },
+        {
+          "sourceId": "source-sha256:13396bb180962be61788f0f7dd965fe4095d2262506b097623a86a6268e7a65a",
+          "officialFormId": "LA-CCRP-ART-990",
+          "sha256": "13396bb180962be61788f0f7dd965fe4095d2262506b097623a86a6268e7a65a",
+          "resolvedBy": "content_hash_across_the_mounted_corpus",
+          "roleInThisPacket": "authority reference bound by digest; not a rendered component"
+        }
+      ],
+      "componentsRendered": [
+        "la-985-expungement-by-redaction-primary-filing-1",
+        "la-985-expungement-by-redaction-proposed-order-2",
+        "la-985-expungement-by-redaction-proposed-order-3",
+        "la-985-expungement-by-redaction-instructions-6"
+      ],
+      "componentsNotGenerated": [
+        {
+          "componentId": "la-985-expungement-by-redaction-fee-waiver-4",
+          "requirement": "conditional",
+          "why": "the record's condition is that the Article 983(F) exemption may apply, which is a participant fact the platform does not hold on either fixture"
+        },
+        {
+          "componentId": "la-985-expungement-by-redaction-continuation-5",
+          "requirement": "conditional",
+          "why": "the record's condition is a count exceeding the motion's own fields, unmet on both fixtures; independently, Article 993 is not in this family's authority grant and its legal-design note states no template exists, none is counsel-approved and no implementation is authorized"
+        }
+      ],
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/la/la-985-expungement-by-redaction-set--custom-pleading/fixtures/canonical.pdf",
+          "sha256": "735bae79d55d99db7877e3ce634667858bcad256643c43bee1398d2f4b832529",
+          "byteLength": 50019,
+          "pageCount": 16
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/la/la-985-expungement-by-redaction-set--custom-pleading/fixtures/boundary.pdf",
+          "sha256": "519d4aba86f99142e174da572db769229b2e1aa412dcb264f7ffe79f24574764",
+          "byteLength": 50787,
+          "pageCount": 16
+        }
+      ],
+      "measuredOnTheDeliveredBytes": {
+        "howMeasured": "every declared write read back from the finalized packet bytes on the pages its document occupies; the record's own printed lists re-checked against the decoded page text of canonical.pdf",
+        "canonical": {
+          "addedGlyphs": 1231,
+          "glyphsOutsideMeasuredWriteBoxes": 0,
+          "widgetAnnotations": 0,
+          "acroFields": 0,
+          "refusedFieldsWithInk": 0,
+          "linesDrawn": 486
+        },
+        "boundary": {
+          "addedGlyphs": 2145,
+          "glyphsOutsideMeasuredWriteBoxes": 0,
+          "widgetAnnotations": 0,
+          "acroFields": 0,
+          "refusedFieldsWithInk": 0,
+          "linesDrawn": 491
+        },
+        "recordCarriageIntoTheDeliveredPdf": {
+          "packetSetRequiredBeforeFiling": "18 of 18 present",
+          "participantActionRequired": "20 of 20 present",
+          "selfHelpStopConditions": "6 of 6 present",
+          "exclusions": "3 of 3 present",
+          "unresolvedQuestions": "4 of 4 present, including both marked release_blocker"
+        },
+        "protectedBlanksLeftBlank": "every signature, ordering paragraph, finding, granted-or-denied election, return date, date, place, clerk stamp and certificate of service reads as a dotted rule in the delivered text, including the Article 985 redaction paragraph",
+        "pageIntegrity": "16 pages, no orphan or short page; the shortest page carries 478 non-whitespace characters",
+        "determinism": "a second clean run reproduces both packet hashes byte for byte",
+        "longValuesPrintedComplete": "every long boundary value appears in full, twice (motion and proposed order); nothing is shortened"
+      },
+      "writes": 37,
+      "classifiedBlanks": 29,
+      "blankDispositions": {
+        "REQUIRED_BEFORE_FILING": 7,
+        "NOT_APPLICABLE_ON_THIS_ROUTE": 4,
+        "PROTECTED_FIELD": 18
+      },
+      "openLegalInputsCarriedNotAnswered": [
+        "release_blocker: whether the Article 989 motion requires a distinct pleading, prayer or election to request redaction under Article 985 rather than full expungement, given that the redaction paragraph sits in the Article 992 order. Carried verbatim into participant-instructions.md and approval-request.json. NOT answered here: the build follows the committed legal-design determination, which forecloses a custom pleading under Article 986.",
+        "release_blocker: whether a canonical source form for Articles 987 through 994 has been adopted in a successor Master Library edition. Carried verbatim. NOT answered here."
+      ],
+      "notesForTheVerifier": [
+        "The Article 985 redaction paragraph is the paragraph that makes this track operable and it is left BLANK and court-owned, on the committed manual-completion record's own reasoning about Article 985(C). The two mover-supplied facts it needs -- who else the record names and which offices hold it -- are written on both the motion and the proposed order so the court has them in front of the paragraph.",
+        "MASTER_QUEUE lists four packetComponents for this family while the authoritative packet-set manifest lists six. The build asserts the manifest's exact six and renders the four that are required."
+      ],
+      "sourceDigestSweep": "2 of 2 HELD. Both declared paths point into rcap-d-source-packs-2026-08-12/D2, and both digests also resolve byte-exact in the Master Library and in the recovery pool. The build resolves by digest and records the declared path as the thing that was declared."
+    },
+    {
+      "itemId": "mo-610-140-conviction-set",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_SOURCE",
+      "jurisdiction": "MO",
+      "implementationStrategy": "official_pdf_fill",
+      "directory": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-conviction-set--official-pdf-fill",
+      "overlayDirectoryExists": false,
+      "overlayDirectoryTouched": false,
+      "counters": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "whyTheCountersAreNull": "no packet was built, so no counter was measured. An unmeasured quantity is null and never zero.",
+      "artifacts": [],
+      "rowGate": {
+        "command": "node scripts/verify-packet-build-environment.mjs --family mo-610-140-conviction-set --minimum-captain-sha c8bc1b1fdfa5500324f6be44e1592b10c5feddd5",
+        "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 12/13 passed, 1 failed. family_sources_bind: 1 of 4 source(s) do not bind."
+      },
+      "sourceIdentityThatDidNotBind": {
+        "sourceId": "official-form:CR370",
+        "formNumber": "CR370",
+        "revision": "SJRC (07-21)",
+        "sha256": "8a4d32d66d3fc05a41fdcd362a6f744c4536d95a8a600eb9d3d524192de60eb6",
+        "byteLength": 103658,
+        "declaredPath": "LegalEase Missouri/MO_CR370.pdf",
+        "declaredCustody": "src05_worker_materialization_2026_09_02",
+        "whyItDoesNotBind": "src05_worker_materialization_2026_09_02 is the one custody the committed corpus index names that is not mounted in this container, and the pinned digest resolves nowhere else. The verifier's digest fallback across every mounted custody finds it in none of them."
+      },
+      "whatWasCheckedBeforeStopping": [
+        "The other three sources bind exactly: CR360 (6bfbf26a...) and GN10 (13ff2514...) in the Master Library, and FI-05 by digest fallback in the mounted nationwide recovery pool at 'LegalEase Missouri/Conf Case Filing Info Sheet(FI-05).pdf'.",
+        "An independent search of every mounted corpus by filename and by exact byte length (103,658) returns nothing. The bytes are absent from this container, not merely mis-pathed.",
+        "No overlay directory was created and nothing under data/rcap-all50/overlays/census-v1/mo/mo-610-140-conviction-set--official-pdf-fill exists."
+      ],
+      "notForTheRecord": "This is a source-custody fact about this container. It is not a defect in the packet, and no assertion is made about what the packet would measure once CR370's bytes are mounted. The synthesized-widget-border check the lane brief asked for on this Missouri host was not run, because no bytes were produced to run it on.",
+      "sourceDigestSweep": {
+        "verdict": "CONFIRMS THE STOP on a whole-corpus digest sweep, not only on the row gate's resolver.",
+        "held": [
+          "official-form:CR360  6bfbf26a…990745  3 hits",
+          "official-form:FI-05  53f1e04e…cd412e  1 hit (Nationwide_Recovery_Pool_2026-09-02)",
+          "official-form:GN10   13ff2514…80421e  3 hits"
+        ],
+        "absent": {
+          "sourceId": "official-form:CR370",
+          "declaredDigest": "8a4d32d66d3fc05a41fdcd362a6f744c4536d95a8a600eb9d3d524192de60eb6",
+          "declaredPath": "LegalEase Missouri/MO_CR370.pdf",
+          "declaredCustody": "src05_worker_materialization_2026_09_02",
+          "hits": 0,
+          "rootsSearched": 5,
+          "filesHashed": 1857,
+          "alsoSearchedBy": "filename (*CR370*) and by exact byte length (103,658) across the same roots; both return nothing"
+        }
+      }
+    },
+    {
+      "itemId": "nd-summary-marijuana-pardon-set",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_SHARED_SAFETY_GATE_OUTSIDE_OWNED_PATHS",
+      "jurisdiction": "ND",
+      "implementationStrategy": "official_pdf_fill",
+      "directory": "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill",
+      "overlayDirectoryTouched": false,
+      "overlayDirectoryByteForByteUnchanged": true,
+      "counters": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "whyTheCountersAreNull": "no packet was rendered, so no counter was measured. An unmeasured quantity is null and never zero.",
+      "artifacts": [],
+      "rowGate": {
+        "command": "node scripts/verify-packet-build-environment.mjs --family nd-summary-marijuana-pardon-set --minimum-captain-sha c8bc1b1fdfa5500324f6be44e1592b10c5feddd5",
+        "result": "PACKET_BUILD_ENVIRONMENT_READY: 13/13 passed. The source binds; this is NOT a source block."
+      },
+      "sourceBinds": {
+        "sourceId": "official-form:SFN-61663",
+        "sha256": "c59cd5b8c9938e78f951f3aea1d397fe896be253d8d35a14455d684ac56c697f",
+        "byteLength": 46054,
+        "boundExactly": true
+      },
+      "whatStopsIt": {
+        "gate": "scripts/rcap-official-forms/rcap-source-notice.mjs, NON_FILING_NOTICE_PATTERNS id=informational_purposes_only",
+        "matchedText": "This is provided for informational purposes only and not for the purpose of providing legal advice. You should contact your attorney to",
+        "printedWhere": "SFN 61663 page 1 footer, below the Open Record Notice",
+        "assessment": "Probable false positive, and this lane is not the lane that decides it. The matched sentence disclaims legal advice about the advisory notes above it; it does not say the form is a reference copy. The corroborating detector in scripts/rcap-official-forms/rcap-non-filing-notice.mjs is subject-anchored and returns false on this same footer.",
+        "whyThisLaneDidNotFixIt": "The pattern lives in a SHARED safety gate consulted by every official_pdf_fill family and outside this lane's owned paths; three other lanes were building against it concurrently. The two ways to get past it from inside the owned paths are trimming documentTextLines, which withholds evidence from a safety gate, and passing a falsy nonFilingNotice, which disables it. Neither is available to a lane forbidden to weaken a safeguard.",
+        "suggestedRemedy": "Restore the subject anchor on the informational_purposes_only pattern so it matches a document describing itself, not a legal-advice disclaimer, then re-run scripts/build-census-v1-nd-summary-marijuana-pardon-set.mjs unchanged. The prior lane recorded the field census as already clean at 36/36 fields.",
+        "owner": "the lane that owns scripts/rcap-official-forms/rcap-source-notice.mjs"
+      },
+      "whatThisLaneDidHere": [
+        "Ran the existing builder once to confirm the hold still fires at this base. It does, with the identical matched text.",
+        "That run rewrote source-receipt.json to name the d_source_packs custody instead of the Master Library for the SAME pinned digest, because both custodies are mounted here and the resolver picks deterministically. That is an environment difference and not a build change, so the file was restored and the overlay directory is byte-for-byte identical to base 18b5f4270."
+      ],
+      "notForTheRecord": "This is not BLOCKED_SOURCE. The source binds by exact SHA-256, and classifying a shared-gate hold as a source block would put a source defect on a record that has none.",
+      "sourceDigestSweep": "1 of 1 HELD, at three paths (Master Library at both mounts, and rcap-d-source-packs-2026-08-12/D3). This family is NOT source-blocked; its stop is the shared source-notice gate."
+    }
+  ],
+  "sourceDigestSweep": {
+    "why": "Run on the coordinator's mid-task instruction, after PF11 lost time building toward a source not in custody and PF06 found families whose declared digests have zero hits. Every declared digest for all four families was checked against a full hash of every file under every mounted custody root, independently of MASTER_QUEUE and of the corpus index's own path resolution.",
+    "method": "SHA-256 of every regular file under each mounted root, then lookup of each family's declared digest in that index. No network access; nothing acquired.",
+    "mountedRootsSearched": [
+      "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1",
+      "private/human-source-returns",
+      "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
+      "private/source-imports/Nationwide_Recovery_Pool_2026-09-02",
+      "private/source-imports/rcap-d-source-packs-2026-08-12"
+    ],
+    "filesHashed": 1857,
+    "distinctDigests": 797,
+    "filesHashedDiffersFromPf06": "PF06 reports 1859 files under five mounted roots and this sweep hashed 1857. The two-file difference is not reconciled here and is reported rather than smoothed over; it does not touch any of the eight digests below, each of which was resolved or refused individually.",
+    "result": {
+      "hi_nonconviction_expungement-set": "1 of 1 declared digest HELD (Nationwide_Recovery_Pool_2026-09-02)",
+      "la-985-expungement-by-redaction-set": "2 of 2 declared digests HELD, each at three paths across the Master Library and the recovery pool",
+      "mo-610-140-conviction-set": "3 of 4 declared digests HELD; official-form:CR370 has ZERO HITS across all five roots",
+      "nd-summary-marijuana-pardon-set": "1 of 1 declared digest HELD, at three paths"
+    },
+    "twoFieldsThatWereNotEvidence": {
+      "finding": "All four families carry sourceBound: true and sourceStatus: SOURCE_BOUND_BY_HELD_BYTES in MASTER_QUEUE.json, INCLUDING mo-610-140-conviction-set, whose CR370 is absent from every mounted root. sourceReadiness.custodyClass is equally uninformative per source: it reads NO_ACQUISITION_TASK_NAMED on the Missouri family that is missing a binary, and SOURCE_IDENTITY_UNRESOLVED on the Louisiana family whose every declared digest resolves three times over.",
+      "whatThisLaneDidAboutIt": "Nothing. Both are shared central artifacts and the coordinator owns the correction. They were treated as claims rather than evidence, and every binding in this return rests on a digest checked against bytes on disk."
+    }
+  }
+}

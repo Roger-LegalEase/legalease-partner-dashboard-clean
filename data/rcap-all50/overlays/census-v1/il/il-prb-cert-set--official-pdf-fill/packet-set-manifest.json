@@ -1,0 +1,166 @@
+{
+  "schemaVersion": "rcap-packet-set-manifest/v2",
+  "familyId": "il-prb-cert-set",
+  "adoptedComponents": [
+    {
+      "componentId": "il-prb-cert-primary-filing-1",
+      "role": "primary_filing",
+      "requirement": "required",
+      "conditionDescription": null,
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "PRB Certificate of Sealing Application",
+      "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase Illinois/forms/PRB-Certificate-of-Sealing-Application__certificate-of-sealing-application__rev-2024-09-18.pdf",
+      "order": 1
+    },
+    {
+      "componentId": "il-prb-cert-attachment-2",
+      "role": "attachment",
+      "requirement": "required",
+      "conditionDescription": null,
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "PRB Certificate of Sealing Eligibility Acknowledgement",
+      "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase Illinois/forms/PRB-Certificate-of-Sealing-Acknowledgement__eligibility-acknowledgement__source-2024.pdf",
+      "order": 2
+    },
+    {
+      "componentId": "il-prb-cert-primary-filing-3",
+      "role": "primary_filing",
+      "requirement": "conditional",
+      "conditionDescription": "Military branch only, where eligibility rests on military service.",
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "PRB Certificate of Expungement for Military Application",
+      "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase Illinois/forms/PRB-Certificate-of-Expungement-for-Military-Application__military-certificate-of-expungement-application__rev-2024-09-18.pdf",
+      "order": 3
+    },
+    {
+      "componentId": "il-prb-cert-attachment-4",
+      "role": "attachment",
+      "requirement": "conditional",
+      "conditionDescription": "Military branch only.",
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "PRB Certificate of Expungement for Military Eligibility Acknowledgement",
+      "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase Illinois/forms/PRB-Certificate-of-Expungement-for-Military-Acknowledgement__eligibility-acknowledgement__source-2024.pdf",
+      "order": 4
+    },
+    {
+      "componentId": "il-prb-cert-primary-filing-5",
+      "role": "primary_filing",
+      "requirement": "conditional",
+      "conditionDescription": "Stage 2, generated once the Board has issued a certificate.",
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "EXP-AD Request",
+      "officialSourceUrl": null,
+      "order": 5
+    }
+  ],
+  "additionalMandatoryCompanion": {
+    "documentId": "EXP-CASE-LIST",
+    "sourceAuthority": "EXP-AD June2026 pages1and6; exact CaseList page1",
+    "stage": "court"
+  },
+  "branches": {
+    "sealing": {
+      "application": [
+        "PRB-SEALING-ACK",
+        "PRB-SEALING-APP"
+      ],
+      "court": [
+        "EXP-AD",
+        "EXP-CASE-LIST",
+        "PARTICIPANT-ISSUED-PRB-CERTIFICATE"
+      ]
+    },
+    "militaryExpungement": {
+      "application": [
+        "PRB-MILITARY-ACK",
+        "PRB-MILITARY-APP"
+      ],
+      "court": [
+        "EXP-AD",
+        "EXP-CASE-LIST",
+        "PARTICIPANT-ISSUED-PRB-CERTIFICATE"
+      ]
+    },
+    "nonmilitaryExpungementApplication": {
+      "available": false,
+      "generatePacket": false
+    }
+  },
+  "externalRequiredDocuments": [
+    {
+      "name": "Illinois State Police statewide criminal history transcript",
+      "obtainedFrom": "Illinois State Police, Bureau of Identification, through Access and Review",
+      "requirement": "required",
+      "requiredBeforeFiling": true,
+      "howToObtain": "Attend an Illinois law enforcement or correctional facility or a licensed fingerprint vendor, submit fingerprints and identifying information, and receive the transcript. Access and Review is free on the ISP fee schedule.",
+      "confirms": "caseNumber"
+    },
+    {
+      "name": "Chicago Police Department RAP sheet",
+      "obtainedFrom": "Chicago Police Department",
+      "requirement": "conditional",
+      "conditionDescription": "Only where there were Chicago arrests; the statewide transcript does not always capture them.",
+      "requiredBeforeFiling": false,
+      "howToObtain": "Request the RAP sheet from the Chicago Police Department. A local fee applies."
+    },
+    {
+      "name": "Certified disposition for each case",
+      "obtainedFrom": "Circuit clerk of each county where a case was filed",
+      "requirement": "required",
+      "requiredBeforeFiling": true,
+      "howToObtain": "Ask each circuit clerk for a certified copy of the disposition, and confirm copy counts, filing method and the exact fee.",
+      "confirms": "caseNumber"
+    },
+    {
+      "name": "Prisoner Review Board certificate of eligibility",
+      "obtainedFrom": "Illinois Prisoner Review Board",
+      "requirement": "required",
+      "requiredBeforeFiling": true,
+      "howToObtain": "Apply to the Prisoner Review Board for a certificate of eligibility for sealing or for expungement. The Board decides on an individualized rehabilitation showing.",
+      "confirms": "hasPrbCertificate"
+    },
+    {
+      "name": "Educational documentation supporting the personal-history statement",
+      "obtainedFrom": "School, college or awarding body",
+      "requirement": "required",
+      "requiredBeforeFiling": true,
+      "howToObtain": "Obtain a copy of your high school diploma, GED, college diploma or transcripts.",
+      "confirms": "personalLifeHistory"
+    },
+    {
+      "name": "Employment documentation for the last five years",
+      "obtainedFrom": "Employers or tax records",
+      "requirement": "required",
+      "requiredBeforeFiling": true,
+      "howToObtain": "Provide W-2s, tax returns, paycheck stubs or a letter from your employers covering the last five years.",
+      "confirms": "personalLifeHistory"
+    },
+    {
+      "name": "Proof of completion of any counselling",
+      "obtainedFrom": "Counselling provider",
+      "requirement": "conditional",
+      "conditionDescription": "Where the participant attended anger management, marriage, substance-abuse or similar counselling.",
+      "requiredBeforeFiling": true,
+      "howToObtain": "Ask the provider for proof of completion.",
+      "confirms": "personalLifeHistory"
+    },
+    {
+      "name": "DD-214 or similar proof of military service",
+      "obtainedFrom": "National Personnel Records Center or the service branch",
+      "requirement": "conditional",
+      "conditionDescription": "Where the participant served in the military, and required for the military certificate branch.",
+      "requiredBeforeFiling": true,
+      "howToObtain": "Request a copy of your DD-214.",
+      "confirms": "eligibilityRestsOnMilitaryService"
+    },
+    {
+      "name": "Fingerprint-based criminal history",
+      "obtainedFrom": "As directed in Guidelines paragraph B-5",
+      "requirement": "required",
+      "requiredBeforeFiling": true,
+      "howToObtain": "Follow paragraph B-5 of the Board's Guidelines for when and how to obtain fingerprints for criminal history.",
+      "confirms": "priorPrbPetition"
+    }
+  ],
+  "diagnosticPreviewsDoNotSatisfyIssuedCertificate": true
+}

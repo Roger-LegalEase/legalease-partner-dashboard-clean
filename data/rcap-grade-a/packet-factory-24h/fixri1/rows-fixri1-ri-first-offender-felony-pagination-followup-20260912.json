@@ -1,0 +1,89 @@
+{
+  "schemaVersion": "rcap-native-verifier-returns/v1",
+  "preparedOn": "2026-09-12",
+  "laneId": "FIXRI1",
+  "rows": [
+    {
+      "itemId": "ri_first_offender_felony-set",
+      "familyId": "ri_first_offender_felony-set",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "claim": {
+        "workerId": "FIXRI1",
+        "grantSetId": "05c64153738a36c0"
+      },
+      "obligationsRepaired": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "historicalVerdict": {
+        "path": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-ri-first-offender-felony-repair-delta-fail-20260912.json",
+        "sha256": "b94d8538806062e5b1cee70c3a7e15d8ef398dac38b666c1747952fe2244efb7",
+        "preserved": true
+      },
+      "actualDefect": "Four orphan headings across the canonical and boundary filing instructions: each heading ended a page while its paragraph or list began on the next.",
+      "correction": "Family-and-filing-instructions-only heading/body block grouping; all ordered packet text and official first-four-page text remain unchanged. Four old failures reproduced and zero current guide-heading orphans measured.",
+      "packetBytesChanged": true,
+      "packetByteChangeScope": {
+        "changed": [
+          "canonical.pdf",
+          "boundary.pdf"
+        ],
+        "unchanged": []
+      },
+      "artifacts": {
+        "documents": [
+          {
+            "role": "canonical",
+            "name": "canonical.pdf",
+            "path": "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-felony-set--official-pdf-fill/fixtures/canonical.pdf",
+            "sha256": "367459ad94553cb6a924ac739362d6605ea56ca3667755d53b4a3daa8c098048",
+            "byteLength": 306410,
+            "pageCount": 13,
+            "pageCountBasis": "Parsed from exact current PDF with PyMuPDF",
+            "pageCountEvidence": {
+              "method": "PyMuPDF",
+              "pageCount": 13,
+              "sourceSha256": "367459ad94553cb6a924ac739362d6605ea56ca3667755d53b4a3daa8c098048"
+            }
+          },
+          {
+            "role": "boundary",
+            "name": "boundary.pdf",
+            "path": "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-felony-set--official-pdf-fill/fixtures/boundary.pdf",
+            "sha256": "31e5ed43099b7885ef89ab629de296330f69448d049abd7dc10badb265bfac3e",
+            "byteLength": 306598,
+            "pageCount": 13,
+            "pageCountBasis": "Parsed from exact current PDF with PyMuPDF",
+            "pageCountEvidence": {
+              "method": "PyMuPDF",
+              "pageCount": 13,
+              "sourceSha256": "31e5ed43099b7885ef89ab629de296330f69448d049abd7dc10badb265bfac3e"
+            }
+          }
+        ],
+        "documentsDigest": "2d2e6ddbb286c624ebecb8cffe3d5a31626790d2766678c4e1481b7bb47f9f47"
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": null
+      },
+      "countersAfterBasis": "70 focused assertions and 3 negative controls pass; focused completeness has nine zero counters. Four old orphan controls fail and no current guide heading is orphaned; full visual acceptance remains pending.",
+      "rasterState": "RASTER_PENDING",
+      "rasterManifest": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ri-first-offender-felony/pagination-followup/raster-manifest.json",
+      "currentRepairEvidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ri-first-offender-felony/pagination-followup/pagination-proof.json",
+      "focusedTestEvidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ri-first-offender-felony/pagination-followup/focused-test.log",
+      "sourceBindingEvidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ri-first-offender-felony/repair-current/source-binding-preflight.json",
+      "independentVerification": "PENDING_CURRENT_BYTE_INDEPENDENT_PRE_RASTER_SEMANTIC_REVIEW",
+      "grantsNothing": "This implementation return preserves the historical FAIL and opens no route; current-byte independent review and raster remain separate gates.",
+      "implementationActor": "Captain /root; independent reviewer is /root/seven_independent_review"
+    }
+  ]
+}

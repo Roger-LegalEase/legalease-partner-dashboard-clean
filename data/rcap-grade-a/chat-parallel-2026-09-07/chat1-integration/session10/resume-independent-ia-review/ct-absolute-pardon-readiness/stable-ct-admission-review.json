@@ -1,0 +1,101 @@
+{
+  "reviewer": "/root/session10_admission_review",
+  "actualObservedHead": "7340af598d012f8d2f04384ae14f021a74bbcd52",
+  "stableReviewPublication": "7340af598d012f8d2f04384ae14f021a74bbcd52",
+  "reviewedFiles": [
+    {
+      "path": "scripts/grade-a-packet-factory-24h/ct-reviewed-guidance.mjs",
+      "sha256": "ca8fa550cf2fa53ce663d8431afc4c984c7bdad1338f951d2cf4b26f3e399190"
+    },
+    {
+      "path": "scripts/grade-a-packet-factory-24h/generate.mjs",
+      "sha256": "db000eb3a9327f431d0e36467523a5e871eae03b06f279728f287cd7d3589a38"
+    },
+    {
+      "path": "scripts/grade-a-packet-factory-24h/test-ct-reviewed-guidance.mjs",
+      "sha256": "67f2241d16d39cf5feea6efe7529e0f576d713e9fde9bde00f0e4aef7704c0bf"
+    },
+    {
+      "path": "data/rcap-grade-a/terminal-treatment-verification/SESSION10_CT_GUIDANCE_ROWS.json",
+      "sha256": "d45fc427d7ece524416ac003af7d09680b605dda8c18297b10e89603b48c29b0"
+    }
+  ],
+  "observations": [
+    {
+      "name": "later unrelated HEAD preserves complete generated assessment",
+      "passed": true
+    },
+    {
+      "name": "second later unrelated HEAD preserves complete generated assessment",
+      "passed": true
+    },
+    {
+      "name": "current committed review drift refused",
+      "passed": true,
+      "reason": "CT review is not published at the current integration head\n+ actual - expected\n\n+ 'aa2353a76c07b8615467bb59085dc2d9867c94f2c1d2e7a15df72b196bfdebf0'\n- 'd45fc427d7ece524416ac003af7d09680b605dda8c18297b10e89603b48c29b0'\n"
+    },
+    {
+      "name": "current committed PDF drift refused",
+      "passed": true,
+      "reason": "CT evidence differs from current committed input: data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-pathway:ct:ct-absolute-pardon:absolute-pardon-resulting-in-erasure--official-pdf-fill/fixtures/canonical.pdf\n+ actual - expected\n\n+ 'aa2353a76c07b8615467bb59085dc2d9867c94f2c1d2e7a15df72b196bfdebf0'\n- '26cfafce62253c6788aa135761fc7f8bc72888b3daf15c225172ff28505a765e'\n"
+    },
+    {
+      "name": "current committed source evidence drift refused",
+      "passed": true,
+      "reason": "CT evidence differs from current committed input: data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session10/treatment-reconciliation/ct-application-instructions.html.gz\n+ actual - expected\n\n+ 'aa2353a76c07b8615467bb59085dc2d9867c94f2c1d2e7a15df72b196bfdebf0'\n- 'e4a00f1bd90943cfabe9a747aad98c5fe19d1cf5327f16fe2fc09503e2997bdc'\n"
+    },
+    {
+      "name": "stable publication evidence drift refused",
+      "passed": true,
+      "reason": "CT evidence has no matching immutable publication: data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-pathway:ct:ct-absolute-pardon:absolute-pardon-resulting-in-erasure--official-pdf-fill/fixtures/canonical.pdf\n+ actual - expected\n\n+ 'aa2353a76c07b8615467bb59085dc2d9867c94f2c1d2e7a15df72b196bfdebf0'\n- '26cfafce62253c6788aa135761fc7f8bc72888b3daf15c225172ff28505a765e'\n"
+    },
+    {
+      "name": "only exact independently reviewed CT family changes across all current families",
+      "passed": true,
+      "transitions": [
+        {
+          "familyId": "agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure",
+          "before": "PRODUCT_PATH_PENDING",
+          "after": "GUIDANCE_READY"
+        }
+      ],
+      "familiesChecked": 346
+    },
+    {
+      "name": "preserve current legal hold",
+      "passed": true,
+      "result": "LEGAL_BLOCKED"
+    },
+    {
+      "name": "preserve current owner delivery refusal",
+      "passed": true,
+      "result": "WRONG_DELIVERY_TYPE"
+    },
+    {
+      "name": "preserve current measured defect",
+      "passed": true,
+      "result": "FAIL_REPAIR_REQUIRED"
+    },
+    {
+      "name": "preserve current unavailable source",
+      "passed": true,
+      "result": "SOURCE_BLOCKED"
+    },
+    {
+      "name": "preserve later independent failure",
+      "passed": true,
+      "result": "FAIL_REPAIR_REQUIRED"
+    },
+    {
+      "name": "preserve unclosed current source hold",
+      "passed": true,
+      "result": "SOURCE_BLOCKED"
+    }
+  ],
+  "passed": 13,
+  "total": 13,
+  "sharedFilesEdited": false,
+  "originalIndependentAttributionPreserved": true,
+  "actualAssessmentAdmissionPerformed": false,
+  "scope": "Actual committed custody plus IO-instrumented convergence/refusal controls; exact integrated state block exercised against all current family states. No source/PDF/review/queue mutation."
+}

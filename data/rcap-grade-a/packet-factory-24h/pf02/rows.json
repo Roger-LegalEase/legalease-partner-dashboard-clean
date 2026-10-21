@@ -1,0 +1,283 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-rows/v1",
+  "assignmentId": "PF02",
+  "lane": "packet-build",
+  "captainBaseSha": "d0d516fdf94c3f964fbacbbd9910300412fb5da4",
+  "familiesAssigned": 7,
+  "rowsReturned": 7,
+  "familiesCompleted": 2,
+  "familiesStopped": 5,
+  "rasterState": "BUILT_RASTER_PENDING",
+  "packetsSelfVerified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "mississippiDemoTouched": false,
+  "rows": [
+    {
+      "itemId": "ar-pardon-seal-set",
+      "status": "COMPLETED",
+      "verdict": "BUILT_RASTER_PENDING",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/ar/ar-pardon-seal-set--official-pdf-fill",
+      "rowGate": "PASS 14/14; 2/2 exact official sources bind",
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "nineCountersZero": true,
+      "sources": [
+        { "sourceId": "official-form:ACIC-PETITION-TO-SEAL-PARDONED-OFFENDER", "sha256": "59ba1407a5a6c2b8c327a9ca549b379ab88d65105ade1c7e69110d8c1ac6c5d0" },
+        { "sourceId": "official-form:ACIC-ORDER-TO-SEAL-PARDONED-OFFENDER", "sha256": "741fda999c348d763848b98053f93e8c28d25dcc1ba5e8438e98b1bdf555ae6e" }
+      ],
+      "artifacts": [
+        { "document": "petition", "fixture": "canonical", "sha256": "3b1576d92c2008ba2548522fd16e8025b3e4cbff1f0f40343577ab29477af9ea" },
+        { "document": "petition", "fixture": "boundary", "sha256": "35c2c5cbf9922bed57f1e8da627bdb2b0f554dbcacf5f6de29b5390d565a36c4" },
+        { "document": "order", "fixture": "canonical", "sha256": "1834e31bdf5b3dee8f5d1f3a36c383b12f217abc20c4d3ad7f518c5b92914a93" },
+        { "document": "order", "fixture": "boundary", "sha256": "ca9e599d493603ee04244d90790f609c6a41e97a6f892be2603c0a1197573d17" }
+      ],
+      "rasterNote": "No local raster was substituted. Central Chromium acceptance must inspect the exact PDF hashes above."
+    },
+    {
+      "itemId": "ca-1203-4-set",
+      "status": "COMPLETED",
+      "verdict": "BUILT_RASTER_PENDING",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill",
+      "rowGate": "PASS 14/14; 5/5 exact official sources bind",
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "nineCountersZero": true,
+      "artifactsProduced": 30,
+      "primaryArtifacts": [
+        { "fixture": "canonical", "appliesToDeclaredParticipantElectionVariants": 3, "sha256": "9cc3b456c0b97e0555b53de0740d03368b98148480ae14d78b882ad9095b9ae3" },
+        { "fixture": "boundary", "appliesToDeclaredParticipantElectionVariants": 3, "sha256": "34b962b636a4481c256162bbc2507572b4fcafe7edec34d866b57007d2acc458" }
+      ],
+      "unchangedOfficialCompanions": [
+        { "formNumber": "CR-181", "sha256": "f737503a89465d40206b11b1123e815e44a249d324bad16d313c337a695ce504" },
+        { "formNumber": "CR-106", "sha256": "f8a37a9a8c30a016b432bb39fd67407717c3dee7be74bc3e3d471127bf190c5a" },
+        { "formNumber": "MC-025", "sha256": "b0ca1509f2c3de152518079de7c1eb2771eaa1eb7da457c2e918498894f6f0af" },
+        { "formNumber": "MC-031", "sha256": "defc9108f6baa4c2ca444c1571d737d841af78289bef337f874f51e595191075" }
+      ],
+      "artifactManifest": "data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill/reports/rendered-artifacts.json",
+      "participantElectionRule": "The route establishes Penal Code section 1203.4, but the official form's fulfilled-probation, early-discharge, and interests-of-justice subchoices depend on verified case facts. The build declares and discloses all three controls and leaves them unmarked.",
+      "rasterNote": "No local raster was substituted. Central Chromium acceptance must inspect the exact PDF hashes recorded in the artifact manifest."
+    },
+    {
+      "itemId": "nh_petition_nonconviction_pre2019-set",
+      "status": "STOPPED",
+      "verdict": "BLOCKED_SOURCE",
+      "blocker": "BLOCKED_SOURCE official-form:NHJB-2317-DSe did not bind",
+      "rowGate": "FAIL family_sources_bind; 1/4 sources do not bind",
+      "overlayFilesChanged": 0,
+      "counters": { "knownRequiredFieldsMissing": null, "requiredFactsNotCollected": null, "unclassifiedBlanks": null, "incompleteRows": null, "requiredOptionsMissing": null, "requiredComponentsMissing": null, "invisibleWrites": null, "protectedWrites": null, "visualDefects": null },
+      "counterMeasurement": "not opened after the source row stop",
+      "missingSources": [
+        { "sourceId": "official-form:NHJB-2317-DSe", "pinnedSha256": "2fc2e1ede5201c17aa6a6e7726aff4659a649131429f8fec69771bc2b62f662c" }
+      ],
+      "artifacts": []
+    },
+    {
+      "itemId": "nh_petition_vacated-set",
+      "status": "STOPPED",
+      "verdict": "BLOCKED_SOURCE",
+      "blocker": "BLOCKED_SOURCE official-form:NHJB-2317-DSe did not bind",
+      "rowGate": "FAIL family_sources_bind; 1/4 sources do not bind",
+      "overlayFilesChanged": 0,
+      "counters": { "knownRequiredFieldsMissing": null, "requiredFactsNotCollected": null, "unclassifiedBlanks": null, "incompleteRows": null, "requiredOptionsMissing": null, "requiredComponentsMissing": null, "invisibleWrites": null, "protectedWrites": null, "visualDefects": null },
+      "counterMeasurement": "not opened after the source row stop",
+      "missingSources": [
+        { "sourceId": "official-form:NHJB-2317-DSe", "pinnedSha256": "2fc2e1ede5201c17aa6a6e7726aff4659a649131429f8fec69771bc2b62f662c" }
+      ],
+      "artifacts": []
+    },
+    {
+      "itemId": "nm_conviction-set",
+      "status": "STOPPED",
+      "verdict": "BLOCKED_SOURCE",
+      "blocker": "BLOCKED_SOURCE six exact official-form identities did not bind",
+      "rowGate": "FAIL family_sources_bind; 6/7 sources do not bind",
+      "overlayFilesChanged": 0,
+      "counters": { "knownRequiredFieldsMissing": null, "requiredFactsNotCollected": null, "unclassifiedBlanks": null, "incompleteRows": null, "requiredOptionsMissing": null, "requiredComponentsMissing": null, "invisibleWrites": null, "protectedWrites": null, "visualDefects": null },
+      "counterMeasurement": "not opened after the source row stop",
+      "missingSources": [
+        { "sourceId": "official-form:4-222", "pinnedSha256": "809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a" },
+        { "sourceId": "official-form:4-953", "pinnedSha256": "2ee3d41243e0a7e807ed52e77ac08fda9e0c55c7abdef3195a53de29a0f90c40" },
+        { "sourceId": "official-form:4-956", "pinnedSha256": "a6a01d6853d6ae3199bf81a355065ecf40cf20e76a8d1131d9bc5b56527b4c0e" },
+        { "sourceId": "official-form:4-960", "pinnedSha256": "79c8556655ee6e36a5a5516309e869637401f753c70172ecd78bfa138655d4de" },
+        { "sourceId": "official-form:4-960.1", "pinnedSha256": "3cbc2e6eb35e29bdc10c42fee90221a7f9d470fa077fc0b9620bf1fb7e3f4f5c" },
+        { "sourceId": "official-form:4-960.3", "pinnedSha256": "14d16b83fe55e3b872f233118305fecac27a7c48e839cba323db2d8bd48c2226" }
+      ],
+      "artifacts": []
+    },
+    {
+      "itemId": "nm_identity_theft-set",
+      "status": "STOPPED",
+      "verdict": "BLOCKED_SOURCE",
+      "blocker": "BLOCKED_SOURCE three exact official-form identities did not bind",
+      "rowGate": "FAIL family_sources_bind; 3/4 sources do not bind",
+      "overlayFilesChanged": 0,
+      "counters": { "knownRequiredFieldsMissing": null, "requiredFactsNotCollected": null, "unclassifiedBlanks": null, "incompleteRows": null, "requiredOptionsMissing": null, "requiredComponentsMissing": null, "invisibleWrites": null, "protectedWrites": null, "visualDefects": null },
+      "counterMeasurement": "not opened after the source row stop",
+      "missingSources": [
+        { "sourceId": "official-form:4-222", "pinnedSha256": "809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a" },
+        { "sourceId": "official-form:4-951", "pinnedSha256": "b8a0dba2cd21f9fed317ccea57e568a360345608782cea2a3f0e34b769ae67e4" },
+        { "sourceId": "official-form:4-960.1", "pinnedSha256": "3cbc2e6eb35e29bdc10c42fee90221a7f9d470fa077fc0b9620bf1fb7e3f4f5c" }
+      ],
+      "artifacts": []
+    },
+    {
+      "itemId": "ut_pet_special_certificate-set",
+      "status": "STOPPED",
+      "verdict": "BLOCKED_SOURCE",
+      "blocker": "BLOCKED_SOURCE official-form:1001EX and official-form:1021EX did not bind",
+      "rowGate": "FAIL family_sources_bind; 2/9 sources do not bind",
+      "overlayFilesChanged": 0,
+      "counters": { "knownRequiredFieldsMissing": null, "requiredFactsNotCollected": null, "unclassifiedBlanks": null, "incompleteRows": null, "requiredOptionsMissing": null, "requiredComponentsMissing": null, "invisibleWrites": null, "protectedWrites": null, "visualDefects": null },
+      "counterMeasurement": "not opened after the source row stop",
+      "missingSources": [
+        { "sourceId": "official-form:1001EX", "pinnedSha256": "0f575aa4c08f9ce0001ea386177f08ed707ff72b55c0036d07d024693dbca1ed" },
+        { "sourceId": "official-form:1021EX", "pinnedSha256": "2b730d0a34f91a69f0316ac8a8e9ce78f559e554c564a9ebcc271533daefc174" }
+      ],
+      "artifacts": []
+    },
+    {
+      "itemId": "md_pardon_expungement-set",
+      "lane": "PF02",
+      "shift": "build-five-20260909, worktree /home/user/b5-worktree, branch build-five-20260909 from Captain head c476cfc66",
+      "claimCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF02 md_pardon_expungement-set",
+      "claimResult": "CLAIM_OK PF02 md_pardon_expungement-set (packet-build, grant set 2c60a5484079c44b)",
+      "rowGate": "node scripts/verify-packet-build-environment.mjs --family md_pardon_expungement-set -> family_sources_bind ok, 2/2 source(s) bind by exact SHA-256 (custody_reconciliation); PACKET_BUILD_ENVIRONMENT_READY 13/13",
+      "status": "COMPLETED",
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "directory": "data/rcap-all50/overlays/census-v1/md/md-pardon-expungement-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-md_pardon_expungement-set.mjs",
+      "officialForms": [
+        {
+          "formNumber": "CC-DC-CR-072B",
+          "revision": "Rev. 10/01/2025-2",
+          "sha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469",
+          "custody": "nationwide_recovery_pool_2026_09_02"
+        },
+        {
+          "formNumber": "CC-DC-089",
+          "revision": "Rev. 11/2025",
+          "sha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
+          "custody": "master_library"
+        }
+      ],
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersMeasuredBy": "scripts/rcap-packet-completeness/completeness-contract.mjs, called from the builder over its own field map and its own byte proof",
+      "totals": {
+        "terminalFields": 146,
+        "written": 32,
+        "blank": 114
+      },
+      "blanksByDisposition": {
+        "NOT_APPLICABLE_ON_THIS_ROUTE": 18,
+        "REQUIRED_BEFORE_FILING": 34,
+        "PARTICIPANT_ELECTION_GENUINE": 35,
+        "PROTECTED_FIELD": 26,
+        "OPTIONAL_PARTICIPANT_CONTENT": 1
+      },
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "path": "data/rcap-all50/overlays/census-v1/md/md-pardon-expungement-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "cca0c00ec1652a5f4eeffbaac1465de7bfdefc7c860bb2808ba1c8db7fbbb741",
+          "byteLength": 1169719,
+          "pageCount": 4
+        },
+        {
+          "fixture": "boundary",
+          "path": "data/rcap-all50/overlays/census-v1/md/md-pardon-expungement-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "c2268041b13f9b15582eb4e1e095cee4fd43125913d337503d19c0f39b26fb90",
+          "byteLength": 1170165,
+          "pageCount": 4
+        }
+      ],
+      "components": [
+        {
+          "kind": "primary_filing",
+          "documentId": "CC-DC-CR-072B",
+          "packetPages": [
+            1
+          ]
+        },
+        {
+          "kind": "fee_waiver",
+          "documentId": "CC-DC-089",
+          "packetPages": [
+            2,
+            3,
+            4
+          ]
+        }
+      ],
+      "routeElectionsMade": [
+        "CC-DC-CR-072B item 3: the ground this family IS - one criminal act, not a crime of violence under Criminal Law Article sec. 14-101(a), followed by a full and unconditional pardon by the Governor - is marked, and the pardon date is written beside it from the held screening fact, which is the fact the route's own ten-year test is computed from.",
+        "CC-DC-089: \"I request a waiver of the prepaid costs\" is ticked, because that is what the component is.",
+        "the District Court box and the court location, and the arrest alternative of item 1, are stated from held case facts and their select-one siblings declared not applicable naming the selection made."
+      ],
+      "electionsDeliberatelyLeftToTheParticipant": [
+        "the other seven grounds of item 3. The form says \"check all that apply\", so it is not a select-one and a second ground may also be true of a given record; only the person filing knows theirs.",
+        "items 4 and 5, whether the case was transferred or appealed. The form says in terms that the answer decides which court the petition must be filed in, and the platform holds neither fact.",
+        "the whole affidavit of income on CC-DC-089. This platform holds no income, property or debt fact about anyone."
+      ],
+      "byteProof": {
+        "method": "each saved fixture is re-opened, page content streams decompressed, the source page's own streams excluded, each /FlatWidget-n Do resolved to its XObject and every show-text operator decoded with the matrix that precedes it; a marked box is proved against the source's own Off appearance.",
+        "report": "data/rcap-all50/overlays/census-v1/md/md-pardon-expungement-set--official-pdf-fill/reports/actual-writes.json",
+        "everyDeclaredWriteReadBackFromTheSavedBytes": true,
+        "unaccountedInkInTheAddedStreams": 0
+      },
+      "determinism": {
+        "buildRuns": 2,
+        "allGeneratedFilesIdenticalAcrossRuns": true
+      },
+      "rasterState": "BUILT_RASTER_PENDING",
+      "buildStatus": "state_built",
+      "reviewStatus": "qa_review_pending",
+      "independentVerification": "PENDING. This lane built this packet and issues no verdict on it.",
+      "defectsFoundInTheDeliveredBytesAndFixed": [
+        "Flattening drew the two Maryland forms' Reset buttons onto the filed page: ten glyphs of ink and every counter still zero. Push buttons are viewer controls, not filing content, and are now detached before flattening and recorded.",
+        "pdf-lib's form.flatten() deletes each field's objects, and the writer then emits an xref table with entries for object numbers that no longer exist. Poppler reported \"Invalid XRef entry 93\" on the first Maryland artifact and had to reconstruct the table. The build now draws what pdf-lib draws, operator for operator, and detaches instead of deleting."
+      ],
+      "sourceFindings": [
+        "CC-DC-CR-072B's AcroForm names describe whichever printed line each field sat near, and several name the wrong thing: \"2 I was charged with the offense of\" is the second line of the incident description, \"I was convicted found guilty of check all that apply...\" is the offence blank of item 2, and the checkbox named for common law battery and domestically related crime is the burglary-and-felony-theft ground. Every label was read off the rendered page at the widget's measured /Rect and the field map carries both names.",
+        "CC-DC-089 prints that form MDJ-008, the Notice Regarding Restricted Information under Rule 20-201.1, must be filed with it unless the case is one of six restricted types. Expungement is not one of them and no MDJ-008 is bound to this family by any source record. The packet does not carry one and does not stand in for one. That is a source obligation for whoever owns acquisition."
+      ],
+      "couldNotMeasureHere": [
+        "That any pardon was granted, or on what date. The date written on the petition is the held screening answer and the participant is told to check it against the pardon document before signing. Whether screening evidence is a sufficient basis for a date on a petition affirmed under the penalties of perjury is a counsel question, raised in approval-request.json.",
+        "The filing fee for a Maryland expungement petition on a guilty disposition. No held source establishes one and this packet states no amount.",
+        "No raster was produced and none was measured."
+      ],
+      "packetsSelfVerified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "grantsNothing": "A rendered packet is review evidence. It authorizes no fulfillment and opens no commercial route, and this lane issues no verdict on a packet it built."
+    }
+  ]
+}

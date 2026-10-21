@@ -1,0 +1,16 @@
+name: Captain one-shot MA BMC state-corrected raster
+on:
+  push:
+    branches: [claude/legalease-sprint-captain-utucnw]
+    paths: [.github/workflows/captain-ma-bmc-state-corrected-raster-20260912.yml]
+permissions:
+  actions: write
+  contents: read
+jobs:
+  dispatch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.actions.createWorkflowDispatch({"owner": "Roger-LegalEase", "repo": "legalease-partner-dashboard-clean", "workflow_id": "rcap-packet-raster-acceptance-batch.yml", "ref": "claude/legalease-sprint-captain-utucnw", "inputs": {"commit_sha": "dad37e7f8cf72b9085cbe99462b486c8cc4a1ece", "raster_manifest_path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ma-bmc-repair/raster-manifest-dispatch.json", "family_batch": "ma-bmc-multi-set", "requested_scale": "2.5"}});

@@ -1,0 +1,10 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+const w=fs.readFileSync('.github/workflows/rcap-official-source-acquisition-batch.yml','utf8');
+const triggers=w.split(/^on:\s*$/m)[1]?.split(/^permissions:/m)[0];
+assert.ok(triggers,'workflow declares its trigger contract');
+assert.match(triggers,/^  workflow_dispatch:/m);
+assert.deepEqual([...triggers.matchAll(/^  ([a-z_]+):/gm)].map(m=>m[1]), ['workflow_dispatch'], 'acquisition has exactly one explicit manual trigger');
+assert.match(triggers,/manifest:/);assert.match(triggers,/jurisdiction:/);assert.match(triggers,/limit:/);
+assert.match(w,/actions\/upload-artifact@v4/,'manual acquisition retains evidence custody');
+console.log('PASS manual-only acquisition: no generated manifest change can dispatch downloads; explicit manifest/jurisdiction/limit dispatch and artifacts remain.');

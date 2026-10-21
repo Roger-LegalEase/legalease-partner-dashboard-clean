@@ -90,6 +90,17 @@ function failures(harness, renderRequest, repository) {
     "the derived packet id is not seeded from this run's briefcase item under the application's namespace");
   fail(/CONSUMER_PACKET_NAMESPACE = "rcap:consumer-packet:v1"/.test(renderRequest),
     "the application's consumer packet namespace changed; the harness's derived id would no longer match the one the render uses");
+  // A personalized (Grade-A) route derives its packet id from the immutable
+  // render payload; the harness must take that id from the application's own
+  // preparePersonalizedPacket, before the charge, and fall back to the
+  // namespace id only when the route is not personalized.
+  fail(/const personalizedPacketId = await personalizedPacketIdFromRunner\(A, itemId\);/.test(code),
+    "the harness no longer derives the personalized packet id before the charge");
+  fail(/return personalizedPacketId \?\? consumerNamespacePacketId;/.test(code),
+    "the expected packet id no longer prefers the application's personalized derivation for a personalized route");
+  fail(/const prepared = preparePersonalizedPacket\(\{\s*\n\s*authUserId: consumer\.id, briefcaseItemId, personId: person\.personId, matterId: consumerMatterIdForItem\(briefcaseItemId\),/.test(code)
+    && /return prepared\.spec\.packetId;/.test(code),
+    "the personalized packet id is not computed by the application's own preparePersonalizedPacket from this run's briefcase item");
 
   // --- proven before the charge -------------------------------------------
   const gate = harness.match(/record\(\s*"packet_contract_is_provable_before_checkout"[\s\S]*?\n  \);/)?.[0] ?? "";
@@ -158,6 +169,8 @@ if (MUTATIONS) {
       h.replace("const expectedPacketId = (() => {", "const expectedPacketId = crypto.randomUUID(); const _unused = (() => {")],
     ["the derived id stops being seeded from this run's briefcase item", (h) =>
       h.replace("`rcap:consumer-packet:v1:${itemId}`", "`rcap:consumer-packet:v1:${crypto.randomUUID()}`")],
+    ["the personalized derivation is dropped and the namespace id is used for every route", (h) =>
+      h.replace("return personalizedPacketId ?? consumerNamespacePacketId;", "return consumerNamespacePacketId;")],
     ["a packet belonging to another briefcase item is accepted", (h) =>
       h.replace("const boundToThisRun = String(row?.packet_user ?? \"\") === String(A.id)\n    && String(row?.packet_item ?? \"\") === String(itemId);", "const boundToThisRun = true;")],
     ["a foreign packet row at this id no longer blocks Checkout", (h) =>

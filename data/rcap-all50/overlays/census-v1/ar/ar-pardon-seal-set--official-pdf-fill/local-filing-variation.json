@@ -1,0 +1,86 @@
+{
+  "schemaVersion": "rcap-local-filing-variation/v1",
+  "familyId": "ar-pardon-seal-set",
+  "jurisdiction": "AR",
+  "routeKeys": [
+    "obligation:unit:AR:ar-pardon-seal:ar-pardon-seal-stage-2"
+  ],
+  "evidenceBasis": "The printed text of the two pinned source binaries, and data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json for the route's own destination and actor. No court or agency host was contacted; egress to those hosts is refused by policy.",
+  "statuteOrAuthority": {
+    "asPrintedOnBothForms": "Act 1460 of 2013; A.C.A. 16-90-1401, Et. Seq.",
+    "committedRouteRecord": "A.C.A. § 16-90-1411",
+    "whatThePetitionPraysUnder": "A.C.A. § 16-90-1406 (petition, page 2)",
+    "whatTheOrderSealsUnder": "A.C.A. § 14-90-1411 (order, page 2), quoted exactly as printed",
+    "whatTheOrderFindsUnder": "A.C.A. § 16-90-1415(e) and § 16-90-1411 (order, page 2, paragraph 5)",
+    "observedInconsistency": {
+      "finding": "The order's operative decree cites A.C.A. § 14-90-1411 while its own paragraph 5 immediately above cites § 16-90-1411, and the sealing chapter these forms are issued under is Title 16 § 16-90-1401 et seq. as printed in both documents' titles.",
+      "treatment": "Quoted exactly as the form prints it and NOT corrected. Whether this is a typographical error in the official form is a question for counsel, not for this build. It is recorded so review sees it."
+    }
+  },
+  "routePrecondition": {
+    "statement": "A pardon must already have been granted. This packet is the sealing step that follows one; it does not apply for a pardon, evidence one, or establish that one issued.",
+    "howTheFormsExpressIt": "The petition's paragraph 5 reads 'On the ___ day of ___, ___ the Governor issued a Pardon to the Defendant for the above referenced offense(s).' The order opens 'Before the Court is the Pardon issued by the Governor in the above referenced matter.'",
+    "platformFillsIt": false,
+    "whyNot": "The platform holds no pardon fact of any kind — not the grant, not its date, not an executive order number. All three components of the pardon-grant date are refused by role, so nothing this build produces asserts or implies that a pardon was granted. See the map's roleRefusals, class 'pardon_grant_date_component'.",
+    "committedRouteRecord": "route-obligation-candidate.json records destination.detail 'The pardon itself is a prerequisite event. The later sealing filing is a participant packet.'"
+  },
+  "venue": {
+    "statement": "The court handling the sealing after the pardon.",
+    "source": "route-obligation-candidate.json destination.name for this route key",
+    "howTheFormsExpressIt": "The petition prints 'IN THE CIRCUIT COURT OF ______, ARKANSAS' followed by '______ DIVISION' — the court type is pre-printed as CIRCUIT. The order prints 'IN THE ______ COURT OF ______ COUNTY, ARKANSAS' followed by '______ DIVISION', leaving the court type blank as well. The two documents therefore disagree about whether the court type is a blank at all, which is recorded as observed.",
+    "platformFillsIt": false,
+    "whyNot": "The form prints no caption naming the county, the court type or the division. The blanks are measured exactly, but the printed words beside them are 'IN THE CIRCUIT COURT OF', 'COURT OF', ', ARKANSAS' and 'DIVISION', and none of those names an allowlisted fact. This family will not assert a caption-to-fact binding the document does not express, so all of them are left for the participant and the gap is reported rather than closed by inventing a label. See reports/blanks-left-for-the-participant.json."
+  },
+  "filing": {
+    "whoFiles": "the participant (processActor 'participant', participantCanInitiate true on this route)",
+    "whatIsFiled": "the ACIC Petition, with the ACIC Order tendered to the court as the proposed order it signs",
+    "verification": {
+      "required": true,
+      "statement": "The petition carries a VERIFICATION page: the petitioner swears the petition is true and correct before a notary — 'Subscribed and sworn to before me on this ___ day of ___, 20___' — over the notary's signature and commission expiry, with a seal. Petition page 3.",
+      "platformCompletesIt": false,
+      "whyNot": "The oath has not been taken, and the jurat is executed in one act before a notary. The jurat county, the petitioner's signature, all three jurat date components and the notary's signature are refused by role, and the whole page additionally sits under the printed heading VERIFICATION, which the shared region vocabulary classifies as notarization."
+    },
+    "identificationBlock": {
+      "statement": "Both documents end with 'THE FOLLOWING INFORMATION IS REQUIRED FOR PROPER IDENTIFICATION OF THE DEFENDANT IN THE STATE AND NATIONAL RECORD SYSTEMS' and ask for Race, Sex, DOB, Arrest Tracking Number, SID No. and FBI No.",
+      "whatThePlatformSupplies": "The date of birth, and only on the order, where the caption is measured cleanly. Race and Sex are facts the platform does not hold; the Arrest Tracking Number, the SID number and the FBI number are assigned by ACIC and the FBI and are the agencies' to state — the FBI number is marked '(if known)' on the form itself.",
+      "petitionAsymmetry": "On the PETITION the same six blanks are not written at all. Its identification block's captions arrive from the content stream with their glyphs out of order, so the walker reads 'DO' for DOB and 'Ra' for Race and no caption binds; the Arrest Tracking Number and FBI No. rules additionally carry their own printed words across 85% and 75% of their width and are classified as underlines rather than blanks. This is recorded as a measurement outcome, not claimed as a refusal. See reports/blanks-left-for-the-participant.json."
+    }
+  },
+  "fee": {
+    "established": false,
+    "whatTheSourcesSay": "Neither pinned form states a filing fee, names a fee-waiver route, or mentions costs at all. Unlike the misdemeanor DWI petition, this petition carries no paragraph about court costs being paid or excused.",
+    "whatIsNotEstablished": "The filing fee for this petition, whether any county charges one, and whether a waiver exists. No amount is asserted here. Establishing it needs a source this family does not hold and may not fetch."
+  },
+  "service": {
+    "required": true,
+    "statement": "A copy of the petition must be provided to the Prosecuting Attorney for the county in which the petition has been filed, and to the arresting agency, by placing a copy in the United States mail postage prepaid or by hand delivering a copy to said office.",
+    "source": "the petition's Certificate of Service, page 4, read from the pinned bytes",
+    "platformCompletesIt": false,
+    "whyNot": "The certificate attests to an act of service that has not happened. The certifying name, the signature rule captioned 'Defendant or Defendant's Attorney' and the date are all refused by role.",
+    "sharedRegionChannelDoesNotProtectThisPage": {
+      "finding": "The page 4 heading is typeset with its glyphs out of order, so the walker reads 'Certicatofefi Service' and regionProtectCategoryOf does not match it. The census records regionProtectCategory null for the 'I, ___' blank on that page.",
+      "consequence": "On the flat DWI sibling the equivalent page was caught by the region channel. Here it is not, and the role refusals are the whole of the protection. This is why the refusals are stated per blank instead of relying on the region gate."
+    }
+  },
+  "deliveryAfterTheOrder": {
+    "statement": "The order directs the Clerk to mail or transmit a certified copy of the ORDER to the Arkansas Crime Information [Center], the Administrative Office of the Courts, the prosecuting attorney, the arresting agency, and both the city attorney and District Court Clerk if applicable; each of those agencies must then comply with A.C.A. § 16-90-1413 as it pertains to them.",
+    "source": "the order, page 2, read from the pinned bytes",
+    "actor": "the court clerk, not the participant and not the platform"
+  },
+  "eligibilityConditionsThePetitionAsserts": [
+    "the defendant was arrested and charged with a stated offence (paragraph 1)",
+    "the defendant pled guilty or nolo contendere or was found guilty of a stated offence (paragraph 2)",
+    "the offence did not involve a victim under eighteen, did not constitute a sex offence, and did not result in serious injury or death (paragraph 3)",
+    "if a youthful offender: the felony was committed in Arkansas while under sixteen, the defendant was convicted and given a suspended sentence, and has not been convicted of another criminal offence (paragraph 4)",
+    "the Governor issued a Pardon for the referenced offence(s) (paragraph 5)"
+  ],
+  "conditionsThePlatformDoesNotAnswer": {
+    "statement": "Paragraphs 3 and 4 are assertions the form states rather than questions with controls, and the order's '[_] Felony [_] Misdemeanor' is the only choice control on either document. It reads as boxes on the page but is drawn as TEXT GLYPHS inside the text-showing operators, not as stroked paths: scripts/lib/pdf-stroked-boxes.mjs measures ZERO stroked rectangles on every page of both documents. The platform holds no charge-class fact, so nothing is marked. markSelections refuses a box that was not measured off the document, and there is no measured stroked box here to give it.",
+    "selectionsMade": 0
+  },
+  "routeAvailability": {
+    "committedState": "unit:ar-pardon-seal-stage-2:available=true",
+    "thisBuildChangesIt": false,
+    "note": "This route is already marked available in the committed record, unlike the flat DWI sibling's. That is not this build's doing and this build does not touch it. Availability is not output approval: the route's own record still carries currentCommercialState NO_UNIT_LEVEL_GRADE_A_FULFILLMENT_RECORD and packetFamilyId null."
+  }
+}

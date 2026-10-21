@@ -1,0 +1,88 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-native-return/v2",
+  "lane": "PF20",
+  "laneKind": "implementation-repair",
+  "status": "CODE_REPAIR_READY_FOR_INDEPENDENT_REVIEW",
+  "recordedAt": "2026-09-13T15:10:34.915Z",
+  "familyId": "nc_auto_146_a4_agency_followup-set",
+  "worker": "rcap-finish-worker-77jr7gx76jq3rg65",
+  "worktree": "/workspaces/legalease-partner-dashboard-clean/private/worker-worktrees/pf20-ks-arrest-registration-resume-20260913",
+  "acceptedCaptainBase": "45f7ddc9c",
+  "files": [
+    {
+      "path": "scripts/verify-packet-build-environment.mjs",
+      "sha256": "aedb177caecd93e17553b7c26cc32e158bedef7c57a2ac667d414db0ed5f701d",
+      "byteLength": 123134
+    },
+    {
+      "path": "scripts/verify-family-source-resolution.test.mjs",
+      "sha256": "6732c68819b4d948b6b9b7a2cbc7c0398fa30f97d5f96b36d2de1bbf3e909342",
+      "byteLength": 31791
+    }
+  ],
+  "repair": "Add immutable NC-AOC-G-260 expectation to governed wave. Explicitly canonicalize only historical NC indexed path with exact index custody ID/root/path/hash/length/form and admission restoration entry. Actual governed reference body, input manifest and admission must validate first; then existing canonical binding preserves repositoryRoot.",
+  "historicalPath": "LegalEase North Carolina/AOC-G-260_Rev-5-24.pdf",
+  "historicalCustodyRoot": "private/source-imports/src05-worker-materialization-2026-09-02",
+  "historicalAdmissionRestoration": "private/source-imports/src05-worker-materialization-2026-09-02/LegalEase North Carolina/AOC-G-260_Rev-5-24.pdf",
+  "validation": {
+    "authorOnly": true,
+    "independentReview": "PENDING",
+    "focused": {
+      "command": "node --test --test-name-pattern=\"governed|hermetic|CA|NC\" scripts/verify-family-source-resolution.test.mjs",
+      "passed": 15,
+      "failed": 0
+    },
+    "syntax": "PASS",
+    "diffCheck": "PASS",
+    "nativeFamilyGate": {
+      "id": "family_sources_bind",
+      "title": "Every source this family names is present and hashes to its pinned digest",
+      "because": "Family-level is the level that matters. A corpus can be complete in aggregate and still not carry the two binaries this worker was dispatched to measure.",
+      "ok": true,
+      "family": "nc_auto_146_a4_agency_followup-set",
+      "tier": "custody_reconciliation",
+      "custodyClass": "SOURCE_ALREADY_HELD",
+      "commissionAcquisition": false,
+      "sources": [
+        {
+          "sourceId": "official-form:AOC-G-260",
+          "present": true,
+          "bound": true,
+          "pinned": "cf998cecefea090e4b3fce260b330b6f3896d66ae65ab9f9e7a698e6586a1817",
+          "observed": "cf998cecefea090e4b3fce260b330b6f3896d66ae65ab9f9e7a698e6586a1817",
+          "resolvedBy": "declared repository-relative path",
+          "pathRoot": "repositoryRoot"
+        }
+      ],
+      "boundByContentHashRatherThanDeclaredPath": 0,
+      "detail": "1/1 source(s) bind by exact SHA-256 (custody_reconciliation)"
+    },
+    "scopeCoverage": "Eight exact families, sixteen source bodies; prior seven-family assertions retained"
+  },
+  "controls": [
+    "single and duplicate exact resolved source positive controls",
+    "missing and wrong source bytes refuse",
+    "sourceId and sourceObligationId aliases refuse",
+    "manifest/family/duplicate admission contradictions refuse",
+    "historical index absent/duplicate/wrong hash/wrong length/wrong root refuses",
+    "wrong restoration path or declared custody length refuses"
+  ],
+  "preserved": {
+    "claimLedgerSha256": "b4eadc16ceec48f132bdcfbc9d17290a4c8fd55425c2aa071a84cd7d121d4bfc",
+    "acceptedPriorCorrection": true,
+    "sourceRecordsUnchanged": true,
+    "queuesUnchanged": true
+  },
+  "nextGate": "Captain independent code review on exact two-file bytes before NC build. No self-review verdict.",
+  "nonActions": [
+    "No packet builds, source acquisition, claims/queue/source writes, route changes, Git fetch or commits."
+  ],
+  "transfer": {
+    "archive": "/tmp/pf20-nc-governed-resolver-review-20260913.tar.gz",
+    "members": [
+      "scripts/verify-packet-build-environment.mjs",
+      "scripts/verify-family-source-resolution.test.mjs",
+      "data/rcap-grade-a/packet-factory-24h/pf20/nc-governed-resolver-author-return-20260913.json"
+    ]
+  }
+}

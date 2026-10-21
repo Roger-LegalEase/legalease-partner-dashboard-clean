@@ -1,0 +1,328 @@
+{
+  "schemaVersion": "rcap-repair-lane-return/v2",
+  "lane": "FIX25",
+  "laneKind": "repair",
+  "worker": "FIX25 (REQUIRED_BEFORE_FILING cohort; this lane built, repaired, rendered and verified none of these three families before now)",
+  "baseSha": "79f886f26a16cde736a830c842bb7ea06b14f174",
+  "branch": "fix25-required-before-filing",
+  "selfVerified": false,
+  "productionTouched": false,
+  "commercialRoutesOpened": 0,
+  "grantsNothing": "This return records measurements and one repair. It approves no artifact, promotes no route, opens nothing commercial and clears no standing verdict; the verdicts are Captain's to re-read.",
+
+  "theCohortQuestion": {
+    "asked": "Three families fail REQUIRED_BEFORE_FILING and nothing else. Do two of them share one root, and is the third the same shape?",
+    "answer": "TWO PLUS ONE. The two Alabama families are one root, measured. New Jersey is a different defect on a different form with a different mechanism, and it is repaired on its own terms.",
+    "andOneMore": "The two roots are cousins rather than the same fault. Alabama's earlier root (FIX09) classified fields by matching the AcroForm field NAME with loose regexes. New Jersey's classifies them by matching the caption the geometry HARVESTED, and falls through to required-before-filing when it recognises nothing. Both decide a legal question -- whose blank is this -- from a string that was never meant to answer it."
+  },
+
+  "environment": {
+    "worktree": "/home/user/fix25-worktree, created from 79f886f26 on a new branch",
+    "sparseCheckoutInherited": false,
+    "howThatWasEstablished": "core.sparseCheckout is unset and `git sparse-checkout list` answers 'this worktree is not sparse'; `git ls-files -v` shows 0 skip-worktree and 0 assume-unchanged bits; all 15,885 tracked paths exist on disk; and every one of the 15,885 index blob hashes was RE-HASHED FROM DISK with git hash-object and compared, with zero mismatches. Tracked equals disk, proven rather than assumed.",
+    "corpus": "MASTER_LIBRARY_SOURCE_DIR exported to the mounted Master Library Edition 1 (499 files / 329 PDFs / 51 jurisdictions, verified by the preflight). private/ is a symlink into the sibling clone because a fresh worktree carries none, and some builders resolve through private/source-imports/.",
+    "nodeModules": "symlinked from the sibling clone; pdf-lib and sharp import."
+  },
+
+  "grants": {
+    "families": ["al-felony-dwop-set", "al-felony-nonconviction-90-set", "nj_arrest_no_conviction-set"],
+    "assertedBeforeAnyFamilyContentWasRead": true,
+    "evidence": [
+      "CLAIM_OK FIX25 al-felony-dwop-set (repair, grant set 024f8d9cb00aa301)",
+      "CLAIM_OK FIX25 al-felony-nonconviction-90-set (repair, grant set 024f8d9cb00aa301)",
+      "CLAIM_OK FIX25 nj_arrest_no_conviction-set (repair, grant set 024f8d9cb00aa301)"
+    ]
+  },
+
+  "alabama": {
+    "verdict": "STOPPED on both families. The defect is confirmed, its root is confirmed shared, and the repair is specified below -- but CR-65 cannot be resolved in this container, so no builder edit is committed.",
+    "whyNoBuilderEditWasCommitted": "A builder edited without its fixtures rebuilt leaves a committed field map and guide that the builder no longer produces, and no way to tell which is right. The previous lane on this host refused on those grounds and the refusal was correct. This lane reaches the same wall and stops at it.",
+
+    "theDefectReproducedOnTheDeliveredBytes": {
+      "obligation": "REQUIRED_BEFORE_FILING",
+      "component": "primary_filing (CR-65, Petition for Expungement of Records, Rev. 10/2024), page 6 of 11",
+      "read": "150 dpi Poppler raster of the committed canonical fixture, read directly rather than inferred from the field map",
+      "whatThePageShows": [
+        "Item (3) “(Select one of the following)”, under the heading “I swear or affirm, under the penalty of perjury”: BOTH boxes render as empty [  ]. Neither branch is marked.",
+        "The “pro se (Not represented by an attorney)” box on the same page: empty [  ].",
+        "“That previous petition for expungement was [  ] granted [  ] denied”, on the second branch: both empty.",
+        "The attorney block is blank, which is FIX03/FIX09's repair still standing."
+      ],
+      "whatTheFieldMapSays": "CR-65:Check Box2.0, Check Box2.1, Check Box3.0, Check Box3.1.0 and Check Box3.1.1 are all refused as refusalClass participant_sworn_narrative_or_legal_election with requiredBeforeFiling absent, and their effectiveLabel is the opaque string “Participant choice: Check Box2.0 (selection)” and so on. PARTICIPANT_ELECTION_GENUINE carries no DISCLOSED condition in completeness-contract.mjs, so writeGuides() never surfaces them and requiredOptionsMissing reads 0.",
+      "whatTheGuideSays": "participant-instructions.md line 9 opens the required list with “Fill every item below on both the canonical and boundary-style packet before filing”, and lists as items 20 and 21 “County where any previous expungement was filed” and “Court case number of any previous expungement”. Those two blanks exist only on the SECOND branch of the unmade selection. Case-insensitive grep for ‘Select one’, ‘previously applied’, ‘previously filed’ and ‘pro se’ returns zero hits in both families.",
+      "identicalOnBothFamilies": true
+    },
+
+    "positiveControlsReproducedBeforeBelievingTheZero": [
+      "C-10-CRIMINAL page 1 (PDF page 9) of al-felony-dwop-set canonical: the STATE OF ALABAMA caption box renders a VISIBLE tick at 150 dpi. Marks do render on these fixtures.",
+      "CR-65 page 3 (PDF page 3) of the same fixture: the dismissed-without-prejudice Section III ground renders a VISIBLE tick at 150 dpi.",
+      "Corroboration that this is a gap and not house style, reproduced verbatim: ar-nonconviction-seal-set/participant-instructions.md line 7 reads “The petition's own paragraph 2 states the four situations this packet covers, and you must tick exactly one”. Alabama ships the same shape of control with no such sentence."
+    ],
+
+    "oneRootNotTwoCoincidences": {
+      "answer": "ONE root, in the shared host buildAlabamaFamily, carried into both forks unchanged.",
+      "howItWasMeasured": "al-felony-dwop-set and al-felony-nonconviction-90-set were forked out of scripts/build-census-v1-al-diversion-set.mjs into family-owned copies by FIX03 and FIX04. Their two committed production-field-map.json files were compared row by row on CR-65 page 6: the same five selection controls, the same refusal class, the same absent requiredBeforeFiling flag and the same opaque label shape in both. Their two participant-instructions.md files carry the same opening sentence at the same line and the same items 20 and 21 at the same lines, and 57 required items each.",
+      "theCodePath": "In both forks, fillDocument()'s checkbox branch sends every unselected checkbox that is not protectedField() to a single else: refusalClass participant_sworn_narrative_or_legal_election, no requiredBeforeFiling, effectiveLabel `Participant choice: ${name} (selection)`. The route selection is disclosed because config.selected names it; nothing else on the form ever is. That single else is the root."
+    },
+
+    "theRepairThisLaneWouldHaveMade": {
+      "where": "scripts/build-census-v1-al-felony-dwop-set.mjs and scripts/build-census-v1-al-felony-nonconviction-90-set.mjs, in the shared shape both forks still carry",
+      "one": "Surface CR-65 page 6 item (3) and the pro se box to the participant with printed captions, so writeGuides() lists them. The two item-(3) boxes are a MANDATORY selection on a page sworn under penalty of perjury; the pro se box is undisclosed on a packet whose whole attorney block is refused as ‘attorney-only; no representation fact is held’.",
+      "two": "Make items 20 and 21 conditional in the guide -- ‘only if you tick the second box in item (3)’ -- and stop ‘Fill every item below’ from standing over a conditional item. The unconditional direction is the harmful half: a participant who never sought an expungement is told to write a county and a case number for one, under penalty of perjury.",
+      "three": "Extend assertRepairInvariants() -- the function FIX09's root repair added, which re-runs after every build and under --check -- rather than adding a parallel check, so the invariant is: no unmarked selection control on a sworn page is delivered without a printed caption, and no dependent blank is listed unconditionally.",
+      "notPartOfIt": "Nothing marks item (3) for the participant. It is a genuine participant election and the build must not answer it.",
+      "modelledButNotCommitted": "The New Jersey half of this return implements exactly this pattern on a different host, so the Alabama repair has a worked precedent when the custody is mounted."
+    },
+
+    "whyItCannotBeRebuiltHere": {
+      "absentCustody": "nationwide_recovery_pool_2026_09_02",
+      "absentSource": "official-form:CR-65 — LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf, sha256 c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39, 468,056 bytes",
+      "measuredNotAssumed": [
+        "node scripts/verify-packet-build-environment.mjs --family al-felony-dwop-set -> PACKET_BUILD_ENVIRONMENT_NOT_READY, 8/13; family_sources_bind reports 1 of 2 sources do not bind and corpus_matches_committed_index reports 1 absent of 24 sampled. Both are the same absent CR-65.",
+        "node scripts/build-census-v1-al-felony-dwop-set.mjs -> AssertionError: source custody is not mounted: LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf, thrown from resolveSources().",
+        "The corpus index holds CR-65 under exactly one custody, nationwide_recovery_pool_2026_09_02, whose root private/source-imports/Nationwide_Recovery_Pool_2026-09-02 does not exist here. The Master Library holds C-10-CRIMINAL and binds it; it does not hold CR-65.",
+        "Every PDF on this host between 400 KB and 500 KB was hashed and compared against the pinned digest. No copy of CR-65 exists anywhere on the filesystem.",
+        "The recovery kit its receipt names, /tmp/legalease-nationwide-recovery, is absent.",
+        "The official address recorded in this repository, https://eforms.alacourt.gov/media/aojnchjg/cr-65-expunge-petition-10-2024.pdf, is refused by the agent proxy (CONNECT answered 403, policy denial). External acquisition is not available in this container either."
+      ],
+      "consequence": "CR-65 is 8 of the 11 packet pages and carries the entire defect surface. No packet can be rebuilt, so no builder edit can be proven, so none is committed."
+    },
+
+    "theOpenCounselQuestionWasNotTouched": {
+      "correctionId": "OWN-CORR-PENDING-2026-09-05-AL-CR65-NOTARY",
+      "whereItSits": "data/rcap-all50/overlays/census-v1/al/al-felony-nonconviction-90-set--official-pdf-fill/participant-instructions.md line 71 -- inside one of this lane's two families, and inside the same generated file the repair above would rewrite.",
+      "whatThisLaneDid": "Nothing. No notarization sentence was added, removed or reworded, in either family, because nothing was written at all. AL.memo.json rules.notarization was read and says ‘The source review does not state a notarization requirement for CR-65’ on all four CR-65 tracks; CR-65 page 6 was rendered and its printed face does read as a jurat (‘Personally appeared before the undersigned, a notary public/officer duly authorized to administer oaths’ and ‘Sworn to and subscribed before me this ___ day of ___’). Both observations are recorded here as evidence for whoever settles it. Neither is a settlement.",
+      "forWhoeverRepairsAlabamaNext": "The repair above rewrites participant-instructions.md wholesale, so it will pass over line 71. It must reproduce whatever sentence is there at that time byte for byte and change nothing about notarization until this correction is decided."
+    }
+  },
+
+  "newJersey": {
+    "verdict": "REPAIRED. Same obligation, different defect, different form, different mechanism. The cohort was two plus one.",
+    "whyItIsNotAlabama": "Alabama's failure is a MANDATORY SWORN SELECTION delivered unmade and undisclosed, with its conditional sub-blanks directed unconditionally. New Jersey's is the opposite direction: a list of facts ‘still required before filing’ that is over-full and unintelligible -- nineteen of its sixty-nine rows are facts nobody can supply before filing, and fourteen of them named an internal field rather than a printed caption. Nothing about item (3), sworn selections, or conditional sub-blanks appears in it. Repairing one would not have touched the other.",
+
+    "theDefectReproducedOnTheDeliveredBytes": {
+      "obligation": "REQUIRED_BEFORE_FILING",
+      "standingVerdict": "FAIL_REPAIR_REQUIRED from VF06, verified at base 88d688b8b6910f0c501cab0d72633554220d822b, which is the current row: VF30's later PASS_COMPLETE_INDEPENDENT reads at d64ea255 (2026-09-02), which 88d688b8 (2026-09-03) descends from, so the supersession recorded in VERIFIER_RETURNS.json is correct.",
+      "component": "NJ-CN-10557, the 43-page New Jersey Judiciary expungement kit",
+      "measuredHere": {
+        "requiredBeforeFilingRows": 69,
+        "rowsWhoseDisplayedLabelWasTheFormsOwnInternalFieldName": 14,
+        "rowsWhoseDisplayedLabelWasATruncatedFragmentOfANeighbouringLine": "including “(original indict” for the municipalities blank, “. I was arre” for the charge blank, “an Order of” for the hearing day, “Original” for a docket number, “a”, “,” and “at”",
+        "rowsWhoseCaptionWasReadOffTheWrongColumn": "3 -- IdbCnty, FamDivName and FamDivAddrStr sit at x=320 in the right-hand column of page 42 and took the words printed beside them in the left-hand column"
+      },
+      "theRoot": "classifyRefusal(name, label) decides OWNERSHIP from the caption the geometry happened to reach, and returns required_before_filing as its fall-through. The same fallible caption is then printed to the participant as the instruction. Where the harvest caught a trigger word the field became court/prosecutor/clerk/agency-owned; where it caught “The” or “at” or nothing, the same kind of field became a fact the participant must supply. Pages 37 and 42 show it at its clearest: the left column of the recipient block (Prosecutor, Chief of Police, Warden, Superintendent, Sheriff) is refused as agency-owned and the right column (Municipal Court Administrator, County Probation) is surfaced to the participant, on the same lines of the same block."
+    },
+
+    "whatTheRepositorySaidThatTheGuideDenied": {
+      "checkedBecauseItIsANonNegotiable": "data/record-clearing/legal-design-intake/NJ.memo.json, track nj_arrest_no_conviction: rules.filing, rules.fees, rules.feeWaiver, rules.notice, rules.service, destination.detail and manualCompletionItems.",
+      "theFactTheGuideDenied": "manualCompletionItems states plainly: “The monies-owed section of the proposed order ... The Judiciary kit leaves that section for the court to complete.” The delivered guide listed all eight cells of that section -- jdgmntDocket1-4 and jdgmntAmt1-4 on page 32 -- as facts the participant must supply before filing.",
+      "whyThisMatters": "VF06 did not name those eight; it read them as participant blanks with bad labels, and this lane started from its list. The memo settles it against both of us, and the form's own heading agrees: “IT IS FURTHER ORDERED THAT IF MONIES ARE STILL OWED AT THE TIME THIS EXPUNGEMENT IS ORDERED / A civil judgment is to be entered in the Judiciary's automated system”. A judgment entered at the time the expungement is ordered is not a fact anyone supplies before filing. Checking the memo moved the count from sixteen to nineteen.",
+      "alsoConfirmedByTheMemo": "manualCompletionItems: “The judge's signature line on the proposed order ... The Judiciary kit tells filers to leave the signature line blank for the judge.” That is sigHearJdg and sigFinalJdg, both reclassified below.",
+      "whatTheGuideAlreadyGotRight": "rules.fees (no court filing fee), rules.feeWaiver (nothing to waive), rules.service (service after filed copies return, certified mail, five days from the signed hearing order) and destination.detail (Superior Court, Criminal Division, of the vicinage) are all already stated correctly in the delivered guide. Nothing there was changed."
+    },
+
+    "theRepair": {
+      "file": "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs",
+      "mechanismUsed": "The per-document caption table this host already provides, on its own stated terms: the caption the FORM PRINTS beside the named widget, read off the printed face and recorded, never re-derived by a cleverer rule. Family-scoped, because the same kit backs four other New Jersey families that are not in this lane's grant.",
+      "one": "A third caption-table shape, { caption, refusalClass, reason }. The existing COURT_USE_ONLY marker carries ONE reason and that reason is a sentence about a printed ‘FOR COURT USE ONLY’ rule; the New York MRTA form has such a rule and CN-10557 does not, and its wrongly-surfaced controls are wrong for four different true reasons. Using COURT_USE_ONLY would have put a sentence about a line that is not on the page into the delivered field map, which is the same class of defect as the caption being corrected. The object shape lets each row state its own trusted refusal class and its own true reason. The string and [COURT_USE_ONLY, caption] shapes are untouched, so no other family moves.",
+      "two": "Nineteen rows reclassified out of REQUIRED_BEFORE_FILING, each with the reason read off the form's own face or the repository's own record: orderHearYr, hearDay, hearTime, hearTimeM (the hearing the Court sets when it signs the Order for Hearing), sigHearJdg and sigFinalJdg (the judicial signature lines the kit tells filers to leave blank), orderFinalDay (the Expungement Order's own date), expungDocketNum (the kit prints ‘(leave blank - clerk will fill in)’ beside this same caption on pages 18, 27 and 30), CoverLtrEHearDt and CoverLtrEHearTime (Form E restating that court-set hearing), the eight cells of the monies-owed section, and sigNoticeDt (a signature date, written after the copies are actually mailed).",
+      "three": "Fifty printed captions for every blank that remains on the participant's list, each naming the words the form prints, the form and the page. Sixty-nine rows became fifty, and zero of the fifty display an internal field name.",
+      "four": "assertPrintedCaptionInvariants(), which runs at the end of every build AND again under --check, on the same field map and instructions the participant receives. Four conditions: every surfaced blank is named in the caption table, so a blank reaches a participant only after a person read its printed caption off the form; no surfaced row displays the form's own field name; nothing marked as its owner's is still counted as a fact to supply before filing; and every surfaced caption actually appears in participant-instructions.md. Opt-in per document (requiredBlanksCarryPrintedCaptions), because the other four New Jersey families and the two New York ones have not been through this pass and a check they cannot meet is a check that gets disabled.",
+      "notRepairedAndSaidSo": "The left/right split of the pages 37 and 42 recipient blocks is left alone and named in the code comment. Both columns are the same kind of blank; closing the split the other way would move rows that VF06 scored PASS on PROTECTED_FIELDS and SERVICE, and it is not this lane's finding."
+    },
+
+    "aSecondDefectFoundAndFixedBecauseTheFirstRepairNeededIt": {
+      "what": "checkOfficial() finalized each artifact ONCE and compared it against delivered bytes that buildOfficial() had finalized TWICE.",
+      "why": "buildOfficial runs a second finalize pass when a repeatingRowGroups row comes back half-written, withholding the rest of the row. checkOfficial had no such pass, so on the one family that declares a row group -- the boundary Expungement Order arrest row, whose 37-character docket number does not fit -- it recomputed a document WITH the date cell written and reported ‘deterministic live build does not match stored artifact’ against a correct artifact.",
+      "provenPreExisting": "Reproduced at the unmodified lane base by restoring scripts/build-census-v1-nj_arrest_no_conviction-set.mjs and the family directory to HEAD: identical failure, identical recomputed hash 8c48d3b86316ac878b9e8ca4f89d589accd8f53b6d708a99d1227f4fa00e44d9 against the correct de3224b0. Not caused by this lane.",
+      "whyItMattered": "--check is where the new invariant runs, and --check could not reach it. A family whose row-integrity rule is the thing most worth re-proving could not be checked at all, and any real drift on it was hidden behind a standing false failure.",
+      "scope": "nj_arrest_no_conviction-set is the only family on this host that declares repeatingRowGroups, so the mirrored pass is a no-op for every other one. Confirmed by running --check on nj_clean_slate-set, ny_160_59_petition-set and pa_490_nonconviction-set: all three CHECK PASS, none of their bytes moved."
+    },
+
+    "howTheInvariantWasProvedNotVacuous": [
+      "Deleting one caption (contOffense2) from the table fails the build with ‘surfaced to the participant with a caption nobody read off the printed form’, thrown from assertPrintedCaptionInvariants inside buildOfficial. The caption was restored and the build re-run.",
+      "A cold build with the committed production-field-map.json deleted -- so installedRefusalRows() carries nothing forward -- fails on contOwe, a row the warm build never surfaces. The invariant caught a row this lane had not captioned, which is what a non-vacuous check does. The family was restored to HEAD and rebuilt warm."
+    ],
+
+    "somethingTheColdBuildRevealed": "With no prior field map to carry forward, this family's map is NOT the same map. installedRefusalRows() deliberately preserves classifications an earlier repair lane installed, and several rows -- contOwe among them -- hold a classification that classifyRefusal would not reproduce from the builder and the source alone. The committed field map is therefore reproducible from builder + source + PRIOR MAP, and not from builder + source. That is the host's designed behaviour and this lane changed none of it, but it means a from-scratch reconstruction of this family would not match, and it is worth a lane of its own."
+  },
+
+  "fixturesMoved": {
+    "answer": "NO. Not one participant-facing PDF byte moved, in any of the three families. No fresh central raster is owed and every standing receipt stands.",
+    "howItWasEstablished": "The whole family directory was hashed file by file before and after, recursively, for New Jersey: 99 files, of which exactly two differ. Alabama was never written to at all.",
+    "digests": {
+      "nj_arrest_no_conviction-set": {
+        "fixturesUnchanged": true,
+        "canonical": "912a2ada6ef04dd680aec20ef6c8c232d9af030a8d54695ba3b65d279d601e71",
+        "boundary": "de3224b08aec7d46796f74ecad09f3bb4d8e7928f6349324ccf070af6698399b",
+        "canonicalMatchesStandingRasterReceipt": true,
+        "boundaryMatchesStandingRasterReceipt": true,
+        "standingReceipt": "exact-base RASTER_PASS at 88d688b8, run 33791677725, job 100770326899, artifact 9908296762",
+        "contactSheetsUnchanged": {
+          "canonical": "d00541f512d0402ce80b94496e61a31ba09dc5baccd7b4747d546a3d6fc55afe",
+          "boundary": "38aec4db4e04108064dc929e314a66682fecc40c8a2624730cf1212c4f991cb3"
+        },
+        "pageRastersUnchanged": "all 86",
+        "filesThatChanged": {
+          "production-field-map.json": {
+            "before": "007a21f2b41d112eb363650510f0559b8136cf54c2e05c84b6222edc3f0b9e09",
+            "after": "dc6ed0ab45959238578c1fabe4bef202addd677c99aba6204021cede8f22095f"
+          },
+          "participant-instructions.md": {
+            "before": "0d3c95a080b1f039b6d0cce7c24ae88f09d6944f5f223839a28d11bf201f8b17",
+            "after": "ef78c69cbc4032a91f71c0f1dc75b3c81fd1a2fbdcb2b56f4e4f7c0c87ede741"
+          }
+        },
+        "builder": {
+          "before": "c8b8ae93d502961a3c4cbc9d25eef9582f01957b2b42ce25a1f33b5355dc9b1d",
+          "after": "3c80d0c88a35ee0529c9a23a47f46b14e15dbf19ea30dd9dea98454a5c5ff0c1"
+        }
+      },
+      "al-felony-dwop-set": {
+        "fixturesUnchanged": true,
+        "canonical": "d6d1c877ff6d2024182726aae7bca40c376a869256e6ae220673699457f61543",
+        "boundary": "e4600e924c120bbc1821b41a500ce4f968d2293a1cd198b83fdff49a18cf726e",
+        "note": "untouched; equal to FIX09's recorded digests and to HEAD"
+      },
+      "al-felony-nonconviction-90-set": {
+        "fixturesUnchanged": true,
+        "canonical": "e472186921ffc2c56765b30ed426e4d8ffd163e97100f781c127ada4a7966924",
+        "boundary": "ef61fac20c9966ef28d8192315bc0be9aacc5ebd6912ee5c0fda7a192eb89a05",
+        "note": "untouched; equal to FIX09's recorded digests and to HEAD"
+      }
+    }
+  },
+
+  "determinism": {
+    "newJersey": "Rebuilt three times. A baseline rebuild BEFORE any code change reproduced the committed directory byte for byte across all 99 files, which is what makes the two-file diff afterwards meaningful. The repaired build was then run twice from a directory restored to HEAD and produced identical output both times.",
+    "noRaster": "This host has no --no-raster flag and needs none: it rasters with bundled Poppler at 72 dpi as its own committed evidence, writes no browser raster, and never touches build-status.json. It was checked: build-status.json does not appear anywhere in the builder and no build-status file was modified."
+  },
+
+  "verifiersRun": {
+    "verifyPacketCompletenessBefore": {
+      "al-felony-dwop-set": "PASS_COMPLETE, 32/216 written, nine counters zero",
+      "al-felony-nonconviction-90-set": "PASS_COMPLETE, 31/216 written, nine counters zero",
+      "nj_arrest_no_conviction-set": "PASS_COMPLETE, 18/179 written, nine counters zero"
+    },
+    "verifyPacketCompletenessAfter": {
+      "al-felony-dwop-set": "PASS_COMPLETE, 32/216 written, nine counters zero",
+      "al-felony-nonconviction-90-set": "PASS_COMPLETE, 31/216 written, nine counters zero",
+      "nj_arrest_no_conviction-set": "PASS_COMPLETE, 18/179 written, nine counters zero"
+    },
+    "whyNineZerosProveNothingOnTheirOwnHere": "All nine were zero on all three families BEFORE anything was touched. The baseline was green, not red. These counters accept the field map as their classification authority and can ask whether a write happened but never whether the classification was true, which is exactly the blind spot both defects in this cohort live in. Nine zeros after is necessary and nowhere near sufficient; the substantive evidence is the delivered field map and the delivered guide, read directly.",
+    "buildCheck": "node scripts/build-census-v1-nj_arrest_no_conviction-set.mjs --check -> CHECK PASS (2 PDFs; 86 rasters), which it could not do at the lane base",
+    "selfTest": "node scripts/build-census-v1-nj_arrest_no_conviction-set.mjs --self-test -> self-test PASS",
+    "identityRefresh": "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs -> EVERY_IDENTITY_REFRESH_SURVIVED; 248 receipts compared against HEAD, 52 carrying an identityRefresh. Nothing was restored because nothing was lost.",
+    "sourceCarriedValues": {
+      "result": "2 UNDISPOSITIONED, exit 1",
+      "newlyFailingOnAnythingThisLaneTouched": false,
+      "proof": "Both rows are rcap-tx-custom-pleading / tx-expunction-fee-waiver-statement, fields “Value / Valor 11” and “Amount Cantidad 15”. The same two rows and the same exit 1 were reproduced at the exact lane base by restoring this lane's three changed paths to HEAD and re-running. Neither is a New Jersey or Alabama row. (The Captain branch has since moved to aa866d165, where the verifier answers EVERY_SOURCE_CARRIED_VALUE_IS_DISPOSITIONED, so this is already fixed upstream of 79f886f2.)"
+    },
+    "hostSiblingsUnaffected": "node <builder> --check -> CHECK PASS for nj_clean_slate-set, ny_160_59_petition-set and pa_490_nonconviction-set. No sibling family's bytes moved; git status shows exactly three modified paths."
+  },
+
+  "rows": [
+    {
+      "itemId": "nj_arrest_no_conviction-set",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "rowText": "REQUIRED_BEFORE_FILING repaired at its root on NJ-CN-10557. The delivered guide's list of ‘exact facts still required before filing’ carried 69 rows, of which nineteen were facts nobody can supply before filing -- the hearing the Court sets, both judicial signature lines, the two order dates, the docket number the kit itself says the clerk fills in, the eight cells of the monies-owed section that NJ.memo.json records as the court's to complete, and the participant's own signature date -- while the same file said three lines earlier that court, judge, clerk, hearing and post-order fields remain for their proper owners. Fourteen more displayed the form's internal field name as the instruction and others displayed a truncated fragment of a neighbouring printed line, three of them read off the wrong column. The root is classifyRefusal deciding ownership from a harvested caption and falling through to required-before-filing; the repair is the per-document printed-caption table this host already provides, extended with a shape that lets a row state its own trusted refusal class and its own true reason, plus assertPrintedCaptionInvariants() running after every build and under --check so no blank reaches a participant unless a person read its printed caption off the form. 69 rows became 50, none of them naming an internal field. No participant-facing PDF byte moved.",
+      "failedObligationNames": ["REQUIRED_BEFORE_FILING"],
+      "obligationByObligation": {
+        "REQUIRED_BEFORE_FILING": "CURED. 50 required blanks, 0 of them displaying the form's own field name, 0 of them a fact the participant cannot supply before filing, and every one of the 50 verified present in participant-instructions.md by the build's own invariant."
+      },
+      "instrument": "node scripts/build-census-v1-nj_arrest_no_conviction-set.mjs (BUILD PASS, run three times, byte-identical); --check (CHECK PASS); --self-test (PASS); node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nj_arrest_no_conviction-set; plus a direct read of the delivered field map, the delivered guide and the pdftotext -layout printed face of pages 18-42 of the committed canonical fixture.",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "fixturesMoved": false,
+      "freshCentralRasterOwed": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "al-felony-dwop-set",
+      "status": "STOPPED",
+      "laneKind": "repair",
+      "repairedByThisLane": false,
+      "rowText": "REQUIRED_BEFORE_FILING confirmed on the delivered bytes and NOT repaired, because it cannot be rebuilt here. CR-65 page 6 item (3) ‘(Select one of the following)’ renders with both boxes empty at 150 dpi on a page headed ‘I swear or affirm, under the penalty of perjury’, the pro se box is empty and undisclosed, and the guide's ‘Fill every item below’ stands over items 20 and 21, two blanks that exist only on the second branch of that unmade selection -- so a participant who never sought an expungement is directed to write a county and a case number for one, under oath. Two positive controls on the same fixtures render visible ticks, so the zero is real, and Arkansas ships the same shape of control with ‘you must tick exactly one’, so it is a gap and not house style. The repair is specified in this file. It is not committed because CR-65's custody nationwide_recovery_pool_2026_09_02 is not mounted, no copy of the pinned bytes exists anywhere on this host, and the official address is refused by the proxy: the builder throws ‘source custody is not mounted’ before it reaches a page. A builder edited without its fixtures rebuilt is worse than an unrepaired one.",
+      "whatIsMissing": "official-form:CR-65, sha256 c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39, custody nationwide_recovery_pool_2026_09_02",
+      "failedObligationNames": ["REQUIRED_BEFORE_FILING"],
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "whyThoseNineZerosDoNotClearIt": "They were zero before this lane opened the family and they are zero now, because nothing was written. The defect is invisible to all nine counters by construction.",
+      "fixturesMoved": false,
+      "untouched": true,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "al-felony-nonconviction-90-set",
+      "status": "STOPPED",
+      "laneKind": "repair",
+      "repairedByThisLane": false,
+      "rowText": "REQUIRED_BEFORE_FILING confirmed on the delivered bytes and NOT repaired, for the same reason and from the same root as al-felony-dwop-set. The two families' committed field maps carry a byte-identical defect signature on CR-65 page 6 -- the same five undisclosed selection controls in the same refusal class with the same opaque label shape -- and their guides carry the same opening sentence and the same items 20 and 21 at the same lines. One root in the shared host buildAlabamaFamily, carried unchanged into both forks. The repair is specified in this file and is not committed because CR-65 cannot be resolved in this container. This family also holds the open counsel question OWN-CORR-PENDING-2026-09-05-AL-CR65-NOTARY at line 71 of the same generated guide; nothing about notarization was added, removed or reworded, because nothing was written.",
+      "whatIsMissing": "official-form:CR-65, sha256 c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39, custody nationwide_recovery_pool_2026_09_02",
+      "failedObligationNames": ["REQUIRED_BEFORE_FILING"],
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "whyThoseNineZerosDoNotClearIt": "They were zero before this lane opened the family and they are zero now, because nothing was written. The defect is invisible to all nine counters by construction.",
+      "fixturesMoved": false,
+      "untouched": true,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    }
+  ],
+
+  "whatOutlivesTheseThree": [
+    {
+      "finding": "A packet family's committed field map is not reproducible from its builder and its source alone.",
+      "detail": "installedRefusalRows() deliberately carries an earlier repair lane's classifications forward across a rebuild, and checkOfficial() feeds the committed map back to itself as the carry-forward source, so the drift check proves reproducibility-given-the-map rather than reproducibility. Deleting nj_arrest_no_conviction-set's production-field-map.json and rebuilding produces a different map: contOwe, for one, holds a classification classifyRefusal would not reproduce. Everything committed is honest about this in comments, and nothing here is a defect in itself, but it means no lane can reconstruct a family from first principles and compare, and a classification whose original evidence is lost cannot be re-derived. Worth a lane."
+    },
+    {
+      "finding": "checkOfficial() ran one finalize pass against twice-finalized delivered bytes.",
+      "detail": "Fixed in this lane because the new invariant needed --check to be reachable, and provably a no-op for every family that declares no repeatingRowGroups. The general lesson is larger: any second pass a build adds has to be added to its checker in the same commit, or the checker starts reporting drift on correct artifacts and gets ignored."
+    },
+    {
+      "finding": "The completeness contract's field classes decide from a label regex, and a truthful caption can push a correctly-classified row into the wrong class.",
+      "detail": "COURT_ONLY matches any label containing ‘clerk’ or ‘judge’, so naming the Clerk of the Superior Court in the caption of a blank the PARTICIPANT fills would turn a correct REQUIRED_BEFORE_FILING row into UNCLASSIFIED_BLANK. This lane wrote each caption as the printed words plus the location on the form, which is both the house convention and the truthful answer, and did not word anything to dodge a regex -- but the pressure to do so is real and a future lane will feel it. The classes should be reachable from a declaration, not only from a label."
+    },
+    {
+      "finding": "The two-column recipient blocks on CN-10557 pages 37 and 42 are split between two ownership classes by an accident of caption capture.",
+      "detail": "Prosecutor, Chief of Police, Warden, Superintendent and Sheriff are refused as agency-owned; Municipal Court Administrator and County Probation are surfaced to the participant. They are the same kind of blank on the same lines. This lane made the surfaced half intelligible and left the split, because closing it would move rows VF06 scored PASS. Named here so it is not mistaken for settled."
+    },
+    {
+      "finding": "Four Alabama families were already unbuildable here; this lane confirms the number is six.",
+      "detail": "al-felony-dwop-set and al-felony-nonconviction-90-set were forked out of the shared host but not off the shared SOURCE: both still pin CR-65 at the same path in the same absent custody. Every CR-65 family is blocked on one file. Acquiring nationwide_recovery_pool_2026_09_02, or CR-65 alone at sha256 c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39, unblocks a named repair on all six at once, and the New Jersey half of this return is a worked pattern for the two this lane holds."
+    }
+  ],
+
+  "whatThisDoesNotDo": "This return records one repair and two refusals. It approves no output, promotes no route, opens nothing commercial, and clears no standing verdict. The New Jersey verdict is Captain's to re-read against these bytes; the two Alabama verdicts stand until their source is mounted."
+}

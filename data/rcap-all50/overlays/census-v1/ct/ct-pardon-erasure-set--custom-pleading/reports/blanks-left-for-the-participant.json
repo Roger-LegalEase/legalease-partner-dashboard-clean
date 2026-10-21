@@ -1,0 +1,81 @@
+{
+  "schemaVersion": "rcap-blanks-left-for-the-participant/v1",
+  "familyId": "ct-pardon-erasure-set",
+  "requiredBeforeFiling": [
+    {
+      "document": "ct-pardon-erasure-primary-filing-1",
+      "field": "ct-pardon-erasure-primary-filing-1.conviction_court",
+      "page": 1,
+      "printedContext": "Court in which the conviction was entered",
+      "disclosureLabel": "Court in which the conviction was entered",
+      "identity": "ct-pardon-erasure-primary-filing-1 field conviction_court",
+      "why": "no conviction fact is held for a record the platform has not seen",
+      "participantMustSupply": "the court that entered the pardoned conviction, checked against the Judicial Branch case look-up - note that an erased case will not appear"
+    },
+    {
+      "document": "ct-pardon-erasure-primary-filing-1",
+      "field": "ct-pardon-erasure-primary-filing-1.conviction_date",
+      "page": 1,
+      "printedContext": "Date of the pardoned conviction",
+      "disclosureLabel": "Date of the pardoned conviction",
+      "identity": "ct-pardon-erasure-primary-filing-1 field conviction_date",
+      "why": "no conviction fact is held for a record the platform has not seen",
+      "participantMustSupply": "the date of the pardoned conviction, checked against the Judicial Branch case look-up"
+    },
+    {
+      "document": "ct-pardon-erasure-primary-filing-1",
+      "field": "ct-pardon-erasure-primary-filing-1.conviction_docket",
+      "page": 1,
+      "printedContext": "Docket number of the pardoned conviction",
+      "disclosureLabel": "Docket number of the pardoned conviction",
+      "identity": "ct-pardon-erasure-primary-filing-1 field conviction_docket",
+      "why": "no case identifier is held for a record the platform has not seen",
+      "participantMustSupply": "the docket number of the pardoned conviction, checked against the Judicial Branch case look-up"
+    },
+    {
+      "document": "ct-pardon-erasure-primary-filing-1",
+      "field": "ct-pardon-erasure-primary-filing-1.court_location",
+      "page": 1,
+      "printedContext": "Judicial district or court location in the caption of the petition",
+      "disclosureLabel": "Judicial district or court location in the caption of the petition",
+      "identity": "ct-pardon-erasure-primary-filing-1 field court_location",
+      "why": "the accepted caption and format for this petition are an open question the memo records as a release blocker; the clerk is the checkable authority the manifest names",
+      "participantMustSupply": "the Superior Court location where this petition should be filed, and how the caption should read - no source this packet is built from states either, so call the clerk's office of the Superior Court and write what the clerk tells you"
+    },
+    {
+      "document": "ct-pardon-erasure-primary-filing-1",
+      "field": "ct-pardon-erasure-primary-filing-1.pardon_date",
+      "page": 1,
+      "printedContext": "Date the absolute pardon was received",
+      "disclosureLabel": "Date the absolute pardon was received",
+      "identity": "ct-pardon-erasure-primary-filing-1 field pardon_date",
+      "why": "the pardon decision is a Board record the platform has not seen; the date also decides which branch of Sec. 54-142a(d) applies, and that selection is the participant's",
+      "participantMustSupply": "the date the absolute pardon was granted, checked against the pardon decision from the Connecticut Board of Pardons and Paroles - correct the packet if they disagree"
+    }
+  ],
+  "protectedBlanks": [
+    {
+      "document": "ct-pardon-erasure-primary-filing-1",
+      "field": "ct-pardon-erasure-primary-filing-1.docket_number",
+      "label": "Docket number of this petition, assigned by the clerk at filing",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the clerk assigns the number at filing"
+    },
+    {
+      "document": "ct-pardon-erasure-primary-filing-1",
+      "field": "ct-pardon-erasure-primary-filing-1.petitioner_signature",
+      "label": "Signature of the petitioner on the petition",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "the petitioner signs the petition personally; the memo records no participant signature on the automatic branch and the petitioner's own signature on this one"
+    },
+    {
+      "document": "ct-pardon-erasure-primary-filing-1",
+      "field": "ct-pardon-erasure-primary-filing-1.signature_date",
+      "label": "Date beside the petitioner's signature on the petition",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "a date written before the petition is signed would be false"
+    }
+  ],
+  "everyRequiredBeforeFilingItemIsDisclosed": true,
+  "disclosedIn": "data/rcap-all50/overlays/census-v1/ct/ct-pardon-erasure-set--custom-pleading/participant-instructions.md"
+}

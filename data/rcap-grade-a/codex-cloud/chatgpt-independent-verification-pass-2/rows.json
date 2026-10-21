@@ -1,0 +1,152 @@
+{
+  "schemaVersion": "rcap-independent-verification-rows/v1",
+  "lane": "VFCHATGPT02",
+  "laneKind": "independent-verification",
+  "productionTouched": false,
+  "commercialRoutesOpened": 0,
+  "overlayDirectoriesModified": 0,
+  "rows": [
+    {
+      "itemId": "rcap-wi-custom-pleading",
+      "familyId": "rcap-wi-custom-pleading",
+      "lane": "VFCHATGPT02",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "verifiedAtBase": "cd32cb7b846e99bd19d3172467d81f566a420d12",
+      "verifiedBy": "ChatGPT, independent of this family's builders and repairers",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/wi/rcap-wi-custom-pleading--custom-pleading",
+      "artifactBytesMovedByThisLane": 0,
+      "claim": {
+        "assertedBeforeReview": true,
+        "ownerAuthorizedPauseTakeover": true,
+        "previousLane": "VF06",
+        "reviewLane": "VFCHATGPT02"
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true
+      },
+      "failedObligations": [],
+      "unmeasuredObligations": [],
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All three components implement only obligation:track-only:WI:wi_exp_certificate_of_discharge_followup under Wis. Stat. 973.015(1m)(b). These are neutral administrative requests after an expungement already ordered, not petitions asking the court for a new order.",
+          "evidence": "data/rcap-grade-a/launch-recovery-2026-09-07/pass-2/wi-independent-measurement.json"
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Independently rehashed all three current committed legal/source records and checked exact byte lengths against source-receipt.json. No issuer form is replaced or falsely claimed. The official Ozaukee clerk guidance corroborates checking with the clerk and contacting the supervising/detaining authority when the certificate was not filed. The legislative current-section search result corroborates that the certificate is issued and forwarded by that authority; the full legislative page timed out and is not claimed fetched.",
+          "evidence": "data/rcap-grade-a/launch-recovery-2026-09-07/pass-2/wi-independent-measurement.json"
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Primary request occupies pages 1-3, status-only alternative page 4, instructions pages 5-6. The status-only condition is now identical in the field map and rendered manifest, printed in the PDF instructions, and expressly preserved in the companion guide. The guide tells the participant to choose the request, complete/sign only that request and send it to the supervising authority, not file all pages together. The prior VF12 component defect is repaired.",
+          "evidence": "data/rcap-grade-a/launch-recovery-2026-09-07/pass-2/wi-independent-measurement.json"
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Direct independent PDF extraction found all eleven declared known writes in each fixture: five identity/contact values in the primary request, the same five in the status request, and the name in the instructions. The supplied address fact is copied whole; no separate state fact is held in these fixtures. Long boundary name, address, telephone and email are visible. No invisible known write was found.",
+          "evidence": "data/rcap-grade-a/launch-recovery-2026-09-07/pass-2/wi-independent-measurement.json"
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Manually inventoried fourteen required-before-sending fields: primary recipient address plus C1-C8; status recipient plus existing court/office, case number, disposition date and requested action. Each is disclosed in the field map and the guide. Four signature/date execution blanks are protected. The former missing primary addressee and phantom newly-assigned court case number classifications are repaired. Exactly 29 inventoried field groups comprise 11 known, 14 required-before-sending and 4 protected; no unclassified blank remains.",
+          "evidence": "data/rcap-grade-a/launch-recovery-2026-09-07/pass-2/wi-independent-measurement.json"
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "No legal eligibility election or agency certification is pre-executed. The request-type question is left for the participant and the optional status-only component is explicitly alternative to the issuance request. C8 is readable with response lines continuing onto the next page in canonical; no information is omitted.",
+          "evidence": "data/rcap-grade-a/launch-recovery-2026-09-07/pass-2/wi-independent-measurement.json"
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "There are no repeating offense tables or row-entry structures in this one-matter administrative correspondence family. No partially populated row is presented.",
+          "evidence": "data/rcap-grade-a/launch-recovery-2026-09-07/pass-2/wi-independent-measurement.json"
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Both personal signature/date pairs are blank in both fixture PDFs. Direct PDF inspection found no AcroForm widgets or annotations that hide executed form values; visual review shows no execution ink. No supervising-authority certificate, official signature, judicial finding or newly-assigned case number is generated.",
+          "evidence": "data/rcap-grade-a/launch-recovery-2026-09-07/pass-2/wi-independent-measurement.json"
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Both current complete PDF hashes match the downloaded central raster artifact from run 33839480114, job 100919892552, artifact 9924654317. ZIP hash, both exact PDF hashes, 12/12 measured raster pages and whole-family coverage checked. GitHub job steps reconfirmed successful canary, negative controls, family rendering and unchanged-byte check. Current canonical is fa75790c3ef35af41d142cade19bf6def68149e3767e9b14eb73b1bd45414dc9; boundary is 84297a24847a4a9555b92a8ac138d101fffd03331e71be7229efb72e50f1b5d8.",
+          "evidence": "data/rcap-grade-a/launch-recovery-2026-09-07/pass-2/wi-independent-measurement.json"
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Both fixtures contain six pages in order: primary request 1-3, conditional status request 4, instructions 5-6. Every page is attributed exactly once by the rendered manifest and is present in actual PDF bytes.",
+          "evidence": "data/rcap-grade-a/launch-recovery-2026-09-07/pass-2/wi-independent-measurement.json"
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Personally viewed all twelve completed central raster page images, including both long-value boundary sheets. Independent geometry extraction checked 1571 canonical and 1594 boundary words: zero outside-page words and zero overlapping word pairs. No cropped content, black glyph boxes, invisible value or overlap was observed. Minor page-break typography is recorded as nonblocking, not a missing-content defect.",
+          "evidence": "data/rcap-grade-a/launch-recovery-2026-09-07/pass-2/wi-independent-measurement.json"
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Primary and status requests address the detaining/probationary authority for this case. The PDF states this is not a court filing and asks nothing of a court. The certificate, not this request, goes from the authority to the clerk of circuit court. The guide requires confirmation of the current recipient address and does not tell the participant to await a new court-assigned case number. Prior VF12 destination error is repaired.",
+          "evidence": "data/rcap-grade-a/launch-recovery-2026-09-07/pass-2/wi-independent-measurement.json"
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "This is an administrative correspondence request, not a new court filing; both PDF instructions and guide state no filing fee and no fee-waiver instrument. No statewide court price or automatic fee exemption is invented.",
+          "evidence": "data/rcap-grade-a/launch-recovery-2026-09-07/pass-2/wi-independent-measurement.json"
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The neutral request is sent by ordinary mail or the supervising authority's correspondence channel. No process service or notice to an opposing party is presented as required, and no hearing is promised.",
+          "evidence": "data/rcap-grade-a/launch-recovery-2026-09-07/pass-2/wi-independent-measurement.json"
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Read every current stop in both fixture instructions and the companion guide. Missing sentencing order, disputed completion/revocation/subsequent conviction, authority refusal/nonresponse, certificate transmission disagreement, individualized entitlement/fault advocacy, immigration and federal/tribal/out-of-state matters stop for professional help. The participant does not issue the certificate and relief is not guaranteed by the request.",
+          "evidence": "data/rcap-grade-a/launch-recovery-2026-09-07/pass-2/wi-independent-measurement.json"
+        }
+      },
+      "focusedVerifier": {
+        "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-wi-custom-pleading",
+        "exitCode": 0,
+        "log": "data/rcap-grade-a/launch-recovery-2026-09-07/pass-2/wi-focused-completeness.log",
+        "notTheBasisForIndependentCounterZeros": true
+      },
+      "externalCorroboration": [
+        {
+          "url": "https://www.ozaukeecounty.gov/2824/Expungment",
+          "type": "official clerk guidance",
+          "checked": "2026-09-07"
+        },
+        {
+          "url": "https://docs.legis.wisconsin.gov/statutes/statutes/973/015",
+          "type": "current legislative search excerpt; full page timed out",
+          "checked": "2026-09-07"
+        }
+      ],
+      "scope": "Packet completeness only; does not certify counsel approval, activate runtime wiring, open a paid/sponsored route or deploy production."
+    }
+  ]
+}

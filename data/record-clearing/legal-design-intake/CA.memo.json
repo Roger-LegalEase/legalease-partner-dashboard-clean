@@ -1,0 +1,3160 @@
+{
+  "schemaVersion": 1,
+  "jurisdiction": "CA",
+  "memoVersion": "batch-1-amended",
+  "submittedAt": "2026-07-30",
+  "tracks": [
+    {
+      "trackId": "ca-1203-4",
+      "legalName": "Petition for Dismissal and Set-Aside After Probation, Cal. Penal Code § 1203.4",
+      "publicName": "Dismiss a conviction after probation",
+      "controllingAuthority": {
+        "citations": [
+          "Cal. Penal Code § 1203.4",
+          "Cal. Penal Code § 1203.4(d)(1), 15 days' notice to the prosecuting attorney",
+          "Cal. Penal Code § 1203.4(d)(2), notice presumed received on filed proof of service",
+          "Cal. Penal Code § 1203.4(e), prosecutor default",
+          "SB 1106 (2022), removing unpaid court debt as a barrier",
+          "Judicial Council forms CR-180, CR-181, CR-106"
+        ],
+        "summary": "Dismissal and set-aside after probation. California petition relief is a dismissal and set-aside, not a sealing and not an expungement; California self-help materials state plainly that true expungement does not exist in California. Three routes appear on CR-180: fulfilled probation is mandatory relief, early discharge and interests of justice are discretionary."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2023-01-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "felony conviction where probation was granted",
+        "misdemeanor conviction where probation was granted"
+      ],
+      "eligibleDispositions": [
+        "plea of guilty",
+        "plea of nolo contendere",
+        "verdict or finding of guilt"
+      ],
+      "exclusions": [
+        "The person must not currently be serving a sentence, be on probation, or be charged with any crime.",
+        "Certain offenses are statutorily ineligible for § 1203.4 relief even after probation, including specified Vehicle Code offenses and specified child sex offenses. The exact exclusion list must be pulled from the current § 1203.4 text before build."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "No waiting period independent of probation; eligibility keys to completion or early termination",
+          "duration": "None independent of probation"
+        }
+      ],
+      "outputStrategy": "official_pdf_fill",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Superior Court of the county of conviction, not the county of residence. One petition per case; cases in multiple counties mean filings in each."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "Superior Court of the county of conviction",
+        "detail": "One petition per case. Local supplementation is normal because CR-180 and CR-181 are approved for optional use rather than adopted for mandatory use."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-180",
+          "officialSourceUrl": "https://selfhelp.courts.ca.gov/find-forms",
+          "notes": "Petition for Dismissal, Rev. 1 January 2024. Statewide-approved, optional use. Item 1 offense classification, the choice among items 2 through 7, the interests-of-justice explanations and item 8 reduction requests require legal judgment and are never auto-completed."
+        },
+        {
+          "role": "proposed_order",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-181",
+          "officialSourceUrl": "https://selfhelp.courts.ca.gov/find-forms",
+          "notes": "Order for Dismissal, Rev. 1 January 2024. Items 6 through 11 carry the authoritative statement of what the relief does and does not do."
+        },
+        {
+          "role": "proof_of_service",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-106",
+          "officialSourceUrl": "https://selfhelp.courts.ca.gov/find-forms",
+          "notes": "Proof of Service, Criminal Record Clearing, effective 1 January 2020. Filing it is what triggers the statutory notice presumption under § 1203.4(d)(2). Instructions at CR-106-INFO."
+        },
+        {
+          "role": "attachment",
+          "requirement": "conditional",
+          "conditionDescription": "Where the offense list overflows the space on CR-180.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "MC-025",
+          "officialSourceUrl": "https://selfhelp.courts.ca.gov/find-forms",
+          "notes": "Additional page attachment."
+        },
+        {
+          "role": "supporting_declaration",
+          "requirement": "conditional",
+          "conditionDescription": "Where the participant elects the discretionary interests-of-justice route.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "MC-031",
+          "officialSourceUrl": "https://selfhelp.courts.ca.gov/find-forms",
+          "notes": "Declaration supporting an interests-of-justice request. LegalEase generates the container. The participant supplies the narrative; LegalEase does not write individualized legal argument."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "countyOfConviction",
+          "question": "In which California county were you convicted?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumber",
+          "question": "What is the case number on the conviction you want dismissed?",
+          "requirement": "required"
+        },
+        {
+          "key": "probationGranted",
+          "question": "Were you placed on probation in this case?",
+          "requirement": "required"
+        },
+        {
+          "key": "probationOutcome",
+          "question": "Did you complete probation for the whole period, or was it ended early?",
+          "requirement": "required"
+        },
+        {
+          "key": "offenseSections",
+          "question": "Which offense code sections were you convicted of? Copy them from your record.",
+          "requirement": "required"
+        },
+        {
+          "key": "currentStatus",
+          "question": "Are you currently serving a sentence, on probation, or charged with any crime?",
+          "requirement": "required"
+        },
+        {
+          "key": "reliefRoute",
+          "question": "Which route applies: you fulfilled probation, you were discharged early, or you are asking in the interests of justice?",
+          "requirement": "required"
+        },
+        {
+          "key": "interestsOfJusticeNarrative",
+          "question": "In your own words, why would dismissal serve the interests of justice?",
+          "requirement": "conditional",
+          "conditionDescription": "Only where the participant elects the discretionary interests-of-justice route."
+        },
+        {
+          "key": "citizenshipStatus",
+          "question": "Are you a United States citizen?",
+          "requirement": "required",
+          "conditionDescription": "Asked to route non-citizens to an attorney before anything is generated."
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "California DOJ state summary criminal history",
+          "obtainedFrom": "California Department of Justice",
+          "requirement": "conditional",
+          "conditionDescription": "Optional. CR-180 expressly says a RAP sheet is not required.",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Request your own record through the DOJ 'Criminal Records, Request Your Own' process. It is fingerprint-based through Live Scan and a fee waiver process exists. LegalEase does not obtain, receive or inspect it.",
+          "confirms": "offenseSections"
+        },
+        {
+          "name": "Court docket and disposition",
+          "obtainedFrom": "Superior Court of the county of conviction",
+          "requirement": "conditional",
+          "conditionDescription": "Where the participant is unsure which statute box applies.",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Ask the clerk of the Superior Court in the county of conviction for the docket and disposition. It fixes the statute box.",
+          "confirms": "probationGranted"
+        },
+        {
+          "name": "Local cover or electronic consent form",
+          "obtainedFrom": "The Superior Court of the filing county",
+          "requirement": "conditional",
+          "conditionDescription": "Where the county publishes one. San Luis Obispo requires form ECS-1 electronic consent or a self-addressed stamped envelope.",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Ask the clerk or the county self-help centre which local forms accompany a CR-180 petition."
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Signature and date",
+          "whereInPacket": "CR-180, petitioner signature block",
+          "why": "The petitioner signs their own petition."
+        },
+        {
+          "item": "Interests-of-justice explanation",
+          "whereInPacket": "CR-180 item 2b or 2c, and MC-031 where attached",
+          "why": "This is individualized legal argument. LegalEase supplies the container and the prompts; the participant supplies the showing."
+        },
+        {
+          "item": "Offense classification and reduction-eligibility columns",
+          "whereInPacket": "CR-180 item 1",
+          "why": "Classifying an offense as a wobbler is a legal judgment. The participant supplies the code section from their record."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "Judicial Council of California, Find Your Court Forms, criminal results",
+          "url": "https://selfhelp.courts.ca.gov/find-forms",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Cal. Penal Code § 1203.4",
+          "url": "https://codes.findlaw.com/ca/penal-code/pen-sect-1203-4/",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "California Courts Self Help Guide, Clean your record",
+          "url": "https://selfhelp.courts.ca.gov/clean-your-record",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "File CR-180 with the proposed CR-181 in the Superior Court of the county of conviction. One petition per case.",
+        "fees": "Unresolved and county-specific. Do not publish a figure. § 1203.4a(e) caps reimbursement at $60 to the county plus $60 to the city on the 1203.4a route; at least one Superior Court publishes no filing fee for CR-180.",
+        "feeWaiver": "FW-001 is the general California fee waiver form.",
+        "notice": "Relief shall not be granted unless the prosecuting attorney has been given 15 days' notice of the petition. § 1203.4(d)(1). The probation officer also notifies the prosecutor when the petition is filed. If the prosecutor receives notice and fails to appear and object, the prosecutor may not later move to set aside or appeal the grant. § 1203.4(e).",
+        "service": "Serve the prosecuting attorney and file CR-106 proof of service. Notice is presumed received once proof of service is filed with the court. § 1203.4(d)(2).",
+        "participantSignature": "The petitioner signs CR-180.",
+        "notarization": "The source review does not state a notarization requirement for CR-180."
+      },
+      "selfHelpStopConditions": [
+        "The prosecutor objects or appears in opposition.",
+        "The court sets a contested hearing.",
+        "A discretionary interests-of-justice request needs argument.",
+        "A statutory ineligibility question arises.",
+        "Probation has not yet terminated.",
+        "The participant is not a United States citizen. California's own self-help guide routes non-citizens to a separate track before they do anything, because a dismissal can interact badly with immigration status.",
+        "The participant wants to attack the conviction itself."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "The full statutory list of offenses ineligible for § 1203.4 relief was not read. Required before build.",
+          "impact": "build_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-California-Legal-Review.md",
+            "sourceHeading": "OPEN QUESTIONS / 4",
+            "sourceStatement": "**PC 1203.4 exclusion list.** The full statutory list of offenses ineligible for 1203.4 relief was not read. Required before build."
+          }
+        },
+        {
+          "question": "Whether any fee attaches to CR-180 and whether it varies by county.",
+          "impact": "release_blocker",
+          "affectedElement": "filing_process",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-California-Legal-Review.md",
+            "sourceHeading": "OPEN QUESTIONS / 1",
+            "sourceStatement": "**Filing fees.** Whether any fee attaches to CR-180 or CR-409, and whether it varies by county. The one hard statutory number found is the PC 1203.4a(e) $60 plus $60 reimbursement cap. Do not publish the reference's $60 to $150 range."
+          }
+        },
+        {
+          "question": "The official CR-180, CR-181, CR-106, MC-025 and MC-031 PDFs have not been pulled. The internal HTML replicas must never be filed.",
+          "impact": "release_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-California-Legal-Review.md",
+            "sourceHeading": "PART 2 / 8. Forms not yet pulled, needed before the tracks ship",
+            "sourceStatement": "They must never be filed, and the official PDFs must be pulled from the Judicial Council before any packet is generated."
+          }
+        },
+        {
+          "question": "Local practice survey. Four counties are confirmed to add requirements. The remaining 54 are unknown.",
+          "impact": "release_blocker",
+          "affectedElement": "filing_process",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-California-Legal-Review.md",
+            "sourceHeading": "OPEN QUESTIONS / 10",
+            "sourceStatement": "**Local practice survey.** Four counties confirmed to add requirements. The remaining 54 are unknown."
+          }
+        },
+        {
+          "question": "Whether most counties decide CR-180 petitions on the papers or set them, and whether appearance can be waived.",
+          "impact": "release_blocker",
+          "affectedElement": "participant_instructions",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-California-Legal-Review.md",
+            "sourceHeading": "OPEN QUESTIONS / 11",
+            "sourceStatement": "**Hearing practice.** Whether most counties decide CR-180 petitions on the papers or set them, and whether appearance can be waived."
+          }
+        },
+        {
+          "question": "The DOJ and the Judicial Council describe automatic relief differently. The DOJ says it is not a dismissal, sealing or expungement; the CR-180 header says a conviction may already have been automatically dismissed. A house answer is needed before participant-facing copy is published.",
+          "impact": "release_blocker",
+          "affectedElement": "legal_effect_or_warning",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-California-Legal-Review.md",
+            "sourceHeading": "OPEN QUESTIONS / 12",
+            "sourceStatement": "**The DOJ versus CR-180 language conflict** on whether automatic relief is a \"dismissal.\" Needs a house answer."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Original review: \"Approved for implementation with the limitations listed below.\" The controlling addendum supersedes the instruction to gate the discretionary routes behind attorney review before an official form may be generated: discretion controls the warning, the participant narrative and the handoff policy, not whether the form packet can be created.",
+        "limitations": [
+          {
+            "classification": "scope_restriction",
+            "statement": "California conviction relief is a dismissal and set-aside, not a sealing and not an expungement. Only arrests are sealed. Participant-facing copy must not call this route expungement.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-California-Legal-Review.md",
+              "sourceHeading": "DECISION UP FRONT / 2",
+              "sourceStatement": "**California petition relief is a dismissal and set-aside, not a sealing.** Only arrests get sealed."
+            }
+          },
+          {
+            "classification": "participant_question",
+            "statement": "LegalEase may generate the official form on the discretionary routes. The participant supplies any hardship, rehabilitation or interests-of-justice narrative through approved prompts. LegalEase does not write individualized legal argument or decide whether the showing is sufficient.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-California-Legal-Review.md",
+              "sourceHeading": "California operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "For CA-1, CA-3, CA-4, CA-6, and other discretionary routes, LegalEase may generate the official form. The participant supplies any hardship, rehabilitation, interests-of-justice, factual-innocence, or similar narrative through approved prompts. LegalEase does not write individualized legal argument or decide whether the showing is sufficient."
+            }
+          },
+          {
+            "classification": "manual_completion_item",
+            "statement": "Case number, offense section, probation status, custody status, sentence completion, restitution and local-form data are participant-entered or manual completion fields.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-California-Legal-Review.md",
+              "sourceHeading": "California operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "Arresting agency, report number, case number, offense section, probation status, custody status, sentence completion, restitution, and local-form data are participant-entered or `manual_completion_item` fields."
+            }
+          },
+          {
+            "classification": "required_before_filing",
+            "statement": "DOJ histories, local declarations, supporting exhibits and certified records are optional or required before filing. They are not preconditions to generation.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-California-Legal-Review.md",
+              "sourceHeading": "California operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "DOJ histories, local declarations, supporting exhibits, and certified records are optional or `required_before_filing` as stated in the original review. They are not preconditions to generation unless the missing fact makes the correct route or form unknowable."
+            }
+          },
+          {
+            "classification": "participant_question",
+            "statement": "Surface the non-citizen warning before intake, not after. California's own self-help guide routes non-citizens to a separate track first.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-California-Legal-Review.md",
+              "sourceHeading": "TRACK CA-1 / limitations",
+              "sourceStatement": "surface the non-citizen warning before intake, not after",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "post_generation_handoff",
+            "statement": "A routine hearing does not block the initial packet. Opposition or a contested evidentiary hearing triggers handoff.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-California-Legal-Review.md",
+              "sourceHeading": "California operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "A routine hearing does not block the initial packet. Opposition or a contested evidentiary hearing triggers handoff."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "The relief releases the person from penalties and disabilities except as provided in PC 29800 and 29900 and Vehicle Code 13555. The conviction must still be disclosed when applying for public office, for state or local licensing and for California State Lottery contracts; it may still be pleaded and proved in a later prosecution; firearm prohibitions persist; it does not automatically relieve PC 290 registration; it does not end an unexpired criminal protective order; and it does not release the DNA specimen duty under PC 299(f).",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-California-Legal-Review.md",
+              "sourceHeading": "PART 1 / Effect language that applies across the dismissal family",
+              "sourceStatement": "Set out on CR-181 and worth reproducing accurately in participant-facing copy",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "One petition per case. Multiple cases mean multiple filings, and cases in multiple counties mean filings in each.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-California-Legal-Review.md",
+              "sourceHeading": "PART 1 / Shared procedure for the CR-180 dismissal family",
+              "sourceStatement": "One petition per case. Multiple cases means multiple filings, and cases in multiple counties means filings in each.",
+              "normalizerInferred": true
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "ca-1203-4a",
+      "legalName": "Petition for Dismissal and Set-Aside Without Probation, Misdemeanor or Infraction, Cal. Penal Code § 1203.4a",
+      "publicName": "Dismiss a misdemeanor or infraction where you were not on probation",
+      "controllingAuthority": {
+        "citations": [
+          "Cal. Penal Code § 1203.4a, as amended by SB 1106 (2022), operative 1 January 2023",
+          "Cal. Penal Code § 1203.4a(e), reimbursement cap and ability to pay",
+          "Cal. Penal Code § 1203.4a(f), infraction notice and written declaration",
+          "Judicial Council forms CR-180 box 3, CR-181, CR-106"
+        ],
+        "summary": "Dismissal and set-aside for a misdemeanor or infraction conviction where probation was not granted. Two routes on the form: living an honest and upright life and obeying the law, or relief in the interests of justice."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2023-01-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "misdemeanor conviction where probation was not granted",
+        "infraction conviction where probation was not granted"
+      ],
+      "eligibleDispositions": [
+        "conviction where probation was not granted"
+      ],
+      "exclusions": [
+        "The person must not be serving a sentence or charged with any crime."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Since the conviction",
+          "duration": "More than one year"
+        }
+      ],
+      "outputStrategy": "official_pdf_fill",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Superior Court of the county of conviction. One petition per case."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "Superior Court of the county of conviction",
+        "detail": "Petition for dismissal of an infraction is by written declaration except on a showing of compelling need. § 1203.4a(f)."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-180",
+          "officialSourceUrl": "https://selfhelp.courts.ca.gov/find-forms",
+          "notes": "Petition for Dismissal, box 3. Filing under § 1203.4 when the case had no probation is a documented rejection reason."
+        },
+        {
+          "role": "proposed_order",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-181",
+          "officialSourceUrl": "https://selfhelp.courts.ca.gov/find-forms",
+          "notes": "Order for Dismissal."
+        },
+        {
+          "role": "proof_of_service",
+          "requirement": "conditional",
+          "conditionDescription": "Required for an infraction, where dismissal shall not be granted unless the prosecuting attorney has had at least 15 days' notice.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-106",
+          "officialSourceUrl": "https://selfhelp.courts.ca.gov/find-forms",
+          "notes": "Proof of Service, Criminal Record Clearing."
+        },
+        {
+          "role": "supporting_declaration",
+          "requirement": "conditional",
+          "conditionDescription": "Where the participant elects the discretionary interests-of-justice route.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "MC-031",
+          "officialSourceUrl": "https://selfhelp.courts.ca.gov/find-forms",
+          "notes": "Declaration supporting an interests-of-justice request."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "probationGranted",
+          "question": "Were you placed on probation in this case?",
+          "requirement": "required",
+          "conditionDescription": "A hard branch, not an optional field. The wrong statute box is a documented rejection reason."
+        },
+        {
+          "key": "convictionLevel",
+          "question": "Was this a misdemeanor or an infraction?",
+          "requirement": "required"
+        },
+        {
+          "key": "convictionDate",
+          "question": "On what date were you convicted?",
+          "requirement": "required"
+        },
+        {
+          "key": "countyOfConviction",
+          "question": "In which California county were you convicted?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumber",
+          "question": "What is the case number?",
+          "requirement": "required"
+        },
+        {
+          "key": "sentenceComplied",
+          "question": "Have you complied with the sentence?",
+          "requirement": "required"
+        },
+        {
+          "key": "currentStatus",
+          "question": "Are you currently serving a sentence or charged with any crime?",
+          "requirement": "required"
+        },
+        {
+          "key": "reliefRoute",
+          "question": "Which route applies: you have lived an honest and upright life and obeyed the law, or you are asking in the interests of justice?",
+          "requirement": "required"
+        },
+        {
+          "key": "citizenshipStatus",
+          "question": "Are you a United States citizen?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Court docket and disposition",
+          "obtainedFrom": "Superior Court of the county of conviction",
+          "requirement": "conditional",
+          "conditionDescription": "Where the participant is unsure whether probation was granted.",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Ask the clerk of the Superior Court in the county of conviction. The docket is what settles the probation question and therefore the statute box.",
+          "confirms": "probationGranted"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Signature and date",
+          "whereInPacket": "CR-180, petitioner signature block",
+          "why": "The petitioner signs their own petition."
+        },
+        {
+          "item": "Interests-of-justice explanation",
+          "whereInPacket": "CR-180 box 3 and MC-031 where attached",
+          "why": "Individualized legal argument. The participant supplies the showing."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "Cal. Penal Code § 1203.4a, as amended by SB 1106 (Stats. 2022, ch. 734)",
+          "url": "https://law.justia.com/codes/california/code-pen/part-2/title-8/chapter-1/section-1203-4a/",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Judicial Council of California, Find Your Court Forms, criminal results",
+          "url": "https://selfhelp.courts.ca.gov/find-forms",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "California Courts Self Help Guide, Record cleaning: Misdemeanors",
+          "url": "https://selfhelp.courts.ca.gov/clean-your-record/misdemeanors",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "File CR-180 with box 3 elected, together with the proposed CR-181, in the Superior Court of the county of conviction. Petition for dismissal of an infraction is by written declaration except on a showing of compelling need.",
+        "fees": "Reimbursement of up to $60 to the county and $60 to the city, subject to an ability-to-pay determination under the PC 987.8(g)(2) standard, and expressly not a prerequisite to eligibility. § 1203.4a(e). Any court filing fee is unresolved and county-specific.",
+        "feeWaiver": "FW-001 is the general California fee waiver form. Inability to pay the § 1203.4a(e) reimbursement does not defeat eligibility.",
+        "notice": "For an infraction, dismissal shall not be granted unless the prosecuting attorney has had at least 15 days' notice. § 1203.4a(f).",
+        "service": "Serve the prosecuting attorney where notice is required and file CR-106 proof of service.",
+        "participantSignature": "The petitioner signs CR-180.",
+        "notarization": "The source review does not state a notarization requirement."
+      },
+      "selfHelpStopConditions": [
+        "The prosecutor objects or appears in opposition.",
+        "The court sets a contested hearing.",
+        "A discretionary interests-of-justice request needs argument.",
+        "The participant is not a United States citizen.",
+        "Whether probation was granted cannot be established from the participant's answer or their record."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Whether any court filing fee attaches to CR-180 and whether it varies by county.",
+          "impact": "release_blocker",
+          "affectedElement": "filing_process",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-California-Legal-Review.md",
+            "sourceHeading": "OPEN QUESTIONS / 1",
+            "sourceStatement": "**Filing fees.** Whether any fee attaches to CR-180 or CR-409, and whether it varies by county."
+          }
+        },
+        {
+          "question": "The official CR-180, CR-181 and CR-106 PDFs have not been pulled.",
+          "impact": "release_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-California-Legal-Review.md",
+            "sourceHeading": "PART 2 / 8. Forms not yet pulled, needed before the tracks ship",
+            "sourceStatement": "1. CR-180 and CR-181 official PDFs"
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Original review: \"Approved for implementation with the limitations listed below.\" Same output-strategy reasoning as CA-1.",
+        "limitations": [
+          {
+            "classification": "participant_question",
+            "statement": "Hard branch on the probation question. The intake must ask \"were you placed on probation\" as a branch, not an optional field, because filing under § 1203.4 when the case had no probation is a documented rejection reason.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-California-Legal-Review.md",
+              "sourceHeading": "TRACK CA-2 / limitations",
+              "sourceStatement": "hard branch on the probation question",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "State the reimbursement rule accurately, including that inability to pay does not defeat eligibility. § 1203.4a(e) caps reimbursement at $60 to the county plus $60 to the city and ties it to ability to pay.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-California-Legal-Review.md",
+              "sourceHeading": "TRACK CA-2 / limitations",
+              "sourceStatement": "surface the reimbursement rule accurately, including that inability to pay does not defeat eligibility",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "California conviction relief is a dismissal and set-aside, not a sealing and not an expungement.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-California-Legal-Review.md",
+              "sourceHeading": "DECISION UP FRONT / 2",
+              "sourceStatement": "**California petition relief is a dismissal and set-aside, not a sealing.** Only arrests get sealed."
+            }
+          },
+          {
+            "classification": "post_generation_handoff",
+            "statement": "A routine hearing does not block the initial packet. Opposition or a contested evidentiary hearing triggers handoff.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-California-Legal-Review.md",
+              "sourceHeading": "California operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "A routine hearing does not block the initial packet. Opposition or a contested evidentiary hearing triggers handoff."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "ca-1203-41",
+      "legalName": "Petition for Dismissal and Set-Aside of a Felony, Cal. Penal Code § 1203.41",
+      "publicName": "Dismiss a felony conviction after a county jail or prison sentence",
+      "controllingAuthority": {
+        "citations": [
+          "Cal. Penal Code § 1203.41, amended by SB 731 (Stats. 2022, ch. 814)",
+          "Cal. Penal Code § 1170(h)(5)(A) and (h)(5)(B), mandatory supervision",
+          "Judicial Council forms CR-180 box 5, CR-181, CR-106"
+        ],
+        "summary": "Discretionary felony dismissal and set-aside. SB 731 extended this route beyond county jail realignment sentences to reach felony state prison sentences where the offense does not require PC 290 registration. It did not create a sealing section."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2023-01-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "felony conviction with a county jail sentence under PC 1170(h)",
+        "felony conviction with a state prison sentence"
+      ],
+      "eligibleDispositions": [
+        "conviction where the sentence has been completed"
+      ],
+      "exclusions": [
+        "PC 290 registerable offenses on the state prison route.",
+        "Anything the current § 1203.41(b) text lists. Only the CR-180 summary of those conditions was reviewed."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "County jail sentence with mandatory supervision under PC 1170(h)(5)(B)",
+          "duration": "More than one year since completing the sentence"
+        },
+        {
+          "condition": "County jail sentence without mandatory supervision under PC 1170(h)(5)(A)",
+          "duration": "More than two years since completing the sentence"
+        },
+        {
+          "condition": "Felony state prison sentence, where the offense does not require PC 290 registration",
+          "duration": "More than two years since completing the sentence"
+        }
+      ],
+      "outputStrategy": "official_pdf_fill",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Superior Court of the county of conviction."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "Superior Court of the county of conviction",
+        "detail": "One petition per case."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-180",
+          "officialSourceUrl": "https://selfhelp.courts.ca.gov/find-forms",
+          "notes": "Petition for Dismissal, box 5. Which of the three sub-routes applies is a legal judgment; the participant elects it."
+        },
+        {
+          "role": "proposed_order",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-181",
+          "officialSourceUrl": "https://selfhelp.courts.ca.gov/find-forms",
+          "notes": "Order for Dismissal."
+        },
+        {
+          "role": "proof_of_service",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-106",
+          "officialSourceUrl": "https://selfhelp.courts.ca.gov/find-forms",
+          "notes": "Proof of Service, Criminal Record Clearing."
+        },
+        {
+          "role": "supporting_declaration",
+          "requirement": "conditional",
+          "conditionDescription": "For the interests-of-justice showing, which every route on this track requires.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "MC-031",
+          "officialSourceUrl": "https://selfhelp.courts.ca.gov/find-forms",
+          "notes": "LegalEase generates the container. The participant supplies the showing."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "sentenceType",
+          "question": "Was your sentence served in county jail with mandatory supervision, in county jail without mandatory supervision, or in state prison?",
+          "requirement": "required"
+        },
+        {
+          "key": "sentenceCompletionDate",
+          "question": "On what date did you finish the sentence, including any supervision?",
+          "requirement": "required"
+        },
+        {
+          "key": "supervisionStatus",
+          "question": "Are you currently on parole, on supervision, on probation, serving a sentence, or charged with any crime?",
+          "requirement": "required"
+        },
+        {
+          "key": "registrationRequirement",
+          "question": "Does the offense require registration under PC 290?",
+          "requirement": "required"
+        },
+        {
+          "key": "offenseSections",
+          "question": "Which offense code sections were you convicted of? Copy them from your record.",
+          "requirement": "required"
+        },
+        {
+          "key": "countyOfConviction",
+          "question": "In which California county were you convicted?",
+          "requirement": "required"
+        },
+        {
+          "key": "interestsOfJusticeNarrative",
+          "question": "In your own words, why would dismissal serve the interests of justice?",
+          "requirement": "required"
+        },
+        {
+          "key": "citizenshipStatus",
+          "question": "Are you a United States citizen?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Court docket and disposition, including the sentence and any supervision term",
+          "obtainedFrom": "Superior Court of the county of conviction",
+          "requirement": "conditional",
+          "conditionDescription": "Where the participant cannot state the sentence type or completion date from memory.",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Ask the clerk of the Superior Court in the county of conviction for the docket. It settles which of the three sub-routes applies.",
+          "confirms": "sentenceType"
+        },
+        {
+          "name": "California DOJ state summary criminal history",
+          "obtainedFrom": "California Department of Justice",
+          "requirement": "conditional",
+          "conditionDescription": "Optional supporting record.",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Request your own record through the DOJ 'Criminal Records, Request Your Own' process. LegalEase does not obtain, receive or inspect it.",
+          "confirms": "sentenceCompletionDate"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Signature and date",
+          "whereInPacket": "CR-180, petitioner signature block",
+          "why": "The petitioner signs their own petition."
+        },
+        {
+          "item": "Interests-of-justice explanation",
+          "whereInPacket": "CR-180 box 5 and MC-031 where attached",
+          "why": "This route is discretionary on every sub-route. LegalEase prepares the form; the participant supplies the showing."
+        },
+        {
+          "item": "Sub-route election",
+          "whereInPacket": "CR-180 box 5, sub-items a through c",
+          "why": "Which sub-route applies turns on the sentencing scheme and is a legal judgment. The participant elects it from their record."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "SB 731 (Durazo, ch. 814, Stats. 2022)",
+          "url": "https://leginfo.legislature.ca.gov/faces/billTextClient.xhtml?bill_id=202120220SB731",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Judicial Council of California, Find Your Court Forms, criminal results",
+          "url": "https://selfhelp.courts.ca.gov/find-forms",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "File CR-180 with box 5 elected, together with the proposed CR-181, in the Superior Court of the county of conviction.",
+        "fees": "Unresolved and county-specific. Do not publish a figure.",
+        "feeWaiver": "FW-001 is the general California fee waiver form.",
+        "notice": "The prosecuting attorney must be given 15 days' notice of the petition.",
+        "service": "Serve the prosecuting attorney and file CR-106 proof of service.",
+        "participantSignature": "The petitioner signs CR-180.",
+        "notarization": "The source review does not state a notarization requirement."
+      },
+      "selfHelpStopConditions": [
+        "The prosecutor objects or appears in opposition.",
+        "The court sets a contested hearing.",
+        "The interests-of-justice showing needs argument.",
+        "The offense may be a serious felony under PC 1192.7(c), a violent felony under PC 667.5(c), or PC 290 registerable.",
+        "Whether the sentence is genuinely complete, including supervision, is unclear.",
+        "The participant is not a United States citizen."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "The current PC 1203.41(b) conditions were read only as summarized on CR-180. Required before build.",
+          "impact": "build_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-California-Legal-Review.md",
+            "sourceHeading": "OPEN QUESTIONS / 5",
+            "sourceStatement": "**PC 1203.41(b) conditions.** Read only as summarized on CR-180. Required before build."
+          }
+        },
+        {
+          "question": "PC 1192.7(c), 667.5(c) and 290 offense lists are long, offense-specific and periodically amended. The product needs a maintained mapping, not a static list.",
+          "impact": "release_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-California-Legal-Review.md",
+            "sourceHeading": "OPEN QUESTIONS / 9",
+            "sourceStatement": "**PC 1192.7(c), 667.5(c), and 290 lists.** Long, offense-specific, and periodically amended. The product needs a maintained mapping, not a static list."
+          }
+        },
+        {
+          "question": "The official CR-180, CR-181 and CR-106 PDFs have not been pulled.",
+          "impact": "release_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-California-Legal-Review.md",
+            "sourceHeading": "PART 2 / 8. Forms not yet pulled, needed before the tracks ship",
+            "sourceStatement": "1. CR-180 and CR-181 official PDFs"
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Original review: \"Approved for implementation with the limitations listed below.\" The controlling addendum supersedes any requirement for attorney review before generating the official form solely because the court has discretion.",
+        "limitations": [
+          {
+            "classification": "participant_question",
+            "statement": "This is discretionary relief on every route, so LegalEase prepares the form and the participant supplies the showing. Do not generate the interests-of-justice narrative.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-California-Legal-Review.md",
+              "sourceHeading": "TRACK CA-3 / limitations",
+              "sourceStatement": "this is discretionary relief on every route, so LegalEase prepares the form and the participant supplies the showing. Do not generate the interests-of-justice narrative."
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "There is no petition-based felony sealing under PC 1203.49 with a four-year conviction-free wait. PC 1203.49 is human trafficking relief for a PC 647(b) conviction; SB 731 expanded petition relief by amending PC 1203.41, not by creating a sealing section; and the petition waits are one or two years, not four.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-California-Legal-Review.md",
+              "sourceHeading": "PART 0 / 2",
+              "sourceStatement": "**There is no \"petition-based felony sealing under SB 731 / PC 1203.49\" with a four-year conviction-free wait.**"
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "This route dismisses and sets aside. It does not seal. Participant-facing copy must not call it sealing or expungement.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-California-Legal-Review.md",
+              "sourceHeading": "PART 0 / 3",
+              "sourceStatement": "**Petition relief dismisses, it does not seal.** The reference repeatedly calls the felony route \"sealing.\""
+            }
+          },
+          {
+            "classification": "post_generation_handoff",
+            "statement": "A routine hearing does not block the initial packet. Opposition or a contested evidentiary hearing triggers handoff.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-California-Legal-Review.md",
+              "sourceHeading": "California operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "A routine hearing does not block the initial packet. Opposition or a contested evidentiary hearing triggers handoff."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "ca-1203-42",
+      "legalName": "Petition for Dismissal and Set-Aside of a Pre-Realignment Prison Sentence, Cal. Penal Code § 1203.42",
+      "publicName": "Dismiss an older felony that would be a county jail sentence today",
+      "controllingAuthority": {
+        "citations": [
+          "Cal. Penal Code § 1203.42",
+          "2011 realignment legislation",
+          "Judicial Council forms CR-180 box 6, CR-181, CR-106"
+        ],
+        "summary": "Discretionary dismissal and set-aside, in the interests of justice, of a felony prison sentence that would have been served in county jail had it been imposed after the 2011 realignment legislation."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2023-01-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "felony conviction with a prison sentence imposed before the 2011 realignment legislation"
+      ],
+      "eligibleDispositions": [
+        "conviction where the sentence has been completed"
+      ],
+      "exclusions": [
+        "The person must not be under supervision, serving a sentence, on probation, or charged with any crime."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Since completing the sentence",
+          "duration": "More than two years"
+        }
+      ],
+      "outputStrategy": "official_pdf_fill",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Superior Court of the county of conviction."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "Superior Court of the county of conviction",
+        "detail": "One petition per case."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-180",
+          "officialSourceUrl": "https://selfhelp.courts.ca.gov/find-forms",
+          "notes": "Petition for Dismissal, box 6."
+        },
+        {
+          "role": "proposed_order",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-181",
+          "officialSourceUrl": "https://selfhelp.courts.ca.gov/find-forms",
+          "notes": "Order for Dismissal."
+        },
+        {
+          "role": "proof_of_service",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-106",
+          "officialSourceUrl": "https://selfhelp.courts.ca.gov/find-forms",
+          "notes": "Proof of Service, Criminal Record Clearing."
+        },
+        {
+          "role": "supporting_declaration",
+          "requirement": "conditional",
+          "conditionDescription": "For the interests-of-justice showing.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "MC-031",
+          "officialSourceUrl": "https://selfhelp.courts.ca.gov/find-forms",
+          "notes": "LegalEase generates the container; the participant supplies the showing."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "sentenceCompletionDate",
+          "question": "On what date did you finish the prison sentence?",
+          "requirement": "required"
+        },
+        {
+          "key": "realignmentEligibility",
+          "question": "Has a lawyer or your record confirmed that this offense would be served in county jail if sentenced today, after the 2011 realignment law?",
+          "requirement": "required",
+          "conditionDescription": "This is a legal judgment about the offense and the sentencing scheme. LegalEase does not make it."
+        },
+        {
+          "key": "supervisionStatus",
+          "question": "Are you currently under supervision, serving a sentence, on probation, or charged with any crime?",
+          "requirement": "required"
+        },
+        {
+          "key": "offenseSections",
+          "question": "Which offense code sections were you convicted of? Copy them from your record.",
+          "requirement": "required"
+        },
+        {
+          "key": "countyOfConviction",
+          "question": "In which California county were you convicted?",
+          "requirement": "required"
+        },
+        {
+          "key": "interestsOfJusticeNarrative",
+          "question": "In your own words, why would dismissal serve the interests of justice?",
+          "requirement": "required"
+        },
+        {
+          "key": "citizenshipStatus",
+          "question": "Are you a United States citizen?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Court docket, abstract of judgment and disposition",
+          "obtainedFrom": "Superior Court of the county of conviction",
+          "requirement": "required",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Ask the clerk of the Superior Court in the county of conviction. The record is what the participant uses to confirm the realignment question, which LegalEase does not decide.",
+          "confirms": "realignmentEligibility"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Signature and date",
+          "whereInPacket": "CR-180, petitioner signature block",
+          "why": "The petitioner signs their own petition."
+        },
+        {
+          "item": "Realignment eligibility confirmation",
+          "whereInPacket": "CR-180 box 6",
+          "why": "Whether the offense would have been eligible for county jail after 2011 is a legal judgment about the offense and the sentencing scheme. The participant confirms it from a record or from counsel."
+        },
+        {
+          "item": "Interests-of-justice explanation",
+          "whereInPacket": "CR-180 box 6 and MC-031 where attached",
+          "why": "Individualized legal argument."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "Judicial Council of California, Find Your Court Forms, criminal results",
+          "url": "https://selfhelp.courts.ca.gov/find-forms",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "California Courts Self Help Guide, Clean your record",
+          "url": "https://selfhelp.courts.ca.gov/clean-your-record",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "File CR-180 with box 6 elected, together with the proposed CR-181, in the Superior Court of the county of conviction.",
+        "fees": "Unresolved and county-specific. Do not publish a figure.",
+        "feeWaiver": "FW-001 is the general California fee waiver form.",
+        "notice": "The prosecuting attorney must be given 15 days' notice of the petition.",
+        "service": "Serve the prosecuting attorney and file CR-106 proof of service.",
+        "participantSignature": "The petitioner signs CR-180.",
+        "notarization": "The source review does not state a notarization requirement."
+      },
+      "selfHelpStopConditions": [
+        "The prosecutor objects or appears in opposition.",
+        "The court sets a contested hearing.",
+        "The realignment eligibility question cannot be answered from the participant's record.",
+        "The interests-of-justice showing needs argument.",
+        "The participant is not a United States citizen."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "The full text of PC 1203.42 was read only as summarized on CR-180 and CR-181.",
+          "impact": "release_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-California-Legal-Review.md",
+            "sourceHeading": "OPEN QUESTIONS / 6",
+            "sourceStatement": "**PC 1203.42 and PC 1203.43 full text.** Read only as summarized on CR-180 and CR-181."
+          }
+        },
+        {
+          "question": "The official CR-180, CR-181 and CR-106 PDFs have not been pulled.",
+          "impact": "release_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-California-Legal-Review.md",
+            "sourceHeading": "PART 2 / 8. Forms not yet pulled, needed before the tracks ship",
+            "sourceStatement": "1. CR-180 and CR-181 official PDFs"
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Original review: \"Approved for implementation with the limitations listed below.\" The realignment determination is preserved as a participant confirmation rather than a generation blocker, per the controlling addendum.",
+        "limitations": [
+          {
+            "classification": "participant_question",
+            "statement": "The \"would have been eligible for county jail after 2011\" determination is a legal judgment about the offense and the sentencing scheme. Require the participant to confirm it from a record or from counsel; LegalEase does not decide it.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-California-Legal-Review.md",
+              "sourceHeading": "TRACK CA-4 / limitations",
+              "sourceStatement": "the \"would have been eligible for county jail after 2011\" determination is a legal judgment about the offense and the sentencing scheme. Gate this behind attorney review or require the participant to confirm it from a record.",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "California conviction relief is a dismissal and set-aside, not a sealing and not an expungement.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-California-Legal-Review.md",
+              "sourceHeading": "DECISION UP FRONT / 2",
+              "sourceStatement": "**California petition relief is a dismissal and set-aside, not a sealing.** Only arrests get sealed."
+            }
+          },
+          {
+            "classification": "post_generation_handoff",
+            "statement": "A routine hearing does not block the initial packet. Opposition or a contested evidentiary hearing triggers handoff.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-California-Legal-Review.md",
+              "sourceHeading": "California operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "A routine hearing does not block the initial packet. Opposition or a contested evidentiary hearing triggers handoff."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "ca-1203-43",
+      "legalName": "Petition for Dismissal and Set-Aside After Deferred Entry of Judgment, Cal. Penal Code § 1203.43",
+      "publicName": "Dismiss a case that ended in a deferred entry of judgment programme",
+      "controllingAuthority": {
+        "citations": [
+          "Cal. Penal Code § 1203.43",
+          "Former Cal. Penal Code § 1000.4, the invalid plea advisement",
+          "Former Cal. Penal Code § 1000.3, dismissal after completion",
+          "Judicial Council forms CR-180 box 7, CR-181, CR-106"
+        ],
+        "summary": "Relief on the ground that the prior plea was invalid because of the misinformation in former PC 1000.4, combined with successful completion of a deferred entry of judgment programme. It goes to the validity of the plea rather than merely dismissing after the fact, which is why it matters most for non-citizens with old drug DEJ pleas."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2023-01-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "deferred entry of judgment plea where the programme was performed satisfactorily and charges were dismissed"
+      ],
+      "eligibleDispositions": [
+        "charges dismissed under former PC 1000.3 after DEJ completion"
+      ],
+      "exclusions": [],
+      "waitingPeriods": [
+        {
+          "condition": "None stated by the statute",
+          "duration": "None"
+        }
+      ],
+      "outputStrategy": "official_pdf_fill",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Superior Court of the county of conviction."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "Superior Court of the county of conviction",
+        "detail": "Filed on the same CR-180 the product already fills, at box 7."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-180",
+          "officialSourceUrl": "https://selfhelp.courts.ca.gov/find-forms",
+          "notes": "Petition for Dismissal, box 7."
+        },
+        {
+          "role": "proposed_order",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-181",
+          "officialSourceUrl": "https://selfhelp.courts.ca.gov/find-forms",
+          "notes": "Order for Dismissal."
+        },
+        {
+          "role": "proof_of_service",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-106",
+          "officialSourceUrl": "https://selfhelp.courts.ca.gov/find-forms",
+          "notes": "Proof of Service, Criminal Record Clearing."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "dejProgramCompleted",
+          "question": "Did you complete a deferred entry of judgment programme and have the charges dismissed?",
+          "requirement": "required"
+        },
+        {
+          "key": "evidenceRoute",
+          "question": "Do you have court records showing how the case ended, or will you declare it under penalty of perjury?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumber",
+          "question": "What is the case number?",
+          "requirement": "required"
+        },
+        {
+          "key": "countyOfConviction",
+          "question": "In which California county was the case?",
+          "requirement": "required"
+        },
+        {
+          "key": "citizenshipStatus",
+          "question": "Are you a United States citizen?",
+          "requirement": "required",
+          "conditionDescription": "Any non-citizen participant on this track goes to an attorney rather than through self-help."
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Court records showing the case resolution",
+          "obtainedFrom": "Superior Court of the county of conviction",
+          "requirement": "conditional",
+          "conditionDescription": "One of the two evidence routes on the form. The alternative is the petitioner's declaration under penalty of perjury.",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Ask the clerk of the Superior Court for the docket showing the DEJ completion and dismissal. Where records are unavailable, the form permits a declaration under penalty of perjury instead.",
+          "confirms": "dejProgramCompleted"
+        },
+        {
+          "name": "California DOJ state summary criminal history",
+          "obtainedFrom": "California Department of Justice",
+          "requirement": "conditional",
+          "conditionDescription": "Optional attachment to the declaration route.",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Request your own record through the DOJ 'Criminal Records, Request Your Own' process. LegalEase does not obtain, receive or inspect it."
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Signature and date, under penalty of perjury on the declaration route",
+          "whereInPacket": "CR-180, petitioner signature block",
+          "why": "The petitioner swears to their own account of how the case ended. LegalEase does not supply or verify those facts."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "Judicial Council of California, Find Your Court Forms, criminal results",
+          "url": "https://selfhelp.courts.ca.gov/find-forms",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "California Courts Self Help Guide, Clean your record",
+          "url": "https://selfhelp.courts.ca.gov/clean-your-record",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "File CR-180 with box 7 elected, together with the proposed CR-181, in the Superior Court of the county of conviction.",
+        "fees": "Unresolved and county-specific. Do not publish a figure.",
+        "feeWaiver": "FW-001 is the general California fee waiver form.",
+        "notice": "The prosecuting attorney must be given 15 days' notice of the petition.",
+        "service": "Serve the prosecuting attorney and file CR-106 proof of service.",
+        "participantSignature": "The petitioner signs CR-180, under penalty of perjury where the declaration route is used.",
+        "notarization": "The source review does not state a notarization requirement."
+      },
+      "selfHelpStopConditions": [
+        "The participant is not a United States citizen. This track goes to an attorney, not through self-help, because it turns on plea validity and immigration consequences.",
+        "The prosecutor objects or appears in opposition.",
+        "The court sets a contested hearing.",
+        "Whether the programme was completed and the charges dismissed cannot be established."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "The full text of PC 1203.43 was read only as summarized on CR-180 and CR-181. Read the current text before build.",
+          "impact": "build_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-California-Legal-Review.md",
+            "sourceHeading": "TRACK CA-5 / limitations",
+            "sourceStatement": "Read the current PC 1203.43 text before build; only the CR-180 and CR-181 summaries were reviewed here."
+          }
+        },
+        {
+          "question": "The official CR-180, CR-181 and CR-106 PDFs have not been pulled.",
+          "impact": "release_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-California-Legal-Review.md",
+            "sourceHeading": "PART 2 / 8. Forms not yet pulled, needed before the tracks ship",
+            "sourceStatement": "1. CR-180 and CR-181 official PDFs"
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Original review: \"Approved for implementation with the limitations listed below.\" This is the standard fix for old drug DEJ cases and it is on the same form the product already fills.",
+        "limitations": [
+          {
+            "classification": "self_help_boundary",
+            "statement": "Any non-citizen participant on this track goes to an attorney, not through self-help.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-California-Legal-Review.md",
+              "sourceHeading": "TRACK CA-5 / limitations",
+              "sourceStatement": "any non-citizen participant on this track goes to an attorney, not through self-help",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "The form offers two evidence routes: court records showing the case resolution, or the petitioner's declaration under penalty of perjury that charges were dismissed after DEJ completion, with an optional attached state summary criminal history. The participant chooses and swears to their own account.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-California-Legal-Review.md",
+              "sourceHeading": "TRACK CA-5 / Evidence routes on the form",
+              "sourceStatement": "either court records are available showing the case resolution, or the petitioner declares under penalty of perjury that charges were dismissed after DEJ completion, with an optional attached state summary criminal history",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "California conviction relief is a dismissal and set-aside, not a sealing and not an expungement.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-California-Legal-Review.md",
+              "sourceHeading": "DECISION UP FRONT / 2",
+              "sourceStatement": "**California petition relief is a dismissal and set-aside, not a sealing.** Only arrests get sealed."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "ca-17b-reduction",
+      "legalName": "Application to Reduce a Felony to a Misdemeanor or a Misdemeanor to an Infraction, Cal. Penal Code §§ 17(b) and 17(d)(2)",
+      "publicName": "Reduce a felony to a misdemeanor, or a misdemeanor to an infraction",
+      "controllingAuthority": {
+        "citations": [
+          "Cal. Penal Code § 17(b), felony to misdemeanor",
+          "Cal. Penal Code § 17(d)(2), misdemeanor to infraction",
+          "Cal. Penal Code § 19.8(a), the offenses eligible for 17(d)(2)",
+          "Judicial Council forms CR-180 item 8, CR-181 items 1 and 2"
+        ],
+        "summary": "Discretionary reduction, requested on the same CR-180 and granted or denied at CR-181 items 1 and 2. The court can grant reduction as to all felony convictions in the action, all misdemeanor convictions, or only specified ones. It is a separate track rather than a field because it has different eligibility rules, a different order paragraph, and can be granted while the dismissal is denied."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2023-01-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "wobbler felony conviction, for 17(b)",
+        "misdemeanor conviction listed in PC 19.8(a), for 17(d)(2)"
+      ],
+      "eligibleDispositions": [
+        "conviction"
+      ],
+      "exclusions": [
+        "Offenses that are not wobblers, for 17(b).",
+        "Misdemeanors not listed in PC 19.8(a), for 17(d)(2)."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "None stated independent of the dismissal petition it is bundled with",
+          "duration": "None"
+        }
+      ],
+      "outputStrategy": "official_pdf_fill",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Superior Court of the county of conviction, bundled with the dismissal petition."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "Superior Court of the county of conviction",
+        "detail": "Requested on the same CR-180 as the dismissal and ruled on at CR-181 items 1 and 2."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-180",
+          "officialSourceUrl": "https://selfhelp.courts.ca.gov/find-forms",
+          "notes": "Petition for Dismissal, item 8 reduction request. Bundled with the dismissal petition."
+        },
+        {
+          "role": "proposed_order",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-181",
+          "officialSourceUrl": "https://selfhelp.courts.ca.gov/find-forms",
+          "notes": "Order for Dismissal, items 1 and 2 carry the reduction."
+        },
+        {
+          "role": "proof_of_service",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-106",
+          "officialSourceUrl": "https://selfhelp.courts.ca.gov/find-forms",
+          "notes": "Proof of Service, Criminal Record Clearing."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "reductionElected",
+          "question": "Do you also want to ask the court to reduce the offense?",
+          "requirement": "required",
+          "conditionDescription": "Presented as a checkbox the participant elects, with a plain-English explanation."
+        },
+        {
+          "key": "offenseSections",
+          "question": "Which offense code sections were you convicted of? Copy them exactly from your record.",
+          "requirement": "required",
+          "conditionDescription": "Required because LegalEase does not classify wobblers automatically."
+        },
+        {
+          "key": "convictionLevel",
+          "question": "Was the conviction a felony or a misdemeanor?",
+          "requirement": "required"
+        },
+        {
+          "key": "countyOfConviction",
+          "question": "In which California county were you convicted?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumber",
+          "question": "What is the case number?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Court docket showing the offense code section as charged and convicted",
+          "obtainedFrom": "Superior Court of the county of conviction",
+          "requirement": "required",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Ask the clerk of the Superior Court in the county of conviction. The exact code section is what determines whether the offense is a wobbler or is listed in PC 19.8(a).",
+          "confirms": "offenseSections"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Signature and date",
+          "whereInPacket": "CR-180, petitioner signature block",
+          "why": "The petitioner signs their own petition."
+        },
+        {
+          "item": "Offense classification and the two reduction-eligibility columns",
+          "whereInPacket": "CR-180 item 1",
+          "why": "Whether an offense is a wobbler, or is listed in PC 19.8(a), is a legal judgment. LegalEase does not classify wobblers automatically; the participant supplies the code section from their record."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "Judicial Council of California, Find Your Court Forms, criminal results",
+          "url": "https://selfhelp.courts.ca.gov/find-forms",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "California Courts Self Help Guide, Clean your record",
+          "url": "https://selfhelp.courts.ca.gov/clean-your-record",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "Request the reduction at CR-180 item 8, filed with the dismissal petition in the Superior Court of the county of conviction.",
+        "fees": "Unresolved and county-specific. Do not publish a figure.",
+        "feeWaiver": "FW-001 is the general California fee waiver form.",
+        "notice": "The prosecuting attorney must be given 15 days' notice of the petition the reduction is bundled with.",
+        "service": "Serve the prosecuting attorney and file CR-106 proof of service.",
+        "participantSignature": "The petitioner signs CR-180.",
+        "notarization": "The source review does not state a notarization requirement."
+      },
+      "selfHelpStopConditions": [
+        "Whether the offense is a wobbler, or is listed in PC 19.8(a), is unclear from the record.",
+        "The prosecutor objects or appears in opposition.",
+        "The court sets a contested hearing.",
+        "The participant is not a United States citizen."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "The wobbler and PC 19.8(a) classification requires a maintained offense mapping, not a static list.",
+          "impact": "release_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-California-Legal-Review.md",
+            "sourceHeading": "OPEN QUESTIONS / 9",
+            "sourceStatement": "**PC 1192.7(c), 667.5(c), and 290 lists.** Long, offense-specific, and periodically amended. The product needs a maintained mapping, not a static list."
+          }
+        },
+        {
+          "question": "The official CR-180 and CR-181 PDFs have not been pulled.",
+          "impact": "release_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-California-Legal-Review.md",
+            "sourceHeading": "PART 2 / 8. Forms not yet pulled, needed before the tracks ship",
+            "sourceStatement": "1. CR-180 and CR-181 official PDFs"
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Original review: \"Approved for implementation with the limitations listed below.\" The CR-180 note itself says a petition may still be worth filing where automatic relief already applied, specifically because of the additional benefit of a 17(b) reduction.",
+        "limitations": [
+          {
+            "classification": "participant_question",
+            "statement": "Do not classify wobblers automatically. Present the reduction as a checkbox the participant elects with a plain-English explanation, and require the offense code section from the record.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-California-Legal-Review.md",
+              "sourceHeading": "TRACK CA-6 / limitations",
+              "sourceStatement": "do not classify wobblers automatically. Present the reduction as a checkbox the participant elects with a plain-English explanation, and require the offense code section from the record.",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "A reduction can be granted while the dismissal is denied, and is worth requesting even where automatic relief already applied.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-California-Legal-Review.md",
+              "sourceHeading": "TRACK CA-6 / Why this is a separate track and not a field",
+              "sourceStatement": "It also has different eligibility rules, a different order paragraph, and can be granted while the dismissal is denied.",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "post_generation_handoff",
+            "statement": "A routine hearing does not block the initial packet. Opposition or a contested evidentiary hearing triggers handoff.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-California-Legal-Review.md",
+              "sourceHeading": "California operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "A routine hearing does not block the initial packet. Opposition or a contested evidentiary hearing triggers handoff."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "ca-851-91",
+      "legalName": "Petition to Seal Arrest and Related Records, Cal. Penal Code § 851.91",
+      "publicName": "Seal an arrest that did not lead to a conviction",
+      "controllingAuthority": {
+        "citations": [
+          "Cal. Penal Code § 851.91, added by SB 393 (2017), effective 1 January 2018, as since amended",
+          "Cal. Penal Code § 851.92, sealing mechanics",
+          "Cal. Penal Code § 851.91(a)(1), what \"did not result in a conviction\" means",
+          "Cal. Penal Code § 851.91(a)(2), the four ineligibility bars",
+          "Cal. Penal Code § 851.91(c)(2), the interests-of-justice showing where a pattern applies",
+          "Judicial Council forms CR-409, CR-409-INFO, CR-410"
+        ],
+        "summary": "Arrest sealing, not dismissal. Relief is a matter of right unless an arrest charge was domestic violence, child abuse or elder abuse and the record shows a statutory pattern, in which case the petitioner must show sealing serves the interests of justice. The petition is verified, filed at least 15 days before the hearing, and served on the prosecuting attorney and the arresting agency at least 15 days before the hearing."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2018-01-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "arrest that did not result in a conviction"
+      ],
+      "eligibleDispositions": [
+        "the statute of limitations has run on every offense and no accusatory pleading was filed",
+        "a pleading was filed and as to all charges the charge was dismissed and may not be refiled",
+        "a pleading was filed and as to all charges there was an acquittal",
+        "a conviction that was vacated or reversed on appeal with all appellate remedies exhausted and no refiling possible"
+      ],
+      "exclusions": [
+        "The person may still be charged with any offense the arrest was based on.",
+        "Any arrest charge or filed charge is murder or another offense with no statute of limitations, unless the person was acquitted or found factually innocent.",
+        "The person intentionally evaded prosecution by absconding from the jurisdiction. Bench warrants or failures to appear that were adjudicated before the case closed with no conviction do not establish intentional evasion.",
+        "The person intentionally evaded prosecution by identity fraud and was later charged for that identity fraud."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Petition under § 851.91",
+          "duration": "None"
+        }
+      ],
+      "outputStrategy": "official_pdf_fill",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "The court where the accusatory pleading was filed. If no pleading was filed, a court with criminal jurisdiction in the city or county where the arrest occurred. This is not the county of conviction."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "The court where the accusatory pleading was filed, or a court with criminal jurisdiction in the city or county of arrest",
+        "detail": "One arrest per petition. The hearing is by design; CR-409 item 2 is a Notice of Court Hearing block filled in by the clerk."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-409",
+          "officialSourceUrl": "https://selfhelp.courts.ca.gov/find-forms",
+          "notes": "Petition to Seal Arrest and Related Records, Rev. 1 January 2024, published in English, Spanish, Chinese, Korean and Vietnamese. Signed under penalty of perjury. Item 3h, the matter-of-right versus interests-of-justice election, requires legal judgment."
+        },
+        {
+          "role": "proposed_order",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-410",
+          "officialSourceUrl": "https://selfhelp.courts.ca.gov/find-forms",
+          "notes": "Order to Seal Arrest and Related Records, New 1 January 2019, optional form. Item 2 is the authoritative carve-out list for arrest sealing."
+        },
+        {
+          "role": "proof_of_service",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-106",
+          "officialSourceUrl": "https://selfhelp.courts.ca.gov/find-forms",
+          "notes": "Proof of service on the prosecuting attorney and on the arresting agency, both at least 15 days before the hearing."
+        },
+        {
+          "role": "supporting_declaration",
+          "requirement": "conditional",
+          "conditionDescription": "Where a pattern offense applies and the petitioner must show sealing serves the interests of justice.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "MC-031",
+          "officialSourceUrl": "https://selfhelp.courts.ca.gov/find-forms",
+          "notes": "Verified declaration. LegalEase supplies the container; the participant supplies the showing. Pattern-offense cases route to an attorney."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "arrestDate",
+          "question": "On what date were you arrested?",
+          "requirement": "required"
+        },
+        {
+          "key": "arrestCityCounty",
+          "question": "In which city and county were you arrested?",
+          "requirement": "required"
+        },
+        {
+          "key": "arrestingAgency",
+          "question": "Which law enforcement agency arrested you?",
+          "requirement": "required"
+        },
+        {
+          "key": "policeReportNumber",
+          "question": "What is the police report number?",
+          "requirement": "required",
+          "conditionDescription": "Most participants will not have this without pulling the record from the arresting agency."
+        },
+        {
+          "key": "courtNumber",
+          "question": "What is the court number, if a case was filed?",
+          "requirement": "conditional",
+          "conditionDescription": "Where an accusatory pleading was filed."
+        },
+        {
+          "key": "chargesArrestedFor",
+          "question": "What offenses or charges was the arrest based on?",
+          "requirement": "required"
+        },
+        {
+          "key": "howCaseEnded",
+          "question": "How did the matter end — no charges filed, dismissed, acquitted, or a conviction vacated on appeal?",
+          "requirement": "required"
+        },
+        {
+          "key": "patternOffense",
+          "question": "Was any arrest charge domestic violence, child abuse or elder abuse?",
+          "requirement": "required",
+          "conditionDescription": "A yes routes the participant to an attorney."
+        },
+        {
+          "key": "entitlementBasis",
+          "question": "Are you asking as a matter of right, or asking the court to find that sealing serves the interests of justice?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Arrest report or arresting agency record showing the report number",
+          "obtainedFrom": "The arresting law enforcement agency",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Ask the arresting agency for the report number and arrest record. The petition requires the arresting agency and report number, which most participants will not have to hand. LegalEase does not obtain, receive or inspect it.",
+          "confirms": "policeReportNumber"
+        },
+        {
+          "name": "Court docket showing the disposition",
+          "obtainedFrom": "The court where the accusatory pleading was filed",
+          "requirement": "conditional",
+          "conditionDescription": "Where a case was filed.",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Ask the clerk of the court where the pleading was filed for the docket showing how the charges ended.",
+          "confirms": "howCaseEnded"
+        },
+        {
+          "name": "California DOJ state summary criminal history",
+          "obtainedFrom": "California Department of Justice",
+          "requirement": "conditional",
+          "conditionDescription": "Optional. Useful where the participant cannot identify the arrest details.",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Request your own record through the DOJ 'Criminal Records, Request Your Own' process. LegalEase does not obtain, receive or inspect it."
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Verification and signature under penalty of perjury",
+          "whereInPacket": "CR-409, petitioner signature block",
+          "why": "The statute requires a verified petition. The petitioner swears to their own facts."
+        },
+        {
+          "item": "Matter-of-right versus interests-of-justice election",
+          "whereInPacket": "CR-409 item 3h",
+          "why": "Whether a statutory pattern applies is a legal judgment. The participant elects; pattern cases go to an attorney."
+        },
+        {
+          "item": "Notice of Court Hearing block",
+          "whereInPacket": "CR-409 item 2",
+          "why": "The clerk fills this in. LegalEase leaves it blank and tells the participant the clerk completes it."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "Cal. Penal Code § 851.91, Sealing of arrest records",
+          "url": "https://codes.findlaw.com/ca/penal-code/pen-sect-851-91/",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Cal. Penal Code § 851.92, Sealing mechanics",
+          "url": "https://codes.findlaw.com/ca/penal-code/pen-sect-851-92/",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Judicial Council of California, Find Your Court Forms, criminal results",
+          "url": "https://selfhelp.courts.ca.gov/find-forms",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "File the verified CR-409 with the proposed CR-410 at least 15 days before the hearing, in the court where the accusatory pleading was filed, or where no pleading was filed in a court with criminal jurisdiction in the city or county where the arrest occurred. One arrest per petition.",
+        "fees": "Unresolved and county-specific. Do not publish a figure.",
+        "feeWaiver": "FW-001 is the general California fee waiver form.",
+        "notice": "A noticed hearing is contemplated by the statute. The petitioner has the initial burden; if met, the burden shifts to the prosecuting attorney. The hearing may be decided on declarations, affidavits, police reports and criminal history.",
+        "service": "Serve the prosecuting attorney of the city or county where the arrest occurred, and the arresting agency, at least 15 days before the hearing.",
+        "participantSignature": "The petitioner verifies and signs CR-409 under penalty of perjury.",
+        "notarization": "The source review does not state a notarization requirement; the petition is verified rather than notarized."
+      },
+      "selfHelpStopConditions": [
+        "Any pattern offense: domestic violence, child abuse or elder abuse. Route to an attorney.",
+        "The prosecutor opposes.",
+        "Any contested hearing.",
+        "A charge with no statute of limitations.",
+        "Any evasion allegation, whether by absconding or by identity fraud.",
+        "A conviction that was vacated on appeal, which is a posture that needs a lawyer."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Whether any fee attaches to CR-409 and whether it varies by county.",
+          "impact": "release_blocker",
+          "affectedElement": "filing_process",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-California-Legal-Review.md",
+            "sourceHeading": "OPEN QUESTIONS / 1",
+            "sourceStatement": "**Filing fees.** Whether any fee attaches to CR-180 or CR-409, and whether it varies by county."
+          }
+        },
+        {
+          "question": "The official CR-409, CR-409-INFO and CR-410 PDFs have not been pulled.",
+          "impact": "release_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-California-Legal-Review.md",
+            "sourceHeading": "PART 2 / 8. Forms not yet pulled, needed before the tracks ship",
+            "sourceStatement": "2. CR-409, CR-409-INFO, and CR-410 official PDFs"
+          }
+        },
+        {
+          "question": "SB 1342 (Durazo) passed the Senate on 27 May 2026 and amends §§ 851.93 and 1203.425. Whether it cleared the Assembly, was signed, and its operative date must be checked before participant-facing eligibility copy is published.",
+          "impact": "release_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-California-Legal-Review.md",
+            "sourceHeading": "OPEN QUESTIONS / 2",
+            "sourceStatement": "**SB 1342 status.** Passed the Senate 27 May 2026. Whether it cleared the Assembly, was signed, and what its operative date is."
+          }
+        },
+        {
+          "question": "CR-410 is dated New 1 January 2019 and is older than the CR-409 petition it pairs with. Confirm the pairing is still current before release.",
+          "impact": "release_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-California-Legal-Review.md",
+            "sourceHeading": "PART 2 / 5. CR-410",
+            "sourceStatement": "Revision: **New January 1, 2019, Optional Form.** Older than the petition it pairs with.",
+            "normalizerInferred": true
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Original review: \"Approved for implementation with the limitations listed below.\" Arrest relief in California is sealing; this is the arrest-petition route and it keeps that terminology.",
+        "limitations": [
+          {
+            "classification": "scope_restriction",
+            "statement": "This is arrest sealing. California conviction relief is a dismissal and set-aside; only arrests are sealed. Do not call this route expungement.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-California-Legal-Review.md",
+              "sourceHeading": "DECISION UP FRONT / 2",
+              "sourceStatement": "**California petition relief is a dismissal and set-aside, not a sealing.** Only arrests get sealed."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "The two 15-day clocks make this a calendar product, not a mail-and-forget product. The petition is filed at least 15 days before the hearing, and the prosecuting attorney and arresting agency are served at least 15 days before the hearing.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-California-Legal-Review.md",
+              "sourceHeading": "TRACK CA-7 / limitations",
+              "sourceStatement": "the hearing and the two 15-day clocks make this a calendar product, not a mail-and-forget product",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "required_before_filing",
+            "statement": "The intake must capture the arresting agency and report number, which most participants will not have without pulling the record. This is a participant filing requirement, not a generation gate.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-California-Legal-Review.md",
+              "sourceHeading": "California operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "Arresting agency, report number, case number, offense section, probation status, custody status, sentence completion, restitution, and local-form data are participant-entered or `manual_completion_item` fields."
+            }
+          },
+          {
+            "classification": "self_help_boundary",
+            "statement": "Route every pattern-offense case — domestic violence, child abuse or elder abuse — to an attorney.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-California-Legal-Review.md",
+              "sourceHeading": "TRACK CA-7 / limitations",
+              "sourceStatement": "Route every pattern-offense case to an attorney.",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "The sealed arrest is deemed not to have occurred and the person may answer accordingly, with four carve-outs printed on CR-410: disclosure is still required for public office, peace officer employment, state or local licensing and Lottery contracts; the sealed arrest may be pleaded and proved in a later prosecution; there is no effect on firearm authorization or PC 29800 exposure; and there is no effect on a public-office bar.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-California-Legal-Review.md",
+              "sourceHeading": "TRACK CA-7 / Legal effect",
+              "sourceStatement": "the arrest is deemed not to have occurred and the person may answer accordingly, with the same four carve-outs printed on CR-410",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "post_generation_handoff",
+            "statement": "The noticed hearing is contemplated by the statute and does not block the initial packet. Opposition or a contested evidentiary hearing triggers handoff.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-California-Legal-Review.md",
+              "sourceHeading": "California operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "A routine hearing does not block the initial packet. Opposition or a contested evidentiary hearing triggers handoff."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "ca-auto-conviction",
+      "legalName": "Automatic Conviction Record Relief, Cal. Penal Code § 1203.425",
+      "publicName": "Check whether your conviction was already relieved",
+      "controllingAuthority": {
+        "citations": [
+          "Cal. Penal Code § 1203.425",
+          "AB 1076 (2019), effective 1 July 2022, records back to 1 January 2021",
+          "AB 145 (2021), effective 1 July 2022, records back to 1 January 1973",
+          "SB 731 (2022) and AB 567 (2023), made effective 1 October 2024 by AB 168 (2024)",
+          "Cal. Penal Code § 1203.425(b), the prosecutor block"
+        ],
+        "summary": "The DOJ reviews statewide criminal justice databases monthly, identifies eligible records, adds a notation of relief to the state summary criminal history and electronically notifies the superior court. There is no petition, and the DOJ does not notify the individual. The codified text now reads \"Commencing October 1, 2024\"; SB 731 did not take effect on 1 July 2023."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2024-10-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "conviction records held on the state summary criminal history"
+      ],
+      "eligibleDispositions": [
+        "conviction meeting the § 1203.425(a)(1)(B) baseline and the applicable waiting period"
+      ],
+      "exclusions": [
+        "Required to register under the Sex Offender Registration Act.",
+        "An active local, state or federal supervision record in the Supervised Release File.",
+        "Currently serving a sentence, or an indication of pending charges.",
+        "A prosecuting attorney or probation department petition under § 1203.425(b) prohibiting the DOJ from granting relief on a showing that relief would pose a substantial threat to public safety."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Misdemeanor, probation completed without revocation",
+          "duration": "Relief at the end of probation"
+        },
+        {
+          "condition": "Misdemeanor, no probation",
+          "duration": "One year after completing the sentence"
+        },
+        {
+          "condition": "Misdemeanor, probation revoked due to a misdemeanor conviction",
+          "duration": "At least one year"
+        },
+        {
+          "condition": "Misdemeanor, probation revoked due to a felony conviction",
+          "duration": "Four years"
+        },
+        {
+          "condition": "Felony, non-serious, non-violent, non-registerable, probation completed without revocation",
+          "duration": "On completion"
+        },
+        {
+          "condition": "Felony, conviction after 2004, probation revoked but sentence ultimately completed",
+          "duration": "Four years conviction-free after completion"
+        },
+        {
+          "condition": "Felony, conviction after 2004, no probation granted",
+          "duration": "Four years after completing the sentence, with no new felony conviction in that period"
+        }
+      ],
+      "outputStrategy": "process_guidance",
+      "guidanceRationales": [
+        "no_participant_filing_exists"
+      ],
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "No venue. The DOJ acts on its own and notifies the superior court with jurisdiction."
+      },
+      "destination": {
+        "kind": "automatic",
+        "name": "California Department of Justice",
+        "detail": "The DOJ adds a notation of relief to the state summary criminal history and notifies the court. There is no participant filing to generate on this track."
+      },
+      "components": [
+        {
+          "role": "process_guidance",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Explains how to request your own record, what a relief notation looks like and what it does and does not do, that the absence of a notation is not a finding of ineligibility, the BCIA 8706 claim form, and the bridge to CA-1 through CA-6 where a petition adds something."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "recordTypeSought",
+          "question": "Are you asking about a conviction or an arrest?",
+          "requirement": "required"
+        },
+        {
+          "key": "hasRequestedDojRecord",
+          "question": "Have you already requested your own California DOJ record?",
+          "requirement": "required"
+        },
+        {
+          "key": "reliefNotationPresent",
+          "question": "If you have your record, does it show a notation of relief on this conviction?",
+          "requirement": "conditional",
+          "conditionDescription": "Only where the participant has already obtained their record."
+        },
+        {
+          "key": "reductionInterest",
+          "question": "Would a reduction of the offense from a felony to a misdemeanor be valuable to you?",
+          "requirement": "required",
+          "conditionDescription": "Drives the bridge to CA-6, which is what a petition adds that a notation does not."
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "California DOJ state summary criminal history",
+          "obtainedFrom": "California Department of Justice",
+          "requirement": "required",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Request your own record through the DOJ 'Criminal Records, Request Your Own' page. It is fingerprint-based through Live Scan and a fee waiver process exists. LegalEase cannot complete this request and does not obtain, receive or inspect the record.",
+          "confirms": "reliefNotationPresent"
+        },
+        {
+          "name": "BCIA 8706 Claim of Alleged Inaccuracy or Incompleteness",
+          "obtainedFrom": "California Department of Justice, shipped with the record",
+          "requirement": "conditional",
+          "conditionDescription": "Where the record itself looks wrong.",
+          "requiredBeforeFiling": false,
+          "howToObtain": "The claim form ships with the record when the DOJ sends it."
+        }
+      ],
+      "manualCompletionItems": [],
+      "officialSources": [
+        {
+          "title": "California Department of Justice, Automatic Record Relief, Penal Code sections 851.93 and 1203.425",
+          "url": "https://oag.ca.gov/fingerprints/automatic-record-relief-penal-code-sections-851.93-and-1203.425",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Cal. Penal Code § 1203.425, Automatic conviction record relief",
+          "url": "https://law.justia.com/codes/california/code-pen/part-2/title-8/chapter-1/section-1203-425",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Committee on Revision of the Penal Code and California Policy Lab, Record Relief Primer, October 2024",
+          "url": "https://capolicylab.org/wp-content/uploads/2024/10/Record-Relief-Primer.pdf",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "There is no filing. The DOJ acts on its own initiative.",
+        "fees": "No filing fee. The DOJ record request itself has a cost, quoted by the internal reference at about $25 plus the Live Scan rolling fee and not verified in this pass.",
+        "feeWaiver": "A fee waiver process exists for the DOJ record request.",
+        "notice": "The DOJ electronically notifies the superior court with jurisdiction. It does not notify the individual.",
+        "service": "No service. There is no petition to serve.",
+        "participantSignature": "No participant signature. There is no participant filing on this track.",
+        "notarization": "Not applicable."
+      },
+      "selfHelpStopConditions": [
+        "A prosecuting attorney or probation department has petitioned under § 1203.425(b) to prohibit relief.",
+        "The participant wants to challenge the accuracy of the DOJ record beyond submitting BCIA 8706.",
+        "The participant needs resentencing, dismissal, sealing or reduction, which is a petition route rather than this one."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "SB 1342 (Durazo) passed the Senate on 27 May 2026 and amends §§ 851.93 and 1203.425. Status must be checked before any participant-facing eligibility copy is published.",
+          "impact": "release_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-California-Legal-Review.md",
+            "sourceHeading": "OPEN QUESTIONS / 2",
+            "sourceStatement": "**SB 1342 status.** Passed the Senate 27 May 2026. Whether it cleared the Assembly, was signed, and what its operative date is."
+          }
+        },
+        {
+          "question": "The DOJ and the Judicial Council describe automatic relief differently. The DOJ says it is not a dismissal, sealing or expungement; the CR-180 header says a conviction may already have been automatically dismissed. A house answer is needed.",
+          "impact": "release_blocker",
+          "affectedElement": "legal_effect_or_warning",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-California-Legal-Review.md",
+            "sourceHeading": "OPEN QUESTIONS / 12",
+            "sourceStatement": "**The DOJ versus CR-180 language conflict** on whether automatic relief is a \"dismissal.\" Needs a house answer."
+          }
+        },
+        {
+          "question": "DOJ record request cost and current process. The internal reference quotes about $25 plus the Live Scan rolling fee. Not verified in this pass.",
+          "impact": "release_blocker",
+          "affectedElement": "participant_instructions",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-California-Legal-Review.md",
+            "sourceHeading": "OPEN QUESTIONS / 14",
+            "sourceStatement": "**DOJ record request cost and current process.** The reference quotes about $25 plus the Live Scan rolling fee. Not verified in this pass."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Original review and controlling addendum: process guidance only. There is no participant filing to generate. The product value is eligibility explanation, verification, and a fallback route if relief did not occur.",
+        "limitations": [
+          {
+            "classification": "packet_instruction",
+            "statement": "Automatic record relief is not a dismissal, sealing or expungement. The record stays on the state summary criminal history and a notation is added, which controls whether the record is disseminated to employers and agencies conducting fingerprint background checks under PC 11105(k) through (p).",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-California-Legal-Review.md",
+              "sourceHeading": "TRACK CA-8 / Legal effect",
+              "sourceStatement": "per the DOJ, automatic record relief **is not a dismissal, sealing, or expungement**. The record stays on the state summary criminal history.",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "The absence of a notation does not mean ineligibility. The DOJ evaluates millions of records monthly back to 1973 and says no additional action is needed to receive relief.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-California-Legal-Review.md",
+              "sourceHeading": "PART 4 / Exact sequence, step 3",
+              "sourceStatement": "If no notation is present, do not conclude ineligibility. The DOJ evaluates millions of records monthly back to 1973 and says no additional action is needed to receive relief.",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Commercial background check companies do not access DOJ records at all and may hold stale data. Law enforcement, the Commission on Teacher Credentialing, school districts and their contractors continue to see conviction history.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-California-Legal-Review.md",
+              "sourceHeading": "TRACK CA-8 / Not affected",
+              "sourceStatement": "commercial background check companies do not access DOJ records at all and may hold stale data",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "Route participants to CA-1 through CA-6 where a petition adds something the notation does not, most obviously a 17(b) reduction. The DOJ says a petition is still the route for resentencing, dismissal, sealing or reduction of charges.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-California-Legal-Review.md",
+              "sourceHeading": "TRACK CA-8 / What LegalEase can do here",
+              "sourceStatement": "route them to CA-1 through CA-6 where a petition adds something the notation does not, most obviously a 17(b) reduction",
+              "normalizerInferred": true
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "ca-auto-arrest",
+      "legalName": "Automatic Arrest Record Relief, Cal. Penal Code § 851.93",
+      "publicName": "Check whether your arrest was already sealed",
+      "controllingAuthority": {
+        "citations": [
+          "Cal. Penal Code § 851.93",
+          "Cal. Penal Code § 851.93(e), the saving clause preserving the petition routes",
+          "SB 393 (Lara, 2017)"
+        ],
+        "summary": "Automatic arrest record relief for arrests on or after 1 January 1973 meeting the statutory conditions. Section 851.93(e) states that the section does not limit petitions, motions or orders for arrest record relief authorized by other law, expressly including §§ 851.87, 851.90, 851.91, 1000.4 and 1001.9. Automatic relief and the petition routes coexist."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2024-10-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "arrest records on or after 1 January 1973 meeting the statutory conditions"
+      ],
+      "eligibleDispositions": [
+        "non-conviction",
+        "successful completion of diversion",
+        "acquittal on all charges"
+      ],
+      "exclusions": [
+        "Arrests that do not meet the statutory conditions of § 851.93."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Misdemeanor non-conviction",
+          "duration": "One year from the date of arrest"
+        },
+        {
+          "condition": "Most felony non-convictions",
+          "duration": "Three years from the date of arrest"
+        },
+        {
+          "condition": "Felony non-convictions for offenses punishable by eight or more years",
+          "duration": "Six years from the date of arrest"
+        },
+        {
+          "condition": "Successful completion of diversion",
+          "duration": "On completion"
+        },
+        {
+          "condition": "Acquittal on all charges",
+          "duration": "Immediately"
+        }
+      ],
+      "outputStrategy": "process_guidance",
+      "guidanceRationales": [
+        "no_participant_filing_exists"
+      ],
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "No venue. Relief is applied to the state record without a petition."
+      },
+      "destination": {
+        "kind": "automatic",
+        "name": "California Department of Justice",
+        "detail": "Arrest relief is granted on the state record without a participant filing. CR-409 carries the same note: automatic relief may already have been granted, and a petition may still carry additional benefits."
+      },
+      "components": [
+        {
+          "role": "process_guidance",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Explains the waiting periods, how to check the state record, that automatic relief and the § 851.91 petition route coexist under the § 851.93(e) saving clause, and bridges to CA-7 where a petition adds something."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "arrestDate",
+          "question": "On what date were you arrested?",
+          "requirement": "required"
+        },
+        {
+          "key": "arrestOutcome",
+          "question": "How did the matter end — no conviction, diversion completed, or acquittal?",
+          "requirement": "required"
+        },
+        {
+          "key": "offenseLevel",
+          "question": "Was the arrest for a misdemeanor or a felony, and if a felony, was it punishable by eight or more years?",
+          "requirement": "required"
+        },
+        {
+          "key": "hasRequestedDojRecord",
+          "question": "Have you already requested your own California DOJ record?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "California DOJ state summary criminal history",
+          "obtainedFrom": "California Department of Justice",
+          "requirement": "required",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Request your own record through the DOJ 'Criminal Records, Request Your Own' page. It is fingerprint-based through Live Scan. LegalEase cannot complete this request and does not obtain, receive or inspect the record.",
+          "confirms": "arrestOutcome"
+        }
+      ],
+      "manualCompletionItems": [],
+      "officialSources": [
+        {
+          "title": "Cal. Penal Code § 851.93, Automatic arrest record relief",
+          "url": "https://law.justia.com/codes/california/code-pen/part-2/title-3/chapter-5/section-851-93",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "California Department of Justice, Automatic Record Relief, Penal Code sections 851.93 and 1203.425",
+          "url": "https://oag.ca.gov/fingerprints/automatic-record-relief-penal-code-sections-851.93-and-1203.425",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Committee on Revision of the Penal Code and California Policy Lab, Record Relief Primer, October 2024",
+          "url": "https://capolicylab.org/wp-content/uploads/2024/10/Record-Relief-Primer.pdf",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "There is no filing. Relief is applied without a petition.",
+        "fees": "No filing fee. The DOJ record request has its own cost.",
+        "feeWaiver": "A fee waiver process exists for the DOJ record request.",
+        "notice": "The source review does not state a participant notice mechanism; the DOJ does not notify the individual.",
+        "service": "No service. There is no petition to serve.",
+        "participantSignature": "No participant signature. There is no participant filing on this track.",
+        "notarization": "Not applicable."
+      },
+      "selfHelpStopConditions": [
+        "The participant wants the arrest sealed by petition rather than waiting for automatic relief, which is CA-7.",
+        "The participant wants a factual innocence finding, which is CA-13 and outside self-help scope.",
+        "The participant wants to challenge the accuracy of the DOJ record."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "SB 1342 would remove the requirement that the arrest be for a misdemeanor offense in the dismissed-charge category, widening eligibility. Pending, and status must be checked.",
+          "impact": "release_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-California-Legal-Review.md",
+            "sourceHeading": "TRACK CA-9 / Known future amendment",
+            "sourceStatement": "SB 1342 would remove the requirement that the arrest be for a misdemeanor offense in the dismissed-charge category, widening eligibility. Pending."
+          }
+        },
+        {
+          "question": "DOJ record request cost and current process are unverified.",
+          "impact": "release_blocker",
+          "affectedElement": "participant_instructions",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-California-Legal-Review.md",
+            "sourceHeading": "OPEN QUESTIONS / 14",
+            "sourceStatement": "**DOJ record request cost and current process.** The reference quotes about $25 plus the Live Scan rolling fee. Not verified in this pass."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Original review and controlling addendum: process guidance only. There is no participant filing to generate, with a bridge to CA-7 where a petition adds something.",
+        "limitations": [
+          {
+            "classification": "packet_instruction",
+            "statement": "Automatic relief and the petition routes coexist. Section 851.93(e) states that the section does not limit petitions, motions or orders for arrest record relief authorized by other law, expressly including §§ 851.87, 851.90, 851.91, 1000.4 and 1001.9.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-California-Legal-Review.md",
+              "sourceHeading": "TRACK CA-9 / Important saving clause",
+              "sourceStatement": "§ 851.93(e) states that the section does not limit petitions, motions, or orders for arrest record relief authorized by other law",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "California arrest relief is sealing. Do not describe this route as dismissal, set-aside or expungement.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-California-Legal-Review.md",
+              "sourceHeading": "DECISION UP FRONT / 2",
+              "sourceStatement": "**California petition relief is a dismissal and set-aside, not a sealing.** Only arrests get sealed."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "The reference's automatic arrest relief waits were incomplete. Add misdemeanor non-conviction one year from arrest, felonies punishable by eight or more years six years from arrest, and successful diversion completion with no additional wait.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-California-Legal-Review.md",
+              "sourceHeading": "PART 0 / 8",
+              "sourceStatement": "**Automatic arrest relief waits are incomplete.** The reference lists only \"felony arrest, no charge, 3 years.\""
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "ca-diversion-seal",
+      "legalName": "Sealing of Arrest Records After Diversion or Deferred Entry of Judgment, Cal. Penal Code §§ 851.87, 851.90, 1000.4 and 1001.9",
+      "publicName": "Seal an arrest after completing diversion or a deferred entry of judgment programme",
+      "controllingAuthority": {
+        "citations": [
+          "Cal. Penal Code § 851.90, sealing after drug diversion or deferred entry of judgment",
+          "Cal. Penal Code § 851.87",
+          "Cal. Penal Code § 1000.4",
+          "Cal. Penal Code § 1001.9",
+          "Cal. Penal Code § 851.92, sealing mechanics",
+          "SB 393 (2017), effective 1 January 2018"
+        ],
+        "summary": "Where a person was diverted under a superior court drug diversion programme under PC 1000.5, or admitted to a deferred entry of judgment programme under PC 1000 or 1000.8, and successfully completed it, the judge may order the arrest records sealed as described in § 851.92, on written or oral motion of any party, or on the court's own motion, with notice to all parties. There is no statewide Judicial Council form; counties publish their own."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2018-01-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "arrest records where the person was diverted or admitted to a deferred entry of judgment programme and successfully completed it"
+      ],
+      "eligibleDispositions": [
+        "successful completion of superior court drug diversion under PC 1000.5",
+        "successful completion of deferred entry of judgment under PC 1000 or 1000.8"
+      ],
+      "exclusions": [
+        "The full text of §§ 851.87, 1000.4 and 1001.9 was not read, so any exclusions those sections carry are not stated here."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "After successful completion of the diversion or deferred entry of judgment programme",
+          "duration": "None stated"
+        }
+      ],
+      "outputStrategy": "composed",
+      "compositionMode": "sequential",
+      "units": [
+        {
+          "unitId": "ca-diversion-seal-stage-1",
+          "order": 1,
+          "label": "Explain the route and identify the local form",
+          "outputStrategy": "process_guidance",
+          "packetIdentity": "identified",
+          "description": "Statewide guidance covering the disposition and the automatic portions: explain that the judge may order sealing on motion of any party or on the court's own motion, explain the § 851.92 mechanics that follow an order, and tell the participant to ask their county clerk or self-help centre which local form applies. LegalEase does not select the local form here.",
+          "available": true
+        },
+        {
+          "unitId": "ca-diversion-seal-stage-2",
+          "order": 2,
+          "label": "County petition and order set",
+          "outputStrategy": "official_pdf_fill",
+          "packetIdentity": "identified",
+          "description": "Generate the county's own petition and order set for the counties LegalEase supports, once the current local forms are collected and approved. San Diego local form SDSC CRM-307 and Kern County's local petition are the confirmed examples.",
+          "available": false,
+          "unavailableReason": "No approved local petition and order set has been sourced for any county. County-specific form and filing coverage is a retained blocker, and it is a scope restriction on which counties are supported rather than a reason to suppress the guidance unit."
+        }
+      ],
+      "guidanceRationales": [
+        "another_entity_decides"
+      ],
+      "geography": {
+        "scope": "county",
+        "keys": [
+          "san-diego",
+          "kern"
+        ],
+        "venue": "The superior court that handled the diversion or deferred entry of judgment. Local practice and local forms govern; there is no statewide form."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "The superior court that handled the diversion or deferred entry of judgment",
+        "detail": "On issuing the order the court gives a copy to the person and the prosecuting attorney; within 30 days the court forwards the order to the arresting agency and other participating agencies; local records are marked \"arrest sealed\" and state records are marked \"arrest relief granted.\" § 851.92."
+      },
+      "components": [
+        {
+          "role": "process_guidance",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Statewide explanation of the route and of how to identify the applicable local form. This is the first unit and it is available now."
+        },
+        {
+          "role": "primary_filing",
+          "requirement": "conditional",
+          "conditionDescription": "Only in counties where LegalEase has collected and approved the current local petition and order set. No county qualifies yet.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "SDSC-CRM-307",
+          "officialSourceUrl": "https://www.sdcourt.ca.gov/sites/default/files/sdcourt/generalinformation/forms/criminalforms/crm307.pdf",
+          "notes": "San Diego local form, Petition for Sealing of Arrest Records After Successful Completion of Pen. Code § 851.90 Diversion or Deferred Entry of Judgment, new 5/19, optional. A confirmed example of the county form family, not yet collected or approved."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "programType",
+          "question": "Were you in a drug diversion programme or a deferred entry of judgment programme?",
+          "requirement": "required"
+        },
+        {
+          "key": "programCompleted",
+          "question": "Did you successfully complete the programme?",
+          "requirement": "required"
+        },
+        {
+          "key": "countyOfCase",
+          "question": "Which California county handled the case?",
+          "requirement": "required",
+          "conditionDescription": "Determines whether a supported county petition set exists. None does yet."
+        },
+        {
+          "key": "arrestDate",
+          "question": "On what date were you arrested?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumber",
+          "question": "What is the case number?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Proof of programme completion",
+          "obtainedFrom": "The superior court that handled the case, or the diversion programme provider",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Ask the court or the programme provider for documentation that you completed the programme. LegalEase does not obtain, receive or inspect it.",
+          "confirms": "programCompleted"
+        },
+        {
+          "name": "The county's own petition and order forms",
+          "obtainedFrom": "The county superior court clerk or self-help centre",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Ask the county clerk or self-help centre which local form applies to a § 851.90 sealing. There is no statewide Judicial Council form for this route."
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Signature and date",
+          "whereInPacket": "The county's own petition, signature block",
+          "why": "The petitioner signs their own petition."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "Cal. Penal Code § 851.90, Sealing after drug diversion or deferred entry of judgment",
+          "url": "https://codes.findlaw.com/ca/penal-code/pen-sect-851-90.html",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Cal. Penal Code § 851.92, Sealing mechanics",
+          "url": "https://codes.findlaw.com/ca/penal-code/pen-sect-851-92/",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Superior Court of California, County of San Diego, local form SDSC CRM-307",
+          "url": "https://www.sdcourt.ca.gov/sites/default/files/sdcourt/generalinformation/forms/criminalforms/crm307.pdf",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "File the county's own petition in the superior court that handled the diversion or deferred entry of judgment. There is no statewide form. The judge may also act on oral motion of any party or on the court's own motion.",
+        "fees": "The source review does not state a filing fee for this route.",
+        "feeWaiver": "FW-001 is the general California fee waiver form.",
+        "notice": "Notice to all parties is required on a motion under § 851.90.",
+        "service": "The source review does not state a separate service rule beyond notice to all parties. Within 30 days of the order the court forwards it to the arresting agency and other participating agencies.",
+        "participantSignature": "The petitioner signs the county's own petition.",
+        "notarization": "The source review does not state a notarization requirement."
+      },
+      "selfHelpStopConditions": [
+        "No approved local petition and order set exists for the participant's county.",
+        "The prosecutor opposes the motion.",
+        "The court sets a contested hearing.",
+        "Whether the programme was successfully completed is disputed."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "The current text of §§ 851.87, 1000.4 and 1001.9 has not been read in full. CA-10 cannot be fully specified without them.",
+          "impact": "build_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-California-Legal-Review.md",
+            "sourceHeading": "OPEN QUESTIONS / 7",
+            "sourceStatement": "**PC 851.87, 1000.4, 1001.9 full text.** Not read. CA-10 cannot be specified without them."
+          }
+        },
+        {
+          "question": "Whether any statewide form exists that was missed.",
+          "impact": "build_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-California-Legal-Review.md",
+            "sourceHeading": "TRACK CA-10 / Required research",
+            "sourceStatement": "whether any statewide form exists that was missed"
+          }
+        },
+        {
+          "question": "A survey of local forms in the target counties has not been done. No approved county petition and order set has been collected.",
+          "impact": "build_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-California-Legal-Review.md",
+            "sourceHeading": "California operational amendments / True blockers retained",
+            "sourceStatement": "County-specific form and filing coverage for CA-10 where no approved local set has been sourced."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "The controlling addendum reclassifies CA-10 as a composed route: guidance for the disposition and automatic branches, and official form fill in counties where the current local petition and order set has been approved. Local form coverage is a geographic scope restriction, not a reason to suppress supported counties. The original review's \"additional research required\" survives as the retained county-form blocker and the unread-statute questions, both of which are recorded against the units they affect.",
+        "limitations": [
+          {
+            "classification": "scope_restriction",
+            "statement": "County coverage is a scope restriction. Do not imply statewide official-form coverage: there is no statewide Judicial Council form for this route, and no approved local set has been sourced for any county.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-California-Legal-Review.md",
+              "sourceHeading": "California operational amendments / Process-guidance routes reviewed",
+              "sourceStatement": "CA-10, diversion/DEJ arrest sealing | `staged`: guidance for the disposition and automatic branches; `official_pdf_fill` in counties where the current local petition/order set has been approved. Local form coverage is a geographic scope restriction, not a reason to suppress supported counties."
+            }
+          },
+          {
+            "classification": "legal_design_blocker",
+            "statement": "County-specific form and filing coverage where no approved local set has been sourced.",
+            "undeterminedElement": "correct_form",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-California-Legal-Review.md",
+              "sourceHeading": "California operational amendments / True blockers retained",
+              "sourceStatement": "County-specific form and filing coverage for CA-10 where no approved local set has been sourced."
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "This is arrest sealing. Do not describe it as dismissal, set-aside or expungement.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-California-Legal-Review.md",
+              "sourceHeading": "DECISION UP FRONT / 2",
+              "sourceStatement": "**California petition relief is a dismissal and set-aside, not a sealing.** Only arrests get sealed."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "On issuing the order the court gives a copy to the person and the prosecuting attorney; within 30 days the court forwards the order to the arresting agency and other participating agencies; local records are marked \"arrest sealed\" and state records are marked \"arrest relief granted.\"",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-California-Legal-Review.md",
+              "sourceHeading": "TRACK CA-10 / 851.92 mechanics",
+              "sourceStatement": "on issuing the order the court gives a copy to the person and the prosecuting attorney; within 30 days the court forwards the order to the arresting agency and other participating agencies",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "post_generation_handoff",
+            "statement": "Relief is discretionary and the court may act on its own motion. Opposition or a contested hearing triggers handoff.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-California-Legal-Review.md",
+              "sourceHeading": "California operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "A routine hearing does not block the initial packet. Opposition or a contested evidentiary hearing triggers handoff."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "ca-prop64",
+      "legalName": "Petition or Application for Proposition 64 Cannabis Relief, Cal. Health and Safety Code § 11361.8",
+      "publicName": "Reduce, dismiss or seal an old cannabis conviction",
+      "controllingAuthority": {
+        "citations": [
+          "Cal. Health & Safety Code § 11361.8",
+          "Cal. Health & Safety Code § 11361.9, automatic processing",
+          "AB 1793 (2018)",
+          "Judicial Council forms CR-400, CR-401, CR-402, CR-403"
+        ],
+        "summary": "Redesignation of a felony to a misdemeanor or infraction, dismissal, and sealing of convictions that Proposition 64 decriminalized or reduced. AB 1793 required the courts to process eligible cannabis convictions automatically by recall, dismissal, sealing or redesignation, so most of this population has already been processed."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2024-01-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "cannabis convictions that Proposition 64 decriminalized or reduced"
+      ],
+      "eligibleDispositions": [
+        "conviction for an offense qualifying under Health & Safety Code § 11361.8"
+      ],
+      "exclusions": [
+        "Offenses that do not qualify under § 11361.8. The four CR-400 series forms were not reviewed, so the form-level exclusions are not stated here."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Petition or application under § 11361.8",
+          "duration": "None"
+        }
+      ],
+      "outputStrategy": "official_pdf_fill",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Superior Court of the county of conviction."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "Superior Court of the county of conviction",
+        "detail": "Largely mandatory where the offense qualifies, with a prosecuting-agency response mechanism at CR-402."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-400",
+          "officialSourceUrl": "https://selfhelp.courts.ca.gov/find-forms",
+          "notes": "Petition/Application Under Health and Safety Code Section 11361.8, Adult Crimes, effective 1 January 2024. Not yet reviewed."
+        },
+        {
+          "role": "proof_of_service",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-401",
+          "officialSourceUrl": "https://selfhelp.courts.ca.gov/find-forms",
+          "notes": "Proof of Service, effective 1 January 2024. Not yet reviewed."
+        },
+        {
+          "role": "proposed_order",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-403",
+          "officialSourceUrl": "https://selfhelp.courts.ca.gov/find-forms",
+          "notes": "Order After Petition/Application, effective 1 January 2024. Not yet reviewed."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "cannabisOffenseSections",
+          "question": "Which cannabis offense code sections were you convicted of? Copy them from your record.",
+          "requirement": "required"
+        },
+        {
+          "key": "convictionDate",
+          "question": "On what date were you convicted?",
+          "requirement": "required"
+        },
+        {
+          "key": "countyOfConviction",
+          "question": "In which California county were you convicted?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumber",
+          "question": "What is the case number?",
+          "requirement": "required"
+        },
+        {
+          "key": "alreadyProcessed",
+          "question": "Have you checked your record to see whether the courts already processed this conviction automatically?",
+          "requirement": "required",
+          "conditionDescription": "Drives the check-first framing: most of this population has already been processed under AB 1793."
+        },
+        {
+          "key": "reliefSought",
+          "question": "Are you asking for redesignation, dismissal, or sealing?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "California DOJ state summary criminal history",
+          "obtainedFrom": "California Department of Justice",
+          "requirement": "required",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Request your own record through the DOJ 'Criminal Records, Request Your Own' page to see whether the conviction was already processed automatically under AB 1793. LegalEase does not obtain, receive or inspect it.",
+          "confirms": "alreadyProcessed"
+        },
+        {
+          "name": "Court docket showing the cannabis conviction",
+          "obtainedFrom": "Superior Court of the county of conviction",
+          "requirement": "conditional",
+          "conditionDescription": "Where the offense code section cannot be established from the DOJ record.",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Ask the clerk of the Superior Court in the county of conviction for the docket.",
+          "confirms": "cannabisOffenseSections"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Signature and date",
+          "whereInPacket": "CR-400, petitioner signature block",
+          "why": "The petitioner signs their own petition or application."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "Judicial Council of California, Find Your Court Forms, criminal results",
+          "url": "https://selfhelp.courts.ca.gov/find-forms",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "California Courts Self Help Guide, Clean your record",
+          "url": "https://selfhelp.courts.ca.gov/clean-your-record",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "File CR-400 in the Superior Court of the county of conviction, with CR-401 proof of service and the proposed CR-403 order.",
+        "fees": "The source review does not state a filing fee for the CR-400 series.",
+        "feeWaiver": "FW-001 is the general California fee waiver form.",
+        "notice": "The prosecuting agency responds at CR-402.",
+        "service": "Serve the prosecuting agency and file CR-401 proof of service.",
+        "participantSignature": "The petitioner signs CR-400.",
+        "notarization": "The source review does not state a notarization requirement."
+      },
+      "selfHelpStopConditions": [
+        "The prosecuting agency files a response at CR-402 contesting the petition.",
+        "The court sets a contested hearing.",
+        "Whether the offense qualifies under § 11361.8 is unclear."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "The four CR-400 series forms were not reviewed. Pull them before build.",
+          "impact": "build_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-California-Legal-Review.md",
+            "sourceHeading": "TRACK CA-11 / limitations",
+            "sourceStatement": "the four CR-400 series forms were not reviewed. Pull them."
+          }
+        },
+        {
+          "question": "Whether the CR-400 series is the right vehicle for any remaining Prop 64 population, given how much has been processed automatically.",
+          "impact": "release_blocker",
+          "affectedElement": "output_strategy",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-California-Legal-Review.md",
+            "sourceHeading": "OPEN QUESTIONS / 13",
+            "sourceStatement": "**Whether the CR-400 series is the right vehicle** for any remaining Prop 64 population, given how much has been processed automatically."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Original review: \"Approved for implementation with the limitations listed below.\" The output vehicle and the governing statute are identified; what is outstanding is the form review and the population question, both recorded as blockers.",
+        "limitations": [
+          {
+            "classification": "packet_instruction",
+            "statement": "Because the DOJ and courts have already processed most of this population, the participant-facing framing should be \"check first, then file only if your record was missed,\" the same shape as CA-8.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-California-Legal-Review.md",
+              "sourceHeading": "TRACK CA-11 / limitations",
+              "sourceStatement": "the participant-facing framing should be \"check first, then file only if your record was missed,\" the same shape as CA-8",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "post_generation_handoff",
+            "statement": "A routine hearing does not block the initial packet. A prosecuting-agency response at CR-402 or a contested hearing triggers handoff.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-California-Legal-Review.md",
+              "sourceHeading": "California operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "A routine hearing does not block the initial packet. Opposition or a contested evidentiary hearing triggers handoff."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "ca-1203-4b",
+      "legalName": "Petition for Dismissal and Set-Aside, Conservation Camp and Hand Crew, Cal. Penal Code § 1203.4b",
+      "publicName": "Dismiss a conviction after serving as an incarcerated firefighter or hand crew member",
+      "controllingAuthority": {
+        "citations": [
+          "Cal. Penal Code § 1203.4b"
+        ],
+        "summary": "The current statutory route, the correct output vehicle and the accepted local practice all remain unresolved. A person who successfully participated as an incarcerated hand crew member, in a California Conservation Camp, or as an institutional firehouse participant may petition for dismissal, in some cases before completing probation, parole or supervised release. What form the courts now expect is not established: the Rev. 1 January 2024 CR-180 does not list § 1203.4b, although an older version of the form did, and Sacramento publishes a separate 1203.4b packet."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2021-01-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "conviction where the person successfully participated as an incarcerated individual hand crew member, in a California Conservation Camp, or as an institutional firehouse participant"
+      ],
+      "eligibleDispositions": [
+        "conviction, with successful participation meaning adequately performing duties without conduct warranting removal"
+      ],
+      "exclusions": [
+        "Certain offenses are excluded. The current statutory exclusion list has not been read."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Unresolved. In some cases the petition may be brought before completing probation, parole or supervised release",
+          "duration": "Unresolved"
+        }
+      ],
+      "outputStrategyStatus": "unresolved",
+      "packetIdentity": "unresolved",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Unresolved. Superior Court is the likely forum, but the accepted local practice and the correct filing vehicle have not been established."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "Unresolved",
+        "detail": "The correct output vehicle is unresolved. Counsel named no approved form, no custom pleading and no guidance strategy for this track. It is not registered at runtime and is unreachable."
+      },
+      "components": [],
+      "participantInputs": [
+        {
+          "key": "participationType",
+          "question": "Did you serve as a hand crew member, in a California Conservation Camp, or as an institutional firehouse participant?",
+          "requirement": "required"
+        },
+        {
+          "key": "participationSuccessful",
+          "question": "Did you perform your duties adequately, without conduct that would have warranted removal?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [],
+      "manualCompletionItems": [],
+      "officialSources": [
+        {
+          "title": "Superior Court of California, County of Sacramento, 1203.4b Dismissal Packet, Rev. 1 January 2024",
+          "url": "https://www.saccourt.ca.gov/criminal/docs/1203-4b-dismissal-process.pdf",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Judicial Council of California, Find Your Court Forms, criminal results",
+          "url": "https://selfhelp.courts.ca.gov/find-forms",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "Unresolved. The current CR-180 does not list § 1203.4b and the form the courts now expect has not been established.",
+        "fees": "Unresolved.",
+        "feeWaiver": "FW-001 is the general California fee waiver form, but the filing vehicle itself is unresolved.",
+        "notice": "Unresolved.",
+        "service": "Unresolved. The Sacramento packet uses CR-106 for proof of service, but that is one county's practice rather than a statewide rule.",
+        "participantSignature": "Unresolved, pending the vehicle.",
+        "notarization": "The source review does not state a notarization requirement."
+      },
+      "selfHelpStopConditions": [
+        "The correct output vehicle for § 1203.4b is unresolved, so no packet is offered on this track.",
+        "Whether this population is large enough to justify a track has not been determined."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Current statutory route, correct output vehicle, and form and local-practice requirements for PC 1203.4b.",
+          "impact": "build_blocker",
+          "affectedElement": "output_strategy",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-California-Legal-Review.md",
+            "sourceHeading": "California operational amendments / True blockers retained",
+            "sourceStatement": "**CA-12:** current statutory route, correct output vehicle, and form/local-practice requirements remain unresolved."
+          }
+        },
+        {
+          "question": "What form the courts now expect for § 1203.4b. The Rev. 1 January 2024 CR-180 lists §§ 17(b), 17(d)(2), 1203.4, 1203.4a, 1203.41, 1203.42, 1203.43 and 1203.49 and does not include 1203.4b, although an older version of the form did.",
+          "impact": "build_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-California-Legal-Review.md",
+            "sourceHeading": "TRACK CA-12 / Required research",
+            "sourceStatement": "what form the courts now expect for 1203.4b"
+          }
+        },
+        {
+          "question": "The current statutory eligibility and exclusion list for § 1203.4b.",
+          "impact": "build_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-California-Legal-Review.md",
+            "sourceHeading": "TRACK CA-12 / Required research",
+            "sourceStatement": "the current statutory eligibility and exclusion list"
+          }
+        },
+        {
+          "question": "Whether this is a large enough population to justify a track.",
+          "impact": "nonblocking_research_note",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-California-Legal-Review.md",
+            "sourceHeading": "TRACK CA-12 / Required research",
+            "sourceStatement": "whether this is a large enough population to justify a track"
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_research_required",
+        "rationale": "Original review: \"Additional research required.\" The controlling addendum retains CA-12 as a true blocker: the current statutory route, the correct output vehicle and the form and local-practice requirements all remain unresolved. The original review's own note is \"unresolved, leaning process_guidance\" — a leaning is not a decision, and process guidance is a substantive conclusion that the relief is not a participant filing, which is exactly what has not been established here. No output strategy is recorded, no packet identity is claimed, and the track is absent from runtime resolution.",
+        "limitations": [
+          {
+            "classification": "legal_design_blocker",
+            "statement": "Current statutory route, correct output vehicle, and form and local-practice requirements remain unresolved.",
+            "undeterminedElement": "output_strategy",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-California-Legal-Review.md",
+              "sourceHeading": "California operational amendments / True blockers retained",
+              "sourceStatement": "**CA-12:** current statutory route, correct output vehicle, and form/local-practice requirements remain unresolved."
+            }
+          },
+          {
+            "classification": "legal_design_blocker",
+            "statement": "The form the courts now expect for § 1203.4b is not established. It is not on the current CR-180.",
+            "undeterminedElement": "correct_form",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-California-Legal-Review.md",
+              "sourceHeading": "TRACK CA-12 / Forms",
+              "sourceStatement": "**not on the current CR-180.** The Rev. 1 January 2024 CR-180 lists §§ 17(b), 17(d)(2), 1203.4, 1203.4a, 1203.41, 1203.42, 1203.43, and 1203.49 and does not include 1203.4b, although an older version of the form did."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "ca-851-8",
+      "legalName": "Petition for a Finding of Factual Innocence, Cal. Penal Code § 851.8",
+      "publicName": "Ask the court to find you factually innocent and destroy the arrest record",
+      "controllingAuthority": {
+        "citations": [
+          "Cal. Penal Code § 851.8",
+          "Cal. Penal Code § 849.5, deeming an arrest a detention",
+          "Judicial Council form CR-409, which must carry notice of these other means"
+        ],
+        "summary": "On a finding of factual innocence the records are sealed and destroyed. This is the only routine California path to actual destruction of an adult record. The standard is substantially higher than § 851.91 and the petition is regularly contested, so LegalEase names the route and hands off rather than generating a filing."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2018-01-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "arrest records where the petitioner seeks a finding of factual innocence"
+      ],
+      "eligibleDispositions": [
+        "arrest where no reasonable cause exists to believe the person committed the offense"
+      ],
+      "exclusions": [
+        "The standard is substantially higher than § 851.91. The full statutory eligibility and procedural conditions of § 851.8 were not read in this pass."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Petition under § 851.8",
+          "duration": "The source review does not state a waiting period"
+        }
+      ],
+      "outputStrategy": "process_guidance",
+      "guidanceRationales": [
+        "contested_evidentiary_showing",
+        "individualized_advocacy"
+      ],
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Superior Court. The precise venue rule was not established in this pass because the route is not generated."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "Superior Court",
+        "detail": "LegalEase explains the route and hands off to an attorney. It does not generate a factual-innocence petition."
+      },
+      "components": [
+        {
+          "role": "process_guidance",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Names the route, explains that it is the only routine California path to actual destruction of an adult record, explains that the standard is substantially higher than § 851.91 and that the petition is regularly contested, and hands off to an attorney."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "seeksFactualInnocence",
+          "question": "Are you asking the court to find that you were factually innocent, rather than only to seal the arrest?",
+          "requirement": "required"
+        },
+        {
+          "key": "arrestDate",
+          "question": "On what date were you arrested?",
+          "requirement": "required"
+        },
+        {
+          "key": "arrestCityCounty",
+          "question": "In which city and county were you arrested?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Arrest report and any evidence bearing on innocence",
+          "obtainedFrom": "The arresting law enforcement agency",
+          "requirement": "conditional",
+          "conditionDescription": "The attorney taking the referral will advise what is needed. LegalEase does not collect or assess it.",
+          "requiredBeforeFiling": false,
+          "howToObtain": "An attorney will tell you what the court needs. LegalEase does not obtain, receive, inspect or assess any of it."
+        }
+      ],
+      "manualCompletionItems": [],
+      "officialSources": [
+        {
+          "title": "Judicial Council of California, Find Your Court Forms, criminal results",
+          "url": "https://selfhelp.courts.ca.gov/find-forms",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "California Courts Self Help Guide, Clean your record",
+          "url": "https://selfhelp.courts.ca.gov/clean-your-record",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "LegalEase does not prepare this filing. The participant is referred to an attorney, who files the § 851.8 petition.",
+        "fees": "The source review does not state a filing fee for a § 851.8 petition.",
+        "feeWaiver": "FW-001 is the general California fee waiver form.",
+        "notice": "The source review does not state the notice rule for § 851.8. The petition is regularly contested.",
+        "service": "The source review does not state the service rule for § 851.8.",
+        "participantSignature": "No LegalEase-generated document is signed on this track.",
+        "notarization": "Not applicable."
+      },
+      "selfHelpStopConditions": [
+        "The factual-innocence standard requires a contested evidentiary showing and individualized advocacy. Self-help assistance ends at the explanation and the referral.",
+        "The prosecutor opposes, which is routine on this route."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "The full text of PC 851.8, including its procedural and evidentiary conditions, was not read in this pass. It is not needed to explain and refer, and would be needed before any filing were ever generated.",
+          "impact": "nonblocking_research_note",
+          "affectedElement": "filing_process",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-California-Legal-Review.md",
+            "sourceHeading": "TRACK CA-13 / Standard",
+            "sourceStatement": "Standard: substantially higher than 851.91, and the petition is regularly contested.",
+            "normalizerInferred": true
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Original review: \"Outside the current LegalEase self-help scope,\" with the express instruction that \"the product should name it and hand off rather than pretend it does not exist.\" That is process guidance: the route is identified, the reason no filing is generated is a contested evidentiary showing requiring individualized advocacy, and the guidance is the deliverable. It is not deferred, because nothing about the route's existence or governing mechanism is unknown.",
+        "limitations": [
+          {
+            "classification": "scope_restriction",
+            "statement": "Outside the current LegalEase self-help scope as a filing product. LegalEase names the route and hands off; it does not generate a factual-innocence petition.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-California-Legal-Review.md",
+              "sourceHeading": "TRACK CA-13 / LEGAL-DESIGN DECISION",
+              "sourceStatement": "Outside the current LegalEase self-help scope."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "CR-409 is statutorily required to carry notice of other means to address arrest records, including a factual innocence determination under § 851.8 and deeming an arrest a detention under § 849.5. Participants will see the option, so the product names it.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-California-Legal-Review.md",
+              "sourceHeading": "TRACK CA-13 / Note",
+              "sourceStatement": "CR-409 is statutorily required to carry notice of other means to address arrest records, including a factual innocence determination under § 851.8 and deeming an arrest a detention under § 849.5. So participants will see the option. The product should name it and hand off rather than pretend it does not exist."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "This is the only routine California path to actual destruction of an adult record. Sealing under § 851.91 is not destruction.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-California-Legal-Review.md",
+              "sourceHeading": "TRACK CA-13 / Mechanism",
+              "sourceStatement": "on a finding of factual innocence the records are sealed and destroyed. This is the only routine California path to actual destruction of an adult record.",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "post_generation_handoff",
+            "statement": "The contested evidentiary hearing is an attorney matter from the outset. There is no initial packet to hand off from.",
+            "provenance": {
+              "classificationBasis": "general_packet_only_rule",
+              "sourceFile": "00-Source-Packet-Only-Product-Model-Amendment.md",
+              "sourceHeading": "Required Operational Reclassification / 6. post_generation_handoff",
+              "sourceStatement": "A routine, automatically scheduled, or uncontested hearing is not by itself a packet-generation blocker."
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

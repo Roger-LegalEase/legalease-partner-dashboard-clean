@@ -1,0 +1,24 @@
+{
+  "reviewer": "/root/independent_md_review",
+  "scope": "DE_CUSTODY_NOTE_GUARD_DELTA",
+  "verdict": "FAIL_REPAIR_REQUIRED",
+  "reviewedWorktreeGitBlobPrefix": "a712c63c0",
+  "originalReviewAndPacketsUnaffected": true,
+  "reproduction": {
+    "source": "scripts/grade-a-packet-factory-24h/de-reviewed-guidance.mjs",
+    "baselineRegistryCommit": "c6af0d84134216c5d0757e5543ccf3fcaa42f19c",
+    "inputChanges": [
+      "Set only appended NC family evidencePath to exact CUSTODY_NOTE.",
+      "Remove only original appended NC evidence path; preserve all73 historical family objects and their order.",
+      "Supply readBytes callback returning corrupt custody/source bytes."
+    ],
+    "observed": {
+      "accepted": true,
+      "reads": 0,
+      "custodyChecks": 0
+    },
+    "cause": "Generic added-family evidence shortcut executes before exact custody-note authentication.",
+    "suggestedRepair": "Handle exact CUSTODY_NOTE before general additions.some(evidencePath) exemption."
+  },
+  "productionChanged": false
+}

@@ -1,0 +1,955 @@
+{
+ "schemaVersion": 1,
+ "producedBy": "FABLE-DISC7",
+ "lane": "source-identity, sibling-document reads",
+ "branch": "fable/disc7",
+ "baseCommit": "f3c6ee433",
+ "producedOn": "2026-09-02T08:45:57Z",
+ "question": "For every family SOURCE_BLOCKED in MASTER_QUEUE.json and classed ATTACH_HELD_SOURCE in SOURCE_BACKLOG_CLASSIFICATION.json, which official-form labels are still unbound, and what does the document each unbound label names actually print on its own face?",
+ "summary": {
+  "familiesExamined": 26,
+  "familiesExaminedNote": "Every family whose MASTER_QUEUE state is SOURCE_BLOCKED and whose SOURCE_BACKLOG_CLASSIFICATION class is ATTACH_HELD_SOURCE. Seven of them (ga-nonconv-pre2013-set and the six ks-* families) carry an empty sourceIds array and name their forms in forms[] instead; their unbound labels were taken from forms[]. Two families named by Captain, ar-act346-set and ar-veterans-court-set, are classed ACQUIRE_EXACT_SOURCE rather than ATTACH_HELD_SOURCE; they were examined anyway because Captain named them, and are reported under refusals and absences.",
+  "unboundLabelFamilyPairsExamined": 59,
+  "distinctUnboundLabels": 32,
+  "labelFamilyPairsResolvedConfirmedFromDocumentText": 17,
+  "labelFamilyPairsUnresolvedTwoCandidates": 2,
+  "labelFamilyPairsAbsentFromMountedCorpus": 40,
+  "labelsWithARefusalRecordedAgainstAnOpenedCandidate": 16,
+  "distinctArtifactsThatCarryTheResolutions": 8,
+  "documentsOpenedAndRead": 24,
+  "hashesRecomputedByThisLane": 24,
+  "hashesThatMatchedTheCommittedCorpusIndexRowForTheSamePath": 24,
+  "familiesThatWouldBindCompletelyIfCaptainMergedThis": 3,
+  "familiesThatWouldBindCompletely": [
+   "ar-felony-seal-set",
+   "ia-12347-set",
+   "ia-7251-set"
+  ],
+  "bonusFamilyOutsideScopeThatWouldAlsoBind": [
+   "mi_setaside_trafficking-set"
+  ],
+  "familiesAdvancedButNotCompleted": {
+   "ar-misdemeanor-seal-set": "order confirmed from its face, Act 1460 misdemeanor petition absent (1 of 2)",
+   "ks-21-6614-conviction-set": "3 of 6 confirmed from their faces",
+   "ks-21-6614-diversion-set": "3 of 6 confirmed from their faces",
+   "ks-21-6614-prostitution-coercion-set": "3 of 6 confirmed from their faces",
+   "ks-21-6614-specialty-court-set": "3 of 6 confirmed from their faces"
+  },
+  "arithmetic": "17 resolved + 2 unresolved + 40 absent = 59 unbound label-family pairs. The 17 resolutions are carried by 8 distinct artifacts because the three Kansas documents each serve four families and the two Arkansas felony documents serve one."
+ },
+ "theFindingThatMattersMost": "The nineteen-family petition-and-order shape Captain described is real, but in the mounted corpus it is not a reading failure - it is an absence. Of the label-family pairs in scope, only eight could be resolved by opening a document. Twenty-seven name documents that are not in the mounted corpus at all, and sixteen more name documents whose only plausible neighbours print, on their own faces, that they are something else. The reason is structural and was not visible from the classification file: private/Nationwide Record Clearing is NOT mounted in this session. Every ATTACH_HELD_SOURCE finding whose held.pathInArchive begins \"LegalEase <State>/\" points into that unmounted tree. Those artifacts cannot be read, cannot be hashed, and cannot be admitted by a reconciler that requires the committed corpus index to hold the path and hash - because the index does not index that tree either. GA and HI have no shard in any mounted custody at all.",
+ "mountedCorpusReality": {
+  "mounted": [
+   {
+    "custody": "master_library",
+    "root": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
+    "pdfs": 329
+   },
+   {
+    "custody": "d_source_packs",
+    "root": "private/source-imports/rcap-d-source-packs-2026-08-12",
+    "pdfs": 252
+   },
+   {
+    "custody": "human_source_returns",
+    "root": "private/human-source-returns",
+    "files": 1,
+    "note": "a single TX statement of inability to afford costs; irrelevant to every label in scope"
+   }
+  ],
+  "notMounted": "private/Nationwide Record Clearing - the operational tree. private/source-corpus-environment.txt leaves OFFICIAL_FORMS_SOURCE_DIR commented out and warns that it is a different corpus which this release does not carry.",
+  "jurisdictionsInTheCommittedIndex": 45,
+  "jurisdictionsAbsent": [
+   "GA",
+   "HI",
+   "MS",
+   "MT",
+   "OK",
+   "WY"
+  ],
+  "consequenceForCaptain": "Classification rows whose held.pathInArchive starts with \"LegalEase \" are unverifiable and unbindable from this session. They are not wrong; they are unreachable. Treat them as a separate class from ATTACH_HELD_SOURCE until either the Nationwide tree is mounted and indexed or the documents are ingested into the Master Library."
+ },
+ "method": {
+  "read": "pdftotext -f 1 -l 2 -layout <file> - for the printed face, plus a full-text pdftotext -layout pass wherever page one printed no form number or revision, and page-by-page reads where a petition and an order might share one file.",
+  "identityRule": "Identity was taken only from what the document prints on its own face: issuing authority, official title, form number, revision, and the statute or rule it recites. No identity was taken from a filename or from the corpus index's recorded title. Two index titles were found to be wrong and are reported below.",
+  "hashRule": "Every sha256 in this file was recomputed with sha256sum on the file this lane opened. No hash was copied from the corpus index or from another finding. Every recomputed hash was then compared against the committed index row for that path; all 24 matched, and inCommittedCorpusIndexAtThisPathAndHash records that.",
+  "pairRule": "Petition and order were checked as separate instruments by reading the operative line: a petition prints \"Comes the Defendant\", an order prints \"Before the Court is the Petition ... the Court finds and orders\". No order was allowed to stand in for a petition or the reverse.",
+  "confidenceRule": "No existing confidence was edited. Where a document already carried confirmed_from_corpus_title or confirmed_from_recorded_title and this lane opened it, a new finding at confirmed_from_document_text was written with its own evidence. Where this lane did not open a document, nothing was written for it."
+ },
+ "artifactFindings": [
+  {
+   "artifactId": "AR-ACIC-PETITION-SEAL-FELONY-1460",
+   "jurisdiction": "AR",
+   "namedInFamiliesAs": [
+    "ACIC-UNIFORM-PETITION-TO-SEAL"
+   ],
+   "servesFamilies": [
+    "ar-felony-seal-set"
+   ],
+   "officialTitle": "Petition to Seal Felony under Act 1460 of 2013; A.C.A. 16-90-1401, Et. Seq.",
+   "issuingAuthority": "Arkansas Crime Information Center (ACIC), Arkansas Department of Public Safety",
+   "printedFormNumber": "no numeric form number is printed; the footer prints the words \"ACIC Form\"",
+   "printedRevision": "Revised 07/21/2021 (pages 1-3); the page 4 Certificate of Service prints Revised 08/16/2021",
+   "authority": "Ark. Code Ann. 16-90-1401 et seq. (Act 1460 of 2013)",
+   "identityConfidence": "confirmed_from_document_text",
+   "identityEvidence": "pdftotext -f 1 -l 2 -layout, page 1: caption \"IN THE CIRCUIT COURT OF ______, ARKANSAS\" over the printed title \"PETITION TO SEAL FELONY UNDER ACT 1460 OF 2013; A.C.A.16 - 90 - 1401, Et. Seq.\" and the operative line \"Comes the Defendant and for his/her petition to seal the record states:\". Page 2 recites the felony exclusions (\"a. A Class Y, Class A or Class B felony except as provided in A.C.A.\\u00a716-90-1406\"). Page 3 is the VERIFICATION; page 4 is the Certificate of Service. Footer \"ACIC Form / Revised 07/21/2021\". Read page by page: this file is petition-only, it does not carry an order.",
+   "instrumentKindReadFromFace": "PETITION (participant-filed primary filing) - not an order",
+   "labelCaveat": "The census word \"UNIFORM\" is printed on no ACIC document in the mounted corpus. Every AR PDF in the Master Library was full-text searched for \"uniform\" and there were zero hits. The binding therefore rests on the printed word FELONY plus Act 1460, not on the census label wording.",
+   "alternativeCandidatesConsideredAndExcluded": "Every other ACIC petition to seal in the mounted corpus is already claimed by a differently named AR family: Act 531 community punishment (ar-act531-set), controlled/counterfeit substance possession (ar-cs-possession-seal-set), nolle prosequi/dismissal (ar-nonconviction-seal-set), pardoned offender (ar-pardon-seal-set), arrest under Act 1460 (ar-arrest-seal-set), misdemeanor DWI/BWI (ar-misdemeanor-dwi-seal-set), misdemeanors under Act 1460 (ar-misdemeanor-seal-set), Act 346 first offenders (ar-act346-set), pre/post-adjudication drug court (ar-drug-court-set), veterans treatment court (ar-veterans-court-set). The Act 1460 felony petition is the only felony-conviction seal petition left unclaimed, and ar-felony-seal-set's only route is obligation:track-pathway:AR:ar-felony-seal:situation-c-felony-convictions.",
+   "held": {
+    "custody": "MASTER_LIBRARY",
+    "archive": "Expungement_AI_RCAP_Master_Library_Edition_1",
+    "pathInArchive": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-SEAL-FELONY-UNDER-ACT-1460__petition-to-seal-felony-under-act-1460-of-2013__REV-2021-07-21__EN.pdf",
+    "sha256": "6065fe0248e9022c866ac2506c02df35b533439f6d15fc40843b709eea375d9b",
+    "byteLength": 178947,
+    "pageCount": 4,
+    "hashRecomputedBy": "FABLE-DISC7 sha256sum on the opened file",
+    "inCommittedCorpusIndexAtThisPathAndHash": true
+   },
+   "identityReadBy": "FABLE-DISC7"
+  },
+  {
+   "artifactId": "AR-ACIC-ORDER-SEAL-FELONY-1460",
+   "jurisdiction": "AR",
+   "namedInFamiliesAs": [
+    "ACIC-UNIFORM-ORDER-TO-SEAL"
+   ],
+   "servesFamilies": [
+    "ar-felony-seal-set"
+   ],
+   "officialTitle": "Order to Seal Felony under Act 1460 of 2013; A.C.A. 16-90-1401, Et. Seq.",
+   "issuingAuthority": "Arkansas Crime Information Center (ACIC), Arkansas Department of Public Safety",
+   "printedFormNumber": "no numeric form number is printed",
+   "printedRevision": "Revised 8/16/2021",
+   "authority": "Ark. Code Ann. 16-90-1401 et seq. (Act 1460 of 2013)",
+   "identityConfidence": "confirmed_from_document_text",
+   "identityEvidence": "pdftotext -f 1 -l 2 -layout, page 1: printed title \"ORDER TO SEAL FELONY UNDER ACT 1460 OF 2013;\" over \"A.C.A.16 - 90 - 1401, Et. Seq.\", then the operative line \"Before the Court is the Petition of the Defendant to seal his/her record. The Court finds and orders as follows:\". Footer prints \"Revised 8/16/2021\" on every page.",
+   "instrumentKindReadFromFace": "ORDER (proposed order for the court's signature) - the face says \"the Court finds and orders\", not \"Comes the Defendant\"",
+   "labelCaveat": "Same as its petition: the word \"UNIFORM\" is printed on no ACIC face.",
+   "alternativeCandidatesConsideredAndExcluded": "Same residual-assignment argument as AR-ACIC-PETITION-SEAL-FELONY-1460. This is the only unclaimed felony-conviction seal order.",
+   "held": {
+    "custody": "MASTER_LIBRARY",
+    "archive": "Expungement_AI_RCAP_Master_Library_Edition_1",
+    "pathInArchive": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-SEAL-FELONY-UNDER-ACT-1460__order-to-seal-felony-under-act-1460-of-2013__REV-2021-08-16__EN.pdf",
+    "sha256": "dcb87ba9ff3b64f5db9231f2f3b9d16b86264ac75cbdf81d706921ab3592f4cc",
+    "byteLength": 240203,
+    "pageCount": 3,
+    "hashRecomputedBy": "FABLE-DISC7 sha256sum on the opened file",
+    "inCommittedCorpusIndexAtThisPathAndHash": true
+   },
+   "identityReadBy": "FABLE-DISC7"
+  },
+  {
+   "artifactId": "AR-ACIC-ORDER-SEAL-MISDEMEANORS-1460",
+   "jurisdiction": "AR",
+   "namedInFamiliesAs": [
+    "ACIC-UNIFORM-ORDER-TO-SEAL"
+   ],
+   "servesFamilies": [
+    "ar-misdemeanor-seal-set"
+   ],
+   "officialTitle": "Order to Seal Misdemeanors under Act 1460 of 2013; A.C.A. 16-90-1401, Et. Seq.",
+   "issuingAuthority": "Arkansas Crime Information Center (ACIC), Arkansas Department of Public Safety",
+   "printedFormNumber": "no numeric form number is printed; the footer prints the words \"ACIC Form\"",
+   "printedRevision": "Revised 08/01/2019",
+   "authority": "Ark. Code Ann. 16-90-1401 et seq. (Act 1460 of 2013)",
+   "identityConfidence": "confirmed_from_document_text",
+   "identityEvidence": "pdftotext -f 1 -l 2 -layout, page 1: printed title \"ORDER TO SEAL MISDEMEANORS UNDER ACT 1460 OF 2013;\" over \"A.C.A.16-90-1401, Et. Seq.\", then \"Before the Court is the Petition of the Defendant to seal his/her record. The Court finds and orders as follows:\". Footer \"ACIC Form / Revised 08/01/2019\".",
+   "instrumentKindReadFromFace": "ORDER (proposed order) - not a petition",
+   "labelCaveat": "\"UNIFORM\" is printed on no ACIC face; the binding rests on the printed word MISDEMEANORS plus Act 1460.",
+   "alternativeCandidatesConsideredAndExcluded": "The only other misdemeanor-scoped ACIC seal order in the mounted corpus is the misdemeanor DWI/BWI order, which is claimed by ar-misdemeanor-dwi-seal-set and whose face prints \"ORDER TO SEAL A MISDEMEANOR CONVICTION FOR DRIVING OR BOATING WHILE INTOXICATED\".",
+   "pairIsIncomplete": "The matching Act 1460 misdemeanor PETITION is not in the mounted corpus. Confirming this order does not bind ar-misdemeanor-seal-set.",
+   "held": {
+    "custody": "MASTER_LIBRARY",
+    "archive": "Expungement_AI_RCAP_Master_Library_Edition_1",
+    "pathInArchive": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-SEAL-MISDEMEANORS-UNDER-ACT-1460__order-to-seal-misdemeanors-under-act-1460-of-2013__REV-2019-08-01__EN.pdf",
+    "sha256": "4d6bc578c6a40a58d1234315939d46579862b5d382c85359ae4334763e7bbcc8",
+    "byteLength": 327235,
+    "pageCount": 3,
+    "hashRecomputedBy": "FABLE-DISC7 sha256sum on the opened file",
+    "inCommittedCorpusIndexAtThisPathAndHash": true
+   },
+   "identityReadBy": "FABLE-DISC7"
+  },
+  {
+   "artifactId": "KSJC-NOTICE-OF-HEARING-12-2016-MASTER-LIBRARY",
+   "jurisdiction": "KS",
+   "namedInFamiliesAs": [
+    "KSJC-NOTICE-OF-HEARING-12-2016"
+   ],
+   "servesFamilies": [
+    "ks-21-6614-conviction-set",
+    "ks-21-6614-diversion-set",
+    "ks-21-6614-prostitution-coercion-set",
+    "ks-21-6614-specialty-court-set"
+   ],
+   "officialTitle": "Notice of Hearing on Petition for Expungement of Conviction or Diversion",
+   "issuingAuthority": "Kansas Judicial Council",
+   "printedFormNumber": "KSJC (the footer prints the council stamp \"KSJC 12/2016\"; no numeric form number is printed)",
+   "printedRevision": "12/2016",
+   "identityConfidence": "confirmed_from_document_text",
+   "identityEvidence": "pdftotext -f 1 -l 1 -layout: caption \"IN THE ____ JUDICIAL DISTRICT / DISTRICT COURT OF ____ COUNTY, KANSAS\", printed title \"NOTICE OF HEARING ON PETITION FOR EXPUNGEMENT OF CONVICTION OR DIVERSION\", body \"The court will hold hearing on this matter on ____ day of ____\", signature block \"Petitioner, Pro Se\". Footer \"KSJC 12/2016    1 of 1\". One page.",
+   "instrumentKindReadFromFace": "NOTICE - neither a petition nor an order",
+   "note": "A prior lane confirmed the byte-identical D2 source-pack copy as KS-KSJC-NOTICE-OF-HEARING-DPACK. This finding is the Master Library copy, read and hashed independently, at custody master_library.",
+   "held": {
+    "custody": "MASTER_LIBRARY",
+    "archive": "Expungement_AI_RCAP_Master_Library_Edition_1",
+    "pathInArchive": "STATES/KS/05_SOURCE_GATED/KS__SOURCE-GATED__KS-NOTICE-OF-HEARING-ON-PETITION-FOR-EXPUNGEM__notice-of-hearing-on-petition-for-expungement__REV-2016-12__EN.pdf",
+    "sha256": "a960c857ec505a3013e725526718580ad2047aa9b3dd85191a70b8375cc83ffd",
+    "byteLength": 19255,
+    "pageCount": 1,
+    "hashRecomputedBy": "FABLE-DISC7 sha256sum on the opened file",
+    "inCommittedCorpusIndexAtThisPathAndHash": true
+   },
+   "identityReadBy": "FABLE-DISC7"
+  },
+  {
+   "artifactId": "KSJC-ORDER-EXPUNGEMENT-COVER-SHEET-12-2016-MASTER-LIBRARY",
+   "jurisdiction": "KS",
+   "namedInFamiliesAs": [
+    "KSJC-ORDER-EXPUNGEMENT-COVER-SHEET-12-2016"
+   ],
+   "servesFamilies": [
+    "ks-21-6614-conviction-set",
+    "ks-21-6614-diversion-set",
+    "ks-21-6614-prostitution-coercion-set",
+    "ks-21-6614-specialty-court-set"
+   ],
+   "officialTitle": "Order of Expungement of Conviction or Diversion Cover Sheet (for submission to the Kansas Bureau of Investigation)",
+   "issuingAuthority": "Kansas Judicial Council",
+   "printedFormNumber": "KSJC (footer stamp \"KSJC 12/2016\")",
+   "printedRevision": "12/2016",
+   "identityConfidence": "confirmed_from_document_text",
+   "identityEvidence": "pdftotext -f 1 -l 1 -layout: \"ORDER OF EXPUNGEMENT OF CONVICTION OR DIVERSION / COVER SHEET / (for submission to the Kansas Bureau of Investigation)\", then \"This coversheet is to be sent to the Kansas Bureau of Investigations to assist them with determining the right conviction or diversion to be expunged.\" Footer \"KSJC 12/2016\". One page.",
+   "instrumentKindReadFromFace": "COVER SHEET - it is not itself the order",
+   "correctsRecordedTitle": "The corpus index records this file's title as \"order-of-expungement-of-conviction-or-diversion\", which omits COVER SHEET and reads as though the file were the order itself. The printed face says COVER SHEET. This is exactly the kind of mistake a recorded-title test cannot catch.",
+   "held": {
+    "custody": "MASTER_LIBRARY",
+    "archive": "Expungement_AI_RCAP_Master_Library_Edition_1",
+    "pathInArchive": "STATES/KS/05_SOURCE_GATED/KS__SOURCE-GATED__KS-ORDER-OF-EXPUNGEMENT-OF-CONVICTION-OR-DIVE__order-of-expungement-of-conviction-or-diversion__REV-2016-12__EN.pdf",
+    "sha256": "d4171396d12f55a50d6c4e0d5a3b694ad982325e7377d74deaa5839d3bfad537",
+    "byteLength": 67384,
+    "pageCount": 1,
+    "hashRecomputedBy": "FABLE-DISC7 sha256sum on the opened file",
+    "inCommittedCorpusIndexAtThisPathAndHash": true
+   },
+   "identityReadBy": "FABLE-DISC7"
+  },
+  {
+   "artifactId": "KSJC-ORDER-FOR-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022",
+   "jurisdiction": "KS",
+   "namedInFamiliesAs": [
+    "KSJC-ORDER-FOR-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022"
+   ],
+   "servesFamilies": [
+    "ks-21-6614-conviction-set",
+    "ks-21-6614-diversion-set",
+    "ks-21-6614-prostitution-coercion-set",
+    "ks-21-6614-specialty-court-set"
+   ],
+   "officialTitle": "Order for Expungement, Pursuant to K.S.A. 21-6614",
+   "issuingAuthority": "Kansas Judicial Council",
+   "printedFormNumber": "KSJC (footer stamp \"Rev. KSJC 08/2022\")",
+   "printedRevision": "Rev. KSJC 08/2022",
+   "authority": "K.S.A. 21-6614",
+   "identityConfidence": "confirmed_from_document_text",
+   "identityEvidence": "pdftotext -f 1 -l 2 -layout: caption \"IN THE ____ JUDICIAL DISTRICT / DISTRICT COURT OF ____ COUNTY, KANSAS\", printed title \"ORDER FOR EXPUNGEMENT\" over \"Pursuant to K.S.A. 21-6614.\", body \"On this ____ day of ____ 20__, the Court considers the Petition for Expungement filed herein.\" Footer on every page \"Rev. KSJC 08/2022    Page N of 5\". Five pages.",
+   "instrumentKindReadFromFace": "ORDER - the face recites that the Court considers the Petition; it is not the petition",
+   "note": "FABLE-C4 already carried this artifact at confirmed_from_document_text. This is an independent re-read with a hash recomputed by FABLE-DISC7; both agree. It is included so the four ks-21-6614 families have a complete per-label record, not to upgrade anything.",
+   "held": {
+    "custody": "MASTER_LIBRARY",
+    "archive": "Expungement_AI_RCAP_Master_Library_Edition_1",
+    "pathInArchive": "STATES/KS/05_SOURCE_GATED/KS__SOURCE-GATED__KSJC__order-for-expungement-of-conviction-or-diversion__REV-2022-08__EN.pdf",
+    "sha256": "104c40187f530d4a55306550f262ba9eefdec8ba732e2adbb1790dfd9378e683",
+    "byteLength": 124641,
+    "pageCount": 5,
+    "hashRecomputedBy": "FABLE-DISC7 sha256sum on the opened file",
+    "inCommittedCorpusIndexAtThisPathAndHash": true
+   },
+   "identityReadBy": "FABLE-DISC7"
+  },
+  {
+   "artifactId": "IA-RULE-2.86-FORM-4",
+   "jurisdiction": "IA",
+   "namedInFamiliesAs": [
+    "Rule 2.86 Form 4",
+    "Certification of Service by Mailing or Delivery"
+   ],
+   "servesFamilies": [
+    "ia-12347-set"
+   ],
+   "officialTitle": "Rule 2.86 - Form 4: Application to Expunge Possession of Alcohol under the Legal Age Court Records under Iowa Code section 123.47",
+   "issuingAuthority": "Iowa Judicial Branch (Iowa R. Crim. P. 2.86)",
+   "printedFormNumber": "Rule 2.86 - Form 4",
+   "printedRevision": "August 2024",
+   "identityConfidence": "confirmed_from_document_text",
+   "identityEvidence": "pdftotext -layout, page 1 header: \"Rule 2.86\\u2014Form 4: Application to Expunge Possession of Alcohol under the Legal Age Court Records under Iowa Code section 123.47\"; page 1 footer \"August 2024    Rule 2.86\\u2014Form 4    Page 1 of 2\". The separately named label is resolved on page 2 of the same two-page document, which prints the section heading \"Certification of Service by Mailing or Delivery\" followed by \"I, ____, certify that on ____, 20__, I mailed or gave a copy of this Application to the county attorney at this address:\" and the page 2 footer \"August 2024    Rule 2.86\\u2014Form 4    Page 2 of 2\".",
+   "labelResolution": "\"Certification of Service by Mailing or Delivery\" names a printed SECTION of this same held form, not a second document. Two labels, one artifact.",
+   "held": {
+    "custody": "MASTER_LIBRARY",
+    "archive": "Expungement_AI_RCAP_Master_Library_Edition_1",
+    "pathInArchive": "STATES/IA/02_PACKET_FORMS/IA__FORM__RULE-2.86-FORM-4__application-to-expunge-possession-of-alcohol-under-the-legal-age-court-records-under-iowa__REV-2024-08__EN.pdf",
+    "sha256": "279eefe8c5f6b51ec73eb943c9a479757ff3d2c439177bfbf3044e7e71f66c45",
+    "byteLength": 288751,
+    "pageCount": 2,
+    "hashRecomputedBy": "FABLE-DISC7 sha256sum on the opened file",
+    "inCommittedCorpusIndexAtThisPathAndHash": true
+   },
+   "identityReadBy": "FABLE-DISC7"
+  },
+  {
+   "artifactId": "IA-RULE-2.86-FORM-5",
+   "jurisdiction": "IA",
+   "namedInFamiliesAs": [
+    "Rule 2.86 Form 5",
+    "Certification of Service by Mailing or Delivery"
+   ],
+   "servesFamilies": [
+    "ia-7251-set"
+   ],
+   "officialTitle": "Rule 2.86 - Form 5: Application to Expunge Prostitution Court Records under Iowa Code section 725.1",
+   "issuingAuthority": "Iowa Judicial Branch (Iowa R. Crim. P. 2.86)",
+   "printedFormNumber": "Rule 2.86 - Form 5",
+   "printedRevision": "August 2024",
+   "identityConfidence": "confirmed_from_document_text",
+   "identityEvidence": "pdftotext -layout, page 1 header: \"Rule 2.86\\u2014Form 5: Application to Expunge Prostitution Court Records under Iowa Code section 725.1\". The separately named label is resolved at line 92 of the same two-page document, which prints the section heading \"Certification of Service by Mailing or Delivery\" followed by \"I, ____, certify that on ____, 20__, I mailed or gave a copy of this Application to the county attorney at this address:\".",
+   "labelResolution": "\"Certification of Service by Mailing or Delivery\" names a printed SECTION of this same held form, not a second document. Two labels, one artifact.",
+   "held": {
+    "custody": "MASTER_LIBRARY",
+    "archive": "Expungement_AI_RCAP_Master_Library_Edition_1",
+    "pathInArchive": "STATES/IA/02_PACKET_FORMS/IA__FORM__RULE-2.86-FORM-5__rule-2-86-form-5-application-to-expunge-prostitution-court-records-under-iowa-code-section__REV-2024-08__EN.pdf",
+    "sha256": "ed46614b0b182dca05020009f1add549e07ac7d0bbd7328bbd9cc7ae26934cef",
+    "byteLength": 288129,
+    "pageCount": 2,
+    "hashRecomputedBy": "FABLE-DISC7 sha256sum on the opened file",
+    "inCommittedCorpusIndexAtThisPathAndHash": true
+   },
+   "identityReadBy": "FABLE-DISC7"
+  },
+  {
+   "artifactId": "MI-MC-227B",
+   "jurisdiction": "MI",
+   "namedInFamiliesAs": [
+    "MC 227b",
+    "Proof of Service"
+   ],
+   "servesFamilies": [
+    "mi_setaside_trafficking-set"
+   ],
+   "officialTitle": "Application for Human Trafficking Victim to Set Aside Conviction(s)",
+   "issuingAuthority": "Michigan State Court Administrative Office",
+   "printedFormNumber": "MC 227b",
+   "printedRevision": "Rev. 7/24",
+   "identityConfidence": "confirmed_from_document_text",
+   "identityEvidence": "pdftotext -layout: page 1 prints \"STATE OF MICHIGAN ... APPLICATION FOR HUMAN TRAFFICKING VICTIM TO SET ASIDE CONVICTION(S)\"; the page footer prints \"Form MC 227b, Rev. 7/24\". The separately named \"Proof of Service\" label is resolved on page 3 of this same four-page document, which prints the heading \"PROOF OF SERVICE\" and \"I declare under the penalties of perjury that this proof of service has been examined by me and that its contents are true\"; the instruction sheet confirms it at item 13: \"On both remaining copies of the application, fill in the Proof of Service on page 3.\"",
+   "labelResolution": "\"Proof of Service\" names a printed page of the already-bound MC 227b, not a second document.",
+   "outOfPrimaryScope": "mi_setaside_trafficking-set is classed ACQUIRE_EXACT_SOURCE, not ATTACH_HELD_SOURCE. Recorded because the read was free and it resolves that family's only unbound label.",
+   "held": {
+    "custody": "MASTER_LIBRARY",
+    "archive": "Expungement_AI_RCAP_Master_Library_Edition_1",
+    "pathInArchive": "STATES/MI/02_PACKET_FORMS/MI__FORM__MC-227B__application-by-human-trafficking-victim-to-set-aside-conviction-s__REV-2024-07__EN.pdf",
+    "sha256": "1620aa798830917707112ce6fb770aeeedc24c44e69f15b05f8b0c1c20e478a6",
+    "byteLength": 370315,
+    "pageCount": 4,
+    "hashRecomputedBy": "FABLE-DISC7 sha256sum on the opened file",
+    "inCommittedCorpusIndexAtThisPathAndHash": true
+   },
+   "identityReadBy": "FABLE-DISC7"
+  }
+ ],
+ "unresolvedLabels": [
+  {
+   "label": "official-form:ACIC-ORDER-DRUG-COURT",
+   "familyId": "ar-drug-court-set",
+   "resolution": "UNRESOLVED_TWO_CANDIDATES",
+   "why": "ACIC issues a pre-adjudication order and a post-adjudication order and both are held. The family's own instrumentKinds string reads \"ACIC pre- or post-adjudication petition and order (official_pdf_fill)\", so the family does not choose either. Neither document's printed face claims to be the other. One label, two identities: not resolvable by reading.",
+   "candidates": [
+    {
+     "whatItSays": "Page 1 prints \"ORDER TO DISMISS AND SEAL OFFENSE IN PRE-ADJUDICATION DRUG COURT PROCEEDING PURSUANT TO A.C.A. \\u00a716-98-303 {AND TO SEAL SEPARATE PREVIOUS OFFENSE FROM ANOTHER COURT}\"; para 2 recites \"With the Defendant's consent and without entering a judgment of guilt, the Court deferred further proceedings\". Footer \"ACIC Form / Revised 01/01/2014\".",
+     "held": {
+      "custody": "MASTER_LIBRARY",
+      "archive": "Expungement_AI_RCAP_Master_Library_Edition_1",
+      "pathInArchive": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-DISMISS-AND-SEAL-PRE-ADJUDICATION-DRUG-COURT-OFFE__order-to-dismiss-and-seal-offense-in-pre-adjudication-drug-court-proceeding__REV-2014-01-01__EN.pdf",
+      "sha256": "b7532d415611a9fe3046fd6fa1aaf662d93c20ba21bf27a3ab8066c96d63b13e",
+      "byteLength": 312762,
+      "pageCount": 4,
+      "hashRecomputedBy": "FABLE-DISC7 sha256sum on the opened file",
+      "inCommittedCorpusIndexAtThisPathAndHash": true
+     }
+    },
+    {
+     "whatItSays": "Page 1 prints \"ORDER TO DISMISS AND SEAL OFFENSE IN POST ADJUDICATION DRUG COURT PROCEEDING PURSUANT TO A.C.A. \\u00a7 16-98-303 {AND TO SEAL SEPARATE PREVIOUS OFFENSE FROM ANOTHER COURT}\"; para 2 recites \"The defendant plead guilty or nolo contendere to or was found guilty of\". Footer \"ACIC Form / Revised 01/01/2014\".",
+     "held": {
+      "custody": "MASTER_LIBRARY",
+      "archive": "Expungement_AI_RCAP_Master_Library_Edition_1",
+      "pathInArchive": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-DISMISS-AND-SEAL-POST-ADJUDICATION-DRUG-COURT-OFF__order-to-dismiss-and-seal-offense-in-post-adjudication-drug-court-proceeding__REV-2014-01-01__EN.pdf",
+      "sha256": "731fd089f5b019002269ec86905cea946d5841b988102c222edfbd630290eaf2",
+      "byteLength": 603002,
+      "pageCount": 4,
+      "hashRecomputedBy": "FABLE-DISC7 sha256sum on the opened file",
+      "inCommittedCorpusIndexAtThisPathAndHash": true
+     }
+    }
+   ],
+   "whatWouldResolveIt": "A legal determination splitting ar-drug-court-set into pre-adjudication and post-adjudication routes, or a census label change. It is not a source-identity question and no further reading will settle it."
+  },
+  {
+   "label": "official-form:ACIC-PETITION-DRUG-COURT",
+   "familyId": "ar-drug-court-set",
+   "resolution": "UNRESOLVED_TWO_CANDIDATES",
+   "why": "Same shape as the order half: a held pre-adjudication petition and a held post-adjudication petition.",
+   "candidates": [
+    {
+     "whatItSays": "Page 1 prints \"PETITION TO DISMISS AND SEAL OFFENSE IN PRE-ADJUDICATION DRUG COURT PROCEEDING PURSUANT TO A.C.A. \\u00a716-98-303 {AND TO SEAL SEPARATE PREVIOUS OFFENSE FROM ANOTHER COURT}\" and \"Comes the Defendant and for his/her petition to dismiss and seal the record states:\". Footer \"ACIC Form / Revised 08/25/2014\".",
+     "held": {
+      "custody": "MASTER_LIBRARY",
+      "archive": "Expungement_AI_RCAP_Master_Library_Edition_1",
+      "pathInArchive": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-DISMISS-AND-SEAL-PRE-ADJUDICATION-DRUG-COURT-O__petition-to-dismiss-and-seal-offense-in-pre-adjudication-drug-court-proceeding__REV-2014-08-25__EN.pdf",
+      "sha256": "7b9426041a2bf7b14ee871847999ecb83d5818829abb39eb9711a411ff70ba42",
+      "byteLength": 356744,
+      "pageCount": 4,
+      "hashRecomputedBy": "FABLE-DISC7 sha256sum on the opened file",
+      "inCommittedCorpusIndexAtThisPathAndHash": true
+     }
+    },
+    {
+     "whatItSays": "Page 1 prints \"PETITION TO DISMISS AND SEAL OFFENSE IN POST ADJUDICATION DRUG COURT PROCEEDING PURSUANT TO A.C.A. \\u00a7 16-98-303 {AND TO SEAL SEPARATE PREVIOUS OFFENSE FROM ANOTHER COURT}\" and \"Comes the Defendant and for his/her petition to seal the record states:\". Footer \"ACIC Form / Revised 01/01/2014\".",
+     "held": {
+      "custody": "MASTER_LIBRARY",
+      "archive": "Expungement_AI_RCAP_Master_Library_Edition_1",
+      "pathInArchive": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-DISMISS-AND-SEAL-POST-ADJUDICATION-DRUG-COURT__petition-to-dismiss-and-seal-offense-in-post-adjudication-drug-court-proceeding__REV-2014-01-01__EN.pdf",
+      "sha256": "99657d0eac1f5ea51814f4c663b483749228a06412ba1e9dd1805aeac4826e39",
+      "byteLength": 1026997,
+      "pageCount": 4,
+      "hashRecomputedBy": "FABLE-DISC7 sha256sum on the opened file",
+      "inCommittedCorpusIndexAtThisPathAndHash": true
+     }
+    }
+   ],
+   "whatWouldResolveIt": "Same as the order half."
+  }
+ ],
+ "refusals": [
+  {
+   "label": "official-form:ACIC-UNIFORM-PETITION-TO-SEAL",
+   "familyId": "ar-misdemeanor-seal-set",
+   "candidateOpened": "AR ACIC Petition to Seal a Misdemeanor Conviction for Driving or Boating While Intoxicated",
+   "whatItTurnedOutToBe": "Page 1 prints \"PETITION TO SEAL A MISDEMEANOR CONVICTION FOR DRIVING OR BOATING WHILE INTOXICATED\".",
+   "whyThatIsNotThisLabel": "ar-misdemeanor-seal-set is the general Act 1460 misdemeanor seal route; the DWI/BWI petition is the instrument of a separate named family, ar-misdemeanor-dwi-seal-set, whose forms are ACIC-PETITION-TO-SEAL-MISDEMEANOR-DWI-BWI and ACIC-ORDER-TO-SEAL-MISDEMEANOR-DWI-BWI. Binding it here would put a DWI-specific petition in a general misdemeanor packet.",
+   "held": {
+    "custody": "MASTER_LIBRARY",
+    "archive": "Expungement_AI_RCAP_Master_Library_Edition_1",
+    "pathInArchive": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-SEAL-MISDEMEANOR-DWI-OR-BWI-CONVICTION__petition-to-seal-a-misdemeanor-conviction-for-driving-or-boating-while-intoxicated__REV-2021-07-27__EN.pdf",
+    "sha256": "04d876b09fe82b76298a2d06093d122a0ef539f767f76811001030cc7805715d",
+    "byteLength": 117345,
+    "pageCount": 4,
+    "hashRecomputedBy": "FABLE-DISC7 sha256sum on the opened file",
+    "inCommittedCorpusIndexAtThisPathAndHash": true
+   }
+  },
+  {
+   "label": "official-form:ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS",
+   "familyId": "ar-act346-set",
+   "candidateOpened": "AR ACIC Order of Probation under Act 346 of 1975 and Act 1460 of 2013",
+   "whatItTurnedOutToBe": "Page 1 prints \"ORDER OF PROBATION UNDER ACT 346 of 1975 ACA \\u00a716-93-301 through 303 and ACT 1460 OF 2013 A.C.A.16-90-1401, Et. Seq.\" and para 1 begins \"Now on this ____ day of ____, ____, the Defendant enters a plea of guilty or nolo contendere\".",
+   "whyThatIsNotThisLabel": "It is an ORDER, and it is an order placing the defendant on Act 346 probation - the instrument that starts the deferral. The label names the PETITION to dismiss and seal, which is filed after successful completion. Petition and order are different documents and this is not even the right order.",
+   "note": "Read at Captain's explicit request: ar-act346-set is the family with a read-confirmed ORDER and a missing PETITION. Its missing half remains missing.",
+   "held": {
+    "custody": "MASTER_LIBRARY",
+    "archive": "Expungement_AI_RCAP_Master_Library_Edition_1",
+    "pathInArchive": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-OF-PROBATION-UNDER-ACT-346__order-of-probation-under-act-346-and-act-1460__REV-2014-08-25__EN.pdf",
+    "sha256": "5e0923268f5c5a0893118ac07bdf6d468190c77ad58ee7db9f077631c996d320",
+    "byteLength": 324542,
+    "pageCount": 2,
+    "hashRecomputedBy": "FABLE-DISC7 sha256sum on the opened file",
+    "inCommittedCorpusIndexAtThisPathAndHash": true
+   }
+  },
+  {
+   "label": "official-form:KSJC-ORDER-EXPUNGEMENT-ARREST-RECORD-COVER-SHEET-12-2016",
+   "familyId": "ks-22-2410-arrest-set",
+   "candidateOpened": "KS Order of Expungement of Conviction or Diversion Cover Sheet (KSJC 12/2016)",
+   "whatItTurnedOutToBe": "Its printed title is \"ORDER OF EXPUNGEMENT OF CONVICTION OR DIVERSION / COVER SHEET\".",
+   "whyThatIsNotThisLabel": "The label names the ARREST RECORD cover sheet. The printed face says CONVICTION OR DIVERSION. Same council, same 12/2016 revision, different relief - K.S.A. 22-2410 arrest expungement is a different proceeding from 21-6614 conviction or diversion expungement.",
+   "held": {
+    "custody": "MASTER_LIBRARY",
+    "archive": "Expungement_AI_RCAP_Master_Library_Edition_1",
+    "pathInArchive": "STATES/KS/05_SOURCE_GATED/KS__SOURCE-GATED__KS-ORDER-OF-EXPUNGEMENT-OF-CONVICTION-OR-DIVE__order-of-expungement-of-conviction-or-diversion__REV-2016-12__EN.pdf",
+    "sha256": "d4171396d12f55a50d6c4e0d5a3b694ad982325e7377d74deaa5839d3bfad537",
+    "byteLength": 67384,
+    "pageCount": 1,
+    "hashRecomputedBy": "FABLE-DISC7 sha256sum on the opened file",
+    "inCommittedCorpusIndexAtThisPathAndHash": true
+   }
+  },
+  {
+   "label": "official-form:Petition for Expungement, G.L. c. 276, § 100K",
+   "familyId": "ma-expunge-k-set",
+   "candidateOpened": "MA Trial Court TC0021, Petition for Expungement of Marijuana Offenses",
+   "whatItTurnedOutToBe": "Page 1 prints \"PETITION FOR EXPUNGEMENT OF MARIJUANA OFFENSES / G.L. c. 276, \\u00a7 100K\\u00bc\" with the Massachusetts Trial Court seal block; the footer prints \"TC0021\".",
+   "whyThatIsNotThisLabel": "The printed section is \\u00a7 100K\\u00bc (one hundred K and one quarter), the marijuana-decriminalization petition, not \\u00a7 100K. TC0021 is already bound to ma-expunge-mj-set. ma-expunge-k-set's route is non-time-based expungement for false identity, error, fraud or decriminalized conduct under \\u00a7 100K, a different petition.",
+   "held": {
+    "custody": "MASTER_LIBRARY",
+    "archive": "Expungement_AI_RCAP_Master_Library_Edition_1",
+    "pathInArchive": "STATES/MA/05_SOURCE_GATED/MA__SOURCE-GATED__TC0021__petition-for-expungement-of-marijuana-offenses-g-l-c-276-section-100k-1-4__REV-2022-11__EN.pdf",
+    "sha256": "a9d80fab51668c59a15b559aa0f5021e8b4bf661fa83429ef22b31157cbf565c",
+    "byteLength": 1393680,
+    "pageCount": 2,
+    "hashRecomputedBy": "FABLE-DISC7 sha256sum on the opened file",
+    "inCommittedCorpusIndexAtThisPathAndHash": true
+   }
+  },
+  {
+   "label": "official-form:Petition for Expungement, G.L. c. 276, § 100K",
+   "familyId": "ma-expunge-k-set",
+   "candidateOpened": "MA Probation Service Petition to Expunge",
+   "whatItTurnedOutToBe": "Page 1 prints \"PETITION TO EXPUNGE\" addressed \"TO: Commissioner of Probation, One Ashburton Place, Room 405, Boston, MA 02108\" with three selectable boxes reciting \"Section 100F - Chapter 276\", \"Section 100G - Chapter 276\" and \"Section 100H - Chapter 276\".",
+   "whyThatIsNotThisLabel": "Its face names \\u00a7\\u00a7 100F, 100G and 100H - the time-based expungement route - and it is already bound to ma-expunge-time-set. It nowhere recites \\u00a7 100K.",
+   "held": {
+    "custody": "MASTER_LIBRARY",
+    "archive": "Expungement_AI_RCAP_Master_Library_Edition_1",
+    "pathInArchive": "STATES/MA/05_SOURCE_GATED/MA__SOURCE-GATED__MA-PROBATION-SERVICE__petition-to-expunge-under-g-l-c-276-sections-100f-100g-or-100h__REV-2018-10-11__EN.pdf",
+    "sha256": "5ccb13e55c07a520526cad72fe48b506f6a67c51a2c879817feb49829853b0b1",
+    "byteLength": 13137,
+    "pageCount": 2,
+    "hashRecomputedBy": "FABLE-DISC7 sha256sum on the opened file",
+    "inCommittedCorpusIndexAtThisPathAndHash": true
+   }
+  },
+  {
+   "label": "official-form:Petition to Seal (Office of the Commissioner of Probation)",
+   "familyId": "ma-seal-admin-set",
+   "candidateOpened": "MA Probation Service Petition to Expunge",
+   "whatItTurnedOutToBe": "A petition to EXPUNGE under \\u00a7\\u00a7 100F/100G/100H addressed to the Commissioner of Probation.",
+   "whyThatIsNotThisLabel": "Sealing under \\u00a7 100A / \\u00a7 100B and expungement under \\u00a7\\u00a7 100F-100H are different reliefs with different OCP forms. The printed title is PETITION TO EXPUNGE. Only the addressee matches; the instrument does not. Reading only the addressee is how a wrong form gets bound.",
+   "held": {
+    "custody": "MASTER_LIBRARY",
+    "archive": "Expungement_AI_RCAP_Master_Library_Edition_1",
+    "pathInArchive": "STATES/MA/05_SOURCE_GATED/MA__SOURCE-GATED__MA-PROBATION-SERVICE__petition-to-expunge-under-g-l-c-276-sections-100f-100g-or-100h__REV-2018-10-11__EN.pdf",
+    "sha256": "5ccb13e55c07a520526cad72fe48b506f6a67c51a2c879817feb49829853b0b1",
+    "byteLength": 13137,
+    "pageCount": 2,
+    "hashRecomputedBy": "FABLE-DISC7 sha256sum on the opened file",
+    "inCommittedCorpusIndexAtThisPathAndHash": true
+   }
+  },
+  {
+   "label": "official-form:TC0057",
+   "familyId": "ma-seal-court-set",
+   "candidateOpened": "MA Trial Court TC0021",
+   "whatItTurnedOutToBe": "Full-text scan for TC-numbers in the whole mounted MA shard returns exactly one token: TC0021.",
+   "whyThatIsNotThisLabel": "TC0057 is a different Trial Court form number and no document in the mounted corpus prints it.",
+   "held": {
+    "custody": "MASTER_LIBRARY",
+    "archive": "Expungement_AI_RCAP_Master_Library_Edition_1",
+    "pathInArchive": "STATES/MA/05_SOURCE_GATED/MA__SOURCE-GATED__TC0021__petition-for-expungement-of-marijuana-offenses-g-l-c-276-section-100k-1-4__REV-2022-11__EN.pdf",
+    "sha256": "a9d80fab51668c59a15b559aa0f5021e8b4bf661fa83429ef22b31157cbf565c",
+    "byteLength": 1393680,
+    "pageCount": 2,
+    "hashRecomputedBy": "FABLE-DISC7 sha256sum on the opened file",
+    "inCommittedCorpusIndexAtThisPathAndHash": true
+   }
+  },
+  {
+   "label": "official-form:CC-DC-CR-072A",
+   "familyId": "md_10105_favorable-set",
+   "candidateOpened": "MD District Court DC-CR-071",
+   "whatItTurnedOutToBe": "Page 1 prints \"DISTRICT COURT OF MARYLAND FOR ____\" and \"FORM 4-503.3 APPLICATION FOR EXPUNGEMENT OF POLICE RECORD\"; the form-number token printed on the document is DC-CR-071.",
+   "whyThatIsNotThisLabel": "The printed number is DC-CR-071, not CC-DC-CR-072A, and the instrument is the police-record expungement application (Md. Rule 4-503.3), not the CP \\u00a7 10-105 petition. The other four mounted MD documents print CC-DC-089, CC-DC-CR-078, CC-DC-CR-148 and MDJ-008 respectively; none prints any 072 number.",
+   "held": {
+    "custody": "MASTER_LIBRARY",
+    "archive": "Expungement_AI_RCAP_Master_Library_Edition_1",
+    "pathInArchive": "STATES/MD/05_SOURCE_GATED/MD__SOURCE-GATED__DC-CR-071__application-for-expungement-of-police-record-and-notice-of-hearing__REV-2015-07__EN.pdf",
+    "sha256": "590b62c3cc1a4ebd8a9147dfd391f9c8abaa7917edb0260adb08b7fc1d38fc8a",
+    "byteLength": 434826,
+    "pageCount": 1,
+    "hashRecomputedBy": "FABLE-DISC7 sha256sum on the opened file",
+    "inCommittedCorpusIndexAtThisPathAndHash": true
+   }
+  },
+  {
+   "label": "official-form:CR-218",
+   "familyId": "me-seal-gen-set",
+   "candidateOpened": "ME Judicial Branch CR-289",
+   "whatItTurnedOutToBe": "Page 1 prints \"MAINE JUDICIAL BRANCH\" and the title \"MOTION TO SEAL CONVICTION FOR ENGAGING IN PROSTITUTION / 15 M.R.S.A. \\u00a7 2262-A\"; footer \"CR-289, Rev. 10/24    Page 1 of 1    www.courts.maine.gov\".",
+   "whyThatIsNotThisLabel": "The printed form number is CR-289 and the relief is the prostitution-conviction sealing motion under 15 M.R.S.A. \\u00a7 2262-A, not the general sealing motion the census calls CR-218.",
+   "alsoCorrectsTheIndex": "The committed corpus index records this file's title as \"ada-notice-the-maine-judicial-branch-complies-with-the-americans-with-disabilities-act-ada\". That title was scraped from the ADA boilerplate paragraph near the foot of the page, not from the document's title. Anything binding ME forms by recorded title is binding against a wrong title here.",
+   "held": {
+    "custody": "MASTER_LIBRARY",
+    "archive": "Expungement_AI_RCAP_Master_Library_Edition_1",
+    "pathInArchive": "STATES/ME/05_SOURCE_GATED/ME__SOURCE-GATED__CR-289__ada-notice-the-maine-judicial-branch-complies-with-the-americans-with-disabilities-act-ada__REV-2024-10__EN.pdf",
+    "sha256": "bbf89387690d1ab17984c5b799366a26196e8d71b5172bc2768f593b819a7423",
+    "byteLength": 166837,
+    "pageCount": 1,
+    "hashRecomputedBy": "FABLE-DISC7 sha256sum on the opened file",
+    "inCommittedCorpusIndexAtThisPathAndHash": true
+   }
+  },
+  {
+   "label": "official-form:CR-218",
+   "familyId": "me-seal-gen-set",
+   "candidateOpened": "ME Judicial Branch CR-307",
+   "whatItTurnedOutToBe": "Page 1 prints \"MOTION TO SEAL CONVICTION FOR VICTIMS OF SEX TRAFFICKING OR SEXUAL EXPLOITATION / 15 M.R.S.A. \\u00a7 2262-B\"; footer prints CR-307.",
+   "whyThatIsNotThisLabel": "Printed number CR-307, and it is already bound to me-seal-survivor-set.",
+   "held": {
+    "custody": "MASTER_LIBRARY",
+    "archive": "Expungement_AI_RCAP_Master_Library_Edition_1",
+    "pathInArchive": "STATES/ME/05_SOURCE_GATED/ME__SOURCE-GATED__CR-307__motion-to-seal-conviction-for-victims-of-sex-trafficking-or-sexual-exploitation__REV-2026-06__EN.pdf",
+    "sha256": "c72e74f191a1bddb48453e3094e8a657baabf552299f353acd8bf0d8a418fed1",
+    "byteLength": 175213,
+    "pageCount": 1,
+    "hashRecomputedBy": "FABLE-DISC7 sha256sum on the opened file",
+    "inCommittedCorpusIndexAtThisPathAndHash": true
+   }
+  },
+  {
+   "label": "official-form:MC 227 item 2.c",
+   "familyId": "mi_setaside_first_owi-set",
+   "candidateOpened": "MI MC 227a",
+   "whatItTurnedOutToBe": "Page 1 prints \"APPLICATION TO SET ASIDE MISDEMEANOR MARIHUANA CONVICTION(S)\"; footer \"Form MC 227a, Rev. 7/24\"; two pages.",
+   "whyThatIsNotThisLabel": "Its own instructions print \"If you are asking to have a non-marihuana related misdemeanor conviction set aside under MCL 780.621, you must use form MC 227.\" The document itself says it is not MC 227. It is also only two pages, so it cannot carry a page 3.",
+   "held": {
+    "custody": "MASTER_LIBRARY",
+    "archive": "Expungement_AI_RCAP_Master_Library_Edition_1",
+    "pathInArchive": "STATES/MI/02_PACKET_FORMS/MI__FORM__MC-227A__application-to-set-aside-misdemeanor-marihuana-conviction-s__REV-2024-07__EN.pdf",
+    "sha256": "d361c2082ecc761fe4e9eadda0cabd307f2d6bb3c7af9a3917a9afecad698757",
+    "byteLength": 262566,
+    "pageCount": 2,
+    "hashRecomputedBy": "FABLE-DISC7 sha256sum on the opened file",
+    "inCommittedCorpusIndexAtThisPathAndHash": true
+   }
+  },
+  {
+   "label": "official-form:MC 227 page 3 Proof of Service",
+   "familyId": "mi_setaside_first_owi-set",
+   "candidateOpened": "MI MC 227b",
+   "whatItTurnedOutToBe": "\"APPLICATION FOR HUMAN TRAFFICKING VICTIM TO SET ASIDE CONVICTION(S)\", footer \"Form MC 227b, Rev. 7/24\", four pages, PROOF OF SERVICE printed on page 3.",
+   "whyThatIsNotThisLabel": "MC 227b has a page 3 Proof of Service, but it is MC 227b's, not MC 227's. Its instructions likewise print \"you must use form MC 227\" for other convictions. Binding it here would put the human-trafficking application into a first-OWI set-aside packet.",
+   "held": {
+    "custody": "MASTER_LIBRARY",
+    "archive": "Expungement_AI_RCAP_Master_Library_Edition_1",
+    "pathInArchive": "STATES/MI/02_PACKET_FORMS/MI__FORM__MC-227B__application-by-human-trafficking-victim-to-set-aside-conviction-s__REV-2024-07__EN.pdf",
+    "sha256": "1620aa798830917707112ce6fb770aeeedc24c44e69f15b05f8b0c1c20e478a6",
+    "byteLength": 370315,
+    "pageCount": 4,
+    "hashRecomputedBy": "FABLE-DISC7 sha256sum on the opened file",
+    "inCommittedCorpusIndexAtThisPathAndHash": true
+   }
+  },
+  {
+   "label": "official-form:MC 227 item 2.c",
+   "familyId": "mi_setaside_first_owi-set",
+   "candidateOpened": "MI MC 228",
+   "whatItTurnedOutToBe": "\"ORDER ON APPLICATION TO SET ASIDE CONVICTION(S)\", three pages.",
+   "whyThatIsNotThisLabel": "It is the ORDER. The label names an item on the APPLICATION. Order and application are different instruments.",
+   "held": {
+    "custody": "MASTER_LIBRARY",
+    "archive": "Expungement_AI_RCAP_Master_Library_Edition_1",
+    "pathInArchive": "STATES/MI/02_PACKET_FORMS/MI__FORM__MC-228__order-on-application-to-set-aside-conviction-s__REV-2023-03__EN.pdf",
+    "sha256": "8f02015d5c280fd2c135b30f80d6724bcca4afd550cec6f2774bd14c0070575e",
+    "byteLength": 404008,
+    "pageCount": 3,
+    "hashRecomputedBy": "FABLE-DISC7 sha256sum on the opened file",
+    "inCommittedCorpusIndexAtThisPathAndHash": true
+   }
+  },
+  {
+   "label": "official-form:FDLE-EARLY-JUVENILE-EXPUNCTION-APPLICATION",
+   "familyId": "fl-early-juvenile-set",
+   "candidateOpened": "FL FDLE 40-021 (both the sealing and the expunction copies)",
+   "whatItTurnedOutToBe": "Both files print the identical face: \"FLORIDA DEPARTMENT OF LAW ENFORCEMENT / APPLICATION FOR A CERTIFICATE OF ELIGIBILITY FOR SEALING (s. 943.059, F.S.) or EXPUNCTION (s. 943.585, F.S.)\", form token FDLE40-021.",
+   "whyThatIsNotThisLabel": "It is the general certificate-of-eligibility application under ss. 943.059 and 943.585. Early juvenile expunction is s. 943.0515(1)(b)2 and FDLE issues a separate application for it. Neither statute nor form number matches.",
+   "held": {
+    "custody": "MASTER_LIBRARY",
+    "archive": "Expungement_AI_RCAP_Master_Library_Edition_1",
+    "pathInArchive": "STATES/FL/05_SOURCE_GATED/FL__SOURCE-GATED__FDLE40-021-EXPUNCTION__application-for-a-certificate-of-eligibility-for-expunction__REV-2019-10__EN.pdf",
+    "sha256": "b2f5a7ba874be75f2d9f1d045862d9ab4f36f2268240879ec4beed8cdc48d100",
+    "byteLength": 31782,
+    "pageCount": 6,
+    "hashRecomputedBy": "FABLE-DISC7 sha256sum on the opened file",
+    "inCommittedCorpusIndexAtThisPathAndHash": true
+   }
+  },
+  {
+   "label": "official-form:FDLE-EARLY-JUVENILE-EXPUNCTION-APPLICATION",
+   "familyId": "fl-early-juvenile-set",
+   "candidateOpened": "FL FDLE 40-026",
+   "whatItTurnedOutToBe": "\"APPLICATION FOR A CERTIFICATE OF ELIGIBILITY FOR LAWFUL SELF-DEFENSE EXPUNCTION (s. 943.0578, F.S.)\", form token FDLE40-026.",
+   "whyThatIsNotThisLabel": "Lawful self-defense expunction under s. 943.0578, a different relief and a different form number.",
+   "held": {
+    "custody": "MASTER_LIBRARY",
+    "archive": "Expungement_AI_RCAP_Master_Library_Edition_1",
+    "pathInArchive": "STATES/FL/05_SOURCE_GATED/FL__SOURCE-GATED__FDLE40-026__application-for-a-certificate-of-eligibility-for-lawful-self-defense-expunction__REV-2019-10__EN.pdf",
+    "sha256": "d7bdbbb546cf6280fd07710e3132885db771400ba778d111835b5de281c58602",
+    "byteLength": 21702,
+    "pageCount": 5,
+    "hashRecomputedBy": "FABLE-DISC7 sha256sum on the opened file",
+    "inCommittedCorpusIndexAtThisPathAndHash": true
+   }
+  },
+  {
+   "label": "official-form:Rule 2.86 Form 1 / Form 2 / Form 2 attached sheet / Form 3",
+   "familyIds": [
+    "ia-901c2-set",
+    "ia-901c3-set",
+    "ia-12346-set"
+   ],
+   "candidateOpened": "IA Rule 2.86 Form 4 and Form 5, the only two Rule 2.86 forms in the mounted corpus",
+   "whatItTurnedOutToBe": "Their printed headers read \"Rule 2.86\\u2014Form 4: Application to Expunge Possession of Alcohol under the Legal Age Court Records under Iowa Code section 123.47\" and \"Rule 2.86\\u2014Form 5: Application to Expunge Prostitution Court Records under Iowa Code section 725.1\".",
+   "whyThatIsNotThisLabel": "Each prints its own form number on its face. Form 4 is not Form 1, 2 or 3, and neither is Form 5. Forms 1, 2 and 3 are separate documents that are not mounted.",
+   "held": {
+    "custody": "MASTER_LIBRARY",
+    "archive": "Expungement_AI_RCAP_Master_Library_Edition_1",
+    "pathInArchive": "STATES/IA/02_PACKET_FORMS/IA__FORM__RULE-2.86-FORM-4__application-to-expunge-possession-of-alcohol-under-the-legal-age-court-records-under-iowa__REV-2024-08__EN.pdf",
+    "sha256": "279eefe8c5f6b51ec73eb943c9a479757ff3d2c439177bfbf3044e7e71f66c45",
+    "byteLength": 288751,
+    "pageCount": 2,
+    "hashRecomputedBy": "FABLE-DISC7 sha256sum on the opened file",
+    "inCommittedCorpusIndexAtThisPathAndHash": true
+   }
+  }
+ ],
+ "absences": [
+  {
+   "label": "official-form:ACIC-UNIFORM-PETITION-TO-SEAL",
+   "familyId": "ar-misdemeanor-seal-set",
+   "resolution": "not_in_the_mounted_corpus",
+   "searched": "All 22 AR PDFs in the Master Library and all 22 in the D1 source pack (they are the same 22 filenames). The Act 1460 misdemeanor ORDER is held; no Act 1460 misdemeanor PETITION is. Excluded by reading: the DWI/BWI misdemeanor petition (different relief), the Act 1460 arrest petition, the Act 1460 felony petition, the Act 531 petition, the controlled-substance petition, the nolle prosequi petition, the pardoned-offender petition."
+  },
+  {
+   "label": "official-form:ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS",
+   "familyId": "ar-act346-set",
+   "resolution": "not_in_the_mounted_corpus",
+   "searched": "Both AR shards hold exactly two Act 346 documents: the Order to Dismiss and Seal First Offenders (already bound) and the Order of Probation under Act 346 (opened and refused above). There is no Act 346 petition. Captain's prior finding stands unchanged."
+  },
+  {
+   "label": "official-form:ACIC-ORDER-VETERANS-COURT",
+   "familyId": "ar-veterans-court-set",
+   "resolution": "not_in_the_mounted_corpus",
+   "searched": "The veterans treatment specialty court PETITION is held and bound. No file in either AR shard prints a veterans-court ORDER. The nearest held orders are the pre- and post-adjudication drug court orders, both of which print DRUG COURT and A.C.A. \\u00a716-98-303 on their faces rather than VETERANS TREATMENT SPECIALITY COURT and A.C.A. \\u00a716-101-106; they were opened and are not this order. Captain's prior finding stands unchanged."
+  },
+  {
+   "label": "official-form:FDLE-EARLY-JUVENILE-EXPUNCTION-APPLICATION",
+   "familyId": "fl-early-juvenile-set",
+   "resolution": "not_in_the_mounted_corpus",
+   "searched": "The mounted FL shard holds five files: FDLE40-021 twice (sealing and expunction copies, identical printed face), FDLE40-026, and two circuit packets (4th Judicial Circuit Duval County, 7th Judicial Circuit St Johns County). The corpus index contains no path or form number matching 40-028. FDLE 40-028 is the number the family needs and it is not held."
+  },
+  {
+   "label": "official-form:GBI-GCIC-REQUEST-TO-RESTRICT-ARREST-RECORD-PRIOR-TO-07-01-2013",
+   "familyId": "ga-nonconv-pre2013-set",
+   "resolution": "not_in_the_mounted_corpus",
+   "searched": "There is no Georgia shard at all. The committed corpus index covers 45 jurisdictions and GA is not one of them; the Master Library STATES directory has no GA folder and neither does any D pack. Searching the index for GBI and for GCIC returns zero rows. Nothing could be opened."
+  },
+  {
+   "label": "official-form:HCJDC-159B",
+   "familyIds": [
+    "hi_712_1200_deferred_expungement-set",
+    "hi_dag_danc_expungement-set"
+   ],
+   "resolution": "not_in_the_mounted_corpus",
+   "searched": "There is no Hawaii shard at all - HI is absent from the 45 jurisdictions in the index, from the Master Library STATES directory and from every D pack. Searching the index for the token 159 returns zero rows. Nothing could be opened."
+  },
+  {
+   "label": "official-form:Rule 2.86 Form 3",
+   "familyId": "ia-12346-set",
+   "resolution": "not_in_the_mounted_corpus",
+   "searched": "The mounted IA shard holds exactly two PDFs, Rule 2.86 Form 4 and Form 5, in both the Master Library and D3. Both were opened; both print their own form number. Forms 1, 2 and 3 are absent."
+  },
+  {
+   "label": "official-form:Rule 2.86 Form 1",
+   "familyId": "ia-901c2-set",
+   "resolution": "not_in_the_mounted_corpus",
+   "searched": "Same two-file IA shard as above."
+  },
+  {
+   "label": "official-form:Rule 2.86 Form 2",
+   "familyId": "ia-901c3-set",
+   "resolution": "not_in_the_mounted_corpus",
+   "searched": "Same two-file IA shard as above."
+  },
+  {
+   "label": "official-form:Rule 2.86 Form 2 attached sheet",
+   "familyId": "ia-901c3-set",
+   "resolution": "not_in_the_mounted_corpus",
+   "searched": "Cannot be read because Form 2 itself is absent. Note for the next lane: on Forms 4 and 5, which were read in full, the analogous overflow content is printed inside the form and there is no separate attached sheet document; the same is likely true of Form 2, but that is a prediction and not a read."
+  },
+  {
+   "label": "official-form:Certification of Service by Mailing or Delivery",
+   "familyIds": [
+    "ia-12346-set",
+    "ia-901c2-set",
+    "ia-901c3-set"
+   ],
+   "resolution": "not_in_the_mounted_corpus_as_a_document_and_not_a_document_at_all",
+   "searched": "Read on page 2 of Rule 2.86 Form 4 and again in Form 5: it is a printed section heading inside each application, not a separate filing. For these three families the certification exists only inside their Form 1 / Form 2 / Form 3, which are not mounted, so it cannot be read there. It should not be modelled as a document."
+  },
+  {
+   "label": "official-form:DCI-76 Criminal History Record Check Billing Form",
+   "familyId": "ia-dci77-set",
+   "resolution": "not_in_the_mounted_corpus",
+   "searched": "Searching the corpus index for the token DCI-7 returns zero rows across all 45 jurisdictions. The IA shard holds only Rule 2.86 Forms 4 and 5."
+  },
+  {
+   "label": "official-form:DCI-77 Criminal History Record Check Request Form",
+   "familyId": "ia-dci77-set",
+   "resolution": "not_in_the_mounted_corpus",
+   "searched": "Same as DCI-76. The classification records these two labels as one combined fillable PDF held on a Nationwide path; that path is not in the mounted corpus, so no read was possible."
+  },
+  {
+   "label": "official-form:KS-CRIMINAL-COVER-SHEET-10-14-2025",
+   "familyIds": [
+    "ks-21-6614-conviction-set",
+    "ks-21-6614-diversion-set",
+    "ks-21-6614-prostitution-coercion-set",
+    "ks-21-6614-specialty-court-set",
+    "ks-22-2410-arrest-set"
+   ],
+   "resolution": "not_in_the_mounted_corpus",
+   "searched": "The mounted KS shard holds exactly three PDFs (notice of hearing 12/2016, order cover sheet 12/2016, order for expungement 08/2022) in the Master Library and the same three in D2. All three were opened and none is a criminal cover sheet. The index has no row matching CRIMINAL-COVER."
+  },
+  {
+   "label": "official-form:KSJC-ORDER-DENYING-EXPUNGEMENT-12-2016",
+   "familyIds": [
+    "ks-21-6614-conviction-set",
+    "ks-21-6614-diversion-set",
+    "ks-21-6614-prostitution-coercion-set",
+    "ks-21-6614-specialty-court-set"
+   ],
+   "resolution": "not_in_the_mounted_corpus",
+   "searched": "Same three-file KS shard. The index has no row matching ORDER-DENYING. The held 12/2016 order document is the cover sheet, whose face reads ORDER OF EXPUNGEMENT, not ORDER DENYING."
+  },
+  {
+   "label": "official-form:KSJC-PETITION-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022",
+   "familyIds": [
+    "ks-21-6614-conviction-set",
+    "ks-21-6614-diversion-set",
+    "ks-21-6614-prostitution-coercion-set",
+    "ks-21-6614-specialty-court-set",
+    "ks-22-4908-registration-relief-set"
+   ],
+   "resolution": "not_in_the_mounted_corpus",
+   "searched": "The 08/2022 KSJC document that is held is the ORDER FOR EXPUNGEMENT - its face prints \"the Court considers the Petition for Expungement filed herein\", which is proof that the petition is a separate document and proof that this file is not it. No petition is mounted. This is the same petition-and-order split Captain named: the order half is read-confirmed, the petition half is absent."
+  },
+  {
+   "label": "official-form:KSJC-PETITION-EXPUNGEMENT-ARREST-RECORD-02-2013",
+   "familyId": "ks-22-2410-arrest-set",
+   "resolution": "not_in_the_mounted_corpus",
+   "searched": "Same three-file KS shard; nothing prints an arrest-record petition or the 02/2013 revision."
+  },
+  {
+   "label": "official-form:KSJC-ORDER-EXPUNGEMENT-ARREST-RECORD-COVER-SHEET-12-2016",
+   "familyId": "ks-22-2410-arrest-set",
+   "resolution": "not_in_the_mounted_corpus",
+   "searched": "The 12/2016 cover sheet that is held prints CONVICTION OR DIVERSION on its face; it was opened and refused above. No arrest-record cover sheet is mounted."
+  },
+  {
+   "label": "official-form:KSJC-PETITION-RELIEF-FROM-OFFENDER-REGISTRATION-06-2022",
+   "familyId": "ks-22-4908-registration-relief-set",
+   "resolution": "not_in_the_mounted_corpus",
+   "searched": "Searching the index for OFFENDER-REGISTRATION returns zero rows in any jurisdiction."
+  },
+  {
+   "label": "official-form:KSJC-ORDER-RELIEF-FROM-OFFENDER-REGISTRATION-COVER-SHEET-06-2022",
+   "familyId": "ks-22-4908-registration-relief-set",
+   "resolution": "not_in_the_mounted_corpus",
+   "searched": "Same as its petition; zero rows."
+  },
+  {
+   "label": "official-form:Petition for Expungement, G.L. c. 276, § 100K",
+   "familyId": "ma-expunge-k-set",
+   "resolution": "not_in_the_mounted_corpus",
+   "searched": "The mounted MA shard holds exactly two PDFs. Both were opened: TC0021 (\\u00a7 100K\\u00bc marijuana) and the OCP Petition to Expunge (\\u00a7\\u00a7 100F/100G/100H). Neither recites \\u00a7 100K."
+  },
+  {
+   "label": "official-form:Petition to Seal (Office of the Commissioner of Probation)",
+   "familyId": "ma-seal-admin-set",
+   "resolution": "not_in_the_mounted_corpus",
+   "searched": "Same two MA PDFs, both opened. Neither is a petition to SEAL; both are petitions to EXPUNGE."
+  },
+  {
+   "label": "official-form:Petition to Seal (Office of the Commissioner of Probation), Part A box 4",
+   "familyId": "ma-seal-decrim-set",
+   "resolution": "not_in_the_mounted_corpus",
+   "searched": "This label names a box on the OCP Petition to Seal, which is itself absent, so the box cannot be read. It is a field on a form, not a document, and should not be modelled as one once the form is acquired."
+  },
+  {
+   "label": "official-form:TC0057",
+   "familyId": "ma-seal-court-set",
+   "resolution": "not_in_the_mounted_corpus",
+   "searched": "Full-text TC-number scan of the whole mounted MA shard yields one token, TC0021. TC0057 is printed nowhere."
+  },
+  {
+   "label": "official-form:CC-DC-CR-072A",
+   "familyId": "md_10105_favorable-set",
+   "resolution": "not_in_the_mounted_corpus",
+   "searched": "All five mounted MD PDFs were opened. Their printed numbers are DC-CR-071, CC-DC-089, CC-DC-CR-078, CC-DC-CR-148 and MDJ-008. Index searches for 072A, 072B, 072C and 072D each return zero rows, so the sibling Maryland families md_10105_early-set (072C), md_10110_conviction-set (072B), md_pardon_expungement-set (072B) and md_cannabis_petition-set (072D) are absent for the same reason - the next lane need not search MD again."
+  },
+  {
+   "label": "official-form:CR-218",
+   "familyId": "me-seal-gen-set",
+   "resolution": "not_in_the_mounted_corpus",
+   "searched": "The mounted ME shard holds exactly two PDFs, CR-289 and CR-307, both opened and both printing their own numbers. Index search for CR-218 returns zero rows."
+  },
+  {
+   "label": "official-form:MC 227 item 2.c",
+   "familyId": "mi_setaside_first_owi-set",
+   "resolution": "not_in_the_mounted_corpus",
+   "searched": "The mounted MI shard holds exactly three PDFs: MC 227a, MC 227b and MC 228. All three were opened. The base MC 227 is absent, and MC 227a and MC 227b each print \"you must use form MC 227\" for the convictions they do not cover - the held documents themselves testify that MC 227 is a fourth, absent document. mi_setaside_application-set names the same absent MC 227."
+  },
+  {
+   "label": "official-form:MC 227 page 3 Proof of Service",
+   "familyId": "mi_setaside_first_owi-set",
+   "resolution": "not_in_the_mounted_corpus",
+   "searched": "Cannot be read because MC 227 is absent. MC 227b's page 3 Proof of Service was read and is MC 227b's, not MC 227's."
+  }
+ ],
+ "incidentalDefectsForCaptain": [
+  {
+   "kind": "wrong recorded title in the committed corpus index",
+   "path": "STATES/ME/05_SOURCE_GATED/ME__SOURCE-GATED__CR-289__ada-notice-the-maine-judicial-branch-complies-with-the-americans-with-disabilities-act-ada__REV-2024-10__EN.pdf",
+   "recordedTitle": "ada-notice-the-maine-judicial-branch-complies-with-the-americans-with-disabilities-act-ada",
+   "printedTitle": "MOTION TO SEAL CONVICTION FOR ENGAGING IN PROSTITUTION, 15 M.R.S.A. § 2262-A",
+   "why": "The indexer scraped the ADA boilerplate paragraph instead of the caption. Any binding that trusts recorded titles will mis-describe this form.",
+   "sha256": "bbf89387690d1ab17984c5b799366a26196e8d71b5172bc2768f593b819a7423"
+  },
+  {
+   "kind": "misleading recorded title in the committed corpus index",
+   "path": "STATES/KS/05_SOURCE_GATED/KS__SOURCE-GATED__KS-ORDER-OF-EXPUNGEMENT-OF-CONVICTION-OR-DIVE__order-of-expungement-of-conviction-or-diversion__REV-2016-12__EN.pdf",
+   "recordedTitle": "order-of-expungement-of-conviction-or-diversion",
+   "printedTitle": "ORDER OF EXPUNGEMENT OF CONVICTION OR DIVERSION COVER SHEET (for submission to the Kansas Bureau of Investigation)",
+   "why": "The recorded title drops COVER SHEET, so the file reads as the order itself. It is a one-page KBI transmittal cover sheet.",
+   "sha256": "d4171396d12f55a50d6c4e0d5a3b694ad982325e7377d74deaa5839d3bfad537"
+  },
+  {
+   "kind": "two index rows, one printed face",
+   "paths": [
+    "STATES/FL/05_SOURCE_GATED/FL__SOURCE-GATED__FDLE40-021-EXPUNCTION__application-for-a-certificate-of-eligibility-for-expunction__REV-2019-10__EN.pdf",
+    "STATES/FL/05_SOURCE_GATED/FL__SOURCE-GATED__FDLE40-021-SEALING__application-for-a-certificate-of-eligibility-for-sealing__REV-2019-10__EN.pdf"
+   ],
+   "why": "Both files print the identical face - one combined FDLE40-021 application covering sealing (s. 943.059) and expunction (s. 943.585). They are recorded as if they were two different forms. Different bytes, same document identity. Worth one determination before either is bound as a distinct form."
+  },
+  {
+   "kind": "census label prints on no document",
+   "label": "ACIC-UNIFORM-PETITION-TO-SEAL / ACIC-UNIFORM-ORDER-TO-SEAL",
+   "why": "The word UNIFORM appears in no ACIC PDF in the mounted corpus - all 22 AR files were full-text searched, zero hits. The label is census vocabulary, not a form number. It is also used by two families (ar-felony-seal-set and ar-misdemeanor-seal-set) that need different documents, so the label string alone can never identify one document. Recommend renaming to the printed titles."
+  },
+  {
+   "kind": "labels that name parts of forms rather than documents",
+   "labels": [
+    "Certification of Service by Mailing or Delivery (IA, 5 families)",
+    "Rule 2.86 Form 2 attached sheet (ia-901c3-set)",
+    "MC 227 item 2.c and MC 227 page 3 Proof of Service (mi_setaside_first_owi-set, mi_setaside_application-set)",
+    "Proof of Service (mi_setaside_trafficking-set)",
+    "Petition to Seal (Office of the Commissioner of Probation), Part A box 4 (ma-seal-decrim-set)"
+   ],
+   "why": "Each was read on the face of the parent form or is a named box on one. Modelled as separate official_pdf_fill sources they keep their families source-blocked forever, exactly as COMPOSE_FROM_AUTHORITY describes for a different reason. Two of them (IA Forms 4 and 5, MI MC 227b) are resolved in artifactFindings above because the parent form is held; the rest cannot resolve until the parent is acquired."
+  }
+ ],
+ "whatThisDoesNotEstablish": [
+  "No claim was asserted, released, transferred or reissued. This lane read documents; it wrote no family.",
+  "No file outside data/rcap-grade-a/fable-packet-factory/returns/ was modified. SOURCE_BACKLOG_CLASSIFICATION.json, MASTER_QUEUE.json, the corpus index, the claim ledger, generators and overlays are untouched. Captain merges.",
+  "A confirmed source identity is not a fulfillment record, not a route promotion and not commercial authority. Confirming that ar-felony-seal-set's two documents are held and correctly identified says nothing about whether that route may sell anything.",
+  "Legal sufficiency of any packet, and whether a family's named form set is the right form set, are outside this lane. Only what the paper prints was established.",
+  "Nothing here upgrades an existing confidence. Where a prior finding said confirmed_from_corpus_title or confirmed_from_recorded_title and this lane did not open the file, that finding is left exactly as it was."
+ ]
+}

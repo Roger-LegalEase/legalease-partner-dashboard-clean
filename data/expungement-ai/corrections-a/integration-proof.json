@@ -1,0 +1,18 @@
+{
+  "schemaVersion": "expai-corrections-a-integration-proof/v1",
+  "baseSha": "07675789a80e732d2b835c1e8ba2092b39201b79",
+  "patchPath": "data/expungement-ai/corrections-a/shared-integration.patch",
+  "patchSha256": "d49d7e11e38d2490000dd1df9b9c3c5420af1ac22464db4cdcf09e02a629b3d5",
+  "method": "Copied this lane's source tree to a disposable /private/tmp shadow, applied the unified patch with git apply, and ran the lane-owned actual-evaluator boundary verifier from the patched shadow.",
+  "commands": [
+    "NODE_NO_WARNINGS=1 node scripts/verify-corrections-a-boundaries.mjs --integrated",
+    "NODE_NO_WARNINGS=1 node scripts/verify-corrections-a-runtime.mjs --integrated",
+    "NODE_NO_WARNINGS=1 node scripts/verify-corrections-a-closure.mjs --integrated"
+  ],
+  "result": "GREEN",
+  "paidBoundaryCases": 10,
+  "mississippiBoundaryCases": 19,
+  "actualEvaluatorRouteFixtures": 36,
+  "unexpectedPaidRoutesAfterPatch": 0,
+  "sharedFilesCommittedInLane": false
+}

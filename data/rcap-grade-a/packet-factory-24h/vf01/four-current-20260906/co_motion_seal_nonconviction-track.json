@@ -1,0 +1,283 @@
+{
+  "jurisdiction": "CO",
+  "trackId": "co_motion_seal_nonconviction",
+  "legalName": "Motion to Seal Non-Conviction Records, Simplified Backstop, C.R.S. \u00a7 24-72-705(2) and (3)",
+  "publicName": "Motion To Seal Non-Conviction Records, Simplified Backstop",
+  "mechanism": "The simplified motion backstop where automatic sealing at disposition did not reach the record.",
+  "authority": [
+    "C.R.S. \u00a7 24-72-705(2) and (3)"
+  ],
+  "reviewedAsOf": "2026-07-30",
+  "effectiveFrom": "2025-07-01",
+  "effectiveTo": null,
+  "recordTypes": [
+    "charge"
+  ],
+  "dispositions": [
+    "non-conviction dispositions within \u00a7 24-72-705(2) and (3)"
+  ],
+  "exclusions": [],
+  "waitingPeriods": [],
+  "outputStrategy": "official_pdf_fill",
+  "outputStrategyDeclared": "official_pdf_fill",
+  "compositionMode": null,
+  "units": [],
+  "geographicScope": "statewide",
+  "geographyKeys": [],
+  "venue": "Statewide Colorado track; motion in the court that handled the underlying case.",
+  "destination": {
+    "kind": "court",
+    "name": "The court that handled the underlying case",
+    "detail": "Court-controlled with a district attorney response opportunity."
+  },
+  "packetSet": {
+    "packetSetId": "co_motion_seal_nonconviction-set",
+    "version": "1.0.0",
+    "components": [
+      {
+        "componentId": "co_motion_seal_nonconviction-primary-filing-1",
+        "role": "primary_filing",
+        "requirement": "required",
+        "conditionDescription": null,
+        "outputStrategy": "official_pdf_fill",
+        "officialFormId": "JDF-477",
+        "officialSourceUrl": null,
+        "order": 1
+      },
+      {
+        "componentId": "co_motion_seal_nonconviction-proposed-order-2",
+        "role": "proposed_order",
+        "requirement": "required",
+        "conditionDescription": null,
+        "outputStrategy": "official_pdf_fill",
+        "officialFormId": "JDF-478",
+        "officialSourceUrl": null,
+        "order": 2
+      }
+    ],
+    "participantActionRequired": [
+      {
+        "kind": "obtain_document",
+        "description": "Obtain Colorado criminal-history report. Request a criminal-history report from CBI and attach it if the form requires it.",
+        "obtainedFrom": "Colorado Bureau of Investigation",
+        "requirement": "conditional",
+        "conditionDescription": "Where the official form requires a history or exhibit.",
+        "requiredBeforeFiling": true
+      },
+      {
+        "kind": "confirm_answer",
+        "description": "Check your answer to \"How did the case end?\" against Colorado criminal-history report, and correct the packet if they disagree.",
+        "requirement": "conditional",
+        "conditionDescription": "Where the official form requires a history or exhibit.",
+        "requiredBeforeFiling": true
+      },
+      {
+        "kind": "complete_field",
+        "description": "Signature and date \u2014 JDF 477, signature block.",
+        "requirement": "required",
+        "requiredBeforeFiling": true
+      },
+      {
+        "kind": "sign",
+        "description": "The movant signs their own motion.",
+        "requirement": "required",
+        "requiredBeforeFiling": true
+      },
+      {
+        "kind": "notarize",
+        "description": "The source review does not state a notarization requirement.",
+        "requirement": "required",
+        "requiredBeforeFiling": true
+      },
+      {
+        "kind": "pay_fee",
+        "description": "The source review does not state a filing fee for the simplified motion.",
+        "requirement": "required",
+        "requiredBeforeFiling": true
+      },
+      {
+        "kind": "apply_fee_waiver",
+        "description": "The source review does not address a fee waiver.",
+        "requirement": "conditional",
+        "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+        "requiredBeforeFiling": true
+      },
+      {
+        "kind": "serve_party",
+        "description": "The source review does not state a separate service requirement beyond the court's process.",
+        "requirement": "required",
+        "requiredBeforeFiling": false
+      },
+      {
+        "kind": "file",
+        "description": "File the motion in the court that handled the underlying case.",
+        "requirement": "required",
+        "requiredBeforeFiling": false
+      }
+    ],
+    "requiredBeforeFiling": [
+      "Obtain Colorado criminal-history report. Request a criminal-history report from CBI and attach it if the form requires it.",
+      "Check your answer to \"How did the case end?\" against Colorado criminal-history report, and correct the packet if they disagree.",
+      "Signature and date \u2014 JDF 477, signature block.",
+      "The movant signs their own motion.",
+      "The source review does not state a notarization requirement.",
+      "The source review does not state a filing fee for the simplified motion.",
+      "The source review does not address a fee waiver."
+    ]
+  },
+  "officialSources": [
+    {
+      "title": "Colorado Judicial Branch, Seal My Case",
+      "url": "https://www.coloradojudicial.gov/self-help/seal-my-case",
+      "retrievedOn": "2026-07-30",
+      "sha256": null
+    }
+  ],
+  "rules": {
+    "filing": "File the motion in the court that handled the underlying case.",
+    "fees": "The source review does not state a filing fee for the simplified motion.",
+    "feeWaiver": "The source review does not address a fee waiver.",
+    "notice": "The district attorney has an opportunity to respond.",
+    "service": "The source review does not state a separate service requirement beyond the court's process.",
+    "participantSignature": "The movant signs their own motion.",
+    "notarization": "The source review does not state a notarization requirement."
+  },
+  "generationRequirements": [
+    {
+      "key": "disposition",
+      "question": "How did the case end?",
+      "requirement": "required"
+    },
+    {
+      "key": "caseNumberAndCourt",
+      "question": "What is the case number, and which court handled the case?",
+      "requirement": "required"
+    },
+    {
+      "key": "recordStillVisible",
+      "question": "Does the case still appear on a background check?",
+      "requirement": "required"
+    }
+  ],
+  "participantFilingRequirements": [
+    {
+      "name": "Colorado criminal-history report",
+      "obtainedFrom": "Colorado Bureau of Investigation",
+      "requirement": "conditional",
+      "conditionDescription": "Where the official form requires a history or exhibit.",
+      "requiredBeforeFiling": true,
+      "howToObtain": "Request a criminal-history report from CBI and attach it if the form requires it.",
+      "confirms": "disposition"
+    }
+  ],
+  "manualCompletionItems": [
+    {
+      "item": "Signature and date",
+      "whereInPacket": "JDF 477, signature block",
+      "why": "The movant signs their own motion."
+    }
+  ],
+  "selfHelpBoundaries": [
+    "The district attorney objects.",
+    "The court sets a contested hearing.",
+    "Immigration, licensing or firearm consequences are in play.",
+    "A normal court hearing does not prevent generation. Opposition, disputed facts, or a request for individualized discretionary advocacy triggers handoff."
+  ],
+  "postGenerationHandoffs": [
+    "A normal court hearing does not prevent generation. Opposition, disputed facts, or a request for individualized discretionary advocacy triggers handoff."
+  ],
+  "packetInstructions": [
+    "Where an official form requires a history or exhibit, the packet checklist must identify it as required_before_filing."
+  ],
+  "participantQuestions": [],
+  "scopeRestrictions": [],
+  "buildBlockers": [],
+  "releaseBlockers": [
+    {
+      "question": "JDF 477, 478, 491, 492 and 493, the non-conviction simplified set, have not been acquired. None are in the current replica archive.",
+      "impact": "release_blocker",
+      "affectedElement": "correct_form",
+      "provenance": {
+        "classificationBasis": "mechanical_translation",
+        "sourceFile": "LegalEase-Colorado-Legal-Review.md",
+        "sourceHeading": "TRACK CO-4 / missing source requirements",
+        "sourceStatement": "JDF 477, 478, 491, 492, 493, the non-conviction simplified set.",
+        "normalizerInferred": true
+      }
+    }
+  ],
+  "awaitingCounselClassification": [],
+  "openLegalQuestions": [],
+  "counselConfirmationRequired": false,
+  "counselQuestions": [],
+  "selfHelpStopConditions": [
+    "The district attorney objects.",
+    "The court sets a contested hearing.",
+    "Immigration, licensing or firearm consequences are in play."
+  ],
+  "unresolvedQuestions": [
+    {
+      "question": "JDF 477, 478, 491, 492 and 493, the non-conviction simplified set, have not been acquired. None are in the current replica archive.",
+      "impact": "release_blocker",
+      "affectedElement": "correct_form",
+      "provenance": {
+        "classificationBasis": "mechanical_translation",
+        "sourceFile": "LegalEase-Colorado-Legal-Review.md",
+        "sourceHeading": "TRACK CO-4 / missing source requirements",
+        "sourceStatement": "JDF 477, 478, 491, 492, 493, the non-conviction simplified set.",
+        "normalizerInferred": true
+      }
+    }
+  ],
+  "guidanceRationales": [],
+  "guidanceRereviewCandidate": false,
+  "legalDesignStatus": "legal_design_approved",
+  "legalDesignLimitations": [
+    {
+      "classification": "required_before_filing",
+      "statement": "Where an official form requires a history or exhibit, the packet checklist must identify it as required_before_filing.",
+      "provenance": {
+        "classificationBasis": "explicit_state_addendum",
+        "sourceFile": "LegalEase-Colorado-Legal-Review.md",
+        "sourceHeading": "Colorado operational amendments / Limitations reclassified as participant instructions",
+        "sourceStatement": "Where an official form requires a history or exhibit, the packet checklist must identify it as `required_before_filing`."
+      }
+    },
+    {
+      "classification": "post_generation_handoff",
+      "statement": "A normal court hearing does not prevent generation. Opposition, disputed facts, or a request for individualized discretionary advocacy triggers handoff.",
+      "provenance": {
+        "classificationBasis": "explicit_state_addendum",
+        "sourceFile": "LegalEase-Colorado-Legal-Review.md",
+        "sourceHeading": "Colorado operational amendments / Limitations reclassified as participant instructions",
+        "sourceStatement": "A normal court hearing does not prevent generation. Opposition, disputed facts, or a request for individualized discretionary advocacy triggers handoff."
+      }
+    }
+  ],
+  "legalStatus": "legal_review_pending",
+  "runtimeDisabledReason": "Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.",
+  "implementationQueue": "F_source_problem",
+  "legalDesignBlockers": [],
+  "blockers": [
+    {
+      "kind": "output_review_gate",
+      "statement": "Output review pending: counsel approved the design, not the produced document."
+    },
+    {
+      "kind": "visual_review_gate",
+      "statement": "Visual review not started."
+    },
+    {
+      "kind": "technical_proof_gate",
+      "statement": "Technical proof not started."
+    },
+    {
+      "kind": "release_blocker",
+      "statement": "Open question blocks release (correct_form): JDF 477, 478, 491, 492 and 493, the non-conviction simplified set, have not been acquired. None are in the current replica archive."
+    },
+    {
+      "kind": "source_gate",
+      "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+    }
+  ]
+}

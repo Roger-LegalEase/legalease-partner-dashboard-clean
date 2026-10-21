@@ -61,7 +61,7 @@ export function PacketGenerateButton({
             : label ?? translate("briefcase.generate_packet", "Generate my packet")}
       </button>
       {status === "error" ? (
-        <p className="mt-2 text-[13px] font-semibold text-[#B23036]">
+        <p className="mt-2 text-[13px] font-semibold text-[#B23036]" role="alert" aria-live="assertive">
           {durable
             ? "We could not start packet preparation right now. Try again or contact support."
             : translate("briefcase.generate_error", "We could not generate the packet right now. Try again or contact support.")}

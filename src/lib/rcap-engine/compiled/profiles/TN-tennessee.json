@@ -1,6 +1,22 @@
 {
   "schemaVersion": "2.0.0",
   "profileVersion": "2026-06-19-source-conversion-1",
+  "questionLifecycle": {
+    "routeConsumers": {},
+    "exactPacketFactIds": [
+      "criminal_history",
+      "disposition_date",
+      "court",
+      "charge",
+      "record_documents",
+      "county_or_filing_location",
+      "case_identifier"
+    ],
+    "completionAliasIds": [
+      "sentence_completion_date",
+      "financial_obligations"
+    ]
+  },
   "jurisdiction": {
     "code": "TN",
     "name": "Tennessee",
@@ -587,11 +603,12 @@
         "paymentAllowed": true
       },
       "lawrenceRatification": {
-        "status": "corrected_awaiting_reconfirmation",
-        "packet_capable": false,
-        "payment_allowed_when_engine_confirms": false,
+        "status": "ratified_deployable",
+        "packet_capable": true,
+        "payment_allowed_when_engine_confirms": true,
         "legal_basis": "Lawrence first-pass correction; re-confirm required before selling",
-        "lawrence_review": "corrected_needs_reconfirm"
+        "lawrence_review": "ratified_deployable",
+        "projectedFrom": "route-ratification-registry"
       }
     },
     {
@@ -709,7 +726,8 @@
         "packet_capable": false,
         "payment_allowed_when_engine_confirms": false,
         "legal_basis": "Lawrence first-pass hold; show substantive guidance only for this release",
-        "lawrence_review": "hold_guidance_only"
+        "lawrence_review": "hold_guidance",
+        "projectedFrom": "route-ratification-registry"
       }
     },
     {
@@ -829,7 +847,8 @@
         "packet_capable": false,
         "payment_allowed_when_engine_confirms": false,
         "legal_basis": "Lawrence named substantive gate required before selling",
-        "lawrence_review": "gate_required"
+        "lawrence_review": "hard_gate_pending",
+        "projectedFrom": "route-ratification-registry"
       }
     },
     {
@@ -947,7 +966,8 @@
         "packet_capable": false,
         "payment_allowed_when_engine_confirms": false,
         "legal_basis": "Lawrence named substantive gate required before selling",
-        "lawrence_review": "gate_required"
+        "lawrence_review": "hard_gate_pending",
+        "projectedFrom": "route-ratification-registry"
       }
     }
   ],

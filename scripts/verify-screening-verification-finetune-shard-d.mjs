@@ -1,0 +1,244 @@
+#!/usr/bin/env node
+
+import assert from "node:assert/strict";
+import crypto from "node:crypto";
+import fs from "node:fs";
+import path from "node:path";
+import { register } from "node:module";
+
+process.env.RCAP_EVALUATOR_TODAY = "2026-08-25";
+register("./lib/ts-esm-loader.mjs", import.meta.url);
+
+const { evaluateExpungementAiMatter } = await import("../src/lib/rcap-engine/expungement-ai-adapter.ts");
+const { evaluateScreening } = await import("../src/lib/rcap-engine/evaluator.ts");
+const { getProfileByJurisdiction } = await import("../src/lib/rcap-engine/profile-registry.ts");
+const { projectPublicProfile } = await import("../src/lib/rcap-engine/public-profile-projection.ts");
+const { ROUTE_ESCALATION_FACT_IDS } = await import("../src/lib/rcap-engine/route-fact-relevance.ts");
+const { selectScreeningQuestionIds } = await import("../src/lib/rcap-engine/screening-question-selection.ts");
+
+const ROOT = process.cwd();
+const PROFILE_ROOT = path.join(ROOT, "src/lib/rcap-engine/compiled/profiles");
+const EVIDENCE_PATH = path.join(ROOT, "data/expungement-ai/screening-verification-finetune/shard-d.json");
+const MANIFEST_PATH = path.join(ROOT, "data/expungement-ai/flow-audit/flow-manifest.json");
+const RECONCILIATION_PATH = path.join(ROOT, "data/expungement-ai/flow-audit/FINAL_CANDIDATE_RECONCILIATION.json");
+
+const expected = {
+  AL: {
+    file: "AL-alabama.json",
+    routeConsumers: {},
+    exactPacketFactIds: ["disposition_date", "court", "charge", "record_documents", "county_or_filing_location", "case_identifier"],
+    completionAliasIds: ["sentence_completion_date", "financial_obligations"]
+  },
+  AK: {
+    file: "AK-alaska.json",
+    routeConsumers: {},
+    exactPacketFactIds: ["criminal_history", "disposition_date", "court", "charge", "record_documents", "county_or_filing_location", "case_identifier"],
+    completionAliasIds: ["sentence_completion_date"]
+  },
+  AZ: {
+    file: "AZ-arizona.json",
+    routeConsumers: {},
+    exactPacketFactIds: ["criminal_history", "disposition_date", "court", "charge", "record_documents", "county_or_filing_location", "case_identifier"],
+    completionAliasIds: ["financial_obligations"]
+  },
+  AR: {
+    file: "AR-arkansas.json",
+    routeConsumers: {},
+    exactPacketFactIds: ["disposition_date", "court", "charge", "record_documents", "county_or_filing_location", "case_identifier"],
+    completionAliasIds: ["sentence_completion_date", "financial_obligations"]
+  },
+  CA: {
+    file: "CA-california.json",
+    routeConsumers: {
+      ca_prop64_branch: ["prop-64-currently-serving-petition-11361-8", "prop-64-completed-sentence-application-11361-8"],
+      ca_prop64_qualifying_marijuana_offense: ["prop-64-currently-serving-petition-11361-8", "prop-64-completed-sentence-application-11361-8"],
+      ca_prop64_lesser_or_no_offense: ["prop-64-currently-serving-petition-11361-8", "prop-64-completed-sentence-application-11361-8"],
+      ca_prop64_relief_requested: ["prop-64-completed-sentence-application-11361-8"]
+    },
+    exactPacketFactIds: ["criminal_history", "county", "court", "charge", "record_documents", "case_identifier"],
+    completionAliasIds: []
+  },
+  CO: {
+    file: "CO-colorado.json",
+    routeConsumers: {},
+    exactPacketFactIds: ["court", "charge", "record_documents", "county_or_filing_location", "case_identifier"],
+    completionAliasIds: []
+  },
+  CT: {
+    file: "CT-connecticut.json",
+    routeConsumers: {},
+    exactPacketFactIds: ["court", "charge", "record_documents", "county_or_filing_location", "case_identifier"],
+    completionAliasIds: []
+  },
+  DE: {
+    file: "DE-delaware.json",
+    routeConsumers: {},
+    exactPacketFactIds: ["court", "charge", "record_documents", "county_or_filing_location", "case_identifier"],
+    completionAliasIds: []
+  },
+  DC: {
+    file: "DC-district-of-columbia.json",
+    routeConsumers: {
+      actual_innocence_basis: ["dc_actual_innocence_expungement_16_803"],
+      dc_offense_severity_group: ["dc_motion_seal_felony_conviction_8yr_16_806"]
+    },
+    exactPacketFactIds: ["disposition_date", "court", "charge", "record_documents", "county_or_filing_location", "case_identifier"],
+    completionAliasIds: ["sentence_completion_date"]
+  }
+};
+
+const legalSurfaceHashes = {
+  AL: "c2a2410600e944bb92c1d5a1671971597a0b517c2545622f402be53970b16ea0",
+  // Rehashed for Batch B: Alaska carried no route contract of any kind before
+  // the AS 12.55.085(e) belated set-aside motion.
+  AK: "3e3800a5fe7436c2d46e8e03107d7c138540965d54a7e465677edfb521972145",
+  AZ: "83959449fac7969c0996ab0649833a04bce971fb5e7fa1dbfd48ce83b002cab9",
+  AR: "2d549ecb3c038da9a9b5ff137fd2573efba62e1f9535eacf32e80dc975fb10c5",
+  CA: "e27f734008b0f3fb892374dcf7b84a8a6472827f53af0d98881e9e9e366fcd43",
+  CO: "b355e96034781a3f864ddc7b6da5d8ea61b109a310c6f978337e8304dd9a2167",
+  CT: "aef720dbc31f0e5d353f3a8808487985d37cd9b4fb82606cf54b9914082173ff",
+  DE: "3730e3758b6bb6f10e95d71c5b30d7abf99ae4c77a6a45c13b1dabb46e07397f",
+  DC: "8f07b5c2963c852cece6000f49747aab628e27247e30be8eaca725b22e0e197f"
+};
+
+const failures = [];
+const check = (condition, message) => { if (!condition) failures.push(message); };
+const readJson = (file) => JSON.parse(fs.readFileSync(file, "utf8"));
+const equal = (actual, wanted, message) => {
+  try { assert.deepEqual(actual, wanted); } catch { failures.push(`${message}: got ${JSON.stringify(actual)}`); }
+};
+let emptyContextFreeQuestions = 0;
+let maxExactRouteFreeQuestions = 0;
+
+equal(
+  ROUTE_ESCALATION_FACT_IDS["CA:prop-64-currently-serving-petition-11361-8"],
+  ["ca_prop64_branch", "ca_prop64_qualifying_marijuana_offense", "ca_prop64_lesser_or_no_offense"],
+  "CA currently-serving route fact set changed"
+);
+equal(
+  ROUTE_ESCALATION_FACT_IDS["CA:prop-64-completed-sentence-application-11361-8"],
+  ["ca_prop64_branch", "ca_prop64_qualifying_marijuana_offense", "ca_prop64_lesser_or_no_offense", "ca_prop64_relief_requested"],
+  "CA completed-sentence route fact set changed"
+);
+equal(
+  ROUTE_ESCALATION_FACT_IDS["DC:dc_actual_innocence_expungement_16_803"],
+  ["actual_innocence_basis"],
+  "DC actual-innocence route fact set changed"
+);
+equal(
+  ROUTE_ESCALATION_FACT_IDS["DC:dc_motion_seal_felony_conviction_8yr_16_806"],
+  ["dc_offense_severity_group"],
+  "DC felony-sealing route fact set changed"
+);
+
+for (const [state, spec] of Object.entries(expected)) {
+  const profile = readJson(path.join(PROFILE_ROOT, spec.file));
+  const publicProfile = projectPublicProfile(profile);
+  const publicQuestionIds = new Set(publicProfile.questions.map((question) => question.id));
+  const rawQuestionById = new Map(profile.questions.map((question) => [question.id, question]));
+  const pathwayIds = new Set(profile.pathways.map((pathway) => pathway.id));
+  const emptySelection = new Set(selectScreeningQuestionIds(profile, publicProfile, {}));
+  const routeSelections = new Map(profile.pathways.map((pathway) => [
+    pathway.id,
+    new Set(selectScreeningQuestionIds(profile, publicProfile, { possible_pathway_context: pathway.label }))
+  ]));
+  emptyContextFreeQuestions += emptySelection.size;
+  maxExactRouteFreeQuestions += Math.max(emptySelection.size, ...[...routeSelections.values()].map((selection) => selection.size));
+
+  const lifecycle = profile.questionLifecycle;
+  check(Boolean(lifecycle), `${state}: missing questionLifecycle`);
+  if (!lifecycle) continue;
+  equal(Object.keys(lifecycle).sort(), ["completionAliasIds", "exactPacketFactIds", "routeConsumers"], `${state}: lifecycle envelope keys changed`);
+  equal(lifecycle.routeConsumers, spec.routeConsumers, `${state}: routeConsumers mismatch`);
+  equal(lifecycle.exactPacketFactIds, spec.exactPacketFactIds, `${state}: exactPacketFactIds mismatch`);
+  equal(lifecycle.completionAliasIds, spec.completionAliasIds, `${state}: completionAliasIds mismatch`);
+
+  for (const [questionId, consumers] of Object.entries(lifecycle.routeConsumers)) {
+    check(publicQuestionIds.has(questionId), `${state}:${questionId}: route fact is not a public profile question`);
+    check(!emptySelection.has(questionId), `${state}:${questionId}: route fact leaked into empty-context free screening`);
+    for (const pathwayId of consumers) {
+      check(pathwayIds.has(pathwayId), `${state}:${questionId}: unknown pathway ${pathwayId}`);
+      check((ROUTE_ESCALATION_FACT_IDS[`${state}:${pathwayId}`] ?? []).includes(questionId), `${state}:${questionId}: ${pathwayId} lacks approved route-escalation support`);
+    }
+    for (const pathway of profile.pathways) {
+      check(
+        routeSelections.get(pathway.id)?.has(questionId) === consumers.includes(pathway.id),
+        `${state}:${questionId}: real selector ${consumers.includes(pathway.id) ? "omitted intended" : "leaked unrelated"} route ${pathway.id}`
+      );
+    }
+  }
+  for (const questionId of lifecycle.exactPacketFactIds) {
+    const question = rawQuestionById.get(questionId);
+    check(Boolean(question), `${state}:${questionId}: exact packet fact is not a compiled question`);
+    check(question?.stage === "case_details" || question?.stage === "record_readiness" || question?.type === "date_or_unknown", `${state}:${questionId}: exact packet fact lacks structural packet/date support`);
+    check(!emptySelection.has(questionId), `${state}:${questionId}: exact packet fact leaked into empty-context free screening`);
+    for (const [pathwayId, selection] of routeSelections) {
+      check(!selection.has(questionId), `${state}:${questionId}: exact packet fact leaked into ${pathwayId} free screening`);
+    }
+  }
+  for (const questionId of lifecycle.completionAliasIds) {
+    check(rawQuestionById.has(questionId), `${state}:${questionId}: completion alias is not a compiled question`);
+    check(["sentence_completion_date", "financial_obligations"].includes(questionId), `${state}:${questionId}: completion alias is not approved`);
+  }
+
+// The legal/route/packet surface, minus two fields it is not about.
+//
+// questionLifecycle was already excluded. lawrenceRatification is excluded now
+// for the same kind of reason and a stronger one: it is listed in
+// INTERNAL_LEAK_MARKERS, so it never reaches the public projection and cannot
+// change a question, a route selection or a packet fact — and since it became a
+// generated projection of the ratification registry, leaving it inside this pin
+// meant every counsel decision churned fifty-one hashes that this verifier is
+// not about. Ratification changes are caught where they belong, by
+// scripts/generate-route-ratification-projections.mjs --check.
+  const legalSurface = structuredClone(profile);
+  delete legalSurface.questionLifecycle;
+  for (const pathway of legalSurface.pathways ?? []) delete pathway.lawrenceRatification;
+  const hash = crypto.createHash("sha256").update(JSON.stringify(legalSurface)).digest("hex");
+  check(hash === legalSurfaceHashes[state], `${state}: legal/route/packet profile surface changed (${hash})`);
+}
+
+const manifest = readJson(MANIFEST_PATH);
+const reconciliation = readJson(RECONCILIATION_PATH);
+const stateSet = new Set(Object.keys(expected));
+const flows = manifest.flows.filter((flow) => stateSet.has(flow.jurisdiction));
+const reconciliationRows = reconciliation.rows.filter((row) => stateSet.has(row.jurisdiction));
+check(flows.length === 47, `Lane D flow count changed: expected 47, got ${flows.length}`);
+check(reconciliationRows.filter((row) => row.browserRequired).length * 2 === 88, "Lane D browser witness count changed from 88");
+check(emptyContextFreeQuestions === 86, `Lane D empty-context selector count changed: expected 86, got ${emptyContextFreeQuestions}`);
+check(maxExactRouteFreeQuestions === 91, `Lane D max-exact-route selector count changed: expected 91, got ${maxExactRouteFreeQuestions}`);
+
+for (const flow of flows) {
+  const profile = getProfileByJurisdiction(flow.jurisdiction);
+  const evaluate = flow.flowId === "EXPAI-CO-8c67627ae3" ? evaluateExpungementAiMatter : evaluateScreening;
+  const result = evaluate({
+    jurisdiction: flow.jurisdiction,
+    profileVersion: profile.profileVersion,
+    matterId: `shard-d-${flow.flowId}`,
+    answers: flow.fixture.answers
+  });
+  check(result.pathwayId === flow.remedy.pathwayId, `${flow.flowId}: pathway ${result.pathwayId} != ${flow.remedy.pathwayId}`);
+  check(result.resultCode === flow.terminalOutcome.effectiveTerminal, `${flow.flowId}: terminal ${result.resultCode} != ${flow.terminalOutcome.effectiveTerminal}`);
+  check(result.paymentAllowed === (flow.paymentMode === "dtc_paid"), `${flow.flowId}: payment witness changed`);
+  if (["packet_ready", "packet_ready_with_caution"].includes(result.resultCode)) {
+    check(result.packetPlan?.pathwayId === flow.remedy.pathwayId, `${flow.flowId}: packet witness missing or changed`);
+  }
+}
+
+if (!fs.existsSync(EVIDENCE_PATH)) {
+  failures.push("Lane D evidence/status file is missing");
+} else {
+  const evidence = readJson(EVIDENCE_PATH);
+  equal(evidence.states, Object.keys(expected), "evidence state order changed");
+  equal(evidence.before, { flows: 47, browserWitnessVariants: 88, freeQuestions: 99, completionOverlaps: 7, specialRouteQuestions: 12, rawPacketFields: 48 }, "evidence baseline changed");
+  equal(evidence.after, { flows: 47, browserWitnessVariants: 88, freeQuestionsEmptyContext: 86, freeQuestionsMaxExactRoute: 91, routeConsumerFacts: 6, routeConsumerEdges: 9, exactPacketFactIds: 53, completionAliasIds: 7 }, "evidence result counts changed");
+}
+
+if (failures.length) {
+  console.error(`Lane D screening-verification verifier failed (${failures.length}):`);
+  for (const failure of failures) console.error(`- ${failure}`);
+  process.exit(1);
+}
+
+console.log("Lane D screening-verification verifier passed.");
+console.log("9 states, 47 terminal/payment flow witnesses, 88 browser variants, 53 exact packet facts, 9 route-consumer edges, 7 completion aliases.");

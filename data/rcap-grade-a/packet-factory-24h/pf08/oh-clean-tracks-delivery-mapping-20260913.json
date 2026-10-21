@@ -1,0 +1,312 @@
+{
+  "schemaVersion": "rcap-route-delivery-mapping/v1",
+  "status": "MAPPING_MIXED_STATEWIDE_AND_COURT_SPECIFIC_WITH_ADMISSION_RESIDUALS",
+  "recordedAt": "2026-09-13T07:27:10.286Z",
+  "reviewer": "/root/resume_pf05_ut",
+  "sessionIdentity": "/root/resume_pf05_ut",
+  "repositoryHeadAtReview": "31e8c327f56f3bc23625c37c5cc985a4347f8c0a",
+  "familyId": "rcap-oh-custom-pleading-clean-tracks",
+  "jurisdiction": "OH",
+  "scope": "Bound the four already-declared Ohio clean-tracks routes to current statutory court destinations and the current statewide-versus-court-specific delivery evidence. This is a source and route handoff only; it does not build, approve, or admit a packet.",
+  "readiness": "NOT_READY_PRODUCT_PATH_PENDING",
+  "noAdmission": true,
+  "mappingConclusion": {
+    "blanketLocalInstrumentAssumption": "REJECTED",
+    "legalFormatRule": "The current Ohio statutes reviewed here require an application and identify the court, but do not prescribe one county form for every route. The adopted product doctrine permits an accurately captioned original self-help pleading where no fit-for-purpose mandatory government instrument exists.",
+    "operationalAdmissionRule": "The adopted Ohio registry still controls the source and delivery gate. A statewide composed draft or a stale former-numbered Appendix D form cannot be called a filing-ready primary component. Each route must use the exact statewide form where one is current and matched, or an updated issuer form/current destination-court application that matches the remedy and statutory branch.",
+    "statewideComposedApplicationResult": "MIXED_BY_REMEDY_AND_SOURCE_STATUS",
+    "routeSplitRequired": true,
+    "routeSplitReason": "R.C. 2953.32 sealing and expungement are distinct delivery types; R.C. 2953.33 includes sealing and, subject to division (C), expungement after nonconviction dispositions; R.C. 2953.35 is a separate narrow firearm route. LegalEase determines the route from records and law rather than asking the participant to choose a statute or legal theory.",
+    "bciRole": "The held Ohio BCI Sealings and Expungements Request is a post-order transmission companion. It is not a primary application and does not prove a local filing route."
+  },
+  "currentRecordedState": {
+    "queueState": "PRODUCT_PATH_PENDING",
+    "executionOwner": "CAPTAIN",
+    "routeMappingStatus": "OWNER_DIRECTED_MAPPING_PENDING",
+    "currentQueueRouteKeys": [
+      "obligation:track-only:OH:oh_2953_32_sealing"
+    ],
+    "currentQueuePacketComponents": [
+      "component:oh_2953_32_sealing-bci-transmission-5"
+    ],
+    "installedProductBindingRouteKeys": [
+      "obligation:track-only:OH:oh_2953_32_sealing"
+    ],
+    "installedProductBindingPacketComponents": [
+      "component:oh_2953_32_sealing-bci-transmission-5"
+    ],
+    "vf32Verdict": "BLOCKED_LEGAL_INPUT",
+    "vf32BlockedProofObligation": "COMPONENT_SET",
+    "artifactStatus": "RENDERED",
+    "completenessStatus": "PASS_COMPLETE_BY_COUNTERS_ONLY",
+    "commercialAuthority": false,
+    "runtimeSelectable": false,
+    "currentFamilySource": "Only the unchanged BCI post-order companion is held in the family source receipt; no primary route source is admitted by that receipt."
+  },
+  "routeMappings": [
+    {
+      "trackId": "oh_2953_32_sealing",
+      "routeKey": "obligation:track-only:OH:oh_2953_32_sealing",
+      "statute": "Ohio Rev. Code § 2953.32",
+      "relief": "Sealing of an eligible conviction or bail-forfeiture record",
+      "courtDestination": {
+        "ohioConviction": "The sentencing court",
+        "outOfStateOrFederalConviction": "A court of common pleas",
+        "recordBindingRequired": "The originating sentencing court or the qualifying court of common pleas must be identified from the certified case record before filing."
+      },
+      "scopeAndFactsToBind": [
+        "Conviction or qualifying bail forfeiture and exact case identity",
+        "Final discharge and statutory waiting period",
+        "Pending-proceeding, exclusion, counting, and same-act companion-charge facts under current R.C. 2953.32 and R.C. 2953.61",
+        "Participant and record-derived facts remain inputs; no eligibility constant is asserted here."
+      ],
+      "deliveryMapping": {
+        "classification": "STATEWIDE_STANDARD_OFFICIAL_FORM_BASELINE",
+        "statutoryUniqueFormMandate": false,
+        "statewidePrimary": "Supreme Court of Ohio Appendix D Form 96-C1, Application to Seal Record of Conviction Pursuant to R.C. 2953.32",
+        "statewideComposedApplication": "NOT_NEEDED_FOR_PRIMARY",
+        "courtSpecificInstrumentRequiredForAdmission": false,
+        "localAlternative": "A substantially similar local form may also be accepted under Sup.R. 11.17; a county-form census is not a prerequisite to the statewide primary component.",
+        "sourceCustodyStatus": "SOURCE_INGEST_REQUIRED",
+        "expectedRulesContainerSha256": "3c0adba6f9fed5d9f012dced1ed2e6aabf542de860b9b2ebdabfcd6e927cdf05",
+        "admissionCondition": "Ingest and verify the exact current Rules of Superintendence/Appendix D source body against the recorded expected hash, then bind the standard form and court-specific filing mechanics."
+      },
+      "deliveryComponents": [
+        "Statewide Form 96-C1 primary filing",
+        "Destination-court caption and filing mechanics",
+        "Record-gathering and hearing/objection guidance",
+        "Held BCI transmission companion after an order"
+      ],
+      "remainingInput": "Exact current Rules of Superintendence/96-C1 source custody plus the destination court's current filing mechanics and caption for the participant's record."
+    },
+    {
+      "trackId": "oh_2953_32_expungement",
+      "routeKey": "obligation:track-pathway:OH:oh_2953_32_expungement:adult-conviction-sealing-or-expungement-under-ohio-rev-code-2953-32",
+      "statute": "Ohio Rev. Code § 2953.32",
+      "relief": "Expungement of an eligible conviction record under the distinct expungement branch",
+      "courtDestination": {
+        "ohioConviction": "The sentencing court",
+        "outOfStateOrFederalConviction": "A court of common pleas",
+        "recordBindingRequired": "The originating sentencing court or the qualifying court of common pleas must be identified from the certified case record before filing."
+      },
+      "scopeAndFactsToBind": [
+        "Conviction and exact case identity",
+        "Final discharge and the expungement timing calculated from the applicable sealing-eligibility date",
+        "Pending-proceeding, exclusion, counting, and same-act companion-charge facts under current R.C. 2953.32 and R.C. 2953.61",
+        "Expungement must not be substituted for the sealing Form 96-C1 route."
+      ],
+      "deliveryMapping": {
+        "classification": "COURT_SPECIFIC_OR_EXPLICIT_ISSUER_CONFIRMATION_REQUIRED",
+        "statutoryUniqueFormMandate": false,
+        "statewidePrimary": "No statewide standard primary expungement form was identified in the adopted registry. Form 96-C1 is a sealing form and must not be relabeled for expungement.",
+        "statewideComposedApplication": "NOT_ADMITTED_BY_CURRENT_SOURCE_RECORD",
+        "courtSpecificInstrumentRequiredForAdmission": true,
+        "legalFallback": "The statute does not prescribe a form, so an accurately captioned original pleading may be considered only under the adopted product doctrine if no mandatory instrument exists; the current registry gate still requires a current destination-court expungement application or explicit Supreme Court of Ohio confirmation before selecting the primary filing.",
+        "admissionCondition": "Obtain and custody a current destination-court expungement application, or explicit Supreme Court of Ohio confirmation of a statewide form, matching the requested remedy before primary-component selection."
+      },
+      "deliveryComponents": [
+        "Current expungement-matching primary filing from the destination court or issuer-confirmed statewide instrument",
+        "Destination-court caption and filing mechanics",
+        "Record-gathering and hearing/objection guidance",
+        "Held BCI transmission companion after an order"
+      ],
+      "remainingInput": "A current expungement application from the bound destination court or explicit Supreme Court confirmation; the BCI companion does not resolve this gap."
+    },
+    {
+      "trackId": "oh_2953_33_nonconviction",
+      "routeKey": "obligation:track-pathway:OH:oh_2953_33_nonconviction:adult-non-conviction-sealing-or-expungement-under-2953-33",
+      "statute": "Ohio Rev. Code § 2953.33 (former R.C. 2953.52; amended and renumbered effective April 4, 2023)",
+      "relief": "Sealing after a not-guilty finding, dismissal, grand-jury no bill, or qualifying pardon; expungement only where current division (C) permits it",
+      "courtDestination": {
+        "handlingCourt": "The court where the case was pending, dismissed or tried, or where the grand jury reported the no bill",
+        "recordBindingRequired": "Use the complaint/indictment/information, journal or minutes, and certified disposition to identify the exact handling court and disposition branch; do not infer a county or court level."
+      },
+      "scopeAndFactsToBind": [
+        "Disposition branch: not guilty, dismissal, no bill, or pardon",
+        "For dismissal, prejudice status and any applicable statute-of-limitations period",
+        "For no bill, the two-year timing from the foreperson or deputy foreperson's report",
+        "Pending criminal proceedings and current division (C) exclusions for expungement",
+        "Same-act companion-charge facts under R.C. 2953.61",
+        "LegalEase determines whether the record supports sealing or the narrower expungement branch; the participant is not asked to choose the legal theory."
+      ],
+      "deliveryMapping": {
+        "classification": "COURT_SPECIFIC_OR_UPDATED_ISSUER_FORM_REQUIRED",
+        "statutoryUniqueFormMandate": false,
+        "statewidePrimary": "Appendix D Form 96-F1 is titled for nonconviction sealing under former R.C. 2953.52. The current statute is R.C. 2953.33 and permits sealing or, subject to division (C), expungement; the stale form does not make that current distinction.",
+        "statewideComposedApplication": "STATUTORY_CONTENT_DRAFT_ONLY_UNTIL_CURRENT_PRIMARY_IS_CONFIRMED",
+        "courtSpecificInstrumentRequiredForAdmission": true,
+        "admissionCondition": "Obtain an updated issuer form or a current destination-court application matching the requested remedy. Do not assign Form 96-F1 to current R.C. 2953.33 and do not infer an expungement form from it.",
+        "localPractice": "The handling court's current caption, filing mechanics, and any local form remain delivery inputs after the court is bound; this does not justify a broad county-form hunt before the exact court is known."
+      },
+      "deliveryComponents": [
+        "Current remedy-matching primary filing from the handling court or updated issuer",
+        "Destination-court caption and filing mechanics",
+        "Disposition/record gathering and hearing/objection guidance",
+        "Held BCI transmission companion after an order where applicable"
+      ],
+      "remainingInput": "Current remedy-matching primary application (updated issuer or exact handling-court custody), plus the record-derived handling court and disposition branch."
+    },
+    {
+      "trackId": "oh_2953_35_firearm",
+      "routeKey": "obligation:track-pathway:OH:oh_2953_35_firearm:certain-firearm-carry-conviction-expungement-under-2953-35",
+      "statute": "Ohio Rev. Code § 2953.35 (former R.C. 2953.37; amended and renumbered effective April 4, 2023)",
+      "relief": "Expungement of the narrow qualifying obsolete concealed-handgun notification-law conviction",
+      "courtDestination": {
+        "sentencingCourt": "The sentencing court",
+        "recordBindingRequired": "Identify the sentencing court from the certified judgment and charging document."
+      },
+      "scopeAndFactsToBind": [
+        "Qualifying former R.C. 2923.16 divisions (B), (C), or (E) as they existed before September 30, 2011, or former R.C. 2923.16(E)(1) or (2) before June 13, 2022",
+        "Qualifying former R.C. 2923.12(B)(1) before June 13, 2022",
+        "The applicant's authorization under the referenced former provision",
+        "Applicant identity, offense, date, court, evidence of the qualifying offense and authorization, and the request for expungement",
+        "This is not a general firearm-expungement route; preserve the exact statutory-version and conduct limits."
+      ],
+      "deliveryMapping": {
+        "classification": "COURT_SPECIFIC_OR_UPDATED_ISSUER_FORM_REQUIRED",
+        "statutoryUniqueFormMandate": false,
+        "statewidePrimary": "Appendix D Form 96-D1 remains titled under former R.C. 2953.37 and does not identify every current R.C. 2953.35 statutory branch.",
+        "statewideComposedApplication": "STATUTORY_CONTENT_DRAFT_ONLY_UNTIL_CURRENT_BRANCH_COVERAGE_IS_CONFIRMED",
+        "courtSpecificInstrumentRequiredForAdmission": true,
+        "admissionCondition": "Obtain an updated issuer form or a destination-court application that expressly covers the applicant's exact current R.C. 2953.35 branch. Do not treat Form 96-D1 as a complete current application.",
+        "localPractice": "Bind only the sentencing court's current caption and filing mechanics after the exact judgment and charging language are held."
+      },
+      "deliveryComponents": [
+        "Current branch-matching primary filing from the sentencing court or updated issuer",
+        "Sentencing-court caption and filing mechanics",
+        "Certified judgment/charging-document and scope guidance",
+        "Held BCI transmission companion after an order where applicable"
+      ],
+      "remainingInput": "Current branch-complete primary application (updated issuer or sentencing-court custody), plus certified charging language and judgment establishing the former statutory version and authorization."
+    }
+  ],
+  "currentHeldSource": {
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/oh/rcap-oh-custom-pleading-clean-tracks--custom-pleading/source-receipt.json",
+    "sourceId": "official-form:OH-BCI-SEALING-EXPUNGEMENT-REQUEST",
+    "role": "POST_ORDER_COMPANION_SOURCE",
+    "path": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/OH/04_SUPPORTING_PROCESS/OH__SUPPORT__OH-BCI-SEALING-EXPUNGEMENT-REQUEST__re-sealing-and-or-expungements__REV-UNKNOWN__EN.pdf",
+    "sha256": "9234ec763403b1ccfbed796dfcf86f29bf7887390d1770460d0bcc9da31fc8cb",
+    "byteLength": 235789,
+    "verifiedAtReview": true,
+    "companionArtifact": "data/rcap-all50/overlays/census-v1/oh/rcap-oh-custom-pleading-clean-tracks--custom-pleading/companion/OH-BCI-SEALING-EXPUNGEMENT-REQUEST--official-source.pdf",
+    "companionSha256": "9234ec763403b1ccfbed796dfcf86f29bf7887390d1770460d0bcc9da31fc8cb",
+    "companionByteLength": 235789,
+    "doesNotResolve": [
+      "Any primary application for the four statutory tracks",
+      "The bound destination court's caption",
+      "Current court-specific filing mechanics",
+      "The remedy and statutory-branch split required for .32 expungement, .33, and .35"
+    ]
+  },
+  "adoptedRecordControls": {
+    "productDoctrine": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
+    "ownerDirection": {
+      "record": "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+      "executionOwner": "CAPTAIN",
+      "nextExecutableAction": "Bind statewide composed routes versus local-court application routes, split delivery types where required, and route exact missing local forms or instructions to source work.",
+      "ownerDecision": "This is route-family and customer-delivery binding, not a Lawrence question."
+    },
+    "registry": "data/record-clearing/legal-design-track-registry.json",
+    "registryFindings": [
+      "oh_2953_32_sealing: Form 96-C1 matches the sealing remedy; source custody is still required.",
+      "oh_2953_32_expungement: no statewide standard expungement form identified; do not relabel Form 96-C1.",
+      "oh_2953_33_nonconviction: Form 96-F1 is stale former-R.C.2953.52 sealing form and does not resolve current .33 sealing/expungement treatment.",
+      "oh_2953_35_firearm: Form 96-D1 is stale former-R.C.2953.37 and incomplete for every current .35 branch."
+    ]
+  },
+  "exactResidualInputs": [
+    {
+      "input": "Exact current Rules of Superintendence/Appendix D source body containing Form 96-C1",
+      "appliesTo": ["oh_2953_32_sealing"],
+      "expectedSha256": "3c0adba6f9fed5d9f012dced1ed2e6aabf542de860b9b2ebdabfcd6e927cdf05",
+      "custodyStatus": "EXPECTED_HASH_RECORDED_SOURCE_BODY_NOT_PRESENT_IN_CURRENT_FAMILY_RECEIPT",
+      "resumeCondition": "Ingest only the exact recorded source and verify the expected hash before binding."
+    },
+    {
+      "input": "Current expungement-matching primary application or explicit Supreme Court of Ohio statewide-form confirmation",
+      "appliesTo": ["oh_2953_32_expungement"],
+      "custodyStatus": "MISSING",
+      "resumeCondition": "Do not use or relabel Form 96-C1; hold the route until one of the two recorded alternatives is verified."
+    },
+    {
+      "input": "Updated issuer form or exact handling-court primary application matching current R.C. 2953.33 remedy and disposition branch",
+      "appliesTo": ["oh_2953_33_nonconviction"],
+      "custodyStatus": "MISSING",
+      "resumeCondition": "Do not use Form 96-F1 as current .33 or infer an expungement form."
+    },
+    {
+      "input": "Updated issuer form or sentencing-court application covering the exact current R.C. 2953.35 statutory branch",
+      "appliesTo": ["oh_2953_35_firearm"],
+      "custodyStatus": "MISSING",
+      "resumeCondition": "Do not treat Form 96-D1 as branch-complete; hold until current branch coverage is explicit."
+    },
+    {
+      "input": "Record-derived destination court, caption, and current filing mechanics for each promised delivery",
+      "appliesTo": ["oh_2953_32_sealing", "oh_2953_32_expungement", "oh_2953_33_nonconviction", "oh_2953_35_firearm"],
+      "custodyStatus": "MISSING_FROM_CURRENT_FAMILY_SOURCE_RECEIPT",
+      "resumeCondition": "Bind the exact court from certified records first; retrieve only that court's current mechanics when a filing-ready delivery is promised."
+    }
+  ],
+  "sourceCitations": [
+    {
+      "authority": "Ohio Revised Code § 2953.32",
+      "url": "https://codes.ohio.gov/ohio-revised-code/section-2953.32",
+      "effectiveOrUpdated": "Effective September 30, 2025; page last updated March 19, 2026",
+      "supports": "An eligible offender applies to the sentencing court for an Ohio conviction or a court of common pleas for an out-of-state or federal conviction; the current section distinguishes sealing and expungement and does not prescribe a county-specific form format."
+    },
+    {
+      "authority": "Ohio Revised Code § 2953.33",
+      "url": "https://codes.ohio.gov/ohio-revised-code/section-2953.33",
+      "effectiveOrUpdated": "Former R.C. 2953.52, amended and renumbered effective April 4, 2023; page last updated January 12, 2024",
+      "supports": "A person with a not-guilty finding, dismissal, no bill, or qualifying pardon may apply to the court for sealing or, subject to division (C), expungement; the page itself records the former-number relationship."
+    },
+    {
+      "authority": "Ohio Revised Code § 2953.35",
+      "url": "https://codes.ohio.gov/ohio-revised-code/section-2953.35",
+      "effectiveOrUpdated": "Former R.C. 2953.37, amended and renumbered effective April 4, 2023",
+      "supports": "The narrow qualifying former firearm/carry conviction route is filed in the sentencing court, identifies the exact former statutory versions and authorization, and states required application content without prescribing one form."
+    },
+    {
+      "authority": "Ohio Supreme Court Rules of Superintendence, Rule 11.17 and Appendix D",
+      "url": "https://www.supremecourt.ohio.gov/docs/LegalResources/rules/superintendence/Superintendence.pdf",
+      "effectiveOrUpdated": "Current Rules PDF reviewed 2026-09-13",
+      "supports": "The standard-form rule says the listed Appendix D forms shall be accepted and substantially similar local forms may also be accepted, while the current form references for nonconviction and firearm routes remain former R.C. 2953.52 and .37; this is why the adopted registry requires remedy/branch compatibility before admission."
+    },
+    {
+      "authority": "Ohio Supreme Court / Ohio Attorney General BCI Sealings and Expungements Request",
+      "url": "https://www.supremecourt.ohio.gov/JCS/courtSvcs/NICS/resources/webinars/BCIReporting/sealingsExpungementsRequest.pdf",
+      "effectiveOrUpdated": "Official BCI request used after a sealing or expungement order",
+      "supports": "The held BCI request is a post-order transmission companion and is not evidence of a primary local filing application."
+    }
+  ],
+  "repositoryEvidence": [
+    "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+    "data/rcap-grade-a/packet-factory-24h/vf32/rows.json",
+    "data/rcap-grade-a/packet-factory-24h/pf20/remaining-family-handoff-20260913.json",
+    "data/rcap-grade-a/packet-factory-24h/pf08/oh-clean-tracks-next-gate-20260913.json",
+    "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
+    "data/record-clearing/legal-design-track-registry.json",
+    "data/rcap-all50/overlays/census-v1/oh/rcap-oh-custom-pleading-clean-tracks--custom-pleading/source-receipt.json",
+    "data/rcap-all50/overlays/census-v1/oh/rcap-oh-custom-pleading-clean-tracks--custom-pleading/product-wiring.json",
+    "data/rcap-all50/overlays/census-v1/oh/rcap-oh-custom-pleading-clean-tracks--custom-pleading/participant-instructions.md",
+    "src/lib/rcap-engine/compiled/profiles/OH-ohio.json"
+  ],
+  "nextExecutableHandoff": {
+    "owner": "CAPTAIN",
+    "action": "Keep the family PRODUCT_PATH_PENDING. Ingest the recorded Form 96-C1 source for .32 sealing, and obtain the current remedy/branch-matching primary application or explicit issuer confirmation for .32 expungement, .33, and .35. Bind each destination court from records, then add only that court's current caption and filing mechanics before returning the complete component set to VF32.",
+    "releaseToBuildNow": false,
+    "independentReviewDestination": "VF32 after Captain integrates the route-specific source and delivery components; this handoff is not an approval or self-review.",
+    "resumeConditions": [
+      "Primary source identity and expected-byte verification exist for each promised route.",
+      "The route-specific remedy and statutory branch are explicit; stale former-numbered forms are not relabeled.",
+      "The exact destination court and current filing mechanics are bound from records and current court custody.",
+      "The BCI companion remains post-order and is not counted as a primary filing component."
+    ]
+  },
+  "noMutations": [
+    "No packet, PDF, renderer, registry, queue, claim, or shared authoritative file was changed.",
+    "No new legal decision was requested or adopted.",
+    "No broad county-form hunt, source retry, build, or raster dispatch was performed.",
+    "This additive PF08 mapping file is intentionally uncommitted for Captain integration."
+  ]
+}

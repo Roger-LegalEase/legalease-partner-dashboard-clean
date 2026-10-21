@@ -87,7 +87,7 @@ assert(packageSource.includes('"expungement:verify-launch-polish"'), "Missing ex
 assert(exists("public/expungement-ai/favicon.ico") || exists("public/favicon.svg") || exists("public/favicon.ico") || exists("src/app/icon.tsx") || exists("src/app/favicon.ico"), "Favicon/app icon must exist.");
 assert(exists("public/expungement-ai/apple-touch-icon.png") || exists("public/apple-touch-icon.svg") || exists("public/apple-touch-icon.png"), "Apple touch icon must exist.");
 assert(expungementLayout.includes('title: "Expungement.ai | Free guided record-clearing check"'), "Expungement.ai metadata title missing.");
-assert(expungementLayout.includes("Start a free guided check. If a supported self-help packet is available"), "Expungement.ai metadata description missing.");
+assert(expungementLayout.includes("Start a free screening. If a supported self-help packet is available"), "Expungement.ai metadata description missing.");
 assert(expungementLayout.includes("openGraph") && expungementLayout.includes("expungement-ai-hero-poster.jpg"), "Open Graph image metadata missing.");
 
 assert(exists("src/app/expungement-ai/contact/page.tsx"), "Contact route missing.");

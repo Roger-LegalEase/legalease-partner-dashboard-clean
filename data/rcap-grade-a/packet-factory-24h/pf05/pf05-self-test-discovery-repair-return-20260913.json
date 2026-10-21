@@ -1,0 +1,220 @@
+{
+  "schemaVersion": "rcap-packet-self-test-discovery-repair/v1",
+  "assignmentId": "PF05_SELF_TEST_DISCOVERY_REPAIR_20260913",
+  "lane": "PF05",
+  "laneKind": "packet-build",
+  "baseSha": "fd84ff3423ed5536757dc602dd4bd6f2ba979121",
+  "headShaAtReturn": "71bee3b5bd4d2637537471bc3f384dedeba25f71",
+  "headShaAtReturnIs": "Captain HEAD at handoff; the two scoped code changes and this return remain uncommitted for independent review.",
+  "status": "COMPLETED",
+  "isIndependentVerification": false,
+  "reviewDestination": "/root/resume_vfar1",
+  "scope": "Repair only the existing source-based builder self-test discovery so a real argv alias bound by default to process.argv is included and unrelated text, variables, and near-match flags are excluded.",
+  "changedPaths": [
+    "scripts/rcap-packet-completeness/verify-builder-self-tests-run.mjs",
+    "scripts/rcap-packet-completeness/verify-builder-self-tests-run.test.mjs",
+    "data/rcap-grade-a/packet-factory-24h/pf05/pf05-self-test-discovery-repair-return-20260913.json"
+  ],
+  "unchangedSharedPaths": [
+    "scripts/build-census-v1-ut_pet_cannabis-set.mjs",
+    "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/fixtures/canonical.pdf",
+    "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/fixtures/boundary.pdf",
+    "data/rcap-grade-a/packet-factory-24h/pf05/rows-pf05-ut-cannabis-resume-complete-20260913.json",
+    "data/rcap-grade-a/packet-factory-24h/pf05/pf05-ar-next-integration-budget-20260913.json"
+  ],
+  "sourceBinding": {
+    "pf05Builder": "scripts/build-census-v1-ut_pet_cannabis-set.mjs",
+    "pf05BuilderSha256": "a3c93aabbb979a45fc410cd46d628d07467d982ba3b828bf177cbbfd95713d25",
+    "actualDeclaration": "export async function runFamilyById(familyId, argv = process.argv.slice(2))",
+    "actualDispatch": "if (argv.includes(\"--self-test\")) return runSelfTests();",
+    "directEntry": "await runFamilyById(\"ut_pet_cannabis-set\");",
+    "sourceLines": [
+      3204,
+      3207,
+      3215
+    ],
+    "bindingRule": "Only a parameter default whose expression is process.argv.slice(2), followed by that same alias's exact --self-test branch, is accepted as an argv-bound gate."
+  },
+  "scopeChange": {
+    "previousRecordedScope": {
+      "builders": 5,
+      "assertions": 257
+    },
+    "currentRecognizedScope": {
+      "builders": 6,
+      "assertions": 330
+    },
+    "recognizedBuilders": [
+      {
+        "builder": "build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs",
+        "assertions": 90,
+        "dispatch": "process.argv -> selfTest"
+      },
+      {
+        "builder": "build-census-v1-az_marijuana_expungement_limited_jurisdiction-set.mjs",
+        "assertions": 22,
+        "dispatch": "process.argv -> selfTest"
+      },
+      {
+        "builder": "build-census-v1-ca-1203-4-set.mjs",
+        "assertions": 102,
+        "dispatch": "process.argv -> selfTest"
+      },
+      {
+        "builder": "build-census-v1-mi_setaside_trafficking-set.mjs",
+        "assertions": 26,
+        "dispatch": "process.argv -> selfTest"
+      },
+      {
+        "builder": "build-census-v1-ut_pet_cannabis-set.mjs",
+        "assertions": 73,
+        "dispatch": "argv=process.argv.slice(2) -> runSelfTests"
+      },
+      {
+        "builder": "build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs",
+        "assertions": 17,
+        "dispatch": "process.argv -> selfTest"
+      }
+    ],
+    "newlyRecognized": [
+      "build-census-v1-ut_pet_cannabis-set.mjs"
+    ],
+    "whyScopeExpanded": "The prior helper recognized direct process.argv literals but did not recognize PF05's declared argv default. This bounded correction admits only PF05's exact runFamilyById(familyId, argv = process.argv.slice(2)) declaration with its same argv.includes('--self-test') -> runSelfTests() branch. Other argv aliases and unrelated targets remain outside scope."
+  },
+  "writeFootprintsRead": [
+    {
+      "builders": [
+        "build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs",
+        "build-census-v1-az_marijuana_expungement_limited_jurisdiction-set.mjs",
+        "build-census-v1-ca-1203-4-set.mjs",
+        "build-census-v1-mi_setaside_trafficking-set.mjs",
+        "build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs"
+      ],
+      "posture": "Existing five scope entries remain unchanged; their self-test bodies are assertion/read-only, and WA's checked dry-run returns before packet writes."
+    },
+    {
+      "builders": [
+        "build-census-v1-ut_pet_cannabis-set.mjs"
+      ],
+      "posture": "The guarded self-test writes one synthetic 72x72 PDF below os.tmpdir, invokes freshRasterEvidence for temporary Poppler PNG/font-cache output, then removes the stage in finally. It has zero persistent repository writes and produces no required evidence."
+    }
+  ],
+  "tests": {
+    "focused": {
+      "command": "node --test scripts/rcap-packet-completeness/verify-builder-self-tests-run.test.mjs",
+      "result": "PASS",
+      "passed": 16,
+      "failed": 0,
+      "coverage": [
+        "direct process.argv gate retained",
+        "PF05 filename-bound argv default binding and runSelfTests target",
+        "same argv shape outside PF05 rejected",
+        "unbound argv rejected",
+        "wrong process.argv slice rejected",
+        "wrong dispatch target rejected",
+        "comments, example strings, and --self-test-extra rejected",
+        "const selfTest, unconditional, moved-guard, empty-scope behavior retained"
+      ]
+    },
+    "syntax": {
+      "command": "node --check scripts/rcap-packet-completeness/verify-builder-self-tests-run.mjs && node --check scripts/rcap-packet-completeness/verify-builder-self-tests-run.test.mjs",
+      "result": "PASS"
+    },
+    "nativeDiscovery": {
+      "command": "buildersWithAFlagGatedSelfTest(\"./scripts\")",
+      "result": "PASS: 6 builders / 330 assertion tokens recognized",
+      "rows": [
+        {
+          "builder": "build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs",
+          "assertions": 90,
+          "dispatch": "process.argv -> selfTest"
+        },
+        {
+          "builder": "build-census-v1-az_marijuana_expungement_limited_jurisdiction-set.mjs",
+          "assertions": 22,
+          "dispatch": "process.argv -> selfTest"
+        },
+        {
+          "builder": "build-census-v1-ca-1203-4-set.mjs",
+          "assertions": 102,
+          "dispatch": "process.argv -> selfTest"
+        },
+        {
+          "builder": "build-census-v1-mi_setaside_trafficking-set.mjs",
+          "assertions": 26,
+          "dispatch": "process.argv -> selfTest"
+        },
+        {
+          "builder": "build-census-v1-ut_pet_cannabis-set.mjs",
+          "assertions": 73,
+          "dispatch": "argv=process.argv.slice(2) -> runSelfTests"
+        },
+        {
+          "builder": "build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs",
+          "assertions": 17,
+          "dispatch": "process.argv -> selfTest"
+        }
+      ],
+      "pf05": "build-census-v1-ut_pet_cannabis-set.mjs / 73 assertions"
+    },
+    "chainOrPacketWork": "NOT RUN: no full helper execution, native builder self-test execution, integration chain, build, regeneration, or packet reraster was performed."
+  },
+  "pf05CandidateEvidence": {
+    "returnPath": "data/rcap-grade-a/packet-factory-24h/pf05/rows-pf05-ut-cannabis-resume-complete-20260913.json",
+    "returnBytes": 15202,
+    "returnSha256": "bc2538392a7c72630e6057b84df6a7c67bd7b68bb3c8e68270cf141fd683b705",
+    "actualState": "COMPLETED candidate; BUILT_RASTER_PENDING",
+    "selfVerified": false,
+    "commercialRoutesOpened": 0,
+    "productionTouched": false,
+    "remainingGates": [
+      "central raster acceptance",
+      "independent VFUT1 semantic review",
+      "independent original visual review",
+      "Captain PF05 integration"
+    ],
+    "sourceReceipt": {
+      "path": "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/source-receipt.json",
+      "sha256": "4cef50b7fa2679d54cb8605c264af54f581a483c70f0a850ce7248f1e4913f48",
+      "bytes": 3314
+    },
+    "pdfBytesUnchanged": true,
+    "pdfs": [
+      {
+        "path": "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "f4910777945ca9d74da2b5a1f84d9a37581696dc47bc95546ee21ca9c628f207",
+        "bytes": 703209
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/fixtures/boundary.pdf",
+        "sha256": "e37c533a78f72029c9f078fb1115146c77c809326ebab8ff7ffc1e4aabda8d6c",
+        "bytes": 703617
+      }
+    ]
+  },
+  "independence": {
+    "implementer": "PF05 / current child lane",
+    "reviewer": "/root/resume_vfar1",
+    "sharedQueueOrCaptainFilesChanged": false,
+    "requiredNextGate": "Independent review of the frozen helper/test diff and this return before Captain integrates the scoped correction."
+  },
+  "changedFileHashes": {
+    "scripts/rcap-packet-completeness/verify-builder-self-tests-run.mjs": {
+      "sha256": "6f96187c3dd8d527b07005fd359e239de3b242e38264879c9e6333970cdf2850",
+      "bytes": 10479
+    },
+    "scripts/rcap-packet-completeness/verify-builder-self-tests-run.test.mjs": {
+      "sha256": "f19b26a54e45a77e10fe73d99bfeaf3e0df858c973029064ad32b37b81ae95ec",
+      "bytes": 10198
+    }
+  },
+  "nativeRepairEvidence": {
+    "sourceInspection": "PASS: the actual PF05 declaration, default binding, exact flag branch, and direct entry were inspected in the current builder source.",
+    "declaration": "export async function runFamilyById(familyId, argv = process.argv.slice(2))",
+    "dispatch": "if (argv.includes(\"--self-test\")) return runSelfTests();",
+    "directEntry": "await runFamilyById(\"ut_pet_cannabis-set\");",
+    "discoveredAssertions": 73,
+    "runtimeSelfTest": "NOT RUN in this bounded repair; the existing integration chain remains the execution gate.",
+    "packetMutation": "NONE: no build, regeneration, integration, raster, or PDF mutation performed."
+  }
+}

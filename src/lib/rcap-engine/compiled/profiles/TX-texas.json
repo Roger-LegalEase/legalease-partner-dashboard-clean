@@ -1,6 +1,21 @@
 {
   "schemaVersion": "2.0.0",
   "profileVersion": "2026-06-19-source-conversion-1",
+  "questionLifecycle": {
+    "routeConsumers": {},
+    "exactPacketFactIds": [
+      "disposition_date",
+      "arrest_date",
+      "court",
+      "charge",
+      "record_documents",
+      "county_or_filing_location",
+      "case_identifier"
+    ],
+    "completionAliasIds": [
+      "financial_obligations"
+    ]
+  },
   "jurisdiction": {
     "code": "TX",
     "name": "Texas",
@@ -558,6 +573,14 @@
         "exclusionOrAmbiguityResult": "likely_not_eligible",
         "matchedResult": "packet_ready_with_caution",
         "paymentAllowed": true
+      },
+      "lawrenceRatification": {
+        "status": "ratified_deployable",
+        "packet_capable": true,
+        "payment_allowed_when_engine_confirms": true,
+        "legal_basis": "Projected from data/record-clearing/legal-decisions/route-ratification-registry.json. Decision authority: Lawrence (counsel), recorded through docs/RCAP_HELD_ROUTE_RATIFICATION_WORKSHEET.md and the evaluator's ratification sets.",
+        "lawrence_review": "ratified_deployable",
+        "projectedFrom": "route-ratification-registry"
       }
     },
     {
@@ -730,24 +753,7 @@
       "routeType": "court_filing",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "Acquittal (found not guilty) — Ch. 55A provides a streamlined procedure; on request and after notice to the State, the court may enter an expunction order as early as the 30th day after acquittal.",
-        "No charges filed — the person was arrested but the prosecutor never brought a case, and the applicable waiting period (Section 2) has passed.",
-        "Expunction waiting periods for arrest-only (no charge filed) cases run by offense level. Nondisclosure waits run",
-        "Offense level of arrest Waiting period before expunction",
-        "Class C misdemeanor 180 days from arrest",
-        "Class A or B misdemeanor 1 year from arrest",
-        "These arrest-only waits do not apply where a disposition makes the person immediately entitled (acquittal,",
-        "411.0725 deferred — misd. under 5 years Discharge / dismissal",
-        "411.0725 deferred — felony 5 years Discharge / dismissal",
-        "411.0735 conviction 5 years Completion of sentence /",
-        "411.072 / DWI first offense 2 years (interlock full term) Completion",
-        "2-year wait if an ignition interlock device was used for the full required term, but 5 years otherwise. For",
-        "deferred adjudication, most ordinary misdemeanors have NO waiting period once discharged, while the",
-        "For arrest-only expunctions, compute from the arrest date by level: 180 days (C), 1 year (A/B), 3 years",
-        "(felony). For dispositions that confer immediate entitlement, there is no level-based wait.",
-        "Expunction — arrest with no charge filed (by offense level) Offense level of arrest Waiting period before expunction Class C misdemeanor 180 days from arrest Class A or B misdemeanor 1 year from arrest Felony 3 years from arrest These arrest-only waits do not apply where a disposition makes the person immediately entitled (acquittal, qualifying dismissal, prosecutor certification that records are not needed, or limitations expired) — those can be sought without the level-based wait, and acquittals follow the streamlined ~30-day procedure.",
-        "Nondisclosure — by subtype Subtype Waiting period Runs from 411.072 automatic (nonviolent None (court issues Discharge / dismissal misdemeanor deferred) automatically) 411.0725 deferred — most None Discharge / dismissal misdemeanors 411.0725 deferred — misd. under 5 years Discharge / dismissal Penal Code chs.",
-        "20,21,22,25,42,43,46,71 411.0725 deferred — felony 5 years Discharge / dismissal 411.0735 conviction 5 years Completion of sentence / (eligible misdemeanors) release 411.072 / DWI first offense 2 years (interlock full term) Completion or 5 years otherwise The DWI distinction is the most consequential: a first-offense DWI nondisclosure typically requires only a 2-year wait if an ignition interlock device was used for the full required term, but 5 years otherwise."
+        "immediately eligible only when one of art. 55A.053's specified reasons is present; otherwise art. 55A.054 may require expiration of the applicable limitations period or another statutory condition"
       ],
       "exclusionRules": [
         "Because Texas keys relief to disposition rather than an offense list, the main disqualifiers are about how the case",
@@ -775,6 +781,46 @@
         "exclusionOrAmbiguityResult": "likely_not_eligible",
         "matchedResult": "packet_ready_with_caution",
         "paymentAllowed": true
+      },
+      "legalAuthority": {
+        "decisionId": "LD-TX-02",
+        "ruleId": "TX-55A-PARDON-INNOCENCE-CLASSC-DISMISSAL-FOUR-BRANCH-MAP",
+        "mechanism": "Expunction after a qualifying dismissal or quash",
+        "statute": "Tex. Code Crim. Proc. arts. 55A.053 and 55A.054",
+        "stage": "single_stage",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorFactId": "disposition_date",
+          "anchorText": "immediately eligible only when one of art. 55A.053's specified reasons is present; otherwise art. 55A.054 may require expiration of the applicable limitations period or another statutory condition"
+        },
+        "requiredFacts": [
+          "Pardon type/order?",
+          "Actual-innocence finding?",
+          "Class C charge and deferred disposition?",
+          "Completion/dismissal?",
+          "Indictment/information?",
+          "Dismissal reason?",
+          "Arrest date?",
+          "Limitations period?",
+          "Prosecutor certification?",
+          "Related charges?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "pending_cases"
+        ],
+        "exclusions": [
+          "Exact Chapter 55A legal basis and all charge-unit, pending-case, conviction, limitations, and prosecutor-certification conditions"
+        ],
+        "packetFamily": "Texas Ex Parte Petition for Expunction — dismissal or quash",
+        "packetComponents": [
+          "Ex parte petition",
+          "Dismissal or quash order",
+          "Proposed order"
+        ],
+        "notes": "The two articles are different branches; the reason for the dismissal is a mandatory intake fact."
       }
     },
     {
@@ -831,20 +877,9 @@
       "routeType": "court_filing",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "Acquittal (found not guilty) — Ch. 55A provides a streamlined procedure; on request and after notice to the State, the court may enter an expunction order as early as the 30th day after acquittal.",
-        "No charges filed — the person was arrested but the prosecutor never brought a case, and the applicable waiting period (Section 2) has passed.",
-        "Expunction waiting periods for arrest-only (no charge filed) cases run by offense level. Nondisclosure waits run",
-        "Offense level of arrest Waiting period before expunction",
-        "These arrest-only waits do not apply where a disposition makes the person immediately entitled (acquittal,",
-        "2-year wait if an ignition interlock device was used for the full required term, but 5 years otherwise. For",
-        "deferred adjudication, most ordinary misdemeanors have NO waiting period once discharged, while the",
-        "(felony). For dispositions that confer immediate entitlement, there is no level-based wait.",
-        "Expunction — arrest with no charge filed (by offense level) Offense level of arrest Waiting period before expunction Class C misdemeanor 180 days from arrest Class A or B misdemeanor 1 year from arrest Felony 3 years from arrest These arrest-only waits do not apply where a disposition makes the person immediately entitled (acquittal, qualifying dismissal, prosecutor certification that records are not needed, or limitations expired) — those can be sought without the level-based wait, and acquittals follow the streamlined ~30-day procedure.",
-        "Nondisclosure — by subtype Subtype Waiting period Runs from 411.072 automatic (nonviolent None (court issues Discharge / dismissal misdemeanor deferred) automatically) 411.0725 deferred — most None Discharge / dismissal misdemeanors 411.0725 deferred — misd. under 5 years Discharge / dismissal Penal Code chs.",
-        "20,21,22,25,42,43,46,71 411.0725 deferred — felony 5 years Discharge / dismissal 411.0735 conviction 5 years Completion of sentence / (eligible misdemeanors) release 411.072 / DWI first offense 2 years (interlock full term) Completion or 5 years otherwise The DWI distinction is the most consequential: a first-offense DWI nondisclosure typically requires only a 2-year wait if an ignition interlock device was used for the full required term, but 5 years otherwise.",
-        "For deferred adjudication, most ordinary misdemeanors have NO waiting period once discharged, while the enumerated chapters (assaultive, sexual, family, weapons, organized crime, etc.) carry a 5-year wait.",
-        "For dispositions that confer immediate entitlement, there is no level-based wait.",
-        "55A provides a streamlined procedure; on request and after notice to the State, the court may enter an expunction order as early as the 30th day after acquittal. • Pardon — a full pardon by the Governor of Texas or the President, including a pardon based on actual innocence (and certain other pardons). • Dismissal — the charge was dismissed and the person was never placed on court-ordered community supervision for that offense (limited exceptions for certain Class C deferred dispositions). • No charges filed — the person was arrested but the prosecutor never brought a case, and the applicable waiting period (Section 2) has passed. • Mistaken identity — the person was arrested, or their identifiers ended up in an arrest record, due to a clerical error or identity theft. • Statute of limitations expired with no charge, or a void/quashed charging instrument. • Specialty-court dismissal…"
+        "event-triggered by the qualifying pardon or court order; the ex parte petition may be filed upon issuance, with no general elapsed wait",
+        "Court's 30-day order deadline after notice — post-event processing, not a participant wait.",
+        "Hearing notice period — procedural, never stored as an eligibility wait."
       ],
       "exclusionRules": [
         "Because Texas keys relief to disposition rather than an offense list, the main disqualifiers are about how the case",
@@ -870,6 +905,53 @@
         "exclusionOrAmbiguityResult": "likely_not_eligible",
         "matchedResult": "packet_ready_with_caution",
         "paymentAllowed": true
+      },
+      "legalAuthority": {
+        "decisionId": "LD-TX-02",
+        "ruleId": "TX-55A-PARDON-INNOCENCE-CLASSC-DISMISSAL-FOUR-BRANCH-MAP",
+        "mechanism": "Expunction after a pardon or actual-innocence relief",
+        "statute": "Tex. Code Crim. Proc. arts. 55A.003 and 55A.004",
+        "stage": "single_stage",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorText": "event-triggered by the qualifying pardon or court order; the ex parte petition may be filed upon issuance, with no general elapsed wait"
+        },
+        "processingDeadlines": [
+          {
+            "label": "Court's 30-day order deadline after notice",
+            "note": "post-event processing, not a participant wait"
+          },
+          {
+            "label": "Hearing notice period",
+            "note": "procedural, never stored as an eligibility wait"
+          }
+        ],
+        "requiredFacts": [
+          "Pardon type/order?",
+          "Actual-innocence finding?",
+          "Class C charge and deferred disposition?",
+          "Completion/dismissal?",
+          "Indictment/information?",
+          "Dismissal reason?",
+          "Arrest date?",
+          "Limitations period?",
+          "Prosecutor certification?",
+          "Related charges?"
+        ],
+        "screeningFactIds": [
+          "case_outcome"
+        ],
+        "exclusions": [
+          "Exact Chapter 55A legal basis and all charge-unit, pending-case, conviction, limitations, and prosecutor-certification conditions"
+        ],
+        "packetFamily": "Texas Ex Parte Petition for Expunction under art. 55A.003 / 55A.004",
+        "packetComponents": [
+          "Ex parte petition",
+          "Pardon or actual-innocence order",
+          "Proposed order"
+        ]
       }
     },
     {
@@ -915,20 +997,8 @@
       "routeType": "court_filing",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "Acquittal (found not guilty) — Ch. 55A provides a streamlined procedure; on request and after notice to the State, the court may enter an expunction order as early as the 30th day after acquittal.",
-        "No charges filed — the person was arrested but the prosecutor never brought a case, and the applicable waiting period (Section 2) has passed.",
-        "Expunction waiting periods for arrest-only (no charge filed) cases run by offense level. Nondisclosure waits run",
-        "Offense level of arrest Waiting period before expunction",
-        "These arrest-only waits do not apply where a disposition makes the person immediately entitled (acquittal,",
-        "2-year wait if an ignition interlock device was used for the full required term, but 5 years otherwise. For",
-        "deferred adjudication, most ordinary misdemeanors have NO waiting period once discharged, while the",
-        "(felony). For dispositions that confer immediate entitlement, there is no level-based wait.",
-        "Expunction — arrest with no charge filed (by offense level) Offense level of arrest Waiting period before expunction Class C misdemeanor 180 days from arrest Class A or B misdemeanor 1 year from arrest Felony 3 years from arrest These arrest-only waits do not apply where a disposition makes the person immediately entitled (acquittal, qualifying dismissal, prosecutor certification that records are not needed, or limitations expired) — those can be sought without the level-based wait, and acquittals follow the streamlined ~30-day procedure.",
-        "Nondisclosure — by subtype Subtype Waiting period Runs from 411.072 automatic (nonviolent None (court issues Discharge / dismissal misdemeanor deferred) automatically) 411.0725 deferred — most None Discharge / dismissal misdemeanors 411.0725 deferred — misd. under 5 years Discharge / dismissal Penal Code chs.",
-        "20,21,22,25,42,43,46,71 411.0725 deferred — felony 5 years Discharge / dismissal 411.0735 conviction 5 years Completion of sentence / (eligible misdemeanors) release 411.072 / DWI first offense 2 years (interlock full term) Completion or 5 years otherwise The DWI distinction is the most consequential: a first-offense DWI nondisclosure typically requires only a 2-year wait if an ignition interlock device was used for the full required term, but 5 years otherwise.",
-        "For deferred adjudication, most ordinary misdemeanors have NO waiting period once discharged, while the enumerated chapters (assaultive, sexual, family, weapons, organized crime, etc.) carry a 5-year wait.",
-        "For dispositions that confer immediate entitlement, there is no level-based wait.",
-        "55A provides a streamlined procedure; on request and after notice to the State, the court may enter an expunction order as early as the 30th day after acquittal. • Pardon — a full pardon by the Governor of Texas or the President, including a pardon based on actual innocence (and certain other pardons). • Dismissal — the charge was dismissed and the person was never placed on court-ordered community supervision for that offense (limited exceptions for certain Class C deferred dispositions). • No charges filed — the person was arrested but the prosecutor never brought a case, and the applicable waiting period (Section 2) has passed. • Mistaken identity — the person was arrested, or their identifiers ended up in an arrest record, due to a clerical error or identity theft. • Statute of limitations expired with no charge, or a void/quashed charging instrument. • Specialty-court dismissal…"
+        "the specific statutory branch applies after successful completion and dismissal; no additional 180-day general arrest clock is imposed where that branch applies",
+        "Supersedes 180 days: the general 180-day arrest clock, which does not apply where the Class C deferred branch governs."
       ],
       "exclusionRules": [
         "Because Texas keys relief to disposition rather than an offense list, the main disqualifiers are about how the case",
@@ -954,6 +1024,53 @@
         "exclusionOrAmbiguityResult": "likely_not_eligible",
         "matchedResult": "packet_ready_with_caution",
         "paymentAllowed": true
+      },
+      "legalAuthority": {
+        "decisionId": "LD-TX-02",
+        "ruleId": "TX-55A-PARDON-INNOCENCE-CLASSC-DISMISSAL-FOUR-BRANCH-MAP",
+        "mechanism": "Expunction after a qualifying Class C deferred disposition",
+        "statute": "Tex. Code Crim. Proc. arts. 55A.051-.054",
+        "stage": "post_completion",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorFactId": "discharge_date",
+          "anchorText": "the specific statutory branch applies after successful completion and dismissal; no additional 180-day general arrest clock is imposed where that branch applies"
+        },
+        "requiredFacts": [
+          "Pardon type/order?",
+          "Actual-innocence finding?",
+          "Class C charge and deferred disposition?",
+          "Completion/dismissal?",
+          "Indictment/information?",
+          "Dismissal reason?",
+          "Arrest date?",
+          "Limitations period?",
+          "Prosecutor certification?",
+          "Related charges?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "offense_level",
+          "pending_cases",
+          "court_requirements_completed"
+        ],
+        "exclusions": [
+          "Exact Chapter 55A legal basis and all charge-unit, pending-case, conviction, limitations, and prosecutor-certification conditions"
+        ],
+        "packetFamily": "Texas Ex Parte Petition for Expunction — Class C deferred disposition",
+        "packetComponents": [
+          "Ex parte petition",
+          "Completion and dismissal order",
+          "Proposed order"
+        ],
+        "supersedes": {
+          "value": 180,
+          "unit": "days",
+          "note": "the general 180-day arrest clock, which does not apply where the Class C deferred branch governs"
+        },
+        "notes": "Subject to the no-pending and no-final-conviction conditions."
       }
     },
     {
@@ -1211,7 +1328,8 @@
         "packet_capable": false,
         "payment_allowed_when_engine_confirms": false,
         "legal_basis": "Lawrence named substantive gate required before selling",
-        "lawrence_review": "gate_required"
+        "lawrence_review": "hard_gate_pending",
+        "projectedFrom": "route-ratification-registry"
       }
     },
     {
@@ -1344,7 +1462,8 @@
         "packet_capable": false,
         "payment_allowed_when_engine_confirms": false,
         "legal_basis": "Lawrence named substantive gate required before selling",
-        "lawrence_review": "gate_required"
+        "lawrence_review": "hard_gate_pending",
+        "projectedFrom": "route-ratification-registry"
       }
     },
     {
@@ -3376,25 +3495,11 @@
         "backendPathwayId": "expunction-after-qualifying-dismissal-or-quash",
         "requiredFields": [
           "case_outcome",
-          "offense_level",
-          "offense_category",
-          "disposition_date",
-          "pardon_status",
-          "identity_error",
-          "record_type",
-          "residency_or_location",
-          "sentence_completion_date"
+          "pending_cases"
         ],
         "fieldsReferenced": [
           "case_outcome",
-          "offense_level",
-          "offense_category",
-          "disposition_date",
-          "pardon_status",
-          "identity_error",
-          "record_type",
-          "residency_or_location",
-          "sentence_completion_date"
+          "pending_cases"
         ],
         "caseOutcomes": [
           "arrest_no_charge",
@@ -3403,7 +3508,8 @@
           "diversion_or_deferred",
           "convicted_other"
         ],
-        "sourceConditionText": "Expunction after qualifying dismissal or quash"
+        "sourceConditionText": "immediately eligible only when one of art. 55A.053's specified reasons is present; otherwise art. 55A.054 may require expiration of the applicable limitations period or another statutory condition",
+        "timingAnchorFactId": "disposition_date"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -3413,7 +3519,13 @@
       "sourceRef": "pathways:77-124; section:428-440; waiting_periods:125-175; corpus-unit:28; corpus-unit:37; corpus-unit:88; exclusions:176-223; case_outcomes:224-270",
       "candidatePathwayIds": [
         "expunction-after-qualifying-dismissal-or-quash"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-TX-02",
+        "ruleId": "TX-55A-PARDON-INNOCENCE-CLASSC-DISMISSAL-FOUR-BRANCH-MAP",
+        "statute": "Tex. Code Crim. Proc. arts. 55A.053 and 55A.054",
+        "mechanism": "Expunction after a qualifying dismissal or quash"
+      }
     },
     {
       "id": "route-expunction-after-pardon-or-actual-innocence-relief",
@@ -3422,26 +3534,10 @@
       "when": {
         "backendPathwayId": "expunction-after-pardon-or-actual-innocence-relief",
         "requiredFields": [
-          "case_outcome",
-          "offense_level",
-          "offense_category",
-          "disposition_date",
-          "pardon_status",
-          "identity_error",
-          "record_type",
-          "residency_or_location",
-          "sentence_completion_date"
+          "case_outcome"
         ],
         "fieldsReferenced": [
-          "case_outcome",
-          "offense_level",
-          "offense_category",
-          "disposition_date",
-          "pardon_status",
-          "identity_error",
-          "record_type",
-          "residency_or_location",
-          "sentence_completion_date"
+          "case_outcome"
         ],
         "caseOutcomes": [
           "arrest_no_charge",
@@ -3450,7 +3546,7 @@
           "diversion_or_deferred",
           "convicted_other"
         ],
-        "sourceConditionText": "Expunction after pardon or actual-innocence relief"
+        "sourceConditionText": "event-triggered by the qualifying pardon or court order; the ex parte petition may be filed upon issuance, with no general elapsed wait"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -3460,7 +3556,13 @@
       "sourceRef": "pathways:77-124; corpus-unit:28; case_outcomes:224-270; corpus-unit:59; exclusions:176-223; corpus-unit:66; corpus-unit:11",
       "candidatePathwayIds": [
         "expunction-after-pardon-or-actual-innocence-relief"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-TX-02",
+        "ruleId": "TX-55A-PARDON-INNOCENCE-CLASSC-DISMISSAL-FOUR-BRANCH-MAP",
+        "statute": "Tex. Code Crim. Proc. arts. 55A.003 and 55A.004",
+        "mechanism": "Expunction after a pardon or actual-innocence relief"
+      }
     },
     {
       "id": "route-expunction-after-qualifying-class-c-deferred-disposition",
@@ -3471,22 +3573,12 @@
         "requiredFields": [
           "case_outcome",
           "offense_level",
-          "offense_category",
-          "disposition_date",
-          "pardon_status",
-          "identity_error",
-          "record_type",
-          "residency_or_location"
+          "pending_cases"
         ],
         "fieldsReferenced": [
           "case_outcome",
           "offense_level",
-          "offense_category",
-          "disposition_date",
-          "pardon_status",
-          "identity_error",
-          "record_type",
-          "residency_or_location"
+          "pending_cases"
         ],
         "caseOutcomes": [
           "arrest_no_charge",
@@ -3495,7 +3587,8 @@
           "diversion_or_deferred",
           "convicted_other"
         ],
-        "sourceConditionText": "Expunction after qualifying Class C deferred disposition"
+        "sourceConditionText": "the specific statutory branch applies after successful completion and dismissal; no additional 180-day general arrest clock is imposed where that branch applies",
+        "timingAnchorFactId": "discharge_date"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -3505,7 +3598,13 @@
       "sourceRef": "pathways:77-124; corpus-unit:28",
       "candidatePathwayIds": [
         "expunction-after-qualifying-class-c-deferred-disposition"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-TX-02",
+        "ruleId": "TX-55A-PARDON-INNOCENCE-CLASSC-DISMISSAL-FOUR-BRANCH-MAP",
+        "statute": "Tex. Code Crim. Proc. arts. 55A.051-.054",
+        "mechanism": "Expunction after a qualifying Class C deferred disposition"
+      }
     },
     {
       "id": "route-automatic-nondisclosure-for-qualifying-nonviolent-misdemeanor-deferred-adjudication-411-07",

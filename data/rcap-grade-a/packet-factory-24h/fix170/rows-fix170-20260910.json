@@ -1,0 +1,243 @@
+{
+  "schemaVersion": "rcap-verifier-rows/v2",
+  "lane": "FIX170",
+  "laneKind": "complex-execution-repair",
+  "isIndependentVerification": false,
+  "worktree": "/home/user/v9b-worktree",
+  "branch": "lane-fix170-20260910",
+  "repairedAtBase": "b984a2f843e493e855442fd25d3a4e73d01a0686",
+  "commits": [
+    {
+      "sha": "a78af8f624a8e5bf610cd0749dfecbdcb2203cfb",
+      "familyId": "az_marijuana_expungement_arrest_no_charges-set",
+      "subject": "az_marijuana_expungement_arrest_no_charges-set answers from the records it holds"
+    },
+    {
+      "sha": "fb0aa56b9bb90ec83db065ce1d2bcb6940107150",
+      "familyId": "in_infraction_nondisclosure-set",
+      "subject": "in_infraction_nondisclosure-set stops printing its own route keys on a sworn petition"
+    }
+  ],
+  "finalCommit": "fb0aa56b9bb90ec83db065ce1d2bcb6940107150",
+  "grantSet": "82f53fb72fdadfe7. Two --assert calls in the three-token form, both CLAIM_OK, against the ledger in this worktree (994 claims, generatedAtCommit 409a7c835684f171d3b7ec5dfd21d3f7c542c0d7). Released at return; that ledger edit is left UNCOMMITTED as the dispatch requires.",
+  "actedOnReturns": [
+    "VF53 rows-vf53-20260910.json at bf471ae6a, the recorded verdict on az_marijuana_expungement_arrest_no_charges-set. Its five findings were each re-derived at this base before any edit, and its outOfScopeObservedNotActedOn entry -- that the committed AZ guide is not reproducible from the committed AZ builder -- turned out to be the CAUSE of four of the five failures rather than a note beside them.",
+    "VF57 rows-vf57-20260910.json at 6483ce246, the recorded verdict on in_infraction_nondisclosure-set. Its SOURCE_IDENTITY finding has two grounds; this lane re-derived both and reports that ground one no longer reproduces and ground two does.",
+    "The Captain's shared-record pin sweep. scripts/rcap-packet-completeness/refresh-shared-record-identity.mjs re-anchored this Indiana family's manifest pin after vf57 read it; the annotation it left is the reason ground one is closed, and this lane verified the annotation rather than trusting it.",
+    "FIX166 rows-fix166-20260910.json, read for the row shape and for its rule that a counter nobody measured is null."
+  ],
+  "builtAnything": true,
+  "repairsMade": 2,
+  "packetsSelfVerified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "sharedManifestsTouched": "None. Nothing under data/rcap-grade-a/packet-factory-24h/ other than fix170/ was written. RASTER_QUEUE.json was NOT edited -- the Indiana raster debt is recorded in that family's own product-wiring.json. data/record-clearing/legal-design-track-registry.json and legal-design-packet-set-manifests.json were READ and never written.",
+  "corpusMountUsed": "MASTER_LIBRARY_SOURCE_DIR=/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1, set on every AZ builder invocation. The Indiana family binds no source binary and needed none.",
+  "determinismControlBeforeEditing": {
+    "az_marijuana_expungement_arrest_no_charges-set": "Run UNMODIFIED at this base. Printed BUILD_OK artifacts=2 rasters=6 and left BOTH fixture PDFs byte-identical (6dad189b..., 8f041f1d...). It did NOT leave the family clean. SIDE EFFECTS FOUND, all reproducing vf53's account: it rewrote participant-instructions.md (74 committed lines replaced by a 30-line generic stub), production-field-map.json, field-census.census-v1.json, build-findings.json and reports/rendered-artifacts.json. No raster directory was created and build-status.json was not touched -- this builder rasters with Poppler, not Chromium, and its own self-test asserts it never launches Chromium. `git checkout --` restored the family and `git status --porcelain` was empty before any edit.",
+    "in_infraction_nondisclosure-set": "Run UNMODIFIED at this base. Reproduced EVERY committed byte and left `git status --porcelain` EMPTY. NO side effects of any kind in this container: no build-status.json rewrite, no render report, no raster directory. Worth recording beside vf57's decision not to run it: at vf57's base a run would have silently re-pinned a drifted shared record, and at THIS base it does not, because the pin already binds and preserveIdentityRefresh() carries the annotation through unchanged -- which the empty git status proves.",
+    "bothBuildersWereRestoredAfterEveryBreakTest": "Every guard proof below ended by restoring the builder from a pristine copy, running `git checkout --` on the family directory, rebuilding, and re-hashing. Every restore was byte-identical to the repaired output; the digests are recorded per proof."
+  },
+  "howBytesWereMeasured": {
+    "digests": "sha256sum on the files on disk, recomputed here at every before/after point. None transcribed from a report.",
+    "pdfText": "pdftotext -layout, page by page, and for the Indiana guard the extracted text of the SAVED packet bytes read through the builder's own pdf-lib page walk -- not the strings the composer was handed.",
+    "pageCounts": "pdfinfo.",
+    "whatMovedOnTheIndianaPages": "diff of `pdftotext -layout` over the pre-repair canonical recovered with `git show HEAD:<path>` against the repaired one, plus a per-page word count of both.",
+    "finalizerRefusals": "read out of the AZ finalizer's own refusal report for the fixtures each run rendered, and cross-read against reports/rendered-artifacts.json finalizerRefusals and reports/actual-writes.json textReadFromOutputBytes.",
+    "pixels": "NOT MEASURED BY THIS LANE. vf53 measured the AZ email-line zero in pixels at 200dpi against four positive controls on the same page; this lane did not re-render that measurement and does not restate it as its own."
+  },
+  "everyZeroHasAPositiveControl": true,
+  "whereTheZeroesAndTheirControlsAre": "The only zero this lane reports as its own measurement is the AZ boundary finalizerRefusals count of 0 in the negative control, and it is licensed by the positive reading in the SAME experiment: with the committed boundary email the boundary fixture reads finalizerRefusals 1 / valuesWrittenFromOutputBytes 12 and the disclosure section is present; with a shortened email it reads 0 / 13 and the section is absent. The Indiana route-key counts of 0 on the delivered pages are licensed by the positive control of 2 per fixture on the same pages before the repair and 3 offending locations when the guard break reintroduced them.",
+  "rasterPixelCounts": null,
+  "rasterPixelCountsWhyNull": "null because NOT MEASURED by this lane, never because measured as zero. This lane rendered no raster for measurement and retained none; disk in this container was under 2.6 GB free throughout and every temporary artifact was deleted.",
+  "visualDefects": null,
+  "visualDefectsWhyNull": "null because NOT MEASURED by this lane as a scored counter. No person has seen a page of either family through this lane.",
+  "rows": [
+    {
+      "itemId": "az_marijuana_expungement_arrest_no_charges-set",
+      "familyId": "az_marijuana_expungement_arrest_no_charges-set",
+      "jurisdiction": "AZ",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-arrest-no-charges-set--official-pdf-fill",
+      "commit": "a78af8f624a8e5bf610cd0749dfecbdcb2203cfb",
+      "verdictRepairedAgainst": "vf53 FAIL_REPAIR_REQUIRED at bf471ae6a7415ccf991bbaa35d01ccc0825b38e3",
+      "failedObligationsRepaired": [
+        "FEE_AND_WAIVER",
+        "FILING_DESTINATION",
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "SERVICE"
+      ],
+      "headline": "Four of the five had ONE cause and the dispatch's hypothesis was half right: the builder does read the track registry, but only for stop conditions. The AZ path wrote a twenty-line generic stub while the committed guide was seventy-four hand-authored lines no builder produced, so nothing generated the page from the held records and on two questions it answered CONTRARY to them. The fifth, KNOWN_PREFILLS, is a held value the finalizer could not fit and nobody disclosed.",
+      "didEachFindingReproduceAtHEAD": {
+        "FEE_AND_WAIVER": "REPRODUCED. participant-instructions.md carried, verbatim, 'Ask the Superior Court clerk in the county above what the fee is for a petition to expunge marijuana records, and whether a fee-waiver or deferral application applies to you.' under a heading introducing it as not established in this repository, while the committed track registry states rules.fees 'none. Rule 36(a)(4) bars a filing fee.' and rules.feeWaiver 'none'. Both re-read here from data/record-clearing/legal-design-track-registry.json.",
+        "SERVICE": "REPRODUCED. The same block carried 'Ask the same clerk who must receive a copy of the petition and by what method.' while rules.service is 'none. Rule 36(b)(2) puts transmittal on the court.' and rules.notice is 'The court sends the petition to the prosecuting agency within 10 days.'",
+        "FILING_DESTINATION": "REPRODUCED. Neither half of rules.filing's 'Confirm the county-specific intake route before filing.' nor destination.detail's 'Local intake varies. Maricopa County directs arrest-only petitions to a civil petition form and a civil case number.' appeared anywhere in the guide.",
+        "REQUIRED_BEFORE_FILING": "REPRODUCED. The manifest's own requiredBeforeFiling array holds five strings; the committed guide carried none of them verbatim, and 'perjury' appeared nowhere in it against rules.participantSignature 'Petitioner signs under penalty of perjury.'",
+        "KNOWN_PREFILLS": "REPRODUCED, re-established here from the finalizer's refusal report rather than in pixels. reports/rendered-artifacts.json records the boundary at valuesWrittenFromOutputBytes 12 / finalizerRefusals 1 against the canonical's 13 / 0, and reports/actual-writes.json records the boundary email-top write with textReadFromOutputBytes null and glyphCountReadFromOutputBytes 0 in a 251.2 x 11.2pt box at x 145.21 y 636.80 on page 1. This lane did not re-run vf53's pixel measurement and does not restate it as its own."
+      },
+      "fixtureDigestsBefore": {
+        "fixtures/aoc-crem3f-canonical-filled.pdf": "6dad189b1cdb575dfc7ef7e0647c077440cd4e331a7e2bf389a522773099c5d3",
+        "fixtures/aoc-crem3f-boundary-filled.pdf": "8f041f1d4fd898a176746d1dd5aed7b5967c20b51b14609b7529b6056f9646a5",
+        "participant-instructions.md": "f7e1e72340b62efcd2f08364d502b11a8d55c89ebf066a19a2a5810de13d5909"
+      },
+      "fixtureDigestsAfter": {
+        "fixtures/aoc-crem3f-canonical-filled.pdf": "6dad189b1cdb575dfc7ef7e0647c077440cd4e331a7e2bf389a522773099c5d3",
+        "fixtures/aoc-crem3f-boundary-filled.pdf": "8f041f1d4fd898a176746d1dd5aed7b5967c20b51b14609b7529b6056f9646a5",
+        "participant-instructions.md": "63c2e948d8b878906ec4dc00b21b594f4a978ce325fecb0f68a61e41b81cf055"
+      },
+      "whichRepairsMovedBytes": "NO DELIVERED PDF BYTE MOVED. Both fixtures re-hash to the values the acceptance receipt binds. Only participant-instructions.md moved.",
+      "rasterState": "THE RECEIPT STILL BINDS AND THIS FAMILY OWES NO FRESH RASTER ON ACCOUNT OF THIS REPAIR. workflowRunId 33526896195, RASTER_PASS, boundToCanonicalSha256 6dad189b..., and both delivered digests are unchanged. product-wiring.json was NOT edited for this family, because there is no debt to record.",
+      "whatWasChangedAndWhy": [
+        "azParticipantInstructions() replaces westParticipantInstructions() on the AZ path. It reads legal-design-track-registry.json and legal-design-packet-set-manifests.json and carries rules.filing, destination.detail, rules.fees, rules.feeWaiver, rules.service, rules.notice, rules.participantSignature and all five manifest requiredBeforeFiling acts VERBATIM, each on a line of its own, in the section that answers its question.",
+        "The two delegating sentences are deleted. This is the substance of FEE_AND_WAIVER and SERVICE: the record answers both, so the packet answers both, and a packet that has just been told the answer may not send the participant to ask someone else for it.",
+        "The guide is now written AFTER the fixtures rather than before them, so the KNOWN_PREFILLS disclosure can be a reading of the finalizer's report for the fixtures that run rendered rather than a list maintained beside the build.",
+        "build-findings.json's agency observation is read from AZ_FIELD_SPECS. It was a hardcoded literal and at this HEAD a FALSE one: it denied that any law-enforcement or prosecutor field is offered as an anchor while the specs offer the citing-or-arresting agency and the build's own self-test asserts exactly that one write. The record and the assertion contradicted each other and the record was wrong.",
+        "reports/rendered-artifacts.json key order restored to the committed record's, so a rebuild stops dirtying a file whose values never moved.",
+        "Three sections -- the election tables, the blanks table and the deliberately-empty list -- are carried into the builder VERBATIM from the committed page rather than derived. Carrying them in the builder is what makes the committed page reproducible at all; deriving them from the census is a later repair and is recorded below rather than done here, because vf53 scored ROUTE_OPTIONS, REPEATING_ROWS and PROTECTED_FIELDS PASS on exactly that text and this lane holds no claim to rewrite it."
+      ],
+      "howKNOWN_PREFILLSWasRepairedAndWhatWasNotDone": "vf53 named two remedies and this lane took the second: the refusal is disclosed to the participant, who is told to look at the printed line and write the value in by hand, in full, abbreviating nothing. The first remedy -- fitting the value by wrapping or continuing onto a printed second line -- was NOT taken, and the reason is a measurement rather than a preference: the write box is 11.2pt high, which is one line at the six-point readability floor this factory uses, and this lane holds no measurement of an unowned second line beneath it. Abbreviating an email address was never available: a shortened address on a sworn petition is a wrong address, not a short one. CONSEQUENCE STATED PLAINLY: no PDF byte moves, so no raster is owed, AND a verifier who holds that the value must actually be PRINTED on that line is owed a further repair which WOULD move bytes and WOULD cost this family a fresh central raster. This lane does not claim that question closed.",
+      "countersBeforeAndAfter": {
+        "manifestRequiredBeforeFilingActsCarriedVerbatimOnALineOfTheirOwn": {
+          "before": 0,
+          "after": 5,
+          "declared": 5,
+          "afterIsA": "a reading: the emitted page is split into lines, each stripped of a leading list or quote marker, and each manifest string must be an exact whole-line match. Substring presence is not accepted."
+        },
+        "heldRegistrySentencesCarriedInTheSectionThatAnswersThem": {
+          "before": 0,
+          "after": 7,
+          "afterIsA": "a reading of the emitted page, section by section: rules.filing and destination.detail inside 'Where you file this'; rules.fees and rules.feeWaiver inside 'What this costs'; rules.service and rules.notice inside 'Who must be served'; rules.participantSignature inside 'What you must do before you file'."
+        },
+        "guidanceLinesDelegatingAQuestionTheRecordAnswers": {
+          "before": 2,
+          "after": 0,
+          "beforeWasA": "two committed lines, quoted in full in the vf53 finding",
+          "afterIsA": "a reading: every line of the emitted page is tested against four patterns written against the ACT -- asking someone else what the fee is, whether a waiver applies, or who must be served -- not against the committed wording, so a reworded relapse fails too."
+        },
+        "dollarFiguresOnThePageThatNoRecordStates": {
+          "before": 0,
+          "after": 0,
+          "bothAreReadings": "The fee rule for this route names no amount, and the guard compares the page's $-figure presence against the record's rather than asserting zero. Proved to fire by inserting 'The fee is $0 on this route.'"
+        },
+        "unfittableMappedWritesDisclosedToTheParticipant": {
+          "before": 0,
+          "after": 1,
+          "afterIsA": "a reading of the finalizer's own refused[] for the fixtures this run rendered, joined back to the measured anchors by printed label. Proved a reading, not a literal, by the negative control below."
+        },
+        "pixelsInTheEmailBox": null,
+        "pixelsInTheEmailBoxWhyNull": "null because NOT MEASURED by this lane. vf53 measured it; this lane repaired against the finalizer's report and does not restate a pixel figure it did not take."
+      },
+      "guardsAddedAndPROVEDTOFIRE": [
+        "HELD SENTENCE IN ITS OWN SECTION -- broken by folding destination.detail out of its blockquote and into the surrounding paragraph; refused with 'FILING_DESTINATION -- the registry's destinationDetail is not carried on a line of its own inside \"Where you file this\"'. Restored, rebuilt, guide sha 63c2e948d8b878906ec4dc00b21b594f4a978ce325fecb0f68a61e41b81cf055.",
+        "THE SAME GUARD, AND THE HOLE IT HAD -- broken by replacing the quoted rules.fees line with this build's own paraphrase 'There is no fee on this route.' NOTHING FIRED. The manifest's requiredBeforeFiling list happens to carry the fee rule verbatim as its last entry, so a page-wide search was satisfied by a sentence in ANOTHER section while the fee section had just committed the exact defect FEE_AND_WAIVER failed for. The guard was corrected to be section-scoped and the SAME break re-run: refused with 'FEE_AND_WAIVER -- the registry's fees is not carried on a line of its own inside \"What this costs\"'. Credited only after the corrected run.",
+        "THE SAME GUARD ON SERVICE -- broken by replacing the quoted rules.service line with 'You do not have to serve anyone.'; refused with 'SERVICE -- the registry's service is not carried on a line of its own inside \"Who must be served\"'.",
+        "NO DELEGATION OF A QUESTION THE RECORD ANSWERS -- broken by reinserting vf53's exact committed fee sentence into the 'What this costs' section; refused with 'the guidance asks someone else what the filing fee is on a route whose committed records answer it'. Broken a second time by reinserting the committed service sentence; refused with 'the guidance asks someone else who must be served'.",
+        "NO DOLLAR FIGURE THE RECORD DOES NOT STATE -- broken by inserting 'The fee is $0 on this route.'; refused with 'the guidance states a dollar figure the committed fee rule does not state', true !== false.",
+        "EVERY MANIFEST PRE-FILING ACT CARRIED VERBATIM -- broken twice. Dropping the first act refused with '1 of 5 manifest pre-filing acts are not carried on a line of their own'. Paraphrasing the first act to 'Check the quantity against your paperwork.' refused identically, which is the point: a paraphrase is a miss, not a match.",
+        "EVERY UNFITTABLE MAPPED WRITE DISCLOSED -- broken by making azUnfittableSection() return empty unconditionally; refused with 'KNOWN_PREFILLS -- 1 of 1 unfittable mapped writes are not disclosed to the participant', 0 !== 1."
+      ],
+      "theNEGATIVECONTROLTHATPROVESTHEDISCLOSUREISAREADING": "The boundary fixture's email fact was shortened from the committed 88-character value to one that fits the 251.2pt line, and the build re-run. RESULT: reports/rendered-artifacts.json read boundary finalizerRefusals 0 and valuesWrittenFromOutputBytes 13 (from 1 and 12), and the disclosure section VANISHED from the page entirely -- grep count 0. Restoring the committed value returned 1 / 12, the section, and the guide digest 63c2e948d8b878906ec4dc00b21b594f4a978ce325fecb0f68a61e41b81cf055. A hardcoded disclosure could not have done that.",
+      "whatCouldNotBeRepaired": [
+        "The committed production-field-map.json and field-census.census-v1.json still do not round-trip through the builder, IN BOTH DIRECTIONS, and this lane did not repair it. Measured here: a rebuild STRIPS from the field map the dispositionVocabulary key, the two case-number refusals' completenessDisposition PROTECTED_FIELD / routeDetermined false / refusalClass court_prosecutor_clerk_or_agency_owned, and eight em-dashes (replaced by hyphens in reason and participantMustSupply strings); and ADDS to all 19 census controls a refusalClass, completenessDisposition PARTICIPANT_ELECTION_GENUINE, routeDetermined and isSelectionControl the committed file lacks, with a different reason string. `node scripts/build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs --check` therefore exits 1 at this base -- CONFIRMED PRE-EXISTING by stashing this lane's changes and re-running it, which exits 1 identically. The origin is visible in history: 0f3a95275 (FIX01) added 69 lines to the guide and 190 to the field map WITHOUT touching the builder, and 65cf85329 added 14 more the same way. That drift is the completeness taxonomy that COMPONENT_SET, PROTECTED_FIELDS and ROUTE_OPTIONS currently pass on, and this lane holds no claim to rewrite it.",
+        "The KNOWN_PREFILLS value is still not PRINTED on the page it belongs on. See howKNOWN_PREFILLSWasRepairedAndWhatWasNotDone."
+      ],
+      "obligationsNOTRE_SCORED": "This lane repaired five obligations. It did not re-score the ten vf53 passed, and its own repair of the guide is not evidence about ROUTE_OPTIONS, PROTECTED_FIELDS, CLIPPING_AND_OVERLAP or any other limb.",
+      "independentReVerificationOwed": "Owed, to a lane that is neither FIX170 nor vf53."
+    },
+    {
+      "itemId": "in_infraction_nondisclosure-set",
+      "familyId": "in_infraction_nondisclosure-set",
+      "jurisdiction": "IN",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/in/in-infraction-nondisclosure-set--custom-pleading",
+      "commit": "fb0aa56b9bb90ec83db065ce1d2bcb6940107150",
+      "verdictRepairedAgainst": "vf57 FAIL_REPAIR_REQUIRED at 6483ce2468dbbfa98525859abf80bc3c96de5433",
+      "failedObligationsRepaired": [
+        "ROUTE_IDENTITY",
+        "SOURCE_IDENTITY"
+      ],
+      "headline": "ROUTE_IDENTITY reproduced exactly and is repaired. SOURCE_IDENTITY has two grounds in vf57's own finding text: ground one, the stale shared pin, NO LONGER REPRODUCES because the Captain's sweep re-anchored it; ground two, a nonexistence claim the family's own receipt refuses, reproduces exactly and is repaired.",
+      "didEachFindingReproduceAtHEAD": {
+        "ROUTE_IDENTITY": "REPRODUCED EXACTLY. Both internal route keys printed on delivered page 2 and delivered page 4 of BOTH fixtures -- two lines per page, counted with pdftotext page by page -- and once more as the last line of participant-instructions.md. Page 4 is the last page of the verified petition: it carries the WHEREFORE clause, 'VERIFICATION. I affirm under the penalties for perjury that the foregoing representations are true.', SIGNATURE OF PETITIONER, DATE, PRINTED NAME and the FOR THE COURT ONLY judge block. Re-read here to confirm what the page is rather than taking it from the verdict.",
+        "SOURCE_IDENTITY ground one, the stale shared pin": "DOES NOT REPRODUCE. NO REPAIR WAS MANUFACTURED FOR IT. THE MEASUREMENT: source-receipt.json now declares data/record-clearing/legal-design-packet-set-manifests.json at b28edfb93eb2e3953dea5bdbe2915476c9752c12df2a46cb61f98e786a77cc5c / 3,708,050 bytes, and `sha256sum` of the file on disk returns exactly b28edfb93eb2e3953dea5bdbe2915476c9752c12df2a46cb61f98e786a77cc5c at `stat -c%s` 3708050. It binds. The pin vf57 read, 80b5e071055469b6f1aa84e80accd9e8bcc15e00ed3b7b778ba48a0ff85d8bd7 / 3,694,688, is now carried in an identityRefresh block on that same grounding record, dated 2026-09-10, recoveredFromCommit 1784eec3da534eca557d2f6bae86204a9114cb9f, anchorsCompared 2, anchorsIdentical 2, anchorDetail ['recordGlobalMetadata: identical', 'packetSet:in_infraction_nondisclosure-set: identical'], with identicalAnchorSha256 for the family entry of 2c6b198999afbdbb01061fdcf9a70e04ef1b25477023aa1a5ed001bee8fba785 -- WHICH IS THE SAME VALUE VF57 COMPUTED INDEPENDENTLY when it satisfied itself that a refresh would be honest. The other two grounding records also recompute exact and were re-hashed here: IN.memo.json eea7b6933c5e5a9703d7cdb59026bada6468de934dffec5ce13be7963834eccb / 176,778 and the stage-2 dependency.json d511a5e3d7d98089ab6a5e25a160b887be6493f42d36d71018a678ff0a3c6b5c / 8,069. So: 3 of 3 grounding records bind exact, against vf57's 2 of 3. This is the fleet-wide refresh the dispatch warned about, and it is the honest one, not a drift.",
+        "SOURCE_IDENTITY ground two, the nonexistence claim": "REPRODUCES EXACTLY, and is repaired. participant-instructions.md line 15 read '...so this packet does not claim that no form exists.' and line 75, four paragraphs later, read 'It is not an official Indiana form \u2014 none exists for this petition \u2014'. The receipt records officialFormExistenceStatus NOT_CONFIRMED_CURRENT and lists 'whether a current statewide form exists for the stage-2 petition' under whatThisReceiptDoesNotEstablish. The document contradicted itself and landed on the side its own receipt refuses."
+      },
+      "fixtureDigestsBefore": {
+        "fixtures/canonical.pdf": "f4a0abb08d6f636e8ab5271376fc6034ce0857421b2ed156d77ae6c820c6c2e7",
+        "fixtures/boundary.pdf": "bcd0160894c9eb7a445e2a9961fe82abc2dfca54ba804531febc78a04c04e9cf",
+        "participant-instructions.md": "938a1008312e05da0eb9f56506e4f74d29330685e11440ba4d41753a01019225"
+      },
+      "fixtureDigestsAfter": {
+        "fixtures/canonical.pdf": "d12f6d818c4a2edc151f1e328a56d2eec773963577483ff9bdabededb9e8f463",
+        "fixtures/boundary.pdf": "1dbdadb255eed11ffea3011738d3a9f53ef7f979ed4b4c5b534b9b100532b3b2",
+        "participant-instructions.md": "c55bc5e187c667267b1955a2170f309d905e9ff86a747deeae9dc089b9c1c0a3"
+      },
+      "byteLengths": "canonical 13,299 -> 13,013; boundary 13,363 -> 13,078. Four pages before and after, both fixtures.",
+      "whatMovedOnThePAGES": "EXACTLY the two route-key blocks, and nothing else. Established by differencing `pdftotext -layout` of the pre-repair canonical (recovered with `git show HEAD:<path>`) against the repaired one: the whole diff is two deleted three-line blocks. Per-page word counts: page 1 372/372, page 2 285/281, page 3 384/384, page 4 376/372. The two deltas of -4 are 'Routes:' plus the two keys plus the separating semicolon.",
+      "rasterState": "OWES A FRESH WHOLE-FAMILY RASTER. Every delivered byte moved, so nothing that bound the old bytes binds these. Recorded in this family's own product-wiring.json: binding.acceptanceReceipt.stillBinds false, binding.wholeFamilyReRasterRequired true, and a binding.reRasterDebt block carrying all six before/after digests and what moved on the pages. RASTER_QUEUE.json was NOT edited.",
+      "aFURTHERTHINGABOUTTHISFAMILYSRASTER": "vf57 reported that neither delivered digest, nor the family id, appears anywhere under data/rcap-grade-a/packet-factory-24h/raster-runs/, and that the family has never had a raster. This lane re-ran that search at its own base and REPRODUCES it: `grep -rl` over raster-runs/ for the family id, for f4a0abb0..., for bcd01608..., and for workflowRunId 33923497915 all return nothing. product-wiring.json nonetheless carried an acceptanceReceipt naming run 33923497915 with verdict RASTER_PASS and coversTheWholeFamily true. That receipt named a run this repository holds no raster record for even BEFORE these bytes moved. Recorded in the reRasterDebt block; not otherwise acted on, because withdrawing another lane's acceptance receipt is not this lane's to do.",
+      "whatWasChangedAndWhy": [
+        "The `Routes: ...` line is removed from the stage-1 guidance page body, from the stage-2 petition body, and from the participant guide. The keys remain where they belong -- product-wiring.json, source-receipt.json and production-field-map.json all still carry both.",
+        "The guide's closing paragraph now says what the rest of the packet says: no applicable statewide form is HELD IN THE GOVERNED CORPUS, live confirmation is outstanding after a refused fetch, and the packet does not claim that no form exists.",
+        "groundRecords() gained the shared-pin refusal described below. Nothing else about the build changed; the source receipt is byte-identical after the repair, including its identityRefresh annotation."
+      ],
+      "countersBeforeAndAfter": {
+        "deliveredPDFPagesPrintingAnInternalRouteKey": {
+          "before": 4,
+          "after": 0,
+          "bothAreReadings": "counted with pdftotext page by page across both fixtures: 2 pages per fixture before, 0 after",
+          "positiveControlForTheZero": "the guard break reintroduced the petition line and the delivered-bytes reading returned 3 offending locations on the page"
+        },
+        "participantFilesPrintingAnInternalRouteKey": {
+          "before": 1,
+          "after": 0
+        },
+        "nonexistenceClaimsAboutAnOfficialIndianaFormInDeliveredDocuments": {
+          "before": 1,
+          "after": 0,
+          "afterIsA": "a reading: every delivered page's extracted text and the whole guide are scanned for a nonexistence assertion, and each hit fails unless the preceding 120 characters withdraw it in terms."
+        },
+        "groundingRecordsThatRecomputeExact": {
+          "beforeAtVF57sBase": 2,
+          "atThisBase": 3,
+          "declared": 3,
+          "thisLaneRepairedNoneOfThem": "the third was closed by the Captain's sweep before this lane arrived; it is REPORTED, not claimed"
+        },
+        "pdfPagesReRasteredByThisLane": null,
+        "pdfPagesReRasteredByThisLaneWhyNull": "null because NOT DONE. The debt is recorded; the Captain dispatches it."
+      },
+      "guardsAddedAndPROVEDTOFIRE": [
+        "NO INTERNAL ROUTE KEY ON A DELIVERED PAGE -- measured on the extracted text of the SAVED packet bytes, page by page, not on the strings the composer was handed, and applied to the participant guide as a delivered participant document too. Broken by reinstating the petition's `Routes:` push; refused with 'an internal route key is printed on 3 delivered page location(s)'. Restored, rebuilt, canonical d12f6d818c4a2edc151f1e328a56d2eec773963577483ff9bdabededb9e8f463.",
+        "THE SAME GUARD ON THE GUIDE, AND AN INEFFECTIVE BREAK CAUGHT AND CORRECTED -- the first attempt inserted a `void` expression that constructed the route-key string and discarded it. NOTHING FIRED, which is correct, because nothing reached the output; an ineffective break proves nothing and was not credited. The corrected break re-added the `out.push` of the Routes line and the guard refused. Restored, rebuilt, guide c55bc5e187c667267b1955a2170f309d905e9ff86a747deeae9dc089b9c1c0a3.",
+        "NO NONEXISTENCE CLAIM ABOUT AN OFFICIAL FORM -- broken by restoring the committed wording verbatim; refused with 'nonexistence claim(s) about an official Indiana form, which this family's own source receipt expressly refuses (officialFormExistenceStatus NOT_CONFIRMED_CURRENT)'. The guard is written against the CLAIM, not the committed wording: a hit passes only where the sentence withdraws it in terms, so a reworded relapse fails too.",
+        "A SHARED RECORD MAY NOT BE SILENTLY RE-PINNED BY A REBUILD -- this is the hazard vf57 declined to run the builder into, and it is closed rather than merely avoided. groundRecords() recomputes each pin and writes the result, asserting only that anchor STRINGS survive, so a rebuild over a drifted record would replace a stale pin with a fresh-looking one at the same moment identity-refresh.mjs correctly dropped the annotation that could have proved anything. The build now refuses where the committed receipt's pin and the bytes on disk disagree and no identityRefresh on that receipt bridges that exact transition. PROVED BY A DATA BREAK, not a code break: the manifest pin in the committed receipt was falsified to sixty-four zeroes and the builder returned status BLOCKED_SOURCE with failedSourceIdentities naming the record, its pinnedSha256 and its recomputedSha256, and composed nothing -- the overlay directory was never touched."
+      ],
+      "whatCouldNotBeRepaired": [
+        "The fresh whole-family raster this repair now owes. This lane rendered none, retained none and claims none, and the family cannot be terminal until a central raster covers d12f6d81... and 1dbdadb2....",
+        "vf57's observation that reports/completeness-counters.json and reports/blanks-left-for-the-participant.json split the same 17 blanks under different taxonomies (10/6/1 against 13/4) was re-read and left alone. It fails no obligation, it is not in this lane's grant, and both totals match the delivered pages.",
+        "vf57's observation that the registry still records units[1].available false with a scopeRestrictions line saying stage 2 stays unavailable, while the owner's Q7 correction of 2026-09-02 directed the component be built, was re-read and left alone. Reconciling a registry to an owner decision is not a repair lane's call."
+      ],
+      "independentReVerificationOwed": "Owed, to a lane that is neither FIX170 nor vf57, on both obligations AND on the raster."
+    }
+  ],
+  "outOfScopeOBSERVEDNOTACTEDON": [
+    "AZ: the participant guide prints this build's own internal blank identifiers to the participant in three tables -- eleven election identifiers such as `eligible-charge-possession-limit-selection` and `justice-court-yes`, and five blank identifiers such as `justice-court-name`. They are not AcroForm field numbers (AOC-CREM3F carries no AcroForm at all) but they are internal vocabulary on a participant-facing page, and FIX166 reported the same class on all three Illinois guides. This lane CARRIED them unchanged rather than removing them, because vf53 scored ROUTE_OPTIONS PASS on exactly those tables and removing them is an unclaimed change to a passing obligation. Recorded for the Captain as a fleet-wide question rather than an AZ one.",
+    "AZ: the three carried sections are the last hand-authored text in this family's guide. Deriving the election tables is straightforward -- field-census.census-v1.json already holds every controlId with its printedLine, and the committed table is that printedLine backticked plus, on the three page-1 elections only, a hand-added continuation of the printed line that the census truncates. A later lane holding a ROUTE_OPTIONS claim could close it.",
+    "AZ: `--check` exits 1 at this base, before and after this repair, on the field-census taxonomy drift described in the AZ row's whatCouldNotBeRepaired. A reader who runs it should not read that failure as caused by this commit.",
+    "IN: product-wiring.json's proposedRepresentation.components[0].sha256 still names the pre-repair canonical. That block is written by scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs, which this lane did not run because it writes beyond this family. Noted inside the reRasterDebt block so the staleness is visible where the digests are.",
+    "BOTH: scripts/rcap-packet-completeness/verify-packet-completeness.mjs returns PASS_COMPLETE with nine zero counters for both families, before and after. That tool has no FEE_AND_WAIVER, SERVICE, FILING_DESTINATION or ROUTE_IDENTITY limb, so it passed both families throughout the period vf53 and vf57 were failing them on five and two obligations respectively. Its verdict is recorded here because it was run, and it is evidence of nothing about these repairs."
+  ],
+  "whatThisLaneCouldNotDo": [
+    "It could not render the fresh whole-family raster in_infraction_nondisclosure-set now owes. Disk in this container was between 2.6 and 2.2 GB free throughout.",
+    "It could not verify its own work. Nothing in this return is a verification.",
+    "It could not reconcile the AZ field map and field census to the AZ builder without rewriting a completeness taxonomy three currently-passing obligations rest on."
+  ],
+  "grantsNothing": [
+    "This lane opened no commercial route, created no fulfillment record and consumed no packet credit.",
+    "It promoted no build status and admitted no raster.",
+    "It touched no Production, Stripe or Supabase surface, no environment variable and no credential.",
+    "It created no subagent, pushed nothing, and used no `git add .`, `-A` or `--all`; every stage was an explicit path list.",
+    "Neither family may reach approved_for_live on this return."
+  ],
+  "independentReVerificationOwed": "OWED ON BOTH FAMILIES, to a lane that is NEITHER FIX170 NOR the lane that found the defect -- so neither vf53 nor vf57 may verify the family it failed. For az_marijuana_expungement_arrest_no_charges-set: re-derive FEE_AND_WAIVER, FILING_DESTINATION, KNOWN_PREFILLS, REQUIRED_BEFORE_FILING and SERVICE from the emitted page and the held records, and form a view on whether disclosing the unfittable email is sufficient or whether it must be printed. For in_infraction_nondisclosure-set: re-derive ROUTE_IDENTITY from the delivered bytes, re-derive both grounds of SOURCE_IDENTITY independently including recomputing the shared pin, and confirm the raster debt is recorded and undispatched.",
+  "grantsReleased": "Both released at return: az_marijuana_expungement_arrest_no_charges-set and in_infraction_nondisclosure-set. That ledger edit is left UNCOMMITTED."
+}

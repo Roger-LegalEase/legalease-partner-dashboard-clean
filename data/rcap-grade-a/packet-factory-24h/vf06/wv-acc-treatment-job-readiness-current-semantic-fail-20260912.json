@@ -1,0 +1,234 @@
+{
+  "schemaVersion": "rcap-vf06-bounded-semantic-review/v1",
+  "familyId": "wv_acc_treatment_job_readiness-set",
+  "trackId": "wv_acc_treatment_job_readiness",
+  "lane": "VF06",
+  "laneKind": "independent-verification",
+  "reviewer": "/root/review_wa",
+  "sessionIdentity": "/root/review_wa",
+  "reviewPhase": "INDEPENDENT_CURRENT_BYTE_NONVISUAL_SEMANTIC_RECHECK",
+  "status": "FAIL_REPAIR_REQUIRED",
+  "verdict": "FAIL_REPAIR_REQUIRED",
+  "verifiedAtBase": "18bf986f5dc411e3988358000d134da772b3dd29",
+  "scope": "Bounded re-read of the two prior VF06 failures against the exact current WV packet bytes and current legal-design record. No implementation edits and no new visual acceptance.",
+  "claimEvidence": {
+    "assertCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF06 wv_acc_treatment_job_readiness-set",
+    "result": "CLAIM_OK",
+    "grantId": "ff4bd549ab88df39",
+    "assertedBeforeFamilyReads": true
+  },
+  "priorIndependentReturn": {
+    "path": "data/rcap-grade-a/packet-factory-24h/vf06/rows-vf06-20260909.json",
+    "sha256": "fe6bdf515f2796cdac6ff48ad3b864096dbff57b27daa5648107c8c807e4f412",
+    "byteLength": 131544,
+    "priorFamilyVerifiedAtBase": "7d6453f51dacd9064f9a2b2d4d16618d0669add8",
+    "priorFailedObligations": [
+      "KNOWN_PREFILLS",
+      "SELF_HELP_STOP"
+    ]
+  },
+  "currentEvidence": {
+    "sourceReceipt": {
+      "path": "data/rcap-all50/overlays/census-v1/wv/wv-acc-treatment-job-readiness-set--custom-pleading/source-receipt.json",
+      "sha256": "48f951b78dd43c818b459f71a5c3fd5ae245c5721b2e7a32c6d20b684dac2fa3",
+      "byteLength": 7881
+    },
+    "sourceAllSourcesExact": true,
+    "sourceDocuments": [
+      {
+        "documentId": "SCA-C906",
+        "sourceIds": [
+          "official-form:SCA-C906",
+          "source-sha256:43b5606c9faf6fcf4d6f73c1d97cf1bd87798158dee1b6f3381c8a0472b4b64c"
+        ],
+        "sha256": "43b5606c9faf6fcf4d6f73c1d97cf1bd87798158dee1b6f3381c8a0472b4b64c",
+        "byteLength": 176072,
+        "actual": {
+          "path": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/WV/02_PACKET_FORMS/WV__FORM__SCA-C906__sca-c906-petition-for-expungement-of-misdemeanor-violations-and-traffic-citations__REV-2019-06-04__EN.pdf",
+          "sha256": "43b5606c9faf6fcf4d6f73c1d97cf1bd87798158dee1b6f3381c8a0472b4b64c",
+          "byteLength": 176072
+        },
+        "exact": true
+      },
+      {
+        "documentId": "SCA-C907",
+        "sourceIds": [
+          "official-form:SCA-C907",
+          "source-sha256:2a72314146636c4120d87bdfb83f8609e35e9e904eed2f8169bc2375fba30222"
+        ],
+        "sha256": "2a72314146636c4120d87bdfb83f8609e35e9e904eed2f8169bc2375fba30222",
+        "byteLength": 283289,
+        "actual": {
+          "path": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase West Virginia/SCA-C907.pdf",
+          "sha256": "2a72314146636c4120d87bdfb83f8609e35e9e904eed2f8169bc2375fba30222",
+          "byteLength": 283289
+        },
+        "exact": true
+      }
+    ],
+    "participantInstructions": {
+      "path": "data/rcap-all50/overlays/census-v1/wv/wv-acc-treatment-job-readiness-set--custom-pleading/participant-instructions.md",
+      "sha256": "45ece50f4d41696a77ad1c9d5bbd4e8bb24ad062336690b4dfa36da4e87b42ae",
+      "byteLength": 51643
+    },
+    "buildFindings": {
+      "path": "data/rcap-all50/overlays/census-v1/wv/wv-acc-treatment-job-readiness-set--custom-pleading/build-findings.json",
+      "sha256": "1783d41a4639d087fa4b68a60882cf0832a4421ca30e33b48adc52541ee6a39d",
+      "byteLength": 14125
+    },
+    "actualWrites": {
+      "path": "data/rcap-all50/overlays/census-v1/wv/wv-acc-treatment-job-readiness-set--custom-pleading/reports/actual-writes.json",
+      "sha256": "bfec5641000f9595495e809fb6ab800f84fa5edade03624835fedc3e7917e4b5",
+      "byteLength": 92991
+    },
+    "renderedArtifacts": {
+      "path": "data/rcap-all50/overlays/census-v1/wv/wv-acc-treatment-job-readiness-set--custom-pleading/reports/rendered-artifacts.json",
+      "sha256": "6c0b0c4b4e2b05cff0d8f22fa746669a327534fa07ae3d4416cab4d7d8e37fb4",
+      "byteLength": 26297
+    },
+    "productWiring": {
+      "path": "data/rcap-all50/overlays/census-v1/wv/wv-acc-treatment-job-readiness-set--custom-pleading/product-wiring.json",
+      "sha256": "ac9456a55b37e1b2286dc73ddc8c64e89c33db16db1a69e3c375e9b6939d05c3",
+      "byteLength": 8516
+    },
+    "legalDesignRegistry": {
+      "path": "data/record-clearing/legal-design-track-registry.json",
+      "sha256": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+      "byteLength": 16781025
+    },
+    "legalDecision": {
+      "path": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
+      "sha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
+      "byteLength": 22372
+    },
+    "currentFixtures": [
+      {
+        "role": "canonical",
+        "path": "data/rcap-all50/overlays/census-v1/wv/wv-acc-treatment-job-readiness-set--custom-pleading/fixtures/canonical.pdf",
+        "sha256": "a0fc30d9338c4bc1bd47cd645beb9f74cf8d7a40810ceeaa9f376f1f491da9c3",
+        "byteLength": 566488,
+        "pageCount": 14
+      },
+      {
+        "role": "boundary",
+        "path": "data/rcap-all50/overlays/census-v1/wv/wv-acc-treatment-job-readiness-set--custom-pleading/fixtures/boundary.pdf",
+        "sha256": "458f5f5b818d57f2380b22517469c575280244eda95af1f7504ef067ef8bc096",
+        "byteLength": 566715,
+        "pageCount": 14
+      }
+    ],
+    "independentAudit": {
+      "path": "/tmp/wv-vf06-current-semantic-audit.json",
+      "sha256": "baeb4fa507925eca381f79235ff2d91f22202e0d92aeeda41c92cf0c4cc6f48b",
+      "byteLength": 9387,
+      "result": "2/2 source PDFs exact; 2/2 current fixture bytes exact; current extracted page 9-10 text contains all six internal record/checklist phrases."
+    }
+  },
+  "findings": [
+    {
+      "findingId": "WV-CLEAN-PLEADING-INTERNAL-RECORD-TEXT",
+      "obligation": "KNOWN_PREFILLS",
+      "result": "FAIL",
+      "evidence": "Current canonical and boundary packet page 9/10 retain \u201cFrom the packet record, in its own words:\u201d, \u201cThe route record for this petition states it as follows:\u201d, copied checklist instructions, and \u201cThis pleading was prepared from the petitioner\u2019s own details and from the packet record.\u201d",
+      "impact": "The composed document is a court filing component, and the current legal decision requires removing internal legal-analysis/registry/debug language from court filings. The current page still labels internal packet prose and tells the filer to obtain documents from the checklist on the pleading itself.",
+      "currentLegalRule": "WV-ACC-TREATMENT-JOB-READINESS-CLEAN-PLEADING"
+    },
+    {
+      "findingId": "WV-SELF-HELP-BOUNDARIES-INCOMPLETE",
+      "obligation": "SELF_HELP_STOP",
+      "result": "FAIL",
+      "evidence": "The current registry declares 10 selfHelpStopConditions. The prior independent read, rechecked over the same exact fixture SHA-256 values, found 9 absent from the guide and delivered packet; only \u201cThe court sets the matter for hearing\u201d is present incidentally in the opposition handoff, without a complete stop section.",
+      "missingConditions": [
+        "Any felony conviction, which is a referral trigger on this route as on wv_conv_nonviolent_felony.",
+        "Any doubt whether the treatment or recovery programme is approved by the Secretary of the Department of Health, or the job readiness course by the West Virginia Department of Education.",
+        "Any violence, domestic violence, household member, strangulation, sex, child victim, deadly weapon, dwelling burglary or DUI issue.",
+        "Any CDL or commercial motor vehicle issue.",
+        "Any pending charge.",
+        "Any protection, no-contact, restitution or restraining order.",
+        "Any identified victim who may oppose, and any notice of opposition actually filed.",
+        "Any prior expungement, which likely exhausts the once-per-lifetime rule that this section shares with \u00a7 61-11-26.",
+        "Firearm rights, immigration, professional licensing, law enforcement or corrections employment, or federal, tribal, military or out-of-state records questions."
+      ],
+      "impact": "A participant receiving the felony and accelerated-route packet is not told to stop for the route\u2019s stated felony, approval, exclusion, pending-charge, order, opposition, prior-relief, or collateral-rights triggers."
+    },
+    {
+      "findingId": "WV-ACCELERATED-SINGLE-MISDEMEANOR-TIMING-UNRESOLVED",
+      "obligation": "KNOWN_PREFILLS",
+      "result": "FAIL_RETAINED",
+      "evidence": "Current track registry retains a scope restriction questioning whether a single misdemeanor qualifies and a release blocker questioning how the \u00a7 61-11-26a(a)(1) 90-day clock interacts with the \u00a7 61-11-26(b)(1) one-year clock. Current participant instructions present \u201cninety days ... OR completion ... [and] replaces ... one-year wait for a single misdemeanour\u201d as settled route text.",
+      "impact": "The current clean-pleading legal decision requires eligibility/timing gates to be handled accurately; this packet states an unresolved timing/scope treatment as settled."
+    }
+  ],
+  "obligations": {
+    "ROUTE_IDENTITY": "PASS",
+    "SOURCE_IDENTITY": "PASS_CURRENT_RECEIPT",
+    "COMPONENT_SET": "PASS_PRIOR_BOUND",
+    "KNOWN_PREFILLS": "FAIL_REPAIR_REQUIRED",
+    "REQUIRED_BEFORE_FILING": "PASS_PRIOR_BOUND",
+    "ROUTE_OPTIONS": "PASS_PRIOR_BOUND",
+    "REPEATING_ROWS": "PASS_PRIOR_BOUND",
+    "PROTECTED_FIELDS": "PASS_NONVISUAL",
+    "ARTIFACTS": "PASS_NONVISUAL_EXACT_CURRENT_BYTES",
+    "PAGE_ORDER": "PASS_PRIOR_BOUND",
+    "CLIPPING_AND_OVERLAP": "PASS_PRIOR_BOUND_ONLY",
+    "FILING_DESTINATION": "PASS_PRIOR_BOUND",
+    "FEE_AND_WAIVER": "PASS_CURRENT_GUIDANCE",
+    "SERVICE": "PASS_PRIOR_BOUND",
+    "SELF_HELP_STOP": "FAIL_REPAIR_REQUIRED"
+  },
+  "obligationCounts": {
+    "pass": 12,
+    "fail": 2,
+    "notMeasurable": 1,
+    "failedObligationNames": [
+      "KNOWN_PREFILLS",
+      "SELF_HELP_STOP"
+    ],
+    "unmeasuredObligations": [
+      "CLIPPING_AND_OVERLAP"
+    ]
+  },
+  "currentBytesAndRasterHistory": {
+    "fixturesExactPriorRasterBytes": true,
+    "canonical": {
+      "role": "canonical",
+      "path": "data/rcap-all50/overlays/census-v1/wv/wv-acc-treatment-job-readiness-set--custom-pleading/fixtures/canonical.pdf",
+      "sha256": "a0fc30d9338c4bc1bd47cd645beb9f74cf8d7a40810ceeaa9f376f1f491da9c3",
+      "byteLength": 566488,
+      "pageCount": 14
+    },
+    "boundary": {
+      "role": "boundary",
+      "path": "data/rcap-all50/overlays/census-v1/wv/wv-acc-treatment-job-readiness-set--custom-pleading/fixtures/boundary.pdf",
+      "sha256": "458f5f5b818d57f2380b22517469c575280244eda95af1f7504ef067ef8bc096",
+      "byteLength": 566715,
+      "pageCount": 14
+    },
+    "historicalRasterState": "RASTER_PASS_NOT_CURRENT_GATE_AUTHORITY",
+    "workflowRunId": "34413372916",
+    "jobId": "102673422940",
+    "artifactId": "10128382612",
+    "rasterReceiptSha256": "d88766c07f7e2fe997bc12138690adb187065974653d7bda4787b76627adde53",
+    "historicalCoverage": "canonical rendered; boundary declared but not rendered by that gate",
+    "currentGateAuthority": false
+  },
+  "rasterDispatchAuthorized": false,
+  "finalAcceptance": false,
+  "visual": {
+    "status": "UNMEASURED_IN_THIS_CURRENT_REVIEW",
+    "visualDefects": null
+  },
+  "unfinishedGates": [
+    "remove internal record/registry prose from pages 9-10 and rebuild",
+    "publish all route self-help stop conditions or resolve their governing record",
+    "settle/disclose the single-misdemeanor scope and accelerated timing treatment",
+    "new independent semantic reread",
+    "current central raster/final acceptance after bytes change",
+    "native terminal integration"
+  ],
+  "independence": {
+    "implementationEditsByReviewer": false,
+    "sourceEditsByReviewer": false,
+    "sharedManifestOrLedgerEditsByReviewer": false
+  }
+}

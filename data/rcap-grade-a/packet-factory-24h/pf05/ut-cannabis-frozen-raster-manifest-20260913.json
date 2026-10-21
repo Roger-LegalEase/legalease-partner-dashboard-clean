@@ -1,0 +1,68 @@
+{
+  "schemaVersion": "rcap-raster-queue/v1",
+  "rows": [
+    {
+      "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/fixtures/boundary.pdf",
+      "boundaryPdfSha256": "e37c533a78f72029c9f078fb1115146c77c809326ebab8ff7ffc1e4aabda8d6c",
+      "builderAssignment": null,
+      "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/fixtures/canonical.pdf",
+      "canonicalPdfSha256": "f4910777945ca9d74da2b5a1f84d9a37581696dc47bc95546ee21ca9c628f207",
+      "coverage": {
+        "basis": "the family ships one assembled packet, so rendering it covers every canonical page of the family",
+        "complete": true,
+        "documents": [
+          "canonical.pdf"
+        ],
+        "notRastered": [],
+        "notRenderedByThisGate": [],
+        "notRenderedByThisGateBasis": "every PDF present in the family's fixture discovery that this row does not queue. The gate renders every document a row queues, whatever its role, so a queued boundary fixture is rendered and is not named here.",
+        "rastered": [
+          "canonical.pdf",
+          "boundary.pdf"
+        ],
+        "whatCompleteMeansHere": "every PDF this family declares is queued to the gate and rendered, canonical and boundary alike. `complete` remains the narrower question -- every canonical document rendered -- because that is what promotion depends on."
+      },
+      "currentRasterState": "RASTER_PENDING",
+      "documents": [
+        {
+          "name": "canonical.pdf",
+          "pageCount": 12,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "pageCount": 12,
+            "sourceSha256": "f4910777945ca9d74da2b5a1f84d9a37581696dc47bc95546ee21ca9c628f207",
+            "version": "1.17.1"
+          },
+          "path": "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/fixtures/canonical.pdf",
+          "role": "canonical",
+          "sha256": "f4910777945ca9d74da2b5a1f84d9a37581696dc47bc95546ee21ca9c628f207"
+        },
+        {
+          "name": "boundary.pdf",
+          "pageCount": 12,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "pageCount": 12,
+            "sourceSha256": "e37c533a78f72029c9f078fb1115146c77c809326ebab8ff7ffc1e4aabda8d6c",
+            "version": "1.17.1"
+          },
+          "path": "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/fixtures/boundary.pdf",
+          "role": "boundary",
+          "sha256": "e37c533a78f72029c9f078fb1115146c77c809326ebab8ff7ffc1e4aabda8d6c"
+        }
+      ],
+      "documentsDigest": "0664939d2e2d6dd32ee4fbd53c97d03beca7d343e02991a44c0baf9ff1e5095e",
+      "expectedPages": 12,
+      "familyId": "ut_pet_cannabis-set",
+      "fixtureSelection": {
+        "boundary": "the assembled packet, matched by exact name",
+        "canonical": "the assembled packet, matched by exact name"
+      },
+      "nextOwner": "RAS02",
+      "packetCommitSha": "61af7dec3878131493e92ebd5cfd6da9d3048f2e",
+      "requestedScale": 2.5
+    }
+  ]
+}

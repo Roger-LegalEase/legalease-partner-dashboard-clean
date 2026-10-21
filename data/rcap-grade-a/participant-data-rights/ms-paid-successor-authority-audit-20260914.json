@@ -1,0 +1,88 @@
+{
+  "schemaVersion": "rcap-ms-paid-successor-authority-audit/v1",
+  "routeId": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+  "trackId": "ms-nonconv",
+  "packetFamilyId": "ms-nonconv-set",
+  "approvedOutputExists": true,
+  "approvedDeliveryScope": "sponsored_preview_only_two_synthetic_staging_participants_after_all_technical_gates_pass",
+  "consumerPaidAuthorized": false,
+  "productionAuthorized": false,
+  "runtimeDisposition": "legacy_retired",
+  "exactMigrationEntryExists": false,
+  "approvedPaidSuccessorFound": false,
+  "requiredDecision": "Adopt an exact paid-consumer successor for MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal / ms-nonconv / ms-nonconv-set, specifying the authorized renderer and packet specification plus the commercial delivery scope beyond the existing two-participant sponsored Preview approval. Bind the route-only migration and applicable current output/legal evidence; no jurisdiction-wide retirement exception or sibling-route substitution. Existing notarization and statutory entitlement decisions are not reopened.",
+  "technicalProofStillRequired": [
+    "Exact migration/specification/owner-design binding",
+    "Current provider publication equivalence",
+    "Participant final verification and all payment assertions",
+    "Hosted current-candidate acceptance"
+  ],
+  "paymentAccepted": false,
+  "priorPaymentAssertions": {
+    "passed": 13,
+    "total": 20,
+    "failed": [
+      "P1",
+      "P4",
+      "P11",
+      "P9",
+      "P12",
+      "P10",
+      "P13"
+    ]
+  },
+  "noRuntimeOrApprovalChanged": true,
+  "evidence": [
+    {
+      "path": "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.artifacts.json",
+      "sha256": "f9eb16e52304b772f27b1bd59068a952eff0e2f6dcad647a8c66a30c22efc07a"
+    },
+    {
+      "path": "data/rcap-grade-a/fulfillment-authority-registry.json",
+      "sha256": "3ad976cd7446438cfc71a06b116856090597eb7c1a56cb5487357d798e54a667"
+    },
+    {
+      "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+      "sha256": "83d91d31bf8b0b6c76c5623f4c39cffddcf6b154c1d8de96ffbcb74073d6befb"
+    },
+    {
+      "path": "data/record-clearing/packet-specifications/MS-nonconviction-expungement-99-19-71-4.v1.json",
+      "sha256": "3a1bed79e3760feb84563a638893942ab557683f6bbe7fb0fddec7e74723257f"
+    },
+    {
+      "path": "src/lib/rcap/documents/factory-v2-registry.ts",
+      "sha256": "8f52b42022cdbc419259829e869330f99ceb55e8e1b2f6105ea0250ed71f2c57"
+    },
+    {
+      "path": "src/lib/rcap/documents/packet-route-resolver.ts",
+      "sha256": "45640b0c276a183fc2e80f0731a68dbdff124d10b8150b430ae698f6b1010a96"
+    }
+  ],
+  "currentLocalRun": {
+    "command": "TMPDIR=/tmp node scripts/verify-expungement-consumer-payment-http.mjs",
+    "exitStatus": 1,
+    "paymentAssertions": {
+      "passed": 13,
+      "total": 20,
+      "failed": [
+        "P1",
+        "P4",
+        "P11",
+        "P9",
+        "P12",
+        "P10",
+        "P13"
+      ]
+    },
+    "verificationHashControls": {
+      "passed": 15,
+      "total": 15
+    },
+    "aggregate": {
+      "passed": 28,
+      "total": 35
+    },
+    "logPath": "private/transfers/grade-a-final-local-20260914/mississippi-payment.log",
+    "logSha256": "64fdab1daec31dc4312479f7b65275882bf9c8137506e749e8cebef004e3328c"
+  }
+}

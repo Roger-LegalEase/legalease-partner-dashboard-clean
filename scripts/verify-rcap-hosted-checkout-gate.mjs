@@ -7,9 +7,13 @@ const root = process.cwd();
 const gatePath = path.join(root, "scripts/rcap-hosted-checkout-gate.mjs");
 const entryPath = path.join(root, ".github/workflows/rcap-f1-ephemeral-staging.yml");
 const hostedPath = path.join(root, ".github/workflows/rcap-hosted-acceptance-staging.yml");
+const deployPath = path.join(root, "scripts/rcap-hosted-acceptance-deploy.mjs");
+const resolverPath = path.join(root, "scripts/rcap-hosted-resolve-preview.mjs");
 const gate = fs.readFileSync(gatePath, "utf8");
 const entry = fs.readFileSync(entryPath, "utf8");
 const hosted = fs.readFileSync(hostedPath, "utf8");
+const deploy = fs.readFileSync(deployPath, "utf8");
+const resolver = fs.readFileSync(resolverPath, "utf8");
 
 let checks = 0;
 const failures = [];
@@ -22,21 +26,34 @@ function includesEvery(text, values, label) {
   for (const value of values) check(text.includes(value), `${label} is missing ${JSON.stringify(value)}`);
 }
 
-// The accepted release. This verifier previously asserted the superseded pair
-// (264d2a24 / sha256:1d30530b), so it did not merely fail to catch the gate
-// going stale — it REQUIRED the stale value. A pin asserted in two places drifts
-// as one fact, so both move together or neither does.
-const ACCEPTED_APPLICATION_SHA = "f7ed0ad3a8f37a0c1446b62760b1a36fb163c926";
-const ACCEPTED_WORKER_DIGEST = "sha256:4e5b58e4492289446bcbdd100bb39dcd13dd4512916679fa2a252e4532ab9530";
+// Lane A supplies the exact final application SHA at dispatch time. The only
+// reusable publication pin is the accepted worker source/digest pair, and the
+// workflow's canonical-input diff decides whether that pair is still valid.
+// Exact subjects of the frozen successor candidate (RELEASE_CANDIDATE_BINDING.json):
+// application 300a0edb carries the publication binding of worker b64701c1,
+// published natively as sha256:f99ebc19 (run 35027251980) and accepted
+// read-only (run 35027988039). The checked-out tools commit may not change
+// the application's frozen inputs relative to that candidate, nor the
+// worker's canonical inputs relative to the published worker source.
+// The successor application and the worker it was accepted against are two
+// different commits here, and deliberately so: the image is built from
+// 35d337550, and the application SHA is the later commit 0fee79bd1 in which
+// the publication evidence and every route observation finally name that
+// image. The two are image-input-equivalent — nothing between them touches a
+// canonical worker input — which is what lets one application pin a digest
+// built from an earlier tree without the digest becoming a fiction.
+const RELEASE_CONTROL_BASE_SHA = "4e16d6d8ebe991a8a3f529637b0d3a38c3149cbb";
+const ACCEPTED_WORKER_SOURCE_SHA = "c88f10341fec848b3f6f4dec9fc3381e6eea0530";
+const ACCEPTED_WORKER_DIGEST = "sha256:df6c2965e1f569fab5b2d9370b97723170c2c49da7a54f93ffc132525b781d06";
 
 includesEvery(gate, [
-  ACCEPTED_APPLICATION_SHA,
+  "applicationShaExact",
   "hyflxnlhpmiqxvvcoiia",
   ACCEPTED_WORKER_DIGEST,
   "HOSTED_PREVIEW_DEPLOYMENT_ID",
   "vercel_project_identity_resolved",
   "/v13/deployments/",
-  'deployment?.target === null',
+  'deployment?.target === null || deployment?.target === "preview"',
   'deployment?.meta?.rcapStripeConfigured === "true"',
   'deployment?.meta?.rcapRouteState === "staging_scoped"',
   "worker_pulled_by_immutable_digest",
@@ -54,12 +71,9 @@ includesEvery(gate, [
   "consumer_caller_profile_and_eligibility_mapping_exact",
   "getProfileByJurisdiction",
   "isConsumerPaymentAllowed",
-  'routeKind === "legacy_verified"',
+  'routeKind === "legacy_retired"',
   'rendererKind === "packet_document_v1"',
   'rendererVersion === "1.0.0"',
-  'profileVersion === "1.3.0"',
-  "briefcase_insert_returning_proves_row",
-  "stored_row_matches_authoritative_resolver",
   "unpaid_render_returns_402",
   "checkoutSessionId",
   "exactly_one_real_stripe_session_for_item",
@@ -71,12 +85,52 @@ includesEvery(gate, [
   "fixtureRetainedForRoger = true"
 ], "gate");
 
+check(
+  gate.includes("routeIdentity.profileVersion === String(compiledProfile?.profileVersion)")
+    && !/routeIdentity\.profileVersion\s*===\s*["'][^"']+["']/.test(gate),
+  "Pennsylvania route gate must bind profileVersion to compiledProfile instead of a stale literal"
+);
+check(
+  gate.includes("seeded_item_carries_reviewed_packet_information")
+    && gate.includes("packetInformationReviewSafety")
+    && gate.includes("briefcase_insert_returning_proves_row")
+    && gate.includes("artifact_refs_json")
+    && gate.includes('stored.packet_information_stage === "ready_to_generate"')
+    && gate.includes("stored.packet_information_reviewed === true"),
+  "Checkout fixture must carry an authoritative reviewed packet-information flow before the unpaid render probe"
+);
+check(
+  gate.includes("convergeSellableScreening")
+    && gate.includes('[routeIdentity.jurisdiction, ...["MS", "IL", "PA"].filter')
+    && gate.includes("checkout_fixture_route_derived_from_authorities")
+    && gate.includes("stored_row_matches_authoritative_resolver")
+    && gate.includes("jurisdiction: checkoutRouteIdentity.jurisdiction")
+    && gate.includes("pathway_label: checkoutRouteIdentity.pathwayLabel"),
+  "Checkout fixture must fall back to an evaluator-proven sellable route and derive its metadata dynamically"
+);
+
 // A partial rebind is the dangerous shape: one constant moved, the other left
 // behind, and the gate then pins a pair that was never published together.
-for (const superseded of [
+check(![
   "264d2a240e5c857f55ee645f2683830e94f67c19",
-  "sha256:1d30530b726554b458a347fd9a00619e38e19d380f058c42504f56631de0f101"
-]) check(!gate.includes(superseded), `gate still pins the superseded identity ${superseded}`);
+  "f7ed0ad3a8f37a0c1446b62760b1a36fb163c926",
+  "441ee3188ee52047a012232d8d11f890a09b4ac5",
+  "1e95f1f067e2f26094228b6f0c922c875c25f33a",
+  "870532340f3ef091bfa3b1a2e2b64c16d3195b25",
+  "78c8c15c4fddd525bf3c327bbfde1c99dee778f0",
+  "300a0edbf0a75daf5249f94d7a33f51570a00ba0",
+  "cc4d8275cca6310329ab0d2b8f2f5bcb3435eb1b"
+].some((superseded) => gate.includes(superseded)), "gate still pins a superseded application identity");
+check(![
+  "sha256:1d30530b726554b458a347fd9a00619e38e19d380f058c42504f56631de0f101",
+  "sha256:4e5b58e4492289446bcbdd100bb39dcd13dd4512916679fa2a252e4532ab9530",
+  "sha256:67132df2d1bee49d123d0d2918880f283d2109195b49150265d348fe1d07a69c",
+  "sha256:2bca8a36f2aaf20c5bc0e50b722a9ba02a84e20cb2af66306c49ed50c7776633",
+  "sha256:a12ae8486cb391814375a560366bfc47cbc2972b980d750c6f60368a2e673b46",
+  "sha256:f99ebc19732e994cfb9c0ebfc0734345e857be050d8bda8952b852f78b611301",
+  "sha256:e96d384b808e15884bbc8a6c95754bde956bb27bf2dcf6893b2b93f9f9d9f716",
+  "sha256:57bb99a83e4c1b8e6d23d23103d0a1fe6d9bc49fc105a9c52a7a352a855c4832"
+].some((superseded) => gate.includes(superseded)), "gate still pins a superseded worker identity");
 
 for (const eventType of [
   "checkout.session.completed",
@@ -104,20 +158,46 @@ check(gate.includes("stripeGet(`/v1/checkout/sessions/${encodeURIComponent(check
 includesEvery(entry, [
   "hosted_checkout_gate",
   "preview_deployment_id",
-  "phase: ${{ inputs.mode == 'hosted_full'",
+  // The dispatcher's phase expression grew leading branches (clinic_preview);
+  // the anchor is the hosted_full -> full mapping itself, wherever it sits.
+  "(inputs.mode == 'hosted_full' && 'full'",
+  "(inputs.mode == 'hosted_accept' && 'accept'",
   "preview_deployment_id: ${{ inputs.preview_deployment_id }}"
 ], "entry workflow");
 
 includesEvery(hosted, [
   "checkout_gate",
-  "preview_deployment_id",
   // The resolver reads the CANDIDATE from the inputs; the gate reads the
   // RESOLVED identity from the one resolution boundary.
   "HOSTED_PREVIEW_DEPLOYMENT_ID: ${{ inputs.preview_deployment_id }}",
   "node scripts/rcap-hosted-checkout-gate.mjs",
-  "node scripts/verify-rcap-hosted-checkout-gate.mjs",
-  "checkout_gate requires one exact Vercel deployment id"
+  "node scripts/verify-rcap-hosted-checkout-gate.mjs"
 ], "hosted workflow");
+check(
+  hosted.includes("preview_deployment_id")
+    && entry.includes("hosted_replace_preview")
+    && hosted.includes("replace_preview)")
+    && deploy.includes("NEXT_PUBLIC_EXPUNGEMENT_AI_URL: RETURN_ORIGIN")
+    // REST transport: the return origin is deployment metadata, not a CLI --meta flag.
+    && deploy.includes("rcapReturnOrigin: RETURN_ORIGIN,")
+    && deploy.includes("meta.rcapReturnOrigin === RETURN_ORIGIN")
+    && deploy.includes("deterministic_nonproduction_return_alias_bound")
+    && resolver.includes("rcapReturnOrigin")
+    && resolver.includes("expectedHostedReturnOrigin")
+    && gate.includes("expectedHostedReturnOrigin")
+    && gate.includes("deployment?.meta?.rcapReturnOrigin === EXPECTED_RETURN_ORIGIN")
+    && gate.includes('successUrl.searchParams.get("payment") === "return"')
+    && gate.includes('cancelUrl.searchParams.get("checkout") === "canceled"')
+    && gate.includes("successUrl.origin === previewUrl")
+    && gate.includes("cancelUrl.origin === previewUrl"),
+  "hosted deployment must build against and verify a deterministic SHA-scoped nonproduction return origin"
+);
+check(
+  ["checkout_gate", "stripe_retarget"].every((phase) =>
+    hosted.includes(`${phase} requires one exact Vercel deployment id`)
+  ),
+  "checkout_gate and stripe_retarget must each require one exact Vercel deployment id"
+);
 
 // The gate and its verifier are driven by the normalized contract, not by
 // hand-written phase lists. Eight independently-written `inputs.phase ==`
@@ -152,10 +232,25 @@ check(!hosted.includes('"${{ inputs.preview_deployment_id }}"'),
 
 for (const [label, workflow] of [["entry", entry], ["hosted", hosted]]) {
   const inputGuard = workflow.match(/- name: Refuse any input that is not the authorized pinned value[\s\S]*?\n\s+- name:/)?.[0] ?? "";
-  check(Boolean(inputGuard), `${label} workflow input guard is missing`);
+  const releaseIdentityContract = workflow.includes(ACCEPTED_WORKER_SOURCE_SHA)
+    && workflow.includes(ACCEPTED_WORKER_DIGEST)
+    && !workflow.includes("AUTHORIZED_APPLICATION_SHA")
+    && !workflow.includes("VERCEL_ORG_ID")
+    && !workflow.includes("VERCEL_PROJECT_ID")
+    && workflow.includes('TOOLS_SHA_INPUT: ${{ inputs.tools_sha }}')
+    && workflow.includes('WORKFLOW_SHA_INPUT: ${{ github.sha }}')
+    && workflow.includes('[ "$TOOLS_SHA_INPUT" = "$WORKFLOW_SHA_INPUT" ]')
+    && workflow.includes("git merge-base --is-ancestor")
+    && workflow.includes("postcss.config.mjs")
+    && workflow.includes("tailwind.config.ts")
+    && workflow.includes('"${{ inputs.worker_source_sha }}" "${{ inputs.application_sha }}"')
+    && workflow.includes('"${{ inputs.application_sha }}" "${{ inputs.tools_sha }}"');
+  check(Boolean(inputGuard) && releaseIdentityContract, `${label} workflow release identity contract is incomplete`);
   for (const field of ["application_sha", "worker_source_sha", "worker_digest", "tools_sha"]) {
-    check(!inputGuard.includes('"${{ inputs.' + field + ' }}"'),
-      `${label} workflow interpolates untrusted ${field} into shell source`);
+    const candidateDriven = field !== "application_sha"
+      || inputGuard.includes("application_sha must be a full commit SHA");
+    check(!inputGuard.includes('"${{ inputs.' + field + ' }}"') && candidateDriven,
+      `${label} workflow does not safely transport candidate-driven ${field}`);
   }
 }
 
@@ -169,10 +264,10 @@ const paymentStep = hosted.match(/- name: Run the hosted Stripe payment and pack
 check(Boolean(paymentStep), "could not locate the legacy payment step");
 check(!paymentStep.includes("checkout_gate"), "checkout_gate must never run the legacy simulated payment journey");
 
-function gitDiffQuiet(paths) {
+function gitDiffQuiet(baseSha, paths) {
   const run = spawnSync("git", [
     "diff", "--quiet",
-    ACCEPTED_APPLICATION_SHA,
+    baseSha,
     "--",
     ...paths
   ], { cwd: root, encoding: "utf8" });
@@ -180,18 +275,22 @@ function gitDiffQuiet(paths) {
   // treating 128 as merely-differs would report a missing object as a content
   // change. Anything other than a clean 0 or a genuine 1 is a broken check.
   if (run.status !== 0 && run.status !== 1) {
-    failures.push(`git diff against ${ACCEPTED_APPLICATION_SHA} could not run (exit ${run.status}): ${String(run.stderr ?? "").trim()}`);
+    failures.push(`git diff against ${baseSha} could not run (exit ${run.status}): ${String(run.stderr ?? "").trim()}`);
     return false;
   }
   return run.status === 0;
 }
 
-check(gitDiffQuiet([
-  "src", "package.json", "package-lock.json", "tsconfig.json", "next.config.ts", "public",
+check(gitDiffQuiet(RELEASE_CONTROL_BASE_SHA, [
+  "src", "package.json", "package-lock.json", "tsconfig.json", "next.config.ts",
+  "postcss.config.mjs", "tailwind.config.ts", "public",
   "docs/record-clearing/field-map-drafts"
 ]),
   "checkout-gate branch changes frozen application inputs");
-check(gitDiffQuiet([
+// Worker inputs are compared against the source the accepted image was built
+// from, so a candidate that silently moved a canonical worker input could not
+// keep pinning the published digest.
+check(gitDiffQuiet(ACCEPTED_WORKER_SOURCE_SHA, [
   "package.json", "package-lock.json", "tsconfig.json", "scripts/rcap-render-worker.mjs",
   "deploy/rcap-render-worker/Dockerfile", "scripts/lib", "src"
 ]), "checkout-gate branch changes frozen worker inputs");

@@ -1,0 +1,137 @@
+{
+  "schemaVersion": "rcap-packet-factory-family-return/v1",
+  "assignmentId": "PF01",
+  "workerId": "rcap-finish-worker-77jr7gx76jq3rg65",
+  "lane": "packet-build",
+  "engine": "Codex Codespaces worker",
+  "shiftBaseSha": "6867ee44777ce3c9e88afda8b4bad8c3d8e8e31a",
+  "workerBranch": "pf20-ks-22-2410-arrest-20260912b",
+  "workerHeadBeforeReturn": "c3e3787a849b7601dd1a6a7051811e45153f57a1",
+  "familiesAssigned": 1,
+  "rowsReturned": 1,
+  "claim": {
+    "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF01 'ut_pet_remove_link-set'",
+    "result": "CLAIM_OK PF01 ut_pet_remove_link-set (packet-build, grant set a6ef9ebd94267c7e)",
+    "captainLedgerPath": "data/rcap-grade-a/packet-factory-24h/claim-ledger.json",
+    "captainLedgerSha256": "b4eadc16ceec48f132bdcfbc9d17290a4c8fd55425c2aa071a84cd7d121d4bfc",
+    "captainLedgerGeneratedAtCommit": "46f58905a130a3168c34851d4ea387802117767c"
+  },
+  "itemId": "ut_pet_remove_link-set",
+  "status": "STOPPED",
+  "stopClass": "BLOCKED_SOURCE",
+  "jurisdiction": "UT",
+  "routeKeys": [
+    "obligation:track-only:UT:ut_pet_remove_link"
+  ],
+  "implementationStrategy": "official_pdf_fill",
+  "officialFormFamily": "1110GE+1111GE+1501CR+1501CR-C+1502CR",
+  "requiredComponents": [
+    "component:ut_pet_remove_link-motion-1",
+    "component:ut_pet_remove_link-motion-commissioner-track-2",
+    "component:ut_pet_remove_link-notice-to-submit-or-notice-of-hearing-4",
+    "component:ut_pet_remove_link-proposed-order-3"
+  ],
+  "buildScript": "scripts/build-census-v1-ut_pet_remove_link-set.mjs",
+  "buildScriptExists": false,
+  "overlayDirectory": "data/rcap-all50/overlays/census-v1/ut/ut-pet-remove-link-set--official-pdf-fill",
+  "overlayDirectoryExists": false,
+  "overlayDirectoryTouched": false,
+  "builderCreated": false,
+  "testCreated": false,
+  "filingPacketsGenerated": 0,
+  "rasterGenerated": false,
+  "sourceBytes": {
+    "exactEffectiveSourcesPresentInWorker": 5,
+    "exactHashVerification": "all five effective queue-pinned PDFs hash exactly",
+    "transferPerformed": false,
+    "transferReason": "bytes were already present in the worker"
+  },
+  "sourceBinding": {
+    "queueSourcesNamed": 5,
+    "familyGate": {
+      "result": "FAIL",
+      "detail": "ut_pet_remove_link-set names no resolved document source. An official_pdf_fill family with no bound source is not dispatchable.",
+      "boundSourceCount": 0,
+      "completeQueueSourceBind": false,
+      "resolverTier": "custody_reconciliation",
+      "exactWorkerBytesPresent": 5
+    },
+    "queuePinnedSources": [
+      {
+        "sourceId": "official-form:1501CR",
+        "declaredPath": "reference/source-recovery/2026-09-11-wave1/CODEX-CS1-SRC4__1501CR__69c37d4da60e.pdf",
+        "sha256": "69c37d4da60eeccddd54b174427737f6be092cdcbf759dd27e101eb8d3b1c623",
+        "statusAtWorker": "BOUND_EXACT"
+      },
+      {
+        "sourceId": "official-form:1501CR-C",
+        "declaredPath": "reference/source-recovery/2026-09-11-wave1/CODEX-CS1-SRC4__1501CR-C__25e24089f588.pdf",
+        "sha256": "25e24089f588bf32121cf01fe0c3a32e5eb576c757670baad163bc4b4f023951",
+        "statusAtWorker": "BOUND_EXACT"
+      },
+      {
+        "sourceId": "official-form:1502CR",
+        "declaredPath": "reference/source-recovery/2026-09-11-wave1/CODEX-CS1-SRC4__1502CR__d23d74d35aaf.pdf",
+        "sha256": "d23d74d35aafbc5eab484a5753aab3b80bf8be93995f72f141a3b9c3926dae27",
+        "statusAtWorker": "BOUND_EXACT"
+      },
+      {
+        "sourceId": "official-form:1110GE",
+        "declaredPath": "reference/utah/1110GE-official-20260911.pdf",
+        "sha256": "c2ca5eb5fdb0303025b2fa5f24263cef225cc863161128c4b42a11b998981c72",
+        "statusAtWorker": "BOUND_EXACT"
+      },
+      {
+        "sourceId": "official-form:1111GE",
+        "declaredPath": "reference/utah/1111GE-official-20260911.pdf",
+        "sha256": "3e623db96048111929a98c5a36a8e8f4d4dd6411d6b8baece81d3f2ce1512544",
+        "statusAtWorker": "BOUND_EXACT"
+      }
+    ],
+    "custodyRecord": {
+      "row": "ut_pet_remove_link-set",
+      "documentSourcesNamed": 4,
+      "documentSourcesResolved": 0,
+      "custodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+      "queueSourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "legalInputStatus": "SETTLED",
+      "sharedRecordModified": false
+    }
+  },
+  "preflight": {
+    "command": "source \"$HOME/.legalease-corpus-env\" && node scripts/verify-packet-build-environment.mjs --family 'ut_pet_remove_link-set' --codex-cloud --minimum-captain-sha 6867ee44777ce3c9e88afda8b4bad8c3d8e8e31a",
+    "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 9/14 passed, 5 failed, 3 not applicable",
+    "exitCode": 1,
+    "familySourcesBind": "FAIL: names no resolved document source",
+    "knownWorkerEnvironmentFailures": [
+      "worktree_clean: Captain-provided claim ledger is intentionally uncommitted in the worker",
+      "private_is_git_ignored: private/ is not git-ignored at this worker base",
+      "master_library_complete: below immutable minimum: 13 of 499 files, 11 of 329 PDFs present",
+      "corpus_matches_committed_index: 24 absent, 0 mismatched of 24 sampled"
+    ],
+    "treatment": "Aggregate partial-corpus failures were not repaired or used as the family finding; the five exact worker-bound PDFs are present, but the existing custody resolver returns zero resolved document sources."
+  },
+  "blocker": {
+    "exactClass": "BLOCKED_SOURCE",
+    "statement": "All five effective UT source bytes are present at exact hashes in the worker, but the existing custody reconciliation row resolves zero document sources and the exclusive UT builder is absent. No shared resolver/custody edit or closed Utah route change was made.",
+    "noSourceHunt": true,
+    "noSharedResolverEdit": true,
+    "noLegalResearch": true,
+    "noClosedFamilyTouched": true
+  },
+  "nextExecutableAction": "Resolve the existing UT custody-row identity and materialize the exclusive UT builder, then rerun the existing prerequisite once before building.",
+  "counters": null,
+  "allNineCountersZero": null,
+  "artifactsProduced": [],
+  "commercialAuthorityGranted": false,
+  "productionTouched": false,
+  "selfVerified": false,
+  "privateSourceBytesCommitted": false,
+  "privateSourceBytesModified": false,
+  "returnNotes": [
+    "Claim used PF01, the lane recorded in Captain's current claim ledger.",
+    "The five exact UT source bytes were already present and hash-verified in the worker; no transfer was needed.",
+    "The worker claim ledger remains intentionally uncommitted.",
+    "Shared manifests, source custody, resolver logic, closed Utah routes, and the active KY pardon slot were not modified."
+  ]
+}

@@ -1,0 +1,238 @@
+{
+  "lane": "FIX72",
+  "laneKind": "repair",
+  "generatedAt": "2026-09-05",
+  "rows": [
+    {
+      "itemId": "nv_seal_probation_family-set",
+      "familyId": "nv_seal_probation_family-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nv/nv-seal-probation-family-set--custom-pleading",
+      "buildHost": "scripts/build-census-v1-nv_seal_probation_family-set.mjs",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "verdictRepaired": {
+        "lane": "VF09",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "ba5dc7e5ac97cb6227e753970bd880e3cf373704",
+        "failedObligationNames": ["SELF_HELP_STOP", "SOURCE_IDENTITY"],
+        "sourceIdentityAlreadyRepairedElsewhere": "FIX08 at lane commit 167bed91b (repair-clusters row). This lane did not redo it and asserts nothing about it."
+      },
+      "obligationsRepaired": ["SELF_HELP_STOP"],
+      "whatChanged": "NV.memo.json track nv_seal_probation_family selfHelpStopConditions[8] reads 'Any pending charge, and any conviction during the clean period other than a minor moving or standing traffic violation.' The builder carried only its first limb. The final stop bullet is written at two places in scripts/build-census-v1-nv_seal_probation_family-set.mjs and BOTH reach a delivered file: line 334 composes the referral_instructions pleading page that is inside both fixtures, and line 704 composes participant-instructions.md. Both now read '- any pending charge, and any conviction during the clean period other than a minor moving or standing traffic violation; any offence-category question; or any immigration question.' The intervening-conviction limb is the memo's own words verbatim; the offence-category limb (memo condition 7) and the immigration limb (memo condition 12) were already carried in this bullet and are kept. Nothing was softened, extended or added beyond the memo's text. No other line of the builder and no other file in the family directory was touched.",
+      "twelveConditionTable": {
+        "memoRecord": "data/record-clearing/legal-design-intake/NV.memo.json, tracks[7].selfHelpStopConditions (trackId nv_seal_probation_family)",
+        "deliveredFile": "data/rcap-all50/overlays/census-v1/nv/nv-seal-probation-family-set--custom-pleading/participant-instructions.md (line numbers are of the committed file after this repair)",
+        "allTwelveReachTheGuide": true,
+        "conditions": [
+          {
+            "n": 1,
+            "memo": "The charge was a violation of NRS 200.508 or NRS 200.5099, which subsection 3 of each section bars from sealing on both branches.",
+            "deliveredLine": 80,
+            "deliveredText": "- the charge was under NRS 200.508 or NRS 200.5099 — subsection 3 bars sealing on both branches;",
+            "carriedAs": "paraphrase"
+          },
+          {
+            "n": 2,
+            "memo": "The Division of Parole and Probation petitions the court, for good cause shown, not to seal and requests a hearing. That is a contested proceeding.",
+            "deliveredLine": 81,
+            "deliveredText": "- the Division petitions not to seal and requests a hearing — a contested proceeding;",
+            "carriedAs": "paraphrase"
+          },
+          {
+            "n": 3,
+            "memo": "Whether the defendant fulfilled the terms and conditions imposed by the court and the Division is disputed or unclear on the record; that is the condition on which both branches turn.",
+            "deliveredLine": 82,
+            "deliveredText": "- whether you fulfilled the terms and conditions imposed by the court and the Division is disputed or unclear;",
+            "carriedAs": "close paraphrase, second person"
+          },
+          {
+            "n": 4,
+            "memo": "The programme was not completed and the defendant was sentenced rather than discharged or the case dismissed.",
+            "deliveredLine": 83,
+            "deliveredText": "- the programme was not completed and you were sentenced;",
+            "carriedAs": "paraphrase"
+          },
+          {
+            "n": 5,
+            "memo": "The seven-year period under subsection 2 has not elapsed, or its start date is uncertain because the record does not show clearly whether the disposition was a conditional dismissal, a set-aside or an ordinary dismissal.",
+            "deliveredLine": 84,
+            "deliveredText": "- the seven-year period has not elapsed, or its start date is uncertain;",
+            "carriedAs": "paraphrase; the full 'does not show clearly how the case was resolved' reason is also printed on the delivered referral page and in the WHEN section of the filing instructions"
+          },
+          {
+            "n": 6,
+            "memo": "Any dishonourable discharge, which under NRS 179.2445(2) removes the presumption on any later petition under NRS 179.245.",
+            "deliveredLine": 85,
+            "deliveredText": "- your discharge was dishonourable — NRS 179.2445(2) removes the presumption on any later NRS 179.245 petition;",
+            "carriedAs": "close paraphrase"
+          },
+          {
+            "n": 7,
+            "memo": "Any offence-category question. Nevada eligibility turns on category A through E felony, gross misdemeanour or misdemeanour and on whether the offence is a crime of violence, which is a legal classification driving a one-year versus ten-year answer on the ordinary tracks.",
+            "deliveredLine": 89,
+            "deliveredText": "- any pending charge, and any conviction during the clean period other than a minor moving or standing traffic violation; any offence-category question; or any immigration question.",
+            "carriedAs": "the offence-category limb of the final bullet; unchanged by this repair"
+          },
+          {
+            "n": 8,
+            "memo": "Any pending charge, and any conviction during the clean period other than a minor moving or standing traffic violation.",
+            "deliveredLine": 89,
+            "deliveredText": "- any pending charge, and any conviction during the clean period other than a minor moving or standing traffic violation; any offence-category question; or any immigration question.",
+            "carriedAs": "REPAIRED BY THIS LANE — both limbs now carried, the second one verbatim from the memo. Before this repair only 'any pending charge' was delivered."
+          },
+          {
+            "n": 9,
+            "memo": "Records in more than one county, or in both municipal and justice or district court, where practice differs by court and prosecuting agency.",
+            "deliveredLine": 86,
+            "deliveredText": "- records sit in more than one county or more than one court;",
+            "carriedAs": "paraphrase; the fuller 'in both municipal and justice or district court' form is on the delivered referral page"
+          },
+          {
+            "n": 10,
+            "memo": "Federal, tribal, military and out-of-state records.",
+            "deliveredLine": 87,
+            "deliveredText": "- federal, tribal, military or out-of-state records — a Nevada order does not reach them;",
+            "carriedAs": "verbatim list plus the reason"
+          },
+          {
+            "n": 11,
+            "memo": "Any participant whose goal is firearm rights, which sealing does not restore.",
+            "deliveredLine": 88,
+            "deliveredText": "- your goal is firearm rights, which sealing does not restore;",
+            "carriedAs": "close paraphrase, second person"
+          },
+          {
+            "n": 12,
+            "memo": "Immigration exposure. Nevada sealing must not be described as having immigration effect.",
+            "deliveredLine": 89,
+            "deliveredText": "- any pending charge, and any conviction during the clean period other than a minor moving or standing traffic violation; any offence-category question; or any immigration question.",
+            "carriedAs": "the immigration limb of the final bullet, unchanged by this repair; the no-immigration-effect statement is also printed at 'What this packet is not' in the same guide and on the delivered filing-instructions page"
+          }
+        ]
+      },
+      "deliveredPleadingPage": {
+        "stopListAlsoPrintedIntoADeliveredPage": true,
+        "component": "referral_instructions — 'WHEN TO STOP AND GET HELP INSTEAD OF FILING ANYTHING'",
+        "inBothFixtures": true,
+        "fixtureBytesMoved": true,
+        "changeIsTheSameSentenceInTheSameList": true,
+        "howConfirmed": "git diff of the family directory is exactly four files: the two fixtures, participant-instructions.md (one line changed) and reports/rendered-artifacts.json (the two fixture digests and byte lengths only). pdftotext of both fixtures before and after differ in exactly the final stop bullet of the referral page; page counts are 9 and 9 before and after, and the recorded pageManifests are unchanged.",
+        "centralRasterOwed": true
+      },
+      "digestsBefore": {
+        "fixtures/canonical.pdf": { "sha256": "8fe5e209783ff5f70a18f8a37045f25126b020b23373aeba98956347440cd041", "byteLength": 25822, "pageCount": 9 },
+        "fixtures/boundary.pdf": { "sha256": "40f2540537bc5d72b3a91cda1746f91065e16884ea1d611ae0f75fce16d19055", "byteLength": 26313, "pageCount": 9 },
+        "participant-instructions.md": { "sha256": "17ecd024176dc4c07f0102e9a87ed70729d4ed86c50edf0eb3a1f6b628a31bbc", "byteLength": 9948 },
+        "recordedBeforeAnyEdit": true
+      },
+      "digestsAfter": {
+        "fixtures/canonical.pdf": { "sha256": "3b02d62f748c5f3ec5150742f3e225d0418ca4ddb7203ef5bc7fce9552b2de9a", "byteLength": 25916, "pageCount": 9 },
+        "fixtures/boundary.pdf": { "sha256": "6530f51d5855d955aacc8c1bfbff5094756d7f271e920b846a1ed2676c805dd2", "byteLength": 26404, "pageCount": 9 },
+        "participant-instructions.md": { "sha256": "3859d0a3ecf5a35f8e255ff0389109bd8c37d89adf8b67d5b188c03b73d76831", "byteLength": 10056 }
+      },
+      "unchangedInThisFamily": [
+        "approval-request.json", "build-findings.json", "build-status.json", "product-wiring.json",
+        "production-field-map.json", "source-receipt.json", "reports/actual-writes.json",
+        "reports/blanks-left-for-the-participant.json", "reports/completeness-counters.json"
+      ],
+      "everyOtherFamilyDirectoryByteIdentical": {
+        "confirmed": true,
+        "howConfirmed": "git status --porcelain over data/rcap-all50/ after the rebuilds lists exactly the four files of this family directory and nothing else; the only other modified path in the worktree is the builder script."
+      },
+      "rebuiltTwiceByteIdentical": {
+        "confirmed": true,
+        "howConfirmed": "The family was built, the two fixtures and participant-instructions.md were copied aside, the family was built again, and cmp/md5sum reported the fixtures and the guide byte-identical across the two builds."
+      },
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersHowMeasured": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nv_seal_probation_family-set, run in this lane's worktree before any edit and again after the second rebuild, with MASTER_LIBRARY_SOURCE_DIR pointed at the mounted Master Library. Nine zeros both times. Nine zeros are the starting condition for this cohort, not evidence that the guidance is right — this defect scored nine zeros while the limb was missing.",
+      "verifiers": [
+        {
+          "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX72 nv_seal_probation_family-set",
+          "exitCode": 0,
+          "output": "CLAIM_OK FIX72 nv_seal_probation_family-set (repair, grant set 54cb729c699e032e)",
+          "when": "before any read of the family"
+        },
+        {
+          "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nv_seal_probation_family-set",
+          "exitCode": 0,
+          "output": "1 family audited · 1 PASS_COMPLETE · nine counters all 0",
+          "when": "before and after"
+        },
+        {
+          "command": "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs --family nv_seal_probation_family-set",
+          "exitCode": 0,
+          "output": "receipts compared against HEAD: 249 · carrying an identityRefresh: 53 · EVERY_IDENTITY_REFRESH_SURVIVED"
+        },
+        {
+          "command": "node scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs",
+          "exitCode": 0,
+          "output": "EVERY_SOURCE_CARRIED_VALUE_IS_DISPOSITIONED",
+          "note": "Run UNFILTERED on purpose. With --family nv_seal_probation_family-set the verifier prints BROKEN_DENOMINATOR ('no census matched') and still exits 0 — a vacuous pass, because this family is a zero-source custom pleading with no official-form census row. The unfiltered run is the non-vacuous one."
+        }
+      ],
+      "preflight": {
+        "command": "node scripts/verify-packet-build-environment.mjs --family nv_seal_probation_family-set",
+        "exitCode": 0,
+        "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 11/13 passed, 2 failed, 4 not applicable",
+        "passed": [
+          "repo_identity (fix72-nv-probation-stop at ebe931e4)", "clone_is_complete", "worktree_clean",
+          "node_toolchain (node 22.22.2)", "pdf_lib_importable (pdf-lib 1.17.1)",
+          "master_library_mounted", "master_library_complete (499 files, 329 PDFs, 51 jurisdictions)",
+          "family_sources_bind (zero-source composition CUSTOM_PLEADING_FROM_CODIFIED_TEXT: it binds committed legal records by hash inside its builder, not document bytes)",
+          "master_library_not_at_operational_path", "absent_is_not_empty", "stale_artifact_block_consulted"
+        ],
+        "failed": [
+          {
+            "check": "private_is_git_ignored",
+            "detail": "private/ is NOT git-ignored. Artefact of the prescribed setup: private is a SYMLINK here, and .gitignore's `private/` pattern (trailing slash) does not match a symlink. Nothing under private was staged or committed by this lane; git status is clean of it.",
+            "waived": false,
+            "affectsThisRepair": false
+          },
+          {
+            "check": "corpus_matches_committed_index",
+            "detail": "1 absent, 0 mismatched of 24 sampled in the mounted Master Library.",
+            "waived": false,
+            "affectsThisRepair": false,
+            "why": "This family reads no Master Library document bytes at all — it composes from NV.memo.json and legal-design-packet-set-manifests.json, both committed and both bound by hash in the builder, and family_sources_bind passed. The absent sample is not a source of this packet."
+          }
+        ],
+        "notReported": "Neither failure was argued away as a pass; both are recorded above and the preflight's own verdict line is reproduced verbatim."
+      },
+      "acceptanceReceipt": null,
+      "obligationsThisRowDoesNotDischarge": [
+        "SOURCE_IDENTITY — VF09's second failed obligation. FIX08 repaired it at 167bed91b; this lane neither redid nor re-measured it and scores nothing on it.",
+        "CLIPPING_AND_OVERLAP, ROUTE_IDENTITY, COMPONENT_SET, KNOWN_PREFILLS, REQUIRED_BEFORE_FILING, ROUTE_OPTIONS, REPEATING_ROWS, PROTECTED_FIELDS, ARTIFACTS, PAGE_ORDER, FILING_DESTINATION, FEE_AND_WAIVER, SERVICE — not measured by this lane.",
+        "Central raster acceptance on the moved fixture bytes.",
+        "Independent verification of this repair: this lane wrote the change and may not score it."
+      ],
+      "whatWasNotDone": [
+        "Independent verification. This lane built the repair and read its own output; it did not and may not verify itself. The family must go to a fresh verifier lane.",
+        "Central raster. Both fixtures moved bytes (same sentence, same list, page counts unchanged at 9), so a central raster on the new bytes is owed; this lane rendered no raster and committed none. Builds were run with --no-raster.",
+        "No PNG or other raster artifact was committed.",
+        "Nothing outside this lane's worktree was touched; no Captain branch, no main, no other worktree, no force-push, no subagent."
+      ]
+    }
+  ]
+}

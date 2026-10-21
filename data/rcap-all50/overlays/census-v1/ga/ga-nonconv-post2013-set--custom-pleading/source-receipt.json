@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "rcap-family-source-receipt/v1",
+  "familyId": "ga-nonconv-post2013-set",
+  "worklistGroupId": "ga-nonconv-post2013-set",
+  "jurisdiction": "GA",
+  "implementationStrategy": "custom_pleading",
+  "custodyClass": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+  "acquisitionCommissioned": false,
+  "bindingMethod": "no binary source is bound, and none exists to bind: the MASTER_QUEUE row records sourceStatus CUSTOM_PLEADING_FROM_CODIFIED_TEXT with officialFormFamily NONE and boundSources []. The build is grounded on two committed records, verified present and un-drifted before anything is composed: the legal-design intake track (including its localFormOverride flag and request unit strategy) and the packet-set manifest.",
+  "routeKey": "obligation:unit:GA:ga-nonconv-post2013:ga-nonconv-post2013-request",
+  "routeKeys": [
+    "obligation:unit:GA:ga-nonconv-post2013:ga-nonconv-post2013-automatic",
+    "obligation:unit:GA:ga-nonconv-post2013:ga-nonconv-post2013-request"
+  ],
+  "routeSelectionId": "ga-nonconv-post2013-composed-set",
+  "statutoryAuthority": "O.C.G.A. § 35-3-37(h), (i), (k)(1)",
+  "legalName": "Record Restriction of a Non-Conviction Arrest Cycle Arising from an Arrest on or after July 1, 2013",
+  "allSourcesExact": true,
+  "formIdentityNote": "No statewide form exists for a post-2013 restriction request. GBI's published restriction application is captioned 'Prior to 07/01/2013' and is the wrong instrument for this route; georgia.gov directs participants to ask for the form provided by the prosecuting attorney's office. The legal-design record sets localFormOverride: where a county office publishes its own intake form, that form governs and the composed request is the covering request. No form was substituted, none was invented, and the wrong (pre-2013) instrument was not bound.",
+  "codifiedGrounds": [
+    {
+      "record": "data/record-clearing/legal-design-intake/GA.memo.json",
+      "what": "track ga-nonconv-post2013: § 35-3-37(h)/(i)/(k)(1) mechanism, the two sequential units, exclusions, counsel limitations (restrict/seal terminology, § 35-3-37(u), referral desks), rules, open questions"
+    },
+    {
+      "record": "data/record-clearing/legal-design-packet-set-manifests.json",
+      "what": "packetSetId ga-nonconv-post2013-set: the three-component set with its conditions and the required-before-filing items"
+    }
+  ],
+  "documents": [],
+  "composedComponentsAuthoredByThisBuild": [
+    "process_guidance",
+    "primary_filing",
+    "attachment"
+  ],
+  "sourceBinaryCommitted": false,
+  "commercialRoutesOpened": 0,
+  "whatThisReceiptDoesNotEstablish": [
+    "which county prosecuting attorney offices require their own local intake form, or what those forms require",
+    "that any output is approved for participant delivery",
+    "that any arrest cycle qualifies for restriction under § 35-3-37(h)"
+  ]
+}

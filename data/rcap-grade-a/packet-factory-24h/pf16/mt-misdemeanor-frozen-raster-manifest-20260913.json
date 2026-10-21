@@ -1,0 +1,92 @@
+{
+  "schemaVersion": "rcap-raster-queue/v1",
+  "rows": [
+    {
+      "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/mt/mt-misdemeanor-expungement-set--custom-pleading/fixtures/boundary.pdf",
+      "boundaryPdfSha256": "1e323f110fdd900db1b22416c35956a51c2107d43408b0d83790e5ce475c9607",
+      "builderAssignment": null,
+      "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/mt/mt-misdemeanor-expungement-set--custom-pleading/fixtures/canonical.pdf",
+      "canonicalPdfSha256": "82a512f6eaa9f650fe4b69f6534f85be640fde3d968fcd70319658a90ed71289",
+      "coverage": {
+        "basis": "Every canonical assembled diagnostic and explicitly declared conditional packet is included; the central renderer separately measures all declared boundary outputs.",
+        "complete": true,
+        "documents": [
+          "canonical.pdf"
+        ],
+        "notRastered": [],
+        "notRenderedByThisGate": [],
+        "notRenderedByThisGateBasis": "every PDF present in the family's fixture discovery that this row does not queue. The gate renders every document a row queues, whatever its role, so a queued boundary fixture is rendered and is not named here.",
+        "rastered": [
+          "canonical.pdf",
+          "boundary.pdf",
+          "military.pdf"
+        ],
+        "whatCompleteMeansHere": "every PDF this family declares is queued to the gate and rendered, canonical and boundary alike. `complete` remains the narrower question -- every canonical document rendered -- because that is what promotion depends on."
+      },
+      "currentRasterState": "RASTER_PENDING",
+      "documents": [
+        {
+          "conditionalPacketBranch": "canonical",
+          "filingReady": false,
+          "name": "canonical.pdf",
+          "pageCount": 9,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "pageCount": 9,
+            "sourceSha256": "82a512f6eaa9f650fe4b69f6534f85be640fde3d968fcd70319658a90ed71289",
+            "version": "1.17.1"
+          },
+          "path": "data/rcap-all50/overlays/census-v1/mt/mt-misdemeanor-expungement-set--custom-pleading/fixtures/canonical.pdf",
+          "role": "canonical",
+          "selectionKind": "diagnostic",
+          "sha256": "82a512f6eaa9f650fe4b69f6534f85be640fde3d968fcd70319658a90ed71289"
+        },
+        {
+          "conditionalPacketBranch": "boundary",
+          "filingReady": false,
+          "name": "boundary.pdf",
+          "pageCount": 11,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "pageCount": 11,
+            "sourceSha256": "1e323f110fdd900db1b22416c35956a51c2107d43408b0d83790e5ce475c9607",
+            "version": "1.17.1"
+          },
+          "path": "data/rcap-all50/overlays/census-v1/mt/mt-misdemeanor-expungement-set--custom-pleading/fixtures/boundary.pdf",
+          "role": "boundary",
+          "selectionKind": "diagnostic",
+          "sha256": "1e323f110fdd900db1b22416c35956a51c2107d43408b0d83790e5ce475c9607"
+        },
+        {
+          "conditionalPacketBranch": "military",
+          "filingReady": false,
+          "name": "military.pdf",
+          "pageCount": 9,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "pageCount": 9,
+            "sourceSha256": "94fb4b6ed7ab60269bea2e21ff2a06a0d6e364c5345f0114dfbf218e264c20af",
+            "version": "1.17.1"
+          },
+          "path": "data/rcap-all50/overlays/census-v1/mt/mt-misdemeanor-expungement-set--custom-pleading/fixtures/military.pdf",
+          "role": "boundary",
+          "selectionKind": "diagnostic",
+          "sha256": "94fb4b6ed7ab60269bea2e21ff2a06a0d6e364c5345f0114dfbf218e264c20af"
+        }
+      ],
+      "documentsDigest": "61fb67396569005333d5d6b2e08b315caa4368e30af5e318167fa1d0b142cf15",
+      "expectedPages": 9,
+      "familyId": "mt_misdemeanor_expungement-set",
+      "fixtureSelection": {
+        "boundary": "the assembled packet, matched by exact name",
+        "canonical": "the assembled packet, matched by exact name"
+      },
+      "nextOwner": "RAS03",
+      "packetCommitSha": "ff9715e9e149283b343283eacc72464a2389cbe0",
+      "requestedScale": 2.5
+    }
+  ]
+}

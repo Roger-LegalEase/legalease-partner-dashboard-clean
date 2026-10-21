@@ -1,0 +1,74 @@
+{
+  "schemaVersion": "rcap-composed-packet-set/v1",
+  "familyId": "mo-610-122-arrest-expungement-set",
+  "jurisdiction": "MO",
+  "trackId": "mo-610-122-arrest-expungement",
+  "routeKeys": [
+    "obligation:track-pathway:MO:mo-610-122-arrest-expungement:false-information-or-qualifying-arrest-record-expungement-under-610-122-123"
+  ],
+  "implementationStrategy": "official_pdf_fill",
+  "components": [
+    {
+      "componentId": "component:mo-610-122-arrest-expungement-primary-filing-1",
+      "role": "primary_filing",
+      "formNumber": "CR145",
+      "required": true
+    },
+    {
+      "componentId": "component:mo-610-122-arrest-expungement-cover-sheet-2",
+      "role": "cover_sheet",
+      "formNumber": "FI-05",
+      "required": true
+    },
+    {
+      "componentId": "component:mo-610-122-arrest-expungement-proposed-order-4",
+      "role": "proposed_order",
+      "formNumber": "CR143",
+      "required": false,
+      "conditional": true
+    },
+    {
+      "componentId": "component:mo-610-122-arrest-expungement-fee-waiver-5",
+      "role": "fee_waiver",
+      "formNumber": "GN10",
+      "required": false,
+      "conditional": true
+    },
+    {
+      "componentId": "component:mo-610-122-arrest-expungement-instructions-6",
+      "role": "instructions",
+      "required": true
+    }
+  ],
+  "sourceBindings": [
+    {
+      "sourceId": "official-form:CR143",
+      "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS1-SRC2__CR143__e39619185578.pdf",
+      "sha256": "e39619185578a4a29ef99e7c91b71c1346309bf91ab2b4670a01711b5a4c1441",
+      "revision": "OSCA (10-16)"
+    },
+    {
+      "sourceId": "official-form:CR145",
+      "path": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MO/02_PACKET_FORMS/MO__FORM__CR145__petition-for-expungement-of-arrest-records__REV-2024-04__EN.pdf",
+      "sha256": "7c527bf351e9ab08658f901abc9be15e12e5beb2afe7ded14a8c5e2f0d6eb641",
+      "revision": "SJRC (04-24)"
+    },
+    {
+      "sourceId": "official-form:FI-05",
+      "path": "reference/chat-parallel-2026-09-07/chat7/FI-05.pdf",
+      "sha256": "53f1e04eba653d7ed8e2f2f059e57854d3780845e6364bb6b2a57c7728cd412e",
+      "revision": "SJRC (04-23); case types SJRC (07-23)"
+    },
+    {
+      "sourceId": "official-form:GN10",
+      "path": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MO/05_SOURCE_GATED/MO__SOURCE-GATED__GN10__motion-and-affidavit-in-support-of-request-to-proceed-as-a-poor-person__REV-2015-07__EN.docx",
+      "sha256": "13ff25147df2c70eec85b2d498f486aae9c2b46c535f9f9d7992b6247480421e",
+      "revision": "SJRC (07-15)"
+    }
+  ],
+  "conditions": {
+    "proposedOrder": "Only when the receiving court expects a proposed judgment.",
+    "feeWaiver": "Only when participant requests waiver and supplies sworn financial facts.",
+    "recordsChecklist": "Provided in participant instructions; fingerprint card requires personal completion."
+  }
+}

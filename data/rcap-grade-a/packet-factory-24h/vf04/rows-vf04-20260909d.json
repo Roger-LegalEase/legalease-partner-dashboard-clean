@@ -1,0 +1,216 @@
+{
+  "schemaVersion": "rcap-verifier-lane-return/v1",
+  "lane": "VF04",
+  "laneKind": "independent-verification",
+  "verifiedAtBase": "ba6d4fb9526db37213a67dcb0a05763dd9066cf7",
+  "branch": "vf-reads-20260909c",
+  "writtenAt": "2026-09-09",
+  "note": "Supersedes data/rcap-grade-a/packet-factory-24h/vf04/rows-vf04-20260909c.json on the REPEATING_ROWS measurement alone. That file is left exactly as it was and was not edited. Written alongside every pre-existing return in this lane directory. This lane built nothing, repaired nothing and edited no packet, builder, overlay, manifest or registry.",
+  "measuredBy": "The delivered bytes in the committed tree. Every digest recomputed here with sha256sum. Every write, every unmade election and every protected blank read out of the finalized PDF page content stream and its 23 flattened appearance XObjects with pdf-lib (stream decode, BBox, placement matrix, show-text operands, clip path), and compared operator-for-operator against the pinned source PDF's own widget /AP appearance streams. Printed page content under each selection control measured with the repository's own extractTextItems / extractPathSegments walker over the source page. Nothing is carried from reports/completeness-counters.json, from the builder's actual-writes report, or from verify-packet-completeness.mjs; those were read and then independently re-derived.",
+  "rasterEvidence": "The admitted receipt at data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/ma-seal-admin-set/ (run 34364359375, packetCommit 159c0b5cf25e10a7fad6a7defb60bd6692e52480) pins canonical f01868bb... and boundary fbaf27c9..., which are the bytes in the tree at this base. Nothing was re-rendered by this lane.",
+  "overlayDirectoriesModified": [],
+  "packetsModified": [],
+  "commercialRoutesOpened": [],
+  "builtOrRepairedByThisLane": false,
+  "rows": [
+    {
+      "itemId": "ma-seal-admin-set",
+      "lane": "VF04",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "verifiedAtBase": "ba6d4fb9526db37213a67dcb0a05763dd9066cf7",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ma/ma-seal-admin-set--official-pdf-fill",
+      "priorIndependentVerdict": null,
+      "firstIndependentRead": true,
+      "rasterState": "RASTER_PASS, admitted receipt over these exact bytes; problems [], calibrationResidualPx 0 on both pages, croppedToThePage true, nonblank true, pagesMeasured 2. Not re-run here.",
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "measured": "production-field-map.json routeKeys are exactly the two MASTER_QUEUE route keys for this family - obligation:track-pathway:MA:ma-seal-admin:adult-conviction-sealing-under-m-g-l-c-276-100a and obligation:track-pathway:MA:ma-seal-admin:juvenile-record-sealing-under-100b. officialForm OCP-4 with assignedOfficialForm 'Petition to Seal (Office of the Commissioner of Probation)', which is the officialFormFamily the queue row names. The delivered page carries the form's own edition footer '(OCP 4/12)' and its own TO: line, both read back from the fixture text."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "measured": "sha256sum of 'private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase massachusetts/fillable-jud-mps-Petition-to-Seal.pdf' recomputed here = 416f9a1d1a7ade6e71ffe3964a30c2d247bd1aca3982f4ff8e55550a730506ce, byte-for-byte the digest MASTER_QUEUE.sourceHashes, source-receipt.json, field-census.census-v1.json, actual-writes.json and the instructions footer all name. One source, one document, exact_content_hash tier."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "measured": "The route-obligation census (packet-family-build-worklist.json, sha 55f129e4...) records, for BOTH route keys, deliverable.primaryOfficialFormOrComposedPleading = ['primary_filing: Petition to Seal (Office of the Commissioner of Probation)'] and status not_recorded for proposedOrder, coverSheet, notice, certificateOfService, affidavitOrVerification, schedulesOrContinuationPages and requiredParticipantAttachments. One component is named; one component is rendered, in both fixtures."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "measured": "Five held facts are written and each is ink on the page it belongs to, read out of the flattened appearance streams: participant.date_of_birth into 'Date of Birth' (FlatWidget-9742682568, <313939312D30342D3137> = 1991-04-17), participant.street_address into 'Mailing address', participant.city into 'City', participant.state into 'State', participant.zip into 'Zip' - all /Helvetica 7.84 Tf with 0 g fill inside the widget clip. pdftotext -layout of canonical.pdf reads all five back in their printed captions' positions. On boundary.pdf, City and State carry no glyphs and no partial value: both were refused whole on a measured geometry refusal (47 characters into a 100.08 pt box, 13 into a 40.08 pt box, at the 6 pt floor) rather than shortened, and boundary Zip was shrunk to /Helvetica 6.34 Tf, 33.8 pt of glyph in a 39.08 pt clip. The name box is examined under the observation below and is not counted here.",
+          "nameBoxExamined": "OCP-4/Print is the one held fact this packet does not print, and it was read against the contract rather than accepted on the builder's word. Measured first hand from the pinned binary: 'Print' is ONE text widget, x 37.8 w 350.4 h 9.84, and the source page prints three sub-captions beneath it - 'Last Name' at x 90, 'First Name' at x 203, 'Middle Name' at x 330 - so a single left-edge value lands under Last Name whatever it contains. The shared finalizer's only multi-fact channel joins facts with a newline (rcap-official-form-finalize.mjs, composedText = values.join('\\n')) into a 9.84 pt box, so the mechanism to place three parts at three x positions does not exist. Against the completeness contract's GENUINELY UNAVAILABLE condition, availability is 'written elsewhere in this packet or carried in the field map's factMap' (verify-packet-completeness.mjs lines 331-341, 380): the name is written nowhere in this one-page packet and appears in no factMap, so the REQUIRED_BEFORE_FILING declaration holds on the contract's own terms. The blank is disclosed twice in participant-instructions.md, with the measurement and with an instruction to print the name in the three captions' order. This is recorded, not scored as a missing known prefill."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "measured": "11 declared requiredBeforeFiling items. All 11 disclosureLabels AND all 11 participantMustSupply strings appear in participant-instructions.md verbatim, by exact string containment - 11 of 11 on both channels. The 2 boundaryOnlyRequiredBeforeFiling items (City, State) carry their disclosureLabel and their measuredWhy verbatim in the 'Blanks the form itself is too small for' table, with the instruction to write them in by hand; only the fixture-specific held value string is absent, which is a fixture value and not a disclosure. Part A box 4 carries its named route condition verbatim. The three affidavit elections and the three signature blanks are each addressed in the instructions in substance."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "measured": "No election on this form is route-determined, and the census is the basis rather than the builder's prose. This family serves BOTH of the Commissioner's elapsed-time routes at once, so the adult/juvenile fork is not fixed by the route; and the census records, for both route keys, laterCompletionFields = ['Felony or misdemeanour characterisation where it cannot be ascertained', 'Signature under the penalties of perjury'], which is the recorded basis for leaving the misdemeanour/felony fork to the participant. production-field-map.json routeDeterminedSelections is empty and every one of Part A boxes 1-3 is declared determinedByTheCaseNotTheRoute with a stated whyTheRouteCannotDetermineIt. Part A box 4 belongs to a different track (obligation:track-only:MA:ma-seal-decrim) and carries a named route condition. Confirmed from the bytes that nothing was ticked by accident: all seven check boxes in both fixtures carry the source's own /Off geometry and no ZapfDingbats glyph."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "measured": "MEASURED, not deferred. OCP-4 carries no repeating group, and the enumeration is the measurement. All 23 AcroForm widgets were read first hand from the pinned binary with their rectangles, and all 23 flattened appearances were read back from each delivered fixture, so the enumeration covers the whole form: 13 single text blanks, 3 signature widgets, and 7 check boxes. Test 1 - field names carrying a row index (Name:1, Name:2, Name_1): 0 of 23. Test 2 - y-bands sharing an identical multi-column signature, which is what a repeating row group is: 0. The four identity bands each occur exactly ONCE and carry different printed captions - y 552.72 (Print, Date of Birth), y 501.96 (Mailing address, City, State, Zip), y 481.92 (Occupation, Social Security, Place of Birth), y 461.88 (Fathers Name, Mothers Maiden Name, HusbandWifes Name). A band that occurs once is not a repetition. Test 3 - single-column stacks, which are the only recurring structures on this form: 2 found, and neither is a row group. Check Box1 to Check Box4 stack at x 81.454 width 18 (Part A, the four-way statutory fork) and Check Box5 to Check Box7 stack at x 44.8 width 18 (the three numbered affidavits). Each stack is ONE control per y - cols=1 - beside different printed statutory text, so they are mutually exclusive alternatives rather than repetitions of the same row. No group is split across dispositions in a way that could hide a half-written row, and that was checked rather than assumed: every member of both stacks is blank in both fixtures, with zero interior ink and zero ZapfDingbats glyphs. Because the form contains no repeating group, no row can carry a written cell beside a required cell left blank, and the obligation is satisfied by the absence rather than unmeasurable for it.",
+          "priorResultThisRowReplaces": "NOT_MEASURABLE_HERE",
+          "priorMeasuredText": "OCP-4 carries no repeating row structure. Its 23 widgets are 15 single text/signature fields and 7 independent selection controls, none of which forms a row of cells. There is no row on this packet that could carry a written cell beside a blank required cell.",
+          "singleOccurrenceBandExamined": "One thing the enumeration surfaces and this row states rather than leaves implicit. The single-occurrence identity band at y 501.96 has all four of its cells written on the canonical fixture (Mailing address, City 'Dorchester', State 'MA', Zip '02124') and, on the BOUNDARY fixture, two written beside two blank - Mailing address '1188 Upper Notch Crossing Road, Apartment 14B' and Zip '01103-2214' written, City and State blank. That is not an incomplete row and it is not what this obligation counts. The band is not a repeating group: it occurs once, its four cells carry four different printed captions, and it is a caption line of separate blanks rather than a row of a table. Both blanks are declared geometry refusals measured against the form's own box widths - 47 characters into a 100.08 pt box and 13 into a 40.08 pt box, refused whole at the 6 pt floor rather than shortened - and both are named to the participant in participant-instructions.md under 'Blanks the form itself is too small for', with the measurement and the instruction to write them in by hand. A packet that had truncated those values to fit would be the defect; refusing them whole and disclosing them is the designed behaviour."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "measured": "Three protected widgets, read from the delivered bytes in both fixtures. 'Petitioners Signature' (FlatWidget-735569487) = '/Tx BMC\\nEMC' - empty. 'Signature of Petitioner' (FlatWidget-8784015711) = '/Tx BMC\\nEMC' - empty. 'Signature8' (FlatWidget-7959582482) = '% DSBlank', byte-identical to the source's own appearance. No signature, no signature date, no certificate of mailing. The court-only block is untouched: the source prints 'PETITIONER NOT TO WRITE BELOW THIS LINE' and 'Petition Allowed/Disallowed 01 02 03 04' as page content, there is no widget below that line, and pdftotext of both fixtures reads nothing there that the blank source does not print. No government identifier is printed: the Social Security widget is empty in both fixtures."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "measured": "sha256sum recomputed here: canonical.pdf = f01868bbe1716bbe6576d39431a0b77ef7310a4a2d10c025f040edbe72c58987 (235707 bytes), boundary.pdf = fbaf27c950c8dc336c28a4d59bf1a35ac82309d338e86623b1ae2756f80767d5 (235329 bytes). Both match reports/rendered-artifacts.json and both match the hashesBound block of the admitted raster verdict, so the RASTER_PASS is over these bytes and not an earlier build."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "measured": "pdf-lib reads 1 page in each fixture. The pageManifest in rendered-artifacts.json declares exactly one entry per fixture - packetPage 1, component primary_filing, documentId OCP-4, sourcePage 1, sourceSha256 416f9a1d... - and the delivered page is that page: its printed text matches the source page 1 text line for line. Page count, component order and source page all agree."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "measured": "All 23 flattened appearances are placed by an identity matrix at their source widget's own origin - '1 0 0 1 37.8 552.72 cm', '1 0 0 1 442.32 552.72 cm', ... '1 0 0 1 44.8 228.836 cm' - each matching the pinned binary's widget /Rect to the digit, in both fixtures. Every appearance BBox equals its widget's width and height. Every text appearance additionally carries its own clip ('1 1 m ... W n', inset 1 pt), so no glyph can leave its box even in principle; measured widths confirm none tries to - the widest, boundary 'Mailing address' at 44 characters and 7.84 pt, occupies about 165 pt of a 264.32 pt clip, and the tightest, boundary Zip at 6.34 pt, occupies about 33.8 pt of a 39.08 pt clip. No page-level drawing operator was added outside a widget rect: the canonical and boundary page content streams are the same length as each other (29209 bytes) and contain 23 flat-widget placements and no other added ink."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "measured": "participant-instructions.md names 'Commissioner of Probation, One Ashburton Place, Room 405, Boston, MA 02108' - which is the address the form prints on its own TO: line, read back from the delivered fixture text - and quotes the census filingDestination verbatim: 'Not applicable. One filing to the Office of the Commissioner of Probation covers the statewide record. No court and no caption.' The census records the same office for both route keys. No court and no caption are claimed, which is what this route records."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "measured": "Both are stated, and both match the census. feeWaiverTreatment is recorded as 'Not applicable.' for both route keys and the instructions state it verbatim. filingFee is not_recorded for both route keys, and the instructions say so rather than inventing an amount: 'the route record does not record one and this form prints none, so no amount is stated here. Ask the Office of the Commissioner of Probation ... An unsourced figure in a filing instruction is worse than none.' The form itself prints no fee, confirmed against the full source text."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "measured": "The census records serviceRecipients = 'No service.' and serviceMethod = 'No service.' for both route keys. The instructions state both, quoting the record: 'Who you must serve: nobody. The route record answers both the recipient and the method question with the same two words - No service. You send the petition to the Commissioner's office and to no one else.' Recipient and method are each answered."
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "measured": "participant-instructions.md closes with 'What this packet is not': 'This is a prepared copy of an official Massachusetts form. It is not legal advice, it is not filed for you, and it does not decide whether your record can be sealed - the Commissioner of Probation decides that.' The packet also stops the participant at the court-only block ('Write nothing below the line that reads PETITIONER NOT TO WRITE BELOW THIS LINE. That block is the Commissioner's.') and refuses to swear for the participant on all three affidavits."
+        }
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "remeasuredForThisReturn": "incompleteRows re-derived from the repeating-group enumeration above; it stays 0. The other eight are carried forward from the predecessor row unchanged."
+      },
+      "counterEvidence": {
+        "unclassifiedBlanks": "The pinned binary carries 23 widgets and every one is accounted for by a disposition: 5 written, 11 REQUIRED_BEFORE_FILING, 3 PARTICIPANT_ELECTION_GENUINE (the numbered affidavits), 1 NOT_APPLICABLE_ON_THIS_ROUTE (Part A box 4), 3 PROTECTED_FIELD. 5 + 11 + 3 + 1 + 3 = 23, and 23 is the widget count read first hand from the source with pdf-lib. No widget is unaccounted for.",
+        "invisibleWrites": "Every declared write was confirmed as glyphs in the delivered bytes, not taken from the builder's report. Canonical: 5 writes, 5 show-text operators found in the corresponding flattened appearance, each with a 0 g fill and a non-empty hex operand (1991-04-17 / 42 Maple Street, Apartment 3 / Dorchester / MA / 02124). Boundary: 3 writes, 3 operators (1968-12-31 / 1188 Upper Notch Crossing Road, Apartment 14B / 01103-2214). pdftotext reads all of them back at their captions. Nothing is written that cannot be seen.",
+        "protectedWrites": "0. The three signature appearances are empty or the source's own '% DSBlank', in both fixtures.",
+        "visualDefects": "0, on two channels. The admitted raster receipt reports problems [], environmentProblems [], calibrationResidualPx 0, croppedToThePage true and nonblank true for both measured pages, over exactly these two hashes. Independently from the bytes: the seven check-box appearances in the output read 'q / 0.5 0.5 17 17 re / s / Q', against the source's own /Off stream 'q / 1 g / 0 0 18 18 re / f / 0.5 0.5 17 17 re / s / Q'. The stroked border is the SAME rectangle at the SAME place with the same default width and colour, so no border is synthesized and none is misregistered - this is not the Illinois FlatWidget-border shape. What the output drops is the source's white background fill, and that was measured rather than assumed: the repository's own extractTextItems / extractPathSegments walker over the source page finds 840 text items and 5 path segments, and NONE of them places ink inside any of the seven 18x18 widget rects (the nearest, the printed numerals '2' and '3' at x 58.3, end about 17 pt short of the box edge at x 81.45). With nothing underneath, the dropped white fill changes no pixel, which is consistent with the builder's own measurement that finalizing with and without the border-suppression flags is byte-identical on this source."
+      },
+      "observationsFromTheBytes": [
+        {
+          "what": "A source-authored appearance is carried into both delivered fixtures and the build's own byte-proof does not name it.",
+          "measured": "The source ships OCP-4 field 'Print' with the value '                       ' (23 spaces) and an /AP /N stream '/Tx BMC q 1 1 348.4 7.84 re W n BT /Helv 8 Tf 0 g 2 1.952 Td (                       ) Tj ET Q EMC'. FlatWidget-7098480789 in canonical.pdf and boundary.pdf is that stream, byte-identical, placed at 1 0 0 1 37.8 552.72 cm. reports/actual-writes.json records documentAuthoredAppearances: [] for both fixtures.",
+          "consequence": "None on the page. The operand is 23 space characters, so it paints no ink, and nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0 is confirmed here. This is a reporting gap in the byte proof's documentAuthoredAppearances channel, not an output defect, and it is recorded so the next reader of that field knows it is not empty because the document authored nothing.",
+          "isADefect": false
+        },
+        {
+          "what": "The petitioner's own name is the one held fact this petition does not print.",
+          "measured": "production-field-map.json's canonicalRefusals row for OCP-4/Print carries measurement.heldNameParts = {last: participant.last_name, first: participant.first_name, middle: participant.middle_name} and factId: null, and its prose says 'The platform holds your name and did not print it here'. The completeness contract's KNOWN_FACT_NOT_WRITTEN gate is keyed on dec.factAvailable, which verify-packet-completeness.mjs derives from the declared factId (line 380), so a row that names its held facts one level down in measurement and nulls factId cannot reach that gate. The refusal is nonetheless sound on the contract's stated terms, for the reason given under KNOWN_PREFILLS, and this lane did not score it as a defect.",
+          "consequence": "If the product later requires the name printed, the repair is a mechanism change and not a wording change: the shared finalizer would need a channel that places several facts at several measured x positions inside one widget rect - the three sub-caption x values (90, 203, 330) are already measured and re-checked against the binary on every build - instead of the newline join it has now. Nothing in this packet should be edited to satisfy the counter.",
+          "isADefect": false
+        }
+      ],
+      "evidenceRead": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ma/ma-seal-admin-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "f01868bbe1716bbe6576d39431a0b77ef7310a4a2d10c025f040edbe72c58987"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ma/ma-seal-admin-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "fbaf27c950c8dc336c28a4d59bf1a35ac82309d338e86623b1ae2756f80767d5"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ma/ma-seal-admin-set--official-pdf-fill/production-field-map.json",
+          "sha256": "31356117c7ec3ba1aff9d4e1f23f7c4f370c8a4a9d9185ace5bc7e2ec7200096"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ma/ma-seal-admin-set--official-pdf-fill/field-census.census-v1.json",
+          "sha256": "3d6fce27569920e94a75e11b5d6b83eca2f977194f475d1c04b571ddd7b316db"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ma/ma-seal-admin-set--official-pdf-fill/participant-instructions.md",
+          "sha256": "aca2a8e9bcb8ae7caf0561da7d237f17663b93b64e21bf2370545f31ccb002de"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ma/ma-seal-admin-set--official-pdf-fill/source-receipt.json",
+          "sha256": "6c07e5a0cbbd413a1011fcf2a888e802f1eb360636a80fd88761847489fe048d"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ma/ma-seal-admin-set--official-pdf-fill/build-status.json",
+          "sha256": "1189960ffb580ffdf7630cfde877943f24483b06e3a856c536d973db7986b153"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ma/ma-seal-admin-set--official-pdf-fill/reports/actual-writes.json",
+          "sha256": "e8fda7100d5983a924cfc6d2f21665d71bfba25beda04a84761cc05bcc25686f"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ma/ma-seal-admin-set--official-pdf-fill/reports/blanks-left-for-the-participant.json",
+          "sha256": "cdafc678ad7a1e299bc15328ca88c363553b2bb21b21951f574c22e9e8f18a4a"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ma/ma-seal-admin-set--official-pdf-fill/reports/completeness-counters.json",
+          "sha256": "07b25833bf1da79f6b99dfb847d1ba7cbb07cfe48e00de92927e1a89469ba99a"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ma/ma-seal-admin-set--official-pdf-fill/reports/rendered-artifacts.json",
+          "sha256": "78e561445522ad3ad95b7b2f22a9e1483f55c5be901863b1d5528d07116b5f82"
+        },
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/ma-seal-admin-set/ma-seal-admin-set.verdict.json",
+          "sha256": "b9bc5ed4f8fb3d4c98830a84e16fd703974c83e4bd29a8ede224f49a136801bf"
+        },
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/ma-seal-admin-set/admission-proof.json",
+          "sha256": "2fb5e782862c7bcba0e5a7ff857378f95b43e771c4bb330da0a0a6ad1bfb1cef"
+        },
+        {
+          "path": "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json",
+          "sha256": "55f129e451892fa348ed6c6bd9959ef9db39d8d193d90e25830c7419f76e6348"
+        },
+        {
+          "path": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase massachusetts/fillable-jud-mps-Petition-to-Seal.pdf",
+          "sha256": "416f9a1d1a7ade6e71ffe3964a30c2d247bd1aca3982f4ff8e55550a730506ce",
+          "note": "the pinned official source, git-ignored and never committed by this lane"
+        }
+      ],
+      "focusedCheckRun": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ma-seal-admin-set -> PASS_COMPLETE, 5/23 written, all nine counters 0. Read as a cross-check only; every counter above was re-derived from the bytes.",
+      "whatThisDoesNotDo": "An independent PASS proves this packet is complete. It approves no output, promotes no route, and opens no commercial route.",
+      "supersedesPriorReturn": {
+        "supersedes": "data/rcap-grade-a/packet-factory-24h/vf04/rows-vf04-20260909c.json",
+        "supersedesOn": "the REPEATING_ROWS measurement alone",
+        "why": "The predecessor row scored REPEATING_ROWS as NOT_MEASURABLE_HERE while awarding PASS_COMPLETE_INDEPENDENT. The extractor refused that, correctly: the strongest verdict may not be awarded over a subset of the obligations, and a form with no repeating group has a measurable answer - PASS, on the enumeration that establishes the absence - rather than an absent one. REPEATING_ROWS is re-measured here on the delivered bytes. The other fourteen obligation results and all nine counters are carried forward unchanged; re-reading the delivered bytes for this measurement confirmed them and changed none.",
+        "carriedForwardUnchanged": [
+          "ROUTE_IDENTITY",
+          "SOURCE_IDENTITY",
+          "COMPONENT_SET",
+          "KNOWN_PREFILLS",
+          "REQUIRED_BEFORE_FILING",
+          "ROUTE_OPTIONS",
+          "PROTECTED_FIELDS",
+          "ARTIFACTS",
+          "PAGE_ORDER",
+          "CLIPPING_AND_OVERLAP",
+          "FILING_DESTINATION",
+          "FEE_AND_WAIVER",
+          "SERVICE",
+          "SELF_HELP_STOP"
+        ],
+        "remeasuredHere": [
+          "REPEATING_ROWS"
+        ]
+      }
+    }
+  ]
+}

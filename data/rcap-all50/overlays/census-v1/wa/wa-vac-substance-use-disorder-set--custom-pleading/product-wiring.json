@@ -1,0 +1,124 @@
+{
+  "schemaVersion": "rcap-census-v1-product-wiring/v1",
+  "family": "wa_vac_substance_use_disorder-set",
+  "routeKey": "obligation:track-only:WA:wa_vac_substance_use_disorder",
+  "routeKeys": [
+    "obligation:track-only:WA:wa_vac_substance_use_disorder"
+  ],
+  "workType": "PRODUCT_WIRING_REQUIRED",
+  "status": "DECLARED_NOT_INSTALLED",
+  "authorityCreated": "none",
+  "generatedBy": "scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs",
+  "derivedFrom": "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--custom-pleading/reports/rendered-artifacts.json",
+  "explicitNonGrants": [
+    "This document opens no commercial route.",
+    "It creates no fulfillment record and consumes no packet credit.",
+    "It marks no packet proven and grants no output approval.",
+    "It does not add this track to compiled runtime. src/lib/rcap-engine/compiled/** is untouched.",
+    "It does not change any live RCAP route.",
+    "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This is not that record."
+  ],
+  "currentState": {
+    "serviceDisposition": "missing_from_compiled_runtime",
+    "commercialState": "NO_ROUTE_LEVEL_GRADE_A_AUTHORITY_FROM_TRACK_MEMBERSHIP",
+    "existingArtifactIds": [],
+    "generationAllowed": false
+  },
+  "binding": {
+    "family": "wa_vac_substance_use_disorder-set",
+    "jurisdiction": "WA",
+    "routeKeys": [
+      "obligation:track-only:WA:wa_vac_substance_use_disorder"
+    ],
+    "deliveryType": "custom_pleading",
+    "instrumentKinds": [
+      "RCW 9.96.060(6) petition/declaration, notice/order, program evidence and filing instructions"
+    ],
+    "packetComponents": [
+      "component:wa-96060-6-declaration-2",
+      "component:wa-96060-6-filing-instructions-5",
+      "component:wa-96060-6-notice-order-3",
+      "component:wa-96060-6-petition-1",
+      "component:wa-96060-6-program-evidence-4"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--custom-pleading/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--custom-pleading/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--custom-pleading/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--custom-pleading/source-receipt.json",
+    "sourceVersion": [],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "34772300822",
+      "jobId": "103764558834",
+      "artifactId": "10323075304",
+      "boundToCanonicalSha256": "3a5320390dffce5629a9ec14ac215801ced89ac14ff7193bdb18bfce738c6aab",
+      "coversTheWholeFamily": true
+    },
+    "lastIndependentVerification": {
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vfwasud3",
+      "verifiedAtBase": "ee69bb0742971d910d56a5657cba50083d406b7c"
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-wa_vac_substance_use_disorder-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  },
+  "proposedRepresentation": {
+    "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
+    "packetSetId": "wa_vac_substance_use_disorder-set",
+    "outputStrategy": "custom_pleading",
+    "components": [
+      {
+        "componentId": "wa_vac_substance_use_disorder-set-component-1",
+        "role": "primary_filing",
+        "order": 1,
+        "documentId": "wa-96060-6-petition-1",
+        "file": "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--custom-pleading/fixtures/canonical.pdf",
+        "sha256": "3a5320390dffce5629a9ec14ac215801ced89ac14ff7193bdb18bfce738c6aab",
+        "requirement": "required"
+      },
+      {
+        "componentId": "wa_vac_substance_use_disorder-set-component-2",
+        "role": "companion_document",
+        "order": 2,
+        "documentId": "wa-96060-6-declaration-2",
+        "file": "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--custom-pleading/fixtures/canonical.pdf",
+        "sha256": "3a5320390dffce5629a9ec14ac215801ced89ac14ff7193bdb18bfce738c6aab",
+        "requirement": "required"
+      },
+      {
+        "componentId": "wa_vac_substance_use_disorder-set-component-3",
+        "role": "companion_document",
+        "order": 3,
+        "documentId": "wa-96060-6-notice-order-3",
+        "file": "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--custom-pleading/fixtures/canonical.pdf",
+        "sha256": "3a5320390dffce5629a9ec14ac215801ced89ac14ff7193bdb18bfce738c6aab",
+        "requirement": "required"
+      },
+      {
+        "componentId": "wa_vac_substance_use_disorder-set-component-4",
+        "role": "companion_document",
+        "order": 4,
+        "documentId": "wa-96060-6-program-evidence-4",
+        "file": "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--custom-pleading/fixtures/canonical.pdf",
+        "sha256": "3a5320390dffce5629a9ec14ac215801ced89ac14ff7193bdb18bfce738c6aab",
+        "requirement": "required"
+      },
+      {
+        "componentId": "wa_vac_substance_use_disorder-set-component-5",
+        "role": "companion_document",
+        "order": 5,
+        "documentId": "wa-96060-6-filing-instructions-5",
+        "file": "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--custom-pleading/fixtures/canonical.pdf",
+        "sha256": "3a5320390dffce5629a9ec14ac215801ced89ac14ff7193bdb18bfce738c6aab",
+        "requirement": "required"
+      }
+    ]
+  }
+}

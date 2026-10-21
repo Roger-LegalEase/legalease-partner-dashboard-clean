@@ -1,0 +1,70 @@
+{
+  "schemaVersion": "rcap-bounded-execution-disposition/v1",
+  "familyId": "ut_pet_remove_link-set",
+  "baseCommit": "48ed215605553e86ec434f57151035e13a8f4aad",
+  "operationalBucket": "OTHER TECHNICAL",
+  "sourceAcquisitionOwed": false,
+  "legalResearchAssigned": false,
+  "sourceStatus": "All five required source originals are held and hash-bound:1501CR,1501CR-C,1502CR,1110GE and1111GE. Current official listings establish the latter two; printed1111GEJ and Request to Submit for Decision titles are preserved, not rewritten.",
+  "exactDecision": "Use clerk-confirmed / court-confirmed judgeOrCommissioner; no district-and-case-category mapping prerequisite.",
+  "existingParticipantControl": "data/record-clearing/legal-design-intake/UT.memo.json#judgeOrCommissioner",
+  "recordedBranchSemantics": {
+    "judge": [
+      "1501CR",
+      "1110GE"
+    ],
+    "commissioner": [
+      "1501CR-C",
+      "1111GE"
+    ],
+    "shared": [
+      "1502CR"
+    ]
+  },
+  "materialConflict": "The later summary reversing hearing/no-hearing labels is superseded by the owner selector decision. Implement exact form IDs from bindingProductRule; judge uses1110GE and commissioner uses1111GE.",
+  "decisionReservedBy": "data/rcap-grade-a/route-productization/ROUTE_PRODUCTIZATION_DISPOSITION.json#ut_pet_remove_link-set",
+  "secondaryBlockers": [
+    "No family builder, field map or packet artifacts",
+    "Reconcile stale custody preflight reader with committed exact-byte recovery",
+    "Current-byte raster, independent acceptance and product integration remain unearned"
+  ],
+  "evidence": [
+    "data/record-clearing/legal-design-intake/UT.memo.json",
+    "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json",
+    "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json",
+    "data/rcap-grade-a/route-productization/ROUTE_PRODUCTIZATION_DISPOSITION.json"
+  ],
+  "terminalDelta": 0,
+  "ownerAnswer": "RESOLVED",
+  "ownerDecisionSource": "Roger instruction in this conversation, 2026-09-11: UT REMOVE-LINK SELECTOR",
+  "bindingProductRule": {
+    "requiredFact": "judgeOrCommissioner",
+    "factSource": [
+      "clerk-confirmed",
+      "court-confirmed"
+    ],
+    "judge": [
+      "1501CR",
+      "1502CR",
+      "1110GE"
+    ],
+    "commissioner": [
+      "1501CR-C",
+      "1502CR",
+      "1111GE"
+    ],
+    "otherwise": {
+      "action": "STOP",
+      "generateFilingPacket": false,
+      "status": "configuration_ambiguous",
+      "reason": "clerk-confirmation-required"
+    }
+  },
+  "missingRequiredSourceIds": [],
+  "requiredComponentEvidence": "data/rcap-grade-a/packet-factory-24h/pf01/ut-remove-link-20260911/blocker-evidence.json",
+  "additionalRequiredSourceIds": [
+    "official-form:1110GE",
+    "official-form:1111GE"
+  ],
+  "sourceRecoveryRecord": "data/rcap-grade-a/source-wave-integration/KNOWN_RESIDUAL_SOURCE_RECOVERY_2026-09-11.json"
+}

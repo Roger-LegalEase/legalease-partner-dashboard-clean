@@ -1,0 +1,214 @@
+{
+  "familyId": "rcap-ga-guidance-implementation",
+  "state": "GUIDANCE_READY",
+  "terminalAfterSharedIntegration": 239,
+  "denominator": 346,
+  "recordedAt": "2026-09-11T08:01:40.395890+00:00",
+  "centralRun": 34575955732,
+  "evidence": [
+    {
+      "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34575955732/ORIGINAL_EVIDENCE_VERIFIED.json",
+      "sha256": "343b65a239ea3f3e58f65896a3ecf2a01ea6500c5c2b2ec3d2fd864c4d6ab4c6"
+    },
+    {
+      "path": "data/rcap-grade-a/packet-factory-24h/vf65/rows-vf65-20260911-ga-guidance-complete.json",
+      "sha256": "69135e8ab30207f019d2af7cc97a4c6de7609671840f1eb082740cc1ba65c3d5"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ga/rcap-ga-guidance-implementation--custom-pleading/product-wiring.json",
+      "sha256": "7bb765fa7af270528d81cec865544c9dc7cef442837b64cd2eaea833863d8194"
+    },
+    {
+      "path": "data/rcap-grade-a/packet-factory-24h/checkpoint-232-to-250/ga-final-admission-integration.log",
+      "sha256": "78758928dffa6d4a256bcb06be7ed6b1ebe231f7e72fa584d0b5f0e3613ce03c"
+    }
+  ],
+  "familySnapshot": {
+    "familyId": "rcap-ga-guidance-implementation",
+    "treatmentReconciliation": {
+      "familyId": "rcap-ga-guidance-implementation",
+      "implementationStrategy": "custom_pleading",
+      "authority": [
+        {
+          "path": "data/record-clearing/legal-decisions/2026-08-28-controlling-decisions.json",
+          "sha256": "e00332bc05795533067dbe9dba43d36b14a362b7450449e9ac8a67e8c8f92f47"
+        }
+      ],
+      "authoritySelector": "decisions[decisionId=CLD-2026-08-28-GA-RFO]",
+      "stages": [
+        {
+          "stageId": "pre_consent",
+          "outputKind": "process_guidance",
+          "familyId": "rcap-ga-guidance-implementation",
+          "destination": "Attorney or prosecutor handoff",
+          "participantFilesGeneratedOutput": false
+        },
+        {
+          "stageId": "verified_written_consent",
+          "outputKind": "custom_pleading",
+          "familyId": "composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route",
+          "destination": "Court of conviction",
+          "participantFilesGeneratedOutput": true,
+          "gate": "Verified written prosecutorial consent held as an actual document; the guide cannot satisfy it.",
+          "acceptanceRequired": "Exact petition candidate and all required selected components, route binding and independent acceptance."
+        },
+        {
+          "stageId": "qualifying_order_on_or_after_2026_07_01",
+          "outputKind": "process_guidance",
+          "familyId": "rcap-ga-guidance-implementation",
+          "destination": "Restriction, sealing, agency-distribution and verification tracking",
+          "participantFilesGeneratedOutput": false
+        }
+      ],
+      "nextExecutableAction": "Retain pre-consent guidance; consume and complete the existing separate post-consent petition candidate and post-order tracking. Do not count the guidance as petition acceptance.",
+      "createsTerminalState": false,
+      "createsCommercialAuthority": false
+    },
+    "reviewedTreatmentGuidance": {
+      "eligible": true,
+      "familyId": "rcap-ga-guidance-implementation",
+      "reviewPath": "data/rcap-grade-a/packet-factory-24h/checkpoint-232-to-250/ga-guidance-stage-review.json",
+      "reviewSha256": "922467a84256591ebc536e0fa85e07a099661f81a9d81bebc1d7603a0ac31cb5",
+      "reviewedAtBase": "f31a8a4d86abf2842278535c2c4ae392519bbae1",
+      "reviewer": "/root/pending_readiness",
+      "lane": "VF65",
+      "checked": [
+        {
+          "path": "scripts/build-census-v1-rcap-ga-guidance-implementation.mjs",
+          "sha256": "c92a181e3aca9f714a4f444a129d373c6c52c0ae7c3754b62c28eed1c040c5cf"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ga/rcap-ga-guidance-implementation--custom-pleading/source-receipt.json",
+          "sha256": "d501491de7bf564704ef326210c7d734e9bd470864872011ba4d86c0ac87d7de"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ga/rcap-ga-guidance-implementation--custom-pleading/reports/rendered-artifacts.json",
+          "sha256": "39cdf843b6de2b0e3833aa2cfddd42d33e03b1bba2323e60f30792b87b3c8573"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ga/rcap-ga-guidance-implementation--custom-pleading/production-field-map.json",
+          "sha256": "dd83e982448901a215dfb6ac007aaa6b79a0f263b9fcbfc0251c62b45b3f2f7e"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ga/rcap-ga-guidance-implementation--custom-pleading/reports/actual-writes.json",
+          "sha256": "98bd407d310a9f0e7313e8ddecd504a4bfa63e8f19e72df6bee7d69ef6cad741"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ga/rcap-ga-guidance-implementation--custom-pleading/participant-instructions.md",
+          "sha256": "4f96a68979549085d2c8e2f452b00cbadd486078628c621b3b2e1f6214d7a1ba"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ga/rcap-ga-guidance-implementation--custom-pleading/fixtures/canonical.pdf",
+          "sha256": "ac6aed1b5ad37701f2efc9d88aad407498abeb4ab01af8b1b2c558aedd26597b"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ga/rcap-ga-guidance-implementation--custom-pleading/fixtures/boundary.pdf",
+          "sha256": "28026bda8faf19c93be4f7599bd0d5334270db3e3b394b75f16170b254bf9a87"
+        },
+        {
+          "path": "data/record-clearing/legal-design-specifications.json",
+          "sha256": "10b02286702b27a3392530b6435ce3495614a194abc21560939ced0c5d082792"
+        },
+        {
+          "path": "data/record-clearing/legal-decisions/2026-08-28-controlling-decisions.json",
+          "sha256": "e00332bc05795533067dbe9dba43d36b14a362b7450449e9ac8a67e8c8f92f47"
+        },
+        {
+          "path": "src/lib/legal-authority/routes/national-report-2026-08-28.json",
+          "sha256": "918bc6616e23de07014825cd8cbd9b81dc282613a0f5f2214130ac2af30e4b7b"
+        },
+        {
+          "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+          "sha256": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81"
+        }
+      ],
+      "participantPetitionDischarged": false,
+      "commercialAuthority": false
+    },
+    "worklistGroupId": "rcap-ga-guidance-implementation",
+    "jurisdiction": "GA",
+    "routeKeys": [
+      "obligation:track-pathway:GA:ga-rfo:retroactive-first-offender-treatment-under-42-8-66"
+    ],
+    "routeCount": 1,
+    "implementationStrategy": "custom_pleading",
+    "packetComponents": [],
+    "instrumentKinds": [],
+    "officialFormFamily": "NONE",
+    "forms": [],
+    "sourceIds": [],
+    "sourceHashes": [],
+    "sourceStatus": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+    "sourceBound": true,
+    "sourceReadiness": {
+      "ready": true,
+      "reasons": [],
+      "boundSources": [],
+      "boundGuidanceAuthorityRecords": [],
+      "boundAuthorities": [],
+      "boundAuthorityCount": 0,
+      "supersededSourceIds": [],
+      "namedOfficialForms": 0,
+      "effectiveOfficialSourceIds": [],
+      "boundCount": 0,
+      "custodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+      "custodyClassIsTheAcquisitionTaskStatusNotCurrentCustody": "Recorded when the acquisition task was last written and never re-derived. Where it says a source is missing and boundCount is above zero, the binding is the measurement and this field is history.",
+      "directAttachment": true
+    },
+    "sourceReconciliation": null,
+    "verifierSourceHold": null,
+    "selectedIndependentVerdict": {
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf65",
+      "verifiedAtBase": "f31a8a4d86abf2842278535c2c4ae392519bbae1",
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf65/rows-vf65-20260911-ga-guidance-complete.json"
+    },
+    "rasterEnrolmentRefusal": null,
+    "legalInputStatus": "SETTLED",
+    "ownerDeliveryTypeRefusal": null,
+    "verificationLapsedBecause": null,
+    "terminalTreatment": null,
+    "legalInputBasis": null,
+    "wave2LegalBlock": null,
+    "ownerCorrectionRequired": null,
+    "legalHoldReclassification": null,
+    "laneReturnLegalHold": null,
+    "executionReclassification": null,
+    "executionOwner": null,
+    "nextExecutableAction": "Static court-initiated guidance accepted. Install exact runtime cohort behavior separately; the participant-motion obligation remains open.",
+    "routeMappingStatus": "BOUND",
+    "artifactStatus": "RENDERED",
+    "completenessStatus": "PASS_COMPLETE",
+    "allNineCountersZero": true,
+    "counters": {
+      "knownRequiredFieldsMissing": 0,
+      "requiredFactsNotCollected": 0,
+      "unclassifiedBlanks": 0,
+      "incompleteRows": 0,
+      "requiredOptionsMissing": 0,
+      "requiredComponentsMissing": 0,
+      "invisibleWrites": 0,
+      "protectedWrites": 0,
+      "visualDefects": 0
+    },
+    "failingCounters": [],
+    "failedObligationNames": [],
+    "failedObligations": [],
+    "continuationResult": null,
+    "c11Stopped": false,
+    "state": "GUIDANCE_READY",
+    "activeOwner": null,
+    "activeOwnerLane": null,
+    "buildScript": "scripts/build-census-v1-rcap-ga-guidance-implementation.mjs",
+    "buildScriptExists": true,
+    "sharedBuildHost": null,
+    "directory": "data/rcap-all50/overlays/census-v1/ga/rcap-ga-guidance-implementation--custom-pleading",
+    "ownedPaths": [
+      "data/rcap-all50/overlays/census-v1/ga/rcap-ga-guidance-implementation--custom-pleading/**",
+      "scripts/build-census-v1-rcap-ga-guidance-implementation.mjs"
+    ],
+    "prohibitedPaths": [],
+    "importedBy": [],
+    "exclusiveScript": true
+  }
+}

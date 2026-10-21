@@ -1,0 +1,93 @@
+{
+  "schemaVersion": "vf64-fl-early-entrypoint-proof/v1",
+  "verifiedAtBase": "43943cb16223b0701449cb9bef8671f8a9233231",
+  "codeBindings": [
+    {
+      "path": "scripts/build-census-v1-fl-early-juvenile-set.mjs",
+      "sha256": "7b38045e4277a85f3b84ddbb8be262cb9d4242a9e6a7ccfa075a95ea8e8b4691",
+      "byteLength": 64970
+    },
+    {
+      "path": "scripts/rcap-packet-recovery/fl-early-source-geometry.test.mjs",
+      "sha256": "d68d32896b1bacb98e9b67351bfaac948049f7530a6f8c3f38b37687bfb7a705",
+      "byteLength": 5173
+    },
+    {
+      "path": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs",
+      "sha256": "d277dfb6371a426facba497b6350a2c09d882f452e368881352e5c728d35b652",
+      "byteLength": 69817
+    }
+  ],
+  "codeUnchangedFromCheckExecutionBase": true,
+  "checks": [
+    {
+      "command": "PF20_FL_EARLY_JUVENILE_SOURCE=/tmp/rcap-vf62-pa-final-20260911/reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC2__FL-EARLY-JUVENILE-SET__FDLE-EARLY-JUVENILE-EXPUNCTION-APPLICATION__d9417ea382c9.pdf node scripts/build-census-v1-fl-early-juvenile-set.mjs --check",
+      "executedAtBase": "b0aeaba3802a229c9fa3fc284722eec84b5d57cc",
+      "exitCode": 0,
+      "result": "CHECK_ONLY; exact source22449bytes; both stored fixture hashes equal deterministic expected bytes;28 writes/65 blanks;28 source-region checks per fixture;284/428 added glyphs;zero outside declared regions;zero source/output widget appearances.",
+      "scope": "run() takes the --check return before filesystem mutations. checkStoredFixtures measures existing PDFs and compares their hashes against in-memory expected bytes; no local PDF file or raster generated."
+    },
+    {
+      "command": "node --test scripts/rcap-packet-recovery/fl-early-source-geometry.test.mjs",
+      "executedAtBase": "b0aeaba3802a229c9fa3fc284722eec84b5d57cc",
+      "exitCode": 0,
+      "tests": 8,
+      "pass": 8,
+      "fail": 0,
+      "meaningfulNegativeCases": [
+        "mutated temporary stored boundary PDF refused as stale/tampered",
+        "missing participant.last_name refused",
+        "500-character surname overflow refused",
+        "agency coordinate drift x100/y459 refused",
+        "source anchor moved1pt refused"
+      ],
+      "limit": "Those controls exercise production renderAndMeasure/checkStoredFixtures, but test the declared regions. They do not show that each declared region is the actual named source blank."
+    },
+    {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family fl-early-juvenile-set",
+      "executedAtBase": "b0aeaba3802a229c9fa3fc284722eec84b5d57cc",
+      "exitCode": 0,
+      "result": "PASS_COMPLETE;28/93 written;all nine reported counters0;no --write",
+      "limit": "This CLI reads declared reports/field rows; its visual counter trusts the author region result. The independent page3 finding overrides that zero."
+    },
+    {
+      "command": "python data/rcap-grade-a/packet-factory-24h/vf64/fl-early-current-20260911/measure-current.py",
+      "executedAtBase": "43943cb16223b0701449cb9bef8671f8a9233231",
+      "exitCode": 0,
+      "result": "Exact current source and four unchanged authority pins;both PDF pins;all10 original PNG hashes/lengths/IHDRs;1250 source words per fixture preserved at the same coordinates;no source-word intersections."
+    },
+    {
+      "command": "node data/rcap-grade-a/packet-factory-24h/vf64/fl-early-current-20260911/measure-layout.mjs",
+      "executedAtBase": "43943cb16223b0701449cb9bef8671f8a9233231",
+      "exitCode": 0,
+      "result": "28 stored writes per fixture;all original source content streams preserved on all five pages;actual fingerprint source-rule geometry differs from the six accepted placement regions."
+    }
+  ],
+  "callerAndGuardPaths": [
+    {
+      "path": "scripts/build-census-v1-fl-early-juvenile-set.mjs",
+      "lines": [
+        913,
+        927,
+        578,
+        591,
+        142,
+        152,
+        406,
+        509,
+        831
+      ],
+      "finding": "run --check -> checkStoredFixtures -> renderAndMeasure/measureOverlay. The entrypoint validates source anchors, containment in hardcoded region[], and stored hash identity. A correct anchor plus a broad region does not establish placement on the particular printed blank."
+    },
+    {
+      "path": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs",
+      "lines": [
+        553,
+        735
+      ],
+      "finding": "Completeness takes visualDefects from nonWhitespaceGlyphsOutsideMeasuredWriteBoxes; page3 displacements wholly inside the broad declared regions therefore remain zero."
+    }
+  ],
+  "noPacketOrSourceMutations": true,
+  "noLocalRaster": true
+}

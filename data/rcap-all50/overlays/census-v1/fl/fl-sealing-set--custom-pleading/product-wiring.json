@@ -1,0 +1,129 @@
+{
+  "schemaVersion": "rcap-census-v1-product-wiring/v1",
+  "family": "fl-sealing-set",
+  "routeKey": "obligation:track-pathway:FL:fl-sealing:court-ordered-sealing-943-059",
+  "routeKeys": [
+    "obligation:track-pathway:FL:fl-sealing:court-ordered-sealing-943-059"
+  ],
+  "workType": "PRODUCT_WIRING_REQUIRED",
+  "status": "DECLARED_NOT_INSTALLED",
+  "authorityCreated": "none",
+  "generatedBy": "scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs",
+  "derivedFrom": "data/rcap-all50/overlays/census-v1/fl/fl-sealing-set--custom-pleading/reports/rendered-artifacts.json",
+  "explicitNonGrants": [
+    "This document opens no commercial route.",
+    "It creates no fulfillment record and consumes no packet credit.",
+    "It marks no packet proven and grants no output approval.",
+    "It does not add this track to compiled runtime. src/lib/rcap-engine/compiled/** is untouched.",
+    "It does not change any live RCAP route.",
+    "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This is not that record."
+  ],
+  "currentState": {
+    "serviceDisposition": "missing_from_compiled_runtime",
+    "commercialState": "NO_ROUTE_LEVEL_GRADE_A_AUTHORITY_FROM_TRACK_MEMBERSHIP",
+    "existingArtifactIds": [],
+    "generationAllowed": false
+  },
+  "binding": {
+    "family": "fl-sealing-set",
+    "jurisdiction": "FL",
+    "routeKeys": [
+      "obligation:track-pathway:FL:fl-sealing:court-ordered-sealing-943-059"
+    ],
+    "deliveryType": "custom_pleading",
+    "instrumentKinds": [
+      "Florida Petition to Seal under § 943.059"
+    ],
+    "packetComponents": [
+      "component:fl-sealing-affidavit-3",
+      "component:fl-sealing-primary-filing-1",
+      "component:fl-sealing-primary-filing-2",
+      "component:fl-sealing-proposed-order-4"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/fl/fl-sealing-set--custom-pleading/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/fl/fl-sealing-set--custom-pleading/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/fl/fl-sealing-set--custom-pleading/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/fl/fl-sealing-set--custom-pleading/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+        "sha256": "1d07f48487cc466294a25fd36f06fb15002d1fa524dd43889c3ddb832c1f8aec",
+        "tier": "exact_content_hash"
+      }
+    ],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "34776394081",
+      "jobId": "103775835426",
+      "artifactId": "10323607157",
+      "boundToCanonicalSha256": "45f7857c8cbea04181c26f1bbc534d1b223053d3f77840d7cadd581ebec75313",
+      "coversTheWholeFamily": true
+    },
+    "lastIndependentVerification": {
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vfflfinal1",
+      "verifiedAtBase": "1ffeb87d79727352b2dab39b83528b942853e78a"
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-fl-sealing-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  },
+  "proposedRepresentation": {
+    "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
+    "packetSetId": "fl-sealing-set",
+    "outputStrategy": "custom_pleading",
+    "components": [
+      {
+        "componentId": "fl-sealing-set-component-1",
+        "role": "primary_filing",
+        "order": 1,
+        "documentId": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+        "file": "data/rcap-all50/overlays/census-v1/fl/fl-sealing-set--custom-pleading/fixtures/canonical.pdf",
+        "sha256": "45f7857c8cbea04181c26f1bbc534d1b223053d3f77840d7cadd581ebec75313",
+        "requirement": "required"
+      },
+      {
+        "componentId": "fl-sealing-set-component-2",
+        "role": "companion_document",
+        "order": 2,
+        "documentId": "FL-RULE-3.989-PETITION",
+        "file": "data/rcap-all50/overlays/census-v1/fl/fl-sealing-set--custom-pleading/fixtures/canonical.pdf",
+        "sha256": "45f7857c8cbea04181c26f1bbc534d1b223053d3f77840d7cadd581ebec75313",
+        "requirement": "required"
+      },
+      {
+        "componentId": "fl-sealing-set-component-3",
+        "role": "companion_document",
+        "order": 3,
+        "documentId": "FL-RULE-3.989-SWORN-STATEMENT",
+        "file": "data/rcap-all50/overlays/census-v1/fl/fl-sealing-set--custom-pleading/fixtures/canonical.pdf",
+        "sha256": "45f7857c8cbea04181c26f1bbc534d1b223053d3f77840d7cadd581ebec75313",
+        "requirement": "required"
+      },
+      {
+        "componentId": "fl-sealing-set-component-4",
+        "role": "companion_document",
+        "order": 4,
+        "documentId": "FL-RULE-3.989-ORDER",
+        "file": "data/rcap-all50/overlays/census-v1/fl/fl-sealing-set--custom-pleading/fixtures/canonical.pdf",
+        "sha256": "45f7857c8cbea04181c26f1bbc534d1b223053d3f77840d7cadd581ebec75313",
+        "requirement": "required"
+      },
+      {
+        "componentId": "fl-sealing-set-component-5",
+        "role": "companion_document",
+        "order": 5,
+        "documentId": "fl-sealing-certificate-of-service-5",
+        "file": "data/rcap-all50/overlays/census-v1/fl/fl-sealing-set--custom-pleading/fixtures/canonical.pdf",
+        "sha256": "45f7857c8cbea04181c26f1bbc534d1b223053d3f77840d7cadd581ebec75313",
+        "requirement": "required"
+      }
+    ]
+  }
+}

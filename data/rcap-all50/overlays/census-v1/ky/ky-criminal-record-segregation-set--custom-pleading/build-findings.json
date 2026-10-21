@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "ky_criminal_record_segregation-set",
+  "blocking": [],
+  "findings": [
+    {
+      "finding": "The memo carries a build-blocker-graded counsel question: the controlling review classified KRS 17.142 as an agency-level mechanism and not a product track, while the statute's face carries two participant-initiated routes; the departure must be ratified by counsel. No ratification record exists in the repository.",
+      "consequence": "Built anyway, deliberately and narrowly: the factory control plane dispatched the family with legalInputStatus SETTLED and a live grant, the route-level components for this exact track were already drafted and terminalized with counselConfirmationRequired:true carried as a standing blocker, and state_built sells nothing. The ratification question is the FIRST counsel question in approval-request.json, reviewStatus is set to counsel_review_pending, and counsel review remains a blocker for approved_for_live."
+    },
+    {
+      "finding": "The route-level drafted precedent (pleading-config.json) records sourced refusals this build follows: no proposed order (KRS 17.142(2) makes the order the court's own act, and drafting one would invent operative terms binding every law enforcement agency), no certificate of service (the statute provides for no notice to any party), no invented sovereign party, no verification block (no source addresses verification), and a court level left functional because no source resolves it.",
+      "consequence": "Each refusal is reproduced here with its recorded reason; the caption carries the court as a participant-completed blank with the circuit court clerk named as the resolver, and the verification gap travels as a counsel question."
+    },
+    {
+      "finding": "The route-level precedent's own rendered application recites KRS 17.142(4) using the word 'sealed', while its qaProhibitedTerms bans that word on the same instrument.",
+      "consequence": "This build follows the STRICTER of the two: the application states the (4) scope limit without the banned vocabulary ('records subject to KRS 431.076 or KRS 431.078 fall under those statutes instead, and this application does not reach them'), and the byte proof enforces the ban on the application and letter pages while exempting the routing-guidance page, whose job is to name the stronger routes."
+    },
+    {
+      "finding": "The two units are independent alternatives and the memo asks the participant which to use (segRoute); no fee is identified for either route; no agency, agency address, or agency response duty or timeline is recorded anywhere.",
+      "consequence": "Neither instrument is selected for the participant; the fee question is delegated to the circuit court clerk by name; every agency identity and address is a participant-supplied blank; and the guidance states plainly that no recourse is recorded if an agency does not act, with handoff to counsel."
+    }
+  ]
+}

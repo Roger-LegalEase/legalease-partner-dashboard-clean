@@ -1,0 +1,69 @@
+[
+  {
+    "command": [
+      "node",
+      "scripts/verify-packet-build-environment.mjs",
+      "--family",
+      "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
+      "--codex-cloud",
+      "--minimum-captain-sha",
+      "47e9f0a83"
+    ],
+    "exitCode": 1,
+    "log": "data/rcap-grade-a/packet-factory-24h/fix93/il-identity-caption-20260906/preflight.log"
+  },
+  {
+    "command": [
+      "node",
+      "scripts/build-census-v1-composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief.mjs",
+      "--check"
+    ],
+    "exitCode": 0,
+    "log": "source-anchor-check.log"
+  },
+  {
+    "command": [
+      "node",
+      "scripts/build-census-v1-composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief.mjs",
+      "--no-raster"
+    ],
+    "exitCode": 0,
+    "log": "build-1.log"
+  },
+  {
+    "command": [
+      "node",
+      "scripts/build-census-v1-composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief.mjs",
+      "--no-raster"
+    ],
+    "exitCode": 0,
+    "log": "build-2.log"
+  },
+  {
+    "command": [
+      "node",
+      "scripts/rcap-packet-completeness/verify-packet-completeness.mjs",
+      "--family",
+      "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief"
+    ],
+    "exitCode": 0,
+    "log": "focused-completeness.log"
+  },
+  {
+    "command": [
+      "python3",
+      "data/rcap-grade-a/packet-factory-24h/fix93/il-identity-caption-20260906/review-sources.py"
+    ],
+    "exitCode": 0,
+    "evidence": "source-review.json",
+    "timing": "executed before any packet edits or rebuilds"
+  },
+  {
+    "command": [
+      "python3",
+      "data/rcap-grade-a/packet-factory-24h/fix93/il-identity-caption-20260906/measure-repair.py"
+    ],
+    "exitCode": 0,
+    "evidence": "repair-measurements.json"
+  }
+]

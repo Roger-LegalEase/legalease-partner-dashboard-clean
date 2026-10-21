@@ -1,0 +1,63 @@
+{
+  "schemaVersion": "rcap-charge-caption-proof/v1",
+  "familyId": "id_clean_slate_shield-set",
+  "question": "Does any blank whose caption or field name names a charge, offence, count, statute or violation carry a participant name token in the rendered artifact bytes?",
+  "method": "Read back from the flattened appearance streams of each rendered fixture with scripts/rcap-official-forms/pdf-flattened-widgets.mjs, at each field's own measured widget rectangle.",
+  "consistentWith": "scripts/rcap-official-forms/verify-full-name-charge-caption-semantics.mjs",
+  "participantNameTokensSearchedFor": [
+    "Jordan Avery Reyes",
+    "Jordan",
+    "Avery",
+    "Reyes",
+    "Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III",
+    "Alexandrina",
+    "Katharine",
+    "Montgomery",
+    "Vandenberg",
+    "Oyelaran",
+    "Fitzwilliam"
+  ],
+  "chargeBlanksExamined": 2,
+  "chargeBlanksCarryingAParticipantName": 0,
+  "answer": "NO — no participant name lands in any charge-caption blank in any fixture",
+  "blanks": [
+    {
+      "document": "ISC-PETITION-TO-SHIELD-67-3004-11",
+      "fixture": "canonical",
+      "field": "a misdemeanor that is not assaultive or violent as listed in Idaho Code section",
+      "page": 1,
+      "rect": {
+        "x": 95.28,
+        "y": 277.8,
+        "width": 11.04,
+        "height": 11.04
+      },
+      "effectiveLabel": "1.The offense(s) that I petition to have shielded is eligibl",
+      "captionDescribesChargeValue": true,
+      "drawnText": null,
+      "participantNameTokensFound": []
+    },
+    {
+      "document": "ISC-PETITION-TO-SHIELD-67-3004-11",
+      "fixture": "boundary",
+      "field": "a misdemeanor that is not assaultive or violent as listed in Idaho Code section",
+      "page": 1,
+      "rect": {
+        "x": 95.28,
+        "y": 277.8,
+        "width": 11.04,
+        "height": 11.04
+      },
+      "effectiveLabel": "1.The offense(s) that I petition to have shielded is eligibl",
+      "captionDescribesChargeValue": true,
+      "drawnText": null,
+      "participantNameTokensFound": []
+    }
+  ],
+  "guardProjection": {
+    "question": "Applying the corpus guard's own offending-row test to this family's census: does any blank bind a writable participant.full_legal_name while its name or caption uses the charge vocabulary?",
+    "fieldsScanned": 13,
+    "offendingRows": 0,
+    "offending": []
+  }
+}

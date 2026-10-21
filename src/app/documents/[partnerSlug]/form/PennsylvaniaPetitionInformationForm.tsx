@@ -159,8 +159,8 @@ export function PennsylvaniaPetitionInformationForm({ partnerSlug, session }: { 
         <Check label="For a drug felony, was the sentence under 30 months?" checked={draft.sentenceUnderThirtyMonths} onChange={(sentenceUnderThirtyMonths) => setDraft({ ...draft, sentenceUnderThirtyMonths })} />
         <Check label="Successful ARD completion?" checked={draft.ardCompleted} onChange={(ardCompleted) => setDraft({ ...draft, ardCompleted })} />
         <Check label="Full gubernatorial pardon?" checked={draft.fullPardon} onChange={(fullPardon) => setDraft({ ...draft, fullPardon })} />
-        <Check label="Age 70 or older pathway?" checked={draft.ageSeventyOrOlder} onChange={(ageSeventyOrOlder) => setDraft({ ...draft, ageSeventyOrOlder })} />
-        <Check label="Deceased for 3 years pathway?" checked={draft.deceasedThreeYears} onChange={(deceasedThreeYears) => setDraft({ ...draft, deceasedThreeYears })} />
+        <Check label="Age 70 or older?" checked={draft.ageSeventyOrOlder} onChange={(ageSeventyOrOlder) => setDraft({ ...draft, ageSeventyOrOlder })} />
+        <Check label="Deceased for 3 years?" checked={draft.deceasedThreeYears} onChange={(deceasedThreeYears) => setDraft({ ...draft, deceasedThreeYears })} />
         <Check label="Possible automatic Clean Slate review?" checked={draft.cleanSlateAutomaticSignal} onChange={(cleanSlateAutomaticSignal) => setDraft({ ...draft, cleanSlateAutomaticSignal })} />
         <Check label="Excluded offense, sex registration, weapons, family, danger-to-person, federal, or out-of-state concern?" checked={draft.excludedOffenseSignal} onChange={(excludedOffenseSignal) => setDraft({ ...draft, excludedOffenseSignal })} />
         <Check label="Offense requires sex offender registration?" checked={draft.sexOffenderRegistrationSignal} onChange={(sexOffenderRegistrationSignal) => setDraft({ ...draft, sexOffenderRegistrationSignal })} />

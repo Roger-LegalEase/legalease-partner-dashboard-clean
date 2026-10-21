@@ -1,0 +1,69 @@
+{
+  "schemaVersion": "rcap-packet-repair-return/v1",
+  "lane": "FIX01",
+  "laneKind": "repair",
+  "baseSha": "8b60d15abc8e57836dace5cb20773b7358013e59",
+  "isIndependentVerification": false,
+  "rows": [
+    {
+      "itemId": "nh_petition_vacated-set",
+      "familyId": "nh_petition_vacated-set",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "correction": "Adopt settled source-bound NHJB-2886 fee motion and confidentiality rule; fill complete known neutral facts including name parts, city, full addresses and filer contact information; preserve actual certifications; format dates mm/dd/yyyy; disclose both-section/notarized requirements for mailed record requests; restore source-conditional optionality and remove internal guidance identifiers.",
+      "artifacts": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/nh/nh-petition-vacated-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "277c0be84797512220ff62a0af7eaf6290a5f388f3a35223938284a53448c8d4",
+          "byteLength": 208229
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/nh/nh-petition-vacated-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "219ea0df35f85495f4d14a69d4da30cbc9305a669d9a5be1b329ea5a97339c7c",
+          "byteLength": 209317
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/nh/nh-petition-vacated-set--official-pdf-fill/production-field-map.json",
+          "sha256": "d75f69dfcc807cfdcbcb9d587ea4a5973f272f46b9b1257cfb526f180ef0e42c",
+          "byteLength": 570121
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/nh/nh-petition-vacated-set--official-pdf-fill/participant-instructions.md",
+          "sha256": "a212eb1239c3c74fea0a9660c46d877e3875b2826b02a877950cd1a8775b5bd0",
+          "byteLength": 26149
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/nh/nh-petition-vacated-set--official-pdf-fill/reports/actual-writes.json",
+          "sha256": "4c98e1de7aca90666abf4e454d930bdc608f11c79f1aac53f9749275131080df",
+          "byteLength": 55344
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/nh/nh-petition-vacated-set--official-pdf-fill/source-receipt.json",
+          "sha256": "1ab58d2ca0e3c2912d40694b8c367b305a8cd4be03324e5411cbe2952d88459b",
+          "byteLength": 6990
+        }
+      ],
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": null
+      },
+      "rasterState": "BUILT_RASTER_PENDING",
+      "rasterManifest": "data/rcap-grade-a/packet-factory-24h/warp-20260912/nh-vacated-restart/raster-manifest.json",
+      "independentVerification": "PENDING: independent review of the seven previously identified semantic defects before raster dispatch.",
+      "tests": [
+        "Source dictionary check PASS: all four exact PDFs, including acquired NHJB-2886",
+        "Saved-byte tests PASS: 76 known appearances across both whole packets; separate pdfjs boundary-name and DOB decode",
+        "Focused packet completeness: 36/168, all eight nonvisual counters zero; visual acceptance unmeasured"
+      ],
+      "grantsNothing": "No terminal verdict, live route, commercial authority or raster acceptance."
+    }
+  ]
+}

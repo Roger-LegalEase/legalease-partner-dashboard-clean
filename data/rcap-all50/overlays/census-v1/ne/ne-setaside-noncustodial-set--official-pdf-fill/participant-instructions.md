@@ -1,0 +1,165 @@
+# Before you file: ne-setaside-noncustodial-set
+
+This packet is built for obligation:track-pathway:NE:ne-setaside-noncustodial:set-aside-probation-fine-community-service.
+
+Complete the applicable unresolved filing items below by hand before filing.
+The court type is filled from the known case information. Confirm the county
+against the existing case: the available county value could not be matched
+to an official county option, so no substitute is printed. These PDFs have no
+interactive form fields. CC 6:11a is an instruction sheet, not a filing to complete.
+
+**Where the county goes on the caption, and why it looks empty.** On the first
+line of every caption, between "COURT OF" and "COUNTY, NEBRASKA", there is a
+space for the county. DC 1:15 prints a ruled line there. CC 6:11 and CC 6:11.2
+print nothing at all — just blank space — so on those two pages there is no mark
+to show you where to write. Write the county in that space on all three.
+
+The official forms do carry a "Choose the county" prompt there, but only on a
+screen, in a drop-down control the form marks as not-for-printing. It is absent
+from this packet because it is absent from any printed copy of these forms.
+
+## Everything this route requires before filing
+
+These are the steps and the blanks the committed packet-set manifest declares for
+this route. Work through all of them before you file, not only the form blanks
+listed further down.
+
+- Check your answer to "What crime were you convicted of, exactly as it appears on the court papers?" against Nebraska State Patrol criminal history report, and correct the packet if they disagree.
+- Check your answer to "What is the case number on the original case?" against Nebraska court case search result, and correct the packet if they disagree.
+- Check your answer to "If you were on probation, did you complete the full term, or were you discharged early?" against Probation discharge order or notice of set-aside eligibility, and correct the packet if they disagree.
+- Signature and date on the petition — CC 6:11, signature block.
+- The date and judge lines on the proposed order — CC 6:11.2.
+- The hearing date, time, courtroom and judge on the notice of hearing — DC 1:15, district court cases only.
+- Signature on the certificate of service and mailing the copy to the prosecutor — DC 1:15, page two, district court cases only.
+- The petitioner signs and dates the petition, and signs the certificate of service where DC 1:15 applies.
+- none required on the face of the forms.
+- Not established. The statewide fee schedule carries no line item for a petition filed within an existing criminal case, so no figure may be shown to a participant.
+- Available in principle under Neb. Rev. Stat. § 25-2301.01, which reaches criminal cases in any county or state court. The official DC 6:7.1 form does not fit, which is recorded as a release blocker.
+
+## The blanks on these forms that you must complete
+
+Required before filing: 30 field(s).
+
+### CC-6-11
+
+- **The box to check ONLY if you cannot receive email — "By checking this box, I am letting the court know that I do not have the ability to receive emails." Leave it alone if you gave an email address.** `Check Box7` (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
+- **The county of the existing case, on the first line of the caption — the empty gap between "COURT OF" and "COUNTY, NEBRASKA". Nothing is printed in that gap; write the county there.** `DROPDOWNCOUNTY2` (page 1) — Confirm the county of the existing case and write it on the printed caption. The source offers 93 counties, but the held review value(s) "Example County", "Saint Bartholomew and the Northern Reaches County" match none of them; no substitute was selected. The delivered PDF is flattened and has no interactive dropdown.
+- **Why you cannot receive email, first line — the blank after "The reason I cannot receive email is:". Leave blank unless you checked the box above.** `noemailreason` (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
+- **Why you cannot receive email, second line. Leave blank unless you checked the box above.** `noemailreason2` (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
+- **The case number of the existing criminal case — the "Case No." blank at the top right of the caption.** `Text2` (page 1) — The platform holds this fact, but at this length the printed line cannot carry it at a legible size. Nothing is shortened or cut: the blank is left for you. Write it by hand, exactly as it appears on the court papers.
+- **The crime you were convicted of, exactly as it appears on the court papers — item 1, the blank after "I was convicted of", captioned "(Crime convicted of)".** `Text5` (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
+- **The date of the conviction — item 1, the blank on the following line, captioned "(Date of conviction)".** `Text6` (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
+### CC-6-11.2
+
+- **The county of the existing case, on the first line of the caption — the empty gap between "COURT OF" and "COUNTY, NEBRASKA". Nothing is printed in that gap; write the county there.** `DROPDOWNCOUNTY2` (page 1) — Confirm the county of the existing case and write it on the printed caption. The source offers 93 counties, but the held review value(s) "Example County", "Saint Bartholomew and the Northern Reaches County" match none of them; no substitute was selected. The delivered PDF is flattened and has no interactive dropdown.
+- **The case number of the existing criminal case — the "Case No." blank at the top right of the caption.** `Text2` (page 1) — The platform holds this fact, but at this length the printed line cannot carry it at a legible size. Nothing is shortened or cut: the blank is left for you. Write it by hand, exactly as it appears on the court papers.
+### DC-1-15
+
+- **The county of the existing case, on the first line of the caption — the empty gap between "COURT OF" and "COUNTY, NEBRASKA". Nothing is printed in that gap; write the county there.** `DROPDOWNCOUNTY2` (page 1) — Confirm the county of the existing case and write it on the printed caption. The source offers 93 counties, but the held review value(s) "Example County", "Saint Bartholomew and the Northern Reaches County" match none of them; no substitute was selected. The delivered PDF is flattened and has no interactive dropdown.
+- **The case number of the existing criminal case — the "Case No." blank at the top right of the caption.** `Text38` (page 1) — The platform holds this fact, but at this length the printed line cannot carry it at a legible size. Nothing is shortened or cut: the blank is left for you. Write it by hand, exactly as it appears on the court papers.
+- **What the hearing is on, first line — the blank after "You are hereby notified that a hearing on the".** `Text39` (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
+- **What the hearing is on, second line — the full-width blank underneath.** `Text40` (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
+- **The judge’s name — the blank after "will be heard before the Honorable". The bailiff gives you this.** `Text41` (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
+- **The court type on the hearing line — the blank in "Judge of the ______ Court of".** `Text43` (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
+- **The county where the hearing takes place — the blank after the court type and immediately before County on the hearing-location line. Confirm it with the bailiff.** `Text44` (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
+- **The courtroom number — the blank after "Courtroom No.". The bailiff gives you this.** `Text45` (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
+- **The courthouse floor — the short blank after on the and before floor of the. Confirm it with the bailiff.** `Text46` (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
+- **Which courthouse the hearing is in — the blank before "County Courthouse or Justice Center".** `Text47` (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
+- **The courthouse address — the blank at the end of that same line.** `Text48` (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
+- **The courthouse street and city line — the long blank before ", Nebraska".** `Text49` (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
+- **The hearing date — the blank after "Nebraska, on". The bailiff gives you this.** `Text50` (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
+- **The hearing time — the blank after "at". The bailiff gives you this.** `Text51` (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
+- **"a" or "p" for the hearing time — the one-letter blank immediately before ".m.".** `Text52` (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
+- **The printed rule under "To: Name:" — a line the form draws, not a blank.** `Text59.0` (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
+- **The "Address:" line in the "To:" block — the same physical blank as the address entry above it. Write the address once.** `Text60.0` (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
+- **The name of the person you are serving — the "To: Name:" line, beside the address line above.** `Text64` (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
+- **The address of the person you are serving — the "Address:" line in the "To:" block. In district court this is the prosecutor. The name line beside it is listed further down, under the blanks this packet does not fill; complete the whole block as "Who must receive a copy, and how" directs.** `Text65` (page 1) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
+- **The name of the person who actually mailed the notice — the first blank after I on page 2's Certificate of Service. Complete this certificate only after service has actually occurred.** `Text1` (page 2) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
+- **The actual date the notice was mailed — the blank after verify that on on page 2's Certificate of Service, captioned (date). Do not certify an act before it occurs.** `Text74` (page 2) — a participant or case fact the filing needs; the platform does not write it here and it must be supplied before filing
+
+
+Signature, signature date, and any certificate of mailing are deliberately left
+blank and are not listed here: you sign them, and a certificate of mailing is
+completed after mailing has happened.
+
+## Records and checks before filing
+
+Obtain Nebraska State Patrol criminal history report. Request a limited criminal history search through nebraska.gov. A small fee applies. The judiciary recommends using more than one record source because no single one is complete.
+
+Check your answer to "What crime were you convicted of, exactly as it appears on the court papers?" against Nebraska State Patrol criminal history report, and correct the packet if they disagree.
+
+Obtain Nebraska court case search result. Run a one-time case search on the Nebraska courts site. A small fee applies and it is incomplete on its own, which is why the judiciary recommends more than one source.
+
+Check your answer to "What is the case number on the original case?" against Nebraska court case search result, and correct the packet if they disagree.
+
+Obtain Probation discharge order or notice of set-aside eligibility. Ask the clerk or your probation officer. Neb. Rev. Stat. § 29-2263 requires the sentencing court and the probation officer to give notice of set-aside eligibility, so you may already have one.
+
+Check your answer to "If you were on probation, did you complete the full term, or were you discharged early?" against Probation discharge order or notice of set-aside eligibility, and correct the packet if they disagree.
+
+Signature and date on the petition — CC 6:11, signature block.
+
+The date and judge lines on the proposed order — CC 6:11.2.
+
+The hearing date, time, courtroom and judge on the notice of hearing — DC 1:15, district court cases only.
+
+Signature on the certificate of service and mailing the copy to the prosecutor — DC 1:15, page two, district court cases only.
+
+The petitioner signs and dates the petition, and signs the certificate of service where DC 1:15 applies.
+
+none required on the face of the forms.
+
+Not established. The statewide fee schedule carries no line item for a petition filed within an existing criminal case, so no figure may be shown to a participant.
+
+Available in principle under Neb. Rev. Stat. § 25-2301.01, which reaches criminal cases in any county or state court. The official DC 6:7.1 form does not fit, which is recorded as a release blocker.
+
+District court only: by mail on the prosecutor, evidenced by the certificate of service on page two of DC 1:15.
+
+File the petition and the proposed order in the existing criminal case with the clerk of the sentencing court.
+
+## Where you file this
+
+File the petition and the proposed order in the existing criminal case with the clerk of the sentencing court.
+
+Filed in the existing criminal case, in person, by mail, or by fax for a self-represented filer. In district court the participant obtains a hearing date from the judge's bailiff and then files DC 1:15 and gives a copy to the prosecutor; in county court the clerk schedules and mails notice.
+
+## What it costs, and what to do if you cannot pay
+
+Not established. The statewide fee schedule carries no line item for a petition filed within an existing criminal case, so no figure may be shown to a participant.
+
+Available in principle under Neb. Rev. Stat. § 25-2301.01, which reaches criminal cases in any county or state court. The official DC 6:7.1 form does not fit, which is recorded as a release blocker.
+
+Ask the clerk of the sentencing court what this filing costs and, if you cannot pay, how to apply for a waiver for this petition. This packet does not include a waiver form.
+
+## Who must receive a copy, and how
+
+In district court the participant serves the prosecutor with DC 1:15 and executes its certificate of service. In county court the clerk schedules the hearing and mails notice.
+
+District court only: by mail on the prosecutor, evidenced by the certificate of service on page two of DC 1:15.
+
+The petitioner signs and dates the petition, and signs the certificate of service where DC 1:15 applies.
+
+## Stop, and take this to a lawyer, if any of these is true
+
+- Any signal that the prosecutor opposes.
+- A denied petition, where the choice is between appeal and refiling.
+- Probation revoked or violated, or discharge on disputed terms.
+- A participant who wants the conviction vacated rather than set aside.
+- A participant whose real goal is firearm-rights restoration, which a set-aside does not achieve.
+- Any current or historical sex offender registration obligation.
+- Any immigration exposure, because a Nebraska set-aside has no federal effect and filing can surface a record.
+- A participant who needs representation at the hearing.
+- An out-of-state, federal or tribal record.
+
+## What this relief is, and is not
+
+Say SET ASIDE, never expunge, clear or erase. Neb. Rev. Stat. § 29-2264(5) nullifies the conviction and removes civil disabilities and disqualifications. It does not seal, erase or remove the record, and § 29-2264(6) lists the many purposes for which the conviction still counts.
+
+## Confirm what the filing court requires before you file
+
+**Local practice varies, and the Nebraska judiciary warns about it twice.** Before you file, ask the clerk of the court you are filing in — the county court or district court that imposed the sentence — what that court requires for this filing, and do what that clerk tells you the court requires.
+
+This is the packet's local-rules check: component `ne-setaside-noncustodial-local-rules-check-6` of the committed packet-set manifest, role local_rules_check, requirement required, delivered as process guidance because the manifest gives it no form to fill. It carries the committed legal-design memo's own words for that component — data/record-clearing/legal-design-intake/NE.memo.json, track ne-setaside-noncustodial, components[5]: "The judiciary warns twice that local practice varies. The packet tells the participant to confirm with the clerk what that court requires before filing." Nothing beyond that is stated here, because the memo states nothing beyond it.
+
+## Where these answers come from
+
+Every statement in this packet's guidance is grounded in the committed NE noncustodial set-aside track record and the exact official forms bound below; no custodial-route facts are imported.

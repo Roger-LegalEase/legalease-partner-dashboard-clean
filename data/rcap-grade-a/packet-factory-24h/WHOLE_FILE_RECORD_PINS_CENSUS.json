@@ -1,0 +1,733 @@
+{
+ "schemaVersion": "rcap-whole-file-record-pins-census/v1",
+ "generatedBy": "Captain, naming the exact call sites rather than proposing a national redesign",
+ "generatedAt": "2026-09-10T12:57:36.373Z",
+ "atCommit": "3a3d0f140cd882a1cf1ac68d47fa52d161aed6d0",
+ "theFinding": "A family's source-receipt pins a shared national record by WHOLE-FILE sha256. Those records are mutable and edited constantly, so a pin goes stale on every edit -- including edits that touch no entry the family reads.",
+ "whoFoundIt": {
+  "FIX145": "the same pin went stale TWICE IN FIVE DAYS on legal-design-packet-set-manifests.json, and no counter reported either time. It proved its own re-pin safe by comparing all 497 packetSets entries between the anchored blob and its base: 6 differ, none of its families.",
+  "FIX146": "three COMPLETE_PACKET_PROVEN Louisiana families pin five, five and two committed records -- including LA.memo.json and the track registry, the records their own eligibility recitals are generated from -- at digests no longer in the tree.",
+  "andMine": "SHARED_LEDGER_CANNOT_BE_PINNED_BY_WHOLE_FILE_DIGEST.json recorded the shape; this is the census."
+ },
+ "census": {
+  "wholeFileRecordPinsInSourceReceipts": 153,
+  "bindingTheDigestTheFileHasNow": 70,
+  "bindingADigestTheFileNoLongerHas": 83,
+  "distinctFamiliesWithAtLeastOneStalePin": 32,
+  "method": "walk every data/rcap-all50/overlays/census-v1/*/*/source-receipt.json, take every {path, sha256} pair naming a file under data/, hash that file at this commit, compare."
+ },
+ "theTwoRecordsThatAccountForMostOfIt": {
+  "data/record-clearing/legal-design-packet-set-manifests.json": 23,
+  "data/record-clearing/legal-design-track-registry.json": 21,
+  "whyTheyDominate": "Both are national records holding every jurisdiction's entries in one file. An edit for one state stales the pin of every family in every other state."
+ },
+ "whatThisDoesNOTEstablish": [
+  "That any family was built against the wrong record. A stale whole-file pin is consistent with the family's own entry never having changed -- which is exactly what FIX145 proved for the two families it repaired.",
+  "That any packet is defective. Not one byte of any delivered document is read by this census.",
+  "A remedy. Re-anchoring pins one family at a time is the treadmill FIX145 named, and re-pointing them all at current digests would destroy the only evidence that anything changed."
+ ],
+ "whatItIsFor": "Naming the exact call sites, so a bounded repair can use the existing identityRefresh mechanism on them rather than a new framework. The repair is per call site: compare the family's OWN entry between the pinned state and the candidate, refresh identity only where that equivalence is proven, and leave a material change failing.",
+ "byRecord": {
+  "data/record-clearing/legal-design-track-registry.json": [
+   "nh-petition-vacated-set--official-pdf-fill",
+   "nh-marijuana-annulment-set--official-pdf-fill",
+   "nh-conviction-standard-set--official-pdf-fill",
+   "nh-petition-nonconviction-pre2019-set--official-pdf-fill",
+   "ne-seal-pre2017-set--official-pdf-fill",
+   "nm-release-without-conviction-set--official-pdf-fill",
+   "la-987-set-aside-and-dismiss-set--official-pdf-fill",
+   "fl-10yr-bridge-set--official-pdf-fill",
+   "fl-self-defense-set--official-pdf-fill",
+   "va-seal-enumerated-seven-year-set--official-pdf-fill",
+   "va-seal-enumerated-seven-year-set--official-pdf-fill",
+   "va-seal-enumerated-seven-year-set--official-pdf-fill",
+   "va-seal-petition-felony-set--official-pdf-fill",
+   "va-seal-petition-felony-set--official-pdf-fill",
+   "va-seal-petition-felony-set--official-pdf-fill",
+   "va-seal-petition-misdemeanor-set--official-pdf-fill",
+   "va-seal-petition-misdemeanor-set--official-pdf-fill",
+   "va-seal-petition-misdemeanor-set--official-pdf-fill",
+   "va-seal-ancillary-matter-only-set--official-pdf-fill",
+   "va-seal-ancillary-matter-only-set--official-pdf-fill",
+   "va-seal-ancillary-matter-only-set--official-pdf-fill"
+  ],
+  "data/record-clearing/legal-design-packet-set-manifests.json": [
+   "nh-petition-vacated-set--official-pdf-fill",
+   "ri-marijuana-set--custom-pleading",
+   "ne-expunge-le-error-set--custom-pleading",
+   "ms-nonconv-set--custom-pleading",
+   "ms-misd-1st-set--custom-pleading",
+   "nm-release-without-conviction-set--official-pdf-fill",
+   "la-987-set-aside-and-dismiss-set--official-pdf-fill",
+   "me-nonconv-set--custom-pleading",
+   "fl-10yr-bridge-set--official-pdf-fill",
+   "ky-criminal-record-segregation-set--custom-pleading",
+   "vt-seal-under-25-set--custom-pleading",
+   "vt-exp-deferred-sentence-set--custom-pleading",
+   "ct-under18-misdemeanor-set--custom-pleading",
+   "ct-pardon-erasure-set--custom-pleading",
+   "nd-deferred-imposition-records-set--custom-pleading",
+   "va-seal-enumerated-seven-year-set--official-pdf-fill",
+   "va-seal-enumerated-seven-year-set--official-pdf-fill",
+   "va-seal-petition-felony-set--official-pdf-fill",
+   "va-seal-petition-felony-set--official-pdf-fill",
+   "va-seal-petition-misdemeanor-set--official-pdf-fill",
+   "va-seal-petition-misdemeanor-set--official-pdf-fill",
+   "va-seal-ancillary-matter-only-set--official-pdf-fill",
+   "va-seal-ancillary-matter-only-set--official-pdf-fill"
+  ],
+  "data/record-clearing/legal-design-intake/NH.memo.json": [
+   "nh-petition-nonconviction-pre2019-set--official-pdf-fill"
+  ],
+  "data/record-clearing/legal-design-intake/RI.memo.json": [
+   "ri-marijuana-set--custom-pleading"
+  ],
+  "data/record-clearing/legal-design-intake/NE.memo.json": [
+   "ne-expunge-le-error-set--custom-pleading"
+  ],
+  "data/record-clearing/legal-design-intake/MS.memo.json": [
+   "ms-misd-1st-set--custom-pleading"
+  ],
+  "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": [
+   "nm-dna-sample-profile-expungement--agency-application",
+   "agency-application-treatment:obligation:runtime-only:nm:dna-sample-profile-expungement--official-pdf-fill",
+   "la-987-set-aside-and-dismiss-set--official-pdf-fill",
+   "fl-administrative-set--official-pdf-fill",
+   "al-uncharged-arrest-record-challenge--agency-application",
+   "agency-application-treatment:obligation:research-decision-route:al:al-uncharged-arrest:agency-record-challenge--official-pdf-fill",
+   "ct-absolute-pardon--agency-application",
+   "ct-destruction-request--agency-application",
+   "ct-provisional-pardon--agency-application",
+   "va-seal-enumerated-seven-year-set--official-pdf-fill",
+   "va-seal-petition-felony-set--official-pdf-fill",
+   "va-seal-petition-misdemeanor-set--official-pdf-fill",
+   "va-seal-ancillary-matter-only-set--official-pdf-fill"
+  ],
+  "data/record-clearing/legal-design-intake/LA.memo.json": [
+   "la-987-set-aside-and-dismiss-set--official-pdf-fill"
+  ],
+  "data/record-clearing/legal-design-specifications.json": [
+   "la-987-set-aside-and-dismiss-set--official-pdf-fill"
+  ],
+  "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json": [
+   "fl-administrative-set--official-pdf-fill"
+  ],
+  "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json": [
+   "fl-administrative-set--official-pdf-fill"
+  ],
+  "data/record-clearing/legal-design-intake/KY.memo.json": [
+   "ky-criminal-record-segregation-set--custom-pleading"
+  ],
+  "data/rcap-all50/local-source-corpus-index.json": [
+   "al-uncharged-arrest-record-challenge--agency-application",
+   "ct-absolute-pardon--agency-application",
+   "ct-provisional-pardon--agency-application"
+  ],
+  "data/record-clearing/legal-design-intake/VT.memo.json": [
+   "vt-seal-under-25-set--custom-pleading",
+   "vt-exp-deferred-sentence-set--custom-pleading"
+  ],
+  "data/rcap-ledger/completed-output-counsel-manifest.json": [
+   "ct-absolute-pardon--agency-application",
+   "ct-destruction-request--agency-application",
+   "ct-provisional-pardon--agency-application"
+  ],
+  "data/record-clearing/legal-design-intake/ND.memo.json": [
+   "nd-deferred-imposition-records-set--custom-pleading"
+  ],
+  "data/record-clearing/legal-design-intake/VA.memo.json": [
+   "va-seal-enumerated-seven-year-set--official-pdf-fill",
+   "va-seal-enumerated-seven-year-set--official-pdf-fill",
+   "va-seal-petition-felony-set--official-pdf-fill",
+   "va-seal-petition-felony-set--official-pdf-fill",
+   "va-seal-petition-misdemeanor-set--official-pdf-fill",
+   "va-seal-petition-misdemeanor-set--official-pdf-fill",
+   "va-seal-ancillary-matter-only-set--official-pdf-fill",
+   "va-seal-ancillary-matter-only-set--official-pdf-fill"
+  ]
+ },
+ "stalePins": [
+  {
+   "family": "nh-petition-vacated-set--official-pdf-fill",
+   "record": "data/record-clearing/legal-design-track-registry.json",
+   "pinned": "8e98a1f66045176a082c6b6a454a4bc28289e755b69ca2406a7e559cae0a0de1",
+   "actual": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+   "matches": false
+  },
+  {
+   "family": "nh-petition-vacated-set--official-pdf-fill",
+   "record": "data/record-clearing/legal-design-packet-set-manifests.json",
+   "pinned": "6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec",
+   "actual": "80b5e071055469b6f1aa84e80accd9e8bcc15e00ed3b7b778ba48a0ff85d8bd7",
+   "matches": false
+  },
+  {
+   "family": "nh-marijuana-annulment-set--official-pdf-fill",
+   "record": "data/record-clearing/legal-design-track-registry.json",
+   "pinned": "555e5700c049608b0766cc7f5f65adfa748bbd32fae790d2220652bf08b958dc",
+   "actual": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+   "matches": false
+  },
+  {
+   "family": "nh-conviction-standard-set--official-pdf-fill",
+   "record": "data/record-clearing/legal-design-track-registry.json",
+   "pinned": "555e5700c049608b0766cc7f5f65adfa748bbd32fae790d2220652bf08b958dc",
+   "actual": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+   "matches": false
+  },
+  {
+   "family": "nh-petition-nonconviction-pre2019-set--official-pdf-fill",
+   "record": "data/record-clearing/legal-design-intake/NH.memo.json",
+   "pinned": "6f85d27d53ecaaaff93fcacf069338bbb981123002636ee1e80fa98e41fe57c0",
+   "actual": "53aa8d1cb86bee12bdf7f94853beaa7139213dab365d33c2939ff6959bfac199",
+   "matches": false
+  },
+  {
+   "family": "nh-petition-nonconviction-pre2019-set--official-pdf-fill",
+   "record": "data/record-clearing/legal-design-track-registry.json",
+   "pinned": "232466b66958cea78b6595cbbe4824f08216de42516d4afcef17f698140719ee",
+   "actual": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+   "matches": false
+  },
+  {
+   "family": "ri-marijuana-set--custom-pleading",
+   "record": "data/record-clearing/legal-design-intake/RI.memo.json",
+   "pinned": "918bdea81d68d75e072b8034dc22ba2cce0d6c86451c9ebdc3607b1225cfd62f",
+   "actual": "dfd9d6cd3f131505e2e23165ed176b630edc88c74a1063b5b71041b93a32d677",
+   "matches": false
+  },
+  {
+   "family": "ri-marijuana-set--custom-pleading",
+   "record": "data/record-clearing/legal-design-packet-set-manifests.json",
+   "pinned": "6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec",
+   "actual": "80b5e071055469b6f1aa84e80accd9e8bcc15e00ed3b7b778ba48a0ff85d8bd7",
+   "matches": false
+  },
+  {
+   "family": "ne-expunge-le-error-set--custom-pleading",
+   "record": "data/record-clearing/legal-design-intake/NE.memo.json",
+   "pinned": "4947fbc90c3b3733175a4d4c3d8758dcc85dd47219c9d5045ae55186ea99f7eb",
+   "actual": "46103ae8848c7459ad921b38e72c8d19a38598b86bbf18a839d9d16236157750",
+   "matches": false
+  },
+  {
+   "family": "ne-expunge-le-error-set--custom-pleading",
+   "record": "data/record-clearing/legal-design-packet-set-manifests.json",
+   "pinned": "6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec",
+   "actual": "80b5e071055469b6f1aa84e80accd9e8bcc15e00ed3b7b778ba48a0ff85d8bd7",
+   "matches": false
+  },
+  {
+   "family": "ne-seal-pre2017-set--official-pdf-fill",
+   "record": "data/record-clearing/legal-design-track-registry.json",
+   "pinned": "555e5700c049608b0766cc7f5f65adfa748bbd32fae790d2220652bf08b958dc",
+   "actual": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+   "matches": false
+  },
+  {
+   "family": "ms-nonconv-set--custom-pleading",
+   "record": "data/record-clearing/legal-design-packet-set-manifests.json",
+   "pinned": "6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec",
+   "actual": "80b5e071055469b6f1aa84e80accd9e8bcc15e00ed3b7b778ba48a0ff85d8bd7",
+   "matches": false
+  },
+  {
+   "family": "ms-misd-1st-set--custom-pleading",
+   "record": "data/record-clearing/legal-design-intake/MS.memo.json",
+   "pinned": "6982ae0c69373c196b763c84ebd8f8ff85ce1a6954a2806953591f82ff7845f2",
+   "actual": "01c4a9586cf2eeae96b3da17437bb407e1e70f042a0a0785ace5353802022bb2",
+   "matches": false
+  },
+  {
+   "family": "ms-misd-1st-set--custom-pleading",
+   "record": "data/record-clearing/legal-design-packet-set-manifests.json",
+   "pinned": "6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec",
+   "actual": "80b5e071055469b6f1aa84e80accd9e8bcc15e00ed3b7b778ba48a0ff85d8bd7",
+   "matches": false
+  },
+  {
+   "family": "nm-dna-sample-profile-expungement--agency-application",
+   "record": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+   "pinned": "e881e8493e694cfcc99f714cbdcfc0424cab8c4a7d22b3e3a9913daab6816ab2",
+   "actual": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
+   "matches": false
+  },
+  {
+   "family": "agency-application-treatment:obligation:runtime-only:nm:dna-sample-profile-expungement--official-pdf-fill",
+   "record": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+   "pinned": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
+   "actual": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
+   "matches": false
+  },
+  {
+   "family": "nm-release-without-conviction-set--official-pdf-fill",
+   "record": "data/record-clearing/legal-design-packet-set-manifests.json",
+   "pinned": "6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec",
+   "actual": "80b5e071055469b6f1aa84e80accd9e8bcc15e00ed3b7b778ba48a0ff85d8bd7",
+   "matches": false
+  },
+  {
+   "family": "nm-release-without-conviction-set--official-pdf-fill",
+   "record": "data/record-clearing/legal-design-track-registry.json",
+   "pinned": "232466b66958cea78b6595cbbe4824f08216de42516d4afcef17f698140719ee",
+   "actual": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+   "matches": false
+  },
+  {
+   "family": "la-987-set-aside-and-dismiss-set--official-pdf-fill",
+   "record": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+   "pinned": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
+   "actual": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
+   "matches": false
+  },
+  {
+   "family": "la-987-set-aside-and-dismiss-set--official-pdf-fill",
+   "record": "data/record-clearing/legal-design-intake/LA.memo.json",
+   "pinned": "8d834f459d38b5c7fca9d2460aa9e1665d0339f50e22466b25b07d42dd504d10",
+   "actual": "bbd6497c15755f5e103173ed7ddafb7c26f3a6fec3bf32c445926e178ddc699a",
+   "matches": false
+  },
+  {
+   "family": "la-987-set-aside-and-dismiss-set--official-pdf-fill",
+   "record": "data/record-clearing/legal-design-track-registry.json",
+   "pinned": "232466b66958cea78b6595cbbe4824f08216de42516d4afcef17f698140719ee",
+   "actual": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+   "matches": false
+  },
+  {
+   "family": "la-987-set-aside-and-dismiss-set--official-pdf-fill",
+   "record": "data/record-clearing/legal-design-specifications.json",
+   "pinned": "f66ce335d73a879352e4d3cd2b0d906229b686c9e260ba7d4ca396f16cc0445e",
+   "actual": "10b02286702b27a3392530b6435ce3495614a194abc21560939ced0c5d082792",
+   "matches": false
+  },
+  {
+   "family": "la-987-set-aside-and-dismiss-set--official-pdf-fill",
+   "record": "data/record-clearing/legal-design-packet-set-manifests.json",
+   "pinned": "6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec",
+   "actual": "80b5e071055469b6f1aa84e80accd9e8bcc15e00ed3b7b778ba48a0ff85d8bd7",
+   "matches": false
+  },
+  {
+   "family": "me-nonconv-set--custom-pleading",
+   "record": "data/record-clearing/legal-design-packet-set-manifests.json",
+   "pinned": "6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec",
+   "actual": "80b5e071055469b6f1aa84e80accd9e8bcc15e00ed3b7b778ba48a0ff85d8bd7",
+   "matches": false
+  },
+  {
+   "family": "fl-administrative-set--official-pdf-fill",
+   "record": "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json",
+   "pinned": "cda4420e55b6d0604bf24e1e4624ba8258cf769456e3a5545af65ca9626701c3",
+   "actual": "a5c912e7e2d472f3d2b7357cf405ecf317da3d9221563e23ca0f089eb4b9756a",
+   "matches": false
+  },
+  {
+   "family": "fl-administrative-set--official-pdf-fill",
+   "record": "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+   "pinned": "18ef72bca1d649fe0010f14a8e13bcfb9e19b77de2155b7f4daa53342c731559",
+   "actual": "ec2c584b55b070780f2b8ac263b41457ebb1f263c787186acc484556cba6f44a",
+   "matches": false
+  },
+  {
+   "family": "fl-administrative-set--official-pdf-fill",
+   "record": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+   "pinned": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
+   "actual": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
+   "matches": false
+  },
+  {
+   "family": "fl-10yr-bridge-set--official-pdf-fill",
+   "record": "data/record-clearing/legal-design-track-registry.json",
+   "pinned": "232466b66958cea78b6595cbbe4824f08216de42516d4afcef17f698140719ee",
+   "actual": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+   "matches": false
+  },
+  {
+   "family": "fl-10yr-bridge-set--official-pdf-fill",
+   "record": "data/record-clearing/legal-design-packet-set-manifests.json",
+   "pinned": "6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec",
+   "actual": "80b5e071055469b6f1aa84e80accd9e8bcc15e00ed3b7b778ba48a0ff85d8bd7",
+   "matches": false
+  },
+  {
+   "family": "fl-self-defense-set--official-pdf-fill",
+   "record": "data/record-clearing/legal-design-track-registry.json",
+   "pinned": "555e5700c049608b0766cc7f5f65adfa748bbd32fae790d2220652bf08b958dc",
+   "actual": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+   "matches": false
+  },
+  {
+   "family": "ky-criminal-record-segregation-set--custom-pleading",
+   "record": "data/record-clearing/legal-design-intake/KY.memo.json",
+   "pinned": "2328bbcbf8eca7e74772761b22d79e9d99de75e8d50222c4f513e952bafeeb19",
+   "actual": "157d7de303a0d14bb7232575c34856e1f15ee7a3ffa9cf267cd65b79e4ccd8c2",
+   "matches": false
+  },
+  {
+   "family": "ky-criminal-record-segregation-set--custom-pleading",
+   "record": "data/record-clearing/legal-design-packet-set-manifests.json",
+   "pinned": "6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec",
+   "actual": "80b5e071055469b6f1aa84e80accd9e8bcc15e00ed3b7b778ba48a0ff85d8bd7",
+   "matches": false
+  },
+  {
+   "family": "al-uncharged-arrest-record-challenge--agency-application",
+   "record": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+   "pinned": "e881e8493e694cfcc99f714cbdcfc0424cab8c4a7d22b3e3a9913daab6816ab2",
+   "actual": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
+   "matches": false
+  },
+  {
+   "family": "al-uncharged-arrest-record-challenge--agency-application",
+   "record": "data/rcap-all50/local-source-corpus-index.json",
+   "pinned": "59fb63edc571e8cba54f28c983d8b62add9fdc77a642d82d203f53c5cd16dd6a",
+   "actual": "e46a0ab38539a6f36ce476ce7b37002add3a3dac1af713089b447148584cf472",
+   "matches": false
+  },
+  {
+   "family": "agency-application-treatment:obligation:research-decision-route:al:al-uncharged-arrest:agency-record-challenge--official-pdf-fill",
+   "record": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+   "pinned": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
+   "actual": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
+   "matches": false
+  },
+  {
+   "family": "vt-seal-under-25-set--custom-pleading",
+   "record": "data/record-clearing/legal-design-intake/VT.memo.json",
+   "pinned": "4bcd3fa16e73781234c2ebaabbd24e20dc25967049a86c66b6064aaa25fab079",
+   "actual": "c274dbd6b586ed619d3e49ae0062d7e3de652d72c9f12e53a4fa5524df80769c",
+   "matches": false
+  },
+  {
+   "family": "vt-seal-under-25-set--custom-pleading",
+   "record": "data/record-clearing/legal-design-packet-set-manifests.json",
+   "pinned": "6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec",
+   "actual": "80b5e071055469b6f1aa84e80accd9e8bcc15e00ed3b7b778ba48a0ff85d8bd7",
+   "matches": false
+  },
+  {
+   "family": "vt-exp-deferred-sentence-set--custom-pleading",
+   "record": "data/record-clearing/legal-design-intake/VT.memo.json",
+   "pinned": "4bcd3fa16e73781234c2ebaabbd24e20dc25967049a86c66b6064aaa25fab079",
+   "actual": "c274dbd6b586ed619d3e49ae0062d7e3de652d72c9f12e53a4fa5524df80769c",
+   "matches": false
+  },
+  {
+   "family": "vt-exp-deferred-sentence-set--custom-pleading",
+   "record": "data/record-clearing/legal-design-packet-set-manifests.json",
+   "pinned": "6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec",
+   "actual": "80b5e071055469b6f1aa84e80accd9e8bcc15e00ed3b7b778ba48a0ff85d8bd7",
+   "matches": false
+  },
+  {
+   "family": "ct-under18-misdemeanor-set--custom-pleading",
+   "record": "data/record-clearing/legal-design-packet-set-manifests.json",
+   "pinned": "6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec",
+   "actual": "80b5e071055469b6f1aa84e80accd9e8bcc15e00ed3b7b778ba48a0ff85d8bd7",
+   "matches": false
+  },
+  {
+   "family": "ct-absolute-pardon--agency-application",
+   "record": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+   "pinned": "e881e8493e694cfcc99f714cbdcfc0424cab8c4a7d22b3e3a9913daab6816ab2",
+   "actual": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
+   "matches": false
+  },
+  {
+   "family": "ct-absolute-pardon--agency-application",
+   "record": "data/rcap-ledger/completed-output-counsel-manifest.json",
+   "pinned": "99e8029120d705df8970d0deba651a95b00f4b81097c46a28ac8d0e128f8c93c",
+   "actual": "fbf9bfef239f466ef6d2c685b17edce724acc8389bf051b8754f709925771e56",
+   "matches": false
+  },
+  {
+   "family": "ct-absolute-pardon--agency-application",
+   "record": "data/rcap-all50/local-source-corpus-index.json",
+   "pinned": "59fb63edc571e8cba54f28c983d8b62add9fdc77a642d82d203f53c5cd16dd6a",
+   "actual": "e46a0ab38539a6f36ce476ce7b37002add3a3dac1af713089b447148584cf472",
+   "matches": false
+  },
+  {
+   "family": "ct-pardon-erasure-set--custom-pleading",
+   "record": "data/record-clearing/legal-design-packet-set-manifests.json",
+   "pinned": "6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec",
+   "actual": "80b5e071055469b6f1aa84e80accd9e8bcc15e00ed3b7b778ba48a0ff85d8bd7",
+   "matches": false
+  },
+  {
+   "family": "ct-destruction-request--agency-application",
+   "record": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+   "pinned": "e881e8493e694cfcc99f714cbdcfc0424cab8c4a7d22b3e3a9913daab6816ab2",
+   "actual": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
+   "matches": false
+  },
+  {
+   "family": "ct-destruction-request--agency-application",
+   "record": "data/rcap-ledger/completed-output-counsel-manifest.json",
+   "pinned": "99e8029120d705df8970d0deba651a95b00f4b81097c46a28ac8d0e128f8c93c",
+   "actual": "fbf9bfef239f466ef6d2c685b17edce724acc8389bf051b8754f709925771e56",
+   "matches": false
+  },
+  {
+   "family": "ct-provisional-pardon--agency-application",
+   "record": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+   "pinned": "e881e8493e694cfcc99f714cbdcfc0424cab8c4a7d22b3e3a9913daab6816ab2",
+   "actual": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
+   "matches": false
+  },
+  {
+   "family": "ct-provisional-pardon--agency-application",
+   "record": "data/rcap-ledger/completed-output-counsel-manifest.json",
+   "pinned": "99e8029120d705df8970d0deba651a95b00f4b81097c46a28ac8d0e128f8c93c",
+   "actual": "fbf9bfef239f466ef6d2c685b17edce724acc8389bf051b8754f709925771e56",
+   "matches": false
+  },
+  {
+   "family": "ct-provisional-pardon--agency-application",
+   "record": "data/rcap-all50/local-source-corpus-index.json",
+   "pinned": "59fb63edc571e8cba54f28c983d8b62add9fdc77a642d82d203f53c5cd16dd6a",
+   "actual": "e46a0ab38539a6f36ce476ce7b37002add3a3dac1af713089b447148584cf472",
+   "matches": false
+  },
+  {
+   "family": "nd-deferred-imposition-records-set--custom-pleading",
+   "record": "data/record-clearing/legal-design-intake/ND.memo.json",
+   "pinned": "b39b420c37ac318ca070cb13eaf402ece23d6af90755827bba0647410276e8a0",
+   "actual": "ed7115190428a940d401d97614df85bcc17c1f511b807cf2cda7b8b462d231c3",
+   "matches": false
+  },
+  {
+   "family": "nd-deferred-imposition-records-set--custom-pleading",
+   "record": "data/record-clearing/legal-design-packet-set-manifests.json",
+   "pinned": "6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec",
+   "actual": "80b5e071055469b6f1aa84e80accd9e8bcc15e00ed3b7b778ba48a0ff85d8bd7",
+   "matches": false
+  },
+  {
+   "family": "va-seal-enumerated-seven-year-set--official-pdf-fill",
+   "record": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+   "pinned": "b5716364a5c4243fe6489fe1f67cfdab0201a9b38cb8c5856db625493679164a",
+   "actual": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
+   "matches": false
+  },
+  {
+   "family": "va-seal-enumerated-seven-year-set--official-pdf-fill",
+   "record": "data/record-clearing/legal-design-intake/VA.memo.json",
+   "pinned": "d1900eb5282f082c0d30f78d3071c75f0ecc477c295e29e430bbb978eb9d0e66",
+   "actual": "32269fdc2343984a09356aa45d87b8789bb323bacd16e49ae6bbe1bc6471ab3b",
+   "matches": false
+  },
+  {
+   "family": "va-seal-enumerated-seven-year-set--official-pdf-fill",
+   "record": "data/record-clearing/legal-design-packet-set-manifests.json",
+   "pinned": "6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec",
+   "actual": "80b5e071055469b6f1aa84e80accd9e8bcc15e00ed3b7b778ba48a0ff85d8bd7",
+   "matches": false
+  },
+  {
+   "family": "va-seal-enumerated-seven-year-set--official-pdf-fill",
+   "record": "data/record-clearing/legal-design-track-registry.json",
+   "pinned": "232466b66958cea78b6595cbbe4824f08216de42516d4afcef17f698140719ee",
+   "actual": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+   "matches": false
+  },
+  {
+   "family": "va-seal-enumerated-seven-year-set--official-pdf-fill",
+   "record": "data/record-clearing/legal-design-intake/VA.memo.json",
+   "pinned": "d1900eb5282f082c0d30f78d3071c75f0ecc477c295e29e430bbb978eb9d0e66",
+   "actual": "32269fdc2343984a09356aa45d87b8789bb323bacd16e49ae6bbe1bc6471ab3b",
+   "matches": false
+  },
+  {
+   "family": "va-seal-enumerated-seven-year-set--official-pdf-fill",
+   "record": "data/record-clearing/legal-design-track-registry.json",
+   "pinned": "232466b66958cea78b6595cbbe4824f08216de42516d4afcef17f698140719ee",
+   "actual": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+   "matches": false
+  },
+  {
+   "family": "va-seal-enumerated-seven-year-set--official-pdf-fill",
+   "record": "data/record-clearing/legal-design-packet-set-manifests.json",
+   "pinned": "6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec",
+   "actual": "80b5e071055469b6f1aa84e80accd9e8bcc15e00ed3b7b778ba48a0ff85d8bd7",
+   "matches": false
+  },
+  {
+   "family": "va-seal-enumerated-seven-year-set--official-pdf-fill",
+   "record": "data/record-clearing/legal-design-track-registry.json",
+   "pinned": "232466b66958cea78b6595cbbe4824f08216de42516d4afcef17f698140719ee",
+   "actual": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+   "matches": false
+  },
+  {
+   "family": "va-seal-petition-felony-set--official-pdf-fill",
+   "record": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+   "pinned": "b5716364a5c4243fe6489fe1f67cfdab0201a9b38cb8c5856db625493679164a",
+   "actual": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
+   "matches": false
+  },
+  {
+   "family": "va-seal-petition-felony-set--official-pdf-fill",
+   "record": "data/record-clearing/legal-design-intake/VA.memo.json",
+   "pinned": "d1900eb5282f082c0d30f78d3071c75f0ecc477c295e29e430bbb978eb9d0e66",
+   "actual": "32269fdc2343984a09356aa45d87b8789bb323bacd16e49ae6bbe1bc6471ab3b",
+   "matches": false
+  },
+  {
+   "family": "va-seal-petition-felony-set--official-pdf-fill",
+   "record": "data/record-clearing/legal-design-packet-set-manifests.json",
+   "pinned": "6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec",
+   "actual": "80b5e071055469b6f1aa84e80accd9e8bcc15e00ed3b7b778ba48a0ff85d8bd7",
+   "matches": false
+  },
+  {
+   "family": "va-seal-petition-felony-set--official-pdf-fill",
+   "record": "data/record-clearing/legal-design-track-registry.json",
+   "pinned": "232466b66958cea78b6595cbbe4824f08216de42516d4afcef17f698140719ee",
+   "actual": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+   "matches": false
+  },
+  {
+   "family": "va-seal-petition-felony-set--official-pdf-fill",
+   "record": "data/record-clearing/legal-design-intake/VA.memo.json",
+   "pinned": "d1900eb5282f082c0d30f78d3071c75f0ecc477c295e29e430bbb978eb9d0e66",
+   "actual": "32269fdc2343984a09356aa45d87b8789bb323bacd16e49ae6bbe1bc6471ab3b",
+   "matches": false
+  },
+  {
+   "family": "va-seal-petition-felony-set--official-pdf-fill",
+   "record": "data/record-clearing/legal-design-track-registry.json",
+   "pinned": "232466b66958cea78b6595cbbe4824f08216de42516d4afcef17f698140719ee",
+   "actual": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+   "matches": false
+  },
+  {
+   "family": "va-seal-petition-felony-set--official-pdf-fill",
+   "record": "data/record-clearing/legal-design-packet-set-manifests.json",
+   "pinned": "6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec",
+   "actual": "80b5e071055469b6f1aa84e80accd9e8bcc15e00ed3b7b778ba48a0ff85d8bd7",
+   "matches": false
+  },
+  {
+   "family": "va-seal-petition-felony-set--official-pdf-fill",
+   "record": "data/record-clearing/legal-design-track-registry.json",
+   "pinned": "232466b66958cea78b6595cbbe4824f08216de42516d4afcef17f698140719ee",
+   "actual": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+   "matches": false
+  },
+  {
+   "family": "va-seal-petition-misdemeanor-set--official-pdf-fill",
+   "record": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+   "pinned": "b5716364a5c4243fe6489fe1f67cfdab0201a9b38cb8c5856db625493679164a",
+   "actual": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
+   "matches": false
+  },
+  {
+   "family": "va-seal-petition-misdemeanor-set--official-pdf-fill",
+   "record": "data/record-clearing/legal-design-intake/VA.memo.json",
+   "pinned": "d1900eb5282f082c0d30f78d3071c75f0ecc477c295e29e430bbb978eb9d0e66",
+   "actual": "32269fdc2343984a09356aa45d87b8789bb323bacd16e49ae6bbe1bc6471ab3b",
+   "matches": false
+  },
+  {
+   "family": "va-seal-petition-misdemeanor-set--official-pdf-fill",
+   "record": "data/record-clearing/legal-design-packet-set-manifests.json",
+   "pinned": "6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec",
+   "actual": "80b5e071055469b6f1aa84e80accd9e8bcc15e00ed3b7b778ba48a0ff85d8bd7",
+   "matches": false
+  },
+  {
+   "family": "va-seal-petition-misdemeanor-set--official-pdf-fill",
+   "record": "data/record-clearing/legal-design-track-registry.json",
+   "pinned": "232466b66958cea78b6595cbbe4824f08216de42516d4afcef17f698140719ee",
+   "actual": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+   "matches": false
+  },
+  {
+   "family": "va-seal-petition-misdemeanor-set--official-pdf-fill",
+   "record": "data/record-clearing/legal-design-intake/VA.memo.json",
+   "pinned": "d1900eb5282f082c0d30f78d3071c75f0ecc477c295e29e430bbb978eb9d0e66",
+   "actual": "32269fdc2343984a09356aa45d87b8789bb323bacd16e49ae6bbe1bc6471ab3b",
+   "matches": false
+  },
+  {
+   "family": "va-seal-petition-misdemeanor-set--official-pdf-fill",
+   "record": "data/record-clearing/legal-design-track-registry.json",
+   "pinned": "232466b66958cea78b6595cbbe4824f08216de42516d4afcef17f698140719ee",
+   "actual": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+   "matches": false
+  },
+  {
+   "family": "va-seal-petition-misdemeanor-set--official-pdf-fill",
+   "record": "data/record-clearing/legal-design-packet-set-manifests.json",
+   "pinned": "6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec",
+   "actual": "80b5e071055469b6f1aa84e80accd9e8bcc15e00ed3b7b778ba48a0ff85d8bd7",
+   "matches": false
+  },
+  {
+   "family": "va-seal-petition-misdemeanor-set--official-pdf-fill",
+   "record": "data/record-clearing/legal-design-track-registry.json",
+   "pinned": "232466b66958cea78b6595cbbe4824f08216de42516d4afcef17f698140719ee",
+   "actual": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+   "matches": false
+  },
+  {
+   "family": "va-seal-ancillary-matter-only-set--official-pdf-fill",
+   "record": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+   "pinned": "b5716364a5c4243fe6489fe1f67cfdab0201a9b38cb8c5856db625493679164a",
+   "actual": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
+   "matches": false
+  },
+  {
+   "family": "va-seal-ancillary-matter-only-set--official-pdf-fill",
+   "record": "data/record-clearing/legal-design-intake/VA.memo.json",
+   "pinned": "d1900eb5282f082c0d30f78d3071c75f0ecc477c295e29e430bbb978eb9d0e66",
+   "actual": "32269fdc2343984a09356aa45d87b8789bb323bacd16e49ae6bbe1bc6471ab3b",
+   "matches": false
+  },
+  {
+   "family": "va-seal-ancillary-matter-only-set--official-pdf-fill",
+   "record": "data/record-clearing/legal-design-packet-set-manifests.json",
+   "pinned": "6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec",
+   "actual": "80b5e071055469b6f1aa84e80accd9e8bcc15e00ed3b7b778ba48a0ff85d8bd7",
+   "matches": false
+  },
+  {
+   "family": "va-seal-ancillary-matter-only-set--official-pdf-fill",
+   "record": "data/record-clearing/legal-design-track-registry.json",
+   "pinned": "232466b66958cea78b6595cbbe4824f08216de42516d4afcef17f698140719ee",
+   "actual": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+   "matches": false
+  },
+  {
+   "family": "va-seal-ancillary-matter-only-set--official-pdf-fill",
+   "record": "data/record-clearing/legal-design-intake/VA.memo.json",
+   "pinned": "d1900eb5282f082c0d30f78d3071c75f0ecc477c295e29e430bbb978eb9d0e66",
+   "actual": "32269fdc2343984a09356aa45d87b8789bb323bacd16e49ae6bbe1bc6471ab3b",
+   "matches": false
+  },
+  {
+   "family": "va-seal-ancillary-matter-only-set--official-pdf-fill",
+   "record": "data/record-clearing/legal-design-track-registry.json",
+   "pinned": "232466b66958cea78b6595cbbe4824f08216de42516d4afcef17f698140719ee",
+   "actual": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+   "matches": false
+  },
+  {
+   "family": "va-seal-ancillary-matter-only-set--official-pdf-fill",
+   "record": "data/record-clearing/legal-design-packet-set-manifests.json",
+   "pinned": "6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec",
+   "actual": "80b5e071055469b6f1aa84e80accd9e8bcc15e00ed3b7b778ba48a0ff85d8bd7",
+   "matches": false
+  },
+  {
+   "family": "va-seal-ancillary-matter-only-set--official-pdf-fill",
+   "record": "data/record-clearing/legal-design-track-registry.json",
+   "pinned": "232466b66958cea78b6595cbbe4824f08216de42516d4afcef17f698140719ee",
+   "actual": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+   "matches": false
+  }
+ ],
+ "grantsNothing": "This records a measurement. It repairs nothing, promotes nothing and withdraws nothing."
+}

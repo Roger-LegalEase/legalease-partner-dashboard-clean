@@ -1,0 +1,175 @@
+{
+ "schemaVersion": "rcap-packet-factory-focused-repair-return/v1",
+ "lane": "FIX56",
+ "assignmentId": "FIX56",
+ "workerId": "CLAUDE-FIX56-NC-1455-PREFILLS",
+ "laneKind": "repair",
+ "assignedBase": "760c6285d",
+ "branch": "fix56-nc1455-prefills",
+ "scope": "nc_145_5_felony-set only, on two findings: KNOWN_PREFILLS and CLIPPING_AND_OVERLAP. One file changed in scripts/: this family's own single-family builder.",
+ "rows": [
+  {
+   "itemId": "nc_145_5_felony-set",
+   "familyId": "nc_145_5_felony-set",
+   "jurisdiction": "NC",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/nc/nc-145-5-felony-set--official-pdf-fill",
+   "status": "COMPLETED",
+   "laneKind": "repair",
+   "repairedByThisLane": true,
+   "buildHost": "scripts/build-census-v1-nc_145_5_felony-set.mjs",
+   "verdictRepaired": {
+    "lane": "VF03",
+    "verdict": "FAIL_REPAIR_REQUIRED",
+    "verifiedAtBase": "ff4dee3ab",
+    "failedObligationNames": [
+     "KNOWN_PREFILLS"
+    ],
+    "blockedObligationNames": [
+     "CLIPPING_AND_OVERLAP"
+    ],
+    "canonicalItVerified": "04557c4100281bef2b1d1475e06cf4514f831e9bf45212fbb5fcf2f4e440ebd2",
+    "boundaryItVerified": "88dc2fd4d9eebad4d6136409ed6dcc831d0cf14025f43e4b08716f7fe52694d5",
+    "fixturesConfirmedBeforeAnythingWasRead": "sha256sum over the two files in fixtures/ at base 760c6285d returned exactly those two digests, so this repair started from the bytes VF03 measured."
+   },
+   "obligationsRepaired": [
+    "KNOWN_PREFILLS",
+    "CLIPPING_AND_OVERLAP"
+   ],
+   "obligationsThisRowDoesNotDischarge": [
+    "RASTER. The RASTER_PASS receipt in RASTER_QUEUE.json rows[107] (workflow run 33927262022, job 101199158345, artifact 9957403809) was bound to canonical 04557c41.. and boundary 88dc2fd4.., both superseded here. It stops binding and a central raster is owed on canonical 7dc8d18f.. and boundary a6c8cb3a... RASTER_QUEUE.json and MASTER_QUEUE.json were NOT opened for writing by this lane; the only local rasters were measurement rasters under /tmp/fix56, deleted after measuring. product-wiring.json binding.acceptanceReceipt is null.",
+    "INDEPENDENT VERIFICATION. This lane built these bytes and verifies none of them. No verdict was written, no obligation is scored here, and product-wiring.json binding.lastIndependentVerification still records VF03's FAIL_REPAIR_REQUIRED at ff4dee3ab rather than anything this lane decided.",
+    "THE SHARED CAPTION CAPTURE. scripts/rcap-official-forms/rcap-pdf-anchor-capture.mjs still reads AOC-CR-297's identifier rows one blank out of step, and 137 builders sit on it. This lane did not open it. The defect stays reported in this family's build-findings.json for the lane that owns it; only this family's own census is corrected, and only for the two fields named below.",
+    "THE REST OF THE SYNTHESIZED-APPEARANCE COHORT. FIX50's SYNTHESIZED_OFF_APPEARANCE_COHORT.json carries this family among 47. Only this one is opted in. No other family's builder, directory or bytes were touched, and the shared option stays default-off."
+   ],
+   "whatChanged": {
+    "oneFileInScripts": "scripts/build-census-v1-nc_145_5_felony-set.mjs, this family's own single-family builder. No shared host, no source pin, no route key, no component, no queue, no specification and no legal record was touched.",
+    "repairOneKnownPrefills": "The petitioner's ZIP code and date of birth are now WRITTEN on AOC-CR-297 page 1, as the packet already writes them on AOC-CV-226 (fee_waiver.ApplicantZip, fee_waiver.ApplicantDateOfBirth). Both bind through the ordinary path -- decideBinding's FIELD NAME channel, factBasis 'field_name', the same channel that makes the six writes already on this form -- and both are declared by h.write in mapFor beside them. The two h.rbf declarations VF03 named at builder lines 551 and 566 are gone. Canonical page 4 no longer holds a fact the petition refuses: 1991-04-17 and 27601 are on page 1 as well; boundary carries 1968-12-31 and 27101-2214.",
+    "whyTheWriteNeededMoreThanChangingHRbfToHWrite": "VF03's named repair -- replace the two h.rbf calls with h.write -- was made first and was NOT sufficient, and this row says so rather than reporting the call it made. In this builder h.write DECLARES a write in the field map; the write itself is decided by the shared semantics, because the builder passes explicitMappings {} for AOC-CR-297. decideBinding runs protectCategoryOf(effectiveLabel ?? name) BEFORE anything else, and the captured labels are false: PetitionerZip is captured as \"Race\" -> protected_category race, DOB as \"Date Of BirthFull Social Security No\" -> protected_category government_identifier. Rebuilt with only the h.write change, writes stayed 14 and AOC-CR-297 page 1 carried 6 added text items -- the two facts were declared and not written, which would have been a field map claiming ink the paper does not carry. The measured caption corrections below are what let the ordinary path run.",
+    "theCaptionCorrections": "A family-local table CAPTION_CORRECTIONS in this builder, applied in its own censusAcroForm, replaces the captured label of exactly two fields of AOC-CR-297 with what the pinned form actually prints, and records each in build-findings.json as captionCorrectionsApplied with the capture it replaced and the measurement. It throws rather than applying if the capture ever stops returning the label it names, so it cannot outlive the defect. It does not disable, weaken or bypass a protect rule: the protect test still runs, on the corrected caption AND on the field name, and every other blank on those rows is refused exactly as before -- Race, Sex, SSN, DLNo and DLState all still return protected_category, measured after the change.",
+    "captionProofDOB": "PROVEN BEFORE WRITING, on the pinned AOC-CR-297 (sha256 99c17942a23c80d4e6e66615bc0dca5630fbfe5c5982540cc577da8d89e1eb7c) rastered at 300 dpi and measured against the page's own rule strokes. The DOB widget rect, read from the pinned form itself, is page 1 x[36.63,175.30] y[585.07,600.65]. It is the whole writing area of the printed cell bounded by horizontal rules at y=609.0 and y=585.0, by the page rule at x=36.0 and by the cell divider at x=175.2. The ONE caption printed inside that cell is \"Date Of Birth\", at y 601.7-606.7 directly above the rect. \"Full Social Security No.\" begins at x=177.8 -- on the far side of the divider, inside SSN's own rect x[177.21,315.08], 1.91pt clear -- and does not intersect the DOB rect at any point. No other widget rect intersects the DOB rect (measured: 0). The delivered page shows 1991-04-17 under the \"Date Of Birth\" caption with the Full Social Security No. cell empty.",
+    "captionProofZip": "PROVEN BEFORE WRITING, and stated plainly because it is not the shape the assignment expected. The PetitionerZip widget rect is page 1 x[255.81,315.08] y[633.38,646.63]. AOC-CR-297 PRINTS NO ZIP-SPECIFIC CAPTION ANYWHERE. At 300 dpi the rect contains 0 dark pixels other than the block's own right rule: it is the bottom-right cell of the petitioner address block, bounded right by that block's rule at x=315.0 and below by its closing rule at y=633.0, and the block prints exactly one caption, \"Name And Address Of Petitioner (type or print full name)\", at its top. The rect therefore sits on no other field's caption and on no other blank: the printed \"Race\" x[224.3,240.6] and \"Sex\" x[270.8,282.8] are at y 623-628 in the NEXT printed row, below the closing rule and inside Race's and Sex's own rects x[222.87,267.87] and x[269.46,315.08] y[609.21,624.79]; the attorney block begins at x=316.58. PetitionerCity x[37.32,233.79] and PetitionerState x[233.29,256.10] sit on this identical line, are captured with no caption and \"State\" respectively, are already written by this packet and land correctly. The write completes \"Raleigh  NC  27601\" on the address line. This lane did NOT stop this half, and the reason is recorded here for a reader who would have: the gate exists so a write does not land on a neighbouring blank, the measurement shows no caption and no blank under the rect, and the affirmative form of the proof -- a printed ZIP caption -- is unavailable on this form for this cell as it is for City and State, which the packet already writes.",
+    "repairTwoClippingAndOverlap": "The builder's single finalizeOfficialForm call now passes suppressSynthesizedAppearances: true, exactly as scripts/build-census-v1-vt_seal_nonconviction-set.mjs does, with a comment naming the measurement. The shared option and the shared function are unchanged; only this family opts in.",
+    "participantInstructions": "The class statement VF03 named at participant-instructions.md line 177 is gone. It read 'Your ZIP code, your driver's licence number and state, your race, your sex, your date of birth and your Social Security number. Government identifiers and personal descriptors this build does not write onto any form, on a row whose printed captions the shared rules cannot read reliably in any case.' It now names only the licence number and state, the race, the sex and the Social Security number, says why each is refused, and states that the ZIP and the date of birth are NOT in that list because the platform holds and writes both. Step 7 (now line 160) no longer tells the participant to write those two facts; it tells them both are already filled in and to check them. Line 11 names them among what was filled. The two rows for them are gone from the blanks-to-complete table, and the file no longer contradicts itself.",
+    "otherCountStatements": "Three statements of the write count that would have become false were corrected in the same file: the header comment ('Eight blanks are written and 102 are not'), the SIX WRITES build finding (now EIGHT WRITES / 102 blanks classified), and the reviewers'-attention note, which now names the two writes and points at the measurement.",
+    "productWiring": "binding.acceptanceReceipt set to null with binding.whyTheAcceptanceReceiptIsNull naming the superseded digests; proposedRepresentation's three component sha256 values rebound from 04557c41.. to the new canonical 7dc8d18f.., because each names fixtures/canonical.pdf and a record that names a file must state that file's digest. binding.lastIndependentVerification is untouched and still carries VF03's FAIL_REPAIR_REQUIRED."
+   },
+   "measurements": {
+    "method": "The whole family directory at base 760c6285d was copied to /tmp/fix56/before before the first edit, and every comparison is against that copy rather than a remembered digest. Every page of BOTH fixtures -- 5 canonical and 5 boundary -- was rastered with pdftoppm at 150 dpi before and after and compared pixel by pixel; each changed pixel was then classified against the 60 selection-widget rects and the two new write rects, read from the pinned source binaries rather than from any report.",
+    "changedPixelsFullyAccountedFor": "TOTAL UNEXPLAINED CHANGED PIXELS ACROSS ALL TEN PAGES: 0. Every pixel that moved lies inside one of the 60 widget rects or inside one of the two new write rects. Page 3 (the AOC instruction sheet) is pixel-identical in both fixtures.",
+    "perPage": {
+     "canonical-1": "13/13 square rects changed (1026 px), writes DOB 725 px and PetitionerZip 443 px, unexplained 0",
+     "canonical-2": "28/28 square rects changed (2205 px), unexplained 0",
+     "canonical-3": "0 changed pixels",
+     "canonical-4": "12/12 square rects changed (948 px), unexplained 0",
+     "canonical-5": "7/7 square rects changed (556 px), unexplained 0",
+     "boundary-1": "13/13 square rects changed (1026 px), writes DOB 781 px and PetitionerZip 694 px, unexplained 0",
+     "boundary-2": "28/28 square rects changed (2205 px), unexplained 0",
+     "boundary-3": "0 changed pixels",
+     "boundary-4": "12/12 square rects changed (948 px), unexplained 0",
+     "boundary-5": "7/7 square rects changed (556 px), unexplained 0"
+    },
+    "newInkIsInsideItsRect": "The two write rects were tested with ZERO padding, so every changed pixel attributed to a write is strictly inside that widget's own rectangle. No changed pixel on page 1 lies outside the 13 square rects and the two write rects.",
+    "theSquaresAreGoneAndNotMerelyChanged": "Dark pixels summed over the 60 widget rects (each padded 2pt), per fixture: 8824 before, 6141 after, and the PINNED OFFICIAL SOURCE pages carry 6141 at the same rects. Rect by rect, the count where the delivered page differs from the pinned source after the repair is 0 of 60, on both fixtures. 2683 pixels of synthesized ink per fixture removed and not one pixel added. Visually confirmed at 300 dpi on the District/Superior caption boxes: before, a doubled outline; after, a single stroke identical to the source.",
+    "theSixtyWidgets": "Enumerated from the pinned binaries, not from VF03: 60 check-box/radio widgets, 13 on delivered page 1 and 28 on page 2 (AOC-CR-297), 12 on page 4 and 7 on page 5 (AOC-CV-226). All 60 carry /AS /Off with /Yes as the only state in /AP /N -- confirmed true for every one.",
+    "everyOtherFamilyDirectory": "git diff --name-only HEAD over data/rcap-all50/overlays/ returns 0 paths outside this family's directory, and over scripts/ returns 0 paths other than this family's own builder. Every other family directory is byte-identical.",
+    "rastersDeleted": true
+   },
+   "digests": {
+    "canonical": {
+     "path": "data/rcap-all50/overlays/census-v1/nc/nc-145-5-felony-set--official-pdf-fill/fixtures/canonical.pdf",
+     "oldSha256": "04557c4100281bef2b1d1475e06cf4514f831e9bf45212fbb5fcf2f4e440ebd2",
+     "oldByteLength": 768993,
+     "pagesBefore": 5,
+     "newSha256": "7dc8d18fdfad3b9a5470865c5b5ba630d0ad00919cb438370edffc20678bfbfe",
+     "newByteLength": 766196,
+     "pagesAfter": 5
+    },
+    "boundary": {
+     "path": "data/rcap-all50/overlays/census-v1/nc/nc-145-5-felony-set--official-pdf-fill/fixtures/boundary.pdf",
+     "oldSha256": "88dc2fd4d9eebad4d6136409ed6dcc831d0cf14025f43e4b08716f7fe52694d5",
+     "oldByteLength": 769151,
+     "pagesBefore": 5,
+     "newSha256": "a6c8cb3ab06d6a72fbba9138a42c33b47c312d2a7abf8f03afe473a975317509",
+     "newByteLength": 766360,
+     "pagesAfter": 5
+    },
+    "noPageAddedOrRemoved": true,
+    "whyTheyShrank": "60 flattened Form XObjects, each a stroked square, are no longer produced; the two new writes add back a little. Net -2797 bytes canonical, -2791 boundary.",
+    "deterministicRebuild": "Built with --no-raster, then built again with no other change: sha256 of every one of the 13 files under the family directory is identical across the two runs, fixtures included -- canonical 7dc8d18f.. and boundary a6c8cb3a.. both times. A control rebuild at the base commit before any edit reproduced the committed tree exactly (git status clean), so the comparison is against a reproducible baseline."
+   },
+   "countersBefore": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "countersAfter": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "countersNote": "Nine zeros before and nine zeros after, and neither obligation this row repairs can move one -- VF03 said so and it is still true. The KNOWN_PREFILLS condition ('a fact written anywhere else in the same packet is available') is stated in REQUIRED_BEFORE_FILING_CONDITIONS and executed nowhere, so a declared requiredBeforeFiling row passed whatever else was true of the fact; the synthesized squares are painted PATHS in flattened widget XObjects, not glyphs, so the glyph counters read straight over them. What the counters do show is the write count moving 14/188 -> 16/188 with every counter still zero.",
+   "verifiers": {
+    "verify-packet-completeness.mjs": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nc_145_5_felony-set -- BEFORE: PASS_COMPLETE, 14/188 written, nine counters zero, exit 0. AFTER: PASS_COMPLETE, 16/188 written, nine counters zero, exit 0.",
+    "verify-identity-refresh-survives-rebuild.mjs": "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs -> EVERY_IDENTITY_REFRESH_SURVIVED, 249 receipts compared against HEAD, 53 carrying an identityRefresh, exit 0",
+    "verify-source-carried-values-are-dispositioned.mjs": "node scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs -> EVERY_SOURCE_CARRIED_VALUE_IS_DISPOSITIONED, 26 by appearance-registry and 3 by clearSourceCarriedTextValues, exit 0",
+    "appearanceLevelCheck": "Not the builder's report of writes: the two new values were read back out of the assembled fixture bytes with pdftotext -layout (canonical page 1 carries 27601 on the address line and 1991-04-17 under Date Of Birth; boundary carries 27101-2214 and 1968-12-31), and every page of both fixtures was rastered and compared pixel by pixel as recorded under measurements.",
+    "buildExitCodes": "node scripts/build-census-v1-nc_145_5_felony-set.mjs --no-raster -> status COMPLETED, nineCountersZero true, exit 0, on each of the three runs (control at base, repair build, repeat build)."
+   },
+   "preflight": {
+    "worktree": "/home/user/fix56-worktree, branch fix56-nc1455-prefills from 760c6285d on claude/legalease-sprint-captain-utucnw",
+    "grantConfirmed": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX56 nc_145_5_felony-set -> CLAIM_OK FIX56 nc_145_5_felony-set (repair, grant set e65ade4647fc32cb), exit 0. Asserted before any family artifact was opened.",
+    "coreSparseCheckout": "false",
+    "skipWorktreeBits": 0,
+    "privateCorpus": "symlinked to /home/user/legalease-partner-dashboard-clean/private, read only; nothing under it was written",
+    "nodeModules": "symlinked to /home/user/captain-worktree/node_modules; node 22.22.2, pdf-lib 1.17.1",
+    "masterLibrarySourceDir": "exported to private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 as scripts/verify-packet-build-environment.mjs resolves it",
+    "environmentGate": "node scripts/verify-packet-build-environment.mjs --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json --family nc_145_5_felony-set -> PACKET_BUILD_ENVIRONMENT_NOT_READY, 11/13 passed, 2 failed, 4 not applicable, exit 1. The same two failures VF03 recorded, and neither touches this family. private_is_git_ignored fails because private/ is mounted as a symlink and the check runs `git check-ignore -q private/`, which git refuses with 'pathspec private/ is beyond a symbolic link'; without the slash the same check exits 0 and `git ls-files private` returns nothing, so private/ is ignored and tracks no byte here. corpus_matches_committed_index reports 1 absent of 24 sampled by declared path; family_sources_bind passed 6/6 by exact SHA-256, and this lane additionally recomputed the pinned AOC-CR-297 on disk as 99c17942a23c80d4e6e66615bc0dca5630fbfe5c5982540cc577da8d89e1eb7c before measuring a single caption.",
+    "fixturesHashedFirst": "canonical 04557c41.. and boundary 88dc2fd4.. confirmed on disk at the base before anything was read or edited, matching VF03 exactly.",
+    "rasters": "/tmp/fix56, deleted after measuring",
+    "otherWorktreesTouched": 0,
+    "subagentsCreated": 0,
+    "pushedToMain": false,
+    "forcePushed": false
+   },
+   "acceptanceReceipt": null,
+   "whatWasNotDone": [
+    "CENTRAL RASTER ON THE NEW BYTES. Every raster in this row is a local pdftoppm measurement under /tmp, now deleted. The central gate (.github/workflows/rcap-packet-raster-acceptance-batch.yml) has not run on canonical 7dc8d18f.. or boundary a6c8cb3a.., the prior RASTER_PASS no longer binds, and RASTER_QUEUE.json and MASTER_QUEUE.json were not opened for writing.",
+    "INDEPENDENT VERIFICATION. This lane built these bytes and scored no obligation on them. Nothing here is a verdict; what this row claims to have repaired remains to be re-measured by a lane that did not build it.",
+    "ANY CHANGE TO THE SHARED CAPTION CAPTURE OR THE SHARED FLATTENING STEP. Both are untouched; the cohort's other 46 families keep the default.",
+    "NO ROUTE, QUEUE, LEGAL RECORD, SPECIFICATION, CREDENTIAL, PRODUCTION SURFACE, STRIPE, SUPABASE OR RLS PATH WAS TOUCHED, AND NO COMMERCIAL ROUTE WAS OPENED."
+   ],
+   "filesChanged": [
+    "scripts/build-census-v1-nc_145_5_felony-set.mjs",
+    "data/rcap-all50/overlays/census-v1/nc/nc-145-5-felony-set--official-pdf-fill/fixtures/canonical.pdf",
+    "data/rcap-all50/overlays/census-v1/nc/nc-145-5-felony-set--official-pdf-fill/fixtures/boundary.pdf",
+    "data/rcap-all50/overlays/census-v1/nc/nc-145-5-felony-set--official-pdf-fill/participant-instructions.md",
+    "data/rcap-all50/overlays/census-v1/nc/nc-145-5-felony-set--official-pdf-fill/production-field-map.json",
+    "data/rcap-all50/overlays/census-v1/nc/nc-145-5-felony-set--official-pdf-fill/build-findings.json",
+    "data/rcap-all50/overlays/census-v1/nc/nc-145-5-felony-set--official-pdf-fill/approval-request.json",
+    "data/rcap-all50/overlays/census-v1/nc/nc-145-5-felony-set--official-pdf-fill/product-wiring.json",
+    "data/rcap-all50/overlays/census-v1/nc/nc-145-5-felony-set--official-pdf-fill/reports/actual-writes.json",
+    "data/rcap-all50/overlays/census-v1/nc/nc-145-5-felony-set--official-pdf-fill/reports/blanks-left-for-the-participant.json",
+    "data/rcap-all50/overlays/census-v1/nc/nc-145-5-felony-set--official-pdf-fill/reports/completeness-counters.json",
+    "data/rcap-all50/overlays/census-v1/nc/nc-145-5-felony-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "data/rcap-grade-a/packet-factory-24h/fix56/rows.json",
+    "data/rcap-grade-a/packet-factory-24h/claim-ledger.json"
+   ],
+   "commercialRoutesOpened": 0,
+   "productionTouched": false,
+   "packetsSelfVerified": 0,
+   "grantsNothing": "A repaired packet is review evidence. It authorizes no fulfillment, opens no commercial route and promotes nothing."
+  }
+ ]
+}

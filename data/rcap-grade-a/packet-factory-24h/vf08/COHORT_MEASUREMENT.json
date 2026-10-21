@@ -1,0 +1,2747 @@
+{
+  "schemaVersion": "rcap-vf08-cohort-measurement/v1",
+  "lane": "VF08",
+  "laneKind": "independent-verification",
+  "generatedAtBase": "942cab9b5",
+  "branch": "vf08-cohort-read",
+  "verifier": "FABLE-VF08-COHORT-READ (independent — built none of these packets, repaired none of them, and edited nothing it measured)",
+  "question": "Which of the 26 COMPLETE_PACKET_PROVEN families in the synthesized off-appearance cohort actually deliver, on a page a participant is handed, the black-bordered square the shared flattening step draws at an unwritten check box or radio widget whose current /AS state has no stream in /AP /N?",
+  "cohortRead": "data/rcap-grade-a/packet-factory-24h/fix50/SYNTHESIZED_OFF_APPEARANCE_COHORT.json — the 26 entries whose masterQueueState is COMPLETE_PACKET_PROVEN",
+  "preflight": {
+    "command": "node scripts/verify-packet-build-environment.mjs --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json",
+    "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 11/12 passed, 1 failed, 5 not applicable",
+    "failed": [
+      {
+        "check": "corpus_matches_committed_index",
+        "detail": "1 absent, 0 mismatched of 24 sampled",
+        "absentEntry": "master_library :: LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf",
+        "why": "the mounted Master Library holds no 'LegalEase Alabama' subtree at all, so one sampled index entry cannot be compared here. It is an honest absence in this container, not a corrupted corpus.",
+        "effectOnThisRead": "none. No family in this cohort is an Alabama family, every source this read measured resolved by content hash from mounted custody, and a source that had not would have been recorded NOT_MEASURABLE_HERE rather than counted as a zero."
+      }
+    ],
+    "notedContainerFix": "private/ is reached through symlinks here, and `git check-ignore private/` refuses a pathspec beyond a symbolic link, so private/ was remade as a real directory holding a symlink per custody. .gitignore already ignores private/ and nothing beneath it is tracked; no repository file was changed.",
+    "custodyIndexed": {
+      "roots": [
+        "/home/user/legalease-partner-dashboard-clean/private/human-source-returns",
+        "/home/user/legalease-partner-dashboard-clean/private/source-imports"
+      ],
+      "files": 500
+    }
+  },
+  "method": {
+    "claimBeforeRead": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF08 <familyId>, per family, before any artifact of that family was opened. A non-zero exit would have been a full stop for that family.",
+    "sourceResolution": "every bound document resolved by the SHA-256 its receipt pins, against every mounted custody indexed by content. A digest no custody holds is NOT_MEASURABLE_HERE for that document and no verdict rests on it.",
+    "zeroWriteBaseline": "scripts/rcap-official-forms/rcap-active-content.mjs sanitizeAndFlatten over the pinned bytes, writtenFields empty, suppressSynthesizedAppearances false — the construction scripts/rcap-official-forms/test-synthesized-off-appearances.mjs uses for case A, and the one VF02 and VF03 used on Vermont and Virginia.",
+    "isolatingControl": "the same zero-write flatten with suppressSynthesizedAppearances true. The pixels the option-off run paints and the option-on run does not ARE the synthesized square, at that widget's own geometry. Measuring against that footprint rather than against a pixel threshold is what lets a form that prints its own box under the widget be read correctly instead of hiding the square in its own ink.",
+    "negativeControl": "recorded per document as pixelsTheOptionChangesOverTheWholeDocument. Where turning the option on changes no rendered pixel anywhere on a document, that document's flatten paints no square at all, and a clean read on it is a real zero rather than a dead measurement. That case occurred once, on Connecticut's JD-CR-202.",
+    "rasterisation": "pdftoppm, 150 dpi, greyscale, into /tmp; a pixel is ink below 200. Every raster deleted after measuring.",
+    "alignment": "delivered pages matched to source pages by ink overlap and never by a declared page manifest, then each widget rect licensed separately by a local ink-coverage check at that rect. A page no fixture reproduces is recorded as reaching no delivered page; a page partly reproduced and not closely enough to read is NOT_MEASURABLE_HERE.",
+    "whatIsNotCounted": [
+      "a widget the family writes: its mark is intended and is not this defect",
+      "a widget that ships its own appearance for its current state: RI-OFF-APPEARANCE settles that the court's own stream stays, and the opt-in option does not touch it",
+      "a widget whose synthesized square falls entirely on ink the form already prints, so no ink reaches the page: counted and reported separately, never as the defect"
+    ],
+    "nineCounters": "read for every family a row was written for, from node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id>, read-only. All nine are zero for all 24. The counters do not see this defect; that is why it needs an appearance read."
+  },
+  "totals": {
+    "familiesInCohortRead": 26,
+    "familiesClaimed": 26,
+    "blockedBeforeClaim": 0,
+    "familiesDeliveringASynthesizedSquare": 24,
+    "familiesMeasuredClean": 2,
+    "familiesNotMeasurableHere": 0,
+    "verdictRowsWritten": 24,
+    "widgetReadingsMeasured": 1254,
+    "widgetReadingsDeliveringASynthesizedSquare": 1234,
+    "widgetReadingsWhoseSquareAddsNoInk": 20
+  },
+  "families": [
+    {
+      "familyId": "ak-tf800-set",
+      "jurisdiction": "AK",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ak/ak-tf800-set--official-pdf-fill",
+      "claim": {
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF08 ak-tf800-set",
+        "exitCode": 0,
+        "output": "CLAIM_OK VF08 ak-tf800-set (independent-verification, grant set 2cd2bcf2a3cd7e4a)"
+      },
+      "fixtureDigests": [
+        {
+          "role": "canonical",
+          "name": "tf800-canonical-filled.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/ak/ak-tf800-set--official-pdf-fill/fixtures/tf800-canonical-filled.pdf",
+          "sha256": "66d0c390198984a8c42a550d0077ef63dae98af3900f51630490ec8fcb0c54d6",
+          "declaredInRasterQueue": "66d0c390198984a8c42a550d0077ef63dae98af3900f51630490ec8fcb0c54d6",
+          "digestEqualsReceipt": true
+        },
+        {
+          "role": "boundary",
+          "name": "tf800-boundary-filled.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/ak/ak-tf800-set--official-pdf-fill/fixtures/tf800-boundary-filled.pdf",
+          "sha256": "b077fbfff439494d3af3ecf8e72c58af882b3c3b224205e632238e89459c95a5",
+          "declaredInRasterQueue": "b077fbfff439494d3af3ecf8e72c58af882b3c3b224205e632238e89459c95a5",
+          "digestEqualsReceipt": true
+        }
+      ],
+      "rasterReceipt": {
+        "currentRasterState": "RASTER_PASS",
+        "workflowRunId": "33495068504",
+        "renderedCommitSha": "5f144ec10d2bf7404faf0811e98418e0b13f06ba",
+        "everyFixtureDigestEqualsTheLiveReceipt": true
+      },
+      "boundDocuments": [
+        {
+          "formNumber": "TF-800",
+          "declaredSha256": "94bab52533d74551f7a8ff8644a9671241b38075c7e05f10806d627dfb898cbd",
+          "resolution": "RESOLVED_BY_CONTENT_HASH",
+          "resolvedFrom": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AK/02_PACKET_FORMS/AK__FORM__TF-800__request-to-make-case-records-confidential-or-sealed-under-administrative-rule-37-6__REV-2025-05__EN.pdf",
+          "selectionWidgets": 11,
+          "widgetsShippingTheirOwnState": 1,
+          "exposedWidgets": 10,
+          "pixelsTheOptionChangesOverTheWholeDocument": 261
+        }
+      ],
+      "widgetsMeasured": 20,
+      "widgetsDeliveringASynthesizedBorder": 16,
+      "widgetsWhoseSynthesizedSquareAddsNoInk": 4,
+      "deliveredPagesAffected": {
+        "tf800-canonical-filled.pdf": [
+          1,
+          2
+        ],
+        "tf800-boundary-filled.pdf": [
+          1,
+          2
+        ]
+      },
+      "perFixture": [
+        {
+          "fixture": "tf800-canonical-filled.pdf",
+          "widgetsDeliveringASynthesizedBorder": 8,
+          "deliveredPagesAffected": [
+            1,
+            2
+          ],
+          "distinctFieldsAffected": 7,
+          "forms": [
+            "TF-800"
+          ]
+        },
+        {
+          "fixture": "tf800-boundary-filled.pdf",
+          "widgetsDeliveringASynthesizedBorder": 8,
+          "deliveredPagesAffected": [
+            1,
+            2
+          ],
+          "distinctFieldsAffected": 7,
+          "forms": [
+            "TF-800"
+          ]
+        }
+      ],
+      "sourcePagesReachingNoDeliveredPage": [],
+      "notMeasurableHere": [],
+      "verdict": "FAIL_REPAIR_REQUIRED"
+    },
+    {
+      "familyId": "ak-tf805-set",
+      "jurisdiction": "AK",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ak/ak-tf805-set--official-pdf-fill",
+      "claim": {
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF08 ak-tf805-set",
+        "exitCode": 0,
+        "output": "CLAIM_OK VF08 ak-tf805-set (independent-verification, grant set 2cd2bcf2a3cd7e4a)"
+      },
+      "fixtureDigests": [
+        {
+          "role": "canonical",
+          "name": "tf805-canonical-filled.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/ak/ak-tf805-set--official-pdf-fill/fixtures/tf805-canonical-filled.pdf",
+          "sha256": "bffda336fac95d0980e0a9130913c9189077e1fdc3f05b5a1d55065e5f5c9703",
+          "declaredInRasterQueue": "bffda336fac95d0980e0a9130913c9189077e1fdc3f05b5a1d55065e5f5c9703",
+          "digestEqualsReceipt": true
+        },
+        {
+          "role": "boundary",
+          "name": "tf805-boundary-filled.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/ak/ak-tf805-set--official-pdf-fill/fixtures/tf805-boundary-filled.pdf",
+          "sha256": "5dd98fef218f8310a8e46e41a9ca83e53d5295507bac0c82fce77e44f96d0ff5",
+          "declaredInRasterQueue": "5dd98fef218f8310a8e46e41a9ca83e53d5295507bac0c82fce77e44f96d0ff5",
+          "digestEqualsReceipt": true
+        }
+      ],
+      "rasterReceipt": {
+        "currentRasterState": "RASTER_PASS",
+        "workflowRunId": "33495068504",
+        "renderedCommitSha": "5f144ec10d2bf7404faf0811e98418e0b13f06ba",
+        "everyFixtureDigestEqualsTheLiveReceipt": true
+      },
+      "boundDocuments": [
+        {
+          "formNumber": "TF-805",
+          "declaredSha256": "96306d64eda397e25094f92c3d67a642372b82cba12f97c6666e5500136e8f54",
+          "resolution": "RESOLVED_BY_CONTENT_HASH",
+          "resolvedFrom": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AK/02_PACKET_FORMS/AK__FORM__TF-805__request-to-remove-name-from-online-public-index-courtview-under-administrative-rule-40-b-o__REV-2025-05__EN.pdf",
+          "selectionWidgets": 6,
+          "widgetsShippingTheirOwnState": 1,
+          "exposedWidgets": 5,
+          "pixelsTheOptionChangesOverTheWholeDocument": 245
+        }
+      ],
+      "widgetsMeasured": 10,
+      "widgetsDeliveringASynthesizedBorder": 10,
+      "widgetsWhoseSynthesizedSquareAddsNoInk": 0,
+      "deliveredPagesAffected": {
+        "tf805-canonical-filled.pdf": [
+          1,
+          2
+        ],
+        "tf805-boundary-filled.pdf": [
+          1,
+          2
+        ]
+      },
+      "perFixture": [
+        {
+          "fixture": "tf805-canonical-filled.pdf",
+          "widgetsDeliveringASynthesizedBorder": 5,
+          "deliveredPagesAffected": [
+            1,
+            2
+          ],
+          "distinctFieldsAffected": 4,
+          "forms": [
+            "TF-805"
+          ]
+        },
+        {
+          "fixture": "tf805-boundary-filled.pdf",
+          "widgetsDeliveringASynthesizedBorder": 5,
+          "deliveredPagesAffected": [
+            1,
+            2
+          ],
+          "distinctFieldsAffected": 4,
+          "forms": [
+            "TF-805"
+          ]
+        }
+      ],
+      "sourcePagesReachingNoDeliveredPage": [],
+      "notMeasurableHere": [],
+      "verdict": "FAIL_REPAIR_REQUIRED"
+    },
+    {
+      "familyId": "co_motion_seal_nonconviction-set",
+      "jurisdiction": "CO",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/co/co-motion-seal-nonconviction-set--official-pdf-fill",
+      "claim": {
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF08 co_motion_seal_nonconviction-set",
+        "exitCode": 0,
+        "output": "CLAIM_OK VF08 co_motion_seal_nonconviction-set (independent-verification, grant set 2cd2bcf2a3cd7e4a)"
+      },
+      "fixtureDigests": [
+        {
+          "role": "canonical",
+          "name": "canonical.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/co/co-motion-seal-nonconviction-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "6c3d8f4482dc4de44cb817f486cc2ad982aaf79b3d6f79cc75696d22facb07d7",
+          "declaredInRasterQueue": "6c3d8f4482dc4de44cb817f486cc2ad982aaf79b3d6f79cc75696d22facb07d7",
+          "digestEqualsReceipt": true
+        },
+        {
+          "role": "boundary",
+          "name": "boundary.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/co/co-motion-seal-nonconviction-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "1fb4e7b9faeb8ee7f06837b94993c071629b47abb59138ceaa7efa1c2d43a6f4",
+          "declaredInRasterQueue": "1fb4e7b9faeb8ee7f06837b94993c071629b47abb59138ceaa7efa1c2d43a6f4",
+          "digestEqualsReceipt": true
+        }
+      ],
+      "rasterReceipt": {
+        "currentRasterState": "RASTER_PASS",
+        "workflowRunId": "33495068504",
+        "renderedCommitSha": "5f144ec10d2bf7404faf0811e98418e0b13f06ba",
+        "everyFixtureDigestEqualsTheLiveReceipt": true
+      },
+      "boundDocuments": [
+        {
+          "formNumber": "JDF-477",
+          "declaredSha256": "b9cbad7f3a66a1a952e10ad15e59d77afb9b68714465fe0e88333cf2c3159643",
+          "resolution": "RESOLVED_BY_CONTENT_HASH",
+          "resolvedFrom": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-477__motion-to-seal-non-conviction-records__REV-2024-08-07__EN.pdf",
+          "selectionWidgets": 16,
+          "widgetsShippingTheirOwnState": 11,
+          "exposedWidgets": 5,
+          "pixelsTheOptionChangesOverTheWholeDocument": 236
+        },
+        {
+          "formNumber": "JDF-478",
+          "declaredSha256": "8208caab3019164f8f0671aea1f0dbcf460805d61455346887cfd1d133c0e159",
+          "resolution": "RESOLVED_BY_CONTENT_HASH",
+          "resolvedFrom": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-478__order-to-seal-non-conviction-records__REV-2024-08-07__EN.pdf",
+          "selectionWidgets": 11,
+          "widgetsShippingTheirOwnState": 4,
+          "exposedWidgets": 7,
+          "pixelsTheOptionChangesOverTheWholeDocument": 42
+        }
+      ],
+      "widgetsMeasured": 24,
+      "widgetsDeliveringASynthesizedBorder": 14,
+      "widgetsWhoseSynthesizedSquareAddsNoInk": 10,
+      "deliveredPagesAffected": {
+        "canonical.pdf": [
+          2,
+          3,
+          4
+        ],
+        "boundary.pdf": [
+          2,
+          3,
+          4
+        ]
+      },
+      "perFixture": [
+        {
+          "fixture": "canonical.pdf",
+          "widgetsDeliveringASynthesizedBorder": 7,
+          "deliveredPagesAffected": [
+            2,
+            3,
+            4
+          ],
+          "distinctFieldsAffected": 7,
+          "forms": [
+            "JDF-477",
+            "JDF-478"
+          ]
+        },
+        {
+          "fixture": "boundary.pdf",
+          "widgetsDeliveringASynthesizedBorder": 7,
+          "deliveredPagesAffected": [
+            2,
+            3,
+            4
+          ],
+          "distinctFieldsAffected": 7,
+          "forms": [
+            "JDF-477",
+            "JDF-478"
+          ]
+        }
+      ],
+      "sourcePagesReachingNoDeliveredPage": [],
+      "notMeasurableHere": [],
+      "verdict": "FAIL_REPAIR_REQUIRED"
+    },
+    {
+      "familyId": "ct-cleanslate-petition-set",
+      "jurisdiction": "CT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill",
+      "claim": {
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF08 ct-cleanslate-petition-set",
+        "exitCode": 0,
+        "output": "CLAIM_OK VF08 ct-cleanslate-petition-set (independent-verification, grant set 2cd2bcf2a3cd7e4a)"
+      },
+      "fixtureDigests": [
+        {
+          "role": "canonical",
+          "name": "petition-canonical-filled.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/fixtures/petition-canonical-filled.pdf",
+          "sha256": "d44ace77326e51a697450d18a033eadccf308b32d5d426ce5c73ffc989546e06",
+          "declaredInRasterQueue": "d44ace77326e51a697450d18a033eadccf308b32d5d426ce5c73ffc989546e06",
+          "digestEqualsReceipt": true
+        },
+        {
+          "role": "boundary",
+          "name": "petition-boundary-filled.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/fixtures/petition-boundary-filled.pdf",
+          "sha256": "e190d7304260be94e84e46fb18710ee85e1f5a5314e7a7a5a5dd5eeb33b3d052",
+          "declaredInRasterQueue": "e190d7304260be94e84e46fb18710ee85e1f5a5314e7a7a5a5dd5eeb33b3d052",
+          "digestEqualsReceipt": true
+        }
+      ],
+      "rasterReceipt": {
+        "currentRasterState": "RASTER_PASS",
+        "workflowRunId": "33495068504",
+        "renderedCommitSha": "5f144ec10d2bf7404faf0811e98418e0b13f06ba",
+        "everyFixtureDigestEqualsTheLiveReceipt": true
+      },
+      "boundDocuments": [
+        {
+          "formNumber": "JD-CR-202",
+          "declaredSha256": "b5a917c2cd07727172a50534a4884a63e8ae08704b631c62a199c3454623062c",
+          "resolution": "RESOLVED_BY_CONTENT_HASH",
+          "resolvedFrom": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/CT/02_PACKET_FORMS/CT__FORM__JD-CR-202__petition-for-clean-slate-erasure-convictions-before-1-1-2000__REV-2023-11__EN.pdf",
+          "selectionWidgets": 2,
+          "widgetsShippingTheirOwnState": 0,
+          "exposedWidgets": 2,
+          "pixelsTheOptionChangesOverTheWholeDocument": 0
+        }
+      ],
+      "widgetsMeasured": 4,
+      "widgetsDeliveringASynthesizedBorder": 0,
+      "widgetsWhoseSynthesizedSquareAddsNoInk": 4,
+      "deliveredPagesAffected": {},
+      "perFixture": [],
+      "sourcePagesReachingNoDeliveredPage": [],
+      "notMeasurableHere": [],
+      "verdict": "NO_ROW_MEASURED_CLEAN"
+    },
+    {
+      "familyId": "me-seal-prost-set",
+      "jurisdiction": "ME",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/me/me-seal-prost-set--official-pdf-fill",
+      "claim": {
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF08 me-seal-prost-set",
+        "exitCode": 0,
+        "output": "CLAIM_OK VF08 me-seal-prost-set (independent-verification, grant set 2cd2bcf2a3cd7e4a)"
+      },
+      "fixtureDigests": [
+        {
+          "role": "canonical",
+          "name": "cr289-canonical-filled.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/me/me-seal-prost-set--official-pdf-fill/fixtures/cr289-canonical-filled.pdf",
+          "sha256": "ce2e6bde63ac9524927ace30a128938174ff79db091ec8db26a4ad3d307daaf7",
+          "declaredInRasterQueue": "ce2e6bde63ac9524927ace30a128938174ff79db091ec8db26a4ad3d307daaf7",
+          "digestEqualsReceipt": true
+        },
+        {
+          "role": "boundary",
+          "name": "cr289-boundary-filled.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/me/me-seal-prost-set--official-pdf-fill/fixtures/cr289-boundary-filled.pdf",
+          "sha256": "c56d43ba1b2341526fa7b7c17115b77435a1e030f70e2dfc93c76815f9cc2695",
+          "declaredInRasterQueue": "c56d43ba1b2341526fa7b7c17115b77435a1e030f70e2dfc93c76815f9cc2695",
+          "digestEqualsReceipt": true
+        }
+      ],
+      "rasterReceipt": {
+        "currentRasterState": "RASTER_PASS",
+        "workflowRunId": "33495068504",
+        "renderedCommitSha": "5f144ec10d2bf7404faf0811e98418e0b13f06ba",
+        "everyFixtureDigestEqualsTheLiveReceipt": true
+      },
+      "boundDocuments": [
+        {
+          "formNumber": "CR-289",
+          "declaredSha256": "bbf89387690d1ab17984c5b799366a26196e8d71b5172bc2768f593b819a7423",
+          "resolution": "RESOLVED_BY_CONTENT_HASH",
+          "resolvedFrom": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/ME/05_SOURCE_GATED/ME__SOURCE-GATED__CR-289__ada-notice-the-maine-judicial-branch-complies-with-the-americans-with-disabilities-act-ada__REV-2024-10__EN.pdf",
+          "selectionWidgets": 3,
+          "widgetsShippingTheirOwnState": 0,
+          "exposedWidgets": 3,
+          "pixelsTheOptionChangesOverTheWholeDocument": 193
+        }
+      ],
+      "widgetsMeasured": 6,
+      "widgetsDeliveringASynthesizedBorder": 6,
+      "widgetsWhoseSynthesizedSquareAddsNoInk": 0,
+      "deliveredPagesAffected": {
+        "cr289-canonical-filled.pdf": [
+          1
+        ],
+        "cr289-boundary-filled.pdf": [
+          1
+        ]
+      },
+      "perFixture": [
+        {
+          "fixture": "cr289-canonical-filled.pdf",
+          "widgetsDeliveringASynthesizedBorder": 3,
+          "deliveredPagesAffected": [
+            1
+          ],
+          "distinctFieldsAffected": 3,
+          "forms": [
+            "CR-289"
+          ]
+        },
+        {
+          "fixture": "cr289-boundary-filled.pdf",
+          "widgetsDeliveringASynthesizedBorder": 3,
+          "deliveredPagesAffected": [
+            1
+          ],
+          "distinctFieldsAffected": 3,
+          "forms": [
+            "CR-289"
+          ]
+        }
+      ],
+      "sourcePagesReachingNoDeliveredPage": [],
+      "notMeasurableHere": [],
+      "verdict": "FAIL_REPAIR_REQUIRED"
+    },
+    {
+      "familyId": "nc_146_dismissal_petition-set",
+      "jurisdiction": "NC",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill",
+      "claim": {
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF08 nc_146_dismissal_petition-set",
+        "exitCode": 0,
+        "output": "CLAIM_OK VF08 nc_146_dismissal_petition-set (independent-verification, grant set 2cd2bcf2a3cd7e4a)"
+      },
+      "fixtureDigests": [
+        {
+          "role": "canonical",
+          "name": "canonical.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "81d71db0020bdef1204898013cb9fd16a8cf3155c0f864c837a21945b1e40fb1",
+          "declaredInRasterQueue": "81d71db0020bdef1204898013cb9fd16a8cf3155c0f864c837a21945b1e40fb1",
+          "digestEqualsReceipt": true
+        },
+        {
+          "role": "boundary",
+          "name": "boundary.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "af582b143c3ef2da24ed5e769e7e1fbe240309186b8fc72dccbceeb3ecc6f251",
+          "declaredInRasterQueue": "af582b143c3ef2da24ed5e769e7e1fbe240309186b8fc72dccbceeb3ecc6f251",
+          "digestEqualsReceipt": true
+        }
+      ],
+      "rasterReceipt": {
+        "currentRasterState": "RASTER_PASS",
+        "workflowRunId": "33608483853",
+        "renderedCommitSha": "84045d06c9f14b29c8fb822343e0f390d5be98c3",
+        "everyFixtureDigestEqualsTheLiveReceipt": true
+      },
+      "boundDocuments": [
+        {
+          "formNumber": "AOC-CR-287",
+          "declaredSha256": "a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed",
+          "resolution": "RESOLVED_BY_CONTENT_HASH",
+          "resolvedFrom": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-287__aoc-cr-287-petition-and-order-of-expunction__REV-2025-12__EN.pdf",
+          "selectionWidgets": 19,
+          "widgetsShippingTheirOwnState": 0,
+          "exposedWidgets": 19,
+          "pixelsTheOptionChangesOverTheWholeDocument": 1056
+        },
+        {
+          "formNumber": "AOC-CR-287-INSTRUCTIONS",
+          "declaredSha256": "fe22270401aa22ee5c801871aeb1c00f3b98cfb6867f7155681bab4af9c990d7",
+          "resolution": "RESOLVED_BY_CONTENT_HASH",
+          "resolvedFrom": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-287__aoc-cr-287-instructions__REV-2025-12__EN.pdf",
+          "selectionWidgets": 0,
+          "widgetsShippingTheirOwnState": 0,
+          "exposedWidgets": 0
+        },
+        {
+          "formNumber": "AOC-CV-226",
+          "declaredSha256": "74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f",
+          "resolution": "RESOLVED_BY_CONTENT_HASH",
+          "resolvedFrom": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NC/04_SUPPORTING_PROCESS/NC__SUPPORT__AOC-CV-226__aoc-cv-226-affidavit-of-indigency__REV-2023-04__EN.pdf",
+          "selectionWidgets": 19,
+          "widgetsShippingTheirOwnState": 0,
+          "exposedWidgets": 19,
+          "pixelsTheOptionChangesOverTheWholeDocument": 830
+        }
+      ],
+      "widgetsMeasured": 76,
+      "widgetsDeliveringASynthesizedBorder": 74,
+      "widgetsWhoseSynthesizedSquareAddsNoInk": 2,
+      "deliveredPagesAffected": {
+        "canonical.pdf": [
+          1,
+          2,
+          4,
+          5
+        ],
+        "boundary.pdf": [
+          1,
+          2,
+          4,
+          5
+        ]
+      },
+      "perFixture": [
+        {
+          "fixture": "canonical.pdf",
+          "widgetsDeliveringASynthesizedBorder": 37,
+          "deliveredPagesAffected": [
+            1,
+            2,
+            4,
+            5
+          ],
+          "distinctFieldsAffected": 37,
+          "forms": [
+            "AOC-CR-287",
+            "AOC-CV-226"
+          ]
+        },
+        {
+          "fixture": "boundary.pdf",
+          "widgetsDeliveringASynthesizedBorder": 37,
+          "deliveredPagesAffected": [
+            1,
+            2,
+            4,
+            5
+          ],
+          "distinctFieldsAffected": 37,
+          "forms": [
+            "AOC-CR-287",
+            "AOC-CV-226"
+          ]
+        }
+      ],
+      "sourcePagesReachingNoDeliveredPage": [],
+      "notMeasurableHere": [],
+      "verdict": "FAIL_REPAIR_REQUIRED"
+    },
+    {
+      "familyId": "nd-nonconviction-close-petition-set",
+      "jurisdiction": "ND",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nd/nd-nonconviction-close-petition-set--official-pdf-fill",
+      "claim": {
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF08 nd-nonconviction-close-petition-set",
+        "exitCode": 0,
+        "output": "CLAIM_OK VF08 nd-nonconviction-close-petition-set (independent-verification, grant set 2cd2bcf2a3cd7e4a)"
+      },
+      "fixtureDigests": [
+        {
+          "role": "canonical",
+          "name": "packet-canonical-filled.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/nd/nd-nonconviction-close-petition-set--official-pdf-fill/fixtures/packet-canonical-filled.pdf",
+          "sha256": "2211ad2f8597d79a79151bc5850b222a664ba1ab935abb2d916c43612dddea58",
+          "declaredInRasterQueue": "2211ad2f8597d79a79151bc5850b222a664ba1ab935abb2d916c43612dddea58",
+          "digestEqualsReceipt": true
+        },
+        {
+          "role": "boundary",
+          "name": "packet-boundary-filled.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/nd/nd-nonconviction-close-petition-set--official-pdf-fill/fixtures/packet-boundary-filled.pdf",
+          "sha256": "7f178d4a93edc84c72ea8123715f51da16b7bc1c91d709f575451101052ae747",
+          "declaredInRasterQueue": "7f178d4a93edc84c72ea8123715f51da16b7bc1c91d709f575451101052ae747",
+          "digestEqualsReceipt": true
+        }
+      ],
+      "rasterReceipt": {
+        "currentRasterState": "RASTER_PASS",
+        "workflowRunId": "33605354695",
+        "renderedCommitSha": "7edb05f621e6209c3660c66fd60e4f4b283faf1f",
+        "everyFixtureDigestEqualsTheLiveReceipt": true
+      },
+      "boundDocuments": [
+        {
+          "formNumber": null,
+          "declaredSha256": "21b3a790b35f35c345560d9840bf39ca6f1e46cf1b9166c0e5ae2cf8ff7e4d7f",
+          "resolution": "RESOLVED_BY_CONTENT_HASH",
+          "resolvedFrom": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/ND/02_PACKET_FORMS/ND__FORM__EXPERTISE__instructions-for-petition-to-close-nonconviction-records__REV-2025-08-01__EN.pdf",
+          "selectionWidgets": 5,
+          "widgetsShippingTheirOwnState": 0,
+          "exposedWidgets": 5,
+          "pixelsTheOptionChangesOverTheWholeDocument": 742
+        }
+      ],
+      "widgetsMeasured": 10,
+      "widgetsDeliveringASynthesizedBorder": 10,
+      "widgetsWhoseSynthesizedSquareAddsNoInk": 0,
+      "deliveredPagesAffected": {
+        "packet-canonical-filled.pdf": [
+          3,
+          5
+        ],
+        "packet-boundary-filled.pdf": [
+          3,
+          5
+        ]
+      },
+      "perFixture": [
+        {
+          "fixture": "packet-canonical-filled.pdf",
+          "widgetsDeliveringASynthesizedBorder": 5,
+          "deliveredPagesAffected": [
+            3,
+            5
+          ],
+          "distinctFieldsAffected": 5,
+          "forms": [
+            "(unnamed)"
+          ]
+        },
+        {
+          "fixture": "packet-boundary-filled.pdf",
+          "widgetsDeliveringASynthesizedBorder": 5,
+          "deliveredPagesAffected": [
+            3,
+            5
+          ],
+          "distinctFieldsAffected": 5,
+          "forms": [
+            "(unnamed)"
+          ]
+        }
+      ],
+      "sourcePagesReachingNoDeliveredPage": [],
+      "notMeasurableHere": [],
+      "verdict": "FAIL_REPAIR_REQUIRED"
+    },
+    {
+      "familyId": "nh_petition_nonconviction_pre2019-set",
+      "jurisdiction": "NH",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nh/nh-petition-nonconviction-pre2019-set--official-pdf-fill",
+      "claim": {
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF08 nh_petition_nonconviction_pre2019-set",
+        "exitCode": 0,
+        "output": "CLAIM_OK VF08 nh_petition_nonconviction_pre2019-set (independent-verification, grant set 2cd2bcf2a3cd7e4a)"
+      },
+      "fixtureDigests": [
+        {
+          "role": "canonical",
+          "name": "canonical.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/nh/nh-petition-nonconviction-pre2019-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "efb8c5486ce521466e3ac1edd454f92aa1e9f2e54dfe4b68f56e5a6023798ff2",
+          "declaredInRasterQueue": "efb8c5486ce521466e3ac1edd454f92aa1e9f2e54dfe4b68f56e5a6023798ff2",
+          "digestEqualsReceipt": true
+        },
+        {
+          "role": "boundary",
+          "name": "boundary.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/nh/nh-petition-nonconviction-pre2019-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "749404b0b40cc2dd83e29f96aee7aadcec8b423fe0dc55ecd1bbb75f058ff74c",
+          "declaredInRasterQueue": "749404b0b40cc2dd83e29f96aee7aadcec8b423fe0dc55ecd1bbb75f058ff74c",
+          "digestEqualsReceipt": true
+        }
+      ],
+      "rasterReceipt": {
+        "currentRasterState": "RASTER_PASS",
+        "workflowRunId": "33965424724",
+        "renderedCommitSha": "aefd46f7cf0925a1b71151c9e8ec14732c8e560f",
+        "everyFixtureDigestEqualsTheLiveReceipt": true
+      },
+      "boundDocuments": [
+        {
+          "formNumber": "NHJB-2317",
+          "declaredSha256": "2fc2e1ede5201c17aa6a6e7726aff4659a649131429f8fec69771bc2b62f662c",
+          "resolution": "RESOLVED_BY_CONTENT_HASH",
+          "resolvedFrom": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NH/02_PACKET_FORMS/NH__FORM__NHJB-2317__petition-to-annul-record__REV-2019-06__EN.pdf",
+          "selectionWidgets": 10,
+          "widgetsShippingTheirOwnState": 0,
+          "exposedWidgets": 10,
+          "pixelsTheOptionChangesOverTheWholeDocument": 1122
+        },
+        {
+          "formNumber": "NHJB-2311",
+          "declaredSha256": "f8b5df1366a91a9fd177612c0519f941b8d4f60e1f8f84c2a6c0c064ba7da58e",
+          "resolution": "RESOLVED_BY_CONTENT_HASH",
+          "resolvedFrom": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NH/04_SUPPORTING_PROCESS/NH__SUPPORT__NHJB-2311__nhjb-2311-motion-for-waiver-of-filing-fee__REV-2018-01__EN.pdf",
+          "selectionWidgets": 0,
+          "widgetsShippingTheirOwnState": 0,
+          "exposedWidgets": 0
+        },
+        {
+          "formNumber": "NHJB-2328",
+          "declaredSha256": "b4384b41efb472951c28b1289e46b05dfcc9463147aa490597f541f5291ce919",
+          "resolution": "RESOLVED_BY_CONTENT_HASH",
+          "resolvedFrom": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NH/04_SUPPORTING_PROCESS/NH__SUPPORT__NHJB-2328__nhjb-2328-statement-of-assets-and-liabilities-individual__REV-UNKNOWN__EN.pdf",
+          "selectionWidgets": 9,
+          "widgetsShippingTheirOwnState": 0,
+          "exposedWidgets": 9,
+          "pixelsTheOptionChangesOverTheWholeDocument": 1086
+        },
+        {
+          "formNumber": "NHJB-2956",
+          "declaredSha256": "c8e5e9fead600ad30a956eac98c43d30d9ca3a3b8b4bc619713e50c83524f569",
+          "resolution": "RESOLVED_BY_CONTENT_HASH",
+          "resolvedFrom": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NH/04_SUPPORTING_PROCESS/NH__SUPPORT__NHJB-2956__nhjb-2956-criminal-record-release-authorization__REV-UNKNOWN__EN.pdf",
+          "selectionWidgets": 0,
+          "widgetsShippingTheirOwnState": 0,
+          "exposedWidgets": 0
+        }
+      ],
+      "widgetsMeasured": 38,
+      "widgetsDeliveringASynthesizedBorder": 38,
+      "widgetsWhoseSynthesizedSquareAddsNoInk": 0,
+      "deliveredPagesAffected": {
+        "canonical.pdf": [
+          2,
+          6,
+          8
+        ],
+        "boundary.pdf": [
+          2,
+          6,
+          8
+        ]
+      },
+      "perFixture": [
+        {
+          "fixture": "canonical.pdf",
+          "widgetsDeliveringASynthesizedBorder": 19,
+          "deliveredPagesAffected": [
+            2,
+            6,
+            8
+          ],
+          "distinctFieldsAffected": 14,
+          "forms": [
+            "NHJB-2317",
+            "NHJB-2328"
+          ]
+        },
+        {
+          "fixture": "boundary.pdf",
+          "widgetsDeliveringASynthesizedBorder": 19,
+          "deliveredPagesAffected": [
+            2,
+            6,
+            8
+          ],
+          "distinctFieldsAffected": 14,
+          "forms": [
+            "NHJB-2317",
+            "NHJB-2328"
+          ]
+        }
+      ],
+      "sourcePagesReachingNoDeliveredPage": [],
+      "notMeasurableHere": [],
+      "verdict": "FAIL_REPAIR_REQUIRED"
+    },
+    {
+      "familyId": "nj_disorderly_persons-set",
+      "jurisdiction": "NJ",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill",
+      "claim": {
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF08 nj_disorderly_persons-set",
+        "exitCode": 0,
+        "output": "CLAIM_OK VF08 nj_disorderly_persons-set (independent-verification, grant set 2cd2bcf2a3cd7e4a)"
+      },
+      "fixtureDigests": [
+        {
+          "role": "canonical",
+          "name": "cn-10557-canonical.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/fixtures/cn-10557-canonical.pdf",
+          "sha256": "c22cfd2d61ecd5f1b9f6b1eab65a5ad94b61aa6d3c7090950e54708a22b9630e",
+          "declaredInRasterQueue": "c22cfd2d61ecd5f1b9f6b1eab65a5ad94b61aa6d3c7090950e54708a22b9630e",
+          "digestEqualsReceipt": true
+        },
+        {
+          "role": "boundary",
+          "name": "cn-10557-boundary.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/fixtures/cn-10557-boundary.pdf",
+          "sha256": "5415f4f4992e3229962bcf4b69e1d1b0a4388117c454723a95e4107a6a8f4693",
+          "declaredInRasterQueue": "5415f4f4992e3229962bcf4b69e1d1b0a4388117c454723a95e4107a6a8f4693",
+          "digestEqualsReceipt": true
+        }
+      ],
+      "rasterReceipt": {
+        "currentRasterState": "RASTER_PASS",
+        "workflowRunId": "33815769969",
+        "renderedCommitSha": "fc54c6a7485818ca0a85524c2e4391e515945dab",
+        "everyFixtureDigestEqualsTheLiveReceipt": true
+      },
+      "boundDocuments": [
+        {
+          "formNumber": null,
+          "declaredSha256": "c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7",
+          "resolution": "RESOLVED_BY_CONTENT_HASH",
+          "resolvedFrom": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NJ/02_PACKET_FORMS/NJ__FORM__CN-10557__cn-10557-new-jersey-expungement-kit__REV-2020-06__EN.pdf",
+          "selectionWidgets": 22,
+          "widgetsShippingTheirOwnState": 0,
+          "exposedWidgets": 22,
+          "pixelsTheOptionChangesOverTheWholeDocument": 3173
+        }
+      ],
+      "widgetsMeasured": 44,
+      "widgetsDeliveringASynthesizedBorder": 44,
+      "widgetsWhoseSynthesizedSquareAddsNoInk": 0,
+      "deliveredPagesAffected": {
+        "cn-10557-canonical.pdf": [
+          18,
+          19,
+          20,
+          21,
+          22,
+          24,
+          30,
+          32
+        ],
+        "cn-10557-boundary.pdf": [
+          18,
+          19,
+          20,
+          21,
+          22,
+          24,
+          30,
+          32
+        ]
+      },
+      "perFixture": [
+        {
+          "fixture": "cn-10557-canonical.pdf",
+          "widgetsDeliveringASynthesizedBorder": 22,
+          "deliveredPagesAffected": [
+            18,
+            19,
+            20,
+            21,
+            22,
+            24,
+            30,
+            32
+          ],
+          "distinctFieldsAffected": 19,
+          "forms": [
+            "(unnamed)"
+          ]
+        },
+        {
+          "fixture": "cn-10557-boundary.pdf",
+          "widgetsDeliveringASynthesizedBorder": 22,
+          "deliveredPagesAffected": [
+            18,
+            19,
+            20,
+            21,
+            22,
+            24,
+            30,
+            32
+          ],
+          "distinctFieldsAffected": 19,
+          "forms": [
+            "(unnamed)"
+          ]
+        }
+      ],
+      "sourcePagesReachingNoDeliveredPage": [],
+      "notMeasurableHere": [],
+      "verdict": "FAIL_REPAIR_REQUIRED"
+    },
+    {
+      "familyId": "nj_indictable_conviction-set",
+      "jurisdiction": "NJ",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill",
+      "claim": {
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF08 nj_indictable_conviction-set",
+        "exitCode": 0,
+        "output": "CLAIM_OK VF08 nj_indictable_conviction-set (independent-verification, grant set 2cd2bcf2a3cd7e4a)"
+      },
+      "fixtureDigests": [
+        {
+          "role": "canonical",
+          "name": "cn-10557-canonical.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill/fixtures/cn-10557-canonical.pdf",
+          "sha256": "343407a30f38beffccde4c51b8060065bd6eed27356a999d8e321e01a1baca33",
+          "declaredInRasterQueue": "343407a30f38beffccde4c51b8060065bd6eed27356a999d8e321e01a1baca33",
+          "digestEqualsReceipt": true
+        },
+        {
+          "role": "boundary",
+          "name": "cn-10557-boundary.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill/fixtures/cn-10557-boundary.pdf",
+          "sha256": "6256ba7f621c25a8f8a501c0a9af0191c151074fc8d3b2bb6ff2ef36354788ea",
+          "declaredInRasterQueue": "6256ba7f621c25a8f8a501c0a9af0191c151074fc8d3b2bb6ff2ef36354788ea",
+          "digestEqualsReceipt": true
+        }
+      ],
+      "rasterReceipt": {
+        "currentRasterState": "RASTER_PASS",
+        "workflowRunId": "33531491985",
+        "renderedCommitSha": "38ce8244dac5a3c2fbd6522232eb275693d142e7",
+        "everyFixtureDigestEqualsTheLiveReceipt": true
+      },
+      "boundDocuments": [
+        {
+          "formNumber": null,
+          "declaredSha256": "c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7",
+          "resolution": "RESOLVED_BY_CONTENT_HASH",
+          "resolvedFrom": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NJ/02_PACKET_FORMS/NJ__FORM__CN-10557__cn-10557-new-jersey-expungement-kit__REV-2020-06__EN.pdf",
+          "selectionWidgets": 22,
+          "widgetsShippingTheirOwnState": 0,
+          "exposedWidgets": 22,
+          "pixelsTheOptionChangesOverTheWholeDocument": 3173
+        }
+      ],
+      "widgetsMeasured": 44,
+      "widgetsDeliveringASynthesizedBorder": 44,
+      "widgetsWhoseSynthesizedSquareAddsNoInk": 0,
+      "deliveredPagesAffected": {
+        "cn-10557-canonical.pdf": [
+          18,
+          19,
+          20,
+          21,
+          22,
+          24,
+          30,
+          32
+        ],
+        "cn-10557-boundary.pdf": [
+          18,
+          19,
+          20,
+          21,
+          22,
+          24,
+          30,
+          32
+        ]
+      },
+      "perFixture": [
+        {
+          "fixture": "cn-10557-canonical.pdf",
+          "widgetsDeliveringASynthesizedBorder": 22,
+          "deliveredPagesAffected": [
+            18,
+            19,
+            20,
+            21,
+            22,
+            24,
+            30,
+            32
+          ],
+          "distinctFieldsAffected": 19,
+          "forms": [
+            "(unnamed)"
+          ]
+        },
+        {
+          "fixture": "cn-10557-boundary.pdf",
+          "widgetsDeliveringASynthesizedBorder": 22,
+          "deliveredPagesAffected": [
+            18,
+            19,
+            20,
+            21,
+            22,
+            24,
+            30,
+            32
+          ],
+          "distinctFieldsAffected": 19,
+          "forms": [
+            "(unnamed)"
+          ]
+        }
+      ],
+      "sourcePagesReachingNoDeliveredPage": [],
+      "notMeasurableHere": [],
+      "verdict": "FAIL_REPAIR_REQUIRED"
+    },
+    {
+      "familyId": "nj_ordinance-set",
+      "jurisdiction": "NJ",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nj/nj-ordinance-set--official-pdf-fill",
+      "claim": {
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF08 nj_ordinance-set",
+        "exitCode": 0,
+        "output": "CLAIM_OK VF08 nj_ordinance-set (independent-verification, grant set 2cd2bcf2a3cd7e4a)"
+      },
+      "fixtureDigests": [
+        {
+          "role": "canonical",
+          "name": "cn-10557-canonical.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/nj/nj-ordinance-set--official-pdf-fill/fixtures/cn-10557-canonical.pdf",
+          "sha256": "343407a30f38beffccde4c51b8060065bd6eed27356a999d8e321e01a1baca33",
+          "declaredInRasterQueue": "343407a30f38beffccde4c51b8060065bd6eed27356a999d8e321e01a1baca33",
+          "digestEqualsReceipt": true
+        },
+        {
+          "role": "boundary",
+          "name": "cn-10557-boundary.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/nj/nj-ordinance-set--official-pdf-fill/fixtures/cn-10557-boundary.pdf",
+          "sha256": "6256ba7f621c25a8f8a501c0a9af0191c151074fc8d3b2bb6ff2ef36354788ea",
+          "declaredInRasterQueue": "6256ba7f621c25a8f8a501c0a9af0191c151074fc8d3b2bb6ff2ef36354788ea",
+          "digestEqualsReceipt": true
+        }
+      ],
+      "rasterReceipt": {
+        "currentRasterState": "RASTER_PASS",
+        "workflowRunId": "33531491985",
+        "renderedCommitSha": "38ce8244dac5a3c2fbd6522232eb275693d142e7",
+        "everyFixtureDigestEqualsTheLiveReceipt": true
+      },
+      "boundDocuments": [
+        {
+          "formNumber": null,
+          "declaredSha256": "c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7",
+          "resolution": "RESOLVED_BY_CONTENT_HASH",
+          "resolvedFrom": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NJ/02_PACKET_FORMS/NJ__FORM__CN-10557__cn-10557-new-jersey-expungement-kit__REV-2020-06__EN.pdf",
+          "selectionWidgets": 22,
+          "widgetsShippingTheirOwnState": 0,
+          "exposedWidgets": 22,
+          "pixelsTheOptionChangesOverTheWholeDocument": 3173
+        }
+      ],
+      "widgetsMeasured": 44,
+      "widgetsDeliveringASynthesizedBorder": 44,
+      "widgetsWhoseSynthesizedSquareAddsNoInk": 0,
+      "deliveredPagesAffected": {
+        "cn-10557-canonical.pdf": [
+          18,
+          19,
+          20,
+          21,
+          22,
+          24,
+          30,
+          32
+        ],
+        "cn-10557-boundary.pdf": [
+          18,
+          19,
+          20,
+          21,
+          22,
+          24,
+          30,
+          32
+        ]
+      },
+      "perFixture": [
+        {
+          "fixture": "cn-10557-canonical.pdf",
+          "widgetsDeliveringASynthesizedBorder": 22,
+          "deliveredPagesAffected": [
+            18,
+            19,
+            20,
+            21,
+            22,
+            24,
+            30,
+            32
+          ],
+          "distinctFieldsAffected": 19,
+          "forms": [
+            "(unnamed)"
+          ]
+        },
+        {
+          "fixture": "cn-10557-boundary.pdf",
+          "widgetsDeliveringASynthesizedBorder": 22,
+          "deliveredPagesAffected": [
+            18,
+            19,
+            20,
+            21,
+            22,
+            24,
+            30,
+            32
+          ],
+          "distinctFieldsAffected": 19,
+          "forms": [
+            "(unnamed)"
+          ]
+        }
+      ],
+      "sourcePagesReachingNoDeliveredPage": [],
+      "notMeasurableHere": [],
+      "verdict": "FAIL_REPAIR_REQUIRED"
+    },
+    {
+      "familyId": "pa_490_nonconviction-set",
+      "jurisdiction": "PA",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/pa/pa-490-nonconviction-set--official-pdf-fill",
+      "claim": {
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF08 pa_490_nonconviction-set",
+        "exitCode": 0,
+        "output": "CLAIM_OK VF08 pa_490_nonconviction-set (independent-verification, grant set 2cd2bcf2a3cd7e4a)"
+      },
+      "fixtureDigests": [
+        {
+          "role": "canonical",
+          "name": "rule-490-order-canonical.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/pa/pa-490-nonconviction-set--official-pdf-fill/fixtures/rule-490-order-canonical.pdf",
+          "sha256": "a7b5f3714155b59e9a0ede4925823fedf0efaa43e1d70783d1b5b2190c07a6dd",
+          "declaredInRasterQueue": "a7b5f3714155b59e9a0ede4925823fedf0efaa43e1d70783d1b5b2190c07a6dd",
+          "digestEqualsReceipt": true
+        },
+        {
+          "role": "canonical",
+          "name": "rule-490-petition-canonical.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/pa/pa-490-nonconviction-set--official-pdf-fill/fixtures/rule-490-petition-canonical.pdf",
+          "sha256": "1048b6276acfea471f1aee7839c4a638124c5ac10627c1e335ef7cecbf2074e0",
+          "declaredInRasterQueue": "1048b6276acfea471f1aee7839c4a638124c5ac10627c1e335ef7cecbf2074e0",
+          "digestEqualsReceipt": true
+        },
+        {
+          "role": "boundary",
+          "name": "rule-490-order-boundary.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/pa/pa-490-nonconviction-set--official-pdf-fill/fixtures/rule-490-order-boundary.pdf",
+          "sha256": "568b9cdaff62ec1c7c646fb8edfe0958c582a9114cc11d4c864b11243e6c488f",
+          "declaredInRasterQueue": "568b9cdaff62ec1c7c646fb8edfe0958c582a9114cc11d4c864b11243e6c488f",
+          "digestEqualsReceipt": true
+        },
+        {
+          "role": "boundary",
+          "name": "rule-490-petition-boundary.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/pa/pa-490-nonconviction-set--official-pdf-fill/fixtures/rule-490-petition-boundary.pdf",
+          "sha256": "c15e8eb4bd78c65b2fac2bc130659cba2a19921fe81c449b7f64654bebeea808",
+          "declaredInRasterQueue": "c15e8eb4bd78c65b2fac2bc130659cba2a19921fe81c449b7f64654bebeea808",
+          "digestEqualsReceipt": true
+        }
+      ],
+      "rasterReceipt": {
+        "currentRasterState": "RASTER_PASS",
+        "workflowRunId": "33526896195",
+        "renderedCommitSha": "cf29f4c9653deb48ac6e80f1323d3d859b7bbb4d",
+        "everyFixtureDigestEqualsTheLiveReceipt": true
+      },
+      "boundDocuments": [
+        {
+          "formNumber": null,
+          "declaredSha256": "082c515ce5a60de33798508c6dd76589f83758ac2ddd8244e934b379ce05def3",
+          "resolution": "RESOLVED_BY_CONTENT_HASH",
+          "resolvedFrom": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/PA/02_PACKET_FORMS/PA__FORM__PA-RCRIM-P-490-PETITION__pa-r-crim-p-490-petition__REV-2009-03__EN.pdf",
+          "selectionWidgets": 4,
+          "widgetsShippingTheirOwnState": 2,
+          "exposedWidgets": 2,
+          "pixelsTheOptionChangesOverTheWholeDocument": 71
+        },
+        {
+          "formNumber": null,
+          "declaredSha256": "ac671421035b12b61d3cfbfaac04bb5676f619b968db879f6992e3279110ce90",
+          "resolution": "RESOLVED_BY_CONTENT_HASH",
+          "resolvedFrom": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/PA/02_PACKET_FORMS/PA__FORM__PA-RCRIM-P-490-ORDER__pa-r-crim-p-490-blank-expungement-order__REV-2006-03__EN.pdf",
+          "selectionWidgets": 3,
+          "widgetsShippingTheirOwnState": 0,
+          "exposedWidgets": 3,
+          "pixelsTheOptionChangesOverTheWholeDocument": 212
+        },
+        {
+          "formNumber": null,
+          "declaredSha256": "91fa3ce45096bffb221cec09071ba617e063395b0fbb4dcd733c0f7fa29f3ca2",
+          "resolution": "RESOLVED_BY_CONTENT_HASH",
+          "resolvedFrom": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/PA/04_SUPPORTING_PROCESS/PA__SUPPORT__PA-IFP-MDJ__magisterial-district-court-in-forma-pauperis-affidavit__REV-UNKNOWN__EN.pdf",
+          "selectionWidgets": 9,
+          "widgetsShippingTheirOwnState": 9,
+          "exposedWidgets": 0
+        }
+      ],
+      "widgetsMeasured": 10,
+      "widgetsDeliveringASynthesizedBorder": 10,
+      "widgetsWhoseSynthesizedSquareAddsNoInk": 0,
+      "deliveredPagesAffected": {
+        "rule-490-order-canonical.pdf": [
+          1
+        ],
+        "rule-490-petition-canonical.pdf": [
+          1
+        ],
+        "rule-490-order-boundary.pdf": [
+          1
+        ],
+        "rule-490-petition-boundary.pdf": [
+          1
+        ]
+      },
+      "perFixture": [
+        {
+          "fixture": "rule-490-order-canonical.pdf",
+          "widgetsDeliveringASynthesizedBorder": 3,
+          "deliveredPagesAffected": [
+            1
+          ],
+          "distinctFieldsAffected": 3,
+          "forms": [
+            "(unnamed)"
+          ]
+        },
+        {
+          "fixture": "rule-490-petition-canonical.pdf",
+          "widgetsDeliveringASynthesizedBorder": 2,
+          "deliveredPagesAffected": [
+            1
+          ],
+          "distinctFieldsAffected": 1,
+          "forms": [
+            "(unnamed)"
+          ]
+        },
+        {
+          "fixture": "rule-490-order-boundary.pdf",
+          "widgetsDeliveringASynthesizedBorder": 3,
+          "deliveredPagesAffected": [
+            1
+          ],
+          "distinctFieldsAffected": 3,
+          "forms": [
+            "(unnamed)"
+          ]
+        },
+        {
+          "fixture": "rule-490-petition-boundary.pdf",
+          "widgetsDeliveringASynthesizedBorder": 2,
+          "deliveredPagesAffected": [
+            1
+          ],
+          "distinctFieldsAffected": 1,
+          "forms": [
+            "(unnamed)"
+          ]
+        }
+      ],
+      "sourcePagesReachingNoDeliveredPage": [
+        {
+          "form": null,
+          "sourceSha256": "082c515ce5a60de33798508c6dd76589f83758ac2ddd8244e934b379ce05def3",
+          "sourcePage": 1,
+          "fixture": "rule-490-order-canonical.pdf",
+          "bestInkCoverage": 0.067,
+          "widgetsOnThisPage": 2,
+          "why": "no page of this fixture reproduces this source page, so its widgets reach no delivered page here"
+        },
+        {
+          "form": null,
+          "sourceSha256": "ac671421035b12b61d3cfbfaac04bb5676f619b968db879f6992e3279110ce90",
+          "sourcePage": 1,
+          "fixture": "rule-490-petition-canonical.pdf",
+          "bestInkCoverage": null,
+          "widgetsOnThisPage": 3,
+          "why": "no page of this fixture reproduces this source page, so its widgets reach no delivered page here"
+        },
+        {
+          "form": null,
+          "sourceSha256": "082c515ce5a60de33798508c6dd76589f83758ac2ddd8244e934b379ce05def3",
+          "sourcePage": 1,
+          "fixture": "rule-490-order-boundary.pdf",
+          "bestInkCoverage": 0.067,
+          "widgetsOnThisPage": 2,
+          "why": "no page of this fixture reproduces this source page, so its widgets reach no delivered page here"
+        },
+        {
+          "form": null,
+          "sourceSha256": "ac671421035b12b61d3cfbfaac04bb5676f619b968db879f6992e3279110ce90",
+          "sourcePage": 1,
+          "fixture": "rule-490-petition-boundary.pdf",
+          "bestInkCoverage": null,
+          "widgetsOnThisPage": 3,
+          "why": "no page of this fixture reproduces this source page, so its widgets reach no delivered page here"
+        }
+      ],
+      "notMeasurableHere": [],
+      "verdict": "FAIL_REPAIR_REQUIRED"
+    },
+    {
+      "familyId": "ri_decriminalized-set",
+      "jurisdiction": "RI",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ri/ri-decriminalized-set--official-pdf-fill",
+      "claim": {
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF08 ri_decriminalized-set",
+        "exitCode": 0,
+        "output": "CLAIM_OK VF08 ri_decriminalized-set (independent-verification, grant set 2cd2bcf2a3cd7e4a)"
+      },
+      "fixtureDigests": [
+        {
+          "role": "canonical",
+          "name": "canonical.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/ri/ri-decriminalized-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "fb1299a8f953939ea6d76cd99532281687e12e2e18ca3eccaabe365e9ecf8dce",
+          "declaredInRasterQueue": "fb1299a8f953939ea6d76cd99532281687e12e2e18ca3eccaabe365e9ecf8dce",
+          "digestEqualsReceipt": true
+        },
+        {
+          "role": "boundary",
+          "name": "boundary.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/ri/ri-decriminalized-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "88a64e5ebd448197ce1c6ce89cf4c45247a97db25fa7008ca25773193564cf75",
+          "declaredInRasterQueue": "88a64e5ebd448197ce1c6ce89cf4c45247a97db25fa7008ca25773193564cf75",
+          "digestEqualsReceipt": true
+        }
+      ],
+      "rasterReceipt": {
+        "currentRasterState": "RASTER_PASS",
+        "workflowRunId": "33965687102",
+        "renderedCommitSha": "97be5bcdace3cb50c420b0ccece06c439168def0",
+        "everyFixtureDigestEqualsTheLiveReceipt": true
+      },
+      "boundDocuments": [
+        {
+          "formNumber": "DC-33",
+          "declaredSha256": "342337451d61e363e03febb384431dba2f9bb08b44ee46380b94fc91901e9908",
+          "resolution": "RESOLVED_BY_CONTENT_HASH",
+          "resolvedFrom": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/RI/02_PACKET_FORMS/RI__FORM__DC-33__district-court-motion-affidavit-and-instructions-to-expunge-or-seal-record__REV-2025-02__EN.pdf",
+          "selectionWidgets": 39,
+          "widgetsShippingTheirOwnState": 2,
+          "exposedWidgets": 37,
+          "pixelsTheOptionChangesOverTheWholeDocument": 2270
+        }
+      ],
+      "widgetsMeasured": 74,
+      "widgetsDeliveringASynthesizedBorder": 74,
+      "widgetsWhoseSynthesizedSquareAddsNoInk": 0,
+      "deliveredPagesAffected": {
+        "canonical.pdf": [
+          2,
+          3,
+          4
+        ],
+        "boundary.pdf": [
+          2,
+          3,
+          4
+        ]
+      },
+      "perFixture": [
+        {
+          "fixture": "canonical.pdf",
+          "widgetsDeliveringASynthesizedBorder": 37,
+          "deliveredPagesAffected": [
+            2,
+            3,
+            4
+          ],
+          "distinctFieldsAffected": 37,
+          "forms": [
+            "DC-33"
+          ]
+        },
+        {
+          "fixture": "boundary.pdf",
+          "widgetsDeliveringASynthesizedBorder": 37,
+          "deliveredPagesAffected": [
+            2,
+            3,
+            4
+          ],
+          "distinctFieldsAffected": 37,
+          "forms": [
+            "DC-33"
+          ]
+        }
+      ],
+      "sourcePagesReachingNoDeliveredPage": [],
+      "notMeasurableHere": [],
+      "verdict": "FAIL_REPAIR_REQUIRED"
+    },
+    {
+      "familyId": "ri_deferred_sentence-set",
+      "jurisdiction": "RI",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ri/ri-deferred-sentence-set--official-pdf-fill",
+      "claim": {
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF08 ri_deferred_sentence-set",
+        "exitCode": 0,
+        "output": "CLAIM_OK VF08 ri_deferred_sentence-set (independent-verification, grant set 2cd2bcf2a3cd7e4a)"
+      },
+      "fixtureDigests": [
+        {
+          "role": "canonical",
+          "name": "canonical.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/ri/ri-deferred-sentence-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "bdf2b866505b59c1f54d625edae2234009ce19e655cc0fe67a7fe68b4221d0e8",
+          "declaredInRasterQueue": "bdf2b866505b59c1f54d625edae2234009ce19e655cc0fe67a7fe68b4221d0e8",
+          "digestEqualsReceipt": true
+        },
+        {
+          "role": "boundary",
+          "name": "boundary.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/ri/ri-deferred-sentence-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "aadb8704b19ff95121f7d2eaaa92b1299b61e106f22330710c8497e7d6b932e4",
+          "declaredInRasterQueue": "aadb8704b19ff95121f7d2eaaa92b1299b61e106f22330710c8497e7d6b932e4",
+          "digestEqualsReceipt": true
+        }
+      ],
+      "rasterReceipt": {
+        "currentRasterState": "RASTER_PASS",
+        "workflowRunId": "33965687102",
+        "renderedCommitSha": "97be5bcdace3cb50c420b0ccece06c439168def0",
+        "everyFixtureDigestEqualsTheLiveReceipt": true
+      },
+      "boundDocuments": [
+        {
+          "formNumber": "Superior-55",
+          "declaredSha256": "e5805c5482e61ef39a88d8b50ea5a3556b5ffc40d3abb2200973016af4a9afca",
+          "resolution": "RESOLVED_BY_CONTENT_HASH",
+          "resolvedFrom": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/RI/02_PACKET_FORMS/RI__FORM__SUPERIOR-55__superior-court-motion-affidavit-and-instructions-to-expunge-or-seal-record-felony__REV-2025-02__EN.pdf",
+          "selectionWidgets": 35,
+          "widgetsShippingTheirOwnState": 2,
+          "exposedWidgets": 33,
+          "pixelsTheOptionChangesOverTheWholeDocument": 2059
+        }
+      ],
+      "widgetsMeasured": 66,
+      "widgetsDeliveringASynthesizedBorder": 66,
+      "widgetsWhoseSynthesizedSquareAddsNoInk": 0,
+      "deliveredPagesAffected": {
+        "canonical.pdf": [
+          2,
+          3,
+          4
+        ],
+        "boundary.pdf": [
+          2,
+          3,
+          4
+        ]
+      },
+      "perFixture": [
+        {
+          "fixture": "canonical.pdf",
+          "widgetsDeliveringASynthesizedBorder": 33,
+          "deliveredPagesAffected": [
+            2,
+            3,
+            4
+          ],
+          "distinctFieldsAffected": 33,
+          "forms": [
+            "Superior-55"
+          ]
+        },
+        {
+          "fixture": "boundary.pdf",
+          "widgetsDeliveringASynthesizedBorder": 33,
+          "deliveredPagesAffected": [
+            2,
+            3,
+            4
+          ],
+          "distinctFieldsAffected": 33,
+          "forms": [
+            "Superior-55"
+          ]
+        }
+      ],
+      "sourcePagesReachingNoDeliveredPage": [],
+      "notMeasurableHere": [],
+      "verdict": "FAIL_REPAIR_REQUIRED"
+    },
+    {
+      "familyId": "ri_first_offender_felony-set",
+      "jurisdiction": "RI",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-felony-set--official-pdf-fill",
+      "claim": {
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF08 ri_first_offender_felony-set",
+        "exitCode": 0,
+        "output": "CLAIM_OK VF08 ri_first_offender_felony-set (independent-verification, grant set 2cd2bcf2a3cd7e4a)"
+      },
+      "fixtureDigests": [
+        {
+          "role": "canonical",
+          "name": "canonical.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-felony-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "1398e09eb826f164e45476f7c9b18f7cf20a6c5c1a603ad3f53df9b0d363f5b7",
+          "declaredInRasterQueue": "1398e09eb826f164e45476f7c9b18f7cf20a6c5c1a603ad3f53df9b0d363f5b7",
+          "digestEqualsReceipt": true
+        },
+        {
+          "role": "boundary",
+          "name": "boundary.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-felony-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "f0039f280f282d242f4f709de26a7b2f730ab9af44cafc9aad17da4c12745db1",
+          "declaredInRasterQueue": "f0039f280f282d242f4f709de26a7b2f730ab9af44cafc9aad17da4c12745db1",
+          "digestEqualsReceipt": true
+        }
+      ],
+      "rasterReceipt": {
+        "currentRasterState": "RASTER_PASS",
+        "workflowRunId": "33965424724",
+        "renderedCommitSha": "aefd46f7cf0925a1b71151c9e8ec14732c8e560f",
+        "everyFixtureDigestEqualsTheLiveReceipt": true
+      },
+      "boundDocuments": [
+        {
+          "formNumber": "Superior-55",
+          "declaredSha256": "e5805c5482e61ef39a88d8b50ea5a3556b5ffc40d3abb2200973016af4a9afca",
+          "resolution": "RESOLVED_BY_CONTENT_HASH",
+          "resolvedFrom": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/RI/02_PACKET_FORMS/RI__FORM__SUPERIOR-55__superior-court-motion-affidavit-and-instructions-to-expunge-or-seal-record-felony__REV-2025-02__EN.pdf",
+          "selectionWidgets": 35,
+          "widgetsShippingTheirOwnState": 2,
+          "exposedWidgets": 33,
+          "pixelsTheOptionChangesOverTheWholeDocument": 2059
+        }
+      ],
+      "widgetsMeasured": 66,
+      "widgetsDeliveringASynthesizedBorder": 66,
+      "widgetsWhoseSynthesizedSquareAddsNoInk": 0,
+      "deliveredPagesAffected": {
+        "canonical.pdf": [
+          2,
+          3,
+          4
+        ],
+        "boundary.pdf": [
+          2,
+          3,
+          4
+        ]
+      },
+      "perFixture": [
+        {
+          "fixture": "canonical.pdf",
+          "widgetsDeliveringASynthesizedBorder": 33,
+          "deliveredPagesAffected": [
+            2,
+            3,
+            4
+          ],
+          "distinctFieldsAffected": 33,
+          "forms": [
+            "Superior-55"
+          ]
+        },
+        {
+          "fixture": "boundary.pdf",
+          "widgetsDeliveringASynthesizedBorder": 33,
+          "deliveredPagesAffected": [
+            2,
+            3,
+            4
+          ],
+          "distinctFieldsAffected": 33,
+          "forms": [
+            "Superior-55"
+          ]
+        }
+      ],
+      "sourcePagesReachingNoDeliveredPage": [],
+      "notMeasurableHere": [],
+      "verdict": "FAIL_REPAIR_REQUIRED"
+    },
+    {
+      "familyId": "ri_first_offender_misdemeanor-set",
+      "jurisdiction": "RI",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-misdemeanor-set--official-pdf-fill",
+      "claim": {
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF08 ri_first_offender_misdemeanor-set",
+        "exitCode": 0,
+        "output": "CLAIM_OK VF08 ri_first_offender_misdemeanor-set (independent-verification, grant set 2cd2bcf2a3cd7e4a)"
+      },
+      "fixtureDigests": [
+        {
+          "role": "canonical",
+          "name": "canonical.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-misdemeanor-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "1eda948c4de65da61c5e73c55c84eea42bee65a1a42ee509f553b81888c75351",
+          "declaredInRasterQueue": "1eda948c4de65da61c5e73c55c84eea42bee65a1a42ee509f553b81888c75351",
+          "digestEqualsReceipt": true
+        },
+        {
+          "role": "boundary",
+          "name": "boundary.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-misdemeanor-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "ced50ad491c5b40f052a162f16cad02a433ec54125f2aa0099bf32eb51c03afc",
+          "declaredInRasterQueue": "ced50ad491c5b40f052a162f16cad02a433ec54125f2aa0099bf32eb51c03afc",
+          "digestEqualsReceipt": true
+        }
+      ],
+      "rasterReceipt": {
+        "currentRasterState": "RASTER_PASS",
+        "workflowRunId": "33965424724",
+        "renderedCommitSha": "aefd46f7cf0925a1b71151c9e8ec14732c8e560f",
+        "everyFixtureDigestEqualsTheLiveReceipt": true
+      },
+      "boundDocuments": [
+        {
+          "formNumber": "DC-33",
+          "declaredSha256": "342337451d61e363e03febb384431dba2f9bb08b44ee46380b94fc91901e9908",
+          "resolution": "RESOLVED_BY_CONTENT_HASH",
+          "resolvedFrom": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/RI/02_PACKET_FORMS/RI__FORM__DC-33__district-court-motion-affidavit-and-instructions-to-expunge-or-seal-record__REV-2025-02__EN.pdf",
+          "selectionWidgets": 39,
+          "widgetsShippingTheirOwnState": 2,
+          "exposedWidgets": 37,
+          "pixelsTheOptionChangesOverTheWholeDocument": 2270
+        }
+      ],
+      "widgetsMeasured": 74,
+      "widgetsDeliveringASynthesizedBorder": 74,
+      "widgetsWhoseSynthesizedSquareAddsNoInk": 0,
+      "deliveredPagesAffected": {
+        "canonical.pdf": [
+          2,
+          3,
+          4
+        ],
+        "boundary.pdf": [
+          2,
+          3,
+          4
+        ]
+      },
+      "perFixture": [
+        {
+          "fixture": "canonical.pdf",
+          "widgetsDeliveringASynthesizedBorder": 37,
+          "deliveredPagesAffected": [
+            2,
+            3,
+            4
+          ],
+          "distinctFieldsAffected": 37,
+          "forms": [
+            "DC-33"
+          ]
+        },
+        {
+          "fixture": "boundary.pdf",
+          "widgetsDeliveringASynthesizedBorder": 37,
+          "deliveredPagesAffected": [
+            2,
+            3,
+            4
+          ],
+          "distinctFieldsAffected": 37,
+          "forms": [
+            "DC-33"
+          ]
+        }
+      ],
+      "sourcePagesReachingNoDeliveredPage": [],
+      "notMeasurableHere": [],
+      "verdict": "FAIL_REPAIR_REQUIRED"
+    },
+    {
+      "familyId": "ri_multiple_misdemeanors-set",
+      "jurisdiction": "RI",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ri/ri-multiple-misdemeanors-set--official-pdf-fill",
+      "claim": {
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF08 ri_multiple_misdemeanors-set",
+        "exitCode": 0,
+        "output": "CLAIM_OK VF08 ri_multiple_misdemeanors-set (independent-verification, grant set 2cd2bcf2a3cd7e4a)"
+      },
+      "fixtureDigests": [
+        {
+          "role": "canonical",
+          "name": "canonical.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/ri/ri-multiple-misdemeanors-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "6670d92fc8eb8b61ea95d10f9cb5f8b5c901273f743ddf02952ec2922ff2e46b",
+          "declaredInRasterQueue": "6670d92fc8eb8b61ea95d10f9cb5f8b5c901273f743ddf02952ec2922ff2e46b",
+          "digestEqualsReceipt": true
+        },
+        {
+          "role": "boundary",
+          "name": "boundary.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/ri/ri-multiple-misdemeanors-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "aaccc906b4703f13e98d4049059c1b5ad849f23f27ca33a2badfd20e283f2c87",
+          "declaredInRasterQueue": "aaccc906b4703f13e98d4049059c1b5ad849f23f27ca33a2badfd20e283f2c87",
+          "digestEqualsReceipt": true
+        }
+      ],
+      "rasterReceipt": {
+        "currentRasterState": "RASTER_PASS",
+        "workflowRunId": "33965424724",
+        "renderedCommitSha": "aefd46f7cf0925a1b71151c9e8ec14732c8e560f",
+        "everyFixtureDigestEqualsTheLiveReceipt": true
+      },
+      "boundDocuments": [
+        {
+          "formNumber": "DC-33",
+          "declaredSha256": "342337451d61e363e03febb384431dba2f9bb08b44ee46380b94fc91901e9908",
+          "resolution": "RESOLVED_BY_CONTENT_HASH",
+          "resolvedFrom": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/RI/02_PACKET_FORMS/RI__FORM__DC-33__district-court-motion-affidavit-and-instructions-to-expunge-or-seal-record__REV-2025-02__EN.pdf",
+          "selectionWidgets": 39,
+          "widgetsShippingTheirOwnState": 2,
+          "exposedWidgets": 37,
+          "pixelsTheOptionChangesOverTheWholeDocument": 2270
+        }
+      ],
+      "widgetsMeasured": 74,
+      "widgetsDeliveringASynthesizedBorder": 74,
+      "widgetsWhoseSynthesizedSquareAddsNoInk": 0,
+      "deliveredPagesAffected": {
+        "canonical.pdf": [
+          2,
+          3,
+          4
+        ],
+        "boundary.pdf": [
+          2,
+          3,
+          4
+        ]
+      },
+      "perFixture": [
+        {
+          "fixture": "canonical.pdf",
+          "widgetsDeliveringASynthesizedBorder": 37,
+          "deliveredPagesAffected": [
+            2,
+            3,
+            4
+          ],
+          "distinctFieldsAffected": 37,
+          "forms": [
+            "DC-33"
+          ]
+        },
+        {
+          "fixture": "boundary.pdf",
+          "widgetsDeliveringASynthesizedBorder": 37,
+          "deliveredPagesAffected": [
+            2,
+            3,
+            4
+          ],
+          "distinctFieldsAffected": 37,
+          "forms": [
+            "DC-33"
+          ]
+        }
+      ],
+      "sourcePagesReachingNoDeliveredPage": [],
+      "notMeasurableHere": [],
+      "verdict": "FAIL_REPAIR_REQUIRED"
+    },
+    {
+      "familyId": "va_exp_identity_used_by_another-set",
+      "jurisdiction": "VA",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/va/va-exp-identity-used-by-another-set--custom-pleading",
+      "claim": {
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF08 va_exp_identity_used_by_another-set",
+        "exitCode": 0,
+        "output": "CLAIM_OK VF08 va_exp_identity_used_by_another-set (independent-verification, grant set 2cd2bcf2a3cd7e4a)"
+      },
+      "fixtureDigests": [
+        {
+          "role": "canonical",
+          "name": "canonical.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/va/va-exp-identity-used-by-another-set--custom-pleading/fixtures/canonical.pdf",
+          "sha256": "e01f67987b25265e945bf774750a5af8a10f2360cad8790ca6bbbd116fc099b4",
+          "declaredInRasterQueue": "e01f67987b25265e945bf774750a5af8a10f2360cad8790ca6bbbd116fc099b4",
+          "digestEqualsReceipt": true
+        },
+        {
+          "role": "boundary",
+          "name": "boundary.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/va/va-exp-identity-used-by-another-set--custom-pleading/fixtures/boundary.pdf",
+          "sha256": "eb054b41c4548fd97bd5ab8fcf368b4cdc9d3ac3d43e98b6e6c271b362376f66",
+          "declaredInRasterQueue": "eb054b41c4548fd97bd5ab8fcf368b4cdc9d3ac3d43e98b6e6c271b362376f66",
+          "digestEqualsReceipt": true
+        }
+      ],
+      "rasterReceipt": {
+        "currentRasterState": "RASTER_PASS",
+        "workflowRunId": "33531491985",
+        "renderedCommitSha": "38ce8244dac5a3c2fbd6522232eb275693d142e7",
+        "everyFixtureDigestEqualsTheLiveReceipt": true
+      },
+      "boundDocuments": [
+        {
+          "formNumber": "CC-1473",
+          "declaredSha256": "6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219",
+          "resolution": "RESOLVED_BY_CONTENT_HASH",
+          "resolvedFrom": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/VA/02_PACKET_FORMS/VA__FORM__CC-1473__petition-for-expungement__REV-2026-07__EN.pdf",
+          "selectionWidgets": 17,
+          "widgetsShippingTheirOwnState": 0,
+          "exposedWidgets": 17,
+          "pixelsTheOptionChangesOverTheWholeDocument": 1512
+        }
+      ],
+      "widgetsMeasured": 0,
+      "widgetsDeliveringASynthesizedBorder": 0,
+      "widgetsWhoseSynthesizedSquareAddsNoInk": 0,
+      "deliveredPagesAffected": {},
+      "perFixture": [],
+      "sourcePagesReachingNoDeliveredPage": [
+        {
+          "form": "CC-1473",
+          "sourceSha256": "6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219",
+          "sourcePage": 1,
+          "fixture": "canonical.pdf",
+          "bestInkCoverage": 0.079,
+          "widgetsOnThisPage": 14,
+          "why": "no page of this fixture reproduces this source page, so its widgets reach no delivered page here"
+        },
+        {
+          "form": "CC-1473",
+          "sourceSha256": "6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219",
+          "sourcePage": 2,
+          "fixture": "canonical.pdf",
+          "bestInkCoverage": 0.082,
+          "widgetsOnThisPage": 3,
+          "why": "no page of this fixture reproduces this source page, so its widgets reach no delivered page here"
+        },
+        {
+          "form": "CC-1473",
+          "sourceSha256": "6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219",
+          "sourcePage": 1,
+          "fixture": "boundary.pdf",
+          "bestInkCoverage": 0.08,
+          "widgetsOnThisPage": 14,
+          "why": "no page of this fixture reproduces this source page, so its widgets reach no delivered page here"
+        },
+        {
+          "form": "CC-1473",
+          "sourceSha256": "6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219",
+          "sourcePage": 2,
+          "fixture": "boundary.pdf",
+          "bestInkCoverage": 0.082,
+          "widgetsOnThisPage": 3,
+          "why": "no page of this fixture reproduces this source page, so its widgets reach no delivered page here"
+        }
+      ],
+      "notMeasurableHere": [],
+      "verdict": "NO_ROW_MEASURED_CLEAN"
+    },
+    {
+      "familyId": "va_seal_ancillary_matter_only-set",
+      "jurisdiction": "VA",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/va/va-seal-ancillary-matter-only-set--official-pdf-fill",
+      "claim": {
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF08 va_seal_ancillary_matter_only-set",
+        "exitCode": 0,
+        "output": "CLAIM_OK VF08 va_seal_ancillary_matter_only-set (independent-verification, grant set 2cd2bcf2a3cd7e4a)"
+      },
+      "fixtureDigests": [
+        {
+          "role": "canonical",
+          "name": "canonical.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/va/va-seal-ancillary-matter-only-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "0ca22f4c4720d2d5325d67fa67657746292923fbfb45580ef94094d5e94ad893",
+          "declaredInRasterQueue": "0ca22f4c4720d2d5325d67fa67657746292923fbfb45580ef94094d5e94ad893",
+          "digestEqualsReceipt": true
+        },
+        {
+          "role": "boundary",
+          "name": "boundary.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/va/va-seal-ancillary-matter-only-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "fcc5c9df64bd93e04cd5c6143cbb00f38a8895a965dd76ca00e62f3235d4c0a5",
+          "declaredInRasterQueue": "fcc5c9df64bd93e04cd5c6143cbb00f38a8895a965dd76ca00e62f3235d4c0a5",
+          "digestEqualsReceipt": true
+        }
+      ],
+      "rasterReceipt": {
+        "currentRasterState": "RASTER_PASS",
+        "workflowRunId": "33495068504",
+        "renderedCommitSha": "5f144ec10d2bf7404faf0811e98418e0b13f06ba",
+        "everyFixtureDigestEqualsTheLiveReceipt": true
+      },
+      "boundDocuments": [
+        {
+          "formNumber": "CC-1203",
+          "declaredSha256": "25d08cb32e0b0bed778465d91b869f43d8f94ce6986c5036c5de7e307a31d35a",
+          "resolution": "RESOLVED_BY_CONTENT_HASH",
+          "resolvedFrom": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/VA/02_PACKET_FORMS/VA__FORM__CC-1203__petition-for-sealing-pursuant__REV-2026-07__EN.pdf",
+          "selectionWidgets": 76,
+          "widgetsShippingTheirOwnState": 0,
+          "exposedWidgets": 76,
+          "pixelsTheOptionChangesOverTheWholeDocument": 5576
+        }
+      ],
+      "widgetsMeasured": 152,
+      "widgetsDeliveringASynthesizedBorder": 152,
+      "widgetsWhoseSynthesizedSquareAddsNoInk": 0,
+      "deliveredPagesAffected": {
+        "canonical.pdf": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "boundary.pdf": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ]
+      },
+      "perFixture": [
+        {
+          "fixture": "canonical.pdf",
+          "widgetsDeliveringASynthesizedBorder": 76,
+          "deliveredPagesAffected": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "distinctFieldsAffected": 76,
+          "forms": [
+            "CC-1203"
+          ]
+        },
+        {
+          "fixture": "boundary.pdf",
+          "widgetsDeliveringASynthesizedBorder": 76,
+          "deliveredPagesAffected": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "distinctFieldsAffected": 76,
+          "forms": [
+            "CC-1203"
+          ]
+        }
+      ],
+      "sourcePagesReachingNoDeliveredPage": [],
+      "notMeasurableHere": [],
+      "verdict": "FAIL_REPAIR_REQUIRED"
+    },
+    {
+      "familyId": "va_seal_enumerated_seven_year-set",
+      "jurisdiction": "VA",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/va/va-seal-enumerated-seven-year-set--official-pdf-fill",
+      "claim": {
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF08 va_seal_enumerated_seven_year-set",
+        "exitCode": 0,
+        "output": "CLAIM_OK VF08 va_seal_enumerated_seven_year-set (independent-verification, grant set 2cd2bcf2a3cd7e4a)"
+      },
+      "fixtureDigests": [
+        {
+          "role": "canonical",
+          "name": "canonical.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/va/va-seal-enumerated-seven-year-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "859656e4ae155c94ad78cef9a1f017b6411bde531a86f15cd01c749c2d452ee6",
+          "declaredInRasterQueue": "859656e4ae155c94ad78cef9a1f017b6411bde531a86f15cd01c749c2d452ee6",
+          "digestEqualsReceipt": true
+        },
+        {
+          "role": "boundary",
+          "name": "boundary.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/va/va-seal-enumerated-seven-year-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "7e68919e56c3e4b789e376fdd7e4fad8cdfc27b0191ca7e5be388118c9686669",
+          "declaredInRasterQueue": "7e68919e56c3e4b789e376fdd7e4fad8cdfc27b0191ca7e5be388118c9686669",
+          "digestEqualsReceipt": true
+        }
+      ],
+      "rasterReceipt": {
+        "currentRasterState": "RASTER_PASS",
+        "workflowRunId": "33495068504",
+        "renderedCommitSha": "5f144ec10d2bf7404faf0811e98418e0b13f06ba",
+        "everyFixtureDigestEqualsTheLiveReceipt": true
+      },
+      "boundDocuments": [
+        {
+          "formNumber": "CC-1203",
+          "declaredSha256": "25d08cb32e0b0bed778465d91b869f43d8f94ce6986c5036c5de7e307a31d35a",
+          "resolution": "RESOLVED_BY_CONTENT_HASH",
+          "resolvedFrom": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/VA/02_PACKET_FORMS/VA__FORM__CC-1203__petition-for-sealing-pursuant__REV-2026-07__EN.pdf",
+          "selectionWidgets": 76,
+          "widgetsShippingTheirOwnState": 0,
+          "exposedWidgets": 76,
+          "pixelsTheOptionChangesOverTheWholeDocument": 5576
+        }
+      ],
+      "widgetsMeasured": 152,
+      "widgetsDeliveringASynthesizedBorder": 152,
+      "widgetsWhoseSynthesizedSquareAddsNoInk": 0,
+      "deliveredPagesAffected": {
+        "canonical.pdf": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "boundary.pdf": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ]
+      },
+      "perFixture": [
+        {
+          "fixture": "canonical.pdf",
+          "widgetsDeliveringASynthesizedBorder": 76,
+          "deliveredPagesAffected": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "distinctFieldsAffected": 76,
+          "forms": [
+            "CC-1203"
+          ]
+        },
+        {
+          "fixture": "boundary.pdf",
+          "widgetsDeliveringASynthesizedBorder": 76,
+          "deliveredPagesAffected": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "distinctFieldsAffected": 76,
+          "forms": [
+            "CC-1203"
+          ]
+        }
+      ],
+      "sourcePagesReachingNoDeliveredPage": [],
+      "notMeasurableHere": [],
+      "verdict": "FAIL_REPAIR_REQUIRED"
+    },
+    {
+      "familyId": "va_seal_petition_felony-set",
+      "jurisdiction": "VA",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/va/va-seal-petition-felony-set--official-pdf-fill",
+      "claim": {
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF08 va_seal_petition_felony-set",
+        "exitCode": 0,
+        "output": "CLAIM_OK VF08 va_seal_petition_felony-set (independent-verification, grant set 2cd2bcf2a3cd7e4a)"
+      },
+      "fixtureDigests": [
+        {
+          "role": "canonical",
+          "name": "canonical.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/va/va-seal-petition-felony-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "c653f0a41319bbee6133a17c418666eaccb31f329abfd465d0de55b9dd4e2636",
+          "declaredInRasterQueue": "c653f0a41319bbee6133a17c418666eaccb31f329abfd465d0de55b9dd4e2636",
+          "digestEqualsReceipt": true
+        },
+        {
+          "role": "boundary",
+          "name": "boundary.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/va/va-seal-petition-felony-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "b7095073a0cb0683ff5efc7575d903e9faa9b19d82ccd6c29e2dbe5e6e35b7ab",
+          "declaredInRasterQueue": "b7095073a0cb0683ff5efc7575d903e9faa9b19d82ccd6c29e2dbe5e6e35b7ab",
+          "digestEqualsReceipt": true
+        }
+      ],
+      "rasterReceipt": {
+        "currentRasterState": "RASTER_PASS",
+        "workflowRunId": "33495068504",
+        "renderedCommitSha": "5f144ec10d2bf7404faf0811e98418e0b13f06ba",
+        "everyFixtureDigestEqualsTheLiveReceipt": true
+      },
+      "boundDocuments": [
+        {
+          "formNumber": "CC-1201",
+          "declaredSha256": "7b56d8e167f610739da1578ec96e8bc7925ae029141857e7350bd7482c8e7e78",
+          "resolution": "RESOLVED_BY_CONTENT_HASH",
+          "resolvedFrom": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/VA/02_PACKET_FORMS/VA__FORM__CC-1201__petition-for-sealing-pursuant__REV-2026-07__EN.pdf",
+          "selectionWidgets": 63,
+          "widgetsShippingTheirOwnState": 0,
+          "exposedWidgets": 63,
+          "pixelsTheOptionChangesOverTheWholeDocument": 5203
+        }
+      ],
+      "widgetsMeasured": 126,
+      "widgetsDeliveringASynthesizedBorder": 126,
+      "widgetsWhoseSynthesizedSquareAddsNoInk": 0,
+      "deliveredPagesAffected": {
+        "canonical.pdf": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "boundary.pdf": [
+          1,
+          2,
+          3,
+          4
+        ]
+      },
+      "perFixture": [
+        {
+          "fixture": "canonical.pdf",
+          "widgetsDeliveringASynthesizedBorder": 63,
+          "deliveredPagesAffected": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "distinctFieldsAffected": 50,
+          "forms": [
+            "CC-1201"
+          ]
+        },
+        {
+          "fixture": "boundary.pdf",
+          "widgetsDeliveringASynthesizedBorder": 63,
+          "deliveredPagesAffected": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "distinctFieldsAffected": 50,
+          "forms": [
+            "CC-1201"
+          ]
+        }
+      ],
+      "sourcePagesReachingNoDeliveredPage": [],
+      "notMeasurableHere": [],
+      "verdict": "FAIL_REPAIR_REQUIRED"
+    },
+    {
+      "familyId": "vt_seal_18_to_21-set",
+      "jurisdiction": "VT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-18-to-21-set--official-pdf-fill",
+      "claim": {
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF08 vt_seal_18_to_21-set",
+        "exitCode": 0,
+        "output": "CLAIM_OK VF08 vt_seal_18_to_21-set (independent-verification, grant set 2cd2bcf2a3cd7e4a)"
+      },
+      "fixtureDigests": [
+        {
+          "role": "canonical",
+          "name": "canonical.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/vt/vt-seal-18-to-21-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "81525fd23e9489ce1225aaf953e28c0e68ad64c376dccf9143a5c14920bde942",
+          "declaredInRasterQueue": "81525fd23e9489ce1225aaf953e28c0e68ad64c376dccf9143a5c14920bde942",
+          "digestEqualsReceipt": true
+        },
+        {
+          "role": "boundary",
+          "name": "boundary.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/vt/vt-seal-18-to-21-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "8f0058c992eaf6fec640b7519935f3e0d4c119348f90d7042dd1ee6b53501404",
+          "declaredInRasterQueue": "8f0058c992eaf6fec640b7519935f3e0d4c119348f90d7042dd1ee6b53501404",
+          "digestEqualsReceipt": true
+        }
+      ],
+      "rasterReceipt": {
+        "currentRasterState": "RASTER_PASS",
+        "workflowRunId": "33547709781",
+        "renderedCommitSha": "9401de4f2aea6c99f0661458c525ab6e6a9d522b",
+        "everyFixtureDigestEqualsTheLiveReceipt": true
+      },
+      "boundDocuments": [
+        {
+          "formNumber": "200-00130",
+          "declaredSha256": "ff914f49c2a78a8b96d48f1242b70ab12ff7cb25beeeb8b850505357fdf982ed",
+          "resolution": "RESOLVED_BY_CONTENT_HASH",
+          "resolvedFrom": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/VT/02_PACKET_FORMS/VT__FORM__200-00130__petition-to-seal-criminal-history__REV-2025-07__EN.pdf",
+          "selectionWidgets": 12,
+          "widgetsShippingTheirOwnState": 0,
+          "exposedWidgets": 12,
+          "pixelsTheOptionChangesOverTheWholeDocument": 1410
+        },
+        {
+          "formNumber": "200-00132",
+          "declaredSha256": "088116244572ec7ccf00db799e1f6561928715e45c178f20b06de48d8d7a81c2",
+          "resolution": "RESOLVED_BY_CONTENT_HASH",
+          "resolvedFrom": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/VT/02_PACKET_FORMS/VT__FORM__200-00132__stipulation-to-seal-criminal-history-record-and-order__REV-2025-07__EN.pdf",
+          "selectionWidgets": 2,
+          "widgetsShippingTheirOwnState": 0,
+          "exposedWidgets": 2,
+          "pixelsTheOptionChangesOverTheWholeDocument": 240
+        },
+        {
+          "formNumber": "600-00228",
+          "declaredSha256": "263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654",
+          "resolution": "RESOLVED_BY_CONTENT_HASH",
+          "resolvedFrom": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/VT/04_SUPPORTING_PROCESS/VT__SUPPORT__600-00228__application-to-waive-filing-fees-and-service-costs__REV-2026-04__EN.pdf",
+          "selectionWidgets": 6,
+          "widgetsShippingTheirOwnState": 6,
+          "exposedWidgets": 0
+        }
+      ],
+      "widgetsMeasured": 28,
+      "widgetsDeliveringASynthesizedBorder": 28,
+      "widgetsWhoseSynthesizedSquareAddsNoInk": 0,
+      "deliveredPagesAffected": {
+        "canonical.pdf": [
+          1,
+          2,
+          3
+        ],
+        "boundary.pdf": [
+          1,
+          2,
+          3
+        ]
+      },
+      "perFixture": [
+        {
+          "fixture": "canonical.pdf",
+          "widgetsDeliveringASynthesizedBorder": 14,
+          "deliveredPagesAffected": [
+            1,
+            2,
+            3
+          ],
+          "distinctFieldsAffected": 14,
+          "forms": [
+            "200-00130",
+            "200-00132"
+          ]
+        },
+        {
+          "fixture": "boundary.pdf",
+          "widgetsDeliveringASynthesizedBorder": 14,
+          "deliveredPagesAffected": [
+            1,
+            2,
+            3
+          ],
+          "distinctFieldsAffected": 14,
+          "forms": [
+            "200-00130",
+            "200-00132"
+          ]
+        }
+      ],
+      "sourcePagesReachingNoDeliveredPage": [],
+      "notMeasurableHere": [],
+      "verdict": "FAIL_REPAIR_REQUIRED"
+    },
+    {
+      "familyId": "vt_seal_dui-set",
+      "jurisdiction": "VT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-dui-set--official-pdf-fill",
+      "claim": {
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF08 vt_seal_dui-set",
+        "exitCode": 0,
+        "output": "CLAIM_OK VF08 vt_seal_dui-set (independent-verification, grant set 2cd2bcf2a3cd7e4a)"
+      },
+      "fixtureDigests": [
+        {
+          "role": "canonical",
+          "name": "canonical.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/vt/vt-seal-dui-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "81525fd23e9489ce1225aaf953e28c0e68ad64c376dccf9143a5c14920bde942",
+          "declaredInRasterQueue": "81525fd23e9489ce1225aaf953e28c0e68ad64c376dccf9143a5c14920bde942",
+          "digestEqualsReceipt": true
+        },
+        {
+          "role": "boundary",
+          "name": "boundary.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/vt/vt-seal-dui-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "8f0058c992eaf6fec640b7519935f3e0d4c119348f90d7042dd1ee6b53501404",
+          "declaredInRasterQueue": "8f0058c992eaf6fec640b7519935f3e0d4c119348f90d7042dd1ee6b53501404",
+          "digestEqualsReceipt": true
+        }
+      ],
+      "rasterReceipt": {
+        "currentRasterState": "RASTER_PASS",
+        "workflowRunId": "33547709781",
+        "renderedCommitSha": "9401de4f2aea6c99f0661458c525ab6e6a9d522b",
+        "everyFixtureDigestEqualsTheLiveReceipt": true
+      },
+      "boundDocuments": [
+        {
+          "formNumber": "200-00130",
+          "declaredSha256": "ff914f49c2a78a8b96d48f1242b70ab12ff7cb25beeeb8b850505357fdf982ed",
+          "resolution": "RESOLVED_BY_CONTENT_HASH",
+          "resolvedFrom": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/VT/02_PACKET_FORMS/VT__FORM__200-00130__petition-to-seal-criminal-history__REV-2025-07__EN.pdf",
+          "selectionWidgets": 12,
+          "widgetsShippingTheirOwnState": 0,
+          "exposedWidgets": 12,
+          "pixelsTheOptionChangesOverTheWholeDocument": 1410
+        },
+        {
+          "formNumber": "200-00132",
+          "declaredSha256": "088116244572ec7ccf00db799e1f6561928715e45c178f20b06de48d8d7a81c2",
+          "resolution": "RESOLVED_BY_CONTENT_HASH",
+          "resolvedFrom": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/VT/02_PACKET_FORMS/VT__FORM__200-00132__stipulation-to-seal-criminal-history-record-and-order__REV-2025-07__EN.pdf",
+          "selectionWidgets": 2,
+          "widgetsShippingTheirOwnState": 0,
+          "exposedWidgets": 2,
+          "pixelsTheOptionChangesOverTheWholeDocument": 240
+        },
+        {
+          "formNumber": "600-00228",
+          "declaredSha256": "263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654",
+          "resolution": "RESOLVED_BY_CONTENT_HASH",
+          "resolvedFrom": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/VT/04_SUPPORTING_PROCESS/VT__SUPPORT__600-00228__application-to-waive-filing-fees-and-service-costs__REV-2026-04__EN.pdf",
+          "selectionWidgets": 6,
+          "widgetsShippingTheirOwnState": 6,
+          "exposedWidgets": 0
+        }
+      ],
+      "widgetsMeasured": 28,
+      "widgetsDeliveringASynthesizedBorder": 28,
+      "widgetsWhoseSynthesizedSquareAddsNoInk": 0,
+      "deliveredPagesAffected": {
+        "canonical.pdf": [
+          1,
+          2,
+          3
+        ],
+        "boundary.pdf": [
+          1,
+          2,
+          3
+        ]
+      },
+      "perFixture": [
+        {
+          "fixture": "canonical.pdf",
+          "widgetsDeliveringASynthesizedBorder": 14,
+          "deliveredPagesAffected": [
+            1,
+            2,
+            3
+          ],
+          "distinctFieldsAffected": 14,
+          "forms": [
+            "200-00130",
+            "200-00132"
+          ]
+        },
+        {
+          "fixture": "boundary.pdf",
+          "widgetsDeliveringASynthesizedBorder": 14,
+          "deliveredPagesAffected": [
+            1,
+            2,
+            3
+          ],
+          "distinctFieldsAffected": 14,
+          "forms": [
+            "200-00130",
+            "200-00132"
+          ]
+        }
+      ],
+      "sourcePagesReachingNoDeliveredPage": [],
+      "notMeasurableHere": [],
+      "verdict": "FAIL_REPAIR_REQUIRED"
+    },
+    {
+      "familyId": "vt_seal_felony-set",
+      "jurisdiction": "VT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-felony-set--official-pdf-fill",
+      "claim": {
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF08 vt_seal_felony-set",
+        "exitCode": 0,
+        "output": "CLAIM_OK VF08 vt_seal_felony-set (independent-verification, grant set 2cd2bcf2a3cd7e4a)"
+      },
+      "fixtureDigests": [
+        {
+          "role": "canonical",
+          "name": "canonical.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/vt/vt-seal-felony-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "81525fd23e9489ce1225aaf953e28c0e68ad64c376dccf9143a5c14920bde942",
+          "declaredInRasterQueue": "81525fd23e9489ce1225aaf953e28c0e68ad64c376dccf9143a5c14920bde942",
+          "digestEqualsReceipt": true
+        },
+        {
+          "role": "boundary",
+          "name": "boundary.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/vt/vt-seal-felony-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "8f0058c992eaf6fec640b7519935f3e0d4c119348f90d7042dd1ee6b53501404",
+          "declaredInRasterQueue": "8f0058c992eaf6fec640b7519935f3e0d4c119348f90d7042dd1ee6b53501404",
+          "digestEqualsReceipt": true
+        }
+      ],
+      "rasterReceipt": {
+        "currentRasterState": "RASTER_PASS",
+        "workflowRunId": "33576906816",
+        "renderedCommitSha": "6ecc5c7cbe5963d4f0b71ecf87e5a7948e8b7d27",
+        "everyFixtureDigestEqualsTheLiveReceipt": true
+      },
+      "boundDocuments": [
+        {
+          "formNumber": "200-00130",
+          "declaredSha256": "ff914f49c2a78a8b96d48f1242b70ab12ff7cb25beeeb8b850505357fdf982ed",
+          "resolution": "RESOLVED_BY_CONTENT_HASH",
+          "resolvedFrom": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/VT/02_PACKET_FORMS/VT__FORM__200-00130__petition-to-seal-criminal-history__REV-2025-07__EN.pdf",
+          "selectionWidgets": 12,
+          "widgetsShippingTheirOwnState": 0,
+          "exposedWidgets": 12,
+          "pixelsTheOptionChangesOverTheWholeDocument": 1410
+        },
+        {
+          "formNumber": "200-00132",
+          "declaredSha256": "088116244572ec7ccf00db799e1f6561928715e45c178f20b06de48d8d7a81c2",
+          "resolution": "RESOLVED_BY_CONTENT_HASH",
+          "resolvedFrom": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/VT/02_PACKET_FORMS/VT__FORM__200-00132__stipulation-to-seal-criminal-history-record-and-order__REV-2025-07__EN.pdf",
+          "selectionWidgets": 2,
+          "widgetsShippingTheirOwnState": 0,
+          "exposedWidgets": 2,
+          "pixelsTheOptionChangesOverTheWholeDocument": 240
+        },
+        {
+          "formNumber": "600-00228",
+          "declaredSha256": "263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654",
+          "resolution": "RESOLVED_BY_CONTENT_HASH",
+          "resolvedFrom": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/VT/04_SUPPORTING_PROCESS/VT__SUPPORT__600-00228__application-to-waive-filing-fees-and-service-costs__REV-2026-04__EN.pdf",
+          "selectionWidgets": 6,
+          "widgetsShippingTheirOwnState": 6,
+          "exposedWidgets": 0
+        }
+      ],
+      "widgetsMeasured": 28,
+      "widgetsDeliveringASynthesizedBorder": 28,
+      "widgetsWhoseSynthesizedSquareAddsNoInk": 0,
+      "deliveredPagesAffected": {
+        "canonical.pdf": [
+          1,
+          2,
+          3
+        ],
+        "boundary.pdf": [
+          1,
+          2,
+          3
+        ]
+      },
+      "perFixture": [
+        {
+          "fixture": "canonical.pdf",
+          "widgetsDeliveringASynthesizedBorder": 14,
+          "deliveredPagesAffected": [
+            1,
+            2,
+            3
+          ],
+          "distinctFieldsAffected": 14,
+          "forms": [
+            "200-00130",
+            "200-00132"
+          ]
+        },
+        {
+          "fixture": "boundary.pdf",
+          "widgetsDeliveringASynthesizedBorder": 14,
+          "deliveredPagesAffected": [
+            1,
+            2,
+            3
+          ],
+          "distinctFieldsAffected": 14,
+          "forms": [
+            "200-00130",
+            "200-00132"
+          ]
+        }
+      ],
+      "sourcePagesReachingNoDeliveredPage": [],
+      "notMeasurableHere": [],
+      "verdict": "FAIL_REPAIR_REQUIRED"
+    },
+    {
+      "familyId": "vt_seal_misdemeanor-set",
+      "jurisdiction": "VT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-misdemeanor-set--official-pdf-fill",
+      "claim": {
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF08 vt_seal_misdemeanor-set",
+        "exitCode": 0,
+        "output": "CLAIM_OK VF08 vt_seal_misdemeanor-set (independent-verification, grant set 2cd2bcf2a3cd7e4a)"
+      },
+      "fixtureDigests": [
+        {
+          "role": "canonical",
+          "name": "canonical.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/vt/vt-seal-misdemeanor-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "c37d27bad040121f3e677e81911745c6ea41f12fa1b8d7e986b74b9585d98a87",
+          "declaredInRasterQueue": "c37d27bad040121f3e677e81911745c6ea41f12fa1b8d7e986b74b9585d98a87",
+          "digestEqualsReceipt": true
+        },
+        {
+          "role": "boundary",
+          "name": "boundary.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/vt/vt-seal-misdemeanor-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "f98d432c416ce087ee267333638df32c56cc4c68a7e6395f50d91465067bb269",
+          "declaredInRasterQueue": "f98d432c416ce087ee267333638df32c56cc4c68a7e6395f50d91465067bb269",
+          "digestEqualsReceipt": true
+        }
+      ],
+      "rasterReceipt": {
+        "currentRasterState": "RASTER_PASS",
+        "workflowRunId": "33488713831",
+        "renderedCommitSha": "71894f3f2dde0f5af34818a2fa8dc8bce84e0d24",
+        "everyFixtureDigestEqualsTheLiveReceipt": true
+      },
+      "boundDocuments": [
+        {
+          "formNumber": "200-00130",
+          "declaredSha256": "ff914f49c2a78a8b96d48f1242b70ab12ff7cb25beeeb8b850505357fdf982ed",
+          "resolution": "RESOLVED_BY_CONTENT_HASH",
+          "resolvedFrom": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/VT/02_PACKET_FORMS/VT__FORM__200-00130__petition-to-seal-criminal-history__REV-2025-07__EN.pdf",
+          "selectionWidgets": 12,
+          "widgetsShippingTheirOwnState": 0,
+          "exposedWidgets": 12,
+          "pixelsTheOptionChangesOverTheWholeDocument": 1410
+        },
+        {
+          "formNumber": "200-00132",
+          "declaredSha256": "088116244572ec7ccf00db799e1f6561928715e45c178f20b06de48d8d7a81c2",
+          "resolution": "RESOLVED_BY_CONTENT_HASH",
+          "resolvedFrom": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/VT/02_PACKET_FORMS/VT__FORM__200-00132__stipulation-to-seal-criminal-history-record-and-order__REV-2025-07__EN.pdf",
+          "selectionWidgets": 2,
+          "widgetsShippingTheirOwnState": 0,
+          "exposedWidgets": 2,
+          "pixelsTheOptionChangesOverTheWholeDocument": 240
+        },
+        {
+          "formNumber": "600-00228",
+          "declaredSha256": "263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654",
+          "resolution": "RESOLVED_BY_CONTENT_HASH",
+          "resolvedFrom": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/VT/04_SUPPORTING_PROCESS/VT__SUPPORT__600-00228__application-to-waive-filing-fees-and-service-costs__REV-2026-04__EN.pdf",
+          "selectionWidgets": 6,
+          "widgetsShippingTheirOwnState": 6,
+          "exposedWidgets": 0
+        }
+      ],
+      "widgetsMeasured": 28,
+      "widgetsDeliveringASynthesizedBorder": 28,
+      "widgetsWhoseSynthesizedSquareAddsNoInk": 0,
+      "deliveredPagesAffected": {
+        "canonical.pdf": [
+          1,
+          2,
+          3
+        ],
+        "boundary.pdf": [
+          1,
+          2,
+          3
+        ]
+      },
+      "perFixture": [
+        {
+          "fixture": "canonical.pdf",
+          "widgetsDeliveringASynthesizedBorder": 14,
+          "deliveredPagesAffected": [
+            1,
+            2,
+            3
+          ],
+          "distinctFieldsAffected": 14,
+          "forms": [
+            "200-00130",
+            "200-00132"
+          ]
+        },
+        {
+          "fixture": "boundary.pdf",
+          "widgetsDeliveringASynthesizedBorder": 14,
+          "deliveredPagesAffected": [
+            1,
+            2,
+            3
+          ],
+          "distinctFieldsAffected": 14,
+          "forms": [
+            "200-00130",
+            "200-00132"
+          ]
+        }
+      ],
+      "sourcePagesReachingNoDeliveredPage": [],
+      "notMeasurableHere": [],
+      "verdict": "FAIL_REPAIR_REQUIRED"
+    },
+    {
+      "familyId": "vt_seal_pardon-set",
+      "jurisdiction": "VT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-pardon-set--official-pdf-fill",
+      "claim": {
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF08 vt_seal_pardon-set",
+        "exitCode": 0,
+        "output": "CLAIM_OK VF08 vt_seal_pardon-set (independent-verification, grant set 2cd2bcf2a3cd7e4a)"
+      },
+      "fixtureDigests": [
+        {
+          "role": "canonical",
+          "name": "canonical.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/vt/vt-seal-pardon-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "81525fd23e9489ce1225aaf953e28c0e68ad64c376dccf9143a5c14920bde942",
+          "declaredInRasterQueue": "81525fd23e9489ce1225aaf953e28c0e68ad64c376dccf9143a5c14920bde942",
+          "digestEqualsReceipt": true
+        },
+        {
+          "role": "boundary",
+          "name": "boundary.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/vt/vt-seal-pardon-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "8f0058c992eaf6fec640b7519935f3e0d4c119348f90d7042dd1ee6b53501404",
+          "declaredInRasterQueue": "8f0058c992eaf6fec640b7519935f3e0d4c119348f90d7042dd1ee6b53501404",
+          "digestEqualsReceipt": true
+        }
+      ],
+      "rasterReceipt": {
+        "currentRasterState": "RASTER_PASS",
+        "workflowRunId": "33596784162",
+        "renderedCommitSha": "92239810a4b96c6cffb87929a45cf56d8a20cbf5",
+        "everyFixtureDigestEqualsTheLiveReceipt": true
+      },
+      "boundDocuments": [
+        {
+          "formNumber": "200-00130",
+          "declaredSha256": "ff914f49c2a78a8b96d48f1242b70ab12ff7cb25beeeb8b850505357fdf982ed",
+          "resolution": "RESOLVED_BY_CONTENT_HASH",
+          "resolvedFrom": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/VT/02_PACKET_FORMS/VT__FORM__200-00130__petition-to-seal-criminal-history__REV-2025-07__EN.pdf",
+          "selectionWidgets": 12,
+          "widgetsShippingTheirOwnState": 0,
+          "exposedWidgets": 12,
+          "pixelsTheOptionChangesOverTheWholeDocument": 1410
+        },
+        {
+          "formNumber": "200-00132",
+          "declaredSha256": "088116244572ec7ccf00db799e1f6561928715e45c178f20b06de48d8d7a81c2",
+          "resolution": "RESOLVED_BY_CONTENT_HASH",
+          "resolvedFrom": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/VT/02_PACKET_FORMS/VT__FORM__200-00132__stipulation-to-seal-criminal-history-record-and-order__REV-2025-07__EN.pdf",
+          "selectionWidgets": 2,
+          "widgetsShippingTheirOwnState": 0,
+          "exposedWidgets": 2,
+          "pixelsTheOptionChangesOverTheWholeDocument": 240
+        },
+        {
+          "formNumber": "600-00228",
+          "declaredSha256": "263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654",
+          "resolution": "RESOLVED_BY_CONTENT_HASH",
+          "resolvedFrom": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/VT/04_SUPPORTING_PROCESS/VT__SUPPORT__600-00228__application-to-waive-filing-fees-and-service-costs__REV-2026-04__EN.pdf",
+          "selectionWidgets": 6,
+          "widgetsShippingTheirOwnState": 6,
+          "exposedWidgets": 0
+        }
+      ],
+      "widgetsMeasured": 28,
+      "widgetsDeliveringASynthesizedBorder": 28,
+      "widgetsWhoseSynthesizedSquareAddsNoInk": 0,
+      "deliveredPagesAffected": {
+        "canonical.pdf": [
+          1,
+          2,
+          3
+        ],
+        "boundary.pdf": [
+          1,
+          2,
+          3
+        ]
+      },
+      "perFixture": [
+        {
+          "fixture": "canonical.pdf",
+          "widgetsDeliveringASynthesizedBorder": 14,
+          "deliveredPagesAffected": [
+            1,
+            2,
+            3
+          ],
+          "distinctFieldsAffected": 14,
+          "forms": [
+            "200-00130",
+            "200-00132"
+          ]
+        },
+        {
+          "fixture": "boundary.pdf",
+          "widgetsDeliveringASynthesizedBorder": 14,
+          "deliveredPagesAffected": [
+            1,
+            2,
+            3
+          ],
+          "distinctFieldsAffected": 14,
+          "forms": [
+            "200-00130",
+            "200-00132"
+          ]
+        }
+      ],
+      "sourcePagesReachingNoDeliveredPage": [],
+      "notMeasurableHere": [],
+      "verdict": "FAIL_REPAIR_REQUIRED"
+    }
+  ],
+  "whatThisIsNot": "A measurement, not a repair and not a promotion. No overlay directory, builder, shared record or claim ledger was edited by this lane, no grant was released, and no route was opened. A FAIL_REPAIR_REQUIRED row is a repair assignment for the family's own builder: opt it into suppressSynthesizedAppearances, rebuild, re-raster centrally, re-read. A family measured clean here is clean on this one obligation and on nothing else.",
+  "grantsNothing": "An independent reading proves what a packet is. It approves no output, opens no commercial route, and does not promote a family."
+}

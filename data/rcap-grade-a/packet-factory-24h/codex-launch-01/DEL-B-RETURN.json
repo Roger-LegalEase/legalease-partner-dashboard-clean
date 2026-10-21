@@ -1,0 +1,159 @@
+{
+  "schemaVersion": "rcap-launch-engineering-return/v1",
+  "lane": "DEL-B",
+  "title": "Scoped sponsored render queue and finalization for the assigned Illinois route",
+  "recordedOn": "2026-09-06",
+  "base": "274a00cf4",
+  "baseBranch": "claude/legalease-sprint-captain-utucnw",
+  "branch": "del-b-sponsored-render-migration",
+  "worktree": "/home/user/delb-worktree",
+  "dependencyClosed": "B-SPONSORED-TRANSACTION (RETURN-02 outcomeB.remainingDependencies[1]) at the database layer only",
+  "route": {
+    "runtimeRouteId": "IL:felony-prostitution-relief",
+    "registryTrackId": "il-prostitution-j-vacate",
+    "packetFamilyId": "il-prostitution-j-vacate-set",
+    "packetSpecificationId": "il-felony-prostitution-relief",
+    "packetSpecificationVersion": "1.0.0",
+    "packetSpecificationSha256": "bc9050e096eeb99677edb9815eacae7c68d22914d8c08a785dfc375c68ed010f",
+    "automaticSibling": "il-prostitution-j-auto is not registered and cannot be sponsored"
+  },
+  "changedPaths": [
+    "supabase/migrations/20260906120000_sponsored_route_render_transaction.sql",
+    "scripts/test-rcap-il-sponsored-transaction.mjs",
+    "data/rcap-grade-a/packet-factory-24h/codex-launch-01/DEL-B-RETURN.json"
+  ],
+  "migrationFile": "supabase/migrations/20260906120000_sponsored_route_render_transaction.sql",
+  "generalisationApproach": "A scoped registration table plus a parameterised finalizer that the existing Mississippi entry point delegates to. No MS/event restriction was removed from the existing finalizer: its literals were written into a registration row and the Illinois route was added as a second row. No consumer payment is manufactured and no application-side credit or provenance write is introduced.",
+  "operationsForCodex": [
+    {
+      "purpose": "Replace the explicit refusal at src/lib/expungement-ai/packet-generation.ts lines 192-208 (\"Verified sponsored render enqueue is unavailable for this route.\"). Call as service_role.",
+      "name": "public.enqueue_verified_sponsored_packet_render",
+      "signature": "public.enqueue_verified_sponsored_packet_render(p_route_key text, p_session_id uuid, p_packet_id uuid, p_route_id text, p_renderer_kind text, p_renderer_version text, p_source_sha256 text, p_profile_id text, p_profile_version text, p_input_hash text, p_briefcase_item_id uuid, p_person_id uuid, p_matter_id uuid, p_max_attempts integer, p_expected_consumer_auth_user_id uuid, p_expected_verification_hash text, p_render_packet jsonb, p_render_input_payload jsonb)",
+      "regprocedure": "public.enqueue_verified_sponsored_packet_render(text,uuid,uuid,text,text,text,text,text,text,text,uuid,uuid,uuid,integer,uuid,text,jsonb,jsonb)",
+      "input": {
+        "p_route_key": "'IL:felony-prostitution-relief' (must equal p_route_id and renderInputPayload.routeId)",
+        "p_session_id": "the claimed pending result's anonymous_session_id; never a value from the request body",
+        "p_packet_id / p_render_packet / p_render_input_payload": "exactly preparePersonalizedPacket(...).payload.renderPacket and .renderInputPayload plus its packetId; the payload's routeId, trackId, packetFamilyId, specificationId, specificationVersion, specificationSha256 and snapshot.jurisdiction/pathwayId/selectedTrackId must equal the registration row",
+        "p_matter_id": "consumer_matter_id_for_briefcase_item(p_briefcase_item_id)",
+        "p_expected_verification_hash": "the current protected verification hash the caller read"
+      },
+      "output": "setof public.packet_render_jobs (one row). The row carries sponsored_route_key, sponsored_session_id, sponsored_clinic_event_id, sponsored_consumer_briefcase_item_id, sponsored_consumer_auth_user_id and sponsored_verification_hash. partner_id is derived inside the function from the clinic event's partner; consumer_* columns stay null so the existing queue mode rule is untouched.",
+      "failureMode": "raises; the messages are 'sponsored render route is not registered', 'sponsored render payload binding mismatch', 'sponsored render route binding mismatch', 'sponsored render verification changed', 'sponsored render authority missing: <reason>', 'sponsored render matter binding mismatch', 'sponsored render input payload is immutable'. Idempotent: an identical call returns the same job.",
+      "idempotency": "packet_id + input_hash through the existing enqueue_packet_render_job; two identical or concurrent calls yield one job"
+    },
+    {
+      "purpose": "Atomic sponsored finalization after the worker validated the bytes.",
+      "name": "public.finalize_sponsored_packet_generation_for_route",
+      "signature": "public.finalize_sponsored_packet_generation_for_route(p_route_key text, p_session_id uuid, p_briefcase_item_id uuid, p_expected_verification_hash text, p_packet_artifact jsonb, p_render_job_id uuid default null)",
+      "regprocedure": "public.finalize_sponsored_packet_generation_for_route(text,uuid,uuid,text,jsonb,uuid)",
+      "input": {
+        "p_packet_artifact": "the ConsumerPacketArtifactRefs object buildGradeAArtifact already returns; provider, source, contentType, packetId, verificationHash, packetSpecificationId, packetSpecificationVersion, packetSpecificationSha256, packetFamily, artifactSha256 (64 hex), pageCount and documentCount are all checked against the registration row",
+        "p_render_job_id": "the job id from the enqueue; when supplied the job must be this participant's own sponsored job for this route/session/verification, already artifact_validated or delivered, eligible, and its output_sha256 must equal artifact.artifactSha256"
+      },
+      "output": "table(ok boolean, recorded boolean, counted_as text, reason text). counted_as is 'included' | 'overage' | 'capped' | 'not_counted'. reason is null on a first success and otherwise one of invalid_input, route_not_registered, wrong_item, verification_mismatch, wrong_owner, wrong_matter, wrong_jurisdiction_or_route, wrong_session, wrong_partner, sponsorship_inactive, clinic_scope_mismatch, malformed_artifact, render_job_mismatch, already_finalized, artifact_conflict, sponsorship_already_consumed, event_sponsorship_exhausted, no_entitlement, paused_at_cap, cap_reached_no_overage.",
+      "effects": "one clinic-mode allowance unit (partner_entitlement.screenings_used or the overage counters), the session slot moved claimed -> consumed, one rcap_record_events row, one rcap_screening_analytics_events packet_generated row, one consumer_packet_artifact_provenance row with entitlement_source 'partner_sponsorship' owned by the participant and naming the render job, the Briefcase item mirrored to Ready, and the clinic case moved to packet_ready. All in one transaction; a downstream failure raises and rolls the whole thing back."
+    },
+    {
+      "purpose": "Read-only pre-check the route handler may use before offering the sponsored action.",
+      "name": "public.sponsored_packet_render_authority",
+      "signature": "public.sponsored_packet_render_authority(p_route_key text, p_session_id uuid, p_briefcase_item_id uuid, p_consumer_auth_user_id uuid)",
+      "regprocedure": "public.sponsored_packet_render_authority(text,uuid,uuid,uuid)",
+      "output": "table(valid boolean, reason text, partner_slug text, partner_id uuid, clinic_event_id uuid, clinic_case_id uuid)"
+    },
+    {
+      "purpose": "Unchanged Mississippi entry point. Same name, signature, result columns, refusal vocabulary and refusal order; now a delegation to the parameterised finalizer with the Mississippi registration row.",
+      "name": "public.finalize_sponsored_packet_generation_if_verified",
+      "regprocedure": "public.finalize_sponsored_packet_generation_if_verified(uuid,uuid,text,jsonb)"
+    }
+  ],
+  "schemaAdded": {
+    "table": "public.sponsored_packet_render_routes",
+    "rows": [
+      "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal (mvl-demo, ms-nonconv-set, ms-nonconviction-expungement-99-19-71-4 v2.0.0, clinic event 'Mississippi Volunteer Lawyers Clinic Mode Demo') - a restatement of the literals already compiled into 20260903130000",
+      "IL:felony-prostitution-relief (il-clinic-sponsor, il-prostitution-j-vacate-set, il-felony-prostitution-relief v1.0.0, any published event of the program in IL)"
+    ],
+    "columnsOnPacketRenderJobs": [
+      "sponsored_route_key (fk to the registration)",
+      "sponsored_session_id",
+      "sponsored_clinic_event_id",
+      "sponsored_consumer_briefcase_item_id",
+      "sponsored_consumer_auth_user_id",
+      "sponsored_verification_hash"
+    ],
+    "functionsReplacedForward": [
+      "public.consumer_render_job_verification_guard() - consumer and plain partner behaviour is byte-for-byte the 20260901120000 body; a job carrying a sponsored binding is no longer skipped but admitted and checked, and its binding is set-once",
+      "public.get_consumer_packet_artifact_authority(uuid,uuid) - the consumer clause is unchanged; an OR was added so provenance naming a sponsored job resolves through the sponsored binding columns"
+    ],
+    "browserSurfaceAdded": "none; every new function is revoked from public/anon/authenticated and granted only to service_role, the registration table has RLS on with no policy, and the sponsored binding columns are revoked from anon and authenticated"
+  },
+  "tests": {
+    "new": "scripts/test-rcap-il-sponsored-transaction.mjs (69 checks, disposable local PostgreSQL 16 through scripts/lib/rcap-ephemeral-pg.mjs)",
+    "coverage": [
+      "happy path: sponsored enqueue with no consumer payment, the worker verification guard admits the job, runWorkerCycle finalizes with accounting 'consumed' and eligibility 'eligible', finalization consumes exactly one clinic-mode credit and writes participant-owned provenance naming the render job, and the owner's artifact authority reads Ready while another participant reads absent",
+      "failure and retry: a failed render consumes nothing; after requeue the same job is reused, finalizes once, and consumes exactly one credit with one ledger row",
+      "concurrent and duplicate: two concurrent identical enqueues yield one job; two concurrent identical finalizations record once; an identical finalization retry returns already_finalized without a second consumption; a changed artifact byte is artifact_conflict",
+      "wrong owner: an enqueue naming another participant is refused; finalization refuses a claimed source whose owner differs",
+      "wrong event: an enqueue whose clinic case sits under another event is refused; finalization refuses an event belonging to another program",
+      "stale verification: a verification changed after enqueue stops the job at the guard and finalization returns verification_mismatch; refinalizing under the new hash is refused as render_job_mismatch",
+      "invalid authority: an unregistered route (IL:il-prostitution-j-auto) is refused at both enqueue and finalization; wrong family, wrong track and wrong specification digest render inputs are refused; the render input is immutable; the sponsored binding on an existing job is immutable; a sponsored finalization refuses another participant's job",
+      "Mississippi preservation: the same synthetic baseline the existing MS verifier uses, plus this migration, re-runs the twelve MS refusals and the success/retry/conflict matrix with identical answers"
+    ],
+    "results": [
+      { "command": "node scripts/test-rcap-il-sponsored-transaction.mjs", "exitCode": 0, "note": "69/69 checks" },
+      { "command": "node scripts/verify-atomic-sponsored-packet-finalization.mjs", "exitCode": 0, "note": "unchanged Mississippi verifier, 35/35" },
+      { "command": "node scripts/test-rcap-il-delivery-ephemeral.mjs", "exitCode": 0 },
+      { "command": "node scripts/test-rcap-il-delivery-boundaries.mjs", "exitCode": 0 },
+      { "command": "node scripts/verify-rcap-il-consumer-authority.mjs", "exitCode": 0 },
+      { "command": "node scripts/verify-clinic-provenance-prefix-upgrade.mjs", "exitCode": 0 },
+      { "command": "node scripts/clinic-mode/verify-schema-rls.mjs", "exitCode": 0 },
+      { "command": "node scripts/clinic-mode/verify-accounting-reporting.mjs", "exitCode": 0 },
+      { "command": "node scripts/verify-rcap-recovered-migration.mjs", "exitCode": 0 },
+      { "command": "node scripts/verify-shared-claim-boundary-db.mjs", "exitCode": 0 },
+      { "command": "node scripts/verify-expungement-dtc-auth-payment-briefcase-flow.mjs", "exitCode": 0 },
+      { "command": "node scripts/test-rcap-consumer-payment-http-mutations.mjs", "exitCode": 0 },
+      { "command": "node scripts/verify-rcap-phase51-consumer-payment-security.mjs", "exitCode": 0 },
+      { "command": "node scripts/verify-rcap-phase52-consumer-payment-authority.mjs", "exitCode": 0 },
+      { "command": "node scripts/verify-rcap-phase55-matter-payment-binding.mjs", "exitCode": 0 },
+      { "command": "npx eslint scripts/test-rcap-il-sponsored-transaction.mjs", "exitCode": 0 }
+    ],
+    "preExistingFailures": [
+      { "command": "node scripts/test-rcap-il-personalization.mjs", "exitCode": 1, "baseExitCode": 1, "cause": "the real Grade-A renderer raises 'Pleading document primary_filing has no pleading caption', the failure RETURN-02 already records; this script applies four named consumer migrations and never applies the new one" },
+      { "command": "node scripts/verify-participant-data-rights.mjs", "exitCode": 1, "baseExitCode": 1, "cause": "the export endpoint answers 403 account_unverified in this environment; unrelated to the migration set" },
+      { "command": "node scripts/verify-rcap-production-schema-upgrade.mjs", "exitCode": 1, "baseExitCode": 1, "cause": "its FORWARD_CHAIN literal has been stale since 20260819: 14 committed migrations are already unlisted at the base and this migration is the 15th. A Captain-owned update to that list is the fix; DEL-B did not edit a verifier list to make its own change pass" },
+      { "command": "node scripts/verify-expungement-post-payment-packet-generation.mjs", "exitCode": 1, "baseExitCode": 1, "cause": "the exact-path authorization queue already carries 64 unauthorized restricted paths at the base (20260903130000 among them); this migration adds exactly one more. An owner exact-path authorization is required before integration; a lane may not write itself one" },
+      { "command": "node scripts/verify-expungement-consumer-payment-http.mjs", "exitCode": 1, "baseExitCode": 1, "cause": "a fixture cannot be explicitly verified in this environment" },
+      { "command": "node scripts/test-shared-claim-boundary-mutations.mjs", "exitCode": 1, "baseExitCode": 1, "cause": "refuses to run because scripts/test-lane-e-review-edit-ownership.mjs is not green on clean source" }
+    ],
+    "baselineMethod": "every failing command above was re-run with the new migration and the new test script moved out of the tree; each produced the same exit code and, for the two path-set verifiers, a set differing by exactly this migration's filename"
+  },
+  "preserved": [
+    "public.finalize_sponsored_packet_generation_if_verified(uuid,uuid,text,jsonb) keeps its name, signature, result columns, SECURITY DEFINER, empty search_path, service_role-only grant, comment, refusal vocabulary and refusal order; scripts/verify-atomic-sponsored-packet-finalization.mjs is unedited and passes",
+    "enqueue_packet_render_job and its mode rule are unedited; a sponsored job is a partner job and reaches the unchanged phase-52 partner accounting branch",
+    "enqueue_verified_consumer_packet_render, record_consumer_packet_payment, consumer_packet_payment_authority, attach_consumer_packet_artifact_if_verified and publish_validated_consumer_render_artifact are unedited",
+    "the consumer branch of consumer_render_job_verification_guard and the consumer clause of get_consumer_packet_artifact_authority are byte-for-byte the previous bodies",
+    "no already-applied migration file was edited; the change is one new forward file"
+  ],
+  "creditSemantics": "Two existing mechanisms, each used unchanged and each consumed once. The queue's phase-49/50/52 partner packet credit is consumed by finalize_packet_render_job because the job is a partner job, exactly as the existing sponsored shape does. The clinic-mode allowance (partner_entitlement.screenings_used, or the overage counters when the partner is over cap with overage enabled) is consumed once by the finalizer, exactly as the Mississippi finalizer does. Neither is consumed twice on a retry, a duplicate request or a repeat download, and no consumer payment row is created anywhere on this path.",
+  "routesOpened": 0,
+  "paymentTouched": false,
+  "productionTouched": false,
+  "notDone": [
+    "no hosted or Production migration was applied; everything ran in a disposable local PostgreSQL 16 cluster on a private Unix socket",
+    "no application code was changed; src/lib/expungement-ai/packet-generation.ts still carries its explicit sponsored refusal and the Codex lane connects it",
+    "no application connected to this SQL; the operations were exercised by the test harness as service_role only",
+    "no approval was granted: paymentAllowed, operationallySellable, sellable and creditConsumable are untouched, the canonical Grade-A record for IL:felony-prostitution-relief is still REVOKED at this base, and a registration row is scope rather than commercial authority",
+    "no route was opened; the automatic sibling il-prostitution-j-auto is not registered",
+    "no Stripe, no hosted Supabase, no auth/RLS/session change, no environment variable, no Production",
+    "the exact-path authorization for this migration file, and the FORWARD_CHAIN entry in scripts/verify-rcap-production-schema-upgrade.mjs, are Captain/owner acts this lane did not perform",
+    "no hosted sponsored canary; hosted acceptance still needs credentials only the owner holds"
+  ],
+  "testDoubles": [
+    { "boundary": "Database transport", "replacement": "psql against an ephemeral local PostgreSQL 16 cluster as the superuser with service_role present; no hosted Supabase transport, no RLS/session acceptance" },
+    { "boundary": "Clinic-mode schema", "replacement": "the columns the sponsored transaction reads are created directly (screening_sessions, clinic_events, clinic_cases, partner_entitlement, consumer_pending_screening_results, rcap_record_events, rcap_screening_analytics_events) rather than by applying the clinic-mode migrations, which pull in partner_users/auth wiring this focused harness does not need. The consumer verification, provenance, queue, accounting, delivery and finalization SQL is the real committed SQL" },
+    { "boundary": "Authentication and claimed source", "replacement": "synthetic auth.users rows and seeded CLAIMED pending results; no real login, hosted session or end-to-end anonymous claim" },
+    { "boundary": "Renderer", "replacement": "the committed Illinois canonical fixture PDF is returned by the render port through the real runWorkerCycle; this proves queue, guard, accounting and finalization plumbing, not participant personalisation or hosted rendering" },
+    { "boundary": "Artifact storage", "replacement": "a filesystem adapter; hosted storage ownership, credentials and retention were not tested" },
+    { "boundary": "Grade-A fulfillment authority", "replacement": "not consulted at all by the SQL; commercial authority remains the registry's answer, which is REVOKED for this route at this base" }
+  ],
+  "whatRemains": "The Codex lane replaces the refusal in packet-generation.ts with a call to enqueue_verified_sponsored_packet_render and, after the worker validates, a call to finalize_sponsored_packet_generation_for_route with the job id. The Captain owns the exact-path authorization for this migration file, the stale FORWARD_CHAIN list, and the hosted sponsored canary. Commercial authority for IL:felony-prostitution-relief still comes only from a reinstated Grade-A fulfillment record and the launch gates, and this migration moves neither."
+}

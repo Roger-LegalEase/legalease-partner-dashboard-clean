@@ -1,0 +1,315 @@
+{
+  "schemaVersion": "rcap-grade-a-wave-2-verification-continuation/v1",
+  "generatedBy": "scripts/grade-a-launch-control/generate-verification-continuation.mjs",
+  "status": "ENVIRONMENT_BLOCKED — RETRY REQUIRED",
+  "whatTheReturnsWere": "Forty-three rows, every one BLOCKED_SOURCE because the private Master Library was absent. These are environment records and not packet verdicts.",
+  "refusals": [
+    "No family may be classified PASS or FAIL from the Wave 2 verification returns.",
+    "No Lawrence review package may be prepared from them.",
+    "No shard may be re-dispatched against a re-derived family list: the assignment is the list its own return carries, so that what is verified on retry is what was assigned."
+  ],
+  "preconditionsBeforeAnyShardRuns": [
+    "MASTER_LIBRARY_SOURCE_DIR is set and resolves to the private Master Library root in the executing environment.",
+    "At least 4096 MiB of free disk before any command runs, per WEC-2.",
+    "node scripts/verify-packet-build-environment.mjs --family <familyId> returns something other than PACKET_BUILD_ENVIRONMENT_NOT_READY for the shard's first family."
+  ],
+  "stopRule": "If the precondition check fails, the shard returns DEPENDENCIES_UNINSTALLABLE or BLOCKED_SOURCE again with the observed environment and stops. A verifier that cannot read the source must never report a verdict, and a second identical environment stop is a Captain problem rather than a worker one.",
+  "totals": {
+    "shards": 7,
+    "families": 43
+  },
+  "shards": [
+    {
+      "shard": "V1",
+      "branch": "codex/v1-independent-packet-verification",
+      "previousReturn": "e14950ec5b9d9a74b300f1d076b488e1f5ebd772",
+      "familyCount": 7,
+      "families": [
+        "az_marijuana_expungement_arrest_no_charges-set",
+        "ca-851-91-set",
+        "nj_ordinance-set",
+        "pa_summary_conviction-set",
+        "ut_pet_dismissed_without_prejudice-set",
+        "wa_vac_homicide_victim_prostitution-set",
+        "wv_conv_single_misdemeanor-set"
+      ],
+      "previousVerdicts": [
+        {
+          "familyId": "az_marijuana_expungement_arrest_no_charges-set",
+          "verdict": "BLOCKED_SOURCE"
+        },
+        {
+          "familyId": "ca-851-91-set",
+          "verdict": "BLOCKED_SOURCE"
+        },
+        {
+          "familyId": "nj_ordinance-set",
+          "verdict": "BLOCKED_SOURCE"
+        },
+        {
+          "familyId": "pa_summary_conviction-set",
+          "verdict": "BLOCKED_SOURCE"
+        },
+        {
+          "familyId": "ut_pet_dismissed_without_prejudice-set",
+          "verdict": "BLOCKED_SOURCE"
+        },
+        {
+          "familyId": "wa_vac_homicide_victim_prostitution-set",
+          "verdict": "BLOCKED_SOURCE"
+        },
+        {
+          "familyId": "wv_conv_single_misdemeanor-set",
+          "verdict": "BLOCKED_SOURCE"
+        }
+      ],
+      "allBlockedForOneReason": true
+    },
+    {
+      "shard": "V2",
+      "branch": "codex/v2-independent-packet-verification",
+      "previousReturn": "85b58750104f85f8ed4d35362581ba4a7f9a950f",
+      "familyCount": 6,
+      "families": [
+        "az_marijuana_expungement_superior_court-set",
+        "ca-prop64-set",
+        "ny_160_59_petition-set",
+        "rcap-oh-custom-pleading-clean-tracks",
+        "ut_pet_limitations-set",
+        "wa_vac_misdemeanor_ordinary-set"
+      ],
+      "previousVerdicts": [
+        {
+          "familyId": "az_marijuana_expungement_superior_court-set",
+          "verdict": "BLOCKED_SOURCE"
+        },
+        {
+          "familyId": "ca-prop64-set",
+          "verdict": "BLOCKED_SOURCE"
+        },
+        {
+          "familyId": "ny_160_59_petition-set",
+          "verdict": "BLOCKED_SOURCE"
+        },
+        {
+          "familyId": "rcap-oh-custom-pleading-clean-tracks",
+          "verdict": "BLOCKED_SOURCE"
+        },
+        {
+          "familyId": "ut_pet_limitations-set",
+          "verdict": "BLOCKED_SOURCE"
+        },
+        {
+          "familyId": "wa_vac_misdemeanor_ordinary-set",
+          "verdict": "BLOCKED_SOURCE"
+        }
+      ],
+      "allBlockedForOneReason": true
+    },
+    {
+      "shard": "V3",
+      "branch": "codex/v3-independent-packet-verification",
+      "previousReturn": "6fe1432af7f8aadb06087a699880dc85707a285f",
+      "familyCount": 6,
+      "families": [
+        "ca-1203-41-set",
+        "ne-setaside-custodial-set",
+        "ny_mrta_marijuana-set",
+        "ri_nonconviction_sealing-set",
+        "ut_pet_no_charges-set",
+        "wa_vac_substance_use_disorder-set"
+      ],
+      "previousVerdicts": [
+        {
+          "familyId": "ca-1203-41-set",
+          "verdict": "BLOCKED_SOURCE"
+        },
+        {
+          "familyId": "ne-setaside-custodial-set",
+          "verdict": "BLOCKED_SOURCE"
+        },
+        {
+          "familyId": "ny_mrta_marijuana-set",
+          "verdict": "BLOCKED_SOURCE"
+        },
+        {
+          "familyId": "ri_nonconviction_sealing-set",
+          "verdict": "BLOCKED_SOURCE"
+        },
+        {
+          "familyId": "ut_pet_no_charges-set",
+          "verdict": "BLOCKED_SOURCE"
+        },
+        {
+          "familyId": "wa_vac_substance_use_disorder-set",
+          "verdict": "BLOCKED_SOURCE"
+        }
+      ],
+      "allBlockedForOneReason": true
+    },
+    {
+      "shard": "V4",
+      "branch": "codex/v4-independent-packet-verification",
+      "previousReturn": "ed8176e98344d715040bfdaeaacb684ef04aec2e",
+      "familyCount": 6,
+      "families": [
+        "ca-1203-42-set",
+        "nj_arrest_no_conviction-set",
+        "oh_marijuana_expungement-set",
+        "sd_arrest_expungement-set",
+        "ut_pet_traffic-set",
+        "wa_vac_survivor_felony-set"
+      ],
+      "previousVerdicts": [
+        {
+          "familyId": "ca-1203-42-set",
+          "verdict": "BLOCKED_SOURCE"
+        },
+        {
+          "familyId": "nj_arrest_no_conviction-set",
+          "verdict": "BLOCKED_SOURCE"
+        },
+        {
+          "familyId": "oh_marijuana_expungement-set",
+          "verdict": "BLOCKED_SOURCE"
+        },
+        {
+          "familyId": "sd_arrest_expungement-set",
+          "verdict": "BLOCKED_SOURCE"
+        },
+        {
+          "familyId": "ut_pet_traffic-set",
+          "verdict": "BLOCKED_SOURCE"
+        },
+        {
+          "familyId": "wa_vac_survivor_felony-set",
+          "verdict": "BLOCKED_SOURCE"
+        }
+      ],
+      "allBlockedForOneReason": true
+    },
+    {
+      "shard": "V5",
+      "branch": "codex/v5-independent-packet-verification",
+      "previousReturn": "79922470a6a16264ba268b026097800faa9839f7",
+      "familyCount": 6,
+      "families": [
+        "ca-1203-43-set",
+        "nj_clean_slate-set",
+        "pa_490_nonconviction-set",
+        "ut_pet_acquittal-set",
+        "wa_vac_cannabis-set",
+        "wa_vac_survivor_misdemeanor-set"
+      ],
+      "previousVerdicts": [
+        {
+          "familyId": "ca-1203-43-set",
+          "verdict": "BLOCKED_SOURCE"
+        },
+        {
+          "familyId": "nj_clean_slate-set",
+          "verdict": "BLOCKED_SOURCE"
+        },
+        {
+          "familyId": "pa_490_nonconviction-set",
+          "verdict": "BLOCKED_SOURCE"
+        },
+        {
+          "familyId": "ut_pet_acquittal-set",
+          "verdict": "BLOCKED_SOURCE"
+        },
+        {
+          "familyId": "wa_vac_cannabis-set",
+          "verdict": "BLOCKED_SOURCE"
+        },
+        {
+          "familyId": "wa_vac_survivor_misdemeanor-set",
+          "verdict": "BLOCKED_SOURCE"
+        }
+      ],
+      "allBlockedForOneReason": true
+    },
+    {
+      "shard": "V6",
+      "branch": "codex/v6-independent-packet-verification",
+      "previousReturn": "6e2e41fbadfaed782a68f6cb03844091b337bf5c",
+      "familyCount": 6,
+      "families": [
+        "ca-1203-4a-set",
+        "nj_disorderly_persons-set",
+        "pa_790_nonconviction-set",
+        "ut_pet_conviction-set",
+        "wa_vac_domestic_violence-set",
+        "wa_vac_treaty_fishing-set"
+      ],
+      "previousVerdicts": [
+        {
+          "familyId": "ca-1203-4a-set",
+          "verdict": "BLOCKED_SOURCE"
+        },
+        {
+          "familyId": "nj_disorderly_persons-set",
+          "verdict": "BLOCKED_SOURCE"
+        },
+        {
+          "familyId": "pa_790_nonconviction-set",
+          "verdict": "BLOCKED_SOURCE"
+        },
+        {
+          "familyId": "ut_pet_conviction-set",
+          "verdict": "BLOCKED_SOURCE"
+        },
+        {
+          "familyId": "wa_vac_domestic_violence-set",
+          "verdict": "BLOCKED_SOURCE"
+        },
+        {
+          "familyId": "wa_vac_treaty_fishing-set",
+          "verdict": "BLOCKED_SOURCE"
+        }
+      ],
+      "allBlockedForOneReason": true
+    },
+    {
+      "shard": "V7",
+      "branch": "codex/v7-independent-packet-verification",
+      "previousReturn": "ce6bd1b174b518ecc11a69fb5214899abff8a83e",
+      "familyCount": 6,
+      "families": [
+        "ca-17b-reduction-set",
+        "nj_indictable_conviction-set",
+        "pa_9122_1_limited_access-set",
+        "ut_pet_dismissed_with_prejudice-set",
+        "wa_vac_felony-set",
+        "wv_conv_multiple_misdemeanors-set"
+      ],
+      "previousVerdicts": [
+        {
+          "familyId": "ca-17b-reduction-set",
+          "verdict": "BLOCKED_SOURCE"
+        },
+        {
+          "familyId": "nj_indictable_conviction-set",
+          "verdict": "BLOCKED_SOURCE"
+        },
+        {
+          "familyId": "pa_9122_1_limited_access-set",
+          "verdict": "BLOCKED_SOURCE"
+        },
+        {
+          "familyId": "ut_pet_dismissed_with_prejudice-set",
+          "verdict": "BLOCKED_SOURCE"
+        },
+        {
+          "familyId": "wa_vac_felony-set",
+          "verdict": "BLOCKED_SOURCE"
+        },
+        {
+          "familyId": "wv_conv_multiple_misdemeanors-set",
+          "verdict": "BLOCKED_SOURCE"
+        }
+      ],
+      "allBlockedForOneReason": true
+    }
+  ]
+}

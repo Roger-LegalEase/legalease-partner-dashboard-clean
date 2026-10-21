@@ -1,0 +1,62 @@
+
+> legalease-partner-dashboard-clean@0.1.0 rcap:integrate-packet-factory
+> node scripts/grade-a-packet-factory-24h/integrate.mjs
+
+
+== identity-refresh annotations survive
+   121 annotations across 76 families are what keep drifted shared-record pins honest. A build that failed after wiping its output directory can destroy one, and the next successful build reports zeros over the gap.
+
+== gate coverage matches its verdicts
+   The queue used to describe what the gate renders from an assumption rather than from the gate, and the assumption went stale: 36 rows said their boundary fixture went unrendered while the same run's verdict named it rendered and measured.
+
+== governance state survives
+   296 product-wiring records carry governance state and 61 carry withdrawn receipts. A rebuild that strips an acceptance receipt is invisible in a diff and turns into a silent withdrawal at the next generate.
+
+== builder self-tests actually run
+   A guard nothing invokes is not a guard. Assertions written to protect a repaired packet sat behind a flag no CI job and no chain step passed, and VF61 proved a repaired defect walks straight back into the delivered bytes with the build reporting success.
+
+== extract verifier returns
+   Reads every lane's return and selects the current verdict per family. Must precede generate.mjs, which reads its output.
+   | 30 row(s) refused and carried into data/rcap-grade-a/packet-factory-24h/VERIFIER_RETURNS.json:
+
+== completeness audit
+   Rewrites PACKET_COMPLETENESS_MATRIX.json. A family merged since the last audit has no counters, and the raster gate refuses it as "no completeness audit" however finished its packet is.
+
+== product wiring
+   A declared product wiring is the fourth condition of the terminal transition. Without it a family with a PASS, a bound RASTER_PASS and no legal input stops at VERIFIED_PASS.
+   | 2 famil(ies) REFUSED their declared-delivery binding; their wiring is left exactly as committed:
+
+== generate (first pass)
+   Derives every family state from the records above and writes the dispatch.
+
+== raster queue
+   Enrols newly eligible families and folds admitted receipts into their rows. Reads the queue the first pass just wrote.
+
+FAILED at "raster queue" (exit 1)
+  command: node scripts/grade-a-packet-factory-24h/generate-raster-queue.mjs
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Bound MD input length changed: scripts/rcap-packet-completeness/completeness-contract.mjs
+
+39088 !== 35627
+
+    at loadMdConditionalCandidate (file:///workspaces/legalease-partner-dashboard-clean/scripts/rcap-packet-completeness/md-conditional-native-candidates.mjs:169:41)
+    at mdConditionalRasterDocuments (file:///workspaces/legalease-partner-dashboard-clean/scripts/grade-a-packet-factory-24h/md-conditional-raster-documents.mjs:13:16)
+    at conditionalPacketDocuments (file:///workspaces/legalease-partner-dashboard-clean/scripts/grade-a-packet-factory-24h/conditional-raster-documents.mjs:11:98)
+    at documentSet (file:///workspaces/legalease-partner-dashboard-clean/scripts/grade-a-packet-factory-24h/generate-raster-queue.mjs:291:23)
+    at file:///workspaces/legalease-partner-dashboard-clean/scripts/grade-a-packet-factory-24h/generate-raster-queue.mjs:842:48 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 39088,
+  expected: 35627,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.20.0
+
+
+No later step ran and NO TRANSITION IS REPORTED. The counts in the queue are from before this run
+and reporting them now would be reporting a checkpoint that did not happen.

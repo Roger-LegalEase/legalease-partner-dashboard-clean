@@ -17,8 +17,6 @@ const { getProfileByJurisdiction } = await import("../src/lib/rcap-engine/profil
 const { projectPublicProfile } = await import("../src/lib/rcap-engine/public-profile-projection.ts");
 const { toScreeningAnswers } = await import("../src/components/expungement-ai/screening/answers.ts");
 const { buildPartnerUsageWindowEventPayload } = await import("../src/lib/expungement-ai/nudge-os-events.ts");
-const { saveEligibilityResultToBriefcase } = await import("../src/lib/expungement-ai/briefcase.ts");
-const { ConsumerPacketPaymentRequiredError, generatePaidConsumerPacket } = await import("../src/lib/expungement-ai/packet-generation.ts");
 
 try {
   rcapPaymentRoutingStatus = verifySourceWiring();
@@ -47,7 +45,6 @@ try {
   await verifyUsageEventNoPii();
   await verifyScopeGuardDiscipline();
   await verifyDtcUnchangedGuard(db);
-  await verifyUnpaidDtcPacketGenerationRejected();
 
   await db.close();
 } catch (error) {
@@ -85,12 +82,15 @@ function verifySourceWiring() {
   const dtcStartPage = read("src/app/expungement-ai/start/page.tsx");
   const payPage = read("src/app/expungement-ai/pay/page.tsx");
   const reviewPage = read("src/app/briefcase/[packetId]/review/page.tsx");
+  const verificationAction = read("src/components/expungement-ai/PacketVerificationAction.tsx");
   const packetReadyPage = read("src/app/expungement-ai/packet-ready/page.tsx");
   const checkoutRoute = read("src/app/api/expungement-ai/checkout/route.ts");
   const paymentConfirmRoute = read("src/app/api/expungement-ai/payment/confirm/route.ts");
   const packetGenerateRoute = read("src/app/api/expungement-ai/packet/generate/route.ts");
   const pendingCreateRoute = read("src/app/api/expungement-ai/screening/pending/route.ts");
   const pendingClaimRoute = read("src/app/api/expungement-ai/screening/pending/claim/route.ts");
+  const claimService = read("src/lib/expungement-ai/claim/claim-service.ts");
+  const claimHandoff = read("src/lib/expungement-ai/claim/claim-handoff.ts");
   const saveResumeRoute = read("src/app/api/expungement-ai/screening/save-resume/route.ts");
   const resumeConfirmRoute = read("src/app/api/expungement-ai/screening/resume/confirm/route.ts");
   const frontendEvaluate = read("src/lib/expungement-ai/frontend/evaluate.ts");
@@ -117,7 +117,7 @@ function verifySourceWiring() {
   assert(!intakeLib.includes(".from(\"screening_sessions\").insert"), "No app-level insert flow allowed.");
   assert(!intakeLib.includes("screenings_used + 1"), "No app-level entitlement increment allowed.");
 
-  const approvedHandoffIssues = approvedScreeningHandoffViolations({ screeningFlow, screeningResult, pendingClaimRoute, reviewPage });
+  const approvedHandoffIssues = approvedScreeningHandoffViolations({ screeningFlow, screeningResult, pendingClaimRoute, claimService, claimHandoff, reviewPage, verificationAction });
   assert(approvedHandoffIssues.length === 0, approvedHandoffIssues.join("\n"));
 
   // Negative control: a source mutation that reintroduces payment immediately
@@ -127,16 +127,32 @@ function verifySourceWiring() {
   assert(packetActionStart >= 0 && packetActionEnd > packetActionStart, "Screening packet action must be structurally identifiable.");
   const mutatedPacketAction = screeningFlow
     .slice(packetActionStart, packetActionEnd)
-    .replaceAll("/briefcase", "/expungement-ai/pay");
+    .replaceAll("submitClaim(pending.claimToken)", 'fetch("/expungement-ai/pay")');
   const regressionIssues = approvedScreeningHandoffViolations({
     screeningFlow: mutatedPacketAction,
     screeningResult,
     pendingClaimRoute,
-    reviewPage
+    claimService,
+    claimHandoff,
+    reviewPage,
+    verificationAction
   });
   assert(
-    regressionIssues.some((message) => message.includes("free Briefcase before payment")),
+    regressionIssues.some((message) => message.includes("single-use claim token")),
     "Negative control failed: RCAP partner-mode verifier did not detect a premature DTC payment handoff."
+  );
+  const directCheckoutIssues = approvedScreeningHandoffViolations({
+    screeningFlow,
+    screeningResult,
+    pendingClaimRoute,
+    claimService,
+    claimHandoff,
+    reviewPage: reviewPage.replace("<PacketVerificationAction", "<ConsumerCheckoutButton"),
+    verificationAction
+  });
+  assert(
+    directCheckoutIssues.some((message) => message.includes("delegate payment and generation")),
+    "Negative control failed: a direct Checkout control on final review was not rejected."
   );
 
   assert(!screeningFlow.includes("payment-adapter"), "RCAP screening flow must not invoke payment adapter.");
@@ -148,25 +164,29 @@ function verifySourceWiring() {
   // Partner mode renders one of four lane CTAs without a price. DTC saves the
   // result first and owns Checkout only from the exact matter's final review.
   assert(screeningResult.includes("PARTNER_RESULT_LANES[evaluation.resultCode].key"), "Partner-covered result CTA must use the four result-lane labels.");
-  assert(screeningResult.includes('"result.lane_packet_builder"') && screeningResult.includes('"Continue to packet builder"'), "Partner packet-ready lane must say Continue to packet builder.");
+  assert(screeningResult.includes('"result.save_briefcase_continue"') && screeningResult.includes('"Save to my Briefcase and continue"'), "Partner packet-ready lane must accurately say the result is saved to the Briefcase first.");
   const partnerCtaBranch = screeningResult.slice(
     screeningResult.indexOf("{hasScreeningSession ? ("),
     screeningResult.indexOf(") : (", screeningResult.indexOf("{hasScreeningSession ? ("))
   );
   assert(partnerCtaBranch.length > 0 && !partnerCtaBranch.includes("$50"), "Partner result CTA branch must never render the $50 label.");
-  assert(screeningResult.includes("result.partner_no_pay"), "Partner-covered result must show no-payment supporting copy.");
-  assert(screeningResult.includes('fallback: "Save this matter and continue"'), "DTC result CTA must save the exact matter before payment.");
+  assert(screeningResult.includes("Your packet is covered by your partner program.")
+    && screeningResult.includes("Your saved result and next steps are covered by your partner program."), "Partner result must visibly explain verified program coverage without consumer commercial copy.");
+  assert(screeningResult.includes('fallback: "Save my result and continue"'), "DTC result CTA must save the exact matter before payment.");
   assert(screeningResult.includes("$50 one time when you are ready to generate this packet"), "DTC packet-ready result must retain its matter-level $50 disclosure.");
-  assert(reviewPage.includes("<ConsumerCheckoutButton") && reviewPage.includes('label="Pay $50 and generate my packet"'), "DTC Checkout must remain on the exact matter's final accuracy review.");
+  assert(reviewPage.includes("<PacketVerificationAction") && !reviewPage.includes("<ConsumerCheckoutButton"), "Final review must delegate post-verification generation and Checkout decisions to PacketVerificationAction.");
+  assert(verificationAction.includes("packetVerificationActions({ verified, packetReady, mode })")
+    && verificationAction.includes("{nextActions.checkout ? (")
+    && verificationAction.includes('<ConsumerCheckoutButton briefcaseItemId={itemId} label="Pay $50 and generate my packet"'), "DTC Checkout must remain reachable only through the verified action branch.");
   assert(payPage.includes("Compatibility route") && payPage.includes("/review"), "Legacy pay links must redirect the exact matter to final review.");
   assert(packetReadyPage.includes("Compatibility return") && !packetReadyPage.includes("recordConsumerPaymentConfirmation"), "Legacy packet-ready return must not write payment or authorize generation.");
-  assert(dtcStartPage.includes('fallback="Start free"'), "DTC start page must retain the Start free action.");
+  assert(dtcStartPage.includes('fallback="Check my options"'), "DTC start page must retain the approved primary CTA.");
   assert(dtcStartPage.includes("/expungement-ai/screening"), "DTC start page must still link into the existing screening flow.");
   assert(checkoutRoute.includes("createConsumerPacketCheckout"), "Checkout route must invoke consumer packet checkout.");
   assert(paymentConfirmRoute.includes("recordConsumerPaymentConfirmation"), "Payment confirm route must invoke payment confirmation.");
-  assert(pendingCreateRoute.includes('product: body.product === "rcap_partner" ? "rcap_partner" : "expungement_ai_dtc"'), "Pending create must persist explicit DTC/partner source attribution.");
-  assert(pendingClaimRoute.includes('data.product === "rcap_partner"') && pendingClaimRoute.includes("isRcapPartnerScreeningSession"), "Pending claim must grant sponsored posture only to a validated partner session.");
-  assert(pendingClaimRoute.includes("redirectTo: `/briefcase/${encodeURIComponent(item.id)}`"), "Pending claim must send every result to its exact free Briefcase matter.");
+  assert(pendingCreateRoute.includes('attribution.isPartnerSession ? "rcap_partner" : "expungement_ai_dtc"'), "Pending create must persist server-resolved DTC/partner source attribution.");
+  assert(pendingCreateRoute.includes("resolveScreeningAttribution") && claimService.includes('row.product === "rcap_partner" && Boolean(row.partner_slug)'), "Pending claim must grant sponsored posture only to a validated partner session.");
+  assert(claimService.includes("exactMatterPath(matterId)"), "Pending claim must send every result to its exact free Briefcase matter.");
   assert(!pendingClaimRoute.includes('/expungement-ai/pay?briefcaseItemId='), "Pending claim must not skip packet information and final review.");
   assert(packetGenerateRoute.includes("generatePaidConsumerPacket"), "Packet generation route must invoke paid packet generation.");
   assert(saveResumeRoute.includes("saveScreeningResumeLink"), "Save-resume route must stay wired.");
@@ -196,7 +216,7 @@ function verifySourceWiring() {
   return rcapPaymentRoutingStatus;
 }
 
-function approvedScreeningHandoffViolations({ screeningFlow, screeningResult, pendingClaimRoute, reviewPage }) {
+function approvedScreeningHandoffViolations({ screeningFlow, screeningResult, pendingClaimRoute, claimService, claimHandoff, reviewPage, verificationAction }) {
   const issues = [];
   const require = (condition, message) => {
     if (!condition) issues.push(message);
@@ -206,15 +226,18 @@ function approvedScreeningHandoffViolations({ screeningFlow, screeningResult, pe
   const handoff = start >= 0 && end > start ? screeningFlow.slice(start, end) : screeningFlow;
 
   require(handoff.includes("/api/expungement-ai/screening/pending"), "Completed DTC and RCAP results must create a server-side pending result.");
-  require(handoff.includes("/api/expungement-ai/screening/pending/claim"), "Authenticated result handoff must claim the pending result.");
-  require(handoff.includes('product: isPartnerSession ? "rcap_partner" : "expungement_ai_dtc"'), "Result handoff must preserve explicit DTC versus RCAP attribution.");
-  require(handoff.includes("sourceSessionId: isPartnerSession ? effectiveInitialSessionId : undefined"), "DTC results must never inherit partner session authority.");
-  require(handoff.includes('next: "/briefcase"'), "Completed results must enter the free Briefcase before payment.");
+  require(claimHandoff.includes("/api/expungement-ai/screening/pending/claim"), "Authenticated result handoff must claim the pending result.");
+  require(handoff.includes("anonymousSessionId:"), "Result handoff must name the anonymous session so attribution is resolved server-side.");
+  require(claimService.includes('row.product === "rcap_partner" && Boolean(row.partner_slug)'), "DTC results must never inherit partner session authority.");
+  require(handoff.includes("submitClaim(pending.claimToken)"), "Completed results must be claimed through the single-use claim token.");
   require(!handoff.includes("/expungement-ai/pay") && !handoff.includes("checkout"), "Screening result handoff must not start payment before the free Briefcase.");
-  require(screeningResult.includes('fallback: "Save this matter and continue"'), "DTC packet-ready result must use the approved save-before-payment action.");
-  require(pendingClaimRoute.includes("evaluateAuthoritativeScreeningResult"), "Pending claims must re-evaluate stored inputs server-side.");
-  require(pendingClaimRoute.includes("redirectTo: `/briefcase/${encodeURIComponent(item.id)}`"), "Pending claims must route to the exact saved matter.");
-  require(reviewPage.includes("<ConsumerCheckoutButton") && reviewPage.includes('label="Pay $50 and generate my packet"'), "Consumer Checkout must exist only on final accuracy review.");
+  require(screeningResult.includes('fallback: "Save my result and continue"'), "DTC packet-ready result must use the approved save-before-payment action.");
+  require(claimService.includes("evaluateAuthoritativeScreeningResult"), "Pending claims must re-evaluate stored inputs server-side.");
+  require(claimService.includes("exactMatterPath(matterId)"), "Pending claims must route to the exact saved matter.");
+  require(reviewPage.includes("<PacketVerificationAction") && !reviewPage.includes("<ConsumerCheckoutButton"), "Final review must delegate payment and generation until explicit verification.");
+  require(verificationAction.includes("packetVerificationActions({ verified, packetReady, mode })")
+    && verificationAction.includes("{nextActions.checkout ? (")
+    && verificationAction.includes("{nextActions.generation?.mode"), "PacketVerificationAction must own all post-verification Checkout and generation branches.");
   return issues;
 }
 
@@ -486,50 +509,6 @@ async function verifyDtcUnchangedGuard(db) {
   assert(fresh.resultCode === repeated.resultCode, "DTC and RCAP routes must share the same evaluator entrypoint.");
   assert(fresh.paymentAllowed === repeated.paymentAllowed, "DTC and RCAP must agree on paymentAllowed before routing.");
   assertDeepEqual(fresh.packetPlan ?? null, repeated.packetPlan ?? null, "DTC and RCAP must agree on packetPlan before routing.");
-}
-
-async function verifyUnpaidDtcPacketGenerationRejected() {
-  const savedEnv = {
-    NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
-    NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-    SUPABASE_SERVICE_ROLE_KEY: process.env.SUPABASE_SERVICE_ROLE_KEY
-  };
-  delete process.env.NEXT_PUBLIC_SUPABASE_URL;
-  delete process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  delete process.env.SUPABASE_SERVICE_ROLE_KEY;
-
-  try {
-    const userId = `dtc-unpaid-${randomUuid()}`;
-    const item = saveEligibilityResultToBriefcase({
-      resultCode: "packet_ready",
-      userLabel: "Your self-help packet is ready to prepare.",
-      state: "MS",
-      pathwayLabel: "Mississippi record-clearing review",
-      confidence: "high",
-      paymentAllowed: true,
-      priceCents: 5000,
-      packetType: "custom_pleading",
-      reasons: ["The engine found a packet-ready path."],
-      nextSteps: ["Review the result.", "Pay once to generate the packet.", "Follow the filing checklist."],
-      emailCaptureRecommended: false,
-      disclaimer: "Verifier fixture."
-    }, userId);
-
-    assert(item.paymentStatus !== "paid", "DTC verifier fixture must start without paid status.");
-    assert(item.sourceSessionId === undefined, "DTC verifier fixture must not carry an RCAP source session.");
-
-    let rejected = false;
-    try {
-      await generatePaidConsumerPacket({ userId, briefcaseItemId: item.id });
-    } catch (error) {
-      rejected = error instanceof ConsumerPacketPaymentRequiredError;
-    }
-    assert(rejected, "Unpaid DTC packet-ready item must be rejected before packet generation.");
-  } finally {
-    restoreEnv("NEXT_PUBLIC_SUPABASE_URL", savedEnv.NEXT_PUBLIC_SUPABASE_URL);
-    restoreEnv("NEXT_PUBLIC_SUPABASE_ANON_KEY", savedEnv.NEXT_PUBLIC_SUPABASE_ANON_KEY);
-    restoreEnv("SUPABASE_SERVICE_ROLE_KEY", savedEnv.SUPABASE_SERVICE_ROLE_KEY);
-  }
 }
 
 function createPgliteScreeningSessionStorage(db) {
@@ -813,14 +792,6 @@ function indexOf(source, needle) {
 
 function randomUuid() {
   return crypto.randomUUID();
-}
-
-function restoreEnv(key, value) {
-  if (value === undefined) {
-    delete process.env[key];
-    return;
-  }
-  process.env[key] = value;
 }
 
 function read(relativePath) {

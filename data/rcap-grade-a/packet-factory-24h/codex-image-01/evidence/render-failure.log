@@ -1,0 +1,89 @@
+{
+  "participants": [],
+  "failures": [],
+  "revisions": [],
+  "result": "FAIL-CLOSED checks PASS; explicit renderer failure double, no artifact or Ready",
+  "inputs": [
+    {
+      "participant": "Alice Example",
+      "expectedAddress": "101 First Street",
+      "matterId": "eb89b8f3-62fc-41c7-a3dd-c58304a1dd06",
+      "jobId": "62cdcd01-4485-4089-9be9-14f168d1ad7f",
+      "verificationHash": "3e50b9aa28de5ece92e4d84c167ce7e16682bf3a9a544a1288ca2107bd3b0d73"
+    },
+    {
+      "participant": "Bruno Sample",
+      "expectedAddress": "202 Second Street",
+      "matterId": "b850aaae-4a50-43a4-810d-823f425d9c07",
+      "jobId": "1f32da5f-4c4a-4172-804d-ec98f20bee2a",
+      "verificationHash": "88be00de49a481fcce31147858ef502b46748245d5ee5d7cf55bf915eb4464aa"
+    },
+    {
+      "participant": "Claire Sponsored",
+      "expectedAddress": "404 Third Street",
+      "matterId": "820778ce-a77f-4563-9db9-660bc8091787",
+      "jobId": "2973a7c2-7f1b-4b7b-ad2a-576e291ee39d",
+      "verificationHash": "e2abf0144b29c9f80651604af4fcb5689810ec708de74453cc3ae8e2ddb5116f"
+    },
+    {
+      "participant": "Diego Sponsored",
+      "expectedAddress": "505 Fourth Street",
+      "matterId": "56781393-8aec-49a5-9d61-cee94243b883",
+      "jobId": "37cd6abf-882a-477f-be82-4deb439b90f5",
+      "verificationHash": "d2fcee2861146413f7bbd606111e66886a620208e1c245741cbdf9d200aa131d"
+    }
+  ],
+  "artifacts": 0,
+  "consumerConsumptions": 0,
+  "sponsoredConsumptions": 0
+}
+Consumer and sponsored entry, immutable inputs, explicit renderer failure and no false Ready PASS
+Synthetic artifacts: /tmp/il-personalization-qSdSZB
+psql:supabase/phase-26-consumer-briefcase-items.sql:61: NOTICE:  policy "consumer briefcase select own items" for relation "public.consumer_briefcase_items" does not exist, skipping
+psql:supabase/phase-26-consumer-briefcase-items.sql:67: NOTICE:  policy "consumer briefcase insert own items" for relation "public.consumer_briefcase_items" does not exist, skipping
+psql:supabase/phase-26-consumer-briefcase-items.sql:73: NOTICE:  policy "consumer briefcase update own items" for relation "public.consumer_briefcase_items" does not exist, skipping
+psql:supabase/phase-26-consumer-briefcase-items.sql:80: NOTICE:  policy "consumer briefcase delete own items" for relation "public.consumer_briefcase_items" does not exist, skipping
+psql:supabase/phase-49-rcap-packet-render-jobs.sql:231: NOTICE:  trigger "packet_render_jobs_guard_transition" for relation "public.packet_render_jobs" does not exist, skipping
+psql:supabase/phase-49-rcap-packet-render-jobs.sql:471: NOTICE:  policy "packet_render_jobs_service_role_all" for relation "public.packet_render_jobs" does not exist, skipping
+psql:supabase/phase-49-rcap-packet-render-jobs.sql:477: NOTICE:  policy "rcap_packet_credit_consumptions_service_role_all" for relation "public.rcap_packet_credit_consumptions" does not exist, skipping
+psql:supabase/phase-49-rcap-packet-render-jobs.sql:483: NOTICE:  policy "rcap_partner_packet_allocation_service_role_all" for relation "public.rcap_partner_packet_allocation" does not exist, skipping
+psql:supabase/phase-50-rcap-packet-delivery-hardening.sql:72: NOTICE:  constraint "packet_render_jobs_max_attempts_check" of relation "packet_render_jobs" does not exist, skipping
+psql:supabase/phase-50-rcap-packet-delivery-hardening.sql:78: NOTICE:  constraint "packet_render_jobs_failure_disposition_check" of relation "packet_render_jobs" does not exist, skipping
+psql:supabase/phase-50-rcap-packet-delivery-hardening.sql:84: NOTICE:  constraint "packet_render_jobs_delivery_eligibility_check" of relation "packet_render_jobs" does not exist, skipping
+psql:supabase/phase-50-rcap-packet-delivery-hardening.sql:93: NOTICE:  constraint "packet_render_jobs_accounting_result_check" of relation "packet_render_jobs" does not exist, skipping
+psql:supabase/phase-50-rcap-packet-delivery-hardening.sql:100: NOTICE:  constraint "packet_render_jobs_partner_identity_check" of relation "packet_render_jobs" does not exist, skipping
+psql:supabase/phase-50-rcap-packet-delivery-hardening.sql:112: NOTICE:  constraint "packet_render_jobs_eligible_requires_accounting_check" of relation "packet_render_jobs" does not exist, skipping
+psql:supabase/phase-50-rcap-packet-delivery-hardening.sql:128: NOTICE:  constraint "packet_render_jobs_source_presence_check" of relation "packet_render_jobs" does not exist, skipping
+psql:supabase/phase-50-rcap-packet-delivery-hardening.sql:288: NOTICE:  trigger "set_partner_packet_entitlement_updated_at" for relation "public.partner_packet_entitlement" does not exist, skipping
+psql:supabase/phase-50-rcap-packet-delivery-hardening.sql:307: NOTICE:  trigger "guard_packet_render_job_insert" for relation "public.packet_render_jobs" does not exist, skipping
+psql:supabase/phase-50-rcap-packet-delivery-hardening.sql:433: NOTICE:  trigger "guard_packet_render_job_delete" for relation "public.packet_render_jobs" does not exist, skipping
+psql:supabase/phase-50-rcap-packet-delivery-hardening.sql:455: NOTICE:  trigger "guard_packet_credit_ledger" for relation "public.packet_credit_ledger" does not exist, skipping
+psql:supabase/phase-50-rcap-packet-delivery-hardening.sql:477: NOTICE:  trigger "guard_packet_delivery_events" for relation "public.packet_delivery_events" does not exist, skipping
+psql:supabase/phase-52-rcap-consumer-payment-authority.sql:109: NOTICE:  constraint "consumer_briefcase_items_currency_check" of relation "consumer_briefcase_items" does not exist, skipping
+psql:supabase/phase-52-rcap-consumer-payment-authority.sql:109: NOTICE:  constraint "consumer_briefcase_items_payment_authority_check" of relation "consumer_briefcase_items" does not exist, skipping
+psql:supabase/phase-52-rcap-consumer-payment-authority.sql:109: NOTICE:  constraint "consumer_briefcase_items_paid_requires_server_evidence" of relation "consumer_briefcase_items" does not exist, skipping
+psql:supabase/phase-52-rcap-consumer-payment-authority.sql:365: NOTICE:  trigger "packet_render_jobs_consumer_binding_immutable_trg" for relation "public.packet_render_jobs" does not exist, skipping
+psql:supabase/phase-54-rcap-person-namespace-hardening.sql:71: NOTICE:  phase-54: pre-change grant on rcap_persons: postgres -> DELETE, INSERT, REFERENCES, SELECT, TRIGGER, TRUNCATE, UPDATE
+psql:supabase/phase-54-rcap-person-namespace-hardening.sql:71: NOTICE:  phase-54: pre-change grant on rcap_persons: service_role -> DELETE, INSERT, REFERENCES, SELECT, TRIGGER, TRUNCATE, UPDATE
+psql:supabase/phase-54-rcap-person-namespace-hardening.sql:71: NOTICE:  phase-54: pre-change rowsecurity on rcap_persons: f
+psql:supabase/phase-54-rcap-person-namespace-hardening.sql:131: NOTICE:  policy "rcap_persons_service_role_all" for relation "public.rcap_persons" does not exist, skipping
+psql:supabase/phase-54-rcap-person-namespace-hardening.sql:172: NOTICE:  trigger "rcap_guard_reserved_partner_slug_trg" for relation "public.partner_records" does not exist, skipping
+psql:supabase/phase-54-rcap-person-namespace-hardening.sql:206: NOTICE:  constraint "rcap_persons_reserved_namespace_shape" of relation "rcap_persons" does not exist, skipping
+psql:supabase/phase-55-expungement-matter-payment-binding.sql:159: NOTICE:  constraint "consumer_briefcase_items_payment_product_check" of relation "consumer_briefcase_items" does not exist, skipping
+psql:supabase/phase-55-expungement-matter-payment-binding.sql:552: NOTICE:  trigger "packet_render_jobs_paid_matter_insert_trg" for relation "public.packet_render_jobs" does not exist, skipping
+psql:supabase/phase-55-expungement-matter-payment-binding.sql:552: NOTICE:  trigger "packet_render_jobs_paid_matter_finalize_trg" for relation "public.packet_render_jobs" does not exist, skipping
+psql:supabase/phase-55-expungement-matter-payment-binding.sql:674: NOTICE:  trigger "consumer_payment_consumption_binding_trg" for relation "public.consumer_packet_payment_consumption" does not exist, skipping
+psql:supabase/phase-55-expungement-matter-payment-binding.sql:674: NOTICE:  constraint "consumer_payment_consumption_product_check" of relation "consumer_packet_payment_consumption" does not exist, skipping
+psql:supabase/phase-55-expungement-matter-payment-binding.sql:674: NOTICE:  constraint "consumer_payment_consumption_amount_check" of relation "consumer_packet_payment_consumption" does not exist, skipping
+psql:supabase/phase-55-expungement-matter-payment-binding.sql:674: NOTICE:  constraint "consumer_payment_consumption_currency_check" of relation "consumer_packet_payment_consumption" does not exist, skipping
+NOTICE:  schema "extensions" already exists, skipping
+NOTICE:  extension "pgcrypto" already exists, skipping
+psql:supabase/migrations/20260901115000_consumer_packet_artifact_provenance.sql:201: NOTICE:  trigger "consumer_packet_artifact_provenance_immutable" for relation "public.consumer_packet_artifact_provenance" does not exist, skipping
+psql:supabase/migrations/20260901120000_dtc_consumer_launch_rails.sql:567: NOTICE:  trigger "consumer_render_job_verification_guard_trg" for relation "public.packet_render_jobs" does not exist, skipping
+psql:supabase/migrations/20260901130000_consumer_private_delivery.sql:127: NOTICE:  trigger "publish_validated_consumer_render_artifact_trg" for relation "public.packet_render_jobs" does not exist, skipping
+psql:supabase/migrations/20260906120000_sponsored_route_render_transaction.sql:139: NOTICE:  constraint "packet_render_jobs_sponsored_verification_hash_check" of relation "packet_render_jobs" does not exist, skipping
+Worker failure: render_failed synthetic render failure boundary
+Worker failure: render_failed synthetic render failure boundary
+Worker failure: render_failed synthetic render failure boundary
+Worker failure: render_failed synthetic render failure boundary
+Worker failure: render_failed synthetic render failure boundary

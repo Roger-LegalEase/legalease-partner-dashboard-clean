@@ -1,0 +1,43 @@
+{
+  "scope": "Page-specific phone placement and complete page count, measured on actual complete renderer outputs; not independent semantic review",
+  "positiveFullPdfCases": 2,
+  "rejectedCompletePdfCases": 10,
+  "rows": [
+    {
+      "fixture": "canonical",
+      "fullPdfSha256": "a621821597bb296782a424942abbac226e7beb57b34ef869e60dc53f30ba92ae",
+      "measured": {
+        "firstPagePhoneBox": [386.0, 209.8625030517578, 438.921142578125, 221.54150390625],
+        "fontSize": 8.5,
+        "pages": 5,
+        "phonePresentOnBothExactPages": true
+      },
+      "rejectedCompletePdfCases": [
+        {"case": "original collision", "reason": "printed-parenthesis collision"},
+        {"case": "page-one phone missing but page-two present", "reason": "phone missing/duplicated on page 1"},
+        {"case": "field boundary overflow", "reason": "phone crosses field boundary"},
+        {"case": "font floor reduced", "reason": "font floor reduced"},
+        {"case": "last official page omitted", "reason": "missing complete official page"}
+      ]
+    },
+    {
+      "fixture": "boundary",
+      "fullPdfSha256": "9bd0ab0144742a973d38afe6b0880868581d88525eeb906c1da8499f74e58484",
+      "measured": {
+        "firstPagePhoneBox": [386.0, 209.8625030517578, 438.921142578125, 221.54150390625],
+        "fontSize": 8.5,
+        "pages": 5,
+        "phonePresentOnBothExactPages": true
+      },
+      "rejectedCompletePdfCases": [
+        {"case": "original collision", "reason": "printed-parenthesis collision"},
+        {"case": "page-one phone missing but page-two present", "reason": "phone missing/duplicated on page 1"},
+        {"case": "field boundary overflow", "reason": "phone crosses field boundary"},
+        {"case": "font floor reduced", "reason": "font floor reduced"},
+        {"case": "last official page omitted", "reason": "missing complete official page"}
+      ]
+    }
+  ],
+  "originalCompletePdfsUnchanged": true,
+  "independentApproval": false
+}

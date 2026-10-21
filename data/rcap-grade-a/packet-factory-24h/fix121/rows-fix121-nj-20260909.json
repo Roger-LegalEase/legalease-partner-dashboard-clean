@@ -1,0 +1,340 @@
+{
+  "schemaVersion": "rcap-repair-rows/v1",
+  "lane": "FIX121",
+  "laneKind": "repair",
+  "generatedAtBase": "e064bf4ab8fe8da9a7de69646ede74f3ee48d8a8",
+  "worktree": "/home/user/v2mm-worktree on branch fix-nj-routeoptions-20260909",
+  "subjects": [
+    "nj_disorderly_persons-set",
+    "nj_indictable_conviction-set",
+    "nj_ordinance-set"
+  ],
+  "notThisLanesSubject": "nj_arrest_no_conviction-set. Its rapid-repair grant is released and it is not in this assignment. It was not claimed, not edited, not rebuilt and not restored-over by this lane; its byte identity is proved below.",
+  "priorReturnInThisDirectory": {
+    "path": "data/rcap-grade-a/packet-factory-24h/fix121/rows.json",
+    "sha256": "3c6873ecbbefb5ed74225a5dd915ccc43ec4e87d471b8b9763eaf422f229ff33",
+    "notOverwritten": true,
+    "whatItWas": "An earlier FIX121 session on branch fix121-nj-three-election at base ea720b40f, integrated into this branch as commit 4322c4bba. It rendered the disorderly-persons counting disclosure and the objections paragraph, and reported ROUTE_OPTIONS as not repaired. This return is a separate file and does not replace it.",
+    "whatThisReturnAdds": "The one-cause-or-three determination the Captain asked for, measured rather than argued: a forced-election rebuild of all three families, and the demonstration that closing ROUTE_OPTIONS' counter does not stop the clone and does not make any of these petitions state its statute."
+  },
+
+  "theOneCauseOrThreeFinding": {
+    "shortAnswer": "One immediate cause, three different answers, and the working hypothesis in the assignment is wrong.",
+    "theHypothesisTested": "That New Jersey publishes one petition serving several statutory categories, that the category is chosen on the form, and that if nothing selects it every route renders the same document -- so fixing the selection would stop the clone.",
+    "howItWasTested": "The election was forced on in the shared East host behind an environment flag (FIX121_FORCE_ELECTION), all three families were rebuilt, the delivered bytes were digested, delivered page 19 was rastered at 150 dpi and looked at, and the completeness verifier was re-run on the forced bytes. The host edit and all three family directories were then restored with `git checkout` and every digest was recomputed and matched.",
+    "resultMeasured": {
+      "canonicalWithElectionForcedOn": "0b32e8397ddab6fccc441defc7ac3a4645fbba93cd5afa71c0da35a9da093cac -- IDENTICAL on all three families",
+      "boundaryWithElectionForcedOn": "cc91a4ca00d317329cec8dd1b204ed3e390047dd4d634878becca53f46ff8777 -- IDENTICAL on all three families",
+      "counterOnForcedBytes": "requiredOptionsMissing falls from 1 to 0 and the completeness verdict changes from FAIL_ROUTE_SELECTION to NOT_MEASURABLE_HERE, i.e. all nine counters read zero or unmeasured.",
+      "whatThePageThenShows": "Read by eye at 150 dpi: a marked X beside `d.` standing over nine wholly blank cells -- no date, no offence, no statute, no sentence, no court, no completion events. The petition then swears, under the notarised Verification on delivered page 24, that the petitioner pled or was found guilty of charges it declines to identify. It still names no statutory route."
+    },
+    "conclusion": "Marking the election does NOT stop the clone. It cannot: item (d) of CN-10557 is the single conviction disposition shared by all three statutory categories, it says nothing about which section of chapter 52 the petition proceeds under, and the three families build from one persona on one form. The clone and the ROUTE_OPTIONS failure are two symptoms of the same emptiness, not cause and effect. Closing the counter here would be a green nine over a defect the family's own reader already named.",
+    "theThreeAnswers": [
+      {
+        "familyId": "nj_indictable_conviction-set",
+        "statute": "N.J.S.A. 2C:52-2",
+        "answer": "ROUTE_OPTIONS is answerable on this form and is not answerable today. CN-10557 carries exactly one control that names this family's statute: the Verification paragraph 3 checkbox `seekJuvNever` on delivered page 24, whose printed text is 'I am seeking expungement of a conviction on a criminal case or an adjudication of delinquency on a juvenile case pursuant to N.J.S.A. 2C:52-2, and I have never been granted an expungement, sealing or similar relief regarding a criminal conviction, by any state or federal court.' The kit's own instruction, delivered page 17 item 14, directs an indictable petitioner to check it. This lane did not mark it, for two reasons stated under blockers.",
+        "cause": "ROUTE_OPTIONS_ANSWERABLE_ON_THIS_FORM_BLOCKED_ON_A_SWORN_COMPOUND_OATH"
+      },
+      {
+        "familyId": "nj_disorderly_persons-set",
+        "statute": "N.J.S.A. 2C:52-3",
+        "answer": "No control on CN-10557 states this route's statute on the ordinary pathway. Every selection control on the 43-page kit was enumerated from the family's own field census -- 19 checkboxes and 14 dropdowns -- and the only one that names 2C:52-3 is `seek5yrs` on delivered page 22, which names 2C:52-3(b)(2), the EARLY three-year pathway, and is conditional on a compelling-circumstances narrative the registry classifies as not template output. On the ordinary five-year pathway this petition has nowhere to say which section it proceeds under. If the obligation is to be satisfied at all it is satisfied by a document CN-10557 does not contain, which is a COMPONENT_SET answer and not a route-option one.",
+        "cause": "NO_CONTROL_ON_THE_INSTRUMENT_STATES_THIS_ROUTE"
+      },
+      {
+        "familyId": "nj_ordinance-set",
+        "statute": "N.J.S.A. 2C:52-4",
+        "answer": "Same as disorderly persons -- no control on CN-10557 names 2C:52-4 anywhere -- plus an independent hold this family alone carries. Its own track record holds a release_blocker: 'The full text of N.J.S.A. 2C:52-4, including whether ordinance convictions count toward the offence caps on the indictable and disorderly persons tracks. The section was not obtained at an official New Jersey channel, and only the two-year period is confirmed, from the New Jersey Courts self-help page.' A route whose controlling section has never been read cannot have its statutory election settled by a build lane.",
+        "cause": "NO_CONTROL_ON_THE_INSTRUMENT_STATES_THIS_ROUTE_PLUS_AN_UNREAD_CONTROLLING_SECTION"
+      }
+    ],
+    "whatThisMeansForStaffingTheRestOfTheFailBucket": "A ROUTE_OPTIONS failure on a shared statewide kit should be triaged by asking first whether the instrument HAS a control that names the route, before any lane is sent to make an election. Where it does not, the work is a legal-design question about the packet's component set, not a build fix, and a repair lane will return blocked however many times it is dispatched. The byte-identity finding in CLONED_FAMILY_PACKETS.json is a true observation about these three and a false lead about their cause.",
+    "whatThisDoesNotDecide": "It does not decide that any of the three owes a different instrument. It decides that CN-10557 alone cannot state 2C:52-3 or 2C:52-4, and names that as the question. Nothing was drafted, added to a manifest or promoted."
+  },
+
+  "arrestFamilyByteIdentityProof": {
+    "claim": "nj_arrest_no_conviction-set is byte-identical before and after everything this lane did, including a temporary edit to the build host it shares with the three subjects.",
+    "fixturesBefore": {
+      "canonical": "922b89598d0b7b57d0fd40623d404a7d9cf24ba507a9eba82472815d9b74ee7d",
+      "boundary": "23a571af72985717963001120ba60116ae43054aaa1c2fddbeece944dac24494"
+    },
+    "fixturesAfter": {
+      "canonical": "922b89598d0b7b57d0fd40623d404a7d9cf24ba507a9eba82472815d9b74ee7d",
+      "boundary": "23a571af72985717963001120ba60116ae43054aaa1c2fddbeece944dac24494"
+    },
+    "itsBuildWasNeverRun": "The forced-election experiment ran the three subject entrypoints only. scripts/build-census-v1-nj_arrest_no_conviction-set.mjs was never invoked as a build, so nothing was written into that family's directory at any point.",
+    "hostRestored": "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs sha256 0b1506cda50ba546b6f856de2c9ec92fa8b7efcac77242104cd0228a0fbb3357, identical to the committed file at e064bf4ab.",
+    "thirdCheck": "`git status --porcelain` returns 0 lines across the whole worktree after restoration.",
+    "didThisLaneMoveIt": "No. Nothing to report as a finding under that head."
+  },
+
+  "sharedModuleChanges": {
+    "shipped": "none",
+    "temporaryAndReverted": {
+      "file": "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs",
+      "whatItWas": "One line at 4936 was wrapped in an environment-flag branch so `withdrawnElections` could be emptied for a measurement, then reverted with `git checkout`.",
+      "callersThatShareThisHost": [
+        "nj_arrest_no_conviction-set (not this lane's subject; its build was never run and its bytes are unchanged)",
+        "nj_clean_slate-set (not this lane's subject; its build was never run; it is GUIDANCE / OUT-OF-SCOPE by the owner delivery-type decision of 2026-09-02)",
+        "nj_disorderly_persons-set (subject; rebuilt during the experiment and restored)",
+        "nj_indictable_conviction-set (subject; rebuilt during the experiment and restored)",
+        "nj_ordinance-set (subject; rebuilt during the experiment and restored)"
+      ],
+      "callersNotTouched": "Every family outside the New Jersey East host. No other jurisdiction imports this module.",
+      "inTheCommittedTree": "Nothing. The committed tree at the end of this lane is byte-identical to e064bf4ab except for the two files of this return."
+    }
+  },
+
+  "packetPdfBytesMoved": 0,
+  "rasterPngsCommitted": 0,
+  "overlayDirectoriesModified": 0,
+  "centralManifestsEdited": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "grantsNothing": "This return releases nothing, transfers nothing, requests no promotion, requests no re-raster and sets no verdict. All three grants remain held by FIX121 and unreleased; the Captain owns releases.",
+
+  "checksRun": [
+    {
+      "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX121 <each of the three>",
+      "result": "CLAIM_OK FIX121 <family> (repair, grant set 15ec7de6bd2832ef), exit 0 on all three, asserted before any artifact of any of them was read."
+    },
+    {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <each of the three>",
+      "result": "FAIL_ROUTE_SELECTION on all three, requiredOptionsMissing 1, invisibleWrites and visualDefects UNMEASURED. Identical before the experiment and after restoration."
+    },
+    {
+      "command": "node scripts/build-census-v1-nj_disorderly_persons-set.mjs (unmodified host)",
+      "result": "BUILD PASS (2 PDFs; 86 page rasters), and `git status --porcelain` returned 0 lines afterwards -- the build is reproducible, which is what made the forced-election experiment safe to run in-tree."
+    },
+    {
+      "command": "FIX121_FORCE_ELECTION=1 node scripts/build-census-v1-<each of the three>.mjs",
+      "result": "BUILD PASS each, selections 1 on both fixtures of each. Canonicals identical to one another at 0b32e8397dda…, boundaries identical at cc91a4ca00d3…."
+    },
+    {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nj_ordinance-set (on the forced bytes)",
+      "result": "NOT_MEASURABLE_HERE, requiredOptionsMissing 0 -- the counter goes green while the document is worse. Recorded and not shipped."
+    },
+    {
+      "command": "git checkout -- <host script> <the three family directories>; sha256sum",
+      "result": "All eight subject fixture digests and the host digest back to their committed values; nj_arrest_no_conviction-set unchanged throughout; worktree clean."
+    },
+    {
+      "command": "node -e (pdf-lib) over the pinned source c1dd37b5…, reading AcroForm field types and dropdown option lists first-hand",
+      "result": "guiltyTimeType and contGuiltyTimeType are PDFDropdown with options exactly [\"  \",\"jail time\",\"prison time\",\"incarceration time\"]. guilty, dismiss, seek5yrs and seekJuvNever are PDFCheckBox."
+    },
+    {
+      "command": "pdftotext -layout and pdftoppm -r 150 over the pinned source and over each delivered canonical",
+      "result": "Delivered pages 18, 19, 24, 35 and 43 read by eye. Findings under participantFactOwnershipRead and deliveredPetitionRead."
+    }
+  ],
+
+  "participantFactOwnershipRead": {
+    "questionAsked": "Is any participant fact written into a field that asks for somebody else's fact -- the West Virginia aliases and North Dakota victim-column shape?",
+    "answer": "No instance found on CN-10557.",
+    "howItWasChecked": "Every field the build writes was enumerated from the family's own field census with its widget page and rect, and every page carrying one was read against the pinned form's printed captions. The ten written fields are DefName, DefPhone, DefAddrStr, DefAddrStr2, DefAddrCity, DefAddrSt, DefAddrZip, DefAddr2, DefAddr3 and DefBirthDt, on delivered pages 18, 23, 24, 27, 30, 31, 35, 38, 40 and 43.",
+    "theTwoPlacesItCouldHaveGoneWrong": [
+      "Delivered page 35, Cover Letter to Court (Form D), carries TWO address blocks: the Criminal Case Management Office's at top left and the petitioner's at bottom right. They are separate AcroForm fields -- SccCntyName, SccAddrStr and SccAddr2 for the court, Def* for the petitioner. Rastered at 150 dpi and looked at: the court block is empty and the petitioner's facts are all in the bottom-right block, each in the box its own caption names. Correct owner.",
+      "Delivered pages 37 and 42, the Form E and Form G agency address sheets, carry twelve agency address blocks. All of them are separate fields (ProsAddrStr, PoliceAddr2, WardenAddrStr, ProbAddr2, SheriffAddr2, MuniCrtsAddr2, SuperintendentAddr2, IdbAddrStr, FamDivAddr2 and their siblings) and none is written by this build. No participant fact reaches an agency address line."
+    ],
+    "signatureBlocksRead": "Delivered page 24 (Verification) rastered and looked at: the 'Signed: (your signature before a Notary)' line is blank, both Verification checkboxes are unmarked, and the notary's date and signature lines are blank. The petitioner's name appears only on the two lines captioned '(Your Name)' and '(your name printed)'. Delivered page 35 the same: '(your signature)' blank, name on '(your name)'. No misleading signature block.",
+    "caption": "This is the check the assignment asked for. It came back clean, and it is reported as clean rather than left unsaid."
+  },
+
+  "deliveredPetitionRead": {
+    "whatIsActuallyOnDeliveredPages18And19": "Read by eye at 150 dpi and by pdftotext -layout on the committed canonical of each of the three. The caption block carries the petitioner's name, street address, city, state, zip, telephone and date of birth, and the 'I, (your name) ... residing at ...' line carries the same. Numbered paragraph 1 is ENTIRELY BLANK: no arrest date, no offence, no statute, no municipality, no complaint or docket number. None of items a, b, c, d or e is elected and every one of their cells is blank. The delivered primary filing is the Judiciary's blank petition with a name and an address on it.",
+    "whyThatMatters": "reports/rendered-artifacts.json records the primary_filing component on all three families as disposition 'rendered', deliveredIn 'CN-10557 delivered pages 18 and 19 -- Petition for Expungement (Form A), the caption block and the numbered petition items.' The numbered petition items carry nothing. That is the same shape VF11 failed nj_disorderly_persons-set's counting_disclosure on -- a required component recorded as delivered while the page it points at does not make it -- now on primary_filing and present on all three. requiredComponentsMissing cannot see it: verify-packet-completeness.mjs checks the field map's documents against the render and never opens the packet-set manifest.",
+    "thisLaneDidNotChangeThatRecord": "The deliveredIn strings are written by the shared East host and are common to all four New Jersey families, including nj_arrest_no_conviction-set, which is not this lane's subject and whose petition does state its route. Rewriting them at the host would reach that family's committed report. It is reported here for the Captain and for the next independent read rather than edited from inside a lane that cannot scope it.",
+    "whyParagraph1IsBlank": "reports/actual-writes.json heldButNotPrinted: arrestOff1 and origCaseNums are withheld for row integrity because arrestStatute and arrestMuni could not be printed. arrestStatute is a fact the intake collects (dpoMatterDetails / indMatterDetails / ordMatterDetails, 'the offence and statute') and the fixture persona does not carry; arrestMuni, the municipality the charge arose out of, is collected by NO intake question on any of the three tracks."
+  },
+
+  "rows": [
+    {
+      "itemId": "nj_disorderly_persons-set",
+      "familyId": "nj_disorderly_persons-set",
+      "lane": "FIX121",
+      "status": "BLOCKED_LEGAL_INPUT",
+      "repairedByThisLane": false,
+      "statusReason": "Neither of this family's two failed obligations was closed by this lane. ROUTE_OPTIONS is blocked on legal input and is reported open. COMPONENT_SET was addressed by the earlier FIX121 session in commit 4322c4bba, which is already in this branch; this lane is the same lane that made that edit and therefore sets no verdict on it. Under the standing rule -- do not report a family repaired while one of its failed obligations is still open -- this family is NOT repaired and this lane requests nothing for it.",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-nj_disorderly_persons-set.mjs",
+      "vf11Verdict": "FAIL_REPAIR_REQUIRED on COMPONENT_SET and ROUTE_OPTIONS, at base df524f2fd, evidence data/rcap-grade-a/packet-factory-24h/vf11/rows.json sha256 c69bf8e0382aab19c0baafef0f469fc1ee528be848d9f098340b5c3151bfa61b",
+      "claim": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX121 nj_disorderly_persons-set returned CLAIM_OK FIX121 nj_disorderly_persons-set (repair, grant set 15ec7de6bd2832ef), exit 0, asserted inside /home/user/v2mm-worktree before any artifact of this family was read. No release, no transfer, no ledger write.",
+      "obligationsRepaired": [],
+      "obligationsStillOpen": [
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "state": "OPEN",
+          "blocker": "Item (d) of CN-10557 is one compound sworn sentence over nine cells, and three of those nine are facts NO intake question on this track collects. Read first-hand from legal-design-track-registry.json generationRequirements for nj_disorderly_persons: guiltyFinal1, the final sentence imposed -- no question asks what sentence was imposed; guiltyTimeType, the custodial term type -- an AcroForm dropdown whose options were read first-hand from the pinned binary as exactly [\"  \",\"jail time\",\"prison time\",\"incarceration time\"], with no none-or-not-applicable value, so a participant who served no custodial term has no honest answer and no held fact says which of the three applies; and guiltyFineDt, the date fines were paid -- dpoFinancialAssessment asks whether every fine was paid and never when, although this track's own waitingPeriods run from 'payment of any court-ordered financial assessment'. Filling those in a fixture would manufacture a capability the product does not have.",
+          "secondBlocker": "Even with the row complete, item (d) does not state this route. It is the single conviction disposition shared with nj_indictable_conviction and nj_ordinance. No control on the 43-page kit names N.J.S.A. 2C:52-3 on the ordinary pathway; the only occurrence of 2C:52-3 anywhere on the form is `seek5yrs` on delivered page 22, which names 2C:52-3(b)(2), the early three-year pathway, and requires a compelling-circumstances narrative the registry classifies as not template output.",
+          "theExactQuestionThisFamilyStopsWith": "Two questions, both for counsel and neither answerable from any record in this repository. (1) Does the platform ask a participant for the sentence imposed, the custodial term type and the date the fines were paid -- and what does a participant with no custodial term put in a dropdown that offers only jail, prison and incarceration? (2) On what document does a 2C:52-3 petition state that it proceeds under 2C:52-3, given that CN-10557 provides no place to say so?"
+        },
+        {
+          "obligation": "COMPONENT_SET",
+          "state": "ADDRESSED_IN_THE_COMMITTED_TREE_BY_THIS_LANE_SO_THIS_LANE_SETS_NO_VERDICT",
+          "whatIsOnThePageNow": "Measured on the committed guide at e064bf4ab. Both limbs VF11 named are answered. The counting rule: participant-instructions.md now carries '## How the offence count works on this route', which quotes this track's registry `mechanism` whole -- the five-offence cap across disorderly persons and petty disorderly persons offences, the uncapped same-day and interdependent-or-closely-related routes, and the crime-conviction bar -- states in terms that this packet performs no count and holds no offence history, carries the held caution that the published 'up to three' figure belongs to the 2C:52-2 route, and names the intake question. reports/rendered-artifacts.json points component 10 at that heading. The objections limb: '## Who must be served' now carries a paragraph that quotes this track's own rules.notice, 'The exact objection window is recorded as an open question', states that no held source establishes the period, tells the participant to ask the Criminal Division office, and names 'Prosecutor objection.' as a held self-help stop. The quoted string was verified against legal-design-track-registry.json sha256 555e5700c049608b0766cc7f5f65adfa748bbd32fae790d2220652bf08b958dc. No deadline, fee, service rule or clerk practice was invented anywhere in it.",
+          "whyNoVerdict": "The edit was made by the FIX121 lane and a lane does not verify its own repair. An independent read owes the verdict."
+        }
+      ],
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 1,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": null,
+        "protectedWrites": 0,
+        "visualDefects": null
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 1,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": null,
+        "protectedWrites": 0,
+        "visualDefects": null
+      },
+      "countersMeasuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nj_disorderly_persons-set, run in this worktree on the committed bytes at e064bf4ab, before the forced-election experiment and again after restoration. Both runs returned FAIL_ROUTE_SELECTION, 18/179 written.",
+      "whyTwoCountersAreNullAndNotZero": "invisibleWrites and visualDefects print UNMEASURED. The verifier raises them only from addedGlyphsReadFromOutputBytes, flattenedWidgetAppearancesReadFromOutputBytes and nonWhitespaceGlyphsOutsideMeasuredWriteBoxes, and this family's reports/actual-writes.json carries none of those three keys -- confirmed by reading the artifact records directly. A quantity nobody measured is null here, never 0.",
+      "whatTheZerosDoNotEstablish": "requiredComponentsMissing reads 0 and read 0 while the counting disclosure was missing, because the component check compares the field map's documents against the render and never opens legal-design-packet-set-manifests.json. requiredOptionsMissing reads 1 only because a later rule reads the field map's measured_route_selection declaration; it would read 0 the moment the box is marked, whatever the paragraph beneath it says, which this lane demonstrated and did not ship.",
+      "canonicalSha256": "03f6169d042fc1d5ed30df008dfc966ef3d03b382731f5956d0e8786ca8a234f",
+      "boundarySha256": "23a571af72985717963001120ba60116ae43054aaa1c2fddbeece944dac24494",
+      "shaUnchangedByThisLane": true,
+      "stillRendersIdenticallyToItsSiblings": "Yes. Its canonical is byte-identical to nj_indictable_conviction-set's and nj_ordinance-set's, and its boundary is byte-identical to all three siblings' including nj_arrest_no_conviction-set's.",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "rasterStateBasis": "This lane produced no new participant-facing bytes, so it owes no new raster of its own; the 86 committed page rasters still bind these exact fixtures. Central raster and independent verification remain owed because the failed obligations are open, which is also what MASTER_QUEUE's rasterEnrolmentRefusal already says for this family.",
+      "visualDefectsBasis": "null because nobody independent has looked at these bytes since VF11. This lane rastered pages 18, 19, 24, 35 and 43 and read them, and that is a repair lane reading its own subject, not an independent visual review."
+    },
+
+    {
+      "itemId": "nj_indictable_conviction-set",
+      "familyId": "nj_indictable_conviction-set",
+      "lane": "FIX121",
+      "status": "BLOCKED_LEGAL_INPUT",
+      "repairedByThisLane": false,
+      "statusReason": "ROUTE_OPTIONS, this family's only failed obligation, was not closed. It is reported open with the exact question. This lane requests nothing for this family.",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-nj_indictable_conviction-set.mjs (a three-line entrypoint into the shared East host)",
+      "vf11Verdict": "FAIL_REPAIR_REQUIRED on ROUTE_OPTIONS; COMPONENT_SET PASS, at base df524f2fd",
+      "claim": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX121 nj_indictable_conviction-set returned CLAIM_OK FIX121 nj_indictable_conviction-set (repair, grant set 15ec7de6bd2832ef), exit 0, asserted before any artifact of this family was read.",
+      "obligationsRepaired": [],
+      "obligationsStillOpen": [
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "state": "OPEN",
+          "blocker": "The same three uncollected cells of item (d) as its siblings -- guiltyFinal1, guiltyTimeType and guiltyFineDt -- read first-hand from this track's own generationRequirements (indFinancialAssessment asks whether every fine was paid, never when; no question asks what sentence was imposed; the custodial-term dropdown offers no none value).",
+          "whatIsDifferentHere": "Unlike its two siblings, this family's statute IS nameable on CN-10557. The Verification paragraph 3 checkbox `seekJuvNever`, delivered page 24, names N.J.S.A. 2C:52-2 -- exactly this route -- and the kit's own instruction on delivered page 17 item 14 directs an indictable petitioner to check it. It is unmarked on both fixtures; rastered at 150 dpi and looked at, the box is empty.",
+          "whyThisLaneDidNotMarkIt": "Two reasons, both of which are for the Captain and counsel rather than for a repair lane. First, it is a COMPOUND sworn oath: it also swears 'and I have never been granted an expungement, sealing or similar relief regarding a criminal conviction, by any state or federal court.' The intake collects that fact (indPriorExpungement) but the fixture persona does not hold it, and marking a notarised oath on a fact the packet does not hold is the defect FIX105 removed, in a worse place. Second, marking it would not close the obligation's counter -- the field map declares `guilty`, not `seekJuvNever`, as this family's measured_route_selection, so requiredOptionsMissing would still read 1 -- and it would produce a petition that swears it seeks expungement of a conviction under 2C:52-2 while paragraph 1 and item (d) identify no conviction at all. That document is internally inconsistent on its face and is worse than today's.",
+          "theExactQuestionThisFamilyStopsWith": "May the platform mark Verification paragraph 3 on this route -- and if so, on what held fact does it swear the never-previously-expunged limb, and must item (d) be complete first? This is the family of the three most likely to be closable, and it is closable only after that answer and after the item (d) intake gap is filled."
+        }
+      ],
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 1,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": null,
+        "protectedWrites": 0,
+        "visualDefects": null
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 1,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": null,
+        "protectedWrites": 0,
+        "visualDefects": null
+      },
+      "countersMeasuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nj_indictable_conviction-set on the committed bytes at e064bf4ab; FAIL_ROUTE_SELECTION, 19/179 written; identical before the experiment and after restoration.",
+      "whyTwoCountersAreNullAndNotZero": "invisibleWrites and visualDefects print UNMEASURED; the three artifact keys the verifier raises them from are absent from this family's reports/actual-writes.json. Null, never 0.",
+      "canonicalSha256": "03f6169d042fc1d5ed30df008dfc966ef3d03b382731f5956d0e8786ca8a234f",
+      "boundarySha256": "23a571af72985717963001120ba60116ae43054aaa1c2fddbeece944dac24494",
+      "shaUnchangedByThisLane": true,
+      "stillRendersIdenticallyToItsSiblings": "Yes, and it still would with the election marked: the forced-election rebuild produced 0b32e8397dda… for this family and for both siblings alike.",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "rasterStateBasis": "No new participant-facing bytes were produced by this lane; the committed rasters still bind these fixtures. Central raster and independent verification stay owed while ROUTE_OPTIONS is open.",
+      "visualDefectsBasis": "null because nobody independent has looked at these bytes since VF11."
+    },
+
+    {
+      "itemId": "nj_ordinance-set",
+      "familyId": "nj_ordinance-set",
+      "lane": "FIX121",
+      "status": "BLOCKED_LEGAL_INPUT",
+      "repairedByThisLane": false,
+      "statusReason": "ROUTE_OPTIONS, this family's only failed obligation, was not closed, and this family carries a second, independent hold of its own. This lane requests nothing for it.",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nj/nj-ordinance-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-nj_ordinance-set.mjs (a three-line entrypoint into the shared East host)",
+      "vf11Verdict": "FAIL_REPAIR_REQUIRED on ROUTE_OPTIONS; COMPONENT_SET PASS, at base df524f2fd",
+      "claim": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX121 nj_ordinance-set returned CLAIM_OK FIX121 nj_ordinance-set (repair, grant set 15ec7de6bd2832ef), exit 0, asserted before any artifact of this family was read.",
+      "obligationsRepaired": [],
+      "obligationsStillOpen": [
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "state": "OPEN",
+          "blocker": "The same three uncollected cells of item (d) -- guiltyFinal1, guiltyTimeType and guiltyFineDt -- read first-hand from this track's own generationRequirements (ordFinancialAssessment asks whether, never when; nothing asks what sentence was imposed; the dropdown offers no none value).",
+          "secondBlocker": "No control anywhere on the 43-page kit names N.J.S.A. 2C:52-4. All 19 checkboxes and 14 dropdowns were enumerated from this family's own field census and read against the pinned form: the statute-naming controls are seek5yrs (2C:52-2(a)(2) and 2C:52-3(b)(2)), seek34degree (2C:52-2(c)(3)), seekJuvNever (2C:52-2), gradDC (2C:35-14(m)), marijuana (2C:52-5.1) and cleanSlate (2C:52-5.3). 2C:52-4 appears on none of them and in no printed line of the delivered petition.",
+          "thirdBlockerThisFamilyAlone": "This family's own track record carries an unresolved release_blocker, quoted whole from legal-design-track-registry.json: 'The full text of N.J.S.A. 2C:52-4, including whether ordinance convictions count toward the offence caps on the indictable and disorderly persons tracks. The section was not obtained at an official New Jersey channel, and only the two-year period is confirmed, from the New Jersey Courts self-help page.' Its provenance is the state legal review, TRACK 6, Open questions. A route whose controlling section has never been read at an official channel cannot have its statutory election settled here.",
+          "theExactQuestionThisFamilyStopsWith": "On what document does a 2C:52-4 petition state that it proceeds under 2C:52-4, given that CN-10557 names that section nowhere -- and does the answer wait on the full text of 2C:52-4, which this family's own record says has never been read?"
+        }
+      ],
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 1,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": null,
+        "protectedWrites": 0,
+        "visualDefects": null
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 1,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": null,
+        "protectedWrites": 0,
+        "visualDefects": null
+      },
+      "countersMeasuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nj_ordinance-set on the committed bytes at e064bf4ab; FAIL_ROUTE_SELECTION, 19/179 written; identical before the experiment and after restoration.",
+      "whyTwoCountersAreNullAndNotZero": "invisibleWrites and visualDefects print UNMEASURED; the three artifact keys the verifier raises them from are absent from this family's reports/actual-writes.json. Null, never 0.",
+      "aFixtureFidelityFindingReportedNotRepaired": "This family's canonical persona charge is 'Possession of a controlled substance', carried from the shared New Jersey fixture facts. By this track's own exclusions a controlled-substance offence is not a municipal ordinance violation, so the fixture does not describe a participant this route serves. It never reaches the page -- the charge is withheld for row integrity and prints nowhere -- so it is not an appearance defect, but it is the reason a route-appropriate fixture cannot be built here today. Not repaired: the persona is produced by factsForJurisdiction in the shared East host and is common to nj_arrest_no_conviction-set, which is not this lane's subject.",
+      "canonicalSha256": "03f6169d042fc1d5ed30df008dfc966ef3d03b382731f5956d0e8786ca8a234f",
+      "boundarySha256": "23a571af72985717963001120ba60116ae43054aaa1c2fddbeece944dac24494",
+      "shaUnchangedByThisLane": true,
+      "stillRendersIdenticallyToItsSiblings": "Yes, and it still would with the election marked.",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "rasterStateBasis": "No new participant-facing bytes were produced by this lane; the committed rasters still bind these fixtures. Central raster and independent verification stay owed while ROUTE_OPTIONS is open.",
+      "visualDefectsBasis": "null because nobody independent has looked at these bytes since VF11."
+    }
+  ],
+
+  "discrepanciesFoundInCommittedRecords": [
+    "All three tracks' waitingPeriods run from 'payment of any court-ordered financial assessment', but the only financial intake question on any of them (indFinancialAssessment / dpoFinancialAssessment / ordFinancialAssessment) asks whether every fine was paid and never when. The eligibility rule depends on a date its own intake does not collect, and that same date is one of the three cells that blocks item (d). Reported, not repaired: it is a legal-design change.",
+    "The pinned source's guiltyTimeType and contGuiltyTimeType dropdowns offer exactly [\"  \",\"jail time\",\"prison time\",\"incarceration time\"], read first-hand from the binary with pdf-lib. There is no value for a sentence that carried no custodial term. Any repair of item (d) must decide what such a participant puts there; neither the form nor this repository answers it.",
+    "reports/rendered-artifacts.json records primary_filing on all three families as delivered at 'CN-10557 delivered pages 18 and 19 ... the caption block and the numbered petition items', while the numbered petition items on those delivered pages are entirely blank. The string is written by the shared East host and is common to nj_arrest_no_conviction-set, so it was not edited from inside this lane.",
+    "nj_disorderly_persons-set's service_and_objection_instructions component record still names the heading '## Who must be served' and its deliveredIn sentence does not mention objections, although the section itself now carries an objections paragraph and its two siblings renamed their heading to '## Who must be served, and what an objection is'. The record is not wrong -- the heading it names exists and carries the content -- but it is thinner than the page. Reported, not edited."
+  ],
+
+  "whatThisDoesNotClaim": [
+    "It does not claim ROUTE_OPTIONS is repaired on any of the three. It is not. requiredOptionsMissing is 1 on all three and this lane printed no election mark anywhere in the committed tree.",
+    "It does not claim any of the three is complete, passing, promotable, verified or releasable. All three are BLOCKED_LEGAL_INPUT and all three stay stranded.",
+    "It does not claim COMPONENT_SET is satisfied on nj_disorderly_persons-set. It reports what is on the delivered guide and declines the verdict, because the lane that wrote that section is this lane.",
+    "It does not claim the nine counters establish anything they cannot see, and it demonstrates the opposite: forcing the election drives all nine to zero-or-unmeasured on a document that is worse than the one shipped.",
+    "It does not claim any of the three owes a different instrument. It reports that CN-10557 cannot state 2C:52-3 or 2C:52-4 and hands that question up.",
+    "It asserts no PASS, sets no verdict, requests no promotion, requests no re-raster, releases no grant, transfers nothing, and writes into no independent-verification row or central manifest."
+  ]
+}

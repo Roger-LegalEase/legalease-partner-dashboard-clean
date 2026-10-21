@@ -1,0 +1,86 @@
+{
+  "schemaVersion": "rcap-participant-data-rights-hosted-acceptance/v1",
+  "assignmentId": "C12_NONPRODUCTION_ACCEPTANCE_PREP",
+  "workerBranch": "codex/c12-nonproduction-acceptance-prep",
+  "baseSha": "227f095d5d1493feca56779cf60c6f177caebd61",
+  "recordedAt": "2026-08-30",
+  "status": "STOPPED_PRECONDITIONS_UNSATISFIED",
+  "project": {
+    "ref": "hyflxnlhpmiqxvvcoiia",
+    "name": "legalease-rcap-acceptance",
+    "expectedPurpose": "dedicated synthetic nonproduction acceptance",
+    "repositoryPinEvidence": [
+      "scripts/rcap-hosted-acceptance-prepare.mjs exports this exact ref as ACCEPTANCE_PROJECT_REF",
+      "scripts/rcap-hosted-acceptance-preflight.mjs refuses any other ref",
+      "data/rcap-staging-authorization-readiness.json records this ref, name, region, organization and historical nonproduction proof"
+    ],
+    "historicalSyntheticProof": {
+      "available": true,
+      "source": "data/rcap-staging-authorization-readiness.json",
+      "summary": "The control record says consumer_briefcase_items, screening_sessions, rcap_persons and rcap_document_packets were absent before the hosted acceptance pipeline's first write and that an acceptance-environment marker naming this ref was stamped."
+    },
+    "currentSessionProof": {
+      "proven": false,
+      "reason": "The authenticated Supabase dashboard identity can see only organization oaqcfsuxxqmpotpkewsm. Opening the pinned project briefly loads its shell and then redirects to the organization list, so this session cannot read current project metadata, marker rows or participant-table counts."
+    },
+    "provenSyntheticForThisRun": false
+  },
+  "migration": {
+    "file": "supabase/migrations/20260830120000_participant_data_rights.sql",
+    "sha256": "991fe21eab48b1ee72ab9f06346339f959f82d5f668b34560eef97bda08272ca",
+    "sha256RecomputedFromWorkerTree": true,
+    "applied": false,
+    "reason": "Application is forbidden until the pinned project is currently proven synthetic. This session has no SUPABASE_* or DATABASE_URL credential, no Supabase CLI, no PostgreSQL client, and no dashboard access to the pinned project's organization."
+  },
+  "acceptanceCases": [
+    {
+      "case": "participant_export",
+      "status": "NOT_RUN",
+      "passed": false,
+      "reason": "Migration was not applied and the pinned hosted project is inaccessible from this session."
+    },
+    {
+      "case": "single_matter_deletion",
+      "status": "NOT_RUN",
+      "passed": false,
+      "reason": "Migration was not applied and the pinned hosted project is inaccessible from this session."
+    },
+    {
+      "case": "account_deletion",
+      "status": "NOT_RUN",
+      "passed": false,
+      "reason": "Migration was not applied and the pinned hosted project is inaccessible from this session."
+    }
+  ],
+  "processorAdapters": {
+    "realDownstreamProcessorsContacted": false,
+    "syntheticFixtureCallbacksRun": false
+  },
+  "focusedTests": [
+    {
+      "command": "node scripts/verify-participant-data-rights.mjs",
+      "status": "BLOCKED",
+      "exitCode": 1,
+      "observed": "verify-participant-data-rights requires a local PostgreSQL toolchain."
+    },
+    {
+      "command": "node scripts/grade-a-launch-control/verify-launch-control.mjs",
+      "status": "BLOCKED",
+      "exitCode": 1,
+      "observed": "The exact worker base omits data/rcap-grade-a/launch-control/ACTIVE_CODEX_ASSIGNMENTS.json under the documented two-commit dispatch method, so the verifier exits with ENOENT before its checks run."
+    }
+  ],
+  "setup": {
+    "npmCiRun": false,
+    "reason": "The host had 32 MiB free after worktree creation. Installing this application's dependency tree would predictably exhaust the filesystem, so no partial node_modules or cache was created."
+  },
+  "stopConditionsTriggered": [
+    "The project ref cannot be currently proven synthetic from this session.",
+    "The pinned project cannot be reached with a credential authorized for its organization."
+  ],
+  "realParticipantDataTouched": false,
+  "productionTouched": false,
+  "environmentVariablesChanged": false,
+  "commercialRoutesOpened": 0,
+  "authorizationConsumed": false
+}

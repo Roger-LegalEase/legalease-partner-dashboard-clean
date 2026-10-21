@@ -1,0 +1,212 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-rows/v1",
+  "lane": "FIX07",
+  "laneKind": "repair",
+  "generatedBy": "FIX07 (running as one shared repair with FIX06 and FIX08)",
+  "repairedAtBase": "0cb08c3617e4d54223f581a9f3a8a17894d3f93e",
+  "branch": "fix-il-artifacts-20260909",
+  "worktree": "/home/user/v9a-worktree",
+  "sharedCentralArtifactsNotWritten": "MASTER_QUEUE.json, RASTER_QUEUE.json, VERIFIER_RETURNS.json, ACTIVE_ASSIGNMENTS.json, claim-ledger.json, the completeness matrix and raster-enrolment-baseline.json are all untouched by this lane. scan-synthesized-widget-borders.mjs was not run, because it writes one as a side effect.",
+  "rows": [
+    {
+      "itemId": "il-seal-2yr-set",
+      "status": "COMPLETED",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "repairedByThisLane": true,
+      "laneKind": "repair",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-il-seal-2yr-set.mjs",
+      "sharedRepairModule": "scripts/lib/pdf-prune-dangling-annots.mjs",
+      "claim": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 il-seal-2yr-set returned CLAIM_OK FIX07 il-seal-2yr-set (repair, grant set c604e772d95973a5), exit 0. No claim was released, transferred or written by this lane; claim-ledger.json is untouched.",
+      "failedObligationNames": [
+        "ARTIFACTS",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "obligationsRepaired": [
+        "ARTIFACTS",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "obligationCoverage": "This family failed ARTIFACTS and REQUIRED_BEFORE_FILING. Both are addressed by this row: ARTIFACTS by pruning the dangling /Annots references at the shared EXP-AD cause, and REQUIRED_BEFORE_FILING by removing the builder-composed sentence that sent the filer to a Case List election column the official form does not have.",
+      "obligationsThisRowDoesNotDischarge": [
+        "RASTER_PASS -- this lane rastered nothing. Poppler's pdfinfo resolves in this container and was used as a structural reader only; no page image was produced, admitted or claimed, and a local render would not be a receipt if one had been. visualDefects records that nobody here looked, not that there is nothing to see. Both PDFs changed bytes, so any raster receipt bound to the old bytes no longer applies and this family needs a fresh raster against the SHA-256 values below.",
+        "Independent verification. This lane built the repair and may not verify it.",
+        "The controlling record's own defect. registry line 6 and IL.memo.json still place the per-case expunge-versus-seal election on a Case List column that does not exist. This lane did not and could not discharge that: see recordDivergenceReportedNotCorrected below.",
+        "Counsel review, visual review and source-freshness review. This row opens no commercial route and promotes no route."
+      ],
+      "artifactsDefect": {
+        "carriedFinding": "MASTER_QUEUE.json failedObligations for this family and VF02 rows-vf02-20260909c.json: 146 dangling indirect references per fixture, trailer /Size 954 against a cross-reference table covering 808 object numbers in 14 subsections, and Poppler refusing the file.",
+        "reproducedAtBase": "TRUE, measured. Base canonical d3b76c60daa620f75db925264e7a7adee5df52932401b718ab7bac262ac09003 read at danglingAnnots 146, linkAnnotsKept 21, trailerSize 954, xrefCovered 808, xrefSubsections 14, xrefUncovered 146, and pdfinfo printed 'Syntax Error: Couldn't find trailer dictionary' then 'Invalid XRef entry 8'.",
+        "mechanism": "pdf-lib's form.flatten() deletes the widget annotation objects and leaves their references in each page's /Annots; buildPacket's copyPages then reserves a fresh object number for each unresolvable reference and never emits an object at it. One fault, two faces: 954 - 808 = 146 = the dangling count, because each dangling reference consumes exactly one reserved-and-never-written number.",
+        "repair": "The prune runs on each component document immediately after flatten and BEFORE copyPages, from the single shared implementation at scripts/lib/pdf-prune-dangling-annots.mjs, which this builder imports rather than copies. A second prune guards the merged packet and the build asserts zero unresolvable /Annots references on the reopened delivered bytes.",
+        "verifiersProposedXrefPassEvaluatedAndNotAdopted": "The verifiers also proposed emitting an xref covering 0..Size-1 with unused numbers marked free. Not adopted, because pruning before the copy makes it unnecessary rather than merely redundant: with nothing dangling to copy, pdf-lib's /Size falls to the true largest object number and its writer emits a single full-coverage subsection unaided. Measured after repair: /Size 808 over 808 covered in 1 subsection, the same shape as the already-clean il-exp-pardon-set and il-seal-edu-set. A hand-written xref downstream of pdf-lib's writer would have masked the cause rather than removed it."
+      },
+      "requiredBeforeFilingDefect": {
+        "carriedFinding": "MASTER_QUEUE.json failedObligations for this family: participant-instructions.md line 22 carried a builder-composed sentence, EXACT TEXT: \"Make the per-case expunge or seal election in the Case List's per-case election column, which is where the record places it -- not on the Request.\" The official EXP-AD Case List has no per-case election column.",
+        "reproducedAtBase": "TRUE. The sentence was present verbatim at line 22 of the base guide.",
+        "formReEnumeratedRatherThanAccepted": "The earlier lane's count was re-derived from the bound bytes rather than taken on trust. Loading the official ATJ 2902.1 Case List at sha256 b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c gives one page and 78 AcroForm fields: 1 dropdown ('1 - County'), 76 text fields ('2 - Your name', '3 - Other name', '4 - Date of birth', '5 - Race', '6 - Gender', '7 - Case Number', and arrest1 through arrest70) and 1 check box ('Page 1 - More Arrests or Case Numbers'). No field name matches elect, seal, expunge, choice or option except that single More-Arrests box. There is no election field of any kind. The finding is confirmed.",
+        "whatWasChanged": "The builder's own sentence, and only that. The record's line 6 is still printed verbatim in the quoted requiredBeforeFiling block, because the record is quoted and not edited. In its own voice the guide now states that the record places the election on a Case List column, that the official Case List carries no such column and why (the 78-field enumeration), that this packet therefore made the election on the Request at item 12 Yes with Section 17 stating the two-year misdemeanor-conviction ground, and that a filer correcting the election corrects it on the Request and not on the Case List. This also removes the contradiction the verifier scored between line 22 and the guide's own 'Route selected' paragraph.",
+        "whatWasNotChanged": "Nothing outside the guide. The registry, IL.memo.json, the field map, the write set and the packet's actual election are untouched.",
+        "assertionAdded": "The self-test now refuses any guide containing the string \"Case List's per-case election column\" and requires the three factual claims above, so the sentence cannot return silently.",
+        "exactlyOneLineOfTheGuideMoved": "diff of the base guide against the rebuilt guide is a single changed line, line 22. Nothing else in participant-instructions.md changed."
+      },
+      "recordDivergenceReportedNotCorrected": {
+        "record": "data/record-clearing/legal-design-track-registry.json, tracks[trackId=il-seal-2yr].packetSet.requiredBeforeFiling line 6",
+        "exactText": "Expunge-versus-seal selection for each case \u2014 Case List, per-case election column.",
+        "alsoReaches": [
+          "il-exp-qualprob",
+          "il-seal-3yr"
+        ],
+        "whyNotCorrectedHere": "Correcting a controlling legal record is the record owner's act, not a repair lane's. The same line reaches three tracks, one of which (il-seal-3yr) this lane holds no REQUIRED_BEFORE_FILING grant over, and IL.memo.json carries the same placement. This lane stopped the packet's own guide from acting on the false placement and states the divergence plainly in the participant document; it did not edit the record.",
+        "whatTheOwnerNeedsToDecide": "Whether line 6 should name the Request (item 1/item 12, and the Section limb) as the place of the expunge-versus-seal election, or whether the AOIC Case List is expected to carry a column it does not currently have. Until that is decided, three IL guides carry a stated divergence from their own controlling record."
+      },
+      "control": {
+        "artifactsControl": {
+          "what": "A standalone reader that reopens each delivered fixture with pdf-lib, resolves every page /Annots entry, and independently parses the trailer /Size and every xref subsection from the raw bytes. Run from the scratchpad: it is a measurement instrument, not a packet artifact. Cross-checked with poppler pdfinfo, which is present in this container and was used as a structural reader only.",
+          "readingOnPreRepairBytes": {
+            "fires": true,
+            "canonical": {
+              "sha256": "d3b76c60daa620f75db925264e7a7adee5df52932401b718ab7bac262ac09003",
+              "bytes": 1728326,
+              "danglingAnnots": 146,
+              "linkAnnotsKept": 21,
+              "trailerSize": 954,
+              "xrefCovered": 808,
+              "xrefSubsections": 14,
+              "xrefUncovered": 146
+            },
+            "boundary": {
+              "sha256": "d0aa2d5029a993d6eeb0328fce8c3200e6b3270f9920dea7272506dfa4d04a0d",
+              "danglingAnnots": 146,
+              "note": "Read from the base blob; same shape as canonical."
+            },
+            "pdfinfo": "Syntax Error: Couldn't find trailer dictionary / Invalid XRef entry 8 / Internal Error: xref num 8 not found but needed, try to reconstruct"
+          },
+          "readingOnPostRepairBytes": {
+            "fires": false,
+            "canonical": {
+              "sha256": "090c596e0116f172a925b5e34d8bf9c18019478509a918eac0aaa3abc0904166",
+              "bytes": 1726350,
+              "danglingAnnots": 0,
+              "linkAnnotsKept": 21,
+              "trailerSize": 808,
+              "xrefCovered": 808,
+              "xrefSubsections": 1,
+              "xrefUncovered": 0
+            },
+            "boundary": {
+              "sha256": "9ffc8a8edc19629d0725ce92daddaf0c432254521a2b81dc058db537405db553",
+              "bytes": 1727076,
+              "danglingAnnots": 0,
+              "linkAnnotsKept": 21,
+              "trailerSize": 808,
+              "xrefCovered": 808,
+              "xrefSubsections": 1,
+              "xrefUncovered": 0
+            },
+            "pdfinfo": "Opens silently. 13 pages, letter, Form: none, PDF version 1.7. No syntax error and no reconstruction."
+          },
+          "linkAnnotationsNotHarmed": "21 resolving Link annotations before, 21 after, on both fixtures. Only references to objects that are not in the file were removed."
+        },
+        "requiredBeforeFilingControl": {
+          "what": "A reader over participant-instructions.md that asserts three things: the false sentence's distinguishing string \"Case List's per-case election column\" is absent; the record's line 6 is still present verbatim; and the three factual claims the repaired paragraph must make are present.",
+          "readingOnPreRepairGuide": {
+            "fires": true,
+            "falseSentencePresent": true,
+            "recordLine6Verbatim": true,
+            "statesNoSuchColumn": false,
+            "statesNotOneIsAnElectionField": false,
+            "statesCorrectItOnTheRequest": false
+          },
+          "readingOnPostRepairGuide": {
+            "fires": false,
+            "falseSentencePresent": false,
+            "recordLine6Verbatim": true,
+            "statesNoSuchColumn": true,
+            "statesNotOneIsAnElectionField": true,
+            "statesCorrectItOnTheRequest": true
+          },
+          "sameControlNowRunsInsideTheBuild": "The self-test carries the same two assertions, so the build fails rather than ships if the sentence returns."
+        }
+      },
+      "determinismEvidence": {
+        "baseWasDeterministicBeforeAnyChange": "Yes, established before the repair was written so byte movement is attributable to it. il-seal-2yr-set was rebuilt at base 0cb08c3617e4d54223f581a9f3a8a17894d3f93e with no source change and reproduced canonical d3b76c60... and boundary d0aa2d50... exactly, git status clean under the family directory.",
+        "repairedBuildIsDeterministic": "Yes. Rebuilt twice after the repair; canonical 090c596e... and boundary 9ffc8a8e... both times."
+      },
+      "appearanceLevelCheck": "pdftotext -layout over the whole packet is byte-identical before and after: zero diff lines. The ARTIFACTS repair moved no ink, and the guide change is in participant-instructions.md, which is not part of the PDF. Delivered write count unchanged at 44 of 424. production-field-map.json, filing-instructions.md and source-receipt.json are byte-identical to base; approval-request.json and reports/* moved only because they carry the new hashes. No source-authored default was introduced and no write was added, removed or made invisible.",
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersNote": "Measured by node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-seal-2yr-set, before the repair on the base bytes and after it. PASS_COMPLETE, 44/424 written, both times. Every value above is a measurement, none is a default. Worth Captain's attention: all nine were ALREADY zero at base while the family sat in FAIL_REPAIR_REQUIRED, so the nine counters express neither of the two obligations this family failed, and their being zero is not by itself evidence either repair worked. The control readings above are that evidence.",
+      "visualDefectsNote": "visualDefects is reported as the verifier measured it and is not a claim that a page was looked at. Nobody rastered these bytes.",
+      "artifacts": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "090c596e0116f172a925b5e34d8bf9c18019478509a918eac0aaa3abc0904166",
+          "bytes": 1726350,
+          "pageCount": 13,
+          "changedByThisLane": true
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "9ffc8a8edc19629d0725ce92daddaf0c432254521a2b81dc058db537405db553",
+          "bytes": 1727076,
+          "pageCount": 13,
+          "changedByThisLane": true
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill/participant-instructions.md",
+          "sha256": "d0c01a7e8c8fa4f7c22bca8ff0c1bf83f1933183a35391020828c87dacb530ec",
+          "changedByThisLane": true,
+          "note": "Exactly one line changed: line 22."
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill/reports/rendered-artifacts.json",
+          "sha256": "7bdae0f9c36c44e9081305b2efcc30ab277a8c1f094ac1cf146859edc442ef76",
+          "changedByThisLane": true,
+          "note": "Regenerated by the build; declares the two SHA-256 values above."
+        },
+        {
+          "path": "scripts/build-census-v1-il-seal-2yr-set.mjs",
+          "sha256": "5858b94e286801f036b691487d40fa12f372a54a778119f037590a83bf2fdb09",
+          "changedByThisLane": true
+        },
+        {
+          "path": "scripts/lib/pdf-prune-dangling-annots.mjs",
+          "sha256": "0435e14401982743a1e35b89c7e4c5948ad6257c990d2f5acb2e91306653fb66",
+          "changedByThisLane": true,
+          "note": "Shared module, first committed under FIX08 in this same branch. One implementation of the ARTIFACTS repair at the shared cause, imported by this builder rather than copied into it."
+        }
+      ],
+      "familiesDeliberatelyNotRebuilt": {
+        "families": [
+          "il-exp-nonconv-set",
+          "il-cannabis-vacate-set",
+          "il-exp-supervision-set"
+        ],
+        "why": "All three are COMPLETE_PACKET_PROVEN with independent verdicts and admitted raster receipts bound to their exact current bytes; rebuilding them would invalidate a verdict and a receipt each.",
+        "byteIdenticalAtEnd": true,
+        "theirBuildScriptsWereAlsoNotChanged": "Deliberate, and a residual gap this lane is not closing. Wiring their builders to the shared module without rebuilding them would leave committed artifacts that no longer reproduce from their committed source. The shared module exists for their owner to adopt in the same commit as their rebuild and re-raster."
+      },
+      "grantsNothing": "This row repairs two obligations on one family. It grants no commercial authority, opens no route, promotes no build status, and supersedes no verdict on its own -- the family must be verified again by a lane that neither built nor repaired it, and rastered against the two SHA-256 values above."
+    }
+  ]
+}

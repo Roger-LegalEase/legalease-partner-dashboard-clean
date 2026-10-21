@@ -1,0 +1,147 @@
+{
+  "schemaVersion": 1,
+  "worker": "FABLE-L6",
+  "lane": "gate integrity - lane contract L6",
+  "branch": "fable/l6",
+  "baseSha": "0964b5da44fa4c851ea19e1dd659c03ad91e8933",
+  "task": "L6's positive check passed while its own negative control reported MISSED, so L6 proved nothing about the property it names: no family proven while the raster gate cannot be dispatched.",
+
+  "diagnosis": {
+    "verdict": "Two compounding causes, both confirmed by experiment rather than inferred. The check's only substantive clause became unfalsifiable, AND the mutation's subject stopped being a violation. Either alone would have produced the MISSED; both are present.",
+    "causeOne": {
+      "shape": "the check's condition is written so it can never be false",
+      "detail": "L6's promotion clause was `if (reach.presentOnDefaultBranch !== true && proven.length > 0)`. The raster workflow landed on the default branch, the queue's generator measures that with `git cat-file -e origin/main:<workflow>`, and RASTER_QUEUE.json has recorded presentOnDefaultBranch: true since commit a97e5d043 (2026-09-01, 'raster gate: record that the workflow is reachable and the first dispatch queued'; the infra merge is 3fa877b46 / #169). At a97e5d043~1 the same field read false. From that commit forward the guard is permanently false, so no promotion of any family could ever fail L6.",
+      "evidence": "Setting presentOnDefaultBranch back to false on the unmutated tree makes L6 FAIL immediately with 'observed: 85 famil(ies) are in a proven state while the raster workflow is undispatchable'. The clause was alive; nothing could reach it."
+    },
+    "causeTwo": {
+      "shape": "the mutation's edit is not actually a violation of the property any more",
+      "detail": "The case promoted `families.find(x => x.state === 'VERIFY_PENDING')` to COMPLETE_PACKET_PROVEN. That family is ar-misdemeanor-dwi-seal-set today, and it has held a complete-coverage RASTER_PASS with a receipt from run 33495068504 for some time. Promoting it is not false provenance at all.",
+      "evidence": "Applied the mutation by hand and ran the plain verifier: 9/9 checks passed, LANE_CONTRACTS_HELD. Not only L6 - L4 did not fire either, because the family genuinely holds a hash-bound complete-coverage RASTER_PASS. The mutation had stopped being a mutation.",
+      "consequence": "Fixing only the check would not have fixed the control. Fixing only the control would not have fixed the check."
+    },
+    "shapesRuledOut": {
+      "mutationEditsAFileTheCheckNoLongerReads": "ruled out - L6 reads MASTER_QUEUE.json families and RASTER_QUEUE.json workflowReachability, and the mutation edited MASTER_QUEUE.json families; the file and field were right.",
+      "checkReadsARecordThatNoLongerExists": "ruled out - workflowReachability is present and well formed, and the second L6 case (dropping it) was and is DETECTED."
+    },
+    "whyItMatters": "L6 is the contract that refuses false provenance from the visual gate. Between 2026-09-01 and this change it reported ok while measuring nothing about any family's verdict."
+  },
+
+  "whatChanged": {
+    "file": "scripts/grade-a-packet-factory-24h/verify-lane-contracts.mjs",
+    "checkStrengthened": true,
+    "mutationsRepointed": true,
+    "theCheck": [
+      "KEPT the original branch-wide clause verbatim: presentOnDefaultBranch !== true with any family proven is still a refusal. It is dormant while the workflow is on main, and it must stay so the contract survives the workflow being pulled from the default branch.",
+      "KEPT the clause requiring the recorded consequence to say what unreachability costs.",
+      "ADDED corroboration: a claim of presentOnDefaultBranch: true must be backed by at least one row carrying a receipt from a numbered run of the central raster workflow. Believing an unevidenced boolean in a data file is what silenced this check for a day; a reachability claim may no longer rest on its own assertion.",
+      "ADDED the per-family reading, which is the substance: every family in a proven state (PASS_COMPLETE, VERIFIED_PASS, LEGAL_REVIEW_READY, LEGAL_APPROVED, PRODUCT_PATH_PENDING, COMPLETE_PACKET_PROVEN) must have a row in the raster queue, and that row must carry a rasterReceipt that names the central raster workflow, names a numeric dispatched run id, returned RASTER_PASS, came from a job that concluded success, and is bound to the exact canonical SHA-256 the row pins."
+    ],
+    "whyThatShapeRatherThanTheAlternatives": {
+      "notWeakenedOrDeleted": "The check was not relaxed and the mutation was not removed. Nothing in L4, L9, PASS_COMPLETE, RASTER_PASS, source-binding, legal-input, claim, payment, sponsorship, participant-ownership or cross-tenant handling was touched.",
+      "notRedundantWithL4": "L4's title says 'from the central workflow', but L4's implementation reads only the row's `currentRasterState === \"RASTER_PASS\"` string and its coverage object. It never opens rasterReceipt. A row that simply asserts the string with no receipt behind it satisfies L4 completely. Proven by experiment: deleting the rasterReceipt from ak-courtview-set's row leaves L4, L7, L8 and every other check green and fails L6 alone. The provenance of the verdict - which workflow, which run, which job, which bytes - is read nowhere else in the file, so L6 is not redundant; it supplies the half L4's title implies and its code does not check.",
+      "whyPerFamilyRatherThanBranchWide": "A branch-wide reachability question has one answer and it is now yes. Once dispatching is possible, the only non-vacuous form of 'the gate could be dispatched for this family' is that it demonstrably was: a receipt from a run of it, bound to this family's bytes.",
+      "deliberatelyNotAsserted": "Receipt-side coverage. Thirteen rows carry an older receipt shape with no documentsCovered / coversTheWholeFamily fields, five of them under proven families (ut_pet_dismissed_without_prejudice-set, ut_pet_limitations-set, ut_pet_no_charges-set, ut_pet_traffic-set, vt_seal_misdemeanor-set). Whether a verdict covers the whole family is L4's and L7's property, measured on the row, where all five declare complete coverage of a single assembled packet. Re-asserting it from a field the older receipts never carried would have failed five proven families over a schema drift rather than over anything about the gate. Reported here as an observation, not raised as a failure."
+    },
+    "theMutations": {
+      "repointed": "The stale case 'a family proven while the raster gate cannot be dispatched' is replaced by 'a family proven while the queue records the raster gate as undispatchable' - it reconstructs the forbidden conjunction on the side that still varies, setting workflowReachability.presentOnDefaultBranch to false with 85 families proven. Same discipline as the earlier F29 and F13 repointings.",
+      "added": [
+        "'a proven family whose row carries no receipt from the raster gate is caught' - deletes rasterReceipt from the row of a proven family. This is the control for the property L4 is blind to.",
+        "'receipts attributed to a workflow other than the raster gate are caught' - repoints every receipt at another workflow file, exercising both the corroboration clause and the per-family workflow-identity clause."
+      ],
+      "kept": "'dropping the reachability record is caught', unchanged.",
+      "l6ControlCount": "2 before (one MISSED), 4 after (all DETECTED)."
+    }
+  },
+
+  "doesAnyCurrentlyProvenFamilyNowFailL6": {
+    "answer": "No.",
+    "measured": "85 families are in a proven state (79 COMPLETE_PACKET_PROVEN, 6 VERIFIED_PASS). 85/85 have a raster-queue row; 85/85 carry a rasterReceipt naming .github/workflows/rcap-packet-raster-acceptance-batch.yml, a numeric workflowRunId (12 distinct runs), verdict RASTER_PASS, jobConclusion success, and boundToCanonicalSha256 equal to the row's canonicalPdfSha256. Zero problems.",
+    "noPromotionOrDemotionPerformed": true
+  },
+
+  "beforeAfterMutationResults": {
+    "before": {
+      "cases": 17,
+      "detected": 16,
+      "missed": ["[L6] a family proven while the raster gate cannot be dispatched is caught"],
+      "byContract": {
+        "L1": "4/4 detected", "L2": "1/1 detected", "L3": "1/1 detected", "L4": "4/4 detected",
+        "L5": "1/1 detected", "L6": "1/2 detected - 1 MISSED", "L7": "2/2 detected",
+        "L8": "1/1 detected", "L9": "1/1 detected"
+      },
+      "suiteVerdict": "FAIL lane-contract mutations"
+    },
+    "after": {
+      "cases": 19,
+      "detected": 19,
+      "missed": [],
+      "byContract": {
+        "L1": "4/4 detected", "L2": "1/1 detected", "L3": "1/1 detected", "L4": "4/4 detected",
+        "L5": "1/1 detected", "L6": "4/4 detected", "L7": "2/2 detected",
+        "L8": "1/1 detected", "L9": "1/1 detected"
+      },
+      "suiteVerdict": "OK lane-contract mutations - 19 case(s), every mutation caught.",
+      "everyMutatedFileRestored": true
+    }
+  },
+
+  "gateResults": {
+    "verify-lane-contracts.mjs": "9/9 lane-contract checks passed; LANE_CONTRACTS_HELD",
+    "verify-lane-contracts.mjs --mutations": "9/9 checks; 19 mutation cases, every mutation caught; LANE_CONTRACTS_HELD",
+    "verify.mjs": "30/30 factory checks passed; CLAIM_LEDGER_OK 690 claims; DISC06 36/36 exercised",
+    "verify.mjs --mutations": "OK factory mutations - 63 case(s), every mutation caught; every mutated file restored byte-for-byte: true",
+    "verify-source-conveyor.mjs": "23/23 conveyor checks passed; CLAIM_LEDGER_OK 690 claims",
+    "verify-external-assignments.mjs": "9/9 external-dispatch checks passed; EXTERNAL_DISPATCH_HELD",
+    "verify-acq-promo-handoff.mjs": "6/6 handoff checks passed"
+  },
+
+  "auditOfTheOtherLaneContractsNegativeControls": {
+    "question": "Does any other contract pass while its mutation is missed, or carry no mutation case at all?",
+    "answer": "No. L1 through L9 each carry at least one negative control, and every control other than L6's was DETECTED both before and after this change. L6 was the only ill one.",
+    "findingsReportedNotFixed": [
+      {
+        "contract": "L4",
+        "case": "promoting a family whose raster verdict covers one of several documents is caught",
+        "observation": "Its named subject no longer exists: zero rows have coverage.complete === false, so the case takes its documented fallback (a family with no passing row) and thereby duplicates the earlier L4 case 'a packet marked PASS_COMPLETE with no RASTER_PASS'. It is DETECTED, so the suite is not lying, but the partial-coverage property has no L4-side control right now.",
+        "whyLeftAlone": "It is not the L6 illness - it fires. The property it names still has a live control at L7 ('a partial row claiming to cover the whole family is caught'), which constructs a partial row and confirms the refusal. Rewriting an L4 control is outside this assignment and would risk a conflicting edit to a file other agents are working in. If Captain wants it repointed, the one-file edit that works is: in RASTER_QUEUE.json set an already-proven family's row coverage.complete to false, which makes L4 fire on the proven-without-complete-coverage clause."
+      },
+      {
+        "contract": "L5",
+        "observation": "One control (renaming the canary out of the workflow) covers one of its four clauses. The --negative-controls clause, the needs:canary dependency clause, and the 'source-conveyor is not running the packet canary' clause have no controls of their own.",
+        "whyLeftAlone": "Under-covered is not the same illness as a missed control, and adding L5 controls is an expansion rather than a repointing. Recommended as follow-up work, not done here."
+      },
+      {
+        "contract": "L8",
+        "observation": "Its check is currently vacuous on the tree (zero builders create a PDF without a fixed date), but its control correctly CONSTRUCTS its subject by removing a stamp from a builder that holds a receipt, so the negative control still fires. This is the healthy version of the shape that made L6 ill, and is noted as the pattern to copy."
+      },
+      {
+        "contract": "L9",
+        "observation": "Its control depends on finding a vf16 row with verdictClaimedByLane === 'PASS_COMPLETE_INDEPENDENT'. It fires today; it would silently report 'its subject does not exist' if that field were ever dropped. Fragile but not broken - noted only."
+      }
+    ]
+  },
+
+  "filesNotTouched": [
+    "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+    "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+    "data/rcap-grade-a/packet-factory-24h/VERIFIER_RETURNS.json",
+    "data/rcap-grade-a/packet-factory-24h/*/rows.json",
+    "ACTIVE_ASSIGNMENTS.json and the claim ledger",
+    "every packet, overlay, fixture, field map and build script",
+    "every workflow file"
+  ],
+  "mutationHarnessWritesAreTransient": "The mutation harness writes and restores MASTER_QUEUE.json, RASTER_QUEUE.json, vf16/rows.json and the other subject files in place. Every case reported restored, `git status` shows only verify-lane-contracts.mjs modified, and no data file is staged or committed.",
+
+  "packetPdfsModified": 0,
+  "overlaysModified": 0,
+  "fixturesModified": 0,
+  "rendersPerformed": 0,
+  "workflowsDispatched": 0,
+  "receiptsWritten": 0,
+  "familiesPromoted": 0,
+  "generatorsRun": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "supabaseStripeSecretsOrMigrationsTouched": false,
+  "grantsNothing": "This return promotes nothing, opens no route and waives no gate. It restores a negative control that had stopped firing and gives L6 a property it can actually measure."
+}

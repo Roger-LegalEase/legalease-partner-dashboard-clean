@@ -1,0 +1,68 @@
+{
+  "schemaVersion": "rcap-overflow-report/v3",
+  "boundaryFixtureApplied": true,
+  "policy": "measured against the real widget rectangle and the embedding font's own metrics; a value that cannot be drawn at 6pt or larger is refused and the field left blank",
+  "shrunk": [
+    {
+      "anchor": "Defendant",
+      "factId": "participant.full_legal_name",
+      "fontSize": 9.5,
+      "outcome": "shrunk"
+    },
+    {
+      "anchor": "Name (typed or printed)",
+      "factId": "participant.full_legal_name",
+      "fontSize": 10,
+      "outcome": "shrunk"
+    }
+  ],
+  "wrapped": [],
+  "refusedUnfittable": [
+    {
+      "anchor": "Email",
+      "factId": "participant.email",
+      "outcome": "refused",
+      "reason": "value_exceeds_widget_width_at_minimum_font",
+      "value": "maximiliana.vasquez.featherstonehaugh@long-domain-example.org",
+      "rect": {
+        "x": 74,
+        "y": 343,
+        "width": 176,
+        "height": 12.5
+      },
+      "minFontSize": 6,
+      "requiredWidthAtMin": 180.9
+    },
+    {
+      "anchor": "Address",
+      "factId": "participant.street_address",
+      "outcome": "refused",
+      "reason": "value_exceeds_widget_width_at_minimum_font",
+      "value": "18244 Northwest Meadowbrook Terrace Extension Apartment 2201B",
+      "rect": {
+        "x": 74,
+        "y": 305.44,
+        "width": 174,
+        "height": 12.5
+      },
+      "minFontSize": 6,
+      "requiredWidthAtMin": 182.7
+    },
+    {
+      "anchor": "Phone",
+      "factId": "participant.phone",
+      "outcome": "refused",
+      "reason": "value_exceeds_widget_width_at_minimum_font",
+      "value": "1-413-555-0199 ext. 44021",
+      "rect": {
+        "x": 504,
+        "y": 305.44,
+        "width": 34,
+        "height": 12.5
+      },
+      "minFontSize": 6,
+      "requiredWidthAtMin": 71.8
+    }
+  ],
+  "clippedValues": []
+}

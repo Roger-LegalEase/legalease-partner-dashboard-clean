@@ -1,0 +1,1447 @@
+{
+ "schemaVersion": "rcap-independent-verification-rows/v1",
+ "lane": "VF14",
+ "laneKind": "independent-verification",
+ "assignedBy": "CAPTAIN-9H, as XVF-B in nextLaneByWorker.VF-SRC-B; minted as VF14 grants after this worker returned BLOCKED_BEFORE_CLAIM",
+ "supersedes": "data/rcap-grade-a/packet-factory-24h/xvf-b/rows.json, which recorded the blockage and is kept as the record of it",
+ "generatedAtBase": "959c5578b (worker merge of Captain 16b33c319)",
+ "preflight": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing, for both families (13/13 passed, 0 failed, 3 not applicable), with MASTER_LIBRARY_SOURCE_DIR exported",
+ "independence": "This worker neither built nor repaired either family and had verified neither. Its phase-1 lanes VF07-VF12 covered Utah and Vermont. PF-C built both; PF-C's COMPLETED verdict was treated as the claim under test.",
+ "rasterCeiling": "BUILT_RASTER_PENDING for both. Neither family appears in the central rastered set \u2014 25 families, run 33488713831 \u2014 which this lane checked in RASTER_QUEUE.json rather than assumed. No PASS_COMPLETE is returned for either.",
+ "counts": {
+  "families": 2,
+  "builtRasterPending": 2,
+  "passComplete": 0,
+  "failRepairRequired": 0,
+  "blockedSource": 0
+ },
+ "overlayDirectoriesModified": 0,
+ "buildScriptsModified": 0,
+ "commercialRoutesOpened": 0,
+ "productionTouched": false,
+ "grantsNothing": "An independent verification proves what it measured. It approves no output, opens no commercial route, and is not a visual pass. A defect found is a verdict and a repair assignment, never an edit; this lane wrote into no overlay directory and no build script.",
+ "rows": [
+  {
+   "itemId": "ak-tf800-set",
+   "verdict": "BUILT_RASTER_PENDING",
+   "verdictVocabularyNote": "BUILT_RASTER_PENDING is the ceiling Captain set for this lane and it is used here as the verdict word. The nonvisual result underneath it is PASS_COMPLETE_INDEPENDENT: fourteen of the fifteen obligations pass on measurement made in this lane and the fifteenth, feeAndWaiver, fails on an unsourced fee the packet honestly declines to invent. Nothing here is a PASS_COMPLETE and nothing here authorizes anything.",
+   "nonvisualResult": "FAIL_REPAIR_REQUIRED on feeAndWaiver alone; every other obligation passes",
+   "builtBy": "PF-C",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ak/ak-tf800-set--official-pdf-fill",
+   "obligationCounts": {
+    "PASS": 14,
+    "FAIL": 1,
+    "BLOCKED_LEGAL_INPUT": 0
+   },
+   "proofObligations": {
+    "routeIdentity": {
+     "result": "PASS",
+     "finding": "Every artifact in the family declares familyId ak-tf800-set; the route selection and the route keys agree wherever they are declared; and the family directory is the one the route names.",
+     "evidence": {
+      "declarationsByArtifact": {
+       "receipt": {
+        "familyId": "ak-tf800-set",
+        "routeSelectionId": "ak-tf800-set-tf-800-primary-filing",
+        "routeKeys": [
+         "track:AK:ak-tf800"
+        ]
+       },
+       "fieldMap": {
+        "familyId": "ak-tf800-set",
+        "routeSelectionId": "ak-tf800-set-tf-800-primary-filing",
+        "routeKeys": [
+         "track:AK:ak-tf800"
+        ]
+       },
+       "census": {
+        "familyId": "ak-tf800-set"
+       },
+       "renderedArtifacts": {
+        "familyId": "ak-tf800-set"
+       },
+       "actualWrites": {
+        "familyId": "ak-tf800-set"
+       },
+       "buildStatus": {
+        "familyId": "ak-tf800-set"
+       },
+       "approvalRequest": {
+        "familyId": "ak-tf800-set",
+        "routeKeys": null
+       }
+      },
+      "familyIdAgreement": true,
+      "routeSelectionIdValues": [
+       "ak-tf800-set-tf-800-primary-filing"
+      ],
+      "routeKeyValues": [
+       "[\"track:AK:ak-tf800\"]"
+      ],
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ak/ak-tf800-set--official-pdf-fill",
+      "directoryMatchesFamily": true
+     }
+    },
+    "sourceIdentity": {
+     "result": "PASS",
+     "finding": "All 1 source(s) were rehashed from the Master Library bytes in this lane; every recomputed digest, byte length and committed corpus-index entry agrees with the receipt.",
+     "evidence": [
+      {
+       "formNumber": "TF-800",
+       "documentId": "TF-800",
+       "revision": "REV-2025-05",
+       "pathInArchive": "STATES/AK/02_PACKET_FORMS/AK__FORM__TF-800__request-to-make-case-records-confidential-or-sealed-under-administrative-rule-37-6__REV-2025-05__EN.pdf",
+       "recordedSha256": "94bab52533d74551f7a8ff8644a9671241b38075c7e05f10806d627dfb898cbd",
+       "recomputedSha256": "94bab52533d74551f7a8ff8644a9671241b38075c7e05f10806d627dfb898cbd",
+       "recordedByteLength": 130602,
+       "byteLengthOnDisk": 130602,
+       "committedCorpusIndexSha256": "94bab52533d74551f7a8ff8644a9671241b38075c7e05f10806d627dfb898cbd",
+       "corpusIndexAgrees": true,
+       "matched": true
+      }
+     ]
+    },
+    "componentSet": {
+     "result": "PASS",
+     "finding": "The route names 1 document. The receipt, the field map, the census, the rendered artifacts and the writes read back from the bytes all carry it, and no artifact carries a document the route does not name. Both fixtures were rendered.",
+     "evidence": {
+      "receiptDocuments": [
+       "TF-800"
+      ],
+      "fieldMapDocuments": [
+       "TF-800"
+      ],
+      "censusDocumentIds": [
+       "TF-800"
+      ],
+      "renderedArtifactDocuments": [
+       "TF-800"
+      ],
+      "documentsCarryingWrites": [
+       "TF-800"
+      ],
+      "renderedArtifactCount": 2,
+      "fixturesRendered": [
+       "tf800-canonical",
+       "tf800-boundary"
+      ],
+      "agreement": {
+       "fieldMap": true,
+       "actualWrites": true,
+       "census": true,
+       "rendered": true
+      }
+     }
+    },
+    "knownPrefills": {
+     "result": "PASS",
+     "finding": "Every known fact the map writes is present and visible on the page it belongs to, proved twice: once against the builder's own read-back and once by decoding the fixture's flattened widget appearance streams in this lane. On the canonical fixture five distinct facts produce seven write instances across three pages, because the case number repeats in the page-2 and page-3 headers \u2014 which is why valuesReportedByFinalizer reads 5 while the writes report carries 7, and the two numbers count different things rather than disagreeing. On the boundary fixture the same seven writes carry the extreme values, including a 74-character address and a 58-character e-mail, with nothing refused and nothing unfittable.",
+     "evidence": {
+      "perFixture": [
+       {
+        "fixture": "tf800-canonical",
+        "formNumber": "TF-800",
+        "valuesReportedByFinalizer": 5,
+        "writesInTheReport": 7,
+        "flattenedWidgetAppearancesReadFromOutputBytes": 29,
+        "flattenedWidgetAppearancesThisLaneCounted": 7,
+        "liveAnnotationsRemaining": 0,
+        "addedGlyphsReadFromOutputBytes": 132,
+        "refusedFieldsWithInk": 0,
+        "unfittable": 0,
+        "formOwnButtonCaptionsFlattened": 0
+       },
+       {
+        "fixture": "tf800-boundary",
+        "formNumber": "TF-800",
+        "valuesReportedByFinalizer": 5,
+        "writesInTheReport": 7,
+        "flattenedWidgetAppearancesReadFromOutputBytes": 29,
+        "flattenedWidgetAppearancesThisLaneCounted": 7,
+        "liveAnnotationsRemaining": 0,
+        "addedGlyphsReadFromOutputBytes": 237,
+        "refusedFieldsWithInk": 0,
+        "unfittable": 0,
+        "formOwnButtonCaptionsFlattened": 0
+       }
+      ],
+      "mappedWritesNotProvedOnTheOutputBytes": [],
+      "writesWithNoInk": [],
+      "writesWhoseReadBackDiffersFromTheMappedValue": [
+       {
+        "fixture": "tf800-boundary",
+        "field": "name",
+        "expected": "Maria-Alejandra O\u2019Shaughnessy-Whitfield",
+        "readBack": "Maria-Alejandra O\u0092Shaughnessy-Whitfield"
+       }
+      ],
+      "writesThisLaneCouldNotFindInTheFixtureAppearanceStreams": [],
+      "writesProvedOnTheBytes": 14,
+      "distinctFactsWritten": [
+       "participant.street_address",
+       "matter.case_number",
+       "participant.full_legal_name",
+       "participant.phone",
+       "participant.email"
+      ],
+      "method": "the builder's read-back was checked field by field against the map, then re-derived independently by decoding every page's Form XObject appearance streams out of the fixture bytes in this lane",
+      "thisLanesOwnByteRead": {
+       "canonicalPage1Values": [
+        "412 Chugach Way, Anchorage, AK 99501",
+        "3AN-19-04217CR",
+        "Jordan Avery Reyes",
+        "907-555-0142",
+        "jordan.reyes@example.org"
+       ],
+       "boundaryPage1Values": [
+        "1188 Upper Hillside Loop Road, Apartment 14B, Fairbanks, Alaska 99709-2214",
+        "4FA-24-01188CR",
+        "Maria-Alejandra O\u0092Shaughnessy-Whitfield",
+        "(907) 555-0199 ext. 4417",
+        "maria.alejandra.oshaughnessy.whitfield@longmailexample.org"
+       ],
+       "boundaryPage2Values": [
+        "4FA-24-01188CR"
+       ],
+       "boundaryPage3Values": [
+        "4FA-24-01188CR"
+       ],
+       "liveAnnotationsRemaining": 0,
+       "note": "The builder counts 29 flattened widget appearances per fixture and this lane counts 7 carrying text. Both are right and they count different things: 29 is every widget flattened, including the ones flattened blank, and 7 is the subset carrying ink. No live annotation remains in either fixture, so nothing is editable after flattening."
+      },
+      "oneApparentMismatchThatIsNotOne": {
+       "field": "name, boundary fixture",
+       "reportSays": "Maria-Alejandra OShaughnessy-Whitfield",
+       "mapExpects": "Maria-Alejandra O\u2019Shaughnessy-Whitfield",
+       "whatTheBytesSay": "the appearance stream carries 0x92, the WinAnsi right single quotation mark, between the O and the S \u2014 the apostrophe is on the page",
+       "conclusion": "a transcription defect in reports/actual-writes.json's read-back, not a defect in the artifact. No obligation is failed on it. This worker found the identical transcription behaviour in vt_seal_18_to_21-set and vt_seal_dui-set, which suggests the read-back's character handling is shared and worth one fix rather than three."
+      }
+     }
+    },
+    "requiredBeforeFiling": {
+     "result": "PASS",
+     "finding": "Seven blanks are declared REQUIRED_BEFORE_FILING and every one is named in participant-instructions.md, checked word by word against the file rather than read from the builder's own disclosure claim. The instructions name each by the words printed beside the blank, with its page.",
+     "evidence": {
+      "declaredCount": 7,
+      "participantInstructionsBytes": 7652,
+      "itemsNotNamedInInstructions": [],
+      "items": [
+       {
+        "document": "TF-800",
+        "field": "caseName",
+        "page": 1,
+        "disclosureLabel": "Case Name",
+        "participantMustSupply": "the case name exactly as it appears on your court paperwork \u2014 in a criminal case that is usually the State of Alaska against your name",
+        "why": "the platform holds no value for this and the participant supplies it before filing: the case name exactly as it appears on your court paperwork \u2014 in a criminal case that is usually the State of Alaska against your name",
+        "namedInInstructions": true,
+        "matchedWords": [
+         "case",
+         "name"
+        ]
+       },
+       {
+        "document": "TF-800",
+        "field": "partyNames",
+        "page": 1,
+        "disclosureLabel": "Party Names",
+        "participantMustSupply": "the names of every party in the case, as they appear on the case caption \u2014 the platform holds your own name and not the other parties'",
+        "why": "the platform holds no value for this and the participant supplies it before filing: the names of every party in the case, as they appear on the case caption \u2014 the platform holds your own name and not the other parties'",
+        "namedInInstructions": true,
+        "matchedWords": [
+         "party",
+         "names"
+        ]
+       },
+       {
+        "document": "TF-800",
+        "field": "documents",
+        "page": 1,
+        "disclosureLabel": "Document(s) to be restricted",
+        "participantMustSupply": "the particular documents you want restricted, if you ticked Document(s) \u2014 describe each one so the clerk can find it in the file",
+        "why": "the platform holds no value for this and the participant supplies it before filing: the particular documents you want restricted, if you ticked Document(s) \u2014 describe each one so the clerk can find it in the file",
+        "namedInInstructions": true,
+        "matchedWords": [
+         "document",
+         "restricted"
+        ]
+       },
+       {
+        "document": "TF-800",
+        "field": "dateHearing",
+        "page": 1,
+        "disclosureLabel": "Log notes \u2014 which hearing",
+        "participantMustSupply": "which hearing the log notes belong to, by its date and what kind of hearing it was",
+        "why": "the platform holds no value for this and the participant supplies it before filing: which hearing the log notes belong to, by its date and what kind of hearing it was",
+        "namedInInstructions": true,
+        "matchedWords": [
+         "notes",
+         "which",
+         "hearing"
+        ]
+       },
+       {
+        "document": "TF-800",
+        "field": "audioRecording",
+        "page": 1,
+        "disclosureLabel": "Audio recording \u2014 which hearing",
+        "participantMustSupply": "which hearing the audio recording is of, by its date and what kind of hearing it was",
+        "why": "the platform holds no value for this and the participant supplies it before filing: which hearing the audio recording is of, by its date and what kind of hearing it was",
+        "namedInInstructions": true,
+        "matchedWords": [
+         "audio",
+         "recording",
+         "which",
+         "hearing"
+        ]
+       },
+       {
+        "document": "TF-800",
+        "field": "transcript",
+        "page": 1,
+        "disclosureLabel": "Transcript \u2014 which hearing",
+        "participantMustSupply": "which hearing the transcript is of, by its date and what kind of hearing it was",
+        "why": "the platform holds no value for this and the participant supplies it before filing: which hearing the transcript is of, by its date and what kind of hearing it was",
+        "namedInInstructions": true,
+        "matchedWords": [
+         "transcript",
+         "which",
+         "hearing"
+        ]
+       },
+       {
+        "document": "TF-800",
+        "field": "confidentialBecause",
+        "page": 1,
+        "disclosureLabel": "Why these records should be restricted",
+        "participantMustSupply": "your own answer to the question printed above this box \u2014 why the public interest in access is outweighed here. Administrative Rule 37.6 lets a judge find that it is on any of five grounds: risk of injury to individuals, individual privacy rights and interests, proprietary business information, the deliberative process, or public safety. The judge must also find your interest is distinguishable from the interests of parties in similar cases, so say what is particular about yours. This is yours to write and the platform never writes it for you",
+        "why": "the platform holds no value for this and the participant supplies it before filing: your own answer to the question printed above this box \u2014 why the public interest in access is outweighed here. Administrative Rule 37.6 lets a judge find that it is on any of five grounds: risk of injury to individuals, individual privacy rights and interests, proprietary business information, the deliberative process, or public safety. The judge must also find your interest is distinguishable from the interests of parties in similar cases, so say what is particular about yours. This is yours to write and the platform never writes it for you",
+        "namedInInstructions": true,
+        "matchedWords": [
+         "these",
+         "records",
+         "should",
+         "restricted"
+        ]
+       }
+      ],
+      "buildersOwnDisclosureClaim": {
+       "everyRequiredBeforeFilingItemIsDisclosed": true,
+       "disclosedIn": "data/rcap-all50/overlays/census-v1/ak/ak-tf800-set--official-pdf-fill/participant-instructions.md",
+       "note": "the builder's claim; this lane checked it against the file rather than inheriting it"
+      }
+     }
+    },
+    "routeOptions": {
+     "result": "PASS",
+     "finding": "The map determines no election on this route and says why: Administrative Rule 37.6 offers confidential and sealed as two levels of restriction on one request, and the rule does not choose between them. Ten controls are left to the participant as genuine elections \u2014 the restriction level, the certificate-of-service method, and the document-versus-case scope. No selection control carries ink on either fixture, so no route-determined election is left unselected and none is made for the participant.",
+     "evidence": {
+      "routeDeterminedSelections": 0,
+      "routeSelectionNote": "Administrative Rule 37.6 is one rule and TF-800 is one form. The confidential/sealed choice and the choice of which records to name are the requester's own, not consequences of the route, so this packet states the route and leaves those elections to the participant rather than answering them.",
+      "selectionControlsInTheMap": 10,
+      "selectionControlDispositions": {
+       "explicit_refusal": 10
+      },
+      "routeDeterminedSelectionsNotProvedMarked": [],
+      "participantElectionsLeftToTheParticipant": 10,
+      "participantElections": [
+       {
+        "field": "Group1",
+        "page": 1,
+        "label": "Confidential or sealed (selection)",
+        "why": "Administrative Rule 37.6 offers confidential and sealed as two levels of restriction on the same request; the rule does not choose between them and neither does this packet"
+       },
+       {
+        "field": "Check Box1",
+        "page": 1,
+        "label": "Entire case file (selection)",
+        "why": "whether the whole file or only named records are restricted is the requester's own choice about their own records"
+       },
+       {
+        "field": "Check Box2",
+        "page": 1,
+        "label": "Document(s) (selection)",
+        "why": "tick this only if you are naming particular documents rather than the whole file"
+       },
+       {
+        "field": "Check Box3",
+        "page": 1,
+        "label": "Log notes (selection)",
+        "why": "tick this only if you are asking that log notes be restricted"
+       },
+       {
+        "field": "Check Box4",
+        "page": 1,
+        "label": "Audio recording (selection)",
+        "why": "tick this only if you are asking that an audio recording be restricted"
+       },
+       {
+        "field": "Check Box5",
+        "page": 1,
+        "label": "Transcript (selection)",
+        "why": "tick this only if you are asking that a transcript be restricted"
+       },
+       {
+        "field": "mail",
+        "page": 2,
+        "label": "Certificate of Service \u2014 by mail (selection)",
+        "why": "you tick the method you actually used, at the time you serve the other parties"
+       },
+       {
+        "field": "hd",
+        "page": 2,
+        "label": "Certificate of Service \u2014 by hand-delivery (selection)",
+        "why": "you tick the method you actually used, at the time you serve the other parties"
+       },
+       {
+        "field": "tf",
+        "page": 2,
+        "label": "Certificate of Service \u2014 by TrueFiling (selection)",
+        "why": "you tick the method you actually used, at the time you serve the other parties"
+       },
+       {
+        "field": "emailCB",
+        "page": 2,
+        "label": "Certificate of Service \u2014 by e-mail (selection)",
+        "why": "you tick the method you actually used, and only if that party gave the court an e-mail address"
+       }
+      ]
+     }
+    },
+    "repeatingRows": {
+     "result": "PASS",
+     "finding": "Proved writes and declared blanks were grouped into 6 baseline bands; 0 band(s) carry both ink and a blank, and in every one of those the blank carries a declared disposition. No row carries written cells beside a required cell left blank.",
+     "evidence": {
+      "bandsExamined": 6,
+      "declaredRefusals": 0,
+      "bandsCarryingBothInkAndBlank": 0,
+      "bandsWithAnUndeclaredBlankBesideInk": 0,
+      "examples": []
+     }
+    },
+    "protectedFields": {
+     "result": "PASS",
+     "finding": "No signature, signature date, certificate of mailing, court-only or prosecutor-only field carries ink. Four blanks are declared protected \u2014 the sworn verification signature on page 2 and the certificate of service block \u2014 and none appears among the writes proved on the bytes. The instructions corroborate it: the verification is sworn and must be signed in front of a clerk, notary or other person authorised to administer oaths, and the certificate of service is completed after service, because a certificate saying service has happened when it has not would be untrue.",
+     "evidence": {
+      "declaredProtectedBlanks": 4,
+      "declaredProtected": [
+       {
+        "source": "blanks-left-for-the-participant.protectedBlanks",
+        "field": "certDate",
+        "page": 2,
+        "label": "Certificate of Service \u2014 date of service, written when you sign the certificate",
+        "refusalClass": "signature_or_date_participant_completion",
+        "why": "service has not happened when the packet is prepared, and a certificate dated before the act it certifies would be false"
+       },
+       {
+        "source": "blanks-left-for-the-participant.protectedBlanks",
+        "field": "time2",
+        "page": 2,
+        "label": "Certificate of Service \u2014 time of service, written when you sign the certificate",
+        "refusalClass": "signature_or_date_participant_completion",
+        "why": "service has not happened when the packet is prepared, and a certificate dated before the act it certifies would be false"
+       },
+       {
+        "source": "blanks-left-for-the-participant.protectedBlanks",
+        "field": "needText1",
+        "page": 2,
+        "label": "Certificate of Service \u2014 who you served, written when you sign the certificate",
+        "refusalClass": "participant_sworn_narrative_or_legal_election",
+        "why": "the certificate records who you actually served and is completed at the time of service, not in advance"
+       },
+       {
+        "source": "blanks-left-for-the-participant.protectedBlanks",
+        "field": "signature0",
+        "page": 2,
+        "label": "Certificate of Service \u2014 Signature",
+        "refusalClass": "signature_or_date_participant_completion",
+        "why": "you sign the certificate of service yourself, after you have served the other parties"
+       }
+      ],
+      "censusFieldsClassifiedProtected": 4,
+      "protectedBlanksCarryingInk": 0,
+      "censusProtectedFieldsCarryingInk": 0,
+      "refusedFieldsCarryingInk": 0,
+      "method": "every write proved on the bytes was matched by field name against every blank the map, the census and the blanks report call protected"
+     }
+    },
+    "artifacts": {
+     "result": "PASS",
+     "finding": "Both fixtures' bytes were rehashed in this lane; each SHA-256 and byte length agrees with reports/rendered-artifacts.json.",
+     "evidence": [
+      {
+       "fixture": "tf800-canonical",
+       "document": null,
+       "file": "data/rcap-all50/overlays/census-v1/ak/ak-tf800-set--official-pdf-fill/fixtures/tf800-canonical-filled.pdf",
+       "recordedSha256": "66d0c390198984a8c42a550d0077ef63dae98af3900f51630490ec8fcb0c54d6",
+       "recomputedSha256": "66d0c390198984a8c42a550d0077ef63dae98af3900f51630490ec8fcb0c54d6",
+       "recordedByteLength": 108325,
+       "byteLengthOnDisk": 108325,
+       "matched": true
+      },
+      {
+       "fixture": "tf800-boundary",
+       "document": null,
+       "file": "data/rcap-all50/overlays/census-v1/ak/ak-tf800-set--official-pdf-fill/fixtures/tf800-boundary-filled.pdf",
+       "recordedSha256": "b077fbfff439494d3af3ecf8e72c58af882b3c3b224205e632238e89459c95a5",
+       "recomputedSha256": "b077fbfff439494d3af3ecf8e72c58af882b3c3b224205e632238e89459c95a5",
+       "recordedByteLength": 108449,
+       "byteLengthOnDisk": 108449,
+       "matched": true
+      }
+     ]
+    },
+    "pageOrder": {
+     "result": "PASS",
+     "finding": "For each fixture the page count read from the PDF bytes equals the count the record names and the source form's own page count; where a page manifest exists its packet pages run 1..N with no gap, in receipt order, with source pages ascending; and every declared raster page is present on disk.",
+     "evidence": [
+      {
+       "fixture": "tf800-canonical",
+       "manifestPages": 3,
+       "recordedPageCount": 3,
+       "pageCountReadFromPdfBytes": 3,
+       "sourcePageCount": 3,
+       "packetPagesContiguousFromOne": true,
+       "sourcePagesAscendWithinEachDocument": true,
+       "documentOrderMatchesReceipt": true,
+       "manifestDocumentOrder": [
+        "TF-800"
+       ],
+       "receiptDocumentOrder": [
+        "TF-800"
+       ],
+       "rasterPagesDeclared": 3,
+       "rasterPagesPresentOnDisk": 3,
+       "matched": true
+      },
+      {
+       "fixture": "tf800-boundary",
+       "manifestPages": 3,
+       "recordedPageCount": 3,
+       "pageCountReadFromPdfBytes": 3,
+       "sourcePageCount": 3,
+       "packetPagesContiguousFromOne": true,
+       "sourcePagesAscendWithinEachDocument": true,
+       "documentOrderMatchesReceipt": true,
+       "manifestDocumentOrder": [
+        "TF-800"
+       ],
+       "receiptDocumentOrder": [
+        "TF-800"
+       ],
+       "rasterPagesDeclared": 3,
+       "rasterPagesPresentOnDisk": 3,
+       "matched": true
+      }
+     ]
+    },
+    "clippingAndOverlap": {
+     "result": "PASS",
+     "finding": "No ink falls outside a measured write box: the out-of-box glyph count read from the output bytes is zero for every fixture, no write box falls outside its census page box, and no two write boxes on the same page of the same fixture overlap.",
+     "evidence": {
+      "pageGeometryAvailable": false,
+      "writeBoxesOutsideThePageBox": 0,
+      "outside": [],
+      "overlappingWriteBoxPairs": 0,
+      "overlaps": [],
+      "strayInkReadFromOutputBytes": [
+       {
+        "fixture": "tf800-canonical",
+        "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+       },
+       {
+        "fixture": "tf800-boundary",
+        "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+       }
+      ],
+      "totalStrayGlyphs": 0
+     }
+    },
+    "filingDestination": {
+     "result": "PASS",
+     "finding": "The instructions name the destination and corroborate it against the form's own face: file with the clerk's office of the Alaska trial court where the case is or was pending, the court named in the case number at the top of page 1, and page 1 prints that filing direction itself.",
+     "evidence": {
+      "matchedText": "File the completed request with the clerk's office of the Alaska trial court where the case is or was pending \u2014 the court named in the case number at the top of page 1.",
+      "corroboration": "Page 1 of the form prints the filing direction on its own face, and the clerk of that court can confirm it from your case number.",
+      "heading": "## Where you file this"
+     }
+    },
+    "feeAndWaiver": {
+     "result": "FAIL",
+     "finding": "The fee is not stated and no waiver route is stated. The packet says so itself and says why: 'Any filing fee, and whether one applies to this request. Ask the clerk of the court above.' That is an honest refusal to write an unsourced figure into a filing instruction and it is the right instinct, but an instruction to ask the clerk is not the fee being stated. Nothing in the committed evidence establishes the Alaska fee for a Rule 37.6 request, so this is an open source obligation rather than a drafting defect, and no packet lane should invent it.",
+     "evidence": {
+      "feeAmountStated": false,
+      "waiverRouteStated": false,
+      "instructionText": "Two things this packet does not tell you, because they are not established here and an unsourced figure in a filing instruction is worse than none: Any filing fee, and whether one applies to this request. Ask the clerk of the court above.",
+      "whatWouldSettleIt": "a sourced Alaska Court System fee schedule entry for a Rule 37.6 request, or a sourced statement that no fee applies",
+      "notForAPacketLaneToInfer": true
+     }
+    },
+    "service": {
+     "result": "PASS",
+     "finding": "Who must be served and how are both stated. The instructions direct the participant to give a copy to every party in the case and to complete the certificate of service on page 2 after doing so; the four methods the form offers are each named in the items table \u2014 mail, hand-delivery, TrueFiling and e-mail, the last only where that party gave the court an e-mail address; and the TrueFiling alternative is explained, including that a participant serving through it leaves the paper certificate blank.",
+     "evidence": {
+      "recipientStated": true,
+      "recipient": "every party in the case",
+      "methodStated": true,
+      "methods": [
+       "by mail",
+       "by hand-delivery",
+       "by TrueFiling",
+       "by e-mail, only if that party gave the court an e-mail address"
+      ],
+      "timingStated": "complete the certificate of service on page 2 after you have served, not before",
+      "instructionText": "Give a copy to every party in the case, and complete the certificate of service on page 2 after you have done so."
+     }
+    },
+    "selfHelpStop": {
+     "result": "PASS",
+     "finding": "The packet states where it stops, in the instructions and in the control plane alike. It says it is a prepared copy of an official Alaska Court System form, that it is not legal advice, that it is not filed for the participant, and that it does not decide whether the judge will restrict anything \u2014 the judge must find that the public interest in access is outweighed and that finding is theirs alone. It also names the 90-day limit as the participant's to check, and refuses to choose between confidential and sealed. The build status carries the same boundary: state_built, qa_review_pending, generationAllowed false, runtimeSelectable false, selfVerified false.",
+     "evidence": {
+      "instructionBoundary": "This is a prepared copy of an official Alaska Court System form. It is not legal advice, it is not filed for you, and it does not decide whether the judge will restrict anything. The judge must find that the public interest in access is outweighed, and that finding is theirs alone.",
+      "buildStatus": "state_built",
+      "reviewStatus": "qa_review_pending",
+      "generationAllowed": false,
+      "runtimeSelectable": false,
+      "selfVerified": false,
+      "buildersOwnGrantsNothingLine": "A rendered packet is review evidence. It authorizes no fulfillment, opens no commercial route, and is not a verdict. The builder does not verify its own packets."
+     }
+    }
+   },
+   "raster": {
+    "ceiling": "BUILT_RASTER_PENDING",
+    "centralRasterPass": "none \u2014 neither family appears in the raster queue's 25 rastered families (run 33488713831, pinned to Captain 71894f3f2), which this lane checked rather than assumed",
+    "localRastersDeclared": 6,
+    "localRastersPresentOnDisk": 6,
+    "localRasterDigestsRecomputedAndAgreeing": 6,
+    "rasterEngineDeclaredByBuilder": "scripts/lib/pdf-page-raster.mjs (Chromium, calibrated)",
+    "whatThisLaneProvedAboutThem": "Only that the PNGs on disk are the PNGs the record names \u2014 every declared page is present and every declared digest was recomputed here and agrees. That is internal consistency and nothing more.",
+    "whyItIsNotAVisualPass": "Captain has declared RASTER_LOCAL_PENDING_CENTRAL as proving nothing and authorizing nothing: an uncalibrated runner for gate purposes, no canary, no negative controls, and no receipt binding these images to the queue's pinned hashes. The presence of rendered pages is not read here as a visual pass.",
+    "visualDefectsMeasuredHere": "none \u2014 this lane measured no pixels and claims nothing about them"
+   },
+   "standardApplied": {
+    "measuredHere": "Every obligation was measured in this lane. Source digests were recomputed from the Master Library bytes, both fixture digests from the PDF bytes, page counts by opening each PDF, and every claimed write was re-derived by decoding the fixture's own flattened widget appearance streams page by page. PF-C's COMPLETED verdict and its completeness counters were treated as the claim under test, not as evidence for it.",
+    "filingDestination": "Met when the participant-facing instructions name the court or agency the route names.",
+    "feeAndWaiver": "Met when the packet states the filing fee AND any waiver route. A sourced statement that the fee is zero meets it, because there is then no waiver to state. An instruction to ask someone what the fee is does not.",
+    "service": "Met when the packet states who must be served and by what method. On a route with no service step the packet meets it by saying so; silence does not, because the participant cannot tell an absent requirement from an unmentioned one.",
+    "selfHelpStop": "Met when the packet states where the platform stops and the participant or a lawyer takes over.",
+    "contractNote": "VERMONT_REPAIR.json records filingDestination being scored both ways on identical bytes and asks Captain to settle it. The standard applied here is stated so any difference is legible rather than silent. It is the same standard this worker applied in VF07-VF12."
+   },
+   "buildersClaimUnderTest": {
+    "buildersOwnCounters": {
+     "knownRequiredFieldsMissing": 0,
+     "requiredFactsNotCollected": 0,
+     "unclassifiedBlanks": 0,
+     "incompleteRows": 0,
+     "requiredOptionsMissing": 0,
+     "requiredComponentsMissing": 0,
+     "invisibleWrites": 0,
+     "protectedWrites": 0,
+     "visualDefects": 0
+    },
+    "buildersOwnAllNineZeroClaim": true,
+    "buildersOwnCaveat": "A verdict. The builder does not verify its own packets: independent verification belongs to a VF lane that did not build them, and PASS_COMPLETE additionally requires a hash-bound RASTER_PASS from the central raster workflow.",
+    "howThisLaneTreatedIt": "as the claim under test. Every counter was re-derived here from the map, the census and the bytes rather than read from the builder's file, and the two numbers that disagree with a naive reading of that file \u2014 valuesReportedByFinalizer 5 against 7 writes, and 29 flattened appearances against 7 carrying text \u2014 were resolved by opening the PDFs, not by trusting either side."
+   },
+   "evidenceRead": [
+    "data/rcap-all50/overlays/census-v1/ak/ak-tf800-set--official-pdf-fill/source-receipt.json",
+    "data/rcap-all50/overlays/census-v1/ak/ak-tf800-set--official-pdf-fill/production-field-map.json",
+    "data/rcap-all50/overlays/census-v1/ak/ak-tf800-set--official-pdf-fill/field-census.census-v1.json",
+    "data/rcap-all50/overlays/census-v1/ak/ak-tf800-set--official-pdf-fill/reports/actual-writes.json",
+    "data/rcap-all50/overlays/census-v1/ak/ak-tf800-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "data/rcap-all50/overlays/census-v1/ak/ak-tf800-set--official-pdf-fill/reports/blanks-left-for-the-participant.json",
+    "data/rcap-all50/overlays/census-v1/ak/ak-tf800-set--official-pdf-fill/reports/completeness-counters.json",
+    "data/rcap-all50/overlays/census-v1/ak/ak-tf800-set--official-pdf-fill/participant-instructions.md",
+    "data/rcap-all50/overlays/census-v1/ak/ak-tf800-set--official-pdf-fill/build-status.json",
+    "data/rcap-all50/overlays/census-v1/ak/ak-tf800-set--official-pdf-fill/approval-request.json",
+    "data/rcap-all50/overlays/census-v1/ak/ak-tf800-set--official-pdf-fill/fixtures/tf800-canonical-filled.pdf",
+    "data/rcap-all50/overlays/census-v1/ak/ak-tf800-set--official-pdf-fill/fixtures/tf800-boundary-filled.pdf",
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "ct-cleanslate-petition-set",
+   "verdict": "BUILT_RASTER_PENDING",
+   "verdictVocabularyNote": "BUILT_RASTER_PENDING is the ceiling Captain set for this lane and it is used here as the verdict word. Underneath it, fourteen of the fifteen obligations pass on measurement made in this lane and the fifteenth, service, is BLOCKED_LEGAL_INPUT rather than failed: there is no defect to repair until someone establishes whether this route serves anyone. Nothing here is a PASS_COMPLETE and nothing here authorizes anything.",
+   "nonvisualResult": "no packet defect found; one obligation blocked on an open legal input; one defect found in an evidence artifact rather than in the packet",
+   "builtBy": "PF-C",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill",
+   "obligationCounts": {
+    "PASS": 14,
+    "FAIL": 0,
+    "BLOCKED_LEGAL_INPUT": 1
+   },
+   "proofObligations": {
+    "routeIdentity": {
+     "result": "PASS",
+     "finding": "Every artifact in the family declares familyId ct-cleanslate-petition-set; the route selection and the route keys agree wherever they are declared; and the family directory is the one the route names.",
+     "evidence": {
+      "declarationsByArtifact": {
+       "receipt": {
+        "familyId": "ct-cleanslate-petition-set",
+        "routeSelectionId": null,
+        "routeKeys": [
+         "obligation:track-pathway:CT:ct-cleanslate-petition:petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202"
+        ]
+       },
+       "fieldMap": {
+        "familyId": "ct-cleanslate-petition-set",
+        "routeSelectionId": null,
+        "routeKeys": [
+         "obligation:track-pathway:CT:ct-cleanslate-petition:petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202"
+        ]
+       },
+       "census": {
+        "familyId": "ct-cleanslate-petition-set"
+       },
+       "renderedArtifacts": {
+        "familyId": "ct-cleanslate-petition-set"
+       },
+       "actualWrites": {
+        "familyId": "ct-cleanslate-petition-set"
+       },
+       "buildStatus": {
+        "familyId": "ct-cleanslate-petition-set"
+       },
+       "approvalRequest": {
+        "familyId": "ct-cleanslate-petition-set",
+        "routeKeys": [
+         "obligation:track-pathway:CT:ct-cleanslate-petition:petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202"
+        ]
+       }
+      },
+      "familyIdAgreement": true,
+      "routeSelectionIdValues": [],
+      "routeKeyValues": [
+       "[\"obligation:track-pathway:CT:ct-cleanslate-petition:petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202\"]"
+      ],
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill",
+      "directoryMatchesFamily": true
+     }
+    },
+    "sourceIdentity": {
+     "result": "PASS",
+     "finding": "All 1 source(s) were rehashed from the Master Library bytes in this lane; every recomputed digest, byte length and committed corpus-index entry agrees with the receipt.",
+     "evidence": [
+      {
+       "formNumber": "JD-CR-202",
+       "documentId": "CT-JD-CR-202-PETITION-FOR-CLEAN-SLATE-ERASURE-CONVICTIONS-BEFORE-2000",
+       "revision": "REV-2023-11",
+       "pathInArchive": "STATES/CT/02_PACKET_FORMS/CT__FORM__JD-CR-202__petition-for-clean-slate-erasure-convictions-before-1-1-2000__REV-2023-11__EN.pdf",
+       "recordedSha256": "b5a917c2cd07727172a50534a4884a63e8ae08704b631c62a199c3454623062c",
+       "recomputedSha256": "b5a917c2cd07727172a50534a4884a63e8ae08704b631c62a199c3454623062c",
+       "recordedByteLength": 820630,
+       "byteLengthOnDisk": 820630,
+       "committedCorpusIndexSha256": "b5a917c2cd07727172a50534a4884a63e8ae08704b631c62a199c3454623062c",
+       "corpusIndexAgrees": true,
+       "matched": true
+      }
+     ]
+    },
+    "componentSet": {
+     "result": "PASS",
+     "finding": "The route names 1 document. The receipt, the field map, the census, the rendered artifacts and the writes read back from the bytes all carry it, and no artifact carries a document the route does not name. Both fixtures were rendered.",
+     "evidence": {
+      "receiptDocuments": [
+       "JD-CR-202"
+      ],
+      "fieldMapDocuments": [
+       "JD-CR-202"
+      ],
+      "censusDocumentIds": [
+       "CT-JD-CR-202-PETITION-FOR-CLEAN-SLATE-ERASURE-CONVICTIONS-BEFORE-2000"
+      ],
+      "renderedArtifactDocuments": [],
+      "documentsCarryingWrites": [
+       "JD-CR-202"
+      ],
+      "renderedArtifactCount": 2,
+      "fixturesRendered": [
+       "canonical",
+       "boundary"
+      ],
+      "agreement": {
+       "fieldMap": true,
+       "actualWrites": true,
+       "census": true,
+       "rendered": true
+      }
+     }
+    },
+    "knownPrefills": {
+     "result": "PASS",
+     "finding": "Every known fact the map writes on the canonical fixture is present and visible on the page it belongs to. This had to be settled from the bytes, because the builder's own byte-proof report says otherwise: reports/actual-writes.json records drawnText [] for four of the six canonical writes \u2014 the docket number, the date of birth, the address and the phone \u2014 while still reporting valuesReportedByFinalizer 6 and fieldsWritten 6. Decoding the canonical fixture's flattened widget appearance streams in this lane found all six values on page 1, byte for byte. The packet is right and its evidence artifact is wrong; that defect is recorded separately and does not fail this obligation. On the boundary fixture two writes are absent and both are declared, measured and refused rather than dropped: the docket number needs 173pt and the name 195.6pt at the six-point minimum, in a 159.84pt widget.",
+     "evidence": {
+      "perFixture": [
+       {
+        "fixture": "petition-canonical",
+        "formNumber": "JD-CR-202",
+        "valuesReportedByFinalizer": 6,
+        "writesInTheReport": 6,
+        "flattenedWidgetAppearancesReadFromOutputBytes": 23,
+        "flattenedWidgetAppearancesThisLaneCounted": null,
+        "liveAnnotationsRemaining": null,
+        "addedGlyphsReadFromOutputBytes": 42,
+        "refusedFieldsWithInk": 0,
+        "unfittable": 0,
+        "formOwnButtonCaptionsFlattened": 4
+       },
+       {
+        "fixture": "petition-boundary",
+        "formNumber": "JD-CR-202",
+        "valuesReportedByFinalizer": 4,
+        "writesInTheReport": 4,
+        "flattenedWidgetAppearancesReadFromOutputBytes": 23,
+        "flattenedWidgetAppearancesThisLaneCounted": null,
+        "liveAnnotationsRemaining": null,
+        "addedGlyphsReadFromOutputBytes": 24,
+        "refusedFieldsWithInk": 0,
+        "unfittable": 2,
+        "formOwnButtonCaptionsFlattened": 4
+       }
+      ],
+      "mappedWritesNotProvedOnTheOutputBytes": [
+       {
+        "fixtureTag": "boundary",
+        "formNumber": "JD-CR-202",
+        "page": 1,
+        "field": "form1[0].PAGE1[0].DOCKETNO[0]",
+        "factId": "matter.case_number",
+        "rect": {
+         "x": 424.8,
+         "y": 606,
+         "width": 159.84,
+         "height": 15.12
+        }
+       },
+       {
+        "fixtureTag": "boundary",
+        "formNumber": "JD-CR-202",
+        "page": 1,
+        "field": "form1[0].PAGE1[0].DEFNAME[0]",
+        "factId": "participant.full_legal_name",
+        "rect": {
+         "x": 28.8,
+         "y": 582,
+         "width": 159.84,
+         "height": 15.12
+        }
+       }
+      ],
+      "writesWithNoInk": [
+       {
+        "fixture": "petition-canonical",
+        "fixtureTag": "canonical",
+        "formNumber": "JD-CR-202",
+        "page": 1,
+        "field": "form1[0].PAGE1[0].DOCKETNO[0]",
+        "factId": "matter.case_number",
+        "rect": {
+         "x": 424.8,
+         "y": 606,
+         "width": 159.84,
+         "height": 15.12
+        },
+        "text": "",
+        "expected": "N23N-CR98-0123456-S"
+       },
+       {
+        "fixture": "petition-canonical",
+        "fixtureTag": "canonical",
+        "formNumber": "JD-CR-202",
+        "page": 1,
+        "field": "form1[0].PAGE1[0].DOB[0]",
+        "factId": "participant.date_of_birth",
+        "rect": {
+         "x": 496.8,
+         "y": 582,
+         "width": 87.84,
+         "height": 15.12
+        },
+        "text": "",
+        "expected": "1971-04-17"
+       },
+       {
+        "fixture": "petition-canonical",
+        "fixtureTag": "canonical",
+        "formNumber": "JD-CR-202",
+        "page": 1,
+        "field": "form1[0].PAGE1[0].DEFADDRESS[0]",
+        "factId": "participant.street_address",
+        "rect": {
+         "x": 28.8,
+         "y": 558,
+         "width": 555.84,
+         "height": 15.12
+        },
+        "text": "",
+        "expected": "118 Maple Street"
+       },
+       {
+        "fixture": "petition-canonical",
+        "fixtureTag": "canonical",
+        "formNumber": "JD-CR-202",
+        "page": 1,
+        "field": "form1[0].PAGE1[0].DEFPHONE[0]",
+        "factId": "participant.phone",
+        "rect": {
+         "x": 367.2,
+         "y": 582,
+         "width": 123.84,
+         "height": 15.12
+        },
+        "text": "",
+        "expected": "203-555-0142"
+       },
+       {
+        "fixture": "petition-boundary",
+        "fixtureTag": "boundary",
+        "formNumber": "JD-CR-202",
+        "page": 1,
+        "field": "form1[0].PAGE1[0].DOB[0]",
+        "factId": "participant.date_of_birth",
+        "rect": {
+         "x": 496.8,
+         "y": 582,
+         "width": 87.84,
+         "height": 15.12
+        },
+        "text": "",
+        "expected": "1971-04-17"
+       },
+       {
+        "fixture": "petition-boundary",
+        "fixtureTag": "boundary",
+        "formNumber": "JD-CR-202",
+        "page": 1,
+        "field": "form1[0].PAGE1[0].DEFADDRESS[0]",
+        "factId": "participant.street_address",
+        "rect": {
+         "x": 28.8,
+         "y": 558,
+         "width": 555.84,
+         "height": 15.12
+        },
+        "text": "",
+        "expected": "12345 Southwest Grandview Boulevard Northeast, Building 7, Apartment 4321-B"
+       },
+       {
+        "fixture": "petition-boundary",
+        "fixtureTag": "boundary",
+        "formNumber": "JD-CR-202",
+        "page": 1,
+        "field": "form1[0].PAGE1[0].DEFPHONE[0]",
+        "factId": "participant.phone",
+        "rect": {
+         "x": 367.2,
+         "y": 582,
+         "width": 123.84,
+         "height": 15.12
+        },
+        "text": "",
+        "expected": "203-555-0142 ext. 44821"
+       }
+      ],
+      "writesWhoseReadBackDiffersFromTheMappedValue": [
+       {
+        "fixture": "petition-canonical",
+        "field": "form1[0].PAGE1[0].DOCKETNO[0]",
+        "expected": "N23N-CR98-0123456-S",
+        "readBack": ""
+       },
+       {
+        "fixture": "petition-canonical",
+        "field": "form1[0].PAGE1[0].DOB[0]",
+        "expected": "1971-04-17",
+        "readBack": ""
+       },
+       {
+        "fixture": "petition-canonical",
+        "field": "form1[0].PAGE1[0].DEFADDRESS[0]",
+        "expected": "118 Maple Street",
+        "readBack": ""
+       },
+       {
+        "fixture": "petition-canonical",
+        "field": "form1[0].PAGE1[0].DEFPHONE[0]",
+        "expected": "203-555-0142",
+        "readBack": ""
+       },
+       {
+        "fixture": "petition-boundary",
+        "field": "form1[0].PAGE1[0].DOB[0]",
+        "expected": "1971-04-17",
+        "readBack": ""
+       },
+       {
+        "fixture": "petition-boundary",
+        "field": "form1[0].PAGE1[0].DEFADDRESS[0]",
+        "expected": "12345 Southwest Grandview Boulevard Northeast, Building 7, Apartment 4321-B",
+        "readBack": ""
+       },
+       {
+        "fixture": "petition-boundary",
+        "field": "form1[0].PAGE1[0].DEFPHONE[0]",
+        "expected": "203-555-0142 ext. 44821",
+        "readBack": ""
+       }
+      ],
+      "writesThisLaneCouldNotFindInTheFixtureAppearanceStreams": [],
+      "writesProvedOnTheBytes": 10,
+      "distinctFactsWritten": [
+       "participant.email",
+       "matter.case_number",
+       "participant.date_of_birth",
+       "participant.full_legal_name",
+       "participant.street_address",
+       "participant.phone"
+      ],
+      "method": "the builder's read-back was checked field by field against the map, then re-derived independently by decoding every page's Form XObject appearance streams out of the fixture bytes in this lane",
+      "thisLanesOwnByteRead": {
+       "canonicalPage1": [
+        "Reset Form",
+        "Print Form",
+        "jordan.reyes@example.com",
+        "N23N-CR98-0123456-S",
+        "1971-04-17",
+        "Jordan Avery Reyes",
+        "118 Maple Street",
+        "203-555-0142"
+       ],
+       "canonicalPage2": [
+        "Reset Form",
+        "Print Form"
+       ],
+       "boundaryPage1": [
+        "Reset Form",
+        "Print Form",
+        "jordan.reyes@example.com",
+        "1971-04-17",
+        "12345 Southwest Grandview Boulevard Northeast, Building 7, Apartment 4321-B",
+        "203-555-0142 ext. 44821"
+       ],
+       "note": "Reset Form and Print Form are the form's own button captions, four in total across the two pages, which the builder accounted for as flattenedFormOwnButtonCaptions 4. Every participant value the map declares for the canonical fixture is present.",
+       "allSixCanonicalValuesFound": true
+      },
+      "boundaryRefusalsAreDeclaredNotDropped": [
+       {
+        "field": "form1[0].PAGE1[0].DOCKETNO[0]",
+        "factId": "matter.case_number",
+        "value": "N23N-CR99-0123456-S/AB-CDE-0123456789-SUPPLEMENTAL",
+        "reason": "value_exceeds_widget_width_at_minimum_font",
+        "widgetWidthPt": 159.84,
+        "requiredWidthAtMinimumFontPt": 173,
+        "minFontSize": 6,
+        "absentFromTheBytes": true
+       },
+       {
+        "field": "form1[0].PAGE1[0].DEFNAME[0]",
+        "factId": "participant.full_legal_name",
+        "value": "Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III",
+        "reason": "value_exceeds_widget_width_at_minimum_font",
+        "widgetWidthPt": 159.84,
+        "requiredWidthAtMinimumFontPt": 195.6,
+        "minFontSize": 6,
+        "absentFromTheBytes": true
+       }
+      ],
+      "whyTheBoundaryRefusalsDoNotFailThisObligation": "The boundary fixture exists to find exactly this, and the builder found it, measured it, named it and refused rather than clipping the value or dropping it silently. That is the correct behaviour and the opposite of the silent loss this worker found in the Vermont families. It does raise a real product question, recorded as an observation below."
+     }
+    },
+    "requiredBeforeFiling": {
+     "result": "PASS",
+     "finding": "Three blanks are declared REQUIRED_BEFORE_FILING and every one is named in participant-instructions.md, checked word by word against the file: the crimes to be erased, the address of the sentencing court, and its JD or G.A. number. Each is named by the column heading printed above it on the form.",
+     "evidence": {
+      "declaredCount": 3,
+      "participantInstructionsBytes": 5626,
+      "itemsNotNamedInInstructions": [],
+      "items": [
+       {
+        "document": "JD-CR-202",
+        "field": "form1[0].PAGE1[0].CRIMES2ERASE[0]",
+        "page": 1,
+        "disclosureLabel": "Crime(s) defendant asks the court to erase",
+        "participantMustSupply": "the crime or crimes you are asking the court to erase, from the ONE case this form covers. Instruction 4 is strict about that: crimes from more than one case need a separate form for each case, and the court cannot process a form that mixes them",
+        "why": "the platform holds no value for this and the participant supplies it before filing: the crime or crimes you are asking the court to erase, from the ONE case this form covers. Instruction 4 is strict about that: crimes from more than one case need a separate form for each case, and the court cannot process a form that mixes them",
+        "namedInInstructions": true,
+        "matchedWords": [
+         "crime",
+         "defendant",
+         "asks",
+         "court",
+         "erase"
+        ]
+       },
+       {
+        "document": "JD-CR-202",
+        "field": "form1[0].PAGE1[0].COURTADDRESS[0]",
+        "page": 1,
+        "disclosureLabel": "Address of court",
+        "participantMustSupply": "the street address of that same court. Instruction 3 on the form tells you to file where you were sentenced, and the chart on page 2 gives the court to file in instead if that location has since closed",
+        "why": "the platform holds no value for this and the participant supplies it before filing: the street address of that same court. Instruction 3 on the form tells you to file where you were sentenced, and the chart on page 2 gives the court to file in instead if that location has since closed",
+        "namedInInstructions": true,
+        "matchedWords": [
+         "address",
+         "court"
+        ]
+       },
+       {
+        "document": "JD-CR-202",
+        "field": "form1[0].PAGE1[0].JDGANUM[0]",
+        "page": 1,
+        "disclosureLabel": "JD/GA number",
+        "participantMustSupply": "the JD or G.A. number of the court that sentenced you for the crime you are asking the court to erase. It is printed on your court paperwork, and the clerk of any Superior Court location can read it off your docket number",
+        "why": "the platform holds no value for this and the participant supplies it before filing: the JD or G.A. number of the court that sentenced you for the crime you are asking the court to erase. It is printed on your court paperwork, and the clerk of any Superior Court location can read it off your docket number",
+        "namedInInstructions": true,
+        "matchedWords": [
+         "number"
+        ]
+       }
+      ],
+      "buildersOwnDisclosureClaim": {
+       "note": "the builder's claim; this lane checked it against the file rather than inheriting it"
+      }
+     }
+    },
+    "routeOptions": {
+     "result": "PASS",
+     "finding": "The map determines no election on this route and says why: JD-CR-202 carries no participant election at all, and its only two controls are the court's own Denied and Granted boxes in the Order of the Court. Neither carries ink on either fixture, which is correct \u2014 those boxes are the judge's. There is therefore no route-determined election left unselected.",
+     "evidence": {
+      "routeDeterminedSelections": 0,
+      "routeSelectionNote": "JD-CR-202 carries no participant election. Its only two controls are the court's Denied and Granted boxes in the Order of the Court, so this packet states the route it was built for on its own row rather than by ticking anything.",
+      "selectionControlsInTheMap": 2,
+      "selectionControlDispositions": {
+       "explicit_refusal": 2
+      },
+      "routeDeterminedSelectionsNotProvedMarked": [],
+      "participantElectionsLeftToTheParticipant": 0,
+      "participantElections": []
+     }
+    },
+    "repeatingRows": {
+     "result": "PASS",
+     "finding": "Proved writes and declared blanks were grouped into 3 baseline bands; 0 band(s) carry both ink and a blank, and in every one of those the blank carries a declared disposition. No row carries written cells beside a required cell left blank.",
+     "evidence": {
+      "bandsExamined": 3,
+      "declaredRefusals": 0,
+      "bandsCarryingBothInkAndBlank": 0,
+      "bandsWithAnUndeclaredBlankBesideInk": 0,
+      "examples": []
+     }
+    },
+    "protectedFields": {
+     "result": "PASS",
+     "finding": "No signature, signature date, certificate of mailing, court-only or prosecutor-only field carries ink. The Order of the Court on page 2, the judge's Denied and Granted boxes, and the sworn attestation row are all left empty on both fixtures. The instructions corroborate it: the petition is sworn before a Notary, Commissioner of the Superior Court, Clerk or other proper officer, the whole attestation row is the officer's, and the Order of the Court is left alone because the judge completes it.",
+     "evidence": {
+      "declaredProtectedBlanks": 16,
+      "declaredProtected": [
+       {
+        "source": "documents.protectedFields",
+        "field": "form1[0].#pageSet[0].Page1[0].ResetButton1[0]",
+        "category": "type_guard"
+       },
+       {
+        "source": "documents.protectedFields",
+        "field": "form1[0].#pageSet[0].Page1[0].PrintButton1[0]",
+        "category": "type_guard"
+       },
+       {
+        "source": "documents.protectedFields",
+        "field": "form1[0].#pageSet[0].Page1[1].ResetButton1[0]",
+        "category": "type_guard"
+       },
+       {
+        "source": "documents.protectedFields",
+        "field": "form1[0].#pageSet[0].Page1[1].PrintButton1[0]",
+        "category": "type_guard"
+       },
+       {
+        "source": "documents.protectedFields",
+        "field": "form1[0].PAGE1[0].CRIMES2ERASE[0]",
+        "category": "role"
+       },
+       {
+        "source": "documents.protectedFields",
+        "field": "form1[0].PAGE1[0].PRINTNAME[0]",
+        "category": "role"
+       },
+       {
+        "source": "documents.protectedFields",
+        "field": "form1[0].PAGE1[0].DATESIGN[0]",
+        "category": "role"
+       },
+       {
+        "source": "documents.protectedFields",
+        "field": "form1[0].PAGE1[0].COURTADDRESS[0]",
+        "category": "role"
+       },
+       {
+        "source": "documents.protectedFields",
+        "field": "form1[0].PAGE1[0].JDGANUM[0]",
+        "category": "role"
+       },
+       {
+        "source": "documents.protectedFields",
+        "field": "form1[0].PAGE1[0].DATESIGN[1]",
+        "category": "role"
+       },
+       {
+        "source": "documents.protectedFields",
+        "field": "form1[0].PAGE1[0].PRINTNAME[1]",
+        "category": "role"
+       },
+       {
+        "source": "documents.protectedFields",
+        "field": "form1[0].#subform[1].MODIFIED[0]",
+        "category": "role"
+       },
+       {
+        "source": "documents.protectedFields",
+        "field": "form1[0].#subform[1].DENIED[0]",
+        "category": "role"
+       },
+       {
+        "source": "documents.protectedFields",
+        "field": "form1[0].#subform[1].GRANTED[0]",
+        "category": "role"
+       },
+       {
+        "source": "documents.protectedFields",
+        "field": "form1[0].#subform[1].TOWNJUDGMNT[0]",
+        "category": "role"
+       },
+       {
+        "source": "documents.protectedFields",
+        "field": "form1[0].#subform[1].DATEJUDGMNT[0]",
+        "category": "role"
+       }
+      ],
+      "censusFieldsClassifiedProtected": 0,
+      "protectedBlanksCarryingInk": 0,
+      "censusProtectedFieldsCarryingInk": 0,
+      "refusedFieldsCarryingInk": 0,
+      "method": "every write proved on the bytes was matched by field name against every blank the map, the census and the blanks report call protected"
+     }
+    },
+    "artifacts": {
+     "result": "PASS",
+     "finding": "Both fixtures' bytes were rehashed in this lane; each SHA-256 and byte length agrees with reports/rendered-artifacts.json.",
+     "evidence": [
+      {
+       "fixture": "canonical",
+       "document": "CT-JD-CR-202-PETITION-FOR-CLEAN-SLATE-ERASURE-CONVICTIONS-BEFORE-2000",
+       "file": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/fixtures/petition-canonical-filled.pdf",
+       "recordedSha256": "d44ace77326e51a697450d18a033eadccf308b32d5d426ce5c73ffc989546e06",
+       "recomputedSha256": "d44ace77326e51a697450d18a033eadccf308b32d5d426ce5c73ffc989546e06",
+       "recordedByteLength": 248957,
+       "byteLengthOnDisk": 248957,
+       "matched": true
+      },
+      {
+       "fixture": "boundary",
+       "document": "CT-JD-CR-202-PETITION-FOR-CLEAN-SLATE-ERASURE-CONVICTIONS-BEFORE-2000",
+       "file": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/fixtures/petition-boundary-filled.pdf",
+       "recordedSha256": "e190d7304260be94e84e46fb18710ee85e1f5a5314e7a7a5a5dd5eeb33b3d052",
+       "recomputedSha256": "e190d7304260be94e84e46fb18710ee85e1f5a5314e7a7a5a5dd5eeb33b3d052",
+       "recordedByteLength": 248978,
+       "byteLengthOnDisk": 248978,
+       "matched": true
+      }
+     ]
+    },
+    "pageOrder": {
+     "result": "PASS",
+     "finding": "For each fixture the page count read from the PDF bytes equals the count the record names and the source form's own page count; where a page manifest exists its packet pages run 1..N with no gap, in receipt order, with source pages ascending; and every declared raster page is present on disk.",
+     "evidence": [
+      {
+       "fixture": "canonical",
+       "manifestPages": null,
+       "recordedPageCount": null,
+       "pageCountReadFromPdfBytes": 2,
+       "sourcePageCount": 2,
+       "packetPagesContiguousFromOne": null,
+       "sourcePagesAscendWithinEachDocument": null,
+       "documentOrderMatchesReceipt": true,
+       "manifestDocumentOrder": [],
+       "receiptDocumentOrder": [
+        "JD-CR-202"
+       ],
+       "rasterPagesDeclared": 2,
+       "rasterPagesPresentOnDisk": 2,
+       "matched": true
+      },
+      {
+       "fixture": "boundary",
+       "manifestPages": null,
+       "recordedPageCount": null,
+       "pageCountReadFromPdfBytes": 2,
+       "sourcePageCount": 2,
+       "packetPagesContiguousFromOne": null,
+       "sourcePagesAscendWithinEachDocument": null,
+       "documentOrderMatchesReceipt": true,
+       "manifestDocumentOrder": [],
+       "receiptDocumentOrder": [
+        "JD-CR-202"
+       ],
+       "rasterPagesDeclared": 2,
+       "rasterPagesPresentOnDisk": 2,
+       "matched": true
+      }
+     ]
+    },
+    "clippingAndOverlap": {
+     "result": "PASS",
+     "finding": "No ink falls outside a measured write box: the out-of-box glyph count read from the output bytes is zero for every fixture, no write box falls outside its census page box, and no two write boxes on the same page of the same fixture overlap.",
+     "evidence": {
+      "pageGeometryAvailable": true,
+      "writeBoxesOutsideThePageBox": 0,
+      "outside": [],
+      "overlappingWriteBoxPairs": 0,
+      "overlaps": [],
+      "strayInkReadFromOutputBytes": [
+       {
+        "fixture": "petition-canonical",
+        "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+       },
+       {
+        "fixture": "petition-boundary",
+        "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+       }
+      ],
+      "totalStrayGlyphs": 0
+     }
+    },
+    "filingDestination": {
+     "result": "PASS",
+     "finding": "The instructions name the destination, cite the form's own printed instruction for it, and handle the case where that destination no longer exists: file in the court location where you were sentenced, which is printed instruction 3 on the form, and if that location has since closed the chart on page 2 of the packet names the receiving court and its street address for G.A. 6 and 8 at New Haven, G.A. 13 at Enfield, G.A. 16 at West Hartford, G.A. 17 at Bristol and G.A. 20 at Norwalk.",
+     "evidence": {
+      "matchedText": "File this petition in the court location where you were sentenced for the crime you are asking the court to erase. That is printed instruction 3 on the form itself.",
+      "closedCourtHandling": "the chart on page 2 of this packet names the court to file in instead",
+      "heading": "## Where you file this"
+     }
+    },
+    "feeAndWaiver": {
+     "result": "PASS",
+     "finding": "The fee is stated, sourced, and correctly distinguished from a cost that is not a court fee: there is no filing fee for this petition, C.G.S. \u00a7 54-142a provides for it, and the compiled Connecticut profile records the fee as $0. A criminal-history record check from the State Police Bureau of Identification is named separately as an agency cost that is not a court filing fee. No waiver route is stated and none is needed, because a zero fee has nothing to waive. This is the first family in this worker's shift to meet this obligation, and it meets it by sourcing the number rather than by asking the participant to go and find it.",
+     "evidence": {
+      "feeAmountStated": true,
+      "feeAmount": "$0",
+      "statutoryBasis": "C.G.S. \u00a7 54-142a",
+      "corroboration": "the compiled Connecticut profile records the fee as $0",
+      "waiverRouteStated": "not applicable \u2014 a zero fee has no waiver",
+      "separateCostNamedAndDistinguished": "a criminal-history record check from the State Police Bureau of Identification is a separate agency cost and is not a court filing fee"
+     }
+    },
+    "service": {
+     "result": "BLOCKED_LEGAL_INPUT",
+     "finding": "The instructions say nothing about service, and this lane cannot tell from the committed evidence whether that is right. The form carries no certificate of service, no mailing block and no service field \u2014 the census's twenty-two fields contain none, and the only e-mail field on the document is the defendant's own \u2014 which is consistent with a route where nothing is served and the court acts on the petition alone. But an absent requirement and an unmentioned one read identically to a participant, and whether C.G.S. \u00a7 54-142a requires notice to the State's Attorney or anyone else is a legal question this lane must not answer from the shape of a form. Neither PASS nor FAIL: the packet has no defect to repair until the legal input lands, and it cannot be called complete until it says one way or the other.",
+     "evidence": {
+      "recipientStated": false,
+      "methodStated": false,
+      "serviceFieldsOnTheForm": 0,
+      "censusFieldCount": 22,
+      "onlyEmailFieldOnTheDocument": "form1[0].PAGE1[0].DEFEMAIL[0], the defendant's own e-mail address",
+      "whatWouldSettleIt": "a sourced reading of C.G.S. \u00a7 54-142a on whether a Clean Slate erasure petition must be served on any party, and on whom",
+      "theRepairIfTheAnswerIsNone": "one sentence in the instructions saying the petition is filed with the court and no party is served \u2014 which is a drafting change, but only after the legal input establishes it",
+      "notForAPacketLaneToInfer": true
+     }
+    },
+    "selfHelpStop": {
+     "result": "PASS",
+     "finding": "The packet states where it stops and is specific about the hardest part: it is a prepared copy of an official Connecticut Judicial Branch form, it is not legal advice, it is not filed for the participant, and it does not decide whether their convictions are eligible for Clean Slate erasure. It carries the form's own NOTE warning that a crime carrying a possible sentence of more than five years may not qualify. It also enforces the form's one-case rule rather than papering over it, and leaves the Order of the Court to the judge. The build status carries the same boundary: state_built, qa_review_pending, generationAllowed false, runtimeSelectable false, selfVerified false.",
+     "evidence": {
+      "instructionBoundary": "This is a prepared copy of an official Connecticut Judicial Branch form. It is not legal advice, it is not filed for you, and it does not decide whether your convictions are eligible for Clean Slate erasure.",
+      "formsOwnWarningCarriedThrough": "The form's own NOTE warns that a crime for which the court could have sentenced you to more than five years may not qualify.",
+      "oneCaseRuleEnforced": "if you have crimes from more than one case, file a separate form for each case",
+      "buildStatus": "state_built",
+      "reviewStatus": "qa_review_pending",
+      "generationAllowed": false,
+      "runtimeSelectable": false,
+      "selfVerified": false
+     }
+    }
+   },
+   "raster": {
+    "ceiling": "BUILT_RASTER_PENDING",
+    "centralRasterPass": "none \u2014 neither family appears in the raster queue's 25 rastered families (run 33488713831, pinned to Captain 71894f3f2), which this lane checked rather than assumed",
+    "localRastersDeclared": 4,
+    "localRastersPresentOnDisk": 4,
+    "localRasterDigestsRecomputedAndAgreeing": 4,
+    "rasterEngineDeclaredByBuilder": null,
+    "whatThisLaneProvedAboutThem": "Only that the PNGs on disk are the PNGs the record names \u2014 every declared page is present and every declared digest was recomputed here and agrees. That is internal consistency and nothing more.",
+    "whyItIsNotAVisualPass": "Captain has declared RASTER_LOCAL_PENDING_CENTRAL as proving nothing and authorizing nothing: an uncalibrated runner for gate purposes, no canary, no negative controls, and no receipt binding these images to the queue's pinned hashes. The presence of rendered pages is not read here as a visual pass.",
+    "visualDefectsMeasuredHere": "none \u2014 this lane measured no pixels and claims nothing about them"
+   },
+   "standardApplied": {
+    "measuredHere": "Every obligation was measured in this lane. Source digests were recomputed from the Master Library bytes, both fixture digests from the PDF bytes, page counts by opening each PDF, and every claimed write was re-derived by decoding the fixture's own flattened widget appearance streams page by page. PF-C's COMPLETED verdict and its completeness counters were treated as the claim under test, not as evidence for it.",
+    "filingDestination": "Met when the participant-facing instructions name the court or agency the route names.",
+    "feeAndWaiver": "Met when the packet states the filing fee AND any waiver route. A sourced statement that the fee is zero meets it, because there is then no waiver to state. An instruction to ask someone what the fee is does not.",
+    "service": "Met when the packet states who must be served and by what method. On a route with no service step the packet meets it by saying so; silence does not, because the participant cannot tell an absent requirement from an unmentioned one.",
+    "selfHelpStop": "Met when the packet states where the platform stops and the participant or a lawyer takes over.",
+    "contractNote": "VERMONT_REPAIR.json records filingDestination being scored both ways on identical bytes and asks Captain to settle it. The standard applied here is stated so any difference is legible rather than silent. It is the same standard this worker applied in VF07-VF12."
+   },
+   "defectInAnEvidenceArtifactNotInThePacket": {
+    "what": "reports/actual-writes.json records drawnText [] for four of the six canonical writes and for three of the four boundary writes, with readBackFromBytes true, for values that are demonstrably present in the fixture bytes.",
+    "affectedCanonicalFields": [
+     "form1[0].PAGE1[0].DOCKETNO[0]",
+     "form1[0].PAGE1[0].DOB[0]",
+     "form1[0].PAGE1[0].DEFADDRESS[0]",
+     "form1[0].PAGE1[0].DEFPHONE[0]"
+    ],
+    "whatTheBytesShow": "all four values are on page 1 of the canonical fixture, decoded from its flattened widget appearance streams in this lane: N23N-CR98-0123456-S, 1971-04-17, 118 Maple Street, 203-555-0142",
+    "whyItMatters": "actual-writes.json is the byte-proof report a downstream lane reads to decide whether a known prefill reached the page. A verifier that trusted it would fail a correct family on four missing prefills. A verifier that read only the headline valuesReportedByFinalizer 6 would pass it without noticing the per-field evidence contradicts the headline. Both readings are available in the same file, which is the thing to fix.",
+    "whatItIsNot": "not a packet defect. The packet is correct. Nothing in the overlay needs re-rendering for this.",
+    "contrastWithVermont": "this is the mirror image of the defect this worker found in vt_seal_18_to_21-set and vt_seal_dui-set, where the report claimed a write the bytes did not carry. Here the bytes carry a write the report does not claim. Both are the same underlying thing: a read-back that cannot be trusted in either direction."
+   },
+   "observationForProductAndCounsel": {
+    "what": "On the boundary fixture two participant facts do not fit their widgets at the six-point minimum font: a 50-character docket number needing 173pt and a 70-character legal name needing 195.6pt, in a 159.84pt box.",
+    "howTheBuilderHandledIt": "declared, measured and refused \u2014 value, reason, widget width, required width and minimum font size all recorded. Not clipped, not shrunk past legibility, not silently dropped. That is the right behaviour.",
+    "theQuestionItRaises": "a real participant whose legal name does not fit the widget still has to file. What the packet does for them \u2014 an attachment, a continuation, an abbreviation the court accepts \u2014 is a product and counsel question, not a build defect, and this lane raises it rather than answering it.",
+    "whyItIsRaisedHere": "the boundary fixture exists to find exactly this, and it found it. Recording it as an observation is the only way the finding survives past this lane."
+   },
+   "buildersClaimUnderTest": {
+    "buildersOwnCounters": {
+     "knownRequiredFieldsMissing": 0,
+     "requiredFactsNotCollected": 0,
+     "unclassifiedBlanks": 0,
+     "incompleteRows": 0,
+     "requiredOptionsMissing": 0,
+     "requiredComponentsMissing": 0,
+     "invisibleWrites": 0,
+     "protectedWrites": 0,
+     "visualDefects": 0
+    },
+    "buildersOwnAllNineZeroClaim": true,
+    "howThisLaneTreatedIt": "as the claim under test. Taking the builder's own actual-writes.json at face value would have produced four false failures on this family; opening the PDFs produced the truth. PF-C's COMPLETED verdict is not evidence for itself and was not used as any."
+   },
+   "evidenceRead": [
+    "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/source-receipt.json",
+    "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/production-field-map.json",
+    "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/field-census.census-v1.json",
+    "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/field-decisions.json",
+    "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/captain-reproduction.json",
+    "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/reports/actual-writes.json",
+    "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/reports/blanks-left-for-the-participant.json",
+    "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/reports/completeness-counters.json",
+    "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/participant-instructions.md",
+    "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/build-status.json",
+    "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/approval-request.json",
+    "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/fixtures/petition-canonical-filled.pdf",
+    "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/fixtures/petition-boundary-filled.pdf",
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  }
+ ],
+ "factoryCheckNoteForCaptain": {
+  "check": "F24 \u2014 one claim ledger grants every dispatched family exactly once, to one lane of each kind",
+  "status": "FAILING at this head, and it was already failing on Captain's own HEAD ledger before this worker committed anything, which this lane confirmed by running the check against Captain's ledger alone.",
+  "observed": "25 grants whose lane is not present in ACTIVE_ASSIGNMENTS.json \u2014 VF13 4, VF14 2, VF15 5, VF16 5, VF17 9.",
+  "cause": "The five cross-verification lanes were minted into the claim ledger without matching lane entries in ACTIVE_ASSIGNMENTS.json. F24 reads a grant whose lane is undispatched as a grant that should not exist.",
+  "notCausedByThisLane": "VF14's two grants are among the 25, but so are the other four lanes' 23, and the check failed identically with this worker's ledger changes reverted. Releasing the two VF14 grants on completion did not cause it and does not clear it.",
+  "notFixedHere": "ACTIVE_ASSIGNMENTS.json is a shared dispatch manifest, not this lane's owned path. Adding a VF14 entry would be this verifier dispatching its own lane, would leave the other four lanes still failing, and would turn a real refusal green without fixing what it refuses. This is the third time this shift the mechanism has correctly refused something a dispatch left half-done, and the right answer each time was to hand it back.",
+  "theFix": "add the five cross-verification lanes to ACTIVE_ASSIGNMENTS.json so every minted grant has a dispatched lane behind it, exactly as the DISC and SRC lanes do."
+ }
+}

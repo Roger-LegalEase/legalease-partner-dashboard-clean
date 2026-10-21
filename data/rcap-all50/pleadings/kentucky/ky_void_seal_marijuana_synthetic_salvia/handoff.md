@@ -61,7 +61,7 @@ Gates: `legalStatus: legal_review_pending`, `legalDesignStatus: legal_design_app
 ## Evidence
 
 - `src/lib/rcap/state-packs/kentucky/index.ts`, `src/lib/rcap/state-packs/kentucky/all50-build-metadata.ts`
-- `src/lib/rcap-engine/compiled/profiles/KY-kentucky.json` (sha256 `6af5fcab97b496d3535a3f05174bc730706da90a18996f72f9a7c17935e4e36e`)
+- `src/lib/rcap-engine/compiled/profiles/KY-kentucky.json` (sha256 `441a89c697a0443e6b429e4f3be750d26af5e1bb31afbabd61800f020394b438`)
 - Pinned registry entry `tracks[trackId=ky_void_seal_marijuana_synthetic_salvia]`
 
 The committed Kentucky state pack records build metadata and the Nationwide inventory only. Every filing step in `participant-instructions.md` comes from the track's `rules`, `packetInstructions`, `packetSet.participantActionRequired` and `selfHelpStopConditions`.

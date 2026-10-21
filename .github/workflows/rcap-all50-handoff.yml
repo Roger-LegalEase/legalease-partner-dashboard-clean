@@ -212,6 +212,88 @@ jobs:
       # branch admits a route only on all seven build inputs, sits behind every
       # suppression and behind the live legacy generators, and never resolves
       # sellable or credit-consumable — buildable in shadow is not approved.
+      # A shared binder wrote a participant's own name into blanks that hold the
+      # offence they were charged with, across six official-form families. The
+      # rule is corrected and these hold it: the first proves the correction over
+      # every censused blank in the corpus and that nothing outside the recorded
+      # set moved, the second proves that verifier goes red when the correction
+      # is broken. Invoked here rather than from package.json for the same reason
+      # as the steps above -- package.json is a worker image input, and an npm
+      # entry would force an image rebuild for a check that alters nothing the
+      # image contains.
+      # The national route-obligation census is the build denominator: 694
+      # obligations across 51 jurisdictions, each with a category and the exact
+      # work still missing. Undercounting is the failure that matters, because a
+      # route that never reaches the census is a route nobody is accountable
+      # for. The freeze check holds the three queues it creates -- no two waves
+      # handed the same path, no exclusion outside the six permitted reasons, no
+      # legal question dropped between batches -- and that the freeze opened
+      # nothing.
+      - name: Verify the national route obligation census
+        run: node scripts/grade-a-route-obligation-census/verify-national-route-obligation-census.mjs
+
+      - name: Prove the route obligation census is load-bearing
+        run: node scripts/grade-a-route-obligation-census/test-national-route-obligation-census-mutations.mjs
+
+      - name: Verify the route obligation census V1 freeze
+        run: node scripts/grade-a-route-obligation-census/verify-route-obligation-census-v1-freeze.mjs
+
+      - name: Prove the census V1 freeze is load-bearing
+        run: node scripts/grade-a-route-obligation-census/verify-route-obligation-census-v1-freeze.mjs --mutations
+
+      - name: Verify no caption that holds a charge binds the participant's name
+        run: node scripts/rcap-official-forms/verify-full-name-charge-caption-semantics.mjs
+
+      - name: Prove the charge-caption correction is load-bearing
+        run: node scripts/rcap-official-forms/test-full-name-charge-caption-semantics-mutations.mjs
+
+      # The artifacts rendered before that correction still contain the wrong
+      # write. These hold the twelve hashes out of artifact approval, Grade-A
+      # fulfillment, packet-family completion, launch authority, commercial
+      # admission and participant delivery -- and refuse a deletion or a silent
+      # re-render as ways of going green.
+      - name: Verify no stale artifact hash can satisfy an authority
+        run: node scripts/verify-rcap-stale-artifact-block.mjs
+
+      - name: Prove the stale-artifact block is load-bearing
+        run: node scripts/verify-rcap-stale-artifact-block.mjs --mutations
+
+      # The consumer price gate. createConsumerPaymentPlaceholder used to decide
+      # from packetRouteCanRender — a fact about a state, true for every
+      # legacy_retired generator and every shadow factory_v2 route — and from a
+      # ledger that is not a Grade-A fulfillment record. A forged row there
+      # restored a live direct-consumer price. This censuses all 337 compiled
+      # pathways and proves none can price, check out, reserve sponsorship,
+      # reach credit accounting, or deliver.
+      #
+      # Wired here rather than in the npm test chain because package.json is an
+      # image input for both worker images; the originating commit added a test
+      # entry there, which would have invalidated the worker-image fingerprint
+      # and required a freeze-owner republish.
+      # The shared binder's name/date correction: a DAY/MONTH/YEAR blank must not
+      # acquire a participant name from neighbouring sentence text, and a
+      # caption naming every part of a name must resolve to the whole name.
+      - name: Verify the shared name and date-component semantics
+        run: node scripts/rcap-official-forms/verify-name-date-component-semantics.mjs
+
+      - name: Prove the name/date semantics record is load-bearing
+        run: node scripts/rcap-official-forms/test-name-date-component-semantics-mutations.mjs
+
+      - name: Verify the census-v1 money and credit gate
+        run: node scripts/verify-rcap-census-v1-money-credit-gate.mjs
+
+      - name: Prove the money and credit gate is load-bearing
+        run: node scripts/verify-rcap-census-v1-money-credit-gate.mjs --mutations
+
+      # Participant data rights: export, single-matter deletion, account
+      # deletion. Wired here rather than in the npm test chain because
+      # package.json is an image input for both worker images, and adding a
+      # script entry would invalidate the worker-image fingerprint. It builds
+      # its own ephemeral PostgreSQL cluster and a loopback processor endpoint,
+      # so it needs no external service.
+      - name: Verify participant data rights
+        run: node scripts/verify-participant-data-rights.mjs
+
       - name: Verify the factory_v2 route registry is current
         run: node scripts/generate-rcap-factory-v2-registry.mjs --check
 

@@ -1,0 +1,104 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-worker-checkpoints/v1",
+  "assignmentId": "VF03",
+  "laneKind": "independent-verification",
+  "workerBranch": "pfd-vf-20260909",
+  "returnFilename": "checkpoints-vf03-20260909d.json",
+  "writtenAlongsideRatherThanOver": "checkpoint-blocked-before-claim.json, rows-vf03-20260909b.json, rows-vf03-20260909c.json and rows.json survive byte-for-byte.",
+  "note": "Four families granted on this shift, all VERIFY_PENDING with an admitted RASTER_PASS and a live independent-verification grant on VF03, each asserted before any artifact of it was read. Each family is committed and pushed as it is finished rather than batched.",
+  "checkpoints": [
+    {
+      "checkpoint": 1,
+      "closedAt": "2026-09-09T00:00:00.000Z",
+      "familiesInThisCheckpoint": [
+        "il-seal-2yr-set",
+        "il-seal-3yr-set"
+      ],
+      "familiesCompleted": 2,
+      "familiesStopped": 0,
+      "stoppedFamilies": [],
+      "headShaAtCheckpoint": "b8a2495f4a84bff00aeb268c81deec6114dc581b",
+      "verdicts": {
+        "il-seal-2yr-set": "FAIL_REPAIR_REQUIRED",
+        "il-seal-3yr-set": "PASS_COMPLETE_INDEPENDENT"
+      },
+      "failedObligations": {
+        "il-seal-2yr-set": [
+          "ROUTE_OPTIONS"
+        ],
+        "il-seal-3yr-set": []
+      },
+      "nineCountersZeroOn": [
+        "il-seal-3yr-set"
+      ],
+      "packetsSelfVerified": 0,
+      "overlayDirectoriesTouched": [],
+      "claimsReleased": [],
+      "checkpointNote": "The Illinois near-clone question the Captain raised is answered in the pairReadIllinois field of both rows: 22 of 26 pages identical, four differences on pages 4 and 5, and a page-by-page account of why each of the other 22 pages could not have differed. The pair is not a clone and no difference that belongs on the face of one petition is missing from it. The defect found is inside il-seal-2yr-set, not between the two."
+    },
+    {
+      "checkpoint": 2,
+      "closedAt": "2026-09-09T00:00:00.000Z",
+      "familiesInThisCheckpoint": [
+        "nd-summary-marijuana-pardon-set"
+      ],
+      "familiesCompleted": 1,
+      "familiesStopped": 0,
+      "stoppedFamilies": [],
+      "headShaAtCheckpoint": "b8a2495f4a84bff00aeb268c81deec6114dc581b",
+      "verdicts": {
+        "nd-summary-marijuana-pardon-set": "FAIL_REPAIR_REQUIRED"
+      },
+      "failedObligations": {
+        "nd-summary-marijuana-pardon-set": [
+          "KNOWN_PREFILLS"
+        ]
+      },
+      "nineCountersZeroOn": [],
+      "packetsSelfVerified": 0,
+      "overlayDirectoriesTouched": [],
+      "claimsReleased": [],
+      "checkpointNote": "The caption evidence delivered in the tree names the North Dakota Department of Corrections and Rehabilitation and no Colorado form; I corroborated the attribution against the source binary's own 36 AcroForm field names rather than adopting it. The packet cannot read the same as a regular pardon application: SFN 61663 is marijuana-specific on its printed face and nd-regular-pardon-set binds a different form number, SFN 14859. A risk for that sibling lane is recorded in this row: SFN 14859 is not present in MASTER_LIBRARY_SOURCE_DIR."
+    },
+    {
+      "checkpoint": 3,
+      "closedAt": "2026-09-09T00:00:00.000Z",
+      "familiesInThisCheckpoint": [
+        "ne-seal-pre2017-set"
+      ],
+      "familiesCompleted": 1,
+      "familiesStopped": 0,
+      "stoppedFamilies": [],
+      "headShaAtCheckpoint": "b8a2495f4a84bff00aeb268c81deec6114dc581b",
+      "verdicts": {
+        "ne-seal-pre2017-set": "PASS_COMPLETE_INDEPENDENT"
+      },
+      "failedObligations": {
+        "ne-seal-pre2017-set": []
+      },
+      "nineCountersZeroOn": [
+        "ne-seal-pre2017-set"
+      ],
+      "packetsSelfVerified": 0,
+      "overlayDirectoriesTouched": [],
+      "claimsReleased": [],
+      "checkpointNote": "Five declared components, not six: the six is the fixture count. All three documents that carry an official form are present and in declared order in all six fixtures, and PAGE_ORDER was read across the document boundaries from each form's own printed footer. ne-seal-pre2017-set does NOT share a builder host with ne-seal-pardoned-set and carries neither of its defects: it suppresses updateFieldAppearances at both flatten sites with a comment naming that exact failure, and it emits a measured glyph count rather than a hardcoded zero. Both were verified at appearance level: zero added ink outside any widget rectangle on all thirty pages."
+    }
+  ],
+  "shiftClosed": {
+    "familiesGranted": 4,
+    "familiesRead": 4,
+    "familiesBlockedBeforeClaim": 0,
+    "verdicts": {
+      "il-seal-2yr-set": "FAIL_REPAIR_REQUIRED",
+      "il-seal-3yr-set": "PASS_COMPLETE_INDEPENDENT",
+      "nd-summary-marijuana-pardon-set": "FAIL_REPAIR_REQUIRED",
+      "ne-seal-pre2017-set": "PASS_COMPLETE_INDEPENDENT"
+    },
+    "allFifteenObligationsScoredOnEveryRow": true,
+    "notMeasurableHereUsedOnAnyRow": false,
+    "vocabularyCheck": "Every obligation result is one of PASS, FAIL, NOT_MEASURABLE_HERE, BLOCKED_LEGAL_INPUT; none is BLOCKED or PASS_WITH_OBSERVATION. Every verdict is one of the six. Every counter is an integer measured by this lane.",
+    "amendments": "nd-summary-marijuana-pardon-set SERVICE and FEE_AND_WAIVER were first written NOT_MEASURABLE_HERE and were amended to PASS with the reason recorded, after the Captain's rule that an obligation which turns out trivially satisfied is a measurement rather than an unreachable one. The verdict did not change.",
+    "grantsNothing": "Two independent PASSes and two repair assignments. This lane edited no packet, released no claim and approves no output."
+  }
+}

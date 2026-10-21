@@ -1,0 +1,734 @@
+{
+  "schemaVersion": "rcap-verifier-lane-return/v1",
+  "lane": "VFIA1",
+  "laneKind": "independent-verification",
+  "status": "COMPLETED",
+  "rows": [
+    {
+      "familyId": "ia-dci77-set",
+      "itemId": "ia-dci77-set",
+      "jurisdiction": "IA",
+      "lane": "VFIA1",
+      "reviewer": "/root/review_fl",
+      "sessionIdentity": "/root/review_fl",
+      "reviewPhase": "INDEPENDENT_PRE_RASTER_SEMANTIC_REVIEW",
+      "verifiedAt": "2026-09-12T21:10:34.592Z",
+      "verifiedAtBase": "823e8759c611e7e06dfb52816ade9e4659aaed2c",
+      "actualHeadAtReview": "823e8759c611e7e06dfb52816ade9e4659aaed2c",
+      "packetCommitSha": "e8526b27f6279fb93a3d179ef85c6aeac3da6296",
+      "manifestCommitSha": "d7fa71033210cc7f716972954edde909b3a5698b",
+      "status": "COMPLETED",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "scope": "Bounded independent semantic review of the current Iowa DCI-76/DCI-77 three-page official PDF supporting-action packet against the exact IA route/component contract, held source bytes, participant-facing filing obligations, fee/payment conditions, protected and agency-owned regions, returned-record custody and current saved bytes. No packet, source, queue, manifest or shared report was edited; central raster visual acceptance remains open.",
+      "claimEvidence": {
+        "assertCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VFIA1 'ia-dci77-set'",
+        "result": "CLAIM_OK",
+        "grantSet": "dc06d7cdd898d530",
+        "assertedBeforeFamilyReads": true
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "basis": "Current IA route contract, packet-set manifest and governing IA:ia-dci77 evidence brief.",
+          "finding": "This candidate is the Iowa DCI-77 criminal-history-record-check supporting action under Iowa Rule of Criminal Procedure 2.81(2). It is an agency request and does not create a relief or commercial route.",
+          "evidence": [
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/route-contract.json",
+              "sha256": "c2f7458371ff4d4d7fc89fe01118842dc96c6c666587d990f0fa9e93ba0c7cd2",
+              "byteLength": 489
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/packet-set-manifest.json",
+              "sha256": "70bc31dc8908c8052b52ba68f60d38c194400951271b367282686719a438f09a",
+              "byteLength": 2652
+            },
+            {
+              "path": "data/rcap-all50/review-artifacts/terminalization-evidence-briefs.json",
+              "sha256": "72ca86ae074d08ba0755e0e6bb433911100564338bfbe5a638f2aabb1dcdcc81",
+              "byteLength": 1276471,
+              "locator": "briefs[key=IA:ia-dci77]"
+            },
+            {
+              "path": "data/rcap-all50/terminalization-treatments/ia.json",
+              "sha256": "1e53171bf7144c06cc6838892b486bf626a6f91fc3d0f13cc981a30f95b3a140",
+              "byteLength": 37801,
+              "locator": "trackId=ia-dci77"
+            }
+          ]
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "basis": "Independent exact source custody, source receipt and field/widget readback.",
+          "finding": "The held combined DCI-76/DCI-77 source matches the receipt at SHA-256 321062c91b3d9e2c8f255d62d20186352a2b5884e0ccd4310a18a3a073d7f516, 1,076,864 bytes and 3 pages; the source declares 45 fields and 54 widgets and all source IDs resolve to this binary.",
+          "evidence": [
+            {
+              "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC3__IA-DCI77-SET__DCI-77-CRIMINAL-HISTORY-RECORD-CHECK-REQUEST-FORM__321062c91b3d.pdf",
+              "sha256": "321062c91b3d9e2c8f255d62d20186352a2b5884e0ccd4310a18a3a073d7f516",
+              "byteLength": 1076864,
+              "pageCount": 3
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/source-receipt.json",
+              "sha256": "6d3e41b9594fe1209b072c88d61943ed10cee82c63270e38affb6ad22d01862e",
+              "byteLength": 5207
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/field-census.census-v1.json",
+              "sha256": "06e16ee14e28b6e452b9037e3f1eaf08ecfbc42cc7d68b993aeb21961fa29013",
+              "byteLength": 63864
+            },
+            {
+              "path": "data/rcap-all50/review-artifacts/terminalization-evidence-briefs.json",
+              "sha256": "72ca86ae074d08ba0755e0e6bb433911100564338bfbe5a638f2aabb1dcdcc81",
+              "byteLength": 1276471,
+              "locator": "briefs[key=IA:ia-dci77].officialSources"
+            }
+          ]
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "basis": "Current component manifest, lineage and rendered-artifact report.",
+          "finding": "Both current fixtures preserve exactly the three required components: DCI-76 billing page 1, DCI-77 request page 2 and the official instruction page 3, in source page order, with no conditional or invented component.",
+          "evidence": [
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/packet-set-manifest.json",
+              "sha256": "70bc31dc8908c8052b52ba68f60d38c194400951271b367282686719a438f09a",
+              "byteLength": 2652
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/reports/rendered-artifacts.json",
+              "sha256": "ec918f82b2658abd2d0995511d81031cafec64a0372e76c04fa309fca3b27c77",
+              "byteLength": 10553
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/source-receipt.json",
+              "sha256": "6d3e41b9594fe1209b072c88d61943ed10cee82c63270e38affb6ad22d01862e",
+              "byteLength": 5207
+            }
+          ]
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "basis": "Independent current PDF text readback plus current actual-write proof.",
+          "finding": "Canonical and boundary fixtures contain only the held identity/contact/subject facts declared by the field map; all 16 declared writes per fixture read back with their expected values and no wrong or invisible write was found. Source-carried Number_Requests and Total_Due values of 0 were cleared before flattening.",
+          "evidence": [
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/reports/actual-writes.json",
+              "sha256": "c5b855ecc79571a877fc342e1dc044e9279c0ae482469d5efb227adce4e0302f",
+              "byteLength": 48249
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/fixtures/canonical.pdf",
+              "sha256": "7e09751a8e233f1fd27bf111726d30d14669376dbdf8922f0138f6ac9c5a3bc7",
+              "byteLength": 1110263,
+              "role": "canonical",
+              "pageCount": 3
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/fixtures/boundary.pdf",
+              "sha256": "91befce7c030b0151450f7a3b27df5fb84232f58a72889c4bb7793fe28aee7b1",
+              "byteLength": 1110492,
+              "role": "boundary",
+              "pageCount": 3
+            },
+            {
+              "path": "/tmp/vfia1-ia-dci77-focused-audit.json",
+              "sha256": "80d1bb96c90340a4d0b1f95e025b0249a136c6711312fe8a0063c79fcbfc6208",
+              "byteLength": 10942,
+              "locator": "checks.current_writes; checks.source_carried_values_cleared"
+            }
+          ]
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "FAIL",
+          "basis": "Current required-field map and participant-facing guide compared with the exact DCI-76 source checklist.",
+          "finding": "The participant guide leaves the required payment-method instruction unresolved at participant-instructions.md line 9: \"Payment method — include one method (page 1): undefined\". Later text names some payment details, but the literal unresolved placeholder means this required before-filing instruction is not acceptable for an independent PASS. Repair the guide, rerun the bounded semantic preflight and obtain a new independent verdict.",
+          "evidence": [
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/participant-instructions.md",
+              "sha256": "6d466c84795e5c26ffa9bbc939129b1f18570691a8cd76580958900cc98b1ae0",
+              "byteLength": 3921,
+              "line": 9,
+              "match": "Payment method — include one method (page 1): undefined"
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/production-field-map.json",
+              "sha256": "834df24eb081769716d7e3d73e92bec9e1f4d6f5b6df9590eb4ca2fcd6e4f30e",
+              "byteLength": 123001,
+              "locator": "refusals[field=Payment]"
+            },
+            {
+              "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC3__IA-DCI77-SET__DCI-77-CRIMINAL-HISTORY-RECORD-CHECK-REQUEST-FORM__321062c91b3d.pdf",
+              "sha256": "321062c91b3d9e2c8f255d62d20186352a2b5884e0ccd4310a18a3a073d7f516",
+              "byteLength": 1076864,
+              "pageCount": 3,
+              "locator": "DCI-76 payment checklist"
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/filing-instructions.md",
+              "sha256": "7bbb33ffd858a2dc84ca54ca327add202f2b52afe6b69ffed807ed42767892bc",
+              "byteLength": 1098,
+              "locator": "steps 2-6"
+            }
+          ]
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "basis": "Current route contract, packet manifest and participant guide.",
+          "finding": "The route exposes no relief election and no alternate component branch. It remains a supporting agency request with participant-selected payment, result-delivery and narrow notarization choices left blank for the participant.",
+          "evidence": [
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/route-contract.json",
+              "sha256": "c2f7458371ff4d4d7fc89fe01118842dc96c6c666587d990f0fa9e93ba0c7cd2",
+              "byteLength": 489
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/packet-set-manifest.json",
+              "sha256": "70bc31dc8908c8052b52ba68f60d38c194400951271b367282686719a438f09a",
+              "byteLength": 2652
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/production-field-map.json",
+              "sha256": "834df24eb081769716d7e3d73e92bec9e1f4d6f5b6df9590eb4ca2fcd6e4f30e",
+              "byteLength": 123001,
+              "locator": "participant elections and payment election"
+            }
+          ]
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "basis": "Current field census/map, actual writes and source instructions.",
+          "finding": "The billing form records the supplied first last name only; optional additional last-name rows remain untouched. Guidance preserves one DCI-77 request and one $15 fee per last name while allowing one billing form for several requests.",
+          "evidence": [
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/production-field-map.json",
+              "sha256": "834df24eb081769716d7e3d73e92bec9e1f4d6f5b6df9590eb4ca2fcd6e4f30e",
+              "byteLength": 123001,
+              "locator": "Last_Name_1 and optional Last_Name_2..10"
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/reports/actual-writes.json",
+              "sha256": "c5b855ecc79571a877fc342e1dc044e9279c0ae482469d5efb227adce4e0302f",
+              "byteLength": 48249
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/field-census.census-v1.json",
+              "sha256": "06e16ee14e28b6e452b9037e3f1eaf08ecfbc42cc7d68b993aeb21961fa29013",
+              "byteLength": 63864
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/participant-instructions.md",
+              "sha256": "6d466c84795e5c26ffa9bbc939129b1f18570691a8cd76580958900cc98b1ae0",
+              "byteLength": 3921,
+              "locator": "lines 11-16,22"
+            }
+          ]
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "basis": "Current refusal map and output-byte proof.",
+          "finding": "Payment/result/notarization elections, participant date/count/total/signature fields and DCI agency result fields remain participant or agency-owned; both fixtures have zero refused-field ink, zero invisible writes and zero glyphs outside measured write boxes.",
+          "evidence": [
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/production-field-map.json",
+              "sha256": "834df24eb081769716d7e3d73e92bec9e1f4d6f5b6df9590eb4ca2fcd6e4f30e",
+              "byteLength": 123001
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/reports/actual-writes.json",
+              "sha256": "c5b855ecc79571a877fc342e1dc044e9279c0ae482469d5efb227adce4e0302f",
+              "byteLength": 48249
+            },
+            {
+              "path": "/tmp/vfia1-ia-dci77-focused-audit.json",
+              "sha256": "80d1bb96c90340a4d0b1f95e025b0249a136c6711312fe8a0063c79fcbfc6208",
+              "byteLength": 10942,
+              "locator": "checks.protected_and_elected_fields; checks.current_writes"
+            }
+          ]
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "basis": "Current fixture hashes, page counts and rendered-artifact bindings.",
+          "finding": "Canonical is 1,110,263 bytes and 3 pages at SHA-256 7e09751a8e233f1fd27bf111726d30d14669376dbdf8922f0138f6ac9c5a3bc7; boundary is 1,110,492 bytes and 3 pages at SHA-256 91befce7c030b0151450f7a3b27df5fb84232f58a72889c4bb7793fe28aee7b1. The rendered-artifact report binds those same current bytes to the three components.",
+          "evidence": [
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/fixtures/canonical.pdf",
+              "sha256": "7e09751a8e233f1fd27bf111726d30d14669376dbdf8922f0138f6ac9c5a3bc7",
+              "byteLength": 1110263,
+              "role": "canonical",
+              "pageCount": 3
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/fixtures/boundary.pdf",
+              "sha256": "91befce7c030b0151450f7a3b27df5fb84232f58a72889c4bb7793fe28aee7b1",
+              "byteLength": 1110492,
+              "role": "boundary",
+              "pageCount": 3
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/reports/rendered-artifacts.json",
+              "sha256": "ec918f82b2658abd2d0995511d81031cafec64a0372e76c04fa309fca3b27c77",
+              "byteLength": 10553
+            },
+            {
+              "path": "data/rcap-grade-a/packet-factory-24h/fix112/ia-dci77-current-raster-manifest-20260912.json",
+              "sha256": "93b48e76bde2937fc0b3ca5cbdb4259633f82876b7454e73fabae0aa681216d9",
+              "byteLength": 2365
+            }
+          ]
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "basis": "Source page lineage and current fixture text/page count.",
+          "finding": "Source pages 1, 2 and 3 are preserved as output pages 1, 2 and 3 in both fixtures; the DCI-76 billing form precedes DCI-77 and the retained official instruction page.",
+          "evidence": [
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/source-receipt.json",
+              "sha256": "6d3e41b9594fe1209b072c88d61943ed10cee82c63270e38affb6ad22d01862e",
+              "byteLength": 5207,
+              "locator": "sourceIdentity.pageLineage"
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/packet-set-manifest.json",
+              "sha256": "70bc31dc8908c8052b52ba68f60d38c194400951271b367282686719a438f09a",
+              "byteLength": 2652,
+              "locator": "componentList/sourcePages/outputPages"
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/reports/rendered-artifacts.json",
+              "sha256": "ec918f82b2658abd2d0995511d81031cafec64a0372e76c04fa309fca3b27c77",
+              "byteLength": 10553,
+              "locator": "packets[*].pageManifest"
+            }
+          ]
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "basis": "Central original raster has not been dispatched or consumed by this semantic lane.",
+          "finding": "Saved-byte geometry checks found zero glyphs outside measured write boxes, but original PNG visual acceptance and visualDefects remain unmeasured.",
+          "visualDefects": null,
+          "evidence": [
+            {
+              "path": "/tmp/vfia1-ia-dci77-focused-audit.json",
+              "sha256": "80d1bb96c90340a4d0b1f95e025b0249a136c6711312fe8a0063c79fcbfc6208",
+              "byteLength": 10942,
+              "locator": "checks.current_writes"
+            }
+          ]
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "basis": "Current route destination, exact printed DCI contact block and filing guide.",
+          "finding": "The participant is directed to the Iowa Department of Public Safety, Division of Criminal Investigation, Support Operations Bureau, Dissemination Unit, 215 E 7th St, Des Moines IA 50319, using the printed fax/email or allowed submission method.",
+          "evidence": [
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/route-contract.json",
+              "sha256": "c2f7458371ff4d4d7fc89fe01118842dc96c6c666587d990f0fa9e93ba0c7cd2",
+              "byteLength": 489
+            },
+            {
+              "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC3__IA-DCI77-SET__DCI-77-CRIMINAL-HISTORY-RECORD-CHECK-REQUEST-FORM__321062c91b3d.pdf",
+              "sha256": "321062c91b3d9e2c8f255d62d20186352a2b5884e0ccd4310a18a3a073d7f516",
+              "byteLength": 1076864,
+              "pageCount": 3,
+              "locator": "printed DCI contact block"
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/filing-instructions.md",
+              "sha256": "7bbb33ffd858a2dc84ca54ca327add202f2b52afe6b69ffed807ed42767892bc",
+              "byteLength": 1098
+            },
+            {
+              "path": "data/rcap-all50/review-artifacts/terminalization-evidence-briefs.json",
+              "sha256": "72ca86ae074d08ba0755e0e6bb433911100564338bfbe5a638f2aabb1dcdcc81",
+              "byteLength": 1276471,
+              "locator": "briefs[key=IA:ia-dci77].destination"
+            }
+          ]
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "basis": "Exact source fee table, current IA memo and participant/filing guidance.",
+          "finding": "The packet and guide state $15 per requested last name/request and preserve the accepted payment choices without claiming that payment was made. The governing IA memo identifies no fee-waiver route; the candidate invents none.",
+          "evidence": [
+            {
+              "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC3__IA-DCI77-SET__DCI-77-CRIMINAL-HISTORY-RECORD-CHECK-REQUEST-FORM__321062c91b3d.pdf",
+              "sha256": "321062c91b3d9e2c8f255d62d20186352a2b5884e0ccd4310a18a3a073d7f516",
+              "byteLength": 1076864,
+              "pageCount": 3,
+              "locator": "DCI-76 FEE PER REQUEST $15.00"
+            },
+            {
+              "path": "data/record-clearing/legal-design-intake/IA.memo.json",
+              "sha256": "a6dec1c44bd892060f61cbe15ef0a3931569db512eaf35788f34e93a41fcd3a2",
+              "byteLength": 109020,
+              "locator": "IA memo rules.fees/feeWaiver"
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/participant-instructions.md",
+              "sha256": "6d466c84795e5c26ffa9bbc939129b1f18570691a8cd76580958900cc98b1ae0",
+              "byteLength": 3921,
+              "locator": "lines 12-15,24"
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/filing-instructions.md",
+              "sha256": "7bbb33ffd858a2dc84ca54ca327add202f2b52afe6b69ffed807ed42767892bc",
+              "byteLength": 1098,
+              "locator": "steps 2-3"
+            }
+          ]
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "basis": "Current supporting-action contract and submission guidance.",
+          "finding": "This is a participant-to-agency request. No court service, certificate of service or completed agency outcome is represented; LegalEase prepares forms only and does not submit them.",
+          "evidence": [
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/route-contract.json",
+              "sha256": "c2f7458371ff4d4d7fc89fe01118842dc96c6c666587d990f0fa9e93ba0c7cd2",
+              "byteLength": 489
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/participant-instructions.md",
+              "sha256": "6d466c84795e5c26ffa9bbc939129b1f18570691a8cd76580958900cc98b1ae0",
+              "byteLength": 3921,
+              "locator": "lines 22,26,32"
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/filing-instructions.md",
+              "sha256": "7bbb33ffd858a2dc84ca54ca327add202f2b52afe6b69ffed807ed42767892bc",
+              "byteLength": 1098
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/packet-set-manifest.json",
+              "sha256": "70bc31dc8908c8052b52ba68f60d38c194400951271b367282686719a438f09a",
+              "byteLength": 2652,
+              "locator": "participantActionRequired"
+            }
+          ]
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "basis": "Current governing IA brief, source instructions and participant guide.",
+          "finding": "The guide carries the required stops for an unexpected or disputed returned record, a check older than 30 days at downstream § 901C.3 filing and a missing release signature, and preserves the no-other-state/FBI/federal scope.",
+          "evidence": [
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/participant-instructions.md",
+              "sha256": "6d466c84795e5c26ffa9bbc939129b1f18570691a8cd76580958900cc98b1ae0",
+              "byteLength": 3921,
+              "locator": "lines 24,26,30"
+            },
+            {
+              "path": "data/rcap-all50/review-artifacts/terminalization-evidence-briefs.json",
+              "sha256": "72ca86ae074d08ba0755e0e6bb433911100564338bfbe5a638f2aabb1dcdcc81",
+              "byteLength": 1276471,
+              "locator": "briefs[key=IA:ia-dci77].selfHelpStopConditions"
+            },
+            {
+              "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC3__IA-DCI77-SET__DCI-77-CRIMINAL-HISTORY-RECORD-CHECK-REQUEST-FORM__321062c91b3d.pdf",
+              "sha256": "321062c91b3d9e2c8f255d62d20186352a2b5884e0ccd4310a18a3a073d7f516",
+              "byteLength": 1076864,
+              "pageCount": 3,
+              "locator": "DCI-77 release and scope instructions"
+            }
+          ]
+        }
+      },
+      "obligationCounts": {
+        "PASS": 13,
+        "FAIL": 1,
+        "NOT_MEASURABLE_HERE": 1,
+        "allMeasured": false
+      },
+      "failedObligationNames": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "unmeasuredObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": null,
+        "allNonvisualZero": false,
+        "allNineZero": false,
+        "measuredHere": true,
+        "visualMeasuredHere": false,
+        "countingNotes": "All author completeness counters and saved-byte write/refusal counters are zero; the independent semantic failure is the literal unresolved participant-guide placeholder at participant-instructions.md:9, which is not represented by a field completeness counter."
+      },
+      "currentCandidateBindings": {
+        "reviewedHead": "823e8759c611e7e06dfb52816ade9e4659aaed2c",
+        "packetCommitSha": "e8526b27f6279fb93a3d179ef85c6aeac3da6296",
+        "rasterFreezeCommitSha": "d7fa71033210cc7f716972954edde909b3a5698b",
+        "rasterManifest": {
+          "path": "data/rcap-grade-a/packet-factory-24h/fix112/ia-dci77-current-raster-manifest-20260912.json",
+          "sha256": "93b48e76bde2937fc0b3ca5cbdb4259633f82876b7454e73fabae0aa681216d9",
+          "byteLength": 2365,
+          "familyBatch": "ia-dci77-set",
+          "documentsDigest": "79d20c7d816dd20dad6f263bc942af8fcd9a6ec80a608d255c5159f47a8b7cc0"
+        },
+        "rasterWorkflowPath": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+        "metadata": [
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/source-receipt.json",
+            "sha256": "6d3e41b9594fe1209b072c88d61943ed10cee82c63270e38affb6ad22d01862e",
+            "byteLength": 5207
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/packet-set-manifest.json",
+            "sha256": "70bc31dc8908c8052b52ba68f60d38c194400951271b367282686719a438f09a",
+            "byteLength": 2652
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/route-contract.json",
+            "sha256": "c2f7458371ff4d4d7fc89fe01118842dc96c6c666587d990f0fa9e93ba0c7cd2",
+            "byteLength": 489
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/production-field-map.json",
+            "sha256": "834df24eb081769716d7e3d73e92bec9e1f4d6f5b6df9590eb4ca2fcd6e4f30e",
+            "byteLength": 123001
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/field-census.census-v1.json",
+            "sha256": "06e16ee14e28b6e452b9037e3f1eaf08ecfbc42cc7d68b993aeb21961fa29013",
+            "byteLength": 63864
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/reports/actual-writes.json",
+            "sha256": "c5b855ecc79571a877fc342e1dc044e9279c0ae482469d5efb227adce4e0302f",
+            "byteLength": 48249
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/reports/completeness-counters.json",
+            "sha256": "3f51a02ec437f5a0791dcbff7528f092374a6acf0a7914589ba5f444e4903a5e",
+            "byteLength": 646
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/reports/focused-self-test.json",
+            "sha256": "11e5f3ff1a5933167e0c1db15444e3b055c93450b3f01ab2c4c4e3bd2fde7c81",
+            "byteLength": 852
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/reports/rendered-artifacts.json",
+            "sha256": "ec918f82b2658abd2d0995511d81031cafec64a0372e76c04fa309fca3b27c77",
+            "byteLength": 10553
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/participant-instructions.md",
+            "sha256": "6d466c84795e5c26ffa9bbc939129b1f18570691a8cd76580958900cc98b1ae0",
+            "byteLength": 3921
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/filing-instructions.md",
+            "sha256": "7bbb33ffd858a2dc84ca54ca327add202f2b52afe6b69ffed807ed42767892bc",
+            "byteLength": 1098
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/build-findings.json",
+            "sha256": "1099b8b50566b65db7aaf8e0c57fd3aed8daf0995096bde6b42ea9dd042411e3",
+            "byteLength": 1392
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/build-status.json",
+            "sha256": "361f66ca5548b652c426bdc983da6bcab9710ba2617b91eb06a912b1705deb10",
+            "byteLength": 706
+          },
+          {
+            "path": "data/rcap-grade-a/packet-factory-24h/fix112/ia-dci77-current-raster-manifest-20260912.json",
+            "sha256": "93b48e76bde2937fc0b3ca5cbdb4259633f82876b7454e73fabae0aa681216d9",
+            "byteLength": 2365
+          },
+          {
+            "path": "data/rcap-grade-a/packet-factory-24h/pf15/rows-pf15-ia-dci77-complete-20260912.json",
+            "sha256": "1dce989f9b1c5460b90c3dd14405dac9698e26d30bafa01a5bbbcc0646851ac9",
+            "byteLength": 32430
+          }
+        ],
+        "sourceDocuments": [
+          {
+            "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC3__IA-DCI77-SET__DCI-77-CRIMINAL-HISTORY-RECORD-CHECK-REQUEST-FORM__321062c91b3d.pdf",
+            "sha256": "321062c91b3d9e2c8f255d62d20186352a2b5884e0ccd4310a18a3a073d7f516",
+            "byteLength": 1076864,
+            "pageCount": 3
+          }
+        ],
+        "currentArtifacts": [
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/fixtures/canonical.pdf",
+            "sha256": "7e09751a8e233f1fd27bf111726d30d14669376dbdf8922f0138f6ac9c5a3bc7",
+            "byteLength": 1110263,
+            "role": "canonical",
+            "pageCount": 3
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/fixtures/boundary.pdf",
+            "sha256": "91befce7c030b0151450f7a3b27df5fb84232f58a72889c4bb7793fe28aee7b1",
+            "byteLength": 1110492,
+            "role": "boundary",
+            "pageCount": 3
+          }
+        ],
+        "documentsDigest": "79d20c7d816dd20dad6f263bc942af8fcd9a6ec80a608d255c5159f47a8b7cc0",
+        "sourceReceipt": {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/source-receipt.json",
+          "sha256": "6d3e41b9594fe1209b072c88d61943ed10cee82c63270e38affb6ad22d01862e",
+          "byteLength": 5207
+        },
+        "focusedAudit": {
+          "path": "/tmp/vfia1-ia-dci77-focused-audit.json",
+          "sha256": "80d1bb96c90340a4d0b1f95e025b0249a136c6711312fe8a0063c79fcbfc6208",
+          "byteLength": 10942
+        },
+        "savedBytePreflight": {
+          "path": "/tmp/vfia1-ia-dci77-focused-audit.json",
+          "sha256": "80d1bb96c90340a4d0b1f95e025b0249a136c6711312fe8a0063c79fcbfc6208",
+          "byteLength": 10942
+        },
+        "dependencyDeltaFromFrozenReview": {
+          "status": "IA_SCOPED_REHASH",
+          "frozenReviewBase": "d7fa71033210cc7f716972954edde909b3a5698b",
+          "currentReviewHead": "823e8759c611e7e06dfb52816ade9e4659aaed2c",
+          "decision": "The IA source receipt, route contract, packet-set manifest, field map, guides and both candidate PDFs were rehashed against the frozen candidate. No packet/source bytes were edited by this reviewer; the participant-guide placeholder remains a current semantic failure."
+        }
+      },
+      "byteProof": {
+        "status": "PASS_NONVISUAL",
+        "method": "Independent current source/PDF hash, page/text readback, source-token preservation, actual-write/refusal inspection, route metadata comparison and saved-byte audit.",
+        "checkReport": {
+          "path": "/tmp/vfia1-ia-dci77-focused-audit.json",
+          "sha256": "80d1bb96c90340a4d0b1f95e025b0249a136c6711312fe8a0063c79fcbfc6208",
+          "byteLength": 10942
+        },
+        "passedChecks": 13,
+        "exactPdfBindings": [
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/fixtures/canonical.pdf",
+            "sha256": "7e09751a8e233f1fd27bf111726d30d14669376dbdf8922f0138f6ac9c5a3bc7",
+            "byteLength": 1110263,
+            "role": "canonical",
+            "pageCount": 3
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/fixtures/boundary.pdf",
+            "sha256": "91befce7c030b0151450f7a3b27df5fb84232f58a72889c4bb7793fe28aee7b1",
+            "byteLength": 1110492,
+            "role": "boundary",
+            "pageCount": 3
+          }
+        ],
+        "protectedRefusalInk": 0,
+        "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+      },
+      "actualWriteProof": {
+        "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/reports/actual-writes.json",
+        "sha256": "c5b855ecc79571a877fc342e1dc044e9279c0ae482469d5efb227adce4e0302f",
+        "byteLength": 48249,
+        "declaredWritesPerFixture": {
+          "canonical": 16,
+          "boundary": 16
+        },
+        "writtenProofEntriesPerFixture": {
+          "canonical": 16,
+          "boundary": 16
+        },
+        "allDeclaredWritesHaveProof": true,
+        "wrongWrittenValues": 0,
+        "protectedInk": 0,
+        "invisibleWrites": 0
+      },
+      "sourceIdentity": {
+        "status": "PASS",
+        "allSourcesExact": true,
+        "sourceReceipt": {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/source-receipt.json",
+          "sha256": "6d3e41b9594fe1209b072c88d61943ed10cee82c63270e38affb6ad22d01862e",
+          "byteLength": 5207
+        },
+        "documents": [
+          {
+            "documentId": "DCI-76 and DCI-77 combined official source",
+            "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC3__IA-DCI77-SET__DCI-77-CRIMINAL-HISTORY-RECORD-CHECK-REQUEST-FORM__321062c91b3d.pdf",
+            "sha256": "321062c91b3d9e2c8f255d62d20186352a2b5884e0ccd4310a18a3a073d7f516",
+            "byteLength": 1076864,
+            "pageCount": 3,
+            "sha256Exact": true
+          }
+        ]
+      },
+      "currentArtifacts": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "7e09751a8e233f1fd27bf111726d30d14669376dbdf8922f0138f6ac9c5a3bc7",
+          "byteLength": 1110263,
+          "role": "canonical",
+          "pageCount": 3
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ia/ia-dci77-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "91befce7c030b0151450f7a3b27df5fb84232f58a72889c4bb7793fe28aee7b1",
+          "byteLength": 1110492,
+          "role": "boundary",
+          "pageCount": 3
+        }
+      ],
+      "rasterManifest": {
+        "path": "data/rcap-grade-a/packet-factory-24h/fix112/ia-dci77-current-raster-manifest-20260912.json",
+        "sha256": "93b48e76bde2937fc0b3ca5cbdb4259633f82876b7454e73fabae0aa681216d9",
+        "byteLength": 2365,
+        "familyBatch": "ia-dci77-set",
+        "documentsDigest": "79d20c7d816dd20dad6f263bc942af8fcd9a6ec80a608d255c5159f47a8b7cc0"
+      },
+      "rasterWorkflowPath": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+      "rasterDispatchAuthorized": false,
+      "rasterEvidence": {
+        "status": "PENDING",
+        "runId": null,
+        "artifactId": null,
+        "visualPagesMeasured": 0
+      },
+      "finalAcceptance": false,
+      "terminalPromotionAuthorized": false,
+      "unfinishedGates": [
+        "repair participant-instructions.md line 9 placeholder",
+        "repeat VFIA1 current-byte semantic review after repair",
+        "central original raster custody and independent visual acceptance",
+        "native integration/terminal closure"
+      ],
+      "independence": {
+        "implementationAuthor": "/root/sd_caption",
+        "implementationEditsByReviewer": false,
+        "sourceBytesEditedByReviewer": false,
+        "packetBytesEditedByReviewer": false,
+        "rasterEditedByReviewer": false,
+        "sharedQueueOrManifestEditedByReviewer": false,
+        "claimLedgerEditedByReviewer": false,
+        "semanticRecordWrittenByReviewer": true,
+        "visualAcceptanceClaimed": false
+      },
+      "executionState": "SEMANTIC_FAIL_BLOCKS_RASTER"
+    }
+  ]
+}

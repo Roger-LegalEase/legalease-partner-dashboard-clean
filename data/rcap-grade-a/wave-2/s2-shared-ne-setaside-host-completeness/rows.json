@@ -1,0 +1,181 @@
+{
+  "schemaVersion": "rcap-s2-shared-host-rows/v1",
+  "assignment": "S2_SHARED_NE_SETASIDE_HOST_COMPLETENESS",
+  "workerBranch": "claude/s2-shared-ne-setaside-completeness-vr4ao6",
+  "dispatchWorkerBranch": "codex/s2-shared-ne-setaside-host-completeness",
+  "baseSha": "09ada500b42b7e2181b30155412bb7e70176b70b",
+  "assignmentReadFrom": "origin/claude/legalease-sprint-captain-utucnw:data/rcap-grade-a/launch-control/S2_SHARED_HOST_ASSIGNMENT.json",
+  "captainBaseShaVerified": true,
+  "host": "scripts/build-census-v1-ne-setaside-custodial-set.mjs",
+  "packetsRendered": 0,
+  "overlayDirectoriesModified": 0,
+  "otherBuildScriptsModified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "statusVocabulary": ["COMPLETED", "STOPPED"],
+  "rows": [
+    {
+      "itemId": "S2-01",
+      "status": "COMPLETED",
+      "defectClass": "blank-disposition",
+      "defect": "A flat document emitted its withheld blanks as { blankId, caption, reason } under roleRefusals, a key whose rows every reader treats as { field, why, class }. Every one of those blanks reached the completeness audit with no identity, no label and no reason at all. Flat write rows carried the same hole and reported `undefined` as the field they had written.",
+      "correction": "flatRefusalRow emits one uniform refusal row that always carries field, label, section heading, page, an approved disposition class and the build's own words beside it. The measured blankId is preserved untouched, because the flat write/refusal partition is proved against it.",
+      "fieldClasses": ["ALL_FLAT_MEASURED_BLANKS", "SELECTION_CONTROL", "BOXED_ENTRY_CONTROL"],
+      "blanksWithNoLabelAtAllBefore": 2389,
+      "blanksWithNoLabelAtAllProjected": 0,
+      "importerFamiliesReached": [
+        "ne-setaside-custodial-set", "sd_arrest_expungement-set", "ut_pet_acquittal-set",
+        "ut_pet_conviction-set", "ut_pet_dismissed_with_prejudice-set",
+        "ut_pet_dismissed_without_prejudice-set", "ut_pet_limitations-set",
+        "ut_pet_no_charges-set", "ut_pet_traffic-set"
+      ]
+    },
+    {
+      "itemId": "S2-02",
+      "status": "COMPLETED",
+      "defectClass": "shared-fact-map",
+      "defect": "The census measures effectiveLabel and regionHeading first hand from the pinned source bytes, and the field map dropped both from every row. A reader of the map saw `Text2` and `emailaddress` where the form prints \"Case No.\" and \"E-mail Address\", so a required contact fact was indistinguishable from an unnamed box.",
+      "correction": "withCompletenessDisposition publishes the composed printed context -- section heading, printed label, and charge-row ordinal -- on every row of every map: writes and refusals, canonical and boundary, AcroForm and flat. The exact PDF field name is preserved on `field` because the artifact proof matches on it. No part of the context is invented: every part was measured first hand.",
+      "fieldClasses": ["PARTICIPANT_IDENTITY", "PARTICIPANT_CONTACT", "MATTER_IDENTIFIER", "COURT_IDENTITY", "OFFENSE_ROW_CELL", "DISPOSITION_FACT", "AGENCY_FACT"],
+      "importerFamiliesReached": [
+        "ne-setaside-custodial-set", "sd_arrest_expungement-set", "ut_pet_acquittal-set",
+        "ut_pet_conviction-set", "ut_pet_dismissed_with_prejudice-set",
+        "ut_pet_dismissed_without_prejudice-set", "ut_pet_limitations-set",
+        "ut_pet_no_charges-set", "ut_pet_traffic-set", "wv_conv_multiple_misdemeanors-set",
+        "wv_conv_single_misdemeanor-set"
+      ]
+    },
+    {
+      "itemId": "S2-03",
+      "status": "COMPLETED",
+      "defectClass": "blank-disposition",
+      "defect": "Refusal reasons were statements of build policy: no_allowlisted_fact_matches, binding_not_approved_by_exact_caption_gate, classified_unwritable_by_role, document_role_does_not_accept_prefill. Each describes what this build's allowlist offers. None says anything about whether the filing needs the value, and none is a member of any closed vocabulary.",
+      "correction": "completenessDispositionOf decides what a blank IS from a property of the field -- its protect category, its printed context, its region -- and returns a class from the completeness contract's CLOSED set. The vocabulary is imported from scripts/rcap-packet-completeness/completeness-contract.mjs rather than restated, so a disposition this builder writes and a disposition the audit reads cannot drift apart. The build's own words are preserved on buildPolicyReason rather than deleted, so the correction is auditable against what it replaced.",
+      "fieldClasses": ["PROTECTED_SIGNATURE", "PROTECTED_SIGNATURE_DATE", "COURT_ONLY", "PROSECUTOR_ONLY", "ATTORNEY_BLOCK", "VIEWER_CONTROL", "PARTICIPANT_IDENTITY", "PARTICIPANT_CONTACT", "MATTER_IDENTIFIER", "COURT_IDENTITY", "OFFENSE_ROW_CELL", "DISPOSITION_FACT"],
+      "projectedDispositionMovementAcrossTheClosure": {
+        "UNCLASSIFIED_BLANK": { "before": 4775, "projected": 2342 },
+        "KNOWN_FACT_NOT_WRITTEN": { "before": 149, "projected": 1076 },
+        "PROTECTED_FIELD": { "before": 7, "projected": 505 },
+        "PARTICIPANT_ELECTION_GENUINE": { "before": 0, "projected": 915 },
+        "NOT_APPLICABLE_ON_THIS_ROUTE": { "before": 0, "projected": 81 },
+        "LATER_COMPLETION": { "before": 0, "projected": 4 },
+        "ROUTE_OPTION_NOT_SELECTED": { "before": 0, "projected": 8 }
+      },
+      "importerFamiliesReached": [
+        "ne-setaside-custodial-set", "sd_arrest_expungement-set", "ut_pet_acquittal-set",
+        "ut_pet_conviction-set", "ut_pet_dismissed_with_prejudice-set",
+        "ut_pet_dismissed_without_prejudice-set", "ut_pet_limitations-set",
+        "ut_pet_no_charges-set", "ut_pet_traffic-set", "wv_conv_multiple_misdemeanors-set",
+        "wv_conv_single_misdemeanor-set"
+      ]
+    },
+    {
+      "itemId": "S2-04",
+      "status": "COMPLETED",
+      "defectClass": "shared-fact-map",
+      "defect": "An arresting, citing or prosecuting agency was refused under the same role class as the judge, the clerk and the prosecutor. Three of those four owners are genuinely protected and the fourth is not: an agency name is a case fact the participant already holds from the record they screened with, so bundling it with the clerk let a required fact hide inside a protected class.",
+      "correction": "completenessDispositionOf refuses the protected class for an agency field and classifies it required-before-filing instead. The fact is never guessed: a guessed arresting agency is worse than a blank one, because the blank is visible and the guess is not.",
+      "fieldClasses": ["AGENCY_FACT"],
+      "importerFamiliesReached": [
+        "ne-setaside-custodial-set", "sd_arrest_expungement-set", "ut_pet_acquittal-set",
+        "ut_pet_conviction-set", "ut_pet_dismissed_with_prejudice-set",
+        "ut_pet_dismissed_without_prejudice-set", "ut_pet_limitations-set",
+        "ut_pet_no_charges-set", "ut_pet_traffic-set", "wv_conv_multiple_misdemeanors-set",
+        "wv_conv_single_misdemeanor-set"
+      ]
+    },
+    {
+      "itemId": "S2-05",
+      "status": "COMPLETED",
+      "defectClass": "shared-fact-map",
+      "defect": "A required fact the platform does not hold may be blank only because the packet tells the participant it must be supplied before filing. Nothing in these families told the participant anything, so the fact was simply missing from the filing and no artifact recorded that it was owed.",
+      "correction": "Every row the host classifies required-before-filing is collected by requiredBeforeFilingItems, published on the field map as requiredBeforeFiling, and written into the packet as participant-instructions.md. --check recomputes the disclosure from the map and fails on drift, so the packet's promise and the map cannot disagree.",
+      "fieldClasses": ["PARTICIPANT_IDENTITY", "PARTICIPANT_CONTACT", "MATTER_IDENTIFIER", "COURT_IDENTITY", "OFFENSE_ROW_CELL", "DISPOSITION_FACT", "AGENCY_FACT"],
+      "factsClassifiedRequiredBeforeFiling": {
+        "ne-setaside-custodial-set": 73,
+        "note": "counted for the host family from the projection; every other importer's count is produced by its own lane's re-render"
+      },
+      "importerFamiliesReached": [
+        "ne-setaside-custodial-set", "sd_arrest_expungement-set", "ut_pet_acquittal-set",
+        "ut_pet_conviction-set", "ut_pet_dismissed_with_prejudice-set",
+        "ut_pet_dismissed_without_prejudice-set", "ut_pet_limitations-set",
+        "ut_pet_no_charges-set", "ut_pet_traffic-set", "wv_conv_multiple_misdemeanors-set",
+        "wv_conv_single_misdemeanor-set"
+      ]
+    },
+    {
+      "itemId": "S2-06",
+      "status": "COMPLETED",
+      "defectClass": "route-option",
+      "defect": "Every selection control on every document carried one sentence: selection_requires_participant_or_authorized_official_choice. That sentence is true of a genuine election and false of a route election. Each family here is built for exactly one statutory route and says so in its own routeKeys, and a petition built for one route that ships the route election blank asks the participant to re-decide the thing the packet was built around.",
+      "correction": "electionDispositionOf separates the two. A control the route determines is NAMED as an unmade route election, carrying the family's routeKey and the shared limitation that produced it, so it counts as an owned route-selection defect instead of an unexplained blank. A control the route does not determine keeps the participant-election class, which the contract refuses for identity, contact, matter, court, offence-row and disposition fields so a required fact cannot hide behind it. A boxed entry is dispositioned as a field, not an election, because it is a place to write something rather than a choice to make.",
+      "fieldClasses": ["ROUTE_ELECTION", "SELECTION_CONTROL", "BOXED_ENTRY_CONTROL"],
+      "projectedRouteOptionsNamed": { "sd_arrest_expungement-set": 4, "wv_conv_multiple_misdemeanors-set": 2, "wv_conv_single_misdemeanor-set": 2 },
+      "importerFamiliesReached": [
+        "ne-setaside-custodial-set", "sd_arrest_expungement-set", "ut_pet_acquittal-set",
+        "ut_pet_conviction-set", "ut_pet_dismissed_with_prejudice-set",
+        "ut_pet_dismissed_without_prejudice-set", "ut_pet_limitations-set",
+        "ut_pet_no_charges-set", "ut_pet_traffic-set", "wv_conv_multiple_misdemeanors-set",
+        "wv_conv_single_misdemeanor-set"
+      ]
+    },
+    {
+      "itemId": "S2-07",
+      "status": "COMPLETED",
+      "defectClass": "row-completion",
+      "defect": "No repeating row in the closure was identifiable at all. Every cell published only its raw PDF field name, so a charge table read as a flat list of unrelated boxes and rowsInspected was zero on all eleven built families. A row that cannot be identified cannot be found half-filled, and a half-filled row reads as a finished row.",
+      "correction": "chargeRowOrdinals recovers the row each cell belongs to and the ordinal is published in the cell's printed context. The rule is deliberately narrow: a cell is a row cell when its stem names a charge-table column, repeats across two or more ordinals, and at least one repeating stem names the charge itself. Two lines of one address are not two rows, and one stem repeating is a list of unrelated boxes.",
+      "fieldClasses": ["OFFENSE_ROW_CELL", "MATTER_IDENTIFIER"],
+      "partialRowsCarriedToday": 0,
+      "whatThatMeans": "The host fills no charge row today, so it carries no row-completion defect to correct. The correction is that the class becomes measurable: rowsInspected moves from 0 to between 3 and 4 on nine of the eleven families, so the first partially completed row a repair lane writes will be caught rather than shipped.",
+      "importerFamiliesReached": [
+        "ut_pet_acquittal-set", "ut_pet_conviction-set", "ut_pet_dismissed_with_prejudice-set",
+        "ut_pet_dismissed_without_prejudice-set", "ut_pet_limitations-set",
+        "ut_pet_no_charges-set", "ut_pet_traffic-set", "wv_conv_multiple_misdemeanors-set",
+        "wv_conv_single_misdemeanor-set"
+      ]
+    },
+    {
+      "itemId": "S2-08",
+      "status": "STOPPED",
+      "stopScope": "ROW",
+      "defectClass": "component-policy",
+      "defect": "Inspected and none carried. requiredComponentsMissing is zero on all eleven built families in the closure, before and in the projection: every document the field map or the source receipt names as part of the packet appears in a rendered artifact.",
+      "correction": null,
+      "reportedTo": null,
+      "whyStopped": "There is no component-policy defect in this host to correct. The thirty-one requiredComponentsMissing counted fleet-wide all sit outside this closure and belong to other lanes."
+    },
+    {
+      "itemId": "S2-09",
+      "status": "STOPPED",
+      "stopScope": "ROW",
+      "defectClass": "route-option",
+      "defect": "Which checkbox a given statutory route selects on a given official form is per-form data this shared host does not hold. Selecting one would be inventing a legal election, and the host's own artifact proof raises selection_control_carries_artifact_derived_text_or_vector_mark on any mark that appears in a selection control.",
+      "correction": "The election is named as unmade rather than guessed (S2-06). Making it is a per-family correction.",
+      "reportedTo": ["P4_NE_SD_SETASIDE_COMPLETENESS", "P1_UT_PETITION_EXPUNGE_COMPLETENESS", "P3_WV_CONVICTION_COMPLETENESS"],
+      "whyStopped": "A defect that is per-family rather than shared is reported to the owning lane and left alone."
+    },
+    {
+      "itemId": "S2-10",
+      "status": "STOPPED",
+      "stopScope": "ROW",
+      "defectClass": "blank-disposition",
+      "defect": "The completeness contract's classifyBlank has no path that returns REQUIRED_BEFORE_FILING. The disposition is defined and documented as allowed, and the verifier carries a check that a required-before-filing blank must be surfaced to the participant, but no input can reach either: a required known fact with no approved reason always resolves to KNOWN_FACT_NOT_WRITTEN first.",
+      "consequence": "A field whose value the platform genuinely does not hold counts as a defect no matter how honestly the host classifies it or how completely the packet discloses it. No family in this closure can reach PASS_COMPLETE on such a field by any change to this host, and P1, P3 and P4 cannot reach PASS_COMPLETE on one either.",
+      "correction": null,
+      "reportedTo": ["CAPTAIN"],
+      "affectedPath": "scripts/rcap-packet-completeness/completeness-contract.mjs",
+      "whyStopped": "The contract is a required input to this lane and is not an owned path. The host does the honest thing regardless -- it classifies the fact required-before-filing and surfaces it in participant-instructions.md (S2-05) -- and the counter it produces is reported rather than worked around. Nothing was reclassified to a disposition it does not have in order to move a counter."
+    },
+    {
+      "itemId": "S2-11",
+      "status": "STOPPED",
+      "stopScope": "ROW",
+      "defectClass": "shared-fact-map",
+      "defect": "Two of the twelve importers are not built families: ne-setaside-noncustodial-set and ne-trafficking-setaside-and-seal-set are both STOPPED_WITH_EXACT_BLOCKER and render no packet. They import the corrected host and their STOP evidence is unchanged by it.",
+      "correction": null,
+      "reportedTo": ["R3_ROUTE_MAPPING_REMAINDER", "R4_SOURCE_IDENTITY_AND_ACQUISITION"],
+      "whyStopped": "They are the gap between the twelve importers and the ten built families the family-level view showed. Both were re-checked: each still loads the corrected host and passes the shared self-test. Neither has a packet for this lane to measure."
+    }
+  ]
+}

@@ -1,0 +1,139 @@
+{
+  "schemaVersion": "rcap-packet-factory-focused-repair-return/v1",
+  "workerId": "REPAIR-D-FIX07-MI-CLIPPING",
+  "assignmentId": "FIX07",
+  "laneKind": "repair",
+  "assignedBase": "6351836b1f53cb143cc6afb08a4bf0bc28dde7b1",
+  "measuredAtBase": "47a46baaa37c75a7e5a400e86b5a22285f3736cd",
+  "branch": "repair-d-cluster",
+  "writtenAlongside": "rows.json in this directory already holds an earlier lane's return and is not touched; this return is a separate file, found by shape rather than by filename.",
+  "rows": [
+    {
+      "itemId": "mi_setaside_trafficking-set",
+      "familyId": "mi_setaside_trafficking-set",
+      "laneKind": "repair",
+      "status": "COMPLETED",
+      "repairedByThisLane": true,
+      "result": "BUILT_RASTER_PENDING",
+      "route": "obligation:track-pathway:MI:mi_setaside_trafficking:human-trafficking-related-set-aside-application",
+      "directory": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-trafficking-set--official-pdf-fill",
+      "failedObligationNames": ["CLIPPING_AND_OVERLAP"],
+      "failedObligationRepaired": "CLIPPING_AND_OVERLAP",
+      "answersVerdict": {
+        "lane": "vf03",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "5b74dd31bc55c95b87fe46a840902d6772eb7068",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfterMeasuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mi_setaside_trafficking-set, run at 47a46baaa37c75a7e5a400e86b5a22285f3736cd => PASS_COMPLETE, 2/102 written, all nine counters zero",
+
+      "whatWasWrong": "CLIPPING_AND_OVERLAP on the boundary fixture. `caseno` is one field printed in three places on SCAO form MC 227b, and the finalizer was fitting it against widgets[0] alone, so the two 103pt case-number blanks on the notice of hearing and the proof of service were never measured. Each widget also carries a /DA of its own, so the 8.36pt the fitter did choose for the 160.44pt page-1 caption box never reached the bytes. All three drew at 10pt.",
+      "exactRepair": "This family now passes two per-family opt-ins the shared hosts already document: `fitTextPerWidget`, which measures every widget and writes each one's own fitted size into that widget's own /DA while leaving the field /DA at the smallest, and `evaluateDeclaredMinimumSize`. Neither the shared finalizer (scripts/rcap-official-forms/rcap-official-form-finalize.mjs) nor the shared fitter (scripts/rcap-official-forms/rcap-text-fitting.mjs) was edited, so the defaults every other family rebuilds under are unchanged. Separately, this family's own byte proof now measures fit instead of only string presence. No fact, mapping, blank disposition, refusal, component, legal theory or instruction changed.",
+
+      "instrument": {
+        "name": "appearance-geometry reader in the family's own byte proof",
+        "reads": "for every flattened widget appearance: the /BBox, the clip path actually in force (the last path closed by `W n`), the /Tf size and the /Tm text origin; the width available is measured from the text origin to the clip, and compared against the Helvetica width of the string actually drawn",
+        "whyTheOldCounterMissedIt": "actual-writes.json asserted `matchesExpected` -- the string read back out of the flattened appearance -- and the finalizer reported `unfittable: []`. Both were true of an unreadable page: neither asked whether the box could show the string.",
+        "appearancesWiderThanTheirBox": { "boundaryBefore": 3, "boundaryAfter": 0, "canonicalBefore": 0, "canonicalAfter": 0 },
+        "perAppearance": [
+          {
+            "fixture": "boundary", "page": 1, "appearance": "FlatWidget-6857870938", "field": "caseno",
+            "bboxWidthPt": 160.437, "clipMaxXPt": 158.437, "textOriginXPt": 2, "availableWidthPt": 156.437,
+            "beforeFontSizePt": 10, "beforeDrawnWidthPt": 162.75, "beforeOverflowPt": 6.313,
+            "afterFontSizePt": 8.36, "afterDrawnWidthPt": 136.059, "afterMarginPt": 20.378,
+            "beforeSymptom": "ran past the edge of the caption box onto the form's own printed rule"
+          },
+          {
+            "fixture": "boundary", "page": 2, "appearance": "FlatWidget-9538628408", "field": "caseno",
+            "bboxWidthPt": 103, "clipMaxXPt": 101, "textOriginXPt": 2, "availableWidthPt": 99,
+            "beforeFontSizePt": 10, "beforeDrawnWidthPt": 162.75, "beforeOverflowPt": 63.75,
+            "afterFontSizePt": 6, "afterDrawnWidthPt": 97.65, "afterMarginPt": 1.35,
+            "beforeSymptom": "clipped by the appearance stream's own `2 2 m 2 10 l 101 10 l 101 2 l h W n` to \"2024-0011882-SUPPLEMENTA\""
+          },
+          {
+            "fixture": "boundary", "page": 3, "appearance": "FlatWidget-1316047934", "field": "caseno",
+            "bboxWidthPt": 103, "clipMaxXPt": 101, "textOriginXPt": 2, "availableWidthPt": 99,
+            "beforeFontSizePt": 10, "beforeDrawnWidthPt": 162.75, "beforeOverflowPt": 63.75,
+            "afterFontSizePt": 6, "afterDrawnWidthPt": 97.65, "afterMarginPt": 1.35,
+            "beforeSymptom": "clipped by the appearance stream's own `2 2 m 2 10 l 101 10 l 101 2 l h W n` to \"2024-0011882-SUPPLEMENTA\""
+          }
+        ],
+        "boundaryValue": "2024-0011882-SUPPLEMENTAL-FY",
+        "valueWasNeverTruncated": "The string was complete in the content stream throughout. The defect was that the page could not show it, which is why a readback that only compared strings reported the family clean.",
+        "negativeControl": "With the two opt-ins removed and the new measurement left in place, the build fails closed reporting exactly 3 -- caseno@p1 over by 6.313pt, caseno@p2 and caseno@p3 over by 63.75pt each -- matching the independent verifier's visualDefects: 3. The instrument is therefore not vacuous.",
+        "measurementBasisNote": "The dispatch quoted 163.95pt for this value at Helvetica 10; this lane measures 162.75pt against the string as actually drawn. Nothing turns on the 1.2pt, and the Captain has confirmed the drawn-string basis is the better one."
+      },
+
+      "fixturesMoved": true,
+      "oldArtifacts": [
+        { "fixture": "canonical", "sha256": "4ec6ceac9416e2d674de0aec69f353f1233ae1bb08dc8d947fac089c916d8361", "byteLength": 378569, "pageCount": 4 },
+        { "fixture": "boundary", "sha256": "eb025c3aaeefd12ad6c452946a2be4526f469b95ab01628ded30aed10f68ddf9", "byteLength": 378604, "pageCount": 4 }
+      ],
+      "newArtifacts": [
+        { "fixture": "canonical", "sha256": "5adcf1335b6fbedb01880c9559f2a0d06b5fbfab8ae36e54e0a3eae3df358e65", "byteLength": 378568, "pageCount": 4 },
+        { "fixture": "boundary", "sha256": "8f24ca2af0e6b6d04f5e19f5a68455285e44100b9431690ba8d19806c17f44dd", "byteLength": 378609, "pageCount": 4 }
+      ],
+      "whyCanonicalMovedToo": "Page 1's caseno widget is 10.36pt high, so the fit for that box has always been 8.36pt; the fitter measured it and the bytes ignored it because the widget's own /DA said 10. The canonical value fitted at 10 as well, so nothing was ever wrong on that page. What changed is that the size the family measures is now the size it draws. Canonical pages 2 and 3 are unchanged at 10pt.",
+
+      "rasterOwed": true,
+      "rasterNote": "Both fixtures moved, so the RASTER_PASS this family carried -- bound to the old canonical 4ec6ceac... -- was void. This lane refused to rebind it, because rebinding a raster verdict to bytes nobody rastered would forge the pass. At the base this row is measured against, product-wiring.json carries acceptanceReceipt: null and rendered-artifacts.json carries rasterState BUILT_RASTER_PENDING with zero raster pages, which is the correct fail-closed state. A fresh whole-family raster over the new canonical and boundary hashes is owed before any acceptance.",
+
+      "determinism": {
+        "builds": 4,
+        "command": "node scripts/build-census-v1-mi_setaside_trafficking-set.mjs --no-raster",
+        "hashesIdentical": true,
+        "byteLengthsIdentical": true,
+        "pageCountsIdentical": true,
+        "rasterPerformed": false,
+        "note": "Three consecutive runs during the repair and one more at 47a46baaa37c75a7e5a400e86b5a22285f3736cd, all producing the same two hashes and leaving the tree clean."
+      },
+      "focusedTests": [
+        "node scripts/build-census-v1-mi_setaside_trafficking-set.mjs --no-raster => COMPLETED, all nine counters zero, byte-identical rebuild at the measured base",
+        "node scripts/build-census-v1-mi_setaside_trafficking-set.mjs --self-test => SELF_TEST_OK (fixture hash pins updated to the new artifacts)",
+        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mi_setaside_trafficking-set => PASS_COMPLETE, 2/102 written, all nine counters zero",
+        "appearance-geometry measurement of both fixtures => 0 appearances wider than the box they are drawn in, down from 3 on boundary",
+        "negative control: opt-ins removed, same measurement => fails closed at exactly 3, matching the vf03 verdict"
+      ],
+      "notFixedAndWhy": [
+        "The write proof still emits a hard-coded `nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: 0`; nothing computes it. That is a real second defect and a different one from CLIPPING_AND_OVERLAP, so this lane flagged it rather than widening into it. scripts/build-census-v1-ar-drug-court-set.mjs has a real added-ink diff that could be adopted.",
+        "The builder's header warns about a sibling hyphenated builder writing this same overlay directory. No such file exists in the tree; the comment is stale."
+      ],
+      "scope": {
+        "sharedHostsEdited": 0,
+        "sharedHostContainmentSweepOwed": false,
+        "whyNoSweep": "No shared host was modified -- only per-family opt-ins the hosts already document were passed in -- and this builder is imported by no other script, so no other family's next rebuild can move.",
+        "centralStateEdits": 0,
+        "claimsReleased": 0,
+        "selfVerificationPerformed": 0,
+        "verdictsIssued": 0,
+        "routesOpened": 0,
+        "productionTouched": false
+      },
+      "changedPaths": [
+        "scripts/build-census-v1-mi_setaside_trafficking-set.mjs",
+        "data/rcap-all50/overlays/census-v1/mi/mi-setaside-trafficking-set--official-pdf-fill/fixtures/canonical.pdf",
+        "data/rcap-all50/overlays/census-v1/mi/mi-setaside-trafficking-set--official-pdf-fill/fixtures/boundary.pdf",
+        "data/rcap-all50/overlays/census-v1/mi/mi-setaside-trafficking-set--official-pdf-fill/reports/actual-writes.json",
+        "data/rcap-all50/overlays/census-v1/mi/mi-setaside-trafficking-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "data/rcap-all50/overlays/census-v1/mi/mi-setaside-trafficking-set--official-pdf-fill/reports/independent-visual-review.json"
+      ],
+      "whatThisRowDoesNotEstablish": [
+        "independent verification -- this family goes to a verifier that is neither its builder nor this repairer",
+        "raster acceptance -- a fresh whole-family raster is owed over the new hashes",
+        "visual acceptance, counsel approval, or approval for participant delivery",
+        "that any commercial route is open"
+      ]
+    }
+  ]
+}

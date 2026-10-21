@@ -1,0 +1,123 @@
+{
+  "schemaVersion": "rcap-census-v1-product-wiring/v1",
+  "family": "composed-treatment:nd-nonconviction-auto-close-verify",
+  "routeKey": "obligation:failure-disposition:ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05:nd_still_public_day_62:original_case_enforcement_motion",
+  "routeKeys": [
+    "obligation:failure-disposition:ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05:nd_still_public_day_62:original_case_enforcement_motion",
+    "obligation:failure-disposition:ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05:nd_still_public_day_62:written_clerk_correction_request"
+  ],
+  "workType": "PRODUCT_WIRING_REQUIRED",
+  "status": "DECLARED_NOT_INSTALLED",
+  "authorityCreated": "none",
+  "generatedBy": "scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs",
+  "derivedFrom": "data/rcap-all50/overlays/census-v1/nd/composed-treatment:nd-nonconviction-auto-close-verify--custom-pleading/reports/rendered-artifacts.json",
+  "explicitNonGrants": [
+    "This document opens no commercial route.",
+    "It creates no fulfillment record and consumes no packet credit.",
+    "It marks no packet proven and grants no output approval.",
+    "It does not add this track to compiled runtime. src/lib/rcap-engine/compiled/** is untouched.",
+    "It does not change any live RCAP route.",
+    "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This is not that record."
+  ],
+  "currentState": {
+    "serviceDisposition": "missing_from_compiled_runtime",
+    "commercialState": "NO_ROUTE_LEVEL_GRADE_A_AUTHORITY_FROM_TRACK_MEMBERSHIP",
+    "existingArtifactIds": [],
+    "generationAllowed": false
+  },
+  "proposedRepresentation": {
+    "note": "A specification for a later lane, derived from the corrected four-component packet. Current raster evidence is bound; current-byte independent acceptance is still required before any later installation decision.",
+    "packetSetId": "composed-treatment:nd-nonconviction-auto-close-verify",
+    "outputStrategy": "custom_pleading",
+    "components": [
+      {
+        "componentId": "composed-treatment:nd-nonconviction-auto-close-verify-component-1",
+        "role": "assembled_four_component_packet",
+        "order": 1,
+        "documentId": "canonical",
+        "file": "data/rcap-all50/overlays/census-v1/nd/composed-treatment:nd-nonconviction-auto-close-verify--custom-pleading/fixtures/canonical.pdf",
+        "sha256": "042abebbea6753740dab0b232722e76f715490cea12c634196fa6a337ad742a2",
+        "requirement": "required"
+      }
+    ]
+  },
+  "binding": {
+    "family": "composed-treatment:nd-nonconviction-auto-close-verify",
+    "jurisdiction": "ND",
+    "routeKeys": [
+      "obligation:failure-disposition:ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05:nd_still_public_day_62:original_case_enforcement_motion",
+      "obligation:failure-disposition:ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05:nd_still_public_day_62:written_clerk_correction_request"
+    ],
+    "deliveryType": "custom_pleading",
+    "instrumentKinds": [
+      "clerk_correction_request",
+      "enforcement_motion",
+      "proposed_order",
+      "filing_instructions"
+    ],
+    "packetComponents": [
+      {
+        "componentId": "clerk_correction_request",
+        "order": 1,
+        "condition": null
+      },
+      {
+        "componentId": "enforcement_motion",
+        "order": 2,
+        "condition": "Used only AFTER the written request: the recorded sequence is a written request to the office of the original court first, and the motion to enforce in the original criminal case only if that office states that judicial action is required or does not correct the record."
+      },
+      {
+        "componentId": "proposed_order",
+        "order": 3,
+        "condition": "Travels with the enforcement motion only; nothing on it is decided, signed or dated by the participant."
+      },
+      {
+        "componentId": "filing_instructions",
+        "order": 4,
+        "condition": null
+      }
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/nd/composed-treatment:nd-nonconviction-auto-close-verify--custom-pleading/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/nd/composed-treatment:nd-nonconviction-auto-close-verify--custom-pleading/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/nd/composed-treatment:nd-nonconviction-auto-close-verify--custom-pleading/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/nd/composed-treatment:nd-nonconviction-auto-close-verify--custom-pleading/source-receipt.json",
+    "sourceVersion": [],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "34628970364",
+      "jobId": "103361882466",
+      "artifactId": "10276130128",
+      "boundToCanonicalSha256": "042abebbea6753740dab0b232722e76f715490cea12c634196fa6a337ad742a2",
+      "coversTheWholeFamily": true
+    },
+    "lastIndependentVerification": {
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf01",
+      "verifiedAtBase": "5ec5b9d743d4c780db344e0f0465580d90631df4"
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-composed-treatment:nd-nonconviction-auto-close-verify.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    },
+    "supersededAcceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "33579500812",
+      "jobId": "100091041747",
+      "artifactId": "9828004789",
+      "boundToCanonicalSha256": "61bedadea4d79733ae2903993d4525835e08df8f28d191bdb2b3b66fe2e78c96",
+      "coversTheWholeFamily": true,
+      "supersededBecause": "The entry-date, whole-case and appeal-gate repair changed both fixture PDFs; exact-byte review must be earned again."
+    },
+    "supersededIndependentVerification": {
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf09",
+      "verifiedAtBase": "7fcfb7d40aafe7bd7350fc735ea09d16524cb757",
+      "supersededBecause": "The entry-date, whole-case and appeal-gate repair changed both fixture PDFs; exact-byte review must be earned again."
+    }
+  }
+}

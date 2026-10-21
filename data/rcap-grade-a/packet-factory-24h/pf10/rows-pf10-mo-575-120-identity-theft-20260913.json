@@ -1,0 +1,122 @@
+{
+  "schemaVersion": "rcap-packet-factory-family-return/v1",
+  "assignmentId": "PF10",
+  "workerId": "rcap-finish-worker-77jr7gx76jq3rg65",
+  "lane": "packet-build",
+  "engine": "Codex Codespaces worker",
+  "shiftBaseSha": "6867ee44777ce3c9e88afda8b4bad8c3d8e8e31a",
+  "workerBranch": "pf20-ks-22-2410-arrest-20260912b",
+  "workerHeadBeforeReturn": "0a8d45df2d55",
+  "familiesAssigned": 1,
+  "rowsReturned": 1,
+  "claim": {
+    "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF10 'mo-575-120-identity-theft-correction-set'",
+    "result": "CLAIM_OK PF10 mo-575-120-identity-theft-correction-set (packet-build, grant set 4cb248e7618fd712)",
+    "captainLedgerPath": "data/rcap-grade-a/packet-factory-24h/claim-ledger.json",
+    "captainLedgerSha256": "8ff9d4d22f490506d6fcb90bec54cc3cf5a9bd40131dd145c9923d7bd8743d57",
+    "captainLedgerGeneratedAtCommit": "3a9ef08889a3ef63f4e8bfb5c3366b9e126234cd"
+  },
+  "itemId": "mo-575-120-identity-theft-correction-set",
+  "status": "STOPPED",
+  "stopClass": "BLOCKED_SOURCE",
+  "jurisdiction": "MO",
+  "routeKeys": [
+    "obligation:track-only:MO:mo-575-120-identity-theft-correction"
+  ],
+  "implementationStrategy": "official_pdf_fill",
+  "officialFormFamily": "CR300+CR310+FI-05+GN10",
+  "requiredComponents": [
+    "component:mo-575-120-identity-theft-correction-cover-sheet-2",
+    "component:mo-575-120-identity-theft-correction-fee-waiver-5",
+    "component:mo-575-120-identity-theft-correction-primary-filing-1",
+    "component:mo-575-120-identity-theft-correction-proposed-order-4"
+  ],
+  "buildScript": "scripts/build-census-v1-mo-575-120-identity-theft-correction-set.mjs",
+  "buildScriptExists": false,
+  "overlayDirectory": "data/rcap-all50/overlays/census-v1/mo/mo-575-120-identity-theft-correction-set--official-pdf-fill",
+  "overlayDirectoryExists": false,
+  "overlayDirectoryTouched": false,
+  "builderCreated": false,
+  "testCreated": false,
+  "filingPacketsGenerated": 0,
+  "rasterGenerated": false,
+  "sourceBinding": {
+    "queueSourcesNamed": 4,
+    "familyGate": {
+      "result": "FAIL",
+      "detail": "4 of 4 source(s) do not bind",
+      "completeQueueSourceBind": false,
+      "resolverTier": "census_form_number_against_committed_index"
+    },
+    "queuePinnedSources": [
+      {
+        "sourceId": "official-form:CR300",
+        "declaredPath": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/MO/05_SOURCE_GATED/MO__SOURCE-GATED__CR300__petition-for-correction-of-arrest-court-records-identity-theft__REV-2010-04__EN.pdf",
+        "sha256": "0bdda44514ec4505d736c1648502bc768d48fab5cfc63d51635e57f9380aaf44",
+        "statusAtCaptainPath": "MISSING"
+      },
+      {
+        "sourceId": "official-form:CR310",
+        "declaredPath": "reference/source-recovery/2026-09-11-wave1/CODEX-CS1-SRC2__CR310__2592efa5a9cb.pdf",
+        "sha256": "2592efa5a9cbe170a7a7f19e3e0e13c9687d9ab9c92049998f3685c0183b6509",
+        "byteLengthAtCaptainPath": 106723,
+        "statusAtCaptainPath": "HELD_EXACT"
+      },
+      {
+        "sourceId": "official-form:FI-05",
+        "declaredPath": "LegalEase Missouri/Conf Case Filing Info Sheet(FI-05).pdf",
+        "sha256": "53f1e04eba653d7ed8e2f2f059e57854d3780845e6364bb6b2a57c7728cd412e",
+        "byteLengthAtCaptainPath": 298649,
+        "statusAtCaptainPath": "HELD_EXACT"
+      },
+      {
+        "sourceId": "official-form:GN10",
+        "declaredPath": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/MO/05_SOURCE_GATED/MO__SOURCE-GATED__GN10__motion-and-affidavit-in-support-of-request-to-proceed-as-a-poor-person__REV-2015-07__EN.docx",
+        "sha256": "13ff25147df2c70eec85b2d498f486aae9c2b46c535f9f9d7992b6247480421e",
+        "statusAtCaptainPath": "MISSING"
+      }
+    ],
+    "custodyRecord": {
+      "path": "data/rcap-grade-a/route-obligation-census-v1/source-custody-reconciliation.json",
+      "row": "none; family resolves through worklist/index fallback",
+      "queueSourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceReadinessBoundCount": 4,
+      "sharedRecordModified": false
+    }
+  },
+  "preflight": {
+    "command": "node scripts/verify-packet-build-environment.mjs --family 'mo-575-120-identity-theft-correction-set' --codex-cloud --minimum-captain-sha 6867ee44777ce3c9e88afda8b4bad8c3d8e8e31a",
+    "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 9/14 passed, 5 failed, 3 not applicable",
+    "exitCode": 1,
+    "familySourcesBind": "FAIL: 4 of 4 source(s) do not bind",
+    "knownWorkerEnvironmentFailures": [
+      "worktree_clean: Captain-provided claim ledger is intentionally uncommitted in the worker",
+      "private_is_git_ignored: private/ is not git-ignored at this worker base",
+      "master_library_complete: 13 of 499 files and 11 of 329 PDFs present",
+      "corpus_matches_committed_index: 24 sampled entries absent"
+    ],
+    "treatment": "Aggregate partial-corpus failures were not repaired or used as the family finding; the exact named source identities are the blocker."
+  },
+  "blocker": {
+    "exactClass": "BLOCKED_SOURCE",
+    "statement": "The queue pins four official inputs, but CR300 and GN10 are absent at their exact declared paths, and the family resolver reports all four sources unbound. CR310 and FI-05 are held locally but do not make the family bind without the complete source set and resolver identity.",
+    "noSourceHunt": true,
+    "noSharedResolverEdit": true,
+    "noLegalResearch": true,
+    "noClosedFamilyOrLegacyRuntimeTouched": true
+  },
+  "nextExecutableAction": "Provide the exact CR300 and GN10 held bytes at their governed source paths and bind all four source identities through the existing resolver, then dispatch the exclusive builder before any overlay work.",
+  "counters": null,
+  "allNineCountersZero": null,
+  "artifactsProduced": [],
+  "commercialAuthorityGranted": false,
+  "productionTouched": false,
+  "selfVerified": false,
+  "privateSourceBytesCommitted": false,
+  "privateSourceBytesModified": false,
+  "returnNotes": [
+    "Claim used PF10, the lane recorded in Captain's current claim ledger.",
+    "Only exact queue paths were checked; no alternate custody search or source hunt was performed.",
+    "Prior native returns, the active KY pardon scope, shared manifests, source custody, builder scripts, closed Missouri families, and legacy runtime were not modified."
+  ]
+}

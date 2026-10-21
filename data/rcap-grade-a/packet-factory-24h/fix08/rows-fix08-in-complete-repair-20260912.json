@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "rcap-packet-repair-return/v1",
+  "lane": "FIX08",
+  "laneKind": "repair",
+  "baseSha": "8dc7e1d70468528a48d94ae0dacc010f2a0eddad",
+  "isIndependentVerification": false,
+  "rows": [
+    {
+      "itemId": "rcap-in-custom-pleading",
+      "familyId": "rcap-in-custom-pleading",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "implementedBy": "sd_caption",
+      "buildCommit": "8dc7e1d70468528a48d94ae0dacc010f2a0eddad",
+      "obligationsRepaired": [
+        "COMPONENT_SET",
+        "PROTECTED_FIELDS",
+        "CLIPPING_AND_OVERLAP",
+        "SELF_HELP_STOP"
+      ],
+      "repairSummary": "Added the ten missing custom components alongside all three official forms; suppressed synthesized checkbox borders; restored the unique collateral-action stop. Both complete fixtures contain 15 pages. Independent semantic and visual acceptance remain outstanding.",
+      "artifacts": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/in/rcap-in-custom-pleading--custom-pleading/fixtures/canonical.pdf",
+          "sha256": "d8423b0d608e3fd0f26457073b2622eb2fc62bec95cc6264e07f09593138748e",
+          "byteLength": 244630,
+          "pageCount": 15
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/in/rcap-in-custom-pleading--custom-pleading/fixtures/boundary.pdf",
+          "sha256": "e953492c5bab14c786b503a9a5fd8e594640f6f7b01b567a559fcb45b2b9761b",
+          "byteLength": 245172,
+          "pageCount": 15
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/in/rcap-in-custom-pleading--custom-pleading/reports/rendered-artifacts.json",
+          "sha256": "8211b310436ef11815ee69367f2b3b2502b51f34ce50508ec3eb257c70c7245d",
+          "byteLength": 29441
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/in/rcap-in-custom-pleading--custom-pleading/production-field-map.json",
+          "sha256": "b07e3002adf55fd56aa25305afa927cb43522135ee149831b4c351ebb90ec681",
+          "byteLength": 233322
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/in/rcap-in-custom-pleading--custom-pleading/participant-instructions.md",
+          "sha256": "bdcb4611e027ec6be6a480bd480f0696bb6213a990aa10f37f4ce5df06af869d",
+          "byteLength": 24503
+        }
+      ],
+      "focusedProofPath": "data/rcap-grade-a/packet-factory-24h/fix112/in-current-protected-box-preflight-20260912.json",
+      "focusedProofScope": "16 source-owned checkbox regions retain original pixels; this is not full-packet visual acceptance.",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": null
+      },
+      "counterBasis": "Native completeness and focused saved-byte repair checks; full-packet visual counter remains unmeasured until independent original review.",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "rasterManifest": "data/rcap-grade-a/packet-factory-24h/fix112/in-current-raster-manifest-20260912.json",
+      "independentVerification": "PENDING_VF44_SEMANTIC",
+      "commercialRoutesOpened": 0
+    }
+  ]
+}

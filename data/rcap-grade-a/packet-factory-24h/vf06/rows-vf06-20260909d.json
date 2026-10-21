@@ -1,0 +1,237 @@
+{
+  "schemaVersion": "rcap-verifier-lane-return/v1",
+  "lane": "VF06",
+  "laneKind": "independent-verification",
+  "verifiedAtBase": "ba6d4fb9526db37213a67dcb0a05763dd9066cf7",
+  "branch": "vf-reads-20260909c",
+  "writtenAt": "2026-09-09",
+  "note": "Supersedes data/rcap-grade-a/packet-factory-24h/vf06/rows-vf06-20260909c.json on the REPEATING_ROWS measurement alone. That file is left exactly as it was and was not edited. Written alongside every pre-existing return in this lane directory. This lane built nothing, repaired nothing and edited no packet, builder, overlay, manifest or registry.",
+  "measuredBy": "The delivered bytes in the committed tree. Digests recomputed with sha256sum. The pinned CR-218 binary is encrypted with an empty user password, so the transport step the build declares was REPRODUCED here rather than accepted: pikepdf.open(pinned).save(deterministic_id=True) yields 6d320c100e9eb4ce45bff3584a88ef67efbab905be8815311bd9c5c8b9f588f6 at 175359 bytes, exactly the derivedSha256 and derivedByteLength the receipt names, with the official file's own SHA-256 unchanged by the read. Both delivered fixtures were then read with pdf-lib - page content stream, all 15 flattened appearance XObjects, their BBoxes and placement matrices - and compared against that derivative's own widget rects and /AP streams. Nothing carried from the builder's counters or byte proof.",
+  "rasterEvidence": "The admitted receipt at data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/me-seal-gen-set/ (run 34364359375, packetCommit 159c0b5cf25e10a7fad6a7defb60bd6692e52480) pins canonical 10e5a82b... and boundary 43593b89..., which are the bytes in the tree at this base. Nothing was re-rendered by this lane.",
+  "overlayDirectoriesModified": [],
+  "packetsModified": [],
+  "commercialRoutesOpened": [],
+  "builtOrRepairedByThisLane": false,
+  "rows": [
+    {
+      "itemId": "me-seal-gen-set",
+      "lane": "VF06",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "verifiedAtBase": "ba6d4fb9526db37213a67dcb0a05763dd9066cf7",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/me/me-seal-gen-set--official-pdf-fill",
+      "priorIndependentVerdict": null,
+      "firstIndependentRead": true,
+      "rasterState": "RASTER_PASS, admitted receipt over these exact bytes; problems [], environmentProblems [], calibrationResidualPx 0 on both pages, croppedToThePage true, nonblank true, coversTheWholeFamily true. Not re-run here.",
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "measured": "production-field-map.json routeKeys is exactly the one MASTER_QUEUE route key, obligation:track-pathway:ME:me-seal-gen:adult-conviction-sealing, officialForm ['CR-218'], legalName 'Motion to Seal Criminal History Record Information (15 M.R.S. ch. 310-A, sections 2262-2264)'. The delivered page carries the Judicial Branch's own title 'MOTION TO SEAL CRIMINAL HISTORY / 15 M.R.S. sections 2263-2264' and the footer 'CR-218, Rev. 7/24 / Page 1 of 1 / www.courts.maine.gov', both read back from the fixture text. The instrument is the route: this form exists only for a chapter 310-A motion."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "measured": "Three sources bind, and all three digests were recomputed here from the bytes. Official form: 'private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Maine/MJB-Form-cr-218.pdf' = 82a9e8084346aa736cf25dc6c663d511e96e7205900b97a7dc2adc4ceec905d4, 175359 bytes, matching MASTER_QUEUE.sourceHashes, source-receipt.json and both pageManifest entries. Committed records: legal-design-packet-set-manifests.json = 80b5e071055469b6f1aa84e80accd9e8bcc15e00ed3b7b778ba48a0ff85d8bd7 and legal-design-track-registry.json = 555e5700c049608b0766cc7f5f65adfa748bbd32fae790d2220652bf08b958dc, both exactly the digests the receipt declares. The encrypted-source transport was reproduced rather than trusted: the derivative's SHA-256 and byte length come out at 6d320c100e9eb4ce45bff3584a88ef67efbab905be8815311bd9c5c8b9f588f6 / 175359, the receipt's own values, and the official file hashed the same before and after the read. The derivative carries 15 AcroForm fields on 1 page, which is the acroFieldCount and pageCount the receipt declares."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "measured": "The committed packet-set manifest for me-seal-gen-set version 1.0.0 declares exactly two components - me-seal-gen-primary-filing-1 (primary_filing, official_pdf_fill, officialFormId CR-218) and me-seal-gen-instructions-2 (instructions, process_guidance) - and the committed track registry declares the same two. Both are present: CR-218 is rendered as the single packet page in both fixtures, and the instructions component is participant-instructions.md. No proposed order is named and none is delivered, which the registry supports directly - 15 M.R.S. section 2264(5) requires the COURT to issue its own written order with findings of fact, and the record holds that no proposed-order form is published. A separate inaccuracy in the instructions' own prose about how many process_guidance components exist is recorded under observationsFromTheBytes; it does not make a declared component absent."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "measured": "Six held facts written, and every one confirmed as ink in the delivered bytes rather than taken from the report. Canonical, read out of the flattened appearances: participant.full_legal_name into 'Defendant' (<4361736579204C6F727261696E6520546869626F64656175> = Casey Lorraine Thibodeau, /Helvetica 11 Tf), matter.county into 'County' (Penobscot), matter.case_number into 'Text1' (PENCD-CR-2016-00742, /Helvetica 10.48 Tf), participant.date_of_birth into 'Defendants DOB mmddyyyy' printed month-day-year as 11/06/1990 from the stored 1990-11-06, participant.street_address into field '1' (34 Winter Harbor Road) and participant.city_state_zip into field '2' (Bangor, ME 04401). Boundary writes the same six fields with the long-value fixture - Jean-Baptiste Ouellette-Michaud III, Aroostook, AROCD-CR-1998-00000112, 01/09/1962, 1785 Presque Isle Ridge Road Apartment 3B, Presque Isle ME 04769-1183 - all still at 11 pt with no refusal and no truncation. pdftotext reads all six back at their printed captions in both fixtures. Nothing the platform holds for this form is left unwritten: the three blanks left for the participant are the town the court sits in, the name of the crime and the date of conviction, none of which any held record establishes."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "measured": "Two channels, both checked against the file. Field level: all 3 declared requiredBeforeFiling blanks - 'Paragraph 1 - Defendant was convicted of the following crime of (name of crime)', 'Location (Town):' and 'Paragraph 1 - on (mm/dd/yyyy), the date of the conviction' - appear in participant-instructions.md by exact string containment on BOTH their disclosureLabel and their full participantMustSupply text, 3 of 3. Record level: the committed packet-set manifest carries 11 requiredBeforeFiling strings and all 11 appear in the guide verbatim, 11 of 11 by exact string containment, including the two that name items the packet deliberately does not print ('Every finding, ruling, date and signature of the court - Not printed in the participant packet' and 'Notice to the prosecutorial office - Not printed in the participant packet'). The guide states the manifest's own SHA-256 beside the list and that digest is the one recomputed here."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "measured": "CR-218 carries exactly one election - the court-for-filing box at the head of the form, Superior Court / District Court / Unified Criminal Docket - and it is not one this route determines: 15 M.R.S. section 2264(1) requires the motion to be filed in the court in which the conviction was entered, which is a fact about the participant's own case, and this single route reaches all three courts. All three are left unmarked, confirmed from the bytes: the three flattened checkbox appearances are EMPTY streams, and that is faithful rather than a dropped mark, because the source widgets carry no /AP /N /Off state at all (only /N /On, /D /On and /D /Off), so the unticked state of this form renders nothing by design. The form's numbered paragraphs 2 to 5 carry no widget of any kind - confirmed against the derivative's 15 fields - so there is nothing there for a route to select or leave unselected. No box is marked that the route does not determine, and no route-determined election is left blank."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "measured": "MEASURED, not deferred. CR-218 carries one repeating group, it was measured on the delivered bytes, and it is complete in both fixtures. All 15 AcroForm widgets were read first hand from the reproduced transport derivative with their rectangles, and all 15 flattened appearances were read back from each delivered fixture, so the enumeration covers the whole form: 12 single text blanks and 3 court-election check boxes. Test 1 - field names carrying a row index: 0 of 15. Test 2 - y-bands sharing an identical multi-column signature: 0. There is no table on this form. Test 3 - single-column stacks: one, at x 324 width 256.68, holding three widgets at y 229.269, y 180.12 and y 165. Of those three, TWO form a genuine repeating group: fields named '1' and '2', the two lines of the mailing-address block, at a 15.12 pt pitch that matches their own 14.52 pt height, under the single printed caption 'Defendant's Mailing Address'. The third widget in the column - the signature widget the form leaves unnamed - is NOT a member, and that was established rather than assumed: it sits 49.149 pt above field '1', more than three times the group's pitch, and it carries its own printed caption 'Defendant's Signature' beneath it. THE GROUP IS COMPLETE IN BOTH FIXTURES, read out of the flattened appearance streams: canonical writes both lines - '34 Winter Harbor Road' into field 1 and 'Bangor, ME 04401' into field 2; boundary writes both lines - '1785 Presque Isle Ridge Road, Apartment 3B' and 'Presque Isle, ME 04769-1183'. Neither line is ever written beside the other left blank, both members carry the same disposition (written, from participant.street_address and participant.city_state_zip), so the group is not split across dispositions, and no row anywhere in this packet is half-written.",
+          "priorResultThisRowReplaces": "NOT_MEASURABLE_HERE",
+          "priorMeasuredText": "CR-218 carries no repeating row structure. Its 15 widgets are 12 single text fields and 3 mutually exclusive court-election checkboxes; none forms a row of cells. There is no row on this packet that could carry a written cell beside a blank required cell."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "measured": "Read from the delivered bytes in both fixtures. The signature widget the form leaves unnamed - AcroForm field 'undefined' at x 324 y 229.269, captioned 'Defendant's Signature' directly beneath it - carries '/Tx BMC EMC', no ink. Its date, 'Date mmddyyyy' at x 139.56 y 228.96, carries '/Tx BMC EMC', no ink; a date written before the motion is signed would be false. 'Defendants Attorney and Maine Bar No' carries no ink, and the form itself marks that line optional. CR-218 carries no certificate-of-service block at all, so there is none to fill in early. There is no court-only block on this form and no widget outside the participant's own area. pdftotext of both fixtures shows the signature line, the date line and the attorney line blank."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "measured": "sha256sum recomputed here: canonical.pdf = 10e5a82b626d98851b525f380000e9435aa49c303f7f334d771f002dd89ade78 (171623 bytes), boundary.pdf = 43593b8922759124491186b0a8460ff1b21633ed85eccba1fa11a7c88c0730cc (171667 bytes). Both match reports/rendered-artifacts.json on both the pdfs[] and artifacts[] channels, and both match the hashesBound block of the admitted raster verdict, so the RASTER_PASS is over these bytes. Both fixtures are decrypted output - pdf-lib opens them without an ignoreEncryption fallback - which is what an unlocked, flattened delivery should be."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "measured": "pdf-lib reads 1 page in each fixture, and the source is 1 page. Each pageManifest declares one entry - packetPage 1, component motion, documentId CR-218, sourcePage 1, sourceSha256 82a9e808... - and the delivered page IS that page: its content stream contains the source page's own content stream verbatim (see CLIPPING_AND_OVERLAP), and its printed text matches the official form line for line including the ADA notice and the 'Page 1 of 1' footer."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "measured": "Proved at the strongest available level. The delivered canonical page content stream is 23366 bytes and decomposes exactly into: the two bytes 'q\\n', then the source page's own 22096-byte content stream byte-for-byte at offset 2, then 1268 trailing bytes whose only operators are q, cm, Do and Q - fifteen widget placements and nothing else. The boundary fixture decomposes identically, byte for byte. So the official form's own ink is untouched and NO drawing operator was added anywhere on the page outside a flattened widget appearance. Each of the 15 placements sits at its source widget's own origin under an identity matrix - '1 0 0 1 31.7345 672.24 cm', '1 0 0 1 415.546 658.847 cm', '1 0 0 1 356.335 717.48 cm' and so on - each matching the derivative's widget /Rect to the digit, and each appearance BBox equals its widget's width and height. Every text appearance carries its own 1 pt-inset clip path, and no write was refused as unfittable in either fixture, so nothing is shortened and nothing overflows."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "measured": "The guide names the destination the route names and gives the statutory basis: 'File with the clerk of the court in which the conviction was entered, in the underlying criminal proceeding. That is section 2264(1) and it is what the committed manifest and the committed track record both say. It is not a new case; it is a motion in the old one.' It then tells the participant to tick the matching court at the head of the form and to check the county and docket number the platform wrote into the caption against the judgment. The filing channel is not overstated: the guide says eFiling availability depends on the county's place in the Maine eCourts rollout and that the record holds this unresolved and moving, which matches the registry's own nonblocking research note."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "measured": "Both stated, and both are the committed manifest's own words, present verbatim in the guide. Fee: 'No fee is expected. Administrative Order JB-05-26 (A. 3-26), effective 9 March 2026, lists no fee for a criminal post-judgment motion and provides Filing a Criminal Action, Traffic Infraction, or Civil Violation: No fee in both Superior and District Court.' The guide additionally disposes of the 60 dollar figure by its own terms - tied to M.R. Civ. P. 55(b)(2), 59, 60(b), 62 and 66, which are civil rules - and tells the participant to confirm with the clerk and not to expect a refund. Waiver: the manifest's position is printed whole, including the instruction not to route the participant to CV-067 or CV-191 because those are civil in-forma-pauperis forms and the application of M.R. Civ. P. 91 to a criminal motion is unresolved. The absence of a waiver form in the packet is stated as deliberate and explained, rather than being a silent gap."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "measured": "Recipient and method are both answered, and the one thing the record does not settle is disclosed rather than guessed. The guide states that CR-218 carries no certificate of service and that the packet adds none, that the committed manifest records no service obligation imposed on the movant by the statute or the form, and that section 2264(3) directs notice to the prosecutorial office that represented the State but does not assign the act to the movant. It then gives the participant an action that closes the gap either way: ask the clerk at the counter whether the prosecutor needs a copy, and offer a courtesy copy if asked. That is the treatment the committed track registry prescribes in its own words ('The packet fails closed: it tells the participant that the court is understood to give notice, and that they should confirm with the clerk at filing and deliver a courtesy copy if the clerk asks'). Verified against the registry: the service question is recorded with impact 'release_blocker', buildBlockers is empty, and MASTER_QUEUE records legalInputStatus SETTLED - so this is a completeness PASS over a family that still carries a counsel release blocker, and the two must not be confused. See releaseBlockerCarried below.",
+          "releaseBlockerCarried": "counselQuestions[0]: 'Does 15 M.R.S. section 2264(3) place notice on the court alone, or must the movant also serve the prosecutorial office? If the latter, a certificate of service must be added to every chapter 310-A packet.' This is a release blocker on the track record. Completeness says nothing about it, and this PASS does not clear it."
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "measured": "The strongest of the four families read this shift. The committed track registry carries 11 selfHelpStopConditions and the guide's 'When to stop and get help' list carries all 11, in the registry's order and substance - unclear offence class, the Class D marijuana mapping, an uncertain completion date or unpaid balance, any post-completion case anywhere, a deferred disposition, an older Maine prior, non-citizenship, wanting to challenge the conviction, the State signalling opposition, a previous denial, and firearm rights. The guide also states the boundary of the product itself in 'What this packet is not': not legal advice, not filed for you, does not decide eligibility under 15 M.R.S. section 2261(6), not expungement ('Maine does not have expungement'), not a proposed order, and not a motion for a non-conviction record. It refuses to sign, refuses the eligibility characterisation, and hands the section 2264(7) post-grant reporting duty back to the participant in terms."
+        }
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "remeasuredForThisReturn": "incompleteRows re-derived from the repeating-group enumeration above; it stays 0. The other eight are carried forward from the predecessor row unchanged."
+      },
+      "counterEvidence": {
+        "unclassifiedBlanks": "The source carries 15 AcroForm fields, counted here from the reproduced derivative, and every one is accounted for: 6 written, 3 REQUIRED_BEFORE_FILING (Location Town, the crime name in paragraph 1, the conviction date in paragraph 1), 3 PARTICIPANT_ELECTION_GENUINE (the three court-for-filing boxes), 2 PROTECTED_FIELD (the unnamed signature widget and its date), 1 NOT_APPLICABLE_ON_THIS_ROUTE (Defendants Attorney and Maine Bar No). 6 + 3 + 3 + 2 + 1 = 15.",
+        "invisibleWrites": "0, measured on the delivered bytes. All six writes were located as show-text operators with a 0 g fill inside their own widget appearance, with their hex operands decoded, and all six were then read back independently by pdftotext at their printed captions in both fixtures. No write is declared that cannot be seen, and no glyph appears that is not declared.",
+        "protectedWrites": "0. The signature widget, the signature date and the optional attorney line carry empty appearances in both fixtures; CR-218 has no certificate-of-service block and no court-only block to protect.",
+        "visualDefects": "0, on two channels. The admitted raster receipt reports problems [], environmentProblems [], calibrationResidualPx 0, croppedToThePage true and nonblank true for both pages, over exactly these two hashes, with the page geometry measuring 612 x 792 pt as the source does. Independently from the bytes: no synthesized widget border was stamped anywhere - the three checkbox widgets carry /MK with only /CA and no /BC or /BG, and the flattened output for each is an EMPTY stream, so nothing was drawn that the official unticked form does not draw. That is the opposite of the Illinois FlatWidget-border shape and it was checked for. And because the delivered page content is the source's own content stream verbatim plus fifteen placements, no page ink was altered, moved or lost.",
+        "requiredFactsNotCollected": "0. All 3 field-level required-before-filing blanks and all 11 record-level requiredBeforeFiling strings are disclosed in the packet's own instructions, verified by exact string containment against the file rather than by the builder's assertion."
+      },
+      "observationsFromTheBytes": [
+        {
+          "what": "Two cross-references in participant-instructions.md point at a section on CR-218 paragraph 3 that the delivered document does not contain, and the both-readings explanation the builder's own contract commits to is not in the delivered guide.",
+          "measured": "participant-instructions.md carries fifteen headings and none of them is a paragraph 3 section. Line 118 reads 'Paragraph 3 is the one to slow down on - see the section below.' Line 138 reads 'CR-218 paragraph 3 and 15 M.R.S. section 2262(3) do not agree, and the committed record says the answer is outcome-determinative. See the section on paragraph 3.' There is no such section. The builder's own header at scripts/build-census-v1-me-seal-gen-set.mjs lines 66 to 87 states the intended treatment - 'the packet sets out both readings in plain terms' - and the delivered guide never states what paragraph 3 asserts ('Defendant has no other adult criminal convictions in Maine and has not had a case dismissed as the result of a deferred disposition since completing their sentence for this offense'), never states what section 2262(3) bars, and never states the defect itself: that the trailing time limit governs the deferred-disposition clause but not the convictions clause, so a participant with an old prior predating the completion date is not disqualified by the statute but reads as disqualified on the form.",
+          "consequence": "The participant is not misdirected into filing blind - the disagreement is named twice, called outcome-determinative, and carried into the stop list as 'you have an older Maine prior that predates the completion date' - so SELF_HELP_STOP and REQUIRED_BEFORE_FILING both hold on their terms and this is not scored against any of the fifteen. It is still a defect in a delivered participant document: a reader following either pointer finds nothing, on the item the packet itself calls outcome-determinative.",
+          "isADefect": true,
+          "obligationItFails": null,
+          "repair": "In scripts/build-census-v1-me-seal-gen-set.mjs, either add the paragraph 3 section the two pointers promise - quoting CR-218 paragraph 3 as the form prints it, quoting what 15 M.R.S. section 2262(3) actually bars, and stating the mismatch the track registry records - or remove both pointers. The section is the better repair, because the builder's header already says setting out both readings is the treatment and the registry already carries the material."
+        },
+        {
+          "what": "A builder-hardcoded sentence in participant-instructions.md states a component count and names a component that neither committed record declares, and attributes its reasoning to a registry that does not carry it.",
+          "measured": "Line 108 of the delivered guide reads: 'The three `process_guidance` components are carried in this document rather than as separate PDFs. The committed track registry records why: the record-gathering step is preparation before filing and the follow-through step is ordinary post-filing handoff, so neither is a legally distinct unit. The good-character affidavit request is guidance for the same reason...'. Measured against the records the packet binds to: the committed packet-set manifest for me-seal-gen-set declares TWO components, one official_pdf_fill (CR-218) and ONE process_guidance (me-seal-gen-instructions-2); the committed track registry declares the same two and contains the string 'process_guidance' exactly once. Searched across the whole track registry entry: 'legally distinct' 0 hits, 'record-gathering' 0 hits, 'follow-through' 0 hits, 'good character' 0 hits, 'good-character' 0 hits. The registry's only postGenerationHandoffs entry is about the mandatory hearing. The packet's own component table, printed two lines above the sentence, shows exactly the two declared components. The sentence is hard-coded at scripts/build-census-v1-me-seal-gen-set.mjs lines 1899 to 1902 and is not read from any record.",
+          "consequence": "No declared component is missing and no filing step is misstated, so COMPONENT_SET holds. But this is a false statement of fact in a participant-facing document whose own stated method is that nothing in it is the packet's restatement of the record, and it names a good-character affidavit request that appears nowhere in this packet, in neither committed record, and nowhere in chapter 310-A. It reads as text carried over from another jurisdiction's builder.",
+          "isADefect": true,
+          "obligationItFails": null,
+          "repair": "In scripts/build-census-v1-me-seal-gen-set.mjs lines 1899 to 1902, replace the hard-coded sentence with one derived from the manifest's own components array, or delete it. If the sentence stays in any form it must not claim a count the manifest does not carry, must not name a good-character affidavit request, and must not attribute the reasoning to the committed track registry unless the registry carries it."
+        }
+      ],
+      "whyTheseAreNotAFail": "Neither observation maps to any of the fifteen proof obligations as those obligations are worded, and the row does not invent one to carry them. Both are recorded here in full, with the file, the line, the exact text and the record that refutes it, so a documentation repair can be dispatched from this row without a re-read.",
+      "evidenceRead": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/me/me-seal-gen-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "10e5a82b626d98851b525f380000e9435aa49c303f7f334d771f002dd89ade78"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/me/me-seal-gen-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "43593b8922759124491186b0a8460ff1b21633ed85eccba1fa11a7c88c0730cc"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/me/me-seal-gen-set--official-pdf-fill/production-field-map.json",
+          "sha256": "764f0d9e3fae4d604d02d0644186637af0ece0eddb6324575f8298b973f98c92"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/me/me-seal-gen-set--official-pdf-fill/participant-instructions.md",
+          "sha256": "ad1d532e5dcff3e011ebbeb6d82546d86622b68dc0ae798614ef47d4283456f9"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/me/me-seal-gen-set--official-pdf-fill/source-receipt.json",
+          "sha256": "78b080316d4c1bba2f5808f2d06630111effb56b89df7bc1a2c1e406ce3f69f8"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/me/me-seal-gen-set--official-pdf-fill/build-status.json",
+          "sha256": "e86ff06613260130a4f8fb2df697a480be679d66e7c77f4594f141dc4df3a62a"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/me/me-seal-gen-set--official-pdf-fill/reports/actual-writes.json",
+          "sha256": "5c503e91d56d173317931714b202408a8ba0627de48e5be85655616eff2df0cb"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/me/me-seal-gen-set--official-pdf-fill/reports/blanks-left-for-the-participant.json",
+          "sha256": "5f83fbf763eb4607e110d42ce665eaa3650a6a228c4e792b9d07d57f52eac78e"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/me/me-seal-gen-set--official-pdf-fill/reports/completeness-counters.json",
+          "sha256": "bb839128244217547b4c4a60a909d00d3ec12bfa759163d39ac08896397be2fa"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/me/me-seal-gen-set--official-pdf-fill/reports/rendered-artifacts.json",
+          "sha256": "9cd49dfe39963e699caa99fc9d3243bab432617cb2962884ccae73d99cee4cd3"
+        },
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/me-seal-gen-set/me-seal-gen-set.verdict.json",
+          "sha256": "adc9eaf79353aba6bcd1adbf60245b85c58cbd0f6a59f29494995b1443e3f4ed"
+        },
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/me-seal-gen-set/admission-proof.json",
+          "sha256": "d7603375c51b845e1852c0ad0b7573f413c108ad6bb9a1f4a1a3668aa3be5eac"
+        },
+        {
+          "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+          "sha256": "80b5e071055469b6f1aa84e80accd9e8bcc15e00ed3b7b778ba48a0ff85d8bd7"
+        },
+        {
+          "path": "data/record-clearing/legal-design-track-registry.json",
+          "sha256": "555e5700c049608b0766cc7f5f65adfa748bbd32fae790d2220652bf08b958dc"
+        },
+        {
+          "path": "scripts/build-census-v1-me-seal-gen-set.mjs",
+          "readFor": "the builder's stated paragraph 3 treatment (lines 66-87) and the hard-coded component sentence (lines 1899-1902); read only, never edited"
+        },
+        {
+          "path": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Maine/MJB-Form-cr-218.pdf",
+          "sha256": "82a9e8084346aa736cf25dc6c663d511e96e7205900b97a7dc2adc4ceec905d4",
+          "note": "the pinned official source, git-ignored and never committed by this lane; the decrypted transport derivative was reproduced in a scratch directory and deleted"
+        }
+      ],
+      "focusedCheckRun": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family me-seal-gen-set -> PASS_COMPLETE, 6/15 written, all nine counters 0. Read as a cross-check only; every counter above was re-derived from the bytes.",
+      "whatThisDoesNotDo": "An independent PASS proves this packet is complete. It approves no output, promotes no route, and opens no commercial route. It expressly does not clear the counsel release blocker this track carries on notice to the prosecutorial office.",
+      "supersedesPriorReturn": {
+        "supersedes": "data/rcap-grade-a/packet-factory-24h/vf06/rows-vf06-20260909c.json",
+        "supersedesOn": "the REPEATING_ROWS measurement alone",
+        "why": "The predecessor row scored REPEATING_ROWS as NOT_MEASURABLE_HERE while awarding PASS_COMPLETE_INDEPENDENT. The extractor refused that, correctly: the strongest verdict may not be awarded over a subset of the obligations, and a form with no repeating group has a measurable answer - PASS, on the enumeration that establishes the absence - rather than an absent one. REPEATING_ROWS is re-measured here on the delivered bytes. The other fourteen obligation results and all nine counters are carried forward unchanged; re-reading the delivered bytes for this measurement confirmed them and changed none.",
+        "carriedForwardUnchanged": [
+          "ROUTE_IDENTITY",
+          "SOURCE_IDENTITY",
+          "COMPONENT_SET",
+          "KNOWN_PREFILLS",
+          "REQUIRED_BEFORE_FILING",
+          "ROUTE_OPTIONS",
+          "PROTECTED_FIELDS",
+          "ARTIFACTS",
+          "PAGE_ORDER",
+          "CLIPPING_AND_OVERLAP",
+          "FILING_DESTINATION",
+          "FEE_AND_WAIVER",
+          "SERVICE",
+          "SELF_HELP_STOP"
+        ],
+        "remeasuredHere": [
+          "REPEATING_ROWS"
+        ]
+      },
+      "findingsCarriedForwardFromThePredecessorRow": {
+        "whyThisKeyExists": "This return supersedes its predecessor on the REPEATING_ROWS measurement alone. These three findings were substantiated in that read and are carried here in full so a superseding row cannot be read as a quiet withdrawal of them. Each is set out with its evidence below - the first two under observationsFromTheBytes, the third inside the SERVICE obligation and in whatThisDoesNotDo.",
+        "findings": [
+          "participant-instructions.md cross-references a section on CR-218 paragraph 3 that the document does not contain - line 118 'see the section below' and line 138 'See the section on paragraph 3'. The guide never states what paragraph 3 asserts, what 15 M.R.S. section 2262(3) bars, or the mismatch between them, though the builder's own header at scripts/build-census-v1-me-seal-gen-set.mjs lines 66-87 says setting out both readings is the treatment. A delivered-document defect; it fails none of the fifteen obligations, because the disagreement is named twice and carried into the stop list.",
+          "participant-instructions.md line 108 claims 'The three process_guidance components are carried in this document' and names a good-character affidavit request, attributing the reasoning to the committed track registry. The committed packet-set manifest declares ONE process_guidance component for me-seal-gen-set; the track registry contains the string process_guidance exactly once and has zero hits for 'legally distinct', 'record-gathering', 'follow-through', 'good character' or 'good-character'. The sentence is hard-coded at scripts/build-census-v1-me-seal-gen-set.mjs lines 1899-1902 and is not read from any record. A delivered-document defect; it fails none of the fifteen obligations, because no declared component is absent.",
+          "This track carries a LIVE COUNSEL RELEASE BLOCKER on service: 'Does 15 M.R.S. section 2264(3) place notice on the court alone, or must the movant also serve the prosecutorial office? If the latter, a certificate of service must be added to every chapter 310-A packet.' It is recorded in the committed track registry with impact release_blocker, buildBlockers is empty, and MASTER_QUEUE records legalInputStatus SETTLED. NO COMPLETENESS PASS CLEARS IT, and this one does not."
+        ],
+        "repairsRecommended": [
+          "scripts/build-census-v1-me-seal-gen-set.mjs: add the paragraph 3 section the two pointers promise - quoting CR-218 paragraph 3 as the form prints it, quoting what section 2262(3) bars, and stating the mismatch the track registry records - or remove both pointers. The section is the better repair; the registry already carries the material.",
+          "scripts/build-census-v1-me-seal-gen-set.mjs lines 1899-1902: derive the component sentence from the packet set's own manifest components array, or delete it. The nc_145_5_misdemeanor-set guide shows what the derived text looks like when it is right - six components, three of them process_guidance - which is where this text was carried over from."
+        ]
+      }
+    }
+  ]
+}

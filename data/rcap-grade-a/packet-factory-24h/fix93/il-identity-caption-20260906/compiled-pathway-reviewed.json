@@ -1,0 +1,84 @@
+{
+  "id": "criminal-identity-theft-mistaken-identity-relief",
+  "label": "Criminal identity-theft / mistaken-identity relief",
+  "summary": "If someone was arrested or convicted under the name of a person whose identity was stolen or used without authorization, the aggrieved person may petition the chief judge of the circuit where the arrest occurred to correct the arrest/conviction and official records by removing their name and substituting the offender\u0019s name if known. (\"https://www.ilga.gov/documents/legislation/ilcs/documents/002026300K5.2.htm\") route to the criminal-identity-theft correction process, not ordinary expungement/sealing first. Criminal identity theft / mistaken identity If someone was arrested or convicted under the name of a person whose identity was stolen or…",
+  "sourceRef": "section:169-177; corpus-unit:56",
+  "sourceEvidenceRefs": [
+    "section:169-177",
+    "corpus-unit:56"
+  ],
+  "ruleClauses": [
+    "If someone was arrested or convicted under the name of a person whose identity was stolen or used without authorization, the aggrieved person may petition the chief judge of the circuit where the arrest occurred to correct the arrest/conviction and official records by removing their name and substituting the offender\u0019s name if known. (\"https://www.ilga.gov/documents/legislation/ilcs/documents/002026300K5.2.htm\")",
+    "route to the criminal-identity-theft correction process, not ordinary expungement/sealing first.",
+    "Criminal identity theft / mistaken identity If someone was arrested or convicted under the name of a person whose identity was stolen or used without authorization, the aggrieved person may petition the chief judge of the circuit where the arrest occurred to correct the arrest/conviction and official records by removing their name and substituting the offender\u0019s name if known. (\"https://www.ilga.gov/documents/legislation/ilcs/documents/002026300K5.2.htm\") Wilma rule: If the user says that was not me, someone used my name, or identity theft, route to the criminal-identity-theft correction process, not ordinary expungement/sealing first."
+  ],
+  "triggerFields": [
+    "case_outcome",
+    "offense_category",
+    "identity_error"
+  ],
+  "caseOutcomes": [
+    "convicted_other"
+  ],
+  "automatic": false,
+  "filingRequired": true,
+  "routeType": "court_filing",
+  "suggestedResultCode": "packet_ready_with_caution",
+  "waitingRules": [
+    "no elapsed waiting period; the verified petition may be filed upon learning of the record"
+  ],
+  "exclusionRules": [
+    "These are statutory categories, not labels. Map the user's actual charge to its Criminal Code",
+    "If a matter is on this list and ended in a conviction, neither expungement nor sealing is generally available. • DUI and aggravated DUI (even when the disposition was supervision rather than conviction). • Reckless driving — unless the petitioner was under 25 at the time of the offense and has no other DUI/reckless-driving convictions (the youthful-offender exception). • Domestic battery and aggravated domestic battery; felony domestic battery is also excluded. • Violation of an order of protection. • Sex offenses under Article 11 of the Criminal Code (with a narrow exception historically made for prostitution), and any offense requiring sex-offender registration. • Any sexual offense committed against a minor. • Crimes of violence as defined under the Crime Victims Compensation Act and most serious violent felonies (e.g., homicide, Class X felonies). • Class A misdemeanors and above under the Humane Care for Animals Act (animal cruelty). • Other misdemeanor offenses listed under Article 11 of the Criminal Code."
+  ],
+  "frontendBranch": {
+    "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+    "missingFactsResult": "needs_more_info",
+    "unmetTimingResult": "not_yet",
+    "exclusionOrAmbiguityResult": "likely_not_eligible",
+    "matchedResult": "packet_ready_with_caution",
+    "paymentAllowed": true
+  },
+  "lawrenceRatification": {
+    "status": "ratified_deployable",
+    "packet_capable": true,
+    "payment_allowed_when_engine_confirms": true,
+    "legal_basis": "20 ILCS 2630/5.2 identity-theft/mistaken-identity relief",
+    "lawrence_review": "ratified_deployable",
+    "projectedFrom": "route-ratification-registry"
+  },
+  "legalAuthority": {
+    "decisionId": "LD-IL-04",
+    "ruleId": "IL-MISTAKEN-IDENTITY-AND-PROSTITUTION-TWO-ROUTE-MAP",
+    "mechanism": "Mistaken-identity correction and sealing",
+    "statute": "20 ILCS 2630/5.2, mistaken-identity provisions",
+    "stage": "single_stage",
+    "outcomeMode": "participant_packet",
+    "paymentAuthority": "packet_checkout",
+    "timing": {
+      "kind": "event_trigger",
+      "anchorText": "no elapsed waiting period; the verified petition may be filed upon learning of the record"
+    },
+    "requiredFacts": [
+      "Identity theft report and mismatched identifiers?",
+      "Arrest circuit?",
+      "Exact prostitution statute/class?",
+      "Sentence completion?",
+      "Trafficking/victimization facts?",
+      "Automatic-seal status?"
+    ],
+    "screeningFactIds": [
+      "case_outcome"
+    ],
+    "exclusions": [
+      "Verified stolen/mistaken identity or qualifying Class 4 prostitution record under the specific statutory relief provisions"
+    ],
+    "packetFamily": "Illinois Verified Mistaken-Identity Petition under 20 ILCS 2630/5.2",
+    "packetComponents": [
+      "Verified petition",
+      "Identity-theft report",
+      "Mismatched identifier evidence"
+    ],
+    "notes": "A nunc pro tunc correction, removal and sealing mechanism, not an ordinary conviction-expungement clock. Do not route it through the ordinary expungement eligibility engine."
+  }
+}

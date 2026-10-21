@@ -1,0 +1,264 @@
+{
+  "schemaVersion": "rcap-grade-a-packet-factory-24h/lane-return/v1",
+  "lane": "FIX116",
+  "laneKind": "repair",
+  "wave": "OWNER-WITHHOLDING-LIFT-UT-MA-20260909",
+  "worker": "FIX116 repair lane, this shift. Author of these changes; not an independent reviewer of them.",
+  "branch": "fix-ut-ma-withholding-lift",
+  "worktree": "/home/user/utma-worktree",
+  "base": "a9489808722625dc5ed9041c10624729704a667c",
+  "fileCreatedBy": "this lane; no earlier FIX116 rows.json existed at this path, so nothing was overwritten.",
+  "priorFix116History": "The lane's earlier work on this family is preserved where it already lives: the claim ledger records the FIX116 grant, its 2026-09-07 release with releaseReason naming recovery commit ea96a068f, and its 2026-09-09 reissue for this withholding lift. No earlier lane return was moved, edited or replaced.",
+  "routesOpened": 0,
+  "productionTouched": "NO",
+  "rows": [
+    {
+      "itemId": "ma-bmc-multi-set",
+      "familyId": "ma-bmc-multi-set",
+      "lane": "FIX116",
+      "laneKind": "repair",
+      "status": "PARTIAL",
+      "repairedByThisLane": true,
+      "independentVerification": false,
+      "branch": "fix-ut-ma-withholding-lift",
+      "repairedAtBase": "a94898087",
+      "builtAtBase": "a9489808722625dc5ed9041c10624729704a667c",
+      "claim": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX116 ma-bmc-multi-set -> CLAIM_OK FIX116 ma-bmc-multi-set (repair, grant set 85edc2180e2692bc), exit 0. Asserted inside /home/user/utma-worktree before any family artifact was read or built. The grant is NOT released here and the claim ledger is NOT committed.",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ma/ma-bmc-multi-set--custom-pleading",
+      "buildEnvironmentPreflight": {
+        "command": "MASTER_LIBRARY_SOURCE_DIR=/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1 node scripts/verify-packet-build-environment.mjs --family ut_pet_limitations-set",
+        "runOnceAsDispatched": "The dispatch directed one preflight run, scoped to ut_pet_limitations-set; it was run once and its result is recorded verbatim on the FIX83 row. It is recorded here too because it is the environment this family was also built in.",
+        "resultVerbatim": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 11/13 passed, 2 failed, 4 not applicable",
+        "exitCode": 1,
+        "theTwoFailures": [
+          "private_is_git_ignored: 'private/ is NOT git-ignored'. In this checkout private/ is a symlink to the read-only source tree and .gitignore carries the directory form 'private/', which does not match a symlink. git status is clean and nothing under private/ is tracked or committed by this lane.",
+          "corpus_matches_committed_index: '1 absent, 0 mismatched of 24 sampled'. This family binds no binary source at all, so no corpus file is in its path."
+        ]
+      },
+      "ownerDecisionAddressed": {
+        "record": "data/rcap-grade-a/legal-decisions/OWNER_CORRECTIONS_REQUIRED.json",
+        "decision": "OWN-ADOPT-2026-09-02-BATCH-53, Roger Roman, 2026-09-02",
+        "executionReclassification": {
+          "ownerDecision": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT is not external source-acquisition work. Do not research or reacquire this family.",
+          "namedAction": "Use the existing codified-text custom-pleading treatment and proceed through current raster and independent-verification gates."
+        },
+        "correctionEntry": {
+          "fromQuestion": "Q3-official-form-supersedes-composed-instrument",
+          "ownerDecision": "THE OFFICIAL FORM GOVERNS WHEN ONE IS MANDATORY. A composed instrument may be used only when no mandatory official form applies. If the official form is located, use it; retain the composed document only as a legally appropriate cover or support document, otherwise withdraw it. No commercial approval until form status is resolved.",
+          "correctionRequired": "Resolve whether a mandatory official form governs this filing. If one is located it governs and the composed instrument is retained only as a legally appropriate cover or support document, or withdrawn. No commercial approval until form status is resolved."
+        },
+        "howMuchOfItWasExecuted": "The executable half was executed and is described under whatChanged. The half that would require assigning the composed pleading as the controlling single petition was NOT executed, and the reason is under blockedLegalInput. No research and no source reacquisition was performed, as the owner directed: nothing outside the repository was fetched and no new source was bound.",
+        "entryRemovedFromWithholdingRecord": false
+      },
+      "precedentsFollowed": [
+        {
+          "family": "vt_seal_under_25-set",
+          "read": "data/rcap-all50/overlays/census-v1/vt/vt-seal-under-25-set--custom-pleading/source-receipt.json, its registry track at data/record-clearing/legal-design-track-registry.json trackId vt_seal_under_25, and commit 417f6d281",
+          "whatWasCopied": "Its compositionSources shape, exactly: an array of { path, sha256, byteLength } computed at build time over each committed record the zero-binary composition is grounded on. That is the treatment this family lacked and the one an independent read named as missing. It was copied field for field rather than invented.",
+          "whatDidNotCarryOver": "Its ROUTE_IDENTITY posture. Vermont's registry hardStop forbids REPLACING the composed 5119(g) application with candidate form 200-00130; it never forbids the composed application itself, so Vermont's composed instrument was free to be the controlling one. Massachusetts' registry hardStop additionally names the existing custom pleading and forbids assigning it. That single clause is the whole difference between the two families and it is why the Vermont path stops short here."
+        },
+        {
+          "family": "ga-jail-k2-set",
+          "read": "data/rcap-all50/overlays/census-v1/ga/ga-jail-k2-set--custom-pleading/source-receipt.json and its registry track ga-jail-k2",
+          "whatWasCopied": "The candour pattern for an unresolved local-form question: Georgia carries localFormOverride - a facility-specific form controls over the composed written request IF one is published - and the packet says so plainly instead of resolving it. The corrected Massachusetts instructions page keeps exactly that posture: it names the located statewide form, tells the participant to ask the venue division's clerk, and continues to say in terms that whether the BMC publishes a form for the consolidated procedure is an open question this packet does not decide.",
+          "whatDidNotCarryOver": "Georgia's registry carries no hard stop at all, only the conditional localFormOverride, so it was never blocked on this obligation. Massachusetts is."
+        }
+      ],
+      "copiesEnumeratedBefore": {
+        "valueOne": {
+          "what": "The owner's Q3 correction of 2026-09-02 named the located statewide per-case form TC0057 (2/24). Every place the packet describes the supplements-not-replaces posture was enumerated to find where that naming had and had not landed.",
+          "found": [
+            {
+              "where": "data/rcap-all50/overlays/census-v1/ma/ma-bmc-multi-set--custom-pleading/participant-instructions.md, lines 5, 18, 49 and 66",
+              "state": "ALREADY CORRECTED by 417f6d281 - names TC0057 (2/24) by number and title in four places."
+            },
+            {
+              "where": "scripts/build-census-v1-ma-bmc-multi-set.mjs line 265, the composed 'instructions' component - the page the participant holds INSIDE the packet, delivered as pages 3-4 of both fixtures",
+              "state": "NOT CORRECTED. It still said only 'the statewide per-case sealing form'. The owner's correction reached the guide beside the packet and never reached the page inside it, so the two documents said different things about the same form. This is the copy this lane corrected."
+            },
+            {
+              "where": "source-receipt.json formIdentityNote, build-findings.json and approval-request.json",
+              "state": "ALREADY CORRECTED - each names TC0057 and its SHA-256."
+            },
+            {
+              "where": "data/rcap-all50/pleadings/massachusetts/ma-bmc-multi/handoff.md and its sibling participant-instructions.md",
+              "state": "NOT CORRECTED and DELIBERATELY LEFT.",
+              "legitimatelyDiffers": true,
+              "why": "This is a preserved Lane C2 legacy artifact from the retired shared-renderer path, last touched by provenance-refresh commits (896cf3525, 8c9e83b89, f20971ddc). It is outside this family's ownedPaths in MASTER_QUEUE (which are the census-v1 directory and scripts/build-census-v1-ma-bmc-multi-set.mjs), no live script or factory record references the path, and it is not produced by this family's build. Under the legacy-generator decision its assets and history are preserved rather than rewritten, and its own participant-instructions.md never carries the sentence at issue. Editing it would be rewriting retired history to look like current work."
+            }
+          ]
+        },
+        "valueTwo": {
+          "what": "The two committed records this zero-binary composition is grounded on, and whether anything anywhere bound them by digest.",
+          "found": [
+            {
+              "where": "source-receipt.json codifiedGrounds",
+              "state": "Carried 'record' and 'what' only. No sha256, no byteLength, nothing recomputable."
+            },
+            {
+              "where": "scripts/build-census-v1-ma-bmc-multi-set.mjs",
+              "state": "Computed SHA-256 over its own output packet bytes and its raster PNGs only, and never over MA.memo.json or legal-design-packet-set-manifests.json. The only record digest it printed anywhere was TC0057's, in prose."
+            },
+            {
+              "where": "MASTER_QUEUE row",
+              "state": "boundCount 0, sourceHashes [], custodyClass SOURCE_IDENTITY_UNRESOLVED - consistent with the receipt and equally unrecomputable."
+            }
+          ]
+        }
+      },
+      "copiesCorrected": [
+        "scripts/build-census-v1-ma-bmc-multi-set.mjs line 265, the composed instructions component: the SUPPLEMENTS, NOT REPLACES paragraph now names Trial Court form TC0057 (2/24), Petition to Seal Criminal Records for Nolle Prosequi or Dismissal, records that it prints 'Use a separate form for each case' on its own face, says it is not included in this packet, and tells the participant to ask the venue division's clerk whether that division wants it filed alongside and how many. This is the same sentence participant-instructions.md already carried.",
+        "The delivered bytes that render from it: fixtures/canonical.pdf and fixtures/boundary.pdf, pages 3 and 4 of each.",
+        "source-receipt.json codifiedGrounds and the new compositionSources block: both grounding records now bind by exact SHA-256 and byteLength, computed from disk on every build.",
+        "reports/rendered-artifacts.json: the two artifact digests follow the moved bytes."
+      ],
+      "copiesSurvivingAfter": {
+        "uncorrectedCopiesOfTheChangedSentenceInsideTheFamilyOrItsBuilder": 0,
+        "evidence": "After the change, grep -rln 'supplements rather than replaces the statewide per-case sealing form. Ask the clerk' across the repository excluding .git and node_modules returns nothing - zero survivors of the exact string that was replaced. A wider grep for 'statewide per-case' returns only: the corrected builder lines and their explanatory comments; the builder's own assertion at line 453 that the PETITION page still contains 'SUPPLEMENTS the statewide per-case form', which is a deliberately unchanged sentence on the filed instrument and which the build re-asserts and passes; the already-correct participant-instructions.md, source-receipt.json, build-findings.json and approval-request.json; one historical verifier note in data/rcap-grade-a/fable-packet-factory/returns/vt12.json which is a dated record of a past read; and the preserved legacy Lane C2 handoff.md explained above.",
+        "recordsDeliberatelyNotRewritten": "No independent-verification row, no verifier return, no owner record and no legacy preserved artifact was edited by this lane."
+      },
+      "whatChanged": {
+        "byFile": [
+          {
+            "file": "scripts/build-census-v1-ma-bmc-multi-set.mjs",
+            "change": "Three edits. (1) A new digestOf() helper and a compositionSources return from resolveCodifiedGrounds(), which already read and fail-closed on both records. (2) codifiedGrounds entries gain sha256 and byteLength, a compositionSources array in the vt_seal_under_25-set shape is emitted, and bindingMethod now says the records are bound by exact digest so a reader can recompute them. (3) The composed instructions component's SUPPLEMENTS, NOT REPLACES paragraph names TC0057 as described above. Each edit carries a comment saying what it is and what it deliberately does not decide.",
+            "whatWasNotChanged": "The petition component itself - pages 1-2 - is untouched. No remedy, eligibility, threshold, venue, filing destination, service, notice, fee, component set or route key moved. No official form was invented, substituted or added as a component. No counsel approval is asserted."
+          },
+          {
+            "file": "data/rcap-all50/overlays/census-v1/ma/ma-bmc-multi-set--custom-pleading/source-receipt.json",
+            "change": "codifiedGrounds now carries MA.memo.json sha256 fde00193af73df0b431300a17beb869827a4dd1f02034d45fc18af4e4ad3cdb6 (110088 bytes) and legal-design-packet-set-manifests.json sha256 80b5e071055469b6f1aa84e80accd9e8bcc15e00ed3b7b778ba48a0ff85d8bd7 (3694688 bytes); a compositionSources array repeats them in the sibling's shape; compositionSourceBindingNote states plainly that this binds the records the packet was composed FROM and decides nothing about which petition controls the filing. Both digests were independently recomputed with sha256sum and stat and match."
+          },
+          {
+            "file": "data/rcap-all50/overlays/census-v1/ma/ma-bmc-multi-set--custom-pleading/fixtures/canonical.pdf",
+            "change": "85eb39af900381812d5a9f0a3da1da4d4d7f798af0d02b88ce591752c593173b (11503 bytes) -> 298318f7e8354d0fb00c018eaeed19421d99b35a468480e4ffaa671a18bacde8 (11833 bytes). 4 pages before and after."
+          },
+          {
+            "file": "data/rcap-all50/overlays/census-v1/ma/ma-bmc-multi-set--custom-pleading/fixtures/boundary.pdf",
+            "change": "f6a05670d6797f873c9a86584c2523b861076e9f87a15ccb901e5a2dc088a406 (11743 bytes) -> bac9000aaf807fede67c20439dd1e42627af915077c9148e7d94781dda60a93d (12070 bytes). 4 pages before and after."
+          },
+          {
+            "file": "data/rcap-all50/overlays/census-v1/ma/ma-bmc-multi-set--custom-pleading/reports/rendered-artifacts.json",
+            "change": "The two artifact sha256/byteLength pairs follow the moved fixtures. Nothing else in the file moved."
+          }
+        ],
+        "byPage": [
+          {
+            "page": "canonical 1 and 2, boundary 1 and 2 - the consolidated petition itself",
+            "change": "None. Ink-identical, proven below."
+          },
+          {
+            "page": "canonical 3 and boundary 3 - the instructions component, first page",
+            "change": "The SUPPLEMENTS, NOT REPLACES paragraph grew from three lines to eight, naming TC0057, quoting the 'Use a separate form for each case' line the form prints on its own face, stating the form is not enclosed, and adding 'Ask before you file; do not assume this petition alone is the whole filing.' Everything after it on the page reflowed down. The closing clause - whether the BMC publishes a form for the consolidated procedure is an open question this packet does not decide - is unchanged and deliberately kept."
+          },
+          {
+            "page": "canonical 4 and boundary 4 - the instructions component, second page",
+            "change": "No authored text changed. The page received the NOTICE AND HEARINGS tail pushed over from page 3 by the reflow, on top of the FEES paragraph, the stop conditions and the route line it already carried."
+          }
+        ]
+      },
+      "pagesThatMoved": [
+        "canonical.pdf page 3",
+        "canonical.pdf page 4",
+        "boundary.pdf page 3",
+        "boundary.pdf page 4"
+      ],
+      "pagesProvenNotToHaveMoved": [
+        "canonical.pdf pages 1-2",
+        "boundary.pdf pages 1-2"
+      ],
+      "inkDelta": {
+        "method": "Both the pre-repair committed bytes (recovered with git show HEAD:<path>, digests confirmed 85eb39af... and f6a05670...) and the post-repair bytes were rendered with poppler pdftoppm -r 300 -gray, and each page pair was differenced at the pixel level with a threshold of 128: added = dark after and not before, removed = dark before and not after.",
+        "perPage": [
+          { "fixture": "canonical", "page": 1, "inkPixelsBefore": 331154, "inkPixelsAfter": 331154, "added": 0, "removed": 0, "identical": true },
+          { "fixture": "canonical", "page": 2, "inkPixelsBefore": 154311, "inkPixelsAfter": 154311, "added": 0, "removed": 0, "identical": true },
+          { "fixture": "canonical", "page": 3, "inkPixelsBefore": 420626, "inkPixelsAfter": 430932, "added": 170587, "removed": 160281, "identical": false },
+          { "fixture": "canonical", "page": 4, "inkPixelsBefore": 76464, "inkPixelsAfter": 110617, "added": 90765, "removed": 56612, "identical": false },
+          { "fixture": "boundary", "page": 1, "inkPixelsBefore": 325865, "inkPixelsAfter": 325865, "added": 0, "removed": 0, "identical": true },
+          { "fixture": "boundary", "page": 2, "inkPixelsBefore": 188412, "inkPixelsAfter": 188412, "added": 0, "removed": 0, "identical": true },
+          { "fixture": "boundary", "page": 3, "inkPixelsBefore": 424388, "inkPixelsAfter": 434694, "added": 170587, "removed": 160281, "identical": false },
+          { "fixture": "boundary", "page": 4, "inkPixelsBefore": 76464, "inkPixelsAfter": 110617, "added": 90765, "removed": 56612, "identical": false }
+        ],
+        "howToReadTheLargeNumbers": "The added and removed counts on pages 3 and 4 are dominated by reflow, not by new assertions. One paragraph grew by roughly five lines and every line below it shifted, so almost every glyph on the page counts as both removed at its old position and added at its new one. The net ink change is the honest measure: +10306 pixels on page 3 and +34153 on page 4, and page 4's gain is text pushed over from page 3 rather than authored here.",
+        "visualInspection": "Every page whose bytes moved was rendered at 300 dpi and actually looked at, plus both petition identity pages the dispatch named. canonical 3, canonical 4 and boundary 3 were read in full; boundary 4 is pixel-identical to canonical 4 (both raster to the same SHA-256, 9c7506eedf69c6dda077b03e9cec91c2507df32f4e8baf5e3815097b93ee45cd) because that page carries no participant name. No clipping, no overlap, no orphaned or truncated line, no text outside the margin, page count unchanged at 4. The petition identity pages (canonical 1, the caption, the relief line 'CONSOLIDATED PETITION TO SEAL MULTIPLE CRIMINAL RECORDS UNDER G.L. c. 276, Sec. 100C AND BMC AMENDED STANDING ORDER No. 1-09', and the threshold banner) are unchanged and were read: the petition describes itself as supplementing the statewide per-case form and does NOT assert itself as the controlling single petition, so the delivered instrument is already consistent with the registry's hard stop.",
+        "rasterMethod": "poppler pdftoppm at 300 dpi under /tmp/utma-work (directories this lane created), deleted after measuring. No PNG under any committed path was written, moved or deleted by this lane."
+      },
+      "canonicalSha256": "298318f7e8354d0fb00c018eaeed19421d99b35a468480e4ffaa671a18bacde8",
+      "boundarySha256": "bac9000aaf807fede67c20439dd1e42627af915077c9148e7d94781dda60a93d",
+      "priorCanonicalSha256": "85eb39af900381812d5a9f0a3da1da4d4d7f798af0d02b88ce591752c593173b",
+      "priorBoundarySha256": "f6a05670d6797f873c9a86584c2523b861076e9f87a15ccb901e5a2dc088a406",
+      "pageCounts": { "canonical": 4, "boundary": 4, "beforeRepair": { "canonical": 4, "boundary": 4 } },
+      "determinism": "The build was run repeatedly and the outputs are byte-stable: three consecutive runs produced identical fixture digests, an identical source-receipt.json digest (59a67327335783ac49e33ae6fa54b3c7053efb8bdbc26e80d04e096b951edded before the instructions edit) and, where the local rasterizer was allowed to run, identical raster PNG digests.",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "measuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ma-bmc-multi-set -> PASS_COMPLETE, 6/14 written, exit 0. Measured on the committed baseline, again after the digest binding, and again after the instructions correction, with identical output each time. Reported as measured; nothing was tuned to reach it.",
+        "whyNineZerosIsNotAPass": "The counters read the field map. The obligation that blocks this family is not visible to any of the nine, and this row is not an independent verdict."
+      },
+      "blockedLegalInput": {
+        "obligations": ["ROUTE_IDENTITY", "COMPONENT_SET"],
+        "whatCouldNotBeDone": "The dispatch asked that the governing registry be made to say the codified-text custom pleading IS the controlling single petition. That was not done, and this lane declines to do it, because the record does not support it and writing it would manufacture the lift.",
+        "theRecordsThatBlockIt": [
+          "data/record-clearing/legal-design-track-registry.json, track ma-bmc-multi, formIdentityInvestigation.status STOPPED_AMBIGUOUS, reviewedOn 2026-09-04, hardStop quoted exactly: 'Do not assign TC0057, TC0059, or the existing custom pleading as the controlling single petition until the issuing court identifies the petition form referenced by the current Standing Order or confirms that no dedicated form is published.' It was installed by commit 0416c9ec11e31e4fed2be6a508d346f7a26117ee, 'legal-design: stop ambiguous BMC petition identity', authored by Roger Roman on 2026-09-04 - two days AFTER the batch adoption this lift is dispatched under. The same commit rewrote the family's releaseBlocker and unresolvedQuestion to read '... The controlling single-petition form remains ambiguous; do not assign either candidate or approve the custom pleading without issuer confirmation.'",
+          "Commit 0489cca02, 'Record batch-04 research for NC, VA, MA and PA through the legal-design records' (2026-09-06 owner-relayed research), which narrowed this track's consolidation scope, venue and notice rules and states in its own message: 'MA ma-bmc-multi: ... the form-identity release blocker stays.' That is the latest record and it kept the blocker deliberately.",
+          "The owner's own Q3 correction entry in OWNER_CORRECTIONS_REQUIRED.json, whose correctionRequired ends 'No commercial approval until form status is resolved.'"
+        ],
+        "whyTheOwnerReclassificationDoesNotAnswerIt": "The reclassification says 'CUSTOM_PLEADING_FROM_CODIFIED_TEXT is not external source-acquisition work. Do not research or reacquire this family.' That answers who should be doing what - it takes the family off the source-acquisition conveyor and puts it on the execution one - and this lane obeyed it: nothing was researched, nothing was fetched, no source was reacquired. It does not answer which instrument controls the filing. The decision owner addressed that question separately and later, twice, and both times he kept it open. A repair lane rewriting his 2026-09-04 sentence to its opposite would be inventing the counsel decision the owner withheld, not carrying one out.",
+        "whyThePrecedentsDoNotReachIt": "Both worked precedents pass this test rather than defeat it. Vermont's hardStop forbids replacing the composed instrument with a candidate form and never forbids the composed instrument itself. Georgia has no hardStop at all, only a conditional localFormOverride. Massachusetts is the only one of the three whose governing record names the composed pleading and refuses it. Copying the siblings faithfully means checking that clause, and here it holds.",
+        "exactMissingInput": "One of two things, and neither can be produced from held records. EITHER (a) issuer confirmation from the Boston Municipal Court Department - identifying the petition form referenced by Amended Standing Order 1-09 (effective 2024-05-10), which says a petition form is available on the BMC Mass.gov website, or confirming that no dedicated form is published - which is the exact condition the hard stop names and which is outside this repository; OR (b) a new dated legal-design decision from Roger Roman that expressly supersedes the 2026-09-04 hard stop and the 2026-09-06 'the form-identity release blocker stays' record, and says whether the composed consolidated petition may be assigned as the controlling single petition. Recording (b) is the decision owner's act, not a repair lane's.",
+        "whatWasNotDone": "The track registry was not edited by this lane. No hardStop was removed, softened, reworded or annotated; no releaseBlocker or unresolvedQuestion was touched; no formIdentityInvestigation status was changed."
+      },
+      "rasterOwed": {
+        "owed": true,
+        "whatIsOwed": "A FIRST central raster of both fixtures at their new digests, through .github/workflows/rcap-packet-raster-acceptance-batch.yml, dispatched centrally.",
+        "whyNoExistingReceiptBinds": "There is no receipt to bind. data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json carries no row for this family at all; it appears under notEligible with why ['an open legal input']. So nothing existed to be invalidated by the moved bytes, and nothing was invalidated.",
+        "aSecondReasonItIsOwedNow": "The bytes moved: canonical 85eb39af... -> 298318f7... and boundary f6a05670... -> bac9000a..., on pages 3 and 4 of each. Any future receipt must bind the new digests.",
+        "rasterAcceptanceClaimedByThisLane": false,
+        "localRasterDisclosure": "This container resolves a Chromium the committed build did not have, so an unflagged build additionally writes local page rasters and records rasterState RASTER_LOCAL_PENDING_CENTRAL - a state the queue's own vocabulary declares authorizes nothing, proves nothing, and is to be treated as RASTER_PENDING. Those local rasters were produced and found deterministic across runs, then removed, and the family was rebuilt with --no-raster so the committed record keeps the same rasterSkipped shape it had and makes no local-raster claim. No raster PNG is committed by this lane. The 300 dpi inspection above was taken separately under /tmp with poppler and deleted."
+      },
+      "sharedHostByteIdentityProof": {
+        "applicable": false,
+        "why": "This family has no shared build host. Its MASTER_QUEUE row records sharedBuildHost null and exclusiveScript true, and ownedPaths are exactly the family directory and scripts/build-census-v1-ma-bmc-multi-set.mjs. Nothing else imports that script (importedBy is empty).",
+        "confirmedByMeasurement": "git status after the final build lists exactly five modified paths, all inside this family's ownedPaths, and no untracked file. No other family's directory, no shared record, no census, no manifest, no registry, no claim and no deployment file was written."
+      },
+      "recordsReadButNotEdited": [
+        "data/rcap-grade-a/legal-decisions/OWNER_CORRECTIONS_REQUIRED.json",
+        "data/record-clearing/legal-design-track-registry.json",
+        "data/record-clearing/legal-design-intake/MA.memo.json",
+        "data/record-clearing/legal-design-packet-set-manifests.json",
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json (its laneReturnLegalHold is derived from the vf09 rows and clears on regeneration after an independent reread, not by a repair lane's hand)",
+        "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+        "data/rcap-grade-a/packet-factory-24h/vf09/rows.json and the other verifier returns"
+      ],
+      "whatThisDoesNotClaim": [
+        "It does not claim the owner withholding is lifted. Part of the named correction cannot be made from held records, and even the part that was made owes the independent reread the record's liftedHow requires from someone who is neither builder nor repairer.",
+        "It asserts no PASS, requests no promotion, and touches no independent-verification row.",
+        "It does not claim the composed consolidated petition is the controlling single petition, and it does not claim it is not. That question is left exactly where the decision owner left it.",
+        "It does not claim raster acceptance. No central raster exists for this family and this lane took none.",
+        "It does not claim counsel approval, and it does not claim the family is approved, approved_for_live, live or commercially deliverable.",
+        "It invents no official form. TC0057 is named because the held record already located and named it, and it is named as the separate per-case statewide form this packet does NOT include - not as a component, not as a substitute and not as the controlling instrument.",
+        "It does not remove, weaken or reword any entry in OWNER_CORRECTIONS_REQUIRED.json, which this lane did not edit, and it does not edit the track registry.",
+        "The digest binding proves which bytes of two committed records the packet was composed from. It proves nothing about whether those records are legally correct."
+      ],
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "grantsNothing": "A repair lane's return is engineering evidence about bytes and records. It opens no route, sets no price, creates no fulfillment record, extends no approval to these bytes, and does not make the family COMPLETE_PACKET_PROVEN. The owner withholding stands, the form-identity legal input stands, a first central raster is owed, and one independent reread is owed."
+    }
+  ],
+  "changedPaths": [
+    "data/rcap-all50/overlays/census-v1/ma/ma-bmc-multi-set--custom-pleading/fixtures/boundary.pdf",
+    "data/rcap-all50/overlays/census-v1/ma/ma-bmc-multi-set--custom-pleading/fixtures/canonical.pdf",
+    "data/rcap-all50/overlays/census-v1/ma/ma-bmc-multi-set--custom-pleading/reports/rendered-artifacts.json",
+    "data/rcap-all50/overlays/census-v1/ma/ma-bmc-multi-set--custom-pleading/source-receipt.json",
+    "scripts/build-census-v1-ma-bmc-multi-set.mjs"
+  ],
+  "grantsNothing": "This lane return is a record of repair work. It approves nothing, promotes nothing, opens no commercial route and lifts no hold."
+}

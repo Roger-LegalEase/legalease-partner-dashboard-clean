@@ -1,0 +1,305 @@
+{
+  "schemaVersion": "rcap-lane-rows/v1",
+  "lane": "FIX153",
+  "laneKind": "repair",
+  "isIndependentVerification": false,
+  "worktree": "/home/user/ln1-worktree",
+  "branch": "lane-fix153-20260910",
+  "repairedAtBase": "73b0aba8912387fadbafc276284ba65f03908222",
+  "respondingTo": "Three FAIL_REPAIR_REQUIRED rows in VERIFIER_RETURNS.json whose superseded is not true: VF03 on ia-12347-set (SELF_HELP_STOP, base 159c0b5cf), VF41 on ma-expunge-k-set (REQUIRED_BEFORE_FILING, base d36ec9fa2164bfb9f0d82c8f1b9d498cea4dd3d7), VF01 on ar-pardon-seal-set (COMPONENT_SET, REQUIRED_BEFORE_FILING, SELF_HELP_STOP, SERVICE, base d0d42c176db1a3b9ec3e04e1dc102a761fcaafcf).",
+  "grantSet": "9ee32b482de8545f. Three --assert calls in the three-token form, all CLAIM_OK exit 0, against the ledger in this worktree (988 claims, generatedAtCommit d93d3dcd46ed6f0c8218488b7195d0e2c7bb9423). Released at return.",
+  "twoOfThreeDispatchedFamiliesWereALREADYREPAIREDATTHISBASEANDTHISLANEREPAIREDNEITHER": {
+    "why this heading": "The dispatch described all three families as currently failing. Two of them are not. This is stated first because the rest of this return is worthless if a reader carries the dispatch's premise into it.",
+    "ia-12347-set": "VF03 verified at 159c0b5cf on 2026-09-09. FIX145 repaired SELF_HELP_STOP at 1b5ab0230 on 2026-09-10 12:36, which IS a descendant of VF03's base and IS an ancestor of this lane's base. The VF03 row is stale, not superseded-marked. This lane measured the repair rather than redoing it.",
+    "ar-pardon-seal-set": "VF01 verified at d0d42c176. FIX04 repaired all four obligations at d753dc242 on 2026-09-04, which IS a descendant of VF01's base and IS an ancestor of this lane's base. Same situation.",
+    "ma-expunge-k-set": "GENUINELY FAILING. VF41 verified at d36ec9fa2 (2026-09-10 11:54), which is AFTER FIX02's repair at f63d56734 (11:29). VF41's finding is about FIX02's repair, not about the state before it. This is the one family this lane repaired.",
+    "howThisWasEstablished": "git merge-base --is-ancestor in both directions between each verifier base and each repair commit, plus a verbatim re-measurement of every declared obligation string against the delivered markdown at this lane's base. Not from any commit message's claim.",
+    "whatTheCaptainShouldDoWithTheTwoStaleRows": "VERIFIER_RETURNS.json still carries the VF03 and VF01 rows with superseded absent/false. This lane did not edit that shared manifest. Both rows are answered by commits already in the tree and want superseding, by the Captain, against 1b5ab0230 and d753dc242."
+  },
+  "scopeHeldTo": "Guidance and the reports that certify guidance. No PDF byte was moved on any of the three families. Nothing was built, nothing was promoted, no route was opened.",
+  "builtAnything": false,
+  "packetsSelfVerified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "owesAFreshCentralRaster": false,
+  "theDeterminismControlRanFirstOnAllThree": {
+    "why": "All three guidance files are builder-generated. Editing the markdown alone is reverted by the next build, and editing the builder is only safe if the builder reproduces the committed tree.",
+    "ia-12347-set": "PASS. Unmodified builder run against a clean worktree, exit 0, reported canonical d8bf1526... boundary 33564a98..., and git status --porcelain returned EMPTY.",
+    "ma-expunge-k-set": "PASS. Unmodified builder, exit 0, canonical 084ed28b... boundary 6a6b0903..., porcelain EMPTY. This is what made the builder safe to edit as the repair mechanism.",
+    "ar-pardon-seal-set": "FAIL. See theArkansasDeterminismDefect below. This is the reason no builder-mediated repair was attempted on Arkansas."
+  },
+  "theArkansasDeterminismDefect": {
+    "finding": "The committed ar-pardon-seal-set builder does NOT reproduce the committed ar-pardon-seal-set tree in this container, and the difference MOVES DELIVERED PETITION PDF BYTES.",
+    "measured": "node scripts/build-census-v1-ar-pardon-seal-set.mjs, unmodified, on a clean worktree at 73b0aba89, exit 0, no error printed. It rewrote 12 committed files and left the petition fixtures at different digests: canonical 3b1576d92c2008ba2548522fd16e8025b3e4cbff1f0f40343577ab29477af9ea -> cc23d2edea3ade650dcc277c62ec5b195d2ac33fb692e833a4e95c603893da70 (222500 -> 222753 bytes), boundary 35c2c5cbf9922bed57f1e8da627bdb2b0f554dbcacf5f6de29b5390d565a36c4 -> 362b81a0375284d5ca3495b67258b9e5f7773833dd0cf018b28a167224e38d0f (222481 -> 222734 bytes). The two ORDER fixtures reproduced byte-identically.",
+    "cause": "The petition's blank census differs. The committed map offers 14 petition anchors (canonical wrote 2, refused 12); this container's run offers 19 (wrote 3, refused 16). The caption harvest reads different characters for the same coordinates -- '5.On th' -> '5.On the', 'Ra' -> 'Rac', 'Se' -> 'Sex', 'DO' -> 'FBI No', 'A Class' -> 'A Class _' -- at identical y/x. That is a text-extraction / font-metrics difference between this container and the one that wrote the fixtures at 657036a76, not a change in the record and not a change made by this lane.",
+    "corroboration": "VF01's own CLIPPING_AND_OVERLAP note records that its local rerender was clean only 'after correcting the local font-cache configuration'. The same environment sensitivity is what this control exposes.",
+    "whyItMatters": "It is not repairable inside a guidance grant, and it means the AR fixtures on disk cannot currently be regenerated from their own committed builder. A future lane that runs this builder to make ANY change -- including a one-word guidance change -- will silently move petition bytes and invalidate the admitted raster.",
+    "whatThisLaneDid": "Measured it, recorded it, and restored the working tree with git checkout -- <the family directory> plus rm -rf of the untracked raster/ the run created. All four AR fixture digests were re-hashed after restore and match the committed tree exactly. Nothing from that run was committed.",
+    "owedTo": "a lane with a byte grant on ar-pardon-seal-set and an environment-parity obligation, not to this one"
+  },
+  "rows": [
+    {
+      "itemId": "ma-expunge-k-set",
+      "familyId": "ma-expunge-k-set",
+      "jurisdiction": "MA",
+      "disposition": "FAIL_REPRODUCED_AND_REPAIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ma/ma-expunge-k-set--official-pdf-fill",
+      "respondingTo": "VF41 REQUIRED_BEFORE_FILING FAIL",
+      "bytes": {
+        "canonicalBefore": "084ed28b9eb12587b3b78dd8afe61c15883d3daa9b43f60607e2d8a4fde564ea",
+        "canonicalAfter": "084ed28b9eb12587b3b78dd8afe61c15883d3daa9b43f60607e2d8a4fde564ea",
+        "boundaryBefore": "6a6b0903e0255ccc05370dd14865465081a3ebb17a7f6dd223d3140ba619e832",
+        "boundaryAfter": "6a6b0903e0255ccc05370dd14865465081a3ebb17a7f6dd223d3140ba619e832",
+        "moved": false,
+        "howChecked": "sha256sum on both fixtures before the first build and again after the final build, compared against the two digests in VF41's ARTIFACTS finding."
+      },
+      "filesChanged": [
+        "scripts/build-census-v1-ma-expunge-k-set.mjs",
+        "data/rcap-all50/overlays/census-v1/ma/ma-expunge-k-set--official-pdf-fill/participant-instructions.md",
+        "data/rcap-all50/overlays/census-v1/ma/ma-expunge-k-set--official-pdf-fill/reports/blanks-left-for-the-participant.json"
+      ],
+      "filesDeliberatelyNotTouched": "fixtures/canonical.pdf, fixtures/boundary.pdf, the four raster/ page PNGs, production-field-map.json, field-census.census-v1.json, source-receipt.json, approval-request.json, build-findings.json, build-status.json, product-wiring.json and the four other reports/. The builder rewrites all of them on every run and all came back byte-identical, so none appears in the working tree.",
+      "obligationResults": {
+        "REQUIRED_BEFORE_FILING": "REPAIRED"
+      },
+      "findings": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "vf41Severity": "FAIL",
+          "state": "REPAIRED",
+          "whatWasWrong": "Two defects, one of which certified the other. (1) The manifest marks seven entries requiredBeforeFiling; the guide disclosed two. (2) reports/blanks-left-for-the-participant.json set everyRequiredBeforeFilingItemIsDisclosed true and described its own scope as excluding three entries when it excluded five, because PARTICIPANT_ACT_KINDS = [\"obtain_document\",\"confirm_answer\"] dropped two substantive complete_field acts silently.",
+          "whatIsThereNow": "The kinds allowlist is deleted. participantActsRequiredBeforeFiling() filters on requiredBeforeFiling === true alone and returns all seven. A new guide section, '## Everything the committed record marks required before filing', prints all seven verbatim, each under the record's own kind token, with the apply_fee_waiver entry carrying the record's own conditionDescription.",
+          "entriesDeclared": 7,
+          "entriesVerbatimBeforeLineAnchored": 2,
+          "entriesVerbatimAfterLineAnchored": 7,
+          "theTwoSubstantiveAbsencesVF41NAMED": [
+            "\"Petitioner signature — Petition signature block.\" now prints as its own line.",
+            "\"The 'Specifically' narrative — Petition narrative section.\" now prints as its own line, with a pointer to the existing 'The blanks you must complete' table where each is set out with what to write in it."
+          ],
+          "theThreeBARELINESWERENOTRESOLVED": "The sign, pay_fee and apply_fee_waiver descriptions are \"Required.\", \"None identified in the review.\" and \"None identified.\" They print exactly as the record writes them, under a paragraph that says in terms that this is the record speaking rather than an omission, and that they are not resolved into an amount, a deadline or a procedure. No fee figure, deadline, waiver criterion, phone number, URL or court practice was invented. The existing 'Fees, service and hearings — what this packet does NOT tell you' section already tells the participant that no amount is stated and to ask the clerk's office; the new paragraph points at it rather than repeating a claim.",
+          "aReadabilityProblemHANDLEDTHEFIX152WAY": "Printed bare, three of the seven are unreadable standing alone. Each verbatim line therefore carries the record's own kind token immediately above it, so '> None identified in the review.' is legible as the pay_fee entry reporting an absence. The verbatim line itself is untouched, so exact-string verification still scores 7 of 7."
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING (the measurement itself)",
+          "vf41Severity": "part of the same FAIL",
+          "state": "REPAIRED",
+          "whatWasWrong": "disclosedVerbatimInGuide and everyRequiredBeforeFilingItemIsDisclosed were substring tests. \"Required.\" is four words short of unique and already occurred inside step 8 of the ordered list, quoting the route census's signature requirement. On the PRE-REPAIR guide the substring test scored 3 of 7 where the honest count was 2 of 7 -- so the flag was being inflated by an accident of string length.",
+          "whatIsThereNow": "disclosedAsItsOwnLine(): a description counts as disclosed only when, after stripping a leading '> ', '- ' or 'N. ' marker, it equals a whole line of the delivered guide. Measured on both versions of the guide: pre-repair 2/7 line-anchored (3/7 substring), post-repair 7/7 line-anchored (7/7 substring). The line-anchored figure reproduces VF41's own count of two.",
+          "theScopEPROSEISNOWDERIVED": "whatThatFlagCovers is generated from the same array the flag measures and names the count and the kinds it found; participantActsExcludedFromTheFlag is emitted as an explicit empty array; howTheScopeOfThatFlagIsDerived states the filter in terms. The report can no longer state a different number of exclusions than it makes.",
+          "aNEWBUILDTIMEINVARIANT": "assert.strictEqual(acts.length, set.requiredBeforeFiling.length) -- the manifest's participant-act list and its own requiredBeforeFiling list must account for each other exactly, or the build stops rather than publish a disclosure list that is a selection while claiming to be the whole.",
+          "theGuardWasFlippedToPROVEITBITES": "PARTICIPANT_ACT_KINDS was temporarily reinstated and the builder re-run. It failed, exit 1, ERR_ASSERTION actual 2 expected 7 -- naming exactly the defect VF41 measured. The builder was then restored from a pre-flip copy and rebuilt clean."
+        }
+      ],
+      "theDeliveredPAGEWASREADENDTOEND": "All 169 lines, not just the diff, following FIX152's 'undefined' catch. Zero hits for undefined, NaN, [object, an unexpanded ${ template, or a bare null. Zero hits for print/save/reset/clear/submit form, /Btn, push button, 65536 -- nothing added here describes a viewer control, and no stale assertion about the PDFs was introduced. The new section's cross-references were checked against the document rather than assumed: 'the two set out in full above' are the two in 'Get this before you start', 'the table further down' is 'The blanks you must complete', and 'a numbered step in the list below' is step 8, all of which sit where the sentences say they do.",
+      "countersThisLaneDidNotMeasure": {
+        "note": "This lane repaired guidance and a guidance report, and measured guidance. It re-read no pixels and re-counted no widgets: VF41 measured those at these exact digests and the digests did not move. Every counter below is null because it was NOT measured here, never because it was measured as zero.",
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null,
+        "perWidgetFlattenedAppearanceCount": null
+      },
+      "countersThisLaneDidMeasure": {
+        "requiredBeforeFilingActsDeclared": 7,
+        "requiredBeforeFilingActsDisclosedLineAnchoredBefore": 2,
+        "requiredBeforeFilingActsDisclosedLineAnchoredAfter": 7,
+        "pdfFilesWhoseBytesMoved": 0,
+        "viewerChromeMentionsInGuidance": 0,
+        "placeholderLeaksInDeliveredGuidance": 0,
+        "committedReportsMisstatingTheirOwnScopeRemaining": 0
+      }
+    },
+    {
+      "itemId": "ia-12347-set",
+      "familyId": "ia-12347-set",
+      "jurisdiction": "IA",
+      "disposition": "ALREADY_REPAIRED_AT_THIS_BASE_BY_ANOTHER_LANE",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ia/ia-12347-set--official-pdf-fill",
+      "respondingTo": "VF03 SELF_HELP_STOP FAIL at 159c0b5cf",
+      "repairedBy": "FIX145 at 1b5ab0230ec5feaf1874201b2002fcc05b50d73b, 2026-09-10 12:36, already in this lane's base. NOT by this lane.",
+      "bytes": {
+        "canonicalBefore": "d8bf1526ba61e136748639eed035e90691c1eb712b45a21fb344a64f5e0c9b81",
+        "canonicalAfter": "d8bf1526ba61e136748639eed035e90691c1eb712b45a21fb344a64f5e0c9b81",
+        "boundaryBefore": "33564a9874b7c2a7eba8dc9e3f4142f7ceda63c4b0673f273011a53819d63262",
+        "boundaryAfter": "33564a9874b7c2a7eba8dc9e3f4142f7ceda63c4b0673f273011a53819d63262",
+        "moved": false,
+        "howChecked": "sha256sum before and after the determinism-control build. Both match VF03's ARTIFACTS finding exactly."
+      },
+      "filesChanged": [],
+      "obligationResults": {
+        "SELF_HELP_STOP": "ALREADY_REPAIRED_MEASURED_HERE"
+      },
+      "findings": [
+        {
+          "obligation": "SELF_HELP_STOP",
+          "vf03Severity": "FAIL",
+          "state": "ALREADY_REPAIRED, measured at this base, not by this lane",
+          "whatVF03Found": "The registry track ia-12347 declares two selfHelpStopConditions. The second reached the participant; the first, 'The county attorney opposes the application.', reached nobody, and neither delivered document had a stop-and-get-help section.",
+          "whatIsThereNow": "participant-instructions.md carries a '## Stop and get help' section printing BOTH conditions verbatim, each with its own paragraph. The county-attorney condition is carried in terms -- 'If the county attorney opposes the application, this packet stops being enough' -- with the 20-day confidential-response window and the court's discretion to hold a hearing. filing-instructions.md's 'After filing' section carries the same stop in its own words: 'A response is where this packet's help ends.'",
+          "conditionsCarried": 2,
+          "conditionsDeclared": 2,
+          "howMeasured": "Whitespace-normalised exact substring match of each of track.selfHelpStopConditions against the delivered participant-instructions.md, read from data/record-clearing/legal-design-track-registry.json at this lane's base. 2 of 2 present.",
+          "builderDurable": "Yes. FIX145 edited scripts/build-census-v1-ia-12347-set.mjs, not only the markdown. The unmodified builder was run here and reproduced the committed tree exactly, empty porcelain, so the repair is not a hand-edit awaiting reversion by the next build."
+        }
+      ],
+      "theDeliveredPAGEWASREADENDTOEND": "Both delivered markdown files read in full. Zero placeholder leaks, zero viewer-chrome mentions. The Iowa page's record-quoted stop conditions carry their own provenance footnote naming the registry and the intake memo and the track's reviewedAsOf date, which is the standard FIX152 set.",
+      "countersThisLaneDidNotMeasure": {
+        "note": "Nothing was rebuilt for content here and no pixels were read. All nine are null because they were NOT measured by this lane; VF03 measured all nine at these exact digests and recorded them zero.",
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "countersThisLaneDidMeasure": {
+        "selfHelpStopConditionsDeclared": 2,
+        "selfHelpStopConditionsCarriedVerbatim": 2,
+        "pdfFilesWhoseBytesMoved": 0,
+        "placeholderLeaksInDeliveredGuidance": 0
+      }
+    },
+    {
+      "itemId": "ar-pardon-seal-set",
+      "familyId": "ar-pardon-seal-set",
+      "jurisdiction": "AR",
+      "disposition": "ALREADY_REPAIRED_AT_THIS_BASE_BY_ANOTHER_LANE_PLUS_A_NEW_DETERMINISM_DEFECT_FOUND",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ar/ar-pardon-seal-set--official-pdf-fill",
+      "respondingTo": "VF01 COMPONENT_SET, REQUIRED_BEFORE_FILING, SELF_HELP_STOP and SERVICE FAIL at d0d42c176",
+      "repairedBy": "FIX04 at d753dc242684088e4fb371107bb8b5609057bfd8, 2026-09-04, already in this lane's base. NOT by this lane.",
+      "bytes": {
+        "petitionCanonicalBefore": "3b1576d92c2008ba2548522fd16e8025b3e4cbff1f0f40343577ab29477af9ea",
+        "petitionCanonicalAfter": "3b1576d92c2008ba2548522fd16e8025b3e4cbff1f0f40343577ab29477af9ea",
+        "petitionBoundaryBefore": "35c2c5cbf9922bed57f1e8da627bdb2b0f554dbcacf5f6de29b5390d565a36c4",
+        "petitionBoundaryAfter": "35c2c5cbf9922bed57f1e8da627bdb2b0f554dbcacf5f6de29b5390d565a36c4",
+        "orderCanonicalBefore": "1834e31bdf5b3dee8f5d1f3a36c383b12f217abc20c4d3ad7f518c5b92914a93",
+        "orderCanonicalAfter": "1834e31bdf5b3dee8f5d1f3a36c383b12f217abc20c4d3ad7f518c5b92914a93",
+        "orderBoundaryBefore": "ca9e599d493603ee04244d90790f609c6a41e97a6f892be2603c0a1197573d17",
+        "orderBoundaryAfter": "ca9e599d493603ee04244d90790f609c6a41e97a6f892be2603c0a1197573d17",
+        "moved": false,
+        "howChecked": "sha256sum on all four fixtures before the determinism control, again immediately after it (when the two PETITION digests HAD moved -- see theArkansasDeterminismDefect), and a third time after git checkout restored the family directory. The committed digests are what is on disk and what is committed.",
+        "allFourMatchVF01": true
+      },
+      "filesChanged": [],
+      "obligationResults": {
+        "COMPONENT_SET": "ALREADY_REPAIRED_MEASURED_HERE",
+        "REQUIRED_BEFORE_FILING": "ALREADY_REPAIRED_MEASURED_HERE",
+        "SERVICE": "ALREADY_REPAIRED_MEASURED_HERE",
+        "SELF_HELP_STOP": "ALREADY_REPAIRED_MEASURED_HERE"
+      },
+      "theCOMPONENTSETQUESTIONTHEDISPATCHASKED": {
+        "question": "The dispatch asked whether repairing COMPONENT_SET would move a delivered PDF's bytes, and told this lane to stop on that obligation if it would.",
+        "answer": "It would not, and it did not, because the component is a MARKDOWN file and it was already delivered before this lane opened the family. The manifest declares three required components; the missing one, ar-pardon-seal-process-guidance-1, has outputStrategy process_guidance, not official_pdf_fill. FIX04 delivered it at components/ar-pardon-seal-process-guidance-1/process-guidance.md, copied byte for byte from data/rcap-all50/composed-routes/arkansas/ar-pardon-seal/components/ar-pardon-seal-process-guidance-1/process-guidance.md.",
+        "verifiedHere": "Both files sha256 61475b312ee46dad3641c36b111d28d6cd64ac7cf9fece80ce4f420caddea06b, byte-identical to each other and to the deliveredSha256 recorded in reports/component-set.json. componentsDeclaredRequired 3, componentsDelivered 3.",
+        "soNoRasterWasSpent": true
+      },
+      "findings": [
+        {
+          "obligation": "COMPONENT_SET",
+          "state": "ALREADY_REPAIRED, measured at this base",
+          "measurement": "3 of 3 declared required components delivered; the process_guidance component byte-identical to its committed source. Guidance-only, no PDF involved."
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "state": "ALREADY_REPAIRED, measured at this base",
+          "measurement": "10 of 10 of the manifest's requiredBeforeFiling lines present verbatim (whitespace-normalised exact substring) in participant-instructions.md, including the fingerprint card, the ACIC criminal history, both cross-checks and the pardon documentation VF01 named as absent, and the record's three silences on notarization, filing fee and fee waiver printed as the record writes them rather than resolved."
+        },
+        {
+          "obligation": "SERVICE",
+          "state": "ALREADY_REPAIRED, measured at this base",
+          "measurement": "The manifest's serve_party description -- 'Serve the prosecuting attorney within three days of filing. The prosecuting attorney has 30 days to object.' -- is present verbatim, beneath a '## Service' heading, alongside the petition's own Certificate of Service text read from the pinned bytes and attributed to page 4."
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "state": "ALREADY_REPAIRED, measured at this base",
+          "measurement": "4 of 4 of track ar-pardon-seal's selfHelpStopConditions present verbatim under '## Stop and get a lawyer if': prosecutor objection inside the 30-day window, contested hearing, immigration/licensing/firearm consequences, and no pardon yet obtained."
+        }
+      ],
+      "anAPPEARANCELEVELDEFECTFOUNDBYREADINGTHEPAGEANDNOTREPAIRED": {
+        "what": "participant-instructions.md ends with a section headed '## Exact items required before filing' listing 46 raw geometry labels harvested from the form's caption layer. Many are not words: 'WHEREFOthREe ,D ef', 'da oy', '5.On th', 'Cit___________y: ___________', 'Ra', 'Se', 'DO', '[', '] Felony [In violation of', '_____________________________'. Under a heading promising exact required items, a participant is shown garbled OCR-shaped fragments.",
+        "isItTheVF01FINDING": "It is the residue of it. VF01's REQUIRED_BEFORE_FILING detail was 'participant-instructions.md names none of those requirements; it lists field geometry labels instead.' FIX04 added the correct record-sourced section above it and LEFT the geometry list in place, so the obligation is satisfied and the garbled section still ships.",
+        "whyItWasNOTREPAIREDHERE": "The section is builder-generated from the caption census. Repairing it means editing scripts/build-census-v1-ar-pardon-seal-set.mjs and re-running -- and in this container that run moves the petition canonical and boundary digests, costing a fresh central raster this lane was told not to spend. Per the dispatch: stopping on that obligation rather than spending an unplanned raster.",
+        "notARASTERQUESTIONALONE": "Even with a raster budget, the rebuilt labels are different but not better -- '5.On the', 'Rac', 'Sex', 'Cit_', '_ Zip code:_' -- so the underlying defect is the section's existence, not its stale contents. It wants a builder change that suppresses or humanises the caption labels, made in an environment where the AR builder is byte-reproducible.",
+        "owedTo": "a lane holding both a byte grant on ar-pardon-seal-set and the environment parity to rebuild it"
+      },
+      "countersThisLaneDidNotMeasure": {
+        "note": "No pixels were read and no widgets counted. All nine are null because they were NOT measured by this lane; VF01 measured all nine at these exact digests and recorded them zero.",
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "countersThisLaneDidMeasure": {
+        "componentsDeclaredRequired": 3,
+        "componentsDelivered": 3,
+        "requiredBeforeFilingLinesDeclared": 10,
+        "requiredBeforeFilingLinesVerbatim": 10,
+        "selfHelpStopConditionsDeclared": 4,
+        "selfHelpStopConditionsCarriedVerbatim": 4,
+        "servePartyLinesDeclared": 1,
+        "servePartyLinesVerbatim": 1,
+        "pdfFilesWhoseBytesMovedInTHECOMMITTEDTREE": 0,
+        "pdfFilesWhoseBytesTHEUNMODIFIEDBUILDERMOVEDANDWERERESTORED": 2,
+        "placeholderLeaksInDeliveredGuidance": 0
+      }
+    }
+  ],
+  "verifierRuns": [
+    {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ma-expunge-k-set",
+      "exitStatus": 0,
+      "verdictPrinted": "ok   ma-expunge-k-set   PASS_COMPLETE   1/38 written",
+      "countersPrinted": "knownRequiredFieldsMissing 0 · requiredFactsNotCollected 0 · unclassifiedBlanks 0 · incompleteRows 0 · requiredOptionsMissing 0 · requiredComponentsMissing 0 · invisibleWrites 0 · protectedWrites 0 · visualDefects 0"
+    },
+    {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ia-12347-set",
+      "exitStatus": 0,
+      "verdictPrinted": "ok   ia-12347-set   PASS_COMPLETE   16/39 written",
+      "countersPrinted": "all nine zero"
+    },
+    {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ar-pardon-seal-set",
+      "exitStatus": 0,
+      "verdictPrinted": "ok   ar-pardon-seal-set   PASS_COMPLETE   6/68 written",
+      "countersPrinted": "all nine zero"
+    }
+  ],
+  "thisVerifiersPASSISNOTEVIDENCETHEOBLIGATIONWASREPAIRED": "Stated plainly because the three lines above are easy to misread. verify-packet-completeness.mjs measures the nine counters and nothing else. It returned PASS_COMPLETE with all nine zero on ma-expunge-k-set BEFORE this repair too -- VF41 records exactly that, PASS_COMPLETE and nine zeros, on the same row where it measured REQUIRED_BEFORE_FILING FAIL. No proof obligation is in this verifier's scope, and its PASS says nothing about the defect this lane repaired.",
+  "whatThisLaneCouldNotRepair": [
+    {
+      "item": "The ar-pardon-seal-set builder's non-reproducibility, and the two petition digests it moves",
+      "reason": "A caption-harvest / font-metrics difference between this container and the one that wrote the fixtures at 657036a76. Not repairable inside a guidance grant, and repairing it costs a fresh central raster. Fully measured and recorded above; nothing from that run was committed.",
+      "owedTo": "a lane with a byte grant on this family and environment parity"
+    },
+    {
+      "item": "The AR '## Exact items required before filing' geometry-label section",
+      "reason": "Builder-generated; any repair requires running the AR builder, which moves petition bytes in this container. Recorded above so the next reader knows it was found and left, not missed.",
+      "owedTo": "the same lane"
+    },
+    {
+      "item": "The stale VF03 and VF01 rows in VERIFIER_RETURNS.json",
+      "reason": "This lane may not edit shared manifests under data/rcap-grade-a/packet-factory-24h/ outside its own fix153/ directory. Both rows are answered by commits already in the tree.",
+      "owedTo": "the Captain, as sole integrator"
+    },
+    {
+      "item": "Independent verification of the ma-expunge-k-set repair",
+      "reason": "This lane made the repair and may not approve it.",
+      "owedTo": "a lane that is neither FIX153 nor VF41 nor FIX02"
+    }
+  ],
+  "sharedLedgerNote": "No --release wrote data/rcap-grade-a/packet-factory-24h/claim-ledger.json in a way this lane committed. The only file this lane added under data/rcap-grade-a/packet-factory-24h/ is this row, in its own fix153/ directory.",
+  "grantsNothing": "This is a repair return. It admits no packet, opens no commercial route, promotes no status and clears no release blocker. Two of the three families were already repaired by other lanes and this lane claims no credit for either. Independent verification of ma-expunge-k-set is owed to a lane that is not this one."
+}

@@ -1,0 +1,62 @@
+{
+  "cases": [
+    {
+      "name": "canonical has no citizenship/immigration answer",
+      "accepted": true
+    },
+    {
+      "name": "known non-US citizenship does not itself stop",
+      "accepted": true
+    },
+    {
+      "name": "same-case dismissed companion with explicit disposition",
+      "accepted": true
+    },
+    {
+      "name": "same-case amended companion with explicit disposition",
+      "accepted": true
+    },
+    {
+      "name": "same-case mixed eligible classifications",
+      "accepted": false,
+      "error": "CHARGE_AND_RECORD_CLASSIFICATION_CONFLICT"
+    },
+    {
+      "name": "non-Kentucky mailing address accepted by source dropdown",
+      "accepted": false,
+      "error": "SOURCE_DROPDOWN_STATE_REQUIRED"
+    },
+    {
+      "name": "ambiguous ordinary and void grounds",
+      "accepted": false,
+      "error": "AMBIGUOUS_OR_CONFLICTING_GROUNDS"
+    },
+    {
+      "name": "proposed order without confirmed local practice",
+      "accepted": false,
+      "error": "ORDER_CONDITION_NOT_CONFIRMED"
+    },
+    {
+      "name": "immigrationAdviceNeeded true does stop",
+      "accepted": false,
+      "error": "SELF_HELP_STOP: individualized assistance required"
+    }
+  ],
+  "guideProbes": {
+    "mentionsUsCitizenship": false,
+    "mentionsImmigrationAdvice": true,
+    "identifiesCertificationIssuer": false,
+    "identifiesCertificationRequestForm": false,
+    "linksCertificationAction": false,
+    "explainsIndigencyAffidavit": false,
+    "explainsMotionToProceed": false,
+    "preservesRefundUnresolved": true
+  },
+  "scheduleTrigger": [
+    {
+      "field": "Check Box19",
+      "value": true,
+      "completeValue": null
+    }
+  ]
+}

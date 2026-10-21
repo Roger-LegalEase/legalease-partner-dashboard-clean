@@ -273,3 +273,60 @@ function normalizeWhitespace(value: unknown) {
 function normalizeString(value: unknown) {
   return typeof value === "string" ? value.trim() : "";
 }
+
+/**
+ * Administrator handoff: whether one active Partner Administrator membership
+ * may be ended now.
+ *
+ * The rule protects the organization from losing its last working
+ * administrator. Access ends only when a different active administrator
+ * remains, which means the replacement has already accepted and their
+ * membership is active. Ending the last administrator is refused whatever the
+ * operator intends; the operator invites the replacement first, waits for the
+ * acceptance, and only then ends the outgoing access.
+ */
+export type ActiveAdministratorMembership = {
+  membershipId: string;
+  authUserId: string;
+  email?: string;
+};
+
+export type AdministratorAccessEndDecision =
+  | { ok: true; ended: ActiveAdministratorMembership; remaining: ActiveAdministratorMembership[] }
+  | { ok: false; code: "invalid_input" | "membership_not_found" | "last_administrator"; message: string };
+
+export function decideAdministratorAccessEnd(input: {
+  administrators: ActiveAdministratorMembership[];
+  membershipId: unknown;
+  confirmEmail?: unknown;
+}): AdministratorAccessEndDecision {
+  const membershipId =
+    typeof input.membershipId === "string" ? input.membershipId.trim() : "";
+  if (!uuidPattern.test(membershipId)) {
+    return { ok: false, code: "invalid_input", message: "Choose the administrator whose access should end." };
+  }
+  const target = input.administrators.find((row) => row.membershipId === membershipId);
+  if (!target) {
+    return {
+      ok: false,
+      code: "membership_not_found",
+      message: "That administrator membership is not active for this organization."
+    };
+  }
+  if (typeof input.confirmEmail === "string" && input.confirmEmail.trim() !== "") {
+    const confirm = normalizeEmail(input.confirmEmail);
+    if (!target.email || normalizeEmail(target.email) !== confirm) {
+      return { ok: false, code: "invalid_input", message: "The confirmation email does not match that administrator." };
+    }
+  }
+  const remaining = input.administrators.filter((row) => row.membershipId !== membershipId);
+  if (remaining.length === 0) {
+    return {
+      ok: false,
+      code: "last_administrator",
+      message:
+        "This is the organization's last working administrator. Invite the replacement, wait until they have accepted and their access is verified, then end this access."
+    };
+  }
+  return { ok: true, ended: target, remaining };
+}

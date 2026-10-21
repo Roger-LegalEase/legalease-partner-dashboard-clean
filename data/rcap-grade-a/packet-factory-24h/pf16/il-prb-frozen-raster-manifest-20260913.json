@@ -1,0 +1,169 @@
+{
+  "schemaVersion": "rcap-raster-queue/v1",
+  "rows": [
+    {
+      "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/il/il-prb-cert-set--official-pdf-fill/fixtures/boundary.pdf",
+      "boundaryPdfSha256": "317b7f60fd3c90ee380ca7e72a474ce1dd70357c3961eea8c806ef3662c49211",
+      "builderAssignment": null,
+      "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/il/il-prb-cert-set--official-pdf-fill/fixtures/canonical.pdf",
+      "canonicalPdfSha256": "e4a8bcff0157b944eea6af8d9f9c32ced0fb26143789e15fe32a2a8fa9073e7a",
+      "coverage": {
+        "basis": "Every canonical assembled diagnostic and explicitly declared conditional packet is included; the central renderer separately measures all declared boundary outputs.",
+        "complete": true,
+        "documents": [
+          "canonical.pdf",
+          "court-canonical.pdf",
+          "court-military-canonical.pdf",
+          "military-canonical.pdf"
+        ],
+        "notRastered": [],
+        "notRenderedByThisGate": [],
+        "notRenderedByThisGateBasis": "every PDF present in the family's fixture discovery that this row does not queue. The gate renders every document a row queues, whatever its role, so a queued boundary fixture is rendered and is not named here.",
+        "rastered": [
+          "canonical.pdf",
+          "court-canonical.pdf",
+          "court-military-canonical.pdf",
+          "military-canonical.pdf",
+          "boundary.pdf",
+          "court-boundary.pdf",
+          "court-military-boundary.pdf",
+          "military-boundary.pdf"
+        ],
+        "whatCompleteMeansHere": "every PDF this family declares is queued to the gate and rendered, canonical and boundary alike. `complete` remains the narrower question -- every canonical document rendered -- because that is what promotion depends on."
+      },
+      "currentRasterState": "RASTER_PENDING",
+      "documents": [
+        {
+          "conditionalPacketBranch": "application_sealing",
+          "name": "canonical.pdf",
+          "pageCount": 11,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "pageCount": 11,
+            "sourceSha256": "e4a8bcff0157b944eea6af8d9f9c32ced0fb26143789e15fe32a2a8fa9073e7a",
+            "version": "1.17.1"
+          },
+          "path": "data/rcap-all50/overlays/census-v1/il/il-prb-cert-set--official-pdf-fill/fixtures/canonical.pdf",
+          "role": "canonical",
+          "sha256": "e4a8bcff0157b944eea6af8d9f9c32ced0fb26143789e15fe32a2a8fa9073e7a"
+        },
+        {
+          "conditionalPacketBranch": "court_sealing",
+          "name": "court-canonical.pdf",
+          "pageCount": 10,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "pageCount": 10,
+            "sourceSha256": "567884e37b55fbf0bf45e92341a8233c3a228e7baecaf380181aea68e9d9e7f6",
+            "version": "1.17.1"
+          },
+          "path": "data/rcap-all50/overlays/census-v1/il/il-prb-cert-set--official-pdf-fill/fixtures/court-canonical.pdf",
+          "role": "canonical",
+          "sha256": "567884e37b55fbf0bf45e92341a8233c3a228e7baecaf380181aea68e9d9e7f6"
+        },
+        {
+          "conditionalPacketBranch": "court_military_expungement",
+          "name": "court-military-canonical.pdf",
+          "pageCount": 10,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "pageCount": 10,
+            "sourceSha256": "9c83eb23471e3863c01196e40877c00c970b18fd34cfd7792ebe17c8c5ec85a4",
+            "version": "1.17.1"
+          },
+          "path": "data/rcap-all50/overlays/census-v1/il/il-prb-cert-set--official-pdf-fill/fixtures/court-military-canonical.pdf",
+          "role": "canonical",
+          "sha256": "9c83eb23471e3863c01196e40877c00c970b18fd34cfd7792ebe17c8c5ec85a4"
+        },
+        {
+          "conditionalPacketBranch": "application_military_expungement",
+          "name": "military-canonical.pdf",
+          "pageCount": 11,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "pageCount": 11,
+            "sourceSha256": "a2e9cc56453556e534e14180d5b3f571a6ae19416c5c3b7733a75c687b97eb92",
+            "version": "1.17.1"
+          },
+          "path": "data/rcap-all50/overlays/census-v1/il/il-prb-cert-set--official-pdf-fill/fixtures/military-canonical.pdf",
+          "role": "canonical",
+          "sha256": "a2e9cc56453556e534e14180d5b3f571a6ae19416c5c3b7733a75c687b97eb92"
+        },
+        {
+          "conditionalPacketBranch": "application_sealing",
+          "name": "boundary.pdf",
+          "pageCount": 11,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "pageCount": 11,
+            "sourceSha256": "317b7f60fd3c90ee380ca7e72a474ce1dd70357c3961eea8c806ef3662c49211",
+            "version": "1.17.1"
+          },
+          "path": "data/rcap-all50/overlays/census-v1/il/il-prb-cert-set--official-pdf-fill/fixtures/boundary.pdf",
+          "role": "boundary",
+          "sha256": "317b7f60fd3c90ee380ca7e72a474ce1dd70357c3961eea8c806ef3662c49211"
+        },
+        {
+          "conditionalPacketBranch": "court_sealing",
+          "name": "court-boundary.pdf",
+          "pageCount": 10,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "pageCount": 10,
+            "sourceSha256": "ebcc4b27a351a7871d4f8b027bb0d70b5fc2b70e9ab9678f4e04edfd4b1cbcaf",
+            "version": "1.17.1"
+          },
+          "path": "data/rcap-all50/overlays/census-v1/il/il-prb-cert-set--official-pdf-fill/fixtures/court-boundary.pdf",
+          "role": "boundary",
+          "sha256": "ebcc4b27a351a7871d4f8b027bb0d70b5fc2b70e9ab9678f4e04edfd4b1cbcaf"
+        },
+        {
+          "conditionalPacketBranch": "court_military_expungement",
+          "name": "court-military-boundary.pdf",
+          "pageCount": 10,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "pageCount": 10,
+            "sourceSha256": "ab2d5cf1164459a00b412f08d0752e3ccefc064614c743394f4aa585eba27466",
+            "version": "1.17.1"
+          },
+          "path": "data/rcap-all50/overlays/census-v1/il/il-prb-cert-set--official-pdf-fill/fixtures/court-military-boundary.pdf",
+          "role": "boundary",
+          "sha256": "ab2d5cf1164459a00b412f08d0752e3ccefc064614c743394f4aa585eba27466"
+        },
+        {
+          "conditionalPacketBranch": "application_military_expungement",
+          "name": "military-boundary.pdf",
+          "pageCount": 11,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "pageCount": 11,
+            "sourceSha256": "85c1070313c31d9ad186d863816facda21efeb9fff1493aed7dbf7e0eeb4456d",
+            "version": "1.17.1"
+          },
+          "path": "data/rcap-all50/overlays/census-v1/il/il-prb-cert-set--official-pdf-fill/fixtures/military-boundary.pdf",
+          "role": "boundary",
+          "sha256": "85c1070313c31d9ad186d863816facda21efeb9fff1493aed7dbf7e0eeb4456d"
+        }
+      ],
+      "documentsDigest": "50e0af4271068175e0070f76c8e6d2f66cbfc5716ab0408d50e8a2ddb1047dae",
+      "expectedPages": 11,
+      "familyId": "il-prb-cert-set",
+      "fixtureSelection": {
+        "boundary": "the assembled packet, matched by exact name",
+        "canonical": "the assembled packet, matched by exact name"
+      },
+      "nextOwner": "RAS01",
+      "packetCommitSha": "73eb02e2796e27b517970518fd8d8346dd504172",
+      "requestedScale": 2.5
+    }
+  ]
+}

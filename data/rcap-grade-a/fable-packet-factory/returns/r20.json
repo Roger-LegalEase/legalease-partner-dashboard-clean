@@ -1,0 +1,421 @@
+{
+  "schemaVersion": "rcap-fable-lane-return/v1",
+  "worker": "FABLE-R20",
+  "lanes": [
+    "FIX01",
+    "FIX02",
+    "FIX06"
+  ],
+  "laneKind": "repair",
+  "baseCommit": "d0cb5f87ecb7a1ed325b4c35e7368856dc7bad40",
+  "branch": "fable/r20",
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "familiesPromoted": 0,
+  "verifiedByMe": "Nothing. Every verdict below is a repair claim for an independent verifier to score. The measurements recorded here are re-measurable from the committed bytes.",
+  "grantsNothing": "This return repairs packet content. It promotes no family, opens no route, and overrides no legal decision.",
+  "standardApplied": {
+    "record": "data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json",
+    "readInFull": [
+      "DET-FEE-AND-WAIVER-001",
+      "A1",
+      "A2",
+      "A3",
+      "A4"
+    ],
+    "howItWasUsed": "A1's ordering first: ask whether the repository establishes the answer, and only where it does not may a named checkable authority stand in. A2's scope: the compiled state profile, the route census and the committed packet-set manifest all count. A3's narrowing, which decided the California work: holding is per FACT, so a fee line keyed to a different statutory section answers a different route. A4's internal-consistency rule: a packet may never tell a participant it does not state something it does state, and that rule was applied to the sentences DESCRIBING held rules as well as to the rules."
+  },
+  "claimGate": {
+    "asserted": [
+      {
+        "lane": "FIX06",
+        "familyId": "ca-851-91-set",
+        "result": "CLAIM_OK"
+      },
+      {
+        "lane": "FIX06",
+        "familyId": "ca-prop64-set",
+        "result": "CLAIM_OK"
+      },
+      {
+        "lane": "FIX01",
+        "familyId": "ar-arrest-seal-set",
+        "result": "CLAIM_OK"
+      },
+      {
+        "lane": "FIX02",
+        "familyId": "ar-misdemeanor-dwi-seal-set",
+        "result": "CLAIM_OK"
+      }
+    ],
+    "notGranted": [
+      {
+        "familyId": "ca-1203-42-set",
+        "onlyRepairGrant": "FIX04",
+        "state": "ALREADY_RELEASED at 2026-09-01T23:57:38.089Z"
+      },
+      {
+        "familyId": "ca-1203-41-set",
+        "onlyRepairGrant": "FIX03",
+        "state": "ALREADY_RELEASED at 2026-09-01T23:56:32.720Z"
+      },
+      {
+        "familyId": "ca-1203-4a-set",
+        "onlyRepairGrant": "FIX05",
+        "state": "ALREADY_RELEASED at 2026-09-01T23:58:22.837Z"
+      }
+    ],
+    "reissueOrTransferUsed": false,
+    "whatWasDoneWithTheUngranted": "Nothing was written to any of the three. ca-1203-41-set was rebuilt twice as a READ-ONLY control and restored to its committed bytes both times; that is measurement, not repair, and it left no byte changed."
+  },
+  "families": [
+    {
+      "familyId": "ar-arrest-seal-set",
+      "lane": "FIX01",
+      "outcome": "REPAIRED",
+      "bytesChanged": true,
+      "failedObligationsAddressed": [
+        "FILING_DESTINATION",
+        "REQUIRED_BEFORE_FILING",
+        "SERVICE"
+      ],
+      "verdictRepairedAgainst": "vf12 (FABLE-VT15), base 7fcfb7d40aafe7bd7350fc735ea09d16524cb757",
+      "repairedThrough": "scripts/build-census-v1-ar-arrest-seal-set.mjs, participantInstructionsMarkdown()",
+      "handEditedOutput": false,
+      "FILING_DESTINATION": {
+        "whatTheRepositoryEstablishes": "Three committed records, quoted verbatim in the packet: the route obligation census destination for obligation:track-pathway:AR:ar-arrest-seal:situation-a-non-convictions, name 'Circuit or district court in the county of arrest' with detail 'The county-of-arrest venue rule is separate from the general venue rule'; the packet-set manifest file entry 'File the ACIC arrest petition and order pair in the circuit or district court in the county of arrest.'; and the compiled Arkansas profile filing rule 'File in the circuit or district court that handled the case.'",
+        "whatThePacketNowStates": "The petition goes to the circuit or district court in the county of the arrest. Where the profile's general rule and the census entry differ, the census entry governs because it is the record keyed to this route and this route is defined by charges never having been filed.",
+        "alsoAdded": "The profile's multi-county rule, quoted twice as the profile states it: 'a person with cases in several courts files in each' and 'Venue is the court that handled the case — file separately in each county where the person has records.' The packet previously said nothing about it.",
+        "whatIsStillDelegated": "Only the circuit-versus-district choice within that county, which no held record settles and which the ACIC forms themselves acknowledge can go either way. The clerk is named for that and for nothing else.",
+        "vt15SecondItemAnswered": {
+          "theQuestion": "The caption county is written from matter.county while the venue records tie venue to the county of ARREST; VT15 could not settle from the artifacts whether those can differ.",
+          "whatIDid": "I did not change the prefill, because I could not establish from the repository whether matter.county and the county of arrest can diverge in platform data, and changing the fact a caption is written from is a data-model decision rather than an instruction repair. The packet now tells the participant to check the printed county against the county of the arrest and to correct it if they differ. That protects the participant today without asserting anything about the data model.",
+          "forACaptain": "The underlying question stands open and is recorded below."
+        }
+      },
+      "SERVICE": {
+        "whatWasFalse": "'The form sets no separate service deadline: the certificate is part of the petition you file, so service belongs with filing.' True about the form, false about the repository.",
+        "whatTheRepositoryEstablishes": "The committed packet-set manifest serve_party entry: 'Serve the prosecuting attorney within three days of filing. The prosecuting attorney has 30 days to object.'",
+        "whatThePacketNowStates": "Serve within three days of filing, with the clock starting at filing; then the prosecutor's objection window.",
+        "theConflictVT15FlaggedAndDidNotResolve": {
+          "recordA": "packet-set manifest: 30 days, flat.",
+          "recordB": "compiled Arkansas profile, packetGenerator.serviceAndNoticeRules and filingDestinationRules: 'The prosecutor has 30 days (misdemeanor) or 90 days (felony) to file a notice of opposition stating reasons.'",
+          "howIHandledIt": "I did not choose between them and did not invent a third figure. The packet states both, tells the participant to plan on 30 days, warns that on the profile's reading the window can run to 90 where the offense in paragraph 1 was a felony, and names the clerk and the prosecuting attorney's office as the authorities for which window that court applies.",
+          "whyNotResolved": "This route is defined by charges never having been filed, so there is no conviction class to read the profile's misdemeanor/felony split off. Picking one figure would be a legal determination about an uncharged arrest, which is not a repairer's to make. It stays a counsel question and is recorded below."
+        }
+      },
+      "REQUIRED_BEFORE_FILING": {
+        "whatWasMissing": "The packet never mentioned fingerprints, and never told the participant to obtain the ACIC criminal history or named the form to obtain it with. Both are carried in the committed packet-set manifest as requiredBeforeFiling true.",
+        "whatThePacketNowStates": "Two new numbered items at the head of 'What you must do before you file', quoting the manifest: 'Obtain Fingerprint card. Have fingerprints taken and submit the card with the petition.' — with the packet saying plainly that no fingerprint card is in it and that LegalEase does not take or hold fingerprints — and the ACIC Authorization for Review of Criminal History Information, named as the instrument, to be obtained before paragraph 1 is completed and checked the arrest facts against."
+      },
+      "figuresPublishedAndTheSectionEachIsKeyedTo": [
+        {
+          "figure": "no filing fee ($0)",
+          "keyedTo": "Act 1460 of 2013, A.C.A. § 16-90-1401 et seq. / § 16-90-1409",
+          "source": "src/lib/rcap-engine/compiled/profiles/AR-arkansas.json packetGenerator.feeRules[0] and [1]",
+          "changedByThisRepair": false,
+          "note": "Pre-existing and verified PASS by VF12 under A3; not touched."
+        },
+        {
+          "figure": "three days to serve after filing",
+          "keyedTo": "the ar-arrest-seal-set packet-set manifest serve_party entry for this exact packetSetId",
+          "source": "data/record-clearing/legal-design-packet-set-manifests.json"
+        },
+        {
+          "figure": "30 days to object, with 90 days disclosed as the profile's felony reading",
+          "keyedTo": "the same manifest entry (30) and AR-arkansas.json serviceAndNoticeRules[0] (30/90)",
+          "source": "both, quoted and attributed separately; neither presented as the settled answer"
+        }
+      ],
+      "completeness": {
+        "before": "PASS_COMPLETE 15/66 written, nine counters zero",
+        "after": "PASS_COMPLETE 15/66 written, nine counters zero"
+      },
+      "fixtureBytesChanged": false,
+      "rasterOwed": []
+    },
+    {
+      "familyId": "ar-misdemeanor-dwi-seal-set",
+      "lane": "FIX02",
+      "outcome": "REPAIRED",
+      "bytesChanged": true,
+      "failedObligationsAddressed": [
+        "COMPONENT_SET",
+        "SERVICE"
+      ],
+      "verdictRepairedAgainst": "vf01 (FABLE-VT8), base ebc44031ec7eab29058bfc79a7bc5e1cff089414",
+      "repairedThrough": "scripts/build-census-v1-ar-misdemeanor-dwi-seal-set.mjs",
+      "handEditedOutput": false,
+      "COMPONENT_SET": {
+        "theDefect": "The canonical completeness gate refused the family outright — FAIL_COMPONENT_SET at 0/0 written, auditable:false, 'the field map uses a schema this verifier does not read'. readFieldRows() reads four shapes and this family emitted a fifth: documents[] carrying writeBoxes, withheldBeforeTheFactory, roleRefusals, refusedByTheFactory and protectedRulesHandedToTheFactory.",
+        "whichRepairIChose": "The first of the two the verifier named, and the one it identified as this family's own path: the family now ALSO emits documents[].fields[] with a decision word, the documents-and-decisions shape the contract already reads, the same shape the Ohio host adopted for the same refusal in 3b44dcbec. The shared contract in scripts/rcap-packet-completeness/ is untouched, so no family that shares this family's schema is affected by anything in this branch.",
+        "whatWasNOTDone": "readFieldRows() was not extended. That is the shared-contract change the verifier said was not this family's owned path, and it is not this lane's either.",
+        "howTheDispositionsWereChosen": "Not by prose. A new COMPLETENESS_DECLARATIONS table in the build script gives every measured blank either a closed-vocabulary refusalClass or an explicit requiredBeforeFiling boolean, keyed by document role and printed caption, each with a reason written about that blank. A blank with no entry FAILS THE BUILD rather than shipping unclassified, so a form revision that moves a caption stops the build instead of quietly producing an unclassified row.",
+        "resultOfMakingItAuditable": "The family is auditable for the first time. 49 measured blanks, 8 written, and once the disclosure gap below was closed all nine counters are zero: PASS_COMPLETE.",
+        "theDisclosureGapMakingItAuditableExposed": "Declaring the arrest-date blanks required-before-filing surfaced four requiredFactsNotCollected findings: the day and year blanks on both documents were disclosed only as a sentence ('arrested on the ___ day of ______, ____') and not by the captions the participant sees beside them. The instructions now quote all three printed runs — '1. The Defendant was arrested on the', 'day of', and ', and charged with the offense(s) of Driving or Boating While' — which closes the gate and is a better disclosure, because a participant can now find the blank on the page."
+      },
+      "SERVICE": {
+        "whatWasFalse": "The same sentence as its sibling: 'The form sets no separate service deadline: the certificate is part of the petition you file, so service belongs with filing.'",
+        "whatTheRepositoryEstablishes": "packet-set manifest serve_party for this packetSetId: 'Serve the prosecuting attorney within three days of filing. The prosecuting attorney has 30 days to object.'",
+        "whatThePacketNowStates": "Serve within three days of filing, then the 30-day objection window.",
+        "whyTheSiblingsConflictDoesNotAriseHere": "The profile's split is 30 days (misdemeanor) or 90 days (felony). This route IS a misdemeanor DWI/BWI conviction, so both held records give 30 and there is nothing to choose between. The packet says so rather than importing the sibling's uncertainty.",
+        "whatWasCorrectAndLeftAlone": "The recipients and both methods, quoted from the petition's own page-4 Certificate of Service, and the refusal to complete the certificate before service has occurred."
+      },
+      "figuresPublishedAndTheSectionEachIsKeyedTo": [
+        {
+          "figure": "three days to serve after filing; 30 days to object",
+          "keyedTo": "the ar-misdemeanor-dwi-seal-set packet-set manifest serve_party entry for this exact packetSetId, corroborated for a misdemeanor by AR-arkansas.json serviceAndNoticeRules[0]",
+          "source": "data/record-clearing/legal-design-packet-set-manifests.json and src/lib/rcap-engine/compiled/profiles/AR-arkansas.json"
+        }
+      ],
+      "completeness": {
+        "before": "FAIL_COMPONENT_SET 0/0 written, auditable:false",
+        "after": "PASS_COMPLETE 8/49 written, nine counters zero"
+      },
+      "fixtureBytesChanged": false,
+      "rasterOwed": []
+    },
+    {
+      "familyId": "ca-prop64-set",
+      "lane": "FIX06",
+      "outcome": "PARTIALLY_REPAIRED",
+      "bytesChanged": true,
+      "failedObligationsAddressed": [
+        "SERVICE"
+      ],
+      "failedObligationsNotAddressed": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "verdictRepairedAgainst": "vf05 (FABLE-VT10), base ebc44031ec7eab29058bfc79a7bc5e1cff089414",
+      "repairedThrough": "scripts/build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs (the WEST host), caHeldGuidanceSections() and a new caHeldRouteFee()",
+      "handEditedOutput": false,
+      "SERVICE": {
+        "whatWasFalse": "participant-instructions.md said 'The filing fee and whether it can be waived, who must be served and by what method, and the address of the court are not established in this repository.' The 'who must be served' half was false: the manifest holds it.",
+        "whatThePacketNowStates": "The manifest's own sentence — 'Serve the prosecuting agency and file CR-401 proof of service.' — plus why CR-401 is in the packet, the serve-then-certify ordering rule, and an honest named-authority refusal for the two things the repository genuinely does not establish, the METHOD and the TIMING.",
+        "howTheRefusalIsScoped": "Derived from the held sentence rather than declared per family: the method/timing refusal is emitted only when the held serve_party sentence states NEITHER a method nor a timing. ca-851-91-set's sentence states a timing ('at least 15 days before the hearing'), so it is not emitted there and that family's bytes do not move."
+      },
+      "FEE_AND_WAIVER": {
+        "wasItAFailedObligation": "No. VF05 scored it PASS on the pre-A3 record. It is repaired anyway because A3 was written about this exact family and because the sentence carrying the SERVICE failure was the same sentence.",
+        "theA3Problem": "The packet told the participant the filing fee 'is not established in this repository'. Under A2 as narrowed by A3 that is false: the compiled California profile states it for this route by name.",
+        "whatIsNowPublishedAndWhatItIsKeyedTo": {
+          "figure": "$0",
+          "quotedVerbatim": "Prop 64 marijuana relief $0 Largely automatic",
+          "source": "src/lib/rcap-engine/compiled/profiles/CA-california.json packetGenerator.feeRules[3]",
+          "keyedTo": "Proposition 64 marijuana relief, Health and Safety Code section 11361.8 — this family's own route",
+          "notKeyedTo": "Penal Code section 1203.4. The profile's '1203.4 dismissal petition ~$60–$150 per case' line answers a different statute and was never read across; the packet says so on its face."
+        },
+        "theFalsePremiseTheBriefWarnedAbout": "Confirmed false and not relied on. ca-prop64-set's manifest pay_fee entry reads only 'The source review does not state a filing fee for the CR-400 series.' — a statement of NON-establishment. Simply flipping statesHeldParticipantActions would have published that sentence as the answer and inverted A1. The flag was flipped only together with a mechanism that reaches the profile, and the profile answer takes priority over the manifest's non-establishment sentence."
+      },
+      "theMechanismAndWhyItCannotReachASibling": {
+        "whatWasAdded": "caHeldRouteFee(guidance) in the WEST host. A family opts in by declaring heldRouteFee: { routeToken, amount, keyedTo }. The reader selects fee lines that carry that family's own route token AND carry no other route's token, from a fixed list of the tokens California's one fee table keys its lines to (1203.4, 1203.425, 851.91, 851.93, Prop 64, 17(b), 17(d)). It asserts that at least one such line states the declared amount, and that no such line states any other money figure.",
+        "genericNotFamilyBranched": "The reader never learns which family it is serving; it reads only the declaration handed to it. No family name appears in it.",
+        "provedToChangeNoFamilyThatDoesNotOptIn": [
+          "ca-851-91-set holds a FIX06 claim, declares no heldRouteFee, and rebuilds BYTE-IDENTICAL to its committed bytes with the mechanism present (0 files changed across 102 files hashed).",
+          "az_marijuana_expungement_arrest_no_charges-set, on the same edited host file, rebuilds byte-identical between the base host and the r20 host across all 33 of its files.",
+          "ca-1203-41-set, on the same host, rebuilds byte-identical to its committed bytes with the r20 host in place.",
+          "The five 1203.4x/17(b) siblings declare nothing, so caHeldRouteFee returns null for them and they keep the honest named-authority answer A3 records as their correct outcome."
+        ],
+        "theGuardWasProvedByProbe": "A throwaway probe set the declaration to routeToken '1203.4' with amount '$60'. The build REFUSED with AssertionError \"1203.4: this route's own fee lines state a figure other than $60\", because that route's only clean line carries the $60–$150 range. The probe was reverted and the family rebuilt; no probe byte is committed.",
+        "twoFurtherAccuracyFixesTheRepairForced": [
+          "The held-filing paragraph asserted the manifest sentence carried 'the deadline that governs both'. Prop 64's file entry states no deadline, so that clause is now conditional on the held sentence actually stating one — A4's rule applied to the sentence DESCRIBING the rule. 851.91's sentence does state one, so its text does not move.",
+          "The fee-waiver paragraph opened 'If you cannot pay it', which cannot follow a stated nil fee. Where the held route fee is $0 the paragraph now says a waiver should not arise at filing, still names FW-001 because the manifest holds it, and asserts nothing about whether a waiver is available on this route — which no held record establishes either way."
+        ]
+      },
+      "completeness": {
+        "before": "PASS_COMPLETE 3/148 written, nine counters zero",
+        "after": "PASS_COMPLETE 3/148 written, nine counters zero"
+      },
+      "fixtureBytesChanged": false,
+      "rasterOwed": []
+    },
+    {
+      "familyId": "ca-851-91-set",
+      "lane": "FIX06",
+      "outcome": "STOPPED",
+      "bytesChanged": false,
+      "failedObligationsAddressed": [],
+      "failedObligationsNotAddressed": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "verdictRepairedAgainst": "vf04 (FABLE-VT14), base 7fcfb7d40aafe7bd7350fc735ea09d16524cb757",
+      "reasonStopped": "Its one open obligation is CLIPPING_AND_OVERLAP, whose only correct repair is a shared-helper change beyond this lane's grant. See clippingAndOverlap below.",
+      "priorRepairsReVerifiedBeforeTouchingAnything": {
+        "asked": "The brief said this family's fee, service and destination failures were already repaired to the manifest's own sentences, and told me to verify that holds before changing anything.",
+        "answer": "It holds. VF04's fresh read scores FEE_AND_WAIVER, SERVICE and FILING_DESTINATION all PASS and quotes the manifest sentences back. I re-ran the completeness verifier (PASS_COMPLETE, 14/129, nine counters zero) and rebuilt the family through its own script: byte-identical to the committed bytes, so nothing had drifted underneath those verdicts.",
+        "andItStayedThatWay": "After the ca-prop64-set mechanism landed, ca-851-91-set was rebuilt again and is still byte-identical. Its verified-good instruction text is untouched."
+      },
+      "completeness": {
+        "before": "PASS_COMPLETE 14/129 written, nine counters zero",
+        "after": "PASS_COMPLETE 14/129 written, nine counters zero (no change made)"
+      },
+      "fixtureBytesChanged": false,
+      "rasterOwed": []
+    }
+  ],
+  "clippingAndOverlap": {
+    "affects": [
+      "ca-prop64-set",
+      "ca-851-91-set"
+    ],
+    "status": "DIAGNOSED, FIX PROVEN, NOT LANDED — needs a shared-host-repair grant",
+    "theRootCauseIsNotWhatTheVerifiersInferred": {
+      "whatBothVerifiersSaid": "That the fill path re-flows a STATIC text run and the fix is to preserve static content streams.",
+      "whatItActuallyIs": "The damaged sentence is not static page content. It is the appearance of a PUSHBUTTON widget. On CR-400 it is CR-400[0].#pageSet[0].PageArea1[0].Footer[0].Warning[0], /FT /Btn with /Ff 65536 (pushbutton bit set), /Rect [36.0, 11.56, 247.294, 34.739], carrying the whole notice as its /MK /CA caption and an /AP /N that draws it on two lines from x=36.0. The same shape carries CR-409's notice, and the Print/Save/Clear captions and the www.courts.ca.gov link caption alongside it.",
+      "whyItGetsMangled": "structuralDisposition() in scripts/rcap-official-forms/rcap-appearance-semantics.mjs already says a pushbutton is chrome and returns SUPPRESS_CONTROL_APPEARANCE, and restrictWidgetContributions() calls dropWidgets() for it. dropWidgets() deletes the widget's /AP and its /Annots entry and then calls detachFromAcroForm() — whose own doc comment says, correctly, that without detaching, updateFieldAppearances() 'regenerates an appearance for every field the form still lists — for a pushbutton, straight from its /MK /CA caption — and flatten() finds the page through the widget's own /P rather than through /Annots, so the caption this function was called to remove gets stamped anyway'. detachFromAcroForm() scans ONLY the top level of /AcroForm /Fields. An AcroForm generated from XFA nests every terminal field under the form's own root, so on a Judicial Council form it removes nothing, the field stays listed, and pdf-lib regenerates the two-line notice as one over-wide Helvetica line that runs off the left edge. The code documents the exact failure it then suffers.",
+      "measuredNotInferred": "pdftotext -bbox on the committed bytes: derived-sources/cr-400-pikepdf-unlocked.pdf renders 'protection' at xMin 70.668 on a line starting at x=36.0; fixtures/.../cr-400-filled.pdf renders 'otection' at xMin -3.485. Both figures reproduce VT10's reading exactly."
+    },
+    "theFixThatWorks": {
+      "where": "scripts/rcap-official-forms/rcap-active-content.mjs, detachFromAcroForm()",
+      "what": "Walk /Kids rather than the top level only, and prune an intermediate node whose /Kids empties out — pdf-lib reads a field with an empty /Kids as TERMINAL and then demands the /FT it has not got, which is a second, separate defect the naive fix hits immediately (createPDFAcroTerminal: 'Expected instance of PDFName, but got instance of undefined').",
+      "proven": "With it, all four ca-prop64-set cr-400-filled fixtures measure ZERO words outside the page box, across all twelve delivered fixtures. A word-set diff against the committed artifact shows the ONLY words lost are the viewer chrome — Print/Save/Clear this form, the mangled notice, and www.courts.ca.gov — and nothing is gained. No participant ink and no substantive official text moves.",
+      "whyItIsTheRightOutcomeAndNotJustAWorkingOne": "The repository's own generic rule already says a pushbutton is chrome and must be suppressed. The delivered page today is neither the official two-line notice nor its suppression: it is a mangled rendering of chrome. Making the documented suppression actually work is a bug fix to reach stated intent, not a new policy."
+    },
+    "whyItIsNotInThisCommit": {
+      "theControlFailed": "The method requires rebuilding an unrelated family on each host touched and confirming NO diff. With the helper fix in place, ca-1203-41-set — a family this lane holds no grant on — changes bytes: both its cr-180-filled fixtures and four rasters. Its committed artifact carries the identical defect (one word at xMin < 0, 'otection') and the identical repair, exactly as VF04's fleetRelevance predicted.",
+      "soTheChangeIsFleetWide": "detachFromAcroForm() is a shared helper. The blast radius is every family with a nested pushbutton field, which is at minimum all seven California families on the WEST host and is not bounded by anything this lane measured.",
+      "theGrantHeld": "FIX01/02/06 are repair (rapid-repair) grants on four named families. A shared helper whose fix rewrites five unclaimed families' delivered bytes is shared-host-repair work.",
+      "everythingWasReverted": "The helper is at its base bytes in this commit, and every family rebuilt during the investigation — ca-1203-41-set, ca-1203-43-set, ca-17b-reduction-set, az_marijuana_expungement_arrest_no_charges-set — was restored to its committed bytes and verified clean.",
+      "andItCouldNotBeVisuallyGatedAnyway": "Both families sit in RASTER_QUEUE.json's notEligible list because the queue's page counter cannot open encrypted XFA Judicial Council forms (DF-003). A byte change on them cannot be re-rastered centrally today. Not attempted; reported."
+    }
+  },
+  "controlsAndProofs": {
+    "westHostControls": [
+      {
+        "family": "ca-1203-41-set",
+        "grantHeldByMe": false,
+        "beforeMyEdit": "rebuild byte-identical to committed",
+        "afterMyEdit": "rebuild byte-identical to committed",
+        "verdict": "CLEAN"
+      },
+      {
+        "family": "az_marijuana_expungement_arrest_no_charges-set",
+        "grantHeldByMe": false,
+        "method": "rebuilt with the base host, hashed all 33 files, rebuilt with the r20 host, hashed again",
+        "verdict": "IDENTICAL — the r20 host edit changes no byte of it"
+      },
+      {
+        "family": "ca-851-91-set",
+        "grantHeldByMe": true,
+        "verdict": "byte-identical to committed with the mechanism present; it does not opt in and is not reached"
+      }
+    ],
+    "arkansasControls": [
+      {
+        "note": "No shared helper was modified for Arkansas. Both changes are inside the two families' own owning scripts, and scripts/rcap-packet-completeness/ and scripts/rcap-official-forms/ are untouched in this commit."
+      },
+      {
+        "family": "ar-arrest-seal-set",
+        "observed": "rebuilding after the repair changes participant-instructions.md and nothing else — every fixture PDF, raster, report, census and receipt reproduces byte-identical, which also proves the family was not stale at base."
+      }
+    ],
+    "doubleBuild": [
+      {
+        "scope": "ca-prop64-set + ca-851-91-set",
+        "filesHashed": 102,
+        "result": "BYTE_IDENTICAL across two consecutive builds"
+      },
+      {
+        "scope": "ar-arrest-seal-set + ar-misdemeanor-dwi-seal-set",
+        "filesHashed": 59,
+        "result": "BYTE_IDENTICAL across two consecutive builds"
+      }
+    ],
+    "selfTests": [
+      "SELF_TEST_OK ca-prop64-set",
+      "SELF_TEST_OK ca-851-91-set",
+      "SELF_TEST_OK az_marijuana_expungement_arrest_no_charges-set"
+    ]
+  },
+  "completenessBeforeAndAfter": {
+    "ca-851-91-set": {
+      "before": "PASS_COMPLETE 14/129",
+      "after": "PASS_COMPLETE 14/129"
+    },
+    "ca-prop64-set": {
+      "before": "PASS_COMPLETE 3/148",
+      "after": "PASS_COMPLETE 3/148"
+    },
+    "ar-arrest-seal-set": {
+      "before": "PASS_COMPLETE 15/66",
+      "after": "PASS_COMPLETE 15/66"
+    },
+    "ar-misdemeanor-dwi-seal-set": {
+      "before": "FAIL_COMPONENT_SET 0/0, auditable:false",
+      "after": "PASS_COMPLETE 8/49, nine counters zero"
+    }
+  },
+  "rasterOwed": {
+    "summary": "NONE. No fixture PDF, no raster PNG and no rendered artifact changed bytes in this commit. Only three participant-instructions.md files and one production-field-map.json moved, and none of them is rastered.",
+    "entries": [],
+    "changedFileHashes": [
+      {
+        "path": "data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill/participant-instructions.md",
+        "old": "f256d46187676e783c5d7f5093a398f21d7fabd8c5875162d92a3f24878d62da",
+        "new": "22127f015fdf5e23eb0cc39a8d09bf813e07ad5662f545f15303a7c06a9f6841"
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/ar/ar-misdemeanor-dwi-seal-set--official-pdf-fill/participant-instructions.md",
+        "old": "ca82f648f50e99cc7e4dae7d1c96510a5e2ce265c2ef6865238887a39814ca7d",
+        "new": "3e1cb1eed7a8b9daafc370f07f7a94234a8fbe297ec03424ec15211aab4ba545"
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/ar/ar-misdemeanor-dwi-seal-set--official-pdf-fill/production-field-map.json",
+        "old": "8855a16ac3e0fd2c4b78b56735e9f72c3e2affea8b0d196f2a1e190499fa7cbf",
+        "new": "3063451c268afdf6f750beb8b51de39b50e10a32c726622c1cd296b243862f88"
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/ca/ca-prop64-set--official-pdf-fill/participant-instructions.md",
+        "old": "1deeabb0dbe262f584870247248c55ada022ddef545864c67d1e6e5c3349fb01",
+        "new": "bd55c194786ca17cf2acab893fb56574985625eaf99a8fb79d8e044ab474e3b3"
+      }
+    ],
+    "ifTheClippingFixIsLaterGranted": "That repair DOES move fixture bytes on every California family built from Judicial Council sources, and those families cannot be re-rastered centrally while DF-003 stands. Whoever lands it owes the raster queue an entry per fixture and needs the DF-003 question answered first."
+  },
+  "forACaptain": [
+    {
+      "id": "R20-C1",
+      "title": "The California clipping defect is one shared-helper bug, not seven family defects, and no grant exists to fix it",
+      "detail": "detachFromAcroForm() in scripts/rcap-official-forms/rcap-active-content.mjs scans only the top level of /AcroForm /Fields, so pushbutton suppression silently fails on every XFA-generated AcroForm — which is every Judicial Council form. The fix is eight lines, is proven to zero the defect across all twelve ca-prop64-set fixtures, and is proven to lose nothing but viewer chrome. It also changes ca-1203-41-set, ca-1203-42-set, ca-1203-43-set, ca-1203-4a-set, ca-17b-reduction-set and ca-851-91-set when they are rebuilt. This needs one shared-host-repair grant covering the helper and every family it reaches, not seven rapid-repair grants issued one at a time.",
+      "decisionNeeded": "Issue a shared-host-repair grant for rcap-active-content.mjs plus the California families, or leave the defect standing and say so on the record."
+    },
+    {
+      "id": "R20-C2",
+      "title": "Three families on the WEST host do not reproduce from their own build script at base, and two of them are the ones A3 called mis-scoped",
+      "detail": "Rebuilt at base d0cb5f87e with no code change, ca-17b-reduction-set, ca-1203-43-set and az_marijuana_expungement_arrest_no_charges-set all diff against their committed bytes. The builds are deterministic — a second rebuild is byte-identical to the first — so this is staleness, not nondeterminism: the committed artifacts predate host changes that were never rebuilt into them. Two consequences worth Captain attention. First, ca-17b-reduction-set's rebuild EMITS a participant-instructions.md, and A3 records that ca-1203-43-set and ca-17b-reduction-set 'ship no participant-instructions.md at all and never have on this branch'. That is true of the committed bytes and false of the build; the file those two families are missing is one rebuild away. Second, the AZ family's rebuild silently DROPS a wave-2 feature its committed build-findings.json records ('The citing-or-arresting-agency blank is written from the participant-stated fact matter.citing_or_arresting_agency, per the shared participant fact allowlist (wave-2 S1)'), which means either the committed artifact or the current host is wrong about what that family writes. All four families were restored to their committed bytes; nothing here is my change.",
+      "decisionNeeded": "Whether stale families are rebuilt as a wave, and which side of the AZ wave-2 discrepancy is authoritative."
+    },
+    {
+      "id": "R20-C3",
+      "title": "Arkansas's prosecutor objection window is 30 or 90 days depending on which held record you read, and for an uncharged arrest neither is derivable",
+      "detail": "The ar-arrest-seal-set packet-set manifest says 30 days flat. AR-arkansas.json says 30 (misdemeanor) or 90 (felony). Situation-a is defined by charges never having been filed, so there is no conviction class to select on, and the petition's own paragraph 1 asks the participant for the class of the offense they were ARRESTED for — which is not the same fact. VT15 flagged this and declined to resolve it; I have done the same. The packet now states both records and their attributions and names two authorities, so a participant can act; what it cannot do is tell them which rule governs. The sibling DWI family has no such problem: it is a misdemeanor route and both records give 30.",
+      "decisionNeeded": "A counsel reading of whether § 16-90-1401's objection window turns on the class of an uncharged arrest, or a decision that the manifest's flat 30 days governs this route."
+    },
+    {
+      "id": "R20-C4",
+      "title": "ar-arrest-seal-set's caption county is written from matter.county while its venue is the county of ARREST",
+      "detail": "VT15 raised this and could not settle it from the artifacts; neither could I. The route census, the packet-set manifest and the petition's own venue all key on the county of the arrest. The build prefills the caption county from matter.county. If those two can diverge in platform data, the prefill is on the wrong fact and a participant who trusts it files in the wrong county. I did not change the prefill, because which fact a caption is written from is a data-model decision rather than an instruction repair, and I could not establish from the repository whether they can differ. The packet now tells the participant to check the printed county against the county of the arrest and correct it. That is a mitigation, not a fix.",
+      "decisionNeeded": "Whether matter.county and the arrest county are the same fact in platform data. If they can differ, this is a field-map repair on ar-arrest-seal-set and possibly on every county-of-arrest route in the fleet."
+    },
+    {
+      "id": "R20-C5",
+      "title": "A fifth field-map schema existed in the fleet and the completeness gate could not see it",
+      "detail": "readFieldRows() documents four schemas 'across 43 families'. ar-misdemeanor-dwi-seal-set emitted a fifth and was refused as unauditable — which is the contract behaving correctly, but it means the family sat outside the gate entirely. I repaired it on the family's side, as the verifier directed, so the shared contract is untouched. Worth asking how many other families are refused this way: a family the gate refuses shows up as FAIL_COMPONENT_SET and reads like a missing component, which is not what it is.",
+      "decisionNeeded": "Whether to sweep for other unreadable field-map schemas, and whether readFieldRows() should distinguish 'refused as unreadable' from 'missing a component' in its finding text."
+    },
+    {
+      "id": "R20-C6",
+      "title": "Three of my seven assigned families hold no repair grant and were left completely alone",
+      "detail": "ca-1203-41-set, ca-1203-42-set and ca-1203-4a-set have exactly one repair grant each — FIX03, FIX04, FIX05 — and all three were released on 2026-09-01. --assert answers ALREADY_RELEASED. I did not reissue and did not transfer. Their defects are unaddressed: ca-1203-42-set's REPEATING_ROWS and ROUTE_OPTIONS, and whatever the current rows hold for the other two. Note that ca-1203-41-set and ca-1203-4a-set carry no failed-obligation list I could find under a non-superseded verdict at all — the only rows naming them are the FIX-lane releases and, for ca-1203-41-set, no verifier row on this branch. The brief told me to report that rather than invent a defect, so: for ca-1203-41-set and ca-1203-4a-set, no verifier row on this branch states a failed obligation.",
+      "decisionNeeded": "Whether to reissue those three grants, and whether ca-1203-41-set and ca-1203-4a-set need a first independent read rather than a repair."
+    }
+  ],
+  "rulesObserved": {
+    "verifiedMyOwnRepair": false,
+    "wroteToAnyVfRowsJson": false,
+    "wroteToVerifierReturnsMasterQueueRasterQueueOrActiveAssignments": false,
+    "ranAnyFactoryGenerator": false,
+    "touchedProductionSupabaseRlsAuthStripeSecretsOrMigrations": false,
+    "usedGitAddAll": false,
+    "modelIdentifierInAnyCommittedFile": false
+  }
+}

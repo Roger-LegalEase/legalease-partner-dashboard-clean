@@ -1,0 +1,164 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-checkpoints/v1",
+  "assignmentId": "PF03",
+  "workerId": "PF-A",
+  "workerBranch": "claude/9h-pf-a",
+  "checkpoints": [
+    {
+      "n": 1,
+      "familiesCompletedAtThisPoint": [
+        "vt_exp_decriminalized-set"
+      ],
+      "familiesStoppedAtThisPoint": [
+        "or_conviction_setaside-set"
+      ],
+      "what": "Both rows in one checkpoint. The Vermont family is built and rastered; the Oregon family is stopped on one counter with nothing written to its overlay directory.",
+      "pushed": true
+    }
+  ],
+  "packetsSelfVerified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "currentReturn": {
+    "workerId": "codex-pf03-a293",
+    "workerBranch": "codex/pf03-full-a293",
+    "shiftBaseSha": "a293c0a93685a1b45be5e55200e8cf2dcc96391e",
+    "checkpoints": [
+      {
+        "n": 1,
+        "familiesCompletedAtThisPoint": [],
+        "familiesStoppedAtThisPoint": [
+          "al-pardon-set",
+          "composed-treatment:nc_146_dismissal_petition",
+          "md_10110_conviction-set",
+          "md_pardon_expungement-set",
+          "nm_release_without_conviction-set",
+          "rcap-in-custom-pleading",
+          "rcap-or-official-pdf-fill",
+          "tx_nd_automatic_misdemeanor_deferred-set",
+          "tx_nd_deferred_other-set"
+        ],
+        "what": "Final nine-family checkpoint. Three rows stopped at the exact source-binding gate. Six source-ready rows stopped because their dispatched family-specific build scripts are absent at the authoritative base and their required packet assemblies do not exist. No stopped-family overlay was changed."
+      }
+    ],
+    "packetsSelfVerified": 0,
+    "allClaimsReleased": true,
+    "commercialRoutesOpened": 0,
+    "productionTouched": false,
+    "mississippiDemoTouched": false
+  },
+  "twoWorkersReturnedThisLane": {
+    "why": "Two shifts, two workers, disjoint families. The earlier worker's fields are untouched.",
+    "laterReturn": {
+      "schemaVersion": "rcap-packet-factory-24h-lane-checkpoints/v1",
+      "assignmentId": "PF03",
+      "workerId": "FABLE-PA",
+      "workerBranch": "fable/pa",
+      "note": "This worker held PF02, PF03, PF05 and PF06 together and checkpointed by COMMIT rather than by five-family batch: no single lane reached five completed families, and the checkpoint rule's purpose — not holding a whole assignment back for the last family — is served by six commits landing as each family finished.",
+      "checkpoints": [
+        {
+          "at": "commit 1",
+          "families": [
+            "ar-act531-set"
+          ],
+          "lanes": [
+            "PF02"
+          ]
+        },
+        {
+          "at": "commit 2",
+          "families": [
+            "ar-cs-possession-seal-set",
+            "ar-act531-set (county correction)"
+          ],
+          "lanes": [
+            "PF03",
+            "PF02"
+          ]
+        },
+        {
+          "at": "commit 3",
+          "families": [
+            "id_clean_slate_shield-set"
+          ],
+          "lanes": [
+            "PF05"
+          ]
+        },
+        {
+          "at": "commit 4",
+          "families": [
+            "id_isp_expungement-set"
+          ],
+          "lanes": [
+            "PF06"
+          ]
+        },
+        {
+          "at": "commit 5",
+          "families": [
+            "official-form-treatment:obligation:research-decision-route:AL:al-olr"
+          ],
+          "lanes": [
+            "PF02"
+          ]
+        },
+        {
+          "at": "commit 6",
+          "families": [
+            "nd-nonconviction-close-petition-set"
+          ],
+          "lanes": [
+            "PF05"
+          ]
+        },
+        {
+          "at": "commit 7",
+          "families": [
+            "in_arrest_no_charges-set",
+            "in_section1_petition-set"
+          ],
+          "lanes": [
+            "PF02"
+          ]
+        },
+        {
+          "at": "commit 8",
+          "families": [],
+          "lanes": [
+            "PF02",
+            "PF03",
+            "PF05",
+            "PF06"
+          ],
+          "what": "lane rows, checkpoints and claim releases"
+        }
+      ],
+      "pushedTo": "origin/fable/pa"
+    }
+  },
+  "thirdReturn": {
+    "why": "The third execution of this lane id. The two earlier returns keep every field they wrote; this key is added beside them and overwrites none.",
+    "workerId": "claude-opus5-pf03-pf23-20260909",
+    "workerBranch": "pf03-pf23-build-20260909",
+    "shiftBaseSha": "08960cf4a779278e22a10fe782fcbffdb8823a66",
+    "checkpoints": [
+      {
+        "n": 1,
+        "familiesCompletedAtThisPoint": [
+          "hi_712_1200_deferred_expungement-set"
+        ],
+        "familiesStoppedAtThisPoint": [
+          "la-985-1-interim-expungement-set",
+          "ma-seal-admin-set",
+          "ma-seal-decrim-set"
+        ],
+        "what": "All four PF03 rows in one checkpoint; the assignment is four families, below the five-family checkpoint interval. Hawaii is built and locally rastered and returns BUILT_RASTER_PENDING with its canonical and boundary digests pinned for the central gate. Louisiana stopped before its claim: the assertion exited 9 ALREADY_RELEASED, so no artifact of it was read. Both Massachusetts sealing families stopped at the source-binding gate on an unresolved form-label identity. No stopped family's overlay directory was created or touched.",
+        "pushed": true
+      }
+    ],
+    "packetsSelfVerified": 0,
+    "commercialRoutesOpened": 0,
+    "productionTouched": false
+  }
+}

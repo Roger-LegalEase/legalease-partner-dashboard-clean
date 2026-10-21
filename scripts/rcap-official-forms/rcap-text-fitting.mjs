@@ -22,8 +22,21 @@ export const DEFAULT_MAX_FONT_SIZE = 11;
 
 // Horizontal padding inside a widget, and the share of a line's height taken
 // by leading when wrapping.
-const HORIZONTAL_PADDING = 4;
+//
+// HORIZONTAL_PADDING is exported because it is the comparison basis a width
+// refusal is actually decided on, and a refusal record that names only
+// `rect.width` and `requiredWidthAtMin` cannot be checked against it. On the
+// North Dakota close-petition boundary fixture that gap read as a false
+// refusal: `City State Zip Code` was refused for exceeding a 181.35pt widget
+// while needing 179.0pt, and the number the fitter compared against -- 177.35pt
+// of usable width -- appeared nowhere. Exporting the constant lets a family's
+// own report state the width it was measured against. Nothing here decides
+// anything differently; the value and every outcome are unchanged.
+export const HORIZONTAL_PADDING = 4;
 const LINE_HEIGHT_FACTOR = 1.15;
+
+/** The width a value is actually measured against inside a widget rectangle. */
+export const usableWidthOf = (rect) => Number((rect.width - HORIZONTAL_PADDING).toFixed(2));
 
 /**
  * Widths come from the embedding font, so this measures what will actually be
@@ -36,16 +49,27 @@ function widthAt(font, text, size) {
 /**
  * Greedy wrap at word boundaries, splitting a word that cannot fit a line on
  * its own so a single long token cannot silently overflow.
+ *
+ * A line completed at a word boundary keeps the space that separated it from
+ * the word that starts the next line. A line break carries no character of its
+ * own in finished PDF bytes -- each wrapped line becomes its own show-text op,
+ * so a dropped boundary space is deleted from the artifact and the flattened
+ * appearance reads back "...Northern" + "Reaches..." as "NorthernReaches"
+ * (the west-host CA finalizer failed its own read-back on exactly this).
+ * The trailing space is budgeted inside `maxWidth` below, so no downstream
+ * appearance generator can be forced to re-wrap the line, and it draws no ink.
+ * A mid-word split adds no space: no character sat between the pieces.
  */
 export function wrapToWidth(font, text, size, maxWidth) {
   const lines = [];
+  const boundarySpace = widthAt(font, " ", size);
   for (const paragraph of String(text).split(/\r?\n/)) {
     let line = "";
     for (const word of paragraph.split(/\s+/).filter(Boolean)) {
       const candidate = line ? `${line} ${word}` : word;
-      if (widthAt(font, candidate, size) <= maxWidth) { line = candidate; continue; }
-      if (line) lines.push(line);
-      if (widthAt(font, word, size) <= maxWidth) { line = word; continue; }
+      if (widthAt(font, candidate, size) + boundarySpace <= maxWidth) { line = candidate; continue; }
+      if (line) lines.push(`${line} `);
+      if (widthAt(font, word, size) + boundarySpace <= maxWidth) { line = word; continue; }
       // A single token wider than the line: break it at the last character
       // that still fits, repeatedly.
       let rest = word;
@@ -75,7 +99,31 @@ export function fitTextToWidget({
   rect,
   multiline = false,
   maxFontSize = DEFAULT_MAX_FONT_SIZE,
-  minFontSize = MIN_READABLE_FONT_SIZE
+  minFontSize = MIN_READABLE_FONT_SIZE,
+  /*
+   * Whether the declared minimum is actually tried before the value is refused.
+   *
+   * The descending ladder steps by 0.5 from a start size the box height decides,
+   * so it only lands on `minFontSize` when the two happen to be half a point
+   * apart. On a 12.96pt-high widget the start size is 10.96 and the last rung is
+   * 6.46: 6.0 is never evaluated, and the effective floor is 6.46 rather than
+   * the 6.0 this module declares. VF11 and VF12 found what that costs -- a
+   * boundary email needing 165.6pt in a 170.7pt box was refused, and because the
+   * refusal was in the finalizer's report rather than the family's, the packet
+   * shipped with a mapped known prefill silently absent from its bytes.
+   *
+   * Trying the declared minimum as a final rung can only turn a refusal into a
+   * write; it cannot change the size of any value that already fits, because
+   * every rung above the minimum is evaluated first and unchanged. It is opt-in
+   * all the same: forty-odd builders share this module, most under other
+   * workers' claims, and a repair lane holding six families does not get to
+   * change what the other families' next rebuild produces. The default keeps
+   * the current ladder exactly.
+   *
+   * CAPTAIN DECISION: this default should flip to true once every family can be
+   * rebuilt together. Until then each family opts in as it is repaired.
+   */
+  evaluateDeclaredMinimumSize = false
 }) {
   const value = String(text ?? "");
   if (!rect || !(rect.width > 0) || !(rect.height > 0)) {
@@ -92,7 +140,13 @@ export function fitTextToWidget({
   const heightCeiling = multiline ? maxFontSize : Math.max(minFontSize, Math.min(maxFontSize, rect.height - 2));
   const startSize = Math.min(maxFontSize, heightCeiling);
 
-  for (let size = startSize; size >= minFontSize; size -= 0.5) {
+  const ladder = [];
+  for (let size = startSize; size >= minFontSize; size -= 0.5) ladder.push(size);
+  // The declared minimum, tried last and only when the ladder stepped past it.
+  if (evaluateDeclaredMinimumSize && ladder[ladder.length - 1] !== minFontSize
+    && startSize >= minFontSize) ladder.push(minFontSize);
+
+  for (const size of ladder) {
     if (!multiline) {
       if (widthAt(font, value, size) <= usableWidth && size <= rect.height - 1) {
         return { outcome: size === startSize ? "fit" : "shrunk", fontSize: size, lines: [value], value, rect };

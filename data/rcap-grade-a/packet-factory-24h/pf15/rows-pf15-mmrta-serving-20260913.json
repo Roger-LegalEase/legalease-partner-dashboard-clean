@@ -1,0 +1,143 @@
+{
+  "schemaVersion": "rcap-packet-factory-family-return/v1",
+  "assignmentId": "PF15",
+  "workerId": "rcap-finish-worker-77jr7gx76jq3rg65",
+  "lane": "packet-build",
+  "engine": "Codex Codespaces worker",
+  "shiftBaseSha": "6867ee44777ce3c9e88afda8b4bad8c3d8e8e31a",
+  "workerBranch": "pf20-ks-22-2410-arrest-20260912b",
+  "workerHeadBeforeReturn": "5c7b994dc648c0c2aaf198041ce82ed66376e11e",
+  "familiesAssigned": 1,
+  "rowsReturned": 1,
+  "claim": {
+    "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF15 'mt_mmrta_serving-set'",
+    "result": "CLAIM_OK PF15 mt_mmrta_serving-set (packet-build, grant set d1583ab78fdc86cd)",
+    "captainLedgerPath": "data/rcap-grade-a/packet-factory-24h/claim-ledger.json",
+    "captainLedgerSha256": "08b519894d3dc1a6f9a214433814b3cbee8129ea5971858a0f4fe187f3c77b7d",
+    "captainLedgerGeneratedAtCommit": "14730fa5a87c8deb93bfb7a67d867e2627c7d119"
+  },
+  "itemId": "mt_mmrta_serving-set",
+  "status": "STOPPED",
+  "stopClass": "BLOCKED_SOURCE",
+  "jurisdiction": "MT",
+  "routeKeys": [
+    "obligation:unit:MT:mt_mmrta_serving:mt-mmrta-serving-court-petition",
+    "obligation:unit:MT:mt_mmrta_serving:mt-mmrta-serving-criss-submission"
+  ],
+  "implementationStrategy": "official_pdf_fill",
+  "officialFormFamily": "EXPUNGEMENTREMOVALREQUESTFORM.DOCX+MT-FORM-A+MT-MMRTA-CERTIFICATE-OF-SERVICE+MT-MMRTA-PROPOSED-ORDER",
+  "requiredComponents": [
+    "component:mt_mmrta_serving-certificate-of-service-2",
+    "component:mt_mmrta_serving-primary-filing-1",
+    "component:mt_mmrta_serving-primary-filing-5",
+    "component:mt_mmrta_serving-proposed-order-3"
+  ],
+  "buildScript": "scripts/build-census-v1-mt_mmrta_serving-set.mjs",
+  "buildScriptExists": false,
+  "overlayDirectory": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-serving-set--official-pdf-fill",
+  "overlayDirectoryExists": false,
+  "overlayDirectoryTouched": false,
+  "builderCreated": false,
+  "testCreated": false,
+  "filingPacketsGenerated": 0,
+  "rasterGenerated": false,
+  "sourceBinding": {
+    "queueSourcesNamed": 6,
+    "familyGate": {
+      "result": "FAIL",
+      "detail": "6 of 6 source(s) do not bind",
+      "boundSourceCount": 0,
+      "completeQueueSourceBind": false,
+      "resolverTier": "custody_reconciliation"
+    },
+    "queuePinnedSources": [
+      {
+        "sourceId": "official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+        "declaredPath": "STATES/MT/04_SUPPORTING_PROCESS/MT__SUPPORT__EXPUNGEMENTREMOVALREQUESTFORM.DOCX__20240429-updated-expungementremovalrequestform__REV-UNKNOWN__EN.docx",
+        "sha256": "4606815523c3d2a77d1874ca3de8909250abd9349f2973230473116c962109a7",
+        "statusAtWorker": "MISSING_AT_DECLARED_PATH",
+        "absenceRecord": "reused from prior MT family returns"
+      },
+      {
+        "sourceId": "official-form:MT-FORM-A",
+        "declaredPath": "STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-FORM-A__form-a__REV-UNKNOWN__EN.docx",
+        "sha256": "968f68c78ce0d421b3751244bfcbd01c309eb7cea26027845b5e5dc6dbdb003d",
+        "statusAtWorker": "MISSING_AT_DECLARED_PATH",
+        "statusAtCheckedCaptainPaths": "NOT_FOUND; no alternate search performed"
+      },
+      {
+        "sourceId": "source-sha256:2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
+        "declaredPath": "STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__proposed-order-granting-expungement-resentencing-or-redesignation-under-mmrta__SOURCE-2022-02__EN.docx",
+        "sha256": "2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
+        "statusAtWorker": "MISSING_AT_DECLARED_PATH",
+        "absenceRecord": "reused from prior MT family returns"
+      },
+      {
+        "sourceId": "source-sha256:4606815523c3d2a77d1874ca3de8909250abd9349f2973230473116c962109a7",
+        "declaredPath": "STATES/MT/04_SUPPORTING_PROCESS/MT__SUPPORT__EXPUNGEMENTREMOVALREQUESTFORM.DOCX__20240429-updated-expungementremovalrequestform__REV-UNKNOWN__EN.docx",
+        "sha256": "4606815523c3d2a77d1874ca3de8909250abd9349f2973230473116c962109a7",
+        "statusAtWorker": "MISSING_AT_DECLARED_PATH",
+        "absenceRecord": "reused from prior MT family returns"
+      },
+      {
+        "sourceId": "source-sha256:968f68c78ce0d421b3751244bfcbd01c309eb7cea26027845b5e5dc6dbdb003d",
+        "declaredPath": "STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-FORM-A__form-a__REV-UNKNOWN__EN.docx",
+        "sha256": "968f68c78ce0d421b3751244bfcbd01c309eb7cea26027845b5e5dc6dbdb003d",
+        "statusAtWorker": "MISSING_AT_DECLARED_PATH",
+        "absenceRecord": "same exact path check as official-form:MT-FORM-A"
+      },
+      {
+        "sourceId": "source-sha256:d9096c176ca3ac4efb5de0dfd76f0b245ea1487fe1b1b76f265c8a9d6ce6aec9",
+        "declaredPath": "STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__certificate-of-service-mmrta-petition__SOURCE-2022-03__EN.docx",
+        "sha256": "d9096c176ca3ac4efb5de0dfd76f0b245ea1487fe1b1b76f265c8a9d6ce6aec9",
+        "statusAtWorker": "MISSING_AT_DECLARED_PATH",
+        "absenceRecord": "reused from prior MT family returns"
+      }
+    ],
+    "custodyRecord": {
+      "row": "mt_mmrta_serving-set",
+      "documentSourcesNamed": 8,
+      "documentSourcesResolved": 6,
+      "custodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+      "queueSourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "legalInputStatus": "SETTLED",
+      "sharedRecordModified": false
+    }
+  },
+  "preflight": {
+    "command": "source \"$HOME/.legalease-corpus-env\" && node scripts/verify-packet-build-environment.mjs --family 'mt_mmrta_serving-set' --codex-cloud --minimum-captain-sha 6867ee44777ce3c9e88afda8b4bad8c3d8e8e31a",
+    "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 9/14 passed, 5 failed, 3 not applicable",
+    "exitCode": 1,
+    "familySourcesBind": "FAIL: 6 of 6 source(s) do not bind",
+    "knownWorkerEnvironmentFailures": [
+      "worktree_clean: Captain-provided claim ledger is intentionally uncommitted in the worker",
+      "private_is_git_ignored: private/ is not git-ignored at this worker base",
+      "master_library_complete: below immutable minimum: 13 of 499 files, 11 of 329 PDFs present",
+      "corpus_matches_committed_index: 24 absent, 0 mismatched of 24 sampled"
+    ],
+    "treatment": "Aggregate partial-corpus failures were not repaired or used as the family finding; the six exact resolved MT source bytes and absent exclusive builder are the bounded blockers."
+  },
+  "blocker": {
+    "exactClass": "BLOCKED_SOURCE",
+    "statement": "The custody row has six resolved byte-pinned sources, but none binds in the worker's mounted Master Library; the exclusive MT MMRTA serving builder is also absent at its exact path. The shared MT source absence was reused from prior returns; no alternate search was performed.",
+    "noSourceHunt": true,
+    "noSharedResolverEdit": true,
+    "noLegalResearch": true,
+    "noClosedFamilyTouched": true
+  },
+  "nextExecutableAction": "Provide the six exact held MT source bytes at their governed paths and materialize the exclusive MT MMRTA serving builder, then rerun the existing prerequisite once and build.",
+  "counters": null,
+  "allNineCountersZero": null,
+  "artifactsProduced": [],
+  "commercialAuthorityGranted": false,
+  "productionTouched": false,
+  "selfVerified": false,
+  "privateSourceBytesCommitted": false,
+  "privateSourceBytesModified": false,
+  "returnNotes": [
+    "Claim used PF15, the lane recorded in Captain's current claim ledger.",
+    "The prior absence record was reused for the shared MT bytes; no duplicate source search was performed.",
+    "The worker claim ledger remains intentionally uncommitted.",
+    "Shared manifests, source custody, resolver logic, closed families, and the active KY pardon slot were not modified."
+  ]
+}

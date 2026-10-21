@@ -1,0 +1,194 @@
+{
+  "schemaVersion": "rcap-targeted-independent-binding-closure/v1",
+  "familyId": "composed-treatment:nd-nonconviction-auto-close-verify",
+  "verifiedAtBase": "5ec5b9d743d4c780db344e0f0465580d90631df4",
+  "recordedAtUtc": "2026-09-11T18:52:32.361060+00:00",
+  "preflight": {
+    "worktree": "/tmp/rcap-vf62-pa-final-20260911",
+    "branch": "vf62-pa-final-20260911",
+    "grantSet": "9a67aefaf6945d48",
+    "canAssertExit": 0,
+    "assertExit": 0
+  },
+  "originalBaseFindings": {
+    "path": "data/rcap-grade-a/packet-factory-24h/vf01/nd-binding-final-20260911/original-base-findings.json",
+    "sha256": "bfff18f54afeb0804bd62d4e190370389e3dedba4142d00f1a39d8bcb6e1c47a",
+    "byteLength": 19214
+  },
+  "originalFailedProbe": {
+    "path": "data/rcap-grade-a/packet-factory-24h/vf01/nd-binding-final-20260911/future-selected-review-probe.json",
+    "sha256": "1b83b71beec89bfe6703ae6b2099742cbc1ed01d3df73609e971566e6d708eed",
+    "byteLength": 2826
+  },
+  "correctionCommit": "b922582dda8106d6f1e99ebd60d673f8d850debe",
+  "correctionChangesExactly": [
+    "scripts/grade-a-packet-factory-24h/test-nd-declared-binding.mjs"
+  ],
+  "correctionDetail": "Replaces the fixture-specific old VF01 FAIL tuple with normalizedSelected(masterFamily.selectedIndependentVerdict); title says selected current verdict. No binder logic or assertion removal. Existing stale-tuple demotion, future tuple preservation, 21 refusal cases, raster/hash/component/idempotency and no-mutation assertions remain.",
+  "correctedSuite": {
+    "path": "scripts/grade-a-packet-factory-24h/test-nd-declared-binding.mjs",
+    "sha256": "c5fe5e9c1ef17cea66cce2e49d61a163a08706b7027076c1e43e9b3098a1a345",
+    "byteLength": 8206
+  },
+  "freshFocusedTests": {
+    "command": "node --test scripts/grade-a-packet-factory-24h/test-nd-declared-binding.mjs scripts/rcap-packet-recovery/test-nd-nonconviction-timing.mjs",
+    "exitCode": 0,
+    "tests": 15,
+    "passed": 15,
+    "failed": 0,
+    "includes": "21 binding refusal cases; real production --check read-only test"
+  },
+  "freshFutureSelectedProbe": {
+    "path": "data/rcap-grade-a/packet-factory-24h/vf01/nd-binding-final-20260911/future-selected-review-closure.json",
+    "sha256": "0fbb40e322e78fbcbc149acc36ad64802fca4e054cdbe8d7b77a11ef2484d355",
+    "byteLength": 1482
+  },
+  "futureProbeResult": {
+    "testedSuiteExit": 0,
+    "tests": 5,
+    "passed": 5,
+    "failed": 0,
+    "hypotheticalOnly": true
+  },
+  "commands": [
+    {
+      "argv": [
+        "node",
+        "scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs",
+        "--check",
+        "--family",
+        "composed-treatment:nd-nonconviction-auto-close-verify"
+      ],
+      "exitCode": 0,
+      "stdout": "0 wiring record(s) need creation, 0 record(s) need refresh, 1 unchanged",
+      "stderr": ""
+    },
+    {
+      "api": "acceptedRasterFor(ROOT, candidateRowsByFamily(RASTER_QUEUE).get(FAMILY), {requireReceiptDeclaredCoverage:true})",
+      "module": "scripts/grade-a-packet-factory-24h/acceptance-identity.mjs",
+      "exitCode": 0,
+      "proven": true,
+      "reasons": []
+    }
+  ],
+  "allOriginalTaskBindingsRemeasuredUnchanged": [
+    "data/rcap-all50/overlays/census-v1/nd/composed-treatment:nd-nonconviction-auto-close-verify--custom-pleading/approval-request.json",
+    "data/rcap-all50/overlays/census-v1/nd/composed-treatment:nd-nonconviction-auto-close-verify--custom-pleading/build-findings.json",
+    "data/rcap-all50/overlays/census-v1/nd/composed-treatment:nd-nonconviction-auto-close-verify--custom-pleading/build-status.json",
+    "data/rcap-all50/overlays/census-v1/nd/composed-treatment:nd-nonconviction-auto-close-verify--custom-pleading/fixtures/boundary.pdf",
+    "data/rcap-all50/overlays/census-v1/nd/composed-treatment:nd-nonconviction-auto-close-verify--custom-pleading/fixtures/canonical.pdf",
+    "data/rcap-all50/overlays/census-v1/nd/composed-treatment:nd-nonconviction-auto-close-verify--custom-pleading/participant-instructions.md",
+    "data/rcap-all50/overlays/census-v1/nd/composed-treatment:nd-nonconviction-auto-close-verify--custom-pleading/product-wiring.json",
+    "data/rcap-all50/overlays/census-v1/nd/composed-treatment:nd-nonconviction-auto-close-verify--custom-pleading/production-field-map.json",
+    "data/rcap-all50/overlays/census-v1/nd/composed-treatment:nd-nonconviction-auto-close-verify--custom-pleading/raster/boundary/page-01/page.png",
+    "data/rcap-all50/overlays/census-v1/nd/composed-treatment:nd-nonconviction-auto-close-verify--custom-pleading/raster/boundary/page-02/page.png",
+    "data/rcap-all50/overlays/census-v1/nd/composed-treatment:nd-nonconviction-auto-close-verify--custom-pleading/raster/boundary/page-03/page.png",
+    "data/rcap-all50/overlays/census-v1/nd/composed-treatment:nd-nonconviction-auto-close-verify--custom-pleading/raster/boundary/page-04/page.png",
+    "data/rcap-all50/overlays/census-v1/nd/composed-treatment:nd-nonconviction-auto-close-verify--custom-pleading/raster/boundary/page-05/page.png",
+    "data/rcap-all50/overlays/census-v1/nd/composed-treatment:nd-nonconviction-auto-close-verify--custom-pleading/raster/boundary/page-06/page.png",
+    "data/rcap-all50/overlays/census-v1/nd/composed-treatment:nd-nonconviction-auto-close-verify--custom-pleading/raster/boundary/page-07/page.png",
+    "data/rcap-all50/overlays/census-v1/nd/composed-treatment:nd-nonconviction-auto-close-verify--custom-pleading/raster/canonical/page-01/page.png",
+    "data/rcap-all50/overlays/census-v1/nd/composed-treatment:nd-nonconviction-auto-close-verify--custom-pleading/raster/canonical/page-02/page.png",
+    "data/rcap-all50/overlays/census-v1/nd/composed-treatment:nd-nonconviction-auto-close-verify--custom-pleading/raster/canonical/page-03/page.png",
+    "data/rcap-all50/overlays/census-v1/nd/composed-treatment:nd-nonconviction-auto-close-verify--custom-pleading/raster/canonical/page-04/page.png",
+    "data/rcap-all50/overlays/census-v1/nd/composed-treatment:nd-nonconviction-auto-close-verify--custom-pleading/raster/canonical/page-05/page.png",
+    "data/rcap-all50/overlays/census-v1/nd/composed-treatment:nd-nonconviction-auto-close-verify--custom-pleading/raster/canonical/page-06/page.png",
+    "data/rcap-all50/overlays/census-v1/nd/composed-treatment:nd-nonconviction-auto-close-verify--custom-pleading/raster/canonical/page-07/page.png",
+    "data/rcap-all50/overlays/census-v1/nd/composed-treatment:nd-nonconviction-auto-close-verify--custom-pleading/reports/actual-writes.json",
+    "data/rcap-all50/overlays/census-v1/nd/composed-treatment:nd-nonconviction-auto-close-verify--custom-pleading/reports/blanks-left-for-the-participant.json",
+    "data/rcap-all50/overlays/census-v1/nd/composed-treatment:nd-nonconviction-auto-close-verify--custom-pleading/reports/completeness-counters.json",
+    "data/rcap-all50/overlays/census-v1/nd/composed-treatment:nd-nonconviction-auto-close-verify--custom-pleading/reports/rendered-artifacts.json",
+    "data/rcap-all50/overlays/census-v1/nd/composed-treatment:nd-nonconviction-auto-close-verify--custom-pleading/source-receipt.json",
+    "src/lib/legal-authority/routes/national-report-2026-08-28.json",
+    "data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json",
+    "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
+    "scripts/build-census-v1-composed-treatment:nd-nonconviction-auto-close-verify.mjs",
+    "scripts/rcap-packet-recovery/nd-nonconviction-timing.mjs",
+    "data/rcap-grade-a/packet-factory-24h/raster-runs/34628970364/composed-treatment_nd-nonconviction-auto-close-verify.verdict.json",
+    "data/rcap-grade-a/packet-factory-24h/raster-runs/34628970364/composed-treatment:nd-nonconviction-auto-close-verify.PAGE_IMAGES_SHA256.json"
+  ],
+  "sourceBindings": [
+    {
+      "path": "src/lib/legal-authority/routes/national-report-2026-08-28.json",
+      "sha256": "918bc6616e23de07014825cd8cbd9b81dc282613a0f5f2214130ac2af30e4b7b",
+      "byteLength": 37333
+    },
+    {
+      "path": "data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json",
+      "sha256": "0aad88eff0e3d12ea9b10de9c80edcc5b3134508f097c9e85f0e35d34a9c74ef",
+      "byteLength": 184365
+    },
+    {
+      "path": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
+      "sha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
+      "byteLength": 22372
+    }
+  ],
+  "unchangedBinderGeneratorAndChecks": [
+    {
+      "path": "scripts/grade-a-packet-factory-24h/nd-declared-binding.mjs",
+      "sha256": "28e4879059abca5ac23742d5ea45024034fa4257b8b6be1ffd55312d76275fec",
+      "byteLength": 9268,
+      "byteIdenticalToOriginalTaskBase": true
+    },
+    {
+      "path": "scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs",
+      "sha256": "bfb90e60fc154197fe2516c3e336daa985b976390874df8e99f2038ec14e0c48",
+      "byteLength": 41155,
+      "byteIdenticalToOriginalTaskBase": true
+    },
+    {
+      "path": "scripts/grade-a-packet-factory-24h/acceptance-identity.mjs",
+      "sha256": "8d3de17d000c12a37ddff2f06b9ccafec95b2596d4e1583d7a854daa15ae285e",
+      "byteLength": 18239,
+      "byteIdenticalToOriginalTaskBase": true
+    },
+    {
+      "path": "scripts/rcap-packet-recovery/test-nd-nonconviction-timing.mjs",
+      "sha256": "b89c88bb55dbe4c045b787e33df64b87b5742b30d7156916c7777294351aabc9",
+      "byteLength": 14480,
+      "byteIdenticalToOriginalTaskBase": true
+    }
+  ],
+  "allSourcePdfGuideMapAndRequiredReportsUnchanged": true,
+  "prior13IndependentPassStillApply": true,
+  "physicalCounterProofReusedFromOriginalTaskBase": "fc0c9e9bddf88804ad246730650dd143aceb309c",
+  "originalRasterProofReused": {
+    "workflowRunId": "34628970364",
+    "pdfs": 2,
+    "pages": 14,
+    "evidence": [
+      {
+        "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34628970364/composed-treatment_nd-nonconviction-auto-close-verify.verdict.json",
+        "sha256": "d8120f814a88c8bfb2c5b8a53cef033301e4a37732247d4fb3db67448aad66cd",
+        "byteLength": 15277,
+        "byteIdenticalToPrior": true
+      },
+      {
+        "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34628970364/composed-treatment:nd-nonconviction-auto-close-verify.PAGE_IMAGES_SHA256.json",
+        "sha256": "298724c8abd0005cbfc43762d226f69862c460fb8bcc81f44310079b6810fd0e",
+        "byteLength": 4908,
+        "byteIdenticalToPrior": true
+      }
+    ],
+    "acceptedRasterForProven": true,
+    "newPixelOrRasterReview": false,
+    "priorOriginalArchiveAndPngProofReused": "data/rcap-grade-a/packet-factory-24h/vf01/nd-final-20260911/current-byte-measurements.json"
+  },
+  "originalDefectsClosed": [
+    "ND-VF01-01",
+    "ND-VF01-02",
+    "ND-VF01-03"
+  ],
+  "newDefectClosed": {
+    "id": "ND-VF01-04",
+    "originalResult": "4/5; suite exit1",
+    "currentResult": "5/5; suite exit0",
+    "correctionCommit": "b922582dda8106d6f1e99ebd60d673f8d850debe"
+  },
+  "remainingDefects": [],
+  "sourceLegalVisualReviewRepeated": false,
+  "archiveReinspectedHere": false,
+  "readOnlyProductionInputs": true,
+  "admissionPerformed": false
+}

@@ -1,0 +1,28 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "co_pardoned_conviction_seal-set",
+  "blocking": [],
+  "findings": [
+    {
+      "finding": "JDF 680 is a flat PDF. The committed corpus index records it as `flat_pdf` with acroFieldCount 0, and it is: two pages of printed text and ruled lines with nothing fillable on them. The assignment's strategy for this family is official_pdf_fill, and on this half of it there is nothing to fill.",
+      "consequence": "The document is built as a measured overlay through finalizeFlatOverlay, the same path the Washington vacatur families use. Every write box is derived from a rule read out of the page's own content stream, the rule is recorded with the write, and the build refuses if any rule has moved by more than a point. The per-document strategy is recorded in the source receipt rather than left to be inferred from the family's strategy field."
+    },
+    {
+      "finding": "JDF 680's tick boxes are not stroked rectangles: checkboxCandidates finds zero on either page, because the form draws them as glyphs in the text stream.",
+      "consequence": "No geometry was invented for them. They are listed in the field map as printedSelectionControlsNotMeasured, named in participant-instructions.md as boxes the participant marks by hand, and the build asserts on every run that they are still unmeasurable — so a future revision that draws them as paths fails here rather than silently continuing to leave fourteen controls out of the map."
+    },
+    {
+      "finding": "The pardon is the whole of this route: C.R.S. § 24-72-710 seals a conviction the Governor has pardoned, and section 3 of JDF 680 requires the pardon to be attached.",
+      "consequence": "The platform does not hold the pardon and does not attach it. The instructions put that first, before the field tables, because a motion filed without it is asking for something the statute does not offer."
+    },
+    {
+      "finding": "Section 1 of JDF 680 asks for the petitioner's address, city, state and phone only IF they differ from the 'filed by' block already filled in above.",
+      "consequence": "Those five lines are left empty and declared, with the condition stated in the disclosure. Repeating a value the form asks for only on a condition would put an unasked-for answer on a filing."
+    },
+    {
+      "severity": "advisory",
+      "finding": "The boundary participant's name carries a typographic apostrophe (U+2019) and the finalized bytes carry the name without it.",
+      "consequence": "Recorded for visual review. The behaviour is in the shared finalizer's font encoding and reproduces in vt_seal_misdemeanor-set, which is already PASS_COMPLETE."
+    }
+  ]
+}

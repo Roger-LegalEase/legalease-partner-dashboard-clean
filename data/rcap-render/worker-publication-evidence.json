@@ -1,48 +1,226 @@
 {
   "schemaVersion": "rcap-worker-publication-evidence/v1",
-  "importedFrom": {
-    "branch": "claude/rcap-48h-launch-integration",
-    "commit": "646d8969576e33b9ed72d3bca64b33b7e352c452",
-    "note": "Imported from the rcap-render-worker-publication artifact uploaded by run 32688658427 attempt 1, downloaded with `gh run download`. Every publication field below is the artifact’s own value or a fact reported by the GitHub Actions API for that run."
-  },
-  "publicationTimestamp": "2026-08-24T04:06:19Z",
-  "workflowRunId": 32688658427,
-  "workflowRunAttempt": 1,
-  "workflowConclusion": "success",
-  "sourceSha": "646d8969576e33b9ed72d3bca64b33b7e352c452",
-  "dockerfileSha256": "6079456600e00d9929f9d899b6e5c1be6919bbe844e44f2aba456f5036b9daa7",
+  "sourceSha": "58e76b81e32eb82e912cd142ac4c329be1d1d6e2",
+  "canonicalIntegrationBranch": "main",
+  "releaseIntegrationBranch": "claude/legalease-sprint-captain-utucnw",
+  "containedIn": "claude/legalease-sprint-captain-utucnw",
+  "dockerfilePath": "deploy/rcap-render-worker/Dockerfile",
+  "dockerfileSha256": "98f2934b4e817091233aef349de2c67edccd928d149e40ddeb827fcef4141076",
   "lockfileSha256": "fc0208973470f108d82dc3defa99647fe1ee01c43a7bea5302487368ae36aae7",
   "imageRepository": "ghcr.io/roger-legalease/rcap-render-worker",
-  "imageTag": "646d8969576e33b9ed72d3bca64b33b7e352c452",
-  "immutableRegistryDigest": "sha256:c1a18b3a9f36f5f7ce0b01268c7bb30242b69cca13cb14bde18281d984098402",
-  "digestPinnedReference": "ghcr.io/roger-legalease/rcap-render-worker@sha256:c1a18b3a9f36f5f7ce0b01268c7bb30242b69cca13cb14bde18281d984098402",
-  "packageVisibility": "private",
-  "packageVisibilityNote": "Carried forward as the package's standing visibility, not re-determined for this publication. The acceptance workflow re-proves it per run: its anonymous-pull step fails the run if GHCR ever issues an unauthenticated token for this repository.",
+  "imageTag": "58e76b81e32eb82e912cd142ac4c329be1d1d6e2",
+  "imageReference": "ghcr.io/roger-legalease/rcap-render-worker:58e76b81e32eb82e912cd142ac4c329be1d1d6e2",
+  "immutableRegistryDigest": "sha256:354ceb6b18fc78a6405681eb0c8cbb058e1a947b2bccafd05da78d5b218b8678",
+  "digestPinnedReference": "ghcr.io/roger-legalease/rcap-render-worker@sha256:354ceb6b18fc78a6405681eb0c8cbb058e1a947b2bccafd05da78d5b218b8678",
+  "workflowRunId": 35415304426,
+  "workflowRunUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35415304426",
   "mutableLatestTagCreated": false,
   "publishOnlyNoDeploy": true,
   "workerClaimingStarted": false,
   "stagingAndProductionUnchanged": true,
-  "canonicalIntegrationBranch": "main",
-  "releaseIntegrationBranch": "claude/rcap-48h-launch-integration",
-  "containedIn": "claude/rcap-48h-launch-integration",
-  "dockerfilePath": "deploy/rcap-render-worker/Dockerfile",
-  "imageReference": "ghcr.io/roger-legalease/rcap-render-worker:646d8969576e33b9ed72d3bca64b33b7e352c452",
-  "workflowRunUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32688658427",
-  "exactlyOnePublication": {
-    "claim": "One image was published for this source SHA and its tag was never moved.",
-    "howItIsKnown": "Run 32688658427 succeeded on attempt 1. The tag guard ran twice inside the run — before the build and immediately before the push — and both checks found the source-SHA tag free. No replacement authorization was used.",
-    "attemptThatPublished": 1
-  },
-  "registryPullByDigestStatus": "verified_by_worker_image_acceptance_workflow",
-  "registryPullByDigestNote": "Workflow run 32723173565 (#48), attempt 1, completed successfully on codex/rcap-internal-admin-release-evidence. Its successful job pulled ghcr.io/roger-legalease/rcap-render-worker@sha256:c1a18b3a9f36f5f7ce0b01268c7bb30242b69cca13cb14bde18281d984098402 with GHCR authentication, proved the full-SHA tag resolves to the same digest, read OCI revision 646d8969576e33b9ed72d3bca64b33b7e352c452, started the shipped worker entrypoint in network-isolated fail-closed mode, passed the declared healthcheck and module-graph/idle-loop readiness controls, and reported no push, deployment or claim. The workflow uploaded no artifact; the canonical proof basis is GitHub run metadata and logs.",
+  "workflowRunAttempt": 1,
+  "workflowConclusion": "success",
+  "publicationTimestamp": "2026-09-19T02:22:04Z",
+  "publicationArtifactId": 10575323988,
+  "publicationArtifactName": "rcap-render-worker-publication-58e76b81e32eb82e912cd142ac4c329be1d1d6e2",
+  "publicationArtifactSha256": "sha256:0e86cff7bc80c3eb6c3b0be2c6fa6b773d90473b824614663d193ebd05a6597f",
+  "originalPublicationPath": null,
+  "originalArchivePath": null,
+  "originalPublicationSource": "Publication run 35415304426 pushed the source-SHA tag 58e76b81e32eb82e912cd142ac4c329be1d1d6e2 and reported sha256:354ceb6b18fc78a6405681eb0c8cbb058e1a947b2bccafd05da78d5b218b8678. Both source-SHA tag guards concluded success, so no pre-existing tag was overwritten.",
+  "registryPullByDigestStatus": "not_yet_attempted",
+  "runtimeAccepted": false,
+  "authorization": "Roger authorization (2026-09-19), superseding the earlier publish-once instruction: a real worker-image input had to change to keep the canonical authority chain truthful. The authorized crosswalk delta is the recorded hash of e2-source-support-audit.json and the aggregate evidenceHash, with zero mapping, relationship, disposition or route-identity change. Publication is authorized; Production activation is not.",
+  "priorPublicationEvidencePath": "private/transfers/cloud-recovery-20260915/publication/prior-publication-evidence.json",
   "supersededPublication": {
     "sourceSha": "5ac0d8d6910aec3dc6259b2d4da6931abc5af7e8",
     "immutableRegistryDigest": "sha256:4e5b58e4492289446bcbdd100bb39dcd13dd4512916679fa2a252e4532ab9530",
     "disposition": "superseded_by_source_drift",
-    "why": "Historically valid for 5ac0d8d6 and inert. Superseded now that PR #127 merged the prepared-onboarding partner experience and the applied-prefill reproposal lifecycle into main, which changed 33 canonical image-input paths. Not deleted, not retagged.",
+    "why": "Historically valid for 5ac0d8d6 and inert. Superseded now that PR #127 merged the prepared-onboarding partner experience and the applied-prefill reproposal lifecycle into main, which changed 33 canonical image-input paths. Not deleted, not retagged. This record stays as the tuple the retired worker-source-binding exception covers; later publications are listed in supersededChain.",
     "publicationRunId": 32307070302
   },
   "supersededChain": [
+    {
+      "sourceSha": "3a9f4906dc87d644763434ea4e88a5decaa6c404",
+      "immutableRegistryDigest": "sha256:5749dc1fff6dd0353e1eee0888d08f1c5d3813165c7130d15dbfd0a5eda0ff8e",
+      "publicationRunId": 35413031376,
+      "imageAcceptanceRunId": null,
+      "disposition": "superseded_by_source_drift",
+      "why": "Published from the first freeze earlier the same day and correct for it. Superseded within hours because recomputing the stale source-support audit moved data/rcap-ledger/track-pathway-crosswalk.json, which is a canonical worker input: the crosswalk records a digest of every evidence input it reads, and the audit is one of them. The crosswalk delta is two fingerprint leaves with no mapping, relationship, disposition or route identity change, but an image input is an image input, so the worker was republished rather than left describing a crosswalk fingerprint the application no longer has. Retained unchanged in GHCR; tag not moved."
+    },
+    {
+      "sourceSha": "c88f10341fec848b3f6f4dec9fc3381e6eea0530",
+      "immutableRegistryDigest": "sha256:df6c2965e1f569fab5b2d9370b97723170c2c49da7a54f93ffc132525b781d06",
+      "publicationRunId": 35227578682,
+      "imageAcceptanceRunId": 35229311713,
+      "disposition": "superseded_by_source_drift",
+      "why": "Accepted and released for application c88f1034. Superseded because the application moved past it on canonical worker inputs and stayed there: ten Stripe/checkout commits had already changed src/app/api/expungement-ai/checkout/route.ts, src/lib/expungement-ai/consumer-packet-catalog.ts, consumer-payment-authority.ts, payment-adapter.ts and src/lib/stripe/server.ts before the accepted Production baseline 8682bd00, and this sprint's packet-collection, delivery-harness and Illinois carry-forward work added more. createWorkerInputPlan reported rebuildRequired against every candidate from 8682bd00 onward, so provider publication had been describing bytes the application no longer ran. Republished from the frozen candidate rather than regenerating the authority into a weaker state. Retained unchanged in GHCR; tag not moved."
+    },
+    {
+      "sourceSha": "35d33755045ee1825fc281ab0eb451d34bccec0a",
+      "immutableRegistryDigest": "sha256:d7e0d4a653cfbbd2c1f3627442b05b463866fc3a10d3bf9826bc4aa3029378c6",
+      "publicationRunId": 35171737222,
+      "imageAcceptanceRunId": 35176174783,
+      "disposition": "superseded_by_source_drift",
+      "why": "Accepted and released for application 0fee79bd1: the live Grade-A tuple on expungement.ai. Superseded because the Stripe catalog-product correction changes src/lib/expungement-ai/payment-adapter.ts, consumer-order-reconciliation.ts and adds consumer-packet-catalog.ts, all canonical worker inputs, so the worker had to be rebuilt from c88f10341fec848b3f6f4dec9fc3381e6eea0530 rather than reused. Retained unchanged in GHCR; tag not moved."
+    },
+    {
+      "sourceSha": "4a684f9a8d121c18aa2b8636f16c3e30fd75c498",
+      "immutableRegistryDigest": "sha256:1d54ad549fffe7b8a3e91dc1a8a7df46b2bf9b38e7c876aa7013a3fd9687c4d9",
+      "publicationRunId": 35151498616,
+      "imageAcceptanceRunId": 35152619633,
+      "disposition": "superseded_by_source_drift",
+      "why": "Accepted and proven for application 8d9382b9: run 35162891542 paid 5000 cents on Stripe and delivered a 12-page packet. Superseded because the Illinois composed-route repair changes src, which is a canonical worker input, so the worker had to be rebuilt from 35d33755045ee1825fc281ab0eb451d34bccec0a rather than reused."
+    },
+    {
+      "sourceSha": "1cdbccfa2aca3a0430ef78a8e73a61e08b6b0da6",
+      "immutableRegistryDigest": "sha256:1b629dde3f5c0af3c992bd449d628e33bec9fb084a2f0e32654cc67141d5c86c",
+      "publicationRunId": 35149044045,
+      "imageAcceptanceRunId": 35149362033,
+      "disposition": "superseded_by_source_drift",
+      "why": "The promotion-code worker, accepted by image acceptance run 35149362033. Retained unchanged in GHCR; tag not moved. Superseded by publication run 35151498616 from 4a684f9a8 after exactly one canonical image input changed: data/rcap-grade-a/worker-static-authority.json, which 474263d19 re-bound to the regenerated Mississippi paid-packet proof. createWorkerInputPlan reported rebuildRequired for this digest against the successor tree, so the image was republished rather than the record reverted to fit it."
+    },
+    {
+      "sourceSha": "3e3a528b5762ece971c53186d1a45a48e5633a9c",
+      "immutableRegistryDigest": "sha256:cb5e419bf741dec0158ee4fb8894d201d2054472f494e9e6edae872a2d96fed9",
+      "publicationRunId": 35138591567,
+      "imageAcceptanceRunId": 35139883391,
+      "disposition": "superseded_by_source_drift",
+      "why": "The production hotfix worker released on 2026-09-16, accepted by image acceptance run 35139883391. Retained unchanged in GHCR; tag not moved. Superseded by publication run 35149044045 from 1cdbccfa2aca3a0430ef78a8e73a61e08b6b0da6, which adds Stripe promotion-code support: the worker-input plan reported rebuild-required for the four payment modules that reconcile an order instead of asserting one price."
+    },
+    {
+      "sourceSha": "da432bd11924cc3ba8d766cbb9e09b12650347c3",
+      "immutableRegistryDigest": "sha256:477afe68b5d7dec8d4c2f550761b3491036950346bfc0c8654e7cf85460c4249",
+      "publicationRunId": 35054865971,
+      "imageAcceptanceRunId": 35055139765,
+      "disposition": "superseded_by_source_drift",
+      "why": "The worker of the live Grade A tuple (application 61a2f018, deployment dpl_EpRfqnBuTTsuZZmDikXhsRZ3EojX). Retained unchanged in GHCR; tag not moved. Superseded by publication run 35138591567 from 3e3a528b5762ece971c53186d1a45a48e5633a9c, the production hotfix that restores the Final verification page: the worker-input plan reported rebuild-required for src/app/briefcase/[packetId]/review/page.tsx, src/lib/expungement-ai/frontend/contracts.ts and src/lib/expungement-ai/packet-information.ts."
+    },
+    {
+      "sourceSha": "71b692025bf4f6c973b46671c79eba5acc6a1116",
+      "immutableRegistryDigest": "sha256:0303b6fe58c88cdc9934369becf0cf91c282c027fe0605a4bea570806a5f6597",
+      "publicationRunId": 35054132613,
+      "imageAcceptanceRunId": null,
+      "disposition": "superseded_unaccepted_by_runtime_input_changes",
+      "why": "Published before the problematic-PDF register (a copied runtime input) had been regenerated for the Colorado source reclassification; a3dcb3a6 regenerated it and rebuilt the runtime-data manifest, so this image was never submitted to image acceptance. Retained in GHCR; tag not moved."
+    },
+    {
+      "sourceSha": "c177eef11ad041165294f2d4a38e9bddeef031db",
+      "immutableRegistryDigest": "sha256:57bb99a83e4c1b8e6d23d23103d0a1fe6d9bc49fc105a9c52a7a352a855c4832",
+      "publicationRunId": 35044054712,
+      "imageAcceptanceRunId": 35044827927,
+      "disposition": "superseded_by_runtime_input_changes",
+      "why": "Retained unchanged in GHCR; tag not moved. Superseded by publication run 35054865971 from da432bd11924cc3ba8d766cbb9e09b12650347c3 after the 2026-09-15 Colorado restoration changed these canonical worker inputs: src/lib/rcap/state-packs/colorado/captain-patch-requests.ts, src/lib/rcap/state-packs/colorado/lane-g-route-dispositions.ts, data/record-clearing/factory-v2-route-registry.json, data/record-clearing/legal-design-packet-set-manifests.json, data/rcap-all50/problematic-pdf-register.json, data/rcap-ledger/route-kind-adjudications.json, data/rcap-grade-a/worker-static-authority.json and deploy/rcap-render-worker/runtime-data-manifest.json."
+    },
+    {
+      "sourceSha": "2cc6f321af4cfdb1433801d6cf16e2ed40d59d51",
+      "immutableRegistryDigest": "sha256:e96d384b808e15884bbc8a6c95754bde956bb27bf2dcf6893b2b93f9f9d9f716",
+      "publicationRunId": 35042292811,
+      "imageAcceptanceRunId": 35043455388,
+      "disposition": "superseded_unaccepted_by_runtime_input_changes",
+      "why": "Built before the MS packet proof was re-verified against its own repair, so data/rcap-grade-a/worker-static-authority.json (a copied runtime input) no longer matched. Image acceptance run 35043455388 failed on the source-binding anchor. Retained in GHCR; tag not moved."
+    },
+    {
+      "sourceSha": "b64701c16ab2a6c78d0d187143882407111c0778",
+      "immutableRegistryDigest": "sha256:f99ebc19732e994cfb9c0ebfc0734345e857be050d8bda8952b852f78b611301",
+      "publicationRunId": 35027251980,
+      "imageAcceptanceRunId": 35027988039,
+      "disposition": "superseded_by_runtime_input_changes",
+      "why": "Retained unchanged in GHCR; tag not moved. Superseded by publication run 35044054712 from c177eef11ad041165294f2d4a38e9bddeef031db after these canonical worker inputs changed: src/lib/expungement-ai/consumer-packet-safety.ts (new), src/lib/expungement-ai/consumer-render-request.ts, src/lib/rcap/render/personalized-packet.ts (the safety_disclaimer payment repair, 2cc6f321), data/rcap-grade-a/worker-static-authority.json and deploy/rcap-render-worker/runtime-data-manifest.json (the MS packet proof re-verified against that repair, c177eef1)."
+    },
+    {
+      "sourceSha": "1d12b6a0a6a361b0dda62b8f3a333a74d651dd7d",
+      "immutableRegistryDigest": "sha256:2c2c9c24414445bf56b01d1f8a05a162201ce83e681f783fd3b6670fbc5a77fc",
+      "publicationRunId": 34917460365,
+      "imageAcceptanceRunId": 34917744652,
+      "disposition": "superseded_by_runtime_input_changes"
+    },
+    {
+      "sourceSha": "02516ec7ad5d829028da94b9f7c019f2628b400f",
+      "immutableRegistryDigest": "sha256:dd631d8db17149d5e57e84f2e2db2b3c51afbfc5123f97b10b5c8ca3e572c9e8",
+      "publicationRunId": 34890931414,
+      "disposition": "superseded_by_input_drift",
+      "why": "Current COPY-aware canonical inputs changed; historical image and evidence preserved."
+    },
+    {
+      "sourceSha": "075b815cb40832243c426135ceb1897a07ee90b1",
+      "immutableRegistryDigest": "sha256:d18b241eada7ff886ad1467335353632039b170c7ad57ff3f7dc50cdbe37d0ad",
+      "publicationRunId": 34888813626,
+      "disposition": "historical_exact_source_publication"
+    },
+    {
+      "sourceSha": "1e95f1f067e2f26094228b6f0c922c875c25f33a",
+      "immutableRegistryDigest": "sha256:2bca8a36f2aaf20c5bc0e50b722a9ba02a84e20cb2af66306c49ed50c7776633",
+      "publicationRunId": 34298919203,
+      "disposition": "historical_exact_source_publication"
+    },
+    {
+      "sourceSha": "c065d2485b97be9a9c53313551226b0b6c3c9cfb",
+      "immutableRegistryDigest": "sha256:a2fe1ac9e3e3f5f07e1be60d1494d023f17b452298da6a4859daa8af9bf6d802",
+      "publicationRunId": 34265052706,
+      "disposition": "superseded_by_input_drift",
+      "why": "Three worker-packaged inputs changed after this image was built: data/record-clearing/legal-design-packet-set-manifests.json (edited by FIX96 and FIX120) and the fulfillment-authority registry and observation snapshot the authority generator writes. The image remains exactly what it was and is neither deleted nor retagged; it simply no longer contains the current packaged inputs.",
+      "wasAcceptedBy": 34289593168
+    },
+    {
+      "sourceSha": "b680a4e4dd92e7422bc7030aa2189026929782a1",
+      "immutableRegistryDigest": "sha256:bf4589d3432f396f08196b2a619e445b75f1b4e2d2a0c404fbb06c4017e61864",
+      "disposition": "superseded_by_source_drift",
+      "why": "Historically valid for b680a4e4 and retained unchanged in GHCR. Its Dockerfile predated the runtime-data COPY set, so acceptance run 34262980303 measured it exiting 1 on a missing /app/data/record-clearing/legal-decisions/route-ratification-registry.json.ts instead of the required unconfigured exit 2. The 194-family recovery integration merged at c065d248 carries the corrected Dockerfile and the 122-file runtime data manifest, so a publication from that exact source supersedes it. No historical tag or digest was moved and the failing acceptance evidence is retained.",
+      "publicationRunId": 33764350427,
+      "publicationArtifactId": 9896904080,
+      "lastAcceptanceRunId": 34262980303,
+      "lastAcceptanceConclusion": "failure"
+    },
+    {
+      "sourceSha": "b7ae6204295f8865e90bcbe4b47e1af0b34a78ba",
+      "immutableRegistryDigest": "sha256:788b0a991bc628ff49d0debb0294bf05fa8fe1c97e3b6e55dc3f6bafb613f73d",
+      "disposition": "superseded_by_source_drift",
+      "why": "Historically valid for the pre-repair Mississippi Clinic Mode worker and retained unchanged in GHCR. The bounded sponsored-entitlement and atomic-finalization repair changed canonical worker inputs, requiring publish-only run 33764350427 from corrected source b680a4e4. No historical tag or digest was moved.",
+      "publicationRunId": 33757592574,
+      "publicationArtifactId": 9894146176
+    },
+    {
+      "sourceSha": "441ee3188ee52047a012232d8d11f890a09b4ac5",
+      "immutableRegistryDigest": "sha256:67132df2d1bee49d123d0d2918880f283d2109195b49150265d348fe1d07a69c",
+      "disposition": "superseded_by_source_drift",
+      "why": "Publication and read-only acceptance were valid for the older Colorado candidate. The Mississippi Clinic Mode feature changed canonical worker image inputs, requiring publish-only run 33757592574 from the exact b7ae6204 application SHA. The prior digest remains unchanged in GHCR and is not accepted for this Preview.",
+      "publicationRunId": 32856262198
+    },
+    {
+      "sourceSha": "7cc8675d2835675d5bf40d18e6e09468bd84f790",
+      "immutableRegistryDigest": "sha256:6bc20972dfc53117861a5d69682ec1d42ca64b1f0d26c51685bbe93f195f0a7d",
+      "disposition": "superseded_by_source_drift",
+      "why": "Publication and read-only acceptance were valid for the prior Clinic lint-corrected worker. The bounded Colorado juvenile fail-closed correction changed four canonical worker-input paths, requiring publish-only run 32856262198 from the exact replacement application SHA. The prior digest remains unchanged in GHCR and is not accepted for this replacement candidate.",
+      "publicationRunId": 32850336907
+    },
+    {
+      "sourceSha": "daddfa04a1d8c8ffc59991650ebaa2f78d79c3c4",
+      "immutableRegistryDigest": "sha256:42fec914c8ea94572e70574a41ea8b0bbdd1aaabc86b49753f7af8d1a3bb5329",
+      "disposition": "superseded_by_source_drift",
+      "why": "Publication and read-only acceptance were valid for daddfa04. The bounded Clinic Mode lint correction changed three canonical src paths, requiring publish-only run 32850336907 from the exact corrected source SHA. The prior digest remains unchanged in GHCR and is not accepted for the final candidate.",
+      "publicationRunId": 32844342819
+    },
+    {
+      "sourceSha": "cd2d46a420cb36a378972a0199468f37914d0e5d",
+      "immutableRegistryDigest": "sha256:6e0db8771f21aef4b994e98fbf0a1c217e7c155609cff21e3162d4cafe51b47f",
+      "disposition": "superseded_by_source_drift",
+      "why": "Publication and read-only acceptance were valid for cd2d46a4. The captain-owned legal authority clamp changed src/lib/rcap/documents/packet-route-resolver.ts, requiring publish-only run 32844342819 from the exact new worker source. The prior digest remains unchanged in GHCR and is not accepted for the final candidate.",
+      "publicationRunId": 32838117675
+    },
+    {
+      "sourceSha": "f30f9e88de03b92da4faa68ad7e04a149d20424a",
+      "immutableRegistryDigest": "sha256:631e228d25e23c5d19ec993fe79252a7a4f4270b1b95d5b63ea7e3b7958fb03b",
+      "disposition": "superseded_by_source_drift",
+      "why": "Publication and read-only acceptance were valid for f30f9e88. The full chain then found three partner-facing Clinic copy violations; the approved correction changed two canonical src paths, requiring publication run 32838117675. The prior digest remains unchanged in GHCR and is not accepted for the final candidate.",
+      "publicationRunId": 32836561444
+    },
+    {
+      "sourceSha": "646d8969576e33b9ed72d3bca64b33b7e352c452",
+      "immutableRegistryDigest": "sha256:c1a18b3a9f36f5f7ce0b01268c7bb30242b69cca13cb14bde18281d984098402",
+      "disposition": "superseded_by_source_drift",
+      "why": "Historically valid for 646d8969 and retained unchanged in GHCR. The integrated Legal, Corrections, QA, Clinic, and Hosted candidate changed 92 canonical worker-input paths, so release run 32836561444 published a replacement from the exact captain source SHA.",
+      "publicationRunId": 32688658427
+    },
     {
       "sourceSha": "664b8ddd374642bf2bd1820f7e05224f3dd081bc",
       "immutableRegistryDigest": "sha256:be782397379b2dd6db3f63353f38e1fe1b31095dbf9307abb73f97c1136cc9be",
@@ -80,61 +258,47 @@
       "disposition": "superseded_by_source_drift",
       "why": "The previously accepted worker publication is retained unchanged in GHCR. It is superseded by publication run 32688658427 from security implementation 646d8969576e33b9ed72d3bca64b33b7e352c452; no tag was moved and no deployment was authorized.",
       "publicationRunId": 32599252817
+    },
+    {
+      "sourceSha": "870532340f3ef091bfa3b1a2e2b64c16d3195b25",
+      "immutableRegistryDigest": "sha256:a12ae8486cb391814375a560366bfc47cbc2972b980d750c6f60368a2e673b46",
+      "publicationRunId": 34942386033,
+      "imageAcceptanceRunId": 34943080203,
+      "disposition": "superseded_by_source_drift",
+      "why": "Retained unchanged in GHCR; tag not moved. Superseded by publication run 35006025350 from 55f5b32c7e56a32de07ae9172867a581a3790bb5 after these canonical worker inputs changed: data/rcap-grade-a/worker-static-authority.json, deploy/rcap-render-worker/runtime-data-manifest.json, package.json, src/lib/rcap/documents/guidance-packet-registry.ts, src/lib/rcap/documents/packet-route-resolver.ts, src/lib/rcap/fulfillment/paid-consumer-successor.ts."
+    },
+    {
+      "sourceSha": "55f5b32c7e56a32de07ae9172867a581a3790bb5",
+      "immutableRegistryDigest": "sha256:5ef02e6f542cf9e6eee28c94d87aef57b8c3dc408cfb4bb095e6f9b6b064fc15",
+      "publicationRunId": 35006025350,
+      "imageAcceptanceRunId": 35008841830,
+      "disposition": "superseded_by_source_drift",
+      "why": "Retained unchanged in GHCR; tag not moved. Superseded by publication run 35027251980 from b64701c16ab2a6c78d0d187143882407111c0778 after these canonical worker inputs changed: package.json, src/lib/rcap/render/job-queue.ts, src/lib/rcap/render/packet-delivery.ts (the shared sponsored-delivery binding correction)."
     }
   ],
-  "reconciliationStatus": {
-    "state": "published_and_accepted_at_release_integration_head",
-    "reconciledMainBase": "57318c2046a9f8c149beff0053373ad3bfe3fc71",
-    "releaseIntegrationHead": "646d8969576e33b9ed72d3bca64b33b7e352c452",
-    "why": "Built from the exact security implementation SHA contained in the pinned release-integration branch. Publication run 32688658427 and no-artifact acceptance run 32723173565 (#48) both succeeded for the exact immutable digest; no deployment, worker update, migration, user change or session revocation was authorized or performed.",
-    "priorDigestsRemainInRegistry": true
+  "exactlyOnePublication": {
+    "attemptThatPublished": 1,
+    "howItIsKnown": "Run 35415304426 succeeded on attempt 1; the tag guard ran before login and again at the last point before pushing, and both concluded success, so no pre-existing source-SHA tag was overwritten."
   },
-  "workerImageAcceptance": {
-    "schemaVersion": "rcap-worker-image-acceptance-evidence/v1",
-    "evidenceBasis": "github_actions_run_metadata_and_job_logs_no_artifact",
-    "repository": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean",
-    "workflowFile": ".github/workflows/rcap-worker-image-acceptance.yml",
-    "workflowName": "RCAP worker image acceptance",
-    "workflowNumber": 48,
-    "workflowRunId": 32723173565,
-    "workflowRunUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32723173565",
-    "workflowAttempt": 1,
-    "event": "workflow_dispatch",
-    "selectedBranch": "codex/rcap-internal-admin-release-evidence",
-    "acceptedEvidenceHead": "225937513180ab2c98d54e792961f699cd4e2d74",
-    "jobName": "Accept the published worker image",
-    "jobConclusion": "success",
-    "startedAt": "2026-08-24T11:41:51Z",
-    "completedAt": "2026-08-24T11:43:11Z",
-    "sourceSha": "646d8969576e33b9ed72d3bca64b33b7e352c452",
-    "imageRepository": "ghcr.io/roger-legalease/rcap-render-worker",
-    "imageReference": "ghcr.io/roger-legalease/rcap-render-worker:646d8969576e33b9ed72d3bca64b33b7e352c452",
-    "imageTag": "646d8969576e33b9ed72d3bca64b33b7e352c452",
-    "immutableRegistryDigest": "sha256:c1a18b3a9f36f5f7ce0b01268c7bb30242b69cca13cb14bde18281d984098402",
-    "digestPinnedReference": "ghcr.io/roger-legalease/rcap-render-worker@sha256:c1a18b3a9f36f5f7ce0b01268c7bb30242b69cca13cb14bde18281d984098402",
-    "digestPullResult": "success",
-    "tagDigestAgreementResult": "success",
-    "ociRevision": "646d8969576e33b9ed72d3bca64b33b7e352c452",
-    "sourceSubstitutionOccurred": false,
-    "expectedWorkerEntrypoint": "node scripts/rcap-render-worker.mjs --once",
-    "entrypointResult": "success_fail_closed_without_credentials",
-    "healthReadinessResult": "success_declared_healthcheck_module_graph_and_idle_loop",
-    "acceptanceConclusion": "success",
-    "githubArtifact": "none_workflow_uploaded_no_artifact",
-    "node20DeprecationAnnotation": "non_blocking",
-    "applicationProductionDeployedByThisAcceptance": false,
-    "productionWorkerUpdated": false,
-    "rlsMigrationApplied": false,
-    "productionUsersChanged": false,
-    "productionSessionsRevoked": false
+  "workerInputFingerprint": "sha256:ef54b7ebbd547db9c24a7558b5c60ab7c327430169ace17997d0972f929088a2",
+  "localVerificationDigest": null,
+  "localVerificationDigestScope": "No pre-publication local container build was made for this source; the registry digest above is the only image identity.",
+  "imageAcceptanceAttempts": [],
+  "packageVisibility": "private",
+  "packageVisibilityEvidence": "Not yet re-proved for this digest; the acceptance run that proves it has not been recorded.",
+  "publishedImagePlatform": {
+    "os": null,
+    "architecture": null,
+    "manifestMediaType": null,
+    "manifestSize": null,
+    "configDigest": null,
+    "note": "Not read back for this digest yet. Left null rather than restated from the superseded publication."
   },
-  "releaseTruth": {
-    "imagePublished": true,
-    "imageAccepted": true,
-    "applicationProductionDeployedByThisTask": false,
-    "productionWorkerUpdated": false,
-    "rlsMigrationApplied": false,
-    "productionUsersChanged": false,
-    "productionSessionsRevoked": false
+  "imageAcceptance": null,
+  "previousImageAcceptance": {
+    "sourceSha": "3a9f4906dc87d644763434ea4e88a5decaa6c404",
+    "immutableRegistryDigest": "sha256:5749dc1fff6dd0353e1eee0888d08f1c5d3813165c7130d15dbfd0a5eda0ff8e",
+    "workflowRunId": 35413031376,
+    "workflowConclusion": "success"
   }
 }

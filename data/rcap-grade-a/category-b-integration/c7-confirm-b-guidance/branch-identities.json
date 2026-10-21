@@ -1,0 +1,313 @@
+{
+  "schemaVersion": "rcap-category-b-confirmed-guidance-branch-identities/v1",
+  "assignmentId": "C7_CONFIRM_B_GUIDANCE",
+  "baseSha": "227f095d5d1493feca56779cf60c6f177caebd61",
+  "decision": "CONFIRM_B",
+  "identityRule": "Each record preserves one non-fileable Category B stage and records the absence of a participant Category A branch. Selector, output strategy, product outcome, and commercial treatment are separate fields and carry separate meanings.",
+  "commercialAuthority": "These identities authorize no price, checkout, sponsorship, packet-credit use, provider dispatch, artifact attachment, delivery, repeat download, commercially eligible status, or COMPLETE_PACKET_PROVEN status.",
+  "counts": {
+    "assignedRoutes": 3,
+    "retainedBStages": 3,
+    "participantABranchesCreated": 0,
+    "commercialRoutesOpened": 0
+  },
+  "routes": [
+    {
+      "routeKey": "obligation:track-only:MN:mn_pardon_auto_expungement",
+      "jurisdiction": "MN",
+      "publicLabel": "Records that clear automatically after a pardon",
+      "reuseDecision": {
+        "decision": "SALVAGE_SPECIFIC_ASSETS",
+        "basis": "The exclusion is confirmed. The rcap-mn-guidance-implementation family contains route-specific guidance assets that can be extended without creating a filing branch."
+      },
+      "packetFamily": {
+        "id": "rcap-mn-guidance-implementation",
+        "disposition": "named_not_created",
+        "assetCompletionCommit": "bf6f368c8a4cd72e0fa488bd37336c073f116925",
+        "assetProof": "data/record-clearing/production-factory/packet-proofs/rcap-mn-guidance-implementation.json",
+        "proofLimits": {
+          "runtimeStatus": "runtime_disabled",
+          "packetReady": false,
+          "productionEnabled": false
+        }
+      },
+      "retainedBStage": {
+        "identity": {
+          "routeKey": "obligation:track-only:MN:mn_pardon_auto_expungement",
+          "trackId": "mn_pardon_auto_expungement",
+          "packetSetId": "mn_pardon_auto_expungement-set",
+          "stageKind": "After a qualifying pardon extraordinary is granted, expungement follows without a participant petition.",
+          "participantFileable": false
+        },
+        "selector": {
+          "inputKey": "pardonGranted",
+          "match": "yes",
+          "supportingInputs": [
+            "pardonDate",
+            "recordStillAppears"
+          ],
+          "scopeBoundary": "The selector begins after the pardon extraordinary has been granted. It does not select or prepare the antecedent pardon application."
+        },
+        "outputStrategy": "process_guidance",
+        "productOutcome": {
+          "kind": "non_filing_guidance",
+          "artifactIdentity": "Post-Pardon-Expungement-Verification",
+          "description": "Explain the post-pardon duty, show the participant how to check the BCA and court records, and route a failed or disputed implementation to a human handoff.",
+          "participantFilingDocumentGenerated": false
+        },
+        "commercialTreatment": {
+          "status": "closed",
+          "participantFee": "none",
+          "checkoutAuthorized": false,
+          "fulfillmentAuthorityCreated": false,
+          "reason": "A participant files nothing on this stage, and the existing proof keeps the guidance family out of runtime and production."
+        }
+      },
+      "participantABranch": {
+        "exists": false,
+        "identity": null,
+        "selector": null,
+        "outputStrategy": null,
+        "productOutcome": null,
+        "commercialTreatment": null,
+        "reason": "The post-pardon stage has no participant filing. The pardon application is a separate antecedent clemency route and is not created or crosswalked by this assignment."
+      },
+      "evidence": [
+        {
+          "path": "data/rcap-grade-a/launch-control/category-b-revalidation/results.json",
+          "record": "routeKey=obligation:track-only:MN:mn_pardon_auto_expungement",
+          "supports": [
+            "confirmed exclusion",
+            "trigger",
+            "deadline",
+            "verification and handoff requirements"
+          ]
+        },
+        {
+          "path": "data/record-clearing/legal-design-intake/MN.memo.json",
+          "record": "trackId=mn_pardon_auto_expungement",
+          "supports": [
+            "no participant filing",
+            "process_guidance output strategy",
+            "BCA and MCRO verification"
+          ]
+        },
+        {
+          "path": "src/lib/rcap/packets/jurisdictions/minnesota/guidance.ts",
+          "commit": "bf6f368c8a4cd72e0fa488bd37336c073f116925",
+          "record": "trackId=mn_pardon_auto_expungement",
+          "supports": [
+            "selector",
+            "artifact identity",
+            "no invented correction form"
+          ]
+        }
+      ]
+    },
+    {
+      "routeKey": "obligation:track-only:NE:ne-out-of-jurisdiction-routing",
+      "jurisdiction": "NE",
+      "publicLabel": "Where to go about a record from outside Nebraska",
+      "reuseDecision": {
+        "decision": "SALVAGE_SPECIFIC_ASSETS",
+        "basis": "The exclusion is confirmed. The rcap-ne-guidance-implementation family contains route-specific routing assets that can be extended without creating a Nebraska filing branch."
+      },
+      "packetFamily": {
+        "id": "rcap-ne-guidance-implementation",
+        "disposition": "named_not_created",
+        "assetCompletionCommit": "ac4f9f2b106c79e00461861920b210aa537f57f2",
+        "assetProof": "data/record-clearing/production-factory/packet-proofs/rcap-ne-guidance-implementation.json",
+        "proofLimits": {
+          "runtimeStatus": "runtime_disabled",
+          "packetReady": false,
+          "productionEnabled": false
+        }
+      },
+      "retainedBStage": {
+        "identity": {
+          "routeKey": "obligation:track-only:NE:ne-out-of-jurisdiction-routing",
+          "trackId": "ne-out-of-jurisdiction-routing",
+          "packetSetId": "ne-out-of-jurisdiction-routing-set",
+          "stageKind": "Nebraska routes the participant to the sovereign that created the record because Nebraska cannot grant substantive relief for that record.",
+          "participantFileable": false
+        },
+        "selector": {
+          "inputKey": "recordJurisdiction",
+          "matchValues": [
+            "another_state",
+            "federal",
+            "tribal"
+          ],
+          "detailInputs": [
+            "ojRecordJurisdiction",
+            "ojAlsoHoldsNebraskaRecords"
+          ],
+          "governingCondition": "The arrest, charge, or conviction was not created by a Nebraska court or Nebraska criminal-justice agency.",
+          "coverageNote": "The revalidation record also names foreign jurisdictions. The committed guidance selector has no foreign enum value, so this identity records the governing condition and does not invent a runtime value."
+        },
+        "outputStrategy": "process_guidance",
+        "productOutcome": {
+          "kind": "jurisdictional_routing_guidance",
+          "artifactIdentity": "Out-Of-Jurisdiction-Routing",
+          "description": "Identify the record's sovereign and custodian, separate any Nebraska records, and direct substantive relief to the originating court or repository.",
+          "participantFilingDocumentGenerated": false
+        },
+        "commercialTreatment": {
+          "status": "closed",
+          "participantFee": "none_for_this_routing_stage",
+          "checkoutAuthorized": false,
+          "fulfillmentAuthorityCreated": false,
+          "reason": "The route produces guidance and cannot sell a Nebraska filing that has no legal effect on the originating record."
+        }
+      },
+      "participantABranch": {
+        "exists": false,
+        "identity": null,
+        "selector": null,
+        "outputStrategy": null,
+        "productOutcome": null,
+        "commercialTreatment": null,
+        "reason": "No Nebraska substantive-relief filing exists for the foreign record. The originating jurisdiction's remedy and any Nebraska repository data-correction process are separate routes and are not created or crosswalked here."
+      },
+      "evidence": [
+        {
+          "path": "data/rcap-grade-a/launch-control/category-b-revalidation/results.json",
+          "record": "routeKey=obligation:track-only:NE:ne-out-of-jurisdiction-routing",
+          "supports": [
+            "confirmed exclusion",
+            "originating-jurisdiction handoff",
+            "NSP data-correction boundary",
+            "deadline treatment"
+          ]
+        },
+        {
+          "path": "data/record-clearing/legal-design-intake/NE.memo.json",
+          "record": "trackId=ne-out-of-jurisdiction-routing",
+          "supports": [
+            "routing-node identity",
+            "process_guidance output strategy",
+            "no Nebraska venue or filing"
+          ]
+        },
+        {
+          "path": "src/lib/rcap/packets/jurisdictions/nebraska/guidance.ts",
+          "commit": "ac4f9f2b106c79e00461861920b210aa537f57f2",
+          "record": "trackId=ne-out-of-jurisdiction-routing",
+          "supports": [
+            "selector",
+            "artifact identity",
+            "originating-sovereign handoff"
+          ]
+        }
+      ]
+    },
+    {
+      "routeKey": "obligation:track-only:VA:va_exp_actual_innocence",
+      "jurisdiction": "VA",
+      "publicLabel": "Clearing a Virginia conviction vacated by a writ of actual innocence",
+      "reuseDecision": {
+        "decision": "SALVAGE_SPECIFIC_ASSETS",
+        "basis": "The exclusion is confirmed. The rcap-va-guidance-implementation family contains route-specific explanation and verification assets that can be extended without creating a post-writ filing branch."
+      },
+      "packetFamily": {
+        "id": "rcap-va-guidance-implementation",
+        "disposition": "named_not_created",
+        "assetCompletionCommit": "e6367e3ee4a41a1d6baa4dc2294c699c0f23c5f0",
+        "assetProof": "data/record-clearing/production-factory/packet-proofs/rcap-va-guidance-implementation.json",
+        "proofLimits": {
+          "runtimeStatus": "runtime_disabled",
+          "packetReady": false,
+          "productionEnabled": false
+        }
+      },
+      "retainedBStage": {
+        "identity": {
+          "routeKey": "obligation:track-only:VA:va_exp_actual_innocence",
+          "trackId": "va_exp_actual_innocence",
+          "packetSetId": "va_exp_actual_innocence-set",
+          "stageKind": "After a qualifying writ vacates the conviction and reaches the convicting circuit court, the court enters the expungement order and the clerk and record custodians transmit and implement it without a participant filing.",
+          "participantFileable": false
+        },
+        "selector": {
+          "all": [
+            {
+              "inputKey": "recordCategory",
+              "match": "convicted"
+            },
+            {
+              "inputKey": "writSection",
+              "matchAny": [
+                "section_19_2_327_5",
+                "section_19_2_327_13"
+              ]
+            },
+            {
+              "inputKey": "writGranted",
+              "match": "yes"
+            }
+          ],
+          "handoffInputs": [
+            "representedByCounsel",
+            "orderEntered",
+            "recordStillVisible"
+          ],
+          "scopeBoundary": "The selector covers the downstream expungement stage. It does not select or prepare the antecedent writ litigation."
+        },
+        "outputStrategy": "process_guidance",
+        "productOutcome": {
+          "kind": "non_filing_guidance_and_verification_plan",
+          "artifactIdentity": "virginia-expungement-after-actual-innocence",
+          "description": "Explain the court's post-writ duty, help the participant confirm receipt and entry of the order, check the CCRE record, and route a stalled implementation back to counsel or the clerk.",
+          "participantFilingDocumentGenerated": false
+        },
+        "commercialTreatment": {
+          "status": "closed",
+          "participantFee": "none_for_the_post_writ_stage",
+          "checkoutAuthorized": false,
+          "fulfillmentAuthorityCreated": false,
+          "reason": "The participant files nothing after the writ, and the existing proof keeps the guidance family out of runtime and production."
+        }
+      },
+      "participantABranch": {
+        "exists": false,
+        "identity": null,
+        "selector": null,
+        "outputStrategy": null,
+        "productOutcome": null,
+        "commercialTreatment": null,
+        "reason": "The post-writ stage has no participant filing. The writ petition is separate appellate post-conviction litigation and is not created or crosswalked by this assignment."
+      },
+      "evidence": [
+        {
+          "path": "data/rcap-grade-a/launch-control/category-b-revalidation/results.json",
+          "record": "routeKey=obligation:track-only:VA:va_exp_actual_innocence",
+          "supports": [
+            "confirmed exclusion",
+            "post-writ trigger",
+            "no participant deadline",
+            "verification and enforcement handoff"
+          ]
+        },
+        {
+          "path": "data/record-clearing/legal-design-intake/VA.memo.json",
+          "record": "trackId=va_exp_actual_innocence",
+          "supports": [
+            "court-initiated identity",
+            "process_guidance output strategy",
+            "writ and CCRE verification records"
+          ]
+        },
+        {
+          "path": "src/lib/rcap/packets/jurisdictions/virginia/guidance.ts",
+          "commit": "e6367e3ee4a41a1d6baa4dc2294c699c0f23c5f0",
+          "record": "trackId=va_exp_actual_innocence",
+          "supports": [
+            "selector",
+            "artifact identity",
+            "clerk, CCRE, and counsel handoff"
+          ]
+        }
+      ]
+    }
+  ]
+}

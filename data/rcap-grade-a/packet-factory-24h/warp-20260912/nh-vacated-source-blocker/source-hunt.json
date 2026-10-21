@@ -1,0 +1,95 @@
+{
+  "schemaVersion": "rcap-authoritative-source-hunt/v1",
+  "preparedOn": "2026-09-12",
+  "familyId": "nh_petition_vacated-set",
+  "result": "SOURCE_BLOCKED",
+  "governingDecision": {
+    "decisionId": "NH-FEE-WAIVER-2886-WITH-2328-CONFIDENTIAL",
+    "recordPath": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
+    "sha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
+    "requirement": "Use NHJB-2886-DFPe Motion to Waive Filing Fees with confidential NHJB-2328; do not substitute NHJB-2311."
+  },
+  "missingObject": {
+    "sourceId": "official-form:NHJB-2886-DFPe",
+    "formNumber": "NHJB-2886-DFPe",
+    "title": "Motion to Waive Filing Fees",
+    "authoritativeBinaryRequired": true,
+    "authoritativeBinaryAcquired": false,
+    "sha256": null,
+    "revisionShownByOfficialSearchIndex": "01/01/2018"
+  },
+  "repositoryInventory": {
+    "method": "Exact filename/form-number scan across repository files, byte-text scan across private and data, committed local-source-corpus-index inspection, and preserved archive member-name scan.",
+    "nhjb2886BinaryMatches": 0,
+    "localSourceCorpusIndexEntries": 0,
+    "preservedArchiveMemberMatches": 0,
+    "heldSources": [
+      {
+        "formNumber": "NHJB-2317",
+        "sha256": "2fc2e1ede5201c17aa6a6e7726aff4659a649131429f8fec69771bc2b62f662c"
+      },
+      {
+        "formNumber": "NHJB-2311",
+        "sha256": "f8b5df1366a91a9fd177612c0519f941b8d4f60e1f8f84c2a6c0c064ba7da58e",
+        "governedUse": "obsolete_for_this_fee-waiver component; retained as history, forbidden as substitute"
+      },
+      {
+        "formNumber": "NHJB-2328",
+        "sha256": "b4384b41efb472951c28b1289e46b05dfcc9463147aa490597f541f5291ce919"
+      },
+      {
+        "formNumber": "NHJB-2956",
+        "sha256": "c8e5e9fead600ad30a956eac98c43d30d9ca3a3b8b4bc619713e50c83524f569"
+      }
+    ]
+  },
+  "authoritativeDiscovery": {
+    "method": "Bounded exact-form query restricted to courts.nh.gov. Search index returned the official judiciary PDF endpoint and identified the document as NHJB-2886-DFPe* (01/01/2018). Search-index text/metadata is not accepted as binary custody.",
+    "officialUrl": "https://www.courts.nh.gov/sites/g/files/ehbemt471/files/documents/2021-05/nhjb-2886-dfpe-motiontowaivefilingfee.pdf"
+  },
+  "officialEndpointAttempts": [
+    {
+      "url": "https://www.courts.nh.gov/sites/g/files/ehbemt471/files/documents/2021-05/nhjb-2886-dfpe-motiontowaivefilingfee.pdf",
+      "methods": "GET; GET with judiciary forms referer/browser user agent; GET with crawler user agent",
+      "result": "HTTP_403_ACCESS_DENIED",
+      "responseBytes": 512,
+      "representativeResponseSha256": "33e8d1332211bbdda484e6ae4d28f21fa69937118a01a256b5a84474afd10313"
+    },
+    {
+      "url": "https://courts.nh.gov/sites/g/files/ehbemt471/files/documents/2021-05/nhjb-2886-dfpe-motiontowaivefilingfee.pdf",
+      "result": "redirect_to_www_then_HTTP_403_ACCESS_DENIED",
+      "responseBytes": 512
+    },
+    {
+      "url": "https://www.courts.state.nh.us/forms/nhjb-2886-dfpe.pdf",
+      "result": "redirect_to_https://www.courts.nh.gov/_then_HTTP_403_ACCESS_DENIED",
+      "responseBytes": 375
+    },
+    {
+      "url": "https://www.courts.nh.gov/sites/g/files/ehbemt471/files/inline-documents/sonh/nhjb-2886-dfpe-motiontowaivefilingfee.pdf",
+      "result": "HTTP_403_ACCESS_DENIED",
+      "responseBytes": 516,
+      "responseSha256": "b788e554df1dc49b3383ec0e6524ccca5d4d252ba9cd2b8bba08c2e41661d0f1"
+    },
+    {
+      "url": "official direct URL with download/query suffixes",
+      "variants": [
+        "?download=1",
+        "?_format=html",
+        "?itok=1",
+        "?v=20210501"
+      ],
+      "result": "HTTP_403_ACCESS_DENIED for every variant",
+      "responseBytes": 517,
+      "representativeResponseSha256": "fdb106fa3366be175f1eddfc2197ff829ff270ae18a3d69dd1d176e973ebd46a"
+    }
+  ],
+  "stoppingRule": "Repeated exact official endpoint attempts returned unchanged access-denied HTML rather than PDF bytes. The bounded hunt stops here; no third-party mirror, search-index transcription, obsolete NHJB-2311, or fabricated form is adopted.",
+  "implementationDisposition": {
+    "builderModified": false,
+    "packetBytesModified": false,
+    "partialRepairsImplemented": false,
+    "reason": "The required component cannot be assembled or faithfully tested without the authoritative NHJB-2886-DFPe binary. Captain directed no speculative partial repairs while this exact dependency remains unresolved.",
+    "nextAction": "Acquire the exact official NHJB-2886-DFPe PDF bytes through governed custody, hash and identify them, then replace NHJB-2311 and repair all seven remaining current implementation findings in one pass."
+  }
+}

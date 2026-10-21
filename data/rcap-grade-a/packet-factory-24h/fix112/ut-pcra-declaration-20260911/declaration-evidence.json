@@ -1,0 +1,155 @@
+{
+  "schemaVersion": "rcap-ut-pcra-declaration-repair-evidence/v1",
+  "lane": "FIX112",
+  "familyId": "census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement",
+  "status": "COMPLETED",
+  "assignedBase": "d17a99b54931289f7c024f557ee19949feb1330e",
+  "mergeCommit": "347a1194804622176c789fd75b8db12dc5a40dfd",
+  "claim": {
+    "asserted": true,
+    "grantSet": "f680c67d320fcf01",
+    "result": "CLAIM_OK"
+  },
+  "correction": {
+    "routeKey": "obligation:runtime-only:UT:path-l-vacatur-human-trafficking-related-expungement",
+    "implementationStrategy": "official_pdf_fill",
+    "instrument": "generic Rule 65C PCRA petition plus Attachments A-B",
+    "routeRequiredSourceIdsAppended": [
+      "component:UT-RULE-65C-PCRA",
+      "component:UT-PCRA-ATTACHMENTS-A-B"
+    ],
+    "bindingPacketComponents": [
+      "UT-RULE-65C-PCRA",
+      "UT-PCRA-ATTACHMENTS-A-B"
+    ],
+    "componentMeasurement": "Both canonical and boundary reports bind pages 1-10 to the exact held Rule 65C source and pages 11-12 to UT-PCRA-ATTACHMENTS-A-B.",
+    "otherRouteKeysAuthorityAndSourceIdsPreserved": true
+  },
+  "identity": {
+    "source": {
+      "path": "reference/utah/04_PCRA_Petition-2022-06-13.pdf",
+      "sha256": "9c5bd552fab0ada747b6f680b61e48acf4eca89275e2c8ad86d7ee3d82e95a09",
+      "byteLength": 128059,
+      "pageCount": 10
+    },
+    "canonical": {
+      "path": "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-l-vacatur-human-trafficking-related-expungement--official-pdf-fill/fixtures/canonical.pdf",
+      "sha256": "63f42d6f2871b84a6af1cd7a525d865e4ca4a2d7d75aff413c87f37295dc787d",
+      "byteLength": 182408,
+      "pageCount": 12
+    },
+    "boundary": {
+      "path": "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-l-vacatur-human-trafficking-related-expungement--official-pdf-fill/fixtures/boundary.pdf",
+      "sha256": "0d6e5a39e149c8508f570db3716a60e580fce26aa64da7de876ab1baa3e6a138",
+      "byteLength": 185117,
+      "pageCount": 12
+    },
+    "instructions": {
+      "path": "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-l-vacatur-human-trafficking-related-expungement--official-pdf-fill/participant-instructions.md",
+      "sha256": "6438b304036b6a10bc9f373d21a02a652d4b12d3538f5041482bf57575a1a20d"
+    },
+    "fieldMap": {
+      "path": "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-l-vacatur-human-trafficking-related-expungement--official-pdf-fill/production-field-map.json",
+      "sha256": "18549e106e7de47757865834e25779348bc3e9470d84f1862e631f3a8ee0635e"
+    },
+    "packetManifest": {
+      "path": "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-l-vacatur-human-trafficking-related-expungement--official-pdf-fill/packet-set-manifest.json",
+      "sha256": "c8fb1499fb6aece57d6a1f7217de5f75b7f6ec1b8d0ee7544c20a07ef841dcce"
+    },
+    "sourceReceipt": {
+      "path": "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-l-vacatur-human-trafficking-related-expungement--official-pdf-fill/source-receipt.json",
+      "sha256": "95f38592c138f54881552b26acec2a5f7a030a8edef4d0a7ae182d96a6f1b9b0"
+    },
+    "renderedArtifacts": {
+      "path": "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-l-vacatur-human-trafficking-related-expungement--official-pdf-fill/reports/rendered-artifacts.json",
+      "sha256": "2738f479fbef1e2beef743bcda73b86e92ebd0aee25c493025d66a4094eddfa4"
+    },
+    "productWiringAfter": {
+      "path": "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-l-vacatur-human-trafficking-related-expungement--official-pdf-fill/product-wiring.json",
+      "sha256": "eeb88d36c61a5be975a45550cb28562a0ee490b04e955e4747a05bdadef16472",
+      "byteLength": 4740
+    }
+  },
+  "preservation": {
+    "sourcePdfGuideFieldMapManifestReceiptAndReportBytesUnchanged": true,
+    "unrelatedMasterQueueFamiliesCompared": 345,
+    "unrelatedMasterQueueFamiliesChanged": 0,
+    "unrelatedProductWiringFilesCompared": 304,
+    "unrelatedProductWiringFilesChanged": 0,
+    "currentRasterReceipt": null,
+    "currentIndependentVerification": null,
+    "generationAllowed": false,
+    "runtimeSelectable": false,
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "commercialRoutesOpened": 0
+  },
+  "completeness": {
+    "verdict": "PASS_COMPLETE",
+    "written": 48,
+    "total": 123,
+    "counters": {
+      "knownRequiredFieldsMissing": 0,
+      "requiredFactsNotCollected": 0,
+      "unclassifiedBlanks": 0,
+      "incompleteRows": 0,
+      "requiredOptionsMissing": 0,
+      "requiredComponentsMissing": 0,
+      "invisibleWrites": 0,
+      "protectedWrites": 0,
+      "visualDefects": 0
+    }
+  },
+  "validation": [
+    {
+      "command": "node --test scripts/grade-a-packet-factory-24h/ut-pcra-declared-delivery.test.mjs",
+      "exit": 0,
+      "result": "7/7 passed; exact positive binding plus unrelated-family, source, route, component, idempotence and delivery-authority controls"
+    },
+    {
+      "command": "node scripts/grade-a-packet-factory-24h/generate.mjs",
+      "exit": 0,
+      "result": "Actual write run produced 346 families; only the assigned family declaration changed and carried both component source IDs."
+    },
+    {
+      "command": "node scripts/grade-a-packet-factory-24h/generate.mjs --check --inspect-ut-pcra-declared-delivery",
+      "exit": 0,
+      "result": "BUILT_RASTER_PENDING; exact source bound; two components; no raster/review/admission/runtime authority."
+    },
+    {
+      "command": "node scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs --family census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement",
+      "exit": 0,
+      "result": "Refreshed the assigned wiring from actual family evidence."
+    },
+    {
+      "command": "node scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs --check --family census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement",
+      "exit": 0,
+      "result": "0 need creation, 0 need refresh, 1 unchanged."
+    },
+    {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement",
+      "exit": 0,
+      "result": "PASS_COMPLETE 48/123; all nine counters zero."
+    },
+    {
+      "command": "sha256sum/cmp identity checks",
+      "exit": 0,
+      "result": "All pre-existing source/PDF/guide/map/manifest/report bytes and all 304 unrelated product wiring files unchanged."
+    }
+  ],
+  "notRun": [
+    "PDF build",
+    "local raster",
+    "independent review",
+    "central admission",
+    "runtime/profile installation",
+    "deployment",
+    "new source or legal research"
+  ],
+  "remainingGates": [
+    "Fresh central raster acceptance",
+    "Fresh independent packet review",
+    "Captain-owned central route/profile reconciliation and admission"
+  ],
+  "grantsNothing": "This repair declares existing measured delivery. It does not approve, admit, deploy, enable generation/payment/runtime, or create commercial authority."
+}

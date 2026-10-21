@@ -69,7 +69,7 @@ function scriptedResponse(text: string) {
   }
 
   if (/(eligible|eligibility|qualify|can i clear|can i expunge|record)/.test(normalized)) {
-    return "I can't give an eligibility verdict here. Start with Expungement.ai's guided check at /expungement-ai/check, or go to /expungement-ai.";
+    return "I can't give an eligibility verdict here. Start with Expungement.ai's screening at /expungement-ai/check, or go to /expungement-ai.";
   }
 
   if (/(support|help|contact|refund|receipt|login|account)/.test(normalized)) {

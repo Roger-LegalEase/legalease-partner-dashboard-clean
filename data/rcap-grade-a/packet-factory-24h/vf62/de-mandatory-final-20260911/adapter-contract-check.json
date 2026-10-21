@@ -1,0 +1,62 @@
+{
+  "schemaVersion": "rcap-read-only-adapter-contract-check/v1",
+  "familyId": "de_mandatory_expungement-set",
+  "verifiedAtBase": "a9d0acdf0f37d18d9b469ffaf18dbecc9b514596",
+  "command": "node --input-type=module: assessDeReviewedGuidance(process.cwd(), exact returned row) and acceptedRasterFor(current queue); no overrides",
+  "input": {
+    "familyId": "de_mandatory_expungement-set",
+    "lane": "VF62",
+    "verdict": "PASS_COMPLETE_INDEPENDENT",
+    "isIndependentVerification": true,
+    "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf62/rows-vf62-20260911-de-mandatory-final.json",
+    "evidenceSha256": "bae675f79ad8c302df4f111c3821751b4702f9f55b781a8ad018f60ef86e16bb",
+    "verifiedAtBase": "a9d0acdf0f37d18d9b469ffaf18dbecc9b514596"
+  },
+  "result": {
+    "eligible": true,
+    "terminalTreatment": "GUIDANCE_READY",
+    "reviewer": "Astra independent reviewer",
+    "sessionIdentity": "/root/ky_current_independent",
+    "reviewedAtBase": "a9d0acdf0f37d18d9b469ffaf18dbecc9b514596",
+    "sourcesChecked": 9,
+    "outputs": [
+      {
+        "fixture": "canonical",
+        "file": "data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "fe6116767ab21cd12f5448c6cb389072f32e4650e3a3b7f8d8bb82168e124f00",
+        "byteLength": 13688,
+        "pageCount": 4
+      },
+      {
+        "fixture": "boundary",
+        "file": "data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill/fixtures/boundary.pdf",
+        "sha256": "45f57fe5ba073034ce2f3e3411c1b87410123ae51a56f235fbbb4e1d8656d3bb",
+        "byteLength": 13761,
+        "pageCount": 4
+      }
+    ],
+    "rasterRunId": "34628970364",
+    "rasterProven": true
+  },
+  "contractModules": [
+    {
+      "path": "scripts/grade-a-packet-factory-24h/de-reviewed-guidance.mjs",
+      "sha256": "c749f3e7b382f17b311bb9ff12513a7f3792f1284c3794ff32f0cf4f794fe249"
+    },
+    {
+      "path": "scripts/grade-a-packet-factory-24h/de-guidance-binding.mjs",
+      "sha256": "f96bc9e1b1b6838e13103551dc5f2adb482be56bd8d88062529d01719c4b4620"
+    },
+    {
+      "path": "scripts/grade-a-packet-factory-24h/acceptance-identity.mjs",
+      "sha256": "8d3de17d000c12a37ddff2f06b9ccafec95b2596d4e1583d7a854daa15ae285e"
+    }
+  ],
+  "sourcePdfQueueWiringAndClaimBytesUnchanged": true,
+  "centralAdmissionPerformed": false,
+  "runtimeInstalled": false,
+  "filingPermitted": false,
+  "paymentEligible": false,
+  "sponsorshipEligible": false,
+  "scope": "Pure production adapter predicate validation of this actual v2 row. No integration generator, central admission or state mutation was run. measuredHere in nineCounters denotes fresh numeric completeness CLI readings; inherited visual and other independent measurements are explicitly labeled as reused in the row."
+}

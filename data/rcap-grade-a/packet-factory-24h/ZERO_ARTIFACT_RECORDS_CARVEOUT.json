@@ -1,0 +1,354 @@
+{
+ "schemaVersion": "rcap-zero-artifact-records-carveout/v1",
+ "generatedBy": "Captain, measured from MASTER_QUEUE, each family's committed reports/actual-writes.json and its committed build-status.json",
+ "generatedAt": "2026-09-10T07:40:01.146107Z",
+ "theRule": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs holds that a counter nobody could measure is null, never 0. Its measurability test asks whether any artifact record carries a key the counter reads.",
+ "theCarveOut": {
+  "lines": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs:646-648",
+  "code": "const unmeasured = artifactRecords.length === 0 ? [] : ...",
+  "itsStatedJustification": "\"No artifact records at all is a different fact -- a zero-source composition binds no document bytes by design -- and is not this rule's business.\"",
+  "whatIsWrongWithIt": "Every family it exempts binds document bytes. Nineteen of the twenty-one ship fixture PDFs on disk and pin them by SHA-256 in their own build-status.json; the two Ohio families bind their sources by SHA-256 and carry rendered raster pages. Not one is a zero-source composition. So the exemption's premise is false for its entire population, and the effect is that invisibleWrites and visualDefects are published as measured zeros for families where nobody measured them."
+ },
+ "foundBy": "PF26, on rcap-oh-custom-pleading-clean-tracks",
+ "independentlyConfirmedFrom": "the flattened-widget measurement, which reads 124 real finalizer appearances on ne-setaside-custodial-set's fixtures while that family publishes no artifact records at all",
+ "counts": {
+  "familiesPublishingAllNineCountersZero": 262,
+  "ofThoseExemptedByTheCarveOut": 21,
+  "ofThoseCountedTerminal": 12
+ },
+ "whatThisDoesAndDoesNotChange": {
+  "terminalCount": "nothing, on its own. The terminal transition does not read the completeness matrix, so no family is terminal BECAUSE of a false zero. Twelve terminal families nevertheless carry a PASS_COMPLETE resting on two counters nobody measured, and that is a claim this factory should not be making.",
+  "theVerifier": "not changed here. A verifier change moves what every family publishes, and it is recorded before it is made rather than made on the way past."
+ },
+ "families": [
+  {
+   "familyId": "al-misd-nonconviction-90-set",
+   "directory": "data/rcap-all50/overlays/census-v1/al/al-misd-nonconviction-90-set--official-pdf-fill",
+   "state": "COMPLETE_PACKET_PROVEN",
+   "completenessStatus": "PASS_COMPLETE",
+   "allNineCountersZero": true,
+   "actualWritesPresent": true,
+   "artifactRecords": 0,
+   "fixturePdfsOnDisk": 6,
+   "documentsBoundBySha256": [],
+   "countersPublishedAsMeasuredZeroButUnmeasured": [
+    "invisibleWrites",
+    "visualDefects"
+   ]
+  },
+  {
+   "familyId": "ar-misdemeanor-dwi-seal-set",
+   "directory": "data/rcap-all50/overlays/census-v1/ar/ar-misdemeanor-dwi-seal-set--official-pdf-fill",
+   "state": "COMPLETE_PACKET_PROVEN",
+   "completenessStatus": "PASS_COMPLETE",
+   "allNineCountersZero": true,
+   "actualWritesPresent": false,
+   "artifactRecords": null,
+   "fixturePdfsOnDisk": 4,
+   "documentsBoundBySha256": [],
+   "countersPublishedAsMeasuredZeroButUnmeasured": [
+    "invisibleWrites",
+    "visualDefects"
+   ]
+  },
+  {
+   "familyId": "ar-pardon-seal-set",
+   "directory": "data/rcap-all50/overlays/census-v1/ar/ar-pardon-seal-set--official-pdf-fill",
+   "state": "FAIL_REPAIR_REQUIRED",
+   "completenessStatus": "PASS_COMPLETE",
+   "allNineCountersZero": true,
+   "actualWritesPresent": false,
+   "artifactRecords": null,
+   "fixturePdfsOnDisk": 4,
+   "documentsBoundBySha256": [],
+   "countersPublishedAsMeasuredZeroButUnmeasured": [
+    "invisibleWrites",
+    "visualDefects"
+   ]
+  },
+  {
+   "familyId": "ky_nonconviction_expungement-set",
+   "directory": "data/rcap-all50/overlays/census-v1/ky/ky-nonconviction-expungement-set--official-pdf-fill",
+   "state": "COMPLETE_PACKET_PROVEN",
+   "completenessStatus": "PASS_COMPLETE",
+   "allNineCountersZero": true,
+   "actualWritesPresent": false,
+   "artifactRecords": null,
+   "fixturePdfsOnDisk": 2,
+   "documentsBoundBySha256": [],
+   "countersPublishedAsMeasuredZeroButUnmeasured": [
+    "invisibleWrites",
+    "visualDefects"
+   ]
+  },
+  {
+   "familyId": "ky_protective_order_record_expungement-set",
+   "directory": "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill",
+   "state": "FAIL_REPAIR_REQUIRED",
+   "completenessStatus": "PASS_COMPLETE",
+   "allNineCountersZero": true,
+   "actualWritesPresent": true,
+   "artifactRecords": 0,
+   "fixturePdfsOnDisk": 2,
+   "documentsBoundBySha256": [],
+   "countersPublishedAsMeasuredZeroButUnmeasured": [
+    "invisibleWrites",
+    "visualDefects"
+   ]
+  },
+  {
+   "familyId": "md_10105_favorable-set",
+   "directory": "data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill",
+   "state": "COMPLETE_PACKET_PROVEN",
+   "completenessStatus": "PASS_COMPLETE",
+   "allNineCountersZero": true,
+   "actualWritesPresent": false,
+   "artifactRecords": null,
+   "fixturePdfsOnDisk": 2,
+   "documentsBoundBySha256": [],
+   "countersPublishedAsMeasuredZeroButUnmeasured": [
+    "invisibleWrites",
+    "visualDefects"
+   ]
+  },
+  {
+   "familyId": "me-seal-survivor-set",
+   "directory": "data/rcap-all50/overlays/census-v1/me/me-seal-survivor-set--official-pdf-fill",
+   "state": "FAIL_REPAIR_REQUIRED",
+   "completenessStatus": "PASS_COMPLETE",
+   "allNineCountersZero": true,
+   "actualWritesPresent": true,
+   "artifactRecords": 0,
+   "fixturePdfsOnDisk": 2,
+   "documentsBoundBySha256": [],
+   "countersPublishedAsMeasuredZeroButUnmeasured": [
+    "invisibleWrites",
+    "visualDefects"
+   ]
+  },
+  {
+   "familyId": "mn_petition_15218-set",
+   "directory": "data/rcap-all50/overlays/census-v1/mn/mn-petition-15218-set--official-pdf-fill",
+   "state": "FAIL_REPAIR_REQUIRED",
+   "completenessStatus": "PASS_COMPLETE",
+   "allNineCountersZero": true,
+   "actualWritesPresent": true,
+   "artifactRecords": 0,
+   "fixturePdfsOnDisk": 2,
+   "documentsBoundBySha256": [],
+   "countersPublishedAsMeasuredZeroButUnmeasured": [
+    "invisibleWrites",
+    "visualDefects"
+   ]
+  },
+  {
+   "familyId": "mn_petition_juvenile_as_adult-set",
+   "directory": "data/rcap-all50/overlays/census-v1/mn/mn-petition-juvenile-as-adult-set--official-pdf-fill",
+   "state": "COMPLETE_PACKET_PROVEN",
+   "completenessStatus": "PASS_COMPLETE",
+   "allNineCountersZero": true,
+   "actualWritesPresent": true,
+   "artifactRecords": 0,
+   "fixturePdfsOnDisk": 2,
+   "documentsBoundBySha256": [],
+   "countersPublishedAsMeasuredZeroButUnmeasured": [
+    "invisibleWrites",
+    "visualDefects"
+   ]
+  },
+  {
+   "familyId": "ne-setaside-custodial-set",
+   "directory": "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill",
+   "state": "FAIL_REPAIR_REQUIRED",
+   "completenessStatus": "PASS_COMPLETE",
+   "allNineCountersZero": true,
+   "actualWritesPresent": true,
+   "artifactRecords": 0,
+   "fixturePdfsOnDisk": 2,
+   "documentsBoundBySha256": [],
+   "countersPublishedAsMeasuredZeroButUnmeasured": [
+    "invisibleWrites",
+    "visualDefects"
+   ]
+  },
+  {
+   "familyId": "oh_marijuana_expungement-set",
+   "directory": "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading",
+   "state": "FAIL_REPAIR_REQUIRED",
+   "completenessStatus": "PASS_COMPLETE",
+   "allNineCountersZero": true,
+   "actualWritesPresent": false,
+   "artifactRecords": null,
+   "fixturePdfsOnDisk": 0,
+   "documentsBoundBySha256": [],
+   "countersPublishedAsMeasuredZeroButUnmeasured": [
+    "invisibleWrites",
+    "visualDefects"
+   ]
+  },
+  {
+   "familyId": "rcap-oh-custom-pleading-clean-tracks",
+   "directory": "data/rcap-all50/overlays/census-v1/oh/rcap-oh-custom-pleading-clean-tracks--custom-pleading",
+   "state": "PRODUCT_PATH_PENDING",
+   "completenessStatus": "PASS_COMPLETE",
+   "allNineCountersZero": true,
+   "actualWritesPresent": false,
+   "artifactRecords": null,
+   "fixturePdfsOnDisk": 0,
+   "documentsBoundBySha256": [],
+   "countersPublishedAsMeasuredZeroButUnmeasured": [
+    "invisibleWrites",
+    "visualDefects"
+   ]
+  },
+  {
+   "familyId": "wa_vac_cannabis-set",
+   "directory": "data/rcap-all50/overlays/census-v1/wa/wa-vac-cannabis-set--official-pdf-fill",
+   "state": "COMPLETE_PACKET_PROVEN",
+   "completenessStatus": "PASS_COMPLETE",
+   "allNineCountersZero": true,
+   "actualWritesPresent": true,
+   "artifactRecords": 0,
+   "fixturePdfsOnDisk": 4,
+   "documentsBoundBySha256": [],
+   "countersPublishedAsMeasuredZeroButUnmeasured": [
+    "invisibleWrites",
+    "visualDefects"
+   ]
+  },
+  {
+   "familyId": "wa_vac_domestic_violence-set",
+   "directory": "data/rcap-all50/overlays/census-v1/wa/wa-vac-domestic-violence-set--official-pdf-fill",
+   "state": "COMPLETE_PACKET_PROVEN",
+   "completenessStatus": "PASS_COMPLETE",
+   "allNineCountersZero": true,
+   "actualWritesPresent": true,
+   "artifactRecords": 0,
+   "fixturePdfsOnDisk": 4,
+   "documentsBoundBySha256": [],
+   "countersPublishedAsMeasuredZeroButUnmeasured": [
+    "invisibleWrites",
+    "visualDefects"
+   ]
+  },
+  {
+   "familyId": "wa_vac_felony-set",
+   "directory": "data/rcap-all50/overlays/census-v1/wa/wa-vac-felony-set--official-pdf-fill",
+   "state": "COMPLETE_PACKET_PROVEN",
+   "completenessStatus": "PASS_COMPLETE",
+   "allNineCountersZero": true,
+   "actualWritesPresent": true,
+   "artifactRecords": 0,
+   "fixturePdfsOnDisk": 6,
+   "documentsBoundBySha256": [
+    {
+     "fixture": "canonical",
+     "sha256": "585a7acff41609d13baeea797fd6477fc78bd6acb5c5888a05e640cb3f618c56",
+     "byteLength": 292450,
+     "pageCount": 7
+    },
+    {
+     "fixture": "boundary",
+     "sha256": "bcc6e5e71d3afbae64f4f5dd41e32c20bc7f8f14e38c5bba59c26a49d801bce8",
+     "byteLength": 292743,
+     "pageCount": 7
+    }
+   ],
+   "countersPublishedAsMeasuredZeroButUnmeasured": [
+    "invisibleWrites",
+    "visualDefects"
+   ]
+  },
+  {
+   "familyId": "wa_vac_homicide_victim_prostitution-set",
+   "directory": "data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill",
+   "state": "LEGAL_BLOCKED",
+   "completenessStatus": "PASS_COMPLETE",
+   "allNineCountersZero": true,
+   "actualWritesPresent": true,
+   "artifactRecords": 0,
+   "fixturePdfsOnDisk": 4,
+   "documentsBoundBySha256": [],
+   "countersPublishedAsMeasuredZeroButUnmeasured": [
+    "invisibleWrites",
+    "visualDefects"
+   ]
+  },
+  {
+   "familyId": "wa_vac_misdemeanor_ordinary-set",
+   "directory": "data/rcap-all50/overlays/census-v1/wa/wa-vac-misdemeanor-ordinary-set--official-pdf-fill",
+   "state": "COMPLETE_PACKET_PROVEN",
+   "completenessStatus": "PASS_COMPLETE",
+   "allNineCountersZero": true,
+   "actualWritesPresent": true,
+   "artifactRecords": 0,
+   "fixturePdfsOnDisk": 4,
+   "documentsBoundBySha256": [],
+   "countersPublishedAsMeasuredZeroButUnmeasured": [
+    "invisibleWrites",
+    "visualDefects"
+   ]
+  },
+  {
+   "familyId": "wa_vac_substance_use_disorder-set",
+   "directory": "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill",
+   "state": "PRODUCT_PATH_PENDING",
+   "completenessStatus": "PASS_COMPLETE",
+   "allNineCountersZero": true,
+   "actualWritesPresent": true,
+   "artifactRecords": 0,
+   "fixturePdfsOnDisk": 4,
+   "documentsBoundBySha256": [],
+   "countersPublishedAsMeasuredZeroButUnmeasured": [
+    "invisibleWrites",
+    "visualDefects"
+   ]
+  },
+  {
+   "familyId": "wa_vac_survivor_felony-set",
+   "directory": "data/rcap-all50/overlays/census-v1/wa/wa-vac-survivor-felony-set--official-pdf-fill",
+   "state": "COMPLETE_PACKET_PROVEN",
+   "completenessStatus": "PASS_COMPLETE",
+   "allNineCountersZero": true,
+   "actualWritesPresent": true,
+   "artifactRecords": 0,
+   "fixturePdfsOnDisk": 4,
+   "documentsBoundBySha256": [],
+   "countersPublishedAsMeasuredZeroButUnmeasured": [
+    "invisibleWrites",
+    "visualDefects"
+   ]
+  },
+  {
+   "familyId": "wa_vac_survivor_misdemeanor-set",
+   "directory": "data/rcap-all50/overlays/census-v1/wa/wa-vac-survivor-misdemeanor-set--official-pdf-fill",
+   "state": "COMPLETE_PACKET_PROVEN",
+   "completenessStatus": "PASS_COMPLETE",
+   "allNineCountersZero": true,
+   "actualWritesPresent": true,
+   "artifactRecords": 0,
+   "fixturePdfsOnDisk": 4,
+   "documentsBoundBySha256": [],
+   "countersPublishedAsMeasuredZeroButUnmeasured": [
+    "invisibleWrites",
+    "visualDefects"
+   ]
+  },
+  {
+   "familyId": "wa_vac_treaty_fishing-set",
+   "directory": "data/rcap-all50/overlays/census-v1/wa/wa-vac-treaty-fishing-set--official-pdf-fill",
+   "state": "COMPLETE_PACKET_PROVEN",
+   "completenessStatus": "PASS_COMPLETE",
+   "allNineCountersZero": true,
+   "actualWritesPresent": true,
+   "artifactRecords": 0,
+   "fixturePdfsOnDisk": 4,
+   "documentsBoundBySha256": [],
+   "countersPublishedAsMeasuredZeroButUnmeasured": [
+    "invisibleWrites",
+    "visualDefects"
+   ]
+  }
+ ],
+ "grantsNothing": "This records a measurement. It approves no output, withdraws no receipt and promotes or demotes no family."
+}

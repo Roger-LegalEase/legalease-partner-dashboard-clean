@@ -1,0 +1,44 @@
+{
+  "schemaVersion": "rcap-independent-consumer-review/v1",
+  "reviewer": "/root/ar_independent_review",
+  "sessionIdentity": "/root/ar_independent_review",
+  "reviewedAt": "2026-09-11",
+  "scope": "Read-only review of historical original-raster consumption for ar-pardon-seal-set run 33844904078; no Indiana family edits.",
+  "historicalRun": {
+    "workflowRunId": 33844904078,
+    "centralConclusion": "success",
+    "packetCommit": "8ea3f334de0b75e164a6e2a7fee1e5641a7789b2",
+    "jobId": 100935414040,
+    "jobConclusion": "success",
+    "archiveArtifactId": 9926415353,
+    "archiveSha256": "82e504082b84353cb7df758894b05d1100b71aba5b882f36b371ca451a5d5bb3",
+    "summaryLine": "RASTER_PASS ar-pardon-seal-set — 4 document(s), 14 page(s) measured, 0 problem(s)",
+    "summaryLineOccurrences": 1,
+    "structuredVerdictMarkersInOriginalLog": 0,
+    "artifactVerdict": "RASTER_PASS",
+    "artifactPagesMeasured": 14,
+    "artifactDocumentsRendered": 4,
+    "artifactProblems": [],
+    "artifactEnvironmentProblems": [],
+    "artifactPacketPdfsModified": 0,
+    "artifactCoversTheWholeFamily": true
+  },
+  "consumerComparison": {
+    "historicalConsumer": "data/rcap-grade-a/packet-factory-24h/checkpoint-232-to-250/consume-historical-family-raster.py",
+    "currentConsumer": "data/rcap-grade-a/packet-factory-24h/codex-captain-20260910/consume-original-raster.py",
+    "historicalSummaryHandling": "Safe when the pinned batch source contains no RCAP_RECEIPT_VERDICT marker: require exactly one summary line whose family/document/page/zero-problem counts are derived from the archived verdict, then validate the archived verdict in full.",
+    "assessment": "PASS_WITH_EXPLICIT_HISTORICAL_LIMITATION",
+    "limitation": "The old job log proves only the summary counts and zero-problem summary. It does not independently prove every structured verdict field; those fields are accepted from the API-digest-bound archived artifact and validated against pinned source/bytes. The consumer must preserve this narrower agreement scope and must not relabel it as full log-verdict agreement.",
+    "noAdmissionByReview": true
+  },
+  "evidenceRead": [
+    "data/rcap-grade-a/packet-factory-24h/raster-runs/33844904078/run.json",
+    "data/rcap-grade-a/packet-factory-24h/raster-runs/33844904078/jobs.json",
+    "data/rcap-grade-a/packet-factory-24h/raster-runs/33844904078/artifacts.json",
+    "data/rcap-grade-a/packet-factory-24h/raster-runs/33844904078/ar-pardon-seal-set.job.log",
+    "data/rcap-grade-a/packet-factory-24h/raster-runs/33844904078/ar-pardon-seal-set.zip",
+    "data/rcap-grade-a/packet-factory-24h/checkpoint-232-to-250/consume-historical-family-raster.py",
+    "data/rcap-grade-a/packet-factory-24h/codex-captain-20260910/consume-original-raster.py"
+  ],
+  "sharedWrites": false
+}

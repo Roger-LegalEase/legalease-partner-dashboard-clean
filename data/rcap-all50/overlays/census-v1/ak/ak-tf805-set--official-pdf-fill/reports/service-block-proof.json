@@ -1,0 +1,333 @@
+{
+  "schemaVersion": "rcap-service-block-proof/v1",
+  "familyId": "ak-tf805-set",
+  "question": "Is every field inside the certificate of service blank in the rendered artifact bytes -- and is it blank because this family decided so, rather than because a type guard or a missing descriptor happened to hold?",
+  "whyThisReportExists": "TF-805 sets its whole page in one 11pt size and prints 'Certificate of Service' in mixed case. pageRegions marks a heading only when it is set larger than body text or is fully capitalised, so on this document no page-2 widget is inside any detected region and the region channel -- the channel built to protect a service block independently of field names -- contributes nothing. Six of the eight fields in this block were therefore refused only incidentally.",
+  "measuredCertificateOfServiceBox": {
+    "page": 2,
+    "x0": 56.4,
+    "y0": 501.62,
+    "x1": 553.65,
+    "y1": 604.22,
+    "width": 497.25,
+    "height": 102.6
+  },
+  "howTheBoxWasFound": "The one large stroked rectangle on page 2, read with scripts/lib/pdf-stroked-boxes.mjs from the decoded content stream, then confirmed to enclose the printed words 'Certificate of Service' so a different box could not be mistaken for it.",
+  "fieldsInsideTheBox": [
+    {
+      "field": "certDate",
+      "rect": {
+        "x": 127.43,
+        "y": 568.33,
+        "width": 89.2,
+        "height": 13.97
+      },
+      "refusedByRoleInThisFamily": false,
+      "roleClass": null,
+      "whatTheSharedRulesAloneWouldSay": {
+        "writable": false,
+        "reason": "protected_category",
+        "category": "service_block"
+      },
+      "sharedRefusalIsIncidental": false
+    },
+    {
+      "field": "time2",
+      "rect": {
+        "x": 232.11,
+        "y": 568.33,
+        "width": 92.48,
+        "height": 13.97
+      },
+      "refusedByRoleInThisFamily": true,
+      "roleClass": "certificate_of_service_time",
+      "whatTheSharedRulesAloneWouldSay": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches"
+      },
+      "sharedRefusalIsIncidental": true
+    },
+    {
+      "field": "mail",
+      "rect": {
+        "x": 198.65,
+        "y": 557.29,
+        "width": 11.53,
+        "height": 11.44
+      },
+      "refusedByRoleInThisFamily": true,
+      "roleClass": "service_method_election",
+      "whatTheSharedRulesAloneWouldSay": {
+        "writable": false,
+        "reason": "non_text_field_type",
+        "category": "type_guard",
+        "pdfType": "checkbox"
+      },
+      "sharedRefusalIsIncidental": true
+    },
+    {
+      "field": "hd",
+      "rect": {
+        "x": 245.4,
+        "y": 557.29,
+        "width": 11.53,
+        "height": 11.44
+      },
+      "refusedByRoleInThisFamily": true,
+      "roleClass": "service_method_election",
+      "whatTheSharedRulesAloneWouldSay": {
+        "writable": false,
+        "reason": "non_text_field_type",
+        "category": "type_guard",
+        "pdfType": "checkbox"
+      },
+      "sharedRefusalIsIncidental": true
+    },
+    {
+      "field": "tf",
+      "rect": {
+        "x": 334.74,
+        "y": 557.29,
+        "width": 11.53,
+        "height": 11.44
+      },
+      "refusedByRoleInThisFamily": true,
+      "roleClass": "service_method_election",
+      "whatTheSharedRulesAloneWouldSay": {
+        "writable": false,
+        "reason": "non_text_field_type",
+        "category": "type_guard",
+        "pdfType": "checkbox"
+      },
+      "sharedRefusalIsIncidental": true
+    },
+    {
+      "field": "emailCB",
+      "rect": {
+        "x": 405.69,
+        "y": 557.29,
+        "width": 11.52,
+        "height": 11.52
+      },
+      "refusedByRoleInThisFamily": true,
+      "roleClass": "service_method_election",
+      "whatTheSharedRulesAloneWouldSay": {
+        "writable": false,
+        "reason": "non_text_field_type",
+        "category": "type_guard",
+        "pdfType": "checkbox"
+      },
+      "sharedRefusalIsIncidental": true
+    },
+    {
+      "field": "needText1",
+      "rect": {
+        "x": 183.38,
+        "y": 529.57,
+        "width": 347.41,
+        "height": 16
+      },
+      "refusedByRoleInThisFamily": true,
+      "roleClass": "certificate_of_service_recipients",
+      "whatTheSharedRulesAloneWouldSay": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches"
+      },
+      "sharedRefusalIsIncidental": true
+    },
+    {
+      "field": "signature0",
+      "rect": {
+        "x": 123.97,
+        "y": 509.74,
+        "width": 164.79,
+        "height": 16
+      },
+      "refusedByRoleInThisFamily": false,
+      "roleClass": null,
+      "whatTheSharedRulesAloneWouldSay": {
+        "writable": false,
+        "reason": "protected_category",
+        "category": "signature"
+      },
+      "sharedRefusalIsIncidental": false
+    }
+  ],
+  "perFixture": [
+    {
+      "fixture": "canonical",
+      "fieldsChecked": 8,
+      "fieldsCarryingInk": 0,
+      "fields": [
+        {
+          "field": "certDate",
+          "rect": {
+            "x": 127.43,
+            "y": 568.33,
+            "width": 89.2,
+            "height": 13.97
+          },
+          "drawnText": null
+        },
+        {
+          "field": "time2",
+          "rect": {
+            "x": 232.11,
+            "y": 568.33,
+            "width": 92.48,
+            "height": 13.97
+          },
+          "drawnText": null
+        },
+        {
+          "field": "mail",
+          "rect": {
+            "x": 198.65,
+            "y": 557.29,
+            "width": 11.53,
+            "height": 11.44
+          },
+          "drawnText": null
+        },
+        {
+          "field": "hd",
+          "rect": {
+            "x": 245.4,
+            "y": 557.29,
+            "width": 11.53,
+            "height": 11.44
+          },
+          "drawnText": null
+        },
+        {
+          "field": "tf",
+          "rect": {
+            "x": 334.74,
+            "y": 557.29,
+            "width": 11.53,
+            "height": 11.44
+          },
+          "drawnText": null
+        },
+        {
+          "field": "emailCB",
+          "rect": {
+            "x": 405.69,
+            "y": 557.29,
+            "width": 11.52,
+            "height": 11.52
+          },
+          "drawnText": null
+        },
+        {
+          "field": "needText1",
+          "rect": {
+            "x": 183.38,
+            "y": 529.57,
+            "width": 347.41,
+            "height": 16
+          },
+          "drawnText": null
+        },
+        {
+          "field": "signature0",
+          "rect": {
+            "x": 123.97,
+            "y": 509.74,
+            "width": 164.79,
+            "height": 16
+          },
+          "drawnText": null
+        }
+      ]
+    },
+    {
+      "fixture": "boundary",
+      "fieldsChecked": 8,
+      "fieldsCarryingInk": 0,
+      "fields": [
+        {
+          "field": "certDate",
+          "rect": {
+            "x": 127.43,
+            "y": 568.33,
+            "width": 89.2,
+            "height": 13.97
+          },
+          "drawnText": null
+        },
+        {
+          "field": "time2",
+          "rect": {
+            "x": 232.11,
+            "y": 568.33,
+            "width": 92.48,
+            "height": 13.97
+          },
+          "drawnText": null
+        },
+        {
+          "field": "mail",
+          "rect": {
+            "x": 198.65,
+            "y": 557.29,
+            "width": 11.53,
+            "height": 11.44
+          },
+          "drawnText": null
+        },
+        {
+          "field": "hd",
+          "rect": {
+            "x": 245.4,
+            "y": 557.29,
+            "width": 11.53,
+            "height": 11.44
+          },
+          "drawnText": null
+        },
+        {
+          "field": "tf",
+          "rect": {
+            "x": 334.74,
+            "y": 557.29,
+            "width": 11.53,
+            "height": 11.44
+          },
+          "drawnText": null
+        },
+        {
+          "field": "emailCB",
+          "rect": {
+            "x": 405.69,
+            "y": 557.29,
+            "width": 11.52,
+            "height": 11.52
+          },
+          "drawnText": null
+        },
+        {
+          "field": "needText1",
+          "rect": {
+            "x": 183.38,
+            "y": 529.57,
+            "width": 347.41,
+            "height": 16
+          },
+          "drawnText": null
+        },
+        {
+          "field": "signature0",
+          "rect": {
+            "x": 123.97,
+            "y": 509.74,
+            "width": 164.79,
+            "height": 16
+          },
+          "drawnText": null
+        }
+      ]
+    }
+  ],
+  "answer": "YES -- every field inside the measured certificate-of-service box is blank in both fixtures"
+}

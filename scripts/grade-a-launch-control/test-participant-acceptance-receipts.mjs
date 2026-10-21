@@ -1,0 +1,53 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import {ACCEPTANCE_SCHEMA,REVIEW_SCHEMA,PARTICIPANT_GATE_CATALOG,EXISTING_PARTICIPANT_RECEIPTS,evaluateParticipantAcceptance,reviewedSubjectSha256,sha256} from './participant-acceptance-receipts.mjs';
+let checks=0;const test=(name,f)=>{f();checks++;console.log(`PASS ${name}`);};
+const expected={candidateSha:'a'.repeat(40),workerDigest:'sha256:'+'b'.repeat(64),projectRef:'hyflxnlhpmiqxvvcoiia',productContractSha256:'c'.repeat(64),dataRightsMigration:{path:'supabase/migrations/20260830120000_participant_data_rights.sql',sha256:'d'.repeat(64)},reviewerIdentities:['independent-reviewer']};
+function fixture(){
+ const bytes={'evidence/run.json':'{"syntheticTestEvidence":true}','evidence/manual.json':'{"manual":true}'};
+ const ref=path=>({path,sha256:sha256(bytes[path])});
+ const r={schemaVersion:ACCEPTANCE_SCHEMA,...expected,environment:'synthetic_nonproduction',acceptanceRunId:'test-run-1',author:'implementer',status:'COMPLETED',hostedRunEvidence:ref('evidence/run.json'),dataRightsMigration:{...expected.dataRightsMigration,applied:true,readbackEvidence:ref('evidence/run.json')},privacyJourneys:['participant_export','single_matter_deletion','account_deletion'].map(id=>({id,passed:true,measured:true,evidence:ref('evidence/run.json')})),processorOutcomes:['email_delivery','payment_processor','product_analytics','packet_render_worker'].map(key=>({key,status:key==='email_delivery'||key==='product_analytics'?'acknowledged':'not_applicable',basis:'Synthetic tested classification',evidence:ref('evidence/run.json')})),operationalTargets:{claimAttempts:1000,claimSuccesses:1000,genericDashboardRedirects:0,duplicateMatters:0,crossUserOrTenantExposures:0,paymentMatterMismatches:0,sponsorshipCreditDuplications:0,readyPacketsWithoutArtifact:0,sensitiveTelemetryValues:0,clinicResetLeaks:0,wrongFormSetsFromStaleVerification:0,evidence:ref('evidence/run.json')},gates:PARTICIPANT_GATE_CATALOG.map(g=>({id:g.id,passed:true,measured:true,observation:'Measured synthetic unit fixture, never a hosted receipt',evidence:g.id==='accessibility'?[{...ref('evidence/run.json'),kind:'automated_wcag_2_2_aa'},{...ref('evidence/manual.json'),kind:'manual_keyboard_screenreader'}]:[ref('evidence/run.json')]}))};
+ return {r,bytes};
+}
+function seal(f){const review={schemaVersion:REVIEW_SCHEMA,candidateSha:f.r.candidateSha,workerDigest:f.r.workerDigest,projectRef:f.r.projectRef,productContractSha256:f.r.productContractSha256,acceptanceRunId:f.r.acceptanceRunId,author:f.r.author,reviewer:'independent-reviewer',verdict:'PASS',gateIds:f.r.gates.map(g=>g.id),reviewedSubjectSha256:reviewedSubjectSha256(f.r)};f.bytes['evidence/review.json']=JSON.stringify(review);f.r.independentReview={path:'evidence/review.json',sha256:sha256(f.bytes['evidence/review.json'])};return f;}
+const evaluate=f=>evaluateParticipantAcceptance({expected,receipts:[{path:'data/rcap-grade-a/participant-data-rights/successor.json',bytes:JSON.stringify(f.r)}],evidenceBytesByPath:f.bytes});
+test('complete independently bound synthetic fixture accepted',()=>assert.equal(evaluate(seal(fixture())).acceptedCurrent,true));
+test('catalog matches all current section15 rows and15privacy obligations',()=>{const text=fs.readFileSync('docs/PRODUCT_CONTRACT.md','utf8').split('## 15. Release-blocking acceptance gates')[1].split('### Operational targets')[0];const rows=text.split('\n').filter(x=>x.startsWith('|')).slice(2).map(x=>x.split('|')[1].trim());assert.deepEqual(PARTICIPANT_GATE_CATALOG.filter(x=>x.section==='15').map(x=>x.label),rows);assert.equal(PARTICIPANT_GATE_CATALOG.filter(x=>x.section==='12A').length,15);});
+function refused(name,mutate,status){test(name,()=>{const f=fixture();mutate(f);seal(f);const v=evaluate(f);assert.equal(v.acceptedCurrent,false);if(status)assert(v.receipts.some(x=>x.status===status)||v.gates.some(x=>x.status===status),JSON.stringify(v.gateCounts));});}
+for(const [key,value]of [['candidateSha','e'.repeat(40)],['workerDigest','sha256:'+'f'.repeat(64)],['projectRef','abcdefghijklmnopqrst'],['productContractSha256','1'.repeat(64)]])refused(`stale ${key}`,f=>f.r[key]=value,'STALE');
+refused('missing privacy cannot be hidden by full infra pass',f=>f.r.gates=f.r.gates.filter(g=>!g.id.startsWith('privacy_')),'MISSING');
+for(const id of PARTICIPANT_GATE_CATALOG.map(g=>g.id))refused(`failed ${id} blocks release`,f=>f.r.gates.find(g=>g.id===id).passed=false,'FAILED');
+refused('string pass refused',f=>f.r.gates[0].passed='true','MISSING');
+refused('unmeasured pass refused',f=>f.r.gates[0].measured=false,'MISSING');
+refused('duplicate gate refused',f=>f.r.gates.push({...f.r.gates[0]}),'INVALID');
+refused('unknown gate refused',f=>f.r.gates.push({id:'invented'}),'INVALID');
+refused('unapplied migration refused',f=>f.r.dataRightsMigration.applied=false,'INVALID');
+refused('changed migration identity stale',f=>f.r.dataRightsMigration.sha256='f'.repeat(64),'STALE');
+refused('missing export journey refused',f=>f.r.privacyJourneys=f.r.privacyJourneys.slice(1),'INVALID');
+refused('duplicate privacy journey refused',f=>f.r.privacyJourneys.push({...f.r.privacyJourneys[0]}),'INVALID');
+refused('failed duplicate journey alongside pass refused',f=>f.r.privacyJourneys.push({...f.r.privacyJourneys[0],passed:false}),'INVALID');
+refused('pending duplicate processor alongside acknowledgement refused',f=>f.r.processorOutcomes.push({...f.r.processorOutcomes[0],status:'pending'}),'INVALID');
+refused('unknown journey appended refused',f=>f.r.privacyJourneys.push({id:'unknown',passed:false}),'INVALID');
+refused('unknown processor appended refused',f=>f.r.processorOutcomes.push({key:'unknown',status:'pending'}),'INVALID');
+refused('unknown journey replacing required refused',f=>f.r.privacyJourneys[0].id='unknown','INVALID');
+refused('unknown processor replacing required refused',f=>f.r.processorOutcomes[0].key='unknown','INVALID');
+refused('pending processor cannot complete deletion',f=>f.r.processorOutcomes[0].status='pending','MISSING');
+refused('processor sent without settled evidence refused',f=>f.r.processorOutcomes[0].status='sent','MISSING');
+refused('missing processor basis refused',f=>f.r.processorOutcomes[1].basis='','MISSING');
+refused('manual accessibility evidence required',f=>f.r.gates.find(g=>g.id==='accessibility').evidence.pop(),'MISSING');
+refused('zero claim attempts cannot prove99.9percent',f=>f.r.operationalTargets.claimAttempts=0,'MISSING');
+refused('claim reliability belowtarget refused',f=>f.r.operationalTargets.claimSuccesses=998,'MISSING');
+refused('one reset leak refused',f=>f.r.operationalTargets.clinicResetLeaks=1,'MISSING');
+refused('missing evidence bytes refused',f=>delete f.bytes['evidence/manual.json'],'INVALID');
+refused('unsafe evidence path refused',f=>f.r.gates[0].evidence[0].path='../secret','INVALID');
+refused('production evidence refused',f=>f.r.environment='production','INVALID');
+refused('stopped current run missing notpass',f=>f.r.status='STOPPED','MISSING');
+test('selfreview refused',()=>{const f=seal(fixture());const review=JSON.parse(f.bytes['evidence/review.json']);review.reviewer=f.r.author;f.bytes['evidence/review.json']=JSON.stringify(review);f.r.independentReview.sha256=sha256(f.bytes['evidence/review.json']);assert.equal(evaluate(f).receipts[0].status,'INVALID');});
+test('untrusted reviewer refused',()=>{const f=seal(fixture());const review=JSON.parse(f.bytes['evidence/review.json']);review.reviewer='unregistered';f.bytes['evidence/review.json']=JSON.stringify(review);f.r.independentReview.sha256=sha256(f.bytes['evidence/review.json']);assert.equal(evaluate(f).receipts[0].status,'INVALID');});
+test('verdict edit after review invalidates receipt',()=>{const f=seal(fixture());f.r.gates[0].observation='edited';assert.equal(evaluate(f).receipts[0].status,'INVALID');});
+test('changed evidence bytes rejected',()=>{const f=seal(fixture());f.bytes['evidence/run.json']='changed';assert.equal(evaluate(f).receipts[0].status,'INVALID');});
+test('absent receipt distinct from stale',()=>{const v=evaluateParticipantAcceptance({expected,receipts:[{path:EXISTING_PARTICIPANT_RECEIPTS[0]}]});assert.equal(v.receipts[0].status,'MISSING');assert.equal(v.acceptedCurrent,false);});
+test('existing stopped historical receipts never promoted',()=>{const receipts=EXISTING_PARTICIPANT_RECEIPTS.map(path=>({path,bytes:fs.readFileSync(path)}));const v=evaluateParticipantAcceptance({expected,receipts});assert(v.receipts.every(r=>r.status==='STALE'));assert.equal(v.gateCounts.ACCEPTED_CURRENT,0);});
+test('different run partial passes cannot form one hosted event',()=>{const a=fixture(),b=fixture();a.r.gates=a.r.gates.filter(g=>!g.id.startsWith('privacy_'));b.r.gates=b.r.gates.filter(g=>g.id.startsWith('privacy_'));b.r.acceptanceRunId='test-run-2';seal(a);seal(b);b.bytes['evidence/review2.json']=b.bytes['evidence/review.json'];b.r.independentReview.path='evidence/review2.json';const v=evaluateParticipantAcceptance({expected,receipts:[{path:'data/a.json',bytes:JSON.stringify(a.r)},{path:'data/b.json',bytes:JSON.stringify(b.r)}],evidenceBytesByPath:{...b.bytes,...a.bytes}});assert.equal(v.gateCounts.ACCEPTED_CURRENT,35);assert.equal(v.acceptedCurrent,false);assert.equal(v.coherentHostedRun,false);});
+test('missing current identity cannot accept any receipt',()=>{const f=seal(fixture());const v=evaluateParticipantAcceptance({expected:{...expected,workerDigest:null},receipts:[{path:'data/a.json',bytes:JSON.stringify(f.r)}],evidenceBytesByPath:f.bytes});assert.equal(v.acceptedCurrent,false);assert.equal(v.gateCounts.ACCEPTED_CURRENT,0);});
+console.log(`${checks} participant acceptance evaluator controls passed; no hosted execution claimed.`);

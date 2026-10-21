@@ -1,0 +1,90 @@
+{
+  "schemaVersion": "rcap-family-product-wiring/v1",
+  "familyId": "census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement",
+  "routeKeys": [
+    "obligation:runtime-only:UT:path-l-vacatur-human-trafficking-related-expungement"
+  ],
+  "routeSelectionId": "ut-rule65c-trafficking-pcra",
+  "implementationStrategy": "official_pdf_fill",
+  "generationAllowed": false,
+  "runtimeSelectable": false,
+  "commercialRoutesOpened": 0,
+  "createsFulfillmentRecord": false,
+  "opensCommercialRoute": false,
+  "assignmentOwnedPath": "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-l-vacatur-human-trafficking-related-expungement--official-pdf-fill",
+  "binding": {
+    "family": "census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement",
+    "jurisdiction": "UT",
+    "routeKeys": [
+      "obligation:runtime-only:UT:path-l-vacatur-human-trafficking-related-expungement"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "generic Rule 65C PCRA petition",
+      "Attachments A-B"
+    ],
+    "packetComponents": [
+      "UT-RULE-65C-PCRA",
+      "UT-PCRA-ATTACHMENTS-A-B"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-l-vacatur-human-trafficking-related-expungement--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-l-vacatur-human-trafficking-related-expungement--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-l-vacatur-human-trafficking-related-expungement--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-l-vacatur-human-trafficking-related-expungement--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:1231XX",
+        "sha256": "9c5bd552fab0ada747b6f680b61e48acf4eca89275e2c8ad86d7ee3d82e95a09",
+        "tier": "exact_content_hash"
+      }
+    ],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "34693736987",
+      "jobId": "103553971791",
+      "artifactId": "10298028456",
+      "boundToCanonicalSha256": "c73a6d87cb5b68f054d50a141b47583e60a14fc144eff09b2eb6d67fb0da21ba",
+      "coversTheWholeFamily": true
+    },
+    "lastIndependentVerification": {
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf02",
+      "verifiedAtBase": "2977f2bc1dfd413397b6bfa65fb7974c23e13180"
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    },
+    "packetComponentsProvenance": "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-l-vacatur-human-trafficking-related-expungement--official-pdf-fill/packet-set-manifest.json and reports/rendered-artifacts.json; the report binds pages 1-10 to the held Rule 65C source and pages 11-12 to the two incorporated attachments"
+  },
+  "centralReconciliationRequired": {
+    "runtimePathwayId": "path-l-vacatur-human-trafficking-related-expungement",
+    "routeKey": "obligation:runtime-only:UT:path-l-vacatur-human-trafficking-related-expungement",
+    "currentCensusFamilyId": "census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement",
+    "implementationStrategy": "official_pdf_fill",
+    "replaceOldVehicle": "old Title 77 / guidance-only / LegalEase Utah expungements.html candidate",
+    "adoptedVehicle": "generic Rule 65C PCRA petition plus Attachments A-B under UT-TRAFFICKING-PCRA-RULE-65C",
+    "sourceBinding": {
+      "sourceId": "official-form:1231XX",
+      "meaning": "catalog identity for the held generic petition, not a trafficking-specific form",
+      "sha256": "9c5bd552fab0ada747b6f680b61e48acf4eca89275e2c8ad86d7ee3d82e95a09"
+    },
+    "packetComponents": [
+      "UT-RULE-65C-PCRA",
+      "UT-PCRA-ATTACHMENTS-A-B"
+    ],
+    "outputDirectory": "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-l-vacatur-human-trafficking-related-expungement--official-pdf-fill",
+    "profileChangesCaptainMustReconcile": [
+      "bind the runtime pathway to this exact packet family and Rule 65C vehicle",
+      "replace the stale guidance-only/source-candidate treatment",
+      "retain disabled generation and checkout until output-level gates pass"
+    ],
+    "preserveLaunchGraphClosed": true,
+    "sharedRegistryEditsMadeHere": false
+  }
+}

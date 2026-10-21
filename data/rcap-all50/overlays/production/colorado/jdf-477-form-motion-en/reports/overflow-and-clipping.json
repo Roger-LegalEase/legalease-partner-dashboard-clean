@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "rcap-overflow-report/v3-d0",
+  "boundaryFixtureApplied": true,
+  "minimumReadableFontSize": 6,
+  "shrinkToFitApplied": true,
+  "refusedBelowFloor": 1,
+  "findings": [
+    {
+      "fixture": "boundary",
+      "field": "Case Number",
+      "check": "refused_below_readable_floor",
+      "reason": "value_exceeds_widget_width_at_minimum_font",
+      "minFontSize": 6,
+      "requiredWidthAtMin": 210.4,
+      "requiredHeightAtMin": null,
+      "widget": {
+        "x": 419.51,
+        "y": 563.92,
+        "width": 111.6,
+        "height": 10.8
+      },
+      "handling": "left blank in the artifact; recorded for a human"
+    },
+    {
+      "fixture": "boundary",
+      "field": "Address",
+      "check": "shrink_to_fit_applied",
+      "fontSize": 6.24,
+      "lines": 1,
+      "handling": "written at the fitted size"
+    },
+    {
+      "fixture": "boundary",
+      "field": "Email",
+      "check": "shrink_to_fit_applied",
+      "fontSize": 6.74,
+      "lines": 1,
+      "handling": "written at the fitted size"
+    }
+  ]
+}

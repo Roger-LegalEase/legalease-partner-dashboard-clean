@@ -1,0 +1,180 @@
+{
+  "schemaVersion": "rcap-independent-engineering-review/v1",
+  "subject": "NE/WV governance preservation, author revision R2",
+  "reviewedBy": "captain",
+  "reviewedAtBase": "5f71e0d664a321f148a9e06f09820bf878c4d7be",
+  "authorClaimedBase": "ca8f8909064882b38db1a732a72aad12a2fedb58",
+  "authorObservedCommit": "023abbf4c584b488b521894af814142cd6b119a7",
+  "returnZipSha256": "ed7d116fdb0e3473b1c7cd3c619cd73167d1cf84449e9ac1b00314253dec52ae",
+  "families": [
+    "ne-setaside-custodial-set",
+    "wv_conv_multiple_misdemeanors-set",
+    "wv_conv_single_misdemeanor-set"
+  ],
+  "disposition": "NOT_CLEARED_FOR_INTEGRATION",
+  "whyNotCleared": "Two substantiated findings remain, one of them against an invariant R2 itself asserts. No packet verdict, terminal transition, raster, approval or route change is created, requested or implied by this review. The proposal was applied only to an isolated three-file scratch copy; the repository was not modified.",
+
+  "sourceIdentity": {
+    "claim": "The three production files still carry their required base blobs.",
+    "verifiedAt": "5f71e0d664a321f148a9e06f09820bf878c4d7be",
+    "result": "ALL_THREE_MATCH_AT_CURRENT_HEAD",
+    "note": "The author could only compare at 023abbf4c. Recomputed here at the current Captain head, which is later. The identity claim therefore holds against current owner changes, not merely against the commit the author observed.",
+    "blobs": {
+      "scripts/build-census-v1-ne-setaside-custodial-set.mjs": "57a65aeb227cee6b3ceed737ab3c6637f86eee55",
+      "scripts/rcap-packet-completeness/governance-preservation.mjs": "b44c440aecb02af9db8b0edf62d786ada6b942d1",
+      "scripts/build-census-v1-wv_conv_multiple_misdemeanors-set.mjs": "ea790bc838ab0b530a67d3d38c564141e2392f8d"
+    },
+    "anchorUniqueness": "All seven exact host/WV source anchors in source-edits.json occur exactly once in the real files. Checked by string count, not by the author's tool."
+  },
+
+  "commandsActuallyRun": [
+    {
+      "command": "sha256sum -c SHA256SUMS.r2.txt",
+      "result": "75 of 75 OK"
+    },
+    {
+      "command": "sha256sum -c original-review/SHA256SUMS.review.txt",
+      "result": "42 of 42 OK. The original review, its tests and its rejection are unaltered."
+    },
+    {
+      "command": "node --test tests/reviewer-counterexamples-r2.test.mjs tests/additional-r2.test.mjs",
+      "result": "68 tests, 68 pass, 0 fail, 0 skipped, exit 0",
+      "firstAttempt": "67 pass / 1 fail on P11. Not a defect in the proposal: the zip stores the return root as mode 0700, and P11 drops to uid 65534 when the suite runs as root, so the child could not traverse to the module. chmod 755 on the extracted root and the suite is 68/68. Recorded because a reviewer running as root will reproduce the same false failure."
+    },
+    {
+      "command": "python3 -m unittest discover -s tests -p 'test_*.py' -v",
+      "result": "7 tests, OK, exit 0"
+    },
+    {
+      "command": "node --test original-review/tests/independent-review.test.mjs",
+      "result": "37 tests, 24 pass, 13 fail. The author's V1 rejection baseline reproduces exactly as claimed."
+    },
+    {
+      "command": "patch original-review/tests/independent-review.test.mjs < tests/REVIEWER_TEST_ADAPTATION.diff; cmp against tests/reviewer-counterexamples-r2.test.mjs",
+      "result": "IDENTICAL. The disclosed harness-adaptation diff is complete: there is no undisclosed change between the original reviewer test file and the shipped R2 replay."
+    },
+    {
+      "command": "python3 tools/apply_revision.py --repo /home/user/captain-worktree --patch-out <outside repo>",
+      "result": "{\"status\":\"CHECKED_NOT_APPLIED\",\"baseFiles\":3,\"fullSourceSyntaxChecks\":3,\"repositoryWrites\":0,\"patchBytes\":24857}. git status confirmed no repository write.",
+      "closes": "The author listed 'Complete source-file patch application' and 'Complete-host/complete-WV syntax check' as NOT executed. Both are now executed. All three reconstructed full files pass node --check as ES modules."
+    },
+    {
+      "command": "RCAP_REPO=<isolated patched copy of the three files> node --test tests/reviewer-counterexamples-r2.test.mjs tests/additional-r2.test.mjs",
+      "result": "68 tests, 68 pass, 0 fail, exit 0. Harness banner: 'R2: actual checkout module/caller/function text'.",
+      "closes": "The author listed 'Complete-checkout RCAP_REPO mode' as NOT executed. Executed here. The suite now runs slices extracted from the real patched production files rather than the author's evidence/*.after.js, and load-r2-sources.mjs asserts each extraction marker occurs exactly once.",
+      "limit": "The scratch tree holds only the three files, which is all RCAP_REPO reads. It is not a full checkout and no builder, renderer or raster ran."
+    }
+  ],
+
+  "confirmedByInspection": [
+    {
+      "question": "Is writeLaneRows removed from repairFamily and does it appear only after the wrapper's successful final-governance reconciliation?",
+      "answer": "YES for the family being built. In the patched WV wrapper writeLaneRows is defined once and called once, at the end of runWvFamily, after completeStagedPacketGovernance returns and after the reconciled record is written. repairFamily retains only its console.log. A throw anywhere in the two rendering stages, in the final identity measurement, or in the reconciliation leaves the entry receipt suspended and publishes no lane row. See finding R2-1 for the residual."
+    },
+    {
+      "question": "Is the entry receipt ever resurrected from history?",
+      "answer": "NO. Retention keys only on previous.binding.acceptanceReceipt, read before any renderer runs. History is never searched for a matching digest anywhere in completeStagedPacketGovernance, suspendPacketReceipt or packetGovernanceBinding. After a failed run the entry record no longer carries a current receipt, so a later run finds no originalReceipt and cannot retain one."
+    },
+    {
+      "question": "Does the harness's injection of the whole module as vm globals mask a wrong import list in the real files?",
+      "answer": "It would, because the extracted caller slices begin below the import statement. Closed by direct inspection instead: the host imports exactly assertPacketCanonicalSha256, assertGovernanceDocument, packetGovernanceBinding, readGovernanceDocument, measurePacketArtifactIdentities, assertPacketReceiptCurrent; the WV wrapper imports exactly readGovernanceDocument, measurePacketArtifactIdentities, assertPacketReceiptCurrent, suspendPacketReceipt, completeStagedPacketGovernance. All eleven names are real exports of the proposed module, and every identifier used in the patched files is imported."
+    },
+    {
+      "question": "Do the three currently committed records survive the new strict checker?",
+      "answer": "YES. Measured from bytes on disk at this head: each family declares exactly two artifacts named canonical and boundary at <directory>/fixtures/<fixture>.pdf, each declared sha256 and byteLength matches the actual file, and each current acceptanceReceipt.boundToCanonicalSha256 equals the measured canonical. measurePacketArtifactIdentities and assertPacketReceiptCurrent would both pass on all three today. R2 does not invalidate any committed record on contact."
+    },
+    {
+      "question": "Repeat-run stability.",
+      "answer": "withdrawalNote carries no timestamp and no run-scoped value, and both the suspension note and the forced-withdrawal note are deduplicated by full deep equality, so a second identical run rewrites identical bytes. Confirmed by reading and covered by the author's test 16."
+    },
+    {
+      "question": "Non-enrolled families.",
+      "answer": "Every R2 host branch is gated on the three-family whitelist. The checker passes null as measuredCanonical for all other families, which is what the original code passed. The author's P13 compares 120 pre-patch and post-patch outcomes across the ten other configured family IDs and they are identical."
+    }
+  ],
+
+  "findings": [
+    {
+      "id": "R2-1",
+      "severity": "FINDING",
+      "against": "the invariant R2 itself asserts for F7",
+      "where": "scripts/build-census-v1-wv_conv_multiple_misdemeanors-set.mjs, writeLaneRows(), and its new call site at the end of runWvFamily",
+      "what": "writeLaneRows() iterates every entry of FAMILY_SPECS, which holds BOTH WV families, gated only on that family's production-field-map.json existing and carrying ASSIGNMENT_ID. Moving the call after the reconciliation therefore establishes the claimed ordering only for the family in the current process. Running one family publishes a lane row for the other.",
+      "demonstrated": "Probe against the real patched writeLaneRows slice in a vm, with two synthetic family directories: the second family's product-wiring.json holds no current receipt because its own wrapper was interrupted between suspendPacketReceipt and completeStagedPacketGovernance. One reconciled family produced TWO rows, both status COMPLETED, both result PASS_COMPLETE, including one for the suspended family.",
+      "whyItMatters": "The concrete sequence is: wv_conv_single_misdemeanor-set fails mid-run and is left suspended with its partial production-field-map.json on disk; wv_conv_multiple_misdemeanors-set is then run successfully and republishes PASS_COMPLETE for the suspended family. The README states the placement as a corrected invariant, so the claim is broader than the code supports.",
+      "notRepairedHere": "This reviewer does not repair a revision and then certify its own repair. The shape of a fix is small and inside R2's scope: reconcile-and-publish for the familyId that was actually reconciled.",
+      "invisibleToTheSuite": "By construction. The F7 harness stubs writeLaneRows as a counter and configures FAMILY_SPECS with a single family, so no test in either R2 file can observe this."
+    },
+    {
+      "id": "R2-2",
+      "severity": "FINDING",
+      "against": "F1, measured checker inputs",
+      "where": "governance-preservation.mjs assertPacketReceiptCurrent, as called by the corrected host checkFamily and the corrected checkWvFamily",
+      "what": "Both corrected checkers call measurePacketArtifactIdentities, which measures canonical AND boundary from bytes, and then compare only .canonical against the receipt. finalIdentities.boundary is measured and discarded.",
+      "whyItMatters": "The builder's own retention rule in completeStagedPacketGovernance is strictly stronger: it retains the entry receipt only when canonical AND boundary are both unchanged. So --check reports OK on a state the builder would have refused to leave behind. The receipt these families carry asserts coversTheWholeFamily: true, so boundary-only drift is exactly the case where that claim has stopped being true, and it is the case the checker cannot see.",
+      "notAOneLineFix": "There is no comparand today. The receipt records verdict, workflowRunId, jobId, artifactId, boundToCanonicalSha256 and coversTheWholeFamily, and no boundary digest; binding.renderedArtifacts is a path string, not a digest. Giving the checker something to compare is a change to what a receipt records, which is the central raster acceptance path's to make, not this proposal's and not this reviewer's.",
+      "notIntroducedByR2": "The pre-R2 checker read no digests at all, so R2 is a strict improvement here. This is the residual, recorded so it is not mistaken for closed."
+    },
+    {
+      "id": "R2-3",
+      "severity": "OBSERVATION",
+      "against": "nothing R2 claims; attached to the line R2 moved",
+      "where": "writeLaneRows(), the same function relocated by R2",
+      "what": "Every published row carries result PASS_COMPLETE and countersAfter with all nine counters as typed literal zeros, including visualDefects: 0 and invisibleWrites: 0. repairFamily measures everyReportedWriteVisible and protectedFieldsWithInk from bytes and those measurements are discarded in favour of the literals. No visual measurement is taken anywhere in the wrapper.",
+      "contractPoint": "A counter that was not measured is null, never 0. This is the builders-publishing-typed-literal-counters class already recorded corpus-wide; it is not R2's defect and not R2's to fix.",
+      "whyRecordedHere": "Moving the call so it follows a successful governance reconciliation makes the self-issued PASS_COMPLETE read as better warranted than it is. The ordering improved; what is published did not."
+    },
+    {
+      "id": "R2-4",
+      "severity": "SCOPE_DISCLOSURE",
+      "against": "the README's description of its own change",
+      "where": "host carriedProductBinding, the three-family whitelist",
+      "what": "carryProductBinding: true appears exactly once in the host and belongs to ne-setaside-custodial-set alone. Neither WV family opts in. The R2 whitelist bypasses that gate, so the two WV families begin carrying their binding forward for the first time.",
+      "isTheChangeCorrect": "YES, and it is load-bearing. Without it the baseline stage inside runWvFamily writes product-wiring.json with no binding key at all, destroying the suspension record and, on the committed records at this head, live acceptance receipts bound to 31a49f2d2216fd2c7a1327aa7f95f3214b8a760e9d46c05517d764d7bd60f90d and 37764d50ba8f761661e2576cb76ff6a95aaf06bfbc2f00236ecc6c9c03e90ffa. That is a live defect today, larger than the seven findings the return is answering.",
+      "whyRecordedAsAFinding": "The README presents the host edit as implementing F1 through F6. It does not say that two production families that never opted into binding carry-forward now do. An owner coordinating these paths should be told, and should be told that the current WV builders would delete those two receipts if run today."
+    },
+    {
+      "id": "R2-5",
+      "severity": "MINOR",
+      "where": "host, commonClosedProductRecord call sites at the STOP branch and at the STOP arm of checkFamily",
+      "what": "Those two call sites still omit the canonical digest. For an enrolled family assertPacketCanonicalSha256(null) would throw. All three enrolled families are action BUILD, so the path is unreachable today; it would fire if one were ever reclassified STOP. Related: the three-family literal is duplicated at three places in the host.",
+      "notRepairedHere": "Latent, unreachable, and cosmetic in part."
+    }
+  ],
+
+  "f1ThroughF7Reassessed": {
+    "F1": "ADDRESSED with residual R2-2. The checker measures canonical and boundary from actual bytes, validates declared hash and length, checks any current receipt against the measured canonical and supplies that digest to commonClosedProductRecord. The comparison is a fixed point: assertPacketReceiptCurrent runs first, so deepEqual is only reached when the receipt already matches, and the regex clause and history dedup are both idempotent. The boundary measurement is taken and thrown away.",
+    "F2": "ADDRESSED. strictReceiptHistory compares complete withdrawal records and complete nested receipts by isDeepStrictEqual. The same A to B transition from a different job, run or nested evidence survives as a distinct historical note. The strict mode is opt-in and the ten other configured families keep the old defaults, checked over 120 combinations.",
+    "F3": "ADDRESSED. readGovernanceDocument treats ENOENT alone as first build and propagates JSON syntax errors and real OS errors. assertReceiptEvidenceShape refuses a present JSON null, arrays, scalars, a non-object receipt and mixed malformed history. The host validates before any packet evidence is overwritten, and the WV wrapper validates before the suspension write. Verified that the host's readJson throws ENOENT rather than returning null, so the first-build path is not swallowed by the catch.",
+    "F4": "ADDRESSED. assertPacketCanonicalSha256 runs before the previous binding is examined, including on first build and on a history-only record.",
+    "F5": "ADDRESSED. An absent declaration preserves existing metadata; an explicit declaration whose delivered set is empty produces []; an unsupported row refuses rather than falling through a prefix match. No enrolled family's actual declaration changes: ne-setaside-custodial-set declares six components of which five are delivered, and neither WV family declares componentDisposition at all.",
+    "F6": "ADDRESSED. Only the present-tense 'this build wrote <digest>' clause is rewritten to the measured canonical; historical withdrawals and full receipts are untouched; repeat behaviour is stable.",
+    "F7": "ADDRESSED for the built family, with finding R2-1 and residual R2-2. Entry governance is validated and snapshotted, entry artifacts are measured when a receipt exists, the receipt is made noncurrent before either rendering stage with replacedByCanonicalSha256 null and a stated reason, the full receipt stays in withdrawal history, and after both stages the final files are measured and reconciled once against the entry-current receipt. Boundary-only change prevents retention inside the builder. A failed or terminated stage leaves no current receipt over intermediate output. The suspension note survives in history after success, which is deliberate and disclosed."
+  },
+
+  "entryFileIdentityIsNotPriorRasterCoverage": "The retention test proves the entry canonical file is the file the receipt named and that neither fixture moved. It does not prove the receipt's coversTheWholeFamily claim was ever true, does not validate historical source coverage, and renews no verification: lastIndependentVerification is retained, not refreshed. The proposal says this in terms and the code does not overstate it. Finding R2-2 is the place where the checker is weaker than that framing implies.",
+
+  "authorTestResultsAreNotApproval": "The R2 replay is the author's adapted harness, not an independent review, and is presented as such. What raises its weight here is that the adaptation diff was verified complete against the untouched original, and that the same 68 assertions were then re-run in RCAP_REPO mode against the real patched production files rather than the author's own evidence slices. That is still synthetic renderer stages and synthetic filesystem buffers. No packet was built.",
+
+  "remainingOwnerSideExecution": [
+    "node scripts/build-census-v1-ne-setaside-custodial-set.mjs --self-test",
+    "node scripts/build-census-v1-ne-setaside-custodial-set.mjs   (with the existing MASTER_LIBRARY_SOURCE_DIR source custody configured)",
+    "node scripts/build-census-v1-ne-setaside-custodial-set.mjs --check",
+    "node scripts/build-census-v1-wv_conv_multiple_misdemeanors-set.mjs",
+    "node scripts/build-census-v1-wv_conv_multiple_misdemeanors-set.mjs --check",
+    "node scripts/build-census-v1-wv_conv_single_misdemeanor-set.mjs",
+    "node scripts/build-census-v1-wv_conv_single_misdemeanor-set.mjs --check",
+    "central raster acceptance for any packet whose bytes move",
+    "independent verification, source freshness, legal and visual acceptance, all separately authoritative"
+  ],
+
+  "whatThisReviewCreates": {
+    "repositoryWritesFromTheProposal": 0,
+    "packetsRebuilt": 0,
+    "rastersSpent": 0,
+    "terminalTransitions": 0,
+    "approvalIssued": false,
+    "claimsChanged": false,
+    "commercialRoutesOpened": 0
+  }
+}

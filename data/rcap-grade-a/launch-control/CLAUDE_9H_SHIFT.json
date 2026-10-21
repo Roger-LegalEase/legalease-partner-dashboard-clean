@@ -1,0 +1,700 @@
+{
+  "schemaVersion": "claude-9h-shift/v1",
+  "startedAt": "2026-09-01T07:14:06Z",
+  "endsAt": "2026-09-01T16:14:06Z",
+  "shiftBaseSha": "be3e738287ca82867099093f78480e4fbb7b91bc",
+  "captainBranch": "claude/legalease-sprint-captain-utucnw",
+  "workers": {
+    "PF-A": {
+      "laneQueue": [
+        "PF01",
+        "PF02",
+        "PF03",
+        "PF04",
+        "PF05",
+        "PF06"
+      ]
+    },
+    "PF-B": {
+      "laneQueue": [
+        "PF07",
+        "PF08",
+        "PF09",
+        "PF10",
+        "PF11",
+        "VF15"
+      ]
+    },
+    "PF-C": {
+      "laneQueue": [
+        "PF12",
+        "PF13",
+        "PF14",
+        "PF15",
+        "PF16"
+      ]
+    },
+    "FIX-A": {
+      "laneQueue": [
+        "FIX01",
+        "FIX03",
+        "FIX05",
+        "FIX07"
+      ]
+    },
+    "FIX-B": {
+      "laneQueue": [
+        "FIX02",
+        "FIX04",
+        "FIX06",
+        "FIX08",
+        "VF16"
+      ]
+    },
+    "VF-SRC-A": {
+      "laneQueue": [
+        "VF01",
+        "VF02",
+        "VF03",
+        "VF04",
+        "VF05",
+        "VF06",
+        "DISC01",
+        "DISC02",
+        "DISC03",
+        "SRC01",
+        "SRC02",
+        "ACQ01",
+        "ACQ02",
+        "PROMO01",
+        "PROMO02",
+        "VF17"
+      ]
+    },
+    "VF-SRC-B": {
+      "laneQueue": [
+        "VF07",
+        "VF08",
+        "VF09",
+        "VF10",
+        "VF11",
+        "VF12",
+        "DISC04",
+        "DISC05",
+        "DISC06",
+        "SRC03",
+        "SRC04",
+        "ACQ03",
+        "PROMO03"
+      ]
+    }
+  },
+  "nextLaneByWorker": {
+    "VF-SRC-A": {
+      "assignedAt": "2026-09-01T09:51:26Z",
+      "lane": "VF01, VF02, VF03, VF04, VF05, VF06, VF17",
+      "kind": "independent-verification",
+      "grantsMinted": 9,
+      "families": [
+        "ri_nonconviction_sealing-set",
+        "pa_490_nonconviction-set",
+        "az_marijuana_expungement_arrest_no_charges-set",
+        "pa_9122_1_limited_access-set",
+        "ny_160_59_petition-set",
+        "ca-851-91-set",
+        "nj_arrest_no_conviction-set",
+        "nj_indictable_conviction-set",
+        "ca-1203-42-set"
+      ],
+      "repairedBy": "FIX-A",
+      "alsoNowGranted": "VF13 covers the four Virginia families you already read without a claim. The grant exists now, so re-record that verdict under a claimed lane; the reading itself stands and does not need repeating.",
+      "whyIndependent": "You neither built nor repaired any of these, and FIX-A has verified none of its own work.",
+      "ceiling": "BUILT_RASTER_PENDING. None of these nine is in the rastered set.",
+      "openFamilies": 21,
+      "familiesByLane": {
+        "VF01": [
+          "ak-courtview-set",
+          "mi_setaside_marihuana-set"
+        ],
+        "VF02": [
+          "ak-tf800-set"
+        ],
+        "VF03": [
+          "ak-tf805-set",
+          "va_seal_ancillary_matter_only-set"
+        ],
+        "VF04": [
+          "ar-arrest-seal-set",
+          "pa_age70_deceased-set",
+          "va_seal_enumerated_seven_year-set"
+        ],
+        "VF05": [
+          "ar-misdemeanor-dwi-seal-set",
+          "pa_pardon_expungement-set",
+          "va_seal_petition_felony-set"
+        ],
+        "VF06": [
+          "co_motion_seal_nonconviction-set",
+          "va_seal_petition_misdemeanor-set"
+        ],
+        "VF17": [
+          "az_marijuana_expungement_arrest_no_charges-set",
+          "ca-1203-42-set",
+          "ca-851-91-set",
+          "nj_arrest_no_conviction-set",
+          "nj_indictable_conviction-set",
+          "ny_160_59_petition-set",
+          "pa_490_nonconviction-set",
+          "pa_9122_1_limited_access-set"
+        ]
+      },
+      "supersedes": "VF17",
+      "readThis": "laneSupersession in this file explains why your lane name changed. The families did not change owner except where that block says so."
+    },
+    "VF-SRC-B": {
+      "assignedAt": "2026-09-01T09:51:26Z",
+      "lane": "VF07, VF08, VF09, VF10, VF11, VF12",
+      "kind": "independent-verification",
+      "grantsMinted": 2,
+      "families": [
+        "ak-tf800-set",
+        "ct-cleanslate-petition-set"
+      ],
+      "builtBy": "PF-C",
+      "note": "You were right to stop: the grant did not exist and the lane name was unresolvable. Both are fixed. Claim under VF14, which LANE_KIND resolves.",
+      "rasterLocalWarning": "ak-tf800-set carries rasters PF-C produced in its own container, declared RASTER_LOCAL_PENDING_CENTRAL. Not gate receipts: uncalibrated runner, no canary, no negative controls, no binding to the queue's pinned hashes. Neither family is in the central rastered set.",
+      "ceiling": "BUILT_RASTER_PENDING",
+      "openFamilies": 9,
+      "familiesByLane": {
+        "VF07": [
+          "co_multiple_conviction_seal-set",
+          "ri_nonconviction_sealing-set",
+          "vt_exp_decriminalized-set"
+        ],
+        "VF08": [
+          "co_pardoned_conviction_seal-set"
+        ],
+        "VF09": [
+          "ct-cleanslate-petition-set"
+        ],
+        "VF10": [
+          "ky_void_seal_controlled_substance-set"
+        ],
+        "VF11": [
+          "ky_void_seal_marijuana_synthetic_salvia-set"
+        ],
+        "VF12": [
+          "me-seal-prost-set",
+          "vt_seal_nonconviction-set"
+        ]
+      },
+      "supersedes": "VF14",
+      "readThis": "laneSupersession in this file explains why your lane name changed. The families did not change owner except where that block says so."
+    },
+    "PF-B": {
+      "assignedAt": "2026-09-01T10:41:30Z",
+      "lane": "duplicate-byte classification (a label, not a lane id)",
+      "kind": "independent-verification",
+      "state": "ASSIGNED",
+      "subject": "the twelve families that pin identical bytes, in three groups",
+      "families": [
+        "ut_pet_acquittal-set",
+        "ut_pet_conviction-set",
+        "ut_pet_dismissed_with_prejudice-set",
+        "ut_pet_limitations-set",
+        "wa_vac_domestic_violence-set",
+        "wa_vac_homicide_victim_prostitution-set",
+        "wa_vac_misdemeanor_ordinary-set",
+        "wa_vac_substance_use_disorder-set",
+        "wa_vac_survivor_misdemeanor-set",
+        "wa_vac_treaty_fishing-set",
+        "wa_vac_felony-set",
+        "wa_vac_survivor_felony-set"
+      ],
+      "why": "You found this on two families. It is twelve, and the Utah group you had no reason to look at is the largest single-form group. You already hold the measurement method.",
+      "theQuestionPerGroup": "Does the statutory route these families differ by change what the document must say? If yes, identical bytes is a defect and the packet is missing a route election. If no, identical bytes is correct and the finding is that one render was recorded as several verdicts.",
+      "doNotDo": "Do not repair. Classify and evidence. A verifier that repairs its own subject cannot then verify it.",
+      "ceiling": "Your VF15 verdicts stand. This lane cannot promote anything.",
+      "grantsPending": "Ask and I will mint them; ten of the twelve already hold a verification claim, so this may need a lane transfer rather than a grant. Say the word and I will resolve it before you claim.",
+      "claimRequired": false,
+      "claimWhy": "read-and-report; you write only under your own return directory. All twelve families already hold an independent-verification claim, so no second grant is mintable and none is needed."
+    },
+    "FIX-B": {
+      "assignedAt": "2026-09-01T10:41:30Z",
+      "lane": "read-back diagnosis (a label, not a lane id)",
+      "kind": "repair",
+      "state": "ASSIGNED",
+      "subject": "the write read-back that fails in both directions",
+      "why": "VF-SRC-B established it on Connecticut and Alaska; VF-SRC-A found the mirror image in both Vermont families. One read-back failing both ways is likelier than three unrelated defects, and you have verified none of these.",
+      "theTwoDirections": [
+        "CT reports six canonical writes and records drawnText: [] for four of them with readBackFromBytes: true, while all four ARE in the bytes — a correct packet whose evidence artifact is wrong. A verifier trusting the per-field evidence fails a correct family.",
+        "VT counts eight values where seven reach the bytes — a claimed write the bytes do not carry.",
+        "AK transcribes a boundary name without its apostrophe where the stream carries 0x92."
+      ],
+      "repairTheReportNotTheOverlay": "VF-SRC-B was explicit that the Connecticut packet is sound and its report is wrong. Do not touch the packet bytes to make a report agree with them.",
+      "ceiling": "These families' raster receipts are unaffected; a report fix changes no PDF.",
+      "claimRequired": false,
+      "claimWhy": "Diagnose and propose; do not write a report artifact yet. Two of the four families are still under a live verification grant (VF07, VF12) and repairing them now would move artifacts under a verifier mid-read.",
+      "deliverable": "the root cause, one proposed patch, and which of the four it applies to — CT reporting drawnText:[] for writes that ARE in the bytes, VT counting 8 values where 7 reach them, AK dropping an apostrophe the stream carries as 0x92.",
+      "grantWillFollow": "Once VF07 and VF12 release, a repair lane is minted through the generator and you get all four."
+    },
+    "FIX-A": {
+      "assignedAt": "2026-09-01T09:23:31Z",
+      "lane": "east-host appearance defect",
+      "state": "ASSIGNED",
+      "why": "Roger has decided the participant-name question, so the east host is no longer routed to counsel and is yours. The live blocker is NOT the role classification you first reported and later withdrew -- correctly. It is: 'NJ-CN-10557/canonical: finalizer reported writes that have no artifact appearance' on address, date-of-birth, charge and court fields. DefName is not among them.",
+      "doNotWait": "Poppler blocks the west-host rebuilds, not this. Diagnosing why a reported write never reaches the flattened appearance stream is code reading and does not need pdftoppm.",
+      "hazard": "A failed run clears the family output directory before erroring. Restore from HEAD after any aborted build.",
+      "decisionRecorded": "data/record-clearing/legal-decisions/2026-09-01-nj-cn-10557-participant-name.json"
+    },
+    "PF-A": {
+      "assignedAt": "2026-09-01T09:23:31Z",
+      "lane": "PF05, PF06",
+      "state": "GRANTS_NEEDED_ON_REQUEST",
+      "note": "You released PF05's claims on stopping, which was right. Ask and I will re-issue them with claim.mjs --reissue; do not work without a grant."
+    },
+    "PF-C": {
+      "assignedAt": "2026-09-01T10:23:34Z",
+      "lane": "REPRO-01",
+      "kind": "packet-build",
+      "state": "ASSIGNED",
+      "subject": "prove the reproducibility fix on the six families whose receipts it puts at risk",
+      "families": [
+        "co_motion_seal_nonconviction-set",
+        "co_multiple_conviction_seal-set",
+        "co_pardoned_conviction_seal-set",
+        "mi_setaside_marihuana-set",
+        "pa_age70_deceased-set",
+        "vt_seal_misdemeanor-set"
+      ],
+      "why": "You found the defect and you own most of these builders. The fix is in and unproven: nothing has yet built one of these twice and compared.",
+      "theMethod": [
+        "1. Build each family twice from identical inputs, in the same container, and compare the SHA-256 of every emitted PDF. Byte-identical or it is not fixed.",
+        "2. Report the pair of hashes per family per fixture. A single hash proves nothing here.",
+        "3. Do NOT hand-edit a PDF to make hashes agree."
+      ],
+      "expectTheReceiptsToDie": "These six hold a RASTER_PASS bound to bytes built before the fix. A correct rebuild WILL change those bytes and invalidate the receipt, and that is the intended outcome, not a regression. Say so in your return; I re-raster them centrally afterwards. This is the last time these hashes move.",
+      "doNotTouch": "Any family outside this list. VF lanes are reading several of them and moving bytes under a verifier is the one thing that wastes a whole lane.",
+      "ceiling": "A rebuild proves reproducibility and nothing else. No family here becomes PASS_COMPLETE from this lane."
+    }
+  },
+  "integratedReturns": [
+    {
+      "wave": 1,
+      "workers": [
+        "PF-C",
+        "FIX-A",
+        "VF-SRC-A",
+        "VF-SRC-B"
+      ],
+      "releasesTaken": 172
+    },
+    {
+      "wave": 2,
+      "workers": [
+        "PF-A",
+        "PF-B",
+        "PF-C",
+        "FIX-A",
+        "FIX-B",
+        "VF-SRC-A",
+        "VF-SRC-B"
+      ],
+      "releasesTaken": 95
+    },
+    {
+      "wave": 3,
+      "workers": [
+        "PF-A",
+        "PF-C",
+        "VF-SRC-B"
+      ],
+      "releasesTaken": 56
+    },
+    {
+      "wave": 5,
+      "workers": [
+        "VF-SRC-A",
+        "VF-SRC-B",
+        "PF-B",
+        "FIX-B"
+      ],
+      "releasesTaken": 25,
+      "at": "2026-09-01T10:23:34Z"
+    },
+    {
+      "wave": 6,
+      "workers": [
+        "PF-C"
+      ],
+      "note": "15 rows for 15 families, 12 COMPLETED, 3 STOPPED, none self-verified",
+      "at": "2026-09-01T10:23:34Z"
+    }
+  ],
+  "newlyReleasedFamilies": [],
+  "productionTouched": false,
+  "commercialRoutesOpened": 0,
+  "shiftBaseRebasedAt": "2026-09-01T11:15:36Z",
+  "shiftBaseRebaseReason": "Three workers reported this file stale and were right. shiftBaseSha still named c6d7ffe7 while the branch head carried three integration waves, the raster batch and the ledger repairs; integratedReturns was empty while seven returns were in; and masterLibrarySourceDirExportRequired still read false after I had corrected exactly that. Verifiers were rebasing onto a base that did not contain the work they were sent to read.",
+  "previousShiftBaseSha": "09b741ad00be0d630bd73a72f66640294abab397",
+  "masterLibraryCorpus": {
+    "note": "Not a permission problem. The session token already reads the private release (HTTP 200). Each worker recovers the corpus itself; the bytes are never committed.",
+    "command": "bash scripts/rcap-corpus/bootstrap-private-corpus.sh",
+    "releaseRepo": "Roger-LegalEase/legalease-source-artifacts",
+    "releaseTag": "source-corpus-2026-08-28",
+    "archiveSha256": "a26e3ca7d52db4460e53c2eddd893109037702f5c8035f2c698a7e16bad84e89",
+    "verified": "51 jurisdictions / 499 files / 329 PDFs",
+    "masterLibrarySourceDirExportRequired": true,
+    "exportCorrection": "This flag read false and was wrong. The preflight falls back to the default install root so it reads 13/13 without the variable, but the build hosts refuse outright: 'MASTER_LIBRARY_SOURCE_DIR must be set explicitly to the extracted Master Library'. Export it."
+  },
+  "captainBroadcast": {
+    "issuedAt": "2026-09-01T07:36:05Z",
+    "issuedBy": "CAPTAIN-9H",
+    "subject": "Builders were blocked by the preflight, not by corpus permissions. Both are now resolved. Reset and continue.",
+    "appliesTo": [
+      "PF-A",
+      "PF-B",
+      "PF-C",
+      "FIX-A",
+      "FIX-B",
+      "VF-SRC-A",
+      "VF-SRC-B"
+    ],
+    "whatWasActuallyWrong": [
+      "FIX-B reported PACKET_BUILD_ENVIRONMENT_NOT_READY and diagnosed it as the session token lacking read access to Roger-LegalEase/legalease-source-artifacts. That diagnosis was one step off.",
+      "The token already reads that repository. Captain verified it directly: GET /repos/Roger-LegalEase/legalease-source-artifacts/releases/tags/source-corpus-2026-08-28 answered HTTP 200.",
+      "The real failure was browser_environment_exported. The central raster split made page_rasterizer_available opt-in behind --require-rasterizer but left browser_environment_exported mandatory, so every PF, FIX, DISC, SRC, ACQ and PROMO lane failed preflight for a browser it never opens. READY was unreachable for every builder in the fleet, with or without a corpus."
+    ],
+    "doThisNow": [
+      "1. Fetch the Captain branch and reset your clean worker branch to the new shiftBaseSha in this file. The previous base could not pass preflight.",
+      "2. Recover the Master Library into your own worktree: bash scripts/rcap-corpus/bootstrap-private-corpus.sh",
+      "3. Re-run your family preflight. Expect: PACKET_BUILD_ENVIRONMENT_READY: 13/13 passed, 0 failed, 3 not applicable.",
+      "4. Resume your lane queue at the family where you stopped. Do not re-dispatch and do not wait for a token grant; neither is needed."
+    ],
+    "corpusNotes": [
+      "The bootstrap downloads ~140 MB, verifies the archive against sha256 a26e3ca7d52db4460e53c2eddd893109037702f5c8035f2c698a7e16bad84e89, and refuses rather than guesses on any mismatch.",
+      "It extracts 51 jurisdictions / 499 files / 329 PDFs into private/source-imports/, which is git-ignored. It never commits a byte and never prints the token.",
+      "Do NOT export MASTER_LIBRARY_SOURCE_DIR. The default install root is where the preflight already looks; setting it is how a Master Library ends up mounted at the operational path, which the preconditions refuse by name.",
+      "The Master Library is NOT the operational Nationwide tree. Do not substitute one for the other."
+    ],
+    "whatDidNotChange": [
+      "No family is PASS_COMPLETE without a hash-bound RASTER_PASS from the central raster workflow. Return BUILT_RASTER_PENDING as before.",
+      "Under --require-rasterizer both browser checks still run in full and can still refuse. Captain proved this as a positive control: with no browser exported the check still FAILed.",
+      "No legal, source, contract, claim, ownership or lane-collision rule changed. Your owned paths and prohibited paths are unchanged."
+    ],
+    "answerToFixB": "Do not stand down and do not idle-poll. Reset to the new shiftBaseSha, run the bootstrap, and resume FIX02 at the family where you stopped. The eight families are yours and are not being re-dispatched.",
+    "captainVerification": {
+      "preflightAfterFix": "PACKET_BUILD_ENVIRONMENT_READY: 13/13 passed, 0 failed, 3 not applicable (vt_seal_dui-set)",
+      "laneContracts": "LANE_CONTRACTS_HELD 6/6",
+      "runtimeContract": "CODEX_RUNTIME_CONTRACT_PROVEN 9/9",
+      "claimLedger": "CLAIM_LEDGER_OK 512 claims; DISC06 42/42"
+    },
+    "correction": {
+      "issuedAt": "2026-09-01T08:00:35Z",
+      "correcting": "The previous broadcast asserted, as a fleet-wide fact, that the corpus is fetchable, because the Captain session got HTTP 200 from the release endpoint.",
+      "whatWasWrong": "Repository scope is PER SESSION. The Captain 200 and the worker 403 are consistent, and a 200 in one session proves nothing about another. PF-B and FIX-B each read the 403 response body, which the Captain had not. It reads: GitHub access to this repository is not enabled for this session. Use add_repo to request access. That is the session access layer, not GitHub, and not the token.",
+      "bothWorkersWereRight": "PF-B and FIX-B independently reached this against primary sources, and both refused to record BLOCKED_SOURCE for what is an environment mount failure. BLOCKED_SOURCE names a source that failed to bind while the corpus was present; the corpus was never present. Neither fabricated a hash, zeroed a counter, claimed BUILT_RASTER_PENDING, or wrote an overlay byte.",
+      "whatWasRight": "The preflight repair. Both workers verified independently that browser_environment_exported and page_rasterizer_available are now correctly not applicable where nothing renders. That blocker was real, fleet-wide, and is gone.",
+      "measuredBlastRadius": {
+        "corpusPresent": [
+          "CAPTAIN: 51 jurisdictions, 329 PDFs on disk",
+          "PF-C: reached PACKET_BUILD_ENVIRONMENT_READY and built ak-tf800-set",
+          "PF-A: attached legalease-source-artifacts as a second source"
+        ],
+        "corpusAbsent": [
+          "PF-B: 403, add_repo classifier-denied",
+          "FIX-B: 403, add_repo classifier-denied",
+          "FIX-A: family_sources_bind failing; FIX01 1 completed and 2 stopped, FIX03 both stopped"
+        ],
+        "notApplicable": [
+          "VF-SRC-A",
+          "VF-SRC-B"
+        ],
+        "note": "Not uniform across the fleet, which is itself the evidence for per-session scope rather than a token or proxy fault."
+      },
+      "ownerAction": {
+        "exactlyOne": "Grant Roger-LegalEase/legalease-source-artifacts to this workspace allowed repository set at https://claude.ai/admin-settings/claude-tag",
+        "why": "It fixes all three sessions at once and every worker started later. Per-session add_repo approval also works but must be repeated for each session.",
+        "doesNotBlockTheShift": "Captain is re-dispatching the affected families to corpus-equipped workers meanwhile."
+      }
+    },
+    "correction2": {
+      "issuedAt": "2026-09-01T08:17:54Z",
+      "subject": "MASTER_LIBRARY_SOURCE_DIR: the earlier instruction was wrong for builders. Export it.",
+      "whatIGotWrong": "Both earlier broadcasts said: do NOT export MASTER_LIBRARY_SOURCE_DIR, the default install root is where the preflight already looks. The first half is true and the second half does not follow. verify-packet-build-environment.mjs falls back to the default install root when the variable is unset, so preflight reads 13/13 without it. The BUILD HOSTS do not fall back. They refuse outright.",
+      "measured": "With the corpus fully installed and preflight at 13/13, the west host still failed: 'Error: MASTER_LIBRARY_SOURCE_DIR must be set explicitly to the extracted Master Library' at corpusRoot (line 986). With the variable exported to the same path the preflight was already using, the same build returned BUILD_OK.",
+      "why": "bootstrap-private-corpus.sh writes RCAP_BUNDLE_EXTRACT. The builders read MASTER_LIBRARY_SOURCE_DIR. Nothing bridges the two names, so a worker can hold a byte-perfect corpus, pass every preflight check, and still be unable to build.",
+      "doThis": "export MASTER_LIBRARY_SOURCE_DIR=\"$PWD/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1\"   (or \"$RCAP_BUNDLE_EXTRACT\" after sourcing private/source-corpus-environment.txt)",
+      "whatTheOldWarningActuallyMeant": "The 'mounted at the operational path' hazard is about OFFICIAL_FORMS_SOURCE_DIR, which points at the operational Nationwide tree and is a DIFFERENT corpus. Do not point that one at the Master Library; operational-corpus-precondition.mjs refuses it by name. I conflated the two variables. That warning does not apply to MASTER_LIBRARY_SOURCE_DIR."
+    },
+    "buildHostDefects": {
+      "issuedAt": "2026-09-01T08:17:54Z",
+      "foundBy": "FIX-A, while working its repair queue. Both hosts are shared, so the repairs are Captain's.",
+      "whyItMatters": "These are why nothing in the fleet had been rebuilt since 9a484a6, and PF-A and PF-C are dispatched lanes on both hosts.",
+      "westHost": {
+        "file": "scripts/build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs",
+        "defect": "writeText was called at lines 2101 (buildAz) and 2876 (buildCa) and never defined, so every AZ and CA family died on ReferenceError at the instruction step.",
+        "status": "FIXED by Captain. Proven by building: BUILD_OK az_marijuana_expungement_arrest_no_charges-set artifacts=2 rasters=6.",
+        "secondaryHazard": "buildAz crashed after rewriting the field map and before rendering, so an unrestored run left a half-rebuilt overlay. Defining the writer removes the trigger; restore any overlay from an aborted run before rerunning.",
+        "remainingGap": "The CA path imports python pikepdf, which is absent in this container (ImportError) and unchecked by the preflight. A CA family will still fail there. Not yet fixed."
+      },
+      "eastHost": {
+        "defect": "finalizer reported writes that have no artifact appearance. actual-writes.json shows the finalizer refusing all 12 terminal names S1 bound, as classified_unwritable_by_role. The allowlist promotes the field; the semantic finalizer refuses it by role; the build asserts.",
+        "status": "NOT a mechanical repair. Captain is not fixing this by changing either side.",
+        "whyItIsNotMechanical": "Exactly one of two things is true and they have opposite remedies. If the finalizer is right that these fields are not writable by the platform's role, then declaring them REQUIRED_BEFORE_FILING and naming them for the participant is already the correct final answer, and the repair is to withdraw those allowlist entries. If the allowlist is right, the finalizer's role classification must change and those fields must be written.",
+        "theQuestion": "Whether the defendant's own name on the NJ petition is the platform's to write, or the participant's. That is a legal-input question about role and authorship, not a build defect.",
+        "routedTo": "counsel queue. A repair lane does not decide it, and neither does the Captain.",
+        "doNotDoMeanwhile": "Do not widen the allowlist to get a build green. Do not relax the finalizer's role classification. Either would resolve a legal question by making a build pass."
+      }
+    }
+  },
+  "reDispatchNote": "Re-dispatch is by lane, not by claim. No claim was released and no family is owned by two workers: PF-B and FIX-B wrote nothing to any family, so there is no partial state to reconcile.",
+  "crossVerificationLedger": [
+    {
+      "lane": "XVF-A",
+      "verifier": "VF-SRC-A",
+      "subjectBuiltBy": "PF-A",
+      "selfVerification": false
+    },
+    {
+      "lane": "XVF-B",
+      "verifier": "VF-SRC-B",
+      "subjectBuiltBy": "PF-C",
+      "selfVerification": false
+    }
+  ],
+  "crossVerificationRules": {
+    "neverAllowed": [
+      "builder verifies own packet",
+      "repairer verifies own repair",
+      "a prior verifier repeating the same packet as the supposed independent read",
+      "one family with two active verification owners"
+    ],
+    "pendingIndependentRead": {
+      "note": "FIX-A's nine repaired families still need an independent read by a worker that did not repair them. Not assigned yet: VF-SRC-A and VF-SRC-B are both occupied above, and assigning a third lane to either would create two active verification owners on the same worker's queue.",
+      "families": [
+        "ri_nonconviction_sealing-set",
+        "pa_490_nonconviction-set",
+        "az_marijuana_expungement_arrest_no_charges-set",
+        "pa_9122_1_limited_access-set",
+        "ny_160_59_petition-set",
+        "ca-851-91-set",
+        "nj_arrest_no_conviction-set",
+        "nj_indictable_conviction-set",
+        "ca-1203-42-set"
+      ],
+      "routeWhen": "whichever of VF-SRC-A or VF-SRC-B returns first"
+    }
+  },
+  "rasterGate": {
+    "state": "REACHABLE, EXERCISED TWICE, QUEUE FULLY RENDERED",
+    "batches": [
+      {
+        "runId": "33488713831",
+        "renderedCommitSha": "71894f3f2dde0f5af34818a2fa8dc8bce84e0d24",
+        "families": 25,
+        "jobsGreen": "27/27"
+      },
+      {
+        "runId": "33495068504",
+        "renderedCommitSha": "5f144ec10d2bf7404faf0811e98418e0b13f06ba",
+        "families": 22,
+        "jobsGreen": "24/24"
+      }
+    ],
+    "rows": "47 rows, all RASTER_PASS",
+    "butReadThisBeforeTreatingThatAsFortySeven": {
+      "completeCoverage": 36,
+      "partialCoverage": 11,
+      "whatPartialMeans": "the family ships several canonical documents and no assembled packet, so the row renders one of them. L4 counts only complete-coverage rows toward a family being proven, so a partial row cannot promote anything however green it is.",
+      "partialFamilies": {
+        "ar-arrest-seal-set": [
+          "order-canonical-filled.pdf"
+        ],
+        "ar-misdemeanor-dwi-seal-set": [
+          "order-canonical-filled.pdf"
+        ],
+        "wa_vac_cannabis-set": [
+          "crrlj-09-0870-canonical-filled.pdf"
+        ],
+        "wa_vac_domestic_violence-set": [
+          "crrlj-09-0200-canonical-filled.pdf"
+        ],
+        "wa_vac_felony-set": [
+          "cr-08-0920-canonical-filled.pdf"
+        ],
+        "wa_vac_homicide_victim_prostitution-set": [
+          "crrlj-09-0200-canonical-filled.pdf"
+        ],
+        "wa_vac_misdemeanor_ordinary-set": [
+          "crrlj-09-0200-canonical-filled.pdf"
+        ],
+        "wa_vac_substance_use_disorder-set": [
+          "crrlj-09-0200-canonical-filled.pdf"
+        ],
+        "wa_vac_survivor_felony-set": [
+          "cr-08-0920-canonical-filled.pdf"
+        ],
+        "wa_vac_survivor_misdemeanor-set": [
+          "crrlj-09-0200-canonical-filled.pdf"
+        ],
+        "wa_vac_treaty_fishing-set": [
+          "crrlj-09-0200-canonical-filled.pdf"
+        ]
+      },
+      "creditWhereDue": "PF-B and FIX-B both reported this independently from their own measurements before I had it recorded, and PF-B reported it as a correction to my dispatch. It was a correction, and it was right."
+    },
+    "elevenRowsWereRenderingTheWrongFile": "The queue chose its canonical fixture with a substring match over a sorted listing, and canonical--<FORM>.pdf sorts before canonical.pdf because '-' precedes '.'. Eleven rows pointed at one component of a multi-component packet. Fixed before the second batch ran, so those verdicts describe the assembled packet. None of the 25 already-passing rows was affected."
+  },
+  "owedMechanisms": [
+    {
+      "what": "a per-document raster queue",
+      "why": "Eleven families ship several canonical documents with no assembled packet, so one row can only ever cover one of them. The row now DECLARES this and L4 refuses to count it as a family verdict, which makes the gap honest but does not close it. Closing it means either rendering every canonical document in one job or keying rows by document instead of family; the latter changes the workflow matrix and the artifact naming, so it is not a mid-shift change.",
+      "owner": "Captain",
+      "blockedFamilies": 11
+    },
+    {
+      "what": "lane transfer for a second independent read",
+      "why": "Families that already hold a released independent-verification claim cannot be granted a second one without becoming AMBIGUOUS_GRANT, but they now carry a RASTER_PASS the first read did not have. A second read is real work the ledger cannot currently express.",
+      "owner": "Captain"
+    },
+    {
+      "what": "Poppler in the builder image",
+      "why": "Both build hosts call popplerRasterIdentity/rasterizeWithPoppler and neither imports the browser rasterizer. The preflight now probes the rasterizer the hosts actually use, so a lane reads NOT_READY instead of dying mid-build with its overlay already modified — but the image still lacks the binary.",
+      "owner": "Captain"
+    }
+  ],
+  "laneSupersession": {
+    "recordedAt": "2026-09-01T09:51:26Z",
+    "atCaptainHead": "2e6ca51b6cf785f0a7b8a6f820051bfd4eaa4dff",
+    "what": "VF13 and VF14 no longer exist. Every family in them is still claimed, still open, and still yours -- under a different lane name.",
+    "why": "VF13 and VF14 were minted by hand. generate.mjs owns the VF01-VF12 space and re-emitted its own independent-verification claim for those same families, and a family may hold only one such claim, so the hand-minted lane lost the key. VF15, VF16 and VF17 survived because the generator does not emit those families at all.",
+    "verifiedNothingWasLost": {
+      "ivSubjectsBefore": 39,
+      "ivSubjectsAfter": 57,
+      "subjectsLost": 0,
+      "releasedFlagsLost": 0,
+      "method": "compared the independent-verification claim set across the regeneration commit by subjectId, and every released flag by subject"
+    },
+    "whereTheWorkWent": {
+      "va_seal_ancillary_matter_only-set": "VF13 -> VF03 (still VF-SRC-A)",
+      "va_seal_enumerated_seven_year-set": "VF13 -> VF04 (still VF-SRC-A)",
+      "va_seal_petition_felony-set": "VF13 -> VF05 (still VF-SRC-A)",
+      "va_seal_petition_misdemeanor-set": "VF13 -> VF06 (still VF-SRC-A)",
+      "ak-tf800-set": "VF14 -> VF02, which transfers it from VF-SRC-B to VF-SRC-A",
+      "ct-cleanslate-petition-set": "VF14 -> VF09 (still VF-SRC-B)",
+      "ri_nonconviction_sealing-set": "VF17 -> VF07, which transfers it from VF-SRC-A to VF-SRC-B"
+    },
+    "independenceRecheckedAfterTheMove": "PASS at the worker level. VF-SRC-A and VF-SRC-B hold no PF or FIX lane, so no family is now verified by the worker that built or repaired it. Checking lanes rather than workers reports seventeen conflicts and all seventeen are false: a build claim on PF12 and a verification claim on VF02 for one family is the design, not a collision.",
+    "ceilingUnchanged": "A lane rename promotes nothing. These families remain BUILT_RASTER_PENDING or RASTER_PASS; none becomes PASS_COMPLETE without both the hash-bound raster receipt and this independent read."
+  },
+  "checksNowGreen": {
+    "at": "9c3836e798e5d1bf563337501fd85793bd6ec512",
+    "factory": "30/30 — F20 and F24 both closed",
+    "mutations": "62/62 caught, every mutated file restored, none unprovable",
+    "laneContracts": "LANE_CONTRACTS_HELD, 7/7 (L7 is new: a row must state what its verdict covers)",
+    "ledger": "CLAIM_LEDGER_OK 549 claims",
+    "toTheThreeWorkersWhoReportedF24": "You were right and you were right not to fix it. It spanned five lanes across four workers. Both halves are now settled: the nine COMPLETED packet-build grants were being demanded of a dispatch that had correctly stopped listing them — a released grant is history and needs no live dispatch row — and the eighteen live VF15/VF16/VF17 grants were mine, minted through this file without dispatch rows. Stop reporting it.",
+    "toEveryoneOnF20": "Verification lanes named MINIMUM_CAPTAIN_SHA as the commit they verify. That is a floor, not a tree: the packets did not exist there. Repointed at the generation head. If you were told to read a directory that was not present, that was why."
+  },
+  "duplicatePinnedBytes": {
+    "measuredAt": "9c3836e798e5d1bf563337501fd85793bd6ec512",
+    "finding": "Twelve families across three groups pin byte-identical canonical AND boundary PDFs. Every one of them is in the RASTER_PASS set, so 47 green rows rest on 38 distinct byte-sets, not 47.",
+    "groups": [
+      {
+        "families": [
+          "ut_pet_acquittal-set",
+          "ut_pet_conviction-set",
+          "ut_pet_dismissed_with_prejudice-set",
+          "ut_pet_limitations-set"
+        ],
+        "count": 4
+      },
+      {
+        "families": [
+          "wa_vac_domestic_violence-set",
+          "wa_vac_homicide_victim_prostitution-set",
+          "wa_vac_misdemeanor_ordinary-set",
+          "wa_vac_substance_use_disorder-set",
+          "wa_vac_survivor_misdemeanor-set",
+          "wa_vac_treaty_fishing-set"
+        ],
+        "count": 6
+      },
+      {
+        "families": [
+          "wa_vac_felony-set",
+          "wa_vac_survivor_felony-set"
+        ],
+        "count": 2
+      }
+    ],
+    "whoFoundIt": "PF-B, on two Washington families, as a correction to my dispatch. The full extent is six times larger and includes four Utah families it was not looking at.",
+    "whyItMatters": "These are distinct statutory routes. If two routes produce identical bytes, the packet does not record which route it is, and one render produced two verdicts. PF-B established the mechanism on the Washington pair: the WA host declares legal elections under neverWritten and carries no routeSelectionId, while South Dakota does carry one and passes the same obligation.",
+    "notYetClassified": "Whether identical bytes are a defect depends on whether the route is legally material to the document. That is per-group and unmeasured. It is assigned, not concluded."
+  },
+  "pfcFindingsConfirmed": {
+    "confirmedAt": "fc147830196fbc698a9e65f7e0c8ad9bc0f49031",
+    "one": {
+      "finding": "scripts/lib/pdf-page-raster.mjs does not exist at the Captain head and 15 builders import it",
+      "verdict": "CONFIRMED and FIXED. Mine: I moved the module out of scripts/lib/ because the Dockerfile copies that directory into the render worker image, and left every importer behind. All 25 importers are on the one real path, each checked to resolve and not merely to parse.",
+      "onPfcsDualPathShim": "Right call for a worker that should not edit shared machinery, and now removed: a fallback to a path that does not exist hides the breakage instead of reporting it."
+    },
+    "two": {
+      "finding": "packet PDFs are not byte-reproducible; PDFDocument.create() stamps the wall clock",
+      "verdict": "CONFIRMED, and larger than reported. PF-C said six bytes; measured on two empty documents 1.1s apart it is 257 of 583 — six bytes of date and every offset they move, cascading through the xref table.",
+      "whyItMattersToTheGate": "A RASTER_PASS binds a SHA-256 and the queue carries a verdict forward only while both pinned hashes are unchanged. A rebuild that changed nothing moves the hash, and the verdict is discarded as though the packet had been edited. The gate keeps working and keeps losing its own evidence.",
+      "scope": "Eight census-v1 builders assembled PDFs unstamped; six of the eight hold a live RASTER_PASS. The two shared assemblers were already correct and no census-v1 builder uses them.",
+      "fixed": "All eight delegate to one shared constant at the date the shared assemblers already use. New lane contract L8 refuses a receipt on a family whose builder can stamp the clock.",
+      "onPfcHoldingBack": "PF-C fixed only the three families no verifier was reading and left the rest alone. That was the right judgement and it is why nothing in flight was disturbed."
+    },
+    "three": {
+      "finding": "88 unpushed commits in the primary checkout, reported by a hook",
+      "verdict": "PF-C was right to refuse. That checkout is mine, its tree is clean, and it is level with origin. Pushing another agent's branch, and republishing rewritten-away history over a live head, are both Roger's calls and neither was needed."
+    }
+  },
+  "grantsForTheseTwoLanes": {
+    "decidedAt": "2026-09-01T10:41:30Z",
+    "decision": "Neither DUP-ROUTE-A nor READBACK-01 gets a claim, and neither needs one.",
+    "why": "The ledger arbitrates WRITES to a family's artifacts. Both lanes are read-and-report: they measure, classify and propose, and they write only under their own return directory. A grant would record an ownership neither lane exercises, and on the duplicate-byte families it could not be minted anyway — all twelve already hold an independent-verification claim, and a second would be a duplicate subject and operation.",
+    "whatThisDoesNotLicense": "Neither lane may modify a packet PDF, an overlay, a field map or a report artifact. The moment either wants to change a family's bytes it stops and asks; that IS a grant, and it will be minted through the generator rather than by hand.",
+    "lanNamesCorrected": "DUP-ROUTE-A and READBACK-01 are labels in this file, not lane ids. LANE_KIND resolves lane ids by prefix and would return `unknown` for both — the same refusal XVF-A and XVF-B hit. No claim command should be run with either string.",
+    "whyIDidNotJustMintARepairLane": {
+      "attempted": "FIX09, repair, on the four read-back families.",
+      "whatHappened": "Two of the four could be granted; two were correctly deferred because VF07 and VF12 still hold LIVE independent-verification grants on them, and a repairer changing artifacts under a live verifier makes that verifier's verdict describe neither the before nor the after.",
+      "thenItFailedAnyway": "F24 keys a dispatched packet-family on the assignment's `lane` field, which for repair assignments is `rapid-repair`, not the `repair` laneKind. My grants used `repair`, so all of them read as dispatched-and-not-granted. Hand-adding the assignment also moved the lane count past F12's generated denominator.",
+      "theRealLesson": "ACTIVE_ASSIGNMENTS and the denominator are generated. Minting a lane by hand means matching a key derivation and a count that the generator owns, and getting either wrong turns two checks red. A new lane comes from the generator.",
+      "andOneOfMyOwn": "My first attempt wrote the ledger and THEN failed resolving the dispatch template, leaving two live grants with no dispatch row — the exact state the script existed to prevent. It now validates everything before writing anything. Both files were reverted; 30/30 and CLAIM_LEDGER_OK 549 confirmed after."
+    }
+  },
+  "whereTheSprintActuallyStands": {
+    "measuredAt": "be3e738287ca82867099093f78480e4fbb7b91bc",
+    "record": "data/rcap-grade-a/launch-control/GRADE_A_READINESS.json",
+    "familiesWithACompleteCoverageRasterReceipt": 47,
+    "familiesIndependentlyRead": 32,
+    "familiesPASS_COMPLETE": 0,
+    "readThisBeforeQuotingTheFortySeven": "Zero families are PASS_COMPLETE. Forty-seven hold a hash-bound receipt over their whole packet and every independent read so far returned a defect. That is the gate working — nothing was waved through — but 47 is not a count of proven families and must not be reported as one.",
+    "theMistakeIAlmostPublished": "Counting families whose independent-verification CLAIM was released gives 31 'both gates met'. A released claim means the read happened, not that it passed. The ledger records ownership; only the lane return records a verdict.",
+    "theBiggestSingleDefect": "Participant-facing filing guidance. SERVICE 20, FEE_AND_WAIVER 20, FILING_DESTINATION 16, SELF_HELP_STOP 10 across 31 families needing repair, and 17 families ship no participant-instructions document at all."
+  },
+  "openWaves": {
+    "REPAIR_BY_DEFECT_CLASS": "31 families grouped into filing guidance, packet content and evidence artifact. Three different kinds of work that share one verdict name.",
+    "PARTICIPANT_INSTRUCTIONS_GAP": "17 families with no participant instructions anywhere. Four obligations fail on the absence.",
+    "SOURCE_RELATIONSHIP_REPAIR_WAVE": "unchanged",
+    "CB02_CANDIDATE_VERIFICATION_WAVE": "still blocked; CB02 remains unpublished and is not to be fabricated",
+    "RASTER_QUEUE_COMPLETION_WAVE": "CLOSED — the queue is complete, do not work it"
+  },
+  "secondReadIsNowExpressible": {
+    "mechanism": "node scripts/grade-a-packet-factory-24h/claim.mjs --transfer <FROM_LANE> <TO_LANE> <subjectId> --reason \"<why>\"",
+    "why": "A family holds one claim per operation, so a repaired family could not be granted a second independent read. This moves the released grant to a lane that did not repair it.",
+    "refuses": [
+      "no reason",
+      "a grant that is still live",
+      "a same-lane move (that is --reissue)",
+      "an unresolvable lane name",
+      "a lane-kind mismatch"
+    ],
+    "whatItCannotSee": "WORKERS. VF20 and the FIX lane that repaired a family can belong to one worker and every check inside the tool would pass. Captain confirms the destination worker neither built nor repaired the family before transferring; the tool cannot, and no longer implies it can.",
+    "exercised": "Every refusal and the success path were run against a ledger copy. The live ledger was untouched."
+  }
+}

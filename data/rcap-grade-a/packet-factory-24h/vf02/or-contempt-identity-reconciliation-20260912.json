@@ -1,0 +1,287 @@
+{
+  "schemaVersion": "rcap-vf02-identity-reconciliation-review/v1",
+  "reviewKind": "bounded_identity_reconciliation",
+  "lane": "VF02",
+  "reviewedAt": "2026-09-12T20:20:02.418Z",
+  "reviewedAtBase": "eaeb5255f479dda25e95bace6d4f9cd40bf8ebfb",
+  "familyId": "or_contempt_setaside-set",
+  "status": "IDENTITY_RECONCILIATION_PASS",
+  "packetAcceptance": false,
+  "rasterDispatchAuthorized": false,
+  "commercialAuthority": false,
+  "scope": "Reconcile the legacy Oregon contempt identifier against the canonical ORS 137.225 route and the already-terminal rcap-or-official-pdf-fill family. No packet, source, raster, or legal-merits acceptance was performed.",
+  "claim": {
+    "claimId": "VF02",
+    "subjectId": "or_contempt_setaside-set",
+    "asserted": true,
+    "grantSetId": "c43770a003baa22c",
+    "assertCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF02 or_contempt_setaside-set"
+  },
+  "findings": {
+    "identity": "The held track registry explicitly maps or_contempt_setaside/or_contempt_setaside-set as an OBSOLETE_ALIAS to the canonical ORS 137.225(1)(a) runtime route, with duplicateFamily=false and a preserve-history disposition.",
+    "duplicateAgainstTerminalFamily": false,
+    "sharedOfficialSources": true,
+    "routeScopeDistinct": true,
+    "componentScopeDistinct": true,
+    "ownerProvenanceDistinct": true
+  },
+  "currentLegacyFamily": {
+    "familyId": "or_contempt_setaside-set",
+    "jurisdiction": "OR",
+    "routeKey": "obligation:track-pathway:OR:or_contempt_setaside:set-aside-of-eligible-convictions-under-ors-137-225-1-a",
+    "canonicalRuntimeRouteId": "OR:set-aside-of-eligible-convictions-under-ors-137-225-1-a",
+    "recordTypes": [
+      "contempt_finding",
+      "court_record"
+    ],
+    "dispositions": [
+      "found_in_contempt"
+    ],
+    "venue": "The circuit court where the contempt finding was entered.",
+    "packetComponents": [
+      {
+        "componentId": "or_contempt_setaside-primary-filing-1",
+        "role": "primary_filing",
+        "requirement": "required",
+        "outputStrategy": "official_pdf_fill",
+        "officialFormId": "OR-OJD-ADULT-SET-ASIDE-PACKET",
+        "order": 1
+      },
+      {
+        "componentId": "or_contempt_setaside-proposed-order-2",
+        "role": "proposed_order",
+        "requirement": "required",
+        "outputStrategy": "official_pdf_fill",
+        "officialFormId": "OR-OJD-ADULT-SET-ASIDE-PACKET",
+        "order": 2
+      },
+      {
+        "componentId": "or_contempt_setaside-fingerprint-step-3",
+        "role": "fingerprint_step",
+        "requirement": "required",
+        "outputStrategy": "process_guidance",
+        "officialFormId": null,
+        "order": 3
+      },
+      {
+        "componentId": "or_contempt_setaside-service-instructions-4",
+        "role": "service_instructions",
+        "requirement": "required",
+        "outputStrategy": "process_guidance",
+        "officialFormId": null,
+        "order": 4
+      },
+      {
+        "componentId": "or_contempt_setaside-record-gathering-instructions-5",
+        "role": "record_gathering_instructions",
+        "requirement": "required",
+        "outputStrategy": "official_pdf_fill",
+        "officialFormId": "OR-OSP-SET-ASIDE-CCH",
+        "order": 5
+      },
+      {
+        "componentId": "or_contempt_setaside-objection-and-hearing-instructions-6",
+        "role": "objection_and_hearing_instructions",
+        "requirement": "required",
+        "outputStrategy": "process_guidance",
+        "officialFormId": null,
+        "order": 6
+      },
+      {
+        "componentId": "or_contempt_setaside-post-order-verification-7",
+        "role": "post_order_verification",
+        "requirement": "required",
+        "outputStrategy": "process_guidance",
+        "officialFormId": null,
+        "order": 7
+      }
+    ],
+    "officialSources": [
+      {
+        "sourceId": "official-form:OR-OJD-ADULT-SET-ASIDE-PACKET",
+        "sha256": "b22cc346caf6c38730e9992d74016e948180d92b379b6592ab333b06ac880071"
+      },
+      {
+        "sourceId": "official-form:OR-OSP-SET-ASIDE-CCH",
+        "sha256": "a523a9ffc3eb0cc35d89e1c81df8eafcd703cf1ffdb4237a0106b72e1e793ac6"
+      }
+    ]
+  },
+  "terminalComparison": {
+    "familyId": "rcap-or-official-pdf-fill",
+    "state": "COMPLETE_PACKET_PROVEN",
+    "routeKeys": [
+      "obligation:track-only:OR:or_arrest_no_charges",
+      "obligation:track-only:OR:or_dismissed_charge"
+    ],
+    "routeScopes": [
+      {
+        "trackId": "or_arrest_no_charges",
+        "recordTypes": [
+          "arrest",
+          "citation",
+          "charge"
+        ],
+        "dispositions": [
+          "no_accusatory_instrument_filed",
+          "state_elected_not_to_proceed"
+        ]
+      },
+      {
+        "trackId": "or_dismissed_charge",
+        "recordTypes": [
+          "arrest",
+          "citation",
+          "charge"
+        ],
+        "dispositions": [
+          "dismissed"
+        ]
+      }
+    ],
+    "queuePacketComponents": [
+      "component:or_arrest_no_charges-primary-filing-1",
+      "component:or_arrest_no_charges-proposed-order-2",
+      "component:or_arrest_no_charges-record-gathering-instructions-5",
+      "component:or_dismissed_charge-primary-filing-1",
+      "component:or_dismissed_charge-proposed-order-2",
+      "component:or_dismissed_charge-record-gathering-instructions-5"
+    ],
+    "currentRenderedTopology": {
+      "courtComponents": [
+        "motion_and_declaration",
+        "filing_instructions"
+      ],
+      "separateAgencyComponents": [
+        "criminal_history_request"
+      ],
+      "artifactCount": 4
+    },
+    "officialSourcesSameAsLegacy": true,
+    "documentsDigest": "15863eda25f437cc5b61c564fe5691ace769400df7f97247a711448fd03a89b0",
+    "finalIndependentReview": {
+      "lane": "VF04",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "verifiedAtBase": "8dc7e1d70468528a48d94ae0dacc010f2a0eddad",
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows-vf04-or-original-final-20260912.json",
+      "evidenceSha256": "27f7cae1171f52b11523288e1a0e3fa6fe86ef5b39256663f5dbf7ec11495cee",
+      "evidenceByteLength": 96196
+    },
+    "productRule": "OR-OSP-SEPARATE-AGENCY-STEP: OSP fingerprint/history is a separate agency handoff whose sequence is jurisdiction/configuration bound."
+  },
+  "exactSupportedTransition": {
+    "action": "preserve_legacy_alias_and_route_to_canonical_runtime_route",
+    "legacyTrackId": "or_contempt_setaside",
+    "legacyPacketSetId": "or_contempt_setaside-set",
+    "canonicalRouteId": "OR:set-aside-of-eligible-convictions-under-ors-137-225-1-a",
+    "controllingVehicle": "ORS 137.225(1)(a) motion using the Oregon Judicial Department adult set-aside packet",
+    "duplicateFamily": false,
+    "historyDisposition": "Preserve the legacy track and packet-set identifiers as historical aliases; route them to the canonical ORS 137.225(1)(a) path and do not create a duplicate family.",
+    "doNotMergeInto": "rcap-or-official-pdf-fill",
+    "rationale": "The terminal family covers no-accusatory-instrument and dismissed-charge routes. The legacy family covers found-in-contempt records. The two share official source identities but differ in route predicates, record types, dispositions, route count, component IDs, and delivery scope.",
+    "noReleaseEffect": "Identity reconciliation does not clear the canonical route's separate route-ratification or packet/build gates."
+  },
+  "ownerProvenance": {
+    "legacy": {
+      "queueExecutionOwner": "LEGAL-PURGE-W3",
+      "queueState": "PRODUCT_PATH_PENDING",
+      "queueRouteMappingStatus": "OWNER_DIRECTED_MAPPING_PENDING",
+      "queueNextAction": "Reconcile the legacy identifier to the ORS 137.225 route or retire it as a duplicate while preserving history, then release the resulting family.",
+      "trackMappingRecordedBy": "LEGAL-BLOCK PURGE Group B row 12",
+      "trackMappingStatus": "MAPPED",
+      "trackMappingLegalQuestion": false
+    },
+    "terminal": {
+      "selectedIndependentReviewLane": "VF04",
+      "terminalEvidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows-vf04-or-original-final-20260912.json",
+      "currentLegalDecisionId": "OR-OSP-SEPARATE-AGENCY-STEP",
+      "currentLegalDecisionPath": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json"
+    },
+    "finding": "The queue owner/reconciliation provenance for the legacy alias is separate from the VF04 terminal acceptance provenance. The terminal VF04 return cannot supply identity ownership for the alias."
+  },
+  "precedent": {
+    "kind": "repo_native_route_retirement_transition",
+    "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+    "record": {
+      "routeId": "DC:dc_actual_innocence_expungement_16_803",
+      "registryTrackIds": [
+        "dc_innocence_expungement"
+      ],
+      "packetFamilyId": "dc_innocence_expungement-set",
+      "migrationKind": "retired_legacy_route_to_factory_v2",
+      "scope": "route_only",
+      "ownerDecisionRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+      "createsCommercialAuthority": false,
+      "opensRoute": false
+    },
+    "application": "Use the same route-only, history-preserving treatment: reconcile the identifier at route scope, keep commercial authority closed, and do not infer a route opening from the transition."
+  },
+  "exactCurrentMismatch": {
+    "status": "QUEUE_METADATA_STALE_RELATIVE_TO_TRACK_MAPPING",
+    "detail": "legal-design-track-registry already records the alias mapping as MAPPED, but MASTER_QUEUE still records OWNER_DIRECTED_MAPPING_PENDING/PRODUCT_PATH_PENDING and no build script or overlay. This requires the owner/native queue transition; it is not evidence that the family duplicates rcap-or-official-pdf-fill.",
+    "canonicalRouteRatification": "hard_gate_pending",
+    "requiredOwnerAction": "Apply the recorded alias-to-canonical route mapping (or an explicit retirement decision if later shown necessary), preserve both legacy identifiers/history, and leave commercial release/build gates closed until independently satisfied."
+  },
+  "evidence": [
+    {
+      "path": "data/record-clearing/legal-design-track-registry.json",
+      "sha256": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+      "byteLength": 16781025,
+      "relevantLocation": "tracks[trackId=or_contempt_setaside].routeIdentityMapping and packetSet"
+    },
+    {
+      "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+      "sha256": "9898a2ca999c7eae95bdb68337af91556855e46a005bcd63589fa2b1c52880b8",
+      "byteLength": 3711575,
+      "relevantLocation": "factoryV2RouteMigrations[0] and packetSets[packetSetId=or_contempt_setaside-set]"
+    },
+    {
+      "path": "data/record-clearing/legal-decisions/route-ratification-registry.json",
+      "sha256": "594682411c413f3e02f2852252ea3cb70ff743b0a3daacaf6ee9060911a5eb25",
+      "byteLength": 149160,
+      "relevantLocation": "routes[OR:set-aside-of-eligible-convictions-under-ors-137-225-1-a]"
+    },
+    {
+      "path": "data/rcap-grade-a/legal-decisions/OWNER_CORRECTIONS_REQUIRED.json",
+      "sha256": "6634e3443f35b184630f09514f28adfff0a665939416959b2d3bc7bf15c2123a",
+      "byteLength": 38553,
+      "relevantLocation": "corrections[familyId=or_contempt_setaside-set]"
+    },
+    {
+      "path": "data/rcap-grade-a/route-productization/PROVEN_FAMILY_PRODUCTIZATION_CENSUS.json",
+      "sha256": "eeb26455a1367653d8e7ac782bcda34612e8bfc9e02cb697ebdb4345faaeb910",
+      "byteLength": 1882770,
+      "relevantLocation": "families[familyId=or_contempt_setaside-set]"
+    },
+    {
+      "path": "data/rcap-grade-a/route-productization/ROUTE_PRODUCTIZATION_DISPOSITION.json",
+      "sha256": "365951bf21f9667b3a10e6af0207258727bf1ae4d822b8c077864ffc1d0c5f6e",
+      "byteLength": 68534,
+      "relevantLocation": "families[familyId=or_contempt_setaside-set]"
+    },
+    {
+      "path": "data/rcap-grade-a/fulfillment-authority-registry.json",
+      "sha256": "af0805194cdf56da9af8fece99607d836a2642379f47dbe49aedfd6a62b64b4d",
+      "byteLength": 166192,
+      "relevantLocation": "records[routeId=OR:set-aside-of-eligible-convictions-under-ors-137-225-1-a]"
+    },
+    {
+      "path": "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+      "sha256": "c87fa0aa0f34fca2cff9927ec869f7f6243e56cd2e8ec928395dfa835c80a3f0",
+      "byteLength": 2390014,
+      "relevantLocation": "families[familyId=or_contempt_setaside-set] and families[familyId=rcap-or-official-pdf-fill]"
+    },
+    {
+      "path": "data/rcap-grade-a/packet-factory-24h/vf04/rows-vf04-or-original-final-20260912.json",
+      "sha256": "27f7cae1171f52b11523288e1a0e3fa6fe86ef5b39256663f5dbf7ec11495cee",
+      "byteLength": 96196,
+      "relevantLocation": "rows[itemId=rcap-or-official-pdf-fill]"
+    },
+    {
+      "path": "data/rcap-ledger/route-aliases.json",
+      "sha256": "0c6100845e558a63a99c31cfdc671e2a562314707db2e54a3079b91d67361592",
+      "byteLength": 2738,
+      "relevantLocation": "schema rule and GA revalidation precedent"
+    }
+  ]
+}

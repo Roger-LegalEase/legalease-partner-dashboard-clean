@@ -1,0 +1,38 @@
+{
+  "schemaVersion": "rcap-field-classification-policy/v2",
+  "lane": "D3B",
+  "factoryVersion": "d0-remediated-v1",
+  "policy": "Every field starts protected. Writing requires all of: no protect rule matches the field name or its measured label; the PDF type is text or dropdown; the name matches an allowlisted fact descriptor; the resolved value matches the descriptor's declared type; a sensitive descriptor has been named for that exact field; and an indexed charge row resolves to a charge actually supplied.",
+  "defaultProtectedCategories": [
+    "money",
+    "race",
+    "responsible_official",
+    "signature",
+    "notarization",
+    "service_block",
+    "licensing_board",
+    "agency",
+    "court",
+    "clerk",
+    "prosecutor",
+    "attorney",
+    "outside_party",
+    "disposition_or_hearing",
+    "non_text_controls",
+    "unindexed_charge_rows"
+  ],
+  "bindingCorrections": {
+    "ALIAS NAME1": "participant.alias_1",
+    "ALIAS NAME2": "participant.alias_2",
+    "ALIAS NAME3": "participant.alias_3",
+    "Street, City, State, Zip code": "participant.mailing_address_single_line"
+  },
+  "bindingCorrectionRationale": {
+    "ALIAS NAME1": "the descriptor list resolves any field whose name contains a bare 'name' to participant.full_legal_name, so all three alias lines would receive the petitioner's legal name — three times, on a form whose whole purpose is to disclose names other than the legal one. An alias is a distinct fact this lane does not hold.",
+    "ALIAS NAME2": "second alias line, same resolution and same refusal.",
+    "ALIAS NAME3": "third alias line, same resolution and same refusal.",
+    "Street, City, State, Zip code": "the field asks for the street, city, state and postal code on one line and the binder resolves it to participant.city_state_zip, which would return the record check to a city and postal code with no street. No single fact matches the field's full span, so it is refused rather than under-filled."
+  },
+  "explicitSensitiveMappingsAuthorized": [],
+  "weakeningsApplied": "none — no D0 protect rule, type guard or readable-size floor was relaxed for this family"
+}

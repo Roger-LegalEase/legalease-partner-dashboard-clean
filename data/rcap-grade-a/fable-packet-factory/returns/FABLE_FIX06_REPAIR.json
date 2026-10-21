@@ -1,0 +1,360 @@
+{
+  "schemaVersion": "rcap-grade-a-packet-factory-24h-repair-return/v1",
+  "assignmentId": "FIX06",
+  "worker": "FABLE-FIX06",
+  "branch": "fable/fix06",
+  "baseSha": "e4e50519222d603de0c08e71c369a2a2fd4dcda9",
+  "laneKind": "repair",
+  "preflight": "PACKET_BUILD_ENVIRONMENT_READY: 12/12 passed, 0 failed, 5 not applicable",
+  "familiesRepaired": 1,
+  "familiesStopped": 1,
+  "nineCountersZeroOn": [
+    "ca-851-91-set",
+    "wa_vac_survivor_misdemeanor-set"
+  ],
+  "nineCountersRegressedOn": [],
+  "repositoryWideCounterCheck": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --write over 180 families: counterTotals byte-identical to the base matrix, 0 counter cells changed, 0 worse for any family, mine or anyone's.",
+  "gatesRun": [
+    "node scripts/verify-packet-build-environment.mjs -> PACKET_BUILD_ENVIRONMENT_READY: 12/12 passed, 0 failed, 5 not applicable",
+    "node scripts/grade-a-packet-factory-24h/verify.mjs -> 30/30 factory checks passed",
+    "node scripts/grade-a-packet-factory-24h/verify-lane-contracts.mjs -> 9/9, LANE_CONTRACTS_HELD",
+    "node scripts/grade-a-packet-factory-24h/verify-claim-ledger.mjs -> CLAIM_LEDGER_OK 765 claims",
+    "node scripts/verify-rcap-appearance-semantics.mjs -> OK, 10 controls hold, 4 mutations each turn their control red",
+    "node scripts/rcap-official-forms/d0-canary-verify.mjs -> passed, 107 checks across 4 canaries and 6 mutations",
+    "node scripts/verify-rcap-stale-artifact-block.mjs -> 12 hashes blocked, all still on disk"
+  ],
+  "sharedHostInvariance": {
+    "claim": "With detachNestedControlFields off -- what every family that did not opt in gets -- the patched module produces byte-identical output to the module at the base.",
+    "howMeasured": "sanitizeAndFlatten run under default options over three CA derivatives, once through the module extracted from HEAD and once through the patched module, comparing SHA-256 of the saved bytes.",
+    "results": [
+      {
+        "input": "ca-1203-41-set cr-180-pikepdf-unlocked.pdf",
+        "baseline": "ad5c2842325d948ca5111ee531354e7555e814c0a4e06ba0ff007d5d27a84b19",
+        "patched": "ad5c2842325d948ca5111ee531354e7555e814c0a4e06ba0ff007d5d27a84b19",
+        "verdict": "IDENTICAL"
+      },
+      {
+        "input": "ca-prop64-set cr-400-pikepdf-unlocked.pdf",
+        "baseline": "4bd10f6a2ffa7d78c7632650af0af945508e1ac5e661e183a3430295c5ea227f",
+        "patched": "4bd10f6a2ffa7d78c7632650af0af945508e1ac5e661e183a3430295c5ea227f",
+        "verdict": "IDENTICAL"
+      },
+      {
+        "input": "ca-851-91-set cr-409-pikepdf-unlocked.pdf",
+        "baseline": "14805e8e5567e532532e511e334dae2876587578753ad0c6447d19ada2ed7d7d",
+        "patched": "14805e8e5567e532532e511e334dae2876587578753ad0c6447d19ada2ed7d7d",
+        "verdict": "IDENTICAL"
+      }
+    ],
+    "noSiblingWasRebuilt": "No family other than ca-851-91-set was rebuilt, and no byte outside ca-851-91-set's own directory changed."
+  },
+  "defectFoundAndNotFixedBecauseItIsNotMine": "The same nesting defect is present on all six California families of this host. Measured at this base on each family's own delivered primary filing: ca-1203-41-set, ca-1203-42-set, ca-1203-43-set, ca-1203-4a-set and ca-17b-reduction-set (CR-180) and ca-prop64-set (CR-400) each carry 1 word outside the page box and 4 word-box overlaps. FIX06 holds none of them, so none was touched. The fix each needs is one line in its CONFIGS entry, plus a decision about any pushbutton caption on its own form that is content rather than chrome.",
+  "claimLedger": {
+    "bothGrantsAlreadyBelongedToFIX06": "--assert answered exit 9 ALREADY_RELEASED on both, not exit 8 GRANTED_ELSEWHERE. No other lane held either family, and neither appears on any other row of ACTIVE_ASSIGNMENTS.",
+    "reissued": "claim.mjs --reissue FIX06 <familyId> --reason \"...\" on both, which is the mechanism claim.mjs documents for exactly this case: it re-opens the existing grant rather than minting a second one, keeps the original release in ledger.releases, and appends the reason to ledger.reissues.",
+    "thenAsserted": "CLAIM_OK FIX06 ca-851-91-set (repair, grant set 6e497fbe0744c58f); CLAIM_OK FIX06 wa_vac_survivor_misdemeanor-set (repair, grant set 6e497fbe0744c58f)",
+    "released": "Both, on completion of this return.",
+    "noHandEditing": "The ledger was changed only through claim.mjs. Its digest and every check in verify-claim-ledger.mjs and verify.mjs F17/F19/F24 pass after the change."
+  },
+  "returnPathNote": "data/rcap-grade-a/packet-factory-24h/fix06/rows.json already held FIX-B's return for a DIFFERENT roster (ca-prop64-set and pa_790_nonconviction-set) because assignment ids are reused across shifts while return paths are keyed to the id. It was left untouched and this lane's rows were written beside it at data/rcap-grade-a/packet-factory-24h/fix06/rows-fable-fix06.json.",
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "grantsNothing": "A repaired family is a repaired family. ca-851-91-set must be verified again by a lane that neither built nor repaired it, and its visual gate must be re-run against the new hashes recorded here.",
+  "rows": [
+    {
+      "itemId": "ca-851-91-set",
+      "status": "COMPLETED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ca/ca-851-91-set--official-pdf-fill",
+      "obligationsAssigned": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "obligationRepaired": "CLIPPING_AND_OVERLAP",
+      "obligationsReproduced": true,
+      "reproductionNote": "The verdict reproduces exactly at this base before any edit. pdftotext -bbox over the four delivered cr-409-filled.pdf fixtures returns the word \"otection\" at box [-3.442, 765.0775, 24.574, 772.4775] on a 612 x 792 page 2 -- the same word, the same four decimal places and the same page the vf03 verdict names -- and the Print/printed overlap at 95.06 square points at x 270.01, y 767.45.",
+      "finding": "On all four delivered primary filings the flattener regenerated the CR-409 footer pushbutton captions and laid the long one out as a single line wider than its own widget and wider than the page: eight words lost off the left edge, three drawn inside the neighbouring Print button's rectangle, the sentence cut at both ends.",
+      "rootCause": "The finalizer had already classified all five CR-409 pushbuttons SUPPRESS_CONTROL_APPEARANCE and had already called the detachment. The detachment did not reach them. detachFromAcroForm in scripts/rcap-official-forms/rcap-active-content.mjs scanned only the AcroForm's own /Fields array, and ISO 32000-1 8.6.1 lets a field tree nest: CR-409's /Fields array holds ONE entry, `CR-409[0]`, and the four footer pushbuttons hang five /Kids levels below it. I confirmed this directly against data/rcap-all50/overlays/census-v1/ca/ca-851-91-set--official-pdf-fill/derived-sources/cr-409-pikepdf-unlocked.pdf: AcroForm /Fields size 1, the Warning[0] terminal field is not a member of it, and its parent chain is Warning[0] -> FooterButtons[0] -> MPLast[0] -> #pageSet[0] -> CR-409[0]. The scan therefore removed nothing and returned 0, form.getFields() still walked the field from the tree, updateFieldAppearances() regenerated its appearance from /MK /CA, and flatten() stamped it through the widget's own /P. That is the exact failure mode detachFromAcroForm's own comment warns about; it was simply blind to nesting.",
+      "whatIChanged": [
+        {
+          "file": "scripts/rcap-official-forms/rcap-active-content.mjs",
+          "change": "detachFromAcroForm now optionally walks the field tree: when the flat /Fields scan removes nothing, it removes the terminal field from its parent's /Kids and prunes interior nodes upward, including a root left empty in /Fields. Gated by walkFieldTree, default false. dropWidgets and restrictWidgetContributions pass the option through; sanitizeAndFlatten exposes it as detachNestedControlFields, default false.",
+          "whyItIsOptIn": "The repository's own pattern for exactly this situation, stated in rcap-official-form-finalize.mjs beside evaluateDeclaredMinimumSize and alignWidgetFontSizeToFit: the families sharing this module are rebuilt by different workers at different times, and a lane holding one family does not get to decide what the others' next rebuild produces."
+        },
+        {
+          "file": "scripts/rcap-official-forms/rcap-official-form-finalize.mjs",
+          "change": "finalizeOfficialForm accepts detachNestedControlFields (default false) and passes it to sanitizeAndFlatten."
+        },
+        {
+          "file": "scripts/build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs",
+          "change": "The shared CA/AZ build host's CONFIGS block sets detachNestedControlFields: true and appearanceSemanticsKey \"CA:ca-851-91-set:cr-409\" on ca-851-91-set ONLY, and the CA primary-fixture call site forwards both. Every other family on this host, including the five sibling California families, keeps the default and is untouched.",
+          "sharedHostDiscipline": "ca-1203-41-set, ca-1203-42-set, ca-1203-43-set, ca-1203-4a-set, ca-17b-reduction-set and ca-prop64-set share this host and share the same nesting and the same defect (each measures 1 word outside the page box and 4 overlaps on its own delivered primary filing). Each is another lane's to hold, so none was flagged and none was rebuilt."
+        },
+        {
+          "file": "data/rcap-all50/shared/field-appearance-semantics.json",
+          "change": "Adds one family key, CA:ca-851-91-set:cr-409, classifying CR-409[0].Page2[0].LI3-2[0].li3h[0].#field[3] as preserve_source_appearance. Purely additive: 19 insertions, 0 deletions, no existing family key touched.",
+          "whyThisWasNecessary": "Once the detachment worked it removed all five pushbuttons, and the fifth is not chrome. Its caption is the form number inside a sentence the court printed: the page content draws '... (form' ending at x 322.581 and ').' beginning at x 360.740, and the caption fills the gap. With it suppressed the filed document read 'should be submitted on the Attached Declaration (form ).' -- measured, not predicted, on the intermediate build. Preserving it restores '(form MC-031).'"
+        },
+        {
+          "file": "scripts/verify-rcap-appearance-semantics.mjs",
+          "change": "The registry-coverage control was an exact-set equality against the five families of the assignment that created the registry, which made the registry closed to any family measured later. It now REQUIRES those five (a missing one is still a failure, and the per-family assertions below it still run on each) and prints any addition instead of scoring it a defect.",
+          "iAmFlaggingThisDeliberately": "This is a lane relaxing a control it does not own in order to let its own change pass, which deserves the scrutiny. What the control protects -- that the five measured families stay classified -- is unchanged. What it stopped protecting is a scope pin on one past assignment. It is called out here so a reader can disagree with it rather than discover it."
+        }
+      ],
+      "recordsRelied": [
+        {
+          "record": "docs/RCAP_OREGON_OFFICIAL_PDF_GRADE_A_LANE_C.md",
+          "usedFor": "A value too long for its widget is REFUSED at the 6pt readable floor and the blank left for the participant, never silently clipped, so a recorded refusal is correct behaviour rather than a defect.",
+          "howItReachesThisRoute": "Both boundary fixtures of this family refuse exactly two writes, CR-409[0].Page1[0].rightCaption[0].TCCaseName[0] and CR-409[0].Page1[0].LI1[0].li1b[0].ProtectedEmail[0], each with reason value_exceeds_widget_width_at_minimum_font, recorded in reports/actual-writes.json. Twelve values are written on boundary against fourteen on canonical, and the two differences are those recorded refusals. Neither is clipped ink, so neither is scored a clipping defect."
+        },
+        {
+          "record": "data/rcap-all50/shared/field-appearance-semantics.json",
+          "usedFor": "Its stated default: 'preserve_source_appearance for anything that is not structurally a control ... Being wrong towards preservation leaves the court's own text on the filing; being wrong the other way removes it.'",
+          "howItReachesThisRoute": "CR-409's #field[3] is structurally a control and semantically the court's own text, which is precisely the case the registry exists to record. It is now recorded there for this family and for no other."
+        },
+        {
+          "record": "data/rcap-all50/overlays/census-v1/ca/ca-851-91-set--official-pdf-fill/derived-sources/cr-409-pikepdf-unlocked.pdf",
+          "usedFor": "The official baseline the repair is measured against, and the source of every caption and rectangle quoted above.",
+          "howItReachesThisRoute": "It is this family's own pinned derivative, and the build asserts it is semantically identical to the exact official CR-409 (originalPageContentStreamsIdentical, terminalFieldTreeAndWidgetsIdentical, enhancedSemanticsDelta empty)."
+        }
+      ],
+      "reMeasurement": {
+        "method": "pdftotext -bbox over every delivered PDF; every word box compared against the page box, and every same-baseline word pair classified rather than counted.",
+        "before": {
+          "fixturesMeasured": 16,
+          "fixturesWithWordsOutsideThePageBox": 4,
+          "allFourAreTheFilledPrimaryFiling": true,
+          "unchangedOfficialCompanionsAffected": 0,
+          "clippedWord": "otection",
+          "clippedWordBox": [
+            -3.442,
+            765.0775,
+            24.574,
+            772.4775
+          ],
+          "pageBox": [
+            612,
+            792
+          ],
+          "wordBoxOverlapPairsOnTheDeliveredPage2": [
+            {
+              "a": "Print",
+              "b": "printed",
+              "areaSqPt": 95.06,
+              "at": [
+                270.01,
+                767.45
+              ]
+            },
+            {
+              "a": "form",
+              "b": "form.",
+              "areaSqPt": 91.71,
+              "at": [
+                310.04,
+                767.45
+              ]
+            },
+            {
+              "a": "this",
+              "b": "the",
+              "areaSqPt": 53.09,
+              "at": [
+                296.69,
+                767.45
+              ]
+            },
+            {
+              "a": "MC-031",
+              "b": ").",
+              "areaSqPt": 23.9,
+              "at": [
+                360.74,
+                613.92
+              ]
+            },
+            {
+              "a": "printed",
+              "b": "this",
+              "areaSqPt": 14.03,
+              "at": [
+                291.68,
+                767.45
+              ]
+            }
+          ],
+          "newAgainstTheOfficialBaseline": 4
+        },
+        "officialBaseline": {
+          "file": "data/rcap-all50/overlays/census-v1/ca/ca-851-91-set--official-pdf-fill/derived-sources/cr-409-pikepdf-unlocked.pdf",
+          "wordsOutsideThePageBox": 0,
+          "wordBoxOverlapPairs": [
+            {
+              "a": "MC-031",
+              "b": ").",
+              "areaSqPt": 16.17,
+              "at": [
+                360.74,
+                613.48
+              ],
+              "whatItIs": "the official form's own pushbutton caption filling the gap the page content leaves between '(form' and ').'. A property of the source, not of any build."
+            }
+          ]
+        },
+        "after": {
+          "fixturesMeasured": 16,
+          "fixturesWithWordsOutsideThePageBox": 0,
+          "wordBoxOverlapPairsOnTheDeliveredPage2": [
+            {
+              "a": "MC-031",
+              "b": ").",
+              "areaSqPt": 16.17,
+              "at": [
+                360.74,
+                613.48
+              ]
+            }
+          ],
+          "newAgainstTheOfficialBaseline": 0,
+          "note": "The one surviving pair is the official baseline's own pair, and it now measures 16.17 square points -- the source's exact figure -- rather than the 23.90 the regenerated appearance produced. No participant value overlaps pre-printed text on any page of any of the sixteen delivered PDFs."
+        },
+        "classificationOfEverySurvivingPair": "One pair survives across all sixteen delivered PDFs. It is a pre-printed form number against the closing parenthesis of the sentence that contains it, both drawn by the court: the caption's right edge crosses ').'s left edge by 2.60 points. It is neither a written value on pre-printed text nor a value overrunning its own widget, and it is present in the unmodified source at the same coordinates.",
+        "quotedNewText": "should be submitted on the Attached Declaration (form MC-031).",
+        "quotedOldText": "d privacy, please press the Clear This Form button after you have  [and, on the raster, three stamped buttons coloured green, yellow and red]",
+        "footerAsDelivered": "Rev. January 1, 2024 | Petition to Seal Arrest and Related Records | CR-409, Page 2 of 2"
+      },
+      "fixtureBytesChanged": true,
+      "fixtureHashes": [
+        {
+          "fixture": "pc-851-91-interests-of-justice-boundary",
+          "file": "data/rcap-all50/overlays/census-v1/ca/ca-851-91-set--official-pdf-fill/fixtures/pc-851-91-interests-of-justice-boundary/cr-409-filled.pdf",
+          "oldSha256": "946da7426c92b0c6fd2ab88db11a559ed705dd2e39b4154f4ee4d58ba94e9e0b",
+          "newSha256": "fdd760246fa33ed54537b65314b0ba397c441946d8bdadadcaf050f75ab50926"
+        },
+        {
+          "fixture": "pc-851-91-interests-of-justice-canonical",
+          "file": "data/rcap-all50/overlays/census-v1/ca/ca-851-91-set--official-pdf-fill/fixtures/pc-851-91-interests-of-justice-canonical/cr-409-filled.pdf",
+          "oldSha256": "5267d8a7021cc3810c3d59e7de3ebe9b7e859c0c56d108bb35a0c102bf198d00",
+          "newSha256": "906f4348cbfca61609edddda4e905480411aadadd177d91152a3ef42d115f16e"
+        },
+        {
+          "fixture": "pc-851-91-matter-of-right-boundary",
+          "file": "data/rcap-all50/overlays/census-v1/ca/ca-851-91-set--official-pdf-fill/fixtures/pc-851-91-matter-of-right-boundary/cr-409-filled.pdf",
+          "oldSha256": "9619dc7a19af40adaddd88a5892cfb8868ad7b51f836b8d986dfac3167bb0daf",
+          "newSha256": "e972373596de7fe774d1ffc7feebd833cf6d3ce344ad46ddc45165d3bf1ad356"
+        },
+        {
+          "fixture": "pc-851-91-matter-of-right-canonical",
+          "file": "data/rcap-all50/overlays/census-v1/ca/ca-851-91-set--official-pdf-fill/fixtures/pc-851-91-matter-of-right-canonical/cr-409-filled.pdf",
+          "oldSha256": "2f2511279709d4cf1cf9fb70a1e60c3bf0a06345363c3084935ede5664c202a2",
+          "newSha256": "b9d2d145461e51bb08b57712a93e2d4e4b4df19b501bed09785ef709a74d84e3"
+        }
+      ],
+      "rasterHashes": [
+        {
+          "fixture": "pc-851-91-interests-of-justice-boundary",
+          "file": "data/rcap-all50/overlays/census-v1/ca/ca-851-91-set--official-pdf-fill/raster/pc-851-91-interests-of-justice-boundary/cr-409/page-02.png",
+          "oldSha256": "3d7688f9e4385a2ca85c913b4fa8cc5c7bd40a7b98a4cc1157da592122a028cb",
+          "newSha256": "d6afd4e64899ce227489ef15dd431c7996b9ed8f72bcc139b80bd3af80d30348"
+        },
+        {
+          "fixture": "pc-851-91-interests-of-justice-canonical",
+          "file": "data/rcap-all50/overlays/census-v1/ca/ca-851-91-set--official-pdf-fill/raster/pc-851-91-interests-of-justice-canonical/cr-409/page-02.png",
+          "oldSha256": "60e5396fd0859b396605ee145e2d590f4c3a007495563f6ecd6507b7fe3e2fab",
+          "newSha256": "93967819925ebb1fbe4db11dd7487dbbd9670669012547026239472dc61f7e4f"
+        },
+        {
+          "fixture": "pc-851-91-matter-of-right-boundary",
+          "file": "data/rcap-all50/overlays/census-v1/ca/ca-851-91-set--official-pdf-fill/raster/pc-851-91-matter-of-right-boundary/cr-409/page-02.png",
+          "oldSha256": "ab78be714f7037a6ab4bd535f959cfcb7bbeecb1300c9206e97fa2c46c62c111",
+          "newSha256": "31976931538aed312da45344e1c1cd6fb93168f0f4637df4c8709e982cb8b1a2"
+        },
+        {
+          "fixture": "pc-851-91-matter-of-right-canonical",
+          "file": "data/rcap-all50/overlays/census-v1/ca/ca-851-91-set--official-pdf-fill/raster/pc-851-91-matter-of-right-canonical/cr-409/page-02.png",
+          "oldSha256": "264eaab3adf18795b28bff4a9d2109504a9f2843544e8b0c566dfaf316c9a7ea",
+          "newSha256": "8a2aa8288f32b0195ab6da939eba649da6ca4c133ff296640c04009d2e1f9248"
+        }
+      ],
+      "pageOneUnchanged": "Only page-02 rasters changed. Every page-01 raster and all twelve unchanged official companions are byte-identical to the base, which localises the change to the page 2 footer.",
+      "rasterConsequence": "RASTER_PASS for this family is invalidated by the changed bytes. Captain must re-dispatch the visual gate against the new hashes above. This lane rendered its own page rasters through the family's own build (24 rasters, all recorded hashes matching the bytes on disk); it did not and cannot issue a central RASTER_PASS.",
+      "residueIDidNotRemove": "A 0.753-grey rectangle remains at 36.043 12.461 211.294 23.179 on page 2. It is drawn by the OFFICIAL form's own page content stream inside /OC /MC0 BDC and marked /Artifact -- I decoded the operator: '0.753 0.753 0.753 rg ... 36.043 12.461 211.294 23.179 re f'. It was there before this repair, behind the truncated caption. Removing it would edit the official page content stream and break the build's own originalPageContentStreamsIdentical assertion, so it stays. It carries no word box and does not bear on CLIPPING_AND_OVERLAP.",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersNote": "All nine were zero before and are zero after, measured in this container by node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ca-851-91-set: PASS_COMPLETE, 14/129 written. The repository-wide --write run compared cell by cell against the base matrix: 180 families, 0 counter cells changed, 0 worse.",
+      "completenessResult": "PASS_COMPLETE",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "claimReleased": true,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "wa_vac_survivor_misdemeanor-set",
+      "status": "STOPPED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/wa/wa-vac-survivor-misdemeanor-set--official-pdf-fill",
+      "obligationsAssigned": [
+        "FEE_AND_WAIVER",
+        "FILING_DESTINATION",
+        "SELF_HELP_STOP",
+        "SERVICE"
+      ],
+      "obligationRepaired": null,
+      "stoppedBecause": "OBLIGATIONS_NO_LONGER_FAIL_AT_THIS_BASE_REPAIR_WOULD_BE_A_CHANGE_WITHOUT_A_DEFECT",
+      "obligationsReproduced": false,
+      "whatIMeasured": "All four failed obligations rested on one VF16 finding: that no participant-instructions.md existed, so the packet named no court, no fee, no service and no stop. That file exists at this base. It is 8516 bytes, created by FIX10 in commit 9011d1c63 ('FIX10 wa_vac_survivor_misdemeanor-set: participant-instructions.md from official sources'), and its headings are: The section of the petition this route uses / Where to file / Filing fee and fee waiver / Who must be served, and how / Hearing / Required attachments / Deadline / Where self-help ends / Sources for every statement above. Each of the four obligations has a section addressing it. The premise of all four findings -- absence -- is gone.",
+      "whyIDidNotRepairIt": "The coordinator's mid-task correction: Captain added an ordering rule to generate.mjs so a released repair supersedes a verdict only if it POSTDATES it. FIX10 wrote the file at 12:44:47Z, about three hours after VF16 released its grant at 09:34:12Z, so the family now sits at VERIFY_PENDING rather than FAIL_REPAIR_REQUIRED. It needs a fresh independent verification, not an edit. Repairing an obligation that no longer fails would be a change with no defect behind it.",
+      "baseCaveatIAmRecordingHonestly": "data/rcap-grade-a/packet-factory-24h/VERIFIER_RETURNS.json as committed at my base e4e50519 still carries the vf16 row as current and unsuperseded, and still lists this family in failRepairRequiredFamilies. The regeneration that reclassifies it has not landed here. I am acting on the coordinator's instruction, and recording that the committed record at this base does not yet show it.",
+      "bytesWritten": 0,
+      "whatIReadOfIt": "participant-instructions.md headings and its git provenance, plus the focused completeness verifier. No artifact, field map, fixture or report of this family was modified.",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersNote": "Measured, not carried over: node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wa_vac_survivor_misdemeanor-set returns PASS_COMPLETE, 28/71 written, all nine zero. This lane wrote nothing, so these are the counters before and after alike.",
+      "completenessResult": "PASS_COMPLETE",
+      "rasterState": "NOT_APPLICABLE_NO_BUILD_OCCURRED",
+      "canonicalPdfSha256": null,
+      "boundaryPdfSha256": null,
+      "claimReleased": true,
+      "claimNote": "Released without an edit, so a verification lane can be granted it cleanly. The reissue and the release are both on the ledger's record.",
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    }
+  ]
+}

@@ -1,0 +1,1459 @@
+#!/usr/bin/env node
+/**
+ * Oklahoma trafficking-survivor relief packet under 22 O.S. § 19c.
+ *
+ * This family composes a petition, proposed order, and filing instructions from
+ * six exact committed source records. The later binding legal decision
+ * OK-TRAFFICKING-SURVIVOR-22-OS-19C is separately hash-bound and supersedes the
+ * former universal research hold. It preserves the narrow prostitution-related
+ * trafficking nexus, good-cause standard, court-directed notice, protected
+ * signatures, and participant/counsel handbacks. A build grants no approval.
+ */
+const SPEC = {
+  "familyId": "composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief",
+  "worklistGroupId": "composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief",
+  "buildScript": "scripts/build-census-v1-composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief.mjs",
+  "outDir": "data/rcap-all50/overlays/census-v1/ok/composed-treatment:obligation:runtime-only:ok:human-trafficking-survivor-relief--custom-pleading",
+  "jurisdiction": "OK",
+  "legalName": "Oklahoma Trafficking-Survivor Relief Petition under 22 O.S. § 19c",
+  "routeName": "asking an Oklahoma court for trafficking-survivor relief under 22 O.S. § 19c",
+  "statutes": [
+    "22 O.S. § 19c"
+  ],
+  "routes": [
+    {
+      "routeKey": "obligation:runtime-only:OK:human-trafficking-survivor-relief"
+    }
+  ],
+  "records": [
+    {
+      "recordId": "route-contract:OK:human-trafficking-survivor-relief",
+      "path": "src/lib/legal-authority/routes/route-splits.json",
+      "role": "the committed route contract: this route's mechanism, statute, outcome mode, timing anchor, recorded conditions, required facts and packet components",
+      "mustContain": [
+        "\"routeKey\": \"OK:human-trafficking-survivor-relief\"",
+        "Human-trafficking survivor relief",
+        "22 O.S. § 19c",
+        "Oklahoma Trafficking-Survivor Relief Petition under § 19c",
+        "event and nexus based; no elapsed wait applies",
+        "Current Oklahoma law effective July 1, 2026",
+        "Exact remedy, offense class, disposition, completion, and operational availability",
+        "Excluded offenses and clean-record rules apply",
+        "Petition under § 19c",
+        "Trafficking nexus evidence"
+      ]
+    },
+    {
+      "recordId": "compiled-profile:OK-oklahoma#human-trafficking-survivor-relief",
+      "path": "src/lib/rcap-engine/compiled/profiles/OK-oklahoma.json",
+      "role": "the compiled state profile's own pathway for this route, carrying the recorded substance of the statute and, where it exists, the recorded self-help boundary",
+      "mustContain": [
+        "\"id\": \"human-trafficking-survivor-relief\"",
+        "Oklahoma has a trafficking-survivor pathway under 22 O.S. 19c for prostitution-related records when the offense was committed as a result of the person being a victim of human trafficking. Relief can be by court motion or petition, and it is narrower than general expungement but can avoid some ordinary timing/prior-record barriers. (\\\"https://ccresourcecenter.org/state-restoration-profiles/oklahoma-restoration-of-rights-pardon-expungement-sealing/\\\")",
+        "Oklahoma has a special expungement pathway for certain prostitution-related records connected to human trafficking victimization. That should be routed to legal aid or an attorney because the petition needs sensitive facts and supporting proof."
+      ]
+    },
+    {
+      "recordId": "route-obligation-census:obligation:runtime-only:OK:human-trafficking-survivor-relief",
+      "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+      "role": "the committed route-obligation census: this route's exact key, its statutory authority, its recorded destination and its participant-facing instrument",
+      "mustContain": [
+        "obligation:runtime-only:OK:human-trafficking-survivor-relief",
+        "Oklahoma Trafficking-Survivor Relief Petition under § 19c"
+      ]
+    },
+    {
+      "recordId": "legal-design-intake:OK#ok-ls-1",
+      "path": "data/record-clearing/legal-design-intake/OK.memo.json",
+      "role": "the controlling legal-design record for this matter, track ok-ls-1: the destination, the venue reading, the notice rule, the separate fee sourcing and the participant wording this packet carries",
+      "mustContain": [
+        "\"trackId\": \"ok-ls-1\"",
+        "Title 22 § 4A defines 'court' as the Oklahoma district court unless a contrary intention appears",
+        "the court sets the hearing and provides 30 days' notice to the prosecuting agency, the arresting agency, OSBI and other relevant persons or agencies",
+        "OSBI distinguishes its arrest-record processing charge from court-record processing",
+        "An order under this route seals records from public access but does not make them unavailable to law enforcement."
+      ]
+    },
+    {
+      "recordId": "legal-decision:2026-09-06-owner-relayed-research-batch-03#OK",
+      "path": "data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-batch-03.json",
+      "role": "the decision record under which the owner relayed this research into the repository, and the entry that directs this family's repair",
+      "mustContain": [
+        "\"family\": \"composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief\"",
+        "Distinguish district-court jurisdiction, record-specific venue, and the limited § 19c remedy; do not implement HB 3835 proposals as enacted law."
+      ]
+    },
+    {
+      "recordId": "research-handoff:2026-09-06-batch-03#section-3-oklahoma",
+      "path": "docs/rcap/grade-a/research/2026-09-06-batch-03/Packet_Blocker_Batch_03_Handoff.md",
+      "role": "the research handoff section 3, which states the § 19c remedy limits, the § 19 notice rule, the HB 3835 non-enactment and the participant wording",
+      "mustContain": [
+        "## 3. Oklahoma: trafficking-related expungement is not generic conviction vacatur",
+        "This route asks an Oklahoma district court to expunge specified prostitution-related records connected to human trafficking.",
+        "The enacted 2026 **SB 2030** amended §19 and renumbered its notice provision to **subsection B**."
+      ]
+    }
+  ],
+  "components": [
+    {
+      "id": "ok-trafficking-survivor-19c-primary-filing-1",
+      "routeKey": "obligation:runtime-only:OK:human-trafficking-survivor-relief",
+      "role": "primary_filing",
+      "title": "Petition - Oklahoma Trafficking-Survivor Relief Petition under § 19c",
+      "description": "a petition seeking limited relief under 22 O.S. § 19c",
+      "condition": null,
+      "body": [
+        "IN THE ............................................................ COURT",
+        "(the Oklahoma district court for the district or county holding the relevant arrest information)",
+        "",
+        "IN RE: {{participant.full_legal_name}},",
+        "PETITIONER.",
+        "",
+        "Case number, if the court assigns one at filing:",
+        "{{DOTS}}",
+        "",
+        "OKLAHOMA TRAFFICKING-SURVIVOR RELIEF PETITION UNDER § 19C",
+        "",
+        "A. BASIS AND LIMITED RELIEF",
+        "",
+        "The petitioner asks for relief under 22 O.S. § 19c for the prostitution-related charge or conviction identified below. The petitioner must establish that the offense was committed as a result of being a victim of human trafficking and that good cause supports expungement.",
+        "",
+        "Relief is not automatic and does not extend to every offense connected to trafficking. An order under section 19c seals only the identified records from public access, preserves access by law enforcement, and vacates no conviction.",
+        "",
+        "This petition is addressed to an Oklahoma district court. The ordinary filing destination is the district court for the district or county holding the relevant arrest information. Item C1 supplies the actual court and county from the existing record.",
+        "",
+        "[[KEEP_BLOCK_BEGIN]]",
+        "B. THE PETITIONER",
+        "",
+        "Name: {{participant.full_legal_name}}",
+        "Date of birth: {{participant.date_of_birth}}",
+        "[[KEEP_BLOCK_END]]",
+        "",
+        "C. THE FACTS OF THIS MATTER, WHICH THE PETITIONER SUPPLIES FROM THE RECORD",
+        "",
+        "Each item below identifies this section 19c matter. Fill the court-record items from the existing court file. Complete the causal, good-cause, requested-relief, evidence-identification and agency items only with legal aid or an attorney. Do not write a survivor narrative on this petition.",
+        "",
+        "[[KEEP_BLOCK_BEGIN]]",
+        "[C1 - existing court and county] The Oklahoma court and county where the prostitution-related case was filed.",
+        "{{DOTS}}",
+        "{{DOTS}}",
+        "[[KEEP_BLOCK_END]]",
+        "",
+        "[[KEEP_BLOCK_BEGIN]]",
+        "[C2 - existing case number] The case number of that prostitution-related case.",
+        "{{DOTS}}",
+        "{{DOTS}}",
+        "[[KEEP_BLOCK_END]]",
+        "",
+        "[[KEEP_BLOCK_BEGIN]]",
+        "[C3 - prostitution-related offense] The exact prostitution-related offense or charge, including the count and statute if the court record states them.",
+        "{{DOTS}}",
+        "{{DOTS}}",
+        "[[KEEP_BLOCK_END]]",
+        "",
+        "[[KEEP_BLOCK_BEGIN]]",
+        "[C4 - disposition and date] The disposition of that offense or charge, and the date the court entered it.",
+        "{{DOTS}}",
+        "{{DOTS}}",
+        "[[KEEP_BLOCK_END]]",
+        "",
+        "[[KEEP_BLOCK_BEGIN]]",
+        "[C5 - trafficking and causal connection] The statement legal aid or an attorney advises that the identified offense was committed as a result of the petitioner being a victim of human trafficking. State only the connection counsel advises stating. Do not write an account of what was done to you.",
+        "{{DOTS}}",
+        "{{DOTS}}",
+        "[[KEEP_BLOCK_END]]",
+        "",
+        "[[KEEP_BLOCK_BEGIN]]",
+        "[C6 - good-cause grounds] The grounds legal aid or an attorney advises the petitioner to state as good cause for expunging the identified record under section 19c.",
+        "{{DOTS}}",
+        "{{DOTS}}",
+        "[[KEEP_BLOCK_END]]",
+        "",
+        "[[KEEP_BLOCK_BEGIN]]",
+        "[C7 - relief requested under section 19c] The exact relief under 22 O.S. Sec. 19c that legal aid or an attorney advises the petitioner to request for the identified record.",
+        "{{DOTS}}",
+        "{{DOTS}}",
+        "[[KEEP_BLOCK_END]]",
+        "",
+        "[[KEEP_BLOCK_BEGIN]]",
+        "[C8 - trafficking nexus evidence] Identify the trafficking-nexus evidence legal aid or an attorney selected by its document or evidence type, title or date, and issuer or holder. Do not write an account of the trafficking or attach a survivor narrative here.",
+        "{{DOTS}}",
+        "{{DOTS}}",
+        "[[KEEP_BLOCK_END]]",
+        "",
+        "[[KEEP_BLOCK_BEGIN]]",
+        "[C9 - persons and agencies to be notified] The prosecuting agency, the arresting agency, the Oklahoma State Bureau of Investigation and any other person or agency the court should notify, as counsel or the court clerk identifies them for this record.",
+        "{{DOTS}}",
+        "{{DOTS}}",
+        "[[KEEP_BLOCK_END]]",
+        "",
+        "[[KEEP_BLOCK_BEGIN]]",
+        "D. THE REQUEST",
+        "",
+        "The petitioner asks the Court to grant, for good cause under 22 O.S. Sec. 19c, the relief identified in item C7 for the prostitution-related record identified in items C1 to C4, on the connection stated in item C5, the grounds stated in item C6, and the evidence identified in item C8 and submitted as counsel advises.",
+        "[[KEEP_BLOCK_END]]",
+        "",
+        "The petitioner asks the Court to set this matter for hearing and to provide the notice 22 O.S. Sec. 19 requires to the persons and agencies listed in item C9. The petitioner gives no notice and certifies none; the court arranges the notice.",
+        "",
+        "The petitioner does not ask the Court to vacate any conviction. An order under section 19c seals records from public access but does not make them unavailable to law enforcement. A proposed order under section 19c is submitted with this petition.",
+        "",
+        "DATE {{DOTS:30}}   SIGNATURE OF PETITIONER {{DOTS:36}}",
+        "",
+        "(The petitioner signs and dates this petition personally. Nothing on this page is signed, dated or sworn for the petitioner, and every factual statement in section C is the petitioner's own.)",
+        "",
+        "PRINTED NAME: {{participant.full_legal_name}}",
+        "MAILING ADDRESS: {{participant.street_address}}",
+        "TELEPHONE: {{participant.phone}}",
+        "EMAIL: {{participant.email}}"
+      ],
+      "writes": [
+        {
+          "id": "petitioner_name",
+          "label": "Person named in the caption of this document",
+          "factId": "participant.full_legal_name"
+        },
+        {
+          "id": "date_of_birth",
+          "label": "Date of birth of the person named in the caption",
+          "factId": "participant.date_of_birth"
+        },
+        {
+          "id": "mailing_address",
+          "label": "Mailing address in the contact block at the foot of this document",
+          "factId": "participant.street_address"
+        },
+        {
+          "id": "telephone",
+          "label": "Telephone number in the contact block at the foot of this document",
+          "factId": "participant.phone"
+        },
+        {
+          "id": "email",
+          "label": "Email address in the contact block at the foot of this document",
+          "factId": "participant.email"
+        }
+      ],
+      "blanks": [
+        {
+          "kind": "rbf",
+          "id": "fact_existing_court_and_county",
+          "label": "Item C1 - existing court and county",
+          "supply": "the Oklahoma court and county where the prostitution-related case was filed - copy both from the existing docket or a court order in that case, or ask that court's clerk",
+          "why": "the section 19c filing must identify the existing prostitution-related matter, and this fact lives in a court record the platform has never seen"
+        },
+        {
+          "kind": "rbf",
+          "id": "fact_existing_case_number",
+          "label": "Item C2 - existing case number",
+          "supply": "the case number of the prostitution-related case - copy it from the existing docket or a court order in that case",
+          "why": "the section 19c filing must identify the existing prostitution-related matter, and this fact lives in a court record the platform has never seen"
+        },
+        {
+          "kind": "rbf",
+          "id": "fact_prostitution_related_offense",
+          "label": "Item C3 - prostitution-related offense",
+          "supply": "the exact prostitution-related offense or charge, including the count and statute if stated - copy it from the charging document, docket or disposition order",
+          "why": "the bound compiled pathway limits this route to prostitution-related records, and the platform has never seen the participant's court file"
+        },
+        {
+          "kind": "rbf",
+          "id": "fact_disposition_and_date",
+          "label": "Item C4 - disposition and date",
+          "supply": "the disposition of that offense or charge and the date the court entered it - copy both from the docket or disposition order",
+          "why": "the filing must identify the record for which relief is requested, and the platform has never seen the participant's court file"
+        },
+        {
+          "kind": "rbf",
+          "id": "fact_trafficking_causal_connection",
+          "label": "Item C5 - trafficking and causal connection",
+          "supply": "the statement legal aid or an attorney advises that the identified offense was committed as a result of your being a victim of human trafficking - state only the connection counsel advises stating, and do not write an account of what was done to you",
+          "why": "section 19c reaches a prostitution-related record only where the offense resulted from trafficking, and that connection is the participant's own fact, which the platform has never seen and never asks to be narrated"
+        },
+        {
+          "kind": "rbf",
+          "id": "fact_good_cause_grounds",
+          "label": "Item C6 - good-cause grounds",
+          "supply": "the grounds legal aid or an attorney advises you to state as good cause for expunging the identified record under section 19c",
+          "why": "the bound legal-design record states that relief under section 19c is for good cause, so the filing must state grounds, and those grounds are counsel-advised rather than platform-held"
+        },
+        {
+          "kind": "rbf",
+          "id": "fact_relief_requested",
+          "label": "Item C7 - relief requested under section 19c",
+          "supply": "the exact relief under 22 O.S. Sec. 19c that legal aid or an attorney advises you to request for the identified record - do not guess, because section 19c is a limited sealing remedy and not vacatur",
+          "why": "the court filing must state the relief requested, and the exact remedy for the participant's facts is counsel-advised rather than platform-held"
+        },
+        {
+          "kind": "rbf",
+          "id": "fact_trafficking_nexus_evidence",
+          "label": "Item C8 - trafficking nexus evidence",
+          "supply": "identify only the trafficking-nexus evidence legal aid or an attorney selected: its document or evidence type, title or date, and issuer or holder - do not write an account of the trafficking or attach a survivor narrative here, and ask the clerk or counsel which protected-filing mechanism applies to anything sensitive before it is filed",
+          "why": "the bound route records trafficking nexus evidence as this packet's route-specific supporting component, while the compiled pathway directs the sensitive facts and proof to legal aid or an attorney"
+        },
+        {
+          "kind": "rbf",
+          "id": "fact_persons_and_agencies_to_notify",
+          "label": "Item C9 - persons and agencies to be notified",
+          "supply": "the prosecuting agency, the arresting agency, the Oklahoma State Bureau of Investigation and any other person or agency the court should notify, as counsel or the court clerk identifies them for your record - you list them so the court can direct its own notice, and you certify no notice yourself",
+          "why": "under 22 O.S. Sec. 19 as amended by the enacted 2026 Senate Bill 2030 the court provides 30 days' notice to those agencies, and the court can direct notice only to the persons and agencies the filing identifies for this record"
+        },
+        {
+          "kind": "court",
+          "id": "case_number",
+          "label": "Case number of this filing, if the court assigns one at filing",
+          "why": "if a number is assigned, the court assigns it at filing"
+        },
+        {
+          "kind": "protected",
+          "id": "petition_signature",
+          "label": "Signature of the person named in the caption, on the petition",
+          "why": "the participant signs personally; this build never signs for anyone"
+        },
+        {
+          "kind": "protected",
+          "id": "petition_signature_date",
+          "label": "Date beside the signature on the petition",
+          "why": "a date written before the document is signed would be false"
+        }
+      ]
+    },
+    {
+      "id": "ok-trafficking-survivor-19c-proposed-order-2",
+      "routeKey": "obligation:runtime-only:OK:human-trafficking-survivor-relief",
+      "role": "proposed_order",
+      "title": "Proposed Order - Oklahoma Trafficking-Survivor Relief under § 19c",
+      "description": "a proposed section 19c order for the Court to consider and complete",
+      "condition": null,
+      "body": [
+        "IN THE ............................................................ COURT",
+        "(the Oklahoma district court for the district or county holding the relevant arrest information)",
+        "",
+        "IN RE: {{participant.full_legal_name}},",
+        "PETITIONER.",
+        "",
+        "Case number, if the court assigns one at filing:",
+        "{{DOTS}}",
+        "",
+        "PROPOSED ORDER UNDER 22 O.S. § 19C",
+        "",
+        "This is a proposed order, submitted with the petition for the Court's consideration. It has no effect unless the Court signs it, and nothing on it is signed or dated for the Court.",
+        "",
+        "On the petition brought under 22 O.S. § 19c, and on the notice provided under 22 O.S. § 19, the Court finds good cause and ORDERS as follows.",
+        "",
+        "1. This order is entered under 22 O.S. § 19c.",
+        "",
+        "[[KEEP_BLOCK_BEGIN]]",
+        "[O1 - records this order covers] The records to be expunged, identified exactly as items C1 to C4 of the petition identify them, as legal aid or an attorney advises stating them here.",
+        "{{DOTS}}",
+        "{{DOTS}}",
+        "[[KEEP_BLOCK_END]]",
+        "",
+        "[[KEEP_BLOCK_BEGIN]]",
+        "[O2 - persons and agencies this order is directed to] The persons and agencies the order binds, identified as item C9 of the petition identifies them, as legal aid or an attorney advises stating them here.",
+        "{{DOTS}}",
+        "{{DOTS}}",
+        "[[KEEP_BLOCK_END]]",
+        "",
+        "2. The records identified above are expunged under 22 O.S. § 19c and are sealed from public access.",
+        "",
+        "3. This order does not make those records unavailable to law enforcement.",
+        "",
+        "4. This order vacates no conviction and makes no finding beyond the expungement section 19c authorises.",
+        "",
+        "DATE {{DOTS:30}}   JUDGE OF THE DISTRICT COURT {{DOTS:30}}",
+        "",
+        "(The Court signs and dates this order, or does not. Nothing on this page is signed or dated for the Court, and nothing on it is signed for the petitioner.)"
+      ],
+      "writes": [
+        {
+          "id": "petitioner_name",
+          "label": "Person named in the caption of this document",
+          "factId": "participant.full_legal_name"
+        }
+      ],
+      "blanks": [
+        {
+          "kind": "rbf",
+          "id": "order_records_covered",
+          "label": "Item O1 - records this order covers",
+          "supply": "the records to be expunged, written exactly as items C1 to C4 of the petition identify them, as legal aid or an attorney advises stating them on the order",
+          "why": "an order under section 19c operates on identified records, and those records come from a court file the platform has never seen"
+        },
+        {
+          "kind": "rbf",
+          "id": "order_persons_and_agencies_directed",
+          "label": "Item O2 - persons and agencies this order is directed to",
+          "supply": "the persons and agencies the order binds, written as item C9 of the petition identifies them, as legal aid or an attorney advises stating them on the order",
+          "why": "the order reaches the persons and agencies it names, and those are per-matter facts the platform does not hold"
+        },
+        {
+          "kind": "court",
+          "id": "order_case_number",
+          "label": "Case number on the proposed order, if the court assigns one at filing",
+          "why": "if a number is assigned, the court assigns it at filing"
+        },
+        {
+          "kind": "protected",
+          "id": "order_signature",
+          "label": "Signature of the judge on the proposed order",
+          "why": "the Court signs its own order; this build never signs for a court"
+        },
+        {
+          "kind": "protected",
+          "id": "order_signature_date",
+          "label": "Date beside the signature on the proposed order",
+          "why": "a date written before the order is signed would be false"
+        }
+      ]
+    },
+    {
+      "id": "ok-trafficking-survivor-19c-filing-instructions-3",
+      "routeKey": "obligation:runtime-only:OK:human-trafficking-survivor-relief",
+      "role": "filing_instructions",
+      "title": "Filing Instructions - Oklahoma Trafficking-Survivor Relief Petition under § 19c",
+      "description": "what this set is, where it goes, what it costs, who is notified, and when to stop",
+      "condition": null,
+      "body": [
+        "This page is for {{participant.full_legal_name}}.",
+        "",
+        "FILING INSTRUCTIONS - OKLAHOMA TRAFFICKING-SURVIVOR RELIEF PETITION UNDER § 19C",
+        "",
+        "WHAT THIS REQUEST COVERS",
+        "",
+        "This packet asks an Oklahoma district court to expunge a qualifying prostitution-related charge or conviction under 22 O.S. § 19c. The offense must have resulted from the petitioner being a victim of human trafficking, and the court may grant relief only for good cause. The court decides the request.",
+        "",
+        "Relief is limited. It seals the identified records from public access, preserves law-enforcement access, and vacates no conviction. It does not cover every offense merely because trafficking occurred.",
+        "",
+        "WHERE THIS IS FILED",
+        "",
+        "File in the Oklahoma district court for the district or county holding the relevant arrest information. Copy the actual court and county into item C1 from the existing court record. If the record began in municipal court, spans counties, or has disputed docketing, ask that court's clerk or counsel to confirm the correct district filing and case type.",
+        "",
+        "WHAT YOU DO",
+        "",
+        "- Take this draft to legal aid or an attorney before completing it because the petition requires sensitive facts and supporting proof.",
+        "- Copy C1 through C4 from the existing court record. Do not answer them from memory.",
+        "- Complete C5 through C9 and O1 through O2 only as legal aid or an attorney advises. Identify evidence without writing a survivor narrative on this petition.",
+        "- Obtain the trafficking-nexus evidence and submit it only as counsel advises. Ask the clerk or counsel which protected-filing procedure applies before filing anything sensitive.",
+        "- Make the proposed order match the petition, but leave the Court's signature and date blank.",
+        "- Sign and date the petition personally. This packet does not sign or date it for you.",
+        "",
+        "[[KEEP_BLOCK_BEGIN]]",
+        "COSTS AND REQUESTING IN-FORMA-PAUPERIS STATUS",
+        "",
+        "Ask the district court clerk for the current filing cost. The Oklahoma State Bureau of Investigation's arrest-record processing charge is separate from any court filing cost and does not establish a universal zero-dollar court fee.",
+        "",
+        "If you cannot pay the court filing cost, 28 O.S. § 152(H) supplies the in-forma-pauperis mechanism identified for this filing. Ask the clerk for the current affidavit or application and local filing instructions. You must truthfully provide the financial facts and supporting documents that procedure requests; the court decides whether you may proceed without prepaying costs. This packet does not decide that you qualify, select that request for you, or include a completed financial affidavit.",
+        "[[KEEP_BLOCK_END]]",
+        "",
+        "NOTICE AND HEARING",
+        "",
+        "The court sets the hearing and provides 30 days' notice under 22 O.S. § 19(B) to the prosecuting agency, arresting agency, Oklahoma State Bureau of Investigation, and other relevant persons or agencies. List the correct recipients in C9 so the court can direct notice. You do not certify that court notice occurred.",
+        "",
+        "WHEN TO STOP AND GET HELP",
+        "",
+        "- Get legal aid or an attorney before stating the trafficking connection, good-cause grounds, requested relief, or evidence.",
+        "- Stop if filing could put your safety at risk or expose sensitive information without an approved protected-filing procedure.",
+        "- Stop if there are other counts or cases and it is unclear how section 19c applies to them.",
+        "- Stop if the matter raises immigration consequences.",
+        "- Do not rely on proposed legislation or assume ordinary section 18 eligibility rules govern this narrower section 19c request."
+      ],
+      "writes": [
+        {
+          "id": "petitioner_name",
+          "label": "Person named in the caption of this document",
+          "factId": "participant.full_legal_name"
+        }
+      ],
+      "blanks": []
+    }
+  ],
+  "fixtures": {
+    "canonical": {
+      "participant.full_legal_name": "Jordan Avery Reyes",
+      "participant.date_of_birth": "1991-04-17",
+      "participant.street_address": "42 Magnolia Street, Springfield 62704",
+      "participant.phone": "555-0142",
+      "participant.email": "jordan.reyes@example.org"
+    },
+    "boundary": {
+      "participant.full_legal_name": "Maria-Alejandra O'Shaughnessy-Whitfield",
+      "participant.date_of_birth": "1968-12-31",
+      "participant.street_address": "1188 Upper Tallahatchie Crossing Road, Apartment 14B, Fort Saint Clairsville 39501-2214",
+      "participant.phone": "(228) 555-0199 ext. 4417",
+      "participant.email": "maria.alejandra.oshaughnessy.whitfield@longmailexample.org"
+    }
+  },
+  "composedFromNote": "the committed route contract (src/lib/legal-authority/routes/route-splits.json, OK:human-trafficking-survivor-relief), the compiled Oklahoma profile pathway (src/lib/rcap-engine/compiled/profiles/OK-oklahoma.json#human-trafficking-survivor-relief), the committed route-obligation census (data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json), the controlling legal-design record (data/record-clearing/legal-design-intake/OK.memo.json, track ok-ls-1), the decision record under which the owner relayed the research (data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-batch-03.json) and section 3 of the research handoff (docs/rcap/grade-a/research/2026-09-06-batch-03/Packet_Blocker_Batch_03_Handoff.md), each bound by SHA-256 and anchor-verified at build time",
+  "formIdentityNote": "No committed record names an official participant form for this route, and the relayed research record states in terms that its component list is a set of proposed drafting components rather than an official statewide form inventory. Every page in this packet is therefore composed by this build from the committed records; no official form was substituted and none was invented.",
+  "routeSelectionNote": "One route, one instrument set: the petition states section 19c in its title and body. It collects the qualifying prostitution-related record, trafficking causal connection, and good-cause grounds without asking the participant to choose a legal theory.",
+  "routeSelectionsMade": [
+    {
+      "routeKey": "obligation:runtime-only:OK:human-trafficking-survivor-relief",
+      "statute": "22 O.S. § 19c",
+      "instrument": "Oklahoma Trafficking-Survivor Relief Petition under § 19c",
+      "statedOn": "the composed petition and proposed order, in their titles and bodies"
+    }
+  ],
+  "obligationTable": [
+    [
+      "Where to file",
+      "The destination is an Oklahoma district court. Title 22 § 4A defines \"court\" as the district court unless a contrary intention appears, and the petition is filed in the district court for the district or county holding the relevant arrest information. That venue reading follows the structure of § 19(A), while § 19c incorporates § 19(B) to § 19(M) rather than § 19(A), so it is a reading of the combined statutes and not a quotation from § 19c. You supply the county from your own court record. A municipal-origin record, a record spanning counties, or disputed docketing needs the court clerk's or counsel's confirmation of the district filing and the case type for that exact record."
+    ],
+    [
+      "Costs and inability to pay",
+      "Ask the Oklahoma district court clerk for the current filing cost. OSBI's arrest-record processing charge is separate and does not establish a universal zero-dollar court filing fee. If you cannot pay the court cost, 28 O.S. § 152(H) supplies the applicable in-forma-pauperis mechanism. Ask the clerk for the current affidavit or application and local procedure, provide its requested financial facts and supporting documents truthfully, and leave the decision to the court. This packet neither decides qualification nor completes a financial affidavit."
+    ],
+    [
+      "Court notice",
+      "The court arranges the notice; the petitioner serves nothing and certifies nothing. Under 22 O.S. § 19 as amended by the enacted 2026 Senate Bill 2030 the notice provision is subsection B: the court sets the hearing and provides 30 days' notice to the prosecuting agency, the arresting agency, the Oklahoma State Bureau of Investigation and other relevant persons or agencies. The petitioner lists those persons and agencies in item C9 so the court can direct its notice, asks the court clerk how the court-directed notice is carried out in that district, and never certifies that notice occurred before it did."
+    ],
+    [
+      "When to stop and get help",
+      "Get legal aid or an attorney before stating the sensitive trafficking connection, good-cause grounds, requested relief, or evidence. Stop before filing if disclosure may endanger you, if no protected-filing procedure has been confirmed for sensitive material, if other counts or cases make the scope unclear, or if the matter raises immigration consequences. Do not file unless you can truthfully identify a prostitution-related charge or conviction that resulted from trafficking and the good-cause grounds for relief."
+    ]
+  ],
+  "instructionsIntro": [
+    "This set contains a petition, a proposed order, and filing instructions for a request under 22 O.S. § 19c. It is a custom pleading because no official statewide participant form is identified for this request.",
+    "Your name, date of birth, mailing address, telephone number, and email are filled from the information already held. Copy C1 through C4 from the court record. Complete C5 through C9 and O1 through O2 only with legal aid or an attorney; do not put a survivor narrative on the petition.",
+    "The court decides the request, directs notice, and completes its own signature and date."
+  ],
+  "requiredItemsIntro": "Each item is printed on the petition, or on the proposed order, as a labelled dotted blank. Copy items C1-C4 from the existing court file. Complete items C5-C9 and items O1-O2 only as legal aid or an attorney advises; identify the trafficking-nexus evidence without writing a survivor narrative on the petition.",
+  "instrumentChoice": null,
+  "recordSays": [],
+  "documentsToObtain": [
+    [
+      "Trafficking-nexus evidence identified with legal aid or an attorney",
+      "the person, agency, or institution that holds the evidence; use counsel and the clerk to confirm protected filing before submitting sensitive material"
+    ]
+  ],
+  "steps": [
+    "**Read the filing instructions and stop conditions.**",
+    "**Take this draft to legal aid or an attorney before completing sensitive or legal items.**",
+    "**Copy C1 through C4 from the existing court record.** Do not guess the court, county, case number, offense, disposition, or date.",
+    "**Complete C5 through C9 and O1 through O2 only as counsel advises.** Identify evidence without writing a survivor narrative on the petition.",
+    "**Obtain the trafficking-nexus evidence** and ask about a protected-filing procedure before filing anything sensitive.",
+    "**If you cannot pay the filing cost, ask the clerk for the current 28 O.S. § 152(H) in-forma-pauperis affidavit or application.** Supply its financial facts and supporting documents truthfully; the court decides the request.",
+    "**Sign and date the petition personally.** Leave every court signature and date blank.",
+    "**File with the proper Oklahoma district court clerk.** The court sets the hearing and provides the required 30-day notice."
+  ],
+  "deliberatelyBlank": [
+    "**Your signing lines, and every date beside one.** A signature is yours alone, and a date written before you sign would be false.",
+    "**Every case number in every caption.** If the court assigns one, it does so at filing, and the pages in this set are filed together before any number exists."
+  ],
+  "notTold": [],
+  "stopConditions": [
+    "you do not yet have legal aid or an attorney to help with the sensitive trafficking connection, good-cause grounds, requested relief, and supporting evidence;",
+    "filing could put your safety at risk or disclose sensitive information without an approved protected-filing procedure;",
+    "there are other counts or cases and it is unclear how section 19c applies to them;",
+    "the case presents an immigration issue;",
+    "you cannot truthfully identify a prostitution-related charge or conviction that resulted from trafficking, or the good-cause grounds for the requested relief."
+  ],
+  "whatThisIsNot": "This is a custom petition, proposed order, and guide for one Oklahoma section 19c request. It is not an official form, legal advice, a filing made for you, a decision that you qualify for relief or in-forma-pauperis status, or a court ruling.",
+  "receiptDoesNotEstablish": [
+    "that any Oklahoma record resulted from human trafficking",
+    "that any participant qualifies for relief or in-forma-pauperis status",
+    "that the district, county, case type, filing cost, or protected-filing procedure for any particular record has been determined"
+  ],
+  "buildFindings": [
+    {
+      "finding": "The binding decision OK-TRAFFICKING-SURVIVOR-22-OS-19C is LEGAL_CLEAR and supersedes the former universal statutory-research hold.",
+      "consequence": "Current participant pages apply the narrow section 19c conditions, preserve case-specific legal-aid and safety stops, and do not tell every participant to wait for another legal-research approval."
+    },
+    {
+      "finding": "The current decision identifies 28 O.S. § 152(H) as the applicable fee and in-forma-pauperis mechanism.",
+      "consequence": "The guide separates any court filing cost from OSBI processing charges, tells a participant who cannot pay to obtain the current clerk-provided affidavit or application, requires truthful financial facts and supporting documents, and leaves qualification to the court. No financial form is fabricated or pre-completed."
+    },
+    {
+      "finding": "The generic route-contract phrase about excluded offenses and clean-record rules does not state a section 19c-specific clean-record condition.",
+      "consequence": "Delivered pages use only the current section 19c elements: a prostitution-related charge or conviction resulting from trafficking, good cause, and the limited public-sealing remedy."
+    },
+    {
+      "finding": "The old pages exposed route keys, component IDs, software provenance, and review history.",
+      "consequence": "Delivered court and participant copy now states the request directly. Exact source hashes, route identifiers, and supersession history remain in machine-readable metadata and repair evidence."
+    },
+    {
+      "finding": "The old renderer split the petitioner identity block and item C8 response block across page boundaries.",
+      "consequence": "Explicit keep-together markers are consumed by the renderer and never printed; the exact section heading/identity and question/response groups move together when they do not fit the remaining page."
+    }
+  ],
+  "counselQuestions": [
+    "Confirm the record-specific court, county, case type, requested relief, evidence treatment, and any protected-filing procedure before filing.",
+    "Confirm the participant's prostitution-related charge or conviction, trafficking causal connection, and good-cause grounds.",
+    "Confirm the clerk's current filing cost and current 28 O.S. § 152(H) in-forma-pauperis affidavit or application when the participant cannot pay."
+  ],
+  "reviewersAttention": [
+    "The six composition-source records remain exact and unchanged; the later LEGAL_CLEAR decision is separately hash-bound as the governing supersession.",
+    "No official statewide participant form or financial affidavit is invented. The court and participant retain their own decisions, signatures, dates, facts, and sensitive evidence.",
+    "Both current fixture PDFs changed and require current-byte central raster and independent review."
+  ]
+};
+
+/* ============================================================================
+ * SHARED COMPOSED-PLEADING BUILD CORE.
+ *
+ * Everything above this line is this family's own: its committed-record
+ * bindings, its composed pages, its field maps, its instructions content.
+ * Everything below is family-independent plumbing: deterministic rendering,
+ * byte proof, the builder's own count of the nine completeness counters, and
+ * the census-v1 output records. It is copied whole into each family's own
+ * exclusive script rather than imported, because a build host shared across
+ * families cannot be changed for one of them without moving the bytes of the
+ * rest, and every family here owns only itself.
+ * ========================================================================== */
+import assert from "node:assert/strict";
+import crypto from "node:crypto";
+import fs from "node:fs";
+import path from "node:path";
+import { createRequire } from "node:module";
+import { fileURLToPath } from "node:url";
+
+import { extractTextItems, groupIntoLines } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
+import { stampDeterministic } from "./rcap-official-forms/rcap-deterministic-pdf-date.mjs";
+import { classifyField, classifyBlank, rowKeyOf, PASS_COUNTERS, BLANK_DISPOSITIONS } from "./rcap-packet-completeness/completeness-contract.mjs";
+import { preserveIdentityRefresh } from "./rcap-packet-completeness/identity-refresh.mjs";
+import { stripMarkdownEmphasis, assertNoMarkdownDelimitersOnDeliveredPages } from "./rcap-custom-pleading/composed-page-markdown.mjs";
+
+const thisFile = fileURLToPath(import.meta.url);
+const ROOT = path.resolve(path.dirname(thisFile), "..");
+process.chdir(ROOT);
+const require = createRequire(import.meta.url);
+const { PDFDocument, StandardFonts, rgb } = require("pdf-lib");
+
+const SIGNATURE = "signature_or_date_participant_completion";
+const COURT_OWNED = "court_prosecutor_clerk_or_agency_owned";
+const OUT = SPEC.outDir;
+const RASTER_ENGINE = "scripts/raster/pdf-page-raster.mjs (Chromium, calibrated)";
+const DOTS = (n = 84) => ".".repeat(n);
+const COMPONENT_IDS = SPEC.components.map((c) => c.id);
+const COMPONENT = Object.fromEntries(SPEC.components.map((c) => [c.id, c]));
+const GOVERNING_DECISION_PATH = "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json";
+const GOVERNING_DECISION_ID = "OK-TRAFFICKING-SURVIVOR-22-OS-19C";
+const KEEP_BLOCK_BEGIN = "[[KEEP_BLOCK_BEGIN]]";
+const KEEP_BLOCK_END = "[[KEEP_BLOCK_END]]";
+
+function resolveGoverningDecision() {
+  const abs = path.join(ROOT, GOVERNING_DECISION_PATH);
+  assert.ok(fs.existsSync(abs), `${GOVERNING_DECISION_PATH}: governing decision is missing`);
+  const bytes = fs.readFileSync(abs);
+  const root = JSON.parse(bytes.toString("utf8"));
+  const decision = (root.decisions ?? []).find((row) => row.decisionId === GOVERNING_DECISION_ID);
+  assert.ok(decision, `${GOVERNING_DECISION_ID}: governing decision not found`);
+  assert.equal(decision.disposition, "LEGAL_CLEAR", `${GOVERNING_DECISION_ID}: disposition must remain LEGAL_CLEAR`);
+  assert.ok((decision.familyIds ?? []).includes(SPEC.familyId), `${GOVERNING_DECISION_ID}: family binding is missing`);
+  assert.match(decision.authority, /28 O\.S\. Section 152\(H\)/);
+  assert.match(decision.bindingProductRule, /qualifying prostitution-related charge\/conviction relief resulting from human trafficking/);
+  return {
+    decisionId: decision.decisionId,
+    disposition: decision.disposition,
+    bindingProductRule: decision.bindingProductRule,
+    authority: decision.authority,
+    path: GOVERNING_DECISION_PATH,
+    sha256: crypto.createHash("sha256").update(bytes).digest("hex"),
+    byteLength: bytes.length
+  };
+}
+
+/* ---- committed-record binding ------------------------------------------------ *
+ * This family binds no Master Library binary: its authority is a set of
+ * COMMITTED repository records named in SPEC.records. Each is bound by exact
+ * SHA-256 at build time, and each anchor string is a statement this build
+ * RELIES ON, re-read from the committed bytes before anything is composed. The
+ * build refuses if a record is missing or an anchor is no longer there.
+ */
+function resolveRecords() {
+  const resolved = [];
+  const failures = [];
+  for (const rec of SPEC.records) {
+    const abs = path.join(ROOT, rec.path);
+    if (!fs.existsSync(abs)) {
+      failures.push({ recordId: rec.recordId, path: rec.path, why: "the committed record does not exist at this path" });
+      continue;
+    }
+    const bytes = fs.readFileSync(abs);
+    const text = bytes.toString("utf8");
+    const missing = (rec.mustContain ?? []).filter((a) => !text.includes(a));
+    if (missing.length > 0) {
+      failures.push({ recordId: rec.recordId, path: rec.path, why: `the committed record no longer contains ${missing.length} anchor statement(s) this build relies on`, missingAnchors: missing });
+      continue;
+    }
+    resolved.push({
+      recordId: rec.recordId, path: rec.path, role: rec.role,
+      sha256: crypto.createHash("sha256").update(bytes).digest("hex"),
+      byteLength: bytes.length, anchorsVerified: (rec.mustContain ?? []).length
+    });
+  }
+  return { resolved, failures };
+}
+
+/* ---- deterministic composed-page rendering ---------------------------------- */
+/* Source markup a PDF page cannot render is removed before the normalisations
+ * below, on the same footing as the characters they normalise away: emphasis
+ * delimiters are markdown in participant-instructions.md and four black
+ * asterisks on a composed page. The one shared rule lives in
+ * scripts/rcap-custom-pleading/composed-page-markdown.mjs, imported rather than
+ * copied, because a page printing markup is a defect of the renderer and not of
+ * any one family. A string carrying no closed emphasis pair passes through
+ * unchanged, so no family whose pages carry no markup moves a byte. */
+function sanitizePdfText(text) {
+  return stripMarkdownEmphasis(text).replaceAll(" ", " ").replaceAll("‑", "-").replaceAll("–", "-")
+    .replaceAll("—", "-").replaceAll("−", "-").replaceAll("’", "'")
+    .replaceAll("‘", "'").replaceAll("“", '"').replaceAll("”", '"')
+    .replaceAll("§", "Sec. ").replaceAll("…", "...").replaceAll("′", "'");
+}
+
+async function renderComposedPdf(fullText, title) {
+  const pdf = await PDFDocument.create();
+  stampDeterministic(pdf);
+  pdf.setTitle(title);
+  pdf.setProducer("RCAP census-v1 artifact-only renderer");
+  pdf.setCreator("RCAP evidence build");
+  const font = await pdf.embedFont(StandardFonts.TimesRoman);
+  const fontSize = 11, lineHeight = 14.5, width = 612, height = 792, margin = 72;
+  const maxWidth = width - 2 * margin;
+  const pageTop = height - margin;
+  const fits = (s) => font.widthOfTextAtSize(s, fontSize) <= maxWidth;
+  /*
+   * A token with no space in it still has break points of its own.
+   *
+   * This packet cites the Collateral Consequences Resource Center profile as a
+   * bare URL, and the URL is one whitespace-free token wider than the text
+   * column. The renderer used to chop it at whichever character first reached
+   * the margin, so page 1 of both fixtures printed
+   * "...-pardon-expungeme" and opened the next line "nt-sealing/")": a citation
+   * a participant cannot read off the page, cannot type, and cannot recognise
+   * as one address.
+   *
+   * It now breaks at the token's own separators -- colon, underscore, slash,
+   * dot, hyphen -- so each row ends on a boundary the reader already knows how
+   * to read across. A run carrying no separator at all is still hard-split,
+   * because dropping it is not an option, but that is now the last resort
+   * rather than the first move.
+   */
+  const splitToken = (token) => {
+    const chunks = [];
+    let current = "";
+    const flushOversized = () => {
+      while (!fits(current)) {
+        let cut = current.length - 1;
+        while (cut > 1 && !fits(current.slice(0, cut))) cut--;
+        chunks.push(current.slice(0, cut));
+        current = current.slice(cut);
+      }
+    };
+    for (const piece of token.split(/(?<=[:_/.-])/)) {
+      if (current && !fits(`${current}${piece}`)) { chunks.push(current); current = piece; }
+      else current += piece;
+      flushOversized();
+    }
+    if (current) chunks.push(current);
+    return chunks;
+  };
+  const wrap = (line) => {
+    if (!line) return [""];
+    const words = line.split(/\s+/).flatMap((w) => fits(w) ? [w] : splitToken(w));
+    const rows = []; let current = "";
+    for (const w of words) {
+      const candidate = current ? `${current} ${w}` : w;
+      if (fits(candidate)) current = candidate;
+      else { if (current) rows.push(current); current = w; }
+    }
+    if (current) rows.push(current);
+    return rows;
+  };
+  /*
+   * Keep markers are family-local layout controls. They never render. A marked
+   * question or section moves to the next page only when the complete marked
+   * group fits there but not in the remaining slots. The existing isolated-line
+   * safeguard still collapses only ungrouped blank separators.
+   */
+  const rows = [];
+  let keepGroup = null;
+  let keepSequence = 0;
+  for (const raw of sanitizePdfText(fullText).split("\n")) {
+    if (raw === KEEP_BLOCK_BEGIN) {
+      assert.equal(keepGroup, null, "keep blocks may not nest");
+      keepGroup = `keep-${++keepSequence}`;
+      continue;
+    }
+    if (raw === KEEP_BLOCK_END) {
+      assert.notEqual(keepGroup, null, "keep block end requires an open group");
+      keepGroup = null;
+      continue;
+    }
+    for (const text of wrap(raw)) rows.push({ text, keepGroup });
+  }
+  assert.equal(keepGroup, null, "every keep block must close");
+
+  const simulate = (collapsed) => {
+    const placement = [];
+    const drawnPerPage = [];
+    const startedGroups = new Set();
+    let y = pageTop, pageIndex = 0;
+    for (let i = 0; i < rows.length; i += 1) {
+      if (collapsed.has(i)) continue;
+      const group = rows[i].keepGroup;
+      if (group && !startedGroups.has(group)) {
+        const groupRows = rows.filter((row, index) => row.keepGroup === group && !collapsed.has(index)).length;
+        const slotsRemaining = Math.floor((y - margin) / lineHeight) + 1;
+        const fullPageSlots = Math.floor((pageTop - margin) / lineHeight) + 1;
+        if (groupRows <= fullPageSlots && groupRows > slotsRemaining) {
+          pageIndex += 1;
+          y = pageTop;
+        }
+        startedGroups.add(group);
+      }
+      if (y < margin) { pageIndex += 1; y = pageTop; }
+      if (rows[i].text) {
+        placement.push({ row: i, page: pageIndex, y });
+        drawnPerPage[pageIndex] = (drawnPerPage[pageIndex] ?? 0) + 1;
+      }
+      y -= lineHeight;
+    }
+    return { placement, drawnPerPage };
+  };
+
+  const collapsed = new Set();
+  let plan = simulate(collapsed);
+  for (let pass = 0; pass < 8; pass += 1) {
+    const lonely = plan.drawnPerPage.findIndex((count, index) => index > 0 && count === 1);
+    if (lonely < 0) break;
+    const first = plan.placement.find((entry) => entry.page === lonely);
+    let before = first.row - 1;
+    let collapsedAny = false;
+    while (before >= 0 && rows[before].text === "" && rows[before].keepGroup === null) {
+      if (!collapsed.has(before)) { collapsed.add(before); collapsedAny = true; }
+      before -= 1;
+    }
+    if (!collapsedAny) break;
+    plan = simulate(collapsed);
+  }
+
+  const pages = [pdf.addPage([width, height])];
+  for (const entry of plan.placement) {
+    while (pages.length <= entry.page) pages.push(pdf.addPage([width, height]));
+    pages[entry.page].drawText(rows[entry.row].text, { x: margin, y: entry.y, size: fontSize, font, color: rgb(0, 0, 0) });
+  }
+  return Buffer.from(await pdf.save({ useObjectStreams: false, updateMetadata: false }));
+}
+
+/* ---- the composed page, rendered from this family's declared lines ----------- *
+ * A body line is plain text with three substitutions: {{factId}} writes a fact
+ * the platform holds, {{DOTS}} prints a full-width dotted blank, and
+ * {{DOTS:n}} prints one n characters wide. Nothing else is interpolated, so a
+ * page can never carry a value the fact table does not hold.
+ */
+function composedBody(componentId, facts) {
+  const c = COMPONENT[componentId];
+  const lines = [c.title.toUpperCase(), ""];
+  for (const raw of c.body) {
+    lines.push(String(raw).replace(/\{\{([A-Za-z0-9_.:]+)\}\}/g, (_m, token) => {
+      if (token === "DOTS") return DOTS();
+      if (token.startsWith("DOTS:")) return DOTS(Number(token.slice(5)));
+      const value = facts[token];
+      assert.ok(value !== undefined, `${componentId}: the page interpolates ${token}, which the fixture does not hold`);
+      return String(value);
+    }));
+  }
+  return lines.join("\n");
+}
+
+/* ---- field-map helpers, in the maps-with-canonical-and-boundary shape -------- */
+function mapHelpers(componentId) {
+  const base = (id, label) => ({
+    field: `${componentId}.${id}`, fieldName: `${componentId}.${id}`, page: 1,
+    printedLabel: label, printedLine: label,
+    effectiveLabel: label, regionHeading: label, sectionHeading: null,
+    rectBasis: "composed_document_authored_by_this_build"
+  });
+  return {
+    write: (id, label, factId) => ({ ...base(id, label), factId, kind: "composed_text", document: componentId }),
+    protectedBlank: (id, label, why) => ({
+      ...base(id, label),
+      reason: "signature or date field; never prefilled by this build",
+      category: SIGNATURE, completenessClass: SIGNATURE, class: SIGNATURE,
+      requiredBeforeFiling: false, document: componentId, why
+    }),
+    clerkBlank: (id, label, why) => ({
+      ...base(id, label),
+      reason: "court, clerk, prosecutor, agency, or hearing field; the court completes it",
+      category: COURT_OWNED, completenessClass: COURT_OWNED, class: COURT_OWNED,
+      requiredBeforeFiling: false, document: componentId, why
+    }),
+    rbf: (id, label, what, why) => ({
+      ...base(id, label),
+      reason: `the participant supplies this before filing: ${what}`,
+      category: null, completenessClass: null, class: null,
+      disposition: "REQUIRED_BEFORE_FILING", completenessDisposition: "REQUIRED_BEFORE_FILING",
+      requiredBeforeFiling: true, identity: `${componentId} field ${id}`, factId: null, routeDetermined: false,
+      document: componentId, why, participantMustSupply: what
+    })
+  };
+}
+
+function composedMap(componentId) {
+  const c = COMPONENT[componentId];
+  const h = mapHelpers(componentId);
+  const writes = (c.writes ?? []).map((w) => h.write(w.id, w.label, w.factId));
+  const refusals = (c.blanks ?? []).map((b) => {
+    if (b.kind === "rbf") return h.rbf(b.id, b.label, b.supply, b.why);
+    if (b.kind === "protected") return h.protectedBlank(b.id, b.label, b.why);
+    if (b.kind === "court") return h.clerkBlank(b.id, b.label, b.why);
+    throw new Error(`${componentId}.${b.id}: unknown blank kind ${b.kind}`);
+  });
+  return {
+    formNumber: componentId, documentId: componentId, documentRole: componentId,
+    documentPolicy: {
+      mode: "participant", captionOnly: false, documentAcceptsFill: true,
+      routeKey: c.routeKey,
+      ...(c.condition ? { conditional: true, conditionDescription: c.condition } : {})
+    },
+    structuralClass: "composed_document",
+    composedFrom: SPEC.composedFromNote,
+    explicitMappings: {}, roleRefusals: [], selectionControls: [],
+    canonicalWrites: writes, canonicalRefusals: refusals,
+    boundaryWrites: writes, boundaryRefusals: refusals
+  };
+}
+
+/* ---- byte proof of the composed writes --------------------------------------- *
+ * Read back from the saved packet bytes, never from this builder's own intent:
+ * each written fact value must be found in the extracted text of the pages the
+ * page manifest assigns to its component. Wrapped lines are joined on spaces
+ * before matching, because the renderer wraps at word boundaries.
+ */
+async function byteProof(packetBytes, pageManifest, maps, facts, fixtureName) {
+  const doc = await PDFDocument.load(packetBytes, { ignoreEncryption: true, updateMetadata: false });
+  const pages = doc.getPages();
+  assert.equal(pages.length, pageManifest.length, "the page manifest must describe every page of the packet");
+  const textOfPage = pages.map((p) => groupIntoLines(extractTextItems(p)).map((l) => l.text).join(" ").replace(/\s+/g, " "));
+  /* No delivered page may print markup. Read from the saved bytes, so it holds
+   * whatever the markup arrived from -- a component body, a fixture value, or a
+   * future edit to either. */
+  assertNoMarkdownDelimitersOnDeliveredPages(textOfPage, fixtureName);
+  const textOfComponent = new Map();
+  for (const [i, m] of pageManifest.entries()) {
+    textOfComponent.set(m.component, `${textOfComponent.get(m.component) ?? ""} ${textOfPage[i]}`);
+  }
+  const actualWrites = [];
+  let glyphs = 0;
+  for (const map of maps) {
+    const componentText = String(textOfComponent.get(map.formNumber) ?? "").replace(/\s+/g, " ");
+    for (const w of map.canonicalWrites ?? []) {
+      const value = sanitizePdfText(String(facts[w.factId] ?? ""));
+      assert.ok(value.length > 0, `${map.formNumber}/${w.field}: no fixture value for ${w.factId}`);
+      const found = componentText.includes(value);
+      assert.ok(found, `${fixtureName} ${map.formNumber}/${w.field}: the value bound to ${w.factId} is not readable from the output bytes`);
+      glyphs += value.replace(/\s+/g, "").length;
+      actualWrites.push({
+        field: w.field, document: map.formNumber, factId: w.factId,
+        expected: value, foundInOutputBytes: true,
+        proof: "value read back from the extracted text of the component's own pages in the saved packet bytes"
+      });
+    }
+  }
+  return { actualWrites, glyphs, pagesRead: pages.length };
+}
+
+/* ---- the builder's own count of the nine counters ----------------------------- */
+function countCompleteness(maps, writeProofs, instructionsText) {
+  const counters = Object.fromEntries(PASS_COUNTERS.map((c) => [c, 0]));
+  const findings = [];
+  const note = (counter, detail) => { counters[counter] += 1; findings.push({ counter, ...detail }); };
+
+  const row = (r) => ({
+    id: r.field, name: r.fieldName ?? r.field, label: r.effectiveLabel ?? "", reason: r.reason ?? "",
+    refusalClass: r.category ?? null, page: r.page ?? null, document: r.document ?? null,
+    factId: r.factId ?? null, isSelectionControl: false,
+    declared: {
+      disposition: r.completenessDisposition ?? null,
+      ...(Object.hasOwn(r, "requiredBeforeFiling") ? { requiredBeforeFiling: r.requiredBeforeFiling === true } : {}),
+      ...(Object.hasOwn(r, "routeDetermined") ? { routeDetermined: r.routeDetermined === true } : {}),
+      identity: r.identity ?? null, factId: r.factId ?? null
+    }
+  });
+
+  const writes = [];
+  const blanks = [];
+  for (const m of maps) {
+    for (const w of m.canonicalWrites ?? []) writes.push(row(w));
+    for (const r of m.canonicalRefusals ?? []) blanks.push(row(r));
+  }
+
+  const availableFacts = new Set(writes.map((w) => w.factId).filter(Boolean));
+  const normLabel = (x) => String(x ?? "").toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+  const writtenInDocument = new Map();
+  for (const w of writes) {
+    if (!writtenInDocument.has(w.document)) writtenInDocument.set(w.document, new Set());
+    for (const k of [normLabel(w.label), normLabel(w.name)]) if (k.length >= 4) writtenInDocument.get(w.document).add(k);
+  }
+
+  const ledger = [];
+  for (const blank of blanks) {
+    const here = writtenInDocument.get(blank.document) ?? new Set();
+    const declared = {
+      ...blank.declared,
+      factAvailable: (blank.declared?.factId ? availableFacts.has(String(blank.declared.factId)) : false)
+        || here.has(normLabel(blank.label)) || here.has(normLabel(blank.name))
+    };
+    const verdict = classifyBlank(blank, blank.reason, blank.refusalClass, declared);
+    ledger.push({ ...blank, ...verdict });
+    const spec = BLANK_DISPOSITIONS[verdict.disposition];
+    if (spec.allowed) continue;
+    if (verdict.disposition === "KNOWN_FACT_NOT_WRITTEN") note("knownRequiredFieldsMissing", { field: blank.id, label: blank.label, basis: verdict.basis });
+    else if (verdict.disposition === "ROUTE_OPTION_NOT_SELECTED") note("requiredOptionsMissing", { field: blank.id, label: blank.label, basis: verdict.basis });
+    else note("unclassifiedBlanks", { field: blank.id, label: blank.label, basis: verdict.basis });
+  }
+
+  const hay = String(instructionsText ?? "").toLowerCase();
+  for (const b of ledger.filter((x) => x.disposition === "REQUIRED_BEFORE_FILING")) {
+    const needles = [b.label, b.id, b.declared?.identity].map((x) => String(x ?? "").trim()).filter((x) => x.length >= 3);
+    if (needles.some((n) => hay.includes(n.toLowerCase().slice(0, 60)))) continue;
+    note("requiredFactsNotCollected", { field: b.id, label: b.label, why: "classified required-before-filing and not named in participant-instructions.md" });
+  }
+
+  const rows = new Map();
+  for (const f of [...writes.map((w) => ({ ...w, written: true })), ...blanks.map((b) => ({ ...b, written: false }))]) {
+    const key = rowKeyOf(f);
+    if (!key) continue;
+    if (!rows.has(key)) rows.set(key, []);
+    rows.get(key).push(f);
+  }
+  for (const [key, cells] of rows) {
+    if (!cells.some((c) => c.written)) continue;
+    const missing = cells.filter((c) => !c.written && classifyField(c.label, false).requirement === "REQUIRED_KNOWN");
+    if (missing.length > 0) note("incompleteRows", { row: key, missingCells: missing.map((m) => m.label).slice(0, 6) });
+  }
+
+  for (const w of writes) {
+    if (classifyField(w.label, false).requirement === "PROTECTED") {
+      note("protectedWrites", { field: w.id, label: w.label, why: "a protected field was written" });
+    }
+  }
+
+  for (const p of writeProofs) {
+    const visible = (p.addedGlyphsReadFromOutputBytes ?? 0) + (p.flattenedWidgetAppearancesReadFromOutputBytes ?? 0);
+    if ((p.valuesReportedByFinalizer ?? 0) > 0 && visible === 0) note("invisibleWrites", { fixture: p.fixture, reportedByFinalizer: p.valuesReportedByFinalizer });
+    if ((p.nonWhitespaceGlyphsOutsideMeasuredWriteBoxes ?? 0) > 0) note("visualDefects", { fixture: p.fixture, glyphsOutside: p.nonWhitespaceGlyphsOutsideMeasuredWriteBoxes });
+  }
+
+  return { counters, findings, ledger, terminalFields: writes.length + blanks.length, written: writes.length, blank: blanks.length };
+}
+
+/* ---- outputs ------------------------------------------------------------------- */
+function writeJson(rel, value) {
+  const absolute = path.join(ROOT, rel);
+  fs.mkdirSync(path.dirname(absolute), { recursive: true });
+  /* A hand-written identityRefresh on a source pin this build did not move
+   * survives the rebuild; one whose source moved again does not. See
+   * scripts/rcap-packet-completeness/identity-refresh.mjs. */
+  fs.writeFileSync(absolute, `${JSON.stringify(preserveIdentityRefresh(fs, absolute, value), null, 2)}\n`);
+}
+
+/*
+ * The required-before-filing list, in the order the participant meets the
+ * blanks: component by component, and within a component in the order the
+ * committed record declares the facts. Sorting these alphabetically would print
+ * item C10 above item C2 on a page where they are numbered in sequence.
+ */
+function requiredBeforeFilingItems(maps) {
+  const order = Object.fromEntries(COMPONENT_IDS.map((c, i) => [c, i]));
+  return maps.flatMap((m) => (m.canonicalRefusals ?? [])
+    .filter((r) => r.requiredBeforeFiling === true)
+    .map((r, i) => ({
+      document: m.formNumber, field: r.field, page: r.page,
+      printedContext: r.printedLabel, disclosureLabel: r.effectiveLabel,
+      identity: r.identity, why: r.why, participantMustSupply: r.participantMustSupply,
+      declarationIndex: i
+    })))
+    .sort((a, b) => (order[a.document] - order[b.document]) || (a.declarationIndex - b.declarationIndex))
+    .map(({ declarationIndex, ...rest }) => rest);
+}
+
+function participantInstructions(maps, rbf) {
+  const byDoc = new Map();
+  for (const item of rbf) byDoc.set(item.document, [...(byDoc.get(item.document) ?? []), item]);
+  const out = [];
+  out.push(`# What you must do before you file — ${SPEC.routeName}`, "");
+  out.push(`This packet is prepared for **${SPEC.legalName}**.`, "");
+  for (const p of SPEC.instructionsIntro) out.push(p, "");
+
+  if (SPEC.instrumentChoice) {
+    out.push(`## ${SPEC.instrumentChoice.heading}`, "");
+    for (const p of SPEC.instrumentChoice.intro) out.push(p, "");
+    out.push("| Instrument | When it is yours |", "| --- | --- |");
+    for (const [instr, when] of SPEC.instrumentChoice.rows) out.push(`| ${instr} | ${when} |`);
+    out.push("");
+    for (const p of SPEC.instrumentChoice.footnotes ?? []) out.push(p, "");
+  }
+
+  out.push("## What is in this packet", "");
+  out.push("| Component | What it is |", "| --- | --- |");
+  for (const c of SPEC.components) out.push(`| ${c.title} | ${c.description} |`);
+  out.push("");
+
+  out.push("## Where this is filed, what it costs, and who must be served", "");
+  out.push("| Question | What you need to know |", "| --- | --- |");
+  for (const [q, answer] of SPEC.obligationTable) out.push(`| ${q} | ${answer} |`);
+  out.push("");
+
+  if ((SPEC.recordSays ?? []).length > 0) {
+    out.push("## What the committed record says you must know", "");
+    out.push("Each of these is carried here in the words of the committed record it comes from, because a participant who does not know it may file the wrong thing, or file something they did not need to file at all.", "");
+    for (const [where, what] of SPEC.recordSays) out.push(`- **${where}** — ${what}`);
+    out.push("");
+  }
+
+  if ((SPEC.documentsToObtain ?? []).length > 0) {
+    /*
+     * On three families in this lane the committed records say the participant
+     * files nothing at all, and a heading reading "before filing" would tell
+     * them the opposite of what the rest of the packet says. The heading is
+     * therefore the family's to state; every other family keeps the default.
+     */
+    out.push(`## ${SPEC.documentsHeading ?? "Documents you must obtain before filing"}`, "");
+    out.push("| Document | Where you get it |", "| --- | --- |");
+    for (const [doc, where] of SPEC.documentsToObtain) out.push(`| ${doc} | ${where} |`);
+    out.push("");
+  }
+
+  out.push("## The items you must supply", "");
+  out.push(SPEC.requiredItemsIntro ?? "Each is printed on its page as a labelled dotted blank. Fill every one that belongs to the page you are using, from the record itself, never from memory.", "");
+  for (const [doc, items] of byDoc) {
+    out.push(`### ${COMPONENT[doc]?.title ?? "Document"}`, "");
+    out.push("| The blank on the document | What to write |", "| --- | --- |");
+    for (const i of items) out.push(`| ${i.disclosureLabel} | ${i.participantMustSupply} |`);
+    out.push("");
+  }
+
+  out.push("## What you do, in order", "");
+  for (const [i, s] of SPEC.steps.entries()) out.push(`${i + 1}. ${s}`);
+  out.push("");
+
+  out.push("## Things deliberately left blank", "");
+  for (const b of SPEC.deliberatelyBlank) out.push(`- ${b}`);
+  out.push("");
+
+  if ((SPEC.notTold ?? []).length > 0) {
+    out.push("## What this packet does not tell you", "");
+    for (const n of SPEC.notTold) out.push(`- ${n}`);
+    out.push("");
+  }
+
+  out.push("## When to stop and get help instead of filing", "");
+  for (const s of SPEC.stopConditions) out.push(`- ${s}`);
+  out.push("");
+
+  out.push("## What this packet is not", "");
+  out.push(SPEC.whatThisIsNot, "");
+  return `${out.join("\n").replace(/\n+$/, "")}\n`;
+}
+
+/* ---- the entry point ------------------------------------------------------------ */
+export async function runFamily(argv = process.argv.slice(2)) {
+  const checkOnly = argv.includes("--check");
+  const skipRaster = argv.includes("--no-raster");
+
+  const governingDecision = resolveGoverningDecision();
+  const { resolved, failures } = resolveRecords();
+  if (failures.length > 0) {
+    return {
+      familyId: SPEC.familyId, status: "BLOCKED_SOURCE", failedSourceIdentities: failures,
+      why: "a committed record this family composes from is missing or no longer carries an anchor statement, so nothing may be composed against it",
+      overlayDirectoryTouched: false
+    };
+  }
+
+  if (checkOnly) {
+    const maps = COMPONENT_IDS.map((c) => composedMap(c));
+    return {
+      familyId: SPEC.familyId, status: "CHECK_ONLY",
+      recordsBound: resolved.length,
+      governingDecisionBound: governingDecision.decisionId,
+      anchorsVerified: resolved.reduce((n, r) => n + r.anchorsVerified, 0),
+      components: COMPONENT_IDS,
+      writes: maps.reduce((n, m) => n + m.canonicalWrites.length, 0),
+      blanks: maps.reduce((n, m) => n + m.canonicalRefusals.length, 0)
+    };
+  }
+
+  fs.mkdirSync(path.join(ROOT, OUT, "fixtures"), { recursive: true });
+  fs.mkdirSync(path.join(ROOT, OUT, "reports"), { recursive: true });
+
+  const maps = COMPONENT_IDS.map((c) => composedMap(c));
+  const artifacts = [];
+  const writeProofs = [];
+  const rasterPages = [];
+  const pdfsDeclared = [];
+
+  for (const fixtureName of ["canonical", "boundary"]) {
+    const facts = SPEC.fixtures[fixtureName];
+    const packet = await PDFDocument.create();
+    stampDeterministic(packet);
+    packet.setTitle(`${SPEC.legalName} — ${fixtureName} fixture`);
+    const pageManifest = [];
+    const documents = [];
+
+    for (const componentId of COMPONENT_IDS) {
+      const body = composedBody(componentId, facts);
+      assert.ok(body.includes(facts["participant.full_legal_name"]),
+        `${componentId}: the composed page must carry the participant's name`);
+      const composedBytes = await renderComposedPdf(body, COMPONENT[componentId].title);
+      const composed = await PDFDocument.load(composedBytes, { ignoreEncryption: true, updateMetadata: false });
+      for (const [i, p] of (await packet.copyPages(composed, composed.getPageIndices())).entries()) {
+        packet.addPage(p);
+        pageManifest.push({ packetPage: packet.getPageCount(), component: componentId, documentId: componentId, sourcePage: i + 1, sourceSha256: null });
+      }
+      documents.push(componentId);
+    }
+
+    const packetBytes = Buffer.from(await packet.save({ useObjectStreams: false, updateMetadata: false }));
+    const file = `${OUT}/fixtures/${fixtureName}.pdf`;
+    fs.writeFileSync(path.join(ROOT, file), packetBytes);
+
+    const proof = await byteProof(packetBytes, pageManifest, maps, facts, fixtureName);
+    writeProofs.push({
+      fixture: fixtureName,
+      proofMethod: "every written fact value read back from the extracted text of its component's own pages in the saved packet bytes",
+      valuesReportedByFinalizer: proof.actualWrites.length,
+      addedGlyphsReadFromOutputBytes: proof.glyphs,
+      flattenedWidgetAppearancesReadFromOutputBytes: 0,
+      nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: 0,
+      refusedFieldsWithInk: [],
+      actualWrites: proof.actualWrites
+    });
+
+    const sha256 = crypto.createHash("sha256").update(packetBytes).digest("hex");
+    /*
+     * Per-page ink, read from the saved packet bytes.
+     *
+     * This is what the orphan-page defect is measured on: a page carrying one
+     * drawn run and 66 glyphs is a page whose only ink is the route footer, and
+     * counting components or trusting the page total says nothing about it.
+     */
+    const pageInk = (await PDFDocument.load(packetBytes, { updateMetadata: false })).getPages()
+      .map((pg) => extractTextItems(pg).filter((it) => /\S/.test(it.text)).length);
+    assert.ok(pageInk.every((count) => count > 1),
+      `${fixtureName}: page(s) ${pageInk.map((c, i) => (c > 1 ? null : i + 1)).filter(Boolean).join(", ")} carry a single drawn line`);
+    artifacts.push({
+      fixture: fixtureName, file, sha256,
+      byteLength: packetBytes.length, pageCount: packet.getPageCount(), pageManifest,
+      drawnRunsPerPage: pageInk,
+      documents, components: COMPONENT_IDS
+    });
+    pdfsDeclared.push({
+      file, documentId: "assembled_packet", role: "assembled_packet_of_composed_pleadings",
+      fixture: fixtureName, sha256, byteLength: packetBytes.length, pageCount: packet.getPageCount()
+    });
+
+    if (!skipRaster) {
+      const { rasterizePageCalibrated } = await import("./raster/pdf-page-raster.mjs");
+      const rasterDir = `${OUT}/raster/${fixtureName}`;
+      fs.mkdirSync(path.join(ROOT, rasterDir), { recursive: true });
+      for (let i = 0; i < packet.getPageCount(); i += 1) {
+        const stage = path.join(ROOT, rasterDir, `page-${String(i + 1).padStart(2, "0")}`);
+        const render = await rasterizePageCalibrated({ file: path.join(ROOT, file), pageIndex: i, keep: stage });
+        for (const scrap of ["page.pdf", "page-calibration.pdf", "page-calibration.png"]) {
+          const f = path.join(stage, scrap);
+          if (fs.existsSync(f)) fs.unlinkSync(f);
+        }
+        const png = path.join(stage, "page.png");
+        rasterPages.push({
+          fixture: fixtureName, page: i + 1,
+          file: `${rasterDir}/page-${String(i + 1).padStart(2, "0")}/page.png`,
+          component: pageManifest[i]?.component ?? null,
+          pageWidthPt: render.pageWidth, pageHeightPt: render.pageHeight,
+          pixelsPerPoint: Number(render.pxPerPt.toFixed(4)),
+          calibrationResidualPx: render.calibrationResidualPx,
+          paperBounds: render.paper,
+          engine: "chromium_calibrated_scripts_raster_pdf_page_raster",
+          sha256: crypto.createHash("sha256").update(fs.readFileSync(png)).digest("hex")
+        });
+      }
+    }
+  }
+
+  const rbf = requiredBeforeFilingItems(maps);
+  const instructionsText = participantInstructions(maps, rbf);
+  fs.writeFileSync(path.join(ROOT, OUT, "participant-instructions.md"), instructionsText);
+
+  writeJson(`${OUT}/source-receipt.json`, {
+    schemaVersion: "rcap-family-source-receipt/v1", familyId: SPEC.familyId, worklistGroupId: SPEC.worklistGroupId,
+    jurisdiction: SPEC.jurisdiction, implementationStrategy: "custom_pleading",
+    custodyClass: "CUSTOM_PLEADING_FROM_CODIFIED_TEXT", acquisitionCommissioned: false,
+    bindingMethod: "committed repository records bound by exact SHA-256 at build time, with every relied-on statement re-read from the committed bytes as an anchor before composing",
+    routeKeys: SPEC.routes.map((r) => r.routeKey),
+    statutoryAuthority: SPEC.statutes, legalName: SPEC.legalName,
+    allSourcesExact: true,
+    formIdentityNote: SPEC.formIdentityNote,
+    /* Bound as committedRecords, not documents: these are the AUTHORITY this
+     * family composes from, not documents of the packet, and no rendered
+     * artifact should be expected to carry them. */
+    committedRecords: resolved.map((r) => ({
+      sourceIds: [`committed-record:${r.path}`], recordId: r.recordId,
+      pathInRepository: r.path, sha256: r.sha256, byteLength: r.byteLength,
+      instrumentKind: "committed_record_bound_as_authority",
+      role: r.role,
+      anchorStatementsVerified: r.anchorsVerified
+    })),
+    composedComponentsAuthoredByThisBuild: COMPONENT_IDS,
+    governingLegalDecision: governingDecision,
+    conditionalParticipantInputHandling: {
+      condition: "participant cannot pay the current court filing cost and chooses to request in-forma-pauperis status",
+      authority: "28 O.S. § 152(H)",
+      statusInFixtures: "NOT_SELECTED_OR_FABRICATED",
+      participantMustProvide: ["truthful financial facts requested by the current clerk-provided affidavit or application", "supporting documents requested by that procedure"],
+      participantMustObtain: "the current affidavit or application and local filing instructions from the district court clerk",
+      courtOwns: "the decision whether in-forma-pauperis status is granted"
+    },
+    sourceBinaryCommitted: false, commercialRoutesOpened: 0,
+    whatThisReceiptDoesNotEstablish: [
+      "that any output is approved for participant delivery",
+      "that any record is eligible for the relief this family composes for",
+      ...(SPEC.receiptDoesNotEstablish ?? [])
+    ]
+  });
+
+  writeJson(`${OUT}/production-field-map.json`, {
+    schemaVersion: "rcap-official-form-field-map/v1-census-v1", familyId: SPEC.familyId,
+    routeKeys: SPEC.routes.map((r) => r.routeKey), renderStrategy: "composed_pleading",
+    jurisdiction: SPEC.jurisdiction, statutes: SPEC.statutes, legalName: SPEC.legalName,
+    implementationStrategy: "custom_pleading",
+    officialForm: null,
+    boundReferenceForm: null,
+    boundReferenceRole: "none — this family composes from committed records; no official binary is bound and none is included",
+    componentSet: COMPONENT_IDS,
+    componentConditions: Object.fromEntries(SPEC.components.filter((c) => c.condition).map((c) => [c.id, c.condition])),
+    componentRoutes: Object.fromEntries(SPEC.components.map((c) => [c.id, c.routeKey])),
+    dispositionVocabulary: [SIGNATURE, COURT_OWNED],
+    routeSelectionsMade: SPEC.routeSelectionsMade ?? [],
+    routeSelectionNote: SPEC.routeSelectionNote,
+    participantFacingObligations: SPEC.obligationTable.map(([question, answer]) => ({ question, answer })),
+    conditionalParticipantInputs: [{
+      id: "ifp_financial_facts_and_supporting_documents",
+      condition: "participant cannot pay the current court filing cost and chooses to request in-forma-pauperis status",
+      status: "CONDITIONAL_PARTICIPANT_INPUT_NOT_SELECTED_IN_FIXTURE",
+      participantMustObtain: "current 28 O.S. § 152(H) affidavit or application and local instructions from the district court clerk",
+      participantMustSupply: ["truthful financial facts the current procedure requests", "supporting documents the current procedure requests"],
+      protectedDecision: "the court decides whether the request is granted"
+    }],
+    requiredBeforeFilingCount: rbf.length,
+    requiredBeforeFiling: rbf,
+    maps, generationAllowed: false, runtimeSelectable: false, commercialRoutesOpened: 0
+  });
+
+  writeJson(`${OUT}/reports/rendered-artifacts.json`, {
+    schemaVersion: "rcap-rendered-artifacts/v1", familyId: SPEC.familyId,
+    renderedFresh: true, derivedFromBytes: true,
+    componentSet: COMPONENT_IDS,
+    componentConditions: Object.fromEntries(SPEC.components.filter((c) => c.condition).map((c) => [c.id, c.condition])),
+    boundReferenceSource: null,
+    pdfs: pdfsDeclared,
+    artifacts,
+    packets: artifacts.map((a) => ({ fixture: a.fixture, documents: a.documents })),
+    everyPageRastered: rasterPages.length === artifacts.reduce((n, a) => n + a.pageCount, 0),
+    byteDerivedHashes: true,
+    rasterEngine: skipRaster ? null : RASTER_ENGINE, rasterSkipped: skipRaster, rasterPages,
+    independentVerificationPending: true
+  });
+
+  writeJson(`${OUT}/reports/actual-writes.json`, {
+    schemaVersion: "rcap-actual-writes-byte-proof/v1", familyId: SPEC.familyId, derivedFromArtifactBytes: true,
+    note: "Every written fact value was read back from the extracted text of its component's own pages in the saved packet bytes, not from this builder's intent.",
+    documents: writeProofs,
+    artifacts: writeProofs.map((p) => ({
+      fixture: p.fixture,
+      valuesReportedByFinalizer: p.valuesReportedByFinalizer,
+      addedGlyphsReadFromOutputBytes: p.addedGlyphsReadFromOutputBytes,
+      flattenedWidgetAppearancesReadFromOutputBytes: p.flattenedWidgetAppearancesReadFromOutputBytes,
+      nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: p.nonWhitespaceGlyphsOutsideMeasuredWriteBoxes,
+      refusedFieldsWithInk: p.refusedFieldsWithInk
+    })),
+    blockingFindings: []
+  });
+
+  writeJson(`${OUT}/reports/blanks-left-for-the-participant.json`, {
+    schemaVersion: "rcap-blanks-left-for-the-participant/v1", familyId: SPEC.familyId,
+    requiredBeforeFiling: rbf,
+    protectedBlanks: maps.flatMap((m) => (m.canonicalRefusals ?? [])
+      .filter((r) => r.requiredBeforeFiling !== true)
+      .map((r) => ({ document: m.formNumber, field: r.field, label: r.effectiveLabel, refusalClass: r.category ?? null, why: r.why ?? r.reason }))),
+    everyRequiredBeforeFilingItemIsDisclosed: true,
+    disclosedIn: `${OUT}/participant-instructions.md`
+  });
+
+  const counted = countCompleteness(maps, writeProofs, instructionsText);
+  writeJson(`${OUT}/reports/completeness-counters.json`, {
+    schemaVersion: "rcap-builder-completeness-counters/v1", familyId: SPEC.familyId,
+    whatThisIs:
+      "The BUILDER's own count of the nine completeness counters, computed with the repository's own contract "
+      + "functions over this family's field map, byte proof and participant-instructions.md.",
+    whatThisIsNot:
+      "A verdict. This lane does not verify its own packets, and PASS_COMPLETE additionally requires a hash-bound "
+      + "RASTER_PASS from the central raster workflow.",
+    counters: counted.counters,
+    allNineZero: PASS_COUNTERS.every((c) => counted.counters[c] === 0),
+    findings: counted.findings,
+    blankDispositions: counted.ledger.reduce((acc, b) => { acc[b.disposition] = (acc[b.disposition] ?? 0) + 1; return acc; }, {})
+  });
+
+  writeJson(`${OUT}/build-status.json`, {
+    schemaVersion: "rcap-family-build-status/v1", familyId: SPEC.familyId,
+    buildStatus: "state_built", reviewStatus: "qa_review_pending", builtBy: SPEC.buildScript,
+    rasterEngine: skipRaster ? "not rendered in this run" : "chromium_calibrated", popplerUsed: false,
+    renderedArtifacts: artifacts.length, rasterPages: rasterPages.length,
+    rasterState: skipRaster ? "BUILT_RASTER_PENDING" : "RASTER_LOCAL_PENDING_CENTRAL",
+    independentVerificationStatus: "PENDING", selfVerified: false,
+    generationAllowed: false, runtimeSelectable: false,
+    commercialRoutesOpened: 0, productionTouched: false,
+    grantsNothing: "A rendered packet is review evidence. It authorizes no fulfillment and opens no commercial route."
+  });
+
+  writeJson(`${OUT}/build-findings.json`, {
+    schemaVersion: "rcap-family-build-findings/v1", familyId: SPEC.familyId, blocking: [],
+    findings: [...SPEC.buildFindings,
+      "The petitioner identity section and C8 evidence question are rendered as exact keep-together groups. Markers are consumed before PDF drawing and no marker is delivered.",
+      "Both current fixture PDFs changed in this repair; a fresh whole-family central raster and independent review are required."],
+    orphanPages: Object.fromEntries(artifacts.map((artifact) => [artifact.fixture,
+      artifact.drawnRunsPerPage.filter((count) => count <= 1).length])),
+    drawnRunsPerPage: Object.fromEntries(artifacts.map((artifact) => [artifact.fixture, artifact.drawnRunsPerPage]))
+  });
+
+  writeJson(`${OUT}/approval-request.json`, {
+    schemaVersion: "rcap-family-approval-request/v1", familyId: SPEC.familyId,
+    requested: "independent completeness verification, visual review and counsel review",
+    buildStatus: "state_built", status: "PENDING_INDEPENDENT_VERIFICATION",
+    approvedForLive: false, live: false, commercialRoutesOpened: 0,
+    counselQuestionsRaised: SPEC.counselQuestions,
+    mattersForTheReviewersAttention: SPEC.reviewersAttention
+  });
+
+  const allZero = PASS_COUNTERS.every((c) => counted.counters[c] === 0);
+  return {
+    familyId: SPEC.familyId,
+    status: allZero ? "COMPLETED" : "STOPPED",
+    ...(allZero ? {} : {
+      stopClass: "COMPLETENESS_COUNTER_NOT_ZERO",
+      nonZeroCounters: PASS_COUNTERS.filter((c) => counted.counters[c] > 0),
+      firstFindings: counted.findings.slice(0, 6)
+    }),
+    counters: counted.counters,
+    directory: OUT,
+    implementationStrategy: "custom_pleading",
+    recordsBound: resolved.map((r) => ({ recordId: r.recordId, sha256: r.sha256 })),
+    components: COMPONENT_IDS,
+    documents: COMPONENT_IDS,
+    writes: maps.reduce((n, m) => n + (m.canonicalWrites ?? []).length, 0),
+    requiredBeforeFiling: rbf.length,
+    artifactHashes: artifacts.map((a) => ({ fixture: a.fixture, packetSha256: a.sha256, pages: a.pageCount })),
+    rasterPages: rasterPages.length,
+    rasterState: skipRaster ? "BUILT_RASTER_PENDING" : "RASTER_LOCAL_PENDING_CENTRAL",
+    nineCountersZero: allZero,
+    packetsSelfVerified: 0, commercialRoutesOpened: 0, productionTouched: false
+  };
+}
+
+if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve(thisFile)) {
+  runFamily()
+    .then((r) => { console.log(JSON.stringify(r, null, 2)); })
+    .catch((e) => { console.error(e); process.exit(1); });
+}

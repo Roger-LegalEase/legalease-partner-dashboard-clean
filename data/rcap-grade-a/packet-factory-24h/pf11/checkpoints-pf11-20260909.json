@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "packet-factory-24h/worker-checkpoints/v1",
+  "assignmentId": "PF11",
+  "workerBranch": "pf11-20260909",
+  "whyThisFilenameAndNotCheckpointsJson": "data/rcap-grade-a/packet-factory-24h/pf11/checkpoints.json already holds a PF11 return from an earlier shift, for a different assignment. It is left byte-for-byte unchanged and this shift\u2019s checkpoint is written alongside it.",
+  "checkpointRule": "The brief asks for a checkpoint every five completed families or every two hours, whichever comes first. This assignment holds three families, so the five-family boundary is never reached and the assignment closes on one checkpoint covering all three.",
+  "checkpoints": [
+    {
+      "checkpoint": 1,
+      "writtenAt": "2026-09-09T13:42:27Z",
+      "familiesCovered": [
+        "ca-diversion-seal-set",
+        "nh_conviction_standard-set",
+        "nh_marijuana_annulment-set"
+      ],
+      "completed": [
+        "nh_conviction_standard-set",
+        "nh_marijuana_annulment-set"
+      ],
+      "stopped": [
+        {
+          "itemId": "ca-diversion-seal-set",
+          "stopClass": "BLOCKED_SOURCE"
+        }
+      ],
+      "rowsWritten": 3,
+      "artifactDigests": {
+        "nh_conviction_standard-set": {
+          "canonical": "bd2a4c278778d4b61cdee81110ecccfe2ba93a3f794e04f8a929ffdafcadebe3",
+          "boundary": "78908658fd0dc118ea0112c03bcec2bd0b6f7ab3a4c6b878bdaa8a1d6d91383f"
+        },
+        "nh_marijuana_annulment-set": {
+          "canonical": "23390b7f9cc6013681dfe40910233737a0410c2bb11454f6c551b4fd1abbbed8",
+          "boundary": "661ff0044bc4442c7c760fb39b4f5b6c83415b7dd42fc9f61dddcc8d00fd3f1e"
+        }
+      },
+      "overlayDirectoriesTouchedByAStoppedFamily": 0,
+      "packetsSelfVerified": 0,
+      "claimsReleased": 0,
+      "sharedCentralArtifactsRegenerated": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "rasterImagesRetained": false,
+      "note": "Both built families are BUILT_RASTER_PENDING. That is a factory workflow state and not a launch verdict: it zeroes nothing and waives nothing, and visualDefects records that nobody independent has looked rather than that there is nothing to see."
+    }
+  ]
+}

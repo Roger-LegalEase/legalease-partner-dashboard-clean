@@ -1,0 +1,73 @@
+{
+  "schemaVersion": "rcap-packet-factory-lane-return/v1",
+  "worker": "RT-1",
+  "workerBranch": "fable/rt1",
+  "lane": "FIX01",
+  "laneKind": "repair",
+  "baseSha": "2f9b289d8815cf11b498958c98a885f7800faf71",
+  "question": "Were exactly the failed proof obligations repaired, on exactly the families they failed on?",
+  "selfVerified": false,
+  "productionTouched": false,
+  "commercialRoutesOpened": 0,
+  "grantsNothing": "This is a repairer's return. It promotes no family, proves none, opens no commercial route and issues no verdict.",
+  "doesNotReplace": "data/rcap-grade-a/packet-factory-24h/fix01/rows.json, which is FABLE-FA's earlier return on this lane and is untouched.",
+  "authoritativeCohort": {
+    "rule": "families in MASTER_QUEUE.json at FAIL_REPAIR_REQUIRED whose live repair grant in claim-ledger.json is on FIX01",
+    "computedCount": 12,
+    "dispatchTableCount": 11,
+    "theExtraOne": "ca-1203-41-set, reopened by the base commit and not named in the dispatch table. It was worked and is reported below, not silently dropped."
+  },
+  "environment": {
+    "corpus": "private/ is not in a git worktree, so it was symlinked from the main checkout; MASTER_LIBRARY_SOURCE_DIR set as dispatched. Both custodies the families need (master_library, human_source_returns) resolve.",
+    "rasterizer": "Poppler pdftoppm 24.02.0. NOT the build that produced some committed PNGs: on wa_vac_homicide_victim_prostitution-set, twelve rasters came out byte-different from identical PDFs. Those were reverted rather than committed."
+  },
+  "repaired": [
+    { "familyId": "rcap-tx-custom-pleading", "failed": ["PROTECTED_FIELDS"], "answered": true, "released": true },
+    { "familyId": "ar-cs-possession-seal-set", "failed": ["SELF_HELP_STOP"], "answered": true, "released": true },
+    { "familyId": "az_marijuana_expungement_superior_court-set", "failed": ["counters only: knownRequiredFieldsMissing, unclassifiedBlanks, requiredOptionsMissing, requiredComponentsMissing"], "answered": true, "released": true },
+    { "familyId": "composed-treatment:obligation:runtime-only:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59", "failed": ["REQUIRED_BEFORE_FILING"], "answered": true, "released": true },
+    { "familyId": "ma-expunge-time-set", "failed": ["KNOWN_PREFILLS", "SELF_HELP_STOP"], "answered": true, "released": true },
+    { "familyId": "rcap-wi-custom-pleading", "failed": ["FILING_DESTINATION", "REQUIRED_BEFORE_FILING"], "answered": true, "released": true },
+    { "familyId": "tx_nd_dwi_probation-set", "failed": ["PROTECTED_FIELDS", "SELF_HELP_STOP"], "answered": true, "released": true },
+    { "familyId": "ut_pet_dismissed_without_prejudice-set", "failed": ["SELF_HELP_STOP"], "answered": true, "released": true },
+    { "familyId": "agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission", "failed": ["ROUTE_IDENTITY"], "answered": "the decisive defect (a page footer claiming a route the page does not serve) is answered; the family/sibling boundary VF02 also raised is escalated to Captain and recorded in the family's build-findings.json, because deciding it means acting on a live sibling this lane holds no grant over", "released": true },
+    { "familyId": "wa_vac_homicide_victim_prostitution-set", "failed": ["ROUTE_OPTIONS", "FILING_DESTINATION", "FEE_AND_WAIVER", "SERVICE"], "answered": "three were already closed at this base by commits that postdate VF15's read (e5bd35ce7, 638846582); ROUTE_OPTIONS remains BLOCKED_LEGAL_INPUT and the packet now tells the participant so. SOURCE_IDENTITY, which VF15 could not measure, was measured here and binds.", "released": true }
+  ],
+  "notRepairedAndWhyNot": [
+    {
+      "familyId": "in_section1_petition-set",
+      "failed": ["COMPONENT_SET", "CLIPPING_AND_OVERLAP", "SELF_HELP_STOP"],
+      "answered": ["CLIPPING_AND_OVERLAP", "SELF_HELP_STOP"],
+      "open": "COMPONENT_SET",
+      "why": "Pages 4, 10 and 11 are the bound source's own placeholders for the Coalition for Court Access Non Conviction Insert Forms, which the packet does not contain. VF09: 'The close is a source lane acquiring the ... Insert Forms and binding them, not an edit in a repair lane.' The build already declares it in reports/missing-companion-forms.json as an OPEN FINDING.",
+      "grantHeld": true,
+      "whyGrantHeld": "Releasing a grant on a family that still fails a named obligation is exactly what the base commit reopened four California grants for."
+    },
+    {
+      "familyId": "ca-1203-41-set",
+      "failed": ["counters only: requiredOptionsMissing 10"],
+      "open": "requiredOptionsMissing, and an unsuperseded wave-2 legal block",
+      "why": "All ten are the CR-180 conviction table's 17(b)/17(d)(2) yes-or-no cells. The builder declares them route-determined and unmade on purpose, and says so: the close needs 'a captain-level field-classification determination (or a per-election evidence-variant design) resolving who answers these cells on dismissal routes', and 'declaring them participant-completable instead would be the exact self-excuse channel the contract closed'. Separately the family carries legalInputStatus OPEN_LEGAL_INPUT and a wave2LegalBlock on fee-and-waiver treatment, class MISSING_ARTIFACT_SPECIFIC_APPROVAL_INPUT, not superseded. Neither is a repair-lane item.",
+      "grantHeld": true,
+      "whyGrantHeld": "Same reason. This family was reopened by the base commit for having been released without answering the defect; it is not released again without one."
+    }
+  ],
+  "verdictEvidenceCorrections": [
+    {
+      "familyId": "rcap-tx-custom-pleading",
+      "obligation": "PROTECTED_FIELDS",
+      "theDefectIsReal": true,
+      "theSupportingInferenceIsNot": "VF05 reasoned that the build 'already proved it will strip such appearances' because the source's two stray zeros on pages 7 and 8 do not survive. They do survive. They are drawn in Form XObjects FlatWidget-1812800957 and FlatWidget-4855138939 with /Arial, which pdftotext cannot map; reports/actual-writes.json has always listed both under documentAuthoredAppearances. Three source-authored appearances reached the delivered page, not one. No sanitation pass existed to extend."
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
+      "note": "The RT-1 dispatch table named FEE_AND_WAIVER. The current non-superseded VERIFIER_RETURNS row names REQUIRED_BEFORE_FILING, and the vf02 assignment says in terms not to touch the fee statement (the 99-19-71 $150 is correctly not read across to 99-15-59 under A3). The verdict row was followed."
+    }
+  ],
+  "escalatedNotRepaired": [
+    "unclassifiedBlanks cannot see a literal dot run pushed into a composed body as a string. VF02 names id_felony_reduction-set and rcap-ok-custom-pleading as carrying the same shape. Fixing the counter is a change to shared completeness instrumentation across families this lane does not hold.",
+    "The AZ/CA shared build host wrote product-wiring.json fresh and deleted the route binding that generate-product-wiring.mjs adds. Fixed in the builder here; it affects every family on that host and takes effect only when one is rebuilt.",
+    "az_marijuana_expungement_arrest_no_charges-set passes on hand-edited committed records that its builder does not reproduce. The builder now reproduces the passing shape, but that family was not rebuilt here, so its records remain hand-edited until someone rebuilds it.",
+    "Every family whose fixture bytes moved in this lane owes a re-raster: the acceptance receipts bind exact hashes and were NOT re-pinned. product-wiring proposal digests WERE re-pinned, exactly as generate-product-wiring.mjs would."
+  ]
+}

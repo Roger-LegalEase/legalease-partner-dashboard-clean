@@ -1,0 +1,56 @@
+{
+  "agent": "CD-1",
+  "task": "Land consumer launch rails (codex/platform-consumer-launch-rails) onto the captain line, tighten artifact authorization, wire verification honestly",
+  "date": "2026-09-01",
+  "branch": "fable/cd1",
+  "merge": {
+    "base": "origin/claude/legalease-sprint-captain-utucnw merged into the worktree line, then branched fable/cd1",
+    "merged": "origin/codex/platform-consumer-launch-rails (3 commits: d1acbfcf7 pending claim across auth, 78201a56b matter commerce authority, 14f0f4997 exact private artifacts)",
+    "merge_commit": "a24fc4b5b",
+    "conflicts": [],
+    "resolutions": "None needed — the merge was clean; no file collided between the captain's factory/data work and the consumer-rails commits. Both sides' behavior is intact verbatim.",
+    "stopped_on": []
+  },
+  "new_migration": {
+    "path": "supabase/migrations/20260901140000_tighten_consumer_artifact_authorization.sql",
+    "edits_landed_migrations": false,
+    "change": "create or replace of public.authorize_consumer_artifact_download(uuid,uuid,text) with an identical body except the render_job_id lookup on consumer_packet_artifact_provenance. Previously: WHERE p.briefcase_item_id = v_grant.briefcase_item_id only (no owner filter, no LIMIT — safe today solely because briefcase_item_id is the table PK). Now: the lookup additionally requires p.consumer_auth_user_id, p.matter_id, p.revision and p.verification_hash to equal the grant's owner, matter, artifact_revision and verification_hash, and carries ORDER BY p.revision DESC, p.render_job_id DESC LIMIT 1 with a comment stating why: future per-revision provenance rows must not turn the lookup into an arbitrary pick. The function's execute ACL (revoke public/anon/authenticated, grant service_role) is restated so the migration stands alone. No behavior change under the current single-row-per-item schema — the grant-selection join already pins p.revision = g.artifact_revision, so the added filters cannot lose the row.",
+    "applied": false,
+    "note": "Authoring only. No migration was run anywhere; live migrations are Roger-gated."
+  },
+  "verification_wiring": {
+    "npm_scripts_added": {
+      "verify:consumer-auth-continuation": "node scripts/verify-consumer-auth-continuation.mjs",
+      "verify:consumer-launch-rails-db": "node scripts/verify-consumer-launch-rails-db.mjs"
+    },
+    "test_chain": "verify-consumer-auth-continuation.mjs appended to the main npm test chain in package.json (static, runs anywhere).",
+    "db_script_not_in_default_chain": "verify-consumer-launch-rails-db.mjs requires CONSUMER_ACCEPTANCE_DATABASE_URL at loopback, so it is deliberately NOT in npm test.",
+    "workflow": {
+      "path": ".github/workflows/consumer-launch-rails-acceptance.yml",
+      "trigger": "workflow_dispatch only",
+      "shape": "ubuntu-latest; actions/checkout; setup-node 20; npm install -g supabase@2; supabase init --force (repo tracks supabase/migrations but no config.toml — same pattern as rcap-f1-ephemeral-staging.yml, the one existing workflow that boots supabase); supabase start -x studio,imgproxy,edge-runtime,logflare,vector,supavisor,realtime,postgres-meta; supabase migration up + migration list --local; export CONSUMER_ACCEPTANCE_DATABASE_URL from supabase status DB_URL; node scripts/verify-consumer-launch-rails-db.mjs; supabase stop --no-backup on always(). Because the workflow applies the full migration sequence, it also exercises the tightened 20260901140000 function.",
+      "note": "rcap-f1-ephemeral-staging.yml already boots supabase this way; this workflow reuses that pattern rather than inventing a new one."
+    },
+    "assertions_weakened": "None. Both verify scripts are byte-identical to what the codex branch landed."
+  },
+  "checks_run": [
+    {"check": "node scripts/verify-consumer-auth-continuation.mjs (also via npm run verify:consumer-auth-continuation)", "result": "PASS — 'Consumer auth continuation verified: password, magic link, OAuth, reset, retry, and verified-account gates.'"},
+    {"check": "npm run typecheck (tsc --noEmit, full repo)", "result": "PASS — zero errors"},
+    {"check": "git diff --check", "result": "PASS — no whitespace errors"},
+    {"check": "package.json JSON validity + workflow YAML parse", "result": "PASS"}
+  ],
+  "unprovable_in_this_container": {
+    "what": "scripts/verify-consumer-launch-rails-db.mjs end to end — no local Supabase/Postgres exists in this container, and the script correctly refuses non-loopback databases, so the DB acceptance (including the tightened authorize function under real data) was not executed here.",
+    "how_to_prove": [
+      "CI: dispatch the 'Consumer launch rails DB acceptance' workflow (.github/workflows/consumer-launch-rails-acceptance.yml) on fable/cd1 once the file is reachable by workflow_dispatch (GitHub lists dispatch only for workflows on the default branch; until then run the same steps locally).",
+      "Local: supabase start && CONSUMER_ACCEPTANCE_DATABASE_URL=\"postgresql://postgres:postgres@127.0.0.1:54322/postgres\" npm run verify:consumer-launch-rails-db"
+    ]
+  },
+  "commits": [
+    {"sha": "a24fc4b5b", "subject": "Merge remote-tracking branch 'origin/codex/platform-consumer-launch-rails' into fable/cd1"},
+    {"sha": "ebb1c627a", "subject": "migration: pin authorize_consumer_artifact_download provenance lookup to its grant"},
+    {"sha": "d1f42d4c0", "subject": "test wiring: run consumer launch-rail verifiers from npm"},
+    {"sha": "8504eaba5", "subject": "ci: workflow_dispatch acceptance run for the consumer launch-rail DB script"}
+  ],
+  "summary": "Merged the three consumer-launch-rails commits onto the captain line cleanly (zero conflicts) as fable/cd1. Authored — did not run — migration 20260901140000_tighten_consumer_artifact_authorization.sql, which replaces authorize_consumer_artifact_download with an identical body except the provenance render_job_id lookup is now pinned to the grant's owner, matter, revision and verification hash with an explicit order-by/limit-1, closing the future-multi-row arbitrary-pick hazard. Wired the static auth-continuation verifier into npm test (passes here) and gave the DB acceptance script an honest home: a named npm script plus a workflow_dispatch workflow that boots disposable runner-local Supabase, applies all migrations, and runs it end to end. Typecheck and git diff --check clean. The DB acceptance itself is the one thing unprovable in this container; the exact commands are recorded above."
+}

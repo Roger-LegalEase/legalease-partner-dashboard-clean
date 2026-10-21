@@ -1,0 +1,71 @@
+{
+  "schemaVersion": "rcap-blanks-left-for-the-participant/v1",
+  "familyId": "ct-decriminalized-set",
+  "requiredBeforeFiling": [
+    {
+      "document": "ct-decriminalized-primary-filing-1",
+      "field": "ct-decriminalized-primary-filing-1.fact_convictionDetails",
+      "page": 1,
+      "printedContext": "Item C1 - conviction details",
+      "disclosureLabel": "Item C1 - conviction details",
+      "identity": "ct-decriminalized-primary-filing-1 field fact_convictionDetails",
+      "why": "the committed track registry records this as a required generation input for ct-decriminalized, and the platform holds no value for it",
+      "participantMustSupply": "Which court, docket number and date of conviction?"
+    },
+    {
+      "document": "ct-decriminalized-primary-filing-1",
+      "field": "ct-decriminalized-primary-filing-1.fact_offenseSections",
+      "page": 1,
+      "printedContext": "Item C2 - offense sections",
+      "disclosureLabel": "Item C2 - offense sections",
+      "identity": "ct-decriminalized-primary-filing-1 field fact_offenseSections",
+      "why": "the committed track registry records this as a required generation input for ct-decriminalized, and the platform holds no value for it",
+      "participantMustSupply": "Which statute section were you convicted under?"
+    },
+    {
+      "document": "ct-decriminalized-primary-filing-1",
+      "field": "ct-decriminalized-primary-filing-1.fact_decriminalizationBasis",
+      "page": 1,
+      "printedContext": "Item C3 - decriminalization basis",
+      "disclosureLabel": "Item C3 - decriminalization basis",
+      "identity": "ct-decriminalized-primary-filing-1 field fact_decriminalizationBasis",
+      "why": "the committed track registry records this as a required generation input for ct-decriminalized, and the platform holds no value for it",
+      "participantMustSupply": "On what basis do you say this offense has since been decriminalized? (The participant's own position. LegalEase does not assert that an offense has been decriminalized; that question carries case law.)"
+    },
+    {
+      "document": "ct-decriminalized-primary-filing-1",
+      "field": "ct-decriminalized-primary-filing-1.fact_countsOnDocket",
+      "page": 1,
+      "printedContext": "Item C4 - counts on docket",
+      "disclosureLabel": "Item C4 - counts on docket",
+      "identity": "ct-decriminalized-primary-filing-1 field fact_countsOnDocket",
+      "why": "the committed track registry records this as a required generation input for ct-decriminalized, and the platform holds no value for it",
+      "participantMustSupply": "How many counts are on this docket?"
+    }
+  ],
+  "protectedBlanks": [
+    {
+      "document": "ct-decriminalized-primary-filing-1",
+      "field": "ct-decriminalized-primary-filing-1.case_number",
+      "label": "Case number of this filing, if the court assigns one at filing",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "if a number is assigned, the court assigns it at filing"
+    },
+    {
+      "document": "ct-decriminalized-primary-filing-1",
+      "field": "ct-decriminalized-primary-filing-1.petition_signature",
+      "label": "Signature of the person named in the caption, on the petition",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "the participant signs personally; this build never signs for anyone"
+    },
+    {
+      "document": "ct-decriminalized-primary-filing-1",
+      "field": "ct-decriminalized-primary-filing-1.petition_signature_date",
+      "label": "Date beside the signature on the petition",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "a date written before the document is signed would be false"
+    }
+  ],
+  "everyRequiredBeforeFilingItemIsDisclosed": true,
+  "disclosedIn": "data/rcap-all50/overlays/census-v1/ct/ct-decriminalized-set--custom-pleading/participant-instructions.md"
+}

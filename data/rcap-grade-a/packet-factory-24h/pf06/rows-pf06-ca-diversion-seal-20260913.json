@@ -1,0 +1,62 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-family-return/v1",
+  "recordedAt": "2026-09-13",
+  "lane": "PF06",
+  "assignmentId": "PF06",
+  "workerId": "rcap-finish-worker-77jr7gx76jq3rg65",
+  "workerBranch": "pf20-ks-22-2410-arrest-20260912b",
+  "workerHead": "77d2003fa81235b6d4ac153021d5fd7dd84ae739",
+  "baseCaptainSha": "6867ee44777ce3c9e88afda8b4bad8c3d8e8e31a",
+  "itemId": "ca-diversion-seal-set",
+  "status": "STOPPED",
+  "stopClass": "BLOCKED_SOURCE",
+  "jurisdiction": "CA",
+  "implementationStrategy": "official_pdf_fill",
+  "overlayDirectory": "data/rcap-all50/overlays/census-v1/ca/ca-diversion-seal-set--official-pdf-fill",
+  "overlayDirectoryExists": false,
+  "overlayDirectoryTouched": false,
+  "routeKeys": [
+    "obligation:unit:CA:ca-diversion-seal:ca-diversion-seal-stage-1",
+    "obligation:unit:CA:ca-diversion-seal:ca-diversion-seal-stage-2"
+  ],
+  "sourceBinding": [
+    {
+      "sourceId": "official-form:SDSC-CRM-307",
+      "path": "reference/source-recovery/2026-09-11-wave1/crm307.pdf",
+      "sha256": "da6852b5762dea47a17e8159a67e07215543a8524be623709f4856aed169b287",
+      "byteLength": 211228,
+      "bytesFoundAtNamedReference": true,
+      "bindsByFamilyPreflight": false,
+      "resolverRecord": {
+        "file": "data/rcap-grade-a/route-obligation-census-v1/source-custody-reconciliation.json",
+        "worklistGroupId": "ca-diversion-seal-set",
+        "packetFamilyId": null,
+        "custodyClass": "SOURCE_GENUINELY_MISSING",
+        "documentSourcesNamed": 1,
+        "documentSourcesResolved": 0,
+        "resolved": false,
+        "commissionAcquisition": true
+      },
+      "queueBindingEvidence": {
+        "file": "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+        "state": "SOURCE_READY",
+        "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+        "sourceReadiness": "ready",
+        "evidencePath": "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json"
+      }
+    }
+  ],
+  "preflight": {
+    "command": "node scripts/verify-packet-build-environment.mjs --family ca-diversion-seal-set --codex-cloud --minimum-captain-sha 6867ee44777ce3c9e88afda8b4bad8c3d8e8e31a",
+    "familySourcesBind": "FAIL",
+    "exactFailure": "ca-diversion-seal-set names no resolved document source",
+    "interpretation": "The exact CRM-307 bytes are held and hash-verified, but the family resolver selects the stale committed custody row above before consulting the queue's current SOURCE_READY binding."
+  },
+  "counters": null,
+  "allNineCountersZero": null,
+  "buildPerformed": false,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "packetsSelfVerified": 0,
+  "nextActionForCaptain": "Refresh or admit the already-held CA-SDSC-CRM-307 family binding through the existing source-custody workflow; do not source-hunt or substitute bytes."
+}

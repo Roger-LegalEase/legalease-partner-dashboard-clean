@@ -1,0 +1,2788 @@
+{
+  "schemaVersion": "rcap-terminal-treatment-independent-verification/v1",
+  "lane": "TVER01",
+  "role": "independent second read of data/rcap-grade-a/legal-decisions/TERMINAL_TREATMENTS_WRONG_DELIVERY_TYPE.json",
+  "authoredByADifferentLaneThanTheTreatmentRecord": true,
+  "verifiedAtBase": "7d8fdc37031ac88cd09908e4dfede7d30f015189",
+  "verifiedOn": "2026-09-02",
+  "createsNoApproval": true,
+  "opensNoRoute": true,
+  "editsNothingItVerifies": true,
+  "verdictCounts": {
+    "TREATMENT_UNSUPPORTED_BY_ITS_SOURCE": 7,
+    "TREATMENT_CORRECT": 9
+  },
+  "isThe855CheckVerifierCircular": {
+    "answer": "Yes, in part. 136 of its 855 checks read the record's own claim back as its own proof, and one further class of check is seeded by the record rather than by the source.",
+    "circularChecks": [
+      {
+        "lines": "68-73",
+        "count": 6,
+        "what": "asserts record.createsApproval === false, opensNoRoute === true and four siblings — the record's own self-description, proved by itself"
+      },
+      {
+        "lines": "87",
+        "count": 1,
+        "what": "counts.families === families.length; record against record"
+      },
+      {
+        "lines": "130",
+        "count": 16,
+        "what": "statuses.length <= 1 is computed over family.routes[].ratification.status, the record's own copy of the status"
+      },
+      {
+        "lines": "167",
+        "count": 16,
+        "what": "vocabulary.paymentAuthority === 'closed' reads record.treatmentVocabulary, which the same lane wrote; it never checks that guidance_status/referral/unsupported are actually in NO_PARTICIPANT_FILING_OUTCOMES in src/lib/legal-authority/types.ts"
+      },
+      {
+        "lines": "169-172",
+        "count": 64,
+        "what": "the four checkout claims — packetCheckout, packetCreditConsumption, partnerCreditConsumption, renderJobAllowed — are asserted against the record's own fields. renderJobAllowed is the check that matters, and it is exactly the claim this lane measured false on 9 routes"
+      },
+      {
+        "lines": "306-307",
+        "count": 32,
+        "what": "retiredPacket.disposition and retiredPacket.bytesMoved are the record's own assertions read back; the real byte proof is the hashing at 308-321"
+      },
+      {
+        "lines": "380",
+        "count": 1,
+        "what": "the open-item list is compared against record.families[].packetStillResolvesOnThisRoute — record against record; its only tie to reality is the check at 369, which skips null-routeKey routes"
+      }
+    ],
+    "seededRatherThanDerived": [
+      "lines 107-111: STATUS_TO_TREATMENT is a retyped copy of the record's own howTheTreatmentIsDecided.statusToTreatment. The registry's statusVocabulary contains no treatment words, so the mapping is not derivable from the source; the verifier never even checks that its copy agrees with the record's. The header claim that the treatment word is 'recomputed from the ratified status without reading the record's answer' overstates what lines 129-135 do.",
+      "line 139: `if (!route.ratification.routeKey) continue;` means a route the record writes as routeKey null is never checked against the registry at all. A record that wrote null over a route that DOES have a registry row would be handed the question-derived treatment and pass. This lane confirmed independently that CT, NV and SD genuinely have no registry row, so the gap is not exploited — but it is open.",
+      "line 331: `if (!route.routeKey) continue;` excludes both Connecticut routes from every runtime measurement, so 2 of the 19 routes are never resolved at all."
+    ],
+    "whatItDoesMeasureHonestly": [
+      "83 of 83 declared sha256 values, recomputed here and all matching",
+      "the owner-decision quotes, against OWNER_DELIVERY_TYPE_DECISIONS.json",
+      "the participant-facing quotes, against the legal-design track registry and the committed build findings",
+      "sellable, creditConsumable and availability through a real resolvePacketRoute call on 17 of 19 routes",
+      "the seven contract flips, through legalRouteContract and routePaymentAuthority",
+      "the canonical PDFs, field maps and instruction files, by hash"
+    ],
+    "whatItCannotCatch": [
+      "a render job specification that still builds — it never calls buildRenderJobSpec",
+      "a deleted or rewritten boundary PDF — 23 of them carry no hash",
+      "a route the record writes as routeKey null",
+      "a false preservation sentence inside a route contract's notes (the OR duplicate)"
+    ]
+  },
+  "families": [
+    {
+      "familyId": "ak-mistaken-identity-set",
+      "jurisdiction": "AK",
+      "recordedTreatment": "OUT_OF_SCOPE",
+      "verdict": "TREATMENT_UNSUPPORTED_BY_ITS_SOURCE",
+      "verdictScope": "The treatment WORD is correctly read from its controlling record and the route is genuinely not sellable and not credit-consumable. What is unsupported is the record's runtimeExpression and its checkout.renderJobAllowed=false: no legal-authority route contract exists for these routes, so routePaymentAuthority — the derivation the record names — is never called on them, and buildRenderJobSpec still returns a render job specification with rendererKind packet_document_v1.",
+      "1_wasTheTreatmentReadOrChosen": {
+        "question": "Recomputed from the route-ratification registry's own published statusVocabulary before reading the row's answer.",
+        "registryStatusesMeasured": [
+          {
+            "routeKey": "AK:sealing-for-mistaken-identity-or-false-accusation-as-12-62-180",
+            "registryRowPresent": true,
+            "status": "intentional_unsupported"
+          }
+        ],
+        "independentlyDerivedTreatment": "OUT_OF_SCOPE",
+        "derivationUsed": "registry statusVocabulary sentence \"Deliberately out of scope.\" for status intentional_unsupported",
+        "matchesRecordedTreatment": true,
+        "recordsOwnClaim": "route-ratification-registry status intentional_unsupported -> OUT_OF_SCOPE, by the registry's own statusVocabulary.",
+        "recordsClaimIsAccurate": true,
+        "readNotChosen": true,
+        "caveat": "The registry publishes status sentences, not treatment words. The sentence-to-treatment step (\"Deliberately out of scope.\" -> OUT_OF_SCOPE, \"Held to substantive guidance only. Not a packet route.\" and \"Approved release behaviour for a guidance outcome. Not a paid packet.\" -> GUIDANCE_READY) is an interpretive step this verifier performed independently and agrees with. It is a reading, not a mechanical lookup."
+      },
+      "2_doTheQuotedStringsAppearByteForByte": {
+        "ownerDecisionQuote": {
+          "decisionIdFoundInOwnerFile": true,
+          "fieldsCompared": [
+            "decidedOn",
+            "decisionOwner",
+            "decision",
+            "theQuestionAsked",
+            "whatWouldReopenIt",
+            "consequences"
+          ],
+          "allByteIdentical": true
+        },
+        "participantFacingQuotes": [
+          {
+            "field": "destination.kind",
+            "byteExact": true
+          },
+          {
+            "field": "destination.name",
+            "byteExact": true
+          },
+          {
+            "field": "destination.detail",
+            "byteExact": true
+          },
+          {
+            "field": "destination.venue",
+            "byteExact": true
+          },
+          {
+            "field": "participantNextStep.mustBringOrRequest",
+            "byteExact": true,
+            "note": "every string value byte-identical; the record projects five keys and drops the source's `confirms`/`conditionDescription` keys, which carry no participant text"
+          },
+          {
+            "field": "participantNextStep.postGenerationHandoffs.quotes",
+            "byteExact": true
+          },
+          {
+            "field": "selfHelpStop.quotes",
+            "byteExact": true
+          },
+          {
+            "field": "selfHelpStop.scopeRestrictions.quotes",
+            "byteExact": true
+          },
+          {
+            "field": "selfHelpStop.legalDesignBlockers.quotes",
+            "byteExact": true
+          }
+        ],
+        "sha256Recomputed": {
+          "paths": 7,
+          "matching": 7,
+          "mismatching": []
+        }
+      },
+      "3_doesTheRuntimeAgree": {
+        "resolverCalled": "src/lib/rcap/documents/packet-route-resolver.ts resolvePacketRoute, loaded through scripts/lib/ts-esm-loader.mjs at the base commit",
+        "routes": [
+          {
+            "routeKey": "AK:sealing-for-mistaken-identity-or-false-accusation-as-12-62-180",
+            "obligationRouteKey": "obligation:track-pathway:AK:ak-mistaken-identity:sealing-for-mistaken-identity-or-false-accusation-as-12-62-180",
+            "trackId": "ak-mistaken-identity",
+            "resolverInput": {
+              "state": "AK",
+              "pathway": "sealing-for-mistaken-identity-or-false-accusation-as-12-62-180",
+              "trackId": "ak-mistaken-identity"
+            },
+            "registryRow": {
+              "present": true,
+              "status": "intentional_unsupported"
+            },
+            "recordClaimsStatus": "intentional_unsupported",
+            "measured": {
+              "routeKind": "factory_v2",
+              "rendererKind": "packet_document_v1",
+              "availability": "UNFINISHED",
+              "sellable": false,
+              "creditConsumable": false,
+              "contractOutcomeMode": null,
+              "contractPacketFamily": null,
+              "routePaymentAuthority": null,
+              "packetRouteCanRender": true,
+              "buildRenderJobSpecReturnsASpec": true
+            },
+            "recordSaysPacketStillResolves": true,
+            "measuredPacketStillResolves": true,
+            "recordBoundBySurface": null
+          }
+        ],
+        "everyRouteSellableFalse": true,
+        "everyRouteCreditConsumableFalse": true,
+        "contractFlipConfirmed": [],
+        "renderJobSpecStillBuilds": [
+          "AK:sealing-for-mistaken-identity-or-false-accusation-as-12-62-180"
+        ],
+        "recordClaimsRenderJobAllowed": false,
+        "renderJobClaimHolds": false
+      },
+      "4_areTheTwoAdmittedOpenFamiliesHonestlyDescribed": {
+        "thisFamilyIsOnTheAdmittedOpenList": true,
+        "measuredRouteKind": [
+          "factory_v2"
+        ],
+        "measuredResolvedPacketSet": "ak-mistaken-identity-set",
+        "claimShadowResolutionToRetiredPacketSet": "ACCURATE — resolvePacketRoute returns routeKind factory_v2 naming the retired packet set, availability UNFINISHED",
+        "claimNothingIsSold": "ACCURATE — sellable false",
+        "claimNoCreditIsConsumed": "ACCURATE — creditConsumable false",
+        "claimCompiledProfileProjectsPacketCapableFalse": "ACCURATE — src/lib/rcap-engine/compiled/profiles/AK-alaska.json lawrenceRatification: status intentional_unsupported, packet_capable false, payment_allowed_when_engine_confirms false",
+        "claimNoRenderJobOpens": "FALSE — buildRenderJobSpec (src/lib/rcap/render/job-contract.ts:316) returns a RenderJobSpec with rendererKind packet_document_v1 for this route, because it refuses only component_deferral, exact_supported_deferral and rendererKind none, and never consults sellable. packetRouteCanRender is true, so the download handler src/app/api/rcap/documents/[packetId]/pdf/[pdfType]/route.ts:29-33 does not close on this route either.",
+        "isItWorseThanDescribed": "YES, in one clause. Everything else in whatIsAlreadyTrue is accurate. Whether a participant could reach a rendered byte end to end is NOT_MEASURABLE_HERE: it needs an existing document-packet row and the Supabase auth/RLS boundary, which this lane may not touch."
+      },
+      "5_didAnyPacketByteMove": {
+        "gitMeasurement": "git diff --name-status 38a83db1b^ 7d8fdc370 over each of the 16 family overlay directories returns nothing, and the two terminalization commits contain no D entries anywhere. The working tree is clean under data/rcap-all50/overlays/.",
+        "hashesRecomputed": [
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ak/ak-mistaken-identity-set--official-pdf-fill/reports/rendered-artifacts.json",
+            "matches": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ak/ak-mistaken-identity-set--official-pdf-fill/production-field-map.json",
+            "matches": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ak/ak-mistaken-identity-set--official-pdf-fill/participant-instructions.md",
+            "matches": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ak/ak-mistaken-identity-set--official-pdf-fill/fixtures/canonical.pdf",
+            "matches": true
+          }
+        ],
+        "bytesMoved": false,
+        "guardIsIncomplete": "The record hashes canonical PDFs, production-field-map.json, participant-instructions.md and rendered-artifacts.json, but no boundary PDF. Across the 16 family directories 23 boundary PDFs carry no hash in the record and no check in verify-terminal-treatments.mjs; any of them could be deleted or rewritten and all 855 checks would still pass. This lane measured them unchanged through git instead."
+      },
+      "findings": [
+        "F1 (verdict-bearing): checkout.renderJobAllowed is recorded false, and buildRenderJobSpec returns a real RenderJobSpec (rendererKind packet_document_v1) for this family's routes. src/lib/rcap/render/job-contract.ts:319 refuses only component_deferral, exact_supported_deferral and rendererKind none; it never consults sellable. Proven by direct call at the base commit.",
+        "F2 (verdict-bearing): runtimeExpression.paymentDerivedBy names \"src/lib/legal-authority/index.ts routePaymentAuthority\", but legalRouteContract() returns null for every route of this family, so routePaymentAuthority is never called on it. The closure that does exist comes from a different mechanism, which the record states accurately per-route in boundBy and inaccurately per-family in runtimeExpression."
+      ],
+      "verifiedAtBase": "7d8fdc37031ac88cd09908e4dfede7d30f015189"
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:PA:path-k-human-trafficking-vacatur-expungement",
+      "jurisdiction": "PA",
+      "recordedTreatment": "GUIDANCE_READY",
+      "verdict": "TREATMENT_CORRECT",
+      "verdictScope": "The treatment word is correctly read from its controlling record, the runtime measured on every route of this family is closed, and buildRenderJobSpec refuses a specification on every route of this family.",
+      "1_wasTheTreatmentReadOrChosen": {
+        "question": "Recomputed from the route-ratification registry's own published statusVocabulary before reading the row's answer.",
+        "registryStatusesMeasured": [
+          {
+            "routeKey": "PA:path-k-human-trafficking-vacatur-expungement",
+            "registryRowPresent": true,
+            "status": "approved_release_guidance"
+          }
+        ],
+        "independentlyDerivedTreatment": "GUIDANCE_READY",
+        "derivationUsed": "registry statusVocabulary sentence \"Approved release behaviour for a guidance outcome. Not a paid packet.\" for status approved_release_guidance",
+        "matchesRecordedTreatment": true,
+        "recordsOwnClaim": "route-ratification-registry status approved_release_guidance -> GUIDANCE_READY, by the registry's own statusVocabulary.",
+        "recordsClaimIsAccurate": true,
+        "readNotChosen": true,
+        "caveat": "The registry publishes status sentences, not treatment words. The sentence-to-treatment step (\"Deliberately out of scope.\" -> OUT_OF_SCOPE, \"Held to substantive guidance only. Not a packet route.\" and \"Approved release behaviour for a guidance outcome. Not a paid packet.\" -> GUIDANCE_READY) is an interpretive step this verifier performed independently and agrees with. It is a reading, not a mechanical lookup."
+      },
+      "2_doTheQuotedStringsAppearByteForByte": {
+        "ownerDecisionQuote": {
+          "decisionIdFoundInOwnerFile": true,
+          "fieldsCompared": [
+            "decidedOn",
+            "decisionOwner",
+            "decision",
+            "theQuestionAsked",
+            "whatWouldReopenIt",
+            "consequences"
+          ],
+          "allByteIdentical": true
+        },
+        "participantFacingQuotes": [
+          {
+            "field": "destination.name",
+            "byteExact": true,
+            "note": "equals findings[0].finding, and findings[0] is the first entry the record's own fixed test /routed to legal aid or an attorney|attorney escalation path/i selects"
+          },
+          {
+            "field": "destination.detail",
+            "byteExact": false,
+            "note": "COMPOSED, NOT QUOTED. \"Route authority contract statute 18 Pa.C.S. § 3019; decision LD-PA-03.\" appears nowhere in data/rcap-all50/overlays/census-v1/pa/composed-treatment:obligation:runtime-only:pa:path-k-human-trafficking-vacatur-expungement--custom-pleading/build-findings.json (substring search over the whole file). It is assembled from route-splits.json statute + decisionId and published under a quotedFrom block that names findings[0].finding, which does not carry it."
+          },
+          {
+            "field": "destination.kind",
+            "byteExact": false,
+            "note": "COMPOSED, NOT QUOTED. \"referral\" is a treatment word; no source names a destination kind for this route. The record discloses this in destination.noMemoTrack."
+          },
+          {
+            "field": "destination.venue",
+            "byteExact": true,
+            "note": "null, and the record states in noMemoTrack that no memo venue exists to quote"
+          },
+          {
+            "field": "selfHelpStop.quotes",
+            "byteExact": true,
+            "note": "4 quotes, each byte-identical to a findings[].finding or findings[].consequence"
+          },
+          {
+            "field": "participantNextStep.counselQuestionsRaised",
+            "byteExact": true
+          }
+        ],
+        "sha256Recomputed": {
+          "paths": 8,
+          "matching": 8,
+          "mismatching": []
+        }
+      },
+      "3_doesTheRuntimeAgree": {
+        "resolverCalled": "src/lib/rcap/documents/packet-route-resolver.ts resolvePacketRoute, loaded through scripts/lib/ts-esm-loader.mjs at the base commit",
+        "routes": [
+          {
+            "routeKey": "PA:path-k-human-trafficking-vacatur-expungement",
+            "obligationRouteKey": "obligation:runtime-only:PA:path-k-human-trafficking-vacatur-expungement",
+            "trackId": "path-k-human-trafficking-vacatur-expungement",
+            "resolverInput": {
+              "state": "PA",
+              "pathway": "path-k-human-trafficking-vacatur-expungement",
+              "trackId": "path-k-human-trafficking-vacatur-expungement"
+            },
+            "registryRow": {
+              "present": true,
+              "status": "approved_release_guidance"
+            },
+            "recordClaimsStatus": "approved_release_guidance",
+            "measured": {
+              "routeKind": "guidance_only",
+              "rendererKind": "none",
+              "availability": "LEGAL_HOLD",
+              "sellable": false,
+              "creditConsumable": false,
+              "contractOutcomeMode": null,
+              "contractPacketFamily": null,
+              "routePaymentAuthority": null,
+              "packetRouteCanRender": false,
+              "buildRenderJobSpecReturnsASpec": false
+            },
+            "recordSaysPacketStillResolves": false,
+            "measuredPacketStillResolves": false,
+            "recordBoundBySurface": "legal_authority_route_contract"
+          }
+        ],
+        "everyRouteSellableFalse": true,
+        "everyRouteCreditConsumableFalse": true,
+        "contractFlipConfirmed": [
+          {
+            "routeKey": "PA:path-k-human-trafficking-vacatur-expungement",
+            "outcomeMode": null,
+            "packetFamily": null,
+            "routePaymentAuthority": null,
+            "wasParticipantPacketAtCommit": "38a83db1b^",
+            "nowInGit": true
+          }
+        ],
+        "renderJobSpecStillBuilds": [],
+        "recordClaimsRenderJobAllowed": false,
+        "renderJobClaimHolds": true
+      },
+      "4_areTheTwoAdmittedOpenFamiliesHonestlyDescribed": {
+        "thisFamilyIsNotOnTheAdmittedOpenList": true,
+        "measuredPacketStillResolves": false,
+        "correctlyOmitted": true
+      },
+      "5_didAnyPacketByteMove": {
+        "gitMeasurement": "git diff --name-status 38a83db1b^ 7d8fdc370 over each of the 16 family overlay directories returns nothing, and the two terminalization commits contain no D entries anywhere. The working tree is clean under data/rcap-all50/overlays/.",
+        "hashesRecomputed": [
+          {
+            "path": "data/rcap-all50/overlays/census-v1/pa/composed-treatment:obligation:runtime-only:pa:path-k-human-trafficking-vacatur-expungement--custom-pleading/build-findings.json",
+            "matches": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/pa/composed-treatment:obligation:runtime-only:pa:path-k-human-trafficking-vacatur-expungement--custom-pleading/approval-request.json",
+            "matches": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/pa/composed-treatment:obligation:runtime-only:pa:path-k-human-trafficking-vacatur-expungement--custom-pleading/reports/rendered-artifacts.json",
+            "matches": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/pa/composed-treatment:obligation:runtime-only:pa:path-k-human-trafficking-vacatur-expungement--custom-pleading/production-field-map.json",
+            "matches": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/pa/composed-treatment:obligation:runtime-only:pa:path-k-human-trafficking-vacatur-expungement--custom-pleading/participant-instructions.md",
+            "matches": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/pa/composed-treatment:obligation:runtime-only:pa:path-k-human-trafficking-vacatur-expungement--custom-pleading/fixtures/canonical.pdf",
+            "matches": true
+          }
+        ],
+        "bytesMoved": false,
+        "guardIsIncomplete": "The record hashes canonical PDFs, production-field-map.json, participant-instructions.md and rendered-artifacts.json, but no boundary PDF. Across the 16 family directories 23 boundary PDFs carry no hash in the record and no check in verify-terminal-treatments.mjs; any of them could be deleted or rewritten and all 855 checks would still pass. This lane measured them unchanged through git instead."
+      },
+      "findings": [
+        "F3 (not verdict-bearing): destination.detail is composed, not quoted. It sits inside a quotedFrom block naming findings[0].finding, and its text appears nowhere in that file. Both facts it joins are real in src/lib/legal-authority/routes/route-splits.json, but the record's own rule (\"every participant-facing fact is quoted from the record that carries it, with that record's path and hash\") is not met for this field. destination.kind \"referral\" is likewise a treatment word, not a quote. verify-terminal-treatments.mjs:252 asserts kind === \"referral\" rather than deriving it, so it cannot catch this."
+      ],
+      "verifiedAtBase": "7d8fdc37031ac88cd09908e4dfede7d30f015189"
+    },
+    {
+      "familyId": "dc_seal_conviction-set",
+      "jurisdiction": "DC",
+      "recordedTreatment": "OUT_OF_SCOPE",
+      "verdict": "TREATMENT_UNSUPPORTED_BY_ITS_SOURCE",
+      "verdictScope": "The treatment WORD is correctly read from its controlling record and the route is genuinely not sellable and not credit-consumable. What is unsupported is the record's runtimeExpression and its checkout.renderJobAllowed=false: no legal-authority route contract exists for these routes, so routePaymentAuthority — the derivation the record names — is never called on them, and buildRenderJobSpec still returns a render job specification with rendererKind packet_document_v1.",
+      "1_wasTheTreatmentReadOrChosen": {
+        "question": "Recomputed from the route-ratification registry's own published statusVocabulary before reading the row's answer.",
+        "registryStatusesMeasured": [
+          {
+            "routeKey": "DC:dc_motion_seal_felony_conviction_8yr_16_806",
+            "registryRowPresent": true,
+            "status": "intentional_unsupported"
+          },
+          {
+            "routeKey": "DC:dc_motion_seal_misdemeanor_conviction_5yr_16_806",
+            "registryRowPresent": true,
+            "status": "intentional_unsupported"
+          }
+        ],
+        "independentlyDerivedTreatment": "OUT_OF_SCOPE",
+        "derivationUsed": "registry statusVocabulary sentence \"Deliberately out of scope.\" for status intentional_unsupported",
+        "matchesRecordedTreatment": true,
+        "recordsOwnClaim": "route-ratification-registry status intentional_unsupported -> OUT_OF_SCOPE, by the registry's own statusVocabulary.",
+        "recordsClaimIsAccurate": true,
+        "readNotChosen": true,
+        "caveat": "The registry publishes status sentences, not treatment words. The sentence-to-treatment step (\"Deliberately out of scope.\" -> OUT_OF_SCOPE, \"Held to substantive guidance only. Not a packet route.\" and \"Approved release behaviour for a guidance outcome. Not a paid packet.\" -> GUIDANCE_READY) is an interpretive step this verifier performed independently and agrees with. It is a reading, not a mechanical lookup."
+      },
+      "2_doTheQuotedStringsAppearByteForByte": {
+        "ownerDecisionQuote": {
+          "decisionIdFoundInOwnerFile": true,
+          "fieldsCompared": [
+            "decidedOn",
+            "decisionOwner",
+            "decision",
+            "theQuestionAsked",
+            "whatWouldReopenIt",
+            "consequences"
+          ],
+          "allByteIdentical": true
+        },
+        "participantFacingQuotes": [
+          {
+            "field": "destination.kind",
+            "byteExact": true
+          },
+          {
+            "field": "destination.name",
+            "byteExact": true
+          },
+          {
+            "field": "destination.detail",
+            "byteExact": true
+          },
+          {
+            "field": "destination.venue",
+            "byteExact": true
+          },
+          {
+            "field": "participantNextStep.mustBringOrRequest",
+            "byteExact": true,
+            "note": "every string value byte-identical; the record projects five keys and drops the source's `confirms`/`conditionDescription` keys, which carry no participant text"
+          },
+          {
+            "field": "participantNextStep.postGenerationHandoffs.quotes",
+            "byteExact": true
+          },
+          {
+            "field": "selfHelpStop.quotes",
+            "byteExact": true
+          },
+          {
+            "field": "selfHelpStop.scopeRestrictions.quotes",
+            "byteExact": true
+          },
+          {
+            "field": "selfHelpStop.legalDesignBlockers.quotes",
+            "byteExact": true
+          }
+        ],
+        "sha256Recomputed": {
+          "paths": 8,
+          "matching": 8,
+          "mismatching": []
+        }
+      },
+      "3_doesTheRuntimeAgree": {
+        "resolverCalled": "src/lib/rcap/documents/packet-route-resolver.ts resolvePacketRoute, loaded through scripts/lib/ts-esm-loader.mjs at the base commit",
+        "routes": [
+          {
+            "routeKey": "DC:dc_motion_seal_felony_conviction_8yr_16_806",
+            "obligationRouteKey": "obligation:track-pathway:DC:dc_seal_conviction:dc_motion_seal_felony_conviction_8yr_16_806",
+            "trackId": "dc_seal_conviction",
+            "resolverInput": {
+              "state": "DC",
+              "pathway": "dc_motion_seal_felony_conviction_8yr_16_806",
+              "trackId": "dc_seal_conviction"
+            },
+            "registryRow": {
+              "present": true,
+              "status": "intentional_unsupported"
+            },
+            "recordClaimsStatus": "intentional_unsupported",
+            "measured": {
+              "routeKind": "legacy_retired",
+              "rendererKind": "packet_document_v1",
+              "availability": "UNFINISHED",
+              "sellable": false,
+              "creditConsumable": false,
+              "contractOutcomeMode": null,
+              "contractPacketFamily": null,
+              "routePaymentAuthority": null,
+              "packetRouteCanRender": true,
+              "buildRenderJobSpecReturnsASpec": true
+            },
+            "recordSaysPacketStillResolves": false,
+            "measuredPacketStillResolves": false,
+            "recordBoundBySurface": "legacy_generator_retirement"
+          },
+          {
+            "routeKey": "DC:dc_motion_seal_misdemeanor_conviction_5yr_16_806",
+            "obligationRouteKey": "obligation:track-pathway:DC:dc_seal_conviction:dc_motion_seal_misdemeanor_conviction_5yr_16_806",
+            "trackId": "dc_seal_conviction",
+            "resolverInput": {
+              "state": "DC",
+              "pathway": "dc_motion_seal_misdemeanor_conviction_5yr_16_806",
+              "trackId": "dc_seal_conviction"
+            },
+            "registryRow": {
+              "present": true,
+              "status": "intentional_unsupported"
+            },
+            "recordClaimsStatus": "intentional_unsupported",
+            "measured": {
+              "routeKind": "legacy_retired",
+              "rendererKind": "packet_document_v1",
+              "availability": "UNFINISHED",
+              "sellable": false,
+              "creditConsumable": false,
+              "contractOutcomeMode": null,
+              "contractPacketFamily": null,
+              "routePaymentAuthority": null,
+              "packetRouteCanRender": true,
+              "buildRenderJobSpecReturnsASpec": true
+            },
+            "recordSaysPacketStillResolves": false,
+            "measuredPacketStillResolves": false,
+            "recordBoundBySurface": "legacy_generator_retirement"
+          }
+        ],
+        "everyRouteSellableFalse": true,
+        "everyRouteCreditConsumableFalse": true,
+        "contractFlipConfirmed": [],
+        "renderJobSpecStillBuilds": [
+          "DC:dc_motion_seal_felony_conviction_8yr_16_806",
+          "DC:dc_motion_seal_misdemeanor_conviction_5yr_16_806"
+        ],
+        "recordClaimsRenderJobAllowed": false,
+        "renderJobClaimHolds": false
+      },
+      "4_areTheTwoAdmittedOpenFamiliesHonestlyDescribed": {
+        "thisFamilyIsNotOnTheAdmittedOpenList": true,
+        "measuredPacketStillResolves": false,
+        "correctlyOmitted": true
+      },
+      "5_didAnyPacketByteMove": {
+        "gitMeasurement": "git diff --name-status 38a83db1b^ 7d8fdc370 over each of the 16 family overlay directories returns nothing, and the two terminalization commits contain no D entries anywhere. The working tree is clean under data/rcap-all50/overlays/.",
+        "hashesRecomputed": [
+          {
+            "path": "data/rcap-all50/overlays/census-v1/dc/dc-seal-conviction-set--custom-pleading/reports/rendered-artifacts.json",
+            "matches": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/dc/dc-seal-conviction-set--custom-pleading/production-field-map.json",
+            "matches": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/dc/dc-seal-conviction-set--custom-pleading/participant-instructions.md",
+            "matches": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/dc/dc-seal-conviction-set--custom-pleading/fixtures/canonical-felony_8yr.pdf",
+            "matches": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/dc/dc-seal-conviction-set--custom-pleading/fixtures/canonical-misdemeanor_5yr.pdf",
+            "matches": true
+          }
+        ],
+        "bytesMoved": false,
+        "guardIsIncomplete": "The record hashes canonical PDFs, production-field-map.json, participant-instructions.md and rendered-artifacts.json, but no boundary PDF. Across the 16 family directories 23 boundary PDFs carry no hash in the record and no check in verify-terminal-treatments.mjs; any of them could be deleted or rewritten and all 855 checks would still pass. This lane measured them unchanged through git instead."
+      },
+      "findings": [
+        "F1 (verdict-bearing): checkout.renderJobAllowed is recorded false, and buildRenderJobSpec returns a real RenderJobSpec (rendererKind packet_document_v1) for this family's routes. src/lib/rcap/render/job-contract.ts:319 refuses only component_deferral, exact_supported_deferral and rendererKind none; it never consults sellable. Proven by direct call at the base commit.",
+        "F2 (verdict-bearing): runtimeExpression.paymentDerivedBy names \"src/lib/legal-authority/index.ts routePaymentAuthority\", but legalRouteContract() returns null for every route of this family, so routePaymentAuthority is never called on it. The closure that does exist comes from a different mechanism, which the record states accurately per-route in boundBy and inaccurately per-family in runtimeExpression."
+      ],
+      "verifiedAtBase": "7d8fdc37031ac88cd09908e4dfede7d30f015189"
+    },
+    {
+      "familyId": "dc_seal_nonconviction-set",
+      "jurisdiction": "DC",
+      "recordedTreatment": "OUT_OF_SCOPE",
+      "verdict": "TREATMENT_UNSUPPORTED_BY_ITS_SOURCE",
+      "verdictScope": "The treatment WORD is correctly read from its controlling record and the route is genuinely not sellable and not credit-consumable. What is unsupported is the record's runtimeExpression and its checkout.renderJobAllowed=false: no legal-authority route contract exists for these routes, so routePaymentAuthority — the derivation the record names — is never called on them, and buildRenderJobSpec still returns a render job specification with rendererKind packet_document_v1.",
+      "1_wasTheTreatmentReadOrChosen": {
+        "question": "Recomputed from the route-ratification registry's own published statusVocabulary before reading the row's answer.",
+        "registryStatusesMeasured": [
+          {
+            "routeKey": "DC:dc_motion_seal_nonconviction_16_806",
+            "registryRowPresent": true,
+            "status": "intentional_unsupported"
+          }
+        ],
+        "independentlyDerivedTreatment": "OUT_OF_SCOPE",
+        "derivationUsed": "registry statusVocabulary sentence \"Deliberately out of scope.\" for status intentional_unsupported",
+        "matchesRecordedTreatment": true,
+        "recordsOwnClaim": "route-ratification-registry status intentional_unsupported -> OUT_OF_SCOPE, by the registry's own statusVocabulary.",
+        "recordsClaimIsAccurate": true,
+        "readNotChosen": true,
+        "caveat": "The registry publishes status sentences, not treatment words. The sentence-to-treatment step (\"Deliberately out of scope.\" -> OUT_OF_SCOPE, \"Held to substantive guidance only. Not a packet route.\" and \"Approved release behaviour for a guidance outcome. Not a paid packet.\" -> GUIDANCE_READY) is an interpretive step this verifier performed independently and agrees with. It is a reading, not a mechanical lookup."
+      },
+      "2_doTheQuotedStringsAppearByteForByte": {
+        "ownerDecisionQuote": {
+          "decisionIdFoundInOwnerFile": true,
+          "fieldsCompared": [
+            "decidedOn",
+            "decisionOwner",
+            "decision",
+            "theQuestionAsked",
+            "whatWouldReopenIt",
+            "consequences"
+          ],
+          "allByteIdentical": true
+        },
+        "participantFacingQuotes": [
+          {
+            "field": "destination.kind",
+            "byteExact": true
+          },
+          {
+            "field": "destination.name",
+            "byteExact": true
+          },
+          {
+            "field": "destination.detail",
+            "byteExact": true
+          },
+          {
+            "field": "destination.venue",
+            "byteExact": true
+          },
+          {
+            "field": "participantNextStep.mustBringOrRequest",
+            "byteExact": true,
+            "note": "every string value byte-identical; the record projects five keys and drops the source's `confirms`/`conditionDescription` keys, which carry no participant text"
+          },
+          {
+            "field": "participantNextStep.postGenerationHandoffs.quotes",
+            "byteExact": true
+          },
+          {
+            "field": "selfHelpStop.quotes",
+            "byteExact": true
+          },
+          {
+            "field": "selfHelpStop.scopeRestrictions.quotes",
+            "byteExact": true
+          },
+          {
+            "field": "selfHelpStop.legalDesignBlockers.quotes",
+            "byteExact": true
+          }
+        ],
+        "sha256Recomputed": {
+          "paths": 7,
+          "matching": 7,
+          "mismatching": []
+        }
+      },
+      "3_doesTheRuntimeAgree": {
+        "resolverCalled": "src/lib/rcap/documents/packet-route-resolver.ts resolvePacketRoute, loaded through scripts/lib/ts-esm-loader.mjs at the base commit",
+        "routes": [
+          {
+            "routeKey": "DC:dc_motion_seal_nonconviction_16_806",
+            "obligationRouteKey": "obligation:track-pathway:DC:dc_seal_nonconviction:dc_motion_seal_nonconviction_16_806",
+            "trackId": "dc_seal_nonconviction",
+            "resolverInput": {
+              "state": "DC",
+              "pathway": "dc_motion_seal_nonconviction_16_806",
+              "trackId": "dc_seal_nonconviction"
+            },
+            "registryRow": {
+              "present": true,
+              "status": "intentional_unsupported"
+            },
+            "recordClaimsStatus": "intentional_unsupported",
+            "measured": {
+              "routeKind": "legacy_retired",
+              "rendererKind": "packet_document_v1",
+              "availability": "UNFINISHED",
+              "sellable": false,
+              "creditConsumable": false,
+              "contractOutcomeMode": null,
+              "contractPacketFamily": null,
+              "routePaymentAuthority": null,
+              "packetRouteCanRender": true,
+              "buildRenderJobSpecReturnsASpec": true
+            },
+            "recordSaysPacketStillResolves": false,
+            "measuredPacketStillResolves": false,
+            "recordBoundBySurface": "legacy_generator_retirement"
+          }
+        ],
+        "everyRouteSellableFalse": true,
+        "everyRouteCreditConsumableFalse": true,
+        "contractFlipConfirmed": [],
+        "renderJobSpecStillBuilds": [
+          "DC:dc_motion_seal_nonconviction_16_806"
+        ],
+        "recordClaimsRenderJobAllowed": false,
+        "renderJobClaimHolds": false
+      },
+      "4_areTheTwoAdmittedOpenFamiliesHonestlyDescribed": {
+        "thisFamilyIsNotOnTheAdmittedOpenList": true,
+        "measuredPacketStillResolves": false,
+        "correctlyOmitted": true
+      },
+      "5_didAnyPacketByteMove": {
+        "gitMeasurement": "git diff --name-status 38a83db1b^ 7d8fdc370 over each of the 16 family overlay directories returns nothing, and the two terminalization commits contain no D entries anywhere. The working tree is clean under data/rcap-all50/overlays/.",
+        "hashesRecomputed": [
+          {
+            "path": "data/rcap-all50/overlays/census-v1/dc/dc-seal-nonconviction-set--custom-pleading/reports/rendered-artifacts.json",
+            "matches": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/dc/dc-seal-nonconviction-set--custom-pleading/production-field-map.json",
+            "matches": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/dc/dc-seal-nonconviction-set--custom-pleading/participant-instructions.md",
+            "matches": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/dc/dc-seal-nonconviction-set--custom-pleading/fixtures/canonical.pdf",
+            "matches": true
+          }
+        ],
+        "bytesMoved": false,
+        "guardIsIncomplete": "The record hashes canonical PDFs, production-field-map.json, participant-instructions.md and rendered-artifacts.json, but no boundary PDF. Across the 16 family directories 23 boundary PDFs carry no hash in the record and no check in verify-terminal-treatments.mjs; any of them could be deleted or rewritten and all 855 checks would still pass. This lane measured them unchanged through git instead."
+      },
+      "findings": [
+        "F1 (verdict-bearing): checkout.renderJobAllowed is recorded false, and buildRenderJobSpec returns a real RenderJobSpec (rendererKind packet_document_v1) for this family's routes. src/lib/rcap/render/job-contract.ts:319 refuses only component_deferral, exact_supported_deferral and rendererKind none; it never consults sellable. Proven by direct call at the base commit.",
+        "F2 (verdict-bearing): runtimeExpression.paymentDerivedBy names \"src/lib/legal-authority/index.ts routePaymentAuthority\", but legalRouteContract() returns null for every route of this family, so routePaymentAuthority is never called on it. The closure that does exist comes from a different mechanism, which the record states accurately per-route in boundBy and inaccurately per-family in runtimeExpression."
+      ],
+      "verifiedAtBase": "7d8fdc37031ac88cd09908e4dfede7d30f015189"
+    },
+    {
+      "familyId": "ky_felony_vacatur_expungement-set",
+      "jurisdiction": "KY",
+      "recordedTreatment": "OUT_OF_SCOPE",
+      "verdict": "TREATMENT_CORRECT",
+      "verdictScope": "The treatment word is correctly read from its controlling record, the runtime measured on every route of this family is closed, and buildRenderJobSpec refuses a specification on every route of this family.",
+      "1_wasTheTreatmentReadOrChosen": {
+        "question": "Recomputed from the route-ratification registry's own published statusVocabulary before reading the row's answer.",
+        "registryStatusesMeasured": [
+          {
+            "routeKey": "KY:felony-conviction-431073",
+            "registryRowPresent": true,
+            "status": "intentional_unsupported"
+          }
+        ],
+        "independentlyDerivedTreatment": "OUT_OF_SCOPE",
+        "derivationUsed": "registry statusVocabulary sentence \"Deliberately out of scope.\" for status intentional_unsupported",
+        "matchesRecordedTreatment": true,
+        "recordsOwnClaim": "route-ratification-registry status intentional_unsupported -> OUT_OF_SCOPE, by the registry's own statusVocabulary.",
+        "recordsClaimIsAccurate": true,
+        "readNotChosen": true,
+        "caveat": "The registry publishes status sentences, not treatment words. The sentence-to-treatment step (\"Deliberately out of scope.\" -> OUT_OF_SCOPE, \"Held to substantive guidance only. Not a packet route.\" and \"Approved release behaviour for a guidance outcome. Not a paid packet.\" -> GUIDANCE_READY) is an interpretive step this verifier performed independently and agrees with. It is a reading, not a mechanical lookup."
+      },
+      "2_doTheQuotedStringsAppearByteForByte": {
+        "ownerDecisionQuote": {
+          "decisionIdFoundInOwnerFile": true,
+          "fieldsCompared": [
+            "decidedOn",
+            "decisionOwner",
+            "decision",
+            "theQuestionAsked",
+            "whatWouldReopenIt",
+            "consequences"
+          ],
+          "allByteIdentical": true
+        },
+        "participantFacingQuotes": [
+          {
+            "field": "destination.kind",
+            "byteExact": true
+          },
+          {
+            "field": "destination.name",
+            "byteExact": true
+          },
+          {
+            "field": "destination.detail",
+            "byteExact": true
+          },
+          {
+            "field": "destination.venue",
+            "byteExact": true
+          },
+          {
+            "field": "participantNextStep.mustBringOrRequest",
+            "byteExact": true,
+            "note": "every string value byte-identical; the record projects five keys and drops the source's `confirms`/`conditionDescription` keys, which carry no participant text"
+          },
+          {
+            "field": "participantNextStep.postGenerationHandoffs.quotes",
+            "byteExact": true
+          },
+          {
+            "field": "selfHelpStop.quotes",
+            "byteExact": true
+          },
+          {
+            "field": "selfHelpStop.scopeRestrictions.quotes",
+            "byteExact": true
+          },
+          {
+            "field": "selfHelpStop.legalDesignBlockers.quotes",
+            "byteExact": true
+          }
+        ],
+        "sha256Recomputed": {
+          "paths": 9,
+          "matching": 9,
+          "mismatching": []
+        }
+      },
+      "3_doesTheRuntimeAgree": {
+        "resolverCalled": "src/lib/rcap/documents/packet-route-resolver.ts resolvePacketRoute, loaded through scripts/lib/ts-esm-loader.mjs at the base commit",
+        "routes": [
+          {
+            "routeKey": "KY:felony-conviction-431073",
+            "obligationRouteKey": "obligation:track-pathway:KY:ky_felony_vacatur_expungement:felony-conviction-431073",
+            "trackId": "ky_felony_vacatur_expungement",
+            "resolverInput": {
+              "state": "KY",
+              "pathway": "felony-conviction-431073",
+              "trackId": "ky_felony_vacatur_expungement"
+            },
+            "registryRow": {
+              "present": true,
+              "status": "intentional_unsupported"
+            },
+            "recordClaimsStatus": "intentional_unsupported",
+            "measured": {
+              "routeKind": "exact_supported_deferral",
+              "rendererKind": "none",
+              "availability": "MAINTENANCE_HOLD",
+              "sellable": false,
+              "creditConsumable": false,
+              "contractOutcomeMode": null,
+              "contractPacketFamily": null,
+              "routePaymentAuthority": null,
+              "packetRouteCanRender": false,
+              "buildRenderJobSpecReturnsASpec": false
+            },
+            "recordSaysPacketStillResolves": false,
+            "measuredPacketStillResolves": false,
+            "recordBoundBySurface": "guidance_packet_registry"
+          }
+        ],
+        "everyRouteSellableFalse": true,
+        "everyRouteCreditConsumableFalse": true,
+        "contractFlipConfirmed": [],
+        "renderJobSpecStillBuilds": [],
+        "recordClaimsRenderJobAllowed": false,
+        "renderJobClaimHolds": true
+      },
+      "4_areTheTwoAdmittedOpenFamiliesHonestlyDescribed": {
+        "thisFamilyIsNotOnTheAdmittedOpenList": true,
+        "measuredPacketStillResolves": false,
+        "correctlyOmitted": true
+      },
+      "5_didAnyPacketByteMove": {
+        "gitMeasurement": "git diff --name-status 38a83db1b^ 7d8fdc370 over each of the 16 family overlay directories returns nothing, and the two terminalization commits contain no D entries anywhere. The working tree is clean under data/rcap-all50/overlays/.",
+        "hashesRecomputed": [
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ky/ky-felony-vacatur-expungement-set--official-pdf-fill/reports/rendered-artifacts.json",
+            "matches": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ky/ky-felony-vacatur-expungement-set--official-pdf-fill/production-field-map.json",
+            "matches": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ky/ky-felony-vacatur-expungement-set--official-pdf-fill/participant-instructions.md",
+            "matches": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ky/ky-felony-vacatur-expungement-set--official-pdf-fill/fixtures/canonical--aoc-496-3.pdf",
+            "matches": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ky/ky-felony-vacatur-expungement-set--official-pdf-fill/fixtures/canonical--aoc-496-4.pdf",
+            "matches": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ky/ky-felony-vacatur-expungement-set--official-pdf-fill/fixtures/canonical.pdf",
+            "matches": true
+          }
+        ],
+        "bytesMoved": false,
+        "guardIsIncomplete": "The record hashes canonical PDFs, production-field-map.json, participant-instructions.md and rendered-artifacts.json, but no boundary PDF. Across the 16 family directories 23 boundary PDFs carry no hash in the record and no check in verify-terminal-treatments.mjs; any of them could be deleted or rewritten and all 855 checks would still pass. This lane measured them unchanged through git instead."
+      },
+      "findings": [
+        "F2b (not verdict-bearing): runtimeExpression.runtimeOutcomeMode is recorded as the treatment's outcome mode, but no legal-authority route contract exists for this family's routes, so no runtime object carries that outcome mode and routePaymentAuthority is never called. Closure is real and comes from the resolver branch the record names in boundBy (measured: routeKind exact_supported_deferral, rendererKind none, buildRenderJobSpec refused)."
+      ],
+      "verifiedAtBase": "7d8fdc37031ac88cd09908e4dfede7d30f015189"
+    },
+    {
+      "familyId": "ma-expunge-mj-set",
+      "jurisdiction": "MA",
+      "recordedTreatment": "GUIDANCE_READY",
+      "verdict": "TREATMENT_CORRECT",
+      "verdictScope": "The treatment word is correctly read from its controlling record, the runtime measured on every route of this family is closed, and buildRenderJobSpec refuses a specification on every route of this family.",
+      "1_wasTheTreatmentReadOrChosen": {
+        "question": "Recomputed from the route-ratification registry's own published statusVocabulary before reading the row's answer.",
+        "registryStatusesMeasured": [
+          {
+            "routeKey": "MA:marijuana-only-expungement",
+            "registryRowPresent": true,
+            "status": "held_guidance"
+          }
+        ],
+        "independentlyDerivedTreatment": "GUIDANCE_READY",
+        "derivationUsed": "registry statusVocabulary sentence \"Held to substantive guidance only. Not a packet route.\" for status held_guidance",
+        "matchesRecordedTreatment": true,
+        "recordsOwnClaim": "route-ratification-registry status held_guidance -> GUIDANCE_READY, by the registry's own statusVocabulary.",
+        "recordsClaimIsAccurate": true,
+        "readNotChosen": true,
+        "caveat": "The registry publishes status sentences, not treatment words. The sentence-to-treatment step (\"Deliberately out of scope.\" -> OUT_OF_SCOPE, \"Held to substantive guidance only. Not a packet route.\" and \"Approved release behaviour for a guidance outcome. Not a paid packet.\" -> GUIDANCE_READY) is an interpretive step this verifier performed independently and agrees with. It is a reading, not a mechanical lookup."
+      },
+      "2_doTheQuotedStringsAppearByteForByte": {
+        "ownerDecisionQuote": {
+          "decisionIdFoundInOwnerFile": true,
+          "fieldsCompared": [
+            "decidedOn",
+            "decisionOwner",
+            "decision",
+            "theQuestionAsked",
+            "whatWouldReopenIt",
+            "consequences"
+          ],
+          "allByteIdentical": true
+        },
+        "participantFacingQuotes": [
+          {
+            "field": "destination.kind",
+            "byteExact": true
+          },
+          {
+            "field": "destination.name",
+            "byteExact": true
+          },
+          {
+            "field": "destination.detail",
+            "byteExact": true
+          },
+          {
+            "field": "destination.venue",
+            "byteExact": true
+          },
+          {
+            "field": "participantNextStep.mustBringOrRequest",
+            "byteExact": true,
+            "note": "every string value byte-identical; the record projects five keys and drops the source's `confirms`/`conditionDescription` keys, which carry no participant text"
+          },
+          {
+            "field": "participantNextStep.postGenerationHandoffs.quotes",
+            "byteExact": true
+          },
+          {
+            "field": "selfHelpStop.quotes",
+            "byteExact": true
+          },
+          {
+            "field": "selfHelpStop.scopeRestrictions.quotes",
+            "byteExact": true
+          },
+          {
+            "field": "selfHelpStop.legalDesignBlockers.quotes",
+            "byteExact": true
+          }
+        ],
+        "sha256Recomputed": {
+          "paths": 7,
+          "matching": 7,
+          "mismatching": []
+        }
+      },
+      "3_doesTheRuntimeAgree": {
+        "resolverCalled": "src/lib/rcap/documents/packet-route-resolver.ts resolvePacketRoute, loaded through scripts/lib/ts-esm-loader.mjs at the base commit",
+        "routes": [
+          {
+            "routeKey": "MA:marijuana-only-expungement",
+            "obligationRouteKey": "obligation:track-pathway:MA:ma-expunge-mj:marijuana-only-expungement",
+            "trackId": "ma-expunge-mj",
+            "resolverInput": {
+              "state": "MA",
+              "pathway": "marijuana-only-expungement",
+              "trackId": "ma-expunge-mj"
+            },
+            "registryRow": {
+              "present": true,
+              "status": "held_guidance"
+            },
+            "recordClaimsStatus": "held_guidance",
+            "measured": {
+              "routeKind": "guidance_only",
+              "rendererKind": "none",
+              "availability": "LEGAL_HOLD",
+              "sellable": false,
+              "creditConsumable": false,
+              "contractOutcomeMode": null,
+              "contractPacketFamily": null,
+              "routePaymentAuthority": null,
+              "packetRouteCanRender": false,
+              "buildRenderJobSpecReturnsASpec": false
+            },
+            "recordSaysPacketStillResolves": false,
+            "measuredPacketStillResolves": false,
+            "recordBoundBySurface": "legal_authority_route_contract"
+          }
+        ],
+        "everyRouteSellableFalse": true,
+        "everyRouteCreditConsumableFalse": true,
+        "contractFlipConfirmed": [
+          {
+            "routeKey": "MA:marijuana-only-expungement",
+            "outcomeMode": null,
+            "packetFamily": null,
+            "routePaymentAuthority": null,
+            "wasParticipantPacketAtCommit": "38a83db1b^",
+            "nowInGit": true
+          }
+        ],
+        "renderJobSpecStillBuilds": [],
+        "recordClaimsRenderJobAllowed": false,
+        "renderJobClaimHolds": true
+      },
+      "4_areTheTwoAdmittedOpenFamiliesHonestlyDescribed": {
+        "thisFamilyIsNotOnTheAdmittedOpenList": true,
+        "measuredPacketStillResolves": false,
+        "correctlyOmitted": true
+      },
+      "5_didAnyPacketByteMove": {
+        "gitMeasurement": "git diff --name-status 38a83db1b^ 7d8fdc370 over each of the 16 family overlay directories returns nothing, and the two terminalization commits contain no D entries anywhere. The working tree is clean under data/rcap-all50/overlays/.",
+        "hashesRecomputed": [
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ma/ma-expunge-mj-set--official-pdf-fill/reports/rendered-artifacts.json",
+            "matches": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ma/ma-expunge-mj-set--official-pdf-fill/production-field-map.json",
+            "matches": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ma/ma-expunge-mj-set--official-pdf-fill/participant-instructions.md",
+            "matches": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ma/ma-expunge-mj-set--official-pdf-fill/fixtures/canonical.pdf",
+            "matches": true
+          }
+        ],
+        "bytesMoved": false,
+        "guardIsIncomplete": "The record hashes canonical PDFs, production-field-map.json, participant-instructions.md and rendered-artifacts.json, but no boundary PDF. Across the 16 family directories 23 boundary PDFs carry no hash in the record and no check in verify-terminal-treatments.mjs; any of them could be deleted or rewritten and all 855 checks would still pass. This lane measured them unchanged through git instead."
+      },
+      "findings": [],
+      "verifiedAtBase": "7d8fdc37031ac88cd09908e4dfede7d30f015189"
+    },
+    {
+      "familyId": "md_second_chance_shielding-set",
+      "jurisdiction": "MD",
+      "recordedTreatment": "OUT_OF_SCOPE",
+      "verdict": "TREATMENT_UNSUPPORTED_BY_ITS_SOURCE",
+      "verdictScope": "The treatment WORD is correctly read from its controlling record and the route is genuinely not sellable and not credit-consumable. What is unsupported is the record's runtimeExpression and its checkout.renderJobAllowed=false: no legal-authority route contract exists for these routes, so routePaymentAuthority — the derivation the record names — is never called on them, and buildRenderJobSpec still returns a render job specification with rendererKind packet_document_v1.",
+      "1_wasTheTreatmentReadOrChosen": {
+        "question": "Recomputed from the route-ratification registry's own published statusVocabulary before reading the row's answer.",
+        "registryStatusesMeasured": [
+          {
+            "routeKey": "MD:second-chance-act-shielding",
+            "registryRowPresent": true,
+            "status": "intentional_unsupported"
+          }
+        ],
+        "independentlyDerivedTreatment": "OUT_OF_SCOPE",
+        "derivationUsed": "registry statusVocabulary sentence \"Deliberately out of scope.\" for status intentional_unsupported",
+        "matchesRecordedTreatment": true,
+        "recordsOwnClaim": "route-ratification-registry status intentional_unsupported -> OUT_OF_SCOPE, by the registry's own statusVocabulary.",
+        "recordsClaimIsAccurate": true,
+        "readNotChosen": true,
+        "caveat": "The registry publishes status sentences, not treatment words. The sentence-to-treatment step (\"Deliberately out of scope.\" -> OUT_OF_SCOPE, \"Held to substantive guidance only. Not a packet route.\" and \"Approved release behaviour for a guidance outcome. Not a paid packet.\" -> GUIDANCE_READY) is an interpretive step this verifier performed independently and agrees with. It is a reading, not a mechanical lookup."
+      },
+      "2_doTheQuotedStringsAppearByteForByte": {
+        "ownerDecisionQuote": {
+          "decisionIdFoundInOwnerFile": true,
+          "fieldsCompared": [
+            "decidedOn",
+            "decisionOwner",
+            "decision",
+            "theQuestionAsked",
+            "whatWouldReopenIt",
+            "consequences"
+          ],
+          "allByteIdentical": true
+        },
+        "participantFacingQuotes": [
+          {
+            "field": "destination.kind",
+            "byteExact": true
+          },
+          {
+            "field": "destination.name",
+            "byteExact": true
+          },
+          {
+            "field": "destination.detail",
+            "byteExact": true
+          },
+          {
+            "field": "destination.venue",
+            "byteExact": true
+          },
+          {
+            "field": "participantNextStep.mustBringOrRequest",
+            "byteExact": true,
+            "note": "every string value byte-identical; the record projects five keys and drops the source's `confirms`/`conditionDescription` keys, which carry no participant text"
+          },
+          {
+            "field": "participantNextStep.postGenerationHandoffs.quotes",
+            "byteExact": true
+          },
+          {
+            "field": "selfHelpStop.quotes",
+            "byteExact": true
+          },
+          {
+            "field": "selfHelpStop.scopeRestrictions.quotes",
+            "byteExact": true
+          },
+          {
+            "field": "selfHelpStop.legalDesignBlockers.quotes",
+            "byteExact": true
+          }
+        ],
+        "sha256Recomputed": {
+          "paths": 7,
+          "matching": 7,
+          "mismatching": []
+        }
+      },
+      "3_doesTheRuntimeAgree": {
+        "resolverCalled": "src/lib/rcap/documents/packet-route-resolver.ts resolvePacketRoute, loaded through scripts/lib/ts-esm-loader.mjs at the base commit",
+        "routes": [
+          {
+            "routeKey": "MD:second-chance-act-shielding",
+            "obligationRouteKey": "obligation:track-pathway:MD:md_second_chance_shielding:second-chance-act-shielding",
+            "trackId": "md_second_chance_shielding",
+            "resolverInput": {
+              "state": "MD",
+              "pathway": "second-chance-act-shielding",
+              "trackId": "md_second_chance_shielding"
+            },
+            "registryRow": {
+              "present": true,
+              "status": "intentional_unsupported"
+            },
+            "recordClaimsStatus": "intentional_unsupported",
+            "measured": {
+              "routeKind": "factory_v2",
+              "rendererKind": "packet_document_v1",
+              "availability": "UNFINISHED",
+              "sellable": false,
+              "creditConsumable": false,
+              "contractOutcomeMode": null,
+              "contractPacketFamily": null,
+              "routePaymentAuthority": null,
+              "packetRouteCanRender": true,
+              "buildRenderJobSpecReturnsASpec": true
+            },
+            "recordSaysPacketStillResolves": true,
+            "measuredPacketStillResolves": true,
+            "recordBoundBySurface": null
+          }
+        ],
+        "everyRouteSellableFalse": true,
+        "everyRouteCreditConsumableFalse": true,
+        "contractFlipConfirmed": [],
+        "renderJobSpecStillBuilds": [
+          "MD:second-chance-act-shielding"
+        ],
+        "recordClaimsRenderJobAllowed": false,
+        "renderJobClaimHolds": false
+      },
+      "4_areTheTwoAdmittedOpenFamiliesHonestlyDescribed": {
+        "thisFamilyIsOnTheAdmittedOpenList": true,
+        "measuredRouteKind": [
+          "factory_v2"
+        ],
+        "measuredResolvedPacketSet": "md_second_chance_shielding-set",
+        "claimShadowResolutionToRetiredPacketSet": "ACCURATE — resolvePacketRoute returns routeKind factory_v2 naming the retired packet set, availability UNFINISHED",
+        "claimNothingIsSold": "ACCURATE — sellable false",
+        "claimNoCreditIsConsumed": "ACCURATE — creditConsumable false",
+        "claimCompiledProfileProjectsPacketCapableFalse": "ACCURATE — src/lib/rcap-engine/compiled/profiles/MD-maryland.json lawrenceRatification: status intentional_unsupported, packet_capable false, payment_allowed_when_engine_confirms false",
+        "claimNoRenderJobOpens": "FALSE — buildRenderJobSpec (src/lib/rcap/render/job-contract.ts:316) returns a RenderJobSpec with rendererKind packet_document_v1 for this route, because it refuses only component_deferral, exact_supported_deferral and rendererKind none, and never consults sellable. packetRouteCanRender is true, so the download handler src/app/api/rcap/documents/[packetId]/pdf/[pdfType]/route.ts:29-33 does not close on this route either.",
+        "isItWorseThanDescribed": "YES, in one clause. Everything else in whatIsAlreadyTrue is accurate. Whether a participant could reach a rendered byte end to end is NOT_MEASURABLE_HERE: it needs an existing document-packet row and the Supabase auth/RLS boundary, which this lane may not touch."
+      },
+      "5_didAnyPacketByteMove": {
+        "gitMeasurement": "git diff --name-status 38a83db1b^ 7d8fdc370 over each of the 16 family overlay directories returns nothing, and the two terminalization commits contain no D entries anywhere. The working tree is clean under data/rcap-all50/overlays/.",
+        "hashesRecomputed": [
+          {
+            "path": "data/rcap-all50/overlays/census-v1/md/md-second-chance-shielding-set--official-pdf-fill/reports/rendered-artifacts.json",
+            "matches": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/md/md-second-chance-shielding-set--official-pdf-fill/production-field-map.json",
+            "matches": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/md/md-second-chance-shielding-set--official-pdf-fill/participant-instructions.md",
+            "matches": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/md/md-second-chance-shielding-set--official-pdf-fill/fixtures/canonical.pdf",
+            "matches": true
+          }
+        ],
+        "bytesMoved": false,
+        "guardIsIncomplete": "The record hashes canonical PDFs, production-field-map.json, participant-instructions.md and rendered-artifacts.json, but no boundary PDF. Across the 16 family directories 23 boundary PDFs carry no hash in the record and no check in verify-terminal-treatments.mjs; any of them could be deleted or rewritten and all 855 checks would still pass. This lane measured them unchanged through git instead."
+      },
+      "findings": [
+        "F1 (verdict-bearing): checkout.renderJobAllowed is recorded false, and buildRenderJobSpec returns a real RenderJobSpec (rendererKind packet_document_v1) for this family's routes. src/lib/rcap/render/job-contract.ts:319 refuses only component_deferral, exact_supported_deferral and rendererKind none; it never consults sellable. Proven by direct call at the base commit.",
+        "F2 (verdict-bearing): runtimeExpression.paymentDerivedBy names \"src/lib/legal-authority/index.ts routePaymentAuthority\", but legalRouteContract() returns null for every route of this family, so routePaymentAuthority is never called on it. The closure that does exist comes from a different mechanism, which the record states accurately per-route in boundBy and inaccurately per-family in runtimeExpression."
+      ],
+      "verifiedAtBase": "7d8fdc37031ac88cd09908e4dfede7d30f015189"
+    },
+    {
+      "familyId": "ne-expunge-le-error-set",
+      "jurisdiction": "NE",
+      "recordedTreatment": "GUIDANCE_READY",
+      "verdict": "TREATMENT_CORRECT",
+      "verdictScope": "The treatment word is correctly read from its controlling record, the runtime measured on every route of this family is closed, and buildRenderJobSpec refuses a specification on every route of this family.",
+      "1_wasTheTreatmentReadOrChosen": {
+        "question": "Recomputed from the route-ratification registry's own published statusVocabulary before reading the row's answer.",
+        "registryStatusesMeasured": [
+          {
+            "routeKey": "NE:law-enforcement-error-expungement",
+            "registryRowPresent": true,
+            "status": "held_guidance"
+          }
+        ],
+        "independentlyDerivedTreatment": "GUIDANCE_READY",
+        "derivationUsed": "registry statusVocabulary sentence \"Held to substantive guidance only. Not a packet route.\" for status held_guidance",
+        "matchesRecordedTreatment": true,
+        "recordsOwnClaim": "route-ratification-registry status held_guidance -> GUIDANCE_READY, by the registry's own statusVocabulary.",
+        "recordsClaimIsAccurate": true,
+        "readNotChosen": true,
+        "caveat": "The registry publishes status sentences, not treatment words. The sentence-to-treatment step (\"Deliberately out of scope.\" -> OUT_OF_SCOPE, \"Held to substantive guidance only. Not a packet route.\" and \"Approved release behaviour for a guidance outcome. Not a paid packet.\" -> GUIDANCE_READY) is an interpretive step this verifier performed independently and agrees with. It is a reading, not a mechanical lookup."
+      },
+      "2_doTheQuotedStringsAppearByteForByte": {
+        "ownerDecisionQuote": {
+          "decisionIdFoundInOwnerFile": true,
+          "fieldsCompared": [
+            "decidedOn",
+            "decisionOwner",
+            "decision",
+            "theQuestionAsked",
+            "whatWouldReopenIt",
+            "consequences"
+          ],
+          "allByteIdentical": true
+        },
+        "participantFacingQuotes": [
+          {
+            "field": "destination.kind",
+            "byteExact": true
+          },
+          {
+            "field": "destination.name",
+            "byteExact": true
+          },
+          {
+            "field": "destination.detail",
+            "byteExact": true
+          },
+          {
+            "field": "destination.venue",
+            "byteExact": true
+          },
+          {
+            "field": "participantNextStep.mustBringOrRequest",
+            "byteExact": true,
+            "note": "every string value byte-identical; the record projects five keys and drops the source's `confirms`/`conditionDescription` keys, which carry no participant text"
+          },
+          {
+            "field": "participantNextStep.postGenerationHandoffs.quotes",
+            "byteExact": true
+          },
+          {
+            "field": "selfHelpStop.quotes",
+            "byteExact": true
+          },
+          {
+            "field": "selfHelpStop.scopeRestrictions.quotes",
+            "byteExact": true
+          },
+          {
+            "field": "selfHelpStop.legalDesignBlockers.quotes",
+            "byteExact": true
+          }
+        ],
+        "sha256Recomputed": {
+          "paths": 7,
+          "matching": 7,
+          "mismatching": []
+        }
+      },
+      "3_doesTheRuntimeAgree": {
+        "resolverCalled": "src/lib/rcap/documents/packet-route-resolver.ts resolvePacketRoute, loaded through scripts/lib/ts-esm-loader.mjs at the base commit",
+        "routes": [
+          {
+            "routeKey": "NE:law-enforcement-error-expungement",
+            "obligationRouteKey": "obligation:track-pathway:NE:ne-expunge-le-error:law-enforcement-error-expungement",
+            "trackId": "ne-expunge-le-error",
+            "resolverInput": {
+              "state": "NE",
+              "pathway": "law-enforcement-error-expungement",
+              "trackId": "ne-expunge-le-error"
+            },
+            "registryRow": {
+              "present": true,
+              "status": "held_guidance"
+            },
+            "recordClaimsStatus": "held_guidance",
+            "measured": {
+              "routeKind": "guidance_only",
+              "rendererKind": "none",
+              "availability": "LEGAL_HOLD",
+              "sellable": false,
+              "creditConsumable": false,
+              "contractOutcomeMode": null,
+              "contractPacketFamily": null,
+              "routePaymentAuthority": null,
+              "packetRouteCanRender": false,
+              "buildRenderJobSpecReturnsASpec": false
+            },
+            "recordSaysPacketStillResolves": false,
+            "measuredPacketStillResolves": false,
+            "recordBoundBySurface": "legal_authority_route_contract"
+          }
+        ],
+        "everyRouteSellableFalse": true,
+        "everyRouteCreditConsumableFalse": true,
+        "contractFlipConfirmed": [
+          {
+            "routeKey": "NE:law-enforcement-error-expungement",
+            "outcomeMode": null,
+            "packetFamily": null,
+            "routePaymentAuthority": null,
+            "wasParticipantPacketAtCommit": "38a83db1b^",
+            "nowInGit": true
+          }
+        ],
+        "renderJobSpecStillBuilds": [],
+        "recordClaimsRenderJobAllowed": false,
+        "renderJobClaimHolds": true
+      },
+      "4_areTheTwoAdmittedOpenFamiliesHonestlyDescribed": {
+        "thisFamilyIsNotOnTheAdmittedOpenList": true,
+        "measuredPacketStillResolves": false,
+        "correctlyOmitted": true
+      },
+      "5_didAnyPacketByteMove": {
+        "gitMeasurement": "git diff --name-status 38a83db1b^ 7d8fdc370 over each of the 16 family overlay directories returns nothing, and the two terminalization commits contain no D entries anywhere. The working tree is clean under data/rcap-all50/overlays/.",
+        "hashesRecomputed": [
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ne/ne-expunge-le-error-set--custom-pleading/reports/rendered-artifacts.json",
+            "matches": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ne/ne-expunge-le-error-set--custom-pleading/production-field-map.json",
+            "matches": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ne/ne-expunge-le-error-set--custom-pleading/participant-instructions.md",
+            "matches": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ne/ne-expunge-le-error-set--custom-pleading/fixtures/canonical.pdf",
+            "matches": true
+          }
+        ],
+        "bytesMoved": false,
+        "guardIsIncomplete": "The record hashes canonical PDFs, production-field-map.json, participant-instructions.md and rendered-artifacts.json, but no boundary PDF. Across the 16 family directories 23 boundary PDFs carry no hash in the record and no check in verify-terminal-treatments.mjs; any of them could be deleted or rewritten and all 855 checks would still pass. This lane measured them unchanged through git instead."
+      },
+      "findings": [],
+      "verifiedAtBase": "7d8fdc37031ac88cd09908e4dfede7d30f015189"
+    },
+    {
+      "familyId": "nj_clean_slate-set",
+      "jurisdiction": "NJ",
+      "recordedTreatment": "GUIDANCE_READY",
+      "verdict": "TREATMENT_CORRECT",
+      "verdictScope": "The treatment word is correctly read from its controlling record, the runtime measured on every route of this family is closed, and buildRenderJobSpec refuses a specification on every route of this family.",
+      "1_wasTheTreatmentReadOrChosen": {
+        "question": "Recomputed from the route-ratification registry's own published statusVocabulary before reading the row's answer.",
+        "registryStatusesMeasured": [
+          {
+            "routeKey": "NJ:clean-slate-petition-under-n-j-s-a-2c-52-5-3",
+            "registryRowPresent": true,
+            "status": "held_guidance"
+          }
+        ],
+        "independentlyDerivedTreatment": "GUIDANCE_READY",
+        "derivationUsed": "registry statusVocabulary sentence \"Held to substantive guidance only. Not a packet route.\" for status held_guidance",
+        "matchesRecordedTreatment": true,
+        "recordsOwnClaim": "route-ratification-registry status held_guidance -> GUIDANCE_READY, by the registry's own statusVocabulary.",
+        "recordsClaimIsAccurate": true,
+        "readNotChosen": true,
+        "caveat": "The registry publishes status sentences, not treatment words. The sentence-to-treatment step (\"Deliberately out of scope.\" -> OUT_OF_SCOPE, \"Held to substantive guidance only. Not a packet route.\" and \"Approved release behaviour for a guidance outcome. Not a paid packet.\" -> GUIDANCE_READY) is an interpretive step this verifier performed independently and agrees with. It is a reading, not a mechanical lookup."
+      },
+      "2_doTheQuotedStringsAppearByteForByte": {
+        "ownerDecisionQuote": {
+          "decisionIdFoundInOwnerFile": true,
+          "fieldsCompared": [
+            "decidedOn",
+            "decisionOwner",
+            "decision",
+            "theQuestionAsked",
+            "whatWouldReopenIt",
+            "consequences"
+          ],
+          "allByteIdentical": true
+        },
+        "participantFacingQuotes": [
+          {
+            "field": "destination.kind",
+            "byteExact": true
+          },
+          {
+            "field": "destination.name",
+            "byteExact": true
+          },
+          {
+            "field": "destination.detail",
+            "byteExact": true
+          },
+          {
+            "field": "destination.venue",
+            "byteExact": true
+          },
+          {
+            "field": "participantNextStep.mustBringOrRequest",
+            "byteExact": true,
+            "note": "every string value byte-identical; the record projects five keys and drops the source's `confirms`/`conditionDescription` keys, which carry no participant text"
+          },
+          {
+            "field": "participantNextStep.postGenerationHandoffs.quotes",
+            "byteExact": true
+          },
+          {
+            "field": "selfHelpStop.quotes",
+            "byteExact": true
+          },
+          {
+            "field": "selfHelpStop.scopeRestrictions.quotes",
+            "byteExact": true
+          },
+          {
+            "field": "selfHelpStop.legalDesignBlockers.quotes",
+            "byteExact": true
+          }
+        ],
+        "sha256Recomputed": {
+          "paths": 7,
+          "matching": 7,
+          "mismatching": []
+        }
+      },
+      "3_doesTheRuntimeAgree": {
+        "resolverCalled": "src/lib/rcap/documents/packet-route-resolver.ts resolvePacketRoute, loaded through scripts/lib/ts-esm-loader.mjs at the base commit",
+        "routes": [
+          {
+            "routeKey": "NJ:clean-slate-petition-under-n-j-s-a-2c-52-5-3",
+            "obligationRouteKey": "obligation:track-pathway:NJ:nj_clean_slate:clean-slate-petition-under-n-j-s-a-2c-52-5-3",
+            "trackId": "nj_clean_slate",
+            "resolverInput": {
+              "state": "NJ",
+              "pathway": "clean-slate-petition-under-n-j-s-a-2c-52-5-3",
+              "trackId": "nj_clean_slate"
+            },
+            "registryRow": {
+              "present": true,
+              "status": "held_guidance"
+            },
+            "recordClaimsStatus": "held_guidance",
+            "measured": {
+              "routeKind": "guidance_only",
+              "rendererKind": "none",
+              "availability": "LEGAL_HOLD",
+              "sellable": false,
+              "creditConsumable": false,
+              "contractOutcomeMode": null,
+              "contractPacketFamily": null,
+              "routePaymentAuthority": null,
+              "packetRouteCanRender": false,
+              "buildRenderJobSpecReturnsASpec": false
+            },
+            "recordSaysPacketStillResolves": false,
+            "measuredPacketStillResolves": false,
+            "recordBoundBySurface": "legal_authority_route_contract"
+          }
+        ],
+        "everyRouteSellableFalse": true,
+        "everyRouteCreditConsumableFalse": true,
+        "contractFlipConfirmed": [
+          {
+            "routeKey": "NJ:clean-slate-petition-under-n-j-s-a-2c-52-5-3",
+            "outcomeMode": null,
+            "packetFamily": null,
+            "routePaymentAuthority": null,
+            "wasParticipantPacketAtCommit": "38a83db1b^",
+            "nowInGit": true
+          }
+        ],
+        "renderJobSpecStillBuilds": [],
+        "recordClaimsRenderJobAllowed": false,
+        "renderJobClaimHolds": true
+      },
+      "4_areTheTwoAdmittedOpenFamiliesHonestlyDescribed": {
+        "thisFamilyIsNotOnTheAdmittedOpenList": true,
+        "measuredPacketStillResolves": false,
+        "correctlyOmitted": true
+      },
+      "5_didAnyPacketByteMove": {
+        "gitMeasurement": "git diff --name-status 38a83db1b^ 7d8fdc370 over each of the 16 family overlay directories returns nothing, and the two terminalization commits contain no D entries anywhere. The working tree is clean under data/rcap-all50/overlays/.",
+        "hashesRecomputed": [
+          {
+            "path": "data/rcap-all50/overlays/census-v1/nj/nj-clean-slate-set--official-pdf-fill/reports/rendered-artifacts.json",
+            "matches": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/nj/nj-clean-slate-set--official-pdf-fill/production-field-map.json",
+            "matches": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/nj/nj-clean-slate-set--official-pdf-fill/participant-instructions.md",
+            "matches": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/nj/nj-clean-slate-set--official-pdf-fill/fixtures/cn-10557-canonical.pdf",
+            "matches": true
+          }
+        ],
+        "bytesMoved": false,
+        "guardIsIncomplete": "The record hashes canonical PDFs, production-field-map.json, participant-instructions.md and rendered-artifacts.json, but no boundary PDF. Across the 16 family directories 23 boundary PDFs carry no hash in the record and no check in verify-terminal-treatments.mjs; any of them could be deleted or rewritten and all 855 checks would still pass. This lane measured them unchanged through git instead."
+      },
+      "findings": [],
+      "verifiedAtBase": "7d8fdc37031ac88cd09908e4dfede7d30f015189"
+    },
+    {
+      "familyId": "or_conviction_setaside-set",
+      "jurisdiction": "OR",
+      "recordedTreatment": "GUIDANCE_READY",
+      "verdict": "TREATMENT_CORRECT",
+      "verdictScope": "The treatment word is correctly read from its controlling record, the runtime measured on every route of this family is closed, and buildRenderJobSpec refuses a specification on every route of this family.",
+      "1_wasTheTreatmentReadOrChosen": {
+        "question": "Recomputed from the route-ratification registry's own published statusVocabulary before reading the row's answer.",
+        "registryStatusesMeasured": [
+          {
+            "routeKey": "OR:marijuana-specific-set-aside-redesignation",
+            "registryRowPresent": true,
+            "status": "held_guidance"
+          }
+        ],
+        "independentlyDerivedTreatment": "GUIDANCE_READY",
+        "derivationUsed": "registry statusVocabulary sentence \"Held to substantive guidance only. Not a packet route.\" for status held_guidance",
+        "matchesRecordedTreatment": true,
+        "recordsOwnClaim": "route-ratification-registry status held_guidance -> GUIDANCE_READY, by the registry's own statusVocabulary.",
+        "recordsClaimIsAccurate": true,
+        "readNotChosen": true,
+        "caveat": "The registry publishes status sentences, not treatment words. The sentence-to-treatment step (\"Deliberately out of scope.\" -> OUT_OF_SCOPE, \"Held to substantive guidance only. Not a packet route.\" and \"Approved release behaviour for a guidance outcome. Not a paid packet.\" -> GUIDANCE_READY) is an interpretive step this verifier performed independently and agrees with. It is a reading, not a mechanical lookup."
+      },
+      "2_doTheQuotedStringsAppearByteForByte": {
+        "ownerDecisionQuote": {
+          "decisionIdFoundInOwnerFile": true,
+          "fieldsCompared": [
+            "decidedOn",
+            "decisionOwner",
+            "decision",
+            "theQuestionAsked",
+            "whatWouldReopenIt",
+            "consequences"
+          ],
+          "allByteIdentical": true
+        },
+        "participantFacingQuotes": [
+          {
+            "field": "destination.kind",
+            "byteExact": true
+          },
+          {
+            "field": "destination.name",
+            "byteExact": true
+          },
+          {
+            "field": "destination.detail",
+            "byteExact": true
+          },
+          {
+            "field": "destination.venue",
+            "byteExact": true
+          },
+          {
+            "field": "participantNextStep.mustBringOrRequest",
+            "byteExact": true,
+            "note": "every string value byte-identical; the record projects five keys and drops the source's `confirms`/`conditionDescription` keys, which carry no participant text"
+          },
+          {
+            "field": "participantNextStep.postGenerationHandoffs.quotes",
+            "byteExact": true
+          },
+          {
+            "field": "selfHelpStop.quotes",
+            "byteExact": true
+          },
+          {
+            "field": "selfHelpStop.scopeRestrictions.quotes",
+            "byteExact": true
+          },
+          {
+            "field": "selfHelpStop.legalDesignBlockers.quotes",
+            "byteExact": true
+          }
+        ],
+        "sha256Recomputed": {
+          "paths": 8,
+          "matching": 8,
+          "mismatching": []
+        }
+      },
+      "3_doesTheRuntimeAgree": {
+        "resolverCalled": "src/lib/rcap/documents/packet-route-resolver.ts resolvePacketRoute, loaded through scripts/lib/ts-esm-loader.mjs at the base commit",
+        "routes": [
+          {
+            "routeKey": "OR:marijuana-specific-set-aside-redesignation",
+            "obligationRouteKey": "obligation:track-pathway:OR:or_conviction_setaside:marijuana-specific-set-aside-redesignation",
+            "trackId": "or_conviction_setaside",
+            "resolverInput": {
+              "state": "OR",
+              "pathway": "marijuana-specific-set-aside-redesignation",
+              "trackId": "or_conviction_setaside"
+            },
+            "registryRow": {
+              "present": true,
+              "status": "held_guidance"
+            },
+            "recordClaimsStatus": "held_guidance",
+            "measured": {
+              "routeKind": "guidance_only",
+              "rendererKind": "none",
+              "availability": "LEGAL_HOLD",
+              "sellable": false,
+              "creditConsumable": false,
+              "contractOutcomeMode": null,
+              "contractPacketFamily": null,
+              "routePaymentAuthority": null,
+              "packetRouteCanRender": false,
+              "buildRenderJobSpecReturnsASpec": false
+            },
+            "recordSaysPacketStillResolves": false,
+            "measuredPacketStillResolves": false,
+            "recordBoundBySurface": "legal_authority_route_contract"
+          }
+        ],
+        "everyRouteSellableFalse": true,
+        "everyRouteCreditConsumableFalse": true,
+        "contractFlipConfirmed": [
+          {
+            "routeKey": "OR:marijuana-specific-set-aside-redesignation",
+            "outcomeMode": null,
+            "packetFamily": null,
+            "routePaymentAuthority": null,
+            "wasParticipantPacketAtCommit": "38a83db1b^",
+            "nowInGit": true
+          }
+        ],
+        "renderJobSpecStillBuilds": [],
+        "recordClaimsRenderJobAllowed": false,
+        "renderJobClaimHolds": true
+      },
+      "4_areTheTwoAdmittedOpenFamiliesHonestlyDescribed": {
+        "thisFamilyIsNotOnTheAdmittedOpenList": true,
+        "measuredPacketStillResolves": false,
+        "correctlyOmitted": true
+      },
+      "5_didAnyPacketByteMove": {
+        "gitMeasurement": "git diff --name-status 38a83db1b^ 7d8fdc370 over each of the 16 family overlay directories returns nothing, and the two terminalization commits contain no D entries anywhere. The working tree is clean under data/rcap-all50/overlays/.",
+        "hashesRecomputed": [
+          {
+            "path": "data/rcap-all50/overlays/census-v1/or/or-conviction-setaside-set--official-pdf-fill/reports/rendered-artifacts.json",
+            "matches": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/or/or-conviction-setaside-set--official-pdf-fill/production-field-map.json",
+            "matches": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/or/or-conviction-setaside-set--official-pdf-fill/participant-instructions.md",
+            "matches": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/or/or-conviction-setaside-set--official-pdf-fill/fixtures/canonical--motion-and-declaration.pdf",
+            "matches": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/or/or-conviction-setaside-set--official-pdf-fill/fixtures/canonical.pdf",
+            "matches": true
+          }
+        ],
+        "bytesMoved": false,
+        "guardIsIncomplete": "The record hashes canonical PDFs, production-field-map.json, participant-instructions.md and rendered-artifacts.json, but no boundary PDF. Across the 16 family directories 23 boundary PDFs carry no hash in the record and no check in verify-terminal-treatments.mjs; any of them could be deleted or rewritten and all 855 checks would still pass. This lane measured them unchanged through git instead."
+      },
+      "findings": [
+        "F5 (not verdict-bearing, but a real defect in a ratified file): src/lib/legal-authority/routes/single-routes.json:816 — this route's notes carry the terminalization paragraph TWICE, and the second copy states \"The retired binding is preserved for history: packetFamily \\\"null\\\".\" That is false; the retired packetFamily was \"Oregon Marijuana Set-Aside Motion under ORS 475C.397\" with three packetComponents, as the first copy correctly records. The generator is not idempotent and its second pass read the already-nulled field. The record's sources.legalAuthorityRouteContracts hash for single-routes.json matches this file, so the treatment record ratifies a contract containing a false preservation statement."
+      ],
+      "verifiedAtBase": "7d8fdc37031ac88cd09908e4dfede7d30f015189"
+    },
+    {
+      "familyId": "pa_9122_1_limited_access-set",
+      "jurisdiction": "PA",
+      "recordedTreatment": "GUIDANCE_READY",
+      "verdict": "TREATMENT_UNSUPPORTED_BY_ITS_SOURCE",
+      "verdictScope": "The treatment WORD is correctly read from its controlling record and the route is genuinely not sellable and not credit-consumable. What is unsupported is the record's runtimeExpression and its checkout.renderJobAllowed=false: no legal-authority route contract exists for these routes, so routePaymentAuthority — the derivation the record names — is never called on them, and buildRenderJobSpec still returns a render job specification with rendererKind packet_document_v1.",
+      "1_wasTheTreatmentReadOrChosen": {
+        "question": "Recomputed from the route-ratification registry's own published statusVocabulary before reading the row's answer.",
+        "registryStatusesMeasured": [
+          {
+            "routeKey": "PA:path-i-petition-for-limited-access",
+            "registryRowPresent": true,
+            "status": "approved_release_guidance"
+          }
+        ],
+        "independentlyDerivedTreatment": "GUIDANCE_READY",
+        "derivationUsed": "registry statusVocabulary sentence \"Approved release behaviour for a guidance outcome. Not a paid packet.\" for status approved_release_guidance",
+        "matchesRecordedTreatment": true,
+        "recordsOwnClaim": "route-ratification-registry status approved_release_guidance -> GUIDANCE_READY, by the registry's own statusVocabulary.",
+        "recordsClaimIsAccurate": true,
+        "readNotChosen": true,
+        "caveat": "The registry publishes status sentences, not treatment words. The sentence-to-treatment step (\"Deliberately out of scope.\" -> OUT_OF_SCOPE, \"Held to substantive guidance only. Not a packet route.\" and \"Approved release behaviour for a guidance outcome. Not a paid packet.\" -> GUIDANCE_READY) is an interpretive step this verifier performed independently and agrees with. It is a reading, not a mechanical lookup."
+      },
+      "2_doTheQuotedStringsAppearByteForByte": {
+        "ownerDecisionQuote": {
+          "decisionIdFoundInOwnerFile": true,
+          "fieldsCompared": [
+            "decidedOn",
+            "decisionOwner",
+            "decision",
+            "theQuestionAsked",
+            "whatWouldReopenIt",
+            "consequences"
+          ],
+          "allByteIdentical": true
+        },
+        "participantFacingQuotes": [
+          {
+            "field": "destination.kind",
+            "byteExact": true
+          },
+          {
+            "field": "destination.name",
+            "byteExact": true
+          },
+          {
+            "field": "destination.detail",
+            "byteExact": true
+          },
+          {
+            "field": "destination.venue",
+            "byteExact": true
+          },
+          {
+            "field": "participantNextStep.mustBringOrRequest",
+            "byteExact": true,
+            "note": "every string value byte-identical; the record projects five keys and drops the source's `confirms`/`conditionDescription` keys, which carry no participant text"
+          },
+          {
+            "field": "participantNextStep.postGenerationHandoffs.quotes",
+            "byteExact": true
+          },
+          {
+            "field": "selfHelpStop.quotes",
+            "byteExact": true
+          },
+          {
+            "field": "selfHelpStop.scopeRestrictions.quotes",
+            "byteExact": true
+          },
+          {
+            "field": "selfHelpStop.legalDesignBlockers.quotes",
+            "byteExact": true
+          }
+        ],
+        "sha256Recomputed": {
+          "paths": 8,
+          "matching": 8,
+          "mismatching": []
+        }
+      },
+      "3_doesTheRuntimeAgree": {
+        "resolverCalled": "src/lib/rcap/documents/packet-route-resolver.ts resolvePacketRoute, loaded through scripts/lib/ts-esm-loader.mjs at the base commit",
+        "routes": [
+          {
+            "routeKey": "PA:path-i-petition-for-limited-access",
+            "obligationRouteKey": "obligation:track-pathway:PA:pa_9122_1_limited_access:path-i-petition-for-limited-access",
+            "trackId": "pa_9122_1_limited_access",
+            "resolverInput": {
+              "state": "PA",
+              "pathway": "path-i-petition-for-limited-access",
+              "trackId": "pa_9122_1_limited_access"
+            },
+            "registryRow": {
+              "present": true,
+              "status": "approved_release_guidance"
+            },
+            "recordClaimsStatus": "approved_release_guidance",
+            "measured": {
+              "routeKind": "legacy_retired",
+              "rendererKind": "packet_document_v1",
+              "availability": "UNFINISHED",
+              "sellable": false,
+              "creditConsumable": false,
+              "contractOutcomeMode": null,
+              "contractPacketFamily": null,
+              "routePaymentAuthority": null,
+              "packetRouteCanRender": true,
+              "buildRenderJobSpecReturnsASpec": true
+            },
+            "recordSaysPacketStillResolves": false,
+            "measuredPacketStillResolves": false,
+            "recordBoundBySurface": "legacy_generator_retirement"
+          }
+        ],
+        "everyRouteSellableFalse": true,
+        "everyRouteCreditConsumableFalse": true,
+        "contractFlipConfirmed": [],
+        "renderJobSpecStillBuilds": [
+          "PA:path-i-petition-for-limited-access"
+        ],
+        "recordClaimsRenderJobAllowed": false,
+        "renderJobClaimHolds": false
+      },
+      "4_areTheTwoAdmittedOpenFamiliesHonestlyDescribed": {
+        "thisFamilyIsNotOnTheAdmittedOpenList": true,
+        "measuredPacketStillResolves": false,
+        "correctlyOmitted": true
+      },
+      "5_didAnyPacketByteMove": {
+        "gitMeasurement": "git diff --name-status 38a83db1b^ 7d8fdc370 over each of the 16 family overlay directories returns nothing, and the two terminalization commits contain no D entries anywhere. The working tree is clean under data/rcap-all50/overlays/.",
+        "hashesRecomputed": [
+          {
+            "path": "data/rcap-all50/overlays/census-v1/pa/pa-9122-1-limited-access-set--official-pdf-fill/reports/rendered-artifacts.json",
+            "matches": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/pa/pa-9122-1-limited-access-set--official-pdf-fill/production-field-map.json",
+            "matches": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/pa/pa-9122-1-limited-access-set--official-pdf-fill/participant-instructions.md",
+            "matches": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/pa/pa-9122-1-limited-access-set--official-pdf-fill/fixtures/rule-791-order-canonical.pdf",
+            "matches": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/pa/pa-9122-1-limited-access-set--official-pdf-fill/fixtures/rule-791-petition-canonical.pdf",
+            "matches": true
+          }
+        ],
+        "bytesMoved": false,
+        "guardIsIncomplete": "The record hashes canonical PDFs, production-field-map.json, participant-instructions.md and rendered-artifacts.json, but no boundary PDF. Across the 16 family directories 23 boundary PDFs carry no hash in the record and no check in verify-terminal-treatments.mjs; any of them could be deleted or rewritten and all 855 checks would still pass. This lane measured them unchanged through git instead."
+      },
+      "findings": [
+        "F1 (verdict-bearing): checkout.renderJobAllowed is recorded false, and buildRenderJobSpec returns a real RenderJobSpec (rendererKind packet_document_v1) for this family's routes. src/lib/rcap/render/job-contract.ts:319 refuses only component_deferral, exact_supported_deferral and rendererKind none; it never consults sellable. Proven by direct call at the base commit.",
+        "F2 (verdict-bearing): runtimeExpression.paymentDerivedBy names \"src/lib/legal-authority/index.ts routePaymentAuthority\", but legalRouteContract() returns null for every route of this family, so routePaymentAuthority is never called on it. The closure that does exist comes from a different mechanism, which the record states accurately per-route in boundBy and inaccurately per-family in runtimeExpression."
+      ],
+      "verifiedAtBase": "7d8fdc37031ac88cd09908e4dfede7d30f015189"
+    },
+    {
+      "familyId": "pa_age70_deceased-set",
+      "jurisdiction": "PA",
+      "recordedTreatment": "GUIDANCE_READY",
+      "verdict": "TREATMENT_UNSUPPORTED_BY_ITS_SOURCE",
+      "verdictScope": "The treatment WORD is correctly read from its controlling record and the route is genuinely not sellable and not credit-consumable. What is unsupported is the record's runtimeExpression and its checkout.renderJobAllowed=false: no legal-authority route contract exists for these routes, so routePaymentAuthority — the derivation the record names — is never called on them, and buildRenderJobSpec still returns a render job specification with rendererKind packet_document_v1.",
+      "1_wasTheTreatmentReadOrChosen": {
+        "question": "Recomputed from the route-ratification registry's own published statusVocabulary before reading the row's answer.",
+        "registryStatusesMeasured": [
+          {
+            "routeKey": "PA:path-e-age-70-expungement",
+            "registryRowPresent": true,
+            "status": "approved_release_guidance"
+          },
+          {
+            "routeKey": "PA:path-f-deceased-person-expungement",
+            "registryRowPresent": true,
+            "status": "approved_release_guidance"
+          }
+        ],
+        "independentlyDerivedTreatment": "GUIDANCE_READY",
+        "derivationUsed": "registry statusVocabulary sentence \"Approved release behaviour for a guidance outcome. Not a paid packet.\" for status approved_release_guidance",
+        "matchesRecordedTreatment": true,
+        "recordsOwnClaim": "route-ratification-registry status approved_release_guidance -> GUIDANCE_READY, by the registry's own statusVocabulary.",
+        "recordsClaimIsAccurate": true,
+        "readNotChosen": true,
+        "caveat": "The registry publishes status sentences, not treatment words. The sentence-to-treatment step (\"Deliberately out of scope.\" -> OUT_OF_SCOPE, \"Held to substantive guidance only. Not a packet route.\" and \"Approved release behaviour for a guidance outcome. Not a paid packet.\" -> GUIDANCE_READY) is an interpretive step this verifier performed independently and agrees with. It is a reading, not a mechanical lookup."
+      },
+      "2_doTheQuotedStringsAppearByteForByte": {
+        "ownerDecisionQuote": {
+          "decisionIdFoundInOwnerFile": true,
+          "fieldsCompared": [
+            "decidedOn",
+            "decisionOwner",
+            "decision",
+            "theQuestionAsked",
+            "whatWouldReopenIt",
+            "consequences"
+          ],
+          "allByteIdentical": true
+        },
+        "participantFacingQuotes": [
+          {
+            "field": "destination.kind",
+            "byteExact": true
+          },
+          {
+            "field": "destination.name",
+            "byteExact": true
+          },
+          {
+            "field": "destination.detail",
+            "byteExact": true
+          },
+          {
+            "field": "destination.venue",
+            "byteExact": true
+          },
+          {
+            "field": "participantNextStep.mustBringOrRequest",
+            "byteExact": true,
+            "note": "every string value byte-identical; the record projects five keys and drops the source's `confirms`/`conditionDescription` keys, which carry no participant text"
+          },
+          {
+            "field": "participantNextStep.postGenerationHandoffs.quotes",
+            "byteExact": true
+          },
+          {
+            "field": "selfHelpStop.quotes",
+            "byteExact": true
+          },
+          {
+            "field": "selfHelpStop.scopeRestrictions.quotes",
+            "byteExact": true
+          },
+          {
+            "field": "selfHelpStop.legalDesignBlockers.quotes",
+            "byteExact": true
+          }
+        ],
+        "sha256Recomputed": {
+          "paths": 7,
+          "matching": 7,
+          "mismatching": []
+        }
+      },
+      "3_doesTheRuntimeAgree": {
+        "resolverCalled": "src/lib/rcap/documents/packet-route-resolver.ts resolvePacketRoute, loaded through scripts/lib/ts-esm-loader.mjs at the base commit",
+        "routes": [
+          {
+            "routeKey": "PA:path-e-age-70-expungement",
+            "obligationRouteKey": "obligation:track-pathway:PA:pa_age70_deceased:path-e-age-70-expungement",
+            "trackId": "pa_age70_deceased",
+            "resolverInput": {
+              "state": "PA",
+              "pathway": "path-e-age-70-expungement",
+              "trackId": "pa_age70_deceased"
+            },
+            "registryRow": {
+              "present": true,
+              "status": "approved_release_guidance"
+            },
+            "recordClaimsStatus": "approved_release_guidance",
+            "measured": {
+              "routeKind": "legacy_retired",
+              "rendererKind": "packet_document_v1",
+              "availability": "UNFINISHED",
+              "sellable": false,
+              "creditConsumable": false,
+              "contractOutcomeMode": null,
+              "contractPacketFamily": null,
+              "routePaymentAuthority": null,
+              "packetRouteCanRender": true,
+              "buildRenderJobSpecReturnsASpec": true
+            },
+            "recordSaysPacketStillResolves": false,
+            "measuredPacketStillResolves": false,
+            "recordBoundBySurface": "legacy_generator_retirement"
+          },
+          {
+            "routeKey": "PA:path-f-deceased-person-expungement",
+            "obligationRouteKey": "obligation:track-pathway:PA:pa_age70_deceased:path-f-deceased-person-expungement",
+            "trackId": "pa_age70_deceased",
+            "resolverInput": {
+              "state": "PA",
+              "pathway": "path-f-deceased-person-expungement",
+              "trackId": "pa_age70_deceased"
+            },
+            "registryRow": {
+              "present": true,
+              "status": "approved_release_guidance"
+            },
+            "recordClaimsStatus": "approved_release_guidance",
+            "measured": {
+              "routeKind": "legacy_retired",
+              "rendererKind": "packet_document_v1",
+              "availability": "UNFINISHED",
+              "sellable": false,
+              "creditConsumable": false,
+              "contractOutcomeMode": null,
+              "contractPacketFamily": null,
+              "routePaymentAuthority": null,
+              "packetRouteCanRender": true,
+              "buildRenderJobSpecReturnsASpec": true
+            },
+            "recordSaysPacketStillResolves": false,
+            "measuredPacketStillResolves": false,
+            "recordBoundBySurface": "legacy_generator_retirement"
+          }
+        ],
+        "everyRouteSellableFalse": true,
+        "everyRouteCreditConsumableFalse": true,
+        "contractFlipConfirmed": [],
+        "renderJobSpecStillBuilds": [
+          "PA:path-e-age-70-expungement",
+          "PA:path-f-deceased-person-expungement"
+        ],
+        "recordClaimsRenderJobAllowed": false,
+        "renderJobClaimHolds": false
+      },
+      "4_areTheTwoAdmittedOpenFamiliesHonestlyDescribed": {
+        "thisFamilyIsNotOnTheAdmittedOpenList": true,
+        "measuredPacketStillResolves": false,
+        "correctlyOmitted": true
+      },
+      "5_didAnyPacketByteMove": {
+        "gitMeasurement": "git diff --name-status 38a83db1b^ 7d8fdc370 over each of the 16 family overlay directories returns nothing, and the two terminalization commits contain no D entries anywhere. The working tree is clean under data/rcap-all50/overlays/.",
+        "hashesRecomputed": [
+          {
+            "path": "data/rcap-all50/overlays/census-v1/pa/pa-age70-deceased-set--official-pdf-fill/reports/rendered-artifacts.json",
+            "matches": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/pa/pa-age70-deceased-set--official-pdf-fill/production-field-map.json",
+            "matches": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/pa/pa-age70-deceased-set--official-pdf-fill/participant-instructions.md",
+            "matches": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/pa/pa-age70-deceased-set--official-pdf-fill/fixtures/canonical.pdf",
+            "matches": true
+          }
+        ],
+        "bytesMoved": false,
+        "guardIsIncomplete": "The record hashes canonical PDFs, production-field-map.json, participant-instructions.md and rendered-artifacts.json, but no boundary PDF. Across the 16 family directories 23 boundary PDFs carry no hash in the record and no check in verify-terminal-treatments.mjs; any of them could be deleted or rewritten and all 855 checks would still pass. This lane measured them unchanged through git instead."
+      },
+      "findings": [
+        "F1 (verdict-bearing): checkout.renderJobAllowed is recorded false, and buildRenderJobSpec returns a real RenderJobSpec (rendererKind packet_document_v1) for this family's routes. src/lib/rcap/render/job-contract.ts:319 refuses only component_deferral, exact_supported_deferral and rendererKind none; it never consults sellable. Proven by direct call at the base commit.",
+        "F2 (verdict-bearing): runtimeExpression.paymentDerivedBy names \"src/lib/legal-authority/index.ts routePaymentAuthority\", but legalRouteContract() returns null for every route of this family, so routePaymentAuthority is never called on it. The closure that does exist comes from a different mechanism, which the record states accurately per-route in boundBy and inaccurately per-family in runtimeExpression."
+      ],
+      "verifiedAtBase": "7d8fdc37031ac88cd09908e4dfede7d30f015189"
+    },
+    {
+      "familyId": "pa_summary_conviction-set",
+      "jurisdiction": "PA",
+      "recordedTreatment": "GUIDANCE_READY",
+      "verdict": "TREATMENT_UNSUPPORTED_BY_ITS_SOURCE",
+      "verdictScope": "The treatment WORD is correctly read from its controlling record and the route is genuinely not sellable and not credit-consumable. What is unsupported is the record's runtimeExpression and its checkout.renderJobAllowed=false: no legal-authority route contract exists for these routes, so routePaymentAuthority — the derivation the record names — is never called on them, and buildRenderJobSpec still returns a render job specification with rendererKind packet_document_v1.",
+      "1_wasTheTreatmentReadOrChosen": {
+        "question": "Recomputed from the route-ratification registry's own published statusVocabulary before reading the row's answer.",
+        "registryStatusesMeasured": [
+          {
+            "routeKey": "PA:path-c-summary-conviction-expungement",
+            "registryRowPresent": true,
+            "status": "approved_release_guidance"
+          }
+        ],
+        "independentlyDerivedTreatment": "GUIDANCE_READY",
+        "derivationUsed": "registry statusVocabulary sentence \"Approved release behaviour for a guidance outcome. Not a paid packet.\" for status approved_release_guidance",
+        "matchesRecordedTreatment": true,
+        "recordsOwnClaim": "route-ratification-registry status approved_release_guidance -> GUIDANCE_READY, by the registry's own statusVocabulary.",
+        "recordsClaimIsAccurate": true,
+        "readNotChosen": true,
+        "caveat": "The registry publishes status sentences, not treatment words. The sentence-to-treatment step (\"Deliberately out of scope.\" -> OUT_OF_SCOPE, \"Held to substantive guidance only. Not a packet route.\" and \"Approved release behaviour for a guidance outcome. Not a paid packet.\" -> GUIDANCE_READY) is an interpretive step this verifier performed independently and agrees with. It is a reading, not a mechanical lookup."
+      },
+      "2_doTheQuotedStringsAppearByteForByte": {
+        "ownerDecisionQuote": {
+          "decisionIdFoundInOwnerFile": true,
+          "fieldsCompared": [
+            "decidedOn",
+            "decisionOwner",
+            "decision",
+            "theQuestionAsked",
+            "whatWouldReopenIt",
+            "consequences"
+          ],
+          "allByteIdentical": true
+        },
+        "participantFacingQuotes": [
+          {
+            "field": "destination.kind",
+            "byteExact": true
+          },
+          {
+            "field": "destination.name",
+            "byteExact": true
+          },
+          {
+            "field": "destination.detail",
+            "byteExact": true
+          },
+          {
+            "field": "destination.venue",
+            "byteExact": true
+          },
+          {
+            "field": "participantNextStep.mustBringOrRequest",
+            "byteExact": true,
+            "note": "every string value byte-identical; the record projects five keys and drops the source's `confirms`/`conditionDescription` keys, which carry no participant text"
+          },
+          {
+            "field": "participantNextStep.postGenerationHandoffs.quotes",
+            "byteExact": true
+          },
+          {
+            "field": "selfHelpStop.quotes",
+            "byteExact": true
+          },
+          {
+            "field": "selfHelpStop.scopeRestrictions.quotes",
+            "byteExact": true
+          },
+          {
+            "field": "selfHelpStop.legalDesignBlockers.quotes",
+            "byteExact": true
+          }
+        ],
+        "sha256Recomputed": {
+          "paths": 9,
+          "matching": 9,
+          "mismatching": []
+        }
+      },
+      "3_doesTheRuntimeAgree": {
+        "resolverCalled": "src/lib/rcap/documents/packet-route-resolver.ts resolvePacketRoute, loaded through scripts/lib/ts-esm-loader.mjs at the base commit",
+        "routes": [
+          {
+            "routeKey": "PA:path-c-summary-conviction-expungement",
+            "obligationRouteKey": "obligation:track-pathway:PA:pa_summary_conviction:path-c-summary-conviction-expungement",
+            "trackId": "pa_summary_conviction",
+            "resolverInput": {
+              "state": "PA",
+              "pathway": "path-c-summary-conviction-expungement",
+              "trackId": "pa_summary_conviction"
+            },
+            "registryRow": {
+              "present": true,
+              "status": "approved_release_guidance"
+            },
+            "recordClaimsStatus": "approved_release_guidance",
+            "measured": {
+              "routeKind": "legacy_retired",
+              "rendererKind": "packet_document_v1",
+              "availability": "UNFINISHED",
+              "sellable": false,
+              "creditConsumable": false,
+              "contractOutcomeMode": null,
+              "contractPacketFamily": null,
+              "routePaymentAuthority": null,
+              "packetRouteCanRender": true,
+              "buildRenderJobSpecReturnsASpec": true
+            },
+            "recordSaysPacketStillResolves": false,
+            "measuredPacketStillResolves": false,
+            "recordBoundBySurface": "legacy_generator_retirement"
+          }
+        ],
+        "everyRouteSellableFalse": true,
+        "everyRouteCreditConsumableFalse": true,
+        "contractFlipConfirmed": [],
+        "renderJobSpecStillBuilds": [
+          "PA:path-c-summary-conviction-expungement"
+        ],
+        "recordClaimsRenderJobAllowed": false,
+        "renderJobClaimHolds": false
+      },
+      "4_areTheTwoAdmittedOpenFamiliesHonestlyDescribed": {
+        "thisFamilyIsNotOnTheAdmittedOpenList": true,
+        "measuredPacketStillResolves": false,
+        "correctlyOmitted": true
+      },
+      "5_didAnyPacketByteMove": {
+        "gitMeasurement": "git diff --name-status 38a83db1b^ 7d8fdc370 over each of the 16 family overlay directories returns nothing, and the two terminalization commits contain no D entries anywhere. The working tree is clean under data/rcap-all50/overlays/.",
+        "hashesRecomputed": [
+          {
+            "path": "data/rcap-all50/overlays/census-v1/pa/pa-summary-conviction-set--official-pdf-fill/reports/rendered-artifacts.json",
+            "matches": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/pa/pa-summary-conviction-set--official-pdf-fill/production-field-map.json",
+            "matches": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/pa/pa-summary-conviction-set--official-pdf-fill/participant-instructions.md",
+            "matches": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/pa/pa-summary-conviction-set--official-pdf-fill/fixtures/rule-490-order-canonical.pdf",
+            "matches": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/pa/pa-summary-conviction-set--official-pdf-fill/fixtures/rule-490-petition-canonical.pdf",
+            "matches": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/pa/pa-summary-conviction-set--official-pdf-fill/fixtures/rule-790-petition-canonical.pdf",
+            "matches": true
+          }
+        ],
+        "bytesMoved": false,
+        "guardIsIncomplete": "The record hashes canonical PDFs, production-field-map.json, participant-instructions.md and rendered-artifacts.json, but no boundary PDF. Across the 16 family directories 23 boundary PDFs carry no hash in the record and no check in verify-terminal-treatments.mjs; any of them could be deleted or rewritten and all 855 checks would still pass. This lane measured them unchanged through git instead."
+      },
+      "findings": [
+        "F1 (verdict-bearing): checkout.renderJobAllowed is recorded false, and buildRenderJobSpec returns a real RenderJobSpec (rendererKind packet_document_v1) for this family's routes. src/lib/rcap/render/job-contract.ts:319 refuses only component_deferral, exact_supported_deferral and rendererKind none; it never consults sellable. Proven by direct call at the base commit.",
+        "F2 (verdict-bearing): runtimeExpression.paymentDerivedBy names \"src/lib/legal-authority/index.ts routePaymentAuthority\", but legalRouteContract() returns null for every route of this family, so routePaymentAuthority is never called on it. The closure that does exist comes from a different mechanism, which the record states accurately per-route in boundBy and inaccurately per-family in runtimeExpression."
+      ],
+      "verifiedAtBase": "7d8fdc37031ac88cd09908e4dfede7d30f015189"
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247",
+      "jurisdiction": "NV",
+      "recordedTreatment": "HANDOFF_READY",
+      "verdict": "TREATMENT_CORRECT",
+      "verdictScope": "The treatment word is correctly read from its controlling record, the runtime measured on every route of this family is closed, and buildRenderJobSpec refuses a specification on every route of this family.",
+      "1_wasTheTreatmentReadOrChosen": {
+        "question": "Recomputed from the route-ratification registry's own published statusVocabulary before reading the row's answer.",
+        "registryStatusesMeasured": [
+          {
+            "routeKey": "NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247",
+            "registryRowPresent": false,
+            "status": null
+          }
+        ],
+        "independentlyDerivedTreatment": "HANDOFF_READY",
+        "derivationUsed": "no route of this family has a row in data/record-clearing/legal-decisions/route-ratification-registry.json — independently confirmed by scanning all 201 registry routeKeys — so the controlling record is the owner's own answer to Q2-composed-petition-or-attorney-referral",
+        "matchesRecordedTreatment": true,
+        "recordsOwnClaim": "owner answer Q2-composed-petition-or-attorney-referral -> HANDOFF_READY, by the owner's own words; the registry carries no row for this route.",
+        "recordsClaimIsAccurate": true,
+        "readNotChosen": true,
+        "caveat": "With no registry row this is the owner's judgement, not a lookup. The record says so in howTheTreatmentIsDecided.whereNoRegistryRowExists and in this family's treatmentReadNotChosen. The owner's word REFERRAL / GUIDANCE-ONLY maps to referral / guidance_status in src/lib/legal-authority/types.ts RouteOutcomeMode."
+      },
+      "2_doTheQuotedStringsAppearByteForByte": {
+        "ownerDecisionQuote": {
+          "decisionIdFoundInOwnerFile": true,
+          "fieldsCompared": [
+            "decidedOn",
+            "decisionOwner",
+            "decision",
+            "theQuestionAsked",
+            "whatWouldReopenIt",
+            "consequences"
+          ],
+          "allByteIdentical": true
+        },
+        "participantFacingQuotes": [
+          {
+            "field": "destination.name",
+            "byteExact": true,
+            "note": "equals findings[0].finding, and findings[0] is the first entry the record's own fixed test /routed to legal aid or an attorney|attorney escalation path/i selects"
+          },
+          {
+            "field": "destination.detail",
+            "byteExact": false,
+            "note": "COMPOSED, NOT QUOTED. \"Route authority contract statute Nev. Rev. Stat. § 179.247; decision LD-NV-04.\" appears nowhere in data/rcap-all50/overlays/census-v1/nv/composed-treatment:obligation:runtime-only:nv:trafficking-victim-vacatur-and-sealing-under-nrs-179-247--custom-pleading/build-findings.json (substring search over the whole file). It is assembled from route-splits.json statute + decisionId and published under a quotedFrom block that names findings[0].finding, which does not carry it."
+          },
+          {
+            "field": "destination.kind",
+            "byteExact": false,
+            "note": "COMPOSED, NOT QUOTED. \"referral\" is a treatment word; no source names a destination kind for this route. The record discloses this in destination.noMemoTrack."
+          },
+          {
+            "field": "destination.venue",
+            "byteExact": true,
+            "note": "null, and the record states in noMemoTrack that no memo venue exists to quote"
+          },
+          {
+            "field": "selfHelpStop.quotes",
+            "byteExact": true,
+            "note": "6 quotes, each byte-identical to a findings[].finding or findings[].consequence"
+          },
+          {
+            "field": "participantNextStep.counselQuestionsRaised",
+            "byteExact": true
+          }
+        ],
+        "sha256Recomputed": {
+          "paths": 7,
+          "matching": 7,
+          "mismatching": []
+        }
+      },
+      "3_doesTheRuntimeAgree": {
+        "resolverCalled": "src/lib/rcap/documents/packet-route-resolver.ts resolvePacketRoute, loaded through scripts/lib/ts-esm-loader.mjs at the base commit",
+        "routes": [
+          {
+            "routeKey": "NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247",
+            "obligationRouteKey": "obligation:runtime-only:NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247",
+            "trackId": "trafficking-victim-vacatur-and-sealing-under-nrs-179-247",
+            "resolverInput": {
+              "state": "NV",
+              "pathway": "trafficking-victim-vacatur-and-sealing-under-nrs-179-247",
+              "trackId": "trafficking-victim-vacatur-and-sealing-under-nrs-179-247"
+            },
+            "registryRow": {
+              "present": false,
+              "status": null
+            },
+            "recordClaimsStatus": null,
+            "measured": {
+              "routeKind": "handoff",
+              "rendererKind": "none",
+              "availability": "HANDOFF_READY",
+              "sellable": false,
+              "creditConsumable": false,
+              "contractOutcomeMode": null,
+              "contractPacketFamily": null,
+              "routePaymentAuthority": null,
+              "packetRouteCanRender": false,
+              "buildRenderJobSpecReturnsASpec": false
+            },
+            "recordSaysPacketStillResolves": false,
+            "measuredPacketStillResolves": false,
+            "recordBoundBySurface": "legal_authority_route_contract"
+          }
+        ],
+        "everyRouteSellableFalse": true,
+        "everyRouteCreditConsumableFalse": true,
+        "contractFlipConfirmed": [
+          {
+            "routeKey": "NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247",
+            "outcomeMode": null,
+            "packetFamily": null,
+            "routePaymentAuthority": null,
+            "wasParticipantPacketAtCommit": "38a83db1b^",
+            "nowInGit": true
+          }
+        ],
+        "renderJobSpecStillBuilds": [],
+        "recordClaimsRenderJobAllowed": false,
+        "renderJobClaimHolds": true
+      },
+      "4_areTheTwoAdmittedOpenFamiliesHonestlyDescribed": {
+        "thisFamilyIsNotOnTheAdmittedOpenList": true,
+        "measuredPacketStillResolves": false,
+        "correctlyOmitted": true
+      },
+      "5_didAnyPacketByteMove": {
+        "gitMeasurement": "git diff --name-status 38a83db1b^ 7d8fdc370 over each of the 16 family overlay directories returns nothing, and the two terminalization commits contain no D entries anywhere. The working tree is clean under data/rcap-all50/overlays/.",
+        "hashesRecomputed": [
+          {
+            "path": "data/rcap-all50/overlays/census-v1/nv/composed-treatment:obligation:runtime-only:nv:trafficking-victim-vacatur-and-sealing-under-nrs-179-247--custom-pleading/build-findings.json",
+            "matches": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/nv/composed-treatment:obligation:runtime-only:nv:trafficking-victim-vacatur-and-sealing-under-nrs-179-247--custom-pleading/approval-request.json",
+            "matches": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/nv/composed-treatment:obligation:runtime-only:nv:trafficking-victim-vacatur-and-sealing-under-nrs-179-247--custom-pleading/reports/rendered-artifacts.json",
+            "matches": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/nv/composed-treatment:obligation:runtime-only:nv:trafficking-victim-vacatur-and-sealing-under-nrs-179-247--custom-pleading/production-field-map.json",
+            "matches": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/nv/composed-treatment:obligation:runtime-only:nv:trafficking-victim-vacatur-and-sealing-under-nrs-179-247--custom-pleading/participant-instructions.md",
+            "matches": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/nv/composed-treatment:obligation:runtime-only:nv:trafficking-victim-vacatur-and-sealing-under-nrs-179-247--custom-pleading/fixtures/canonical.pdf",
+            "matches": true
+          }
+        ],
+        "bytesMoved": false,
+        "guardIsIncomplete": "The record hashes canonical PDFs, production-field-map.json, participant-instructions.md and rendered-artifacts.json, but no boundary PDF. Across the 16 family directories 23 boundary PDFs carry no hash in the record and no check in verify-terminal-treatments.mjs; any of them could be deleted or rewritten and all 855 checks would still pass. This lane measured them unchanged through git instead."
+      },
+      "findings": [
+        "F3 (not verdict-bearing): destination.detail is composed, not quoted. It sits inside a quotedFrom block naming findings[0].finding, and its text appears nowhere in that file. Both facts it joins are real in src/lib/legal-authority/routes/route-splits.json, but the record's own rule (\"every participant-facing fact is quoted from the record that carries it, with that record's path and hash\") is not met for this field. destination.kind \"referral\" is likewise a treatment word, not a quote. verify-terminal-treatments.mjs:252 asserts kind === \"referral\" rather than deriving it, so it cannot catch this.",
+        "F4 (not verdict-bearing): this is a HANDOFF_READY family whose destination.name is a sentence about the record's own disposition, not a place. No counsel, legal-aid office or program is named anywhere in the row. The resolver supplies handoffTo = attorney_or_prosecutor, so the runtime names a target class; the treatment record does not."
+      ],
+      "verifiedAtBase": "7d8fdc37031ac88cd09908e4dfede7d30f015189"
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:SD:juvenile-trafficking-expungement",
+      "jurisdiction": "SD",
+      "recordedTreatment": "HANDOFF_READY",
+      "verdict": "TREATMENT_CORRECT",
+      "verdictScope": "The treatment word is correctly read from its controlling record, the runtime measured on every route of this family is closed, and buildRenderJobSpec refuses a specification on every route of this family.",
+      "1_wasTheTreatmentReadOrChosen": {
+        "question": "Recomputed from the route-ratification registry's own published statusVocabulary before reading the row's answer.",
+        "registryStatusesMeasured": [
+          {
+            "routeKey": "SD:juvenile-trafficking-expungement",
+            "registryRowPresent": false,
+            "status": null
+          }
+        ],
+        "independentlyDerivedTreatment": "HANDOFF_READY",
+        "derivationUsed": "no route of this family has a row in data/record-clearing/legal-decisions/route-ratification-registry.json — independently confirmed by scanning all 201 registry routeKeys — so the controlling record is the owner's own answer to Q2-composed-petition-or-attorney-referral",
+        "matchesRecordedTreatment": true,
+        "recordsOwnClaim": "owner answer Q2-composed-petition-or-attorney-referral -> HANDOFF_READY, by the owner's own words; the registry carries no row for this route.",
+        "recordsClaimIsAccurate": true,
+        "readNotChosen": true,
+        "caveat": "With no registry row this is the owner's judgement, not a lookup. The record says so in howTheTreatmentIsDecided.whereNoRegistryRowExists and in this family's treatmentReadNotChosen. The owner's word REFERRAL / GUIDANCE-ONLY maps to referral / guidance_status in src/lib/legal-authority/types.ts RouteOutcomeMode."
+      },
+      "2_doTheQuotedStringsAppearByteForByte": {
+        "ownerDecisionQuote": {
+          "decisionIdFoundInOwnerFile": true,
+          "fieldsCompared": [
+            "decidedOn",
+            "decisionOwner",
+            "decision",
+            "theQuestionAsked",
+            "whatWouldReopenIt",
+            "consequences"
+          ],
+          "allByteIdentical": true
+        },
+        "participantFacingQuotes": [
+          {
+            "field": "destination.name",
+            "byteExact": true,
+            "note": "equals findings[0].finding, and findings[0] is the first entry the record's own fixed test /routed to legal aid or an attorney|attorney escalation path/i selects"
+          },
+          {
+            "field": "destination.detail",
+            "byteExact": false,
+            "note": "COMPOSED, NOT QUOTED. \"Route authority contract statute S.D. Codified Laws § 26-7A-115.1; decision LD-SD-02.\" appears nowhere in data/rcap-all50/overlays/census-v1/sd/composed-treatment:obligation:runtime-only:sd:juvenile-trafficking-expungement--custom-pleading/build-findings.json (substring search over the whole file). It is assembled from route-splits.json statute + decisionId and published under a quotedFrom block that names findings[0].finding, which does not carry it."
+          },
+          {
+            "field": "destination.kind",
+            "byteExact": false,
+            "note": "COMPOSED, NOT QUOTED. \"referral\" is a treatment word; no source names a destination kind for this route. The record discloses this in destination.noMemoTrack."
+          },
+          {
+            "field": "destination.venue",
+            "byteExact": true,
+            "note": "null, and the record states in noMemoTrack that no memo venue exists to quote"
+          },
+          {
+            "field": "selfHelpStop.quotes",
+            "byteExact": true,
+            "note": "4 quotes, each byte-identical to a findings[].finding or findings[].consequence"
+          },
+          {
+            "field": "participantNextStep.counselQuestionsRaised",
+            "byteExact": true
+          }
+        ],
+        "sha256Recomputed": {
+          "paths": 7,
+          "matching": 7,
+          "mismatching": []
+        }
+      },
+      "3_doesTheRuntimeAgree": {
+        "resolverCalled": "src/lib/rcap/documents/packet-route-resolver.ts resolvePacketRoute, loaded through scripts/lib/ts-esm-loader.mjs at the base commit",
+        "routes": [
+          {
+            "routeKey": "SD:juvenile-trafficking-expungement",
+            "obligationRouteKey": "obligation:runtime-only:SD:juvenile-trafficking-expungement",
+            "trackId": "juvenile-trafficking-expungement",
+            "resolverInput": {
+              "state": "SD",
+              "pathway": "juvenile-trafficking-expungement",
+              "trackId": "juvenile-trafficking-expungement"
+            },
+            "registryRow": {
+              "present": false,
+              "status": null
+            },
+            "recordClaimsStatus": null,
+            "measured": {
+              "routeKind": "handoff",
+              "rendererKind": "none",
+              "availability": "HANDOFF_READY",
+              "sellable": false,
+              "creditConsumable": false,
+              "contractOutcomeMode": null,
+              "contractPacketFamily": null,
+              "routePaymentAuthority": null,
+              "packetRouteCanRender": false,
+              "buildRenderJobSpecReturnsASpec": false
+            },
+            "recordSaysPacketStillResolves": false,
+            "measuredPacketStillResolves": false,
+            "recordBoundBySurface": "legal_authority_route_contract"
+          }
+        ],
+        "everyRouteSellableFalse": true,
+        "everyRouteCreditConsumableFalse": true,
+        "contractFlipConfirmed": [
+          {
+            "routeKey": "SD:juvenile-trafficking-expungement",
+            "outcomeMode": null,
+            "packetFamily": null,
+            "routePaymentAuthority": null,
+            "wasParticipantPacketAtCommit": "38a83db1b^",
+            "nowInGit": true
+          }
+        ],
+        "renderJobSpecStillBuilds": [],
+        "recordClaimsRenderJobAllowed": false,
+        "renderJobClaimHolds": true
+      },
+      "4_areTheTwoAdmittedOpenFamiliesHonestlyDescribed": {
+        "thisFamilyIsNotOnTheAdmittedOpenList": true,
+        "measuredPacketStillResolves": false,
+        "correctlyOmitted": true
+      },
+      "5_didAnyPacketByteMove": {
+        "gitMeasurement": "git diff --name-status 38a83db1b^ 7d8fdc370 over each of the 16 family overlay directories returns nothing, and the two terminalization commits contain no D entries anywhere. The working tree is clean under data/rcap-all50/overlays/.",
+        "hashesRecomputed": [
+          {
+            "path": "data/rcap-all50/overlays/census-v1/sd/composed-treatment:obligation:runtime-only:sd:juvenile-trafficking-expungement--custom-pleading/build-findings.json",
+            "matches": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/sd/composed-treatment:obligation:runtime-only:sd:juvenile-trafficking-expungement--custom-pleading/approval-request.json",
+            "matches": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/sd/composed-treatment:obligation:runtime-only:sd:juvenile-trafficking-expungement--custom-pleading/reports/rendered-artifacts.json",
+            "matches": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/sd/composed-treatment:obligation:runtime-only:sd:juvenile-trafficking-expungement--custom-pleading/production-field-map.json",
+            "matches": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/sd/composed-treatment:obligation:runtime-only:sd:juvenile-trafficking-expungement--custom-pleading/participant-instructions.md",
+            "matches": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/sd/composed-treatment:obligation:runtime-only:sd:juvenile-trafficking-expungement--custom-pleading/fixtures/canonical.pdf",
+            "matches": true
+          }
+        ],
+        "bytesMoved": false,
+        "guardIsIncomplete": "The record hashes canonical PDFs, production-field-map.json, participant-instructions.md and rendered-artifacts.json, but no boundary PDF. Across the 16 family directories 23 boundary PDFs carry no hash in the record and no check in verify-terminal-treatments.mjs; any of them could be deleted or rewritten and all 855 checks would still pass. This lane measured them unchanged through git instead."
+      },
+      "findings": [
+        "F3 (not verdict-bearing): destination.detail is composed, not quoted. It sits inside a quotedFrom block naming findings[0].finding, and its text appears nowhere in that file. Both facts it joins are real in src/lib/legal-authority/routes/route-splits.json, but the record's own rule (\"every participant-facing fact is quoted from the record that carries it, with that record's path and hash\") is not met for this field. destination.kind \"referral\" is likewise a treatment word, not a quote. verify-terminal-treatments.mjs:252 asserts kind === \"referral\" rather than deriving it, so it cannot catch this.",
+        "F4 (not verdict-bearing): this is a HANDOFF_READY family whose destination.name is a sentence about the record's own disposition, not a place. No counsel, legal-aid office or program is named anywhere in the row. The resolver supplies handoffTo = attorney_or_prosecutor, so the runtime names a target class; the treatment record does not."
+      ],
+      "verifiedAtBase": "7d8fdc37031ac88cd09908e4dfede7d30f015189"
+    },
+    {
+      "familyId": "ct-nolle-auto-set",
+      "jurisdiction": "CT",
+      "recordedTreatment": "GUIDANCE_READY",
+      "verdict": "TREATMENT_CORRECT",
+      "verdictScope": "The treatment word is correctly read from its controlling record, the runtime measured on every route of this family is closed, and buildRenderJobSpec refuses a specification on every route of this family.",
+      "1_wasTheTreatmentReadOrChosen": {
+        "question": "Recomputed from the route-ratification registry's own published statusVocabulary before reading the row's answer.",
+        "registryStatusesMeasured": [
+          {
+            "routeKey": null,
+            "registryRowPresent": false,
+            "status": null
+          },
+          {
+            "routeKey": null,
+            "registryRowPresent": false,
+            "status": null
+          }
+        ],
+        "independentlyDerivedTreatment": "GUIDANCE_READY",
+        "derivationUsed": "no route of this family has a row in data/record-clearing/legal-decisions/route-ratification-registry.json — independently confirmed by scanning all 201 registry routeKeys — so the controlling record is the owner's own answer to Q8-records-disagree-on-whether-this-family-carries-a-filing-instrument",
+        "matchesRecordedTreatment": true,
+        "recordsOwnClaim": "owner answer Q8-records-disagree-on-whether-this-family-carries-a-filing-instrument -> GUIDANCE_READY, by the owner's own words; the registry carries no row for this route.",
+        "recordsClaimIsAccurate": true,
+        "readNotChosen": true,
+        "caveat": "With no registry row this is the owner's judgement, not a lookup. The record says so in howTheTreatmentIsDecided.whereNoRegistryRowExists and in this family's treatmentReadNotChosen. The owner's word REFERRAL / GUIDANCE-ONLY maps to referral / guidance_status in src/lib/legal-authority/types.ts RouteOutcomeMode."
+      },
+      "2_doTheQuotedStringsAppearByteForByte": {
+        "ownerDecisionQuote": {
+          "decisionIdFoundInOwnerFile": true,
+          "fieldsCompared": [
+            "decidedOn",
+            "decisionOwner",
+            "decision",
+            "theQuestionAsked",
+            "whatWouldReopenIt",
+            "consequences"
+          ],
+          "allByteIdentical": true
+        },
+        "participantFacingQuotes": [
+          {
+            "field": "destination.kind",
+            "byteExact": true
+          },
+          {
+            "field": "destination.name",
+            "byteExact": true
+          },
+          {
+            "field": "destination.detail",
+            "byteExact": true
+          },
+          {
+            "field": "destination.venue",
+            "byteExact": true
+          },
+          {
+            "field": "participantNextStep.mustBringOrRequest",
+            "byteExact": true,
+            "note": "every string value byte-identical; the record projects five keys and drops the source's `confirms`/`conditionDescription` keys, which carry no participant text"
+          },
+          {
+            "field": "participantNextStep.postGenerationHandoffs.quotes",
+            "byteExact": true
+          },
+          {
+            "field": "selfHelpStop.quotes",
+            "byteExact": true
+          },
+          {
+            "field": "selfHelpStop.scopeRestrictions.quotes",
+            "byteExact": true
+          },
+          {
+            "field": "selfHelpStop.legalDesignBlockers.quotes",
+            "byteExact": true
+          }
+        ],
+        "sha256Recomputed": {
+          "paths": 6,
+          "matching": 6,
+          "mismatching": []
+        }
+      },
+      "3_doesTheRuntimeAgree": {
+        "resolverCalled": "src/lib/rcap/documents/packet-route-resolver.ts resolvePacketRoute, loaded through scripts/lib/ts-esm-loader.mjs at the base commit",
+        "routes": [
+          {
+            "routeKey": null,
+            "obligationRouteKey": "obligation:unit:CT:ct-nolle-auto:ct-nolle-auto-branch-automatic-erasure",
+            "trackId": "ct-nolle-auto",
+            "resolverInput": {
+              "state": "CT",
+              "pathway": "ct-nolle-auto-branch-automatic-erasure",
+              "trackId": "ct-nolle-auto"
+            },
+            "registryRow": {
+              "present": false,
+              "status": null
+            },
+            "recordClaimsStatus": null,
+            "measured": {
+              "routeKind": "exact_supported_deferral",
+              "rendererKind": "none",
+              "availability": "LEGAL_HOLD",
+              "sellable": false,
+              "creditConsumable": false,
+              "contractOutcomeMode": null,
+              "contractPacketFamily": null,
+              "routePaymentAuthority": null,
+              "packetRouteCanRender": false,
+              "buildRenderJobSpecReturnsASpec": false
+            },
+            "recordSaysPacketStillResolves": false,
+            "measuredPacketStillResolves": false,
+            "recordBoundBySurface": "terminalization_treatment"
+          },
+          {
+            "routeKey": null,
+            "obligationRouteKey": "obligation:unit:CT:ct-nolle-auto:ct-nolle-auto-branch-motion-to-nolle",
+            "trackId": "ct-nolle-auto",
+            "resolverInput": {
+              "state": "CT",
+              "pathway": "ct-nolle-auto-branch-motion-to-nolle",
+              "trackId": "ct-nolle-auto"
+            },
+            "registryRow": {
+              "present": false,
+              "status": null
+            },
+            "recordClaimsStatus": null,
+            "measured": {
+              "routeKind": "exact_supported_deferral",
+              "rendererKind": "none",
+              "availability": "LEGAL_HOLD",
+              "sellable": false,
+              "creditConsumable": false,
+              "contractOutcomeMode": null,
+              "contractPacketFamily": null,
+              "routePaymentAuthority": null,
+              "packetRouteCanRender": false,
+              "buildRenderJobSpecReturnsASpec": false
+            },
+            "recordSaysPacketStillResolves": false,
+            "measuredPacketStillResolves": false,
+            "recordBoundBySurface": "terminalization_treatment"
+          }
+        ],
+        "everyRouteSellableFalse": true,
+        "everyRouteCreditConsumableFalse": true,
+        "contractFlipConfirmed": [],
+        "renderJobSpecStillBuilds": [],
+        "recordClaimsRenderJobAllowed": false,
+        "renderJobClaimHolds": true
+      },
+      "4_areTheTwoAdmittedOpenFamiliesHonestlyDescribed": {
+        "thisFamilyIsNotOnTheAdmittedOpenList": true,
+        "measuredPacketStillResolves": false,
+        "correctlyOmitted": true
+      },
+      "5_didAnyPacketByteMove": {
+        "gitMeasurement": "git diff --name-status 38a83db1b^ 7d8fdc370 over each of the 16 family overlay directories returns nothing, and the two terminalization commits contain no D entries anywhere. The working tree is clean under data/rcap-all50/overlays/.",
+        "hashesRecomputed": [
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ct/ct-nolle-auto-set--custom-pleading/reports/rendered-artifacts.json",
+            "matches": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ct/ct-nolle-auto-set--custom-pleading/production-field-map.json",
+            "matches": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ct/ct-nolle-auto-set--custom-pleading/participant-instructions.md",
+            "matches": true
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ct/ct-nolle-auto-set--custom-pleading/fixtures/canonical.pdf",
+            "matches": true
+          }
+        ],
+        "bytesMoved": false,
+        "guardIsIncomplete": "The record hashes canonical PDFs, production-field-map.json, participant-instructions.md and rendered-artifacts.json, but no boundary PDF. Across the 16 family directories 23 boundary PDFs carry no hash in the record and no check in verify-terminal-treatments.mjs; any of them could be deleted or rewritten and all 855 checks would still pass. This lane measured them unchanged through git instead."
+      },
+      "findings": [
+        "F2b (not verdict-bearing): runtimeExpression.runtimeOutcomeMode is recorded as the treatment's outcome mode, but no legal-authority route contract exists for this family's routes, so no runtime object carries that outcome mode and routePaymentAuthority is never called. Closure is real and comes from the resolver branch the record names in boundBy (measured: routeKind exact_supported_deferral, rendererKind none, buildRenderJobSpec refused).",
+        "F6 (not verdict-bearing): both of this family's routes carry routeKey null, and verify-terminal-treatments.mjs:331 skips every route with a null routeKey. Neither CT route receives ANY runtime measurement in the 855 checks — not sellable, not creditConsumable, not availability, not packetStillResolvesOnThisRoute. This lane measured them directly: routeKind exact_supported_deferral through the terminal-treatment branch, reason \"ct-nolle-auto is served by a complete_guidance treatment awaiting independent review\", sellable false, creditConsumable false, buildRenderJobSpec refused. The record's boundBy claim for CT is accurate."
+      ],
+      "verifiedAtBase": "7d8fdc37031ac88cd09908e4dfede7d30f015189"
+    }
+  ]
+}

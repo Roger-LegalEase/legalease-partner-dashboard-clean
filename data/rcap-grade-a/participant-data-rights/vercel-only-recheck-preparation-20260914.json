@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "rcap-vercel-identity-recheck-preparation/v1",
+  "reviewer": "/root/prerequisite",
+  "checkedAt": "2026-09-14T13:27:43.190491+00:00",
+  "status": "NOT_EXECUTED_NO_SCOPED_PROTECTED_TOKEN_PATH",
+  "currentSessionVercelTokenPresent": false,
+  "existingFinishWorkerSessionVercelTokenPresent": false,
+  "localStandardVercelCliTokenFound": false,
+  "liveVercelRequests": 0,
+  "supabaseRequests": 0,
+  "deployments": 0,
+  "workflowDispatches": 0,
+  "secretsExposed": false,
+  "existingPaths": [
+    {
+      "path": ".github/workflows/rcap-f1-ephemeral-staging.yml",
+      "sha256": "6f5fdd7fa087c47c7c45d3667a6175032017e7427cb5702b6243d412e5d9f5cd"
+    },
+    {
+      "path": ".github/workflows/rcap-hosted-acceptance-staging.yml",
+      "sha256": "d55a0dfc5adb20b78c3531486715d7d4979ebebc8a2aa1ed7978b5f19d6f081f"
+    },
+    {
+      "path": "scripts/rcap-hosted-acceptance-vercel-identity.mjs",
+      "sha256": "9c0e7f56301c40a1141bcb7efd3beaf9513861ec83d287e44830a58bd41e7244"
+    }
+  ],
+  "existingWorkflowModes": {
+    "hosted_preflight": "Includes Supabase reads; prohibited for this scoped recheck.",
+    "hosted_vercel_audit": "Vercel-only, but reads broader deployment/production metadata and still requires stale worker input equivalence. Not an identity-only service check."
+  },
+  "boundedChangeRequired": [
+    "Add hosted_vercel_identity dispatch mode mapping to vercel_identity phase in existing caller/reusable workflow.",
+    "Invoke repaired resolver only with protected VERCEL_TOKEN; safe GET teams pagination and pinned project, no raw responses/secrets.",
+    "Save safe endpoint/status/page-completion and identity result as existing evidence artifact.",
+    "Permit service-only worker-equivalence exception for exact identity phase; retain ancestry/tools identity guards.",
+    "Exclude full/Supabase preflight and all deploy/migrate/auth/Stripe/worker/browser steps; every mutation output false."
+  ],
+  "approvalState": "Proposal sent to Captain before any workflow edit.",
+  "externalAlternative": "A protected VERCEL_TOKEN available to an authorized existing session permits direct scoped GET resolver execution without workflow change.",
+  "historicalPreparationOnly": true,
+  "supersededBy": "data/rcap-grade-a/participant-data-rights/vercel-identity-custody-34849972050.json"
+}

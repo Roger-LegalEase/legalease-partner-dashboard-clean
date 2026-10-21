@@ -1,0 +1,44 @@
+{
+  "schemaVersion": "rcap-packet-factory-lane-rows/v1",
+  "lane": "FIXCXI1",
+  "laneKind": "repair",
+  "baseSha": "bad218e9fcd079ff90a2b266bf96644d0af38ca2",
+  "branch": "lane-fixcxi1-il-guard-20260910",
+  "isIndependentVerification": false,
+  "stopped": true,
+  "rows": [
+    {
+      "itemId": "il-seal-edu-set",
+      "familyId": "il-seal-edu-set",
+      "status": "COMPLETED",
+      "repairedByThisLane": true,
+      "scope": "Production guidance guard placement only; no family artifacts changed",
+      "obligationRepaired": [
+        "REQUIRED_BEFORE_FILING",
+        "SELF_HELP_STOP",
+        "FEE_AND_WAIVER",
+        "ROUTE_OPTIONS"
+      ],
+      "finding": "VF66 dormant-guard diagnosis was superseded by683a70cb1118a1756a94b156d6c802281ce72db4, but that change called assertions after replacing outputs. Actual BREAK C exits1 only after replacing participant instructions with deficient guidance.",
+      "correction": "Compose instructions and field map in memory; run existing guidance assertions before first artifact write. Saved-output assertions and --self-test still call same helper.",
+      "evidence": "data/rcap-grade-a/packet-factory-24h/fixcxi1/il-evidence/plain-entrypoint-proof.json",
+      "originalPlainMutation": {
+        "exit": 1,
+        "changedFiles": [
+          "participant-instructions.md"
+        ]
+      },
+      "fixedPlainMutation": {
+        "exit": 1,
+        "changedFiles": []
+      },
+      "validPlainBuild": {
+        "exit": 0,
+        "entireOutputInventoryIdentical": true
+      },
+      "countersAfter": null,
+      "countersNote": "No new packet completeness or independent measurement asserted. Existing COMPONENT_SET owner conflict4manifest versus6registry, including required denying order, remains unresolved.",
+      "grantsNothing": "No semantic verdict, component adoption, raster receipt, commercial authority or route change."
+    }
+  ]
+}

@@ -1,0 +1,343 @@
+[
+  {
+    "id": "image-inspect",
+    "command": [
+      "docker",
+      "image",
+      "inspect",
+      "rcap-render-worker:codex-image-01"
+    ],
+    "exitCode": 0,
+    "expectedExitCode": 0,
+    "signal": null,
+    "outputTail": "\"process.exit(0)\\\"\"\n                ],\n                \"Interval\": 30000000000,\n                \"Timeout\": 10000000000,\n                \"Retries\": 3\n            }\n        },\n        \"Architecture\": \"amd64\",\n        \"Os\": \"linux\",\n        \"Size\": 258310051,\n        \"RootFS\": {\n            \"Type\": \"layers\",\n            \"Layers\": [\n                \"sha256:1d69a5fd31932841d7825ef4780c06f008eea65aaa9f3110fe09d5832ed5c7d8\",\n                \"sha256:34a6e01aec8a29f1c6b30df6b31b6f9f29acc2ae09836b79ef277eb8c031904b\",\n                \"sha256:4a5c8e86ffd87d3cd001f89d12232d8c05732179df4e4304a64bb9d106d2f5ac\",\n                \"sha256:baa7a8b2ed766b8037ad8abaad028064bcb8f110bd82472d8bb90cce62e07233\",\n                \"sha256:72d01f9cb3224c5bad0234a61ae0213799c495812719428a63c1a32020e9fd67\",\n                \"sha256:fb1ea72b08e2debf2e28011e7333a62ea6aa45f157cd08065ffbe9be0c81c7d7\",\n                \"sha256:35dfcb6deed83c3011bc5b1eb27a4c8994d7c06d5d1aded1dbe11cc15db33d19\",\n                \"sha256:3000fb6dd793fd3f96749c8b7c82d299312343c4726d1827a99c75584976afee\",\n                \"sha256:58b2b583b7fcf0ad6ec03608ba32b826f6862c821c6fd234b526a13e6968b669\",\n                \"sha256:fbbae8008f4912243cd6e9c1702509136a0acdf1f5a2fbcaa140a9293ec1ee23\",\n                \"sha256:387617c3f4b99fc01f3aa761624696bfffcfc621e1aff9ca5b855ec079e9e702\",\n                \"sha256:b66cc035822212690aa4f5c62da4464a1d6cba0f2595874ce478e35af120d439\",\n                \"sha256:33f87d879da1b5dd85e13cca5b8fb8788b1d1b1b0dcc8a02381d9ad523ad4672\",\n                \"sha256:abc057cc999f928976dd50c61b3040bcc558a6c642b394002dc6ac87cc16bc46\",\n                \"sha256:23f3d6282c0d7194d3323f63409ce2ef9979cc140cfd4722b8218628a2b3b8f9\",\n                \"sha256:107a93676aeb630fc4aa5b0131f954437255e9fab182bbc1577a0ed920588407\",\n                \"sha256:38339733d1f9c76193789c034ab72b568a0735bda258f32d601340c0439cb648\",\n                \"sha256:05f4fcd0ad47028f5a1a00ad0930adc9da615b04cc63d0cbd8eebe34c5fc50bb\",\n                \"sha256:9c94698020575323e27bcfb8c4827726039e1491b1dd7a38b8ee3fcac9f228ce\",\n                \"sha256:70067b92fbe7d686d3df528526ee36b39f045e1cb0790d86eb118f4e5455d13b\",\n                \"sha256:1e2818c83e27d161b7721c8c7452e2664ef2062dd8005271fc9de37f9e6aa732\",\n                \"sha256:6065edf7d52ab3b8d22dde7113a4dbc1e7ddf17d191ab12d85a9eafb404cc839\",\n                \"sha256:5890f888b90e0180e2ec56d2ddbb558239b210858e9f994571e4d8cc09662240\"\n            ]\n        },\n        \"Metadata\": {\n            \"LastTagTime\": \"2026-09-06T04:40:37.244644341Z\"\n        },\n        \"Descriptor\": {\n            \"mediaType\": \"application/vnd.oci.image.index.v1+json\",\n            \"digest\": \"sha256:387880747874cf4cfbf22b07916f0a0578e006de04527a3ea05e7721654626dc\",\n            \"size\": 856\n        },\n        \"Identity\": {\n            \"Build\": [\n                {\n                    \"Ref\": \"vop34cehnbzvl2pgv0u7dhbpu\",\n                    \"CreatedAt\": \"2026-09-06T04:41:11.817253927Z\"\n                }\n            ]\n        }\n    }\n]\n"
+  },
+  {
+    "id": "preflight",
+    "command": [
+      "docker",
+      "run",
+      "--rm",
+      "--cpus=1",
+      "--network",
+      "none",
+      "rcap-render-worker:codex-image-01",
+      "node",
+      "deploy/rcap-render-worker/preflight.mjs",
+      "--stage=preflight"
+    ],
+    "exitCode": 0,
+    "expectedExitCode": 0,
+    "signal": null,
+    "outputTail": "data manifest: 67 files declared, 0 missing, 0 mismatched\nmodule graph: loaded; 51 compiled jurisdiction profiles\nspecification directory: 19 files scannable at data/record-clearing/packet-specifications\n\nPREFLIGHT OK: packaged assets and actual worker imports verified\n"
+  },
+  {
+    "id": "authority",
+    "command": [
+      "docker",
+      "run",
+      "--rm",
+      "--cpus=1",
+      "--network",
+      "none",
+      "rcap-render-worker:codex-image-01",
+      "node",
+      "deploy/rcap-render-worker/preflight.mjs",
+      "--stage=authority"
+    ],
+    "exitCode": 0,
+    "expectedExitCode": 0,
+    "signal": null,
+    "outputTail": "module graph: loaded; 51 compiled jurisdiction profiles\n  DC:dc_actual_innocence_expungement_16_803 -> ALLOWED\n  IL:felony-prostitution-relief -> refused: IL:felony-prostitution-relief: REVOKED. Authority for IL:felony-prostitution-relief was revoked by scripts/gen\n  MS:additional-justice-court-misdemeanor-relief-9-11-15-3 -> refused: MS:additional-justice-court-misdemeanor-relief-9-11-15-3: REVOKED. Authority for MS:additional-justice-court-m\n  MS:additional-municipal-court-misdemeanor-relief-21-23-7-6 -> refused: MS:additional-municipal-court-misdemeanor-relief-21-23-7-6: REVOKED. Authority for MS:additional-municipal-cou\n  MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal -> refused: MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal: INCOMPLETE. MS:non-conviction-expunge\n  ND:deferred-imposition-dismissal-and-sealing -> refused: ND:deferred-imposition-dismissal-and-sealing: INCOMPLETE. ND:deferred-imposition-dismissal-and-sealing is miss\n  ND:dui-record-sealing-under-the-separate-dui-statute -> refused: ND:dui-record-sealing-under-the-separate-dui-statute: INCOMPLETE. ND:dui-record-sealing-under-the-separate-dui\n  ND:first-offense-possession-sealing -> refused: ND:first-offense-possession-sealing: INCOMPLETE. ND:first-offense-possession-sealing is missing 4 proof(s) req\n  ND:general-conviction-sealing-under-n-d-c-c-chapter-12-60-1 -> refused: ND:general-conviction-sealing-under-n-d-c-c-chapter-12-60-1: INCOMPLETE. ND:general-conviction-sealing-under-n\n  ND:marijuana-specific-summary-pardon-or-sealing-relief -> refused: ND:marijuana-specific-summary-pardon-or-sealing-relief: INCOMPLETE. ND:marijuana-specific-summary-pardon-or-se\n  OR:marijuana-specific-set-aside-redesignation -> refused: OR:marijuana-specific-set-aside-redesignation: INCOMPLETE. OR:marijuana-specific-set-aside-redesignation is mi\n  OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c -> refused: OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c: INCOMPLETE. OR:set-aside-of-arres\n  OR:set-aside-of-eligible-convictions-under-ors-137-225-1-a -> refused: OR:set-aside-of-eligible-convictions-under-ors-137-225-1-a: INCOMPLETE. OR:set-aside-of-eligible-convictions-u\n  WY:felony-conviction-expungement-w-s-7-13-1502 -> ALLOWED\nauthority gate: 14 records, 2 allowed, 12 reasoned refusals, 0 undecided\n\nAUTHORITY OK: packaged registry decisions checked without test authority\n"
+  },
+  {
+    "id": "default-preflight",
+    "command": [
+      "docker",
+      "run",
+      "--rm",
+      "--cpus=1",
+      "--network",
+      "none",
+      "rcap-render-worker:codex-image-01",
+      "node",
+      "deploy/rcap-render-worker/preflight.mjs"
+    ],
+    "exitCode": 0,
+    "expectedExitCode": 0,
+    "signal": null,
+    "outputTail": "data manifest: 67 files declared, 0 missing, 0 mismatched\nmodule graph: loaded; 51 compiled jurisdiction profiles\n  DC:dc_actual_innocence_expungement_16_803 -> ALLOWED\n  IL:felony-prostitution-relief -> refused: IL:felony-prostitution-relief: REVOKED. Authority for IL:felony-prostitution-relief was revoked by scripts/gen\n  MS:additional-justice-court-misdemeanor-relief-9-11-15-3 -> refused: MS:additional-justice-court-misdemeanor-relief-9-11-15-3: REVOKED. Authority for MS:additional-justice-court-m\n  MS:additional-municipal-court-misdemeanor-relief-21-23-7-6 -> refused: MS:additional-municipal-court-misdemeanor-relief-21-23-7-6: REVOKED. Authority for MS:additional-municipal-cou\n  MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal -> refused: MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal: INCOMPLETE. MS:non-conviction-expunge\n  ND:deferred-imposition-dismissal-and-sealing -> refused: ND:deferred-imposition-dismissal-and-sealing: INCOMPLETE. ND:deferred-imposition-dismissal-and-sealing is miss\n  ND:dui-record-sealing-under-the-separate-dui-statute -> refused: ND:dui-record-sealing-under-the-separate-dui-statute: INCOMPLETE. ND:dui-record-sealing-under-the-separate-dui\n  ND:first-offense-possession-sealing -> refused: ND:first-offense-possession-sealing: INCOMPLETE. ND:first-offense-possession-sealing is missing 4 proof(s) req\n  ND:general-conviction-sealing-under-n-d-c-c-chapter-12-60-1 -> refused: ND:general-conviction-sealing-under-n-d-c-c-chapter-12-60-1: INCOMPLETE. ND:general-conviction-sealing-under-n\n  ND:marijuana-specific-summary-pardon-or-sealing-relief -> refused: ND:marijuana-specific-summary-pardon-or-sealing-relief: INCOMPLETE. ND:marijuana-specific-summary-pardon-or-se\n  OR:marijuana-specific-set-aside-redesignation -> refused: OR:marijuana-specific-set-aside-redesignation: INCOMPLETE. OR:marijuana-specific-set-aside-redesignation is mi\n  OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c -> refused: OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c: INCOMPLETE. OR:set-aside-of-arres\n  OR:set-aside-of-eligible-convictions-under-ors-137-225-1-a -> refused: OR:set-aside-of-eligible-convictions-under-ors-137-225-1-a: INCOMPLETE. OR:set-aside-of-eligible-convictions-u\n  WY:felony-conviction-expungement-w-s-7-13-1502 -> ALLOWED\nauthority gate: 14 records, 2 allowed, 12 reasoned refusals, 0 undecided\nspecification directory: 19 files scannable at data/record-clearing/packet-specifications\n\nALL OK: packaged assets, worker imports and registry decisions verified\n"
+  },
+  {
+    "id": "unconfigured-entrypoint",
+    "command": [
+      "docker",
+      "run",
+      "--rm",
+      "--cpus=1",
+      "--network",
+      "none",
+      "rcap-render-worker:codex-image-01",
+      "node",
+      "scripts/rcap-render-worker.mjs",
+      "--once"
+    ],
+    "exitCode": 2,
+    "expectedExitCode": 2,
+    "signal": null,
+    "outputTail": "rcap-render-worker: Supabase is not configured; the worker has no storage or queue to run against.\n"
+  },
+  {
+    "id": "harness-excluded",
+    "command": [
+      "docker",
+      "run",
+      "--rm",
+      "--cpus=1",
+      "--network",
+      "none",
+      "rcap-render-worker:codex-image-01",
+      "node",
+      "--input-type=module",
+      "-e",
+      "import fs from 'node:fs'; const bad=fs.readdirSync('scripts/lib').filter(f=>/-test-|rcap-ephemeral-pg|rcap-onboarding-artifact-fixture/.test(f)); if(bad.length || fs.existsSync('scripts/test-rcap-il-authority-fixture.mjs')) throw new Error('test harness packaged: '+bad); console.log('No test authority, transport doubles or PostgreSQL test harness packaged');"
+    ],
+    "exitCode": 0,
+    "expectedExitCode": 0,
+    "signal": null,
+    "outputTail": "No test authority, transport doubles or PostgreSQL test harness packaged\n"
+  },
+  {
+    "id": "packaged-inventory",
+    "command": [
+      "docker",
+      "run",
+      "--rm",
+      "--cpus=1",
+      "--network",
+      "none",
+      "rcap-render-worker:codex-image-01",
+      "node",
+      "--input-type=module",
+      "-e",
+      "import fs from 'node:fs'; import crypto from 'node:crypto'; import path from 'node:path';\nconst excluded=new Set([\"scripts/test-rcap-il-personalization.mjs\",\"scripts/test-rcap-il-authority-fixture.mjs\",\"scripts/test-rcap-il-delivery-loader.mjs\",\"scripts/test-rcap-il-delivery-boundaries.mjs\",\"scripts/lib/rcap-ephemeral-pg.mjs\",\"scripts/lib/consumer-payment-test-loader.mjs\",\"scripts/lib/consumer-payment-test-doubles.mjs\",\"supabase\"]); const files=[];\nfunction walk(rel){if(excluded.has(rel))return;for(const name of fs.readdirSync(rel).sort()){const p=path.posix.join(rel,name);if(excluded.has(p))continue;const stat=fs.lstatSync(p);if(stat.isDirectory())walk(p);else if(stat.isFile())files.push([p,crypto.createHash('sha256').update(fs.readFileSync(p)).digest('hex')]);}}\nfor(const dir of ['src','scripts','data','deploy'])walk(dir);\nfor(const file of ['package.json','tsconfig.json'])files.push([file,crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex')]);\nfiles.sort((a,b)=>a[0].localeCompare(b[0])); console.log(JSON.stringify({fileCount:files.length,sha256:crypto.createHash('sha256').update(JSON.stringify(files)).digest('hex')}));"
+    ],
+    "exitCode": 0,
+    "expectedExitCode": 0,
+    "signal": null,
+    "outputTail": "{\"fileCount\":1366,\"sha256\":\"b8e0236b831fb474d517a28daf9dd952382c3bb5765822c039298b6de1105508\"}\n"
+  },
+  {
+    "id": "container-create",
+    "command": [
+      "docker",
+      "create",
+      "--name",
+      "rcap-image-test-298730",
+      "--cpus=1",
+      "--mount",
+      "type=bind,src=/workspaces/legalease-partner-dashboard-clean/scripts/test-rcap-il-personalization.mjs,dst=/app/scripts/test-rcap-il-personalization.mjs,readonly",
+      "--mount",
+      "type=bind,src=/workspaces/legalease-partner-dashboard-clean/scripts/test-rcap-il-authority-fixture.mjs,dst=/app/scripts/test-rcap-il-authority-fixture.mjs,readonly",
+      "--mount",
+      "type=bind,src=/workspaces/legalease-partner-dashboard-clean/scripts/test-rcap-il-delivery-loader.mjs,dst=/app/scripts/test-rcap-il-delivery-loader.mjs,readonly",
+      "--mount",
+      "type=bind,src=/workspaces/legalease-partner-dashboard-clean/scripts/test-rcap-il-delivery-boundaries.mjs,dst=/app/scripts/test-rcap-il-delivery-boundaries.mjs,readonly",
+      "--mount",
+      "type=bind,src=/workspaces/legalease-partner-dashboard-clean/scripts/lib/rcap-ephemeral-pg.mjs,dst=/app/scripts/lib/rcap-ephemeral-pg.mjs,readonly",
+      "--mount",
+      "type=bind,src=/workspaces/legalease-partner-dashboard-clean/scripts/lib/consumer-payment-test-loader.mjs,dst=/app/scripts/lib/consumer-payment-test-loader.mjs,readonly",
+      "--mount",
+      "type=bind,src=/workspaces/legalease-partner-dashboard-clean/scripts/lib/consumer-payment-test-doubles.mjs,dst=/app/scripts/lib/consumer-payment-test-doubles.mjs,readonly",
+      "--mount",
+      "type=bind,src=/workspaces/legalease-partner-dashboard-clean/supabase,dst=/app/supabase,readonly",
+      "rcap-render-worker:codex-image-01",
+      "sleep",
+      "infinity"
+    ],
+    "exitCode": 0,
+    "expectedExitCode": 0,
+    "signal": null,
+    "outputTail": "4c94f2a1c50977dde21dafb2c579f48c50e6d9f276bf467a57014b0cba1cf6b4\n"
+  },
+  {
+    "id": "container-start",
+    "command": [
+      "docker",
+      "start",
+      "rcap-image-test-298730"
+    ],
+    "exitCode": 0,
+    "expectedExitCode": 0,
+    "signal": null,
+    "outputTail": "rcap-image-test-298730\n"
+  },
+  {
+    "id": "test-utilities-install",
+    "command": [
+      "docker",
+      "exec",
+      "--user",
+      "root",
+      "rcap-image-test-298730",
+      "sh",
+      "-c",
+      "printf '#!/bin/sh\nexit 101\n' > /usr/sbin/policy-rc.d && chmod +x /usr/sbin/policy-rc.d && apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends postgresql poppler-utils && rm -rf /var/lib/apt/lists/*"
+    ],
+    "exitCode": 0,
+    "expectedExitCode": 0,
+    "signal": null,
+    "outputTail": "xcb-shm0:amd64 (1.15-1) ...\r\nSetting up libldap-2.5-0:amd64 (2.5.13+dfsg-5) ...\r\nSetting up libfreetype6:amd64 (2.12.1+dfsg-5+deb12u4) ...\r\nSetting up ssl-cert (1.1.2) ...\r\nSetting up libgssapi-krb5-2:amd64 (1.20.1-2+deb12u5) ...\r\nSetting up libgdbm-compat4:amd64 (1.23-3) ...\r\nSetting up ucf (3.0043+nmu1+deb12u1) ...\r\nSetting up libllvm14:amd64 (1:14.0.6-12) ...\r\nSetting up libxslt1.1:amd64 (1.1.35-1+deb12u4) ...\r\nSetting up libx11-6:amd64 (2:1.8.4-2+deb12u2) ...\r\nSetting up libfontconfig1:amd64 (2.14.1-4) ...\r\nSetting up libperl5.36:amd64 (5.36.0-7+deb12u3) ...\r\nSetting up libxrender1:amd64 (1:0.9.10-1.1) ...\r\nSetting up libpq5:amd64 (15.19-0+deb12u1) ...\r\nSetting up libxext6:amd64 (2:1.3.4-1+b1) ...\r\nSetting up libcairo2:amd64 (1.16.0-7) ...\r\nSetting up perl (5.36.0-7+deb12u3) ...\r\nSetting up libpoppler126:amd64 (22.12.0-2+deb12u3) ...\r\nSetting up libjson-perl (4.10000-1) ...\r\nSetting up poppler-utils (22.12.0-2+deb12u3) ...\r\nSetting up postgresql-client-common (248+deb12u1) ...\r\nSetting up postgresql-client-15 (15.19-0+deb12u1) ...\r\nupdate-alternatives: using /usr/share/postgresql/15/man/man1/psql.1.gz to provide /usr/share/man/man1/psql.1.gz (psql.1.gz) in auto mode\r\nSetting up postgresql-common (248+deb12u1) ...\r\n\r\nCreating config file /etc/postgresql-common/createcluster.conf with new version\r\nBuilding PostgreSQL dictionaries from installed myspell/hunspell packages...\r\nRemoving obsolete dictionary files:\r\ninvoke-rc.d: could not determine current runlevel\r\ninvoke-rc.d: policy-rc.d denied execution of start.\r\nSetting up postgresql-15 (15.19-0+deb12u1) ...\r\nCreating new PostgreSQL cluster 15/main ...\r\n/usr/lib/postgresql/15/bin/initdb -D /var/lib/postgresql/15/main --auth-local peer --auth-host scram-sha-256 --no-instructions\r\nThe files belonging to this database system will be owned by user \"postgres\".\r\nThis user must also own the server process.\r\n\r\nThe database cluster will be initialized with locale \"C.UTF-8\".\r\nThe default database encoding has accordingly been set to \"UTF8\".\r\nThe default text search configuration will be set to \"english\".\r\n\r\nData page checksums are disabled.\r\n\r\nfixing permissions on existing directory /var/lib/postgresql/15/main ... ok\r\ncreating subdirectories ... ok\r\nselecting dynamic shared memory implementation ... posix\r\nselecting default max_connections ... 100\r\nselecting default shared_buffers ... 128MB\r\nselecting default time zone ... Etc/UTC\r\ncreating configuration files ... ok\r\nrunning bootstrap script ... ok\r\nperforming post-bootstrap initialization ... ok\r\nsyncing data to disk ... ok\r\nupdate-alternatives: using /usr/share/postgresql/15/man/man1/postmaster.1.gz to provide /usr/share/man/man1/postmaster.1.gz (postmaster.1.gz) in auto mode\r\ninvoke-rc.d: could not determine current runlevel\r\ninvoke-rc.d: policy-rc.d denied execution of start.\r\nSetting up postgresql (15+248+deb12u1) ...\r\nProcessing triggers for libc-bin (2.36-9+deb12u14) ...\r\ndebconf: delaying package configuration, since apt-utils is not installed\n"
+  },
+  {
+    "id": "disconnect-network",
+    "command": [
+      "docker",
+      "network",
+      "disconnect",
+      "bridge",
+      "rcap-image-test-298730"
+    ],
+    "exitCode": 0,
+    "expectedExitCode": 0,
+    "signal": null,
+    "outputTail": ""
+  },
+  {
+    "id": "container-inspect",
+    "command": [
+      "docker",
+      "inspect",
+      "rcap-image-test-298730"
+    ],
+    "exitCode": 0,
+    "expectedExitCode": 0,
+    "signal": null,
+    "outputTail": "js\",\n                \"Destination\": \"/app/scripts/lib/consumer-payment-test-loader.mjs\",\n                \"Mode\": \"\",\n                \"RW\": false,\n                \"Propagation\": \"rprivate\"\n            },\n            {\n                \"Type\": \"bind\",\n                \"Source\": \"/workspaces/legalease-partner-dashboard-clean/scripts/lib/consumer-payment-test-doubles.mjs\",\n                \"Destination\": \"/app/scripts/lib/consumer-payment-test-doubles.mjs\",\n                \"Mode\": \"\",\n                \"RW\": false,\n                \"Propagation\": \"rprivate\"\n            },\n            {\n                \"Type\": \"bind\",\n                \"Source\": \"/workspaces/legalease-partner-dashboard-clean/supabase\",\n                \"Destination\": \"/app/supabase\",\n                \"Mode\": \"\",\n                \"RW\": false,\n                \"Propagation\": \"rprivate\"\n            },\n            {\n                \"Type\": \"bind\",\n                \"Source\": \"/workspaces/legalease-partner-dashboard-clean/scripts/test-rcap-il-personalization.mjs\",\n                \"Destination\": \"/app/scripts/test-rcap-il-personalization.mjs\",\n                \"Mode\": \"\",\n                \"RW\": false,\n                \"Propagation\": \"rprivate\"\n            }\n        ],\n        \"Config\": {\n            \"Hostname\": \"4c94f2a1c509\",\n            \"Domainname\": \"\",\n            \"User\": \"rcapworker\",\n            \"AttachStdin\": false,\n            \"AttachStdout\": true,\n            \"AttachStderr\": true,\n            \"Tty\": false,\n            \"OpenStdin\": false,\n            \"StdinOnce\": false,\n            \"Env\": [\n                \"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin\",\n                \"NODE_VERSION=22.23.2\",\n                \"YARN_VERSION=1.22.22\",\n                \"NODE_ENV=production\"\n            ],\n            \"Cmd\": [\n                \"sleep\",\n                \"infinity\"\n            ],\n            \"Healthcheck\": {\n                \"Test\": [\n                    \"CMD-SHELL\",\n                    \"node -e \\\"process.exit(0)\\\"\"\n                ],\n                \"Interval\": 30000000000,\n                \"Timeout\": 10000000000,\n                \"Retries\": 3\n            },\n            \"Image\": \"rcap-render-worker:codex-image-01\",\n            \"Volumes\": null,\n            \"WorkingDir\": \"/app\",\n            \"Entrypoint\": [\n                \"docker-entrypoint.sh\"\n            ],\n            \"Labels\": {}\n        },\n        \"NetworkSettings\": {\n            \"SandboxID\": \"950995b41980e04a45796b88c296610d006aaf7c20b2baaeea9a427401bfcee6\",\n            \"SandboxKey\": \"/var/run/docker/netns/950995b41980\",\n            \"Ports\": {},\n            \"Networks\": {}\n        },\n        \"ImageManifestDescriptor\": {\n            \"mediaType\": \"application/vnd.oci.image.manifest.v1+json\",\n            \"digest\": \"sha256:8bf2ed849955e035cba002e22068b41820c93d9ad4a1496714016e6fde112de4\",\n            \"size\": 4667,\n            \"platform\": {\n                \"architecture\": \"amd64\",\n                \"os\": \"linux\"\n            }\n        }\n    }\n]\n"
+  },
+  {
+    "id": "test-utility-versions",
+    "command": [
+      "docker",
+      "exec",
+      "rcap-image-test-298730",
+      "sh",
+      "-c",
+      "node --version && psql --version && pdftotext -v"
+    ],
+    "exitCode": 0,
+    "expectedExitCode": 0,
+    "signal": null,
+    "outputTail": "v22.23.2\npsql (PostgreSQL) 15.19 (Debian 15.19-0+deb12u1)\npdftotext version 22.12.0\nCopyright 2005-2022 The Poppler Developers - http://poppler.freedesktop.org\nCopyright 1996-2011, 2022 Glyph & Cog, LLC\n"
+  },
+  {
+    "id": "packaged-preflight-after-install",
+    "command": [
+      "docker",
+      "exec",
+      "rcap-image-test-298730",
+      "node",
+      "deploy/rcap-render-worker/preflight.mjs"
+    ],
+    "exitCode": 0,
+    "expectedExitCode": 0,
+    "signal": null,
+    "outputTail": "data manifest: 67 files declared, 0 missing, 0 mismatched\nmodule graph: loaded; 51 compiled jurisdiction profiles\n  DC:dc_actual_innocence_expungement_16_803 -> ALLOWED\n  IL:felony-prostitution-relief -> refused: IL:felony-prostitution-relief: REVOKED. Authority for IL:felony-prostitution-relief was revoked by scripts/gen\n  MS:additional-justice-court-misdemeanor-relief-9-11-15-3 -> refused: MS:additional-justice-court-misdemeanor-relief-9-11-15-3: REVOKED. Authority for MS:additional-justice-court-m\n  MS:additional-municipal-court-misdemeanor-relief-21-23-7-6 -> refused: MS:additional-municipal-court-misdemeanor-relief-21-23-7-6: REVOKED. Authority for MS:additional-municipal-cou\n  MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal -> refused: MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal: INCOMPLETE. MS:non-conviction-expunge\n  ND:deferred-imposition-dismissal-and-sealing -> refused: ND:deferred-imposition-dismissal-and-sealing: INCOMPLETE. ND:deferred-imposition-dismissal-and-sealing is miss\n  ND:dui-record-sealing-under-the-separate-dui-statute -> refused: ND:dui-record-sealing-under-the-separate-dui-statute: INCOMPLETE. ND:dui-record-sealing-under-the-separate-dui\n  ND:first-offense-possession-sealing -> refused: ND:first-offense-possession-sealing: INCOMPLETE. ND:first-offense-possession-sealing is missing 4 proof(s) req\n  ND:general-conviction-sealing-under-n-d-c-c-chapter-12-60-1 -> refused: ND:general-conviction-sealing-under-n-d-c-c-chapter-12-60-1: INCOMPLETE. ND:general-conviction-sealing-under-n\n  ND:marijuana-specific-summary-pardon-or-sealing-relief -> refused: ND:marijuana-specific-summary-pardon-or-sealing-relief: INCOMPLETE. ND:marijuana-specific-summary-pardon-or-se\n  OR:marijuana-specific-set-aside-redesignation -> refused: OR:marijuana-specific-set-aside-redesignation: INCOMPLETE. OR:marijuana-specific-set-aside-redesignation is mi\n  OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c -> refused: OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c: INCOMPLETE. OR:set-aside-of-arres\n  OR:set-aside-of-eligible-convictions-under-ors-137-225-1-a -> refused: OR:set-aside-of-eligible-convictions-under-ors-137-225-1-a: INCOMPLETE. OR:set-aside-of-eligible-convictions-u\n  WY:felony-conviction-expungement-w-s-7-13-1502 -> ALLOWED\nauthority gate: 14 records, 2 allowed, 12 reasoned refusals, 0 undecided\nspecification directory: 19 files scannable at data/record-clearing/packet-specifications\n\nALL OK: packaged assets, worker imports and registry decisions verified\n"
+  },
+  {
+    "id": "render",
+    "command": [
+      "docker",
+      "exec",
+      "rcap-image-test-298730",
+      "node",
+      "scripts/test-rcap-il-personalization.mjs"
+    ],
+    "exitCode": 0,
+    "expectedExitCode": 0,
+    "signal": null,
+    "outputTail": "pping\nNOTICE:  extension \"pgcrypto\" already exists, skipping\npsql:supabase/migrations/20260901115000_consumer_packet_artifact_provenance.sql:201: NOTICE:  trigger \"consumer_packet_artifact_provenance_immutable\" for relation \"public.consumer_packet_artifact_provenance\" does not exist, skipping\npsql:supabase/migrations/20260901120000_dtc_consumer_launch_rails.sql:567: NOTICE:  trigger \"consumer_render_job_verification_guard_trg\" for relation \"public.packet_render_jobs\" does not exist, skipping\npsql:supabase/migrations/20260901130000_consumer_private_delivery.sql:127: NOTICE:  trigger \"publish_validated_consumer_render_artifact_trg\" for relation \"public.packet_render_jobs\" does not exist, skipping\npsql:supabase/migrations/20260906120000_sponsored_route_render_transaction.sql:139: NOTICE:  constraint \"packet_render_jobs_sponsored_verification_hash_check\" of relation \"packet_render_jobs\" does not exist, skipping\nERROR:  consumer_packet_artifact_provenance: identity and history are immutable\nCONTEXT:  PL/pgSQL function public.consumer_packet_artifact_provenance_immutable() line 15 at RAISE\nERROR:  consumer_packet_artifact_provenance: consumer_auth_user_id is immutable once set\nCONTEXT:  PL/pgSQL function public.consumer_packet_artifact_provenance_immutable() line 18 at RAISE\nERROR:  consumer_packet_artifact_provenance: identity and history are immutable\nCONTEXT:  PL/pgSQL function public.consumer_packet_artifact_provenance_immutable() line 15 at RAISE\nERROR:  consumer_packet_artifact_provenance: replacement requires a new verified job\nCONTEXT:  PL/pgSQL function public.consumer_packet_artifact_provenance_immutable() line 30 at RAISE\nERROR:  consumer_packet_artifact_provenance: replacement verification is stale\nCONTEXT:  PL/pgSQL function public.consumer_packet_artifact_provenance_immutable() line 41 at RAISE\nERROR:  consumer_packet_artifact_provenance: identity and history are immutable\nCONTEXT:  PL/pgSQL function public.consumer_packet_artifact_provenance_immutable() line 15 at RAISE\nERROR:  consumer_packet_artifact_provenance: consumer_auth_user_id is immutable once set\nCONTEXT:  PL/pgSQL function public.consumer_packet_artifact_provenance_immutable() line 18 at RAISE\nERROR:  consumer_packet_artifact_provenance: identity and history are immutable\nCONTEXT:  PL/pgSQL function public.consumer_packet_artifact_provenance_immutable() line 15 at RAISE\nERROR:  consumer_packet_artifact_provenance: replacement requires a new verified job\nCONTEXT:  PL/pgSQL function public.consumer_packet_artifact_provenance_immutable() line 30 at RAISE\nERROR:  consumer_packet_artifact_provenance: replacement verification is stale\nCONTEXT:  PL/pgSQL function public.consumer_packet_artifact_provenance_immutable() line 41 at RAISE\nWorker failure: render_failed explicit failed-render boundary\nERROR:  consumer_packet_artifact_provenance: replacement artifact is not its validated job\nCONTEXT:  PL/pgSQL function public.consumer_packet_artifact_provenance_immutable() line 55 at RAISE\n"
+  },
+  {
+    "id": "render-evidence-copy",
+    "command": [
+      "docker",
+      "cp",
+      "rcap-image-test-298730:/tmp/il-personalization-zZraFG",
+      "/tmp/codex-image-01/smoke/render-artifacts"
+    ],
+    "exitCode": 0,
+    "expectedExitCode": 0,
+    "signal": null,
+    "outputTail": ""
+  },
+  {
+    "id": "render-failure",
+    "command": [
+      "docker",
+      "exec",
+      "rcap-image-test-298730",
+      "node",
+      "scripts/test-rcap-il-personalization.mjs",
+      "--verify-fail-closed"
+    ],
+    "exitCode": 0,
+    "expectedExitCode": 0,
+    "signal": null,
+    "outputTail": "E:  trigger \"rcap_guard_reserved_partner_slug_trg\" for relation \"public.partner_records\" does not exist, skipping\npsql:supabase/phase-54-rcap-person-namespace-hardening.sql:206: NOTICE:  constraint \"rcap_persons_reserved_namespace_shape\" of relation \"rcap_persons\" does not exist, skipping\npsql:supabase/phase-55-expungement-matter-payment-binding.sql:159: NOTICE:  constraint \"consumer_briefcase_items_payment_product_check\" of relation \"consumer_briefcase_items\" does not exist, skipping\npsql:supabase/phase-55-expungement-matter-payment-binding.sql:552: NOTICE:  trigger \"packet_render_jobs_paid_matter_insert_trg\" for relation \"public.packet_render_jobs\" does not exist, skipping\npsql:supabase/phase-55-expungement-matter-payment-binding.sql:552: NOTICE:  trigger \"packet_render_jobs_paid_matter_finalize_trg\" for relation \"public.packet_render_jobs\" does not exist, skipping\npsql:supabase/phase-55-expungement-matter-payment-binding.sql:674: NOTICE:  trigger \"consumer_payment_consumption_binding_trg\" for relation \"public.consumer_packet_payment_consumption\" does not exist, skipping\npsql:supabase/phase-55-expungement-matter-payment-binding.sql:674: NOTICE:  constraint \"consumer_payment_consumption_product_check\" of relation \"consumer_packet_payment_consumption\" does not exist, skipping\npsql:supabase/phase-55-expungement-matter-payment-binding.sql:674: NOTICE:  constraint \"consumer_payment_consumption_amount_check\" of relation \"consumer_packet_payment_consumption\" does not exist, skipping\npsql:supabase/phase-55-expungement-matter-payment-binding.sql:674: NOTICE:  constraint \"consumer_payment_consumption_currency_check\" of relation \"consumer_packet_payment_consumption\" does not exist, skipping\nNOTICE:  schema \"extensions\" already exists, skipping\nNOTICE:  extension \"pgcrypto\" already exists, skipping\npsql:supabase/migrations/20260901115000_consumer_packet_artifact_provenance.sql:201: NOTICE:  trigger \"consumer_packet_artifact_provenance_immutable\" for relation \"public.consumer_packet_artifact_provenance\" does not exist, skipping\npsql:supabase/migrations/20260901120000_dtc_consumer_launch_rails.sql:567: NOTICE:  trigger \"consumer_render_job_verification_guard_trg\" for relation \"public.packet_render_jobs\" does not exist, skipping\npsql:supabase/migrations/20260901130000_consumer_private_delivery.sql:127: NOTICE:  trigger \"publish_validated_consumer_render_artifact_trg\" for relation \"public.packet_render_jobs\" does not exist, skipping\npsql:supabase/migrations/20260906120000_sponsored_route_render_transaction.sql:139: NOTICE:  constraint \"packet_render_jobs_sponsored_verification_hash_check\" of relation \"packet_render_jobs\" does not exist, skipping\nWorker failure: render_failed synthetic render failure boundary\nWorker failure: render_failed synthetic render failure boundary\nWorker failure: render_failed synthetic render failure boundary\nWorker failure: render_failed synthetic render failure boundary\nWorker failure: render_failed synthetic render failure boundary\n"
+  },
+  {
+    "id": "render-failure-evidence-copy",
+    "command": [
+      "docker",
+      "cp",
+      "rcap-image-test-298730:/tmp/il-personalization-qSdSZB",
+      "/tmp/codex-image-01/smoke/render-failure-artifacts"
+    ],
+    "exitCode": 0,
+    "expectedExitCode": 0,
+    "signal": null,
+    "outputTail": ""
+  },
+  {
+    "id": "container-diff",
+    "command": [
+      "docker",
+      "diff",
+      "rcap-image-test-298730"
+    ],
+    "exitCode": 0,
+    "expectedExitCode": 0,
+    "signal": null,
+    "outputTail": "o8859-1\nA /usr/share/X11/locale/iso8859-1/Compose\nA /usr/share/X11/locale/iso8859-1/XI18N_OBJS\nA /usr/share/X11/locale/iso8859-1/XLC_LOCALE\nA /usr/share/X11/locale/km_KH.UTF-8\nA /usr/share/X11/locale/km_KH.UTF-8/XLC_LOCALE\nA /usr/share/X11/locale/km_KH.UTF-8/Compose\nA /usr/share/X11/locale/km_KH.UTF-8/XI18N_OBJS\nA /usr/share/X11/locale/locale.alias\nA /usr/share/X11/locale/sr_RS.UTF-8\nA /usr/share/X11/locale/sr_RS.UTF-8/Compose\nA /usr/share/X11/locale/sr_RS.UTF-8/XI18N_OBJS\nA /usr/share/X11/locale/sr_RS.UTF-8/XLC_LOCALE\nA /usr/share/X11/locale/zh_CN.gbk\nA /usr/share/X11/locale/zh_CN.gbk/XI18N_OBJS\nA /usr/share/X11/locale/zh_CN.gbk/XLC_LOCALE\nA /usr/share/X11/locale/zh_CN.gbk/Compose\nA /usr/share/X11/locale/zh_HK.big5hkscs\nA /usr/share/X11/locale/zh_HK.big5hkscs/Compose\nA /usr/share/X11/locale/zh_HK.big5hkscs/XI18N_OBJS\nA /usr/share/X11/locale/zh_HK.big5hkscs/XLC_LOCALE\nA /usr/share/X11/locale/iso8859-11\nA /usr/share/X11/locale/iso8859-11/Compose\nA /usr/share/X11/locale/iso8859-11/XI18N_OBJS\nA /usr/share/X11/locale/iso8859-11/XLC_LOCALE\nA /usr/share/X11/locale/iso8859-13\nA /usr/share/X11/locale/iso8859-13/Compose\nA /usr/share/X11/locale/iso8859-13/XI18N_OBJS\nA /usr/share/X11/locale/iso8859-13/XLC_LOCALE\nA /usr/share/X11/locale/iso8859-8\nA /usr/share/X11/locale/iso8859-8/Compose\nA /usr/share/X11/locale/iso8859-8/XI18N_OBJS\nA /usr/share/X11/locale/iso8859-8/XLC_LOCALE\nA /usr/share/X11/locale/tatar-cyr\nA /usr/share/X11/locale/tatar-cyr/Compose\nA /usr/share/X11/locale/tatar-cyr/XI18N_OBJS\nA /usr/share/X11/locale/tatar-cyr/XLC_LOCALE\nA /usr/share/X11/locale/th_TH.UTF-8\nA /usr/share/X11/locale/th_TH.UTF-8/Compose\nA /usr/share/X11/locale/th_TH.UTF-8/XI18N_OBJS\nA /usr/share/X11/locale/th_TH.UTF-8/XLC_LOCALE\nA /usr/share/X11/locale/tscii-0\nA /usr/share/X11/locale/tscii-0/Compose\nA /usr/share/X11/locale/tscii-0/XI18N_OBJS\nA /usr/share/X11/locale/tscii-0/XLC_LOCALE\nA /usr/share/X11/locale/zh_CN.gb18030\nA /usr/share/X11/locale/zh_CN.gb18030/Compose\nA /usr/share/X11/locale/zh_CN.gb18030/XI18N_OBJS\nA /usr/share/X11/locale/zh_CN.gb18030/XLC_LOCALE\nA /usr/share/X11/locale/isiri-3342\nA /usr/share/X11/locale/isiri-3342/XI18N_OBJS\nA /usr/share/X11/locale/isiri-3342/XLC_LOCALE\nA /usr/share/X11/locale/isiri-3342/Compose\nA /usr/share/X11/locale/zh_CN.UTF-8\nA /usr/share/X11/locale/zh_CN.UTF-8/Compose\nA /usr/share/X11/locale/zh_CN.UTF-8/XI18N_OBJS\nA /usr/share/X11/locale/zh_CN.UTF-8/XLC_LOCALE\nA /usr/share/X11/XErrorDB\nC /usr/sbin\nA /usr/sbin/update-locale\nC /usr/sbin/policy-rc.d\nA /usr/sbin/make-ssl-cert\nA /usr/sbin/locale-gen\nA /usr/sbin/validlocale\nA /usr/sbin/pg_updatedicts\nC /app\nC /app/scripts\nC /app/scripts/lib\nA /app/scripts/lib/rcap-ephemeral-pg.mjs\nA /app/scripts/lib/consumer-payment-test-doubles.mjs\nA /app/scripts/lib/consumer-payment-test-loader.mjs\nA /app/scripts/test-rcap-il-authority-fixture.mjs\nA /app/scripts/test-rcap-il-delivery-boundaries.mjs\nA /app/scripts/test-rcap-il-delivery-loader.mjs\nA /app/scripts/test-rcap-il-personalization.mjs\nA /app/supabase\n"
+  },
+  {
+    "id": "tested-inventory",
+    "command": [
+      "docker",
+      "exec",
+      "rcap-image-test-298730",
+      "node",
+      "--input-type=module",
+      "-e",
+      "import fs from 'node:fs'; import crypto from 'node:crypto'; import path from 'node:path';\nconst excluded=new Set([\"scripts/test-rcap-il-personalization.mjs\",\"scripts/test-rcap-il-authority-fixture.mjs\",\"scripts/test-rcap-il-delivery-loader.mjs\",\"scripts/test-rcap-il-delivery-boundaries.mjs\",\"scripts/lib/rcap-ephemeral-pg.mjs\",\"scripts/lib/consumer-payment-test-loader.mjs\",\"scripts/lib/consumer-payment-test-doubles.mjs\",\"supabase\"]); const files=[];\nfunction walk(rel){if(excluded.has(rel))return;for(const name of fs.readdirSync(rel).sort()){const p=path.posix.join(rel,name);if(excluded.has(p))continue;const stat=fs.lstatSync(p);if(stat.isDirectory())walk(p);else if(stat.isFile())files.push([p,crypto.createHash('sha256').update(fs.readFileSync(p)).digest('hex')]);}}\nfor(const dir of ['src','scripts','data','deploy'])walk(dir);\nfor(const file of ['package.json','tsconfig.json'])files.push([file,crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex')]);\nfiles.sort((a,b)=>a[0].localeCompare(b[0])); console.log(JSON.stringify({fileCount:files.length,sha256:crypto.createHash('sha256').update(JSON.stringify(files)).digest('hex')}));"
+    ],
+    "exitCode": 0,
+    "expectedExitCode": 0,
+    "signal": null,
+    "outputTail": "{\"fileCount\":1366,\"sha256\":\"b8e0236b831fb474d517a28daf9dd952382c3bb5765822c039298b6de1105508\"}\n"
+  },
+  {
+    "id": "container-remove",
+    "command": [
+      "docker",
+      "rm",
+      "-f",
+      "rcap-image-test-298730"
+    ],
+    "exitCode": 0,
+    "expectedExitCode": 0,
+    "signal": null,
+    "outputTail": "rcap-image-test-298730\n"
+  }
+]

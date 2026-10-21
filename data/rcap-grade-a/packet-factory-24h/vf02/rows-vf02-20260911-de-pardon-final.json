@@ -1,0 +1,565 @@
+{
+  "schemaVersion": "rcap-verifier-rows/v2",
+  "lane": "VF02",
+  "laneKind": "independent-verification",
+  "isIndependentVerification": true,
+  "status": "COMPLETED",
+  "worktree": "/tmp/rcap-vf02-de-pardon-final-20260911",
+  "branch": "vf02-de-pardon-final-20260911",
+  "verifiedAtBase": "bfdcdef3860edc7b1ca7bd693f07023690d8cd7d",
+  "actualHeadAtReview": "bfdcdef3860edc7b1ca7bd693f07023690d8cd7d",
+  "grantSet": "85c2c49dccac4962",
+  "grantEvidence": [
+    "data/rcap-grade-a/packet-factory-24h/vf02/de-pardon-final-20260911/preflight.json"
+  ],
+  "reviewAssignment": "Captain-assigned Astra xhigh independent reviewer; no DE build/repair authorship. Fresh bounded ROUTE_IDENTITY decision under DE-PARDON-EXPUNGEMENT-OFFICIAL-PETITION-WORKFLOW;14 historical VF20 approvals retained. Current missing CIV_EXP_08_A custody requires BLOCKED_SOURCE, as Captain expressly instructed after failed recovery.",
+  "builtAnything": false,
+  "repairsMade": 0,
+  "packetsSelfVerified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "centralAdmissionChanged": false,
+  "rows": [
+    {
+      "itemId": "de_pardon_expungement-set",
+      "familyId": "de_pardon_expungement-set",
+      "jurisdiction": "DE",
+      "verdict": "BLOCKED_SOURCE",
+      "verifiedAtBase": "bfdcdef3860edc7b1ca7bd693f07023690d8cd7d",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/de/de-pardon-expungement-set--official-pdf-fill",
+      "implementationStrategy": "official_pdf_fill",
+      "allRequiredObligationsScored": 15,
+      "obligationSummary": {
+        "PASS": 14,
+        "FAIL": 0,
+        "NOT_MEASURABLE_HERE": 1,
+        "BLOCKED_LEGAL_INPUT": 0
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "measured": true,
+          "reviewMode": "FRESH_DECISION_BOUND_INDEPENDENT_JUDGMENT",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf02/de-pardon-final-20260911/decision-proof.json",
+          "basis": "RESOLVED. The binding decision expressly authorizes the same official Superior Court petition workflow after an unconditional pardon with the same pardon-specific CIV_EXP_08_A order. This answers VF20 DE-5: the CIV_EXP_02_A printed section4374 caption does not require inventing a custom pleading or preserving the old legal hold on this exact section4375 route. The packet uses those exact sources; the section4375 basis remains named on the order/cover sheet and in the already-approved participant instructions. No factual attestation, county, charge, signature or judicial act is inferred from the decision.",
+          "resolvedDecisionId": "DE-PARDON-EXPUNGEMENT-OFFICIAL-PETITION-WORKFLOW"
+        },
+        "SOURCE_IDENTITY": {
+          "result": "NOT_MEASURABLE_HERE",
+          "measured": false,
+          "reviewMode": "HISTORICAL_APPROVAL_RETAINED_CURRENT_CUSTODY_UNAVAILABLE",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf02/de-pardon-final-20260911/current-byte-and-anchor-bindings.json",
+          "basis": "NOT_MEASURABLE_HERE for current original-source custody. CIV_EXP_02_A was rehashed and matches. The exact original CIV_EXP_08_A file is absent from its committed custody path, so this lane cannot hash its current bytes or reproduce the source read. VF20 directly measured SHA256 0f7666ac6877b4d482a71c5303ecb199792f713e3c728adb2308b86945505d5b at1128070 bytes; that historical proof, unchanged receipt/transport and unchanged delivered PDF hashes remain valid historical evidence. No conflicting source bytes were found and no hash mismatch is asserted. Captain reports exact-byte recovery did not yield the PDF and expressly holds admission on custody. A historical source approval does not cure this current availability blocker.",
+          "historicalApproval": {
+            "path": "data/rcap-grade-a/packet-factory-24h/vf20/rows.json",
+            "fileSha256": "2f026f6079f7e98fd62deffbb9a165557932e09e7bedbed9efee7c03396d501b",
+            "familyId": "de_pardon_expungement-set",
+            "verifiedAtBase": "a45cb2767f70febb451503d7e4da2bb92676982d",
+            "obligation": "SOURCE_IDENTITY",
+            "priorResult": "PASS",
+            "priorProofPointer": "rows[itemId=de_pardon_expungement-set]/proofObligations/SOURCE_IDENTITY"
+          },
+          "currentFailureKind": "SOURCE_CUSTODY_UNAVAILABLE",
+          "hashMismatchObserved": false
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "measured": true,
+          "reviewMode": "REUSED_UNCHANGED_VF20_APPROVAL",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf02/de-pardon-final-20260911/current-byte-and-anchor-bindings.json",
+          "basis": "Reuse VF20 three-component approval: CIV_EXP_02_A petition, CIV_EXP_08_A pardon-specific proposed order and composed cover sheet, one page each. Exact DE manifest entry, delivered PDFs and reports are unchanged. The prior queue summary omitted one component; this does not remove the delivered cover sheet or change the controlling three-component manifest.",
+          "reusedFrom": {
+            "path": "data/rcap-grade-a/packet-factory-24h/vf20/rows.json",
+            "fileSha256": "2f026f6079f7e98fd62deffbb9a165557932e09e7bedbed9efee7c03396d501b",
+            "familyId": "de_pardon_expungement-set",
+            "verifiedAtBase": "a45cb2767f70febb451503d7e4da2bb92676982d",
+            "obligation": "COMPONENT_SET",
+            "priorResult": "PASS",
+            "priorProofPointer": "rows[itemId=de_pardon_expungement-set]/proofObligations/COMPONENT_SET"
+          }
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "measured": true,
+          "reviewMode": "REUSED_UNCHANGED_VF20_APPROVAL",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf02/de-pardon-final-20260911/current-byte-and-anchor-bindings.json",
+          "basis": "Reuse VF20 delivered-byte approval of12 official-form values plus6 cover-sheet values. Exact canonical/boundary PDFs, field map and actual-writes report are unchanged, preserving the measured participant identities, addresses, dates, phone numbers and criminal case number in their own fields.",
+          "reusedFrom": {
+            "path": "data/rcap-grade-a/packet-factory-24h/vf20/rows.json",
+            "fileSha256": "2f026f6079f7e98fd62deffbb9a165557932e09e7bedbed9efee7c03396d501b",
+            "familyId": "de_pardon_expungement-set",
+            "verifiedAtBase": "a45cb2767f70febb451503d7e4da2bb92676982d",
+            "obligation": "KNOWN_PREFILLS",
+            "priorResult": "PASS",
+            "priorProofPointer": "rows[itemId=de_pardon_expungement-set]/proofObligations/KNOWN_PREFILLS"
+          }
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "measured": true,
+          "reviewMode": "REUSED_UNCHANGED_VF20_APPROVAL",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf02/de-pardon-final-20260911/current-byte-and-anchor-bindings.json",
+          "basis": "Reuse VF20 protected-field measurements on unchanged PDFs/map: seven court/clerk/agency blanks and printed participant/notary/judicial signature rules remain empty; no new source or pixel measurement is claimed.",
+          "reusedFrom": {
+            "path": "data/rcap-grade-a/packet-factory-24h/vf20/rows.json",
+            "fileSha256": "2f026f6079f7e98fd62deffbb9a165557932e09e7bedbed9efee7c03396d501b",
+            "familyId": "de_pardon_expungement-set",
+            "verifiedAtBase": "a45cb2767f70febb451503d7e4da2bb92676982d",
+            "obligation": "PROTECTED_FIELDS",
+            "priorResult": "PASS",
+            "priorProofPointer": "rows[itemId=de_pardon_expungement-set]/proofObligations/PROTECTED_FIELDS"
+          }
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "measured": true,
+          "reviewMode": "REUSED_UNCHANGED_VF20_APPROVAL",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf02/de-pardon-final-20260911/current-byte-and-anchor-bindings.json",
+          "basis": "Reuse VF20 source-versus-delivered pixel proof on identical PDF and field-map bytes, including measured caption geometry and complete boundary values. This lane has performed no new visual or legibility review.",
+          "reusedFrom": {
+            "path": "data/rcap-grade-a/packet-factory-24h/vf20/rows.json",
+            "fileSha256": "2f026f6079f7e98fd62deffbb9a165557932e09e7bedbed9efee7c03396d501b",
+            "familyId": "de_pardon_expungement-set",
+            "verifiedAtBase": "a45cb2767f70febb451503d7e4da2bb92676982d",
+            "obligation": "CLIPPING_AND_OVERLAP",
+            "priorResult": "PASS",
+            "priorProofPointer": "rows[itemId=de_pardon_expungement-set]/proofObligations/CLIPPING_AND_OVERLAP"
+          }
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "measured": true,
+          "reviewMode": "REUSED_UNCHANGED_VF20_APPROVAL",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf02/de-pardon-final-20260911/current-byte-and-anchor-bindings.json",
+          "basis": "Reuse VF20 approval of the unchanged guide: all seven stop triggers, eligibility limitation and participant-owned manifest-injustice facts remain as reviewed. The binding decision resolves only the instrument/route question and determines no individual factual predicate.",
+          "reusedFrom": {
+            "path": "data/rcap-grade-a/packet-factory-24h/vf20/rows.json",
+            "fileSha256": "2f026f6079f7e98fd62deffbb9a165557932e09e7bedbed9efee7c03396d501b",
+            "familyId": "de_pardon_expungement-set",
+            "verifiedAtBase": "a45cb2767f70febb451503d7e4da2bb92676982d",
+            "obligation": "SELF_HELP_STOP",
+            "priorResult": "PASS",
+            "priorProofPointer": "rows[itemId=de_pardon_expungement-set]/proofObligations/SELF_HELP_STOP"
+          }
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "measured": true,
+          "reviewMode": "REUSED_UNCHANGED_VF20_APPROVAL",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf02/de-pardon-final-20260911/current-byte-and-anchor-bindings.json",
+          "basis": "Reuse VF20 destination approval. The entire participant guide and exact DE venue/destination registry entry are unchanged. No fresh venue-law research or new court selection is performed.",
+          "reusedFrom": {
+            "path": "data/rcap-grade-a/packet-factory-24h/vf20/rows.json",
+            "fileSha256": "2f026f6079f7e98fd62deffbb9a165557932e09e7bedbed9efee7c03396d501b",
+            "familyId": "de_pardon_expungement-set",
+            "verifiedAtBase": "a45cb2767f70febb451503d7e4da2bb92676982d",
+            "obligation": "FILING_DESTINATION",
+            "priorResult": "PASS",
+            "priorProofPointer": "rows[itemId=de_pardon_expungement-set]/proofObligations/FILING_DESTINATION"
+          }
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "measured": true,
+          "reviewMode": "REUSED_UNCHANGED_VF20_APPROVAL",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf02/de-pardon-final-20260911/current-byte-and-anchor-bindings.json",
+          "basis": "Reuse VF20 service approval. The exact DE registry entry and entire guide are unchanged, preserving the Attorney General service/response instructions. The packet PDFs remain unchanged, including the untouched preprinted Attorney General address block.",
+          "reusedFrom": {
+            "path": "data/rcap-grade-a/packet-factory-24h/vf20/rows.json",
+            "fileSha256": "2f026f6079f7e98fd62deffbb9a165557932e09e7bedbed9efee7c03396d501b",
+            "familyId": "de_pardon_expungement-set",
+            "verifiedAtBase": "a45cb2767f70febb451503d7e4da2bb92676982d",
+            "obligation": "SERVICE",
+            "priorResult": "PASS",
+            "priorProofPointer": "rows[itemId=de_pardon_expungement-set]/proofObligations/SERVICE"
+          }
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "measured": true,
+          "reviewMode": "REUSED_UNCHANGED_VF20_APPROVAL",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf02/de-pardon-final-20260911/current-byte-and-anchor-bindings.json",
+          "basis": "Reuse VF20 approval of all45 field-level disclosures and11 record-level requirements. The participant guide, blank-disclosure report and exact DE manifest entry are unchanged, including pardon/certified-history requirements and the manifest-injustice box/explanation. No case fact or attestation is invented by the legal decision.",
+          "reusedFrom": {
+            "path": "data/rcap-grade-a/packet-factory-24h/vf20/rows.json",
+            "fileSha256": "2f026f6079f7e98fd62deffbb9a165557932e09e7bedbed9efee7c03396d501b",
+            "familyId": "de_pardon_expungement-set",
+            "verifiedAtBase": "a45cb2767f70febb451503d7e4da2bb92676982d",
+            "obligation": "REQUIRED_BEFORE_FILING",
+            "priorResult": "PASS",
+            "priorProofPointer": "rows[itemId=de_pardon_expungement-set]/proofObligations/REQUIRED_BEFORE_FILING"
+          }
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "measured": true,
+          "reviewMode": "REUSED_UNCHANGED_VF20_APPROVAL",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf02/de-pardon-final-20260911/current-byte-and-anchor-bindings.json",
+          "basis": "Reuse VF20 approval after rehashing both current three-page PDFs: canonical7bce0bddd5eef1c0f23f264da8146805c52d4cc8dff16b8871ef78bfe1a97fe9 and boundary68f209017dc63ff37828c0bfb35e4f162a380a533ad821274b8beee0ad34dfb9. Both equal VF20 and current admitted raster34413372916 bindings. The prior admitted receipt uses job-log metadata, and this lane does not claim to have opened original PNG bodies.",
+          "reusedFrom": {
+            "path": "data/rcap-grade-a/packet-factory-24h/vf20/rows.json",
+            "fileSha256": "2f026f6079f7e98fd62deffbb9a165557932e09e7bedbed9efee7c03396d501b",
+            "familyId": "de_pardon_expungement-set",
+            "verifiedAtBase": "a45cb2767f70febb451503d7e4da2bb92676982d",
+            "obligation": "ARTIFACTS",
+            "priorResult": "PASS",
+            "priorProofPointer": "rows[itemId=de_pardon_expungement-set]/proofObligations/ARTIFACTS"
+          }
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "measured": true,
+          "reviewMode": "REUSED_UNCHANGED_VF20_APPROVAL",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf02/de-pardon-final-20260911/current-byte-and-anchor-bindings.json",
+          "basis": "Reuse VF20 three-page pairing/order approval on identical PDFs: official petition, pardon-specific proposed order, composed cover sheet. Current PDF page counts remain3 each and the current admitted raster covers6 pages across both fixtures.",
+          "reusedFrom": {
+            "path": "data/rcap-grade-a/packet-factory-24h/vf20/rows.json",
+            "fileSha256": "2f026f6079f7e98fd62deffbb9a165557932e09e7bedbed9efee7c03396d501b",
+            "familyId": "de_pardon_expungement-set",
+            "verifiedAtBase": "a45cb2767f70febb451503d7e4da2bb92676982d",
+            "obligation": "PAGE_ORDER",
+            "priorResult": "PASS",
+            "priorProofPointer": "rows[itemId=de_pardon_expungement-set]/proofObligations/PAGE_ORDER"
+          }
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "measured": true,
+          "reviewMode": "REUSED_UNCHANGED_VF20_APPROVAL",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf02/de-pardon-final-20260911/current-byte-and-anchor-bindings.json",
+          "basis": "Reuse VF20 measured unmarked county/interpreter/manifest-injustice elections on unchanged PDFs and guide. The binding decision chooses the official workflow for the already-fixed pardon route; it supplies no county, interpreter need or participant attestation.",
+          "reusedFrom": {
+            "path": "data/rcap-grade-a/packet-factory-24h/vf20/rows.json",
+            "fileSha256": "2f026f6079f7e98fd62deffbb9a165557932e09e7bedbed9efee7c03396d501b",
+            "familyId": "de_pardon_expungement-set",
+            "verifiedAtBase": "a45cb2767f70febb451503d7e4da2bb92676982d",
+            "obligation": "ROUTE_OPTIONS",
+            "priorResult": "PASS",
+            "priorProofPointer": "rows[itemId=de_pardon_expungement-set]/proofObligations/ROUTE_OPTIONS"
+          }
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "measured": true,
+          "reviewMode": "REUSED_UNCHANGED_VF20_APPROVAL",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf02/de-pardon-final-20260911/current-byte-and-anchor-bindings.json",
+          "basis": "Reuse VF20 geometry-based proof that both4-by5 charge tables are entirely blank, with no partial row. The field map, census, blank disclosures, reports and PDF bytes are all unchanged.",
+          "reusedFrom": {
+            "path": "data/rcap-grade-a/packet-factory-24h/vf20/rows.json",
+            "fileSha256": "2f026f6079f7e98fd62deffbb9a165557932e09e7bedbed9efee7c03396d501b",
+            "familyId": "de_pardon_expungement-set",
+            "verifiedAtBase": "a45cb2767f70febb451503d7e4da2bb92676982d",
+            "obligation": "REPEATING_ROWS",
+            "priorResult": "PASS",
+            "priorProofPointer": "rows[itemId=de_pardon_expungement-set]/proofObligations/REPEATING_ROWS"
+          }
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "measured": true,
+          "reviewMode": "REUSED_UNCHANGED_VF20_APPROVAL",
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf02/de-pardon-final-20260911/current-byte-and-anchor-bindings.json",
+          "basis": "Reuse VF20 fee/waiver approval solely within its prior scope. The exact DE manifest and guide fee/waiver/history-record statements are unchanged; no fee amount, waiver entitlement or current-law conclusion is newly supplied.",
+          "reusedFrom": {
+            "path": "data/rcap-grade-a/packet-factory-24h/vf20/rows.json",
+            "fileSha256": "2f026f6079f7e98fd62deffbb9a165557932e09e7bedbed9efee7c03396d501b",
+            "familyId": "de_pardon_expungement-set",
+            "verifiedAtBase": "a45cb2767f70febb451503d7e4da2bb92676982d",
+            "obligation": "FEE_AND_WAIVER",
+            "priorResult": "PASS",
+            "priorProofPointer": "rows[itemId=de_pardon_expungement-set]/proofObligations/FEE_AND_WAIVER"
+          }
+        }
+      },
+      "obligationFindings": {
+        "ROUTE_IDENTITY": "RESOLVED. The binding decision expressly authorizes the same official Superior Court petition workflow after an unconditional pardon with the same pardon-specific CIV_EXP_08_A order. This answers VF20 DE-5: the CIV_EXP_02_A printed section4374 caption does not require inventing a custom pleading or preserving the old legal hold on this exact section4375 route. The packet uses those exact sources; the section4375 basis remains named on the order/cover sheet and in the already-approved participant instructions. No factual attestation, county, charge, signature or judicial act is inferred from the decision.",
+        "SOURCE_IDENTITY": "NOT_MEASURABLE_HERE for current original-source custody. CIV_EXP_02_A was rehashed and matches. The exact original CIV_EXP_08_A file is absent from its committed custody path, so this lane cannot hash its current bytes or reproduce the source read. VF20 directly measured SHA256 0f7666ac6877b4d482a71c5303ecb199792f713e3c728adb2308b86945505d5b at1128070 bytes; that historical proof, unchanged receipt/transport and unchanged delivered PDF hashes remain valid historical evidence. No conflicting source bytes were found and no hash mismatch is asserted. Captain reports exact-byte recovery did not yield the PDF and expressly holds admission on custody. A historical source approval does not cure this current availability blocker.",
+        "COMPONENT_SET": "Reuse VF20 three-component approval: CIV_EXP_02_A petition, CIV_EXP_08_A pardon-specific proposed order and composed cover sheet, one page each. Exact DE manifest entry, delivered PDFs and reports are unchanged. The prior queue summary omitted one component; this does not remove the delivered cover sheet or change the controlling three-component manifest.",
+        "KNOWN_PREFILLS": "Reuse VF20 delivered-byte approval of12 official-form values plus6 cover-sheet values. Exact canonical/boundary PDFs, field map and actual-writes report are unchanged, preserving the measured participant identities, addresses, dates, phone numbers and criminal case number in their own fields.",
+        "PROTECTED_FIELDS": "Reuse VF20 protected-field measurements on unchanged PDFs/map: seven court/clerk/agency blanks and printed participant/notary/judicial signature rules remain empty; no new source or pixel measurement is claimed.",
+        "CLIPPING_AND_OVERLAP": "Reuse VF20 source-versus-delivered pixel proof on identical PDF and field-map bytes, including measured caption geometry and complete boundary values. This lane has performed no new visual or legibility review.",
+        "SELF_HELP_STOP": "Reuse VF20 approval of the unchanged guide: all seven stop triggers, eligibility limitation and participant-owned manifest-injustice facts remain as reviewed. The binding decision resolves only the instrument/route question and determines no individual factual predicate.",
+        "FILING_DESTINATION": "Reuse VF20 destination approval. The entire participant guide and exact DE venue/destination registry entry are unchanged. No fresh venue-law research or new court selection is performed.",
+        "SERVICE": "Reuse VF20 service approval. The exact DE registry entry and entire guide are unchanged, preserving the Attorney General service/response instructions. The packet PDFs remain unchanged, including the untouched preprinted Attorney General address block.",
+        "REQUIRED_BEFORE_FILING": "Reuse VF20 approval of all45 field-level disclosures and11 record-level requirements. The participant guide, blank-disclosure report and exact DE manifest entry are unchanged, including pardon/certified-history requirements and the manifest-injustice box/explanation. No case fact or attestation is invented by the legal decision.",
+        "ARTIFACTS": "Reuse VF20 approval after rehashing both current three-page PDFs: canonical7bce0bddd5eef1c0f23f264da8146805c52d4cc8dff16b8871ef78bfe1a97fe9 and boundary68f209017dc63ff37828c0bfb35e4f162a380a533ad821274b8beee0ad34dfb9. Both equal VF20 and current admitted raster34413372916 bindings. The prior admitted receipt uses job-log metadata, and this lane does not claim to have opened original PNG bodies.",
+        "PAGE_ORDER": "Reuse VF20 three-page pairing/order approval on identical PDFs: official petition, pardon-specific proposed order, composed cover sheet. Current PDF page counts remain3 each and the current admitted raster covers6 pages across both fixtures.",
+        "ROUTE_OPTIONS": "Reuse VF20 measured unmarked county/interpreter/manifest-injustice elections on unchanged PDFs and guide. The binding decision chooses the official workflow for the already-fixed pardon route; it supplies no county, interpreter need or participant attestation.",
+        "REPEATING_ROWS": "Reuse VF20 geometry-based proof that both4-by5 charge tables are entirely blank, with no partial row. The field map, census, blank disclosures, reports and PDF bytes are all unchanged.",
+        "FEE_AND_WAIVER": "Reuse VF20 fee/waiver approval solely within its prior scope. The exact DE manifest and guide fee/waiver/history-record statements are unchanged; no fee amount, waiver entitlement or current-law conclusion is newly supplied."
+      },
+      "freshlyRecheckedObligations": [
+        "ROUTE_IDENTITY"
+      ],
+      "reusedUnchangedApprovals": [
+        "COMPONENT_SET",
+        "KNOWN_PREFILLS",
+        "PROTECTED_FIELDS",
+        "CLIPPING_AND_OVERLAP",
+        "SELF_HELP_STOP",
+        "FILING_DESTINATION",
+        "SERVICE",
+        "REQUIRED_BEFORE_FILING",
+        "ARTIFACTS",
+        "PAGE_ORDER",
+        "ROUTE_OPTIONS",
+        "REPEATING_ROWS",
+        "FEE_AND_WAIVER"
+      ],
+      "failedObligations": [],
+      "blockedObligationNames": [
+        "SOURCE_IDENTITY"
+      ],
+      "defectGroups": 0,
+      "remainingDefects": [],
+      "resolvedLegalBlock": {
+        "priorId": "DE-5",
+        "priorObligation": "ROUTE_IDENTITY",
+        "decisionId": "DE-PARDON-EXPUNGEMENT-OFFICIAL-PETITION-WORKFLOW",
+        "evidence": "data/rcap-grade-a/packet-factory-24h/vf02/de-pardon-final-20260911/decision-proof.json"
+      },
+      "countersThisLaneMeasured": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "counterJustifications": {
+        "knownRequiredFieldsMissing": {
+          "currentRead": "Actual real completeness CLI reading is0.",
+          "priorIndependentMeasurementReused": "reports/field-census.json carries 80 AcroForm blanks across the two bound official documents (44 on CIV_EXP_02_A, 36 on CIV_EXP_08_A; I confirmed both counts by unlocking the pinned binaries with pikepdf 10.12.0 and counting AcroForm /Fields). 12 are bound to a held fact and all 12 are written; none bound to a held fact is left blank. The six blanks left empty with no held fact (P.O. Box x2, Attorney Name x2, Language x2) each have no corresponding fact in the platform's holdings and each is named in the guide's 'Things the platform deliberately left blank'.",
+          "priorEvidence": "data/rcap-grade-a/packet-factory-24h/vf20/rows.json",
+          "scope": "The prior independent measurement remains valid on the unchanged family/authority anchors; this lane does not claim a fresh pixel or whole source remeasurement."
+        },
+        "requiredFactsNotCollected": {
+          "currentRead": "Actual real completeness CLI reading is0.",
+          "priorIndependentMeasurementReused": "all 18 declared fact writes (12 on the two official forms, 6 on the composed cover sheet) carry foundInOutputBytes true, and I read all 18 values out of the delivered pages myself with pdftotext. No declared write failed for want of a fact.",
+          "priorEvidence": "data/rcap-grade-a/packet-factory-24h/vf20/rows.json",
+          "scope": "The prior independent measurement remains valid on the unchanged family/authority anchors; this lane does not claim a fresh pixel or whole source remeasurement."
+        },
+        "unclassifiedBlanks": {
+          "currentRead": "Actual real completeness CLI reading is0.",
+          "priorIndependentMeasurementReused": "tallied the dispositions of all 80 censused fields myself: written 12, REQUIRED_BEFORE_FILING 45, participant_sworn_narrative_or_legal_election 10, court_prosecutor_clerk_or_agency_owned 7, blank 6. 12+45+10+7+6 = 80. No field carries no disposition.",
+          "priorEvidence": "data/rcap-grade-a/packet-factory-24h/vf20/rows.json",
+          "scope": "The prior independent measurement remains valid on the unchanged family/authority anchors; this lane does not claim a fresh pixel or whole source remeasurement."
+        },
+        "incompleteRows": {
+          "currentRead": "Actual real completeness CLI reading is0.",
+          "priorIndependentMeasurementReused": "the two charge tables are 4 rows x 5 columns each and every one of the 40 cells is delivered empty, so no row is part-filled. Row identity was resolved by geometry, not by index: on the unlocked CIV_EXP_02_A, Row1 widgets sit at y[476.40,490.20], Row2 y[461.40,475.32], Row3 y[446.52,460.32], Row4 y[431.64,445.44], descending in the same order as the printed bands, and each cell falls in exactly one band.",
+          "priorEvidence": "data/rcap-grade-a/packet-factory-24h/vf20/rows.json",
+          "scope": "The prior independent measurement remains valid on the unchanged family/authority anchors; this lane does not claim a fresh pixel or whole source remeasurement."
+        },
+        "requiredOptionsMissing": {
+          "currentRead": "Actual real completeness CLI reading is0.",
+          "priorIndependentMeasurementReused": "the three elections the forms carry - the three county boxes, the interpreter Yes/No pair, and the manifest-injustice box - are all present on the delivered page as open boxes and all three are named in participant copy. None is pre-decided by the packet.",
+          "priorEvidence": "data/rcap-grade-a/packet-factory-24h/vf20/rows.json",
+          "scope": "The prior independent measurement remains valid on the unchanged family/authority anchors; this lane does not claim a fresh pixel or whole source remeasurement."
+        },
+        "requiredComponentsMissing": {
+          "currentRead": "Actual real completeness CLI reading is0.",
+          "priorIndependentMeasurementReused": "the committed packet-set manifest (sha256 80b5e071055469b6f1aa84e80accd9e8bcc15e00ed3b7b778ba48a0ff85d8bd7, recomputed here) declares three components for this packet set: primary-filing-1, proposed-order-2 and cover-sheet-3. The delivered canonical.pdf is three pages and carries all three, one per page.",
+          "priorEvidence": "data/rcap-grade-a/packet-factory-24h/vf20/rows.json",
+          "scope": "The prior independent measurement remains valid on the unchanged family/authority anchors; this lane does not claim a fresh pixel or whole source remeasurement."
+        },
+        "invisibleWrites": {
+          "currentRead": "Actual real completeness CLI reading is0.",
+          "priorIndependentMeasurementReused": "rendered the delivered canonical page 1 and page 2 at 150 dpi against the pinned source pages rendered the same way and differenced them. Page 1 produced six ink clusters and page 2 a single diff bbox, accounting for all 12 official-form writes; every cover-sheet value is legible in the page-3 text. No declared write produced no ink.",
+          "priorEvidence": "data/rcap-grade-a/packet-factory-24h/vf20/rows.json",
+          "scope": "The prior independent measurement remains valid on the unchanged family/authority anchors; this lane does not claim a fresh pixel or whole source remeasurement."
+        },
+        "protectedWrites": {
+          "currentRead": "Actual real completeness CLI reading is0.",
+          "priorIndependentMeasurementReused": "from the same pixel difference: no changed pixel falls inside any of the seven court/clerk/agency-owned rects - Civil Petition No. x[466.6,566.3] y[603.6,664.9], the three jurat blanks at y[85.4,97.8], Civil Action No., 'Other' (paragraph 5) and DATE on the order. The Attorney General address column at x[324,384] is likewise untouched, which matters here because build-findings.json records that the shared caption capture binds across that column.",
+          "priorEvidence": "data/rcap-grade-a/packet-factory-24h/vf20/rows.json",
+          "scope": "The prior independent measurement remains valid on the unchanged family/authority anchors; this lane does not claim a fresh pixel or whole source remeasurement."
+        },
+        "visualDefects": {
+          "currentRead": "Actual real completeness CLI reading is0.",
+          "priorIndependentMeasurementReused": "the same 150 dpi difference against the pinned source is the measurement. Page 1 changes reduce to six clusters, each inside its own declared widget rect: Petitioner x[46.1,155.5] in rect x[44.4,263.5] y[703.8,720.5]; street x[45.6,175.2] in x[44.4,263.5] y[679.1,695.8]; Crim Case No x[468.0,527.5] in x[466.3,566.5] y[677.8,706.6]; city x[45.1,154.1] in x[44.4,263.5] y[629.5,646.3]; date of birth x[46.1,100.8] and telephone x[159.8,233.3] in their rects; and the name in the recital at x[176.6,279.8] in x[175.0,373.1] y[532.2,544.6]. Page 2 changes are confined to a single bbox x[60,192] in the caption block. Nothing else on either page differs from the Court's own printing by one pixel. All three pages are 612x792.",
+          "priorEvidence": "data/rcap-grade-a/packet-factory-24h/vf20/rows.json",
+          "scope": "The prior independent measurement remains valid on the unchanged family/authority anchors; this lane does not claim a fresh pixel or whole source remeasurement."
+        }
+      },
+      "countersInterpretation": "All nine are actual current completeness-reader zeros. They corroborate unchanged field/output evidence but do not test availability of this original source. The overall verdict is BLOCKED_SOURCE despite those zeros: current SOURCE_IDENTITY is NOT_MEASURABLE_HERE. The route decision is freshly resolved;13 other current approvals and all14 historical VF20 passes are explicitly retained.",
+      "countersThisLaneDidNotMeasure": {},
+      "originalIndependentEvidenceReused": {
+        "path": "data/rcap-grade-a/packet-factory-24h/vf20/rows.json",
+        "fileSha256": "2f026f6079f7e98fd62deffbb9a165557932e09e7bedbed9efee7c03396d501b",
+        "exactRowSha256": "1a0594de76f38aaa559a8f77a00c655cc6e87c7f49800ec150625d380a7b84d1",
+        "verifiedAtBase": "a45cb2767f70febb451503d7e4da2bb92676982d",
+        "sourceAndVisualScope": "VF20 historical direct source-byte and source-versus-delivered pixel observations remain retained on unchanged declared source/packet identities and exact DE authority entries. Thirteen current approvals reuse them; historical SOURCE_IDENTITY approval is retained separately and current source availability is NOT_MEASURABLE_HERE.",
+        "bindingEvidence": "data/rcap-grade-a/packet-factory-24h/vf02/de-pardon-final-20260911/current-byte-and-anchor-bindings.json",
+        "historicalApprovedObligations": [
+          "SOURCE_IDENTITY",
+          "COMPONENT_SET",
+          "KNOWN_PREFILLS",
+          "PROTECTED_FIELDS",
+          "CLIPPING_AND_OVERLAP",
+          "SELF_HELP_STOP",
+          "FILING_DESTINATION",
+          "SERVICE",
+          "REQUIRED_BEFORE_FILING",
+          "ARTIFACTS",
+          "PAGE_ORDER",
+          "ROUTE_OPTIONS",
+          "REPEATING_ROWS",
+          "FEE_AND_WAIVER"
+        ],
+        "currentApprovalsReused": [
+          "COMPONENT_SET",
+          "KNOWN_PREFILLS",
+          "PROTECTED_FIELDS",
+          "CLIPPING_AND_OVERLAP",
+          "SELF_HELP_STOP",
+          "FILING_DESTINATION",
+          "SERVICE",
+          "REQUIRED_BEFORE_FILING",
+          "ARTIFACTS",
+          "PAGE_ORDER",
+          "ROUTE_OPTIONS",
+          "REPEATING_ROWS",
+          "FEE_AND_WAIVER"
+        ]
+      },
+      "rasterState": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "34413372916",
+        "documentsCovered": 2,
+        "pagesCovered": 6,
+        "rerasterRequired": false,
+        "freshRaster": false,
+        "freshVisualReview": false,
+        "newAdmission": false,
+        "evidence": "data/rcap-grade-a/packet-factory-24h/vf02/de-pardon-final-20260911/current-byte-and-anchor-bindings.json"
+      },
+      "sourceIdentity": [
+        {
+          "documentId": "CIV_EXP_02_A",
+          "path": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Delaware/download.aspx.pdf",
+          "sha256": "f2820f713b9f8e0fb1c0095886e7184d56fda06eef7f65af014ab48922b7839a",
+          "byteLength": 179445,
+          "currentBytesAvailable": true,
+          "matchesReceiptAndVF20SourcePin": true
+        },
+        {
+          "documentId": "CIV_EXP_08_A",
+          "path": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Delaware/source-acquisition-2026-09-04/civ_exp_08_a-sc-new-order-granting-expungement-after-pardon-form.pdf",
+          "priorMeasuredSha256": "0f7666ac6877b4d482a71c5303ecb199792f713e3c728adb2308b86945505d5b",
+          "priorMeasuredByteLength": 1128070,
+          "currentBytesAvailable": false,
+          "currentHashRemeasured": false,
+          "receiptAndTransportIdenticalToVF20": true,
+          "reuseBasis": "VF20 directly measured this exact original source in custody at a45cb2767. Current declared source identity, transport equivalence and delivered PDF bytes are unchanged. Assignment requests reuse of14 valid approvals without fresh source review; current mount absence is explicitly escalated and is not presented as a new source-byte measurement."
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/de/de-pardon-expungement-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "68f209017dc63ff37828c0bfb35e4f162a380a533ad821274b8beee0ad34dfb9",
+          "byteLength": 1202719,
+          "priorSha256": "68f209017dc63ff37828c0bfb35e4f162a380a533ad821274b8beee0ad34dfb9",
+          "byteIdenticalToVF20": true,
+          "pages": 3
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/de/de-pardon-expungement-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "7bce0bddd5eef1c0f23f264da8146805c52d4cc8dff16b8871ef78bfe1a97fe9",
+          "byteLength": 1202521,
+          "priorSha256": "7bce0bddd5eef1c0f23f264da8146805c52d4cc8dff16b8871ef78bfe1a97fe9",
+          "byteIdenticalToVF20": true,
+          "pages": 3
+        }
+      ],
+      "remainingReproducibilityLimitations": [
+        {
+          "documentId": "CIV_EXP_08_A",
+          "path": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Delaware/source-acquisition-2026-09-04/civ_exp_08_a-sc-new-order-granting-expungement-after-pardon-form.pdf",
+          "expectedSha256": "0f7666ac6877b4d482a71c5303ecb199792f713e3c728adb2308b86945505d5b",
+          "expectedByteLength": 1128070,
+          "currentMountAvailable": false,
+          "currentOriginalSourceRehashed": false,
+          "effect": "Current source-custody acceptance blocker. Historical VF20 source measurement remains valid historical evidence, but current custody cannot be proved.",
+          "captainDisposition": "Captain instructed overall BLOCKED_SOURCE after its exact-byte recovery failed to produce the source PDF; admission remains held. No reacquisition/research by this reviewer."
+        }
+      ],
+      "wholeRecordPinNote": "The track-registry receipt retains its historical whole-file hash after unrelated entries changed. The exact DE track entry and global metadata compare identical to VF20 and are separately hashed here; no whole-file equality or repin is claimed.",
+      "commands": [
+        {
+          "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --can-assert VF02 de_pardon_expungement-set",
+          "exitCode": 0,
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf02/de-pardon-final-20260911/preflight.json"
+        },
+        {
+          "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF02 de_pardon_expungement-set",
+          "exitCode": 0,
+          "evidence": "data/rcap-grade-a/packet-factory-24h/vf02/de-pardon-final-20260911/preflight.json"
+        },
+        {
+          "command": "MASTER_LIBRARY_SOURCE_DIR=/workspaces/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 RCAP_NO_LOCAL_RASTER=1 node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family de_pardon_expungement-set",
+          "exitCode": 0,
+          "log": "data/rcap-grade-a/packet-factory-24h/vf02/de-pardon-final-20260911/completeness.log",
+          "substantiveVerdict": "PASS_COMPLETE;18/86 written;all9 counters0. This reader result does not establish current availability of every original source file."
+        },
+        {
+          "command": "python data/rcap-grade-a/packet-factory-24h/vf02/de-pardon-final-20260911/measure-bindings.py",
+          "exitCode": 0,
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/vf02/de-pardon-final-20260911/current-byte-and-anchor-bindings.json",
+            "data/rcap-grade-a/packet-factory-24h/vf02/de-pardon-final-20260911/decision-proof.json"
+          ],
+          "substantiveVerdict": "Binding comparisons pass;2 current PDFs and exact DE authority anchors are unchanged. Historical source proof retained for unavailable CIV_EXP_08_A; current source proof NOT_MEASURABLE_HERE and overall BLOCKED_SOURCE."
+        }
+      ],
+      "checksNotRepeated": [
+        {
+          "command": "node scripts/build-census-v1-de_pardon_expungement-set.mjs --check",
+          "reason": "Builder check repeats decryption and source census rather than checking saved PDF output. No build implementation or packet byte changed; fourteen current-byte approvals are explicitly reusable. Current missing CIV_EXP_08_A custody is already reported for Captain recovery. The actual completeness CLI was run successfully."
+        }
+      ],
+      "currentScopeLimitations": [
+        "No new legal research, source freshness review, source decryption/review or visual rendering.",
+        "The admitted raster proof reports job-log transport and no original PNG body reads; VF20 independent technical observations are reused as documented.",
+        "Existing counsel-question strings are superseded only for the named route/instrument issue by the later binding decision; no participant facts or eligibility outcome are supplied.",
+        "Technical evidence only. No central state, claim, admission, route, payment, sponsorship, fulfillment or production authority changed."
+      ],
+      "nextAction": "Captain must restore and verify the exact pinned CIV_EXP_08_A original source through existing custody machinery before admission. Retain the resolved ROUTE_IDENTITY decision and all unchanged historical evidence; do not reacquire, repin or reraster through this return.",
+      "selfVerified": false,
+      "builtThisFamily": false,
+      "historicalApprovalsRetained": [
+        "SOURCE_IDENTITY",
+        "COMPONENT_SET",
+        "KNOWN_PREFILLS",
+        "PROTECTED_FIELDS",
+        "CLIPPING_AND_OVERLAP",
+        "SELF_HELP_STOP",
+        "FILING_DESTINATION",
+        "SERVICE",
+        "REQUIRED_BEFORE_FILING",
+        "ARTIFACTS",
+        "PAGE_ORDER",
+        "ROUTE_OPTIONS",
+        "REPEATING_ROWS",
+        "FEE_AND_WAIVER"
+      ],
+      "currentCustodyBlocker": {
+        "familyId": "de_pardon_expungement-set",
+        "documentId": "CIV_EXP_08_A",
+        "stopClass": "SOURCE_CUSTODY_UNAVAILABLE",
+        "expectedSourceSha256": "0f7666ac6877b4d482a71c5303ecb199792f713e3c728adb2308b86945505d5b",
+        "expectedByteLength": 1128070,
+        "actualSourceSha256": null,
+        "hashMismatchObserved": false,
+        "sourcePath": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Delaware/source-acquisition-2026-09-04/civ_exp_08_a-sc-new-order-granting-expungement-after-pardon-form.pdf",
+        "liftCondition": "Restore the original acquisition artifact or another held copy that matches the exact pinned1128070-byte PDF, verify custody, then recheck only this source availability proof. No source repin, new legal opinion or reraster is authorized by this return.",
+        "captainReportedRecovery": "Captain reports recorded official URL recovery returned rejection HTML, not the PDF. This lane did not repeat that request or adopt the HTML as source evidence."
+      }
+    }
+  ],
+  "grantsNothing": "Completed BLOCKED_SOURCE independent evidence return. It does not authorize admission, route promotion, commercial fulfillment, payment, sponsorship, runtime or production.",
+  "returnWrittenAtUtc": "2026-09-11T14:58:42.329291+00:00"
+}

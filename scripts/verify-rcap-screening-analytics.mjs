@@ -568,6 +568,7 @@ function verifySourceWiring() {
     complete: read("src/app/api/expungement-ai/screening/complete/route.ts"),
     retiredSave: read("src/app/api/expungement-ai/screening/save-result/route.ts"),
     claim: read("src/app/api/expungement-ai/screening/pending/claim/route.ts"),
+    claimService: read("src/lib/expungement-ai/claim/claim-service.ts"),
     lib: read("src/lib/expungement-ai/rcap-screening-analytics.ts")
   };
   const baseline = sourceWiringViolations(sources);
@@ -588,20 +589,29 @@ function verifySourceWiring() {
   const prePersistenceCall = {
     ...sources,
     claim: sources.claim.replace(
-      "item = await saveAuthoritativeScreeningResultToBriefcase({",
-      "await recordScreeningEligibilityResult(data.source_session_id ?? \"\", evaluation.resultCode);\n    item = await saveAuthoritativeScreeningResultToBriefcase({"
+      "  const claim = await claimPendingScreeningResult({",
+      "  await recordScreeningEligibilityResult(\"\", \"packet_ready\");\n  const claim = await claimPendingScreeningResult({"
     )
   };
   assert(
-    sourceWiringViolations(prePersistenceCall).some((failure) => failure.includes("only after exact-case persistence")),
-    "Negative control failed: moving analytics before persistence did not turn the verifier red."
+    sourceWiringViolations(prePersistenceCall).some((failure) => failure.includes("only after the atomic ownership transaction")),
+    "Negative control failed: moving analytics before the ownership transaction did not turn the verifier red."
+  );
+
+  const replayEmits = {
+    ...sources,
+    claim: sources.claim.replace('if (claim.outcome === "claimed") {', "if (true) {")
+  };
+  assert(
+    sourceWiringViolations(replayEmits).some((failure) => failure.includes("a replay must stay silent")),
+    "Negative control failed: emitting analytics on a claim replay did not turn the verifier red."
   );
 
   const missingPartnerGuard = {
     ...sources,
     claim: sources.claim.replace(
-      "if (claim.data && isPartnerSession && data.source_session_id)",
-      "if (claim.data && data.source_session_id)"
+      'claim.pending.product === "rcap_partner" && claim.pending.anonymous_session_id',
+      "claim.pending.anonymous_session_id"
     )
   };
   assert(
@@ -609,13 +619,18 @@ function verifySourceWiring() {
     "Negative control failed: removing the partner-session guard did not turn the verifier red."
   );
 
+  // The idempotency gate is now the database's PENDING -> CLAIMED transition
+  // rather than a conditional update assembled in the route.
   const missingIdempotency = {
     ...sources,
-    claim: sources.claim.replace('.is("claimed_user_id", null)', '.not("claimed_user_id", "is", null)')
+    claimService: sources.claimService.replace(
+      'supabase.rpc("claim_pending_screening_result"',
+      'supabase.from("consumer_briefcase_items").insert('
+    )
   };
   assert(
-    sourceWiringViolations(missingIdempotency).some((failure) => failure.includes("replay-idempotency gate")),
-    "Negative control failed: removing claim idempotency did not turn the replay verifier red."
+    sourceWiringViolations(missingIdempotency).some((failure) => failure.includes("must be the database's")),
+    "Negative control failed: replacing the atomic claim transaction did not turn the replay verifier red."
   );
 }
 
@@ -636,36 +651,43 @@ function sourceWiringViolations(input) {
   require(input.complete.includes("recordScreeningCompleted(sessionId)"), "Completion route must record completion analytics.");
   require(!input.retiredSave.includes("recordScreeningEligibilityResult"), "The retired browser-result route must not emit server analytics.");
 
+  // Ownership moved into one atomic database transaction, so the ordering this
+  // used to police -- persist, then mark claimed, then emit -- is now a property
+  // of the transaction rather than of the route's statement order. What is left
+  // for the route to get right is that analytics runs strictly after the
+  // transaction, only on the transaction that actually claimed, and never turns
+  // a successful claim into a failure.
   const postStart = input.claim.indexOf("export async function POST");
   const postSource = postStart >= 0 ? input.claim.slice(postStart) : input.claim;
-  const persistenceIndex = postSource.indexOf("item = await saveAuthoritativeScreeningResultToBriefcase");
-  const claimGateIndex = postSource.indexOf("const claim = await supabase");
+  const claimGateIndex = postSource.indexOf("claimPendingScreeningResult(");
   const analyticsIndex = postSource.indexOf("recordScreeningEligibilityResult(");
-  const responseIndex = postSource.indexOf("return NextResponse.json({", Math.max(analyticsIndex, 0));
+  const responseIndex = postSource.indexOf("return NextResponse.json({\n    ok: true", Math.max(analyticsIndex, 0));
 
   require(analyticsIndex >= 0, "Authenticated claim must emit the server-authoritative result event.");
   require(
-    persistenceIndex >= 0 && claimGateIndex > persistenceIndex && analyticsIndex > claimGateIndex,
-    "Eligibility analytics must run only after exact-case persistence and the first-claim transition."
+    claimGateIndex >= 0 && analyticsIndex > claimGateIndex,
+    "Eligibility analytics must run only after the atomic ownership transaction."
   );
   require(responseIndex > analyticsIndex, "The successful exact-case response must remain after best-effort analytics.");
   require(
-    postSource.includes("if (claim.data && isPartnerSession && data.source_session_id)"),
+    postSource.includes('claim.pending.product === "rcap_partner" && claim.pending.anonymous_session_id'),
     "Eligibility analytics must retain the validated partner-session guard."
   );
   require(
-    postSource.includes('.is("claimed_user_id", null)')
-      && postSource.includes('.select("pending_id")')
-      && postSource.includes("if (claim.data && isPartnerSession"),
-    "The null-to-user claim transition must remain the replay-idempotency gate."
+    postSource.includes('if (claim.outcome === "claimed")'),
+    "Only the transaction that actually claimed may emit; a replay must stay silent."
   );
   require(
-    postSource.includes("data.source_session_id,\n      evaluation.resultCode"),
+    input.claimService.includes('supabase.rpc("claim_pending_screening_result"'),
+    "The PENDING -> CLAIMED transition must be the database's, not the route's."
+  );
+  require(
+    postSource.includes("claim.pending.anonymous_session_id,\n        claim.evaluation.resultCode"),
     "Eligibility analytics must use the validated session and server-derived result code."
   );
   require(
-    postSource.includes("if (claim.error)") && postSource.includes("claim_marker_failed"),
-    "Claim-marker failure must be logged without failing the persisted participant case."
+    postSource.includes("analytics failed after a successful claim") && !postSource.includes("claim_marker_failed"),
+    "Analytics failure must be logged without failing the persisted participant case."
   );
   require(
     postSource.includes("if (!analytics.ok)") && postSource.includes("analytics.reason"),

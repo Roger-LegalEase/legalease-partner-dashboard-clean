@@ -1,0 +1,390 @@
+{
+  "schemaVersion": "rcap-fable-worker-return/v1",
+  "worker": "FABLE-R14",
+  "role": "repair; verified none of its own repairs and wrote to no verifier record",
+  "lanes": ["FIX01", "FIX04", "FIX05", "FIX06"],
+  "branch": "fable/r14",
+  "baseSha": "55f3cbeff39e63a55490f431f8c556a3044d060e",
+  "baseShaSubject": "Re-open four repair grants under amendment A2",
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "familiesPromoted": 0,
+  "approvalsGranted": 0,
+  "liveRoutesChanged": 0,
+  "grantsNothing": "This return repairs four packets' participant instructions. It promotes no family, opens no commercial route, grants no approval, changes no live RCAP route, and is not a verification of its own work. All four families are released and await a fresh independent read.",
+
+  "standardApplied": {
+    "record": "data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json",
+    "amendments": ["DET-FEE-AND-WAIVER-001-A1", "DET-FEE-AND-WAIVER-001-A2"],
+    "a1Ordering": "Ask FIRST whether the repository establishes the answer. If it does, the packet states it. Only where no held source establishes it may a NAMED checkable authority stand in.",
+    "a2Scope": "The repository means every committed record the family binds PLUS every record the route obligation census names as a requiredSourceId for that route — the compiled state profile, the committed track registry, and the committed packet-set manifest including its participantActionRequired entries.",
+    "a2ConfirmedIndependentlyHere": "A2 was not taken on trust. For each of the four families this worker located the route obligation census row itself, read its requiredSourceIds, opened the named record, and read the fee/service/filing text out of the committed bytes before writing a word. A2 is correct on all four; no family contradicted it."
+  },
+
+  "claimDiscipline": {
+    "asserted": [
+      "FIX01 ar-arrest-seal-set",
+      "FIX04 wi_nc_doj_fingerprint_removal-set",
+      "FIX05 ny_160_59_petition-set",
+      "FIX06 ca-851-91-set"
+    ],
+    "allGranted": true,
+    "grantSet": "60312a6e8b0d0c82",
+    "blockedBeforeClaim": [],
+    "reissueOrTransferUsed": false,
+    "serialised": "Every claim.mjs call was run one family at a time, never in parallel, because the ledger is a read-modify-write on a shared file.",
+    "released": [
+      "FIX01 ar-arrest-seal-set",
+      "FIX04 wi_nc_doj_fingerprint_removal-set",
+      "FIX05 ny_160_59_petition-set",
+      "FIX06 ca-851-91-set"
+    ],
+    "ledgerChangesLeftInDiff": true
+  },
+
+  "method": {
+    "repairedThroughOwningBuildScript": "Every change is a source change in the owning build script. No generated artifact was hand-edited; every committed output in this diff was produced by rerunning its build script.",
+    "corpus": "scripts/rcap-corpus/bootstrap-private-corpus.sh mounted the pinned Master Library in this container. Archive SHA-256 a26e3ca7d52db4460e53c2eddd893109037702f5c8035f2c698a7e16bad84e89 verified; 51 jurisdictions, 499 files, 329 PDFs; governance checksums verified.",
+    "noFactoryGeneratorRun": true,
+    "verifierRecordsUntouched": [
+      "every vf*/rows.json",
+      "VERIFIER_RETURNS.json",
+      "MASTER_QUEUE.json",
+      "RASTER_QUEUE.json",
+      "ACTIVE_ASSIGNMENTS.json"
+    ]
+  },
+
+  "hosts": {
+    "note": "The four families span four build hosts, two of them shared. Host identity, not family identity, is what a control has to be run against.",
+    "arkansas": {
+      "host": "scripts/build-census-v1-ar-arrest-seal-set.mjs",
+      "familiesOnHost": ["ar-arrest-seal-set", "ar-misdemeanor-dwi-seal-set"]
+    },
+    "wisconsin": {
+      "host": "scripts/build-census-v1-wi_nc_doj_fingerprint_removal-set.mjs",
+      "familiesOnHost": ["wi_nc_doj_fingerprint_removal-set"],
+      "singleFamilyHost": true
+    },
+    "east": {
+      "host": "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs",
+      "familiesOnHost": 14,
+      "note": "ny_160_59_petition-set is the ONLY family on this host that declares a feeAndWaiver section, which is why both the section text and its heading could be corrected without moving any other family's bytes."
+    },
+    "west": {
+      "host": "scripts/build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs",
+      "familiesOnHost": 9,
+      "note": "The delegating fee/service/filing paragraph here is shared by all seven California families, which is why the repair was made opt-in per family rather than host-wide."
+    }
+  },
+
+  "families": [
+    {
+      "familyId": "ar-arrest-seal-set",
+      "lane": "FIX01",
+      "outcome": "REPAIRED",
+      "defect": "FEE_AND_WAIVER. The packet told the participant that no source it holds establishes the A.C.A. § 16-90-1419 filing fee and sent them to the clerk of the filing court to ask. The claim about the family's own two bound ACIC forms was true — neither prints an amount — and the claim about the repository was false.",
+      "heldRecordBehindTheReplacement": {
+        "record": "src/lib/rcap-engine/compiled/profiles/AR-arkansas.json",
+        "howItIsBound": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json, routeKey obligation:track-pathway:AR:ar-arrest-seal:situation-a-non-convictions, names 'compiled-profile:src/lib/rcap-engine/compiled/profiles/AR-arkansas.json' in requiredSourceIds.",
+        "whatItSays": [
+          "packetGenerator.feeRules[0]: 'Act 1460 eliminated sealing filing fees; the real costs are records and any counsel.'",
+          "packetGenerator.feeRules[1]: 'Sealing petition filing fee $0 Filing fees eliminated by the 2019 amendments'",
+          "packetGenerator.filingDestinationRules[1]: 'File in the circuit or district court that handled the case. Act 1460 eliminated filing fees for sealing.'",
+          "packetGenerator.sourceFormStatements[7] ties the profile to this packet's own form: 'Petition and Order to Seal Arrest (Act 1460) Arrest records under § 16-90-1409.'"
+        ],
+        "readFromCommittedBytesHere": true
+      },
+      "whatChanged": [
+        "The fee section now states the held answer first — there is no filing fee for this petition — quoting all three profile statements and naming the profile by path.",
+        "It then reconciles that with the petition's paragraph 3, which VT9 correctly flagged as the hard part. Paragraph 3 is a sworn averment that the participant has paid the fees 'mandated by A.C.A § 16-90-1419'. The section explains that where no filing fee is required there is none left to have paid, so the averment is true as printed, and tells the participant not to read paragraph 3 as a bill.",
+        "The named clerk is kept, but demoted to the residual question only: if that particular court nonetheless asks for money, ask what the charge is for. Under A1 that is a question the repository has not answered, so a named authority is the right instrument for it.",
+        "A third paragraph states the costs the profile DOES record for this route — ACIC record fee, small clerk fee for the Judgment and Commitment Order, optional counsel — and the profile's note that the real gate is outstanding restitution, fines and court costs, an eligibility requirement rather than a filing fee.",
+        "Step 1 of 'What you must do before you file' no longer tells the participant to ask the clerk what the fee is; it asks only which court takes the petition."
+      ],
+      "participantHarmClosed": "The packet previously sent a participant to resolve a fee the profile records as abolished in 2019, and tied that unresolved question to a paragraph they must swear to.",
+      "buildScriptChanged": "scripts/build-census-v1-ar-arrest-seal-set.mjs",
+      "artifactBytesChanged": false,
+      "filesChanged": ["data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill/participant-instructions.md"],
+      "instructionsSha256After": "f256d46187676e783c5d7f5093a398f21d7fabd8c5875162d92a3f24878d62da",
+      "completenessBefore": "PASS_COMPLETE 15/66 written, all nine counters zero",
+      "completenessAfter": "PASS_COMPLETE 15/66 written, all nine counters zero"
+    },
+    {
+      "familyId": "wi_nc_doj_fingerprint_removal-set",
+      "lane": "FIX04",
+      "outcome": "REPAIRED",
+      "defect": "FEE_AND_WAIVER. The 'What this costs' section added by FIX04 stated that 'no source held in this repository states a fee for a fingerprint record removal request, states that there is none, or describes a waiver.' The statement about the form was true and is re-confirmed here; the statement about the repository was false.",
+      "determinationNoteWasStale": "The determination's original notReExamined entry described this family as failing on TRUE SILENCE with no office to ask, and said the standard confirmed rather than disturbed that verdict. A2's alsoCorrected block already records that as stale — FIX04 added an office to ask 94 seconds after the determination was decided. This repair addresses the other limb, as A2 directs: the repository holds the fee answer and the packet denied it. Adding an office was not what Wisconsin needed.",
+      "heldRecordBehindTheReplacement": {
+        "record": "src/lib/rcap-engine/compiled/profiles/WI-wisconsin.json",
+        "howItIsBound": "route-obligation-candidate.json, routeKey obligation:track-pathway:WI:wi_nc_doj_fingerprint_removal:adult-non-conviction-arrest-only-record-correction-or-removal, names 'compiled-profile:src/lib/rcap-engine/compiled/profiles/WI-wisconsin.json' in requiredSourceIds.",
+        "whatItSays": [
+          "packetGenerator.feeRules[1]: 'DOJ-CIB fingerprint arrest removal Wisconsin DOJ says no fee is required'",
+          "packetGenerator.feeRules[2]: 'DOJ-CIB criminal background check Fee-based through WORCS'"
+        ],
+        "secondIndependentHeldRecord": "The same census row's own destination.detail states it too: 'There is no fee for the removal request; the background check that precedes it is fee-based.' The answer is held twice over, in two records the census binds to this route.",
+        "readFromCommittedBytesHere": true
+      },
+      "whatChanged": [
+        "The section now opens with the held answer: there is no fee for this request, quoting the profile and naming it by path.",
+        "The form's silence is kept but reframed — it is now presented as consistent with the no-fee rule rather than as a gap in the record.",
+        "A new paragraph carries across the distinction the profile draws and VT9 asked for: the DOJ-CIB criminal background check is fee-based through WORCS. A participant who orders their own criminal history before asking for a removal pays for that check even though the removal itself is free. The paragraph says in terms: do not read 'no fee' for the removal as 'no cost' for the whole errand.",
+        "The Crime Information Bureau is kept and still named with the address pointer, but as the office to CONFIRM the stated answer rather than as the office that supplies a missing one.",
+        "The unextractable-font paragraph is unchanged: the packet still does not retype instruction 1, which it cannot quote."
+      ],
+      "buildScriptChanged": "scripts/build-census-v1-wi_nc_doj_fingerprint_removal-set.mjs",
+      "artifactBytesChanged": false,
+      "filesChanged": ["data/rcap-all50/overlays/census-v1/wi/wi-nc-doj-fingerprint-removal-set--official-pdf-fill/participant-instructions.md"],
+      "instructionsSha256After": "5e486035aebb28fccf5007225e258d839c13ffcd7e3c8f0fc38c0b082cd1e7b2",
+      "completenessBefore": "PASS_COMPLETE 10/33 written, all nine counters zero",
+      "completenessAfter": "PASS_COMPLETE 10/33 written, all nine counters zero"
+    },
+    {
+      "familyId": "ny_160_59_petition-set",
+      "lane": "FIX05",
+      "outcome": "REPAIRED",
+      "defect": "FEE_AND_WAIVER, on the exact ground A2 names. A fee section added earlier today declared that no held source establishes the CPL 160.59 application fee and named the clerk's office of the court of conviction as the authority to ask. A2 records that this repair 'was careful, sourced and well-reasoned; it searched the wrong shelf', and that under A1 naming an authority for a question the repository has answered is forbidden.",
+      "instructionFollowed": "The brief required that the section be REPLACED with the held answer, not deleted. It was replaced: the section is still three paragraphs and still ends with the clerk, but the clerk is now the tie-breaker for a stated answer rather than the source of a missing one.",
+      "heldRecordBehindTheReplacement": {
+        "record": "src/lib/rcap-engine/compiled/profiles/NY-new-york.json",
+        "howItIsBound": "route-obligation-candidate.json, routeKey obligation:track-pathway:NY:ny_160_59_petition:discretionary-conviction-sealing-by-petition-under-cpl-160-59, names 'compiled-profile:src/lib/rcap-engine/compiled/profiles/NY-new-york.json' in requiredSourceIds.",
+        "whatItSays": [
+          "packetGenerator.feeRules[2]: 'CPL 160.59 sealing application No separate filing fee Court motion; notarization needed'",
+          "narrative: 'the 160.59 motion itself carries no separate filing fee — the only near-certain costs are the Certificate of Disposition ($5 outside NYC, $10 in the five boroughs, per case) and any DCJS record-review fee'",
+          "'Legal-aid organizations and county DA sealing units assist pro se applicants at no cost.'"
+        ],
+        "readFromCommittedBytesHere": true
+      },
+      "whatChanged": [
+        "Paragraph 1 now states the held answer: the CPL 160.59 sealing application carries no separate filing fee, quoted from the profile and named by path. The two bound forms' silence is retained and reframed as consistent with the rule.",
+        "Paragraph 2 keeps the certificate-of-disposition figures unchanged — that paragraph was always correct treatment, because the repository holds those figures and the packet stated them — and adds what the profile also holds: the DCJS record-review fee, and the notarization the profile's own fee row flags, for which a notary may charge. It says plainly that no fee waiver is needed for a free filing.",
+        "Paragraph 3 adds the free help the profile names — legal-aid organizations and county DA sealing units — and keeps the pro se packet's clerk's-office pointer as the tie-breaker if that office says something different from the profile.",
+        "The section heading changed from 'What it costs to file, and who answers that' to 'What it costs to file'. The old heading promised a referral the section no longer makes. This family is the only declarer of feeAndWaiver on the East host, so the heading change moved no other family's bytes — confirmed by the East control below.",
+        "The trailing build note that restated the old 'no held source establishes the application fee' claim was rewritten to match; it also flows into build-findings.json, which is why that file is in the diff."
+      ],
+      "buildScriptChanged": "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs",
+      "artifactBytesChanged": false,
+      "filesChanged": [
+        "data/rcap-all50/overlays/census-v1/ny/ny-160-59-petition-set--official-pdf-fill/participant-instructions.md",
+        "data/rcap-all50/overlays/census-v1/ny/ny-160-59-petition-set--official-pdf-fill/build-findings.json"
+      ],
+      "instructionsSha256After": "446e40336e1604293ccc50d2639edce32ec4406e8c1fe25cfefead82d68403fe",
+      "completenessBefore": "PASS_COMPLETE 34/148 written, all nine counters zero",
+      "completenessAfter": "PASS_COMPLETE 34/148 written, all nine counters zero",
+      "notRepairedHereAndStillOpen": {
+        "warning": "This lane's grant was for the fee defect. VT9 failed this family on FOUR obligations, and the other three are untouched and still stand. A verifier reading this family after this repair should expect it to remain FAIL_REPAIR_REQUIRED.",
+        "REQUIRED_BEFORE_FILING": "A systematic off-by-one in nine field labels on the certificate-of-disposition request, flowing verbatim into the participant's required-facts list — the participant is told to write their IDV number into the field named ArrestNumber. This is a field-map defect, not an instructions defect, and repairing it would move artifact bytes and owe a fresh raster. Out of this lane's scope.",
+        "CLIPPING_AND_OVERLAP": "Three participant values in pro-se-packet-boundary.pdf drawn outside their widget boxes and past the right page edge (Email 44.89pt past the widget and 5.21pt past the page, on pages 9 and 11). Also a byte-moving repair, out of scope.",
+        "SELF_HELP_STOP": "Absent entirely — no 'not legal advice', no legal-aid referral, no 'when to stop'. This IS an instructions defect and this lane could technically have reached it, but the grant was for the fee and inventing a self-help boundary is a drafting decision with legal weight that belongs to a lane dispatched for it. Flagged rather than quietly absorbed.",
+        "rasterState": "RASTER_PENDING at VT9's read; this family has never been through the central gate."
+      }
+    },
+    {
+      "familyId": "ca-851-91-set",
+      "lane": "FIX06",
+      "outcome": "REPAIRED",
+      "defect": "FILING_DESTINATION, FEE_AND_WAIVER and SERVICE, all in one sentence: 'The filing fee and whether it can be waived, who must be served and by what method, and the address of the court are not established in this repository. Ask the clerk of the Superior Court in the county of the arrest.' The committed packet-set manifest establishes three of those four for this exact packetSetId.",
+      "vt8ClaimCheckedNotTrusted": "VT8 described the repair as a short instruction edit and that was checked rather than assumed. It is correct: the change touches one generated file, participant-instructions.md, and moves zero artifact bytes, zero rasters and zero field-map entries. The nine counters are unchanged at all zero.",
+      "heldRecordBehindTheReplacement": {
+        "record": "data/record-clearing/legal-design-packet-set-manifests.json, packetSetId ca-851-91-set, participantActionRequired",
+        "howItIsBound": "A2's answersVT8C4 holds that a committed manifest's participantActionRequired entries are a held source for FILING_DESTINATION, FEE_AND_WAIVER and SERVICE exactly as A1 settled the track registry is. Note that this route's census row does NOT name a compiled profile — the manifest is the binding record here, which is precisely the question VT8 raised and A2 answered.",
+        "whatItSays": {
+          "file": "File the verified CR-409 with the proposed CR-410 at least 15 days before the hearing, in the court where the accusatory pleading was filed, or where no pleading was filed in a court with criminal jurisdiction in the city or county where the arrest occurred. One arrest per petition.",
+          "serve_party": "Serve the prosecuting attorney of the city or county where the arrest occurred, and the arresting agency, at least 15 days before the hearing.",
+          "apply_fee_waiver": "FW-001 is the general California fee waiver form.",
+          "pay_fee": "Unresolved and county-specific. Do not publish a figure."
+        },
+        "readFromCommittedBytesHere": true
+      },
+      "whatChanged": [
+        "The single delegating sentence is replaced by four sections built from the manifest: 'Where you file this, and by when', 'Who you must serve, and by when', 'What this costs', and 'Where this packet's self-help ends'.",
+        "The filing and service rules are emitted verbatim from the manifest entries, so if the manifest stops holding one the sentence disappears rather than being invented.",
+        "The service section connects the rule to CR-106, which the packet already ships and fully maps — VT8's aggravating fact, that the participant had the instrument for proving service while being told the parties were unknown, is now closed. It also tells them the 15-day deadline counts backwards from the hearing, not forwards from filing.",
+        "The fee AMOUNT is still refused, and deliberately: the manifest itself says it is unresolved and county-specific and instructs builders not to publish a figure. Under the determination's third met limb the named clerk stands in for that one question — and now only that one.",
+        "FW-001 is named, which was the FEE_AND_WAIVER defect: the string appeared nowhere in the family directory. Its scope is deliberately limited — see feeWaiverRestraint below.",
+        "A real self-help boundary now closes the packet: it does not decide eligibility, does not appear for you, is not legal advice, and names the point at which to get a lawyer or legal-aid office."
+      ],
+      "feeWaiverRestraint": {
+        "whatWasAlmostWritten": "A first draft named FW-001 and gave its official title, 'Request to Waive Court Fees'.",
+        "whyItWasRemoved": "That title is not held anywhere in this repository — it was this worker's own knowledge, which is exactly the class of fact the factory forbids. It was cut and the sentence now carries only what the manifest says.",
+        "secondRestraint": "data/rcap-grade-a/launch-control/WAVE_2_VERIFICATION_LEDGER.json records the precise limit of the FW-001 fact: it is California's general fee-waiver form, and that 'does not determine whether either filing has a fee or when a waiver is required.' So the packet NAMES the form — closing the defect — while leaving whether a waiver is available on this petition with the clerk. Naming a form is not the same as establishing an entitlement, and the section says so."
+      },
+      "buildScriptChanged": "scripts/build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs (the shared West host)",
+      "howTheHostChangeWasScoped": {
+        "problem": "The delegating paragraph is shared by all seven California families on this host, and every one of their manifests holds the same file, serve_party and apply_fee_waiver entries. A host-wide fix would have silently rewritten six unclaimed families' participant instructions as a side effect of one repair, and would have made the West control meaningless.",
+        "solution": "A per-family opt-in flag, statesHeldParticipantActions, set on ca-851-91-set alone. The mechanism reads each family's own manifest and is fully general; the other six need only the flag.",
+        "whyNotHostWide": "This worker holds a repair claim on ca-851-91-set and on no other family on this host. Rewriting unclaimed families is not this lane's to do, however correct the rewrite would be.",
+        "forTheCaptain": "The remaining six California families on this host — ca-1203-41-set, ca-1203-42-set, ca-1203-43-set, ca-1203-4a-set, ca-17b-reduction-set and ca-prop64-set — all carry the identical defect and all have manifests that answer it. ca-1203-4a-set additionally holds a REAL fee figure the packet does not state: 'Reimbursement of up to $60 to the county and $60 to the city, subject to an ability-to-pay determination', and ca-prop64-set's pay_fee entry reads 'The source review does not state a filing fee for the CR-400 series.' Each is a one-line flag flip once claimed."
+      },
+      "artifactBytesChanged": false,
+      "filesChanged": ["data/rcap-all50/overlays/census-v1/ca/ca-851-91-set--official-pdf-fill/participant-instructions.md"],
+      "instructionsSha256After": "9af364fcb4a98c8f42699da32c8a2dd62500f499efa780c884542500b3fdcd1d",
+      "completenessBefore": "PASS_COMPLETE 14/129 written, all nine counters zero",
+      "completenessAfter": "PASS_COMPLETE 14/129 written, all nine counters zero",
+      "stillOpenNotRepairedHere": "VT8 records this family as RASTER_NOT_ELIGIBLE_CENTRALLY — it has never been dispatched to the central raster workflow. That is unchanged and is a Captain decision, not a repair."
+    }
+  ],
+
+  "controls": {
+    "rule": "For each host touched, an unrelated family on that same host was rebuilt and its output compared. Every control below was run AFTER the repair was in place.",
+    "results": [
+      {
+        "host": "arkansas",
+        "controlFamily": "ar-misdemeanor-dwi-seal-set",
+        "result": "NO DIFF",
+        "detail": "Rebuilt cleanly; git reported zero modified files in its family directory."
+      },
+      {
+        "host": "east",
+        "controlFamily": "nj_indictable_conviction-set",
+        "result": "NO DIFF",
+        "detail": "Rebuilt cleanly; zero modified files. This is the control that proves the feeAndWaiver heading change reached only ny_160_59_petition-set."
+      },
+      {
+        "host": "west",
+        "controlFamily": "ca-1203-42-set",
+        "result": "NO DIFF",
+        "detail": "Rebuilt cleanly, twice — once after the main repair and again after the FW-001 restraint edit. Zero modified files both times. This is the control that proves statesHeldParticipantActions is genuinely per-family."
+      },
+      {
+        "host": "west",
+        "controlFamily": "az_marijuana_expungement_arrest_no_charges-set",
+        "result": "DIFF — AND IT IS NOT MINE. See preExistingFindings.azFamilyDoesNotReproduce.",
+        "detail": "This control DID produce a diff. It was investigated to causation, proven pre-existing at base, and fully reverted. It is reported here rather than quietly dropped."
+      }
+    ],
+    "wisconsinHasNoControlFamily": {
+      "fact": "scripts/build-census-v1-wi_nc_doj_fingerprint_removal-set.mjs is a single-family host — it hard-codes FAMILY_ID = 'wi_nc_doj_fingerprint_removal-set' and builds nothing else. No control family exists on it.",
+      "whatWasDoneInstead": "The requirement was met by the two instruments that remain available: the family was built twice and its outputs compared byte for byte, and the whole-repository git status was checked after every Wisconsin build to confirm no file outside its own family directory moved. Both held.",
+      "notPresentedAsEquivalent": "This is weaker than a control family and is reported as such rather than as a pass."
+    }
+  },
+
+  "determinism": {
+    "proven": true,
+    "method": "All four families were built twice in succession after the repairs, and the SHA-256 of every file in all four family directories was compared between builds.",
+    "filesCompared": 170,
+    "result": "170 of 170 byte-identical across two full builds. A third full build of ca-851-91-set after the FW-001 restraint edit was also byte-identical to its predecessor across all 58 of that family's files.",
+    "creationDateHazard": {
+      "checkedBecause": "The brief warned that two hosts were found today emitting a wall-clock /CreationDate that survives save({updateMetadata:false}), which silently invalidates a family's hash-bound raster receipt on every rebuild.",
+      "finding": "NONE of this worker's four hosts has that defect, and this was established empirically before any edit was made: all four families were rebuilt UNMODIFIED at base and produced a completely empty git diff. A wall-clock CreationDate would have shown up there immediately.",
+      "whyTheyAreSafe": [
+        "wisconsin host line 1053: packet.setCreationDate(new Date(0)) with an explanatory comment naming exactly this hazard",
+        "east host line 2277: pdf.setCreationDate(FIXED_DATE) and setModificationDate(FIXED_DATE)",
+        "arkansas host: loads the pinned source with updateMetadata:false and never calls PDFDocument.create(), so no new CreationDate is minted",
+        "west host: byte-identical across three full builds"
+      ],
+      "stampDeterministicNotNeeded": "No host of mine required the factory's stampDeterministic fix, so none was applied."
+    }
+  },
+
+  "rasterOwed": {
+    "families": [],
+    "count": 0,
+    "statement": "NO fixture PDF's bytes changed on any of the four families, so no fresh central raster is owed by this repair. This was verified two ways: git reported zero modified files matching *.pdf or *.png across the whole data tree after every build, and the double-build hash comparison covered all 170 files in the four family directories, fixtures and rasters included.",
+    "consequenceForVerifiers": "Every existing hash-bound raster receipt on these families remains valid and bound to bytes that did not move. The only committed outputs that changed are four participant-instructions.md files and one build-findings.json."
+  },
+
+  "preExistingFindings": {
+    "azFamilyDoesNotReproduce": {
+      "severity": "HIGH — reported for a Captain decision, not repaired here",
+      "family": "az_marijuana_expungement_arrest_no_charges-set",
+      "host": "scripts/build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs",
+      "finding": "This family's COMMITTED artifacts cannot be reproduced from the committed build script at base 55f3cbeff. Rebuilding it does not reproduce its output — it REGRESSES it, substantially.",
+      "whatIsLost": [
+        "participant-instructions.md collapses from a 69-line hand-written filing-instructions document — with a titled route heading, a 'Where you file this' section naming the Superior Court caption destination, and a fee/service delegation paragraph — down to a 13-line generic 'Participant and reviewer instructions' stub with a bare field list.",
+        "production-field-map.json loses 208 lines.",
+        "reports/rendered-artifacts.json loses documentId and formNumber from both fixture entries.",
+        "build-findings.json loses the observation that the citing-or-arresting-agency blank is written from the participant-stated fact matter.citing_or_arresting_agency 'per the shared participant fact allowlist (wave-2 S1)' — i.e. a wave-2 feature is no longer produced."
+      ],
+      "causationEstablished": "This was NOT caused by this worker's edit, and that was proven rather than asserted. The West host was reverted to its base bytes with git checkout, the AZ family was rebuilt from the pristine base script, and it produced the identical regression. The host was then restored from a copy taken before the test.",
+      "whyItMatters": "A Grade-A family whose committed artifacts cannot be regenerated from its committed source is not reproducible, and reproducibility is what the whole hash-binding apparatus rests on. Any lane that rebuilds this family for any reason will silently destroy a wave-2 feature and a hand-written participant document. It is a trap laid for the next worker on this host.",
+      "likelyCause": "Not diagnosed here — out of this lane's grant. The shape of it (committed output is RICHER than the script produces) suggests the committed artifacts were built by a later version of the script than the one on this branch, or that a guidance/config block was lost in a merge.",
+      "siblingAtRisk": "az_marijuana_expungement_superior_court-set shares this host. It was NOT rebuilt — deliberately, to avoid damaging a second unclaimed family — so whether it shares the condition is unknown and worth checking before anyone rebuilds it.",
+      "actionTaken": "The AZ family directory was fully reverted with git checkout and is byte-identical to base in this diff. Nothing of this finding is left in the working tree."
+    }
+  },
+
+  "filesWritten": [
+    "scripts/build-census-v1-ar-arrest-seal-set.mjs",
+    "scripts/build-census-v1-wi_nc_doj_fingerprint_removal-set.mjs",
+    "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs",
+    "scripts/build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs",
+    "data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill/participant-instructions.md",
+    "data/rcap-all50/overlays/census-v1/wi/wi-nc-doj-fingerprint-removal-set--official-pdf-fill/participant-instructions.md",
+    "data/rcap-all50/overlays/census-v1/ny/ny-160-59-petition-set--official-pdf-fill/participant-instructions.md",
+    "data/rcap-all50/overlays/census-v1/ny/ny-160-59-petition-set--official-pdf-fill/build-findings.json",
+    "data/rcap-all50/overlays/census-v1/ca/ca-851-91-set--official-pdf-fill/participant-instructions.md",
+    "data/rcap-grade-a/packet-factory-24h/claim-ledger.json (four asserts and four releases, via scripts/grade-a-packet-factory-24h/claim.mjs only)",
+    "data/rcap-grade-a/fable-packet-factory/returns/r14.json (this file)"
+  ],
+
+  "filesNotTouched": [
+    "every vf*/rows.json",
+    "VERIFIER_RETURNS.json",
+    "MASTER_QUEUE.json",
+    "RASTER_QUEUE.json",
+    "ACTIVE_ASSIGNMENTS.json",
+    "every other lane's return",
+    "every fixture PDF and every raster PNG in the repository",
+    "every field map and field census",
+    "every unclaimed family's committed output, including az_marijuana_expungement_arrest_no_charges-set which was rebuilt for a control and fully reverted",
+    "Production, Supabase, RLS/auth, Stripe, secrets, migrations"
+  ],
+
+  "stoppedOn": [
+    {
+      "what": "Nothing prevented any of the four repairs. All four claims were granted and all four are complete.",
+      "butRecorded": "Three deliberate non-repairs are recorded above rather than silently absorbed: ny_160_59_petition-set's three other failed obligations, ca-851-91-set's absent central raster eligibility, and the six unclaimed California families on the West host that carry ca-851-91-set's defect."
+    }
+  ],
+
+  "forTheCaptain": [
+    {
+      "issue": "A2 is correct on all four families, confirmed independently from committed bytes.",
+      "detail": "The brief allowed for the possibility that A2 was wrong about a specific family, and said a disproof would be worth more than a repair. It is not wrong about any of these four. In each case the route obligation census names the record, and the record answers the question. Arkansas, Wisconsin and New York each name their compiled state profile as a requiredSourceId and each profile answers the fee outright; Wisconsin's answer is additionally held a second time in the census row's own destination detail. California names no profile — the manifest is its binding record, which is exactly the question VT8 raised and A2 answered."
+    },
+    {
+      "issue": "az_marijuana_expungement_arrest_no_charges-set does not reproduce from its own build script.",
+      "detail": "See preExistingFindings. Found as a control, proven pre-existing, reverted. This is the most consequential thing in this return and it is not one of the four repairs.",
+      "captainDecision": "Whether to dispatch a lane to diagnose why the committed AZ artifacts are richer than the script that claims to build them, and whether to check the sibling az_marijuana_expungement_superior_court-set before anyone rebuilds it."
+    },
+    {
+      "issue": "Six more California families on the West host carry ca-851-91-set's exact defect, and the fix is now a one-line flag.",
+      "detail": "See ca-851-91-set.howTheHostChangeWasScoped.forTheCaptain. Two of them are worse than a delegation: ca-1203-4a-set's manifest holds an actual reimbursement figure the packet does not state, and ca-prop64-set's holds an explicit finding that the source review states no filing fee for the CR-400 series."
+    },
+    {
+      "issue": "The nine completeness counters read all-zero across every one of these four defects, before and after.",
+      "detail": "All four families returned PASS_COMPLETE with nine zeros while telling participants that the repository did not hold facts it did hold. The counters are not instrumented for this defect class and cannot see it. VT9 made the same observation from a different angle on the New York clipped write. Recorded as corroboration, not as a new proposal."
+    },
+    {
+      "issue": "ny_160_59_petition-set will still fail an independent read, and should.",
+      "detail": "Its fee defect is repaired; REQUIRED_BEFORE_FILING, CLIPPING_AND_OVERLAP and SELF_HELP_STOP are untouched. Two of those three move artifact bytes and would owe a fresh raster. A verifier should expect FAIL_REPAIR_REQUIRED on this family and should not read this repair as an attempt at the whole of it."
+    }
+  ],
+
+  "independence": {
+    "selfVerificationRefused": "This worker verified none of its own repairs. No verdict was written, no vf*/rows.json was opened for writing, and no factory generator was run. The completeness verifier was run because the brief required its nine counters before and after; it is a build-side instrument, not a verdict.",
+    "allFourReleased": true,
+    "awaiting": "A fresh independent read of all four families against the fifteen proof obligations."
+  },
+
+  "summary": {
+    "familiesClaimed": 4,
+    "REPAIRED": 4,
+    "STOPPED": 0,
+    "BLOCKED_BEFORE_CLAIM": 0,
+    "artifactBytesMoved": 0,
+    "rasterOwed": 0,
+    "controlsRun": 4,
+    "controlsClean": 3,
+    "controlsThatDiffed": 1,
+    "controlDiffsCausedByThisWorker": 0,
+    "doubleBuildFilesCompared": 170,
+    "doubleBuildMismatches": 0,
+    "preExistingDefectsFound": 1,
+    "commercialRoutesOpened": 0,
+    "productionTouched": false
+  }
+}

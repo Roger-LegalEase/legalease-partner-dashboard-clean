@@ -1,0 +1,15 @@
+{
+  "schemaVersion": "rcap-bounded-incident/v1",
+  "familyId": "ne-setaside-noncustodial-set",
+  "owner": "LEGAL-PURGE-W3",
+  "ownerDecisionSource": "data/record-clearing/legal-design-track-registry.json#ne-setaside-noncustodial",
+  "decision": "official_pdf_fill",
+  "incident": "The first ad hoc release invocation omitted deferRasterToActions and generated local raster evidence before the configuration correction was reviewed.",
+  "preservedEvidence": "data/rcap-all50/overlays/census-v1/ne/ne-setaside-noncustodial-set--official-pdf-fill/raster/",
+  "rootCause": "The wrapper release override called buildOfficial with a temporary config that did not carry the host's deferred-raster requirement; the host family configuration also still had the stale STOP/custom vehicle during the initial check.",
+  "correction": "The exact noncustodial config now declares BUILD, official-pdf-fill, the official output path, and deferRasterToActions=true. The custodial config was restored to its prior value.",
+  "remainingBlocker": "The existing product-wiring record is still under the old custom-pleading path, so --check refuses deterministic wiring drift until the owner-directed FIX02 wiring update is applied.",
+  "rerun": false,
+  "sharedWrites": false,
+  "pdfsRebuiltAfterCorrection": false
+}

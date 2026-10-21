@@ -1,0 +1,634 @@
+{
+  "schemaVersion": "rcap-packet-factory-focused-repair-return/v1",
+  "workerId": "FIX36",
+  "assignmentId": "FIX36",
+  "laneKind": "shared-host-repair",
+  "assignedBase": "831b93cf4",
+  "branch": "fix36-composed-host-ms",
+  "grantsConfirmed": [
+    {
+      "familyId": "ms-misd-1st-set",
+      "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX36 ms-misd-1st-set",
+      "result": "CLAIM_OK FIX36 ms-misd-1st-set (repair, grant set c25dc3c6a72bbd8f)",
+      "exitCode": 0
+    },
+    {
+      "familyId": "ms-nonconv-set",
+      "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX36 ms-nonconv-set",
+      "result": "CLAIM_OK FIX36 ms-nonconv-set (repair, grant set c25dc3c6a72bbd8f)",
+      "exitCode": 0
+    }
+  ],
+  "hostChanged": {
+    "path": "scripts/rcap-custom-pleading/composed-family-host.mjs",
+    "changes": [
+      "renderComposedPdf's private character-accumulating splitToken replaced by createTokenSplitter({ fits: fitsByFontMetrics(font, fontSize, maxWidth) }) from scripts/rcap-custom-pleading/split-token.mjs, with the import added.",
+      "assert.equal(splitToken.hardSplits, 0, …) after the document's rows are drawn, so a token with no separator to break on fails the build rather than shipping chopped."
+    ],
+    "whatWasNotChanged": "The renderer's geometry, its row-by-row draw, its y < margin page break, stampDeterministic, the save options, byteProof, the completeness counting, the source receipt and every other host output are untouched. No pagination scheme was added."
+  },
+  "buildersModified": [
+    "scripts/build-census-v1-ms-misd-1st-set.mjs — the proposed order's 'Route:' trailer moved above 'SO ORDERED.'; the trailing push suppressed for that one component. Placement only.",
+    "scripts/build-census-v1-ms-nonconv-set.mjs — the same move, same shape."
+  ],
+  "otherFamiliesOnThisHost": {
+    "method": "Every builder importing scripts/rcap-custom-pleading/composed-family-host.mjs was found by grep: thirteen builders, the two this lane repairs and eleven others. All thirteen were rebuilt with --no-raster in a throwaway detached checkout at base 831b93cf4 (/home/user/fix36-throwaway, since deleted). A CONTROL run with the UNMODIFIED host ran first and reproduced the committed bytes of all thirteen families exactly, which is what makes the second run's differences attributable to the change. The repaired host was then dropped in with every builder left unmodified, and the digests compared.",
+    "buildersOnThisHost": 13,
+    "repairedByThisLane": 2,
+    "otherFamilies": 11,
+    "controlReproducedCommittedBytesForAllThirteen": true,
+    "byteIdenticalUnderRepairedHost": 10,
+    "moved": 1,
+    "families": [
+      {
+        "familyId": "al-uncharged-arrest",
+        "builder": "scripts/build-census-v1-agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge.mjs",
+        "familyDirectory": "data/rcap-all50/overlays/census-v1/al/agency-application-treatment:obligation:research-decision-route:al:al-uncharged-arrest:agency-record-challenge--official-pdf-fill",
+        "controlReproducedCommittedBytes": true,
+        "byteIdenticalUnderRepairedHost": true,
+        "fixtures": {
+          "canonical": {
+            "sha256Before": "95fed142e8fab838496cc9bf531e2268a4d45c9e3c375f8dab1e70a7ec1303c5",
+            "sha256AfterRepairedHost": "95fed142e8fab838496cc9bf531e2268a4d45c9e3c375f8dab1e70a7ec1303c5",
+            "byteLengthBefore": 5918,
+            "byteLengthAfterRepairedHost": 5918,
+            "pageCount": 2
+          },
+          "boundary": {
+            "sha256Before": "c9a3b9b16e77d75105628785ea19e9168e3d0a2318a43efd8a253e4450e39ea7",
+            "sha256AfterRepairedHost": "c9a3b9b16e77d75105628785ea19e9168e3d0a2318a43efd8a253e4450e39ea7",
+            "byteLengthBefore": 6041,
+            "byteLengthAfterRepairedHost": 6041,
+            "pageCount": 2
+          }
+        }
+      },
+      {
+        "familyId": "nm-dna",
+        "builder": "scripts/build-census-v1-agency-application-treatment:obligation:runtime-only:NM:dna-sample-profile-expungement.mjs",
+        "familyDirectory": "data/rcap-all50/overlays/census-v1/nm/agency-application-treatment:obligation:runtime-only:nm:dna-sample-profile-expungement--official-pdf-fill",
+        "controlReproducedCommittedBytes": true,
+        "byteIdenticalUnderRepairedHost": true,
+        "fixtures": {
+          "canonical": {
+            "sha256Before": "1bdc17120f9716b3304c52f5ce56e392291f8bb3e42597b4568524ea8eba429f",
+            "sha256AfterRepairedHost": "1bdc17120f9716b3304c52f5ce56e392291f8bb3e42597b4568524ea8eba429f",
+            "byteLengthBefore": 6220,
+            "byteLengthAfterRepairedHost": 6220,
+            "pageCount": 2
+          },
+          "boundary": {
+            "sha256Before": "0c1e91e1b74a31f60a56b96547a402811369b2a01ee3c4fc0cf8f6c753caf651",
+            "sha256AfterRepairedHost": "0c1e91e1b74a31f60a56b96547a402811369b2a01ee3c4fc0cf8f6c753caf651",
+            "byteLengthBefore": 6354,
+            "byteLengthAfterRepairedHost": 6354,
+            "pageCount": 2
+          }
+        }
+      },
+      {
+        "familyId": "ct-destruction",
+        "builder": "scripts/build-census-v1-agency-application-treatment:obligation:track-only:CT:ct-destruction-request.mjs",
+        "familyDirectory": "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-only:ct:ct-destruction-request--official-pdf-fill",
+        "controlReproducedCommittedBytes": true,
+        "byteIdenticalUnderRepairedHost": true,
+        "fixtures": {
+          "canonical": {
+            "sha256Before": "5ecda8851a55db44ff78338c5ff75d2a618e48010986697d5568876d922cf948",
+            "sha256AfterRepairedHost": "5ecda8851a55db44ff78338c5ff75d2a618e48010986697d5568876d922cf948",
+            "byteLengthBefore": 5074,
+            "byteLengthAfterRepairedHost": 5074,
+            "pageCount": 1
+          },
+          "boundary": {
+            "sha256Before": "d05de02906fe2632b75d1a91acb2d2cd84a073c1d918e11aed57556d2742872c",
+            "sha256AfterRepairedHost": "d05de02906fe2632b75d1a91acb2d2cd84a073c1d918e11aed57556d2742872c",
+            "byteLengthBefore": 5186,
+            "byteLengthAfterRepairedHost": 5186,
+            "pageCount": 1
+          }
+        }
+      },
+      {
+        "familyId": "ct-provisional",
+        "builder": "scripts/build-census-v1-agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon.mjs",
+        "familyDirectory": "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-only:ct:ct-provisional-pardon--official-pdf-fill",
+        "controlReproducedCommittedBytes": true,
+        "byteIdenticalUnderRepairedHost": true,
+        "fixtures": {
+          "canonical": {
+            "sha256Before": "31f3c2fd8e59ffb83292faea73213dc70483d427c8f5f944d72f535bd1f03ef1",
+            "sha256AfterRepairedHost": "31f3c2fd8e59ffb83292faea73213dc70483d427c8f5f944d72f535bd1f03ef1",
+            "byteLengthBefore": 5472,
+            "byteLengthAfterRepairedHost": 5472,
+            "pageCount": 2
+          },
+          "boundary": {
+            "sha256Before": "0e7f7008cd40fba4f6c3a04ba800147d4d4af3f5298f0b9c9b777ae31087c772",
+            "sha256AfterRepairedHost": "0e7f7008cd40fba4f6c3a04ba800147d4d4af3f5298f0b9c9b777ae31087c772",
+            "byteLengthBefore": 5605,
+            "byteLengthAfterRepairedHost": 5605,
+            "pageCount": 2
+          }
+        }
+      },
+      {
+        "familyId": "ct-absolute",
+        "builder": "scripts/build-census-v1-agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure.mjs",
+        "familyDirectory": "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-pathway:ct:ct-absolute-pardon:absolute-pardon-resulting-in-erasure--official-pdf-fill",
+        "controlReproducedCommittedBytes": true,
+        "byteIdenticalUnderRepairedHost": true,
+        "fixtures": {
+          "canonical": {
+            "sha256Before": "83cdb5a02b746d5c922fa73c37bc556106d4882822c241ac1a881099fbce8d42",
+            "sha256AfterRepairedHost": "83cdb5a02b746d5c922fa73c37bc556106d4882822c241ac1a881099fbce8d42",
+            "byteLengthBefore": 5829,
+            "byteLengthAfterRepairedHost": 5829,
+            "pageCount": 2
+          },
+          "boundary": {
+            "sha256Before": "41a1b3284fcfb61aaa2e9949167b89cdbc1aa88af518f3bee1fde531e2223cf1",
+            "sha256AfterRepairedHost": "41a1b3284fcfb61aaa2e9949167b89cdbc1aa88af518f3bee1fde531e2223cf1",
+            "byteLengthBefore": 5979,
+            "byteLengthAfterRepairedHost": 5979,
+            "pageCount": 2
+          }
+        }
+      },
+      {
+        "familyId": "ct-under18-misdemeanor-set",
+        "builder": "scripts/build-census-v1-ct-under18-misdemeanor-set.mjs",
+        "familyDirectory": "data/rcap-all50/overlays/census-v1/ct/ct-under18-misdemeanor-set--custom-pleading",
+        "controlReproducedCommittedBytes": true,
+        "byteIdenticalUnderRepairedHost": true,
+        "fixtures": {
+          "canonical": {
+            "sha256Before": "590845d99eebe8690b046e6e165e2774307f008eb81def64b009603b70b556ae",
+            "sha256AfterRepairedHost": "590845d99eebe8690b046e6e165e2774307f008eb81def64b009603b70b556ae",
+            "byteLengthBefore": 7233,
+            "byteLengthAfterRepairedHost": 7233,
+            "pageCount": 2
+          },
+          "boundary": {
+            "sha256Before": "3a951c8005870a9f49b4f426d2602fb4400430ff40c85af54b87adf5a7bb5888",
+            "sha256AfterRepairedHost": "3a951c8005870a9f49b4f426d2602fb4400430ff40c85af54b87adf5a7bb5888",
+            "byteLengthBefore": 7249,
+            "byteLengthAfterRepairedHost": 7249,
+            "pageCount": 2
+          }
+        }
+      },
+      {
+        "familyId": "de_mandatory_expungement-set",
+        "builder": "scripts/build-census-v1-de_mandatory_expungement-set.mjs",
+        "familyDirectory": "data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill",
+        "controlReproducedCommittedBytes": true,
+        "byteIdenticalUnderRepairedHost": false,
+        "fixtures": {
+          "canonical": {
+            "sha256Before": "dccf986f5051559312d86b794a02174756a843dfce41474ff9cd0a68ae9b752f",
+            "sha256AfterRepairedHost": "fa51ea79d5bc37f3be15485cb54441dee8e4d5baef142ffe4e31e3bc307949e4",
+            "byteLengthBefore": 8712,
+            "byteLengthAfterRepairedHost": 8711,
+            "pageCount": 3
+          },
+          "boundary": {
+            "sha256Before": "8a58177069960152ae1ae2b9f76d93dfc895ea6e876fc91602af52c2883f9266",
+            "sha256AfterRepairedHost": "c7c80a2a47d11c9b02004decbaba27cdd8033876d00e10d23bda0a6775cadf66",
+            "byteLengthBefore": 8845,
+            "byteLengthAfterRepairedHost": 8848,
+            "pageCount": 3
+          }
+        },
+        "notCommitted": true,
+        "whyNotCommitted": "This lane holds no grant for this family. Its rebuilt bytes were produced only in the throwaway checkout, were compared there, and were discarded with it. Nothing in its directory is committed by FIX36.",
+        "whatMoved": {
+          "pages": [
+            1,
+            3
+          ],
+          "fixtures": [
+            "canonical",
+            "boundary"
+          ],
+          "verbatimBefore": "obligation:track-pathway:DE:de_mandatory_expungement:mandatory-and-automatic-expungement-under ⁄ -11-del-c-4373-and-4373a",
+          "verbatimAfter": "obligation:track-pathway:DE:de_mandatory_expungement:mandatory-and-automatic-expungement- ⁄ under-11-del-c-4373-and-4373a",
+          "character": "The hyphen moves from the head of the continuation line to the tail of the broken line. Neither form severs a word: the old break fell after the whole word 'under' and the new one falls after the whole word 'expungement', so Delaware carried no class-a hard split before this repair and carries none after it. SCAN01 records 0 defects for this family in both states. The move is the shared splitter's continuation convention applied to a key that the character splitter happened to break at a separator anyway.",
+          "pageCountUnchanged": true,
+          "scan01DefectsBefore": 0,
+          "scan01DefectsAfter": 0
+        },
+        "owed": "de_mandatory_expungement-set needs its own grant to rebuild and recommit under the repaired host. Until it is rebuilt, its committed fixtures are the bytes the character splitter produced and its builder no longer reproduces them."
+      },
+      {
+        "familyId": "fl-administrative-set",
+        "builder": "scripts/build-census-v1-fl-administrative-set.mjs",
+        "familyDirectory": "data/rcap-all50/overlays/census-v1/fl/fl-administrative-set--official-pdf-fill",
+        "controlReproducedCommittedBytes": true,
+        "byteIdenticalUnderRepairedHost": true,
+        "fixtures": {
+          "canonical": {
+            "sha256Before": "232aa2581086d5c9cf371fc439ee15883ca63829522bc2d6101b12f2a494f6e0",
+            "sha256AfterRepairedHost": "232aa2581086d5c9cf371fc439ee15883ca63829522bc2d6101b12f2a494f6e0",
+            "byteLengthBefore": 5476,
+            "byteLengthAfterRepairedHost": 5476,
+            "pageCount": 2
+          },
+          "boundary": {
+            "sha256Before": "c09404577e4eff32ea6aab244b479c15307bb7ec6917144c68aa78948cafc09e",
+            "sha256AfterRepairedHost": "c09404577e4eff32ea6aab244b479c15307bb7ec6917144c68aa78948cafc09e",
+            "byteLengthBefore": 5578,
+            "byteLengthAfterRepairedHost": 5578,
+            "pageCount": 2
+          }
+        }
+      },
+      {
+        "familyId": "me-nonconv-set",
+        "builder": "scripts/build-census-v1-me-nonconv-set.mjs",
+        "familyDirectory": "data/rcap-all50/overlays/census-v1/me/me-nonconv-set--custom-pleading",
+        "controlReproducedCommittedBytes": true,
+        "byteIdenticalUnderRepairedHost": true,
+        "fixtures": {
+          "canonical": {
+            "sha256Before": "d9ea11c3b618cf92863f653ef964f32bf893ef91a602269d1950cbda68c5b007",
+            "sha256AfterRepairedHost": "d9ea11c3b618cf92863f653ef964f32bf893ef91a602269d1950cbda68c5b007",
+            "byteLengthBefore": 18842,
+            "byteLengthAfterRepairedHost": 18842,
+            "pageCount": 7
+          },
+          "boundary": {
+            "sha256Before": "4f7c2fad8a0c2a2dbd0681b5c48bea156401b82cd87746659cd8077b9df4d665",
+            "sha256AfterRepairedHost": "4f7c2fad8a0c2a2dbd0681b5c48bea156401b82cd87746659cd8077b9df4d665",
+            "byteLengthBefore": 19005,
+            "byteLengthAfterRepairedHost": 19005,
+            "pageCount": 7
+          }
+        }
+      },
+      {
+        "familyId": "nd-deferred-imposition-records-set",
+        "builder": "scripts/build-census-v1-nd-deferred-imposition-records-set.mjs",
+        "familyDirectory": "data/rcap-all50/overlays/census-v1/nd/nd-deferred-imposition-records-set--custom-pleading",
+        "controlReproducedCommittedBytes": true,
+        "byteIdenticalUnderRepairedHost": true,
+        "fixtures": {
+          "canonical": {
+            "sha256Before": "8d6c31287e83b99aa8a78568bab7aff0b8eb50efdf59f65c0de5ded7a20c9bf1",
+            "sha256AfterRepairedHost": "8d6c31287e83b99aa8a78568bab7aff0b8eb50efdf59f65c0de5ded7a20c9bf1",
+            "byteLengthBefore": 12744,
+            "byteLengthAfterRepairedHost": 12744,
+            "pageCount": 4
+          },
+          "boundary": {
+            "sha256Before": "c972e9582608a156bd8ab7b1792d66c829edb8c93a50c1be28f5fcf526134a29",
+            "sha256AfterRepairedHost": "c972e9582608a156bd8ab7b1792d66c829edb8c93a50c1be28f5fcf526134a29",
+            "byteLengthBefore": 12930,
+            "byteLengthAfterRepairedHost": 12930,
+            "pageCount": 4
+          }
+        }
+      },
+      {
+        "familyId": "vt_seal_under_25-set",
+        "builder": "scripts/build-census-v1-vt_seal_under_25-set.mjs",
+        "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-under-25-set--custom-pleading",
+        "controlReproducedCommittedBytes": true,
+        "byteIdenticalUnderRepairedHost": true,
+        "fixtures": {
+          "canonical": {
+            "sha256Before": "cd71dce93a3404558c3d2fc33e55a3838867868781c801c7487ebad8ea049a07",
+            "sha256AfterRepairedHost": "cd71dce93a3404558c3d2fc33e55a3838867868781c801c7487ebad8ea049a07",
+            "byteLengthBefore": 13802,
+            "byteLengthAfterRepairedHost": 13802,
+            "pageCount": 5
+          },
+          "boundary": {
+            "sha256Before": "ddf00f9ef8f86bb54495dd12a379d7edfc906a03c6e94a37a3b1e8a8df832492",
+            "sha256AfterRepairedHost": "ddf00f9ef8f86bb54495dd12a379d7edfc906a03c6e94a37a3b1e8a8df832492",
+            "byteLengthBefore": 14012,
+            "byteLengthAfterRepairedHost": 14012,
+            "pageCount": 5
+          }
+        }
+      }
+    ]
+  },
+  "corpusSweep": {
+    "command": "node scripts/rcap-scan01-composed-pdf-text-integrity.mjs",
+    "familiesScanned": 249,
+    "before": {
+      "totalDefects": 183,
+      "A_hard_split": 70,
+      "B_page_content": 61,
+      "C_block_integrity": 11,
+      "D_census": 41
+    },
+    "after": {
+      "totalDefects": 163,
+      "A_hard_split": 50,
+      "B_page_content": 61,
+      "C_block_integrity": 11,
+      "D_census": 41
+    },
+    "delta": "−20 A_hard_split, all of it the two families this lane repaired (10 → 0 each). Every other line of the 249-family sweep is identical before and after; B_page_content, C_block_integrity and D_census are unchanged corpus-wide. Route-key-only pages: 0 for these two families before and after. Thin pages: 0 before and after. Fragment count: 0 before and after.",
+    "nothingOutsideTheseTwoFamiliesMoved": true,
+    "note": "The 'before' sweep was run in the throwaway checkout at pristine base and the 'after' sweep in this worktree. SCAN01 writes data/rcap-grade-a/packet-factory-24h/scan01/raw-sweep.json as it runs; that file is SCAN01's own artifact, it is untracked here, and this lane deleted it rather than committing it."
+  },
+  "notDone": [
+    "No central raster. RASTER_QUEUE.json was not opened or edited; a central raster receipt is owed for both families.",
+    "No independent verification. This lane built these bytes and does not verify them.",
+    "de_mandatory_expungement-set was NOT rebuilt or committed. It moves under the repaired host and this lane holds no grant for it; its rebuilt bytes existed only in the throwaway checkout and went away with it. Its committed fixtures now predate the host they are built by, and it needs its own grant.",
+    "MASTER_QUEUE.json, RASTER_QUEUE.json, the fulfillment-authority registry, every specification and every legal record were left untouched.",
+    "The VF08 rows for these two families are not in data/rcap-grade-a/packet-factory-24h/vf08/rows.json at aefd46f7c, the commit the assignment cites; that file at that commit names neither family. They entered vf08/rows.json at 080054088 ('Integrate VF08: fifteen of sixteen SCAN02 clear-defect families fail CLIPPING_AND_OVERLAP') and are present at base 831b93cf4, which is where this lane read them. verifiedAtBase is recorded as aefd46f7c because the assignment specifies that value and the VF08 rows themselves carry it. The same is true of VF04's earlier FAIL row for ms-misd-1st-set: at d7e293f81 the family appears in vf04/rows.json only in a stale-pin list, and the FAIL row carrying verifiedAtBase d7e293f81 is the one visible at base."
+  ],
+  "packetBytesChanged": 4,
+  "overlayDirectoriesModified": [
+    "data/rcap-all50/overlays/census-v1/ms/ms-misd-1st-set--custom-pleading",
+    "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading"
+  ],
+  "centralStateEdits": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "selfVerificationPerformed": false,
+  "ownerRereviewOwed": true,
+  "grantsNothing": "A repaired page is not an approved page. This return opens no route, promotes no build status, grants no commercial authority and stands in for no raster receipt, no independent reading and no owner review. Both families remain owner-pinned under OWN-ADOPT-2026-09-02-BATCH-53 and ms-nonconv-set's Grade-A clinic fulfillment record is untouched by this lane.",
+  "rows": [
+    {
+      "itemId": "ms-misd-1st-set",
+      "status": "COMPLETED",
+      "laneKind": "shared-host-repair",
+      "repairedByThisLane": true,
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ms/ms-misd-1st-set--custom-pleading",
+      "ownerPinned": true,
+      "ownerPinnedRecord": "OWN-ADOPT-2026-09-02-BATCH-53",
+      "verdictRepaired": {
+        "lane": "vf08",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "aefd46f7c",
+        "failedObligationNames": [
+          "CLIPPING_AND_OVERLAP"
+        ]
+      },
+      "obligationsRepaired": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "obligationsThisRowDoesNotDischarge": [
+        "RASTER. No page of this family was rastered centrally for these bytes. The local raster this lane took of the cited pages went to /tmp and was deleted; it is a reading aid, not a receipt. A central raster is owed and this row does not stand in for one.",
+        "INDEPENDENT VERIFICATION. FIX36 built these bytes and therefore cannot verify them. Every obligation in the VF08 row other than the one named above stands where that reading left it; none is re-measured, re-asserted or carried forward here.",
+        "OWNER RE-REVIEW. Both families are owner-pinned under OWN-ADOPT-2026-09-02-BATCH-53 and ms-nonconv-set carries a Grade-A clinic fulfillment record, so the owner re-reviews these bytes. This row asks for that review; it does not anticipate it, and it opens no route and grants no commercial authority."
+      ],
+      "whatChanged": "Two changes, one at the shared host and one in this family's own builder, and nothing else in this family's directory beyond the rebuilt bytes and the digests its rendered-artifacts.json records.\n(1) THE SPLITTER, AT THE HOST. scripts/rcap-custom-pleading/composed-family-host.mjs carried the character-accumulating splitToken inside renderComposedPdf: it appended one character at a time and cut wherever the column ran out, which is how …first-offender-nontraffic-misdemeanor-conviction-expungemen ⁄ t-99-19-71-1 reached five delivered pages per fixture and severed the word 'expungement'. It is replaced by createTokenSplitter({ fits: fitsByFontMetrics(font, fontSize, maxWidth) }) from the shared scripts/rcap-custom-pleading/split-token.mjs — the module FIX16 wrote, FIX21 moved the Georgia and Kentucky hosts onto and FIX35 moved the Rhode Island host onto. The key now breaks at its own separator: …first-offender-nontraffic-misdemeanor-conviction- ⁄ expungement-99-19-71-1. The host asserts splitToken.hardSplits === 0 for each composed document it renders, so a future key with no separator to break on fails the build instead of shipping chopped.\n(2) THE TRAILER IS OUT OF THE COURT'S BLOCK, IN THIS FAMILY'S BUILDER. composedBody in scripts/build-census-v1-ms-misd-1st-set.mjs appended the 'Route:' trailer to every component, which on the proposed order made it the last ink of the document — printed below 'JUDICIAL OFFICER OF THE COURT …', below '(the Court alone completes, signs and enters this order)' and below 'APPROVED AS TO FORM, for the prosecuting authority:' with its own empty rule, on a delivered page 4 whose every other line belongs to the judge or the prosecutor. The same line is now pushed once, immediately above 'SO ORDERED.', so it closes the preparer's half of the order above the whole execution and approval band; the trailing push is suppressed for that one component and is unchanged for every other component. This is FIX35's move on the Rhode Island host, made where this architecture keeps the order body: the host renders each component to its own PDF from the text its family builder composes, so the host has no page on which to place a line it does not author, and a host-level rule keyed on the proposed_order role would have moved the bytes of four other families on this host that this lane holds no grant for.\nNO NEW PAGINATION SCHEME. The host still draws row by row and breaks a page at y < margin, exactly as before; no pull-down, no block pagination, no suppression was added. Placement only: not one character of the decretal block, the findings, the entry date, the judge line, the approval line, the court-selected term, the route key itself, the source pin, the component set, the field maps or any instruction line was changed, added or removed. The full pdftotext diff of both fixtures shows exactly two kinds of change and nothing else: the five per-fixture key breaks moving to the separator, and the order's trailer moving from after the approval note to before 'SO ORDERED.'.",
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersMeasurement": {
+        "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ms-misd-1st-set",
+        "before": "measured at pristine base 831b93cf4 in a throwaway detached checkout; PASS_COMPLETE",
+        "after": "measured in this worktree on the rebuilt bytes; PASS_COMPLETE",
+        "note": "All nine are zero before and after. They were zero before while the defect was on the page, which is the point VF08 made: these counters do not see clipping or overlap, and their being zero is not evidence the page is clean."
+      },
+      "bytes": {
+        "canonical": {
+          "file": "data/rcap-all50/overlays/census-v1/ms/ms-misd-1st-set--custom-pleading/fixtures/canonical.pdf",
+          "sha256Old": "e9483733fabca9e031a024a30444a37b49f3d14c0fd84e6d579bd3f2209be897",
+          "byteLengthOld": 21939,
+          "pageCountOld": 8,
+          "sha256New": "96ae8c01ec97fe34edd03ded7d05e6eae45f56117073dad4366472b1afbfafd0",
+          "byteLengthNew": 21725,
+          "pageCountNew": 8,
+          "pageCountUnchanged": true
+        },
+        "boundary": {
+          "file": "data/rcap-all50/overlays/census-v1/ms/ms-misd-1st-set--custom-pleading/fixtures/boundary.pdf",
+          "sha256Old": "90608c6244d1999dece4f87dc22632e7dda36f0302de22d3996437aebd7458b5",
+          "byteLengthOld": 22118,
+          "pageCountOld": 8,
+          "sha256New": "2303197372173345c588ccafa3db9a9e67d637ebf2b9cba656ff376fc739f563",
+          "byteLengthNew": 21902,
+          "pageCountNew": 8,
+          "pageCountUnchanged": true
+        }
+      },
+      "appearanceCheck": {
+        "method": "composed content stream read with pdftotext -layout page by page across all 8 pages of both fixtures, plus a local raster at 100 dpi of the cited page 4 of the canonical fixture into /tmp, read as an image; the /tmp rasters were deleted after reading",
+        "pagesRead": 16,
+        "placementDiff": "BEFORE, canonical page 4: the page opened on 'SO ORDERED.' and ran 'ENTERED, this the …' / 'JUDICIAL OFFICER OF THE COURT …' / '(the Court alone completes, signs and enters this order)' / 'APPROVED AS TO FORM, for the prosecuting authority:' / the empty rule / '(some districts expect … never pre-signed)', and then, as the last ink on the page, 'Route:' followed by …first-offender-nontraffic-misdemeanor-conviction-expungemen ⁄ t-99-19-71-1. AFTER, canonical page 4: the same court and prosecutor lines stand in the same order, unaltered, and the only line above them is the trailer, printed whole as …first-offender-nontraffic-misdemeanor-conviction- ⁄ expungement-99-19-71-1. Nothing is drawn below the approval note. Confirmed identically on the boundary fixture.",
+        "routeKeyBelowCourtLineSweep": "All 8 pages of both fixtures were swept for a route key printed after a 'JUDICIAL OFFICER' or 'APPROVED AS TO FORM' line on the same page: 0 occurrences after the repair, against 2 per fixture before it.",
+        "pageOpensOnTheTrailer": "Page 4 now opens on the trailer and the court's band follows it on the same page. That is where the FIX35 pattern puts it — above the court's block — and this host has no pull-down to lift it back onto page 3, which would be the new pagination scheme this lane is told not to write. It is recorded here so the owner sees it and is not told only the half that improved."
+      },
+      "verifierResults": {
+        "completeness": {
+          "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ms-misd-1st-set",
+          "result": "PASS_COMPLETE",
+          "nineCountersAllZero": true
+        },
+        "identityRefreshSurvivesRebuild": {
+          "command": "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs --family ms-misd-1st-set",
+          "result": "EVERY_IDENTITY_REFRESH_SURVIVED",
+          "receiptsCompared": 249,
+          "carryingAnIdentityRefresh": 53
+        },
+        "scan01": {
+          "command": "node scripts/rcap-scan01-composed-pdf-text-integrity.mjs (corpus-wide, 249 families)",
+          "thisFamilyDefectsBefore": 10,
+          "thisFamilyDefectsAfter": 0,
+          "thisFamilyDefectsByClassBefore": {
+            "A_hard_split": 10,
+            "B_page_content": 0,
+            "C_block_integrity": 0,
+            "D_census": 0
+          },
+          "thisFamilyDefectsByClassAfter": {
+            "A_hard_split": 0,
+            "B_page_content": 0,
+            "C_block_integrity": 0,
+            "D_census": 0
+          }
+        },
+        "buildReproducibility": {
+          "builtWith": "--no-raster",
+          "rebuiltTwice": true,
+          "byteIdenticalAcrossRebuilds": true
+        },
+        "packetBuildEnvironment": {
+          "command": "node scripts/verify-packet-build-environment.mjs --family ms-misd-1st-set",
+          "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 11/13 passed, 2 failed, 4 not applicable",
+          "familySourcesBind": "PASS — zero-source composition (CUSTOM_PLEADING_FROM_CODIFIED_TEXT); it binds committed legal records by hash inside its builder, not document bytes",
+          "twoFailuresAreEnvironmental": [
+            "private_is_git_ignored FAIL: 'git check-ignore -q private/' exits 128 with \"pathspec 'private/' is beyond a symbolic link\", because the mandated setup mounts private/ as a symlink and .gitignore's 'private/' rule does not match a symlink. Nothing is tracked beneath private/ (git ls-files private/ returns 0 paths) and this lane never staged anything from it.",
+            "corpus_matches_committed_index FAIL: 1 of 24 sampled entries absent — 'LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf'; the whole 'LegalEase Alabama' directory is absent from the mounted read-only corpus. Pre-existing, Alabama, and unrelated to these two zero-source Mississippi families. The mount is read-only and this lane did not touch it."
+          ]
+        }
+      },
+      "rasterState": {
+        "centralRasterOwed": true,
+        "rasterQueueTouched": false,
+        "localRastersWrittenTo": "/tmp",
+        "localRastersDeleted": true
+      },
+      "productWiring": {
+        "acceptanceReceipt": null,
+        "note": "No product-wiring record exists for this family; acceptanceReceipt is null by absence and this lane wrote none."
+      },
+      "ownerRereviewOwed": true
+    },
+    {
+      "itemId": "ms-nonconv-set",
+      "status": "COMPLETED",
+      "laneKind": "shared-host-repair",
+      "repairedByThisLane": true,
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading",
+      "ownerPinned": true,
+      "ownerPinnedRecord": "OWN-ADOPT-2026-09-02-BATCH-53",
+      "verdictRepaired": {
+        "lane": "vf08",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "aefd46f7c",
+        "failedObligationNames": [
+          "CLIPPING_AND_OVERLAP"
+        ]
+      },
+      "obligationsRepaired": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "obligationsThisRowDoesNotDischarge": [
+        "RASTER. No page of this family was rastered centrally for these bytes. The local raster this lane took of the cited pages went to /tmp and was deleted; it is a reading aid, not a receipt. A central raster is owed and this row does not stand in for one.",
+        "INDEPENDENT VERIFICATION. FIX36 built these bytes and therefore cannot verify them. Every obligation in the VF08 row other than the one named above stands where that reading left it; none is re-measured, re-asserted or carried forward here.",
+        "OWNER RE-REVIEW. Both families are owner-pinned under OWN-ADOPT-2026-09-02-BATCH-53 and ms-nonconv-set carries a Grade-A clinic fulfillment record, so the owner re-reviews these bytes. This row asks for that review; it does not anticipate it, and it opens no route and grants no commercial authority."
+      ],
+      "whatChanged": "Two changes, one at the shared host and one in this family's own builder, and nothing else in this family's directory beyond the rebuilt bytes and the digests its rendered-artifacts.json records.\n(1) THE SPLITTER, AT THE HOST. scripts/rcap-custom-pleading/composed-family-host.mjs carried the character-accumulating splitToken inside renderComposedPdf: it appended one character at a time and cut wherever the column ran out, which is how …non-conviction-expungement-for-dismissal-no-disposition-or-a ⁄ cquittal reached five delivered pages per fixture and severed the word 'acquittal'. It is replaced by createTokenSplitter({ fits: fitsByFontMetrics(font, fontSize, maxWidth) }) from the shared scripts/rcap-custom-pleading/split-token.mjs — the module FIX16 wrote, FIX21 moved the Georgia and Kentucky hosts onto and FIX35 moved the Rhode Island host onto. The key now breaks at its own separator: …non-conviction-expungement-for-dismissal-no-disposition-or- ⁄ acquittal. The host asserts splitToken.hardSplits === 0 for each composed document it renders, so a future key with no separator to break on fails the build instead of shipping chopped.\n(2) THE TRAILER IS OUT OF THE COURT'S BLOCK, IN THIS FAMILY'S BUILDER. composedBody in scripts/build-census-v1-ms-nonconv-set.mjs appended the 'Route:' trailer to every component, which on the proposed order made it the last ink of the document — printed below 'JUDICIAL OFFICER OF THE COURT …', below '(the Court alone completes, signs and enters this order)' and below 'APPROVED AS TO FORM, for the prosecuting authority:' with its own empty rule, on a delivered page 4 whose every other line belongs to the judge or the prosecutor. The same line is now pushed once, immediately above 'SO ORDERED.', so it closes the preparer's half of the order above the whole execution and approval band; the trailing push is suppressed for that one component and is unchanged for every other component. This is FIX35's move on the Rhode Island host, made where this architecture keeps the order body: the host renders each component to its own PDF from the text its family builder composes, so the host has no page on which to place a line it does not author, and a host-level rule keyed on the proposed_order role would have moved the bytes of four other families on this host that this lane holds no grant for.\nNO NEW PAGINATION SCHEME. The host still draws row by row and breaks a page at y < margin, exactly as before; no pull-down, no block pagination, no suppression was added. Placement only: not one character of the decretal block, the findings, the entry date, the judge line, the approval line, the court-selected term, the route key itself, the source pin, the component set, the field maps or any instruction line was changed, added or removed. The full pdftotext diff of both fixtures shows exactly two kinds of change and nothing else: the five per-fixture key breaks moving to the separator, and the order's trailer moving from after the approval note to before 'SO ORDERED.'.",
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersMeasurement": {
+        "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ms-nonconv-set",
+        "before": "measured at pristine base 831b93cf4 in a throwaway detached checkout; PASS_COMPLETE",
+        "after": "measured in this worktree on the rebuilt bytes; PASS_COMPLETE",
+        "note": "All nine are zero before and after. They were zero before while the defect was on the page, which is the point VF08 made: these counters do not see clipping or overlap, and their being zero is not evidence the page is clean."
+      },
+      "bytes": {
+        "canonical": {
+          "file": "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading/fixtures/canonical.pdf",
+          "sha256Old": "4ae768075a7f5aa534813a2303b24260e2b08308c0f3c7f18a4cc21531812ecf",
+          "byteLengthOld": 22820,
+          "pageCountOld": 8,
+          "sha256New": "e9ca98c502347a0743447ec0c00acc77e40ae3fd47538a1d550a3aa2ca229f51",
+          "byteLengthNew": 22815,
+          "pageCountNew": 8,
+          "pageCountUnchanged": true
+        },
+        "boundary": {
+          "file": "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading/fixtures/boundary.pdf",
+          "sha256Old": "c52fc25286a857e49767228c88647f6b8f9364cff08dd4354fd8750294dffa13",
+          "byteLengthOld": 23072,
+          "pageCountOld": 8,
+          "sha256New": "b483d29cffb0eee94a813ada8e5b1568c2fc755194ff18dbb9dd468b5103585e",
+          "byteLengthNew": 23066,
+          "pageCountNew": 8,
+          "pageCountUnchanged": true
+        }
+      },
+      "appearanceCheck": {
+        "method": "composed content stream read with pdftotext -layout page by page across all 8 pages of both fixtures, plus a local raster at 100 dpi of the cited page 4 of the canonical fixture into /tmp, read as an image; the /tmp rasters were deleted after reading",
+        "pagesRead": 16,
+        "placementDiff": "BEFORE, canonical page 4: the page opened on 'SO ORDERED.' and ran 'ENTERED, this the …' / 'JUDICIAL OFFICER OF THE COURT …' / '(the Court alone completes, signs and enters this order)' / 'APPROVED AS TO FORM, for the prosecuting authority:' / the empty rule / '(some districts expect … never pre-signed)', and then, as the last ink on the page, 'Route:' followed by …non-conviction-expungement-for-dismissal-no-disposition-or-a ⁄ cquittal. AFTER, canonical page 4: the same court and prosecutor lines stand in the same order, unaltered, and the only line above them is the trailer, printed whole as …non-conviction-expungement-for-dismissal-no-disposition-or- ⁄ acquittal. Nothing is drawn below the approval note. Confirmed identically on the boundary fixture.",
+        "routeKeyBelowCourtLineSweep": "All 8 pages of both fixtures were swept for a route key printed after a 'JUDICIAL OFFICER' or 'APPROVED AS TO FORM' line on the same page: 0 occurrences after the repair, against 2 per fixture before it.",
+        "pageOpensOnTheTrailer": "Page 4 now opens on the trailer and the court's band follows it on the same page. That is where the FIX35 pattern puts it — above the court's block — and this host has no pull-down to lift it back onto page 3, which would be the new pagination scheme this lane is told not to write. It is recorded here so the owner sees it and is not told only the half that improved."
+      },
+      "verifierResults": {
+        "completeness": {
+          "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ms-nonconv-set",
+          "result": "PASS_COMPLETE",
+          "nineCountersAllZero": true
+        },
+        "identityRefreshSurvivesRebuild": {
+          "command": "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs --family ms-nonconv-set",
+          "result": "EVERY_IDENTITY_REFRESH_SURVIVED",
+          "receiptsCompared": 249,
+          "carryingAnIdentityRefresh": 53
+        },
+        "scan01": {
+          "command": "node scripts/rcap-scan01-composed-pdf-text-integrity.mjs (corpus-wide, 249 families)",
+          "thisFamilyDefectsBefore": 10,
+          "thisFamilyDefectsAfter": 0,
+          "thisFamilyDefectsByClassBefore": {
+            "A_hard_split": 10,
+            "B_page_content": 0,
+            "C_block_integrity": 0,
+            "D_census": 0
+          },
+          "thisFamilyDefectsByClassAfter": {
+            "A_hard_split": 0,
+            "B_page_content": 0,
+            "C_block_integrity": 0,
+            "D_census": 0
+          }
+        },
+        "buildReproducibility": {
+          "builtWith": "--no-raster",
+          "rebuiltTwice": true,
+          "byteIdenticalAcrossRebuilds": true
+        },
+        "packetBuildEnvironment": {
+          "command": "node scripts/verify-packet-build-environment.mjs --family ms-nonconv-set",
+          "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 11/13 passed, 2 failed, 4 not applicable",
+          "familySourcesBind": "PASS — zero-source composition (CUSTOM_PLEADING_FROM_CODIFIED_TEXT); it binds committed legal records by hash inside its builder, not document bytes",
+          "twoFailuresAreEnvironmental": [
+            "private_is_git_ignored FAIL: 'git check-ignore -q private/' exits 128 with \"pathspec 'private/' is beyond a symbolic link\", because the mandated setup mounts private/ as a symlink and .gitignore's 'private/' rule does not match a symlink. Nothing is tracked beneath private/ (git ls-files private/ returns 0 paths) and this lane never staged anything from it.",
+            "corpus_matches_committed_index FAIL: 1 of 24 sampled entries absent — 'LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf'; the whole 'LegalEase Alabama' directory is absent from the mounted read-only corpus. Pre-existing, Alabama, and unrelated to these two zero-source Mississippi families. The mount is read-only and this lane did not touch it."
+          ]
+        }
+      },
+      "rasterState": {
+        "centralRasterOwed": true,
+        "rasterQueueTouched": false,
+        "localRastersWrittenTo": "/tmp",
+        "localRastersDeleted": true
+      },
+      "productWiring": {
+        "acceptanceReceipt": null,
+        "note": "No product-wiring record exists for this family; acceptanceReceipt is null by absence and this lane wrote none."
+      },
+      "ownerRereviewOwed": true
+    }
+  ]
+}

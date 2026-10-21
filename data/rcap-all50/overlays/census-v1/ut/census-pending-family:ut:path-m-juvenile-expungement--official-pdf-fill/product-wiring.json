@@ -1,0 +1,60 @@
+{
+  "schemaVersion": "rcap-family-product-wiring/v1",
+  "familyId": "census-pending-family:UT:path-m-juvenile-expungement",
+  "routeKeys": [
+    "obligation:runtime-contract-cohort:UT:path-m-juvenile-expungement:ordinary_petition_branch"
+  ],
+  "routeSelectionId": "ut-juvenile-expungement-ordinary-petition",
+  "implementationStrategy": "official_pdf_fill",
+  "generationAllowed": false,
+  "runtimeSelectable": false,
+  "commercialRoutesOpened": 0,
+  "createsFulfillmentRecord": false,
+  "opensCommercialRoute": false,
+  "assignmentOwnedPath": "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-m-juvenile-expungement--official-pdf-fill",
+  "binding": {
+    "family": "census-pending-family:UT:path-m-juvenile-expungement",
+    "jurisdiction": "UT",
+    "routeKeys": [
+      "obligation:runtime-contract-cohort:UT:path-m-juvenile-expungement:ordinary_petition_branch"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "Utah Juvenile Expungement Petition"
+    ],
+    "packetComponents": [],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-m-juvenile-expungement--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-m-juvenile-expungement--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-m-juvenile-expungement--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-m-juvenile-expungement--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:1174XX",
+        "sha256": "b8488a2ebb43d9f94615a52bf52545283c47c147e45a9a4f02fa872cc1baf458",
+        "tier": "exact_content_hash"
+      }
+    ],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "34755241448",
+      "jobId": "103718847536",
+      "artifactId": "10317551057",
+      "boundToCanonicalSha256": "faebbde6fdbfdb90078e0a6d090813b74bef373a2ee277f29284e5119a726a85",
+      "coversTheWholeFamily": true
+    },
+    "lastIndependentVerification": {
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vfut1",
+      "verifiedAtBase": "7051ed028d2554cb641b8e3c5020031ca9bfc89a"
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-census-pending-family:UT:path-m-juvenile-expungement.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  }
+}

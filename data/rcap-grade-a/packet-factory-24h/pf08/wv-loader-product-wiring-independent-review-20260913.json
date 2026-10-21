@@ -1,0 +1,245 @@
+{
+  "schemaVersion": "rcap-wv-loader-product-wiring-independent-review/v1",
+  "reviewType": "bounded-independent-review-of-legal-resolution-loader-and-WV-product-wiring",
+  "reviewer": "/root/resume_vfar1",
+  "reviewedAt": "2026-09-13T07:53:11Z",
+  "verifiedAtBase": "71568ed47bb79b66af3418bc17326ae0a43bf128",
+  "currentHead": "e4c9fa57b8f30df23aa9a5e512fd4cfcf60ba70d",
+  "verdict": "FAIL_REPAIR_REQUIRED",
+  "status": "COMPLETED_WITH_SCOPED_METADATA_DEFECT",
+  "scope": "Review only the shared legal-resolution loader/test correction and the current WV no-conviction two-branch product-wiring binding. No source acquisition, PDF edit, packet rebuild, raster dispatch, queue mutation, owner-row transition or shared implementation edit was performed.",
+  "independence": {
+    "independentOfLoaderAuthor": true,
+    "independentOfPacketImplementer": true,
+    "independentOfOwnerAdoptionAuthor": true,
+    "loaderEditedByReviewer": false,
+    "productWiringEditedByReviewer": false,
+    "sourcePdfEditedByReviewer": false,
+    "queueEditedByReviewer": false,
+    "ownerCorrectionEditedByReviewer": false,
+    "buildOrRasterPerformed": false,
+    "sourceReacquisitionPerformed": false,
+    "legalResearchReopened": false
+  },
+  "implementationReview": {
+    "result": "PASS",
+    "generator": {
+      "path": "scripts/grade-a-packet-factory-24h/generate.mjs",
+      "sha256": "fc8ae1e7feeb91b1c8f9e77effd73628a125de3a3e299cf14d027beabc29538f",
+      "finding": "The factory now calls loadLegalBlockResolutions(ROOT), the complete validated registry used by verify.mjs, instead of reconstructing the stale two-record local merge."
+    },
+    "focusedTest": {
+      "path": "scripts/grade-a-packet-factory-24h/test-legal-block-resolution.mjs",
+      "sha256": "ebe8d6c24b2d7c7dc57afa544f77120a318589ce4550611d296988823f092f7e",
+      "command": "source private/source-corpus-environment.txt && node --check scripts/grade-a-packet-factory-24h/generate.mjs && node --check scripts/grade-a-packet-factory-24h/legal-block-resolution.mjs && node --check scripts/grade-a-packet-factory-24h/test-legal-block-resolution.mjs && node scripts/grade-a-packet-factory-24h/test-legal-block-resolution.mjs",
+      "result": "PASS",
+      "observed": "LEGAL_BLOCK_RESOLUTION_SCHEMA_OK: base 29+1+1+1+1+1+1 clear and 6 hold; exact owner-attestation supersession yields 41 clear; malformed/conflicting records refused; exact review-base byte ordering enforced; released VF20 repacks to VF02 while live VF20 stays pinned"
+    },
+    "sharedLoader": {
+      "path": "scripts/grade-a-packet-factory-24h/legal-block-resolution.mjs",
+      "sha256": "eee9a5cd4571236b8f6ef581d15be8c0074197035f9591dce8bcb2f87f7547c7",
+      "completeRegistryObserved": true,
+      "wvProjectedDisposition": "LEGAL_CLEAR",
+      "wvFamily": "wv_nc_acquittal_dismissal-set",
+      "separateSiblingProjected": null
+    }
+  },
+  "authoritativeEvidence": {
+    "ownerAdoption": {
+      "path": "data/rcap-grade-a/legal-decisions/WV_ACQUITTAL_DISMISSAL_OWNER_ADOPTION_2026-09-13.json",
+      "sha256": "3b8c097d46900756e43527a96fb57e52b07e08f26909820ce4912a6c67c02a63",
+      "byteLength": 8946,
+      "commit": "92f02f8c1c91303a8af9af4d49cc65b2393416a8",
+      "disposition": "LEGAL_CLEAR",
+      "scope": "wv_nc_acquittal_dismissal-set: disposition-specific two-branch implementation under existing §61-11-25; no coverage reduction",
+      "branches": {
+        "DISMISSED_STRAIGHT": "SCA-C903 only for an actual outright dismissal",
+        "ACQUITTED_OR_FOUND_NOT_GUILTY": "separate LegalEase §61-11-25 civil petition; never write acquittal into SCA-C903 dismissal fields",
+        "unclearOrMixed": "stop and refuse",
+        "diversionOrDeferred": "separate wv_nc_diversion_deferred-set family"
+      },
+      "approvalFlags": {
+        "ownerAdoption": true,
+        "counselApproval": false,
+        "packetPass": false,
+        "rasterPass": false,
+        "terminalPromotion": false,
+        "commercialAuthority": false,
+        "productionAuthorization": false
+      }
+    },
+    "buildReturn": {
+      "path": "data/rcap-grade-a/packet-factory-24h/pf08/rows-pf08-wv-nc-acquittal-dismissal-build-20260913.json",
+      "sha256": "1dd0d86cfd762d2268bc464d52bcfcb6e27fd6d387be784a20ad4a2d7f3c464a",
+      "buildCommit": "ba6b3058fd7b08e067e3f21634d22754f1ee0233",
+      "status": "COMPLETED",
+      "nativeCompletenessResult": "PASS_COMPLETE",
+      "committedRecordsBound": 4,
+      "implementedBy": ["sd_caption"]
+    },
+    "priorSemanticReturn": {
+      "path": "data/rcap-grade-a/packet-factory-24h/pf08/rows-wv-two-branch-independent-semantic-20260913.json",
+      "sha256": "7d84bffb905e6d734be39556b8f54d1a0fbd723353b7ca4d5bd8c043334122e0",
+      "reviewedAtBase": "71568ed47bb79b66af3418bc17326ae0a43bf128",
+      "verdict": "PASS",
+      "status": "PASS_PRE_RASTER_SEMANTIC",
+      "visualMeasured": false,
+      "reviewerDistinctFromImplementer": true
+    },
+    "mappingHandoff": {
+      "path": "data/rcap-grade-a/packet-factory-24h/pf08/wv-route-mapping-completion-handoff-20260913.json",
+      "sha256": "ae71a67a1695780e1684e4041aebed54e588760489aa8db958fab095bce78a3f",
+      "status": "IMPLEMENTATION_COMPLETE_AWAITING_INDEPENDENT_REVIEW"
+    }
+  },
+  "currentSourceAndPdfEvidence": {
+    "sourceReceipt": {
+      "path": "data/rcap-all50/overlays/census-v1/wv/wv-nc-acquittal-dismissal-set--official-pdf-fill/source-receipt.json",
+      "sha256": "91bd83f6ebdcb8b91ad5ce40f1526e52f7b1449ce2480142d73c0e70642893cf",
+      "selectedSourceId": "official-form:SCA-C903",
+      "selectedSha256": "bbfcd767b02230300e2164a40cc2d81967c87fb9b7ddf4f0677622e1319fe878",
+      "selectedByteLength": 23275,
+      "custody": "master_library",
+      "historicalComparisonOnlySha256": "242048f1ff5b2e795ca43900bec6d9c353c59950bffd3c7776374ff1cc6c7035"
+    },
+    "selectedCurrentPdf": {
+      "path": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/WV/02_PACKET_FORMS/WV__FORM__SCA-C903__sca-c903-motion-for-expungement-after-acquittal-or-dismissal__REV-2010-04__EN.pdf",
+      "sha256": "bbfcd767b02230300e2164a40cc2d81967c87fb9b7ddf4f0677622e1319fe878",
+      "byteLength": 23275,
+      "pageCount": 3,
+      "matchesReceipt": true
+    },
+    "fixtures": [
+      {
+        "branchId": "DISMISSED_STRAIGHT",
+        "fixture": "canonical",
+        "path": "data/rcap-all50/overlays/census-v1/wv/wv-nc-acquittal-dismissal-set--official-pdf-fill/fixtures/dismissal-canonical.pdf",
+        "sha256": "bbfcd767b02230300e2164a40cc2d81967c87fb9b7ddf4f0677622e1319fe878",
+        "byteLength": 23275,
+        "pageCount": 3,
+        "sourcePreservedByteIdentically": true
+      },
+      {
+        "branchId": "DISMISSED_STRAIGHT",
+        "fixture": "boundary",
+        "path": "data/rcap-all50/overlays/census-v1/wv/wv-nc-acquittal-dismissal-set--official-pdf-fill/fixtures/dismissal-boundary.pdf",
+        "sha256": "bbfcd767b02230300e2164a40cc2d81967c87fb9b7ddf4f0677622e1319fe878",
+        "byteLength": 23275,
+        "pageCount": 3,
+        "sourcePreservedByteIdentically": true
+      },
+      {
+        "branchId": "ACQUITTED_OR_FOUND_NOT_GUILTY",
+        "fixture": "canonical",
+        "path": "data/rcap-all50/overlays/census-v1/wv/wv-nc-acquittal-dismissal-set--official-pdf-fill/fixtures/acquittal-canonical.pdf",
+        "sha256": "247de4231f6d6aa0c654ef60a6e6e5725d71fff254a1c39f3ee356d44287ba70",
+        "byteLength": 8801,
+        "pageCount": 3,
+        "sourcePreservedByteIdentically": false
+      },
+      {
+        "branchId": "ACQUITTED_OR_FOUND_NOT_GUILTY",
+        "fixture": "boundary",
+        "path": "data/rcap-all50/overlays/census-v1/wv/wv-nc-acquittal-dismissal-set--official-pdf-fill/fixtures/acquittal-boundary.pdf",
+        "sha256": "e6bf76a7a50c6e38af1b00f70d8ff0178b4c01390d1bba4323cd472833bc1086",
+        "byteLength": 8919,
+        "pageCount": 3,
+        "sourcePreservedByteIdentically": false
+      }
+    ]
+  },
+  "productWiringReview": {
+    "result": "FAIL",
+    "path": "data/rcap-all50/overlays/census-v1/wv/wv-nc-acquittal-dismissal-set--official-pdf-fill/product-wiring.json",
+    "currentSha256": "e8fe1f2afbf2edcc69b34f0a1e386f51c3701e9ec313ca5d5378089ba700ae6d",
+    "currentByteLength": 2781,
+    "reviewedBaseSha256": "236980ef8551cbf760fca556ff0cd2f076f329e56ba3a6cc4e1419d7844247ab",
+    "reviewedBaseCommit": "71568ed47bb79b66af3418bc17326ae0a43bf128",
+    "branchRoutes": {
+      "DISMISSED_STRAIGHT": "wv_nc_acquittal_dismissal-primary-filing-1",
+      "ACQUITTED_OR_FOUND_NOT_GUILTY": "wv_nc_acquittal_dismissal-acquittal-civil-petition-4"
+    },
+    "binding": {
+      "deliveryType": "official_pdf_fill",
+      "instrumentKinds": ["certificate_of_service", "filing_instructions", "primary_filing"],
+      "packetComponents": [
+        "component:wv_nc_acquittal_dismissal-certificate-of-service-2",
+        "component:wv_nc_acquittal_dismissal-primary-filing-1"
+      ]
+    },
+    "candidateComponentEvidence": {
+      "productionFieldMapPath": "data/rcap-all50/overlays/census-v1/wv/wv-nc-acquittal-dismissal-set--official-pdf-fill/production-field-map.json",
+      "productionFieldMapSha256": "259e74988d3f3be1b36692d41e9cb6c213ec7ff86a27d0932706dd6751c9d6eb",
+      "componentSet": [
+        "wv_nc_acquittal_dismissal-primary-filing-1",
+        "wv_nc_acquittal_dismissal-certificate-of-service-2",
+        "wv_nc_acquittal_dismissal-filing-instructions-3",
+        "wv_nc_acquittal_dismissal-acquittal-civil-petition-4"
+      ],
+      "renderedArtifactsPath": "data/rcap-all50/overlays/census-v1/wv/wv-nc-acquittal-dismissal-set--official-pdf-fill/reports/rendered-artifacts.json",
+      "renderedArtifactsSha256": "0cf753e46748444628d59b6344c68e12a8cb3ef78a94497b45646767492d051d",
+      "renderedPageBackedComponents": [
+        "wv_nc_acquittal_dismissal-primary-filing-1",
+        "wv_nc_acquittal_dismissal-certificate-of-service-2",
+        "wv_nc_acquittal_dismissal-acquittal-civil-petition-4"
+      ],
+      "sourceReceiptComponentsAuthoredByBuild": [
+        "wv_nc_acquittal_dismissal-acquittal-civil-petition-4",
+        "wv_nc_acquittal_dismissal-filing-instructions-3"
+      ]
+    },
+    "finding": "The current binding is incomplete. branchRoutes selects the custom acquittal petition, the production field map and rendered-artifacts report carry that component, and the build return binds four records, but binding.packetComponents names only the pre-existing dismissal primary and certificate. The custom acquittal PDF component is therefore absent from the binding.",
+    "exactMissingBindingComponent": "component:wv_nc_acquittal_dismissal-acquittal-civil-petition-4",
+    "requiredCorrection": "Add the custom acquittal civil petition to binding.packetComponents, using the exact component identity already present in the branch route, field map, rendered page manifests and build return. The shared text-only filing-instructions component is already represented by instrumentKinds; if the binding contract intends packetComponents to enumerate the complete componentSet instead, its explicit inclusion/exclusion must be recorded rather than left implicit.",
+    "whyThisBlocksReview": "Until the binding names the branch-selected custom petition, the metadata does not describe the whole two-branch candidate and must not be used as the completed owner-mapping transition evidence. This is a metadata repair; it does not require source reacquisition or a PDF rebuild because all four frozen fixture bytes match their recorded evidence."
+  },
+  "nativeStateAndTransitionReview": {
+    "masterQueuePath": "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+    "masterQueueFamilyState": "PRODUCT_PATH_PENDING",
+    "masterQueueRouteMappingStatus": "OWNER_DIRECTED_MAPPING_PENDING",
+    "masterQueueCurrentLegalResolution": null,
+    "masterQueueSelectedIndependentVerdict": null,
+    "interpretation": "The committed queue has not consumed the loader fix or the standalone semantic return. The focused loader test projects WV LEGAL_CLEAR in memory, while VERIFIER_RETURNS.json has no WV row and the live row remains pending. This is an integration boundary, not evidence that the loader correction failed; no transition is approved here because the current product binding has the concrete missing-component defect.",
+    "ownerCorrectionPath": "data/rcap-grade-a/legal-decisions/OWNER_CORRECTIONS_REQUIRED.json",
+    "targetRowBefore": {
+      "familyId": "wv_nc_acquittal_dismissal-set",
+      "stateOverride": "PRODUCT_PATH_PENDING",
+      "executionOwner": "CAPTAIN",
+      "nextExecutableAction": "Map the exact disposition fact to the correct SCA-C903 ground, refuse unclear records, and release the official-form build.",
+      "completedStateOverridePresent": false,
+      "completionEvidencePresent": false
+    },
+    "observedCompletionPattern": {
+      "selectedRowOnly": true,
+      "stateOverride": null,
+      "completedStateOverride": "PRODUCT_PATH_PENDING",
+      "completionEvidenceRequired": true,
+      "exampleFamily": "ky_misdemeanor_expungement-set",
+      "exampleEvidencePath": "data/rcap-grade-a/packet-factory-24h/pf10/ky-complete-repair-20260911/verification.json"
+    },
+    "transitionApplied": false,
+    "sharedOwnerRowsChanged": false,
+    "diversionSiblingPreserved": true,
+    "diversionSiblingFamily": "wv_nc_diversion_deferred-set"
+  },
+  "controls": {
+    "sourceBytesChanged": false,
+    "candidatePdfBytesChanged": false,
+    "packetBuildPerformed": false,
+    "rasterDispatched": false,
+    "queueMutated": false,
+    "ownerCorrectionMutated": false,
+    "generationAllowed": false,
+    "runtimeSelectable": false,
+    "commercialRoutesOpened": 0,
+    "productionTouched": false,
+    "visualMeasured": false
+  },
+  "remainingGates": [
+    "Correct and independently re-read product-wiring.binding.packetComponents for the custom acquittal petition.",
+    "Consume the corrected independent review and apply the existing completion pattern only to the selected WV OWNER_CORRECTIONS row.",
+    "Integrate the standalone semantic return into the native verifier/queue records.",
+    "Run central current-byte raster and independent original-page review for both branch fixture pairs.",
+    "Keep packet, terminal, runtime, commercial and production gates closed until their own evidence passes."
+  ]
+}

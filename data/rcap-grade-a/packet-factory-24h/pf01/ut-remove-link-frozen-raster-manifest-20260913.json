@@ -1,0 +1,103 @@
+{
+  "schemaVersion": "rcap-raster-queue/v1",
+  "rows": [
+    {
+      "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/ut/ut-pet-remove-link-set--official-pdf-fill/fixtures/boundary.pdf",
+      "boundaryPdfSha256": "8ef10345cf84bcbc895ede81b2b03a276a30c8fe78ce7f0a0d3e517e25286cce",
+      "builderAssignment": null,
+      "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/ut/ut-pet-remove-link-set--official-pdf-fill/fixtures/canonical.pdf",
+      "canonicalPdfSha256": "fd705afae7e177db7824e1ce48256e2a025c916b496c046cef70a61ff9e9e687",
+      "coverage": {
+        "basis": "Every canonical assembled diagnostic and explicitly declared conditional packet is included; the central renderer separately measures all declared boundary outputs.",
+        "complete": true,
+        "documents": [
+          "canonical.pdf",
+          "commissioner-canonical.pdf"
+        ],
+        "notRastered": [],
+        "notRenderedByThisGate": [],
+        "notRenderedByThisGateBasis": "every PDF present in the family's fixture discovery that this row does not queue. The gate renders every document a row queues, whatever its role, so a queued boundary fixture is rendered and is not named here.",
+        "rastered": [
+          "canonical.pdf",
+          "commissioner-canonical.pdf",
+          "boundary.pdf",
+          "commissioner-boundary.pdf"
+        ],
+        "whatCompleteMeansHere": "every PDF this family declares is queued to the gate and rendered, canonical and boundary alike. `complete` remains the narrower question -- every canonical document rendered -- because that is what promotion depends on."
+      },
+      "currentRasterState": "RASTER_PENDING",
+      "documents": [
+        {
+          "conditionalPacketBranch": "judge",
+          "name": "canonical.pdf",
+          "pageCount": 13,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "pageCount": 13,
+            "sourceSha256": "fd705afae7e177db7824e1ce48256e2a025c916b496c046cef70a61ff9e9e687",
+            "version": "1.17.1"
+          },
+          "path": "data/rcap-all50/overlays/census-v1/ut/ut-pet-remove-link-set--official-pdf-fill/fixtures/canonical.pdf",
+          "role": "canonical",
+          "sha256": "fd705afae7e177db7824e1ce48256e2a025c916b496c046cef70a61ff9e9e687"
+        },
+        {
+          "conditionalPacketBranch": "commissioner",
+          "name": "commissioner-canonical.pdf",
+          "pageCount": 14,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "pageCount": 14,
+            "sourceSha256": "8243a5588b1f2986453d669b006dbe60341b48ef25b431c213c7d0483a0fe0ed",
+            "version": "1.17.1"
+          },
+          "path": "data/rcap-all50/overlays/census-v1/ut/ut-pet-remove-link-set--official-pdf-fill/fixtures/commissioner-canonical.pdf",
+          "role": "canonical",
+          "sha256": "8243a5588b1f2986453d669b006dbe60341b48ef25b431c213c7d0483a0fe0ed"
+        },
+        {
+          "conditionalPacketBranch": "judge",
+          "name": "boundary.pdf",
+          "pageCount": 13,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "pageCount": 13,
+            "sourceSha256": "8ef10345cf84bcbc895ede81b2b03a276a30c8fe78ce7f0a0d3e517e25286cce",
+            "version": "1.17.1"
+          },
+          "path": "data/rcap-all50/overlays/census-v1/ut/ut-pet-remove-link-set--official-pdf-fill/fixtures/boundary.pdf",
+          "role": "boundary",
+          "sha256": "8ef10345cf84bcbc895ede81b2b03a276a30c8fe78ce7f0a0d3e517e25286cce"
+        },
+        {
+          "conditionalPacketBranch": "commissioner",
+          "name": "commissioner-boundary.pdf",
+          "pageCount": 14,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "pageCount": 14,
+            "sourceSha256": "14fab1bdf21a42e27374eefae64803fda0bf01cd9ab378055d8cd8a16fb8337e",
+            "version": "1.17.1"
+          },
+          "path": "data/rcap-all50/overlays/census-v1/ut/ut-pet-remove-link-set--official-pdf-fill/fixtures/commissioner-boundary.pdf",
+          "role": "boundary",
+          "sha256": "14fab1bdf21a42e27374eefae64803fda0bf01cd9ab378055d8cd8a16fb8337e"
+        }
+      ],
+      "documentsDigest": "02282f970fc37ac3feea37da49c8939f12b8d229bd60d1da83c3067d3b8cb99e",
+      "expectedPages": 13,
+      "familyId": "ut_pet_remove_link-set",
+      "fixtureSelection": {
+        "boundary": "the assembled packet, matched by exact name",
+        "canonical": "the assembled packet, matched by exact name"
+      },
+      "nextOwner": "RAS02",
+      "packetCommitSha": "f97b2acbfce93ffeaf44629075f6c4d6fe74eda5",
+      "requestedScale": 2.5
+    }
+  ]
+}

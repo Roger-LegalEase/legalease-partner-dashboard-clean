@@ -1,0 +1,20 @@
+  ok  repo_identity_by_committed_markers     4/4 markers present; codex/vf06-nc-nh-current at 21ae5b3d
+  ok  cloud_checkout_contains_captain_base   21ae5b3d is present and an ancestor of HEAD 21ae5b3d
+  ok  assignment_present_in_this_checkout    VF02 present with VF02.md, cut from 8baf1bef
+FAIL  worktree_clean                         1 uncommitted path(s)
+  ok  node_toolchain                         node 24.14.0
+  ok  pdf_lib_importable                     pdf-lib 1.17.1
+  -  browser_environment_exported           not applicable: this invocation renders nothing, so it needs no browser exported. Rendering is central (.github/workflows/rcap-packet-raster-acceptance-batch.yml); pass --require-rasterizer where a browser is actually about to be used.
+  -  build_time_rasterizer_available        not applicable: this invocation renders nothing. Pass --require-rasterizer where a build is actually about to raster.
+  -  page_rasterizer_available              not applicable: this invocation renders nothing. Rendering is central (.github/workflows/rcap-packet-raster-acceptance-batch.yml); pass --require-rasterizer where a browser is actually about to be used.
+  ok  private_is_git_ignored                 private/ is ignored and tracks nothing
+FAIL  master_library_mounted                 mounted, but neither private/source-corpus-environment.txt nor ~/.legalease-corpus-env exists — run: bash scripts/codex-cloud/setup-packet-factory.sh
+FAIL  master_library_complete                below immutable minimum: 9/499 files, 8/329 PDFs
+FAIL  corpus_matches_committed_index         23 absent, 0 mismatched of 24 sampled
+  ok  family_sources_bind                    4/4 source(s) bind by exact SHA-256 (custody_reconciliation); 1 found by content hash because the declared path is in a custody that is not mounted here
+  ok  master_library_not_at_operational_path the operational path does not resolve to the Master Library
+  ok  absent_is_not_empty                    an absent tree returns null; an empty tree returns []
+  ok  stale_artifact_block_consulted         block consistent (12 hashes, 6 families); 0 artifact(s) under this family clear
+
+PACKET_BUILD_ENVIRONMENT_NOT_READY: 10/14 passed, 4 failed, 3 not applicable
+mode: codex-cloud — origin not required, shallow checkout accepted, 3 check(s) replaced rather than waived

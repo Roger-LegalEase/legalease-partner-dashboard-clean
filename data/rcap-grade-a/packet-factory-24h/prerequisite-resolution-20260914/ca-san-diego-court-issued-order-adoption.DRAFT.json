@@ -1,0 +1,208 @@
+{
+  "schemaVersion": "rcap-draft-scoped-procedure-adoption/v1",
+  "draftId": "DRAFT-CA-SAN-DIEGO-85190-COURT-ISSUED-ORDER-20260914",
+  "status": "NOT_ADOPTED",
+  "preparedBy": "/root/ne_build",
+  "preparedAt": "2026-09-14T12:06:16.042171+00:00",
+  "decisionOwner": null,
+  "adoptedAt": null,
+  "decision": null,
+  "familyId": "ca-diversion-seal-set",
+  "trackId": "ca-diversion-seal",
+  "unitId": "ca-diversion-seal-stage-2",
+  "purpose": "Concrete owner-review draft reconciling the earlier county petition-and-order-set requirement with new authoritative procedure; this draft grants nothing.",
+  "proposedScope": {
+    "county": "SAN_DIEGO_ONLY",
+    "court": "Superior Court of California, County of San Diego that handled the case",
+    "supportedProgram": "Existing supported PC1000 successful completion only",
+    "statutoryRoute": "Penal Code851.90 implemented under851.92",
+    "requires": [
+      "Confirmed successful completion and existing proof of completion",
+      "Existing adopted eligibility and participant facts",
+      "Exact held CRM307 source custody",
+      "Notice to all parties and prosecutor service as applicable"
+    ],
+    "doesNotExpand": [
+      "Other counties including Kern",
+      "Other diversion programs or eligibility branches",
+      "851.91/CR409/CR410 sealing",
+      "1203.43expungement/CR180",
+      "Any automatic-relief eligibility"
+    ]
+  },
+  "proposedProcedure": {
+    "participantInstrument": "CRM-307 petition; participant signs and completes actual service requirements. Existing prosecutor-response/hearing regions remain reserved to their proper actors.",
+    "decisionActor": "Judge",
+    "dispositiveInstrumentRole": "COURT_ISSUED_AFTER_GRANT",
+    "applicantProposedOrderGenerated": false,
+    "draftingActor": "Unspecified in source; do not invent clerk/applicant preparer.",
+    "postDecisionReceipt": "After grant obtain actual issued order copy; record its genuine date and identifiers only when present. Pending/denied cases carry no synthetic granted order.",
+    "distribution": {
+      "uponIssuance": "Court supplies order copies to defendant and prosecuting attorney.",
+      "within30Days": "Court forwards copies to arresting/participating law-enforcement agencies and master local criminal-history agency.",
+      "departmentOfJustice": "Court furnishes disposition report identifying relief statute/date; does not forward sealing order for DOJ criminal-history processing under851.92(b)(1)(C)-(D)."
+    },
+    "requiredParticipantComponents": [
+      "Exact CRM307 filing",
+      "Existing completion proof supplied by participant as required",
+      "Service instructions and actual proof of service where required",
+      "Procedure/follow-up guidance explaining court decision and order receipt"
+    ],
+    "courtGeneratedAfterDecision": [
+      "Actual issued sealing order if granted",
+      "DOJ disposition report furnished by court"
+    ]
+  },
+  "officialSourceBindings": [
+    {
+      "url": "https://www.sandiegocounty.gov/content/sdc/public_defender/Dismissal_PC1000_Participants.html",
+      "path": "private/transfers/ca-pd-procedure-20260914/san-diego-pd-pc1000.html",
+      "sha256": "015fd51bf36821ac37c3b09605c1d29bd4d19563a72ff12f1945a65c4b70809b",
+      "byteLength": 61493,
+      "readVia": "web open and official HTML snapshot"
+    },
+    {
+      "url": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=PEN&sectionNum=851.90.",
+      "path": "private/transfers/ca-pd-procedure-20260914/pen85190.html",
+      "sha256": "51faa138c046ec4386d8039672c93ebbfd33e51efde5793edb376714d1918442",
+      "byteLength": 165023,
+      "readVia": "web open and official HTML snapshot"
+    },
+    {
+      "url": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=PEN&sectionNum=851.92.",
+      "path": "private/transfers/ca-pd-procedure-20260914/pen85192.html",
+      "sha256": "0782614394b54f32b04b1c200d8ce9d8f5924c74aff84e0a34481ee3ccbcf051",
+      "byteLength": 174365,
+      "readVia": "web open and official HTML snapshot"
+    }
+  ],
+  "sourceAuthorityJustification": {
+    "countyProcedure": "Official San Diego Public Defender identifies CRM307 applicant action, prosecutor service, judicial decision/signing and court distribution. It does not identify a party proposed-order requirement or drafting actor.",
+    "statute": "Official851.90permits judge-issued relief and court-provided defendant copy;851.92specifies order-copy and disposition-report recipients.",
+    "inferenceRequiringAdoption": "For this supported scope, satisfy dispositive-order procedure with court-issued post-decision receipt/follow-up rather than a generated applicant proposed order. This is an express narrow reconciliation of the old memo wording, not an automatic inference from missing forms.",
+    "sourcePrecedence": "851.92controls DOJ disposition-report versus order-copy distinction over broad county PD wording."
+  },
+  "supersedesOnlyUponExplicitAdoption": [
+    {
+      "path": "data/record-clearing/legal-design-intake/CA.memo.json",
+      "jsonPointer": "/tracks/9/units/1/label",
+      "priorValue": "County petition and order set",
+      "proposedScopedReplacement": "San Diego petition and court-issued order procedure",
+      "appliesOnly": "San Diego supported successful PC1000 completion; all other scope remains unchanged"
+    },
+    {
+      "path": "data/record-clearing/legal-design-intake/CA.memo.json",
+      "jsonPointer": "/tracks/9/units/1/description",
+      "priorValue": "Generate the county's own petition and order set for the counties LegalEase supports, once the current local forms are collected and approved. San Diego local form SDSC CRM-307 and Kern County's local petition are the confirmed examples.",
+      "proposedScopedReplacement": "For supported San Diego PC1000 successful completion, fill the exact held CRM-307 participant petition and provide service instructions. Treat a granted sealing order as COURT_ISSUED_AFTER_GRANT: obtain the issued copy and follow up on court distribution. Do not generate an applicant proposed order or invent its drafter. Other counties retain existing restrictions.",
+      "appliesOnly": "San Diego supported successful PC1000 completion; all other scope remains unchanged"
+    },
+    {
+      "path": "data/record-clearing/legal-design-intake/CA.memo.json",
+      "jsonPointer": "/tracks/9/units/1/available",
+      "priorValue": false,
+      "proposedScopedReplacement": {
+        "SAN_DIEGO_SUPPORTED_PC1000": true,
+        "allOtherCases": "unchanged"
+      },
+      "appliesOnly": "San Diego supported successful PC1000 completion; all other scope remains unchanged"
+    },
+    {
+      "path": "data/record-clearing/legal-design-intake/CA.memo.json",
+      "jsonPointer": "/tracks/9/units/1/unavailableReason",
+      "priorValue": "No approved local petition and order set has been sourced for any county. County-specific form and filing coverage is a retained blocker, and it is a scope restriction on which counties are supported rather than a reason to suppress the guidance unit.",
+      "proposedScopedReplacement": {
+        "SAN_DIEGO_SUPPORTED_PC1000": null,
+        "allOtherCases": "No approved local petition and order set has been sourced for any county. County-specific form and filing coverage is a retained blocker, and it is a scope restriction on which counties are supported rather than a reason to suppress the guidance unit."
+      },
+      "appliesOnly": "San Diego supported successful PC1000 completion; all other scope remains unchanged"
+    },
+    {
+      "path": "data/record-clearing/legal-design-intake/CA.memo.json",
+      "jsonPointer": "/tracks/9/components/1/conditionDescription",
+      "priorValue": "Only in counties where LegalEase has collected and approved the current local petition and order set. No county qualifies yet.",
+      "proposedScopedReplacement": "For supported San Diego successful PC1000 completion only, exact held CRM-307 is the participant filing. Court issues the dispositive order after grant; no applicant proposed order is generated. All other county coverage restrictions remain unchanged.",
+      "appliesOnly": "San Diego supported successful PC1000 completion; all other scope remains unchanged"
+    },
+    {
+      "path": "data/record-clearing/legal-design-intake/CA.memo.json",
+      "jsonPointer": "/tracks/9/components/1/notes",
+      "priorValue": "San Diego local form, Petition for Sealing of Arrest Records After Successful Completion of Pen. Code \u00a7 851.90 Diversion or Deferred Entry of Judgment, new 5/19, optional. A confirmed example of the county form family, not yet collected or approved.",
+      "proposedScopedReplacement": "For supported San Diego successful PC1000 completion only, exact held CRM-307 is the participant filing. Court issues the dispositive order after grant; no applicant proposed order is generated. All other county coverage restrictions remain unchanged.",
+      "appliesOnly": "San Diego supported successful PC1000 completion; all other scope remains unchanged"
+    },
+    {
+      "path": "data/record-clearing/legal-design-intake/CA.memo.json",
+      "jsonPointer": "/tracks/9/participantInputs/2/conditionDescription",
+      "priorValue": "Determines whether a supported county petition set exists. None does yet.",
+      "proposedScopedReplacement": "Identify the superior court that handled the case. This adoption supports San Diego PC1000 successful completion only; no new county or program coverage.",
+      "appliesOnly": "San Diego supported successful PC1000 completion; all other scope remains unchanged"
+    },
+    {
+      "path": "data/record-clearing/legal-design-intake/CA.memo.json",
+      "jsonPointer": "/tracks/9/supportingDocuments/1",
+      "priorValue": {
+        "name": "The county's own petition and order forms",
+        "obtainedFrom": "The county superior court clerk or self-help centre",
+        "requirement": "required",
+        "requiredBeforeFiling": true,
+        "howToObtain": "Ask the county clerk or self-help centre which local form applies to a \u00a7 851.90 sealing. There is no statewide Judicial Council form for this route."
+      },
+      "proposedScopedReplacement": {
+        "participantFilingInput": {
+          "name": "Exact held San Diego CRM-307",
+          "requiredBeforeFiling": true
+        },
+        "postDecisionInput": {
+          "name": "Actual court-issued sealing order, if granted",
+          "role": "COURT_ISSUED_AFTER_GRANT",
+          "requiredBeforeFiling": false,
+          "requiredAfterGrant": true,
+          "obtainedFrom": "Court-issued copy to defendant",
+          "preparationActor": "Not specified; not attributed to clerk or applicant"
+        },
+        "allOtherCounties": "Retain prior supporting-document requirement and scope restrictions."
+      },
+      "appliesOnly": "San Diego supported successful PC1000 completion; all other scope remains unchanged"
+    },
+    {
+      "path": "data/record-clearing/legal-design-intake/CA.memo.json",
+      "jsonPointer": "/tracks/9/selfHelpStopConditions/0",
+      "priorValue": "No approved local petition and order set exists for the participant's county.",
+      "proposedScopedReplacement": "Outside supported San Diego successful PC1000 scope, or without exact adopted local filing/procedure coverage, stop for county-specific help. Existing prosecutor-opposition, contested-hearing and disputed-completion stops remain unchanged.",
+      "appliesOnly": "San Diego supported successful PC1000 completion; no other scope expands"
+    }
+  ],
+  "preservedBindings": [
+    {
+      "path": "data/record-clearing/legal-design-intake/CA.memo.json",
+      "sha256": "c9d9f7266f22df9c90ce76507b407343fc50784a715b02a69e86fc713550cbf3"
+    },
+    {
+      "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+      "sha256": "83d91d31bf8b0b6c76c5623f4c39cffddcf6b154c1d8de96ffbcb74073d6befb"
+    },
+    {
+      "path": "data/rcap-grade-a/packet-factory-24h/prerequisite-resolution-20260914/ca-pd-completion-order-procedure-lead.json",
+      "sha256": "ee0be6247a7e15ca82582b1c5ccc9db9c57e3a8bae4d831e6eb5e84cbb7744ce"
+    }
+  ],
+  "integrationInstructionsAfterAdoption": [
+    "Bind exact stage2 scope without deleting statewide stage1 guidance.",
+    "Preserve packet-set primary-filing-2 San Diego scope and leave primary-filing-4 other-county restrictions unchanged.",
+    "Reconcile only applicable stale no-county-approved and petition/order prerequisite text; retain prior values/history in this record.",
+    "Do not fabricate a court order fixture; model pending, denied and actual order-received states with protected fields.",
+    "Independent semantic and current-original visual gates still required before terminal packet closure."
+  ],
+  "preservation": {
+    "allPrior51JurisdictionClosureEvidence": "Preserved unchanged; no state/county sibling reopened",
+    "acceptedSourceArtifactReviewHashes": "No repinning or replacement by this draft",
+    "priorFailedAndBlockedEvidence": "Retained as history; only this exact prerequisite may receive a superseding adopted record",
+    "runtimeAndCommercialAuthority": "Unchanged; no route opens",
+    "terminalCounts": "Unchanged"
+  },
+  "adoptionRequiredBeforeDependentBuild": true,
+  "buildSlotReleased": false,
+  "commercialAuthorityGranted": false,
+  "productionTouched": false
+}

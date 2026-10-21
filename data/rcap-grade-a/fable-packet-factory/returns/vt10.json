@@ -1,0 +1,214 @@
+{
+ "schemaVersion": "rcap-fable-worker-return/v1",
+ "worker": "FABLE-VT10",
+ "role": "independent verification",
+ "lanes": [
+  "VF05",
+  "VF06"
+ ],
+ "branch": {
+  "requested": "fable/vt10",
+  "created": false,
+  "whatHappened": "The brief asked for a branch fable/vt10 created from the base and pushed. Partway through the run the Captain sent a correction: this container shares one working tree with six other agents, none of us got isolated worktrees, and the tree carried another agent's uncommitted Pennsylvania repair. All git branch, commit, stage, stash and push operations were withdrawn from this worker's brief and the work was to be left uncommitted for central staging by named path. That instruction was followed from the moment it arrived and no git command has been run since.",
+  "oneGitCommandRanBeforeTheCorrection": "git checkout -b fable/vt10 ebc44031ec7eab29058bfc79a7bc5e1cff089414, run as the second command of the session, before the correction arrived. It was a no-op for file contents: the tree was already sitting on that exact commit (then on branch fable/vt9), so creating a branch pointer at the same commit moved no file. Another agent has since moved the tree to fable/r13, where HEAD is still ebc44031ec7eab29058bfc79a7bc5e1cff089414 and the Pennsylvania modifications are intact and untouched by this worker. A branch pointer named fable/vt10 exists at the base commit; nothing was pushed and no commit was ever created.",
+  "nothingCommitted": true,
+  "nothingPushed": true,
+  "noPullRequest": true
+ },
+ "baseSha": "ebc44031ec7eab29058bfc79a7bc5e1cff089414",
+ "baseShaCarriedWhere": "on every row this worker wrote, as verifiedAtBase. No document-level baseSha was set: both rows.json files are shared with other lanes and earlier readings, and a document base would stamp this commit onto rows this worker did not make.",
+ "claimDiscipline": {
+  "asserted": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert <LANE> <familyId> for all five families before any artifact of that family was read",
+  "allFiveGranted": true,
+  "released": "all five, one at a time, sequentially, after the rows were written",
+  "reissueUsed": false,
+  "transferUsed": false,
+  "blockedBeforeClaim": [],
+  "ledgerLeftInDiff": true
+ },
+ "filesWritten": [
+  "data/rcap-grade-a/packet-factory-24h/vf05/rows.json (appended 2 rows; all 6 prior rows and supersededLaneMembership preserved verbatim)",
+  "data/rcap-grade-a/packet-factory-24h/vf06/rows.json (appended 3 rows; all 6 prior rows and supersededLaneMembership preserved verbatim)",
+  "data/rcap-grade-a/fable-packet-factory/returns/vt10.json (this file)",
+  "data/rcap-grade-a/packet-factory-24h/claim-ledger.json (assert and release entries only, via claim.mjs)"
+ ],
+ "filesNotTouched": [
+  "MASTER_QUEUE.json",
+  "RASTER_QUEUE.json",
+  "ACTIVE_ASSIGNMENTS.json",
+  "VERIFIER_RETURNS.json",
+  "any other lane rows.json",
+  "every packet, overlay, fixture, field map and build script",
+  "Production",
+  "Supabase",
+  "Stripe",
+  "secrets",
+  "migrations"
+ ],
+ "corpus": {
+  "mounted": true,
+  "how": "bash scripts/rcap-corpus/bootstrap-private-corpus.sh, run in this container",
+  "evidence": "archive SHA-256 a26e3ca7d52db4460e53c2eddd893109037702f5c8035f2c698a7e16bad84e89 verified; 51 jurisdictions / 499 files / 329 PDFs; corpus verified against its own 00_GOVERNANCE/CHECKSUMS.sha256",
+  "consequence": "SOURCE_IDENTITY was measured rather than recorded NOT_MEASURABLE_HERE on all five families. Every bound source and every bound committed record was rehashed here and cross-checked against the receipt, the committed corpus index, the state manifest and the governance checksums."
+ },
+ "obligationSet": [
+  "ROUTE_IDENTITY",
+  "SOURCE_IDENTITY",
+  "COMPONENT_SET",
+  "KNOWN_PREFILLS",
+  "REQUIRED_BEFORE_FILING",
+  "ROUTE_OPTIONS",
+  "REPEATING_ROWS",
+  "PROTECTED_FIELDS",
+  "ARTIFACTS",
+  "PAGE_ORDER",
+  "CLIPPING_AND_OVERLAP",
+  "FILING_DESTINATION",
+  "FEE_AND_WAIVER",
+  "SERVICE",
+  "SELF_HELP_STOP"
+ ],
+ "allFifteenScoredOnEveryFamily": true,
+ "nothingUnmeasured": "No obligation on any of the five families was recorded NOT_MEASURABLE_HERE or BLOCKED_LEGAL_INPUT. Every one of the 75 obligation scores is PASS or FAIL.",
+ "howMeasured": [
+  "nine counters produced by running scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <familyId> per family in this container; all nine are zero on all five families",
+  "every bound source and every bound committed record SHA-256 recomputed here from the mounted corpus and the committed bytes",
+  "every rendered artifact SHA-256 recomputed from the committed bytes and compared against the family record and against the raster queue pins",
+  "page counts read from the bytes with pdfinfo",
+  "every recorded write re-verified against text extracted from that fixture’s own bytes with pdftotext, per fixture",
+  "component order confirmed by reading page headings out of the extracted text",
+  "word geometry extracted with pdftotext -bbox and checked against the page box and against every same-baseline word pair, separating value-on-form-rule pairs from text-on-text pairs",
+  "fee, destination and service scored against packet-family-build-worklist.json and the state legal-design memos BEFORE the packet text was read, per the determination’s ordering"
+ ],
+ "standardApplied": "data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json, including amendment A1. Read before any FEE_AND_WAIVER or SERVICE score was formed.",
+ "families": [
+  {
+   "familyId": "ca-prop64-set",
+   "lane": "VF05",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "buildStatus": "state_built",
+   "rasterState": "NOT_IN_CENTRAL_RASTER_QUEUE",
+   "passed": 13,
+   "failed": 2,
+   "unmeasured": 0,
+   "failedObligations": [
+    "CLIPPING_AND_OVERLAP",
+    "SERVICE"
+   ],
+   "whatWasMeasured": "All three bound sources (CR-400, CR-401, CR-403) rehashed from the mounted Master Library and agreeing with the receipt, the corpus index, STATES/CA/STATE_MANIFEST.csv and the governance checksums. All twelve rendered artifacts recomputed and hashing to the record. Writes read back from the bytes. Word geometry measured on all twelve artifacts.",
+   "defect1": "CLIPPING_AND_OVERLAP. In all four cr-400-filled.pdf fixtures the Judicial Council footer is damaged and runs off the left page edge. The official CR-400 and the committed derived-sources/cr-400-pikepdf-unlocked.pdf both render it intact over two lines from x=36.00 with no word outside the page box (432 words each, minimum x0 = 36.00). The filled artifact re-flows it onto one line at y=766.0, drops the words \"For\" and \"your\", truncates \"protection\" to \"otection\", and places it at x0 = -3.485, i.e. 3.49pt off the page. A word-set diff confirms \"For\" and \"protection\" present in the official and absent from the filled artifact, \"otection\" present in the filled artifact and absent from the official. The mechanism is recorded in the family’s own reports/actual-writes.json pdfLibWarnings: \"Removing XFA form data as pdf-lib does not support reading or writing XFA\" — the XFA-to-flattened-AcroForm conversion is re-laying out official furniture. reports/source-fidelity.json cannot catch it because it compares official-to-derived only (which is faithful) and never derived-to-filled. The visualDefects counter reports 0 and does not see it.",
+   "defect1RepairTarget": "the CR-400 finalize/flatten path, and extending the source-fidelity acceptance check to cover the filled artifact rather than stopping at the derived one",
+   "defect2": "SERVICE. packet-family-build-worklist.json records serviceRecipients as \"recorded\": \"Serve the prosecuting agency and file CR-401 proof of service.\", and certificateOfService as \"recorded\": \"proof_of_service: CR-401\"; CA.memo.json rules.service says the same. participant-instructions.md instead tells the participant that \"who must be served and by what method ... are not established in this repository.\" The method half is true (serviceMethod and serviceTiming are both not_recorded); the \"who\" half is false against a held record, and the packet ships CR-401 with a 25-row blank table while never saying whom it proves service on. This is amendment A1’s defect one obligation over.",
+   "defect2RepairTarget": "state that the prosecuting agency is served and that CR-401 is the proof of service; keep the honest refusal for method and timing, naming the clerk for those",
+   "nearMissRecorded": "FEE_AND_WAIVER was very nearly failed on the same reasoning, because CA.memo.json holds \"FW-001 is the general California fee waiver form.\" Reading WAVE_2_LEGAL_INPUT_ASSIGNMENTS.json first showed that point already adjudicated for this exact family: FW-001 is named \"only as California’s general fee-waiver form, which does not determine whether either §11361.8 filing has a fee or when a waiver is required. That exact legal input is absent.\" The worklist records filingFee as not_recorded. The packet therefore correctly states that neither is established and names the clerk of the Superior Court in the county of the conviction, which is the determination’s third met-branch. Scored PASS. Recording the near miss because demanding a figure the repository does not hold is precisely the invention the determination forbids."
+  },
+  {
+   "familyId": "ny_mrta_marijuana-set",
+   "lane": "VF05",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "buildStatus": "state_built",
+   "rasterState": "RASTER_PASS",
+   "passed": 11,
+   "failed": 4,
+   "unmeasured": 0,
+   "failedObligations": [
+    "REQUIRED_BEFORE_FILING",
+    "FILING_DESTINATION",
+    "FEE_AND_WAIVER",
+    "SERVICE"
+   ],
+   "secondRead": "This family was repaired in an earlier wave and was owed a genuine second read. It got one: the current bytes were read rather than the earlier verdict. The repair did NOT land. Every defect the earlier return named is still present in production-field-map.json and participant-instructions.md at this base, and the mojibake is marginally worse than recorded — 28 control characters in the delivered instructions (U+1, U+2, U+F, U+10, U+89, U+8C, U+9A), against the 22 previously counted.",
+   "defect1": "REQUIRED_BEFORE_FILING. Three defects, all participant-facing, all still present. Mis-mapped labels: Town_Court_Specify carries \"Village Court, Village o\" (the town-court blank with the village-court caption — the form’s face prints both as distinct controls); CJTN_Unknown carries \"NYSID/New York State Identification N\", the wrong tracking number entirely; Docket_Case_Number_Unknown carries \"______________________________\", which is not a label. A mojibake label: File_Copy’s label is undecoded subsetted-font bytes delivered verbatim to the participant. Court-only fields surfaced as participant obligations: Application_Complete, File_Copy and Copies_Sent are items 1, 4 and 5 of the checklist the form prints under \"***FOR COURT USE ONLY – DO NOT WRITE BELOW THIS LINE***\", read off the form’s own face here; all three carry requiredBeforeFiling true and are listed under \"Exact facts still required before filing\" while the same file’s last line says every control below that line stays blank. The file contradicts itself and, at face value, directs the participant to write where the form forbids it. Their siblings Proper_ID, Charge_Sealed and Comment_Entered are refused without that flag, so the treatment is not internally consistent either. A further off-by-one: File_Copy carries item 4’s text and Copies_Sent item 5’s, while their names correspond to items 5 and 6.",
+   "defect2": "FILING_DESTINATION. The form’s own printed instruction, extracted from the fixture bytes here, reads \"Submit your application to the Court where you were convicted.\" The worklist records filingDestination as \"recorded\". The packet says \"Confirm current revision, filing destination, local procedures, fees, attachments, service, and proposed-order requirements before filing.\" Amendment A1 exactly.",
+   "defect3": "FEE_AND_WAIVER. The form’s printed instruction 1 states on its own face \"(NOTE: There is no application fee.)\" and the worklist records filingFee as \"recorded\". The packet’s only cost sentence is the same catch-all, which is the determination’s second notMet branch — a gesture at a fee without naming who answers it.",
+   "defect4": "SERVICE. The worklist records serviceRecipients, serviceMethod, certificateOfService and notice all as not_recorded, so no held source establishes a service rule and a NAMED authority could have stood in. The packet names none — only \"Complete service certificates only after service actually occurs\" and the catch-all. No office, no desk, no clerk. True silence fails. Item 6 of the form’s court-use-only checklist reads \"Copies of application sent to prosecutor, law enforcement agencies and DCJS as applicable for further processing\", so the court distributes and the participant plausibly serves nobody; the packet could state that affirmatively with the mechanism that replaces service.",
+   "allFourShareOneRoot": "defects 2, 3 and 4 are the same single catch-all sentence in participant-instructions.md doing the work of three answers the packet either holds or could name. Repairing that one sentence, plus the field-map labelling and the requiredBeforeFiling flags on the three court-only controls, closes all four.",
+   "disagreementWithMasterQueue": "MASTER_QUEUE carries legalInputStatus OPEN_LEGAL_INPUT / basis LEGAL_APPROVAL_VERDICT on this family for \"fee and waiver treatment\". On the evidence read here that is not sustainable: the held source answers the fee question on its own printed face, so this is a packet-content defect to repair rather than an open legal input to wait on. The verdict is recorded as FAIL_REPAIR_REQUIRED rather than BLOCKED_LEGAL_INPUT for that reason. MASTER_QUEUE was not edited; this is flagged for the Captain."
+  },
+  {
+   "familyId": "composed-treatment:nd-nonconviction-auto-close-verify",
+   "lane": "VF06",
+   "verdict": "PASS",
+   "verdictCeiling": "BUILT_RASTER_PENDING",
+   "buildStatus": "state_built",
+   "rasterState": "BUILT_RASTER_PENDING",
+   "passed": 15,
+   "failed": 0,
+   "unmeasured": 0,
+   "failedObligations": [],
+   "whyNotPassComplete": "All fifteen obligations were scored and every one passes; nothing is unmeasured and nothing failed. The verdict is held at PASS rather than PASS_COMPLETE_INDEPENDENT solely because RASTER_QUEUE gives this family currentRasterState RASTER_PENDING with no rasterReceipt, and the queue’s own rule is noPassCompleteWithout RASTER_PASS. Per the brief a run is in flight at a Captain commit; this is the expected ceiling, not a defect. When a hash-bound RASTER_PASS lands on canonical 61bedadea4d79733ae2903993d4525835e08df8f28d191bdb2b3b66fe2e78c96 and boundary 6088a70b8bd9b67f92862393562c3a0dd9feadee39a4f445a7e56c740d7790b7 this row supports PASS_COMPLETE_INDEPENDENT with no re-reading of the other fourteen obligations.",
+   "visualMeasuredAnyway": "Because the central gate has not run and the committed local rasters prove nothing under RASTER_QUEUE rasterStateSemantics, CLIPPING_AND_OVERLAP was measured directly from the PDF geometry: across all 14 pages of both fixtures every word falls inside the 612x792 page box and no same-baseline pair overlaps by more than 1pt (1153 and 1161 words, zero clipped, zero collisions).",
+   "notableGoodJudgment": "The fee refusal is correct and was checked hard before being accepted. The ND memo’s nd-nonconviction-close-petition track does state there is no filing fee under § 12-60.1-05(4), but that is a different instrument on a different branch — the pre-2025 petition the receipt expressly separates and does not carry — and the auto-close track’s own \"fees: none\" belongs to the automatic parent where nothing is filed at all. Neither answers whether a motion to enforce in an existing criminal case carries a fee, and the worklist records filingFee and feeWaiverTreatment as not_recorded. The packet says exactly that and names the office of the court in the original criminal case for both the fee and the delivery method. Borrowing the petition route’s no-fee rule here would have been a real error.",
+   "ceilingLiftedAfterThisRead": "The in-flight central raster run landed while this lane was working. At HEAD e16aacbe55a791201ef3c02d7bb042241ab0dadd, RASTER_QUEUE gives this family currentRasterState RASTER_PASS, receipt from run 33579500812 job 100091041747, canary and live negative controls passing in the same run, bound to canonical 61bedadea4d79733ae2903993d4525835e08df8f28d191bdb2b3b66fe2e78c96 and boundary 6088a70b8bd9b67f92862393562c3a0dd9feadee39a4f445a7e56c740d7790b7 — the exact bytes this lane verified, re-hashed at that HEAD and unchanged, with git confirming nothing under the family directory changed between the base and that HEAD. The only reason the verdict was held at PASS is therefore gone. The recorded verdict was deliberately NOT rewritten: the row states what was true at its declared verifiedAtBase and promoting it is the Captain’s call."
+  },
+  {
+   "familyId": "ga-nonconv-post2013-set",
+   "lane": "VF06",
+   "verdict": "PASS_COMPLETE_INDEPENDENT",
+   "buildStatus": "state_built",
+   "rasterState": "RASTER_PASS",
+   "passed": 15,
+   "failed": 0,
+   "unmeasured": 0,
+   "failedObligations": [],
+   "whatWasMeasured": "Route keys agree exactly across all four records. Both codified grounds present and hashed, and every legal statement the packet relies on for fees, destination, notice and service read back out of GA.memo.json track ga-nonconv-post2013 and agreeing. Both artifacts recomputed and hashing to the record and to the RASTER_PASS pins. 7/7 writes re-verified in the bytes per fixture. Component order confirmed from page headings. Geometry clean across all 10 pages (1509 and 1511 words, zero clipped, zero collisions).",
+   "fee": "Met by the determination’s second branch — a sourced statement that no fee is charged — and the packet goes further than it had to, heading off the obvious confusion by recording that GBI’s published restriction application is captioned \"Prior to 07/01/2013\" and that the $25.00 GCIC processing fee belongs to that older route, not this one. It also discloses the one cost the participant will actually meet, the agency’s fee for the criminal history report.",
+   "sourceIdentityNote": "No binary is bound and none should be: the receipt records that the only published GBI form is the wrong instrument for this route. The wrong instrument is not bound anywhere in the family’s records, which was checked rather than assumed."
+  },
+  {
+   "familyId": "wa_crop_certificate_of_restoration-set",
+   "lane": "VF06",
+   "verdict": "PASS_COMPLETE_INDEPENDENT",
+   "buildStatus": "state_built",
+   "rasterState": "RASTER_PASS",
+   "passed": 15,
+   "failed": 0,
+   "unmeasured": 0,
+   "failedObligations": [],
+   "whatWasMeasured": "Single track key agrees across all four records. Both codified grounds present and hashed, and the packet’s fee, destination, notice and service statements read back out of WA.memo.json and agreeing. Both artifacts recomputed and hashing to the record and to the RASTER_PASS pins. 9/9 writes re-verified in the bytes per fixture. Component order confirmed from page headings across all five components. Geometry clean across all 14 pages (2403 words each, zero clipped, zero collisions).",
+   "fee": "The cleanest application of the determination’s third branch in this lane: the repository holds that a fee exists and that the amount is not stated, and holds GR 34 as the waiver route. The packet states all of that and refuses to quote a figure, naming the clerk for it, twice.",
+   "sourceIdentityNote": "No binary is bound, and the receipt is candid that this is a gap rather than an absence — a full AOC CRO pattern set exists but none of it has been acquired, pinned or measured, so there is no repository form identity to fill. That is a correctly declared posture rather than a mislabelled one, and the packet tells the participant the AOC set exists and that these pages are not it. Acquiring and pinning the four CRO binaries would change the implementation strategy; it changes no verdict here."
+  }
+ ],
+ "summary": {
+  "families": 5,
+  "PASS_COMPLETE_INDEPENDENT": 2,
+  "PASS": 1,
+  "FAIL_REPAIR_REQUIRED": 2,
+  "BLOCKED_SOURCE": 0,
+  "BLOCKED_LEGAL_INPUT": 0,
+  "BLOCKED_BEFORE_CLAIM": 0,
+  "STOPPED": 0
+ },
+ "forTheCaptain": [
+  "composed-treatment:nd-nonconviction-auto-close-verify is ready to promote to PASS_COMPLETE_INDEPENDENT without any re-reading. All fifteen obligations passed at the base with nothing unmeasured; the only thing holding it at PASS was the missing central raster, and that run has since landed with a hash-bound RASTER_PASS on the exact bytes this lane verified. This verifier did not rewrite its own verdict for a receipt that appeared after its declared base, so the promotion needs a Captain decision.",
+  "ca-prop64-set is absent from the central raster queue entirely. RASTER_QUEUE.json lists it under notEligible with why [\"no canonical PDF\",\"no boundary PDF\"]. The family does ship canonical and boundary fixtures, but per variant and per form (hs-11361-8-<variant>-<fixture>/cr-400-filled.pdf) rather than as canonical.pdf/boundary.pdf, which is the pair the queue’s fixture selector looks for. The central visual gate has therefore never run on this family, and no PASS_COMPLETE_INDEPENDENT could stand there even if every obligation passed. This is a queue-eligibility gap rather than a packet defect and RASTER_QUEUE.json was not edited. Any other family whose fixtures are named per variant will be silently excluded the same way, which is worth a sweep.",
+  "ny_mrta_marijuana-set carries legalInputStatus OPEN_LEGAL_INPUT in MASTER_QUEUE on the basis of \"fee and waiver treatment\", but the held source answers the fee question on its own printed face (\"(NOTE: There is no application fee.)\"). This worker records FAIL_REPAIR_REQUIRED rather than BLOCKED_LEGAL_INPUT and did not edit MASTER_QUEUE. The status needs a Captain decision.",
+  "ny_mrta_marijuana-set was reported repaired in an earlier wave. It was not. Every named defect survives in the committed bytes at this base and the mojibake count is higher than recorded. Whatever repair was credited did not reach this family’s field map or instructions, which is worth checking against the rest of that repair wave.",
+  "ca-prop64-set’s footer damage is caused by the XFA-to-flattened-AcroForm conversion and is invisible to both the visualDefects counter and reports/source-fidelity.json, which compares official-to-derived and stops there. Any other official_pdf_fill family built from an XFA source through the same pdf-lib path may carry the same damage unmeasured. The acceptance check should extend to the filled artifact.",
+  "ca-prop64-set carries a third route key in MASTER_QUEUE, obligation:track-pathway:CA:ca-prop64:tool-5-proposition-64-marijuana-relief, that no family record and no fixture implements. It reads as a legacy tool-numbering alias rather than a distinct filing pathway. Recorded as an observation, not scored as a defect."
+ ],
+ "commercialRoutesOpened": 0,
+ "productionTouched": false,
+ "overlayDirectoriesModified": 0,
+ "packetsModified": 0,
+ "buildScriptsModified": 0,
+ "fieldMapsModified": 0,
+ "fixturesModified": 0,
+ "routesPromoted": 0,
+ "approvalsGranted": 0,
+ "grantsNothing": "A verdict moves a family in the queue. It promotes nothing, opens no route, approves nothing, authorizes no fulfillment and prepares no review package. The two PASS_COMPLETE_INDEPENDENT verdicts here are verification results, not launch decisions.",
+ "stateOfTheTreeAtHandoff": {
+  "branch": "fable/r13 (another agent’s branch; this worker did not put the tree there and ran no git command after the Captain’s correction)",
+  "headWhenWorkFinished": "e16aacbe55a791201ef3c02d7bb042241ab0dadd",
+  "headMovedDuringTheRun": "Another agent committed while this lane was working, moving HEAD from the base to e16aacbe. None of this lane’s five families changed in that commit, and of the records scored against only RASTER_QUEUE.json changed — which is what delivered the North Dakota RASTER_PASS noted above. Every verdict here therefore still rests on the bytes it was read from.",
+  "allWorkLeftUncommitted": true,
+  "pathsForCentralStaging": [
+   "data/rcap-grade-a/packet-factory-24h/vf05/rows.json",
+   "data/rcap-grade-a/packet-factory-24h/vf06/rows.json",
+   "data/rcap-grade-a/fable-packet-factory/returns/vt10.json",
+   "data/rcap-grade-a/packet-factory-24h/claim-ledger.json"
+  ],
+  "nothingElseTouched": "No file outside those four paths was written by this worker. The Pennsylvania repair in the tree belongs to another agent and was left exactly as found."
+ }
+}

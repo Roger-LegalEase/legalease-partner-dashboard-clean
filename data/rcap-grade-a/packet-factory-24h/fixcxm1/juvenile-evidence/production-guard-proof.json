@@ -1,0 +1,545 @@
+{
+  "schemaVersion": "fixcxm1-juvenile-production-guard-proof/v1",
+  "family": "mn_petition_juvenile_as_adult-set",
+  "baseCommit": "40626a9ee9faf9513778dc50a4e7882f62680f33",
+  "productionPath": "node scripts/build-census-v1-mn_petition_juvenile_as_adult-set.mjs",
+  "stagingRule": "The builder composes PDFs and both instruction documents in memory; the ordinary audit runs before any final output write. Each scratch starts from the known candidate output inventory and mounts source/dependency links without copying or modifying source bytes.",
+  "valid": {
+    "exit": 0,
+    "replacementAttempted": false,
+    "pdfInventory": [
+      {
+        "path": "fixtures/boundary.pdf",
+        "byteLength": 909605,
+        "sha256": "c5f2e418ad4471ffb42d73f96d01daa4ce7821e9c9f10ce511883f2a4a080cc5"
+      },
+      {
+        "path": "fixtures/canonical.pdf",
+        "byteLength": 909240,
+        "sha256": "ccd5f00fd86da007606780b15cb45462e80187731404f07694ec015775bfefa3"
+      }
+    ]
+  },
+  "mutations": [
+    {
+      "name": "original-selected-disposition-defect",
+      "mutation": "selected-disposition",
+      "exit": 1,
+      "refusalObserved": true,
+      "finalOutputInventoryPreserved": true,
+      "replacementAttempted": false,
+      "stderr": "Error: a rendered route selection lacks its completeness disposition: [\"p4-cb-y572-x90.41\",\"p1-cb-y350-x108\"]\n    at fail (file:///tmp/rcap-fixcxm1-juvenile-ihwkTx/scripts/build-census-v1-mn_petition_juvenile_as_adult-set.mjs:307:9)\n    at auditSelectionDisclosure (file:///tmp/rcap-fixcxm1-juvenile-ihwkTx/scripts/build-census-v1-mn_petition_juvenile_as_adult-set.mjs:1652:5)\n    at build (file:///tmp/rcap-fixcxm1-juvenile-ihwkTx/scripts/build-census-v1-mn_petition_juvenile_as_adult-set.mjs:2024:31)\n",
+      "finalOutputInventoryBefore": [
+        {
+          "path": "approval-request.json",
+          "byteLength": 447,
+          "sha256": "7486fca03799ff2ff07cbadddcda6314c89911f6dd52c7aec09e7edb52cfc606"
+        },
+        {
+          "path": "build-findings.json",
+          "byteLength": 2517,
+          "sha256": "4a0e674c3c01f746b6f8f08376ceb8162c804532be108bc8ca4e902f7c4f112f"
+        },
+        {
+          "path": "build-status.json",
+          "byteLength": 399,
+          "sha256": "9f0db9baff947edce3f25d14cf8e6c3ba8a8a4d39eabd16ead6a6470f6237078"
+        },
+        {
+          "path": "field-census.census-v1.json",
+          "byteLength": 344785,
+          "sha256": "58c524697331bfbbce58fef914020143d86397475f32fa4ab08031d35d2b7a20"
+        },
+        {
+          "path": "filing-instructions.md",
+          "byteLength": 3290,
+          "sha256": "f9ec3a10a6922f8b17a49672acd54dfc88f94862e11e44441996f7f002a496ca"
+        },
+        {
+          "path": "fixtures/boundary.pdf",
+          "byteLength": 909605,
+          "sha256": "c5f2e418ad4471ffb42d73f96d01daa4ce7821e9c9f10ce511883f2a4a080cc5"
+        },
+        {
+          "path": "fixtures/canonical.pdf",
+          "byteLength": 909240,
+          "sha256": "ccd5f00fd86da007606780b15cb45462e80187731404f07694ec015775bfefa3"
+        },
+        {
+          "path": "participant-instructions.md",
+          "byteLength": 19013,
+          "sha256": "1c3c70a96eb68aeecffa8a5b9898696de04421fff50a1239f8187b7e4309ee83"
+        },
+        {
+          "path": "product-wiring.json",
+          "byteLength": 5282,
+          "sha256": "0c50c1f608cf5917ab02f37faae7867966d8de51f7a3e1c4eae99256bf904707"
+        },
+        {
+          "path": "production-field-map.json",
+          "byteLength": 585586,
+          "sha256": "8c529b5bdc21b82721031e165c93696430466d782a8fb1851878ffa9045850b2"
+        },
+        {
+          "path": "reports/actual-writes.json",
+          "byteLength": 46395,
+          "sha256": "7409bee73abe5a234719b60e4759cac781ec7f5354b4880d825958f207892d59"
+        },
+        {
+          "path": "reports/blanks.json",
+          "byteLength": 156064,
+          "sha256": "cb6eaf1c9b65aa1e271a65acaac84513d80fe7f9a8924c9bda315f89230fe081"
+        },
+        {
+          "path": "reports/caption-evidence.json",
+          "byteLength": 21283,
+          "sha256": "96ff5599b08aae5ae56d0f3d114d5fbfa9e4d75c17b8ca1ee7e23f1a0d2369e3"
+        },
+        {
+          "path": "reports/rendered-artifacts.json",
+          "byteLength": 8753,
+          "sha256": "395def7508ab62e9fd409d35189c88e5f604a8c4dd20f3280befae64e2384cd8"
+        },
+        {
+          "path": "reports/selection-disclosure.json",
+          "byteLength": 344,
+          "sha256": "f318816eee0885c3282aaab1c78e501bde1ad57d0a0e0c6c67be3f987143e223"
+        },
+        {
+          "path": "source-receipt.json",
+          "byteLength": 4400,
+          "sha256": "fd10e8dd98b7e52c9a2d030e6d74be3b39cc04b896f683a7ecf8f9b7d945e679"
+        }
+      ],
+      "finalOutputInventoryAfter": [
+        {
+          "path": "approval-request.json",
+          "byteLength": 447,
+          "sha256": "7486fca03799ff2ff07cbadddcda6314c89911f6dd52c7aec09e7edb52cfc606"
+        },
+        {
+          "path": "build-findings.json",
+          "byteLength": 2517,
+          "sha256": "4a0e674c3c01f746b6f8f08376ceb8162c804532be108bc8ca4e902f7c4f112f"
+        },
+        {
+          "path": "build-status.json",
+          "byteLength": 399,
+          "sha256": "9f0db9baff947edce3f25d14cf8e6c3ba8a8a4d39eabd16ead6a6470f6237078"
+        },
+        {
+          "path": "field-census.census-v1.json",
+          "byteLength": 344785,
+          "sha256": "58c524697331bfbbce58fef914020143d86397475f32fa4ab08031d35d2b7a20"
+        },
+        {
+          "path": "filing-instructions.md",
+          "byteLength": 3290,
+          "sha256": "f9ec3a10a6922f8b17a49672acd54dfc88f94862e11e44441996f7f002a496ca"
+        },
+        {
+          "path": "fixtures/boundary.pdf",
+          "byteLength": 909605,
+          "sha256": "c5f2e418ad4471ffb42d73f96d01daa4ce7821e9c9f10ce511883f2a4a080cc5"
+        },
+        {
+          "path": "fixtures/canonical.pdf",
+          "byteLength": 909240,
+          "sha256": "ccd5f00fd86da007606780b15cb45462e80187731404f07694ec015775bfefa3"
+        },
+        {
+          "path": "participant-instructions.md",
+          "byteLength": 19013,
+          "sha256": "1c3c70a96eb68aeecffa8a5b9898696de04421fff50a1239f8187b7e4309ee83"
+        },
+        {
+          "path": "product-wiring.json",
+          "byteLength": 5282,
+          "sha256": "0c50c1f608cf5917ab02f37faae7867966d8de51f7a3e1c4eae99256bf904707"
+        },
+        {
+          "path": "production-field-map.json",
+          "byteLength": 585586,
+          "sha256": "8c529b5bdc21b82721031e165c93696430466d782a8fb1851878ffa9045850b2"
+        },
+        {
+          "path": "reports/actual-writes.json",
+          "byteLength": 46395,
+          "sha256": "7409bee73abe5a234719b60e4759cac781ec7f5354b4880d825958f207892d59"
+        },
+        {
+          "path": "reports/blanks.json",
+          "byteLength": 156064,
+          "sha256": "cb6eaf1c9b65aa1e271a65acaac84513d80fe7f9a8924c9bda315f89230fe081"
+        },
+        {
+          "path": "reports/caption-evidence.json",
+          "byteLength": 21283,
+          "sha256": "96ff5599b08aae5ae56d0f3d114d5fbfa9e4d75c17b8ca1ee7e23f1a0d2369e3"
+        },
+        {
+          "path": "reports/rendered-artifacts.json",
+          "byteLength": 8753,
+          "sha256": "395def7508ab62e9fd409d35189c88e5f604a8c4dd20f3280befae64e2384cd8"
+        },
+        {
+          "path": "reports/selection-disclosure.json",
+          "byteLength": 344,
+          "sha256": "f318816eee0885c3282aaab1c78e501bde1ad57d0a0e0c6c67be3f987143e223"
+        },
+        {
+          "path": "source-receipt.json",
+          "byteLength": 4400,
+          "sha256": "fd10e8dd98b7e52c9a2d030e6d74be3b39cc04b896f683a7ecf8f9b7d945e679"
+        }
+      ]
+    },
+    {
+      "name": "original-missing-ground-reason-defect",
+      "mutation": "missing-ground-reason",
+      "exit": 1,
+      "refusalObserved": true,
+      "finalOutputInventoryPreserved": true,
+      "replacementAttempted": false,
+      "stderr": "Error: a selection control is delivered empty without a printed-ground-specific reason: [{\"selectionId\":\"p4-cb-y660-x90.4\",\"blankId\":\"p4-cb-y660-x90.4\",\"page\":4,\"effectiveLabel\":\"Item 9 qualification box not used on this route — A criminal case against you for a possession of a controlled substance under Minn\",\"printedContext\":\"A criminal case against you for a possession of a controlled substance under Minn\",\"construction\":\"printed_checkbox_cid_glyph\",\"sourceCid\":\"0706\",\"geometry\":{\"x0\":91.99,\"y0\":660,\"x1\":100.85,\"y1\":668.81,\"basis\":\"glyph_origin_from_the_text_matrix_plus_the_embedded_glyf_bounding_box\",\"width\":8.86,\"height\":8.81},\"isSelectionControl\":true,\"marked\":false,\"completenessDisposition\":\"NOT_APPLICABLE_ON_THIS_ROUTE\",\"routeConditionThatMakesItInapplicable\":\"this family is built for obligation:track-only:MN:mn_petition_juvenile_as_adult, the expungement of an adult conviction from a case the participant was certified or referenced into as a juvenile under Minn. Stat. § 260B.125. EXP102 item 9 offers one box per statutory basis and exactly one of them is checked. This printed ground routes to Order Concerning Sealing/Expunging of Record - Minn. Stat. § 609A.02, subd. 1 or 2 (court form EXP106), while this family carries EXP106 for the juvenile-certification route.\",\"item9GroundKey\":\"controlled-substance-152-18\",\"reason\":null,\"approvedDisposition\":\"NOT_APPLICABLE_ON_THIS_ROUTE\"}]\n    at fail (file:///tmp/rcap-fixcxm1-juvenile-Qwj6Ok/scripts/build-census-v1-mn_petition_juvenile_as_adult-set.mjs:307:9)\n    at auditSelectionDisclosure (file:///tmp/rcap-fixcxm1-juvenile-Qwj6Ok/scripts/build-census-v1-mn_petition_juvenile_as_adult-set.mjs:1657:29)\n    at build (file:///tmp/rcap-fixcxm1-juvenile-Qwj6Ok/scripts/build-census-v1-mn_petition_juvenile_as_adult-set.mjs:2024:31)\n",
+      "finalOutputInventoryBefore": [
+        {
+          "path": "approval-request.json",
+          "byteLength": 447,
+          "sha256": "7486fca03799ff2ff07cbadddcda6314c89911f6dd52c7aec09e7edb52cfc606"
+        },
+        {
+          "path": "build-findings.json",
+          "byteLength": 2517,
+          "sha256": "4a0e674c3c01f746b6f8f08376ceb8162c804532be108bc8ca4e902f7c4f112f"
+        },
+        {
+          "path": "build-status.json",
+          "byteLength": 399,
+          "sha256": "9f0db9baff947edce3f25d14cf8e6c3ba8a8a4d39eabd16ead6a6470f6237078"
+        },
+        {
+          "path": "field-census.census-v1.json",
+          "byteLength": 344785,
+          "sha256": "58c524697331bfbbce58fef914020143d86397475f32fa4ab08031d35d2b7a20"
+        },
+        {
+          "path": "filing-instructions.md",
+          "byteLength": 3290,
+          "sha256": "f9ec3a10a6922f8b17a49672acd54dfc88f94862e11e44441996f7f002a496ca"
+        },
+        {
+          "path": "fixtures/boundary.pdf",
+          "byteLength": 909605,
+          "sha256": "c5f2e418ad4471ffb42d73f96d01daa4ce7821e9c9f10ce511883f2a4a080cc5"
+        },
+        {
+          "path": "fixtures/canonical.pdf",
+          "byteLength": 909240,
+          "sha256": "ccd5f00fd86da007606780b15cb45462e80187731404f07694ec015775bfefa3"
+        },
+        {
+          "path": "participant-instructions.md",
+          "byteLength": 19013,
+          "sha256": "1c3c70a96eb68aeecffa8a5b9898696de04421fff50a1239f8187b7e4309ee83"
+        },
+        {
+          "path": "product-wiring.json",
+          "byteLength": 5282,
+          "sha256": "0c50c1f608cf5917ab02f37faae7867966d8de51f7a3e1c4eae99256bf904707"
+        },
+        {
+          "path": "production-field-map.json",
+          "byteLength": 585586,
+          "sha256": "8c529b5bdc21b82721031e165c93696430466d782a8fb1851878ffa9045850b2"
+        },
+        {
+          "path": "reports/actual-writes.json",
+          "byteLength": 46395,
+          "sha256": "7409bee73abe5a234719b60e4759cac781ec7f5354b4880d825958f207892d59"
+        },
+        {
+          "path": "reports/blanks.json",
+          "byteLength": 156064,
+          "sha256": "cb6eaf1c9b65aa1e271a65acaac84513d80fe7f9a8924c9bda315f89230fe081"
+        },
+        {
+          "path": "reports/caption-evidence.json",
+          "byteLength": 21283,
+          "sha256": "96ff5599b08aae5ae56d0f3d114d5fbfa9e4d75c17b8ca1ee7e23f1a0d2369e3"
+        },
+        {
+          "path": "reports/rendered-artifacts.json",
+          "byteLength": 8753,
+          "sha256": "395def7508ab62e9fd409d35189c88e5f604a8c4dd20f3280befae64e2384cd8"
+        },
+        {
+          "path": "reports/selection-disclosure.json",
+          "byteLength": 344,
+          "sha256": "f318816eee0885c3282aaab1c78e501bde1ad57d0a0e0c6c67be3f987143e223"
+        },
+        {
+          "path": "source-receipt.json",
+          "byteLength": 4400,
+          "sha256": "fd10e8dd98b7e52c9a2d030e6d74be3b39cc04b896f683a7ecf8f9b7d945e679"
+        }
+      ],
+      "finalOutputInventoryAfter": [
+        {
+          "path": "approval-request.json",
+          "byteLength": 447,
+          "sha256": "7486fca03799ff2ff07cbadddcda6314c89911f6dd52c7aec09e7edb52cfc606"
+        },
+        {
+          "path": "build-findings.json",
+          "byteLength": 2517,
+          "sha256": "4a0e674c3c01f746b6f8f08376ceb8162c804532be108bc8ca4e902f7c4f112f"
+        },
+        {
+          "path": "build-status.json",
+          "byteLength": 399,
+          "sha256": "9f0db9baff947edce3f25d14cf8e6c3ba8a8a4d39eabd16ead6a6470f6237078"
+        },
+        {
+          "path": "field-census.census-v1.json",
+          "byteLength": 344785,
+          "sha256": "58c524697331bfbbce58fef914020143d86397475f32fa4ab08031d35d2b7a20"
+        },
+        {
+          "path": "filing-instructions.md",
+          "byteLength": 3290,
+          "sha256": "f9ec3a10a6922f8b17a49672acd54dfc88f94862e11e44441996f7f002a496ca"
+        },
+        {
+          "path": "fixtures/boundary.pdf",
+          "byteLength": 909605,
+          "sha256": "c5f2e418ad4471ffb42d73f96d01daa4ce7821e9c9f10ce511883f2a4a080cc5"
+        },
+        {
+          "path": "fixtures/canonical.pdf",
+          "byteLength": 909240,
+          "sha256": "ccd5f00fd86da007606780b15cb45462e80187731404f07694ec015775bfefa3"
+        },
+        {
+          "path": "participant-instructions.md",
+          "byteLength": 19013,
+          "sha256": "1c3c70a96eb68aeecffa8a5b9898696de04421fff50a1239f8187b7e4309ee83"
+        },
+        {
+          "path": "product-wiring.json",
+          "byteLength": 5282,
+          "sha256": "0c50c1f608cf5917ab02f37faae7867966d8de51f7a3e1c4eae99256bf904707"
+        },
+        {
+          "path": "production-field-map.json",
+          "byteLength": 585586,
+          "sha256": "8c529b5bdc21b82721031e165c93696430466d782a8fb1851878ffa9045850b2"
+        },
+        {
+          "path": "reports/actual-writes.json",
+          "byteLength": 46395,
+          "sha256": "7409bee73abe5a234719b60e4759cac781ec7f5354b4880d825958f207892d59"
+        },
+        {
+          "path": "reports/blanks.json",
+          "byteLength": 156064,
+          "sha256": "cb6eaf1c9b65aa1e271a65acaac84513d80fe7f9a8924c9bda315f89230fe081"
+        },
+        {
+          "path": "reports/caption-evidence.json",
+          "byteLength": 21283,
+          "sha256": "96ff5599b08aae5ae56d0f3d114d5fbfa9e4d75c17b8ca1ee7e23f1a0d2369e3"
+        },
+        {
+          "path": "reports/rendered-artifacts.json",
+          "byteLength": 8753,
+          "sha256": "395def7508ab62e9fd409d35189c88e5f604a8c4dd20f3280befae64e2384cd8"
+        },
+        {
+          "path": "reports/selection-disclosure.json",
+          "byteLength": 344,
+          "sha256": "f318816eee0885c3282aaab1c78e501bde1ad57d0a0e0c6c67be3f987143e223"
+        },
+        {
+          "path": "source-receipt.json",
+          "byteLength": 4400,
+          "sha256": "fd10e8dd98b7e52c9a2d030e6d74be3b39cc04b896f683a7ecf8f9b7d945e679"
+        }
+      ]
+    },
+    {
+      "name": "original-missing-ground-guide-defect",
+      "mutation": "missing-guide-ground",
+      "exit": 1,
+      "refusalObserved": true,
+      "finalOutputInventoryPreserved": true,
+      "replacementAttempted": false,
+      "stderr": "Error: an unused item 9 ground is absent from participant instructions: [{\"form\":\"EXP102\",\"page\":4,\"blankId\":\"p4-cb-y660-x90.4\",\"printedWords\":\"A criminal case against you for a possession of a controlled substance under Minn\",\"reason\":\"This box is EXP102 item 9's first ground: a controlled-substance case dismissed and discharged under Minn. Stat. § 152.18. That is the separate § 152.18 packet family, not this juvenile-certification route under Minn. Stat. § 260B.125. This packet is not prepared to prove a § 152.18 discharge. Leave this box empty and use the § 152.18 packet if that is your ground.\",\"item9GroundKey\":\"controlled-substance-152-18\"}]\n    at fail (file:///tmp/rcap-fixcxm1-juvenile-coG6UR/scripts/build-census-v1-mn_petition_juvenile_as_adult-set.mjs:307:9)\n    at auditSelectionDisclosure (file:///tmp/rcap-fixcxm1-juvenile-coG6UR/scripts/build-census-v1-mn_petition_juvenile_as_adult-set.mjs:1662:27)\n    at build (file:///tmp/rcap-fixcxm1-juvenile-coG6UR/scripts/build-census-v1-mn_petition_juvenile_as_adult-set.mjs:2024:31)\n",
+      "finalOutputInventoryBefore": [
+        {
+          "path": "approval-request.json",
+          "byteLength": 447,
+          "sha256": "7486fca03799ff2ff07cbadddcda6314c89911f6dd52c7aec09e7edb52cfc606"
+        },
+        {
+          "path": "build-findings.json",
+          "byteLength": 2517,
+          "sha256": "4a0e674c3c01f746b6f8f08376ceb8162c804532be108bc8ca4e902f7c4f112f"
+        },
+        {
+          "path": "build-status.json",
+          "byteLength": 399,
+          "sha256": "9f0db9baff947edce3f25d14cf8e6c3ba8a8a4d39eabd16ead6a6470f6237078"
+        },
+        {
+          "path": "field-census.census-v1.json",
+          "byteLength": 344785,
+          "sha256": "58c524697331bfbbce58fef914020143d86397475f32fa4ab08031d35d2b7a20"
+        },
+        {
+          "path": "filing-instructions.md",
+          "byteLength": 3290,
+          "sha256": "f9ec3a10a6922f8b17a49672acd54dfc88f94862e11e44441996f7f002a496ca"
+        },
+        {
+          "path": "fixtures/boundary.pdf",
+          "byteLength": 909605,
+          "sha256": "c5f2e418ad4471ffb42d73f96d01daa4ce7821e9c9f10ce511883f2a4a080cc5"
+        },
+        {
+          "path": "fixtures/canonical.pdf",
+          "byteLength": 909240,
+          "sha256": "ccd5f00fd86da007606780b15cb45462e80187731404f07694ec015775bfefa3"
+        },
+        {
+          "path": "participant-instructions.md",
+          "byteLength": 19013,
+          "sha256": "1c3c70a96eb68aeecffa8a5b9898696de04421fff50a1239f8187b7e4309ee83"
+        },
+        {
+          "path": "product-wiring.json",
+          "byteLength": 5282,
+          "sha256": "0c50c1f608cf5917ab02f37faae7867966d8de51f7a3e1c4eae99256bf904707"
+        },
+        {
+          "path": "production-field-map.json",
+          "byteLength": 585586,
+          "sha256": "8c529b5bdc21b82721031e165c93696430466d782a8fb1851878ffa9045850b2"
+        },
+        {
+          "path": "reports/actual-writes.json",
+          "byteLength": 46395,
+          "sha256": "7409bee73abe5a234719b60e4759cac781ec7f5354b4880d825958f207892d59"
+        },
+        {
+          "path": "reports/blanks.json",
+          "byteLength": 156064,
+          "sha256": "cb6eaf1c9b65aa1e271a65acaac84513d80fe7f9a8924c9bda315f89230fe081"
+        },
+        {
+          "path": "reports/caption-evidence.json",
+          "byteLength": 21283,
+          "sha256": "96ff5599b08aae5ae56d0f3d114d5fbfa9e4d75c17b8ca1ee7e23f1a0d2369e3"
+        },
+        {
+          "path": "reports/rendered-artifacts.json",
+          "byteLength": 8753,
+          "sha256": "395def7508ab62e9fd409d35189c88e5f604a8c4dd20f3280befae64e2384cd8"
+        },
+        {
+          "path": "reports/selection-disclosure.json",
+          "byteLength": 344,
+          "sha256": "f318816eee0885c3282aaab1c78e501bde1ad57d0a0e0c6c67be3f987143e223"
+        },
+        {
+          "path": "source-receipt.json",
+          "byteLength": 4400,
+          "sha256": "fd10e8dd98b7e52c9a2d030e6d74be3b39cc04b896f683a7ecf8f9b7d945e679"
+        }
+      ],
+      "finalOutputInventoryAfter": [
+        {
+          "path": "approval-request.json",
+          "byteLength": 447,
+          "sha256": "7486fca03799ff2ff07cbadddcda6314c89911f6dd52c7aec09e7edb52cfc606"
+        },
+        {
+          "path": "build-findings.json",
+          "byteLength": 2517,
+          "sha256": "4a0e674c3c01f746b6f8f08376ceb8162c804532be108bc8ca4e902f7c4f112f"
+        },
+        {
+          "path": "build-status.json",
+          "byteLength": 399,
+          "sha256": "9f0db9baff947edce3f25d14cf8e6c3ba8a8a4d39eabd16ead6a6470f6237078"
+        },
+        {
+          "path": "field-census.census-v1.json",
+          "byteLength": 344785,
+          "sha256": "58c524697331bfbbce58fef914020143d86397475f32fa4ab08031d35d2b7a20"
+        },
+        {
+          "path": "filing-instructions.md",
+          "byteLength": 3290,
+          "sha256": "f9ec3a10a6922f8b17a49672acd54dfc88f94862e11e44441996f7f002a496ca"
+        },
+        {
+          "path": "fixtures/boundary.pdf",
+          "byteLength": 909605,
+          "sha256": "c5f2e418ad4471ffb42d73f96d01daa4ce7821e9c9f10ce511883f2a4a080cc5"
+        },
+        {
+          "path": "fixtures/canonical.pdf",
+          "byteLength": 909240,
+          "sha256": "ccd5f00fd86da007606780b15cb45462e80187731404f07694ec015775bfefa3"
+        },
+        {
+          "path": "participant-instructions.md",
+          "byteLength": 19013,
+          "sha256": "1c3c70a96eb68aeecffa8a5b9898696de04421fff50a1239f8187b7e4309ee83"
+        },
+        {
+          "path": "product-wiring.json",
+          "byteLength": 5282,
+          "sha256": "0c50c1f608cf5917ab02f37faae7867966d8de51f7a3e1c4eae99256bf904707"
+        },
+        {
+          "path": "production-field-map.json",
+          "byteLength": 585586,
+          "sha256": "8c529b5bdc21b82721031e165c93696430466d782a8fb1851878ffa9045850b2"
+        },
+        {
+          "path": "reports/actual-writes.json",
+          "byteLength": 46395,
+          "sha256": "7409bee73abe5a234719b60e4759cac781ec7f5354b4880d825958f207892d59"
+        },
+        {
+          "path": "reports/blanks.json",
+          "byteLength": 156064,
+          "sha256": "cb6eaf1c9b65aa1e271a65acaac84513d80fe7f9a8924c9bda315f89230fe081"
+        },
+        {
+          "path": "reports/caption-evidence.json",
+          "byteLength": 21283,
+          "sha256": "96ff5599b08aae5ae56d0f3d114d5fbfa9e4d75c17b8ca1ee7e23f1a0d2369e3"
+        },
+        {
+          "path": "reports/rendered-artifacts.json",
+          "byteLength": 8753,
+          "sha256": "395def7508ab62e9fd409d35189c88e5f604a8c4dd20f3280befae64e2384cd8"
+        },
+        {
+          "path": "reports/selection-disclosure.json",
+          "byteLength": 344,
+          "sha256": "f318816eee0885c3282aaab1c78e501bde1ad57d0a0e0c6c67be3f987143e223"
+        },
+        {
+          "path": "source-receipt.json",
+          "byteLength": 4400,
+          "sha256": "fd10e8dd98b7e52c9a2d030e6d74be3b39cc04b896f683a7ecf8f9b7d945e679"
+        }
+      ]
+    }
+  ],
+  "allDefectsRefusedBeforeReplacement": true
+}

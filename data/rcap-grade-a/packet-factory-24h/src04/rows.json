@@ -1,0 +1,2209 @@
+{
+ "schemaVersion": "rcap-source-reconciliation-rows/v1",
+ "lane": "SRC04",
+ "laneKind": "source-reconciliation",
+ "operation": "held-inventory-reconciliation",
+ "generatedAtBase": "09b741ad00be0d630bd73a72f66640294abab397",
+ "preflight": "SOURCE_CONVEYOR_PREFLIGHT_READY",
+ "counts": {
+  "obligations": 48,
+  "completed": 10,
+  "stopped": 38,
+  "distinctSourcesBound": 10
+ },
+ "method": "Read-only reconciliation against the mounted Master Library and the committed corpus index. All 499 corpus files were rehashed in this lane, so a pinned digest is answered by search rather than by lookup, and every bound digest was recomputed from bytes. Two binds were settled by opening the held document rather than by reading its name. Nothing was fetched.",
+ "corpusRehashed": {
+  "root": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
+  "fileCount": 499
+ },
+ "scopeLimit": "SOURCE_IDENTITY_FINDINGS SIF-4: private/Nationwide Record Clearing/ is absent from this worktree. Where a source is recorded held there, this lane reports it unreachable rather than missing.",
+ "familiesActuallyReleasedNow": [],
+ "releaseNote": "Empty. Four Arkansas families have both halves of their petition-and-order pair bound here, which is closer than any other family in this worker's lanes, and their release still waits on obligations outside SRC04.",
+ "identitiesGuessed": 0,
+ "sourceBodiesCommitted": 0,
+ "promotionsWithoutExactBytes": 0,
+ "commercialRoutesOpened": 0,
+ "productionTouched": false,
+ "grantsNothing": "A bound source is a bound source. It builds nothing, proves nothing and approves nothing.",
+ "rows": [
+  {
+   "itemId": "ar-act346-set::official-form:ACIC-ORDER-DISMISS-AND-SEAL-FIRST-OFFENDERS",
+   "status": "COMPLETED",
+   "sourceId": "official-form:ACIC-ORDER-DISMISS-AND-SEAL-FIRST-OFFENDERS",
+   "jurisdiction": "AR",
+   "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-DISMISS-AND-SEAL-FIRST-OFFENDERS-ACT-346__order-to-dismiss-and-seal-first-offenders-under-act-346-and-act-1460__REV-2014-01-01__EN.pdf",
+   "title/formNumber": "AR-ACIC-ORDER-TO-DISMISS-AND-SEAL-FIRST-OFFENDERS-ACT-346 — order to dismiss and seal first offenders under act 346 and act 1460",
+   "sha256": "70f97584a628507e064540a4bf2830b46162de8f799d2a2a78285db446d15740",
+   "byteSize": 307979,
+   "mime": "application/pdf",
+   "pageCount": 3,
+   "technology": "acroform (36 AcroForm fields)",
+   "matchBasis": "descriptive ACIC label resolved against the held inventory: the obligation names ACIC-ORDER-DISMISS-AND-SEAL-FIRST-OFFENDERS and exactly one of the twenty-two held ACIC documents answers it, AR-ACIC-ORDER-TO-DISMISS-AND-SEAL-FIRST-OFFENDERS-ACT-346. Its digest was recomputed from the mounted bytes and agrees with the committed corpus index.",
+   "familyIds": [
+    "ar-act346-set"
+   ],
+   "handoffOperation": "PROMO",
+   "publisher": "Arkansas Department of Public Safety — Arkansas Crime Information Center (ACIC)",
+   "intendedPacketRole": "the order dismissing and sealing a first-offender record under Act 346",
+   "revision": "REV-2014-01-01",
+   "boundByExactSha256": true,
+   "committedIndexAgrees": true,
+   "nextOperationOwner": "promotion — the bytes are in hand and their digest recomputed here; what promotion still owes is a currentness check against the publisher's current edition",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "ar-act531-set::official-form:ACIC-ORDER-SEAL-ACT-531-ACT-1460",
+   "status": "COMPLETED",
+   "sourceId": "official-form:ACIC-ORDER-SEAL-ACT-531-ACT-1460",
+   "jurisdiction": "AR",
+   "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-SEAL-UNDER-COMMUNITY-PUNISHMENT-ACT-531-AND-ACT-1__order-to-seal-pursuant-to-act-531-of-1993-and-act-1460-of-2013__REV-2014-08-25__EN.pdf",
+   "title/formNumber": "AR-ACIC-ORDER-TO-SEAL-UNDER-COMMUNITY-PUNISHMENT-ACT-531-AND-ACT-1 — order to seal pursuant to act 531 of 1993 and act 1460 of 2013",
+   "sha256": "edd3eb10e5b3830afa417f4165611489a32c1f43d2dde3203855bdbe3b0b19da",
+   "byteSize": 308243,
+   "mime": "application/pdf",
+   "pageCount": 3,
+   "technology": "acroform (38 AcroForm fields)",
+   "matchBasis": "descriptive ACIC label resolved against the held inventory: the obligation names ACIC-ORDER-SEAL-ACT-531-ACT-1460 and exactly one of the twenty-two held ACIC documents answers it, AR-ACIC-ORDER-TO-SEAL-UNDER-COMMUNITY-PUNISHMENT-ACT-531-AND-ACT-1. Its digest was recomputed from the mounted bytes and agrees with the committed corpus index.",
+   "familyIds": [
+    "ar-act531-set"
+   ],
+   "handoffOperation": "PROMO",
+   "publisher": "Arkansas Department of Public Safety — Arkansas Crime Information Center (ACIC)",
+   "intendedPacketRole": "the order sealing a record under the Community Punishment Act 531 and Act 1460",
+   "revision": "REV-2014-08-25",
+   "boundByExactSha256": true,
+   "committedIndexAgrees": true,
+   "nextOperationOwner": "promotion — the bytes are in hand and their digest recomputed here; what promotion still owes is a currentness check against the publisher's current edition",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "ar-act531-set::official-form:ACIC-PETITION-SEAL-ACT-531-ACT-1460",
+   "status": "COMPLETED",
+   "sourceId": "official-form:ACIC-PETITION-SEAL-ACT-531-ACT-1460",
+   "jurisdiction": "AR",
+   "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-SEAL-UNDER-COMMUNITY-PUNISHMENT-ACT-531-AND-AC__petition-to-seal-pursuant-to-act-531-of-1993-and-act-1460-of-2013__REV-2014-08-25__EN.pdf",
+   "title/formNumber": "AR-ACIC-PETITION-TO-SEAL-UNDER-COMMUNITY-PUNISHMENT-ACT-531-AND-AC — petition to seal pursuant to act 531 of 1993 and act 1460 of 2013",
+   "sha256": "cca9d9454b565d36930a95ac6337d370f6506f8780e9d98cbfc8f99343e0a356",
+   "byteSize": 357339,
+   "mime": "application/pdf",
+   "pageCount": 4,
+   "technology": "acroform (44 AcroForm fields)",
+   "matchBasis": "descriptive ACIC label resolved against the held inventory: the obligation names ACIC-PETITION-SEAL-ACT-531-ACT-1460 and exactly one of the twenty-two held ACIC documents answers it, AR-ACIC-PETITION-TO-SEAL-UNDER-COMMUNITY-PUNISHMENT-ACT-531-AND-AC. Its digest was recomputed from the mounted bytes and agrees with the committed corpus index.",
+   "familyIds": [
+    "ar-act531-set"
+   ],
+   "handoffOperation": "PROMO",
+   "publisher": "Arkansas Department of Public Safety — Arkansas Crime Information Center (ACIC)",
+   "intendedPacketRole": "the petition to seal a record under the Community Punishment Act 531 and Act 1460",
+   "revision": "REV-2014-08-25",
+   "boundByExactSha256": true,
+   "committedIndexAgrees": true,
+   "nextOperationOwner": "promotion — the bytes are in hand and their digest recomputed here; what promotion still owes is a currentness check against the publisher's current edition",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "ar-arrest-seal-set::official-form:ACIC-ORDER-TO-SEAL-ARREST",
+   "status": "COMPLETED",
+   "sourceId": "official-form:ACIC-ORDER-TO-SEAL-ARREST",
+   "jurisdiction": "AR",
+   "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-SEAL-ARREST-UNDER-ACT-1460__order-to-seal-arrest-under-act-1460-of-2013__REV-2014-01-01__EN.pdf",
+   "title/formNumber": "AR-ACIC-ORDER-TO-SEAL-ARREST-UNDER-ACT-1460 — order to seal arrest under act 1460 of 2013",
+   "sha256": "5bd4ed5bd1b658295b50c2ea7126e276982fd705045f36adfc1f074923722581",
+   "byteSize": 250709,
+   "mime": "application/pdf",
+   "pageCount": 3,
+   "technology": "acroform (29 AcroForm fields)",
+   "matchBasis": "descriptive ACIC label resolved against the held inventory: the obligation names ACIC-ORDER-TO-SEAL-ARREST and exactly one of the twenty-two held ACIC documents answers it, AR-ACIC-ORDER-TO-SEAL-ARREST-UNDER-ACT-1460. Its digest was recomputed from the mounted bytes and agrees with the committed corpus index.",
+   "familyIds": [
+    "ar-arrest-seal-set"
+   ],
+   "handoffOperation": "PROMO",
+   "publisher": "Arkansas Department of Public Safety — Arkansas Crime Information Center (ACIC)",
+   "intendedPacketRole": "the order sealing an arrest record under Act 1460",
+   "revision": "REV-2014-01-01",
+   "boundByExactSha256": true,
+   "committedIndexAgrees": true,
+   "nextOperationOwner": "promotion — the bytes are in hand and their digest recomputed here; what promotion still owes is a currentness check against the publisher's current edition",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "ar-arrest-seal-set::official-form:ACIC-PETITION-TO-SEAL-ARREST",
+   "status": "COMPLETED",
+   "sourceId": "official-form:ACIC-PETITION-TO-SEAL-ARREST",
+   "jurisdiction": "AR",
+   "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-SEAL-ARREST-UNDER-ACT-1460__petition-to-seal-arrest-under-act-1460-of-2013__REV-2014-08-25__EN.pdf",
+   "title/formNumber": "AR-ACIC-PETITION-TO-SEAL-ARREST-UNDER-ACT-1460 — petition to seal arrest under act 1460 of 2013",
+   "sha256": "f77e17b669bd6e01cc3818329181bb378dd774b1facd9a15c4083d37d380194c",
+   "byteSize": 350326,
+   "mime": "application/pdf",
+   "pageCount": 3,
+   "technology": "acroform (37 AcroForm fields)",
+   "matchBasis": "descriptive ACIC label resolved against the held inventory: the obligation names ACIC-PETITION-TO-SEAL-ARREST and exactly one of the twenty-two held ACIC documents answers it, AR-ACIC-PETITION-TO-SEAL-ARREST-UNDER-ACT-1460. Its digest was recomputed from the mounted bytes and agrees with the committed corpus index.",
+   "familyIds": [
+    "ar-arrest-seal-set"
+   ],
+   "handoffOperation": "PROMO",
+   "publisher": "Arkansas Department of Public Safety — Arkansas Crime Information Center (ACIC)",
+   "intendedPacketRole": "the petition to seal an arrest record under Act 1460",
+   "revision": "REV-2014-08-25",
+   "boundByExactSha256": true,
+   "committedIndexAgrees": true,
+   "nextOperationOwner": "promotion — the bytes are in hand and their digest recomputed here; what promotion still owes is a currentness check against the publisher's current edition",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "ar-misdemeanor-dwi-seal-set::official-form:ACIC-ORDER-TO-SEAL-MISDEMEANOR-DWI-BWI",
+   "status": "COMPLETED",
+   "sourceId": "official-form:ACIC-ORDER-TO-SEAL-MISDEMEANOR-DWI-BWI",
+   "jurisdiction": "AR",
+   "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-SEAL-MISDEMEANOR-DWI-OR-BWI-CONVICTION__order-to-seal-a-misdemeanor-conviction-for-driving-or-boating-while-intoxicated__REV-2021-07-27__EN.pdf",
+   "title/formNumber": "AR-ACIC-ORDER-TO-SEAL-MISDEMEANOR-DWI-OR-BWI-CONVICTION — order to seal a misdemeanor conviction for driving or boating while intoxicated",
+   "sha256": "ae6b81f6882133c207f23435b00785b50b40e014c616d3c77707e8b6020d43af",
+   "byteSize": 111099,
+   "mime": "application/pdf",
+   "pageCount": 2,
+   "technology": "flat_pdf",
+   "matchBasis": "descriptive ACIC label resolved against the held inventory: the obligation names ACIC-ORDER-TO-SEAL-MISDEMEANOR-DWI-BWI and exactly one of the twenty-two held ACIC documents answers it, AR-ACIC-ORDER-TO-SEAL-MISDEMEANOR-DWI-OR-BWI-CONVICTION. Its digest was recomputed from the mounted bytes and agrees with the committed corpus index.",
+   "familyIds": [
+    "ar-misdemeanor-dwi-seal-set"
+   ],
+   "handoffOperation": "PROMO",
+   "publisher": "Arkansas Department of Public Safety — Arkansas Crime Information Center (ACIC)",
+   "intendedPacketRole": "the order sealing a misdemeanor DWI or BWI conviction",
+   "revision": "REV-2021-07-27",
+   "boundByExactSha256": true,
+   "committedIndexAgrees": true,
+   "nextOperationOwner": "promotion — the bytes are in hand and their digest recomputed here; what promotion still owes is a currentness check against the publisher's current edition",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "ar-misdemeanor-dwi-seal-set::official-form:ACIC-PETITION-TO-SEAL-MISDEMEANOR-DWI-BWI",
+   "status": "COMPLETED",
+   "sourceId": "official-form:ACIC-PETITION-TO-SEAL-MISDEMEANOR-DWI-BWI",
+   "jurisdiction": "AR",
+   "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-SEAL-MISDEMEANOR-DWI-OR-BWI-CONVICTION__petition-to-seal-a-misdemeanor-conviction-for-driving-or-boating-while-intoxicated__REV-2021-07-27__EN.pdf",
+   "title/formNumber": "AR-ACIC-PETITION-TO-SEAL-MISDEMEANOR-DWI-OR-BWI-CONVICTION — petition to seal a misdemeanor conviction for driving or boating while intoxicated",
+   "sha256": "04d876b09fe82b76298a2d06093d122a0ef539f767f76811001030cc7805715d",
+   "byteSize": 117345,
+   "mime": "application/pdf",
+   "pageCount": 4,
+   "technology": "flat_pdf",
+   "matchBasis": "descriptive ACIC label resolved against the held inventory: the obligation names ACIC-PETITION-TO-SEAL-MISDEMEANOR-DWI-BWI and exactly one of the twenty-two held ACIC documents answers it, AR-ACIC-PETITION-TO-SEAL-MISDEMEANOR-DWI-OR-BWI-CONVICTION. Its digest was recomputed from the mounted bytes and agrees with the committed corpus index.",
+   "familyIds": [
+    "ar-misdemeanor-dwi-seal-set"
+   ],
+   "handoffOperation": "PROMO",
+   "publisher": "Arkansas Department of Public Safety — Arkansas Crime Information Center (ACIC)",
+   "intendedPacketRole": "the petition to seal a misdemeanor DWI or BWI conviction",
+   "revision": "REV-2021-07-27",
+   "boundByExactSha256": true,
+   "committedIndexAgrees": true,
+   "nextOperationOwner": "promotion — the bytes are in hand and their digest recomputed here; what promotion still owes is a currentness check against the publisher's current edition",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "ar-pardon-seal-set::official-form:ACIC-ORDER-TO-SEAL-PARDONED-OFFENDER",
+   "status": "COMPLETED",
+   "sourceId": "official-form:ACIC-ORDER-TO-SEAL-PARDONED-OFFENDER",
+   "jurisdiction": "AR",
+   "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-SEAL-RECORDS-OF-PARDONED-OFFENDER-OR-YOUTHFUL-FEL__order-to-seal-records-of-a-pardoned-offender-or-pardoned-youthful-felony-offender__REV-2022-03-07__EN.pdf",
+   "title/formNumber": "AR-ACIC-ORDER-TO-SEAL-RECORDS-OF-PARDONED-OFFENDER-OR-YOUTHFUL-FEL — order to seal records of a pardoned offender or pardoned youthful felony offender",
+   "sha256": "741fda999c348d763848b98053f93e8c28d25dcc1ba5e8438e98b1bdf555ae6e",
+   "byteSize": 139996,
+   "mime": "application/pdf",
+   "pageCount": 3,
+   "technology": "flat_pdf",
+   "matchBasis": "descriptive ACIC label resolved against the held inventory: the obligation names ACIC-ORDER-TO-SEAL-PARDONED-OFFENDER and exactly one of the twenty-two held ACIC documents answers it, AR-ACIC-ORDER-TO-SEAL-RECORDS-OF-PARDONED-OFFENDER-OR-YOUTHFUL-FEL. Its digest was recomputed from the mounted bytes and agrees with the committed corpus index.",
+   "familyIds": [
+    "ar-pardon-seal-set"
+   ],
+   "handoffOperation": "PROMO",
+   "publisher": "Arkansas Department of Public Safety — Arkansas Crime Information Center (ACIC)",
+   "intendedPacketRole": "the order sealing the records of a pardoned offender or youthful felon",
+   "revision": "REV-2022-03-07",
+   "boundByExactSha256": true,
+   "committedIndexAgrees": true,
+   "nextOperationOwner": "promotion — the bytes are in hand and their digest recomputed here; what promotion still owes is a currentness check against the publisher's current edition",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "ar-pardon-seal-set::official-form:ACIC-PETITION-TO-SEAL-PARDONED-OFFENDER",
+   "status": "COMPLETED",
+   "sourceId": "official-form:ACIC-PETITION-TO-SEAL-PARDONED-OFFENDER",
+   "jurisdiction": "AR",
+   "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-SEAL-RECORDS-OF-PARDONED-OFFENDER-OR-YOUTHFUL__petition-to-seal-records-of-a-pardoned-offender-or-pardoned-youthful-felony-offender__REV-2022-03-08__EN.pdf",
+   "title/formNumber": "AR-ACIC-PETITION-TO-SEAL-RECORDS-OF-PARDONED-OFFENDER-OR-YOUTHFUL — petition to seal records of a pardoned offender or pardoned youthful felony offender",
+   "sha256": "59ba1407a5a6c2b8c327a9ca549b379ab88d65105ade1c7e69110d8c1ac6c5d0",
+   "byteSize": 222717,
+   "mime": "application/pdf",
+   "pageCount": 4,
+   "technology": "flat_pdf",
+   "matchBasis": "descriptive ACIC label resolved against the held inventory: the obligation names ACIC-PETITION-TO-SEAL-PARDONED-OFFENDER and exactly one of the twenty-two held ACIC documents answers it, AR-ACIC-PETITION-TO-SEAL-RECORDS-OF-PARDONED-OFFENDER-OR-YOUTHFUL. Its digest was recomputed from the mounted bytes and agrees with the committed corpus index.",
+   "familyIds": [
+    "ar-pardon-seal-set"
+   ],
+   "handoffOperation": "PROMO",
+   "publisher": "Arkansas Department of Public Safety — Arkansas Crime Information Center (ACIC)",
+   "intendedPacketRole": "the petition to seal the records of a pardoned offender or youthful felon",
+   "revision": "REV-2022-03-08",
+   "boundByExactSha256": true,
+   "committedIndexAgrees": true,
+   "nextOperationOwner": "promotion — the bytes are in hand and their digest recomputed here; what promotion still owes is a currentness check against the publisher's current edition",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "fl-10yr-bridge-set::official-form:FL-RULE-3.989-ORDER",
+   "status": "STOPPED",
+   "sourceId": "official-form:FL-RULE-3.989-ORDER",
+   "jurisdiction": "FL",
+   "corpusPath": null,
+   "title/formNumber": null,
+   "sha256": null,
+   "byteSize": null,
+   "mime": null,
+   "pageCount": null,
+   "technology": null,
+   "matchBasis": "form number; the corpus holds five Florida documents — the three FDLE certificate-of-eligibility applications and two circuit packets — and no Rule 3.989 or 3.9895 instrument.",
+   "familyIds": [
+    "fl-10yr-bridge-set"
+   ],
+   "handoffOperation": "ACQ",
+   "intendedPacketRole": "the Rule 3.989 order to expunge or seal",
+   "revision": null,
+   "boundByExactSha256": false,
+   "registrySourceState": "EMBEDDED_SECTION",
+   "officialArtifactUrlFromRegistry": "https://www-media.floridabar.org/uploads/2026/08/2026_01-JUL-Criminal-Procedure-Rules-7-13-2026-2.pdf",
+   "finding": "This is not a missing document and it must not be acquired as one. The source relationship registry classifies FL-RULE-3.989-ORDER and FL-RULE-3.989-PETITION as EMBEDDED_SECTION with an exact address on the Florida Bar's own host — they are printed inside the Criminal Procedure Rules, at https://www-media.floridabar.org/uploads/2026/08/2026_01-JUL-Criminal-Procedure-Rules-7-13-2026-2.pdf. Nine of this lane's eleven Florida obligations name one of two sections inside that one book. Acquire the book once; never the page.",
+   "nextOperationOwner": "acquisition — one dispatch for the Criminal Procedure Rules book, then record the component locator and alias for the order and the petition against it",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "fl-10yr-bridge-set::official-form:FL-RULE-3.989-PETITION",
+   "status": "STOPPED",
+   "sourceId": "official-form:FL-RULE-3.989-PETITION",
+   "jurisdiction": "FL",
+   "corpusPath": null,
+   "title/formNumber": null,
+   "sha256": null,
+   "byteSize": null,
+   "mime": null,
+   "pageCount": null,
+   "technology": null,
+   "matchBasis": "form number; the corpus holds five Florida documents — the three FDLE certificate-of-eligibility applications and two circuit packets — and no Rule 3.989 or 3.9895 instrument.",
+   "familyIds": [
+    "fl-10yr-bridge-set"
+   ],
+   "handoffOperation": "ACQ",
+   "intendedPacketRole": "the Rule 3.989 petition to expunge or seal",
+   "revision": null,
+   "boundByExactSha256": false,
+   "registrySourceState": "EMBEDDED_SECTION",
+   "officialArtifactUrlFromRegistry": "https://www-media.floridabar.org/uploads/2026/08/2026_01-JUL-Criminal-Procedure-Rules-7-13-2026-2.pdf",
+   "finding": "This is not a missing document and it must not be acquired as one. The source relationship registry classifies FL-RULE-3.989-ORDER and FL-RULE-3.989-PETITION as EMBEDDED_SECTION with an exact address on the Florida Bar's own host — they are printed inside the Criminal Procedure Rules, at https://www-media.floridabar.org/uploads/2026/08/2026_01-JUL-Criminal-Procedure-Rules-7-13-2026-2.pdf. Nine of this lane's eleven Florida obligations name one of two sections inside that one book. Acquire the book once; never the page.",
+   "nextOperationOwner": "acquisition — one dispatch for the Criminal Procedure Rules book, then record the component locator and alias for the order and the petition against it",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "fl-expunction-set::official-form:FL-RULE-3.989-ORDER",
+   "status": "STOPPED",
+   "sourceId": "official-form:FL-RULE-3.989-ORDER",
+   "jurisdiction": "FL",
+   "corpusPath": null,
+   "title/formNumber": null,
+   "sha256": null,
+   "byteSize": null,
+   "mime": null,
+   "pageCount": null,
+   "technology": null,
+   "matchBasis": "form number; the corpus holds five Florida documents — the three FDLE certificate-of-eligibility applications and two circuit packets — and no Rule 3.989 or 3.9895 instrument.",
+   "familyIds": [
+    "fl-expunction-set"
+   ],
+   "handoffOperation": "ACQ",
+   "intendedPacketRole": "the Rule 3.989 order to expunge or seal",
+   "revision": null,
+   "boundByExactSha256": false,
+   "registrySourceState": "EMBEDDED_SECTION",
+   "officialArtifactUrlFromRegistry": "https://www-media.floridabar.org/uploads/2026/08/2026_01-JUL-Criminal-Procedure-Rules-7-13-2026-2.pdf",
+   "finding": "This is not a missing document and it must not be acquired as one. The source relationship registry classifies FL-RULE-3.989-ORDER and FL-RULE-3.989-PETITION as EMBEDDED_SECTION with an exact address on the Florida Bar's own host — they are printed inside the Criminal Procedure Rules, at https://www-media.floridabar.org/uploads/2026/08/2026_01-JUL-Criminal-Procedure-Rules-7-13-2026-2.pdf. Nine of this lane's eleven Florida obligations name one of two sections inside that one book. Acquire the book once; never the page.",
+   "nextOperationOwner": "acquisition — one dispatch for the Criminal Procedure Rules book, then record the component locator and alias for the order and the petition against it",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "fl-expunction-set::official-form:FL-RULE-3.989-PETITION",
+   "status": "STOPPED",
+   "sourceId": "official-form:FL-RULE-3.989-PETITION",
+   "jurisdiction": "FL",
+   "corpusPath": null,
+   "title/formNumber": null,
+   "sha256": null,
+   "byteSize": null,
+   "mime": null,
+   "pageCount": null,
+   "technology": null,
+   "matchBasis": "form number; the corpus holds five Florida documents — the three FDLE certificate-of-eligibility applications and two circuit packets — and no Rule 3.989 or 3.9895 instrument.",
+   "familyIds": [
+    "fl-expunction-set"
+   ],
+   "handoffOperation": "ACQ",
+   "intendedPacketRole": "the Rule 3.989 petition to expunge or seal",
+   "revision": null,
+   "boundByExactSha256": false,
+   "registrySourceState": "EMBEDDED_SECTION",
+   "officialArtifactUrlFromRegistry": "https://www-media.floridabar.org/uploads/2026/08/2026_01-JUL-Criminal-Procedure-Rules-7-13-2026-2.pdf",
+   "finding": "This is not a missing document and it must not be acquired as one. The source relationship registry classifies FL-RULE-3.989-ORDER and FL-RULE-3.989-PETITION as EMBEDDED_SECTION with an exact address on the Florida Bar's own host — they are printed inside the Criminal Procedure Rules, at https://www-media.floridabar.org/uploads/2026/08/2026_01-JUL-Criminal-Procedure-Rules-7-13-2026-2.pdf. Nine of this lane's eleven Florida obligations name one of two sections inside that one book. Acquire the book once; never the page.",
+   "nextOperationOwner": "acquisition — one dispatch for the Criminal Procedure Rules book, then record the component locator and alias for the order and the petition against it",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "fl-expunction-set::official-form:FL-RULE-3.989-SWORN-STATEMENT",
+   "status": "STOPPED",
+   "sourceId": "official-form:FL-RULE-3.989-SWORN-STATEMENT",
+   "jurisdiction": "FL",
+   "corpusPath": null,
+   "title/formNumber": null,
+   "sha256": null,
+   "byteSize": null,
+   "mime": null,
+   "pageCount": null,
+   "technology": null,
+   "matchBasis": "form number; the corpus holds five Florida documents — the three FDLE certificate-of-eligibility applications and two circuit packets — and no Rule 3.989 or 3.9895 instrument.",
+   "familyIds": [
+    "fl-expunction-set"
+   ],
+   "handoffOperation": "SRC",
+   "intendedPacketRole": "the Rule 3.989 or 3.9895 sworn statement accompanying the petition",
+   "revision": null,
+   "boundByExactSha256": false,
+   "registrySourceState": "MISSING_CANONICAL_RELATIONSHIP_METADATA",
+   "finding": "The sworn statement carries no publisher, address or locator in any committed record, and the corpus does not hold it. It is the one part of the Florida rule set with neither an address nor bytes.",
+   "nextOperationOwner": "reconciliation — settle whether the sworn statement is a third section of the same rules book, in which case it needs no separate fetch either",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "fl-sealing-set::official-form:FL-RULE-3.989-ORDER",
+   "status": "STOPPED",
+   "sourceId": "official-form:FL-RULE-3.989-ORDER",
+   "jurisdiction": "FL",
+   "corpusPath": null,
+   "title/formNumber": null,
+   "sha256": null,
+   "byteSize": null,
+   "mime": null,
+   "pageCount": null,
+   "technology": null,
+   "matchBasis": "form number; the corpus holds five Florida documents — the three FDLE certificate-of-eligibility applications and two circuit packets — and no Rule 3.989 or 3.9895 instrument.",
+   "familyIds": [
+    "fl-sealing-set"
+   ],
+   "handoffOperation": "ACQ",
+   "intendedPacketRole": "the Rule 3.989 order to expunge or seal",
+   "revision": null,
+   "boundByExactSha256": false,
+   "registrySourceState": "EMBEDDED_SECTION",
+   "officialArtifactUrlFromRegistry": "https://www-media.floridabar.org/uploads/2026/08/2026_01-JUL-Criminal-Procedure-Rules-7-13-2026-2.pdf",
+   "finding": "This is not a missing document and it must not be acquired as one. The source relationship registry classifies FL-RULE-3.989-ORDER and FL-RULE-3.989-PETITION as EMBEDDED_SECTION with an exact address on the Florida Bar's own host — they are printed inside the Criminal Procedure Rules, at https://www-media.floridabar.org/uploads/2026/08/2026_01-JUL-Criminal-Procedure-Rules-7-13-2026-2.pdf. Nine of this lane's eleven Florida obligations name one of two sections inside that one book. Acquire the book once; never the page.",
+   "nextOperationOwner": "acquisition — one dispatch for the Criminal Procedure Rules book, then record the component locator and alias for the order and the petition against it",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "fl-sealing-set::official-form:FL-RULE-3.989-PETITION",
+   "status": "STOPPED",
+   "sourceId": "official-form:FL-RULE-3.989-PETITION",
+   "jurisdiction": "FL",
+   "corpusPath": null,
+   "title/formNumber": null,
+   "sha256": null,
+   "byteSize": null,
+   "mime": null,
+   "pageCount": null,
+   "technology": null,
+   "matchBasis": "form number; the corpus holds five Florida documents — the three FDLE certificate-of-eligibility applications and two circuit packets — and no Rule 3.989 or 3.9895 instrument.",
+   "familyIds": [
+    "fl-sealing-set"
+   ],
+   "handoffOperation": "ACQ",
+   "intendedPacketRole": "the Rule 3.989 petition to expunge or seal",
+   "revision": null,
+   "boundByExactSha256": false,
+   "registrySourceState": "EMBEDDED_SECTION",
+   "officialArtifactUrlFromRegistry": "https://www-media.floridabar.org/uploads/2026/08/2026_01-JUL-Criminal-Procedure-Rules-7-13-2026-2.pdf",
+   "finding": "This is not a missing document and it must not be acquired as one. The source relationship registry classifies FL-RULE-3.989-ORDER and FL-RULE-3.989-PETITION as EMBEDDED_SECTION with an exact address on the Florida Bar's own host — they are printed inside the Criminal Procedure Rules, at https://www-media.floridabar.org/uploads/2026/08/2026_01-JUL-Criminal-Procedure-Rules-7-13-2026-2.pdf. Nine of this lane's eleven Florida obligations name one of two sections inside that one book. Acquire the book once; never the page.",
+   "nextOperationOwner": "acquisition — one dispatch for the Criminal Procedure Rules book, then record the component locator and alias for the order and the petition against it",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "fl-sealing-set::official-form:FL-RULE-3.989-SWORN-STATEMENT",
+   "status": "STOPPED",
+   "sourceId": "official-form:FL-RULE-3.989-SWORN-STATEMENT",
+   "jurisdiction": "FL",
+   "corpusPath": null,
+   "title/formNumber": null,
+   "sha256": null,
+   "byteSize": null,
+   "mime": null,
+   "pageCount": null,
+   "technology": null,
+   "matchBasis": "form number; the corpus holds five Florida documents — the three FDLE certificate-of-eligibility applications and two circuit packets — and no Rule 3.989 or 3.9895 instrument.",
+   "familyIds": [
+    "fl-sealing-set"
+   ],
+   "handoffOperation": "SRC",
+   "intendedPacketRole": "the Rule 3.989 or 3.9895 sworn statement accompanying the petition",
+   "revision": null,
+   "boundByExactSha256": false,
+   "registrySourceState": "MISSING_CANONICAL_RELATIONSHIP_METADATA",
+   "finding": "The sworn statement carries no publisher, address or locator in any committed record, and the corpus does not hold it. It is the one part of the Florida rule set with neither an address nor bytes.",
+   "nextOperationOwner": "reconciliation — settle whether the sworn statement is a third section of the same rules book, in which case it needs no separate fetch either",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "fl-trafficking-set::official-form:FL-RULE-3.989-ORDER",
+   "status": "STOPPED",
+   "sourceId": "official-form:FL-RULE-3.989-ORDER",
+   "jurisdiction": "FL",
+   "corpusPath": null,
+   "title/formNumber": null,
+   "sha256": null,
+   "byteSize": null,
+   "mime": null,
+   "pageCount": null,
+   "technology": null,
+   "matchBasis": "form number; the corpus holds five Florida documents — the three FDLE certificate-of-eligibility applications and two circuit packets — and no Rule 3.989 or 3.9895 instrument.",
+   "familyIds": [
+    "fl-trafficking-set"
+   ],
+   "handoffOperation": "ACQ",
+   "intendedPacketRole": "the Rule 3.989 order to expunge or seal",
+   "revision": null,
+   "boundByExactSha256": false,
+   "registrySourceState": "EMBEDDED_SECTION",
+   "officialArtifactUrlFromRegistry": "https://www-media.floridabar.org/uploads/2026/08/2026_01-JUL-Criminal-Procedure-Rules-7-13-2026-2.pdf",
+   "finding": "This is not a missing document and it must not be acquired as one. The source relationship registry classifies FL-RULE-3.989-ORDER and FL-RULE-3.989-PETITION as EMBEDDED_SECTION with an exact address on the Florida Bar's own host — they are printed inside the Criminal Procedure Rules, at https://www-media.floridabar.org/uploads/2026/08/2026_01-JUL-Criminal-Procedure-Rules-7-13-2026-2.pdf. Nine of this lane's eleven Florida obligations name one of two sections inside that one book. Acquire the book once; never the page.",
+   "nextOperationOwner": "acquisition — one dispatch for the Criminal Procedure Rules book, then record the component locator and alias for the order and the petition against it",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "fl-trafficking-set::official-form:FL-RULE-3.989-PETITION",
+   "status": "STOPPED",
+   "sourceId": "official-form:FL-RULE-3.989-PETITION",
+   "jurisdiction": "FL",
+   "corpusPath": null,
+   "title/formNumber": null,
+   "sha256": null,
+   "byteSize": null,
+   "mime": null,
+   "pageCount": null,
+   "technology": null,
+   "matchBasis": "form number; the corpus holds five Florida documents — the three FDLE certificate-of-eligibility applications and two circuit packets — and no Rule 3.989 or 3.9895 instrument.",
+   "familyIds": [
+    "fl-trafficking-set"
+   ],
+   "handoffOperation": "ACQ",
+   "intendedPacketRole": "the Rule 3.989 petition to expunge or seal",
+   "revision": null,
+   "boundByExactSha256": false,
+   "registrySourceState": "EMBEDDED_SECTION",
+   "officialArtifactUrlFromRegistry": "https://www-media.floridabar.org/uploads/2026/08/2026_01-JUL-Criminal-Procedure-Rules-7-13-2026-2.pdf",
+   "finding": "This is not a missing document and it must not be acquired as one. The source relationship registry classifies FL-RULE-3.989-ORDER and FL-RULE-3.989-PETITION as EMBEDDED_SECTION with an exact address on the Florida Bar's own host — they are printed inside the Criminal Procedure Rules, at https://www-media.floridabar.org/uploads/2026/08/2026_01-JUL-Criminal-Procedure-Rules-7-13-2026-2.pdf. Nine of this lane's eleven Florida obligations name one of two sections inside that one book. Acquire the book once; never the page.",
+   "nextOperationOwner": "acquisition — one dispatch for the Criminal Procedure Rules book, then record the component locator and alias for the order and the petition against it",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "fl-trafficking-set::official-form:FL-RULE-3.9895-SWORN-STATEMENT",
+   "status": "STOPPED",
+   "sourceId": "official-form:FL-RULE-3.9895-SWORN-STATEMENT",
+   "jurisdiction": "FL",
+   "corpusPath": null,
+   "title/formNumber": null,
+   "sha256": null,
+   "byteSize": null,
+   "mime": null,
+   "pageCount": null,
+   "technology": null,
+   "matchBasis": "form number; the corpus holds five Florida documents — the three FDLE certificate-of-eligibility applications and two circuit packets — and no Rule 3.989 or 3.9895 instrument.",
+   "familyIds": [
+    "fl-trafficking-set"
+   ],
+   "handoffOperation": "SRC",
+   "intendedPacketRole": "the Rule 3.989 or 3.9895 sworn statement accompanying the petition",
+   "revision": null,
+   "boundByExactSha256": false,
+   "registrySourceState": "MISSING_CANONICAL_RELATIONSHIP_METADATA",
+   "finding": "The sworn statement carries no publisher, address or locator in any committed record, and the corpus does not hold it. It is the one part of the Florida rule set with neither an address nor bytes.",
+   "nextOperationOwner": "reconciliation — settle whether the sworn statement is a third section of the same rules book, in which case it needs no separate fetch either",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "in_arrest_no_charges-set::official-form:CCA-GF-0120-3016",
+   "status": "STOPPED",
+   "sourceId": "official-form:CCA-GF-0120-3016",
+   "jurisdiction": "IN",
+   "corpusPath": null,
+   "title/formNumber": null,
+   "sha256": null,
+   "byteSize": null,
+   "mime": null,
+   "pageCount": null,
+   "technology": null,
+   "matchBasis": "form number; the corpus holds six Indiana documents, all Coalition for Court Access material — CCA-SECTION1-PETITION-ORDER, CCA-SECTION1-INSERTS, CCA-SECTION1-INSTRUCTIONS and the CCA-XP-0220-7008/7009/7010 conviction inserts — and none is CCA-GF-0120-3016.",
+   "familyIds": [
+    "in_arrest_no_charges-set"
+   ],
+   "handoffOperation": "ACQ",
+   "intendedPacketRole": "the Coalition for Court Access general filing form the five Indiana packet families and the custom-pleading host all name",
+   "revision": null,
+   "boundByExactSha256": false,
+   "finding": "One document gates all six Indiana obligations, which makes it the highest-leverage single fetch in this lane. The held CCA-XP-0220-70xx inserts share its publisher and its numbering shape, which is why a name-only search looks close, but a conviction insert keyed to I.C. 35-38-9-2, -3 or -4 is not a general filing form and must not be bound to one.",
+   "heldCandidates": [
+    {
+     "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
+     "fileName": "IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
+     "title": "coalition for court access section 1 non conviction expungement petition and order bundle",
+     "formNumber": "CCA-SECTION1-PETITION-ORDER",
+     "revision": null,
+     "sha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+     "byteSize": 2946894,
+     "mime": "application/pdf",
+     "pageCount": 15,
+     "technology": "acroform (68 AcroForm fields)",
+     "committedIndexAgrees": true
+    },
+    {
+     "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-XP-0220-7008__conviction-expungement-insert-i-c-35-38-9-2__REV-2020-02__EN.pdf",
+     "fileName": "IN__FORM__CCA-XP-0220-7008__conviction-expungement-insert-i-c-35-38-9-2__REV-2020-02__EN.pdf",
+     "title": "conviction expungement insert i c 35 38 9 2",
+     "formNumber": "CCA-XP-0220-7008",
+     "revision": "REV-2020-02",
+     "sha256": "2c4aaf4a68b06f192e5f0c4b9bbfe0dd4c04b4b1f5e0fbab879bb450223e78f0",
+     "byteSize": 3981416,
+     "mime": "application/pdf",
+     "pageCount": 3,
+     "technology": "acroform (85 AcroForm fields)",
+     "committedIndexAgrees": true
+    }
+   ],
+   "heldCandidatesNote": "same publisher and numbering shape, different instruments; recorded to show what was searched",
+   "nextOperationOwner": "acquisition — one dispatch closes six obligations",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "in_conviction_d6-set::official-form:CCA-GF-0120-3016",
+   "status": "STOPPED",
+   "sourceId": "official-form:CCA-GF-0120-3016",
+   "jurisdiction": "IN",
+   "corpusPath": null,
+   "title/formNumber": null,
+   "sha256": null,
+   "byteSize": null,
+   "mime": null,
+   "pageCount": null,
+   "technology": null,
+   "matchBasis": "form number; the corpus holds six Indiana documents, all Coalition for Court Access material — CCA-SECTION1-PETITION-ORDER, CCA-SECTION1-INSERTS, CCA-SECTION1-INSTRUCTIONS and the CCA-XP-0220-7008/7009/7010 conviction inserts — and none is CCA-GF-0120-3016.",
+   "familyIds": [
+    "in_conviction_d6-set"
+   ],
+   "handoffOperation": "ACQ",
+   "intendedPacketRole": "the Coalition for Court Access general filing form the five Indiana packet families and the custom-pleading host all name",
+   "revision": null,
+   "boundByExactSha256": false,
+   "finding": "One document gates all six Indiana obligations, which makes it the highest-leverage single fetch in this lane. The held CCA-XP-0220-70xx inserts share its publisher and its numbering shape, which is why a name-only search looks close, but a conviction insert keyed to I.C. 35-38-9-2, -3 or -4 is not a general filing form and must not be bound to one.",
+   "heldCandidates": [
+    {
+     "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
+     "fileName": "IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
+     "title": "coalition for court access section 1 non conviction expungement petition and order bundle",
+     "formNumber": "CCA-SECTION1-PETITION-ORDER",
+     "revision": null,
+     "sha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+     "byteSize": 2946894,
+     "mime": "application/pdf",
+     "pageCount": 15,
+     "technology": "acroform (68 AcroForm fields)",
+     "committedIndexAgrees": true
+    },
+    {
+     "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-XP-0220-7008__conviction-expungement-insert-i-c-35-38-9-2__REV-2020-02__EN.pdf",
+     "fileName": "IN__FORM__CCA-XP-0220-7008__conviction-expungement-insert-i-c-35-38-9-2__REV-2020-02__EN.pdf",
+     "title": "conviction expungement insert i c 35 38 9 2",
+     "formNumber": "CCA-XP-0220-7008",
+     "revision": "REV-2020-02",
+     "sha256": "2c4aaf4a68b06f192e5f0c4b9bbfe0dd4c04b4b1f5e0fbab879bb450223e78f0",
+     "byteSize": 3981416,
+     "mime": "application/pdf",
+     "pageCount": 3,
+     "technology": "acroform (85 AcroForm fields)",
+     "committedIndexAgrees": true
+    }
+   ],
+   "heldCandidatesNote": "same publisher and numbering shape, different instruments; recorded to show what was searched",
+   "nextOperationOwner": "acquisition — one dispatch closes six obligations",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "in_conviction_felony-set::official-form:CCA-GF-0120-3016",
+   "status": "STOPPED",
+   "sourceId": "official-form:CCA-GF-0120-3016",
+   "jurisdiction": "IN",
+   "corpusPath": null,
+   "title/formNumber": null,
+   "sha256": null,
+   "byteSize": null,
+   "mime": null,
+   "pageCount": null,
+   "technology": null,
+   "matchBasis": "form number; the corpus holds six Indiana documents, all Coalition for Court Access material — CCA-SECTION1-PETITION-ORDER, CCA-SECTION1-INSERTS, CCA-SECTION1-INSTRUCTIONS and the CCA-XP-0220-7008/7009/7010 conviction inserts — and none is CCA-GF-0120-3016.",
+   "familyIds": [
+    "in_conviction_felony-set"
+   ],
+   "handoffOperation": "ACQ",
+   "intendedPacketRole": "the Coalition for Court Access general filing form the five Indiana packet families and the custom-pleading host all name",
+   "revision": null,
+   "boundByExactSha256": false,
+   "finding": "One document gates all six Indiana obligations, which makes it the highest-leverage single fetch in this lane. The held CCA-XP-0220-70xx inserts share its publisher and its numbering shape, which is why a name-only search looks close, but a conviction insert keyed to I.C. 35-38-9-2, -3 or -4 is not a general filing form and must not be bound to one.",
+   "heldCandidates": [
+    {
+     "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
+     "fileName": "IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
+     "title": "coalition for court access section 1 non conviction expungement petition and order bundle",
+     "formNumber": "CCA-SECTION1-PETITION-ORDER",
+     "revision": null,
+     "sha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+     "byteSize": 2946894,
+     "mime": "application/pdf",
+     "pageCount": 15,
+     "technology": "acroform (68 AcroForm fields)",
+     "committedIndexAgrees": true
+    },
+    {
+     "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-XP-0220-7008__conviction-expungement-insert-i-c-35-38-9-2__REV-2020-02__EN.pdf",
+     "fileName": "IN__FORM__CCA-XP-0220-7008__conviction-expungement-insert-i-c-35-38-9-2__REV-2020-02__EN.pdf",
+     "title": "conviction expungement insert i c 35 38 9 2",
+     "formNumber": "CCA-XP-0220-7008",
+     "revision": "REV-2020-02",
+     "sha256": "2c4aaf4a68b06f192e5f0c4b9bbfe0dd4c04b4b1f5e0fbab879bb450223e78f0",
+     "byteSize": 3981416,
+     "mime": "application/pdf",
+     "pageCount": 3,
+     "technology": "acroform (85 AcroForm fields)",
+     "committedIndexAgrees": true
+    }
+   ],
+   "heldCandidatesNote": "same publisher and numbering shape, different instruments; recorded to show what was searched",
+   "nextOperationOwner": "acquisition — one dispatch closes six obligations",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "in_conviction_misd-set::official-form:CCA-GF-0120-3016",
+   "status": "STOPPED",
+   "sourceId": "official-form:CCA-GF-0120-3016",
+   "jurisdiction": "IN",
+   "corpusPath": null,
+   "title/formNumber": null,
+   "sha256": null,
+   "byteSize": null,
+   "mime": null,
+   "pageCount": null,
+   "technology": null,
+   "matchBasis": "form number; the corpus holds six Indiana documents, all Coalition for Court Access material — CCA-SECTION1-PETITION-ORDER, CCA-SECTION1-INSERTS, CCA-SECTION1-INSTRUCTIONS and the CCA-XP-0220-7008/7009/7010 conviction inserts — and none is CCA-GF-0120-3016.",
+   "familyIds": [
+    "in_conviction_misd-set"
+   ],
+   "handoffOperation": "ACQ",
+   "intendedPacketRole": "the Coalition for Court Access general filing form the five Indiana packet families and the custom-pleading host all name",
+   "revision": null,
+   "boundByExactSha256": false,
+   "finding": "One document gates all six Indiana obligations, which makes it the highest-leverage single fetch in this lane. The held CCA-XP-0220-70xx inserts share its publisher and its numbering shape, which is why a name-only search looks close, but a conviction insert keyed to I.C. 35-38-9-2, -3 or -4 is not a general filing form and must not be bound to one.",
+   "heldCandidates": [
+    {
+     "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
+     "fileName": "IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
+     "title": "coalition for court access section 1 non conviction expungement petition and order bundle",
+     "formNumber": "CCA-SECTION1-PETITION-ORDER",
+     "revision": null,
+     "sha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+     "byteSize": 2946894,
+     "mime": "application/pdf",
+     "pageCount": 15,
+     "technology": "acroform (68 AcroForm fields)",
+     "committedIndexAgrees": true
+    },
+    {
+     "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-XP-0220-7008__conviction-expungement-insert-i-c-35-38-9-2__REV-2020-02__EN.pdf",
+     "fileName": "IN__FORM__CCA-XP-0220-7008__conviction-expungement-insert-i-c-35-38-9-2__REV-2020-02__EN.pdf",
+     "title": "conviction expungement insert i c 35 38 9 2",
+     "formNumber": "CCA-XP-0220-7008",
+     "revision": "REV-2020-02",
+     "sha256": "2c4aaf4a68b06f192e5f0c4b9bbfe0dd4c04b4b1f5e0fbab879bb450223e78f0",
+     "byteSize": 3981416,
+     "mime": "application/pdf",
+     "pageCount": 3,
+     "technology": "acroform (85 AcroForm fields)",
+     "committedIndexAgrees": true
+    }
+   ],
+   "heldCandidatesNote": "same publisher and numbering shape, different instruments; recorded to show what was searched",
+   "nextOperationOwner": "acquisition — one dispatch closes six obligations",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "in_section1_petition-set::official-form:CCA-GF-0120-3016",
+   "status": "STOPPED",
+   "sourceId": "official-form:CCA-GF-0120-3016",
+   "jurisdiction": "IN",
+   "corpusPath": null,
+   "title/formNumber": null,
+   "sha256": null,
+   "byteSize": null,
+   "mime": null,
+   "pageCount": null,
+   "technology": null,
+   "matchBasis": "form number; the corpus holds six Indiana documents, all Coalition for Court Access material — CCA-SECTION1-PETITION-ORDER, CCA-SECTION1-INSERTS, CCA-SECTION1-INSTRUCTIONS and the CCA-XP-0220-7008/7009/7010 conviction inserts — and none is CCA-GF-0120-3016.",
+   "familyIds": [
+    "in_section1_petition-set"
+   ],
+   "handoffOperation": "ACQ",
+   "intendedPacketRole": "the Coalition for Court Access general filing form the five Indiana packet families and the custom-pleading host all name",
+   "revision": null,
+   "boundByExactSha256": false,
+   "finding": "One document gates all six Indiana obligations, which makes it the highest-leverage single fetch in this lane. The held CCA-XP-0220-70xx inserts share its publisher and its numbering shape, which is why a name-only search looks close, but a conviction insert keyed to I.C. 35-38-9-2, -3 or -4 is not a general filing form and must not be bound to one.",
+   "heldCandidates": [
+    {
+     "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
+     "fileName": "IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
+     "title": "coalition for court access section 1 non conviction expungement petition and order bundle",
+     "formNumber": "CCA-SECTION1-PETITION-ORDER",
+     "revision": null,
+     "sha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+     "byteSize": 2946894,
+     "mime": "application/pdf",
+     "pageCount": 15,
+     "technology": "acroform (68 AcroForm fields)",
+     "committedIndexAgrees": true
+    },
+    {
+     "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-XP-0220-7008__conviction-expungement-insert-i-c-35-38-9-2__REV-2020-02__EN.pdf",
+     "fileName": "IN__FORM__CCA-XP-0220-7008__conviction-expungement-insert-i-c-35-38-9-2__REV-2020-02__EN.pdf",
+     "title": "conviction expungement insert i c 35 38 9 2",
+     "formNumber": "CCA-XP-0220-7008",
+     "revision": "REV-2020-02",
+     "sha256": "2c4aaf4a68b06f192e5f0c4b9bbfe0dd4c04b4b1f5e0fbab879bb450223e78f0",
+     "byteSize": 3981416,
+     "mime": "application/pdf",
+     "pageCount": 3,
+     "technology": "acroform (85 AcroForm fields)",
+     "committedIndexAgrees": true
+    }
+   ],
+   "heldCandidatesNote": "same publisher and numbering shape, different instruments; recorded to show what was searched",
+   "nextOperationOwner": "acquisition — one dispatch closes six obligations",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "ky_expungement_certification-set::official-form:AOC-RU-009",
+   "status": "COMPLETED",
+   "sourceId": "official-form:AOC-RU-009",
+   "jurisdiction": "KY",
+   "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-009__records-unit__REV-UNKNOWN__EN.pdf",
+   "title/formNumber": "AOC-009 — records unit",
+   "sha256": "469835852a1d7427a2212403aacd3118e93d6adc07791653aab25cb93324f662",
+   "byteSize": 215497,
+   "mime": "application/pdf",
+   "pageCount": 1,
+   "technology": "acroform (19 AcroForm fields)",
+   "matchBasis": "form number after normalising an interpolated unit name, corroborated by opening the bytes. The obligation writes AOC-RU-009; the corpus holds AOC-009, whose descriptive slug is 'records-unit' and whose first page, read in this lane, prints 'ADMINISTRATIVE OFFICE OF THE COURTS RECORDS UNIT' and describes the process for individuals and attorneys requesting records for the purpose of expungement, with a $40 fee. The RU in the obligation's id is the Records Unit, and the document is the one this family's certification route needs.",
+   "familyIds": [
+    "ky_expungement_certification-set"
+   ],
+   "handoffOperation": "PROMO",
+   "resolution": "IDENTITY_NORMALISED_AND_BOUND",
+   "publisher": "Kentucky Court of Justice — Administrative Office of the Courts, Records Unit",
+   "intendedPacketRole": "the Administrative Office of the Courts Records Unit request for records for the purpose of expungement",
+   "revision": "REV-UNKNOWN",
+   "boundByExactSha256": true,
+   "committedIndexAgrees": true,
+   "nextOperationOwner": "promotion — the bytes are in hand and their digest recomputed here; what promotion still owes is a currentness check against the publisher's current edition",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "ky_nonconviction_expungement-set::official-form:AOC-497.2",
+   "status": "STOPPED",
+   "sourceId": "official-form:AOC-497.2",
+   "jurisdiction": "KY",
+   "corpusPath": null,
+   "title/formNumber": null,
+   "sha256": null,
+   "byteSize": null,
+   "mime": null,
+   "pageCount": null,
+   "technology": null,
+   "matchBasis": "form number; the corpus holds ten Kentucky AOC documents and this is not one of them.",
+   "familyIds": [
+    "ky_nonconviction_expungement-set"
+   ],
+   "handoffOperation": "ACQ",
+   "intendedPacketRole": "the non-conviction expungement instrument in the AOC-497 series",
+   "revision": null,
+   "boundByExactSha256": false,
+   "finding": "The held Kentucky set runs AOC-496, 496.2, 496.3, 496.4, 496.5, 497 and 497.3, and skips 497.2. That is a gap inside a held series rather than an unmapped state, which makes it a straightforward fetch from the same publisher.",
+   "heldCandidates": [
+    {
+     "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-497__the-court-having-reviewed-defendants-petition-to-expunge-and-being-sufficiently-advised-fi__REV-UNKNOWN__EN.pdf",
+     "fileName": "KY__FORM__AOC-497__the-court-having-reviewed-defendants-petition-to-expunge-and-being-sufficiently-advised-fi__REV-UNKNOWN__EN.pdf",
+     "title": "the court having reviewed defendants petition to expunge and being sufficiently advised fi",
+     "formNumber": "AOC-497",
+     "revision": "REV-UNKNOWN",
+     "sha256": "715c00db62e19f07f7dedde68e89309027f4ed9566198a3617cb9bb34a98368b",
+     "byteSize": 176877,
+     "mime": "application/pdf",
+     "pageCount": 2,
+     "technology": "acroform (32 AcroForm fields)",
+     "committedIndexAgrees": true
+    },
+    {
+     "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/KY/05_SOURCE_GATED/KY__SOURCE-GATED__AOC-497.3__aoc-497-3-rev-7-20-order-auto-expunge-n-re__REV-2020-07__EN.pdf",
+     "fileName": "KY__SOURCE-GATED__AOC-497.3__aoc-497-3-rev-7-20-order-auto-expunge-n-re__REV-2020-07__EN.pdf",
+     "title": "aoc 497 3 rev 7 20 order auto expunge n re",
+     "formNumber": "AOC-497.3",
+     "revision": "REV-2020-07",
+     "sha256": "71049fcaf0321ff6ccd3bdc5142c92fabcb4134f7aebb48a6859083085f7c2eb",
+     "byteSize": 210698,
+     "mime": "application/pdf",
+     "pageCount": 2,
+     "technology": "acroform (29 AcroForm fields)",
+     "committedIndexAgrees": true
+    }
+   ],
+   "heldCandidatesNote": "neighbours in the held series, recorded to show what was searched",
+   "nextOperationOwner": "acquisition — the Kentucky Court of Justice publishes the AOC series; one dispatch per form",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "ky_protective_order_record_expungement-set::official-form:AOC-275.18",
+   "status": "STOPPED",
+   "sourceId": "official-form:AOC-275.18",
+   "jurisdiction": "KY",
+   "corpusPath": null,
+   "title/formNumber": null,
+   "sha256": null,
+   "byteSize": null,
+   "mime": null,
+   "pageCount": null,
+   "technology": null,
+   "matchBasis": "form number; the corpus holds ten Kentucky AOC documents and this is not one of them.",
+   "familyIds": [
+    "ky_protective_order_record_expungement-set"
+   ],
+   "handoffOperation": "ACQ",
+   "intendedPacketRole": "the protective-order record expungement form",
+   "revision": null,
+   "boundByExactSha256": false,
+   "finding": "AOC-275.18 belongs to the protective-order series, and the corpus holds none of that series — its Kentucky documents are all expungement forms in the AOC-33x and AOC-49x ranges.",
+   "heldCandidates": [
+    {
+     "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-496.2__petition-for-expungement__REV-2016-07__EN.pdf",
+     "fileName": "KY__FORM__AOC-496.2__petition-for-expungement__REV-2016-07__EN.pdf",
+     "title": "petition for expungement",
+     "formNumber": "AOC-496.2",
+     "revision": "REV-2016-07",
+     "sha256": "5d1ca608d94911a3f2fa0ed168ea43da2d72e685b85c48b3c220ed5ea6896bde",
+     "byteSize": 237812,
+     "mime": "application/pdf",
+     "pageCount": 2,
+     "technology": "acroform (31 AcroForm fields)",
+     "committedIndexAgrees": true
+    }
+   ],
+   "heldCandidatesNote": "neighbours in the held series, recorded to show what was searched",
+   "nextOperationOwner": "acquisition — the Kentucky Court of Justice publishes the AOC series; one dispatch per form",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "me-seal-gen-set::official-form:CR-218",
+   "status": "STOPPED",
+   "sourceId": "official-form:CR-218",
+   "jurisdiction": "ME",
+   "corpusPath": null,
+   "title/formNumber": null,
+   "sha256": null,
+   "byteSize": null,
+   "mime": null,
+   "pageCount": null,
+   "technology": null,
+   "matchBasis": "form number; the corpus holds two Maine documents, CR-289 and CR-307, and neither is this one.",
+   "familyIds": [
+    "me-seal-gen-set"
+   ],
+   "handoffOperation": "ACQ",
+   "intendedPacketRole": "the general motion to seal a Maine conviction",
+   "revision": null,
+   "boundByExactSha256": false,
+   "finding": "CR-218 is the general sealing motion and nothing in the corpus is near it; the two held Maine documents are an ADA notice and the trafficking-survivor motion.",
+   "heldCandidates": [
+    {
+     "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/ME/05_SOURCE_GATED/ME__SOURCE-GATED__CR-307__motion-to-seal-conviction-for-victims-of-sex-trafficking-or-sexual-exploitation__REV-2026-06__EN.pdf",
+     "fileName": "ME__SOURCE-GATED__CR-307__motion-to-seal-conviction-for-victims-of-sex-trafficking-or-sexual-exploitation__REV-2026-06__EN.pdf",
+     "title": "motion to seal conviction for victims of sex trafficking or sexual exploitation",
+     "formNumber": "CR-307",
+     "revision": "REV-2026-06",
+     "sha256": "c72e74f191a1bddb48453e3094e8a657baabf552299f353acd8bf0d8a418fed1",
+     "byteSize": 175213,
+     "mime": "application/pdf",
+     "pageCount": null,
+     "technology": "unreadable",
+     "committedIndexAgrees": true
+    }
+   ],
+   "heldCandidatesNote": "the only substantive Maine document held; a different instrument",
+   "nextOperationOwner": "acquisition — the Maine Judicial Branch publishes the CR series",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "me-seal-survivor-set::official-form:CR-308",
+   "status": "STOPPED",
+   "sourceId": "official-form:CR-308",
+   "jurisdiction": "ME",
+   "corpusPath": null,
+   "title/formNumber": null,
+   "sha256": null,
+   "byteSize": null,
+   "mime": null,
+   "pageCount": null,
+   "technology": null,
+   "matchBasis": "form number; the corpus holds two Maine documents, CR-289 and CR-307, and neither is this one.",
+   "familyIds": [
+    "me-seal-survivor-set"
+   ],
+   "handoffOperation": "ACQ",
+   "intendedPacketRole": "the order on the motion to seal for a trafficking survivor",
+   "revision": null,
+   "boundByExactSha256": false,
+   "finding": "CR-307, held here, is the motion to seal a conviction for victims of sex trafficking or sexual exploitation, REV-2026-06 — the motion for exactly this route. CR-308 is the next number in the same series and on the ordinary Maine pattern would be its order. The motion being held makes the order's absence conspicuous and cheap to close, but adjacency is not identity and this lane does not bind on it.",
+   "heldCandidates": [
+    {
+     "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/ME/05_SOURCE_GATED/ME__SOURCE-GATED__CR-307__motion-to-seal-conviction-for-victims-of-sex-trafficking-or-sexual-exploitation__REV-2026-06__EN.pdf",
+     "fileName": "ME__SOURCE-GATED__CR-307__motion-to-seal-conviction-for-victims-of-sex-trafficking-or-sexual-exploitation__REV-2026-06__EN.pdf",
+     "title": "motion to seal conviction for victims of sex trafficking or sexual exploitation",
+     "formNumber": "CR-307",
+     "revision": "REV-2026-06",
+     "sha256": "c72e74f191a1bddb48453e3094e8a657baabf552299f353acd8bf0d8a418fed1",
+     "byteSize": 175213,
+     "mime": "application/pdf",
+     "pageCount": null,
+     "technology": "unreadable",
+     "committedIndexAgrees": true
+    }
+   ],
+   "heldCandidatesNote": "the motion this order would accompany, held; recorded as the neighbour that makes the absence legible, not as a candidate to bind",
+   "nextOperationOwner": "acquisition — the Maine Judicial Branch publishes the CR series",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "mn_petition_15218-set::official-form:EXP102",
+   "status": "STOPPED",
+   "sourceId": "official-form:EXP102",
+   "jurisdiction": "MN",
+   "corpusPath": null,
+   "title/formNumber": null,
+   "sha256": null,
+   "byteSize": null,
+   "mime": null,
+   "pageCount": null,
+   "technology": null,
+   "matchBasis": "form number; the corpus holds five Minnesota documents, three EXP101 translations and the FEE102 and FEE103 fee-waiver affidavits, and none of them is this form.",
+   "familyIds": [
+    "mn_petition_15218-set"
+   ],
+   "handoffOperation": "ACQ",
+   "intendedPacketRole": "a component of the Minnesota expungement petition packet",
+   "revision": null,
+   "boundByExactSha256": false,
+   "finding": "EXP102 and EXP104 each appear on three different Minnesota families, so two documents gate six of this lane's ten Minnesota obligations. Note that the held FEE102 and FEE103 are fee-waiver affidavits, not the EXP series, and the numeric collision between FEE102 and EXP102 is a trap a name-only search walks into.",
+   "heldCandidates": [
+    {
+     "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MN/04_SUPPORTING_PROCESS/MN__SUPPORT__FEE102__affidavit-to-request-fee-waiver__REV-2024-07__EN.pdf",
+     "fileName": "MN__SUPPORT__FEE102__affidavit-to-request-fee-waiver__REV-2024-07__EN.pdf",
+     "title": "affidavit to request fee waiver",
+     "formNumber": "FEE102",
+     "revision": "REV-2024-07",
+     "sha256": "b8415cddaa06a9c76cf2c4949aee36efe22e3b0ba98783a74063094150c72da8",
+     "byteSize": 268092,
+     "mime": "application/pdf",
+     "pageCount": 6,
+     "technology": "flat_pdf",
+     "committedIndexAgrees": true
+    },
+    {
+     "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MN/04_SUPPORTING_PROCESS/MN__SUPPORT__FEE103__supplemental-affidavit-to-request-fee-waiver__REV-2024-07__EN.pdf",
+     "fileName": "MN__SUPPORT__FEE103__supplemental-affidavit-to-request-fee-waiver__REV-2024-07__EN.pdf",
+     "title": "supplemental affidavit to request fee waiver",
+     "formNumber": "FEE103",
+     "revision": "REV-2024-07",
+     "sha256": "b6c28a9c5920932b9499edd93b705db7580b2798a74af0136d891f88a31bf24f",
+     "byteSize": 180148,
+     "mime": "application/pdf",
+     "pageCount": 2,
+     "technology": "flat_pdf",
+     "committedIndexAgrees": true
+    }
+   ],
+   "heldCandidatesNote": "the held Minnesota documents; fee-waiver affidavits, not the EXP series",
+   "nextOperationOwner": "acquisition — the Minnesota Judicial Branch expungement forms page",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "mn_petition_15218-set::official-form:EXP104",
+   "status": "STOPPED",
+   "sourceId": "official-form:EXP104",
+   "jurisdiction": "MN",
+   "corpusPath": null,
+   "title/formNumber": null,
+   "sha256": null,
+   "byteSize": null,
+   "mime": null,
+   "pageCount": null,
+   "technology": null,
+   "matchBasis": "form number; the corpus holds five Minnesota documents, three EXP101 translations and the FEE102 and FEE103 fee-waiver affidavits, and none of them is this form.",
+   "familyIds": [
+    "mn_petition_15218-set"
+   ],
+   "handoffOperation": "ACQ",
+   "intendedPacketRole": "a component of the Minnesota expungement petition packet",
+   "revision": null,
+   "boundByExactSha256": false,
+   "finding": "EXP102 and EXP104 each appear on three different Minnesota families, so two documents gate six of this lane's ten Minnesota obligations. Note that the held FEE102 and FEE103 are fee-waiver affidavits, not the EXP series, and the numeric collision between FEE102 and EXP102 is a trap a name-only search walks into.",
+   "heldCandidates": [
+    {
+     "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MN/04_SUPPORTING_PROCESS/MN__SUPPORT__FEE102__affidavit-to-request-fee-waiver__REV-2024-07__EN.pdf",
+     "fileName": "MN__SUPPORT__FEE102__affidavit-to-request-fee-waiver__REV-2024-07__EN.pdf",
+     "title": "affidavit to request fee waiver",
+     "formNumber": "FEE102",
+     "revision": "REV-2024-07",
+     "sha256": "b8415cddaa06a9c76cf2c4949aee36efe22e3b0ba98783a74063094150c72da8",
+     "byteSize": 268092,
+     "mime": "application/pdf",
+     "pageCount": 6,
+     "technology": "flat_pdf",
+     "committedIndexAgrees": true
+    },
+    {
+     "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MN/04_SUPPORTING_PROCESS/MN__SUPPORT__FEE103__supplemental-affidavit-to-request-fee-waiver__REV-2024-07__EN.pdf",
+     "fileName": "MN__SUPPORT__FEE103__supplemental-affidavit-to-request-fee-waiver__REV-2024-07__EN.pdf",
+     "title": "supplemental affidavit to request fee waiver",
+     "formNumber": "FEE103",
+     "revision": "REV-2024-07",
+     "sha256": "b6c28a9c5920932b9499edd93b705db7580b2798a74af0136d891f88a31bf24f",
+     "byteSize": 180148,
+     "mime": "application/pdf",
+     "pageCount": 2,
+     "technology": "flat_pdf",
+     "committedIndexAgrees": true
+    }
+   ],
+   "heldCandidatesNote": "the held Minnesota documents; fee-waiver affidavits, not the EXP series",
+   "nextOperationOwner": "acquisition — the Minnesota Judicial Branch expungement forms page",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "mn_petition_15218-set::official-form:EXP106",
+   "status": "STOPPED",
+   "sourceId": "official-form:EXP106",
+   "jurisdiction": "MN",
+   "corpusPath": null,
+   "title/formNumber": null,
+   "sha256": null,
+   "byteSize": null,
+   "mime": null,
+   "pageCount": null,
+   "technology": null,
+   "matchBasis": "form number; the corpus holds five Minnesota documents, three EXP101 translations and the FEE102 and FEE103 fee-waiver affidavits, and none of them is this form.",
+   "familyIds": [
+    "mn_petition_15218-set"
+   ],
+   "handoffOperation": "ACQ",
+   "intendedPacketRole": "a component of the Minnesota expungement petition packet",
+   "revision": null,
+   "boundByExactSha256": false,
+   "finding": "Neither this form nor any near neighbour is held.",
+   "heldCandidates": [
+    {
+     "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MN/04_SUPPORTING_PROCESS/MN__SUPPORT__FEE102__affidavit-to-request-fee-waiver__REV-2024-07__EN.pdf",
+     "fileName": "MN__SUPPORT__FEE102__affidavit-to-request-fee-waiver__REV-2024-07__EN.pdf",
+     "title": "affidavit to request fee waiver",
+     "formNumber": "FEE102",
+     "revision": "REV-2024-07",
+     "sha256": "b8415cddaa06a9c76cf2c4949aee36efe22e3b0ba98783a74063094150c72da8",
+     "byteSize": 268092,
+     "mime": "application/pdf",
+     "pageCount": 6,
+     "technology": "flat_pdf",
+     "committedIndexAgrees": true
+    },
+    {
+     "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MN/04_SUPPORTING_PROCESS/MN__SUPPORT__FEE103__supplemental-affidavit-to-request-fee-waiver__REV-2024-07__EN.pdf",
+     "fileName": "MN__SUPPORT__FEE103__supplemental-affidavit-to-request-fee-waiver__REV-2024-07__EN.pdf",
+     "title": "supplemental affidavit to request fee waiver",
+     "formNumber": "FEE103",
+     "revision": "REV-2024-07",
+     "sha256": "b6c28a9c5920932b9499edd93b705db7580b2798a74af0136d891f88a31bf24f",
+     "byteSize": 180148,
+     "mime": "application/pdf",
+     "pageCount": 2,
+     "technology": "flat_pdf",
+     "committedIndexAgrees": true
+    }
+   ],
+   "heldCandidatesNote": "the held Minnesota documents; fee-waiver affidavits, not the EXP series",
+   "nextOperationOwner": "acquisition — the Minnesota Judicial Branch expungement forms page",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "mn_petition_609a02_subd3-set::official-form:EXP101",
+   "status": "STOPPED",
+   "sourceId": "official-form:EXP101",
+   "jurisdiction": "MN",
+   "corpusPath": null,
+   "title/formNumber": null,
+   "sha256": null,
+   "byteSize": null,
+   "mime": null,
+   "pageCount": null,
+   "technology": null,
+   "matchBasis": "form number with a language variant. The corpus holds EXP101 three times — EXP101-ES, EXP101-HMN and EXP101-SO — and not once in English. Their digests were recomputed here.",
+   "familyIds": [
+    "mn_petition_609a02_subd3-set"
+   ],
+   "handoffOperation": "ACQ",
+   "intendedPacketRole": "a component of the Minnesota expungement petition packet",
+   "revision": null,
+   "boundByExactSha256": false,
+   "finding": "This is a language-variant gap, not a missing form: the petitioner's instructions for expungement are held in Spanish, Hmong and Somali and the English original is the one absent. Binding a translation to a route that expects the English text would hand a participant a document in a language they may not read.",
+   "heldCandidates": [
+    {
+     "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MN/03_INSTRUCTIONS/MN__INSTRUCTIONS__EXP101-ES__petitioners-instructions-for-expungement__REV-2015-01__ES.pdf",
+     "fileName": "MN__INSTRUCTIONS__EXP101-ES__petitioners-instructions-for-expungement__REV-2015-01__ES.pdf",
+     "title": "petitioners instructions for expungement",
+     "formNumber": "EXP101-ES",
+     "revision": "REV-2015-01",
+     "sha256": "b29927d6c862bdbbeaa63e7f6f93ed562fd5355b4458d0e1f2eb0ec15d86476a",
+     "byteSize": 92427,
+     "mime": "application/pdf",
+     "pageCount": 12,
+     "technology": "flat_pdf",
+     "committedIndexAgrees": true
+    },
+    {
+     "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MN/03_INSTRUCTIONS/MN__INSTRUCTIONS__EXP101-HMN__petitioners-instructions-for-expungement__REV-2015-01__HMN.pdf",
+     "fileName": "MN__INSTRUCTIONS__EXP101-HMN__petitioners-instructions-for-expungement__REV-2015-01__HMN.pdf",
+     "title": "petitioners instructions for expungement",
+     "formNumber": "EXP101-HMN",
+     "revision": "REV-2015-01",
+     "sha256": "309dc776f79bbcd767fb09d618e956647fc0bc105f67698821bf845bc86209d7",
+     "byteSize": 94191,
+     "mime": "application/pdf",
+     "pageCount": 12,
+     "technology": "flat_pdf",
+     "committedIndexAgrees": true
+    },
+    {
+     "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MN/03_INSTRUCTIONS/MN__INSTRUCTIONS__EXP101-SO__petitioners-instructions-for-expungement__REV-2015-01__SO.pdf",
+     "fileName": "MN__INSTRUCTIONS__EXP101-SO__petitioners-instructions-for-expungement__REV-2015-01__SO.pdf",
+     "title": "petitioners instructions for expungement",
+     "formNumber": "EXP101-SO",
+     "revision": "REV-2015-01",
+     "sha256": "d46241f3bb85167901d9930b453b0095e46fb876bb5c0361dc9c8afcf7658658",
+     "byteSize": 91674,
+     "mime": "application/pdf",
+     "pageCount": 12,
+     "technology": "flat_pdf",
+     "committedIndexAgrees": true
+    }
+   ],
+   "heldCandidatesNote": "the same form in three languages, none of them the English edition the route expects",
+   "nextOperationOwner": "acquisition — the Minnesota Judicial Branch publishes EXP101 in English on its forms page; the address is settled for this publisher in DISC05",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "mn_petition_609a02_subd3-set::official-form:EXP102",
+   "status": "STOPPED",
+   "sourceId": "official-form:EXP102",
+   "jurisdiction": "MN",
+   "corpusPath": null,
+   "title/formNumber": null,
+   "sha256": null,
+   "byteSize": null,
+   "mime": null,
+   "pageCount": null,
+   "technology": null,
+   "matchBasis": "form number; the corpus holds five Minnesota documents, three EXP101 translations and the FEE102 and FEE103 fee-waiver affidavits, and none of them is this form.",
+   "familyIds": [
+    "mn_petition_609a02_subd3-set"
+   ],
+   "handoffOperation": "ACQ",
+   "intendedPacketRole": "a component of the Minnesota expungement petition packet",
+   "revision": null,
+   "boundByExactSha256": false,
+   "finding": "EXP102 and EXP104 each appear on three different Minnesota families, so two documents gate six of this lane's ten Minnesota obligations. Note that the held FEE102 and FEE103 are fee-waiver affidavits, not the EXP series, and the numeric collision between FEE102 and EXP102 is a trap a name-only search walks into.",
+   "heldCandidates": [
+    {
+     "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MN/04_SUPPORTING_PROCESS/MN__SUPPORT__FEE102__affidavit-to-request-fee-waiver__REV-2024-07__EN.pdf",
+     "fileName": "MN__SUPPORT__FEE102__affidavit-to-request-fee-waiver__REV-2024-07__EN.pdf",
+     "title": "affidavit to request fee waiver",
+     "formNumber": "FEE102",
+     "revision": "REV-2024-07",
+     "sha256": "b8415cddaa06a9c76cf2c4949aee36efe22e3b0ba98783a74063094150c72da8",
+     "byteSize": 268092,
+     "mime": "application/pdf",
+     "pageCount": 6,
+     "technology": "flat_pdf",
+     "committedIndexAgrees": true
+    },
+    {
+     "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MN/04_SUPPORTING_PROCESS/MN__SUPPORT__FEE103__supplemental-affidavit-to-request-fee-waiver__REV-2024-07__EN.pdf",
+     "fileName": "MN__SUPPORT__FEE103__supplemental-affidavit-to-request-fee-waiver__REV-2024-07__EN.pdf",
+     "title": "supplemental affidavit to request fee waiver",
+     "formNumber": "FEE103",
+     "revision": "REV-2024-07",
+     "sha256": "b6c28a9c5920932b9499edd93b705db7580b2798a74af0136d891f88a31bf24f",
+     "byteSize": 180148,
+     "mime": "application/pdf",
+     "pageCount": 2,
+     "technology": "flat_pdf",
+     "committedIndexAgrees": true
+    }
+   ],
+   "heldCandidatesNote": "the held Minnesota documents; fee-waiver affidavits, not the EXP series",
+   "nextOperationOwner": "acquisition — the Minnesota Judicial Branch expungement forms page",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "mn_petition_609a02_subd3-set::official-form:EXP104",
+   "status": "STOPPED",
+   "sourceId": "official-form:EXP104",
+   "jurisdiction": "MN",
+   "corpusPath": null,
+   "title/formNumber": null,
+   "sha256": null,
+   "byteSize": null,
+   "mime": null,
+   "pageCount": null,
+   "technology": null,
+   "matchBasis": "form number; the corpus holds five Minnesota documents, three EXP101 translations and the FEE102 and FEE103 fee-waiver affidavits, and none of them is this form.",
+   "familyIds": [
+    "mn_petition_609a02_subd3-set"
+   ],
+   "handoffOperation": "ACQ",
+   "intendedPacketRole": "a component of the Minnesota expungement petition packet",
+   "revision": null,
+   "boundByExactSha256": false,
+   "finding": "EXP102 and EXP104 each appear on three different Minnesota families, so two documents gate six of this lane's ten Minnesota obligations. Note that the held FEE102 and FEE103 are fee-waiver affidavits, not the EXP series, and the numeric collision between FEE102 and EXP102 is a trap a name-only search walks into.",
+   "heldCandidates": [
+    {
+     "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MN/04_SUPPORTING_PROCESS/MN__SUPPORT__FEE102__affidavit-to-request-fee-waiver__REV-2024-07__EN.pdf",
+     "fileName": "MN__SUPPORT__FEE102__affidavit-to-request-fee-waiver__REV-2024-07__EN.pdf",
+     "title": "affidavit to request fee waiver",
+     "formNumber": "FEE102",
+     "revision": "REV-2024-07",
+     "sha256": "b8415cddaa06a9c76cf2c4949aee36efe22e3b0ba98783a74063094150c72da8",
+     "byteSize": 268092,
+     "mime": "application/pdf",
+     "pageCount": 6,
+     "technology": "flat_pdf",
+     "committedIndexAgrees": true
+    },
+    {
+     "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MN/04_SUPPORTING_PROCESS/MN__SUPPORT__FEE103__supplemental-affidavit-to-request-fee-waiver__REV-2024-07__EN.pdf",
+     "fileName": "MN__SUPPORT__FEE103__supplemental-affidavit-to-request-fee-waiver__REV-2024-07__EN.pdf",
+     "title": "supplemental affidavit to request fee waiver",
+     "formNumber": "FEE103",
+     "revision": "REV-2024-07",
+     "sha256": "b6c28a9c5920932b9499edd93b705db7580b2798a74af0136d891f88a31bf24f",
+     "byteSize": 180148,
+     "mime": "application/pdf",
+     "pageCount": 2,
+     "technology": "flat_pdf",
+     "committedIndexAgrees": true
+    }
+   ],
+   "heldCandidatesNote": "the held Minnesota documents; fee-waiver affidavits, not the EXP series",
+   "nextOperationOwner": "acquisition — the Minnesota Judicial Branch expungement forms page",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "mn_petition_609a02_subd3-set::official-form:EXP105",
+   "status": "STOPPED",
+   "sourceId": "official-form:EXP105",
+   "jurisdiction": "MN",
+   "corpusPath": null,
+   "title/formNumber": null,
+   "sha256": null,
+   "byteSize": null,
+   "mime": null,
+   "pageCount": null,
+   "technology": null,
+   "matchBasis": "form number; the corpus holds five Minnesota documents, three EXP101 translations and the FEE102 and FEE103 fee-waiver affidavits, and none of them is this form.",
+   "familyIds": [
+    "mn_petition_609a02_subd3-set"
+   ],
+   "handoffOperation": "ACQ",
+   "intendedPacketRole": "a component of the Minnesota expungement petition packet",
+   "revision": null,
+   "boundByExactSha256": false,
+   "finding": "Neither this form nor any near neighbour is held.",
+   "heldCandidates": [
+    {
+     "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MN/04_SUPPORTING_PROCESS/MN__SUPPORT__FEE102__affidavit-to-request-fee-waiver__REV-2024-07__EN.pdf",
+     "fileName": "MN__SUPPORT__FEE102__affidavit-to-request-fee-waiver__REV-2024-07__EN.pdf",
+     "title": "affidavit to request fee waiver",
+     "formNumber": "FEE102",
+     "revision": "REV-2024-07",
+     "sha256": "b8415cddaa06a9c76cf2c4949aee36efe22e3b0ba98783a74063094150c72da8",
+     "byteSize": 268092,
+     "mime": "application/pdf",
+     "pageCount": 6,
+     "technology": "flat_pdf",
+     "committedIndexAgrees": true
+    },
+    {
+     "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MN/04_SUPPORTING_PROCESS/MN__SUPPORT__FEE103__supplemental-affidavit-to-request-fee-waiver__REV-2024-07__EN.pdf",
+     "fileName": "MN__SUPPORT__FEE103__supplemental-affidavit-to-request-fee-waiver__REV-2024-07__EN.pdf",
+     "title": "supplemental affidavit to request fee waiver",
+     "formNumber": "FEE103",
+     "revision": "REV-2024-07",
+     "sha256": "b6c28a9c5920932b9499edd93b705db7580b2798a74af0136d891f88a31bf24f",
+     "byteSize": 180148,
+     "mime": "application/pdf",
+     "pageCount": 2,
+     "technology": "flat_pdf",
+     "committedIndexAgrees": true
+    }
+   ],
+   "heldCandidatesNote": "the held Minnesota documents; fee-waiver affidavits, not the EXP series",
+   "nextOperationOwner": "acquisition — the Minnesota Judicial Branch expungement forms page",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "mn_petition_juvenile_as_adult-set::official-form:EXP102",
+   "status": "STOPPED",
+   "sourceId": "official-form:EXP102",
+   "jurisdiction": "MN",
+   "corpusPath": null,
+   "title/formNumber": null,
+   "sha256": null,
+   "byteSize": null,
+   "mime": null,
+   "pageCount": null,
+   "technology": null,
+   "matchBasis": "form number; the corpus holds five Minnesota documents, three EXP101 translations and the FEE102 and FEE103 fee-waiver affidavits, and none of them is this form.",
+   "familyIds": [
+    "mn_petition_juvenile_as_adult-set"
+   ],
+   "handoffOperation": "ACQ",
+   "intendedPacketRole": "a component of the Minnesota expungement petition packet",
+   "revision": null,
+   "boundByExactSha256": false,
+   "finding": "EXP102 and EXP104 each appear on three different Minnesota families, so two documents gate six of this lane's ten Minnesota obligations. Note that the held FEE102 and FEE103 are fee-waiver affidavits, not the EXP series, and the numeric collision between FEE102 and EXP102 is a trap a name-only search walks into.",
+   "heldCandidates": [
+    {
+     "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MN/04_SUPPORTING_PROCESS/MN__SUPPORT__FEE102__affidavit-to-request-fee-waiver__REV-2024-07__EN.pdf",
+     "fileName": "MN__SUPPORT__FEE102__affidavit-to-request-fee-waiver__REV-2024-07__EN.pdf",
+     "title": "affidavit to request fee waiver",
+     "formNumber": "FEE102",
+     "revision": "REV-2024-07",
+     "sha256": "b8415cddaa06a9c76cf2c4949aee36efe22e3b0ba98783a74063094150c72da8",
+     "byteSize": 268092,
+     "mime": "application/pdf",
+     "pageCount": 6,
+     "technology": "flat_pdf",
+     "committedIndexAgrees": true
+    },
+    {
+     "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MN/04_SUPPORTING_PROCESS/MN__SUPPORT__FEE103__supplemental-affidavit-to-request-fee-waiver__REV-2024-07__EN.pdf",
+     "fileName": "MN__SUPPORT__FEE103__supplemental-affidavit-to-request-fee-waiver__REV-2024-07__EN.pdf",
+     "title": "supplemental affidavit to request fee waiver",
+     "formNumber": "FEE103",
+     "revision": "REV-2024-07",
+     "sha256": "b6c28a9c5920932b9499edd93b705db7580b2798a74af0136d891f88a31bf24f",
+     "byteSize": 180148,
+     "mime": "application/pdf",
+     "pageCount": 2,
+     "technology": "flat_pdf",
+     "committedIndexAgrees": true
+    }
+   ],
+   "heldCandidatesNote": "the held Minnesota documents; fee-waiver affidavits, not the EXP series",
+   "nextOperationOwner": "acquisition — the Minnesota Judicial Branch expungement forms page",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "mn_petition_juvenile_as_adult-set::official-form:EXP104",
+   "status": "STOPPED",
+   "sourceId": "official-form:EXP104",
+   "jurisdiction": "MN",
+   "corpusPath": null,
+   "title/formNumber": null,
+   "sha256": null,
+   "byteSize": null,
+   "mime": null,
+   "pageCount": null,
+   "technology": null,
+   "matchBasis": "form number; the corpus holds five Minnesota documents, three EXP101 translations and the FEE102 and FEE103 fee-waiver affidavits, and none of them is this form.",
+   "familyIds": [
+    "mn_petition_juvenile_as_adult-set"
+   ],
+   "handoffOperation": "ACQ",
+   "intendedPacketRole": "a component of the Minnesota expungement petition packet",
+   "revision": null,
+   "boundByExactSha256": false,
+   "finding": "EXP102 and EXP104 each appear on three different Minnesota families, so two documents gate six of this lane's ten Minnesota obligations. Note that the held FEE102 and FEE103 are fee-waiver affidavits, not the EXP series, and the numeric collision between FEE102 and EXP102 is a trap a name-only search walks into.",
+   "heldCandidates": [
+    {
+     "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MN/04_SUPPORTING_PROCESS/MN__SUPPORT__FEE102__affidavit-to-request-fee-waiver__REV-2024-07__EN.pdf",
+     "fileName": "MN__SUPPORT__FEE102__affidavit-to-request-fee-waiver__REV-2024-07__EN.pdf",
+     "title": "affidavit to request fee waiver",
+     "formNumber": "FEE102",
+     "revision": "REV-2024-07",
+     "sha256": "b8415cddaa06a9c76cf2c4949aee36efe22e3b0ba98783a74063094150c72da8",
+     "byteSize": 268092,
+     "mime": "application/pdf",
+     "pageCount": 6,
+     "technology": "flat_pdf",
+     "committedIndexAgrees": true
+    },
+    {
+     "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MN/04_SUPPORTING_PROCESS/MN__SUPPORT__FEE103__supplemental-affidavit-to-request-fee-waiver__REV-2024-07__EN.pdf",
+     "fileName": "MN__SUPPORT__FEE103__supplemental-affidavit-to-request-fee-waiver__REV-2024-07__EN.pdf",
+     "title": "supplemental affidavit to request fee waiver",
+     "formNumber": "FEE103",
+     "revision": "REV-2024-07",
+     "sha256": "b6c28a9c5920932b9499edd93b705db7580b2798a74af0136d891f88a31bf24f",
+     "byteSize": 180148,
+     "mime": "application/pdf",
+     "pageCount": 2,
+     "technology": "flat_pdf",
+     "committedIndexAgrees": true
+    }
+   ],
+   "heldCandidatesNote": "the held Minnesota documents; fee-waiver affidavits, not the EXP series",
+   "nextOperationOwner": "acquisition — the Minnesota Judicial Branch expungement forms page",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "mn_petition_juvenile_as_adult-set::official-form:EXP106",
+   "status": "STOPPED",
+   "sourceId": "official-form:EXP106",
+   "jurisdiction": "MN",
+   "corpusPath": null,
+   "title/formNumber": null,
+   "sha256": null,
+   "byteSize": null,
+   "mime": null,
+   "pageCount": null,
+   "technology": null,
+   "matchBasis": "form number; the corpus holds five Minnesota documents, three EXP101 translations and the FEE102 and FEE103 fee-waiver affidavits, and none of them is this form.",
+   "familyIds": [
+    "mn_petition_juvenile_as_adult-set"
+   ],
+   "handoffOperation": "ACQ",
+   "intendedPacketRole": "a component of the Minnesota expungement petition packet",
+   "revision": null,
+   "boundByExactSha256": false,
+   "finding": "Neither this form nor any near neighbour is held.",
+   "heldCandidates": [
+    {
+     "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MN/04_SUPPORTING_PROCESS/MN__SUPPORT__FEE102__affidavit-to-request-fee-waiver__REV-2024-07__EN.pdf",
+     "fileName": "MN__SUPPORT__FEE102__affidavit-to-request-fee-waiver__REV-2024-07__EN.pdf",
+     "title": "affidavit to request fee waiver",
+     "formNumber": "FEE102",
+     "revision": "REV-2024-07",
+     "sha256": "b8415cddaa06a9c76cf2c4949aee36efe22e3b0ba98783a74063094150c72da8",
+     "byteSize": 268092,
+     "mime": "application/pdf",
+     "pageCount": 6,
+     "technology": "flat_pdf",
+     "committedIndexAgrees": true
+    },
+    {
+     "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MN/04_SUPPORTING_PROCESS/MN__SUPPORT__FEE103__supplemental-affidavit-to-request-fee-waiver__REV-2024-07__EN.pdf",
+     "fileName": "MN__SUPPORT__FEE103__supplemental-affidavit-to-request-fee-waiver__REV-2024-07__EN.pdf",
+     "title": "supplemental affidavit to request fee waiver",
+     "formNumber": "FEE103",
+     "revision": "REV-2024-07",
+     "sha256": "b6c28a9c5920932b9499edd93b705db7580b2798a74af0136d891f88a31bf24f",
+     "byteSize": 180148,
+     "mime": "application/pdf",
+     "pageCount": 2,
+     "technology": "flat_pdf",
+     "committedIndexAgrees": true
+    }
+   ],
+   "heldCandidatesNote": "the held Minnesota documents; fee-waiver affidavits, not the EXP series",
+   "nextOperationOwner": "acquisition — the Minnesota Judicial Branch expungement forms page",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "rcap-in-custom-pleading::official-form:CCA-GF-0120-3016",
+   "status": "STOPPED",
+   "sourceId": "official-form:CCA-GF-0120-3016",
+   "jurisdiction": "IN",
+   "corpusPath": null,
+   "title/formNumber": null,
+   "sha256": null,
+   "byteSize": null,
+   "mime": null,
+   "pageCount": null,
+   "technology": null,
+   "matchBasis": "form number; the corpus holds six Indiana documents, all Coalition for Court Access material — CCA-SECTION1-PETITION-ORDER, CCA-SECTION1-INSERTS, CCA-SECTION1-INSTRUCTIONS and the CCA-XP-0220-7008/7009/7010 conviction inserts — and none is CCA-GF-0120-3016.",
+   "familyIds": [
+    "rcap-in-custom-pleading"
+   ],
+   "handoffOperation": "ACQ",
+   "intendedPacketRole": "the Coalition for Court Access general filing form the five Indiana packet families and the custom-pleading host all name",
+   "revision": null,
+   "boundByExactSha256": false,
+   "finding": "One document gates all six Indiana obligations, which makes it the highest-leverage single fetch in this lane. The held CCA-XP-0220-70xx inserts share its publisher and its numbering shape, which is why a name-only search looks close, but a conviction insert keyed to I.C. 35-38-9-2, -3 or -4 is not a general filing form and must not be bound to one.",
+   "heldCandidates": [
+    {
+     "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
+     "fileName": "IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
+     "title": "coalition for court access section 1 non conviction expungement petition and order bundle",
+     "formNumber": "CCA-SECTION1-PETITION-ORDER",
+     "revision": null,
+     "sha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+     "byteSize": 2946894,
+     "mime": "application/pdf",
+     "pageCount": 15,
+     "technology": "acroform (68 AcroForm fields)",
+     "committedIndexAgrees": true
+    },
+    {
+     "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-XP-0220-7008__conviction-expungement-insert-i-c-35-38-9-2__REV-2020-02__EN.pdf",
+     "fileName": "IN__FORM__CCA-XP-0220-7008__conviction-expungement-insert-i-c-35-38-9-2__REV-2020-02__EN.pdf",
+     "title": "conviction expungement insert i c 35 38 9 2",
+     "formNumber": "CCA-XP-0220-7008",
+     "revision": "REV-2020-02",
+     "sha256": "2c4aaf4a68b06f192e5f0c4b9bbfe0dd4c04b4b1f5e0fbab879bb450223e78f0",
+     "byteSize": 3981416,
+     "mime": "application/pdf",
+     "pageCount": 3,
+     "technology": "acroform (85 AcroForm fields)",
+     "committedIndexAgrees": true
+    }
+   ],
+   "heldCandidatesNote": "same publisher and numbering shape, different instruments; recorded to show what was searched",
+   "nextOperationOwner": "acquisition — one dispatch closes six obligations",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "rcap-sc-custom-pleading::source-sha256:9a5d822bc98a5c774b4de6b45d6a5d161214d178f53bef560bddd46fc2972d29",
+   "status": "STOPPED",
+   "sourceId": "source-sha256:9a5d822bc98a5c774b4de6b45d6a5d161214d178f53bef560bddd46fc2972d29",
+   "jurisdiction": "SC",
+   "corpusPath": null,
+   "title/formNumber": null,
+   "sha256": null,
+   "byteSize": null,
+   "mime": null,
+   "pageCount": null,
+   "technology": null,
+   "matchBasis": "pinned SHA-256; all 499 files in the mounted Master Library were rehashed in this lane and none carries this digest",
+   "familyIds": [
+    "rcap-sc-custom-pleading"
+   ],
+   "handoffOperation": "SRC",
+   "intendedPacketRole": "a component of the South Carolina custom-pleading host",
+   "revision": null,
+   "boundByExactSha256": false,
+   "pinnedSha256": "9a5d822bc98a5c774b4de6b45d6a5d161214d178f53bef560bddd46fc2972d29",
+   "finding": "The corpus holds three South Carolina documents — SCCA-223A1 (order for destruction of arrest records, REV-2026-04), SCCA-223D1 (expungement objection transmittal, REV-2016-05) and SCCA-223E (application for expungement) — and none of their digests is this one. The pinned hash is recorded against the Nationwide corpus, which SIF-4 establishes is absent from this worktree, so the bytes are unreachable here rather than proven missing.",
+   "heldCandidates": [
+    {
+     "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/SC/05_SOURCE_GATED/SC__SOURCE-GATED__SCCA-223E__application-for-expungement__REV-UNKNOWN__EN.pdf",
+     "fileName": "SC__SOURCE-GATED__SCCA-223E__application-for-expungement__REV-UNKNOWN__EN.pdf",
+     "title": "application for expungement",
+     "formNumber": "SCCA-223E",
+     "revision": "REV-UNKNOWN",
+     "sha256": "668b70b0b3c2cd4c0354d0ed63711110d23633f73d507a9f67c051828b7bbad8",
+     "byteSize": 106144,
+     "mime": "application/pdf",
+     "pageCount": 1,
+     "technology": "flat_pdf",
+     "committedIndexAgrees": true
+    },
+    {
+     "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/SC/02_PACKET_FORMS/SC__FORM__SCCA-223A1__order-for-destruction-of-arrest-records__REV-2026-04__EN.pdf",
+     "fileName": "SC__FORM__SCCA-223A1__order-for-destruction-of-arrest-records__REV-2026-04__EN.pdf",
+     "title": "order for destruction of arrest records",
+     "formNumber": "SCCA-223A1",
+     "revision": "REV-2026-04",
+     "sha256": "3c3daacf4c246fe5f33f09b971948c489e1343076b5d0ddc47babf9a12cf15b7",
+     "byteSize": 1045144,
+     "mime": "application/pdf",
+     "pageCount": 7,
+     "technology": "acroform (58 AcroForm fields)",
+     "committedIndexAgrees": true
+    }
+   ],
+   "nextOperationOwner": "reconciliation with the Nationwide corpus mounted",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "ut_pet_cannabis-set::official-form:1023EX",
+   "status": "STOPPED",
+   "sourceId": "official-form:1023EX",
+   "jurisdiction": "UT",
+   "corpusPath": null,
+   "title/formNumber": null,
+   "sha256": null,
+   "byteSize": null,
+   "mime": null,
+   "pageCount": null,
+   "technology": null,
+   "matchBasis": "form number; the corpus holds twenty-one Utah documents and this is not among them.",
+   "familyIds": [
+    "ut_pet_cannabis-set"
+   ],
+   "handoffOperation": "ACQ",
+   "intendedPacketRole": "the order on a petition to expunge a cannabis conviction",
+   "revision": null,
+   "boundByExactSha256": false,
+   "finding": "The held Utah set makes the numbering plain: 1000EX petition pairs with 1020EX order, and 1002EX traffic petition pairs with 1022EX traffic order. The corpus holds 1003EX, the petition to expunge a cannabis conviction, REV-2020-03-09, and 1023EX is the order that completes that pair. Its absence is why the cannabis family cannot render a full packet while its petition sits in hand. The pattern is strong and this lane still does not bind on it — a pattern is not a document.",
+   "heldCandidates": [
+    {
+     "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/UT/02_PACKET_FORMS/UT__FORM__1003EX__petition-to-expunge-records-cannabis-conviction__REV-2020-03-09__EN.pdf",
+     "fileName": "UT__FORM__1003EX__petition-to-expunge-records-cannabis-conviction__REV-2020-03-09__EN.pdf",
+     "title": "petition to expunge records cannabis conviction",
+     "formNumber": "1003EX",
+     "revision": "REV-2020-03-09",
+     "sha256": "a8432deaa902e26c18a215d20fcc0f90eaedd5a62c28d0cec79f3f65d17c4352",
+     "byteSize": 129711,
+     "mime": "application/pdf",
+     "pageCount": 4,
+     "technology": "flat_pdf",
+     "committedIndexAgrees": true
+    },
+    {
+     "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/UT/02_PACKET_FORMS/UT__FORM__1020EX__order-on-petition-to-expunge-records-with-certificate-of-eligibility__REV-2022-04-11__EN.pdf",
+     "fileName": "UT__FORM__1020EX__order-on-petition-to-expunge-records-with-certificate-of-eligibility__REV-2022-04-11__EN.pdf",
+     "title": "order on petition to expunge records with certificate of eligibility",
+     "formNumber": "1020EX",
+     "revision": "REV-2022-04-11",
+     "sha256": "cc437e7fa0abaa1001f5309e1d842c6f7649b152fcab616bd9356293e241acd2",
+     "byteSize": 106091,
+     "mime": "application/pdf",
+     "pageCount": 3,
+     "technology": "flat_pdf",
+     "committedIndexAgrees": true
+    }
+   ],
+   "heldCandidatesNote": "the cannabis petition this order completes, and the pattern-setting order for the ordinary route",
+   "nextOperationOwner": "acquisition — the Utah State Courts publish the EX and CR series",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "ut_pet_remove_link-set::official-form:1501CR",
+   "status": "STOPPED",
+   "sourceId": "official-form:1501CR",
+   "jurisdiction": "UT",
+   "corpusPath": null,
+   "title/formNumber": null,
+   "sha256": null,
+   "byteSize": null,
+   "mime": null,
+   "pageCount": null,
+   "technology": null,
+   "matchBasis": "form number; the corpus holds twenty-one Utah documents and this is not among them.",
+   "familyIds": [
+    "ut_pet_remove_link-set"
+   ],
+   "handoffOperation": "ACQ",
+   "intendedPacketRole": "a component of the Utah record-linkage removal set",
+   "revision": null,
+   "boundByExactSha256": false,
+   "finding": "The 15xxCR series is the record-linkage removal set and the corpus holds none of it; every held Utah form is in the EX, GE or XX expungement series.",
+   "heldCandidates": [
+    {
+     "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/UT/02_PACKET_FORMS/UT__FORM__1000EX__petition-to-expunge-records-with-certificate-of-eligibility__REV-2022-04-11__EN.pdf",
+     "fileName": "UT__FORM__1000EX__petition-to-expunge-records-with-certificate-of-eligibility__REV-2022-04-11__EN.pdf",
+     "title": "petition to expunge records with certificate of eligibility",
+     "formNumber": "1000EX",
+     "revision": "REV-2022-04-11",
+     "sha256": "401e0563ae4dddee7a447c4b3fa9d043477402188c98fd3b108087c84c986611",
+     "byteSize": 62671,
+     "mime": "application/pdf",
+     "pageCount": 2,
+     "technology": "flat_pdf",
+     "committedIndexAgrees": true
+    },
+    {
+     "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/UT/02_PACKET_FORMS/UT__FORM__1020EX__order-on-petition-to-expunge-records-with-certificate-of-eligibility__REV-2022-04-11__EN.pdf",
+     "fileName": "UT__FORM__1020EX__order-on-petition-to-expunge-records-with-certificate-of-eligibility__REV-2022-04-11__EN.pdf",
+     "title": "order on petition to expunge records with certificate of eligibility",
+     "formNumber": "1020EX",
+     "revision": "REV-2022-04-11",
+     "sha256": "cc437e7fa0abaa1001f5309e1d842c6f7649b152fcab616bd9356293e241acd2",
+     "byteSize": 106091,
+     "mime": "application/pdf",
+     "pageCount": 3,
+     "technology": "flat_pdf",
+     "committedIndexAgrees": true
+    }
+   ],
+   "heldCandidatesNote": "the pattern-setting petition and order pair",
+   "nextOperationOwner": "acquisition — the Utah State Courts publish the EX and CR series",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "ut_pet_remove_link-set::official-form:1501CR-C",
+   "status": "STOPPED",
+   "sourceId": "official-form:1501CR-C",
+   "jurisdiction": "UT",
+   "corpusPath": null,
+   "title/formNumber": null,
+   "sha256": null,
+   "byteSize": null,
+   "mime": null,
+   "pageCount": null,
+   "technology": null,
+   "matchBasis": "form number; the corpus holds twenty-one Utah documents and this is not among them.",
+   "familyIds": [
+    "ut_pet_remove_link-set"
+   ],
+   "handoffOperation": "ACQ",
+   "intendedPacketRole": "a component of the Utah special-certificate route",
+   "revision": null,
+   "boundByExactSha256": false,
+   "finding": "The held Utah set makes the numbering plain: 1000EX petition pairs with 1020EX order, and 1002EX traffic petition pairs with 1022EX traffic order. 1001EX and 1021EX would be the petition and order for the special-certificate route on that same pattern, and neither is held.",
+   "heldCandidates": [
+    {
+     "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/UT/02_PACKET_FORMS/UT__FORM__1000EX__petition-to-expunge-records-with-certificate-of-eligibility__REV-2022-04-11__EN.pdf",
+     "fileName": "UT__FORM__1000EX__petition-to-expunge-records-with-certificate-of-eligibility__REV-2022-04-11__EN.pdf",
+     "title": "petition to expunge records with certificate of eligibility",
+     "formNumber": "1000EX",
+     "revision": "REV-2022-04-11",
+     "sha256": "401e0563ae4dddee7a447c4b3fa9d043477402188c98fd3b108087c84c986611",
+     "byteSize": 62671,
+     "mime": "application/pdf",
+     "pageCount": 2,
+     "technology": "flat_pdf",
+     "committedIndexAgrees": true
+    },
+    {
+     "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/UT/02_PACKET_FORMS/UT__FORM__1020EX__order-on-petition-to-expunge-records-with-certificate-of-eligibility__REV-2022-04-11__EN.pdf",
+     "fileName": "UT__FORM__1020EX__order-on-petition-to-expunge-records-with-certificate-of-eligibility__REV-2022-04-11__EN.pdf",
+     "title": "order on petition to expunge records with certificate of eligibility",
+     "formNumber": "1020EX",
+     "revision": "REV-2022-04-11",
+     "sha256": "cc437e7fa0abaa1001f5309e1d842c6f7649b152fcab616bd9356293e241acd2",
+     "byteSize": 106091,
+     "mime": "application/pdf",
+     "pageCount": 3,
+     "technology": "flat_pdf",
+     "committedIndexAgrees": true
+    }
+   ],
+   "heldCandidatesNote": "the pattern-setting petition and order pair",
+   "nextOperationOwner": "acquisition — the Utah State Courts publish the EX and CR series",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "ut_pet_remove_link-set::official-form:1502CR",
+   "status": "STOPPED",
+   "sourceId": "official-form:1502CR",
+   "jurisdiction": "UT",
+   "corpusPath": null,
+   "title/formNumber": null,
+   "sha256": null,
+   "byteSize": null,
+   "mime": null,
+   "pageCount": null,
+   "technology": null,
+   "matchBasis": "form number; the corpus holds twenty-one Utah documents and this is not among them.",
+   "familyIds": [
+    "ut_pet_remove_link-set"
+   ],
+   "handoffOperation": "ACQ",
+   "intendedPacketRole": "a component of the Utah record-linkage removal set",
+   "revision": null,
+   "boundByExactSha256": false,
+   "finding": "The 15xxCR series is the record-linkage removal set and the corpus holds none of it; every held Utah form is in the EX, GE or XX expungement series.",
+   "heldCandidates": [
+    {
+     "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/UT/02_PACKET_FORMS/UT__FORM__1000EX__petition-to-expunge-records-with-certificate-of-eligibility__REV-2022-04-11__EN.pdf",
+     "fileName": "UT__FORM__1000EX__petition-to-expunge-records-with-certificate-of-eligibility__REV-2022-04-11__EN.pdf",
+     "title": "petition to expunge records with certificate of eligibility",
+     "formNumber": "1000EX",
+     "revision": "REV-2022-04-11",
+     "sha256": "401e0563ae4dddee7a447c4b3fa9d043477402188c98fd3b108087c84c986611",
+     "byteSize": 62671,
+     "mime": "application/pdf",
+     "pageCount": 2,
+     "technology": "flat_pdf",
+     "committedIndexAgrees": true
+    },
+    {
+     "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/UT/02_PACKET_FORMS/UT__FORM__1020EX__order-on-petition-to-expunge-records-with-certificate-of-eligibility__REV-2022-04-11__EN.pdf",
+     "fileName": "UT__FORM__1020EX__order-on-petition-to-expunge-records-with-certificate-of-eligibility__REV-2022-04-11__EN.pdf",
+     "title": "order on petition to expunge records with certificate of eligibility",
+     "formNumber": "1020EX",
+     "revision": "REV-2022-04-11",
+     "sha256": "cc437e7fa0abaa1001f5309e1d842c6f7649b152fcab616bd9356293e241acd2",
+     "byteSize": 106091,
+     "mime": "application/pdf",
+     "pageCount": 3,
+     "technology": "flat_pdf",
+     "committedIndexAgrees": true
+    }
+   ],
+   "heldCandidatesNote": "the pattern-setting petition and order pair",
+   "nextOperationOwner": "acquisition — the Utah State Courts publish the EX and CR series",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "ut_pet_special_certificate-set::official-form:1001EX",
+   "status": "STOPPED",
+   "sourceId": "official-form:1001EX",
+   "jurisdiction": "UT",
+   "corpusPath": null,
+   "title/formNumber": null,
+   "sha256": null,
+   "byteSize": null,
+   "mime": null,
+   "pageCount": null,
+   "technology": null,
+   "matchBasis": "form number; the corpus holds twenty-one Utah documents and this is not among them.",
+   "familyIds": [
+    "ut_pet_special_certificate-set"
+   ],
+   "handoffOperation": "ACQ",
+   "intendedPacketRole": "a component of the Utah special-certificate route",
+   "revision": null,
+   "boundByExactSha256": false,
+   "finding": "The held Utah set makes the numbering plain: 1000EX petition pairs with 1020EX order, and 1002EX traffic petition pairs with 1022EX traffic order. 1001EX and 1021EX would be the petition and order for the special-certificate route on that same pattern, and neither is held.",
+   "heldCandidates": [
+    {
+     "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/UT/02_PACKET_FORMS/UT__FORM__1000EX__petition-to-expunge-records-with-certificate-of-eligibility__REV-2022-04-11__EN.pdf",
+     "fileName": "UT__FORM__1000EX__petition-to-expunge-records-with-certificate-of-eligibility__REV-2022-04-11__EN.pdf",
+     "title": "petition to expunge records with certificate of eligibility",
+     "formNumber": "1000EX",
+     "revision": "REV-2022-04-11",
+     "sha256": "401e0563ae4dddee7a447c4b3fa9d043477402188c98fd3b108087c84c986611",
+     "byteSize": 62671,
+     "mime": "application/pdf",
+     "pageCount": 2,
+     "technology": "flat_pdf",
+     "committedIndexAgrees": true
+    },
+    {
+     "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/UT/02_PACKET_FORMS/UT__FORM__1020EX__order-on-petition-to-expunge-records-with-certificate-of-eligibility__REV-2022-04-11__EN.pdf",
+     "fileName": "UT__FORM__1020EX__order-on-petition-to-expunge-records-with-certificate-of-eligibility__REV-2022-04-11__EN.pdf",
+     "title": "order on petition to expunge records with certificate of eligibility",
+     "formNumber": "1020EX",
+     "revision": "REV-2022-04-11",
+     "sha256": "cc437e7fa0abaa1001f5309e1d842c6f7649b152fcab616bd9356293e241acd2",
+     "byteSize": 106091,
+     "mime": "application/pdf",
+     "pageCount": 3,
+     "technology": "flat_pdf",
+     "committedIndexAgrees": true
+    }
+   ],
+   "heldCandidatesNote": "the pattern-setting petition and order pair",
+   "nextOperationOwner": "acquisition — the Utah State Courts publish the EX and CR series",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "ut_pet_special_certificate-set::official-form:1021EX",
+   "status": "STOPPED",
+   "sourceId": "official-form:1021EX",
+   "jurisdiction": "UT",
+   "corpusPath": null,
+   "title/formNumber": null,
+   "sha256": null,
+   "byteSize": null,
+   "mime": null,
+   "pageCount": null,
+   "technology": null,
+   "matchBasis": "form number; the corpus holds twenty-one Utah documents and this is not among them.",
+   "familyIds": [
+    "ut_pet_special_certificate-set"
+   ],
+   "handoffOperation": "ACQ",
+   "intendedPacketRole": "a component of the Utah special-certificate route",
+   "revision": null,
+   "boundByExactSha256": false,
+   "finding": "The held Utah set makes the numbering plain: 1000EX petition pairs with 1020EX order, and 1002EX traffic petition pairs with 1022EX traffic order. 1001EX and 1021EX would be the petition and order for the special-certificate route on that same pattern, and neither is held.",
+   "heldCandidates": [
+    {
+     "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/UT/02_PACKET_FORMS/UT__FORM__1000EX__petition-to-expunge-records-with-certificate-of-eligibility__REV-2022-04-11__EN.pdf",
+     "fileName": "UT__FORM__1000EX__petition-to-expunge-records-with-certificate-of-eligibility__REV-2022-04-11__EN.pdf",
+     "title": "petition to expunge records with certificate of eligibility",
+     "formNumber": "1000EX",
+     "revision": "REV-2022-04-11",
+     "sha256": "401e0563ae4dddee7a447c4b3fa9d043477402188c98fd3b108087c84c986611",
+     "byteSize": 62671,
+     "mime": "application/pdf",
+     "pageCount": 2,
+     "technology": "flat_pdf",
+     "committedIndexAgrees": true
+    },
+    {
+     "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/UT/02_PACKET_FORMS/UT__FORM__1020EX__order-on-petition-to-expunge-records-with-certificate-of-eligibility__REV-2022-04-11__EN.pdf",
+     "fileName": "UT__FORM__1020EX__order-on-petition-to-expunge-records-with-certificate-of-eligibility__REV-2022-04-11__EN.pdf",
+     "title": "order on petition to expunge records with certificate of eligibility",
+     "formNumber": "1020EX",
+     "revision": "REV-2022-04-11",
+     "sha256": "cc437e7fa0abaa1001f5309e1d842c6f7649b152fcab616bd9356293e241acd2",
+     "byteSize": 106091,
+     "mime": "application/pdf",
+     "pageCount": 3,
+     "technology": "flat_pdf",
+     "committedIndexAgrees": true
+    }
+   ],
+   "heldCandidatesNote": "the pattern-setting petition and order pair",
+   "nextOperationOwner": "acquisition — the Utah State Courts publish the EX and CR series",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  }
+ ]
+}

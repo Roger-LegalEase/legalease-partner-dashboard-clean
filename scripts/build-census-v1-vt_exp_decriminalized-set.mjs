@@ -1,0 +1,1635 @@
+#!/usr/bin/env node
+/**
+ * The Vermont decriminalized-conduct expungement packet family builder.
+ *
+ *   node scripts/build-census-v1-vt_exp_decriminalized-set.mjs [--check] [--no-raster]
+ *
+ * One family, three official Vermont forms, four components:
+ *
+ *   200-00129   petition                        Petition to Expunge Criminal History
+ *   200-00132A  stipulation_and_proposed_order  Stipulation to Expunge + Order
+ *   600-00228   fee_waiver_application          Application to Waive Filing Fees and Service Costs
+ *   (composed)  filing_and_expectation_instructions
+ *
+ * WHERE THE CAPTIONS COME FROM, AND WHY IT IS DIFFERENT HERE
+ *
+ * The Virginia families in this worker's PF01 carry a hand-transcribed caption
+ * per widget and a build that refuses if the caption is no longer printed where
+ * the map says. That is two independent guards on one fact. This family carries
+ * ONE: every caption is READ OUT OF THE BINARY at build time, at the widget's
+ * own coordinates, and `captionReadAt` records the y it was read from.
+ *
+ * The trade is deliberate and it is not a weakening of the source gate. What a
+ * transcribed caption adds is a second signal that the FORM changed; the
+ * exact-SHA-256 source binding already fails the family closed on any change to
+ * the form, down to a byte. What derivation adds is that the caption a
+ * participant reads is the text actually printed beside their blank, rather than
+ * a transcription of it -- and on these three forms, whose widgets are named
+ * "13a", "34g" and "MonthlyTotal", a transcription is where the error would be.
+ *
+ * What is NOT derived, and could not be, is what each blank IS. Every widget
+ * carries an explicit policy below. A field with no policy entry stops the
+ * build rather than defaulting to anything.
+ *
+ * 200-00129 and 200-00132A are the expungement counterparts of the sealing
+ * forms 200-00130 and 200-00132, which this repository already carries a
+ * verified field map for. Their widget names are the same, so the policy
+ * assignments are the same assignments, restated here against the expungement
+ * binaries and their own coordinates rather than shared across a lane boundary.
+ * 600-00228 is the same source form in both packets. It is conditional: because
+ * this route has no filing fee, its participant-supplied fields are not treated
+ * as required-before-filing items.
+ *
+ * Rasterization goes through scripts/raster/pdf-page-raster.mjs (Chromium,
+ * calibrated). Never Poppler.
+ */
+import assert from "node:assert/strict";
+import crypto from "node:crypto";
+import fs from "node:fs";
+import path from "node:path";
+import { createRequire } from "node:module";
+import { fileURLToPath } from "node:url";
+
+import { extractTextItems, groupIntoLines } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
+import { finalizeOfficialForm } from "./rcap-official-forms/rcap-official-form-finalize.mjs";
+import { flattenedWidgets, drawnAt } from "./rcap-official-forms/pdf-flattened-widgets.mjs";
+import { rasterizePageCalibrated } from "./raster/pdf-page-raster.mjs";
+import { classifyField, classifyBlank, rowKeyOf, PASS_COUNTERS, BLANK_DISPOSITIONS } from "./rcap-packet-completeness/completeness-contract.mjs";
+import { stampDeterministic } from "./rcap-official-forms/rcap-deterministic-pdf-date.mjs";
+import { preserveIdentityRefresh } from "./rcap-packet-completeness/identity-refresh.mjs";
+
+const thisFile = fileURLToPath(import.meta.url);
+const ROOT = path.resolve(path.dirname(thisFile), "..");
+process.chdir(ROOT);
+const require = createRequire(import.meta.url);
+const { PDFDocument, StandardFonts, rgb } = require("pdf-lib");
+
+const CORPUS_INDEX = "data/rcap-all50/local-source-corpus-index.json";
+const ROUTE_CENSUS = "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json";
+const TRACK_REGISTRY = "data/record-clearing/legal-design-track-registry.json";
+const OVERLAY_ROOT = "data/rcap-all50/overlays/census-v1/vt";
+const FIXED_DATE = "2026-01-01T00:00:00.000Z";
+
+function corpusRoot() {
+  const configured = process.env.MASTER_LIBRARY_SOURCE_DIR
+    ?? "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1";
+  assert.ok(fs.existsSync(configured), `the Master Library is not mounted at ${configured}`);
+  return configured;
+}
+
+const SIGNATURE = "signature_or_date_participant_completion";
+const COURT_OWNED = "court_prosecutor_clerk_or_agency_owned";
+const ELECTION_CLASS = "participant_sworn_narrative_or_legal_election";
+const FEE_WAIVER_NOT_APPLICABLE = "no filing fee is charged on this track, so the fee-waiver branch is not applicable and this participant-supplied field is never populated with participant data on this route";
+
+const WRITE = (fact) => ({ policy: "write", fact });
+const SUPPLY = (what) => ({ policy: "supply", what });
+const PROTECT = (why) => ({ policy: "protect", refusalClass: why });
+const ELECTION = () => ({ policy: "election" });
+/*
+ * FIX130. A blank on a component this route does not file.
+ *
+ * 600-00228 is delivered as a component of this packet set and its own manifest
+ * record -- legal-design-packet-set-manifests.json, packetSets[vt_exp_decriminalized-set]
+ * component vt_exp_decriminalized-fee-waiver-application-3 -- carries
+ * requirement "conditional" with conditionDescription "Only where a fee is
+ * charged; on this track none is." No fee is charged here, so the condition is
+ * not met, the form is not filed, and nothing participant-supplied belongs on
+ * it. `not_filed` says that in the policy table itself rather than leaving a
+ * blank to be read as a write the platform simply has no value for.
+ */
+const NOT_FILED = (what) => ({ policy: "not_filed", what });
+
+/*
+ * FIX130. What this packet does with 600-00228, and the record that decides it.
+ *
+ * The build used to deliver the fee-waiver application AND prefill it with the
+ * participant's docket number, case name, name, street address, city/state/zip,
+ * email, telephone and -- on page 2, on the Printed Name line of a declaration
+ * made under penalty of perjury -- their name again, while this same packet's
+ * instruction page and composed instruction pages told the reader twice not to
+ * complete or file that form on this track. A packet may not fill a form in and
+ * tell the reader not to fill it in: one of the two is false.
+ *
+ * The manifest decides which. legal-design-packet-set-manifests.json,
+ * packetSets[vt_exp_decriminalized-set], component
+ * vt_exp_decriminalized-fee-waiver-application-3, carries requirement
+ * "conditional" and conditionDescription "Only where a fee is charged; on this
+ * track none is." The held fee answer for this route is that no fee is charged
+ * -- 32 V.S.A. Sec. 1431(e)'s $90 reaches only sealing a conviction under
+ * 23 V.S.A. Sec. 1201(a) -- so the condition is not met and the form is not
+ * filed. The instruction page was right and the prefills were the false half.
+ *
+ * The form is still DELIVERED, because the manifest carries it as a component
+ * of this set, and it is delivered exactly as the Judiciary publishes it with
+ * nothing written on it. That is the treatment the sibling family
+ * vt_seal_nonconviction-set already records for the identical form on the
+ * identical no-fee reasoning.
+ */
+const FEE_WAIVER_COMPONENT_REQUIREMENT = Object.freeze({
+  requirement: "conditional",
+  conditionDescription: "Only where a filing fee is actually charged; on this track none is.",
+  conditionMetOnThisTrack: false,
+  filingDispositionForThisTrack: "do_not_file",
+  deliveryTreatment: "delivered_unfilled",
+  whyItIsStillDelivered: "600-00228 is the Vermont Judiciary's single statewide fee-waiver application and the packet-set manifest carries it as a component of this set. It is delivered exactly as the Judiciary publishes it, with nothing written on it, so the packet asserts no financial fact and no identity on a form the participant is told not to file. The instructions and the composed instruction pages name the form, say no fee is charged on this track, and say the only circumstance in which it is used.",
+  nothingIsWrittenOnIt: true,
+  manifestRecord: "data/record-clearing/legal-design-packet-set-manifests.json -> packetSets[vt_exp_decriminalized-set].components[vt_exp_decriminalized-fee-waiver-application-3]"
+});
+
+const COMPONENTS = ["petition", "stipulation_and_proposed_order", "fee_waiver_application", "filing_and_expectation_instructions"];
+const DOCUMENT_OF_COMPONENT = {
+  petition: "200-00129",
+  stipulation_and_proposed_order: "200-00132A",
+  fee_waiver_application: "600-00228",
+  filing_and_expectation_instructions: "filing_and_expectation_instructions"
+};
+
+/* 200-00129 prints its signature block in a different order from 200-00130:
+ * 42 is the street address, 39 the city/state/zip, 40 the phone and 41 the email.
+ * The finalizer caught the mismatch as explicit_mapping_conflicts_with_field_name
+ * rather than writing a phone number onto an address line. */
+const POLICY_200_00129 = {
+  "Unit": { ...SUPPLY("the Superior Court unit (county) where the case was decided"), label: "Unit (Superior Court unit)" },
+  "Docket Number": { ...WRITE("matter.case_number"), label: "Case No. (docket number)" },
+  "Defendant": { ...WRITE("participant.full_legal_name"), label: "In RE: Defendant" },
+  "DOB": { ...WRITE("participant.date_of_birth"), label: "DOB" },
+  "1": { ...SUPPLY("the description of the first offence you are asking the court to expunge"), label: "Description of Offense" },
+  "2": { ...SUPPLY("the year of the first offence"), label: "Year" },
+  "3": { ...SUPPLY("the docket number of the first offence, if it has one"), label: "Docket Number (If Any)" },
+  "4": { ...SUPPLY("the description of a second offence from the same incident, if there is one"), label: "Description of Offense" },
+  "5": { ...SUPPLY("the year of the second offence"), label: "Year" },
+  "6": { ...SUPPLY("the docket number of the second offence"), label: "Docket Number (If Any)" },
+  "7": { ...SUPPLY("the description of a third offence from the same incident, if there is one"), label: "Description of Offense" },
+  "8": { ...SUPPLY("the year of the third offence"), label: "Year" },
+  "9": { ...SUPPLY("the docket number of the third offence"), label: "Docket Number (If Any)" },
+  "10": { ...ELECTION(), label: "I was convicted of the offenses." },
+  "11": { ...SUPPLY("the date you were convicted, from your docket sheet or judgment order"), label: "a. Date of conviction:" },
+  "12": { ...ELECTION(), label: "b. I completed all of the conditions of my probation:" },
+  "13": { ...SUPPLY("the date you completed probation, if you were on probation"), label: "Yes – Date of Completion:" },
+  "14": { ...ELECTION(), label: "No" },
+  "15": { ...ELECTION(), label: "c. Any restitution ordered by the Court has been paid: Yes" },
+  "16": { ...ELECTION(), label: "c. Any restitution ordered by the Court has been paid: No" },
+  "17": { ...ELECTION(), label: "Restitution was not ordered" },
+  "18": { ...ELECTION(), label: "I was not convicted for the offenses listed above." },
+  "19": { ...ELECTION(), label: "I was cited or arrested, by (name of arresting law enforcement agency or department)" },
+  "19a": { ...SUPPLY("the name of the law enforcement agency that cited or arrested you, if no charge was filed"), label: "name of arresting law enforcement agency or department" },
+  "20": { ...ELECTION(), label: "A charge was filed, but the Court did not find probable cause." },
+  "21": { ...ELECTION(), label: "A charge was filed and later dismissed by the Court." },
+  "22": { ...SUPPLY("any new offence since the offence in question 1 — leave blank if there are none"), label: "Offense (new charges since)" },
+  "23": { ...SUPPLY("the date of that new offence"), label: "Date of Offense (new charges since)" },
+  "24": { ...SUPPLY("the date that new charge was brought"), label: "Date of Charge (new charges since)" },
+  "25": { ...SUPPLY("the date of conviction on that new charge, if there was one"), label: "Date of Conviction (new charges since)" },
+  "28": { ...SUPPLY("the date that second new charge was brought"), label: "Date of Charge (new charges since)" },
+  "29": { ...SUPPLY("the date of conviction on that second new charge"), label: "Date of Conviction (new charges since)" },
+  "32": { ...SUPPLY("the date that third new charge was brought"), label: "Date of Charge (new charges since)" },
+  "33": { ...SUPPLY("the date of conviction on that third new charge"), label: "Date of Conviction (new charges since)" },
+  "36": { ...SUPPLY("your own statement of why expungement is in the interests of justice — this is yours to write and the platform never writes it for you"), label: "4. I believe that expungement of my criminal history is in the interests of justice because:" },
+  "36a": { ...ELECTION(), label: "I consent to receive documents from the other parties at the email provided below: YES" },
+  "36b": { ...ELECTION(), label: "I consent to receive documents from the other parties at the email provided below: NO" },
+  "37": { ...PROTECT(SIGNATURE), label: "Date of Signature" },
+  "37a": { ...PROTECT(SIGNATURE), label: "Signature of Defendant" },
+  "38": { ...WRITE("participant.full_legal_name"), label: "Printed Name of Defendant" },
+  "39": { ...WRITE("participant.city_state_zip"), label: "City, State, Zip" },
+  "40": { ...WRITE("participant.phone"), label: "Phone" },
+  "41": { ...WRITE("participant.email"), label: "Email Address" },
+  "42": { ...WRITE("participant.street_address"), label: "Address" },
+};
+/* The signature block of 200-00132A interleaves two columns: three mailing-address
+ * lines on the left and the phone and email on the right, under labels that do not
+ * line up with either. Nearest-printed-line is the wrong reader for those five, so
+ * each carries an explicit label and the derived caption stays in printedLabel as
+ * the record of what is actually printed nearest the box. */
+const POLICY_200_00132A = {
+  "Unit": { ...SUPPLY("the Superior Court unit (county) where the case was decided"), label: "Unit (Superior Court unit)" },
+  "Docket Number": { ...WRITE("matter.case_number"), label: "Case No. (docket number)" },
+  "Defendant": { ...WRITE("participant.full_legal_name"), label: "In RE: Defendant" },
+  "DOB": { ...WRITE("participant.date_of_birth"), label: "DOB:" },
+  "22": { ...SUPPLY("the description of the first offence, exactly as on the petition"), label: "Description of Offense" },
+  "23": { ...SUPPLY("the date of the first offence"), label: "Date of Offense" },
+  "24": { ...SUPPLY("the incident number for the first offence, if the record shows one"), label: "Incident Number" },
+  "25": { ...SUPPLY("the docket number of the first offence, if it has one"), label: "Docket Number (if any)" },
+  "26": { ...SUPPLY("the description of a second offence from the same incident, if there is one"), label: "Description of Offense" },
+  "27": { ...SUPPLY("the date of the second offence"), label: "Date of Offense" },
+  "28": { ...SUPPLY("the incident number for the second offence"), label: "Incident Number" },
+  "29": { ...SUPPLY("the docket number of the second offence"), label: "Docket Number (if any)" },
+  "30": { ...SUPPLY("the description of a third offence from the same incident, if there is one"), label: "Description of Offense" },
+  "31": { ...SUPPLY("the date of the third offence"), label: "Date of Offense" },
+  "32": { ...SUPPLY("the incident number for the third offence"), label: "Incident Number" },
+  "33": { ...SUPPLY("the docket number of the third offence"), label: "Docket Number (if any)" },
+  "34": { ...SUPPLY("the name of any other state agency the court should notify, if you know of one"), label: "State Agency (other state entities to notify)" },
+  "34a": { ...SUPPLY("that agency's address"), label: "Address (other state entities to notify)" },
+  "35": { ...SUPPLY("a second agency the court should notify, if there is one"), label: "State Agency (other state entities to notify)" },
+  "36": { ...SUPPLY("that second agency's address"), label: "Address (other state entities to notify)" },
+  "check box 1": { ...ELECTION(), label: "I consent to receive documents from the other parties at the email provided below: YES" },
+  "chec box 2": { ...ELECTION(), label: "I consent to receive documents from the other parties at the email provided below: NO" },
+  "34b": { ...PROTECT(SIGNATURE), label: "Defendant: Date of Signature" },
+  "34c": { ...PROTECT(SIGNATURE), label: "Defendant: Signature" },
+  "34d": { ...WRITE("participant.full_legal_name"), label: "Printed Name" },
+  "34e": { ...WRITE("participant.street_address"), label: "Mailing Address" },
+  "34f": { ...WRITE("participant.city_state_zip"), label: "Mailing Address - City, State, Zip" },
+  "34g": { ...SUPPLY("a third mailing-address line, only if your address needs one"), label: "Mailing Address (third line)" },
+  "34h": { ...WRITE("participant.phone"), label: "Phone Number" },
+  "34i": { ...WRITE("participant.email"), label: "Email Address" },
+  "34j": { ...PROTECT(COURT_OWNED), label: "State’s Attorney: Date of Signature" },
+  "34k": { ...PROTECT(COURT_OWNED), label: "State’s Attorney: Signature" },
+  "34l": { ...PROTECT(COURT_OWNED), label: "State’s Attorney: Printed Name" },
+};
+const POLICY_600_00228 = {
+  "Division": { ...SUPPLY("the Superior Court division your case is in"), label: "SUPERIOR COURT DIVISION" },
+  "Unit": { ...SUPPLY("the Superior Court unit (county) where the case was decided"), label: "Unit (Superior Court unit)" },
+  "Docket Number": { ...NOT_FILED("the docket number, only if a fee is actually charged and this waiver is used"), label: "Case No. (docket number)" },
+  "Case Name": { ...NOT_FILED("the case name, only if a fee is actually charged and this waiver is used"), label: "Case Name" },
+  "3": { ...NOT_FILED("your name, only if a fee is actually charged and this waiver is used"), label: "Name: (First & Last)" },
+  "2": { ...NOT_FILED("your street address, only if a fee is actually charged and this waiver is used"), label: "Street Address:" },
+  "4": { ...NOT_FILED("your city, state and zip, only if a fee is actually charged and this waiver is used"), label: "City/State/Zip:" },
+  "5": { ...SUPPLY("a mailing address, only if it is different from your street address"), label: "Mailing Address: (if different from street address)" },
+  "5a": { ...NOT_FILED("your email address, only if a fee is actually charged and this waiver is used"), label: "Email Address:" },
+  "6": { ...NOT_FILED("your home or cell phone number, only if a fee is actually charged and this waiver is used"), label: "Home / Cell Phone:" },
+  "7": { ...SUPPLY("your work phone number, if you have one"), label: "Work Phone:" },
+  "8": { ...SUPPLY("how many people live in your household, counting a spouse or partner and any dependants"), label: "Total Number Living in Household (spouse, partner & dependents)" },
+  "15": { ...ELECTION(), label: "Are you employed? Yes" },
+  "16": { ...ELECTION(), label: "Are you employed? No" },
+  "17": { ...SUPPLY("your employer's name, if you are employed"), label: "Employer Name" },
+  "18": { ...SUPPLY("your employer's address"), label: "Employer Address" },
+  "19": { ...SUPPLY("a second employer's name, if you have one"), label: "Employer Name" },
+  "20": { ...SUPPLY("that second employer's address"), label: "Employer Address" },
+  "21": { ...ELECTION(), label: "Do you receive any government benefit based on need: Yes" },
+  "22": { ...ELECTION(), label: "Do you receive any government benefit based on need: No" },
+  "23": { ...SUPPLY("the type of public assistance you receive, if you receive any"), label: "Type of Assistance:" },
+  "24": { ...SUPPLY("the monthly amount of that public assistance"), label: "Monthly Amount $" },
+  "27": { ...SUPPLY("your gross monthly income from wages"), label: "Gross Income from Wages" },
+  "29": { ...SUPPLY("your monthly unemployment compensation, if any"), label: "Unemployment Compensation" },
+  "31": { ...SUPPLY("child support you receive each month, if any"), label: "Child Support (income received)" },
+  "33": { ...SUPPLY("any other monthly income"), label: "Other Income" },
+  "35": { ...SUPPLY("your monthly self-employment or business income, if any"), label: "Self-Employment/Business Income (other than wages)" },
+  "MonthlyTotal": { ...SUPPLY("your total monthly income"), label: "Total Monthly Income" },
+  "41": { ...SUPPLY("your total income over the past twelve months"), label: "Total Income in the past 12 months" },
+  "45": { ...SUPPLY("your monthly rent or mortgage payment"), label: "Rent or Mortgage Payment" },
+  "46": { ...SUPPLY("your monthly electricity bill"), label: "Electric Service" },
+  "47": { ...SUPPLY("your monthly phone bill"), label: "Phone (monthly expense)" },
+  "48": { ...SUPPLY("your monthly fuel, heating or gas cost"), label: "Fuel (heat and/or gas)" },
+  "49": { ...SUPPLY("your monthly food cost"), label: "Food" },
+  "50": { ...SUPPLY("the household expense on this line of the form"), label: "the unlabelled expense line printed left of Clothing" },
+  "51": { ...SUPPLY("your monthly clothing cost"), label: "Clothing" },
+  "52": { ...SUPPLY("your monthly medical cost"), label: "Medical" },
+  "53": { ...SUPPLY("child support you pay each month, if any"), label: "Child Support (monthly expense)" },
+  "54": { ...SUPPLY("your monthly car loan payment, if any"), label: "Auto Loan Payment" },
+  "55": { ...SUPPLY("your monthly property tax, if you pay it"), label: "Property Taxes" },
+  "56": { ...SUPPLY("your monthly insurance cost"), label: "Insurance (health, auto, etc.)" },
+  "57": { ...SUPPLY("any other monthly expense"), label: "Other Expenses" },
+  "72": { ...ELECTION(), label: "I have additional assets: Yes" },
+  "73": { ...ELECTION(), label: "I have additional assets: No" },
+  "74": { ...SUPPLY("the make and model of a vehicle you own, if you own one"), label: "Vehicles Make, Model" },
+  "75": { ...SUPPLY("that vehicle's year and fair market value"), label: "Vehicle Year / Fair Market Value" },
+  "76": { ...SUPPLY("how much you still owe on that vehicle"), label: "Vehicle Amount Owed" },
+  "77": { ...SUPPLY("that vehicle's net value"), label: "Vehicle Net Value" },
+  "78": { ...SUPPLY("a second vehicle's make and model, if you own one"), label: "Vehicles Make, Model" },
+  "79": { ...SUPPLY("that second vehicle's year and fair market value"), label: "Vehicle Year / Fair Market Value" },
+  "80": { ...SUPPLY("how much you still owe on that second vehicle"), label: "Vehicle Amount Owed" },
+  "81": { ...SUPPLY("that second vehicle's net value"), label: "Vehicle Net Value" },
+  "82": { ...SUPPLY("a third vehicle's make and model, if you own one"), label: "Vehicles Make, Model" },
+  "83": { ...SUPPLY("that third vehicle's year and fair market value"), label: "Vehicle Year / Fair Market Value" },
+  "84": { ...SUPPLY("how much you still owe on that third vehicle"), label: "Vehicle Amount Owed" },
+  "85": { ...SUPPLY("that third vehicle's net value"), label: "Vehicle Net Value" },
+  "86": { ...SUPPLY("a fourth vehicle's make and model, if you own one"), label: "Vehicles Make, Model" },
+  "87": { ...SUPPLY("that fourth vehicle's year and fair market value"), label: "Vehicle Year / Fair Market Value" },
+  "88": { ...SUPPLY("how much you still owe on that fourth vehicle"), label: "Vehicle Amount Owed" },
+  "89": { ...SUPPLY("that fourth vehicle's net value"), label: "Vehicle Net Value" },
+  "90": { ...SUPPLY("a description of real property you own, if you own any"), label: "Real Property Description" },
+  "91": { ...SUPPLY("that property's fair market value"), label: "Real Property FMV" },
+  "92": { ...SUPPLY("the mortgage on that property"), label: "Real Property Mortgage" },
+  "93": { ...SUPPLY("that property's net value"), label: "Real Property Net Value" },
+  "94": { ...SUPPLY("a second property's description, if you own one"), label: "Real Property Description" },
+  "95": { ...SUPPLY("that second property's fair market value"), label: "Real Property FMV" },
+  "96": { ...SUPPLY("the mortgage on that second property"), label: "Real Property Mortgage" },
+  "97": { ...SUPPLY("that second property's net value"), label: "Real Property Net Value" },
+  "98": { ...SUPPLY("how much cash you have on hand"), label: "Cash on Hand" },
+  "99": { ...SUPPLY("the balance of your checking account"), label: "Checking Account" },
+  "100": { ...SUPPLY("the balance of your savings accounts"), label: "Savings Accounts" },
+  "101": { ...SUPPLY("your total cash assets"), label: "Total Cash Assets" },
+  "102": { ...SUPPLY("a description of any other asset — tools, equipment, stocks and so on"), label: "Other Assets Description" },
+  "103": { ...SUPPLY("that asset's fair market value"), label: "Other Assets FMV" },
+  "104": { ...SUPPLY("a second other asset, if you have one"), label: "Other Assets Description" },
+  "105": { ...SUPPLY("that second asset's fair market value"), label: "Other Assets FMV" },
+  "113": { ...SUPPLY("anything else you want the court to know about why you cannot afford the fees — this is yours to write"), label: "These are additional reasons why I cannot afford the fees:" },
+  "115": { ...PROTECT(SIGNATURE), label: "Date" },
+  "116": { ...PROTECT(SIGNATURE), label: "Applicant Signature" },
+  "117": { ...NOT_FILED("your printed name under the declaration, only if a fee is actually charged and this waiver is used"), label: "Printed Name" },
+};
+
+/* 200-00129 asks one question 200-00130 does not: whether the conduct is still
+ * prohibited by law. That is the whole ground of this route, and it is the
+ * participant's own assertion about their own offence, so both boxes are theirs. */
+/* The four names that carry two boxes each on page 2 of 200-00129: a new-charge
+ * row near the top, and a state-agency row two thirds of the way down. Addressed
+ * by coordinate because the name alone cannot tell them apart. */
+POLICY_200_00129["26@p2y686"] = { ...SUPPLY("a second new offence, if there is one"), label: "Offense (new charges since)" };
+POLICY_200_00129["26@p2y431"] = { ...SUPPLY("the name of any other state agency the court should notify, if you know of one"), label: "State Agency (other state entities to notify)" };
+POLICY_200_00129["27@p2y686"] = { ...SUPPLY("the date of that second new offence"), label: "Date of Offense (new charges since)" };
+POLICY_200_00129["27@p2y431"] = { ...SUPPLY("that agency's address"), label: "Address (other state entities to notify)" };
+POLICY_200_00129["30@p2y671"] = { ...SUPPLY("a third new offence, if there is one"), label: "Offense (new charges since)" };
+POLICY_200_00129["30@p2y415"] = { ...SUPPLY("a second agency the court should notify, if there is one"), label: "State Agency (other state entities to notify)" };
+POLICY_200_00129["31@p2y671"] = { ...SUPPLY("the date of that third new offence"), label: "Date of Offense (new charges since)" };
+POLICY_200_00129["31@p2y416"] = { ...SUPPLY("that second agency's address"), label: "Address (other state entities to notify)" };
+
+POLICY_200_00129["13a"] = { ...ELECTION(), label: "d. The offense or offenses are no longer prohibited by law: Yes" };
+POLICY_200_00129["13b"] = { ...ELECTION(), label: "d. The offense or offenses are no longer prohibited by law: No" };
+
+const FORMS = {
+  "200-00129": { title: "Petition to Expunge Criminal History", component: "petition", policy: POLICY_200_00129 },
+  "200-00132A": { title: "Stipulation to Expunge Criminal History Record + Order", component: "stipulation_and_proposed_order", policy: POLICY_200_00132A },
+  "600-00228": { title: "Application to Waive Filing Fees and Service Costs", component: "fee_waiver_application", policy: POLICY_600_00228 }
+};
+const ORDER = ["200-00129", "200-00132A", "600-00228"];
+
+/*
+ * FIX01/RP-2, ROUTE_IDENTITY.
+ *
+ * This family printed "obligation:track-pathway:VT:vt_exp_decriminalized:
+ * expungement-of-decriminalized-conduct" in the participant-instructions footer
+ * and in production-field-map.json. That key exists in no route record: the
+ * committed route-obligation census names
+ * obligation:track-pathway:VT:vt_exp_decriminalized:adult-conviction-expungement-narrow-statutory-route
+ * for this packet set, and product-wiring.json routeKey and routeKeys already
+ * carry that one. The packet was built for a route the record names and
+ * labelled for a route it does not.
+ *
+ * The owner's decision, applied here: the participant-facing page prints a
+ * SHORT HUMAN-READABLE LABEL, and the canonical machine route id lives in the
+ * manifests and the wiring only. So `routeKey` below is now the census key -
+ * it reaches production-field-map.json routeKeys and every documentPolicy -
+ * and `routeLabel` is what the composed instruction PDF and
+ * participant-instructions.md print. A participant is not the reader of a route
+ * key, and a route key printed for a participant was only ever a place for this
+ * kind of error to hide.
+ *
+ * The label follows the shape Kansas already ships -- a short mechanism phrase,
+ * a hyphen, the statute -- so a reader who meets a LegalEase route line on two
+ * different packets reads the same kind of sentence twice. Kansas is
+ * scripts/build-census-v1-rcap-ks-custom-pleading.mjs and its label is
+ * "Municipal conviction or diversion expungement - K.S.A. 12-4516".
+ *
+ * The section sign is deliberately absent from the label. sanitizePdfText below
+ * writes "Sec. " over it before the composed page is drawn, so a label carrying
+ * one would print differently from the label the manifest declares;
+ * assertRouteLabel refuses that rather than letting the two drift.
+ *
+ * This declares WHAT THE PACKET IS. It opens no route, sets no price and
+ * touches no compiled runtime. It is this family alone: no other builder that
+ * prints a route line is touched by it.
+ */
+export const FAMILY_CONFIGS = Object.freeze({
+  "vt_exp_decriminalized-set": {
+    jurisdiction: "VT",
+    routeKey: "obligation:track-pathway:VT:vt_exp_decriminalized:adult-conviction-expungement-narrow-statutory-route",
+    routeLabel: "Expungement of a conviction for conduct no longer a crime - 13 V.S.A. 7602",
+    routeSelectionId: "vt-exp-decriminalized-200-00129-complete-set",
+    legalName: "Petition to Expunge a Conviction for Conduct No Longer Prohibited by Law, 13 V.S.A. § 7602",
+    routeName: "expunging a conviction for conduct that is no longer prohibited by law",
+    statute: "13 V.S.A. § 7602",
+    documents: ORDER
+  }
+});
+
+const FIXTURES = {
+  canonical: {
+    "participant.full_legal_name": "Jordan Avery Reyes",
+    "participant.date_of_birth": "1991-04-17",
+    "participant.street_address": "42 Maple Street",
+    "participant.city_state_zip": "Burlington, VT 05401",
+    "participant.phone": "802-555-0142",
+    "participant.email": "jordan.reyes@example.org",
+    "matter.case_number": "123-4-21 Cncr"
+  },
+  boundary: {
+    "participant.full_legal_name": "Maria-Alejandra O'Shaughnessy-Whitfield",
+    "participant.date_of_birth": "1968-12-31",
+    "participant.street_address": "1188 Upper Notch Crossing Road, Apartment 14B",
+    "participant.city_state_zip": "South Burlington, Vermont 05403-2214",
+    "participant.phone": "(802) 555-0199 ext. 4417",
+    "participant.email": "maria.alejandra.oshaughnessy.whitfield@longmailexample.org",
+    "matter.case_number": "1276-11-24 Frcr"
+  }
+};
+
+/* ---- what the record establishes about service ----------------------------- *
+ * FIX01/RP-2, SERVICE.
+ *
+ * This packet used to tell the participant "Who must be served, and how. Ask
+ * the same clerk", on the stated reasoning that service is not established
+ * here. Half of that is true and half of it is not. WHO is established, in the
+ * committed record this family's own route entry carries: the census
+ * destination detail for this route names the office that prosecuted the case
+ * and cites 13 V.S.A. Sec. 7602(a)(3) for it. The packet already knew the
+ * office -- it tells the participant to get the State's Attorney to sign the
+ * stipulation, and that the signature is not service -- and then declined to
+ * say that the office is the one served. HOW and BY WHEN are genuinely not
+ * established, and are still disclosed as unknown.
+ *
+ * So the sentence is READ FROM THE RECORD rather than written from memory. The
+ * census is bound by exact SHA-256 in the source receipt, and the three anchor
+ * statements the printed sentence relies on are re-read from the committed
+ * bytes: if the record ever stops saying them, this build stops rather than
+ * printing a sentence the record no longer supports.
+ */
+const SERVICE_ANCHORS = ["State's Attorney", "Attorney General", "7602(a)(3)"];
+
+function boundRouteRecord(config) {
+  const abs = path.join(ROOT, ROUTE_CENSUS);
+  assert.ok(fs.existsSync(abs),
+    `the committed route-obligation census is not at ${ROUTE_CENSUS}, and the packet prints who is served from it`);
+  const bytes = fs.readFileSync(abs);
+  const routes = JSON.parse(bytes.toString("utf8")).routes ?? [];
+  const route = routes.find((r) => r.routeKey === config.routeKey);
+  assert.ok(route, `${config.routeKey}: the committed census carries no route by this key`);
+  const name = route.destination?.name;
+  const detail = route.destination?.detail;
+  assert.ok(typeof name === "string" && name.trim().length > 0,
+    `${config.routeKey}: the census route names no destination`);
+  assert.ok(typeof detail === "string" && detail.trim().length > 0,
+    `${config.routeKey}: the census route states no destination detail, and the packet prints who is served from it`);
+  const missing = SERVICE_ANCHORS.filter((a) => !detail.includes(a));
+  assert.equal(missing.length, 0,
+    `${config.routeKey}: the census destination detail no longer states ${JSON.stringify(missing)}, so the packet may not print who is served from it`);
+  return {
+    path: ROUTE_CENSUS,
+    sha256: crypto.createHash("sha256").update(bytes).digest("hex"),
+    byteLength: bytes.length,
+    routeKey: config.routeKey,
+    destinationName: name,
+    destinationDetail: detail
+  };
+}
+
+function boundSelfHelpStopRecord(config) {
+  const abs = path.join(ROOT, TRACK_REGISTRY);
+  assert.ok(fs.existsSync(abs),
+    `the committed legal-design track registry is not at ${TRACK_REGISTRY}`);
+  const bytes = fs.readFileSync(abs);
+  const registry = JSON.parse(bytes.toString("utf8"));
+  const track = (registry.tracks ?? []).find((row) => row.trackId === "vt_exp_decriminalized");
+  assert.ok(track, "the committed registry carries no vt_exp_decriminalized track");
+  const conditions = (track.selfHelpStopConditions ?? [])
+    .map((condition) => String(condition).trim()).filter(Boolean);
+  assert.equal(conditions.length, 11,
+    `vt_exp_decriminalized must reproduce the eleven held self-help stopping conditions; read ${conditions.length}`);
+  return {
+    path: TRACK_REGISTRY,
+    sha256: crypto.createHash("sha256").update(bytes).digest("hex"),
+    byteLength: bytes.length,
+    trackId: track.trackId,
+    field: "selfHelpStopConditions",
+    conditions
+  };
+}
+
+/* ---- source binding ------------------------------------------------------ */
+function resolveSources(familyId) {
+  const config = FAMILY_CONFIGS[familyId];
+  assert.ok(config, `unknown family ${familyId}`);
+  const index = JSON.parse(fs.readFileSync(path.join(ROOT, CORPUS_INDEX), "utf8"));
+  const raw = index.entries ?? index.files ?? index;
+  const rows = Array.isArray(raw) ? raw : Object.values(raw);
+  const root = corpusRoot();
+  const resolved = []; const failures = [];
+  for (const formNumber of config.documents) {
+    // The form-number token is delimited on both sides, so 200-00132A cannot
+    // match the 200-00132 binary and 200-00129 cannot match 200-00129A.
+    const entry = rows.find((e) => String(e.path ?? e.relativePath ?? "").includes(`__${formNumber}__`)
+      && String(e.path ?? e.relativePath ?? "").startsWith("STATES/VT/"));
+    if (!entry) { failures.push({ sourceIdentity: `official-form:${formNumber}`, why: "no entry for this form number in the committed corpus index" }); continue; }
+    const rel = entry.path ?? entry.relativePath;
+    const abs = path.resolve(ROOT, root, rel);
+    if (!fs.existsSync(abs)) { failures.push({ sourceIdentity: `official-form:${formNumber}`, why: `the indexed path does not exist on disk: ${rel}` }); continue; }
+    const bytes = fs.readFileSync(abs);
+    const sha256 = crypto.createHash("sha256").update(bytes).digest("hex");
+    const indexed = String(entry.sha256 ?? entry.sha ?? "");
+    if (indexed && indexed !== sha256) { failures.push({ sourceIdentity: `official-form:${formNumber}`, why: `SHA-256 drift: the committed index says ${indexed}, the corpus binary hashes ${sha256}` }); continue; }
+    resolved.push({
+      formNumber, sourceId: `official-form:${formNumber}`, pathInArchive: rel,
+      revision: /__REV-([0-9A-Za-z-]+)__/.exec(rel)?.[1] ?? null,
+      sha256, byteLength: bytes.length, bytes
+    });
+  }
+  return { resolved, failures };
+}
+
+function normalizeRect(r) {
+  const x = Math.min(r.x, r.x + r.width);
+  const y = Math.min(r.y, r.y + r.height);
+  return { x: Number(x.toFixed(2)), y: Number(y.toFixed(2)), width: Number(Math.abs(r.width).toFixed(2)), height: Number(Math.abs(r.height).toFixed(2)) };
+}
+
+/* ---- census, with the caption read off the page --------------------------- */
+async function censusOf(source) {
+  const spec = FORMS[source.formNumber];
+  const doc = await PDFDocument.load(source.bytes, { ignoreEncryption: true });
+  const pages = doc.getPages();
+  const pageText = pages.map((p, i) => ({
+    page: i + 1,
+    /*
+     * FIX05. `x` and `yExact` are carried alongside the rounded `y`.
+     *
+     * The rounded `y` is what the caption search and `captionReadAt` have
+     * always used, and it is left exactly as it was, so no committed caption
+     * coordinate moves. The row locator below needs two things this line
+     * record did not keep: the run's LEFT EDGE, because a printed row number
+     * is recognised by sitting to the left of the blank it numbers, and the
+     * UNROUNDED baseline, because the locator tests that baseline against the
+     * widget's own rectangle and a rectangle is not an integer.
+     */
+    lines: groupIntoLines(extractTextItems(p)).map((l) => ({ y: Math.round(l.y), yExact: l.y, x: l.x, text: String(l.text ?? "").trim() })).filter((l) => l.text)
+  }));
+
+  // How many boxes each name carries, so a name that carries one keeps its own
+  // name as its key and a name that carries several is addressed by coordinate.
+  const counts = new Map();
+  for (const f of doc.getForm().getFields()) counts.set(f.getName(), f.acroField.getWidgets().length);
+
+  const rows = []; const unmapped = []; const used = new Set();
+  for (const field of doc.getForm().getFields()) {
+    const name = field.getName();
+    const pdfClass = field.constructor.name;
+    for (const w of field.acroField.getWidgets()) {
+      const rect = normalizeRect(w.getRectangle());
+      const ref = w.P();
+      let pi = pages.findIndex((p) => p.ref === ref); if (pi < 0) pi = 0;
+      const page = pi + 1;
+      const key = counts.get(name) > 1 ? `${name}@p${page}y${Math.round(rect.y)}` : name;
+      /*
+       * A name that carries several boxes is addressed ONLY by coordinate. The
+       * base-name fallback is right for a name that carries one box and wrong
+       * for one that carries several: on 200-00129 the names 26, 27, 30 and 31
+       * are a new-charge row near the top of page 2 AND a state-agency row two
+       * thirds of the way down it, and a fallback would have given the agency
+       * rows the new-charge wording without anything failing.
+       */
+      const entry = counts.get(name) > 1 ? spec.policy[key] : (spec.policy[key] ?? spec.policy[name]);
+      if (!entry) { unmapped.push({ key, field: name, page, rect, why: "no policy entry for this widget" }); continue; }
+      used.add(spec.policy[key] ? key : name);
+      /*
+       * The caption: the printed line whose baseline is nearest this widget's
+       * own, on this widget's own page. These forms label a blank above it, on
+       * it, or under it depending on the block, so nearest-by-distance is the
+       * only rule that reads all three the same way.
+       */
+      const lines = pageText.find((p) => p.page === page)?.lines ?? [];
+      const nearest = [...lines].sort((a, b) => Math.abs(a.y - rect.y) - Math.abs(b.y - rect.y))[0] ?? null;
+      rows.push({
+        key, name, page, rect,
+        type: pdfClass.replace("PDF", "").toLowerCase().replace("textfield", "text"),
+        rectBasis: "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+        caption: nearest?.text ?? null,
+        captionAt: nearest ? { page, y: nearest.y, basis: "nearest printed line to this widget's own baseline, read from the pinned binary at build time" } : null,
+        effectiveLabel: entry.label ?? nearest?.text ?? key,
+        regionHeading: entry.label ?? nearest?.text ?? key,
+        policy: entry.policy, fact: entry.fact ?? null,
+        refusalClass: entry.refusalClass ?? null, what: entry.what ?? null,
+        isSelectionControl: pdfClass === "PDFCheckBox",
+        multiline: typeof field.isMultiline === "function" ? field.isMultiline() : false,
+        maxLength: typeof field.getMaxLength === "function" ? (field.getMaxLength() ?? null) : null
+      });
+    }
+  }
+  const missingKeys = Object.keys(spec.policy).filter((k) => !used.has(k));
+  const uncaptioned = rows.filter((r) => !r.caption).map((r) => ({ key: r.key, page: r.page }));
+  return { rows, unmapped, missingKeys, uncaptioned, pageText };
+}
+
+/* ---- render one official form -------------------------------------------- */
+async function renderDocument(source, census, fixtureName) {
+  const facts = FIXTURES[fixtureName];
+  const byName = new Map();
+  for (const r of census.rows) {
+    const existing = byName.get(r.name);
+    if (!existing) { byName.set(r.name, r); continue; }
+    assert.ok(!(existing.policy === "write" || r.policy === "write"),
+      `widget name ${r.name} carries several boxes and one of them is a write; a name-keyed fill cannot address them separately`);
+  }
+  const unique = [...byName.values()];
+  const writable = unique.filter((r) => r.policy === "write");
+  const explicitMappings = Object.fromEntries(writable.map((r) => [r.name, r.fact]));
+  const unwritableFields = unique.filter((r) => r.policy !== "write").map((r) => ({ field: r.name }));
+  const { bytes, report } = await finalizeOfficialForm({
+    sourceBytes: source.bytes, expectedSha256: source.sha256,
+    census: unique.map((r) => ({
+      name: r.name, type: r.type, effectiveLabel: r.effectiveLabel, regionHeading: r.regionHeading,
+      widgets: [{ page: r.page, rect: r.rect }], multiline: r.multiline === true, maxLength: r.maxLength ?? null
+    })),
+    facts, explicitMappings, unwritableFields,
+    documentTextLines: census.pageText.flatMap((p) => p.lines.map((l) => l.text)),
+    title: FORMS[source.formNumber].title,
+    /*
+     * FIX130. THREE DEFECT CLASSES ON ONE FAMILY, AND THEY DO NOT SHARE A
+     * REMEDY. Each delivered fixture carries 22 stroke-only flattened widget
+     * appearances, 88 across the four. VF90 recorded that none of the 88 matches
+     * a pinned-source /AP /N stream byte for byte and said, correctly, that this
+     * is a byte comparison and not a finding about cause. Cause was established
+     * here, stream by stream, against this family's own three sources. The 22
+     * separate into 16 and 6, and confusing them would delete the court's ink.
+     *
+     * 16 ARE INVENTED AND ARE REMOVED. On 200-00129 all 14 check boxes and on
+     * 200-00132A both of them ship /AP /N /Yes ONLY -- there is no /N /Off state
+     * -- and their /MK carries `/CA (4)` alone: no /BC border colour, no /BG.
+     * The source declares no border for these controls anywhere. Flattening an
+     * unticked box makes pdf-lib construct one, and what reaches the page is
+     *
+     *     0 0 0 RG / 0 w / [] 0 d / 0 0 m ... h / S
+     *
+     * a black hairline rectangle the Judiciary's form does not print and no
+     * conforming viewer paints (ISO 32000-1 12.5.5). The form draws its own box
+     * as TEXT -- `/C2_1 1 Tf <0706> Tj`, the ballot-box glyph, at (54, 396.12)
+     * and (90, 321.36) and (72, 123.24) on page 1 among others, at the widget
+     * rectangles -- so removing the synthesized rectangle leaves the court's
+     * printed box standing and takes nothing the participant needs to see.
+     * suppressSynthesizedAppearances supplies the missing /Off state as an EMPTY
+     * appearance, so nothing is synthesized and nothing is flattened there. This
+     * is the repair FIX58 took on the sibling Vermont host for the same cause.
+     *
+     * 6 ARE THE COURT'S OWN INK AND ARE RESTORED. All six are on 600-00228,
+     * whose check boxes are built the other way round: they carry /MK /BC [0]
+     * /BG [1] and ship their own /N /Off. Each delivered stream is that /N /Off
+     * with its leading opaque background fill removed and nothing left over --
+     *
+     *   delivered  "0.5 0.5 13.4 13.4 re s"
+     *   source 16  "1 g / 0 0 14.4 14.4 re / f / 0.5 0.5 13.4 13.4 re / s"
+     *
+     * -- so the stroke is the form's, not ours. 600-00228 also prints its boxes
+     * as `<0706> Tj` glyphs underneath, and the white fill is what makes the
+     * widget's appearance REPLACE the printed glyph instead of doubling it.
+     * Stripped, both are on the page: two frames at every one of the six.
+     * preserveUnwrittenSelectionBackgrounds keeps only source-authored paint, in
+     * an unwritten check box or radio widget, where the source ships the
+     * appearance itself. /MK /BG is still removed and no box is ticked.
+     *
+     * AND ONE APPEARANCE IS STAMPED 25% OVERSIZED. 600-00228 field 15 ships an
+     * /AP whose /BBox is [0 0 18 18] against a /Rect of 14.4 x 14.4. ISO 32000-1
+     * 12.5.5 requires the transformed BBox to be fitted to the /Rect -- a scale
+     * of 0.8 -- and pdf-lib's flatten() emits a translation only, so this family
+     * stamps the appearance at Matrix [1 0 0 1] where the two sibling Vermont
+     * hosts, which already pass this option, stamp it at [0.8 0 0 0.8].
+     */
+    suppressSynthesizedAppearances: true,
+    preserveUnwrittenSelectionBackgrounds: true,
+    fitAppearancesToRect: true
+  });
+  if (process.env.VT_DEBUG_RENDER) {
+    console.log(`-- ${source.formNumber} ${fixtureName}: written=${report.written.length} refused=${report.refused.length}`);
+    const wanted = new Set(writable.map((r) => r.name));
+    for (const r of report.refused) if (wanted.has(r.field)) console.log(`   REFUSED A WRITE ${r.field}: ${r.reason}`);
+  }
+  /*
+   * FIX01/RP-2, KNOWN_PREFILLS.
+   *
+   * A refused write used to go nowhere but a console line behind an
+   * environment variable. On the boundary fixture the participant's email did
+   * not fit widget 34i of 200-00132A at the minimum readable size, so the
+   * finalizer refused it: eight writes on the canonical stipulation, seven on
+   * the boundary one, the printed "Email Address" line empty on the paper, no
+   * refusal in any artifact, and the participant page still saying flatly that
+   * the platform filled in "your email".
+   *
+   * A refusal is the right BEHAVIOUR -- the alternative is illegible ink or ink
+   * over a rule -- so what is repaired is the silence, not the refusal. Every
+   * refused write is carried out of here, recorded in the reports, and printed
+   * on the participant's own instruction page as a value they must write by
+   * hand.
+   */
+  const writableByName = new Map(writable.map((r) => [r.name, r]));
+  const refusedPrefills = report.refused
+    .filter((r) => writableByName.has(r.field))
+    .map((r) => {
+      const row = writableByName.get(r.field);
+      return {
+        formNumber: source.formNumber, field: row.key, widgetName: row.name, factId: row.fact,
+        page: row.page, printedCaption: row.caption, reason: r.reason,
+        valueHeld: facts[row.fact] ?? null
+      };
+    })
+    .sort((a, b) => (a.page - b.page) || a.field.localeCompare(b.field));
+  return { bytes, report, refusedPrefills };
+}
+
+async function byteProof(source, census, file, report, fixtureName) {
+  const widgets = await flattenedWidgets(file);
+  const written = new Map(report.written.map((w) => [w.field, w]));
+  const actualWrites = [];
+  for (const r of census.rows) {
+    const w = written.get(r.name);
+    if (!w || r.policy !== "write") continue;
+    const drawn = drawnAt(widgets, { page: r.page, rect: r.rect });
+    actualWrites.push({
+      field: r.key, widgetName: r.name, factId: w.factId ?? r.fact, page: r.page, rect: r.rect,
+      printedCaption: r.caption, drawnText: drawn.map((d) => d.text).filter(Boolean),
+      expected: FIXTURES[fixtureName][r.fact] ?? null
+    });
+  }
+  const measured = census.rows.map((r) => ({ page: r.page, rect: r.rect }));
+  let outside = 0;
+  for (const w of widgets) {
+    const at = measured.some((m) => m.page === w.page && Math.abs(w.x - m.rect.x) <= 2 && Math.abs(w.y - m.rect.y) <= 2);
+    if (!at) outside += String(w.text ?? "").replace(/\s+/g, "").length;
+  }
+  return { actualWrites, appearances: widgets.length, outside };
+}
+
+/* ---- the composed instructions component ---------------------------------- */
+/*
+ * The one sentence that says who the copy goes to, built from the census
+ * destination detail this build bound and asserted rather than from anything
+ * written here from memory.
+ */
+function filingAndNoticeWorkflow(routeRecord) {
+  return "You do not serve the prosecutor with process. If you file the petition, the court provides a copy to the prosecutor. "
+    + "If you use the stipulation, take or send it to the office that prosecuted your case - the State's Attorney, or the Attorney General if that office prosecuted it. "
+    + "The prosecutor signs and files the stipulation with the court; under 13 V.S.A. Sec. 7602(a)(4), the respondent files it. "
+    + `The committed route record identifies that prosecuting office this way: "${routeRecord.destinationDetail.replace(/\s+$/, "").replace(/\.$/, "")}."`;
+}
+
+/*
+ * The values the platform holds and could NOT put on the paper. Empty on a
+ * packet where everything fitted, which is why this is generated per packet
+ * rather than written into the family page once.
+ */
+function refusedPrefillLines(refusedPrefills) {
+  if (!refusedPrefills || refusedPrefills.length === 0) return [];
+  const L = ["VALUES THE PLATFORM HOLDS BUT COULD NOT PRINT", ""];
+  L.push("Each value below is one this platform holds for you. It did not fit the box on the form at a size a court could read, so the platform left the box EMPTY rather than print something illegible or over a printed rule. WRITE EACH ONE IN BY HAND before you file.", "");
+  for (const r of refusedPrefills) {
+    L.push(`- ${r.formNumber}, page ${r.page}, beside "${r.printedCaption}": ${r.valueHeld ?? "(the value this platform holds for you)"}`);
+  }
+  L.push("");
+  return L;
+}
+
+function composedBody(config, facts, resolved, routeRecord, stopRecord, refusedPrefills) {
+  const L = [];
+  L.push("FILING AND EXPECTATION INSTRUCTIONS", "");
+  L.push(`Petitioner: ${facts["participant.full_legal_name"]}`);
+  L.push(`Case No.: ${facts["matter.case_number"]}`);
+  L.push(`Route: ${config.legalName}`, "");
+  L.push("WHERE THIS GOES", "");
+  L.push("File the completed packet with the VERMONT SUPERIOR COURT, CRIMINAL DIVISION, in the unit where your case was decided. Both the petition (200-00129) and the stipulation (200-00132A) print SUPERIOR COURT CRIMINAL DIVISION across the top of page 1, and the Unit box beside it is where that unit goes. If you do not know which unit decided your case, the docket number on your paperwork identifies it, and the clerk of any Superior Court unit can tell you from the docket number.", "");
+  L.push("WHAT THIS PACKET CONTAINS", "");
+  for (const r of resolved) {
+    const conditional = r.formNumber === "600-00228"
+      ? " (conditional only if a filing fee is actually charged and the participant cannot pay it; do not complete or file it on this track)"
+      : "";
+    L.push(`- ${r.formNumber}: ${FORMS[r.formNumber].title}${conditional}`);
+  }
+  L.push("- These instructions.", "");
+  L.push("WHAT TO EXPECT", "");
+  L.push("This route asks the court to expunge a conviction because the conduct is no longer prohibited by law. Question 2(d) of the petition is where you say so, and it is your assertion about your own offence: the platform does not tick it for you and does not decide whether it is true of your record.", "");
+  L.push("The stipulation (200-00132A) is an agreement between you and the prosecuting office. Take or send it to that office. If the prosecutor agrees, the prosecutor signs and files the stipulation with the court. If the prosecutor will not stipulate, file the petition on its own; a scheduled hearing is one of the stopping conditions below.", "");
+  L.push("NO FILING FEE ON THIS TRACK", "");
+  L.push("There is no filing fee for this petition. Under 32 V.S.A. Sec. 1431(e), the $90 fee applies only to sealing a conviction for a violation of 23 V.S.A. Sec. 1201(a); it does not apply to this expungement under 13 V.S.A. Sec. 7602.", "");
+  L.push("Form 600-00228 is conditional only where a filing fee is actually charged and the participant cannot pay it. No fee is charged on this track, so do not complete or file the fee-waiver form for this petition.", "");
+  L.push("NO PARTICIPANT SERVICE OF PROCESS", "");
+  L.push(filingAndNoticeWorkflow(routeRecord), "");
+  L.push(...refusedPrefillLines(refusedPrefills));
+  L.push("WHEN TO STOP AND GET A LAWYER", "");
+  L.push("The committed track registry holds the following eleven stopping conditions. If any describes your case, stop and take the matter to a lawyer or legal-aid office rather than filing:", "");
+  for (const condition of stopRecord.conditions) L.push(`- ${condition}`);
+  L.push("");
+  L.push("WHAT THIS PACKET IS NOT", "");
+  L.push("This is a prepared set of official Vermont forms. It is not legal advice, it is not filed for you, and it does not decide whether the court will grant expungement.", "");
+  L.push(`Route: ${config.routeLabel}`);
+  return L.join("\n");
+}
+
+function sanitizePdfText(t) {
+  return t.replaceAll(" ", " ").replaceAll("‑", "-").replaceAll("–", "-").replaceAll("—", "-")
+    .replaceAll("−", "-").replaceAll("’", "'").replaceAll("‘", "'").replaceAll("“", '"')
+    .replaceAll("”", '"').replaceAll("§", "Sec. ").replaceAll("…", "...");
+}
+
+/* The composed instruction page's own geometry. Named because assertRouteLabel
+ * measures the printed route line against the same column the renderer draws
+ * into; two copies of 612 and 72 is how those two silently stop agreeing. */
+const COMPOSED_FONT_SIZE = 11;
+const COMPOSED_PAGE_WIDTH = 612;
+const COMPOSED_MARGIN = 72;
+const COMPOSED_TEXT_WIDTH = COMPOSED_PAGE_WIDTH - 2 * COMPOSED_MARGIN;
+
+/*
+ * The guard on the two identities.
+ *
+ * A label that carried a machine key, or that could not be read at a glance,
+ * would defeat the point of having one; a label the page sanitizer rewrites
+ * would make the manifest and the paper disagree; and a label that wrapped
+ * would hand a participant the same broken line the key gave them. The width is
+ * measured against the composed page's own font, size and text column rather
+ * than against a character count, because a character count is a guess about a
+ * proportional font.
+ */
+async function assertRouteLabel(config) {
+  const label = config.routeLabel;
+  assert.ok(typeof label === "string" && label.trim().length > 0,
+    `${config.routeKey}: declares no human-readable routeLabel, and the packet page prints the label`);
+  assert.ok(!label.includes("obligation:"),
+    `${config.routeKey}: routeLabel "${label}" carries a machine route key; the label is what a person reads`);
+  assert.equal(label, sanitizePdfText(label),
+    `${config.routeKey}: routeLabel would be rewritten by the page sanitizer, so the manifest and the page would disagree`);
+  const probe = await PDFDocument.create();
+  const font = await probe.embedFont(StandardFonts.TimesRoman);
+  const width = font.widthOfTextAtSize(`Route: ${label}`, COMPOSED_FONT_SIZE);
+  assert.ok(width <= COMPOSED_TEXT_WIDTH,
+    `${config.routeKey}: the printed route line is ${width.toFixed(1)}pt wide against a ${COMPOSED_TEXT_WIDTH}pt column, so it would wrap`);
+}
+
+async function renderComposedPdf(fullText, title) {
+  const pdf = await PDFDocument.create();
+  pdf.setTitle(title); pdf.setProducer("RCAP census-v1 artifact-only renderer"); pdf.setCreator("RCAP evidence build");
+  const fixed = new Date(FIXED_DATE); pdf.setCreationDate(fixed); pdf.setModificationDate(fixed);
+  const font = await pdf.embedFont(StandardFonts.TimesRoman);
+  const size = COMPOSED_FONT_SIZE, lh = 14.5, W = COMPOSED_PAGE_WIDTH, H = 792, margin = COMPOSED_MARGIN, maxW = COMPOSED_TEXT_WIDTH;
+  let page = pdf.addPage([W, H]); let y = H - margin;
+  const draw = (line) => { if (y < margin) { page = pdf.addPage([W, H]); y = H - margin; } if (line) page.drawText(line, { x: margin, y, size, font, color: rgb(0, 0, 0) }); y -= lh; };
+  const splitToken = (tok) => { const out = []; let c = ""; for (const ch of tok) { if (c && font.widthOfTextAtSize(`${c}${ch}`, size) > maxW) { out.push(c); c = ch; } else c += ch; } if (c) out.push(c); return out; };
+  const wrap = (line) => {
+    if (!line) return [""];
+    const words = line.split(/\s+/).flatMap((w) => font.widthOfTextAtSize(w, size) > maxW ? splitToken(w) : [w]);
+    const out = []; let c = "";
+    for (const w of words) { const cand = c ? `${c} ${w}` : w; if (font.widthOfTextAtSize(cand, size) <= maxW) c = cand; else { if (c) out.push(c); c = w; } }
+    if (c) out.push(c); return out;
+  };
+  for (const raw of sanitizePdfText(fullText).split("\n")) for (const row of wrap(raw)) draw(row);
+  return Buffer.from(await pdf.save({ useObjectStreams: false, updateMetadata: false }));
+}
+
+function composedMap(config) {
+  const id = "filing_and_expectation_instructions";
+  const base = (fid, label) => ({
+    field: `${id}.${fid}`, page: 1, printedLabel: label, printedLine: label,
+    effectiveLabel: label, regionHeading: label, sectionHeading: null,
+    rectBasis: "composed_document_authored_by_this_build"
+  });
+  const writes = [
+    { ...base("petitioner_name", "Petitioner named on this page"), factId: "participant.full_legal_name", kind: "composed_text", document: id },
+    { ...base("case_number", "Case No. printed on this page"), factId: "matter.case_number", kind: "composed_text", document: id }
+  ];
+  return {
+    formNumber: id,
+    documentPolicy: { mode: "participant", captionOnly: false, documentAcceptsFill: true, routeKey: config.routeKey },
+    structuralClass: "composed_document",
+    explicitMappings: {}, roleRefusals: [], selectionControls: [],
+    canonicalWrites: writes, canonicalRefusals: [],
+    boundaryWrites: writes, boundaryRefusals: []
+  };
+}
+
+/* ---- field map ------------------------------------------------------------ */
+function officialFieldMap(source, census, report, config) {
+  const written = new Set(report.written.map((w) => w.field));
+  const feeWaiverNotApplicable = source.formNumber === "600-00228";
+  const canonicalWrites = []; const canonicalRefusals = []; const selectionControls = [];
+  for (const r of census.rows) {
+    const base = {
+      field: r.key, widgetName: r.name, page: r.page, rect: r.rect, rectBasis: r.rectBasis,
+      printedLabel: r.caption, printedLine: r.caption,
+      regionHeading: r.effectiveLabel, sectionHeading: null,
+      effectiveLabel: r.effectiveLabel, captionReadAt: r.captionAt
+    };
+    if (r.policy === "write") {
+      assert.ok(written.has(r.name), `${source.formNumber} ${r.key} is mapped as a write and the finalizer did not write it`);
+      canonicalWrites.push({ ...base, factId: r.fact, kind: r.type, document: source.formNumber });
+      continue;
+    }
+    if (r.isSelectionControl) {
+      const protect = r.policy === "protect";
+      const cls = protect ? r.refusalClass : feeWaiverNotApplicable ? null : ELECTION_CLASS;
+      selectionControls.push({
+        ...base, selectionId: r.key, kind: "selection_control", type: "checkbox",
+        widgets: [{ page: r.page, rect: r.rect, rectBasis: r.rectBasis }],
+        disposition: "explicit_refusal",
+        reason: protect ? "signature or date field; never prefilled by this build"
+          : feeWaiverNotApplicable ? FEE_WAIVER_NOT_APPLICABLE
+            : "a sworn assertion or legal election the route does not determine; only the participant may make it",
+        category: cls, completenessClass: cls, class: cls,
+        requiredBeforeFiling: false, routeDetermined: false, document: source.formNumber,
+        why: protect ? "the participant signs and dates this themselves at filing time"
+          : feeWaiverNotApplicable ? "form 600-00228 is used only when a fee is actually charged and the participant cannot pay it; no fee is charged on this track"
+            : "only the participant may make this election"
+      });
+      continue;
+    }
+    if (r.policy === "protect") {
+      canonicalRefusals.push({
+        ...base, reason: "signature or date field; never prefilled by this build",
+        category: r.refusalClass, completenessClass: r.refusalClass, class: r.refusalClass,
+        requiredBeforeFiling: false, document: source.formNumber,
+        why: r.refusalClass === SIGNATURE
+          ? "the participant signs and dates this themselves at filing time"
+          : "the court, the clerk or the State's Attorney owns this field"
+      });
+      continue;
+    }
+    if (feeWaiverNotApplicable) {
+      canonicalRefusals.push({
+        ...base, reason: FEE_WAIVER_NOT_APPLICABLE,
+        category: null, completenessClass: null, class: null,
+        requiredBeforeFiling: false, routeDetermined: false, document: source.formNumber,
+        why: "form 600-00228 is used only when a fee is actually charged and the participant cannot pay it; no fee is charged on this track"
+      });
+      continue;
+    }
+    canonicalRefusals.push({
+      ...base, reason: `the participant supplies this before filing: ${r.what}`,
+      category: null, completenessClass: null, class: null,
+      disposition: "REQUIRED_BEFORE_FILING", requiredBeforeFiling: true, routeDetermined: false,
+      identity: `${source.formNumber} field ${r.key}`, factId: null, document: source.formNumber,
+      why: `the platform holds no value for this and the participant supplies it before filing: ${r.what}`,
+      participantMustSupply: r.what
+    });
+  }
+  return {
+    formNumber: source.formNumber,
+    documentPolicy: { mode: "participant", captionOnly: false, documentAcceptsFill: true, routeKey: config.routeKey },
+    structuralClass: "acroform",
+    component: FORMS[source.formNumber].component,
+    explicitMappings: Object.fromEntries(census.rows.filter((r) => r.policy === "write").map((r) => [r.name, r.fact])),
+    roleRefusals: [], selectionControls, canonicalWrites, canonicalRefusals,
+    boundaryWrites: canonicalWrites, boundaryRefusals: canonicalRefusals
+  };
+}
+
+function builderCounters(maps, actualWrites, instructionsText) {
+  const counters = Object.fromEntries(PASS_COUNTERS.map((c) => [c, 0]));
+  const findings = [];
+  const note = (counter, detail) => { counters[counter] += 1; findings.push({ counter, ...detail }); };
+  const writes = []; const blanks = [];
+  for (const m of maps) {
+    const id = m.formNumber;
+    for (const w of m.canonicalWrites ?? []) writes.push({ ...w, document: id, name: w.field, label: w.effectiveLabel ?? w.field, isSelectionControl: false });
+    for (const r of m.canonicalRefusals ?? []) blanks.push({ ...r, document: id, name: r.field, label: r.effectiveLabel ?? r.field, refusalClass: r.completenessClass ?? null, isSelectionControl: false });
+    for (const c of m.selectionControls ?? []) {
+      if (String(c.disposition ?? "").toLowerCase().startsWith("select")) writes.push({ ...c, document: id, name: c.selectionId, label: c.field, isSelectionControl: false });
+      else blanks.push({ ...c, document: id, name: c.field, label: `${c.field} (selection)`, refusalClass: c.completenessClass ?? null, isSelectionControl: true });
+    }
+  }
+  const normLabel = (x) => String(x ?? "").toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+  const writtenInDocument = new Map();
+  for (const w of writes) {
+    const doc = String(w.document ?? "");
+    if (!writtenInDocument.has(doc)) writtenInDocument.set(doc, new Set());
+    for (const k of [normLabel(w.label), normLabel(w.name)]) if (k.length >= 4) writtenInDocument.get(doc).add(k);
+  }
+  const availableFacts = new Set(writes.map((w) => w.factId).filter(Boolean).map(String));
+  const declaredRequired = [];
+  for (const b of blanks) {
+    const here = writtenInDocument.get(String(b.document ?? "")) ?? new Set();
+    const declared = {
+      disposition: b.completenessDisposition ?? null,
+      ...(Object.hasOwn(b, "requiredBeforeFiling") ? { requiredBeforeFiling: b.requiredBeforeFiling === true } : {}),
+      routeDetermined: b.routeDetermined === true,
+      factId: b.factId ?? null, identity: b.field ?? null,
+      factAvailable: (b.factId ? availableFacts.has(String(b.factId)) : false) || here.has(normLabel(b.label)) || here.has(normLabel(b.name))
+    };
+    const verdict = classifyBlank(b, b.reason, b.refusalClass, declared);
+    if (verdict.disposition === "REQUIRED_BEFORE_FILING") declaredRequired.push(b);
+    if (BLANK_DISPOSITIONS[verdict.disposition].allowed) continue;
+    if (verdict.disposition === "KNOWN_FACT_NOT_WRITTEN") note("knownRequiredFieldsMissing", { field: b.field, label: b.label, basis: verdict.basis });
+    else if (verdict.disposition === "ROUTE_OPTION_NOT_SELECTED") note("requiredOptionsMissing", { field: b.field, label: b.label, basis: verdict.basis });
+    else note("unclassifiedBlanks", { field: b.field, label: b.label, basis: verdict.basis });
+  }
+  const hay = String(instructionsText ?? "").toLowerCase();
+  for (const b of declaredRequired) {
+    const needles = [b.effectiveLabel, b.field, b.identity].map((x) => String(x ?? "").trim()).filter((x) => x.length >= 3);
+    if (needles.some((n) => hay.includes(n.toLowerCase().slice(0, 60)))) continue;
+    note("requiredFactsNotCollected", { field: b.field, label: b.label, why: "classified required-before-filing and not named in participant-instructions.md" });
+  }
+  const rows = new Map();
+  for (const f of [...writes.map((w) => ({ ...w, written: true })), ...blanks.map((b) => ({ ...b, written: false }))]) {
+    const key = rowKeyOf(f); if (!key) continue;
+    if (!rows.has(key)) rows.set(key, []);
+    rows.get(key).push(f);
+  }
+  for (const [key, cells] of rows) {
+    if (!cells.some((c) => c.written)) continue;
+    const missing = cells.filter((c) => !c.written && classifyField(c.label, c.isSelectionControl === true).requirement === "REQUIRED_KNOWN");
+    if (missing.length > 0) note("incompleteRows", { row: key, missingCells: missing.map((m) => m.label).slice(0, 6) });
+  }
+  for (const w of writes) {
+    if (classifyField(w.label, w.isSelectionControl === true).requirement === "PROTECTED") note("protectedWrites", { field: w.field, label: w.label, why: "a protected field was written" });
+  }
+  for (const a of actualWrites.artifacts ?? []) {
+    const reported = a.valuesReportedByFinalizer ?? null;
+    const visible = (a.addedGlyphsReadFromOutputBytes ?? 0) + (a.flattenedWidgetAppearancesReadFromOutputBytes ?? 0);
+    if (typeof reported === "number" && reported > 0 && visible === 0) note("invisibleWrites", { fixture: a.fixture, reportedByFinalizer: reported });
+    if ((a.nonWhitespaceGlyphsOutsideMeasuredWriteBoxes ?? 0) > 0) note("visualDefects", { fixture: a.fixture, glyphsOutsideMeasuredBoxes: a.nonWhitespaceGlyphsOutsideMeasuredWriteBoxes });
+  }
+  return { counters, findings, terminalFields: writes.length + blanks.length, written: writes.length, blank: blanks.length };
+}
+
+/*
+ * FIX05, 2026-09-10. The participant's item list: which blank, and in what
+ * order.
+ *
+ * WHAT WAS WRONG. Two things, on the only list this packet gives a participant
+ * to work from. Both are invisible to all nine completeness counters, which
+ * read zero on this family before this repair and read zero after it.
+ *
+ * (1) FIFTEEN CAPTIONS EACH NAMED MORE THAN ONE BLANK. The 48 items were
+ *     disclosed by the printed caption alone, so on 200-00129 page 1 three
+ *     consecutive items all read "Description of Offense", three all read
+ *     "Year" and three all read "Docket Number (If Any)"; on page 2 four more
+ *     groups of three in the new-charges table and two pairs in the
+ *     state-agency table; on 200-00132A page 1 four groups of three and two
+ *     more pairs. Grouping the committed list by (document, page,
+ *     disclosureLabel) gives 15 groups of size greater than one. Only the
+ *     what-to-write column distinguished them, and that column is prose.
+ *
+ *     The form itself offers a distinguisher for nine of them and the list used
+ *     none of it. Read from the pinned 200-00129
+ *     (6b855b1976bb10bb1a623e4ae1741545d36108c5e320c7ce542d214481ab9be5), the
+ *     question-1 charge table prints three lines whose whole text is "1.", "2."
+ *     and "3.", all three at x=54.4, at baselines 484.4, 469.8 and 456.1 --
+ *     each inside the vertical band of its own row's widgets ([482.07, 495.69],
+ *     [467.17, 480.78], [454.15, 467.76]) and to the left of them.
+ *
+ * (2) THE LIST WAS EMITTED IN ACROFORM FIELD-TREE ORDER, NOT READING ORDER.
+ *     The old sort was document, then page, then descending rect.y, and a row's
+ *     cells on these forms do not share an exact y -- they differ by up to
+ *     1.22pt -- so within a row the sort either fell back on the array order it
+ *     was given, which is the field tree, or ordered the columns by a fraction
+ *     of a point. On 200-00129 page 2 that emitted 22,23,24,25 then 28,29 then
+ *     26,27 then 32,33 then 30,31 where the geometry reads 22 through 33 in
+ *     sequence. On the page it put "Address (other state entities to notify) |
+ *     that agency's address" ABOVE the row that introduces the agency -- twice
+ *     on 200-00129 page 2 (rects y=431.42 against y=431.38, and y=416.04
+ *     against y=415.00) and twice on 200-00132A page 1 (y=356.35 against
+ *     y=356.30, and y=341.28 against y=340.06) -- so the demonstrative "that
+ *     agency" printed before its antecedent. It also put "the date that second
+ *     new charge was brought" two rows above "a second new offence, if there is
+ *     one".
+ *
+ * WHAT THIS IS NOT. Not a mis-mapping. Every one of the 48 items named the
+ * correct blank before this repair and names the same blank after it. No value
+ * changes, no policy changes, and NO PDF BYTE MOVES: `rbf` is computed after
+ * every fixture has been written and is not an input to any rendered page --
+ * the composed instruction pages are drawn from `composedBody`, which never
+ * receives it. It reaches production-field-map.json and
+ * participant-instructions.md and nothing else.
+ *
+ * WHAT REPLACES IT. Both the locator and the order are derived from the source
+ * widgets' own measured /Rect and the source page's own printed runs. Nothing
+ * here is hand-typed: there is no literal row number, no literal label and no
+ * literal ordering in this file.
+ *
+ * This is the standard FIX130 applied to the five sibling seal families in this
+ * same shift, from this same host and the same corpus. It is re-derived here
+ * against the forms THIS family binds rather than carried across: 200-00129 and
+ * 200-00132A are the expungement counterparts of 200-00130 and 200-00132, not
+ * the same binaries, and their printed geometry was measured on the digests
+ * this family's own source-receipt pins.
+ */
+const ORDINALS = ["first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth", "tenth"];
+
+/*
+ * A printed row number is only accepted as one when it behaves like a table's
+ * row-number COLUMN: every row in the group has one, they increase down the
+ * page, and they are all printed at the same left edge. The tolerance is the
+ * width of that column, not a guess about the page.
+ */
+const ROW_NUMBER_COLUMN_TOLERANCE_PT = 2;
+
+/*
+ * The cells of one printed row do not share an exact baseline on these forms.
+ * The largest spread measured across the three repeating tables and the two
+ * state-agency tables this packet discloses is 1.22pt (200-00132A page 1,
+ * y=341.28 against y=340.06); the smallest gap between two different rows is
+ * 13.02pt (200-00129 page 1, y=467.17 against y=454.15). Any tolerance between
+ * those two numbers separates the rows and joins each row's own cells, and the
+ * band builder below ASSERTS both properties on the geometry it is actually
+ * given rather than trusting this paragraph.
+ */
+const READING_ORDER_BAND_PT = 4;
+
+/*
+ * FIX05. Which of several identically-captioned blanks this one is, resolved by
+ * geometry against the printed page and never by AcroForm field name -- the
+ * field names on these forms are bare ordinals that agree with the printed row
+ * numbers nowhere, and four of them (26, 27, 30 and 31 on 200-00129) name two
+ * different blanks in two unrelated tables.
+ *
+ * A locator is attached only where one is NEEDED: where the same printed words
+ * appear beside more than one blank on one page of one form. Those blanks are
+ * ordered by their own rectangles, top of the page first. Where the form prints
+ * a row number beside every one of them, that printed number is used and the
+ * label says it is printed. Where it does not, the locator is the blank's
+ * position down the page, which is something the participant can see, and the
+ * label says the form prints no numbers there rather than implying one.
+ */
+function rowLocatorsFor(census) {
+  const byLabel = new Map();
+  for (const r of census.rows) {
+    const key = `p${r.page}|${r.effectiveLabel}`;
+    byLabel.set(key, [...(byLabel.get(key) ?? []), r]);
+  }
+  const locator = new Map(); // `${key}@p${page}` -> locator string
+  for (const group of byLabel.values()) {
+    if (group.length < 2) continue;
+    const ordered = [...group].sort((a, b) => b.rect.y - a.rect.y);
+    const lines = census.pageText.find((p) => p.page === ordered[0].page)?.lines ?? [];
+    const printed = ordered.map((r) => lines.find((l) => /^\d+\.$/.test(l.text)
+      // inside this blank's OWN vertical band, read from its own rectangle
+      && l.yExact >= r.rect.y - 2 && l.yExact <= r.rect.y + r.rect.height
+      // and to the left of it, which is where a row number is printed
+      && typeof l.x === "number" && l.x < r.rect.x - 4) ?? null);
+    const numbers = printed.map((l) => (l ? Number(l.text.slice(0, -1)) : null));
+    const everyRowNumbered = printed.every((l) => l !== null)
+      && numbers.every((n, i) => i === 0 || n > numbers[i - 1])
+      && printed.every((l) => Math.abs(l.x - printed[0].x) <= ROW_NUMBER_COLUMN_TOLERANCE_PT);
+    ordered.forEach((r, i) => {
+      locator.set(`${r.key}@p${r.page}`, everyRowNumbered
+        ? `row ${numbers[i]} as printed on the form`
+        : `${ORDINALS[i] ?? `row ${i + 1}`} row (the form prints no row numbers here)`);
+    });
+  }
+  return locator;
+}
+
+/*
+ * FIX05. The label a participant reads: the words the form prints beside that
+ * blank, and -- only where those words name more than one blank on that page --
+ * which one. Two blanks on one page of one form may not carry the same
+ * identifier, and the build refuses rather than emit a list where they do.
+ */
+function disclosureLabelsFor(censuses) {
+  const labels = new Map(); // `${form}|${key}|${page}` -> label
+  const seen = new Map();
+  for (const { source, census } of censuses) {
+    const locator = rowLocatorsFor(census);
+    for (const r of census.rows) {
+      const where = locator.get(`${r.key}@p${r.page}`);
+      const label = where ? `${r.effectiveLabel} — ${where}` : r.effectiveLabel;
+      labels.set(`${source.formNumber}|${r.key}|${r.page}`, label);
+      const uniquenessKey = `${source.formNumber}|p${r.page}|${label}`;
+      seen.set(uniquenessKey, [...(seen.get(uniquenessKey) ?? []), r.key]);
+    }
+  }
+  const collisions = [...seen.entries()].filter(([, keys]) => keys.length > 1)
+    .map(([key, widgets]) => ({ key, widgets }));
+  assert.equal(collisions.length, 0,
+    `two blanks on one page of one form would be disclosed under the same label: ${JSON.stringify(collisions.slice(0, 4))}`);
+  return labels;
+}
+
+/*
+ * FIX05. Page, then down the page, then across the row -- clustered into rows
+ * first, because ordering on the raw baseline interleaves the columns of a row
+ * whose cells sit a point apart.
+ *
+ * The band tolerance is not asserted to be right in a comment; it is proven
+ * against the geometry of the items actually passed in. If a band ever held two
+ * cells further apart than the tolerance, or two bands on a page ever came
+ * closer together than the tolerance, the clustering would be arbitrary and the
+ * build stops instead of publishing an order it cannot justify.
+ */
+function inReadingOrder(items, where) {
+  const bands = [];
+  for (const r of [...items].sort((a, b) => a.page - b.page || b.y - a.y)) {
+    const band = bands.find((b) => b.page === r.page && Math.abs(b.y - r.y) <= READING_ORDER_BAND_PT);
+    if (band) band.rows.push(r);
+    else bands.push({ page: r.page, y: r.y, rows: [r] });
+  }
+  for (const b of bands) {
+    const ys = b.rows.map((r) => r.y);
+    const spread = Math.max(...ys) - Math.min(...ys);
+    assert.ok(spread <= READING_ORDER_BAND_PT,
+      `${where} page ${b.page}: one row band spans ${spread.toFixed(2)}pt, wider than the ${READING_ORDER_BAND_PT}pt tolerance that built it, so the row clustering is not sound`);
+  }
+  for (const page of new Set(bands.map((b) => b.page))) {
+    const extents = bands.filter((b) => b.page === page)
+      .map((b) => ({ lo: Math.min(...b.rows.map((r) => r.y)), hi: Math.max(...b.rows.map((r) => r.y)) }))
+      .sort((a, b) => b.hi - a.hi);
+    for (let i = 1; i < extents.length; i += 1) {
+      const gap = extents[i - 1].lo - extents[i].hi;
+      assert.ok(gap > READING_ORDER_BAND_PT,
+        `${where} page ${page}: two row bands are ${gap.toFixed(2)}pt apart, within the ${READING_ORDER_BAND_PT}pt tolerance, so which row a blank belongs to is not decidable from its baseline alone`);
+    }
+  }
+  return bands.flatMap((b) => [...b.rows].sort((a, b2) => a.x - b2.x));
+}
+
+function requiredBeforeFilingItems(maps, censuses) {
+  const labels = disclosureLabelsFor(censuses);
+  const order = Object.fromEntries(ORDER.map((f, i) => [f, i]));
+  const documents = maps
+    .filter((m) => (m.canonicalRefusals ?? []).some((r) => r.requiredBeforeFiling === true))
+    .sort((a, b) => (order[a.formNumber] ?? 99) - (order[b.formNumber] ?? 99));
+  const out = [];
+  for (const m of documents) {
+    const items = m.canonicalRefusals.filter((r) => r.requiredBeforeFiling === true).map((r) => {
+      /*
+       * The order and the locator are both read off this rectangle. A missing
+       * one is an unmeasured position, not position zero, and coalescing it to
+       * zero would sort the blank to the bottom of the page and say nothing.
+       */
+      assert.ok(r.rect && Number.isFinite(r.rect.y) && Number.isFinite(r.rect.x),
+        `${m.formNumber} ${r.field}: no measured rectangle, so its place in the participant's reading order cannot be derived`);
+      const disclosureLabel = labels.get(`${m.formNumber}|${r.field}|${r.page}`);
+      assert.ok(typeof disclosureLabel === "string" && disclosureLabel.length > 0,
+        `${m.formNumber} ${r.field} p${r.page}: no disclosure label was derived for a blank the participant is asked to fill in`);
+      return {
+        document: m.formNumber, field: r.field, page: r.page, y: r.rect.y, x: r.rect.x,
+        printedContext: r.printedLabel, disclosureLabel,
+        identity: r.identity, why: r.why, participantMustSupply: r.participantMustSupply
+      };
+    });
+    out.push(...inReadingOrder(items, m.formNumber));
+  }
+  /*
+   * The assertion in disclosureLabelsFor covers every widget on every form.
+   * This one covers the list actually emitted, which is the artifact the defect
+   * lived in, and it is the one that would fail if the two ever came apart.
+   */
+  const disclosed = new Map();
+  for (const i of out) {
+    const key = `${i.document}|p${i.page}|${i.disclosureLabel}`;
+    disclosed.set(key, [...(disclosed.get(key) ?? []), i.field]);
+  }
+  const shared = [...disclosed.entries()].filter(([, fields]) => fields.length > 1);
+  assert.equal(shared.length, 0,
+    `the participant's item list would name ${shared.length} caption(s) against more than one blank: ${JSON.stringify(shared.slice(0, 4))}`);
+  return out;
+}
+
+function instructionsMarkdown(config, resolved, rbf, routeRecord, stopRecord, refusedPrefillsByFixture) {
+  const byDoc = new Map();
+  for (const i of rbf) byDoc.set(i.document, [...(byDoc.get(i.document) ?? []), i]);
+  const out = [];
+  out.push(`# What you must do before you file — ${config.routeName}`, "");
+  out.push(`This packet is prepared for **${config.legalName}**.`, "");
+  out.push("The platform filled in what it holds about you: your name, your date of birth, your address, your telephone number, your email and your docket number. This page lists the petition and stipulation items that are yours by the words printed beside each blank. The fee-waiver form is not one of those items on this no-fee track.", "");
+  out.push("One qualification on that, and it is the reason this paragraph is not a flat promise. Some of these boxes are small. Where a value the platform holds is too long to print in its box at a size a court could read, the platform leaves that box **empty** rather than print something illegible or ink over a printed rule — and it names the value on the instruction page bound into your own packet, under **Values the platform holds but could not print**, so you can write it in by hand. Read that section if it is there.", "");
+  out.push("## Where you file this", "");
+  out.push("File the completed packet with the **Vermont Superior Court, Criminal Division**, in the unit where your case was decided.", "");
+  out.push("Both the petition (200-00129) and the stipulation (200-00132A) print `SUPERIOR COURT CRIMINAL DIVISION` across the top of page 1, and the `Unit` box beside it is where that unit goes. If you do not know which unit decided your case, the docket number on your paperwork identifies it, and the clerk of any Superior Court unit can tell you from the docket number.", "");
+  out.push("## What it costs, and when the fee-waiver form applies", "");
+  out.push("**There is no filing fee for this petition.** Under 32 V.S.A. § 1431(e), the $90 fee applies only to sealing a conviction for a violation of 23 V.S.A. § 1201(a); it does not apply to this expungement under 13 V.S.A. § 7602.", "");
+  out.push("Form **600-00228**, *Application to Waive Filing Fees and Service Costs*, is conditional only where a filing fee is actually charged and the participant cannot pay it. **No fee is charged on this track, so do not complete or file 600-00228 for this petition.**", "");
+  out.push("## Filing and prosecutor workflow", "");
+  out.push(`**${filingAndNoticeWorkflow(routeRecord)}**`, "");
+  out.push("## What is in this packet", "");
+  out.push("| Component | Document |", "| --- | --- |");
+  for (const r of resolved) {
+    const conditional = r.formNumber === "600-00228"
+      ? " — conditional only if a fee is actually charged and the participant cannot pay it; do not complete or file it on this track"
+      : "";
+    out.push(`| \`${FORMS[r.formNumber].component}\` | **${r.formNumber}** — ${FORMS[r.formNumber].title}${conditional} |`);
+  }
+  out.push("| `filing_and_expectation_instructions` | the page that says where the packet goes and what to expect |", "");
+  out.push("## What you must do", "");
+  out.push("1. **Fill in every item listed below.** Each one names the form, the page and the printed words next to the blank.");
+  out.push("2. **Answer question 2(d) on the petition yourself.** That question — whether the offence is no longer prohibited by law — is the whole ground of this route, and it is your assertion about your own record. The platform never ticks it for you.");
+  out.push("3. **Sign and date each form yourself.** The platform never signs and never dates a signature. Blank signature and date lines are deliberate.");
+  out.push("4. **For a stipulation, take or send form 200-00132A to the prosecuting office.** If the prosecutor agrees, the prosecutor signs and files it with the court. If the prosecutor will not stipulate, file the petition (200-00129) on its own; if the court schedules a hearing, stop and get legal help as stated below.");
+  out.push("5. **Do not file form 600-00228 on this track.** There is no filing fee here. The waiver is used only where a fee is actually charged and the participant cannot pay it.", "");
+  out.push("## The petition and stipulation items you must supply", "");
+  for (const [doc, items] of byDoc) {
+    out.push(`### ${doc} — ${FORMS[doc]?.title ?? doc}`, "");
+    out.push("| Page | The blank on the form | What to write |", "| --- | --- | --- |");
+    for (const i of items) out.push(`| ${i.page} | ${i.disclosureLabel} | ${i.participantMustSupply} |`);
+    out.push("");
+  }
+  const refusedAnywhere = [...new Set(Object.values(refusedPrefillsByFixture ?? {}).flat()
+    .map((r) => `${r.formNumber}|${r.page}|${r.printedCaption}|${r.factId}`))].sort();
+  if (refusedAnywhere.length > 0) {
+    out.push("## Boxes too small for a long value", "");
+    out.push("On these forms the following boxes are small enough that a long value cannot be printed in them at a readable size. If yours is too long, the box is left empty and the value is named on the instruction page in your own packet for you to write in by hand.", "");
+    out.push("| Form | Page | The blank on the form | The value |", "| --- | --- | --- | --- |");
+    for (const row of refusedAnywhere) {
+      const [formNumber, page, caption, factId] = row.split("|");
+      out.push(`| ${formNumber} | ${page} | ${caption} | \`${factId}\` |`);
+    }
+    out.push("");
+  }
+  out.push("## Things the platform deliberately left blank", "");
+  out.push("- **Your signature and the date you sign.** A signature is yours alone, and a date written before you sign would be false.");
+  out.push("- **The State's Attorney's signature, date and printed name, and the court's order on the stipulation.** Those belong to the prosecutor and the judge.");
+  out.push("- **Every checkbox.** Each one is a statement about your own record or a choice only you can make. Read them and tick the ones that are true for you.", "");
+  out.push("## When to stop and get a lawyer", "");
+  out.push(`The committed track registry at \`${stopRecord.path}\`, track \`${stopRecord.trackId}\`, field \`${stopRecord.field}\`, holds these eleven stopping conditions. They are reproduced in its own words and order. If any describes your case, stop and take the matter to a lawyer or legal-aid office rather than filing:`, "");
+  out.push(...stopRecord.conditions.map((condition) => `- ${condition}`), "");
+  out.push("## What this packet is not", "");
+  out.push("This is a prepared set of official Vermont forms. It is not legal advice, it is not filed for you, and it does not decide whether the court will grant expungement.", "");
+  out.push(`_Route: ${config.routeLabel}_`);
+  return `${out.join("\n")}\n`;
+}
+
+/* ---- artifacts ------------------------------------------------------------ */
+function writeArtifacts(ctx) {
+  const { familyId, config, outDir, resolved, maps, artifacts, writeProofs, rasterPages, rbf, instructions, audit,
+    rasterSkipped, routeRecord, stopRecord, refusedPrefillsByFixture } = ctx;
+  const refusedEverywhere = Object.entries(refusedPrefillsByFixture ?? {})
+    .flatMap(([fixture, rows]) => rows.map((r) => ({ fixture, ...r })));
+  /*
+   * FIX130. A rebuild must not regenerate away a hand-written identityRefresh.
+   *
+   * This host wrote source-receipt.json with a plain writeFileSync, so a rebuild
+   * emitted a fresh document and the annotation on the
+   * legal-design-track-registry pin disappeared -- no source change, no diff a
+   * reader would notice, and nothing saying why. The committed tripwire
+   * scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs
+   * named this receipt as the one erased in the fleet.
+   *
+   * preserveIdentityRefresh is the committed remedy and it is deliberately
+   * strict: it carries an annotation forward VERBATIM only while the rebuild
+   * computes the same sha256 the annotation was written against, and drops it
+   * when the record moved again, because nobody has compared anchors across
+   * that second move. That is the correct behaviour and it is why the block
+   * this rebuild dropped is not simply restored -- the record HAD moved again,
+   * from 555e5700 to b62ae691, and a fresh comparison was owed. It was made and
+   * written; from here this call keeps it.
+   */
+  const W = (rel, body) => fs.writeFileSync(path.join(ROOT, outDir, rel),
+    rel.endsWith(".json")
+      ? `${JSON.stringify(preserveIdentityRefresh(fs, path.join(ROOT, outDir, rel), JSON.parse(body)), null, 2)}\n`
+      : body);
+  W("production-field-map.json", `${JSON.stringify({
+    schemaVersion: "rcap-official-form-field-map/v1-census-v1",
+    familyId, routeKeys: [config.routeKey], routeSelectionId: config.routeSelectionId,
+    jurisdiction: config.jurisdiction, statute: config.statute, legalName: config.legalName,
+    officialForms: resolved.map((r) => r.formNumber),
+    componentSet: COMPONENTS, documentOfComponent: DOCUMENT_OF_COMPONENT,
+    componentRequirements: { fee_waiver_application: FEE_WAIVER_COMPONENT_REQUIREMENT },
+    captionBasis: "every printed caption in this map was READ OUT OF THE PINNED BINARY at build time -- the printed line nearest the widget's own baseline on the widget's own page -- and captionReadAt records the y it was read from. The source gate is the exact SHA-256 binding, which fails the family closed on any change to the form.",
+    dispositionVocabulary: [SIGNATURE, COURT_OWNED, ELECTION_CLASS],
+    routeSelectionsMade: [],
+    routeSelectionNote: "This route turns on question 2(d) of 200-00129 -- whether the offence is no longer prohibited by law -- and that is a sworn assertion about the participant's own record, not an election the route determines. It is left for the participant and disclosed in the instructions.",
+    requiredBeforeFilingCount: rbf.length, requiredBeforeFiling: rbf,
+    maps, generationAllowed: false, runtimeSelectable: false, commercialRoutesOpened: 0
+  }, null, 2)}\n`);
+  W("source-receipt.json", `${JSON.stringify({
+    schemaVersion: "rcap-family-source-receipt/v1",
+    familyId, worklistGroupId: familyId, jurisdiction: config.jurisdiction,
+    implementationStrategy: "official_pdf_fill", custodyClass: "SOURCE_ALREADY_HELD",
+    acquisitionCommissioned: false, corpusRootFromEnvironment: "MASTER_LIBRARY_SOURCE_DIR",
+    bindingMethod: "exact path + corpus-index SHA-256 + on-disk SHA-256 + byte length",
+    routeSelectionId: config.routeSelectionId, allSourcesExact: true,
+    documents: resolved.map((r) => ({ sourceIds: [r.sourceId], formNumber: r.formNumber, revision: r.revision, pathInArchive: r.pathInArchive, sha256: r.sha256, byteLength: r.byteLength })),
+    committedRecordsBound: [{
+      recordId: `route-obligation-census:${routeRecord.routeKey}`,
+      path: routeRecord.path, sha256: routeRecord.sha256, byteLength: routeRecord.byteLength,
+      role: "the committed route-obligation census: this route's canonical key, and the destination detail the packet prints who is served from",
+      anchorStatementsVerified: SERVICE_ANCHORS,
+      destinationName: routeRecord.destinationName,
+      destinationDetail: routeRecord.destinationDetail
+    }, {
+      recordId: `legal-design-track-registry:${stopRecord.trackId}:${stopRecord.field}`,
+      path: stopRecord.path, sha256: stopRecord.sha256, byteLength: stopRecord.byteLength,
+      role: "the eleven held self-help stopping conditions reproduced in both participant instruction surfaces",
+      conditionCount: stopRecord.conditions.length
+    }],
+    composedComponentsAuthoredByThisBuild: ["filing_and_expectation_instructions"],
+    commercialRoutesOpened: 0
+  }, null, 2)}\n`);
+  W("reports/rendered-artifacts.json", `${JSON.stringify({
+    schemaVersion: "rcap-rendered-artifacts/v1", familyId, renderedFresh: true,
+    componentSet: COMPONENTS, artifacts,
+    componentRequirements: { fee_waiver_application: FEE_WAIVER_COMPONENT_REQUIREMENT },
+    packets: artifacts.map((a) => ({ fixture: a.fixture, documents: a.documents })),
+    /*
+     * Every write the finalizer refused, per fixture. Silence here is what let
+     * a dropped participant email leave this family looking complete: the
+     * boundary write list was simply one entry shorter than canonical and no
+     * artifact said why.
+     */
+    prefillsRefusedByTheFinalizer: refusedEverywhere,
+    prefillsRefusedCount: refusedEverywhere.length,
+    whatARefusedPrefillMeans: "The platform holds the value and could not print it in that box at a readable size, so the box is left empty rather than carrying illegible ink or ink across a printed rule. Each one is named on the instruction page bound into that packet, under 'VALUES THE PLATFORM HOLDS BUT COULD NOT PRINT', for the participant to write in by hand.",
+    rasterEngine: rasterSkipped ? null : "scripts/raster/pdf-page-raster.mjs (Chromium, calibrated)",
+    rasterSkipped, rasterPages
+  }, null, 2)}\n`);
+  W("reports/actual-writes.json", `${JSON.stringify({
+    schemaVersion: "rcap-actual-writes-byte-proof/v1", familyId, derivedFromArtifactBytes: true,
+    documents: writeProofs,
+    artifacts: writeProofs.map((p) => ({
+      fixture: p.fixture, formNumber: p.formNumber,
+      valuesReportedByFinalizer: p.valuesReportedByFinalizer,
+      addedGlyphsReadFromOutputBytes: p.addedGlyphsReadFromOutputBytes,
+      flattenedWidgetAppearancesReadFromOutputBytes: p.flattenedWidgetAppearancesReadFromOutputBytes,
+      nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: p.nonWhitespaceGlyphsOutsideMeasuredWriteBoxes,
+      prefillsRefusedByTheFinalizer: (p.prefillsRefusedByTheFinalizer ?? []).length
+    }))
+  }, null, 2)}\n`);
+  W("reports/builder-completeness-counters.json", `${JSON.stringify({
+    schemaVersion: "rcap-builder-completeness-counters/v1", familyId,
+    thisIsNotAVerdict: "A builder verdict is not a verdict. These counters are the builder contract's own obligation, computed with scripts/rcap-packet-completeness/completeness-contract.mjs. An independent verification lane that did not build this packet decides whether it passes.",
+    focusedCheckNote: "scripts/rcap-packet-completeness/verify-packet-completeness.mjs enumerates only families listed BUILT in data/rcap-grade-a/launch-control/C11_RETURN_REVIEW.json, an earlier wave's record that this lane may not write.",
+    counters: audit.counters, allNineZero: PASS_COUNTERS.every((c) => audit.counters[c] === 0),
+    totals: { terminalFields: audit.terminalFields, written: audit.written, blank: audit.blank },
+    findings: audit.findings
+  }, null, 2)}\n`);
+  W("build-status.json", `${JSON.stringify({
+    schemaVersion: "rcap-family-build-status/v1", familyId,
+    buildStatus: "state_built", reviewStatus: "qa_review_pending",
+    builtBy: "scripts/build-census-v1-vt_exp_decriminalized-set.mjs",
+    rasterEngine: rasterSkipped ? null : "chromium_calibrated", popplerUsed: false,
+    rasterState: rasterSkipped ? "BUILT_RASTER_PENDING" : "rendered_locally_pending_central_acceptance",
+    packetsSelfVerified: 0, commercialRoutesOpened: 0, productionTouched: false,
+    grantsNothing: "A rendered packet is review evidence. It authorizes no fulfillment and opens no commercial route."
+  }, null, 2)}\n`);
+  W("build-findings.json", `${JSON.stringify({
+    schemaVersion: "rcap-family-build-findings/v1", familyId,
+    findings: [
+      { finding: "200-00129 and 200-00132A are the expungement counterparts of the sealing forms 200-00130 and 200-00132, and carry the same widget names.", consequence: "The petition and stipulation policy assignments are restated against the expungement binaries and their own coordinates rather than shared across a lane boundary. Form 600-00228 is the same source form, but its participant-supplied fields are not required on this no-fee route." },
+      { finding: "Every caption in this map is read out of the pinned binary at build time rather than transcribed.", consequence: "The caption a participant reads is the text actually printed beside their blank. The guard against a changed form is the exact SHA-256 source binding, which fails the family closed on any byte." },
+      { finding: "200-00129 asks one question 200-00130 does not: question 2(d), whether the conduct is no longer prohibited by law.", consequence: "That is the ground of this route and it is a sworn assertion about the participant's own offence, so both boxes are left for the participant and the instructions say so in terms. It is not treated as an election the route determines." },
+      { finding: "The held fee answer is no filing fee on this track; the $90 fee in 32 V.S.A. Sec. 1431(e) is limited to sealing a DUI conviction.", consequence: "600-00228 is expressly conditional only where a fee is actually charged and the participant cannot pay it; the participant is told not to complete or file it on this track." },
+      { finding: `The finalizer refused ${refusedEverywhere.length} prefill(s) across the two fixtures because the value did not fit its box at a readable size: ${refusedEverywhere.map((r) => `${r.fixture}/${r.formNumber} ${r.field} (${r.factId})`).join(", ") || "none"}.`, consequence: "The box is left empty rather than carrying illegible ink, and every refusal is now named on the instruction page bound into that packet and recorded in reports/rendered-artifacts.json. Before this repair a refusal reached no artifact at all and the participant page promised the value had been filled in." },
+      { finding: `The prosecutor identity is read from the committed route-obligation census, bound at ${routeRecord.sha256.slice(0, 12)} and re-asserted against ${SERVICE_ANCHORS.length} anchor statements.`, consequence: "The packet states that the participant does not serve process: the court provides a filed petition to the prosecutor, while a stipulation is taken or sent to the prosecuting office and filed by the prosecutor under 13 V.S.A. Sec. 7602(a)(4)." },
+      { finding: `The committed vt_exp_decriminalized track holds ${stopRecord.conditions.length} self-help stopping conditions.`, consequence: "All eleven are reproduced in their held words and order in participant-instructions.md and the composed instruction pages." },
+      { finding: "FIX05. The participant's list of items to supply disclosed 15 captions that each named more than one blank on the same form and page, and emitted the items in AcroForm field-tree order rather than in the order they are read on the page.", consequence: "Every caption that names more than one blank now carries a locator derived from source geometry -- the row number the form itself prints where it prints one, which on 200-00129 page 1 is the '1.', '2.' and '3.' printed at x=54.4 inside each row's own widget band, and the blank's position down the page where the form prints none -- and the list is emitted page, then down the page, then across the row, from each widget's own measured /Rect. No item's mapping changed, no value changed and no PDF byte moved: the list is built after every fixture is written and reaches only production-field-map.json and participant-instructions.md. All nine counters read zero before this repair and read zero after it; the defect was visible only by reading the delivered list against the printed page." }
+    ]
+  }, null, 2)}\n`);
+  W("participant-instructions.md", instructions);
+  W("approval-request.json", `${JSON.stringify({
+    schemaVersion: "rcap-family-approval-request/v1", familyId,
+    requested: "visual review and counsel review", buildStatus: "state_built",
+    counselQuestionsRaised: [
+      "Question 2(d) of 200-00129 is left for the participant on the reasoning that whether conduct is still prohibited is an assertion about their own offence. If counsel considers it route-determined for a decriminalized-conduct packet, it becomes a route selection and this family needs a repair."
+    ],
+    approvedForLive: false, live: false, commercialRoutesOpened: 0
+  }, null, 2)}\n`);
+}
+
+/* ---- the one exported entry point ---------------------------------------- */
+export async function runFamilyById(familyId, argv = process.argv.slice(2)) {
+  const config = FAMILY_CONFIGS[familyId];
+  assert.ok(config, `unknown family ${familyId}`);
+  await assertRouteLabel(config);
+  const routeRecord = boundRouteRecord(config);
+  const stopRecord = boundSelfHelpStopRecord(config);
+  const checkOnly = argv.includes("--check");
+  const skipRaster = argv.includes("--no-raster");
+  const { resolved, failures } = resolveSources(familyId);
+  if (failures.length > 0) {
+    return { familyId, status: "STOPPED", stopClass: "BLOCKED_SOURCE", failedSourceIdentities: failures,
+      why: "a source did not bind by exact SHA-256, so nothing may be rendered from it", overlayDirectoryTouched: false };
+  }
+  const outDir = `${OVERLAY_ROOT}/${familyId.replace(/_/g, "-")}--official-pdf-fill`;
+  const censuses = [];
+  for (const source of resolved) censuses.push({ source, census: await censusOf(source) });
+
+  if (process.env.VT_DUMP_DRIFT) {
+    for (const c of censuses) {
+      for (const u of c.census.unmapped) console.log(`UNMAPPED ${c.source.formNumber} ${u.key} (${u.field}) p${u.page} y=${u.rect.y}`);
+      for (const k of c.census.missingKeys) console.log(`POLICY KEY MATCHED NO WIDGET ${c.source.formNumber}: ${k}`);
+      for (const u of c.census.uncaptioned) console.log(`NO CAPTION ${c.source.formNumber} ${u.key} p${u.page}`);
+    }
+    process.exit(0);
+  }
+  const unmapped = censuses.flatMap((c) => c.census.unmapped.map((u) => ({ form: c.source.formNumber, ...u })));
+  const missing = censuses.flatMap((c) => c.census.missingKeys.map((k) => `${c.source.formNumber}:${k}`));
+  const uncaptioned = censuses.flatMap((c) => c.census.uncaptioned.map((u) => `${c.source.formNumber}:${u.key}`));
+  assert.equal(unmapped.length, 0, `${unmapped.length} widget(s) carry no policy: ${JSON.stringify(unmapped.slice(0, 6), null, 2)}`);
+  assert.equal(missing.length, 0, `${missing.length} policy key(s) match no widget: ${JSON.stringify(missing.slice(0, 10))}`);
+  assert.equal(uncaptioned.length, 0, `${uncaptioned.length} widget(s) have no printed line to read a caption from: ${JSON.stringify(uncaptioned)}`);
+
+  if (checkOnly) {
+    return {
+      familyId, status: "CHECK_ONLY",
+      documents: censuses.map((c) => {
+        const by = (p) => c.census.rows.filter((r) => r.policy === p).length;
+        return { formNumber: c.source.formNumber, sha256: c.source.sha256, widgets: c.census.rows.length, write: by("write"), supply: by("supply"), protect: by("protect"), election: by("election"), notFiled: by("not_filed") };
+      })
+    };
+  }
+
+  for (const sub of ["fixtures", "reports", "raster"]) fs.mkdirSync(path.join(ROOT, outDir, sub), { recursive: true });
+  const maps = []; const artifacts = []; const writeProofs = []; const rasterPages = [];
+  const refusedPrefillsByFixture = {};
+
+  for (const fixtureName of ["canonical", "boundary"]) {
+    const facts = FIXTURES[fixtureName];
+    // The assembled container carries the same fixed date every component page
+    // already carries. PDFDocument.create() stamps the wall clock into
+    // /CreationDate and /ModDate, and save({ updateMetadata: false }) only
+    // declines to REFRESH that stamp -- it does not remove it -- so the first
+    // stamp survived into the saved bytes. Two consecutive builds of this
+    // family from identical inputs produced different canonical.pdf and
+    // boundary.pdf SHA-256 while all sixteen raster pages and all six per-form
+    // fixtures came out byte-identical. A RASTER_PASS is pinned to the packet
+    // hash, so a rebuild that changed nothing discarded the visual verdict as
+    // though the packet had been edited.
+    const packet = stampDeterministic(await PDFDocument.create());
+    const pageManifest = []; const documents = [];
+    const refusedHere = [];
+    for (const { source, census } of censuses) {
+      const { bytes, report, refusedPrefills } = await renderDocument(source, census, fixtureName);
+      refusedHere.push(...refusedPrefills);
+      const single = `${outDir}/fixtures/${fixtureName}--${source.formNumber}.pdf`;
+      fs.writeFileSync(path.join(ROOT, single), bytes);
+      const proof = await byteProof(source, census, path.join(ROOT, single), report, fixtureName);
+      writeProofs.push({
+        fixture: fixtureName, formNumber: source.formNumber, sourceSha256: source.sha256,
+        proofMethod: "flattened widget appearances read back at every measured /Rect of the finalized bytes",
+        valuesReportedByFinalizer: report.written.length,
+        flattenedWidgetAppearancesReadFromOutputBytes: proof.appearances,
+        addedGlyphsReadFromOutputBytes: proof.actualWrites.reduce((n, w) => n + w.drawnText.join("").length, 0),
+        nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: proof.outside,
+        prefillsRefusedByTheFinalizer: refusedPrefills,
+        actualWrites: proof.actualWrites
+      });
+      /*
+       * FIX130. The form this route does not file carries no platform ink, and
+       * that is asserted against the OUTPUT BYTES rather than against the map.
+       * The map was honest before this repair and the artifact still carried
+       * eight participant-identity values, so the map is not the place to check.
+       */
+      if (source.formNumber === "600-00228") {
+        assert.equal(report.written.length, 0,
+          `600-00228 is not filed on this route and the finalizer reported ${report.written.length} write(s) on it`);
+        assert.equal(proof.actualWrites.length, 0,
+          `600-00228 is not filed on this route and its ${fixtureName} bytes carry ${proof.actualWrites.length} drawn value(s)`);
+      }
+      const doc = await PDFDocument.load(bytes, { ignoreEncryption: true });
+      for (const [i, p] of (await packet.copyPages(doc, doc.getPageIndices())).entries()) {
+        packet.addPage(p);
+        pageManifest.push({ packetPage: packet.getPageCount(), component: FORMS[source.formNumber].component, documentId: source.formNumber, sourcePage: i + 1, sourceSha256: source.sha256 });
+      }
+      documents.push(FORMS[source.formNumber].component, source.formNumber);
+      if (fixtureName === "canonical") maps.push(officialFieldMap(source, census, report, config));
+    }
+    refusedPrefillsByFixture[fixtureName] = refusedHere;
+    const instrBytes = await renderComposedPdf(composedBody(config, facts, resolved, routeRecord, stopRecord, refusedHere), "Filing and Expectation Instructions");
+    const instrDoc = await PDFDocument.load(instrBytes, { ignoreEncryption: true });
+    for (const [i, p] of (await packet.copyPages(instrDoc, instrDoc.getPageIndices())).entries()) {
+      packet.addPage(p);
+      pageManifest.push({ packetPage: packet.getPageCount(), component: "filing_and_expectation_instructions", documentId: "filing_and_expectation_instructions", sourcePage: i + 1, sourceSha256: null });
+    }
+    documents.push("filing_and_expectation_instructions");
+    if (fixtureName === "canonical") maps.push(composedMap(config));
+
+    const packetBytes = Buffer.from(await packet.save({ useObjectStreams: false, updateMetadata: false }));
+    const file = `${outDir}/fixtures/${fixtureName}.pdf`;
+    fs.writeFileSync(path.join(ROOT, file), packetBytes);
+    artifacts.push({
+      fixture: fixtureName, file,
+      sha256: crypto.createHash("sha256").update(packetBytes).digest("hex"),
+      byteLength: packetBytes.length, pageCount: packet.getPageCount(), pageManifest,
+      documents, components: COMPONENTS
+    });
+
+    if (!skipRaster) {
+      const rasterDir = `${outDir}/raster/${fixtureName}`;
+      fs.mkdirSync(path.join(ROOT, rasterDir), { recursive: true });
+      for (let i = 0; i < packet.getPageCount(); i += 1) {
+        const stage = path.join(ROOT, rasterDir, `page-${String(i + 1).padStart(2, "0")}`);
+        const render = await rasterizePageCalibrated({ file: path.join(ROOT, file), pageIndex: i, keep: stage });
+        for (const scrap of ["page.pdf", "page-calibration.pdf", "page-calibration.png"]) {
+          const f = path.join(stage, scrap); if (fs.existsSync(f)) fs.unlinkSync(f);
+        }
+        const png = path.join(stage, "page.png");
+        rasterPages.push({
+          fixture: fixtureName, page: i + 1,
+          file: `${rasterDir}/page-${String(i + 1).padStart(2, "0")}/page.png`,
+          component: pageManifest[i]?.component ?? null,
+          pageWidthPt: render.pageWidth, pageHeightPt: render.pageHeight,
+          pixelsPerPoint: Number(render.pxPerPt.toFixed(4)),
+          calibrationResidualPx: render.calibrationResidualPx, paperBounds: render.paper,
+          engine: "chromium_calibrated_scripts_lib_pdf_page_raster",
+          sha256: crypto.createHash("sha256").update(fs.readFileSync(png)).digest("hex")
+        });
+      }
+    }
+  }
+
+  const rbf = requiredBeforeFilingItems(maps, censuses);
+  const instructions = instructionsMarkdown(config, resolved, rbf, routeRecord, stopRecord, refusedPrefillsByFixture);
+  const audit = builderCounters(maps, {
+    artifacts: writeProofs.map((p) => ({
+      fixture: p.fixture, valuesReportedByFinalizer: p.valuesReportedByFinalizer,
+      addedGlyphsReadFromOutputBytes: p.addedGlyphsReadFromOutputBytes,
+      flattenedWidgetAppearancesReadFromOutputBytes: p.flattenedWidgetAppearancesReadFromOutputBytes,
+      nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: p.nonWhitespaceGlyphsOutsideMeasuredWriteBoxes
+    }))
+  }, instructions);
+
+  writeArtifacts({ familyId, config, outDir, resolved, maps, artifacts, writeProofs, rasterPages, rbf, instructions, audit,
+    rasterSkipped: skipRaster, routeRecord, stopRecord, refusedPrefillsByFixture });
+  const allZero = PASS_COUNTERS.every((c) => audit.counters[c] === 0);
+  return {
+    familyId, status: allZero ? "COMPLETED" : "STOPPED",
+    ...(allZero ? {} : { stopClass: "COMPLETENESS_COUNTER_NOT_ZERO", nonZeroCounters: PASS_COUNTERS.filter((c) => audit.counters[c] > 0), firstFindings: audit.findings.slice(0, 8) }),
+    directory: outDir,
+    officialForms: resolved.map((r) => ({ formNumber: r.formNumber, sha256: r.sha256 })),
+    components: COMPONENTS,
+    terminalFields: audit.terminalFields, written: audit.written,
+    requiredBeforeFiling: rbf.length,
+    counters: audit.counters, nineCountersZero: allZero,
+    rasterPages: rasterPages.length,
+    rasterState: skipRaster ? "BUILT_RASTER_PENDING" : "RENDERED_LOCALLY_PENDING_CENTRAL_ACCEPTANCE",
+    artifactHashes: artifacts.map((a) => ({ fixture: a.fixture, packetSha256: a.sha256, pages: a.pageCount })),
+    packetsSelfVerified: 0, commercialRoutesOpened: 0, productionTouched: false
+  };
+}
+
+if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve(thisFile)) {
+  runFamilyById("vt_exp_decriminalized-set")
+    .then((r) => { console.log(JSON.stringify(r, null, 2)); })
+    .catch((e) => { console.error(e); process.exit(1); });
+}

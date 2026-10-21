@@ -1,0 +1,213 @@
+{
+  "schemaVersion": "rcap-codex-cloud-repair-return/v1",
+  "worker": "CODEX-CS2-FIX16",
+  "lane": "FIX16",
+  "branch": "codex/cs2-fix16",
+  "dispatchAncestor": "fc95a33ac24622e70e86114eaca363d3c4b1f350",
+  "startingHead": "fc95a33ac24622e70e86114eaca363d3c4b1f350",
+  "createdAt": "2026-09-03T02:36:35Z",
+  "status": "READY_FOR_INDEPENDENT_VERIFICATION",
+  "passAwarded": false,
+  "claims": {
+    "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX16 <familyId>",
+    "grant": "e89a06c32b684291",
+    "released": false,
+    "families": [
+      "vt_exp_decriminalized-set",
+      "vt_seal_nonconviction-set"
+    ]
+  },
+  "repairs": [
+    {
+      "familyId": "vt_exp_decriminalized-set",
+      "obligations": [
+        "FEE",
+        "SERVICE",
+        "SELF_HELP_STOP"
+      ],
+      "result": "The packet states the held no-fee answer, classifies every participant-supplied 600-00228 field as not applicable unless a fee is actually charged and the participant cannot pay it, states that the participant does not serve process, directs a stipulation to the prosecuting office for prosecutor filing, and reproduces the eleven held self-help stopping conditions in their committed order."
+    },
+    {
+      "familyId": "vt_seal_nonconviction-set",
+      "obligations": [
+        "ROUTE_KEY",
+        "BOUNDARY_FIT",
+        "FEE",
+        "SERVICE"
+      ],
+      "result": "The nonexistent track-pathway key is replaced in the production field map and every documentPolicy with the exact automatic, ordinary-petition, and stipulated-petition route keys already committed in the route census and product wiring. Boundary form 200-00132 writes the complete field 34d name and field 34i email. The packet states the held no-fee answer, makes 600-00228 conditional only when a fee is actually charged and the participant cannot pay it, and states the no-participant-service/prosecuting-office stipulation workflow."
+    }
+  ],
+  "routeKeys": {
+    "vt_seal_nonconviction-set": [
+      "obligation:unit:VT:vt_seal_nonconviction:vt-nonconviction-automatic-and-verification",
+      "obligation:unit:VT:vt_seal_nonconviction:vt-nonconviction-ordinary-petition",
+      "obligation:unit:VT:vt_seal_nonconviction:vt-nonconviction-stipulated-petition"
+    ]
+  },
+  "artifactHashChanges": [
+    {
+      "familyId": "vt_exp_decriminalized-set",
+      "fixture": "canonical",
+      "before": {
+        "bytes": 848321,
+        "sha256": "3bd92e3418501450ff38c2167236eec074dfd5d8d617f2317a424a043f9dbffd"
+      },
+      "after": {
+        "bytes": 849812,
+        "sha256": "4d9b64e07b2b3ed66e291ee11ddba00a37bfe413ed931ed459b271df46ca9da0"
+      }
+    },
+    {
+      "familyId": "vt_exp_decriminalized-set",
+      "fixture": "boundary",
+      "before": {
+        "bytes": 849362,
+        "sha256": "9166048a156dbaee595d006cef918934ae64312c7ed05b7be6841fd45a93b99f"
+      },
+      "after": {
+        "bytes": 850846,
+        "sha256": "d56f5a0fce5ba30c9c22a87aa5261c2545781e6cd8464b9b7816fb53f711fa4d"
+      }
+    },
+    {
+      "familyId": "vt_seal_nonconviction-set",
+      "fixture": "canonical",
+      "before": {
+        "bytes": 856943,
+        "sha256": "cafc3111e0c8d1669df9e9aae3d4d77a1847f9ead1ccbf70006155cee5703898"
+      },
+      "after": {
+        "bytes": 857428,
+        "sha256": "8e4c932195738e387b1995e3501af7768308367152cedba0f02dfb30a8e4fdcb"
+      }
+    },
+    {
+      "familyId": "vt_seal_nonconviction-set",
+      "fixture": "boundary",
+      "before": {
+        "bytes": 857391,
+        "sha256": "87032f4047b63294f8db291f0ebe336eb93db86bd49e22ea72f76ed37a9bafe4"
+      },
+      "after": {
+        "bytes": 857944,
+        "sha256": "dbd775f8d93975f9dd0dee51536960a6797de116015fcbfcb9dd908f588b5ac5"
+      }
+    }
+  ],
+  "changedOfficialFormArtifacts": [
+    {
+      "path": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/fixtures/canonical--200-00132.pdf",
+      "before": {
+        "bytes": 260805,
+        "sha256": "c23ce8128a78514af6738a78bc73f785dd0ed84d0b7653a023a2fa82196a33f9"
+      },
+      "after": {
+        "bytes": 260809,
+        "sha256": "bdad609567e6e6dbec23017bc04a0f71126603c0870d42087c1cb4437c571cac"
+      }
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/fixtures/boundary--200-00132.pdf",
+      "before": {
+        "bytes": 260888,
+        "sha256": "8f3f6232c40eebfac843a639afbf4392cf6110fba0b8c12d3e1e3a155a51ef8a"
+      },
+      "after": {
+        "bytes": 260959,
+        "sha256": "b2cfb7e1792ade568fcd758cc58ba8eb3fde5287174f034b013219b154c82ee8"
+      }
+    }
+  ],
+  "boundaryFieldProof": {
+    "fixture": "vt_seal_nonconviction-set boundary 200-00132 page 1 (packet page 3)",
+    "field34d": "Maria-Alejandra O'Shaughnessy-Whitfield",
+    "field34i": "maria.alejandra.oshaughnessy.whitfield@longmailexample.org",
+    "proof": "Both complete strings were read back from the finalized artifact bytes at their measured widget rectangles."
+  },
+  "selectiveRasterReceipts": {
+    "engine": "scripts/raster/pdf-page-raster.mjs (Chromium, calibrated)",
+    "vt_exp_decriminalized-set": [
+      { "fixture": "canonical", "page": 7, "sha256": "555da21a86a8993ad53a6e498b5059fc01921c90a66e323d125cd09c1d2437d4" },
+      { "fixture": "canonical", "page": 8, "sha256": "50adfc75bca83540aaa0edc683c5609ba24e6882f80ffc34482d7e98ad94420d" },
+      { "fixture": "boundary", "page": 7, "sha256": "e407589b95763ebe97287f1d810eead45df7c17c9ffd149967ba182964f2fdb9" },
+      { "fixture": "boundary", "page": 8, "sha256": "34410d556ac35b9af16228c1dcc2e84cd1a0b4bf6b64e30d8adc8deb5213b51e" }
+    ],
+    "vt_seal_nonconviction-set": [
+      { "fixture": "canonical", "page": 3, "sha256": "6dc6848785d40d4338d9c2dab345f4ed4a95293076eab00e88b14bb1fa084b7d" },
+      { "fixture": "canonical", "page": 7, "sha256": "f6789bfc2f6dda48f81ed3fcc89fbcb715a1d002e19757528a9778d8acbcf36e" },
+      { "fixture": "canonical", "page": 8, "sha256": "2126f4181c42a94ef4a8cd16903b94773b65627f07443e40026ab54e78d9a157" },
+      { "fixture": "boundary", "page": 3, "sha256": "ca28399456f9dacc1b0434fa48efb58a82b69f114cf3e7485017d6be2797a691" },
+      { "fixture": "boundary", "page": 7, "sha256": "2296dac16c288d52b439e200d82febc812fa85403e7be2d86dc26f9143e2959a" },
+      { "fixture": "boundary", "page": 8, "sha256": "2126f4181c42a94ef4a8cd16903b94773b65627f07443e40026ab54e78d9a157" }
+    ]
+  },
+  "artifactAggregateAlgorithm": "SHA-256 of JSON-encoded [path, sha256, byteLength] tuples sorted by path",
+  "artifactPreservation": [
+    {
+      "familyId": "vt_exp_decriminalized-set",
+      "byteIdenticalOfficialFormPdfCount": 6,
+      "byteIdenticalRasterCount": 12,
+      "preservedArtifactCount": 18,
+      "preservedArtifactAggregateSha256BeforeAndAfter": "bc47d7cc7386a47d5f20f47a958c8e8f2e4f38b1c2bc50484cfdba221f1a28cb"
+    },
+    {
+      "familyId": "vt_seal_nonconviction-set",
+      "byteIdenticalOfficialFormPdfCount": 4,
+      "byteIdenticalRasterCount": 10,
+      "preservedArtifactCount": 14,
+      "preservedArtifactAggregateSha256BeforeAndAfter": "5c7d78fa059489a4109f230078c8bed3fcd0c15cf2480de7d87d299dd2ddfe17"
+    }
+  ],
+  "byteIdenticalOfficialFormPdfHashes": {
+    "vt_exp_decriminalized-set": {
+      "boundary--200-00129.pdf": "399a322a1dfa126cf9d68bf56492b8079966baaaaeba72333a5bfbe377a0b066",
+      "boundary--200-00132A.pdf": "65f99dcf963392f645b454c953e2b740e5df1c319b87b358ebfc90d74e1df2d3",
+      "boundary--600-00228.pdf": "c47ec63060d14c853f5cc63ec84f344fb42c084104bdc585a1116e513eb1e48f",
+      "canonical--200-00129.pdf": "0f3b38755693cc4477439a1ed3d4c46eacbc31d4cd38b01afda1f39c0ffeced1",
+      "canonical--200-00132A.pdf": "5aa34279dae42da48877183887f6544dbb71722b385aeb050fc7057736cd28a9",
+      "canonical--600-00228.pdf": "0c0ffa75f618ed3d2984f9a2b28acf2e8523e497c8c94d3b4d850578d6457e6e"
+    },
+    "vt_seal_nonconviction-set": {
+      "boundary--200-00130.pdf": "a4f23c6a5e9bbc5cafe20ecd8e2c563deef1c62482757d3fdc0b03a825732684",
+      "boundary--600-00228.pdf": "c47ec63060d14c853f5cc63ec84f344fb42c084104bdc585a1116e513eb1e48f",
+      "canonical--200-00130.pdf": "651120a460f7e0883b464e8611fabfb37cc89af3ffb620edd83d9158af47a084",
+      "canonical--600-00228.pdf": "0c0ffa75f618ed3d2984f9a2b28acf2e8523e497c8c94d3b4d850578d6457e6e"
+    }
+  },
+  "focusedChecks": {
+    "claimsAssertedBeforeReading": true,
+    "sourceIdentitiesChanged": false,
+    "sourceHashesMatchedPinnedCensus": true,
+    "sourceBackedCheckMode": "OK_BOTH_FAMILIES",
+    "fullAffectedFamilyBuilds": "COMPLETED_TWICE_WITH_IDENTICAL_PRIMARY_PDF_BYTES",
+    "nineCompletenessCounters": "ZERO_BOTH_FAMILIES",
+    "feeWaiverRequiredBeforeFilingFieldsOnTheseTracks": 0,
+    "decriminalizedHeldStopConditionCount": 11,
+    "sealRouteKeysMatchedCommittedCensusAndProductWiring": true,
+    "sealBoundary34dAnd34iReadBackExactly": true,
+    "untouchedRasterReceiptsMatchedCommittedBytes": true,
+    "javascriptSyntax": "OK",
+    "jsonParsing": "OK",
+    "gitDiffCheck": "OK"
+  },
+  "buildNotes": {
+    "affectedFamiliesRebuiltOnly": true,
+    "fullSourceBackedFamilyBuildRun": true,
+    "privateSourceAcquisitionChangedTrackedFiles": false,
+    "deterministicBytesProved": true,
+    "rasterPolicy": "Only packet pages whose underlying PDF page bytes changed were rerastered; committed receipts were retained after byte checks for every untouched raster.",
+    "packetsSelfVerified": 0,
+    "commercialRoutesOpened": 0,
+    "productionTouched": false
+  },
+  "independentVerification": {
+    "status": "PENDING",
+    "requiredActor": "Captain-assigned verifier other than FIX16",
+    "requiredChecks": [
+      "Independently verify only the dispatched VF31 obligations.",
+      "Award or withhold the pass outside this repair lane.",
+      "Release both claims outside this repair lane after verification."
+    ]
+  }
+}

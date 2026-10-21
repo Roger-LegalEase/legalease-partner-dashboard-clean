@@ -1,0 +1,104 @@
+{
+  "schemaVersion": "rcap-census-v1-product-wiring/v1",
+  "family": "ia-901c3-set",
+  "routeKey": "obligation:track-pathway:IA:ia-901c3:misdemeanor-901c3",
+  "routeKeys": [
+    "obligation:track-pathway:IA:ia-901c3:misdemeanor-901c3"
+  ],
+  "workType": "PRODUCT_WIRING_REQUIRED",
+  "status": "DECLARED_NOT_INSTALLED",
+  "authorityCreated": "none",
+  "generatedBy": "scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs",
+  "derivedFrom": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/reports/rendered-artifacts.json",
+  "explicitNonGrants": [
+    "This document opens no commercial route.",
+    "It creates no fulfillment record and consumes no packet credit.",
+    "It marks no packet proven and grants no output approval.",
+    "It does not add this track to compiled runtime. src/lib/rcap-engine/compiled/** is untouched.",
+    "It does not change any live RCAP route.",
+    "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This is not that record."
+  ],
+  "currentState": {
+    "serviceDisposition": "missing_from_compiled_runtime",
+    "commercialState": "NO_ROUTE_LEVEL_GRADE_A_AUTHORITY_FROM_TRACK_MEMBERSHIP",
+    "existingArtifactIds": [],
+    "generationAllowed": false
+  },
+  "binding": {
+    "family": "ia-901c3-set",
+    "jurisdiction": "IA",
+    "routeKeys": [
+      "obligation:track-pathway:IA:ia-901c3:misdemeanor-901c3"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "attachment",
+      "certificate_of_service",
+      "continuation",
+      "primary_filing"
+    ],
+    "packetComponents": [
+      "component:ia-901c3-certificate-of-service-4",
+      "component:ia-901c3-continuation-3",
+      "component:ia-901c3-primary-filing-1"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:Rule 2.86 Form 2",
+        "sha256": "5a1c67004e4ff551cefca4ced50f8f48c77586b25e7e32384defda7726d4f963",
+        "tier": "exact_content_hash"
+      }
+    ],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "34765630915",
+      "jobId": "103746531407",
+      "artifactId": "10321016561",
+      "boundToCanonicalSha256": "88bac4b89ec8b794bb27b1505813a793879e18232842f75004463b5ff146a72f",
+      "coversTheWholeFamily": true
+    },
+    "lastIndependentVerification": {
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vfiafinal2",
+      "verifiedAtBase": "6277ad331a1f06467faa1526ea7c756e48713276"
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-ia-901c3-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  },
+  "proposedRepresentation": {
+    "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
+    "packetSetId": "ia-901c3-set",
+    "outputStrategy": "official_pdf_fill",
+    "components": [
+      {
+        "componentId": "ia-901c3-set-component-1",
+        "role": "primary_filing",
+        "order": 1,
+        "documentId": "canonical/form-2",
+        "file": null,
+        "sha256": "88bac4b89ec8b794bb27b1505813a793879e18232842f75004463b5ff146a72f",
+        "requirement": "required"
+      },
+      {
+        "componentId": "ia-901c3-set-component-2",
+        "role": "companion_document",
+        "order": 2,
+        "documentId": "canonical/participant-instructions",
+        "file": null,
+        "sha256": "88bac4b89ec8b794bb27b1505813a793879e18232842f75004463b5ff146a72f",
+        "requirement": "required"
+      }
+    ]
+  }
+}

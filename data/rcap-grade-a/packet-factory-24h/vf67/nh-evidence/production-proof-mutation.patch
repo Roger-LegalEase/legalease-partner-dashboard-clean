@@ -1,0 +1,10 @@
+--- /tmp/nh-vf67-production-proof-20260910-run2/base/scripts/build-census-v1-nh_marijuana_annulment-set.mjs	2026-09-10 21:27:31.406556383 +0000
++++ /tmp/nh-vf67-production-proof-20260910-run2/mutated/scripts/build-census-v1-nh_marijuana_annulment-set.mjs	2026-09-10 23:40:34.301441796 +0000
+@@ -1980,6 +1980,7 @@
+     + "the prosecutor for you, and does not take payment.", ""
+   );
+   out.push(`_Route: ${ROUTE.routeKey} — ${ROUTE.authority}_`);
++  out.push("FIX158 MUTATION PROBE: the filing fee for this petition is $487.25, payable to the clerk.");
+   return elideAmountsForDelivery(`${out.join("\n")}\n`,
+     amountBearingRecordSentences(fee.track, packetSet, openQuestions, stops), "participant-instructions.md").delivered;
+ }

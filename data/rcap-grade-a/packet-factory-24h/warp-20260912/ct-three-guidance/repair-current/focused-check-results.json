@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "rcap-focused-check-results/v1",
+  "preparedOn": "2026-09-12",
+  "result": "PASS",
+  "families": [
+    "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
+    "agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon",
+    "agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure"
+  ],
+  "checks": [
+    {
+      "command": "node scripts/grade-a-packet-factory-24h/test-ct-current-artifact-repair.mjs",
+      "result": "PASS",
+      "assertions": 185,
+      "negativeControls": 9,
+      "heldFactReads": 30,
+      "sourceBindings": 16,
+      "log": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ct-three-guidance/repair-current/artifact-test.log"
+    },
+    {
+      "command": "node scripts/grade-a-packet-factory-24h/test-ct-current-guidance-candidate.mjs",
+      "result": "PASS",
+      "candidateFamilies": 3,
+      "syntheticIndependentAcceptances": 3,
+      "rejectionControls": 5,
+      "actualIndependentReviewCreated": false,
+      "log": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ct-three-guidance/repair-current/current-adapter-test.log"
+    },
+    {
+      "command": "node scripts/grade-a-packet-factory-24h/test-ct-reviewed-guidance.mjs",
+      "result": "PASS",
+      "historicalAdapterCases": 46,
+      "log": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ct-three-guidance/repair-current/legacy-adapter-test.log"
+    },
+    {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <each exact CT family>",
+      "result": "PASS_COMPLETE",
+      "families": 3,
+      "allNineCountersZero": true,
+      "log": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ct-three-guidance/repair-current/completeness.log"
+    }
+  ],
+  "independentReview": "PENDING",
+  "raster": "PENDING"
+}

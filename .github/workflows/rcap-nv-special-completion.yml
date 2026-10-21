@@ -1,0 +1,100 @@
+name: Nevada special-route validation
+on:
+  push:
+    branches: [chatgpt/independent-nv-20260907]
+    paths:
+      - .github/workflows/rcap-nv-special-completion.yml
+      - scripts/build-census-v1-rcap-nv-custom-pleading.mjs
+      - scripts/rcap-packet-recovery/nv-special-routes.mjs
+      - scripts/rcap-packet-recovery/test-nv-special-routes.mjs
+      - scripts/rcap-packet-recovery/verify-nv-unchanged-pages.py
+      - data/record-clearing/legal-decisions/2026-09-07-nv-special-route-procedure.json
+      - data/rcap-all50/overlays/census-v1/nv/rcap-nv-custom-pleading--custom-pleading/**
+  pull_request:
+    paths:
+      - .github/workflows/rcap-nv-special-completion.yml
+      - scripts/build-census-v1-rcap-nv-custom-pleading.mjs
+      - scripts/rcap-packet-recovery/nv-special-routes.mjs
+      - scripts/rcap-packet-recovery/test-nv-special-routes.mjs
+      - scripts/rcap-packet-recovery/verify-nv-unchanged-pages.py
+      - data/record-clearing/legal-decisions/2026-09-07-nv-special-route-procedure.json
+      - data/rcap-all50/overlays/census-v1/nv/rcap-nv-custom-pleading--custom-pleading/**
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      FAMILY_DIR: data/rcap-all50/overlays/census-v1/nv/rcap-nv-custom-pleading--custom-pleading
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install locked dependencies and isolated PDF review tools
+        run: |
+          set -euo pipefail
+          npm ci --ignore-scripts --no-audit --no-fund
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends poppler-utils
+          python3 -m venv "$RUNNER_TEMP/nv-pdf-review"
+          "$RUNNER_TEMP/nv-pdf-review/bin/pip" install --disable-pip-version-check PyMuPDF==1.26.7
+      - name: Rebuild twice and compare every tracked family byte
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          out="$RUNNER_TEMP/nv-validation"
+          mkdir -p "$out"
+          # --check is an authority/map preflight, not a PDF regeneration.
+          # Exercise the real renderer twice, then compare against the committed
+          # outputs after EACH run. No receipt, approval, or queue is rewritten.
+          for pass in 1 2; do
+            node scripts/build-census-v1-rcap-nv-custom-pleading.mjs --no-raster > "$out/rebuild-$pass.json" 2> "$out/rebuild-$pass.stderr"
+            python3 - "$out/rebuild-$pass.json" <<'PY'
+          import json,sys
+          result=json.load(open(sys.argv[1]))
+          assert result['familyId']=='rcap-nv-custom-pleading'
+          assert result['status']=='COMPLETED',result
+          assert result['nineCountersZero'] is True
+          assert result['packetsSelfVerified']==0
+          assert result['productionTouched'] is False
+          assert result['commercialRoutesOpened']==0
+          assert {x['fixture']:x['pages'] for x in result['artifactHashes']}=={'canonical':44,'boundary':44}
+          PY
+            git diff --exit-code -- "$FAMILY_DIR"
+            test -z "$(git ls-files --others --exclude-standard -- "$FAMILY_DIR")"
+          done
+          node scripts/rcap-packet-recovery/test-nv-special-routes.mjs | tee "$out/regressions.log"
+          node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-nv-custom-pleading | tee "$out/machine-completeness.log"
+          "$RUNNER_TEMP/nv-pdf-review/bin/python" scripts/rcap-packet-recovery/verify-nv-unchanged-pages.py --output "$out/pixel-comparison.json" | tee "$out/pixel-comparison.log"
+          python3 - <<'PY'
+          import pathlib,json,hashlib,os
+          folder=pathlib.Path(os.environ['FAMILY_DIR'])
+          evidence=pathlib.Path('data/rcap-grade-a/nv-completion-2026-09-07/targeted-review.json')
+          reviewed=json.loads(evidence.read_text())['afterRepair']
+          hashes={}
+          for fixture in ['canonical','boundary']:
+            actual=hashlib.sha256((folder/'fixtures'/f'{fixture}.pdf').read_bytes()).hexdigest()
+            assert actual==reviewed[fixture+'Sha256'],fixture+' differs from visually reviewed bytes'
+            hashes[fixture]=actual
+          out=pathlib.Path(os.environ['RUNNER_TEMP'])/'nv-validation'
+          comparison=json.loads((out/'pixel-comparison.json').read_text())
+          assert comparison['ordinaryRoutePagesPixelIdentical']==68
+          assert comparison['changedPagesBoundsChecked']==20
+          result={'schemaVersion':'rcap-nv-read-only-validation/v1','checkedCommit':os.environ['GITHUB_SHA'],'runId':os.environ['GITHUB_RUN_ID'],'event':os.environ['GITHUB_EVENT_NAME'],'fullRendererPasses':2,'eachRebuildMatchesCommittedFamilyBytes':True,'regressionChecks':30,'includedInMemoryNegativeControls':10,'ordinaryRoutePagesPixelIdentical':68,'changedPagesBoundsChecked':20,'pixelComparisonSha256':hashlib.sha256((out/'pixel-comparison.json').read_bytes()).hexdigest(),'pdfSha256':hashes,'independentApprovalGranted':False,'newTerminalPromotions':0,'productionTouched':False,'commercialRoutesOpened':0}
+          (out/'validation.json').write_text(json.dumps(result,indent=2)+'\n')
+          print('Two complete rebuilds match all committed family bytes; 68 untouched pages match the pre-repair pixels; both reviewed PDF hashes confirmed.')
+          PY
+          test -z "$(git status --porcelain)"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: nv-read-only-validation-${{ github.run_id }}
+          path: ${{ runner.temp }}/nv-validation/
+          retention-days: 14
+          if-no-files-found: error

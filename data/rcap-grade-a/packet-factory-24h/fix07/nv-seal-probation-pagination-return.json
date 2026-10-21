@@ -1,0 +1,90 @@
+{
+  "schemaVersion": "rcap-packet-factory-focused-repair-return/v1",
+  "workerId": "CODEX-CS1-FIX07-NV-PAGINATION",
+  "assignmentId": "FIX07",
+  "assignedBase": "31cf727c0cb7b31719b206900973c973e9273161",
+  "branch": "codex/cs1-fix07-nv-pagination-31cf",
+  "claim": "CLAIM_OK FIX07 nv_seal_probation_family-set (repair, grant set defc45360a709680)",
+  "family": "nv_seal_probation_family-set",
+  "route": "obligation:track-pathway:NV:nv_seal_probation_family:probation-or-specialty-court-dismissal-set-aside-sealing",
+  "status": "COMPLETED",
+  "result": "BUILT_RASTER_PENDING",
+  "failedObligationRepaired": "CLIPPING_AND_OVERLAP",
+  "oldArtifacts": [
+    {
+      "fixture": "canonical",
+      "sha256": "533cf8ec8ac3447f89374639d0d8fbf33b5c453c1248bf33b263da56d99b88a7",
+      "byteLength": 26441,
+      "pageCount": 10
+    },
+    {
+      "fixture": "boundary",
+      "sha256": "d8ca462e258723fed6ecc268ec332a2d4bcc1d4c5f2c83cc025f7bcd8a35e1ca",
+      "byteLength": 26936,
+      "pageCount": 10
+    }
+  ],
+  "newArtifacts": [
+    {
+      "fixture": "canonical",
+      "sha256": "8fe5e209783ff5f70a18f8a37045f25126b020b23373aeba98956347440cd041",
+      "byteLength": 25822,
+      "pageCount": 9
+    },
+    {
+      "fixture": "boundary",
+      "sha256": "40f2540537bc5d72b3a91cda1746f91065e16884ea1d611ae0f75fce16d19055",
+      "byteLength": 26313,
+      "pageCount": 9
+    }
+  ],
+  "exactRepair": "Omitted the participant-irrelevant internal route footer from the proposed_order component only. The footer had stranded its Route: label on substantive packet page 6 and wrapped the 109-character route key onto an otherwise blank page 7. No legal theory, component, filing destination, fee, service statement, or substantive instruction changed.",
+  "extractedPageTextProof": {
+    "canonical": {
+      "page6Component": "proposed_order",
+      "page6ExtractedCharacters": 2261,
+      "page6RoutePresent": false,
+      "page7Component": "declaration_and_verification",
+      "page7ExtractedCharacters": 1426,
+      "page7StartsWithSubstantiveHeading": true,
+      "routeOnlyPages": 0
+    },
+    "boundary": {
+      "page6Component": "proposed_order",
+      "page6ExtractedCharacters": 2282,
+      "page6RoutePresent": false,
+      "page7Component": "declaration_and_verification",
+      "page7ExtractedCharacters": 1468,
+      "page7StartsWithSubstantiveHeading": true,
+      "routeOnlyPages": 0
+    }
+  },
+  "determinism": {
+    "builds": 2,
+    "command": "node scripts/build-census-v1-nv_seal_probation_family-set.mjs --no-raster",
+    "hashesIdentical": true,
+    "byteLengthsIdentical": true,
+    "pageCountsIdentical": true,
+    "pageManifestsIdentical": true,
+    "renderedArtifactsReportsIdentical": true,
+    "rasterPerformed": false
+  },
+  "focusedTests": [
+    "node scripts/build-census-v1-nv_seal_probation_family-set.mjs --no-raster (two final consecutive runs; identical hashes, byte lengths, page counts, page manifests, and rendered-artifacts reports)",
+    "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nv_seal_probation_family-set => PASS_COMPLETE, 12/29 written, all nine counters zero",
+    "pdftotext extraction of all canonical and boundary pages => 9 pages each, substantive proposed_order on page 6, substantive declaration_and_verification on page 7, zero route-only pages",
+    "git diff --check"
+  ],
+  "changedPaths": [
+    "scripts/build-census-v1-nv_seal_probation_family-set.mjs",
+    "data/rcap-all50/overlays/census-v1/nv/nv-seal-probation-family-set--custom-pleading/fixtures/canonical.pdf",
+    "data/rcap-all50/overlays/census-v1/nv/nv-seal-probation-family-set--custom-pleading/fixtures/boundary.pdf",
+    "data/rcap-all50/overlays/census-v1/nv/nv-seal-probation-family-set--custom-pleading/reports/rendered-artifacts.json",
+    "data/rcap-grade-a/packet-factory-24h/fix07/nv-seal-probation-pagination-return.json"
+  ],
+  "centralStateEdits": 0,
+  "claimsReleased": 0,
+  "selfVerificationPerformed": 0,
+  "routesOpened": 0,
+  "productionTouched": false
+}

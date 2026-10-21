@@ -1,0 +1,44 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-rows/v1",
+  "assignmentId": "PF20",
+  "workerId": "BUILD-A",
+  "lane": "packet-build",
+  "engine": "Claude Code",
+  "shiftBaseSha": "3fcdb0f292f31d1a1bbc5778832d54401ef9c782",
+  "whyThisFileIsNotRowsJson": "data/rcap-grade-a/packet-factory-24h/pf20/ already holds an earlier cohort's return for this lane and it is not overwritten. This file is BUILD-A's return for the one pf20 family in the official_pdf_fill cohort, co_municipal_conviction_seal-set, which that return does not mention. The two cover disjoint families and do not disagree.",
+  "familiesAssigned": [
+    "co_municipal_conviction_seal-set"
+  ],
+  "claim": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF20 'co_municipal_conviction_seal-set' returned CLAIM_OK before any read of family content",
+  "selfVerification": "none",
+  "rows": [
+    {
+      "itemId": "co_municipal_conviction_seal-set",
+      "status": "STOPPED",
+      "stopClass": "STRATEGY_MISMATCH",
+      "jurisdiction": "CO",
+      "routeKeys": [
+        "obligation:track-only:CO:co_municipal_conviction_seal"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/co/co-municipal-conviction-seal-set--official-pdf-fill",
+      "overlayDirectoryTouched": false,
+      "overlayDirectoryState": "does not exist; nothing was written and no builder was authored",
+      "whyNotBlockedSource": "BOTH SOURCES BIND. This family was worth checking precisely because it looks blocked and is not: the census tier resolves JDF-683 and JDF-686 through the committed index, whose lexically first path for each is a d_source_packs path this container does not mount, so the row gate reports '2 of 2 source(s) do not bind'. Resolved by CONTENT across the mounted corpus, both are present and byte-exact in the Master Library: JDF-683 at 6b451ae32c01ef1e637a460df627d246e1b4a61d4ac4f166005a7349fa87202e and JDF-686 at abf997d8e701df0c74b1eb7833b35f30c006b50bf71b019abf7754d898433200. This is the wrongly-reported-BLOCKED_SOURCE pattern, and the source is not the problem here.",
+      "theActualBlocker": {
+        "what": "both forms are FLAT. JDF-683 (3 pages) and JDF-686 (2 pages) carry ZERO AcroForm fields and zero widgets between them.",
+        "measuredFrom": "the pinned binaries, read directly",
+        "consequence": "official_pdf_fill on the AcroForm path has nothing to fill. Filling these two requires the measured flat-overlay renderer -- drawing text at coordinates measured against the printed rule lines -- which is a different renderStrategy (measured_flat_overlay), a different set of obligations, and a different class of visual risk: every value has to be proven not to land on printed ink, and there are no widget rectangles to measure against.",
+        "whyThatIsNotThisCohort": "this cohort is the official-PDF-fill pattern and shares one AcroForm machinery. A flat-overlay family in the middle of it would be a different build sharing a lane name, and would need the flat-overlay verifier rather than the widget byte-proof this cohort's families are checked with."
+      },
+      "recommendation": "MASTER_QUEUE records implementationStrategy official_pdf_fill for a family whose two forms have no fields. That classification is what should be corrected first; the family is buildable, by the flat-overlay lane, and its sources are in hand.",
+      "counters": null,
+      "allNineCountersZero": false,
+      "rasterState": "NOT_APPLICABLE_NOTHING_RENDERED",
+      "selfVerified": false,
+      "packetsSelfVerified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    }
+  ]
+}

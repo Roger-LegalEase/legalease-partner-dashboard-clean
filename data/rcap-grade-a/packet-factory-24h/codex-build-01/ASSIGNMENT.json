@@ -1,0 +1,144 @@
+{
+  "schemaVersion": "packet-factory-24h/codex-assignment/v1",
+  "recordedBy": "Captain",
+  "recordedOn": "2026-09-06T03:50:00Z",
+  "authorizedBy": "Owner instruction of 2026-09-06 (ADD THREE CODEX WORKERS — KEEP THE CURRENT CLAUDE OPERATION RUNNING)",
+  "captainBranch": "claude/legalease-sprint-captain-utucnw",
+  "captainBaseSha": "85e9d69e851705b43b1a73b93db6158e40bb02ea",
+  "repository": "Roger-LegalEase/legalease-partner-dashboard-clean",
+  "rules": [
+    "one unique branch cut from captainBaseSha; never rebase, force-push, push to main or the Captain branch, or open a pull request",
+    "the Captain is the sole integrator; push the branch only",
+    "never git add ., -A or --all; commit by file name",
+    "no Production, hosted, Stripe, RLS, auth or session change; no route opened; no approval record edited; no historical approval frozen as current",
+    "no secrets, private corpus, participant data or test-authority overrides in any artifact",
+    "if the assignment's first gate fails, stop and report the exact text rather than working around it"
+  ],
+  "assignmentId": "CODEX-BUILD-01",
+  "lane": "CXB01",
+  "laneKind": "packet-build",
+  "branch": "codex/build-01-iowa-rule-2-86",
+  "status": "PREPARED_AWAITING_LAUNCH",
+  "launchedBy": "not launched from the Captain environment; Roger launches the Codex Cloud task with the prompt in ASSIGNMENT.md, only if the launch condition holds",
+  "launchCondition": "The Codex environment must carry the source corpus the way the earlier Codex Cloud packet lanes did (cs1-*, cs2-*, verify-ca-ia-ky-018 resolved sources by content hash): MASTER_LIBRARY_SOURCE_DIR set to the Master Library root, or private/Nationwide Record Clearing present read-only. The first gate below verifies every source by sha256; if any is absent the task stops and returns SOURCE_ABSENT with nothing built. Do not launch it merely to fill the slot if the corpus is not mounted there.",
+  "ownershipCheck": "The four families carry live wave-1 packet-build claims on Codex lanes PF06, PF14, PF22 and PF23 (data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json), whose returns were closed as stale (STALE_LANE_RETURNS.json names PF06 and PF14 with closed PRs). No Claude lane and no live shared host touches these paths. The Captain transfers the four packet-build claims to CXB01 with a stated reason at launch, not before, so an abandoned launch leaves the ledger as it is.",
+  "cohort": [
+    {
+      "familyId": "ia-12347-set",
+      "jurisdiction": "IA",
+      "track": "ia-12347",
+      "routeKey": "obligation:track-pathway:IA:ia-12347:underage-alcohol-12347",
+      "forms": [
+        "Rule 2.86 Form 4",
+        "Certification of Service by Mailing or Delivery"
+      ],
+      "sourcePath": "STATES/IA/02_PACKET_FORMS/IA__FORM__RULE-2.86-FORM-4__application-to-expunge-possession-of-alcohol-under-the-legal-age-court-records-under-iowa__REV-2024-08__EN.pdf",
+      "directory": "data/rcap-all50/overlays/census-v1/ia/ia-12347-set--official-pdf-fill",
+      "builder": "scripts/build-census-v1-ia-12347-set.mjs (new)"
+    },
+    {
+      "familyId": "ia-12346-set",
+      "jurisdiction": "IA",
+      "track": "ia-12346",
+      "routeKey": "obligation:track-pathway:IA:ia-12346:public-intoxication-12346",
+      "forms": [
+        "Rule 2.86 Form 3"
+      ],
+      "sourceId": "google-drive:1B9EqDhgSht4QSkDazS7yJF-gmfgeB-r1 (resolve through the corpus index by content hash as ia-7251 does)",
+      "directory": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill",
+      "builder": "scripts/build-census-v1-ia-12346-set.mjs (new)"
+    },
+    {
+      "familyId": "ia-901c2-set",
+      "jurisdiction": "IA",
+      "track": "ia-901c2",
+      "routeKey": "obligation:track-pathway:IA:ia-901c2:nonconviction-901c2",
+      "forms": [
+        "Rule 2.86 Form 1"
+      ],
+      "sourceId": "google-drive:1Qoz3UfWxzVkA3dQnf2OKTKPGppMKunRO",
+      "directory": "data/rcap-all50/overlays/census-v1/ia/ia-901c2-set--official-pdf-fill",
+      "builder": "scripts/build-census-v1-ia-901c2-set.mjs (new)"
+    },
+    {
+      "familyId": "ia-901c3-set",
+      "jurisdiction": "IA",
+      "track": "ia-901c3",
+      "routeKey": "obligation:track-pathway:IA:ia-901c3:misdemeanor-901c3",
+      "forms": [
+        "Rule 2.86 Form 2"
+      ],
+      "sourceId": "google-drive:1w5SQ5CIpGUSUyBO-vRt5LGNPdsjhBwpc",
+      "directory": "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill",
+      "builder": "scripts/build-census-v1-ia-901c3-set.mjs (new)"
+    }
+  ],
+  "whyThisCohort": "Four Iowa Rule 2.86 official-form applications, one form each (Form 4 with the certification of service), the same jurisdiction, memo and registry, no shared host, no active repair in Iowa, SOURCE_READY with sources bound by held bytes, legal inputs SETTLED in MASTER_QUEUE, and a proven sibling to copy: ia-7251-set (Rule 2.86 Form 5, COMPLETE_PACKET_PROVEN, builder scripts/build-census-v1-ia-7251-set.mjs, directory data/rcap-all50/overlays/census-v1/ia/ia-7251-set--official-pdf-fill).",
+  "pattern": "Copy scripts/build-census-v1-ia-7251-set.mjs per family; change only the family id, track, form id, source binding, field map and route facts. Sources resolve through scripts/lib/corpus-index-paths.mjs makeCorpusEntryResolver with MASTER_LIBRARY_SOURCE_DIR, verified by sha256 against data/record-clearing/source-artifact-registry.json and the family's source-receipt.json before any write.",
+  "legalInputs": [
+    "data/record-clearing/legal-design-track-registry.json tracks ia-12347, ia-12346, ia-901c2, ia-901c3 (selfHelpStopConditions 2, 2, 7, 7; unresolvedQuestions 1, 1, 2, 3 — print each unresolved question's effect as the registry states it, decide nothing)",
+    "data/record-clearing/legal-design-intake/IA.memo.json",
+    "data/record-clearing/legal-design-packet-set-manifests.json (component order per family)",
+    "scripts/rcap-packet-completeness/completeness-contract.mjs (the nine counters and the fifteen obligations the read will measure)"
+  ],
+  "knownDefectsAndEstablishedFixes": [
+    "synthesized selection squares from pdf-lib's default appearance provider on unmarked checkboxes: opt in suppressSynthesizedAppearances at the finalizeOfficialForm call (FIX50/FIX62/FIX63/FIX87)",
+    "appearance streams larger than the widget rect: fitAppearancesToRect (FIX61/FIX67/FIX70)",
+    "per-widget text that overflows: alignWidgetFontSizeToFit / fitTextPerWidget (FIX75/FIX76)",
+    "synthesized /MK /BC borders on UNWRITTEN fields: suppressSynthesizedWidgetBorders (FIX80); on WRITTEN fields the extension is FIX85, in flight — if a written field's shipped /AP /N draws only an underline and the regenerated appearance boxes it, record the widget as a known defect in build-findings.json and do not hand-draw a fix",
+    "page order must follow the packet-set manifest's component order (FIX73/FIX83/FIX87 registryComponentOrder)",
+    "self-help stop conditions printed verbatim from the track registry at build time, with who to ask named only from repository records (FIX86/FIX89)",
+    "fee and waiver, service and filing destination stated in the registry's own words, no invented figure or method (FIX73/FIX74/FIX84)",
+    "a held fact is written where the form asks for it, or its refusal is measured and recorded (an unfittable entry with the length against /MaxLen, a refusal row in the field map, requiredBeforeFiling naming it) — never described as filled when it is blank (FIX78/FIX90)",
+    "never write on a branch the case does not elect (FIX79); never prefill signatures, dates, court-only or prosecutor-only fields",
+    "the census route key printed once, exactly as data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json routeKeys names it (ROUTE_IDENTITY)",
+    "every blank carries a true disposition from the closed vocabulary; a fact the platform does not hold is required_before_filing and surfaced to the participant"
+  ],
+  "writablePaths": [
+    "data/rcap-all50/overlays/census-v1/ia/ia-12347-set--official-pdf-fill/**",
+    "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill/**",
+    "data/rcap-all50/overlays/census-v1/ia/ia-901c2-set--official-pdf-fill/**",
+    "data/rcap-all50/overlays/census-v1/ia/ia-901c3-set--official-pdf-fill/**",
+    "scripts/build-census-v1-ia-12347-set.mjs",
+    "scripts/build-census-v1-ia-12346-set.mjs",
+    "scripts/build-census-v1-ia-901c2-set.mjs",
+    "scripts/build-census-v1-ia-901c3-set.mjs",
+    "data/rcap-grade-a/packet-factory-24h/codex-build-01/RETURN.json"
+  ],
+  "readOnlyDependencies": [
+    "scripts/build-census-v1-ia-7251-set.mjs and its family directory (the pattern)",
+    "scripts/rcap-official-forms/** (the shared finalizer and its options; never edit)",
+    "scripts/lib/corpus-index-paths.mjs",
+    "scripts/rcap-packet-completeness/**",
+    "the legal records above",
+    "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json (route keys)"
+  ],
+  "prohibitedPaths": [
+    "scripts/rcap-official-forms/**, any other family, any shared host, any legal record, specification, ledger, queue or receipt, src/**, supabase/**, .github/**"
+  ],
+  "firstGate": "In the worktree: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert CXB01 <family>` for each family (non-zero exit = full stop for that family, report the text), then resolve each family's source by content hash and stop with SOURCE_ABSENT if any source is missing.",
+  "builderContract": [
+    "canonical and boundary fixtures rendered through the builder (fixtures/canonical.pdf, fixtures/boundary.pdf), rebuilt twice byte-identical",
+    "every component the manifest names rendered or dispositioned in reports/rendered-artifacts.json componentsNotGenerated with a true reason",
+    "participant-instructions.md complete: destination, fee and waiver, service, order of steps, the stop conditions, blanks left for the participant",
+    "reports/actual-writes.json, blanks-left-for-the-participant.json, completeness-counters.json, rendered-artifacts.json; production-field-map.json; source-receipt.json bound by sha256; build-findings.json; product-wiring.json as the pattern family carries it",
+    "`node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id>` with all nine counters zero, or a STOPPED row with the exact counter and reason"
+  ],
+  "acceptance": {
+    "mustPass": [
+      "node scripts/verify-packet-build-environment.mjs (record the preflight once)",
+      "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id> for each family",
+      "the family builder twice per family with byte-identical output",
+      "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --write must NOT be run (Captain chain only)"
+    ],
+    "outcome": "Four Iowa families built to the standard builder contract with nine zero counters each, pushed on one branch with one return; the builder verifies nothing about its own output beyond the counters and terminalizes nothing. The Captain arranges the central raster and the independent read after integration."
+  },
+  "returnLocation": "data/rcap-grade-a/packet-factory-24h/codex-build-01/RETURN.json: {schemaVersion 'packet-factory-24h/lane-return/v1', workerId 'CXB01', laneKind 'packet-build', base, branch, commit, preflight, rows: one per family {itemId, status COMPLETED|STOPPED, familyDirectory, buildScript, sourcesResolved [{sourceId, sha256, path}], canonicalSha256, boundarySha256, pageCounts, componentsRendered, componentsNotGenerated, counters (nine), rebuiltTwiceByteIdentical, knownDefectsRecorded, whatWasNotDone}, grantsNothing true}",
+  "doNot": [
+    "run the national chain or the completeness --write",
+    "approve, verify or terminalize your own output",
+    "edit the shared finalizer or any other family",
+    "invent a fee, a service method, a referral or a source",
+    "prefill signatures, dates or court-only fields"
+  ]
+}

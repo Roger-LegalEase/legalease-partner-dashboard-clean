@@ -1,0 +1,241 @@
+{
+  "schemaVersion": "rcap-category-b-branch-identities/v1",
+  "assignmentId": "C6_CONVERT_ALL_TO_A",
+  "lane": "category-b-implementation",
+  "baseSha": "227f095d5d1493feca56779cf60c6f177caebd61",
+  "assignmentSource": {
+    "captainCommit": "1fa0f3328a614f73330256bee5df75fc655e9d79",
+    "path": "data/rcap-grade-a/launch-control/ACTIVE_CODEX_ASSIGNMENTS.json",
+    "twoCommitMethod": "The worker branch starts at baseSha and reads its assignment from the later captain dispatch commit."
+  },
+  "scope": "Identity integration only. This file creates no packet family, artifact, product entitlement or commercial authority.",
+  "commercialAuthorityGranted": false,
+  "records": [
+    {
+      "originalRouteKey": "obligation:track-only:NE:ne-firearm-restoration-routing",
+      "jurisdiction": "NE",
+      "publicLabel": "Where to go about restoring firearm rights in Nebraska",
+      "finalDecision": "CONVERT_ALL_TO_A",
+      "currentReason": "AGENCY_CONTROLLED",
+      "reuseDecision": {
+        "decision": "NO_EXISTING_WORK",
+        "basis": "the instrument names no form number, so no form-level crosswalk could be attempted; this is 'no match attempted', not 'no match exists'"
+      },
+      "retainedBStage": null,
+      "legacyExclusionRetired": true,
+      "participantABranch": {
+        "routeKey": "obligation:track-only:NE:ne-firearm-restoration-routing::participant-branch",
+        "category": "A_MUST_FULFILL",
+        "selector": {
+          "kind": "exact_route_identity",
+          "routeKey": "obligation:track-only:NE:ne-firearm-restoration-routing::participant-branch",
+          "jurisdiction": "NE",
+          "sourceTrackId": "ne-firearm-restoration-routing",
+          "sourceRuntimePathwayId": null,
+          "sourceRouteContractId": null,
+          "selectionClass": "participant_branch",
+          "participantFacing": true,
+          "legacyExcludedSelectionRetired": true
+        },
+        "instrument": "Nebraska Board of Pardons application requesting a pardon and/or restoration of civil rights, including firearm rights where legally available.",
+        "formNumbersNamed": [],
+        "filingActor": "The convicted person.",
+        "destination": "Nebraska Board of Pardons.",
+        "trigger": "A Nebraska conviction continues to impose firearm disability after sentence completion and the person seeks discretionary restoration.",
+        "deadline": "No fixed filing deadline; Board eligibility and waiting policies in the current application instructions apply.",
+        "requiredComponents": "Signed Board application, complete conviction history, sentence/discharge records, personal statement, rehabilitation and community evidence, references, and requested-rights specification.",
+        "serviceOrNotice": "Board staff investigate; the Board gives hearing notice and may require publication or victim/prosecutor input under its rules.",
+        "feeOrWaiver": "The official application does not identify a court filing fee; applicants bear record, fingerprint, notarization, or publication costs if required.",
+        "selfHelpStop": "Stop for federal firearm disability analysis, out-of-state convictions, violent/sexual offenses, disputed eligibility, or preparation for a discretionary hearing.",
+        "outputStrategy": "custom_pleading",
+        "packetFamilyId": "rcap-ne-custom-pleading",
+        "packetFamilyAlreadyInCensus": false,
+        "packetFamilyTreatment": "NAMED_NOT_CREATED",
+        "productOutcome": {
+          "kind": "participant_filing",
+          "participantFiles": true,
+          "automaticRelief": false,
+          "currentStatus": "IDENTITY_CREATED_OUTPUT_NOT_BUILT"
+        },
+        "commercialTreatment": {
+          "generationAllowed": false,
+          "paymentAllowed": false,
+          "checkoutAllowed": false,
+          "sponsorshipAllowed": false,
+          "packetCreditConsumptionAllowed": false,
+          "artifactAttachmentAllowed": false,
+          "deliveryAllowed": false,
+          "commerciallyDeliverable": false,
+          "commerciallyEligible": false,
+          "completePacketProven": false,
+          "requiresExactGradeAFulfillmentRecord": true
+        }
+      },
+      "implementationStop": {
+        "status": "STOPPED_BEFORE_PACKET_IMPLEMENTATION",
+        "reason": "The committed revalidation identifies a Board application but names no form number or source-pinned application. C6 records the identity and does not create the packet family.",
+        "mustNotInvent": [
+          "form number",
+          "submission address or method",
+          "executable selector values",
+          "participant artifact"
+        ]
+      },
+      "evidence": [
+        "data/rcap-grade-a/launch-control/category-b-revalidation/results.json#routeKey=obligation:track-only:NE:ne-firearm-restoration-routing",
+        "data/rcap-grade-a/launch-control/CATEGORY_B_REVALIDATION_INTEGRATION_DELTA.json#originalRouteKey=obligation:track-only:NE:ne-firearm-restoration-routing",
+        "data/rcap-grade-a/launch-control/CATEGORY_B_STAGE_BRANCH_CROSSWALK.json#routeKey=obligation:track-only:NE:ne-firearm-restoration-routing"
+      ]
+    },
+    {
+      "originalRouteKey": "obligation:track-only:WV:wv_common_nc_procedure",
+      "jurisdiction": "WV",
+      "publicLabel": "Before you file: what West Virginia checks on a non-conviction expungement",
+      "finalDecision": "CONVERT_ALL_TO_A",
+      "currentReason": "AUTOMATIC",
+      "reuseDecision": {
+        "decision": "NO_EXISTING_WORK",
+        "basis": "the instrument names no form number, so no form-level crosswalk could be attempted; this is 'no match attempted', not 'no match exists'"
+      },
+      "retainedBStage": null,
+      "legacyExclusionRetired": true,
+      "participantABranch": {
+        "routeKey": "obligation:track-only:WV:wv_common_nc_procedure::participant-branch",
+        "category": "A_MUST_FULFILL",
+        "selector": {
+          "kind": "exact_route_identity",
+          "routeKey": "obligation:track-only:WV:wv_common_nc_procedure::participant-branch",
+          "jurisdiction": "WV",
+          "sourceTrackId": "wv_common_nc_procedure",
+          "sourceRuntimePathwayId": null,
+          "sourceRouteContractId": null,
+          "selectionClass": "participant_branch",
+          "participantFacing": true,
+          "legacyExcludedSelectionRetired": true
+        },
+        "instrument": "Civil petition for expungement of a nonconviction record under W. Va. Code § 61-11-25.",
+        "formNumbersNamed": [],
+        "filingActor": "The person whose criminal charges ended in the qualifying nonconviction disposition.",
+        "destination": "Circuit court of the county where the criminal charge was filed.",
+        "trigger": "The person was acquitted or the charge was dismissed, subject to statutory exclusions and waiting requirements.",
+        "deadline": "Generally 60 days after acquittal or dismissal; if the person waits beyond that period, the court may still accept the petition upon good cause where authorized. Exact subsection timing controls.",
+        "requiredComponents": "Petition identifying the charge, case, disposition, arresting agency, prosecutor, all record custodians, statutory eligibility, prior expungements, and requested order; supporting certified disposition.",
+        "serviceOrNotice": "Serve the prosecuting attorney and all agencies/custodians required by § 61-11-25. Objections and hearing procedures apply.",
+        "feeOrWaiver": "A civil filing fee applies under West Virginia fee statutes; a financial affidavit/fee-waiver process is available for qualifying indigent petitioners.",
+        "selfHelpStop": "Stop for objections, excluded offenses, civil-action relationship, factual dispute, contested hearing, or appeal.",
+        "outputStrategy": "custom_pleading",
+        "packetFamilyId": "rcap-wv-custom-pleading",
+        "packetFamilyAlreadyInCensus": true,
+        "packetFamilyTreatment": "NAMED_NOT_CREATED",
+        "productOutcome": {
+          "kind": "participant_filing",
+          "participantFiles": true,
+          "automaticRelief": false,
+          "currentStatus": "IDENTITY_CREATED_OUTPUT_NOT_BUILT"
+        },
+        "commercialTreatment": {
+          "generationAllowed": false,
+          "paymentAllowed": false,
+          "checkoutAllowed": false,
+          "sponsorshipAllowed": false,
+          "packetCreditConsumptionAllowed": false,
+          "artifactAttachmentAllowed": false,
+          "deliveryAllowed": false,
+          "commerciallyDeliverable": false,
+          "commerciallyEligible": false,
+          "completePacketProven": false,
+          "requiresExactGradeAFulfillmentRecord": true
+        }
+      },
+      "implementationStop": {
+        "status": "STOPPED_BEFORE_PACKET_IMPLEMENTATION",
+        "reason": "The common procedure selects more specific filing routes, while the C6 instrument names no form number. C6 records the participant identity and leaves the exact filing vehicle to packet-family integration.",
+        "mustNotInvent": [
+          "single form number for every qualifying disposition",
+          "downstream route subtype",
+          "participant artifact"
+        ]
+      },
+      "evidence": [
+        "data/rcap-grade-a/launch-control/category-b-revalidation/results.json#routeKey=obligation:track-only:WV:wv_common_nc_procedure",
+        "data/rcap-grade-a/launch-control/CATEGORY_B_REVALIDATION_INTEGRATION_DELTA.json#originalRouteKey=obligation:track-only:WV:wv_common_nc_procedure",
+        "data/rcap-grade-a/launch-control/CATEGORY_B_STAGE_BRANCH_CROSSWALK.json#routeKey=obligation:track-only:WV:wv_common_nc_procedure"
+      ]
+    },
+    {
+      "originalRouteKey": "obligation:track-pathway:WV:wv_common_conv_procedure:eligible-conviction-expungement-under-w-va-code-61-11-26",
+      "jurisdiction": "WV",
+      "publicLabel": "Before you file: West Virginia gives you one conviction expungement, ever",
+      "finalDecision": "CONVERT_ALL_TO_A",
+      "currentReason": "COURT_INITIATED",
+      "reuseDecision": {
+        "decision": "NO_EXISTING_WORK",
+        "basis": "the instrument names no form number, so no form-level crosswalk could be attempted; this is 'no match attempted', not 'no match exists'"
+      },
+      "retainedBStage": null,
+      "legacyExclusionRetired": true,
+      "participantABranch": {
+        "routeKey": "obligation:track-pathway:WV:wv_common_conv_procedure:eligible-conviction-expungement-under-w-va-code-61-11-26::participant-branch",
+        "category": "A_MUST_FULFILL",
+        "selector": {
+          "kind": "exact_route_identity",
+          "routeKey": "obligation:track-pathway:WV:wv_common_conv_procedure:eligible-conviction-expungement-under-w-va-code-61-11-26::participant-branch",
+          "jurisdiction": "WV",
+          "sourceTrackId": "wv_common_conv_procedure",
+          "sourceRuntimePathwayId": "eligible-conviction-expungement-under-w-va-code-61-11-26",
+          "sourceRouteContractId": "WV:eligible-conviction-expungement-under-w-va-code-61-11-26",
+          "selectionClass": "participant_branch",
+          "participantFacing": true,
+          "legacyExcludedSelectionRetired": true
+        },
+        "instrument": "Civil petition for expungement of an eligible misdemeanor or nonviolent felony conviction under W. Va. Code § 61-11-26.",
+        "formNumbersNamed": [],
+        "filingActor": "The convicted person.",
+        "destination": "Circuit court of the county where the conviction occurred.",
+        "trigger": "The person has an eligible conviction, completed all sentence obligations, satisfied the applicable waiting period, and has no disqualifying matters.",
+        "deadline": "File after the statute's waiting period measured from sentence/discharge/completion as applicable: generally one year for eligible misdemeanors and longer for eligible nonviolent felonies, subject to the precise subsection and any enhanced rules.",
+        "requiredComponents": "Verified civil petition; every conviction and charge; sentence-completion and waiting-period facts; criminal-history information; employment/education and rehabilitation facts where requested; all prosecuting and record-keeping agencies; certified records; proposed order.",
+        "serviceOrNotice": "Serve the prosecuting attorney and all required agencies. The State and victims may receive notice and object; the court may hold a hearing.",
+        "feeOrWaiver": "A civil filing fee and statutory costs apply; West Virginia indigency/fee-waiver procedures are available.",
+        "selfHelpStop": "Stop for offense-exclusion ambiguity, multiple convictions, disputed single-use limit, victim/prosecutor objection, hearing, or appeal.",
+        "outputStrategy": "custom_pleading",
+        "packetFamilyId": "rcap-wv-custom-pleading",
+        "packetFamilyAlreadyInCensus": true,
+        "packetFamilyTreatment": "NAMED_NOT_CREATED",
+        "productOutcome": {
+          "kind": "participant_filing",
+          "participantFiles": true,
+          "automaticRelief": false,
+          "currentStatus": "IDENTITY_CREATED_OUTPUT_NOT_BUILT"
+        },
+        "commercialTreatment": {
+          "generationAllowed": false,
+          "paymentAllowed": false,
+          "checkoutAllowed": false,
+          "sponsorshipAllowed": false,
+          "packetCreditConsumptionAllowed": false,
+          "artifactAttachmentAllowed": false,
+          "deliveryAllowed": false,
+          "commerciallyDeliverable": false,
+          "commerciallyEligible": false,
+          "completePacketProven": false,
+          "requiresExactGradeAFulfillmentRecord": true
+        }
+      },
+      "implementationStop": {
+        "status": "STOPPED_BEFORE_PACKET_IMPLEMENTATION",
+        "reason": "The common conviction procedure covers more specific filing routes, while the C6 instrument names no form number. C6 records the participant identity and leaves the exact filing vehicle to packet-family integration.",
+        "mustNotInvent": [
+          "single form number for every conviction subtype",
+          "waiting-period calculation beyond the controlling subsection",
+          "participant artifact"
+        ]
+      },
+      "evidence": [
+        "data/rcap-grade-a/launch-control/category-b-revalidation/results.json#routeKey=obligation:track-pathway:WV:wv_common_conv_procedure:eligible-conviction-expungement-under-w-va-code-61-11-26",
+        "data/rcap-grade-a/launch-control/CATEGORY_B_REVALIDATION_INTEGRATION_DELTA.json#originalRouteKey=obligation:track-pathway:WV:wv_common_conv_procedure:eligible-conviction-expungement-under-w-va-code-61-11-26",
+        "data/rcap-grade-a/launch-control/CATEGORY_B_STAGE_BRANCH_CROSSWALK.json#routeKey=obligation:track-pathway:WV:wv_common_conv_procedure:eligible-conviction-expungement-under-w-va-code-61-11-26"
+      ]
+    }
+  ]
+}

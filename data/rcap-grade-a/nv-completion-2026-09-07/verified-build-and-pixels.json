@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "rcap-nv-executed-validation-receipt/v1",
+  "familyId": "rcap-nv-custom-pleading",
+  "packetCommit": "3794a1a1ace8ad3e85423122afd380cabcd58140",
+  "headCommitTested": "8d0f6077d2a82fb9c420b50c858bebbb7826baa3",
+  "checkedMergeCommit": "13d23f5a3733caa05b6a1ea041a18e84d8dd80a4",
+  "event": "pull_request",
+  "workflowRunId": 34102944036,
+  "workflowConclusion": "success",
+  "artifactId": 10011246276,
+  "artifactName": "nv-read-only-validation-34102944036",
+  "artifactZipSha256": "85ac0b0d72ea3bb26431302016dc5245b5f8a3255e15c160f2d2cdf71ed10305",
+  "downloadedZipDigestVerified": true,
+  "results": {
+    "fullRendererPasses": 2,
+    "eachRebuildMatchesAllCommittedFamilyBytes": true,
+    "regressionChecksPassed": 30,
+    "includedInMemoryNegativeControlsCaught": 10,
+    "ordinaryRoutePagesPixelIdentical": 68,
+    "changedPagesNonblankAndTextBoundsChecked": 20,
+    "pixelComparisonSha256": "1bb61ba15412cd2ea97e82dade75374cb8e2812b35ddf669bbce11930f2b9681",
+    "pixelComparisonDigestVerified": true,
+    "comparisonRenderer": "PyMuPDF 1.26.7",
+    "comparisonDpi": 72,
+    "preRepairComparisonCommit": "fdd5c842147d9da245f78ccb42f0e66b75353183",
+    "cleanWorktree": true
+  },
+  "pdfSha256": {
+    "canonical": "1d72131dcf8adefe7142cb2241aa97811b4c90892342d1422d3441b649e293bf",
+    "boundary": "5274a3d33329f447612a9736ac31442a760dc24b4aa2acdc01d7061175578596"
+  },
+  "pageCountEach": 44,
+  "reproduction": [
+    "Run the read-only Nevada special-route validation workflow.",
+    "The workflow executes the actual --no-raster builder twice and compares all tracked family bytes after each run.",
+    "scripts/rcap-packet-recovery/verify-nv-unchanged-pages.py reads the exact pre-repair Git objects and checks both old PDF hashes before comparing all 68 untouched pages."
+  ],
+  "qualification": "The builder --check command is a source/map preflight, not a PDF regeneration. The two full renderer passes recorded here supersede that earlier preflight as determinism evidence. Pixel identity proves non-regression, not legal correctness. Bounds checks do not replace visual review. The 10 negative controls are in-memory scoped-validator mutations, not 10 full renderer rebuilds.",
+  "independentApprovalGranted": false,
+  "newTerminalPromotions": 0,
+  "productionTouched": false,
+  "commercialRoutesOpened": 0
+}

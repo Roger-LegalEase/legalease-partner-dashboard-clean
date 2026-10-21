@@ -131,6 +131,6 @@ and zero credit consumption:
   express instruction to ask the handling county superior court clerk.
 
 Each treatment pins its unchanged `dependency.json` hash and assignment hash
-`d78251fd9f0741f0f080dcebb73f229f3fc8b259568ae422d11db0ffbc9a141a`.
+`1b2bb69e97ea78f9b1b84666b830b41be749736c03b53114d5359aa46626e623`.
 The unresolved county form set, filing details, fee posture, and current FW-001
 remain explicit; this candidate status records only the correction evidence.

@@ -31,10 +31,10 @@ const requirePhrases = (file, phrases) => {
 };
 
 requirePhrases("docs/product-flows/expungement-ai-dtc-user-flow.md", [
-  "Start a free record check",
-  "Start with a free record check. If a self-help packet is available for your matter, it costs $50 to generate.",
+  "Start a free screening",
+  "Start with a free screening. If a self-help packet is available for your matter, it costs $50 to generate.",
   "A path may be available",
-  "Save this matter and continue",
+  "Save my result and continue",
   "Create an account or sign in",
   "free Briefcase",
   "Briefcase",
@@ -95,8 +95,8 @@ if (exists("docs/product-flows/expungement-ai-dtc-user-flow.md")) {
   const dtc = read("docs/product-flows/expungement-ai-dtc-user-flow.md");
   const orderedMarkers = [
     "## Direct-to-consumer flow",
-    "**Start a free record check**",
-    "**Review the authoritative result**",
+    "**Start a free screening**",
+    "**Review the preliminary result**",
     "**Create an account or sign in**",
     "**Open the free Briefcase matter**",
     "**Complete packet information before payment**",

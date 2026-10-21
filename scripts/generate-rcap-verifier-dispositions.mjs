@@ -37,6 +37,29 @@ const audit = JSON.parse(fs.readFileSync(auditPath, "utf8"));
 // Decisions already made, by Roger or recorded in the build plan. These are not
 // defaults and are re-applied on every generation.
 const OVERRIDES = {
+  "rcap-official-forms/verify-name-date-component-semantics.mjs": {
+    disposition: "wire",
+    reason:
+      "The shared binder's second correction, after the charge-caption one. Two defects, both narrow and both live: a DAY, MONTH or YEAR blank acquired participant.full_legal_name because neighbouring sentence text said Defendant, and a caption naming every part of a name -- First, Middle and Last -- resolved to participant.last_name because the trailing substring won. Projected over every committed census: 157 censuses, 5,352 fields, 47 classifications moved and each one enumerated, 21 date components taking a name went to 0, and 21 whole-name captions taking a part went to 0. It asserts the direction that matters most, that nothing protected today becomes writable, and it asserts the correction had something to correct so a no-op rule cannot pass it. Wired on rcap-all50-handoff.yml rather than the npm chain, because package.json is an image input for both worker images.",
+    decidedBy: "recorded_decision"
+  },
+  "rcap-official-forms/test-name-date-component-semantics-mutations.mjs": {
+    disposition: "wire",
+    reason:
+      "The mutation half of the name/date semantics correction. A projection that cannot fail proves nothing about the rule it projects, so this mutates the committed record two ways -- an unexplained row, and a record that stops covering the census-v1 family -- and requires each to be caught, restoring every mutated file byte-for-byte and re-establishing the green baseline afterwards. Wired beside its verifier.",
+    decidedBy: "recorded_decision"
+  },
+  "verify-rcap-census-v1-money-credit-gate.mjs": {
+    disposition: "wire",
+    reason:
+      "The census of what every route may charge for. It recounts from the current head -- 337 compiled pathways over 51 jurisdictions, every routeId distinct -- and drives the real resolver, payment adapter and job contract with a maximally permissive participant context, so that whatever refuses is the route rather than the participant. All 337 are refused by governCommercialAdmission: no price, no Checkout Session, no sponsored reservation, no packet-credit accounting, no attach, no delivery. It exists because the price surface was NOT asking the authority: createConsumerPaymentPlaceholder decided from packetRouteCanRender, a fact about a state that is true for every legacy_retired generator and every shadow factory_v2 route, plus a ledger that is not a Grade-A fulfillment record -- and one forged row there restored a live direct-consumer price on two routes that ADR-0004 retired. Five mutation cases hold it up, including that forged row. Wired on rcap-all50-handoff.yml; the originating commit put it in package.json, which is an image input.",
+    decidedBy: "recorded_decision"
+  },
+  "verify-participant-data-rights.mjs": {
+    disposition: "wire",
+    reason:
+      "The 117-check acceptance contract for the three participant data-rights controls: download my data, delete one matter, delete my account. It builds an ephemeral PostgreSQL cluster from the current migration sequence, drives the real route handlers and the real deletion pipeline rather than a model of them, and reads its answers out of the database. Its strongest checks are the ones proving the feature did NOT overreach: a second matter on the same account survives a single-matter deletion with its payment history, queued render, packet and Briefcase access intact; the packet-credit ledger comes back byte-for-byte identical; amount, currency, product and receipt reference refuse to move even under the erasure authority; the partner's own records are untouched; an unrelated participant is unaffected. It also proves the ordering that makes the rest meaningful -- Auth user deleted last, every session revoked, a mid-pipeline failure resuming without re-running a completed step, and a legal hold outranking the erasure ask. Three closeout areas are proved rather than asserted. Processor erasure runs against a real loopback endpoint, not a stub, because the defect it replaces was a step reporting 'sent' without transmitting: acknowledged needs the provider's own reference, a 500 retries into pending, a 400 fails without retry, and the payment processor and render worker are classified not_applicable with their reasons; PR7 reintroduces the original defect as a mutation and catches it. Storage is swept across a 1,100-object page boundary AND three levels of nesting, because an earlier fixture spread objects across 21 folders where no folder exceeded a page and so proved nothing about pagination -- disabling pagination still passed it. Removing pagination, removing recursion and swallowing a listing failure are each caught now. The private-artifact authority M8/M9 pair is non-vacuous: an absent dependency satisfies neither, so the after-deletion check cannot pass on a link that never worked. Belongs on rcap-all50-handoff.yml rather than the npm test chain, because package.json is an image input for both worker images."
+  },
   "test-internal-admin-rls-hardening.mjs": {
     disposition: "wired",
     reason:
@@ -173,6 +196,114 @@ const OVERRIDES = {
     rootBlocker: "legacy_generator_family_texas_harris",
     reason: "Same root blocker as Mississippi, for the Texas-Harris family."
   },
+  "measure-rcap-oregon-option-geometry.mjs": {
+    disposition: "fix_then_wire",
+    reason:
+      "Measures where the three option selections live on the official Oregon set-aside form, from the pinned binary, refusing to measure at all if the mounted bytes are not b22cc346. Its first version reported that the form contains no checkboxes and that a mark therefore had to be DERIVED into the left margin. That finding was false and is withdrawn. The form draws fourteen stroked, near-square boxes -- three beside the options at [127.08, 393.48], [128.52, 186.24] and [128.52, 151.92], the rest beside the declaration statements -- each an explicit four-segment path stroked inside a q/cm/Q translation. Two mistakes were needed to miss them: the scan matched only `re` operators, and it tracked no CTM, so even a path-aware scan would have reported a box at the origin. The replacement detector is a graphics-state machine, and the boxes are now measured off the court's own controls rather than derived from label text. Each measured box is additionally cropped out of a render of the real page through a page-to-pixel mapping checked against stamped calibration marks, and must come back dark on its border and clean inside; the same window slid half a box diagonally must come back dirty, so the empty reading is a property of the box rather than of the paper. Not wired for one reason: it requires the private corpus, which is git-ignored and behind a private release, so a chain entry would be red wherever the corpus is not mounted. The fix is the two-mode shape the Colorado supplement verifier already has -- contract always, bytes when mounted.",
+    decidedBy: "captain"
+  },
+  "verify-rcap-status-currentness.mjs": {
+    disposition: "wired",
+    reason:
+      "No live status record may assert a fact the repository has moved past. Status went stale twice in this sprint the same way -- a generator holding a literal and emitting it after the world changed -- and the second time survived a round of cleanup because the cleanup edited output while the generator kept producing it. Five superseded claims are paired with the live source that settles each: the Oregon questions against the decision record, the Blocker-4 questions against the same, the eight terminalization failures against what verify-rcap-terminalize-c1 actually reports when shelled out to, the retired publication branch against the workflow text, and the superseded Oregon route against the configurations that replaced it. Citing the old state as history passes and must -- deleting what a blocker was leaves its closure unexplained -- while asserting it as current fails. Its --mutations suite proves all five are catchable. Wired.",
+    decidedBy: "captain"
+  },
+  "grade-a-route-obligation-census/verify-national-route-obligation-census.mjs": {
+    disposition: "wired",
+    reason:
+      "The national route-obligation census's own contract: 51 jurisdictions, 497 statutory tracks, 337 runtime routes, 984 typed sources and 694 terminal obligations, with every obligation carrying a category, a confidence and the exact work still missing. It is the build denominator, so the thing it must not do is undercount -- a route that never reaches the census is a route nobody is accountable for. It holds the hidden-participant-branch rule in particular: 87 branches a participant could initiate, each of which an exclusion could otherwise have swallowed. Corpus-free, so it runs anywhere; wired from the handoff workflow rather than package.json, which is a worker image input.",
+    decidedBy: "captain"
+  },
+  "grade-a-route-obligation-census/test-national-route-obligation-census-mutations.mjs": {
+    disposition: "wired",
+    reason:
+      "132 rejected mutations against one accepted variant, and the accepted one is deliberate: participant-facing instrument copy may be clarified without changing treatment identity. Everything else -- an omitted failure disposition, a raw status token exposed as a participant instrument, a duplicated service selector, a filing destination falling back to a contract mechanism, post-filing instructions reusing prefiling prose, an owner approval waiving artifact review -- turns the census red. Wired beside the census it proves.",
+    decidedBy: "captain"
+  },
+  "grade-a-route-obligation-census/verify-route-obligation-census-v1-freeze.mjs": {
+    disposition: "wired",
+    reason:
+      "The V1 freeze is a denominator and three queues, and each can be wrong in a way that costs real work: two waves handed the same owned path put two lanes in one file, a family dispatched while its source is unresolved stalls on its first step, a Category B row outside the six permitted reasons is an obligation quietly written off, and a legal question dropped between batches is never answered. It caught the first of those on its first run -- six packet sets appear twice in the worklist under different implementation strategies, and a path derived from the group id alone collided. It also checks that the freeze opened nothing: commerciallyEligible 0, COMPLETE_PACKET_PROVEN 0, commercial routes 0. Wired; `--mutations` proves an overlapping assignment, a nested path, a bad exclusion and a dropped question are each caught.",
+    decidedBy: "captain"
+  },
+  "rcap-official-forms/verify-full-name-charge-caption-semantics.mjs": {
+    disposition: "wired",
+    reason:
+      "participant.full_legal_name matches a bare \\bname\\b and every party word, deliberately, because that is how most forms label the filer's own name -- and the cost was that a caption merely CONTAINING one of those tokens could claim the blank. Across six official-form families it did, and the participant's own name was written into the blank holding the offence they were charged with. This holds the correction three ways rather than one: the committed captions themselves, quoted from the corpus rather than paraphrased, refuse the name while genuine name captions keep binding it; both projections are recomputed over all 5,286 censused blanks in all 156 families and the set that moves must be exactly the 34 the diff records, no more and no fewer; and every protect rule is compared term for term against the base commit's, because a correction to the name descriptor is exactly the kind of work that could take a protect term with it. Wired from .github/workflows/rcap-all50-handoff.yml rather than package.json, which is a worker image input.",
+    decidedBy: "captain"
+  },
+  "rcap-official-forms/test-full-name-charge-caption-semantics-mutations.mjs": {
+    disposition: "wired",
+    reason:
+      "The mutation proof for the charge-caption correction. Seven breaks, each the shape someone would actually introduce: a predicate that answers false for everything, a removed refusal, a removed printed-label fallback guard, an expected-change set widened by one unrelated field, one narrowed by one field that does move, a protect term quietly dropped, and a predicate greedy enough to refuse genuine name captions. It establishes a green baseline before testing anything -- a suite that started red would report every mutation as detected while proving nothing -- and restores each file against the bytes it started with rather than against git, because both files are legitimately dirty relative to HEAD while a lane is in progress. Wired beside the verifier it proves.",
+    decidedBy: "captain"
+  },
+  "verify-rcap-stale-artifact-block.mjs": {
+    disposition: "wired",
+    reason:
+      "Twelve artifacts across six families were rendered through the defective binder above, and eleven of them carry the participant's name at an offending field -- read out of the flattened widget appearance drawn at that field's own measured rectangle, not out of the reports, since the reports come from the map under suspicion. The binder is fixed; bytes are not reached by a rule change. So the hashes are blocked from all six capabilities that could act on them -- artifact approval, Grade-A fulfillment, packet-family completion, launch authority, commercial admission and participant delivery -- and each capability is resolved to the records that actually carry it rather than asserted. Two ways of going green without fixing anything are guarded as carefully as the first: a deleted stale PDF makes every check about it pass, and a silently re-rendered one leaves the record pointing at bytes that no longer exist. Wired: `--mutations` proves a grant, a deletion and a drift are each caught.",
+    decidedBy: "captain"
+  },
+  "verify-rcap-oregon-disposition-artifacts.mjs": {
+    disposition: "fix_then_wire",
+    reason:
+      "The three rendered Oregon artifacts, read out of their own content streams rather than out of the render report -- the failure it exists to catch is the one where the report is right and the document is not. The participant layer is recovered exactly: the factory appends its drawing to a page's Contents array and never edits the court's streams, so a stream the artifact carries that the pinned source does not is participant content and everything else is the court's, which makes \"nothing was written on the three instruction pages\" a fact about the file. It then requires that the configuration's own option carries exactly two strokes strictly inside the court's measured box and touching neither its line nor anything outside it, that the other two options and all seven declaration boxes carry none, that every write sits at the coordinate its anchor declares with the value the fixture supplies and fits the blank, that nothing lands on a rule the court owns, and that the never-charged artifact has an empty case-number blank with no other route's case number anywhere in its layer. Six mutations prove the recovery is not vacuous. Not wired for one reason: separating the layers needs the source bytes, and the corpus is git-ignored and behind a private release, so a chain entry would be red wherever it is not mounted. Same two-mode fix as the Colorado supplement verifier -- contract always, bytes when mounted.",
+    decidedBy: "captain"
+  },
+  "verify-rcap-oregon-disposition-visual-review.mjs": {
+    disposition: "fix_then_wire",
+    reason:
+      "The second, independent leg on the same question. A coordinate check cannot see a mark drawn in white, one hidden under a clip, or a page that renders blank, because it is the same arithmetic the renderer used, so all thirty pages are rendered and the three option boxes are cropped out of page 4 through a page-to-pixel mapping verified against stamped calibration marks before anything is cropped through it. It requires that all three boxes are still drawn and visible, that the configuration's own box carries ink, that the other two do not, and that no two configurations produce the same page 4. It reads only committed artifacts, so unlike its byte-level sibling it does not need the corpus -- what it needs is a browser and about four minutes, which is why it is not a chain entry, and it is held to the same disposition as the Oregon independent visual review it sits beside.",
+    decidedBy: "captain"
+  },
+  "verify-rcap-oregon-disposition-configurations.mjs": {
+    disposition: "wired",
+    reason:
+      "The three Oregon disposition-bound configurations required by the decision owner on 2026-08-29, and the one property that decision turns on. One packet family with multiple configurations was permitted ONLY where each has a distinct stable identity and cannot be selected by the wrong disposition, so this enforces the second clause rather than asserting it: for every ordered pair it requires that what one configuration REQUIRES another explicitly REFUSES, which is what stops a never-charged participant satisfying the acquittal configuration. It also checks that Option 3 is selected by the never-charged configuration alone, that the 60-day period is required there and nowhere else, that no configuration resolves to a generic or null packet configuration, and that all three stay commercially closed. Since the six legal sections were bound on 2026-08-29 it also reads them rather than counting them: the filing destination and the service county must be written per route rather than generalised, the certificate of mailing must never be prefilled, no court-processing deadline may be promised, and the 120-day objection period must NOT be applied as the ordinary rule for (1)(c) or (1)(d) -- it is what ORS 137.225(1)(a) sets for the conviction track. Binding the sections is a legal-design decision and this checks that it was not treated as an output-level approval. Wired: a fourth configuration, a merged predicate, an opened route or a section quietly generalised across routes turns it red.",
+    decidedBy: "captain"
+  },
+  "verify-rcap-answer-dependent-patches.mjs": {
+    disposition: "wired",
+    reason:
+      "The eight answer-dependent patch bundles for the four Blocker-4 legal questions, prepared and proved without applying. Each branch is dry-run applied to an in-memory copy of its targets and the result is diffed field by field: a repin must move provenance.profileSha256 and nothing else, a retirement must move no hash at all. It then recomputes every target's digest and requires it unchanged on disk, so \"prepared, not applied\" is asserted rather than promised. Wired because it is the guard on eight held records: if a bundle were applied without an answer, or a target drifted from the hash the matrix measured, this goes red before anything downstream reads the manifest as current.",
+    decidedBy: "captain"
+  },
+  "verify-rcap-oregon-decision-alternatives.mjs": {
+    disposition: "wired",
+    reason:
+      "The four Oregon alternatives -- ORS 137.225(1)(c) or (1)(d), and one acquittal packet or three routes -- measured against the repository without choosing between them. It proves the (1)(d) route id does not already exist, enumerates every committed record that carries the current route id so the rename's blast radius is a list rather than an estimate, and confirms both unreached packet sets are complete seven-component sets, which is what makes the scope question a real participant-facing gap. Wired because its last three checks are the ones that matter while waiting: the route id is unchanged, it still binds only or_acquittal-set, and no new Oregon route was created. A branch applied quietly turns those red.",
+    decidedBy: "captain"
+  },
+  "verify-rcap-nonproduction-readiness-audit.mjs": {
+    disposition: "keep_available",
+    reason:
+      "What publication would need, audited without dispatching. Credential presence is recorded by name and no value is ever read, printed or transmitted; absence in a non-workflow session is reported as expected rather than as a defect. It found the one live blocker before dispatch, and that blocker is now closed: the publish workflow PREVIOUSLY pinned RELEASE_INTEGRATION_BRANCH by literal name to a branch the captain head was not contained in, so publication would have been refused before anything was fetched. The workflow now pins the captain branch, still by literal name and still with no wildcard and no runtime input, and the ancestry requirement is unchanged. Not wired: its findings are about workflow secrets and the live git graph, both of which legitimately differ between environments, so a chain entry would be red for reasons that are not defects. Run it before any dispatch.",
+    decidedBy: "captain"
+  },
+  "verify-rcap-candidate-freeze-readiness.mjs": {
+    disposition: "keep_available",
+    reason:
+      "The candidate-freeze checklist, evaluated rather than asserted: it shells out to verify-rcap-terminalize-c1 and counts its actual drift failures instead of restating a number, so it cannot report a count the verifier disagrees with. Expected to report NOT READY, and the value is in which gates are open -- three wait on counsel, two are the captain's. It names no candidate SHA and freezes nothing. Not wired: it is deliberately red until the legal answers land, and a chain entry that is red by design teaches a reader to ignore a red chain.",
+    decidedBy: "captain"
+  },
+  "verify-rcap-lane-i-oregon-first-packet.mjs": {
+    disposition: "fix_then_wire",
+    reason:
+      "The acceptance contract for the first Oregon Grade-A route. It ranks the three candidates from signals other generators already wrote, re-hashes every bound source against the mounted corpus, proves the specification hash moves when a bound official form is swapped (by swapping one, regenerating, and restoring), proves the record validates the filed PDF rather than a text composition, exercises the product path against the live record and two in-memory counterfactuals across all ten admission points, and derives four evidence records as a fixed point. Seventy-eight checks, green. It is NOT wired, and the reason is exact rather than a preference: two of its checks require the private source corpus mounted at private/source-imports/, which is git-ignored and behind a private release, and without it C1-sources fails and the derived closure drifts on sourceProvenanceMode. Wiring it would make the chain red in every environment that has not run bootstrap-private-corpus.sh. The fix is to give it the two modes the Colorado supplement verifier already has -- contract always, bytes when mounted -- with the byte checks reported as skipped rather than failed and the drift comparison excluding the corpus-dependent field. Then wire it.",
+    decidedBy: "captain"
+  },
+  "verify-rcap-oregon-independent-visual-review.mjs": {
+    disposition: "fix_then_wire",
+    reason:
+      "The independent page-by-page raster review of the two finalized Oregon filing artifacts, and the evidence the Grade-A record's visualReview dimension now cites. Lane C's byte-level review recorded rasterReview: not performed because it had no rasteriser, and a review that never rendered a page cannot have seen a clipped value, a caption over preprinted wording or a page that renders blank -- the defects visual review exists to catch. This renders all seven pages through Chromium's PDF engine and inspects ink coverage and luminance, bound to the artifact hashes, the page count, the specification hash and the commit carrying the bytes. Not wired yet for one reason: it launches Chromium, and the chain's other browser-dependent checks are held in the hosted workflow rather than in npm test for the same reason. The fix is to place it alongside them in .github/workflows/rcap-all50-handoff.yml rather than in package.json, and to prove it fails when a page renders blank.",
+    decidedBy: "captain"
+  },
+  "verify-rcap-oregon-durable-render.mjs": {
+    disposition: "fix_then_wire",
+    reason:
+      "Durable render exercised rather than reasoned about: an ephemeral PostgreSQL 16 cluster carrying the committed render-job schema, the shipped job-queue and delivery code, the real Oregon filing PDF, and a filesystem backend implementing the same PacketArtifactStorage interface as the Supabase adapter. Twenty-one checks including the write-once rule watched refusing a second write, a disagreeing stored digest failing the job with checksum_mismatch, tampered bytes failing closed at delivery, and -- with payment, validation, ownership and hash verification all satisfied -- the last door being Grade-A commercial admission, which refuses. Not wired yet because its committed evidence is compared on findings rather than bytes (job ids are generated per run), and a chain check should compare a fixed point. The fix is to make the evidence fully reproducible under a fixed id seed, then wire it beside verify-rcap-packet-delivery-db.mjs, whose PostgreSQL prerequisite it shares.",
+    decidedBy: "captain"
+  },
   "verify-rcap-worker-tag-guard.mjs": {
     disposition: "keep_available",
     reason:
@@ -300,10 +431,29 @@ let overridden = 0;
 // guess with a measured status. Leaving them out would let a new verifier slip
 // in with no recorded decision, which is the exact gap this register closes.
 const auditedFiles = new Set(audit.scripts.map((r) => r.file));
-const onDisk = fs
-  .readdirSync(path.join(rootDir, "scripts"))
-  .filter((f) => /^(verify|test|audit)-.*\.mjs$/.test(f))
-  .sort();
+// Both the top level and scripts/security/. The scan used to read only the top
+// level, which meant no security verifier had ever been registered -- not the
+// Clinic denial suites, and not the auth-redirect and sign-out checks that
+// predate them. A register that silently omits the security directory is worse
+// than no register for those files, because it reads as coverage.
+//
+// Entries are keyed by path relative to scripts/, so a security verifier is
+// distinguishable from a top-level one of the same name and the chain-membership
+// test below still matches the command as written in package.json.
+function verifierFilesUnder(relativeDir) {
+  const absolute = path.join(rootDir, relativeDir);
+  if (!fs.existsSync(absolute)) return [];
+  return fs
+    .readdirSync(absolute)
+    .filter((f) => /^(verify|test|audit)-.*\.mjs$/.test(f))
+    .map((f) => (relativeDir === "scripts" ? f : `${relativeDir.slice("scripts/".length)}/${f}`));
+}
+// scripts/rcap-official-forms/ joined the register when the official-form
+// factory grew verifiers of its own. A directory the register does not look
+// in holds verifiers nobody has dispositioned, which is the same blind spot
+// this register exists to close -- and the checker looks in the same three.
+const onDisk = [...verifierFilesUnder("scripts"), ...verifierFilesUnder("scripts/security"),
+  ...verifierFilesUnder("scripts/rcap-official-forms"), ...verifierFilesUnder("scripts/grade-a-route-obligation-census")].sort();
 
 const pkg = JSON.parse(fs.readFileSync(path.join(rootDir, "package.json"), "utf8"));
 const testChain = pkg.scripts?.test ?? "";

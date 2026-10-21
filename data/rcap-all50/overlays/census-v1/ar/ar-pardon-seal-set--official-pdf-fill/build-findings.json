@@ -1,0 +1,77 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "ar-pardon-seal-set",
+  "blockingFindings": [],
+  "blockingFindingCount": 0,
+  "advisory": [
+    {
+      "id": "flat-overlay-region-channel-never-runs",
+      "severity": "advisory",
+      "where": "scripts/rcap-official-forms/rcap-official-form-finalize.mjs, the decideBinding call inside finalizeFlatOverlay",
+      "finding": "finalizeOfficialForm passes `regionHeading` to decideBinding; finalizeFlatOverlay does not. On a flat overlay the shared region channel therefore never runs, so a blank under a printed 'Certificate of Service' or 'VERIFICATION' is not refused by region however it is captioned.",
+      "evidence": "This family computes regionProtectCategoryOf itself and withholds every anchor in a protected region; the census records regionProtectCategory per blank, and the withheld list records channel 'printed_page_region' for each one the shared path would have missed.",
+      "whyItIsNotPatchedHere": "The shared module is not this family's path to change. Patching it from a packet build would alter every flat family's behaviour in a commit whose subject is one Arkansas route.",
+      "thisFamilyDependsOnIt": false
+    },
+    {
+      "id": "region-heading-defeated-by-scrambled-glyph-order",
+      "severity": "advisory",
+      "where": "the petition, page 4",
+      "finding": "Even where the region channel is run, it can be defeated by the source's own typesetting. The petition's page 4 heading is emitted with its glyphs out of order, so the walker reads 'Certicatofefi Service' and regionProtectCategoryOf does not match it. The census records regionProtectCategory null for the 'I, ___' certifying-name blank on that page.",
+      "consequence": "On the flat DWI sibling the equivalent page WAS caught by region. Here it is not, and the family's role refusals are the whole of the protection for that page. A family that relied on the region gate alone would have left the certifying name writable.",
+      "thisFamilyDependsOnIt": false
+    },
+    {
+      "id": "underscore-leader-geometry-unreliable-on-these-sources",
+      "severity": "advisory",
+      "where": "both documents; worst on the petition's page 2 and the order's page 1",
+      "finding": "23 of the petition's 40 blanks and 10 of the order's 28 sit on lines the shared walker reports metricsExact=false, meaning it could not resolve the font's glyph widths and fell back to the type size as the width of every glyph. Six of those rectangles land outside the 612x792 media box — the order's conviction-date trio reaches x=952 and the petition's page 2 signature and date rules reach x=739.6.",
+      "consequence": "Underscore-leader rectangles on those lines are estimates, not measurements. This build withholds them rather than writing into them, which is why the petition writes only two values. Drawn rules are unaffected: their geometry comes from the path operators.",
+      "whatWouldResolveIt": "Font-width resolution for these two documents' embedded fonts in the shared walker. Until then the affected blanks are left for the participant and listed in reports/blanks-left-for-the-participant.json.",
+      "thisFamilyDependsOnIt": false
+    },
+    {
+      "id": "per-glyph-ink-attribution-produces-false-overflow-findings",
+      "severity": "advisory",
+      "where": "this family's own verification stage, corrected before this build was accepted",
+      "finding": "The first version of verifyFromBytes located added ink glyph by glyph, using each glyph's x and w from the walker. Those per-glyph values are accumulated from the font's advance widths, and where the walker cannot resolve them it falls back to the type size as every glyph's width. The overlay's own embedded Helvetica is one of the fonts it cannot resolve.",
+      "consequence": "It reported three BLOCKING findings against the petition's boundary fixture — that the 69-character name was drawn outside every measured blank and was not a value the factory reported writing. All three were false. The factory shrank the name to 7pt, where Helvetica's true width for that string is 228.25pt against a 234.9pt write box on a 238.4pt rule, so the artifact-byte geometry proves it stays inside. The verifier was failing on its own transcription rather than on the artifact.",
+      "howItWasFixed": "Ink is now attributed PER TEXT ITEM by the item's origin — which comes straight from the text matrix and is exact whatever the font — and transcribed from the item's own decoded string. The drawn EXTENT is measured separately against Helvetica's published advance widths, after assertArtifactUsesHelvetica confirms from the finished PDF's own font resources that Helvetica is the font on the page. No verifier was weakened or skipped: the extent check is stricter than what it replaced, and it now fails on a value that truly runs past its rule.",
+      "whyItIsRecorded": "Every flat family verifying this way inherits the same trap, and the tempting response to a false blocking finding is to loosen the check that raised it. The correct response was to measure the right thing.",
+      "thisFamilyDependsOnIt": false
+    },
+    {
+      "id": "order-decree-cites-title-14",
+      "severity": "advisory_for_counsel",
+      "where": "the order, page 2",
+      "finding": "The order's operative decree prints 'hereby is SEALED pursuant to A.C.A. §14-90-1411' while its own paragraph 5 immediately above cites §16-90-1411, and both documents' titles are issued under A.C.A. 16-90-1401 et seq.",
+      "treatment": "Quoted exactly as printed and NOT corrected. Whether it is a typographical error in the official form is counsel's question, not this build's.",
+      "thisFamilyDependsOnIt": false
+    },
+    {
+      "id": "shared-name-date-semantics-record-lags-every-census-v1-family",
+      "severity": "advisory",
+      "where": "data/rcap-grade-a/field-semantics/name-date-component-classification-diff.json, checked by scripts/rcap-official-forms/verify-name-date-component-semantics.mjs",
+      "finding": "That verifier's stored record was generated over 157 censuses. On this branch 162 committed censuses already exist before this family, so the check 'the record scanned every committed census, including census-v1' FAILS at HEAD independently of this work. Adding this family's census makes it 163.",
+      "whatThisFamilyChanges": "One census, from 162 to 163. The failure is pre-existing and was confirmed by running the verifier at HEAD with this family's output removed: it reports the identical failure with 162. The companion check in verify-full-name-charge-caption-semantics.mjs fails at HEAD too, with text this family does not change at all.",
+      "whyItIsNotRegeneratedHere": "The record is shared across every family, and regenerating it from this build would sweep five other census-v1 families' censuses into a commit whose subject is one Arkansas route. It belongs to a regeneration pass over all of them.",
+      "whatDOESHold": "Every substantive invariant in both verifiers passes with this family's census present: no field binds a writable participant name into a charge blank, no date-component blank binds a writable participant name, no protect category is removed, no protect rule is weakened, and no refused field becomes writable. Neither verifier was modified, skipped or weakened.",
+      "thisFamilyDependsOnIt": false
+    },
+    {
+      "id": "revision-skew-between-the-pair",
+      "severity": "observation",
+      "finding": "The order is REV-2022-03-07 and the petition REV-2022-03-08: the proposed order carries a revision date one day BEFORE the petition it is filed with. Confirmed from the corpus index and from each document's own printed footer.",
+      "treatment": "Recorded as an observed property of the pinned pair. Not an error, not corrected, not substituted, and no later revision was sought.",
+      "thisFamilyDependsOnIt": false
+    }
+  ],
+  "whatThisBuildDoesNotEstablish": [
+    "that this family is approved for participant delivery — it is not, and this build cannot grant that",
+    "that any commercial route is open, or that any fulfilment record exists",
+    "that the charged offence and the convicted offence may be filled from a single held charge fact — this build refuses to and records the question for counsel",
+    "that the order's A.C.A. § 14-90-1411 citation is or is not an error in the official form",
+    "any filing fee, or that none exists",
+    "that a pardon was granted in any matter — this packet is the step that follows one and asserts nothing about it"
+  ]
+}

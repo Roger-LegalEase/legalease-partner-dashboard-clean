@@ -1,0 +1,1194 @@
+{
+  "schemaVersion": "rcap-independent-verifier-return/v1",
+  "lane": "VFAR1",
+  "laneKind": "independent-verification",
+  "status": "COMPLETED",
+  "semanticStatus": "PASS_COMPLETE_INDEPENDENT",
+  "rasterDispatchAuthorized": true,
+  "finalAcceptance": true,
+  "visualMeasured": true,
+  "rows": [
+    {
+      "familyId": "ar-act346-set",
+      "itemId": "ar-act346-set",
+      "jurisdiction": "AR",
+      "lane": "VFAR1",
+      "reviewer": "/root/resume_vfar1",
+      "sessionIdentity": "/root/resume_vfar1",
+      "reviewPhase": "INDEPENDENT_CURRENT_BYTE_NONVISUAL_SEMANTIC_RECHECK",
+      "verifiedAt": "2026-09-13T02:54:47.081Z",
+      "verifiedAtBase": "253ece8b351f247f77c74c668121048b7e0fb58d",
+      "actualHeadAtReview": "253ece8b351f247f77c74c668121048b7e0fb58d",
+      "manifestCommitSha": "ad98a571b8507f68371240c2d429e1207054eb9e",
+      "status": "PASS_COMPLETE_INDEPENDENT",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "scope": "Bounded independent semantic review of the current Arkansas Act 346 staged family against the exact route/component contract, exact petition and order source bytes, current candidate PDF bytes, participant guidance, required-before-filing handoffs, protected fields and saved byte proofs. The review does not claim current-edition freshness, counsel or court approval, central raster acceptance, visual fit, final acceptance, commercial authority or runtime selection.",
+      "claimEvidence": {
+        "assertCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --can-assert VFAR1 'ar-act346-set'",
+        "result": "CLAIM_OK",
+        "grantSet": "67d7da433bf26889",
+        "assertedBeforeFamilyReads": true,
+        "claimMutation": "none"
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "basis": "Current Arkansas legal-design memo, current three-component declaration and product wiring.",
+          "finding": "The family is the statewide Arkansas Act 346 first-offender dismissal-and-seal route with two sequential units: plea-stage placement guidance, followed by the post-completion ACIC petition and proposed order. The current census-v1 family is the delivery candidate; the historical composed-route directory is excluded. This review grants no runtime or commercial authority.",
+          "evidence": [
+            {
+              "path": "data/record-clearing/legal-design-intake/AR.memo.json",
+              "sha256": "93346ae6af2491789b6c02e925350521094a2d7720dfb5fcd53e10995bf6e5ac",
+              "byteLength": 131898
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/component-set.json",
+              "sha256": "60726c91c697d72fc6d4a374f90af04f522d9f54470176d3f21428f7a2d88f11",
+              "byteLength": 1311
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/product-wiring.json",
+              "sha256": "150e00aafa1f77acef8db3fc3304f0a681c43baa5b2082227889b867d1d83f6c",
+              "byteLength": 4819
+            }
+          ]
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "basis": "Independent current hash and length comparison against the committed source receipt and its two recorded custody locations.",
+          "finding": "The held petition reference and the Master Library order match the exact source receipt hashes and lengths. The petition's corpus-index disagreement remains recorded as held reference custody; it is not silently promoted to an operational Nationwide binding. Current official-edition freshness and supersession are outside this semantic review.",
+          "evidence": [
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/source-receipt.json",
+              "sha256": "fcbb7cd0104ef18f99073c431c21ebcb828cd6d9c0451009bf4d9c0253cfd387",
+              "byteLength": 3909
+            },
+            {
+              "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC2__AR-ACT346-SET__ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS__b90179f471d3.pdf",
+              "sha256": "b90179f471d3b47bc4aa4d40d8b1cf7aa4c0633d05c4ba5ad3d5a49895bbacd3",
+              "byteLength": 530147,
+              "pageCount": 5
+            },
+            {
+              "path": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-DISMISS-AND-SEAL-FIRST-OFFENDERS-ACT-346__order-to-dismiss-and-seal-first-offenders-under-act-346-and-act-1460__REV-2014-01-01__EN.pdf",
+              "sha256": "70f97584a628507e064540a4bf2830b46162de8f799d2a2a78285db446d15740",
+              "byteLength": 307979,
+              "pageCount": 3
+            }
+          ]
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "basis": "Current component set, rendered-artifact declaration and all four current candidate PDFs.",
+          "finding": "The required sequential set is complete: stage-1 participant process guidance remains non-filed, and stage-2 delivers the official ACIC petition and proposed order. Both fixtures preserve the petition's five source pages and order's three source pages. The retained historical composed route is explicitly excluded from participant delivery.",
+          "evidence": [
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/component-set.json",
+              "sha256": "60726c91c697d72fc6d4a374f90af04f522d9f54470176d3f21428f7a2d88f11",
+              "byteLength": 1311
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/reports/rendered-artifacts.json",
+              "sha256": "02318c916b85202e49f696f70d3a7e2ac0076059ec01846a46135d4e41e308d1",
+              "byteLength": 5494
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/fixtures/petition-canonical-filled.pdf",
+              "sha256": "75bffbd8493de56f1f39b7f67ff9dc93e50926fb284678209d11610eb2512f76",
+              "byteLength": 553518,
+              "pageCount": 5
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/fixtures/order-canonical-filled.pdf",
+              "sha256": "cb9d2019b25a9f492dcd6d483c642d2c9961d23ff6e3e8eb0db50a4c7a0c1a32",
+              "byteLength": 306189,
+              "pageCount": 3
+            }
+          ]
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "basis": "Independent current flattened-widget readback, actual-write proof, rendered-artifact refusal record and charge-caption proof.",
+          "finding": "Every fitting declared fact is present in its intended current PDF widget: petition canonical 10 values, petition boundary 8, order canonical 3 and order boundary 1. The boundary fixture's long case number and county are explicitly refused because they exceed the widgets at the six-point minimum; they remain blank rather than truncated or substituted. The saved AR repair assignment classifies this as a disclosure question rather than a scored semantic failure. This PASS does not claim those two synthetic boundary fields are filled; any participant-flow treatment of such overlong values remains a limitation for later product disclosure.",
+          "evidence": [
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/reports/actual-writes.json",
+              "sha256": "c2b4ec96277805993c3e1f58be5e07514a5db11fe606a4474f8d032c194946c7",
+              "byteLength": 4762
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/reports/rendered-artifacts.json",
+              "sha256": "02318c916b85202e49f696f70d3a7e2ac0076059ec01846a46135d4e41e308d1",
+              "byteLength": 5494
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/reports/charge-caption-proof.json",
+              "sha256": "128636d10e2d894ae1c67acbaae0c04404a5072a234f8dd99c1a8abaab5cd5b2",
+              "byteLength": 11281
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/fixtures/petition-boundary-filled.pdf",
+              "sha256": "59a301da89ce8b7535d84781e06a88c78f60946053d3b9d8ab4db0a1b99536c8",
+              "byteLength": 553423,
+              "pageCount": 5
+            }
+          ],
+          "boundaryRefusals": [
+            {
+              "field": "Case No",
+              "factId": "matter.case_number",
+              "availableWidth": 116.76,
+              "requiredWidthAtMin": 118,
+              "minFontSize": 6
+            },
+            {
+              "field": "COUNTY/County",
+              "factId": "matter.county",
+              "availableWidth": 124.56,
+              "requiredWidthAtMin": 143.6,
+              "minFontSize": 6
+            }
+          ]
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "basis": "Current production field map, participant guidance, stage-1 process guidance, participant blank inventory and controlling AR memo.",
+          "finding": "The 14 required-before-filing fields are handed to the owning participant, court, clerk, agency or notary. Guidance names court/division confirmation, arrest and plea dates, charge class and A.C.A. sections, probation term, elections, identifiers, verification, notary, signature and service completion. Stage 2 is gated on confirmed Act 346 placement and completed probation; fingerprint and ACIC history steps are identified without fabrication.",
+          "evidence": [
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/production-field-map.json",
+              "sha256": "dc849e30a75cfe362cea2dbc2aa9e5517a78e13f0c06dee5b27a67510962f297",
+              "byteLength": 103898
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/reports/blanks-left-for-the-participant.json",
+              "sha256": "f57709cc46397dd94ea4a7ef400347c6d88aa43199e2cfd5f158830b77845d15",
+              "byteLength": 26201
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/participant-instructions.md",
+              "sha256": "8fe05999014052d4378ac354ea6ccc5b44f433218126cf67c872eb3dc0a33831",
+              "byteLength": 8446
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/stage-1-process-guidance.md",
+              "sha256": "f3f30842da5880fc216f88ab7959728e3c75276a342f9558ded3967cd4405669",
+              "byteLength": 1109
+            }
+          ]
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "basis": "AR route record, staged component declaration and participant guidance.",
+          "finding": "The route offers no competing legal election. It preserves the saved decision that LegalEase does not recreate plea placement or negotiation and only presents the stage-2 official pair after the participant confirms Act 346 first-offender placement and successful probation completion. Objection, contested hearing and unresolved placement remain stop or handoff conditions.",
+          "evidence": [
+            {
+              "path": "data/record-clearing/legal-design-intake/AR.memo.json",
+              "sha256": "93346ae6af2491789b6c02e925350521094a2d7720dfb5fcd53e10995bf6e5ac",
+              "byteLength": 131898
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/component-set.json",
+              "sha256": "60726c91c697d72fc6d4a374f90af04f522d9f54470176d3f21428f7a2d88f11",
+              "byteLength": 1311
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/participant-instructions.md",
+              "sha256": "8fe05999014052d4378ac354ea6ccc5b44f433218126cf67c872eb3dc0a33831",
+              "byteLength": 8446
+            }
+          ]
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "basis": "Current field map, actual-write/refusal inventory and current charge-caption proof.",
+          "finding": "The petition carries one held charged-offense line; the optional second line remains blank. The order's recitals and findings remain court-owned blanks. No partial repeating row is created, and the current charge-caption proof found no participant name token in 22 charge/offense/statute blank fields.",
+          "evidence": [
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/production-field-map.json",
+              "sha256": "dc849e30a75cfe362cea2dbc2aa9e5517a78e13f0c06dee5b27a67510962f297",
+              "byteLength": 103898
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/reports/actual-writes.json",
+              "sha256": "c2b4ec96277805993c3e1f58be5e07514a5db11fe606a4474f8d032c194946c7",
+              "byteLength": 4762
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/reports/charge-caption-proof.json",
+              "sha256": "128636d10e2d894ae1c67acbaae0c04404a5072a234f8dd99c1a8abaab5cd5b2",
+              "byteLength": 11281
+            }
+          ]
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "basis": "Current protected-blank inventory, actual-write proof, focused self-test and direct flattened-widget readback.",
+          "finding": "The 47 protected blanks remain uninked. Petition legal declarations, elections, identifiers, verification, notary and certificate-of-service fields remain for their owning participant, court, prosecutor, clerk, agency or notary. The proposed order's recitals, findings, page-3 Defendant decree, judge and date remain blank; the focused self-test confirms the page-3 Defendant decree is not written.",
+          "evidence": [
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/reports/blanks-left-for-the-participant.json",
+              "sha256": "f57709cc46397dd94ea4a7ef400347c6d88aa43199e2cfd5f158830b77845d15",
+              "byteLength": 26201
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/reports/actual-writes.json",
+              "sha256": "c2b4ec96277805993c3e1f58be5e07514a5db11fe606a4474f8d032c194946c7",
+              "byteLength": 4762
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/reports/focused-self-test.json",
+              "sha256": "437594b9194b720469f21df06bc4808821d05880be492a0274ef50af66d09105",
+              "byteLength": 4722
+            }
+          ]
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "basis": "Independent current hash, byte-length and page-count comparison against the frozen raster manifest.",
+          "finding": "All four current candidate PDFs match the frozen manifest: petition canonical 553518 bytes and 5 pages, petition boundary 553423 bytes and 5 pages, order canonical 306189 bytes and 3 pages, order boundary 305836 bytes and 3 pages. The central raster workflow has the exact byte identities; no local raster is being substituted.",
+          "evidence": [
+            {
+              "path": "data/rcap-grade-a/packet-factory-24h/fix112/ar-act346-current-raster-manifest-20260912.json",
+              "sha256": "62a775a77856d9c79cf4f0029535950c1de0c815d51cb03e264cc668c07364d0",
+              "byteLength": 3385
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/fixtures/petition-canonical-filled.pdf",
+              "sha256": "75bffbd8493de56f1f39b7f67ff9dc93e50926fb284678209d11610eb2512f76",
+              "byteLength": 553518,
+              "pageCount": 5
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/fixtures/petition-boundary-filled.pdf",
+              "sha256": "59a301da89ce8b7535d84781e06a88c78f60946053d3b9d8ab4db0a1b99536c8",
+              "byteLength": 553423,
+              "pageCount": 5
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/fixtures/order-canonical-filled.pdf",
+              "sha256": "cb9d2019b25a9f492dcd6d483c642d2c9961d23ff6e3e8eb0db50a4c7a0c1a32",
+              "byteLength": 306189,
+              "pageCount": 3
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/fixtures/order-boundary-filled.pdf",
+              "sha256": "36d0464105a775214a93026296b38ee1822595cf4d807ed61066f09caf44e871",
+              "byteLength": 305836,
+              "pageCount": 3
+            }
+          ]
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "basis": "Source receipt page counts, current rendered-artifact document pairing and candidate PDF page counts.",
+          "finding": "The petition retains its five source pages in order in both fixtures, and the proposed order retains its three source pages in order in both fixtures. No page was dropped or reordered by the staged component assembly.",
+          "evidence": [
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/source-receipt.json",
+              "sha256": "fcbb7cd0104ef18f99073c431c21ebcb828cd6d9c0451009bf4d9c0253cfd387",
+              "byteLength": 3909
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/reports/rendered-artifacts.json",
+              "sha256": "02318c916b85202e49f696f70d3a7e2ac0076059ec01846a46135d4e41e308d1",
+              "byteLength": 5494
+            }
+          ]
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "basis": "Direct independent viewing of all 16 original PNG pages from run 34732930032 after exact custody and current PDF dependency-boundary verification.",
+          "finding": "All 16 original pages were viewed individually. The canonical and boundary petition/order writes are legible and remain within their intended lines and page bounds, including the long boundary caption, charge and address values. No clipping, overlap, missing ink, unintended page crop, protected-field ink or unrelated ink was observed.",
+          "visualDefects": 0,
+          "evidence": [
+            {
+              "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34732930032/ORIGINAL_EVIDENCE_VERIFIED.json",
+              "sha256": "2b9ac1caa72402a5733472b7c562abf832de7a05f0ee737672a204db7737831e",
+              "byteLength": 2285,
+              "runId": 34732930032,
+              "artifactId": 10309667574,
+              "pagesMeasured": 16
+            },
+            {
+              "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34732930032/ar-act346-set.verdict.json",
+              "sha256": "364b578c7ac483c98c4481d21d617759d5da877cc84ab1637b121e43da43d3c2",
+              "byteLength": 17591,
+              "runId": 34732930032,
+              "verdict": "RASTER_PASS",
+              "pagesMeasured": 16
+            },
+            {
+              "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34732930032/ar-act346-set.PAGE_IMAGES_SHA256.json",
+              "sha256": "0bf38203cbbb234c0336f14a9c0e8ea3360cf30d84ea892e2b63e24dba93ef05",
+              "byteLength": 3753,
+              "runId": 34732930032,
+              "pagesMeasured": 16
+            }
+          ]
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "basis": "Controlling AR memo, source form caption and participant guidance.",
+          "finding": "Stage 2 is directed to the underlying criminal court. Guidance tells the participant to confirm the court and division with the clerk and to use the underlying case, county and charge records; it does not invent a venue or claim that filing has occurred.",
+          "evidence": [
+            {
+              "path": "data/record-clearing/legal-design-intake/AR.memo.json",
+              "sha256": "93346ae6af2491789b6c02e925350521094a2d7720dfb5fcd53e10995bf6e5ac",
+              "byteLength": 131898
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/participant-instructions.md",
+              "sha256": "8fe05999014052d4378ac354ea6ccc5b44f433218126cf67c872eb3dc0a33831",
+              "byteLength": 8446
+            }
+          ]
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "basis": "Controlling AR fee and fee-waiver statements plus current participant guidance.",
+          "finding": "The controlling record states no filing-fee amount and does not address a fee waiver. The guide preserves both limits, directs the participant to ask the clerk and invents no amount, waiver procedure or payment completion.",
+          "evidence": [
+            {
+              "path": "data/record-clearing/legal-design-intake/AR.memo.json",
+              "sha256": "93346ae6af2491789b6c02e925350521094a2d7720dfb5fcd53e10995bf6e5ac",
+              "byteLength": 131898
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/participant-instructions.md",
+              "sha256": "8fe05999014052d4378ac354ea6ccc5b44f433218126cf67c872eb3dc0a33831",
+              "byteLength": 8446
+            }
+          ]
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "basis": "Controlling AR service rule, current petition service section and participant guidance.",
+          "finding": "Guidance identifies delivery to the prosecuting or city attorney and arresting agency, preserves the three-day service timing and 30-day objection window, and requires the certificate only after actual service. It does not represent service or an objection outcome as completed.",
+          "evidence": [
+            {
+              "path": "data/record-clearing/legal-design-intake/AR.memo.json",
+              "sha256": "93346ae6af2491789b6c02e925350521094a2d7720dfb5fcd53e10995bf6e5ac",
+              "byteLength": 131898
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/participant-instructions.md",
+              "sha256": "8fe05999014052d4378ac354ea6ccc5b44f433218126cf67c872eb3dc0a33831",
+              "byteLength": 8446
+            }
+          ]
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "basis": "AR registry self-help conditions, current staged guidance and AR-only Check B result.",
+          "finding": "The guide carries all five recorded stops: prosecutor objection, contested hearing, immigration/licensing/firearm consequences, unresolved Act 346 probation placement or completion, and plea-stage prosecutor concurrence/negotiation. Check B for ar-act346-set returned failing 0, not represented 0, hearing inversions 0 and passing 1.",
+          "evidence": [
+            {
+              "path": "data/record-clearing/legal-design-intake/AR.memo.json",
+              "sha256": "93346ae6af2491789b6c02e925350521094a2d7720dfb5fcd53e10995bf6e5ac",
+              "byteLength": 131898
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/participant-instructions.md",
+              "sha256": "8fe05999014052d4378ac354ea6ccc5b44f433218126cf67c872eb3dc0a33831",
+              "byteLength": 8446
+            },
+            {
+              "path": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/stage-1-process-guidance.md",
+              "sha256": "f3f30842da5880fc216f88ab7959728e3c75276a342f9558ded3967cd4405669",
+              "byteLength": 1109
+            }
+          ]
+        }
+      },
+      "obligationCounts": {
+        "PASS": 15,
+        "NOT_MEASURABLE_HERE": 0,
+        "FAIL": 0,
+        "allMeasured": true
+      },
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allNonvisualZero": true,
+        "allNineZero": true,
+        "measuredHere": true,
+        "visualMeasuredHere": true,
+        "counterNote": "All nine counters are zero after direct independent review of current byte proofs and all 16 original raster pages."
+      },
+      "currentCandidateBindings": {
+        "reviewedHead": "253ece8b351f247f77c74c668121048b7e0fb58d",
+        "rasterFreezeCommitSha": "ad98a571b8507f68371240c2d429e1207054eb9e",
+        "rasterManifest": {
+          "path": "data/rcap-grade-a/packet-factory-24h/fix112/ar-act346-current-raster-manifest-20260912.json",
+          "sha256": "62a775a77856d9c79cf4f0029535950c1de0c815d51cb03e264cc668c07364d0",
+          "byteLength": 3385,
+          "familyBatch": "ar-act346-set",
+          "requestedScale": 2.5,
+          "documentsDigest": "e206ca4b449e53b752ec4d7aaeff712efa45ff06f3b8776708f27f13e3be7a8a"
+        },
+        "rasterWorkflowPath": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+        "metadata": [
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/source-receipt.json",
+            "sha256": "fcbb7cd0104ef18f99073c431c21ebcb828cd6d9c0451009bf4d9c0253cfd387",
+            "byteLength": 3909
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/component-set.json",
+            "sha256": "60726c91c697d72fc6d4a374f90af04f522d9f54470176d3f21428f7a2d88f11",
+            "byteLength": 1311
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/product-wiring.json",
+            "sha256": "150e00aafa1f77acef8db3fc3304f0a681c43baa5b2082227889b867d1d83f6c",
+            "byteLength": 4819
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/production-field-map.json",
+            "sha256": "dc849e30a75cfe362cea2dbc2aa9e5517a78e13f0c06dee5b27a67510962f297",
+            "byteLength": 103898
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/field-census.census-v1.json",
+            "sha256": "5aab06191a72c28bbfb6b38e8bd4257673f5af1d04f3f55379d5911af6d54d5e",
+            "byteLength": 86202
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/participant-instructions.md",
+            "sha256": "8fe05999014052d4378ac354ea6ccc5b44f433218126cf67c872eb3dc0a33831",
+            "byteLength": 8446
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/stage-1-process-guidance.md",
+            "sha256": "f3f30842da5880fc216f88ab7959728e3c75276a342f9558ded3967cd4405669",
+            "byteLength": 1109
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/reports/actual-writes.json",
+            "sha256": "c2b4ec96277805993c3e1f58be5e07514a5db11fe606a4474f8d032c194946c7",
+            "byteLength": 4762
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/reports/blanks-left-for-the-participant.json",
+            "sha256": "f57709cc46397dd94ea4a7ef400347c6d88aa43199e2cfd5f158830b77845d15",
+            "byteLength": 26201
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/reports/rendered-artifacts.json",
+            "sha256": "02318c916b85202e49f696f70d3a7e2ac0076059ec01846a46135d4e41e308d1",
+            "byteLength": 5494
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/reports/focused-self-test.json",
+            "sha256": "437594b9194b720469f21df06bc4808821d05880be492a0274ef50af66d09105",
+            "byteLength": 4722
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/reports/charge-caption-proof.json",
+            "sha256": "128636d10e2d894ae1c67acbaae0c04404a5072a234f8dd99c1a8abaab5cd5b2",
+            "byteLength": 11281
+          },
+          {
+            "path": "data/rcap-grade-a/packet-factory-24h/pf01/rows-pf01-ar-act346-complete-20260912.json",
+            "sha256": "18b75f011f09b03bfde9e91c942cda1a5b1c9afc4443f11d460a214b0441c6ff",
+            "byteLength": 18101
+          }
+        ],
+        "sourceDocuments": [
+          {
+            "documentId": "ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS",
+            "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC2__AR-ACT346-SET__ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS__b90179f471d3.pdf",
+            "sha256": "b90179f471d3b47bc4aa4d40d8b1cf7aa4c0633d05c4ba5ad3d5a49895bbacd3",
+            "byteLength": 530147,
+            "pageCount": 5
+          },
+          {
+            "documentId": "ACIC-ORDER-DISMISS-AND-SEAL-FIRST-OFFENDERS",
+            "path": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-DISMISS-AND-SEAL-FIRST-OFFENDERS-ACT-346__order-to-dismiss-and-seal-first-offenders-under-act-346-and-act-1460__REV-2014-01-01__EN.pdf",
+            "sha256": "70f97584a628507e064540a4bf2830b46162de8f799d2a2a78285db446d15740",
+            "byteLength": 307979,
+            "pageCount": 3
+          }
+        ],
+        "currentArtifacts": [
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/fixtures/petition-canonical-filled.pdf",
+            "sha256": "75bffbd8493de56f1f39b7f67ff9dc93e50926fb284678209d11610eb2512f76",
+            "byteLength": 553518,
+            "role": "petition canonical",
+            "pageCount": 5
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/fixtures/petition-boundary-filled.pdf",
+            "sha256": "59a301da89ce8b7535d84781e06a88c78f60946053d3b9d8ab4db0a1b99536c8",
+            "byteLength": 553423,
+            "role": "petition boundary",
+            "pageCount": 5
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/fixtures/order-canonical-filled.pdf",
+            "sha256": "cb9d2019b25a9f492dcd6d483c642d2c9961d23ff6e3e8eb0db50a4c7a0c1a32",
+            "byteLength": 306189,
+            "role": "order canonical",
+            "pageCount": 3
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/fixtures/order-boundary-filled.pdf",
+            "sha256": "36d0464105a775214a93026296b38ee1822595cf4d807ed61066f09caf44e871",
+            "byteLength": 305836,
+            "role": "order boundary",
+            "pageCount": 3
+          }
+        ],
+        "documentsDigest": "e206ca4b449e53b752ec4d7aaeff712efa45ff06f3b8776708f27f13e3be7a8a",
+        "sourceReceipt": {
+          "path": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/source-receipt.json",
+          "sha256": "fcbb7cd0104ef18f99073c431c21ebcb828cd6d9c0451009bf4d9c0253cfd387",
+          "byteLength": 3909
+        },
+        "dependencyDeltaFromFrozenReview": {
+          "currentReviewHead": "7f50087dcb66ba2fd4a2ee6b164d128b37b41d43",
+          "packetBytesChanged": false,
+          "sourceBytesChanged": false,
+          "rasterManifestChanged": false,
+          "decision": "Only environment dependency restoration and this reviewer return changed after the frozen candidate; the packet/source/manifest byte bindings above remain the same."
+        },
+        "dependencyBoundaryCheck": {
+          "dispatchCommit": "ad98a571b8507f68371240c2d429e1207054eb9e",
+          "currentPdfHashesMatchManifest": true,
+          "currentPageHashesMatchPageImageManifest": true,
+          "commitsPresent": [
+            {
+              "commit": "2bbc77426760798df1f8762f0338d8ecd2c1888f",
+              "present": true
+            },
+            {
+              "commit": "ad98a571b8507f68371240c2d429e1207054eb9e",
+              "present": true
+            }
+          ]
+        }
+      },
+      "byteProof": {
+        "status": "PASS_WITH_ORIGINAL_RASTER_REVIEW",
+        "method": "Independent exact-byte binding, current flattened-widget readback, participant-name/charge proof and saved actual-write/refusal inspection; no raster claim.",
+        "checkReport": {
+          "path": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/reports/actual-writes.json",
+          "sha256": "c2b4ec96277805993c3e1f58be5e07514a5db11fe606a4474f8d032c194946c7",
+          "byteLength": 4762
+        },
+        "passedChecks": 11,
+        "exactPdfBindings": [
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/fixtures/petition-canonical-filled.pdf",
+            "sha256": "75bffbd8493de56f1f39b7f67ff9dc93e50926fb284678209d11610eb2512f76",
+            "byteLength": 553518,
+            "pageCount": 5
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/fixtures/petition-boundary-filled.pdf",
+            "sha256": "59a301da89ce8b7535d84781e06a88c78f60946053d3b9d8ab4db0a1b99536c8",
+            "byteLength": 553423,
+            "pageCount": 5
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/fixtures/order-canonical-filled.pdf",
+            "sha256": "cb9d2019b25a9f492dcd6d483c642d2c9961d23ff6e3e8eb0db50a4c7a0c1a32",
+            "byteLength": 306189,
+            "pageCount": 3
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/fixtures/order-boundary-filled.pdf",
+            "sha256": "36d0464105a775214a93026296b38ee1822595cf4d807ed61066f09caf44e871",
+            "byteLength": 305836,
+            "pageCount": 3
+          }
+        ],
+        "protectedRefusalInk": 0,
+        "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+        "visualMeasurement": "completed here from the 16 central original PNG pages; no local raster was generated"
+      },
+      "actualWriteProof": {
+        "path": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/reports/actual-writes.json",
+        "sha256": "c2b4ec96277805993c3e1f58be5e07514a5db11fe606a4474f8d032c194946c7",
+        "byteLength": 4762,
+        "derivedFromArtifactBytes": true,
+        "valuesReportedByFinalizer": {
+          "petitionCanonical": 10,
+          "petitionBoundary": 8,
+          "orderCanonical": 3,
+          "orderBoundary": 1
+        },
+        "flattenedWidgetAppearancesReadFromOutputBytes": {
+          "petitionCanonical": 50,
+          "petitionBoundary": 50,
+          "orderCanonical": 36,
+          "orderBoundary": 36
+        },
+        "allDeclaredWritesHaveProof": true,
+        "wrongWrittenValues": 0,
+        "protectedInk": 0,
+        "invisibleWrites": 0,
+        "orderPage3DefendantDecreeWritten": false,
+        "boundaryRefusals": [
+          {
+            "fixture": "petition boundary",
+            "field": "Case No",
+            "factId": "matter.case_number",
+            "reason": "value_exceeds_widget_width_at_minimum_font"
+          },
+          {
+            "fixture": "petition boundary",
+            "field": "COUNTY",
+            "factId": "matter.county",
+            "reason": "value_exceeds_widget_width_at_minimum_font"
+          },
+          {
+            "fixture": "order boundary",
+            "field": "Case No",
+            "factId": "matter.case_number",
+            "reason": "value_exceeds_widget_width_at_minimum_font"
+          },
+          {
+            "fixture": "order boundary",
+            "field": "County",
+            "factId": "matter.county",
+            "reason": "value_exceeds_widget_width_at_minimum_font"
+          }
+        ]
+      },
+      "sourceIdentity": {
+        "status": "PASS",
+        "allSourcesExact": true,
+        "sourceReceipt": {
+          "path": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/source-receipt.json",
+          "sha256": "fcbb7cd0104ef18f99073c431c21ebcb828cd6d9c0451009bf4d9c0253cfd387",
+          "byteLength": 3909
+        },
+        "corpusIndex": {
+          "petitionCorpusIndexAgrees": false,
+          "orderCorpusIndexAgrees": true
+        },
+        "documents": [
+          {
+            "documentId": "ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS",
+            "sha256": "b90179f471d3b47bc4aa4d40d8b1cf7aa4c0633d05c4ba5ad3d5a49895bbacd3",
+            "byteLength": 530147,
+            "pageCount": 5,
+            "sha256Exact": true
+          },
+          {
+            "documentId": "ACIC-ORDER-DISMISS-AND-SEAL-FIRST-OFFENDERS",
+            "sha256": "70f97584a628507e064540a4bf2830b46162de8f799d2a2a78285db446d15740",
+            "byteLength": 307979,
+            "pageCount": 3,
+            "sha256Exact": true
+          }
+        ],
+        "freshnessOrCurrentEdition": "not established by this semantic review"
+      },
+      "currentArtifacts": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/fixtures/petition-canonical-filled.pdf",
+          "sha256": "75bffbd8493de56f1f39b7f67ff9dc93e50926fb284678209d11610eb2512f76",
+          "byteLength": 553518,
+          "role": "petition canonical",
+          "pageCount": 5
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/fixtures/petition-boundary-filled.pdf",
+          "sha256": "59a301da89ce8b7535d84781e06a88c78f60946053d3b9d8ab4db0a1b99536c8",
+          "byteLength": 553423,
+          "role": "petition boundary",
+          "pageCount": 5
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/fixtures/order-canonical-filled.pdf",
+          "sha256": "cb9d2019b25a9f492dcd6d483c642d2c9961d23ff6e3e8eb0db50a4c7a0c1a32",
+          "byteLength": 306189,
+          "role": "order canonical",
+          "pageCount": 3
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/fixtures/order-boundary-filled.pdf",
+          "sha256": "36d0464105a775214a93026296b38ee1822595cf4d807ed61066f09caf44e871",
+          "byteLength": 305836,
+          "role": "order boundary",
+          "pageCount": 3
+        }
+      ],
+      "rasterManifest": {
+        "path": "data/rcap-grade-a/packet-factory-24h/fix112/ar-act346-current-raster-manifest-20260912.json",
+        "sha256": "62a775a77856d9c79cf4f0029535950c1de0c815d51cb03e264cc668c07364d0",
+        "byteLength": 3385,
+        "familyBatch": "ar-act346-set",
+        "requestedScale": 2.5,
+        "documentsDigest": "e206ca4b449e53b752ec4d7aaeff712efa45ff06f3b8776708f27f13e3be7a8a"
+      },
+      "rasterWorkflowPath": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+      "rasterEvidence": {
+        "status": "RASTER_PASS",
+        "runId": 34732930032,
+        "artifactId": 10309667574,
+        "visualPagesMeasured": 16,
+        "documentsDigest": "e206ca4b449e53b752ec4d7aaeff712efa45ff06f3b8776708f27f13e3be7a8a"
+      },
+      "finalAcceptance": true,
+      "terminalPromotionAuthorized": false,
+      "unfinishedGates": [
+        "native integration and terminal closure"
+      ],
+      "independence": {
+        "implementationAuthor": "/root/sd_caption",
+        "implementationEditsByReviewer": false,
+        "sourceBytesEditedByReviewer": false,
+        "packetBytesEditedByReviewer": false,
+        "rasterEditedByReviewer": false,
+        "sharedQueueOrManifestEditedByReviewer": false,
+        "claimLedgerEditedByReviewer": false,
+        "semanticRecordWrittenByReviewer": true,
+        "visualAcceptanceClaimed": true,
+        "sharedTruthReportBeforeSnapshot": null,
+        "sharedTruthReportSideEffect": "B/C were first invoked without --no-write; TRUTH4_FINDINGS.json was already dirty at recovery, no before snapshot exists, and it was not reset.",
+        "semanticReviewer": "/root/resume_vfar1",
+        "visualReviewer": "/root/resume_vfar1",
+        "implementationEditsByFinalReviewer": false,
+        "sourceBytesEditedByFinalReviewer": false,
+        "packetBytesEditedByFinalReviewer": false,
+        "rasterEditedByFinalReviewer": false,
+        "sharedQueueOrManifestEditedByFinalReviewer": false,
+        "claimLedgerEditedByFinalReviewer": false,
+        "disclosure": "The PF01 implementation and prior VFAR1 semantic review are preserved. This VFAR1 final lane independently rechecked current candidate/manifest custody and directly viewed all 16 original PNG pages; it made no implementation, source, packet, raster or shared-state edits."
+      },
+      "executionState": "COMPLETE_PACKET_PROVEN",
+      "commandsActuallyPassed": [
+        {
+          "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --can-assert VFAR1 'ar-act346-set'",
+          "result": "CLAIM_OK",
+          "evidence": "live claim; no ledger write"
+        },
+        {
+          "command": "source private/source-corpus-environment.txt && node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'ar-act346-set'",
+          "result": "PASS_COMPLETE",
+          "evidence": "13/86 written; all nine native counters zero; exit 0"
+        },
+        {
+          "command": "node scripts/rcap-truth-checks/check-b-self-help-stop-coverage.mjs --family 'ar-act346-set'",
+          "result": "PASS_FOR_AR_FAMILY",
+          "evidence": "failing 0; not represented 0; hearing inversions 0; passing 1; not measurable 0"
+        },
+        {
+          "command": "node scripts/rcap-truth-checks/check-c-participant-route-label.mjs --family 'ar-act346-set'",
+          "result": "PASS_FOR_AR_FAMILY",
+          "evidence": "failing 0; passing 1; not measurable 0; route universe 774 keys"
+        },
+        {
+          "command": "node scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs --family 'ar-act346-set' --json --allow-empty",
+          "result": "NO_VALUES_EXAMINED_ALLOW_EMPTY",
+          "evidence": "familiesCarrying 0; valuesExamined 0; findings 0"
+        },
+        {
+          "command": "node --check scripts/build-census-v1-ar-act346-set.mjs",
+          "result": "SYNTAX_OK"
+        },
+        {
+          "command": "node --input-type=module flattenedWidgets readback over all four current PDFs",
+          "result": "CURRENT_BYTE_READBACK",
+          "evidence": "nonempty appearances 10/8/3/1 and total appearances 50/50/36/36"
+        }
+      ],
+      "commercialAuthority": false,
+      "commercialAuthorityGranted": false,
+      "runtimeSelectable": false,
+      "reviewConclusion": "PASS_COMPLETE_INDEPENDENT: the current Arkansas Act 346 family retains all fourteen semantic PASS obligations and now has a direct independent PASS on CLIPPING_AND_OVERLAP from all 16 original PNG pages. Exact current candidate PDF hashes match the frozen manifest and central RASTER_PASS custody; all page PNG hashes match the published page inventory. No visual defect was observed. Final acceptance is recorded for this independent review, while terminal integration/promotion and all commercial/runtime authority remain false.",
+      "amendment": null,
+      "rasterCustody": {
+        "runId": 34732930032,
+        "artifactId": 10309667574,
+        "artifactName": "rcap-raster-ar-act346-set-34732930032",
+        "artifactDigest": "sha256:ddda7eb58baf9d059bda59e9a1ae64de1aba159885002d5a056ff5665c1b85fb",
+        "archive": {
+          "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34732930032/ar-act346-set.zip",
+          "sha256": "ddda7eb58baf9d059bda59e9a1ae64de1aba159885002d5a056ff5665c1b85fb",
+          "byteLength": 7059621
+        },
+        "manifest": {
+          "path": "data/rcap-grade-a/packet-factory-24h/fix112/ar-act346-current-raster-manifest-20260912.json",
+          "sha256": "62a775a77856d9c79cf4f0029535950c1de0c815d51cb03e264cc668c07364d0",
+          "byteLength": 3385,
+          "familyBatch": "ar-act346-set",
+          "requestedScale": 2.5,
+          "documentsDigest": "e206ca4b449e53b752ec4d7aaeff712efa45ff06f3b8776708f27f13e3be7a8a"
+        },
+        "verdict": {
+          "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34732930032/ar-act346-set.verdict.json",
+          "sha256": "364b578c7ac483c98c4481d21d617759d5da877cc84ab1637b121e43da43d3c2",
+          "byteLength": 17591,
+          "verdict": "RASTER_PASS",
+          "packetCommitSha": "ad98a571b8507f68371240c2d429e1207054eb9e",
+          "pagesMeasured": 16,
+          "documentsDigest": "e206ca4b449e53b752ec4d7aaeff712efa45ff06f3b8776708f27f13e3be7a8a"
+        },
+        "originalEvidence": {
+          "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34732930032/ORIGINAL_EVIDENCE_VERIFIED.json",
+          "sha256": "2b9ac1caa72402a5733472b7c562abf832de7a05f0ee737672a204db7737831e",
+          "byteLength": 2285,
+          "verdict": "RASTER_PASS",
+          "pagesMeasured": 16,
+          "originalPngBytesVerified": true
+        },
+        "pageImages": {
+          "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34732930032/ar-act346-set.PAGE_IMAGES_SHA256.json",
+          "sha256": "0bf38203cbbb234c0336f14a9c0e8ea3360cf30d84ea892e2b63e24dba93ef05",
+          "byteLength": 3753,
+          "pagesMeasured": 16,
+          "allHashesMatch": true
+        },
+        "jobLog": {
+          "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34732930032/ar-act346-set.job.log",
+          "sha256": "65598d53be1200c9c548df99114927498774eb12bdbee9a2668f85931cd54a00"
+        },
+        "dispatchInputs": {
+          "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34732930032/dispatch-inputs.json",
+          "commit_sha": "ad98a571b8507f68371240c2d429e1207054eb9e",
+          "raster_manifest_path": "data/rcap-grade-a/packet-factory-24h/fix112/ar-act346-current-raster-manifest-20260912.json",
+          "family_batch": "ar-act346-set",
+          "requested_scale": "2.5"
+        },
+        "dependencyBoundary": {
+          "dispatchCommit": "ad98a571b8507f68371240c2d429e1207054eb9e",
+          "currentPdfHashesMatchManifest": true,
+          "currentPageHashesMatchPageImageManifest": true,
+          "commitsPresent": [
+            {
+              "commit": "2bbc77426760798df1f8762f0338d8ecd2c1888f",
+              "present": true
+            },
+            {
+              "commit": "ad98a571b8507f68371240c2d429e1207054eb9e",
+              "present": true
+            }
+          ]
+        }
+      },
+      "originalEvidence": [
+        {
+          "member": "ar-act346-set/petition-canonical-filled/page-001.png",
+          "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34732930032/original-pages/ar-act346-set/petition-canonical-filled/page-001.png",
+          "sha256": "e516dc664796a983b2466821c499b638d23673c1ef05455ef800fd70bdbba288",
+          "byteLength": 257034,
+          "result": "PASS",
+          "directlyViewed": true
+        },
+        {
+          "member": "ar-act346-set/petition-canonical-filled/page-002.png",
+          "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34732930032/original-pages/ar-act346-set/petition-canonical-filled/page-002.png",
+          "sha256": "fe6d82f8e15cf196e608f0ed719a4dfd5b52653ab3573b5d1fd8bbd6ae126ada",
+          "byteLength": 403980,
+          "result": "PASS",
+          "directlyViewed": true
+        },
+        {
+          "member": "ar-act346-set/petition-canonical-filled/page-003.png",
+          "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34732930032/original-pages/ar-act346-set/petition-canonical-filled/page-003.png",
+          "sha256": "c7df563c5e7d504df15e4f3156ac28b709590e73cc5892c30f910eb76b5ed238",
+          "byteLength": 307794,
+          "result": "PASS",
+          "directlyViewed": true
+        },
+        {
+          "member": "ar-act346-set/petition-canonical-filled/page-004.png",
+          "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34732930032/original-pages/ar-act346-set/petition-canonical-filled/page-004.png",
+          "sha256": "69e3ebd86b3d5f7a259317d1885ad676bcd5da8ff3560cad9eec40d4627d83de",
+          "byteLength": 162366,
+          "result": "PASS",
+          "directlyViewed": true
+        },
+        {
+          "member": "ar-act346-set/petition-canonical-filled/page-005.png",
+          "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34732930032/original-pages/ar-act346-set/petition-canonical-filled/page-005.png",
+          "sha256": "0dd28250ad342f3bf3a93736314e79d9e54a5b1db3af12160494b30bb720a12f",
+          "byteLength": 199700,
+          "result": "PASS",
+          "directlyViewed": true
+        },
+        {
+          "member": "ar-act346-set/order-canonical-filled/page-001.png",
+          "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34732930032/original-pages/ar-act346-set/order-canonical-filled/page-001.png",
+          "sha256": "b3774fd569ffbc891f3e27596d9b9ca61cd1469a3737d6d0633475e6a45cdb59",
+          "byteLength": 340818,
+          "result": "PASS",
+          "directlyViewed": true
+        },
+        {
+          "member": "ar-act346-set/order-canonical-filled/page-002.png",
+          "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34732930032/original-pages/ar-act346-set/order-canonical-filled/page-002.png",
+          "sha256": "68edc932bccd4da48a2b25d5254404097e6eaf9a352b6eb47a6939375107bcc6",
+          "byteLength": 498639,
+          "result": "PASS",
+          "directlyViewed": true
+        },
+        {
+          "member": "ar-act346-set/order-canonical-filled/page-003.png",
+          "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34732930032/original-pages/ar-act346-set/order-canonical-filled/page-003.png",
+          "sha256": "76393c6100675c62cec279a45339e457ca1d1fc5a138dd8f0e77c64bffee68e3",
+          "byteLength": 299737,
+          "result": "PASS",
+          "directlyViewed": true
+        },
+        {
+          "member": "ar-act346-set/petition-boundary-filled/page-001.png",
+          "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34732930032/original-pages/ar-act346-set/petition-boundary-filled/page-001.png",
+          "sha256": "5aa78484705240c7d4fa74df2e4598c9cae782cdc1e48ac4383cbb5e47b9d0b8",
+          "byteLength": 245634,
+          "result": "PASS",
+          "directlyViewed": true
+        },
+        {
+          "member": "ar-act346-set/petition-boundary-filled/page-002.png",
+          "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34732930032/original-pages/ar-act346-set/petition-boundary-filled/page-002.png",
+          "sha256": "fe6d82f8e15cf196e608f0ed719a4dfd5b52653ab3573b5d1fd8bbd6ae126ada",
+          "byteLength": 403980,
+          "result": "PASS",
+          "directlyViewed": true
+        },
+        {
+          "member": "ar-act346-set/petition-boundary-filled/page-003.png",
+          "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34732930032/original-pages/ar-act346-set/petition-boundary-filled/page-003.png",
+          "sha256": "a8e5b53bdd91bec2f63194c536528cba7e406c99f87c5d3dc978a92b9cda9f97",
+          "byteLength": 309303,
+          "result": "PASS",
+          "directlyViewed": true
+        },
+        {
+          "member": "ar-act346-set/petition-boundary-filled/page-004.png",
+          "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34732930032/original-pages/ar-act346-set/petition-boundary-filled/page-004.png",
+          "sha256": "69e3ebd86b3d5f7a259317d1885ad676bcd5da8ff3560cad9eec40d4627d83de",
+          "byteLength": 162366,
+          "result": "PASS",
+          "directlyViewed": true
+        },
+        {
+          "member": "ar-act346-set/petition-boundary-filled/page-005.png",
+          "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34732930032/original-pages/ar-act346-set/petition-boundary-filled/page-005.png",
+          "sha256": "fc17d35e75be24a0216fafc2684910af4650c10073b99ab1d4de6cf213a72922",
+          "byteLength": 209715,
+          "result": "PASS",
+          "directlyViewed": true
+        },
+        {
+          "member": "ar-act346-set/order-boundary-filled/page-001.png",
+          "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34732930032/original-pages/ar-act346-set/order-boundary-filled/page-001.png",
+          "sha256": "ea70acc835c5ecbdf845a3bf1b7eda53c4625990c4515a216711d92c56282624",
+          "byteLength": 329007,
+          "result": "PASS",
+          "directlyViewed": true
+        },
+        {
+          "member": "ar-act346-set/order-boundary-filled/page-002.png",
+          "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34732930032/original-pages/ar-act346-set/order-boundary-filled/page-002.png",
+          "sha256": "68edc932bccd4da48a2b25d5254404097e6eaf9a352b6eb47a6939375107bcc6",
+          "byteLength": 498639,
+          "result": "PASS",
+          "directlyViewed": true
+        },
+        {
+          "member": "ar-act346-set/order-boundary-filled/page-003.png",
+          "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34732930032/original-pages/ar-act346-set/order-boundary-filled/page-003.png",
+          "sha256": "76393c6100675c62cec279a45339e457ca1d1fc5a138dd8f0e77c64bffee68e3",
+          "byteLength": 299737,
+          "result": "PASS",
+          "directlyViewed": true
+        }
+      ],
+      "visualReview": {
+        "reviewer": "/root/resume_vfar1",
+        "method": "Direct viewing of every supplied original PNG from the verified central Actions artifact; all 16 page members were viewed individually after exact PNG hash and byte-length comparison. No raster was regenerated, downloaded, copied, edited or rerendered.",
+        "pagesReviewed": [
+          {
+            "member": "ar-act346-set/petition-canonical-filled/page-001.png",
+            "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34732930032/original-pages/ar-act346-set/petition-canonical-filled/page-001.png",
+            "sha256": "e516dc664796a983b2466821c499b638d23673c1ef05455ef800fd70bdbba288",
+            "byteLength": 257034,
+            "result": "PASS",
+            "directlyViewed": true
+          },
+          {
+            "member": "ar-act346-set/petition-canonical-filled/page-002.png",
+            "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34732930032/original-pages/ar-act346-set/petition-canonical-filled/page-002.png",
+            "sha256": "fe6d82f8e15cf196e608f0ed719a4dfd5b52653ab3573b5d1fd8bbd6ae126ada",
+            "byteLength": 403980,
+            "result": "PASS",
+            "directlyViewed": true
+          },
+          {
+            "member": "ar-act346-set/petition-canonical-filled/page-003.png",
+            "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34732930032/original-pages/ar-act346-set/petition-canonical-filled/page-003.png",
+            "sha256": "c7df563c5e7d504df15e4f3156ac28b709590e73cc5892c30f910eb76b5ed238",
+            "byteLength": 307794,
+            "result": "PASS",
+            "directlyViewed": true
+          },
+          {
+            "member": "ar-act346-set/petition-canonical-filled/page-004.png",
+            "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34732930032/original-pages/ar-act346-set/petition-canonical-filled/page-004.png",
+            "sha256": "69e3ebd86b3d5f7a259317d1885ad676bcd5da8ff3560cad9eec40d4627d83de",
+            "byteLength": 162366,
+            "result": "PASS",
+            "directlyViewed": true
+          },
+          {
+            "member": "ar-act346-set/petition-canonical-filled/page-005.png",
+            "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34732930032/original-pages/ar-act346-set/petition-canonical-filled/page-005.png",
+            "sha256": "0dd28250ad342f3bf3a93736314e79d9e54a5b1db3af12160494b30bb720a12f",
+            "byteLength": 199700,
+            "result": "PASS",
+            "directlyViewed": true
+          },
+          {
+            "member": "ar-act346-set/order-canonical-filled/page-001.png",
+            "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34732930032/original-pages/ar-act346-set/order-canonical-filled/page-001.png",
+            "sha256": "b3774fd569ffbc891f3e27596d9b9ca61cd1469a3737d6d0633475e6a45cdb59",
+            "byteLength": 340818,
+            "result": "PASS",
+            "directlyViewed": true
+          },
+          {
+            "member": "ar-act346-set/order-canonical-filled/page-002.png",
+            "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34732930032/original-pages/ar-act346-set/order-canonical-filled/page-002.png",
+            "sha256": "68edc932bccd4da48a2b25d5254404097e6eaf9a352b6eb47a6939375107bcc6",
+            "byteLength": 498639,
+            "result": "PASS",
+            "directlyViewed": true
+          },
+          {
+            "member": "ar-act346-set/order-canonical-filled/page-003.png",
+            "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34732930032/original-pages/ar-act346-set/order-canonical-filled/page-003.png",
+            "sha256": "76393c6100675c62cec279a45339e457ca1d1fc5a138dd8f0e77c64bffee68e3",
+            "byteLength": 299737,
+            "result": "PASS",
+            "directlyViewed": true
+          },
+          {
+            "member": "ar-act346-set/petition-boundary-filled/page-001.png",
+            "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34732930032/original-pages/ar-act346-set/petition-boundary-filled/page-001.png",
+            "sha256": "5aa78484705240c7d4fa74df2e4598c9cae782cdc1e48ac4383cbb5e47b9d0b8",
+            "byteLength": 245634,
+            "result": "PASS",
+            "directlyViewed": true
+          },
+          {
+            "member": "ar-act346-set/petition-boundary-filled/page-002.png",
+            "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34732930032/original-pages/ar-act346-set/petition-boundary-filled/page-002.png",
+            "sha256": "fe6d82f8e15cf196e608f0ed719a4dfd5b52653ab3573b5d1fd8bbd6ae126ada",
+            "byteLength": 403980,
+            "result": "PASS",
+            "directlyViewed": true
+          },
+          {
+            "member": "ar-act346-set/petition-boundary-filled/page-003.png",
+            "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34732930032/original-pages/ar-act346-set/petition-boundary-filled/page-003.png",
+            "sha256": "a8e5b53bdd91bec2f63194c536528cba7e406c99f87c5d3dc978a92b9cda9f97",
+            "byteLength": 309303,
+            "result": "PASS",
+            "directlyViewed": true
+          },
+          {
+            "member": "ar-act346-set/petition-boundary-filled/page-004.png",
+            "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34732930032/original-pages/ar-act346-set/petition-boundary-filled/page-004.png",
+            "sha256": "69e3ebd86b3d5f7a259317d1885ad676bcd5da8ff3560cad9eec40d4627d83de",
+            "byteLength": 162366,
+            "result": "PASS",
+            "directlyViewed": true
+          },
+          {
+            "member": "ar-act346-set/petition-boundary-filled/page-005.png",
+            "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34732930032/original-pages/ar-act346-set/petition-boundary-filled/page-005.png",
+            "sha256": "fc17d35e75be24a0216fafc2684910af4650c10073b99ab1d4de6cf213a72922",
+            "byteLength": 209715,
+            "result": "PASS",
+            "directlyViewed": true
+          },
+          {
+            "member": "ar-act346-set/order-boundary-filled/page-001.png",
+            "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34732930032/original-pages/ar-act346-set/order-boundary-filled/page-001.png",
+            "sha256": "ea70acc835c5ecbdf845a3bf1b7eda53c4625990c4515a216711d92c56282624",
+            "byteLength": 329007,
+            "result": "PASS",
+            "directlyViewed": true
+          },
+          {
+            "member": "ar-act346-set/order-boundary-filled/page-002.png",
+            "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34732930032/original-pages/ar-act346-set/order-boundary-filled/page-002.png",
+            "sha256": "68edc932bccd4da48a2b25d5254404097e6eaf9a352b6eb47a6939375107bcc6",
+            "byteLength": 498639,
+            "result": "PASS",
+            "directlyViewed": true
+          },
+          {
+            "member": "ar-act346-set/order-boundary-filled/page-003.png",
+            "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34732930032/original-pages/ar-act346-set/order-boundary-filled/page-003.png",
+            "sha256": "76393c6100675c62cec279a45339e457ca1d1fc5a138dd8f0e77c64bffee68e3",
+            "byteLength": 299737,
+            "result": "PASS",
+            "directlyViewed": true
+          }
+        ],
+        "notes": [
+          "All five canonical petition pages, three canonical order pages, five boundary petition pages and three boundary order pages are complete, upright and legible.",
+          "Canonical and boundary identity, case, charge, DOB, address and order-name writes remain within their intended source lines. Long boundary caption, charge and address values remain readable without clipping or collision with adjacent labels.",
+          "Court, judge, date, signature, verification, notary, identifiers and other owner-controlled blanks remain blank; checkbox and election marks are not spuriously added.",
+          "No clipped glyphs, overlapping written values, missing page content, unintended blank page, page crop, unauthorized protected-field ink or unrelated ink was observed."
+        ],
+        "allPagesDirectlyViewed": true,
+        "visualDefects": 0,
+        "pagesMeasured": 16
+      },
+      "rasterAcceptance": {
+        "status": "RASTER_PASS",
+        "runId": 34732930032,
+        "artifactId": 10309667574,
+        "manifestCommitSha": "ad98a571b8507f68371240c2d429e1207054eb9e",
+        "documentsDigest": "e206ca4b449e53b752ec4d7aaeff712efa45ff06f3b8776708f27f13e3be7a8a",
+        "pdfs": 4,
+        "pages": 16,
+        "allOriginalPagesViewed": true,
+        "allOriginalHashesReverified": true,
+        "localRenderingPerformed": false,
+        "originalReceiptsEdited": false
+      }
+    }
+  ],
+  "generatedAt": "2026-09-13T02:54:47.081Z",
+  "reviewedAt": "2026-09-13T02:54:47.081Z",
+  "verifiedAtBase": "253ece8b351f247f77c74c668121048b7e0fb58d",
+  "currentRepositoryHead": "253ece8b351f247f77c74c668121048b7e0fb58d",
+  "familyId": "ar-act346-set",
+  "verdict": "PASS_COMPLETE_INDEPENDENT",
+  "terminalPromotionAuthorized": false
+}

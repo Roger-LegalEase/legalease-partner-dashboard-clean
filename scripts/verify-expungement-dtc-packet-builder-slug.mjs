@@ -44,7 +44,7 @@ assert(
 // 3. The MS packet-information form is partner-gated and fails closed (no generic
 //    fallback slug) when a sponsoring partner cannot be resolved.
 assert(
-  packetGen.includes("await assertMississippiPartnerPacketReady(item)"),
+  packetGen.includes("await assertMississippiPartnerPacketReady(userId, item)"),
   "attachMississippiPacketInformationRequest must assert the item is partner-sponsored."
 );
 assert(

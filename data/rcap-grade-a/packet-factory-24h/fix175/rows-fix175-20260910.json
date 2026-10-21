@@ -1,0 +1,138 @@
+{
+  "schemaVersion": "rcap-verifier-rows/v2",
+  "lane": "FIX175",
+  "laneKind": "complex-execution-repair",
+  "status": "WIP -- STOPPED ON COORDINATOR INSTRUCTION BEFORE ANY REPAIR WAS APPLIED",
+  "isIndependentVerification": false,
+  "worktree": "/home/user/fixa-worktree",
+  "branch": "lane-fix175-20260910",
+  "repairedAtBase": "e3966692693a8b252524daf8eb4f49d40743593d",
+  "commits": [],
+  "builtAnything": false,
+  "repairsMade": 0,
+  "repairsMadeForADISPATCHEDFINDING": 0,
+  "guardsAdded": 0,
+  "packetsSelfVerified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "routesChanged": 0,
+  "verdictsSet": 0,
+  "receiptsIssued": 0,
+  "grantsReleased": "NONE. Grants on nj_clean_slate-set, nj_ordinance-set and nj_indictable_conviction-set remain LIVE and held by FIX175 per the stop-work instruction. No --release and no --assert call was made. The ledger was not touched.",
+  "sharedManifestsTouched": "None. RASTER_QUEUE.json was NOT edited. No product-wiring.json was edited. The only path in this commit is this file.",
+  "theHEADLINE": "This lane stopped before applying any repair. Every source file and every family directory is byte-identical to base e3966692. What it produced is measurement: the exact item (d) cell count from the delivered bytes, the resolution of the VF62/Captain disagreement, a determinism control on four families that FAILED on one of them, and the location of an already-written repair that was never wired to the family that needed it.",
+
+  "determinismControlBeforeEditing": {
+    "whenItWasRun": "2026-09-10, at base e3966692693a8b252524daf8eb4f49d40743593d, before any edit. Each family was built unmodified with MASTER_LIBRARY_SOURCE_DIR set to private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1, then checked against a sha256 snapshot of all git-tracked files taken at base.",
+    "familiesBuilt": ["nj_clean_slate-set", "nj_ordinance-set", "nj_indictable_conviction-set", "nj_arrest_no_conviction-set"],
+    "nj_ordinance-set": "REPRODUCED. All 99 tracked files byte-identical.",
+    "nj_indictable_conviction-set": "Fixtures REPRODUCED byte-identical. reports/actual-writes.json does NOT reproduce: the rebuild adds `pageCount: 43` to both artifact entries. Committed record is stale against the builder; no delivered byte moves.",
+    "nj_arrest_no_conviction-set (NOT THIS LANE'S)": "Fixtures REPRODUCED byte-identical -- canonical 922b89598d0b7b57d0fd40623d404a7d9cf24ba507a9eba82472815d9b74ee7d and boundary 23a571af72985717963001120ba60116ae43054aaa1c2fddbeece944dac24494 both confirmed by rebuild. Same stale `pageCount` addition in actual-writes.json only.",
+    "nj_clean_slate-set": "DID NOT REPRODUCE. See belowStaleFamily.",
+    "restoredAfterEveryBuild": "git checkout HEAD -- data/rcap-all50/overlays/census-v1/nj/ then re-hashed: 99/99/99/99 tracked files matching for the four families and 100/100 for nj-disorderly-persons-set. git status --porcelain empty.",
+    "theGUTTINGHAZARDDIDNOTOCCUR": "Run without MASTER_LIBRARY_SOURCE_DIR the builder throws from corpusRoot() INSIDE resetOwnedOutput at scripts/build-census-v1-nj_arrest_no_conviction-set.mjs:4381, BEFORE fs.rmSync. The FIX154 defect that deleted all 99 files of nj_ordinance-set is already repaired at this base. Observed first-hand: the failing run deleted nothing and left git status clean."
+  },
+
+  "belowStaleFamily": {
+    "familyId": "nj_clean_slate-set",
+    "what": "The committed nj_clean_slate-set artifacts are STALE against the builder at HEAD. Rebuilding unmodified moves 22 tracked files: both fixtures, participant-instructions.md, production-field-map.json, reports/actual-writes.json, reports/rendered-artifacts.json and 16 raster pages.",
+    "theSUBSTANTIVEDRIFT": "The committed delivered petition prints participant.phone on the THIRD ADDRESS LINE of the caption block. Committed: DefAddr2 <- participant.city_state_zip (\"Newark, NJ 07102\"), DefAddr3 <- participant.phone (\"973-555-0142\"). Builder at HEAD: DefAddr2 <- participant.city (\"Newark\"), DefAddr3 <- participant.state_zip (\"NJ 07102\"). On the boundary fixture the committed bytes additionally shrink that line to 6-7pt (outcome \"shrunk\") where the current mapping fits at 8-9pt.",
+    "theSECONDDRIFT": "The rebuild discloses a held-but-not-printed value the committed guide does not: ExpungeCntyName / matter.county, refused because the dropdown's option list carries bare county names. Committed heldButNotPrinted is 0 on canonical and 1 on boundary; rebuild is 1 and 2.",
+    "thisISNOTANEWDEFECT": "It is a recorded deferral. scripts/build-census-v1-nj_arrest_no_conviction-set.mjs lines 412-417 (FIX167) state the DefAddr2/DefAddr3 correction is document-scoped, that nj_clean_slate-set renders the same kit, that its bytes move for exactly this reason, and that FIX167 recorded it rather than committing it because the family was not in its grant. It is in FIX175's grant.",
+    "consequenceForTheVERDICT": "vf04's PASS_COMPLETE_INDEPENDENT on nj_clean_slate-set was taken against bytes the builder at this base no longer produces. This lane sets no verdict and asserts nothing about vf04's reading of the bytes it read.",
+    "digestsMeasuredNOTCOMMITTED": {
+      "committedCanonical": "b71de1df389a55cea2c10ad6e6c7ba9f482b0ffa9c63e7dcee961b9437bf0598",
+      "committedBoundary": "cb536e9766aa55da7a128b0d878231d036794850d136b4332143277d38869464",
+      "unmodifiedRebuildCanonical": "2b5033961bfc5806acadac7d1897f9e4797dd40d599eaad4231a6383e1c1af1c",
+      "unmodifiedRebuildBoundary": "1e1a7aef8f5eb56a1e404862a0d73e9ae66e6a6afcaa43b388520aeba94a2728",
+      "note": "The rebuild digests are recorded as a MEASUREMENT of what the unmodified builder produces at this base. They were NOT committed; the working tree was restored to the committed digests and verified."
+    }
+  },
+
+  "finding1_theItemDElection": {
+    "measuredFrom": "the delivered committed bytes at base, both fixtures, no rebuild",
+    "method": "pdftoppm -r 300 -gray to P5 PGM, ink threshold grey < 128 of 255. A cell counts as carrying packet ink only where the delivered page is inked and the pinned source page NJ__FORM__CN-10557 (sha256 c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7) is not inked at the same coordinate.",
+    "theELECTIONISDRAWN": "CONFIRMED. The guilty checkbox rect carries 730 added pixels on BOTH fixtures. Two stroked diagonal `l` paths at x=36.971 y=593.363, 14x14, painted by S, are recorded in reports/actual-writes.json proof.selectionProof and are visible in the raster.",
+    "theDISCRIMINATINGCONTROL": "Three checkboxes on the SAME delivered page, SAME run, SAME detector: guilty 730 added px; dismissPti 0 added px (576 delivered = 576 source); contOwe 0 added px (576 delivered = 576 source). The detector fires on one box and clears two. Whole-page control: delivered page 19 carries 11,045 added px canonical / 12,015 boundary.",
+    "theEXACTCELLCOUNT": "3 of 9. The cells of the item (d) paragraph that carry packet ink are guiltyDt (1,409 px), guiltyOff1 (6,974 px canonical / 7,944 boundary) and guiltyCrt (1,932 px). The six that are EMPTY under the ticked box are guiltyStatute, guiltyFinal1, guiltyTimeType, guiltyDocCmpltDt, guiltyProbDt and guiltyFineDt. Two further widgets, guiltyOff2 and guiltyFinal2, are optional continuation lines of guiltyOff1 and guiltyFinal1 and are not counted in the denominator; counting them the figure is 3 of 11 widgets, 4 of 12 including the election box itself.",
+    "soTHEPETITIONSWEARS": "the participant pled or was found guilty on a named date, of a named offence, in a named court -- and leaves blank the statute violated, the sentence imposed, the incarceration type, the date incarceration was completed, the date probation was completed and the date fines were paid, on an instrument verified under penalty of perjury.",
+    "theGUIDESAYSNOTHINGABOUTANYOFTHESIX": "participant-instructions.md for this family lists 79 fields under \"Exact facts still required before filing\" and NOT ONE of them is a guilty-prefixed cell. The six blank sworn cells are disclosed to the participant nowhere in the delivered kit.",
+    "theVF62DISCREPANCYRESOLVED": {
+      "VF62said": "3 of the paragraph's 9 cells written",
+      "theCaptainsIndependentReadingSaid": "every guilty-prefixed value null in the field map",
+      "whichIsRight": "VF62. Its figure is exactly right and its denominator of 9 is the builder's own: NJ_PETITION_CONVICTION_ROW at scripts/build-census-v1-nj_arrest_no_conviction-set.mjs:867 names exactly nine cells -- guiltyDt, guiltyOff1, guiltyStatute, guiltyFinal1, guiltyCrt, guiltyTimeType, guiltyDocCmpltDt, guiltyProbDt, guiltyFineDt.",
+      "whatTHECAPTAINSREADINGACTUALLYMEASURED": "the `value` column of production-field-map.json, which is null for ALL 179 fields of this document -- including DefName, the petitioner's own name, which is written on multiple widgets of every delivered fixture. The field map is a MAP, not a render record; it carries no rendered values at all, so `value: null` there is not evidence that a cell is blank. The column that does carry the signal is `decision`, and the Captain's own posted list has it right: guiltyDt, guiltyOff1 and guiltyCrt are `candidate_write` and the other eight are `refuse`. Those three candidate_writes are precisely the three cells this lane measured as inked.",
+      "soTHEFINDINGISNOTWITHDRAWNBUTITISNARROWER": "The paragraph is not empty under a ticked box. It is three-ninths filled under a ticked box, with the statute and the entire sentence blank, and with none of the six blanks disclosed. The class is the same -- a sworn election the record cannot fully support -- and the count is 3 of 9, not 0 of 9."
+    },
+    "aFIRSTPASSOFTHISLANESOWNDETECTORWASWRONGANDISRECORDED": "The first ink measurement read delivered page 20 and returned 0 added pixels for every cell AND for the whole page, which would have MANUFACTURED a finding that the mark is not drawn at all. The error was an indexing assumption: actual-writes.json selections and field-census.census-v1.json both record `page: 19` and this lane assumed 0-indexed. pdftotext -bbox on the pinned source proves 1-indexed -- \"pled/was found guilty\" sits at PDF y 588.97-608.88 on source page 19, matching the guilty widget rect y 591.363 h 18, and at y 180.73 near the foot of page 20. A whole-page added-ink scan of all 43 pages caught it: pages 18, 19, 23, 24, 27, 30, 31, 35, 38, 40 and 43 carry added ink and page 20 carries none. The corrected measurement is the one reported above. This is recorded because a zero taken on the wrong page is exactly the kind of reading that closes a real finding by accident."
+  },
+
+  "finding1_theREPAIRTHATWASNEVERAPPLIED": {
+    "theRepairALREADYEXISTSINTHESOURCE": "FIX105 wrote it. scripts/build-census-v1-nj_arrest_no_conviction-set.mjs:867 defines NJ_PETITION_CONVICTION_ROW with `election: \"guilty\"`, and :877 defines NJ_CONVICTION_BLANK_DECLARATIONS giving all eight blank cells printed captions, REQUIRED_BEFORE_FILING treatment and a reason. Its own comment states: \"Six of these nine cells are unmapped and therefore permanently broken, so this row is withheld on every fixture and its election is withdrawn with it on every fixture.\"",
+    "whoTAKESIT": "nj_disorderly_persons-set (:1881), nj_indictable_conviction-set (:1950) and nj_ordinance-set (:2008) all declare repeatingRowGroups including NJ_PETITION_CONVICTION_ROW, and the latter two also declare NJ_CONVICTION_BLANK_DECLARATIONS.",
+    "whoDOESNOT": "nj_clean_slate-set (:1803). It declares selections [\"guilty\"] and the same three fact mappings guiltyDt/guiltyOff1/guiltyCrt as its three siblings, and declares NO repeatingRowGroups and NO declarations. It is the only one of the four conviction families that draws the mark, and it draws it for exactly that reason.",
+    "theOMISSIONISCODIFIED": "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs:2906 asserts `assert.deepEqual(FAMILY[\"nj_clean_slate-set\"].documents[0].repeatingRowGroups, [])` -- a live assertion that the family has no row groups. It sits inside selfTest(), behind --self-test, which nothing in CI runs.",
+    "theINTENDEDREPAIRNOTAPPLIED": "Give nj_clean_slate-set the repeatingRowGroups and declarations its three siblings already carry, so the item (d) row is withheld whole, the mark is withdrawn with it, the three partial writes come out, and all nine cells are disclosed by printed caption. Rewrite the family note, which currently reads \"Only the measured participant conviction control is marked\" and would become false. Correct the selfTest assertion at :2906. This lane did NOT apply any of it.",
+    "theCONSEQUENCETOSTATEPLAINLY": "Withdrawing the election means the delivered clean-slate petition no longer states which disposition item it elects on page 19 -- item (d) is left wholly blank, as items (b) and (c) already are. That is a real loss and it must not be papered over. It is also what the house rule already requires and what all three sibling conviction families already deliver, and the alternative -- inventing a statute or a sentence to fill the six cells -- is the fabrication FIX167 and FIX168 each refused this session."
+  },
+
+  "finding2_judgeOwnedFieldsInTheGuide": {
+    "reproducedOnNJ_CLEAN_SLATE_SET": "YES, and worse than on nj_ordinance-set. Its delivered participant-instructions.md \"Exact facts still required before filing\" list names, among 79 entries, sigHearJdg, sigFinalJdg, orderHearYr, hearDay, hearTime, hearTimeM, orderFinalDay, MuniCrts, AdminMuniCts, probDivCntys, FamDivName, FamDivAddrStr, FamDivAddr2, IdbCnty, IdbAddrStr, ProsAddr2, ProbCntyName, ProbAddrStr, ProbAddr2, Prob2AddrStr, Prob2Addr2, Prob2CntyName, MuniCrtsAddrStr, MuniCrtsAddr2, SccCntyName, SccAddrStr and SccAddr2. Two lines above that list the same document tells the participant \"Court, judge, prosecutor, clerk, law-enforcement, agency, notary, hearing, and post-order fields remain for their proper owners.\" The kit contradicts itself in one file.",
+    "notYETMEASUREDONnj_indictable_conviction-set": "not read at the time of the stop. Recorded as null, not as absent.",
+    "theMECHANISMTHATFIXESIT": "It already exists and is proved on the sibling. nj_arrest_no_conviction-set's document declares a `captions` table (:1550-:1768) plus `requiredBlanksCarryPrintedCaptions: true` (:1776). assertPrintedCaptionInvariants (:5279) then enforces three things on any document that opts in: nothing owner-marked stays in REQUIRED_BEFORE_FILING, no row's instruction is the form's own field name, and every surfaced caption actually appears in participant-instructions.md. The three families in this lane's grant declare no captions table and so opt out of all three checks.",
+    "aTHIRDDEFECTINTHESAMELISTOBSERVEDNOTACTEDON": "Because REQUIRED_BEFORE_FILING rows fall back to `field.effectiveLabel ?? field.field` at :5098, the clean-slate guide prints raw AcroForm field identifiers to the participant as instructions: `contOwe`, `seek5yrs`, `seek34degree`, `changeName`, `gradDC`, `marijuana`, `cleanSlate`, `jdmnt`, `jdgmntDocket1` through `jdgmntDocket4`, `sigHearJdg`, `sigFinalJdg`, `CoverLtrDDt`, `CoverLtrEDt`, `IdbAddrStr`, `ProbAddrStr`, `MuniCrtsAddrStr`, `contOffense2`, `sigNoticeDt`, `expungDocketNum`. Others are truncated caption fragments that instruct nothing: \"(statu\", \"(original indict\", \"3\", \"a\", \", \", \"cnt\", \"Kit up\", \"at o'clock\". This is a direct breach of the standing rule against printing internal vocabulary and AcroForm field identifiers to the participant. NOT REPAIRED."
+  },
+
+  "finding3_declareButNeverDraw": {
+    "whatTHEMEASUREMENTSHOWS": "On nj_indictable_conviction-set this is NOT a defect in the delivered packet. The family declares selections [\"guilty\"] and also declares NJ_PETITION_CONVICTION_ROW, whose six permanently-unmapped cells cause the row and its election to be withheld on every fixture. Its own family note already states the withdrawal in terms. The build correctly draws nothing.",
+    "theDEFECTISINTHERECORDNOTTHEPAPER": "production-field-map.json goes on declaring `guilty` decision `measured_route_selection` -- the packet's own record that this build makes that election -- while no fixture marks it. FIX167's guard at :5715 is what catches this, gated on `guardFieldMapSelectionsAgainstDeliveredMarks`, and the repair flag is `declareWithdrawnElectionsInFieldMap` at :3487. Only nj_ordinance-set (:2019-:2020) carries either flag.",
+    "soTHECUREOFTHETHREEOFFERED": "Not to draw it -- the record does not support drawing it. Withdraw the DECLARATION: set declareWithdrawnElectionsInFieldMap and guardFieldMapSelectionsAgainstDeliveredMarks on nj_indictable_conviction-set, as nj_ordinance-set already does, so the map states the withdrawal the build actually performs. NOT APPLIED.",
+    "aCORRECTIONTOFIX167SOWNCOMMENT": "The comment at :5703-:5708 states that run host-wide the guard \"refuses nj_indictable_conviction-set, nj_disorderly_persons-set and nj_clean_slate-set outright: all three carry the identical false declaration for the identical reason.\" That is wrong about nj_clean_slate-set, and VF62's forced-gate measurement (clean_slate exit 0) is right: clean_slate does not carry a false declaration because it actually draws the mark. Its declaration is TRUE and the drawing is the defect. The two families are failing in opposite directions and the comment merges them.",
+    "andNOTETHEORDERING": "If the Finding 1 repair is applied to nj_clean_slate-set, its election becomes withdrawn and its map's `measured_route_selection` row becomes false in exactly the way FIX167's guard exists to catch. The Finding 1 repair therefore REQUIRES declareWithdrawnElectionsInFieldMap on nj_clean_slate-set in the same change, or it converts a true record into a false one."
+  },
+
+  "fixtureDigestsAtBaseALLFOURFAMILIES": {
+    "measuredBy": "sha256sum on the committed files on disk at base e3966692, before any build, and re-confirmed identical after every build was restored",
+    "nj_clean_slate-set": {
+      "canonical": "b71de1df389a55cea2c10ad6e6c7ba9f482b0ffa9c63e7dcee961b9437bf0598",
+      "boundary": "cb536e9766aa55da7a128b0d878231d036794850d136b4332143277d38869464"
+    },
+    "nj_ordinance-set": {
+      "canonical": "03f6169d042fc1d5ed30df008dfc966ef3d03b382731f5956d0e8786ca8a234f",
+      "boundary": "23a571af72985717963001120ba60116ae43054aaa1c2fddbeece944dac24494"
+    },
+    "nj_indictable_conviction-set": {
+      "canonical": "03f6169d042fc1d5ed30df008dfc966ef3d03b382731f5956d0e8786ca8a234f",
+      "boundary": "23a571af72985717963001120ba60116ae43054aaa1c2fddbeece944dac24494"
+    },
+    "nj_arrest_no_conviction-set (NOT THIS LANE'S)": {
+      "canonical": "922b89598d0b7b57d0fd40623d404a7d9cf24ba507a9eba82472815d9b74ee7d",
+      "boundary": "23a571af72985717963001120ba60116ae43054aaa1c2fddbeece944dac24494"
+    },
+    "afterEqualsBefore": "No fixture moved. This lane applied no repair, and the four families' eight fixture files are byte-identical to base.",
+    "aCORRECTIONTOTHEGRANTSPREMISE": "The grant states all four families deliver the same boundary fixture 23a571af. Three do. nj_clean_slate-set does NOT -- its boundary is cb536e97 and its canonical b71de1df, and both are unique to it. nj_ordinance-set and nj_indictable_conviction-set are currently byte-identical to each other on BOTH fixtures. The practical consequence is that repairing nj_clean_slate-set cannot move the fixture the family this lane does not own delivers, because they share no file; but any change reaching the shared engine rather than one family's config could still move all four, which is why every experiment here was bracketed by a re-hash of all five NJ families."
+  },
+
+  "rasterDebt": {
+    "owedBy": "NOBODY YET. No fixture moved, so no family owes a fresh raster on account of this lane.",
+    "whatWOULDBEOWED": "nj_clean_slate-set, when the Finding 1 repair is applied. Removing the drawn mark and the three partial writes will move both its fixtures, so it would owe a whole-family re-raster recorded in its own product-wiring.json with stillBinds false, wholeFamilyReRasterRequired true and before/after digests. RASTER_QUEUE.json is NOT to be edited. Nothing was recorded because nothing moved.",
+    "measuredNotGuessed": "The unmodified-rebuild digests under belowStaleFamily show that nj_clean_slate-set's fixtures move even with NO repair applied, purely from the FIX167 address-line correction it has not yet taken. Any lane that repairs this family owes the raster for that reason alone."
+  },
+
+  "whatThisLaneCouldNOTDo": [
+    "Apply any of the three repairs. Stopped on coordinator instruction before the first edit.",
+    "Add any guard, and therefore prove any guard fires. Zero guards were added; the count is 0, not null, because no guard work was begun.",
+    "Measure whether Finding 2 reproduces on nj_indictable_conviction-set. Recorded as null, not as clear.",
+    "Determine whether the six blank item (d) cells could be sourced rather than withheld. No source review was attempted.",
+    "Release grants or touch the claim ledger, both of which the stop-work instruction forbids."
+  ],
+
+  "outOfScopeOBSERVEDNOTACTEDON": [
+    "nj_ordinance-set and nj_indictable_conviction-set currently deliver byte-identical canonical AND boundary fixtures (03f6169d / 23a571af). Two families on two different statutory routes deliver the same two files. Nothing here says that is wrong -- both withhold the same row and write the same ten contact cells -- but a route that delivers a byte-identical packet to another route is worth someone measuring deliberately.",
+    "The stale `pageCount: 43` addition in reports/actual-writes.json affects nj_indictable_conviction-set and nj_arrest_no_conviction-set, the latter COMPLETE_PACKET_PROVEN. Their committed records are behind their builder by one field. No delivered byte is affected.",
+    "The clean-slate guide's REQUIRED_BEFORE_FILING list prints raw AcroForm field identifiers and truncated caption fragments to the participant, detailed under finding2.aTHIRDDEFECT above.",
+    "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs is 7,649 lines and hosts fourteen families across five jurisdictions behind one family's filename. Every finding in this lane's grant is a family-config omission in that file rather than an engine defect, which is the argument for the file rather than against it, but it is the reason a host-wide edit here would move families nobody owns."
+  ],
+
+  "independentReVerificationOwed": "Nothing repaired, so nothing is owed on repair. What IS owed to a lane other than FIX175, FIX167, VF62, VF11 and vf04 is confirmation of two readings this lane took and acted on nowhere: that the item (d) figure is 3 of 9 and not 0 of 9, and that nj_clean_slate-set does not reproduce from its own builder at this base. Both are measurements, both are reproducible from the committed bytes plus the pinned source, and neither has been checked by anyone but this lane."
+}

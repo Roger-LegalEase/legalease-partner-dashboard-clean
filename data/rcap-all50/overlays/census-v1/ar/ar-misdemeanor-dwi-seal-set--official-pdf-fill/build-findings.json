@@ -1,0 +1,52 @@
+{
+  "schemaVersion": "rcap-build-findings/v1",
+  "familyId": "ar-misdemeanor-dwi-seal-set",
+  "blocking": [],
+  "findingCount": 0,
+  "reproducibility": {
+    "question": "Does this family rebuild to the same bytes?",
+    "method": "The build was run twice in the same container and all 28 files under the owned path were hashed after each run.",
+    "result": "REPRODUCIBLE — byte-identical across both runs, 28 files.",
+    "whatMakesItSo": "finalizeFlatOverlay stamps DETERMINISTIC_STAMP rather than the wall clock, and every coordinate comes from the source bytes rather than from anything about the container."
+  },
+  "advisoryFindingsForTheCaptain": [
+    {
+      "id": "flat-overlay-path-does-not-run-the-region-channel",
+      "severity": "advisory",
+      "where": "scripts/rcap-official-forms/rcap-official-form-finalize.mjs, the decideBinding call inside finalizeFlatOverlay",
+      "finding": "finalizeOfficialForm passes `regionHeading` to decideBinding, so a widget under a printed 'Certificate of Service' is refused by region whatever it is called. finalizeFlatOverlay passes only { name, pdfType, effectiveLabel }, so on a FLAT overlay the region channel never runs at all.",
+      "whyItMattersHere": "The petition's page 4 is a Certificate of Service and its page 3 is a VERIFICATION. Both are regions the shared vocabulary classifies as protected, and neither would have been protected by the flat path. The 'Date' blank under the certificate binds deterministic.filing_date through its printed caption.",
+      "whatThisFamilyDidInstead": "It computes regionProtectCategoryOf itself and withholds every anchor in a protected region before the factory is called, and it additionally role-refuses the certificate name and date by hand. Nothing here depends on the gap being closed.",
+      "notFixedHere": "The shared finalize module is not this family's owned path, and changing it would change every flat family's output at once. Reported rather than patched.",
+      "howToReproduce": "Call finalizeFlatOverlay with an anchor labelled 'Date' whose write box sits under a printed 'Certificate of Service' heading, and observe that it is written."
+    },
+    {
+      "id": "signature-date-descriptor-is-unreachable-through-haystack",
+      "severity": "advisory",
+      "where": "scripts/rcap-official-forms/rcap-field-semantics.mjs, the deterministic.filing_date descriptor, and haystack()",
+      "finding": "deterministic.filing_date matches /date\\s*signed|signature\\s*date|date\\s*of\\s*(this\\s*)?(filing|signature)|today\\s*s?\\s*date|^\\s*dated?\\s*$|cert\\s*date/. The alternative /^\\s*dated?\\s*$/ is anchored to the whole string, but every descriptor is tested against haystack(), which returns `${spaced} || ${squashed}` — so the string under test for a blank captioned 'Date' is 'date || date' and the anchored alternative can never match. A blank whose printed caption is the bare word 'Date' therefore binds NOTHING, on any form in the corpus.",
+      "whyItMattersHere": "Three blanks on these two documents are captioned exactly 'Date': the participant's signature date on petition page 2, the certificate-of-service date on petition page 4, and the judge's date on order page 2. All three come out empty, and only the role refusals this family declares make that a decision rather than an accident. A refusal that depends on a regex anchor being unreachable is not a refusal.",
+      "directionOfRisk": "Currently SAFE — the unreachable pattern refuses more than it should, not less. It becomes unsafe the moment anyone 'fixes' the anchor without also auditing which signature-date blanks would then bind.",
+      "notFixedHere": "The shared semantics module is not this family's owned path, and changing that pattern would change bindings across every family at once.",
+      "howToReproduce": "node -e \"import('./scripts/rcap-official-forms/rcap-field-semantics.mjs').then(m => console.log(m.haystack('Date'), m.descriptorsMatching('Date')))\" — prints 'date || date' and []."
+    },
+    {
+      "id": "flat-overlay-derivation-check-cannot-pass-in-a-container-with-the-corpus-mounted",
+      "severity": "advisory",
+      "where": "scripts/generate-rcap-flat-overlay-profiles.mjs --check, against data/rcap-all50/flat-overlay-profile-derivation.json",
+      "finding": "The derivation locates each family's binary by hashing EVERY pdf in the clone (binariesBySha walks the repo root, skipping only node_modules, .git, .next and tmp). private/ is not skipped, so once scripts/rcap-corpus/bootstrap-private-corpus.sh has mounted the Master Library the walk finds binaries that were absent when the record was committed, and --check reports drift.",
+      "measuredHere": "committed 24 families / 26 anchors / 213 refused captions; regenerated with the corpus mounted, 29 families / 79 anchors / 477 refused captions, with 18 existing families changing. Every changed row resolves to a path under private/source-imports/. NC, NE, WI and CO families are affected.",
+      "notCausedByThisFamily": "This family writes only under its own owned path and adds no PDF the derivation reads: it walks data/rcap-all50/overlays/production, which this family does not touch. The drift reproduces with this family's output deleted.",
+      "notFixedHere": "Both the derivation record and the production overlay tree are outside this family's owned path. The regeneration this diagnosis produced was reverted with git checkout and the five untracked overlay-profile.derived.json files it created under overlays/production/colorado were deleted, so nothing outside the owned path is left changed.",
+      "whoeverOwnsItShould": "either exclude private/ from binariesBySha so the record means the same thing in every container, or regenerate the record with the corpus mounted and state that as the condition it is checked under."
+    },
+    {
+      "id": "no-fact-descriptor-recognises-the-arkansas-caption-line",
+      "severity": "advisory",
+      "where": "scripts/rcap-official-forms/rcap-field-semantics.mjs, FACT_DESCRIPTORS",
+      "finding": "matter.court binds only 'court name', 'type of court' or a judicial district/circuit, and matter.county requires the word 'county' in the caption. The ACIC caption line 'IN THE ____ COURT OF ____, ARKANSAS' prints none of those words, so the venue of both documents cannot bind.",
+      "whyItMattersHere": "It is the reason this family files a packet with an empty venue line. Independent review of Wisconsin CR-266 recorded that a petition without a venue is not filed.",
+      "notFixedHere": "Widening a shared descriptor from one family's build changes 156 families' bindings at once. Reported for the owner of the shared semantics."
+    }
+  ]
+}

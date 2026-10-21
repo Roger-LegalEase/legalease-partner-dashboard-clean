@@ -1,0 +1,126 @@
+{
+  "schemaVersion": "rcap-packet-factory-lane-return/v1",
+  "lane": "FIX103",
+  "laneKind": "repair",
+  "status": "STOPPED",
+  "repairedByThisLane": false,
+  "repairedByThisLaneNote": "The assignment's return shape assumed COMPLETED. This lane repaired nothing, so repairedByThisLane is false and no countersAfter is reported. Reporting it true would assert a repair that does not exist.",
+  "verifiedAtBase": "b75ac41e3",
+  "grant": "CLAIM_OK FIX103 composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief (repair, grant set b57c80c9c7f46027), asserted inside /home/user/fix103-worktree at base b75ac41e3. Grant NOT released by this lane.",
+  "rows": [
+    {
+      "itemId": "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
+      "lane": "FIX103",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_LEGAL_INPUT",
+      "obligationsRepaired": [],
+      "obligationsNotRepaired": ["COMPONENT_SET"],
+
+      "exactQuestion": "By what form is the Illinois mistaken-identity petition under 20 ILCS 2630/5.2 verified: (a) an unsworn certification by the participant under 735 ILCS 5/1-109, or (b) an affidavit sworn before a notary with a jurat? The committed record names the instrument a 'Verified petition' but nowhere states which of the two it takes, and the two impose materially different burdens on the participant - (a) is self-executing at the kitchen table, (b) requires personal appearance before a notary. Composing either one would be this lane choosing the legal form, which the assignment forbids.",
+
+      "whyNotAnsweredByInference": "735 ILCS 5/1-109 is a general Illinois certification provision, so it is tempting to treat it as the default for any pleading called verified. This lane did not, because in the held Illinois record 1-109 is never a default: it attaches to specific official forms that carry the verification on their own face. Every one of the nine 1-109 citations in IL.memo.json is the Application for Waiver of Court Fees signatory, and the only other 1-109 use in the repository, scripts/build-census-v1-il-exp-pardon-set.mjs, is the participant signing the official statewide EXP-AD Request. This family renders no official form at all - custodyClass CUSTOM_PLEADING_FROM_CODIFIED_TEXT, sourceBinaryCommitted false - so the mechanism that carries 1-109 in every recorded Illinois instance is absent here, and the inference does not transfer.",
+
+      "recordsRead": [
+        {
+          "path": "src/lib/legal-authority/routes/route-splits.json",
+          "locator": "routes[6], routeKey IL:criminal-identity-theft-mistaken-identity-relief",
+          "whatItSays": "packetComponents[0] 'Verified petition'; packetFamily 'Illinois Verified Mistaken-Identity Petition under 20 ILCS 2630/5.2'; timing.anchorText 'no elapsed waiting period; the verified petition may be filed upon learning of the record'.",
+          "onTheQuestion": "SILENT - names the instrument verified, never states how verification is effected."
+        },
+        {
+          "path": "src/lib/rcap-engine/compiled/profiles/IL-illinois.json",
+          "locator": "pathways[6] criminal-identity-theft-mistaken-identity-relief, and sourceSections[7] (the cited section:169-177 / corpus-unit:56 text)",
+          "whatItSays": "Contains zero occurrences of '1-109', 'notar', 'perjury', 'affidav', 'oath' and 'affirm' in the entire 309KB file. The reproduced statutory text for this route reads only that the aggrieved person 'may petition the chief judge of the circuit where the arrest occurred' - it does not use the word verified at all.",
+          "onTheQuestion": "SILENT, and notably the statutory text held for this route does not itself call the petition verified; that word enters only through the route contract's labels."
+        },
+        {
+          "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+          "locator": "routes[54], routeKey obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
+          "whatItSays": "participantFacingInstrument 'Illinois Verified Mistaken-Identity Petition under 20 ILCS 2630/5.2'; destination 'not recorded'; processActor 'not recorded'.",
+          "onTheQuestion": "SILENT."
+        },
+        {
+          "path": "data/record-clearing/packet-specifications/IL-criminal-identity-theft-mistaken-identity-relief.v1.json",
+          "locator": "finalVerificationRequirements, fieldOwnership, whatThisSpecificationCannotYetBind",
+          "whatItSays": "finalVerificationRequirements lists six pre-filing checks and closes with 'The participant signs and dates the petition personally' - no certification, no notarization. fieldOwnership.notaryOwnedFields is []; participantAtSigningFields is exactly petition_signature and petition_signature_date. whatThisSpecificationCannotYetBind records that IL.memo.json carries no track for this composed treatment and legal-design-packet-set-manifests.json carries no packet set for this family, and states: 'Both are legal-design records outside this specification's authority; this specification records their absence rather than inventing them.'",
+          "onTheQuestion": "SILENT on the form, and expressly declines to invent the missing legal-design records. Its empty notaryOwnedFields is not a decision that no notary is needed; it is the same silence, since the spec never composed a verification block of either kind."
+        },
+        {
+          "path": "data/record-clearing/legal-design-intake/IL.memo.json",
+          "locator": "all 17 tracks; the nine '735 ILCS 5/1-109' occurrences; tracks[10] rules.notarization",
+          "whatItSays": "Carries NO mistaken-identity or identity-theft track; 'mistaken' appears 0 times and 'identity theft' appears only as a self-help stop condition on nine other tracks. All nine 1-109 citations are tracks[N]._feeWaiverComponentRemap.resolvedIdentity.signatory - the fee-waiver form. Verification elsewhere is instrument-specific: tracks[0] 'Verified on its face under 5.2(d)(2)' (the official Request form), tracks[10] rules.notarization 'Required. ... signed and sworn before a notary public' (the PRB certificate).",
+          "onTheQuestion": "SILENT for this route, and positively shows that Illinois verification form varies by instrument rather than defaulting."
+        },
+        {
+          "path": "data/record-clearing/legal-design-track-registry.json",
+          "locator": "the 17 IL tracks; il-exp-pardon rules",
+          "whatItSays": "No Illinois mistaken-identity track exists (the 207 'mistaken' hits are Alaska's ak-mistaken-identity). The nearest Illinois verified petition, il-exp-pardon 'Verified Petition to Expunge Following a Governor's Pardon', carries rules.notarization 'none' and participantSignature 'The petitioner signs and verifies the Request.'",
+          "onTheQuestion": "SILENT for this route. il-exp-pardon is not transferable: it is verified on the face of the official statewide Request form under 5.2(d)(2), a form this family does not render."
+        },
+        {
+          "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+          "locator": "the 17 il-*-set packet sets",
+          "whatItSays": "No packet set for this family; 'criminal-identity-theft' appears 0 times.",
+          "onTheQuestion": "SILENT."
+        },
+        {
+          "path": "data/record-clearing/legal-decisions/route-ratification-registry.json",
+          "locator": "routes[44], IL:criminal-identity-theft-mistaken-identity-relief",
+          "whatItSays": "status ratified_deployable; decisionAuthority 'Lawrence (counsel)'; legalBasis '20 ILCS 2630/5.2 identity-theft/mistaken-identity relief'.",
+          "onTheQuestion": "SILENT. Counsel ratified the route, not any verification form. No LD-IL-04 decision file exists anywhere under data/record-clearing/legal-decisions/."
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/il/composed-treatment:obligation:runtime-only:il:criminal-identity-theft-mistaken-identity-relief--custom-pleading/build-findings.json",
+          "locator": "blocking, findings",
+          "whatItSays": "blocking is []; the single finding concerns the filing destination only.",
+          "onTheQuestion": "SILENT - the builder never recorded verification as an open legal input, which is why VF07 called it an unnoticed gap."
+        },
+        {
+          "path": "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/IL/02_PACKET_FORMS",
+          "locator": "the complete Illinois form inventory",
+          "whatItSays": "Three forms only: EXP-AD-REQUEST, EXP-AD-ORDER-GRANTING and FW-CIV-APPLICATION. No mistaken-identity petition form exists in the corpus.",
+          "onTheQuestion": "SILENT, and confirms no official form supplies a verification block for this route."
+        }
+      ],
+
+      "whatWouldUnblock": "Any one of: (1) a legal-design intake track for the Illinois mistaken-identity route in IL.memo.json carrying rules.notarization and rules.participantSignature, as tracks[10] does for the PRB certificate; (2) an amendment to the packet specification's finalVerificationRequirements naming the verification instrument for this petition; or (3) a counsel decision record for LD-IL-04 stating whether the 20 ILCS 2630/5.2 mistaken-identity petition is certified under 735 ILCS 5/1-109 or sworn before a notary. Counsel is the right author for all three; this lane is not.",
+
+      "digestsBefore": {
+        "canonical.pdf": "3bed5cd21e70338e5d9c5e2daf1251b5ff3c4558a6544991ab549594dacbf3bf",
+        "boundary.pdf": "1d5162ef7d046a6c5a9925b4b4b987e92b0768d046723311d6d78ef7bd990fbf"
+      },
+      "digestsAfter": {
+        "canonical.pdf": "3bed5cd21e70338e5d9c5e2daf1251b5ff3c4558a6544991ab549594dacbf3bf",
+        "boundary.pdf": "1d5162ef7d046a6c5a9925b4b4b987e92b0768d046723311d6d78ef7bd990fbf",
+        "note": "Byte-identical to digestsBefore and to the VF07 row, recomputed on disk at b75ac41e3. Nothing was rebuilt and no packet byte was touched."
+      },
+      "determinism": "NOT_MEASURED - no rebuild was performed, because a rebuild without the verification block would reproduce the defective bytes and a rebuild with one would require this lane to choose the legal form.",
+
+      "obligationsThisRowDoesNotDischarge": [
+        "COMPONENT_SET - the defect VF07 found is UNREPAIRED. The committed contract still names a 'Verified petition' and the pleading still calls itself VERIFIED in its running title on all four pages while carrying no verification; its entire execution block remains the single line 'DATE ............ SIGNATURE OF PETITIONER ............' at builder line 148.",
+        "The independent re-read of this family by a lane that did not build or repair it.",
+        "The central hash-bound RASTER_PASS from the central raster workflow; the standing raster receipt is a local render with rasterReceipt.workflow and workflowRunId both null.",
+        "Visual review, counsel review and source freshness review.",
+        "Any statement that the family's nine completeness counters are or are not zero after a repair; this lane measured no counters because it performed no repair."
+      ],
+
+      "recordBasisForVerificationFormComposed": "NONE - no verification was composed. This field exists in the assignment's COMPLETED shape; the honest value here is that the record supplies no basis for either form, which is the reason for the stop.",
+
+      "boundaries": {
+        "packetBytesModified": 0,
+        "overlayDirectoriesModified": 0,
+        "buildersModified": 0,
+        "routeSplitsModified": false,
+        "masterQueueModified": false,
+        "rasterQueueModified": false,
+        "claimLedgerModified": false,
+        "grantReleased": false,
+        "commercialRoutesOpened": 0,
+        "productionTouched": "NO",
+        "filesWrittenByThisLane": ["data/rcap-grade-a/packet-factory-24h/fix103/rows.json"]
+      },
+
+      "preflight": "node scripts/verify-packet-build-environment.mjs --family <id> at b75ac41e3: 12/13 passed, 1 failed, 4 not applicable. private_is_git_ignored PASSES here: the assignment's mandated `private` symlink makes `git check-ignore private/` fail with 'pathspec is beyond a symbolic link', so this lane mounted private/ as a real directory of per-child symlinks, which the repository's own .gitignore:53 'private/' rule then matches; `git ls-files private/` returns 0. The one remaining FAIL, corpus_matches_committed_index, is 1 absent of 24 sampled - 'LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf', one of 14 absent of 351 mounted entries, a pre-existing Alabama gap in the mounted Master Library. All 3 Illinois corpus entries verify byte-exact, and family_sources_bind passes for this zero-source composition, so the gap cannot reach this family."
+    }
+  ]
+}

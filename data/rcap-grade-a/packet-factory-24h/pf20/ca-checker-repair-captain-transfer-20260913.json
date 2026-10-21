@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "rcap-ca-checker-repair-patch-transfer/v1",
+  "recordedAt": "2026-09-13",
+  "familyId": "ca-diversion-seal-set",
+  "worker": {
+    "codespace": "rcap-finish-worker-77jr7gx76jq3rg65",
+    "checkout": "private/worker-worktrees/pf20-ks-arrest-registration-resume-20260913",
+    "branch": "pf20-ks-22-2410-arrest-20260912b",
+    "baseCommit": "4b1a51b3a869625054ebdb6549a8022c6c7abd07",
+    "candidateCommit": "7c59b4bb8253cd2dc15c612d26083b0121b5b758"
+  },
+  "files": [
+    {
+      "path": "scripts/verify-family-source-resolution.test.mjs",
+      "sha256": "ab253cd21adf1e2dc7cb003c9bfbe1f6b2e275902e893cf00e3b930bbfccfc4c",
+      "byteLength": 17722
+    },
+    {
+      "path": "scripts/verify-packet-build-environment.mjs",
+      "sha256": "92907e0d62dd4fbe5c1dfd7283b1731dabd60644b02df3d8bab4d2231d6f40c8",
+      "byteLength": 101725
+    }
+  ],
+  "patch": {
+    "path": "private/packet-factory-24h/transfers/pf20-ca-checker-repair-20260913/ca-checker-repair.patch",
+    "sha256": "100c3c1351bff09583856631655b06aeaefdbd4406edfbd1309096f92f2dfca0",
+    "byteLength": 15462,
+    "sourceCommand": "git diff --binary --no-ext-diff 4b1a51b3a869625054ebdb6549a8022c6c7abd07 7c59b4bb8253cd2dc15c612d26083b0121b5b758 -- scripts/verify-family-source-resolution.test.mjs scripts/verify-packet-build-environment.mjs",
+    "fileCount": 2,
+    "captainApplyCheck": true
+  },
+  "transferMethod": "SSH git diff captured from the pinned worker commit; normal worker-branch push attempted but credentials were unavailable",
+  "normalPush": {
+    "attempted": true,
+    "status": "not_performed",
+    "reason": "fatal: could not read Username for https://github.com"
+  },
+  "captainCheckoutUntouched": true,
+  "workerClaimLedger": {
+    "path": "data/rcap-grade-a/packet-factory-24h/claim-ledger.json",
+    "uncommittedChangePreserved": true,
+    "notIncludedInPatch": true
+  },
+  "initialBlockedReturnPreserved": "data/rcap-grade-a/packet-factory-24h/pf06/rows-pf06-ca-diversion-seal-20260913.json"
+}

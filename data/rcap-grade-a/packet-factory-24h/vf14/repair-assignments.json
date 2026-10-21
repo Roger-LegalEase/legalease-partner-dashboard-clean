@@ -1,0 +1,38 @@
+{
+ "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
+ "lane": "VF14",
+ "generatedAtBase": "959c5578b (worker merge of Captain 16b33c319)",
+ "note": "No packet defect was found in either family. Every item below is either a defect in an evidence artifact or an open input, and none of them asks for an overlay to be re-rendered.",
+ "repairAssignments": [
+  {
+   "itemId": "ct-cleanslate-petition-set",
+   "scope": "evidence artifact, not the packet",
+   "decisiveDefect": "reports/actual-writes.json reports drawnText [] with readBackFromBytes true for four of six canonical writes and three of four boundary writes, for values this lane found in the fixture bytes.",
+   "doNotRerenderTheOverlay": "The packet is correct. Re-rendering it would change hashes to fix a report.",
+   "repairScope": "A builder-side repair lane fixes the read-back in scripts/build-census-v1-ct-cleanslate-petition-set.mjs so the per-field drawnText matches the bytes, and regenerates reports/actual-writes.json only. Worth checking the same read-back against the Vermont families, where this worker found the mirror-image failure — a claimed write the bytes did not carry — because one read-back defect that fails in both directions is likelier than two unrelated ones.",
+   "notForThisLaneToFix": "a verifier does not edit what it verifies"
+  },
+  {
+   "itemId": "ak-tf800-set",
+   "scope": "evidence artifact, not the packet",
+   "decisiveDefect": "reports/actual-writes.json transcribes the boundary name without its apostrophe — OShaughnessy where the appearance stream carries 0x92 between the O and the S.",
+   "doNotRerenderTheOverlay": "The packet is correct; the apostrophe is on the page.",
+   "repairScope": "the same read-back character handling as the Connecticut item above; one fix likely covers both, and the Vermont families as well.",
+   "notForThisLaneToFix": "a verifier does not edit what it verifies"
+  },
+  {
+   "itemId": "ak-tf800-set",
+   "scope": "open source obligation, not a packet repair",
+   "decisiveDefect": "feeAndWaiver: no Alaska filing fee for a Rule 37.6 request is established anywhere in the committed evidence, so the packet correctly declines to state one.",
+   "repairScope": "a source lane establishes the Alaska Court System fee position for a Rule 37.6 request, or establishes that no fee applies. Only then does an instruction lane state it. No packet lane should infer a fee.",
+   "notForThisLaneToInfer": true
+  },
+  {
+   "itemId": "ct-cleanslate-petition-set",
+   "scope": "open legal input, not a packet repair",
+   "decisiveDefect": "service: the instructions say nothing about service and the form carries no service field, so this lane cannot tell an absent requirement from an unmentioned one.",
+   "repairScope": "counsel establishes whether a Clean Slate erasure petition under C.G.S. § 54-142a must be served on anyone. If the answer is that none is served, the repair is one sentence in the instructions saying so.",
+   "notForThisLaneToInfer": true
+  }
+ ]
+}

@@ -1,0 +1,323 @@
+{
+  "schemaVersion": "rcap-independent-verifier-return/v1",
+  "lane": "VFFL1",
+  "laneKind": "independent-verification",
+  "status": "COMPLETED",
+  "rows": [
+    {
+      "familyId": "fl-juvenile-diversion-set",
+      "itemId": "fl-juvenile-diversion-set",
+      "jurisdiction": "FL",
+      "lane": "VFFL1",
+      "reviewer": "/root/review_fl",
+      "sessionIdentity": "/root/review_fl",
+      "reviewPhase": "INDEPENDENT_CURRENT_BYTE_NONVISUAL_SEMANTIC_RECHECK",
+      "verifiedAt": "2026-09-12T20:00:11Z",
+      "verifiedAtBase": "d70e5995ef28155a4baf16edf0f1dc68293522a1",
+      "actualHeadAtReview": "d70e5995ef28155a4baf16edf0f1dc68293522a1",
+      "packetCommitSha": "cd60bf62a2186c46b6e245ade48c744ff189bae9",
+      "manifestCommitSha": "44fdcd36579de3276e53928eeacc19fce286b43b",
+      "status": "PASS_PRE_RASTER_SEMANTIC",
+      "verdict": "PASS",
+      "scope": "Bounded independent semantic review of the current five-page FDLE40-025 juvenile-diversion application against the exact Florida route/component contract, current source and PDF bytes, all held facts, participant disclosures, protected prosecutor/signature/fingerprint regions and current saved-byte proof. No packet, source, queue, manifest or shared report was edited; central raster visual acceptance remains open.",
+      "claimEvidence": {
+        "assertCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VFFL1 fl-juvenile-diversion-set",
+        "result": "CLAIM_OK",
+        "grantSet": "20a9da884cab0553",
+        "assertedBeforeFamilyReads": true
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "basis": "Current route contract, legal-design packet manifest, source receipt, product declaration and route-ratification record.",
+          "finding": "The family remains the statewide Florida FDLE juvenile-diversion expunction application under section 943.0582. The route is an agency application, has no court petition or alternate election, and this review grants no runtime or commercial authority.",
+          "evidence": [
+            {"path": "src/lib/legal-authority/routes/route-splits.json", "sha256": "c573d65a64d3922bcffdd402810efa142f44bc8d9389d4e7e8a223ee4105f7df", "byteLength": 127996},
+            {"path": "data/rcap-all50/overlays/census-v1/fl/fl-juvenile-diversion-set--official-pdf-fill/packet-set-manifest.json", "sha256": "f354aa316d5d617659323928b7ee221d5305f651a161de4fc5d4aef795f0a75c", "byteLength": 803},
+            {"path": "data/rcap-all50/overlays/census-v1/fl/fl-juvenile-diversion-set--official-pdf-fill/product-wiring.json", "sha256": "d02798171e1d0da0e6b630e0dc73e57f4acddac64c9b4290398084ea64189960", "byteLength": 4223},
+            {"path": "data/record-clearing/legal-decisions/route-ratification-registry.json", "sha256": "594682411c413f3e02f2852252ea3cb70ff743b0a3daacaf6ee9060911a5eb25", "byteLength": 149160}
+          ]
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "basis": "Fresh exact source custody and authority-record hash audit.",
+          "finding": "The held FDLE40-025 source is five pages, 23,990 bytes and matches the source receipt at the exact current SHA-256. Four authority records remain byte-identical; the shared packet manifest has a DE-only whole-file change, while the selected FL record is exactly equal to the frozen review base per the scoped dependency comparison.",
+          "evidence": [
+            {"path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC2__FL-JUVENILE-DIVERSION-SET__FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION__a3ad1d240cf0.pdf", "sha256": "a3ad1d240cf07092cf1e56fc825b207ec28b89541fb25f012b52356f7774788e", "byteLength": 23990, "pageCount": 5},
+            {"path": "data/rcap-all50/overlays/census-v1/fl/fl-juvenile-diversion-set--official-pdf-fill/source-receipt.json", "sha256": "d590679744b93af098c5e8f0454ca8b56005bc3ea235fe60cd2bd058725f06b3", "byteLength": 3174},
+            {"path": "data/record-clearing/legal-design-intake/FL.memo.json", "sha256": "9b497440290abd5e254b3bd9e1ff6e5dda56abf4c2bfca63dc351090d76e4065", "byteLength": 121810},
+            {"path": "data/record-clearing/legal-design-packet-set-manifests.json", "sha256": "9898a2ca999c7eae95bdb68337af91556855e46a005bcd63589fa2b1c52880b8", "byteLength": 3711575},
+            {"path": "src/lib/rcap-engine/compiled/profiles/FL-florida.json", "sha256": "ffef299bd19d2045453b03a2735b804f511b3a95310cd6be69bb45e36eacc679", "byteLength": 236236},
+            {"path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json", "sha256": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81", "byteLength": 2629290},
+            {"path": "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json", "sha256": "7eeea9abeb804efc4d3b7a1e70b50498e53fcf8447bdb7691236e638bb19d88e", "byteLength": 64212},
+            {"path": "/tmp/fl-vffl1-dependency-delta.json", "sha256": "1b19ea50d7ecc300718163d873f15b5e345c60ef398992e4c98ca9517db747a4", "byteLength": 10436}
+          ]
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "basis": "Current packet-set manifest, rendered-artifact report and both current five-page PDFs.",
+          "finding": "The required set contains exactly one primary filing, FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION, and both canonical and boundary assemblies retain all five source pages in that component.",
+          "evidence": [
+            {"path": "data/rcap-all50/overlays/census-v1/fl/fl-juvenile-diversion-set--official-pdf-fill/packet-set-manifest.json", "sha256": "f354aa316d5d617659323928b7ee221d5305f651a161de4fc5d4aef795f0a75c", "byteLength": 803},
+            {"path": "data/rcap-all50/overlays/census-v1/fl/fl-juvenile-diversion-set--official-pdf-fill/reports/rendered-artifacts.json", "sha256": "7a8093a2abeb81c70a79fb264980ac432c663b4a8fe2b6eeb6635db72d4b6dde", "byteLength": 5712},
+            {"path": "data/rcap-all50/overlays/census-v1/fl/fl-juvenile-diversion-set--official-pdf-fill/fixtures/canonical.pdf", "sha256": "c63743cb40f515edd7b03a17ec97cb5f05cc770452b2d301953a534f04ace032", "byteLength": 29939, "pageCount": 5},
+            {"path": "data/rcap-all50/overlays/census-v1/fl/fl-juvenile-diversion-set--official-pdf-fill/fixtures/boundary.pdf", "sha256": "2391d96cb8a1e51e14fdfdc3ba38c7c3b9f3da564a223392983158a8e18aab8f", "byteLength": 30104, "pageCount": 5}
+          ]
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "basis": "Independent current-PDF text readback, current actual-write report and focused byte audit.",
+          "finding": "All 29 declared writes in each fixture are present in current PDF bytes with their expected fact identity and value. Canonical and boundary identity, contact, agency, completion-date, arrest-date and charge facts are readable; no source phrase was lost.",
+          "evidence": [
+            {"path": "data/rcap-all50/overlays/census-v1/fl/fl-juvenile-diversion-set--official-pdf-fill/reports/actual-writes.json", "sha256": "196ede7ed09eb4a7c1426ff9801e018a5bce56d137cfbfefc899a103a9bfaa14", "byteLength": 72010},
+            {"path": "/tmp/fl-vffl1-focused-audit.json", "sha256": "b4a6ed86d22f2e83e2adf0e0c987375f9b74acbe2345e3cf106e772095eb60d2", "byteLength": 2859},
+            {"path": "/tmp/fl-pf21-focused-byte-check.json", "sha256": "15b6a0fdb9078ee7dc47086a9fbafc7ea87338bd5019c96cbbdd038e38653515", "byteLength": 1668}
+          ]
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "basis": "Current field map, participant/filing instructions and source checklist.",
+          "finding": "The five missing participant fields are explicitly handed off: Florida driver's-license number, diversion program name/date confirmation, offence/agency/court, age at offence and place of birth. Guidance also requires certification, completion proof, physical fingerprints, applicant signature/notary acknowledgment, original supporting documents and attorney letterhead if represented.",
+          "evidence": [
+            {"path": "data/rcap-all50/overlays/census-v1/fl/fl-juvenile-diversion-set--official-pdf-fill/production-field-map.json", "sha256": "aba85b296014a78d79aca7c5af719de00ddbad73d236cb5788649cbba8aba228", "byteLength": 226793},
+            {"path": "data/rcap-all50/overlays/census-v1/fl/fl-juvenile-diversion-set--official-pdf-fill/participant-instructions.md", "sha256": "da7f3b10d4ab17be50d612051cc6747146e57235719e95ccaccbfee0068db873", "byteLength": 4847},
+            {"path": "data/rcap-all50/overlays/census-v1/fl/fl-juvenile-diversion-set--official-pdf-fill/filing-instructions.md", "sha256": "5fad081218be2efab837f61dae24e661a237d8461d4023dd2905d9f878493166", "byteLength": 1948}
+          ]
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "basis": "Current route record, packet manifest, product declaration and source form.",
+          "finding": "The packet is fixed to juvenile-diversion expunction under section 943.0582, presents no competing Florida relief election and marks no judicial, prosecutor or agency outcome as completed.",
+          "evidence": [
+            {"path": "src/lib/legal-authority/routes/route-splits.json", "sha256": "c573d65a64d3922bcffdd402810efa142f44bc8d9389d4e7e8a223ee4105f7df", "byteLength": 127996},
+            {"path": "data/rcap-all50/overlays/census-v1/fl/fl-juvenile-diversion-set--official-pdf-fill/product-wiring.json", "sha256": "d02798171e1d0da0e6b630e0dc73e57f4acddac64c9b4290398084ea64189960", "byteLength": 4223},
+            {"path": "data/rcap-all50/overlays/census-v1/fl/fl-juvenile-diversion-set--official-pdf-fill/fixtures/canonical.pdf", "sha256": "c63743cb40f515edd7b03a17ec97cb5f05cc770452b2d301953a534f04ace032", "byteLength": 29939}
+          ]
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "basis": "Current write/refusal inventories and independent current-PDF readback.",
+          "finding": "The single supplied arrest/charge row is complete in both fixtures. Unused optional rows 2 through 8 remain untouched, and the prosecutor's page-2 repeating charge table remains wholly blank for that office; no partial repeating row is introduced.",
+          "evidence": [
+            {"path": "data/rcap-all50/overlays/census-v1/fl/fl-juvenile-diversion-set--official-pdf-fill/production-field-map.json", "sha256": "aba85b296014a78d79aca7c5af719de00ddbad73d236cb5788649cbba8aba228", "byteLength": 226793},
+            {"path": "data/rcap-all50/overlays/census-v1/fl/fl-juvenile-diversion-set--official-pdf-fill/reports/actual-writes.json", "sha256": "196ede7ed09eb4a7c1426ff9801e018a5bce56d137cfbfefc899a103a9bfaa14", "byteLength": 72010},
+            {"path": "/tmp/fl-vffl1-focused-audit.json", "sha256": "b4a6ed86d22f2e83e2adf0e0c987375f9b74acbe2345e3cf106e772095eb60d2", "byteLength": 2859}
+          ]
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "basis": "Current source-bound field map, actual-write/refusal proof and independent saved-byte audit.",
+          "finding": "The 54 protected refusal fields per map remain blank: State Attorney certification/table fields, applicant/notary signatures and dates, fingerprint-official signature/ORI/impressions and fingerprinted-person signature/date have no generated write or refused-field ink.",
+          "evidence": [
+            {"path": "data/rcap-all50/overlays/census-v1/fl/fl-juvenile-diversion-set--official-pdf-fill/production-field-map.json", "sha256": "aba85b296014a78d79aca7c5af719de00ddbad73d236cb5788649cbba8aba228", "byteLength": 226793},
+            {"path": "data/rcap-all50/overlays/census-v1/fl/fl-juvenile-diversion-set--official-pdf-fill/reports/actual-writes.json", "sha256": "196ede7ed09eb4a7c1426ff9801e018a5bce56d137cfbfefc899a103a9bfaa14", "byteLength": 72010},
+            {"path": "/tmp/fl-pf21-focused-byte-check.json", "sha256": "15b6a0fdb9078ee7dc47086a9fbafc7ea87338bd5019c96cbbdd038e38653515", "byteLength": 1668}
+          ]
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "basis": "Fresh SHA-256, byte-length, page-count and current manifest comparison.",
+          "finding": "Both current PDFs match the frozen current candidate identities exactly: canonical is 29,939 bytes and five pages; boundary is 30,104 bytes and five pages. The central raster manifest binds those same bytes.",
+          "evidence": [
+            {"path": "data/rcap-grade-a/packet-factory-24h/fix112/fl-juvenile-diversion-current-raster-manifest-20260912.json", "sha256": "df64e99ff4f0a9494df69e576b44ec4121e7b586525d6171ea815c5d481dc5d1", "byteLength": 2389},
+            {"path": "data/rcap-all50/overlays/census-v1/fl/fl-juvenile-diversion-set--official-pdf-fill/fixtures/canonical.pdf", "sha256": "c63743cb40f515edd7b03a17ec97cb5f05cc770452b2d301953a534f04ace032", "byteLength": 29939, "pageCount": 5},
+            {"path": "data/rcap-all50/overlays/census-v1/fl/fl-juvenile-diversion-set--official-pdf-fill/fixtures/boundary.pdf", "sha256": "2391d96cb8a1e51e14fdfdc3ba38c7c3b9f3da564a223392983158a8e18aab8f", "byteLength": 30104, "pageCount": 5},
+            {"path": "/tmp/fl-vffl1-focused-audit.json", "sha256": "b4a6ed86d22f2e83e2adf0e0c987375f9b74acbe2345e3cf106e772095eb60d2", "byteLength": 2859}
+          ]
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "basis": "Current source page count, packet manifest and rendered-artifact page manifests.",
+          "finding": "The sole primary filing preserves the exact source page order 1 through 5 in both canonical and boundary PDFs, including the application, certified statement, fingerprint card, general information and checklist pages.",
+          "evidence": [
+            {"path": "data/rcap-all50/overlays/census-v1/fl/fl-juvenile-diversion-set--official-pdf-fill/packet-set-manifest.json", "sha256": "f354aa316d5d617659323928b7ee221d5305f651a161de4fc5d4aef795f0a75c", "byteLength": 803},
+            {"path": "data/rcap-all50/overlays/census-v1/fl/fl-juvenile-diversion-set--official-pdf-fill/reports/rendered-artifacts.json", "sha256": "7a8093a2abeb81c70a79fb264980ac432c663b4a8fe2b6eeb6635db72d4b6dde", "byteLength": 5712}
+          ]
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "basis": "The central Actions original raster has not yet been dispatched or consumed by this semantic lane.",
+          "finding": "Saved-byte geometry checks found zero glyphs outside declared write boxes, but central original PNG visual acceptance and visualDefects remain open.",
+          "visualDefects": null,
+          "evidence": [
+            {"path": "/tmp/fl-vffl1-focused-audit.json", "sha256": "b4a6ed86d22f2e83e2adf0e0c987375f9b74acbe2345e3cf106e772095eb60d2", "byteLength": 2859}
+          ]
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "basis": "Current printed source address and filing instructions.",
+          "finding": "The route is directed to Florida Department of Law Enforcement, ATTN: Seal & Expunge Section, P.O. Box 1489, Tallahassee, FL 32302-1489; the guide preserves the statewide agency handoff and asks the participant to confirm current instructions.",
+          "evidence": [
+            {"path": "data/rcap-all50/overlays/census-v1/fl/fl-juvenile-diversion-set--official-pdf-fill/filing-instructions.md", "sha256": "5fad081218be2efab837f61dae24e661a237d8461d4023dd2905d9f878493166", "byteLength": 1948},
+            {"path": "data/rcap-all50/overlays/census-v1/fl/fl-juvenile-diversion-set--official-pdf-fill/fixtures/canonical.pdf", "sha256": "c63743cb40f515edd7b03a17ec97cb5f05cc770452b2d301953a534f04ace032", "byteLength": 29939}
+          ]
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "basis": "Current FDLE checklist text and participant/filing guidance.",
+          "finding": "The official checklist's $75 processing fee exception for juvenile-diversion expunction is reproduced accurately. The guide does not invent a waiver route or represent a payment as made; it directs confirmation of current FDLE instructions.",
+          "evidence": [
+            {"path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC2__FL-JUVENILE-DIVERSION-SET__FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION__a3ad1d240cf0.pdf", "sha256": "a3ad1d240cf07092cf1e56fc825b207ec28b89541fb25f012b52356f7774788e", "byteLength": 23990, "pageCount": 5},
+            {"path": "data/rcap-all50/overlays/census-v1/fl/fl-juvenile-diversion-set--official-pdf-fill/participant-instructions.md", "sha256": "da7f3b10d4ab17be50d612051cc6747146e57235719e95ccaccbfee0068db873", "byteLength": 4847},
+            {"path": "data/rcap-all50/overlays/census-v1/fl/fl-juvenile-diversion-set--official-pdf-fill/filing-instructions.md", "sha256": "5fad081218be2efab837f61dae24e661a237d8461d4023dd2905d9f878493166", "byteLength": 1948}
+          ]
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "basis": "Current route contract, source form and filing/participant guidance.",
+          "finding": "This is an FDLE agency submission. The current packet and guidance create no court service step, no service certificate and no completed service act.",
+          "evidence": [
+            {"path": "src/lib/legal-authority/routes/route-splits.json", "sha256": "c573d65a64d3922bcffdd402810efa142f44bc8d9389d4e7e8a223ee4105f7df", "byteLength": 127996},
+            {"path": "data/rcap-all50/overlays/census-v1/fl/fl-juvenile-diversion-set--official-pdf-fill/participant-instructions.md", "sha256": "da7f3b10d4ab17be50d612051cc6747146e57235719e95ccaccbfee0068db873", "byteLength": 4847},
+            {"path": "data/rcap-all50/overlays/census-v1/fl/fl-juvenile-diversion-set--official-pdf-fill/filing-instructions.md", "sha256": "5fad081218be2efab837f61dae24e661a237d8461d4023dd2905d9f878493166", "byteLength": 1948}
+          ]
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "basis": "Current route guidance and source eligibility/agency handoff text.",
+          "finding": "The guide tells the participant to stop for refusal by the State Attorney or program to certify and for any immigration matter, preserves FDLE review as an external decision and does not infer eligibility or certification.",
+          "evidence": [
+            {"path": "data/rcap-all50/overlays/census-v1/fl/fl-juvenile-diversion-set--official-pdf-fill/participant-instructions.md", "sha256": "da7f3b10d4ab17be50d612051cc6747146e57235719e95ccaccbfee0068db873", "byteLength": 4847},
+            {"path": "data/rcap-all50/overlays/census-v1/fl/fl-juvenile-diversion-set--official-pdf-fill/filing-instructions.md", "sha256": "5fad081218be2efab837f61dae24e661a237d8461d4023dd2905d9f878493166", "byteLength": 1948},
+            {"path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC2__FL-JUVENILE-DIVERSION-SET__FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION__a3ad1d240cf0.pdf", "sha256": "a3ad1d240cf07092cf1e56fc825b207ec28b89541fb25f012b52356f7774788e", "byteLength": 23990}
+          ]
+        }
+      },
+      "obligationCounts": {
+        "PASS": 14,
+        "NOT_MEASURABLE_HERE": 1,
+        "FAIL": 0,
+        "allMeasured": false
+      },
+      "failedObligationNames": [],
+      "unmeasuredObligations": ["CLIPPING_AND_OVERLAP"],
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": null,
+        "allNonvisualZero": true,
+        "allNineZero": false,
+        "measuredHere": true,
+        "visualMeasuredHere": false
+      },
+      "currentCandidateBindings": {
+        "reviewedHead": "d70e5995ef28155a4baf16edf0f1dc68293522a1",
+        "packetCommitSha": "cd60bf62a2186c46b6e245ade48c744ff189bae9",
+        "rasterFreezeCommitSha": "44fdcd36579de3276e53928eeacc19fce286b43b",
+        "rasterManifest": {
+          "path": "data/rcap-grade-a/packet-factory-24h/fix112/fl-juvenile-diversion-current-raster-manifest-20260912.json",
+          "sha256": "df64e99ff4f0a9494df69e576b44ec4121e7b586525d6171ea815c5d481dc5d1",
+          "byteLength": 2389,
+          "familyBatch": "fl-juvenile-diversion-set",
+          "requestedScale": 2.5,
+          "documentsDigest": "70cf7463dd17960e7848bb178613310029347afdabc51614ecdafe8c9eb6cac2"
+        },
+        "rasterWorkflowPath": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+        "metadata": [
+          {"path": "data/rcap-all50/overlays/census-v1/fl/fl-juvenile-diversion-set--official-pdf-fill/source-receipt.json", "sha256": "d590679744b93af098c5e8f0454ca8b56005bc3ea235fe60cd2bd058725f06b3", "byteLength": 3174},
+          {"path": "data/rcap-all50/overlays/census-v1/fl/fl-juvenile-diversion-set--official-pdf-fill/packet-set-manifest.json", "sha256": "f354aa316d5d617659323928b7ee221d5305f651a161de4fc5d4aef795f0a75c", "byteLength": 803},
+          {"path": "data/rcap-all50/overlays/census-v1/fl/fl-juvenile-diversion-set--official-pdf-fill/product-wiring.json", "sha256": "d02798171e1d0da0e6b630e0dc73e57f4acddac64c9b4290398084ea64189960", "byteLength": 4223},
+          {"path": "data/rcap-all50/overlays/census-v1/fl/fl-juvenile-diversion-set--official-pdf-fill/production-field-map.json", "sha256": "aba85b296014a78d79aca7c5af719de00ddbad73d236cb5788649cbba8aba228", "byteLength": 226793},
+          {"path": "data/rcap-all50/overlays/census-v1/fl/fl-juvenile-diversion-set--official-pdf-fill/reports/actual-writes.json", "sha256": "196ede7ed09eb4a7c1426ff9801e018a5bce56d137cfbfefc899a103a9bfaa14", "byteLength": 72010},
+          {"path": "data/rcap-all50/overlays/census-v1/fl/fl-juvenile-diversion-set--official-pdf-fill/reports/completeness-counters.json", "sha256": "9eaeeb425f51c4bee163df3d4d66d34e8fb8cbaa681151545dbbdf01297e6b36", "byteLength": 757},
+          {"path": "data/rcap-all50/overlays/census-v1/fl/fl-juvenile-diversion-set--official-pdf-fill/reports/rendered-artifacts.json", "sha256": "7a8093a2abeb81c70a79fb264980ac432c663b4a8fe2b6eeb6635db72d4b6dde", "byteLength": 5712},
+          {"path": "data/rcap-all50/overlays/census-v1/fl/fl-juvenile-diversion-set--official-pdf-fill/participant-instructions.md", "sha256": "da7f3b10d4ab17be50d612051cc6747146e57235719e95ccaccbfee0068db873", "byteLength": 4847},
+          {"path": "data/rcap-all50/overlays/census-v1/fl/fl-juvenile-diversion-set--official-pdf-fill/filing-instructions.md", "sha256": "5fad081218be2efab837f61dae24e661a237d8461d4023dd2905d9f878493166", "byteLength": 1948},
+          {"path": "data/rcap-grade-a/packet-factory-24h/pf21/rows-pf21-fl-juvenile-diversion-complete-20260912.json", "sha256": "d4cc578667cc1291c8b77022d4a9dbec597cd385c6515a0df730e1921c865102", "byteLength": 9884}
+        ],
+        "sourceDocuments": [
+          {"documentId": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION", "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC2__FL-JUVENILE-DIVERSION-SET__FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION__a3ad1d240cf0.pdf", "sha256": "a3ad1d240cf07092cf1e56fc825b207ec28b89541fb25f012b52356f7774788e", "byteLength": 23990, "pageCount": 5}
+        ],
+        "currentArtifacts": [
+          {"path": "data/rcap-all50/overlays/census-v1/fl/fl-juvenile-diversion-set--official-pdf-fill/fixtures/canonical.pdf", "sha256": "c63743cb40f515edd7b03a17ec97cb5f05cc770452b2d301953a534f04ace032", "byteLength": 29939, "role": "canonical", "pageCount": 5},
+          {"path": "data/rcap-all50/overlays/census-v1/fl/fl-juvenile-diversion-set--official-pdf-fill/fixtures/boundary.pdf", "sha256": "2391d96cb8a1e51e14fdfdc3ba38c7c3b9f3da564a223392983158a8e18aab8f", "byteLength": 30104, "role": "boundary", "pageCount": 5}
+        ],
+        "documentsDigest": "70cf7463dd17960e7848bb178613310029347afdabc51614ecdafe8c9eb6cac2",
+        "sourceReceipt": {"path": "data/rcap-all50/overlays/census-v1/fl/fl-juvenile-diversion-set--official-pdf-fill/source-receipt.json", "sha256": "d590679744b93af098c5e8f0454ca8b56005bc3ea235fe60cd2bd058725f06b3", "byteLength": 3174},
+        "focusedAudit": {"path": "/tmp/fl-vffl1-focused-audit.json", "sha256": "b4a6ed86d22f2e83e2adf0e0c987375f9b74acbe2345e3cf106e772095eb60d2", "byteLength": 2859},
+        "savedBytePreflight": {"path": "/tmp/fl-pf21-focused-byte-check.json", "sha256": "15b6a0fdb9078ee7dc47086a9fbafc7ea87338bd5019c96cbbdd038e38653515", "byteLength": 1668},
+        "dependencyDeltaFromFrozenReview": {
+          "path": "/tmp/fl-vffl1-dependency-delta.json",
+          "sha256": "1b19ea50d7ecc300718163d873f15b5e345c60ef398992e4c98ca9517db747a4",
+          "byteLength": 10436,
+          "frozenReviewBase": "44fdcd36579de3276e53928eeacc19fce286b43b",
+          "currentReviewHead": "d70e5995ef28155a4baf16edf0f1dc68293522a1",
+          "decision": "FL selected records in shared packet manifest and source identity determinations are equal to the frozen review base; all 18 FL-scoped dependency bytes are equal. The current whole-file shared hashes are recorded separately, so this is an exact per-family comparison rather than a blanket shared-file waiver."
+        }
+      },
+      "byteProof": {
+        "status": "PASS_NONVISUAL",
+        "method": "Independent current source/PDF hash, page/text readback, source-token preservation, actual-write/refusal inspection, route metadata comparison and saved-byte audit.",
+        "checkReport": {"path": "/tmp/fl-vffl1-focused-audit.json", "sha256": "b4a6ed86d22f2e83e2adf0e0c987375f9b74acbe2345e3cf106e772095eb60d2", "byteLength": 2859},
+        "passedChecks": 14,
+        "exactPdfBindings": [
+          {"path": "data/rcap-all50/overlays/census-v1/fl/fl-juvenile-diversion-set--official-pdf-fill/fixtures/canonical.pdf", "sha256": "c63743cb40f515edd7b03a17ec97cb5f05cc770452b2d301953a534f04ace032", "byteLength": 29939, "pageCount": 5},
+          {"path": "data/rcap-all50/overlays/census-v1/fl/fl-juvenile-diversion-set--official-pdf-fill/fixtures/boundary.pdf", "sha256": "2391d96cb8a1e51e14fdfdc3ba38c7c3b9f3da564a223392983158a8e18aab8f", "byteLength": 30104, "pageCount": 5}
+        ],
+        "protectedRefusalInk": 0,
+        "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+      },
+      "actualWriteProof": {
+        "path": "data/rcap-all50/overlays/census-v1/fl/fl-juvenile-diversion-set--official-pdf-fill/reports/actual-writes.json",
+        "sha256": "196ede7ed09eb4a7c1426ff9801e018a5bce56d137cfbfefc899a103a9bfaa14",
+        "byteLength": 72010,
+        "declaredWritesPerFixture": {"canonical": 29, "boundary": 29},
+        "writtenProofEntriesPerFixture": {"canonical": 29, "boundary": 29},
+        "allDeclaredWritesHaveProof": true,
+        "wrongWrittenValues": 0,
+        "protectedInk": 0,
+        "invisibleWrites": 0
+      },
+      "sourceIdentity": {
+        "status": "PASS",
+        "allSourcesExact": true,
+        "sourceReceipt": {"path": "data/rcap-all50/overlays/census-v1/fl/fl-juvenile-diversion-set--official-pdf-fill/source-receipt.json", "sha256": "d590679744b93af098c5e8f0454ca8b56005bc3ea235fe60cd2bd058725f06b3", "byteLength": 3174},
+        "documents": [{"documentId": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION", "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC2__FL-JUVENILE-DIVERSION-SET__FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION__a3ad1d240cf0.pdf", "sha256": "a3ad1d240cf07092cf1e56fc825b207ec28b89541fb25f012b52356f7774788e", "byteLength": 23990, "pageCount": 5, "sha256Exact": true}]
+      },
+      "currentArtifacts": [
+        {"path": "data/rcap-all50/overlays/census-v1/fl/fl-juvenile-diversion-set--official-pdf-fill/fixtures/canonical.pdf", "sha256": "c63743cb40f515edd7b03a17ec97cb5f05cc770452b2d301953a534f04ace032", "byteLength": 29939, "role": "canonical", "pageCount": 5},
+        {"path": "data/rcap-all50/overlays/census-v1/fl/fl-juvenile-diversion-set--official-pdf-fill/fixtures/boundary.pdf", "sha256": "2391d96cb8a1e51e14fdfdc3ba38c7c3b9f3da564a223392983158a8e18aab8f", "byteLength": 30104, "role": "boundary", "pageCount": 5}
+      ],
+      "rasterManifest": {"path": "data/rcap-grade-a/packet-factory-24h/fix112/fl-juvenile-diversion-current-raster-manifest-20260912.json", "sha256": "df64e99ff4f0a9494df69e576b44ec4121e7b586525d6171ea815c5d481dc5d1", "byteLength": 2389, "familyBatch": "fl-juvenile-diversion-set", "requestedScale": 2.5},
+      "rasterWorkflowPath": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+      "rasterDispatchAuthorized": true,
+      "rasterEvidence": {"status": "PENDING", "runId": null, "artifactId": null, "visualPagesMeasured": 0},
+      "finalAcceptance": false,
+      "terminalPromotionAuthorized": false,
+      "unfinishedGates": ["central original raster custody and independent visual acceptance", "native integration/terminal closure"],
+      "independence": {
+        "implementationAuthor": "/root/sd_caption",
+        "implementationEditsByReviewer": false,
+        "sourceBytesEditedByReviewer": false,
+        "packetBytesEditedByReviewer": false,
+        "rasterEditedByReviewer": false,
+        "sharedQueueOrManifestEditedByReviewer": false,
+        "claimLedgerEditedByReviewer": false,
+        "semanticRecordWrittenByReviewer": true,
+        "visualAcceptanceClaimed": false
+      },
+      "executionState": "SEMANTIC_PASS_PENDING_CENTRAL_RASTER"
+    }
+  ]
+}

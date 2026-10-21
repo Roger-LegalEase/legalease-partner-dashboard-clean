@@ -1,0 +1,254 @@
+{
+  "schemaVersion": "rcap-verifier-lane-rows/v1",
+  "lane": "VF01",
+  "laneKind": "independent-verification",
+  "generatedBy": "VF01 independent re-read of wv_conv_nonviolent_felony-set after the FIX06 repair, at base 03093a9234911fe252c05284a9478c00f5995ae8",
+  "whatThisLaneDidNotDo": "Built nothing, repaired nothing, re-rendered nothing, edited no overlay directory, edited no central artifact, dispatched no workflow, released and transferred no claim. The repair under review is FIX06's at a9cbe699c; this lane is not that lane and wrote none of the bytes it measured.",
+  "grantsNothing": "Independent verification approves no output, promotes no route and opens no commercial path.",
+  "rows": [
+    {
+      "itemId": "wv_conv_nonviolent_felony-set",
+      "lane": "VF01",
+      "laneKind": "independent-verification",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "verifiedAtBase": "03093a9234911fe252c05284a9478c00f5995ae8",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/wv/wv-conv-nonviolent-felony-set--official-pdf-fill",
+      "implementationStrategy": "official_pdf_fill",
+      "postRepairReread": true,
+      "firstIndependentRead": false,
+      "repairAuthorWasNotThisLane": "The repair is FIX06 at a9cbe699c, merged and integrated at 03093a923. FIX06 set no verdict and issued no PASS. This lane built nothing here and repaired nothing here; it re-measured the delivered bytes and the delivered guide.",
+      "claimStatus": {
+        "assertedBeforeAnyRead": true,
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF01 'wv_conv_nonviolent_felony-set'",
+        "result": "CLAIM_OK VF01 wv_conv_nonviolent_felony-set (independent-verification, grant set c1e3c6c2bf96cea3)"
+      },
+      "receiptBindsTheBytes": {
+        "recomputedWith": "sha256sum on the two committed fixtures in this worktree at 03093a923",
+        "canonicalSha256": "c3c5edd72b617541bbceaa7ac1c791b0d2f251dde9365a1c8a1c16995dd5edd9",
+        "boundarySha256": "0eb1fbdd0c559bde89cd3d4e595044bb7d17b949d53e9ee8f2a64e1fc5647573",
+        "matchesFix06Report": true,
+        "matchesRasterReceiptBinding": true,
+        "digestsMovedSinceTheRasterWasAdmitted": false,
+        "whatThatMeans": "The RASTER_PASS in raster-runs/admitted/wv_conv_nonviolent_felony-set pins exactly these two digests. The bytes it was admitted against are the bytes delivered at this base, so the existing raster receipt still binds and no re-render is owed. FIX06 changed reports and guide prose only; git confirms the two PDF blobs are unchanged from 6e1083a97 through deead9f2, a9cbe699c and 03093a923.",
+        "pageCounts": {
+          "canonical": 4,
+          "boundary": 4
+        },
+        "rasterRun": "34418960259",
+        "renderedCommitSha": "deead9f250e606887d80837a2f4cb7423d7afa49"
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersHowMeasured": {
+        "knownRequiredFieldsMissing": "0. The map declares 6 canonical writes and the finalizer performed exactly those 6; the set difference is empty in both directions, on both fixtures. Every other field on SCA-C907 is a fact the platform does not hold, and each is individually refused with a reason and disclosed. Measured by joining production-field-map.json canonicalWrites/boundaryWrites against reports/actual-writes.json actualWrites by field name, then confirming each value in the output bytes by pdftotext diff against the pinned source.",
+        "requiredFactsNotCollected": "0. The six facts bound are participant.full_legal_name (twice, caption and verification name line), matter.county, participant.street_address, participant.city_state_zip, participant.phone. All six resolve and all six appear in the delivered text. No bound fact is missing a value.",
+        "unclassifiedBlanks": "0. 72 AcroForm fields in the pinned source (acroFieldCount 72, and I counted 72 widget annotations myself); 6 written and 66 refused. All 66 carry a classification: 47 disposition REQUIRED_BEFORE_FILING, 4 NOT_APPLICABLE_ON_THIS_ROUTE, 7 category signature_or_date_participant_completion, 6 category participant_sworn_narrative_or_legal_election, 2 viewer push buttons. 47+4+7+6+2 = 66, none unclassified.",
+        "incompleteRows": "0. SCA-C907 page 1 carries one real repeating table, four CHARGE:/CASE NO. rows. I resolved each row by geometry from the source widget rects rather than by trusting the AcroForm name suffix: Charge1 y0 478.3 / CaseNo1 477.4, Charge2 458.0 / CaseNo2 457.5, Charge3 438.9 / CaseNo3 438.4, Charge4 418.9 / CaseNo4 420.0 - four bands in descending page order, one CHARGE cell and one CASE NO. cell each. All eight cells are blank in both fixtures, so no row is partially filled and no charge can sit on another charge's line.",
+        "requiredOptionsMissing": "0. All 13 option controls on the instrument are present in the delivered bytes and draw at the Court's own positions (verified below under CLIPPING_AND_OVERLAP). Two options the route DOES determine - the two section 61-11-26a recitals - are refused against a named route condition. The remaining unmade selections are ones the route may not determine: one of the two section 61-11-26 eligibility recitals (a legal conclusion under 61-11-26(p)(5)) and the six sworn yes/no boxes of item i and item m. Every one is now disclosed to the participant by its own label. On the same convention that scores knownRequiredFieldsMissing 0 against 47 disclosed participant blanks, a disclosed selection the route is forbidden to make is not a missing option. The prior VF01 row counted 4 here on a different convention and while three of the four were undisclosed; that disagreement is recorded in recordsThatDisagree rather than reconciled silently.",
+        "requiredComponentsMissing": "0. The committed packet-set manifest declares six required components. Three are official_pdf_fill on SCA-C907 (primary_filing, verification, certificate_of_service) and are delivered as pages 1-2, 3 and 4 of the one instrument the Court publishes as a unit. Three are process_guidance (service_package, attorney_referral_notice, filing_instructions) and are carried in participant-instructions.md, which states that and gives the registry's reason. All six accounted for.",
+        "invisibleWrites": "0. Of 70 flattened widget appearances per fixture, 6 carry text and 64 draw literally nothing - their whole stream is '/Tx BMC BT 0 g 1 0 0 1 1 4.3335 Tm /F0 11 Tf () Tj ET EMC', an empty string. An appearance that carries no text is not an invisible write. I then tested the 6 that DO carry text for invisibility: every one is fill '0 g' (black), Helvetica at 11 pt (7.5 pt on two boundary values), carries no text render mode 3, no white or near-white fill, and sits inside its own BBox and its own official /Rect. None is invisible.",
+        "protectedWrites": "0. None of the 6 writes lands on a protected field. The 7 signature-and-date fields are refused as 'signature or date field; never prefilled by this build'; PetSocSecno is refused by shared semantics on a government identifier; and CertifyName - the certificate-of-service name line, which a name-shaped channel would otherwise bind to participant.full_legal_name - is refused by role BEFORE any name or caption match. Confirmed in the bytes: page 4 carries zero added ink in both fixtures.",
+        "visualDefects": "0. Measured by my own two-directional raster difference, not taken from any build report or prior row: pdftoppm -r 150 -gray on all four pages of the pinned SCA-C907 and of both delivered fixtures, differenced in both directions at threshold 160. Ink added by the build OUTSIDE the six declared write boxes: 0 on every page of both fixtures. Ink present in the source and missing from the delivered page: 0 on pages 2, 3 and 4, and on page 1 exactly one cluster at pdf x418.6-566.4, y769.4-786.2, which is the PrintForm/ResetButton push-button pair (PrintForm's source /Rect is [418.719, 769.14, 490.719, 786.42]). Dropping a viewer control from a paper filing is correct; no printed form text is removed anywhere. Added ink appears only inside the write boxes, on page 1 and page 3, which is where the six values are."
+      },
+      "perArtifactOutputByteGlyphReadings": [
+        {
+          "fixture": "canonical",
+          "sha256": "c3c5edd72b617541bbceaa7ac1c791b0d2f251dde9365a1c8a1c16995dd5edd9",
+          "addedGlyphsReadFromOutputBytes": 110,
+          "addedNonWhitespaceGlyphs": 101,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 70,
+          "flattenedWidgetAppearancesCarryingTextReadFromOutputBytes": 6,
+          "howMeasured": "Content streams inflated with zlib and every '/Name Do' resolved against that page's own XObject resources; independently re-parsed straight from the raw PDF object bytes with a regex parser that does not use pdf-lib. Glyphs decoded from the hex strings in the six appearance streams and counted: 110 characters, 101 non-whitespace. The outside-box figure was then re-derived by raster difference rather than taken from byte classification."
+        },
+        {
+          "fixture": "boundary",
+          "sha256": "0eb1fbdd0c559bde89cd3d4e595044bb7d17b949d53e9ee8f2a64e1fc5647573",
+          "addedGlyphsReadFromOutputBytes": 173,
+          "addedNonWhitespaceGlyphs": 158,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 70,
+          "flattenedWidgetAppearancesCarryingTextReadFromOutputBytes": 6,
+          "howMeasured": "Same two parsers and the same raster difference on the boundary bytes. The long boundary values auto-shrink to 7.5 pt and I confirmed each fits: the 46-character street address measures 174.82 pt in a 191.04 pt box, the phone with extension 83.54 pt in a 92.64 pt box, the 35-character hyphenated name 171.80 pt in a 233.52 pt box. Nothing clipped or truncated."
+        }
+      ],
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "One route key, and it resolves. obligation:track-pathway:WV:wv_conv_nonviolent_felony:eligible-conviction-expungement-under-w-va-code-61-11-26 is carried identically by production-field-map.json routeKeys, product-wiring.json, source-receipt.json, the documentPolicy on the map itself, and the footer of participant-instructions.md. I found it in the committed route-obligation census at routes[582], where trackId is wv_conv_nonviolent_felony, packetSetId is wv_conv_nonviolent_felony-set and participantFacingInstrument names SCA-C907 for primary_filing, verification and certificate_of_service. The census blob digest recomputes to the value the source receipt pins."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Resolved by content digest, not by filename. The pinned form is official-form:SCA-C907, sha256 2a72314146636c4120d87bdfb83f8609e35e9e904eed2f8169bc2375fba30222. I recomputed that digest from the bytes in mounted custody at private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase West Virginia/SCA-C907.pdf and it matches exactly, at 283289 bytes and 4 pages, both as the receipt declares. The three committed records bound as authority also recompute exactly: legal-design-packet-set-manifests.json 80b5e071055469b6f1aa84e80accd9e8bcc15e00ed3b7b778ba48a0ff85d8bd7, legal-design-track-registry.json b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0, and route-obligation-candidate.json f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81 at 2629290 bytes, which I verified out of the git object store because that path is outside this worktree's sparse checkout. Nothing was substituted and no locator page stood in for a form."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Six components declared in the committed manifest and six accounted for in what is delivered. The three official_pdf_fill components - primary_filing, verification, certificate_of_service - all name SCA-C907, because the Supreme Court of Appeals publishes them as one four-page instrument; the delivered packet is that instrument whole, pages 1-2 petition, page 3 verification, page 4 certificate of service. The three process_guidance components are carried in participant-instructions.md rather than as separate PDFs, which the guide states openly and justifies from the track registry. requiredComponentsMissing 0."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Six values, each bound to a fact and each proved present on the page. The map's declared writes and the finalizer's actual writes are the same six fields with no divergence in either direction, on both fixtures. I then read them off the delivered pages rather than off the report: pdftotext -layout of the delivered canonical against pdftotext -layout of the pinned source differs in exactly the six values plus the two dropped viewer buttons, and nothing else. Boundary likewise. The name written on page 3 is the verification's affiant line - the form's own 'I, ______ after making an oath or affirmation to tell the truth' - and not a signature line; every signature line is separately refused."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Nothing protected was written and the protections are the right ones. Seven signature-and-date fields refused as never prefilled; PetSocSecno refused by shared semantics on a government identifier, on a line that asks only for the last four digits after the form's printed 'SSN: XXX-XX-'; and CertifyName, the certificate-of-service name line, refused BY ROLE before any name or caption match - the guide says so in terms, 'the field is also declared unwritable by role, which the finalizer checks before any name or caption match, because it would otherwise bind the petitioner's own name'. That is the exact channel that produced the cross-family defect recorded in DEFECTS_NO_COUNTER_CAN_SEE, and here it is closed. Page 4 carries zero added ink in both fixtures by raster. protectedWrites 0."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "No ink strays, none is removed, and nothing is clipped - proved by raster in both directions rather than by byte classification alone. My own pdftoppm -r 150 -gray renders of all four pages of both fixtures, differenced against a render of the pinned SCA-C907: ink added outside the six declared write boxes is 0 on every page of both fixtures, and ink removed is 0 on pages 2, 3 and 4 and, on page 1, exactly the PrintForm/ResetButton cluster at pdf x418.6-566.4 y769.4-786.2. Geometrically, 69 of the 70 flattened appearances land exactly on their own official widget /Rect once the XObject /Matrix is applied, and none extends beyond the paper. The six text-carrying appearances do not overlap each other and every value fits inside its box with margin, the tightest being the boundary phone-with-extension at 83.54 pt in a 92.64 pt box.",
+          "theDoubledPlacementQuestionAskedExplicitly": "Asked, and answered NO on these bytes. All 13 check-box appearances carry a page-coordinate /BBox placed by a cm whose translate equals that same origin - the shape of the doubled-placement defect - but each also carries /Matrix [1 0 0 1 -Rect.x -Rect.y], which cancels the translate exactly and lands the box on its own /Rect. I confirmed the /Matrix entries are literally present in the raw PDF object bytes with a parser that does not use pdf-lib, so this is not a library default being read back. The raster difference is the independent confirmation: a displaced box would have shown as added ink outside the write boxes and as removed ink at the official position, and both are 0.",
+          "theOneAppearanceThatIsNotOnItsRect": "SCA-C907 page 1 field MulitipleFelonlySatisfiesDate carries an inverted source /Rect [416.16, 95.04, 485.64, 77.76] - negative height, the only such rect in this source. The flatten uses Rect[1] as the placement origin without normalizing, so the appearance sits 17.28 pt high. It marks nothing: its entire stream is an empty '() Tj' with no border and no background, so it contributes no ink and the raster difference sees nothing. The field belongs to the section 61-11-26a recital this route does not use, and participant-instructions.md discloses the quirk in its own words. Not a visual defect here; recorded because the same unnormalized placement is a latent hazard on any source carrying an inverted rect."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All ten of the track registry's selfHelpStopConditions are printed in the guide's 'When to stop and get help' section, verbatim - I string-matched each against the registry bytes. The first of them, that any felony conviction is a referral trigger, is additionally printed in the guide's opening paragraph and again in its closing section, so a participant meets it before any instruction. The two counsel limitations that matter most - that the nonviolent determination and the same-transaction analysis are legal conclusions rather than participant questions - are quoted and are the stated reason the packet ticks no eligibility recital."
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The clerk of the circuit court of the county of conviction, quoted from the record rather than asserted. The guide's 'Where this goes' prints the registry venue verbatim, 'The circuit court in which the conviction or convictions occurred', and then the rules.filing sentence verbatim. The registry destination entry independently names 'Clerk of the circuit court of the county of conviction'. The county the packet writes into the caption is matter.county, the county of conviction, which is the same county the destination turns on."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Five recipients, stated from the record, and nothing on the certificate is prefilled. The guide quotes rules.service verbatim - the petitioner serves the five section 61-11-26(e) recipients, the prosecuting attorney serves identified victims, and on a felony route the institution of confinement is usually a live recipient - and explains that the form prints seven numbered lines because two are conditional. It states plainly that nothing on page 4 is filled in by the platform because a certificate of service certifies a delivery that has not happened yet, and the bytes agree: page 4 carries zero added ink in both fixtures. Every recipient address line, the three delivery-method boxes and the certificate date and name are individually refused and individually disclosed. The 30-day opposition and 30-day reply windows are quoted verbatim from rules.notice."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "THE REPAIRED OBLIGATION, RE-MEASURED AGAINST THE DELIVERED PDF AND THE DELIVERED GUIDE RATHER THAN AGAINST THE REPAIR REPORT. The packet leaves 47 fields classed REQUIRED_BEFORE_FILING. I took each one's disclosureLabel and its participantMustSupply sentence from reports/blanks-left-for-the-participant.json and string-matched both against participant-instructions.md: 47 of 47 labels appear verbatim and 47 of 47 participantMustSupply sentences appear verbatim. Zero missing. In the other direction, no field the packet actually wrote is claimed anywhere as a blank the participant must supply - the intersection of the six written fields with the 47 required-before-filing items and with the 19 protected blanks is empty in both cases. The gap the prior VF01 row failed on is closed and I confirmed it specifically: the three sworn yes/no elections - item i current order, item i prior order, item m prior expungement, six boxes in all - are now named in the guide's 'Things the platform deliberately left blank' list AND set out one by one, with page numbers and with what the participant must do, in the generated blanks table. A participant following this guide is told to make all three.",
+          "theGuidesOwnAccountOfItselfIsTrue": "The guide states 'This packet writes 6 values onto the form and nothing else' and names them. That is exactly what the delivered bytes carry - six text-carrying appearances, 101 non-whitespace glyphs, nothing added outside the six write boxes by raster. The self-description is accurate rather than aspirational.",
+          "everyQuotationChecked": "The 17 items the guide prints as the committed record's own words were string-matched against the manifest and registry bytes, along with the fee, waiver, venue, service, notice, notarization and filing sentences and all ten stop conditions. Every one is present verbatim in a committed record. No filing fee, service rule, deadline, clerk practice, signature, notarization or approval is invented."
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "THE OTHER REPAIRED OBLIGATION, AND BOTH NUMBERS AND THE REASONING BEHIND THEM CHECK OUT AGAINST THE OUTPUT BYTES. reports/actual-writes.json now publishes flattenedWidgetAppearancesReadFromOutputBytes 70 with a sibling flattenedWidgetAppearancesCarryingTextReadFromOutputBytes 6, in place of the literal 0 the prior VF01 row failed. I measured both myself, twice, with two parsers that share no code: inflate every page content stream and resolve every '/Name Do' against that page's own XObject resources, and separately re-parse the raw PDF object bytes with a regex parser using no PDF library. Both give 70 placements, 6 carrying text and 64 whose entire stream is an empty '() Tj'. 70 is also exactly right structurally: the pinned source carries 72 AcroForm fields and I counted 72 widget annotations in it, of which two are the PrintForm and ResetButton push buttons that flattening drops, leaving 70. Same three numbers on the boundary fixture.",
+          "theReasoningTested": "FIX06's stated reason for summing invisibleWrites over the carrying-text subset only - that 'the raw 70 would let 64 empty appearances certify a packet that drew nothing' - is correct on these bytes and I confirmed the premise rather than accepting it: the 64 non-carrying appearances draw no marks at all, no glyph, no border, no background, so counting them as writes would let a packet that wrote nothing report 70. The complementary trap is the one that matters more and I tested it separately: an appearance carrying text nobody can see IS an invisible write, so I read all six text-carrying streams for render mode 3 and for white or near-white fill and found neither - all six are '0 g' black Helvetica inside their own official rects. invisibleWrites 0 is the measured answer, not a default.",
+          "glyphCountsIndependentlyDerived": "addedGlyphs 101 on canonical is the non-whitespace character count of the six values I decoded from the appearance hex strings, and 158 on boundary likewise; both match what the report publishes. The published nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: 0 was NOT taken on trust - the brief warns that this counter can read zero with a defect present because stray ink draws at a census widget's own rect - so I re-derived it by raster difference against the pinned source, which is a measurement that does not depend on the write-box definition at all, and it is 0 in both fixtures on all four pages."
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Four pages, in the Court's order, one document. I compared each delivered page's text against the same page of the pinned source: packet page 1 is source page 1 (caption and charge table), page 2 is source page 2 (items d through l), page 3 is source page 3 (item m and the verification), page 4 is source page 4 (certificate of service). The form's own printed footers read Page 1 of 4 through Page 4 of 4 in sequence on the delivered pages. The rendered-artifacts pageManifest declares the same 1:1 mapping to SCA-C907 pages 1-4 under the pinned source digest, and the bytes bear it out. No page is duplicated, reordered, dropped or composed."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The route's options are handled correctly and, on these bytes, the participant has a box to tick for every one of them. SCA-C907 serves both section 61-11-26 and section 61-11-26a and prints four eligibility recitals. The two that belong to section 61-11-26a - SingleSatisfiedCB and MultilpleSatisfiedCB with their completion-date fields - are refused as NOT_APPLICABLE_ON_THIS_ROUTE against a condition named from the form's own printed text and from the track registry's own words about the 61-11-26a three-year branch. The two that belong to section 61-11-26 are left unticked for the participant and their lawyer, because section 61-11-26(p)(5) makes two of the four limbs of 'nonviolent felony' express findings of the circuit court and the registry records the same-transaction question as a legal conclusion and a stop condition. Refusing to swear a legal conclusion is correct option behaviour, and it is disclosed three times over in the guide rather than left silent. The six sworn item i and item m elections and the three delivery-method boxes are likewise left and likewise disclosed.",
+          "theControlsThemselvesWereChecked": "This is where a prior sibling row recorded a FAIL, so I did not take presence on faith. All 13 check-box controls exist in the delivered bytes, and all 13 draw at the Court's own positions - verified by /Matrix arithmetic on the raw object bytes and confirmed by a raster difference showing zero added ink outside the write boxes and zero removed ink on pages 2, 3 and 4. The participant can tick every option this route asks them to elect."
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "There is a real repeating table here, so this is a measurement and not a not-applicable. SCA-C907 page 1 carries a four-row CHARGE:/CASE NO. table. The brief's warning that an AcroForm index is not a printed row number applies directly, and the source's field array is in fact jumbled - it lists CaseNo1, Charge2, CaseNo2, Charge3, CaseNo3, Charge4, CaseNo4 and only much later Charge1 - so I resolved every row by geometry from the widget rects instead: Charge1 y0 478.3 with CaseNo1 477.4, Charge2 458.0 with CaseNo2 457.5, Charge3 438.9 with CaseNo3 438.4, Charge4 418.9 with CaseNo4 420.0. Four horizontal bands in descending page order, each with exactly one CHARGE cell and one CASE NO. cell; no cell matches none or more than one row, and the name suffix agrees with the printed position in every case. The page prints no row numbers of its own, so there is no printed number for an index to contradict. All eight cells are blank on this route and all eight are individually disclosed by row number in the guide, so no charge can land on another charge's line."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Both figures and the absence of a waiver are quoted from the committed record, not invented. The guide prints rules.fees verbatim - the circuit clerk charges the section 59-1-11(a)(1) civil-action fee, which the official text sets at $200, and $100 is paid to the records division of the West Virginia State Police on grant under section 61-11-26(n) - and separates the two correctly: the $200 is due at filing, the $100 only if the court grants. It then prints rules.feeWaiver verbatim, 'none under section 61-11-26. The $100 State Police fee is waived only on a section 61-11-26a petition', and says in its own voice that this packet carries no waiver form because the record says none exists here, while telling the participant to ask the clerk what it will accept if they cannot pay. I string-matched both sentences against the track registry bytes and both are present exactly. No fee, waiver or clerk practice is fabricated."
+        }
+      },
+      "crossChecks": {
+        "DEFECTS_NO_COUNTER_CAN_SEE": "Every entry checked deliberately against these bytes. 'map-honest-writes-not' is recorded in that registry as foundBy PF04 on THIS family - the build writing a legal name onto both lines of 'current name, previous names, and all aliases' and the current address onto both lines of 'all addresses since the offense' on a notarised petition. NOT PRESENT in the delivered bytes: PetitionersCurrentName1, PetitionersCurrentName2, PetitionersOffenseAddress1 and PetitionersOffenseAddress2 are all four refused as REQUIRED_BEFORE_FILING in both fixtures, the map's declared writes and the finalizer's actual writes are identical six-field sets with zero divergence, and my pdftotext diff against the pinned source shows those lines blank on the delivered page. The gate PF04 added is doing its job. 'a-participant-fact-written-into-a-field-about-someone-else' - not present; five distinct participant facts are written and every one lands in a field about the petitioner. 'acroform-index-is-not-the-printed-row' - measured on a real four-row table by geometry against a deliberately jumbled field array; not present. 'extracted-line-order-is-not-column-order' - the page-1 DOB triple is precisely this shape, its three widgets being NAMED Day, Month, Year left to right against the usual American order, and the build refuses all three and tells the participant to ask the clerk rather than guessing. 'internal-record-text-printed-on-a-filing' - not present; the delivered pages differ from the pinned source by the six values only, so no record analysis is recited on the filing. 'a-published-zero-where-a-measurement-existed' - this was the ARTIFACTS failure and it is repaired; the zero is now a measured 70 and I reproduced it. 'a-geometry-counter-with-no-teeth' - the published nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: 0 was re-derived by raster difference, which does not depend on the write-box definition, and it holds.",
+        "CLONED_FAMILY_PACKETS": "wv_conv_nonviolent_felony-set appears nowhere in that record - not under clonedDeliverables, not under nearClones, not under sharedDocuments. Its two West Virginia conviction siblings, wv_conv_single_misdemeanor-set and wv_conv_multiple_misdemeanors-set, are built on different official forms and are recorded there as correct and distinct. No two-families-one-filing question arises.",
+        "DOUBLED_WIDGET_PLACEMENT": "Checked, and this is where a committed central record and the delivered bytes disagree. See recordsThatDisagree.",
+        "theSiblingFindingsCarriedIn": "Both prior FAIL rows on this family were read before I formed a view, and both were tested against the bytes rather than assumed stale. The prior VF01 row's two findings are repaired. The VF08 row's two findings are not reproducible on these bytes and the history explains why."
+      },
+      "recordsThatDisagree": [
+        {
+          "what": "whether this family's flattened check-box appearances carry a compensating /Matrix",
+          "centralRecordSays": "data/rcap-grade-a/packet-factory-24h/DOUBLED_WIDGET_PLACEMENT.json, in its CORRECTION_2026-09-09 block, names 'ONE family: wv_conv_nonviolent_felony-set, whose flattened checkbox XObjects carry NO /Matrix at all', and its theCorrectedMeasurement table records wv-conv-nonviolent-felony-set--official-pdf-fill as doubledAfterReadingMatrix 26, correctedByMatrix 0.",
+          "theDeliveredBytesSay": "All 13 non-origin-BBox form XObjects in the canonical fixture, and all 13 in the boundary fixture, carry /Matrix [1 0 0 1 -Rect.x -Rect.y] literally present in their raw object bytes - obj 129, 133, 136, 139, 226, 229, 232, 235, 262, 265, 304, 307, 310 in canonical. doubledAfterReadingMatrix is 0 and correctedByMatrix is 13 per fixture.",
+          "whatThisLaneMeasuredAgainst": "the delivered bytes, read twice with independent parsers and then confirmed by a two-directional raster difference that shows zero ink added outside the write boxes and zero ink removed on pages 2, 3 and 4.",
+          "whyTheRecordsDisagree": "git explains it and the record is simply stale rather than wrong when written. The defect was real: at 892fc4313 the same 13 XObjects carried NO /Matrix, which I verified by extracting that blob and re-parsing it. Commit 6e1083a97, 'Thirteen West Virginia checkboxes come back onto their own controls', added the /Matrix entries and moved canonical.pdf from bc0ee71288e77b08 to c3c5edd72b617541. Every later commit - deead9f2, a9cbe699c, 03093a923 - carries the repaired bytes unchanged. DOUBLED_WIDGET_PLACEMENT.json was never updated after that repair, so a central record still describes this family as the sole remaining blast radius of a defect its bytes no longer carry. Recorded, not reconciled, and not edited - that file has one writer and it is not this lane."
+        },
+        {
+          "what": "the VF08 FAIL on CLIPPING_AND_OVERLAP and ROUTE_OPTIONS",
+          "committedRowSays": "VERIFIER_RETURNS.json rows[1104] records lane vf08, verdict FAIL_REPAIR_REQUIRED at base b8a2495f, with 13 displaced checkboxes, ten landing on printed official text, four off the page, and requiredOptionsMissing 11 / visualDefects 13.",
+          "theDeliveredBytesSay": "Not reproducible at 03093a923. All 13 check boxes draw on their own official rects and the raster difference finds zero stray and zero removed ink outside the viewer buttons.",
+          "whatThisLaneMeasuredAgainst": "the delivered bytes. The VF08 row was accurate against the bytes it read, which predate 6e1083a97; the row is already flagged superseded: true in VERIFIER_RETURNS.json, which is consistent with what I measured. Its stated root cause - reading the placement translate and the BBox lower-left without reading the XObject's /Matrix - is the same analysis error the Captain's own CORRECTION block records and credits VF09 with catching."
+        },
+        {
+          "what": "how the same 66 blanks are classified",
+          "fieldMapSays": "production-field-map.json gives every refusal a disposition: 47 REQUIRED_BEFORE_FILING, 4 NOT_APPLICABLE_ON_THIS_ROUTE, plus 7 signature-or-date, 6 sworn-assertion-or-legal-election and 2 viewer push buttons carried as categories. requiredBeforeFilingCount is 47 and reports/blanks-left-for-the-participant.json lists 47 with 19 protected blanks.",
+          "completenessCountersSay": "reports/completeness-counters.json blankDispositions gives 43 REQUIRED_BEFORE_FILING, 8 NOT_APPLICABLE_ON_THIS_ROUTE, 6 PARTICIPANT_ELECTION_GENUINE, 7 PROTECTED_FIELD and 2 LATER_COMPLETION - and LATER_COMPLETION appears nowhere in the field map at all.",
+          "whatThisLaneMeasuredAgainst": "the field map and the blanks report, because they name each blank individually while the counters record only totals. Both partitions sum to 66 and both leave every blank classified, so unclassifiedBlanks is 0 on either reading. Four blanks are binned differently between the two records, and the disclosure direction is the safe one: the guide discloses all 47, a superset of the counters' 43, so no blank goes undisclosed on either reading. Recorded, not reconciled. This is the same disagreement the prior VF01 row recorded, and it is unchanged by the repair."
+        },
+        {
+          "what": "the count of required option selections left unmade",
+          "priorVf01RowSays": "requiredOptionsMissing 4, counting one section 61-11-26 eligibility recital plus the three sworn yes/no elections, on the reasoning that three of the four were not disclosed as blanks to complete.",
+          "thisRowSays": "requiredOptionsMissing 0, because after the repair every one of them is disclosed by its own label, and on the same convention that scores knownRequiredFieldsMissing 0 against 47 disclosed participant blanks, a disclosed selection the route is forbidden to make is not a missing option.",
+          "whatThisLaneMeasuredAgainst": "the delivered bytes and the delivered guide. The underlying facts are identical between the two rows - the same four selections are unmade in the bytes - and only the convention differs. Stated explicitly rather than changed silently, so the two rows remain comparable."
+        },
+        {
+          "what": "the size of the requiredBeforeFiling list the guide prints as the record's own words",
+          "guideAndSourceReceiptSay": "seventeen items",
+          "manifestSays": "nineteen participantActionRequired entries",
+          "whatThisLaneMeasuredAgainst": "the manifest bytes. All nineteen reach the guide verbatim; two are printed in other sections rather than inside the seventeen-bullet list, so nothing is withheld. Same finding as the prior VF01 row."
+        },
+        {
+          "what": "MASTER_QUEUE state versus what this read found",
+          "queueSays": "families[340] state FAIL_REPAIR_REQUIRED",
+          "theDeliveredBytesSay": "Both failed obligations are repaired and all fifteen now measure PASS at 03093a923.",
+          "whatThisLaneMeasuredAgainst": "the delivered bytes. The queue row is a summary that predates this read; updating it is the Captain's, not this lane's. Recorded so the state change is visible and attributable."
+        }
+      ],
+      "evidenceRead": [
+        "data/rcap-all50/overlays/census-v1/wv/wv-conv-nonviolent-felony-set--official-pdf-fill/fixtures/canonical.pdf",
+        "data/rcap-all50/overlays/census-v1/wv/wv-conv-nonviolent-felony-set--official-pdf-fill/fixtures/boundary.pdf",
+        "data/rcap-all50/overlays/census-v1/wv/wv-conv-nonviolent-felony-set--official-pdf-fill/participant-instructions.md",
+        "data/rcap-all50/overlays/census-v1/wv/wv-conv-nonviolent-felony-set--official-pdf-fill/production-field-map.json",
+        "data/rcap-all50/overlays/census-v1/wv/wv-conv-nonviolent-felony-set--official-pdf-fill/reports/actual-writes.json",
+        "data/rcap-all50/overlays/census-v1/wv/wv-conv-nonviolent-felony-set--official-pdf-fill/reports/blanks-left-for-the-participant.json",
+        "data/rcap-all50/overlays/census-v1/wv/wv-conv-nonviolent-felony-set--official-pdf-fill/reports/completeness-counters.json",
+        "data/rcap-all50/overlays/census-v1/wv/wv-conv-nonviolent-felony-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "data/rcap-all50/overlays/census-v1/wv/wv-conv-nonviolent-felony-set--official-pdf-fill/source-receipt.json",
+        "data/rcap-all50/overlays/census-v1/wv/wv-conv-nonviolent-felony-set--official-pdf-fill/build-status.json",
+        "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase West Virginia/SCA-C907.pdf",
+        "data/record-clearing/legal-design-packet-set-manifests.json",
+        "data/record-clearing/legal-design-track-registry.json",
+        "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json (read from the git object store; outside this sparse checkout)",
+        "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/wv_conv_nonviolent_felony-set/wv_conv_nonviolent_felony-set.verdict.json",
+        "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/wv_conv_nonviolent_felony-set/admission-proof.json",
+        "data/rcap-grade-a/packet-factory-24h/DEFECTS_NO_COUNTER_CAN_SEE.json",
+        "data/rcap-grade-a/packet-factory-24h/CLONED_FAMILY_PACKETS.json",
+        "data/rcap-grade-a/packet-factory-24h/DOUBLED_WIDGET_PLACEMENT.json",
+        "data/rcap-grade-a/packet-factory-24h/VERIFIER_RETURNS.json rows[1103] and rows[1104]",
+        "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260910b.json",
+        "data/rcap-grade-a/packet-factory-24h/vf08/rows-vf08-20260909d.json",
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json families[340]",
+        "git blob 892fc4313:.../fixtures/canonical.pdf (the pre-repair bytes, extracted to confirm the defect was real)"
+      ],
+      "toolsRun": [
+        "sha256sum on both delivered fixtures, on the pinned SCA-C907 in mounted custody, and on the two committed records that are checked out",
+        "git cat-file blob | sha256sum for the route-obligation census, which is outside this worktree's sparse checkout",
+        "a Node/pdf-lib reader that inflates every page content stream, resolves every '/Name Do' against that page's own XObject resources, and reads each appearance's BBox, Matrix, fill colour, text render mode, font size and decoded text",
+        "an independent Python regex parser over the raw PDF object bytes, using no PDF library, to confirm the /BBox and /Matrix entries are literally present rather than library defaults",
+        "pdf-lib StandardFonts Helvetica widthOfTextAtSize to prove each of the 12 written values fits inside its own widget box",
+        "pdftotext -layout on the pinned source and on both fixtures, whole-document and page by page, to diff delivered pages against the pinned source",
+        "pdftoppm -r 150 -gray -png on the pinned source and both fixtures, differenced in both directions with numpy/PIL at threshold 160, inside and outside the six declared write boxes",
+        "pdfinfo on the pinned source to confirm 4 pages, letter, not encrypted"
+      ],
+      "visualDefects": [],
+      "failedObligationNames": [],
+      "grantsNothing": "This row is a measurement of delivered bytes at one commit. An independent PASS proves this packet complete against its own controlling records and nothing more: it approves no output for participant delivery, promotes no route, opens no commercial path, creates no fulfillment record, and does not lift the counsel review, output review, visual review or release blockers the track registry still carries on this track."
+    }
+  ]
+}

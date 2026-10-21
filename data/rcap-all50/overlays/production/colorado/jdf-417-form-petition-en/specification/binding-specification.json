@@ -1,0 +1,2574 @@
+{
+  "documentId": "JDF-417",
+  "documentRole": "PETITION",
+  "family": "jdf-417-form-petition-en",
+  "fieldCount": 62,
+  "fields": [
+    {
+      "anchors": [
+        {
+          "page": 1,
+          "rect": {
+            "height": 18,
+            "width": 61.98,
+            "x": 181.1,
+            "y": 696.25
+          }
+        }
+      ],
+      "condition": null,
+      "control": "dropdown",
+      "factId": "derived.document_role_title",
+      "field": "Title",
+      "fieldClass": "derived",
+      "label": "Petition or Motion",
+      "labelEvidence": "Petitionto Seal Arrest and Criminal Records",
+      "maxLength": null,
+      "multiline": false,
+      "negativeValue": null,
+      "options": [
+        {
+          "anchor": {
+            "page": 1,
+            "rect": {
+              "height": 18,
+              "width": 61.98,
+              "x": 181.1,
+              "y": 696.25
+            }
+          },
+          "label": "Petition",
+          "ordinal": 0,
+          "selectsWhenFactEquals": "Petition"
+        }
+      ],
+      "protectedCategory": null,
+      "rationale": "The heading selector. Its value is the role the document's own source record gives it, PETITION, not a choice the participant makes.",
+      "repeatIndex": null,
+      "requiredInCanonicalFixture": true,
+      "section": "A. Court — heading"
+    },
+    {
+      "anchors": [
+        {
+          "page": 1,
+          "rect": {
+            "height": 12.24,
+            "width": 148.8,
+            "x": 207.6,
+            "y": 643.87
+          }
+        }
+      ],
+      "condition": null,
+      "control": "dropdown",
+      "factId": "matter.court_type",
+      "field": "Dropdown1",
+      "fieldClass": "election_control",
+      "label": "Type: (ex: County or District)",
+      "labelEvidence": "Type: (ex: County or District) ⟂ A.Court",
+      "maxLength": null,
+      "multiline": false,
+      "negativeValue": null,
+      "options": [
+        {
+          "anchor": {
+            "page": 1,
+            "rect": {
+              "height": 12.24,
+              "width": 148.8,
+              "x": 207.6,
+              "y": 643.87
+            }
+          },
+          "label": "County Court",
+          "ordinal": 0,
+          "selectsWhenFactEquals": "county"
+        },
+        {
+          "anchor": {
+            "page": 1,
+            "rect": {
+              "height": 12.24,
+              "width": 148.8,
+              "x": 207.6,
+              "y": 643.87
+            }
+          },
+          "label": "District Court",
+          "ordinal": 1,
+          "selectsWhenFactEquals": "district"
+        }
+      ],
+      "protectedCategory": null,
+      "rationale": "Which Colorado trial court the arrest records sit in.",
+      "repeatIndex": null,
+      "requiredInCanonicalFixture": true,
+      "section": "A. Court"
+    },
+    {
+      "anchors": [
+        {
+          "page": 1,
+          "rect": {
+            "height": 12.24,
+            "width": 193.64,
+            "x": 162.76,
+            "y": 628.4
+          }
+        }
+      ],
+      "condition": null,
+      "control": "text",
+      "factId": "matter.county",
+      "field": "County",
+      "fieldClass": "participant",
+      "label": "Colorado County:",
+      "labelEvidence": "Colorado County:Denver ⟂ Type: (ex: County or District)",
+      "maxLength": null,
+      "multiline": false,
+      "negativeValue": null,
+      "options": [],
+      "protectedCategory": null,
+      "rationale": "The county whose court the petition is filed in.",
+      "repeatIndex": null,
+      "requiredInCanonicalFixture": true,
+      "section": "A. Court"
+    },
+    {
+      "anchors": [
+        {
+          "page": 1,
+          "rect": {
+            "height": 33.95,
+            "width": 198.11,
+            "x": 158.29,
+            "y": 592.79
+          }
+        }
+      ],
+      "condition": null,
+      "control": "text",
+      "factId": "filing.court_address",
+      "field": "Court Address",
+      "fieldClass": "participant",
+      "label": "Court Address:",
+      "labelEvidence": "Court Address: ⟂ Colorado County:Denver",
+      "maxLength": null,
+      "multiline": true,
+      "negativeValue": null,
+      "options": [],
+      "protectedCategory": null,
+      "rationale": "The filing destination: the street address of the court the petition goes to. Given its own fact id so it can never be reached through a participant address descriptor, which is how the earlier binder mis-read it and why review withheld it.",
+      "repeatIndex": null,
+      "requiredInCanonicalFixture": true,
+      "section": "A. Court"
+    },
+    {
+      "anchors": [
+        {
+          "page": 1,
+          "rect": {
+            "height": 12.24,
+            "width": 162.07,
+            "x": 194.33,
+            "y": 535.19
+          }
+        }
+      ],
+      "condition": null,
+      "control": "text",
+      "factId": "person_in_interest.full_legal_name",
+      "field": "∆",
+      "fieldClass": "participant",
+      "label": "Petitioner (or Defendant):",
+      "labelEvidence": "Petitioner (or Defendant): C.Case Details ⟂ This box is for court use only.",
+      "maxLength": null,
+      "multiline": false,
+      "negativeValue": null,
+      "options": [],
+      "protectedCategory": null,
+      "rationale": "The caption party: the person whose criminal justice records are the subject of the petition, who is not always the person filing it.",
+      "repeatIndex": null,
+      "requiredInCanonicalFixture": true,
+      "section": "B. Parties to the Case"
+    },
+    {
+      "anchors": [
+        {
+          "page": 1,
+          "rect": {
+            "height": 12.24,
+            "width": 120.71,
+            "x": 419.29,
+            "y": 520.02
+          }
+        }
+      ],
+      "condition": null,
+      "control": "text",
+      "factId": "matter.case_number",
+      "field": "Case Number",
+      "fieldClass": "participant",
+      "label": "Number:",
+      "labelEvidence": "Number:2023CR004182 ⟂ Petitioner (or Defendant): C.Case Details",
+      "maxLength": null,
+      "multiline": false,
+      "negativeValue": null,
+      "options": [],
+      "protectedCategory": null,
+      "rationale": "The existing case number the records sit under.",
+      "repeatIndex": null,
+      "requiredInCanonicalFixture": true,
+      "section": "C. Case Details"
+    },
+    {
+      "anchors": [
+        {
+          "page": 1,
+          "rect": {
+            "height": 12.24,
+            "width": 75,
+            "x": 465,
+            "y": 504.32
+          }
+        }
+      ],
+      "condition": null,
+      "control": "text",
+      "factId": "matter.division_or_courtroom",
+      "field": "D/C",
+      "fieldClass": "participant",
+      "label": "Division/Courtroom:",
+      "labelEvidence": "Division/Courtroom: ⟂ Number:2023CR004182",
+      "maxLength": null,
+      "multiline": false,
+      "negativeValue": null,
+      "options": [],
+      "protectedCategory": null,
+      "rationale": "The division or courtroom already assigned to the case. Copied from the participant's own case record; blank when they do not have it.",
+      "repeatIndex": null,
+      "requiredInCanonicalFixture": false,
+      "section": "C. Case Details"
+    },
+    {
+      "anchors": [
+        {
+          "page": 1,
+          "rect": {
+            "height": 15.12,
+            "width": 252.33,
+            "x": 138.2,
+            "y": 447.25
+          }
+        },
+        {
+          "page": 3,
+          "rect": {
+            "height": 15.12,
+            "width": 252.33,
+            "x": 186.34,
+            "y": 390.52
+          }
+        }
+      ],
+      "condition": null,
+      "control": "text",
+      "factId": "participant.full_legal_name",
+      "field": "1.1",
+      "fieldClass": "participant",
+      "label": "Name",
+      "labelEvidence": "NameDate of Birth: ⟂ 1.My Information ‖ Print Your Name: ⟂ I listed above, pursuant to C.R.S. § 24-72-704(1)(c)(II).",
+      "maxLength": null,
+      "multiline": false,
+      "negativeValue": null,
+      "options": [],
+      "protectedCategory": null,
+      "rationale": "The filer's name. The same field is drawn again on page 3 as 'Print Your Name', so one binding fills both; a printed name is not a signature.",
+      "repeatIndex": null,
+      "requiredInCanonicalFixture": true,
+      "section": "1. My Information"
+    },
+    {
+      "anchors": [
+        {
+          "page": 1,
+          "rect": {
+            "height": 15.12,
+            "width": 83.09,
+            "x": 456.91,
+            "y": 447.63
+          }
+        }
+      ],
+      "condition": null,
+      "control": "text",
+      "factId": "participant.date_of_birth",
+      "field": "1.2",
+      "fieldClass": "participant",
+      "label": "Date of Birth:",
+      "labelEvidence": "NameDate of Birth: ⟂ 1.My Information",
+      "maxLength": null,
+      "multiline": false,
+      "negativeValue": null,
+      "options": [],
+      "protectedCategory": null,
+      "rationale": "The filer's date of birth.",
+      "repeatIndex": null,
+      "requiredInCanonicalFixture": true,
+      "section": "1. My Information"
+    },
+    {
+      "anchors": [
+        {
+          "page": 1,
+          "rect": {
+            "height": 15.12,
+            "width": 317.22,
+            "x": 183.94,
+            "y": 430.16
+          }
+        }
+      ],
+      "condition": null,
+      "control": "text",
+      "factId": "participant.street_address",
+      "field": "∆ Street Address",
+      "fieldClass": "participant",
+      "label": "Mailing Address:",
+      "labelEvidence": "Mailing Address:418 Sycamore Ridge Road ⟂ NameDate of Birth:",
+      "maxLength": null,
+      "multiline": false,
+      "negativeValue": null,
+      "options": [],
+      "protectedCategory": null,
+      "rationale": "The filer's mailing street address.",
+      "repeatIndex": null,
+      "requiredInCanonicalFixture": true,
+      "section": "1. My Information"
+    },
+    {
+      "anchors": [
+        {
+          "page": 1,
+          "rect": {
+            "height": 15.12,
+            "width": 262.62,
+            "x": 223.05,
+            "y": 413.1
+          }
+        }
+      ],
+      "condition": null,
+      "control": "text",
+      "factId": "participant.city_state_zip",
+      "field": "∆ City",
+      "fieldClass": "participant",
+      "label": "City, State, & Zip:",
+      "labelEvidence": "City, State, & Zip: Denver ⟂ Mailing Address:418 Sycamore Ridge Road",
+      "maxLength": null,
+      "multiline": false,
+      "negativeValue": null,
+      "options": [],
+      "protectedCategory": null,
+      "rationale": "The label asks for city, state and ZIP together and the widget is drawn 263 points wide to hold all three. The earlier binding wrote the city alone, which left a filed address without a state or a ZIP.",
+      "repeatIndex": null,
+      "requiredInCanonicalFixture": true,
+      "section": "1. My Information"
+    },
+    {
+      "anchors": [
+        {
+          "page": 1,
+          "rect": {
+            "height": 15.12,
+            "width": 182.63,
+            "x": 141.37,
+            "y": 395.48
+          }
+        }
+      ],
+      "condition": null,
+      "control": "text",
+      "factId": "participant.phone",
+      "field": "1.5",
+      "fieldClass": "participant",
+      "label": "Phone:",
+      "labelEvidence": "Phone: ⟂ City, State, & Zip: Denver",
+      "maxLength": null,
+      "multiline": false,
+      "negativeValue": null,
+      "options": [],
+      "protectedCategory": null,
+      "rationale": "The filer's telephone number.",
+      "repeatIndex": null,
+      "requiredInCanonicalFixture": true,
+      "section": "1. My Information"
+    },
+    {
+      "anchors": [
+        {
+          "page": 1,
+          "rect": {
+            "height": 15.12,
+            "width": 258.67,
+            "x": 137.33,
+            "y": 378.5
+          }
+        }
+      ],
+      "condition": null,
+      "control": "text",
+      "factId": "participant.email",
+      "field": "1.6",
+      "fieldClass": "participant",
+      "label": "Email:",
+      "labelEvidence": "Email: ⟂ Phone:",
+      "maxLength": null,
+      "multiline": false,
+      "negativeValue": null,
+      "options": [],
+      "protectedCategory": null,
+      "rationale": "The filer's email address.",
+      "repeatIndex": null,
+      "requiredInCanonicalFixture": true,
+      "section": "1. My Information"
+    },
+    {
+      "anchors": [
+        {
+          "page": 1,
+          "rect": {
+            "height": 13.68,
+            "width": 13.68,
+            "x": 268.8,
+            "y": 356.5
+          }
+        },
+        {
+          "page": 1,
+          "rect": {
+            "height": 13.68,
+            "width": 13.68,
+            "x": 313.88,
+            "y": 356.62
+          }
+        }
+      ],
+      "condition": null,
+      "control": "radio",
+      "factId": "election.interpreter_needed",
+      "field": "Group1.7",
+      "fieldClass": "election_control",
+      "label": "Do you need an interpreter?",
+      "labelEvidence": "Do you need an interpreter? No Yes, in (language) ⟂ Email:",
+      "maxLength": null,
+      "multiline": false,
+      "negativeValue": null,
+      "options": [
+        {
+          "anchor": {
+            "page": 1,
+            "rect": {
+              "height": 13.68,
+              "width": 13.68,
+              "x": 268.8,
+              "y": 356.5
+            }
+          },
+          "label": "No",
+          "ordinal": 0,
+          "selectsWhenFactEquals": "no"
+        },
+        {
+          "anchor": {
+            "page": 1,
+            "rect": {
+              "height": 13.68,
+              "width": 13.68,
+              "x": 313.88,
+              "y": 356.62
+            }
+          },
+          "label": "Yes, in (language)",
+          "ordinal": 1,
+          "selectsWhenFactEquals": "yes"
+        }
+      ],
+      "protectedCategory": null,
+      "rationale": "An access election the participant makes. The 'No' widget is drawn to the left of 'Yes', so the options are pinned in the order the page prints them.",
+      "repeatIndex": null,
+      "requiredInCanonicalFixture": true,
+      "section": "1. My Information"
+    },
+    {
+      "anchors": [
+        {
+          "page": 1,
+          "rect": {
+            "height": 15.12,
+            "width": 131.3,
+            "x": 408.7,
+            "y": 355.6
+          }
+        }
+      ],
+      "condition": {
+        "equals": "yes",
+        "factId": "election.interpreter_needed"
+      },
+      "control": "text",
+      "factId": "election.interpreter_language",
+      "field": "1.8",
+      "fieldClass": "participant",
+      "label": "Yes, in (language)",
+      "labelEvidence": "Do you need an interpreter? No Yes, in (language) ⟂ Email:",
+      "maxLength": null,
+      "multiline": false,
+      "negativeValue": null,
+      "options": [],
+      "protectedCategory": null,
+      "rationale": "The language requested. Written only when the interpreter election is yes, so a language can never appear beside an unticked box.",
+      "repeatIndex": null,
+      "requiredInCanonicalFixture": false,
+      "section": "1. My Information"
+    },
+    {
+      "anchors": [
+        {
+          "page": 1,
+          "rect": {
+            "height": 13.68,
+            "width": 13.68,
+            "x": 268.65,
+            "y": 333.25
+          }
+        },
+        {
+          "page": 1,
+          "rect": {
+            "height": 13.68,
+            "width": 13.68,
+            "x": 358.69,
+            "y": 333.14
+          }
+        }
+      ],
+      "condition": null,
+      "control": "radio",
+      "factId": "election.appearance_mode",
+      "field": "Group1.9",
+      "fieldClass": "election_control",
+      "label": "I want to attend court events:",
+      "labelEvidence": "I want to attend court events: In-person Virtually (by phone or web video) ⟂ Do you need an interpreter? No Yes, in (language)",
+      "maxLength": null,
+      "multiline": false,
+      "negativeValue": null,
+      "options": [
+        {
+          "anchor": {
+            "page": 1,
+            "rect": {
+              "height": 13.68,
+              "width": 13.68,
+              "x": 268.65,
+              "y": 333.25
+            }
+          },
+          "label": "In-person",
+          "ordinal": 0,
+          "selectsWhenFactEquals": "in_person"
+        },
+        {
+          "anchor": {
+            "page": 1,
+            "rect": {
+              "height": 13.68,
+              "width": 13.68,
+              "x": 358.69,
+              "y": 333.14
+            }
+          },
+          "label": "Virtually (by phone or web video)",
+          "ordinal": 1,
+          "selectsWhenFactEquals": "virtual"
+        }
+      ],
+      "protectedCategory": null,
+      "rationale": "How the participant elects to appear.",
+      "repeatIndex": null,
+      "requiredInCanonicalFixture": true,
+      "section": "1. My Information"
+    },
+    {
+      "anchors": [
+        {
+          "page": 1,
+          "rect": {
+            "height": 13.68,
+            "width": 13.68,
+            "x": 124.71,
+            "y": 253.23
+          }
+        },
+        {
+          "page": 1,
+          "rect": {
+            "height": 13.68,
+            "width": 13.68,
+            "x": 124.71,
+            "y": 230.06
+          }
+        },
+        {
+          "page": 1,
+          "rect": {
+            "height": 13.68,
+            "width": 13.68,
+            "x": 124.71,
+            "y": 189.52
+          }
+        },
+        {
+          "page": 1,
+          "rect": {
+            "height": 13.68,
+            "width": 13.68,
+            "x": 124.71,
+            "y": 166.29
+          }
+        }
+      ],
+      "condition": null,
+      "control": "radio",
+      "factId": "election.filer_capacity",
+      "field": "Group2.0",
+      "fieldClass": "election_control",
+      "label": "The capacity in which I file",
+      "labelEvidence": "The Person in Interest. Ithe ’mprim ary subject of the criminal justice records. ⟂ 2.I am (che…ck only one) ‖ The designated representative of the Person in Interest, by power of attorney or notarized ⟂ The Person in Interest. Ithe ’mprim ary subject of the criminal justice records. ‖ The parent of the Person in Interest, if the Person in Interest is under legal disability. ⟂ authorization. ‖ The appointed legal representative of the Person in Interest, if the Person in Interest is ⟂ The parent of the Person in Interest, if the Person in Interest is under legal disability.",
+      "maxLength": null,
+      "multiline": false,
+      "negativeValue": null,
+      "options": [
+        {
+          "anchor": {
+            "page": 1,
+            "rect": {
+              "height": 13.68,
+              "width": 13.68,
+              "x": 124.71,
+              "y": 253.23
+            }
+          },
+          "label": "The Person in Interest",
+          "ordinal": 0,
+          "selectsWhenFactEquals": "person_in_interest"
+        },
+        {
+          "anchor": {
+            "page": 1,
+            "rect": {
+              "height": 13.68,
+              "width": 13.68,
+              "x": 124.71,
+              "y": 230.06
+            }
+          },
+          "label": "The designated representative of the Person in Interest",
+          "ordinal": 1,
+          "selectsWhenFactEquals": "designated_representative"
+        },
+        {
+          "anchor": {
+            "page": 1,
+            "rect": {
+              "height": 13.68,
+              "width": 13.68,
+              "x": 124.71,
+              "y": 189.52
+            }
+          },
+          "label": "The parent of the Person in Interest",
+          "ordinal": 2,
+          "selectsWhenFactEquals": "parent"
+        },
+        {
+          "anchor": {
+            "page": 1,
+            "rect": {
+              "height": 13.68,
+              "width": 13.68,
+              "x": 124.71,
+              "y": 166.29
+            }
+          },
+          "label": "The appointed legal representative of the Person in Interest",
+          "ordinal": 3,
+          "selectsWhenFactEquals": "appointed_legal_representative"
+        }
+      ],
+      "protectedCategory": null,
+      "rationale": "Who the filer is in relation to the person in interest. This election governs section 2's four text fields, which are written only when the filer is someone else.",
+      "repeatIndex": null,
+      "requiredInCanonicalFixture": true,
+      "section": "2. I am (check only one)"
+    },
+    {
+      "anchors": [
+        {
+          "page": 1,
+          "rect": {
+            "height": 15.12,
+            "width": 235.7,
+            "x": 157.22,
+            "y": 107.15
+          }
+        }
+      ],
+      "condition": {
+        "equals": "no",
+        "factId": "election.filer_is_person_in_interest"
+      },
+      "control": "text",
+      "factId": "person_in_interest.full_legal_name",
+      "field": "2.1",
+      "fieldClass": "participant",
+      "label": "Name:",
+      "labelEvidence": "Name: Date of Birth: ⟂ If you are not the person in interest, enter their information below:",
+      "maxLength": null,
+      "multiline": false,
+      "negativeValue": null,
+      "options": [],
+      "protectedCategory": null,
+      "rationale": "The person in interest's name, required only when the filer is not that person.",
+      "repeatIndex": null,
+      "requiredInCanonicalFixture": false,
+      "section": "2. I am — person in interest"
+    },
+    {
+      "anchors": [
+        {
+          "page": 1,
+          "rect": {
+            "height": 15.12,
+            "width": 84.07,
+            "x": 455.93,
+            "y": 106.99
+          }
+        }
+      ],
+      "condition": {
+        "equals": "no",
+        "factId": "election.filer_is_person_in_interest"
+      },
+      "control": "text",
+      "factId": "person_in_interest.date_of_birth",
+      "field": "2.2",
+      "fieldClass": "participant",
+      "label": "Date of Birth:",
+      "labelEvidence": "Name: Date of Birth: ⟂ If you are not the person in interest, enter their information below:",
+      "maxLength": null,
+      "multiline": false,
+      "negativeValue": null,
+      "options": [],
+      "protectedCategory": null,
+      "rationale": "The person in interest's date of birth, on the same condition.",
+      "repeatIndex": null,
+      "requiredInCanonicalFixture": false,
+      "section": "2. I am — person in interest"
+    },
+    {
+      "anchors": [
+        {
+          "page": 1,
+          "rect": {
+            "height": 15.12,
+            "width": 338.61,
+            "x": 201.39,
+            "y": 89.64
+          }
+        }
+      ],
+      "condition": {
+        "equals": "no",
+        "factId": "election.filer_is_person_in_interest"
+      },
+      "control": "text",
+      "factId": "person_in_interest.mailing_address",
+      "field": "2.3",
+      "fieldClass": "participant",
+      "label": "Mailing Address:",
+      "labelEvidence": "Mailing Address: ⟂ Name: Date of Birth:",
+      "maxLength": null,
+      "multiline": false,
+      "negativeValue": null,
+      "options": [],
+      "protectedCategory": null,
+      "rationale": "The person in interest's mailing address, on the same condition.",
+      "repeatIndex": null,
+      "requiredInCanonicalFixture": false,
+      "section": "2. I am — person in interest"
+    },
+    {
+      "anchors": [
+        {
+          "page": 1,
+          "rect": {
+            "height": 15.12,
+            "width": 182.63,
+            "x": 159.7,
+            "y": 72.3
+          }
+        }
+      ],
+      "condition": {
+        "equals": "no",
+        "factId": "election.filer_is_person_in_interest"
+      },
+      "control": "text",
+      "factId": "person_in_interest.phone",
+      "field": "2.4",
+      "fieldClass": "participant",
+      "label": "Phone:",
+      "labelEvidence": "Phone: ⟂ Mailing Address:",
+      "maxLength": null,
+      "multiline": false,
+      "negativeValue": null,
+      "options": [],
+      "protectedCategory": null,
+      "rationale": "The person in interest's telephone number, on the same condition.",
+      "repeatIndex": null,
+      "requiredInCanonicalFixture": false,
+      "section": "2. I am — person in interest"
+    },
+    {
+      "anchors": [
+        {
+          "page": 2,
+          "rect": {
+            "height": 13.68,
+            "width": 13.68,
+            "x": 126,
+            "y": 658.96
+          }
+        }
+      ],
+      "condition": null,
+      "control": "checkbox",
+      "factId": "service.prosecuting_attorney_served",
+      "field": "3A.0",
+      "fieldClass": "election_control",
+      "label": "Prosecuting Attorney",
+      "labelEvidence": "Prosecuting Attorney ⟂ I request that the following conviction records be sealed:",
+      "maxLength": null,
+      "multiline": false,
+      "negativeValue": "no",
+      "options": [
+        {
+          "anchor": {
+            "page": 2,
+            "rect": {
+              "height": 13.68,
+              "width": 13.68,
+              "x": 126,
+              "y": 658.96
+            }
+          },
+          "label": "Prosecuting Attorney",
+          "ordinal": 0,
+          "selectsWhenFactEquals": "yes"
+        }
+      ],
+      "protectedCategory": null,
+      "rationale": "Whether the prosecuting attorney is one of the agencies served. The box records the participant's service election; it is not a field the prosecutor completes.",
+      "repeatIndex": null,
+      "requiredInCanonicalFixture": true,
+      "section": "3. Records to be Sealed"
+    },
+    {
+      "anchors": [
+        {
+          "page": 2,
+          "rect": {
+            "height": 13.68,
+            "width": 13.68,
+            "x": 126,
+            "y": 635.92
+          }
+        }
+      ],
+      "condition": null,
+      "control": "checkbox",
+      "factId": "service.sheriff_served",
+      "field": "3B.0",
+      "fieldClass": "election_control",
+      "label": "Sheriff's Department",
+      "labelEvidence": "Sheriff’s De partment ⟂ Prosecuting Attorney",
+      "maxLength": null,
+      "multiline": false,
+      "negativeValue": "no",
+      "options": [
+        {
+          "anchor": {
+            "page": 2,
+            "rect": {
+              "height": 13.68,
+              "width": 13.68,
+              "x": 126,
+              "y": 635.92
+            }
+          },
+          "label": "Sheriff's Department",
+          "ordinal": 0,
+          "selectsWhenFactEquals": "yes"
+        }
+      ],
+      "protectedCategory": null,
+      "rationale": "Whether the sheriff's department is served.",
+      "repeatIndex": null,
+      "requiredInCanonicalFixture": false,
+      "section": "3. Records to be Sealed"
+    },
+    {
+      "anchors": [
+        {
+          "page": 2,
+          "rect": {
+            "height": 15.12,
+            "width": 320.01,
+            "x": 219.99,
+            "y": 617.69
+          }
+        }
+      ],
+      "condition": {
+        "equals": "yes",
+        "factId": "service.sheriff_served"
+      },
+      "control": "text",
+      "factId": "service.sheriff_mailing_address",
+      "field": "3B.1",
+      "fieldClass": "participant",
+      "label": "Mailing Address:",
+      "labelEvidence": "Mailing Address: ⟂ Sheriff’s De partment",
+      "maxLength": null,
+      "multiline": false,
+      "negativeValue": null,
+      "options": [],
+      "protectedCategory": null,
+      "rationale": "The sheriff's mailing address. Written only when the sheriff is elected for service, so an address never appears beside an unticked agency.",
+      "repeatIndex": null,
+      "requiredInCanonicalFixture": false,
+      "section": "3. Records to be Sealed"
+    },
+    {
+      "anchors": [
+        {
+          "page": 2,
+          "rect": {
+            "height": 13.68,
+            "width": 13.68,
+            "x": 126,
+            "y": 595.81
+          }
+        }
+      ],
+      "condition": null,
+      "control": "checkbox",
+      "factId": "derived.cbi_required",
+      "field": "3C",
+      "fieldClass": "derived",
+      "label": "Colorado Bureau of Investigation (Required)",
+      "labelEvidence": "Colorado Bureau of Investigation (Required) ⟂ Mailing Address:",
+      "maxLength": null,
+      "multiline": false,
+      "negativeValue": "no",
+      "options": [
+        {
+          "anchor": {
+            "page": 2,
+            "rect": {
+              "height": 13.68,
+              "width": 13.68,
+              "x": 126,
+              "y": 595.81
+            }
+          },
+          "label": "Colorado Bureau of Investigation (Required)",
+          "ordinal": 0,
+          "selectsWhenFactEquals": "yes"
+        }
+      ],
+      "protectedCategory": null,
+      "rationale": "The form prints '(Required)' beside this box and prints the Bureau's address for the participant. The tick follows the document's own statement, not an inference about the participant's case.",
+      "repeatIndex": null,
+      "requiredInCanonicalFixture": true,
+      "section": "3. Records to be Sealed"
+    },
+    {
+      "anchors": [
+        {
+          "page": 2,
+          "rect": {
+            "height": 13.68,
+            "width": 13.68,
+            "x": 126,
+            "y": 556.63
+          }
+        }
+      ],
+      "condition": null,
+      "control": "checkbox",
+      "factId": "service.law_enforcement_served",
+      "field": "3D.0",
+      "fieldClass": "election_control",
+      "label": "Law Enforcement: (Agency Name)",
+      "labelEvidence": "Law Enforcement: (Agency Name ) ⟂ ATTN Identification-Seals, 690 Kipling St., STE 3000, Lakewood, CO 80215",
+      "maxLength": null,
+      "multiline": false,
+      "negativeValue": "no",
+      "options": [
+        {
+          "anchor": {
+            "page": 2,
+            "rect": {
+              "height": 13.68,
+              "width": 13.68,
+              "x": 126,
+              "y": 556.63
+            }
+          },
+          "label": "Law Enforcement: (Agency Name)",
+          "ordinal": 0,
+          "selectsWhenFactEquals": "yes"
+        }
+      ],
+      "protectedCategory": null,
+      "rationale": "Whether a law enforcement agency is served.",
+      "repeatIndex": null,
+      "requiredInCanonicalFixture": false,
+      "section": "3. Records to be Sealed"
+    },
+    {
+      "anchors": [
+        {
+          "page": 2,
+          "rect": {
+            "height": 15.12,
+            "width": 254.79,
+            "x": 285.21,
+            "y": 554.71
+          }
+        }
+      ],
+      "condition": {
+        "equals": "yes",
+        "factId": "service.law_enforcement_served"
+      },
+      "control": "text",
+      "factId": "service.law_enforcement_agency_name",
+      "field": "3D.1",
+      "fieldClass": "participant",
+      "label": "Law Enforcement: (Agency Name)",
+      "labelEvidence": "Law Enforcement: (Agency Name ) ⟂ ATTN Identification-Seals, 690 Kipling St., STE 3000, Lakewood, CO 80215",
+      "maxLength": null,
+      "multiline": false,
+      "negativeValue": null,
+      "options": [],
+      "protectedCategory": null,
+      "rationale": "The law enforcement agency's name, on the law-enforcement election.",
+      "repeatIndex": null,
+      "requiredInCanonicalFixture": false,
+      "section": "3. Records to be Sealed"
+    },
+    {
+      "anchors": [
+        {
+          "page": 2,
+          "rect": {
+            "height": 39.01,
+            "width": 285.61,
+            "x": 254.39,
+            "y": 513.02
+          }
+        }
+      ],
+      "condition": {
+        "equals": "yes",
+        "factId": "service.law_enforcement_served"
+      },
+      "control": "text",
+      "factId": "service.law_enforcement_agency_address",
+      "field": "4D.2",
+      "fieldClass": "participant",
+      "label": "Agency Mailing Address:",
+      "labelEvidence": "Agency Mailing Address:",
+      "maxLength": null,
+      "multiline": true,
+      "negativeValue": null,
+      "options": [],
+      "protectedCategory": null,
+      "rationale": "The law enforcement agency's mailing address. The field is named 4D.2 but is drawn in section 3 beneath the agency-name row; its rectangle, not its name, decides what it is.",
+      "repeatIndex": null,
+      "requiredInCanonicalFixture": false,
+      "section": "3. Records to be Sealed"
+    },
+    {
+      "anchors": [
+        {
+          "page": 2,
+          "rect": {
+            "height": 15.12,
+            "width": 254.79,
+            "x": 247.33,
+            "y": 487.71
+          }
+        }
+      ],
+      "condition": {
+        "equals": "yes",
+        "factId": "service.law_enforcement_served"
+      },
+      "control": "text",
+      "factId": "service.law_enforcement_agency_case_number",
+      "field": "3D.3",
+      "fieldClass": "participant",
+      "label": "Agency Case Number:",
+      "labelEvidence": "Agency Case Number:",
+      "maxLength": null,
+      "multiline": false,
+      "negativeValue": null,
+      "options": [],
+      "protectedCategory": null,
+      "rationale": "The agency's own case number, on the law-enforcement election.",
+      "repeatIndex": null,
+      "requiredInCanonicalFixture": false,
+      "section": "3. Records to be Sealed"
+    },
+    {
+      "anchors": [
+        {
+          "page": 2,
+          "rect": {
+            "height": 13.68,
+            "width": 13.68,
+            "x": 126,
+            "y": 465.93
+          }
+        }
+      ],
+      "condition": null,
+      "control": "checkbox",
+      "factId": "service.other_agency_served",
+      "field": "3E.0",
+      "fieldClass": "election_control",
+      "label": "Other: (name)",
+      "labelEvidence": "Other: (name) ⟂ Agency Case Number:",
+      "maxLength": null,
+      "multiline": false,
+      "negativeValue": "no",
+      "options": [
+        {
+          "anchor": {
+            "page": 2,
+            "rect": {
+              "height": 13.68,
+              "width": 13.68,
+              "x": 126,
+              "y": 465.93
+            }
+          },
+          "label": "Other: (name)",
+          "ordinal": 0,
+          "selectsWhenFactEquals": "yes"
+        }
+      ],
+      "protectedCategory": null,
+      "rationale": "Whether a further agency is served.",
+      "repeatIndex": null,
+      "requiredInCanonicalFixture": false,
+      "section": "3. Records to be Sealed"
+    },
+    {
+      "anchors": [
+        {
+          "page": 2,
+          "rect": {
+            "height": 15.12,
+            "width": 332.71,
+            "x": 207.29,
+            "y": 464.67
+          }
+        }
+      ],
+      "condition": {
+        "equals": "yes",
+        "factId": "service.other_agency_served"
+      },
+      "control": "text",
+      "factId": "service.other_agency_name",
+      "field": "3E.1",
+      "fieldClass": "participant",
+      "label": "Other: (name)",
+      "labelEvidence": "Other: (name) ⟂ Agency Case Number:",
+      "maxLength": null,
+      "multiline": false,
+      "negativeValue": null,
+      "options": [],
+      "protectedCategory": null,
+      "rationale": "The further agency's name, on the other-agency election.",
+      "repeatIndex": null,
+      "requiredInCanonicalFixture": false,
+      "section": "3. Records to be Sealed"
+    },
+    {
+      "anchors": [
+        {
+          "page": 2,
+          "rect": {
+            "height": 15.12,
+            "width": 319.49,
+            "x": 220.51,
+            "y": 447.92
+          }
+        }
+      ],
+      "condition": {
+        "equals": "yes",
+        "factId": "service.other_agency_served"
+      },
+      "control": "text",
+      "factId": "service.other_agency_address",
+      "field": "3E.2",
+      "fieldClass": "participant",
+      "label": "Mailing Address:",
+      "labelEvidence": "Mailing Address: ⟂ Other: (name)",
+      "maxLength": null,
+      "multiline": false,
+      "negativeValue": null,
+      "options": [],
+      "protectedCategory": null,
+      "rationale": "The further agency's mailing address, on the other-agency election.",
+      "repeatIndex": null,
+      "requiredInCanonicalFixture": false,
+      "section": "3. Records to be Sealed"
+    },
+    {
+      "anchors": [
+        {
+          "page": 2,
+          "rect": {
+            "height": 15.12,
+            "width": 222.79,
+            "x": 317.21,
+            "y": 428.11
+          }
+        }
+      ],
+      "condition": null,
+      "control": "text",
+      "factId": "matter.arrest_or_summons_number",
+      "field": "3F.1",
+      "fieldClass": "participant",
+      "label": "Arrest/Summons Number: (from fingerprint card)",
+      "labelEvidence": "Arrest/Summons Number: (from fingerprint card) ⟂ Mailing Address:",
+      "maxLength": null,
+      "multiline": false,
+      "negativeValue": null,
+      "options": [],
+      "protectedCategory": null,
+      "rationale": "The arrest or summons number, taken from the fingerprint card.",
+      "repeatIndex": null,
+      "requiredInCanonicalFixture": true,
+      "section": "3. Records to be Sealed"
+    },
+    {
+      "anchors": [
+        {
+          "page": 2,
+          "rect": {
+            "height": 15.12,
+            "width": 137.37,
+            "x": 222.63,
+            "y": 410.82
+          }
+        }
+      ],
+      "condition": null,
+      "control": "text",
+      "factId": "matter.arrest_date",
+      "field": "3F.2",
+      "fieldClass": "participant",
+      "label": "Date of Arrest/Summons:",
+      "labelEvidence": "Date of Arrest/Summons: ⟂ Arrest/Summons Number: (from fingerprint card)",
+      "maxLength": null,
+      "multiline": false,
+      "negativeValue": null,
+      "options": [],
+      "protectedCategory": null,
+      "rationale": "The date of the arrest or summons.",
+      "repeatIndex": null,
+      "requiredInCanonicalFixture": true,
+      "section": "3. Records to be Sealed"
+    },
+    {
+      "anchors": [
+        {
+          "page": 2,
+          "rect": {
+            "height": 15.12,
+            "width": 280.8,
+            "x": 144,
+            "y": 264.08
+          }
+        }
+      ],
+      "condition": null,
+      "control": "text",
+      "factId": "matter.charges[].charge",
+      "field": "4A.1A",
+      "fieldClass": "participant",
+      "label": "Listed Offense, row 1",
+      "labelEvidence": "or Felony",
+      "maxLength": null,
+      "multiline": false,
+      "negativeValue": null,
+      "options": [],
+      "protectedCategory": null,
+      "rationale": "The offence as it is written in the criminal records to be sealed. Bound only when the participant supplied a charge in this row.",
+      "repeatIndex": 0,
+      "requiredInCanonicalFixture": true,
+      "section": "4. Offenses — a) List of Offenses"
+    },
+    {
+      "anchors": [
+        {
+          "page": 2,
+          "rect": {
+            "height": 15.12,
+            "width": 85.68,
+            "x": 454.32,
+            "y": 263.75
+          }
+        }
+      ],
+      "condition": null,
+      "control": "dropdown",
+      "factId": "matter.charges[].grade",
+      "field": "4A.1B",
+      "fieldClass": "election_control",
+      "label": "Misdemeanor or Felony, row 1",
+      "labelEvidence": "or Felony",
+      "maxLength": null,
+      "multiline": false,
+      "negativeValue": null,
+      "options": [
+        {
+          "anchor": {
+            "page": 2,
+            "rect": {
+              "height": 15.12,
+              "width": 85.68,
+              "x": 454.32,
+              "y": 263.75
+            }
+          },
+          "label": "Misdemeanor",
+          "ordinal": 0,
+          "selectsWhenFactEquals": "Misdemeanor"
+        },
+        {
+          "anchor": {
+            "page": 2,
+            "rect": {
+              "height": 15.12,
+              "width": 85.68,
+              "x": 454.32,
+              "y": 263.75
+            }
+          },
+          "label": "Felony",
+          "ordinal": 1,
+          "selectsWhenFactEquals": "Felony"
+        }
+      ],
+      "protectedCategory": null,
+      "rationale": "The grade the record gives the offence in this row. Bound only when the participant supplied both a charge and its grade.",
+      "repeatIndex": 0,
+      "requiredInCanonicalFixture": true,
+      "section": "4. Offenses — a) List of Offenses"
+    },
+    {
+      "anchors": [
+        {
+          "page": 2,
+          "rect": {
+            "height": 15.12,
+            "width": 280.8,
+            "x": 144,
+            "y": 242.64
+          }
+        }
+      ],
+      "condition": null,
+      "control": "text",
+      "factId": "matter.charges[].charge",
+      "field": "4A.2A",
+      "fieldClass": "participant",
+      "label": "Listed Offense, row 2",
+      "labelEvidence": "",
+      "maxLength": null,
+      "multiline": false,
+      "negativeValue": null,
+      "options": [],
+      "protectedCategory": null,
+      "rationale": "The offence as it is written in the criminal records to be sealed. Bound only when the participant supplied a charge in this row.",
+      "repeatIndex": 1,
+      "requiredInCanonicalFixture": true,
+      "section": "4. Offenses — a) List of Offenses"
+    },
+    {
+      "anchors": [
+        {
+          "page": 2,
+          "rect": {
+            "height": 15.12,
+            "width": 85.68,
+            "x": 454.32,
+            "y": 242.31
+          }
+        }
+      ],
+      "condition": null,
+      "control": "dropdown",
+      "factId": "matter.charges[].grade",
+      "field": "4A.2B",
+      "fieldClass": "election_control",
+      "label": "Misdemeanor or Felony, row 2",
+      "labelEvidence": "",
+      "maxLength": null,
+      "multiline": false,
+      "negativeValue": null,
+      "options": [
+        {
+          "anchor": {
+            "page": 2,
+            "rect": {
+              "height": 15.12,
+              "width": 85.68,
+              "x": 454.32,
+              "y": 242.31
+            }
+          },
+          "label": "Misdemeanor",
+          "ordinal": 0,
+          "selectsWhenFactEquals": "Misdemeanor"
+        },
+        {
+          "anchor": {
+            "page": 2,
+            "rect": {
+              "height": 15.12,
+              "width": 85.68,
+              "x": 454.32,
+              "y": 242.31
+            }
+          },
+          "label": "Felony",
+          "ordinal": 1,
+          "selectsWhenFactEquals": "Felony"
+        }
+      ],
+      "protectedCategory": null,
+      "rationale": "The grade the record gives the offence in this row. Bound only when the participant supplied both a charge and its grade.",
+      "repeatIndex": 1,
+      "requiredInCanonicalFixture": true,
+      "section": "4. Offenses — a) List of Offenses"
+    },
+    {
+      "anchors": [
+        {
+          "page": 2,
+          "rect": {
+            "height": 15.12,
+            "width": 280.8,
+            "x": 144,
+            "y": 221.7
+          }
+        }
+      ],
+      "condition": null,
+      "control": "text",
+      "factId": "matter.charges[].charge",
+      "field": "4A.3A",
+      "fieldClass": "participant",
+      "label": "Listed Offense, row 3",
+      "labelEvidence": "",
+      "maxLength": null,
+      "multiline": false,
+      "negativeValue": null,
+      "options": [],
+      "protectedCategory": null,
+      "rationale": "The offence as it is written in the criminal records to be sealed. Bound only when the participant supplied a charge in this row.",
+      "repeatIndex": 2,
+      "requiredInCanonicalFixture": false,
+      "section": "4. Offenses — a) List of Offenses"
+    },
+    {
+      "anchors": [
+        {
+          "page": 2,
+          "rect": {
+            "height": 15.12,
+            "width": 85.68,
+            "x": 454.32,
+            "y": 221.37
+          }
+        }
+      ],
+      "condition": null,
+      "control": "dropdown",
+      "factId": "matter.charges[].grade",
+      "field": "4A.3B",
+      "fieldClass": "election_control",
+      "label": "Misdemeanor or Felony, row 3",
+      "labelEvidence": "",
+      "maxLength": null,
+      "multiline": false,
+      "negativeValue": null,
+      "options": [
+        {
+          "anchor": {
+            "page": 2,
+            "rect": {
+              "height": 15.12,
+              "width": 85.68,
+              "x": 454.32,
+              "y": 221.37
+            }
+          },
+          "label": "Misdemeanor",
+          "ordinal": 0,
+          "selectsWhenFactEquals": "Misdemeanor"
+        },
+        {
+          "anchor": {
+            "page": 2,
+            "rect": {
+              "height": 15.12,
+              "width": 85.68,
+              "x": 454.32,
+              "y": 221.37
+            }
+          },
+          "label": "Felony",
+          "ordinal": 1,
+          "selectsWhenFactEquals": "Felony"
+        }
+      ],
+      "protectedCategory": null,
+      "rationale": "The grade the record gives the offence in this row. Bound only when the participant supplied both a charge and its grade.",
+      "repeatIndex": 2,
+      "requiredInCanonicalFixture": false,
+      "section": "4. Offenses — a) List of Offenses"
+    },
+    {
+      "anchors": [
+        {
+          "page": 2,
+          "rect": {
+            "height": 15.12,
+            "width": 280.8,
+            "x": 144,
+            "y": 200.75
+          }
+        }
+      ],
+      "condition": null,
+      "control": "text",
+      "factId": "matter.charges[].charge",
+      "field": "4A.4A",
+      "fieldClass": "participant",
+      "label": "Listed Offense, row 4",
+      "labelEvidence": "",
+      "maxLength": null,
+      "multiline": false,
+      "negativeValue": null,
+      "options": [],
+      "protectedCategory": null,
+      "rationale": "The offence as it is written in the criminal records to be sealed. Bound only when the participant supplied a charge in this row.",
+      "repeatIndex": 3,
+      "requiredInCanonicalFixture": false,
+      "section": "4. Offenses — a) List of Offenses"
+    },
+    {
+      "anchors": [
+        {
+          "page": 2,
+          "rect": {
+            "height": 15.12,
+            "width": 85.68,
+            "x": 454.32,
+            "y": 200.42
+          }
+        }
+      ],
+      "condition": null,
+      "control": "dropdown",
+      "factId": "matter.charges[].grade",
+      "field": "4A.4B",
+      "fieldClass": "election_control",
+      "label": "Misdemeanor or Felony, row 4",
+      "labelEvidence": "",
+      "maxLength": null,
+      "multiline": false,
+      "negativeValue": null,
+      "options": [
+        {
+          "anchor": {
+            "page": 2,
+            "rect": {
+              "height": 15.12,
+              "width": 85.68,
+              "x": 454.32,
+              "y": 200.42
+            }
+          },
+          "label": "Misdemeanor",
+          "ordinal": 0,
+          "selectsWhenFactEquals": "Misdemeanor"
+        },
+        {
+          "anchor": {
+            "page": 2,
+            "rect": {
+              "height": 15.12,
+              "width": 85.68,
+              "x": 454.32,
+              "y": 200.42
+            }
+          },
+          "label": "Felony",
+          "ordinal": 1,
+          "selectsWhenFactEquals": "Felony"
+        }
+      ],
+      "protectedCategory": null,
+      "rationale": "The grade the record gives the offence in this row. Bound only when the participant supplied both a charge and its grade.",
+      "repeatIndex": 3,
+      "requiredInCanonicalFixture": false,
+      "section": "4. Offenses — a) List of Offenses"
+    },
+    {
+      "anchors": [
+        {
+          "page": 2,
+          "rect": {
+            "height": 15.12,
+            "width": 280.8,
+            "x": 144,
+            "y": 180.46
+          }
+        }
+      ],
+      "condition": null,
+      "control": "text",
+      "factId": "matter.charges[].charge",
+      "field": "4A.5A",
+      "fieldClass": "participant",
+      "label": "Listed Offense, row 5",
+      "labelEvidence": "",
+      "maxLength": null,
+      "multiline": false,
+      "negativeValue": null,
+      "options": [],
+      "protectedCategory": null,
+      "rationale": "The offence as it is written in the criminal records to be sealed. Bound only when the participant supplied a charge in this row.",
+      "repeatIndex": 4,
+      "requiredInCanonicalFixture": false,
+      "section": "4. Offenses — a) List of Offenses"
+    },
+    {
+      "anchors": [
+        {
+          "page": 2,
+          "rect": {
+            "height": 15.12,
+            "width": 85.68,
+            "x": 454.32,
+            "y": 180.13
+          }
+        }
+      ],
+      "condition": null,
+      "control": "dropdown",
+      "factId": "matter.charges[].grade",
+      "field": "4A.5B",
+      "fieldClass": "election_control",
+      "label": "Misdemeanor or Felony, row 5",
+      "labelEvidence": "",
+      "maxLength": null,
+      "multiline": false,
+      "negativeValue": null,
+      "options": [
+        {
+          "anchor": {
+            "page": 2,
+            "rect": {
+              "height": 15.12,
+              "width": 85.68,
+              "x": 454.32,
+              "y": 180.13
+            }
+          },
+          "label": "Misdemeanor",
+          "ordinal": 0,
+          "selectsWhenFactEquals": "Misdemeanor"
+        },
+        {
+          "anchor": {
+            "page": 2,
+            "rect": {
+              "height": 15.12,
+              "width": 85.68,
+              "x": 454.32,
+              "y": 180.13
+            }
+          },
+          "label": "Felony",
+          "ordinal": 1,
+          "selectsWhenFactEquals": "Felony"
+        }
+      ],
+      "protectedCategory": null,
+      "rationale": "The grade the record gives the offence in this row. Bound only when the participant supplied both a charge and its grade.",
+      "repeatIndex": 4,
+      "requiredInCanonicalFixture": false,
+      "section": "4. Offenses — a) List of Offenses"
+    },
+    {
+      "anchors": [
+        {
+          "page": 2,
+          "rect": {
+            "height": 15.12,
+            "width": 280.8,
+            "x": 144,
+            "y": 160.5
+          }
+        }
+      ],
+      "condition": null,
+      "control": "text",
+      "factId": "matter.charges[].charge",
+      "field": "4A.6A",
+      "fieldClass": "participant",
+      "label": "Listed Offense, row 6",
+      "labelEvidence": "",
+      "maxLength": null,
+      "multiline": false,
+      "negativeValue": null,
+      "options": [],
+      "protectedCategory": null,
+      "rationale": "The offence as it is written in the criminal records to be sealed. Bound only when the participant supplied a charge in this row.",
+      "repeatIndex": 5,
+      "requiredInCanonicalFixture": false,
+      "section": "4. Offenses — a) List of Offenses"
+    },
+    {
+      "anchors": [
+        {
+          "page": 2,
+          "rect": {
+            "height": 15.12,
+            "width": 85.68,
+            "x": 454.32,
+            "y": 160.17
+          }
+        }
+      ],
+      "condition": null,
+      "control": "dropdown",
+      "factId": "matter.charges[].grade",
+      "field": "4A.6B",
+      "fieldClass": "election_control",
+      "label": "Misdemeanor or Felony, row 6",
+      "labelEvidence": "",
+      "maxLength": null,
+      "multiline": false,
+      "negativeValue": null,
+      "options": [
+        {
+          "anchor": {
+            "page": 2,
+            "rect": {
+              "height": 15.12,
+              "width": 85.68,
+              "x": 454.32,
+              "y": 160.17
+            }
+          },
+          "label": "Misdemeanor",
+          "ordinal": 0,
+          "selectsWhenFactEquals": "Misdemeanor"
+        },
+        {
+          "anchor": {
+            "page": 2,
+            "rect": {
+              "height": 15.12,
+              "width": 85.68,
+              "x": 454.32,
+              "y": 160.17
+            }
+          },
+          "label": "Felony",
+          "ordinal": 1,
+          "selectsWhenFactEquals": "Felony"
+        }
+      ],
+      "protectedCategory": null,
+      "rationale": "The grade the record gives the offence in this row. Bound only when the participant supplied both a charge and its grade.",
+      "repeatIndex": 5,
+      "requiredInCanonicalFixture": false,
+      "section": "4. Offenses — a) List of Offenses"
+    },
+    {
+      "anchors": [
+        {
+          "page": 2,
+          "rect": {
+            "height": 15.12,
+            "width": 280.8,
+            "x": 144,
+            "y": 140.21
+          }
+        }
+      ],
+      "condition": null,
+      "control": "text",
+      "factId": "matter.charges[].charge",
+      "field": "4A.7A",
+      "fieldClass": "participant",
+      "label": "Listed Offense, row 7",
+      "labelEvidence": "",
+      "maxLength": null,
+      "multiline": false,
+      "negativeValue": null,
+      "options": [],
+      "protectedCategory": null,
+      "rationale": "The offence as it is written in the criminal records to be sealed. Bound only when the participant supplied a charge in this row.",
+      "repeatIndex": 6,
+      "requiredInCanonicalFixture": false,
+      "section": "4. Offenses — a) List of Offenses"
+    },
+    {
+      "anchors": [
+        {
+          "page": 2,
+          "rect": {
+            "height": 15.12,
+            "width": 85.68,
+            "x": 454.32,
+            "y": 139.88
+          }
+        }
+      ],
+      "condition": null,
+      "control": "dropdown",
+      "factId": "matter.charges[].grade",
+      "field": "4A.7B",
+      "fieldClass": "election_control",
+      "label": "Misdemeanor or Felony, row 7",
+      "labelEvidence": "",
+      "maxLength": null,
+      "multiline": false,
+      "negativeValue": null,
+      "options": [
+        {
+          "anchor": {
+            "page": 2,
+            "rect": {
+              "height": 15.12,
+              "width": 85.68,
+              "x": 454.32,
+              "y": 139.88
+            }
+          },
+          "label": "Misdemeanor",
+          "ordinal": 0,
+          "selectsWhenFactEquals": "Misdemeanor"
+        },
+        {
+          "anchor": {
+            "page": 2,
+            "rect": {
+              "height": 15.12,
+              "width": 85.68,
+              "x": 454.32,
+              "y": 139.88
+            }
+          },
+          "label": "Felony",
+          "ordinal": 1,
+          "selectsWhenFactEquals": "Felony"
+        }
+      ],
+      "protectedCategory": null,
+      "rationale": "The grade the record gives the offence in this row. Bound only when the participant supplied both a charge and its grade.",
+      "repeatIndex": 6,
+      "requiredInCanonicalFixture": false,
+      "section": "4. Offenses — a) List of Offenses"
+    },
+    {
+      "anchors": [
+        {
+          "page": 2,
+          "rect": {
+            "height": 15.12,
+            "width": 280.8,
+            "x": 144,
+            "y": 120.57
+          }
+        }
+      ],
+      "condition": null,
+      "control": "text",
+      "factId": "matter.charges[].charge",
+      "field": "4A.8A",
+      "fieldClass": "participant",
+      "label": "Listed Offense, row 8",
+      "labelEvidence": "",
+      "maxLength": null,
+      "multiline": false,
+      "negativeValue": null,
+      "options": [],
+      "protectedCategory": null,
+      "rationale": "The offence as it is written in the criminal records to be sealed. Bound only when the participant supplied a charge in this row.",
+      "repeatIndex": 7,
+      "requiredInCanonicalFixture": false,
+      "section": "4. Offenses — a) List of Offenses"
+    },
+    {
+      "anchors": [
+        {
+          "page": 2,
+          "rect": {
+            "height": 15.12,
+            "width": 85.68,
+            "x": 454.32,
+            "y": 120.24
+          }
+        }
+      ],
+      "condition": null,
+      "control": "dropdown",
+      "factId": "matter.charges[].grade",
+      "field": "4A.8B",
+      "fieldClass": "election_control",
+      "label": "Misdemeanor or Felony, row 8",
+      "labelEvidence": "",
+      "maxLength": null,
+      "multiline": false,
+      "negativeValue": null,
+      "options": [
+        {
+          "anchor": {
+            "page": 2,
+            "rect": {
+              "height": 15.12,
+              "width": 85.68,
+              "x": 454.32,
+              "y": 120.24
+            }
+          },
+          "label": "Misdemeanor",
+          "ordinal": 0,
+          "selectsWhenFactEquals": "Misdemeanor"
+        },
+        {
+          "anchor": {
+            "page": 2,
+            "rect": {
+              "height": 15.12,
+              "width": 85.68,
+              "x": 454.32,
+              "y": 120.24
+            }
+          },
+          "label": "Felony",
+          "ordinal": 1,
+          "selectsWhenFactEquals": "Felony"
+        }
+      ],
+      "protectedCategory": null,
+      "rationale": "The grade the record gives the offence in this row. Bound only when the participant supplied both a charge and its grade.",
+      "repeatIndex": 7,
+      "requiredInCanonicalFixture": false,
+      "section": "4. Offenses — a) List of Offenses"
+    },
+    {
+      "anchors": [
+        {
+          "page": 2,
+          "rect": {
+            "height": 15.12,
+            "width": 280.8,
+            "x": 144,
+            "y": 99.95
+          }
+        }
+      ],
+      "condition": null,
+      "control": "text",
+      "factId": "matter.charges[].charge",
+      "field": "4A.9A",
+      "fieldClass": "participant",
+      "label": "Listed Offense, row 9",
+      "labelEvidence": "",
+      "maxLength": null,
+      "multiline": false,
+      "negativeValue": null,
+      "options": [],
+      "protectedCategory": null,
+      "rationale": "The offence as it is written in the criminal records to be sealed. Bound only when the participant supplied a charge in this row.",
+      "repeatIndex": 8,
+      "requiredInCanonicalFixture": false,
+      "section": "4. Offenses — a) List of Offenses"
+    },
+    {
+      "anchors": [
+        {
+          "page": 2,
+          "rect": {
+            "height": 15.12,
+            "width": 85.68,
+            "x": 454.32,
+            "y": 99.62
+          }
+        }
+      ],
+      "condition": null,
+      "control": "dropdown",
+      "factId": "matter.charges[].grade",
+      "field": "4A.9B",
+      "fieldClass": "election_control",
+      "label": "Misdemeanor or Felony, row 9",
+      "labelEvidence": "",
+      "maxLength": null,
+      "multiline": false,
+      "negativeValue": null,
+      "options": [
+        {
+          "anchor": {
+            "page": 2,
+            "rect": {
+              "height": 15.12,
+              "width": 85.68,
+              "x": 454.32,
+              "y": 99.62
+            }
+          },
+          "label": "Misdemeanor",
+          "ordinal": 0,
+          "selectsWhenFactEquals": "Misdemeanor"
+        },
+        {
+          "anchor": {
+            "page": 2,
+            "rect": {
+              "height": 15.12,
+              "width": 85.68,
+              "x": 454.32,
+              "y": 99.62
+            }
+          },
+          "label": "Felony",
+          "ordinal": 1,
+          "selectsWhenFactEquals": "Felony"
+        }
+      ],
+      "protectedCategory": null,
+      "rationale": "The grade the record gives the offence in this row. Bound only when the participant supplied both a charge and its grade.",
+      "repeatIndex": 8,
+      "requiredInCanonicalFixture": false,
+      "section": "4. Offenses — a) List of Offenses"
+    },
+    {
+      "anchors": [
+        {
+          "page": 3,
+          "rect": {
+            "height": 15.12,
+            "width": 84.11,
+            "x": 355.88,
+            "y": 706.51
+          }
+        }
+      ],
+      "condition": null,
+      "control": "dropdown",
+      "factId": "election.charges_ever_filed",
+      "field": "4B.0",
+      "fieldClass": "election_control",
+      "label": "Were charges ever filed in court? (yes or no)",
+      "labelEvidence": "b)Were charges ever filed in court? (yes or no)",
+      "maxLength": null,
+      "multiline": false,
+      "negativeValue": null,
+      "options": [
+        {
+          "anchor": {
+            "page": 3,
+            "rect": {
+              "height": 15.12,
+              "width": 84.11,
+              "x": 355.88,
+              "y": 706.51
+            }
+          },
+          "label": "Yes.",
+          "ordinal": 0,
+          "selectsWhenFactEquals": "yes"
+        },
+        {
+          "anchor": {
+            "page": 3,
+            "rect": {
+              "height": 15.12,
+              "width": 84.11,
+              "x": 355.88,
+              "y": 706.51
+            }
+          },
+          "label": "No.",
+          "ordinal": 1,
+          "selectsWhenFactEquals": "no"
+        }
+      ],
+      "protectedCategory": null,
+      "rationale": "An eligibility stop. C.R.S. § 24-72-704 is the no-charges-filed route, so this answer decides whether the petition belongs on this form at all.",
+      "repeatIndex": null,
+      "requiredInCanonicalFixture": true,
+      "section": "4. Offenses — b)"
+    },
+    {
+      "anchors": [
+        {
+          "page": 3,
+          "rect": {
+            "height": 15.12,
+            "width": 84.11,
+            "x": 459.93,
+            "y": 676.78
+          }
+        }
+      ],
+      "condition": null,
+      "control": "dropdown",
+      "factId": "election.completed_diversion",
+      "field": "4C.0",
+      "fieldClass": "election_control",
+      "label": "Did you successfully complete a diversion agreement? (yes or no)",
+      "labelEvidence": "c)Did you successfully complete a diversion agreement? (yes or no)",
+      "maxLength": null,
+      "multiline": false,
+      "negativeValue": null,
+      "options": [
+        {
+          "anchor": {
+            "page": 3,
+            "rect": {
+              "height": 15.12,
+              "width": 84.11,
+              "x": 459.93,
+              "y": 676.78
+            }
+          },
+          "label": "Yes.",
+          "ordinal": 0,
+          "selectsWhenFactEquals": "yes"
+        },
+        {
+          "anchor": {
+            "page": 3,
+            "rect": {
+              "height": 15.12,
+              "width": 84.11,
+              "x": 459.93,
+              "y": 676.78
+            }
+          },
+          "label": "No.",
+          "ordinal": 1,
+          "selectsWhenFactEquals": "no"
+        }
+      ],
+      "protectedCategory": null,
+      "rationale": "A qualification election under the same statute.",
+      "repeatIndex": null,
+      "requiredInCanonicalFixture": true,
+      "section": "4. Offenses — c)"
+    },
+    {
+      "anchors": [
+        {
+          "page": 3,
+          "rect": {
+            "height": 15.12,
+            "width": 84.11,
+            "x": 476.69,
+            "y": 647.56
+          }
+        }
+      ],
+      "condition": null,
+      "control": "dropdown",
+      "factId": "election.statute_of_limitations_passed",
+      "field": "4D.0",
+      "fieldClass": "election_control",
+      "label": "Has the statute of limitations passed on all these charges? (yes or no)",
+      "labelEvidence": "d)Has the statute of limitations passed on all these charges? (yes or no)",
+      "maxLength": null,
+      "multiline": false,
+      "negativeValue": null,
+      "options": [
+        {
+          "anchor": {
+            "page": 3,
+            "rect": {
+              "height": 15.12,
+              "width": 84.11,
+              "x": 476.69,
+              "y": 647.56
+            }
+          },
+          "label": "Yes.",
+          "ordinal": 0,
+          "selectsWhenFactEquals": "yes"
+        },
+        {
+          "anchor": {
+            "page": 3,
+            "rect": {
+              "height": 15.12,
+              "width": 84.11,
+              "x": 476.69,
+              "y": 647.56
+            }
+          },
+          "label": "No.",
+          "ordinal": 1,
+          "selectsWhenFactEquals": "no"
+        }
+      ],
+      "protectedCategory": null,
+      "rationale": "A qualification election under the same statute.",
+      "repeatIndex": null,
+      "requiredInCanonicalFixture": true,
+      "section": "4. Offenses — d)"
+    },
+    {
+      "anchors": [
+        {
+          "page": 3,
+          "rect": {
+            "height": 15.12,
+            "width": 84.11,
+            "x": 438.87,
+            "y": 617.47
+          }
+        }
+      ],
+      "condition": null,
+      "control": "dropdown",
+      "factId": "election.still_under_investigation",
+      "field": "4E.0",
+      "fieldClass": "election_control",
+      "label": "Are you still being investigated for these charges? (yes or no)",
+      "labelEvidence": "e)Are you still being investigated for these charges? (yes or no)",
+      "maxLength": null,
+      "multiline": false,
+      "negativeValue": null,
+      "options": [
+        {
+          "anchor": {
+            "page": 3,
+            "rect": {
+              "height": 15.12,
+              "width": 84.11,
+              "x": 438.87,
+              "y": 617.47
+            }
+          },
+          "label": "Yes.",
+          "ordinal": 0,
+          "selectsWhenFactEquals": "yes"
+        },
+        {
+          "anchor": {
+            "page": 3,
+            "rect": {
+              "height": 15.12,
+              "width": 84.11,
+              "x": 438.87,
+              "y": 617.47
+            }
+          },
+          "label": "No.",
+          "ordinal": 1,
+          "selectsWhenFactEquals": "no"
+        }
+      ],
+      "protectedCategory": null,
+      "rationale": "An objection stop: an open investigation is the ground on which this petition is refused.",
+      "repeatIndex": null,
+      "requiredInCanonicalFixture": true,
+      "section": "4. Offenses — e)"
+    },
+    {
+      "anchors": [
+        {
+          "page": 3,
+          "rect": {
+            "height": 15.12,
+            "width": 137.37,
+            "x": 204.69,
+            "y": 563.64
+          }
+        }
+      ],
+      "condition": null,
+      "control": "text",
+      "factId": "service.service_date",
+      "field": "CoS_Date",
+      "fieldClass": "participant",
+      "label": "On (enter service date)",
+      "labelEvidence": "On (enter service date) ⟂ 5.Certificate of Service",
+      "maxLength": null,
+      "multiline": false,
+      "negativeValue": null,
+      "options": [],
+      "protectedCategory": null,
+      "rationale": "The date the participant served the agencies. Review previously withheld it on the ground that the certificate block names the served party rather than the participant — true of the recipient fields, but the service date is the participant's own act and the certificate is unusable without it.",
+      "repeatIndex": null,
+      "requiredInCanonicalFixture": true,
+      "section": "5. Certificate of Service"
+    },
+    {
+      "anchors": [
+        {
+          "page": 3,
+          "rect": {
+            "height": 13.68,
+            "width": 13.68,
+            "x": 120.19,
+            "y": 525.17
+          }
+        },
+        {
+          "page": 3,
+          "rect": {
+            "height": 13.68,
+            "width": 13.68,
+            "x": 120.19,
+            "y": 507.89
+          }
+        },
+        {
+          "page": 3,
+          "rect": {
+            "height": 13.68,
+            "width": 13.68,
+            "x": 120.19,
+            "y": 487.54
+          }
+        }
+      ],
+      "condition": null,
+      "control": "radio",
+      "factId": "service.method",
+      "field": "GroupCoS",
+      "fieldClass": "election_control",
+      "label": "I certify that I sent a copy of this document to all the agencies I checked in Section 3 by:",
+      "labelEvidence": "Colorado Courts E-Filing. (only available to lawyers) ⟂ I certify that I sent a copy of this document to all the agencies I checked in Section 3 by: ‖ Other: (explain) ⟂ Regular Mail, using the addresses entered in Section 3. ‖ Regular Mail, using the addresses entered in Section 3. ⟂ Colorado Courts E-Filing. (only available to lawyers)",
+      "maxLength": null,
+      "multiline": false,
+      "negativeValue": null,
+      "options": [
+        {
+          "anchor": {
+            "page": 3,
+            "rect": {
+              "height": 13.68,
+              "width": 13.68,
+              "x": 120.19,
+              "y": 525.17
+            }
+          },
+          "label": "Colorado Courts E-Filing. (only available to lawyers)",
+          "ordinal": 0,
+          "selectsWhenFactEquals": "e_filing"
+        },
+        {
+          "anchor": {
+            "page": 3,
+            "rect": {
+              "height": 13.68,
+              "width": 13.68,
+              "x": 120.19,
+              "y": 507.89
+            }
+          },
+          "label": "Regular Mail, using the addresses entered in Section 3.",
+          "ordinal": 1,
+          "selectsWhenFactEquals": "regular_mail"
+        },
+        {
+          "anchor": {
+            "page": 3,
+            "rect": {
+              "height": 13.68,
+              "width": 13.68,
+              "x": 120.19,
+              "y": 487.54
+            }
+          },
+          "label": "Other: (explain)",
+          "ordinal": 2,
+          "selectsWhenFactEquals": "other"
+        }
+      ],
+      "protectedCategory": null,
+      "rationale": "How service was made. The widgets are stored e-filing, other, regular mail but are drawn e-filing, regular mail, other, so the options are pinned to the printed order.",
+      "repeatIndex": null,
+      "requiredInCanonicalFixture": true,
+      "section": "5. Certificate of Service"
+    },
+    {
+      "anchors": [
+        {
+          "page": 3,
+          "rect": {
+            "height": 15.12,
+            "width": 328.1,
+            "x": 211.91,
+            "y": 486.12
+          }
+        }
+      ],
+      "condition": {
+        "equals": "other",
+        "factId": "service.method"
+      },
+      "control": "text",
+      "factId": "service.other_method_explanation",
+      "field": "CoS_Other",
+      "fieldClass": "narrative",
+      "label": "Other: (explain)",
+      "labelEvidence": "Other: (explain) ⟂ Regular Mail, using the addresses entered in Section 3.",
+      "maxLength": null,
+      "multiline": false,
+      "negativeValue": null,
+      "options": [],
+      "protectedCategory": null,
+      "rationale": "The participant's own explanation of a service method the form does not list. Transcribed verbatim and written only when 'Other' is the elected method.",
+      "repeatIndex": null,
+      "requiredInCanonicalFixture": false,
+      "section": "5. Certificate of Service"
+    },
+    {
+      "anchors": [
+        {
+          "page": 3,
+          "rect": {
+            "height": 15.12,
+            "width": 252.33,
+            "x": 155.77,
+            "y": 367.99
+          }
+        }
+      ],
+      "condition": null,
+      "control": "text",
+      "factId": null,
+      "field": "Sig",
+      "fieldClass": "protected",
+      "label": "Signature:",
+      "labelEvidence": "Signature: ⟂ Print Your Name:",
+      "maxLength": null,
+      "multiline": false,
+      "negativeValue": null,
+      "options": [],
+      "protectedCategory": "participant_signature",
+      "rationale": "The participant executes this personally.",
+      "repeatIndex": null,
+      "requiredInCanonicalFixture": false,
+      "section": "6. Sign & Date"
+    },
+    {
+      "anchors": [
+        {
+          "page": 3,
+          "rect": {
+            "height": 15.12,
+            "width": 137.37,
+            "x": 133.66,
+            "y": 344.63
+          }
+        }
+      ],
+      "condition": null,
+      "control": "text",
+      "factId": null,
+      "field": "Sig_Date",
+      "fieldClass": "protected",
+      "label": "Date:",
+      "labelEvidence": "Date: ⟂ Signature:",
+      "maxLength": null,
+      "multiline": false,
+      "negativeValue": null,
+      "options": [],
+      "protectedCategory": "participant_execution_date",
+      "rationale": "The date inside the execution block. A date here asserts when the participant signed, and they have not.",
+      "repeatIndex": null,
+      "requiredInCanonicalFixture": false,
+      "section": "6. Sign & Date"
+    },
+    {
+      "anchors": [
+        {
+          "page": 3,
+          "rect": {
+            "height": 15.12,
+            "width": 252.33,
+            "x": 225.39,
+            "y": 321.14
+          }
+        }
+      ],
+      "condition": null,
+      "control": "text",
+      "factId": null,
+      "field": "Sig_Aty",
+      "fieldClass": "protected",
+      "label": "Counsel Signature: (if any)",
+      "labelEvidence": "Counsel Signature: (if any) ⟂ Date:",
+      "maxLength": null,
+      "multiline": false,
+      "negativeValue": null,
+      "options": [],
+      "protectedCategory": "counsel_signature",
+      "rationale": "Counsel executes this personally.",
+      "repeatIndex": null,
+      "requiredInCanonicalFixture": false,
+      "section": "6. Sign & Date"
+    }
+  ],
+  "jurisdiction": "CO",
+  "pageCount": 3,
+  "revision": "REV-2025-07-01",
+  "schemaVersion": "rcap-colorado-official-form-binding/v1",
+  "sourceSha256": "e0e1aefac85269087ca0f69252c501b14020a301d2cf6e5fbcc26aa5338f6dd4",
+  "specVersion": "co-jdf-417-binding/2026-08-29.1"
+}

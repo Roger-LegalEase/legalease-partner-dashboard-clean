@@ -1,0 +1,505 @@
+{
+  "schemaVersion": "rcap-fable-repair-return/v1",
+  "worker": "FABLE-R19",
+  "lanes": [
+    "FIX02",
+    "FIX03",
+    "FIX04"
+  ],
+  "branch": "fable/r19",
+  "base": "d0cb5f87ecb7a1ed325b4c35e7368856dc7bad40",
+  "returnedAt": "2026-09-02T07:20:00Z",
+  "commercialRoutesOpened": 0,
+  "familiesPromoted": 0,
+  "productionTouched": false,
+  "grantsNothing": "This is a repair return. It promotes no family, opens no route, sets no verdict and withdraws none. Every repair below needs an independent second read; this lane never verifies its own work.",
+  "standardApplied": "DETERMINATION_FEE_AND_WAIVER_STANDARD.json (DET-FEE-AND-WAIVER-001) read in full including A1, A2, A3 and A4 before any fee, service or filing-destination sentence was written. For each such sentence the repository was asked first (A1), across the family's bound records plus the compiled state profile, the committed track registry, the packet-set manifest and every record the route census names as a requiredSourceId (A2), reading each record only for the route it actually addresses (A3), and never telling a participant that the packet does not state something it does state (A4).",
+  "claims": {
+    "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs --assert, then --release. No --reissue and no --transfer was used.",
+    "briefLaneCorrection": "The brief assigned the Mississippi family to FIX02. The ledger grants its rapid-repair claim to FIX04, and --assert FIX02 exited 8 GRANTED_ELSEWHERE. FIX04 is a lane this worker already holds for three other assigned families, so the family was asserted under FIX04 and the brief's lane label is recorded here as the error rather than the ledger's.",
+    "asserted": [
+      {
+        "lane": "FIX04",
+        "familyId": "ct-cleanslate-petition-set",
+        "result": "CLAIM_OK"
+      },
+      {
+        "lane": "FIX02",
+        "familyId": "ct-missed-erasure-set",
+        "result": "CLAIM_OK"
+      },
+      {
+        "lane": "FIX03",
+        "familyId": "ne-setaside-custodial-set",
+        "result": "CLAIM_OK"
+      },
+      {
+        "lane": "FIX04",
+        "familyId": "vt_seal_pardon-set",
+        "result": "CLAIM_OK"
+      },
+      {
+        "lane": "FIX03",
+        "familyId": "sd_arrest_expungement-set",
+        "result": "CLAIM_OK"
+      },
+      {
+        "lane": "FIX04",
+        "familyId": "composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+        "result": "CLAIM_OK"
+      },
+      {
+        "lane": "FIX02",
+        "familyId": "composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
+        "result": "GRANTED_ELSEWHERE exit 8; re-asserted under FIX04 as CLAIM_OK"
+      }
+    ],
+    "notGranted": []
+  },
+  "corpus": {
+    "mountedBy": "scripts/rcap-corpus/bootstrap-private-corpus.sh",
+    "archiveSha256": "a26e3ca7d52db4460e53c2eddd893109037702f5c8035f2c698a7e16bad84e89",
+    "verified": "51 jurisdictions / 499 files / 329 PDFs, governance checksums verified",
+    "noCorpusBytesCommitted": true
+  },
+  "families": [
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+      "lane": "FIX04",
+      "outcome": "REPAIRED",
+      "bytesChanged": true,
+      "failedObligationRepaired": "FILING_DESTINATION",
+      "verdictRowRead": "data/rcap-grade-a/packet-factory-24h/vf11/rows.json (FABLE-VT16), which supersedes the earlier VF11 PASS",
+      "verifiedTheDiagnosisBeforeRepairing": {
+        "how": "Read all five structured fields of the compiled Alaska profile directly, not the verifier's quotation of them.",
+        "sourceFormStatements[15]": "For a conviction resolved through an SIS, the set-aside is sought by motion in the underlying criminal case once probation is complete; the court issues a certificate that the person can provide to the Department of Public Safety and the clerk.",
+        "attachments[4]": "identical wording to sourceFormStatements[15]",
+        "attachments[12], filingDestinationRules[7], postFilingRules[3]": "4 If an SIS conviction: after successfully completing probation, file a motion in the criminal case asking the court to set aside the conviction under AS 12.55.085(e); obtain the court's certificate and provide copies to the Department of Public Safety and the clerk.",
+        "a3Check": "The profile's pathway 0 pathwayId is set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085, this family's own route, and both statements name AS 12.55.085(e) by section. This is the route's own record, not a sibling's.",
+        "a2Check": "route-obligation-candidate.json lists compiled-profile:src/lib/rcap-engine/compiled/profiles/AK-alaska.json as a requiredSourceId for routeKey obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085. Confirmed by reading the census row."
+      },
+      "whatChanged": [
+        "Added STEP SEVEN to the filing_instructions component: after the court grants the motion, obtain the court's certificate of set-aside and provide copies to the Alaska Department of Public Safety and to the clerk, sourced to the census-named compiled profile.",
+        "Removed the false sentence 'What further effect a set-aside has on any particular background check is not stated here, because no committed record this packet is built from states it.' It is replaced by a statement of what the repository DOES record: the certificate mechanic, why it matters, and the honest limit that the repository states nothing beyond it.",
+        "Mirrored the certificate step into participant-instructions.md as step 8, so the two do not diverge.",
+        "Tightened the fee sentence's scope from 'no committed record it is built from' to the repository as A2 defines it, in both the packet and the instructions, and named what the profile actually says."
+      ],
+      "whatWasDeliberatelyNotChanged": [
+        "No filing fee was invented. The compiled profile's feeRules line for this route reads 'SIS set-aside motion | Court motion fees may apply | Filed in the existing criminal case', which is verbatim the determination's own notMet example of a gesture and establishes nothing. The packet's named checkable authority — the office of the sentencing court, named in the same sentence as the refusal — validly stands in, and FEE_AND_WAIVER was left alone as instructed.",
+        "The profile's AS 12.62.180(b) and TF-form service rules were NOT carried onto this motion. They belong to sibling routes and A3 bars the inference. The packet's service refusal-plus-authority stands."
+      ],
+      "wordsNowPresentThatWereAbsent": [
+        "certificate",
+        "Department of Public Safety",
+        "Public Safety"
+      ],
+      "verifiedInDeliveredBytes": "pdftotext of fixtures/canonical.pdf shows STEP SEVEN at line 189 and the restated record-effect paragraph at line 212; the false sentence returns 0 matches. Page count remains 8.",
+      "completeness": {
+        "before": "PASS_COMPLETE 10/32 written, all nine counters 0",
+        "after": "PASS_COMPLETE 10/32 written, all nine counters 0"
+      },
+      "doubleBuild": "Built twice from the owning script; all 29 files in the family directory byte-identical between runs."
+    },
+    {
+      "familyId": "ct-missed-erasure-set",
+      "lane": "FIX02",
+      "outcome": "REPAIRED",
+      "bytesChanged": true,
+      "failedObligationRepaired": "REQUIRED_BEFORE_FILING",
+      "verdictRowRead": "data/rcap-grade-a/packet-factory-24h/vf09/rows.json (FABLE-VT12)",
+      "verifiedTheDiagnosisBeforeRepairing": {
+        "heldSource": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/CT/05_SOURCE_GATED/CT__SOURCE-GATED__DESPP-0847-C__hearing-for-clean-slate-erasure-convictions-after-1-1-2000__REV-2001-01__EN.pdf",
+        "sha256": "08658dc45d7d41c20a26dcab54fff8756302e85bef7f4d519d9c0a3d4e4fbcfc",
+        "rehashedHere": true,
+        "printedFaceReadDirectly": "Instruction 2: 'You must submit a copy of your current criminal history record, which must be dated on or after 01/01/2024, demonstrating that such conviction has not been marked as erased. If the criminal history record is not submitted along with this form, your submission will be deemed incomplete and your request for a review and/or hearing will be denied.' The form's own footer reads DESPP-0847-C (New 01/01/2024)."
+      },
+      "whatChanged": [
+        "Deleted the 'ONE RUMOUR TO IGNORE' paragraph, which told the participant that the post-2024 record-date rule 'looks like a misreading' and that 'nothing found requires the report to bear a post-2024 date'.",
+        "Replaced it with a section headed 'THE DATE ON YOUR CRIMINAL HISTORY RECORD - TREAT THIS AS A REQUIREMENT' that quotes DESPP-0847-C's printed instruction 2 verbatim, states in terms that the earlier reading is withdrawn, and tells the participant to obtain a record dated on or after 01/01/2024.",
+        "Added a paragraph stating the two honest limits: DESPP-0847-C is held under a currentness gate and Connecticut's controlling state legal review is absent from the corpus, so the packet does NOT say that form is the instrument for this route, does not fill it and does not reproduce it — and names SPBI on (860) 685-8480 option 4 and DESPP's Legal Affairs Unit at 1111 Country Club Road, Middletown, CT 06457 as the authorities to confirm with.",
+        "Rewrote the matching build-findings entry and the approval-request counsel question so the records agree with the delivered page."
+      ],
+      "whatWasDeliberatelyNotChanged": [
+        "DESPP-0847-C was not bound, rendered, filled or reproduced. It is 05_SOURCE_GATED with generation_allowed no, and CT's STATE_README records 'No state legal-review file was supplied. Existing form assets must not be mapped to eligibility tracks until the controlling review is supplied.'",
+        "The stage-2 filing destination and online submit option printed on DESPP-0847-C were NOT published, for the same reason. The stage-1 destination the packet already carries is unchanged."
+      ],
+      "stoppedOnALegalReviewPoint": {
+        "point": "Whether DESPP-0847-C is the correct instrument for THIS route. Its title is 'Hearing for Clean Slate Erasure, Convictions After 1/1/2000' while this family's route is the § 54-142t(g) missed-erasure remedy, and it sits behind a currentness gate.",
+        "whyItIsStopped": "Connecticut's state legal-design review is recorded by the corpus as missing_from_supplied_corpus and a release_blocker. That question cannot be answered without it.",
+        "whyTheRepairDidNotNeedIt": "The repaired sentence asserts only what the form's printed face says and that the form is held in the library — not that it governs this route. The defect was an unqualified negative about what the repository contains, and correcting a false negative needs no legal review. Recorded in the packet's own approval-request.json as the counsel question that remains."
+      },
+      "verifiedInDeliveredBytes": "pdftotext of fixtures/canonical.pdf shows the quoted DESPP-0847-C requirement on the delivered page.",
+      "completeness": {
+        "before": "PASS_COMPLETE 1/1 written, all nine counters 0",
+        "after": "PASS_COMPLETE 1/1 written, all nine counters 0"
+      },
+      "doubleBuild": "Built twice from scripts/build-census-v1-ct-missed-erasure-set.mjs; every file in the family directory byte-identical between runs."
+    },
+    {
+      "familyId": "ct-cleanslate-petition-set",
+      "lane": "FIX04",
+      "outcome": "REPAIRED",
+      "bytesChanged": false,
+      "bytesChangedDetail": "Both PDF fixtures are unchanged. Only participant-instructions.md changed, so the family's RASTER_PASS receipt still binds.",
+      "failedObligationRepaired": "SERVICE",
+      "verdictRowRead": "data/rcap-grade-a/packet-factory-24h/vf24/rows.json (FABLE-VT7), which supersedes the earlier VF24 PASS that had scored SERVICE NOT_MEASURABLE_HERE",
+      "askedTheRepositoryFirst": {
+        "familyBoundRecord": "reports/local-filing-variation.json records serviceMethod, serviceRecipients and serviceTiming each as recorded:false with the note 'NOT RECORDED IN ANY HELD SOURCE ... an absent record is not a finding that no service is required', and certificateOfService as 'The form contains none.'",
+        "compiledProfile": "src/lib/rcap-engine/compiled/profiles/CT-connecticut.json packetGenerator.serviceAndNoticeRules is the empty array.",
+        "packetSetManifest": "legal-design-packet-set-manifests.json ct-cleanslate-petition-set carries no service entry among its participantActionRequired items.",
+        "conclusion": "Nothing in the repository establishes a service rule for this route, so under A1 as extended to SERVICE a named checkable authority may stand in — and the failure was that the packet named none and raised service nowhere."
+      },
+      "whatChanged": [
+        "Added a section '## Who must be served with a copy, and how' to participant-instructions.md, placed immediately after 'Where you file this' so the authority sits beside the destination it belongs to, per A2's proximity guidance.",
+        "It states plainly that no held source states a service rule and that the packet does not therefore claim none exists, recites what was actually checked, and directs the participant to ask the clerk of the Superior Court location where they file — the same G.A. location already named above, or the page-2 chart's receiving location — whether anyone must be served, in what manner and by when."
+      ],
+      "completeness": {
+        "before": "PASS_COMPLETE 6/22 written, all nine counters 0",
+        "after": "PASS_COMPLETE 6/22 written, all nine counters 0"
+      },
+      "doubleBuild": "Built twice from scripts/build-census-v1-ct-cleanslate-petition-set.mjs; every file in the family directory byte-identical between runs."
+    },
+    {
+      "familyId": "ne-setaside-custodial-set",
+      "lane": "FIX03",
+      "outcome": "REPAIRED",
+      "bytesChanged": true,
+      "failedObligationsRepaired": [
+        "CLIPPING_AND_OVERLAP",
+        "FEE_AND_WAIVER",
+        "FILING_DESTINATION",
+        "SERVICE"
+      ],
+      "verdictRowRead": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json",
+      "clippingAndOverlap": {
+        "diagnosis": "Confirmed and traced to its cause. Nebraska form DC 1:15 carries five mutually exclusive caption blocks stacked on the same coordinates, which the source form's own script shows one at a time. Reading the source binary directly, 46 of its 105 widgets carry /F with the Hidden bit (value 2) set — adoptionof, emancipationof, namechange, adultnamechangeof, probateof, firstkid through fourthkid, parent, Button63.1-3, Text59.1-4, Text60.1-4, Text66-73.",
+        "rootCause": "pdf-lib's PDFForm.flatten() stamps EVERY widget's appearance onto the page and never reads /F. An annotation the source hides is therefore drawn as ordinary ink on the filing.",
+        "fix": "scripts/rcap-official-forms/rcap-active-content.mjs — a new dropNonDisplayedWidgets() step in restrictWidgetContributions() removes, before dispositions are considered, any widget whose /F carries Hidden (bit 2) or NoView (bit 6). Removal is from the field's /Kids and the page's /Annots rather than merely clearing /AP, because updateFieldAppearances() runs afterwards and would regenerate a cleared appearance. Where the field IS the widget (no /Kids), the whole field is detached from the AcroForm. It reads the document's own display flag and nothing about the family, the form, the field name or the text.",
+        "measured": {
+          "method": "pdftotext -bbox word geometry, counting same-baseline (|Δy0| ≤ 1.5pt) text-on-text overlaps > 0.5pt",
+          "corpusSourceDC115": 0,
+          "packetCanonicalBefore": 41,
+          "packetBoundaryBefore": 41,
+          "packetCanonicalAfter": 0,
+          "packetBoundaryAfter": 0,
+          "noteOnTheCount": "The verifier measured 47 with its own tolerance; this lane measured 41 on the same bytes with the tolerance stated above. Same defect, different threshold. Both go to 0.",
+          "wordsOutsideThePageBox": "10 before; 2 after, of which the page-4 x1=613.000000 word is inherited exactly from the corpus source's own page 1 (that page IS the source's page 1). The residual page-5 word overhangs by 0.053pt."
+        },
+        "isolationTest": "Ran the repaired sanitizeAndFlatten over the corpus DC 1:15 alone: 46 non-displayed widgets dropped, resulting flattened PDF measures 0 overlaps."
+      },
+      "contentFixes": {
+        "askedTheRepositoryFirst": "The committed track registry entry for track ne-setaside-custodial answers all three, and A1 requires the packet to state what the repository holds.",
+        "filingDestination": "registry rules.filing 'File the petition and the proposed order in the existing criminal case with the clerk of the sentencing court', venue 'The sentencing court: the Nebraska county court or district court that imposed the sentence', destination.detail 'in person, by mail, or by fax for a self-represented filer'. All stated.",
+        "feeAndWaiver": "registry rules.fees is an express non-establishment: 'Not established. The statewide fee schedule carries no line item for a petition filed within an existing criminal case, so no figure may be shown to a participant.' So the packet states the non-establishment and names the clerk of the sentencing court as the office that answers it, in the same section. registry rules.feeWaiver holds that a waiver is available in principle under Neb. Rev. Stat. § 25-2301.01 and that the official DC 6:7.1 form does not fit — both stated, including that the mismatch is a recorded release blocker rather than something the packet papers over. No figure was invented.",
+        "service": "registry rules.notice and rules.service distinguish the two courts, and the packet now does too: in district court the participant gets the hearing date from the judge's bailiff, files DC 1:15 and serves the prosecutor BY MAIL, evidencing it on the page-two certificate of service, signed only after mailing; in county court the clerk schedules and mails notice and the DC 1:15 pages are left alone.",
+        "alsoAdded": "A stop-and-see-a-lawyer list drawn from the registry's own selfHelpStopConditions, and the registry's set-aside-is-not-expungement statement including that § 29-2264(6) preserves the conviction for the firearm statute and a pardon is the only firearm route."
+      },
+      "mechanism": "A per-family participantGuidance block in FAMILY_CONFIGS plus a participantGuidanceMarkdown() renderer in the shared host. A family that declares no guidance renders none and its bytes do not move, which is what the UT control proves.",
+      "completeness": {
+        "before": "PASS_COMPLETE 5/173 written, all nine counters 0",
+        "after": "PASS_COMPLETE 5/173 written, all nine counters 0"
+      },
+      "doubleBuild": "Built three times from the owning script; every file in the family directory byte-identical across runs 1, 2 and 3."
+    },
+    {
+      "familyId": "vt_seal_pardon-set",
+      "lane": "FIX04",
+      "outcome": "REPAIRED",
+      "bytesChanged": true,
+      "failedObligationsRepaired": [
+        "FEE_AND_WAIVER",
+        "FILING_DESTINATION",
+        "SERVICE"
+      ],
+      "verdictRowRead": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json (FABLE, superseding the vf09 BLOCKED_LEGAL_INPUT row)",
+      "whatTheRepairActuallyWas": "Mostly a rebuild, not new text. The shared Vermont host scripts/build-census-v1-vt_seal_misdemeanor-set.mjs already carried all three sections — 'Where you file this', 'What it costs, and how to ask for a waiver', 'Who must receive a copy, and how' — quoted from Vermont Judiciary form 200-00130A, 'Filing a Petition to Expunge or Seal a Criminal Record' (07/2025), which the host re-hashes against the committed corpus index on every build. This family had not been rebuilt since that host repair landed, so its committed instructions carried none of it. Rebuilding from the owning script emits all three.",
+      "sourcedContentNowDelivered": {
+        "filingDestination": "File with the Vermont Superior Court, Criminal Division, in the unit where the case was decided; both 200-00130 and 200-00132 print SUPERIOR COURT CRIMINAL DIVISION on page 1 and the docket number identifies the unit. Corroborated independently here against src/lib/rcap/state-packs/vermont/filing-instructions.ts and the compiled VT profile's filingDestinationRules.",
+        "feeAndWaiver": "Quoted from 200-00130A: 'There are no fees to file a petition to seal or expunge except for a $90 filing fee to seal convictions of violations of 23 V.S.A. Sec. 1201(a).' The packet states that filing is free unless the conviction is under § 1201(a), that § 1201(a) is the DUI offence, and that whether the participant's own conviction is one is a docket fact the clerk reads off the docket number.",
+        "service": "Quoted from 200-00130A: the court provides a copy to the prosecutor once the petition is filed; the participant does not serve it. The packet also states in terms that the State's Attorney's signature on the stipulation is not service and does not substitute for it — the exact confusion the verifier flagged."
+      },
+      "oneTextChangeThisLaneMade": {
+        "what": "Step 4 of 'What you must do before you file' read 'File the fee waiver (600-00228) only if you cannot pay.' Read alone that tells a participant who cannot pay to file a waiver for a fee the held source says most routes do not carry — the second limb of the verifier's FEE_AND_WAIVER finding, which the rebuild alone does not fix. It now reads 'only if there is a fee AND you cannot pay it', points back to the fee section, and says that for most routes there is no fee to waive.",
+        "blastRadius": "This edit is in the shared Vermont host, so the four sibling VT sealing families will emit the new wording the next time they are built. Measured: see controls."
+      },
+      "a3Check": "The $90 figure is keyed to 23 V.S.A. § 1201(a) and the packet says so explicitly rather than applying it to this route's 13 V.S.A. § 7602 sealing. The state pack's fee-notes.ts independently records that the DUI fee 'does not apply to other motions to seal or expunge criminal history'. This is the West Virginia trap read the safe way round: the figure is published WITH the section it belongs to and with the test the participant applies.",
+      "standingLegalHoldNotCleared": {
+        "question": "VTL01 — whether a pardoned misdemeanour runs on the three-year clock at 13 V.S.A. § 7602(c) or the seven-year clock at § 7602(d), which decides when the participant may file at all.",
+        "record": "data/rcap-grade-a/packet-factory-24h/VERMONT_REPAIR.json pardonRoute, treatment exact_supported_deferral, disposition 'counsel question VTL01; leaves the build and verification queues until answered'.",
+        "status": "UNCHANGED AND STILL IN FORCE. This repair fixes what the packet says about filing, cost and service; it does not answer when the participant may file, and it must not be read as clearing the hold. The verifier's own row says the same: the three failures 'would stand whatever answer VTL01 returns', and the hold decides separately whether the repaired packet may go live.",
+        "captainMustDecide": "Whether a family under an exact_supported_deferral should have been rebuilt at all. This lane rebuilt it because the brief assigned the three obligations by name and the verifier scored them measurable and failing; the hold is recorded here rather than silently stepped over."
+      },
+      "completeness": {
+        "before": "PASS_COMPLETE 24/165 written, all nine counters 0",
+        "after": "PASS_COMPLETE 24/165 written, all nine counters 0"
+      },
+      "doubleBuild": "Built twice after the final text change; every file in the family directory byte-identical between runs."
+    },
+    {
+      "familyId": "sd_arrest_expungement-set",
+      "lane": "FIX03",
+      "outcome": "NO_REPAIR_NEEDED",
+      "bytesChanged": false,
+      "assignedFailures": [
+        "FEE_AND_WAIVER",
+        "FILING_DESTINATION",
+        "SELF_HELP_STOP",
+        "SERVICE"
+      ],
+      "verdictRowRead": "data/rcap-grade-a/packet-factory-24h/vf15/rows.json",
+      "finding": "All four failures are already repaired in the committed state at this base. The row is stale, not wrong when written. The family's owning script is scripts/build-census-v1-sd_arrest_expungement-set.mjs, a completeness-repair runner that calls the shared host and then writes its own participant-instructions.md. That file already carries four sections the row says are absent — 'Where you file this', 'The filing fee', 'Who you serve, and how', and 'Where self-help ends' — each sourced to the packet's own bound UJS instruction sheets.",
+      "whatIsActuallyThere": {
+        "filingDestination": "Clerk of Court of the circuit court for the county where the arrest record or case is filed, quoting UJS-391's own instruction that the county 'will be the same county where the arrest record or case is filed in', plus UJS-391 instruction 1(b) that the clerk supplies the case number at filing.",
+        "fee": "$72, read off UJS-391 instruction 1(d) — 'pay the $72 filing fee' — with the clerk named for a waiver question.",
+        "service": "The step-by-step UJS-391/393/395 sequence: mail to the State's Attorney with UJS-391B and a self-addressed stamped envelope, Statement of Mailing UJS-391C after mailing, notice of hearing at least 14 days before, notice of entry either way.",
+        "selfHelpStop": "A stop list naming the UJS Legal Form Helpline 1-855-784-0004 and ujssrlhelp@ujs.state.sd.us as the checkable authority the forms themselves name."
+      },
+      "a3CheckOnTheFee": "Verified independently here rather than accepted: pdftotext of the family's own bound UJS-391 prints 'pay the $72 filing fee' in instruction 1(d), and the committed track registry entry for sd_arrest_expungement records the same figure for this route (SDCL §§ 23A-3-26 to 23A-3-32). The figure is this route's own, not a neighbouring section's. The compiled SD profile's feeRules is empty and was not relied on.",
+      "actionTaken": "None to the family. A participantGuidance block was drafted for it and then removed unbuilt when the existing repair was found, because it would have duplicated four sections the packet already carries. Rebuilding the family through its owning script produces byte-identical output; git reports no change.",
+      "captainMustDecide": "Whether the VF15 FAIL row should be superseded on the strength of a second independent read of the current bytes. This lane cannot supersede it and did not touch any rows file."
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
+      "lane": "FIX04",
+      "outcome": "REPAIRED",
+      "bytesChanged": false,
+      "bytesChangedDetail": "No PDF fixture changed. The repair is a blank's CLASSIFICATION and its participant-facing disclosure; the blank itself stays on the delivered proposed order exactly as it was, which is what the verifier's repair assignment required.",
+      "failedObligationRepaired": "REQUIRED_BEFORE_FILING",
+      "verdictRowRead": "data/rcap-grade-a/packet-factory-24h/vf09/rows.json",
+      "theContradiction": "primary_filing.case_number was classified court-owned ('if a number is assigned, the court assigns it at filing') while proposed_order.order_case_number was classified requiredBeforeFiling with participantMustSupply 'the case number, if the court assigned one at filing'. participant-instructions.md then listed it under 'The items you must supply' at line 42 and, sixteen lines later, told the participant the case number is the court's to assign at filing.",
+      "whatChanged": [
+        "Reclassified proposed_order.order_case_number from h.rbf(...) to h.clerkBlank(...) with the same reason the petition's own case_number carries, so it leaves the requiredBeforeFiling set and the 'items you must supply' table.",
+        "Strengthened the 'Things the platform deliberately left blank' entry to name BOTH captions: 'The case number, both in the petition's caption and in the proposed order's caption. If the court assigns one, it does so at filing - and the proposed order is filed together with the petition, before any number exists, so neither caption can carry one when you file.'"
+      ],
+      "whatWasDeliberatelyNotChanged": "The row's optional suggestion to carry the compiled profile's 'file in the court where the case originated' phrasing into the venue guidance was not taken. FILING_DESTINATION and FEE_AND_WAIVER both PASS on this family and the standard does not license disturbing a passing obligation.",
+      "completeness": {
+        "before": "PASS_COMPLETE 7/20 written, all nine counters 0",
+        "after": "PASS_COMPLETE 7/20 written, all nine counters 0"
+      },
+      "doubleBuild": "Built twice from the owning script; every file in the family directory byte-identical between runs."
+    }
+  ],
+  "controls": {
+    "rule": "Rebuild an unrelated family on each host touched, and confirm no diff.",
+    "results": [
+      {
+        "host": "scripts/build-census-v1-composed-treatment:*.mjs (composed-pleading shape, Alaska and Mississippi)",
+        "controlFamily": "composed-treatment:sc_17_22_950_summary",
+        "result": "NO DIFF. Rebuilt with the Alaska edits in the tree; git reported no change to any file."
+      },
+      {
+        "host": "scripts/build-census-v1-ct-*.mjs (Connecticut)",
+        "controlFamily": "ct-nolle-auto-set",
+        "result": "NO DIFF ON TRACKED BYTES. Its two PDF fixtures did not change. build-status.json and reports/rendered-artifacts.json did change, and a raster/ directory appeared, purely because the committed state was built in an environment without Chromium (rasterState BUILT_RASTER_PENDING, rasterPages 0) while this environment rasters locally. The control family was restored to HEAD and the stray raster directory removed. This is an environment capability difference, not a content difference."
+      },
+      {
+        "host": "scripts/build-census-v1-ne-setaside-custodial-set.mjs (the CENTRAL host serving 13 NE/SD/UT/WV families) and the shared finalizer scripts/rcap-official-forms/rcap-active-content.mjs",
+        "controlFamily": "ut_pet_acquittal-set",
+        "result": "MY CHANGE PROVED INERT. Rebuilt twice — once with both my changes applied, once with both reverted — and the two runs are byte-identical across all 50 files in the family directory. The hidden-widget fix therefore changes nothing for a family whose sources carry no hidden widgets, and the per-family participantGuidance mechanism changes nothing for a family that declares none.",
+        "butSeeHostFinding": "The UT control DID differ from its committed state in both runs. That drift is pre-existing on this host and is reported under hostFindings below. The control family was restored to HEAD."
+      },
+      {
+        "host": "same CENTRAL host, second control",
+        "controlFamily": "ne-setaside-custodial-set itself, rebuilt at HEAD with both my changes reverted",
+        "result": "REPRODUCED ITS COMMITTED BYTES EXACTLY. git reported no change. This is the cleanest available proof that the host is deterministic here and that every byte in the Nebraska diff is attributable to this repair rather than to environment drift."
+      },
+      {
+        "host": "scripts/build-census-v1-vt_seal_misdemeanor-set.mjs (shared Vermont host, five families)",
+        "controlFamily": "vt_seal_felony-set",
+        "resultBeforeMyHostEdit": "NO DIFF on tracked bytes. The build left two untracked scratch files (raster/*/page-calibration.pdf and page.pdf) which were removed.",
+        "resultAfterMyHostEdit": "MEASURED, NOT PREDICTED. Rebuilt again after the step-4 edit: exactly ONE file changed, participant-instructions.md, and the diff is exactly the one line this lane wrote and nothing else. Both PDF fixtures, both reports and every raster page are byte-identical, so the sibling's RASTER_PASS receipt is undisturbed. The control family was restored to HEAD and its committed bytes are untouched by this lane. Also learned from this run: the committed felony instructions ALREADY carry the 200-00130A fee-and-service sections, so vt_seal_pardon-set was the only Vermont family left behind by that earlier host repair."
+      }
+    ]
+  },
+  "sharedCodeChanged": {
+    "file": "scripts/rcap-official-forms/rcap-active-content.mjs",
+    "change": "dropNonDisplayedWidgets() — widgets the source marks /F Hidden or NoView are removed before flattening.",
+    "blastRadiusMeasuredNotGuessed": {
+      "method": "Loaded every one of the 329 corpus PDFs and counted widgets carrying /F bit 2 or bit 6.",
+      "result": "11 of 329 carry non-displayed widgets. Every other official-pdf-fill family in the repository is unaffected, and the UT control proves inertness empirically.",
+      "affectedSources": [
+        {
+          "hidden": 46,
+          "total": 105,
+          "file": "NE/02_PACKET_FORMS/NE__FORM__DC-1-15__notice-of-hearing__REV-UNKNOWN__EN.pdf",
+          "note": "this lane's family; repaired"
+        },
+        {
+          "hidden": 23,
+          "total": 77,
+          "file": "CO/02_PACKET_FORMS/CO__FORM__JDF-612__motion-to-seal-conviction-records-district-or-county-court-conviction__REV-2024-08-07__EN.pdf"
+        },
+        {
+          "hidden": 13,
+          "total": 51,
+          "file": "CO/02_PACKET_FORMS/CO__FORM__JDF-477__motion-to-seal-non-conviction-records__REV-2024-08-07__EN.pdf"
+        },
+        {
+          "hidden": 9,
+          "total": 35,
+          "file": "CO/02_PACKET_FORMS/CO__FORM__JDF-478__order-to-seal-non-conviction-records__REV-2024-08-07__EN.pdf"
+        },
+        {
+          "hidden": 6,
+          "total": 58,
+          "file": "NE/02_PACKET_FORMS/NE__FORM__DC-6-7.2__dc-6-7-2-order-to-proceed-in-forma-pauperis__REV-2025-03__EN.pdf"
+        },
+        {
+          "hidden": 2,
+          "total": 9,
+          "file": "NE/02_PACKET_FORMS/NE__FORM__CC-6-11.2__cc-6-11-2-order-setting-aside-a-criminal-conviction__REV-2020-12__EN.pdf",
+          "note": "this lane's family; repaired"
+        },
+        {
+          "hidden": 2,
+          "total": 19,
+          "file": "NE/02_PACKET_FORMS/NE__FORM__CC-6-11__cc-6-11-petition-to-set-aside-a-criminal-conviction__REV-2024-04__EN.pdf",
+          "note": "this lane's family; repaired"
+        },
+        {
+          "hidden": 2,
+          "total": 24,
+          "file": "NE/02_PACKET_FORMS/NE__FORM__CC-6-12__motion-to-seal-an__REV-2024-04__EN.pdf"
+        },
+        {
+          "hidden": 2,
+          "total": 22,
+          "file": "NE/02_PACKET_FORMS/NE__FORM__CC-6-15.1__motion-to-seal-record__REV-2021-05__EN.pdf"
+        },
+        {
+          "hidden": 2,
+          "total": 2,
+          "file": "NE/03_INSTRUCTIONS/NE__INSTRUCTIONS__DC-6-7.2A__instructions-for-dc-6-7-2-order-to-proceed-in-forma-pauperis__REV-2025-03__EN.pdf"
+        },
+        {
+          "hidden": 1,
+          "total": 74,
+          "file": "MI/02_PACKET_FORMS/MI__FORM__MC-228__order-on-application-to-set-aside-conviction-s__REV-2023-03__EN.pdf"
+        }
+      ],
+      "consequence": "Any family bound to a Colorado JDF-477/478/612, Michigan MC-228, or Nebraska CC-6-12 / CC-6-15.1 / DC-6-7.2 source will produce different fixture bytes the next time it is built — better bytes, by the same measurement, but different. No such family was rebuilt by this lane and none of their committed bytes were touched. A Captain should decide whether to schedule those rebuilds deliberately rather than letting the change surprise the next repairer who touches one."
+    }
+  },
+  "hostFindings": [
+    {
+      "severity": "high",
+      "finding": "wv-conv-single-misdemeanor-set's committed participant-instructions.md is not what its build script produces. Rebuilding the family from its owning host DESTROYS it.",
+      "evidence": "The committed file is a 61-line, richly sourced document naming the § 59-1-11(a)(1) $200 circuit-clerk fee, the further $100 payable to the State Police records division on grant under § 61-11-26(n), the five § 61-11-26(e) service recipients, and the rule that identified victims are served by the prosecuting attorney under § 61-11-26(f). The CENTRAL host regenerates it as the generic 110-line blank-field disclosure with none of that. Reproduced twice, and reproduced identically with all of this lane's changes reverted, so it is not caused by this repair.",
+      "whatItMeans": "That instructions file was written outside the build script — the exact failure mode 'repair through the owning build script, never by hand-editing output' exists to prevent. Whoever next rebuilds either West Virginia family will silently delete a careful, sourced repair.",
+      "actionTaken": "The control family was restored to HEAD and left untouched. Nothing was committed for West Virginia.",
+      "captainMustDecide": "Whether to fold that WV text into the host before anyone rebuilds those families."
+    },
+    {
+      "severity": "medium",
+      "finding": "The CENTRAL host does not reproduce the committed bytes of ut_pet_acquittal-set in this environment.",
+      "evidence": "A pristine rebuild at HEAD, with every change of this lane reverted, differs from the committed state in build-findings.json, build-status.json, field-census.census-v1.json, both fixtures, participant-instructions.md, production-field-map.json, ten raster PNGs, both reports and source-receipt.json. The two pristine runs agree with each other, so it is a difference between environments rather than run-to-run nondeterminism.",
+      "contrast": "ne-setaside-custodial-set on the SAME host reproduces its committed bytes exactly, so this is per-family, not host-wide.",
+      "captainMustDecide": "Whether the UT families' committed bytes were produced by a different toolchain, or were also edited outside the build. Not investigated further because no UT family is assigned to this lane."
+    },
+    {
+      "severity": "low",
+      "finding": "scripts/build-census-v1-sd_arrest_expungement-set.mjs --repair-all is dead: it iterates both FAMILY_DIRS entries but updateRows() asserts 'disclosure repair owns only the South Dakota family', so the flag always crashes on the Nebraska family after the Nebraska build has already written its outputs. Invoking it leaves Nebraska half-processed.",
+      "captainMustDecide": "Either remove the flag or make updateRows a no-op for Nebraska. The default (South Dakota only) invocation is correct and was used here."
+    },
+    {
+      "severity": "low",
+      "finding": "The Vermont host leaves untracked scratch files behind in this environment — raster/<fixture>/<page>/page.pdf and page-calibration.pdf. Note that vt_seal_misdemeanor-set has COMMITTED files at raster/canonical/page-01.png/page-calibration.pdf and .../page.pdf (a directory literally named page-01.png), so a blanket cleanup of those filenames deletes committed bytes. This lane deleted them by accident once and restored them from HEAD immediately."
+    }
+  ],
+  "rasterOwed": {
+    "why": "Every fixture below changed bytes, so its RASTER_QUEUE pin and its RASTER_PASS receipt no longer bind. Each owes a central re-raster before any obligation that rests on the receipt can be re-scored. This lane did not write to RASTER_QUEUE.json and did not run a factory generator; local rasters were regenerated by the owning build scripts as part of the ordinary build.",
+    "fixtures": [
+      {
+        "familyId": "composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+        "path": "data/rcap-all50/overlays/census-v1/ak/composed-treatment:obligation:runtime-only:ak:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085--custom-pleading/fixtures/canonical.pdf",
+        "oldSha256": "9f00da8f072069098dce0b465bbc242d5713730f5472a6f9d6a104699bd1428a",
+        "newSha256": "2a7e3fa6eb3b583fdbddc5a365b6c2678e7a37ad0f8ebdd6b78a230eb39d98ad",
+        "pages": 8,
+        "supersededReceipt": "run 33579500812, job 100091041685"
+      },
+      {
+        "familyId": "composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+        "path": "data/rcap-all50/overlays/census-v1/ak/composed-treatment:obligation:runtime-only:ak:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085--custom-pleading/fixtures/boundary.pdf",
+        "oldSha256": "e898a0768afd9882932f581da66b04b99e2cc9494d9e218fff7e758f7b677e42",
+        "newSha256": "d1ddb77c651df332ffa5c1fcb1593d1d1b7dfa913c39b42484b31830347389b7",
+        "pages": 8,
+        "supersededReceipt": "run 33579500812, job 100091041685"
+      },
+      {
+        "familyId": "ct-missed-erasure-set",
+        "path": "data/rcap-all50/overlays/census-v1/ct/ct-missed-erasure-set--official-pdf-fill/fixtures/canonical.pdf",
+        "oldSha256": "814530c39586e9e52573eb081a3f262e559680d1f46fb29d20efde68041f0627",
+        "newSha256": "0872021341ca0755e2df874ebea40d601e3ffacbb4be6f5436b642548ffdcb82",
+        "pages": 2,
+        "supersededReceipt": "run 33574304514"
+      },
+      {
+        "familyId": "ct-missed-erasure-set",
+        "path": "data/rcap-all50/overlays/census-v1/ct/ct-missed-erasure-set--official-pdf-fill/fixtures/boundary.pdf",
+        "oldSha256": "ce72517919d6fe84192643d4bae026ad43c5ae4a1ac7f1b3f8e7c692e55cff1c",
+        "newSha256": "9fb5c03662f710c73094e29bd1428e70cc1de7790644a3b7b8fdada0062b4b5b",
+        "pages": 2,
+        "supersededReceipt": "run 33574304514"
+      },
+      {
+        "familyId": "ne-setaside-custodial-set",
+        "path": "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/fixtures/canonical.pdf",
+        "oldSha256": "a099c0a10c739d9876c8cf0653cedffecdde2e8df20c759b24fcd354fc7e65f7",
+        "newSha256": "bb911faba3cc5ba120432976c9545688e29d335b83adf2dfa9d115ec0856aeb7",
+        "pages": 5,
+        "note": "This is the family whose page 4 was unreadable. A visual re-read of the new page 4 is the point of the re-raster, not a formality."
+      },
+      {
+        "familyId": "ne-setaside-custodial-set",
+        "path": "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/fixtures/boundary.pdf",
+        "oldSha256": "ec477f8f52382e7820289bb727ee123f961396dc8fbb151980f91a92690722f3",
+        "newSha256": "2d8254d4a14791b86f837e878797b2fa89339fbb87b0c1e5595b2b5970aa9aa4",
+        "pages": 5
+      },
+      {
+        "familyId": "vt_seal_pardon-set",
+        "path": "data/rcap-all50/overlays/census-v1/vt/vt-seal-pardon-set--official-pdf-fill/fixtures/canonical.pdf",
+        "oldSha256": "39d9ac94bb59f196f4e236ca2a11f30507b7680a103ef95b6cbe060e5c1684f8",
+        "newSha256": "81525fd23e9489ce1225aaf953e28c0e68ad64c376dccf9143a5c14920bde942",
+        "pages": 6
+      },
+      {
+        "familyId": "vt_seal_pardon-set",
+        "path": "data/rcap-all50/overlays/census-v1/vt/vt-seal-pardon-set--official-pdf-fill/fixtures/boundary.pdf",
+        "oldSha256": "010b7fdedd026da5d014460185ecf1c17cf7801f51eea877feedddcae7d4ddf8",
+        "newSha256": "8f0058c992eaf6fec640b7519935f3e0d4c119348f90d7042dd1ee6b53501404",
+        "pages": 6
+      }
+    ],
+    "noFixtureChange": [
+      "ct-cleanslate-petition-set — instructions only; both fixtures unchanged and its RASTER_PASS receipt still binds.",
+      "composed-treatment:obligation:runtime-only:MS:... — a blank's classification and disclosure only; both fixtures unchanged and its receipt still binds.",
+      "sd_arrest_expungement-set — untouched."
+    ],
+    "vermontSiblings": "vt_seal_misdemeanor-set, vt_seal_felony-set, vt_seal_18_to_21-set and vt_seal_under_25-set share the Vermont host whose step-4 wording changed, and vt_seal_dui-set and the two expungement families share it too. None was rebuilt and none of their bytes changed here, but their committed instructions are now behind the host by more than this lane's one line — they predate the whole 200-00130A fee-and-service repair. A deliberate rebuild wave for that host is a Captain decision."
+  },
+  "completenessBeforeAfter": {
+    "tool": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <familyId>",
+    "allSevenBefore": "PASS_COMPLETE, all nine counters 0",
+    "allSevenAfter": "PASS_COMPLETE, all nine counters 0",
+    "denominators": {
+      "ct-cleanslate-petition-set": "6/22 written before and after",
+      "ct-missed-erasure-set": "1/1 written before and after",
+      "ne-setaside-custodial-set": "5/173 written before and after",
+      "vt_seal_pardon-set": "24/165 written before and after",
+      "sd_arrest_expungement-set": "67/222 written before and after",
+      "AK SIS family": "10/32 written before and after",
+      "MS 99-15-59 family": "7/20 written before and after"
+    },
+    "whatThisDoesAndDoesNotShow": "The completeness verifier measures the nine counters. It does not measure FILING_DESTINATION, FEE_AND_WAIVER, SERVICE, SELF_HELP_STOP or REQUIRED_BEFORE_FILING's participant-facing-contradiction limb, and it did not detect the Nebraska overlap defect either — it reported visualDefects 0 on bytes carrying 41 measured text-on-text overlaps. It is reported here as a regression guard, not as evidence any repair worked."
+  },
+  "iDidNotVerifyMyOwnRepair": "Every family above needs an independent second read at this branch's head. Nothing here is a verdict.",
+  "captainDecisions": [
+    "The MS family's rapid-repair grant is on FIX04, not FIX02 as the brief said. Worth correcting wherever the brief was generated from.",
+    "sd_arrest_expungement-set needs its VF15 FAIL superseded rather than repaired — the packet already answers all four obligations. This lane cannot supersede a row.",
+    "wv-conv-single-misdemeanor-set (and presumably its multiple-misdemeanors sibling) carries a hand-edited participant-instructions.md that its own build script destroys. This is a live trap for the next repairer.",
+    "The pdf-lib hidden-widget fix will change bytes for families bound to seven other corpus forms, enumerated above, the next time they build.",
+    "vt_seal_pardon-set remains under the VTL01 counsel hold. Repaired is not cleared.",
+    "The Connecticut state legal-design review is absent from the corpus and is a release_blocker. Whether DESPP-0847-C is the instrument for the missed-erasure route cannot be answered until it is supplied; the packet now states the date requirement without claiming that form governs the route."
+  ]
+}

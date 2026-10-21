@@ -1,0 +1,58 @@
+{
+  "schemaVersion": "rcap-focused-check-results/v1",
+  "result": "PASS",
+  "commands": [
+    {
+      "command": "node --test scripts/test-kansas-shared-packets.mjs",
+      "result": "PASS",
+      "tests": 24,
+      "failed": 0,
+      "negativeControlTestCases": 8,
+      "evidence": "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/submitted-by-followup/kansas-shared-tests.log"
+    },
+    {
+      "command": "node scripts/rcap-official-forms/test-standard-font-fit-fallback.mjs",
+      "result": "PASS",
+      "assertions": 25,
+      "negativeControlTestCases": 3,
+      "evidence": "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/submitted-by-followup/standard-font-fallback-tests.log"
+    },
+    {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <each exact Kansas family>",
+      "result": "PASS_COMPLETE",
+      "families": 4,
+      "countersZero": 36,
+      "evidencePattern": "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/submitted-by-followup/completeness-<familyId>.log"
+    },
+    {
+      "command": "node scripts/build-census-v1-ks-21-6614-<route>-set.mjs --check",
+      "result": "CHECK_ONLY",
+      "families": 4,
+      "sourceBindingsVerified": 24,
+      "evidencePattern": "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/submitted-by-followup/source-binding-<route>.log"
+    },
+    {
+      "command": "byte-derived current actor and fit measurement",
+      "result": "PASS",
+      "knownNeutralWritesFoundExact": 80,
+      "unknownParticipantFieldsMeasuredBlank": 48,
+      "approvedByFieldsMeasuredBlank": 128,
+      "boundaryFallbackRunsMeasured": 8,
+      "evidence": "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/submitted-by-followup/current-byte-proof.json"
+    }
+  ],
+  "totals": {
+    "nodeTests": 24,
+    "nodeTestsFailed": 0,
+    "standaloneAssertions": 25,
+    "explicitNegativeControlTestCases": 11,
+    "familyCompletenessPasses": 4,
+    "completenessCountersChecked": 36,
+    "sourceBindingChecks": 4,
+    "sourceBindingsVerified": 24,
+    "savedByteActorMeasurements": 256
+  },
+  "savedByteActorMeasurementsBasis": "80 exact known writes + 48 intentionally unknown participant fields blank + 128 prosecutor Approved by fields blank",
+  "rasterNotRun": true,
+  "independentReviewNotClaimed": true
+}

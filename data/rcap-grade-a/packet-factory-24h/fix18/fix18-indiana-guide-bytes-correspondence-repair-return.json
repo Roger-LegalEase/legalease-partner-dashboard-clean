@@ -1,0 +1,222 @@
+{
+  "schemaVersion": "rcap-repair-lane-return/v2",
+  "lane": "FIX18",
+  "laneKind": "repair",
+  "worker": "FIX18 (Indiana guide-versus-bytes correspondence repair; this lane neither built nor verified either family before now)",
+  "assignmentId": "FIX18-indiana-guides-must-describe-the-delivered-packet",
+  "assignedBase": "1cc823b6ce1f82a1c3bf64b17ed992a79d03423d",
+  "measuredAtBase": "1cc823b6ce1f82a1c3bf64b17ed992a79d03423d",
+  "branch": "fix18-indiana-guides",
+  "repairCommit": "7165feb672cb678fc87a01e0d9fbd405e735c1f7",
+  "status": "COMPLETED",
+  "repairedByThisLane": true,
+  "selfVerified": false,
+  "productionTouched": false,
+  "commercialRoutesOpened": 0,
+  "grantsNothing": "This return records a guide-to-bytes correspondence repair and the invariant that holds it. It approves no artifact, promotes no route, creates no fulfillment record and opens nothing commercial. Both families remain not runtime-selectable with generationAllowed false.",
+
+  "grants": {
+    "families": ["in_arrest_no_charges-set", "in_section1_petition-set"],
+    "assertedBeforeAnyFamilyContentWasRead": true,
+    "howTheGrantWasObtained": "Both had been transferred to FIX18 centrally before dispatch. `claim.mjs --assert FIX18 in_arrest_no_charges-set` and `--assert FIX18 in_section1_petition-set` both exited 0 with CLAIM_OK, grant set 530f44cc15708984. FIX14 was dispatched at these same two families, produced the complete diagnosis this lane built on, and could not write a byte because both grants then answered GRANTED_ELSEWHERE against released claims on FIX04 and FIX05.",
+    "releasedAtEndOfLane": true
+  },
+
+  "theDiagnosisThisLaneBuiltOn": {
+    "file": "data/rcap-grade-a/packet-factory-24h/fix14/fix14-indiana-guide-correspondence-return.json",
+    "checkedNotRederived": "Every load-bearing measurement in that return was re-read from the delivered bytes and the pinned source before it was relied on: the 14/8/2 widget counts and page lists, the flattened state of all four fixtures, the page-13 writes, the NOT FOR PUBLIC RECORD stamps on pages 8, 9, 12, 13 and 14, the PetFullSSN page pair, and the two-standalone-builders finding. All confirmed.",
+    "oneCorrectionToIt": "FIX14 placed the page-13 name write at (51.47, 300.17) 'on the PROOF OF NOTICE Petitioner line'. The rectangle and the page are right; the line is not. Read against the page's own printed words, that widget sits in the DISTRIBUTION block -- printed text to its left is the block's tick square, to its right 'Bureau of Motor Vehicles', and directly beneath it the word 'Petitioner'. The rendered canonical fixture confirms it: page 13 prints 'Jordan Avery Reyes' above 'Petitioner' in the distribution column, and '118 Maple Street' in the address lines beneath it, both inside the distribution list rather than on the PROOF OF NOTICE 'Petitioner: ____' line, which stays blank. The guide now names the distribution list.",
+    "theSsnQuestionWasNotRelitigated": "FIX14 settled it and this lane did not reopen it. PetFullSSN's two widgets are pages 8 and 9; both pages carry the Coalition's own NOT FOR PUBLIC RECORD header and NOT PUBLIC RECORD footer, read from the delivered fixture rather than asserted; public reach is empty. Only the inaccurate sentence was fixed."
+  },
+
+  "whatWasWrong": {
+    "obligation": "REQUIRED_BEFORE_FILING",
+    "class": "The guide described a different packet from the one its own build delivered. Every sentence below was measured false against the delivered bytes, and each occurred exactly once in each of the two builders because the prose had been copy-pasted rather than shared.",
+    "theFiveDuplicatedFalseSentences": [
+      "Of its fifteen pages, only the Appearance on pages 1-2 carries form boxes for the participant's own details.",
+      "The petition's caption, its \"Comes now the Petitioner ______\" line and its paragraph 1 full-name blank carry no form boxes at all; nor does the proposed order's caption; nor does the Confidential Information Form's cause number or name.",
+      "So this packet filled in, on the Appearance only: ...",
+      "Copy the caption across every document. ... The petition, Form ACR, the Confidential Information Form and the proposed order all carry the same caption and none of them has boxes for it.",
+      "This family writes nothing below the proposed order's caption anywhere ..."
+    ],
+    "whatTheBytesSay": "cap-PetitionerFullName is ONE field with 14 widgets on pages 1, 3, 5, 7, 8, 9 and 13. cap-COUNTY is ONE field with 8 widgets on pages 1, 3, 7 and 9 -- twice per caption, once after 'IN THE' and once after 'COUNTY OF'. Address is ONE field with 2 widgets on pages 1 and 13. DD-cap-CourtType is ONE field with 4 widgets on pages 1, 3, 7 and 9. Five written values print in 26 places. The caption is therefore already printed on the petition, Form ACR, the Confidential Information Form and the proposed order, and following 'copy the caption across every document' meant hand-writing over printed text on four filed documents.",
+    "whichBlanksTheNameActuallyReaches": "Read from the pinned source with pdftotext -bbox against each widget's own rectangle, and confirmed in the rendered canonical fixture page by page: page 1 caption and Appearance paragraph 1; page 3 caption, the petition's 'Comes now the Petitioner' line and its paragraph 1 full-name blank; page 5 the Printed Name line beneath the signature; page 7 the Form ACR caption and two places in its notice text; page 8 the Confidential Information Form's 'PETITIONER'S NAME' line; page 9 the order's caption, its opening 'Petitioner, ____' line and its FINDINGS paragraph 1; page 13 the distribution list.",
+    "theOnlyTrueHalfOfTheClaim": "The caption's CAUSE NO. line genuinely has no box -- there is no cap-CauseNumber field anywhere in the 68-field bundle, and page 8's 'XP CAUSE NUMBER' line has none either. That is now stated on its own, as the one caption item the participant must write into all five documents by hand.",
+    "ins1B": "All four delivered fixtures are fully flattened: 0 AcroForm fields and 0 widget annotations on every one of the 15 + 4 pages, read with pdf-lib from the fixture bytes. The guide nonetheless directed the participant to open a dropdown and tick boxes. Every field identifier it names is now labelled as the Coalition's name for that blank on the Coalition's own published fillable form, and the delivery is described as what it is: flattened, to be printed and completed in pen.",
+    "line78": "'Put the full number nowhere else.' was inaccurate for a fillable delivery and is corrected rather than deleted. The bundle asks for the whole Social Security number twice -- the Confidential Information Form on page 8 and the proposed order's findings paragraph 2 on page 9 -- and both pages carry NOT FOR PUBLIC RECORD on their own printed faces. The guide now says so, says that pages 1 to 7 are the public ones, and says that the only Social Security digits reaching a public page are the last four in the petition's paragraph 2."
+  },
+
+  "whatWasNotChanged": {
+    "thePacketWritesExactlyWhatItWroteBefore": true,
+    "note": "The defect was in what the guide said about what the packet writes, not in what it writes. No field map, no binding decision, no refusal and no rendered value was touched. Every fixture in both families is byte-identical after the repair.",
+    "onePlacementWorthAsecondOpinionButNotAdefect": "cap-PetitionerFullName and Address reach the proposed order's page-13 distribution list, so the participant's name and street address are printed inside the order. This lane does not fold that into the repair. It reads as correct: the distribution list is the list of who the clerk sends the signed order to, page 13 is stamped NOT FOR PUBLIC RECORD on its own face, and the petitioner is one of the parties served. It is recorded here so counsel can disagree with it on the record rather than discover it."
+  },
+
+  "theRepair": {
+    "sharedProseWasLifted": true,
+    "newModule": "scripts/lib/indiana-cca-section1-guide.mjs",
+    "whyOneModuleRatherThanTwoEdits": "The two builders are standalone -- scripts/build-census-v1-in_arrest_no_charges-set.mjs and scripts/build-census-v1-in_section1_petition-set.mjs -- and about 96% identical. The defective prose was not shared code; it was copy-pasted once into each, which is why two independent verifiers found the same defect in the same jurisdiction. Fixing one paragraph twice would have left the next copy-paste free to fork them again. The guide body now exists once and both builders import it. Only four route-specific values stay in the builders: ROUTE_LABEL, ROUTE_ELIGIBILITY, ROUTE_KEYS/ROUTE_STATUTES and SELF_HELP_TAIL. After the repair the two rendered guides differ in exactly those four places and nowhere else.",
+    "generatedNotHandWritten": "The paragraphs that state where values land are rendered from the build's own records rather than typed beside them. measureDelivery() reads field-census.census-v1.json for widget counts and page bindings, production-field-map.json for which fields are written, and reports/participant-name-placement.json for the 14 measured name placements, and the guide's tables and sentences are generated from that object. A future change to the field map moves the guide with it.",
+    "invariant": "assertRepairInvariants() -- the shape the Alabama host repair installed in scripts/build-census-v1-al-diversion-set.mjs -- runs at the end of every build of either family, after every artifact is written, and re-reads the finished artifacts including the fixture bytes.",
+    "whatTheInvariantRefuses": [
+      "any of eleven retired sentences reappearing in the guide, including all five duplicated false ones",
+      "a widget count or page list in the guide that does not match the field census",
+      "a name-placement count that does not match reports/participant-name-placement.json, or any placement outside the allowlist",
+      "a guide that no longer names what the packet prints in the order's page-13 distribution list",
+      "a dropdown or tick-box instruction while the fixtures carry zero AcroForm fields, and a fixture that regains fillable widgets while the guide still calls the delivery flattened",
+      "PetFullSSN reaching any of the public pages 1 to 7",
+      "any shared field first collected on a non-public page and also printed on a public one",
+      "a caption cause-number box appearing in a future source revision while the guide still tells the participant to write it in by hand"
+    ],
+    "theInvariantWasTested": "Eleven tamper cases were run against a clean build -- reintroducing each retired sentence, altering a widget count, altering the name-placement count, removing the page-13 paragraph, re-adding a dropdown and a tick instruction, removing the flattened-delivery heading and removing the public-pages sentence. The clean guide passed and all eleven mutations were refused with the specific message naming what had drifted."
+  },
+
+  "counterEvidenceDisclaimer": "verify-packet-completeness.mjs returns PASS_COMPLETE with all nine counters at zero for both families BEFORE and AFTER this repair. Nine zeros are the starting condition here, not this lane's evidence. No completeness counter reaches a guide-versus-bytes correspondence defect -- the counters count blanks, not sentences -- which is exactly why this survived a build, two verifiers and a PASS_COMPLETE. The evidence is the correspondence between the guide's sentences and the delivered pages, set out above and now enforced by assertRepairInvariants().",
+
+  "rebuild": {
+    "how": "MASTER_LIBRARY_SOURCE_DIR=/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1, both builders run at the repair commit, each family directory compared recursively against its pre-repair state, then both run a second time to separate drift from non-determinism.",
+    "deterministic": true,
+    "secondRunReproducedTheFirstExactly": true,
+    "wholeFamilyDirectoryCompared": "17 files per family, recursively, by sha256",
+    "filesThatMoved": "ONE per family: participant-instructions.md. Every other file -- all four fixtures, source-receipt.json, production-field-map.json, product-wiring.json, approval-request.json, build-findings.json and all six reports -- is byte-identical.",
+    "theOneKnownCensusDrift": "field-census.census-v1.json rebuilds with AliasNamesDOBsSSNs (insert form, page 4, Exhibit A) carrying protectCategory 'government_identifier' where the committed file has null. Identical in both families, identical to what FIX14 measured, and unchanged by anything this lane did: it is a stale checked-in census that predates a field-classifier change, not builder non-determinism. Both files were restored to HEAD and the tree left clean. Reported separately, not folded in."
+  },
+
+  "fixtureDigests": {
+    "participantFacingPdfBytesMoved": false,
+    "freshRasterOwed": false,
+    "standingReceiptsStand": true,
+    "why": "The guides changed and the PDFs did not. No participant-facing page image is affected, so no fresh raster is owed and every standing raster receipt keyed to these digests remains keyed to the same bytes.",
+    "in_arrest_no_charges-set": {
+      "fixtures/packet-canonical-filled.pdf": { "before": "2f14e1a7c0e0bf6f162b0385e310a2ce12b9872e13b4bb6b85e21ff139bb9112", "after": "2f14e1a7c0e0bf6f162b0385e310a2ce12b9872e13b4bb6b85e21ff139bb9112", "moved": false },
+      "fixtures/packet-boundary-filled.pdf": { "before": "a7b34ccf21175518b5deb609818af3b04feda9c3280d0aaa3862b24714d9df3d", "after": "a7b34ccf21175518b5deb609818af3b04feda9c3280d0aaa3862b24714d9df3d", "moved": false },
+      "fixtures/inserts-canonical-filled.pdf": { "before": "f493e35fedb1125dd2eb3b84d0d08c6e717401a5f628ce853b49beebd46900f9", "after": "f493e35fedb1125dd2eb3b84d0d08c6e717401a5f628ce853b49beebd46900f9", "moved": false },
+      "fixtures/inserts-boundary-filled.pdf": { "before": "f493e35fedb1125dd2eb3b84d0d08c6e717401a5f628ce853b49beebd46900f9", "after": "f493e35fedb1125dd2eb3b84d0d08c6e717401a5f628ce853b49beebd46900f9", "moved": false },
+      "production-field-map.json": { "before": "36867405b8a0996954b013b2eab67472d20193e187629c7b995b741358aeca1a", "after": "36867405b8a0996954b013b2eab67472d20193e187629c7b995b741358aeca1a", "moved": false },
+      "reports/participant-name-placement.json": { "before": "abf6a5c97eae395673a709e6e51eda9292d95f1bb552f6ff0d86d861cecafa41", "after": "abf6a5c97eae395673a709e6e51eda9292d95f1bb552f6ff0d86d861cecafa41", "moved": false },
+      "participant-instructions.md": { "before": "373060646990d024063c50128b704690f9e4ab343ec0763262c205a2e81daa15", "after": "17c7eb7023b5fbf246852f2ea2aa2cbc68a378a89387dd778b6ba16b3c2d30d1", "moved": true, "thisIsTheRepair": true }
+    },
+    "in_section1_petition-set": {
+      "fixtures/packet-canonical-filled.pdf": { "before": "f3cfeb3257e31a90b8f29f5bc264e9da1ad0e390f53e1d3c5950b20b4cbc0241", "after": "f3cfeb3257e31a90b8f29f5bc264e9da1ad0e390f53e1d3c5950b20b4cbc0241", "moved": false },
+      "fixtures/packet-boundary-filled.pdf": { "before": "a7b34ccf21175518b5deb609818af3b04feda9c3280d0aaa3862b24714d9df3d", "after": "a7b34ccf21175518b5deb609818af3b04feda9c3280d0aaa3862b24714d9df3d", "moved": false },
+      "fixtures/inserts-canonical-filled.pdf": { "before": "f493e35fedb1125dd2eb3b84d0d08c6e717401a5f628ce853b49beebd46900f9", "after": "f493e35fedb1125dd2eb3b84d0d08c6e717401a5f628ce853b49beebd46900f9", "moved": false },
+      "fixtures/inserts-boundary-filled.pdf": { "before": "f493e35fedb1125dd2eb3b84d0d08c6e717401a5f628ce853b49beebd46900f9", "after": "f493e35fedb1125dd2eb3b84d0d08c6e717401a5f628ce853b49beebd46900f9", "moved": false },
+      "production-field-map.json": { "before": "69823e4ee1e846e1d6a592ac0b0fdecc45e2b49e13f4ae9b7d9334ff58610b3c", "after": "69823e4ee1e846e1d6a592ac0b0fdecc45e2b49e13f4ae9b7d9334ff58610b3c", "moved": false },
+      "reports/participant-name-placement.json": { "before": "a7fe8fae1e2a24048df015c8d753743b35aeefc2ca8bc3583e6380b5caa480b8", "after": "a7fe8fae1e2a24048df015c8d753743b35aeefc2ca8bc3583e6380b5caa480b8", "moved": false },
+      "participant-instructions.md": { "before": "0d68c1045ad3cb53487e9333ebab95a284b8262ca4e373c87ef7ff4c6f879a84", "after": "1dfa15d4d9f7b7c607ebb0e0973abce69eae4a85374ac274a90055426f8554b5", "moved": true, "thisIsTheRepair": true }
+    }
+  },
+
+  "identityRefreshSurvivedTheRebuild": {
+    "command": "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs",
+    "result": "EVERY_IDENTITY_REFRESH_SURVIVED",
+    "receiptsComparedAgainstHead": 245,
+    "carryingAnIdentityRefresh": 50,
+    "didItFire": false,
+    "nothingHadToBeRestored": "Neither Indiana source-receipt.json carries an identityRefresh annotation, and both rebuilt byte-identical to HEAD, so nothing was erased and nothing was restored."
+  },
+
+  "theThirteenOtherSharedFieldsThatStraddlePublicAndNonPublicPages": {
+    "questionAsked": "Does any of them create a real disclosure problem the way the SSN did not?",
+    "answer": "NO. Not one of the thirteen. The direction of travel is the whole answer, and on all thirteen it runs the protective way.",
+    "howPagesWereClassified": "From the pages' own printed faces in the delivered canonical fixture, not from the form's name: pages 8, 9, 12, 13 and 14 carry 'NOT FOR PUBLIC RECORD' as a header and 'NOT PUBLIC RECORD' as a footer; pages 1 to 7 carry neither; pages 10, 11 and 15 are placeholder and instruction leaves.",
+    "theTest": "A shared field is a disclosure problem only if the form collects it somewhere non-public and then reprints it somewhere public. The reverse -- a fact a public filing already asks for, copied into the non-public order -- moves nothing onto the record that was not already going there. Measured as min(publicPages) < min(nonPublicPages) for every straddling field.",
+    "result": "All thirteen are public-first. Every one of them is a fact the Appearance, the petition, Form ACR or the petition's page-5 agency list already puts on the public record by the form's own design, and the second copy lands inside the proposed order, which the Coalition designates non-public in full. None is collected only on a non-public page.",
+    "perField": [
+      { "field": "cap-PetitionerFullName", "widgets": 14, "public": [1,3,5,7], "nonPublic": [8,9,13], "verdict": "public_first — the caption name, already on four public filings" },
+      { "field": "cap-COUNTY", "widgets": 8, "public": [1,3,7], "nonPublic": [9], "verdict": "public_first — the caption county" },
+      { "field": "DD-cap-CourtType", "widgets": 4, "public": [1,3,7], "nonPublic": [9], "verdict": "public_first — the caption court type" },
+      { "field": "County", "widgets": 5, "public": [5], "nonPublic": [12,13,14], "verdict": "public_first — the agency county on the petition's page-5 list" },
+      { "field": "Address", "widgets": 2, "public": [1], "nonPublic": [13], "verdict": "public_first — the Appearance requires the address on its face; the order's distribution list is where the clerk mails to" },
+      { "field": "PetDOB", "widgets": 2, "public": [3], "nonPublic": [9], "verdict": "public_first — the petition's paragraph 2 asks for the date of birth in print" },
+      { "field": "PetDLorStateID#", "widgets": 2, "public": [3], "nonPublic": [9], "verdict": "public_first — same paragraph, same printed blank" },
+      { "field": "PetitionerAliases", "widgets": 2, "public": [3], "nonPublic": [9], "verdict": "public_first — the petition's paragraph 1 aliases blank" },
+      { "field": "RelatedCriminalCauseNumbers", "widgets": 2, "public": [3], "nonPublic": [9], "verdict": "public_first" },
+      { "field": "AppellateCauseNumbers", "widgets": 2, "public": [5], "nonPublic": [12], "verdict": "public_first" },
+      { "field": "LEA1", "widgets": 2, "public": [5], "nonPublic": [12], "verdict": "public_first" },
+      { "field": "LEA2", "widgets": 2, "public": [5], "nonPublic": [12], "verdict": "public_first" },
+      { "field": "LEA3", "widgets": 2, "public": [5], "nonPublic": [12], "verdict": "public_first" }
+    ],
+    "theOneNonStraddler": { "field": "PetFullSSN", "widgets": 2, "public": [], "nonPublic": [8,9], "verdict": "no public reach at all — the finding FIX14 cleared, re-measured and confirmed here" },
+    "andOnTheDeliveryItCannotBiteAtAll": "All four fixtures are flattened, so no field propagates anything on the artifact as shipped. The sharing only operates if a participant works from the Coalition's own fillable form, and the repaired guide now tells them that, names the counts (14 shared box names, 13 of them straddling), and says which direction the copying runs.",
+    "recordedAsAstandingObservationNotAdefect": true,
+    "whatWouldChangeThisAnswer": "A future source revision that moved any of these thirteen so it is first collected on a non-public page. assertRepairInvariants() now fails the build if that happens, so it cannot arrive silently."
+  },
+
+  "separateFindingsNotFoldedIntoThisRepair": [
+    {
+      "id": "IN-CENSUS-STALE-PROTECTCATEGORY",
+      "what": "field-census.census-v1.json in both Indiana families is stale by one line: AliasNamesDOBsSSNs on the insert form carries protectCategory null as committed and rebuilds as 'government_identifier'.",
+      "why": "The committed artifact predates a field-classifier change. It is not builder non-determinism -- two consecutive rebuilds agree with each other and disagree only with the checked-in file.",
+      "whatThisLaneDid": "Restored both files to HEAD and left the tree clean, as FIX14 did. Refreshing a census is a census decision, not a guide repair.",
+      "alsoReportedBy": "FIX14"
+    },
+    {
+      "id": "IN-ORDER-PAGE-13-PARTICIPANT-WRITES",
+      "what": "The packet prints the participant's name and street address inside the proposed order, in the page-13 distribution list, through the shared cap-PetitionerFullName and Address fields.",
+      "whyItIsNotFoldedIn": "The task forbids changing what the packet writes and requires a written value this lane thinks wrong to be reported separately. This lane does not think it wrong -- the distribution list names who the clerk serves, and the petitioner is one of them -- but the guide had denied it existed, so it is recorded for counsel to rule on rather than left implicit.",
+      "nowDescribedInTheGuide": true
+    }
+  ],
+
+  "rows": [
+    {
+      "itemId": "in_arrest_no_charges-set",
+      "familyId": "in_arrest_no_charges-set",
+      "lane": "FIX18",
+      "laneKind": "repair",
+      "status": "COMPLETED",
+      "repairedByThisLane": true,
+      "failedObligationNames": ["REQUIRED_BEFORE_FILING"],
+      "obligationRepaired": "REQUIRED_BEFORE_FILING. participant-instructions.md said three times that the packet filled the caption on the Appearance only, said the petition, Form ACR, the Confidential Information Form and the proposed order carry no boxes for it, and told the participant to copy the caption onto each -- while cap-PetitionerFullName carries 14 widgets on pages 1, 3, 5, 7, 8, 9 and 13, cap-COUNTY 8 on pages 1, 3, 7 and 9, and Address 2 on pages 1 and 13, so following it meant hand-writing over printed text on four filed documents. It also said the family writes nothing below the proposed order's caption, contradicted on page 13 where the name prints at (51.47, 300.17) and the address at (36.00, 244.71), both inside the order's distribution list. The guide now states, generated from the build's own field census and reports/participant-name-placement.json, that five values print in 26 places; names every blank each reaches; tells the participant not to write over the printed caption; isolates the cause number as the one caption item with no box anywhere; describes the delivery as the flattened PDF it is; and corrects the Social Security sentence to name both whole-number blanks and the pages that carry NOT FOR PUBLIC RECORD on their own faces. assertRepairInvariants() re-runs after every build and refuses each of these regressions.",
+      "verifierBeingConfirmed": "VF02",
+      "countersBefore": { "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0 },
+      "countersAfter": { "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0 },
+      "countersAreNotEvidenceHere": "verify-packet-completeness.mjs --family in_arrest_no_charges-set returns PASS_COMPLETE with all nine counters at zero both before and after. Nine zeros are the starting condition, not this row's evidence. No completeness counter reaches a guide-versus-bytes correspondence defect, which is why REQUIRED_BEFORE_FILING failed here while every counter read clean. The evidence is the correspondence between the guide's sentences and the delivered pages.",
+      "fixturesMoved": false,
+      "artifactsChanged": true,
+      "artifactsChangedList": ["participant-instructions.md"],
+      "freshRasterOwed": false
+    },
+    {
+      "itemId": "in_section1_petition-set",
+      "familyId": "in_section1_petition-set",
+      "lane": "FIX18",
+      "laneKind": "repair",
+      "status": "COMPLETED",
+      "repairedByThisLane": true,
+      "failedObligationNames": ["REQUIRED_BEFORE_FILING"],
+      "obligationRepaired": "REQUIRED_BEFORE_FILING, on both findings INS1-A and INS1-B. INS1-A is the same caption defect as the sibling family, copy-pasted into this builder's own 1717-line copy of the prose, and is repaired the same way and by the same shared module. INS1-B: guide lines 54, 90, 100, 103 and 114-119 directed the participant to named fields, a dropdown and tick boxes, while all four delivered fixtures are fully flattened -- 0 AcroForm fields and 0 widget annotations on every one of the 15 + 4 pages -- so every named field named nothing. The guide now opens with the flattened delivery, tells the participant to print both files and complete them in pen, and labels every field identifier as the Coalition's name for that blank on the Coalition's own published fillable form rather than as something to click. Line 78's 'Put the full number nowhere else' is corrected in the same place: the bundle asks for the whole Social Security number on page 8 and again in the order's findings paragraph 2 on page 9, both stamped NOT FOR PUBLIC RECORD, and only the last four digits reach a public page. assertRepairInvariants() fails the build if a fixture regains fillable widgets while the guide still calls the delivery flattened, or if the guide regains a dropdown or tick instruction.",
+      "verifierBeingConfirmed": "VF05",
+      "countersBefore": { "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0 },
+      "countersAfter": { "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0 },
+      "countersAreNotEvidenceHere": "verify-packet-completeness.mjs --family in_section1_petition-set returns PASS_COMPLETE with all nine counters at zero both before and after. Nine zeros are the starting condition, not this row's evidence. No completeness counter reaches a guide-versus-bytes correspondence defect. The evidence is the correspondence between the guide's sentences and the delivered pages.",
+      "fixturesMoved": false,
+      "artifactsChanged": true,
+      "artifactsChangedList": ["participant-instructions.md"],
+      "freshRasterOwed": false
+    }
+  ],
+
+  "commandsRun": [
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX18 in_arrest_no_charges-set  -> CLAIM_OK",
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX18 in_section1_petition-set  -> CLAIM_OK",
+    "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family in_arrest_no_charges-set  -> PASS_COMPLETE, nine zeros (before and after)",
+    "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family in_section1_petition-set  -> PASS_COMPLETE, nine zeros (before and after)",
+    "node scripts/build-census-v1-in_arrest_no_charges-set.mjs  -> OK, repair invariants OK",
+    "node scripts/build-census-v1-in_section1_petition-set.mjs  -> OK, repair invariants OK",
+    "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs  -> EVERY_IDENTITY_REFRESH_SURVIVED",
+    "node scripts/grade-a-packet-factory-24h/verify-lane-contracts.mjs  -> LANE_CONTRACTS_HELD, 9/9"
+  ],
+
+  "preconditions": {
+    "sparseCheckoutDisabledBeforeAnyMeasurement": true,
+    "note": "The worktree inherited core.sparseCheckout=true, the trap that has caught six lanes in a row. Disabling it ran the host out of disk mid-checkout and left 14 files in tmp/review-inbox/all50/{ohio,oklahoma} truncated; they were restored from HEAD before anything was measured.",
+    "trackedFiles": 15725,
+    "filesOnDiskExcludingGitdir": 15725,
+    "countsAgree": true,
+    "masterLibrarySourceDir": "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1"
+  },
+
+  "factoryVerifierState": "node scripts/grade-a-packet-factory-24h/verify.mjs reports 33/37 with four failures -- F24, F31, F35 and F37 -- all naming Louisiana, Michigan, New Hampshire and Arizona families held by other lanes. None concerns Indiana and none is caused by or affected by this repair."
+}

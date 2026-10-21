@@ -86,7 +86,7 @@ No waiting period. No petition requirement in the section. The court holds a hea
 ## Evidence
 
 - `/home/user/wt-c1-pleadings/src/lib/rcap/state-packs/texas/index.ts`, `/home/user/wt-c1-pleadings/src/lib/rcap/state-packs/texas/all50-build-metadata.ts`
-- `/home/user/wt-c1-pleadings/src/lib/rcap-engine/compiled/profiles/TX-texas.json` (sha256 `2820312fd974151afe465d6f04d0454b4a5c3cc991982142bd0e3ab9c3a297df`, profileVersion `2026-06-19-source-conversion-1`)
+- `/home/user/wt-c1-pleadings/src/lib/rcap-engine/compiled/profiles/TX-texas.json` (sha256 `5d86879a794303a7b38faa37533db4037a356eb017f8a3229e62c51041309dc4`, profileVersion `2026-06-19-source-conversion-1`)
 - Pinned registry entry `tracks[422]` (`trackId=tx_nd_veterans_reemployment`)
 
 The committed Texas state pack records build metadata and the Nationwide inventory only, and its `officialFormInventory` contains neither OCA nondisclosure form. Every filing step in `participant-instructions.md` and in both component documents comes from the track's `mechanism`, `rules`, `packetInstructions`, `packetSet.participantActionRequired`, `participantFilingRequirements`, `manualCompletionItems` and `selfHelpStopConditions`, corroborated where noted by the compiled profile's nondisclosure framing (`profile:sourceSections[1]`, `[4]`, `[8]`, `[11]`).

@@ -1,0 +1,243 @@
+{
+  "schemaVersion": "rcap-independent-defect-resolution/v1",
+  "familyId": "nj_ordinance-set",
+  "verifiedAtBase": "6463a0c47b557df7bfb5026a661170d73a7ff8d4",
+  "originalDefectsPath": "data/rcap-grade-a/packet-factory-24h/vf62/nj-ordinance-current-20260911/defects.json",
+  "originalDefectsSha256": "b78c51e53ef1a79b21c5e8f0c7c0b1d49752142d730997d1241f56477830120d",
+  "sourcePassagesPath": "data/rcap-grade-a/packet-factory-24h/vf62/nj-ordinance-current-20260911/source-passages.txt",
+  "sourcePassagesSha256": "2c7a57257eb714be05e1dfe7e94eec505adf56086fb6359258ccea20275c2c9c",
+  "originalGroups": 8,
+  "resolvedGroups": 8,
+  "remainingDefects": [],
+  "allOriginalDefectsReviewedTogether": true,
+  "sourceSemanticsReviewedIndependently": true,
+  "judgments": [
+    {
+      "id": "NJ-VF62-01",
+      "result": "RESOLVED",
+      "originalTitle": "Fourteen route-wide exclusions contradict case-history and multi-disposition instructions",
+      "affectedFields": [
+        "dismissOff1",
+        "dismissPlea",
+        "acquitOff1",
+        "dismissPtiOff1",
+        "contDismissOff1",
+        "contDismissPlea",
+        "contAcquitOff1",
+        "contAcquitCrt",
+        "contDismissPtiOff1",
+        "contDismissPtiCrt",
+        "contGuiltyDt",
+        "contGuiltyStatute",
+        "contGuiltyCrt",
+        "contGuiltyProbDt"
+      ],
+      "originalFailedObligations": [
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "originalSourceReferences": [
+        "CN-10557 p6 Records You Will Need note",
+        "CN-10557 p15 instructions7-8; p16 instructions8(d), note and9",
+        "CN-10557 pp18 and20 Choose all that apply; p20 addendum header; p22 addendum reminder",
+        "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs:2903-2916",
+        "legal-design-track-registry.json track nj_ordinance generationRequirements ordMatterDetails and ordAllConvictions"
+      ],
+      "independentBasis": "All fourteen route-wide exclusions are removed. Each field now requires the participant to verify whether the corresponding branch applies to the complete case history; none claims route membership establishes N/A. The initial guide expressly includes every arrest, charge and prosecution, even where relief is not sought. The two plea-bargain Yes/No controls remain case-dependent participant elections. This follows the previously held CN-10557 p15 instructions7-8 and p16 note/instruction9; no new eligibility interpretation is needed.",
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/vf62/nj-final-20260911/field-review-inventory.json",
+        "data/rcap-grade-a/packet-factory-24h/vf62/nj-final-20260911/reader-measurements.json"
+      ]
+    },
+    {
+      "id": "NJ-VF62-02",
+      "result": "RESOLVED",
+      "originalTitle": "Twenty-one ordinary disposition facts remain hidden as sworn elections",
+      "affectedFields": [
+        "dismissDt",
+        "dismissOff2",
+        "acquitDt",
+        "acquitOff2",
+        "acquitCrt",
+        "dismissPtiDt",
+        "dismissPtiOff2",
+        "dismissCrt",
+        "contDismissDt",
+        "contDismissCrt",
+        "contAcquitDt",
+        "contAcquitOff2",
+        "contDismissPtiDt",
+        "contDismissPtiOff2",
+        "contGuiltyOff1",
+        "contGuiltyOff2",
+        "contGuiltyFinal1",
+        "contGuiltyFinal2",
+        "contGuiltyTimeType",
+        "contGuiltyDocCmpltDt",
+        "contGuiltyFineDt"
+      ],
+      "originalFailedObligations": [
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "originalSourceReferences": [
+        "CN-10557 p15 instruction8(a)-(c); p16 instruction8(d) and9",
+        "CN-10557 pp18-21 printed disposition paragraphs"
+      ],
+      "independentBasis": "All twenty-one ordinary history cells now have source-printed fact identities and conditional REQUIRED_BEFORE_FILING declarations, with exact guide entries. Date, offense continuation, court, sentence and completion-date labels now identify the respective fields rather than the prior fragments or generic election label. Read alongside CN-10557 pp15-16 and the already held pp18-21 forms, the thirty-five history fields in groups01/02 are consistently conditional, not omitted. Actual election controls retain participant decisions.",
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/vf62/nj-final-20260911/field-review-inventory.json",
+        "data/rcap-grade-a/packet-factory-24h/vf62/nj-final-20260911/reader-measurements.json"
+      ]
+    },
+    {
+      "id": "NJ-VF62-03",
+      "result": "RESOLVED",
+      "originalTitle": "Assigned docket and hearing facts are participant copying tasks on later forms",
+      "affectedFields": [
+        "ExpungeDocketNum",
+        "expungDocketNum",
+        "CoverLtrEHearDt",
+        "CoverLtrEHearTime"
+      ],
+      "originalFailedObligations": [
+        "KNOWN_PREFILLS",
+        "SERVICE"
+      ],
+      "originalSourceReferences": [
+        "CN-10557 p15 instruction3 versus p36 instructions4-5 and p41 instruction5",
+        "CN-10557 p39 instruction3",
+        "participant-instructions.md:63",
+        "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs:2930-2933"
+      ],
+      "independentBasis": "All four later docket/hearing-copy fields are participant-owned, requiredBeforeFiling=false and requiredBeforeInitialFiling=false, with exact source-stage proofs. ExpungeDocketNum identifies only FormsE/G pp38/43, expungDocketNum identifies FormF p40, and the hearing date/time are copied from the returned Order for Hearing. The guide distinguishes court assignment of initial captions from later participant copying. CN-10557 pp36,39,41 directly support these stages; the eleven previously corrected judicial fields remain protected.",
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/vf62/nj-final-20260911/field-review-inventory.json",
+        "data/rcap-grade-a/packet-factory-24h/vf62/nj-final-20260911/reader-measurements.json"
+      ]
+    },
+    {
+      "id": "NJ-VF62-04",
+      "result": "RESOLVED",
+      "originalTitle": "Sixteen participant-supplied agency locations and addresses are falsely agency-owned",
+      "affectedFields": [
+        "prosCntys",
+        "PoliceLoc",
+        "WardenLoc",
+        "SuperintendentLoc",
+        "deputyClerkSCCOCnty",
+        "SheriffLoc",
+        "SheriffAddrStr",
+        "SheriffAddr2",
+        "ProsCntyName",
+        "ProsAddrStr",
+        "PoliceAddrStr",
+        "PoliceAddr2",
+        "SuperintendentAddrStr",
+        "SuperintendentAddr2",
+        "WardenAddrStr",
+        "WardenAddr2"
+      ],
+      "originalFailedObligations": [
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "SERVICE"
+      ],
+      "originalSourceReferences": [
+        "CN-10557 p25 instructions7-10; p26 continuation of10",
+        "CN-10557 p28 instructions8-9; p29 instructions10-12",
+        "CN-10557 p36 instruction2; p39 instruction6; p41 instruction2"
+      ],
+      "independentBasis": "All sixteen recipient fields now identify the participant as preparer. The five fields needed on proposed FormsB/C are initial conditional facts; the other eleven are later service-address tasks with source-stage proofs. Each is disclosed at the corresponding stage, with verification of recipient relevance and address. CN-10557 pp25-26 and28-29 assign initial recipient facts to the participant; pp36,39,41 assign later notice and proof. Known recipient facts can be gathered in advance; none of these sixteen is falsely assigned to an agency to fill in.",
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/vf62/nj-final-20260911/field-review-inventory.json",
+        "data/rcap-grade-a/packet-factory-24h/vf62/nj-final-20260911/reader-measurements.json"
+      ]
+    },
+    {
+      "id": "NJ-VF62-05",
+      "result": "RESOLVED",
+      "originalTitle": "Three later mailing dates are required before filing and marked not after service",
+      "affectedFields": [
+        "CoverLtrEDt",
+        "mailPetition",
+        "CoverLtrGDt"
+      ],
+      "originalFailedObligations": [
+        "REQUIRED_BEFORE_FILING",
+        "SERVICE"
+      ],
+      "originalSourceReferences": [
+        "CN-10557 p36 instruction1 and4; p39 instruction5; p41 instruction1",
+        "participant-instructions.md:75",
+        "participant-instructions.md:127-129"
+      ],
+      "independentBasis": "CoverLtrEDt, mailPetition and CoverLtrGDt are removed from initial requirements and each has both required-before-filing flags false and completesAfterService=true. Human-readable guide stages identify Notice of Hearing mailing, subsequent proof from actual receipts, and mailing after the signed Expungement Order. FormF remains conditional on the clerk requiring proof before hearing, matching held source p39. The machine enum is on the same line as the exact field, and the live reader verifies the source passages on pp36,39,41.",
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/vf62/nj-final-20260911/field-review-inventory.json",
+        "data/rcap-grade-a/packet-factory-24h/vf62/nj-final-20260911/reader-measurements.json"
+      ]
+    },
+    {
+      "id": "NJ-VF62-06",
+      "result": "RESOLVED",
+      "originalTitle": "Three Form C special-route elections are assigned to the court contrary to its instructions",
+      "affectedFields": [
+        "gradDC",
+        "marijuana",
+        "cleanSlate"
+      ],
+      "originalFailedObligations": [
+        "KNOWN_PREFILLS"
+      ],
+      "originalSourceReferences": [
+        "CN-10557 p28 instruction5; p30 Check only if applicable",
+        "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs:2859-2878"
+      ],
+      "independentBasis": "gradDC, marijuana and cleanSlate remain unmarked; their owner is now the participant and each explanation states the source-defined special-relief condition. They are no longer described as court-completed. The guide says a blank is not a held answer and does not elect a control from ordinance-family membership. This resolves the ownership defect under held source p28 instruction5 without expanding this route or determining special-relief eligibility.",
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/vf62/nj-final-20260911/field-review-inventory.json",
+        "data/rcap-grade-a/packet-factory-24h/vf62/nj-final-20260911/reader-measurements.json"
+      ]
+    },
+    {
+      "id": "NJ-VF62-07",
+      "result": "RESOLVED",
+      "originalTitle": "The guide calls guilty a held prefill and unconditionally directs handwriting it",
+      "affectedFields": [
+        "guilty"
+      ],
+      "originalFailedObligations": [
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "originalSourceReferences": [
+        "participant-instructions.md:15-24",
+        "participant-instructions.md:172",
+        "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs:1969-1974",
+        "production-field-map.json field guilty"
+      ],
+      "independentBasis": "guilty is absent from the unconditional held-value table and recorded separately as an unresolved participant election with valueHeld=null on both fixtures. Its guide entry requires the complete conviction facts and the stated court clarification before deciding whether to mark the box. The six missing paragraph facts, whole-row withholding and ordinance/N.J.S.A. clarification stop remain explicit. Eight actual held values remain disclosed without converting this null election into a fact.",
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/vf62/nj-final-20260911/field-review-inventory.json",
+        "data/rcap-grade-a/packet-factory-24h/vf62/nj-final-20260911/reader-measurements.json"
+      ]
+    },
+    {
+      "id": "NJ-VF62-08",
+      "result": "RESOLVED",
+      "originalTitle": "Saved actual-writes refusals contradict the field map and their own held-fact reasons",
+      "affectedFields": [],
+      "originalFailedObligations": [
+        "KNOWN_PREFILLS"
+      ],
+      "originalSourceReferences": [],
+      "independentBasis": "Reviewed all169 refusals on each fixture (338 total). Every reason agrees with the effective field declaration or the actual held-row/mapping/fit/election cause. No classified_unwritable_by_role catch-all remains. The eight held values and one unresolved election are distinct; county dropdown refusal is exact_mapping_requires_text_field, canonical arrest1CaseNum is withheld_for_row_integrity and boundary arrest1CaseNum retains its width refusal. Later tasks carry participant_later_completion category and PARTICIPANT_LATER_COMPLETION semantic disposition. The real nonvisual entrypoint rereads the saved PDF proof and passes.",
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/vf62/nj-final-20260911/field-review-inventory.json",
+        "data/rcap-grade-a/packet-factory-24h/vf62/nj-final-20260911/refusal-reconciliation.json"
+      ]
+    }
+  ],
+  "scope": "Fresh adjudication of KNOWN_PREFILLS, REQUIRED_BEFORE_FILING and SERVICE against all eight original defect groups. Twelve unchanged prior approvals are explicitly reused; no new source freshness, visual or legal research."
+}

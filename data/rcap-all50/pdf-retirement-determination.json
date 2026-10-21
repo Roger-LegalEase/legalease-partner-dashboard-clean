@@ -14,7 +14,7 @@
       "name": "track_terminalization_ledger",
       "description": "Tracks and their required family ids.",
       "runtime": false,
-      "identifierCount": 1065
+      "identifierCount": 1086
     },
     {
       "name": "d_track_queue",
@@ -26,7 +26,7 @@
       "name": "composed_routes",
       "description": "Composed route definitions and their components.",
       "runtime": true,
-      "identifierCount": 6226
+      "identifierCount": 6233
     },
     {
       "name": "guidance_packets",
@@ -62,19 +62,19 @@
       "name": "application_source",
       "description": "Identifiers named literally in src/, including compiled .json profiles.",
       "runtime": true,
-      "identifierCount": 4100
+      "identifierCount": 4306
     }
   ],
   "surfacesUnreadable": [],
   "totals": {
-    "assetsProbed": 128,
+    "assetsProbed": 149,
     "surfacesProbed": 10,
     "surfacesUnreadable": 0,
-    "retainAndRemediate": 88,
-    "retirementCandidates": 40,
-    "retainedBecauseOfARuntimeSurface": 52,
-    "assetsWithNoTrackBinding": 104,
-    "assetsWithNoTrackBindingRetainedAnyway": 64,
+    "retainAndRemediate": 107,
+    "retirementCandidates": 42,
+    "retainedBecauseOfARuntimeSurface": 69,
+    "assetsWithNoTrackBinding": 116,
+    "assetsWithNoTrackBindingRetainedAnyway": 74,
     "alreadyCarryingARetirementMarker": 40
   },
   "assets": [
@@ -1256,6 +1256,1052 @@
         }
       ],
       "heldOnlyByThisLanesOwnManifest": false
+    },
+    {
+      "jurisdiction": "CO",
+      "formNumber": "JDF-2363",
+      "assetId": "CO|JDF-2363|abec6d716d028670a3b1e26c2a1b512ce320421253e6b85ec40e636d05577e33",
+      "familyIds": [
+        "CO:jdf-2363-form-form-en"
+      ],
+      "alreadyRetired": false,
+      "activeTrackStatus": "no_track_binding",
+      "affectedTrackIds": [],
+      "probedIdentifiers": [
+        "JDF2363",
+        "JDF2363FORMFORMEN"
+      ],
+      "usedByPlatform": true,
+      "usedAtRuntime": true,
+      "useSites": [
+        {
+          "surface": "legal_design_registry",
+          "runtime": false,
+          "matchedIdentifiers": [
+            "JDF2363"
+          ]
+        },
+        {
+          "surface": "application_source",
+          "runtime": true,
+          "matchedIdentifiers": [
+            "JDF2363FORMFORMEN"
+          ]
+        }
+      ],
+      "determination": "retain_and_remediate",
+      "determinationBasis": "Named by 2 surface(s): legal_design_registry, application_source.",
+      "retirementBlockedBy": [
+        {
+          "surface": "legal_design_registry",
+          "removalRequires": "a legal-design decision: the byte-pinned registry names this asset as a packet component, so retiring it changes what a packet contains"
+        },
+        {
+          "surface": "application_source",
+          "removalRequires": "an application-source change: the identifier appears literally in src/, which this lane does not modify"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": false
+    },
+    {
+      "jurisdiction": "CO",
+      "formNumber": "JDF-2370",
+      "assetId": "CO|JDF-2370|cc0b5737ef0598f9e667e50b00aecbd95f53fdb9aa2bc546f8aaa910da480149",
+      "familyIds": [
+        "CO:jdf-2370-instructions-instructions-en"
+      ],
+      "alreadyRetired": false,
+      "activeTrackStatus": "no_track_binding",
+      "affectedTrackIds": [],
+      "probedIdentifiers": [
+        "JDF2370",
+        "JDF2370INSTRUCTIONSINSTRUCTIONSEN"
+      ],
+      "usedByPlatform": true,
+      "usedAtRuntime": true,
+      "useSites": [
+        {
+          "surface": "overlay_factory_manifest",
+          "runtime": true,
+          "matchedIdentifiers": [
+            "JDF2370"
+          ]
+        }
+      ],
+      "determination": "retain_and_remediate",
+      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest.",
+      "retirementBlockedBy": [
+        {
+          "surface": "overlay_factory_manifest",
+          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": true
+    },
+    {
+      "jurisdiction": "CO",
+      "formNumber": "JDF-2371",
+      "assetId": "CO|JDF-2371|642558b85e3f3df8c15808369685bbe56398523c7794b6a949d20fd7b4f8b6d6",
+      "familyIds": [
+        "CO:jdf-2371-form-motion-en"
+      ],
+      "alreadyRetired": false,
+      "activeTrackStatus": "active_track",
+      "affectedTrackIds": [
+        "co_decriminalized_conduct_seal"
+      ],
+      "probedIdentifiers": [
+        "JDF2371",
+        "JDF2371FORMMOTIONEN"
+      ],
+      "usedByPlatform": true,
+      "usedAtRuntime": true,
+      "useSites": [
+        {
+          "surface": "legal_design_registry",
+          "runtime": false,
+          "matchedIdentifiers": [
+            "JDF2371"
+          ]
+        },
+        {
+          "surface": "d_track_queue",
+          "runtime": false,
+          "matchedIdentifiers": [
+            "JDF2371"
+          ]
+        },
+        {
+          "surface": "overlay_factory_manifest",
+          "runtime": true,
+          "matchedIdentifiers": [
+            "JDF2371"
+          ]
+        },
+        {
+          "surface": "application_source",
+          "runtime": true,
+          "matchedIdentifiers": [
+            "JDF2371FORMMOTIONEN"
+          ]
+        }
+      ],
+      "determination": "retain_and_remediate",
+      "determinationBasis": "Named by 4 surface(s): legal_design_registry, d_track_queue, overlay_factory_manifest, application_source.",
+      "retirementBlockedBy": [
+        {
+          "surface": "legal_design_registry",
+          "removalRequires": "a legal-design decision: the byte-pinned registry names this asset as a packet component, so retiring it changes what a packet contains"
+        },
+        {
+          "surface": "d_track_queue",
+          "removalRequires": "a D-queue decision: a committed family relationship names it"
+        },
+        {
+          "surface": "overlay_factory_manifest",
+          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
+        },
+        {
+          "surface": "application_source",
+          "removalRequires": "an application-source change: the identifier appears literally in src/, which this lane does not modify"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": false
+    },
+    {
+      "jurisdiction": "CO",
+      "formNumber": "JDF-2374",
+      "assetId": "CO|JDF-2374|36a7ad4767ac8333183cd26775265697d1c6574029f7f722462f09d382990a72",
+      "familyIds": [
+        "CO:jdf-2374-form-order-en"
+      ],
+      "alreadyRetired": false,
+      "activeTrackStatus": "active_track",
+      "affectedTrackIds": [
+        "co_decriminalized_conduct_seal"
+      ],
+      "probedIdentifiers": [
+        "JDF2374",
+        "JDF2374FORMORDEREN"
+      ],
+      "usedByPlatform": true,
+      "usedAtRuntime": true,
+      "useSites": [
+        {
+          "surface": "legal_design_registry",
+          "runtime": false,
+          "matchedIdentifiers": [
+            "JDF2374"
+          ]
+        },
+        {
+          "surface": "d_track_queue",
+          "runtime": false,
+          "matchedIdentifiers": [
+            "JDF2374"
+          ]
+        },
+        {
+          "surface": "overlay_factory_manifest",
+          "runtime": true,
+          "matchedIdentifiers": [
+            "JDF2374"
+          ]
+        }
+      ],
+      "determination": "retain_and_remediate",
+      "determinationBasis": "Named by 3 surface(s): legal_design_registry, d_track_queue, overlay_factory_manifest.",
+      "retirementBlockedBy": [
+        {
+          "surface": "legal_design_registry",
+          "removalRequires": "a legal-design decision: the byte-pinned registry names this asset as a packet component, so retiring it changes what a packet contains"
+        },
+        {
+          "surface": "d_track_queue",
+          "removalRequires": "a D-queue decision: a committed family relationship names it"
+        },
+        {
+          "surface": "overlay_factory_manifest",
+          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": false
+    },
+    {
+      "jurisdiction": "CO",
+      "formNumber": "JDF-416",
+      "assetId": "CO|JDF-416|26b07edc2300b2fd9dc8a5114fa3738fb4b377a7aa1ea089cecf6861b96235af",
+      "familyIds": [
+        "CO:jdf-416-instructions-instructions-en"
+      ],
+      "alreadyRetired": false,
+      "activeTrackStatus": "no_track_binding",
+      "affectedTrackIds": [],
+      "probedIdentifiers": [
+        "JDF416",
+        "JDF416INSTRUCTIONSINSTRUCTIONSEN"
+      ],
+      "usedByPlatform": true,
+      "usedAtRuntime": true,
+      "useSites": [
+        {
+          "surface": "overlay_factory_manifest",
+          "runtime": true,
+          "matchedIdentifiers": [
+            "JDF416"
+          ]
+        },
+        {
+          "surface": "application_source",
+          "runtime": true,
+          "matchedIdentifiers": [
+            "JDF416"
+          ]
+        }
+      ],
+      "determination": "retain_and_remediate",
+      "determinationBasis": "Named by 2 surface(s): overlay_factory_manifest, application_source.",
+      "retirementBlockedBy": [
+        {
+          "surface": "overlay_factory_manifest",
+          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
+        },
+        {
+          "surface": "application_source",
+          "removalRequires": "an application-source change: the identifier appears literally in src/, which this lane does not modify"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": false
+    },
+    {
+      "jurisdiction": "CO",
+      "formNumber": "JDF-417",
+      "assetId": "CO|JDF-417|e0e1aefac85269087ca0f69252c501b14020a301d2cf6e5fbcc26aa5338f6dd4",
+      "familyIds": [
+        "CO:jdf-417-form-petition-en"
+      ],
+      "alreadyRetired": false,
+      "activeTrackStatus": "no_track_binding",
+      "affectedTrackIds": [],
+      "probedIdentifiers": [
+        "JDF417",
+        "JDF417FORMPETITIONEN"
+      ],
+      "usedByPlatform": true,
+      "usedAtRuntime": true,
+      "useSites": [
+        {
+          "surface": "legal_design_registry",
+          "runtime": false,
+          "matchedIdentifiers": [
+            "JDF417"
+          ]
+        },
+        {
+          "surface": "overlay_factory_manifest",
+          "runtime": true,
+          "matchedIdentifiers": [
+            "JDF417"
+          ]
+        },
+        {
+          "surface": "application_source",
+          "runtime": true,
+          "matchedIdentifiers": [
+            "JDF417",
+            "JDF417FORMPETITIONEN"
+          ]
+        }
+      ],
+      "determination": "retain_and_remediate",
+      "determinationBasis": "Named by 3 surface(s): legal_design_registry, overlay_factory_manifest, application_source.",
+      "retirementBlockedBy": [
+        {
+          "surface": "legal_design_registry",
+          "removalRequires": "a legal-design decision: the byte-pinned registry names this asset as a packet component, so retiring it changes what a packet contains"
+        },
+        {
+          "surface": "overlay_factory_manifest",
+          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
+        },
+        {
+          "surface": "application_source",
+          "removalRequires": "an application-source change: the identifier appears literally in src/, which this lane does not modify"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": false
+    },
+    {
+      "jurisdiction": "CO",
+      "formNumber": "JDF-418",
+      "assetId": "CO|JDF-418|b027be364d93a1f5b879916c144260e7aeeaadc46309bf69c9478d6ad70c7993",
+      "familyIds": [
+        "CO:jdf-418-form-order-en"
+      ],
+      "alreadyRetired": false,
+      "activeTrackStatus": "no_track_binding",
+      "affectedTrackIds": [],
+      "probedIdentifiers": [
+        "JDF418",
+        "JDF418FORMORDEREN"
+      ],
+      "usedByPlatform": true,
+      "usedAtRuntime": true,
+      "useSites": [
+        {
+          "surface": "overlay_factory_manifest",
+          "runtime": true,
+          "matchedIdentifiers": [
+            "JDF418"
+          ]
+        },
+        {
+          "surface": "application_source",
+          "runtime": true,
+          "matchedIdentifiers": [
+            "JDF418",
+            "JDF418FORMORDEREN"
+          ]
+        }
+      ],
+      "determination": "retain_and_remediate",
+      "determinationBasis": "Named by 2 surface(s): overlay_factory_manifest, application_source.",
+      "retirementBlockedBy": [
+        {
+          "surface": "overlay_factory_manifest",
+          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
+        },
+        {
+          "surface": "application_source",
+          "removalRequires": "an application-source change: the identifier appears literally in src/, which this lane does not modify"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": false
+    },
+    {
+      "jurisdiction": "CO",
+      "formNumber": "JDF-477",
+      "assetId": "CO|JDF-477|b9cbad7f3a66a1a952e10ad15e59d77afb9b68714465fe0e88333cf2c3159643",
+      "familyIds": [
+        "CO:jdf-477-form-motion-en"
+      ],
+      "alreadyRetired": false,
+      "activeTrackStatus": "active_track",
+      "affectedTrackIds": [
+        "co_motion_seal_nonconviction"
+      ],
+      "probedIdentifiers": [
+        "JDF477",
+        "JDF477FORMMOTIONEN"
+      ],
+      "usedByPlatform": true,
+      "usedAtRuntime": true,
+      "useSites": [
+        {
+          "surface": "legal_design_registry",
+          "runtime": false,
+          "matchedIdentifiers": [
+            "JDF477"
+          ]
+        },
+        {
+          "surface": "d_track_queue",
+          "runtime": false,
+          "matchedIdentifiers": [
+            "JDF477"
+          ]
+        },
+        {
+          "surface": "overlay_factory_manifest",
+          "runtime": true,
+          "matchedIdentifiers": [
+            "JDF477"
+          ]
+        },
+        {
+          "surface": "application_source",
+          "runtime": true,
+          "matchedIdentifiers": [
+            "JDF477FORMMOTIONEN"
+          ]
+        }
+      ],
+      "determination": "retain_and_remediate",
+      "determinationBasis": "Named by 4 surface(s): legal_design_registry, d_track_queue, overlay_factory_manifest, application_source.",
+      "retirementBlockedBy": [
+        {
+          "surface": "legal_design_registry",
+          "removalRequires": "a legal-design decision: the byte-pinned registry names this asset as a packet component, so retiring it changes what a packet contains"
+        },
+        {
+          "surface": "d_track_queue",
+          "removalRequires": "a D-queue decision: a committed family relationship names it"
+        },
+        {
+          "surface": "overlay_factory_manifest",
+          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
+        },
+        {
+          "surface": "application_source",
+          "removalRequires": "an application-source change: the identifier appears literally in src/, which this lane does not modify"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": false
+    },
+    {
+      "jurisdiction": "CO",
+      "formNumber": "JDF-478",
+      "assetId": "CO|JDF-478|8208caab3019164f8f0671aea1f0dbcf460805d61455346887cfd1d133c0e159",
+      "familyIds": [
+        "CO:jdf-478-form-order-en"
+      ],
+      "alreadyRetired": false,
+      "activeTrackStatus": "active_track",
+      "affectedTrackIds": [
+        "co_motion_seal_nonconviction"
+      ],
+      "probedIdentifiers": [
+        "JDF478",
+        "JDF478FORMORDEREN"
+      ],
+      "usedByPlatform": true,
+      "usedAtRuntime": true,
+      "useSites": [
+        {
+          "surface": "legal_design_registry",
+          "runtime": false,
+          "matchedIdentifiers": [
+            "JDF478"
+          ]
+        },
+        {
+          "surface": "d_track_queue",
+          "runtime": false,
+          "matchedIdentifiers": [
+            "JDF478"
+          ]
+        },
+        {
+          "surface": "overlay_factory_manifest",
+          "runtime": true,
+          "matchedIdentifiers": [
+            "JDF478"
+          ]
+        }
+      ],
+      "determination": "retain_and_remediate",
+      "determinationBasis": "Named by 3 surface(s): legal_design_registry, d_track_queue, overlay_factory_manifest.",
+      "retirementBlockedBy": [
+        {
+          "surface": "legal_design_registry",
+          "removalRequires": "a legal-design decision: the byte-pinned registry names this asset as a packet component, so retiring it changes what a packet contains"
+        },
+        {
+          "surface": "d_track_queue",
+          "removalRequires": "a D-queue decision: a committed family relationship names it"
+        },
+        {
+          "surface": "overlay_factory_manifest",
+          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": false
+    },
+    {
+      "jurisdiction": "CO",
+      "formNumber": "JDF-491",
+      "assetId": "CO|JDF-491|79dca4e720161b68ae74a8973392bbe22c05f565f704c609ec7cc7da0fcd3685",
+      "familyIds": [
+        "CO:jdf-491-instructions-instructions-en"
+      ],
+      "alreadyRetired": false,
+      "activeTrackStatus": "no_track_binding",
+      "affectedTrackIds": [],
+      "probedIdentifiers": [
+        "JDF491",
+        "JDF491INSTRUCTIONSINSTRUCTIONSEN"
+      ],
+      "usedByPlatform": false,
+      "usedAtRuntime": false,
+      "useSites": [],
+      "determination": "retirement_candidate",
+      "determinationBasis": "No surface names it. Probed 10 surface(s) against 2 identifier(s)."
+    },
+    {
+      "jurisdiction": "CO",
+      "formNumber": "JDF-611",
+      "assetId": "CO|JDF-611|b628ee77cfdbb1e02208a74b04f6a03083e2843505f4bb4a7c3e0f2b3503843e",
+      "familyIds": [
+        "CO:jdf-611-instructions-instructions-en"
+      ],
+      "alreadyRetired": false,
+      "activeTrackStatus": "no_track_binding",
+      "affectedTrackIds": [],
+      "probedIdentifiers": [
+        "JDF611",
+        "JDF611INSTRUCTIONSINSTRUCTIONSEN"
+      ],
+      "usedByPlatform": true,
+      "usedAtRuntime": true,
+      "useSites": [
+        {
+          "surface": "overlay_factory_manifest",
+          "runtime": true,
+          "matchedIdentifiers": [
+            "JDF611"
+          ]
+        },
+        {
+          "surface": "application_source",
+          "runtime": true,
+          "matchedIdentifiers": [
+            "JDF611"
+          ]
+        }
+      ],
+      "determination": "retain_and_remediate",
+      "determinationBasis": "Named by 2 surface(s): overlay_factory_manifest, application_source.",
+      "retirementBlockedBy": [
+        {
+          "surface": "overlay_factory_manifest",
+          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
+        },
+        {
+          "surface": "application_source",
+          "removalRequires": "an application-source change: the identifier appears literally in src/, which this lane does not modify"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": false
+    },
+    {
+      "jurisdiction": "CO",
+      "formNumber": "JDF-612",
+      "assetId": "CO|JDF-612|8600b4b9a4b27fe821e843cf6bfc21f45325f0791bb9d1e62a0326d7261f927e",
+      "familyIds": [
+        "CO:jdf-612-form-motion-en"
+      ],
+      "alreadyRetired": false,
+      "activeTrackStatus": "no_track_binding",
+      "affectedTrackIds": [],
+      "probedIdentifiers": [
+        "JDF612",
+        "JDF612FORMMOTIONEN"
+      ],
+      "usedByPlatform": true,
+      "usedAtRuntime": true,
+      "useSites": [
+        {
+          "surface": "legal_design_registry",
+          "runtime": false,
+          "matchedIdentifiers": [
+            "JDF612"
+          ]
+        },
+        {
+          "surface": "overlay_factory_manifest",
+          "runtime": true,
+          "matchedIdentifiers": [
+            "JDF612"
+          ]
+        },
+        {
+          "surface": "application_source",
+          "runtime": true,
+          "matchedIdentifiers": [
+            "JDF612",
+            "JDF612FORMMOTIONEN"
+          ]
+        }
+      ],
+      "determination": "retain_and_remediate",
+      "determinationBasis": "Named by 3 surface(s): legal_design_registry, overlay_factory_manifest, application_source.",
+      "retirementBlockedBy": [
+        {
+          "surface": "legal_design_registry",
+          "removalRequires": "a legal-design decision: the byte-pinned registry names this asset as a packet component, so retiring it changes what a packet contains"
+        },
+        {
+          "surface": "overlay_factory_manifest",
+          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
+        },
+        {
+          "surface": "application_source",
+          "removalRequires": "an application-source change: the identifier appears literally in src/, which this lane does not modify"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": false
+    },
+    {
+      "jurisdiction": "CO",
+      "formNumber": "JDF-615",
+      "assetId": "CO|JDF-615|106cbd5edad2272f3f6f1378450b007507da879e6a917437d2cc3bb062d87647",
+      "familyIds": [
+        "CO:jdf-615-form-order-en"
+      ],
+      "alreadyRetired": false,
+      "activeTrackStatus": "no_track_binding",
+      "affectedTrackIds": [],
+      "probedIdentifiers": [
+        "JDF615",
+        "JDF615FORMORDEREN"
+      ],
+      "usedByPlatform": true,
+      "usedAtRuntime": true,
+      "useSites": [
+        {
+          "surface": "legal_design_registry",
+          "runtime": false,
+          "matchedIdentifiers": [
+            "JDF615"
+          ]
+        },
+        {
+          "surface": "overlay_factory_manifest",
+          "runtime": true,
+          "matchedIdentifiers": [
+            "JDF615"
+          ]
+        },
+        {
+          "surface": "application_source",
+          "runtime": true,
+          "matchedIdentifiers": [
+            "JDF615",
+            "JDF615FORMORDEREN"
+          ]
+        }
+      ],
+      "determination": "retain_and_remediate",
+      "determinationBasis": "Named by 3 surface(s): legal_design_registry, overlay_factory_manifest, application_source.",
+      "retirementBlockedBy": [
+        {
+          "surface": "legal_design_registry",
+          "removalRequires": "a legal-design decision: the byte-pinned registry names this asset as a packet component, so retiring it changes what a packet contains"
+        },
+        {
+          "surface": "overlay_factory_manifest",
+          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
+        },
+        {
+          "surface": "application_source",
+          "removalRequires": "an application-source change: the identifier appears literally in src/, which this lane does not modify"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": false
+    },
+    {
+      "jurisdiction": "CO",
+      "formNumber": "JDF-640",
+      "assetId": "CO|JDF-640|1e47a0aa5ed8de4c36eff44d8fd88c4cfb62e77a44c136930165abe633efa07f",
+      "familyIds": [
+        "CO:jdf-640-instructions-instructions-en"
+      ],
+      "alreadyRetired": false,
+      "activeTrackStatus": "no_track_binding",
+      "affectedTrackIds": [],
+      "probedIdentifiers": [
+        "JDF640",
+        "JDF640INSTRUCTIONSINSTRUCTIONSEN"
+      ],
+      "usedByPlatform": false,
+      "usedAtRuntime": false,
+      "useSites": [],
+      "determination": "retirement_candidate",
+      "determinationBasis": "No surface names it. Probed 10 surface(s) against 2 identifier(s)."
+    },
+    {
+      "jurisdiction": "CO",
+      "formNumber": "JDF-641",
+      "assetId": "CO|JDF-641|6ad1d7c43b454b3b50c9c77313528b9660ada8a730d9ed5c384479809173ab02",
+      "familyIds": [
+        "CO:jdf-641-form-motion-en"
+      ],
+      "alreadyRetired": false,
+      "activeTrackStatus": "active_track",
+      "affectedTrackIds": [
+        "co_multiple_conviction_seal"
+      ],
+      "probedIdentifiers": [
+        "JDF641",
+        "JDF641FORMMOTIONEN"
+      ],
+      "usedByPlatform": true,
+      "usedAtRuntime": true,
+      "useSites": [
+        {
+          "surface": "legal_design_registry",
+          "runtime": false,
+          "matchedIdentifiers": [
+            "JDF641"
+          ]
+        },
+        {
+          "surface": "d_track_queue",
+          "runtime": false,
+          "matchedIdentifiers": [
+            "JDF641"
+          ]
+        },
+        {
+          "surface": "overlay_factory_manifest",
+          "runtime": true,
+          "matchedIdentifiers": [
+            "JDF641"
+          ]
+        },
+        {
+          "surface": "application_source",
+          "runtime": true,
+          "matchedIdentifiers": [
+            "JDF641FORMMOTIONEN"
+          ]
+        }
+      ],
+      "determination": "retain_and_remediate",
+      "determinationBasis": "Named by 4 surface(s): legal_design_registry, d_track_queue, overlay_factory_manifest, application_source.",
+      "retirementBlockedBy": [
+        {
+          "surface": "legal_design_registry",
+          "removalRequires": "a legal-design decision: the byte-pinned registry names this asset as a packet component, so retiring it changes what a packet contains"
+        },
+        {
+          "surface": "d_track_queue",
+          "removalRequires": "a D-queue decision: a committed family relationship names it"
+        },
+        {
+          "surface": "overlay_factory_manifest",
+          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
+        },
+        {
+          "surface": "application_source",
+          "removalRequires": "an application-source change: the identifier appears literally in src/, which this lane does not modify"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": false
+    },
+    {
+      "jurisdiction": "CO",
+      "formNumber": "JDF-642",
+      "assetId": "CO|JDF-642|584708616e982657f341b17bd58166a73ca05529a73bae715ce5f38168f0c52c",
+      "familyIds": [
+        "CO:jdf-642-form-order-en"
+      ],
+      "alreadyRetired": false,
+      "activeTrackStatus": "active_track",
+      "affectedTrackIds": [
+        "co_multiple_conviction_seal"
+      ],
+      "probedIdentifiers": [
+        "JDF642",
+        "JDF642FORMORDEREN"
+      ],
+      "usedByPlatform": true,
+      "usedAtRuntime": true,
+      "useSites": [
+        {
+          "surface": "legal_design_registry",
+          "runtime": false,
+          "matchedIdentifiers": [
+            "JDF642"
+          ]
+        },
+        {
+          "surface": "d_track_queue",
+          "runtime": false,
+          "matchedIdentifiers": [
+            "JDF642"
+          ]
+        },
+        {
+          "surface": "overlay_factory_manifest",
+          "runtime": true,
+          "matchedIdentifiers": [
+            "JDF642"
+          ]
+        }
+      ],
+      "determination": "retain_and_remediate",
+      "determinationBasis": "Named by 3 surface(s): legal_design_registry, d_track_queue, overlay_factory_manifest.",
+      "retirementBlockedBy": [
+        {
+          "surface": "legal_design_registry",
+          "removalRequires": "a legal-design decision: the byte-pinned registry names this asset as a packet component, so retiring it changes what a packet contains"
+        },
+        {
+          "surface": "d_track_queue",
+          "removalRequires": "a D-queue decision: a committed family relationship names it"
+        },
+        {
+          "surface": "overlay_factory_manifest",
+          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": false
+    },
+    {
+      "jurisdiction": "CO",
+      "formNumber": "JDF-680",
+      "assetId": "CO|JDF-680|ae3d5f1c345394dcc104fd5cc0ac72b636068e52985cb38edf4592688d8ac0ae",
+      "familyIds": [
+        "CO:jdf-680-form-motion-en"
+      ],
+      "alreadyRetired": false,
+      "activeTrackStatus": "active_track",
+      "affectedTrackIds": [
+        "co_pardoned_conviction_seal"
+      ],
+      "probedIdentifiers": [
+        "JDF680",
+        "JDF680FORMMOTIONEN"
+      ],
+      "usedByPlatform": true,
+      "usedAtRuntime": false,
+      "useSites": [
+        {
+          "surface": "legal_design_registry",
+          "runtime": false,
+          "matchedIdentifiers": [
+            "JDF680"
+          ]
+        },
+        {
+          "surface": "d_track_queue",
+          "runtime": false,
+          "matchedIdentifiers": [
+            "JDF680"
+          ]
+        }
+      ],
+      "determination": "retain_and_remediate",
+      "determinationBasis": "Named by 2 surface(s): legal_design_registry, d_track_queue.",
+      "retirementBlockedBy": [
+        {
+          "surface": "legal_design_registry",
+          "removalRequires": "a legal-design decision: the byte-pinned registry names this asset as a packet component, so retiring it changes what a packet contains"
+        },
+        {
+          "surface": "d_track_queue",
+          "removalRequires": "a D-queue decision: a committed family relationship names it"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": false
+    },
+    {
+      "jurisdiction": "CO",
+      "formNumber": "JDF-681",
+      "assetId": "CO|JDF-681|cf20dc0fdcbd71b49c2a43a6a11b1c952fd65943a5d0755f50299a10447a799d",
+      "familyIds": [
+        "CO:jdf-681-form-order-en"
+      ],
+      "alreadyRetired": false,
+      "activeTrackStatus": "active_track",
+      "affectedTrackIds": [
+        "co_pardoned_conviction_seal"
+      ],
+      "probedIdentifiers": [
+        "JDF681",
+        "JDF681FORMORDEREN"
+      ],
+      "usedByPlatform": true,
+      "usedAtRuntime": false,
+      "useSites": [
+        {
+          "surface": "legal_design_registry",
+          "runtime": false,
+          "matchedIdentifiers": [
+            "JDF681"
+          ]
+        },
+        {
+          "surface": "d_track_queue",
+          "runtime": false,
+          "matchedIdentifiers": [
+            "JDF681"
+          ]
+        }
+      ],
+      "determination": "retain_and_remediate",
+      "determinationBasis": "Named by 2 surface(s): legal_design_registry, d_track_queue.",
+      "retirementBlockedBy": [
+        {
+          "surface": "legal_design_registry",
+          "removalRequires": "a legal-design decision: the byte-pinned registry names this asset as a packet component, so retiring it changes what a packet contains"
+        },
+        {
+          "surface": "d_track_queue",
+          "removalRequires": "a D-queue decision: a committed family relationship names it"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": false
+    },
+    {
+      "jurisdiction": "CO",
+      "formNumber": "JDF-682",
+      "assetId": "CO|JDF-682|5a05097b1c2b0a22beb3c44fca7b15fc0bf40911c6590bcd6c46546e1006f0fb",
+      "familyIds": [
+        "CO:jdf-682-instructions-instructions-en"
+      ],
+      "alreadyRetired": false,
+      "activeTrackStatus": "no_track_binding",
+      "affectedTrackIds": [],
+      "probedIdentifiers": [
+        "JDF682",
+        "JDF682INSTRUCTIONSINSTRUCTIONSEN"
+      ],
+      "usedByPlatform": true,
+      "usedAtRuntime": true,
+      "useSites": [
+        {
+          "surface": "overlay_factory_manifest",
+          "runtime": true,
+          "matchedIdentifiers": [
+            "JDF682"
+          ]
+        }
+      ],
+      "determination": "retain_and_remediate",
+      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest.",
+      "retirementBlockedBy": [
+        {
+          "surface": "overlay_factory_manifest",
+          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": true
+    },
+    {
+      "jurisdiction": "CO",
+      "formNumber": "JDF-683",
+      "assetId": "CO|JDF-683|6b451ae32c01ef1e637a460df627d246e1b4a61d4ac4f166005a7349fa87202e",
+      "familyIds": [
+        "CO:jdf-683-form-petition-en"
+      ],
+      "alreadyRetired": false,
+      "activeTrackStatus": "active_track",
+      "affectedTrackIds": [
+        "co_municipal_conviction_seal"
+      ],
+      "probedIdentifiers": [
+        "JDF683",
+        "JDF683FORMPETITIONEN"
+      ],
+      "usedByPlatform": true,
+      "usedAtRuntime": true,
+      "useSites": [
+        {
+          "surface": "legal_design_registry",
+          "runtime": false,
+          "matchedIdentifiers": [
+            "JDF683"
+          ]
+        },
+        {
+          "surface": "d_track_queue",
+          "runtime": false,
+          "matchedIdentifiers": [
+            "JDF683"
+          ]
+        },
+        {
+          "surface": "overlay_factory_manifest",
+          "runtime": true,
+          "matchedIdentifiers": [
+            "JDF683"
+          ]
+        }
+      ],
+      "determination": "retain_and_remediate",
+      "determinationBasis": "Named by 3 surface(s): legal_design_registry, d_track_queue, overlay_factory_manifest.",
+      "retirementBlockedBy": [
+        {
+          "surface": "legal_design_registry",
+          "removalRequires": "a legal-design decision: the byte-pinned registry names this asset as a packet component, so retiring it changes what a packet contains"
+        },
+        {
+          "surface": "d_track_queue",
+          "removalRequires": "a D-queue decision: a committed family relationship names it"
+        },
+        {
+          "surface": "overlay_factory_manifest",
+          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": false
+    },
+    {
+      "jurisdiction": "CO",
+      "formNumber": "JDF-686",
+      "assetId": "CO|JDF-686|abf997d8e701df0c74b1eb7833b35f30c006b50bf71b019abf7754d898433200",
+      "familyIds": [
+        "CO:jdf-686-form-order-en"
+      ],
+      "alreadyRetired": false,
+      "activeTrackStatus": "no_track_binding",
+      "affectedTrackIds": [],
+      "probedIdentifiers": [
+        "JDF686",
+        "JDF686FORMORDEREN"
+      ],
+      "usedByPlatform": true,
+      "usedAtRuntime": true,
+      "useSites": [
+        {
+          "surface": "overlay_factory_manifest",
+          "runtime": true,
+          "matchedIdentifiers": [
+            "JDF686"
+          ]
+        }
+      ],
+      "determination": "retain_and_remediate",
+      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest.",
+      "retirementBlockedBy": [
+        {
+          "surface": "overlay_factory_manifest",
+          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": true
     },
     {
       "jurisdiction": "KY",

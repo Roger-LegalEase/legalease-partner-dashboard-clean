@@ -1,0 +1,64 @@
+{
+  "sourceCommit": "2b432317500fbd35e7390c00b1dc916c4355dff1",
+  "commands": [
+    {
+      "command": [
+        "node",
+        "deploy/rcap-render-worker/build-runtime-data-manifest.mjs"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 0.21
+    },
+    {
+      "command": [
+        "node",
+        "deploy/rcap-render-worker/build-runtime-data-manifest.mjs",
+        "--check"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 0.08
+    }
+  ],
+  "manifestSha256": "4eb29ab0951a9b378a6a9c4ed08a4e2314a0714f9c3d6bc8dbdc89e99c09293d",
+  "all122PathsAndScopeUnchanged": true,
+  "all122PinsMatchCommittedInputs": true,
+  "changedEntries": [
+    {
+      "path": "data/rcap-grade-a/fulfillment-authority-registry.json",
+      "before": {
+        "path": "data/rcap-grade-a/fulfillment-authority-registry.json",
+        "sha256": "d32d1c6323c7f376ea8199b48a61c7d16e24e787a505fb3143bb01822c3f4fec",
+        "bytes": 162724,
+        "readBy": "src/lib/rcap/fulfillment/grade-a-registry.ts (REGISTRY_PATH)",
+        "why": "The Grade-A fulfillment record set. Absent, getCurrentFulfillmentRecord finds no record and every route is refused."
+      },
+      "after": {
+        "path": "data/rcap-grade-a/fulfillment-authority-registry.json",
+        "sha256": "9a87a538b501b0f5c7888d312be6611269b55fe413569f6fac56b4352a57c91c",
+        "bytes": 164316,
+        "readBy": "src/lib/rcap/fulfillment/grade-a-registry.ts (REGISTRY_PATH)",
+        "why": "The Grade-A fulfillment record set. Absent, getCurrentFulfillmentRecord finds no record and every route is refused."
+      }
+    },
+    {
+      "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+      "before": {
+        "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+        "sha256": "6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec",
+        "bytes": 3683419,
+        "readBy": "src/lib/rcap/documents/factory-v2-registry.ts (ROUTE_MIGRATIONS_PATH)",
+        "why": "Packet-set manifests behind buildRenderJobSpec."
+      },
+      "after": {
+        "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+        "sha256": "27ba7b77eb8f36528b7365ec8b33d01052cefbcf7928e7abc4222d96ec4b9d3d",
+        "bytes": 3684141,
+        "readBy": "src/lib/rcap/documents/factory-v2-registry.ts (ROUTE_MIGRATIONS_PATH)",
+        "why": "Packet-set manifests behind buildRenderJobSpec."
+      }
+    }
+  ],
+  "runtimeAuthorityChanged": false,
+  "imageBuiltOrPublished": false,
+  "productionDeployed": false
+}

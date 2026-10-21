@@ -300,9 +300,15 @@ async function runChecks() {
   check(selectComposedRoute({ jurisdiction: "IL", pathwayId: "" }).status === "no_composed_route", "the selector invents an identity without a pathway");
 
   // ---- an unaffected route is untouched ------------------------------------
+  //
+  // The control exists to prove this file's changes stay inside the composed
+  // routes. It is not a claim that Mississippi sells: since ADR-0004 the legacy
+  // renderers are retained for historical access and migration comparison and
+  // authorize nothing, so the control asserts the retired classification and
+  // the closed commercial posture that goes with it.
   const control = resolvePacketRoute({ state: "MS", pathway: "expungement-petition", trackId: null });
-  check(control.routeKind === "legacy_verified", `the control route regressed to ${control.routeKind}`);
-  check(control.sellable === true, "the control route lost its sellability");
+  check(control.routeKind === "legacy_retired", `the control route regressed to ${control.routeKind}`);
+  check(control.sellable === false, "the control route regained sellability a retired generator cannot grant");
 
   if (failures.length > 0) {
     console.error(`FAIL verify-rcap-component-deferral-runtime (${failures.length}/${checks} checks failed)`);

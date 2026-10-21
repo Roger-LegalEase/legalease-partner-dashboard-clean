@@ -1,0 +1,438 @@
+{
+  "schemaVersion": "rcap-packet-factory-focused-repair-return/v1",
+  "workerId": "CLAUDE-FIX30-COMPOSER-MARKDOWN",
+  "assignmentId": "FIX30",
+  "assignedBase": "b96bad780",
+  "branch": "fix30-composer-markdown",
+  "laneKind": "repair",
+  "grantConfirmed": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX30 <familyId> returned CLAIM_OK for both families (repair, grant set f544bc2debe7582b), exit 0 each, before anything was written.",
+  "scope": "Exactly the delivered-page markdown defect on the two assigned families, plus the product-wiring pin that made VF03's ARTIFACTS fail. No legal text, no stop condition, no field map row and no route key was edited: the words on the pages are the words that were there, minus four asterisk characters on the Oklahoma page and four on the West Virginia page.",
+  "preflight": {
+    "worktree": "/home/user/fix30-worktree, created from the Captain branch at b96bad780 on branch fix30-composer-markdown",
+    "coreSparseCheckout": "false",
+    "skipWorktreeBits": 0,
+    "privateCorpus": "/home/user/captain-worktree holds NO private/ directory, so it was symlinked from /home/user/legalease-partner-dashboard-clean/private instead. Nothing under it was edited. Both families are zero-source compositions binding committed repository records, so no corpus file resolves any of their sources. private/ is untracked and, as the preflight reports, is NOT git-ignored in this repository; it was never staged and is not in this lane's commit.",
+    "masterLibrary": "MASTER_LIBRARY_SOURCE_DIR exported to .../private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1; the preflight reports it mounted, 499 files, 329 PDFs, 51 jurisdictions.",
+    "nodeModules": "symlinked to /home/user/captain-worktree/node_modules; pdf-lib 1.17.1 importable",
+    "otherWorktreesTouched": 0,
+    "captainBranchTouched": false,
+    "subagentsCreated": 0
+  },
+  "assignmentPremiseCorrection": "THIRTEEN other families import the host, and NEITHER repaired family is one of them. The OK and WV builders each carry a COPY of the composed build core inline, from line 425 of the OK script and the matching line of the WV script, under a comment that says so in terms: 'It is copied whole into each family's own exclusive script rather than imported, because a build host shared across families cannot be changed for one of them without moving the bytes of the rest.' So there was no single host to fix, and the fix had to be made in one place all three could share.",
+  "otherFamiliesThroughTheHost": {
+    "whatTheAssignmentExpected": "eleven other families built through scripts/rcap-custom-pleading/composed-family-host.mjs, with the two repaired families among the host's users.",
+    "whatIsActuallyThere": "THIRTEEN other families import the host, and NEITHER repaired family is one of them. The OK and WV builders each carry a COPY of the composed build core inline, from line 425 of the OK script and the matching line of the WV script, under a comment that says so in terms: 'It is copied whole into each family's own exclusive script rather than imported, because a build host shared across families cannot be changed for one of them without moving the bytes of the rest.' So there was no single host to fix, and the fix had to be made in one place all three could share.",
+    "familiesRebuiltInAThrowawayCopy": 13,
+    "throwaway": "/home/user/fix30-throwaway (a tar copy of the worktree with .git excluded; nothing there was committed and it is not a git worktree)",
+    "everyFixturePdfInTheCorpusCompared": "706 fixture PDFs under data/rcap-all50/overlays/census-v1 were hashed before and after rebuilding all thirteen: the two lists are identical, so no fixture anywhere moved.",
+    "rows": [
+      {
+        "family": "al/agency-application-treatment:obligation:research-decision-route:al:al-uncharged-arrest:agency-record-challenge--official-pdf-fill",
+        "fixturesVerdict": "FIXTURES_BYTE_IDENTICAL",
+        "recordsThatMoved": "source-receipt.json re-pinned the route-obligation census (9816a479 -> 4d0eb74b)"
+      },
+      {
+        "family": "nm/agency-application-treatment:obligation:runtime-only:nm:dna-sample-profile-expungement--official-pdf-fill",
+        "fixturesVerdict": "FIXTURES_BYTE_IDENTICAL",
+        "recordsThatMoved": "source-receipt.json re-pinned single-routes.json and the census"
+      },
+      {
+        "family": "ct/agency-application-treatment:obligation:track-only:ct:ct-destruction-request--official-pdf-fill",
+        "fixturesVerdict": "FIXTURES_BYTE_IDENTICAL",
+        "recordsThatMoved": "source-receipt.json re-pinned the census"
+      },
+      {
+        "family": "ct/agency-application-treatment:obligation:track-only:ct:ct-provisional-pardon--official-pdf-fill",
+        "fixturesVerdict": "FIXTURES_BYTE_IDENTICAL",
+        "recordsThatMoved": "source-receipt.json re-pinned the census and one compiled profile"
+      },
+      {
+        "family": "ct/agency-application-treatment:obligation:track-pathway:ct:ct-absolute-pardon:absolute-pardon-resulting-in-erasure--official-pdf-fill",
+        "fixturesVerdict": "FIXTURES_BYTE_IDENTICAL",
+        "recordsThatMoved": "source-receipt.json re-pinned the census and one compiled profile"
+      },
+      {
+        "family": "ct/ct-under18-misdemeanor-set--custom-pleading",
+        "fixturesVerdict": "WHOLE_DIRECTORY_BYTE_IDENTICAL"
+      },
+      {
+        "family": "de/de-mandatory-expungement-set--official-pdf-fill",
+        "fixturesVerdict": "FIXTURES_BYTE_IDENTICAL",
+        "recordsThatMoved": "source-receipt.json re-pinned two committed records"
+      },
+      {
+        "family": "fl/fl-administrative-set--official-pdf-fill",
+        "fixturesVerdict": "FIXTURES_BYTE_IDENTICAL",
+        "recordsThatMoved": "source-receipt.json re-pinned two committed records"
+      },
+      {
+        "family": "me/me-nonconv-set--custom-pleading",
+        "fixturesVerdict": "WHOLE_DIRECTORY_BYTE_IDENTICAL"
+      },
+      {
+        "family": "ms/ms-misd-1st-set--custom-pleading",
+        "fixturesVerdict": "WHOLE_DIRECTORY_BYTE_IDENTICAL"
+      },
+      {
+        "family": "ms/ms-nonconv-set--custom-pleading",
+        "fixturesVerdict": "WHOLE_DIRECTORY_BYTE_IDENTICAL"
+      },
+      {
+        "family": "nd/nd-deferred-imposition-records-set--custom-pleading",
+        "fixturesVerdict": "WHOLE_DIRECTORY_BYTE_IDENTICAL"
+      },
+      {
+        "family": "vt/vt-seal-under-25-set--custom-pleading",
+        "fixturesVerdict": "WHOLE_DIRECTORY_BYTE_IDENTICAL"
+      }
+    ],
+    "familiesWhoseFixtureBytesChanged": 0,
+    "familiesCarryingDelimitersAmongThem": 0,
+    "whyTheReceiptsMovedAndWhyItIsNotThisChange": "Eight of the thirteen re-pinned committed source records whose bytes have drifted since those families were last built — the route-obligation census, single-routes.json, two compiled profiles. That is pre-existing drift, not an effect of this repair, and it was proved rather than asserted: the PRE-FIX host was restored in the throwaway and AL, DE and CT-under18 were rebuilt with it, and each produced a directory byte-identical to the post-fix rebuild. None of their rebuilt files was committed; they exist only in the throwaway.",
+    "soNothingOfTheirsWasCommitted": true
+  },
+  "deliveredPagesStillCarryingDelimitersElsewhere": {
+    "howMeasured": "all 706 delivered fixture PDFs under data/rcap-all50/overlays/census-v1 read with pdftotext -layout and matched with the same guarded pair rule the module uses.",
+    "total": 28,
+    "note": "None of these is an assigned family here and none is built through composed-family-host.mjs, so none of their bytes was touched. Each is a separate repair, and each will now also be caught at build time the moment its own builder is wired to the shared module.",
+    "families": [
+      {
+        "family": "ga/rcap-ga-guidance-implementation--custom-pleading",
+        "pages": "3 and 4 of both fixtures",
+        "pairs": 16,
+        "sample": "8 pairs per fixture, including the same `**this is the first thing the committed record says about this route:**` shape"
+      },
+      {
+        "family": "wy/composed-treatment:obligation:runtime-only:wy:human-trafficking-victim-vacatur-w-s-6-2-708--custom-pleading",
+        "pages": "4 of both fixtures",
+        "pairs": 2,
+        "sample": "**this is the first thing the committed record says about this route:**"
+      },
+      {
+        "family": "sd/composed-treatment:obligation:runtime-only:sd:juvenile-trafficking-expungement--custom-pleading",
+        "pages": "4 canonical, 5 boundary",
+        "pairs": 2,
+        "sample": "**this is the first thing the committed record says about this route:**"
+      },
+      {
+        "family": "pa/composed-treatment:obligation:runtime-only:pa:path-k-human-trafficking-vacatur-expungement--custom-pleading",
+        "pages": "4 of both fixtures",
+        "pairs": 2,
+        "sample": "**this is the first thing the committed record says about this route:**"
+      },
+      {
+        "family": "nv/composed-treatment:obligation:runtime-only:nv:trafficking-victim-vacatur-and-sealing-under-nrs-179-247--custom-pleading",
+        "pages": "4 of both fixtures",
+        "pairs": 2,
+        "sample": "**this is the first thing the committed record says about this route:**"
+      },
+      {
+        "family": "wi/wi-nc-doj-fingerprint-removal-set--official-pdf-fill",
+        "pages": "2 of both fixtures",
+        "pairs": 4,
+        "sample": "__BB__ — an underscore pair on an official-form page, a different shape and worth reading before it is stripped"
+      }
+    ]
+  },
+  "rows": [
+    {
+      "itemId": "composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief",
+      "familyId": "composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief",
+      "jurisdiction": "OK",
+      "implementationStrategy": "custom_pleading",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ok/composed-treatment:obligation:runtime-only:ok:human-trafficking-survivor-relief--custom-pleading",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "verdictRepaired": {
+        "lane": "VF02",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "c9bbb6ecd",
+        "failedObligationNames": [
+          "CLIPPING_AND_OVERLAP"
+        ]
+      },
+      "obligationsRepaired": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "obligationsThisRowDoesNotDischarge": [],
+      "appearanceAtDeliveryLevel": {
+        "page": 4,
+        "pageOf": 4,
+        "component": "ok-trafficking-survivor-19c-filing-instructions-2",
+        "section": "WHEN TO STOP AND GET HELP INSTEAD",
+        "before": "x=72.0 baseline y=517.0 Times-Roman 11pt: `- **this is the first thing the committed record says about this route:** Oklahoma has a special`, delimiter pairs at x 78.41-89.41 and 369.99-380.99",
+        "after": "x=72.0 baseline y=517.0: `- this is the first thing the committed record says about this route: Oklahoma has a special expungement`",
+        "placementDiffMethod": "every drawn line of every page of both fixtures extracted with the repository's own extractTextItems/groupIntoLines and compared as page/x/y/text before and after; pdftotext -layout run over both as a second reading.",
+        "placementDiff": "Page 4 only, in both fixtures. Pages 1-3 are line-for-line and coordinate-for-coordinate identical. On page 4 the one stop-condition paragraph re-wrapped from four drawn rows to three (the removed 4 asterisks free 22.0pt on a 468pt column, which lets 'expungement' rise), and the eight lines below it on that page each rose by exactly one line height, 14.5pt: the Route footer moved y=328.50 -> y=343.00. No page break moved, the page count is 4 before and after, x=72.0 for every line before and after, and no word was added, lost or reordered.",
+        "honestNoteOnTheStatedRequirement": "The assignment asked that nothing else on the page move except the removed characters. That is not achievable together with a principled fix: removing four characters from a wrapped paragraph either re-wraps it, or else the wrap has to be measured on text that is never drawn. Freezing the wrap to a markup-bearing measurement was rejected — it would leave the renderer laying out forever against characters it does not print, and would let a pair split across two rows be half-removed. So the delimiters are removed BEFORE wrapping, and the movement above is the whole of the consequence; it is reported rather than engineered away.",
+        "rasterRead": "page 4 of BOTH fixtures rendered locally at 150 dpi with pdftoppm into the scratchpad and read as an image: no asterisk and no underscore anywhere on the page, the five stop conditions read as prose, nothing clipped at any margin and nothing overlapping. Nothing was rastered into the delivered tree and no rasterState was set by it."
+      },
+      "whatChanged": {
+        "atTheCause": "The renderer, not the text. sanitizePdfText() — the one funnel every composed page passes through, which already normalises non-breaking spaces, four dash variants, curly quotes, the section sign and the ellipsis — now removes closed markdown emphasis pairs first. The rule itself is one new shared module, scripts/rcap-custom-pleading/composed-page-markdown.mjs, imported by all three renderers rather than copied into any of them.",
+        "whyStripAndNotBold": "Decided from the composer's own conventions, not invented. These renderers embed exactly ONE face (Times-Roman), draw one drawText per wrapped row and measure every wrap against that one face. Honouring emphasis would mean embedding a second face and splitting the drawn run — a new markup system for pages that have never had one, and it would move the bytes of every family that already ships. So the delimiters are removed, on the same footing as the characters sanitizePdfText already normalises away.",
+        "files": [
+          "scripts/rcap-custom-pleading/composed-page-markdown.mjs — NEW: stripMarkdownEmphasis, markdownDelimitersOnPage, assertNoMarkdownDelimitersOnDeliveredPages",
+          "scripts/rcap-custom-pleading/composed-family-host.mjs — imports the module; sanitizePdfText strips first; byteProof asserts no delivered page carries a pair",
+          "scripts/build-census-v1-composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief.mjs — the same three lines in its inline copy of the core",
+          "<family>/fixtures/canonical.pdf and boundary.pdf — rebuilt",
+          "<family>/reports/rendered-artifacts.json — new digests, byte lengths, page manifests",
+          "<family>/build-findings.json — the drawn-line count for page 4 of each fixture, 21 -> 20",
+          "<family>/product-wiring.json — refreshed by its own generator: the canonical component digest re-pinned afff7ed0 -> 096fd953 and acceptanceReceipt set to null"
+        ]
+      },
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersNote": "The nine script counters were zero before and are zero after; the defect was never one of them. VF02 said so itself — it measured visualDefects as 1 ON THE BYTES while the script reported 0, because the completeness script reads the field map and the byte proof of what the build WROTE, not the composed content stream for what the page SHOWS. Measured on the bytes here, visualDefects is now 0 as well: no delimiter pair on any page of either fixture.",
+      "artifacts": {
+        "canonical": {
+          "path": "data/rcap-all50/overlays/census-v1/ok/composed-treatment:obligation:runtime-only:ok:human-trafficking-survivor-relief--custom-pleading/fixtures/canonical.pdf",
+          "oldSha256": "afff7ed0744c57b2473d17378d0dcf601d33b82ad98a0ae0fe7d6380bc7dc328",
+          "oldByteLength": 12383,
+          "newSha256": "096fd953c32443ccc03be6197b269724af835cde8fca9c651bc40da2abee4bb9",
+          "newByteLength": 12334,
+          "pagesBefore": 4,
+          "pagesAfter": 4
+        },
+        "boundary": {
+          "path": "data/rcap-all50/overlays/census-v1/ok/composed-treatment:obligation:runtime-only:ok:human-trafficking-survivor-relief--custom-pleading/fixtures/boundary.pdf",
+          "oldSha256": "325d43e40884a0c55b1e25efa63cb29d5e8c1d9cfe0e8cf2bd265304c1aca97b",
+          "oldByteLength": 12563,
+          "newSha256": "890349f6d33f0bf838c39a68307b8698664fefbd746c549e7fb59b625187cb6b",
+          "newByteLength": 12514,
+          "pagesBefore": 4,
+          "pagesAfter": 4
+        },
+        "digestsMovedInThisLane": true
+      },
+      "deterministicRebuild": {
+        "command": "node scripts/build-census-v1-composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief.mjs --no-raster",
+        "runs": 2,
+        "bothFixturesByteIdenticalAcrossBuilds": true,
+        "howChecked": "the whole family directory was copied after one build and diff -r against it after the next returned no differences at all — both PDFs and every record."
+      },
+      "verifiersRun": {
+        "verifyPacketCompleteness": {
+          "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief",
+          "result": "PASS_COMPLETE, 6/15 written, all nine counters 0, exit 0",
+          "readOnly": "no --write, no --mutations"
+        },
+        "verifyIdentityRefreshSurvivesRebuild": {
+          "command": "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs",
+          "result": "EVERY_IDENTITY_REFRESH_SURVIVED — 249 receipts compared against HEAD, 52 carrying an identityRefresh, exit 0",
+          "note": "this family's receipt carries no identityRefresh and its rebuild dropped nothing."
+        },
+        "buildEnvironmentPreflight": {
+          "command": "node scripts/verify-packet-build-environment.mjs --family <id>",
+          "result": "10/13 passed, 3 failed, 4 not applicable. family_sources_bind ok (a zero-source composition binding committed records by hash). The three failures are environmental and none is this family's: worktree_clean (this repair is uncommitted while it is measured), private_is_git_ignored (private/ is a symlink to the main clone's corpus and is NOT git-ignored in this repository — it was never staged and is not in the commit), corpus_matches_committed_index (1 absent of 24 sampled, pre-existing at this base)."
+        },
+        "splitTokenTest": {
+          "command": "node scripts/rcap-custom-pleading/split-token.test.mjs",
+          "result": "SPLIT_TOKEN_SHARED_MODULE_OK, exit 0 — the neighbouring renderer invariant is undisturbed"
+        }
+      },
+      "regression": {
+        "file": "scripts/rcap-custom-pleading/no-markdown-on-delivered-pages.test.mjs",
+        "command": "node scripts/rcap-custom-pleading/no-markdown-on-delivered-pages.test.mjs",
+        "result": "NO_MARKDOWN_ON_DELIVERED_PAGES_PROVEN, 31 checks, exit 0",
+        "whereItAlsoRunsAtBuildTime": "assertNoMarkdownDelimitersOnDeliveredPages() is called from byteProof() in all three renderers over the text read back out of the SAVED packet bytes, so the BUILD fails rather than shipping a page that prints markup, whatever the markup arrived from.",
+        "discrimination": {
+          "preFixBytesFail": "The pre-repair Oklahoma fixtures are recovered inside the test with `git show b96bad780:<path>` rather than described. Both carry a delimiter pair, both locate it on page 4, and assertNoMarkdownDelimitersOnDeliveredPages throws on both.",
+          "postFixBytesPass": "The four fixtures on disk (OK canonical/boundary, WV canonical/boundary) carry no pair on any page and the assertion passes on all four.",
+          "andItIsNotATrivialAlwaysTrueRule": "Eight strings that are NOT emphasis are proved unchanged and unflagged, including the `_____` rules that 386 delivered fixtures print, `snake__case__name`, `***emphatic***` and an 84-dot rule. A first draft of the matcher DID eat `_____` down to `_`; the guards that stop it are in the module and are tested."
+        },
+        "noWordWasLost": "The repaired OK canonical page text equals the pre-repair page text once the `**` characters are discounted, character for character, and the page count is unchanged at 4."
+      },
+      "rasterOwed": true,
+      "rasterNote": "A fresh whole-family central raster is owed on canonical 096fd953c32443ccc03be6197b269724af835cde8fca9c651bc40da2abee4bb9 and boundary 890349f6d33f0bf838c39a68307b8698664fefbd746c549e7fb59b625187cb6b. The RASTER_PASS that stood is bound to afff7ed0/325d43e4, which the family no longer ships, so it is superseded. RASTER_QUEUE.json and MASTER_QUEUE.json were NOT touched by this lane; enrolling the new digests is the Captain's.",
+      "productWiring": {
+        "acceptanceReceipt": null,
+        "howItGotThere": "node scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs --family <id>; its refresh re-pinned the canonical component digest and found no receipt whose bound digests match the bytes on disk."
+      },
+      "selfVerified": false,
+      "selfVerificationPerformed": "none. This lane built and repaired these packets and issues no verdict on them; every result above is a measurement, not an acceptance.",
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "grantsNothing": "A repaired packet is review evidence. It authorizes no fulfillment and opens no commercial route."
+    },
+    {
+      "itemId": "composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement",
+      "familyId": "composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement",
+      "jurisdiction": "WV",
+      "implementationStrategy": "custom_pleading",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/wv/composed-treatment:obligation:runtime-only:wv:sex-trafficking-victim-vacatur-and-expungement--custom-pleading",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "verdictRepaired": {
+        "lane": "VF03",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "failedObligationNames": [
+          "ARTIFACTS",
+          "CLIPPING_AND_OVERLAP"
+        ]
+      },
+      "obligationsRepaired": [
+        "ARTIFACTS"
+      ],
+      "obligationsThisRowDoesNotDischarge": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "whyClippingAndOverlapIsNotDischarged": "Read exactly as VF03 wrote it, this obligation fails for a reason no rebuild can discharge: 'All eight current pages were freshly rastered and inspected locally with no visible clipping or overlap ... The required independent central visual evidence is nevertheless stale: the only receipt binds the prior hashes and RASTER_QUEUE marks it superseded, with currentRasterState RASTER_PENDING.' It is owed a CENTRAL raster receipt bound to the delivered bytes. This lane has just moved those bytes again, so the receipt owed is over the new pair, and this lane must not touch RASTER_QUEUE.json. The markdown-delimiter defect on WV page 4 — which VF03's finding does not name, and which VF09 recorded at base 09b741ad — IS repaired here and is gone from both fixtures; that repair does not by itself close the obligation VF03 failed.",
+      "artifactsObligationWasABookkeepingPin": {
+        "yes": true,
+        "whatVF03Found": "the fixture bytes matched rendered-artifacts.json, but product-wiring.json still named the superseded canonical digest 704b326392672a2aed2014438273a0d8be0fe0effee2a9494e0f0960357ef492 in both acceptanceReceipt and proposedRepresentation.",
+        "whatTheRefreshDid": "node scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs --family <id> re-pinned the canonical component digest 58487688 -> 7a4c4974 and set binding.acceptanceReceipt to null, having found no receipt whose bound digests match the bytes on disk. 704b3263 now appears nowhere in the family directory, and both fixtures rehash to what reports/rendered-artifacts.json records."
+      },
+      "appearanceAtDeliveryLevel": {
+        "page": 4,
+        "pageOf": 4,
+        "component": "wv-61-14-9-vacatur-filing-instructions-2",
+        "section": "WHEN TO STOP AND GET HELP INSTEAD",
+        "before": "x=72.0 baseline y=459.0 Times-Roman 11pt: `- **this is the first thing the committed record says about this route:** West Virginia has a special relief`",
+        "after": "x=72.0 baseline y=459.0: `- this is the first thing the committed record says about this route: West Virginia has a special relief route`",
+        "placementDiff": "Page 4 only, in both fixtures, and here nothing moved at all: the same three drawn rows at the same three baselines (459.0, 444.5, 430.0), with two words shifted across the row boundaries and the delimiters gone. Every other line of every page, including everything below on page 4, is identical in page, x, y and text. Page count 4 before and after.",
+        "noteOnTheRowThisRepairs": "VF03's CLIPPING_AND_OVERLAP finding for WV does NOT name this line: it records that the local raster of all eight pages was clean and fails the obligation only because the central raster receipt is stale. The delimiter defect on this page is real and was measured here from the delivered bytes; VF09 recorded it at base 09b741ad. It is repaired either way.",
+        "rasterRead": "page 4 of BOTH fixtures rendered locally at 150 dpi with pdftoppm into the scratchpad and read as an image: no asterisk and no underscore anywhere on the page, the five stop conditions read as prose, nothing clipped at any margin and nothing overlapping. Nothing was rastered into the delivered tree and no rasterState was set by it."
+      },
+      "whatChanged": {
+        "atTheCause": "the same one shared module, imported into this family's inline copy of the build core; no per-family text edit was made and the stop-condition wording is untouched.",
+        "files": [
+          "scripts/build-census-v1-composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement.mjs — imports composed-page-markdown.mjs; sanitizePdfText strips first; byteProof asserts",
+          "<family>/fixtures/canonical.pdf and boundary.pdf — rebuilt",
+          "<family>/reports/rendered-artifacts.json — new digests and byte lengths",
+          "<family>/source-receipt.json — two committed-record pins refreshed to the bytes on disk, and a fresh identityRefresh written by hand (see identityRefresh below)",
+          "<family>/product-wiring.json — canonical component digest re-pinned 58487688 -> 7a4c4974, acceptanceReceipt null"
+        ]
+      },
+      "identityRefresh": {
+        "whatHappened": "The rebuild dropped the identityRefresh this receipt carried on the census pin, correctly: that annotation was written against 9816a479e532017f and the census on disk is now 4d0eb74bbafe6ee3, so the recorded comparison had gone stale. verify-identity-refresh-survives-rebuild.mjs reported it ERASED BY A REBUILD and exited 1.",
+        "whatThisLaneDid": "Re-did the comparison across the whole drift rather than copying anything forward. Both historical blobs were recovered — 0936833332542f8e at commit 39b88c674 and 9816a479e532017f at commit ecd2bde79 — and the single census entry this receipt binds (routeKey obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement) was serialised and compared object-for-object against the bytes on disk at 4d0eb74bbafe6ee3: identical at all three identities, and all three anchor statements present in all three. A fresh annotation recording that comparison was written on the pin, the family was rebuilt again to prove it survives, and the verifier now reports EVERY_IDENTITY_REFRESH_SURVIVED, exit 0.",
+        "alsoRepinnedWithoutAnnotation": "src/lib/legal-authority/routes/single-routes.json 6322c661/67,533 B -> 6ca51b6d/100,125 B. It carried no identityRefresh, so none was lost; the build re-verifies its 17 anchor statements from the committed bytes before composing anything and refuses if one is missing, and it did not refuse."
+      },
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersNote": "Zero before and zero after. As on the Oklahoma sibling, the delimiter defect was never one of the nine as the script measures them; measured on the bytes here, no delivered page of either fixture carries a pair.",
+      "artifacts": {
+        "canonical": {
+          "path": "data/rcap-all50/overlays/census-v1/wv/composed-treatment:obligation:runtime-only:wv:sex-trafficking-victim-vacatur-and-expungement--custom-pleading/fixtures/canonical.pdf",
+          "oldSha256": "58487688e22fdb3d5d1566899add22a2489253462a91f7c056cfc67ea748f282",
+          "oldByteLength": 12104,
+          "newSha256": "7a4c4974e0dea9803b384343fd3979cd2c7843e7d50d2447cd3dd3f7a01b7e26",
+          "newByteLength": 12105,
+          "pagesBefore": 4,
+          "pagesAfter": 4
+        },
+        "boundary": {
+          "path": "data/rcap-all50/overlays/census-v1/wv/composed-treatment:obligation:runtime-only:wv:sex-trafficking-victim-vacatur-and-expungement--custom-pleading/fixtures/boundary.pdf",
+          "oldSha256": "d041ae07adbeccc2c54a8f46a73df01e10f5769295a792ea4420190c52a9d9e6",
+          "oldByteLength": 12292,
+          "newSha256": "d9e5a17599e4a26d6478969ea549c9e8651f83b8df80123d026f7782e23055f0",
+          "newByteLength": 12293,
+          "pagesBefore": 4,
+          "pagesAfter": 4
+        },
+        "digestsMovedInThisLane": true
+      },
+      "deterministicRebuild": {
+        "command": "node scripts/build-census-v1-composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement.mjs --no-raster",
+        "runs": 2,
+        "bothFixturesByteIdenticalAcrossBuilds": true,
+        "howChecked": "whole family directory copied after one build and diff -r after the next: no differences, including the hand-written identityRefresh."
+      },
+      "verifiersRun": {
+        "verifyPacketCompleteness": {
+          "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement",
+          "result": "PASS_COMPLETE, 6/17 written, all nine counters 0, exit 0",
+          "readOnly": "no --write, no --mutations"
+        },
+        "verifyIdentityRefreshSurvivesRebuild": {
+          "command": "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs",
+          "result": "EVERY_IDENTITY_REFRESH_SURVIVED — 249 receipts, 52 carrying an identityRefresh, exit 0 (after the fresh annotation described above; it exited 1 before it)"
+        },
+        "buildEnvironmentPreflight": {
+          "command": "node scripts/verify-packet-build-environment.mjs --family <id>",
+          "result": "10/13 passed, 3 failed, 4 not applicable; family_sources_bind ok. Same three environmental failures as the Oklahoma row."
+        },
+        "regressionTest": {
+          "command": "node scripts/rcap-custom-pleading/no-markdown-on-delivered-pages.test.mjs",
+          "result": "NO_MARKDOWN_ON_DELIVERED_PAGES_PROVEN, exit 0"
+        }
+      },
+      "regression": {
+        "file": "scripts/rcap-custom-pleading/no-markdown-on-delivered-pages.test.mjs",
+        "command": "node scripts/rcap-custom-pleading/no-markdown-on-delivered-pages.test.mjs",
+        "result": "NO_MARKDOWN_ON_DELIVERED_PAGES_PROVEN, 31 checks, exit 0",
+        "whereItAlsoRunsAtBuildTime": "assertNoMarkdownDelimitersOnDeliveredPages() is called from byteProof() in all three renderers over the text read back out of the SAVED packet bytes, so the BUILD fails rather than shipping a page that prints markup, whatever the markup arrived from.",
+        "discrimination": {
+          "preFixBytesFail": "The pre-repair Oklahoma fixtures are recovered inside the test with `git show b96bad780:<path>` rather than described. Both carry a delimiter pair, both locate it on page 4, and assertNoMarkdownDelimitersOnDeliveredPages throws on both.",
+          "postFixBytesPass": "The four fixtures on disk (OK canonical/boundary, WV canonical/boundary) carry no pair on any page and the assertion passes on all four.",
+          "andItIsNotATrivialAlwaysTrueRule": "Eight strings that are NOT emphasis are proved unchanged and unflagged, including the `_____` rules that 386 delivered fixtures print, `snake__case__name`, `***emphatic***` and an 84-dot rule. A first draft of the matcher DID eat `_____` down to `_`; the guards that stop it are in the module and are tested."
+        },
+        "noWordWasLost": "The repaired OK canonical page text equals the pre-repair page text once the `**` characters are discounted, character for character, and the page count is unchanged at 4."
+      },
+      "rasterOwed": true,
+      "rasterNote": "A fresh whole-family central raster is owed on canonical 7a4c4974e0dea9803b384343fd3979cd2c7843e7d50d2447cd3dd3f7a01b7e26 and boundary d9e5a17599e4a26d6478969ea549c9e8651f83b8df80123d026f7782e23055f0. This is also what CLIPPING_AND_OVERLAP is waiting on. RASTER_QUEUE.json and MASTER_QUEUE.json were not touched.",
+      "productWiring": {
+        "acceptanceReceipt": null
+      },
+      "selfVerified": false,
+      "selfVerificationPerformed": "none.",
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "grantsNothing": "A repaired packet is review evidence. It authorizes no fulfillment and opens no commercial route."
+    }
+  ],
+  "notDone": [
+    "CLIPPING_AND_OVERLAP on the West Virginia family is NOT discharged. VF03 failed it on stale central visual evidence, not on anything on the page, and only a central raster receipt bound to the delivered bytes can close it.",
+    "No central raster was run and no raster receipt was written. RASTER_QUEUE.json and MASTER_QUEUE.json were not touched.",
+    "The six other families listed above still print delimiters on delivered pages. Their bytes were not touched and their repair is a separate assignment.",
+    "The eleven-family figure in the assignment could not be met as written: there are thirteen host families and neither repaired family is among them. All thirteen were rebuilt and reported anyway.",
+    "No verdict is issued on either family by this lane."
+  ],
+  "packetBytesChanged": 4,
+  "overlayDirectoriesModified": 2,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "grantsNothing": "This return is a repair record. It grants no route, no promotion and no commercial authority."
+}

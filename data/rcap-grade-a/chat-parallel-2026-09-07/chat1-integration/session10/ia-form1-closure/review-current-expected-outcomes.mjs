@@ -1,0 +1,36 @@
+import fs from 'node:fs';
+import assert from 'node:assert/strict';
+import crypto from 'node:crypto';
+import {auditFamily,auditPreparedInputs} from '../../../../../../scripts/rcap-packet-completeness/verify-packet-completeness.mjs';
+const out='data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session10/ia-form1-closure';
+const dir='data/rcap-all50/overlays/census-v1/ia/ia-901c2-set--official-pdf-fill',family='ia-901c2-set';
+const json=file=>JSON.parse(fs.readFileSync(file)),sha=data=>crypto.createHash('sha256').update(data).digest('hex');
+const install=json(`${out}/exact-candidate-install.json`);
+for(const row of install.files)assert.equal(sha(fs.readFileSync(row.path)),row.sha256);
+const dependencies=['scripts/rcap-packet-completeness/verify-packet-completeness.mjs','scripts/rcap-packet-completeness/completeness-contract.mjs'].map(path=>({path,sha256:sha(fs.readFileSync(path))}));
+const inputs=Object.fromEntries(Object.entries({fieldMap:'production-field-map.json',actualWrites:'reports/actual-writes.json',rendered:'reports/rendered-artifacts.json',receipt:'source-receipt.json',census:'field-census.census-v1.json',approval:'approval-request.json'}).map(([key,file])=>[key,json(`${dir}/${file}`)]));
+inputs.instructions=fs.readFileSync(`${dir}/participant-instructions.md`,'utf8');
+const aggregate=auditFamily(dir,family);
+assert.equal(aggregate.result,'FAIL_ROUTE_SELECTION');assert.equal(aggregate.counters.requiredOptionsMissing,2);assert.equal(aggregate.totals.terminalFields,285);
+assert(aggregate.findings.filter(f=>f.counter==='requiredOptionsMissing').every(f=>JSON.stringify(f).includes('exact-day-180')));
+const readiness=json(`${dir}/reports/packet-level-readiness.json`),results=[];
+for(const fixture of ['canonical','boundary','good-cause-waiver','exact-day-180','missing-contact']){
+ const p=structuredClone(inputs);
+ p.fieldMap.writes=p.fieldMap.writes.filter(x=>x.fixture===fixture);p.fieldMap.refusals=p.fieldMap.refusals.filter(x=>x.fixture===fixture);
+ p.fieldMap.availableFacts=Object.fromEntries(Object.entries(p.fieldMap.availableFacts).filter(([k])=>k.startsWith(fixture+':')));
+ p.fieldMap.nativeInputBindings.inputs=p.fieldMap.nativeInputBindings.inputs.filter(x=>x.fixture===fixture);
+ p.actualWrites.artifacts=p.actualWrites.artifacts.filter(x=>x.fixture===fixture);p.actualWrites.documents=p.actualWrites.documents.filter(x=>x.fixture===fixture);
+ p.rendered.fixtures=p.rendered.fixtures.filter(x=>(typeof x==='string'?x:x.fixture)===fixture);p.rendered.packets=p.rendered.packets.filter(x=>x.fixture===fixture);
+ p.receipt.documents=p.receipt.documents.filter(x=>x.formNumber===`${fixture}/form-1`);p.census.documents=p.census.documents.filter(x=>x.formNumber===`${fixture}/form-1`);
+ const result=auditPreparedInputs(dir,family,p);
+ assert.equal(result.result,fixture==='exact-day-180'?'FAIL_ROUTE_SELECTION':'PASS_COMPLETE');assert.equal(result.totals.terminalFields,57);
+ if(fixture==='exact-day-180')assert.equal(result.counters.requiredOptionsMissing,2);
+ else assert(Object.values(result.counters).every(x=>x===0));
+ const ready=readiness.fixtures.find(x=>x.fixture===fixture);assert.equal(ready.filingReady,false);
+ results.push({fixture,result,readiness:ready,projection:'Read-only exact fixture partition into actual current auditPreparedInputs invoking path; no report generation or disk-copy mutation.'});
+}
+for(const row of install.files)assert.equal(sha(fs.readFileSync(row.path)),row.sha256);
+for(const row of dependencies)assert.equal(sha(fs.readFileSync(row.path)),row.sha256);
+const record={schemaVersion:'rcap-independent-expected-outcome-audit/v1',reviewer:'GPT-6 Astra mi_mo_closure independent of original Iowa builder',familyId:family,unmodifiedCandidatePaths:install.files.length,dependencies,aggregate,fixtures:results,expectedDay180RejectionAsserted:true,unknownMissingContactsPreserved:true,filingPermissionGranted:false,rendererInvoked:false,originalCompatibilityReviewReused:'131ba5388f5e39c69dbae92a0b58b04dbaa57af6/cf7d6a401abd893025ec0639cec4295590f3a320',harnessCorrection:'Initial read-only projection omitted the actual instructions argument required by auditPreparedInputs and failed before writing evidence. Added the unchanged complete delivered instructions; no candidate or shared-host change.'};
+fs.writeFileSync(`${out}/current-independent-expected-outcome-audit.json`,JSON.stringify(record,null,2)+'\n');
+console.log(JSON.stringify({aggregate:aggregate.result,counters:aggregate.counters,fixtures:results.map(x=>({fixture:x.fixture,result:x.result.result,classification:x.readiness.classification,filingReady:x.readiness.filingReady})),candidatePathsUnchanged:install.files.length}));

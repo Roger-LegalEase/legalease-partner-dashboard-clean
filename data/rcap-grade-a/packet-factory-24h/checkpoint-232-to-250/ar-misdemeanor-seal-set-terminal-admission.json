@@ -1,0 +1,170 @@
+{
+  "familyId": "ar-misdemeanor-seal-set",
+  "transition": "FAIL_REPAIR_REQUIRED -> COMPLETE_PACKET_PROVEN",
+  "denominator": 346,
+  "terminalCountAfterIntegration": 236,
+  "integrationExitCode": 0,
+  "admittedAt": "2026-09-11T07:12:20.869816+00:00",
+  "evidence": [
+    {
+      "path": "data/rcap-grade-a/packet-factory-24h/vf03/rows-vf03-20260911-ar-misdemeanor-preraster.json",
+      "sha256": "4ae6a15f2511b1a9219c4146855712d56ee472b8fa51d3e95c9db579189fe6f1"
+    },
+    {
+      "path": "data/rcap-grade-a/packet-factory-24h/checkpoint-232-to-250/ar-two-terminal-integration.log",
+      "sha256": "d8599443b2e08dc01402c1a8fbaf49d04aa37b3d8bf2ddae0ba2a35b8918a99c"
+    },
+    {
+      "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34572124254/ORIGINAL_EVIDENCE_VERIFIED.json",
+      "sha256": "7e92f6fb6cc50ea9c0a2a77c3206a1972356d78efcf33c3b7c245d1a093a8286"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ar/ar-misdemeanor-seal-set--official-pdf-fill/product-wiring.json",
+      "sha256": "0b636dd443de41562a98e557f615e38e7d6e4bc0f64a7fbf28e52b4f5cb39173"
+    }
+  ],
+  "familyRow": {
+    "familyId": "ar-misdemeanor-seal-set",
+    "treatmentReconciliation": null,
+    "reviewedTreatmentGuidance": null,
+    "worklistGroupId": "ar-misdemeanor-seal-set",
+    "jurisdiction": "AR",
+    "routeKeys": [
+      "obligation:track-only:AR:ar-misdemeanor-seal"
+    ],
+    "routeCount": 1,
+    "implementationStrategy": "official_pdf_fill",
+    "packetComponents": [
+      "component:ar-misdemeanor-seal-primary-filing-1",
+      "component:ar-misdemeanor-seal-proposed-order-2"
+    ],
+    "instrumentKinds": [
+      "primary_filing",
+      "proposed_order"
+    ],
+    "officialFormFamily": "ACIC-UNIFORM-ORDER-TO-SEAL+ACIC-UNIFORM-PETITION-TO-SEAL",
+    "forms": [
+      "ACIC-UNIFORM-ORDER-TO-SEAL",
+      "ACIC-UNIFORM-PETITION-TO-SEAL"
+    ],
+    "sourceIds": [
+      "official-form:ACIC-UNIFORM-ORDER-TO-SEAL",
+      "official-form:ACIC-UNIFORM-PETITION-TO-SEAL"
+    ],
+    "sourceHashes": [
+      {
+        "sourceId": "official-form:ACIC-UNIFORM-PETITION-TO-SEAL",
+        "path": "google-drive:1mwzEVgJeCOCHlYmb1_jkdedLF2Ni1Yzx",
+        "sha256": "63a308c4fd36a35918249574675c3e83ed47e677cffeae30e09c7e344cfcda23",
+        "tier": "exact_content_hash"
+      },
+      {
+        "sourceId": "official-form:ACIC-UNIFORM-ORDER-TO-SEAL",
+        "path": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-SEAL-MISDEMEANORS-UNDER-ACT-1460__order-to-seal-misdemeanors-under-act-1460-of-2013__REV-2019-08-01__EN.pdf",
+        "sha256": "4d6bc578c6a40a58d1234315939d46579862b5d382c85359ae4334763e7bbcc8",
+        "tier": "exact_identity_confirmed_from_document_text"
+      }
+    ],
+    "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+    "sourceBound": true,
+    "sourceReadiness": {
+      "ready": true,
+      "reasons": [],
+      "boundSources": [
+        {
+          "sourceId": "official-form:ACIC-UNIFORM-PETITION-TO-SEAL",
+          "path": "google-drive:1mwzEVgJeCOCHlYmb1_jkdedLF2Ni1Yzx",
+          "sha256": "63a308c4fd36a35918249574675c3e83ed47e677cffeae30e09c7e344cfcda23",
+          "tier": "exact_content_hash",
+          "resolvedBy": "committed_acquisition_return_and_governed_custody",
+          "evidencePath": "data/rcap-grade-a/packet-factory-24h/disc03/CODEX_CS2_SRC2_ACQUISITION.json"
+        },
+        {
+          "sourceId": "official-form:ACIC-UNIFORM-ORDER-TO-SEAL",
+          "path": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-SEAL-MISDEMEANORS-UNDER-ACT-1460__order-to-seal-misdemeanors-under-act-1460-of-2013__REV-2019-08-01__EN.pdf",
+          "sha256": "4d6bc578c6a40a58d1234315939d46579862b5d382c85359ae4334763e7bbcc8",
+          "tier": "exact_identity_confirmed_from_document_text",
+          "resolvedBy": "custody_reconciliation"
+        }
+      ],
+      "boundGuidanceAuthorityRecords": [],
+      "boundAuthorities": [],
+      "boundAuthorityCount": 0,
+      "supersededSourceIds": [],
+      "namedOfficialForms": 2,
+      "effectiveOfficialSourceIds": [
+        "official-form:ACIC-UNIFORM-ORDER-TO-SEAL",
+        "official-form:ACIC-UNIFORM-PETITION-TO-SEAL"
+      ],
+      "boundCount": 2,
+      "custodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+      "custodyClassIsTheAcquisitionTaskStatusNotCurrentCustody": "Recorded when the acquisition task was last written and never re-derived. Where it says a source is missing and boundCount is above zero, the binding is the measurement and this field is history.",
+      "directAttachment": true
+    },
+    "sourceReconciliation": {
+      "group": "B",
+      "disposition": "SOURCE_READY",
+      "unresolvedObligations": [],
+      "exactNextAction": "Build from the newly custodied petition and already-bound uniform order.",
+      "exactResidual": null,
+      "permissionHold": null,
+      "productQuestion": null,
+      "sourceReplacements": null,
+      "determinationInput": "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json"
+    },
+    "verifierSourceHold": null,
+    "selectedIndependentVerdict": {
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf03",
+      "verifiedAtBase": "06f188498e030e7378429473d6bec0734b5e8a17",
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows-vf03-20260911-ar-misdemeanor-preraster.json"
+    },
+    "rasterEnrolmentRefusal": null,
+    "legalInputStatus": "SETTLED",
+    "ownerDeliveryTypeRefusal": null,
+    "verificationLapsedBecause": null,
+    "terminalTreatment": null,
+    "legalInputBasis": null,
+    "wave2LegalBlock": null,
+    "ownerCorrectionRequired": null,
+    "legalHoldReclassification": null,
+    "laneReturnLegalHold": null,
+    "executionReclassification": null,
+    "executionOwner": null,
+    "nextExecutableAction": null,
+    "routeMappingStatus": "BOUND",
+    "artifactStatus": "RENDERED",
+    "completenessStatus": "PASS_COMPLETE",
+    "allNineCountersZero": true,
+    "counters": {
+      "knownRequiredFieldsMissing": 0,
+      "requiredFactsNotCollected": 0,
+      "unclassifiedBlanks": 0,
+      "incompleteRows": 0,
+      "requiredOptionsMissing": 0,
+      "requiredComponentsMissing": 0,
+      "invisibleWrites": 0,
+      "protectedWrites": 0,
+      "visualDefects": 0
+    },
+    "failingCounters": [],
+    "failedObligationNames": [],
+    "failedObligations": [],
+    "continuationResult": null,
+    "c11Stopped": false,
+    "state": "COMPLETE_PACKET_PROVEN",
+    "activeOwner": null,
+    "activeOwnerLane": null,
+    "buildScript": "scripts/build-census-v1-ar-misdemeanor-seal-set.mjs",
+    "buildScriptExists": true,
+    "sharedBuildHost": null,
+    "directory": "data/rcap-all50/overlays/census-v1/ar/ar-misdemeanor-seal-set--official-pdf-fill",
+    "ownedPaths": [
+      "data/rcap-all50/overlays/census-v1/ar/ar-misdemeanor-seal-set--official-pdf-fill/**",
+      "scripts/build-census-v1-ar-misdemeanor-seal-set.mjs"
+    ],
+    "prohibitedPaths": [],
+    "importedBy": [],
+    "exclusiveScript": true
+  }
+}

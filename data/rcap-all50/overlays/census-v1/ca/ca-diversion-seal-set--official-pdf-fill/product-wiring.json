@@ -1,0 +1,56 @@
+{
+  "familyId": "ca-diversion-seal-set",
+  "generationAllowed": false,
+  "checkoutAllowed": false,
+  "commercialAuthorityGranted": false,
+  "productionTouched": false,
+  "binding": {
+    "family": "ca-diversion-seal-set",
+    "jurisdiction": "CA",
+    "routeKeys": [
+      "obligation:unit:CA:ca-diversion-seal:ca-diversion-seal-stage-1",
+      "obligation:unit:CA:ca-diversion-seal:ca-diversion-seal-stage-2"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "County petition and order set (official_pdf_fill)",
+      "no filing — process guidance"
+    ],
+    "packetComponents": [
+      "component:ca-diversion-seal-primary-filing-2"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/ca/ca-diversion-seal-set--official-pdf-fill/production-field-map.json",
+    "instructions": null,
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/ca/ca-diversion-seal-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/ca/ca-diversion-seal-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:SDSC-CRM-307",
+        "sha256": "da6852b5762dea47a17e8159a67e07215543a8524be623709f4856aed169b287",
+        "tier": "exact_content_hash"
+      }
+    ],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "34845934158",
+      "jobId": "103983250514",
+      "artifactId": "10348431143",
+      "boundToCanonicalSha256": "ab9dd5490b40b6f8d5c4a6c222ed4da4cc7bb15b8ad84c421ff6742f3f2164db",
+      "coversTheWholeFamily": true
+    },
+    "lastIndependentVerification": {
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vfca",
+      "verifiedAtBase": "c54071b7086abffd9ad68f328fdabbdaf673b7c2"
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-ca-diversion-seal-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  }
+}

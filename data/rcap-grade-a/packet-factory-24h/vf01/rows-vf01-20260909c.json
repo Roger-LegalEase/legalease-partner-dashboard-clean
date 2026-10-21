@@ -1,0 +1,572 @@
+{
+  "schemaVersion": "rcap-verifier-lane-return/v1",
+  "lane": "VF01",
+  "laneKind": "independent-verification",
+  "shift": "20260909c",
+  "verifiedAtBase": "285c9b91c4cc345c77cdad6a37d015e6f61f45bc",
+  "independence": "This lane did not build, repair or raster any family below, edited no packet, builder, overlay, manifest or registry, and released no claim of its own.",
+  "measurementNote": "Every counter and obligation below was measured in this container from the committed artifact bytes and the controlling committed records. Where verify-packet-completeness.mjs was run it is recorded as a necessary cross-check and is never the basis of a result here. Visual findings rest only on the admitted raster receipt for the family, over the same bytes this lane rehashed.",
+  "rows": [
+    {
+      "itemId": "az_certificate_second_chance-set",
+      "lane": "VF01",
+      "laneKind": "independent-verification",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "verifiedAtBase": "285c9b91c4cc345c77cdad6a37d015e6f61f45bc",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/az/az-certificate-second-chance-set--official-pdf-fill",
+      "implementationStrategy": "official_pdf_fill",
+      "postRepairReread": false,
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "familyId az_certificate_second_chance-set is identical in production-field-map.json, reports/rendered-artifacts.json, build-status.json and the MASTER_QUEUE.json family row. The single routeKey obligation:track-only:AZ:az_certificate_second_chance is identical in the field map and in the MASTER_QUEUE row, and the guide's own trailer prints that same route key. The instrument set matches the route the registry names: track az_certificate_second_chance in data/record-clearing/legal-design-track-registry.json carries mechanism 'apply later after the set-aside order did not include a certificate', and the packet is built as the STANDALONE application, not the set-aside application."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "I indexed all 501 files of the Master Library at MASTER_LIBRARY_SOURCE_DIR by recomputed SHA-256 and both declared source digests resolve exactly, by content and not by declared path: 4e2b06d403e50f5cd6769b1ebc8d41e918c2a8ab9739b72724829023a548a91a = STATES/AZ/05_SOURCE_GATED/AZ__SOURCE-GATED__AOCCRSA3F-103023__application-for-certificate-of-second-chance__REV-2023-10-30__EN.pdf, and b3aae63fd8ae2fc891fed28ab2c0807d1b3564921912bc3ae67898aecedc635e = the AOCCRSA4F-103023 order of the same edition. The build uses the 10/30/2023 edition where the packet-set manifest still names the 01/01/2022 form ids; that substitution is not the builder's own assertion, it is carried by the committed captain determination DET-AZ-SECOND-CHANCE-CURRENT-EDITION-IS-HELD in data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json, which I read at that file and which names this family and both obligations."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The committed packet-set manifest for az_certificate_second_chance-set declares exactly two components, both requirement 'required': az_certificate_second_chance-primary-filing-1 (primary_filing) and az_certificate_second_chance-proposed-order-2 (proposed_order). Both are rendered in both fixtures: packet pages 1-3 carry AOCCRSA3F-103023 (I read 'Arizona Supreme Court / Page 1 of 3 / AOCCRSA3F-103023' through 'Page 3 of 3' out of the delivered text layer) and pages 4-5 carry AOCCRSA4F-103023 ('ORDER REGARDING APPLICATION FOR CERTIFICATE' and 'Page 2 of 2 / AOCCRSA4F-103023'). The manifest's three process_guidance components are carried in participant-instructions.md and the guide states that and gives the registry's reason."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "All 16 distinct declared values print complete in the delivered bytes of BOTH fixtures, checked by extracting each packet page's text and matching the whole declared string, then confirming it appears on the packet page the page manifest maps that component page to. Every one of the 19 write cells the field map declares produced ink: reports/actual-writes.json lists 16 distinct values because three cells repeat the case number, and I confirmed by direct page reads that CR2016-114872-001 stands at the head of packet pages 1, 2, 3, 4 and 5 of the canonical fixture, so application.case_number_page_2, application.case_number_page_3 and proposed_order.case_number_page_2 are all inked even though the byte-proof lists them only once. The boundary fixture's long values print whole and untruncated, including bartholomew.christiansen-featherstone@example-longdomain.org and '88214 North Old Ajo Stagecoach Trail, Space 117, Sierra Vista, AZ 85635-7412'."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Measured by hand against three committed records, not against the builder's ledger. (1) The packet-set manifest's requiredBeforeFiling for this set is exactly five strings, and participant-instructions.md prints all five verbatim under 'Everything the committed record requires before you file', citing the manifest SHA-256 80b5e071055469b6f1aa84e80accd9e8bcc15e00ed3b7b778ba48a0ff85d8bd7, which I recomputed from data/record-clearing/legal-design-packet-set-manifests.json and which matches. (2) The track registry's manualCompletionItems holds one item, the signature in the application signature block, and the guide names it at step 7 and again in the deliberately-left-blank list; participantFilingRequirements is empty. (3) All 8 form blanks the field map classes REQUIRED_BEFORE_FILING appear in the guide's two per-document tables (6 application, 2 proposed_order) with the label the form prints and what to write. Unlike the CO family this lane failed on 20260909b, the registry carries no supportingDocuments entry here that the guide omits; the guide additionally names the set-aside order, the judgment of guilt and the probation-completion documentation under 'Documents you must obtain first'."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The three route-determined elections the field map records are instrument-level and are all carried out in the delivered bytes: the AOCCRSA3F + AOCCRSA4F instrument set, the standalone rather than set-aside application, and the 10/30/2023 edition of each. No on-page tick is route-determined: every checkbox on the application belongs to a fact about the participant's own record (Defendant vs Attorney for Defendant, Self vs Lawyer for, the two eligibility statements, additional-counts-continue) and every checkbox on the order is the court's. I confirmed from the bytes that nothing is ticked - the ink diff below shows no added glyph anywhere near a box - and each unticked election is surfaced in the guide with an instruction, not silently dropped: step 2 tells a self-filer to tick Defendant and Self, step 3 tells them which eligibility statement to tick and to fill its date."
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The only repeating structure is the four count lines on application page 2 (Count I through Count IV). All four are blank in both fixtures - the word-level ink diff against the official source shows the only additions on that page are the case number, the declaration address and its city/state/zip - so no row states part of an offence while another cell of the same row is written. Count I is disclosed as REQUIRED_BEFORE_FILING with its own guide row; Counts II-IV are disclosed as the form's own optional further-count lines."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Measured from the artifact bytes rather than from the builder's report. I extracted every word box of the two official sources and of the corresponding delivered packet pages and differenced them: on the application 30 words are added and 0 removed, on the order 17 added and 0 removed, and every added word is a fragment of one of the 19 declared caption/identity writes. Nothing is added at the defendant's signature, the printed name beneath the declaration, the AUTHORIZATION TO PROCEED block or its date and signature, the whole of attorney page 3, the order's THE COURT FINDS lines, its DENYING and GRANTING lines, its 'Other reasons' line, its DATED day and month/year, or its Judicial Officer line. There is no certificate of mailing on either form. The For Clerk's Use Only boxes are likewise untouched."
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Both fixtures rehash to exactly what the record names, recomputed here: canonical.pdf = 5fa7e6d4f0761fa26d932ca667878a4acb50bdf18b6854cd25a9a2cb3ab7a27a, 378707 bytes, 5 pages; boundary.pdf = e8414477b71352df8e01ebfdce17bd1c66e07c9ca09af30fef062313deef2bfa, 378893 bytes, 5 pages. Those two digests are what reports/rendered-artifacts.json declares AND what the admitted raster verdict pinned when it rendered, so the admitted receipt is over the current bytes and not a stale one. Page counts read back from pdfinfo agree with the declared pageCount and with the length of each pageManifest."
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The page manifest orders application source pages 1,2,3 as packet pages 1,2,3 and proposed_order source pages 1,2 as packet pages 4,5. Read back from the delivered text layer the order is exactly that: packet page 1 'Page 1 of 3 ... AOCCRSA3F-103023', page 2 'Page 2 of 3 ... AOCCRSA3F-103023', page 3 'Page 3 of 3 ... AOCCRSA3F-103023', page 4 the order's caption and 'ORDER REGARDING APPLICATION FOR CERTIFICATE', page 5 'Page 2 of 2 ... AOCCRSA4F-103023'. Both components are contiguous and in ascending source-page order in both fixtures, and this matches the manifest's component order (primary_filing order 1, proposed_order order 2)."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "For each fixture I took every word box the build added (the delivered page's word boxes minus the official source page's word boxes) and tested it against every measured write cell the field map declares for that component and page, converting poppler's top-left coordinates to PDF user space. Canonical: 30 added words on the application, all 30 inside a declared cell; 17 on the order, all 17 inside. Boundary: 37 added words on the application, all 37 inside; 22 on the order, all 22 inside. Zero added words outside every cell and zero off the media box in either fixture. The admitted raster receipt independently reports problems [] over all 10 rendered pages."
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The registry's destination for this track is {kind: court, name: 'The court of conviction'}. participant-instructions.md names it under 'Where this goes': 'File in the court of conviction', quoting the committed record, and repeats it at step 10 with the order filed alongside the application. The guide also tells the participant that the court's own NAME must be written on the ____ COURT OF ARIZONA line of both forms because no held record establishes which Arizona court convicted them, which is consistent with the same line being classed REQUIRED_BEFORE_FILING on both documents."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The controlling record states no fee and no waiver: the manifest's pay_fee item is 'The source review does not state a filing fee for the standalone certificate application' and its apply_fee_waiver item is 'The source review does not address a fee waiver'. The guide states both verbatim under 'What it costs' and does not convert silence into a promise - 'No fee is stated for this application, and that is a gap in the record rather than a promise that it is free' - then instructs the participant to ask the clerk of the court of conviction what it costs and what to do if they cannot pay, and states that nothing in the packet is a fee-waiver form because the record names none. Both strings also appear verbatim in the requiredBeforeFiling block."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The manifest's serve_party item is 'The source review does not state a service requirement for the standalone application'. The guide states that under 'Who else has to be told' and then names, from the order's own printed first finding, that the prosecutor must have received a copy of the application, and tells the participant to ask the clerk how that court gets the application to the prosecutor and whether they must deliver it. It also carries the registry destination detail that where a victim requested post-conviction notice the attorney for the state notifies them, and separately states that no notarisation is stated and that the application is a declaration under penalty of perjury rather than a sworn affidavit. I confirmed from the bytes that neither form carries a certificate-of-service block."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The registry's selfHelpStopConditions are three: a state or victim objection, a hearing being set, and a denial the person wants to challenge. All three are named in the guide's 'When to stop and get help' list and again in the body ('If the state or a victim objects, or a hearing is set, or a denial arrives that you want to challenge ... Get an Arizona lawyer'). The guide adds four further stops - doubt about offence class, an earlier certificate under A.R.S. 13-905(L), doubt about whether the conviction was actually set aside, and any immigration matter - and a closing statement that the packet is not legal advice, is not filed for the participant and does not decide eligibility."
+        }
+      },
+      "countersHowMeasured": {
+        "knownRequiredFieldsMissing": "All 19 declared write cells produce ink in both fixtures; confirmed by whole-string page reads and by the word-box ink diff.",
+        "requiredFactsNotCollected": "The registry's four generationRequirements (set-aside granted and whether it included a certificate, offence class, date conditions were fulfilled, prior certificate) are each named to the participant under 'What this packet does not tell you, and who does'; none is silently dropped.",
+        "unclassifiedBlanks": "38 refusals across the two documents, and every one carries a disposition and a stated reason in the field map and appears in participant-instructions.md.",
+        "incompleteRows": "Counts I-IV all blank; no half-written row.",
+        "requiredOptionsMissing": "No on-page election is route-determined; the three route-determined instrument selections are all carried out.",
+        "requiredComponentsMissing": "Both required components rendered in both fixtures.",
+        "invisibleWrites": "Ink diff against the official sources: 47 added words on the canonical fixture and 59 on the boundary fixture, all readable in the extracted text layer and all inside declared cells; no write is drawn without producing readable ink.",
+        "protectedWrites": "Zero added words fall in any signature, signature date, court-only, prosecutor-only or clerk-only region; zero source words removed.",
+        "visualDefects": "The admitted raster receipt for this family, over the same two digests I rehashed, measured 10 pages and reports problems [] and environmentProblems []."
+      },
+      "crossChecks": {
+        "verifyPacketCompleteness": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family az_certificate_second_chance-set returned PASS_COMPLETE, 19/57 written, nine zeros. Recorded as a necessary cross-check only; every result above was measured independently first.",
+        "rasterReceipt": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/az_certificate_second_chance-set/az_certificate_second_chance-set.verdict.json, RASTER_PASS, pagesMeasured 10, problems [], pinned digests equal to the digests recomputed here."
+      },
+      "evidenceRead": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/az/az-certificate-second-chance-set--official-pdf-fill/production-field-map.json",
+          "sha256": "15f8a3139dce4185551c36b02b523d1a37dd559987fd36d80090cf14c08f1597"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/az/az-certificate-second-chance-set--official-pdf-fill/participant-instructions.md",
+          "sha256": "b0f37d977e27dc99c7f159023387214f544183a44d0d99d0c50a903776202479"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/az/az-certificate-second-chance-set--official-pdf-fill/source-receipt.json",
+          "sha256": "d96f9cfb7fed2eee9c99bf9c16ab4da2659e7ceeee5b9593ff047b4e8b59c47d"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/az/az-certificate-second-chance-set--official-pdf-fill/reports/actual-writes.json",
+          "sha256": "771a66124371aa3dc7b45d9a7f18dca86b3a5c7b13052a920038531dd4a8b1ff"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/az/az-certificate-second-chance-set--official-pdf-fill/reports/rendered-artifacts.json",
+          "sha256": "34902008e2e551139b7f0faaf2c5662b466f880f085242b3fa838b76a6632047"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/az/az-certificate-second-chance-set--official-pdf-fill/reports/blanks-left-for-the-participant.json",
+          "sha256": "e274c0cb1658200c39a7fd259b67485df9be417241cac63e6c5b706c9e58b9e4"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/az/az-certificate-second-chance-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "5fa7e6d4f0761fa26d932ca667878a4acb50bdf18b6854cd25a9a2cb3ab7a27a"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/az/az-certificate-second-chance-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "e8414477b71352df8e01ebfdce17bd1c66e07c9ca09af30fef062313deef2bfa"
+        },
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/az_certificate_second_chance-set/az_certificate_second_chance-set.verdict.json",
+          "sha256": "0c50d3b62b9eb5fc4d397d93485f75cd09e9b2b08564ad21565af697ba0bd35b"
+        },
+        {
+          "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+          "sha256": "80b5e071055469b6f1aa84e80accd9e8bcc15e00ed3b7b778ba48a0ff85d8bd7"
+        },
+        {
+          "path": "data/record-clearing/legal-design-track-registry.json",
+          "sha256": "555e5700c049608b0766cc7f5f65adfa748bbd32fae790d2220652bf08b958dc"
+        },
+        {
+          "path": "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json",
+          "sha256": "a5c912e7e2d472f3d2b7357cf405ecf317da3d9221563e23ca0f089eb4b9756a"
+        },
+        {
+          "path": "MASTER_LIBRARY_SOURCE_DIR/STATES/AZ/05_SOURCE_GATED/AZ__SOURCE-GATED__AOCCRSA3F-103023__application-for-certificate-of-second-chance__REV-2023-10-30__EN.pdf",
+          "sha256": "4e2b06d403e50f5cd6769b1ebc8d41e918c2a8ab9739b72724829023a548a91a"
+        },
+        {
+          "path": "MASTER_LIBRARY_SOURCE_DIR/STATES/AZ/05_SOURCE_GATED/AZ__SOURCE-GATED__AOCCRSA4F-103023__order-regarding-application-for-certificate-of-second-chance__REV-2023-10-30__EN.pdf",
+          "sha256": "b3aae63fd8ae2fc891fed28ab2c0807d1b3564921912bc3ae67898aecedc635e"
+        }
+      ],
+      "visualDefects": [],
+      "failedObligationNames": [],
+      "grantsNothing": "An independent PASS proves this packet complete against its own controlling records. It approves no output, promotes no route and opens no commercial path."
+    },
+    {
+      "itemId": "fl-self-defense-set",
+      "lane": "VF01",
+      "laneKind": "independent-verification",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "verifiedAtBase": "285c9b91c4cc345c77cdad6a37d015e6f61f45bc",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/fl/fl-self-defense-set--official-pdf-fill",
+      "implementationStrategy": "official_pdf_fill on a measured flat overlay",
+      "postRepairReread": false,
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The route key obligation:track-pathway:FL:fl-self-defense:lawful-self-defense-expunction-943-0578 is identical in the MASTER_QUEUE.json family row, production-field-map.json, approval-request.json and product-wiring.json. The paper states the same route: I read out of the delivered bytes on packet page 1 the printed title 'APPLICATION FOR A CERTIFICATE OF ELIGIBILITY FOR LAWFUL SELF-DEFENSE EXPUNCTION (s. 943.0578, F.S.)', which is FDLE's statute-specific application and carries no route election of its own. OBSERVATION FOR CAPTAIN, not a defect in this packet: MASTER_QUEUE.json labels this family's implementationStrategy participant_agency_application while the controlling legal record does not. I read data/record-clearing/legal-design-intake/FL.memo.json track fl-self-defense at sha256 9b497440290abd5e254b3bd9e1ff6e5dda56abf4c2bfca63dc351090d76e4065 and its outputStrategy is the string 'official_pdf_fill', and its legalDesignDecision.rationale quotes the Florida amendment 'FL-6, lawful self-defense expunction | official_pdf_fill on the dedicated FDLE application'. The builder recorded the disagreement in production-field-map.json.strategyRecordDisagreement rather than resolving it, naming the queue label a Captain reconciliation. That is the correct handling; the packet is built for the strategy the legal record names."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "One declared source, recomputed from bytes held in this container. Against the SHA-256 index I built over all 501 Master Library files, d7bdbbb546cf6280fd07710e3132885db771400ba778d111835b5de281c58602 resolves exactly to STATES/FL/05_SOURCE_GATED/FL__SOURCE-GATED__FDLE40-026__application-for-a-certificate-of-eligibility-for-lawful-self-defense-expunction__REV-2019-10__EN.pdf, 21702 bytes, 5 pages, which is the byteLength and page count the receipt and every page-manifest entry declare. The receipt's two controllingRecords also rehash exactly: FL.memo.json = 9b497440290abd5e254b3bd9e1ff6e5dda56abf4c2bfca63dc351090d76e4065 and legal-design-track-registry.json = 555e5700c049608b0766cc7f5f65adfa748bbd32fae790d2220652bf08b958dc. The guide surfaces the open source question honestly rather than hiding it: the registry release blocker 'Current FDLE application and instructions specific to this track have not been acquired' is printed under 'Open questions on this route', with the distinction that the held copy is the real Rev. 10/2019 form and the open question is whether FDLE has published a newer one."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The committed packet set fl-self-defense-set declares exactly one component, fl-self-defense-primary-filing-1, role primary_filing, requirement required, officialFormId FDLE-SELF-DEFENSE-EXPUNCTION-APPLICATION. Both fixtures render it whole: all five source pages are present and I read each back from the delivered text - page 1 the application, page 2 the WRITTEN CERTIFIED STATEMENT, page 3 the fingerprint card, page 4 GENERAL INFORMATION, page 5 the Application Checklist & Instructions. Nothing the record names is absent and nothing it does not name is added."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "All 25 declared writes carry drawnText in reports/actual-writes.json and all 25 print complete on their declared page of the canonical fixture, checked by whole-string match against the extracted text of that exact page. The boundary fixture holds a different, longer participant (29 writes: the same 25 plus two further arrest rows), and I read its added ink back positionally: the long values print whole and untruncated, including 'Montgomery-Washington', '1188 Martin Luther King Junior Boulevard Apartment 1407', 'alexandria.montgomery.washington@example.org', 'Leon County Sheriff's Office and Tallahassee Police Department' and the three full charge descriptions with their statute cites. reports/actual-writes.json reports incompleteValues [] and invisibleWrites [] on both fixtures and my own byte reading agrees."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Checked line by line against the committed records rather than the builder's ledger. The registry packet set carries seven requiredBeforeFiling strings and participant-instructions.md carries all seven verbatim under 'Do these before you submit' - I compared each on whitespace-normalised text and all seven match. Critically, this family's registry ALSO carries a supportingDocuments entry with requiredBeforeFiling true - the prosecutor certification from the State Attorney for the circuit - and unlike the CO family this lane failed on 20260909b, the guide does not omit it: it has its own section 'The one thing this packet cannot do for you', it is repeated under 'Documents to obtain' with the record's own howToObtain text, and filing-instructions.md makes it step 2. The registry's two manualCompletionItems (prosecutor certification fields, applicant signature) are both named. Separately, the seven form blanks the field map classes requiredBeforeFiling (race, sex, Florida driver licence number, and race, sex, place of birth and the ORI/stamp on the fingerprint card) each appear in the guide's 'Blanks you must fill in before you submit' with FDLE's own checklist quoted as the authority for requiring them."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Measured against the field map and the paper. Not one of the 88 refusals carries routeDetermined true, and reading FDLE40-026 itself confirms why: FDLE publishes a separate application per statute and this one is the self-defense application, so the route is stated by which form it is rather than by a tick. The only tick-shaped marks on the document are the notary's 'Personally Known ___ or Produced Identification ___' pair, which belongs to the notary, and the instructional checklist glyphs on page 5, which are printed guidance and not fields. Nothing route-determined is left unselected."
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Two repeating structures, both measured from the bytes. (1) The eight-row Date(s) of Arrest / Charge(s) Description table on page 1: the canonical fixture fills row 1 with both cells (03/11/2022 and 'Aggravated Assault with a Deadly Weapon, Fla. Stat. 784.021(1)(a)') and leaves rows 2-8 wholly empty; the boundary fixture fills rows 1, 2 and 3 with both cells each and leaves rows 4-8 wholly empty. No row carries a date with no charge or a charge with no date. (2) The eight-line certification table on page 2 (Charge(s) Description, Statute Violation, Case Number, Action): all 32 cells are empty on both fixtures, which is correct because the section is the prosecutor's. The guide states the rule it followed - 'A row with a date and no charge beside it reads as finished and is not, so a row is either wholly filled or wholly empty' - and tells the participant to write further charges in themselves."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Measured by differencing every word box of the official source against every word box of each delivered fixture. Canonical adds 36 words and removes none; boundary adds 74 and removes none. Every added word sits in the participant identity, address, arresting-agency or arrest-row bands of page 1 (all at y <= 397 in poppler top-left coordinates), the name/DOB/phone band at the head of page 2, or the name and DOB band of the fingerprint card on page 3. Nothing is added at the Applicant's Signature or its Date, anywhere in the notary acknowledgment (STATE OF, COUNTY OF, the day/month blanks, Signature of Notary Public, the commissioned-name stamp line, Type of Identification Produced), anywhere below the printed line '*The section below must be completed by the state attorney/statewide prosecutor.*' on page 2 (State Attorney/Statewide Prosecutor, Reviewing Officer, County, Circuit, the certifying signature, its date and Title), or at the Signature of Official Taking Fingerprints or Signature of Person Fingerprinted on page 3. Pages 4 and 5 receive no ink at all. The field map's own role census agrees: 39 refusals are the prosecutor's, 6 the notary's, 4 protected signature/date fields, 1 the fingerprinting agency's."
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Both fixtures rehash here to exactly what the record names: canonical.pdf = a217288839ba7e3ed5b54ade1098e342dd07f6f72e915119b010933d151f853b, 27193 bytes, 5 pages; boundary.pdf = 627dfa777177431cb5cb8c8f9939a62b184e8628f0b007cb74059b84afe317ba, 27987 bytes, 5 pages. The same two digests are declared in reports/rendered-artifacts.json, reports/build-summary.json, approval-request.json, participant-instructions.md's 'What was delivered' block, and pinned by the admitted raster verdict, so the admitted receipt is over these bytes and not a stale set."
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Both page manifests map source pages 1..5 to packet pages 1..5 of the single document, one to one and in order. Read back from the delivered text the order is exactly that, and each delivered page matches the same-numbered source page word for word apart from the added values: page 1 the application (footer 'Page 1 of 2 / Revised October 2019 / FDLE40-026'), page 2 the written certified statement, page 3 the fingerprint card, page 4 GENERAL INFORMATION, page 5 the checklist. Nothing is reordered, dropped or duplicated."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Measured positionally on both fixtures. No added word box falls outside the 612x792 media box, and none comes within 18pt of the right edge. No added word box intersects any printed word box of the source, and no added word box intersects another added word box; the five apparent collisions my first pass reported on the boundary fixture were an artefact of matching words by text - 'and', 'or', 'of' and 'Public' occur both inside the long boundary charge descriptions and in the printed notary and certify lines - and reading the coordinates shows those flagged boxes are the source's own printed positions with no added ink there. The tightest real case is the boundary mailing address, which the record's own longest fixture value makes 'Martin Luther King Junior Boulevard Apartment 1407': it ends at x=275.4 while the City column begins at x=385.5, so it does not run into the next column, and its ZIP 32301-4417 ends at x=566.5. reports/actual-writes.json independently reports nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0 on both fixtures over 113 measured cells."
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The controlling record's destination is {kind: agency, name: 'Florida Department of Law Enforcement', detail: 'Dedicated FDLE application. The prosecutor certification is obtained separately by the participant.'}, identical in FL.memo.json and in the track registry. Both guides name it: participant-instructions.md prints the destination and the record's file line 'Submit the dedicated FDLE application with the prosecutor certification'; filing-instructions.md gives the order of operations and the postal address, which I confirmed is FDLE's own printed address on page 4 of the delivered document ('ATTN: Seal & Expunge Section, P.O. Box 1489, Tallahassee, FL 32302-1489') rather than an address the packet invented. The intermediate destination is also named: pages 1 and 2 go first to the State Attorney's office for the circuit, which is what the form itself prints."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The record states no fee and no waiver: 'The source review does not state a fee for this application' and 'The source review does not address a fee waiver'. Both appear verbatim in participant-instructions.md and again in filing-instructions.md. The packet does not stop at the silence, and it does not invent a figure either: it reports FDLE's own printed checklist on delivered page 5, 'A nonrefundable money order, cashier's check or personal check for $75.00 made payable to FDLE', explicitly attributed - 'This packet prints no fee figure of its own: the $75.00 above is FDLE's own printed checklist speaking' - and tells the participant to pay what FDLE's checklist states and to ask the Seal & Expunge Section if the two disagree. I confirmed the $75.00 line is printed on the source's page 5 and is not added ink. The waiver treatment is likewise honest: 'This packet includes no fee-waiver form, because none is established for this application.'"
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The record states 'The source review does not state a service requirement', carried verbatim in both guides. Against that silence the packet names, from the form's own printed words, who must actually receive the paper: the State Attorney/statewide prosecutor's office must receive pages 1 and 2 ('*Page 1 and 2 of this application must be submitted to the state attorney/statewide prosecutors office.*'), the fingerprinting agency must take and sign the page-3 card and apply its ORI or stamp, the clerk of court in the county of origin supplies the certified dispositions, and the completed packet goes to FDLE. Notarisation is handled the same way: the record says none is stated, and the guide adds FDLE's own printed requirement that the applicant sign before a notary public or deputy clerk, with the instruction not to sign page 1 until then."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The record's three selfHelpStopConditions - the prosecutor declining to certify, any immigration matter, and anything the participant wants to argue rather than assert - are all printed under 'Stop and get help' in participant-instructions.md. The first is given its own section earlier as well, quoting the record's post_generation_handoff limitation 'If the prosecutor declines, route to counsel'. The guide also states plainly what the packet cannot do ('LegalEase does not obtain or review it') and prints the route's open release blocker so the participant knows the source-currency question is unresolved."
+        }
+      },
+      "countersHowMeasured": {
+        "knownRequiredFieldsMissing": "All 25 declared canonical writes and all the boundary writes produce readable ink on their declared pages.",
+        "requiredFactsNotCollected": "The five facts the record does not establish (race, sex, Florida driver licence number, place of birth, SSN which the form marks voluntary) are each named to the participant with the reason and with FDLE's own requirement quoted where FDLE requires them; none is dropped in silence.",
+        "unclassifiedBlanks": "113 measured cells = 25 writes + 88 refusals, and all 88 refusals carry a stated reason plus a role (39 prosecutor, 38 participant, 6 notary, 4 protected, 1 agency). The 46 not named individually in the guide are the empty arrest rows 2-8 and the whole page-2 certification table, both disclosed as classes with reasons, and the guide says so explicitly rather than letting them pass unmentioned.",
+        "incompleteRows": "Canonical 1 of 8 arrest rows filled, boundary 3 of 8, each filled row carrying both its cells; page-2 certification table wholly empty.",
+        "requiredOptionsMissing": "No refusal carries routeDetermined true and the form carries no route election.",
+        "requiredComponentsMissing": "The single required component is rendered whole, all five pages, in both fixtures.",
+        "invisibleWrites": "Ink diff against the official source: 36 added words canonical, 74 boundary, every one readable in the extracted text layer at a sensible position; nothing drawn without appearing.",
+        "protectedWrites": "Zero added words in any signature, signature-date, notary, prosecutor-certification or fingerprinting-official region; zero source words removed on either fixture.",
+        "visualDefects": "The admitted raster receipt for this family, whose pinned digests equal the digests I recomputed, measured 10 pages and reports problems [] and environmentProblems []. Note that the family's own build-summary.json still records visualDefects null because the build container could not raster; the admitted central receipt supplies it."
+      },
+      "crossChecks": {
+        "verifyPacketCompleteness": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family fl-self-defense-set returned PASS_COMPLETE, 25/113 written, nine zeros. Necessary cross-check only.",
+        "rasterReceipt": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/fl-self-defense-set/fl-self-defense-set.verdict.json, RASTER_PASS at packetCommitSha 113305fa146a82dbd06f4ae0c4839be043fbd9e1, pagesMeasured 10, coversTheWholeFamily true, problems []."
+      },
+      "evidenceRead": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/fl/fl-self-defense-set--official-pdf-fill/production-field-map.json",
+          "sha256": "6646a3c52d019092723b0f36d824bcffe48250203635cfefc36a536494b03a09"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/fl/fl-self-defense-set--official-pdf-fill/participant-instructions.md",
+          "sha256": "8cd1ee89527ec10cb19ab2e53b5f40763a3ccb31c2c34505b07ab1d36eda7f84"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/fl/fl-self-defense-set--official-pdf-fill/filing-instructions.md",
+          "sha256": "51a59e80fe991f8faa08dcc214537a13c6e4b99486f25c067647584e0589f044"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/fl/fl-self-defense-set--official-pdf-fill/source-receipt.json",
+          "sha256": "3f5132e604221c203655acfbd744e46fd148d91eba42a80af01f83f5a2a609a0"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/fl/fl-self-defense-set--official-pdf-fill/reports/actual-writes.json",
+          "sha256": "ec06a248999bfa2609bb6667f929d881bce55ea21ed45d11b40938abf01bca73"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/fl/fl-self-defense-set--official-pdf-fill/reports/rendered-artifacts.json",
+          "sha256": "a014593c3ae7d7a39c3be5ffb41328a7347be1ae52410cc810c263404f610aad"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/fl/fl-self-defense-set--official-pdf-fill/reports/blanks-left-for-the-participant.json",
+          "sha256": "7b1fb95f5f02e2a17b549f772a540cac4855af7aa3a3b3acf7e3b2ae84c81df9"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/fl/fl-self-defense-set--official-pdf-fill/reports/measured-overlay-anchors.json",
+          "sha256": "5fd8d343e3bb23a7db1ece169f52a4f2bc62d59c04cbc4e87f1d0d2bfc03c8f8"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/fl/fl-self-defense-set--official-pdf-fill/reports/build-summary.json",
+          "sha256": "53616bb972c202dc274bb4b090152cf55b6ea0549d0ca683edfd1a3e252518ae"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/fl/fl-self-defense-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "a217288839ba7e3ed5b54ade1098e342dd07f6f72e915119b010933d151f853b"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/fl/fl-self-defense-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "627dfa777177431cb5cb8c8f9939a62b184e8628f0b007cb74059b84afe317ba"
+        },
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/fl-self-defense-set/fl-self-defense-set.verdict.json",
+          "sha256": "ed38c8c157add2a089ab77036d829d1897367f593764ff4da530df6ac59cf15c"
+        },
+        {
+          "path": "data/record-clearing/legal-design-intake/FL.memo.json",
+          "sha256": "9b497440290abd5e254b3bd9e1ff6e5dda56abf4c2bfca63dc351090d76e4065"
+        },
+        {
+          "path": "data/record-clearing/legal-design-track-registry.json",
+          "sha256": "555e5700c049608b0766cc7f5f65adfa748bbd32fae790d2220652bf08b958dc"
+        },
+        {
+          "path": "MASTER_LIBRARY_SOURCE_DIR/STATES/FL/05_SOURCE_GATED/FL__SOURCE-GATED__FDLE40-026__application-for-a-certificate-of-eligibility-for-lawful-self-defense-expunction__REV-2019-10__EN.pdf",
+          "sha256": "d7bdbbb546cf6280fd07710e3132885db771400ba778d111835b5de281c58602"
+        }
+      ],
+      "visualDefects": [],
+      "failedObligationNames": [],
+      "observationsForCaptain": [
+        "MASTER_QUEUE.json records implementationStrategy participant_agency_application for this family while the controlling legal record (FL.memo.json track fl-self-defense) records official_pdf_fill. The builder disclosed the disagreement rather than resolving it. This is a queue-label reconciliation for Captain; it is not a defect in the delivered packet and does not affect any obligation above."
+      ],
+      "grantsNothing": "An independent PASS proves this packet complete against its own controlling records. It approves no output, promotes no route and opens no commercial path."
+    },
+    {
+      "itemId": "il-exp-qualprob-set",
+      "lane": "VF01",
+      "laneKind": "independent-verification",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "285c9b91c4cc345c77cdad6a37d015e6f61f45bc",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/il/il-exp-qualprob-set--official-pdf-fill",
+      "implementationStrategy": "official_pdf_fill",
+      "postRepairReread": true,
+      "postRepairNote": "This is a reread of the CURRENT bytes at 285c9b91c, not of the base VF01 and VF03 failed. The prior findings were used only to know what to look for. Both FIX118 rounds are confirmed landed here by direct measurement: the 91 stroke-only synthesized check-box rectangles per fixture are gone (0 on both), the eleven 'Complete arrestNN' lines are gone from the guide, all eight registry stop conditions are now printed verbatim, and the 46 fee-waiver check boxes now reach the guide. Two defects nonetheless stand, one of them the same election-column defect FIX118 repaired on il-seal-3yr and did not repair here.",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "note": "All nine measure zero here and the family still fails. Neither defect below is a thing any of the nine counts: one is the structural integrity of the delivered file and the other is a false instruction in the guide. A green counter row is not a verdict."
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The route key obligation:track-pathway:IL:il-exp-qualprob:expungement-after-eligible-supervision-or-qualified-probation is identical in the MASTER_QUEUE.json family row and in production-field-map.json. The paper carries the same route and I read every limb of it out of the delivered bytes: Request item 1 'I am requesting to expunge records' ticked Yes (packet page 1), Section 8 'For at least one case, I received a sentence of Qualified Probation and at least 5 years have passed since my Qualified Probation ended successfully' ticked (page 3), item 12 'I am requesting to seal records' ticked No (page 4), the Outcome cell carrying QP which is the form's own printed expungement abbreviation for qualified probation, and Sections 13-23 and the SEALING half of the proposed Order left wholly blank as an expungement-only route requires."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Four declared sources, all four recomputed from bytes held in this container and all four exact. Three resolve against the 501-file Master Library index by content: 44792beaede1d03f5ea65e61dba00cdf5cb9b7c617f7ff265e55e92576cd7853 = STATES/IL/02_PACKET_FORMS/IL__FORM__EXP-AD-REQUEST__...__REV-2026-06__EN.pdf, 52e06b58008d797aa861902bf6b85e281804af8b4a397c591fc1c270b0151305 = the EXP-AD-ORDER-GRANTING of the same revision, b2da395f5ba53eb3cec6bbd39a746f2152bf7f84987ea5f4b5c511ada17337f5 = FW-CIV-APPLICATION REV-2025-08. The fourth is not in the Master Library and the receipt does not claim it is: the EXP-AD Case List is held under a different custody, and I recomputed it in this worktree at private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Illinois/EXP-AD Case List Request to Expunge Seal Records.pdf = b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c, matching the receipt exactly. Every declared byteLength and page count also matches what I measured (6, 1, 2 and 4 pages)."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The committed packet set declares four components in order: primary_filing EXP-AD Request (required), attachment EXP-AD Case List (required), proposed_order EXP-AD Order Granting (required), fee_waiver FW-CIV-APPLICATION (conditional, 'Only where the participant cannot pay the county filing fee'). All four are rendered whole in both fixtures, 13 pages, and I identified each from its own printed footer in the delivered text. The conditional fee waiver is included, which is the right call on this route because the record's own requiredBeforeFiling names the Rule 298 application as the thing that makes the fee zero under section 5.2(d)(1)."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "All 45 declared writes produce readable ink in both fixtures. I checked each declared value against the extracted text of the exact packet page its document and page map to (Request 1-6, Case List 7, Order 8-9, FW-CIV 10-13). Six appeared to miss on a first pass and all six were artefacts of poppler's -layout column reconstruction, not of the packet: reading the word boxes shows 'Jordan Avery Reyes' printed as one contiguous run at y 305.6-313.0 x 372.2-444.2 on packet page 6, and '412 West Madison Street, Chicago, IL 60606' as one contiguous run at y 365.6-373.0 x 78.6-237.8, and the sixth was a check box whose stored value is the string Yes and whose ink is the tick I found at the printed box. Every one of the four repairs VF01 previously demanded here is confirmed on the bytes: the charge cells carry a charge and not the case number, the active expungement row's Outcome is QP, the inactive sealing table on Request page 4 is wholly blank, and the Case List carries the case number 2021-CF-004217 in its first cell with no ellipsized placeholder anywhere in either fixture."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "FAIL",
+          "detail": "The record's ten requiredBeforeFiling lines are all present verbatim in participant-instructions.md, confirmed by exact string containment against packetSet.requiredBeforeFiling, and all 58 blanks the field map classes requiredBeforeFiling are named in the guide. The failure is a sentence the builder composed and added to that same section. FILE data/rcap-all50/overlays/census-v1/il/il-exp-qualprob-set--official-pdf-fill/participant-instructions.md, LINE 26, EXACT TEXT: 'Make the per-case expunge or seal election in the Case List's per-case election column, which is where the record places it -- not on the Request.' The official EXP-AD Case List this packet ships (ATJ 2902.1, rev 06/26, sha256 b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c) has no per-case election column: I read the whole one-page form, and it is a caption block (county, name, other names, clerk-assigned case number, date of birth, race, gender), then a flat grid of seventy unlabelled 'Arrest or Case Numbers' cells, then a single 'I have more arrests or case numbers' tick. There is nowhere on it to elect expunge versus seal for a case. Worse, the sentence sends the participant AWAY from where this packet actually made the election and contradicts the same guide's own line 5 and line 9, which correctly state that the Request answers item 1 Yes and item 12 No. A participant following line 26 would hunt for a column that does not exist and would be told not to check the one place the election really is. This is defect (a) that VF05 scored on il-seal-3yr-set and that FIX118 repaired there and only there: il-seal-3yr-set's guide now explains that the record places the election in such a column, that the official Case List carries none, what its 78 fields actually are, and that the election was therefore made on the Request. il-exp-qualprob-set never received that repair."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Not one of the 379 refusals carries routeDetermined true, and every election the route does determine is ticked in the delivered bytes. I found exactly five ticks per fixture and identified each from its printed context: Request item 1 Yes (expunge), Request Section 8 (qualified probation plus five years), Request item 12 No (not sealing), Request page 6 'I am completing this form for myself', and FW-CIV page 4 self-represented. Each tick is the official form's own ZapfDingbats mark drawn inside the form's own printed empty-box glyph - measured, the tick box [74.5, 440.8, 81.5, 448.8] sits inside the printed box [72.0, 438.9, 84.0, 450.9] on page 1 - rather than pdf-lib's synthesized check inside a synthesized hairline square. Nothing on the proposed Order is ticked, which is right: the form prints 'Do not check the boxes below. The judge will check the correct boxes.'"
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Three repeating structures, all measured from the bytes. (1) The Request's ten-row expungement table on page 2: row 1 carries ink in all five cells (2021-CF-004217, Chicago Police Department, Possession of a controlled substance, 03/12/2021, QP) and rows 2 through 10 are wholly blank. VF01's earlier '18 visibly partial rows per fixture' does not reproduce. (2) The Request's sealing table on page 4 is wholly blank, correct for an expungement-only route. (3) The Case List's seventy arrest-or-case cells: only the first carries the case number and the other sixty-nine are wholly blank, and the field map now classifies all sixty-nine identically as optional participant content - grep -c 'Complete arrest' on the delivered guide is 0, where VF01 and VF03 found eleven 'Complete arrest60' through 'Complete arrest70' lines. FIX118's off-by-N repair is confirmed landed."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Measured by differencing every word box of each of the four official sources against the corresponding delivered packet pages, on both fixtures. Canonical adds 35 words on the Request, 9 on the Case List, 21 on the Order and 20 on the fee waiver; boundary adds 60, 14, 30 and 24; nothing is removed from any source anywhere. Every added word is a caption, identity, address, contact or arrest-row value, or one of the five route ticks. The Request's verification block is untouched - the '/s/' beside 'Signature' is the official form's own printed text, present identically in the source, and no signature or verification date is written. On the proposed Order, the only writes are the caption on page 1 and item 3, 'Enter the name and contact information of the person who should receive the signed Order', which is the petitioner's own block; the judge's IT IS ORDERED boxes, the ENTERED line, the Judge line and the Date line all carry no ink, and the clerk-reserved 'Case Number' caption at the head of the Order's page 2 is blank. On the fee waiver the build writes only the caption and the applicant's name and contact details and makes none of its financial statements. The field map's role census agrees: 8 refusals are the court's and 2 are protected signature or date fields, and none of them is written."
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "FAIL",
+          "detail": "The hash half of this obligation passes and the structural half does not. Hashes: canonical.pdf rehashes here to 2657c0232a36e8741e6f6d51e5c73f3fcb1d45ebb19a441e86928291268a5e68 (1728424 bytes, 13 pages) and boundary.pdf to 8a036785cce6eeea581ce10f71892f29685e775ac977081a2256cd7d81a9bf56 (1729148 bytes, 13 pages), exactly what reports/rendered-artifacts.json declares and exactly what the admitted raster verdict pinned. STRUCTURE: neither delivered file is a well-formed PDF. Both carry 146 indirect references to objects that do not exist in the file. Measured two independent ways. (i) Reading the bytes: the trailer declares /Size 954 while the cross-reference table at offset 1712092 covers only 808 object numbers in 14 subsections - (0,8) (11,70) (91,61) (162,18) (188,70) (266,36) (304,151) (494,114) (652,1) (659,26) (688,57) (750,80) (835,59) (897,57) - leaving 146 object numbers, beginning 8, 9, 10, 81-90, 152-161, 180-187, entirely absent from the xref and marked neither in-use nor free, which PDF 32000-1 section 7.5.4 does not permit. Those object numbers are also absent from the file body: there is no '8 0 obj' anywhere, there are no object streams and no cross-reference streams, so nothing is hiding them. (ii) Reloading the delivered file with pdf-lib and resolving each page's /Annots entries: 146 unresolvable references on canonical and 146 on boundary, spread over all 13 pages - page 1 has 3 of 5, page 7 has 39 of 40, page 8 has 44 of 45. Page object 80 is packet page 1 and its dictionary reads /Annots [ 4 0 R 6 0 R 8 0 R 9 0 R 10 0 R ]: objects 4 and 6 are the form's own Link annotations and resolve, and 8, 9 and 10 are widget annotations that the flatten removed from the document and did not remove from the page. CONSEQUENCE, measured not predicted: poppler cannot open either file without first reconstructing the cross-reference table, printing 'Syntax Error: Couldn't find trailer dictionary' and 'Internal Error: xref num 8 not found but needed, try to reconstruct' on every pdfinfo and pdftotext invocation. All four official sources open silently. So do the other packet families I read this shift - az_certificate_second_chance-set, fl-self-defense-set and hi_nonconviction_expungement-set all load with zero dangling annotation references - so this is not a property of the factory. It is not new damage from FIX118: I extracted the pre-repair canonical at 159c0b5cf and it has the same broken xref, and the same fault is present on il-seal-2yr-set, il-seal-3yr-set, il-exp-nonconv-set, il-cannabis-vacate-set and il-exp-supervision-set, so one repair in the shared EXP-AD build path answers six families. It matters here rather than being cosmetic because this packet is delivered specifically for e-filing: participant-instructions.md tells the participant 'AOIC requires a flattened PDF for e-filing, so LegalEase output is delivered pre-flattened', and the file that says so is one a mainstream PDF library must repair before it can read it."
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The packet manifest for this family is the committed packet set's component order: primary_filing order 1, attachment order 2, proposed_order order 3, fee_waiver order 4. The delivered order matches exactly and I read it back page by page from the delivered text: packet pages 1-6 are EXP-AD Request pages 1-6 of 6, page 7 is the one-page EXP-AD Case List, pages 8-9 are EXP-AD Order Granting pages 1-2 of 2 (ATJ 2905.6), pages 10-13 are FW-CIV-APPLICATION pages 1-4 of 4. Each document is contiguous and in ascending source-page order, in both fixtures, and no page is dropped, duplicated or transposed."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Measured positionally on both fixtures, per document, against the official source pages. No added word box falls outside the media box and none comes within 18pt of the right edge. After excluding the printed underscore rules a value is supposed to sit on, and after resolving the text-identity artefacts my differencing produces when a written value repeats a word the page already prints, no added word box intersects any printed word box and no added word box intersects another added word box. The apparent collisions that remain are the five route ticks, and reading their coordinates shows each tick sits INSIDE the form's own printed empty-box glyph rather than beside it. The longest boundary values print whole and clear of the next column - 'Montgomery-Washington' ends at x=301.3 inside a rule running to x=373.8. The two things VF01 previously failed here are gone: no ellipsized value survives in either fixture, and the 91 stroke-only Form XObjects per fixture that pdf-lib synthesized around every unticked check box are now 0 on both, which I measured by walking every one of the 443 flattened Form XObjects in each file and by re-measuring the pre-repair bytes at 159c0b5cf for comparison, where the same walk finds 91. The admitted raster receipt for these exact digests measured 26 pages and reports problems [] and environmentProblems []."
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The registry's destination is {kind: clerk, name: 'Circuit clerk of the county of arrest or charge', detail: 'File with the circuit clerk in each county where an arrest occurred or a charge was brought. The clerk performs service under section 5.2(d)(4).'}. participant-instructions.md carries it under 'Where this is filed', naming the circuit clerk in each county where an arrest occurred or a charge was brought, listing what to file together (Request, Case List, any Additional Cases forms and the proposed Order), and recording the AOIC flattening requirement for e-filing."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Both are stated in the record's own words under 'What it costs, and the waiver': the circuit clerk fee plus an ISP processing fee, both county-collected, ISP charging nothing to file a petition and $60 to process a court order, county totals commonly roughly $60 to $235 with McLean County publishing $136, and the instruction to treat every figure as county-specific. The waiver route is not merely named, it is shipped: the Supreme Court Rule 298 Application for Waiver of Court Fees is component 4 of the packet, rendered as packet pages 10-13, and the guide states section 5.2(d)(1) requires no fee where a Rule 298 order has been obtained or the fee is otherwise waived. The guide is also honest that the packet makes none of the waiver form's financial statements and that all 46 of its check boxes are the participant's, listing every one - the repair FIX118 made in its second round, confirmed present here."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "'## Who serves, and how' names the method and the recipients in the record's own words: 'The circuit court clerk serves, under section 5.2(d)(4). The participant serves no one.' and notice going to the State's Attorney, the Illinois State Police, the arresting agency, and for municipal ordinance violations the chief legal officer. It states the 60-day objection period under section 5.2(d)(5)(B) and that absent an objection the court shall enter an order granting or denying under section 5.2(d)(6)(B), tells the participant to add a hearing date only when the clerk or court supplies it, and tells them not to complete court-owned service or order fields. I confirmed from the bytes that no service or certificate-of-service field is written."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The registry track names eight selfHelpStopConditions and all eight are now printed verbatim under '## Stop and get help', confirmed by exact string containment one by one: an objection by the State's Attorney, ISP, the arresting agency or the chief legal officer; a contested hearing; an ambiguous or contested disposition on the transcript; an unrecognised case on the transcript which may indicate identity theft; federal or out-of-state records an Illinois court cannot reach; immigration consequences; a motion to vacate, modify or reconsider under section 5.2(d)(12); and denial of the petition. This is the exact defect VF03 scored on this family at 159c0b5cf, where four of the eight were absent including the two a self-represented filer can least handle; FIX118's round-two repair is confirmed landed, and the guide adds a closing line singling out those two."
+        }
+      },
+      "failedObligationNames": [
+        "ARTIFACTS",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "repairsNeeded": [
+        {
+          "obligation": "ARTIFACTS",
+          "file": "both fixtures: data/rcap-all50/overlays/census-v1/il/il-exp-qualprob-set--official-pdf-fill/fixtures/canonical.pdf and fixtures/boundary.pdf",
+          "defect": "146 dangling indirect references per fixture. Page /Annots arrays retain references to widget annotation objects the flatten deleted; those object numbers are in neither the file body nor the cross-reference table, and the trailer /Size 954 exceeds the 808 object numbers the xref covers.",
+          "howToSeeIt": "pdfinfo on either fixture prints 'Syntax Error: Couldn't find trailer dictionary' and reconstructs; node with pdf-lib, resolving each page's /Annots entries against the context, returns 146 unresolvable refs; page object 80 reads /Annots [ 4 0 R 6 0 R 8 0 R 9 0 R 10 0 R ] and objects 8, 9 and 10 do not exist.",
+          "repair": "In the shared EXP-AD build path, after form.flatten(), prune every page's /Annots array of references that no longer resolve (keeping the Link annotations, which do), and emit a cross-reference table that covers every object number from 0 to /Size-1, marking unused numbers free. Then re-render both fixtures and re-raster.",
+          "scope": "Not unique to this family and not caused by FIX118: the same fault is in the pre-repair bytes at 159c0b5cf and in il-seal-2yr-set, il-seal-3yr-set, il-exp-nonconv-set, il-cannabis-vacate-set and il-exp-supervision-set. One repair answers six families. az_certificate_second_chance-set, fl-self-defense-set and hi_nonconviction_expungement-set are clean, so this is a path fault and not a factory fault."
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "file": "data/rcap-all50/overlays/census-v1/il/il-exp-qualprob-set--official-pdf-fill/participant-instructions.md",
+          "line": 26,
+          "exactText": "Make the per-case expunge or seal election in the Case List's per-case election column, which is where the record places it -- not on the Request.",
+          "defect": "The official EXP-AD Case List has no per-case election column, so the instruction cannot be carried out; and it tells the participant not to make the election on the Request, which is exactly where this packet made it and where the form itself directs it. The sentence also contradicts the same guide's own 'Route selected' and 'What this packet asks for' paragraphs.",
+          "repair": "Apply here the wording FIX118 already wrote for il-seal-3yr-set: keep printing the record's requiredBeforeFiling line verbatim, then state that the official Case List carries no such column and what its fields actually are, state that this packet therefore made the election on the Request (item 1 Yes, item 12 No), and tell the participant to check that election against the certified disposition and correct it on the Request rather than on the Case List.",
+          "scope": "il-seal-2yr-set carries the identical sentence at its own line 22 and needs the same repair; il-seal-3yr-set is already repaired."
+        }
+      ],
+      "crossChecks": {
+        "verifyPacketCompleteness": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-exp-qualprob-set returned PASS_COMPLETE, 45/424 written, nine zeros. It is green and the family still fails: neither defect above is a thing the nine counters count.",
+        "rasterReceipt": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/il-exp-qualprob-set/il-exp-qualprob-set.verdict.json, RASTER_PASS at packetCommitSha a77595707ec97a980306d184ac07b549884ce038, pagesMeasured 26, coversTheWholeFamily true, problems []. Its pinned digests equal the digests I recomputed, so it is over the current bytes.",
+        "fix118ClaimsVerifiedNotAdopted": "Round one: stroke-only Form XObjects 91 -> 0 per fixture, confirmed by walking all 443 flattened Form XObjects in the current bytes and in the pre-repair bytes at 159c0b5cf. 'Complete arrest' lines 11 -> 0, confirmed by grep on the delivered guide. Round two: 8 of 8 registry stop conditions verbatim, confirmed one by one; the 46 fee-waiver check boxes present in the guide, confirmed. The election-column repair FIX118 recorded for il-seal-3yr-set was NOT applied to this family, confirmed by reading both guides side by side."
+      },
+      "evidenceRead": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/il/il-exp-qualprob-set--official-pdf-fill/production-field-map.json",
+          "sha256": "d983f7051a0e262aa591f94cd89ad2e71050a388e1ac848a50d42cc2562963b5"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/il/il-exp-qualprob-set--official-pdf-fill/participant-instructions.md",
+          "sha256": "e361b6d213964458ea64383ab6a78d117e59c70320462cbbff96a9010f56e095"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/il/il-exp-qualprob-set--official-pdf-fill/filing-instructions.md",
+          "sha256": "e5bde4612d5c18a17818d1c21c07552da54f8bb875fb99d1239abdcf822f6e80"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/il/il-exp-qualprob-set--official-pdf-fill/source-receipt.json",
+          "sha256": "89fa963a352694e01d8d6b1135d9ff364da84572546f29dd0b32234332c25438"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/il/il-exp-qualprob-set--official-pdf-fill/reports/actual-writes.json",
+          "sha256": "dfbf36cd695fc8e93cee66de5b87f607087ca29e8b4f7c9d88ed68b282e60010"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/il/il-exp-qualprob-set--official-pdf-fill/reports/rendered-artifacts.json",
+          "sha256": "9e7801f639d95d5d76dc79c885b3ab509870d9f8baa5520a2af5b1c7d1b66732"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/il/il-exp-qualprob-set--official-pdf-fill/reports/build-summary.json",
+          "sha256": "3894c80d61e8af46e515cf312bdc5a80ef4c1ab14388ccdb356acfebeed3b6f3"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/il/il-exp-qualprob-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "2657c0232a36e8741e6f6d51e5c73f3fcb1d45ebb19a441e86928291268a5e68"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/il/il-exp-qualprob-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "8a036785cce6eeea581ce10f71892f29685e775ac977081a2256cd7d81a9bf56"
+        },
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/il-exp-qualprob-set/il-exp-qualprob-set.verdict.json",
+          "sha256": "6644ba3f1ffe468323d03d8f8f6a67cbccc713ddd16503ba7b260935a9e6ec49"
+        },
+        {
+          "path": "data/record-clearing/legal-design-track-registry.json",
+          "sha256": "555e5700c049608b0766cc7f5f65adfa748bbd32fae790d2220652bf08b958dc"
+        },
+        {
+          "path": "MASTER_LIBRARY_SOURCE_DIR/STATES/IL/02_PACKET_FORMS/IL__FORM__EXP-AD-REQUEST__request-to-expunge-and-or-seal-criminal-records__REV-2026-06__EN.pdf",
+          "sha256": "44792beaede1d03f5ea65e61dba00cdf5cb9b7c617f7ff265e55e92576cd7853"
+        },
+        {
+          "path": "MASTER_LIBRARY_SOURCE_DIR/STATES/IL/02_PACKET_FORMS/IL__FORM__EXP-AD-ORDER-GRANTING__order-to-expunge-and-or-seal-criminal-records__REV-2026-06__EN.pdf",
+          "sha256": "52e06b58008d797aa861902bf6b85e281804af8b4a397c591fc1c270b0151305"
+        },
+        {
+          "path": "MASTER_LIBRARY_SOURCE_DIR/STATES/IL/02_PACKET_FORMS/IL__FORM__FW-CIV-APPLICATION__application-for-waiver-of-court-fees-civil__REV-2025-08__EN.pdf",
+          "sha256": "b2da395f5ba53eb3cec6bbd39a746f2152bf7f84987ea5f4b5c511ada17337f5"
+        },
+        {
+          "path": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Illinois/EXP-AD Case List Request to Expunge Seal Records.pdf",
+          "sha256": "b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c"
+        },
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/fix118/rows-fix118-20260909.json",
+          "sha256": "read for its claims, verified rather than adopted"
+        },
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/fix118/rows-fix118-20260909b.json",
+          "sha256": "read for its claims, verified rather than adopted"
+        }
+      ],
+      "visualDefects": [],
+      "grantsNothing": "This is a verdict and a repair assignment. This lane edited nothing and approves nothing."
+    }
+  ]
+}

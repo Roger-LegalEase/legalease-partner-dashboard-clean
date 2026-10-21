@@ -34,7 +34,7 @@ import { registerTrackedMutation } from "./lib/tracked-mutation-guard.mjs";
 // Signal-safe restoration. A `finally` block does not survive SIGTERM, and two
 // interrupted runs left tracked mutations behind. The journal this writes is
 // recovered by the next repository command even if this process is killed.
-registerTrackedMutation("test-rcap-consumer-payment-http-mutations.mjs", ["src/lib/expungement-ai/consumer-payment-authority.ts", "src/lib/expungement-ai/checkout-reconciliation.ts", "src/app/api/expungement-ai/checkout/route.ts", "src/lib/expungement-ai/payment-adapter.ts"]);
+registerTrackedMutation("test-rcap-consumer-payment-http-mutations.mjs", ["src/lib/expungement-ai/consumer-payment-authority.ts", "src/lib/expungement-ai/checkout-reconciliation.ts", "src/lib/expungement-ai/consumer-order-reconciliation.ts", "src/app/api/expungement-ai/checkout/route.ts", "src/lib/expungement-ai/payment-adapter.ts"]);
 
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -44,6 +44,7 @@ const RECONCILE = path.join(rootDir, 'src/lib/expungement-ai/checkout-reconcilia
 const CONTROL = path.join(rootDir, 'src/lib/rcap/render/consumer-delivery-control.ts');
 const RENDER = path.join(rootDir, 'src/lib/expungement-ai/consumer-render-request.ts');
 const AUTHORITY = path.join(rootDir, 'src/lib/expungement-ai/consumer-payment-authority.ts');
+const ORDER = path.join(rootDir, 'src/lib/expungement-ai/consumer-order-reconciliation.ts');
 
 function verifierIsRed() {
   try {
@@ -55,17 +56,38 @@ function verifierIsRed() {
 }
 
 const MUTATIONS = [
-  ['the webhook stops checking the charged amount', RECONCILE, (s) =>
-    s.replace('if (session.amount_total !== consumerPacketPriceCents) {', 'if (false) {')],
+  // The defence this targets MOVED, it did not disappear. Promotion codes made
+  // "amount_total must equal 5000" wrong -- a $50 packet with a $50 discount is
+  // a legitimate $0 order -- so the equality test was replaced by arithmetic in
+  // consumer-order-reconciliation.ts, whose own comment says as much: the total
+  // must be exactly the regular price less the provider's discount. Pointing
+  // the mutation at the old line left it matching nothing, and a mutation that
+  // matches nothing silently stops testing anything.
+  ['the order reconciliation stops requiring total = price - discount', ORDER, (s) =>
+    s.replace('if (listPriceCents - discountCents !== amountDueCents) {', 'if (false) {')],
 
-  ['the webhook stops checking the currency', RECONCILE, (s) =>
-    s.replace(
-      'if ((session.currency ?? "").toLowerCase() !== CONSUMER_PACKET_CURRENCY) {',
-      'if (false) {')],
+  // The currency guarantee is implemented three times: an early guard in the
+  // reconciliation and two checks inside the order reconciliation, on the
+  // session and on the line item. Removing any one of them proves nothing --
+  // the next refuses the same session a few lines later, which is why this
+  // mutation survived the whole suite while looking like a real test. So the
+  // mutation removes the GUARANTEE, not one implementation of it.
+  ['a non-usd order stops being refused', [RECONCILE, ORDER], (s, file) =>
+    file === RECONCILE
+      ? s.replace(
+        'if ((session.currency ?? "").toLowerCase() !== CONSUMER_PACKET_CURRENCY) {',
+        'if (false) {')
+      : s
+        .replace(
+          'if ((session.currency ?? "").toLowerCase() !== CONSUMER_PACKET_CURRENCY) {',
+          'if (false) {')
+        .replace(
+          'if ((line.currency ?? "").toLowerCase() !== CONSUMER_PACKET_CURRENCY) {',
+          'if (false) {')],
 
-  ['the webhook stops checking the reviewed packet-input hash', RECONCILE, (s) =>
+  ['the webhook stops checking the current verification hash', RECONCILE, (s) =>
     s.replace(
-      'if (!session.metadata.reviewed_input_hash || session.metadata.reviewed_input_hash !== reviewedPacketInputHash(item)) {',
+      'if (!session.metadata.verification_hash || session.metadata.verification_hash !== verification.hash) {',
       'if (false) {')],
 
   ['the payment writer stops requiring a server authority', AUTHORITY, (s) =>
@@ -93,8 +115,12 @@ const MUTATIONS = [
 let caught = 0;
 const survived = [];
 const originals = new Map();
+// A mutation names one file or several. Several matters when a guarantee is
+// implemented in more than one place: removing one implementation of it proves
+// nothing, because the next one refuses the same request a few lines later.
+const filesOf = (file) => (Array.isArray(file) ? file : [file]);
 for (const [, file] of MUTATIONS) {
-  if (!originals.has(file)) originals.set(file, fs.readFileSync(file, 'utf8'));
+  for (const f of filesOf(file)) if (!originals.has(f)) originals.set(f, fs.readFileSync(f, 'utf8'));
 }
 
 function restoreAll() {
@@ -107,19 +133,28 @@ registerMutationRestore(restoreAll);
 
 try {
   for (const [name, file, mutate] of MUTATIONS) {
-    const original = originals.get(file);
-    const mutated = mutate(original);
-    if (mutated === original) {
+    const targets = filesOf(file);
+    const applied = targets.map((f) => [f, originals.get(f), mutate(originals.get(f), f)]);
+    // Every named file must actually change. If one does not, the guarantee is
+    // only partly removed and a green suite would mean nothing.
+    const inert = applied.filter(([, before, after]) => before === after);
+    if (inert.length === targets.length) {
       console.error(`  ERROR    ${name}`);
       console.error('           the mutation matched nothing; the defence it targets has moved or been renamed.');
       survived.push(`${name} (no-op mutation)`);
       continue;
     }
-    fs.writeFileSync(file, mutated);
+    if (inert.length > 0) {
+      console.error(`  ERROR    ${name}`);
+      console.error(`           matched nothing in ${inert.map(([f]) => path.relative(rootDir, f)).join(', ')}; the guarantee would only be half removed.`);
+      survived.push(`${name} (partly inert mutation)`);
+      continue;
+    }
+    for (const [f, , after] of applied) fs.writeFileSync(f, after);
 
     if (verifierIsRed()) { caught += 1; console.log(`  caught   ${name}`); }
     else { survived.push(name); console.log(`  SURVIVED ${name}`); }
-    fs.writeFileSync(file, original);
+    for (const [f, before] of applied) fs.writeFileSync(f, before);
   }
 } finally {
   restoreAll();

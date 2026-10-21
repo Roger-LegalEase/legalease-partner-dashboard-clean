@@ -1,0 +1,207 @@
+{
+  "schemaVersion": "rcap-flat_overlay-map/v5",
+  "factoryVersion": "d0-remediated-v1",
+  "family": "jdf-435-form-order-en",
+  "jurisdiction": "CO",
+  "documentOwnership": "court_issued_caption_only",
+  "componentRole": "court_order_or_notice_the_petitioner_files_with_caption_sections_a_to_c_completed",
+  "sha256": "59026b6ad9809e21fd9cb071adb5725329ac7a65f4a7c3055b11ac57b9f2dd15",
+  "pageGeometry": [
+    {
+      "page": 1,
+      "width": 612,
+      "height": 792,
+      "orientation": "portrait"
+    }
+  ],
+  "captionOnly": true,
+  "bindingBasis": "typed fail-closed binder (scripts/rcap-official-forms/rcap-field-semantics.mjs), unmodified; every field starts protected",
+  "explicitMappings": {},
+  "bindings": [
+    {
+      "anchor": "countyBlank",
+      "label": "County, Colorado",
+      "class": "participant",
+      "factId": "matter.county",
+      "kind": "text"
+    },
+    {
+      "anchor": "petitioner",
+      "label": "Petition of: Defendant (Primary subject of the criminal justice record)",
+      "class": "participant",
+      "factId": "participant.full_legal_name",
+      "kind": "text"
+    },
+    {
+      "anchor": "caseNumber",
+      "label": "Case Number:",
+      "class": "participant",
+      "factId": "matter.case_number",
+      "kind": "text"
+    }
+  ],
+  "bindingRefusals": [
+    {
+      "anchor": "Court Address:",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    }
+  ],
+  "unwritableRegions": [
+    {
+      "key": "division",
+      "label": "Division",
+      "printedLine": "Division: Courtroom:",
+      "baselineY": 565.3,
+      "class": "court_or_agency",
+      "why": "court-use caption field; the court assigns the division"
+    },
+    {
+      "key": "courtroom",
+      "label": "Courtroom",
+      "printedLine": "Division: Courtroom:",
+      "baselineY": 565.3,
+      "class": "court_or_agency",
+      "why": "court-use caption field; the court assigns the courtroom"
+    },
+    {
+      "key": "bodyAndSignature",
+      "label": "Everything printed below the caption band",
+      "printedLine": null,
+      "baselineY": null,
+      "class": "court_or_agency",
+      "why": "the finding, the hearing or denial particulars, the judge's signature and date, and the clerk's certificate of service are the court's; nothing is drawn there"
+    }
+  ],
+  "anchorCapture": {
+    "basis": "text drawn by this exact sha256, read from the page content stream",
+    "readableLines": 26,
+    "anchorCount": 4,
+    "anchors": [
+      {
+        "key": "countyBlank",
+        "page": 1,
+        "kind": "blank_between_labels",
+        "label": "County, Colorado",
+        "printedLine": "District Court _______________________County, Colorado",
+        "factId": "matter.county",
+        "captionOnly": true,
+        "labelX": 84.02,
+        "baselineY": 710.2,
+        "fontSize": 9.96,
+        "writeBox": {
+          "x": 148.72,
+          "y": 711.4,
+          "width": 124.81,
+          "height": 10.96
+        },
+        "printedSuffixAfterBlank": "County",
+        "measurement": {
+          "labelPositionMeasured": true,
+          "blankExtentMeasuredFromUnderscoreRun": true,
+          "rightBoundaryMeasured": true
+        }
+      },
+      {
+        "key": "courtAddress",
+        "page": 1,
+        "kind": "trailing_label",
+        "label": "Court Address:",
+        "printedLine": "Court Address:",
+        "factId": null,
+        "captionOnly": true,
+        "labelX": 84.02,
+        "baselineY": 698.6,
+        "fontSize": 9.96,
+        "writeBox": {
+          "x": 154.59,
+          "y": 698.6,
+          "width": 237.41,
+          "height": 10.96
+        },
+        "measurement": {
+          "labelPositionMeasured": true,
+          "rightBoundaryMeasured": false,
+          "rightBoundaryEstimatedAtCourtUseBox": 396
+        }
+      },
+      {
+        "key": "petitioner",
+        "page": 1,
+        "kind": "blank_between_labels",
+        "label": "Petition of: Defendant (Primary subject of the criminal justice record)",
+        "printedLabels": [
+          "Petition of:",
+          "Defendant (Primary subject of the criminal justice record)"
+        ],
+        "printedLine": "Petition of: … Defendant (Primary subject of the criminal justice record)",
+        "factId": "participant.full_legal_name",
+        "captionOnly": true,
+        "labelX": 84,
+        "baselineY": 626.25,
+        "fontSize": 10.46,
+        "writeBox": {
+          "x": 84,
+          "y": 626.25,
+          "width": 304,
+          "height": 11.96
+        },
+        "measurement": {
+          "labelPositionMeasured": true,
+          "blankPlacedMidwayBetweenTheTwoPrintedLabels": true,
+          "rightBoundaryMeasured": false,
+          "rightBoundaryEstimatedAtCourtUseBox": 396
+        }
+      },
+      {
+        "key": "caseNumber",
+        "page": 1,
+        "kind": "trailing_label",
+        "label": "Case Number:",
+        "printedLine": "Case Number:",
+        "factId": "matter.case_number",
+        "captionOnly": true,
+        "labelX": 407.11,
+        "baselineY": 597.5,
+        "fontSize": 9.96,
+        "writeBox": {
+          "x": 474.4,
+          "y": 597.5,
+          "width": 91.6,
+          "height": 10.96
+        },
+        "measurement": {
+          "labelPositionMeasured": true,
+          "rightBoundaryMeasured": false,
+          "rightBoundaryEstimatedAtPageMargin": 566
+        }
+      }
+    ]
+  },
+  "canonicalWrites": [
+    {
+      "anchor": "County, Colorado",
+      "factId": "matter.county",
+      "fontSize": 8.96,
+      "outcome": "fit",
+      "font": "Helvetica",
+      "standardFontFallbackUsed": false
+    },
+    {
+      "anchor": "Petition of: Defendant (Primary subject of the criminal justice record)",
+      "factId": "participant.full_legal_name",
+      "fontSize": 9.96,
+      "outcome": "fit",
+      "font": "Helvetica",
+      "standardFontFallbackUsed": false
+    },
+    {
+      "anchor": "Case Number:",
+      "factId": "matter.case_number",
+      "fontSize": 8.96,
+      "outcome": "fit",
+      "font": "Helvetica",
+      "standardFontFallbackUsed": false
+    }
+  ]
+}

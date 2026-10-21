@@ -1,0 +1,473 @@
+{
+  "jurisdiction": "PA",
+  "trackId": "pa_790_nonconviction",
+  "legalName": "Petition for Expungement of Non-Conviction Records Pursuant to Pa.R.Crim.P. 790",
+  "publicName": "Expunge a Pennsylvania court case that did not end in a conviction",
+  "mechanism": "Section 9122(a) requires expungement of criminal history record information where no disposition has been received or recorded within 18 months after the date of arrest and the court finds the conditions met, or where a court order requires nonconviction data to be expunged. Rule 790 prescribes the petition contents, the attached Pennsylvania State Police criminal history report, service on the attorney for the Commonwealth, and the expungement order for court cases.",
+  "authority": [
+    "18 Pa.C.S. \u00a7 9122(a)",
+    "18 Pa.C.S. \u00a7 9102",
+    "Pa.R.Crim.P. 790"
+  ],
+  "reviewedAsOf": "2026-07-31",
+  "effectiveFrom": "1982-12-08",
+  "effectiveTo": null,
+  "recordTypes": [
+    "arrest",
+    "charge",
+    "court_case_record"
+  ],
+  "dispositions": [
+    "dismissed",
+    "withdrawn",
+    "nolle_prossed",
+    "otherwise_resolved_without_conviction",
+    "no_disposition_recorded_within_18_months_of_arrest"
+  ],
+  "exclusions": [
+    "Mixed cases in which any charge in the case resulted in a conviction. Section 9122(a) reaches nonconviction data; a case with a conviction on any count is not a clean non-conviction.",
+    "Cases in which only summary offenses were filed and the case remained at the magisterial district court, which proceed under Pa.R.Crim.P. 490 instead.",
+    "Records held by federal, military, tribal or out-of-state authorities, which Pennsylvania relief does not reach."
+  ],
+  "waitingPeriods": [
+    {
+      "condition": "Charges dismissed, withdrawn, nolle prossed or otherwise resolved without conviction",
+      "duration": "none"
+    },
+    {
+      "condition": "Arrest with no disposition received or recorded",
+      "duration": "18 months after the date of arrest, per 18 Pa.C.S. \u00a7 9122(a)"
+    }
+  ],
+  "outputStrategy": "official_pdf_fill",
+  "outputStrategyDeclared": "official_pdf_fill",
+  "compositionMode": null,
+  "units": [],
+  "geographicScope": "statewide",
+  "geographyKeys": [],
+  "venue": "The clerk of the courts of the judicial district in which the charges were disposed. Statewide rules and forms; county instruction packets and filing fees vary.",
+  "destination": {
+    "kind": "clerk",
+    "name": "Clerk of the courts of the judicial district in which the charges were disposed",
+    "detail": "File the Rule 790 petition and blank expungement order with the clerk of courts. A copy of the petition is served on the attorney for the Commonwealth concurrently with filing. The Commonwealth has 60 days after service to file a consent or objection or take no action."
+  },
+  "packetSet": {
+    "packetSetId": "pa_790_nonconviction-set",
+    "version": "1.0.0",
+    "components": [
+      {
+        "componentId": "pa_790_nonconviction-primary-filing-1",
+        "role": "primary_filing",
+        "requirement": "required",
+        "conditionDescription": null,
+        "outputStrategy": "official_pdf_fill",
+        "officialFormId": "PA-RCRIM-P-790-PETITION",
+        "officialSourceUrl": "https://www.pacourts.us/Storage/media/pdfs/20210224/222549-blankexpungementorder7900309121-000065.pdf",
+        "order": 1
+      },
+      {
+        "componentId": "pa_790_nonconviction-proposed-order-2",
+        "role": "proposed_order",
+        "requirement": "required",
+        "conditionDescription": null,
+        "outputStrategy": "official_pdf_fill",
+        "officialFormId": "PA-RCRIM-P-790-ORDER",
+        "officialSourceUrl": "https://www.pacourts.us/Storage/media/pdfs/20210224/222549-blankexpungementorder7900309121-000065.pdf",
+        "order": 2
+      },
+      {
+        "componentId": "pa_790_nonconviction-certificate-of-service-3",
+        "role": "certificate_of_service",
+        "requirement": "required",
+        "conditionDescription": null,
+        "outputStrategy": "custom_pleading",
+        "officialFormId": null,
+        "officialSourceUrl": null,
+        "order": 3
+      },
+      {
+        "componentId": "pa_790_nonconviction-fee-waiver-4",
+        "role": "fee_waiver",
+        "requirement": "conditional",
+        "conditionDescription": "Applies only where the participant seeks to proceed in forma pauperis.",
+        "outputStrategy": "official_pdf_fill",
+        "officialFormId": "PA-IFP-CCP",
+        "officialSourceUrl": "https://www.pacourts.us/forms/for-the-public",
+        "order": 4
+      }
+    ],
+    "participantActionRequired": [
+      {
+        "kind": "obtain_document",
+        "description": "Obtain Pennsylvania State Police criminal history report obtained within 60 days before filing. Request your own criminal history report from the Pennsylvania State Police. Rule 790 requires a current copy obtained within 60 days before filing to be attached, unless the attorney for the Commonwealth agrees to waive it. Because of the 60-day window, order it late in packet assembly rather than first. LegalEase never collects, inspects or authenticates it.",
+        "obtainedFrom": "Pennsylvania State Police",
+        "requirement": "required",
+        "requiredBeforeFiling": true
+      },
+      {
+        "kind": "confirm_answer",
+        "description": "Check your answer to \"How did each charge end \u2014 dismissed, withdrawn, nolle prossed, or with no disposition ever entered?\" against Pennsylvania State Police criminal history report obtained within 60 days before filing, and correct the packet if they disagree.",
+        "requirement": "required",
+        "requiredBeforeFiling": true
+      },
+      {
+        "kind": "obtain_document",
+        "description": "Obtain Complete docket sheet for the case. Obtain the docket sheet showing every charge, the OTN, and the disposition of each count.",
+        "obtainedFrom": "Clerk of courts, or the Unified Judicial System web docket sheets",
+        "requirement": "required",
+        "requiredBeforeFiling": true
+      },
+      {
+        "kind": "confirm_answer",
+        "description": "Check your answer to \"Did every charge in this case end without a conviction?\" against Complete docket sheet for the case, and correct the packet if they disagree.",
+        "requirement": "required",
+        "requiredBeforeFiling": true
+      },
+      {
+        "kind": "complete_field",
+        "description": "Petitioner signature, date and verification \u2014 Rule 790 petition, verification block.",
+        "requirement": "required",
+        "requiredBeforeFiling": true
+      },
+      {
+        "kind": "complete_field",
+        "description": "Judge name and order date \u2014 Blank expungement order, caption and signature block.",
+        "requirement": "required",
+        "requiredBeforeFiling": true
+      },
+      {
+        "kind": "complete_field",
+        "description": "List of agencies to receive the certified order \u2014 Order, distribution block.",
+        "requirement": "required",
+        "requiredBeforeFiling": true
+      },
+      {
+        "kind": "sign",
+        "description": "The petitioner signs and verifies the petition.",
+        "requirement": "required",
+        "requiredBeforeFiling": true
+      },
+      {
+        "kind": "pay_fee",
+        "description": "County filing fees vary and are not established by statute. The legal review reports a range of roughly $132 to $215 across counties, with expungement petitions generally costing more than limited access petitions. No confirmed statewide schedule exists.",
+        "requirement": "required",
+        "requiredBeforeFiling": true
+      },
+      {
+        "kind": "apply_fee_waiver",
+        "description": "In forma pauperis relief is available; the Court of Common Pleas Motion to Proceed In Forma Pauperis is published statewide.",
+        "requirement": "conditional",
+        "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+        "requiredBeforeFiling": true
+      },
+      {
+        "kind": "serve_party",
+        "description": "Service on the attorney for the Commonwealth concurrently with filing, per Pa.R.Crim.P. 790.",
+        "requirement": "required",
+        "requiredBeforeFiling": false
+      },
+      {
+        "kind": "file",
+        "description": "File the verified Rule 790 petition, the blank expungement order and the attached Pennsylvania State Police criminal history report with the clerk of the courts of the judicial district in which the charges were disposed.",
+        "requirement": "required",
+        "requiredBeforeFiling": false
+      }
+    ],
+    "requiredBeforeFiling": [
+      "Obtain Pennsylvania State Police criminal history report obtained within 60 days before filing. Request your own criminal history report from the Pennsylvania State Police. Rule 790 requires a current copy obtained within 60 days before filing to be attached, unless the attorney for the Commonwealth agrees to waive it. Because of the 60-day window, order it late in packet assembly rather than first. LegalEase never collects, inspects or authenticates it.",
+      "Check your answer to \"How did each charge end \u2014 dismissed, withdrawn, nolle prossed, or with no disposition ever entered?\" against Pennsylvania State Police criminal history report obtained within 60 days before filing, and correct the packet if they disagree.",
+      "Obtain Complete docket sheet for the case. Obtain the docket sheet showing every charge, the OTN, and the disposition of each count.",
+      "Check your answer to \"Did every charge in this case end without a conviction?\" against Complete docket sheet for the case, and correct the packet if they disagree.",
+      "Petitioner signature, date and verification \u2014 Rule 790 petition, verification block.",
+      "Judge name and order date \u2014 Blank expungement order, caption and signature block.",
+      "List of agencies to receive the certified order \u2014 Order, distribution block.",
+      "The petitioner signs and verifies the petition.",
+      "County filing fees vary and are not established by statute. The legal review reports a range of roughly $132 to $215 across counties, with expungement petitions generally costing more than limited access petitions. No confirmed statewide schedule exists.",
+      "In forma pauperis relief is available; the Court of Common Pleas Motion to Proceed In Forma Pauperis is published statewide."
+    ]
+  },
+  "officialSources": [
+    {
+      "title": "Pa.R.Crim.P. 790 Petition",
+      "url": "https://www.pacourts.us/Storage/media/pdfs/20210224/222549-blankexpungementorder7900309121-000065.pdf",
+      "retrievedOn": "2026-08-02",
+      "sha256": "fc06486e75773d4f6d81c263706827ab7f9facfb6dde9907cbee120c063289de"
+    },
+    {
+      "title": "Pa.R.Crim.P. 790 Blank Expungement Order",
+      "url": "https://www.pacourts.us/Storage/media/pdfs/20210224/222549-blankexpungementorder7900309121-000065.pdf",
+      "retrievedOn": "2026-08-02",
+      "sha256": "4d312ebde4aed7c1941e1ae9d734c90ba7183db273778839b15a84be8e611c95"
+    }
+  ],
+  "rules": {
+    "filing": "File the verified Rule 790 petition, the blank expungement order and the attached Pennsylvania State Police criminal history report with the clerk of the courts of the judicial district in which the charges were disposed.",
+    "fees": "County filing fees vary and are not established by statute. The legal review reports a range of roughly $132 to $215 across counties, with expungement petitions generally costing more than limited access petitions. No confirmed statewide schedule exists.",
+    "feeWaiver": "In forma pauperis relief is available; the Court of Common Pleas Motion to Proceed In Forma Pauperis is published statewide.",
+    "notice": "A copy of the petition is served on the attorney for the Commonwealth concurrently with filing. Within 60 days after service the attorney for the Commonwealth shall file a consent or objection to the petition or take no action.",
+    "service": "Service on the attorney for the Commonwealth concurrently with filing, per Pa.R.Crim.P. 790.",
+    "participantSignature": "The petitioner signs and verifies the petition.",
+    "notarization": "none"
+  },
+  "generationRequirements": [
+    {
+      "key": "docketNumber",
+      "question": "What is the docket number for the case?",
+      "requirement": "required"
+    },
+    {
+      "key": "otn",
+      "question": "What is the Offense Tracking Number (OTN) on the docket?",
+      "requirement": "required"
+    },
+    {
+      "key": "judicialDistrict",
+      "question": "In which Pennsylvania county or judicial district were the charges disposed?",
+      "requirement": "required"
+    },
+    {
+      "key": "arrestDate",
+      "question": "On what date were you arrested, or on what date was the complaint filed?",
+      "requirement": "required"
+    },
+    {
+      "key": "arrestingAgency",
+      "question": "Which law enforcement agency arrested you, if you know?",
+      "requirement": "conditional",
+      "conditionDescription": "Rule 790 asks for the arresting agency where available; the petition generates without it."
+    },
+    {
+      "key": "charges",
+      "question": "What charges were filed against you?",
+      "requirement": "required"
+    },
+    {
+      "key": "disposition",
+      "question": "How did each charge end \u2014 dismissed, withdrawn, nolle prossed, or with no disposition ever entered?",
+      "requirement": "required"
+    },
+    {
+      "key": "everyChargeNonConviction",
+      "question": "Did every charge in this case end without a conviction?",
+      "requirement": "required"
+    },
+    {
+      "key": "dispositionDate",
+      "question": "On what date did the case end?",
+      "requirement": "required"
+    },
+    {
+      "key": "financialStatus",
+      "question": "What is the payment status of any fines, costs and restitution in this case?",
+      "requirement": "required"
+    },
+    {
+      "key": "reasonForExpungement",
+      "question": "In your own words, why are you asking the court to expunge this record?",
+      "requirement": "required"
+    },
+    {
+      "key": "cleanSlateAlreadyApplied",
+      "question": "Has this case already been sealed under Clean Slate limited access?",
+      "requirement": "required"
+    }
+  ],
+  "participantFilingRequirements": [
+    {
+      "name": "Pennsylvania State Police criminal history report obtained within 60 days before filing",
+      "obtainedFrom": "Pennsylvania State Police",
+      "requirement": "required",
+      "requiredBeforeFiling": true,
+      "howToObtain": "Request your own criminal history report from the Pennsylvania State Police. Rule 790 requires a current copy obtained within 60 days before filing to be attached, unless the attorney for the Commonwealth agrees to waive it. Because of the 60-day window, order it late in packet assembly rather than first. LegalEase never collects, inspects or authenticates it.",
+      "confirms": "disposition"
+    },
+    {
+      "name": "Complete docket sheet for the case",
+      "obtainedFrom": "Clerk of courts, or the Unified Judicial System web docket sheets",
+      "requirement": "required",
+      "requiredBeforeFiling": true,
+      "howToObtain": "Obtain the docket sheet showing every charge, the OTN, and the disposition of each count.",
+      "confirms": "everyChargeNonConviction"
+    }
+  ],
+  "manualCompletionItems": [
+    {
+      "item": "Petitioner signature, date and verification",
+      "whereInPacket": "Rule 790 petition, verification block",
+      "why": "Rule 790 requires the petition to be verified by the petitioner."
+    },
+    {
+      "item": "Judge name and order date",
+      "whereInPacket": "Blank expungement order, caption and signature block",
+      "why": "The court completes and signs the order."
+    },
+    {
+      "item": "List of agencies to receive the certified order",
+      "whereInPacket": "Order, distribution block",
+      "why": "The agencies that hold the record are identified from the docket and the criminal history report."
+    },
+    {
+      "item": "Leave the judge name, order date and signature blocks on the blank expungement order for the court to complete.",
+      "whereInPacket": "Recorded by counsel as a limitation; place when the packet is drafted.",
+      "why": "Counsel classified this as an item the participant completes."
+    }
+  ],
+  "selfHelpBoundaries": [
+    "Any charge in the case resulted in a conviction, making this a mixed case rather than a clean non-conviction.",
+    "The attorney for the Commonwealth files an objection, which puts the petition before the court on a contested basis.",
+    "Fines, costs or restitution remain unpaid, because Rule 790 requires the payment status to be stated.",
+    "Limited access has already attached to the record and the choice between sealing and the stronger expungement remedy matters to the participant.",
+    "The participant has immigration exposure.",
+    "The records of concern are federal, military, tribal or out-of-state.",
+    "If the attorney for the Commonwealth objects, self-help stops and the participant is referred to counsel."
+  ],
+  "postGenerationHandoffs": [],
+  "packetInstructions": [
+    "The Pennsylvania State Police criminal history report must be obtained within 60 days before filing, so it is ordered late in packet assembly rather than first.",
+    "Tell the participant that where the court grants the petition without the Commonwealth's consent, the expungement order is stayed for 30 days pending appeal.",
+    "Check whether Clean Slate limited access has already attached before generating a petition, and explain that expungement is the stronger remedy where the participant wants the record removed rather than sealed."
+  ],
+  "participantQuestions": [
+    "Ask whether every charge in the case ended without a conviction before generating, because a mixed case is outside this track."
+  ],
+  "scopeRestrictions": [
+    "Expungement under \u00a7 9122 is not limited access. Consumer-facing copy must keep the two remedies distinct and must never tell a participant the record no longer exists beyond what \u00a7 9122.5 permits."
+  ],
+  "buildBlockers": [],
+  "releaseBlockers": [
+    {
+      "question": "The county filing fee schedule for a Rule 790 expungement petition. No statewide schedule was established and reported county figures range from roughly $132 to $215.",
+      "impact": "release_blocker",
+      "affectedElement": "participant_instructions",
+      "provenance": {
+        "classificationBasis": "explicit_state_addendum",
+        "sourceFile": "PA__LEGAL-REVIEW__STATEWIDE__pennsylvania-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+        "sourceHeading": "TRACK 1 / OPEN QUESTIONS",
+        "sourceStatement": "County filing fee schedule. **Release blocker** for cost copy."
+      }
+    }
+  ],
+  "awaitingCounselClassification": [],
+  "openLegalQuestions": [],
+  "counselConfirmationRequired": false,
+  "counselQuestions": [],
+  "selfHelpStopConditions": [
+    "Any charge in the case resulted in a conviction, making this a mixed case rather than a clean non-conviction.",
+    "The attorney for the Commonwealth files an objection, which puts the petition before the court on a contested basis.",
+    "Fines, costs or restitution remain unpaid, because Rule 790 requires the payment status to be stated.",
+    "Limited access has already attached to the record and the choice between sealing and the stronger expungement remedy matters to the participant.",
+    "The participant has immigration exposure.",
+    "The records of concern are federal, military, tribal or out-of-state."
+  ],
+  "unresolvedQuestions": [
+    {
+      "question": "The county filing fee schedule for a Rule 790 expungement petition. No statewide schedule was established and reported county figures range from roughly $132 to $215.",
+      "impact": "release_blocker",
+      "affectedElement": "participant_instructions",
+      "provenance": {
+        "classificationBasis": "explicit_state_addendum",
+        "sourceFile": "PA__LEGAL-REVIEW__STATEWIDE__pennsylvania-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+        "sourceHeading": "TRACK 1 / OPEN QUESTIONS",
+        "sourceStatement": "County filing fee schedule. **Release blocker** for cost copy."
+      }
+    }
+  ],
+  "guidanceRationales": [],
+  "guidanceRereviewCandidate": false,
+  "legalDesignStatus": "legal_design_approved_with_limitations",
+  "legalDesignLimitations": [
+    {
+      "classification": "packet_instruction",
+      "statement": "The Pennsylvania State Police criminal history report must be obtained within 60 days before filing, so it is ordered late in packet assembly rather than first.",
+      "provenance": {
+        "classificationBasis": "explicit_state_addendum",
+        "sourceFile": "PA__LEGAL-REVIEW__STATEWIDE__pennsylvania-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+        "sourceHeading": "Provisions common to every Pennsylvania track / The PSP report requirement",
+        "sourceStatement": "Rule 790 requires a current Pennsylvania State Police criminal history report obtained within 60 days before filing to be attached, unless the Commonwealth waives it. This is the gating document and its sixty-day currency window means it must be ordered late in packet assembly, not first."
+      }
+    },
+    {
+      "classification": "packet_instruction",
+      "statement": "Tell the participant that where the court grants the petition without the Commonwealth's consent, the expungement order is stayed for 30 days pending appeal.",
+      "provenance": {
+        "classificationBasis": "explicit_state_addendum",
+        "sourceFile": "PA__LEGAL-REVIEW__STATEWIDE__pennsylvania-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+        "sourceHeading": "Provisions common to every Pennsylvania track / Commonwealth response",
+        "sourceStatement": "If granted without Commonwealth consent, the order is stayed for 30 days pending appeal."
+      }
+    },
+    {
+      "classification": "packet_instruction",
+      "statement": "Check whether Clean Slate limited access has already attached before generating a petition, and explain that expungement is the stronger remedy where the participant wants the record removed rather than sealed.",
+      "provenance": {
+        "classificationBasis": "explicit_state_addendum",
+        "sourceFile": "PA__LEGAL-REVIEW__STATEWIDE__pennsylvania-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+        "sourceHeading": "TRACK 1 / Questions requiring individualized legal judgment",
+        "sourceStatement": "Whether Clean Slate has already applied limited access to the non-conviction, in which case the participant may want expungement anyway because it is the stronger remedy."
+      }
+    },
+    {
+      "classification": "participant_question",
+      "statement": "Ask whether every charge in the case ended without a conviction before generating, because a mixed case is outside this track.",
+      "provenance": {
+        "classificationBasis": "explicit_state_addendum",
+        "sourceFile": "PA__LEGAL-REVIEW__STATEWIDE__pennsylvania-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+        "sourceHeading": "TRACK 1 / Questions requiring individualized legal judgment",
+        "sourceStatement": "Whether every charge in the case resolved without conviction, or only some. A mixed case is not a clean non-conviction."
+      }
+    },
+    {
+      "classification": "scope_restriction",
+      "statement": "Expungement under \u00a7 9122 is not limited access. Consumer-facing copy must keep the two remedies distinct and must never tell a participant the record no longer exists beyond what \u00a7 9122.5 permits.",
+      "provenance": {
+        "classificationBasis": "explicit_state_addendum",
+        "sourceFile": "PA__LEGAL-REVIEW__STATEWIDE__pennsylvania-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+        "sourceHeading": "Provisions common to every Pennsylvania track / The distinction that governs everything",
+        "sourceStatement": "expungement removes the information so there is no trace or indication it existed, subject to limited data retained under \u00a7 9122(c). Limited access, including Clean Slate, seals the record from public view but leaves it available to criminal justice agencies and certain government and noncriminal justice agencies."
+      }
+    },
+    {
+      "classification": "self_help_boundary",
+      "statement": "If the attorney for the Commonwealth objects, self-help stops and the participant is referred to counsel.",
+      "provenance": {
+        "classificationBasis": "explicit_state_addendum",
+        "sourceFile": "PA__LEGAL-REVIEW__STATEWIDE__pennsylvania-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+        "sourceHeading": "TRACK 1 / SELF-HELP LIMITS",
+        "sourceStatement": "Commonwealth objection, which triggers a hearing."
+      }
+    },
+    {
+      "classification": "manual_completion_item",
+      "statement": "Leave the judge name, order date and signature blocks on the blank expungement order for the court to complete.",
+      "provenance": {
+        "classificationBasis": "mechanical_translation",
+        "sourceFile": "PA__LEGAL-REVIEW__STATEWIDE__pennsylvania-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+        "sourceHeading": "TRACK 1 / PACKET OR PROCESS COMPONENTS",
+        "sourceStatement": "Blank Expungement Order 790, described as optional by the UJS but ship it.",
+        "normalizerInferred": true
+      }
+    }
+  ],
+  "legalStatus": "legal_review_pending",
+  "runtimeDisabledReason": "Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.",
+  "implementationQueue": "B_official_pdf_overlay",
+  "legalDesignBlockers": [],
+  "blockers": [
+    {
+      "kind": "output_review_gate",
+      "statement": "Output review pending: counsel approved the design, not the produced document."
+    },
+    {
+      "kind": "visual_review_gate",
+      "statement": "Visual review not started."
+    },
+    {
+      "kind": "technical_proof_gate",
+      "statement": "Technical proof not started."
+    },
+    {
+      "kind": "release_blocker",
+      "statement": "Open question blocks release (participant_instructions): The county filing fee schedule for a Rule 790 expungement petition. No statewide schedule was established and reported county figures range from roughly $132 to $215."
+    }
+  ]
+}

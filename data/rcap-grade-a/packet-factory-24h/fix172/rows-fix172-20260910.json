@@ -1,0 +1,402 @@
+{
+ "schemaVersion": "rcap-verifier-rows/v2",
+ "lane": "FIX172",
+ "laneKind": "complex-execution-repair",
+ "isIndependentVerification": false,
+ "worktree": "/home/user/ln2-worktree",
+ "branch": "lane-fix172-20260910",
+ "repairedAtBase": "63a28b5fdd25bdce621ec8cfa69dbac08a7d4894",
+ "commits": [
+  {
+   "sha": "29c57ea10f524da85226c91c030436bb669d78a8",
+   "familyId": "mn_petition_15218-set",
+   "subject": "mn_petition_15218-set: ten statutory grounds stop being one empty sentence"
+  }
+ ],
+ "theHEADLINE": "Ten EXP102 item 9 boxes, each swearing to a DIFFERENT statutory ground for expungement, were delivered with reason: null in both records, named in neither guide, and covered by one sentence telling the participant they were his -- on a petition signed under Minn. Stat. Sec 358.116. None of the ten is ticked and none will be: the election is the participant's oath. Each now carries its own reason drawn from the ground the form prints beside it, all eleven boxes in that class are named in the guide in the form's own words, the sweep sentence is replaced by a counted statement generated from the dispositions, and six guards in the ORDINARY build path refuse the defect's return. Both fixture PDFs are byte-identical, so the acceptance receipt still binds and no raster is owed. The counter that should have caught this cannot: the shared reader does not read selection controls on this field-map shape at all.",
+ "actedOnReturns": [
+  "VF61 rows-vf61-20260910.json, the verification that refused this family on ROUTE_OPTIONS at b984a2f843e493e855442fd25d3a4e73d01a0686. Its ROUTE_OPTIONS finding was re-measured from the committed bytes by this lane and reproduced in full. Its fourteen PASS obligations were NOT re-derived, as the grant directed.",
+  "FIX164 rows-fix164-20260910.json, the byte-free repair VF61 verified. Nothing FIX164 wrote was undone."
+ ],
+ "builtAnything": true,
+ "repairsMade": 1,
+ "repairsMadeForADISPATCHEDFINDING": 1,
+ "packetsSelfVerified": 0,
+ "commercialRoutesOpened": 0,
+ "productionTouched": false,
+ "routesChanged": 0,
+ "verdictsSet": 0,
+ "receiptsIssued": 0,
+ "sharedManifestsTouched": "None. RASTER_QUEUE.json, MASTER_QUEUE.json and both record-clearing manifests were READ and never modified. Nothing under data/rcap-grade-a/packet-factory-24h/ other than fix172/ is in either commit. The claim ledger was touched by claim.mjs --release only and that edit is left UNCOMMITTED. The shared completeness verifier and completeness contract were READ and NOT modified -- see theCOUNTERISBLINDANDTHEBLINDNESSISINSHAREDCODE.",
+ "corpusMountUsed": "The Nationwide recovery pool, resolved through data/rcap-all50/local-source-corpus-index.json by makeCorpusEntryResolver. EXP102/EXP104/EXP106 resolve to private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Minnesota/, FEE102 to private/source-imports/rcap-d-source-packs-2026-08-12/. MASTER_LIBRARY_SOURCE_DIR was left at its default.",
+ "howBytesWereMeasured": "sha256sum on the files as they sit on disk, before the first edit and after each build, and `sha256sum -c` against a pinned list after every mutation test. The printed face of EXP102 pages 4 and 5 was read back through the same shared anchor-capture path the census uses (extractTextItems + groupIntoLines + normalizeHarvestedText over pdf-lib's page objects) from the exact binary the family binds, sha256 c98430f1a9c7a6d399b7d01de1ef2eee0df5f0a1a07e89a703b307977d7bf541, so the ten reasons quote the form rather than a memory of it.",
+ "everyZeroHasAPositiveControl": true,
+ "determinismControlBeforeEditing": {
+  "ranBeforeAnyEdit": true,
+  "command": "node scripts/build-census-v1-mn_petition_15218-set.mjs",
+  "exit": 0,
+  "filesInTheFamilyDirectory": 15,
+  "reproducedByteForByte": 14,
+  "didNotReproduce": [
+   "product-wiring.json"
+  ],
+  "VF61sREPORTOFNONIDEMPOTENCEREPRODUCES": "YES, exactly as VF61 described it. The rebuild ADDS binding.filingInstructions (pointing at the filing-instructions.md the builder itself writes) and MOVES binding.acceptanceReceipt to after binding.lastIndependentVerification. Key sets are identical before and after -- 15 top-level keys, 17 binding keys, 0 lost -- and every value that exists in both is byte-equal, acceptanceReceipt and its RASTER_PASS included. Committed b9da713c3 -> rebuilt be11da9f6 in git's blob terms; committed file sha256 3139dbba99582e1ab39969c638d3ea3ca2f8433ef74641bde3e9e1acf5b70964, rebuilt 9d8f944223133674843bcd4f893bf6e27752c18017d648f1e7465f78dc7fa6dc. The cause is what VF61 named: the committed copy was written by integration commit 59cc9dee0 and not by this builder.",
+  "restoredWith": "git checkout on that one path, re-hashed back to 3139dbba9958...",
+  "gitStatusAfterwards": "clean -- `git status --porcelain` empty",
+  "productWiringWasNEVERCOMMITTED": true
+ },
+ "howTheOUTPUTWASPROTECTEDBEFORERUNNINGANYTHING": "This builder does NOT delete its output directory before rendering -- there is no rmSync anywhere in it, only mkdirSync({recursive:true}) and per-file writeFileSync -- so a failed build leaves the previous output in place. That was checked by reading the source before the first run, not assumed. A full copy of the family directory and of the builder was still taken to the scratchpad first, and `git checkout` remained the primary restore path throughout.",
+ "whatWasREPRODUCEDFROMVF61": {
+  "tenBoxesCarryReasonNullInBOTHDELIVEREDRECORDS": "REPRODUCED. production-field-map.json EXP102.selectionControls and reports/blanks.json notApplicableOnThisRoute both carried reason: null on all ten. The eleventh row in that class, FEE102 item 2's unused branch, carried a real reason.",
+  "noneOfTheTenIsNamedInEitherGUIDE": "REPRODUCED. The ten appeared in neither 'Boxes that are empty because they are not yours' nor 'Choices only you can make'.",
+  "theSWEEPSENTENCE": "REPRODUCED VERBATIM at participant-instructions.md line 67: 'Every other box in this packet is empty and is yours. The ones that ask you for a decision are listed under \"Choices only you can make\" below, with what each one means.'",
+  "requiredOptionsMissingREADSZERO": "REPRODUCED. node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mn_petition_15218-set: PASS_COMPLETE, 30/387 written, requiredOptionsMissing 0. Identical reading after the repair."
+ },
+ "theCOUNTERISBLINDANDTHEBLINDNESSISINSHAREDCODE": {
+  "whereItLives": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs, function readFieldRows, the 'anchors-and-withheld' branch (the shape this family's production-field-map.json uses).",
+  "whatItReads": "doc.writableAnchors and doc.withheld. It does NOT read doc.selectionControls at all on this shape.",
+  "theARITHMETICTHATPROVESIT": "The verifier reports '30/387 written' on this family. writableAnchors across the four documents are 19+3+4+4 = 30. withheld are 118+34+62+143 = 357. 30+357 = 387 exactly. This family declares 27+0+36+32 = 95 selection controls and NOT ONE of them is in the 387. So requiredOptionsMissing is structurally 0 here whatever these boxes carry, before any question about a null reason arises.",
+  "theSECONDLAYER": "Even if a selection control did reach classifyBlank in scripts/rcap-packet-completeness/completeness-contract.mjs, the declared not-applicable gate is entered on a NAMED routeConditionThatMakesItInapplicable and never inspects `reason`. A row can name a condition and say nothing about why the box is empty, and the gate passes it.",
+  "whatTHISLANECHANGED": "Nothing in either shared file. Both were read and left byte-identical. The scoped answer is a guard in this family's own build path that refuses to deliver a selection control with no stated reason, plus a published measurement at data/rcap-all50/overlays/census-v1/mn/mn-petition-15218-set--official-pdf-fill/reports/selection-disclosure.json which states the shared reading beside its own and says in terms why the two are not measurements of the same thing.",
+  "whatISSTILLOWEDANDBYWHOM": "A shared-code lane should make readFieldRows read selectionControls on the anchors-and-withheld shape, and make the declared not-applicable gate require a reason as well as a condition. Until then requiredOptionsMissing cannot see this class of defect on ANY family using this field-map shape -- not only this one. This lane does not own those files and did not touch them.",
+  "requiredOptionsMissingBEFORE": 0,
+  "requiredOptionsMissingAFTER": 0,
+  "whyTHATNUMBERDIDNOTMOVEANDSHOULDNOTBEREADASAPASS": "It is the same blind 0 in both readings. The number that moved is in reports/selection-disclosure.json: selectionControlsWithNoStatedReason was 10 on the committed bytes and is 0 now, and the build refuses rather than ever delivering a non-zero one."
+ },
+ "theTENREASONSANDWHERETHEYCAMEFROM": [
+  {
+   "blankId": "p4-cb-y572-x90.41",
+   "page": 4,
+   "groundKey": "juvenile-certification",
+   "marked": false,
+   "sourceItRestsOn": "EXP102 Rev 7/24 page 4, the second box under item 9 \"Qualification for Expungement\", printed lines y=572.0/555.2/540.0: \"You were certified or referenced for prosecution as an adult for a crime you committed when you were a juvenile. [Use Order Concerning Sealing/Expunging of Record - Minn. Stat. § 609A.02, subd. 1 or 2 (court form EXP106).]\"",
+   "reasonWritten": "This box is EXP102 item 9's second ground: \"You were certified or referenced for prosecution as an adult for a crime you committed when you were a juvenile.\" It is the one other ground on item 9 that uses the same proposed order this packet carries — the form prints \"[Use Order Concerning Sealing/Expunging of Record - Minn. Stat. § 609A.02, subd. 1 or 2 (court form EXP106).]\" under it — but it is a different petition, proved by different facts, and nothing in this packet was prepared or worded for a juvenile certification. Leave it empty here. If this is your ground and the § 152.18 discharge is not, ask for the packet built for it instead of adding this box to this one."
+  },
+  {
+   "blankId": "p4-cb-y516-x90.41",
+   "page": 4,
+   "groundKey": "resolved-in-your-favor",
+   "marked": false,
+   "sourceItRestsOn": "EXP102 Rev 7/24 page 4, third box under item 9, printed lines y=516.0/499.2: \"A criminal matter was resolved your favor. [Use Order Concerning Sealing/Expunging of Records - Minn. Stat. § 609A.02, subd. 3 (court form EXP105).]\"",
+   "reasonWritten": "This box is EXP102 item 9's third ground: \"A criminal matter was resolved your favor.\" The form sends that ground to a different proposed order — it prints \"[Use Order Concerning Sealing/Expunging of Records - Minn. Stat. § 609A.02, subd. 3 (court form EXP105).]\" under it — and this packet carries EXP106, not EXP105. Ticking it here would ask the court for relief under a subdivision the order in your envelope does not cover. Leave it empty. If your case was resolved in your favour rather than dismissed and discharged under § 152.18, this is the wrong packet."
+  },
+  {
+   "blankId": "p4-cb-y475.2-x90.41",
+   "page": 4,
+   "groundKey": "diversion-or-stay",
+   "marked": false,
+   "sourceItRestsOn": "EXP102 Rev 7/24 page 4, fourth box under item 9, printed lines y=475.2/458.4/442.4/427.2: \"You successfully completed the terms of a diversion program or stay of adjudication, and you have not been charged with a new crime for at least one year since completion of the diversion program or stay of adjudication. [Use Order Concerning Sealing/Expunging of Records - Minn. Stat. § 609A.02, subd. 3 (court form EXP105).]\"",
+   "reasonWritten": "This box is EXP102 item 9's fourth ground: \"You successfully completed the terms of a diversion program or stay of adjudication, and you have not been charged with a new crime for at least one year since completion of the diversion program or stay of adjudication.\" A diversion or a stay of adjudication is not the same disposition as a § 152.18 discharge, and the form sends it to a different proposed order — \"[Use Order Concerning Sealing/Expunging of Records - Minn. Stat. § 609A.02, subd. 3 (court form EXP105).]\" This packet carries EXP106. Leave it empty here."
+  },
+  {
+   "blankId": "p4-cb-y403.2-x90.4",
+   "page": 4,
+   "groundKey": "petty-misdemeanor-or-misdemeanor-conviction",
+   "marked": false,
+   "sourceItRestsOn": "EXP102 Rev 7/24 page 4, fifth box under item 9, printed lines y=403.2/386.4/370.4/354.4/339.2: \"You were convicted of a petty misdemeanor or misdemeanor, or the sentence imposed was within the limits provided by law for a misdemeanor, and you have not been convicted of a new crime for at least two years since discharge of the sentence for the crime. [Use Order Concerning Sealing/Expunging of Records - Minn. Stat. § 609A.02, subd. 3 (court form EXP105).]\"",
+   "reasonWritten": "This box is EXP102 item 9's fifth ground: \"You were convicted of a petty misdemeanor or misdemeanor, or the sentence imposed was within the limits provided by law for a misdemeanor, and you have not been convicted of a new crime for at least two years since discharge of the sentence for the crime.\" It is a CONVICTION ground. The box this packet ticks is a case that was dismissed and discharged without a conviction, and the form sends a conviction to a different proposed order — \"[Use Order Concerning Sealing/Expunging of Records - Minn. Stat. § 609A.02, subd. 3 (court form EXP105).]\" Leave it empty here."
+  },
+  {
+   "blankId": "p4-cb-y315.2-x90.38",
+   "page": 4,
+   "groundKey": "gross-misdemeanor-conviction",
+   "marked": false,
+   "sourceItRestsOn": "EXP102 Rev 7/24 page 4, sixth box under item 9, printed lines y=315.2/298.4/282.4/266.4/251.2: \"You were convicted of a gross misdemeanor, or the sentence imposed was within the limits provided by law for a gross misdemeanor, and you have not been convicted of a new crime for at least three years since discharge of the sentence for the crime. [Use Order Concerning Sealing/Expunging of Records - Minn. Stat. § 609A.02, subd. 3 (court form EXP105)].\"",
+   "reasonWritten": "This box is EXP102 item 9's sixth ground: \"You were convicted of a gross misdemeanor, or the sentence imposed was within the limits provided by law for a gross misdemeanor, and you have not been convicted of a new crime for at least three years since discharge of the sentence for the crime.\" It is a conviction ground with its own three-year wait and its own proposed order — \"[Use Order Concerning Sealing/Expunging of Records - Minn. Stat. § 609A.02, subd. 3 (court form EXP105)].\" This packet carries EXP106 and petitions on a discharge, not a conviction. Leave it empty here."
+  },
+  {
+   "blankId": "p4-cb-y227.2-x90.4",
+   "page": 4,
+   "groundKey": "gross-misdemeanor-deemed-misdemeanor",
+   "marked": false,
+   "sourceItRestsOn": "EXP102 Rev 7/24 page 4, seventh box under item 9, printed lines y=227.2/210.4/193.6/177.6/160.8: \"You were convicted of a gross misdemeanor that is deemed to be for a misdemeanor pursuant to Minn. Stat. § 609.13, subd. 2(2), and you have not been convicted of a new crime for at least three years since discharge of the sentence for the crime. [Use Order Concerning Sealing/Expunging of Records - Minn. Stat. § 609A.02, subd. 3 (court form EXP105)].\"",
+   "reasonWritten": "This box is EXP102 item 9's seventh ground: \"You were convicted of a gross misdemeanor that is deemed to be for a misdemeanor pursuant to Minn. Stat. § 609.13, subd. 2(2), and you have not been convicted of a new crime for at least three years since discharge of the sentence for the crime.\" It is the ground for a gross misdemeanor that the sentence reduced to a misdemeanor by operation of § 609.13, and the form sends it to \"[Use Order Concerning Sealing/Expunging of Records - Minn. Stat. § 609A.02, subd. 3 (court form EXP105)].\" This packet carries EXP106. Leave it empty here."
+  },
+  {
+   "blankId": "p4-cb-y136.8-x90.4",
+   "page": 4,
+   "groundKey": "felony-152-025-conviction",
+   "marked": false,
+   "sourceItRestsOn": "EXP102 Rev 7/24 page 4, eighth box under item 9, printed lines y=136.8/120.0/104.8/88.8: \"You were convicted of a felony violation of Minn. Stat. § 152.025, and you have not been convicted of a new crime for at least four years since discharge of the sentence for the crime. [Use Order Concerning Sealing/Expunging of Records - Minn. Stat. § 609A.02, subd. 3 (court form EXP105)].\" Read against the marked box 1 at page 4 y=660.0, which also names § 152.025 but is a case DISMISSED and discharged under § 152.18.",
+   "reasonWritten": "This box is EXP102 item 9's eighth ground: \"You were convicted of a felony violation of Minn. Stat. § 152.025, and you have not been convicted of a new crime for at least four years since discharge of the sentence for the crime.\" READ THIS ONE AGAINST THE BOX THIS PACKET TICKS. Both name § 152.025. The box this packet ticks is a possession case that was DISMISSED and the proceedings DISCHARGED under Minn. Stat. § 152.18; this box is a CONVICTION under § 152.025 that was served out. They are different grounds, they have different waiting periods, and the form sends this one to a different proposed order — \"[Use Order Concerning Sealing/Expunging of Records - Minn. Stat. § 609A.02, subd. 3 (court form EXP105)].\" If you were convicted rather than discharged, this is the wrong packet."
+  },
+  {
+   "blankId": "p5-cb-y708-x90.4",
+   "page": 5,
+   "groundKey": "felony-deemed-lesser",
+   "marked": false,
+   "sourceItRestsOn": "EXP102 Rev 7/24 page 5, ninth box under item 9, printed lines y=708.0/691.2/675.2/659.2/644.0/628.0/612.0: \"You were convicted of a felony that is deemed to be for a gross misdemeanor or misdemeanor pursuant to Minn. Stat. § 609.13, subd. 1(2), and have not been convicted of a new crime for at least four years since discharge of the sentence for the crime if the conviction was for an offense listed in Minn. Stat. § 609A.02, subd. 3(b); or five years since discharge of the sentence for the crime if the conviction was for any other offense. [Use Order Concerning Sealing/Expunging of Records - Minn. Stat. § 609A.02, subd. 3 (court form EXP105)].\"",
+   "reasonWritten": "This box is EXP102 item 9's ninth ground: \"You were convicted of a felony that is deemed to be for a gross misdemeanor or misdemeanor pursuant to Minn. Stat. § 609.13, subd. 1(2)\", with a wait of four years since discharge of the sentence if the conviction was for an offence listed in Minn. Stat. § 609A.02, subd. 3(b), or five years for any other offence. It is a conviction ground with its own two-speed waiting period and its own proposed order — \"[Use Order Concerning Sealing/Expunging of Records - Minn. Stat. § 609A.02, subd. 3 (court form EXP105)].\" This packet carries EXP106. Leave it empty here."
+  },
+  {
+   "blankId": "p5-cb-y588-x90.4",
+   "page": 5,
+   "groundKey": "felony-listed-offense",
+   "marked": false,
+   "sourceItRestsOn": "EXP102 Rev 7/24 page 5, tenth box under item 9, printed lines y=588.0/571.2/556.0/540.0: \"You were convicted of a felony violation of an offense listed in Minn. Stat. § 609A.02, subd. 3(b), and have not been convicted of a new crime for at least four years since discharge of the sentence for the crime. [Use Order Concerning Sealing/Expunging of Records - Minn. Stat. § 609A.02, subd. 3 (court form EXP105)].\"",
+   "reasonWritten": "This box is EXP102 item 9's tenth ground: \"You were convicted of a felony violation of an offense listed in Minn. Stat. § 609A.02, subd. 3(b), and have not been convicted of a new crime for at least four years since discharge of the sentence for the crime.\" Subdivision 3(b) is a named list of felonies that may be expunged after four years; whether your offence is on that list is a question about your own record, which this packet does not hold. The form sends this ground to \"[Use Order Concerning Sealing/Expunging of Records - Minn. Stat. § 609A.02, subd. 3 (court form EXP105)].\" This packet carries EXP106. Leave it empty here."
+  },
+  {
+   "blankId": "p5-cb-y516-x90.4",
+   "page": 5,
+   "groundKey": "judicial-records-only",
+   "marked": false,
+   "sourceItRestsOn": "EXP102 Rev 7/24 page 5, eleventh box under item 9, printed lines y=516.0/499.2/483.2/468.0/452.0: \"You were convicted of an offense that does not qualify for expungement under Minn. Stat. § 609A.02, subd. 3, but you believe you have rehabilitated yourself. You believe that the benefit to you outweighs the disadvantage to the public and the burden on the court. [Use Findings of Fact, Conclusions of Law and Order to Seal/Expunge Judicial Records Only (court form EXP107).]\"",
+   "reasonWritten": "This box is EXP102 item 9's eleventh ground: \"You were convicted of an offense that does not qualify for expungement under Minn. Stat. § 609A.02, subd. 3, but you believe you have rehabilitated yourself. You believe that the benefit to you outweighs the disadvantage to the public and the burden on the court.\" It asks the court to seal its own file only: the form sends it to \"[Use Findings of Fact, Conclusions of Law and Order to Seal/Expunge Judicial Records Only (court form EXP107).]\", which this packet does not carry, and which does not reach records held outside the courthouse. Leave it empty here."
+  }
+ ],
+ "whyNONEOFTHETENISTICKED": "Each of the ten states a different statutory ground for expungement and a participant electing one is swearing to it under Minn. Stat. Sec 358.116. A raster is re-earnable; a pre-answered sworn election is not curable by disclosure. This repair adds no ink anywhere: both fixture PDFs are byte-identical to the committed ones.",
+ "rows": [
+  {
+   "itemId": "mn_petition_15218-set",
+   "familyId": "mn_petition_15218-set",
+   "jurisdiction": "MN",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/mn/mn-petition-15218-set--official-pdf-fill",
+   "buildScript": "scripts/build-census-v1-mn_petition_15218-set.mjs",
+   "commit": "29c57ea10f524da85226c91c030436bb669d78a8",
+   "dispatchedObligations": [
+    "ROUTE_OPTIONS"
+   ],
+   "dispatchedObligationsThatREPRODUCED": [
+    "ROUTE_OPTIONS"
+   ],
+   "obligationRepairedOnThisLanesOwnMeasurement": "ROUTE_OPTIONS",
+   "headline": "Ten item 9 boxes stating ten different statutory grounds carried no reason in either delivered record, were named in neither guide, and were swept up by a sentence saying every other box was the participant's. Ten distinct reasons written from the form's own printed face; all eleven boxes in that class named in the guide; the sweep sentence replaced by a counted statement; six guards in the ordinary build path.",
+   "fixtureDigestsBefore": {
+    "fixtures/canonical.pdf": "cbdea2b8edd3e7151fc376273ac59832c2dbbb0486ad04b7cb08073fce5b3346",
+    "fixtures/boundary.pdf": "9ef91d9772ab7307e8877fc52e4db7878b1c4c2a2bf0106d8d63ce10fa7deeda"
+   },
+   "fixtureDigestsAfter": {
+    "fixtures/canonical.pdf": "cbdea2b8edd3e7151fc376273ac59832c2dbbb0486ad04b7cb08073fce5b3346",
+    "fixtures/boundary.pdf": "9ef91d9772ab7307e8877fc52e4db7878b1c4c2a2bf0106d8d63ce10fa7deeda"
+   },
+   "whichRepairsMovedBytes": "NONE. Both fixture digests are identical before and after, hashed with sha256sum on the files on disk. This repair is markdown and JSON only, exactly as VF61 predicted it could be.",
+   "everyDeliveredFileBeforeAndAfter": {
+    "approval-request.json": {
+     "before": "c2d06b3f9029b6e2a298ae6ea6639867ea3e48ce4fb7ef36a267fd064043f1a9",
+     "after": "c2d06b3f9029b6e2a298ae6ea6639867ea3e48ce4fb7ef36a267fd064043f1a9",
+     "moved": false
+    },
+    "build-findings.json": {
+     "before": "0093e8c3c23eeb298fafe7036be4449315ac81ac847eb01f1e95032f9363d426",
+     "after": "aeca2279bc9b881958cf390da4729b4d15ac77bf65a7b81f092716a7685582f4",
+     "moved": true
+    },
+    "build-status.json": {
+     "before": "5b505c392393347466996248738a71aac877c497e3bdf31a18eac79fa73fde46",
+     "after": "5b505c392393347466996248738a71aac877c497e3bdf31a18eac79fa73fde46",
+     "moved": false
+    },
+    "field-census.census-v1.json": {
+     "before": "a63d3b71d09dfe785a1b7064737e77ccf4ca3217862f3b5a0b6861c1130c41ca",
+     "after": "a63d3b71d09dfe785a1b7064737e77ccf4ca3217862f3b5a0b6861c1130c41ca",
+     "moved": false
+    },
+    "filing-instructions.md": {
+     "before": "c30b5e94fc415e0ab975dc371eaa222edd80da4babb690f253949c1a41a1b36e",
+     "after": "c30b5e94fc415e0ab975dc371eaa222edd80da4babb690f253949c1a41a1b36e",
+     "moved": false
+    },
+    "fixtures/boundary.pdf": {
+     "before": "9ef91d9772ab7307e8877fc52e4db7878b1c4c2a2bf0106d8d63ce10fa7deeda",
+     "after": "9ef91d9772ab7307e8877fc52e4db7878b1c4c2a2bf0106d8d63ce10fa7deeda",
+     "moved": false
+    },
+    "fixtures/canonical.pdf": {
+     "before": "cbdea2b8edd3e7151fc376273ac59832c2dbbb0486ad04b7cb08073fce5b3346",
+     "after": "cbdea2b8edd3e7151fc376273ac59832c2dbbb0486ad04b7cb08073fce5b3346",
+     "moved": false
+    },
+    "participant-instructions.md": {
+     "before": "fd7f09505f1d193353532c15a8aeb34e397b23347f4ccd18faf4538bfd83beb6",
+     "after": "59e306ef41b233a7c073dd312dfce3711dbb08ed6cab9a227a2dc9ee707f5743",
+     "moved": true
+    },
+    "product-wiring.json": {
+     "before": "3139dbba99582e1ab39969c638d3ea3ca2f8433ef74641bde3e9e1acf5b70964",
+     "after": "3139dbba99582e1ab39969c638d3ea3ca2f8433ef74641bde3e9e1acf5b70964",
+     "moved": false,
+     "note": "the builder rewrites it to 9d8f944223133674843bcd4f893bf6e27752c18017d648f1e7465f78dc7fa6dc every run; restored with git checkout and NOT committed"
+    },
+    "production-field-map.json": {
+     "before": "becb584487e93f33cc04ffc68b1b472b9627b9d08a3b674bb250391879b13783",
+     "after": "4a8a4cf13449f59d2022fcaed62b3cafceed5ebfe1f2fbd209a4f1da760d0fe9",
+     "moved": true
+    },
+    "reports/actual-writes.json": {
+     "before": "2f20f804090a29a09a25c271c074208692c31950e8bfd4d7e6f413043678d08e",
+     "after": "2f20f804090a29a09a25c271c074208692c31950e8bfd4d7e6f413043678d08e",
+     "moved": false
+    },
+    "reports/blanks.json": {
+     "before": "c14956592c1335de64c789b559029726587a61c97c06e1f0ccd670f8be9d256f",
+     "after": "55426585807b28bf223bfcc63a936711f024baba15c58f7f0a83f390386e8e40",
+     "moved": true
+    },
+    "reports/caption-evidence.json": {
+     "before": "5b4c4efed0ff182b2751336a8ee6b119c1a14e3365ae6b16120dcc5edb6f440e",
+     "after": "5b4c4efed0ff182b2751336a8ee6b119c1a14e3365ae6b16120dcc5edb6f440e",
+     "moved": false
+    },
+    "reports/rendered-artifacts.json": {
+     "before": "c449d3eede043b2a883dbca6ed96b0aafe590cdd99d20d413f91857c72fbc098",
+     "after": "c449d3eede043b2a883dbca6ed96b0aafe590cdd99d20d413f91857c72fbc098",
+     "moved": false
+    },
+    "reports/selection-disclosure.json": {
+     "before": "did not exist",
+     "after": "4db4bcd35dd25febbebbe4a6a1d91065d14a481eb12b53b5f7cb9f2bd57718c9",
+     "moved": "NEW FILE"
+    },
+    "source-receipt.json": {
+     "before": "073994f8f208319c2ce16b7bbcea77d654d8ae623481fd2deb8a344d1d59b4cf",
+     "after": "073994f8f208319c2ce16b7bbcea77d654d8ae623481fd2deb8a344d1d59b4cf",
+     "moved": false
+    }
+   },
+   "filesChanged": [
+    "scripts/build-census-v1-mn_petition_15218-set.mjs",
+    "data/rcap-all50/overlays/census-v1/mn/mn-petition-15218-set--official-pdf-fill/participant-instructions.md",
+    "data/rcap-all50/overlays/census-v1/mn/mn-petition-15218-set--official-pdf-fill/production-field-map.json",
+    "data/rcap-all50/overlays/census-v1/mn/mn-petition-15218-set--official-pdf-fill/reports/blanks.json",
+    "data/rcap-all50/overlays/census-v1/mn/mn-petition-15218-set--official-pdf-fill/build-findings.json",
+    "data/rcap-all50/overlays/census-v1/mn/mn-petition-15218-set--official-pdf-fill/reports/selection-disclosure.json"
+   ],
+   "countersBeforeAndAfter": {
+    "selectionControls": {
+     "before": 95,
+     "after": 95,
+     "isA": "a reading of the rows the field map publishes; 27 EXP102 + 0 EXP104 + 36 EXP106 + 32 FEE102"
+    },
+    "selectionControlsWithNoStatedReason": {
+     "before": 10,
+     "beforeWasA": "a reading of the committed production-field-map.json and reports/blanks.json: all ten EXP102 item 9 grounds carried reason: null in both",
+     "after": 0,
+     "afterIsA": "a reading of the delivered rows, taken in the build path immediately before the first byte is written; the build throws rather than delivering a non-zero one"
+    },
+    "distinctReasonsAcrossOtherStatutoryGroundBoxes": {
+     "before": 1,
+     "beforeWasA": "one reason across eleven boxes -- the FEE102 branch's, with the ten item 9 boxes carrying none at all",
+     "after": 11,
+     "afterIsA": "eleven boxes, eleven distinct reasons, asserted pairwise in the build path"
+    },
+    "otherStatutoryGroundBoxesNamedInTheParticipantGuide": {
+     "before": 0,
+     "beforeWasA": "VF56 measured 0 of 11 and VF61 confirmed the words 'resolved', 'diversion', 'petty misdemeanor', 'gross misdemeanor' and 'certified' occurred 0 times",
+     "after": 11,
+     "afterIsA": "each box's printed words AND its reason are matched verbatim against the delivered markdown before any byte is written"
+    },
+    "unclassifiedSelectionControls": {
+     "before": 0,
+     "after": 0,
+     "isA": "a reading; every one of the 95 falls in exactly one of marked / court-owned / other-statutory-ground / participant-election, asserted in the build path"
+    },
+    "requiredOptionsMissing": {
+     "before": 0,
+     "after": 0,
+     "isA": "the SHARED verifier's reading, unchanged and unchangeable from this lane -- see theCOUNTERISBLINDANDTHEBLINDNESSISINSHAREDCODE. It is not a measurement of this defect and is published here only so nobody reads it as one."
+    },
+    "allNineSharedCounters": {
+     "before": "all zero, PASS_COMPLETE, 30/387 written",
+     "after": "all zero, PASS_COMPLETE, 30/387 written",
+     "measuredWith": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mn_petition_15218-set"
+    }
+   },
+   "whatTHEPARTICIPANTNOWREADS": {
+    "theSWEEPSENTENCEISGONE": "'Every other box in this packet is empty and is yours' no longer occurs in the delivered markdown, and the build refuses if it returns.",
+    "whatReplacedIt": "A counted statement generated from the same dispositions the field map publishes: 'Every other box in this packet is empty, and they are NOT all yours. 11 of them are printed for statutory grounds this packet is not built for, and they are listed under \"Boxes printed for grounds this packet does not use\" below, with what each one says and why this packet leaves it empty. The rest are yours: they are listed under \"Choices only you can make\" below, with what each one means. No box in this packet is left unexplained.'",
+    "theNEWSECTION": "'Boxes printed for grounds this packet does not use' -- eleven bullets, each naming the box by the words the form prints on it and carrying that box's own reason. It opens by saying that ticking one would swear to a ground this petition is not built to prove, on a paper signed under Minn. Stat. Sec 358.116, and that if one of them and not the Sec 152.18 discharge describes the reader's case, this is the wrong packet.",
+    "noINTERNALVOCABULARYREACHESTHEPARTICIPANT": "The delivered markdown was grepped for disposition names, blank ids, selection ids, route keys, obligation keys and counter names. Zero occurrences. The two guides do contain the phrase 'this route' in three places, all of them pre-existing sentences this lane did not write or move."
+   },
+   "guardsAddedAndPROVEDTOFIRE": [
+    {
+     "guard": "an unmarked selection control delivered with no stated reason",
+     "wherePlaced": "auditSelectionDisclosure(), called from build() between composing the two participant documents and writing the first byte",
+     "pathItExecutesOn": "the ordinary build path -- plain `node scripts/build-census-v1-mn_petition_15218-set.mjs`, no flag. NOT selfTest(), NOT --self-test.",
+     "howItWasBROKEN": "the diversion-or-stay ground's reason was set to null in ITEM_9_GROUNDS_NOT_USED",
+     "whatHAPPENED": "exit 1, 'Error: a selection control is delivered empty with no stated reason, which no counter on this field-map shape can see: 1: [\"EXP102/p4-cb-y475.2-x90.41\"]', thrown from auditSelectionDisclosure via build()",
+     "noBYTEWASWRITTEN": "sha256sum -c against the pinned six-file list: 6 of 6 OK after the refusal",
+     "restoredAndREPROVED": "builder restored from a pristine copy, rebuilt, 6 of 6 OK"
+    },
+    {
+     "guard": "two boxes stating different statutory grounds sharing one reason",
+     "wherePlaced": "auditSelectionDisclosure(), same call site",
+     "pathItExecutesOn": "the ordinary build path",
+     "howItWasBROKEN": "the two gross-misdemeanour grounds were both given il-seal-3yr-set's boilerplate sentence, 'A participant election or financial fact not determined by this packet route.'",
+     "whatHAPPENED": "exit 1, 'Error: boxes stating different statutory grounds share one reason; a reason that covers many grounds explains none of them: [[\"EXP102/p4-cb-y315.2-x90.38\",\"EXP102/p4-cb-y227.2-x90.4\"]]'",
+     "noBYTEWASWRITTEN": "6 of 6 OK after the refusal",
+     "restoredAndREPROVED": "rebuilt, 6 of 6 OK"
+    },
+    {
+     "guard": "a box on another statutory ground that reaches neither participant document",
+     "wherePlaced": "auditSelectionDisclosure(), same call site; matched against the RAW delivered markdown as an independent lane would grep it",
+     "pathItExecutesOn": "the ordinary build path",
+     "howItWasBROKEN": "the guide section's render condition was changed to `if (false && otherGroundBoxes.length > 0)`",
+     "whatHAPPENED": "exit 1, 'Error: a box printed for another statutory ground is not named in the delivered participant guide', listing each box with wordsOnThePage false and reasonOnThePage false",
+     "noBYTEWASWRITTEN": "6 of 6 OK after the refusal",
+     "restoredAndREPROVED": "rebuilt, 6 of 6 OK"
+    },
+    {
+     "guard": "the false sweep sentence, in its exact words",
+     "wherePlaced": "auditSelectionDisclosure(), same call site",
+     "pathItExecutesOn": "the ordinary build path",
+     "howItWasBROKEN": "the pre-repair sentence was pushed back into the render WHILE LEAVING THE NEW SECTION IN PLACE, so this guard could not be satisfied by the previous one",
+     "whatHAPPENED": "exit 1, 'Error: the delivered guide still tells the participant that every other box is theirs, while boxes stating other statutory grounds are empty: \"Every other box in this packet is empty and is yours\"'",
+     "whyTHEBREAKWASSHAPEDTHATWAY": "a break that removed the section too would have fired guard 3 and left this one unproven",
+     "noBYTEWASWRITTEN": "6 of 6 OK after the refusal",
+     "restoredAndREPROVED": "rebuilt, 6 of 6 OK"
+    },
+    {
+     "guard": "a selection control in none of the four classes the guide describes",
+     "wherePlaced": "auditSelectionDisclosure(), same call site",
+     "pathItExecutesOn": "the ordinary build path",
+     "howItWasBROKEN": "decideSelection's fallback disposition was changed from PARTICIPANT_ELECTION_GENUINE to PARTICIPANT_ELECTION",
+     "whatHAPPENED": "exit 1, 'Error: a selection control is in none of the four classes the participant guide describes', naming the rows",
+     "whyITMATTERS": "this is how a box goes missing from every list without any count changing, which is the shape of the defect being repaired",
+     "noBYTEWASWRITTEN": "6 of 6 OK after the refusal",
+     "restoredAndREPROVED": "rebuilt, 6 of 6 OK"
+    },
+    {
+     "guard": "an item 9 ground that no longer matches the form's printed line",
+     "wherePlaced": "decideSelection(), on the item 9 branch, before any reason is assigned",
+     "pathItExecutesOn": "the ordinary build path",
+     "howItWasBROKEN": "the felony-listed-offense matcher was changed from /convicted of a felony violation of an offense listed/i to the British spelling 'offence'",
+     "whatHAPPENED": "exit 1, 'Error: an EXP102 item 9 ground this build must explain matched no single printed entry: 0 match(es) for \"You were convicted of a felony violation of an offense listed in Minn. Stat\"'",
+     "whyITEXISTS": "so a future EXP102 revision that rewords item 9 stops this build rather than shipping a reason that describes a ground the page no longer prints",
+     "noBYTEWASWRITTEN": "6 of 6 OK after the refusal",
+     "restoredAndREPROVED": "rebuilt, 6 of 6 OK"
+    }
+   ],
+   "theDEFECTITSELFWASREINTRODUCEDANDREFUSED": {
+    "whatWasDone": "decideSelection's item 9 branch was replaced with the EXACT pre-repair source -- the object with routeConditionThatMakesItInapplicable and no reason key at all -- the shape VF61 measured on the committed bytes.",
+    "result": "exit 1, 'Error: a selection control is delivered empty with no stated reason, which no counter on this field-map shape can see: 10: [...]' naming all ten boxes.",
+    "whyTHISISTHEPOINT": "VF61 proved that FIX166's guards were unproven because a plain `node <builder>` reintroducing the defect exited 0 and wrote the bad values to disk. This one exits 1 and writes nothing.",
+    "noBYTEWASWRITTEN": "6 of 6 OK after the refusal; builder restored and rebuilt, 6 of 6 OK"
+   },
+   "everyGuardWasRESTOREDANDREPROVED": "Yes. After every one of the seven mutations the builder was restored from a pristine copy taken before the first break, rebuilt, and the six pinned digests re-checked -- participant-instructions.md, production-field-map.json, reports/blanks.json, reports/selection-disclosure.json and both fixture PDFs. 6 of 6 OK every time. `git status --porcelain` at return shows only the intended commit and the uncommitted ledger release.",
+   "idempotenceOfTHISREPAIR": "The repaired builder was run twice in succession and every file in the family directory hashed identically both times, product-wiring.json included within a single session. The pre-existing non-idempotence against the COMMITTED product-wiring.json is unchanged and untouched by this repair.",
+   "rasterState": "BUILT_RASTER_PENDING, unchanged. The committed acceptanceReceipt RASTER_PASS binds canonical cbdea2b8edd3e715... and that is still the canonical this build produces.",
+   "rasterDebt": {
+    "owed": false,
+    "why": "No fixture byte moved. canonical is cbdea2b8edd3e7151fc376273ac59832c2dbbb0486ad04b7cb08073fce5b3346 before and after; boundary is 9ef91d9772ab7307e8877fc52e4db7878b1c4c2a2bf0106d8d63ce10fa7deeda before and after. The acceptance receipt still binds and RASTER_PASS is not withdrawn.",
+    "productWiringWasNOTEDITED": "Correct and deliberate. stillBinds / wholeFamilyReRasterRequired are for a family whose bytes moved. Nothing here moved, so writing them would record a debt that does not exist. The file was rewritten by the builder on every run and restored with git checkout each time; it is not in the commit.",
+    "rasterQueueWasNOTEDITED": true
+   }
+  }
+ ],
+ "theSHAREDCOMPLETENESSVERIFIERBEFOREANDAFTER": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mn_petition_15218-set, run before the first edit and after the final build. Identical both times: 'ok mn_petition_15218-set PASS_COMPLETE 30/387 written', 1 family audited, 1 PASS_COMPLETE, all nine counters 0. The verifier itself was not modified. node scripts/rcap-packet-completeness/verify-governance-state-survives-rebuild.mjs was also run after the repair: 296 product-wiring records compared against HEAD, 296 carrying governance state, 67 withdrawn receipts, EVERY_GOVERNANCE_KEY_SURVIVED.",
+ "whatCouldNOTBeRepaired": [
+  "THE FLEET COUNTER. requiredOptionsMissing still cannot see a selection control with no stated reason -- on this family or on any family using the anchors-and-withheld field-map shape -- because readFieldRows in scripts/rcap-packet-completeness/verify-packet-completeness.mjs does not read selectionControls at all on that shape, and because the declared not-applicable gate in scripts/rcap-packet-completeness/completeness-contract.mjs is entered on a named condition and never inspects `reason`. Both files are shared code outside this lane's ownedPaths. This lane read them, measured the blindness, published the measurement, guarded the family in its own build path, and did not edit either file.",
+  "THE BUILDER'S NON-IDEMPOTENCE ON product-wiring.json. It still adds binding.filingInstructions and reorders acceptanceReceipt on every run, because the committed copy was written by integration commit 59cc9dee0 rather than by the builder. No key is lost and no value changes. Repairing it means either committing the builder's own ordering (which moves a file carrying a live RASTER_PASS receipt and a FEE102 tier, on a family under an open verification) or teaching the builder to preserve a foreign key order. Neither is inside a ROUTE_OPTIONS repair and this lane did neither. Reported, restored with git checkout, never committed.",
+  "THE ELEVENTH BOX'S CLASSIFICATION. FEE102 item 2's unused branch is grouped with the ten in the new guide section because it is the same kind of thing -- a box belonging to a case this packet is not making. It is NOT an item 9 statutory ground and its reason was written by an earlier lane, not by this one. It is listed here so nobody reads eleven bullets and credits this lane with eleven reasons."
+ ],
+ "outOfScopeOBSERVEDNOTACTEDON": [
+  "il-seal-3yr-set still carries 76 of 78 selection controls under one boilerplate sentence, 'A participant election or financial fact not determined by this packet route', which VF61 measured and which this lane used as the deliberate break for guard 2. Not this lane's family; not touched.",
+  "The ballot box on all four Minnesota forms is one two-byte CID <0706> that the shared anchor-capture path reports as two one-byte characters with metricsExact false. This family's own build-findings.json already records it and routes it to the Captain. Unchanged.",
+  "reports/blanks.json groups these eleven rows under the key 'notApplicableOnThisRoute'. The name is accurate to the disposition but it is the machine record, not participant copy, and nothing in it reaches the guide.",
+  "The shared reader's blind spot is not specific to Minnesota. Any family whose production-field-map.json uses the anchors-and-withheld shape and declares selectionControls has all of them excluded from the 387-style audit. This lane measured it on one family and did not survey the fleet."
+ ],
+ "grantsNothing": "This lane opened no commercial route, issued no receipt, set no verdict, changed no live RCAP route, promoted no build status, and self-verified nothing. generationAllowed and runtimeSelectable are still false and commercialRoutesOpened is still 0 in every record this family publishes. The family's state in MASTER_QUEUE.json is untouched and remains FAIL_REPAIR_REQUIRED until an independent lane says otherwise.",
+ "independentReVerificationOwed": "OWED, on mn_petition_15218-set, to a lane that is neither FIX172, nor VF61, nor FIX164. What it should re-derive from the bytes: that all ten item 9 controls carry a non-empty and pairwise-distinct reason in BOTH production-field-map.json and reports/blanks.json; that each of the eleven boxes in that class is named in participant-instructions.md by the words the form prints on it; that the sentence 'Every other box in this packet is empty and is yours' does not occur in either delivered guide; that no box on any of the four forms carries ink it did not carry before, which follows from the two fixture digests being unmoved; that each of the six guards refuses when broken through a plain `node <builder>` with no flag; and the arithmetic behind the shared verifier's blindness, 19+3+4+4 anchors plus 118+34+62+143 withheld equals 387 against 95 selection controls it never reads. No raster is owed and no render is needed for any of this.",
+ "grantsReleased": "mn_petition_15218-set, released at return through scripts/grade-a-packet-factory-24h/claim.mjs --release FIX172. That ledger edit is left UNCOMMITTED as the grant directed."
+}

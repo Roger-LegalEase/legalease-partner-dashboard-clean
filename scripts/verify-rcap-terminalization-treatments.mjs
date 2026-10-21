@@ -192,7 +192,7 @@ async function runChecks() {
       reminderRecommended: false,
       disclaimer: "",
       selectedTrackId: treatment.trackId
-    });
+    }, null);
     check(placeholder.enabled === false, `${key}: the payment placeholder is enabled for a treated route`);
     check(placeholder.amountCents === undefined, `${key}: the payment placeholder carries an amount for a treated route`);
 
@@ -200,13 +200,14 @@ async function runChecks() {
     let refused = false;
     try {
       assertCheckoutAllowed({
-        id: `verify-${treatment.trackId}`,
-        state: treatment.jurisdiction,
-        pathwayLabel: "",
+        jurisdiction: treatment.jurisdiction,
+        pathwayId: null,
         selectedTrackId: treatment.trackId,
+        treatmentClassification: "terminal_treatment_candidate",
+        deferralComponentIds: [],
+        packetType: "custom_pleading",
         resultCode: "packet_ready",
-        paymentAllowed: true,
-        artifactRefs: {}
+        paymentAllowed: true
       });
     } catch (error) {
       refused = error instanceof ConsumerCheckoutNotAllowedError;
@@ -326,7 +327,7 @@ async function runChecks() {
   // Not just the ones in this window. This is the guarantee that caught
   // IL:il-auto-seal-2028 and TX:tx_exp_discretionary: a guidance track binding
   // to no compiled pathway used to fall through to its jurisdiction's
-  // legacy_verified classification, which is sellable. Those two tracks are
+  // legacy classification, which used to be sellable. Those two tracks are
   // already terminal and outside the 114, so nothing else here exercises them —
   // which is exactly why dropping the binding has to fail loudly right here.
   for (const guidance of allCompleteGuidanceTracks()) {
@@ -338,12 +339,19 @@ async function runChecks() {
   }
 
   // ---- 12. an unrelated production route is unchanged ----------------------
+  //
+  // "Unchanged" means this file's terminalization work did not reach these
+  // routes. It never meant "still sellable": ADR-0004 retired the commercial
+  // authority of all five legacy generators, so both controls now assert the
+  // retired classification and a closed commercial posture. If a terminalization
+  // change ever reclassified one of these into a terminal treatment, the
+  // routeKind check still catches it.
   const mississippi = resolvePacketRoute({ state: "MS", pathway: "" });
-  check(mississippi.routeKind === "legacy_verified", `an unrelated Mississippi production route changed to ${mississippi.routeKind}`);
-  check(mississippi.sellable === true, "an unrelated Mississippi production route stopped being sellable");
+  check(mississippi.routeKind === "legacy_retired", `an unrelated Mississippi production route changed to ${mississippi.routeKind}`);
+  check(mississippi.sellable === false, "a retired Mississippi legacy route became sellable again");
   const pennsylvania = resolvePacketRoute({ state: "PA", pathway: "" });
-  check(pennsylvania.routeKind === "legacy_verified", `an unrelated Pennsylvania production route changed to ${pennsylvania.routeKind}`);
-  check(pennsylvania.sellable === true, "an unrelated Pennsylvania production route stopped being sellable");
+  check(pennsylvania.routeKind === "legacy_retired", `an unrelated Pennsylvania production route changed to ${pennsylvania.routeKind}`);
+  check(pennsylvania.sellable === false, "a retired Pennsylvania legacy route became sellable again");
 
   if (failures.length > 0) {
     // The cap keeps a normal failure readable; --all prints everything, which

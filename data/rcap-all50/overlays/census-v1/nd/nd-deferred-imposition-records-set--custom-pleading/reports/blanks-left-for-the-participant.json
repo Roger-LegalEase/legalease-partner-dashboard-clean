@@ -1,0 +1,81 @@
+{
+  "schemaVersion": "rcap-blanks-left-for-the-participant/v1",
+  "familyId": "nd-deferred-imposition-records-set",
+  "requiredBeforeFiling": [
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.case_number",
+      "page": 1,
+      "printedContext": "Case number of the existing criminal case, from the deferral order",
+      "disclosureLabel": "Case number of the existing criminal case, from the deferral order",
+      "identity": "primary_filing field case_number",
+      "why": "no case identifier is held for this record",
+      "participantMustSupply": "the existing criminal case number, copied from the deferral order - the motion is filed in the existing case, not as a new one"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.deferral_order_date",
+      "page": 1,
+      "printedContext": "Date the court entered the order deferring imposition of sentence",
+      "disclosureLabel": "Date the court entered the order deferring imposition of sentence",
+      "identity": "primary_filing field deferral_order_date",
+      "why": "no order fact is held for this record, and the order's date decides which unit of the packet applies",
+      "participantMustSupply": "the date of the deferral order, checked against the order itself - its date decides which version of Rule 32.1 applies, and a pre-2019 felony deferral is a reason to stop and get advice"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.offense_level_statement",
+      "page": 1,
+      "printedContext": "Level of the offence - felony, misdemeanor or infraction - as the deferral order states it",
+      "disclosureLabel": "Level of the offence - felony, misdemeanor or infraction - as the deferral order states it",
+      "identity": "primary_filing field offense_level_statement",
+      "why": "no offence fact is held for this record",
+      "participantMustSupply": "the offence level, copied from the deferral order; it decides whether the felony-reduction application can apply"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.probation_end_date",
+      "page": 1,
+      "printedContext": "Date the defendant's probation expired or terminated, from the discharge record",
+      "disclosureLabel": "Date the defendant's probation expired or terminated, from the discharge record",
+      "identity": "primary_filing field probation_end_date",
+      "why": "no supervision fact is held for this record",
+      "participantMustSupply": "the date probation expired or terminated, checked against the probation discharge record - it fixes the date the sixty-one days run from"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.sentencing_county",
+      "page": 1,
+      "printedContext": "County of the sentencing court, named in the caption of the motion",
+      "disclosureLabel": "County of the sentencing court, named in the caption of the motion",
+      "identity": "primary_filing field sentencing_county",
+      "why": "the sentencing court is a case fact the participant establishes from the deferral order",
+      "participantMustSupply": "which North Dakota county's district court deferred imposition - it is on the deferral order, and the clerk of court of the sentencing court can confirm it"
+    }
+  ],
+  "protectedBlanks": [
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.felony_reduction_application",
+      "label": "[  ] The defendant applies for reduction of the felony to a misdemeanor before dismissal (mark only where the offence was a felony and you ask for it)",
+      "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "why": "the reduction is available on the defendant's own application under N.D.C.C. Sec. 12.1-32-07.1; whether to apply is the participant's own choice and the route does not determine it"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.defendant_signature",
+      "label": "Signature of the defendant on the motion",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "the defendant signs the motion personally; nothing is signed on the verification unit"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.signature_date",
+      "label": "Date beside the defendant's signature on the motion",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "a date written before the motion is signed would be false"
+    }
+  ],
+  "everyRequiredBeforeFilingItemIsDisclosed": true,
+  "disclosedIn": "data/rcap-all50/overlays/census-v1/nd/nd-deferred-imposition-records-set--custom-pleading/participant-instructions.md"
+}

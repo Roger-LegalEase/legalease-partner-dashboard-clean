@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "rcap-lane-checkpoints/v1",
+  "lane": "FIX04",
+  "laneKind": "repair",
+  "shift": "pfe-20260909",
+  "worker": "CLAUDE-PFE-FIX04-CO-MUNICIPAL",
+  "baseSha": "181ac2ece03f417076170e7227a76f4f5f6116b5",
+  "workerBranch": "pfe-fix-20260909",
+  "assigned": [
+    "co_municipal_conviction_seal-set"
+  ],
+  "checkpoints": [
+    {
+      "familyId": "co_municipal_conviction_seal-set",
+      "claim": "CLAIM_OK FIX04 co_municipal_conviction_seal-set (repair, grant set 914af21a28d51a60)",
+      "state": "REPAIRED_AND_RETURNED",
+      "status": "COMPLETED",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "obligationRepaired": [
+        "KNOWN_PREFILLS"
+      ],
+      "repairedObligationConfirmed": "KNOWN_PREFILLS: the guide no longer lists JDF 686's section-1 State line as deliberately left blank and no longer tells the participant to write a state on a rule that already reads CO. Confirmed from the delivered bytes after the rebuild: pdftotext -layout of canonical.pdf reads 'City: Denver State: CO Zip Code: 80202' and of boundary.pdf reads 'City: Colorado Springs State: Zip Code: 80921-2214'; the guide now states the conditional and names reports/actual-writes.json as the record that answers it per packet.",
+      "artifactsUnchanged": true,
+      "canonicalSha256": "676d922f062ce75605d4aa1bd57cf16d6fe917ef408cfc82c49ae4863d3cb022",
+      "boundarySha256": "1c483f89703a4547c4a4ae1689ff3efa1b0be92c1aca12b17454138994a9e2b5",
+      "verdict": null,
+      "whyNoVerdict": "A repair worker sets no verdict and issues no PASS. Independent verification is a different lane and RASTER_PASS comes from the central workflow.",
+      "rowsFile": "data/rcap-grade-a/packet-factory-24h/fix04/rows-fix04-pfe-20260909.json"
+    }
+  ]
+}

@@ -1,0 +1,190 @@
+{
+  "schemaVersion": "rcap-codex-cloud-worker-return/v1",
+  "worker": "CODEX-CS1-FIX05-KS",
+  "lane": "FIX05",
+  "branch": "codex/cs1-fix05-ks-7db2",
+  "baseSha": "7db2c22464691f768ffb05607ebf613281b0bf76",
+  "familyId": "rcap-ks-custom-pleading",
+  "routes": [
+    "obligation:track-pathway:KS:ks-12-4516-municipal:municipal-conviction-or-diversion-expungement-under-12-4516",
+    "obligation:track-pathway:KS:ks-12-4516a-municipal-arrest:municipal-arrest-record-expungement-under-12-4516a"
+  ],
+  "status": "COMPLETED",
+  "buildReturn": "BUILT_RASTER_PENDING",
+  "claim": "CLAIM_OK FIX05 rcap-ks-custom-pleading (repair, grant set cc93188dcdeaae56)",
+  "repairPresentAtAssignedBase": true,
+  "repairPresentAtAssignedBaseNote": "Ancestor 0b957f11404d0490e0f13a1a6cfbdc8956b75f29 already carried the exact VF07 component-identity and footer-pagination repair into the assigned base. This worker reproduced two clean builds and recorded scoped FIX05 evidence without adding a redundant builder or PDF diff.",
+  "obligationsRepaired": [
+    "COMPONENT_SET",
+    "CLIPPING_AND_OVERLAP"
+  ],
+  "componentSet": {
+    "municipal": [
+      {
+        "id": "ks-12-4516-municipal-primary-filing-1",
+        "role": "primary_filing",
+        "order": 1
+      },
+      {
+        "id": "ks-12-4516-municipal-proposed-order-2",
+        "role": "proposed_order",
+        "order": 2
+      },
+      {
+        "id": "ks-12-4516-municipal-process-guidance-3",
+        "role": "process_guidance",
+        "order": 3
+      }
+    ],
+    "municipalArrest": [
+      {
+        "id": "ks-12-4516a-municipal-arrest-primary-filing-1",
+        "role": "primary_filing",
+        "order": 1
+      },
+      {
+        "id": "ks-12-4516a-municipal-arrest-proposed-order-2",
+        "role": "proposed_order",
+        "order": 2
+      },
+      {
+        "id": "ks-12-4516a-municipal-arrest-process-guidance-3",
+        "role": "process_guidance",
+        "order": 3
+      }
+    ],
+    "authoritativeSourcesAgree": true,
+    "renderedAgreeBothDirections": true,
+    "filingInstructionsSubstituteIdsRendered": 0
+  },
+  "artifacts": [
+    {
+      "fixture": "canonical",
+      "scope": "family",
+      "oldSha256": "006811ccb975a156a19a8ee2ed8a5a92a50f2c7d4c25a8f498d146202a58fc24",
+      "oldByteLength": 34362,
+      "oldPageCount": 12,
+      "newSha256": "0da4dbab6b7be1f15ebb4ca2e5fa7810f6c8e34f366dc87b4131c311a4d0ec74",
+      "newByteLength": 37304,
+      "newPageCount": 13
+    },
+    {
+      "fixture": "boundary",
+      "scope": "family",
+      "oldSha256": "3f903f57859d75026d4e5885ac0ab23abc80f3363df713820c4e24d7af3c7fe2",
+      "oldByteLength": 35191,
+      "oldPageCount": 13,
+      "newSha256": "e12e30be68deb94e934bb3ab3080b1cc0d0c048810781f8491710c5740cd55c7",
+      "newByteLength": 37721,
+      "newPageCount": 13
+    },
+    {
+      "fixture": "canonical",
+      "scope": "ks-12-4516-municipal",
+      "oldSha256": "7d0c883eeb91e91e5aba6c23284d6de2ea4e409212664fb29ec5f29dfa8feba8",
+      "oldByteLength": 20219,
+      "oldPageCount": 8,
+      "newSha256": "730a38f42504c51908dece94129255324a81da9ade651ef88d81a42ffb11878a",
+      "newByteLength": 20092,
+      "newPageCount": 7
+    },
+    {
+      "fixture": "boundary",
+      "scope": "ks-12-4516-municipal",
+      "oldSha256": "61642d388cbfbdcc481aa7414db7a1b457295fba81707775c86bf087be4a608f",
+      "oldByteLength": 20427,
+      "oldPageCount": 8,
+      "newSha256": "776a364d13db3750d3c0f007ebb7229c06a1101c9b54b3e4c0618c13e04e84a0",
+      "newByteLength": 20304,
+      "newPageCount": 7
+    },
+    {
+      "fixture": "canonical",
+      "scope": "ks-12-4516a-municipal-arrest",
+      "oldSha256": "3dd2547beb4c5f91777f3d418ee96ccfd9dc854cdfce19b00ffd38ff024ec275",
+      "oldByteLength": 18274,
+      "oldPageCount": 6,
+      "newSha256": "e766906dd1d493ad28389596a09250ab096ea42fbc0bdf601cfb8f940c075124",
+      "newByteLength": 18481,
+      "newPageCount": 6
+    },
+    {
+      "fixture": "boundary",
+      "scope": "ks-12-4516a-municipal-arrest",
+      "oldSha256": "dff8faa3a25fffb9dc6f4610dfffa44989f7e80b554a47eaec81fdfb7a18cdc2",
+      "oldByteLength": 18476,
+      "oldPageCount": 6,
+      "newSha256": "61a928d7c56d411cf4042a7ad1f53f42124a31dc1370bffdfb6b5d0d55aecff6",
+      "newByteLength": 18681,
+      "newPageCount": 6
+    }
+  ],
+  "determinism": {
+    "cleanArtifactState": true,
+    "completeBuilderRuns": 2,
+    "allSixHashesLengthsAndPageCountsIdenticalAcrossRuns": true,
+    "result": "DETERMINISTIC",
+    "centralRasterRun": false,
+    "rasterState": "BUILT_RASTER_PENDING"
+  },
+  "sourceBinding": {
+    "familySourcesBind": "PASS",
+    "custodyClass": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+    "binarySources": 0,
+    "sourcesAcquired": 0,
+    "masterLibraryAbsenceUsedAsBlocker": false,
+    "committedRecordReceiptRefreshed": true
+  },
+  "visibleInspection": {
+    "artifactsInspected": 6,
+    "pagesInspected": 52,
+    "rasterDpi": 144,
+    "allPagesHaveSubstantiveContentAndExactlyOneFooter": true,
+    "familyBoundaryPage4BodyItems": 7,
+    "municipalCanonicalPageCount": 7,
+    "municipalBoundaryPageCount": 7,
+    "footerOnlyPage8Exists": false,
+    "crossRouteContent": 0,
+    "clipping": 0,
+    "overlap": 0,
+    "familyActualVisibleWrites": "canonical 14/14, boundary 14/14",
+    "routeActualVisibleWrites": "7/7 per route per fixture",
+    "protectedWrites": 0
+  },
+  "tests": [
+    "family_sources_bind: PASS for exact zero-binary-source custom pleading row",
+    "builder --no-raster twice from absent family and route artifacts: COMPLETED and deterministic",
+    "builder --check --no-raster: CHECK_ONLY; 3 records bound; 62 anchors; 6 components",
+    "family completeness: PASS_COMPLETE 14/56 written; all nine counters zero",
+    "route-artifact completeness: four ROUTE_PASS_COMPLETE rows; exact three-component sets and 7/7 write readback",
+    "registry/packet-manifest/two route-specification component contract audit: exact ids, roles and orders",
+    "52-page geometry/text audit plus 144-DPI inspection: no orphan, foreign-route content, clipping or overlap"
+  ],
+  "counters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+  },
+  "paths": {
+    "familyDirectory": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading",
+    "builder": "scripts/build-census-v1-rcap-ks-custom-pleading.mjs",
+    "returnRow": "data/rcap-grade-a/packet-factory-24h/fix05/rows.json",
+    "workerReturn": "data/rcap-grade-a/codex-cloud/cs1-fix05-ks-7db2/RETURN.json",
+    "builderDiffAtAssignedBase": false,
+    "packetPdfDiffAtAssignedBase": false,
+    "familyLocalSourceReceiptRefreshed": true
+  },
+  "commit": "reported after commit because a commit cannot contain its own object id",
+  "pushed": "reported after push",
+  "centralStateEdits": 0,
+  "claimsReleased": 0,
+  "selfVerification": 0,
+  "routesOpened": 0,
+  "productionTouched": false
+}

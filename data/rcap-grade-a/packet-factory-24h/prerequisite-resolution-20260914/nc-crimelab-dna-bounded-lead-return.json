@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "rcap-bounded-prerequisite-resolution/v1",
+  "familyId": "composed-treatment:nc_146_dismissal_petition",
+  "reviewedAt": "2026-09-14T05:19:27.855489+00:00",
+  "status": "CRIME_LAB_LEAD_CHECKED_EXACT_APPLICATION_UNRESOLVED",
+  "scope": "Official NC State Crime Lab/SBI DNA expungement materials only; prior recorded catalog failures not repeated.",
+  "priorGate": "data/rcap-grade-a/packet-factory-24h/prerequisite-resolution-20260914/nc-dna-application-bounded-return.json",
+  "priorRecordedSearchCheck": "No Crime Lab/SBI search recorded in private/nc-dna-author-20260914 or bounded prerequisite returns; new lead checked once.",
+  "sources": [
+    {
+      "url": "https://ncdoj.gov/crime-lab/dna-database/",
+      "title": "DNA Database",
+      "observation": "Describes District Attorney office arrestee requests and laboratory removal/destruction after review. Does not identify an AOC-approved 15A-146(b1)/(b2) participant application or court acceptance procedure."
+    },
+    {
+      "url": "https://ncdoj.gov/wp-admin/admin-ajax.php?action=wpfd&juwpfisadmin=false&preview=1&task=file.download&token=&wpfd_category_id=63&wpfd_file_id=367843",
+      "title": "State Crime Lab Forensic Update Volume 9 No.1, January 17, 2025",
+      "page": 2,
+      "observation": "DA designees receive potential expungement lists through an existing secure district SharePoint site; case disposition data is compared with held samples and DAs verify eligibility. No participant court petition vehicle supplied.",
+      "procedureContactPublishedInBulletin": "Zach Kallenbach, zkallenbach@ncdoj.gov",
+      "contactActionTaken": false
+    },
+    {
+      "url": "https://ncdoj.gov/crime-lab/iso-procedures/",
+      "title": "Procedures and Records",
+      "observation": "Current or archived laboratory procedures require contacting the laboratory; previously granted Microsoft-account access is required for the linked procedure site. Public listed forms do not supply the exact DNA court application."
+    }
+  ],
+  "custody": {
+    "webReaderObserved": true,
+    "directDownloadAttempt": "HTTP403 for DNA Database HTML and exact bulletin PDF; no source bytes saved or hash claimed.",
+    "sourcePdfSha256": null
+  },
+  "boundedQueries": [
+    "site:ncdoj.gov/crime-lab \"expungement\"",
+    "site:ncdoj.gov \"DNA\" \"expunction\" application",
+    "site:ncsbi.gov \"DNA\" \"expungement\"",
+    "site:ncdoj.gov \"DNA\" \"expungement\" \"form\"",
+    "site:ncdoj.gov \"15A-146\" DNA"
+  ],
+  "finding": "Public Crime Lab material supplies agency-processing context but does not satisfy the adopted application/notice/certified-disposition court route. Restricted procedure access is an unresolved evidence lead, not permission to infer court approval.",
+  "exactRemainingInput": "Exact AOC-approved 15A-146(b1) DNA application or authoritative court/AOC procedure accepting the specifically composed DNA application.",
+  "buildSlotReleased": false,
+  "newLegalDecision": false,
+  "otherFamiliesChanged": false,
+  "externalMessagesSent": false
+}

@@ -8,7 +8,11 @@ import {
   ConsumerPacketNotDeliverableError,
   createConsumerPacketCheckout
 } from "@/lib/expungement-ai/payment-adapter";
-import { componentDeferralForTrack, exactDeferralForPathway, exactDeferralForTrack, terminalTreatmentForTrack } from "@/lib/rcap/documents/guidance-packet-registry";
+import { CurrentPacketVerificationRequiredError } from "@/lib/expungement-ai/packet-information";
+import {
+  CommercialAdmissionDeniedError,
+  commercialAdmissionRefusalBody
+} from "@/lib/rcap/render/commercial-admission";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -26,41 +30,6 @@ export async function POST(request: NextRequest) {
   if (!item) {
     return NextResponse.json({ error: "We couldn’t find this case. Return to your Briefcase and try again. Contact support if the problem continues." }, { status: 404 });
   }
-  // Component deferral is answered before sponsored and payment handling, so an
-  // incomplete composed route is refused the same way for a sponsored
-  // participant and a direct-to-consumer one. No URL, no session, no amount.
-  // The payment adapter denies it again independently; this is the first guard,
-  // not the only one.
-  const deferralTrackId = item.selectedTrackId
-    ?? (typeof item.artifactRefs?.selectedTrackId === "string" ? item.artifactRefs.selectedTrackId : null);
-  if (item.treatmentClassification === "exact_supported_deferral"
-    || exactDeferralForTrack(deferralTrackId)
-    || exactDeferralForPathway(item.state, item.pathwayLabel ?? null)) {
-    return NextResponse.json({
-      error: "No packet is prepared or sold for this route; it is served as an exact supported deferral.",
-      resultCode: "exact_supported_deferral"
-    }, { status: 403 });
-  }
-
-  // A terminalization-window treatment is refused here on the same terms and
-  // before the same sponsored/payment handling. The open independent review does
-  // not soften the refusal; it is recorded on the response so a caller can tell a
-  // pending treatment from an accepted one without either becoming sellable.
-  if (item.treatmentClassification === "terminal_treatment_candidate" || terminalTreatmentForTrack(deferralTrackId)) {
-    return NextResponse.json({
-      error: "No packet is prepared, promised or sold for this route; it is served as a complete terminal treatment.",
-      resultCode: "terminal_treatment_candidate",
-      treatmentReviewState: "pending_independent_review"
-    }, { status: 403 });
-  }
-
-  if (item.treatmentClassification === "component_deferral" || componentDeferralForTrack(deferralTrackId)) {
-    return NextResponse.json({
-      error: "Checkout is not available while this route is missing an official form we do not supply.",
-      resultCode: "component_deferral"
-    }, { status: 403 });
-  }
-
   if (await isPartnerSponsoredPacketItem(item)) {
     return NextResponse.json({ error: "Checkout is not used for partner-sponsored RCAP sessions." }, { status: 403 });
   }
@@ -76,9 +45,22 @@ export async function POST(request: NextRequest) {
       briefcaseItemId: checkout.briefcaseItemId,
       alreadyPaid: checkout.alreadyPaid ?? false,
       paymentPending: checkout.paymentPending ?? false,
-      outcome: checkout.outcome
+      outcome: checkout.outcome,
+      // Only present when a stored Checkout Session id could not be resolved
+      // and the order continued regardless. Carrying it on the SUCCESS response
+      // is the point: a recovery that only shows up when it fails cannot be
+      // audited, and this names the provider's classification and the request
+      // id of the lookup that was overruled.
+      storedSessionRecovery: checkout.storedSessionRecovery ?? null
     });
   } catch (error) {
+    // The Grade-A authority refused this route or this participant. The refusal
+    // carries a denial code and one sentence; `contextDenials` names matter and
+    // owner ids and stays on the server.
+    if (error instanceof CommercialAdmissionDeniedError) {
+      return NextResponse.json(commercialAdmissionRefusalBody(error), { status: error.httpStatus });
+    }
+
     // A route that cannot produce an artifact does not take money. The route is
     // still an intended paid pathway with an open blocker recorded against it;
     // what is refused here is the charge, not the pathway.
@@ -101,10 +83,33 @@ export async function POST(request: NextRequest) {
       }, { status: 409 });
     }
 
-    if (error instanceof ConsumerCheckoutTemporarilyUnavailableError) {
-      return NextResponse.json({ error: "We couldn’t start payment for this case. Your information is still saved. Return to your Briefcase and try again. Contact support if the problem continues." }, { status: 503 });
+    if (error instanceof CurrentPacketVerificationRequiredError) {
+      return NextResponse.json({ error: "Complete the final packet-information verification before checkout.", outcome: "verification_required" }, { status: 409 });
     }
 
-    throw error;
+    if (error instanceof ConsumerCheckoutTemporarilyUnavailableError) {
+      // `providerFailure` is the payment provider's own public classification of
+      // the call that refused — which step, its error type, code and param. None
+      // of it is a credential, and it reaches only the authenticated owner of
+      // this matter. Without it, every distinct configuration fault on this path
+      // is the same sentence, which is what made the last one undiagnosable.
+      return NextResponse.json({
+        error: "We couldn’t start payment for this case. Your information is still saved. Return to your Briefcase and try again. Contact support if the problem continues.",
+        resultCode: "checkout_provider_unavailable",
+        providerFailure: error.providerFailure
+      }, { status: 503 });
+    }
+
+    // A payment route must never answer an unhandled 500 with an empty body. It
+    // leaves the participant with a page that silently does nothing, and leaves
+    // an operator with no name for the fault. Anything reaching here is still a
+    // fault to fix, but it answers with a sentence and with the error's class —
+    // its constructor name only, never its message, parameters or stack.
+    console.error("[expungement-ai/checkout] unclassified checkout failure", error);
+    return NextResponse.json({
+      error: "We couldn’t start payment for this case. Your information is still saved. Return to your Briefcase and try again. Contact support if the problem continues.",
+      resultCode: "checkout_failed",
+      failureClass: error instanceof Error ? error.name : typeof error
+    }, { status: 503 });
   }
 }

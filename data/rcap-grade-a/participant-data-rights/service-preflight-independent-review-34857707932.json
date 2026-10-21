@@ -1,0 +1,101 @@
+{
+  "schemaVersion": "rcap-independent-service-preflight-review/v1",
+  "reviewer": "/root",
+  "reviewerIndependentOfImplementation": true,
+  "runId": 34857707932,
+  "supersedes": 34843210160,
+  "artifactId": 10353995604,
+  "status": "FAILED_CURRENT_SERVICE_PREFLIGHT",
+  "custody": [
+    {
+      "path": "private/transfers/national-release-preservation-20260914/service-preflight-34857707932/original.zip",
+      "sha256": "2e648685bc1f9ec422e191bbfbec70119b92f2377b83a9e63f186511338752b6",
+      "byteLength": 2635
+    },
+    {
+      "path": "private/transfers/national-release-preservation-20260914/service-preflight-34857707932/artifacts.json",
+      "sha256": "455c1a805dcf28a4058a2ea07017a0347b63f1026cf113cad18fa9bd0ab28e22",
+      "byteLength": 823
+    },
+    {
+      "path": "private/transfers/national-release-preservation-20260914/service-preflight-34857707932/original/preflight.json",
+      "sha256": "2a01520231d147057e34e78d3018008bc3a71ea500122bc55ec4a47a081a853e",
+      "byteLength": 3438
+    },
+    {
+      "path": "private/transfers/national-release-preservation-20260914/service-preflight-34857707932/original/worker-input-plan.json",
+      "sha256": "0b9edf2bdba15c2a93d03209058b60d4e477bd444eafe3422ef27d21de8d4237",
+      "byteLength": 4906
+    },
+    {
+      "path": "private/transfers/national-release-preservation-20260914/service-preflight-34857707932/job.log",
+      "sha256": "b6cb8b47eb518146fa1da96555dfcd0835af2038fed542c740685c30dc743e4d",
+      "byteLength": 534154
+    }
+  ],
+  "originalFilesEqualArchiveMembers": true,
+  "originalZipDigestMatchesGitHubArtifactMetadata": true,
+  "applicationSha": "41db064ec6f25149802504f410fab7ece2c61b96",
+  "toolsSha": "308f7c655779621b9ea72986bb696e01fad15d45",
+  "serviceOnly": true,
+  "passedChecks": 0,
+  "failedChecks": 9,
+  "missingChecks": 0,
+  "workerRebuildRequired": true,
+  "workerChangedPathCount": 23,
+  "services": {
+    "supabase": {
+      "status": "FAILED_SERVICE_PREFLIGHT",
+      "passedChecks": 0,
+      "requiredChecks": 5,
+      "managementApi": {
+        "method": "GET",
+        "endpointCategory": "MANAGEMENT_PROJECT_LIST",
+        "path": "/v1/projects",
+        "httpStatus": 401
+      },
+      "readOnlySql": {
+        "method": "POST",
+        "endpointCategory": "ACCEPTANCE_DATABASE_QUERY",
+        "path": "/v1/projects/hyflxnlhpmiqxvvcoiia/database/query",
+        "queryKind": "SELECT",
+        "httpStatus": 401
+      },
+      "projectIdentityAndStatus": "NOT_ESTABLISHED",
+      "nonproductionSafeguards": "NOT_ESTABLISHED_BECAUSE_SQL_UNAUTHORIZED"
+    },
+    "vercel": {
+      "status": "FAILED_SERVICE_PREFLIGHT",
+      "passedChecks": 0,
+      "requiredChecks": 4,
+      "endpointCategory": "VERCEL_TEAMS",
+      "httpStatus": 200,
+      "reason": "PINNED_TEAM_NOT_VISIBLE",
+      "separateCompletePaginationEvidence": "data/rcap-grade-a/participant-data-rights/vercel-identity-independent-review-20260914.json"
+    }
+  },
+  "investigation": {
+    "ownerReportedBillingRestrictionResolved": true,
+    "existingTokenUsed": true,
+    "credentialRotated": false,
+    "repositorySecretName": "SUPABASE_ACCESS_TOKEN",
+    "repositorySecretCreatedAt": "2026-08-13T19:39:58Z",
+    "repositorySecretUpdatedAt": "2026-08-13T19:39:58Z",
+    "secretMetadataSource": "GitHub GET /repos/Roger-LegalEase/legalease-partner-dashboard-clean/actions/secrets/SUPABASE_ACCESS_TOKEN; metadata only",
+    "repositoryEnvironmentNames": [],
+    "caller": ".github/workflows/rcap-f1-ephemeral-staging.yml jobs.hosted.secrets.SUPABASE_ACCESS_TOKEN",
+    "callee": ".github/workflows/rcap-hosted-acceptance-staging.yml workflow_call secret to preflight step environment",
+    "authentication": "Existing secret passed as Bearer authorization to api.supabase.com; no project API key substitution, no token transformation or missing-input refusal.",
+    "officialAuthenticationSource": "https://supabase.com/docs/reference/api/introduction",
+    "remainingQuestion": "Why the existing stored Management API credential is unauthorized after reported account restoration: its current expiry/revocation, owning account and restored account authorization cannot be established from GitHub secret metadata or the safely omitted response bodies.",
+    "tokenReplacementRequested": false,
+    "additionalPreflightDispatched": false
+  },
+  "applicationAccepted": false,
+  "workerImageAccepted": false,
+  "participantAcceptanceEstablished": false,
+  "releaseAuthorityGranted": false,
+  "migrationDispatched": false,
+  "deploymentDispatched": false,
+  "productionTouched": false
+}

@@ -1,0 +1,122 @@
+{
+  "schemaVersion": "rcap-source-support-findings-queue/v1",
+  "purpose": "The open high-severity findings the source-support audit reports: citations where the cited source does not support the proposition the finding rests on, or does not resolve at all. The audit recomputes a classification; this queue is where those classifications become work somebody owns. It exists because a finding that lives only inside a 935-row generated artifact is a finding nobody is going to act on. Three of these were surfaced by the 2026-09-19 recomputation; three were already open and are carried here so the set is the audit's, not only the newest rows.",
+  "derivedFrom": {
+    "audit": "data/rcap-crosswalk-enrichment/e2-source-support-audit.json",
+    "rule": "every audit row with severity 'high' appears here exactly once, and nothing else does",
+    "note": "Derived, not authored. verify-rcap-source-support-findings-queue.mjs recomputes the set from the audit and refuses if this file has gained, lost or renamed an entry. An entry may carry disposition and notes the audit does not know about; it may not disagree with the audit about what was found."
+  },
+  "notCommerciallyExposed": {
+    "statement": "None of these six routes carries commercial authority, and no route's admission, checkout, sponsorship or credit-consumption state moved when the three newest were found.",
+    "howItIsKnown": "Three were surfaced by recomputing a stale audit against the current compiled profiles, and the 267-route commercial census is byte-identical across that recomputation: no route added, none removed, and zero routes with a changed routeKind, packetFamily, renderer, fulfillment record, sellable, creditConsumable, payment, checkout, sponsorship or credit-consumption state. The other three were already open under the same conditions.",
+    "consequence": "They are real and they are recorded. They do not gate the Mississippi payment and UX release lane, and they must not be resolved by adjusting a legal conclusion inside it."
+  },
+  "findings": [
+    {
+      "findingId": "E2-A-CT-ct-cannabis-petition",
+      "laneId": "E2-A1",
+      "jurisdiction": "CT",
+      "sourcePath": "src/lib/rcap-engine/compiled/profiles/CT-connecticut.json",
+      "classification": "unsupported_by_cited_source",
+      "supportsProposition": "no",
+      "severity": "high",
+      "wasPreviously": {
+        "classification": "interpretive_conclusion",
+        "supportsProposition": "requires_reread",
+        "severity": "medium"
+      },
+      "whatChanged": "The reread the earlier classification was waiting for now resolves against the current compiled profile, and it does not carry the proposition.",
+      "disposition": "open",
+      "owner": "source and crosswalk lane",
+      "doNotResolveHere": "Not in the Grade A 1.1 release lane. Adjusting the legal conclusion to make the citation fit would be the defect this classification exists to report.",
+      "surfacedBy": "the 2026-09-19 recomputation of the stale audit"
+    },
+    {
+      "findingId": "E2-A-KY-ky_void_seal_controlled_substance",
+      "laneId": "E2-A2",
+      "jurisdiction": "KY",
+      "sourcePath": "src/lib/rcap-engine/compiled/profiles/KY-kentucky.json",
+      "classification": "unsupported_by_cited_source",
+      "supportsProposition": "no",
+      "severity": "high",
+      "wasPreviously": {
+        "classification": "interpretive_conclusion",
+        "supportsProposition": "requires_reread",
+        "severity": "medium"
+      },
+      "whatChanged": "The reread the earlier classification was waiting for now resolves against the current compiled profile, and it does not carry the proposition.",
+      "disposition": "open",
+      "owner": "source and crosswalk lane",
+      "doNotResolveHere": "Not in the Grade A 1.1 release lane. Adjusting the legal conclusion to make the citation fit would be the defect this classification exists to report.",
+      "surfacedBy": "the 2026-09-19 recomputation of the stale audit"
+    },
+    {
+      "findingId": "E2-A-KY-ky_void_seal_marijuana_synthetic_salvia",
+      "laneId": "E2-A2",
+      "jurisdiction": "KY",
+      "sourcePath": "src/lib/rcap-engine/compiled/profiles/KY-kentucky.json",
+      "classification": "unsupported_by_cited_source",
+      "supportsProposition": "no",
+      "severity": "high",
+      "wasPreviously": {
+        "classification": "interpretive_conclusion",
+        "supportsProposition": "requires_reread",
+        "severity": "medium"
+      },
+      "whatChanged": "The reread the earlier classification was waiting for now resolves against the current compiled profile, and it does not carry the proposition.",
+      "disposition": "open",
+      "owner": "source and crosswalk lane",
+      "doNotResolveHere": "Not in the Grade A 1.1 release lane. Adjusting the legal conclusion to make the citation fit would be the defect this classification exists to report.",
+      "surfacedBy": "the 2026-09-19 recomputation of the stale audit"
+    },
+    {
+      "findingId": "E2-A-MI-mi_setaside_application",
+      "laneId": "E2-A2",
+      "jurisdiction": "MI",
+      "sourcePath": "src/lib/rcap-engine/compiled/profiles/MI-michigan.json",
+      "classification": "pointer_invalid",
+      "supportsProposition": "no",
+      "severity": "high",
+      "surfacedBy": "already open before the 2026-09-19 recomputation; carried in here because this queue is the audit's high-severity set, not only its newest rows",
+      "whatChanged": "The citation's pointer does not resolve in the cited source at all, so there is nothing for it to support.",
+      "disposition": "open",
+      "owner": "source and crosswalk lane",
+      "doNotResolveHere": "Not in the Grade A 1.1 release lane. Adjusting the legal conclusion to make the citation fit would be the defect this classification exists to report."
+    },
+    {
+      "findingId": "E2-A-MO-mo-610-141-automatic-drug",
+      "laneId": "E2-A2",
+      "jurisdiction": "MO",
+      "sourcePath": "src/lib/rcap-engine/compiled/profiles/MO-missouri.json",
+      "classification": "unsupported_by_cited_source",
+      "supportsProposition": "no",
+      "severity": "high",
+      "surfacedBy": "already open before the 2026-09-19 recomputation; carried in here because this queue is the audit's high-severity set, not only its newest rows",
+      "whatChanged": "The cited source does not carry the proposition the finding rests on.",
+      "disposition": "open",
+      "owner": "source and crosswalk lane",
+      "doNotResolveHere": "Not in the Grade A 1.1 release lane. Adjusting the legal conclusion to make the citation fit would be the defect this classification exists to report."
+    },
+    {
+      "findingId": "E2-A-NH-nh_conviction_streamlined",
+      "laneId": "E2-A2",
+      "jurisdiction": "NH",
+      "sourcePath": "src/lib/rcap-engine/compiled/profiles/NH-new-hampshire.json",
+      "classification": "unsupported_by_cited_source",
+      "supportsProposition": "no",
+      "severity": "high",
+      "surfacedBy": "already open before the 2026-09-19 recomputation; carried in here because this queue is the audit's high-severity set, not only its newest rows",
+      "whatChanged": "The cited source does not carry the proposition the finding rests on.",
+      "disposition": "open",
+      "owner": "source and crosswalk lane",
+      "doNotResolveHere": "Not in the Grade A 1.1 release lane. Adjusting the legal conclusion to make the citation fit would be the defect this classification exists to report."
+    }
+  ],
+  "alsoFoundByTheSameRecomputation": {
+    "note": "Recorded so the three newest are not mistaken for the whole movement of the 2026-09-19 recomputation. These are not high severity and are not queued as owned work.",
+    "requiresRereadResolved": 4,
+    "supportScoreIncreased": 5,
+    "supportScoreDecreased": 0
+  },
+  "authorization": "Roger instruction (2026-09-19): record these three as separate high-severity source/crosswalk findings, do not silently fix their legal conclusions inside the Grade A 1.1 release, and do not let them become a detour. They are real, they are recorded, and they are not commercially exposed."
+}

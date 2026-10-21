@@ -1,0 +1,133 @@
+{
+  "schemaVersion": "rcap-visual-review/v1",
+  "lane": "C",
+  "family": "or-ojd-adult-set-aside-packet-motion-and-declaration",
+  "jurisdiction": "OR",
+  "documentId": "OR-OJD-ADULT-SET-ASIDE-PACKET",
+  "sourceSha256": "b22cc346caf6c38730e9992d74016e948180d92b379b6592ab333b06ac880071",
+  "reviewedArtifacts": {
+    "fixtures/canonical-filled.pdf": "582100f2383ff0ad4b282a6d347eda76c5297c23cddbaf82ce164d6ff801543f",
+    "fixtures/boundary-filled.pdf": "32213167ee3dfcda0ee5be1513b6682b1a6bc1fc91e2039edfc3a0c0c4837ed3",
+    "contact-sheet/blank-vs-filled.pdf": "8e1b140576c5911df3ba83f1cc2b4a5c8d5db99bc2c599686c7600c862fcc3ed"
+  },
+  "method": {
+    "basis": "page-by-page inspection of the finalized artifacts' own content streams, plus width and height measurement of every drawn value against the write box and against the rule the document itself draws",
+    "textRecovery": "each participant value is drawn as a hex string in the factory's own ink (0 0 0.55 rg) and recovered with its text matrix, so the coordinate reviewed is the coordinate the value was placed at rather than a coordinate a report asserts",
+    "measurement": "Helvetica metrics at the drawn size, via pdf-lib widthOfTextAtSize and heightAtSize",
+    "rasterReview": "not performed on this run — no rasteriser is available in this environment; the contact sheet blank-vs-filled.pdf is committed for a reviewer to open directly",
+    "reviewer": "Lane C automated review, recorded for independent human visual review rather than in place of it"
+  },
+  "pages": [
+    {
+      "page": 1,
+      "role": "OJD instructions, page 1 of 3 — what a set-aside is, who may use the process",
+      "blanksCensused": 3,
+      "valuesWritten": 0,
+      "finding": "clean",
+      "note": "Instructional. The three measured rules are layout rules beneath printed prose, not participant blanks; all three are refused as no_allowlisted_fact_matches and nothing is drawn on this page in either fixture."
+    },
+    {
+      "page": 2,
+      "role": "OJD instructions, page 2 of 3 — waiting-period table and filing steps",
+      "blanksCensused": 23,
+      "valuesWritten": 0,
+      "finding": "clean",
+      "note": "The 23 measured rules are the cells of the printed waiting-period table (Class B Felony, Class C Felony, Class A Misdemeanour, and so on) and the numbered filing steps. Writing into any of them would overwrite the court's own eligibility text. All refused; nothing drawn in either fixture."
+    },
+    {
+      "page": 3,
+      "role": "OJD instructions, page 3 of 3 — service, filing, what happens next, referrals",
+      "blanksCensused": 5,
+      "valuesWritten": 0,
+      "finding": "clean",
+      "note": "Instructional. One rule is refused as mapping_conflict rather than merely unmatched, which is the stricter of the two refusals. Nothing drawn in either fixture."
+    },
+    {
+      "page": 4,
+      "role": "Motion to Set Aside and Seal, page 1 of 2 — caption, defendant identity block, eligibility statement and legal basis",
+      "blanksCensused": 30,
+      "valuesWritten": 4,
+      "finding": "clean",
+      "written": [
+        { "label": "FOR THE COUNTY OF", "factId": "matter.county", "at": [306.56, 695.92], "sizePt": 10.5, "drawnWidthPt": 23.4, "boxWidthPt": 123.44, "occupancy": "18.9%" },
+        { "label": "Case No:", "factId": "matter.case_number", "at": [397.4, 668.68], "sizePt": 10.5, "drawnWidthPt": 56.0, "boxWidthPt": 137, "occupancy": "40.9%" },
+        { "label": "Defendant", "factId": "participant.full_legal_name", "at": [74, 614.08], "sizePt": 10.5, "drawnWidthPt": 76.6, "boxWidthPt": 239, "occupancy": "32.0%" },
+        { "label": "DOB:", "factId": "participant.date_of_birth", "at": [103.76, 587.8], "sizePt": 10.5, "drawnWidthPt": 53.7, "boxWidthPt": 110.24, "occupancy": "48.7%" }
+      ],
+      "notWritten": [
+        "Citing/arresting law enforcement agency — refused, protected category agency. The participant is not the author of the arresting agency's identity.",
+        "Arrest Date — refused, no allowlisted fact matches.",
+        "SID# if known — refused, sensitive_fact requiring an explicit mapping this lane did not authorize.",
+        "Fingerprint number (FPN #) if known — refused.",
+        "The two seven-row charge tables (Name of Charges / Count #, and Name of Citation/Arrest Offenses) — all 28 cells refused. A charge row is a legal assertion about what the participant is moving to set aside; nothing infers one.",
+        "The three eligibility option checkboxes — refused; the participant selects the option."
+      ],
+      "note": "The caption block is the only part of this page the participant authors, and it is the only part written. Every value sits on its own rule with room to spare — the fullest is DOB at 48.7% of its blank."
+    },
+    {
+      "page": 5,
+      "role": "Declaration of Eligibility, page 2 of 2 — declaration checkboxes, signature block, contact block, certificate of mailing",
+      "blanksCensused": 15,
+      "valuesWritten": 4,
+      "finding": "clean",
+      "written": [
+        { "label": "Name (typed or printed)", "factId": "participant.full_legal_name", "at": [290, 343], "sizePt": 10.5, "drawnWidthPt": 76.6, "boxWidthPt": 248, "occupancy": "30.9%" },
+        { "label": "Email", "factId": "participant.email", "at": [74, 343], "sizePt": 10.5, "drawnWidthPt": 125.3, "boxWidthPt": 176, "occupancy": "71.2%" },
+        { "label": "Address", "factId": "participant.street_address", "at": [74, 305.44], "sizePt": 10.5, "drawnWidthPt": 110.9, "boxWidthPt": 174, "occupancy": "63.7%" },
+        { "label": "City, State, ZIP", "factId": "participant.city_state_zip", "at": [252, 305.44], "sizePt": 10.5, "drawnWidthPt": 103.5, "boxWidthPt": 248, "occupancy": "41.7%" }
+      ],
+      "notWritten": [
+        "Signature (declaration) — refused, protected category signature. A signature is the participant's own act and is never drawn.",
+        "Defendant (signature) on the certificate of mailing — refused, protected category signature.",
+        "Date, beside both signature lines — refused. The date a participant signs is not known at generation time.",
+        "The prosecuting attorney's address on the certificate of mailing — refused, protected category prosecutor.",
+        "The seven declaration checkboxes — refused; the participant attests to each.",
+        "Phone — refused as unfittable, see below."
+      ],
+      "note": "Three captions — Address, City, State, ZIP and Phone — share one rule spanning x 72 to 540, and each is bound to its own sub-region. The sub-regions do not overlap and the two written values stop well inside their own spans."
+    }
+  ],
+  "defectsFound": [
+    {
+      "id": "phone-blank-too-narrow",
+      "page": 5,
+      "field": "Phone",
+      "observed": "The form's own phone sub-region is 34pt wide. A US telephone number does not fit it at or above the 6pt readable floor: the canonical fixture's 541-555-0134 measures 37.4pt at 6pt, and the boundary fixture's number with an extension measures 71.8pt.",
+      "resolution": "Refused rather than shrunk or clipped. The blank is left empty and the participant completes it by hand. This is the form's geometry, not an implementation error, and no font size below the readable floor was permitted to make it fit.",
+      "status": "resolved_by_refusal",
+      "requiresParticipantAction": true
+    },
+    {
+      "id": "dob-format-not-form-format",
+      "page": 4,
+      "field": "DOB:",
+      "observed": "The form captions this blank MM/DD/YYYY and the factory writes the ISO date 1991-04-17.",
+      "resolution": "Recorded in the family's source-fidelity report as a shared-factory date-presentation issue rather than an Oregon-specific one. It is legible and unambiguous, and no date is misstated; presentation is raised for the shared factory owner rather than patched per state.",
+      "status": "open_shared_factory_finding",
+      "requiresParticipantAction": false
+    }
+  ],
+  "clippingAndLegibility": {
+    "valuesDrawnOutsideTheirWriteBox": 0,
+    "valuesDrawnPastTheRuleTheDocumentDraws": 0,
+    "valuesDrawnBelowTheReadableFloor": 0,
+    "valuesClipped": 0,
+    "overlappingWrites": 0,
+    "worstOccupancyCanonical": "71.2% (Email)",
+    "worstOccupancyBoundary": "96.1% (Name (typed or printed), shrunk to 10pt)",
+    "note": "The boundary fixture drives two values to shrink-to-fit and three to refusal. Even at its worst the shrunk value stops inside its blank, and nothing was clipped to make it fit."
+  },
+  "pageRetention": {
+    "sourcePages": 5,
+    "canonicalPages": 5,
+    "boundaryPages": 5,
+    "note": "Both instruction pages and filing pages are retained. Pages 1 to 3 are not required for filing but are part of the packet the court publishes, and dropping them would change the document."
+  },
+  "outcome": "no_defect_requiring_a_map_change",
+  "reviewStatus": "lane_review_complete_independent_human_visual_review_still_required",
+  "doesNotEstablish": [
+    "This record is not the independent human visual review the family's production holds require.",
+    "It is not counsel review of the legal content of the completed motion.",
+    "It does not approve the family for live use, for sale, or for credit consumption."
+  ]
+}

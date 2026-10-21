@@ -1,0 +1,78 @@
+{
+  "schemaVersion": "rcap-packet-factory-repair-return/v1",
+  "lane": "FIX03",
+  "laneKind": "repair",
+  "status": "COMPLETED",
+  "completedOn": "2026-09-11",
+  "sharedDefect": "All three families bound the district-local 809c66 Form 4-222/4-223 bundle instead of the adopted statewide blank-caption Form 4-222. The statewide source is flat, so the old widget map could not be reused.",
+  "sharedRepair": "Replaced the binding by exact adopted SHA-256, implemented a measured 147-blank flat overlay, classified seven additional empty-parenthesis household-support controls, marked only the route-determined Petitioner role, and rebuilt every canonical and boundary packet.",
+  "sourceBinding": {
+    "sourceId": "official-form:4-222",
+    "supersededSha256": "809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a",
+    "currentSha256": "ef54fbdc9485157d8c85735ff3d66d5a39968ebde68c60de8a7eb094107348de",
+    "currentCustody": "user_upload_adopted_20260911",
+    "currentStructure": { "pages": 5, "acroFields": 0, "measuredUnderscoreBlanks": 147, "additionalPrintedControls": 7 },
+    "districtLocalLeakageInCurrentForm422Pages": false
+  },
+  "families": [
+    {
+      "itemId": "nm_conviction-set",
+      "startingState": "FAIL_REPAIR_REQUIRED",
+      "status": "COMPLETED",
+      "factoryState": "BUILT_RASTER_PENDING",
+      "obligationsRepaired": ["KNOWN_PREFILLS", "SELF_HELP_STOP"],
+      "actualDefect": "The historical held-fact and self-help-stop defects were already repaired by FIX95, but the packet still bound the rejected district-local fee-waiver binary. Rebuilding against the statewide flat source also exposed the route-known Petitioner role and seven household-support controls, which are now modeled explicitly.",
+      "artifacts": [
+        { "fixture": "canonical", "sha256": "b943cf5b16d95882e1a096504438d792fdbdddcc82acab09e58076421978658a", "byteLength": 718220, "pageCount": 24 },
+        { "fixture": "boundary", "sha256": "8eb9f0f13fd2afc3077e7d99d50c9dad65ef36b2b53f9e6abf95c505b723a9f7", "byteLength": 718383, "pageCount": 24 }
+      ],
+      "countersAfter": { "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": null }
+    },
+    {
+      "itemId": "nm_identity_theft-set",
+      "startingState": "FAIL_REPAIR_REQUIRED",
+      "status": "COMPLETED",
+      "factoryState": "BUILT_RASTER_PENDING",
+      "obligationsRepaired": ["KNOWN_PREFILLS"],
+      "actualDefect": "The historical held-address defect was already repaired by FIX95, but the packet still bound the rejected district-local fee-waiver binary. The current build uses the statewide blank caption and preserves the held-address repair.",
+      "artifacts": [
+        { "fixture": "canonical", "sha256": "a280669cf6f10b161e65c6ac4243b4d535b36c6677841c2c23fe03ad797621df", "byteLength": 228955, "pageCount": 15 },
+        { "fixture": "boundary", "sha256": "5360c3b3aa98ce68b206d848b7ced0fdf57e12ec784995c6491d20bd51deac01", "byteLength": 228882, "pageCount": 15 }
+      ],
+      "countersAfter": { "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": null }
+    },
+    {
+      "itemId": "nm_release_without_conviction-set",
+      "startingState": "FAIL_REPAIR_REQUIRED",
+      "status": "COMPLETED",
+      "factoryState": "BUILT_RASTER_PENDING",
+      "obligationsRepaired": ["CLIPPING_AND_OVERLAP"],
+      "actualDefect": "The prior packet's Form 4-222 component printed a fixed Sixth Judicial District caption, so its county/court treatment could not be valid statewide. The new source supplies measured blank caption lines and removes the conflicting page content.",
+      "artifacts": [
+        { "fixture": "canonical", "sha256": "1a6b59ac0a327692222cac1a67072061441b2cccb843c5ba8ae85478462fba65", "byteLength": 382248, "pageCount": 19 },
+        { "fixture": "boundary", "sha256": "63d24f596803e636ef177dea7a14e43c532dae62627744bb1832c7f270d2bcfb", "byteLength": 382078, "pageCount": 19 }
+      ],
+      "countersAfter": { "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": null }
+    }
+  ],
+  "focusedEvidence": [
+    "node scripts/rcap-nm-flat-forms/test-nm-form-4-222-statewide.mjs => PASS",
+    "three no-raster family builds => COMPLETED with all nine nonvisual counters zero",
+    "three focused packet-completeness audits => 3 PASS_COMPLETE",
+    "repeated builds => identical exact hashes for all six fixture PDFs",
+    "Poppler text inspection of the five Form 4-222 pages in every fixture => statewide caption present and Sixth Judicial District absent"
+  ],
+  "oldReviewRefs": [
+    "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
+    "data/rcap-grade-a/packet-factory-24h/vf03/nm-three-20260906/known-missing-fields.json",
+    "data/rcap-grade-a/packet-factory-24h/vf03/nm-three-20260906/self-help-comparison.json",
+    "data/rcap-grade-a/packet-factory-24h/fix95/rows.json",
+    "data/rcap-grade-a/packet-factory-24h/vf43/rows-vf43-20260910.json"
+  ],
+  "oldByteLineage": "data/rcap-grade-a/packet-factory-24h/seven-cleared-20260911/nm/pre-rebuild-byte-snapshot.json",
+  "rasterManifest": "data/rcap-grade-a/packet-factory-24h/seven-cleared-20260911/nm/raster-manifest.json",
+  "rasterRunId": null,
+  "independentReview": "PENDING_CURRENT_BYTE_RASTER",
+  "historicalFailureSupersession": "Historical FAIL evidence remains preserved. It may be superseded only by an independent review bound to the current six PDF hashes after complete raster coverage.",
+  "commercialRoutesOpened": 0
+}

@@ -1,0 +1,1271 @@
+{
+  "schemaVersion": "rcap-official-form-field-map/v1-census-v1",
+  "familyId": "official-form-treatment:obligation:research-decision-route:AL:al-olr",
+  "routeKeys": [
+    "obligation:research-decision-route:AL:al-olr"
+  ],
+  "renderStrategy": "acroform_fill",
+  "generationAllowed": false,
+  "runtimeSelectable": false,
+  "documents": [
+    {
+      "documentId": "AL-AOC-C-94A-PETITION-FOR-ORDER-OF-LIMITED-RELIEF",
+      "documentRole": "PETITION",
+      "ownership": "participant_completed",
+      "captionOnly": false,
+      "explicitMappings": {},
+      "printedLabelCorrections": {
+        "1": {
+          "printedLabel": "Address of Server, continuation rule",
+          "readFrom": "page 3, RETURN ON SERVICE: the sub-caption \"(Address of Server)\" at y=470.9 and its continuation rules at y=459.0 and y=447.1",
+          "measuredEvidence": "the widget occupies x 319.44-544.56 at y=457.44, the first continuation rule beneath the server's address line at y=477.19",
+          "why": "The widget is named \"1\" and harvests only a run of underscores."
+        },
+        "2": {
+          "printedLabel": "Phone Number of Server",
+          "readFrom": "page 3, RETURN ON SERVICE: the sub-caption \"(Phone Number of Server)\" at y=423.5",
+          "measuredEvidence": "the widget occupies x 320.28-545.28 at y=429.80, on the rule directly above that sub-caption",
+          "why": "The widget is named \"2\" and harvests nothing."
+        },
+        "Please print all fields clearly": {
+          "printedLabel": "Petitioner name",
+          "readFrom": "page 1, printed line at y=629.5: \"________________________, Petitioner v. _____________________________, Respondent\", with the sub-caption \"(Please print all fields clearly) (Licensing Board or Commission)\" at y=615.7",
+          "measuredEvidence": "the widget occupies x 77.64-221.64 at y=624.20, over the first blank on that line — the one closed by the printed word \"Petitioner\"; the respondent's widget sits to its right at x 293.16-467.28",
+          "why": "The widget is named after the sub-caption printed beneath it, and beneath the petitioner's own blank the form prints the instruction \"(Please print all fields clearly)\". So the petitioner's name reached nothing at all and the caption shipped empty."
+        },
+        "City State Zip Code": {
+          "printedLabel": "City, State, Zip Code of the Board or other entity to be served",
+          "readFrom": "page 1: the sub-caption \"(City, State, Zip Code) (Telephone Number)\" at y=537.0, under the rule at y=549.0, which itself sits under \"(Mailing Address of Board or other entity to be served)\" at y=576.1",
+          "measuredEvidence": "the widget occupies x 77.64-317.64 at y=543.68, the left half of that rule, directly beneath the board's mailing-address rule at y=582.80",
+          "why": "This is the RESPONDENT's city, state and ZIP — the licensing board's, in the block the form says is \"to be served\". The shared binder wrote participant.city_state_zip into it: the petitioner's own address published as the address of the body they are suing. The correction names the blank; the role refusal below keeps it blank."
+        },
+        "Telephone Number": {
+          "printedLabel": "Telephone Number of the Board or other entity to be served",
+          "readFrom": "page 1, the same sub-caption at y=537.0: \"(City, State, Zip Code) (Telephone Number)\"",
+          "measuredEvidence": "the widget occupies x 332.64-530.64 at y=543.68, the right half of the same rule, in the same served-party block",
+          "why": "The RESPONDENT's telephone number. The shared binder wrote participant.phone into it, for the same reason and with the same effect as the line beside it."
+        },
+        "Petitioner Mailing Address": {
+          "printedLabel": "Petitioner Mailing Address",
+          "readFrom": "page 2, printed sub-caption at y=453.1: \"(Petitioner Mailing Address) (SSN Last 4 only)\", under the rule at y=464.5",
+          "measuredEvidence": "the widget occupies x 77.64-387.72 at y=459.44, the long left portion of that rule; the short \"XXX-XX-______\" box sits at x 451.98-491.90",
+          "why": "Its harvested caption is the pro se checkbox line printed above it, \"[ ] pro se (Not represented by an attorney)\", so the shared protect rules read the blank as an attorney field and refused the petitioner's own mailing address."
+        },
+        "Email": {
+          "printedLabel": "Email",
+          "readFrom": "page 2, printed sub-caption at y=418.5: \"(Email) (Phone) (Date of Birth)\", under the rule at y=430.1",
+          "measuredEvidence": "the widget occupies x 77.64-257.76 at y=425.00, the leftmost of the three boxes on that rule",
+          "why": "Its harvested caption is the sub-caption of the line ABOVE, \"(Petitioner Mailing Address) (SSN Last 4 only)\", so the shared protect rules read the blank as a government identifier and refused the petitioner's email."
+        },
+        "Text1": {
+          "printedLabel": "SSN Last 4 only",
+          "readFrom": "page 2, printed sub-caption at y=453.1: \"(Petitioner Mailing Address) (SSN Last 4 only)\", and the printed \"XXX-XX-__________\" on the rule at y=464.5",
+          "measuredEvidence": "the widget occupies x 451.98-491.90 at y=462.54, immediately after the printed \"XXX-XX-\"",
+          "why": "The widget is named \"Text1\" and harvests the wrong caption, so nothing on the row said what it holds."
+        },
+        "Court Case Number": {
+          "printedLabel": "Court Case Number, page 1 header",
+          "readFrom": "page 1, printed header at y=732.8: \"State of Alabama    Court Case Number\"",
+          "measuredEvidence": "the widget occupies x 419.04-538.44 at y=698.79, in the header block beneath that caption",
+          "why": "Its harvested caption is \"PETITION FOR ORDER OF\", the form's title, which is the same on all three pages. Naming each header by its page is what lets the three be told apart on the field map."
+        },
+        "Court Case Number_2": {
+          "printedLabel": "Court Case Number, page 2 header",
+          "readFrom": "page 2, printed header at y=732.8: \"State of Alabama    Court Case Number\"",
+          "measuredEvidence": "the widget occupies x 429.00-538.44 at y=703.66",
+          "why": "See the header note: the trailing \"_2\" is read by the shared binder as charge row 1, so on a matter with more than one charge this box receives a different charge's case number."
+        },
+        "Court Case Number_3": {
+          "printedLabel": "Court Case Number, page 3 header",
+          "readFrom": "page 3, printed header at y=710.2: \"State of Alabama    Court Case Number\"",
+          "measuredEvidence": "the widget occupies x 416.88-583.68 at y=681.32",
+          "why": "Same as the page 2 header, with \"_3\" read as charge row 2."
+        },
+        "Text29": {
+          "printedLabel": "the month in the notary's jurat",
+          "readFrom": "page 2, printed line at y=322.4: \"Sworn to and subscribed before this _____________ day of _________________, ________.\"",
+          "measuredEvidence": "three widgets sit on that line at x 252.84-330.37 (the day), 366.28-469.29 (the month) and 474.89-524.37 (the year); this is the middle one",
+          "why": "The widget is named \"Text29\" and says nothing about what it holds."
+        },
+        "Text30": {
+          "printedLabel": "the year in the notary's jurat",
+          "readFrom": "page 2, the same printed line at y=322.4",
+          "measuredEvidence": "the rightmost of the three widgets on that line, x 474.89-524.37",
+          "why": "The widget is named \"Text30\" and says nothing about what it holds."
+        },
+        "Text2": {
+          "printedLabel": "Notary Public commission expiry date",
+          "readFrom": "page 2, printed line at y=141.2: \"(Notary Public Only: My Commission expires on ____________________________________________________(Date)).\"",
+          "measuredEvidence": "the widget occupies x 246.50-469.68 at y=137.42, on that line",
+          "why": "The widget is named \"Text2\". The form's own words mark the line Notary Public Only."
+        }
+      },
+      "partialFills": [],
+      "declaredRequiredBeforeFilingWithHeldFact": [
+        {
+          "field": "Court Case Number_2",
+          "heldFact": "matter.case_number",
+          "writtenElsewhereInThisPacket": "the page 1 header",
+          "whyNotWrittenHere": "The shared binder derives a charge-row index from any trailing digit in a field name, so \"_2\" is read as charge row 1. On a matter with more than one charge the box would carry a different charge's case number rather than stay empty.",
+          "whoOwnsTheUnderlyingDefect": "scripts/rcap-official-forms/rcap-field-semantics.mjs, outside this family's owned paths"
+        },
+        {
+          "field": "Court Case Number_3",
+          "heldFact": "matter.case_number",
+          "writtenElsewhereInThisPacket": "the page 1 header",
+          "whyNotWrittenHere": "The same, with \"_3\" read as charge row 2.",
+          "whoOwnsTheUnderlyingDefect": "scripts/rcap-official-forms/rcap-field-semantics.mjs, outside this family's owned paths"
+        }
+      ],
+      "partialFillNote": "A blank this packet fills only partly. Each entry names what the blank asks for, what was written, what was not, and where the participant is told to complete it. Declared here rather than left to be discovered on the paper.",
+      "printedLabelCorrectionNote": "Each entry replaced the harvested caption for one named widget with the printed text this build read at that widget's own measured position, because the widget's name says nothing or says the wrong thing. The harvested value each replaced is kept on the field-census row as harvestedLabel, and the evidence for each correction is in the entry itself.",
+      "roleRefusals": [
+        {
+          "field": "City State Zip Code",
+          "class": "respondent_service_address",
+          "why": "The city, state and ZIP of the licensing board or commission being served. The shared binder wrote the PETITIONER's city, state and ZIP into it."
+        },
+        {
+          "field": "Telephone Number",
+          "class": "respondent_service_address",
+          "why": "The telephone number of the licensing board or commission being served. The shared binder wrote the PETITIONER's telephone number into it."
+        },
+        {
+          "field": "Court Case Number_2",
+          "class": "page_suffix_read_as_a_charge_row",
+          "why": "The page 2 header's Court Case Number box. The shared binder reads the trailing \"_2\" as charge row 1 and, on a matter with more than one charge, prints that other charge's case number here."
+        },
+        {
+          "field": "Court Case Number_3",
+          "class": "page_suffix_read_as_a_charge_row",
+          "why": "The page 3 header's Court Case Number box, with \"_3\" read as charge row 2, on the same footing."
+        },
+        {
+          "field": "If granted or denied list the county and case number",
+          "class": "prior_petition_identifiers",
+          "why": "The county AND case number of a PREVIOUS application for an Order of Limited Relief covering different convictions. The shared binder wrote matter.county into it: this matter's county, offered as the county of another petition the platform knows nothing about."
+        },
+        {
+          "field": "consequences to which the Order of Limited Relief should apply 1",
+          "class": "conviction_and_collateral_consequence_list",
+          "why": "The first rule of \"a list of conviction(s) and court case number(s) as well as collateral consequences to which the Order of Limited Relief should apply\". A composite the platform does not hold: it holds an offence and a case number and holds no collateral-consequence fact at all, and a partial entry on this list defines the relief the court is being asked to give."
+        },
+        {
+          "field": "consequences to which the Order of Limited Relief should apply 2",
+          "class": "conviction_and_collateral_consequence_list",
+          "why": "The second rule of the same list."
+        },
+        {
+          "field": "consequences to which the Order of Limited Relief should apply 3",
+          "class": "conviction_and_collateral_consequence_list",
+          "why": "The third rule of the same list."
+        },
+        {
+          "field": "consequences to which the Order of Limited Relief should apply 4",
+          "class": "conviction_and_collateral_consequence_list",
+          "why": "The fourth rule of the same list."
+        },
+        {
+          "field": "consequences to which the Order of Limited Relief should apply 5",
+          "class": "conviction_and_collateral_consequence_list",
+          "why": "The fifth rule of the same list."
+        },
+        {
+          "field": "Date",
+          "class": "notary_jurat_date",
+          "why": "The day in \"Sworn to and subscribed before this ___ day of ______, ____\". The officer administering the oath dates it."
+        },
+        {
+          "field": "Text29",
+          "class": "notary_jurat_date",
+          "why": "The month of the same jurat."
+        },
+        {
+          "field": "Text30",
+          "class": "notary_jurat_date",
+          "why": "The year of the same jurat."
+        },
+        {
+          "field": "Text2",
+          "class": "notary_only",
+          "why": "The line the form marks \"Notary Public Only: My Commission expires on ______\"."
+        },
+        {
+          "field": "Text1",
+          "class": "government_identifier",
+          "why": "The last four digits of the petitioner's Social Security number. The platform holds no SSN and this build writes none."
+        },
+        {
+          "field": "Name of Person Served",
+          "class": "return_on_service_block",
+          "why": "The name of the person served, on the RETURN ON SERVICE page. The shared binder wrote the PETITIONER's name into it — the petitioner is the one serving, not the one served. The whole of page 3 is completed by whoever effects service, after service."
+        },
+        {
+          "field": "Name of County_2",
+          "class": "return_on_service_block",
+          "why": "The county where service was made, on the RETURN ON SERVICE page. Completed by the server, after service."
+        },
+        {
+          "field": "Date_2",
+          "class": "return_on_service_block",
+          "why": "\"Return receipt of certified mail received in this office on ___\" — completed by the office that receives the receipt."
+        },
+        {
+          "field": "Date_3",
+          "class": "return_on_service_block",
+          "why": "The date of personal delivery, on the RETURN ON SERVICE page. Completed by the server, after service; the shared binder wrote matter.county into it."
+        },
+        {
+          "field": "Type of Process Server",
+          "class": "return_on_service_block",
+          "why": "The server's own description of themselves."
+        },
+        {
+          "field": "Address of Server",
+          "class": "return_on_service_block",
+          "why": "The server's address. The shared binder wrote the PETITIONER's street address into it."
+        },
+        {
+          "field": "Servers Printed Name",
+          "class": "return_on_service_block",
+          "why": "The server's printed name. The shared binder wrote the PETITIONER's full legal name into it."
+        },
+        {
+          "field": "1",
+          "class": "return_on_service_block",
+          "why": "A continuation rule of the server's address."
+        },
+        {
+          "field": "2",
+          "class": "return_on_service_block",
+          "why": "The server's telephone number."
+        }
+      ],
+      "writeBoxes": [
+        {
+          "field": "Court Case Number",
+          "factId": "matter.case_number",
+          "page": 1,
+          "rect": {
+            "x": 419.04,
+            "y": 698.79,
+            "width": 119.4,
+            "height": 21.57
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "Court Case Number, page 1 header"
+        },
+        {
+          "field": "Name of County",
+          "factId": "matter.county",
+          "page": 1,
+          "rect": {
+            "x": 243.24,
+            "y": 665.24,
+            "width": 156.12,
+            "height": 19.92
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "IN THE CIRCUIT COURT OF _"
+        },
+        {
+          "field": "Please print all fields clearly",
+          "factId": "participant.full_legal_name",
+          "page": 1,
+          "rect": {
+            "x": 77.64,
+            "y": 624.2,
+            "width": 144,
+            "height": 19.92
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "Petitioner name"
+        },
+        {
+          "field": "Name of Petitioner",
+          "factId": "participant.full_legal_name",
+          "page": 2,
+          "rect": {
+            "x": 77.64,
+            "y": 528.44,
+            "width": 205.08,
+            "height": 26.52
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "Alabama Sex Offender Registration and Community Notification"
+        },
+        {
+          "field": "PetitionerPrinted Name",
+          "factId": "participant.full_legal_name",
+          "page": 2,
+          "rect": {
+            "x": 78.03,
+            "y": 276.03,
+            "width": 294,
+            "height": 18.43
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "(Date)"
+        },
+        {
+          "field": "Petitioner Mailing Address",
+          "factId": "participant.street_address",
+          "page": 2,
+          "rect": {
+            "x": 77.64,
+            "y": 459.44,
+            "width": 310.08,
+            "height": 26.52
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "Petitioner Mailing Address"
+        },
+        {
+          "field": "Phone",
+          "factId": "participant.phone",
+          "page": 2,
+          "rect": {
+            "x": 275.28,
+            "y": 425,
+            "width": 105,
+            "height": 26.52
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "(Email)"
+        },
+        {
+          "field": "Email",
+          "factId": "participant.email",
+          "page": 2,
+          "rect": {
+            "x": 77.64,
+            "y": 425,
+            "width": 180.12,
+            "height": 22.2
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "Email"
+        },
+        {
+          "field": "Date of Birth",
+          "factId": "participant.date_of_birth",
+          "page": 2,
+          "rect": {
+            "x": 395.28,
+            "y": 425,
+            "width": 129.96,
+            "height": 22.2
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "(Email)                                                     "
+        }
+      ],
+      "refused": [
+        {
+          "field": "Licensing Board or Commission",
+          "reason": "protected_category",
+          "category": "licensing_board",
+          "regionHeading": null
+        },
+        {
+          "field": "Mailing Address of Board or other entity to be served",
+          "reason": "protected_category",
+          "category": "licensing_board",
+          "regionHeading": null
+        },
+        {
+          "field": "City State Zip Code",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Telephone Number",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "If granted or denied list the county and case number",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "consequences to which the Order of Limited Relief should apply 1",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "consequences to which the Order of Limited Relief should apply 2",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "consequences to which the Order of Limited Relief should apply 3",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "consequences to which the Order of Limited Relief should apply 4",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "consequences to which the Order of Limited Relief should apply 5",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Court Case Number_2",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Name of Attorney if applicable",
+          "reason": "protected_category",
+          "category": "attorney",
+          "regionHeading": null
+        },
+        {
+          "field": "Date",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Court Case Number_3",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Date_2",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Name of Person Served",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Name of County_2",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Date_3",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Type of Process Server",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Address of Server",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Servers Printed Name",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "1",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "2",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Text1",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Check Box2",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "Check Box3",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "Check Box4",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "Text29",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Text30",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Text2",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        }
+      ],
+      "protectedFields": [
+        {
+          "field": "Licensing Board or Commission",
+          "category": "licensing_board"
+        },
+        {
+          "field": "Mailing Address of Board or other entity to be served",
+          "category": "licensing_board"
+        },
+        {
+          "field": "City State Zip Code",
+          "category": "role"
+        },
+        {
+          "field": "Telephone Number",
+          "category": "role"
+        },
+        {
+          "field": "If granted or denied list the county and case number",
+          "category": "role"
+        },
+        {
+          "field": "consequences to which the Order of Limited Relief should apply 1",
+          "category": "role"
+        },
+        {
+          "field": "consequences to which the Order of Limited Relief should apply 2",
+          "category": "role"
+        },
+        {
+          "field": "consequences to which the Order of Limited Relief should apply 3",
+          "category": "role"
+        },
+        {
+          "field": "consequences to which the Order of Limited Relief should apply 4",
+          "category": "role"
+        },
+        {
+          "field": "consequences to which the Order of Limited Relief should apply 5",
+          "category": "role"
+        },
+        {
+          "field": "Court Case Number_2",
+          "category": "role"
+        },
+        {
+          "field": "Name of Attorney if applicable",
+          "category": "attorney"
+        },
+        {
+          "field": "Date",
+          "category": "role"
+        },
+        {
+          "field": "Court Case Number_3",
+          "category": "role"
+        },
+        {
+          "field": "Date_2",
+          "category": "role"
+        },
+        {
+          "field": "Name of Person Served",
+          "category": "role"
+        },
+        {
+          "field": "Name of County_2",
+          "category": "role"
+        },
+        {
+          "field": "Date_3",
+          "category": "role"
+        },
+        {
+          "field": "Type of Process Server",
+          "category": "role"
+        },
+        {
+          "field": "Address of Server",
+          "category": "role"
+        },
+        {
+          "field": "Servers Printed Name",
+          "category": "role"
+        },
+        {
+          "field": "1",
+          "category": "role"
+        },
+        {
+          "field": "2",
+          "category": "role"
+        },
+        {
+          "field": "Text1",
+          "category": "role"
+        },
+        {
+          "field": "Check Box2",
+          "category": "type_guard"
+        },
+        {
+          "field": "Check Box3",
+          "category": "type_guard"
+        },
+        {
+          "field": "Check Box4",
+          "category": "type_guard"
+        },
+        {
+          "field": "Text29",
+          "category": "role"
+        },
+        {
+          "field": "Text30",
+          "category": "role"
+        },
+        {
+          "field": "Text2",
+          "category": "role"
+        }
+      ],
+      "fields": [
+        {
+          "field": "Court Case Number",
+          "fieldId": "Court Case Number",
+          "effectiveLabel": "Court Case Number, page 1 header",
+          "harvestedLabel": "PETITION FOR ORDER OF",
+          "labelBasis": "printed_page_text_read_at_the_measured_widget_position",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "write",
+          "factId": "matter.case_number",
+          "buildRoleClass": null,
+          "buildRoleWhy": null
+        },
+        {
+          "field": "Name of County",
+          "fieldId": "Name of County",
+          "effectiveLabel": "IN THE CIRCUIT COURT OF _",
+          "harvestedLabel": "IN THE CIRCUIT COURT OF _",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "write",
+          "factId": "matter.county",
+          "buildRoleClass": null,
+          "buildRoleWhy": null
+        },
+        {
+          "field": "Please print all fields clearly",
+          "fieldId": "Please print all fields clearly",
+          "effectiveLabel": "Petitioner name",
+          "harvestedLabel": null,
+          "labelBasis": "printed_page_text_read_at_the_measured_widget_position",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "write",
+          "factId": "participant.full_legal_name",
+          "buildRoleClass": null,
+          "buildRoleWhy": null
+        },
+        {
+          "field": "Licensing Board or Commission",
+          "fieldId": "Licensing Board or Commission",
+          "effectiveLabel": "________________________, Petitioner",
+          "harvestedLabel": "________________________, Petitioner",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "The licensing board or commission named as RESPONDENT, on the caption line \"________, Petitioner v. ________, Respondent\". Which body's collateral consequence the petition is aimed at is the participant's choice and the platform holds no board fact; the participant names it before filing.",
+          "refusalClass": null,
+          "requiredBeforeFiling": true
+        },
+        {
+          "field": "Mailing Address of Board or other entity to be served",
+          "fieldId": "Mailing Address of Board or other entity to be served",
+          "effectiveLabel": "(Please print all fields clearly) (Licensing Board or Commis",
+          "harvestedLabel": "(Please print all fields clearly) (Licensing Board or Commis",
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "The mailing address of that board or other entity, which is where the petition is served. The platform holds no address for it; the participant obtains it from the board and writes it before filing.",
+          "refusalClass": null,
+          "requiredBeforeFiling": true
+        },
+        {
+          "field": "City State Zip Code",
+          "fieldId": "City State Zip Code",
+          "effectiveLabel": "City, State, Zip Code of the Board or other entity to be served",
+          "harvestedLabel": "(Mailing Address of Board or other entity to be served)",
+          "labelBasis": "printed_page_text_read_at_the_measured_widget_position",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "respondent_service_address",
+          "buildRoleWhy": "The city, state and ZIP of the licensing board or commission being served. The shared binder wrote the PETITIONER's city, state and ZIP into it.",
+          "reason": "The city, state and ZIP code of that same board. On the same footing as its street address, and deliberately not the petitioner's own — see the note on the field map.",
+          "refusalClass": null,
+          "requiredBeforeFiling": true
+        },
+        {
+          "field": "Telephone Number",
+          "fieldId": "Telephone Number",
+          "effectiveLabel": "Telephone Number of the Board or other entity to be served",
+          "harvestedLabel": "________________________________________",
+          "labelBasis": "printed_page_text_read_at_the_measured_widget_position",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "respondent_service_address",
+          "buildRoleWhy": "The telephone number of the licensing board or commission being served. The shared binder wrote the PETITIONER's telephone number into it.",
+          "reason": "The telephone number of that same board, in the block the form marks as the entity to be served.",
+          "refusalClass": null,
+          "requiredBeforeFiling": true
+        },
+        {
+          "field": "If granted or denied list the county and case number",
+          "fieldId": "If granted or denied list the county and case number",
+          "effectiveLabel": "If granted or denied, list the county and case number",
+          "harvestedLabel": "If granted or denied, list the county and case number",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "prior_petition_identifiers",
+          "buildRoleWhy": "The county AND case number of a PREVIOUS application for an Order of Limited Relief covering different convictions. The shared binder wrote matter.county into it: this matter's county, offered as the county of another petition the platform knows nothing about.",
+          "reason": "The county and case number of a PREVIOUS application for an Order of Limited Relief, if the participant has made one. It is about a different matter than this petition, and the platform holds nothing about it.",
+          "refusalClass": null,
+          "requiredBeforeFiling": true
+        },
+        {
+          "field": "consequences to which the Order of Limited Relief should apply 1",
+          "fieldId": "consequences to which the Order of Limited Relief should apply 1",
+          "effectiveLabel": "consequences to which the Order of Limited Relief should app",
+          "harvestedLabel": "consequences to which the Order of Limited Relief should app",
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "conviction_and_collateral_consequence_list",
+          "buildRoleWhy": "The first rule of \"a list of conviction(s) and court case number(s) as well as collateral consequences to which the Order of Limited Relief should apply\". A composite the platform does not hold: it holds an offence and a case number and holds no collateral-consequence fact at all, and a partial entry on this list defines the relief the court is being asked to give.",
+          "reason": "The first line of the list of convictions, court case numbers and collateral consequences the Order of Limited Relief should apply to. This list IS the relief the court is being asked to grant; the platform holds no collateral-consequence fact and will not compose it. The participant writes it before filing.",
+          "refusalClass": null,
+          "requiredBeforeFiling": true
+        },
+        {
+          "field": "consequences to which the Order of Limited Relief should apply 2",
+          "fieldId": "consequences to which the Order of Limited Relief should apply 2",
+          "effectiveLabel": "____________________________________________________________",
+          "harvestedLabel": "____________________________________________________________",
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "conviction_and_collateral_consequence_list",
+          "buildRoleWhy": "The second rule of the same list.",
+          "reason": "The second printed rule of the same list, used only if the first will not hold the answer, and the platform does not invent it.",
+          "refusalClass": null
+        },
+        {
+          "field": "consequences to which the Order of Limited Relief should apply 3",
+          "fieldId": "consequences to which the Order of Limited Relief should apply 3",
+          "effectiveLabel": "____________________________________________________________",
+          "harvestedLabel": "____________________________________________________________",
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "conviction_and_collateral_consequence_list",
+          "buildRoleWhy": "The third rule of the same list.",
+          "reason": "The third printed rule of the same list, and the platform does not invent it.",
+          "refusalClass": null
+        },
+        {
+          "field": "consequences to which the Order of Limited Relief should apply 4",
+          "fieldId": "consequences to which the Order of Limited Relief should apply 4",
+          "effectiveLabel": "____________________________________________________________",
+          "harvestedLabel": "____________________________________________________________",
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "conviction_and_collateral_consequence_list",
+          "buildRoleWhy": "The fourth rule of the same list.",
+          "reason": "The fourth printed rule of the same list, and the platform does not invent it.",
+          "refusalClass": null
+        },
+        {
+          "field": "consequences to which the Order of Limited Relief should apply 5",
+          "fieldId": "consequences to which the Order of Limited Relief should apply 5",
+          "effectiveLabel": "____________________________________________________________",
+          "harvestedLabel": "____________________________________________________________",
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "conviction_and_collateral_consequence_list",
+          "buildRoleWhy": "The fifth rule of the same list.",
+          "reason": "The fifth printed rule of the same list, and the platform does not invent it.",
+          "refusalClass": null
+        },
+        {
+          "field": "Court Case Number_2",
+          "fieldId": "Court Case Number_2",
+          "effectiveLabel": "Court Case Number, page 2 header",
+          "harvestedLabel": "PETITION FOR ORDER OF",
+          "labelBasis": "printed_page_text_read_at_the_measured_widget_position",
+          "page": 2,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "page_suffix_read_as_a_charge_row",
+          "buildRoleWhy": "The page 2 header's Court Case Number box. The shared binder reads the trailing \"_2\" as charge row 1 and, on a matter with more than one charge, prints that other charge's case number here.",
+          "reason": "The Court Case Number box in the page 2 header. The number is written in the page 1 header; the participant copies it here. This packet does not write it because the shared field binder reads the trailing \"_2\" in the widget's name as a charge-row index and, on a matter with more than one charge, would print a different charge's case number in this box.",
+          "refusalClass": null,
+          "requiredBeforeFiling": true
+        },
+        {
+          "field": "Name of Petitioner",
+          "fieldId": "Name of Petitioner",
+          "effectiveLabel": "Alabama Sex Offender Registration and Community Notification",
+          "harvestedLabel": "Alabama Sex Offender Registration and Community Notification",
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "page": 2,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "write",
+          "factId": "participant.full_legal_name",
+          "buildRoleClass": null,
+          "buildRoleWhy": null
+        },
+        {
+          "field": "Name of Attorney if applicable",
+          "fieldId": "Name of Attorney if applicable",
+          "effectiveLabel": "_________________________________________",
+          "harvestedLabel": "_________________________________________",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 2,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "The name of the petitioner's attorney, if any. No representation fact is held for this participant and this packet never populates an attorney field with participant data.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "Petitioner Mailing Address",
+          "fieldId": "Petitioner Mailing Address",
+          "effectiveLabel": "Petitioner Mailing Address",
+          "harvestedLabel": "[ ] pro se (Not represented by an attorney)",
+          "labelBasis": "printed_page_text_read_at_the_measured_widget_position",
+          "page": 2,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "write",
+          "factId": "participant.street_address",
+          "buildRoleClass": null,
+          "buildRoleWhy": null
+        },
+        {
+          "field": "Phone",
+          "fieldId": "Phone",
+          "effectiveLabel": "(Email)",
+          "harvestedLabel": "(Email)",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 2,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "write",
+          "factId": "participant.phone",
+          "buildRoleClass": null,
+          "buildRoleWhy": null
+        },
+        {
+          "field": "Email",
+          "fieldId": "Email",
+          "effectiveLabel": "Email",
+          "harvestedLabel": "(Petitioner Mailing Address) (SSN Last 4 only)",
+          "labelBasis": "printed_page_text_read_at_the_measured_widget_position",
+          "page": 2,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "write",
+          "factId": "participant.email",
+          "buildRoleClass": null,
+          "buildRoleWhy": null
+        },
+        {
+          "field": "Date of Birth",
+          "fieldId": "Date of Birth",
+          "effectiveLabel": "(Email)                                                     ",
+          "harvestedLabel": "(Email)                                                     ",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 2,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "write",
+          "factId": "participant.date_of_birth",
+          "buildRoleClass": null,
+          "buildRoleWhy": null
+        },
+        {
+          "field": "Date",
+          "fieldId": "Date",
+          "effectiveLabel": "Sworn to and subscribed before",
+          "harvestedLabel": "Sworn to and subscribed before",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 2,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "notary_jurat_date",
+          "buildRoleWhy": "The day in \"Sworn to and subscribed before this ___ day of ______, ____\". The officer administering the oath dates it.",
+          "reason": "The day in \"Sworn to and subscribed before this ___ day of ______, ____\" on page 2. The officer authorised to administer oaths dates the jurat when the oath is taken.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "PetitionerPrinted Name",
+          "fieldId": "PetitionerPrinted Name",
+          "effectiveLabel": "(Date)",
+          "harvestedLabel": "(Date)",
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "page": 2,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "write",
+          "factId": "participant.full_legal_name",
+          "buildRoleClass": null,
+          "buildRoleWhy": null
+        },
+        {
+          "field": "Court Case Number_3",
+          "fieldId": "Court Case Number_3",
+          "effectiveLabel": "Court Case Number, page 3 header",
+          "harvestedLabel": "PETITION FOR ORDER OF",
+          "labelBasis": "printed_page_text_read_at_the_measured_widget_position",
+          "page": 3,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "page_suffix_read_as_a_charge_row",
+          "buildRoleWhy": "The page 3 header's Court Case Number box, with \"_3\" read as charge row 2, on the same footing.",
+          "reason": "The Court Case Number box in the page 3 header, on the same footing as page 2's, with \"_3\" read as charge row 2.",
+          "refusalClass": null,
+          "requiredBeforeFiling": true
+        },
+        {
+          "field": "Date_2",
+          "fieldId": "Date_2",
+          "effectiveLabel": "Return receipt of certified mail received in this office on",
+          "harvestedLabel": "Return receipt of certified mail received in this office on",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 3,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "return_on_service_block",
+          "buildRoleWhy": "\"Return receipt of certified mail received in this office on ___\" — completed by the office that receives the receipt.",
+          "reason": "\"Return receipt of certified mail received in this office on ___\", completed by the office that receives the receipt.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "Name of Person Served",
+          "fieldId": "Name of Person Served",
+          "effectiveLabel": "I certify that I personally delivered a copy of this Petitio",
+          "harvestedLabel": "I certify that I personally delivered a copy of this Petitio",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 3,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "return_on_service_block",
+          "buildRoleWhy": "The name of the person served, on the RETURN ON SERVICE page. The shared binder wrote the PETITIONER's name into it — the petitioner is the one serving, not the one served. The whole of page 3 is completed by whoever effects service, after service.",
+          "reason": "The RETURN ON SERVICE page is completed by whoever effects service, after service has happened. This is the name of the person served — the board's representative, not the petitioner.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "Name of County_2",
+          "fieldId": "Name of County_2",
+          "effectiveLabel": "in",
+          "harvestedLabel": "in",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 3,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "return_on_service_block",
+          "buildRoleWhy": "The county where service was made, on the RETURN ON SERVICE page. Completed by the server, after service.",
+          "reason": "The county where service was made, stated by the server after service.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "Date_3",
+          "fieldId": "Date_3",
+          "effectiveLabel": "in __________________________ County, Alabama on",
+          "harvestedLabel": "in __________________________ County, Alabama on",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 3,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "return_on_service_block",
+          "buildRoleWhy": "The date of personal delivery, on the RETURN ON SERVICE page. Completed by the server, after service; the shared binder wrote matter.county into it.",
+          "reason": "The date of personal delivery, stated by the server after service.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "Type of Process Server",
+          "fieldId": "Type of Process Server",
+          "effectiveLabel": null,
+          "harvestedLabel": null,
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 3,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "return_on_service_block",
+          "buildRoleWhy": "The server's own description of themselves.",
+          "reason": "The server's own description of themselves, on the RETURN ON SERVICE page.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "Address of Server",
+          "fieldId": "Address of Server",
+          "effectiveLabel": "____________________    __________________________",
+          "harvestedLabel": "____________________    __________________________",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 3,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "return_on_service_block",
+          "buildRoleWhy": "The server's address. The shared binder wrote the PETITIONER's street address into it.",
+          "reason": "The server's address, on the RETURN ON SERVICE page.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "Servers Printed Name",
+          "fieldId": "Servers Printed Name",
+          "effectiveLabel": null,
+          "harvestedLabel": null,
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 3,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "return_on_service_block",
+          "buildRoleWhy": "The server's printed name. The shared binder wrote the PETITIONER's full legal name into it.",
+          "reason": "The server's printed name, on the RETURN ON SERVICE page.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "1",
+          "fieldId": "1",
+          "effectiveLabel": "Address of Server, continuation rule",
+          "harvestedLabel": "__________________________",
+          "labelBasis": "printed_page_text_read_at_the_measured_widget_position",
+          "page": 3,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "return_on_service_block",
+          "buildRoleWhy": "A continuation rule of the server's address.",
+          "reason": "A continuation rule of the server's address, on the RETURN ON SERVICE page.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "2",
+          "fieldId": "2",
+          "effectiveLabel": "Phone Number of Server",
+          "harvestedLabel": null,
+          "labelBasis": "printed_page_text_read_at_the_measured_widget_position",
+          "page": 3,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "return_on_service_block",
+          "buildRoleWhy": "The server's telephone number.",
+          "reason": "The server's telephone number, on the RETURN ON SERVICE page.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "Text1",
+          "fieldId": "Text1",
+          "effectiveLabel": "SSN Last 4 only",
+          "harvestedLabel": "____________________________________________________________",
+          "labelBasis": "printed_page_text_read_at_the_measured_widget_position",
+          "page": 2,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "government_identifier",
+          "buildRoleWhy": "The last four digits of the petitioner's Social Security number. The platform holds no SSN and this build writes none.",
+          "reason": "The last four digits of the petitioner's Social Security number, in the \"XXX-XX-______\" box on page 2. The platform holds no Social Security number; the participant writes the last four digits before filing.",
+          "refusalClass": null,
+          "requiredBeforeFiling": true
+        },
+        {
+          "field": "Check Box2",
+          "fieldId": "Check Box2",
+          "effectiveLabel": "convictions in any jurisdiction and the court",
+          "harvestedLabel": "convictions in any jurisdiction and the court",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 1,
+          "pdfType": "checkbox",
+          "isSelectionControl": true,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "The \"( ) Granted\" box on page 1's statement about a PREVIOUS application for an Order of Limited Relief. Whether an earlier petition was granted is a fact about the participant's own history; the platform holds nothing about it and this route does not determine it.",
+          "refusalClass": "participant_sworn_narrative_or_legal_election"
+        },
+        {
+          "field": "Check Box3",
+          "fieldId": "Check Box3",
+          "effectiveLabel": "convictions in any jurisdiction and the court (    ) Granted",
+          "harvestedLabel": "convictions in any jurisdiction and the court (    ) Granted",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 1,
+          "pdfType": "checkbox",
+          "isSelectionControl": true,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "The \"( ) Denied\" box of the same statement.",
+          "refusalClass": "participant_sworn_narrative_or_legal_election"
+        },
+        {
+          "field": "Check Box4",
+          "fieldId": "Check Box4",
+          "effectiveLabel": "convictions in any jurisdiction and the court (    ) Granted",
+          "harvestedLabel": "convictions in any jurisdiction and the court (    ) Granted",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 1,
+          "pdfType": "checkbox",
+          "isSelectionControl": true,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": null,
+          "buildRoleWhy": null,
+          "reason": "The \"( ) Not applicable\" box of the same statement, for a participant who has made no previous application.",
+          "refusalClass": "participant_sworn_narrative_or_legal_election"
+        },
+        {
+          "field": "Text29",
+          "fieldId": "Text29",
+          "effectiveLabel": "the month in the notary's jurat",
+          "harvestedLabel": "Sworn to and subscribed before this _____________",
+          "labelBasis": "printed_page_text_read_at_the_measured_widget_position",
+          "page": 2,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "notary_jurat_date",
+          "buildRoleWhy": "The month of the same jurat.",
+          "reason": "The month of the same jurat, dated by the officer administering the oath.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "Text30",
+          "fieldId": "Text30",
+          "effectiveLabel": "the year in the notary's jurat",
+          "harvestedLabel": null,
+          "labelBasis": "printed_page_text_read_at_the_measured_widget_position",
+          "page": 2,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "notary_jurat_date",
+          "buildRoleWhy": "The year of the same jurat.",
+          "reason": "The year of the same jurat, dated by the officer administering the oath.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        },
+        {
+          "field": "Text2",
+          "fieldId": "Text2",
+          "effectiveLabel": "Notary Public commission expiry date",
+          "harvestedLabel": null,
+          "labelBasis": "printed_page_text_read_at_the_measured_widget_position",
+          "page": 2,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "notary_only",
+          "buildRoleWhy": "The line the form marks \"Notary Public Only: My Commission expires on ______\".",
+          "reason": "The line the form marks \"Notary Public Only: My Commission expires on ______\". Only the notary states it.",
+          "refusalClass": "court_prosecutor_clerk_or_agency_owned"
+        }
+      ]
+    }
+  ]
+}

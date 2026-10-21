@@ -1,0 +1,218 @@
+{
+  "schemaVersion": "fable-packet-factory-infrastructure-return/v1",
+  "worker": "FABLE-Q1",
+  "lane": "factory-infrastructure",
+  "branch": "fable/q1",
+  "baseSha": "55f3cbeff39e63a55490f431f8c556a3044d060e",
+  "defect": "DF-003",
+  "task": "Stop the raster queue generator from silently declining to enrol families whose fixture PDFs are not at the root of fixtures/.",
+
+  "whatWasWrong": {
+    "summary": "generate-raster-queue.mjs listed fixture PDFs with a single fs.readdirSync of the ROOT of <family>/fixtures. Seven California families keep their fixtures one directory deeper, one directory per variant, and two Ohio families keep no fixtures/ directory at all. The listing came back empty, pickFixture found neither role, and the families were recorded as not eligible for the reasons 'no canonical PDF, no boundary PDF' and 'no fixtures directory'. Both are literally true of the directory that was read and false about the family.",
+    "whyItMatters": "COMPLETE_PACKET_PROVEN requires a hash-bound RASTER_PASS. A family that never enters the queue never earns one and can never terminalize, and the queue reads as complete while saying nothing about what it declined to enrol.",
+    "direction": "SAFE. Nothing was falsely passed; families were capped below terminal with a misleading reason."
+  },
+
+  "measuredAgainstTheRepositoryRatherThanTrusted": {
+    "df003ListWasCorrectOnFamilies": true,
+    "df003ListWasWrongOnCounts": "DF-003 records 63 PDFs. The real fixture count is 58. The 5-PDF difference is one derived-sources/<form>-pikepdf-unlocked.pdf per family in ca-1203-41-set, ca-1203-42-set, ca-1203-4a-set, ca-851-91-set and ca-prop64-set: those live outside fixtures/, are the builder's unlocked working copies, and are correctly not fixtures. ca-1203-43-set (2) and ca-17b-reduction-set (4) match exactly.",
+    "measuredFixturePdfs": {
+      "ca-1203-41-set": 8,
+      "ca-1203-42-set": 8,
+      "ca-1203-43-set": 2,
+      "ca-1203-4a-set": 8,
+      "ca-17b-reduction-set": 4,
+      "ca-851-91-set": 16,
+      "ca-prop64-set": 12,
+      "rcap-oh-custom-pleading-clean-tracks": 8,
+      "oh_marijuana_expungement-set": 2,
+      "totalCalifornia": 58,
+      "totalOhio": 10,
+      "total": 68
+    },
+    "df003ListWasIncomplete": "An eighth silently excluded family exists that DF-003 and FABLE-VT8 do not name: oh_marijuana_expungement-set, same Ohio tracks/<track>/rendered/<role>/ layout, 2 PDFs, all completeness counters zero. It fails for exactly the same reason and is repaired by the same change.",
+    "howVerified": "Recursive walk of every family directory named by MASTER_QUEUE.json, cross-read against each family's reports/rendered-artifacts.json. No queued family has a PDF in a fixtures subdirectory, so the recursive listing cannot alter any existing row: 117 families have a flat fixtures/ directory and 7 have a per-variant one, and the 7 are exactly the excluded California set."
+  },
+
+  "ohioNeedsDifferentHandlingAndGotIt": {
+    "finding": "The reasoning behind the California repair does NOT hold for Ohio. The two Ohio families keep no fixtures/ directory whatsoever; their PDFs are at tracks/<trackId>/rendered/<role>/<role>.pdf. A recursive scan of fixtures/ finds nothing because there is nothing to open, which is why they were reported as 'no fixtures directory' rather than 'no canonical PDF'.",
+    "handling": "They are located by the mechanism the generator already prefers over any inference from a filename: the builder's own declaration in reports/rendered-artifacts.json, which names each file with an explicit fixture: canonical|boundary. This is not a second naming convention and not an Ohio special case — it is a general rule for a family that keeps no fixtures/ directory, and it admits exactly the two families in the tree that satisfy it.",
+    "whyNotForced": "The role does not live in a directory name the way it does for California, so carrying a fixtures-relative path would not have recovered it. Forcing the California shape onto Ohio would have required guessing."
+  },
+
+  "whatChanged": [
+    {
+      "file": "scripts/grade-a-packet-factory-24h/generate-raster-queue.mjs",
+      "changes": [
+        "fixturesOf(dir): the fixtures root is <dir>/fixtures where it exists — true of every family already in the queue — and only where it does not exist is the family located by the files its builder declares as fixtures. A family with neither still has no fixtures and still says so.",
+        "walkPdfs(): the listing is recursive and names each PDF RELATIVE to the fixtures root, so a role carried by a variant directory name is preserved instead of discarded. For a flat directory the relative name IS the basename, so the listing is byte-identical to the one it replaces.",
+        "declaredFixture(): resolves the builder's declared file and names it relative to the fixtures root instead of taking its basename. Identical for a flat family; for a per-variant one it names the file that carries the variant; and a declaration pointing outside the fixtures root now resolves to a name the listing does not hold and is refused, which is stricter than the basename match it replaces.",
+        "pageCountOrNull(): a page count the parser cannot read is null rather than a throw, and a family carrying such a document is refused BY NAME instead of taking the whole generator down.",
+        "documentSet paths are POSIX-normalized (a no-op on this platform, deterministic off it).",
+        "The queue document gained a top-level fixtureDiscovery record stating where fixtures are looked for and why it matters. No key was added to any row."
+      ],
+      "whyThisShape": "row.documents[] and rcap-raster-batch.mjs already render a SET per family, and generate-raster-queue.mjs already builds that set. So the whole repair is to make the scan find the files and carry their paths relative to the fixtures root. No second naming convention was invented, no state was special-cased, and nothing about what a RASTER_PASS means was widened."
+    },
+    {
+      "file": "scripts/grade-a-packet-factory-24h/verify-lane-contracts.mjs",
+      "outsideTheNamedSet": true,
+      "changes": [
+        "L7 identified a row's primary canonical by canonicalPdfPath.split('/').pop() — its BASENAME — and looked for that string in coverage.rastered. Coverage names each document the way the fixture listing names it, which equals the basename only while a family keeps its fixtures flat. The two Ohio families render tracks/<track>/rendered/canonical/canonical.pdf per track, so 'canonical.pdf' is neither unique nor what coverage lists, and L7 reported two correctly-covered rows as uncovered. This is the same flat-fixtures assumption as the defect itself, sitting in the verifier.",
+        "It now matches on the full path (r.documents.find(d => d.role === 'canonical' && d.path === r.canonicalPdfPath)) and reports a row whose documents do not contain its own primary canonical as a problem rather than falling back silently."
+      ],
+      "isThisAWeakening": "No — it is strictly stricter. Four documents all named canonical.pdf no longer satisfy each other, and a new problem class was added. Verified: all 117 rows carry a canonical document whose path equals their canonicalPdfPath, and only the 2 new Ohio rows have a name that differs from the basename, so behaviour on the 115 pre-existing rows is unchanged. Both L7 mutation cases still fire. L4 and L9 were not touched.",
+      "whyItWasNecessary": "Leaving it would have shipped a failing lane-contract gate. The alternative — padding coverage.rastered with basenames so the old comparison passes — is papering over, and was rejected."
+    }
+  ],
+
+  "filesNotTouched": "No packet, overlay, fixture, field map or build script. MASTER_QUEUE.json, VERIFIER_RETURNS.json, ACTIVE_ASSIGNMENTS.json and the claim ledger were not edited by hand or by anything else. rcap-raster-batch.mjs did NOT need changing: its per-document output directory already slugs the document name (target.name.replace(/[^A-Za-z0-9._-]/g,'_')), so a relative path with directories becomes a unique directory with no collision.",
+
+  "beforeAfterQueueComparison": {
+    "method": "The committed queue diverges from a fresh generation only in packetCommitSha (an inherent per-run pin), so the control is a generation of the UNMODIFIED generator at the base commit. Confirmed first: an unmodified regeneration reproduces all 115 rows with zero semantic differences. Every figure below is that control against the same generator with the change.",
+    "rowsBefore": 115,
+    "rowsAfter": 117,
+    "rowsLost": 0,
+    "preExistingRowsWithAnyEvidenceFieldChanged": 0,
+    "evidenceFieldsCompared": [
+      "currentRasterState", "canonicalPdfPath", "canonicalPdfSha256", "boundaryPdfPath",
+      "boundaryPdfSha256", "documentsDigest", "expectedPages", "packetCommitSha",
+      "builderAssignment", "requestedScale", "fixtureSelection", "documents", "coverage",
+      "rasterReceipt", "supersededReceipts"
+    ],
+    "rasterPassBefore": 112,
+    "rasterPassAfter": 112,
+    "rasterPassRowsThatReturnedToPending": 0,
+    "receiptsIdenticalOnAll112": true,
+    "receiptsSuperseded": 0,
+    "onlyFieldThatMovedOnAnyPreExistingRow": {
+      "field": "nextOwner",
+      "rowsAffected": 49,
+      "why": "nextOwner is a round-robin lane hint assigned by row INDEX after the sort (rows.forEach((r,i) => r.nextOwner = LANES[i % 4])). Inserting two rows shifts the index of every row sorted after them. It is recomputed on every generation by design and carries no evidence.",
+      "provedHarmless": "The claim ledger contains zero claims naming a RAS lane (grep over all 690 claims), so no lane binding depends on it; the 112 affected-or-not RASTER_PASS rows are already terminal for this gate; and of the three RASTER_PENDING rows only pa_pardon_expungement-set changed lane, with no claim held against it."
+    },
+    "pendingBefore": ["ky_void_seal_controlled_substance-set", "ky_void_seal_marijuana_synthetic_salvia-set", "pa_pardon_expungement-set"],
+    "pendingAfterForThoseThree": ["RASTER_PENDING", "RASTER_PENDING", "RASTER_PENDING"],
+    "byStateBefore": { "RASTER_PENDING": 3, "RASTER_RUNNING": 0, "RASTER_PASS": 112, "RASTER_FAIL": 0, "RASTER_BLOCKED_ENVIRONMENT": 0 },
+    "byStateAfter": { "RASTER_PENDING": 5, "RASTER_RUNNING": 0, "RASTER_PASS": 112, "RASTER_FAIL": 0, "RASTER_BLOCKED_ENVIRONMENT": 0 },
+    "notEligibleBefore": 231,
+    "notEligibleAfter": 229
+  },
+
+  "newlyAdmitted": {
+    "count": 2,
+    "everyOneEntersAtRasterPendingWithNoReceipt": true,
+    "families": [
+      {
+        "familyId": "rcap-oh-custom-pleading-clean-tracks",
+        "currentRasterState": "RASTER_PENDING",
+        "rasterReceipt": null,
+        "nextOwner": "RAS03",
+        "expectedPages": 2,
+        "documentsDigest": "2907f5564c0da3fcbc8296226c9e8975f5b6c8b0fbb0a4c423b70b692ecd494b",
+        "fixtureSelection": {
+          "canonical": "declared by the builder as the canonical artifact in reports/rendered-artifacts.json",
+          "boundary": "declared by the builder as the boundary artifact in reports/rendered-artifacts.json"
+        },
+        "documents": [
+          { "role": "canonical", "name": "tracks/oh_2953_32_expungement/rendered/canonical/canonical.pdf", "pageCount": 2, "sha256": "e24f2d68cbd29c46efcdb458847737b9103a4ea2f814e44f76b1bf03e15b6214" },
+          { "role": "canonical", "name": "tracks/oh_2953_32_sealing/rendered/canonical/canonical.pdf", "pageCount": 2, "sha256": "849eff7b89cc989fcae59c5b219ea35acd1964116043287e8b14e21924f711bb" },
+          { "role": "canonical", "name": "tracks/oh_2953_33_nonconviction/rendered/canonical/canonical.pdf", "pageCount": 2, "sha256": "578c8c64d78cb808110c94240578872084482484e029a1158aa9d6d364059d7e" },
+          { "role": "canonical", "name": "tracks/oh_2953_35_firearm/rendered/canonical/canonical.pdf", "pageCount": 2, "sha256": "4667233bc12e271b85207a86b7aab32e560de66e1e715895ac9ff0cce8334041" },
+          { "role": "boundary", "name": "tracks/oh_2953_32_expungement/rendered/boundary/boundary.pdf", "pageCount": 2, "sha256": "7ca3da821235ac5491df29dde166e9fa541dc71a68c2dc98e30e8b765686fdbf" },
+          { "role": "boundary", "name": "tracks/oh_2953_32_sealing/rendered/boundary/boundary.pdf", "pageCount": 2, "sha256": "3d777dd9964390f6bcfefe8855061cb8809983e32e91cff8482d425c1792ad75" },
+          { "role": "boundary", "name": "tracks/oh_2953_33_nonconviction/rendered/boundary/boundary.pdf", "pageCount": 2, "sha256": "12d8a89df31c6ef526ee963813a49938e1d209814fca989ff71b35ee488e2541" },
+          { "role": "boundary", "name": "tracks/oh_2953_35_firearm/rendered/boundary/boundary.pdf", "pageCount": 2, "sha256": "f546d0767ba397e638c53ab7e8820b995c8b0696484626b358c37642e3793d6a" }
+        ],
+        "documentCount": 8,
+        "coverage": {
+          "complete": true,
+          "canonicalDocuments": 4,
+          "notRastered": [],
+          "basis": "the family ships 4 canonical document(s) with no assembled packet, and the row renders all of them"
+        },
+        "note": "The exact family FABLE-VT8 reported. It was otherwise clean and stuck below terminal purely for this. It is now queued and has still rendered nothing."
+      },
+      {
+        "familyId": "oh_marijuana_expungement-set",
+        "currentRasterState": "RASTER_PENDING",
+        "rasterReceipt": null,
+        "nextOwner": "RAS03",
+        "expectedPages": 3,
+        "documentsDigest": "60cd36a64b5ff27cb7bd30714162fc1df91652e0f0358c5f84e07925e279df67",
+        "fixtureSelection": {
+          "canonical": "declared by the builder as the canonical artifact in reports/rendered-artifacts.json",
+          "boundary": "declared by the builder as the boundary artifact in reports/rendered-artifacts.json"
+        },
+        "documents": [
+          { "role": "canonical", "name": "tracks/oh_marijuana_expungement/rendered/canonical/canonical.pdf", "pageCount": 3, "sha256": "f46c9e873fb90524b0207f8007086aa3763082394ae52effed9703fba24f2a5a" },
+          { "role": "boundary", "name": "tracks/oh_marijuana_expungement/rendered/boundary/boundary.pdf", "pageCount": 3, "sha256": "44f8a1befb19e29b22506ed4a9f30364458ea948b0a67b16fba3708ff9da8422" }
+        ],
+        "documentCount": 2,
+        "coverage": {
+          "complete": true,
+          "canonicalDocuments": 1,
+          "notRastered": [],
+          "basis": "the family ships 1 canonical document(s) with no assembled packet, and the row renders all of them"
+        },
+        "note": "Not named by DF-003 or FABLE-VT8. Found by measuring rather than trusting the list."
+      }
+    ]
+  },
+
+  "theSevenCaliforniaFamiliesAreStillNotAdmitted": {
+    "whyThisIsNotAHalfFix": "The misleading reason is gone from all seven. Every one now carries a true, specific, actionable reason, and two of them will enter the queue automatically the moment their build is repaired, with no further change to the generator.",
+    "newFindingThatTheRecursiveScanExposed": {
+      "what": "38 of the 58 California fixture PDFs cannot be opened by pdf-lib at all. They are the untouched *-unchanged-official.pdf Judicial Council forms (CR-106, CR-181, CR-410, CR-401, CR-403, MC-031): ENCRYPTED, with their objects in cross-reference streams, so ignoreEncryption:true skips the permission check without decrypting and object resolution fails. Each affected family keeps a pikepdf-unlocked copy under derived-sources/ for exactly this reason. This is the same class of fact FABLE-B1 recorded for ca-1203-4-set.",
+      "whyTheyAreRefusedRatherThanQueued": "rcap-raster-batch.mjs counts pages with this same parser and then renders that many. A document whose page count nobody can read cannot have 'every page rendered' proven about it, and a receipt over an unknown number of pages is exactly the verdict this queue exists to refuse. Queuing them would also have aborted the dispatched render job outright. The generator refuses the family by name instead.",
+      "thisIsARefusalNotAWaiver": true
+    },
+    "perFamily": {
+      "ca-851-91-set": ["12 of 16 queued documents will not open in the parser that counts their pages (the 6 *-unchanged-official.pdf per role across both variants)"],
+      "ca-prop64-set": ["8 of 12 queued documents will not open in the parser that counts their pages (cr-401 and cr-403 unchanged-official across both variants and both roles)"],
+      "ca-1203-41-set": ["6 of 8 queued documents will not open in the parser that counts their pages", "nonvisual completeness counters not zero: requiredOptionsMissing"],
+      "ca-1203-42-set": ["6 of 8 queued documents will not open in the parser that counts their pages", "nonvisual completeness counters not zero: requiredOptionsMissing"],
+      "ca-1203-4a-set": ["6 of 8 queued documents will not open in the parser that counts their pages", "nonvisual completeness counters not zero: requiredOptionsMissing"],
+      "ca-1203-43-set": ["nonvisual completeness counters not zero: knownRequiredFieldsMissing, unclassifiedBlanks, requiredOptionsMissing, requiredComponentsMissing — its 2 fixtures are both readable, so this family enters the queue the moment its build is repaired"],
+      "ca-17b-reduction-set": ["nonvisual completeness counters not zero: knownRequiredFieldsMissing, unclassifiedBlanks, requiredOptionsMissing, requiredComponentsMissing — its 4 fixtures are all readable, so this family enters the queue the moment its build is repaired"]
+    },
+    "noFamilyStillCarriesTheMisleadingReason": true
+  },
+
+  "gateResults": [
+    { "command": "node scripts/grade-a-packet-factory-24h/verify.mjs", "result": "PASS", "detail": "30/30 factory checks passed; CLAIM_LEDGER_OK 690 claims; DISC06 36/36 exercised" },
+    { "command": "node scripts/grade-a-packet-factory-24h/verify.mjs --mutations", "result": "PASS", "detail": "30/30 checks passed; 63 mutation cases, every mutation caught; every mutated file restored byte-for-byte" },
+    { "command": "node scripts/grade-a-packet-factory-24h/verify-lane-contracts.mjs", "result": "PASS", "detail": "9/9 lane-contract checks passed, LANE_CONTRACTS_HELD. L4 and L9 unmodified and green; L7 green with a stricter comparison" },
+    { "command": "node scripts/grade-a-packet-factory-24h/verify-lane-contracts.mjs --mutations", "result": "PRE-EXISTING FAIL, UNCHANGED", "detail": "9/9 checks pass; 16 of 17 mutations detected. The one MISSED is [L6] 'a family proven while the raster gate cannot be dispatched is caught'. VERIFIED PRE-EXISTING: the identical MISSED reproduces at the base commit with this change stashed. Not caused by, and not made worse by, this change." },
+    { "command": "node scripts/grade-a-packet-factory-24h/verify-source-conveyor.mjs", "result": "PASS", "detail": "23/23 conveyor checks passed" },
+    { "command": "node scripts/external-worker-control/verify-external-assignments.mjs", "result": "PASS", "detail": "9/9 external-dispatch checks passed, EXTERNAL_DISPATCH_HELD" },
+    { "command": "node scripts/grade-a-packet-factory-24h/verify-acq-promo-handoff.mjs", "result": "PASS", "detail": "6/6 handoff checks passed" },
+    { "command": "node scripts/grade-a-packet-factory-24h/generate-raster-queue.mjs --check", "result": "CONVERGED ON FILES", "detail": "All five generated files converge. The one remaining drift line is the pre-existing 'committed files carry 12 distinct dispatch pins' note, which comes from carried receipts pinned at 12 different commits and is present at the base commit with the same count." }
+  ],
+
+  "whatWasNotDone": [
+    "Nothing was rendered. No workflow was dispatched. No receipt was fabricated. The two newly admitted families are RASTER_PENDING with rasterReceipt null, exactly as a family that nobody has looked at must be.",
+    "No family was promoted, no commercial route opened, no MASTER_QUEUE state changed.",
+    "The seven California families were not admitted. Two are blocked only by their own build counters and will admit themselves when repaired; five ship encrypted official PDFs the page-counting parser cannot open, which is a Captain decision and is recorded below.",
+    "DF-003 was not edited — it is Captain's record and its corrected counts, its missing eighth family and the encrypted-PDF finding are reported here instead.",
+    "The pre-existing [L6] mutation MISS was not repaired: it is unrelated to this defect and repairing it was not this task."
+  ],
+
+  "forCaptainToDecide": [
+    "Dispatch: two families are newly RASTER_PENDING and awaiting a central render — rcap-oh-custom-pleading-clean-tracks (8 documents, 16 pages) and oh_marijuana_expungement-set (2 documents, 6 pages). Both are on RAS03; rebalancing is Captain's call.",
+    "The five California families that ship encrypted *-unchanged-official.pdf fixtures cannot enter the visual gate as they stand. Three options, none of which a worker should take alone: (a) unlock the official companions the way the builders already unlock their fill sources under derived-sources/ and ship the unlocked bytes as the fixture, which changes what is rendered and must not silently become what is filed; (b) decide that an unchanged official companion is out of scope for the visual gate and give the queue a rule for it — noting that this narrows what a family's RASTER_PASS covers and coverage.complete must then say so; or (c) give the page-counting probe a reader that can open an encrypted PDF. Option (b) is the one that could weaken a gate and needs the most care.",
+    "ca-1203-43-set and ca-17b-reduction-set are one build repair away from the queue. ca-1203-41/42/4a-set need both their requiredOptionsMissing repair AND a decision on (a)/(b)/(c) above.",
+    "DF-003 can be marked repaired for the exclusion it describes, with the correction that the count is 58 fixture PDFs not 63, that an eighth family (oh_marijuana_expungement-set) was affected, and that fixing the scan revealed a second, deeper blocker for five of the seven California families.",
+    "The one file changed outside the two this task named is scripts/grade-a-packet-factory-24h/verify-lane-contracts.mjs (L7's basename comparison). It is a strengthening, both L7 mutations still fire, and L4 and L9 were not touched — but it is Captain's to accept."
+  ],
+
+  "packetPdfsModified": 0,
+  "overlaysModified": 0,
+  "fixturesModified": 0,
+  "rendersPerformed": 0,
+  "workflowsDispatched": 0,
+  "receiptsWritten": 0,
+  "familiesPromoted": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "grantsNothing": "Admitting a family to the raster queue queues a render. It renders nothing, proves nothing, promotes nothing and opens no route."
+}

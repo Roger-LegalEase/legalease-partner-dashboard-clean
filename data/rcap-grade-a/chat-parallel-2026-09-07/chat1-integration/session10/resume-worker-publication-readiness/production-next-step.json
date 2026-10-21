@@ -1,0 +1,192 @@
+{
+  "status": "READ_ONLY_NEXT_PRODUCTION_ACTION_REVIEW_NOT_EXECUTION_OR_RELEASE_APPROVAL",
+  "observedAtUtc": "2026-09-08T17:22:17.296019+00:00",
+  "reviewedLocalHead": "75ccb04714c4514cdf2ad3e76f82f4eda77ce4cb",
+  "sourcePins": [
+    {
+      "path": ".github/workflows/rcap-f1-ephemeral-staging.yml",
+      "sha256": "a508352fc0f0c9e254779e5a306b9a593b9dec8f0cd11f45df5ebd41cffbb037"
+    },
+    {
+      "path": ".github/workflows/rcap-production-canary.yml",
+      "sha256": "c40d92504cd23c24d932e92b378ce893a946633c3ac360ad3a90d492d77467e0"
+    },
+    {
+      "path": "scripts/rcap-production-canary.mjs",
+      "sha256": "c0790ab6d90dc9b47418c40d07b6c37a1d0ecc8af5bb8eb5455e4c91da80d148"
+    },
+    {
+      "path": "scripts/rcap-production-canary-smoke.mjs",
+      "sha256": "04454197b34f17a7839367b2f81bb08867915b5f911df08c23f2233ac6c5e894"
+    },
+    {
+      "path": "scripts/rcap-production-activate.mjs",
+      "sha256": "02eb5f3f32d81a76e64fd4516140df3af9da4225d331a3780667373c47a0889c"
+    },
+    {
+      "path": "scripts/verify-rcap-production-activation.mjs",
+      "sha256": "82a9aff697c659a9b6c0e3d93dcd08e54b267cf039bf996297586763ebc086b2"
+    },
+    {
+      "path": "scripts/rcap-hosted-acceptance-vercel-identity.mjs",
+      "sha256": "7475a5e053cc7a5ac81196b9069dbcd774da6f162a4559ea63cda60c40101d01"
+    },
+    {
+      "path": "docs/RCAP_RENDER_WORKER_DEPLOYMENT.md",
+      "sha256": "020249933098e5d5c2d7918ed022ac7b32a49d2956ef85e1b8ab7dc946169143"
+    },
+    {
+      "path": "data/rcap-authorization-queue.json",
+      "sha256": "8b7df128f69dfd2f6ca667a7b59b42cd0a8d47a9aca366ecfcaf2180f5d09d91"
+    },
+    {
+      "path": "data/rcap-staging-authorization-readiness.json",
+      "sha256": "1c4510e97791272f008be73da613525bcb0bbefa2d697c70505d98d7cc3bddc3"
+    }
+  ],
+  "applicationDeployment": {
+    "target": {
+      "provider": "Vercel",
+      "teamSlug": "roger947s-projects",
+      "projectName": "legalease-partner-dashboard-clean",
+      "identityResolver": "scripts/rcap-hosted-acceptance-vercel-identity.mjs",
+      "productionSupabaseProjectRef": "wwtwtsmywnckfkdaqqeg",
+      "canonicalRuntimeDomain": "legalease-partner-dashboard-clean.vercel.app",
+      "identityStatus": "These are existing source pins, not newly queried live platform identity."
+    },
+    "dispatchEntry": {
+      "workflow": ".github/workflows/rcap-f1-ephemeral-staging.yml",
+      "registrationReadExitCode": 0,
+      "registration": {
+        "id": 332448793,
+        "name": "RCAP F1 ephemeral staging",
+        "path": ".github/workflows/rcap-f1-ephemeral-staging.yml",
+        "state": "active",
+        "html_url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/blob/main/.github/workflows/rcap-f1-ephemeral-staging.yml"
+      },
+      "executionRef": "Reviewed integrated Captain ref carrying the current controlled production definitions; do not execute the old release tuple.",
+      "modes": [
+        "production_preflight",
+        "production_smoke",
+        "production_activate"
+      ],
+      "conditionalMigrationMode": "production_clinic_migrate exists but is a separate database mutation, not an automatic next step."
+    },
+    "pipeline": [
+      {
+        "step": "Stage the exact new application without moving public aliases",
+        "existingMode": "production_preflight",
+        "workflow": ".github/workflows/rcap-production-canary.yml",
+        "script": "scripts/rcap-production-canary.mjs",
+        "actualCommand": "npx vercel@latest deploy --archive=tgz --yes --prod --skip-domain --scope roger947s-projects with exact application/worker/tools metadata; token is supplied by the protected workflow, never printed or copied.",
+        "effect": "May create one Production-target staged application if no matching READY candidate exists. It preserves current Production aliases and records the exact rollback deployment plus runtime Supabase identity. Despite its read-only job label, this phase can create a staged deployment."
+      },
+      {
+        "step": "Smoke the exact staged application and its Production schema",
+        "existingMode": "production_smoke",
+        "script": "scripts/rcap-production-canary-smoke.mjs",
+        "effect": "Runs the existing bounded smoke; consumes exact staged/rollback identities and verifies runtime/schema behavior. It must produce new evidence for the new tuple. Historical smoke is not current proof."
+      },
+      {
+        "step": "Promote the previously smoked staged application",
+        "existingMode": "production_activate",
+        "script": "scripts/rcap-production-activate.mjs",
+        "actualCommand": "npx vercel@latest promote EXACT_REVIEWED_STAGED_DEPLOYMENT_ID --yes --timeout=5m --scope roger947s-projects using the protected workflow token.",
+        "effect": "Moves Production domains to that existing deployment, checks health/canonical Supabase/runtime/environment metadata, and rolls back to the exact READY previous deployment on post-promotion failure. It does not build the application, migrate the database, change environment entries or roll out a worker."
+      }
+    ],
+    "supportedFinalDispatchTemplate": "gh workflow run rcap-f1-ephemeral-staging.yml --repo Roger-LegalEase/legalease-partner-dashboard-clean --ref REVIEWED_CAPTAIN_REF -f mode=production_activate -f application_sha=FINAL_APPLICATION_SHA -f worker_source_sha=FINAL_WORKER_SOURCE_SHA -f worker_digest=NEW_ACCEPTED_IMMUTABLE_DIGEST -f tools_sha=REVIEWED_EXECUTION_TOOLS_SHA",
+    "templateExecutableNow": false,
+    "currentHardPins": {
+      "applicationSha": "441ee3188ee52047a012232d8d11f890a09b4ac5",
+      "acceptedToolsSha": "d075ff0fd5627ec55c9d27c3018b1fb77f1fa08b",
+      "workerSourceSha": "441ee3188ee52047a012232d8d11f890a09b4ac5",
+      "workerDigest": "sha256:67132df2d1bee49d123d0d2918880f283d2109195b49150265d348fe1d07a69c",
+      "stagedDeploymentId": "dpl_DGDUFV4B7ufTAW5wsfR2txJE2dVL",
+      "rollbackDeploymentId": "dpl_9WoA51v3wXSvG3VmBKGUEKtVBCfS",
+      "smokeRunId": "32967717618",
+      "smokeArtifact": "rcap-production-smoke-32967717618",
+      "productionWorkflowCanonicalBranch": "sprint/20260825-full-product-captain"
+    },
+    "unmetRequirements": [
+      "Freeze the current application, worker source, accepted immutable digest and execution-tools tuple. Current production controls reject recovery/new-worker values before running.",
+      "Prepare and independently review the existing exact-identity controls and their verifier/mutation pins for the new tuple and current integration history; preserve exact-match/ancestry/equivalence checks. Do not substitute old identities merely to satisfy the current literals.",
+      "Obtain an exact READY staged Production deployment, current READY rollback identity, current runtime/project proof and successful new bounded smoke evidence. None is supplied by publishing/importing/accepting the worker image.",
+      "Read back current Production schema through the existing authorized controlled path. Do not infer unapplied migrations from an old queue entry or apply a migration merely because the workflow offers that mode.",
+      "Bind activation to the actual new successful smoke artifact/run and staged/rollback identities; current hard-pinned32967717618 proves only the historical release.",
+      "Use the existing protected Actions execution surface with its required secret bindings. Their values/usability were not inspected in this review."
+    ],
+    "staleRecordCaution": "The older staging-readiness application-target entry describes invalid Vercel IDs. Later existing production code resolves the named team/project dynamically, so that old entry is not a verified current missing-credential blocker. No live environment values were accessed here."
+  },
+  "workerRollout": {
+    "separateFromApplicationActivation": true,
+    "existingSpecification": "docs/RCAP_RENDER_WORKER_DEPLOYMENT.md",
+    "existingEntrypoint": "node scripts/rcap-render-worker.mjs --loop",
+    "containerCommand": "deploy/rcap-render-worker/Dockerfile CMD invokes that --loop entrypoint",
+    "imageReference": "ghcr.io/roger-legalease/rcap-render-worker@NEW_ACCEPTED_IMMUTABLE_DIGEST",
+    "targetClass": "Managed always-on container service, single instance initially, restart-always equivalent, platform secret manager and stdout drain. The spec names Railway/Fly/ECS/supervised-container classes as alternatives, not a selected existing target.",
+    "targetStatus": "No persistent staging/production worker host or service identifier is named in the existing readiness record. No Fly/Railway/Render/ECS/service/compose deployment configuration was found in the scoped repository filename search. This is absence of a recorded executable target, not proof no external host exists.",
+    "namedMissingInput": {
+      "field": "workerDeploymentTarget",
+      "owner": "Roger",
+      "record": "data/rcap-staging-authorization-readiness.json fields.workerDeploymentTarget"
+    },
+    "exactPlatformRolloutCommandAvailable": false,
+    "why": "The repository specifies the immutable artifact and running process but not a selected platform/service/account, so no legitimate fly/railway/ECS deployment command can be derived without inventing a target.",
+    "unmetRequirements": [
+      "Identify the existing persistent worker platform/account/service and its operator or approve the concrete target if none exists.",
+      "Bind the newly accepted digest to that actual service, using its existing protected package-pull identity and runtime secret manager; do not move or reveal secrets or reuse an Actions GITHUB_TOKEN outside its run.",
+      "Confirm any necessary Production secret/configuration change has its separate existing authorization; choosing a provider or provisioning secret values is not supplied by an image acceptance result.",
+      "Use the existing service rollout mechanism once the target is identified; verify actual running image/source digest, process health, queue-age behavior, graceful drain/restart, and rollback target."
+    ],
+    "notRolloutEvidence": [
+      "Successful GHCR build/publication",
+      "Container acceptance on an ephemeral Actions runner",
+      "Application metadata naming a worker digest",
+      "Vercel application promotion: the activation script explicitly records workerChanged=false"
+    ]
+  },
+  "authorizationAssessment": {
+    "currentUserInstruction": "Use the established release procedure and authorization boundaries. Terminal admission and verified production deployment are separate results; complete both.",
+    "taskLevelProductionAuthorization": "This current instruction authorizes completing the production application deployment and worker rollout as the task, subject to the existing release safeguards. Do not ask for another generic permission to pursue or perform those already requested actions once their concrete prerequisites are satisfied.",
+    "notProvidedByInstruction": [
+      "An absent persistent worker target/account/service identifier",
+      "A new grant for live Supabase migrations, altered RLS/auth/session logic, changed Production secret values, live Stripe behavior, or unreviewed commercial-route activation",
+      "Evidence that the old exact-release tuple or old smoke artifact applies to the new source"
+    ],
+    "explicitApprovalRecordsReviewed": [
+      {
+        "path": "AGENTS.md",
+        "section": "Roger Approval Required",
+        "scope": "Production deployment and live migrations/Production secrets are owner-controlled. The current production request supplies task-level deployment instruction; separate mutation scopes still require their actual authorization."
+      },
+      {
+        "path": "data/rcap-authorization-queue.json",
+        "entry": "auth-2026-08-10-phase-49-packet-render-jobs",
+        "status": "authorized",
+        "scope": "Exact-path/byte conditional Production application after staging readback; explicitly no second business authorization unless path/bytes change. Do not re-request unchanged granted scope."
+      },
+      {
+        "path": "data/rcap-authorization-queue.json",
+        "entries": "Phase50-54 and later scoped implementation entries",
+        "scope": "Mostly repository-integration or ephemeral testing only; these entries do not authorize new live Production migration application."
+      },
+      {
+        "path": "data/rcap-staging-authorization-readiness.json",
+        "entry": "clinicModePreviewMigrationAuthorization",
+        "authorizedBy": "Roger Roman",
+        "authorizedOn": "2026-09-03",
+        "status": "authorized_nonproduction_acceptance_only",
+        "productionAuthorized": false,
+        "scope": "Exact ten-migration Preview window; no Production grant can be inferred from it."
+      }
+    ],
+    "separateCurrentExactReleaseApprovalFound": false,
+    "interpretationOfMissingSeparateRecord": "No separate new blanket approval is invented. The existing production code is concretely pinned to an older frozen tuple, so preparation must produce/review the new exact tuple and required evidence before execution. If finishing that plan requires a separately gated live migration or secret/configuration mutation outside current authorization, its exact action and byte/environment scope must be prepared and presented to Roger at that final boundary.",
+    "nextRequiredOwnerInput": "The persistent worker deployment target/operator is explicitly missing. Request that concrete information only after checking existing verified operational custody; do not invent a hosting provider or claim image publication deploys it."
+  },
+  "preciseNextTaskAfterNewImageAcceptance": "Prepare the existing production preflight/smoke/activation controls for the exact accepted current application/worker/tools tuple, preserving all identity/refusal/rollback checks, and recover the named persistent worker target. The current activation command cannot safely be dispatched unchanged.",
+  "workPerformed": "Read existing files/history plus the registered dispatcher metadata. Only this JSON was written. No deployment/migration/secret read, build, image operation, control edit or workflow dispatch occurred.",
+  "terminalDelta": 0,
+  "productionDeploymentClaimed": false
+}

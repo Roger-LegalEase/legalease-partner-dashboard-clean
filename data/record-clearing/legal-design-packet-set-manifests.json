@@ -1,5 +1,63 @@
 {
   "schemaVersion": 1,
+  "factoryV2RouteMigrations": [
+    {
+      "routeId": "DC:dc_actual_innocence_expungement_16_803",
+      "jurisdiction": "DC",
+      "pathwayId": "dc_actual_innocence_expungement_16_803",
+      "registryTrackIds": [
+        "dc_innocence_expungement"
+      ],
+      "packetFamilyId": "dc_innocence_expungement-set",
+      "migrationKind": "retired_legacy_route_to_factory_v2",
+      "scope": "route_only",
+      "ownerDecisionRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+      "createsCommercialAuthority": false,
+      "opensRoute": false
+    },
+    {
+      "routeId": "IL:felony-prostitution-relief",
+      "jurisdiction": "IL",
+      "pathwayId": "felony-prostitution-relief",
+      "registryTrackIds": [
+        "il-prostitution-j-vacate"
+      ],
+      "packetFamilyId": "il-prostitution-j-vacate-set",
+      "migrationKind": "retired_legacy_route_to_factory_v2",
+      "scope": "route_only",
+      "ownerDecisionRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+      "createsCommercialAuthority": false,
+      "opensRoute": false
+    },
+    {
+      "routeId": "MS:additional-justice-court-misdemeanor-relief-9-11-15-3",
+      "jurisdiction": "MS",
+      "pathwayId": "additional-justice-court-misdemeanor-relief-9-11-15-3",
+      "registryTrackIds": [
+        "ms-misd-addl"
+      ],
+      "packetFamilyId": "ms-misd-addl-set",
+      "migrationKind": "retired_legacy_route_to_factory_v2",
+      "scope": "route_only",
+      "ownerDecisionRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+      "createsCommercialAuthority": false,
+      "opensRoute": false
+    },
+    {
+      "routeId": "MS:additional-municipal-court-misdemeanor-relief-21-23-7-6",
+      "jurisdiction": "MS",
+      "pathwayId": "additional-municipal-court-misdemeanor-relief-21-23-7-6",
+      "registryTrackIds": [
+        "ms-misd-addl"
+      ],
+      "packetFamilyId": "ms-misd-addl-set",
+      "migrationKind": "retired_legacy_route_to_factory_v2",
+      "scope": "route_only",
+      "ownerDecisionRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+      "createsCommercialAuthority": false,
+      "opensRoute": false
+    }
+  ],
   "packetSets": [
     {
       "jurisdiction": "AK",
@@ -4653,14 +4711,41 @@
           "componentId": "ca-diversion-seal-primary-filing-2",
           "role": "primary_filing",
           "requirement": "conditional",
-          "conditionDescription": "Only in counties where LegalEase has collected and approved the current local petition and order set. No county qualifies yet.",
+          "conditionDescription": "San Diego County only. SDSC form CRM-307 is a local form of the Superior Court of California, County of San Diego. It is used when the diversion or deferred entry of judgment was handled in San Diego County, and it is not used in any other county.",
           "outputStrategy": "official_pdf_fill",
           "officialFormId": "SDSC-CRM-307",
           "officialSourceUrl": "https://www.sdcourt.ca.gov/sites/default/files/sdcourt/generalinformation/forms/criminalforms/crm307.pdf",
-          "order": 2
+          "order": 2,
+          "countyScope": "SAN_DIEGO_ONLY",
+          "statutorySection": "Cal. Penal Code § 851.90",
+          "doNotUseOutsideCountyScope": "Do not file CRM-307 in any court other than the Superior Court of California, County of San Diego. A county's local form has no effect in another county's court."
+        },
+        {
+          "componentId": "ca-diversion-seal-primary-filing-4",
+          "role": "primary_filing",
+          "requirement": "conditional",
+          "conditionDescription": "Every county other than San Diego. Used when the diversion or deferred entry of judgment was handled outside San Diego County. Where LegalEase has collected and approved that county's own local petition and order set, that set is used; where it has not, and where a participant-created pleading is authorised for the route, the participant's own pleading is used with court-specific guidance. No county's local set is approved yet.",
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "countyScope": "ALL_COUNTIES_OTHER_THAN_SAN_DIEGO",
+          "statutorySection": "Cal. Penal Code § 851.90",
+          "order": 4
         }
       ],
       "participantActionRequired": [
+        {
+          "kind": "confirm_answer",
+          "description": "Confirm which county handled the diversion or deferred entry of judgment. SDSC form CRM-307 is a San Diego Superior Court local form and is used only there; every other county uses its own local petition and order set, or a pleading you prepare where that is authorised. Ask the clerk or self-help centre of the superior court that handled the case.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Confirm which statute your sealing is brought under. This packet set is Penal Code § 851.90, sealing after drug diversion or deferred entry of judgment. Penal Code § 851.91, sealing an arrest that did not result in a conviction, is a different statute with its own statewide Judicial Council forms CR-409 and CR-410, and neither route's forms or answers carry across to the other.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
         {
           "kind": "obtain_document",
           "description": "Obtain Proof of programme completion. Ask the court or the programme provider for documentation that you completed the programme. LegalEase does not obtain, receive or inspect it.",
@@ -4726,6 +4811,8 @@
         }
       ],
       "requiredBeforeFiling": [
+        "Confirm which county handled the diversion or deferred entry of judgment. SDSC form CRM-307 is a San Diego Superior Court local form and is used only there; every other county uses its own local petition and order set, or a pleading you prepare where that is authorised. Ask the clerk or self-help centre of the superior court that handled the case.",
+        "Confirm which statute your sealing is brought under. This packet set is Penal Code § 851.90, sealing after drug diversion or deferred entry of judgment. Penal Code § 851.91, sealing an arrest that did not result in a conviction, is a different statute with its own statewide Judicial Council forms CR-409 and CR-410, and neither route's forms or answers carry across to the other.",
         "Obtain Proof of programme completion. Ask the court or the programme provider for documentation that you completed the programme. LegalEase does not obtain, receive or inspect it.",
         "Check your answer to \"Did you successfully complete the programme?\" against Proof of programme completion, and correct the packet if they disagree.",
         "Obtain The county's own petition and order forms. Ask the county clerk or self-help centre which local form applies to a § 851.90 sealing. There is no statewide Judicial Council form for this route.",
@@ -4996,6 +5083,78 @@
           "officialFormId": "JDF-417-ORDER",
           "officialSourceUrl": null,
           "order": 2
+        },
+        {
+          "componentId": "co_petition_seal_arrest-jdf-419-3",
+          "role": "required_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "JDF-419",
+          "requiredOfficialFormId": "JDF-419",
+          "sourceStatus": "held_in_nationwide_recovery_pool_bound_by_exact_digest_caption_overlay_built_revision_currency_open",
+          "sourceStatusBasis": "JDF 416 (R: July 1, 2025), under the printed heading \"③ File the Request — File these forms into your criminal case or start a new case in the District Court:\", lists \"JDF 417 Request\", \"JDF 418 Order (just do §§ A-C)\", \"JDF 419 Notice (Just do §§ A-C)\" and \"JDF 435 Order (just do §§ A-C)\"; under \"Filing Fees\" it says \"The Clerk will let you know the fee (if any) when filing. If you cannot afford the fee, also file: JDF 205 Motion to Waive Fees; JDF 206 Order (Just do §§ A-C)\". Guide sha256 26b07edc2300b2fd9dc8a5114fa3738fb4b377a7aa1ea089cecf6861b96235af. This component is JDF-419: the order and notice of hearing the petitioner tenders with the caption completed; the court supplies the finding, the hearing particulars, the signature and the certificate of service. The petitioner completes the caption only. Its bytes are held in custody nationwide_recovery_pool_2026_09_02 (declared in data/rcap-all50/local-source-corpus-index.json at root private/source-imports/Nationwide_Recovery_Pool_2026-09-02) at sha256 64012a2a3ef643f5b9a587e5181c3332f788764324003709913688d2f9bd86a2, bound by exact digest and by the identity read from the document's own printed face, which the index records beside the entry as identityDetermination. The overlay family data/rcap-all50/overlays/production/colorado/jdf-419-form-notice-en binds the three caption facts the platform holds (county, the petitioner's own name, an existing case number), refuses everything after the caption by role, and carries digest-verified canonical and boundary renders produced by scripts/rcap-official-forms/build-colorado-caption-only-families.mjs. REVISION CURRENCY IS OPEN: the held copy is the R 8/19 flat revision with an unlettered caption band, while the JDF 416 that names it is R: July 1, 2025 and says \"§§ A-C\", so a later revision is likely. The issuing court's hosts were unreachable from the build environment on 2026-09-15 (the egress proxy answered 403 to CONNECT for www.coloradojudicial.gov:443 and www.courts.state.co.us:443), so the current revision could not be fetched; source-freshness review stays open and is not a build blocker.",
+          "officialSourceUrl": null,
+          "order": 3,
+          "officialFormIdentityResolved": true,
+          "sourceSha256": "64012a2a3ef643f5b9a587e5181c3332f788764324003709913688d2f9bd86a2",
+          "sourceCustody": "nationwide_recovery_pool_2026_09_02",
+          "overlayFamily": "data/rcap-all50/overlays/production/colorado/jdf-419-form-notice-en",
+          "revisionCurrency": {
+            "heldRevision": "R 8/19",
+            "namedBy": "JDF 416 R: July 1, 2025",
+            "status": "revision_confirmation_required",
+            "issuerReachableAtBuild": false,
+            "recordedOn": "2026-09-15"
+          },
+          "supersededOn": "2026-09-15",
+          "supersededSourceStatus": "absent_from_verified_corpus",
+          "supersededSourceStatusBasis": "The official JDF-416 filing guide lists JDF-419 among the documents that must be filed. The verified corpus contains JDF-417 and JDF-418 only."
+        },
+        {
+          "componentId": "co_petition_seal_arrest-jdf-435-4",
+          "role": "required_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "JDF-435",
+          "requiredOfficialFormId": "JDF-435",
+          "sourceStatus": "held_in_nationwide_recovery_pool_bound_by_exact_digest_caption_overlay_built_revision_currency_open",
+          "sourceStatusBasis": "JDF 416 (R: July 1, 2025), under the printed heading \"③ File the Request — File these forms into your criminal case or start a new case in the District Court:\", lists \"JDF 417 Request\", \"JDF 418 Order (just do §§ A-C)\", \"JDF 419 Notice (Just do §§ A-C)\" and \"JDF 435 Order (just do §§ A-C)\"; under \"Filing Fees\" it says \"The Clerk will let you know the fee (if any) when filing. If you cannot afford the fee, also file: JDF 205 Motion to Waive Fees; JDF 206 Order (Just do §§ A-C)\". Guide sha256 26b07edc2300b2fd9dc8a5114fa3738fb4b377a7aa1ea089cecf6861b96235af. This component is JDF-435: the order DENYING the petition, tendered blank alongside the JDF 418 grant order so the court can sign whichever outcome it reaches; it is not a second grant order and a participant must not be told otherwise. The petitioner completes the caption only. Its bytes are held in custody nationwide_recovery_pool_2026_09_02 (declared in data/rcap-all50/local-source-corpus-index.json at root private/source-imports/Nationwide_Recovery_Pool_2026-09-02) at sha256 59026b6ad9809e21fd9cb071adb5725329ac7a65f4a7c3055b11ac57b9f2dd15, bound by exact digest and by the identity read from the document's own printed face, which the index records beside the entry as identityDetermination. The overlay family data/rcap-all50/overlays/production/colorado/jdf-435-form-order-en binds the three caption facts the platform holds (county, the petitioner's own name, an existing case number), refuses everything after the caption by role, and carries digest-verified canonical and boundary renders produced by scripts/rcap-official-forms/build-colorado-caption-only-families.mjs. REVISION CURRENCY IS OPEN: the held copy is the R 8/19 flat revision with an unlettered caption band, while the JDF 416 that names it is R: July 1, 2025 and says \"§§ A-C\", so a later revision is likely. The issuing court's hosts were unreachable from the build environment on 2026-09-15 (the egress proxy answered 403 to CONNECT for www.coloradojudicial.gov:443 and www.courts.state.co.us:443), so the current revision could not be fetched; source-freshness review stays open and is not a build blocker.",
+          "officialSourceUrl": null,
+          "order": 4,
+          "officialFormIdentityResolved": true,
+          "sourceSha256": "59026b6ad9809e21fd9cb071adb5725329ac7a65f4a7c3055b11ac57b9f2dd15",
+          "sourceCustody": "nationwide_recovery_pool_2026_09_02",
+          "overlayFamily": "data/rcap-all50/overlays/production/colorado/jdf-435-form-order-en",
+          "revisionCurrency": {
+            "heldRevision": "R 8/19",
+            "namedBy": "JDF 416 R: July 1, 2025",
+            "status": "revision_confirmation_required",
+            "issuerReachableAtBuild": false,
+            "recordedOn": "2026-09-15"
+          },
+          "supersededOn": "2026-09-15",
+          "supersededSourceStatus": "absent_from_verified_corpus",
+          "supersededSourceStatusBasis": "The official JDF-416 filing guide lists JDF-435 among the documents that must be filed. The verified corpus contains JDF-417 and JDF-418 only."
+        },
+        {
+          "componentId": "co_petition_seal_arrest-jdf-205-206-fee-waiver-5",
+          "role": "conditional_filing",
+          "requirement": "conditional",
+          "conditionDescription": "Filed only where the participant cannot afford the filing fee and asks the court to waive it.",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "requiredOfficialFormId": "JDF-205/JDF-206",
+          "sourceStatus": "conditional_guidance_instructed_not_rendered_by_this_set",
+          "sourceStatusBasis": "JDF 416 (R: July 1, 2025), under the printed heading \"③ File the Request — File these forms into your criminal case or start a new case in the District Court:\", lists \"JDF 417 Request\", \"JDF 418 Order (just do §§ A-C)\", \"JDF 419 Notice (Just do §§ A-C)\" and \"JDF 435 Order (just do §§ A-C)\"; under \"Filing Fees\" it says \"The Clerk will let you know the fee (if any) when filing. If you cannot afford the fee, also file: JDF 205 Motion to Waive Fees; JDF 206 Order (Just do §§ A-C)\". Guide sha256 26b07edc2300b2fd9dc8a5114fa3738fb4b377a7aa1ea089cecf6861b96235af. JDF 205 and JDF 206 are CONDITIONAL — filed only where the participant cannot afford the fee — and this set does not render them: the participant is told, in the packet's own filing instructions, when they apply and that they are obtained from the Colorado Judicial Department (www.ColoradoJudicial.gov). Their bytes are not in any custody mounted to this build: they are adopted at exact digest in custody user_upload_adopted_20260911 (data/rcap-grade-a/source-wave-integration/SOURCE_USER_UPLOAD_ADOPTION_2026-09-11.json: JDF 205 sha256 45b12f9ace73c369607a5b508d7010f2bc0eeaac1fa1a7357493d61dfb831f6b, printed revision April 2, 2024, https://www.coloradojudicial.gov/sites/default/files/2024-05/JDF205.pdf; JDF 206 sha256 36ad409286aa60f7af3195c5534a0f969a4682079271ba4cc6068f31cee71dc4, printed revision August 20, 2024, https://www.coloradojudicial.gov/sites/default/files/2024-08/JDF206.pdf), a custody not mounted where this set was built. A guidance-instructed conditional component names no document source and is excluded from the factory's source check by the existing rule for process_guidance components; nothing about that rule was loosened.",
+          "officialSourceUrl": null,
+          "order": 5,
+          "guidanceInstruction": "If you cannot afford the filing fee, also file JDF 205 Motion to Waive Fees and JDF 206 Order (complete §§ A-C only). Both forms are published by the Colorado Judicial Department at www.ColoradoJudicial.gov; the Clerk will tell you the fee, if any, when you file.",
+          "supersededOn": "2026-09-15",
+          "supersededSourceStatus": "absent_from_verified_corpus",
+          "supersededSourceStatusBasis": "The JDF-416 guide names the conditional JDF-205/JDF-206 fee-waiver process. Neither form is in the verified corpus.",
+          "supersededOutputStrategy": "official_pdf_fill"
         }
       ],
       "participantActionRequired": [
@@ -5034,13 +5193,13 @@
         },
         {
           "kind": "pay_fee",
-          "description": "The filing fee for this petition remains unresolved.",
+          "description": "JDF 416 § Filing Fees: “The Clerk will let you know the fee (if any) when filing.” No held source states an amount, and none is invented.",
           "requirement": "required",
           "requiredBeforeFiling": true
         },
         {
           "kind": "apply_fee_waiver",
-          "description": "The source review does not address a fee waiver for this petition.",
+          "description": "JDF 416 § Filing Fees: “If you cannot afford the fee, also file: JDF 205 Motion to Waive Fees; JDF 206 Order (Just do §§ A-C).” Neither JDF 205 nor JDF 206 is rendered by this packet; the participant obtains them from the Colorado Judicial Department.",
           "requirement": "conditional",
           "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
           "requiredBeforeFiling": true
@@ -5064,9 +5223,34 @@
         "Signature and date — JDF 417, signature block.",
         "The petitioner signs their own petition.",
         "The source review does not state a notarization requirement.",
-        "The filing fee for this petition remains unresolved.",
-        "The source review does not address a fee waiver for this petition."
-      ]
+        "JDF 416 § Filing Fees: “The Clerk will let you know the fee (if any) when filing.”",
+        "JDF 416 § Filing Fees: “If you cannot afford the fee, also file: JDF 205 Motion to Waive Fees; JDF 206 Order (Just do §§ A-C).”"
+      ],
+      "packetSetCompleteness": {
+        "state": "complete",
+        "basis": "The official JDF 416 filing guide requires four documents and names all four: JDF 417 (Request), JDF 418 (Order), JDF 419 (Notice) and JDF 435 (Order), plus the conditional JDF 205/JDF 206 fee-waiver pair. All four required documents now have an official identity, a digest-bound source and an overlay family: JDF 417 and JDF 418 from the Master Library as before, and JDF 419 and JDF 435 from custody nationwide_recovery_pool_2026_09_02, bound by exact SHA-256 and by the identity read off each document's printed face, with caption-only overlay families under data/rcap-all50/overlays/production/colorado/ built by scripts/rcap-official-forms/build-colorado-caption-only-families.mjs. The fee-waiver pair is conditional and guidance-instructed rather than rendered, which the existing factory rule already expresses for process_guidance components without any loosening. The set is complete as a build input. Two review items stay open and are recorded on the components rather than hidden: the held JDF 419 and JDF 435 are the R 8/19 revisions against a guide of R: July 1, 2025, and the issuer was unreachable on 2026-09-15; and nothing here is legally, visually or commercially approved.",
+        "recordedBy": "Sprint captain agent on 2026-09-15, executing Roger Roman's instruction to restore the two participant-filed Colorado adult sealing routes as packet-capable factory_v2 routes without making them sellable",
+        "recordedOn": "2026-09-15",
+        "revisionCurrency": {
+          "openFor": [
+            "JDF-419",
+            "JDF-435"
+          ],
+          "heldRevision": "R 8/19",
+          "namedBy": "JDF 416 R: July 1, 2025",
+          "status": "revision_confirmation_required",
+          "issuerReachableAtBuild": false,
+          "note": "The issuing court's hosts were unreachable from the build environment on 2026-09-15 (the egress proxy answered 403 to CONNECT for www.coloradojudicial.gov:443 and www.courts.state.co.us:443), so the current revision could not be fetched; source-freshness review stays open and is not a build blocker."
+        },
+        "makesNothingSellable": "A complete packet set is a build input for the shared factory. Counsel status, visual review, source currency, fulfillment authority and payment are separate gates and none of them moves here.",
+        "supersedes": {
+          "state": "incomplete",
+          "basis": "The official JDF-416 filing guide requires JDF-417, JDF-418, JDF-419 and JDF-435, plus the conditional JDF-205/JDF-206 fee-waiver process. The verified corpus holds JDF-417 and JDF-418. Two required filings and the conditional fee-waiver pair have no source, so this set cannot produce a complete filing.",
+          "recordedBy": "Captain A, integrating the Lane G Colorado audit",
+          "recordedOn": "2026-08-29",
+          "whyItWasWrong": "Its premise. It recorded JDF 419 and JDF 435 as absent from the verified corpus, and the fee-waiver pair as absent. The two orders were held the whole time, in the nationwide_recovery_pool_2026_09_02 custody the corpus index declares, at the exact digests the index records, filed under reference-only/ and classified as never-a-participant-filing artifacts — a classification the JDF 416 guide itself contradicts, since it lists both under \"File the Request\" with \"just do §§ A-C\". Being completed by the court after the caption does not make a document reference material. What was true is that no overlay family existed for either and that JDF 205/206 are not in a mounted custody; the first is now built and the second is a conditional guidance component, which the factory rule already expresses."
+        }
+      }
     },
     {
       "jurisdiction": "CO",
@@ -5137,6 +5321,34 @@
           "officialFormId": "JDF-478",
           "officialSourceUrl": null,
           "order": 2
+        },
+        {
+          "componentId": "co_motion_seal_nonconviction-notice-3",
+          "role": "required_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": null,
+          "requiredOfficialFormId": "JDF-493",
+          "sourceStatus": "held_binary_is_a_flat_pdf_at_a_superseded_revision",
+          "sourceStatusBasis": "The official JDF 491 guide, “Guide to Sealing Non-Conviction Records (simplified process)”, R: August 7, 2024, names four forms under its printed heading “File the Request — File these forms into your criminal case”, with no branch and no condition between them: “JDF 477 Motion”, “JDF 492 Order (just do §§ A-C)”, “JDF 493 Notice (Just do §§ A-C)” and “JDF 478 Order (just do §§ A-C)”. Its page 2 confirms one process for cases ending in acquittal, a completed diversion agreement, a completed deferred judgment or a vacated conviction, under C.R.S. §§ 24-72-705 and 707 — the same statute and the same dispositions as this route. The guide is held at sha256 79dca4e720161b68ae74a8973392bbe22c05f565f704c609ec7cc7da0fcd3685 in the mounted Master Library at STATES/CO/03_INSTRUCTIONS/CO__INSTRUCTIONS__JDF-491__guide-to-sealing-non-conviction-records__REV-2024-08-07__EN.pdf. The notice is JDF 493. TWO THINGS ABOUT THE HELD BINARY TRAVEL WITH THIS COMPONENT. FIRST, the committed index carries “LegalEase Colorado/reference-only/JDF-493__order-and-notice-of-hearing-to-seal-non-conviction-records__rev-2019-08.pdf”, sha256 fb500eb1d0f04e7ab5a7bd1f4932cff27edb451a5c2d66c60288fad96726ef1c, 51,649 bytes, 1 page, in custody nationwide_recovery_pool_2026_09_02, with formNumber null, assetClass null, acroFormPresent false, acroFieldCount 0 and structuralClassObserved flat_pdf. Lane FIX157, 2026-09-10 found that custody mounted and re-hashed the file: the bytes on disk carry that exact digest. SECOND, the held revision is 2019-08 and the guide that names it is R: August 7, 2024. The guide says to complete “§§ A-C” and the held 2019 document has no lettered sections at all — its caption band is unlettered and it prints a CERTIFICATE OF SERVICE that the 2024-revision orders in this family do not. So this component is not blocked in the same way as its sibling: the held binary carries zero form fields and cannot be filled by the official_pdf_fill strategy this component declares, and there is affirmative evidence on its own face that it is not the revision the 2024 guide names. What is owed here is acquisition of JDF 493 at the revision JDF 491 R: August 7, 2024 names, not a classification of the held bytes.",
+          "officialSourceUrl": null,
+          "order": 3,
+          "officialFormIdentityResolved": true
+        },
+        {
+          "componentId": "co_motion_seal_nonconviction-second-order-4",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": null,
+          "requiredOfficialFormId": "JDF-492",
+          "sourceStatus": "held_in_a_custody_the_index_does_not_identify",
+          "sourceStatusBasis": "The official JDF 491 guide, “Guide to Sealing Non-Conviction Records (simplified process)”, R: August 7, 2024, names four forms under its printed heading “File the Request — File these forms into your criminal case”, with no branch and no condition between them: “JDF 477 Motion”, “JDF 492 Order (just do §§ A-C)”, “JDF 493 Notice (Just do §§ A-C)” and “JDF 478 Order (just do §§ A-C)”. Its page 2 confirms one process for cases ending in acquittal, a completed diversion agreement, a completed deferred judgment or a vacated conviction, under C.R.S. §§ 24-72-705 and 707 — the same statute and the same dispositions as this route. The guide is held at sha256 79dca4e720161b68ae74a8973392bbe22c05f565f704c609ec7cc7da0fcd3685 in the mounted Master Library at STATES/CO/03_INSTRUCTIONS/CO__INSTRUCTIONS__JDF-491__guide-to-sealing-non-conviction-records__REV-2024-08-07__EN.pdf. The second order is JDF 492. The committed index carries “LegalEase Colorado/JDF492.pdf”, sha256 6b7e427a9696110d6568909802ab9204f9e80d01ca33e577e71678f9514dc996, 546,426 bytes, 1 page, AcroForm with 13 fields, in custody nationwide_recovery_pool_2026_09_02. The earlier basis said this custody \"is not mounted in the packet-factory containers\" and that the digest was therefore quoted rather than measured. That is false of a container that has it. The index's own custodies array declares nationwide_recovery_pool_2026_09_02 at root private/source-imports/Nationwide_Recovery_Pool_2026-09-02, pathsRelativeTo custodyRoot; Lane FIX157, 2026-09-10 found it mounted in its lane worktree and re-hashed the file there. data/rcap-grade-a/packet-factory-24h/PRIVATE_CUSTODY_MOUNT.json records why a lane can see it absent: private/ is gitignored and exists only where it was materialised, so its absence from a checkout proves nothing about custody. The bytes on disk hash to that exact digest, and Lane FIX157, 2026-09-10 read the document: it is headed “JDF 492  Order Denying Request to Seal Non-Conviction Records”, carries lettered sections A. Court, B. Parties to the Case and C. Case Details — the “§§ A-C” the guide tells a filer to complete — and its footer reads “JDF 492 - Order Denying Request to Seal Non-Conviction Records   R: August 7, 2024   Page 1 of 1”, the same revision as the guide. So the identity is established from the document's own printed face, and the “second order” this route requires is the DENIAL order tendered alongside the JDF 478 grant order, not a second grant; a participant must not be told otherwise. WHAT ACTUALLY BLOCKS DELIVERY is the committed index's own identity fields, not the bytes and not the mount. This entry carries formNumber null and assetClass null. Every build in this factory binds an official form by state + formNumber + assetClass \"FORM\" and only then hashes it, so no build can bind a binary the index does not identify, and binding it by file name instead would rest the packet's source claim on a file name. What is owed is a source-identity determination over the nationwide_recovery_pool_2026_09_02 entries, not a re-acquisition of bytes.",
+          "officialSourceUrl": null,
+          "order": 4,
+          "officialFormIdentityResolved": true
         }
       ],
       "participantActionRequired": [
@@ -5188,7 +5400,7 @@
         },
         {
           "kind": "serve_party",
-          "description": "The source review does not state a separate service requirement beyond the court's process.",
+          "description": "JDF 491 § ③ Send a Copy: “Mail a copy of your motion to the Prosecuting Attorney’s office.” The earlier sentence here, “The source review does not state a separate service requirement beyond the court's process”, is contradicted by the held guide and is corrected by Lane FIX157 on 2026-09-10. No held source states a deadline or a method for that mailing, and none is invented.",
           "requirement": "required",
           "requiredBeforeFiling": false
         },
@@ -5207,7 +5419,13 @@
         "The source review does not state a notarization requirement.",
         "The source review does not state a filing fee for the simplified motion.",
         "The source review does not address a fee waiver."
-      ]
+      ],
+      "packetSetCompleteness": {
+        "state": "incomplete",
+        "basis": "The official JDF 491 guide requires a motion, an order, a notice and a second order, and it names all four: JDF 477 (Motion), JDF 492 (Order), JDF 493 (Notice) and JDF 478 (Order). The verified Master Library holds JDF-477 and JDF-478, and this packet delivers those two. JDF 492 and JDF 493 are NOT delivered. Until 2026-09-10 this manifest declared only the two delivered components, so no committed record said this route owes four documents, and the delivered participant guide stated without qualification that the packet is “two Colorado Judicial Department forms, filed together”. The two undelivered components are not owed the same thing: JDF 492's identity is established from its own printed face and its bytes are held at the digest the committed index records, blocked only because that index entry carries formNumber null and assetClass null; the JDF 493 the recovery pool holds is a 2019-08 flat PDF with zero form fields against a 2024-08-07 guide, so acquisition at the named revision is owed for it. The set is incomplete because two required documents are missing.",
+        "recordedBy": "Lane FIX157 on 2026-09-10, recording the COMPONENT_SET gap VF22 found at base 8db74d6e5 after reading JDF 491 itself, and adding the two components this manifest had never declared",
+        "recordedOn": "2026-09-10"
+      }
     },
     {
       "jurisdiction": "CO",
@@ -5347,6 +5565,78 @@
           "officialFormId": "JDF-615",
           "officialSourceUrl": null,
           "order": 2
+        },
+        {
+          "componentId": "co_motion_seal_conviction-notice-3",
+          "role": "required_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "JDF-614",
+          "requiredOfficialFormId": "JDF-614",
+          "sourceStatus": "held_in_nationwide_recovery_pool_bound_by_exact_digest_identity_read_from_printed_face_caption_overlay_built",
+          "sourceStatusBasis": "JDF 611 (R: August 7, 2024), under the printed heading \"③ File the Request — File these forms into your criminal case:\", lists \"JDF 612 Motion\", \"JDF 613 Order (just do §§ A-C)\", \"JDF 614 Notice (Just do §§ A-C)\" and \"JDF 615 Order (just do §§ A-C)\"; under \"③ Filing Fees\" it says \"The Clerk will let you know the fee (if any) when filing. If you cannot afford the fees, also file: JDF 205 Motion to Waive Fees; JDF 206 Order (Just do §§ A-C)\". Guide sha256 b628ee77cfdbb1e02208a74b04f6a03083e2843505f4bb4a7c3e0f2b3503843e. This component is JDF-614: the order and notice of hearing the movant tenders with sections A-C completed; the court supplies the hearing date and time, the finding that a hearing is necessary, the objection deadline and the signature. The movant completes sections A. Court, B. Parties to the Case and C. Case Details only. Its bytes are held in custody nationwide_recovery_pool_2026_09_02 at index path \"LegalEase Colorado/JDF614.pdf\", sha256 08f0a13f9aa7f5036f6f28748648fdee56aed9ee1f511f6f10e183e0bfa5e08b, revision R: August 7, 2024 — the same revision as the guide that names it. The index entry keeps formNumber null because that custody is partial and its invariant forbids a label-bindable form number; the identity is bound instead by exact digest and by the identityDetermination the index now records beside the entry, read from the document's own printed face and from the guide. The overlay family data/rcap-all50/overlays/production/colorado/jdf-614-form-notice-en binds the three caption facts the platform holds (county, the movant's own name, the case number), refuses everything after the caption by role, and carries digest-verified canonical and boundary renders produced by scripts/rcap-official-forms/build-colorado-caption-only-families.mjs. The issuing court's hosts were unreachable from the build environment on 2026-09-15 (the egress proxy answered 403 to CONNECT for www.coloradojudicial.gov:443 and www.courts.state.co.us:443), so the current revision could not be fetched; source-freshness review stays open and is not a build blocker.",
+          "officialSourceUrl": null,
+          "order": 3,
+          "officialFormIdentityResolved": true,
+          "sourceSha256": "08f0a13f9aa7f5036f6f28748648fdee56aed9ee1f511f6f10e183e0bfa5e08b",
+          "sourceCustody": "nationwide_recovery_pool_2026_09_02",
+          "sourceCorpusIndexPath": "LegalEase Colorado/JDF614.pdf",
+          "overlayFamily": "data/rcap-all50/overlays/production/colorado/jdf-614-form-notice-en",
+          "revisionCurrency": {
+            "heldRevision": "R: August 7, 2024",
+            "namedBy": "JDF 611 R: August 7, 2024",
+            "status": "candidate_current_source",
+            "issuerReachableAtBuild": false,
+            "recordedOn": "2026-09-15"
+          },
+          "supersededOn": "2026-09-15",
+          "supersededSourceStatus": "held_in_a_custody_the_index_does_not_identify",
+          "supersededSourceStatusBasis": "The official JDF-611 guide requires a notice, and IT NAMES IT: under the printed heading “File the Request — File these forms into your criminal case” the guide lists “JDF 612 Motion”, “JDF 613 Order (just do §§ A-C)”, “JDF 614 Notice (Just do §§ A-C)” and “JDF 615 Order (just do §§ A-C)”. The notice is JDF 614. The earlier basis recorded here said the identity was NOT established because the guide “renders those digits as vector glyphs”; that is false against the held bytes. The digits are ordinary text in the content stream. What misread them was this repository's own line-grouping extractor, which reorders the guide's interleaved glyph runs; the concatenated stream, and pdftotext, both recover the four form numbers as plain text. data/rcap-all50/local-source-corpus-index.json carries the official JDF-611 guide, sha256 b628ee77cfdbb1e02208a74b04f6a03083e2843505f4bb4a7c3e0f2b3503843e, 606,173 bytes, 2 pages, in three custodies including the mounted Master Library at STATES/CO/03_INSTRUCTIONS/CO__INSTRUCTIONS__JDF-611__guide-to-sealing-conviction-records-single-case__REV-2024-08-07__EN.pdf. What remains missing is neither the identity nor the binary. The committed index carries “LegalEase Colorado/JDF614.pdf”, sha256 08f0a13f9aa7f5036f6f28748648fdee56aed9ee1f511f6f10e183e0bfa5e08b, 555,787 bytes, 1 page, AcroForm with 16 fields, in custody nationwide_recovery_pool_2026_09_02. The earlier basis said this custody \"is not mounted in the packet-factory containers\" and that the digest was therefore quoted rather than measured. That is false of a container that has it. The index's own custodies array declares nationwide_recovery_pool_2026_09_02 at root private/source-imports/Nationwide_Recovery_Pool_2026-09-02, pathsRelativeTo custodyRoot; Lane FIX157, 2026-09-10 found it mounted in its lane worktree and re-hashed the file there. data/rcap-grade-a/packet-factory-24h/PRIVATE_CUSTODY_MOUNT.json records why a lane can see it absent: private/ is gitignored and exists only where it was materialised, so its absence from a checkout proves nothing about custody. The bytes on disk hash to that exact digest, and the document is headed “JDF 614 Order and Notice of Hearing (re sealing conviction records)” with lettered sections A. Court, B. Parties to the Case and C. Case Details — the “§§ A-C” JDF 611 tells a filer to complete — and 16 AcroForm fields, matching the count the index records. WHAT ACTUALLY BLOCKS DELIVERY is the committed index's own identity fields, not the bytes and not the mount. This entry carries formNumber null and assetClass null. Every build in this factory binds an official form by state + formNumber + assetClass \"FORM\" and only then hashes it, so no build can bind a binary the index does not identify, and binding it by file name instead would rest the packet's source claim on a file name. What is owed is a source-identity determination over the nationwide_recovery_pool_2026_09_02 entries, not a re-acquisition of bytes. Corrected by lane FIX96 on 2026-09-06 (identity, from the mounted JDF-611 bytes) and again by Lane FIX157, 2026-09-10 (custody and blocker, from the mounted JDF-614 bytes and the committed index entry)."
+        },
+        {
+          "componentId": "co_motion_seal_conviction-second-order-4",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "JDF-613",
+          "requiredOfficialFormId": "JDF-613",
+          "sourceStatus": "held_in_nationwide_recovery_pool_bound_by_exact_digest_identity_read_from_printed_face_caption_overlay_built",
+          "sourceStatusBasis": "JDF 611 (R: August 7, 2024), under the printed heading \"③ File the Request — File these forms into your criminal case:\", lists \"JDF 612 Motion\", \"JDF 613 Order (just do §§ A-C)\", \"JDF 614 Notice (Just do §§ A-C)\" and \"JDF 615 Order (just do §§ A-C)\"; under \"③ Filing Fees\" it says \"The Clerk will let you know the fee (if any) when filing. If you cannot afford the fees, also file: JDF 205 Motion to Waive Fees; JDF 206 Order (Just do §§ A-C)\". Guide sha256 b628ee77cfdbb1e02208a74b04f6a03083e2843505f4bb4a7c3e0f2b3503843e. This component is JDF-613: the order DENYING the request, tendered blank alongside the JDF 615 grant order so the court can sign whichever outcome it reaches; it is not a second grant order and a participant must not be told otherwise. The movant completes sections A. Court, B. Parties to the Case and C. Case Details only. Its bytes are held in custody nationwide_recovery_pool_2026_09_02 at index path \"LegalEase Colorado/reference-only/JDF-613__order-denying-request-to-seal-conviction-records__rev-2024-08-07.pdf\", sha256 0745d99f233c7df13286c581c912d9f87b15187270e3d1773455c1ed51848677, revision R: August 7, 2024 — the same revision as the guide that names it. The index entry keeps formNumber null because that custody is partial and its invariant forbids a label-bindable form number; the identity is bound instead by exact digest and by the identityDetermination the index now records beside the entry, read from the document's own printed face and from the guide. The overlay family data/rcap-all50/overlays/production/colorado/jdf-613-form-order-en binds the three caption facts the platform holds (county, the movant's own name, the case number), refuses everything after the caption by role, and carries digest-verified canonical and boundary renders produced by scripts/rcap-official-forms/build-colorado-caption-only-families.mjs. The issuing court's hosts were unreachable from the build environment on 2026-09-15 (the egress proxy answered 403 to CONNECT for www.coloradojudicial.gov:443 and www.courts.state.co.us:443), so the current revision could not be fetched; source-freshness review stays open and is not a build blocker.",
+          "officialSourceUrl": null,
+          "order": 4,
+          "officialFormIdentityResolved": true,
+          "sourceSha256": "0745d99f233c7df13286c581c912d9f87b15187270e3d1773455c1ed51848677",
+          "sourceCustody": "nationwide_recovery_pool_2026_09_02",
+          "sourceCorpusIndexPath": "LegalEase Colorado/reference-only/JDF-613__order-denying-request-to-seal-conviction-records__rev-2024-08-07.pdf",
+          "overlayFamily": "data/rcap-all50/overlays/production/colorado/jdf-613-form-order-en",
+          "revisionCurrency": {
+            "heldRevision": "R: August 7, 2024",
+            "namedBy": "JDF 611 R: August 7, 2024",
+            "status": "candidate_current_source",
+            "issuerReachableAtBuild": false,
+            "recordedOn": "2026-09-15"
+          },
+          "supersededOn": "2026-09-15",
+          "supersededSourceStatus": "held_in_a_custody_the_index_does_not_identify",
+          "supersededSourceStatusBasis": "The official JDF-611 guide requires a second order, and IT NAMES IT: the same printed list gives “JDF 613 Order (just do §§ A-C)” beside the JDF 615 order this packet does deliver. The second order is JDF 613. The earlier basis recorded the identity as unestablished for the same incorrect reason as the notice above, and it is corrected on the same evidence. The committed index carries “LegalEase Colorado/reference-only/JDF-613__order-denying-request-to-seal-conviction-records__rev-2024-08-07.pdf”, sha256 0745d99f233c7df13286c581c912d9f87b15187270e3d1773455c1ed51848677, 545,525 bytes, 1 page, AcroForm with 13 fields, in custody nationwide_recovery_pool_2026_09_02. The earlier basis said this custody \"is not mounted in the packet-factory containers\" and that the digest was therefore quoted rather than measured. That is false of a container that has it. The index's own custodies array declares nationwide_recovery_pool_2026_09_02 at root private/source-imports/Nationwide_Recovery_Pool_2026-09-02, pathsRelativeTo custodyRoot; Lane FIX157, 2026-09-10 found it mounted in its lane worktree and re-hashed the file there. data/rcap-grade-a/packet-factory-24h/PRIVATE_CUSTODY_MOUNT.json records why a lane can see it absent: private/ is gitignored and exists only where it was materialised, so its absence from a checkout proves nothing about custody. The bytes on disk hash to that exact digest. WHAT ACTUALLY BLOCKS DELIVERY is the committed index's own identity fields, not the bytes and not the mount. This entry carries formNumber null and assetClass null. Every build in this factory binds an official form by state + formNumber + assetClass \"FORM\" and only then hashes it, so no build can bind a binary the index does not identify, and binding it by file name instead would rest the packet's source claim on a file name. What is owed is a source-identity determination over the nationwide_recovery_pool_2026_09_02 entries, not a re-acquisition of bytes. THE CAUTION FIX96 LEFT OPEN IS NOW CLOSED. FIX96 recorded that the index file name calls JDF 613 the ORDER DENYING the request and that it could not confirm this, because the custody was not mounted to it. Lane FIX157, 2026-09-10 read the bytes at that digest and confirms it from the document's own printed face: page 1 is headed “JDF 613  Order Denying Request to Seal Conviction Records”; its section 1 Decision reads “After reviewing the request to seal the Defendant’s records, the Court finds:” with the alternatives “The motion, on its face, is insufficient” and “After review of matters outside the motion, the Defendant is not entitled to relief under C.R.S. §§ 24-72-706 to 710”, followed by “The Court denies the motion because:”; and its footer reads “JDF 613 - Order Denying Request to Seal Conviction Records   R: August 7, 2024   Page 1 of 1”, the same revision as JDF 611. So the “second order” JDF 611 lists is the DENIAL order tendered alongside the JDF 615 grant order, not a second grant, and a participant must not be told otherwise. The form carries lettered sections A. Court, B. Parties to the Case and C. Case Details, which is the “§§ A-C” the guide tells a filer to complete."
+        },
+        {
+          "componentId": "co_motion_seal_conviction-jdf-205-206-fee-waiver-5",
+          "role": "conditional_filing",
+          "requirement": "conditional",
+          "conditionDescription": "Filed only where the participant cannot afford the filing fee and asks the court to waive it.",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "requiredOfficialFormId": "JDF-205/JDF-206",
+          "officialSourceUrl": null,
+          "order": 5,
+          "sourceStatus": "conditional_guidance_instructed_not_rendered_by_this_set",
+          "sourceStatusBasis": "JDF 611 (R: August 7, 2024), under the printed heading \"③ File the Request — File these forms into your criminal case:\", lists \"JDF 612 Motion\", \"JDF 613 Order (just do §§ A-C)\", \"JDF 614 Notice (Just do §§ A-C)\" and \"JDF 615 Order (just do §§ A-C)\"; under \"③ Filing Fees\" it says \"The Clerk will let you know the fee (if any) when filing. If you cannot afford the fees, also file: JDF 205 Motion to Waive Fees; JDF 206 Order (Just do §§ A-C)\". Guide sha256 b628ee77cfdbb1e02208a74b04f6a03083e2843505f4bb4a7c3e0f2b3503843e. JDF 205 and JDF 206 are CONDITIONAL — filed only where the participant cannot afford the fee — and this set does not render them: the participant is told, in the packet's own filing instructions, when they apply and that they are obtained from the Colorado Judicial Department (www.ColoradoJudicial.gov). Their bytes are not in any custody mounted to this build: they are adopted at exact digest in custody user_upload_adopted_20260911 (data/rcap-grade-a/source-wave-integration/SOURCE_USER_UPLOAD_ADOPTION_2026-09-11.json: JDF 205 sha256 45b12f9ace73c369607a5b508d7010f2bc0eeaac1fa1a7357493d61dfb831f6b, printed revision April 2, 2024, https://www.coloradojudicial.gov/sites/default/files/2024-05/JDF205.pdf; JDF 206 sha256 36ad409286aa60f7af3195c5534a0f969a4682079271ba4cc6068f31cee71dc4, printed revision August 20, 2024, https://www.coloradojudicial.gov/sites/default/files/2024-08/JDF206.pdf), a custody not mounted where this set was built. A guidance-instructed conditional component names no document source and is excluded from the factory's source check by the existing rule for process_guidance components; nothing about that rule was loosened.",
+          "guidanceInstruction": "If you cannot afford the filing fee, also file JDF 205 Motion to Waive Fees and JDF 206 Order (complete §§ A-C only). Both forms are published by the Colorado Judicial Department at www.ColoradoJudicial.gov; the Clerk will tell you the fee, if any, when you file.",
+          "supersededOn": "2026-09-15",
+          "supersededSourceStatus": null
         }
       ],
       "participantActionRequired": [
@@ -5400,13 +5690,13 @@
         },
         {
           "kind": "pay_fee",
-          "description": "The source review does not state a filing fee for this motion.",
+          "description": "JDF 611 § ③ Filing Fees: “The Clerk will let you know the fee (if any) when filing.” No held source states an amount, and none is invented.",
           "requirement": "required",
           "requiredBeforeFiling": true
         },
         {
           "kind": "apply_fee_waiver",
-          "description": "The source review does not address a fee waiver.",
+          "description": "JDF 611 § ③ Filing Fees: “If you cannot afford the fees, also file: JDF 205 Motion to Waive Fees; JDF 206 Order (Just do §§ A-C).” Neither JDF 205 nor JDF 206 is in this packet or anywhere in data/rcap-all50/local-source-corpus-index.json; the participant obtains them from the Colorado Judicial Department.",
           "requirement": "conditional",
           "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
           "requiredBeforeFiling": true
@@ -5432,9 +5722,46 @@
         "Signature and date — JDF 612, signature block.",
         "The movant signs their own motion.",
         "The source review does not state a notarization requirement.",
-        "The source review does not state a filing fee for this motion.",
-        "The source review does not address a fee waiver."
-      ]
+        "JDF 611 § ③ Filing Fees: “The Clerk will let you know the fee (if any) when filing.”",
+        "JDF 611 § ③ Filing Fees: “If you cannot afford the fees, also file: JDF 205 Motion to Waive Fees; JDF 206 Order (Just do §§ A-C).”"
+      ],
+      "packetSetCompleteness": {
+        "state": "complete",
+        "basis": "The official JDF 611 filing guide requires a motion, an order, a notice and a second order, and names all four: JDF 612 (Motion), JDF 613 (Order), JDF 614 (Notice) and JDF 615 (Order), plus the conditional JDF 205/JDF 206 fee-waiver pair. All four required documents now have an official identity, a digest-bound source and an overlay family: JDF 612 and JDF 615 from the Master Library as before, and JDF 613 and JDF 614 from custody nationwide_recovery_pool_2026_09_02, bound by exact SHA-256 and by the identity read off each document's printed face and recorded beside the index entries as identityDetermination — the source-identity determination FIX157 said was owed — with caption-only overlay families under data/rcap-all50/overlays/production/colorado/ built by scripts/rcap-official-forms/build-colorado-caption-only-families.mjs. The fee-waiver pair is conditional and guidance-instructed rather than rendered, which the existing factory rule already expresses for process_guidance components without any loosening. The set is complete as a build input. Open review items are recorded, not hidden: the issuer was unreachable on 2026-09-15 so currency past R: August 7, 2024 is unverified; counsel status for this route is hard_gate_pending and does not move; nothing here is legally, visually or commercially approved.",
+        "recordedBy": "Sprint captain agent on 2026-09-15, executing Roger Roman's instruction to restore the two participant-filed Colorado adult sealing routes as packet-capable factory_v2 routes without making them sellable",
+        "recordedOn": "2026-09-15",
+        "revisionCurrency": {
+          "openFor": [
+            "JDF-613",
+            "JDF-614"
+          ],
+          "heldRevision": "R: August 7, 2024",
+          "namedBy": "JDF 611 R: August 7, 2024",
+          "status": "candidate_current_source",
+          "issuerReachableAtBuild": false,
+          "note": "The issuing court's hosts were unreachable from the build environment on 2026-09-15 (the egress proxy answered 403 to CONNECT for www.coloradojudicial.gov:443 and www.courts.state.co.us:443), so the current revision could not be fetched; source-freshness review stays open and is not a build blocker."
+        },
+        "makesNothingSellable": "A complete packet set is a build input for the shared factory. Counsel status (hard_gate_pending for this route), visual review, source currency, fulfillment authority and payment are separate gates and none of them moves here.",
+        "supersedes": {
+          "state": "incomplete",
+          "basis": "The official JDF-611 guide requires a motion, an order, a notice and a second order, and it names all four: JDF 612 (Motion), JDF 613 (Order), JDF 614 (Notice) and JDF 615 (Order). The verified Master Library holds JDF-612 and JDF-615, and this packet delivers those two. JDF 613 and JDF 614 are NOT delivered. Their official identities are established by the guide's own printed list, and their binaries are HELD: the committed index carries both in custody nationwide_recovery_pool_2026_09_02, that custody is declared in the index's own custodies array, and lane FIX157 found it mounted on 2026-09-10, re-hashed both files and got the exact digests the index records. What stops them being rendered is that the index carries those two entries with formNumber null and assetClass null, so no build can bind them by identity. The set is incomplete because two required documents are missing, and what is owed for them is a source-identity determination over the recovery-pool entries rather than a re-acquisition of bytes.",
+          "recordedBy": "Lane FIX157 on 2026-09-10, repairing the COMPONENT_SET finding VF07 returned at base 453ecee9c, after measuring the recovery-pool mount and re-hashing JDF 613 and JDF 614 against the committed index",
+          "recordedOn": "2026-09-10",
+          "supersedes": {
+            "recordedBy": "Captain A, integrating the Lane G Colorado audit; corrected 2026-09-06 by lane FIX96, which read the four form numbers out of the mounted JDF-611 bytes after VF07 found the earlier ‘identity unresolved’ basis false against those bytes",
+            "recordedOn": "2026-09-06",
+            "basis": "The official JDF-611 guide requires a motion, an order, a notice and a second order, and it names all four: JDF 612 (Motion), JDF 613 (Order), JDF 614 (Notice) and JDF 615 (Order). The verified, mounted corpus holds JDF-612 and JDF-615, and this packet delivers those two. JDF 613 and JDF 614 are NOT delivered: their official identities ARE established, by the guide's own printed list, but their binaries sit in custody nationwide_recovery_pool_2026_09_02, which no packet-factory container mounts, so neither can be bound by SHA-256 and neither may be rendered. The set is incomplete because two required documents are missing, not because anything about them is unknown.",
+            "whyItWasWrong": "One clause of it. The two documents really are undelivered and their identities really are established. The clause “their binaries sit in custody nationwide_recovery_pool_2026_09_02, which no packet-factory container mounts, so neither can be bound by SHA-256 and neither may be rendered” is false of a container that has the custody: it is declared in the index, it is mounted in the FIX157 lane worktree, and both binaries hash to the digests the index records. The blocker is the index's identity fields, not the mount.",
+            "supersedes": {
+              "recordedBy": "Captain A, integrating the Lane G Colorado audit",
+              "recordedOn": "2026-08-29",
+              "basis": "The official JDF-611 guide requires a motion, an order, a notice and a second order. The verified corpus holds JDF-612 and JDF-615. The notice and the second order are absent AND their official form numbers are unresolved, so neither the documents nor their identities are established.",
+              "whyItWasWrong": "Only the second half. The two documents really are absent. Their form numbers were never unresolved: JDF-611 prints them, and the extractor that could not read them is this repository's own."
+            }
+          },
+          "whyItWasWrong": "Only its conclusion. FIX157 was right about everything it measured: both documents are identified by the guide's own printed list, both are held at the digests the index records, and what stopped them being rendered was that the index carried them with formNumber null and assetClass null. It was wrong to treat that as a reason the set stays incomplete. The partial custody's own invariant forbids putting a form number on those entries, so the determination FIX157 said was owed could never take that form; it takes the form of an exact-digest binding plus an identity read off the page, recorded beside each entry as identityDetermination, which is exactly what the corpus-index generator says a recovered file may bind by. With that recorded and the overlay families built, the set is complete."
+        }
+      }
     },
     {
       "jurisdiction": "CO",
@@ -5458,7 +5785,7 @@
           "requirement": "required",
           "conditionDescription": null,
           "outputStrategy": "official_pdf_fill",
-          "officialFormId": "JDF-684",
+          "officialFormId": "JDF-686",
           "officialSourceUrl": null,
           "order": 2
         }
@@ -6157,6 +6484,22 @@
       "trackId": "ct-cleanslate-petition",
       "packetSetId": "ct-cleanslate-petition-set",
       "version": "1.0.0",
+      "factoryV2RouteProductization": {
+        "obligationRouteKey": "obligation:track-pathway:CT:ct-cleanslate-petition:petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+        "runtimeRouteId": "CT:petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+        "jurisdiction": "CT",
+        "pathwayId": "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+        "registryTrackIds": [
+          "ct-cleanslate-petition"
+        ],
+        "packetFamilyId": "ct-cleanslate-petition-set",
+        "scope": "route_track_family_only",
+        "legalApproval": null,
+        "postApprovalChangeAudit": null,
+        "createsCommercialAuthority": false,
+        "opensRoute": false,
+        "nextGate": "current CT owner legal approval and post-approval change audit, then separate fulfillment-authority generation"
+      },
       "components": [
         {
           "componentId": "ct-cleanslate-petition-primary-filing-1",
@@ -7445,6 +7788,43 @@
       "trackId": "dc_correct_misattributed_arrest",
       "packetSetId": "dc_correct_misattributed_arrest-set",
       "version": "1.0.0",
+      "factoryV2RouteProductization": {
+        "obligationRouteKey": "obligation:track-only:DC:dc_correct_misattributed_arrest",
+        "runtimeRouteId": "DC:dc_correct_misattributed_arrest",
+        "jurisdiction": "DC",
+        "pathwayId": "dc_correct_misattributed_arrest",
+        "registryTrackIds": [
+          "dc_correct_misattributed_arrest"
+        ],
+        "packetFamilyId": "dc_correct_misattributed_arrest-set",
+        "scope": "route_track_family_only",
+        "legalApproval": {
+          "legalApprovalResult": "ADOPT",
+          "legalDecisionRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+          "legalDecisionOwner": "Roger Roman",
+          "legalDecisionEffectiveDate": "2026-09-02",
+          "requiresSignature": false,
+          "approvalSource": "september_exact_digest_adoption",
+          "approvalCurrent": true,
+          "ownerQualification": "ADOPTED for the limited family-level legal-design purpose stated in this workbook. No runtime, technical, visual, payment, sponsorship, or production authority is granted. Any substantive legal change or shipping-artifact digest change requires re-review.",
+          "shippingArtifactDigestPins": [
+            {
+              "fixture": "canonical",
+              "file": "data/rcap-all50/overlays/census-v1/dc/dc-correct-misattributed-arrest-set--custom-pleading/fixtures/canonical.pdf",
+              "sha256": "d4e4125cb51ec2248468dc093da2d40f66ae1dafc380ed7c2d6f84ec8fc4ce7f"
+            },
+            {
+              "fixture": "boundary",
+              "file": "data/rcap-all50/overlays/census-v1/dc/dc-correct-misattributed-arrest-set--custom-pleading/fixtures/boundary.pdf",
+              "sha256": "4a5cea51f550c553758c09e1ad96f21d0c0f751bdf77ee2da6adb7a2f9dc4225"
+            }
+          ]
+        },
+        "postApprovalChangeAudit": null,
+        "createsCommercialAuthority": false,
+        "opensRoute": false,
+        "nextGate": "post-approval substantive-legal-change audit for OWN-ADOPT-2026-09-02-BATCH-53, then separate fulfillment-authority generation"
+      },
       "components": [
         {
           "componentId": "dc_correct_misattributed_arrest-primary-filing-1",
@@ -7455,6 +7835,26 @@
           "officialFormId": null,
           "officialSourceUrl": null,
           "order": 1
+        },
+        {
+          "componentId": "dc_correct_misattributed_arrest-prosecutor-service-2",
+          "role": "prosecutor_service",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 2
+        },
+        {
+          "componentId": "dc_correct_misattributed_arrest-filing-instructions-3",
+          "role": "filing_instructions",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 3
         }
       ],
       "participantActionRequired": [
@@ -7633,8 +8033,8 @@
           "role": "primary_filing",
           "requirement": "required",
           "conditionDescription": null,
-          "outputStrategy": "official_pdf_fill",
-          "officialFormId": "DE-SBI-MANDATORY-EXPUNGEMENT-APPLICATION",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
           "officialSourceUrl": "https://dsp.delaware.gov/expungements/",
           "order": 1
         }
@@ -7712,7 +8112,7 @@
       "jurisdiction": "DE",
       "trackId": "de_discretionary_superior_court",
       "packetSetId": "de_discretionary_superior_court-set",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "components": [
         {
           "componentId": "de_discretionary_superior_court-primary-filing-1",
@@ -7743,16 +8143,6 @@
           "officialFormId": "CIV_EXP_04_A",
           "officialSourceUrl": null,
           "order": 3
-        },
-        {
-          "componentId": "de_discretionary_superior_court-cover-sheet-4",
-          "role": "cover_sheet",
-          "requirement": "required",
-          "conditionDescription": null,
-          "outputStrategy": "custom_pleading",
-          "officialFormId": null,
-          "officialSourceUrl": null,
-          "order": 4
         }
       ],
       "participantActionRequired": [
@@ -7771,11 +8161,10 @@
         },
         {
           "kind": "obtain_document",
-          "description": "Obtain SBI eligibility letter. The SBI issues the letter after reviewing the certified criminal history.",
+          "description": "Obtain and attach the SBI Cover Letter issued by the State Bureau of Identification after its review of the certified criminal history. The Superior Court filing instructions require this letter with the petition, proposed order, and qualifying certified criminal history.",
           "obtainedFrom": "State Bureau of Identification",
-          "requirement": "conditional",
-          "conditionDescription": "Where the participant first applied on the mandatory path and the SBI directed them to file discretionary.",
-          "requiredBeforeFiling": false
+          "requirement": "required",
+          "requiredBeforeFiling": true
         },
         {
           "kind": "complete_field",
@@ -7785,7 +8174,7 @@
         },
         {
           "kind": "complete_field",
-          "description": "Manifest-injustice explanation — Petition CIV_EXP_02_A, manifest-injustice section.",
+          "description": "Manifest-injustice assertion checkbox and explanation — Petition CIV_EXP_02_A, manifest-injustice section. Review the required assertion and mark the checkbox only if the statement is true; complete your own explanation on the ruled lines or attached pages.",
           "requirement": "required",
           "requiredBeforeFiling": true
         },
@@ -7830,8 +8219,9 @@
       "requiredBeforeFiling": [
         "Obtain Certified criminal history, dated within 45 days. Request the certified criminal history through IdentoGo, service code 27S23V, at about $72. Save the PDF at first opening; it can only be opened once. The court shall summarily reject any petition without it.",
         "Check your answer to \"List each charge separately with its disposition, statute section, and whether it was a violation, misdemeanor or felony.\" against Certified criminal history, dated within 45 days, and correct the packet if they disagree.",
+        "Obtain and attach the SBI Cover Letter issued by the State Bureau of Identification after its review of the certified criminal history. The Superior Court filing instructions require this letter with the petition, proposed order, and qualifying certified criminal history.",
         "Notarized signature — Petition CIV_EXP_02_A, signature and jurat.",
-        "Manifest-injustice explanation — Petition CIV_EXP_02_A, manifest-injustice section.",
+        "Manifest-injustice assertion checkbox and explanation — Petition CIV_EXP_02_A, manifest-injustice section. Review the required assertion and mark the checkbox only if the statement is true; complete your own explanation on the ruled lines or attached pages.",
         "The petition is sworn and subscribed before a clerk of court or notary.",
         "Required. Filing in person means bringing the petition unsigned and signing in front of the notary at the Prothonotary's office. Filing by mail means notarizing first.",
         "$75 filing fee, per CIV_EXP_07_A. Set by the courts under § 4374(j).",
@@ -7865,6 +8255,17 @@
           "order": 2
         },
         {
+          "componentId": "de_discretionary_family_court-proposed-order-4",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "FORM-283",
+          "officialSourceUrl": "https://courts.delaware.gov/forms/download.aspx?id=118608",
+          "sourcePage": 15,
+          "order": 3
+        },
+        {
           "componentId": "de_discretionary_family_court-cover-sheet-3",
           "role": "cover_sheet",
           "requirement": "required",
@@ -7872,7 +8273,7 @@
           "outputStrategy": "custom_pleading",
           "officialFormId": null,
           "officialSourceUrl": null,
-          "order": 3
+          "order": 4
         }
       ],
       "participantActionRequired": [
@@ -7914,8 +8315,8 @@
           "requiredBeforeFiling": true
         },
         {
-          "kind": "pay_fee",
-          "description": "Set by each court under § 4374(j). Whether Family Court adult petitions carry the same $75 fee is unresolved.",
+          "kind": "confirm_answer",
+          "description": "Family Court adult criminal-record expungement filing is $0 under the Schedule of Assessed Costs effective July 20, 2026, including no archive or court-security charge. Its specific page 2 expungement exception governs the generic page 3 list. Certified-history acquisition is a separate expense.",
           "requirement": "required",
           "requiredBeforeFiling": true
         },
@@ -7923,7 +8324,7 @@
           "kind": "apply_fee_waiver",
           "description": "Under § 4372(l), if an outstanding fine or fee is unpaid for reasons other than wilful noncompliance and the person is otherwise eligible, the court may grant the expungement and waive the fines or fees or convert them to a civil judgment.",
           "requirement": "conditional",
-          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "conditionDescription": "Outstanding conviction fines or fees remain unpaid for reasons other than wilful noncompliance and the participant is otherwise eligible; this is not a waiver of the $0 filing charge and does not waive restitution.",
           "requiredBeforeFiling": true
         },
         {
@@ -7934,7 +8335,7 @@
         },
         {
           "kind": "file",
-          "description": "File in Family Court for the county where the most recent case was terminated. One original plus one copy.",
+          "description": "File in Family Court for the county where the most recent case was terminated. One original plus one copy. Assemble Form 281, conditional 281E, Form 283, SBI cover letter and certified history in that order; retain the separate assembly guide.",
           "requirement": "required",
           "requiredBeforeFiling": false
         }
@@ -7946,7 +8347,7 @@
         "Manifest-injustice explanation — Form 281, manifest-injustice section.",
         "The petition is sworn and subscribed before a clerk of court or notary.",
         "Required.",
-        "Set by each court under § 4374(j). Whether Family Court adult petitions carry the same $75 fee is unresolved.",
+        "Family Court adult criminal-record expungement filing is $0 under the Schedule of Assessed Costs effective July 20, 2026, including no archive or court-security charge. Its specific page 2 expungement exception governs the generic page 3 list. Certified-history acquisition is a separate expense.",
         "Under § 4372(l), if an outstanding fine or fee is unpaid for reasons other than wilful noncompliance and the person is otherwise eligible, the court may grant the expungement and waive the fines or fees or convert them to a civil judgment."
       ]
     },
@@ -13951,7 +14352,7 @@
       "jurisdiction": "IL",
       "trackId": "il-seal-edu",
       "packetSetId": "il-seal-edu-set",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "components": [
         {
           "componentId": "il-seal-edu-primary-filing-1",
@@ -13984,14 +14385,36 @@
           "order": 3
         },
         {
+          "componentId": "il-seal-edu-proposed-denying-order-5",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "EXP-AD Order Denying",
+          "officialSourceUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/9ee52a9a-dfc9-4a4c-9264-0ecb1ce679d4/EXP-AD%20Order%20Denying.pdf",
+          "order": 4,
+          "notes": "ATJ 2906.6 (06/26), complete one-page official Denying Order. Only permitted caption, identity and recipient-contact fields may be prepared. All denial choices, case decisions, reasons, judge signature and entry date remain blank. Required alongside the Granting Order, not an election of the expected outcome. Raw source-byte custody, actual output and independent acceptance remain separate."
+        },
+        {
           "componentId": "il-seal-edu-fee-waiver-4",
           "role": "fee_waiver",
           "requirement": "conditional",
-          "conditionDescription": "Only where the participant cannot pay the county filing fee.",
+          "conditionDescription": "Only when the participant actually requests a fee waiver and includes FW-CIV-APPLICATION; never infer that request from sponsorship, a missing email address or absent financial data.",
           "outputStrategy": "official_pdf_fill",
           "officialFormId": "FW-CIV-APPLICATION",
           "officialSourceUrl": null,
-          "order": 4
+          "order": 5
+        },
+        {
+          "componentId": "il-seal-edu-fee-waiver-order-6",
+          "role": "proposed_order",
+          "requirement": "conditional",
+          "conditionDescription": "Only when the participant actually requests a fee waiver and includes FW-CIV-APPLICATION; never infer that request from sponsorship, a missing email address or absent financial data.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "FW-CIV-ORDER",
+          "officialSourceUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/aeb7187c-60d8-4245-b05c-7610a6745e56/FW-CIV%20Order.pdf",
+          "order": 6,
+          "notes": "ATJ 602.8 (08/25), all three official pages. Prepare only permitted caption/applicant identity. Leave every judicial full/partial/denied/continued election, financial finding, payment term, hearing setting, document demand, judge signature and entry date blank. Include only with the requested fee-waiver application. Raw source-byte custody, actual output and independent acceptance remain separate."
         }
       ],
       "participantActionRequired": [
@@ -21114,7 +21537,7 @@
           "requirement": "required",
           "conditionDescription": null,
           "outputStrategy": "official_pdf_fill",
-          "officialFormId": "Petition to Seal (Office of the Commissioner of Probation), Part A box 4",
+          "officialFormId": "Petition to Seal (Office of the Commissioner of Probation)",
           "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase massachusetts/fillable-jud-mps-Petition-to-Seal.pdf",
           "order": 1
         }
@@ -29431,7 +29854,7 @@
           "requirement": "required",
           "conditionDescription": null,
           "outputStrategy": "official_pdf_fill",
-          "officialFormId": "MT-OCA-MMRTA",
+          "officialFormId": "MT-MMRTA-CERTIFICATE-OF-SERVICE",
           "officialSourceUrl": "https://courts.mt.gov/Forms/mmrta",
           "order": 2
         },
@@ -29441,7 +29864,7 @@
           "requirement": "required",
           "conditionDescription": null,
           "outputStrategy": "official_pdf_fill",
-          "officialFormId": "MT-OCA-MMRTA",
+          "officialFormId": "MT-MMRTA-PROPOSED-ORDER",
           "officialSourceUrl": "https://courts.mt.gov/Forms/mmrta",
           "order": 3
         },
@@ -29626,7 +30049,7 @@
           "requirement": "required",
           "conditionDescription": null,
           "outputStrategy": "official_pdf_fill",
-          "officialFormId": "MT-OCA-MMRTA",
+          "officialFormId": "MT-MMRTA-CERTIFICATE-OF-SERVICE",
           "officialSourceUrl": "https://courts.mt.gov/Forms/mmrta",
           "order": 2
         },
@@ -29636,7 +30059,7 @@
           "requirement": "required",
           "conditionDescription": null,
           "outputStrategy": "official_pdf_fill",
-          "officialFormId": "MT-OCA-MMRTA",
+          "officialFormId": "MT-MMRTA-PROPOSED-ORDER",
           "officialSourceUrl": "https://courts.mt.gov/Forms/mmrta",
           "order": 3
         },
@@ -30470,10 +30893,10 @@
           "componentId": "nc_146_dismissal_petition-fee-waiver-3",
           "role": "fee_waiver",
           "requirement": "conditional",
-          "conditionDescription": "Applies only where the charge was dismissed pursuant to a deferred prosecution or conditional discharge agreement, which carries the $175 fee, and the petitioner seeks an indigency waiver.",
+          "conditionDescription": "Only where the fee applies and the participant explicitly requests indigency treatment. The existing deferred-prosecution/conditional-discharge review stop remains.",
           "outputStrategy": "official_pdf_fill",
-          "officialFormId": "AOC-CV-226",
-          "officialSourceUrl": "https://www.nccourts.gov/documents/forms/petition-and-order-of-expunction-under-gs-15a-146a-or-gs-15a-146a1-charges-dismissed-instructions-for-petition-and-order-of-expunction-under-gs-15a-146a-or-gs-15a-146a1-charges-dismissed",
+          "officialFormId": "AOC-G-106",
+          "officialSourceUrl": "https://www.nccourts.gov/documents/forms/petition-to-proceed-as-an-indigent",
           "order": 3
         },
         {
@@ -30495,6 +30918,16 @@
           "officialFormId": "AOC-CR-295",
           "officialSourceUrl": "https://www.nccourts.gov/documents/forms/district-attorney-petition-and-order-of-expunction-under-gs-15a-146a-or-gs-15a-146a1-charges-dismissed",
           "order": 5
+        },
+        {
+          "componentId": "nc_146_dismissal_petition-supplemental-financial-affidavit-6",
+          "role": "supplemental_financial_affidavit",
+          "requirement": "conditional",
+          "conditionDescription": "Only alongside the selected G-106 branch when the court specifically requests supplemental financial information and its request is recorded. Do not sign inapplicable civil/arbitration wording.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "AOC-CV-226",
+          "officialSourceUrl": "https://www.nccourts.gov/documents/forms/petition-to-proceed-as-an-indigent-civil-affidavit-of-indigency",
+          "order": 6
         }
       ],
       "participantActionRequired": [
@@ -30573,9 +31006,9 @@
         },
         {
           "kind": "apply_fee_waiver",
-          "description": "Indigency waiver available where a fee applies, on AOC-CV-226, including for petitioners receiving SNAP, TANF or SSI or represented by a legal services organization.",
+          "description": "Where a filing fee applies and the participant requests indigency treatment, deliver AOC-G-106 (Rev. 11/24), Petition To Proceed As An Indigent. AOC-CV-226 (Rev. 4/23) is supplemental financial information only when the court specifically requests it, never the operative expunction indigency petition.",
           "requirement": "conditional",
-          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "conditionDescription": "Only on an explicitly selected indigency branch where the fee applies; financial supplement only upon a recorded specific court request.",
           "requiredBeforeFiling": true
         },
         {
@@ -44945,7 +45378,7 @@
       "participantActionRequired": [
         {
           "kind": "obtain_document",
-          "description": "Obtain Rhode Island BCI criminal history record. Request your criminal history from the Attorney General's BCI unit. This is where the BCI number the court form requires comes from, and it is also how you check whether the record has already cleared automatically. LegalEase cannot make this request for you.",
+          "description": "Obtain Rhode Island BCI criminal history record. Ask the Attorney General's Bureau of Criminal Identification for a Rhode Island STATE criminal records check, and tell BCI the request is for an expungement: the expungement-purpose report is not the ordinary public or employment check. The Attorney General's own page, https://riag.ri.gov/i-want/get-background-check, carries the current requirements - valid photo identification, and a request made in person at the BCI office or by mail as that page directs - and the state check has its own cost of $5, which is a charge for the record and is not a court filing fee. Do not order the fingerprint-based national check used for employment in its place. This record is where the BCI number the court form requires comes from. A state report that comes back clear does not by itself prove that no relevant arrest or disposition exists, so the docket from the court that heard the case is still required. LegalEase cannot make this request for you, and any release or signature it needs is yours.",
           "obtainedFrom": "Rhode Island Department of Attorney General, Bureau of Criminal Identification",
           "requirement": "required",
           "requiredBeforeFiling": true
@@ -45064,7 +45497,7 @@
         }
       ],
       "requiredBeforeFiling": [
-        "Obtain Rhode Island BCI criminal history record. Request your criminal history from the Attorney General's BCI unit. This is where the BCI number the court form requires comes from, and it is also how you check whether the record has already cleared automatically. LegalEase cannot make this request for you.",
+        "Obtain Rhode Island BCI criminal history record. Ask the Attorney General's Bureau of Criminal Identification for a Rhode Island STATE criminal records check, and tell BCI the request is for an expungement: the expungement-purpose report is not the ordinary public or employment check. The Attorney General's own page, https://riag.ri.gov/i-want/get-background-check, carries the current requirements - valid photo identification, and a request made in person at the BCI office or by mail as that page directs - and the state check has its own cost of $5, which is a charge for the record and is not a court filing fee. Do not order the fingerprint-based national check used for employment in its place. This record is where the BCI number the court form requires comes from. A state report that comes back clear does not by itself prove that no relevant arrest or disposition exists, so the docket from the court that heard the case is still required. LegalEase cannot make this request for you, and any release or signature it needs is yours.",
         "Check your answer to \"What is your BCI number, as it appears on your Rhode Island criminal history?\" against Rhode Island BCI criminal history record, and correct the packet if they disagree.",
         "Obtain Court docket showing counts, charges and dispositions. Ask the clerk of the court where the case occurred for the docket, which shows the case number, every count, the charges and the dispositions the form requires.",
         "Check your answer to \"What were the charges, and how did each one end?\" against Court docket showing counts, charges and dispositions, and correct the packet if they disagree.",
@@ -45143,7 +45576,7 @@
       "participantActionRequired": [
         {
           "kind": "obtain_document",
-          "description": "Obtain Rhode Island BCI criminal history record. Request your criminal history from the Attorney General's BCI unit. This is where the BCI number the court form requires comes from, and it is also how you check whether the record has already cleared automatically. LegalEase cannot make this request for you.",
+          "description": "Obtain Rhode Island BCI criminal history record. Ask the Attorney General's Bureau of Criminal Identification for a Rhode Island STATE criminal records check, and tell BCI the request is for an expungement: the expungement-purpose report is not the ordinary public or employment check. The Attorney General's own page, https://riag.ri.gov/i-want/get-background-check, carries the current requirements - valid photo identification, and a request made in person at the BCI office or by mail as that page directs - and the state check has its own cost of $5, which is a charge for the record and is not a court filing fee. Do not order the fingerprint-based national check used for employment in its place. This record is where the BCI number the court form requires comes from. A state report that comes back clear does not by itself prove that no relevant arrest or disposition exists, so the docket from the court that heard the case is still required. LegalEase cannot make this request for you, and any release or signature it needs is yours.",
           "obtainedFrom": "Rhode Island Department of Attorney General, Bureau of Criminal Identification",
           "requirement": "required",
           "requiredBeforeFiling": true
@@ -45262,7 +45695,7 @@
         }
       ],
       "requiredBeforeFiling": [
-        "Obtain Rhode Island BCI criminal history record. Request your criminal history from the Attorney General's BCI unit. This is where the BCI number the court form requires comes from, and it is also how you check whether the record has already cleared automatically. LegalEase cannot make this request for you.",
+        "Obtain Rhode Island BCI criminal history record. Ask the Attorney General's Bureau of Criminal Identification for a Rhode Island STATE criminal records check, and tell BCI the request is for an expungement: the expungement-purpose report is not the ordinary public or employment check. The Attorney General's own page, https://riag.ri.gov/i-want/get-background-check, carries the current requirements - valid photo identification, and a request made in person at the BCI office or by mail as that page directs - and the state check has its own cost of $5, which is a charge for the record and is not a court filing fee. Do not order the fingerprint-based national check used for employment in its place. This record is where the BCI number the court form requires comes from. A state report that comes back clear does not by itself prove that no relevant arrest or disposition exists, so the docket from the court that heard the case is still required. LegalEase cannot make this request for you, and any release or signature it needs is yours.",
         "Check your answer to \"What is your BCI number, as it appears on your Rhode Island criminal history?\" against Rhode Island BCI criminal history record, and correct the packet if they disagree.",
         "Obtain Court docket showing counts, charges and dispositions. Ask the clerk of the court where the case occurred for the docket, which shows the case number, every count, the charges and the dispositions the form requires.",
         "Check your answer to \"What were the charges, and how did each one end?\" against Court docket showing counts, charges and dispositions, and correct the packet if they disagree.",
@@ -45341,7 +45774,7 @@
       "participantActionRequired": [
         {
           "kind": "obtain_document",
-          "description": "Obtain Rhode Island BCI criminal history record. Request your criminal history from the Attorney General's BCI unit. This is where the BCI number the court form requires comes from, and it is also how you check whether the record has already cleared automatically. LegalEase cannot make this request for you.",
+          "description": "Obtain Rhode Island BCI criminal history record. Ask the Attorney General's Bureau of Criminal Identification for a Rhode Island STATE criminal records check, and tell BCI the request is for an expungement: the expungement-purpose report is not the ordinary public or employment check. The Attorney General's own page, https://riag.ri.gov/i-want/get-background-check, carries the current requirements - valid photo identification, and a request made in person at the BCI office or by mail as that page directs - and the state check has its own cost of $5, which is a charge for the record and is not a court filing fee. Do not order the fingerprint-based national check used for employment in its place. This record is where the BCI number the court form requires comes from. A state report that comes back clear does not by itself prove that no relevant arrest or disposition exists, so the docket from the court that heard the case is still required. LegalEase cannot make this request for you, and any release or signature it needs is yours.",
           "obtainedFrom": "Rhode Island Department of Attorney General, Bureau of Criminal Identification",
           "requirement": "required",
           "requiredBeforeFiling": true
@@ -45460,7 +45893,7 @@
         }
       ],
       "requiredBeforeFiling": [
-        "Obtain Rhode Island BCI criminal history record. Request your criminal history from the Attorney General's BCI unit. This is where the BCI number the court form requires comes from, and it is also how you check whether the record has already cleared automatically. LegalEase cannot make this request for you.",
+        "Obtain Rhode Island BCI criminal history record. Ask the Attorney General's Bureau of Criminal Identification for a Rhode Island STATE criminal records check, and tell BCI the request is for an expungement: the expungement-purpose report is not the ordinary public or employment check. The Attorney General's own page, https://riag.ri.gov/i-want/get-background-check, carries the current requirements - valid photo identification, and a request made in person at the BCI office or by mail as that page directs - and the state check has its own cost of $5, which is a charge for the record and is not a court filing fee. Do not order the fingerprint-based national check used for employment in its place. This record is where the BCI number the court form requires comes from. A state report that comes back clear does not by itself prove that no relevant arrest or disposition exists, so the docket from the court that heard the case is still required. LegalEase cannot make this request for you, and any release or signature it needs is yours.",
         "Check your answer to \"What is your BCI number, as it appears on your Rhode Island criminal history?\" against Rhode Island BCI criminal history record, and correct the packet if they disagree.",
         "Obtain Court docket showing counts, charges and dispositions. Ask the clerk of the court where the case occurred for the docket, which shows the case number, every count, the charges and the dispositions the form requires.",
         "Check your answer to \"What were the charges, and how did each one end?\" against Court docket showing counts, charges and dispositions, and correct the packet if they disagree.",
@@ -45539,7 +45972,7 @@
       "participantActionRequired": [
         {
           "kind": "obtain_document",
-          "description": "Obtain Rhode Island BCI criminal history record. Request your criminal history from the Attorney General's BCI unit. This is where the BCI number the court form requires comes from, and it is also how you check whether the record has already cleared automatically. LegalEase cannot make this request for you.",
+          "description": "Obtain Rhode Island BCI criminal history record. Ask the Attorney General's Bureau of Criminal Identification for a Rhode Island STATE criminal records check, and tell BCI the request is for an expungement: the expungement-purpose report is not the ordinary public or employment check. The Attorney General's own page, https://riag.ri.gov/i-want/get-background-check, carries the current requirements - valid photo identification, and a request made in person at the BCI office or by mail as that page directs - and the state check has its own cost of $5, which is a charge for the record and is not a court filing fee. Do not order the fingerprint-based national check used for employment in its place. This record is where the BCI number the court form requires comes from. A state report that comes back clear does not by itself prove that no relevant arrest or disposition exists, so the docket from the court that heard the case is still required. LegalEase cannot make this request for you, and any release or signature it needs is yours.",
           "obtainedFrom": "Rhode Island Department of Attorney General, Bureau of Criminal Identification",
           "requirement": "required",
           "requiredBeforeFiling": true
@@ -45671,7 +46104,7 @@
         }
       ],
       "requiredBeforeFiling": [
-        "Obtain Rhode Island BCI criminal history record. Request your criminal history from the Attorney General's BCI unit. This is where the BCI number the court form requires comes from, and it is also how you check whether the record has already cleared automatically. LegalEase cannot make this request for you.",
+        "Obtain Rhode Island BCI criminal history record. Ask the Attorney General's Bureau of Criminal Identification for a Rhode Island STATE criminal records check, and tell BCI the request is for an expungement: the expungement-purpose report is not the ordinary public or employment check. The Attorney General's own page, https://riag.ri.gov/i-want/get-background-check, carries the current requirements - valid photo identification, and a request made in person at the BCI office or by mail as that page directs - and the state check has its own cost of $5, which is a charge for the record and is not a court filing fee. Do not order the fingerprint-based national check used for employment in its place. This record is where the BCI number the court form requires comes from. A state report that comes back clear does not by itself prove that no relevant arrest or disposition exists, so the docket from the court that heard the case is still required. LegalEase cannot make this request for you, and any release or signature it needs is yours.",
         "Check your answer to \"What is your BCI number, as it appears on your Rhode Island criminal history?\" against Rhode Island BCI criminal history record, and correct the packet if they disagree.",
         "Obtain Court docket showing counts, charges and dispositions. Ask the clerk of the court where the case occurred for the docket, which shows the case number, every count, the charges and the dispositions the form requires.",
         "Check your answer to \"What were the charges, and how did each one end?\" against Court docket showing counts, charges and dispositions, and correct the packet if they disagree.",
@@ -62982,19 +63415,19 @@
         },
         {
           "kind": "complete_field",
-          "description": "Signature of movant — SCA-C903, page 1, signature block beneath the prayer for relief.",
+          "description": "Signature of movant — SCA-C903, page 2, signature block beneath the prayer for relief.",
           "requirement": "required",
           "requiredBeforeFiling": true
         },
         {
           "kind": "complete_field",
-          "description": "Signature and date on the certificate of service — SCA-C903, page 2, certificate of service.",
+          "description": "Signature and date on the certificate of service — SCA-C903, page 3, certificate of service.",
           "requirement": "required",
           "requiredBeforeFiling": true
         },
         {
           "kind": "complete_field",
-          "description": "Prosecuting attorney's office street address — SCA-C903, page 2, address line of the certificate of service.",
+          "description": "Prosecuting attorney's office street address — SCA-C903, page 3, address line of the certificate of service.",
           "requirement": "required",
           "requiredBeforeFiling": true
         },
@@ -63031,13 +63464,13 @@
         },
         {
           "kind": "serve_party",
-          "description": "Serve a copy of the motion on the county prosecuting attorney's office and complete the certificate of service on page 2 of SCA-C903, choosing first class mail, hand delivery or certified mail.",
+          "description": "Serve a copy of the motion on the county prosecuting attorney's office and complete the certificate of service on page 3 of SCA-C903, choosing first class mail, hand delivery or certified mail.",
           "requirement": "required",
           "requiredBeforeFiling": false
         },
         {
           "kind": "file",
-          "description": "File the completed SCA-C903 motion, with the certificate of service page, with the clerk of the circuit court of the county in which the charges were filed, not sooner than 60 days after the order of acquittal or dismissal.",
+          "description": "File the completed SCA-C903 motion, with the certificate of service on page 3, with the clerk of the circuit court of the county in which the charges were filed, not sooner than 60 days after the order of acquittal or dismissal.",
           "requirement": "required",
           "requiredBeforeFiling": false
         }
@@ -63046,9 +63479,9 @@
         "Obtain Certified copy of the order of acquittal or dismissal. Ask the clerk of the court that handled your case for a certified copy of the order of acquittal or dismissal. Check the date on it against the date you gave us: the 60-day clock runs from that order, not from the day the case felt over.",
         "Check your answer to \"On what date were you found not guilty, or on what date were the charges dismissed?\" against Certified copy of the order of acquittal or dismissal, and correct the packet if they disagree.",
         "Check your answer to \"Were these charges dismissed as part of a deal in which you pleaded guilty to a different offence and were convicted of it?\" against Copy of the docket sheet or the plea agreement, and correct the packet if they disagree.",
-        "Signature of movant — SCA-C903, page 1, signature block beneath the prayer for relief.",
-        "Signature and date on the certificate of service — SCA-C903, page 2, certificate of service.",
-        "Prosecuting attorney's office street address — SCA-C903, page 2, address line of the certificate of service.",
+        "Signature of movant — SCA-C903, page 2, signature block beneath the prayer for relief.",
+        "Signature and date on the certificate of service — SCA-C903, page 3, certificate of service.",
+        "Prosecuting attorney's office street address — SCA-C903, page 3, address line of the certificate of service.",
         "Circuit court case number — SCA-C903, page 1, caption block.",
         "The movant signs the motion and separately signs and dates the certificate of service. A wet signature is expected; the form provides no electronic signature block.",
         "none — SCA-C903 carries no verification or notarial block.",
@@ -63132,19 +63565,19 @@
         },
         {
           "kind": "complete_field",
-          "description": "Signature of movant — SCA-C903, page 1, signature block, and the supplemental pleading signature block.",
+          "description": "Signature of movant — SCA-C903, page 2, signature block, and the supplemental pleading signature block.",
           "requirement": "required",
           "requiredBeforeFiling": true
         },
         {
           "kind": "complete_field",
-          "description": "Signature and date on the certificate of service — SCA-C903, page 2.",
+          "description": "Signature and date on the certificate of service — SCA-C903, page 3.",
           "requirement": "required",
           "requiredBeforeFiling": true
         },
         {
           "kind": "complete_field",
-          "description": "Prosecuting attorney's office street address — SCA-C903, page 2, address line of the certificate of service.",
+          "description": "Prosecuting attorney's office street address — SCA-C903, page 3, address line of the certificate of service.",
           "requirement": "required",
           "requiredBeforeFiling": true
         },
@@ -63181,13 +63614,13 @@
         },
         {
           "kind": "serve_party",
-          "description": "Serve a copy of the motion and the supplemental pleading on the county prosecuting attorney's office and complete the certificate of service on page 2 of SCA-C903.",
+          "description": "Serve a copy of the motion and the supplemental pleading on the county prosecuting attorney's office and complete the certificate of service on page 3 of SCA-C903.",
           "requirement": "required",
           "requiredBeforeFiling": false
         },
         {
           "kind": "file",
-          "description": "File the completed SCA-C903 motion with the supplemental pleading and the certificate of service page with the clerk of the circuit court of the county in which the charges were filed, not sooner than 60 days after the order of dismissal. All charges from the same transaction or occurrence go in the one motion.",
+          "description": "File the completed SCA-C903 motion with the supplemental pleading and the certificate of service on page 3 with the clerk of the circuit court of the county in which the charges were filed, not sooner than 60 days after the order of dismissal. All charges from the same transaction or occurrence go in the one motion.",
           "requirement": "required",
           "requiredBeforeFiling": false
         }
@@ -63197,9 +63630,9 @@
         "Check your answer to \"On what date did the court dismiss the charges after you completed the programme?\" against Certified copy of the order of dismissal, and correct the packet if they disagree.",
         "Obtain Pretrial diversion agreement, or the deferred adjudication order, together with the record of full and successful completion. Ask the clerk for the deferred adjudication order, or the prosecuting attorney's office for the signed diversion agreement, and for whatever the court entered recording that you completed it. Which of the two it was decides whether the family-or-household-member carve-out applies at all, so bring the document rather than relying on memory.",
         "Check your answer to \"Did you complete a pretrial diversion agreement signed with the prosecutor, or a deferred adjudication ordered by the court after you entered a plea?\" against Pretrial diversion agreement, or the deferred adjudication order, together with the record of full and successful completion, and correct the packet if they disagree.",
-        "Signature of movant — SCA-C903, page 1, signature block, and the supplemental pleading signature block.",
-        "Signature and date on the certificate of service — SCA-C903, page 2.",
-        "Prosecuting attorney's office street address — SCA-C903, page 2, address line of the certificate of service.",
+        "Signature of movant — SCA-C903, page 2, signature block, and the supplemental pleading signature block.",
+        "Signature and date on the certificate of service — SCA-C903, page 3.",
+        "Prosecuting attorney's office street address — SCA-C903, page 3, address line of the certificate of service.",
         "Circuit court case number — SCA-C903, page 1, caption block.",
         "The movant signs the motion and the supplemental pleading, and separately signs and dates the certificate of service.",
         "none — SCA-C903 carries no verification or notarial block.",

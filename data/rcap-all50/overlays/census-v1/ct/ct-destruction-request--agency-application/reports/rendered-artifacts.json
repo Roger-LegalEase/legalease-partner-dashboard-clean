@@ -1,0 +1,39 @@
+{
+  "schemaVersion": "rcap-rendered-artifacts/v1",
+  "familyId": "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
+  "deliverableType": "participant_agency_application_guidance",
+  "renderedFresh": true,
+  "derivedFromBytes": true,
+  "byteDerivedHashes": true,
+  "componentSet": [
+    "participant_instructions"
+  ],
+  "pdfs": [],
+  "artifacts": [
+    {
+      "file": "data/rcap-all50/overlays/census-v1/ct/ct-destruction-request--agency-application/participant-instructions.md",
+      "documentId": "participant_instructions",
+      "role": "participant_instructions",
+      "sha256": "534f85ca2bdfac218b3886118bad0102c739a2bdbcfe499f1cee6083d450b5e9",
+      "byteLength": 5326
+    }
+  ],
+  "heldFormComponents": [],
+  "rasterEngine": null,
+  "rasterSkipped": true,
+  "rasterPages": [],
+  "whyNoRaster": "the deliverable is a guidance instruction document; no PDF page exists to rasterize",
+  "completenessAudit": {
+    "fieldMapAuditable": false,
+    "whatTheCompletenessVerifierCannotMeasureHere": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs counts owed writes against made writes over a production field map and fixture PDFs; this family renders no paper instrument, so the nine field-level counters are undefined for it and the verifier does not audit it. The verifier is not weakened to pretend otherwise.",
+    "whatIsMeasurableInstead": [
+      "every pinned evidence file re-hashes to its recorded SHA-256 on every build",
+      "every literal anchor quote is still present in its evidence file's bytes",
+      "held agency documents re-verify against the committed corpus index (and against mounted bytes when present)",
+      "two builds produce byte-identical output trees",
+      "every declared self-help stop and lookup delegation is present in the rendered instruction bytes",
+      "no undeclared dollar figure and no signature line appears in the instruction bytes"
+    ]
+  },
+  "independentVerificationPending": true
+}

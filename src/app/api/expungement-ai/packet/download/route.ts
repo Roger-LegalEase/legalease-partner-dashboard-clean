@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireConsumerBriefcaseSession } from "@/lib/expungement-ai/auth";
 import {
+  ConsumerPacketArtifactAuthorityUnavailableError,
   ConsumerPacketNotAllowedError,
   ConsumerPacketNotFoundError,
   ConsumerPacketNotReadyError,
@@ -21,13 +22,24 @@ export async function GET(request: NextRequest) {
 
   try {
     const packet = await getConsumerPacketDownload({ userId: auth.userId, briefcaseItemId });
-    return new NextResponse(packet.body, {
+    // A rendered packet is bytes and a legacy summary is text. Only the text
+    // one carries a charset: appending one to application/pdf tells the browser
+    // the bytes are characters, which is how a PDF download turns into a page
+    // of mojibake.
+    const body = typeof packet.body === "string"
+      ? packet.body
+      : new Blob([Uint8Array.from(packet.body)], { type: packet.contentType });
+    const binary = typeof body !== "string";
+    return new NextResponse(body, {
       headers: {
-        "content-type": `${packet.contentType}; charset=utf-8`,
+        "content-type": binary ? packet.contentType : `${packet.contentType}; charset=utf-8`,
         "content-disposition": `attachment; filename="${packet.fileName.replaceAll('"', "")}"`
       }
     });
   } catch (error) {
+    if (error instanceof ConsumerPacketArtifactAuthorityUnavailableError) {
+      return NextResponse.json({ error: "Packet download authority is temporarily unavailable." }, { status: 503 });
+    }
     if (error instanceof ConsumerPacketNotFoundError) {
       return NextResponse.json({ error: "We couldn’t find this case. Return to your Briefcase and try again. Contact support if the problem continues." }, { status: 404 });
     }

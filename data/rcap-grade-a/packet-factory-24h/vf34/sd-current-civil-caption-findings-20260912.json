@@ -1,0 +1,203 @@
+{
+  "schemaVersion": "rcap-bounded-semantic-finding/v1",
+  "familyId": "sd_arrest_expungement-set",
+  "reviewer": "/root",
+  "lane": "VF34",
+  "reviewedCommit": "c710d5933cd4fe2beb890006f4664f99b2c1c7e8",
+  "reviewedAt": "2026-09-12T13:01:41.478918+00:00",
+  "findingId": "SD-CIVIL-CRIMINAL-CAPTION-SEPARATION",
+  "result": "FAIL",
+  "obligations": [
+    "KNOWN_PREFILLS",
+    "PROTECTED_FIELDS",
+    "ROUTE_OPTIONS"
+  ],
+  "basis": "The shared fixture assigns matter.case_number from charges[0].case_number. The current field map copies that charge case number into eight civil Case No appearances per fixture and into the UJS-232 Case File No / Case Type fork. UJS-394 separately labels Case No and CRI No. UJS-391 instruction 1(b), quoted in the unchanged participant guide, says the Clerk of Court provides the new civil case number at filing. No separately collected civil case identifier or existing-action election supports these substitutions.",
+  "sourceInstruction": "The case number will be provided to you by the Clerk of Court at the time of filing.",
+  "ujs232Instruction": "Provide the Case File No. for the record you are filing into or the Case Type if initiating a new action.",
+  "affectedWriteCount": 18,
+  "affectedWrites": [
+    {
+      "formNumber": "UJS-232",
+      "fixture": "canonical",
+      "field": "case type",
+      "factId": "matter.case_number",
+      "sourcePage": 1,
+      "packetPage": 1
+    },
+    {
+      "formNumber": "UJS-232",
+      "fixture": "boundary",
+      "field": "case type",
+      "factId": "matter.case_number",
+      "sourcePage": 1,
+      "packetPage": 1
+    },
+    {
+      "formNumber": "UJS-391",
+      "fixture": "canonical",
+      "field": "case number",
+      "factId": "matter.case_number",
+      "sourcePage": 2,
+      "packetPage": 3
+    },
+    {
+      "formNumber": "UJS-391",
+      "fixture": "canonical",
+      "field": "case number",
+      "factId": "matter.case_number",
+      "sourcePage": 4,
+      "packetPage": 5
+    },
+    {
+      "formNumber": "UJS-391",
+      "fixture": "canonical",
+      "field": "case number",
+      "factId": "matter.case_number",
+      "sourcePage": 3,
+      "packetPage": 4
+    },
+    {
+      "formNumber": "UJS-391",
+      "fixture": "boundary",
+      "field": "case number",
+      "factId": "matter.case_number",
+      "sourcePage": 2,
+      "packetPage": 3
+    },
+    {
+      "formNumber": "UJS-391",
+      "fixture": "boundary",
+      "field": "case number",
+      "factId": "matter.case_number",
+      "sourcePage": 4,
+      "packetPage": 5
+    },
+    {
+      "formNumber": "UJS-391",
+      "fixture": "boundary",
+      "field": "case number",
+      "factId": "matter.case_number",
+      "sourcePage": 3,
+      "packetPage": 4
+    },
+    {
+      "formNumber": "UJS-392",
+      "fixture": "canonical",
+      "field": "case number",
+      "factId": "matter.case_number",
+      "sourcePage": 2,
+      "packetPage": 7
+    },
+    {
+      "formNumber": "UJS-392",
+      "fixture": "boundary",
+      "field": "case number",
+      "factId": "matter.case_number",
+      "sourcePage": 2,
+      "packetPage": 7
+    },
+    {
+      "formNumber": "UJS-393",
+      "fixture": "canonical",
+      "field": "Case Number",
+      "factId": "matter.case_number",
+      "sourcePage": 2,
+      "packetPage": 9
+    },
+    {
+      "formNumber": "UJS-393",
+      "fixture": "canonical",
+      "field": "case number",
+      "factId": "matter.case_number",
+      "sourcePage": 3,
+      "packetPage": 10
+    },
+    {
+      "formNumber": "UJS-393",
+      "fixture": "boundary",
+      "field": "Case Number",
+      "factId": "matter.case_number",
+      "sourcePage": 2,
+      "packetPage": 9
+    },
+    {
+      "formNumber": "UJS-393",
+      "fixture": "boundary",
+      "field": "case number",
+      "factId": "matter.case_number",
+      "sourcePage": 3,
+      "packetPage": 10
+    },
+    {
+      "formNumber": "UJS-394",
+      "fixture": "canonical",
+      "field": "case number",
+      "factId": "matter.case_number",
+      "sourcePage": 1,
+      "packetPage": 11
+    },
+    {
+      "formNumber": "UJS-394",
+      "fixture": "boundary",
+      "field": "case number",
+      "factId": "matter.case_number",
+      "sourcePage": 1,
+      "packetPage": 11
+    },
+    {
+      "formNumber": "UJS-395",
+      "fixture": "canonical",
+      "field": "case number",
+      "factId": "matter.case_number",
+      "sourcePage": 2,
+      "packetPage": 13
+    },
+    {
+      "formNumber": "UJS-395",
+      "fixture": "boundary",
+      "field": "case number",
+      "factId": "matter.case_number",
+      "sourcePage": 2,
+      "packetPage": 13
+    }
+  ],
+  "bindings": [
+    {
+      "path": "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/production-field-map.json",
+      "sha256": "2c6b3b83fbf9c1e0d039cc7de9da2a5f48a19a389f7027ccd401db4ce83db39c",
+      "byteLength": 252626
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/participant-instructions.md",
+      "sha256": "c4a63787d330a4cf3db89058c780ef8326f1a0b57ae57894d771dbdbb97f6110",
+      "byteLength": 7731
+    },
+    {
+      "path": "scripts/build-census-v1-sd_arrest_expungement-set.mjs",
+      "sha256": "31f9bc85fe7d44f86360397d366ebce3324c30d550b59c65ed1dbfca88ba20aa",
+      "byteLength": 56083
+    },
+    {
+      "path": "scripts/build-census-v1-ne-setaside-custodial-set.mjs",
+      "sha256": "5f3f355515d9c39e6015b0bb5337a708baa7b3f06a9cc6ed450201ecbf234e7f",
+      "byteLength": 277733
+    },
+    {
+      "path": "reference/source-recovery/2026-09-12-sd-current/SD-UJS-232.pdf",
+      "sha256": "c76ac268d736a525fa2af7da552fd60ed08802a00ce4bdbbf08f8bd4829548f7",
+      "byteLength": 177827
+    },
+    {
+      "path": "reference/source-recovery/2026-09-12-sd-current/SD-UJS-394.pdf",
+      "sha256": "5cbdcdf213532a92fa2a740d64e24bc607f9c14f53af848b77ac4993275dc448",
+      "byteLength": 188446
+    }
+  ],
+  "requiredRepair": "Distinguish held criminal case identity from the new civil action identity in every current assembled component. Leave unassigned civil case numbers to the clerk, with an explicit source-grounded later-completion handoff; treat UJS-232 according to its existing-record/new-action fork without inventing a case type or case number. Retain correct CRI identifiers only where supported by the fixture facts.",
+  "rasterDispatchAuthorized": false,
+  "visualDefects": null,
+  "packetBytesEditedByReviewer": false,
+  "sourceBytesEditedByReviewer": false,
+  "terminalPromotionAuthorized": false
+}

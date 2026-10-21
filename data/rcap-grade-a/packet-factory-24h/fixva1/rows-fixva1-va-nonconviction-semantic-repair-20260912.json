@@ -1,0 +1,97 @@
+{
+  "schemaVersion": "rcap-packet-factory-lane-rows/v1",
+  "lane": "FIXVA1",
+  "laneKind": "repair",
+  "baseSha": "5b2cfc664",
+  "branch": "claude/legalease-sprint-captain-utucnw",
+  "isIndependentVerification": false,
+  "grantsAsserted": [
+    "CLAIM_OK FIXVA1 va_exp_nonconviction-set (repair, grant set e9b9fa2f172803f1)"
+  ],
+  "rows": [
+    {
+      "itemId": "va_exp_nonconviction-set",
+      "familyId": "va_exp_nonconviction-set",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "obligationsRepaired": [
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS",
+        "SELF_HELP_STOP",
+        "ARTIFACTS"
+      ],
+      "historicalVerdict": {
+        "path": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-va-nonconviction-semantic-fail-20260912.json",
+        "verifiedAtBase": "b3f4918c1fd57bbb3d6bfc27802ab370d3a34232",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "preserved": true
+      },
+      "actualDefect": "The evaluator and participant input model omitted the current qualifying original-charge-reduced pathway under 19.2-298.02(D), while assembled companion pages and the guide exposed internal route keys and implementation copy.",
+      "correction": "The exact binding decision is hash-asserted. The evaluator now validates the original reduced-charge target and separate all-party agreement evidence without selecting a basis or granting eligibility; unknown, disputed, opposed, other-statute and future-version cases still stop. Delivered copy collects the branch facts, protects the separate reduced-charge conviction, and removes internal metadata.",
+      "packetBytesChanged": true,
+      "packetByteChangeScope": {
+        "changed": [
+          "canonical.pdf",
+          "boundary.pdf"
+        ],
+        "unchanged": [
+          "canonical--CC-1473-primary-filing.pdf",
+          "boundary--CC-1473-primary-filing.pdf"
+        ]
+      },
+      "artifacts": {
+        "documents": [
+          {
+            "role": "canonical",
+            "name": "canonical.pdf",
+            "path": "data/rcap-all50/overlays/census-v1/va/va-exp-nonconviction-set--official-pdf-fill/fixtures/canonical.pdf",
+            "sha256": "f593a8dec288bc29cbe8ad67d236c2beb986538fc6b12faa97bfaa7178dcb9e6",
+            "byteLength": 133842,
+            "pageCount": 9,
+            "pageCountBasis": "parsed from exact candidate PDF bytes with pdf-lib 1.17.1",
+            "pageCountEvidence": {
+              "method": "pdf-lib 1.17.1",
+              "pageCount": 9,
+              "sourceSha256": "f593a8dec288bc29cbe8ad67d236c2beb986538fc6b12faa97bfaa7178dcb9e6"
+            }
+          },
+          {
+            "role": "boundary",
+            "name": "boundary.pdf",
+            "path": "data/rcap-all50/overlays/census-v1/va/va-exp-nonconviction-set--official-pdf-fill/fixtures/boundary.pdf",
+            "sha256": "9348f1069237ddba5adaf20a6a5b272c55196e3b1365f52ef74c792101c137e1",
+            "byteLength": 134080,
+            "pageCount": 9,
+            "pageCountBasis": "parsed from exact candidate PDF bytes with pdf-lib 1.17.1",
+            "pageCountEvidence": {
+              "method": "pdf-lib 1.17.1",
+              "pageCount": 9,
+              "sourceSha256": "9348f1069237ddba5adaf20a6a5b272c55196e3b1365f52ef74c792101c137e1"
+            }
+          }
+        ],
+        "documentsDigest": "3965d6500805237e0c785a5bb828de7a28a6e1c9ec2915d87417001387b353d3"
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": null
+      },
+      "countersAfterBasis": "Focused current-byte semantic proof and completeness pass. visualDefects remains null pending current-byte independent review and central raster.",
+      "rasterState": "RASTER_PENDING_INDEPENDENT_REVIEW",
+      "rasterManifest": "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/va_exp_nonconviction-set/semantic-repair/raster-manifest.json",
+      "currentRepairEvidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/va_exp_nonconviction-set/semantic-repair/current-byte-semantic-proof.json",
+      "focusedTestEvidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/va_exp_nonconviction-set/semantic-repair/focused-check-results.json",
+      "sourceBindingEvidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/va_exp_nonconviction-set/semantic-repair/source-binding-preflight.json",
+      "independentVerification": "PENDING_CURRENT_BYTE_INDEPENDENT_REVIEW",
+      "grantsNothing": "This implementation return preserves the historical FAIL and opens no route; current-byte independent review and raster remain separate gates."
+    }
+  ]
+}

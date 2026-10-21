@@ -1,0 +1,78 @@
+{
+  "schemaVersion": "rcap-grade-a-legal-block-triage/v1",
+  "producedBy": "Claude Code Captain",
+  "producedOn": "2026-09-04",
+  "question": "Seven families read LEGAL_BLOCKED. Which are genuine counsel questions, and which are engineering or product work misfiled as legal?",
+  "headline": "None is misfiled. Zero counsel questions are open, and every one of the seven is held by a current, recorded decision or a lane's own finding rather than by an unanswered question.",
+  "counselQueue": {
+    "path": "data/rcap-grade-a/route-obligation-census-v1/legal-review-queue-v2.json",
+    "trueCounselQuestions": 4,
+    "unanswered": 0,
+    "consequence": "openCounselRoutes is empty, so no family in the queue is blocked by an open counsel question. The four answered questions were Alabama's post-denial de novo circuit branch, Nebraska's postconviction routing, New York's pre-November 160.55 motion, and Utah's 76-3-402 reduction."
+  },
+  "method": "Each family was resolved against the four inputs the state machine actually consults for LEGAL_BLOCKED -- the counsel queue's unanswered route keys, a lane BLOCKED_LEGAL_APPROVAL_INPUT verdict, a lane legal hold, and an owner correction -- rather than against the reported legalInputStatus field, which describes the counsel queue and not the block.",
+  "families": [
+    {
+      "familyId": "composed-treatment:nd-nonconviction-auto-close-verify",
+      "basis": "OWNER_CORRECTION_REQUIRED",
+      "genuineLegalWork": true,
+      "why": "The ratification registry records this route as built with a corrected waiting period, anchor and gates that counsel has not reconfirmed. The owner decision is explicit: no adoption yet, keep the family blocked and checkout disabled until counsel reconfirms route-specific.",
+      "whatWouldLiftIt": "Route-specific counsel reconfirmation of the corrected waiting period, anchor and gates."
+    },
+    {
+      "familyId": "hi_712_1200_deferred_expungement-set",
+      "basis": "OWNER_CORRECTION_REQUIRED",
+      "genuineLegalWork": true,
+      "why": "The owner decision is to honour the existing legal-design block: do not generate the stage-two application until the three-year waiting rule and the current HRS 712-1200 branch are confirmed from controlling authority. The source is held and exact -- HCJDC-159B binds at 1cb4f3ac -- so this is not a source problem.",
+      "whatWouldLiftIt": "Confirmation from controlling authority of the three-year rule and the qualifying HRS 712-1200 branch."
+    },
+    {
+      "familyId": "ky_felony_expungement_after_pardon-set",
+      "basis": "LANE_RETURN_BLOCKED_LEGAL_INPUT",
+      "genuineLegalWork": true,
+      "why": "A lane that tried to build the family returned BLOCKED_LEGAL_INPUT on the route-election classification. A worker that hit a legal wall is better evidence about the family than a status field derived from a route key.",
+      "whatWouldLiftIt": "Approval of the route-election classification."
+    },
+    {
+      "familyId": "ma-bmc-multi-set",
+      "basis": "LANE_RETURN_BLOCKED_LEGAL_INPUT",
+      "genuineLegalWork": true,
+      "why": "This one looked like the misfiled case and is not. Its legalInputStatus reads SETTLED and no owner correction covers it, but SETTLED describes the counsel queue rather than this block. VF05 returned BLOCKED_LEGAL_INPUT at base 46360ba1 on 2026-09-04, superseding VF09's PASS_COMPLETE_INDEPENDENT at base ebc44031 from 2026-09-02. The PASS base is an ancestor of the block base, so the block is the later read and the supersession is ordered correctly.",
+      "whatWouldLiftIt": "Resolution of the legal input VF05 named, then a fresh independent read."
+    },
+    {
+      "familyId": "ne-trafficking-setaside-and-seal-set",
+      "basis": "LANE_RETURN_BLOCKED_LEGAL_INPUT",
+      "genuineLegalWork": true,
+      "why": "A lane returned BLOCKED_LEGAL_INPUT: the vehicle conflicts with the controlling legal-design evidence.",
+      "whatWouldLiftIt": "A determination of which vehicle controls."
+    },
+    {
+      "familyId": "pa_790_nonconviction-set",
+      "basis": "LEGAL_APPROVAL_VERDICT",
+      "genuineLegalWork": true,
+      "why": "A verifier returned BLOCKED_LEGAL_APPROVAL_INPUT and no later record supersedes it.",
+      "whatWouldLiftIt": "The named legal approval."
+    },
+    {
+      "familyId": "wa_vac_homicide_victim_prostitution-set",
+      "basis": "LANE_RETURN_BLOCKED_LEGAL_INPUT",
+      "genuineLegalWork": true,
+      "why": "A lane returned BLOCKED_LEGAL_INPUT while attempting the family.",
+      "whatWouldLiftIt": "Resolution of the legal input that lane named."
+    }
+  ],
+  "counts": {
+    "legalBlocked": 7,
+    "heldByAnOpenCounselQuestion": 0,
+    "heldByARecordedOwnerCorrection": 2,
+    "heldByALaneLegalFinding": 4,
+    "heldByALegalApprovalVerdict": 1,
+    "misfiledAsLegal": 0
+  },
+  "whatThisDoesNotEstablish": [
+    "that any of the seven is close to resolution",
+    "that a lane's BLOCKED_LEGAL_INPUT finding is correct on the law -- it is correct that the lane stopped, which is what holds the family out of build lanes",
+    "that any route may be built, promoted or sold"
+  ]
+}

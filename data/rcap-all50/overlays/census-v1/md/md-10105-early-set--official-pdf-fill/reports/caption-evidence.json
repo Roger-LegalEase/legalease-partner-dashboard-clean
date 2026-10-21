@@ -1,0 +1,1774 @@
+{
+  "schemaVersion": "rcap-caption-evidence/v1",
+  "familyId": "md_10105_early-set",
+  "finding": "Both CC-DC-CR-072C and CC-DC-CR-078 extract clean, readable text, and Maryland authored its AcroForm field names as the printed captions - \"Law Enforcement Agency\", \"Printed Name of Witness\", \"Name of Person Signing Waiver\". Every caption claim in this family is therefore checked against the paper rather than asserted.",
+  "method": "The whole printed page is extracted, lowercased and flattened to alphanumeric words; the field name is flattened the same way; `printedCaptionFound` is true when the flattened name occurs in the flattened page. Every word and its order must still be present, so this is not a fuzzy match.",
+  "whereItIsFalse": "Maryland abbreviates and splits some captions on the paper. \"Case No\" prints as \"Case No.\"; the two signature columns print one shared set of captions over both; the tick-box captions are sentences that run past the box. Those are recorded false rather than explained away, and the printed line at each widget's own coordinate is recorded beside them.",
+  "perDocument": [
+    {
+      "document": "CC-DC-CR-072C",
+      "fields": 52,
+      "captionsFoundInPrintedText": 21,
+      "captionsNotFound": [
+        "Defendant Name",
+        "the charges was otherwise dismissed",
+        "Date_3",
+        "Date_4",
+        "City State Zip_2",
+        "Reset",
+        "Tracking Number",
+        "Date of Birth",
+        "served with citation",
+        "City/County of Law Enforcement Agency",
+        "as the result of the following incident",
+        "as the result of the following incident_1",
+        "Date charge was disposed",
+        "Case transferred to juvenile court",
+        "Attorney Address",
+        "Attorney Telephone",
+        "Printed Name of Attorney",
+        "Attorney Email Address",
+        "Attorney Fax Number",
+        "Printed Name of Defendant",
+        "Defendant Address",
+        "Defendant Telephone",
+        "Defendant Email Address",
+        "Defendant Fax #",
+        "Name of Person Signing Waiver",
+        "Complainant's Name",
+        "Law Enforcement Agency Name",
+        "date of arrest, detention or confinement",
+        "Petitioner's Signature",
+        "Court's City/County",
+        "Court's Address"
+      ]
+    },
+    {
+      "document": "CC-DC-CR-078",
+      "fields": 21,
+      "captionsFoundInPrintedText": 11,
+      "captionsNotFound": [
+        "Reset",
+        "Defendant name",
+        "Defendant Home Telephone",
+        "Defendant Work Telephone",
+        "Name Of Petitioner",
+        "Complainant's Name",
+        "Date of arrest, detention or confinement",
+        "Day",
+        "Court's City/County",
+        "Court's Address"
+      ]
+    }
+  ],
+  "perField": [
+    {
+      "document": "CC-DC-CR-072C",
+      "field": "Case No",
+      "page": 1,
+      "rect": {
+        "x": 385.04,
+        "y": 724.6,
+        "width": 187.32,
+        "height": 12.24
+      },
+      "labelThisBuildUses": "Case No.",
+      "section": "Court",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 725,
+          "extracted": "Located at Case No."
+        },
+        {
+          "y": 717,
+          "extracted": "Court Address"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-072C",
+      "field": "Defendant Name",
+      "page": 1,
+      "rect": {
+        "x": 343.05,
+        "y": 686.37,
+        "width": 159.63,
+        "height": 12.24
+      },
+      "labelThisBuildUses": "Defendant",
+      "section": "Caption",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 686,
+          "extracted": "STATE OF MARYLAND vs."
+        },
+        {
+          "y": 679,
+          "extracted": "Defendant DOB"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-072C",
+      "field": "Date",
+      "page": 1,
+      "rect": {
+        "x": 260.06,
+        "y": 586.55,
+        "width": 58.71,
+        "height": 11.52
+      },
+      "labelThisBuildUses": "Date of the arrest, summons or citation",
+      "section": "Paragraph one - the arrest, summons or citation",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 587,
+          "extracted": "1.(Check one of the following boxes) On or about, I was \u0007\u0006 arrested, \u0007\u0006served with a summons, \u0007\u0006or served"
+        },
+        {
+          "y": 580,
+          "extracted": "Date"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-072C",
+      "field": "arrested",
+      "page": 1,
+      "rect": {
+        "x": 352.98,
+        "y": 587.25,
+        "width": 7.92,
+        "height": 7.92
+      },
+      "labelThisBuildUses": "I was arrested (selection)",
+      "section": "Paragraph one - the arrest, summons or citation",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 587,
+          "extracted": "1.(Check one of the following boxes) On or about, I was \u0007\u0006 arrested, \u0007\u0006served with a summons, \u0007\u0006or served"
+        },
+        {
+          "y": 580,
+          "extracted": "Date"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-072C",
+      "field": "served with a summons",
+      "page": 1,
+      "rect": {
+        "x": 407.1,
+        "y": 587.25,
+        "width": 7.92,
+        "height": 7.92
+      },
+      "labelThisBuildUses": "I was served with a summons (selection)",
+      "section": "Paragraph one - the arrest, summons or citation",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 587,
+          "extracted": "1.(Check one of the following boxes) On or about, I was \u0007\u0006 arrested, \u0007\u0006served with a summons, \u0007\u0006or served"
+        },
+        {
+          "y": 580,
+          "extracted": "Date"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-072C",
+      "field": "the charges was otherwise dismissed",
+      "page": 1,
+      "rect": {
+        "x": 37.55,
+        "y": 467.72,
+        "width": 7.92,
+        "height": 7.92
+      },
+      "labelThisBuildUses": "The charge(s) was otherwise dismissed (selection)",
+      "section": "Paragraph three - how the charge ended",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 468,
+          "extracted": "\u0007\u0006the charge(s) was otherwise dismissed."
+        },
+        {
+          "y": 456,
+          "extracted": "\u0007\u0006I was found not guilty."
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-072C",
+      "field": "Signature of Attorney",
+      "page": 1,
+      "rect": {
+        "x": 35.3,
+        "y": 301.43,
+        "width": 117.22,
+        "height": 11.52
+      },
+      "labelThisBuildUses": "Signature of Attorney",
+      "section": "Signature block - attorney column",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 294,
+          "extracted": "Signature of Attorney Attorney Number Date Signature of Defendant Date"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-072C",
+      "field": "Attorney Number",
+      "page": 1,
+      "rect": {
+        "x": 154.32,
+        "y": 301.59,
+        "width": 75.24,
+        "height": 11.52
+      },
+      "labelThisBuildUses": "Attorney Number",
+      "section": "Signature block - attorney column",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 294,
+          "extracted": "Signature of Attorney Attorney Number Date Signature of Defendant Date"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-072C",
+      "field": "Date_3",
+      "page": 1,
+      "rect": {
+        "x": 231.84,
+        "y": 301.35,
+        "width": 55.08,
+        "height": 11.52
+      },
+      "labelThisBuildUses": "Date of the attorney signature",
+      "section": "Signature block - attorney column",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 294,
+          "extracted": "Signature of Attorney Attorney Number Date Signature of Defendant Date"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-072C",
+      "field": "City State Zip",
+      "page": 1,
+      "rect": {
+        "x": 35.24,
+        "y": 244.46,
+        "width": 157.2,
+        "height": 11.52
+      },
+      "labelThisBuildUses": "Attorney City, State, Zip",
+      "section": "Signature block - attorney column",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 237,
+          "extracted": "City, State, Zip Telephone City, State, Zip Telephone"
+        },
+        {
+          "y": 256,
+          "extracted": "Address Address"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-072C",
+      "field": "Signature of Defendant",
+      "page": 1,
+      "rect": {
+        "x": 319.9,
+        "y": 301.29,
+        "width": 170.63,
+        "height": 11.52
+      },
+      "labelThisBuildUses": "Signature of Defendant",
+      "section": "Signature block - defendant column",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 294,
+          "extracted": "Signature of Attorney Attorney Number Date Signature of Defendant Date"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-072C",
+      "field": "Date_4",
+      "page": 1,
+      "rect": {
+        "x": 493.16,
+        "y": 301.51,
+        "width": 77.52,
+        "height": 11.52
+      },
+      "labelThisBuildUses": "Date of the defendant signature",
+      "section": "Signature block - defendant column",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 294,
+          "extracted": "Signature of Attorney Attorney Number Date Signature of Defendant Date"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-072C",
+      "field": "City State Zip_2",
+      "page": 1,
+      "rect": {
+        "x": 320.03,
+        "y": 246.04,
+        "width": 157.2,
+        "height": 11.52
+      },
+      "labelThisBuildUses": "Defendant City, State, Zip",
+      "section": "Signature block - defendant column",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 237,
+          "extracted": "City, State, Zip Telephone City, State, Zip Telephone"
+        },
+        {
+          "y": 256,
+          "extracted": "Address Address"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-072C",
+      "field": "Law Enforcement Agency",
+      "page": 1,
+      "rect": {
+        "x": 189.68,
+        "y": 570.21,
+        "width": 384.39,
+        "height": 11.52
+      },
+      "labelThisBuildUses": "Law Enforcement Agency",
+      "section": "Paragraph one - the arrest, summons or citation",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 572,
+          "extracted": "with a citation by an officer of the"
+        },
+        {
+          "y": 563,
+          "extracted": "Law Enforcement Agency"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-072C",
+      "field": "day of",
+      "page": 1,
+      "rect": {
+        "x": 215.88,
+        "y": 77.13,
+        "width": 60.84,
+        "height": 12.24
+      },
+      "labelThisBuildUses": "Witness clause - day of the month you sign",
+      "section": "General Waiver and Release (Form 4-503.2) on the same sheet",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 78,
+          "extracted": "WITNESS my hand and seal this day of , ."
+        },
+        {
+          "y": 70,
+          "extracted": "Month Year"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-072C",
+      "field": "Month",
+      "page": 1,
+      "rect": {
+        "x": 313.8,
+        "y": 77.62,
+        "width": 102.19,
+        "height": 12.24
+      },
+      "labelThisBuildUses": "Witness clause - month you sign",
+      "section": "General Waiver and Release (Form 4-503.2) on the same sheet",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 78,
+          "extracted": "WITNESS my hand and seal this day of , ."
+        },
+        {
+          "y": 70,
+          "extracted": "Month Year"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-072C",
+      "field": "Year",
+      "page": 1,
+      "rect": {
+        "x": 422.68,
+        "y": 77.62,
+        "width": 59.9,
+        "height": 12.24
+      },
+      "labelThisBuildUses": "Witness clause - year you sign",
+      "section": "General Waiver and Release (Form 4-503.2) on the same sheet",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 78,
+          "extracted": "WITNESS my hand and seal this day of , ."
+        },
+        {
+          "y": 70,
+          "extracted": "Month Year"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-072C",
+      "field": "Reset",
+      "page": 1,
+      "rect": {
+        "x": 489.65,
+        "y": 17.49,
+        "width": 72,
+        "height": 18
+      },
+      "labelThisBuildUses": "Reset this form (viewer control)",
+      "section": "Viewer controls",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 24,
+          "extracted": "CC-DC-CR-072C (Rev. 01/2025)"
+        },
+        {
+          "y": 33,
+          "extracted": "Printed Name of Witness"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-072C",
+      "field": "Printed Name of Witness",
+      "page": 1,
+      "rect": {
+        "x": 104.73,
+        "y": 39.84,
+        "width": 186.23,
+        "height": 12.24
+      },
+      "labelThisBuildUses": "Printed Name of Witness",
+      "section": "General Waiver and Release (Form 4-503.2) on the same sheet",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 33,
+          "extracted": "Printed Name of Witness"
+        },
+        {
+          "y": 51,
+          "extracted": "Witness Signature Petitioner Signature"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-072C",
+      "field": "Circuit Court",
+      "page": 1,
+      "rect": {
+        "x": 82.49,
+        "y": 751.05,
+        "width": 9,
+        "height": 9
+      },
+      "labelThisBuildUses": "Circuit Court (selection)",
+      "section": "Court",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 751,
+          "extracted": "\u0007\u0006CIRCUIT COURT \u0007\u0006 DISTRICT COURT OF MARYLAND FOR"
+        },
+        {
+          "y": 743,
+          "extracted": "City/County"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-072C",
+      "field": "District Court",
+      "page": 1,
+      "rect": {
+        "x": 190.37,
+        "y": 751,
+        "width": 9,
+        "height": 9
+      },
+      "labelThisBuildUses": "District Court of Maryland (selection)",
+      "section": "Court",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 751,
+          "extracted": "\u0007\u0006CIRCUIT COURT \u0007\u0006 DISTRICT COURT OF MARYLAND FOR"
+        },
+        {
+          "y": 743,
+          "extracted": "City/County"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-072C",
+      "field": "Tracking Number",
+      "page": 1,
+      "rect": {
+        "x": 393.11,
+        "y": 703.51,
+        "width": 180.12,
+        "height": 12.24
+      },
+      "labelThisBuildUses": "Tracking #",
+      "section": "Court",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 705,
+          "extracted": "Tracking #"
+        },
+        {
+          "y": 717,
+          "extracted": "Court Address"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-072C",
+      "field": "Date of Birth",
+      "page": 1,
+      "rect": {
+        "x": 507.16,
+        "y": 687,
+        "width": 65.19,
+        "height": 11.82
+      },
+      "labelThisBuildUses": "Defendant DOB",
+      "section": "Caption",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 686,
+          "extracted": "STATE OF MARYLAND vs."
+        },
+        {
+          "y": 679,
+          "extracted": "Defendant DOB"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-072C",
+      "field": "served with citation",
+      "page": 1,
+      "rect": {
+        "x": 529.86,
+        "y": 587.25,
+        "width": 7.92,
+        "height": 7.92
+      },
+      "labelThisBuildUses": "I was served with a citation (selection)",
+      "section": "Paragraph one - the arrest, summons or citation",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 587,
+          "extracted": "1.(Check one of the following boxes) On or about, I was \u0007\u0006 arrested, \u0007\u0006served with a summons, \u0007\u0006or served"
+        },
+        {
+          "y": 580,
+          "extracted": "Date"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-072C",
+      "field": "City/County of Law Enforcement Agency",
+      "page": 1,
+      "rect": {
+        "x": 44.95,
+        "y": 550.84,
+        "width": 133.32,
+        "height": 11.52
+      },
+      "labelThisBuildUses": "City or county where it happened",
+      "section": "Paragraph one - the arrest, summons or citation",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 551,
+          "extracted": "at , Maryland, as a result of the following incident"
+        },
+        {
+          "y": 563,
+          "extracted": "Law Enforcement Agency"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-072C",
+      "field": "as the result of the following incident",
+      "page": 1,
+      "rect": {
+        "x": 391.85,
+        "y": 550.75,
+        "width": 182.67,
+        "height": 11.52
+      },
+      "labelThisBuildUses": "The incident that led to the charge - first line",
+      "section": "Paragraph one - the arrest, summons or citation",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 551,
+          "extracted": "at , Maryland, as a result of the following incident"
+        },
+        {
+          "y": 563,
+          "extracted": "Law Enforcement Agency"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-072C",
+      "field": "as the result of the following incident_1",
+      "page": 1,
+      "rect": {
+        "x": 36.69,
+        "y": 532.2,
+        "width": 533.07,
+        "height": 11.52
+      },
+      "labelThisBuildUses": "The incident that led to the charge - second line",
+      "section": "Paragraph one - the arrest, summons or citation",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 533,
+          "extracted": "."
+        },
+        {
+          "y": 517,
+          "extracted": "2.I was charged with the offense of."
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-072C",
+      "field": "charged with the offense of",
+      "page": 1,
+      "rect": {
+        "x": 195.65,
+        "y": 516.89,
+        "width": 375.53,
+        "height": 11.52
+      },
+      "labelThisBuildUses": "The offense you were charged with",
+      "section": "Paragraph two - the charge",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 517,
+          "extracted": "2.I was charged with the offense of."
+        },
+        {
+          "y": 503,
+          "extracted": "3.On or about, the charge was disposed of as follows (check all that apply, making sure each statement is"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-072C",
+      "field": "Date charge was disposed",
+      "page": 1,
+      "rect": {
+        "x": 101.11,
+        "y": 503.74,
+        "width": 72.95,
+        "height": 11.52
+      },
+      "labelThisBuildUses": "Date the charge was disposed of",
+      "section": "Paragraph three - how the charge ended",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 503,
+          "extracted": "3.On or about, the charge was disposed of as follows (check all that apply, making sure each statement is"
+        },
+        {
+          "y": 497,
+          "extracted": "Date"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-072C",
+      "field": "acquitted",
+      "page": 1,
+      "rect": {
+        "x": 37.57,
+        "y": 481.28,
+        "width": 7.92,
+        "height": 7.92
+      },
+      "labelThisBuildUses": "I was acquitted of the charge(s) (selection)",
+      "section": "Paragraph three - how the charge ended",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 481,
+          "extracted": "\u0007\u0006I was acquitted of the charge(s)."
+        },
+        {
+          "y": 493,
+          "extracted": "true and correct):"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-072C",
+      "field": "found not guilty",
+      "page": 1,
+      "rect": {
+        "x": 37.15,
+        "y": 456.32,
+        "width": 8.34,
+        "height": 7.92
+      },
+      "labelThisBuildUses": "I was found not guilty (selection)",
+      "section": "Paragraph three - how the charge ended",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 456,
+          "extracted": "\u0007\u0006I was found not guilty."
+        },
+        {
+          "y": 468,
+          "extracted": "\u0007\u0006the charge(s) was otherwise dismissed."
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-072C",
+      "field": "nolle prosequi",
+      "page": 1,
+      "rect": {
+        "x": 38.05,
+        "y": 441.92,
+        "width": 7.5,
+        "height": 7.92
+      },
+      "labelThisBuildUses": "A nolle prosequi was entered, without a drug or alcohol treatment requirement (selection)",
+      "section": "Paragraph three - how the charge ended",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 442,
+          "extracted": "\u0007\u0006a nolle prosequi was entered (without the requirement of drug or alcohol treatment)."
+        },
+        {
+          "y": 428,
+          "extracted": "4.\u0007\u0006 The case was transferred to the juvenile court pursuant to Criminal Procedure Article, §§ 4-202 or 4-202.2."
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-072C",
+      "field": "Case transferred to juvenile court",
+      "page": 1,
+      "rect": {
+        "x": 51.19,
+        "y": 428.56,
+        "width": 7.92,
+        "height": 7.92
+      },
+      "labelThisBuildUses": "The case was transferred to the juvenile court under Crim. Proc. §§ 4-202 or 4-202.2 (selection)",
+      "section": "Paragraphs four and five - transfers",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 428,
+          "extracted": "4.\u0007\u0006 The case was transferred to the juvenile court pursuant to Criminal Procedure Article, §§ 4-202 or 4-202.2."
+        },
+        {
+          "y": 418,
+          "extracted": "(Note: This petition must be filed in the court that issued the order to transfer. The expungement is only of the records in the"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-072C",
+      "field": "transferred to another court",
+      "page": 1,
+      "rect": {
+        "x": 51.16,
+        "y": 394.96,
+        "width": 7.92,
+        "height": 7.92
+      },
+      "labelThisBuildUses": "The case began in one court and was transferred to another (selection)",
+      "section": "Paragraphs four and five - transfers",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 395,
+          "extracted": "5.\u0007\u0006 The case began in one court and was transferred to another court other than the juvenile court. (Note: This petition"
+        },
+        {
+          "y": 384,
+          "extracted": "must be filed in the court to which the case was transferred.)"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-072C",
+      "field": "Attorney Address",
+      "page": 1,
+      "rect": {
+        "x": 35.24,
+        "y": 262.49,
+        "width": 251.52,
+        "height": 11.52
+      },
+      "labelThisBuildUses": "Attorney Address",
+      "section": "Signature block - attorney column",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 256,
+          "extracted": "Address Address"
+        },
+        {
+          "y": 274,
+          "extracted": "Printed Name"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-072C",
+      "field": "Attorney Telephone",
+      "page": 1,
+      "rect": {
+        "x": 197.04,
+        "y": 244.54,
+        "width": 88.8,
+        "height": 11.52
+      },
+      "labelThisBuildUses": "Attorney Telephone",
+      "section": "Signature block - attorney column",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 237,
+          "extracted": "City, State, Zip Telephone City, State, Zip Telephone"
+        },
+        {
+          "y": 256,
+          "extracted": "Address Address"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-072C",
+      "field": "Printed Name of Attorney",
+      "page": 1,
+      "rect": {
+        "x": 34.48,
+        "y": 281.82,
+        "width": 251.52,
+        "height": 11.52
+      },
+      "labelThisBuildUses": "Attorney Printed Name",
+      "section": "Signature block - attorney column",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 276,
+          "extracted": "Printed Name"
+        },
+        {
+          "y": 274,
+          "extracted": "Printed Name"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-072C",
+      "field": "Attorney Email Address",
+      "page": 1,
+      "rect": {
+        "x": 34.88,
+        "y": 225.31,
+        "width": 157.2,
+        "height": 11.52
+      },
+      "labelThisBuildUses": "Attorney E-mail",
+      "section": "Signature block - attorney column",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 218,
+          "extracted": "E-mailFax E-mailFax"
+        },
+        {
+          "y": 237,
+          "extracted": "City, State, Zip Telephone City, State, Zip Telephone"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-072C",
+      "field": "Attorney Fax Number",
+      "page": 1,
+      "rect": {
+        "x": 195.68,
+        "y": 225.72,
+        "width": 89.64,
+        "height": 11.52
+      },
+      "labelThisBuildUses": "Attorney Fax",
+      "section": "Signature block - attorney column",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 218,
+          "extracted": "E-mailFax E-mailFax"
+        },
+        {
+          "y": 237,
+          "extracted": "City, State, Zip Telephone City, State, Zip Telephone"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-072C",
+      "field": "Printed Name of Defendant",
+      "page": 1,
+      "rect": {
+        "x": 319.39,
+        "y": 283.79,
+        "width": 251.95,
+        "height": 11.52
+      },
+      "labelThisBuildUses": "Defendant Printed Name",
+      "section": "Signature block - defendant column",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 276,
+          "extracted": "Printed Name"
+        },
+        {
+          "y": 274,
+          "extracted": "Printed Name"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-072C",
+      "field": "Defendant Address",
+      "page": 1,
+      "rect": {
+        "x": 319.29,
+        "y": 265.04,
+        "width": 251.52,
+        "height": 11.52
+      },
+      "labelThisBuildUses": "Defendant Address",
+      "section": "Signature block - defendant column",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 274,
+          "extracted": "Printed Name"
+        },
+        {
+          "y": 256,
+          "extracted": "Address Address"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-072C",
+      "field": "Defendant Telephone",
+      "page": 1,
+      "rect": {
+        "x": 481.87,
+        "y": 246.15,
+        "width": 88.91,
+        "height": 11.52
+      },
+      "labelThisBuildUses": "Defendant Telephone",
+      "section": "Signature block - defendant column",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 237,
+          "extracted": "City, State, Zip Telephone City, State, Zip Telephone"
+        },
+        {
+          "y": 256,
+          "extracted": "Address Address"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-072C",
+      "field": "Defendant Email Address",
+      "page": 1,
+      "rect": {
+        "x": 319.87,
+        "y": 226.62,
+        "width": 157.08,
+        "height": 11.52
+      },
+      "labelThisBuildUses": "Defendant E-mail",
+      "section": "Signature block - defendant column",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 218,
+          "extracted": "E-mailFax E-mailFax"
+        },
+        {
+          "y": 237,
+          "extracted": "City, State, Zip Telephone City, State, Zip Telephone"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-072C",
+      "field": "Defendant Fax #",
+      "page": 1,
+      "rect": {
+        "x": 480.56,
+        "y": 226.62,
+        "width": 89.53,
+        "height": 11.52
+      },
+      "labelThisBuildUses": "Defendant Fax (optional)",
+      "section": "Signature block - defendant column",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 218,
+          "extracted": "E-mailFax E-mailFax"
+        },
+        {
+          "y": 237,
+          "extracted": "City, State, Zip Telephone City, State, Zip Telephone"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-072C",
+      "field": "Name of Person Signing Waiver",
+      "page": 1,
+      "rect": {
+        "x": 77,
+        "y": 181.19,
+        "width": 123.72,
+        "height": 12.24
+      },
+      "labelThisBuildUses": "Name of the person signing the waiver",
+      "section": "General Waiver and Release (Form 4-503.2) on the same sheet",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 181,
+          "extracted": "I, , release and forever discharge , and"
+        },
+        {
+          "y": 174,
+          "extracted": "Name Complainant"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-072C",
+      "field": "Complainant's Name",
+      "page": 1,
+      "rect": {
+        "x": 339.87,
+        "y": 181.59,
+        "width": 213.74,
+        "height": 12.24
+      },
+      "labelThisBuildUses": "Complainant",
+      "section": "General Waiver and Release (Form 4-503.2) on the same sheet",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 181,
+          "extracted": "I, , release and forever discharge , and"
+        },
+        {
+          "y": 174,
+          "extracted": "Name Complainant"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-072C",
+      "field": "Law Enforcement Agency Name",
+      "page": 1,
+      "rect": {
+        "x": 51.19,
+        "y": 165.36,
+        "width": 227.41,
+        "height": 12.24
+      },
+      "labelThisBuildUses": "Law Enforcement Agency named in the waiver",
+      "section": "General Waiver and Release (Form 4-503.2) on the same sheet",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 165,
+          "extracted": "the , all of its officers, agents, and employees, and any and all other"
+        },
+        {
+          "y": 158,
+          "extracted": "Law Enforcement Agency"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-072C",
+      "field": "date of arrest, detention or confinement",
+      "page": 1,
+      "rect": {
+        "x": 145.83,
+        "y": 132.89,
+        "width": 102.46,
+        "height": 12.24
+      },
+      "labelThisBuildUses": "Date of the arrest, detention or confinement",
+      "section": "General Waiver and Release (Form 4-503.2) on the same sheet",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 132,
+          "extracted": "confinement on or about ."
+        },
+        {
+          "y": 126,
+          "extracted": "Date"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-072C",
+      "field": "Witness Signature",
+      "page": 1,
+      "rect": {
+        "x": 105.6,
+        "y": 57.39,
+        "width": 185.64,
+        "height": 12.24
+      },
+      "labelThisBuildUses": "Witness Signature",
+      "section": "General Waiver and Release (Form 4-503.2) on the same sheet",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 58,
+          "extracted": "(Seal)"
+        },
+        {
+          "y": 51,
+          "extracted": "Witness Signature Petitioner Signature"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-072C",
+      "field": "Petitioner's Signature",
+      "page": 1,
+      "rect": {
+        "x": 350.21,
+        "y": 57.72,
+        "width": 186.19,
+        "height": 12.24
+      },
+      "labelThisBuildUses": "Petitioner Signature",
+      "section": "General Waiver and Release (Form 4-503.2) on the same sheet",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 58,
+          "extracted": "(Seal)"
+        },
+        {
+          "y": 51,
+          "extracted": "Witness Signature Petitioner Signature"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-072C",
+      "field": "Court's City/County",
+      "page": 1,
+      "rect": {
+        "x": 414.13,
+        "y": 748.93,
+        "width": 159.34,
+        "height": 12.24
+      },
+      "labelThisBuildUses": "City/County of the court (selection)",
+      "section": "Court",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 751,
+          "extracted": "\u0007\u0006CIRCUIT COURT \u0007\u0006 DISTRICT COURT OF MARYLAND FOR"
+        },
+        {
+          "y": 743,
+          "extracted": "City/County"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-072C",
+      "field": "Court's Address",
+      "page": 1,
+      "rect": {
+        "x": 129.56,
+        "y": 724.55,
+        "width": 208.84,
+        "height": 12.24
+      },
+      "labelThisBuildUses": "Court Address",
+      "section": "Court",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 725,
+          "extracted": "Located at Case No."
+        },
+        {
+          "y": 717,
+          "extracted": "Court Address"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-078",
+      "field": "Reset",
+      "page": 1,
+      "rect": {
+        "x": 292.68,
+        "y": 90.36,
+        "width": 72,
+        "height": 18
+      },
+      "labelThisBuildUses": "Reset this form (viewer control)",
+      "section": "Viewer controls",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 97,
+          "extracted": "CC-DC-CR-078 (Rev. 01/2025) GWREX"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-078",
+      "field": "Case No",
+      "page": 1,
+      "rect": {
+        "x": 400.88,
+        "y": 641.54,
+        "width": 138.2,
+        "height": 12.24
+      },
+      "labelThisBuildUses": "Case No.",
+      "section": "Court",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 642,
+          "extracted": "Located at Case No."
+        },
+        {
+          "y": 634,
+          "extracted": "Court Address"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-078",
+      "field": "City, State, Zip",
+      "page": 1,
+      "rect": {
+        "x": 342.83,
+        "y": 558.84,
+        "width": 196.25,
+        "height": 12.96
+      },
+      "labelThisBuildUses": "Defendant City, State, Zip",
+      "section": "Caption",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 551,
+          "extracted": "City, State, Zip"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-078",
+      "field": "Law Enforcement Agency",
+      "page": 1,
+      "rect": {
+        "x": 318.55,
+        "y": 436.19,
+        "width": 187.87,
+        "height": 12.96
+      },
+      "labelThisBuildUses": "Law Enforcement Agency named in the waiver",
+      "section": "The release",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 436,
+          "extracted": ", and the , all of"
+        },
+        {
+          "y": 428,
+          "extracted": "Complainant Law Enforcement Agency"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-078",
+      "field": "Witness Signature",
+      "page": 1,
+      "rect": {
+        "x": 95.34,
+        "y": 202.38,
+        "width": 196.19,
+        "height": 12.96
+      },
+      "labelThisBuildUses": "Witness Signature",
+      "section": "Witness clause",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 205,
+          "extracted": "(Seal)"
+        },
+        {
+          "y": 194,
+          "extracted": "Witness Signature Petitioner Signature"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-078",
+      "field": "Printed Name of Witness",
+      "page": 1,
+      "rect": {
+        "x": 95.65,
+        "y": 173.61,
+        "width": 196.2,
+        "height": 12.96
+      },
+      "labelThisBuildUses": "Printed Name of Witness",
+      "section": "Witness clause",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 164,
+          "extracted": "Printed Name of Witness"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-078",
+      "field": "Petitioner Signature",
+      "page": 1,
+      "rect": {
+        "x": 313.39,
+        "y": 202.28,
+        "width": 196.35,
+        "height": 12.96
+      },
+      "labelThisBuildUses": "Petitioner Signature",
+      "section": "Witness clause",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 205,
+          "extracted": "(Seal)"
+        },
+        {
+          "y": 194,
+          "extracted": "Witness Signature Petitioner Signature"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-078",
+      "field": "Circuit Court",
+      "page": 1,
+      "rect": {
+        "x": 118.58,
+        "y": 669.19,
+        "width": 9,
+        "height": 9
+      },
+      "labelThisBuildUses": "Circuit Court (selection)",
+      "section": "Court",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 669,
+          "extracted": "\u0007\u0006CIRCUIT COURT \u0007\u0006DISTRICT COURT OF MARYLAND FOR"
+        },
+        {
+          "y": 661,
+          "extracted": "City/County"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-078",
+      "field": "District Court",
+      "page": 1,
+      "rect": {
+        "x": 223.42,
+        "y": 669.19,
+        "width": 9,
+        "height": 9
+      },
+      "labelThisBuildUses": "District Court of Maryland (selection)",
+      "section": "Court",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 669,
+          "extracted": "\u0007\u0006CIRCUIT COURT \u0007\u0006DISTRICT COURT OF MARYLAND FOR"
+        },
+        {
+          "y": 661,
+          "extracted": "City/County"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-078",
+      "field": "Defendant name",
+      "page": 1,
+      "rect": {
+        "x": 342.39,
+        "y": 614.28,
+        "width": 196.25,
+        "height": 12.96
+      },
+      "labelThisBuildUses": "Defendant",
+      "section": "Caption",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 617,
+          "extracted": "STATE OF MARYLAND vs."
+        },
+        {
+          "y": 606,
+          "extracted": "Defendant"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-078",
+      "field": "Defendant Address",
+      "page": 1,
+      "rect": {
+        "x": 342.88,
+        "y": 585.86,
+        "width": 196.25,
+        "height": 12.96
+      },
+      "labelThisBuildUses": "Defendant Address",
+      "section": "Caption",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 578,
+          "extracted": "Address"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-078",
+      "field": "Defendant Home Telephone",
+      "page": 1,
+      "rect": {
+        "x": 343.49,
+        "y": 531.6,
+        "width": 92.22,
+        "height": 12.96
+      },
+      "labelThisBuildUses": "Defendant Home Telephone",
+      "section": "Caption",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 523,
+          "extracted": "Home Telephone Work Telephone"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-078",
+      "field": "Defendant Work Telephone",
+      "page": 1,
+      "rect": {
+        "x": 447.34,
+        "y": 531.64,
+        "width": 92.22,
+        "height": 12.96
+      },
+      "labelThisBuildUses": "Defendant Work Telephone",
+      "section": "Caption",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 523,
+          "extracted": "Home Telephone Work Telephone"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-078",
+      "field": "Name Of Petitioner",
+      "page": 1,
+      "rect": {
+        "x": 124.88,
+        "y": 460.75,
+        "width": 278.56,
+        "height": 12.96
+      },
+      "labelThisBuildUses": "Name of the person signing the waiver",
+      "section": "The release",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 462,
+          "extracted": "I, , release and forever discharge"
+        },
+        {
+          "y": 453,
+          "extracted": "Name"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-078",
+      "field": "Complainant's Name",
+      "page": 1,
+      "rect": {
+        "x": 98.93,
+        "y": 436.15,
+        "width": 177.59,
+        "height": 12.96
+      },
+      "labelThisBuildUses": "Complainant",
+      "section": "The release",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 436,
+          "extracted": ", and the , all of"
+        },
+        {
+          "y": 428,
+          "extracted": "Complainant Law Enforcement Agency"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-078",
+      "field": "Date of arrest, detention or confinement",
+      "page": 1,
+      "rect": {
+        "x": 99.16,
+        "y": 359.72,
+        "width": 173.78,
+        "height": 12.96
+      },
+      "labelThisBuildUses": "Date of the arrest, detention or confinement",
+      "section": "The release",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 360,
+          "extracted": "."
+        },
+        {
+          "y": 351,
+          "extracted": "Date"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-078",
+      "field": "Day",
+      "page": 1,
+      "rect": {
+        "x": 241.46,
+        "y": 231.88,
+        "width": 71.86,
+        "height": 12.96
+      },
+      "labelThisBuildUses": "Witness clause - day of the month you sign",
+      "section": "Witness clause",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 233,
+          "extracted": "WITNESS my hand and seal this day of ,"
+        },
+        {
+          "y": 224,
+          "extracted": "Month Year"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-078",
+      "field": "Month",
+      "page": 1,
+      "rect": {
+        "x": 346.66,
+        "y": 232.11,
+        "width": 115.25,
+        "height": 12.96
+      },
+      "labelThisBuildUses": "Witness clause - month you sign",
+      "section": "Witness clause",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 233,
+          "extracted": "WITNESS my hand and seal this day of ,"
+        },
+        {
+          "y": 224,
+          "extracted": "Month Year"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-078",
+      "field": "Year",
+      "page": 1,
+      "rect": {
+        "x": 467.93,
+        "y": 232.14,
+        "width": 72.15,
+        "height": 12.96
+      },
+      "labelThisBuildUses": "Witness clause - year you sign",
+      "section": "Witness clause",
+      "printedCaptionFound": true,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 233,
+          "extracted": "WITNESS my hand and seal this day of ,"
+        },
+        {
+          "y": 224,
+          "extracted": "Month Year"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-078",
+      "field": "Court's City/County",
+      "page": 1,
+      "rect": {
+        "x": 442.39,
+        "y": 668.04,
+        "width": 99.21,
+        "height": 12.24
+      },
+      "labelThisBuildUses": "City/County of the court (selection)",
+      "section": "Court",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 669,
+          "extracted": "\u0007\u0006CIRCUIT COURT \u0007\u0006DISTRICT COURT OF MARYLAND FOR"
+        },
+        {
+          "y": 661,
+          "extracted": "City/County"
+        }
+      ]
+    },
+    {
+      "document": "CC-DC-CR-078",
+      "field": "Court's Address",
+      "page": 1,
+      "rect": {
+        "x": 163.76,
+        "y": 642.18,
+        "width": 192.44,
+        "height": 12.24
+      },
+      "labelThisBuildUses": "Court Address",
+      "section": "Court",
+      "printedCaptionFound": false,
+      "textExtractedAtThisCoordinate": [
+        {
+          "y": 642,
+          "extracted": "Located at Case No."
+        },
+        {
+          "y": 634,
+          "extracted": "Court Address"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-rows/v1",
+  "assignmentId": "PF11",
+  "workerId": "BUILD-A",
+  "lane": "packet-build",
+  "engine": "Claude Code",
+  "shiftBaseSha": "3fcdb0f292f31d1a1bbc5778832d54401ef9c782",
+  "whyThisFileIsNotRowsJson": "data/rcap-grade-a/packet-factory-24h/pf11/ holds an earlier cohort's rows.json for this lane and it is not overwritten. This file is BUILD-A's return for the one PF11 family in the official_pdf_fill cohort, nd-summary-marijuana-pardon-set, which that file does not mention. The two returns cover disjoint families and do not disagree.",
+  "familiesAssigned": ["nd-summary-marijuana-pardon-set"],
+  "claim": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF11 'nd-summary-marijuana-pardon-set' returned CLAIM_OK before any read or write of family content",
+  "selfVerification": "none",
+  "rows": [
+    {
+      "itemId": "nd-summary-marijuana-pardon-set",
+      "status": "STOPPED",
+      "stopClass": "SHARED_MACHINERY_HOLD",
+      "whyNotBlockedSource": "the source binds. SFN 61663 resolved by exact SHA-256 c59cd5b8c9938e78f951f3aea1d397fe896be253d8d35a14455d684ac56c697f in the Master Library, 36 AcroForm fields and 2 pages, matching the committed corpus index exactly.",
+      "whyNotBlockedLegalInput": "no legal input is open. MASTER_QUEUE records legalInputStatus SETTLED and the route is stated.",
+      "whyNotAPacketDefect": "the field dictionary is complete and exact: 36 of 36 widgets mapped, 0 unmapped, 0 stale, 0 hidden. --check returns 6 writes, 26 participant-supplied, 2 elections and 2 protected. Nothing about this family failed.",
+      "jurisdiction": "ND",
+      "routeKeys": ["obligation:track-pathway:ND:nd-summary-marijuana-pardon:marijuana-specific-summary-pardon-or-sealing-relief"],
+      "statutoryAuthority": "N.D.C.C. ch. 12-55.1; ND DOCR form SFN 61663",
+      "implementationStrategy": "official_pdf_fill",
+      "buildScript": "scripts/build-census-v1-nd-summary-marijuana-pardon-set.mjs",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/nd/nd-summary-marijuana-pardon-set--official-pdf-fill",
+      "overlayDirectoryTouched": false,
+      "overlayDirectoryState": "does not exist. The render threw before any file was written; the four empty directories the run had created were removed, so the stopped family leaves nothing behind.",
+      "theBlocker": {
+        "what": "scripts/rcap-official-forms/rcap-official-form-finalize.mjs raises NonFilingHoldError before loading the document, for every fixture, so no artifact can be produced.",
+        "raisedBy": "detectNonFilingNotice in scripts/rcap-official-forms/rcap-source-notice.mjs",
+        "patternMatched": "informational_purposes_only — /\\bfor informational purposes only\\b/",
+        "theSentenceItMatched": "This is provided for informational purposes only and not for the purpose of providing legal advice. You should contact your attorney to obtain advice with respect to any particular issue or problem.",
+        "wherePrinted": "SFN 61663 page 1, footer, y=33 and y=22",
+        "whyThisIsAFalsePositive": [
+          "The gate exists to stop the factory filling a document a court says is not the filing copy. Its own module comment states the rule it is built on: 'Every pattern here is a phrase that describes the DOCUMENT.' The subject of this sentence is not the document. It is the paragraph above it, which explains the effect of a pardon; the sentence is an ordinary legal-advice disclaimer of that explanation.",
+          "SFN 61663 is unambiguously the thing the participant sends. It carries 36 fill-in widgets and a signature line; it prints three addresses to send the completed form to (fax 701-328-6780, P.O. Box 1898 Bismarck, pardonclerk@nd.gov); and it says 'If you fail to complete this application in full, including the needed attachments, it will be returned to you, which could result in a postponement of your hearing.' A document that is returned for being incomplete is a document meant to be completed.",
+          "The repository's own census agrees: route-obligation-candidate.json records SFN-61663 as this route's primary_filing, and MASTER_QUEUE has the family SOURCE_READY with implementationStrategy official_pdf_fill.",
+          "The pattern's true targets are the North Carolina Spanish translations, which print 'THIS FORM IS FOR INFORMATIONAL PURPOSES ONLY. DO NOT COMPLETE THIS FORM FOR FILING.' Those say it about themselves. This form does not."
+        ]
+      },
+      "whatThisLaneDidNotDoAboutIt": [
+        "It did not narrow the shared detector. scripts/rcap-official-forms/ is shared machinery: this one pattern governs every family in the factory, other lanes are building against it right now, and narrowing a safety gate that prevents filling a do-not-file document is a change that needs its own tests and its own author rather than a side effect of one family's build.",
+        "It did not pass a value to bypass the hold. finalizeOfficialForm reads `nonFilingNotice ?? detectNonFilingNotice(...)`, so passing false would slip past the gate on nullish-coalescing semantics. That is an accident of the expression and not an API for clearing a document.",
+        "It did not filter the disclaimer out of the text handed to the detector. The finalizer takes documentTextLines expressly so the hold rests on the document's own words rather than the caller's reading of them; withholding the line would defeat the gate while appearing to satisfy it."
+      ],
+      "whatWouldUnblockIt": "a deliberate narrowing of the informational_purposes_only pattern so it matches only where the sentence's subject is the document — for example requiring 'this form is for informational purposes only' rather than the bare phrase — made by the owner of scripts/rcap-official-forms/, with the North Carolina Spanish translations kept as the regression case. The builder in this commit is complete and will produce the packet unchanged the moment the gate is narrowed.",
+      "whatIsAlreadyBuiltAndWaiting": {
+        "fieldDictionary": "complete and asserted exact in both directions against the pinned binary: 36 mapped, 0 unmapped, 0 stale",
+        "writes": 6,
+        "participantSuppliedBlanks": 26,
+        "elections": 2,
+        "protectedBlanks": 2,
+        "hiddenWidgets": 0,
+        "participantInstructions": "written, including the form's own capitalised warning that a pardon does not expunge a criminal history record, the public-record consequence, the 90-day deadline and the two required attachments"
+      },
+      "nearMissesFoundAndRefusedWhileBuilding": [
+        { "field": "City or County", "wouldHaveBound": "participant.city", "harm": "the participant's home town written into the offence table's column asking where the offence was prosecuted" },
+        { "field": "Case Number", "wouldHaveBound": "matter.case_number", "harm": "one value in the first offence row beside five empty cells, on a form whose instructions say an incomplete application is returned" },
+        { "field": "Work Telephone Number", "wouldHaveBound": "participant.phone", "harm": "one unqualified contact number written into two boxes asking different questions, and asserted to be a home number in the first" }
+      ],
+      "identifierHandling": "the shared semantics already refuses Social Security Number as government_identifier and Race as race. Both, and Place of Birth, are carried to the participant by name. No identifier value appears anywhere in this family.",
+      "counters": null,
+      "allNineCountersZero": false,
+      "whyCountersAreNull": "no packet was rendered, so there is nothing to count. Reporting nine zeros for a family that produced no artifact would be the worst available answer.",
+      "rasterState": "NOT_APPLICABLE_NOTHING_RENDERED",
+      "selfVerified": false,
+      "packetsSelfVerified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    }
+  ]
+}

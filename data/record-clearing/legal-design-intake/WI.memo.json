@@ -1,0 +1,2463 @@
+{
+  "_controllingReview": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md, materialized from Expungement_AI_RCAP_Master_Library_Edition_1_2.zip (sha256 7edd0a0e8308b58e12f59494a326342cc83dd362bb58f787e43d6fb475ef43bd). Edition 1.2 is the controlling review source.",
+  "_sourceSlotAccounting": "Eight review source slots, each accounted for exactly once, normalized to NINE nodes through one explicit split on WI-EXP-01: WI-EXP-01 -> wi_exp_certificate_of_discharge (relief track, authority-issued certificate, process_guidance) PLUS wi_exp_certificate_of_discharge_followup (supporting_action, participant's written request, custom_pleading); WI-EXP-02 -> wi_exp_cr266; WI-EXP-03 -> wi_exp_942_08_mandatory; WI-EXP-04 -> wi_exp_trafficking_2m; WI-NC-01 -> wi_nc_doj_fingerprint_removal; WI-NC-02 -> wi_nc_doj_challenge; WI-DEF-01 -> wi_def_961_47; WI-DEF-02 -> wi_def_prosecution_agreement (deferred). Eight import as relief tracks or supporting actions, one is deferred under legal_research_required exactly as counsel decided. The split adds a supporting node, never a second substantive remedy: WI-EXP-01 still yields exactly one record-clearing mechanism. No merges, replacements, routing nodes or local variants. WI-COMMON is shared terminology and stop conditions, not a source slot. No track is composed: the two DOJ routes are official_pdf_fill with process_guidance components, not legally distinct stages.",
+  "_officialAuthorityConfirmation": "Wis. Stat. sections 973.015, 961.47, 967.055 and 165.84 were read at source on docs.legis.wisconsin.gov on 2026-08-05, and the amending acts were read as published PDFs. Four findings are recorded on the affected tracks with provenance rather than silently applied: (1) the statutes are now certified through 2025 Wis. Act 247 and in effect on 2026-08-05, later than the 'through 2025 Wis. Act 170, in effect 2026-05-22' currency the review relied on, and section 973.015 is textually unchanged, which strengthens rather than weakens counsel's 'nothing has changed' finding; (2) section 973.015's history line ends at 2015 Wis. Act 366, independently corroborating that no reform has been enacted since; (3) section 961.47 contains NO expungement provision, which answers counsel's build blocker on WI-DEF-01 — completion produces a non-conviction and nothing more — and its official caption is 'Conditional discharge for possession or attempted possession as first offense', not a 'deferred judgment'; the section also carries a once-per-lifetime limit and a 20-day clerk-to-DOJ notification duty that the review did not record; (4) the section 967.055(3) bar is not a general 'OWI offense' bar but a specific list: sections 346.63(1) or (5), 346.63(2) or (6), and 940.09 where the offense involved the use of a vehicle. effectiveFrom records the date each section's current operative text took effect, read from the enacting acts: 2015 Wis. Act 366 (enacted 19 Apr 2016, published 20 Apr 2016, effective 21 Apr 2016) for sections 973.015 and 165.84; 1995 Wis. Act 448 (published 8 Jul 1996, effective 9 Jul 1996) for section 961.47; 2019 Wis. Act 68 (published 27 Nov 2019, effective 28 Nov 2019) for section 967.055.",
+  "schemaVersion": 1,
+  "jurisdiction": "WI",
+  "memoVersion": "1.0.0",
+  "submittedAt": "2026-08-05T00:00:00.000Z",
+  "tracks": [
+    {
+      "trackId": "wi_exp_certificate_of_discharge",
+      "nodeType": "relief_track",
+      "legalName": "Execution of a Court-Ordered Expungement by Certificate of Discharge (Wis. Stat. § 973.015(1m)(b))",
+      "publicName": "Complete an expungement the judge already ordered",
+      "controllingAuthority": {
+        "citations": [
+          "Wis. Stat. § 973.015(1m)",
+          "Wis. Stat. § 973.015(1m)(b)"
+        ],
+        "summary": "Where the sentencing court ordered at the time of sentencing that the record be expunged upon successful completion of the sentence, and the sentence included probation, jail or prison, relief is executed administratively. A person has successfully completed the sentence if the person has not been convicted of a subsequent offense and, if on probation, the probation has not been revoked and the probationer has satisfied the conditions of probation. Upon successful completion the detaining or probationary authority shall issue a certificate of discharge which shall be forwarded to the court of record and which shall have the effect of expunging the record. There is no petition and no separate court motion in the ordinary case."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2016-04-21",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-08-01"
+      },
+      "eligibleRecordTypes": [
+        "conviction"
+      ],
+      "eligibleDispositions": [
+        "convicted_with_expungement_ordered_at_sentencing"
+      ],
+      "exclusions": [
+        "Any case where the sentencing court did not order expungement at the time of sentencing. Wisconsin has no general later route, and State v. Matasek limits the decision to the sentencing proceeding while State v. Arberry forecloses reaching it afterwards through sentence modification.",
+        "Any case where the person was convicted of a subsequent offense before completion.",
+        "Any case where probation was revoked, or probation conditions were not satisfied.",
+        "Information maintained by the Department of Transportation regarding a conviction required to be included in a record kept under Wis. Stat. § 343.23(2)(a), which § 973.015(1m)(a)1 expressly places outside the subsection.",
+        "Federal, tribal and out-of-state records."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Successful completion of the sentence, including any probation term and its conditions",
+          "duration": "none independent of sentence completion"
+        }
+      ],
+      "outputStrategy": "process_guidance",
+      "outputStrategyStatus": "resolved",
+      "packetIdentity": "identified",
+      "guidanceRationales": [
+        "no_participant_filing_exists",
+        "another_entity_decides"
+      ],
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "The circuit court of the original criminal case. Wisconsin uses statewide standardized circuit court forms with no county variation identified."
+      },
+      "destination": {
+        "kind": "agency",
+        "name": "The detaining or probationary authority, which issues the certificate of discharge to the court of record",
+        "detail": "The statute places the issuing duty on the supervising or detaining authority — the Department of Corrections in most probation cases — and the certificate itself has the effect of expunging the record when it reaches the clerk. Nothing is filed on this track: the certificate is the authority's document and LegalEase cannot complete it. Where it was never issued or never forwarded, the participant's own written request is produced by the wi_exp_certificate_of_discharge_followup supporting action rather than by this route."
+      },
+      "components": [
+        {
+          "role": "eligibility_verification",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Confirm from the judgment of conviction or the sentencing record that expungement was actually ordered at sentencing. This is the only question that matters in Wisconsin and it cannot be answered from the participant's recollection."
+        },
+        {
+          "role": "completion_verification",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Confirm successful completion as the statute defines it: no subsequent conviction before completion, no revocation, conditions satisfied, sentence terms complete."
+        },
+        {
+          "role": "status_verification_instructions",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Check Wisconsin Circuit Court Access to see whether the case is still publicly visible, then confirm with the clerk whether the certificate of discharge was received and the record left public access. Where the record is still publicly visible and the certificate appears not to have issued or not to have been forwarded, this track hands off to the wi_exp_certificate_of_discharge_followup supporting action, which produces the participant's written request. Nothing is filed on this track itself."
+        },
+        {
+          "role": "legal_effect_explanation",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Expungement clears the public court record and leaves the state criminal history record in place. Per State v. Braunschweig it does not vacate the conviction, which remains provable; per State v. Leitner it does not require law enforcement agencies or prosecutors to destroy records and does not stop a court considering the underlying facts when sentencing in another case; and the DOJ position is that a conviction ordered expunged cannot be removed from the Wisconsin criminal history repository."
+        }
+      ],
+      "_participantInputsNote": "What LegalEase asks. The at-sentencing question is asked first because a negative answer ends the matter, and the participant should be told that immediately rather than after paying.",
+      "participantInputs": [
+        {
+          "key": "expungementOrderedAtSentencing",
+          "question": "Did the judge order at your sentencing that the record would be expunged once you completed your sentence?",
+          "requirement": "required"
+        },
+        {
+          "key": "ageAtOffense",
+          "question": "How old were you when the offence happened?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumberAndCounty",
+          "question": "What is the case number, and which Wisconsin county was the case in?",
+          "requirement": "required"
+        },
+        {
+          "key": "sentenceType",
+          "question": "Did your sentence include probation, jail or prison?",
+          "requirement": "required"
+        },
+        {
+          "key": "sentenceCompletionDate",
+          "question": "On what date did you finish your sentence, including any probation?",
+          "requirement": "required"
+        },
+        {
+          "key": "probationRevoked",
+          "question": "Was your probation ever revoked?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked where the sentence included probation. Revocation destroys the expungement entirely."
+        },
+        {
+          "key": "subsequentConviction",
+          "question": "Were you convicted of any other offence before you finished this sentence?",
+          "requirement": "required"
+        },
+        {
+          "key": "stillVisibleOnCcap",
+          "question": "Does the case still show up on Wisconsin Circuit Court Access?",
+          "requirement": "required"
+        },
+        {
+          "key": "supervisingAuthority",
+          "question": "Who supervised your probation, or which facility held you?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked where the sentence included probation or confinement, because that authority issues the certificate."
+        }
+      ],
+      "_supportingDocumentsNote": "Records the participant obtains and attaches. None of them delays generation; LegalEase never receives, inspects or authenticates them.",
+      "supportingDocuments": [
+        {
+          "name": "Judgment of conviction, or the sentencing transcript or minutes",
+          "obtainedFrom": "Clerk of circuit court for the county of conviction",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Ask the clerk of circuit court for the judgment of conviction and, if the judgment is silent, the sentencing transcript or minutes. This is where the at-sentencing expungement order appears.",
+          "confirms": "expungementOrderedAtSentencing"
+        },
+        {
+          "name": "Proof of discharge from probation or confinement",
+          "obtainedFrom": "The Department of Corrections or the detaining authority",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Ask the supervising agent or the detaining authority for the discharge documentation showing the sentence terms were completed and probation was not revoked.",
+          "confirms": "sentenceCompletionDate"
+        },
+        {
+          "name": "Wisconsin DOJ criminal history record",
+          "obtainedFrom": "Wisconsin Department of Justice, Crime Information Bureau",
+          "requirement": "conditional",
+          "conditionDescription": "Recommended so the participant sees what remains after the court record clears.",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Request a background check through the Wisconsin DOJ. There is a fee for the background check itself."
+        }
+      ],
+      "_manualCompletionNote": "What the packet deliberately leaves blank or does not produce.",
+      "manualCompletionItems": [
+        {
+          "item": "The certificate of discharge",
+          "whereInPacket": "Not in the packet; named in the verification and follow-up instructions",
+          "why": "The statute places the issuing duty on the detaining or probationary authority. LegalEase cannot complete it."
+        },
+        {
+          "item": "Any assertion that the sentencing court ordered expungement",
+          "whereInPacket": "Verification checklist",
+          "why": "That must come from the judgment of conviction or the sentencing transcript, not from LegalEase and not from recollection."
+        },
+        {
+          "item": "Any assertion of successful completion where probation was involved",
+          "whereInPacket": "Verification checklist",
+          "why": "Revocation and a subsequent conviction are the two facts that destroy the expungement, and neither is LegalEase's to determine."
+        },
+        {
+          "item": "Signature and date on any follow-up request",
+          "whereInPacket": "Follow-up request letter, signature block",
+          "why": "The participant sends the request in their own name."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "Wis. Stat. § 973.015, Special disposition (official statute text; history ends 2015 Wis. Act 366; certified through 2025 Wis. Act 247, in effect 2026-08-05)",
+          "url": "https://docs.legis.wisconsin.gov/statutes/statutes/973/015",
+          "retrievedOn": "2026-08-05"
+        },
+        {
+          "title": "2015 Wisconsin Act 366 (enacted 19 Apr 2016, published 20 Apr 2016; amends § 973.015(1m)(a)3.a.)",
+          "url": "https://docs.legis.wisconsin.gov/2015/related/acts/366.pdf",
+          "retrievedOn": "2026-08-05"
+        },
+        {
+          "title": "Criminal background check information — Wisconsin Department of Justice",
+          "url": "https://www.wisdoj.gov/Pages/CriminalJusticeServices/criminal-background-check.aspx",
+          "retrievedOn": "2026-08-01"
+        }
+      ],
+      "rules": {
+        "filing": "none. Nothing is filed by the participant on this track; the certificate of discharge is issued by the detaining or probationary authority and forwarded to the court of record.",
+        "fees": "none for the certificate. A Wisconsin DOJ background check, where obtained, is fee-based.",
+        "feeWaiver": "none",
+        "notice": "none",
+        "service": "none",
+        "participantSignature": "The participant signs any written follow-up request to the supervising or detaining authority. Nothing else requires a signature.",
+        "notarization": "none"
+      },
+      "selfHelpStopConditions": [
+        "The judge did not order expungement at sentencing and the participant wants to reopen it. There is generally no later route, and this is the first thing to establish.",
+        "Sentencing has not yet happened. That is criminal defence, not record clearing, and it is outside scope.",
+        "Any dispute about whether completion was successful, particularly a revocation or a subsequent conviction, because those are the two facts that destroy the expungement entirely.",
+        "Any question about whether a felony is a Class H or Class I, or whether an offence is violent.",
+        "Any trafficking or prostitution fact pattern.",
+        "Any OWI or intoxicated driving conviction, pending the open question below.",
+        "Immigration consequences.",
+        "Federal, tribal or out-of-state records."
+      ],
+      "_unresolvedQuestionsNote": "Preserved from the controlling review with impact and affected element, plus currentness findings from reading the statute at source.",
+      "unresolvedQuestions": [
+        {
+          "question": "Does current § 973.015 contain a subsection (4) providing that an expunged record is not a conviction for employment or licensing purposes? The 2025 budget draft contained such a provision and the budget expungement package was stripped; whether the language was new or an amendment to existing text was not resolved. It determines what the product may tell a participant about answering employment and licensing questions.",
+          "impact": "release_blocker",
+          "affectedElement": "legal_effect_or_warning",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "UNRESOLVED QUESTIONS AND IMPACT / 4",
+            "sourceStatement": "Does current section 973.015 contain a subsection (4) providing that an expunged record is not a conviction for employment or licensing purposes? ... Release blocker, because it determines what the product may tell a participant about answering employment and licensing questions."
+          }
+        },
+        {
+          "question": "Can a criminal OWI conviction be expunged under § 973.015? Practitioner commentary says intoxicated driving offences may not be expunged, while the only OWI-adjacent text in the eligibility provision is the DOT records carve-out, which preserves the driving record rather than barring court-record expungement. The two readings produce opposite answers and OWI is high volume.",
+          "impact": "build_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "UNRESOLVED QUESTIONS AND IMPACT / 1",
+            "sourceStatement": "Can a criminal OWI conviction be expunged under section 973.015? ... Build blocker, because OWI is high volume and the two readings produce opposite answers."
+          }
+        },
+        {
+          "question": "What does § 973.015(1b) provide? Referenced in the 2025 budget draft and not read.",
+          "impact": "nonblocking_research_note",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "UNRESOLVED QUESTIONS AND IMPACT / 6",
+            "sourceStatement": "What does section 973.015(1b) provide? Referenced in the budget draft, not read. Nonblocking research note."
+          }
+        },
+        {
+          "question": "Will expungement reform pass in the 2027 session? Six consecutive attempts have failed, including the 2025 budget proposal that would have removed the age cap, created a post-sentencing petition, limited each person to one lifetime expungement and charged a $100 fee for a second petition. If it passes, Wisconsin changes from a marginal jurisdiction to a significant one overnight.",
+          "impact": "nonblocking_research_note",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "UNRESOLVED QUESTIONS AND IMPACT / 9",
+            "sourceStatement": "Will reform pass in the 2027 session? Six consecutive attempts have failed ... Nonblocking, with a standing monitor."
+          }
+        },
+        {
+          "question": "Currentness confirmed and advanced. The review relied on statutes certified through 2025 Wis. Act 170 and in effect on 2026-05-22. As read on 2026-08-05 the statutes are certified through 2025 Wis. Act 247 and in effect on 2026-08-05, and § 973.015 is textually unchanged, with its history line ending at 2015 Wis. Act 366. Counsel's 'nothing has changed' finding holds on a later certification date.",
+          "impact": "nonblocking_research_note",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "counsel_confirmation_required",
+            "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "HEADLINE FINDING",
+            "sourceStatement": "Nothing has changed. The statutes as published are current through 2025 Wis. Act 170 and in effect on 2026-05-22, and section 973.015 still reads that way.",
+            "counselQuestion": "Should the reviewed-through date for Wisconsin be advanced to the 2025 Wis. Act 247 certification, given the text is unchanged?"
+          }
+        },
+        {
+          "question": "Source-slot disposition: WI-EXP-01 is split into two normalized nodes — this process_guidance relief track for the authority-issued certificate, and the wi_exp_certificate_of_discharge_followup supporting action for the participant's written request. The slot is still accounted exactly once; the split adds a supporting node, not a second substantive remedy. Wisconsin therefore normalizes 8 source slots to 9 nodes.",
+          "impact": "nonblocking_research_note",
+          "affectedElement": "packet_components",
+          "provenance": {
+            "classificationBasis": "counsel_confirmation_required",
+            "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "WI-EXP-01 / How relief actually happens",
+            "sourceStatement": "on successful completion, the detaining or probationary authority issues a certificate of discharge and forwards it to the court. That certificate has the effect of expunging the record. There is no petition and no separate court motion in the ordinary case",
+            "counselQuestion": "Confirm that splitting WI-EXP-01 into an authority-issued guidance track plus a participant supporting-action letter correctly states the route, and that the letter is not to be counted as a separate relief mechanism."
+          }
+        }
+      ],
+      "_limitationsNote": "Every limitation is classified. Only legal_design_blocker withholds a track and must name the undetermined element.",
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Process guidance only for the authority-issued certificate, and guidance because no participant filing vehicle exists on this route: the statute delivers the entire relief through a certificate the supervising authority shall issue and forward to the clerk, and LegalEase cannot complete that document. The participant's neutral follow-up letter, which the review expressly says LegalEase can prepare, is not part of this no-filing route — it is split out as the wi_exp_certificate_of_discharge_followup supporting action so that a packet-capable participant submission is not hidden inside a guidance classification. This remains the most common Wisconsin scenario where something has gone wrong administratively, and the fix is a phone call and a letter, not a filing. Do not charge petition-level pricing for it.",
+        "limitations": [
+          {
+            "classification": "scope_restriction",
+            "statement": "Adult expungement must have been ordered at sentencing. This is the first screening question, and where the answer is no the participant should be told immediately, told why, and pivoted to DOJ record correction, fair employment protections and a pardon referral rather than run through a long intake to reach a dead end.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATION CLASSIFICATION / 1",
+              "sourceStatement": "Adult expungement must have been ordered at sentencing | Scope restriction, and the first screening question"
+            }
+          },
+          {
+            "classification": "participant_question",
+            "statement": "Ask whether the participant was under 25 at the time of the offence.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATION CLASSIFICATION / 2",
+              "sourceStatement": "Under 25 at the time of the offense | Participant question"
+            }
+          },
+          {
+            "classification": "participant_question",
+            "statement": "Ask whether the maximum period of imprisonment for the offence was six years or less. This requires an offence-class lookup rather than a participant's estimate.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATION CLASSIFICATION / 3",
+              "sourceStatement": "Maximum imprisonment of six years or less | Participant question requiring an offense-class lookup"
+            }
+          },
+          {
+            "classification": "participant_question",
+            "statement": "Ask about successful completion, including whether any subsequent conviction occurred before completion and whether probation was revoked. Either answer is a hard stop.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATION CLASSIFICATION / 5",
+              "sourceStatement": "Successful completion, including no subsequent conviction before completion and no revocation | Participant question with a hard stop"
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Department of Transportation records are outside the statute. Section 973.015(1m)(a)1 states expressly that the subsection does not apply to information maintained by the DOT regarding a conviction required to be included in a record kept under § 343.23(2)(a). This is a limit written into the eligibility provision itself and belongs in the participant-facing script, not only in a never-promise list.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATION CLASSIFICATION / 7",
+              "sourceStatement": "DOT records are outside the statute | Participant disclosure"
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Expungement does not vacate the conviction and does not reach DOJ, police or prosecutor records. Quote the CR-266 warning language, because the state's own form is more credible on the limits than we are.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATION CLASSIFICATION / 8",
+              "sourceStatement": "Expungement does not vacate the conviction and does not reach DOJ, police, or prosecutor records | Participant disclosure, quoted from CR-266"
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "Do not charge petition-level pricing on this track. The realistic work is verification and a follow-up letter, and for the large majority of Wisconsin adults with a conviction there is nothing to sell at all, which should be said quickly and kindly.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "WI-EXP-01 / Legal-design decision",
+              "sourceStatement": "Process guidance only. This is the most common Wisconsin scenario where something has gone wrong administratively, and the fix is a phone call and a letter, not a filing. Do not charge petition-level pricing for it."
+            }
+          },
+          {
+            "classification": "self_help_boundary",
+            "statement": "Any dispute about whether completion was successful, particularly a revocation or a subsequent-conviction question, goes to an attorney. Those are the two facts that destroy the expungement entirely.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "PART 4.2 / Attorney-handoff triggers",
+              "sourceStatement": "any dispute about whether completion was successful, particularly a revocation or a subsequent conviction question, because those are the two facts that destroy the expungement entirely."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "This route covers only the authority-issued certificate of discharge, for which nothing is filed. The participant's written request for issuance is generated on the wi_exp_certificate_of_discharge_followup supporting action, which is a supporting node on the same source slot and not a second record-clearing remedy.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "WI-EXP-01 / What LegalEase can prepare",
+              "sourceStatement": "What LegalEase can prepare: the verification checklist, the request to the supervising authority or clerk, and a written follow-up where the certificate was never sent"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "wi_exp_certificate_of_discharge_followup",
+      "nodeType": "supporting_action",
+      "supportsTrackId": "wi_exp_certificate_of_discharge",
+      "legalName": "Participant Request that the Supervising or Detaining Authority Issue and Forward the Certificate of Discharge (Wis. Stat. § 973.015(1m)(b))",
+      "publicName": "Ask for the certificate that completes your expungement",
+      "controllingAuthority": {
+        "citations": [
+          "Wis. Stat. § 973.015(1m)",
+          "Wis. Stat. § 973.015(1m)(b)"
+        ],
+        "summary": "Section 973.015(1m)(b) makes issuance mandatory rather than discretionary: upon successful completion of the sentence the detaining or probationary authority SHALL issue a certificate of discharge, which shall be forwarded to the court of record and which shall have the effect of expunging the record. The triggering event is successful completion — no subsequent conviction and, where the person was on probation, no revocation and satisfied conditions. Where that mandatory certificate was not issued, or was issued but never forwarded to the clerk, the participant may write to the supervising or detaining authority asking that it be issued and forwarded. No statute or rule prescribes the contents of that request and Wisconsin publishes no official participant form for it, so the correspondence is drafted. The letter supports implementation of an expungement the court already ordered; it does not itself change legal status, and the certificate remains the authority's document."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2016-04-21",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-08-01"
+      },
+      "eligibleRecordTypes": [
+        "conviction"
+      ],
+      "eligibleDispositions": [
+        "convicted_with_expungement_ordered_at_sentencing"
+      ],
+      "exclusions": [
+        "Any case where the sentencing court did not order expungement at the time of sentencing. There is nothing to ask the supervising authority to certify.",
+        "Any case where the sentence included neither probation nor incarceration, which has no supervising or detaining authority and routes to the CR-266 petition track instead.",
+        "Any case where the person was convicted of a subsequent offense before completion, or where probation was revoked or its conditions unsatisfied — the certificate is not owed and the request would misstate the position.",
+        "Federal, tribal and out-of-state records."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Successful completion of the sentence, after which the authority's issuing duty arises",
+          "duration": "none independent of sentence completion"
+        },
+        {
+          "condition": "Before writing, allow the authority and the clerk a reasonable interval to complete issuance and forwarding, and confirm on Wisconsin Circuit Court Access that the case is still publicly visible",
+          "duration": "no statutory interval; the statute sets no deadline for issuance or forwarding"
+        }
+      ],
+      "outputStrategy": "custom_pleading",
+      "outputStrategyStatus": "resolved",
+      "packetIdentity": "identified",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Not a court filing. The request is addressed to the supervising or detaining authority for the participant's own case, which is statewide in scope: the Department of Corrections in most probation cases, or the detaining authority where the sentence included confinement."
+      },
+      "destination": {
+        "kind": "agency",
+        "name": "The detaining or probationary authority that supervised the participant, with the clerk of circuit court as the certificate's destination",
+        "detail": "The letter goes to the supervising or detaining authority, because § 973.015(1m)(b) places the issuing and forwarding duty on it. It asks that the certificate of discharge be issued and forwarded to the clerk of the circuit court of conviction, and asks the authority to confirm when that has been done. A copy to the clerk of circuit court is appropriate where the participant has already confirmed with the clerk that nothing was received."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "custom_pleading",
+          "notes": "The participant's written request. Neutral in tone and confined to controlled facts: the participant's identity and contact details, the case and supervision identifiers, the completion date as the participant states it, the statutory basis for the request under § 973.015(1m)(b), a request that the certificate of discharge be issued and forwarded to the clerk of the circuit court of conviction, and return-contact details. It asserts nothing about agency conduct and draws no legal conclusion."
+        },
+        {
+          "role": "status_request",
+          "requirement": "conditional",
+          "conditionDescription": "Used where the participant wants only to know whether the certificate has issued, rather than to ask that it be issued.",
+          "outputStrategy": "custom_pleading",
+          "notes": "A status-only variant of the same letter, asking whether the certificate of discharge has been issued and forwarded and, if so, on what date. Same controlled contents, no request for action."
+        },
+        {
+          "role": "filing_instructions",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "How to send the request and what to do next: confirm first with the clerk that the certificate was not received, keep a copy and a record of the date sent, allow the authority time to respond, re-check Wisconsin Circuit Court Access, and escalate to a lawyer where the authority declines or does not respond, or where it says completion was not successful."
+        }
+      ],
+      "_participantInputsNote": "Controlled participant facts only. Everything the letter contains comes from the participant's own answers; LegalEase does not obtain, inspect or authenticate any record and does not certify that completion occurred.",
+      "participantInputs": [
+        {
+          "key": "fullLegalName",
+          "question": "What is your full legal name, and any other name the case was under?",
+          "requirement": "required"
+        },
+        {
+          "key": "dateOfBirth",
+          "question": "What is your date of birth?",
+          "requirement": "required"
+        },
+        {
+          "key": "returnContactDetails",
+          "question": "What postal address, phone number or email should the authority use to reply to you?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumberAndCounty",
+          "question": "What is the case number, and which Wisconsin county was the case in?",
+          "requirement": "required"
+        },
+        {
+          "key": "supervisionIdentifier",
+          "question": "What is your Department of Corrections or offender identification number, if you have one?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked where the sentence included probation or confinement, because it is how the supervising authority locates the file."
+        },
+        {
+          "key": "supervisingAuthority",
+          "question": "Which agency supervised your probation, or which facility held you?",
+          "requirement": "required"
+        },
+        {
+          "key": "supervisingAgentName",
+          "question": "Do you know the name of your probation agent or the office that supervised you?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked where the sentence included probation; it helps the authority route the request."
+        },
+        {
+          "key": "sentenceCompletionDate",
+          "question": "On what date did you finish your sentence, including any probation?",
+          "requirement": "required"
+        },
+        {
+          "key": "expungementOrderedAtSentencing",
+          "question": "Did the judge order at your sentencing that the record would be expunged once you completed your sentence?",
+          "requirement": "required"
+        },
+        {
+          "key": "clerkConfirmedNotReceived",
+          "question": "Have you asked the clerk of court whether they received a certificate of discharge, and what did they say?",
+          "requirement": "required"
+        },
+        {
+          "key": "requestType",
+          "question": "Do you want to ask the authority to issue and forward the certificate, or only to tell you whether it has already been done?",
+          "requirement": "required"
+        }
+      ],
+      "_supportingDocumentsNote": "Records the participant may obtain and enclose. None of them delays generation, and LegalEase never receives, inspects or authenticates them.",
+      "supportingDocuments": [
+        {
+          "name": "Judgment of conviction, or the sentencing transcript or minutes",
+          "obtainedFrom": "Clerk of circuit court for the county of conviction",
+          "requirement": "conditional",
+          "conditionDescription": "Useful to enclose so the authority can see that expungement was ordered at sentencing.",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Ask the clerk of circuit court for the judgment of conviction and, where it is silent, the sentencing transcript or minutes.",
+          "confirms": "expungementOrderedAtSentencing"
+        },
+        {
+          "name": "Proof of discharge from probation or confinement",
+          "obtainedFrom": "The Department of Corrections or the detaining authority",
+          "requirement": "conditional",
+          "conditionDescription": "Useful to enclose where the participant already holds it.",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Ask the supervising agent or the detaining authority for the discharge documentation showing the sentence terms were completed.",
+          "confirms": "sentenceCompletionDate"
+        }
+      ],
+      "_manualCompletionNote": "What the generated letter deliberately leaves blank or does not produce.",
+      "manualCompletionItems": [
+        {
+          "item": "Participant's signature and the date sent",
+          "whereInPacket": "Request letter, signature block",
+          "why": "The participant sends the request in their own name."
+        },
+        {
+          "item": "The certificate of discharge itself",
+          "whereInPacket": "Not in the packet",
+          "why": "Section 973.015(1m)(b) places the issuing duty on the detaining or probationary authority. LegalEase cannot complete it and does not obtain or guarantee it."
+        },
+        {
+          "item": "Any assertion that the sentence was successfully completed",
+          "whereInPacket": "Request letter, completion paragraph",
+          "why": "The letter states the completion date as the participant reports it. Whether completion was successful within the meaning of the statute is not a fact LegalEase can establish, and it turns on revocation and subsequent-conviction questions."
+        },
+        {
+          "item": "The current mailing address of the supervising authority",
+          "whereInPacket": "Request letter, addressee block",
+          "why": "Office addresses change. The participant confirms the current address before sending."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "Wis. Stat. § 973.015, Special disposition (official statute text; § 973.015(1m)(b) certificate of discharge duty; certified through 2025 Wis. Act 247, in effect 2026-08-05)",
+          "url": "https://docs.legis.wisconsin.gov/statutes/statutes/973/015",
+          "retrievedOn": "2026-08-05"
+        },
+        {
+          "title": "2015 Wisconsin Act 366 (enacted 19 Apr 2016, published 20 Apr 2016; most recent amendment to § 973.015)",
+          "url": "https://docs.legis.wisconsin.gov/2015/related/acts/366.pdf",
+          "retrievedOn": "2026-08-05"
+        }
+      ],
+      "rules": {
+        "filing": "Not a court filing. Send the written request to the supervising or detaining authority. Confirm with the clerk of circuit court first that no certificate was received, and keep a copy and a record of the date sent.",
+        "fees": "none",
+        "feeWaiver": "none",
+        "notice": "none. No notice to any other party is required, and no hearing arises from the request.",
+        "service": "none. Ordinary mail or the authority's stated correspondence channel is sufficient; there is no service requirement.",
+        "participantSignature": "The participant signs and dates the request in their own name.",
+        "notarization": "none"
+      },
+      "selfHelpStopConditions": [
+        "The judge did not order expungement at sentencing. There is no certificate owed and the request would be pointless.",
+        "Any dispute about whether completion was successful, particularly a revocation or a subsequent conviction, because those are the two facts that destroy the expungement entirely.",
+        "The supervising authority declines to issue the certificate, or asserts that completion was not successful.",
+        "The authority does not respond, or responds that it has issued and forwarded the certificate while the clerk says nothing was received.",
+        "Any request to argue entitlement, allege agency fault or press the authority beyond a neutral request. That is individualized advocacy and outside self-help.",
+        "Immigration consequences.",
+        "Federal, tribal or out-of-state records."
+      ],
+      "_unresolvedQuestionsNote": "Recorded for this supporting action. The absence of an official form does not block generation: the destination, purpose and controlled contents are all known.",
+      "unresolvedQuestions": [
+        {
+          "question": "What recourse does a participant have where the supervising or detaining authority does not respond to the request, or declines to issue the certificate of discharge that § 973.015(1m)(b) says it shall issue? The statute sets no deadline for issuance or forwarding and identifies no remedy, so the packet can ask but cannot say what follows a refusal.",
+          "impact": "release_blocker",
+          "affectedElement": "participant_instructions",
+          "provenance": {
+            "classificationBasis": "counsel_confirmation_required",
+            "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "PART 4.2 / WI-EXP-01, chasing a certificate of discharge",
+            "sourceStatement": "If it was not, request it in writing",
+            "counselQuestion": "Where the authority does not issue or forward the certificate after a written request, what should the packet tell the participant to do next — return to the sentencing court, escalate within the agency, or refer to counsel?"
+          }
+        },
+        {
+          "question": "Neither the statute nor any Wisconsin rule prescribes the contents of a request for issuance of a certificate of discharge, and no official participant form was identified. The letter is therefore drafted from controlled participant facts. This is recorded as a scope note rather than a build blocker: the mechanism, the destination, the required content and the statewide scope are all known.",
+          "impact": "nonblocking_research_note",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "PART 2.1 / Gaps in the form set",
+            "sourceStatement": "no form was identified for the section 973.015(2m) trafficking survivor motion, or for any certificate of discharge follow-up."
+          }
+        }
+      ],
+      "_limitationsNote": "Every limitation is classified. Only legal_design_blocker withholds a node, and none applies here: this is controlled correspondence whose destination, purpose and contents are established.",
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "A supporting action on the WI-EXP-01 source slot, not a separate record-clearing remedy. The controlling review states in terms that LegalEase can prepare 'the request to the supervising authority or clerk, and a written follow-up where the certificate was never sent', and that what it cannot complete is the certificate itself. That is a participant-authored submission whose destination, purpose and controlled contents are all known, so it is packet-capable and is modelled as a custom pleading because Wisconsin publishes no official form for it. The node claims nothing about whether the certificate will issue: issuance is the authority's mandatory duty under § 973.015(1m)(b), and LegalEase neither obtains nor guarantees it.",
+        "limitations": [
+          {
+            "classification": "scope_restriction",
+            "statement": "This is a supporting action on the certificate-of-discharge slot, not a second substantive record-clearing remedy. It produces correspondence that supports implementation of an expungement the court already ordered; it does not itself change legal status.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "WI-EXP-01 / How relief actually happens",
+              "sourceStatement": "on successful completion, the detaining or probationary authority issues a certificate of discharge and forwards it to the court. That certificate has the effect of expunging the record. There is no petition and no separate court motion in the ordinary case"
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Confirm with the clerk of circuit court that no certificate of discharge was received before sending the request, and re-check Wisconsin Circuit Court Access afterwards to see whether the record left public access.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "PART 4.2 / Sequence",
+              "sourceStatement": "Check Wisconsin Circuit Court Access to see whether the case is still publicly visible. If it is, contact the supervising authority (Department of Corrections in most probation cases, or the detaining authority) to confirm the certificate issued and was forwarded to the clerk. If it was not, request it in writing."
+            }
+          },
+          {
+            "classification": "manual_completion_item",
+            "statement": "The letter records the completion date as the participant states it and never asserts that completion was successful within the meaning of the statute. LegalEase does not review discharge documents and does not certify completion.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "PART 4.2 / Attorney-handoff triggers",
+              "sourceStatement": "any dispute about whether completion was successful, particularly a revocation or a subsequent conviction question, because those are the two facts that destroy the expungement entirely."
+            }
+          },
+          {
+            "classification": "self_help_boundary",
+            "statement": "Neutral request only. Do not draft accusations of agency misconduct, assertions of legal entitlement that would require document review, or any individualized advocacy. Where the authority declines or disputes completion, refer to a lawyer.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "WI-EXP-01 / What LegalEase cannot complete",
+              "sourceStatement": "What LegalEase cannot complete: the certificate itself"
+            }
+          },
+          {
+            "classification": "post_generation_handoff",
+            "statement": "After the participant sends the request, issuance and forwarding are the supervising authority's acts and the sealing follows from the certificate reaching the clerk. The packet ends at the letter and the follow-up checklist.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "WI-EXP-01 / OUTPUT STRATEGY",
+              "sourceStatement": "The work is verification and follow-up: confirm the sentencing order, confirm completion, confirm the certificate reached the clerk, and confirm the record left public access"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "wi_exp_cr266",
+      "nodeType": "relief_track",
+      "legalName": "Petition to Expunge Criminal Court Record of Conviction, Non-Probation/Non-Incarceration (Wis. Stat. § 973.015(1m); form CR-266)",
+      "publicName": "Ask the court to carry out an expungement it already ordered",
+      "controllingAuthority": {
+        "citations": [
+          "Wis. Stat. § 973.015(1m)",
+          "Wis. Stat. § 973.015(1m)(b)"
+        ],
+        "summary": "Where the sentencing court ordered at the time of sentencing that the record be expunged upon successful completion, and the sentence included no probation and no incarceration, there is no supervising or detaining authority to issue a certificate of discharge. The person therefore asks the court directly, on statewide circuit court form CR-266 with proposed order CR-267, filed in the same circuit court criminal case. CR-266 executes an expungement the judge already ordered; it does not create one."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2016-04-21",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-08-01"
+      },
+      "eligibleRecordTypes": [
+        "conviction"
+      ],
+      "eligibleDispositions": [
+        "convicted_with_expungement_ordered_at_sentencing"
+      ],
+      "exclusions": [
+        "Any case where the sentencing court did not order expungement at the time of sentencing. CR-266 is not a petition route in its own right and a filing without the underlying order will be rejected.",
+        "Any sentence that included probation or incarceration, which routes to the certificate of discharge track instead.",
+        "Any case where the person was convicted of a subsequent offense before completion.",
+        "A Class H felony where the person has in their lifetime been convicted of a prior felony, or where the felony is a violent offense as defined in Wis. Stat. § 301.048(2)(bm), or is a violation of §§ 940.32, 948.03(2), (3) or (5)(a)1., 2., 3. or 4., or 948.095.",
+        "A Class I felony where the person has in their lifetime been convicted of a prior felony, or where the felony is a violent offense as defined in § 301.048(2)(bm), or is a violation of § 948.23(1)(a).",
+        "Department of Transportation records required to be kept under Wis. Stat. § 343.23(2)(a).",
+        "Federal, tribal and out-of-state records."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Successful completion of the sentence where the sentence included neither probation nor incarceration",
+          "duration": "none independent of sentence completion"
+        }
+      ],
+      "outputStrategy": "official_pdf_fill",
+      "outputStrategyStatus": "resolved",
+      "packetIdentity": "identified",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "The circuit court in which the conviction was entered, filed in the existing criminal case rather than as a new action."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "The Wisconsin circuit court of the original criminal case",
+        "detail": "File CR-266 with the proposed CR-267 order in the same circuit court criminal case. Because the filing is made in an existing criminal case rather than opening a new civil action, a filing fee may not apply; verify with the clerk."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-266",
+          "officialSourceUrl": "https://www.wicourts.gov/forms1/circuit/ccform.jsp?FormNumber=CR-266",
+          "notes": "Petition to Expunge Criminal Court Record of Conviction, Non-Probation/Non-Incarceration. Statewide standardized circuit court form issued by the Director of State Courts."
+        },
+        {
+          "role": "proposed_order",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-267",
+          "officialSourceUrl": "https://www.wicourts.gov/forms1/circuit/ccform.jsp?FormNumber=CR-267",
+          "notes": "Order on Petition to Expunge Court Record of Conviction, Non-Probation/Non-Incarceration, left unsigned and undated for the judge."
+        },
+        {
+          "role": "filing_instructions",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Instructions stating on the face of the packet that CR-266 executes an expungement the judge already ordered and does not create one; how to confirm the order from the judgment of conviction; how to file in the existing criminal case; and to verify the fee position with the clerk."
+        }
+      ],
+      "_participantInputsNote": "What LegalEase asks. The at-sentencing question gates the whole track.",
+      "participantInputs": [
+        {
+          "key": "expungementOrderedAtSentencing",
+          "question": "Did the judge order at your sentencing that the record would be expunged once you completed your sentence?",
+          "requirement": "required"
+        },
+        {
+          "key": "noProbationOrIncarceration",
+          "question": "Was your sentence a fine or other penalty with no probation and no jail or prison time?",
+          "requirement": "required"
+        },
+        {
+          "key": "ageAtOffense",
+          "question": "How old were you when the offence happened?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumberAndCounty",
+          "question": "What is the case number, and which Wisconsin county was the case in?",
+          "requirement": "required"
+        },
+        {
+          "key": "offenceAndStatute",
+          "question": "What was the offence and the statute number, exactly as written on the judgment?",
+          "requirement": "required"
+        },
+        {
+          "key": "offenceClass",
+          "question": "What class of offence was it — a misdemeanor, or a Class H or Class I felony?",
+          "requirement": "required"
+        },
+        {
+          "key": "priorFelonyEver",
+          "question": "Have you ever, in your lifetime, been convicted of a felony other than this one?",
+          "requirement": "required"
+        },
+        {
+          "key": "subsequentConviction",
+          "question": "Were you convicted of any other offence before you finished this sentence?",
+          "requirement": "required"
+        },
+        {
+          "key": "sentenceCompletionDate",
+          "question": "On what date did you finish the sentence?",
+          "requirement": "required"
+        },
+        {
+          "key": "sentencingDate",
+          "question": "On what date were you sentenced?",
+          "requirement": "required"
+        }
+      ],
+      "_supportingDocumentsNote": "Records the participant obtains and attaches. None of them delays generation.",
+      "supportingDocuments": [
+        {
+          "name": "Judgment of conviction, or the sentencing transcript or minutes",
+          "obtainedFrom": "Clerk of circuit court for the county of conviction",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Ask the clerk of circuit court for the judgment of conviction, and the sentencing transcript or minutes where the judgment is silent. This is the document that proves the expungement was ordered at sentencing.",
+          "confirms": "expungementOrderedAtSentencing"
+        },
+        {
+          "name": "Proof that the sentence was completed",
+          "obtainedFrom": "Clerk of circuit court",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Ask the clerk for records showing any fine, costs or other sentence terms were satisfied.",
+          "confirms": "sentenceCompletionDate"
+        }
+      ],
+      "_manualCompletionNote": "What the generated packet deliberately leaves blank.",
+      "manualCompletionItems": [
+        {
+          "item": "Petitioner's signature and date",
+          "whereInPacket": "CR-266, signature block",
+          "why": "The participant signs their own petition."
+        },
+        {
+          "item": "Judge's signature and date of entry",
+          "whereInPacket": "CR-267, signature block",
+          "why": "The order is proposed. Only the judge signs it."
+        },
+        {
+          "item": "Any assertion that the sentencing court ordered expungement",
+          "whereInPacket": "CR-266, grounds",
+          "why": "That must come from the judgment of conviction or the sentencing transcript, not from LegalEase."
+        },
+        {
+          "item": "Any benefit-and-no-harm assertion",
+          "whereInPacket": "CR-266, grounds",
+          "why": "That finding was the court's to make at sentencing and is not re-argued here."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "Wis. Stat. § 973.015, Special disposition (official statute text; certified through 2025 Wis. Act 247, in effect 2026-08-05)",
+          "url": "https://docs.legis.wisconsin.gov/statutes/statutes/973/015",
+          "retrievedOn": "2026-08-05"
+        },
+        {
+          "title": "Form CR-266, Petition to Expunge Criminal Court Record of Conviction, Non-Probation/Non-Incarceration",
+          "url": "https://www.wicourts.gov/forms1/circuit/ccform.jsp?FormNumber=CR-266",
+          "retrievedOn": "2026-08-01"
+        },
+        {
+          "title": "Form CR-267, Order on Petition to Expunge Court Record of Conviction, Non-Probation/Non-Incarceration",
+          "url": "https://www.wicourts.gov/forms1/circuit/ccform.jsp?FormNumber=CR-267",
+          "retrievedOn": "2026-08-01"
+        }
+      ],
+      "rules": {
+        "filing": "File CR-266 with the proposed CR-267 order in the existing circuit court criminal case in the county of conviction.",
+        "fees": "Not confirmed. Because the filing is made in the existing criminal case rather than opening a new civil action, a filing fee may not apply. Verify with the clerk before quoting a price.",
+        "feeWaiver": "none identified",
+        "notice": "none identified beyond ordinary circuit court practice.",
+        "service": "none identified beyond ordinary circuit court practice.",
+        "participantSignature": "The petitioner signs CR-266.",
+        "notarization": "none"
+      },
+      "selfHelpStopConditions": [
+        "The judge did not order expungement at sentencing. CR-266 executes an order; it does not create one, and a petition without the underlying order will be rejected.",
+        "The sentence included probation or incarceration, which routes to the certificate of discharge track instead.",
+        "Any question about whether a felony is a Class H or Class I, or whether an offence is violent under Wis. Stat. § 301.048(2)(bm).",
+        "Any prior felony conviction in the participant's lifetime where the offence being cleared is a Class H or Class I felony.",
+        "Any subsequent conviction before completion.",
+        "Any OWI or intoxicated driving conviction, pending the open question.",
+        "Any trafficking or prostitution fact pattern.",
+        "Immigration consequences.",
+        "Federal, tribal or out-of-state records."
+      ],
+      "_unresolvedQuestionsNote": "Preserved from the controlling review with impact and affected element.",
+      "unresolvedQuestions": [
+        {
+          "question": "Is there a filing fee for a CR-266 petition? It is filed in the existing criminal case, which suggests not, but this was not confirmed. It determines pricing.",
+          "impact": "release_blocker",
+          "affectedElement": "filing_process",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "UNRESOLVED QUESTIONS AND IMPACT / 5",
+            "sourceStatement": "Is there a filing fee for a CR-266 petition? It is filed in the existing criminal case, which suggests not, but this was not confirmed. Release blocker for pricing."
+          }
+        },
+        {
+          "question": "Current revision dates of CR-266 and CR-267 were not confirmed, and the full circuit court form index filtered to the CR and JD series was not pulled.",
+          "impact": "build_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "PART 2.1 / Gaps in the form set",
+            "sourceStatement": "Pull the full circuit court form index filtered to CR and JD series before build."
+          }
+        },
+        {
+          "question": "Do any of Wisconsin's 72 counties impose local practice requirements on CR-266 filings? Wisconsin uses statewide circuit court forms and no county variation was identified, but this was not tested across the counties.",
+          "impact": "nonblocking_research_note",
+          "affectedElement": "geographic_scope",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "UNRESOLVED QUESTIONS AND IMPACT / 8",
+            "sourceStatement": "Do any of Wisconsin's 72 counties impose local practice requirements on CR-266 filings? Nonblocking research note."
+          }
+        },
+        {
+          "question": "Can a criminal OWI conviction be expunged under § 973.015? The two available readings produce opposite answers and OWI is high volume.",
+          "impact": "build_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "UNRESOLVED QUESTIONS AND IMPACT / 1",
+            "sourceStatement": "Can a criminal OWI conviction be expunged under section 973.015? ... Build blocker, because OWI is high volume and the two readings produce opposite answers."
+          }
+        },
+        {
+          "question": "effectiveFrom records 2016-04-21, the day after publication of 2015 Wisconsin Act 366 (enacted 19 April 2016, published 20 April 2016), which is the most recent act in the § 973.015 history line and which amended § 973.015(1m)(a)3.a.",
+          "impact": "nonblocking_research_note",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "counsel_confirmation_required",
+            "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "CONSOLIDATED PRIMARY SOURCES",
+            "sourceStatement": "Wis. Stat. section 973.015, Special disposition | Wisconsin Legislature | statutes updated through 2025 Wis. Act 170, in effect 2026-05-22",
+            "counselQuestion": "Should effectiveFrom carry the date the current operative text took effect (2016-04-21) or the original 1975 enactment?"
+          }
+        }
+      ],
+      "_limitationsNote": "Every limitation is classified. Only legal_design_blocker withholds a track and must name the undetermined element.",
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Approved for implementation with limitations. This is the only clean paid conviction track in Wisconsin. The packet must state on its face that CR-266 executes an expungement the judge already ordered and does not create one — the review specifically corrects the internal reference's forms and routing tables, which read as though CR-266 were a standalone petition route, and in a product that distinction is the difference between a filed petition and a rejected one. The Class H and Class I felony exclusions are not encoded and are carried as a legal-design blocker.",
+        "limitations": [
+          {
+            "classification": "legal_design_blocker",
+            "undeterminedElement": "eligibility_branch",
+            "statement": "The Class H and Class I felony exclusions under § 973.015(1m)(a)3 are not encoded. They turn on lifetime prior-felony history, whether the felony is a violent offense as defined in § 301.048(2)(bm), and enumerated statutory violations.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATION CLASSIFICATION / 4",
+              "sourceStatement": "Class H and Class I felony exclusions | Legal-design blocker until encoded"
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "CR-266 executes an order; it does not create one. The packet must say so on its face.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATION CLASSIFICATION / 6",
+              "sourceStatement": "CR-266 executes an order; it does not create one | Packet instruction"
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Lift the CR-266 warning language more or less verbatim into the participant-facing packet: only the court record of conviction is expunged; police, Crime Information Bureau, law enforcement and district attorney records are not affected; and the conviction is not vacated or set aside. It is the state's own statement of the limits and it is more credible coming from the form than from us.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "PART 2.1 / The single most important thing on CR-266",
+              "sourceStatement": "the form itself warns that only the court record of conviction is expunged, that police, Crime Information Bureau, law enforcement, and district attorney records are not affected, and that the conviction is not vacated or set aside. That language should be lifted more or less verbatim into the participant-facing packet."
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "Adult expungement must have been ordered at sentencing, and that is the first screening question before this track is offered at all.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATION CLASSIFICATION / 1",
+              "sourceStatement": "Adult expungement must have been ordered at sentencing | Scope restriction, and the first screening question"
+            }
+          },
+          {
+            "classification": "participant_question",
+            "statement": "Ask the age-at-offence and maximum-imprisonment questions, and the prior-felony question where the offence is a Class H or Class I felony.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATION CLASSIFICATION / 2 and 3",
+              "sourceStatement": "Under 25 at the time of the offense | Participant question. Maximum imprisonment of six years or less | Participant question requiring an offense-class lookup"
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Department of Transportation records are outside the statute by the terms of the eligibility provision itself, and expungement does not vacate the conviction or reach DOJ, police or prosecutor records.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATION CLASSIFICATION / 7 and 8",
+              "sourceStatement": "DOT records are outside the statute | Participant disclosure. Expungement does not vacate the conviction and does not reach DOJ, police, or prosecutor records | Participant disclosure, quoted from CR-266"
+            }
+          },
+          {
+            "classification": "self_help_boundary",
+            "statement": "Any question about whether a felony is Class H or Class I, or whether an offence is violent, goes to an attorney.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "WI-COMMON / Self-help stop conditions",
+              "sourceStatement": "Any question about whether a felony is a Class H or Class I, or whether an offense is violent"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "wi_exp_942_08_mandatory",
+      "nodeType": "relief_track",
+      "legalName": "Mandatory Expungement for a Youthful Invasion of Privacy Offence (Wis. Stat. § 973.015(1m)(a)2)",
+      "publicName": "Mandatory expungement for an under-18 invasion of privacy offence",
+      "controllingAuthority": {
+        "citations": [
+          "Wis. Stat. § 973.015(1m)(a)2",
+          "Wis. Stat. § 942.08(2)(b)",
+          "Wis. Stat. § 942.08(2)(c)",
+          "Wis. Stat. § 942.08(2)(d)",
+          "Wis. Stat. § 942.08(3)"
+        ],
+        "summary": "The court shall order at the time of sentencing that the record be expunged upon successful completion of the sentence if the offense was a violation of Wis. Stat. § 942.08(2)(b), (c) or (d) or (3), and the person was under the age of 18 when he or she committed it. This is the only place in § 973.015 where the sentencing court has no discretion, and it uses a different age threshold — under 18 — from the general under-25 rule. Execution follows the ordinary route: a certificate of discharge where the sentence included supervision or confinement, or CR-266 where it did not."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2016-04-21",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-08-01"
+      },
+      "eligibleRecordTypes": [
+        "conviction"
+      ],
+      "eligibleDispositions": [
+        "convicted_with_mandatory_expungement_ordered_at_sentencing"
+      ],
+      "exclusions": [
+        "Any offence other than a violation of Wis. Stat. § 942.08(2)(b), (c) or (d) or (3).",
+        "Any person aged 18 or older when the offence was committed.",
+        "Any case where the person was convicted of a subsequent offense before completion, or where probation was revoked or its conditions unsatisfied.",
+        "Department of Transportation records required to be kept under Wis. Stat. § 343.23(2)(a).",
+        "Federal, tribal and out-of-state records."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Successful completion of the sentence",
+          "duration": "none independent of sentence completion"
+        }
+      ],
+      "outputStrategy": "process_guidance",
+      "outputStrategyStatus": "resolved",
+      "packetIdentity": "identified",
+      "guidanceRationales": [
+        "no_participant_filing_exists",
+        "another_entity_decides"
+      ],
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "The circuit court of the original criminal case."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "The Wisconsin circuit court of the original criminal case, and the detaining or probationary authority where one exists",
+        "detail": "The order is mandatory at sentencing. Execution then follows the ordinary route: a certificate of discharge issued by the supervising or detaining authority, or a CR-266 filing where the sentence included neither probation nor incarceration."
+      },
+      "components": [
+        {
+          "role": "eligibility_verification",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Confirm the offence was a violation of § 942.08(2)(b), (c) or (d) or (3) and that the person was under 18 when it was committed, then confirm from the judgment whether the mandatory order was actually entered."
+        },
+        {
+          "role": "status_verification_instructions",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Check whether the case is still visible on Wisconsin Circuit Court Access, and confirm with the clerk whether the expungement took effect."
+        },
+        {
+          "role": "escalation_instructions",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Where the mandatory order was not entered at sentencing, the participant has a real grievance rather than a discretionary disappointment. That is an attorney referral with something to work with, and the packet says so and refers."
+        }
+      ],
+      "_participantInputsNote": "What LegalEase asks in order to detect the mandatory route and check its execution. Nothing is generated for filing.",
+      "participantInputs": [
+        {
+          "key": "offenceIs94208",
+          "question": "Was the offence a violation of Wisconsin statute 942.08 — an invasion of privacy offence?",
+          "requirement": "required"
+        },
+        {
+          "key": "ageUnder18AtOffence",
+          "question": "Were you under 18 years old when the offence happened?",
+          "requirement": "required"
+        },
+        {
+          "key": "expungementOrderedAtSentencing",
+          "question": "Did the judge order at your sentencing that the record would be expunged once you completed your sentence?",
+          "requirement": "required"
+        },
+        {
+          "key": "sentenceType",
+          "question": "Did your sentence include probation, jail or prison?",
+          "requirement": "required"
+        },
+        {
+          "key": "sentenceCompletionDate",
+          "question": "On what date did you finish your sentence, including any probation?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumberAndCounty",
+          "question": "What is the case number, and which Wisconsin county was the case in?",
+          "requirement": "required"
+        },
+        {
+          "key": "stillVisibleOnCcap",
+          "question": "Does the case still show up on Wisconsin Circuit Court Access?",
+          "requirement": "required"
+        }
+      ],
+      "_supportingDocumentsNote": "Records the participant obtains. None of them delays generation.",
+      "supportingDocuments": [
+        {
+          "name": "Judgment of conviction, or the sentencing transcript or minutes",
+          "obtainedFrom": "Clerk of circuit court for the county of conviction",
+          "requirement": "required",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Ask the clerk of circuit court for the judgment of conviction and, where it is silent, the sentencing transcript or minutes. This establishes both the offence charged and whether the mandatory expungement order was entered.",
+          "confirms": "expungementOrderedAtSentencing"
+        }
+      ],
+      "_manualCompletionNote": "Nothing is generated for signature on this track.",
+      "manualCompletionItems": [
+        {
+          "item": "The certificate of discharge, or a CR-266 filing where execution runs that way",
+          "whereInPacket": "Not in the packet; named in the verification instructions and handled on the corresponding execution track",
+          "why": "This track detects and verifies the mandatory order. Execution belongs to the certificate-of-discharge or CR-266 track."
+        },
+        {
+          "item": "Any assertion that the mandatory order should have been entered",
+          "whereInPacket": "Escalation instructions",
+          "why": "That is a legal conclusion about the sentencing court's duty and belongs to an attorney."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "Wis. Stat. § 973.015(1m)(a)2 (official statute text; certified through 2025 Wis. Act 247, in effect 2026-08-05)",
+          "url": "https://docs.legis.wisconsin.gov/statutes/statutes/973/015",
+          "retrievedOn": "2026-08-05"
+        }
+      ],
+      "rules": {
+        "filing": "none on this track. Execution runs through the certificate of discharge or through a CR-266 filing on the corresponding track.",
+        "fees": "none identified",
+        "feeWaiver": "none",
+        "notice": "none",
+        "service": "none",
+        "participantSignature": "none",
+        "notarization": "none"
+      },
+      "selfHelpStopConditions": [
+        "Sentencing has not yet happened. The mandatory order is made at sentencing and that stage is criminal defence, outside scope.",
+        "The mandatory order was not entered at sentencing, which is an attorney referral rather than a self-help fix.",
+        "Any subsequent conviction before completion, or a revocation.",
+        "Any trafficking or exploitation fact pattern connected to the offence.",
+        "Immigration consequences.",
+        "Federal, tribal or out-of-state records."
+      ],
+      "_unresolvedQuestionsNote": "Preserved from the controlling review with impact and affected element.",
+      "unresolvedQuestions": [
+        {
+          "question": "Does current § 973.015 contain a subsection (4) providing that an expunged record is not a conviction for employment or licensing purposes? It determines what may be told to a participant about answering employment and licensing questions.",
+          "impact": "release_blocker",
+          "affectedElement": "legal_effect_or_warning",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "UNRESOLVED QUESTIONS AND IMPACT / 4",
+            "sourceStatement": "Does current section 973.015 contain a subsection (4) providing that an expunged record is not a conviction for employment or licensing purposes? ... Release blocker."
+          }
+        },
+        {
+          "question": "Section 973.015 was not read in full at source, including subsections (1b), (2m) and any subsection (4). Subsections (1m) and (2m) have now been read; (1b) and any (4) have not.",
+          "impact": "nonblocking_research_note",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "PART 2.4 Not reviewed at source in this pass / 1",
+            "sourceStatement": "Section 973.015 in full, including subsections (1b), (2m), and any subsection (4)"
+          }
+        }
+      ],
+      "_limitationsNote": "Every limitation is classified. Only legal_design_blocker withholds a track.",
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Process guidance only, and guidance because there is no participant filing on this track: the order is mandatory at sentencing and execution belongs to the certificate-of-discharge or CR-266 track. Low volume, but worth encoding, because where the order was not entered the participant has a real grievance rather than a discretionary disappointment, and that is an attorney referral with something to work with.",
+        "limitations": [
+          {
+            "classification": "scope_restriction",
+            "statement": "This track uses a different age threshold from the general rule — under 18, not under 25 — and it is the only place in § 973.015 where the sentencing court has no discretion.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "WI-EXP-03 / Why it is a separate track",
+              "sourceStatement": "it is the only place in section 973.015 where the sentencing court has no discretion, and it uses a different age threshold (under 18) from the general rule (under 25)"
+            }
+          },
+          {
+            "classification": "self_help_boundary",
+            "statement": "Where the mandatory order was not entered at sentencing, refer to an attorney. The participant has a real grievance and that is something a lawyer can work with, unlike a discretionary refusal.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "WI-EXP-03 / Legal-design decision",
+              "sourceStatement": "if the order was not entered the participant has a real grievance rather than a discretionary disappointment, and that is an attorney referral with something to work with."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Expungement clears the public court record and leaves the state criminal history record in place. Department of Transportation records are outside the statute.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "WI-COMMON",
+              "sourceStatement": "The single most important participant-facing sentence: in Wisconsin, expungement clears the public court record and leaves the state criminal history record in place."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "wi_exp_trafficking_2m",
+      "nodeType": "relief_track",
+      "legalName": "Trafficking Survivor Vacatur or Expungement of a Prostitution Record (Wis. Stat. § 973.015(2m))",
+      "publicName": "Clear a prostitution record that resulted from trafficking",
+      "controllingAuthority": {
+        "citations": [
+          "Wis. Stat. § 973.015(2m)",
+          "Wis. Stat. § 944.30",
+          "Wis. Stat. § 940.302",
+          "Wis. Stat. § 948.051",
+          "Wis. Stat. § 971.30",
+          "22 U.S.C. §§ 7101 to 7112"
+        ],
+        "summary": "At any time after a person has been convicted, adjudicated delinquent, or found not guilty by reason of mental disease or defect for a violation of Wis. Stat. § 944.30, a court may, upon the motion of the person, vacate the conviction, adjudication or finding, or order that the record be expunged, if the person was a victim of trafficking for the purposes of a commercial sex act and committed the violation as a result of that trafficking, and the motion complies with § 971.30 and contains a statement of facts. The motion may include certified court records, immigration-related certifications, official government documentation or other relevant and probative evidence. This is the only adult route in Wisconsin that operates after sentencing."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2016-04-21",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-08-01"
+      },
+      "eligibleRecordTypes": [
+        "conviction",
+        "adjudication"
+      ],
+      "eligibleDispositions": [
+        "convicted",
+        "adjudicated_delinquent",
+        "not_guilty_by_reason_of_mental_disease_or_defect"
+      ],
+      "exclusions": [
+        "Any offence other than a violation of Wis. Stat. § 944.30.",
+        "Any case where the violation did not result from being a victim of trafficking for the purposes of a commercial sex act.",
+        "Federal, tribal and out-of-state records."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Motion by the person after conviction, adjudication or finding",
+          "duration": "none; the motion may be made at any time after, subject to the due-diligence consideration"
+        }
+      ],
+      "outputStrategy": "process_guidance",
+      "outputStrategyStatus": "resolved",
+      "packetIdentity": "identified",
+      "guidanceRationales": [
+        "individualized_advocacy",
+        "contested_evidentiary_showing"
+      ],
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "The circuit court in which the conviction, adjudication or finding was entered."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "The Wisconsin circuit court of the underlying § 944.30 matter",
+        "detail": "The motion is filed with the court that entered the conviction, adjudication or finding. LegalEase does not prepare it: the route is referred out to an attorney or legal aid, and the packet is a detection and referral product only."
+      },
+      "components": [
+        {
+          "role": "route_detection",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "A single non-graphic screening question governed by the trauma rule: ask only whether the case was connected to trafficking, coercion, exploitation, or someone forcing or directing what happened. Do not ask for details."
+        },
+        {
+          "role": "referral_instructions",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Route to an attorney, legal aid or a survivor-services partner. Explain that this is the only adult Wisconsin route that operates after sentencing, so it is a live remedy where nothing else is."
+        }
+      ],
+      "_participantInputsNote": "One screening question only, under the trauma rule. LegalEase does not gather the factual showing.",
+      "participantInputs": [
+        {
+          "key": "traffickingConnection",
+          "question": "Was this case connected to trafficking, coercion or exploitation, or to someone forcing or directing what happened?",
+          "requirement": "required"
+        },
+        {
+          "key": "offenceIs94430",
+          "question": "Was the charge a prostitution offence under Wisconsin statute 944.30?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumberAndCounty",
+          "question": "What is the case number, and which Wisconsin county was the case in?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked only to route the referral to the right court and legal aid provider."
+        }
+      ],
+      "_supportingDocumentsNote": "Named for the referral partner's benefit only. LegalEase does not collect, receive or inspect any of them, and the factual showing remains participant-authored.",
+      "supportingDocuments": [
+        {
+          "name": "Certified records of federal or state court proceedings",
+          "obtainedFrom": "The clerk of the relevant court",
+          "requirement": "conditional",
+          "conditionDescription": "Named because § 973.015(2m)(c) lists it as evidence the motion may include. The referral partner decides what is used.",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Your attorney or legal aid provider will advise what to obtain. Do not send documents to LegalEase."
+        },
+        {
+          "name": "Approval notices, law enforcement certifications or similar documents from federal immigration proceedings",
+          "obtainedFrom": "The relevant federal agency",
+          "requirement": "conditional",
+          "conditionDescription": "Named because § 973.015(2m)(c)2 lists it as evidence the motion may include.",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Your attorney or legal aid provider will advise. Do not send documents to LegalEase."
+        }
+      ],
+      "_manualCompletionNote": "LegalEase generates no document on this track.",
+      "manualCompletionItems": [
+        {
+          "item": "The § 973.015(2m) motion and its statement of facts",
+          "whereInPacket": "Not in the packet",
+          "why": "The trafficking nexus is a contested evidentiary showing and must remain participant-authored, prepared with an attorney or survivor-services partner. LegalEase must not generate the factual showing."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "Wis. Stat. § 973.015(2m) (official statute text; certified through 2025 Wis. Act 247, in effect 2026-08-05)",
+          "url": "https://docs.legis.wisconsin.gov/statutes/statutes/973/015",
+          "retrievedOn": "2026-08-05"
+        }
+      ],
+      "rules": {
+        "filing": "The motion is filed by the participant's attorney or legal aid provider in the circuit court of the underlying matter, and must comply with Wis. Stat. § 971.30. LegalEase does not file it.",
+        "fees": "none identified",
+        "feeWaiver": "none identified",
+        "notice": "The district attorney is served or notified and has an opportunity to respond.",
+        "service": "Service on the district attorney, handled by the referral partner.",
+        "participantSignature": "The participant signs the motion prepared with their attorney or legal aid provider.",
+        "notarization": "none identified"
+      },
+      "selfHelpStopConditions": [
+        "The entire track. It is outside the current LegalEase self-help scope and is referred out.",
+        "Any request for details of the trafficking, coercion or exploitation. Ask the single screening question and route to review; do not ask for details and do not generate the factual showing.",
+        "Any trafficking or prostitution fact pattern arising on any other Wisconsin track, which routes here.",
+        "Immigration consequences.",
+        "Federal, tribal or out-of-state records."
+      ],
+      "_unresolvedQuestionsNote": "Preserved from the controlling review with impact and affected element.",
+      "unresolvedQuestions": [
+        {
+          "question": "No official form was identified for the § 973.015(2m) trafficking survivor motion, and none was located in the circuit court form set. If the track is later brought in scope, the specification must be built with a survivor-services partner and the factual showing must remain participant-authored.",
+          "impact": "build_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "PART 2.1 / Gaps in the form set",
+            "sourceStatement": "no form was identified for the section 973.015(2m) trafficking survivor motion, or for any certificate of discharge follow-up."
+          }
+        },
+        {
+          "question": "The review recorded the § 973.015(2m) requirements from the internal reference rather than from the statute. The subsection has now been read at source and matches, and it additionally specifies that the motion must comply with Wis. Stat. § 971.30 and may state the reason the person did not previously raise an affirmative defence under § 939.46.",
+          "impact": "nonblocking_research_note",
+          "affectedElement": "filing_process",
+          "provenance": {
+            "classificationBasis": "counsel_confirmation_required",
+            "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "WI-EXP-04 / Requirements per the reference",
+            "sourceStatement": "Requirements per the reference: the person was a trafficking victim for commercial sex; the section 944.30 violation resulted from that trafficking; the motion includes supporting facts",
+            "counselQuestion": "Should the § 971.30 compliance requirement and the § 939.46 affirmative-defence explanation be added to the referral briefing for the survivor-services partner?"
+          }
+        }
+      ],
+      "_limitationsNote": "Every limitation is classified. Only legal_design_blocker withholds a track.",
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Outside the current LegalEase self-help scope and referred out, so the track is retained as detection and referral rather than as a packet. Counsel's stated output strategy was custom_pleading with a mandatory attorney or legal aid handoff; because the handoff is mandatory and the trafficking nexus is a contested evidentiary showing that must remain participant-authored, no pleading is generated and the route is modelled as guidance. It is retained deliberately: this is the only adult route in Wisconsin that operates after sentencing, so for a survivor with an old prostitution conviction it is a live remedy where nothing else is. The trauma rule governs the single screening question.",
+        "limitations": [
+          {
+            "classification": "self_help_boundary",
+            "statement": "The trafficking route has no form and requires a factual showing. It is referred out.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATION CLASSIFICATION / 14",
+              "sourceStatement": "Trafficking route has no form and requires a factual showing | Self-help boundary; referred out"
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "The trauma rule governs: ask only whether the case was connected to trafficking, coercion, exploitation, or someone forcing or directing what happened, and route to review. Do not ask for details and do not generate the factual showing.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "WI-EXP-04 / Legal-design decision",
+              "sourceStatement": "The reference's trauma rule is correct and should govern: ask only whether the case was connected to trafficking, coercion, exploitation, or someone forcing or directing what happened, and route to review. Do not ask for details and do not generate the factual showing."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Explain that this is the only adult route in Wisconsin that operates after sentencing, so it is a live remedy where nothing else is. Everything else in § 973.015 is decided at sentencing.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "WI-EXP-04 / Why it is structurally important",
+              "sourceStatement": "this is the only adult route in Wisconsin that operates after sentencing. Everything else in section 973.015 is decided at sentencing. For a survivor with an old prostitution conviction, this is a live remedy where nothing else is"
+            }
+          },
+          {
+            "classification": "manual_completion_item",
+            "statement": "The trafficking nexus on a § 973.015(2m) motion requires legal judgment and must not be auto-completed.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "PART 2.1 / Fields that require legal judgment",
+              "sourceStatement": "The trafficking nexus on a section 973.015(2m) motion"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "wi_nc_doj_fingerprint_removal",
+      "nodeType": "relief_track",
+      "legalName": "Wisconsin DOJ Fingerprint and Arrest Record Removal (form DJ-LE-250B; Wis. Stat. § 165.84)",
+      "publicName": "Remove a non-conviction arrest from your state criminal record",
+      "controllingAuthority": {
+        "citations": [
+          "Wis. Stat. § 165.84",
+          "Wisconsin DOJ Crime Information Bureau fingerprint record removal process"
+        ],
+        "summary": "A person who was arrested and released without charge, found not guilty, had charges dismissed by the court or prosecutor, or against whom no charges were filed may request removal of the fingerprint and arrest record from the Wisconsin criminal history repository, using DOJ form DJ-LE-250B with fingerprints and supporting documentation. All charges arising from the arrest event must be cleared; a conviction on any charge from the same fingerprint event may block removal. There is no fee for the removal request. Where the removed Wisconsin arrest information had been forwarded to the FBI, DOJ contacts the FBI to remove it from the FBI record."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2016-04-21",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-08-01"
+      },
+      "eligibleRecordTypes": [
+        "arrest",
+        "charge"
+      ],
+      "eligibleDispositions": [
+        "arrested_released_without_charge",
+        "no_charges_filed",
+        "not_guilty",
+        "dismissed_by_court",
+        "dismissed_by_prosecutor"
+      ],
+      "exclusions": [
+        "Any arrest event where a charge arising from the same fingerprint event resulted in a conviction, which may block removal.",
+        "Convictions ordered expunged by a court, which per the DOJ position cannot be removed from the Wisconsin criminal history repository because the conviction disqualifies that arrest from removal.",
+        "Federal and out-of-state records, except that DOJ contacts the FBI where the removed Wisconsin arrest information had been forwarded to it.",
+        "Tribal records."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Non-conviction disposition of every charge arising from the arrest event",
+          "duration": "none identified"
+        }
+      ],
+      "outputStrategy": "official_pdf_fill",
+      "outputStrategyStatus": "resolved",
+      "packetIdentity": "identified",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Not a court process. This is an agency request to the Wisconsin DOJ Crime Information Bureau."
+      },
+      "destination": {
+        "kind": "agency",
+        "name": "Wisconsin Department of Justice, Crime Information Bureau",
+        "detail": "Submit DJ-LE-250B with the required fingerprints and supporting disposition documentation to DOJ-CIB. There is no fee for the removal request; the background check that precedes it is fee-based. This is an agency request, not a filing, and it is not the same as court expungement."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "DJ-LE-250B",
+          "officialSourceUrl": "https://www.wisdoj.gov/Pages/CriminalJusticeServices/criminal-history-documents-forms.aspx",
+          "notes": "Fingerprint Record Removal Request. Free agency form, and the only Wisconsin instrument that reaches an FBI record."
+        },
+        {
+          "role": "arrest_event_mapping",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Identify the arrest event and every charge tied to that fingerprint card from the DOJ criminal history, then confirm each of those charges was dismissed, no-filed, acquitted or otherwise cleared. The all-charges-cleared screen must be run against the DOJ criminal history, not against the participant's memory of one charge."
+        },
+        {
+          "role": "disposition_documentation_package",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "A checklist of the disposition or non-prosecution documentation the participant obtains for each charge in the arrest event."
+        },
+        {
+          "role": "filing_instructions",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Instructions covering the fingerprint capture step, submission to DOJ-CIB, the no-fee rule for removal, and confirming that DOJ transmitted the removal to the FBI where federal records were involved."
+        }
+      ],
+      "_participantInputsNote": "What LegalEase asks. The all-charges-cleared question is asked but answered from the DOJ record, not from recollection.",
+      "participantInputs": [
+        {
+          "key": "arrestDate",
+          "question": "On what date were you arrested?",
+          "requirement": "required"
+        },
+        {
+          "key": "arrestingAgencyAndCounty",
+          "question": "Which agency arrested you, and in which Wisconsin county?",
+          "requirement": "required"
+        },
+        {
+          "key": "wasFingerprinted",
+          "question": "Were you fingerprinted at the time of the arrest?",
+          "requirement": "required"
+        },
+        {
+          "key": "outcomeBranch",
+          "question": "How did it end — released without charge, no charges filed, found not guilty, or charges dismissed?",
+          "requirement": "required"
+        },
+        {
+          "key": "allChargesFromArrest",
+          "question": "What were ALL of the charges from that arrest, and how did each one end?",
+          "requirement": "required"
+        },
+        {
+          "key": "anyConvictionFromArrestEvent",
+          "question": "Did any charge from that same arrest end in a conviction, including a plea to a lesser offence?",
+          "requirement": "required"
+        },
+        {
+          "key": "deferredJudgmentOrDpa",
+          "question": "Was any charge from that arrest handled through a deferred judgment or a deferred prosecution agreement that was later dismissed?",
+          "requirement": "required"
+        },
+        {
+          "key": "fbiRecordConcern",
+          "question": "Do you know or suspect that this arrest appears on an FBI background check?",
+          "requirement": "required"
+        }
+      ],
+      "_supportingDocumentsNote": "Records the participant obtains and attaches. None of them delays generation; LegalEase never receives, inspects or authenticates them.",
+      "supportingDocuments": [
+        {
+          "name": "Wisconsin DOJ criminal history record",
+          "obtainedFrom": "Wisconsin Department of Justice, Crime Information Bureau",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Request a background check through the Wisconsin DOJ system. This is the record that shows the arrest event and every charge tied to the fingerprint card, and it is the document the all-charges-cleared screen must be run against. The background check is fee-based.",
+          "confirms": "allChargesFromArrest"
+        },
+        {
+          "name": "Disposition or non-prosecution documentation for every charge in the arrest event",
+          "obtainedFrom": "Clerk of circuit court, or the district attorney's office",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Ask the clerk of circuit court for the dismissal order, judgment of acquittal or docket entry for each charge; where no charges were filed, ask the district attorney's office to confirm in writing.",
+          "confirms": "outcomeBranch"
+        },
+        {
+          "name": "Fingerprints taken by a fingerprint technician",
+          "obtainedFrom": "A law enforcement agency or commercial fingerprinting service",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "DJ-LE-250B requires fingerprints. Have them taken by a fingerprint technician and submit them with the request. LegalEase cannot complete this step.",
+          "confirms": "wasFingerprinted"
+        }
+      ],
+      "_manualCompletionNote": "What the generated packet deliberately leaves blank or cannot produce.",
+      "manualCompletionItems": [
+        {
+          "item": "Fingerprint capture",
+          "whereInPacket": "DJ-LE-250B, fingerprint requirement",
+          "why": "A fingerprint technician takes the prints. LegalEase cannot complete this step, and it should be sequenced at the front of the participant's task list rather than surfaced at the end."
+        },
+        {
+          "item": "Participant's signature and date",
+          "whereInPacket": "DJ-LE-250B, signature block",
+          "why": "The participant signs their own request."
+        },
+        {
+          "item": "The DOJ determination, and any DOJ-to-FBI transmission",
+          "whereInPacket": "Not in the packet; named in the filing instructions",
+          "why": "The removal decision and the FBI referral are the agency's, not the participant's and not LegalEase's."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "Criminal history documents and forms, including DJ-LE-250B — Wisconsin Department of Justice",
+          "url": "https://www.wisdoj.gov/Pages/CriminalJusticeServices/criminal-history-documents-forms.aspx",
+          "retrievedOn": "2026-08-01"
+        },
+        {
+          "title": "Wis. Stat. § 165.84 (official statute text; amended by 2015 Wis. Act 366, effective 2016-04-21)",
+          "url": "https://docs.legis.wisconsin.gov/statutes/statutes/165/84",
+          "retrievedOn": "2026-08-05"
+        },
+        {
+          "title": "Criminal background check information — Wisconsin Department of Justice",
+          "url": "https://www.wisdoj.gov/Pages/CriminalJusticeServices/criminal-background-check.aspx",
+          "retrievedOn": "2026-08-01"
+        }
+      ],
+      "rules": {
+        "filing": "Submit DJ-LE-250B with fingerprints and supporting disposition documentation to the Wisconsin DOJ Crime Information Bureau. This is an agency request, not a court filing.",
+        "fees": "No fee for the removal request, per Wisconsin DOJ. The DOJ background check that must precede it is fee-based.",
+        "feeWaiver": "none",
+        "notice": "none",
+        "service": "none",
+        "participantSignature": "The participant signs DJ-LE-250B.",
+        "notarization": "none identified"
+      },
+      "selfHelpStopConditions": [
+        "Any conviction arising from the same arrest event, which likely blocks removal.",
+        "A conviction ordered expunged by a court, which per DOJ cannot be removed from the criminal history repository.",
+        "Uncertainty about which charges were tied to the same fingerprint card, which must be resolved from the DOJ record rather than from recollection.",
+        "Any trafficking or prostitution fact pattern.",
+        "Immigration consequences.",
+        "Tribal records, and out-of-state records other than the FBI referral DOJ makes itself."
+      ],
+      "_unresolvedQuestionsNote": "Preserved from the controlling review with impact and affected element.",
+      "unresolvedQuestions": [
+        {
+          "question": "Current revision dates of DJ-LE-250B and DJ-LE-247, the fingerprint submission requirements, and the current DOJ background check fee through the WORCS system were not confirmed. The background check is the record the participant needs first.",
+          "impact": "build_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "PART 2.2 / Required at build",
+            "sourceStatement": "confirm current revision dates, the fingerprint submission requirements, and the current DOJ background check fee through the WORCS system, which is the record the participant needs first."
+          }
+        },
+        {
+          "question": "What is the current DOJ background check fee through WORCS? It should be read live at intake rather than pinned.",
+          "impact": "nonblocking_research_note",
+          "affectedElement": "filing_process",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "UNRESOLVED QUESTIONS AND IMPACT / 7",
+            "sourceStatement": "What is the current DOJ background check fee through WORCS? Nonblocking, and it should be read live at intake."
+          }
+        },
+        {
+          "question": "Section 165.84 was not read in full at source. Its history shows it was amended by 2015 Wis. Act 366, the same act that last amended § 973.015, and effectiveFrom records that act's effective date of 2016-04-21.",
+          "impact": "nonblocking_research_note",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "counsel_confirmation_required",
+            "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "PART 2.4 Not reviewed at source in this pass / 4",
+            "sourceStatement": "Section 165.84 in full",
+            "counselQuestion": "Is § 165.84 the correct statutory anchor for the DOJ fingerprint removal process, and should effectiveFrom track its amendment history?"
+          }
+        }
+      ],
+      "_limitationsNote": "Every limitation is classified. Only legal_design_blocker withholds a track.",
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Approved for implementation with limitations. This is the second real paid track in Wisconsin, and the FBI referral makes it more valuable than court expungement in many cases: it is the only Wisconsin instrument that reaches a federal record. The all-charges-cleared screen must be run against the DOJ criminal history rather than against the participant's memory of one charge, which is why the DOJ record is sequenced first.",
+        "limitations": [
+          {
+            "classification": "packet_instruction",
+            "statement": "DOJ removal requires that all charges from the arrest event be cleared. The screen must be run against the DOJ criminal history, not against the participant's memory of one charge, so the DOJ background check is sequenced first.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATION CLASSIFICATION / 9",
+              "sourceStatement": "DOJ removal requires that all charges from the arrest event be cleared | Supporting document the participant obtains"
+            }
+          },
+          {
+            "classification": "manual_completion_item",
+            "statement": "DOJ removal requires fingerprints, taken by a fingerprint technician. Sequence that at the front of the participant's task list rather than surfacing it at the end.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATION CLASSIFICATION / 10",
+              "sourceStatement": "DOJ removal requires fingerprints | Manual completion item"
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "This is an agency request, not a court filing, and it is not the same as court expungement. The removal request is free; the DOJ background check that precedes it is not.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "WI-NC-01 / Not a court process and Fee",
+              "sourceStatement": "this is an agency request, not a filing, and it is not the same as court expungement. Fee: none, per Wisconsin DOJ."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Where the removed Wisconsin arrest information had been forwarded to the FBI, DOJ contacts the FBI to remove it from the FBI record. This is the only Wisconsin track that reaches a federal record.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "WI-NC-01 / FBI reach",
+              "sourceStatement": "if the removed Wisconsin arrest information had been forwarded to the FBI, DOJ contacts the FBI to remove it from the FBI record. This is the only Wisconsin track that reaches a federal record."
+            }
+          },
+          {
+            "classification": "self_help_boundary",
+            "statement": "Any conviction arising from the same arrest event is an attorney handoff, because it likely blocks removal.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "PART 4.3 / Attorney-handoff trigger",
+              "sourceStatement": "any conviction arising from the same arrest event, which likely blocks removal."
+            }
+          },
+          {
+            "classification": "participant_question",
+            "statement": "Ask about deferred judgment and deferred prosecution separately from conviction. A § 961.47 case that was completed and dismissed is a non-conviction that unlocks this route, and the participant may describe it as 'I got convicted but they dropped it'.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "BUILD NOTE FOR THE ELIGIBILITY ENGINE / 5",
+              "sourceStatement": "Ask about deferred judgment separately from conviction. A section 961.47 case that was completed and dismissed is a non-conviction and unlocks the DOJ route, and the participant may describe it as \"I got convicted but they dropped it.\""
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "wi_nc_doj_challenge",
+      "nodeType": "relief_track",
+      "legalName": "Wisconsin Criminal History Record Challenge or Correction (form DJ-LE-247)",
+      "publicName": "Fix a mistake or a missing outcome on your criminal record",
+      "controllingAuthority": {
+        "citations": [
+          "Wisconsin DOJ Crime Information Bureau record challenge process",
+          "Wis. Stat. § 165.84"
+        ],
+        "summary": "A person whose Wisconsin criminal history record contains inaccurate or incomplete information, including a missing disposition, may challenge or correct it using DOJ form DJ-LE-247. Wisconsin's Centralized Criminal History is built on arrest fingerprint cards submitted by law enforcement, and dispositions are reported separately, so a record showing an arrest with no disposition is a common and fixable problem."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2016-04-21",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-08-01"
+      },
+      "eligibleRecordTypes": [
+        "arrest",
+        "charge",
+        "conviction",
+        "disposition"
+      ],
+      "eligibleDispositions": [
+        "any_disposition_with_an_inaccurate_or_missing_record_entry"
+      ],
+      "exclusions": [
+        "Records that are accurate. This route corrects the record; it does not clear it.",
+        "Federal, tribal and out-of-state records."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Challenge or correction of an inaccurate or incomplete record entry",
+          "duration": "none"
+        }
+      ],
+      "outputStrategy": "official_pdf_fill",
+      "outputStrategyStatus": "resolved",
+      "packetIdentity": "identified",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Not a court process. This is an agency request to the Wisconsin DOJ Crime Information Bureau."
+      },
+      "destination": {
+        "kind": "agency",
+        "name": "Wisconsin Department of Justice, Crime Information Bureau",
+        "detail": "Submit DJ-LE-247 with the documentation showing what the record should say. The DOJ decides whether to amend the record."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "DJ-LE-247",
+          "officialSourceUrl": "https://www.wisdoj.gov/Pages/CriminalJusticeServices/criminal-history-documents-forms.aspx",
+          "notes": "Wisconsin Criminal History Record Challenge Form. Free agency form."
+        },
+        {
+          "role": "record_discrepancy_analysis",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Compare the DOJ criminal history against the circuit court record and identify precisely what is wrong or missing, most commonly an arrest with no reported disposition."
+        },
+        {
+          "role": "filing_instructions",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Instructions covering what documentation to attach, where to submit, and what to expect."
+        }
+      ],
+      "_participantInputsNote": "What LegalEase asks in order to identify the discrepancy and complete the challenge form.",
+      "participantInputs": [
+        {
+          "key": "recordProblem",
+          "question": "What is wrong on your Wisconsin criminal record — is something missing, is an outcome wrong, or is there an entry that is not yours?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumberAndCounty",
+          "question": "What is the case number, and which Wisconsin county was the case in?",
+          "requirement": "required"
+        },
+        {
+          "key": "arrestDate",
+          "question": "On what date were you arrested?",
+          "requirement": "required"
+        },
+        {
+          "key": "actualDisposition",
+          "question": "What was the actual outcome of the case?",
+          "requirement": "required"
+        },
+        {
+          "key": "obtainedDojRecord",
+          "question": "Have you obtained a copy of your Wisconsin DOJ criminal history record?",
+          "requirement": "required"
+        }
+      ],
+      "_supportingDocumentsNote": "Records the participant obtains and attaches. None of them delays generation.",
+      "supportingDocuments": [
+        {
+          "name": "Wisconsin DOJ criminal history record",
+          "obtainedFrom": "Wisconsin Department of Justice, Crime Information Bureau",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Request a background check through the Wisconsin DOJ system. This is the record being challenged, so it must be in hand.",
+          "confirms": "obtainedDojRecord"
+        },
+        {
+          "name": "Court record showing the correct disposition",
+          "obtainedFrom": "Clerk of circuit court",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Ask the clerk of circuit court for the judgment, dismissal order or docket entry that shows what actually happened.",
+          "confirms": "actualDisposition"
+        }
+      ],
+      "_manualCompletionNote": "What the generated packet deliberately leaves blank.",
+      "manualCompletionItems": [
+        {
+          "item": "Participant's signature and date",
+          "whereInPacket": "DJ-LE-247, signature block",
+          "why": "The participant signs their own challenge."
+        },
+        {
+          "item": "The DOJ determination on the challenge",
+          "whereInPacket": "Not in the packet",
+          "why": "Whether to amend the record is the agency's decision."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "Criminal history documents and forms, including DJ-LE-247 — Wisconsin Department of Justice",
+          "url": "https://www.wisdoj.gov/Pages/CriminalJusticeServices/criminal-history-documents-forms.aspx",
+          "retrievedOn": "2026-08-01"
+        },
+        {
+          "title": "Criminal background check information — Wisconsin Department of Justice",
+          "url": "https://www.wisdoj.gov/Pages/CriminalJusticeServices/criminal-background-check.aspx",
+          "retrievedOn": "2026-08-01"
+        }
+      ],
+      "rules": {
+        "filing": "Submit DJ-LE-247 to the Wisconsin DOJ Crime Information Bureau with documentation showing what the record should say.",
+        "fees": "No fee identified for the challenge itself. The DOJ background check that must precede it is fee-based.",
+        "feeWaiver": "none",
+        "notice": "none",
+        "service": "none",
+        "participantSignature": "The participant signs DJ-LE-247.",
+        "notarization": "none identified"
+      },
+      "selfHelpStopConditions": [
+        "A record that is accurate but unwanted, which is a clearing question rather than a correction question.",
+        "Identity theft or a record belonging to another person, which needs more than a correction form.",
+        "Immigration consequences.",
+        "Federal, tribal or out-of-state records."
+      ],
+      "_unresolvedQuestionsNote": "Preserved from the controlling review with impact and affected element.",
+      "unresolvedQuestions": [
+        {
+          "question": "The current revision date of DJ-LE-247 was not confirmed.",
+          "impact": "build_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "PART 2.2 / Required at build",
+            "sourceStatement": "confirm current revision dates, the fingerprint submission requirements, and the current DOJ background check fee through the WORCS system"
+          }
+        },
+        {
+          "question": "No statute was pinned for the DOJ record challenge process itself; the controlling authority is the DOJ Crime Information Bureau procedure, with § 165.84 as the underlying criminal-history records authority. effectiveFrom therefore tracks § 165.84's most recent amendment.",
+          "impact": "nonblocking_research_note",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "counsel_confirmation_required",
+            "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "WI-NC-02 / Controlling authority",
+            "sourceStatement": "Controlling authority: Wisconsin DOJ Crime Information Bureau record challenge process",
+            "counselQuestion": "Is there a statutory or administrative-rule anchor for the DOJ record challenge process that should be pinned instead of § 165.84?"
+          }
+        }
+      ],
+      "_limitationsNote": "Every limitation is classified. Only legal_design_blocker withholds a track.",
+      "legalDesignDecision": {
+        "status": "legal_design_approved",
+        "rationale": "Approved for implementation. Low cost, high hit rate, and — the reason it matters most in Wisconsin — it is available to people who have no expungement route at all. Wisconsin's Centralized Criminal History is built on arrest fingerprint cards with dispositions reported separately, so a record showing an arrest with no disposition is common, fixable, and for many participants it is the actual thing hurting them on a background check.",
+        "limitations": [
+          {
+            "classification": "packet_instruction",
+            "statement": "This corrects the record; it does not clear it. Say so plainly so the participant is not sold a correction as a clearing.",
+            "provenance": {
+              "classificationBasis": "general_packet_only_rule",
+              "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "WI-NC-02 / Applies to",
+              "sourceStatement": "a person whose Wisconsin criminal history record contains inaccurate or incomplete information, including a missing disposition"
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "The DOJ criminal history record must be obtained first, because it is the record being challenged.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "PART 4.1 / Records acquisition",
+              "sourceStatement": "The Wisconsin DOJ criminal history, through the DOJ background check system ... it is where a missing disposition shows up."
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "Offer this route to participants who have no expungement route at all. Together with the section 111.335 fair employment protections it is the substantive answer for the majority of Wisconsin participants.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "WI-NC-02 / Legal-design decision",
+              "sourceStatement": "Approved for implementation. Low cost, high hit rate, and it is available to people who have no expungement route at all."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "wi_def_961_47",
+      "nodeType": "relief_track",
+      "legalName": "Conditional Discharge for Possession or Attempted Possession as a First Offence (Wis. Stat. § 961.47)",
+      "publicName": "Drug possession first-offence conditional discharge",
+      "controllingAuthority": {
+        "citations": [
+          "Wis. Stat. § 961.47",
+          "Wis. Stat. § 961.41(3g)(b)",
+          "Wis. Stat. § 961.48"
+        ],
+        "summary": "Where a person has not previously been convicted of any offense under Wis. Stat. ch. 961, or of any comparable federal, state or county ordinance offense relating to controlled substances, and pleads guilty to or is found guilty of possession or attempted possession under § 961.41(3g)(b), the court may, without entering a judgment of guilt and with the consent of the accused, defer further proceedings and place the person on probation on terms and conditions. On fulfillment of the terms and conditions the court shall discharge the person and dismiss the proceedings. Discharge and dismissal is without adjudication of guilt and is not a conviction for purposes of disqualifications or disabilities imposed by law upon conviction of a crime, including the § 961.48 second-or-subsequent-offense penalties. There may be only one discharge and dismissal under the section with respect to any person. Within 20 days after probation is granted the clerk of court notifies the Department of Justice."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "1996-07-09",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-08-01"
+      },
+      "eligibleRecordTypes": [
+        "charge"
+      ],
+      "eligibleDispositions": [
+        "conditional_discharge_granted",
+        "discharged_and_dismissed_without_adjudication_of_guilt"
+      ],
+      "exclusions": [
+        "Any person previously convicted of an offense under Wis. Stat. ch. 961, or of any statute of the United States or of any state or any county ordinance relating to controlled substances or controlled substance analogs, narcotic drugs, marijuana or stimulant, depressant or hallucinogenic drugs.",
+        "Any person who has already had one discharge and dismissal under the section; the statute permits only one with respect to any person.",
+        "Any charge other than possession or attempted possession under Wis. Stat. § 961.41(3g)(b).",
+        "Any case where a term or condition was violated and the court entered an adjudication of guilt.",
+        "Federal, tribal and out-of-state records."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Fulfilment of the terms and conditions of the probation imposed under the section",
+          "duration": "the probation period set by the court; the statute sets no separate clock"
+        }
+      ],
+      "outputStrategy": "process_guidance",
+      "outputStrategyStatus": "resolved",
+      "packetIdentity": "identified",
+      "guidanceRationales": [
+        "no_participant_filing_exists",
+        "another_entity_decides"
+      ],
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "The circuit court of the underlying controlled-substance case."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "The Wisconsin circuit court of the underlying case",
+        "detail": "The deferral and the later discharge and dismissal are both the court's acts, recorded on court-generated form CR-214 through CCAP. The participant files nothing. The product value is in explaining what the disposition means and routing the completed case into the DOJ fingerprint removal track, which the non-conviction status unlocks."
+      },
+      "components": [
+        {
+          "role": "status_verification_instructions",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Establish from the court record whether the court deferred judgment under § 961.47 rather than convicting, and whether the discharge and dismissal has been entered. Form CR-214, Judgment Deferred Under 961.47, is court-generated through CCAP and is not a participant form."
+        },
+        {
+          "role": "legal_effect_explanation",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Explain that discharge and dismissal is without adjudication of guilt and is not a conviction for disqualifications or disabilities imposed by law, including the § 961.48 enhanced-penalty provisions, and that only one such discharge is available in a lifetime."
+        },
+        {
+          "role": "handoff_to_doj_removal",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "The documented handoff into the DOJ fingerprint removal track. Once discharged and dismissed the case is a non-conviction, which is what makes that route available. This is the bridge between the criminal case and the only agency removal route Wisconsin has."
+        }
+      ],
+      "_participantInputsNote": "What LegalEase asks. The deferred-judgment question must be asked separately from the conviction question, because participants describe this disposition inaccurately.",
+      "participantInputs": [
+        {
+          "key": "deferredJudgmentGranted",
+          "question": "Did the court defer judgment and put you on probation without entering a conviction, rather than convicting you?",
+          "requirement": "required"
+        },
+        {
+          "key": "chargeWasPossession",
+          "question": "Was the charge possession or attempted possession of a controlled substance?",
+          "requirement": "required"
+        },
+        {
+          "key": "priorControlledSubstanceOffence",
+          "question": "Had you ever been convicted of any drug offence before this case, in Wisconsin or anywhere else?",
+          "requirement": "required"
+        },
+        {
+          "key": "conditionsFulfilled",
+          "question": "Did you complete all the terms and conditions the court set?",
+          "requirement": "required"
+        },
+        {
+          "key": "dischargeAndDismissalEntered",
+          "question": "Did the court discharge you and dismiss the case?",
+          "requirement": "required"
+        },
+        {
+          "key": "priorConditionalDischarge",
+          "question": "Have you ever had a case handled this way before?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumberAndCounty",
+          "question": "What is the case number, and which Wisconsin county was the case in?",
+          "requirement": "required"
+        }
+      ],
+      "_supportingDocumentsNote": "Records the participant obtains. None of them delays generation.",
+      "supportingDocuments": [
+        {
+          "name": "Form CR-214, Judgment Deferred Under 961.47, and the order of discharge and dismissal",
+          "obtainedFrom": "Clerk of circuit court",
+          "requirement": "required",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Ask the clerk of circuit court for the deferred judgment record and the order discharging you and dismissing the case. These establish the non-conviction status that unlocks the DOJ removal route.",
+          "confirms": "dischargeAndDismissalEntered"
+        },
+        {
+          "name": "Wisconsin DOJ criminal history record",
+          "obtainedFrom": "Wisconsin Department of Justice, Crime Information Bureau",
+          "requirement": "conditional",
+          "conditionDescription": "Needed before the DOJ fingerprint removal handoff, to map the arrest event.",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Request a background check through the Wisconsin DOJ system."
+        }
+      ],
+      "_manualCompletionNote": "Nothing is generated for signature on this track.",
+      "manualCompletionItems": [
+        {
+          "item": "Form CR-214 and the order of discharge and dismissal",
+          "whereInPacket": "Not in the packet; named in the verification instructions",
+          "why": "CR-214 is court-generated through CCAP and is not a participant form. The discharge and dismissal is the court's act."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "Wis. Stat. § 961.47, Conditional discharge for possession or attempted possession as first offense (official statute text; certified through 2025 Wis. Act 247, in effect 2026-08-05)",
+          "url": "https://docs.legis.wisconsin.gov/statutes/statutes/961/IV/47",
+          "retrievedOn": "2026-08-05"
+        },
+        {
+          "title": "1995 Wisconsin Act 448 (published 8 Jul 1996; renumbered the section to § 961.47)",
+          "url": "https://docs.legis.wisconsin.gov/1995/related/acts/448.pdf",
+          "retrievedOn": "2026-08-05"
+        }
+      ],
+      "rules": {
+        "filing": "none by the participant. The deferral and the discharge and dismissal are both entered by the court.",
+        "fees": "none identified",
+        "feeWaiver": "none",
+        "notice": "Within 20 days after probation is granted under the section, the clerk of court notifies the Department of Justice of the name of the individual granted probation and any other information the department requires.",
+        "service": "none",
+        "participantSignature": "The accused must consent to the deferral, which happens in the criminal case with defence counsel, not through LegalEase.",
+        "notarization": "none"
+      },
+      "selfHelpStopConditions": [
+        "Sentencing or plea negotiation has not yet happened. Consent to a § 961.47 deferral is a criminal-defence decision and is outside scope.",
+        "Any prior controlled-substance conviction, which makes the person ineligible.",
+        "Any prior discharge and dismissal under the section, since only one is available.",
+        "A violated term or condition where the court entered an adjudication of guilt.",
+        "Immigration consequences, which a drug disposition can carry even without a conviction.",
+        "Federal, tribal or out-of-state records."
+      ],
+      "_unresolvedQuestionsNote": "Preserved from the controlling review with impact and affected element. Reading the section at source answers counsel's build blocker and the answer is recorded rather than the question dropped.",
+      "unresolvedQuestions": [
+        {
+          "question": "Counsel flagged as a build blocker whether § 961.47 contains its own expungement provision, or whether completion simply produces a non-conviction that routes to DOJ removal. The section has now been read in full at the official Wisconsin Legislature publication: subsections (1) and (2) contain no expungement provision of any kind. Completion produces a discharge and dismissal without adjudication of guilt that is not a conviction, and nothing more. The routing into the DOJ fingerprint removal track is therefore the correct and only model. Reading the section also supplied two facts the review did not carry: only one discharge and dismissal is available per person, and the clerk must notify the Department of Justice within 20 days after probation is granted.",
+          "impact": "build_blocker",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "counsel_confirmation_required",
+            "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "UNRESOLVED QUESTIONS AND IMPACT / 2",
+            "sourceStatement": "Does section 961.47 contain its own expungement provision, or does completion simply produce a non-conviction that routes to DOJ removal? Build blocker for WI-DEF-01.",
+            "counselQuestion": "The section contains no expungement provision. Does counsel accept the build blocker as closed, and should the once-per-lifetime limit and the 20-day clerk notification be added to the participant script?"
+          }
+        },
+        {
+          "question": "The review names this mechanism a 'first-offender deferred judgment'. Its official caption is 'Conditional discharge for possession or attempted possession as first offense', and the statute's operative language is deferral of further proceedings and later discharge and dismissal.",
+          "impact": "nonblocking_research_note",
+          "affectedElement": "participant_instructions",
+          "provenance": {
+            "classificationBasis": "counsel_confirmation_required",
+            "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "WI-DEF-01",
+            "sourceStatement": "WI-DEF-01: First-offender deferred judgment for controlled substance possession",
+            "counselQuestion": "Should participant-facing copy use the statutory term 'conditional discharge' rather than 'deferred judgment', given form CR-214 is captioned 'Judgment Deferred Under 961.47'?"
+          }
+        },
+        {
+          "question": "effectiveFrom records 1996-07-09, the day after publication of 1995 Wisconsin Act 448 (published 8 July 1996), which is the most recent act in the § 961.47 history line and which renumbered the section into the 1995 statutes. The substantive mechanism originates in 1971 c. 219.",
+          "impact": "nonblocking_research_note",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "counsel_confirmation_required",
+            "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "PART 2.4 Not reviewed at source in this pass / 3",
+            "sourceStatement": "Section 961.47 in full, including whether it contains its own expungement provision",
+            "counselQuestion": "Should effectiveFrom carry the 1971 original enactment or the 1996 renumbering that produced the current section?"
+          }
+        }
+      ],
+      "_limitationsNote": "Every limitation is classified. Only legal_design_blocker withholds a track.",
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Approved for implementation with limitations, as process guidance with a documented handoff into the DOJ fingerprint removal track. It matters for two reasons the review identifies: a participant may be on a conditional discharge right now and not know that completion produces a non-conviction, and once discharged and dismissed the case is a non-conviction, which is what makes the DOJ removal route available. This is the bridge between the criminal case and the only agency removal route Wisconsin has. Guidance is the right output because the deferral and the discharge are both the court's acts and CR-214 is court-generated through CCAP, not a participant form.",
+        "limitations": [
+          {
+            "classification": "packet_instruction",
+            "statement": "Ask every Wisconsin drug-possession participant whether the court deferred judgment rather than convicting. Participants describe this disposition inaccurately, often as 'I got convicted but they dropped it'.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "WI-DEF-01 / Legal-design decision",
+              "sourceStatement": "Add it to the routing table. Ask every Wisconsin drug-possession participant whether the court deferred judgment rather than convicting."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "On completion, route the participant into the DOJ fingerprint removal track. Discharge and dismissal produces a non-conviction, which is what unlocks that route.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "WI-DEF-01 / Why it matters to the product",
+              "sourceStatement": "once discharged and dismissed, the case is a non-conviction, which is what makes WI-NC-01 available. This is the bridge between the criminal case and the only agency removal route Wisconsin has"
+            }
+          },
+          {
+            "classification": "participant_question",
+            "statement": "Ask whether the participant has ever had a case handled this way before. The statute permits only one discharge and dismissal with respect to any person.",
+            "provenance": {
+              "classificationBasis": "counsel_confirmation_required",
+              "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "WI-DEF-01 / How it works",
+              "sourceStatement": "where a person has not previously been convicted of an offense under the chapter, the court may, with the person's consent and without entering a judgment of guilt, defer further proceedings and place the person on probation.",
+              "counselQuestion": "Confirm that the once-per-person limit read from the official text should be surfaced as a participant question."
+            }
+          },
+          {
+            "classification": "self_help_boundary",
+            "statement": "Consent to a § 961.47 deferral is a criminal-defence decision made in a live case. LegalEase does not advise on it.",
+            "provenance": {
+              "classificationBasis": "general_packet_only_rule",
+              "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "WI-COMMON / Self-help stop conditions",
+              "sourceStatement": "Sentencing has not yet happened. That is criminal defense, not record clearing, and it is outside scope"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "wi_def_prosecution_agreement",
+      "nodeType": "relief_track",
+      "legalName": "Deferred Prosecution Agreements (county programmes; Wis. Stat. § 967.055(3) bar)",
+      "publicName": "Charges dismissed under a deferred prosecution agreement",
+      "controllingAuthority": {
+        "citations": [
+          "Wis. Stat. § 967.055(3)",
+          "Wis. Stat. § 346.63(1)",
+          "Wis. Stat. § 346.63(2)",
+          "Wis. Stat. § 940.09"
+        ],
+        "summary": "Wisconsin prosecutors run deferred prosecution programmes at county level. A charge dismissed under such an agreement is a non-conviction and routes to DOJ fingerprint removal. Section 967.055(3) provides that a prosecutor may not place a person in a deferred prosecution programme where the person is accused of or charged with a violation of § 346.63(1) or (5) or a local ordinance in conformity therewith, a violation of § 346.63(2) or (6), or a violation of § 940.09 where the offense involved the use of a vehicle. The general adult deferred prosecution authority was not pinned, and dismissal terms may vary by county programme."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2019-11-28",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-08-01"
+      },
+      "eligibleRecordTypes": [
+        "arrest",
+        "charge"
+      ],
+      "eligibleDispositions": [
+        "charge_dismissed_under_deferred_prosecution_agreement"
+      ],
+      "exclusions": [
+        "Any person accused of or charged with a violation of Wis. Stat. § 346.63(1) or (5), or a local ordinance in conformity therewith.",
+        "Any person accused of or charged with a violation of Wis. Stat. § 346.63(2) or (6).",
+        "Any person accused of or charged with a violation of Wis. Stat. § 940.09 where the offense involved the use of a vehicle.",
+        "Federal, tribal and out-of-state records."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Completion of the deferred prosecution agreement and dismissal of the charge",
+          "duration": "set by the county programme; not established statewide"
+        }
+      ],
+      "outputStrategyStatus": "unresolved",
+      "packetIdentity": "unresolved",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "The circuit court of the underlying case, with the programme administered by the county district attorney."
+      },
+      "destination": {
+        "kind": "prosecutor",
+        "name": "The county district attorney administering the deferred prosecution programme",
+        "detail": "Programmes are run at county level and dismissal terms may vary. Whether the resulting record clears the DOJ all-charges-cleared screen is not established."
+      },
+      "components": [],
+      "_participantInputsNote": "Recorded so counsel's structure is preserved. Nothing is generated while the track is deferred.",
+      "participantInputs": [
+        {
+          "key": "deferredProsecutionAgreement",
+          "question": "Was your charge handled through a deferred prosecution agreement with the district attorney?",
+          "requirement": "required"
+        },
+        {
+          "key": "agreementCompleted",
+          "question": "Did you complete everything the agreement required?",
+          "requirement": "required"
+        },
+        {
+          "key": "chargeDismissed",
+          "question": "Was the charge dismissed after you completed the agreement?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumberAndCounty",
+          "question": "What is the case number, and which Wisconsin county was the case in?",
+          "requirement": "required"
+        },
+        {
+          "key": "owiRelated",
+          "question": "Was the charge an operating-while-intoxicated offence, or did it involve the use of a vehicle?",
+          "requirement": "required"
+        }
+      ],
+      "_supportingDocumentsNote": "Recorded so counsel's structure is preserved. Nothing is generated while the track is deferred.",
+      "supportingDocuments": [
+        {
+          "name": "The deferred prosecution agreement and the order dismissing the charge",
+          "obtainedFrom": "The county district attorney's office, or the clerk of circuit court",
+          "requirement": "required",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Ask the district attorney's office for the agreement and the clerk of circuit court for the dismissal order.",
+          "confirms": "chargeDismissed"
+        }
+      ],
+      "_manualCompletionNote": "Nothing is generated while the track is deferred.",
+      "manualCompletionItems": [
+        {
+          "item": "No participant document is produced while this track is deferred",
+          "whereInPacket": "Not applicable",
+          "why": "The track is held under legal_research_required. No output strategy is asserted and no packet is offered."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "Wis. Stat. § 967.055, including subsection (3) (official statute text; history ends 2019 Wis. Act 68; certified through 2025 Wis. Act 247, in effect 2026-08-05)",
+          "url": "https://docs.legis.wisconsin.gov/statutes/statutes/967/055",
+          "retrievedOn": "2026-08-05"
+        },
+        {
+          "title": "2019 Wisconsin Act 68 (enacted 26 Nov 2019, published 27 Nov 2019)",
+          "url": "https://docs.legis.wisconsin.gov/2019/related/acts/68.pdf",
+          "retrievedOn": "2026-08-05"
+        }
+      ],
+      "rules": {
+        "filing": "Unresolved while the track is deferred. Deferred prosecution agreements are negotiated with the district attorney, not filed by the participant.",
+        "fees": "Unresolved while the track is deferred; county programmes may charge.",
+        "feeWaiver": "none identified",
+        "notice": "Unresolved while the track is deferred.",
+        "service": "none",
+        "participantSignature": "The participant signs the agreement with the district attorney, in the criminal case and with defence counsel.",
+        "notarization": "none"
+      },
+      "selfHelpStopConditions": [
+        "The whole track. It is deferred under legal_research_required and is absent from runtime resolution and unreachable.",
+        "Negotiating a deferred prosecution agreement, which is criminal defence and outside scope entirely.",
+        "Any charge under Wis. Stat. § 346.63(1), (2), (5) or (6), or § 940.09 involving the use of a vehicle, where § 967.055(3) bars placement in a programme.",
+        "Immigration consequences.",
+        "Federal, tribal or out-of-state records."
+      ],
+      "_unresolvedQuestionsNote": "Preserved from the controlling review with impact and affected element. Reading § 967.055(3) at source sharpened but did not close the questions counsel raised.",
+      "unresolvedQuestions": [
+        {
+          "question": "What is the general adult deferred prosecution authority in Wisconsin, and do dismissal terms vary by county programme? The governing statute for adult deferred prosecution agreements generally was not pinned in this pass.",
+          "impact": "build_blocker",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "UNRESOLVED QUESTIONS AND IMPACT / 3",
+            "sourceStatement": "What is the general adult deferred prosecution authority in Wisconsin, and do dismissal terms vary by county program? Build blocker for WI-DEF-02."
+          }
+        },
+        {
+          "question": "Does a charge dismissed under a deferred prosecution agreement clear the DOJ all-charges-cleared screen for fingerprint removal?",
+          "impact": "build_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "WI-DEF-02 / Legal-design decision",
+            "sourceStatement": "Additional research required. Identify the general adult deferred prosecution authority, confirm whether dismissal terms vary by county program, and confirm whether the resulting record clears the DOJ all-charges-cleared screen."
+          }
+        },
+        {
+          "question": "The review describes § 967.055(3) as barring placement in a deferred prosecution programme where the person is accused of or charged with 'an OWI offense'. The subsection has now been read at source and the bar is a specific enumerated list: § 346.63(1) or (5) or a local ordinance in conformity therewith; § 346.63(2) or (6); and § 940.09 where the offense involved the use of a vehicle. The narrower statutory formulation should replace the general description.",
+          "impact": "nonblocking_research_note",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "counsel_confirmation_required",
+            "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "WI-DEF-02 / Controlling authority",
+            "sourceStatement": "county deferred prosecution programs, with Wis. Stat. section 967.055(3) barring placement in a deferred prosecution program where the person is accused of or charged with an OWI offense",
+            "counselQuestion": "Should the enumerated § 967.055(3) list replace the general 'OWI offense' description in the routing logic?"
+          }
+        }
+      ],
+      "_limitationsNote": "Every limitation is classified. This track is deferred, so no output strategy is asserted.",
+      "legalDesignDecision": {
+        "status": "legal_research_required",
+        "rationale": "Additional research required, as counsel decided. Reading § 967.055(3) at source sharpened the exclusion from a general 'OWI offense' bar into a specific enumerated list, but it did not identify the general adult deferred prosecution authority, did not establish whether dismissal terms vary across county programmes, and did not establish whether the resulting record clears the DOJ all-charges-cleared screen. The track is deferred, absent from runtime resolution and unreachable, with counsel's structure preserved.",
+        "limitations": [
+          {
+            "classification": "legal_design_blocker",
+            "undeterminedElement": "governing_mechanism",
+            "statement": "The general adult deferred prosecution authority is not identified, and county programme variation is not established.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATION CLASSIFICATION / 12",
+              "sourceStatement": "Deferred prosecution agreements absent from the reference | Legal-design blocker until researched"
+            }
+          },
+          {
+            "classification": "legal_design_blocker",
+            "undeterminedElement": "output_strategy",
+            "statement": "The output strategy is undetermined while the governing authority and the DOJ screen interaction are unresolved.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "PART 5 / 2",
+              "sourceStatement": "Every mechanism has a proposed output strategy. Confirmed, except WI-DEF-02, which is unresolved."
+            }
+          },
+          {
+            "classification": "self_help_boundary",
+            "statement": "Negotiating a deferred prosecution agreement is criminal defence, not record clearing, and is outside scope entirely.",
+            "provenance": {
+              "classificationBasis": "general_packet_only_rule",
+              "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "WI-COMMON / Self-help stop conditions",
+              "sourceStatement": "Sentencing has not yet happened. That is criminal defense, not record clearing, and it is outside scope"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "_packetCapabilityCorrection": "Correction applied 2026-08-05 on the existing worker branch. The held memo classified wi_exp_certificate_of_discharge as process_guidance with rationale no_participant_filing_exists while simultaneously carrying a participant-authored follow_up_request component. Those two statements cannot coexist in one no-filing route. The authority-issued certificate remains guidance because nothing is filed for it and the issuing duty is the authority's; the participant's neutral follow-up letter is split out as a packet-capable supporting_action. No other track, component, blocker, source disposition or provenance statement was changed, and no shared registry, composed approval, delta or integration-owned file was touched."
+}

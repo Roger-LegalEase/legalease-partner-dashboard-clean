@@ -1,0 +1,68 @@
+{
+  "schemaVersion": "rcap-raster-queue/v1",
+  "rows": [
+    {
+      "familyId": "nc_145_8a_youthful-set",
+      "packetCommitSha": "9abd65648f47dce8d36db19672ffc21923a95974",
+      "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/nc/nc-145-8a-youthful-set--official-pdf-fill/fixtures/canonical.pdf",
+      "canonicalPdfSha256": "8cfb486a1735c77f1df72234ec934a8c799194e2a7afdcc0bf750da48d8d3b67",
+      "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/nc/nc-145-8a-youthful-set--official-pdf-fill/fixtures/boundary.pdf",
+      "boundaryPdfSha256": "f6c284c2bcab233c4f1721d917a9f7b2996e03a11763f4bc158ea81acba4f19e",
+      "expectedPages": 5,
+      "fixtureSelection": {
+        "canonical": "the assembled packet, matched by exact name",
+        "boundary": "the assembled packet, matched by exact name"
+      },
+      "documents": [
+        {
+          "role": "canonical",
+          "name": "canonical.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/nc/nc-145-8a-youthful-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "8cfb486a1735c77f1df72234ec934a8c799194e2a7afdcc0bf750da48d8d3b67",
+          "pageCount": 5,
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "version": "1.17.1",
+            "pageCount": 5,
+            "sourceSha256": "8cfb486a1735c77f1df72234ec934a8c799194e2a7afdcc0bf750da48d8d3b67"
+          },
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib"
+        },
+        {
+          "role": "boundary",
+          "name": "boundary.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/nc/nc-145-8a-youthful-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "f6c284c2bcab233c4f1721d917a9f7b2996e03a11763f4bc158ea81acba4f19e",
+          "pageCount": 7,
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "version": "1.17.1",
+            "pageCount": 7,
+            "sourceSha256": "f6c284c2bcab233c4f1721d917a9f7b2996e03a11763f4bc158ea81acba4f19e"
+          },
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib"
+        }
+      ],
+      "documentsDigest": "717bb481295e920f5b17a6d47d0c7bb5e0f7eb236cac5bbf72f4136cdfd5293d",
+      "coverage": {
+        "documents": [
+          "canonical.pdf"
+        ],
+        "rastered": [
+          "canonical.pdf",
+          "boundary.pdf"
+        ],
+        "notRastered": [],
+        "complete": true,
+        "basis": "the family ships one assembled packet, so rendering it covers every canonical page of the family",
+        "notRenderedByThisGate": [],
+        "notRenderedByThisGateBasis": "every PDF present in the family's fixture discovery that this row does not queue. The gate renders every document a row queues, whatever its role, so a queued boundary fixture is rendered and is not named here.",
+        "whatCompleteMeansHere": "every PDF this family declares is queued to the gate and rendered, canonical and boundary alike. `complete` remains the narrower question -- every canonical document rendered -- because that is what promotion depends on."
+      },
+      "requestedScale": 2.5,
+      "builderAssignment": "PF01",
+      "currentRasterState": "RASTER_PENDING",
+      "nextOwner": null
+    }
+  ]
+}

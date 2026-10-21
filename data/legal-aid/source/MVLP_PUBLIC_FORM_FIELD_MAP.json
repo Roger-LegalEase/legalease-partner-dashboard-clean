@@ -1,0 +1,708 @@
+{
+  "schema_version": "mvlp-public-intake-observation/v1",
+  "inspection_date": "2026-09-15",
+  "scope": "Observed public intake screen; not a verified export of the complete Cognito schema or its backend rules.",
+  "source_url": "https://www.cognitoforms.com/MVLP1/SelfRepresentationExpungementClinic",
+  "source_organization_handle": "MVLP1",
+  "source_title": "Self-Representation Expungement Clinic",
+  "observer": "TinyFish live browser; normalized and qualified by ChatGPT",
+  "evidence_runs": [
+    {
+      "run_id": "c6d05b1e-36a7-427a-a552-53fc4b5c705a",
+      "role": "Initial inventory",
+      "status": "completed",
+      "duration_seconds": 187,
+      "steps": 14,
+      "limitations": "Report conflicted on conditional visibility, form page count and totals. Those claims are not adopted as verified."
+    },
+    {
+      "run_id": "c32a7db4-a4b9-45ae-8ca5-3b74342b5320",
+      "role": "Attempted follow-up",
+      "status": "completed_without_usable_observations",
+      "notes": "Returned a proposed inspection procedure rather than field results. Supplies no verification."
+    },
+    {
+      "run_id": "a21b3e63-15c3-4de9-8de7-b4f1e826c258",
+      "role": "Focused branch verification",
+      "status": "completed",
+      "duration_seconds": 349,
+      "steps": 67,
+      "limitations": "Returned narrative observations and screenshot descriptions, not independently accessible image files, DOM snapshots, or a complete public schema."
+    }
+  ],
+  "counts": {
+    "normalized_leaf_fields_on_observed_screen": 56,
+    "method": "Choice group = one field; name/address subfields, signatures and dates counted separately; static headings/instructions not counted. This is not Cognito's total schema-field count."
+  },
+  "fields": [
+    {
+      "key": "clinic_choices",
+      "section": "Clinic selection",
+      "source_label": "Which legal clinic are you requesting to attend?",
+      "source_control_type": "checkbox_group",
+      "source_required_reported": true,
+      "source_cognito_field_id": null,
+      "options": [
+        "September 22, 2026 - Vicksburg, MS (Warren County) - 10:00 am",
+        "September 25, 2026 - Oxford, MS (Lafayette, MS) - 10:00am",
+        "October 24, 2026 - Jackson, MS (Hinds County) - 9:00am",
+        "November 12, 2026 - Charleston, MS (Tallahatchie County) - 10:00am",
+        "Loving Health Care"
+      ],
+      "notes": "Dated public options are a source snapshot, not the user's confirmed upcoming event. Do not hardcode these dates into the live partner profile."
+    },
+    {
+      "key": "legal_matter",
+      "section": "Legal matter",
+      "source_label": "What is your legal matter",
+      "source_control_type": "radio_group",
+      "source_required_reported": true,
+      "source_cognito_field_id": null,
+      "options": [
+        "Felony Expungement",
+        "Misdemeanor Expungement"
+      ],
+      "help_summary": "For a matter not listed, the source directs the applicant to the MVLP direct-representation intake.",
+      "linked_url": "http://www.mvlp.net/intake-form/"
+    },
+    {
+      "key": "name.first",
+      "section": "Personal information",
+      "source_label": "First",
+      "source_control_type": "text",
+      "source_required_reported": null,
+      "source_cognito_field_id": null,
+      "group_label": "Name",
+      "group_required_reported": true
+    },
+    {
+      "key": "name.last",
+      "section": "Personal information",
+      "source_label": "Last",
+      "source_control_type": "text",
+      "source_required_reported": null,
+      "source_cognito_field_id": null,
+      "group_label": "Name",
+      "group_required_reported": true
+    },
+    {
+      "key": "ssn",
+      "section": "Personal information",
+      "source_label": "SSN:",
+      "source_control_type": "text",
+      "source_required_reported": true,
+      "source_cognito_field_id": null,
+      "sensitivity": "highly_sensitive",
+      "help_summary": "Source says this is needed for expungement court filing and will not be used for other purposes. This is the form's statement, not an independently verified universal court requirement."
+    },
+    {
+      "key": "phone",
+      "section": "Personal information",
+      "source_label": "Phone Number",
+      "source_control_type": "text",
+      "source_required_reported": true,
+      "source_cognito_field_id": null
+    },
+    {
+      "key": "email",
+      "section": "Personal information",
+      "source_label": "Email",
+      "source_control_type": "text",
+      "source_required_reported": true,
+      "source_cognito_field_id": null
+    },
+    {
+      "key": "address.line1",
+      "section": "Personal information",
+      "source_label": "Address Line 1",
+      "source_control_type": "text",
+      "source_required_reported": null,
+      "source_cognito_field_id": null,
+      "group_label": "Address",
+      "group_required_reported": true,
+      "notes": "Required status of an individual subfield was not established from the group marker."
+    },
+    {
+      "key": "address.line2",
+      "section": "Personal information",
+      "source_label": "Address Line 2",
+      "source_control_type": "text",
+      "source_required_reported": null,
+      "source_cognito_field_id": null,
+      "group_label": "Address",
+      "group_required_reported": true,
+      "notes": "Required status of an individual subfield was not established from the group marker."
+    },
+    {
+      "key": "address.city",
+      "section": "Personal information",
+      "source_label": "City",
+      "source_control_type": "text",
+      "source_required_reported": null,
+      "source_cognito_field_id": null,
+      "group_label": "Address",
+      "group_required_reported": true,
+      "notes": "Required status of an individual subfield was not established from the group marker."
+    },
+    {
+      "key": "address.state",
+      "section": "Personal information",
+      "source_label": "State",
+      "source_control_type": "dropdown",
+      "source_required_reported": null,
+      "source_cognito_field_id": null,
+      "group_label": "Address",
+      "group_required_reported": true,
+      "notes": "Exact options/default were not established in the first pass."
+    },
+    {
+      "key": "address.postal_code",
+      "section": "Personal information",
+      "source_label": "Zip Code",
+      "source_control_type": "text",
+      "source_required_reported": null,
+      "source_cognito_field_id": null,
+      "group_label": "Address",
+      "group_required_reported": true,
+      "notes": "Required status of an individual subfield was not established from the group marker."
+    },
+    {
+      "key": "is_us_citizen",
+      "section": "Personal information",
+      "source_label": "Are you a U.S. Citizen?",
+      "source_control_type": "radio_group",
+      "source_required_reported": true,
+      "source_cognito_field_id": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "sensitivity": "restricted",
+      "notes": "Intake answer is not an automatic decision about program eligibility."
+    },
+    {
+      "key": "gender",
+      "section": "Personal information",
+      "source_label": "Do you identify as a:",
+      "source_control_type": "radio_group",
+      "source_required_reported": true,
+      "source_cognito_field_id": null,
+      "options": [
+        "Man",
+        "Woman"
+      ],
+      "notes": "These are the reported source options. Any inclusive additions must be an explicit partner-profile change, not represented as extracted source options."
+    },
+    {
+      "key": "date_of_birth",
+      "section": "Personal information",
+      "source_label": "What is your date of birth?",
+      "source_control_type": "date",
+      "source_required_reported": true,
+      "source_cognito_field_id": null
+    },
+    {
+      "key": "race",
+      "section": "Personal information",
+      "source_label": "What is your race?",
+      "source_control_type": "text",
+      "source_required_reported": true,
+      "source_cognito_field_id": null
+    },
+    {
+      "key": "household.adult_count",
+      "section": "Household",
+      "source_label": "How many adults live in your household?",
+      "source_control_type": "text",
+      "source_required_reported": true,
+      "source_cognito_field_id": null
+    },
+    {
+      "key": "household.child_count",
+      "section": "Household",
+      "source_label": "How many children live in your household?",
+      "source_control_type": "text",
+      "source_required_reported": true,
+      "source_cognito_field_id": null
+    },
+    {
+      "key": "household.member_ages",
+      "section": "Household",
+      "source_label": "Ages of all members in the household:",
+      "source_control_type": "text",
+      "source_required_reported": true,
+      "source_cognito_field_id": null,
+      "help_summary": "Include the applicant's own age."
+    },
+    {
+      "key": "household.disabled_member_count",
+      "section": "Household",
+      "source_label": "Number in household who are disabled:",
+      "source_control_type": "text",
+      "source_required_reported": true,
+      "source_cognito_field_id": null
+    },
+    {
+      "key": "household.occupation",
+      "section": "Household",
+      "source_label": "Occupation",
+      "source_control_type": "text",
+      "source_required_reported": true,
+      "source_cognito_field_id": null
+    },
+    {
+      "key": "household.employer",
+      "section": "Household",
+      "source_label": "Employer",
+      "source_control_type": "text",
+      "source_required_reported": true,
+      "source_cognito_field_id": null
+    },
+    {
+      "key": "monthly_receipts.wages",
+      "section": "Monthly household receipts",
+      "source_label": "Monthly Wages:",
+      "source_control_type": "text",
+      "source_required_reported": true,
+      "source_cognito_field_id": null,
+      "help_summary": "Source asks the applicant to enter $0 for items not received as monthly income.",
+      "notes": "Source collection category is not a classification of countable LSC income; retain raw response separately."
+    },
+    {
+      "key": "monthly_receipts.disability",
+      "section": "Monthly household receipts",
+      "source_label": "Disability:",
+      "source_control_type": "text",
+      "source_required_reported": true,
+      "source_cognito_field_id": null,
+      "help_summary": "Source asks the applicant to enter $0 for items not received as monthly income.",
+      "notes": "Source collection category is not a classification of countable LSC income; retain raw response separately."
+    },
+    {
+      "key": "monthly_receipts.food_stamps",
+      "section": "Monthly household receipts",
+      "source_label": "Food Stamps:",
+      "source_control_type": "text",
+      "source_required_reported": true,
+      "source_cognito_field_id": null,
+      "help_summary": "Source asks the applicant to enter $0 for items not received as monthly income.",
+      "notes": "Source collection category is not a classification of countable LSC income; retain raw response separately."
+    },
+    {
+      "key": "monthly_receipts.unemployment",
+      "section": "Monthly household receipts",
+      "source_label": "Unemployment:",
+      "source_control_type": "text",
+      "source_required_reported": true,
+      "source_cognito_field_id": null,
+      "help_summary": "Source asks the applicant to enter $0 for items not received as monthly income.",
+      "notes": "Source collection category is not a classification of countable LSC income; retain raw response separately."
+    },
+    {
+      "key": "monthly_receipts.tanf",
+      "section": "Monthly household receipts",
+      "source_label": "TANF:",
+      "source_control_type": "text",
+      "source_required_reported": true,
+      "source_cognito_field_id": null,
+      "help_summary": "Source asks the applicant to enter $0 for items not received as monthly income.",
+      "notes": "Source collection category is not a classification of countable LSC income; retain raw response separately."
+    },
+    {
+      "key": "monthly_receipts.pension_retirement",
+      "section": "Monthly household receipts",
+      "source_label": "Pension/Retirement:",
+      "source_control_type": "text",
+      "source_required_reported": true,
+      "source_cognito_field_id": null,
+      "help_summary": "Source asks the applicant to enter $0 for items not received as monthly income.",
+      "notes": "Source collection category is not a classification of countable LSC income; retain raw response separately."
+    },
+    {
+      "key": "monthly_receipts.family_friend_assistance",
+      "section": "Monthly household receipts",
+      "source_label": "Assistance from family or friends:",
+      "source_control_type": "text",
+      "source_required_reported": true,
+      "source_cognito_field_id": null,
+      "help_summary": "Source asks the applicant to enter $0 for items not received as monthly income.",
+      "notes": "Source collection category is not a classification of countable LSC income; retain raw response separately."
+    },
+    {
+      "key": "monthly_receipts.other",
+      "section": "Monthly household receipts",
+      "source_label": "Other:",
+      "source_control_type": "text",
+      "source_required_reported": true,
+      "source_cognito_field_id": null,
+      "help_summary": "Source asks the applicant to enter $0 for items not received as monthly income.",
+      "notes": "Source collection category is not a classification of countable LSC income; retain raw response separately."
+    },
+    {
+      "key": "assets.owns_home",
+      "section": "Assets",
+      "source_label": "Do you own a home?",
+      "source_control_type": "radio_group",
+      "source_required_reported": true,
+      "source_cognito_field_id": null,
+      "options": [
+        "Yes",
+        "No"
+      ]
+    },
+    {
+      "key": "assets.owns_vehicle",
+      "section": "Assets",
+      "source_label": "Do you own a vehicle?",
+      "source_control_type": "radio_group",
+      "source_required_reported": true,
+      "source_cognito_field_id": null,
+      "options": [
+        "Yes",
+        "No"
+      ]
+    },
+    {
+      "key": "assets.home_value",
+      "section": "Assets",
+      "source_label": "If so, what is the value of your home?",
+      "source_control_type": "text",
+      "source_required_reported": null,
+      "source_cognito_field_id": null,
+      "help_summary": "Source instructs N/A for an ownership answer of No.",
+      "conditional_visibility": "unverified"
+    },
+    {
+      "key": "assets.vehicle_value",
+      "section": "Assets",
+      "source_label": "If so, what is the value of your vehicle?",
+      "source_control_type": "text",
+      "source_required_reported": null,
+      "source_cognito_field_id": null,
+      "help_summary": "Source instructs N/A for an ownership answer of No.",
+      "conditional_visibility": "unverified"
+    },
+    {
+      "key": "assets.principal_residence",
+      "section": "Assets",
+      "source_label": "Is this your main/principal residence?",
+      "source_control_type": "text",
+      "source_required_reported": true,
+      "source_cognito_field_id": null,
+      "conditional_visibility": "unverified",
+      "notes": "Reported as a text input, not a Yes/No control. First-pass help text appeared inconsistent; do not silently normalize it as source truth."
+    },
+    {
+      "key": "assets.principal_vehicle",
+      "section": "Assets",
+      "source_label": "Is this your main/principal vehicle?",
+      "source_control_type": "text",
+      "source_required_reported": true,
+      "source_cognito_field_id": null,
+      "conditional_visibility": "unverified",
+      "notes": "Reported as a text input, not a Yes/No control. First-pass help text appeared inconsistent; do not silently normalize it as source truth."
+    },
+    {
+      "key": "accounts.has_checking",
+      "section": "Bank accounts",
+      "source_label": "Do you own a checking account?",
+      "source_control_type": "radio_group",
+      "source_required_reported": true,
+      "source_cognito_field_id": null,
+      "options": [
+        "Yes",
+        "No"
+      ]
+    },
+    {
+      "key": "accounts.has_savings",
+      "section": "Bank accounts",
+      "source_label": "Do you own a savings account?",
+      "source_control_type": "radio_group",
+      "source_required_reported": true,
+      "source_cognito_field_id": null,
+      "options": [
+        "Yes",
+        "No"
+      ]
+    },
+    {
+      "key": "accounts.checking_balance",
+      "section": "Bank accounts",
+      "source_label": "If so, how much is in this account?",
+      "source_control_type": "text",
+      "source_required_reported": null,
+      "source_cognito_field_id": null,
+      "conditional_visibility": "unverified",
+      "notes": "Associate with checking by source grouping; duplicate visible label needs a distinct internal field key.",
+      "help_summary": "Source instructs $0 when the answer above is No."
+    },
+    {
+      "key": "accounts.savings_balance",
+      "section": "Bank accounts",
+      "source_label": "If so, how much is in this account?",
+      "source_control_type": "text",
+      "source_required_reported": null,
+      "source_cognito_field_id": null,
+      "conditional_visibility": "unverified",
+      "notes": "Associate with savings by source grouping; duplicate visible label needs a distinct internal field key.",
+      "help_summary": "Source instructs $0 when the answer above is No."
+    },
+    {
+      "key": "monthly_expenses.rent_mortgage",
+      "section": "Monthly expenses",
+      "source_label": "Rent/Mortgage: $",
+      "source_control_type": "text",
+      "source_required_reported": true,
+      "source_cognito_field_id": null,
+      "help_summary": "Source asks the applicant to enter $0 for expense categories that do not apply."
+    },
+    {
+      "key": "monthly_expenses.child_support",
+      "section": "Monthly expenses",
+      "source_label": "Child Support: $",
+      "source_control_type": "text",
+      "source_required_reported": true,
+      "source_cognito_field_id": null,
+      "help_summary": "Source asks the applicant to enter $0 for expense categories that do not apply."
+    },
+    {
+      "key": "monthly_expenses.medical",
+      "section": "Monthly expenses",
+      "source_label": "Medical: $",
+      "source_control_type": "text",
+      "source_required_reported": true,
+      "source_cognito_field_id": null,
+      "help_summary": "Source asks the applicant to enter $0 for expense categories that do not apply."
+    },
+    {
+      "key": "monthly_expenses.nursing_home_care",
+      "section": "Monthly expenses",
+      "source_label": "Nursing Home/Medical Home Care: $",
+      "source_control_type": "text",
+      "source_required_reported": true,
+      "source_cognito_field_id": null,
+      "help_summary": "Source asks the applicant to enter $0 for expense categories that do not apply."
+    },
+    {
+      "key": "monthly_expenses.taxes",
+      "section": "Monthly expenses",
+      "source_label": "Taxes: $",
+      "source_control_type": "text",
+      "source_required_reported": true,
+      "source_cognito_field_id": null,
+      "help_summary": "Source asks the applicant to enter $0 for expense categories that do not apply."
+    },
+    {
+      "key": "monthly_expenses.child_care",
+      "section": "Monthly expenses",
+      "source_label": "Child Care: $",
+      "source_control_type": "text",
+      "source_required_reported": true,
+      "source_cognito_field_id": null,
+      "help_summary": "Source asks the applicant to enter $0 for expense categories that do not apply."
+    },
+    {
+      "key": "monthly_expenses.transportation",
+      "section": "Monthly expenses",
+      "source_label": "Transportation: $",
+      "source_control_type": "text",
+      "source_required_reported": true,
+      "source_cognito_field_id": null,
+      "help_summary": "Source asks the applicant to enter $0 for expense categories that do not apply."
+    },
+    {
+      "key": "monthly_expenses.employment_related",
+      "section": "Monthly expenses",
+      "source_label": "Employment Related: $",
+      "source_control_type": "text",
+      "source_required_reported": true,
+      "source_cognito_field_id": null,
+      "help_summary": "Source asks the applicant to enter $0 for expense categories that do not apply."
+    },
+    {
+      "key": "matter_details",
+      "section": "Legal context",
+      "source_label": "Additional information regarding your legal matter:",
+      "source_control_type": "textarea",
+      "source_required_reported": false,
+      "source_cognito_field_id": null
+    },
+    {
+      "key": "has_open_mvlp_case",
+      "section": "Legal context",
+      "source_label": "Do you currently have a case open with MVLP?",
+      "source_control_type": "radio_group",
+      "source_required_reported": true,
+      "source_cognito_field_id": null,
+      "options": [
+        "Yes",
+        "No"
+      ]
+    },
+    {
+      "key": "has_attorney",
+      "section": "Legal context",
+      "source_label": "Do you currently have an attorney?",
+      "source_control_type": "radio_group",
+      "source_required_reported": true,
+      "source_cognito_field_id": null,
+      "options": [
+        "Yes",
+        "No"
+      ]
+    },
+    {
+      "key": "referral_source",
+      "section": "Legal context",
+      "source_label": "How did you hear about the clinic?",
+      "source_control_type": "text",
+      "source_required_reported": false,
+      "source_cognito_field_id": null
+    },
+    {
+      "key": "financial_attestation.signature",
+      "section": "Attestations",
+      "source_label": "Signature",
+      "source_control_type": "signature",
+      "source_required_reported": true,
+      "source_cognito_field_id": null,
+      "group_label": "Financial attestation",
+      "source_modes": [
+        "type",
+        "draw"
+      ],
+      "required_evidence": "Displayed required indicators reported in focused browser inspection; submit validation not exercised."
+    },
+    {
+      "key": "financial_attestation.date",
+      "section": "Attestations",
+      "source_label": "Date",
+      "source_control_type": "date",
+      "source_required_reported": true,
+      "source_cognito_field_id": null,
+      "group_label": "Financial attestation",
+      "required_evidence": "Displayed required indicators reported in focused browser inspection; submit validation not exercised."
+    },
+    {
+      "key": "citizenship_attestation.signature",
+      "section": "Attestations",
+      "source_label": "Signature",
+      "source_control_type": "signature",
+      "source_required_reported": true,
+      "source_cognito_field_id": null,
+      "group_label": "Citizenship Attestation",
+      "source_modes": [
+        "type",
+        "draw"
+      ],
+      "conditional_visibility": "reported visible after citizenship No",
+      "required_evidence": "Displayed required indicators reported in focused browser inspection; submit validation not exercised."
+    },
+    {
+      "key": "citizenship_attestation.date",
+      "section": "Attestations",
+      "source_label": "Date",
+      "source_control_type": "date",
+      "source_required_reported": true,
+      "source_cognito_field_id": null,
+      "group_label": "Citizenship Attestation",
+      "conditional_visibility": "reported visible after citizenship No",
+      "required_evidence": "Displayed required indicators reported in focused browser inspection; submit validation not exercised."
+    }
+  ],
+  "attestation_content": {
+    "financial": {
+      "summary": "The applicant attests that the financial information and facts about the problem are true and accurate.",
+      "exact_text_status": "Full statement was reported by the initial browser; partner-approved execution text must be versioned in implementation."
+    },
+    "citizenship": {
+      "text": "I am a citizen of the United States of America.",
+      "conditional_visibility": "Browser reported still visible when is_us_citizen=No; do not require a false declaration in our live product."
+    }
+  },
+  "navigation": {
+    "visible_primary_control": "Next",
+    "all_pages_verified": false,
+    "total_pages": null,
+    "later_page_contents": null,
+    "backend_notification_or_save_rules": "unverified"
+  },
+  "uploads": {
+    "observed_on_current_screen": false,
+    "absent_from_entire_form_proven": false
+  },
+  "defaults": {
+    "first_pass_report": "No prefilled input values reported. Complete default/hidden-field verification was not established.",
+    "never_infer": "Do not turn missing numeric or eligibility answers into zero/yes."
+  },
+  "safety": {
+    "registration_submitted": false,
+    "participant_identity_data_entered": false,
+    "signatures_entered": false,
+    "files_uploaded": false,
+    "next_button_clicked": false,
+    "backend_no_entry_creation_independently_audited": false,
+    "notes": "Browser reports no submit/save/navigation past the initial screen, personal values, signatures, or uploads. No backend account audit was performed."
+  },
+  "unverified_items": [
+    "Remaining pages after Next and the complete form/page schema. Navigation was not performed because required identity/signature fields were left blank.",
+    "Complete home/vehicle and checking/savings Boolean visibility/requiredness matrices; account observations are internally ambiguous.",
+    "Per-subfield requiredness within composite Name/Address; definitive submit-time requiredness, input masks, ranges and validation.",
+    "Complete State dropdown list/default and stable Cognito internal IDs.",
+    "Uploads, notarial text or other documents on any uninspected page; no upload control was observed on the inspected screen.",
+    "Backend scoring, eligibility calculations, notifications, workflows, draft/autosave behavior and staff-only rules.",
+    "Screenshot files and raw DOM snapshots were requested but not returned as downloadable evidence."
+  ],
+  "coverage_status": "PUBLIC_INTAKE_SCREEN_MAPPED; COMPLETE_MULTIPAGE_PARITY_NOT_ESTABLISHED",
+  "conditional_observations": [
+    {
+      "control": "assets.owns_home",
+      "yes": "Browser reported the home-value, vehicle-value, principal-residence and principal-vehicle questions displayed.",
+      "no": "Browser reported those four questions hidden.",
+      "evidence_status": "reported_live_toggle",
+      "limit": "Other ownership-control settings were not fully reported; do not infer the complete truth table or independently assume corresponding-field-only behavior."
+    },
+    {
+      "control": "accounts.has_checking",
+      "yes": "Browser described both balance controls appearing; one passage says they \"would appear\".",
+      "no": "Browser described both controls remaining in DOM but not rendered.",
+      "evidence_status": "ambiguous_browser_report",
+      "limit": "The complete checking/savings combination matrix and conditional requiredness are not verified."
+    },
+    {
+      "control": "is_us_citizen",
+      "no": "Citizenship Attestation and signature/date controls remained visible.",
+      "evidence_status": "reported_live_toggle",
+      "limit": "Visibility and displayed required indicators do not prove final submission validation or backend eligibility rules."
+    },
+    {
+      "control": "legal_matter",
+      "result": "Initial browser pass reported no visible field changes on the accessible page between felony/misdemeanor choices.",
+      "evidence_status": "reported_live_toggle",
+      "limit": "Does not rule out later-page or backend branching."
+    },
+    {
+      "control": "clinic_choices",
+      "result": "Initial browser pass reported no visible section change for the inspected clinic choices.",
+      "evidence_status": "reported_live_toggle",
+      "limit": "Does not prove no event-specific backend behavior."
+    }
+  ],
+  "state_dropdown_observation": {
+    "complete": false,
+    "reported_visible_options": [
+      "Armed Forces America",
+      "Armed Forces",
+      "Armed Forces Pacific",
+      "Alabama",
+      "Alaska",
+      "American Samoa",
+      "Arizona",
+      "Arkansas",
+      "California"
+    ],
+    "default_verified": false,
+    "notes": "Partial visible menu, not the entire valid-option set. The ambiguous military label is preserved as reported; do not invent a missing region."
+  }
+}

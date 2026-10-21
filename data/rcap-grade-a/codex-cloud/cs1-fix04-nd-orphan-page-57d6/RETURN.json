@@ -1,0 +1,129 @@
+{
+  "schemaVersion": "rcap-codex-cloud-return/v1",
+  "worker": "CODEX-CS1-FIX04-ND-ORPHAN-PAGE",
+  "lane": "FIX04",
+  "laneKind": "repair",
+  "status": "COMPLETED",
+  "repairedByThisLane": true,
+  "base": "57d60a73fa0dcb105bcc49390f94bf3fd3ecbd55",
+  "mergeBase": "57d60a73fa0dcb105bcc49390f94bf3fd3ecbd55",
+  "branch": "codex/cs1-fix04-nd-orphan-page-57d6",
+  "commit": "81cdb81d26109b27fb4740ebe800634977b69e51",
+  "pushed": "YES",
+  "family": "rcap-nd-custom-pleading",
+  "focusedRouteKey": "obligation:track-only:ND:nd-seal-pardoned-conviction",
+  "claim": "CLAIM_OK FIX04 rcap-nd-custom-pleading (repair, grant set dabc848ab395ac75)",
+  "claimAssertedBeforeFamilyContentRead": true,
+  "obligationsRepaired": [
+    "CLIPPING_AND_OVERLAP"
+  ],
+  "returnState": "BUILT_RASTER_PENDING",
+  "repair": "The pardoned-conviction primary filing alone now uses 14-point leading. Its complete long-boundary identity block, intentional spacer and exact route footer remain on substantive source page 3. Both family assemblies remain 35 pages, and the five route-only canonical/boundary deliverables contain exactly their own components.",
+  "artifactsBefore": [
+    {
+      "fixture": "canonical",
+      "scope": "family",
+      "sha256": "4425d89d2dec6b10ac70706420c99af7ea6573b6875d7e1d4222b32463cb9e02",
+      "byteLength": 85250,
+      "pageCount": 35
+    },
+    {
+      "fixture": "boundary",
+      "scope": "family",
+      "sha256": "449aedcda75058911af1c04520de2be08d10b35a94e40688891bf54a416c870e",
+      "byteLength": 86942,
+      "pageCount": 35,
+      "dispatchReportedPageCount": 36,
+      "note": "The exact Captain-base bytes, pdf-lib parse and committed manifest each reported 35 pages; the dispatch count referred to superseded pre-FIX07 bytes."
+    }
+  ],
+  "artifactsAfter": [
+    {
+      "fixture": "canonical",
+      "scope": "family",
+      "sha256": "c4d5219f88e50fc3b0b0875eaf5b372926f56f2596ccb05e32dcf1de2acd1c2b",
+      "byteLength": 85192,
+      "pageCount": 35
+    },
+    {
+      "fixture": "boundary",
+      "scope": "family",
+      "sha256": "9798e5e4faea029d5529fd911f24a6ae9cd6b7ce5b69ae9b6e1e2f8eb53b376f",
+      "byteLength": 86885,
+      "pageCount": 35
+    }
+  ],
+  "routeArtifactsAfter": [
+    { "fixture": "canonical", "route": "nd-seal-felony-conviction", "sha256": "19a1fbaa7206325a2068c306f5947d621d66d36b53202ff50552f45e6979a569", "byteLength": 21027, "pageCount": 8 },
+    { "fixture": "boundary", "route": "nd-seal-felony-conviction", "sha256": "1fc0972d9ab03c919e4e3c983e32032057014003a9f9fd230368f6a2b8a9dff3", "byteLength": 21449, "pageCount": 8 },
+    { "fixture": "canonical", "route": "nd-seal-misdemeanor-conviction", "sha256": "da6e2c94b86c1c30b14b2f59a8e9b6b38dfa583d90d41f249634893c14960398", "byteLength": 19811, "pageCount": 7 },
+    { "fixture": "boundary", "route": "nd-seal-misdemeanor-conviction", "sha256": "042684e2e03d4addbef7e5548b6256aec038b48e0a5de54fe89980f7594c3e4d", "byteLength": 20208, "pageCount": 7 },
+    { "fixture": "canonical", "route": "nd-seal-pardoned-conviction", "sha256": "ab862d6e6955bce3f284cfe338e4663119e92d47afe376538005cc7b9fe9b7bf", "byteLength": 20160, "pageCount": 7 },
+    { "fixture": "boundary", "route": "nd-seal-pardoned-conviction", "sha256": "4bfd8f0bf00c2b216351b67bd4e8f3075b6fa448160f2513f78d862d2a6b9f5c", "byteLength": 20549, "pageCount": 7 },
+    { "fixture": "canonical", "route": "nd-dui-record-seal", "sha256": "dfeb6e8755cdf3a35449785c80523f561013b818e39a5f6d06c920d0fee13340", "byteLength": 14031, "pageCount": 6 },
+    { "fixture": "boundary", "route": "nd-dui-record-seal", "sha256": "4464231add58ffe79e4e2b5599fc1b9ad491f698f16f226c42b4befa0ff49b60", "byteLength": 14271, "pageCount": 6 },
+    { "fixture": "canonical", "route": "nd-marijuana-first-offense-seal", "sha256": "d78e8ae11908dd8de3b2484d410a5cc2ee4bba8feea73d2dc57a07af016a2c80", "byteLength": 15562, "pageCount": 7 },
+    { "fixture": "boundary", "route": "nd-marijuana-first-offense-seal", "sha256": "5c74c1bce83c97550b7ea6221f393ecc7faadc2d4c2dba512388848b9465404e", "byteLength": 15787, "pageCount": 7 }
+  ],
+  "deterministicEvidence": {
+    "cleanBuilds": 2,
+    "generatedFilesCompared": 23,
+    "pdfArtifactsCompared": 12,
+    "identicalHashes": true,
+    "identicalByteLengths": true,
+    "identicalPageCounts": true,
+    "identicalFamilyManifests": true,
+    "identicalRouteManifests": true,
+    "identicalVisibleWriteEvidence": true
+  },
+  "countersAfter": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+  },
+  "tests": [
+    "node --check scripts/build-census-v1-rcap-nd-custom-pleading.mjs",
+    "node scripts/build-census-v1-rcap-nd-custom-pleading.mjs --check => CHECK_ONLY; 3 records, 99 anchors, 19 components, 48 writes, 127 blanks",
+    "node scripts/build-census-v1-rcap-nd-custom-pleading.mjs --self-test => SELF_TEST_PASSED; 70 component pages, zero blank/footer-only/one-line pages",
+    "two builds from absent family fixtures/raster state => all 23 generated files, 12 PDFs, manifests and writes identical",
+    "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-nd-custom-pleading => PASS_COMPLETE 48/175; all nine counters zero",
+    "node scripts/rcap-packet-completeness/verify-route-artifact-completeness.mjs --family rcap-nd-custom-pleading => 10/10 ROUTE_PASS_COMPLETE",
+    "pdftotext semantic sequence comparison => both family fixtures preserve exact participant-visible word/punctuation sequence",
+    "pdftotext -bbox-layout over all 12 PDFs => 140 pages, 29,722 words, zero off-page words and zero same-baseline overlaps",
+    "110-DPI inspection => all 70 unique family pages inspected; no clipping, overlap, blank, footer-only or one-line page; all 96 visible writes read from saved bytes"
+  ],
+  "changedPaths": [
+    "scripts/build-census-v1-rcap-nd-custom-pleading.mjs",
+    "data/rcap-all50/overlays/census-v1/nd/rcap-nd-custom-pleading--custom-pleading/fixtures/canonical.pdf",
+    "data/rcap-all50/overlays/census-v1/nd/rcap-nd-custom-pleading--custom-pleading/fixtures/boundary.pdf",
+    "data/rcap-all50/overlays/census-v1/nd/rcap-nd-custom-pleading--custom-pleading/fixtures/routes/nd-seal-felony-conviction/canonical.pdf",
+    "data/rcap-all50/overlays/census-v1/nd/rcap-nd-custom-pleading--custom-pleading/fixtures/routes/nd-seal-felony-conviction/boundary.pdf",
+    "data/rcap-all50/overlays/census-v1/nd/rcap-nd-custom-pleading--custom-pleading/fixtures/routes/nd-seal-misdemeanor-conviction/canonical.pdf",
+    "data/rcap-all50/overlays/census-v1/nd/rcap-nd-custom-pleading--custom-pleading/fixtures/routes/nd-seal-misdemeanor-conviction/boundary.pdf",
+    "data/rcap-all50/overlays/census-v1/nd/rcap-nd-custom-pleading--custom-pleading/fixtures/routes/nd-seal-pardoned-conviction/canonical.pdf",
+    "data/rcap-all50/overlays/census-v1/nd/rcap-nd-custom-pleading--custom-pleading/fixtures/routes/nd-seal-pardoned-conviction/boundary.pdf",
+    "data/rcap-all50/overlays/census-v1/nd/rcap-nd-custom-pleading--custom-pleading/fixtures/routes/nd-dui-record-seal/canonical.pdf",
+    "data/rcap-all50/overlays/census-v1/nd/rcap-nd-custom-pleading--custom-pleading/fixtures/routes/nd-dui-record-seal/boundary.pdf",
+    "data/rcap-all50/overlays/census-v1/nd/rcap-nd-custom-pleading--custom-pleading/fixtures/routes/nd-marijuana-first-offense-seal/canonical.pdf",
+    "data/rcap-all50/overlays/census-v1/nd/rcap-nd-custom-pleading--custom-pleading/fixtures/routes/nd-marijuana-first-offense-seal/boundary.pdf",
+    "data/rcap-all50/overlays/census-v1/nd/rcap-nd-custom-pleading--custom-pleading/reports/rendered-artifacts.json",
+    "data/rcap-all50/overlays/census-v1/nd/rcap-nd-custom-pleading--custom-pleading/product-wiring.json",
+    "data/rcap-all50/overlays/census-v1/nd/rcap-nd-custom-pleading--custom-pleading/source-receipt.json",
+    "data/rcap-grade-a/packet-factory-24h/fix04/rows.json",
+    "data/rcap-grade-a/codex-cloud/cs1-fix04-nd-orphan-page-57d6/RETURN.json"
+  ],
+  "centralEdits": 0,
+  "claimsReleased": 0,
+  "selfVerification": 0,
+  "routes": 0,
+  "Production": "NO",
+  "sourceResearchOrAcquisition": 0,
+  "workerCreation": 0,
+  "newCentralRasterRequired": true
+}

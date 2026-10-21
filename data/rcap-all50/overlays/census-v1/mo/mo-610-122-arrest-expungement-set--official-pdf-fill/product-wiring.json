@@ -1,0 +1,78 @@
+{
+  "schemaVersion": "rcap-census-v1-product-wiring/v1",
+  "family": "mo-610-122-arrest-expungement-set",
+  "routeKeys": [
+    "obligation:track-pathway:MO:mo-610-122-arrest-expungement:false-information-or-qualifying-arrest-record-expungement-under-610-122-123"
+  ],
+  "workType": "PRODUCT_WIRING_REQUIRED",
+  "status": "DECLARED_NOT_INSTALLED",
+  "authorityCreated": "none",
+  "explicitNonGrants": [
+    "No live route, fulfillment, entitlement, payment, sponsorship, generation, filing or participant-delivery authority is created."
+  ],
+  "binding": {
+    "family": "mo-610-122-arrest-expungement-set",
+    "jurisdiction": "MO",
+    "routeKeys": [
+      "obligation:track-pathway:MO:mo-610-122-arrest-expungement:false-information-or-qualifying-arrest-record-expungement-under-610-122-123"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "Missouri §§ 610.122-.123 Petition"
+    ],
+    "packetComponents": [
+      "component:mo-610-122-arrest-expungement-cover-sheet-2",
+      "component:mo-610-122-arrest-expungement-fee-waiver-5",
+      "component:mo-610-122-arrest-expungement-primary-filing-1",
+      "component:mo-610-122-arrest-expungement-proposed-order-4"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/mo/mo-610-122-arrest-expungement-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/mo/mo-610-122-arrest-expungement-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/mo/mo-610-122-arrest-expungement-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/mo/mo-610-122-arrest-expungement-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:CR143",
+        "sha256": "e39619185578a4a29ef99e7c91b71c1346309bf91ab2b4670a01711b5a4c1441",
+        "tier": "exact_content_hash"
+      },
+      {
+        "sourceId": "official-form:CR145",
+        "sha256": "7c527bf351e9ab08658f901abc9be15e12e5beb2afe7ded14a8c5e2f0d6eb641",
+        "tier": "exact_form_number"
+      },
+      {
+        "sourceId": "official-form:FI-05",
+        "sha256": "53f1e04eba653d7ed8e2f2f059e57854d3780845e6364bb6b2a57c7728cd412e",
+        "tier": "exact_content_hash"
+      },
+      {
+        "sourceId": "official-form:GN10",
+        "sha256": "13ff25147df2c70eec85b2d498f486aae9c2b46c535f9f9d7992b6247480421e",
+        "tier": "exact_form_number"
+      }
+    ],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "34795581765",
+      "jobId": "103828513973",
+      "artifactId": "10330040913",
+      "boundToCanonicalSha256": "93f2c3c8b55bf4691bef4028b8cb2a3ac8dff0d3416c73abaa3c776a18234271",
+      "coversTheWholeFamily": true
+    },
+    "lastIndependentVerification": {
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vfmo610final1",
+      "verifiedAtBase": "53ff44b4b5507d249c68b56d9b466ada02e24e03"
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-mo-610-122-arrest-expungement-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  }
+}

@@ -1,0 +1,280 @@
+{
+  "schemaVersion": "rcap-source-discovery-rows/v1",
+  "lane": "DISC05",
+  "laneKind": "source-discovery",
+  "operation": "exact-source-identity",
+  "generatedAt": "2026-09-04T00:05:52Z",
+  "generatedAtBase": "1fa8edf10a895009aa0de6934148b362a532b0dc",
+  "preflight": "SOURCE_CONVEYOR_PREFLIGHT_READY",
+  "counts": {
+    "obligations": 8,
+    "completed": 4,
+    "stopped": 4,
+    "promotionReadyFamilies": 1,
+    "familiesActuallyReleasedNow": 0
+  },
+  "method": "Each exact obligation was asserted before any source evidence was read. Four rows stopped at the claim boundary because the ledger reported ALREADY_RELEASED; no evidence was inspected for them. For the four claimed North Dakota rows, the relationship registry was read first, the exact publisher identities were resolved from committed official-source receipts, and the four official ndcourts.gov PDF URLs were fetched on 2026-09-04 UTC. Each live digest and byte length exactly equals the corresponding owner-only governed-custody receipt.",
+  "familiesActuallyReleasedNow": [],
+  "promotionReadyFamilies": [
+    "nd-prohibit-remote-public-access-set"
+  ],
+  "releaseNote": "No family is released by DISC05. The four North Dakota identities have exact current bytes and matching governed-custody receipts, so the single family is ready for PROMO; promotion and custody rewriting remain outside this lane.",
+  "identitiesGuessed": 0,
+  "sourceBodiesCommitted": 0,
+  "promotionsWithoutExactBytes": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "grantsNothing": "A bound source is a bound source. It builds nothing, proves nothing and approves nothing.",
+  "rows": [
+    {
+      "itemId": "census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement::NO_DOCUMENT_SOURCE_NAMED",
+      "status": "STOPPED",
+      "sourceId": "NO_DOCUMENT_SOURCE_NAMED",
+      "jurisdiction": "UT",
+      "issuingAuthority": null,
+      "officialTitle": null,
+      "formNumber": null,
+      "revision": null,
+      "officialUrl": null,
+      "urlKind": null,
+      "intendedPacketRole": null,
+      "statewideOrLocal": null,
+      "familyIds": [
+        "census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement"
+      ],
+      "familiesReleasedNow": [],
+      "evidencePaths": [
+        "data/rcap-grade-a/packet-factory-24h/claim-ledger.json"
+      ],
+      "handoffOperation": "NONE",
+      "stopReason": "BLOCKED_BEFORE_CLAIM",
+      "claimResult": "ALREADY_RELEASED: census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement::NO_DOCUMENT_SOURCE_NAMED at 2026-09-01T07:39:54.067Z",
+      "sourceInspectionPerformed": false,
+      "identityGuessed": false
+    },
+    {
+      "itemId": "census-pending-family:UT:path-m-juvenile-expungement::NO_DOCUMENT_SOURCE_NAMED",
+      "status": "STOPPED",
+      "sourceId": "NO_DOCUMENT_SOURCE_NAMED",
+      "jurisdiction": "UT",
+      "issuingAuthority": null,
+      "officialTitle": null,
+      "formNumber": null,
+      "revision": null,
+      "officialUrl": null,
+      "urlKind": null,
+      "intendedPacketRole": null,
+      "statewideOrLocal": null,
+      "familyIds": [
+        "census-pending-family:UT:path-m-juvenile-expungement"
+      ],
+      "familiesReleasedNow": [],
+      "evidencePaths": [
+        "data/rcap-grade-a/packet-factory-24h/claim-ledger.json"
+      ],
+      "handoffOperation": "NONE",
+      "stopReason": "BLOCKED_BEFORE_CLAIM",
+      "claimResult": "ALREADY_RELEASED: census-pending-family:UT:path-m-juvenile-expungement::NO_DOCUMENT_SOURCE_NAMED at 2026-09-01T07:39:54.171Z",
+      "sourceInspectionPerformed": false,
+      "identityGuessed": false
+    },
+    {
+      "itemId": "nd-prohibit-remote-public-access-set::official-form:ND-BRIEF-PROHIBIT-PUBLIC-ACCESS",
+      "status": "COMPLETED",
+      "sourceId": "official-form:ND-BRIEF-PROHIBIT-PUBLIC-ACCESS",
+      "jurisdiction": "ND",
+      "issuingAuthority": "North Dakota Supreme Court — North Dakota Legal Self Help Center",
+      "officialTitle": "Brief In Support Of Motion To Prohibit Public Access",
+      "formNumber": null,
+      "formNumberAbsentOnDocument": true,
+      "revision": "Rev Apr 2024",
+      "officialUrl": "https://www.ndcourts.gov/Media/Default/Legal%20Resources/Legal%20Self%20Help/Other%20Forms/Prohibit%20Public%20Access/Brief.pdf",
+      "urlKind": "official_publisher_pdf",
+      "intendedPacketRole": "supporting brief for the motion to prohibit remote public access",
+      "statewideOrLocal": "statewide",
+      "familyIds": [
+        "nd-prohibit-remote-public-access-set"
+      ],
+      "familiesReleasedNow": [],
+      "promotionReadyFamilyIds": [
+        "nd-prohibit-remote-public-access-set"
+      ],
+      "evidencePaths": [
+        "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+        "data/rcap-grade-a/packet-factory-24h/disc04/CODEX_CS2_SRC4_ACQUISITION.json",
+        "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_VERIFICATION.json",
+        "data/record-clearing/legal-design-intake/ND.memo.json"
+      ],
+      "handoffOperation": "PROMO",
+      "resolution": "EXACT_CURRENT_OFFICIAL_BINARY_MATCHES_GOVERNED_CUSTODY",
+      "receiptRef": "data/rcap-grade-a/source-acquisition/packet-factory-24h/disc05/receipts.json#official-form:ND-BRIEF-PROHIBIT-PUBLIC-ACCESS",
+      "sha256": "60a50d5f3c2c96a4cc804fba3c35ab3fa19d3e1c7d438917867130408e1ffe2d",
+      "byteSize": 1224033,
+      "pageCount": 4,
+      "sourceInspectionPerformed": true,
+      "identityGuessed": false
+    },
+    {
+      "itemId": "nd-prohibit-remote-public-access-set::official-form:ND-DECLARATION-OF-SERVICE",
+      "status": "COMPLETED",
+      "sourceId": "official-form:ND-DECLARATION-OF-SERVICE",
+      "jurisdiction": "ND",
+      "issuingAuthority": "North Dakota Supreme Court — North Dakota Legal Self Help Center",
+      "officialTitle": "Declaration Of Service By Mail",
+      "formNumber": null,
+      "formNumberAbsentOnDocument": true,
+      "revision": "Apr 2024",
+      "officialUrl": "https://www.ndcourts.gov/Media/Default/Legal%20Resources/Legal%20Self%20Help/Other%20Forms/Prohibit%20Public%20Access/Affidavit-Service-by-Mail.pdf",
+      "urlKind": "official_publisher_pdf",
+      "intendedPacketRole": "proof of service by mail for the remote-public-access filing",
+      "statewideOrLocal": "statewide",
+      "familyIds": [
+        "nd-prohibit-remote-public-access-set"
+      ],
+      "familiesReleasedNow": [],
+      "promotionReadyFamilyIds": [
+        "nd-prohibit-remote-public-access-set"
+      ],
+      "evidencePaths": [
+        "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+        "data/rcap-grade-a/packet-factory-24h/disc04/CODEX_CS2_SRC4_ACQUISITION.json",
+        "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_VERIFICATION.json",
+        "data/record-clearing/legal-design-intake/ND.memo.json"
+      ],
+      "handoffOperation": "PROMO",
+      "resolution": "EXACT_CURRENT_OFFICIAL_BINARY_MATCHES_GOVERNED_CUSTODY",
+      "identityNote": "The official landing page labels this instrument Declaration of Service by Mail; the source filename retains the older Affidavit-Service-by-Mail wording, while the PDF's printed title is Declaration Of Service By Mail.",
+      "receiptRef": "data/rcap-grade-a/source-acquisition/packet-factory-24h/disc05/receipts.json#official-form:ND-DECLARATION-OF-SERVICE",
+      "sha256": "ad05e9e15182e04408119a84a5c2fc557324400c2f33e02037b8886c64195fb3",
+      "byteSize": 1212802,
+      "pageCount": 2,
+      "sourceInspectionPerformed": true,
+      "identityGuessed": false
+    },
+    {
+      "itemId": "nd-prohibit-remote-public-access-set::official-form:ND-MOTION-PROHIBIT-PUBLIC-ACCESS",
+      "status": "COMPLETED",
+      "sourceId": "official-form:ND-MOTION-PROHIBIT-PUBLIC-ACCESS",
+      "jurisdiction": "ND",
+      "issuingAuthority": "North Dakota Supreme Court — North Dakota Legal Self Help Center",
+      "officialTitle": "Motion To Prohibit Public Access",
+      "formNumber": null,
+      "formNumberAbsentOnDocument": true,
+      "revision": "Rev Apr 2024",
+      "officialUrl": "https://www.ndcourts.gov/Media/Default/Legal%20Resources/Legal%20Self%20Help/Other%20Forms/Prohibit%20Public%20Access/Motion%20Prohibit%20Public%20Access.pdf",
+      "urlKind": "official_publisher_pdf",
+      "intendedPacketRole": "primary motion asking the court to prohibit remote public access",
+      "statewideOrLocal": "statewide",
+      "familyIds": [
+        "nd-prohibit-remote-public-access-set"
+      ],
+      "familiesReleasedNow": [],
+      "promotionReadyFamilyIds": [
+        "nd-prohibit-remote-public-access-set"
+      ],
+      "evidencePaths": [
+        "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+        "data/rcap-grade-a/packet-factory-24h/disc04/CODEX_CS2_SRC4_ACQUISITION.json",
+        "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_VERIFICATION.json",
+        "data/record-clearing/legal-design-intake/ND.memo.json"
+      ],
+      "handoffOperation": "PROMO",
+      "resolution": "EXACT_CURRENT_OFFICIAL_BINARY_MATCHES_GOVERNED_CUSTODY",
+      "receiptRef": "data/rcap-grade-a/source-acquisition/packet-factory-24h/disc05/receipts.json#official-form:ND-MOTION-PROHIBIT-PUBLIC-ACCESS",
+      "sha256": "0bc80466174c034c79ac60487d079088ee91f86c07eb8ee1bea7213fd6c02e0a",
+      "byteSize": 1151556,
+      "pageCount": 1,
+      "sourceInspectionPerformed": true,
+      "identityGuessed": false
+    },
+    {
+      "itemId": "nd-prohibit-remote-public-access-set::official-form:ND-PROPOSED-FINDINGS-PROHIBIT-PUBLIC-ACCESS",
+      "status": "COMPLETED",
+      "sourceId": "official-form:ND-PROPOSED-FINDINGS-PROHIBIT-PUBLIC-ACCESS",
+      "jurisdiction": "ND",
+      "issuingAuthority": "North Dakota Supreme Court — North Dakota Legal Self Help Center",
+      "officialTitle": "Findings Of Fact, Conclusions Of Law, And Order On Motion To Prohibit Public Access",
+      "formNumber": null,
+      "formNumberAbsentOnDocument": true,
+      "revision": "Rev Apr 2024",
+      "officialUrl": "https://www.ndcourts.gov/Media/Default/Legal%20Resources/Legal%20Self%20Help/Other%20Forms/Prohibit%20Public%20Access/Proposed-Findings.pdf",
+      "urlKind": "official_publisher_pdf",
+      "intendedPacketRole": "proposed findings, conclusions, and order for the motion",
+      "statewideOrLocal": "statewide",
+      "familyIds": [
+        "nd-prohibit-remote-public-access-set"
+      ],
+      "familiesReleasedNow": [],
+      "promotionReadyFamilyIds": [
+        "nd-prohibit-remote-public-access-set"
+      ],
+      "evidencePaths": [
+        "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+        "data/rcap-grade-a/packet-factory-24h/disc04/CODEX_CS2_SRC4_ACQUISITION.json",
+        "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_VERIFICATION.json",
+        "data/record-clearing/legal-design-intake/ND.memo.json"
+      ],
+      "handoffOperation": "PROMO",
+      "resolution": "EXACT_CURRENT_OFFICIAL_BINARY_MATCHES_GOVERNED_CUSTODY",
+      "identityNote": "The official landing page calls this Proposed Findings; the document's printed title supplies its complete proposed judicial-instrument identity.",
+      "receiptRef": "data/rcap-grade-a/source-acquisition/packet-factory-24h/disc05/receipts.json#official-form:ND-PROPOSED-FINDINGS-PROHIBIT-PUBLIC-ACCESS",
+      "sha256": "4e8d129f8ef27e9b78ddd3c8968bd93add41a71586f2e91149f0ac1d1be1d250",
+      "byteSize": 1165106,
+      "pageCount": 3,
+      "sourceInspectionPerformed": true,
+      "identityGuessed": false
+    },
+    {
+      "itemId": "tx_nd_dwi_conviction-set::official-form:OCA Model Order of Nondisclosure under Section 411.0736",
+      "status": "STOPPED",
+      "sourceId": "official-form:OCA Model Order of Nondisclosure under Section 411.0736",
+      "jurisdiction": "TX",
+      "issuingAuthority": null,
+      "officialTitle": null,
+      "formNumber": null,
+      "revision": null,
+      "officialUrl": null,
+      "urlKind": null,
+      "intendedPacketRole": null,
+      "statewideOrLocal": null,
+      "familyIds": [
+        "tx_nd_dwi_conviction-set"
+      ],
+      "familiesReleasedNow": [],
+      "evidencePaths": [
+        "data/rcap-grade-a/packet-factory-24h/claim-ledger.json"
+      ],
+      "handoffOperation": "NONE",
+      "stopReason": "BLOCKED_BEFORE_CLAIM",
+      "claimResult": "ALREADY_RELEASED: tx_nd_dwi_conviction-set::official-form:OCA Model Order of Nondisclosure under Section 411.0736 at 2026-09-02T09:28:05.355Z",
+      "sourceInspectionPerformed": false,
+      "identityGuessed": false
+    },
+    {
+      "itemId": "ut_pet_remove_link-set::official-form:1110GE or 1111GE",
+      "status": "STOPPED",
+      "sourceId": "official-form:1110GE or 1111GE",
+      "jurisdiction": "UT",
+      "issuingAuthority": null,
+      "officialTitle": null,
+      "formNumber": null,
+      "revision": null,
+      "officialUrl": null,
+      "urlKind": null,
+      "intendedPacketRole": null,
+      "statewideOrLocal": null,
+      "familyIds": [
+        "ut_pet_remove_link-set"
+      ],
+      "familiesReleasedNow": [],
+      "evidencePaths": [
+        "data/rcap-grade-a/packet-factory-24h/claim-ledger.json"
+      ],
+      "handoffOperation": "NONE",
+      "stopReason": "BLOCKED_BEFORE_CLAIM",
+      "claimResult": "ALREADY_RELEASED: ut_pet_remove_link-set::official-form:1110GE or 1111GE at 2026-09-01T07:39:57.830Z",
+      "sourceInspectionPerformed": false,
+      "identityGuessed": false
+    }
+  ]
+}

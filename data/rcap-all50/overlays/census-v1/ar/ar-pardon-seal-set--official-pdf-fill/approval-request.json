@@ -1,0 +1,69 @@
+{
+  "schemaVersion": "rcap-output-approval-request/v1",
+  "familyId": "ar-pardon-seal-set",
+  "routeKeys": [
+    "obligation:unit:AR:ar-pardon-seal:ar-pardon-seal-stage-2"
+  ],
+  "status": "REQUESTED",
+  "grantedBy": null,
+  "note": "This is a REQUEST for output-level legal review. This build grants no approval, opens no commercial route, creates no fulfilment record and marks no packet proven. The family remains not runtime-selectable and generationAllowed is false. The route's committed availability was already true before this build and is untouched by it; availability is not output approval.",
+  "workTypesAddressed": {
+    "OFFICIAL_SOURCE_ACQUISITION_REQUIRED": "Resolved as CUSTODY, not acquisition: both sources were already held and are bound by exact pinned SHA-256 against both the bytes on disk and the committed corpus index, with the byte length and the revision label checked too. Nothing was acquired.",
+    "OFFICIAL_FORM_MAP_REQUIRED": "Addressed. Both documents are flat PDFs with zero AcroForm fields — confirmed from the bytes, not from the index — so every write box is measured from the page content stream and each is confirmed from the artifact bytes at its own rectangle.",
+    "ARTIFACT_REVIEW_REQUIRED": "Addressed at the nonvisual machine level: canonical and boundary fixtures rendered and verified from the artifact bytes. All fourteen page rasters and the HUMAN independent visual review remain pending the central Chromium workflow.",
+    "PRODUCT_WIRING_REQUIRED": "Addressed as wiring only, in product-wiring.json. It creates no authority: generationAllowed false, runtimeSelectable false, packetFamilyId still null, route availability unchanged.",
+    "OUTPUT_LEGAL_APPROVAL_REQUIRED": "NOT addressed. Requested here; a human legal reviewer grants it or does not."
+  },
+  "decisionsAReviewerShouldLookAtFirst": [
+    {
+      "decision": "The charge blanks are left BLANK on both documents, and matter.charge is deliberately not mapped.",
+      "where": "petition page 1 paragraphs 1 and 2; order page 1 paragraphs 1 and 2",
+      "why": "Paragraph 1 asks what the defendant was CHARGED with and paragraph 2 what they pled or were found GUILTY of. The platform holds one matter.charge, and writing it into both would assert those are the same offence — which a plea to a lesser offence makes false, on a route reached after a conviction that may well have been pled down. Each offence also runs onto a full-measure continuation rule, and the factory does not split a value across continuation rules.",
+      "askTheReviewer": "Is leaving both offence statements to the participant correct? If the platform should fill paragraph 1, it needs a charged-offence fact distinct from the convicted offence — a new fact, not a new mapping."
+    },
+    {
+      "decision": "The pardon-grant date is refused in full: 'On the ___ day of ___, ___ the Governor issued a Pardon'.",
+      "where": "petition page 2 paragraph 5",
+      "why": "This packet is the sealing step that FOLLOWS a pardon. The platform holds no pardon fact of any kind, and anything printed there would assert on the participant's own verified petition that a pardon issued on a date this build has no source for.",
+      "askTheReviewer": "Confirm that the participant supplies the pardon date. If the platform is ever to hold a pardon fact, that is a new fact and a new eligibility question, not a mapping change."
+    },
+    {
+      "decision": "The venue line is left entirely blank on both documents.",
+      "where": "page 1 of both: 'IN THE ___ COURT OF ___, ARKANSAS' and '___ DIVISION'",
+      "why": "The form prints no caption naming the court, the county or the division, and this family will not invent one to force a binding. The two documents also disagree about whether the court type is a blank at all: the petition pre-prints CIRCUIT, the order leaves it open.",
+      "askTheReviewer": "Is a packet that leaves the venue for the participant acceptable for this route, or must the shared descriptor list learn this Arkansas caption line first?"
+    },
+    {
+      "decision": "The petition writes only TWO values in total — the case number and the defendant's name — while the order writes four.",
+      "where": "the whole petition, and especially its page 2, which is entirely blank",
+      "why": "Not a role decision. 23 of the petition's 40 blanks are underscore leaders on lines whose glyph widths the shared walker cannot resolve, so their rectangles are estimates rather than measurements and the geometry gate withholds them. Two of those estimates land 127pt off the right edge of the paper, which is the evidence the gate rests on. The petition's own captions arrive scrambled from the content stream for the same reason — 'da oy' for 'day of', 'Ci' for 'City', 'DO' for 'DOB'.",
+      "askTheReviewer": "Is a petition this sparse acceptable as an internal review fixture while the walker's font handling is improved, or should the family wait for exact metrics on these two documents? Note the ORDER is unaffected and fills normally."
+    },
+    {
+      "decision": "The date of birth is written into the identification block on the ORDER but not on the PETITION.",
+      "where": "order page 3 'DOB ___'; petition page 3 'DOB ___'",
+      "why": "An asymmetry of measurement, not of policy. The order's caption reads cleanly as 'DOB' and binds; the petition's arrives as 'DO' and binds nothing. It is recorded rather than closed by hand-writing a caption the document does not express.",
+      "askTheReviewer": "Confirm that pre-filling the DOB on the proposed ORDER is intended at all, and whether the petition should carry it too once its caption can be read."
+    },
+    {
+      "decision": "Dates are printed in ISO form: the rendered order reads 'DOB 1991-04-17'.",
+      "where": "order page 3",
+      "why": "The shared factory writes a date fact as the string the fact set carries, and valueMatchesType requires YYYY-MM-DD. Nothing reformats a date per jurisdiction, so this is shared behaviour rather than a choice this family made.",
+      "askTheReviewer": "Is ISO acceptable on an Arkansas filing, or must the date of birth print MM/DD/YYYY? If the latter, the change belongs in the shared factory and affects every family, not here."
+    },
+    {
+      "decision": "An over-long value is left BLANK rather than shrunk past legibility or clipped.",
+      "where": "the boundary fixture: the long case number is refused on both documents",
+      "why": "fitTextToWidget refuses below MIN_READABLE_FONT_SIZE rather than clipping. A clipped value on a filing is a wrong value, not a shorter one. The boundary NAME does fit, at 7pt, and is verified to end 10pt inside its rule using Helvetica's true metrics.",
+      "askTheReviewer": "Confirm that a 7pt name on a form whose body is 10pt is acceptable, or set a floor at which the platform should leave the blank for the participant instead."
+    },
+    {
+      "decision": "The order's decree is quoted as printed, citing A.C.A. § 14-90-1411.",
+      "where": "order page 2",
+      "why": "Its own paragraph 5 immediately above cites § 16-90-1411, and both titles are issued under § 16-90-1401 et seq. The form is reproduced exactly; nothing is corrected.",
+      "askTheReviewer": "Is the Title 14 citation a known typographical error in the official ACIC form, and does it affect whether this order is acceptable as tendered?"
+    }
+  ],
+  "independentVisualReviewRequired": true,
+  "thisDoesNotOpenACommercialRoute": true
+}

@@ -1,0 +1,792 @@
+{
+  "schemaVersion": "rcap-ms-admission-diagnostic/v1",
+  "sourceSha": "193c22ba5ee76dee5718cb139f81adde1438d188",
+  "routeId": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+  "trackId": "ms-nonconv",
+  "packetSetId": "ms-nonconv-set",
+  "trace": {
+    "path": "private/transfers/grade-a-ms-evidence-20260914/payment-admission-trace-final.log",
+    "sha256": "6432626c1bdb722112601da1727b7e5dcf49ba0ca95087d769cea872f4eb75b6"
+  },
+  "registry": {
+    "path": "data/rcap-grade-a/fulfillment-authority-registry.json",
+    "sha256": "6358ea605cb4b382b76ab291ad9767a550c21c7c3a69943ef8221cb8b8cfd625",
+    "recordId": "grade-a-ms-nonconv-paid-consumer-successor-20260914",
+    "recordVersion": 2
+  },
+  "mappings": [
+    {
+      "test": "P1",
+      "entry": "signed Stripe checkout.session.completed -> durable consumer generation",
+      "gate": "provider_dispatch",
+      "required": "Current immutable worker publication before enqueue",
+      "binding": "provider.imageDigest is empty",
+      "defect": "MISSING",
+      "consequence": "Payment is recorded, dispatch returns fulfillment_incomplete, webhook returns 500, no job exists.",
+      "observedResult": "500 {\"payment_status\":\"paid\",\"amount_cents\":5000,\"currency\":\"usd\",\"provider_event_id\":\"evt_p1\",\"payment_authority\":\"server_webhook\",\"payment_recorded_by\":\"expungement_ai_stripe_webhook\"} jobs=[]",
+      "actualAdmissionEvents": [
+        {
+          "testGroup": [
+            "P1",
+            "P4"
+          ],
+          "admissionPoint": "provider_dispatch",
+          "request": {
+            "routeId": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+            "jurisdiction": "MS",
+            "packetFamilyId": "ms-nonconv-set"
+          },
+          "decision": {
+            "admissionPoint": "provider_dispatch",
+            "admitted": false,
+            "authority": {
+              "state": "INCOMPLETE",
+              "authorized": false,
+              "commercialStatus": "not_commercially_eligible",
+              "routeId": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+              "jurisdiction": "MS",
+              "packetFamilyId": "ms-nonconv-set",
+              "serviceDisposition": "paid_packet_intended",
+              "recordId": "grade-a-ms-nonconv-paid-consumer-successor-20260914",
+              "recordVersion": 2,
+              "missingProof": [
+                "provider: a provider identity, renderer version and image digest are required"
+              ],
+              "stalenessReasons": [],
+              "revocationReason": null,
+              "reason": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal is missing 1 proof(s) required for Grade-A fulfillment."
+            },
+            "disposition": "SOURCE_OR_CONFIGURATION_GATE",
+            "contextDenials": [],
+            "denialCode": "fulfillment_incomplete",
+            "reason": "provider_dispatch is denied: MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal is missing 1 proof(s) required for Grade-A fulfillment."
+          }
+        }
+      ],
+      "historicalResolvedGaps": [
+        "Exact participant final verification now generated from byte-identical approved artifacts and PostgreSQL round trips",
+        "Adopted custom-pleading source authority now bound; no official binary or acquisition invented"
+      ]
+    },
+    {
+      "test": "P4",
+      "entry": "claim/finalize of the P1 job",
+      "gate": "worker claim prerequisite; P1 provider_dispatch upstream",
+      "required": "The real job created by P1",
+      "binding": "P1 produced jobs=[]",
+      "defect": "MISSING",
+      "consequence": "The claim assertion fails before the intended fulfillment assertions; no claim/finalization acceptance is inferred.",
+      "observedResult": "claim expected undefined, got null",
+      "actualAdmissionEvents": [
+        {
+          "testGroup": [
+            "P1",
+            "P4"
+          ],
+          "admissionPoint": "provider_dispatch",
+          "request": {
+            "routeId": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+            "jurisdiction": "MS",
+            "packetFamilyId": "ms-nonconv-set"
+          },
+          "decision": {
+            "admissionPoint": "provider_dispatch",
+            "admitted": false,
+            "authority": {
+              "state": "INCOMPLETE",
+              "authorized": false,
+              "commercialStatus": "not_commercially_eligible",
+              "routeId": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+              "jurisdiction": "MS",
+              "packetFamilyId": "ms-nonconv-set",
+              "serviceDisposition": "paid_packet_intended",
+              "recordId": "grade-a-ms-nonconv-paid-consumer-successor-20260914",
+              "recordVersion": 2,
+              "missingProof": [
+                "provider: a provider identity, renderer version and image digest are required"
+              ],
+              "stalenessReasons": [],
+              "revocationReason": null,
+              "reason": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal is missing 1 proof(s) required for Grade-A fulfillment."
+            },
+            "disposition": "SOURCE_OR_CONFIGURATION_GATE",
+            "contextDenials": [],
+            "denialCode": "fulfillment_incomplete",
+            "reason": "provider_dispatch is denied: MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal is missing 1 proof(s) required for Grade-A fulfillment."
+          }
+        }
+      ],
+      "historicalResolvedGaps": [
+        "Exact participant final verification now generated from byte-identical approved artifacts and PostgreSQL round trips",
+        "Adopted custom-pleading source authority now bound; no official binary or acquisition invented"
+      ]
+    },
+    {
+      "test": "P9",
+      "entry": "authenticated /api/expungement-ai/packet/render",
+      "gate": "provider_dispatch",
+      "required": "Current immutable worker publication before enqueue",
+      "binding": "provider.imageDigest is empty",
+      "defect": "MISSING",
+      "consequence": "403, no Phase 53-bound consumer job.",
+      "observedResult": "403 []",
+      "actualAdmissionEvents": [
+        {
+          "testGroup": [
+            "P9",
+            "P12",
+            "P10",
+            "P13"
+          ],
+          "admissionPoint": "provider_dispatch",
+          "request": {
+            "routeId": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+            "jurisdiction": "MS",
+            "packetFamilyId": "ms-nonconv-set"
+          },
+          "decision": {
+            "admissionPoint": "provider_dispatch",
+            "admitted": false,
+            "authority": {
+              "state": "INCOMPLETE",
+              "authorized": false,
+              "commercialStatus": "not_commercially_eligible",
+              "routeId": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+              "jurisdiction": "MS",
+              "packetFamilyId": "ms-nonconv-set",
+              "serviceDisposition": "paid_packet_intended",
+              "recordId": "grade-a-ms-nonconv-paid-consumer-successor-20260914",
+              "recordVersion": 2,
+              "missingProof": [
+                "provider: a provider identity, renderer version and image digest are required"
+              ],
+              "stalenessReasons": [],
+              "revocationReason": null,
+              "reason": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal is missing 1 proof(s) required for Grade-A fulfillment."
+            },
+            "disposition": "SOURCE_OR_CONFIGURATION_GATE",
+            "contextDenials": [],
+            "denialCode": "fulfillment_incomplete",
+            "reason": "provider_dispatch is denied: MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal is missing 1 proof(s) required for Grade-A fulfillment."
+          }
+        },
+        {
+          "testGroup": [
+            "P9",
+            "P12",
+            "P10",
+            "P13"
+          ],
+          "admissionPoint": "provider_dispatch",
+          "request": {
+            "routeId": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+            "jurisdiction": "MS",
+            "packetFamilyId": "ms-nonconv-set"
+          },
+          "decision": {
+            "admissionPoint": "provider_dispatch",
+            "admitted": false,
+            "authority": {
+              "state": "INCOMPLETE",
+              "authorized": false,
+              "commercialStatus": "not_commercially_eligible",
+              "routeId": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+              "jurisdiction": "MS",
+              "packetFamilyId": "ms-nonconv-set",
+              "serviceDisposition": "paid_packet_intended",
+              "recordId": "grade-a-ms-nonconv-paid-consumer-successor-20260914",
+              "recordVersion": 2,
+              "missingProof": [
+                "provider: a provider identity, renderer version and image digest are required"
+              ],
+              "stalenessReasons": [],
+              "revocationReason": null,
+              "reason": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal is missing 1 proof(s) required for Grade-A fulfillment."
+            },
+            "disposition": "SOURCE_OR_CONFIGURATION_GATE",
+            "contextDenials": [],
+            "denialCode": "fulfillment_incomplete",
+            "reason": "provider_dispatch is denied: MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal is missing 1 proof(s) required for Grade-A fulfillment."
+          }
+        },
+        {
+          "testGroup": [
+            "P9",
+            "P12",
+            "P10",
+            "P13"
+          ],
+          "admissionPoint": "provider_dispatch",
+          "request": {
+            "routeId": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+            "jurisdiction": "MS",
+            "packetFamilyId": "ms-nonconv-set"
+          },
+          "decision": {
+            "admissionPoint": "provider_dispatch",
+            "admitted": false,
+            "authority": {
+              "state": "INCOMPLETE",
+              "authorized": false,
+              "commercialStatus": "not_commercially_eligible",
+              "routeId": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+              "jurisdiction": "MS",
+              "packetFamilyId": "ms-nonconv-set",
+              "serviceDisposition": "paid_packet_intended",
+              "recordId": "grade-a-ms-nonconv-paid-consumer-successor-20260914",
+              "recordVersion": 2,
+              "missingProof": [
+                "provider: a provider identity, renderer version and image digest are required"
+              ],
+              "stalenessReasons": [],
+              "revocationReason": null,
+              "reason": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal is missing 1 proof(s) required for Grade-A fulfillment."
+            },
+            "disposition": "SOURCE_OR_CONFIGURATION_GATE",
+            "contextDenials": [],
+            "denialCode": "fulfillment_incomplete",
+            "reason": "provider_dispatch is denied: MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal is missing 1 proof(s) required for Grade-A fulfillment."
+          }
+        }
+      ],
+      "historicalResolvedGaps": [
+        "Exact participant final verification now generated from byte-identical approved artifacts and PostgreSQL round trips",
+        "Adopted custom-pleading source authority now bound; no official binary or acquisition invented"
+      ]
+    },
+    {
+      "test": "P12",
+      "entry": "repeat authenticated render for the same paid item and matter",
+      "gate": "provider_dispatch on both attempts, then idempotency assertion",
+      "required": "One successfully created baseline job",
+      "binding": "Both dispatch attempts refuse; jobs=0",
+      "defect": "MISSING",
+      "consequence": "Cannot prove one-job idempotency while both requests are refused.",
+      "observedResult": "jobs=0 first=undefined second=undefined",
+      "actualAdmissionEvents": [
+        {
+          "testGroup": [
+            "P9",
+            "P12",
+            "P10",
+            "P13"
+          ],
+          "admissionPoint": "provider_dispatch",
+          "request": {
+            "routeId": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+            "jurisdiction": "MS",
+            "packetFamilyId": "ms-nonconv-set"
+          },
+          "decision": {
+            "admissionPoint": "provider_dispatch",
+            "admitted": false,
+            "authority": {
+              "state": "INCOMPLETE",
+              "authorized": false,
+              "commercialStatus": "not_commercially_eligible",
+              "routeId": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+              "jurisdiction": "MS",
+              "packetFamilyId": "ms-nonconv-set",
+              "serviceDisposition": "paid_packet_intended",
+              "recordId": "grade-a-ms-nonconv-paid-consumer-successor-20260914",
+              "recordVersion": 2,
+              "missingProof": [
+                "provider: a provider identity, renderer version and image digest are required"
+              ],
+              "stalenessReasons": [],
+              "revocationReason": null,
+              "reason": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal is missing 1 proof(s) required for Grade-A fulfillment."
+            },
+            "disposition": "SOURCE_OR_CONFIGURATION_GATE",
+            "contextDenials": [],
+            "denialCode": "fulfillment_incomplete",
+            "reason": "provider_dispatch is denied: MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal is missing 1 proof(s) required for Grade-A fulfillment."
+          }
+        },
+        {
+          "testGroup": [
+            "P9",
+            "P12",
+            "P10",
+            "P13"
+          ],
+          "admissionPoint": "provider_dispatch",
+          "request": {
+            "routeId": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+            "jurisdiction": "MS",
+            "packetFamilyId": "ms-nonconv-set"
+          },
+          "decision": {
+            "admissionPoint": "provider_dispatch",
+            "admitted": false,
+            "authority": {
+              "state": "INCOMPLETE",
+              "authorized": false,
+              "commercialStatus": "not_commercially_eligible",
+              "routeId": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+              "jurisdiction": "MS",
+              "packetFamilyId": "ms-nonconv-set",
+              "serviceDisposition": "paid_packet_intended",
+              "recordId": "grade-a-ms-nonconv-paid-consumer-successor-20260914",
+              "recordVersion": 2,
+              "missingProof": [
+                "provider: a provider identity, renderer version and image digest are required"
+              ],
+              "stalenessReasons": [],
+              "revocationReason": null,
+              "reason": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal is missing 1 proof(s) required for Grade-A fulfillment."
+            },
+            "disposition": "SOURCE_OR_CONFIGURATION_GATE",
+            "contextDenials": [],
+            "denialCode": "fulfillment_incomplete",
+            "reason": "provider_dispatch is denied: MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal is missing 1 proof(s) required for Grade-A fulfillment."
+          }
+        },
+        {
+          "testGroup": [
+            "P9",
+            "P12",
+            "P10",
+            "P13"
+          ],
+          "admissionPoint": "provider_dispatch",
+          "request": {
+            "routeId": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+            "jurisdiction": "MS",
+            "packetFamilyId": "ms-nonconv-set"
+          },
+          "decision": {
+            "admissionPoint": "provider_dispatch",
+            "admitted": false,
+            "authority": {
+              "state": "INCOMPLETE",
+              "authorized": false,
+              "commercialStatus": "not_commercially_eligible",
+              "routeId": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+              "jurisdiction": "MS",
+              "packetFamilyId": "ms-nonconv-set",
+              "serviceDisposition": "paid_packet_intended",
+              "recordId": "grade-a-ms-nonconv-paid-consumer-successor-20260914",
+              "recordVersion": 2,
+              "missingProof": [
+                "provider: a provider identity, renderer version and image digest are required"
+              ],
+              "stalenessReasons": [],
+              "revocationReason": null,
+              "reason": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal is missing 1 proof(s) required for Grade-A fulfillment."
+            },
+            "disposition": "SOURCE_OR_CONFIGURATION_GATE",
+            "contextDenials": [],
+            "denialCode": "fulfillment_incomplete",
+            "reason": "provider_dispatch is denied: MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal is missing 1 proof(s) required for Grade-A fulfillment."
+          }
+        }
+      ],
+      "historicalResolvedGaps": [
+        "Exact participant final verification now generated from byte-identical approved artifacts and PostgreSQL round trips",
+        "Adopted custom-pleading source authority now bound; no official binary or acquisition invented"
+      ]
+    },
+    {
+      "test": "P10",
+      "entry": "USER_B sends USER_A item and browser-supplied user id",
+      "gate": "owner-scoped item lookup; baseline P9 provider_dispatch",
+      "required": "404 owner isolation plus unchanged one-job baseline",
+      "binding": "Owner lookup returns 404; P9 baseline has zero jobs",
+      "defect": "MISSING",
+      "consequence": "No cross-user admission occurs. The aggregate assertion fails because the required baseline job does not exist.",
+      "observedResult": "status=404 jobs=0",
+      "actualAdmissionEvents": [
+        {
+          "testGroup": [
+            "P9",
+            "P12",
+            "P10",
+            "P13"
+          ],
+          "admissionPoint": "provider_dispatch",
+          "request": {
+            "routeId": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+            "jurisdiction": "MS",
+            "packetFamilyId": "ms-nonconv-set"
+          },
+          "decision": {
+            "admissionPoint": "provider_dispatch",
+            "admitted": false,
+            "authority": {
+              "state": "INCOMPLETE",
+              "authorized": false,
+              "commercialStatus": "not_commercially_eligible",
+              "routeId": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+              "jurisdiction": "MS",
+              "packetFamilyId": "ms-nonconv-set",
+              "serviceDisposition": "paid_packet_intended",
+              "recordId": "grade-a-ms-nonconv-paid-consumer-successor-20260914",
+              "recordVersion": 2,
+              "missingProof": [
+                "provider: a provider identity, renderer version and image digest are required"
+              ],
+              "stalenessReasons": [],
+              "revocationReason": null,
+              "reason": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal is missing 1 proof(s) required for Grade-A fulfillment."
+            },
+            "disposition": "SOURCE_OR_CONFIGURATION_GATE",
+            "contextDenials": [],
+            "denialCode": "fulfillment_incomplete",
+            "reason": "provider_dispatch is denied: MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal is missing 1 proof(s) required for Grade-A fulfillment."
+          }
+        },
+        {
+          "testGroup": [
+            "P9",
+            "P12",
+            "P10",
+            "P13"
+          ],
+          "admissionPoint": "provider_dispatch",
+          "request": {
+            "routeId": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+            "jurisdiction": "MS",
+            "packetFamilyId": "ms-nonconv-set"
+          },
+          "decision": {
+            "admissionPoint": "provider_dispatch",
+            "admitted": false,
+            "authority": {
+              "state": "INCOMPLETE",
+              "authorized": false,
+              "commercialStatus": "not_commercially_eligible",
+              "routeId": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+              "jurisdiction": "MS",
+              "packetFamilyId": "ms-nonconv-set",
+              "serviceDisposition": "paid_packet_intended",
+              "recordId": "grade-a-ms-nonconv-paid-consumer-successor-20260914",
+              "recordVersion": 2,
+              "missingProof": [
+                "provider: a provider identity, renderer version and image digest are required"
+              ],
+              "stalenessReasons": [],
+              "revocationReason": null,
+              "reason": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal is missing 1 proof(s) required for Grade-A fulfillment."
+            },
+            "disposition": "SOURCE_OR_CONFIGURATION_GATE",
+            "contextDenials": [],
+            "denialCode": "fulfillment_incomplete",
+            "reason": "provider_dispatch is denied: MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal is missing 1 proof(s) required for Grade-A fulfillment."
+          }
+        },
+        {
+          "testGroup": [
+            "P9",
+            "P12",
+            "P10",
+            "P13"
+          ],
+          "admissionPoint": "provider_dispatch",
+          "request": {
+            "routeId": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+            "jurisdiction": "MS",
+            "packetFamilyId": "ms-nonconv-set"
+          },
+          "decision": {
+            "admissionPoint": "provider_dispatch",
+            "admitted": false,
+            "authority": {
+              "state": "INCOMPLETE",
+              "authorized": false,
+              "commercialStatus": "not_commercially_eligible",
+              "routeId": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+              "jurisdiction": "MS",
+              "packetFamilyId": "ms-nonconv-set",
+              "serviceDisposition": "paid_packet_intended",
+              "recordId": "grade-a-ms-nonconv-paid-consumer-successor-20260914",
+              "recordVersion": 2,
+              "missingProof": [
+                "provider: a provider identity, renderer version and image digest are required"
+              ],
+              "stalenessReasons": [],
+              "revocationReason": null,
+              "reason": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal is missing 1 proof(s) required for Grade-A fulfillment."
+            },
+            "disposition": "SOURCE_OR_CONFIGURATION_GATE",
+            "contextDenials": [],
+            "denialCode": "fulfillment_incomplete",
+            "reason": "provider_dispatch is denied: MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal is missing 1 proof(s) required for Grade-A fulfillment."
+          }
+        }
+      ],
+      "historicalResolvedGaps": [
+        "Exact participant final verification now generated from byte-identical approved artifacts and PostgreSQL round trips",
+        "Adopted custom-pleading source authority now bound; no official binary or acquisition invented"
+      ]
+    },
+    {
+      "test": "P13",
+      "entry": "claim/finalize and attempt payment use for another matter",
+      "gate": "worker claim prerequisite, then matter/payment binding",
+      "required": "Real P9 job to reach the negative matter-binding assertion",
+      "binding": "Claim receives no job",
+      "defect": "MISSING",
+      "consequence": "Wrong-matter payment gate is not reached; no security acceptance is inferred.",
+      "observedResult": "claim expected undefined, got null",
+      "actualAdmissionEvents": [
+        {
+          "testGroup": [
+            "P9",
+            "P12",
+            "P10",
+            "P13"
+          ],
+          "admissionPoint": "provider_dispatch",
+          "request": {
+            "routeId": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+            "jurisdiction": "MS",
+            "packetFamilyId": "ms-nonconv-set"
+          },
+          "decision": {
+            "admissionPoint": "provider_dispatch",
+            "admitted": false,
+            "authority": {
+              "state": "INCOMPLETE",
+              "authorized": false,
+              "commercialStatus": "not_commercially_eligible",
+              "routeId": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+              "jurisdiction": "MS",
+              "packetFamilyId": "ms-nonconv-set",
+              "serviceDisposition": "paid_packet_intended",
+              "recordId": "grade-a-ms-nonconv-paid-consumer-successor-20260914",
+              "recordVersion": 2,
+              "missingProof": [
+                "provider: a provider identity, renderer version and image digest are required"
+              ],
+              "stalenessReasons": [],
+              "revocationReason": null,
+              "reason": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal is missing 1 proof(s) required for Grade-A fulfillment."
+            },
+            "disposition": "SOURCE_OR_CONFIGURATION_GATE",
+            "contextDenials": [],
+            "denialCode": "fulfillment_incomplete",
+            "reason": "provider_dispatch is denied: MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal is missing 1 proof(s) required for Grade-A fulfillment."
+          }
+        },
+        {
+          "testGroup": [
+            "P9",
+            "P12",
+            "P10",
+            "P13"
+          ],
+          "admissionPoint": "provider_dispatch",
+          "request": {
+            "routeId": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+            "jurisdiction": "MS",
+            "packetFamilyId": "ms-nonconv-set"
+          },
+          "decision": {
+            "admissionPoint": "provider_dispatch",
+            "admitted": false,
+            "authority": {
+              "state": "INCOMPLETE",
+              "authorized": false,
+              "commercialStatus": "not_commercially_eligible",
+              "routeId": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+              "jurisdiction": "MS",
+              "packetFamilyId": "ms-nonconv-set",
+              "serviceDisposition": "paid_packet_intended",
+              "recordId": "grade-a-ms-nonconv-paid-consumer-successor-20260914",
+              "recordVersion": 2,
+              "missingProof": [
+                "provider: a provider identity, renderer version and image digest are required"
+              ],
+              "stalenessReasons": [],
+              "revocationReason": null,
+              "reason": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal is missing 1 proof(s) required for Grade-A fulfillment."
+            },
+            "disposition": "SOURCE_OR_CONFIGURATION_GATE",
+            "contextDenials": [],
+            "denialCode": "fulfillment_incomplete",
+            "reason": "provider_dispatch is denied: MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal is missing 1 proof(s) required for Grade-A fulfillment."
+          }
+        },
+        {
+          "testGroup": [
+            "P9",
+            "P12",
+            "P10",
+            "P13"
+          ],
+          "admissionPoint": "provider_dispatch",
+          "request": {
+            "routeId": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+            "jurisdiction": "MS",
+            "packetFamilyId": "ms-nonconv-set"
+          },
+          "decision": {
+            "admissionPoint": "provider_dispatch",
+            "admitted": false,
+            "authority": {
+              "state": "INCOMPLETE",
+              "authorized": false,
+              "commercialStatus": "not_commercially_eligible",
+              "routeId": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+              "jurisdiction": "MS",
+              "packetFamilyId": "ms-nonconv-set",
+              "serviceDisposition": "paid_packet_intended",
+              "recordId": "grade-a-ms-nonconv-paid-consumer-successor-20260914",
+              "recordVersion": 2,
+              "missingProof": [
+                "provider: a provider identity, renderer version and image digest are required"
+              ],
+              "stalenessReasons": [],
+              "revocationReason": null,
+              "reason": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal is missing 1 proof(s) required for Grade-A fulfillment."
+            },
+            "disposition": "SOURCE_OR_CONFIGURATION_GATE",
+            "contextDenials": [],
+            "denialCode": "fulfillment_incomplete",
+            "reason": "provider_dispatch is denied: MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal is missing 1 proof(s) required for Grade-A fulfillment."
+          }
+        }
+      ],
+      "historicalResolvedGaps": [
+        "Exact participant final verification now generated from byte-identical approved artifacts and PostgreSQL round trips",
+        "Adopted custom-pleading source authority now bound; no official binary or acquisition invented"
+      ]
+    }
+  ],
+  "broaderVerifier": [
+    {
+      "test": "exact productized specification/artifact/receipt binding",
+      "classification": "genuine missing authority",
+      "status": "BLOCKED",
+      "reason": "Current IL shipping PDFs differ from the owner-approved exact hashes. A newer technical pass does not supply the required artifact re-review."
+    },
+    {
+      "test": "current independent verification binding",
+      "classification": "incorrect route/source binding",
+      "status": "BLOCKED_WRONG_SCOPE",
+      "reason": "The newer MS additional-misdemeanor verifier row covers changed, not owner-approved, artifacts. Re-pinning it alone would reuse the old approval on new bytes."
+    },
+    {
+      "test": "exact codified authority",
+      "classification": "stale hash and verifier implementation defect",
+      "status": "RESOLVED",
+      "reason": "Exact ms-misd-addl track and shared memo content match the pinned ancestor; only ms-nonconv changed. Canonical unchanged-track reconciliation preserves revocation. The exposed WY PDF hashing bug now uses Buffer bytes, not UTF-8-decoded data."
+    },
+    {
+      "test": "all exact productized evidence gaps closed",
+      "classification": "genuine missing authority",
+      "status": "BLOCKED",
+      "reason": "The two additional-misdemeanor records correctly remain REVOKED while current artifact re-review is absent."
+    }
+  ],
+  "missingArtifactApprovals": [
+    {
+      "familyId": "il-prostitution-j-vacate-set",
+      "routeIds": [
+        "IL:felony-prostitution-relief"
+      ],
+      "fixture": "canonical",
+      "path": "data/rcap-all50/overlays/census-v1/il/il-prostitution-j-vacate-set--custom-pleading/fixtures/canonical.pdf",
+      "approvedSha256": "7daaa389709afebccd46cdcee56b16c9888eb4ddcda2475c6c1e0b7315b9517d",
+      "currentSha256": "d4cb765983ed2ed180a74feb1a70b7b5cc43134419b2c497746d8fd188bd2657",
+      "currentApprovalMatches": [],
+      "selectedIndependentVerdict": {
+        "familyId": "il-prostitution-j-vacate-set",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf01",
+        "isIndependentVerification": true,
+        "verifiedAtBase": "d974bcdd8",
+        "failedObligations": [],
+        "failedObligationNames": [],
+        "unmeasuredObligations": [],
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
+        "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+        "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-prostitution-j-vacate-set",
+        "superseded": false
+      }
+    },
+    {
+      "familyId": "il-prostitution-j-vacate-set",
+      "routeIds": [
+        "IL:felony-prostitution-relief"
+      ],
+      "fixture": "boundary",
+      "path": "data/rcap-all50/overlays/census-v1/il/il-prostitution-j-vacate-set--custom-pleading/fixtures/boundary.pdf",
+      "approvedSha256": "714832a826220e0d1f82363af3aa251d6dd5e3e9d7fb7235450b002cb614705b",
+      "currentSha256": "ea728bba06d2112537e99846f12d78a1c3d7f49eb8ae0f101a94291920bbf25e",
+      "currentApprovalMatches": [],
+      "selectedIndependentVerdict": {
+        "familyId": "il-prostitution-j-vacate-set",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf01",
+        "isIndependentVerification": true,
+        "verifiedAtBase": "d974bcdd8",
+        "failedObligations": [],
+        "failedObligationNames": [],
+        "unmeasuredObligations": [],
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
+        "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+        "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-prostitution-j-vacate-set",
+        "superseded": false
+      }
+    },
+    {
+      "familyId": "ms-misd-addl-set",
+      "routeIds": [
+        "MS:additional-justice-court-misdemeanor-relief-9-11-15-3",
+        "MS:additional-municipal-court-misdemeanor-relief-21-23-7-6"
+      ],
+      "fixture": "canonical",
+      "path": "data/rcap-all50/overlays/census-v1/ms/ms-misd-addl-set--custom-pleading/fixtures/canonical.pdf",
+      "approvedSha256": "7878f2c0d297bf272eb166820505996ba32976a174b8019140ee83728bf3cd3c",
+      "currentSha256": "3c7588be6f1734cab76c30035cb9eb404dc6e0d78eeb9e3971415ed2cedf1399",
+      "currentApprovalMatches": [],
+      "selectedIndependentVerdict": {
+        "familyId": "ms-misd-addl-set",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf04",
+        "isIndependentVerification": true,
+        "verifiedAtBase": "a0fbceb30",
+        "failedObligations": [],
+        "failedObligationNames": [],
+        "unmeasuredObligations": [],
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json",
+        "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf04/repair-assignments.json",
+        "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ms-misd-addl-set",
+        "superseded": false
+      }
+    },
+    {
+      "familyId": "ms-misd-addl-set",
+      "routeIds": [
+        "MS:additional-justice-court-misdemeanor-relief-9-11-15-3",
+        "MS:additional-municipal-court-misdemeanor-relief-21-23-7-6"
+      ],
+      "fixture": "boundary",
+      "path": "data/rcap-all50/overlays/census-v1/ms/ms-misd-addl-set--custom-pleading/fixtures/boundary.pdf",
+      "approvedSha256": "96c13766362702101176e205e7cea1bd39a9305fe175f703ece4e5241680a3c5",
+      "currentSha256": "e2b8cebcb089a20777cfb31bcd5b70340729690bf5232894e7e8adf81fcada36",
+      "currentApprovalMatches": [],
+      "selectedIndependentVerdict": {
+        "familyId": "ms-misd-addl-set",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf04",
+        "isIndependentVerification": true,
+        "verifiedAtBase": "a0fbceb30",
+        "failedObligations": [],
+        "failedObligationNames": [],
+        "unmeasuredObligations": [],
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json",
+        "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf04/repair-assignments.json",
+        "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ms-misd-addl-set",
+        "superseded": false
+      }
+    }
+  ],
+  "ownerPaidScopeQuestionClosed": true,
+  "publicationReady": false,
+  "candidateFrozen": false,
+  "productionUntouched": true,
+  "nextRequiredEvidence": "Exact current-artifact re-review for the IL vacatur and MS additional-misdemeanor pairs under the existing digest-change condition. This is separate from the closed MS nonconv paid-scope decision."
+}

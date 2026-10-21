@@ -1,0 +1,119 @@
+{
+  "schemaVersion": "fable-packet-factory-return/v1",
+  "agent": "FABLE-B8",
+  "branch": "fable/b8",
+  "mergedCaptainHead": "6868ea1a6",
+  "laneResolution": {
+    "dispatchSaid": { "PF05": ["ct-pardon-erasure-set", "ne-expunge-le-error-set", "in_infraction_nondisclosure-set"], "PF07": ["ky_criminal_record_segregation-set", "ri_marijuana-set", "vt_exp_deferred_sentence-set"] },
+    "whatHappened": "Every --assert on the dispatched lanes refused GRANTED_ELSEWHERE (exit 8). The claim ledger — the ground truth per the dispatch's own rule and the captain's mid-run lane correction, which named these exact lanes — holds all six families as one grant set (d6e21c15ec2a5046) on PF04 (ct, ne, vt_exp_deferred), PF03 (in), and PF06 (ky, ri); ACTIVE_ASSIGNMENTS still shows the pre-repack PF05/PF07 packing. Asserts on the ledger lanes returned CLAIM_OK for all six before any family artifact was read, and releases went to the same lanes after each family's build commit.",
+    "ledgerLanesUsed": { "ct-pardon-erasure-set": "PF04", "ne-expunge-le-error-set": "PF04", "in_infraction_nondisclosure-set": "PF03", "ky_criminal_record_segregation-set": "PF06", "ri_marijuana-set": "PF06", "vt_exp_deferred_sentence-set": "PF04" }
+  },
+  "sharedFacts": {
+    "allSixAreCodifiedTextFamilies": "Every MASTER_QUEUE row binds ZERO source bytes (sourceStatus CUSTOM_PLEADING_FROM_CODIFIED_TEXT, boundSources [], officialFormFamily NONE), so there were no source SHA-256s or printed faces to verify. The analogue applied instead: each build grounds on the family's committed legal-design records (state memo, packet-set manifest, plus per-family decision/dependency/precedent records), verified on every run by whole-file SHA-256 AND a content assertion that every fact the build relies on is still stated — a drifted record is a BLOCKED_SOURCE refusal, not a build.",
+    "rasterState": "BUILT_RASTER_PENDING for all six (no raster in this container; central workflow renders the pinned bytes)",
+    "verifier": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id> -> PASS_COMPLETE with all nine counters zero, for all six",
+    "determinism": "each family built twice; canonical and boundary fixture PDFs byte-identical across runs (sha256sum -c), stampDeterministic on every PDFDocument.create()",
+    "nothingCommercial": "commercialRoutesOpened 0 everywhere; every family ends at state_built; approval-request.json carries the counsel questions"
+  },
+  "families": [
+    {
+      "familyId": "ct-pardon-erasure-set",
+      "claimResult": "PF05 assert refused GRANTED_ELSEWHERE; PF04 assert CLAIM_OK (grant set d6e21c15ec2a5046); released on PF04 after commit",
+      "sourcesVerified": [
+        "memo CT.memo.json sha256 90d96d9d8a25… (11 content anchors held)",
+        "manifest legal-design-packet-set-manifests.json sha256 80d88d69dc57… (3 anchors held)"
+      ],
+      "writtenVsCarried": { "written": 5, "terminalBlanks": 8, "requiredBeforeFiling": 5, "protectedOrCourtOwned": 3 },
+      "nineCounters": { "allNineZero": true },
+      "rebuildByteIdentical": true,
+      "fixtures": { "canonical": "fb22c04456ff31e1… 3pp", "boundary": "dc26b69ffdb89472… 3pp" },
+      "status": "state_built",
+      "commit": "dbda74191",
+      "notes": "Two instruments under the manifest's component ids, branch conditions printed on their faces (pre-1974 petition / post-1974 automatic; the pardon date selects, never the packet). Caption/format is the memo's release blocker: rendered as a participant-completed blank with the Superior Court clerk named, and the petition tells the participant to call the clerk before filing. Erasure-only terminology byte-proof enforced. No fee per § 54-142a(k)."
+    },
+    {
+      "familyId": "ne-expunge-le-error-set",
+      "claimResult": "PF05 assert refused GRANTED_ELSEWHERE; PF04 assert CLAIM_OK; released on PF04 after commit",
+      "sourcesVerified": [
+        "memo NE.memo.json sha256 4947fbc90c3b… (10 anchors held)",
+        "manifest sha256 80d88d69dc57… (3 anchors held)",
+        "decisions 2026-08-28-national-legal-decisions.json sha256 0aad88eff0e3… (Q-023/Q-024/Q-025 holdings held)"
+      ],
+      "writtenVsCarried": { "written": 6, "terminalBlanks": 8, "requiredBeforeFiling": 5, "protectedOrCourtOwned": 3 },
+      "nineCounters": { "allNineZero": true },
+      "rebuildByteIdentical": true,
+      "fixtures": { "canonical": "b3ad99b4a1ae52c2… 4pp", "boundary": "df7386e9e32ad77e… 4pp" },
+      "status": "state_built",
+      "commit": "199e49648",
+      "notes": "DISCREPANCY RECORDED: the queue row's instrumentKinds says '§ 29-3523(6)' while the memo and every counsel record say § 29-3523(9); build follows the legal records and flags the queue label. Q-023 (venue: district court of the county of arrest, new civil petition) and Q-024 (county attorney respondent; formal civil service, courtesy copy insufficient) are applied as settled; Q-025's additional-components holding (summons/praecipe/cover sheet/proposed order/exhibits) is NOT drafted — the manifest names three components and drafting a proposed order would invent the court's terms — and travels to reviewers per its own ARTIFACT_LEGAL_REVIEW_REQUIRED delivery. Filing fee not established: delegated to the district court clerk by name; § 25-2301.01 waiver stated as recorded."
+    },
+    {
+      "familyId": "in_infraction_nondisclosure-set",
+      "claimResult": "PF05 assert refused GRANTED_ELSEWHERE; PF03 assert CLAIM_OK; released on PF03 after commit",
+      "sourcesVerified": [
+        "memo IN.memo.json sha256 eea7b6933c5e… (11 anchors held)",
+        "manifest sha256 80d88d69dc57… (3 anchors held)",
+        "dependency in_infraction_nondisclosure-primary-filing-2/dependency.json sha256 18dd47b13899… (drafted:false, unresolved_form_question)"
+      ],
+      "writtenVsCarried": { "written": 1, "terminalBlanks": 5, "requiredBeforeFiling": 5, "protectedOrCourtOwned": 0 },
+      "nineCounters": { "allNineZero": true },
+      "rebuildByteIdentical": true,
+      "fixtures": { "canonical": "61bd97bec73523dc… 2pp", "boundary": "a0eb7e1bacf15938… 2pp" },
+      "status": "state_built",
+      "commit": "f6e0a9a92",
+      "notes": "THE STAGE-2 VERIFIED PETITION IS DELIBERATELY NOT DRAFTED. The queue row expects a custom pleading, but the family's own records prohibit it: the memo holds the unit unavailable pending the statewide-form and MC case-type gates, and the component's terminalized dependency record states drafted:false with the missing determination owned by the source lanes. Built as the AGENTS.md guidance-packet fallback: the stage-1 worksheet-and-call instrument (clerk of the court where the infraction was handled as the checkable authority), the petition's absence stated on the paper, in the instructions and in approval-request.json. Builder refuses to rerun unchanged if the dependency record stops saying drafted:false. No signature blanks — stage 1 files nothing. Never-say-destroyed terminology byte-proof enforced."
+    },
+    {
+      "familyId": "ky_criminal_record_segregation-set",
+      "claimResult": "PF07 assert refused GRANTED_ELSEWHERE; PF06 assert CLAIM_OK; released on PF06 after commit",
+      "sourcesVerified": [
+        "memo KY.memo.json sha256 2328bbcbf8ec… (13 anchors held, including the unratified must-be-ratified-by-counsel question)",
+        "manifest sha256 80d88d69dc57… (3 anchors held)",
+        "pleadingConfig (route-level drafted precedent) sha256 e1fa4791a58e… (5 anchors held)"
+      ],
+      "writtenVsCarried": { "written": 7, "terminalBlanks": 17, "requiredBeforeFiling": 13, "protectedOrCourtOwned": 4 },
+      "nineCounters": { "allNineZero": true },
+      "rebuildByteIdentical": true,
+      "fixtures": { "canonical": "688787fb65152b5b… 5pp", "boundary": "7e8e5f3eda4cc8cd… 5pp" },
+      "status": "state_built",
+      "commit": "0cd866a6e",
+      "notes": "The memo's build-blocker-graded counsel question (relief track vs the review's not-a-product-track classification) is UNRATIFIED anywhere in the repo. Built deliberately and narrowly on three grounds — the factory dispatch (legalInputStatus SETTLED, live grant), the terminalized route-level components for this exact track carrying counselConfirmationRequired:true as a standing blocker, and state_built selling nothing — with the ratification question FIRST in approval-request.json and reviewStatus counsel_review_pending. Follows the route-level precedent's sourced refusals: no proposed order, no certificate of service, Applicant role, functional venue with the circuit court clerk as resolver, no verification block. Applied the STRICTER reading where the precedent conflicts with itself (its render says 'sealed' in the (4) recital; its qaProhibitedTerms bans the word): the (4) scope limit is stated without the banned vocabulary. Byte-proof: application and letter never use expunge/seal/destroy/erase and never invite personal identifiers; the routing page names KRS 431.076/431.078 by design."
+    },
+    {
+      "familyId": "ri_marijuana-set",
+      "claimResult": "PF07 assert refused GRANTED_ELSEWHERE; PF06 assert CLAIM_OK; released on PF06 after commit",
+      "sourcesVerified": [
+        "memo RI.memo.json sha256 918bdea81d68… (12 anchors held)",
+        "manifest sha256 80d88d69dc57… (5 anchors held)"
+      ],
+      "writtenVsCarried": { "written": 8, "terminalBlanks": 7, "requiredBeforeFiling": 5, "protectedOrCourtOwned": 2 },
+      "nineCounters": { "allNineZero": true },
+      "rebuildByteIdentical": true,
+      "fixtures": { "canonical": "79bcf52eb9014313… 6pp", "boundary": "fc9c6c8ae3934798… 6pp" },
+      "status": "state_built",
+      "commit": "727339f77",
+      "notes": "Verification-first, per the memo's rule (never sell a marijuana expungement motion where the record cleared; 23,000+ records already done June 2023). The expedited request's face carries its own send-only-if-not-cleared condition, byte-proof enforced, so it cannot circulate detached from the BCI check; the participant — never the packet — confirms non-clearance from their own record. Request contents are exactly the memo's controlled list; no fee anywhere (statutory waivers); the court's § 12-1.3-5(f) delivery duty stated and the wrong general-rule instruction appears nowhere. Denied/unanswered request: stop and escalate (the recorded release blocker travels to counsel). No page generalises about all marijuana cases (byte-proof)."
+    },
+    {
+      "familyId": "vt_exp_deferred_sentence-set",
+      "claimResult": "PF07 assert refused GRANTED_ELSEWHERE; PF04 assert CLAIM_OK; released on PF04 after commit",
+      "sourcesVerified": [
+        "memo VT.memo.json sha256 4bcd3fa16e73… (14 anchors held)",
+        "manifest sha256 80d88d69dc57… (3 anchors held)"
+      ],
+      "writtenVsCarried": { "written": 6, "terminalBlanks": 6, "requiredBeforeFiling": 4, "protectedOrCourtOwned": 2 },
+      "nineCounters": { "allNineZero": true },
+      "rebuildByteIdentical": true,
+      "fixtures": { "canonical": "b4e5975feb1e5727… 4pp", "boundary": "f8c1e0b0e58e3fd7… 4pp" },
+      "status": "state_built",
+      "commit": "a1a5454bf",
+      "notes": "Court-driven relief, so verification leads: discharge order (Criminal Division clerk), restitution paid in full (Restitution Unit — the statutory bar), Form 200-00331 record search. The conditional written request travels under the EXISTING docket, carries its no-good-cause-argument disclaimer on its face, and encloses no fee — all byte-proof enforced, as are the handoff page's § 7041(h) VCIC-index exception, Act 60 sealing-state terminology note and federal-background-check caveat. The practice-interval release blocker (when is the order missing rather than pending) travels to counsel, delegated meanwhile to the Criminal Division clerk. FACTORY_MEMORY's VT corpusRoot() hazard does not arise: no corpus bytes are bound."
+    }
+  ],
+  "ledgerCommit": "9ca63fa24 (six releases via claim.mjs; verify-claim-ledger CLAIM_LEDGER_OK over 602 claims)",
+  "whatThisReturnDoesNotEstablish": [
+    "any verification verdict — the builder's nine-zero counts are not the fifteen obligations, and independent verification and RASTER_PASS are pending for all six",
+    "counsel ratification of the KY track classification, closure of the IN stage-2 form gates, or any other carried counsel question",
+    "anything commercial — no route sells anything on the strength of these builds"
+  ]
+}

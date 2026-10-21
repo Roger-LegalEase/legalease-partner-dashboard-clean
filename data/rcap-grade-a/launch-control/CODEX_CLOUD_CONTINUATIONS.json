@@ -1,0 +1,457 @@
+{
+  "schemaVersion": "rcap-codex-cloud-continuations/v1",
+  "generatedBy": "scripts/grade-a-launch-control/generate-codex-cloud-continuations.mjs",
+  "question": "What does each remaining packet task look like when it runs in Codex Cloud instead of a Codespace?",
+  "answer": "The same families, the same owned paths, the same packet scope, and a different environment contract: no git network, a sourced corpus environment, a cloud-native preflight, and a diff that returns through the Codex UI instead of a push.",
+  "executionContract": "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md",
+  "setupScript": "scripts/codex-cloud/setup-packet-factory.sh",
+  "minimumCaptainSha": "98a7a57e2a354eeb8b33b3873e62f7a9785fedaf",
+  "minimumCaptainShaIs": "the S2 continuation base: the commit carrying S1, S2, the corrected completeness contract, P1/P3/P4 and the re-rendered evidence",
+  "cloudContract": {
+    "environment": "LegalEase Packet Factory",
+    "setupScript": "scripts/codex-cloud/setup-packet-factory.sh",
+    "setupPrints": "LEGALEASE_CODEX_CLOUD_READY",
+    "neverRunGitNetworkCommands": [
+      "git fetch",
+      "git pull",
+      "git push",
+      "git remote add",
+      "git clone",
+      "git fetch --unshallow"
+    ],
+    "whyNoGitNetwork": "Codex Cloud checks the selected Captain branch out as a local branch named `work`, shallow, and removes origin before the agent starts. Every one of those commands fails on a checkout that is working exactly as designed, and the failure looks like a broken environment rather than a wrong instruction.",
+    "sourceTheCorpusEnvironment": "source $HOME/.legalease-corpus-env",
+    "preflight": "node scripts/verify-packet-build-environment.mjs --family <FAMILY_ID> --codex-cloud --minimum-captain-sha 98a7a57e2a354eeb8b33b3873e62f7a9785fedaf",
+    "preflightMustReturn": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
+    "oneShortIsARefusal": "with every registered applicable check passing or stop. Three Codespaces checks are replaced by cloud-native ones, not waived, so a any registered applicable check failing in cloud mode is a real failure and not the shallow checkout being tolerated.",
+    "theDiffIsTheReturn": "Commit your work locally. Leave the final diff for the Codex UI.",
+    "neverRequirePushed": "PUSHED: YES is not part of a cloud return. There is nothing to push to and asking for it turns a complete task into a failed one."
+  },
+  "scopeDiscipline": {
+    "unchanged": [
+      "P2_WA_VACATUR_COMPLETENESS",
+      "R8_COMPLETENESS_REPAIR_PRIORITY_FOUR",
+      "VS01_S2_CONTINUATION_INDEPENDENT_VERIFICATION"
+    ],
+    "new": [
+      "SD_ARREST_EXPUNGEMENT_DISCLOSURE_REPAIR__CODEX_CLOUD"
+    ],
+    "rule": "A continuation carries the families and paths its original was dispatched with. The only new task is the South Dakota repair, and it exists because the audit named a defect, not because a lane was re-scoped."
+  },
+  "totals": {
+    "assignments": 4,
+    "familiesCovered": 0,
+    "familyClaims": 0,
+    "duplicateClaimsAcrossKinds": 0,
+    "commercialRoutesOpened": 0,
+    "productionTouched": false
+  },
+  "commercialPosture": "An environment contract opens nothing. These tasks build, repair and verify; none proves fulfillment authority and none opens a commercial route.",
+  "assignments": [
+    {
+      "assignmentId": "P2_WA_VACATUR_COMPLETENESS__CODEX_CLOUD",
+      "continues": "P2_WA_VACATUR_COMPLETENESS",
+      "continuesFrom": "data/rcap-grade-a/launch-control/COMPLETENESS_REPAIR_WAVE.json",
+      "lane": "completeness-repair",
+      "engine": "Codex Cloud",
+      "workerBranch": "work",
+      "branchIsNotChosen": "Codex Cloud names the branch. Do not rename it, and do not create another.",
+      "captainBaseSha": "98a7a57e2a354eeb8b33b3873e62f7a9785fedaf",
+      "supersedesBase": "33dfea59fe85b9dc86469d12e04fd65c51b480fa",
+      "whyTheBaseMoved": "The original base predates S1, S2 and the corrected completeness contract. A repair rendered against it would be measured by a contract that has since changed, and would fail the audit for a reason that is not the packet's.",
+      "scopeIsUnchanged": true,
+      "itemKind": "packetFamily",
+      "itemCount": 0,
+      "items": [],
+      "ownedPaths": [],
+      "prohibitedPaths": [
+        "scripts/build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs",
+        "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs",
+        "data/rcap-grade-a/launch-control/**",
+        "docs/rcap/grade-a/launch-control/**",
+        "data/rcap-grade-a/route-obligation-census-candidate/**",
+        "data/record-clearing/legal-decisions/**",
+        "supabase/migrations/**",
+        "package.json",
+        "package-lock.json",
+        ".github/workflows/**",
+        "private/**",
+        "data/rcap-grade-a/launch-control/**"
+      ],
+      "mission": "Repair 9 packet families that import neither S1 runner, so none of them waits for the post-S1 audit. They share one form family and one root cause; repair them together and re-render each against its pinned source.",
+      "builderObligations": [
+        "data/rcap-grade-a/wave-2/p2-wa-vacatur-completeness/rows.json — one row per family: itemId, status, counters before and after, every field newly written, and every blank newly given an approved disposition",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-cannabis-set--official-pdf-fill/ — the corrected production-field-map.json, the updated source-receipt.json, and re-rendered canonical and boundary fixtures with their page rasters",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-domestic-violence-set--official-pdf-fill/ — the corrected production-field-map.json, the updated source-receipt.json, and re-rendered canonical and boundary fixtures with their page rasters",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-felony-set--official-pdf-fill/ — the corrected production-field-map.json, the updated source-receipt.json, and re-rendered canonical and boundary fixtures with their page rasters",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/ — the corrected production-field-map.json, the updated source-receipt.json, and re-rendered canonical and boundary fixtures with their page rasters",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-misdemeanor-ordinary-set--official-pdf-fill/ — the corrected production-field-map.json, the updated source-receipt.json, and re-rendered canonical and boundary fixtures with their page rasters",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/ — the corrected production-field-map.json, the updated source-receipt.json, and re-rendered canonical and boundary fixtures with their page rasters",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-survivor-felony-set--official-pdf-fill/ — the corrected production-field-map.json, the updated source-receipt.json, and re-rendered canonical and boundary fixtures with their page rasters",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-survivor-misdemeanor-set--official-pdf-fill/ — the corrected production-field-map.json, the updated source-receipt.json, and re-rendered canonical and boundary fixtures with their page rasters",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-treaty-fishing-set--official-pdf-fill/ — the corrected production-field-map.json, the updated source-receipt.json, and re-rendered canonical and boundary fixtures with their page rasters"
+      ],
+      "requiredOutputs": [
+        "data/rcap-grade-a/wave-2/p2-wa-vacatur-completeness/rows.json — one row per family: itemId, status, counters before and after, every field newly written, and every blank newly given an approved disposition",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-cannabis-set--official-pdf-fill/ — the corrected production-field-map.json, the updated source-receipt.json, and re-rendered canonical and boundary fixtures with their page rasters",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-domestic-violence-set--official-pdf-fill/ — the corrected production-field-map.json, the updated source-receipt.json, and re-rendered canonical and boundary fixtures with their page rasters",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-felony-set--official-pdf-fill/ — the corrected production-field-map.json, the updated source-receipt.json, and re-rendered canonical and boundary fixtures with their page rasters",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/ — the corrected production-field-map.json, the updated source-receipt.json, and re-rendered canonical and boundary fixtures with their page rasters",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-misdemeanor-ordinary-set--official-pdf-fill/ — the corrected production-field-map.json, the updated source-receipt.json, and re-rendered canonical and boundary fixtures with their page rasters",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/ — the corrected production-field-map.json, the updated source-receipt.json, and re-rendered canonical and boundary fixtures with their page rasters",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-survivor-felony-set--official-pdf-fill/ — the corrected production-field-map.json, the updated source-receipt.json, and re-rendered canonical and boundary fixtures with their page rasters",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-survivor-misdemeanor-set--official-pdf-fill/ — the corrected production-field-map.json, the updated source-receipt.json, and re-rendered canonical and boundary fixtures with their page rasters",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-treaty-fishing-set--official-pdf-fill/ — the corrected production-field-map.json, the updated source-receipt.json, and re-rendered canonical and boundary fixtures with their page rasters",
+        "data/rcap-grade-a/codex-cloud/p2-wa-vacatur-completeness/rows.json — one row per family: itemId, status, the nine counters after your change"
+      ],
+      "stopConditions": [
+        "WEC-6: every stop below states its scope. A ROW stop records that family and continues; a LANE stop says why the rest are unsafe without it.",
+        "ACCEPTANCE — a family is repaired only when the completeness verifier returns PASS_COMPLETE with all nine counters at zero. A filing with a blank offence code is not 97 percent filable.",
+        "You own scripts/build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs because every script that imports it is one of your families. Changing it changes all of them, which is the point; measure every one of your families before and after.",
+        "ROW STOP — a required fact the platform genuinely does not hold is classified required_before_filing and surfaced in the packet's own participant instructions. A disposition without that surfacing is not an approved blank.",
+        "NEVER invent a fact to fill a field. A guessed arresting agency is worse than a blank one: the blank is visible and the guess is not.",
+        "NEVER write a protected field — participant signature, signature date, certificate of mailing before mailing, or any court-only or prosecutor-only field.",
+        "NEVER touch an S1 runner, an R8 family, or another lane's overlay directory.",
+        "NEVER re-commit a private-corpus binary. Bind from MASTER_LIBRARY_SOURCE_DIR and record the SHA-256."
+      ],
+      "returnFormat": [
+        "ASSIGNMENT:",
+        "BASE SHA:",
+        "COMMIT:",
+        "FAMILIES COMPLETED:",
+        "FAMILIES STOPPED:",
+        "NINE COUNTERS ZERO ON:",
+        "COMMERCIAL ROUTES OPENED: 0",
+        "PRODUCTION TOUCHED: NO",
+        "PREFLIGHT: PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
+        "DIFF LEFT FOR THE CODEX UI: YES"
+      ],
+      "grantsNothing": "A repaired packet is a complete packet. It is not independently verified, not visually reviewed, not legally approved, and not COMPLETE_PACKET_PROVEN.",
+      "promptFile": "docs/rcap/grade-a/launch-control/codex-cloud-prompts/P2_WA_VACATUR_COMPLETENESS__CODEX_CLOUD.md",
+      "status": "RETURNED_AND_INTEGRATED",
+      "returnRecord": {
+        "status": "RETURNED_AND_INTEGRATED",
+        "workerCommit": "ba1d0501d8fab684f7b5498f9242fdd121596536",
+        "integratedAs": "c055f20fc63b12c5cd998fa2171cda0519c6a6f1",
+        "result": "9 of 9 families PASS_COMPLETE, every counter zero, re-audited under the corrected contract",
+        "familiesNowHeldBy": "P2V01, P2V02 and P2V03 independent verification",
+        "note": "The assignment quoted commit 3b901f3358cf219b85b9bf1cf781b503a797781a, which is not an object in this repository and which the remote refuses as 'not our ref'. The integrated commit is the tip of the P2 worker branch; data/rcap-grade-a/launch-control/P2_WASHINGTON_VERIFICATION.json records both and the evidence that they are the same work.",
+        "aSecondWashingtonReturnExists": "origin/codex/execute-committed-codex-cloud-assignment at 4e9bea921, 'Repair Washington vacatur packet completeness', built on 40ccc028a and touching the same nine families in 30 files. It is NOT integrated: the nine families already return PASS_COMPLETE on every counter from the return that was integrated, and applying a second independent repair of the same packets on top would overwrite proven artifacts with unproven ones. It is recorded here so the choice is visible rather than lost."
+      },
+      "itemsAsDispatched": [
+        "wa_vac_cannabis-set",
+        "wa_vac_domestic_violence-set",
+        "wa_vac_felony-set",
+        "wa_vac_homicide_victim_prostitution-set",
+        "wa_vac_misdemeanor_ordinary-set",
+        "wa_vac_substance_use_disorder-set",
+        "wa_vac_survivor_felony-set",
+        "wa_vac_survivor_misdemeanor-set",
+        "wa_vac_treaty_fishing-set"
+      ],
+      "ownedPathsAsDispatched": [
+        "data/rcap-grade-a/wave-2/p2-wa-vacatur-completeness/**",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-cannabis-set--official-pdf-fill/**",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-domestic-violence-set--official-pdf-fill/**",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-felony-set--official-pdf-fill/**",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/**",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-misdemeanor-ordinary-set--official-pdf-fill/**",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/**",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-survivor-felony-set--official-pdf-fill/**",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-survivor-misdemeanor-set--official-pdf-fill/**",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-treaty-fishing-set--official-pdf-fill/**",
+        "scripts/build-census-v1-wa_vac_cannabis-set.mjs",
+        "scripts/build-census-v1-wa_vac_domestic_violence-set.mjs",
+        "scripts/build-census-v1-wa_vac_felony-set.mjs",
+        "scripts/build-census-v1-wa_vac_homicide_victim_prostitution-set.mjs",
+        "scripts/build-census-v1-wa_vac_misdemeanor_ordinary-set.mjs",
+        "scripts/build-census-v1-wa_vac_substance_use_disorder-set.mjs",
+        "scripts/build-census-v1-wa_vac_survivor_felony-set.mjs",
+        "scripts/build-census-v1-wa_vac_survivor_misdemeanor-set.mjs",
+        "scripts/build-census-v1-wa_vac_treaty_fishing-set.mjs",
+        "scripts/build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs",
+        "data/rcap-grade-a/codex-cloud/p2-wa-vacatur-completeness/**"
+      ]
+    },
+    {
+      "assignmentId": "R8_COMPLETENESS_REPAIR_PRIORITY_FOUR__CODEX_CLOUD",
+      "continues": "R8_COMPLETENESS_REPAIR_PRIORITY_FOUR",
+      "continuesFrom": "data/rcap-grade-a/launch-control/WAVE_2_ASSIGNMENTS.json",
+      "lane": "residual",
+      "engine": "Codex Cloud",
+      "workerBranch": "work",
+      "branchIsNotChosen": "Codex Cloud names the branch. Do not rename it, and do not create another.",
+      "captainBaseSha": "98a7a57e2a354eeb8b33b3873e62f7a9785fedaf",
+      "supersedesBase": "c8d912d9a1dea54043f6dbc2cda464d00946c74c",
+      "whyTheBaseMoved": "The original base predates S1, S2 and the corrected completeness contract. A repair rendered against it would be measured by a contract that has since changed, and would fail the audit for a reason that is not the packet's.",
+      "scopeIsUnchanged": true,
+      "itemKind": "packetFamily",
+      "itemCount": 0,
+      "items": [],
+      "ownedPaths": [],
+      "prohibitedPaths": [
+        "data/rcap-grade-a/launch-control/**",
+        "docs/rcap/grade-a/launch-control/**",
+        "data/record-clearing/legal-decisions/**",
+        "data/rcap-grade-a/route-obligation-census-v1/FREEZE.json",
+        "data/rcap-grade-a/route-obligation-census-candidate/**",
+        "data/rcap-ledger/**",
+        "supabase/migrations/**",
+        "package.json",
+        "package-lock.json",
+        ".github/workflows/**",
+        "private/**",
+        "data/rcap-grade-a/launch-control/**"
+      ],
+      "mission": "Repair the four families whose PASS was revoked, in priority order A to D, AFTER S1 has corrected the shared allowlist. Each has a complete per-field ledger in the repair plan: exactly which known facts must be written, which elections the route decides, which blanks need an approved disposition, and which components must render. Re-render each against its pinned source and prove it with the completeness verifier. You own each family's overlay directory and its own build script, so you can write every output this assignment requires.",
+      "builderObligations": [
+        "data/rcap-grade-a/wave-2/r8-completeness-repair-priority-four/rows.json — one row per family: itemId, status, counters before and after, and every field newly written or newly classified",
+        "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/production-field-map.json, source-receipt.json, fixtures/ and raster/ — the corrected field map, the updated receipt, and the re-rendered canonical and boundary artifacts",
+        "data/rcap-all50/overlays/census-v1/ca/ca-17b-reduction-set--official-pdf-fill/production-field-map.json, source-receipt.json, fixtures/ and raster/ — the corrected field map, the updated receipt, and the re-rendered canonical and boundary artifacts",
+        "data/rcap-all50/overlays/census-v1/ca/ca-1203-43-set--official-pdf-fill/production-field-map.json, source-receipt.json, fixtures/ and raster/ — the corrected field map, the updated receipt, and the re-rendered canonical and boundary artifacts",
+        "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-superior-court-set--official-pdf-fill/production-field-map.json, source-receipt.json, fixtures/ and raster/ — the corrected field map, the updated receipt, and the re-rendered canonical and boundary artifacts"
+      ],
+      "requiredOutputs": [
+        "data/rcap-grade-a/wave-2/r8-completeness-repair-priority-four/rows.json — one row per family: itemId, status, counters before and after, and every field newly written or newly classified",
+        "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/production-field-map.json, source-receipt.json, fixtures/ and raster/ — the corrected field map, the updated receipt, and the re-rendered canonical and boundary artifacts",
+        "data/rcap-all50/overlays/census-v1/ca/ca-17b-reduction-set--official-pdf-fill/production-field-map.json, source-receipt.json, fixtures/ and raster/ — the corrected field map, the updated receipt, and the re-rendered canonical and boundary artifacts",
+        "data/rcap-all50/overlays/census-v1/ca/ca-1203-43-set--official-pdf-fill/production-field-map.json, source-receipt.json, fixtures/ and raster/ — the corrected field map, the updated receipt, and the re-rendered canonical and boundary artifacts",
+        "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-superior-court-set--official-pdf-fill/production-field-map.json, source-receipt.json, fixtures/ and raster/ — the corrected field map, the updated receipt, and the re-rendered canonical and boundary artifacts",
+        "data/rcap-grade-a/codex-cloud/r8-completeness-repair-priority-four/rows.json — one row per family: itemId, status, the nine counters after your change"
+      ],
+      "stopConditions": [
+        "WEC-6: every stop condition below states its scope. A ROW stop records that row and continues to the next; a LANE stop is named as such and says why the remaining rows are unsafe or meaningless without it.",
+        "ACCEPTANCE — a family is repaired only when the completeness verifier returns PASS_COMPLETE with all nine counters at zero. There is no partial credit: a filing with a blank offence code is not 97 percent filable.",
+        "ROW STOP — a required fact the platform genuinely does not hold is classified REQUIRED_BEFORE_FILING and surfaced to the participant in the packet's own instructions. A disposition without that surfacing is not an approved blank.",
+        "NEVER invent a fact to fill a field. A guessed arresting agency is worse than a blank one, because the blank is visible and the guess is not.",
+        "NEVER write a protected field: participant signature, signature date, certificate of mailing before mailing, or any court-only or prosecutor-only field.",
+        "NEVER re-commit a private-corpus binary. Bind sources from MASTER_LIBRARY_SOURCE_DIR and record the SHA-256.",
+        "LANE STOP — do not start until S1 has landed. The two shared runners are S1's, not yours: runWestFamilyCli serves nine families and runEastFamily fifteen, and changing either from here would alter twenty families you were not asked to touch.",
+        "ROW STOP — a repair that cannot be completed without changing a shared runner stops and is reported to S1 rather than forking the runner."
+      ],
+      "returnFormat": [
+        "ASSIGNMENT:",
+        "BASE SHA:",
+        "COMMIT:",
+        "FAMILIES COMPLETED:",
+        "FAMILIES STOPPED:",
+        "NINE COUNTERS ZERO ON:",
+        "COMMERCIAL ROUTES OPENED: 0",
+        "PRODUCTION TOUCHED: NO",
+        "PREFLIGHT: PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
+        "DIFF LEFT FOR THE CODEX UI: YES"
+      ],
+      "grantsNothing": "Completing this assignment opens no commercial route, proves no packet and approves no output.",
+      "promptFile": "docs/rcap/grade-a/launch-control/codex-cloud-prompts/R8_COMPLETENESS_REPAIR_PRIORITY_FOUR__CODEX_CLOUD.md",
+      "status": "SPLIT_INTO_FOUR",
+      "returnRecord": {
+        "status": "SPLIT_INTO_FOUR",
+        "result": "returned 13/14 with zero files changed; the failure was one gate defect, not four family defects",
+        "familiesNowHeldBy": "R8A_NJ_DISORDERLY_PERSONS, R8B_CA_17B_REDUCTION, R8C_CA_1203_43, R8D_AZ_MARIJUANA_SUPERIOR_COURT",
+        "note": "See data/rcap-grade-a/launch-control/R8_FOUR_WAY_SPLIT.json for the per-family preflight before and after the gate correction."
+      },
+      "itemsAsDispatched": [
+        "nj_disorderly_persons-set",
+        "ca-17b-reduction-set",
+        "ca-1203-43-set",
+        "az_marijuana_expungement_superior_court-set"
+      ],
+      "ownedPathsAsDispatched": [
+        "data/rcap-grade-a/wave-2/r8-completeness-repair-priority-four/**",
+        "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/**",
+        "data/rcap-all50/overlays/census-v1/ca/ca-17b-reduction-set--official-pdf-fill/**",
+        "data/rcap-all50/overlays/census-v1/ca/ca-1203-43-set--official-pdf-fill/**",
+        "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-superior-court-set--official-pdf-fill/**",
+        "scripts/build-census-v1-nj_disorderly_persons-set.mjs",
+        "scripts/build-census-v1-ca-17b-reduction-set.mjs",
+        "scripts/build-census-v1-ca-1203-43-set.mjs",
+        "scripts/build-census-v1-az_marijuana_expungement_superior_court-set.mjs",
+        "data/rcap-grade-a/codex-cloud/r8-completeness-repair-priority-four/**"
+      ]
+    },
+    {
+      "assignmentId": "SD_ARREST_EXPUNGEMENT_DISCLOSURE_REPAIR__CODEX_CLOUD",
+      "continues": "P4_NE_SD_SETASIDE_COMPLETENESS",
+      "continuesFrom": "data/rcap-grade-a/launch-control/S2_CONTINUATION.json",
+      "lane": "completeness-repair",
+      "engine": "Codex Cloud",
+      "workerBranch": "work",
+      "branchIsNotChosen": "Codex Cloud names the branch. Do not rename it, and do not create another.",
+      "captainBaseSha": "98a7a57e2a354eeb8b33b3873e62f7a9785fedaf",
+      "scopeIsUnchanged": false,
+      "whyThisExists": "The S2 continuation left ten of eleven families complete. This is the eleventh, and its defect is one thing: nine fields are declared required before filing and the packet never asks the participant for them.",
+      "itemKind": "packetFamily",
+      "itemCount": 0,
+      "items": [],
+      "theExactDefect": {
+        "counter": "requiredFactsNotCollected",
+        "count": null,
+        "fields": [],
+        "why": "Each row declares requiredBeforeFiling and none is named in the packet's participant-instructions.md. A blank is permitted as required-before-filing only because the packet says so, and this packet does not say so."
+      },
+      "twoHonestOutcomes": [
+        "DISCLOSE — the fields really are the participant's to supply before filing, and participant-instructions.md must name each one in the participant's words.",
+        "RECLASSIFY — a statement of mailing is completed at or after mailing, so these may not be required-before-filing at all. If that is the answer, correct the declaration in the build script and say which disposition is right."
+      ],
+      "doNotSplitTheDifference": "Pick one per field and state why. A field disclosed in the instructions AND reclassified is a packet that says two things.",
+      "ownedPaths": [],
+      "prohibitedPaths": [
+        "scripts/rcap-packet-completeness/**",
+        "scripts/build-census-v1-ne-setaside-custodial-set.mjs",
+        "data/rcap-all50/overlays/census-v1/ne/**",
+        "data/rcap-all50/overlays/census-v1/ut/**",
+        "data/rcap-all50/overlays/census-v1/wv/**",
+        "data/rcap-grade-a/launch-control/**"
+      ],
+      "mission": "Close the one defect standing between sd_arrest_expungement-set and a complete packet: nine fields declared required before filing that the packet never asks the participant for. Change nothing else about this family and nothing at all about any other.",
+      "requiredOutputs": [
+        "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/participant-instructions.md — naming every field you disclose, in the participant's words",
+        "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/ — the family re-rendered after your change",
+        "data/rcap-grade-a/codex-cloud/sd-arrest-expungement-disclosure-repair/rows.json — one row per field: itemId, DISCLOSED or RECLASSIFIED, and why"
+      ],
+      "outputSchema": {
+        "arrayKey": "rows",
+        "itemKeyField": "itemId",
+        "completionVocabulary": [
+          "COMPLETED",
+          "STOPPED"
+        ],
+        "rule": "An unrecognised status is refused at integration rather than translated."
+      },
+      "focusedTests": [
+        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family sd_arrest_expungement-set",
+        "node scripts/verify-packet-build-environment.mjs --family sd_arrest_expungement-set --codex-cloud --minimum-captain-sha 98a7a57e2a354eeb8b33b3873e62f7a9785fedaf"
+      ],
+      "stopConditions": [
+        "LANE STOP — you do not change the completeness contract. It is fixed and you read it.",
+        "LANE STOP — one family. The other ten in the closure are complete and are not yours.",
+        "NEVER invent a fact. An unavailable fact is required_before_filing, disclosed to the participant, never guessed.",
+        "NEVER write a protected field — participant signature, signature date, certificate of mailing before mailing, or any court-only or prosecutor-only field.",
+        "ROW STOP — a field you can neither disclose honestly nor reclassify defensibly is a STOPPED row naming which it is and what is missing."
+      ],
+      "returnFormat": [
+        "ASSIGNMENT:",
+        "BASE SHA:",
+        "COMMIT:",
+        "FIELDS DISCLOSED:",
+        "FIELDS RECLASSIFIED:",
+        "FIELDS STOPPED:",
+        "NINE COUNTERS ZERO: YES/NO",
+        "COMMERCIAL ROUTES OPENED: 0",
+        "PRODUCTION TOUCHED: NO",
+        "PREFLIGHT: PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
+        "DIFF LEFT FOR THE CODEX UI: YES"
+      ],
+      "grantsNothing": "A complete packet is a complete packet. It is not independently verified, not approved for output, and it opens no route.",
+      "promptFile": "docs/rcap/grade-a/launch-control/codex-cloud-prompts/SD_ARREST_EXPUNGEMENT_DISCLOSURE_REPAIR__CODEX_CLOUD.md",
+      "status": "RETURNED_AND_INTEGRATED",
+      "returnRecord": {
+        "status": "RETURNED_AND_INTEGRATED",
+        "workerCommit": "0b36dd9a0",
+        "workerBranchFound": "codex/execute-codex-cloud-assignment-for-south-dakota",
+        "result": "all nine statement-of-mailing fields RECLASSIFIED, none disclosed; sd_arrest_expungement-set now PASS_COMPLETE with every counter zero",
+        "familiesNowHeldBy": "SDV01_SOUTH_DAKOTA_INDEPENDENT_VERIFICATION",
+        "note": "The reported commit 4c12fb7 is not an object in this repository. Reclassifying all nine rather than disclosing any is defensible for a statement of mailing, and it is exactly what SDV01 is asked to test."
+      },
+      "itemsAsDispatched": [
+        "sd_arrest_expungement-set"
+      ],
+      "ownedPathsAsDispatched": [
+        "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/**",
+        "scripts/build-census-v1-sd_arrest_expungement-set.mjs",
+        "data/rcap-grade-a/codex-cloud/sd-arrest-expungement-disclosure-repair/**"
+      ]
+    },
+    {
+      "assignmentId": "VS01_S2_CONTINUATION_INDEPENDENT_VERIFICATION__CODEX_CLOUD",
+      "continues": "VS01_S2_CONTINUATION_INDEPENDENT_VERIFICATION",
+      "continuesFrom": "data/rcap-grade-a/launch-control/S2_CONTINUATION.json",
+      "lane": "independent-verification",
+      "engine": "Codex Cloud",
+      "workerBranch": "work",
+      "branchIsNotChosen": "Codex Cloud names the branch. Do not rename it, and do not create another.",
+      "captainBaseSha": "98a7a57e2a354eeb8b33b3873e62f7a9785fedaf",
+      "supersedesBase": "98a7a57e2a354eeb8b33b3873e62f7a9785fedaf",
+      "scopeIsUnchanged": true,
+      "itemKind": "packetFamily",
+      "itemCount": 0,
+      "items": [],
+      "ownedPaths": [],
+      "prohibitedPaths": [
+        "data/rcap-all50/overlays/census-v1/**",
+        "scripts/build-census-v1-*.mjs",
+        "scripts/rcap-packet-completeness/**",
+        "data/rcap-grade-a/launch-control/**"
+      ],
+      "mission": "Verify independently that each family's packet is complete. The completeness audit says all nine counters are zero; you are asked whether that is true of the artifact, not whether the report says so.",
+      "proofObligations": [
+        "COMPLETENESS: recompute the nine counters from the family's own field map and rendered artifacts, and say whether each is zero",
+        "COMPLETENESS: every REQUIRED_BEFORE_FILING blank is named in participant-instructions.md, checked against the file rather than the count",
+        "COMPLETENESS: no fact the packet writes elsewhere in the same document is refused as required-before-filing",
+        "ARTIFACT: the canonical and boundary bytes hash to what the record names",
+        "SOURCE: every source the receipt names is exact, by form number or content hash",
+        "BOUNDARY: no protected field carries ink -- participant signature, signature date, certificate of mailing before mailing, court-only or prosecutor-only"
+      ],
+      "verdicts": [
+        "PASS_COMPLETE_INDEPENDENT",
+        "FAIL_REPAIR_REQUIRED",
+        "BLOCKED_SOURCE",
+        "BLOCKED_LEGAL_INPUT"
+      ],
+      "independenceRule": "You did not build these families and you may not repair them. A defect you find is a verdict, never an edit.",
+      "requiredOutputs": [
+        "data/rcap-grade-a/codex-cloud/s2-continuation-verify-01/rows.json — one row per family: itemId, verdict, the nine counters as you measured them, and the evidence read"
+      ],
+      "outputSchema": {
+        "arrayKey": "rows",
+        "itemKeyField": "itemId",
+        "completionVocabulary": [
+          "PASS_COMPLETE_INDEPENDENT",
+          "FAIL_REPAIR_REQUIRED",
+          "BLOCKED_SOURCE",
+          "BLOCKED_LEGAL_INPUT"
+        ],
+        "rule": "An unrecognised verdict is refused at integration rather than translated."
+      },
+      "focusedTests": [
+        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <familyId>",
+        "node scripts/verify-packet-build-environment.mjs --family <familyId> --codex-cloud --minimum-captain-sha 98a7a57e2a354eeb8b33b3873e62f7a9785fedaf"
+      ],
+      "stopConditions": [
+        "LANE STOP — you write into no overlay directory and no build script.",
+        "ROW STOP — a counter you cannot reproduce is a FAIL_REPAIR_REQUIRED naming the counter and the rows that make it nonzero, never a silent agreement with the audit."
+      ],
+      "returnFormat": [
+        "ASSIGNMENT:",
+        "BASE SHA:",
+        "COMMIT:",
+        "FAMILIES CLAIMED:",
+        "PASS_COMPLETE_INDEPENDENT:",
+        "FAIL_REPAIR_REQUIRED:",
+        "BLOCKED_SOURCE:",
+        "BLOCKED_LEGAL_INPUT:",
+        "OVERLAY DIRECTORIES MODIFIED: 0",
+        "COMMERCIAL ROUTES OPENED: 0",
+        "PRODUCTION TOUCHED: NO",
+        "PREFLIGHT: PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing",
+        "DIFF LEFT FOR THE CODEX UI: YES"
+      ],
+      "grantsNothing": "An independent PASS proves a packet is complete. It approves no output and opens no commercial route.",
+      "promptFile": "docs/rcap/grade-a/launch-control/codex-cloud-prompts/VS01_S2_CONTINUATION_INDEPENDENT_VERIFICATION__CODEX_CLOUD.md",
+      "status": "RETURNED_AND_INTEGRATED",
+      "returnRecord": {
+        "status": "RETURNED_AND_INTEGRATED",
+        "workerCommit": "b8886d64b",
+        "workerBranchFound": "codex/execute-codex-cloud-assignment",
+        "result": "4 of 4 PASS_COMPLETE_INDEPENDENT; 1 file changed, all inside the shard's own return directory; 0 overlay files",
+        "note": "The reported commit 6daf7b7 is not an object in this repository. The branch above carries the shard's return directory and nothing else."
+      },
+      "itemsAsDispatched": [
+        "sd_arrest_expungement-set"
+      ],
+      "ownedPathsAsDispatched": [
+        "data/rcap-grade-a/codex-cloud/s2-continuation-verify-01/**"
+      ]
+    }
+  ]
+}

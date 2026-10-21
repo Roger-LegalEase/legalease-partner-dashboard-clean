@@ -1,0 +1,82 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-worker-rows/v1",
+  "assignmentId": "PF10",
+  "workerId": "PF10",
+  "lane": "packet-build",
+  "engine": "model metadata unconfirmed",
+  "shiftBaseSha": "5b4026fc33ad0f4517e4a0df23025f40dec3db7b",
+  "returnFilename": "rows-pf10-ky-misdemeanor-20260911.json",
+  "rasterState": "BUILT_RASTER_PENDING",
+  "packetsSelfVerified": 0,
+  "verdictsIssued": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "rows": [
+    {
+      "itemId": "ky_misdemeanor_expungement-set",
+      "status": "COMPLETED",
+      "verdict": null,
+      "verdictIsNotMineToIssue": "The completeness result is the author's substantive tool run. Central raster and independent review remain pending.",
+      "jurisdiction": "KY",
+      "routeKeys": [
+        "obligation:track-pathway:KY:ky_misdemeanor_expungement:misdemeanor-violation-traffic-conviction"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/ky/ky-misdemeanor-expungement-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-ky_misdemeanor_expungement-set.mjs",
+      "helper": "scripts/rcap-packet-recovery/ky-misdemeanor.mjs",
+      "focusedTests": "scripts/rcap-packet-recovery/test-ky-misdemeanor.mjs",
+      "componentSet": [
+        "ky_misdemeanor_expungement-primary-filing-1",
+        "ky_misdemeanor_expungement-proposed-order-2 (conditional on confirmed local practice)",
+        "ky_misdemeanor_expungement-certification-attachment-3",
+        "ky_misdemeanor_expungement-filing-instructions-4"
+      ],
+      "sources": [
+        {
+          "documentId": "AOC-496.2",
+          "sha256": "5d1ca608d94911a3f2fa0ed168ea43da2d72e685b85c48b3c220ed5ea6896bde",
+          "boundBy": "exact_content_sha256"
+        },
+        {
+          "documentId": "AOC-496",
+          "sha256": "4c4658780c576300d55f0262fd2455d6eae2a9b2d3e73972dece8a834ea1fdbd",
+          "boundBy": "exact_content_sha256"
+        }
+      ],
+      "elections": {
+        "Check Box19": "ordinary five-year route after later sentence/probation completion for record-confirmed misdemeanor, violation, or qualifying traffic conviction",
+        "Check Box20": "first controlled-substances conviction expressly voided under KRS 218A.275(8)",
+        "Check Box21": "marijuana, synthetic-drug, or salvia conviction expressly voided under KRS 218A.276(8)",
+        "failureMode": "missing, ambiguous, inconsistent, or multiple grounds stop before any artifact is written"
+      },
+      "courtOwnership": "AOC-496 Check Box2-8 and both Check Box9 widgets remain blank in delivered bytes; findings, disposition, execution, and certifications remain judicial/clerk/agency owned.",
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "authorQa": "25 passed, 0 failed; five real-entrypoint positive elections, exact date boundary, twelve fail-closed cases, delivered-byte judicial blankness, both source mismatch rejections, import purity, --check, and completeness",
+      "completeness": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ky_misdemeanor_expungement-set -> PASS_COMPLETE, 45/66 written, nine zero counters",
+      "determinism": "Two consecutive production builds produced identical whole-output-tree digest 790878561be58fe22cc7a3977c6b0cfabda7d9dfe4f47242fe48eed4a214434f.",
+      "artifacts": [
+        {"fixture": "canonical", "sha256": "eb3bc4e0488d99afbdf0127c4c303bc14e0c87b18a2d237e20373c51074a48c1", "pageCount": 5},
+        {"fixture": "boundary", "sha256": "eadcc7f7669e5e58a928eaa10614be774a2d9666c8c714b28211142d998bafca", "pageCount": 7},
+        {"fixture": "elections/ordinary-violation", "sha256": "f2b453fe2ea3258a0d0845c6e004f7b5252f0fe0073f33ba542f4e27bcee12ee", "pageCount": 5},
+        {"fixture": "elections/ordinary-traffic", "sha256": "78cd4f083c891bf6c42e3b8fd4fcb918eb78977cd8115c42a59ab3728f304346", "pageCount": 5},
+        {"fixture": "elections/void-218A275-8", "sha256": "f043260ef4a90b042b221732248e2658f7b2509a44ef49e46f3e515ecfa4d810", "pageCount": 5},
+        {"fixture": "elections/void-218A276-8", "sha256": "8cabc7383053d36d3eb683797816996e85d958be63fde7d238f67c06ec61f451", "pageCount": 5}
+      ],
+      "refundQuestion": "Preserved as unresolved. The guide states the source conflict, promises no refund, and directs confirmation before reliance.",
+      "rasterStatus": "RASTER_PENDING",
+      "independentReviewStatus": "PENDING",
+      "evidence": "data/rcap-grade-a/packet-factory-24h/pf10/ky-misdemeanor-20260911/verification.json"
+    }
+  ]
+}

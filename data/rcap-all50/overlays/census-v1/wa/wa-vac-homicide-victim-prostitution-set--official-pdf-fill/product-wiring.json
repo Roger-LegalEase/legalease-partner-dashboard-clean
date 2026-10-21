@@ -1,0 +1,78 @@
+{
+  "schemaVersion": "rcap-family-product-wiring/v1",
+  "familyId": "wa_vac_homicide_victim_prostitution-set",
+  "routeKeys": [
+    "obligation:track-only:WA:wa_vac_homicide_victim_prostitution"
+  ],
+  "implementationStrategy": "official_pdf_fill",
+  "fieldMap": "data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/production-field-map.json",
+  "generationAllowed": false,
+  "runtimeSelectable": false,
+  "commercialRoutesOpened": 0,
+  "createsFulfillmentRecord": false,
+  "opensCommercialRoute": false,
+  "intendedOverlayDestination": "data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/product-wiring.json",
+  "integrationStatus": "INSTALLED_BY_CAPTAIN",
+  "note": "Integration-ready repair payload only. This record grants no runtime, commercial, fulfillment, eligibility, branch-selection, or approval authority.",
+  "installedFrom": "data/rcap-grade-a/wave-2/r7-packet-repair/product-wiring/wa_vac_homicide_victim_prostitution-set/product-wiring.json",
+  "installedBy": "WAVE_2_INTEGRATION_CHECKPOINT",
+  "binding": {
+    "family": "wa_vac_homicide_victim_prostitution-set",
+    "jurisdiction": "WA",
+    "routeKeys": [
+      "obligation:track-only:WA:wa_vac_homicide_victim_prostitution"
+    ],
+    "deliveryType": "custom_pleading",
+    "instrumentKinds": [
+      "filing_instructions",
+      "primary_filing",
+      "proposed_order"
+    ],
+    "packetComponents": [
+      "component:wa_vac_homicide_victim_prostitution-primary-filing-1",
+      "component:wa_vac_homicide_victim_prostitution-proposed-order-2"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "34791366441",
+      "jobId": "103816771658",
+      "artifactId": "10328373441",
+      "boundToCanonicalSha256": "89e365937729d7d03b84227fed09dc323ffe0742e4de8829a7a30b4e97597afe",
+      "coversTheWholeFamily": true
+    },
+    "lastIndependentVerification": {
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vfwacustomfinal2",
+      "verifiedAtBase": "4a5d8e352da29931b0b92f8b379e2b33bf603f06"
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-wa_vac_homicide_victim_prostitution-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    },
+    "acceptanceReceiptWithdrawn": [
+      {
+        "why": "This write authored a different acceptance receipt. The superseded receipt is kept as history rather than overwritten; it is not carried forward as though it still applied.",
+        "boundToCanonicalSha256": "846360e75578ce6233dba77b03b25545a529b50cd553ad31f88d3008b429a6ad",
+        "replacedByCanonicalSha256": "89e365937729d7d03b84227fed09dc323ffe0742e4de8829a7a30b4e97597afe",
+        "withdrawnReceipt": {
+          "verdict": "RASTER_PASS",
+          "workflowRunId": "33497786539",
+          "jobId": "99824472439",
+          "artifactId": "9796685838",
+          "boundToCanonicalSha256": "846360e75578ce6233dba77b03b25545a529b50cd553ad31f88d3008b429a6ad",
+          "coversTheWholeFamily": true
+        }
+      }
+    ]
+  }
+}

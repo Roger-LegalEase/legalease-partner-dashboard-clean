@@ -1,0 +1,20 @@
+$ node --check scripts/rcap-raster-batch.mjs
+PASS
+$ node --check scripts/raster/test-unlock-encrypted-pdf-livecycle.mjs
+PASS
+$ RCAP_PIKEPDF_PYTHON=<pikepdf-python> node scripts/raster/test-unlock-encrypted-pdf-livecycle.mjs
+CR430INFO_RASTER_INPUT_PASS pages=4 source=6bee01e04b1f8ceb05776e07b90b92a4e9048777c41c78760e381348d4d287c0 derivative=56079d2320584377d0f2429b2ed0c13b29b838d22e1122895236c5fc2be26e26
+$ PYTHONDONTWRITEBYTECODE=1 python3 scripts/rcap-packet-recovery/test-full-set-raster-admission.py
+  admitted a three-document family whose receipt covers every document (4 page image(s))
+  refused  page images filed by role rather than by document
+  refused  a page whose kind contradicts its document's role
+  refused  a verdict that rendered fewer documents than the family declares
+  refused  a queue row carrying fewer documents than the receipt
+  refused  the same page measured twice under two documents
+  refused  a pinned pair that names bytes no rendered document carries
+  refused  a document declared twice
+  refused  a declared set with no boundary at all
+  admitted a two-document config with no expectedDocuments, derived as before (3 page image(s))
+  refused  three rendered documents with only a pair declared
+
+full-set raster admission: 11 control(s) held.

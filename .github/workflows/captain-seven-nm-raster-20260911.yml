@@ -1,0 +1,22 @@
+name: Captain one-shot New Mexico current-byte raster
+on:
+  push:
+    branches: [claude/legalease-sprint-captain-utucnw]
+    paths: [.github/workflows/captain-seven-nm-raster-20260911.yml]
+permissions:
+  actions: write
+  contents: read
+jobs:
+  dispatch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'rcap-packet-raster-acceptance-batch.yml',
+              ref: "claude/legalease-sprint-captain-utucnw",
+              inputs: {"commit_sha": "2b927a4331b473ccf48080e95b3fb0e19a9bc87f", "raster_manifest_path": "data/rcap-grade-a/packet-factory-24h/seven-cleared-20260911/nm/raster-manifest.json", "family_batch": "nm_conviction-set,nm_identity_theft-set,nm_release_without_conviction-set", "requested_scale": "2.5"}
+            });

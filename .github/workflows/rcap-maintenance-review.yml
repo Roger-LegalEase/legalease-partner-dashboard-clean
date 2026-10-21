@@ -1,0 +1,65 @@
+# Recurring route-maintenance review packet.
+#
+# One weekly cron serves three cadences: the script resolves scope "auto" by
+# date (first seven days of a quarter month -> quarterly, first seven days of
+# any other month -> monthly, otherwise weekly), and workflow_dispatch can
+# force any scope. The script ASSEMBLES the packet from records that already
+# exist — open source-change-review issues, the launch graph's unfinished
+# routes, the route-holds record, the defect registers — and publishes it as a
+# run artifact plus a step summary.
+#
+# No state changes: nothing is committed, no hold is placed or released, no
+# issue is opened or closed, no route state is touched. The packet is an input
+# to a human review; the decisions belong to the people in it.
+name: RCAP Maintenance Review
+
+on:
+  schedule:
+    - cron: "43 13 * * 1"
+  workflow_dispatch:
+    inputs:
+      scope:
+        description: "Review scope"
+        required: true
+        default: weekly
+        type: choice
+        options:
+          - weekly
+          - monthly
+          - quarterly
+
+permissions:
+  contents: read
+  issues: read
+
+concurrency:
+  group: rcap-maintenance-review
+  cancel-in-progress: false
+
+jobs:
+  assemble:
+    name: Assemble the review packet
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Assemble packet
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RCAP_REVIEW_SCOPE: ${{ inputs.scope || 'auto' }}
+        run: node scripts/rcap-maintenance-review.mjs --out maintenance-review
+
+      - name: Upload review packet
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rcap-maintenance-review-${{ github.run_id }}
+          path: maintenance-review/
+          if-no-files-found: error
+          retention-days: 400

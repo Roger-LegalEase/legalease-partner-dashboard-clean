@@ -1,0 +1,77 @@
+{
+ "schemaVersion": "rcap-packet-factory-24h-lane-checkpoints/v1",
+ "assignmentId": "FIX01",
+ "workerId": "FIX01",
+ "workerBranch": "fix01-clip-20260909",
+ "shift": "fix01-clip-20260909",
+ "laneKind": "rapid-repair, five families sharing one obligation name",
+ "checkpointRule": "Commit and push each family as it finishes. The diagnosis was returned to the Captain before any repair, because it decides how the rest of the failing bucket is staffed.",
+ "checkpoints": [
+  {
+   "n": 1,
+   "what": "Claim gate. All five asserted on FIX01 before any artifact of theirs was read \u2014 node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 '<familyId>' \u2014 each CLAIM_OK under grant set 0aa4a25b7880f293. None refused, so no BLOCKED_BEFORE_CLAIM.",
+   "familiesCompletedAtThisPoint": [],
+   "pushed": false
+  },
+  {
+   "n": 2,
+   "what": "Diagnosis returned before any repair: THREE causes, not one and not five. Cause A (pdf-lib regenerating an appearance the source already carried, then flattening it) covers CA, MD and MO; cause B is FL's flat-overlay geometry; cause C is AR's BBox overflow. Reported with the second finding that reset the shift's scope \u2014 CA, AR and FL's phone collision already carried their repair at HEAD, so only MD and MO were still broken as recorded.",
+   "familiesCompletedAtThisPoint": [],
+   "pushed": false
+  },
+  {
+   "n": 3,
+   "what": "Maryland and Missouri repaired at the cause. Both builders now import suppressSynthesizedSelectionAppearances from the shared rcap-active-content.mjs instead of carrying an unsuppressed updateFieldAppearances() in a private flattenWithoutDeleting(); the module itself was not modified and no third copy was created. Measured on the delivered bytes: stroke-only flattened widget appearances 56 to 6 on Maryland (the 50 VF20 counted) and 29 to 0 on Missouri (VF20's corrected count). Also replaced the source-authored literal 0 for addedGlyphsReadFromOutputBytes in both.",
+   "familiesCompletedAtThisPoint": [
+    "md_pardon_expungement-set",
+    "mo-art-xiv-marijuana-set"
+   ],
+   "commits": [
+    "0c4c6f264",
+    "ef56ba659"
+   ],
+   "pushed": true
+  },
+  {
+   "n": 4,
+   "what": "California re-measured. The two output-byte readings the verifier looks for were added once in the shared CA path verifyCaArtifact(), not in five builders, moving the family from NOT_MEASURABLE_HERE with two null counters to a measured reading on all nine. Every fixture digest is unchanged, which proves this was a measurement rather than a repair and that sibling CA families are byte-unaffected. I also checked whether the geometry reading would have caught the banner VF05 scored \u2014 it would not have, because the banner draws at a census widget's own rect \u2014 corrected the comment that claimed otherwise, and added the reading that does have teeth (126 glyphs at 4 widgets on the pre-FIX14 bytes, 0 now).",
+   "familiesCompletedAtThisPoint": [
+    "md_pardon_expungement-set",
+    "mo-art-xiv-marijuana-set",
+    "ca-17b-reduction-set"
+   ],
+   "commits": [
+    "034b96005"
+   ],
+   "pushed": true
+  },
+  {
+   "n": 5,
+   "what": "Arkansas re-measured, no byte and no code changed. Its clipping repair is confirmed closed three ways on its own bytes: 34 writes with none exceeding its usable width, 10 values refused rather than truncated at exactly the two fields VF05 named, and zero remaining collisions among the words VF05 named when its own pdftotext -bbox method is re-run. Its OTHER obligation, REQUIRED_BEFORE_FILING, is measured STILL OPEN and is not closed by this lane: the decisive Sex/Race label is fixed, but 33 of the 66 required items still carry a fragment label and 3 of VF05's named fragments survive verbatim.",
+   "familiesCompletedAtThisPoint": [
+    "md_pardon_expungement-set",
+    "mo-art-xiv-marijuana-set",
+    "ca-17b-reduction-set",
+    "ar-drug-court-set"
+   ],
+   "pushed": true
+  },
+  {
+   "n": 6,
+   "what": "Florida STOPPED, BLOCKED_SOURCE. Its bound source binary FDLE40-028, sha256 d9417ea3\u2026, is not present anywhere in this container and the whole staging root the receipt names is absent, so the builder refuses at scripts/build-census-v1-fl-early-juvenile-set.mjs:101. I confirmed one of the two open collision groups directly on the committed bytes (page-3 surname over the printed 'Name:' heading, 6.96 x 6.78 pt, both fixtures) but the repair is a geometry change the reviewer explicitly says must not be solved by moving a rectangle alone and must be tested on both full packets. Without the source I cannot rebuild, re-render or measure new positions against the form's printed ink, so the family stops with the exact question rather than receiving a plausible answer.",
+   "familiesCompletedAtThisPoint": [
+    "md_pardon_expungement-set",
+    "mo-art-xiv-marijuana-set",
+    "ca-17b-reduction-set",
+    "ar-drug-court-set"
+   ],
+   "familiesStopped": [
+    "fl-early-juvenile-set"
+   ],
+   "pushed": true
+  }
+ ],
+ "claimsReleased": "none. All five grants remain held on FIX01. Releases are the Captain's and this lane transfers nothing.",
+ "verdictsSet": "none",
+ "productionTouched": false
+}

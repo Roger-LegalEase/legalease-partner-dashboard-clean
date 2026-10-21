@@ -1,0 +1,413 @@
+{
+  "schemaVersion": "rcap-packet-factory-lane-return/v2",
+  "lane": "FIX94",
+  "laneKind": "repair",
+  "status": "BLOCKED_SOURCE_CUSTODY_NOT_MOUNTED",
+  "repairedByThisLane": false,
+  "repairedByThisLaneIsFalseBecause": "A repair is a repaired packet. This lane could not open a single official source, so no packet was rebuilt and every delivered byte under all five family directories is unchanged from b70ec78ef. Two builders were repaired in source and neither has ever been executed.",
+  "builderSourceRepairedByThisLane": [
+    "il-exp-nonconv-set",
+    "il-cannabis-vacate-set"
+  ],
+  "builderSourceAlreadyRepairedByEarlierLanesAndStillNeverRun": [
+    "il-exp-qualprob-set",
+    "il-seal-2yr-set",
+    "il-seal-3yr-set"
+  ],
+  "base": "b70ec78ef",
+  "branch": "fix94-il-singles-five",
+  "grantsAsserted": {
+    "grantSet": "67cf9be4da69e86d",
+    "families": [
+      "il-exp-nonconv-set",
+      "il-exp-qualprob-set",
+      "il-seal-2yr-set",
+      "il-seal-3yr-set",
+      "il-cannabis-vacate-set"
+    ],
+    "allOk": true,
+    "released": false
+  },
+  "blockedOn": "SOURCE_CUSTODY_NOT_MOUNTED",
+  "blockedOnDetail": "Every official source these five families need is indexed under custody nationwide_recovery_pool_2026_09_02, whose root private/source-imports/Nationwide_Recovery_Pool_2026-09-02 does not exist in this container. resolveSources stops at \"source custody is not mounted\" for all five builders. The bytes are in no mounted custody (the Master Library at MASTER_LIBRARY_SOURCE_DIR holds none of the eight hashes), in no release asset of Roger-LegalEase/legalease-source-artifacts@source-corpus-2026-08-28, and nowhere on this filesystem (a search by each source's exact byte length returned nothing). The issuing host ilcourtsaudio.blob.core.windows.net, named as the officialSourceUrl in data/rcap-grade-a/packet-factory-24h/disc01/CODEX_CS2_SRC1_ACQUISITION.json, is refused by this session's egress policy (CONNECT 403). This is the operational blocker recorded at docs/rcap/grade-a/captain/OWNER_DECISION_PACKAGE_2026-09-05.md section D, \"Illinois and Alabama recovery-pool mount: builds blocked until the corpus mount is present.\" It is not a counsel question.",
+  "counselQuestionsRaised": 0,
+  "counselQuestionsRaisedNote": "None. docs/rcap/grade-a/captain/OWNER_DECISION_PACKAGE_2026-09-05.md names no family held by this lane; the blocker it does record for these builds is operational, in section D.",
+  "whatWasInspected": [
+    "All five grants asserted through scripts/grade-a-packet-factory-24h/claim.mjs; all five returned CLAIM_OK and none was released.",
+    "Each family's MASTER_QUEUE.json row, its selectedIndependentVerdict, and every failed obligation's finding read from the named evidencePath (vf01, vf02 and the two codex-cloud batch reads) rather than from the queue's own null findings.",
+    "data/record-clearing/legal-design-intake/IL.memo.json, the five tracks in legal-design-track-registry.json, and the packet-set manifests, for component order and the record's own fee, waiver, service, notice, filing and required-before-filing wording.",
+    "docs/rcap/grade-a/captain/OWNER_DECISION_PACKAGE_2026-09-05.md in full.",
+    "All five builders read line by line; three carry complete unrun repairs from earlier lanes and two did not.",
+    "The repaired il-exp-nonconv-set classifier exercised offline over the complete recorded field inventory of all five of its documents (469 fields from the committed production-field-map.json): every charge cell rejects the case number, row 1 of each Request table is complete, all 194 unused slots are wholly blank and disposed, all five clerk case-number captions are court-owned, and no field is left unclassified.",
+    "Both repaired builders' --self-test run against the delivered artifacts; both fail loudly, which is the correct reading of bytes that are still the faulted ones.",
+    "The nine counters measured for all five families on the delivered bytes; all read zero over packets an independent read faulted, which is the blind spot VF01 recorded, not a pass.",
+    "No page was rastered: nothing new was rendered to raster."
+  ],
+  "siblingIdentity": {
+    "method": "sha256 of the sorted per-file sha256 list over data/rcap-all50/overlays",
+    "digest": "33eb7681f7dea2b383303f61570f96d7f5c2ed6bec79eee6db1e7e3ec3b8e6c0",
+    "everyFamilyDirectoryByteIdenticalToBase": true,
+    "note": "git diff against b70ec78ef over data/rcap-all50/overlays is empty. This lane changed no artifact at all, its own five families included; the only working-tree changes are two builder scripts."
+  },
+  "nextExecutableAction": "Mount the nationwide_recovery_pool_2026_09_02 custody (or publish it as a release asset the bootstrap can resolve), then re-dispatch this lane: run each of the five builders twice, run verify-packet-completeness, raster and inspect, and let an independent lane read the result. Nothing else in this repair is waiting on anything.",
+  "productionTouched": false,
+  "commercialRoutesOpened": 0,
+  "rows": [
+    {
+      "familyId": "il-exp-nonconv-set",
+      "lane": "FIX94",
+      "status": "BLOCKED_SOURCE_CUSTODY_NOT_MOUNTED",
+      "blockedOn": "SOURCE_CUSTODY_NOT_MOUNTED",
+      "blockedOnDetail": "Every official source these five families need is indexed under custody nationwide_recovery_pool_2026_09_02, whose root private/source-imports/Nationwide_Recovery_Pool_2026-09-02 does not exist in this container. resolveSources stops at \"source custody is not mounted\" for all five builders. The bytes are in no mounted custody (the Master Library at MASTER_LIBRARY_SOURCE_DIR holds none of the eight hashes), in no release asset of Roger-LegalEase/legalease-source-artifacts@source-corpus-2026-08-28, and nowhere on this filesystem (a search by each source's exact byte length returned nothing). The issuing host ilcourtsaudio.blob.core.windows.net, named as the officialSourceUrl in data/rcap-grade-a/packet-factory-24h/disc01/CODEX_CS2_SRC1_ACQUISITION.json, is refused by this session's egress policy (CONNECT 403). This is the operational blocker recorded at docs/rcap/grade-a/captain/OWNER_DECISION_PACKAGE_2026-09-05.md section D, \"Illinois and Alabama recovery-pool mount: builds blocked until the corpus mount is present.\" It is not a counsel question.",
+      "rebuiltThisLane": false,
+      "deliveredBytesChangedThisLane": false,
+      "selectedIndependentVerdict": {
+        "lane": "current-byte-independent-verification-il-tx-batch-018",
+        "verifiedAtBase": "018cd558455454ca44e7deac8efa7b0e881375d3",
+        "evidencePath": "data/rcap-grade-a/codex-cloud/current-byte-independent-verification-il-tx-batch-018/rows.json"
+      },
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP",
+        "KNOWN_PREFILLS",
+        "PROTECTED_FIELDS",
+        "REPEATING_ROWS",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "obligationsRepaired": [],
+      "obligationsRepairedInBuilderSourceOnly": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "repair": "knownValue's `/case number/ && !/arrest/` catch-all removed. All 27 charge cells (ten on Request page 2, ten on page 4, seven on the Additional Cases continuation) received matter.case_number because every field named \"List all charges for each case number - N\" contains \"case number\" and not \"arrest\". Row 1 of each Request table now receives matter.charge and nothing else does."
+        },
+        {
+          "obligation": "REPEATING_ROWS",
+          "repair": "Rows after the first are wholly blank rather than charge-only, and are classified OPTIONAL_PARTICIPANT_CONTENT. The Additional Cases continuation grid stays wholly blank while one record fits the Request. The Case List's arrest1..arrest70 are read as seventy successive rows each asking only for another arrest or case number, not as five columns of one row, so only arrest1 is written."
+        },
+        {
+          "obligation": "PROTECTED_FIELDS",
+          "repair": "clerkCaseNumber (/^\\d+ - Case Number$/i) is refused as court-owned on all five documents: Request 7, Case List 7, Additional Cases 7, Order 7 and FW-CIV 4."
+        },
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "repair": "safeSet, which sliced to /MaxLen, shrank to 6pt and appended an ellipsis, is replaced by setComplete: it removes /MaxLen, shrinks to 5.5pt, enables multiline where the widget is tall enough, and asserts the whole value survived. It writes the complete value or refuses."
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "repair": "participant-instructions.md now prints registry tracks[il-exp-nonconv].packetSet.requiredBeforeFiling in the record's own words, adds what a further case row requires cell by cell, and carries that track's own fees, feeWaiver, service, notice and filing sentences; filing-instructions.md carries the same fee, waiver, service and destination sentences."
+        }
+      ],
+      "countersAfter": null,
+      "countersAfterIsNullBecause": "No rebuild happened, so there are no after-counters. The nine counters below were measured on the UNREPAIRED delivered bytes and must not be read as evidence of repair.",
+      "countersMeasuredOnUnrepairedDeliveredBytes": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "measuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-exp-nonconv-set",
+        "result": "PASS_COMPLETE",
+        "warning": "All nine read zero over bytes an independent read faulted. VF01 recorded this blind spot for these families: the counter engine trusts the declared fact-to-field mapping and its own visualDefects flag, so it does not see case numbers mapped into charge columns, partly written rows, ellipsized held values, or a packet assembled out of manifest order."
+      },
+      "obligationsThisRowDoesNotDischarge": [],
+      "allNamedObligationsRemainUndischargedBecause": "This lane rebuilt nothing. Every obligation the selected independent verdict failed is still failed in the delivered bytes.",
+      "determinism": {
+        "rebuildsAttempted": 0,
+        "byteIdentical": null,
+        "note": "The two required rebuilds could not be attempted; the builder stops before opening any source."
+      },
+      "newDigests": null,
+      "deliveredDigestsUnchanged": {
+        "canonical": "be547c0bcdbc98cbcc2b2b9f5675220d478c01085474ca960ce2cda58d7cc5ba",
+        "boundary": "eb99fb60f6d8825d6d9e363e852b78c49039b2f40cc3fa61adb427af14c44ba5",
+        "sameAs": "b70ec78ef"
+      },
+      "builderSha256": "3ddbe12a2554360df2438e1c78445305f5455291d6b1b4793035a1b37f4f2792",
+      "rasterInspection": {
+        "performed": false,
+        "reason": "There is nothing new to raster; the delivered pages are the ones already faulted."
+      }
+    },
+    {
+      "familyId": "il-exp-qualprob-set",
+      "lane": "FIX94",
+      "status": "BLOCKED_SOURCE_CUSTODY_NOT_MOUNTED",
+      "blockedOn": "SOURCE_CUSTODY_NOT_MOUNTED",
+      "blockedOnDetail": "Every official source these five families need is indexed under custody nationwide_recovery_pool_2026_09_02, whose root private/source-imports/Nationwide_Recovery_Pool_2026-09-02 does not exist in this container. resolveSources stops at \"source custody is not mounted\" for all five builders. The bytes are in no mounted custody (the Master Library at MASTER_LIBRARY_SOURCE_DIR holds none of the eight hashes), in no release asset of Roger-LegalEase/legalease-source-artifacts@source-corpus-2026-08-28, and nowhere on this filesystem (a search by each source's exact byte length returned nothing). The issuing host ilcourtsaudio.blob.core.windows.net, named as the officialSourceUrl in data/rcap-grade-a/packet-factory-24h/disc01/CODEX_CS2_SRC1_ACQUISITION.json, is refused by this session's egress policy (CONNECT 403). This is the operational blocker recorded at docs/rcap/grade-a/captain/OWNER_DECISION_PACKAGE_2026-09-05.md section D, \"Illinois and Alabama recovery-pool mount: builds blocked until the corpus mount is present.\" It is not a counsel question.",
+      "rebuiltThisLane": false,
+      "deliveredBytesChangedThisLane": false,
+      "selectedIndependentVerdict": {
+        "lane": "vf01",
+        "verifiedAtBase": "fbd22ae2ce6688d5a721c3ecfc2d1d649ac6269e",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
+      },
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP",
+        "KNOWN_PREFILLS",
+        "REPEATING_ROWS",
+        "SERVICE"
+      ],
+      "obligationsRepaired": [],
+      "obligationsAlreadyRepairedInBuilderSourceByAnEarlierLane": {
+        "commit": "4a7311766",
+        "obligations": [
+          "KNOWN_PREFILLS",
+          "REPEATING_ROWS",
+          "CLIPPING_AND_OVERLAP",
+          "SERVICE"
+        ],
+        "readByThisLane": true,
+        "note": "The carve-out repairs all four in source and its own header records that it was never run for the same custody reason. This lane added nothing and could not run it either."
+      },
+      "openQuestionThisLaneDidNotDecide": "VF01's KNOWN_PREFILLS finding includes \"the inactive sealing table is populated\", but the carve-out still writes row 1 of the Request's page-4 sealing table and its self-test fixes that at 2. il-exp-supervision-set, the one family on these forms an independent read passed COMPLETE_PACKET_PROVEN, does the same. The repaired il-seal-2yr-set and il-seal-3yr-set take the mirrored view and blank the inactive table. Two independent readers disagree about what section 4 asks of an expungement petitioner and the form's own bytes are unreachable here, so this lane left the treatment exactly as it stands.",
+      "countersAfter": null,
+      "countersAfterIsNullBecause": "No rebuild happened, so there are no after-counters. The nine counters below were measured on the UNREPAIRED delivered bytes and must not be read as evidence of repair.",
+      "countersMeasuredOnUnrepairedDeliveredBytes": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "measuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-exp-qualprob-set",
+        "result": "PASS_COMPLETE",
+        "warning": "All nine read zero over bytes an independent read faulted. VF01 recorded this blind spot for these families: the counter engine trusts the declared fact-to-field mapping and its own visualDefects flag, so it does not see case numbers mapped into charge columns, partly written rows, ellipsized held values, or a packet assembled out of manifest order."
+      },
+      "obligationsThisRowDoesNotDischarge": [],
+      "allNamedObligationsRemainUndischargedBecause": "This lane rebuilt nothing. Every obligation the selected independent verdict failed is still failed in the delivered bytes.",
+      "determinism": {
+        "rebuildsAttempted": 0,
+        "byteIdentical": null,
+        "note": "The two required rebuilds could not be attempted; the builder stops before opening any source."
+      },
+      "newDigests": null,
+      "deliveredDigestsUnchanged": {
+        "canonical": "24ae04d570ecd6e796f30b580b68d22e8870e1ea2a321204c266fc55941e6fe3",
+        "boundary": "21731bad31dd1cb7340d13bbdfae9d5ec3d3b914948ad25b16d1240fbf93f62e",
+        "sameAs": "b70ec78ef"
+      },
+      "builderSha256": "82c2738bcc8c2d5c85aefa4e44e97301b3ba96a2d362860bbc2cf31ef1de24ae",
+      "rasterInspection": {
+        "performed": false,
+        "reason": "There is nothing new to raster; the delivered pages are the ones already faulted."
+      }
+    },
+    {
+      "familyId": "il-seal-2yr-set",
+      "lane": "FIX94",
+      "status": "BLOCKED_SOURCE_CUSTODY_NOT_MOUNTED",
+      "blockedOn": "SOURCE_CUSTODY_NOT_MOUNTED",
+      "blockedOnDetail": "Every official source these five families need is indexed under custody nationwide_recovery_pool_2026_09_02, whose root private/source-imports/Nationwide_Recovery_Pool_2026-09-02 does not exist in this container. resolveSources stops at \"source custody is not mounted\" for all five builders. The bytes are in no mounted custody (the Master Library at MASTER_LIBRARY_SOURCE_DIR holds none of the eight hashes), in no release asset of Roger-LegalEase/legalease-source-artifacts@source-corpus-2026-08-28, and nowhere on this filesystem (a search by each source's exact byte length returned nothing). The issuing host ilcourtsaudio.blob.core.windows.net, named as the officialSourceUrl in data/rcap-grade-a/packet-factory-24h/disc01/CODEX_CS2_SRC1_ACQUISITION.json, is refused by this session's egress policy (CONNECT 403). This is the operational blocker recorded at docs/rcap/grade-a/captain/OWNER_DECISION_PACKAGE_2026-09-05.md section D, \"Illinois and Alabama recovery-pool mount: builds blocked until the corpus mount is present.\" It is not a counsel question.",
+      "rebuiltThisLane": false,
+      "deliveredBytesChangedThisLane": false,
+      "selectedIndependentVerdict": {
+        "lane": "vf01",
+        "verifiedAtBase": "fbd22ae2ce6688d5a721c3ecfc2d1d649ac6269e",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
+      },
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP",
+        "KNOWN_PREFILLS",
+        "REPEATING_ROWS",
+        "SERVICE"
+      ],
+      "obligationsRepaired": [],
+      "obligationsAlreadyRepairedInBuilderSourceByAnEarlierLane": {
+        "commit": "a7ddb798f",
+        "obligations": [
+          "KNOWN_PREFILLS",
+          "REPEATING_ROWS",
+          "CLIPPING_AND_OVERLAP",
+          "SERVICE"
+        ],
+        "readByThisLane": true,
+        "note": "Charge cells carry matter.charge, the inactive page-2 expungement table and unused sealing rows are blank, Case List slots after the first are blank, held values are not ellipsized, and the guide names the clerk's service under 20 ILCS 2630/5.2(d)(4) with its recipients and the 60-day objection period. Its self-test enforces each. Never run, for the same custody reason."
+      },
+      "countersAfter": null,
+      "countersAfterIsNullBecause": "No rebuild happened, so there are no after-counters. The nine counters below were measured on the UNREPAIRED delivered bytes and must not be read as evidence of repair.",
+      "countersMeasuredOnUnrepairedDeliveredBytes": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "measuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-seal-2yr-set",
+        "result": "PASS_COMPLETE",
+        "warning": "All nine read zero over bytes an independent read faulted. VF01 recorded this blind spot for these families: the counter engine trusts the declared fact-to-field mapping and its own visualDefects flag, so it does not see case numbers mapped into charge columns, partly written rows, ellipsized held values, or a packet assembled out of manifest order."
+      },
+      "obligationsThisRowDoesNotDischarge": [],
+      "allNamedObligationsRemainUndischargedBecause": "This lane rebuilt nothing. Every obligation the selected independent verdict failed is still failed in the delivered bytes.",
+      "determinism": {
+        "rebuildsAttempted": 0,
+        "byteIdentical": null,
+        "note": "The two required rebuilds could not be attempted; the builder stops before opening any source."
+      },
+      "newDigests": null,
+      "deliveredDigestsUnchanged": {
+        "canonical": "de86008285eef38acaa78433628ec100d787dee69ee3a8faf5dcc19eff3acfa6",
+        "boundary": "b1a8aae419d5f40ae35a3e55fb51d968f38bab35cade43c553055d6ec199b58c",
+        "sameAs": "b70ec78ef"
+      },
+      "builderSha256": "6417e607a6d749eea6126679911f637873b3b2d81c7a3e337cdc7828ddeac12b",
+      "rasterInspection": {
+        "performed": false,
+        "reason": "There is nothing new to raster; the delivered pages are the ones already faulted."
+      }
+    },
+    {
+      "familyId": "il-seal-3yr-set",
+      "lane": "FIX94",
+      "status": "BLOCKED_SOURCE_CUSTODY_NOT_MOUNTED",
+      "blockedOn": "SOURCE_CUSTODY_NOT_MOUNTED",
+      "blockedOnDetail": "Every official source these five families need is indexed under custody nationwide_recovery_pool_2026_09_02, whose root private/source-imports/Nationwide_Recovery_Pool_2026-09-02 does not exist in this container. resolveSources stops at \"source custody is not mounted\" for all five builders. The bytes are in no mounted custody (the Master Library at MASTER_LIBRARY_SOURCE_DIR holds none of the eight hashes), in no release asset of Roger-LegalEase/legalease-source-artifacts@source-corpus-2026-08-28, and nowhere on this filesystem (a search by each source's exact byte length returned nothing). The issuing host ilcourtsaudio.blob.core.windows.net, named as the officialSourceUrl in data/rcap-grade-a/packet-factory-24h/disc01/CODEX_CS2_SRC1_ACQUISITION.json, is refused by this session's egress policy (CONNECT 403). This is the operational blocker recorded at docs/rcap/grade-a/captain/OWNER_DECISION_PACKAGE_2026-09-05.md section D, \"Illinois and Alabama recovery-pool mount: builds blocked until the corpus mount is present.\" It is not a counsel question.",
+      "rebuiltThisLane": false,
+      "deliveredBytesChangedThisLane": false,
+      "selectedIndependentVerdict": {
+        "lane": "vf02",
+        "verifiedAtBase": "fbd22ae2ce6688d5a721c3ecfc2d1d649ac6269e",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json"
+      },
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP",
+        "KNOWN_PREFILLS",
+        "PROTECTED_FIELDS",
+        "REPEATING_ROWS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_IDENTITY",
+        "ROUTE_OPTIONS"
+      ],
+      "obligationsRepaired": [],
+      "obligationsAlreadyRepairedInBuilderSourceByAnEarlierLane": {
+        "commit": "dc1530264",
+        "obligations": [
+          "ROUTE_IDENTITY",
+          "ROUTE_OPTIONS",
+          "KNOWN_PREFILLS",
+          "REPEATING_ROWS",
+          "PROTECTED_FIELDS",
+          "CLIPPING_AND_OVERLAP",
+          "REQUIRED_BEFORE_FILING"
+        ],
+        "readByThisLane": true,
+        "note": "Section 15, the no-wait Second Chance branch, is no longer selected; only \"12 - Seal Records\" is, and the three-year conditional-discharge/probation, revoked-sentence and custody options are left as participant elections with routeDetermined false. Charge cells carry the charge, the inactive table and unused rows are blank, clerk case-number captions are refused, values are not ellipsized, and the guide adds the ISP transcript, both comparison steps, the per-case election and the post-objection hearing date. Its self-test enforces each. Never run, for the same custody reason."
+      },
+      "countersAfter": null,
+      "countersAfterIsNullBecause": "No rebuild happened, so there are no after-counters. The nine counters below were measured on the UNREPAIRED delivered bytes and must not be read as evidence of repair.",
+      "countersMeasuredOnUnrepairedDeliveredBytes": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "measuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-seal-3yr-set",
+        "result": "PASS_COMPLETE",
+        "warning": "All nine read zero over bytes an independent read faulted. VF01 recorded this blind spot for these families: the counter engine trusts the declared fact-to-field mapping and its own visualDefects flag, so it does not see case numbers mapped into charge columns, partly written rows, ellipsized held values, or a packet assembled out of manifest order."
+      },
+      "obligationsThisRowDoesNotDischarge": [],
+      "allNamedObligationsRemainUndischargedBecause": "This lane rebuilt nothing. Every obligation the selected independent verdict failed is still failed in the delivered bytes.",
+      "determinism": {
+        "rebuildsAttempted": 0,
+        "byteIdentical": null,
+        "note": "The two required rebuilds could not be attempted; the builder stops before opening any source."
+      },
+      "newDigests": null,
+      "deliveredDigestsUnchanged": {
+        "canonical": "2d81bc640de80d14353af9eb19506287c5666fd289659ab07053ddae5561727b",
+        "boundary": "8ff2e2249f0fe8336bd6c5288e68f214206b51dfe75a14abacbb6c6bd35d832f",
+        "sameAs": "b70ec78ef"
+      },
+      "builderSha256": "cdfb8340d80fd2a7535fa867086187ef0576d2cb343930c62cf4f9dde0f6c8ff",
+      "rasterInspection": {
+        "performed": false,
+        "reason": "There is nothing new to raster; the delivered pages are the ones already faulted."
+      }
+    },
+    {
+      "familyId": "il-cannabis-vacate-set",
+      "lane": "FIX94",
+      "status": "BLOCKED_SOURCE_CUSTODY_NOT_MOUNTED",
+      "blockedOn": "SOURCE_CUSTODY_NOT_MOUNTED",
+      "blockedOnDetail": "Every official source these five families need is indexed under custody nationwide_recovery_pool_2026_09_02, whose root private/source-imports/Nationwide_Recovery_Pool_2026-09-02 does not exist in this container. resolveSources stops at \"source custody is not mounted\" for all five builders. The bytes are in no mounted custody (the Master Library at MASTER_LIBRARY_SOURCE_DIR holds none of the eight hashes), in no release asset of Roger-LegalEase/legalease-source-artifacts@source-corpus-2026-08-28, and nowhere on this filesystem (a search by each source's exact byte length returned nothing). The issuing host ilcourtsaudio.blob.core.windows.net, named as the officialSourceUrl in data/rcap-grade-a/packet-factory-24h/disc01/CODEX_CS2_SRC1_ACQUISITION.json, is refused by this session's egress policy (CONNECT 403). This is the operational blocker recorded at docs/rcap/grade-a/captain/OWNER_DECISION_PACKAGE_2026-09-05.md section D, \"Illinois and Alabama recovery-pool mount: builds blocked until the corpus mount is present.\" It is not a counsel question.",
+      "rebuiltThisLane": false,
+      "deliveredBytesChangedThisLane": false,
+      "selectedIndependentVerdict": {
+        "lane": "current-byte-independent-verification-ca-prop64-in-infraction-il-cannabis",
+        "verifiedAtBase": "018cd558455454ca44e7deac8efa7b0e881375d3",
+        "evidencePath": "data/rcap-grade-a/codex-cloud/current-byte-independent-verification-ca-prop64-in-infraction-il-cannabis/rows.json"
+      },
+      "failedObligationNames": [
+        "FEE_AND_WAIVER",
+        "PAGE_ORDER",
+        "REQUIRED_BEFORE_FILING",
+        "SERVICE"
+      ],
+      "obligationsRepaired": [],
+      "obligationsRepairedInBuilderSourceOnly": [
+        {
+          "obligation": "PAGE_ORDER",
+          "repair": "SOURCES was alphabetic, so the packet assembled Additional Cannabis, Additional Notice, Getting Started, Motion, Notice, Order. It is now the manifest's component order 1-6 -- Motion, Additional Cannabis, Getting Started, Notice, Additional Notice, Order -- and controllingRecord() re-derives that order from legal-design-packet-set-manifests.json at build time and asserts SOURCES matches, so a future reordering fails the build rather than the reader."
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "repair": "Both guides now carry registry tracks[il-cannabis-vacate].rules.fees verbatim, including the omitted \"ISP charges $60 to process a court order\", and rules.feeWaiver's Rule 298 route."
+        },
+        {
+          "obligation": "SERVICE",
+          "repair": "Both guides now carry rules.service verbatim -- clerk service under section 5.2(i)(3), with the express warning that the adult suite's clerk-service model does not carry over because the cannabis suite uses petitioner-completed Notice of Court Date forms -- and rules.notice, naming the State's Attorney and the 60-day objection period."
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "repair": "participant-instructions.md now prints packetSet.requiredBeforeFiling in the record's own words: the ISP Access and Review statewide transcript, the case-number compare-and-correct step against it, proof the sentence and conditions are complete with its own compare step, and the $60 ISP order-processing cost. The generic certified-disposition substitute is gone."
+        }
+      ],
+      "countersAfter": null,
+      "countersAfterIsNullBecause": "No rebuild happened, so there are no after-counters. The nine counters below were measured on the UNREPAIRED delivered bytes and must not be read as evidence of repair.",
+      "countersMeasuredOnUnrepairedDeliveredBytes": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "measuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-cannabis-vacate-set",
+        "result": "PASS_COMPLETE",
+        "warning": "All nine read zero over bytes an independent read faulted. VF01 recorded this blind spot for these families: the counter engine trusts the declared fact-to-field mapping and its own visualDefects flag, so it does not see case numbers mapped into charge columns, partly written rows, ellipsized held values, or a packet assembled out of manifest order."
+      },
+      "obligationsThisRowDoesNotDischarge": [],
+      "allNamedObligationsRemainUndischargedBecause": "This lane rebuilt nothing. Every obligation the selected independent verdict failed is still failed in the delivered bytes.",
+      "determinism": {
+        "rebuildsAttempted": 0,
+        "byteIdentical": null,
+        "note": "The two required rebuilds could not be attempted; the builder stops before opening any source."
+      },
+      "newDigests": null,
+      "deliveredDigestsUnchanged": {
+        "canonical": "193f946a37e357f34e4453c30efaa00913026e972b7f02c1da2c620ac86544de",
+        "boundary": "3782c17a6e8a069cb6d666cf92c885d646558e7235333929db1fa212edf41055",
+        "sameAs": "b70ec78ef"
+      },
+      "builderSha256": "f61ce88f2253b30d5a60fb258a41ac1042964a030f4bb255a36dd43923fead58",
+      "rasterInspection": {
+        "performed": false,
+        "reason": "There is nothing new to raster; the delivered pages are the ones already faulted."
+      }
+    }
+  ]
+}

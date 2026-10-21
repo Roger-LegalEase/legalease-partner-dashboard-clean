@@ -1,0 +1,251 @@
+{
+  "_comment": "FILLED EXAMPLE ONLY. Not a real memo, not a real jurisdiction, never imported. Copy this to <CODE>.memo.json and replace every value. The placeholder jurisdiction below is intentionally invalid so an unedited copy fails validation loudly instead of importing fiction.",
+  "_productModel": "LegalEase asks the participant structured questions, relies on their answers, generates the applicable packet, names the documents they may need to obtain and attach, and gives filing instructions. It does not require, accept, inspect or authenticate third-party records; it does not determine eligibility; it does not approve a filing; it does not guarantee court action. So participantInputs are questions, supportingDocuments are things the participant goes and gets, and neither the certified disposition below nor any other record delays generation.",
+  "schemaVersion": 1,
+  "jurisdiction": "REPLACE_WITH_TWO_LETTER_CODE",
+  "memoVersion": "1.0.0",
+  "submittedAt": "2026-07-30T00:00:00.000Z",
+  "tracks": [
+    {
+      "trackId": "example-nonconviction-expungement",
+      "legalName": "Petition for Expungement of Non-Conviction Records",
+      "publicName": "Clear a case that did not end in conviction",
+      "controllingAuthority": {
+        "citations": [
+          "Example Code § 00-00-000",
+          "Example R. Crim. P. 00"
+        ],
+        "summary": "Example: on petition the court shall expunge records of an arrest that ended in dismissal, acquittal or no disposition."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2019-07-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "arrest",
+        "charge"
+      ],
+      "eligibleDispositions": [
+        "dismissed",
+        "acquitted",
+        "no_disposition",
+        "charges_dropped"
+      ],
+      "exclusions": [
+        "Example: offenses requiring sex-offender registration.",
+        "Example: cases with an outstanding warrant."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Case dismissed without prejudice",
+          "duration": "1 year from dismissal"
+        }
+      ],
+      "outputStrategy": "official_pdf_fill",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "The trial court where the case was filed."
+      },
+      "destination": {
+        "kind": "clerk",
+        "name": "Clerk of the trial court",
+        "detail": "File in the county where the charge originated. Serve the prosecutor."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "EXAMPLE-FORM-100",
+          "officialSourceUrl": "https://courts.example.gov/forms/EXAMPLE-FORM-100.pdf",
+          "notes": "Statewide form. Fillable."
+        },
+        {
+          "role": "proposed_order",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "EXAMPLE-FORM-101",
+          "officialSourceUrl": "https://courts.example.gov/forms/EXAMPLE-FORM-101.pdf"
+        },
+        {
+          "role": "certificate_of_service",
+          "requirement": "required",
+          "outputStrategy": "custom_pleading",
+          "notes": "No official form; generated from an approved template."
+        },
+        {
+          "role": "fee_waiver",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the petitioner requests a fee waiver.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "EXAMPLE-FORM-102",
+          "officialSourceUrl": "https://courts.example.gov/forms/EXAMPLE-FORM-102.pdf"
+        }
+      ],
+      "_participantInputsNote": "What LegalEase asks. These are the participant's answers, and generation runs on them. Note that the disposition is asked as a question here, while the certified disposition itself is a supporting document below.",
+      "participantInputs": [
+        {
+          "key": "caseNumber",
+          "question": "What is the case number?",
+          "requirement": "required"
+        },
+        {
+          "key": "countyOfArrest",
+          "question": "In which county were you arrested or charged?",
+          "requirement": "required"
+        },
+        {
+          "key": "disposition",
+          "question": "How did the case end — dismissed, acquitted, charges dropped, or no disposition?",
+          "requirement": "required"
+        },
+        {
+          "key": "dispositionDate",
+          "question": "On what date did the case end?",
+          "requirement": "required"
+        },
+        {
+          "key": "dismissalWithPrejudice",
+          "question": "Was the dismissal with prejudice or without?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked only when the disposition is a dismissal, because it sets the waiting period."
+        }
+      ],
+      "_supportingDocumentsNote": "What the participant obtains and attaches. LegalEase lists these in the packet instructions. It does not require them before generating, does not take uploads of them, and does not inspect or authenticate them.",
+      "supportingDocuments": [
+        {
+          "name": "Certified disposition for each charge",
+          "obtainedFrom": "Clerk of the trial court where the case was filed",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Example: ask the clerk's office for a certified copy of the disposition. Most counties charge a per-copy fee.",
+          "confirms": "disposition"
+        },
+        {
+          "name": "State criminal-history record",
+          "obtainedFrom": "State bureau of identification",
+          "requirement": "conditional",
+          "conditionDescription": "Only when the court asks for one at the hearing.",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Example: request a personal review copy from the state bureau."
+        }
+      ],
+      "_manualCompletionNote": "What the generated packet deliberately leaves blank.",
+      "manualCompletionItems": [
+        {
+          "item": "Signature and date",
+          "whereInPacket": "Petition, final page, signature block",
+          "why": "The court requires the petitioner's own wet signature."
+        },
+        {
+          "item": "Hearing date",
+          "whereInPacket": "Notice of hearing, first line",
+          "why": "The clerk assigns the date when the petition is filed."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "Example Form 100 — Petition for Expungement",
+          "url": "https://courts.example.gov/forms/EXAMPLE-FORM-100.pdf",
+          "retrievedOn": "2026-07-28",
+          "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        {
+          "title": "Example Form 101 — Order of Expungement",
+          "url": "https://courts.example.gov/forms/EXAMPLE-FORM-101.pdf",
+          "retrievedOn": "2026-07-28",
+          "sha256": "1111111111111111111111111111111111111111111111111111111111111111"
+        }
+      ],
+      "rules": {
+        "filing": "File the petition and proposed order with the clerk of the trial court.",
+        "fees": "Example: $0 for non-conviction petitions.",
+        "feeWaiver": "none",
+        "notice": "Example: the prosecutor receives notice and has 30 days to object.",
+        "service": "Example: serve the prosecutor by mail; file proof of service.",
+        "participantSignature": "Example: the petitioner signs the petition. A wet signature is required.",
+        "notarization": "none"
+      },
+      "selfHelpStopConditions": [
+        "The prosecutor files an objection.",
+        "The court sets a contested hearing.",
+        "The petitioner has an open case or outstanding warrant."
+      ],
+      "_unresolvedQuestionsNote": "Every open question carries an impact. build_blocker means we do not know what to implement. release_blocker means engineering may proceed but the track may not become packet_ready until the question closes. nonblocking_research_note means neither, and it is still owed an answer. affectedElement is one of governing_mechanism, correct_form, output_strategy, venue, geographic_scope, eligibility_branch, waiting_period, packet_components, filing_process, notice_or_service, participant_instructions, legal_effect_or_warning.",
+      "unresolvedQuestions": [
+        {
+          "question": "Example: whether a deferred-adjudication dismissal starts the waiting period at dismissal or at discharge.",
+          "impact": "release_blocker",
+          "affectedElement": "waiting_period",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "EXAMPLE-State-Legal-Review.md",
+            "sourceHeading": "Example operational amendments / True blockers retained",
+            "sourceStatement": "Example: the deferred-adjudication waiting-period question must be resolved before release."
+          }
+        }
+      ],
+      "_limitationsNote": "Every limitation is classified. Only legal_design_blocker withholds a track, and it must name which element of the design is undetermined: governing_mechanism, correct_form, venue, geographic_scope or output_strategy. A record the participant must obtain is never one of those — classify it as packet_instruction.",
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Example: the non-conviction pathway is mandatory and well settled; the deferred-adjudication edge case is not.",
+        "limitations": [
+          {
+            "classification": "scope_restriction",
+            "statement": "Do not offer this track for deferred-adjudication dismissals until the waiting-period question is resolved.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "EXAMPLE-State-Legal-Review.md",
+              "sourceHeading": "Example operational amendments / Limitations reclassified",
+              "sourceStatement": "Do not offer this track for deferred-adjudication dismissals until the waiting-period question is resolved."
+            }
+          },
+          {
+            "classification": "participant_question",
+            "statement": "Ask whether the dismissal was with or without prejudice before selecting the waiting period.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "EXAMPLE-State-Legal-Review.md",
+              "sourceHeading": "Example operational amendments / Limitations reclassified",
+              "sourceStatement": "Ask whether the dismissal was with or without prejudice before selecting the waiting period."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Tell the petitioner to attach a certified disposition for each charge, obtained from the clerk.",
+            "provenance": {
+              "classificationBasis": "general_packet_only_rule",
+              "sourceFile": "EXAMPLE-State-Legal-Review.md",
+              "sourceHeading": "Required Operational Reclassification / 4. packet_instruction",
+              "sourceStatement": "Tell the petitioner to attach a certified disposition for each charge, obtained from the clerk."
+            }
+          },
+          {
+            "classification": "manual_completion_item",
+            "statement": "Leave the hearing date blank; the clerk assigns it at filing.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "EXAMPLE-State-Legal-Review.md",
+              "sourceHeading": "TRACK 1 / Packet components",
+              "sourceStatement": "Leave the hearing date blank; the clerk assigns it at filing.",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "self_help_boundary",
+            "statement": "If the prosecutor objects, stop and refer the petitioner to a lawyer.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "EXAMPLE-State-Legal-Review.md",
+              "sourceHeading": "Example operational amendments / Limitations reclassified",
+              "sourceStatement": "If the prosecutor objects, stop and refer the petitioner to a lawyer."
+            }
+          }
+        ]
+      },
+      "_provenanceNote": "Every limitation and every unresolved question records where its classification came from: classificationBasis (explicit_state_addendum, batch_decision_matrix, general_packet_only_rule, mechanical_translation, counsel_confirmation_required), sourceFile, sourceHeading and the sourceStatement quoted exactly. normalizerInferred marks mechanical restructuring only and may never supply missing law. Where the source does not clearly support a classification, use counsel_confirmation_required and record the precise counselQuestion."
+    }
+  ]
+}

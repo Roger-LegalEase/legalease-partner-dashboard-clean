@@ -1,0 +1,221 @@
+{
+  "verifiedAtBase": "7f04efd687f94b2bdd19a98f78f356480da5ee8f",
+  "rows": [
+    {
+      "itemId": "tx_exp_acquittal-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "failedObligationNames": [
+        "ROUTE_IDENTITY"
+      ],
+      "defects": [
+        {
+          "obligation": "ROUTE_IDENTITY",
+          "finding": "Exact family and route keys agree between current receipt, wiring and canonical route universe: ['obligation:unit:TX:tx_exp_acquittal:tx-acquittal-in-window-request', 'obligation:unit:TX:tx_exp_acquittal:tx-acquittal-out-of-window-petition']. FAIL: internal route identifiers remain visible on packet pages [2, 4, 6, 23] in each fixture and in participant-instructions.md. The acquittal order page 7 was repaired but its request, information-package and petition trailers remain.",
+          "canonicalSha256": "11eea21f8c9de9599e4d61648f083f2cf71c95fddc2db9e7f901b5eccadc4538",
+          "boundarySha256": "92f970ae09fe218488a64423c9de79559df16252200b9959f25991c13d3747d8",
+          "affectedPages": [
+            2,
+            4,
+            6,
+            23
+          ],
+          "repairScope": "Remove every participant-visible local Route:/_Route: trailer from this exact family, preserving internal metadata.",
+          "requiresFreshRasterIfPdfChanges": true
+        }
+      ],
+      "all15ObligationsReviewed": true
+    },
+    {
+      "itemId": "tx_nd_conviction_no_supervision-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "failedObligationNames": [
+        "ROUTE_IDENTITY"
+      ],
+      "defects": [
+        {
+          "obligation": "ROUTE_IDENTITY",
+          "finding": "Exact family and route keys agree between current receipt, wiring and canonical route universe: ['obligation:track-pathway:TX:tx_nd_conviction_no_supervision:petitioned-nondisclosure-for-an-eligible-conviction-411-0735']. FAIL: the proof-of-delivery filing on page 9 and instruction page 24 still print the internal route key in each fixture; participant-instructions.md also retains it.",
+          "canonicalSha256": "321703e1fed129963a0ec2aac85e81d67a267ee4eb4ac23aaed06f1e90b8b1ef",
+          "boundarySha256": "b13b15f655d47e618d8200467df220f0a8cca4760b79b2588bed24f27444ae8a",
+          "affectedPages": [
+            9,
+            24
+          ],
+          "repairScope": "Remove every participant-visible local Route:/_Route: trailer from this exact family, preserving internal metadata.",
+          "requiresFreshRasterIfPdfChanges": true
+        }
+      ],
+      "all15ObligationsReviewed": true
+    },
+    {
+      "itemId": "tx_nd_dwi_deferred-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "failedObligationNames": [
+        "ROUTE_IDENTITY"
+      ],
+      "defects": [
+        {
+          "obligation": "ROUTE_IDENTITY",
+          "finding": "Exact family and route keys agree between current receipt, wiring and canonical route universe: ['obligation:track-only:TX:tx_nd_dwi_deferred']. FAIL: the proof-of-delivery filing on page 9 and instruction page 24 still print the internal route key in each fixture; participant-instructions.md also retains it.",
+          "canonicalSha256": "18a69dfb244d4c8a0996e3f80baf8462a83b4763d877ad7ffe8b80a36d8b2d2c",
+          "boundarySha256": "c99b0deaccb10cc66abf4b23fac0dd3725a5e6cc1f675d346c8d21a94917b8fe",
+          "affectedPages": [
+            9,
+            24
+          ],
+          "repairScope": "Remove every participant-visible local Route:/_Route: trailer from this exact family, preserving internal metadata.",
+          "requiresFreshRasterIfPdfChanges": true
+        }
+      ],
+      "all15ObligationsReviewed": true
+    },
+    {
+      "itemId": "tx_nd_probation_misdemeanor-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "failedObligationNames": [
+        "ROUTE_IDENTITY"
+      ],
+      "defects": [
+        {
+          "obligation": "ROUTE_IDENTITY",
+          "finding": "Exact family and route keys agree between current receipt, wiring and canonical route universe: ['obligation:track-only:TX:tx_nd_probation_misdemeanor']. FAIL: the proof-of-delivery filing on page 9 and instruction page 24 still print the internal route key in each fixture; participant-instructions.md also retains it.",
+          "canonicalSha256": "03c28922704a2abc4f20b7013e65b6d3fe81ba57ec31b9552250b5af4c2da046",
+          "boundarySha256": "4f051899f3a6d8e3f6d2ff47ebaec74888d77b674baf5891730ea4127ee8816b",
+          "affectedPages": [
+            9,
+            24
+          ],
+          "repairScope": "Remove every participant-visible local Route:/_Route: trailer from this exact family, preserving internal metadata.",
+          "requiresFreshRasterIfPdfChanges": true
+        }
+      ],
+      "all15ObligationsReviewed": true
+    },
+    {
+      "itemId": "tx_nd_deferred_other-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "failedObligationNames": [
+        "KNOWN_PREFILLS"
+      ],
+      "defects": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "FAIL: Statement source page 2, packet page 12, visibly prints 1994-04-17 (canonical) and 1972-12-31 (boundary) over its printed Month Day Year / Mes Día Año instruction. The expected shape is 04/17/1994 and 12/31/1972. The eight original PNGs across these four families share two exact PNG hashes, independently bound to every current PDF. This is one incorrect known prefill per fixture, not a missing-source or geometry defect. All 26 reported source-widget writes were independently extracted inside their named boxes; zero missing values. Unchanged name, address, telephone, email, default-removal and composed-prefill evidence is retained with exact page dependencies.",
+          "canonicalSha256": "2a328629cf21e9a2972b49c5c9c76f8c34ce449918726b4e504e03697c967293",
+          "boundarySha256": "caedb5538320ec6ef004e963af3442ae87d595a7f04cfa4b9092d1c50a4c7309",
+          "affectedPages": [
+            12
+          ],
+          "repairScope": "Use the existing source-bound month_day_year formatter for Statement page-2 DOB; preserve protected fields.",
+          "requiresFreshRasterIfPdfChanges": true
+        }
+      ],
+      "all15ObligationsReviewed": true
+    },
+    {
+      "itemId": "tx_nd_dwi_probation-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "failedObligationNames": [
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "defects": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "FAIL: Statement source page 2, packet page 11, visibly prints 1994-04-17 (canonical) and 1972-12-31 (boundary) over its printed Month Day Year / Mes Día Año instruction. The expected shape is 04/17/1994 and 12/31/1972. The eight original PNGs across these four families share two exact PNG hashes, independently bound to every current PDF. This is one incorrect known prefill per fixture, not a missing-source or geometry defect. All 26 reported source-widget writes were independently extracted inside their named boxes; zero missing values. Unchanged name, address, telephone, email, default-removal and composed-prefill evidence is retained with exact page dependencies. Statement source page 11, packet page 20, also leaves all three held DOB parts blank while name and address are filled. Month / Mes, Day / Día and Year / Año are falsely inventoried as protected signing-date fields with the reason 'a date written before the Statement is actually sworn would be false'. That describes the separate Today signing-date field, not these birth-date boxes.",
+          "canonicalSha256": "c3508357968a4b33a05b0ce5d4fe8ced413cc7927c78b646abba35598373743f",
+          "boundarySha256": "1be46dc9868c565afd5524af7953e465b85a2b5c87580c22218827ec028d98e7",
+          "affectedPages": [
+            11,
+            20
+          ],
+          "repairScope": "Use the existing source-bound month_day_year formatter for Statement page-2 DOB; preserve protected fields. Also repair the three undisclosed DOB-box classifications described under REQUIRED_BEFORE_FILING.",
+          "requiresFreshRasterIfPdfChanges": true
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "FAIL: 113 inventoried required items have zero missing disclosure labels, but the inventory omits all three Option 1 DOB boxes. Current requiredBeforeFiling contains zero Month / Mes, Day / Día or Year / Año entries. Instructions state DOB was filled and supply no shared-widget explanation or copy task. At packet page 20, all three boxes are visibly blank in both current fixtures. The three field classifications, source caption, current instruction assertion and full-page original PNGs establish this defect; the prior PASS overlooked it. The mechanical shared-month/notary limitation may justify leaving the line blank only when the exact participant task is disclosed; this family does not disclose it.",
+          "canonicalSha256": "c3508357968a4b33a05b0ce5d4fe8ced413cc7927c78b646abba35598373743f",
+          "boundarySha256": "1be46dc9868c565afd5524af7953e465b85a2b5c87580c22218827ec028d98e7",
+          "affectedPages": [
+            11,
+            20
+          ],
+          "repairScope": "Classify all three Statement page-11 DOB boxes as REQUIRED_BEFORE_FILING participant copy tasks; state the shared-month/notary reason and exact copy instructions in markdown and delivered guidance. Keep Today and notary fields protected.",
+          "requiresFreshRasterIfPdfChanges": true
+        }
+      ],
+      "all15ObligationsReviewed": true
+    },
+    {
+      "itemId": "tx_nd_veterans_court-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "failedObligationNames": [
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "defects": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "FAIL: Statement source page 2, packet page 12, visibly prints 1994-04-17 (canonical) and 1972-12-31 (boundary) over its printed Month Day Year / Mes Día Año instruction. The expected shape is 04/17/1994 and 12/31/1972. The eight original PNGs across these four families share two exact PNG hashes, independently bound to every current PDF. This is one incorrect known prefill per fixture, not a missing-source or geometry defect. All 26 reported source-widget writes were independently extracted inside their named boxes; zero missing values. Unchanged name, address, telephone, email, default-removal and composed-prefill evidence is retained with exact page dependencies. Statement source page 11, packet page 21, also leaves all three held DOB parts blank while name and address are filled. Month / Mes, Day / Día and Year / Año are falsely inventoried as protected signing-date fields with the reason 'a date written before the Statement is actually sworn would be false'. That describes the separate Today signing-date field, not these birth-date boxes.",
+          "canonicalSha256": "71088803b36c6b4c880b471c00ad394cd56b172c613f33740809b774c368067e",
+          "boundarySha256": "e871c3bd2e4667828b6185d2ee06ce8d7d03664aef179c56e957ec3c549cbef3",
+          "affectedPages": [
+            12,
+            21
+          ],
+          "repairScope": "Use the existing source-bound month_day_year formatter for Statement page-2 DOB; preserve protected fields. Also repair the three undisclosed DOB-box classifications described under REQUIRED_BEFORE_FILING.",
+          "requiresFreshRasterIfPdfChanges": true
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "FAIL: 114 inventoried required items have zero missing disclosure labels, but the inventory omits all three Option 1 DOB boxes. Current requiredBeforeFiling contains zero Month / Mes, Day / Día or Year / Año entries. Instructions state DOB was filled and supply no shared-widget explanation or copy task. At packet page 21, all three boxes are visibly blank in both current fixtures. The three field classifications, source caption, current instruction assertion and full-page original PNGs establish this defect; the prior PASS overlooked it. The mechanical shared-month/notary limitation may justify leaving the line blank only when the exact participant task is disclosed; this family does not disclose it.",
+          "canonicalSha256": "71088803b36c6b4c880b471c00ad394cd56b172c613f33740809b774c368067e",
+          "boundarySha256": "e871c3bd2e4667828b6185d2ee06ce8d7d03664aef179c56e957ec3c549cbef3",
+          "affectedPages": [
+            12,
+            21
+          ],
+          "repairScope": "Classify all three Statement page-11 DOB boxes as REQUIRED_BEFORE_FILING participant copy tasks; state the shared-month/notary reason and exact copy instructions in markdown and delivered guidance. Keep Today and notary fields protected.",
+          "requiresFreshRasterIfPdfChanges": true
+        }
+      ],
+      "all15ObligationsReviewed": true
+    },
+    {
+      "itemId": "tx_nd_veterans_reemployment-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "failedObligationNames": [
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "defects": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "FAIL: Statement source page 2, packet page 11, visibly prints 1994-04-17 (canonical) and 1972-12-31 (boundary) over its printed Month Day Year / Mes Día Año instruction. The expected shape is 04/17/1994 and 12/31/1972. The eight original PNGs across these four families share two exact PNG hashes, independently bound to every current PDF. This is one incorrect known prefill per fixture, not a missing-source or geometry defect. All 26 reported source-widget writes were independently extracted inside their named boxes; zero missing values. Unchanged name, address, telephone, email, default-removal and composed-prefill evidence is retained with exact page dependencies. Statement source page 11, packet page 20, also leaves all three held DOB parts blank while name and address are filled. Month / Mes, Day / Día and Year / Año are falsely inventoried as protected signing-date fields with the reason 'a date written before the Statement is actually sworn would be false'. That describes the separate Today signing-date field, not these birth-date boxes.",
+          "canonicalSha256": "ad6849fceab93992b933b717aeacc4163719a9427dbbedfc1a9e90705fbbaa8e",
+          "boundarySha256": "7e578067d567bb647293c8f367b236cd72e026cb534800422364160fefbd424d",
+          "affectedPages": [
+            11,
+            20
+          ],
+          "repairScope": "Use the existing source-bound month_day_year formatter for Statement page-2 DOB; preserve protected fields. Also repair the three undisclosed DOB-box classifications described under REQUIRED_BEFORE_FILING.",
+          "requiresFreshRasterIfPdfChanges": true
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "FAIL: 108 inventoried required items have zero missing disclosure labels, but the inventory omits all three Option 1 DOB boxes. Current requiredBeforeFiling contains zero Month / Mes, Day / Día or Year / Año entries. Instructions state DOB was filled and supply no shared-widget explanation or copy task. At packet page 20, all three boxes are visibly blank in both current fixtures. The three field classifications, source caption, current instruction assertion and full-page original PNGs establish this defect; the prior PASS overlooked it. The mechanical shared-month/notary limitation may justify leaving the line blank only when the exact participant task is disclosed; this family does not disclose it.",
+          "canonicalSha256": "ad6849fceab93992b933b717aeacc4163719a9427dbbedfc1a9e90705fbbaa8e",
+          "boundarySha256": "7e578067d567bb647293c8f367b236cd72e026cb534800422364160fefbd424d",
+          "affectedPages": [
+            11,
+            20
+          ],
+          "repairScope": "Classify all three Statement page-11 DOB boxes as REQUIRED_BEFORE_FILING participant copy tasks; state the shared-month/notary reason and exact copy instructions in markdown and delivered guidance. Keep Today and notary fields protected.",
+          "requiresFreshRasterIfPdfChanges": true
+        }
+      ],
+      "all15ObligationsReviewed": true
+    }
+  ]
+}

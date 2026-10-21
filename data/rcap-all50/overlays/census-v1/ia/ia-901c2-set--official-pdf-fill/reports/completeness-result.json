@@ -1,0 +1,56 @@
+{
+  "familyId": "ia-901c2-set",
+  "directory": "data/rcap-all50/overlays/census-v1/ia/ia-901c2-set--official-pdf-fill",
+  "result": "FAIL_ROUTE_SELECTION",
+  "auditable": true,
+  "counters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 2,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+  },
+  "failedCounters": [
+    "requiredOptionsMissing"
+  ],
+  "totals": {
+    "terminalFields": 285,
+    "written": 106,
+    "blank": 179,
+    "blanksByDisposition": {
+      "NON_FILING_SOURCE_ELEMENT": 25,
+      "NOT_APPLICABLE_ON_THIS_ROUTE": 96,
+      "PARTICIPANT_ELECTION_GENUINE": 10,
+      "PROTECTED_FIELD": 34,
+      "ROUTE_OPTION_NOT_SELECTED": 2,
+      "REQUIRED_BEFORE_FILING": 12
+    },
+    "rowsInspected": 0,
+    "fieldMapSchema": "writes-and-refusals"
+  },
+  "outputApprovalStatus": "REVIEW_REQUESTED_NOT_APPROVED",
+  "sourceCurrentness": "EXACT",
+  "findings": [
+    {
+      "counter": "requiredOptionsMissing",
+      "field": "exact-day-180:2.86-1.03.00",
+      "label": "Item 3: waiting-period basis",
+      "disposition": "ROUTE_OPTION_NOT_SELECTED",
+      "basis": "the field map declares this election route-determined and left unmade; a packet built for one statutory route must state which route it is",
+      "reasonGiven": "Day 180 meets the statutory minimum, but the form says MORE than 180. Do not auto-certify that statement. Update the filing assessment after day 180 or obtain court/legal guidance."
+    },
+    {
+      "counter": "requiredOptionsMissing",
+      "field": "exact-day-180:2.86-1.03.AB",
+      "label": "Item 3.A ordinary wait or 3.B waiver request",
+      "disposition": "ROUTE_OPTION_NOT_SELECTED",
+      "basis": "the field map declares this election route-determined and left unmade; a packet built for one statutory route must state which route it is",
+      "reasonGiven": "Day 180 meets the statutory minimum, but the form says MORE than 180. Do not auto-certify that statement. Update the filing assessment after day 180 or obtain court/legal guidance."
+    }
+  ],
+  "findingsTruncated": 0
+}

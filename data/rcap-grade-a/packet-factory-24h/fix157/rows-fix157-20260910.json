@@ -1,0 +1,245 @@
+{
+  "schemaVersion": "rcap-verifier-rows/v2",
+  "lane": "FIX157",
+  "laneKind": "repair",
+  "isIndependentVerification": false,
+  "worktree": "/home/user/v5c-worktree",
+  "branch": "lane-fix157-20260910",
+  "repairedAtBase": "7dbe69631c704176cc850b898ae5d71441a38553",
+  "respondingTo": [
+    {
+      "familyId": "co_motion_seal_conviction-set",
+      "verifier": "vf07",
+      "verifierBase": "453ecee9c6496bbc662b313e0a0169423a9add96",
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json",
+      "failedObligations": ["COMPONENT_SET", "FEE_AND_WAIVER"]
+    },
+    {
+      "familyId": "co_motion_seal_nonconviction-set",
+      "verifier": "vf22",
+      "verifierBase": "8db74d6e5b5427548e30c2eed11a21b2bb1d9383",
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf22/rows-vf22-20260910.json",
+      "failedObligations": ["COMPONENT_SET", "KNOWN_PREFILLS", "REQUIRED_BEFORE_FILING"]
+    }
+  ],
+  "grantSet": "81f60e8db1623fc8",
+  "claimCommandsRun": [
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX157 co_motion_seal_conviction-set  -> CLAIM_OK, exit 0",
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX157 co_motion_seal_nonconviction-set  -> CLAIM_OK, exit 0"
+  ],
+  "scopeHeldTo": "The two granted families. No file outside scripts/build-census-v1-co_motion_seal_{conviction,nonconviction}-set.mjs, data/record-clearing/legal-design-packet-set-manifests.json, the two families' overlay directories and this fix157/ directory was written. No shared module under scripts/rcap-official-forms/** or scripts/rcap-packet-completeness/** was touched. No shared manifest under data/rcap-grade-a/packet-factory-24h/ was touched. Nothing was pushed.",
+  "builtAnything": true,
+  "packetsSelfVerified": false,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "theDeterminismControlRanFirst": {
+    "ran": true,
+    "how": "Both unmodified builders were run before any edit. `git status --porcelain` was empty after each, and the nonconviction run reproduced boundary sha256 d10f3bb8072244c9031bc8870d14d4fd0e4508d9790d5fe0609f94048ebaae18 and canonical 9761a68d7d923459473416cdb92cf18acea7c19bb7d721b090463b6eb2686577 bit-identically. Both builders are the repair mechanism; no artifact in either family was hand-edited.",
+    "postRepairRerun": "Both repaired builders were then run again from a clean tree state. `git status --porcelain` and `git diff --stat` were byte-identical before and after, so the repaired builds are reproducible too."
+  },
+  "theOneSharedCauseTheGrantAskedAbout": {
+    "question": "Are the two COMPONENT_SET failures the same defect?",
+    "answer": "ONE CAUSE, and it is neither of the two causes the committed records name. Both families are Colorado sealing routes whose own Judicial Department guide names a FOUR-document set, and both deliver the motion and the granting order and omit the notice and the second order. The four omitted documents -- JDF 614 and JDF 613 for the conviction route, JDF 493 and JDF 492 for the non-conviction route -- are all recorded in the committed corpus index in EXACTLY ONE custody, nationwide_recovery_pool_2026_09_02, and in no other. That single custody is the whole of the overlap, and it is the cause.",
+    "whatShowedIt": "Reading data/rcap-all50/local-source-corpus-index.json rather than either family's own record. VF22 concluded that JDF 492 and JDF 493 'appear NOWHERE ... not anywhere under STATES/CO in the master library, so they are a source-acquisition gap as well as a component gap'. That is true of the Master Library and false of the index as a whole: the index carries LegalEase Colorado/JDF492.pdf and LegalEase Colorado/reference-only/JDF-493__order-and-notice-of-hearing-to-seal-non-conviction-records__rev-2019-08.pdf, in the same recovery-pool custody where the conviction family's manifest had already placed JDF 613 and JDF 614. The two families are also structurally identical form for form: JDF 612/613/614/615 maps onto JDF 477/492/493/478 as motion, denial order, order-and-notice-of-hearing, granting order, all at revision 2024-08-07 except JDF 493.",
+    "andTheRecordedREASONWasWrongInBOTH": "The conviction manifest said the binaries 'sit in custody nationwide_recovery_pool_2026_09_02, which no packet-factory container mounts, so neither can be bound by SHA-256 and neither may be rendered.' This lane measured that and it is false here. The index's own custodies array DECLARES that custody at root private/source-imports/Nationwide_Recovery_Pool_2026-09-02 with pathsRelativeTo custodyRoot; it is mounted in this worktree; and all four binaries hash on disk to exactly the digests the committed index records (measured, not quoted -- see sourceDigestsHashedByThisLane). data/rcap-grade-a/packet-factory-24h/PRIVATE_CUSTODY_MOUNT.json already recorded that a lane can see this custody absent because private/ is gitignored, and that its absence from a checkout proves nothing about custody.",
+    "whatActuallyBlocksTheRender": "The committed index does not IDENTIFY those entries. Every one of the four recovery-pool rows carries formNumber null and assetClass null. Both builders' resolveSources() selects an official form by state + formNumber + assetClass \"FORM\" and only then hashes it, so no build can bind a binary the index does not identify, and binding by file name would rest the packet's source claim on a file name. This is true in every container, mounted or not, which is why both builders now state it from the committed index and assert it there, rather than from what happens to be on disk.",
+    "oneExceptionInsideTheOneCause": "JDF 493 is additionally blocked by its own bytes and would still not render if the index identified it. The held copy is revision 2019-08 against a guide revised 2024-08-07; the index records acroFormPresent false, acroFieldCount 0, structuralClassObserved flat_pdf; and the guide tells a filer to complete '§§ A-C' on a document that has no lettered sections at all. So three of the four are owed a source-identity determination and the fourth is owed acquisition at the named revision. That distinction is now recorded per component instead of all four reading as 'missing'."
+  },
+  "howTheRepairWasMade": "The builders are the repair mechanism. scripts/build-census-v1-co_motion_seal_conviction-set.mjs and scripts/build-census-v1-co_motion_seal_nonconviction-set.mjs were edited and re-run; every delivered artifact in both families is builder output. data/record-clearing/legal-design-packet-set-manifests.json was edited directly, because it is the authority the builders read and the defect in the non-conviction family was that the manifest did not declare two of the route's four components at all.",
+  "rows": [
+    {
+      "itemId": "co_motion_seal_conviction-set",
+      "familyId": "co_motion_seal_conviction-set",
+      "jurisdiction": "CO",
+      "disposition": "PARTIALLY_REPAIRED_ONE_OBLIGATION_STILL_FAILS",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/co/co-motion-seal-conviction-set--official-pdf-fill",
+      "bytesBeforeRepair": {
+        "fixtures/canonical.pdf": "455f7387b715af77fc6b89a1c5ca9fb497f0dfb4c4d413376c572fa97bfad3da",
+        "fixtures/canonical.pdf.byteLength": 355659,
+        "fixtures/boundary.pdf": "66ca31e0c3ccd8181f3c67d085401ca0bd22a57b2ae8332d4733d1c287b1726d",
+        "fixtures/boundary.pdf.byteLength": 355952
+      },
+      "bytesAfterRepair": {
+        "fixtures/canonical.pdf": "455f7387b715af77fc6b89a1c5ca9fb497f0dfb4c4d413376c572fa97bfad3da",
+        "fixtures/canonical.pdf.byteLength": 355659,
+        "fixtures/boundary.pdf": "66ca31e0c3ccd8181f3c67d085401ca0bd22a57b2ae8332d4733d1c287b1726d",
+        "fixtures/boundary.pdf.byteLength": 355952
+      },
+      "pdfBytesMoved": false,
+      "whyNot": "Nothing this lane changed in this family reaches a PDF. The repair is to the committed record and to participant-instructions.md: no field map entry, no fixture fact, no census row and no write changed. Both fixtures reproduce bit-identically at the digests they carried at base 7dbe69631.",
+      "freshCentralRasterOwed": true,
+      "whyRasterIsOwed": "NOT because of this repair -- the delivered bytes did not move. This family has no admitted central raster at all: data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/ contains no co_motion_seal_conviction-set directory, and neither delivered digest appears anywhere under raster-runs/. The obligation predates this lane and is unchanged by it.",
+      "filesChanged": [
+        "scripts/build-census-v1-co_motion_seal_conviction-set.mjs",
+        "data/record-clearing/legal-design-packet-set-manifests.json (packetSets[co_motion_seal_conviction-set])",
+        "data/rcap-all50/overlays/census-v1/co/co-motion-seal-conviction-set--official-pdf-fill/participant-instructions.md",
+        "data/rcap-all50/overlays/census-v1/co/co-motion-seal-conviction-set--official-pdf-fill/build-findings.json",
+        "data/rcap-all50/overlays/census-v1/co/co-motion-seal-conviction-set--official-pdf-fill/source-receipt.json",
+        "data/rcap-all50/overlays/census-v1/co/co-motion-seal-conviction-set--official-pdf-fill/reports/rendered-artifacts.json"
+      ],
+      "filesDeliberatelyNotTouched": [
+        "fixtures/canonical.pdf and fixtures/boundary.pdf -- unchanged, and re-rendered to prove it",
+        "production-field-map.json, field-census.census-v1.json, reports/actual-writes.json, reports/blanks-left-for-the-participant.json, raster/** -- all unchanged, which is the byte-neutrality evidence"
+      ],
+      "obligationResults": [
+        {
+          "obligation": "COMPONENT_SET",
+          "finalState": "STILL FAILS. 2 of 4 required components delivered, exactly as at base. Not repairable by this lane.",
+          "whatWasRepaired": "The RECORD of why, which was false, and the account of it given to the participant, which was false in the same way. The manifest's packetSetCompleteness.basis and both undelivered components' sourceStatusBasis said the binaries could not be bound because no packet-factory container mounts their custody. This lane found that custody mounted, declared in the index's own custodies array, holding both binaries at exactly the digests the index records, and re-hashed both. The blocker is that the index carries both entries with formNumber null and assetClass null, so resolveSources() cannot bind them by identity. The delivered page told the participant 'the machine that built this packet cannot reach' the file; it now tells them the file is there and is not identified, which is what is true.",
+          "andTheCautionFIX96LeftOpenIsClosed": "FIX96 recorded that the index file name calls JDF 613 the ORDER DENYING the request and that it could not confirm this because the custody was not mounted to it, and warned that the form 'must not be described to a participant as a second grant order until it is confirmed against the JDF-613 bytes.' This lane read those bytes at digest 0745d99f233c7df13286c581c912d9f87b15187270e3d1773455c1ed51848677: the document is headed 'JDF 613  Order Denying Request to Seal Conviction Records', its section 1 Decision block carries the two findings and 'The Court denies the motion because:', and its footer reads 'JDF 613 - Order Denying Request to Seal Conviction Records   R: August 7, 2024   Page 1 of 1'. The participant page now says what the form is instead of asking them to check its title at the clerk's counter.",
+          "whatThisLaneRefusedToWrite": "That the court signs whichever of the two orders matches its decision and leaves the other unsigned. That is the natural explanation for why a guide asks a filer to tender a grant order and a denial order together, no source this lane holds states it, and a first draft of the participant paragraph contained it. It was removed before commit. The delivered page now says that no source this packet holds explains why the court is given both orders, and sends the participant to the clerk.",
+          "whyDisclosureIsNotDelivery": "Carried unchanged from VF07: the obligation is that every component the route names is rendered and present, and a truthful account of an absent component is honesty, not delivery. This family remains COMPONENT_SET-incomplete."
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finalState": "ALREADY SATISFIED AT THIS LANE'S BASE. No change made, no change needed.",
+          "why": "VF07 verified at base 453ecee9c (2026-09-05). Lane FIX96 repaired this exact finding at commit f06f33bc6 (2026-09-08), which is NOT an ancestor of VF07's base -- checked with `git merge-base --is-ancestor` -- so VF07's non-superseded row carries a finding that was already stale when this lane read it.",
+          "verifiedOnTheDeliveredPageNotOnTheRepairReport": "participant-instructions.md at base 7dbe69631 carries a section headed 'The filing fee, and what to do if you cannot pay it' which quotes JDF 611 in both halves: 'The Clerk will let you know the fee (if any) when filing.' and 'If you cannot afford the fees, also file:  JDF 205 Motion to Waive Fees  JDF 206 Order (Just do §§ A-C)', names both forms, states that neither is in the packet or in the corpus index, and sends the participant to the Colorado Judicial Department for them. The manifest's apply_fee_waiver row and its requiredBeforeFiling list carry the same two quotations. This lane read those bytes and the JDF 611 source bytes and confirms both quotations are literal.",
+          "notImportedIntoTheSiblingFamily": "The JDF 205 / JDF 206 waiver route is stated by JDF 611 and by nothing else. JDF 491, the non-conviction guide, contains no occurrence of 'fee', 'waiv' or 'notar' anywhere in either page of its bound stream -- measured, and now asserted by that family's build. So the waiver stays open on the non-conviction route and no form is named there."
+        }
+      ],
+      "countersThisLaneDidMeasure": {
+        "requiredComponentsDeclaredByTheManifest": 4,
+        "requiredComponentsDelivered": 2,
+        "undeliveredComponentsWithAnEstablishedOfficialIdentity": 2,
+        "undeliveredComponentBinariesHeldAtTheirIndexedDigest": 2,
+        "undeliveredComponentIndexEntriesCarryingAFormNumber": 0
+      },
+      "countersThisLaneDidNotMeasure": {
+        "rasterPixelCounts": null,
+        "why": "This lane rendered no measurement raster and read no raster as evidence. The builder's own 16 raster pages are build output, not a central raster, and they are byte-identical to base."
+      }
+    },
+    {
+      "itemId": "co_motion_seal_nonconviction-set",
+      "familyId": "co_motion_seal_nonconviction-set",
+      "jurisdiction": "CO",
+      "disposition": "PARTIALLY_REPAIRED_ONE_OBLIGATION_STILL_FAILS",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/co/co-motion-seal-nonconviction-set--official-pdf-fill",
+      "bytesBeforeRepair": {
+        "fixtures/canonical.pdf": "9761a68d7d923459473416cdb92cf18acea7c19bb7d721b090463b6eb2686577",
+        "fixtures/canonical.pdf.byteLength": 320220,
+        "fixtures/boundary.pdf": "d10f3bb8072244c9031bc8870d14d4fd0e4508d9790d5fe0609f94048ebaae18",
+        "fixtures/boundary.pdf.byteLength": 320430
+      },
+      "bytesAfterRepair": {
+        "fixtures/canonical.pdf": "e6e0179dd0c8069a2b701831a4b50497a5445f63f1409358e84bccb242de9ad9",
+        "fixtures/canonical.pdf.byteLength": 320184,
+        "fixtures/boundary.pdf": "0039d263c65cf619ab0d6110b4ef651bc87b80fc7baaeceac886b767b136689c",
+        "fixtures/boundary.pdf.byteLength": 320453
+      },
+      "pdfBytesMoved": true,
+      "whichRepairMovedThemAndWhy": "KNOWN_PREFILLS, and only KNOWN_PREFILLS. It changes what is written onto JDF 478 page 4 and onto JDF 477 page 2, so the flattened content streams change. COMPONENT_SET and REQUIRED_BEFORE_FILING here touched only participant-instructions.md, build-findings.json and a new component-set-delivery.json, and would not have moved a byte on their own. Four raster pages changed (canonical and boundary, pages 1 and 4) and those are the two pages carrying the address fields.",
+      "freshCentralRasterOwed": true,
+      "whyRasterIsOwed": "Both delivered digests changed, so any raster evidence bound to the old digests no longer covers these bytes. This family also has no admitted central raster to begin with: raster-runs/admitted/ contains no co_motion_seal_nonconviction-set directory and neither the old nor the new digests appear anywhere under raster-runs/. This family is blocked from terminal until a fresh central raster covers e6e0179d... and 0039d263...",
+      "filesChanged": [
+        "scripts/build-census-v1-co_motion_seal_nonconviction-set.mjs",
+        "data/record-clearing/legal-design-packet-set-manifests.json (packetSets[co_motion_seal_nonconviction-set])",
+        "fixtures/canonical.pdf, fixtures/boundary.pdf",
+        "participant-instructions.md",
+        "production-field-map.json, field-census.census-v1.json, build-findings.json",
+        "reports/actual-writes.json, reports/blanks-left-for-the-participant.json, reports/caption-evidence.json, reports/independent-visual-review.json, reports/rendered-artifacts.json",
+        "raster/canonical/page-01/page.png, raster/canonical/page-04/page.png, raster/boundary/page-01/page.png, raster/boundary/page-04/page.png",
+        "component-set-delivery.json (new)"
+      ],
+      "obligationResults": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finalState": "REPAIRED, both defects, confirmed on the delivered bytes with pdftotext rather than on the build log.",
+          "defectOneWrongField": {
+            "wasWrong": "participant.street_address held the whole address and was written into JDF 478's '∆ Street Address' -- whose Colorado tooltip reads 'Enter the Defendant's street address.' -- beside ∆ City, ∆ State and ∆ Zip, which this packet also fills. Delivered page 4 read 'c) Mailing Address: 412 Cherry Creek Way, Denver, CO 80202 / City: Denver ST: CO Zip Code: 80202'.",
+            "isNow": "canonical delivered page 4 reads 'c) Mailing Address: 412 Cherry Creek Way / City: Denver  ST: CO  Zip Code: 80202'; boundary reads 'c) Mailing Address: 1188 Upper Notch Crossing Road, Apartment 14B / City: Colorado Springs  ST: CO  Zip Code: 80921-2214'. Nothing is printed twice.",
+            "howItWasFixed": "The fact now holds the street alone, which is what scripts/rcap-official-forms/rcap-field-semantics.mjs declares participant.street_address to be -- its descriptor's refuseWhen rejects a caption naming a city, a state or a ZIP -- and what this family's municipal sibling has always held. The JDF 478 map entry is also relabelled from the printed caption 'Mailing Address' to the widget's declared purpose 'Street Address', which is how the whole-address write read clean.",
+            "theCostAndWhatWasDoneAboutIt": "JDF 477's single line is captioned 'Current Mailing Address: (with city/state/zip)' and now carries the street alone. participant-instructions.md carries a section, 'One line on JDF 477 you must finish by hand', and a numbered step, telling the participant to add the city, state and ZIP and where to copy them from. Composing a combined value for that one line was NOT available: decideBinding() refuses an explicit mapping that disagrees with the fact its registry derives from the field's own name (explicit_mapping_conflicts_with_field_name), so a composed-address fact would have to be added to a shared module, and a repair lane holding two families does not get to move every family that shares it.",
+            "anImprovementThatFellOutOfIt": "At base the boundary participant's whole address did not fit JDF 477's line at the 6pt floor (242.67pt available, 244.4pt needed) and was refused entirely, so that fixture's motion carried NO address. reports/actual-writes.json now records unfittable: [] on all four documents and both fixtures write the street."
+          },
+          "defectTwoWrongForm": {
+            "wasWrong": "JDF 478's '∆ State' declares 'Enter the state (use two letter abbreviation)' and the boundary fixture held 'Colorado'. It fits the 33.1pt field and renders cleanly, so no geometry check saw it.",
+            "isNow": "The boundary fixture holds 'CO' and delivered page 4 reads 'ST: CO'.",
+            "whatIsNOTFixedAndIsNotThisLanesToFix": "Nothing in either builder or in the shared finalizer enforces a per-field FORMAT declared by a widget's own tooltip. This packet has no fact-transformation layer and should not grow one, so what it writes is what it holds; correcting the fixture removes the contradiction from the delivered bytes, and a real participant record holding 'Colorado' would reproduce it. Recorded as an advisory finding in build-findings.json. Closing it means changing scripts/rcap-official-forms/**, which every family shares."
+          }
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finalState": "REPAIRED. 7 of 7 manifest requiredBeforeFiling items now reach participant-instructions.md verbatim, up from 3 of 7 in substance and 0 of 7 verbatim.",
+          "howItWasFixed": "A new section, 'Everything the record says you must do before you file', prints every entry of the manifest's requiredBeforeFiling array word for word in one column with a participant wording beside it. The build ASSERTS a wording exists for every item and refuses otherwise, so a future manifest item cannot be silently dropped or published as a raw operator sentence. The structural cause VF22 named -- that the municipal sibling ships a separate filing-instructions.md and this family ships only participant-instructions.md, so filing-guide items had nowhere to go -- is answered by giving them somewhere, not by adding a second file.",
+          "theFourThatWereMissing": [
+            "'Obtain Colorado criminal-history report. Request a criminal-history report from CBI and attach it if the form requires it.' -- 'criminal-history' occurred zero times at base; it now appears verbatim with a wording naming the CBI as the source and the manifest's own conditional as the condition.",
+            "'Check your answer to \"How did the case end?\" against Colorado criminal-history report, and correct the packet if they disagree.' -- verbatim, glossed against JDF 477 section 6.",
+            "'The source review does not state a notarization requirement.' -- 'notari' occurred zero times at base; verbatim, and kept OPEN. The wording says no held source settles it either way, that JDF 491 does not mention notarisation anywhere, and that JDF 477 section 10 is a declaration under penalty of perjury rather than a notarised affidavit.",
+            "'The source review does not address a fee waiver.' -- 'waiver' and 'waive' occurred zero times at base; verbatim, and kept OPEN. The wording names no waiver form, because JDF 491 names none for this route. The conviction sibling's JDF 205 / JDF 206 waiver route was deliberately NOT carried across."
+          ],
+          "theThreeThatAlreadyLanded": "The movant-signature and signature-and-date items were carried in substance and are now also verbatim. The fee item's existing participant rendering, which VF22 praised, is unchanged in 'Where you file this' and the verbatim row cross-references it.",
+          "andTheAbsencesAreNowAsserted": "The three open items rest on JDF 491 being silent. resolveGuide() now asserts, against the digest-bound guide stream on both pages, that /fee/i, /waiv/i and /notar/i match nothing. A later revision of the guide that grew a fee paragraph would stop the build rather than leave the packet telling a participant the guide is silent."
+        },
+        {
+          "obligation": "COMPONENT_SET",
+          "finalState": "STILL FAILS. 2 of 4 required components delivered. Not repairable by this lane.",
+          "whatWasRepaired": "The record, which did not exist, and the delivered page, which asserted the opposite. The manifest declared TWO components for this route and carried no packetSetCompleteness at all; it now declares co_motion_seal_nonconviction-notice-3 (JDF 493) and co_motion_seal_nonconviction-second-order-4 (JDF 492), each with a measured sourceStatusBasis, and records packetSetCompleteness incomplete. The build now loads that manifest, binds JDF 491 by digest, asserts the guide's own four-form list against the guide's bytes, and discloses the gap by form number. The delivered page said 'This packet is two Colorado Judicial Department forms, filed together' with no qualification; it now says two forms is not the whole filing, in the second paragraph, above the fold.",
+          "theTwoAreNotOwedTheSameThing": "JDF 492 is blocked by identity only: its index entry carries formNumber null and assetClass null, its bytes are held at 6b7e427a9696110d6568909802ab9204f9e80d01ca33e577e71678f9514dc996, and this lane read the document -- 'JDF 492  Order Denying Request to Seal Non-Conviction Records', sections A/B/C, footer 'R: August 7, 2024', the same revision as the guide. JDF 493 is blocked by its own bytes: revision 2019-08 against a 2024-08-07 guide, acroFieldCount 0, structuralClassObserved flat_pdf, and no lettered sections where the guide says to complete '§§ A-C'. Acquisition at the named revision is owed for it; a source-identity determination is owed for the other.",
+          "whyDisclosureIsNotDelivery": "Same standard VF07 applied to the sibling. This family remains COMPONENT_SET-incomplete and component-set-delivery.json says so in its own grantsNothing field."
+        }
+      ],
+      "aDefectInThisLanesOwnOutputCaughtByReadingTheDeliveredPage": "The intro paragraph promised 'Where a value the platform holds did NOT fit, it is named in its own section further down ... check that section'. After the street/city/state/zip repair no value is refused for width, so that section stopped being printed and the guide pointed at a section that did not exist. No counter can see that. Found by reading the rebuilt page end to end, and fixed: the sentence is now printed only when the section it names is printed. A second one was caught the same way -- a first draft described the 2019 JDF 493 as a 'flat scan', which the index does not say; it says structuralClassObserved flat_pdf, and the page now says the copy is flat and carries no fillable boxes.",
+      "countersThisLaneDidMeasure": {
+        "manifestRequiredBeforeFilingItemsReachingTheDeliveredGuideVerbatim": 7,
+        "manifestRequiredBeforeFilingItemsDeclared": 7,
+        "requiredComponentsDeclaredByTheManifestBeforeThisLane": 2,
+        "requiredComponentsDeclaredByTheManifestAfterThisLane": 4,
+        "requiredComponentsDelivered": 2,
+        "duplicatedAddressComponentsPrintedOnTheDeliveredOrder": 0,
+        "valuesRefusedForWidthOnTheDeliveredFixtures": 0
+      },
+      "countersThisLaneDidNotMeasure": {
+        "rasterPixelCounts": null,
+        "why": "This lane rendered no measurement raster and read no raster as evidence. The four changed raster PNGs are builder output.",
+        "visualDefects": null,
+        "whyVisualDefects": "No raster was read by a person or by a pixel measurement in this lane, so no visual claim is made. The four pages whose bytes changed have not been looked at."
+      }
+    }
+  ],
+  "sourceDigestsHashedByThisLane": {
+    "howHashed": "sha256sum over the mounted file, then compared field by field against the committed entry in data/rcap-all50/local-source-corpus-index.json. Nothing here is transcribed from a record.",
+    "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Colorado/JDF614.pdf": "08f0a13f9aa7f5036f6f28748648fdee56aed9ee1f511f6f10e183e0bfa5e08b",
+    "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Colorado/reference-only/JDF-613__order-denying-request-to-seal-conviction-records__rev-2024-08-07.pdf": "0745d99f233c7df13286c581c912d9f87b15187270e3d1773455c1ed51848677",
+    "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Colorado/JDF492.pdf": "6b7e427a9696110d6568909802ab9204f9e80d01ca33e577e71678f9514dc996",
+    "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Colorado/reference-only/JDF-493__order-and-notice-of-hearing-to-seal-non-conviction-records__rev-2019-08.pdf": "fb500eb1d0f04e7ab5a7bd1f4932cff27edb451a5c2d66c60288fad96726ef1c",
+    "MASTER_LIBRARY/STATES/CO/03_INSTRUCTIONS/CO__INSTRUCTIONS__JDF-491__guide-to-sealing-non-conviction-records__REV-2024-08-07__EN.pdf": "79dca4e720161b68ae74a8973392bbe22c05f565f704c609ec7cc7da0fcd3685",
+    "allFiveMatchTheCommittedCorpusIndexDigestExactly": true,
+    "andTheFourRecoveryPoolEntriesCarryFormNumberNullAndAssetClassNull": true
+  },
+  "verifierRun": {
+    "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <familyId>",
+    "note": "This verifier does NOT measure the obligations VF07 and VF22 failed these families on. Its requiredComponentsMissing counter compares documents named in the family's own field map and source receipt against the rendered artifacts, and reads no packet-set manifest, so it reported requiredComponentsMissing 0 on both families before and after this repair while the manifest says 2 of 4 are undelivered. Recorded so nobody reads its verdict as an answer to COMPONENT_SET.",
+    "beforeRepair": {
+      "co_motion_seal_conviction-set": "PASS_COMPLETE, 15/86 written, all nine counters 0, process exit 0",
+      "co_motion_seal_nonconviction-set": "FAIL_ROUTE_SELECTION, 15/75 written, requiredOptionsMissing 1 (JDF-478/478.3D.0, the CBI box the shared agency protect rule refuses), all other counters 0, process exit 0"
+    },
+    "afterRepair": {
+      "co_motion_seal_conviction-set": "PASS_COMPLETE, 15/86 written, all nine counters 0, process exit 0",
+      "co_motion_seal_nonconviction-set": "FAIL_ROUTE_SELECTION, 15/75 written, requiredOptionsMissing 1 (same field, same basis), all other counters 0, process exit 0"
+    },
+    "exitStatusIsNotTheVerdict": "The script exits 0 whether it passes or fails; the verdict is on stdout. Both exit statuses were 0 in all four runs and neither is evidence of a pass.",
+    "whatChanged": "Nothing. No counter improved and no counter regressed, including protectedWrites after the JDF 478 label change from 'Mailing Address' to 'Street Address'. This lane claims no counter movement."
+  },
+  "whatThisLaneCouldNotRepair": [
+    {
+      "what": "COMPONENT_SET on both families.",
+      "why": "Four official binaries are held at their indexed digests in a mounted custody the committed corpus index does not identify: every one of the four rows carries formNumber null and assetClass null. Classifying a corpus entry is a source-identity determination with its own governance -- scripts/grade-a-packet-factory-24h/generate-source-identity-findings.mjs, generate-source-relationship-registry.mjs, repin-lapsed-source-identities.mjs -- and a packet-repair lane that wrote an identity into the index would be certifying a source in order to let its own family pass. The corpus index is also generated, not hand-maintained.",
+      "whoIsOwedWhat": "A source-identity determination over the nationwide_recovery_pool_2026_09_02 Colorado entries would unblock JDF 613, JDF 614 and JDF 492. It would NOT unblock JDF 493, which needs acquisition at the revision JDF 491 R: August 7, 2024 names. Note also that the custody declares itself PARTIAL_NATIONWIDE_RECOVERY_POOL and 'satisfies an individual source obligation and never a completeness assertion', so binding from it and asserting set completeness are separate questions for whoever owns them.",
+      "andBuildingThoseComponentsIsSeparateWorkAgain": "Even once identified, each of JDF 613, JDF 614 and JDF 492 needs a field-map dictionary of its own -- 13, 16 and 13 widgets, all with the caption band Group_CourtType / County / Court Address / ∆ / Case Number / Division / Courtroom that these builders already handle -- and both builders assert their widget set against the dictionary in both directions, so none of it can be half-done. This lane did not start it, because a component the manifest declares undelivered and the index cannot bind must not be rendered from a file name."
+    },
+    {
+      "what": "Enforcement of a per-field format declared by a widget's own tooltip.",
+      "why": "The ∆ State defect (a full state name in a field that declares a two-letter abbreviation) is invisible to every existing check because the value is present, in-rect, and equal to what was expected. Correcting the fixture removes it from these delivered bytes; enforcing the format belongs in the shared finalizer, which every family shares."
+    },
+    {
+      "what": "The identical duplicated-address shape on the CONVICTION family.",
+      "why": "JDF 615's '∆ Street Address' takes the same whole-address fact beside its own ∆ City / ∆ State / ∆ Zip, and that family's build-findings.json records the duplication as deliberate on the ground that 'the shared semantic registry has no fact for a composed address line'. VF07 did not raise KNOWN_PREFILLS on this family, this lane's grant on it is COMPONENT_SET and FEE_AND_WAIVER, and repairing it would move that family's delivered bytes and cost it a fresh central raster for a defect no verifier has returned against it. Reported here, not touched. Whoever picks it up should note that the JDF 615 widget carries the same Colorado tooltip as JDF 478's, so the registry-has-no-fact reasoning is defeated there too."
+    }
+  ],
+  "outOfScopeObservedNotActedOnExceptAsNoted": {
+    "theServeParyRowOnTheNonConvictionManifest": "participantActionRequired[kind=serve_party] read 'The source review does not state a separate service requirement beyond the court's process.' JDF 491 § ③ Send a Copy says 'Mail a copy of your motion to the Prosecuting Attorney's office.' in as many words, and the delivered guide had been telling participants to serve the prosecuting attorney all along. This is the same defect class as the FEE_AND_WAIVER finding on the sibling -- a record sentence denying what a held guide states -- so it WAS corrected, and the correction is flagged here because requiredBeforeFiling is false on that row and no verifier asked for it. No deadline and no method is stated, because JDF 491 states neither."
+  },
+  "grantsNothing": "This return is a repair record. It grants no route promotion, opens no commercial route, admits no raster and claims no PASS. Both families keep a FAIL_REPAIR_REQUIRED verdict on COMPONENT_SET. Independent re-verification is owed to a lane that is not FIX157, on the committed bytes rather than on this report."
+}

@@ -1,0 +1,87 @@
+{
+  "schemaVersion": "rcap-nc-source-refresh-writer-hook/v1",
+  "familyId": "nc_146_dismissal_petition-set",
+  "author": "release_scope source-refresh lane; Captain independently reviews this change",
+  "recordedAt": "2026-09-08T11:35:00.051Z",
+  "verdict": "PASS_FOCUSED_ENGINEERING_CHECKS",
+  "host": {
+    "path": "scripts/build-census-v1-nc_146_dismissal_petition-set.mjs",
+    "beforeGitBlob": "e65565ce3fc32f517a8659355fb0675b2b0f00b7",
+    "afterGitBlob": "051f3be80fa3b17f2c008b98f3b50d39e7c9d5fa",
+    "afterSha256": "53b65d4145da7c43aa39b8b2bbbf4ceeeb7556554cac353be478b45adbef6cdc"
+  },
+  "receipt": {
+    "path": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/source-receipt.json",
+    "sha256": "24bc71658a5329605df67dd3456a47370f83bff0e761a545d069e4f7864b9c36",
+    "identityRefreshPins": 1
+  },
+  "sharedHelper": {
+    "path": "scripts/rcap-packet-completeness/identity-refresh.mjs",
+    "sha256": "f40c673d07bb0da268515b97bd3ae75df0bd611f870860a39bf1079572905f27"
+  },
+  "tests": [
+    {
+      "name": "The whole host delta is exactly one existing-helper import and one JSON writer replacement",
+      "passed": true
+    },
+    {
+      "name": "Historical writer execution reproduces annotation loss with the actual refreshed receipt",
+      "passed": true
+    },
+    {
+      "name": "Installed writer preserves every source-note value and exact current receipt bytes",
+      "passed": true
+    },
+    {
+      "name": "Installed writer drops the stale note for changed source",
+      "passed": true
+    },
+    {
+      "name": "Installed writer drops the stale note for reverted source",
+      "passed": true
+    },
+    {
+      "name": "Identical bytes under a different source path cannot borrow the old note",
+      "passed": true
+    },
+    {
+      "name": "An artifact-bound rasterReceipt cannot ride the source-preservation path",
+      "passed": true
+    },
+    {
+      "name": "An artifact-bound approvedBy cannot ride the source-preservation path",
+      "passed": true
+    },
+    {
+      "name": "An artifact-bound verdict cannot ride the source-preservation path",
+      "passed": true
+    },
+    {
+      "name": "Missing, invalid and unannotated previous receipts retain ordinary serialization behavior",
+      "passed": true
+    },
+    {
+      "name": "The actual unannotated production-field-map.json output is unchanged byte-for-byte",
+      "passed": true
+    },
+    {
+      "name": "The actual unannotated reports/rendered-artifacts.json output is unchanged byte-for-byte",
+      "passed": true
+    },
+    {
+      "name": "The retained source receipt and installed host were not mutated by writer tests",
+      "passed": true
+    }
+  ],
+  "passed": 13,
+  "failed": 0,
+  "actualWriterBodiesExecuted": true,
+  "sourceOnlyAnnotationPreserved": true,
+  "otherBuilderBehaviorChanged": false,
+  "fullBuilderExecuted": false,
+  "packetRendererRuns": 0,
+  "newRasterRuns": 0,
+  "independentCaptainReviewPending": true,
+  "evidencePublicationCommit": null,
+  "productionTouched": false
+}

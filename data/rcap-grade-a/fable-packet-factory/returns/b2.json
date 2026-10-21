@@ -1,0 +1,61 @@
+{
+  "schemaVersion": "fable-packet-factory-builder-return/v1",
+  "builder": "BUILDER-2",
+  "lane": "PF17",
+  "branch": "fable/b2",
+  "baseCaptainSha": "321650b5a",
+  "familiesCompleted": [
+    "sc_17_22_950_summary-set",
+    "wi_nc_doj_challenge-set",
+    "wi_nc_doj_fingerprint_removal-set"
+  ],
+  "familiesStopped": [],
+  "countersAllZeroOn": [
+    "sc_17_22_950_summary-set",
+    "wi_nc_doj_challenge-set",
+    "wi_nc_doj_fingerprint_removal-set"
+  ],
+  "deterministicProven": {
+    "sc_17_22_950_summary-set": {
+      "method": "two fresh builds, fixture PDFs byte-identical by sha256sum (stampDeterministic on the assembled packet)",
+      "canonical": "f373d91a18f015ebc7f3c7a9e7d71c1e47a469e830977555c937f4241cc8c5a1",
+      "boundary": "42e3e5e2b24e0f2b8064fef187ab2331c5914710c43899d2abd99c0a7bbfeaf9"
+    },
+    "wi_nc_doj_challenge-set": {
+      "method": "two fresh --no-raster builds, fixture PDFs byte-identical to each other AND to the committed bytes at this base",
+      "canonical": "edb7338200e12436a22390b6857b54bb0b44d074abc745b5c02c158f85457b4f",
+      "boundary": "365d25ebf98bc23dba12805e97f985d6f39fc2403cec591b9646a6be8f35596e"
+    },
+    "wi_nc_doj_fingerprint_removal-set": {
+      "method": "two fresh --no-raster builds, fixture PDFs byte-identical to each other AND to the committed bytes at this base; family dir restored from HEAD so the committed local raster evidence (RASTER_LOCAL_PENDING_CENTRAL) survives",
+      "canonical": "5b475b11c17c35f8edc37bada78716e8b14471b1951966604b7a678412fc6cc6",
+      "boundary": "3fd596ff112fd2f6ef55ca9a14c2fe0702eb107af9f715554b45503e3d7861f3"
+    }
+  },
+  "independentCompleteness": {
+    "verifier": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id>",
+    "results": {
+      "sc_17_22_950_summary-set": "PASS_COMPLETE (5/26 written)",
+      "wi_nc_doj_challenge-set": "PASS_COMPLETE (5/22 written)",
+      "wi_nc_doj_fingerprint_removal-set": "PASS_COMPLETE (10/33 written)"
+    }
+  },
+  "rasterStatus": "BUILT_RASTER_PENDING for all three — no raster produced in this session; central workflow only",
+  "claims": "PF17 asserted and released via claim.mjs for each family, in order; no claim held at exit",
+  "commits": [
+    "c1220c066 sc_17_22_950_summary-set: build SCCA 223E measured flat overlay, nine counters zero",
+    "9734bfbb2 wi_nc_doj_challenge-set: re-verified deterministic at this base, nine counters zero",
+    "637db6fa5 wi_nc_doj_fingerprint_removal-set: re-verified deterministic at this base, nine counters zero"
+  ],
+  "notesForTheNextBuilder": [
+    "SCCA 223E draws blanks three ways: filled thin rectangles (`re` painted `f`) in the caption block, underscore glyph runs in the lower half, stroked 9.3pt squares for the court election. rulesOfPage alone misses the Sex blank (38.64pt < its 40pt minLength) and the checkboxes — read extractPageGeometry paths directly.",
+    "SCCA 223E's DOB blank is the ruled line BELOW its printed caption, beside the SSN blank on the same line — verified against a local analysis raster before pinning; the write lands correctly.",
+    "SC 17-22-950 is free by statute and largely automatic: unit A (fingerprinted) files nothing and ships as process guidance in participant-instructions.md; never charge on this track.",
+    "SC fingerprint question (Yes/No/Do Not Know) and the Magistrate/Municipal boxes are deliberately unmarked participant selections, not route-determined — the routeSelectionNote in production-field-map.json carries the reasoning; do not 'fix' it.",
+    "The boundary fixture's U+2019 apostrophe reads back stripped from the Defendant line (shared finalizer font encoding, same as me-seal-prost-set); recorded as an advisory in build-findings.json, not a defect.",
+    "The corpus SCCA-223E is REV-UNKNOWN in the index but prints (5/16); the legal review's revision-currentness open question is recorded in source-receipt.json and build-findings.json for source-freshness review.",
+    "wi_nc_doj_challenge-set's rendered-artifacts.json rasterEngine string was corrected to scripts/raster/pdf-page-raster.mjs (module moved off scripts/lib/); no artifact byte changed.",
+    "A --no-raster rebuild of wi_nc_doj_fingerprint_removal-set strips its committed local raster metadata — if you must rebuild it, restore the family dir from HEAD afterward unless you re-raster locally.",
+    "Environment: corpus is pre-mounted; npm ci plus writing private/source-corpus-environment.txt and ~/.legalease-corpus-env (no secrets) gets verify-packet-build-environment to READY; pass --minimum-captain-sha a0c32ecd with --codex-cloud."
+  ]
+}

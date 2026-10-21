@@ -11,8 +11,21 @@
 //     rendered/canonical.txt, canonical.pdf and render-report.json for every
 //     pleading track and pleading component, then verify.
 //
+// Provenance: a record satisfies this control through one of exactly two
+// states -- CURRENT_PIN, where the reviewed digest is the compiled profile's
+// current digest, or SUPERSEDED_PIN_WITH_RECORDED_DELTA, where the reviewed
+// digest is preserved, the profile has moved, the exact delta is recorded in
+// data/rcap-all50/terminalization-provenance-supersessions.json, and that
+// delta carries a satisfied owner disposition. Anything else is
+// UNSUPERSEDED_DRIFT and is refused. The single earlier rule -- reviewed
+// digest must equal current digest -- conflated "reviewed against these
+// bytes" with "reviewed against earlier bytes whose delta was examined", and
+// left a moved profile no truthful way to pass. This control never reads a
+// record's pinned digest or review date as anything but evidence, and nothing
+// in it ever moves them.
+//
 // Fails on: a missing artifact for an assigned track, config-shape drift,
-// provenance hash drift against the compiled profile, canonical fixtures that
+// unsuperseded or improperly superseded provenance drift, canonical fixtures that
 // do not pass pleading QA, negative fixtures that do not fail, relief-term
 // vocabulary leaks, placeholder leaks, protected-field leaks (docket, judge,
 // OTN, prosecutor, SSN/DOB shapes) in canonical renders, composed routes with
@@ -28,6 +41,11 @@ import { createHash } from "node:crypto";
 import { spawnSync } from "node:child_process";
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
+import {
+  provenanceState,
+  loadSupersessions,
+  verifySupersessionDocumentIntegrity
+} from "./terminalization/terminalization-provenance-model.mjs";
 
 const require = createRequire(import.meta.url);
 const ts = require("typescript");
@@ -43,6 +61,22 @@ const sha256 = (buf) => createHash("sha256").update(buf).digest("hex");
 
 registerTypeScriptHook();
 const { renderCustomPleading, runPleadingQa } = require(path.join(rootDir, "src/lib/record-clearing/index.ts"));
+
+// The provenance state model. A record satisfies this control either because
+// its review was performed against the bytes that ship, or because its review
+// was performed against earlier bytes whose delta has been recorded and
+// dispositioned. Both readings live in one place so this control and the
+// supersession verifier cannot drift apart about what "satisfied" means.
+const { byKey: supersessionsByKey } = loadSupersessions({ root: rootDir });
+const provenanceStates = {};
+
+// This control reads the supersession record to decide whether a superseded
+// pin is satisfied, so it also checks that the record is telling the truth
+// about the pins and deltas it describes. A control that trusts its own
+// evidence file without recomputing it can be turned green by editing that
+// file.
+const supersessionIntegrityProblems = verifySupersessionDocumentIntegrity({ root: rootDir });
+for (const problem of supersessionIntegrityProblems) failures.push(`supersession record: ${problem}`);
 
 const C1 = {
   AR: "arkansas", CA: "california", CT: "connecticut", IA: "iowa", IL: "illinois",
@@ -119,7 +153,39 @@ const jobs = ledger.jobs.filter((j) => j.lane === "C" && C1[j.jurisdiction]);
   const open = new Set(jobs.map((j) => j.jobId));
   for (const [jobId, entry] of completed) if (!open.has(jobId)) jobs.push(entry);
 }
-assert(jobs.length === 16, `expected 16 C1 jobs from the ledger, found ${jobs.length}`);
+// Sixteen jobs, less any track a legal-design decision owner has retired.
+//
+// The literal is kept rather than replaced by a derived count, because its job
+// is to catch a job that goes missing silently -- a ledger regeneration that
+// drops one, a promotion that quietly reverts. What it must not do is refuse a
+// retirement an owner actually made: retiring a route legitimately removes a
+// job, and a constant that cannot follow a decision would force the alternative,
+// which is re-pinning a retired record's hash to keep a count whole.
+//
+// So the expected count moves only for a retirement that is recorded in a
+// decision record, and the reason is read from that record rather than from a
+// list here.
+const C1_JOBS_BEFORE_RETIREMENTS = 16;
+const RETIREMENT_RECORDS = ["data/record-clearing/legal-decisions/2026-08-29-lawrence-six-decisions.json"];
+const retiredTrackIds = new Set();
+for (const rel of RETIREMENT_RECORDS) {
+  const abs = path.join(rootDir, rel);
+  if (!fs.existsSync(abs)) continue;
+  for (const decision of JSON.parse(fs.readFileSync(abs, "utf8")).decisions ?? []) {
+    if (decision.classification !== "RECORD_RETIREMENT_REQUIRED") continue;
+    for (const trackId of decision.tracks ?? []) retiredTrackIds.add(trackId);
+  }
+}
+// Only a retirement that actually removed a job from the ledger counts, so a
+// decision record cannot lower the expected count for a job that is still there.
+const retiredAndGone = [...retiredTrackIds].filter(
+  (trackId) => !(ledger.tracks ?? []).some((t) => t.trackId === trackId && String(t.candidateStatus ?? "").startsWith("promoted_by_")),
+);
+const expectedJobs = C1_JOBS_BEFORE_RETIREMENTS - retiredAndGone.length;
+assert(
+  jobs.length === expectedJobs,
+  `expected ${expectedJobs} C1 jobs from the ledger (${C1_JOBS_BEFORE_RETIREMENTS} less ${retiredAndGone.length} retired by recorded legal decision${retiredAndGone.length ? `: ${retiredAndGone.join(", ")}` : ""}), found ${jobs.length}`,
+);
 
 const RELIEF_VOCAB = {
   expungement: ["expungement", "expunge", "expunction"],
@@ -260,7 +326,28 @@ function verifyPleadingArtifacts(job, slug, trackId, dir, { requireFullFixtures 
     if (!fs.existsSync(profAbs)) {
       failures.push(`${label}: provenance.profilePath does not resolve`);
     } else {
-      assert(sha256(fs.readFileSync(profAbs)) === prov.profileSha256, `${label}: provenance.profileSha256 drifted from ${prov.profilePath}`);
+      // Two questions, not one. "Was this reviewed against the bytes that
+      // ship" and "was this reviewed against earlier bytes whose later delta
+      // has been examined and dispositioned" are both honest answers, and the
+      // old rule could express only the first. A profile that moved for any
+      // reason left the record with no way to be truthful and pass, and the
+      // only way out was to move the pin — which turns a review into a digest.
+      // The record's pinned digest and review date are never touched here.
+      const verdict = provenanceState({
+        pin: {
+          record: path.relative(rootDir, configPath).split(path.sep).join("/"),
+          profilePath: prov.profilePath,
+          reviewedSha256: prov.profileSha256,
+          reviewedAsOf: prov.reviewedAsOf ?? null,
+          currentSha256: sha256(fs.readFileSync(profAbs))
+        },
+        supersessionsByKey
+      });
+      provenanceStates[verdict.state] = (provenanceStates[verdict.state] ?? 0) + 1;
+      assert(
+        verdict.satisfied,
+        `${label}: provenance is ${verdict.state} against ${prov.profilePath} — ${verdict.reason}`
+      );
     }
   } else {
     failures.push(`${label}: provenance.profilePath missing`);

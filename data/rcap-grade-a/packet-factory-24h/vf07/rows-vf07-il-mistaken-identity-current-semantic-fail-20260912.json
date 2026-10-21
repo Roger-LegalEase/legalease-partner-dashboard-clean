@@ -1,0 +1,482 @@
+{
+  "schemaVersion": "rcap-verifier-lane-return/v1",
+  "lane": "VF07",
+  "laneKind": "independent-verification",
+  "status": "COMPLETED",
+  "verifiedAtBase": "21e91aa21171fe2be26606b321a991fb9d756e32",
+  "rows": [
+    {
+      "itemId": "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
+      "familyId": "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
+      "lane": "VF07",
+      "laneKind": "independent-verification",
+      "isIndependentVerification": true,
+      "status": "COMPLETED",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "21e91aa21171fe2be26606b321a991fb9d756e32",
+      "reviewPhase": "INDEPENDENT_NONVISUAL_SEMANTIC_PREFLIGHT",
+      "reviewer": "seven_independent_review (independent Astra xhigh; no Illinois implementation changes)",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/il/composed-treatment:obligation:runtime-only:il:criminal-identity-theft-mistaken-identity-relief--custom-pleading",
+      "claimEvidence": {
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF07 composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
+        "result": "CLAIM_OK",
+        "exitCode": 0,
+        "grantSetId": "02590d4051913671",
+        "assertedBeforeFamilyReads": true
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "measured": true,
+          "finding": "Exact family, route key, requested mistaken-identity correction and chief-judge addressee agree; conditional contamination is separately failed under ROUTE_OPTIONS.",
+          "evidence": [
+            "scripts/build-census-v1-composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief.mjs"
+          ],
+          "measurementReference": "currentPdfMeasurements and confirmedFindings in this native return; exact inputs pinned in evidenceBindings"
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "measured": true,
+          "finding": "All three declared codified-record SHA/length pins independently recompute exactly. This is the governed composed-pleading treatment; no official form/source acquisition is missing. Sept11 verification rule is read and binding.",
+          "evidence": [
+            "data/rcap-all50/overlays/census-v1/il/composed-treatment:obligation:runtime-only:il:criminal-identity-theft-mistaken-identity-relief--custom-pleading/source-receipt.json"
+          ],
+          "measurementReference": "currentPdfMeasurements and confirmedFindings in this native return; exact inputs pinned in evidenceBindings"
+        },
+        "COMPONENT_SET": {
+          "result": "FAIL",
+          "measured": true,
+          "finding": "IL-MI-01: required verified petition has no verification clause. The other two required components are participant-obtained identity-theft report and mismatched-identifier evidence, truthfully handed back rather than fabricated.",
+          "evidence": [
+            "data/rcap-all50/overlays/census-v1/il/composed-treatment:obligation:runtime-only:il:criminal-identity-theft-mistaken-identity-relief--custom-pleading/fixtures/canonical.pdf"
+          ],
+          "measurementReference": "currentPdfMeasurements and confirmedFindings in this native return; exact inputs pinned in evidenceBindings"
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "measured": true,
+          "finding": "All five actually held participant facts per fixture are independently reconstructed from SPEC.fixtures and read exactly from the current PDF text: name four times and DOB/address/phone/email once, 16 physical occurrences total. No held case-specific value is present in these fixture inputs; this is not a claim of runtime readiness.",
+          "evidence": [
+            "data/rcap-all50/overlays/census-v1/il/composed-treatment:obligation:runtime-only:il:criminal-identity-theft-mistaken-identity-relief--custom-pleading/fixtures/canonical.pdf"
+          ],
+          "measurementReference": "currentPdfMeasurements and confirmedFindings in this native return; exact inputs pinned in evidenceBindings"
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "FAIL",
+          "measured": true,
+          "finding": "IL-MI-01/02: missing certification plus three unconditional inapplicable fact requirements. Caption, identity report/mismatched identifiers, arrest circuit and personal signature/date handback are present.",
+          "evidence": [
+            "scripts/build-census-v1-composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief.mjs"
+          ],
+          "measurementReference": "currentPdfMeasurements and confirmedFindings in this native return; exact inputs pinned in evidenceBindings"
+        },
+        "ROUTE_OPTIONS": {
+          "result": "FAIL",
+          "measured": true,
+          "finding": "IL-MI-02: facts of the separate prostitution/conviction branch are required in the mistaken-identity petition without applicability handling. No fabricated selection is acceptable.",
+          "evidence": [
+            "scripts/build-census-v1-composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief.mjs"
+          ],
+          "measurementReference": "currentPdfMeasurements and confirmedFindings in this native return; exact inputs pinned in evidenceBindings"
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "measured": true,
+          "finding": "Six question items each have two blank response lines in both fixtures; no partial known row or fabricated continuation content. Their wrong applicability is separately failed. Pagination/legibility is not accepted here.",
+          "evidence": [
+            "scripts/build-census-v1-composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief.mjs"
+          ],
+          "measurementReference": "currentPdfMeasurements and confirmedFindings in this native return; exact inputs pinned in evidenceBindings"
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "measured": true,
+          "finding": "Current extracted execution lines leave the new filing number, personal signature and signature date blank in both fixtures; no judicial decision or notarial execution is supplied. No current visual protected-ink acceptance is inferred.",
+          "evidence": [
+            "data/rcap-all50/overlays/census-v1/il/composed-treatment:obligation:runtime-only:il:criminal-identity-theft-mistaken-identity-relief--custom-pleading/fixtures/canonical.pdf"
+          ],
+          "measurementReference": "currentPdfMeasurements and confirmedFindings in this native return; exact inputs pinned in evidenceBindings"
+        },
+        "ARTIFACTS": {
+          "result": "FAIL",
+          "measured": true,
+          "finding": "IL-MI-03/05: participant-facing internal IDs/prose and fabricated geometry-zero reporting. Current PDF hash/length inventory itself agrees; historic local raster with null workflow is not central acceptance.",
+          "evidence": [
+            "scripts/build-census-v1-composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief.mjs"
+          ],
+          "measurementReference": "currentPdfMeasurements and confirmedFindings in this native return; exact inputs pinned in evidenceBindings"
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "measured": true,
+          "finding": "Current PDFs each have four pages: primary pleading pp1-2 and filing instructions pp3-4, matching the actual rendered component manifest. This is structural order only.",
+          "evidence": [
+            "data/rcap-all50/overlays/census-v1/il/composed-treatment:obligation:runtime-only:il:criminal-identity-theft-mistaken-identity-relief--custom-pleading/fixtures/canonical.pdf"
+          ],
+          "measurementReference": "currentPdfMeasurements and confirmedFindings in this native return; exact inputs pinned in evidenceBindings"
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "NOT_MEASURABLE_HERE",
+          "measured": false,
+          "finding": "No current central original visual acceptance performed. Do not carry old local pixel/legibility PASS or authored zero geometry into a new candidate.",
+          "evidence": [
+            "data/rcap-all50/overlays/census-v1/il/composed-treatment:obligation:runtime-only:il:criminal-identity-theft-mistaken-identity-relief--custom-pleading/fixtures/canonical.pdf"
+          ],
+          "measurementReference": "currentPdfMeasurements and confirmedFindings in this native return; exact inputs pinned in evidenceBindings"
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "measured": true,
+          "finding": "Chief judge of the Illinois judicial circuit where the arrest occurred is named consistently; circuit/court name is an explicit participant handback, with office inquiry if unclear.",
+          "evidence": [
+            "data/rcap-all50/overlays/census-v1/il/composed-treatment:obligation:runtime-only:il:criminal-identity-theft-mistaken-identity-relief--custom-pleading/participant-instructions.md"
+          ],
+          "measurementReference": "currentPdfMeasurements and confirmedFindings in this native return; exact inputs pinned in evidenceBindings"
+        },
+        "FEE_AND_WAIVER": {
+          "result": "FAIL",
+          "measured": true,
+          "finding": "IL-MI-04: unsupported categorical inability-to-pay filing bar, despite recorded uncertainty about fee and waiver.",
+          "evidence": [
+            "data/rcap-all50/overlays/census-v1/il/composed-treatment:obligation:runtime-only:il:criminal-identity-theft-mistaken-identity-relief--custom-pleading/participant-instructions.md"
+          ],
+          "measurementReference": "currentPdfMeasurements and confirmedFindings in this native return; exact inputs pinned in evidenceBindings"
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "measured": true,
+          "finding": "No held rule identifies mandatory service actors/method. Packet names the chief judge's office for confirmation, supplies no invented certificate, and makes no assertion that service has occurred. No new legal lookup or service rule is invented.",
+          "evidence": [
+            "data/rcap-all50/overlays/census-v1/il/composed-treatment:obligation:runtime-only:il:criminal-identity-theft-mistaken-identity-relief--custom-pleading/participant-instructions.md"
+          ],
+          "measurementReference": "currentPdfMeasurements and confirmedFindings in this native return; exact inputs pinned in evidenceBindings"
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "measured": true,
+          "finding": "Uncertainty that someone else used the identity, an ordinary record of one's own, automatic-seal uncertainty, separate prostitution route and immigration are disclosed stops. Preserve supported distinctions while correcting the conflicting universal fact list.",
+          "evidence": [
+            "data/rcap-all50/overlays/census-v1/il/composed-treatment:obligation:runtime-only:il:criminal-identity-theft-mistaken-identity-relief--custom-pleading/participant-instructions.md"
+          ],
+          "measurementReference": "currentPdfMeasurements and confirmedFindings in this native return; exact inputs pinned in evidenceBindings"
+        }
+      },
+      "obligationCounts": {
+        "PASS": 9,
+        "FAIL": 5,
+        "NOT_MEASURABLE_HERE": 1
+      },
+      "failedObligationNames": [
+        "COMPONENT_SET",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS",
+        "ARTIFACTS",
+        "FEE_AND_WAIVER"
+      ],
+      "unmeasuredObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "confirmedFindings": [
+        {
+          "id": "IL-MI-01",
+          "obligations": [
+            "COMPONENT_SET",
+            "REQUIRED_BEFORE_FILING"
+          ],
+          "currentLocation": "Both PDFs, petition execution block p2; builder SPEC.components[0].body; guide signing step 4",
+          "finding": "The instrument calls itself VERIFIED but contains only an unsigned DATE/SIGNATURE line and personal-signing instructions. There is no certification, oath, affirmation or penalty-of-perjury language anywhere in either four-page PDF. The settled Sept11 rule requires a 735 ILCS 5/1-109 certification; adding a notary requirement would contradict that rule.",
+          "governingDecision": "IL-MISTAKEN-IDENTITY-VERIFICATION",
+          "bindingRule": "Use a 735 ILCS 5/1-109 certification under penalty of perjury. Do not require notarization unless a route-specific statute or rule expressly overrides Section 1-109.",
+          "repairAcceptance": "Include the settled certification in the actual petition execution block, covering the participant-supplied factual allegations, and align signing guidance. Leave actual signature/date blank; do not certify invented personal facts.",
+          "historicalStatus": "Historical VF07 COMPONENT_SET FAIL independently reconfirmed on identical PDF bytes; not superseded."
+        },
+        {
+          "id": "IL-MI-02",
+          "obligations": [
+            "ROUTE_OPTIONS",
+            "REQUIRED_BEFORE_FILING"
+          ],
+          "currentLocation": "Both PDFs p1 condition paragraph, p2 C3/C4/C5, p3 fill-every-item instruction, p4 prostitution stop; production-field-map.json maps[0].canonicalRefusals and boundaryRefusals fact_q3/fact_q4/fact_q5; participant-instructions.md required-items table",
+          "finding": "The mistaken-identity petition unconditionally demands Exact prostitution statute/class, Sentence completion and Trafficking/victimization facts. All three are requiredBeforeFiling=true with no applicability condition, even though this packet states a no-wait identity-correction remedy and stops prostitution cases as a separate route. A participant seeking correction of another person's record may have no such personal conviction/sentence/trafficking facts. The blanket fill instruction offers no truthful not-applicable handling.",
+          "sourceConflictPreciselyScoped": "LD-IL-04 declares TWO routes. The route-specific specification statutoryAuthority.doNotImport expressly excludes IL:felony-prostitution-relief, while its old derived requiredFacts/finalVerificationRequirements and the shared route-contract requiredFacts mechanically carry C1-C6 for the combined decision. Those historical records are preserved; copied metadata is not a basis for requiring unrelated sworn personal answers.",
+          "repairAcceptance": "Keep this petition and its collection/handback specific to the supported mistaken-identity branch. Model applicability explicitly for any retained conditional facts, keep the separate prostitution routing stop, and do not impose a conviction waiting clock or fabricate sentence facts. Preserve the genuinely relevant identity-report/mismatched-identifiers and arrest-circuit items.",
+          "historicalStatus": "Replaces historical broad ROUTE_OPTIONS/REQUIRED_BEFORE_FILING PASS only on the measured unconditional-row conflict; no new legal/source-acquisition hold."
+        },
+        {
+          "id": "IL-MI-03",
+          "obligations": [
+            "ARTIFACTS"
+          ],
+          "currentLocation": "Both PDFs pp1-4, especially section A p1, participant_packet p3 and route-key footers pp2/4; guide component table/heading, source provenance table and footer",
+          "finding": "Participant and court deliverables contain implementation/control-plane prose: committed route contract, compiled Illinois profile, Wilma rule, outcome mode participant_packet, internal component identifiers and the exact obligation route key. These are presented as pleading content and filing instructions rather than as private provenance.",
+          "measuredCounts": "Each PDF contains 2 committed route contract, 1 compiled Illinois profile, 6 committed contract, 1 participant_packet and 2 exact Route: obligation:runtime-only:IL:... footer occurrences (12 exact phrase occurrences per PDF); guide separately carries both component identifiers and internal obligation labels.",
+          "repairAcceptance": "Write direct participant/court-facing allegations, requested relief and action instructions. Preserve statute citations and truthful limits; retain internal IDs, hashes and provenance only in repository evidence/metadata."
+        },
+        {
+          "id": "IL-MI-04",
+          "obligations": [
+            "FEE_AND_WAIVER"
+          ],
+          "currentLocation": "Both PDFs fee paragraph pp3-4; guide FEE_AND_WAIVER row; builder obligationTable and filing-instructions body",
+          "finding": "After saying both fee and waiver are unknown, the packet states: \"a filing you cannot pay for is a filing you cannot make.\" None of its three bound records supplies that categorical financial exclusion; its route-specific specification instead requires asking the chief judge's office about charges and any waiver. The sentence contradicts that truthful uncertainty.",
+          "repairAcceptance": "Retain the named-office inquiry before filing, including any waiver procedure, and remove the unsupported absolute inability-to-pay bar. Do not invent an amount or waiver entitlement."
+        },
+        {
+          "id": "IL-MI-05",
+          "obligations": [
+            "ARTIFACTS"
+          ],
+          "currentLocation": "builder byteProof(), runFamily() writeProofs object, countCompleteness(); reports/actual-writes.json documents[*]/artifacts[*]; reports/completeness-counters.json",
+          "finding": "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes is authored as literal 0 for every fixture even though byteProof only tests text inclusion within component extraction, no placement boxes are measured, and mapHelpers supplies no geometry. countCompleteness consumes that constant as if it were a measured visual reading; the current report publishes visualDefects=0 and allNineZero=true. These zeros cannot establish geometry, protected-region ink or current original acceptance.",
+          "repairAcceptance": "Use actual occurrence/page/placement measurement for any claimed geometry counters, or preserve null/NOT_MEASURABLE_HERE until the required current-byte central/independent measurement exists. Keep valid saved-byte text readbacks; do not conceal missing measurements behind synthetic zeros."
+        }
+      ],
+      "artifactsRead": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/il/composed-treatment:obligation:runtime-only:il:criminal-identity-theft-mistaken-identity-relief--custom-pleading/fixtures/canonical.pdf",
+          "commitSha": "21e91aa21171fe2be26606b321a991fb9d756e32",
+          "sha256": "3bed5cd21e70338e5d9c5e2daf1251b5ff3c4558a6544991ab549594dacbf3bf",
+          "byteLength": 10963,
+          "pageCount": 4,
+          "fixture": "canonical"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/il/composed-treatment:obligation:runtime-only:il:criminal-identity-theft-mistaken-identity-relief--custom-pleading/fixtures/boundary.pdf",
+          "commitSha": "21e91aa21171fe2be26606b321a991fb9d756e32",
+          "sha256": "1d5162ef7d046a6c5a9925b4b4b987e92b0768d046723311d6d78ef7bd990fbf",
+          "byteLength": 11146,
+          "pageCount": 4,
+          "fixture": "boundary"
+        }
+      ],
+      "currentPdfMeasurements": [
+        {
+          "fixture": "canonical",
+          "sourcePdfSha256": "3bed5cd21e70338e5d9c5e2daf1251b5ff3c4558a6544991ab549594dacbf3bf",
+          "heldFacts": {
+            "participant.full_legal_name": {
+              "value": "Jordan Avery Reyes",
+              "physicalOccurrences": 4
+            },
+            "participant.date_of_birth": {
+              "value": "1991-04-17",
+              "physicalOccurrences": 1
+            },
+            "participant.street_address": {
+              "value": "42 Magnolia Street, Springfield 62704",
+              "physicalOccurrences": 1
+            },
+            "participant.phone": {
+              "value": "555-0142",
+              "physicalOccurrences": 1
+            },
+            "participant.email": {
+              "value": "jordan.reyes@example.org",
+              "physicalOccurrences": 1
+            }
+          },
+          "verificationClausePresent": false,
+          "internalPhraseOccurrences": {
+            "committed route contract": 2,
+            "compiled Illinois profile": 1,
+            "committed contract": 6,
+            "participant_packet": 1,
+            "Route: obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief": 2
+          },
+          "unconditionalC3C4C5Count": 3,
+          "sourceRuleOrOriginalPageVisualReviewPerformed": false
+        },
+        {
+          "fixture": "boundary",
+          "sourcePdfSha256": "1d5162ef7d046a6c5a9925b4b4b987e92b0768d046723311d6d78ef7bd990fbf",
+          "heldFacts": {
+            "participant.full_legal_name": {
+              "value": "Maria-Alejandra O'Shaughnessy-Whitfield",
+              "physicalOccurrences": 4
+            },
+            "participant.date_of_birth": {
+              "value": "1968-12-31",
+              "physicalOccurrences": 1
+            },
+            "participant.street_address": {
+              "value": "1188 Upper Tallahatchie Crossing Road, Apartment 14B, Fort Saint Clairsville 39501-2214",
+              "physicalOccurrences": 1
+            },
+            "participant.phone": {
+              "value": "(228) 555-0199 ext. 4417",
+              "physicalOccurrences": 1
+            },
+            "participant.email": {
+              "value": "maria.alejandra.oshaughnessy.whitfield@longmailexample.org",
+              "physicalOccurrences": 1
+            }
+          },
+          "verificationClausePresent": false,
+          "internalPhraseOccurrences": {
+            "committed route contract": 2,
+            "compiled Illinois profile": 1,
+            "committed contract": 6,
+            "participant_packet": 1,
+            "Route: obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief": 2
+          },
+          "unconditionalC3C4C5Count": 3,
+          "sourceRuleOrOriginalPageVisualReviewPerformed": false
+        }
+      ],
+      "evidenceBindings": [
+        {
+          "path": "scripts/build-census-v1-composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief.mjs",
+          "commitSha": "21e91aa21171fe2be26606b321a991fb9d756e32",
+          "sha256": "368b6d67325fd766c59a7cc0d207c6565fb9583acc7d84116c017df7368b483d",
+          "byteLength": 62913
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/il/composed-treatment:obligation:runtime-only:il:criminal-identity-theft-mistaken-identity-relief--custom-pleading/source-receipt.json",
+          "commitSha": "21e91aa21171fe2be26606b321a991fb9d756e32",
+          "sha256": "911e912448235a93cf3eda86ae3eccdcf2a498a077ab3ca8506a045e4408c708",
+          "byteLength": 3931
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/il/composed-treatment:obligation:runtime-only:il:criminal-identity-theft-mistaken-identity-relief--custom-pleading/production-field-map.json",
+          "commitSha": "21e91aa21171fe2be26606b321a991fb9d756e32",
+          "sha256": "a0afcbd8497a8f0b7b2101af7411a838ecc61ea54f9621f35ba2dad77f78f5e2",
+          "byteLength": 48057
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/il/composed-treatment:obligation:runtime-only:il:criminal-identity-theft-mistaken-identity-relief--custom-pleading/participant-instructions.md",
+          "commitSha": "21e91aa21171fe2be26606b321a991fb9d756e32",
+          "sha256": "399cd972b350d0ff66fd86b66db6d2c5d038a1649a81b931c97ddcef6520f6f5",
+          "byteLength": 8021
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/il/composed-treatment:obligation:runtime-only:il:criminal-identity-theft-mistaken-identity-relief--custom-pleading/reports/actual-writes.json",
+          "commitSha": "21e91aa21171fe2be26606b321a991fb9d756e32",
+          "sha256": "774970ea885b033975147052c22a3f32f670f5cd7b342c8ce8dd81d321ca0b36",
+          "byteLength": 6874
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/il/composed-treatment:obligation:runtime-only:il:criminal-identity-theft-mistaken-identity-relief--custom-pleading/reports/blanks-left-for-the-participant.json",
+          "commitSha": "21e91aa21171fe2be26606b321a991fb9d756e32",
+          "sha256": "82739daaa913893e84615673cdf90333be7f208265b4d16a83f6bcee975aca59",
+          "byteLength": 6170
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/il/composed-treatment:obligation:runtime-only:il:criminal-identity-theft-mistaken-identity-relief--custom-pleading/reports/rendered-artifacts.json",
+          "commitSha": "21e91aa21171fe2be26606b321a991fb9d756e32",
+          "sha256": "7d9796a19e9da0dee13ef71def196351aaa18f6337272331fc7f40f3cb2d1602",
+          "byteLength": 5133
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/il/composed-treatment:obligation:runtime-only:il:criminal-identity-theft-mistaken-identity-relief--custom-pleading/reports/completeness-counters.json",
+          "commitSha": "21e91aa21171fe2be26606b321a991fb9d756e32",
+          "sha256": "57f13be978dce7514dfffce3949502416ebf8bc552c675b873e2e3d0bcbe303c",
+          "byteLength": 977
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/il/composed-treatment:obligation:runtime-only:il:criminal-identity-theft-mistaken-identity-relief--custom-pleading/product-wiring.json",
+          "commitSha": "21e91aa21171fe2be26606b321a991fb9d756e32",
+          "sha256": "d06c1fa31ad0b6fa6e8166354487922c0133420e69f98588b967256b17d126e3",
+          "byteLength": 4901
+        },
+        {
+          "path": "data/record-clearing/packet-specifications/IL-criminal-identity-theft-mistaken-identity-relief.v1.json",
+          "commitSha": "21e91aa21171fe2be26606b321a991fb9d756e32",
+          "sha256": "a26999ca50e3a959f7371aac25f372a8debc8db7551c8605632920b5e1645e4e",
+          "byteLength": 25256
+        },
+        {
+          "path": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
+          "commitSha": "21e91aa21171fe2be26606b321a991fb9d756e32",
+          "sha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
+          "byteLength": 22372
+        },
+        {
+          "path": "src/lib/legal-authority/authority.json",
+          "commitSha": "21e91aa21171fe2be26606b321a991fb9d756e32",
+          "sha256": "94bcec210a4c9ee627e4aef8bf0947c89cd97524ad51f658baaf44c3dd826e00",
+          "byteLength": 46865
+        },
+        {
+          "path": "docs/PRODUCT_CONTRACT.md",
+          "commitSha": "21e91aa21171fe2be26606b321a991fb9d756e32",
+          "sha256": "6791882d3b0e0e4033f2768a7cb9f860e6cc3c636e839d76066e078556216276",
+          "byteLength": 64438
+        },
+        {
+          "path": "src/lib/legal-authority/routes/route-splits.json",
+          "commitSha": "21e91aa21171fe2be26606b321a991fb9d756e32",
+          "sha256": "c573d65a64d3922bcffdd402810efa142f44bc8d9389d4e7e8a223ee4105f7df",
+          "byteLength": 127996
+        },
+        {
+          "path": "src/lib/rcap-engine/compiled/profiles/IL-illinois.json",
+          "commitSha": "21e91aa21171fe2be26606b321a991fb9d756e32",
+          "sha256": "7999f618fd374825e4a8fa611d141131afe06ce9f6139c5c2d608277704da914",
+          "byteLength": 355244
+        },
+        {
+          "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+          "commitSha": "21e91aa21171fe2be26606b321a991fb9d756e32",
+          "sha256": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
+          "byteLength": 2629290
+        },
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json",
+          "commitSha": "21e91aa21171fe2be26606b321a991fb9d756e32",
+          "sha256": "f53772e1cc5b75bda014d76902337797b1c1602cc52fbc6cda375714caf98a0c",
+          "byteLength": 1376179
+        }
+      ],
+      "sourcePinResult": "3/3 exact SHA and byte lengths; no source acquisition reopened",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 1,
+        "invisibleWrites": null,
+        "protectedWrites": 0,
+        "visualDefects": null,
+        "allZero": false,
+        "measuredHere": true,
+        "countBasis": "Current held facts, explicit blank census and printed text only. One required verified instrument lacks its certification. Wrong applicability and internal copy are substantive obligation failures even though no checkbox or unclassified blank is missing. Visual/invisible-ink counters remain unmeasured; all old synthetic zeros are expressly refused."
+      },
+      "rasterState": "rendered_locally_pending_central_acceptance",
+      "rasterWorkflowRunId": null,
+      "rasterDispatchAuthorized": false,
+      "newCentralRasterRequired": true,
+      "finalAcceptance": false,
+      "terminalPromotionAuthorized": false,
+      "historicalDisposition": {
+        "priorNativeReturn": {
+          "path": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json",
+          "commitSha": "21e91aa21171fe2be26606b321a991fb9d756e32",
+          "sha256": "f53772e1cc5b75bda014d76902337797b1c1602cc52fbc6cda375714caf98a0c",
+          "byteLength": 1376179
+        },
+        "selectedItemId": "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
+        "priorVerifiedAtBase": "b70ec78ef",
+        "priorCanonicalSha256": "3bed5cd21e70338e5d9c5e2daf1251b5ff3c4558a6544991ab549594dacbf3bf",
+        "priorBoundarySha256": "1d5162ef7d046a6c5a9925b4b4b987e92b0768d046723311d6d78ef7bd990fbf",
+        "priorComponentFail": "RECONFIRMED_ON_IDENTICAL_CURRENT_PDF_BYTES",
+        "priorPassesDisproved": [
+          "REQUIRED_BEFORE_FILING",
+          "ROUTE_OPTIONS",
+          "ARTIFACTS",
+          "FEE_AND_WAIVER"
+        ],
+        "explanation": "Historical findings and exact old artifacts are preserved. The missing certification remains a defect and its legal treatment is now settled. Prior broad PASS findings are narrowed by actual current text/field and counter evidence; no historical evidence is deleted or rewritten."
+      },
+      "remainingBlocker": "Repair all five current semantic classes, rebuild changed PDFs through the family builder, pass independent semantic preflight, then obtain complete central current-byte originals and final independent acceptance.",
+      "runtimeAndCommercialBoundary": "Current generated wiring is DECLARED_NOT_INSTALLED with generation/payment/sponsorship false. Neither existing compiled profile ratification language nor this review grants runtime, payment or delivery authority. No runtime change is requested.",
+      "independence": {
+        "builderOrPacketOrSourceEdited": false,
+        "sharedRecordsEdited": false,
+        "localRasterPerformed": false,
+        "sourceResearchPerformed": false,
+        "newPngOrWholeSourceCopies": false
+      }
+    }
+  ]
+}

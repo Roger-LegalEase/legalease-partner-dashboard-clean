@@ -1,0 +1,153 @@
+{
+  "schemaVersion": "rcap-packet-factory-lane-return/v1",
+  "lane": "FIX02",
+  "laneKind": "repair",
+  "worker": "pfd-fix-20260909",
+  "workerBranch": "pfd-fix-20260909",
+  "baseSha": "181ac2ece",
+  "returnFilename": "rows-fix02-20260909-pfd.json",
+  "writtenAlongsideRatherThanOver": "fix-c-repair-return.json, repair-c-fee-denial-class-return.json, rows.il-vacatur-trailer.json, rows.json and rows.previous-batch-fable-fa.json survive byte-for-byte. Nothing in fix02/ was overwritten.",
+  "selfVerified": false,
+  "selfVerifiedNote": "This lane repaired this family and re-measured its own delivered bytes. It issues no PASS and sets no verdict. The family returns to independent verification by a lane that neither built nor repaired it.",
+  "grantsNothing": "This return grants nothing. It opens no route, sets no price, touches no checkout, promotes no build status and marks no packet proven.",
+  "productionTouched": false,
+  "commercialRoutesOpened": 0,
+  "claimsReleased": 0,
+  "centralStateEdits": 0,
+  "rows": [
+    {
+      "itemId": "mn_petition_juvenile_as_adult-set",
+      "familyId": "mn_petition_juvenile_as_adult-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/mn/mn-petition-juvenile-as-adult-set--official-pdf-fill",
+      "routeKeys": [
+        "obligation:track-only:MN:mn_petition_juvenile_as_adult"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "status": "COMPLETED",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "repairedByThisLane": true,
+      "claim": "CLAIM_OK FIX02 mn_petition_juvenile_as_adult-set (repair, grant set 914af21a28d51a60)",
+      "recordedFailureRepaired": {
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "vf03",
+        "verifiedAtBase": "7d6453f51dacd9064f9a2b2d4d16618d0669add8",
+        "failedObligations": [
+          "KNOWN_PREFILLS",
+          "REQUIRED_BEFORE_FILING"
+        ]
+      },
+      "obligationsRepaired": [
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "knownPrefillsRepair": {
+        "whatFailed": "The petition swore facts its own elected ground makes impossible. EXP102 item 9 box 2 is ticked -- 'You were certified or referenced for prosecution as an adult for a crime you committed when you were a juvenile' -- while item 3 wrote participant.date_of_birth 1991-04-17 and item 10 wrote matter.offense_date 2019-08-04, making the petitioner 28 years, 3 months and 18 days old at the offence, and item 10 also wrote matter.charge 'Fifth-degree possession of a controlled substance', which is item 9 BOX 1's subject matter (the Minn. Stat. 152.18 discharge branch). Both fixtures carried it; the boundary fixture extended the charge to '... aiding and abetting, continued for dismissal'. No counter could see it: every value was present, inside its measured rule, under its declared factId, and the field map was honest about all three.",
+        "howTheControllingRecordResolvedIt": "The tick stays and the facts go. data/record-clearing/legal-design-track-registry.json, the track whose trackId is mn_petition_juvenile_as_adult, carries legalName 'Petition to Expunge a Conviction Following Certification for Adult Prosecution', authority ['Minn. Stat. ch. 609A','Minn. Stat. 260B.125'], mechanism 'An adult conviction resulting from certification for adult prosecution ... This is an adult conviction route, not juvenile delinquency relief', exactly one eligible disposition 'adult_conviction_after_certification', and the exclusion 'Juvenile delinquency adjudications, which are a separate scheme.' data/record-clearing/legal-design-intake/MN.memo.json carries the identical controllingAuthority summary and eligibleDispositions, and lists among its selfHelpStopConditions 'Whether the case was certified for adult prosecution is disputed.' The route identity is settled by the record and box 2's own printed bracket names EXP106, the order this family binds. So this is not a BLOCKED_LEGAL_INPUT on ROUTE_IDENTITY: the record does establish which of the two is true.",
+        "recordNodesConsulted": [
+          "data/record-clearing/legal-design-track-registry.json -> tracks[] where trackId == 'mn_petition_juvenile_as_adult' -> legalName, authority, mechanism, dispositions, exclusions, waitingPeriods, packetSet",
+          "data/record-clearing/legal-design-intake/MN.memo.json -> the mn_petition_juvenile_as_adult memo -> controllingAuthority.summary, eligibleDispositions, exclusions, selfHelpStopConditions, legalDesignDecision.rationale",
+          "data/record-clearing/legal-design-packet-set-manifests.json -> packetSets[] where packetSetId == 'mn_petition_juvenile_as_adult-set' -> components, participantActionRequired, requiredBeforeFiling",
+          "EXP102 Rev 7/24 packet page 4, item 9 box 2 printed text and its bracketed order instruction, read off the delivered bytes"
+        ],
+        "whatWasChanged": "matter.offense_date and matter.charge were REMOVED from the canonical fact set and the charge override was removed from the boundary set. EXP102 item 10's 'Type of offense' and 'Date of offense' rules changed from WRITE to SUPPLY (approvedDisposition REQUIRED_BEFORE_FILING) and are now carried to the participant by name, with the elected ground's own words as the reason and an instruction to read item 10 against item 3 before signing.",
+        "whyTheyWereRemovedRatherThanCorrected": "Correcting them would have meant choosing a date of birth and an offence date that make the petitioner a juvenile at the offence, and choosing a charge a 260B.125 certification would have reached. That is inventing an age at offence and inventing a certification. Nothing in the controlling record establishes either for this route, and this dispatch forbids it. A named blank the participant fills is honest; a fabricated fact on a document signed under Minn. Stat. 358.116 is not.",
+        "whatWasDeliberatelyLeftAlone": "participant.date_of_birth stays and is still written at EXP102 item 3 and in the EXP106 caption. On its own it asserts nothing about the offence; it refuted the tick only in combination with the offence date, and the offence date is now the participant's to supply. The tick itself was not moved: it is still the only vector ink on EXP102 page 4 and it is still inside box 2.",
+        "whatIsStillNotCollected": "No fact bearing on juvenile status at the offence or on a Minn. Stat. 260B.125 certification is collected by this family, and the registry's one disposition 'adult_conviction_after_certification' appears on neither fixture. This repair does not manufacture that collection. It stops the packet asserting facts that contradict the election, and it puts the certification condition in front of the participant at item 10 and in the guide's 'What this packet already says for you' section, which already said 'If you were not certified or referenced into district court under Minn. Stat. 260B.125, this is the wrong packet and you should not file it.' Adding a certification fact to the intake is a legal-design change to the controlling record and is not a repair-lane act."
+      },
+      "requiredBeforeFilingRepair": {
+        "whatFailed": "The controlling record declares participantActionRequired entries for this packet set, and the builder never read participantActionRequired at all. Two of them reached the participant nowhere in the family: the obtain_document entry (own BCA criminal history and own MCRO case history) and the confirm_answer entry (check the court file number against them and correct the packet if they disagree). The second is consequential on these exact bytes because the packet prefills matter.case_number onto all four forms.",
+        "whatWasChanged": "The builder now reads data/record-clearing/legal-design-packet-set-manifests.json, finds the packet set by packetSetId rather than by array index, cross-checks the participantActionRequired block against the identical block in data/record-clearing/legal-design-track-registry.json as canonical JSON and refuses on any disagreement, then renders every entry carrying requiredBeforeFiling true into participant-instructions.md verbatim, and the two record-obtaining entries into filing-instructions.md. Nothing is paraphrased.",
+        "measuredCorrectionToTheVerifierRow": "VF03's REQUIRED_BEFORE_FILING detail says the record declares 'TWO actions with requiredBeforeFiling true'. Measured: TEN do. The manifest entry's own precomputed requiredBeforeFiling array carries ten strings, and the twelve participantActionRequired entries break down as ten true (obtain_document, confirm_answer, four complete_field, sign, notarize, pay_fee, apply_fee_waiver) and two false (serve_party, file). VF03 was right that entries 1 and 2 were the two that reached the participant nowhere; the count in its sentence is wrong. All ten are now rendered.",
+        "oneMeasuredQualificationOnTheRecordsOwnWords": "The record's notarize entry reads 'Required where the form calls for a notarised signature.' Printed alone it would read as an instruction to find a notary. Measured on the four bound binaries: EXP102 closes 'I declare under penalty of perjury that everything I have stated in this document is true and correct. Minn. Stat. 358.116'; FEE102 page 6 closes over the same statute; EXP104 is a 358.116 declaration; EXP106 is signed by the judge. None prints a notarial certificate, jurat or seal line. The record's conditional is carried verbatim and what was measured against it is stated beside it. This build states no notarization requirement of its own and fabricates none."
+      },
+      "thirdDefectFoundAndFixedBecauseThisRebuildCausedIt": {
+        "what": "scripts/build-census-v1-mn_petition_juvenile_as_adult-set.mjs rewrites product-wiring.json from scratch on every run and does not author six keys the committed file carried: acceptanceReceipt, lastIndependentVerification, paymentEligible, sponsorshipEligible, whyPaymentIsClosed and maintenanceRelationship. A bare rebuild therefore silently deleted 'paymentEligible: false', 'sponsorshipEligible: false', the whyPaymentIsClosed sentence, VF03's FAIL_REPAIR_REQUIRED verdict and the RASTER_PASS acceptance receipt. I reproduced this on the untouched script before making any repair: one clean rebuild at base 181ac2ece produced byte-identical fixtures and a product-wiring.json missing all six keys.",
+        "howItIsFixedHere": "The builder now reads the committed product-wiring.json, carries those keys forward verbatim, and treats the acceptance receipt separately: the receipt binds an exact canonical SHA-256, so it is carried only when it still matches the bytes just produced. It does not here, so it is recorded under acceptanceReceiptWithdrawn with the withdrawn receipt and the new canonical digest beside it, rather than silently dropped or silently kept. No receipt is issued from this lane.",
+        "scope": "This fix is inside this family's own script. The same erase-on-rebuild shape is likely present in the other 308 build-census-v1-*.mjs scripts, which are not mine to edit and were not edited."
+      },
+      "isTheParticipantActionRequiredOmissionSharedWiring": {
+        "answer": "NO -- it is not shared wiring, and the sibling lanes should not wait for a shared fix. Each build-census-v1-*.mjs is standalone and renders its own guides; there is no shared module that reads participantActionRequired. Measured across the worktree: 309 build-census-v1-*.mjs scripts exist, 33 of them contain the string participantActionRequired and 276 do not.",
+        "minnesotaSpecifically": "All four Minnesota builders omit it: build-census-v1-mn_petition_15218-set.mjs, build-census-v1-mn_petition_609a02_subd3-set.mjs, build-census-v1-mn_petition_juvenile_as_adult-set.mjs and build-census-v1-mn_prosecutor_agreed-set.mjs each contain zero occurrences.",
+        "whatThatMeansForSiblings": "Any family whose controlling record declares a participantActionRequired entry that no other part of its guide happens to cover is carrying the same omission, and it is invisible to all nine counters because it is not a blank on any form. It has to be repaired per family, in each family's own builder. The measurement above names the 276 scripts to check; this lane repaired one of them and holds no claim on any other."
+      },
+      "beforeArtifacts": [
+        {
+          "fixture": "canonical",
+          "sha256": "9a2680a8a4b0994ad8f3a8e979b8b85eca2bbfaa37391cd904b36182dd788fb5",
+          "byteLength": 909391,
+          "pageCount": 17
+        },
+        {
+          "fixture": "boundary",
+          "sha256": "2d2157a4b0bf2fde0818e82a5bfeb820afff57fdf0fe6a662b5943a01c9fac3a",
+          "byteLength": 909797,
+          "pageCount": 17
+        }
+      ],
+      "afterArtifacts": [
+        {
+          "fixture": "canonical",
+          "sha256": "ccd5f00fd86da007606780b15cb45462e80187731404f07694ec015775bfefa3",
+          "byteLength": 909240,
+          "pageCount": 17,
+          "addedGlyphsReadFromOutputBytes": 344,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        },
+        {
+          "fixture": "boundary",
+          "sha256": "c5f2e418ad4471ffb42d73f96d01daa4ce7821e9c9f10ce511883f2a4a080cc5",
+          "byteLength": 909605,
+          "pageCount": 17,
+          "addedGlyphsReadFromOutputBytes": 856,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        }
+      ],
+      "digestsRecordedWith": "sha256sum(1) and python hashlib.sha256 over the committed fixture bytes; page counts from pdfinfo(1). No digest in this row was transcribed or reconstructed by hand.",
+      "whatIReMeasuredOnTheDeliveredBytesAfterTheRepair": [
+        "pdfinfo: canonical 17 pages, boundary 17 pages -- unchanged.",
+        "pdftotext -f 5 -l 5 -layout on both fixtures: item 10 now prints 'Type of offense:' and 'Date of offense:' with nothing after either colon. The 2019-08-04 and the fifth-degree-possession charge are gone from both fixtures, and gone from the boundary fixture's longer charge string too.",
+        "pdftotext -f 2 -l 2 -layout: item 3 still prints 'List your date of birth: 1991-04-17', as intended.",
+        "Content-stream scan (python zlib inflate of every stream object, regex for 'x y m x y l S'): the delivered canonical carries exactly four line segments of added vector ink -- (93.2,573.2)-(99.66,579.61) and its mirror, which is the X on EXP102 page 4, and (110.08,351.2)-(115.37,356.49) and its mirror, which is the FEE102 item 2 election. The EXP102 X is byte-for-byte the same span VF03 measured, and it is inside the box whose glyf-derived outline is x 92-100.86, y 572-580.81, and inside no other of the eight boxes on that page. The tick did not move.",
+        "Builder ink read-back from the produced bytes: canonical 26 values / 344 added glyphs / 0 glyphs outside measured write boxes; boundary 23 values / 856 added glyphs / 0 outside. The canonical glyph count fell from VF03's measured 398 to 344; the difference of 54 reconciles exactly against the two removed values ('Fifth-degree possession of a controlled substance' is 49 characters with 5 spaces = 44 non-whitespace, '2019-08-04' = 10).",
+        "Both selections still report as EXP102 p4-cb-y572-x90.41 and FEE102 p1-cb-y350-x108; routeSelectionsMade 2.",
+        "grep over the whole family directory for BCA / MCRO / 'Bureau of Criminal' / 'Records Online' / 'criminal history': before the repair the only hits were printed source text inside EXP106's ordering boxes. After it, participant-instructions.md and filing-instructions.md both carry the two record entries verbatim.",
+        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mn_petition_juvenile_as_adult-set => PASS_COMPLETE, 28/385 written, all nine counters zero.",
+        "Determinism: three complete executions of node scripts/build-census-v1-mn_petition_juvenile_as_adult-set.mjs produced identical canonical and boundary SHA-256 values and identical byte lengths."
+      ],
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 1,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersBeforeNote": "Taken from VF03's nineCounters on this family at base 7d6453f5. verify-packet-completeness.mjs itself reported nine zeros on the pre-repair bytes; the 1 is VF03's own hand-measured requiredFactsNotCollected for the uncollected certification fact, which the script does not score.",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfterNote": "Measured by node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mn_petition_juvenile_as_adult-set on the committed bytes. Every one of the nine was measured; none is estimated. The script does not score ROUTE_IDENTITY or the coherence of a sworn election against the facts printed under it, so these nine zeros are not evidence that the KNOWN_PREFILLS defect is gone -- the pre-repair bytes scored nine zeros too. The evidence for that repair is the delivered-byte measurements listed above.",
+      "obligationsThisRowDoesNotDischarge": [
+        "RASTER_PASS -- no raster receipt is produced by this lane. The fixture bytes moved, so the admitted receipt bound to canonical 9a2680a8... no longer describes this packet; it is recorded as withdrawn in product-wiring.json with both digests. Only .github/workflows/rcap-packet-raster-acceptance-batch.yml issues a receipt, and it must be re-run against canonical ccd5f00fd86da007606780b15cb45462e80187731404f07694ec015775bfefa3.",
+        "Independent verification -- this family must be re-verified by a lane that neither built nor repaired it. This lane sets no verdict on its own work and issues no PASS.",
+        "The thirteen obligations VF03 passed on this family (ROUTE_IDENTITY, SOURCE_IDENTITY, COMPONENT_SET, PROTECTED_FIELDS, CLIPPING_AND_OVERLAP, SELF_HELP_STOP, FILING_DESTINATION, SERVICE, ARTIFACTS, PAGE_ORDER, ROUTE_OPTIONS, REPEATING_ROWS, FEE_AND_WAIVER) were not re-derived here and are not re-asserted by this row. Three of them are touched by these edits and want a fresh read: ROUTE_OPTIONS and ARTIFACTS because two write dispositions became REQUIRED_BEFORE_FILING blanks, and SERVICE because a new section was added to filing-instructions.md above the service text.",
+        "The EXP104 six-required / nine-conditional service finding VF03 verified sound was not touched. filing-instructions.md still names the same six, the County Attorney's Office among them, and calls no conditional box required."
+      ],
+      "returnedForIndependentReverification": true,
+      "selfVerificationPerformed": 0,
+      "routesOpened": 0,
+      "productionTouched": false
+    }
+  ]
+}

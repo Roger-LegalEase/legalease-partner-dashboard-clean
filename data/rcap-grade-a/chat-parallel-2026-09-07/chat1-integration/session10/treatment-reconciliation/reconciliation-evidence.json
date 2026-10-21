@@ -1,0 +1,170 @@
+{
+  "schemaVersion": "rcap-scoped-treatment-reconciliation/v1",
+  "baseCommit": "19eb374383a450153c659d327b829a33cac9f830",
+  "performedBy": "Codex treatment_reconciliation agent; implementation author, not its independent reviewer",
+  "familyIds": [
+    "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
+    "agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon",
+    "agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure",
+    "census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260",
+    "rcap-ga-guidance-implementation"
+  ],
+  "familyCountPreserved": 346,
+  "terminalFamiliesClosed": 0,
+  "originalInventory": "private/Nationwide Record Clearing/ is absent from this worktree. Read held imported CT memo, current source-correction records and official publisher pages; did not invent custody of source originals.",
+  "currentStates": [
+    {
+      "familyId": "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
+      "state": "FAIL_REPAIR_REQUIRED",
+      "implementationStrategy": "participant_agency_application",
+      "routeKeys": [
+        "obligation:track-only:CT:ct-destruction-request"
+      ],
+      "selectedIndependentVerdict": {
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "vf03",
+        "verifiedAtBase": "21d53521ff4d6a1dd24f9d5fb0fd56a6258a6f14",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
+      }
+    },
+    {
+      "familyId": "agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon",
+      "state": "FAIL_REPAIR_REQUIRED",
+      "implementationStrategy": "participant_agency_application",
+      "routeKeys": [
+        "obligation:track-only:CT:ct-provisional-pardon"
+      ],
+      "selectedIndependentVerdict": {
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "vf04",
+        "verifiedAtBase": "5de917b3574b6e27df362e13b86b4bfaac4915f8",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json"
+      }
+    },
+    {
+      "familyId": "agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure",
+      "state": "PRODUCT_PATH_PENDING",
+      "implementationStrategy": "participant_agency_application",
+      "routeKeys": [
+        "obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure"
+      ],
+      "selectedIndependentVerdict": {
+        "verdict": "PRODUCT_PATH_PENDING",
+        "lane": "vf05",
+        "verifiedAtBase": "706dbbd2439b2fdd8f5580cef46f7cc448b5c5da",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json"
+      }
+    },
+    {
+      "familyId": "census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260",
+      "state": "SOURCE_BLOCKED",
+      "implementationStrategy": "official_pdf_fill",
+      "routeKeys": [
+        "obligation:runtime-contract-cohort:WA:juvenile-record-sealing-under-rcw-13-50-260:participant_motion_branch"
+      ],
+      "selectedIndependentVerdict": null
+    },
+    {
+      "familyId": "rcap-ga-guidance-implementation",
+      "state": "PRODUCT_PATH_PENDING",
+      "implementationStrategy": "custom_pleading",
+      "routeKeys": [
+        "obligation:track-pathway:GA:ga-rfo:retroactive-first-offender-treatment-under-42-8-66"
+      ],
+      "selectedIndependentVerdict": {
+        "verdict": "PRODUCT_PATH_PENDING",
+        "lane": "vf04",
+        "verifiedAtBase": "588f9e74af2fa65a8dcd17e07258302b3588af61",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json"
+      }
+    }
+  ],
+  "implementation": [
+    {
+      "path": "scripts/grade-a-packet-factory-24h/treatment-reconciliation.mjs",
+      "sha256": "e2405392c7eda47da317ac38ea9f4b4de0ca77384bfb7e0be94ead61b42e1ad5"
+    },
+    {
+      "path": "scripts/grade-a-packet-factory-24h/test-treatment-reconciliation.mjs",
+      "sha256": "952aa3f3bfd75de0afcc9bf122a934d20bcf42f7cf5f3d94895a6439af28c78d"
+    },
+    {
+      "path": "scripts/grade-a-packet-factory-24h/washington-court-initiated-guidance.mjs",
+      "sha256": "6559043e57aa063b10624e0aff908824caf8b3d9bb048e13ef510afc3421828a"
+    },
+    {
+      "path": "scripts/grade-a-packet-factory-24h/test-washington-court-initiated-guidance.mjs",
+      "sha256": "4f7353326a6f395c4e88c19935abd58852fc9de1e962e01c4dabc59dd8660948"
+    },
+    {
+      "path": "scripts/build-census-v1-census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260.mjs",
+      "sha256": "1176676e86ac832cd98b618b9e6bca77aae90e3da29c3539f5214362db696d3a"
+    },
+    {
+      "path": "scripts/grade-a-packet-factory-24h/wa-reviewed-guidance.mjs",
+      "sha256": "ffdc7432eb9a1a2e921d51c3d6113a1f6aa56cd536c0b52c73174d90e3e9f841"
+    },
+    {
+      "path": "scripts/grade-a-packet-factory-24h/test-wa-reviewed-guidance.mjs",
+      "sha256": "c5543f321241a6060346b37b6937ae7f60688c8072a35babef1d731e296f1522"
+    }
+  ],
+  "sharedIntegrationPatches": [
+    {
+      "path": "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session10/treatment-reconciliation/factory-integration.patch",
+      "status": "PROPOSED_FOR_ROOT_SHARED_WRITER"
+    },
+    {
+      "path": "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session10/treatment-reconciliation/wa-source-determination.patch",
+      "status": "PROPOSED_FOR_ROOT_SHARED_WRITER"
+    }
+  ],
+  "findings": [
+    {
+      "familyIds": [
+        "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
+        "agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon",
+        "agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure"
+      ],
+      "authority": "data/record-clearing/legal-design-intake/CT.memo.json, each exact track legalDesignDecision and explicit_state_addendum",
+      "result": "The controlling design authorizes guidance at the current product stage; the agency-application census labels overstate what these outputs are obligated/authorized to generate. No memo upgrade or new legal approval has been invented.",
+      "currentOfficialEvidence": "official-source-receipts.json retains current Board portal instructions, eligibility and required-document pages. BOPP continues to require electronic applications; a linked Background Investigation Authorization is a supporting form, not a complete Board application.",
+      "openWork": "Repair the existing exact source receipt compatibility when still stale; add actual current portal/document destinations to the delivered guide paths and separately hand off probation-officer cases. Consume existing guidance acceptance. Destruction requires the already-recorded accepted request destination/format confirmation before generating an instrument."
+    },
+    {
+      "familyIds": [
+        "census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260"
+      ],
+      "authority": "data/rcap-grade-a/chat-parallel-2026-09-07/chat6-source-legal/group-02-wa-guidance-ut-custody.json and current official RCW 13.50.260(1)-(2)",
+      "result": "Corrected build inputs select both existing court-initiated cohort keys; JU motion sources are excluded only from this family. The participant_motion_branch census record is preserved as an unfulfilled separate obligation.",
+      "newOutput": "Stable native guide installed at data/rcap-all50/guidance-packets/wa-juvenile-court-initiated/. Twelve distinct fact/route Markdown outputs, no PDF/raster. Native build entrypoint and existing-schema independent acceptance adapter installed; root independent review remains pending.",
+      "openWork": "Root must install the factory patch and independently review the actual published guide/code/source bytes. The separate subsection (3) participant-motion route remains present but has no separate existing counted family owner; preserve its source associations and open mapping requirement. Runtime installation remains separate. Defer the source-determination rewrite until exact unrelated-family source compatibility preserves existing Delaware evidence."
+    },
+    {
+      "familyIds": [
+        "rcap-ga-guidance-implementation"
+      ],
+      "authority": "CLD-2026-08-28-GA-RFO in data/record-clearing/legal-decisions/2026-08-28-controlling-decisions.json",
+      "result": "The later recorded decision supplies petition authority after actual verified written consent. Existing rcap-ga-guidance-implementation remains the pre-consent guide; it cannot satisfy the petition or the post-order tracking stage.",
+      "reuseCandidate": "composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route",
+      "openWork": "Consume the existing separate petition candidate only after selected-component/fact/source/independent acceptance. Attach stage completion to rcap-ga-guidance-implementation without merging or dropping the separate existing family identity. No consent is inferred from the guide, caller flags or an unanswered request."
+    }
+  ],
+  "sourceLimitations": [
+    "The direct current Connecticut statute retrieval failed TLS verification in Python and returned HTTP 502 through web tools. The exact errors remain in official-source-receipts.json. Existing recorded timing was not described as freshly reverified.",
+    "These source observations are not completed-output legal adoption or independent guide acceptance."
+  ],
+  "validation": {
+    "treatmentProjection": "PASS; exact 346 identity preservation, CT scopes, separate WA motion, GA three stages, no terminal grants",
+    "washingtonGuidance": "PASS; 12 distinct branches and 2 route refusals. Root independently identified missing supplied department-contact delivery and inconsistent restitution predicates; both repaired and focused controls passed. Two actual builds yield identical manifests and all 12 Markdown bytes.",
+    "nationalSuite": "NOT_RUN; root performs required integration checks after installation",
+    "production": "NOT_TOUCHED",
+    "independentReview": "PENDING",
+    "guidanceAdmissionAdapter": "PASS; synthetic memory-only positive control and 10 causal rejection controls. No actual review has been authored or inferred by this implementation agent."
+  },
+  "artifactManifest": {
+    "path": "data/rcap-all50/guidance-packets/wa-juvenile-court-initiated/guidance-manifest.json",
+    "sha256": "37850298ef102ffc95252016ab92d4e7cb54d81eea1cf7cc71cdb4df16cb016a"
+  },
+  "requiredReviewPath": "data/rcap-grade-a/terminal-treatment-verification/SESSION10_WA_GUIDANCE_ROWS.json"
+}

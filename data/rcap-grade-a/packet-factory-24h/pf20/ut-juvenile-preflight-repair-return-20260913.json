@@ -1,0 +1,71 @@
+{
+  "schemaVersion": "rcap-ut-juvenile-preflight-repair/v1",
+  "status": "PROPOSED_UNAPPLIED",
+  "label": "RECONSTRUCTED_AFTER_RESTART bounded resolver repair proposal",
+  "baseHead": "6867ee44777ce3c9e88afda8b4bad8c3d8e8e31a",
+  "patchPath": "data/rcap-grade-a/packet-factory-24h/pf20/ut-juvenile-preflight-repair.patch",
+  "patchSha256": "a095f2dcbb25c0294fc2f686c0afa128cedf8c9092673ab0329b46bd9aeda700",
+  "patchByteLength": 16016,
+  "scratchRoot": "/tmp/ut-preflight-repair-20260913.0pR3h9",
+  "targets": [
+    "scripts/verify-packet-build-environment.mjs",
+    "scripts/verify-family-source-resolution.test.mjs"
+  ],
+  "scope": {
+    "familyId": "census-pending-family:UT:path-m-juvenile-expungement",
+    "sourceId": "official-form:1174XX",
+    "admissionRecord": "data/rcap-grade-a/source-wave-integration/KNOWN_RESIDUAL_SOURCE_RECOVERY_2026-09-11.json",
+    "existingCustodyShape": "custody row exists with zero resolved documentSources",
+    "generatedQueueNotUsedAsAdmission": true
+  },
+  "expectedAdmission": {
+    "recordSchemaVersion": "rcap-source-recovery-adoption/v1",
+    "result": "OFFICIAL_SOURCE_ALREADY_HELD",
+    "receiptSourceId": "1174XX",
+    "sourceObligationId": "official-form:1174XX",
+    "itemId": "census-pending-family:UT:path-m-juvenile-expungement::official-form:1174XX",
+    "heldCorpusPath": "reference/utah/11_Petition_to_Expunge_Records_Juvenile-Revised-2023-08-14.pdf",
+    "sha256": "b8488a2ebb43d9f94615a52bf52545283c47c147e45a9a4f02fa872cc1baf458",
+    "byteLength": 128760,
+    "actualReferenceSha256": "b8488a2ebb43d9f94615a52bf52545283c47c147e45a9a4f02fa872cc1baf458",
+    "actualReferenceByteLength": 128760
+  },
+  "proposedRepair": [
+    "Read the fixed committed known-residual admission and require its exact schema, family, item, source identity, result, path, SHA-256 and byte length.",
+    "Resolve the held body from the repository root using the admission path; reject absolute/traversal paths, symlinks, missing or wrong-length bodies, wrong hashes, and bodies resolving inside the Master Library.",
+    "Add the verified binding only for this family and only when the existing custody row does not already carry that source ID; preserve conflicting row bindings so they still fail.",
+    "Mark the admission path as repository-relative when family_sources_bind checks actual bytes; retain all existing index, ambiguity, queue-pin and custody refusal paths for every other family."
+  ],
+  "refusalCoverage": [
+    "missing admitted body",
+    "corrupt admitted body",
+    "mismatched receipt source identity",
+    "mismatched receipt obligation identity",
+    "mismatched receipt path",
+    "mismatched receipt SHA-256",
+    "mismatched receipt byte length",
+    "unrelated family does not consume the UT admission"
+  ],
+  "verification": {
+    "patchCheck": "git apply --check passed against current workspace files",
+    "syntaxChecks": "both scratch target files passed node --check",
+    "focusedTests": {
+      "command": "node --test --test-name-pattern='committed known-residual|missing or corrupt|mismatched identity|unrelated family' scripts/verify-family-source-resolution.test.mjs",
+      "result": "4 passed, 0 failed in staged scratch workspace"
+    },
+    "existingRegressionSubset": {
+      "command": "node --test --test-name-pattern='pool-held|same repair|form number no pin|pin is a lead|recovery pool' scripts/verify-family-source-resolution.test.mjs",
+      "result": "5 passed, 0 failed in staged scratch workspace"
+    },
+    "scratchRowPreflight": {
+      "result": "family_sources_bind 1/1 source(s) bind by exact SHA-256 (custody_reconciliation)",
+      "overall": "PACKET_BUILD_ENVIRONMENT_NOT_READY only because staged scratch lacked unrelated repository/git markers; this proposal was not applied to the shared checkout"
+    }
+  },
+  "sharedWorkspaceChanges": [
+    "Shared verifier and test files were not edited.",
+    "No queue, custody, corpus index, source receipt, builder, or output was modified.",
+    "Only this uncommitted patch and this uncommitted return were created."
+  ],
+  "nextAcceptance": "Captain applies this patch in an isolated review context, obtains independent review, then reruns the UT row preflight."
+}

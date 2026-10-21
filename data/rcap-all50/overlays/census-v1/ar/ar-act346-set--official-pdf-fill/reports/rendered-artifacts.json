@@ -1,0 +1,143 @@
+{
+  "schemaVersion": "rcap-rendered-artifacts/v1",
+  "familyId": "ar-act346-set",
+  "renderedFresh": true,
+  "citesNoBlockedHash": true,
+  "staleArtifactBlock": "data/rcap-grade-a/stale-artifact-block.json",
+  "note": "Rendered fresh from the pinned source bytes. Every output hash below was checked against the hashes in the stale-artifact block and matches none of them.",
+  "rasterisation": {
+    "performedHere": false,
+    "why": "This container resolves no browser, so no page raster is produced at build time. The render happens centrally in .github/workflows/rcap-packet-raster-acceptance-batch.yml against the exact bytes the hashes below pin. This family is BUILT_RASTER_PENDING and no visual obligation is waived by it.",
+    "rasters": []
+  },
+  "packets": [
+    {
+      "packetId": "ar-act346-set",
+      "componentSet": [
+        "ar-act346-process-guidance-1",
+        "ar-act346-primary-filing-2",
+        "ar-act346-proposed-order-3"
+      ],
+      "documents": [
+        "ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS (canonical)",
+        "ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS (boundary)",
+        "ACIC-ORDER-DISMISS-AND-SEAL-FIRST-OFFENDERS (canonical)",
+        "ACIC-ORDER-DISMISS-AND-SEAL-FIRST-OFFENDERS (boundary)"
+      ]
+    }
+  ],
+  "historicalRouteExclusion": {
+    "path": "data/rcap-all50/composed-routes/arkansas/ar-act346",
+    "status": "retained_historical_only",
+    "excludedFromCurrentParticipantDelivery": true,
+    "basis": "The current participant delivery is the census-v1 family directory and its three-component set above; the legacy composed-route directory is retained as historical dependency-deferral evidence and is not an input or output of this build."
+  },
+  "artifacts": [
+    {
+      "document": "ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS",
+      "fixture": "canonical",
+      "file": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/fixtures/petition-canonical-filled.pdf",
+      "sha256": "75bffbd8493de56f1f39b7f67ff9dc93e50926fb284678209d11610eb2512f76",
+      "byteLength": 553518,
+      "fieldsWritten": 10,
+      "fieldsRefused": 40,
+      "unfittable": [],
+      "refusedForExceedingFormDeclaredMaxLength": []
+    },
+    {
+      "document": "ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS",
+      "fixture": "boundary",
+      "file": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/fixtures/petition-boundary-filled.pdf",
+      "sha256": "59a301da89ce8b7535d84781e06a88c78f60946053d3b9d8ab4db0a1b99536c8",
+      "byteLength": 553423,
+      "fieldsWritten": 8,
+      "fieldsRefused": 42,
+      "unfittable": [
+        {
+          "field": "Case No",
+          "factId": "matter.case_number",
+          "outcome": "refused",
+          "reason": "value_exceeds_widget_width_at_minimum_font",
+          "value": "0123-45-2026-CR-900123.00-AB-CDE/2201",
+          "rect": {
+            "x": 279.96,
+            "y": 593.28,
+            "width": 116.76,
+            "height": 22.44
+          },
+          "minFontSize": 6,
+          "requiredWidthAtMin": 118
+        },
+        {
+          "field": "COUNTY",
+          "factId": "matter.county",
+          "outcome": "refused",
+          "reason": "value_exceeds_widget_width_at_minimum_font",
+          "value": "Saint Bartholomew and the Northern Reaches County",
+          "rect": {
+            "x": 321.96,
+            "y": 705.96,
+            "width": 124.56,
+            "height": 22.44
+          },
+          "minFontSize": 6,
+          "requiredWidthAtMin": 143.6
+        }
+      ],
+      "refusedForExceedingFormDeclaredMaxLength": []
+    },
+    {
+      "document": "ACIC-ORDER-DISMISS-AND-SEAL-FIRST-OFFENDERS",
+      "fixture": "canonical",
+      "file": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/fixtures/order-canonical-filled.pdf",
+      "sha256": "cb9d2019b25a9f492dcd6d483c642d2c9961d23ff6e3e8eb0db50a4c7a0c1a32",
+      "byteLength": 306189,
+      "fieldsWritten": 3,
+      "fieldsRefused": 33,
+      "unfittable": [],
+      "refusedForExceedingFormDeclaredMaxLength": []
+    },
+    {
+      "document": "ACIC-ORDER-DISMISS-AND-SEAL-FIRST-OFFENDERS",
+      "fixture": "boundary",
+      "file": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/fixtures/order-boundary-filled.pdf",
+      "sha256": "36d0464105a775214a93026296b38ee1822595cf4d807ed61066f09caf44e871",
+      "byteLength": 305836,
+      "fieldsWritten": 1,
+      "fieldsRefused": 35,
+      "unfittable": [
+        {
+          "field": "Case No",
+          "factId": "matter.case_number",
+          "outcome": "refused",
+          "reason": "value_exceeds_widget_width_at_minimum_font",
+          "value": "0123-45-2026-CR-900123.00-AB-CDE/2201",
+          "rect": {
+            "x": 279.96,
+            "y": 593.28,
+            "width": 116.76,
+            "height": 16.8
+          },
+          "minFontSize": 6,
+          "requiredWidthAtMin": 118
+        },
+        {
+          "field": "County",
+          "factId": "matter.county",
+          "outcome": "refused",
+          "reason": "value_exceeds_widget_width_at_minimum_font",
+          "value": "Saint Bartholomew and the Northern Reaches County",
+          "rect": {
+            "x": 320.04,
+            "y": 705.96,
+            "width": 124.56,
+            "height": 16.8
+          },
+          "minFontSize": 6,
+          "requiredWidthAtMin": 143.6
+        }
+      ],
+      "refusedForExceedingFormDeclaredMaxLength": []
+    }
+  ]
+}

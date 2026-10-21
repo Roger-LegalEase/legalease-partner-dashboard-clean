@@ -134,5 +134,5 @@ suppression, and zero packet/partner credit use:
   conviction destination and participant-held Board certificate preserved.
 
 Every treatment pins its unchanged dependency hash and assignment hash
-`d78251fd9f0741f0f080dcebb73f229f3fc8b259568ae422d11db0ffbc9a141a`.
+`1b2bb69e97ea78f9b1b84666b830b41be749736c03b53114d5359aa46626e623`.
 This candidate status records only the dependency-deferral correction evidence.

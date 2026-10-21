@@ -1,0 +1,22 @@
+name: Captain one-shot Alabama six clerk caption raster
+on:
+  push:
+    branches: [claude/legalease-sprint-captain-utucnw]
+    paths: [.github/workflows/captain-al-six-clerk-caption-raster-20260912.yml]
+permissions:
+  actions: write
+  contents: read
+jobs:
+  dispatch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'rcap-packet-raster-acceptance-batch.yml',
+              ref: "claude/legalease-sprint-captain-utucnw",
+              inputs: {"commit_sha": "e38cb2ecae5ada6668fa6c7b9739eac208da6378", "raster_manifest_path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/raster-manifest.json", "family_batch": "al-diversion-set,al-misd-conviction-set,al-misd-dwop-set,al-pardoned-felony-set,al-felony-dwop-set,al-felony-nonconviction-90-set", "requested_scale": "2.5"}
+            });

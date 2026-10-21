@@ -1,0 +1,54 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-finding/v1",
+  "findingId": "FABLE-PB-COLLISION-001",
+  "raisedBy": "FABLE-PB",
+  "lane": "packet-build",
+  "assignmentIdsHeld": ["PF07", "PF08", "PF09", "PF10", "PF11", "PF12"],
+  "shiftBaseSha": "ee5bdb5b56d69c00750663087e5e8c5a6d144acf",
+  "subject": "the preflight's family_sources_bind check cannot see two of the three custodies the corpus index declares",
+  "raisedNotFixed": "This lane did not change the shared machinery. Four of its own families are affected and ninety more are not its to touch, and the brief makes a change that would move families outside the grant a collision to report rather than make.",
+
+  "whatIsWrong": {
+    "where": "scripts/verify-packet-build-environment.mjs, the family_sources_bind check",
+    "what": "it resolves EVERY bound source by joining masterLibraryRoot(env) onto the path the custody reconciliation records, whatever custody that path belongs to",
+    "why_that_is_wrong": "the committed corpus index now declares three custodies and each writes its paths in its own namespace. data/rcap-all50/local-source-corpus-index.json says so in its own custodies array: master_library uses pathsRelativeTo custodyRoot ('STATES/TX/...'), while human_source_returns and d_source_packs use pathsRelativeTo repositoryRoot ('private/human-source-returns/TX/...'). Joining the library root onto a repository-relative path looks for a human source return INSIDE the Master Library, does not find it, and reports the family's source as not binding.",
+    "theRepositoryAlreadyDiagnosedThis": "scripts/lib/corpus-index-paths.mjs exists for exactly this defect and its own docstring describes it: 'A reader that joins the Master Library root onto all of them looks for a human source return inside the library, does not find it, and reports drift about a file that is exactly where it belongs. That is a false corruption report, which is worse than no report: it trains a reader to ignore the check.' The corpus_matches_committed_index check in the same preflight DOES use that resolver. family_sources_bind does not."
+  },
+
+  "blastRadius": {
+    "measuredFrom": "data/rcap-grade-a/route-obligation-census-v1/source-custody-reconciliation.json at this base",
+    "masterLibraryRelativeBindings": 148,
+    "repositoryRelativeBindings": 239,
+    "familiesAffected": 94,
+    "familiesAffectedInThisLanesGrant": 4,
+    "familiesAffectedOutsideThisLanesGrant": 90,
+    "byCustody": {
+      "d_source_packs": "83 families, spanning AL, AZ, CO, IA, IL, KY, LA, MA, MN, NC, NE, NH, NJ, NM, UT, VA and WA",
+      "human_source_returns": "11 families, all Texas, all binding the Statement of Inability to Afford Payment of Court Costs"
+    },
+    "consequence": "no family binding a repository-relative source can return PACKET_BUILD_ENVIRONMENT_READY on its row gate, however correct its bytes are."
+  },
+
+  "howThisLaneHandledIt": {
+    "whatItDidNotDo": [
+      "it did not edit the shared preflight. Ninety of the ninety-four affected families are outside this grant.",
+      "it did not write BLOCKED_SOURCE rows for its four affected families. Their bytes DO bind: the Statement of Inability was hashed by hand against the committed index digest and matches exactly, bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d. Recording a source defect on a record that has none is the error the wave's own raster rule warns about in the Chromium case: an environment fact about the container is not a fact about the packet.",
+      "it did not weaken or bypass the check."
+    ],
+    "whatItDidInstead": [
+      "each of this lane's four affected families binds its sources through scripts/lib/corpus-index-paths.mjs inside its own builder, so the family's own binding is custody-correct and still requires three records to agree: the committed index entry, the mounted bytes, and the pin in the builder.",
+      "the human_source_returns custody was mounted in this worktree after verifying the Statement against the committed index digest, so the bytes were present and checked rather than assumed."
+    ]
+  },
+
+  "theRepairCaptainCouldDispatch": {
+    "shape": "have family_sources_bind resolve each source through makeCorpusEntryResolver from scripts/lib/corpus-index-paths.mjs, as corpus_matches_committed_index in the same file already does",
+    "whyItIsSafe": "for a master_library entry the resolver returns exactly the path the current code builds, so no family that binds today changes verdict. It can only turn a currently-impossible bind into a possible one.",
+    "whyThisLaneDidNotDoIt": "it changes the gate verdict for ninety families this lane was not granted, and lanes that have already returned rows against the current behaviour may have recorded stops that would need re-reading. That is a Captain decision.",
+    "whatItIsNot": "this is not a request to weaken a gate. As written the check is BLIND to two of the three custodies the index declares, so the repair makes it able to check sources it currently cannot see at all."
+  },
+
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "grantsNothing": "A reported collision promotes nothing and proves nothing about any packet."
+}

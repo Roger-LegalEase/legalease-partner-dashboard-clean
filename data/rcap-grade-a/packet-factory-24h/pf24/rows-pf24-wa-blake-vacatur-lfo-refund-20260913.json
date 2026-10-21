@@ -1,0 +1,127 @@
+{
+  "schemaVersion": "rcap-packet-factory-family-return/v1",
+  "assignmentId": "PF24",
+  "workerId": "rcap-finish-worker-77jr7gx76jq3rg65",
+  "lane": "packet-build",
+  "engine": "Codex Codespaces worker",
+  "shiftBaseSha": "6867ee44777ce3c9e88afda8b4bad8c3d8e8e31a",
+  "workerBranch": "pf20-ks-22-2410-arrest-20260912b",
+  "workerHeadBeforeReturn": "002c9fe6e7608631cf4878cfab595da92a2e3dcf",
+  "familiesAssigned": 1,
+  "rowsReturned": 1,
+  "claim": {
+    "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF24 'wa_blake_vacatur_and_lfo_refund-set'",
+    "result": "CLAIM_OK PF24 wa_blake_vacatur_and_lfo_refund-set (packet-build, grant set a6ef9ebd94267c7e)",
+    "captainLedgerPath": "data/rcap-grade-a/packet-factory-24h/claim-ledger.json",
+    "captainLedgerSha256": "b4eadc16ceec48f132bdcfbc9d17290a4c8fd55425c2aa071a84cd7d121d4bfc",
+    "captainLedgerGeneratedAtCommit": "46f58905a130a3168c34851d4ea387802117767c"
+  },
+  "itemId": "wa_blake_vacatur_and_lfo_refund-set",
+  "status": "STOPPED",
+  "stopClass": "BLOCKED_SOURCE",
+  "jurisdiction": "WA",
+  "routeKeys": [
+    "obligation:track-pathway:WA:wa_blake_vacatur_and_lfo_refund:blake-drug-possession-vacation-and-refund-route"
+  ],
+  "implementationStrategy": "official_pdf_fill",
+  "officialFormFamily": "Blake-001+Blake-002+Blake-005",
+  "requiredComponents": [
+    "component:wa_blake_vacatur_and_lfo_refund-lfo-refund-claim-3",
+    "component:wa_blake_vacatur_and_lfo_refund-primary-filing-1",
+    "component:wa_blake_vacatur_and_lfo_refund-proposed-order-2"
+  ],
+  "buildScript": "scripts/build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs",
+  "buildScriptExists": true,
+  "overlayDirectory": "data/rcap-all50/overlays/census-v1/wa/wa-blake-vacatur-and-lfo-refund-set--official-pdf-fill",
+  "overlayDirectoryExists": false,
+  "overlayDirectoryTouched": false,
+  "builderCreated": false,
+  "testCreated": false,
+  "filingPacketsGenerated": 0,
+  "rasterGenerated": false,
+  "sourceBinding": {
+    "queueSourcesNamed": 4,
+    "familyGate": {
+      "result": "FAIL",
+      "detail": "4 of 4 source(s) do not bind",
+      "boundSourceCount": 0,
+      "completeQueueSourceBind": false,
+      "resolverTier": "custody_reconciliation"
+    },
+    "queuePinnedSources": [
+      {
+        "sourceId": "official-form:Blake-001",
+        "declaredPath": "STATES/WA/02_PACKET_FORMS/WA__FORM__BLAKE-001__blake-001-record-vacatur-form__REV-2026-04__EN.pdf",
+        "sha256": "a4d2098f63907b6f0fe1e2c400c0dd960a9d313c5968407d80c88d9ecae05b0f",
+        "statusAtWorker": "MISSING_AT_DECLARED_PATH",
+        "statusAtCheckedCaptainPath": "NOT_FOUND; no alternate search performed"
+      },
+      {
+        "sourceId": "official-form:Blake-002",
+        "declaredPath": "STATES/WA/02_PACKET_FORMS/WA__FORM__BLAKE-002__blake-002-record-vacatur-form__REV-2026-04__EN.pdf",
+        "sha256": "f3c516804c01f2d8950a7ec5b594e73be94a93504312ec26771152b729c2fd5d",
+        "statusAtWorker": "MISSING_AT_DECLARED_PATH",
+        "statusAtCheckedCaptainPath": "NOT_FOUND; no alternate search performed"
+      },
+      {
+        "sourceId": "official-form:Blake-005",
+        "declaredPath": "STATES/WA/02_PACKET_FORMS/WA__FORM__BLAKE-005__blake-005-record-vacatur-form__REV-2025-05__EN.pdf",
+        "sha256": "b266545459aeb0a0e074755fbf2100118903ab5c20425934d0cf5aba2ac3c635",
+        "statusAtWorker": "MISSING_AT_DECLARED_PATH",
+        "statusAtCheckedCaptainPath": "NOT_FOUND; no alternate search performed"
+      },
+      {
+        "sourceId": "source-sha256:a4d2098f63907b6f0fe1e2c400c0dd960a9d313c5968407d80c88d9ecae05b0f",
+        "declaredPath": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/WA/02_PACKET_FORMS/WA__FORM__BLAKE-001__blake-001-record-vacatur-form__REV-2026-04__EN.pdf",
+        "sha256": "a4d2098f63907b6f0fe1e2c400c0dd960a9d313c5968407d80c88d9ecae05b0f",
+        "statusAtWorker": "MISSING_AT_DECLARED_PATH",
+        "statusAtCheckedCaptainPath": "NOT_FOUND; no alternate search performed"
+      }
+    ],
+    "custodyRecord": {
+      "row": "wa_blake_vacatur_and_lfo_refund-set",
+      "documentSourcesNamed": 4,
+      "documentSourcesResolved": 4,
+      "custodyClass": "SOURCE_ALREADY_HELD",
+      "queueSourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "legalInputStatus": "SETTLED",
+      "sharedRecordModified": false
+    }
+  },
+  "preflight": {
+    "command": "source \"$HOME/.legalease-corpus-env\" && node scripts/verify-packet-build-environment.mjs --family 'wa_blake_vacatur_and_lfo_refund-set' --codex-cloud --minimum-captain-sha 6867ee44777ce3c9e88afda8b4bad8c3d8e8e31a",
+    "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 9/14 passed, 5 failed, 3 not applicable",
+    "exitCode": 1,
+    "familySourcesBind": "FAIL: 4 of 4 source(s) do not bind",
+    "knownWorkerEnvironmentFailures": [
+      "worktree_clean: Captain-provided claim ledger is intentionally uncommitted in the worker",
+      "private_is_git_ignored: private/ is not git-ignored at this worker base",
+      "master_library_complete: below immutable minimum: 13 of 499 files, 11 of 329 PDFs present",
+      "corpus_matches_committed_index: 24 absent, 0 mismatched of 24 sampled"
+    ],
+    "treatment": "Aggregate partial-corpus failures were not repaired or used as the family finding; the four exact WA source bytes and absent worker paths are the bounded blocker. The exclusive builder is present."
+  },
+  "blocker": {
+    "exactClass": "BLOCKED_SOURCE",
+    "statement": "All four custody-pinned WA source entries fail to bind at their exact worker paths, and none was available at the checked Captain paths for missing-only transfer. The existing exclusive builder is present; only the exact source bytes block dispatch.",
+    "noSourceHunt": true,
+    "noSharedResolverEdit": true,
+    "noLegalResearch": true,
+    "noClosedFamilyTouched": true
+  },
+  "nextExecutableAction": "Provide the four exact Blake source PDFs at their governed paths, rerun the existing prerequisite once, and dispatch the existing WA builder.",
+  "counters": null,
+  "allNineCountersZero": null,
+  "artifactsProduced": [],
+  "commercialAuthorityGranted": false,
+  "productionTouched": false,
+  "selfVerified": false,
+  "privateSourceBytesCommitted": false,
+  "privateSourceBytesModified": false,
+  "returnNotes": [
+    "Claim used PF24, the lane recorded in Captain's current claim ledger.",
+    "The existing WA builder was left untouched; no exact source byte was available for transfer.",
+    "The worker claim ledger remains intentionally uncommitted.",
+    "Shared manifests, source custody, resolver logic, closed WA families, and the active KY pardon slot were not modified."
+  ]
+}

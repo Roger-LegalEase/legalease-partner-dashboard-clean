@@ -1,0 +1,40 @@
+{
+  "schemaVersion": "rcap-packet-set-manifest/v1",
+  "familyId": "az_record_sealing_conviction-set",
+  "trackId": "az_record_sealing_conviction",
+  "jurisdiction": "AZ",
+  "committedManifestVersion": "1.0.0",
+  "components": [
+    {
+      "componentId": "az_record_sealing_conviction-primary-filing-1",
+      "role": "primary_filing",
+      "requirement": "required",
+      "conditionDescription": null,
+      "officialFormIdInTheCommittedManifest": "AOCCRSL1F-050825",
+      "officialFormIdAsBuilt": "AOCCRSL1F-050625",
+      "generated": true,
+      "generatedBecause": "Required or conditional-and-met on this route."
+    },
+    {
+      "componentId": "az_record_sealing_conviction-proposed-order-2",
+      "role": "proposed_order",
+      "requirement": "conditional",
+      "conditionDescription": "The form is court-facing and contains the judge's findings. Some courts expect the petitioner to lodge it. Verify per court.",
+      "officialFormIdInTheCommittedManifest": "AOCCRSL2F-050825",
+      "officialFormIdAsBuilt": "AOCCRSL2F-050625",
+      "generated": true,
+      "generatedBecause": "Required or conditional-and-met on this route."
+    },
+    {
+      "componentId": "az_record_sealing_conviction-continuation-3",
+      "role": "continuation",
+      "requirement": "conditional",
+      "conditionDescription": "For additional counts.",
+      "officialFormIdInTheCommittedManifest": "AOCCRSL1F-050825-CONT",
+      "officialFormIdAsBuilt": "AZ-AOCCRSL1F-CONTINUATION-OF-COUNTS",
+      "generated": true,
+      "generatedBecause": "Both fixtures carry more counts than item 2c's four lines hold, so the conditional continuation's condition - 'For additional counts.' - is met and the sheet is generated. A case with four counts or fewer would not generate it and the petition's own control would stay unmarked."
+    }
+  ],
+  "componentsNotGenerated": []
+}

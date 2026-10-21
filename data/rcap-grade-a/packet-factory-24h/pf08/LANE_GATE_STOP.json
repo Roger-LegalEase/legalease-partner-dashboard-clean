@@ -1,0 +1,156 @@
+{
+  "schemaVersion": "packet-factory-24h/lane-gate-stop/v1",
+  "whatThisIsNot": "This is NOT rows.json. The lane gate did not pass, so no family row was written and no family was claimed, read or built. A rows.json here would assert that families were evaluated; none were.",
+  "lane": "PF08",
+  "worker": "PF-B",
+  "workerBranch": "claude/9h-pf-b",
+  "shiftBaseSha": "c6d7ffe7cfdf45629f873e1a0e58ae4b174d45c6",
+  "captainBranch": "claude/legalease-sprint-captain-utucnw",
+  "laneStatus": "LANE_STOP_ENVIRONMENT",
+  "stoppedAt": "lane_gate",
+  "familiesAssigned": 1,
+  "rowsWritten": 0,
+  "familiesClaimed": 0,
+  "overlayDirectoriesTouched": 0,
+  "packetsSelfVerified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "laneGate": {
+    "command": "node scripts/verify-packet-build-environment.mjs --codex-cloud --minimum-captain-sha c6d7ffe7cfdf45629f873e1a0e58ae4b174d45c6 --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json",
+    "verdict": "PACKET_BUILD_ENVIRONMENT_NOT_READY",
+    "ratio": "10/13 passed, 3 failed, 3 not applicable",
+    "checksThatFailed": [
+      {
+        "check": "master_library_mounted",
+        "detail": "absent at private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1"
+      },
+      {
+        "check": "master_library_complete",
+        "detail": "the corpus root cannot be walked (absent is not empty)"
+      },
+      {
+        "check": "corpus_matches_committed_index",
+        "detail": "the corpus root cannot be walked; nothing to compare the index against"
+      }
+    ],
+    "allThreeAreOneRootCause": true,
+    "rootCause": "The governed Master Library (Edition 1) is not mounted in this container and cannot be fetched from it, because this session's GitHub access layer does not carry the source-artifacts repository.",
+    "captainPreflightFixConfirmed": {
+      "check": "browser_environment_exported",
+      "wasBefore": "FAIL — RCAP_CHROMIUM_PATH is not exported",
+      "isNow": "not applicable: this invocation renders nothing, so it needs no browser exported",
+      "verdict": "CONFIRMED FIXED at c6d7ffe7. This was a real fleet-wide blocker and it is gone. It was not, however, the only one in this container."
+    }
+  },
+  "recoveryAttempted": {
+    "script": "scripts/rcap-corpus/bootstrap-private-corpus.sh",
+    "timesRun": 2,
+    "releaseRepo": "Roger-LegalEase/legalease-source-artifacts",
+    "releaseTag": "source-corpus-2026-08-28",
+    "result": "REFUSED_AT_RELEASE_LOOKUP",
+    "httpStatus": 403,
+    "correctionToTheEarlierReport": "PF-B's first return called this 'the token may lack access', which is the wording the script prints on any non-200. That was one step off, and so was the Captain's correction of it. The 403 does not come from GitHub at all.",
+    "responseBodyVerbatim": "GitHub access to this repository is not enabled for this session. Use add_repo to request access. If add_repo answers that read access is already available and you need GitHub API or write access, call add_repo again with access:\"push\" to attach the repository with credentials.",
+    "whatThatMeans": "The refusal is issued by this session's GitHub access layer before the request reaches GitHub. The Captain's own check answering HTTP 200 is consistent with this: the Captain ran it from an environment where the source-artifacts repository is in scope. Repository scope is per-session, so a 200 there proves nothing about here.",
+    "remedyAttempted": {
+      "tool": "add_repo",
+      "modes": [
+        "read",
+        "push"
+      ],
+      "result": "DENIED_BY_PERMISSION_CLASSIFIER in both modes",
+      "note": "add_repo is the remedy the 403 body itself names. It is not available to this worker, so the corpus cannot be brought into scope from inside the lane."
+    },
+    "whatWouldUnblockIt": [
+      "an operator grants this session access to Roger-LegalEase/legalease-source-artifacts (add_repo approved, or repository access granted in the Claude GitHub settings), after which bootstrap-private-corpus.sh succeeds unaided; or",
+      "the corpus is pre-mounted at the install root before the worker starts; or",
+      "PF07-PF11 are re-dispatched to a worker whose session already carries the source-artifacts repository."
+    ]
+  },
+  "rowGateEvidence": {
+    "command": "node scripts/verify-packet-build-environment.mjs --family <familyId> --codex-cloud --minimum-captain-sha c6d7ffe7cfdf45629f873e1a0e58ae4b174d45c6",
+    "note": "Every family resolves its source identity to exactly one committed index entry and binds zero of them. That is one environment fact reported six times, not a per-family source defect. These are NOT BLOCKED_SOURCE findings: BLOCKED_SOURCE names a source that failed to bind while the corpus was present, and the corpus was never present here.",
+    "verdictPerFamily": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 10/14 passed, 4 failed, 2 not applicable"
+  },
+  "families": [
+    {
+      "familyId": "ca-1203-4-set",
+      "jurisdiction": "CA",
+      "implementationStrategy": "official_pdf_fill",
+      "officialForms": [
+        "CR-106",
+        "CR-180",
+        "CR-181",
+        "MC-025",
+        "MC-031"
+      ],
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill",
+      "overlayDirectoryTouched": false,
+      "claimed": false,
+      "artifactsRead": 0,
+      "artifactsWritten": 0,
+      "sourceIdentityResolves": true,
+      "sourcesTotal": 5,
+      "sourcesBound": 0,
+      "sources": [
+        {
+          "sourceId": "official-form:CR-106",
+          "resolvedFrom": "data/rcap-grade-a/route-obligation-census-v1/source-custody-reconciliation.json",
+          "pathInMasterLibrary": "STATES/CA/02_PACKET_FORMS/CA__FORM__CR-106__proof-of-service-criminal-record-clearing__REV-2020-01-01__EN.pdf",
+          "pinnedSha256": "f8a37a9a8c30a016b432bb39fd67407717c3dee7be74bc3e3d471127bf190c5a",
+          "presentOnDisk": false,
+          "observedSha256": null,
+          "bound": false,
+          "whyNotBound": "the Master Library is not mounted in this container, so the pinned bytes are not on disk to hash"
+        },
+        {
+          "sourceId": "official-form:CR-180",
+          "resolvedFrom": "data/rcap-grade-a/route-obligation-census-v1/source-custody-reconciliation.json",
+          "pathInMasterLibrary": "STATES/CA/02_PACKET_FORMS/CA__FORM__CR-180__petition-for-dismissal__REV-2024-01-01__EN.pdf",
+          "pinnedSha256": "06c1b64315ebd5c7f8260d7169abc2392d6373a202dc39f4788cb8a8c98bbdbe",
+          "presentOnDisk": false,
+          "observedSha256": null,
+          "bound": false,
+          "whyNotBound": "the Master Library is not mounted in this container, so the pinned bytes are not on disk to hash"
+        },
+        {
+          "sourceId": "official-form:CR-181",
+          "resolvedFrom": "data/rcap-grade-a/route-obligation-census-v1/source-custody-reconciliation.json",
+          "pathInMasterLibrary": "STATES/CA/02_PACKET_FORMS/CA__FORM__CR-181__order-for-dismissal__REV-2024-01-01__EN.pdf",
+          "pinnedSha256": "f737503a89465d40206b11b1123e815e44a249d324bad16d313c337a695ce504",
+          "presentOnDisk": false,
+          "observedSha256": null,
+          "bound": false,
+          "whyNotBound": "the Master Library is not mounted in this container, so the pinned bytes are not on disk to hash"
+        },
+        {
+          "sourceId": "official-form:MC-025",
+          "resolvedFrom": "data/rcap-grade-a/route-obligation-census-v1/source-custody-reconciliation.json",
+          "pathInMasterLibrary": "STATES/CA/02_PACKET_FORMS/CA__FORM__MC-025__attachment-to-judicial-council-form__REV-2009-07-01__EN.pdf",
+          "pinnedSha256": "b0ca1509f2c3de152518079de7c1eb2771eaa1eb7da457c2e918498894f6f0af",
+          "presentOnDisk": false,
+          "observedSha256": null,
+          "bound": false,
+          "whyNotBound": "the Master Library is not mounted in this container, so the pinned bytes are not on disk to hash"
+        },
+        {
+          "sourceId": "official-form:MC-031",
+          "resolvedFrom": "data/rcap-grade-a/route-obligation-census-v1/source-custody-reconciliation.json",
+          "pathInMasterLibrary": "STATES/CA/02_PACKET_FORMS/CA__FORM__MC-031__attached-declaration__REV-2005-07-01__EN.pdf",
+          "pinnedSha256": "defc9108f6baa4c2ca444c1571d737d841af78289bef337f874f51e595191075",
+          "presentOnDisk": false,
+          "observedSha256": null,
+          "bound": false,
+          "whyNotBound": "the Master Library is not mounted in this container, so the pinned bytes are not on disk to hash"
+        }
+      ]
+    }
+  ],
+  "whatWasDeliberatelyNotDone": [
+    "No family was claimed. The claim ledger already carries a Captain-registered packet-build claim for each of these families on this lane; asserting a claim from a lane that produced nothing would mark the family taken by a worker that cannot build it.",
+    "No overlay directory was created, opened or modified. Every assigned overlay directory is byte-for-byte as the shift base left it.",
+    "No rows.json and no checkpoints.json were written. The lane gate says no row is written when it does not pass, and a STOPPED row would assert a family evaluation that never happened.",
+    "No packet was built on an unbound source, and no fact was invented. Six official_pdf_fill families cannot be filled without the official PDF bytes they overlay.",
+    "MASTER_LIBRARY_SOURCE_DIR was not exported, per the Captain's instruction and because there is no corpus to point it at."
+  ]
+}

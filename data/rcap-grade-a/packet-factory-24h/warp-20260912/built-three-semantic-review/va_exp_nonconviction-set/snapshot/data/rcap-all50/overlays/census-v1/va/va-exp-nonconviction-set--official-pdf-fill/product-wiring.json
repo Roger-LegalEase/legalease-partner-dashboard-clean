@@ -1,0 +1,101 @@
+{
+  "schemaVersion": "rcap-census-v1-product-wiring/v1",
+  "family": "va_exp_nonconviction-set",
+  "routeKey": "obligation:track-only:VA:va_exp_nonconviction",
+  "routeKeys": [
+    "obligation:track-only:VA:va_exp_nonconviction"
+  ],
+  "workType": "PRODUCT_WIRING_REQUIRED",
+  "status": "DECLARED_NOT_INSTALLED",
+  "authorityCreated": "none",
+  "generatedBy": "scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs",
+  "derivedFrom": "data/rcap-all50/overlays/census-v1/va/va-exp-nonconviction-set--official-pdf-fill/reports/rendered-artifacts.json",
+  "explicitNonGrants": [
+    "This document opens no commercial route.",
+    "It creates no fulfillment record and consumes no packet credit.",
+    "It marks no packet proven and grants no output approval.",
+    "It does not add this track to compiled runtime. src/lib/rcap-engine/compiled/** is untouched.",
+    "It does not change any live RCAP route.",
+    "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This is not that record."
+  ],
+  "currentState": {
+    "serviceDisposition": "missing_from_compiled_runtime",
+    "commercialState": "NO_ROUTE_LEVEL_GRADE_A_AUTHORITY_FROM_TRACK_MEMBERSHIP",
+    "existingArtifactIds": [],
+    "generationAllowed": false
+  },
+  "proposedRepresentation": {
+    "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
+    "packetSetId": "va_exp_nonconviction-set",
+    "outputStrategy": "official_pdf_fill",
+    "components": [
+      {
+        "componentId": "va_exp_nonconviction-set-component-1",
+        "role": "primary_filing",
+        "order": 1,
+        "documentId": "canonical",
+        "file": "data/rcap-all50/overlays/census-v1/va/va-exp-nonconviction-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "da41e860789d91e45ba7bbc8c33476fbebb7b39eee8769a65750e289b62d43ed",
+        "requirement": "required"
+      }
+    ]
+  },
+  "binding": {
+    "family": "va_exp_nonconviction-set",
+    "jurisdiction": "VA",
+    "routeKeys": [
+      "obligation:track-only:VA:va_exp_nonconviction"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "ccre_forwarding_request",
+      "commonwealth_service_and_stipulation_request",
+      "filing_instructions",
+      "primary_filing",
+      "records_checklist"
+    ],
+    "packetComponents": [
+      "component:va_exp_nonconviction-primary-filing-1"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/va/va-exp-nonconviction-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/va/va-exp-nonconviction-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/va/va-exp-nonconviction-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/va/va-exp-nonconviction-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:CC-1473",
+        "sha256": "6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219",
+        "tier": "exact_form_number"
+      }
+    ],
+    "acceptanceReceipt": null,
+    "lastIndependentVerification": {
+      "verdict": "BLOCKED_LEGAL_INPUT",
+      "lane": "vf01",
+      "verifiedAtBase": "b70ec78ef"
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-va_exp_nonconviction-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    },
+    "acceptanceReceiptWithdrawn": [
+      {
+        "why": "The acceptance receipt binds an exact canonical SHA-256 and this write's canonical bytes are not those bytes, so the receipt does not describe this packet. It is withdrawn and kept as history rather than deleted, and it is not carried forward as though it still applied. Only the central raster acceptance workflow issues a receipt; nothing here issues one and nothing here sets a verdict.",
+        "boundToCanonicalSha256": "95c6fd7f20b2628a5055e4b247ad32dbbf0d33331b4a1d47cbbd65c03ac19e82",
+        "replacedByCanonicalSha256": "da41e860789d91e45ba7bbc8c33476fbebb7b39eee8769a65750e289b62d43ed",
+        "withdrawnReceipt": {
+          "verdict": "RASTER_PASS",
+          "workflowRunId": null,
+          "artifactId": null,
+          "boundToCanonicalSha256": "95c6fd7f20b2628a5055e4b247ad32dbbf0d33331b4a1d47cbbd65c03ac19e82",
+          "coversTheWholeFamily": true
+        }
+      }
+    ]
+  }
+}

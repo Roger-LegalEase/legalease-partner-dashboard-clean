@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "ne-seal-pardoned-set",
+  "findings": [
+    {
+      "finding": "Item 2 of CC 6:12 is a select-one whose pardoned branch is this family's whole identity.",
+      "consequence": "The packet marks \"Resulted in a conviction that was later pardoned\" and declares the other three boxes not applicable, naming the selection made. A route-determined election is not left to the participant."
+    },
+    {
+      "finding": "The caption \"IN THE ______ COURT OF ______ COUNTY, NEBRASKA\" is not printed page text. It is the default value of two text fields the form's own script rewrites from the drop-downs.",
+      "consequence": "The packet writes the composed caption into those two fields and sets the drop-downs to match. Three fill strategies were rendered and looked at first: selecting only the drop-downs leaves the caption empty and overprints the chooser prompt beneath it, and writing the free-text alternates collides with the right-aligned caption still in the caption field."
+    },
+    {
+      "finding": "\"(Enter the type of court)\" and \"(Enter the county name)\" are field default values, not page text.",
+      "consequence": "Both are cleared, and both are recorded with their source-carried value in production-field-map.json and reports/actual-writes.json. A filed motion that prints an instruction to itself in its caption is a defect no counter would show."
+    },
+    {
+      "finding": "CC 6:12 has no place to attach the pardon and this build creates none.",
+      "consequence": "Nothing in this packet asserts that a pardon was granted or names a date. The participant is told to bring the Board of Pardons document and to ask the clerk whether a copy should be filed."
+    },
+    {
+      "finding": "The family's instrument kinds name a fee waiver, and no Nebraska fee-waiver form is bound to this family by any source record.",
+      "consequence": "No fee-waiver component is built and none is implied. The filing instructions say plainly that the participant should ask the clerk for Nebraska's in forma pauperis application, and that this packet does not carry one."
+    },
+    {
+      "finding": "CC 6:12a carries no AcroForm at all, which the build asserts before assembly.",
+      "consequence": "The court's own instructions are carried unchanged, with nothing written on them, and the source receipt records the measured field count."
+    }
+  ]
+}

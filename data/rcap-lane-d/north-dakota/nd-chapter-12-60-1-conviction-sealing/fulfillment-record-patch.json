@@ -1,0 +1,98 @@
+{
+  "schemaVersion": "rcap-lane-d-fulfillment-patch-request/v1",
+  "target": "data/rcap-grade-a/fulfillment-authority-registry.json",
+  "targetOwner": "captain",
+  "routeId": "ND:general-conviction-sealing-under-n-d-c-c-chapter-12-60-1",
+  "recordId": "grade-a-nd-general-conviction-sealing-under-n-d-c-c-chapter-12-60-1-v1",
+  "appliesToRecordVersion": 1,
+  "proposedProofFields": {
+    "packetFamilyId": "north-dakota",
+    "packetSpecification": {
+      "specId": "nd-chapter-12-60-1-conviction-sealing",
+      "sha256": "1bca63ed3706e1c009c062adaa08a5936555ce005193969ffc65cf76aa606985",
+      "complete": true
+    },
+    "officialSources": [
+      {
+        "sourceId": "ND__SUPPORT__SEALING-CRIMINAL-RECORDS-RESEARCH-GUIDE__sealing-criminal-records-or-closing-nonconviction__REV-UNKNOWN__EN.pdf",
+        "sha256": "b39a0c1532bff3381382544a3888478835edb2109af597a2468a34e2a5f19a3c",
+        "heldInRepository": false
+      },
+      {
+        "sourceId": "ND__REFERENCE__WILMA__north-dakota-expungement-sealing-reference__REV-UNKNOWN__EN.rtf",
+        "sha256": "68c9109532391768ba04b29801f6e7ed4dbee4e2905b9a79bb162b4cd7905a68",
+        "heldInRepository": false
+      }
+    ],
+    "provider": {
+      "providerId": "legalease/nd-chapter-12-60-1-composer",
+      "rendererKind": "composed_pleading_packet_v1",
+      "rendererVersion": "1.0.0",
+      "composerModule": "src/lib/rcap/state-packs/north-dakota/grade-a/composer.ts",
+      "pleadingRendererModule": "src/lib/record-clearing/renderers/custom-pleading-renderer.ts",
+      "pdfRendererModule": "scripts/lib/nd-grade-a-packet-pdf.mjs",
+      "pdfLibraryVersion": "pdf-lib@1.17.1",
+      "compiledProfileId": "ND-north-dakota",
+      "compiledProfileVersion": "2026-06-19-source-conversion-1",
+      "compiledProfileCorpusSha256": "c205813b263764fe44648ba577d91e8fadb52b55974b7fe154495bbff1b8ede7"
+    },
+    "fixture": {
+      "fixtureId": "nd-chapter-12-60-1-conviction-sealing:canonical",
+      "sha256": "24cbf6a94db5e757206507e015c6d15a6586c0afb8587c5a4254da53c3abe881",
+      "deterministic": true
+    },
+    "artifactValidation": {
+      "state": "validated",
+      "artifactSha256": "913e34a6f714383878397371c8d536bc094afce3a6067cfeb4caefee04e2e270",
+      "validatedAt": "2026-08-29"
+    },
+    "visualReview": {
+      "state": "passed",
+      "pagesReviewed": 8,
+      "pageCount": 8,
+      "evidenceSha256": "c52e141dd6f76b82f318553da40f32c72b5415c938e4af831ec006ecd4617161",
+      "reviewedBy": "lane-d-north-dakota-composed-pleading",
+      "reviewedAt": "2026-08-29"
+    },
+    "outputLegalApproval": {
+      "state": "pending",
+      "reviewerId": null,
+      "decidedAt": null,
+      "scopeSha256": null
+    },
+    "finalVerification": {
+      "state": "bound",
+      "verifierId": "scripts/verify-nd-grade-a-packet.mjs",
+      "boundInputsSha256": "e5a69358035ec1b5fe2062baf1440b437d0059f15d0c902d27790cac809af13b",
+      "verifiedAt": "2026-08-29"
+    }
+  },
+  "proofsThisLaneCannotSupply": [
+    {
+      "proof": "legal_authority",
+      "currentValue": "status: pending",
+      "why": "Only the decision owner can move legal-authority status to approved_by_decision_owner. No committed North Dakota legal-authority route contract exists for Chapter 12-60.1 conviction sealing; src/lib/legal-authority/routes/ carries one ND contract and it is the non-filing 12-60.1-05 route. Lane D neither makes nor simulates that decision.",
+      "blocksCompletePacketProven": true
+    },
+    {
+      "proof": "official_sources.heldInRepository",
+      "currentValue": "false for both bound sources",
+      "why": "The Edition 1 Master Library extract is not mounted in this lane's environment, so the source bytes are not held and their hashes were confirmed from two independent committed records that agree rather than recomputed from disk. The Grade-A contract counts an unheld source as missing proof, which is the correct fail-closed answer.",
+      "blocksCompletePacketProven": true
+    },
+    {
+      "proof": "output_legal_approval",
+      "currentValue": "state: pending",
+      "why": "Lane D produced an output-level legal review (docs/rcap/grade-a/north-dakota/OUTPUT_LEGAL_REVIEW.json) tracing every operative sentence to committed authority. Whether that review is the approval the contract means is the captain's and counsel's call, not the lane's, so the field is left pending rather than self-approved.",
+      "blocksCompletePacketProven": true
+    },
+    {
+      "proof": "provider.imageDigest",
+      "currentValue": "the registry names ghcr.io/roger-legalease/rcap-render-worker@sha256:67132df2…",
+      "why": "That is the container that renders in the deployed pipeline. It is not what produced these bytes, and this lane cannot observe its digest, so the proposed provider block records the composer and PDF renderer that actually ran. The captain reconciles the two.",
+      "blocksCompletePacketProven": false
+    }
+  ],
+  "expectedStateAfterPatch": "INCOMPLETE",
+  "expectedStateReason": "Six of the nine missing proofs are supplied by this patch. Three remain — legal authority, held official sources and output legal approval — so the route stays INCOMPLETE and not_commercially_eligible. That is the intended outcome: Lane D produces candidate evidence and opens nothing."
+}

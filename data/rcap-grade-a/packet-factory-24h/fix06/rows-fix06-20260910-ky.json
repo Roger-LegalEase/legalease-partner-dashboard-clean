@@ -1,0 +1,203 @@
+{
+ "schemaVersion": "rcap-packet-factory-lane-rows/v1",
+ "lane": "FIX06",
+ "laneKind": "repair",
+ "shift": "20260910-ky",
+ "worktree": "/home/user/pfc-worktree",
+ "branch": "pfc-ky-20260910",
+ "baseSha": "2b45ac2be431a7fa9e197c6ee3da42d623ba6f37",
+ "headSha": "758b65fd931f50eade722958977d9ee6ff979c94",
+ "writtenAlongsideRatherThanOver": "data/rcap-grade-a/packet-factory-24h/fix06/ already holds rows.json, rows-fix06-20260909.json, rows-fix06-20260909b.json, rows-fable-fix06.json, checkpoints-fix06-20260909b.json and two named returns. None was overwritten; this is a new file.",
+ "independence": "This lane repaired the family in this file and does not read it independently. No verdict is set and no PASS is issued.",
+ "measurementNote": "visualDefects is null, not zero. Geometry and appearance were measured from the delivered PDF bytes and the numbers are in the row, but a repair lane's own reading is measurement rather than a receipt, and RASTER_PASS comes only from the central workflow. rasterState is BUILT_RASTER_PENDING.",
+ "grantsAsserted": [
+  "CLAIM_OK FIX06 ky_protective_order_record_expungement-set (repair, grant set 32a79ceb6b593de1)"
+ ],
+ "notTouchedThisShift": "No other family, no other lane's worktree, no shared manifest, no queue row, no admitted raster verdict, and no legacy generator. The only paths outside the family directory that this shift changed are its own builder script and this lane's own returns.",
+ "contradictionsFound": [
+  {
+   "record": "data/rcap-grade-a/source-wave-integration/SOURCE_READY_BUILDABILITY.json",
+   "row": "ky_protective_order_record_expungement-set",
+   "itSays": "buildScriptExists false; documentSourcesResolved 0; custodyClass SOURCE_GENUINELY_MISSING; commissionAcquisition true; the bound source official-form:AOC-275.18 'not_present_in_a_custody_mounted_here'.",
+   "measuredHere": "All four are false in this container. scripts/build-census-v1-ky_protective_order_record_expungement-set.mjs exists and runs. The source resolves at private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Kentucky/source-acquisition-2026-09-04/275.18.pdf and hashes to b3d8278a85a56c5ac81ed9fedaf9081f5e6f5141d0f561ed6aa6ff4103d2cb51, matching the committed corpus index by digest, byte length (192243) and page count (1). The builder re-hashes it on every run, so this repair is itself the measurement.",
+   "howToReadIt": "The buildability row is honest about its own scope -- it says in words that the absence is 'a fact about this container' -- so this is a stale measurement rather than a wrong one. It was taken before the 2026-09-04 recovery was mounted. Reported and NOT edited: it is a shared record and no claim was issued for it.",
+   "consequence": "No commission is needed for this family's source. A lane that reads that row alone would commission an acquisition for bytes that are already in custody and already bound by digest."
+  },
+  {
+   "record": "the family's own guide prose",
+   "itSays": "filing-instructions.md attributes four statements to 'the committed record' -- the clerk's duties, the fee treatment, the service rule and the signature rule.",
+   "measuredHere": "All four are accurate against KY.memo.json track ky_protective_order_record_expungement (destination.detail, rules.fees, rules.service, rules.participantSignature, rules.notarization), checked word by word. But until this commit NO CODE PATH IN THE BUILDER READ THAT FILE: they were paraphrases in string literals. They were true by the diligence of whoever typed them, not by construction.",
+   "consequence": "That is how the party-role sentence was able to be false while its neighbours were true, and it is a shape worth sweeping for elsewhere: a builder that attributes prose to a record it never opens. This repair made the party role, the packet_instruction limitations and the self-help stops read-from-record; the four filing-instructions sentences are still paraphrases, deliberately left because they are accurate and outside the failed obligations."
+  }
+ ],
+ "rows": [
+  {
+   "itemId": "ky_protective_order_record_expungement-set",
+   "lane": "FIX06",
+   "laneKind": "repair",
+   "status": "COMPLETED",
+   "repairedByThisLane": true,
+   "rasterState": "BUILT_RASTER_PENDING",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill",
+   "implementationStrategy": "official_pdf_fill",
+   "claim": "CLAIM_OK FIX06 ky_protective_order_record_expungement-set (repair, grant set 32a79ceb6b593de1)",
+   "claimNote": "An earlier FIX06 attempt on this family returned NOT_GRANTED (exit 6) and refused correctly: its worktree sat at a commit predating the grant. This worktree is at base 2b45ac2be, which carries it. The refusal was a dispatch fault, not a lane fault, and the grant was asserted again here before any family artifact was read. A live PF08 packet-build claim on the same family is by design -- one owner per family per kind -- and is not a conflict.",
+   "obligationRepaired": [
+    "ROUTE_IDENTITY",
+    "KNOWN_PREFILLS",
+    "SELF_HELP_STOP"
+   ],
+   "failedObligationNamesAnswered": [
+    "ROUTE_IDENTITY",
+    "KNOWN_PREFILLS",
+    "SELF_HELP_STOP"
+   ],
+   "verdictThisAnswers": {
+    "lane": "VF04",
+    "file": "data/rcap-grade-a/packet-factory-24h/vf04/rows-vf04-20260909.json",
+    "verifiedAtBase": "7d6453f51dacd9064f9a2b2d4d16618d0669add8",
+    "verdict": "FAIL_REPAIR_REQUIRED"
+   },
+   "theFindingWasCheckedBeforeItWasActedOn": "The dispatch required this lane to read the record itself rather than take VF04's word, and to say so if the record turned out to be silent. It is not silent. data/record-clearing/legal-design-intake/KY.memo.json was read in full at the relief_track node ky_protective_order_record_expungement -- the same trackId this family's route key obligation:track-only:KY:ky_protective_order_record_expungement names -- and it establishes the participant's caption block in five independent places. VF04's finding is confirmed on all three obligations, independently and on the same nodes it named.",
+   "theFiveReadings": [
+    {
+     "node": "participantInputs.poRespondentName",
+     "quote": "What is your full name as it appears on the case?",
+     "establishes": "the participant's OWN name goes in the respondent slot"
+    },
+    {
+     "node": "participantInputs.poPetitionerName",
+     "quote": "What is the name of the person who petitioned against you?",
+     "establishes": "the petitioner is the person who petitioned AGAINST the participant"
+    },
+    {
+     "node": "controllingAuthority.summary",
+     "quote": "The respondent moves six months after dismissal, provided no order of protection has been issued against them in the preceding six months.",
+     "establishes": "the moving party is the respondent"
+    },
+    {
+     "node": "exclusions",
+     "quote": "Any respondent who has been bound by, or had issued against them, an order of protection for the protection of any person in the six months before the request.",
+     "establishes": "the six-month exclusion is written about the respondent"
+    },
+    {
+     "node": "destination.detail",
+     "quote": "... requests an updated criminal and protective-order history for the respondent.",
+     "establishes": "the clerk pulls the history of the respondent"
+    }
+   ],
+   "whatWasWrong": "participant-instructions.md stated, in two of its withheld reasons, that \"Nothing in the committed record for this route establishes which of the two blocks the participant occupies\", and production-field-map.json and reports/caption-evidence.json carried the same sentence. It was false, and it was false in a participant-facing document that the packet contradicted three sections later: filing-instructions.md already quoted destination.detail from the very record that answers it, the word \"respondent\" included, and quoted rules.fees and rules.service from the same node. The build read that record for the clerk's duties, the fee and the service rule and simultaneously told the participant the record was silent on the party role. The underlying cause is that NOTHING IN THE BUILDER EVER READ A RECORD: every sentence beginning \"the committed record says\" was a paraphrase typed into a string literal, and the silence claim was another one. A paraphrase cannot go stale loudly.",
+   "whatWasDone": [
+    "The builder now loads data/record-clearing/legal-design-intake/KY.memo.json, hashes it, and DERIVES the party role from participantInputs rather than stating it. All five readings are asserted by substring on every run and the build stops if any of them stops saying what it says. The caption-block mapping is keyed off the derived role, so if the record ever named the petitioner instead, the write would follow it.",
+    "first res / middle res / last res are bound to participant.first_name / middle_name / last_name -- three facts the map already declared in factMap and never used. The name is already decomposed on this route, so the legitimate objection that a single legal-name string cannot be split safely does not arise.",
+    "The PETITIONER block stays withheld, and its reason no longer claims a silence. It now says what is true: the record puts the participant in the RESPONDENT block, the packet has already written the name there, and the PETITIONER block names the other person in the case -- on this route the person who petitioned against the participant -- whose name this platform does not hold.",
+    "participant-instructions.md gained a 'Which side of the caption you are on' section quoting all five record nodes with the record's path and SHA-256, a 'What this packet has already filled in for you' section listing the prefills proved by ink in the canonical bytes, a 'What this motion does not reach' section carrying the record's two packet_instruction limitations verbatim, and a 'When this packet stops being the right tool' section carrying its four selfHelpStopConditions and its self_help_boundary verbatim and labelled as the record's own words.",
+    "reports/caption-evidence.json now records resolvedByTheRecord true with the five readings, the record digest, and the reason the other party's block is still withheld. approval-request.json's owner determination moves from ownerDeterminationRequested to ownerDeterminationsResolved, answered by the record rather than by this lane. build-findings.json carries the superseded finding rather than deleting it.",
+    "The product-wiring.json write was routed through the shared governance-preservation mechanism (see governanceState below)."
+   ],
+   "whatWasDeliberatelyNotDone": [
+    "The \"000\" county reading was left alone, per dispatch. No stored value was changed, no /AP was touched, and no guide sentence was added or removed about the county. Independently re-confirmed on the repaired bytes: the delivered page shows Franklin (canonical) and Breckinridge (boundary); the literal 000 appears nowhere in either file; there is no /AcroForm, /Opt or /V left because the form is flattened; and the pinned source's own appearance stream for that widget draws a single space, so 000 was never going to print even on the untouched official form. VF04's cross-check on this is reproduced, not extended.",
+    "filing-instructions.md was not modified. It was not among the failed obligations and its four record attributions were checked word by word against the memo node and are accurate as committed. Its prose is still a paraphrase rather than a read, which is a residual observation below and not a change made here.",
+    "No certificate of service was authored, no sibling Kentucky family was touched, and the shared finalizer's isChooserPrompt gap was not edited from this lane."
+   ],
+   "countersBefore": {
+    "knownRequiredFieldsMissing": 3,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "countersAfter": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": null
+   },
+   "countersBeforeHowMeasured": "VF04's own nine, read independently from the delivered bytes at base 7d6453f51. Reproduced here on the pre-repair fixtures for the one that moved: canonical 30dc6109... drew an empty string at all three RESPONDENT caption widgets while factMap held participant.first_name Jordan, participant.middle_name Avery and participant.last_name Reyes.",
+   "countersAfterHowMeasured": "knownRequiredFieldsMissing 0: the three respondent widgets are read at exact widget bounds in the delivered bytes and carry Jordan / Avery / Reyes (6/5/5 non-whitespace glyphs) in canonical and the long persona (21/30/14) in boundary. The three PETITIONER widgets carry zero ink in both fixtures, measured with a 2pt tolerance on all four sides, and that is correct rather than missing. requiredFactsNotCollected 0: literal string containment over the regenerated guide, 18 of 18 -- 5 requiredBeforeFiling, 3 participant elections, 4 printed lines with no widget, 6 written anchors -- every one present by label. unclassifiedBlanks 0: the source carries 16 AcroForm fields and the map accounts for all 16 with no residue, 6 writableAnchors + 8 withheld + 2 suppressedControls, and the builder fails if any census field is unreached by its decision table. incompleteRows 0: AOC-275.18 is a one-page motion with no repeating table. requiredOptionsMissing 0: routeElectionsMade [], deliveredChoiceValues [] and choiceValuesOutsideTheirOwnOptions [] in both fixtures; the three checkboxes are sworn allegations, not a choice of relief, and no ZapfDingbats glyph exists in either file. requiredComponentsMissing 0, on the same basis VF04 stated and re-checked against the record read here: primary_filing AOC-275.18 delivered; service_instructions required/process_guidance delivered as the Service section of filing-instructions.md; court_order AOC-275.19 conditional and 'Reference only. The court enters the order.', correctly not delivered, its binary marked an unretrieved open question by the record itself. invisibleWrites 0: canonical 6 anchors, 6 reported written, 6 drawn; boundary 6 anchors, 5 reported written, 5 drawn, the sixth (Case No.) refused as unfittable at the 111.16pt widget and delivering empty rather than clipped, recorded with its measurement. protectedWrites 0: the signature, date, address rules and the whole clerk NOTIFICATION OF EXPUNGEMENT HEARING block are printed rules with no widget behind them and nothing is drawn near them; the Print and Reset push-button captions appear nowhere in either file.",
+   "visualDefectsIsNullNotZero": "This lane repaired these bytes and is not an independent reader, so it publishes no visual verdict. What it did measure, and what the next lane may re-measure rather than repeat: every added non-whitespace glyph in both fixtures (54 canonical, 128 boundary) falls inside a declared write box with positive margins on all four sides, and none falls outside every box. Tightest margins in points -- canonical left 1.00, right 30.06, bottom 3.38, top 11.26; boundary left 1.00, right 6.65, bottom 3.38, top 11.26. That is a measurement, not a receipt. RASTER_PASS comes from the central workflow.",
+   "outputByteGlyphReadings": [
+    {
+     "fixture": "canonical",
+     "addedGlyphsReadFromOutputBytes": 54,
+     "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+     "flattenedWidgetAppearancesReadFromOutputBytes": 14,
+     "valuesReportedByFinalizer": 6
+    },
+    {
+     "fixture": "boundary",
+     "addedGlyphsReadFromOutputBytes": 128,
+     "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+     "flattenedWidgetAppearancesReadFromOutputBytes": 14,
+     "valuesReportedByFinalizer": 5
+    }
+   ],
+   "artifacts": {
+    "canonical": {
+     "path": "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/fixtures/canonical.pdf",
+     "sha256": "dd797c6d4783f58979d964d0d483a9270261a1832177fe9b0a0150e2ef04d63e",
+     "byteLength": 163791,
+     "pageCount": 1,
+     "supersedes": "30dc6109d9ec4f0c54aca8aebb4bc77725b7f0c8918f34c7ccd47d19114130d1"
+    },
+    "boundary": {
+     "path": "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/fixtures/boundary.pdf",
+     "sha256": "a225cbe6a35b8a07325142e1839f0bddb3be2ac150f2f123a99c50ebcdf0d29a",
+     "byteLength": 163875,
+     "pageCount": 1,
+     "supersedes": "af5fc32bcbae8116472e7e1db20459a61aaf1ce83c4b3c97748ef6511476b1a7"
+    },
+    "digestsMeasuredWith": "sha256sum over the produced files, and crypto.createHash inside the builder. No digest in this row was transcribed, padded or reconstructed by hand."
+   },
+   "governanceState": {
+    "thisBuilderWasOneOfTheErasingOnes": "scripts/build-census-v1-ky_protective_order_record_expungement-set.mjs regenerated product-wiring.json wholesale and carried none of the six governance keys. Checked before rebuilding, as the dispatch required. The committed binding held all six, including a hash-bound RASTER_PASS receipt, so a rebuild at base would have deleted them silently with the fixtures unchanged -- the exact shape recorded in data/rcap-grade-a/packet-factory-24h/REBUILD_ERASES_GOVERNANCE_STATE.json.",
+    "mechanismWired": "scripts/rcap-packet-completeness/governance-preservation.mjs, via preserveGovernanceState() and writeWiringChecked(). Not a fourth private copy of the rule.",
+    "receiptWithdrawnNotDeleted": {
+     "why": "This repair moves the canonical bytes, so the committed receipt stopped describing the packet.",
+     "boundToCanonicalSha256": "30dc6109d9ec4f0c54aca8aebb4bc77725b7f0c8918f34c7ccd47d19114130d1",
+     "replacedByCanonicalSha256": "dd797c6d4783f58979d964d0d483a9270261a1832177fe9b0a0150e2ef04d63e",
+     "withdrawnReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "34413372916",
+      "jobId": "102673422618",
+      "artifactId": "10128243186"
+     },
+     "keptUnder": "binding.acceptanceReceiptWithdrawn"
+    },
+    "keysCarriedForwardVerbatim": [
+     "lastIndependentVerification",
+     "paymentEligible",
+     "sponsorshipEligible",
+     "whyPaymentIsClosed",
+     "maintenanceRelationship"
+    ],
+    "nothingDecided": "No receipt was issued, no verdict set, and paymentEligible / sponsorshipEligible / whyPaymentIsClosed were carried, not authored. They remain false / false / closed.",
+    "verifierRun": "npm run rcap:verify-governance-preservation -> EVERY_GOVERNANCE_KEY_SURVIVED_WHERE_MEASURABLE (279 not measured, all of them paths absent from this sparse checkout) and GOVERNANCE_PRESERVATION_OK, 16 checks.",
+    "rebuildIsIdempotent": "Two consecutive rebuilds of unchanged inputs produced byte-identical product-wiring.json (043aec1feb69428327dc793fcff4f90f8f371e0b7760862d614455cf5554f878) and byte-identical fixtures."
+   },
+   "defectsNoCounterCanSeeChecked": {
+    "map-honest-writes-not": "CLEAN, and re-checked because this repair is precisely a change to what the map declares. The map declares 6 writable anchors; the finalizer wrote exactly those 6 in canonical and 5 in boundary with the sixth recorded as an unfittable refusal. No value appears at a field the map does not name, and nothing was written into any of the 8 withheld fields.",
+    "a-participant-fact-written-into-a-field-about-someone-else": "CLEAN, and this was the live risk of this repair. The participant fact was bound ONLY to the block the record assigns the participant. The PETITIONER block -- the third-party column on this route, exactly analogous to the ND victim-name column -- delivers zero ink in both fixtures.",
+    "acroform-index-is-not-the-printed-row": "Resolved by geometry rather than by field name, because the repair depended on it. The printed caption PETITIONER sits at y=637.40 inside the y 631.30-651.94 band of first/middle/last pet; RESPONDENT sits at y=590.10 inside the y 586.30-606.94 band of first/middle/last res; the First / Middle / Last sub-labels print below each row at y=621.30 and y=577.30. The three widgets written are unambiguously under the printed RESPONDENT caption, and the field names agree with the geometry rather than being trusted instead of it.",
+    "extracted-line-order-is-not-column-order": "Checked by x-position. first res x=38.30, middle res x=203.38, last res x=345.25, left to right, matching participant.first_name / middle_name / last_name; the delivered page reads Jordan | Avery | Reyes across the row.",
+    "internal-record-text-printed-on-a-filing": "CLEAN and specifically guarded. Every sentence taken from KY.memo.json in this repair goes into participant-instructions.md, which is a guide. Nothing was added to the PDF: the filing's added glyph counts are 54 and 128, all inside declared write boxes, all of them persona facts and none of them record prose.",
+    "a-published-zero-where-a-measurement-existed": "CLEAN. addedGlyphsReadFromOutputBytes is 54 and 128, read back from the produced bytes, and nonWhitespaceGlyphsOutsideMeasuredWriteBoxes is a real attribution against the source's own widget rectangles. No literal is published in either field.",
+    "a-geometry-counter-with-no-teeth": "Noted rather than claimed. On this form the counter has teeth for the classes at issue -- the build separately asserts stampedButtonCaptions empty and choiceValuesOutsideTheirOwnOptions empty, and Print / Reset captions appear nowhere in either file.",
+    "two-families-one-filing": "Re-checked after the change. All seven Kentucky families under data/rcap-all50/overlays/census-v1/ky/ carry distinct canonical digests, and this repair moved this family's canonical further from the others rather than closer."
+   },
+   "independence": "This lane repaired these bytes and does not read them independently. No verdict is set, no PASS is issued, and no obligation is marked satisfied by this row. The family owes a read by a lane that neither built nor repaired it.",
+   "rasterOwed": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/ky_protective_order_record_expungement-set/ky_protective_order_record_expungement-set.verdict.json is an admitted record of a real central run against canonical 30dc6109... and boundary af5fc32b.... Those bytes are superseded. The file was NOT edited -- it is history and it is accurate about what it rendered -- but it no longer describes this family, and a fresh central raster is owed before anything relies on it.",
+   "commit": "758b65fd931f50eade722958977d9ee6ff979c94",
+   "grantsNothing": "A repair proves nothing on its own. This opens no commercial route, creates no fulfillment record, promotes no build status and approves no output. Counsel review, visual review and source-freshness review remain outstanding, as does independent verification."
+  }
+ ]
+}

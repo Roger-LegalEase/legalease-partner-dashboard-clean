@@ -1,0 +1,139 @@
+{
+  "schemaVersion": "rcap-packet-factory-lane-rows/v1",
+  "lane": "FIXCA17",
+  "laneKind": "repair",
+  "preparedOn": "2026-09-12",
+  "isIndependentVerification": false,
+  "grantsAsserted": [
+    "CLAIM_OK FIXCA17 ca-17b-reduction-set (repair, grant set 32934cc0e4e0458c)"
+  ],
+  "rows": [
+    {
+      "itemId": "ca-17b-reduction-set",
+      "familyId": "ca-17b-reduction-set",
+      "lane": "FIXCA17",
+      "laneKind": "repair",
+      "status": "COMPLETED",
+      "repairedByThisLane": true,
+      "obligationsRepaired": [
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "REPEATING_ROWS",
+        "SERVICE",
+        "ARTIFACTS",
+        "ROUTE_OPTIONS"
+      ],
+      "historicalFailures": [
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/vfcg1/rows-vfcg1-20260911-ca17-preraster.json",
+          "preserved": true,
+          "scope": "global route-choice defect, superseded by offense-by-offense candidate"
+        },
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/vfcg1/rows-vfcg1-ca17-current-semantic-fail-20260912.json",
+          "sha256": "451e2a44b1ce48b427d8962b10af8c9cc0d8239129295c2bb72fb98ae38221e5",
+          "preserved": true,
+          "verdict": "FAIL_REPAIR_REQUIRED",
+          "failedObligations": [
+            "KNOWN_PREFILLS",
+            "REQUIRED_BEFORE_FILING",
+            "REPEATING_ROWS",
+            "SERVICE",
+            "ARTIFACTS"
+          ]
+        }
+      ],
+      "actualDefect": "The offense-by-offense route repair still treated 50 neutral participant/caption/contact occurrences as attorney, court, or service-only; left held facts blank in the guide; modeled conditional narrative/date/service branches as unconditional or silent; exposed internal form and repository identifiers; and accepted invalid offense types and sparse row arrays.",
+      "correction": "Exact per-form mappings now write the neutral CR-180, CR-181, and CR-106 occurrences from one canonical fact model while preserving court, prosecutor, signature, declaration, and server-owned controls. Court and server addresses and narrative/date/service rows have explicit conditional dispositions. The participant guide identifies the actor and handback for filing, signing, and service without internal identifiers or an invented timing anchor. The route evaluator rejects invalid offense enums and sparse rows.",
+      "packetBytesChanged": true,
+      "artifactHashes": [
+        {
+          "role": "canonical-cr-106",
+          "path": "data/rcap-all50/overlays/census-v1/ca/ca-17b-reduction-set--official-pdf-fill/fixtures/pc-17b-17d2-offense-by-offense-canonical/cr-106-filled.pdf",
+          "sha256": "3a81dcc6fbec1509c87ede5152dd4e4b25d1426e95c0acf50a0daa9ff3e6c45f",
+          "byteLength": 59384,
+          "pageCount": 2
+        },
+        {
+          "role": "canonical-cr-180",
+          "path": "data/rcap-all50/overlays/census-v1/ca/ca-17b-reduction-set--official-pdf-fill/fixtures/pc-17b-17d2-offense-by-offense-canonical/cr-180-filled.pdf",
+          "sha256": "c17f59c284a927261b80bc821266ac9494e17781d5d6655b7333d13f4cb7ecc5",
+          "byteLength": 66743,
+          "pageCount": 3
+        },
+        {
+          "role": "canonical-cr-181",
+          "path": "data/rcap-all50/overlays/census-v1/ca/ca-17b-reduction-set--official-pdf-fill/fixtures/pc-17b-17d2-offense-by-offense-canonical/cr-181-filled.pdf",
+          "sha256": "53101d47a609da56113eaadccb8386b6159e6259ad09b2762467d2a137c106f6",
+          "byteLength": 45441,
+          "pageCount": 2
+        },
+        {
+          "role": "boundary-cr-106",
+          "path": "data/rcap-all50/overlays/census-v1/ca/ca-17b-reduction-set--official-pdf-fill/fixtures/pc-17b-17d2-offense-by-offense-boundary/cr-106-filled.pdf",
+          "sha256": "3955933b42f2d2256eacef6ae23dac4e1b8ebc06f921249b471b7cf744057ef0",
+          "byteLength": 60002,
+          "pageCount": 2
+        },
+        {
+          "role": "boundary-cr-180",
+          "path": "data/rcap-all50/overlays/census-v1/ca/ca-17b-reduction-set--official-pdf-fill/fixtures/pc-17b-17d2-offense-by-offense-boundary/cr-180-filled.pdf",
+          "sha256": "46fd6ec3d02cf616df1a47765f9cca063b5e7e349b15961c4a6c4c76441b33dc",
+          "byteLength": 67609,
+          "pageCount": 3
+        },
+        {
+          "role": "boundary-cr-181",
+          "path": "data/rcap-all50/overlays/census-v1/ca/ca-17b-reduction-set--official-pdf-fill/fixtures/pc-17b-17d2-offense-by-offense-boundary/cr-181-filled.pdf",
+          "sha256": "0ffbcbc547957274189b82b2d31d7a9e2f050e6acfc43a8cef97fa79d44e2a95",
+          "byteLength": 46144,
+          "pageCount": 2
+        }
+      ],
+      "documentsDigest": "5658d70a604ef6d12e5708e3af662924013203517fce7008ce94dccf4faff363",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": null
+      },
+      "countersAfterBasis": "Native completeness audit reports PASS_COMPLETE with 58/187 writes and all eight nonvisual counters zero; visualDefects remains null pending governed central raster and independent review.",
+      "validation": [
+        {
+          "command": "node scripts/test-ca-17b-offense-by-offense.mjs",
+          "result": "PASS",
+          "assertions": 56
+        },
+        {
+          "command": "node scripts/build-census-v1-ca-17b-reduction-set.mjs --build",
+          "result": "PASS",
+          "detail": "2 packets, 6 exact current artifacts; builder-local raster publication disabled for this family"
+        },
+        {
+          "command": "node scripts/build-census-v1-ca-17b-reduction-set.mjs --check",
+          "result": "PASS"
+        },
+        {
+          "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ca-17b-reduction-set",
+          "result": "PASS_COMPLETE",
+          "detail": "58/187 written; all nine implementation counters zero"
+        },
+        {
+          "command": "node scripts/rcap-raster-plan.mjs --manifest data/rcap-grade-a/packet-factory-24h/warp-20260912/ca17-offense-by-offense/raster-manifest.json --families ca-17b-reduction-set",
+          "result": "PASS",
+          "detail": "count=1"
+        }
+      ],
+      "rasterState": "BUILT_RASTER_PENDING",
+      "rasterManifest": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ca17-offense-by-offense/raster-manifest.json",
+      "rasterManifestSha256": "9e51c369a9378e45455b65cc9b80680ba8d014c02929902e3ff0eb30dff2357b",
+      "independentVerification": "PENDING_PRE_RASTER_SEMANTIC_REVIEW_THEN_CURRENT_BYTE_RASTER_AND_FINAL_REVIEW",
+      "grantsNothing": "Implementation completion is not independent or raster acceptance and opens no commercial route."
+    }
+  ]
+}

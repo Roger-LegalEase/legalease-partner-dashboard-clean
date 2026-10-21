@@ -1,0 +1,111 @@
+{
+  "schemaVersion": "fable-packet-factory-return/v1",
+  "worker": "FABLE-R10",
+  "role": "repair worker",
+  "branch": "fable/r10",
+  "baseCaptainCommit": "6d26f6b55",
+  "lanes": ["FIX02", "FIX03", "FIX04"],
+  "verifiedNothingOfItsOwn": "This lane repairs. It ran no VF lane, wrote no rows.json, and touched no MASTER_QUEUE, RASTER_QUEUE or ACTIVE_ASSIGNMENTS file. Every verdict below is builder-side and awaits a fresh independent read.",
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "grantsNothing": "Three repairs. No family is promoted, no route is opened, and no approval is granted.",
+  "environment": {
+    "masterLibraryMounted": true,
+    "masterLibraryPath": "MASTER_LIBRARY_SOURCE_DIR pointed at the repository's own private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
+    "completenessVerifier": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs, run per family in this container and read directly",
+    "leanTesting": "only the completeness verifier, each family's own --check where it has one, and a byte-identical double build. The repository test suite was not run, per the assignment."
+  },
+  "claimLedgerNote": "All three subjects were asserted and released through scripts/grade-a-packet-factory-24h/claim.mjs and never hand-edited. claim-ledger.json is left uncommitted, following the FIX03/FIX04 sibling repair commits (b9ecbd225, 80bd5405b), which carried family paths only and left the shared ledger to the captain.",
+  "rows": [
+    {
+      "familyId": "rcap-oh-custom-pleading-clean-tracks",
+      "lane": "FIX02",
+      "claimResult": "CLAIM_OK (grant set c14b082e5958b1fb); RELEASED on completion",
+      "failedObligations": ["ARTIFACTS", "COMPONENT_SET"],
+      "defectReproduced": {
+        "ARTIFACTS": "All eight per-track render-report text records disagreed with the committed .txt bytes, each exactly one trailing newline apart. Reproduced here before any change: oh_2953_32_sealing canonical recorded 58b45ebe…/2540 bytes against committed fe64611c…/2541, and the same shape on the other seven. The cause was already known and already fixed for the sibling oh_marijuana_expungement-set in da596ed81 — buildComposed hashed renderResult.fullText while writeText appended a final newline — but no commit had ever touched this family's directory since Wave 2, so the fix had never reached it.",
+        "COMPONENT_SET": "The family published no production-field-map.json at all, so verify-packet-completeness returned FAIL_COMPONENT_SET at 0/0 written: nothing stated what the packet was supposed to write and the family was unauditable for completeness."
+      },
+      "repairsMade": {
+        "ARTIFACTS": "Rebuilt through the family's owning script, scripts/build-census-v1-rcap-oh-custom-pleading-clean-tracks.mjs, which delegates to the east host's buildComposed. The eight reports now carry the hash and byte length of the bytes writeBytes actually wrote. Not one .txt or .pdf byte moved.",
+        "checkerMirrorDefect": "checkComposed still hashed renderResult.fullText, so once the build's records were correct the checker contradicted them and --check failed. It now hashes the same written bytes and additionally reads the committed file back and compares its size, so record and artifact are checked in both directions.",
+        "COMPONENT_SET": "The east host now publishes the composed family's field dispositions in the completeness contract's own documents-and-decisions schema: per track, six candidate_write rows for the values the fixture prints on the paper (name, mailing address, docket number, charge description, disposition, eligibility basis) and seven refusals — five declared requiredBeforeFiling on the contract's typed channel with a field identity and a printed label (local court caption, arrest date, disposition date, arresting agency, and DOB/SSN where a local form requires them), and the signature and date rules on the trusted signature_or_date_participant_completion class. The BCI companion is listed as the flat source-only document it is; its measured AcroForm field count is zero in the family's own source receipt and no row was invented for it.",
+        "disclosure": "A required-before-filing declaration is allowed only because the packet asks the participant for the item, so the host also writes the family-root participant-instructions.md that names every one of the five, plus what to obtain, where it is filed, what it costs, who is served, and where self-help stops. The fee section states that no held source in this packet establishes a fee, a no-fee rule or a waiver, and names the clerk of the Ohio court that handled the case as the office that answers it. No amount is invented.",
+        "preservation": "product-wiring.json is now preserved across the composed reset, as the official host already does for the same file."
+      },
+      "proof": {
+        "completeness": "PASS_COMPLETE, 24/52 written, all nine counters zero (was FAIL_COMPONENT_SET, 0/0 written)",
+        "reportsAgainstBytes": "all 16 report/byte pairs (8 text, 8 PDF) recomputed equal in this container",
+        "familyCheck": "node scripts/build-census-v1-rcap-oh-custom-pleading-clean-tracks.mjs --check → CHECK PASS (9 PDFs)",
+        "doubleBuild": "two consecutive builds byte-identical across all 74 files in the family directory"
+      },
+      "bytesChanged": "records only — the eight render-report.json files, approval-request.json's evidence list, plus the two new files. No rendered .txt or .pdf byte changed.",
+      "rasterReceiptInvalidated": false,
+      "freshCentralRasterOwed": false,
+      "freshCentralRasterNote": "No rendered artifact byte changed, so the existing central rasters still bind. This container's poppler renders the PNGs differently from the committed central rasters, so rasters, contact sheets and reports/rendered-artifacts.json were restored to HEAD and the deliberately uncommitted BCI companion PDF was not added — the same pre-existing reproduction gap the sibling repair recorded for the captain.",
+      "verdict": "PASS_COMPLETE (builder-side; independent verification pending)",
+      "status": "REPAIRED_RELEASED",
+      "commit": "3b44dcbec"
+    },
+    {
+      "familyId": "vt_seal_felony-set",
+      "lane": "FIX03",
+      "claimResult": "CLAIM_OK (grant set a3ddf75eeecedc9d); RELEASED on completion",
+      "failedObligations": ["FEE_AND_WAIVER", "KNOWN_PREFILLS", "SERVICE"],
+      "defectReproduced": {
+        "shape": "All three defects were already repaired in the shared Vermont host — FIX03 (b9ecbd225) and FIX04 (80bd5405b) — and this family alone had never been re-run, so its committed bytes and its instructions predated the fix. git log of the family directory confirms it: the last touch was the Wave-2 build and VTR01, with neither repair commit among them.",
+        "FEE_AND_WAIVER": "The instructions said the fee and the waiver 'are not established here' and told the participant to ask the clerk, while held Vermont Judiciary form 200-00130A states the rule and the two rebuilt siblings quote it.",
+        "SERVICE": "Same shape: 'Ask the same clerk' where the held source states the rule.",
+        "KNOWN_PREFILLS": "participant.email, mapped to 200-00132 field 34i, was absent from the boundary fixture's bytes — pdftotext of fixtures/boundary.pdf page 3 showed the bare 'Email Address' caption where the rebuilt DUI family shows the email."
+      },
+      "repairsMade": "Rebuild through the family's owning script, scripts/build-census-v1-vt_seal_felony-set.mjs, which runs the shared host build-census-v1-vt_seal_misdemeanor-set.mjs. No host change and no new assertion: the fee and service paragraphs the rebuild lands are the sibling paragraphs, quoted from held 200-00130A (SHA-256 8a44b91cd2f48af494cefcadb557c3c0f5a35b0bdeef06272ee54c66f9ca8078, re-hashed against the committed corpus index on this build) — no fee except a $90 filing fee to seal a conviction under 23 V.S.A. § 1201(a), waivable on 600-00228 which is already in this packet and filled; and the court, not the participant, provides the copy to the prosecutor who brought the criminal case once the petition is filed, skipping that step on a stipulated petition. Whether this participant's own conviction is a § 1201(a) one is left to the named clerk and the docket, exactly as on the siblings. The text-fitting repair reaches the paper because the host's opt-in evaluateDeclaredMinimumSize has been set for this lane since FIX03 and this family had simply never re-rendered.",
+      "nothingInvented": "Nothing is stated that 200-00130A does not say. No amount, recipient or method originates in this lane.",
+      "proof": {
+        "completeness": "PASS_COMPLETE, 24/165 written, all nine counters zero",
+        "knownPrefillsReadFromBytes": "pdftotext -f 3 -l 3 fixtures/boundary.pdf now shows 'Email Address maria.alejandra.oshaughnessy.whitfield@longmailexample.org' on the 200-00132 stipulation page, where the caption stood bare before",
+        "feeAndService": "participant-instructions.md now carries the '## What it costs, and how to ask for a waiver' and '## Who must receive a copy, and how' sections with the 200-00130A quotations and the source-hash provenance footer",
+        "doubleBuild": "two consecutive builds byte-identical across all 23 files in the family directory"
+      },
+      "bytesChanged": "fixtures/canonical.pdf, fixtures/boundary.pdf, raster/boundary/page-03/page.png, participant-instructions.md, reports/actual-writes.json, reports/rendered-artifacts.json",
+      "rasterReceiptInvalidated": true,
+      "freshCentralRasterOwed": true,
+      "freshCentralRasterNote": "Both fixture PDFs changed, so any central RASTER_PASS receipt pinned to the old fixture hashes no longer binds. This lane did not touch RASTER_QUEUE.",
+      "verdict": "PASS_COMPLETE (builder-side; independent verification pending)",
+      "status": "REPAIRED_RELEASED",
+      "commit": "c281c11ce"
+    },
+    {
+      "familyId": "wi_nc_doj_fingerprint_removal-set",
+      "lane": "FIX04",
+      "claimResult": "CLAIM_OK (grant set a3ddf75eeecedc9d); RELEASED on completion",
+      "failedObligations": ["FEE_AND_WAIVER"],
+      "defectReproduced": "participant-instructions.md carried no fee, cost, charge or payment statement anywhere: no amount, no statement that the request is free, and no office to ask. Confirmed here by reading the whole file. I also read the source itself rather than the packet's extraction of it: the pinned DJ-LE-250B bytes (SHA-256 3c5d4806ff1061246ec06c93716cfa80ec3d61b9e21c5c79639114ab1e5454b6, re-hashed from the Master Library in this container) were rendered to page images at 110 and 130 dpi and read directly, and neither the Bureau's instruction page nor the request page says anything about a fee, a cost or a payment. So the verifier's finding stands in both directions: nothing is likely charged, and the packet nowhere said so.",
+      "controllingStandard": "data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json. Of its three ways to meet the obligation, only the third is honest here — no held source establishes a fee, a no-fee rule or a waiver — so the packet states the open question and names a specific checkable authority.",
+      "repairsMade": "One section added to the family's participant-instructions.md, through the instruction generator in the family's owning script scripts/build-census-v1-wi_nc_doj_fingerprint_removal-set.mjs (the generated file was not hand-edited). It states plainly that neither page of DJ-LE-250B says anything about cost and that no held source states a fee, a no-fee rule or a waiver; that silence on the form is not the same as a rule that the request is free; and that the participant should ask the Crime Information Bureau of the Wisconsin Department of Justice, Criminal History Unit — the same office the request is sent to — whether any fee applies and whether it can be waived, before sending. It points the participant at the Bureau's mailing address printed in instruction 1 on page 1 of the form they are holding, rather than retyping it, because instruction 1 is set in the subsetted font this build refuses to un-shift; that refusal is the family's own recorded discipline (reports/caption-evidence.json) and this repair keeps it.",
+      "nothingInvented": "No amount is stated. It is NOT claimed that the request is free — neither is established by any held source. Nothing outside the fee section changed.",
+      "fillUntouched": "Both fixture PDFs are byte-identical to HEAD after the rebuild, so the field map, the writes and the rendered artifacts are exactly as vf09 measured them.",
+      "proof": {
+        "completeness": "PASS_COMPLETE, 10/33 written, all nine counters zero",
+        "instructionsDiff": "one '## What this costs' section added; no other line of participant-instructions.md changed",
+        "doubleBuild": "two consecutive builds byte-identical across the family directory"
+      },
+      "bytesChanged": "participant-instructions.md, and reports/rendered-artifacts.json — the latter only because the record's rasterEngine string still named the pre-390917cee module path scripts/lib/pdf-page-raster.mjs and the rebuild writes the current one, scripts/raster/pdf-page-raster.mjs. The raster PNGs themselves are byte-identical.",
+      "rasterReceiptInvalidated": false,
+      "freshCentralRasterOwed": false,
+      "freshCentralRasterNote": "No fixture PDF byte and no raster PNG byte changed, so the hash-bound central RASTER_PASS receipt still binds.",
+      "verdict": "PASS_COMPLETE (builder-side; independent verification pending)",
+      "status": "REPAIRED_RELEASED",
+      "commit": "077f685ba"
+    }
+  ],
+  "stoppedFamilies": [],
+  "legalDecisionsNeeded": [],
+  "documentsTheRepositoryDoesNotHold": [
+    {
+      "familyId": "wi_nc_doj_fingerprint_removal-set",
+      "missing": "any Wisconsin DOJ source stating whether a fee applies to a DJ-LE-250B fingerprint record removal request, and any waiver route for one",
+      "consequence": "The packet states the open question and names the Crime Information Bureau's Criminal History Unit as the office that answers it, which is what the fee-and-waiver determination requires where no source establishes the figure. If a source lane later acquires a Bureau fee schedule, the sentence should be replaced with the sourced answer.",
+      "notAStop": "This does not stop the family. The determination's third branch is met."
+    }
+  ]
+}

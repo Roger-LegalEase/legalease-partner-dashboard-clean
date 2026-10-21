@@ -1,0 +1,61 @@
+{
+  "environment": "isolated restored current tree with locked dependencies",
+  "tests": [
+    {
+      "command": [
+        "node",
+        "scripts/grade-a-packet-factory-24h/test-chat-review-inputs.mjs"
+      ],
+      "scriptSha256": "4a6381653f8edca3a107dd6b1da2de9ef3c34cb4bc964982394d995ad86da594",
+      "exitCode": 0,
+      "result": {
+        "suite": "chat-review-inputs",
+        "positiveCases": 10,
+        "rejectionControls": 30,
+        "rawReviewsUnchanged": true
+      }
+    },
+    {
+      "command": [
+        "node",
+        "scripts/grade-a-packet-factory-24h/test-de-reviewed-guidance.mjs"
+      ],
+      "scriptSha256": "41e75ca996b0f72710330ab05ae853622206515464a86d9cdba510b89370cdab",
+      "exitCode": 0,
+      "result": {
+        "suite": "de-reviewed-guidance-admission",
+        "positiveCases": 4,
+        "rejectionControls": 40,
+        "currentWholePdfsRehashed": 2,
+        "reviewedPagesBoundToAdmittedReceipt": 6,
+        "compositionSourcesChecked": 9,
+        "unchangedPriorRegistryEntries": 73,
+        "inputsUnchanged": true,
+        "newIndependentReview": false,
+        "packetRebuilds": 0
+      }
+    },
+    {
+      "command": [
+        "node",
+        "scripts/grade-a-packet-factory-24h/test-nc-declared-delivery.mjs"
+      ],
+      "scriptSha256": "8a229d5d52a701c2bdc3b1851bbf8ffc12c969c879614801dec9d460337d8141",
+      "exitCode": 0,
+      "result": {
+        "familyId": "nc_146_dismissal_petition-set",
+        "positiveCases": 11,
+        "rejectionControls": 35,
+        "currentWholePdfsRehashed": 10,
+        "pagesBoundToAdmittedReceipt": 60,
+        "inputRecordsUnchanged": true,
+        "packetRebuilds": 0,
+        "approvalIssued": false
+      }
+    }
+  ],
+  "fullHistoryRegeneration": "Not accepted locally: historical trees outside restored commit ancestry are absent. Hosted complete-checkout validation is required.",
+  "packetRebuilds": 0,
+  "newIndependentReviews": 0,
+  "productionTouched": false
+}

@@ -1,0 +1,68 @@
+{
+  "schemaVersion": "rcap-raster-queue/v1",
+  "rows": [
+    {
+      "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/ks/ks-22-4908-registration-relief-set--official-pdf-fill/fixtures/boundary.pdf",
+      "boundaryPdfSha256": "2aa9a8e548a946b17742dc6ed0e88b53782aab33279c2aa354a421838bc9bc22",
+      "builderAssignment": null,
+      "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/ks/ks-22-4908-registration-relief-set--official-pdf-fill/fixtures/canonical.pdf",
+      "canonicalPdfSha256": "f01d4442af4303e698482462ac09ecd8b0aeb88c8c8c164e01e4113c820953c3",
+      "coverage": {
+        "basis": "the family ships one assembled packet, so rendering it covers every canonical page of the family",
+        "complete": true,
+        "documents": [
+          "canonical.pdf"
+        ],
+        "notRastered": [],
+        "notRenderedByThisGate": [],
+        "notRenderedByThisGateBasis": "every PDF present in the family's fixture discovery that this row does not queue. The gate renders every document a row queues, whatever its role, so a queued boundary fixture is rendered and is not named here.",
+        "rastered": [
+          "canonical.pdf",
+          "boundary.pdf"
+        ],
+        "whatCompleteMeansHere": "every PDF this family declares is queued to the gate and rendered, canonical and boundary alike. `complete` remains the narrower question -- every canonical document rendered -- because that is what promotion depends on."
+      },
+      "currentRasterState": "RASTER_PENDING",
+      "documents": [
+        {
+          "name": "canonical.pdf",
+          "pageCount": 13,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "pageCount": 13,
+            "sourceSha256": "f01d4442af4303e698482462ac09ecd8b0aeb88c8c8c164e01e4113c820953c3",
+            "version": "1.17.1"
+          },
+          "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-4908-registration-relief-set--official-pdf-fill/fixtures/canonical.pdf",
+          "role": "canonical",
+          "sha256": "f01d4442af4303e698482462ac09ecd8b0aeb88c8c8c164e01e4113c820953c3"
+        },
+        {
+          "name": "boundary.pdf",
+          "pageCount": 13,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "pageCount": 13,
+            "sourceSha256": "2aa9a8e548a946b17742dc6ed0e88b53782aab33279c2aa354a421838bc9bc22",
+            "version": "1.17.1"
+          },
+          "path": "data/rcap-all50/overlays/census-v1/ks/ks-22-4908-registration-relief-set--official-pdf-fill/fixtures/boundary.pdf",
+          "role": "boundary",
+          "sha256": "2aa9a8e548a946b17742dc6ed0e88b53782aab33279c2aa354a421838bc9bc22"
+        }
+      ],
+      "documentsDigest": "36d9d527f0bdd81efa8a90ab85532fdb0657bc55f6d070894c61a57f35da9d58",
+      "expectedPages": 13,
+      "familyId": "ks-22-4908-registration-relief-set",
+      "fixtureSelection": {
+        "boundary": "the assembled packet, matched by exact name",
+        "canonical": "the assembled packet, matched by exact name"
+      },
+      "nextOwner": "RAS03",
+      "packetCommitSha": "b3149e4eebca45bc24c894aeba8de004611178e9",
+      "requestedScale": 2.5
+    }
+  ]
+}

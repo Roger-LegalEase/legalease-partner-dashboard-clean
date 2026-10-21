@@ -1,0 +1,55 @@
+
+the pre-repair bytes VF02 read
+  ok    OK canonical at b96bad780 carries a delimiter pair
+  ok    OK canonical at b96bad780: the defect is on page 4
+  ok    OK canonical at b96bad780: the build-time assertion throws
+  ok    OK boundary at b96bad780 carries a delimiter pair
+  ok    OK boundary at b96bad780: the defect is on page 4
+  ok    OK boundary at b96bad780: the build-time assertion throws
+
+the bytes on disk now
+  ok    OK canonical: no delimiter pair on any of its 6 pages
+  ok    OK canonical: the build-time assertion passes
+  ok    OK boundary: no delimiter pair on any of its 6 pages
+  ok    OK boundary: the build-time assertion passes
+  ok    WV canonical: no delimiter pair on any of its 4 pages
+  ok    WV canonical: the build-time assertion passes
+  ok    WV boundary: no delimiter pair on any of its 4 pages
+  ok    WV boundary: the build-time assertion passes
+
+what the transform must not touch
+  ok    unchanged: a rule of underscores
+  ok    not flagged: a rule of underscores
+  ok    unchanged: a signature rule
+  ok    not flagged: a signature rule
+  ok    unchanged: an identifier with two underscore runs
+  ok    not flagged: an identifier with two underscore runs
+  ok    unchanged: a lone opening run
+  ok    not flagged: a lone opening run
+  ok    unchanged: a longer asterisk run
+  ok    not flagged: a longer asterisk run
+  ok    unchanged: dotted rules
+  ok    not flagged: dotted rules
+  ok    unchanged: a route key
+  ok    not flagged: a route key
+  ok    unchanged: ordinary prose
+  ok    not flagged: ordinary prose
+  ok    removed: the Oklahoma stop condition
+  ok    removed: underscore emphasis
+  ok    removed: two pairs on one line
+
+no word was lost from the repaired page
+  ok    OK canonical: markdown-repair bytes at 6687e670c are readable
+  ok    OK canonical: page text is identical once the delimiters are discounted
+  ok    OK canonical: delimiter repair kept the page count unchanged
+
+NO_MARKDOWN_ON_DELIVERED_PAGES_PROVEN
+✔ scripts/rcap-custom-pleading/no-markdown-on-delivered-pages.test.mjs (316.643602ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 325.557418

@@ -1,0 +1,22 @@
+[
+  {
+    "command": [
+      "python3",
+      "data/rcap-grade-a/packet-factory-24h/vf02/nc-146-reread-2026-09-06/measure.py"
+    ],
+    "exitCode": 0,
+    "output": "measurements.json",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "node",
+      "scripts/rcap-packet-completeness/verify-packet-completeness.mjs",
+      "--family",
+      "nc_146_dismissal_petition-set"
+    ],
+    "exitCode": 0,
+    "output": "completeness.log",
+    "stderr": ""
+  }
+]

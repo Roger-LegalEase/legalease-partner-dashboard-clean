@@ -1,0 +1,42 @@
+{
+  "result": "PASS",
+  "payerPacketPages": 8,
+  "twoOffensePayerPacketPages": 16,
+  "conditionalFeeWaiverForms": 0,
+  "separatePetitions": 2,
+  "arrests": 1,
+  "feeGuidance": "One filing fee for charges from the same arrest, from CR-65 page 4; no payment operation is run.",
+  "proof": [
+    {
+      "petition": 1,
+      "field": "Only one offense per petition Multicount cases require multiple petitions",
+      "factId": "matter.charge",
+      "expected": "Disorderly conduct",
+      "actual": "Disorderly conduct"
+    },
+    {
+      "petition": 1,
+      "field": "Text3",
+      "factId": "matter.case_number",
+      "expected": "DC-2024-004217",
+      "actual": "DC-2024-004217"
+    },
+    {
+      "petition": 2,
+      "field": "Only one offense per petition Multicount cases require multiple petitions",
+      "factId": "matter.charge",
+      "expected": "Criminal trespass",
+      "actual": "Criminal trespass"
+    },
+    {
+      "petition": 2,
+      "field": "Text3",
+      "factId": "matter.case_number",
+      "expected": "DC-2024-004218",
+      "actual": "DC-2024-004218"
+    }
+  ],
+  "packetSha256": "94161630f9a979332809af1c3887158f916fa116597d13dfd103e907e1918a05",
+  "testDoubles": [],
+  "scope": "Actual local official-form generation; not hosted delivery or legal approval."
+}

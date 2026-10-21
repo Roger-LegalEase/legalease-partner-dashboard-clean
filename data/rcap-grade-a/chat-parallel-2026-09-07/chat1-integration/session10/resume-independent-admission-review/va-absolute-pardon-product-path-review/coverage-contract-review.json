@@ -1,0 +1,163 @@
+{
+  "schemaVersion": "session10-independent-va-coverage-contract-review/v1",
+  "reviewer": "/root/session10_admission_review",
+  "familyId": "va_exp_absolute_pardon-set",
+  "inspectedAt": "2026-09-08T18:01:57.054882+00:00",
+  "inspectedHead": "23d057d432ea201e0c994cd5c495d35d2b463a91",
+  "question": "Does the historical one-document central receipt meet existing family coverage requirements despite two document identities in RASTER_QUEUE?",
+  "answer": "YES for the existing central coverage requirement. No boundary central rerender is required for this unchanged one-route assembled family under the current contract. This is not a complete family admission or new runtime/production approval.",
+  "boundaryCentralCoverageRequiredByThisContract": false,
+  "centralEvidenceScope": {
+    "workflowRunId": "33574304514",
+    "familyJobId": "100075268196",
+    "documentsCovered": [
+      "canonical.pdf"
+    ],
+    "pagesCovered": 5,
+    "boundaryHashBound": true,
+    "boundaryCentralRenderedClaimed": false
+  },
+  "independentVisualEvidenceScope": {
+    "originalReviewer": "CODEX-CS1-VF01-VA-ROUTE",
+    "originalBase": "e289ad818dec583ab5e3a82b5030fbefd3d876ba",
+    "originalPagesInspected": 10,
+    "originalFixtures": [
+      "canonical",
+      "boundary"
+    ],
+    "newVisualReviewPerformed": false,
+    "countsAsCentralCoverage": false
+  },
+  "contractReferences": [
+    {
+      "path": "scripts/grade-a-packet-factory-24h/generate-raster-queue.mjs",
+      "lines": [
+        178,
+        180,
+        195,
+        202,
+        219
+      ],
+      "rule": "Complete covers every canonical participant delivery document. Boundary is a stress artifact outside this historical gate. A sole assembled canonical.pdf supplies the canonical coverage set."
+    },
+    {
+      "path": "scripts/grade-a-packet-factory-24h/conditional-raster-documents.mjs",
+      "lines": [
+        10,
+        12,
+        67,
+        80
+      ],
+      "rule": "Explicit conditional/native selectable packets must be enumerated; undeclared branch PDFs are refused. Actual VA invocation returns no additional selectable outputs."
+    },
+    {
+      "path": "scripts/grade-a-packet-factory-24h/verify-lane-contracts.mjs",
+      "lines": [
+        162,
+        166,
+        206,
+        212,
+        238,
+        246
+      ],
+      "rule": "L4 uses acceptedRasterFor on current rows only. L7 requires coverage of every declared canonical document and the exact primary canonical path; it does not turn every boundary identity into a required central output."
+    },
+    {
+      "path": "scripts/grade-a-packet-factory-24h/acceptance-identity.mjs",
+      "lines": [
+        156,
+        170,
+        227,
+        239,
+        244,
+        252,
+        264,
+        293
+      ],
+      "rule": "Compares row.coverage.documents against row.coverage.rastered and receipt.documentsCovered, rejects false coverage/foreign/omitted required documents, and rehashes both canonical and boundary. Whole-family boolean alone is insufficient."
+    },
+    {
+      "path": "scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs",
+      "lines": [
+        72,
+        73,
+        74
+      ],
+      "rule": "The actual binding calls acceptedRasterFor with requireReceiptDeclaredCoverage:true."
+    }
+  ],
+  "actualChecks": {
+    "controlsPath": "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session10/resume-independent-admission-review/va-absolute-pardon-product-path-review/coverage-validator-controls.json",
+    "controlsPassed": 9,
+    "elapsedSeconds": 0.221,
+    "strictAcceptanceStatus": "PROVEN_ON_CURRENT_BYTES",
+    "currentRowOnlyAcceptanceStatus": "PROVEN_ON_CURRENT_BYTES",
+    "additionalSelectablePackets": 0,
+    "requiredComponents": [
+      "primary_filing",
+      "records_checklist",
+      "filing_instructions"
+    ],
+    "requiredComponentsInCanonicalAssembly": true,
+    "packetPdfWrites": 0,
+    "queueWrites": 0
+  },
+  "nextAction": "Retain this accepted canonical receipt and its boundary hash pin. Continue the separately attributed current product-path/declaration closure review; preserve VF01 and use the existing successor/extractor mechanism only when that review supports closure. Do not dispatch another raster solely to add boundary coverage, and do not describe the old receipt as two PDFs/ten pages.",
+  "failureBoundary": "A new required canonical/selectable output, moved packet hash, omitted required canonical, false coverage flag or foreign document fails the existing validator; those are demonstrated with in-memory controls, not introduced as new real requirements.",
+  "provenanceBoundary": "This addendum reads existing committed receipt metadata and invokes the existing identity/coverage predicate. It does not re-fetch workflow jobs or the ZIP, nor claim a new canary or central acceptance execution.",
+  "terminalDelta": 0,
+  "sharedFilesModified": [],
+  "downloads": 0,
+  "dispatches": 0,
+  "generatorsRun": 0,
+  "evidencePins": [
+    {
+      "path": "scripts/grade-a-packet-factory-24h/generate-raster-queue.mjs",
+      "sha256": "37eeff1560c9eb22ce1f746e2f282120a2362a22e36bb455ad5ea7feaf002568",
+      "bytes": 44512,
+      "matchesHead": true
+    },
+    {
+      "path": "scripts/grade-a-packet-factory-24h/conditional-raster-documents.mjs",
+      "sha256": "542540671e398e87e18c8990ce4faa2ea99ce42bf551d7273132d9724b7e05d5",
+      "bytes": 8369,
+      "matchesHead": true
+    },
+    {
+      "path": "scripts/grade-a-packet-factory-24h/verify-lane-contracts.mjs",
+      "sha256": "1b5bf9572abbb5e171ae6fe2fb11ac21e3d2db643049787c5a4ed7055614e778",
+      "bytes": 45864,
+      "matchesHead": true
+    },
+    {
+      "path": "scripts/grade-a-packet-factory-24h/acceptance-identity.mjs",
+      "sha256": "8d3de17d000c12a37ddff2f06b9ccafec95b2596d4e1583d7a854daa15ae285e",
+      "bytes": 18239,
+      "matchesHead": true
+    },
+    {
+      "path": "scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs",
+      "sha256": "42d157f2f0a6c07b0e0c35391890051a425eaec47d8546e734715fbd31207359",
+      "bytes": 22080,
+      "matchesHead": true
+    },
+    {
+      "path": "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+      "sha256": "ad07056dd08b70062440e5b8446f9c05210cf630ebbade56e61aa1a5f74bd87f",
+      "bytes": 1766203,
+      "matchesHead": true
+    },
+    {
+      "path": "data/record-clearing/packet-specifications/VA-absolute-pardon-expungement.v1.json",
+      "sha256": "3235c4860d91f875f3810796033ff29f4d909f42221ba5895a6d499dc6d50ec8",
+      "bytes": 17329,
+      "matchesHead": true
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/va/va-exp-absolute-pardon-set--custom-pleading/reports/rendered-artifacts.json",
+      "sha256": "3867c61c68e6c83025ae9d13cbb52a9abc0101dc1eda7132338e546fdfcdb000",
+      "bytes": 4660,
+      "matchesHead": true
+    }
+  ]
+}

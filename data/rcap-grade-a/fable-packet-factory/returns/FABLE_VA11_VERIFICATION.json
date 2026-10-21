@@ -1,0 +1,215 @@
+{
+  "schemaVersion": "rcap-independent-verification-return/v1",
+  "returnId": "FABLE_VA11_VERIFICATION",
+  "lane": "VF11",
+  "laneKind": "independent-verification",
+  "verifier": "FABLE-VA11",
+  "independence": "This lane built none of these five families, repaired none of them, rastered none of them, and holds no repair grant on any of them. Every family was scored from zero. Existing verdicts, existing counters and existing lane returns were treated as claims to be checked, never as evidence.",
+  "verifiedAtBase": "d210669f0e10c2b7e9ed97fafba7971e33e99557",
+  "baseIsCaptainHead": "Captain HEAD d210669f0 on claude/legalease-sprint-captain-utucnw, recorded on every row so Captain can order these verdicts against later repairs by it.",
+  "branch": "fable/va11",
+  "worktree": ".claude/worktrees/va11",
+
+  "roster": {
+    "derivedFromTheLedgerNotTheBrief": "The roster was derived from data/rcap-grade-a/packet-factory-24h/claim-ledger.json: 775 grants scanned, filtered to released !== true AND laneKind === 'independent-verification' AND lane === 'VF11'. That returned exactly five subjects and they matched the five the brief named, so no divergence had to be resolved.",
+    "subjects": [
+      "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
+      "ct-decriminalized-set",
+      "ms-diversion-set",
+      "rcap-nd-custom-pleading",
+      "tx_nd_dwi_probation-set"
+    ],
+    "claimDiscipline": "Each subject was asserted with `node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF11 <familyId> --reason ...` before any artifact of that family was opened. All five returned CLAIM_OK against grant set b2075a47a863e80b.",
+    "refusedClaims": "None. No exit 8 GRANTED_ELSEWHERE and no exit 9 ALREADY_RELEASED was returned, so no reissue was attempted and data/rcap-grade-a/external-worker-control/EXTERNAL_ASSIGNMENTS.json did not need to be consulted for a release. The ledger was never hand-edited.",
+    "released": "All five subjects were carried to a verdict, so all five are complete. None was left live for want of measurement."
+  },
+
+  "preflight": {
+    "command": "node scripts/verify-packet-build-environment.mjs",
+    "result": "PACKET_BUILD_ENVIRONMENT_READY — 12 of 12 passed, 0 failed, 5 not applicable",
+    "runBeforeAnyArtifactWasRead": true,
+    "masterLibrary": {
+      "mountedAt": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
+      "jurisdictions": 51,
+      "files": 499,
+      "pdfs": 329,
+      "sampledIndexEntriesVerifiedByteExact": 24
+    },
+    "secondCustody": "private/source-imports/rcap-d-source-packs-2026-08-12/ was mounted and used as an independent cross-check on the two Texas OCA forms.",
+    "notApplicableChecks": "The three rasterizer checks and assigned_branch_tip_visible and family_sources_bind are not applicable to an invocation that renders nothing and passes no --branch or --family."
+  },
+
+  "verdictTable": [
+    {"familyId":"composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief","jurisdiction":"IL","strategy":"custom_pleading","routes":1,"pages":"4 / 4","verdict":"PASS_COMPLETE_INDEPENDENT","obligationsScored":15,"failed":[],"unmeasured":[]},
+    {"familyId":"ct-decriminalized-set","jurisdiction":"CT","strategy":"custom_pleading","routes":1,"pages":"4 / 4","verdict":"PASS_COMPLETE_INDEPENDENT","obligationsScored":15,"failed":[],"unmeasured":[]},
+    {"familyId":"ms-diversion-set","jurisdiction":"MS","strategy":"custom_pleading","routes":2,"pages":"9 / 9","verdict":"PASS_COMPLETE_INDEPENDENT","obligationsScored":15,"failed":[],"unmeasured":[]},
+    {"familyId":"rcap-nd-custom-pleading","jurisdiction":"ND","strategy":"custom_pleading","routes":5,"pages":"34 / 35","verdict":"FAIL_REPAIR_REQUIRED","obligationsScored":15,"failed":["COMPONENT_SET"],"unmeasured":[],"assignment":"VA11-ND-MJ-LEGAL-EFFECT-001"},
+    {"familyId":"tx_nd_dwi_probation-set","jurisdiction":"TX","strategy":"official_pdf_fill","routes":1,"pages":"24 / 24","verdict":"FAIL_REPAIR_REQUIRED","obligationsScored":15,"failed":["SELF_HELP_STOP","PROTECTED_FIELDS"],"unmeasured":[],"assignment":"VA11-TX-DWI-STOPS-AND-SWORN-DATE-001"}
+  ],
+  "verdictCounts": {"PASS_COMPLETE_INDEPENDENT":3,"FAIL_REPAIR_REQUIRED":2,"BLOCKED_SOURCE":0,"BLOCKED_LEGAL_INPUT":0,"STOPPED":0},
+  "obligationsScoredPerFamily": 15,
+  "obligationsUnmeasuredAnywhere": 0,
+  "closedVocabularyHonoured": "Every obligation result is exactly PASS or FAIL. No result outside the closed set was written; in particular the string UNMEASURED was never used.",
+
+  "measuredVersusNotMeasured": {
+    "measuredInThisLane": [
+      "Ten fixture SHA-256 digests recomputed from the PDF bytes with node:crypto. All ten equal both the digest declared in reports/rendered-artifacts.json and the digest bound by the RASTER_QUEUE row. Ten byte lengths agree exactly.",
+      "Ten page counts read with pdf-lib against each fixture's own pageManifest, and cross-checked against the page count pdftotext reports. 4/4, 4/4, 9/9, 34/34 and 35/35, 24/24 and 24/24 — every manifest length equals every loaded page count equals every declared pageCount.",
+      "Word geometry on all ten fixtures with pdftotext -bbox-layout, with EVERY same-baseline pair classified rather than counted. 67 pairs exist in the whole roster, all on Texas, all classifying as a written value sitting on the underscore rule that receives it, none value-on-value, and none overrunning the rule that receives it. Zero words fall outside the page box anywhere.",
+      "scripts/rcap-packet-completeness/verify-packet-completeness.mjs re-run in this lane, once per family. All five returned PASS_COMPLETE with nine zero counters. That result is reported here as a thing checked, not as a thing relied on.",
+      "Every recorded write value searched for in text extracted here from its own component's pages, in both fixtures of every family.",
+      "On Texas, every AcroForm write located geometrically: the widget rectangle converted from PDF user space into pdftotext bbox space against the page height, and the words inside it read back. Necessary because that family's own actual-writes report records an empty expected value for 13 of its 15 writes.",
+      "On Texas, all 148 rect-bearing refusals per fixture checked for glyphs inside their own widget box.",
+      "The registry's selfHelpStopConditions compared condition by condition for all nine tracks that have one across four families, with each condition's distinguishing terms grepped against the delivered bytes of both fixtures AND against participant-instructions.md.",
+      "Three Texas source binaries rehashed from the mounted bytes; two of them rehashed a second time from the independent D source pack custody; all three checked against the committed corpus index.",
+      "The captions of the four families on Captain's unclassifiedBlanks blind-spot list, read on the delivered bytes rather than through the counter."
+    ],
+    "notMeasurableByThisInstrument": [
+      "Raster ink, vector rules, field borders, images, and any glyph without extractable text. Text geometry cannot see them. Where a same-baseline overlap count is reported as zero it means no two extractable words share a baseline and overlap horizontally; it does not mean nothing is printed over a rule this tool cannot read.",
+      "Any pixel of any raster acceptance artifact. Artifact blob downloads redirect to storage this environment's egress proxy refuses at CONNECT with 403. All five raster receipts are cited by workflow run id, job id, artifact id and zip SHA-256 only, and each is recorded as evidence of WHICH bytes exist and where, not of what they look like.",
+      "private/Nationwide Record Clearing. It is not mounted and cannot be — it is not carried by this release, and any `LegalEase <State>/` path is unreadable here. That is an absence reported, not a gap worked around: no finding in this return rests on it. Four of the five families bind zero source binaries by design, and the fifth binds three documents held in the Master Library and human-source-returns custodies, all of which were rehashed byte-exact."
+    ]
+  },
+
+  "theTwoFailures": [
+    {
+      "familyId": "rcap-nd-custom-pleading",
+      "obligation": "COMPONENT_SET",
+      "shortStatement": "On the first-offence marijuana possession route the packet omits the component four committed records mark required, and two of that component's three specified sections reach the participant nowhere.",
+      "whatIsAbsent": "nd-marijuana-first-offense-seal-legal-effect-explanation-3, role legal_effect_explanation, 'What sealing does, and what it does not do'. The delivered set ships nd-marijuana-first-offense-seal-filing-instructions-3 instead.",
+      "recordsThatNameIt": [
+        "data/record-clearing/legal-design-packet-set-manifests.json",
+        "data/record-clearing/legal-design-track-registry.json",
+        "data/record-clearing/packet-specifications/ND-first-offense-possession-sealing.v1.json",
+        "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+        "the family's own data/rcap-all50/overlays/census-v1/nd/rcap-nd-custom-pleading--custom-pleading/production-field-map.json, line 110"
+      ],
+      "whatTheParticipantLoses": "The specified section 'What it does not reach' — 'The order is directed at the court record. It does not by itself change records held by other agencies, and it is not a pardon. If you need a criminal-history record corrected as well, that is a separate request to the agency that holds it.' Grepping this route's six delivered pages returns 'other agencies' 0, 'not a pardon' 0, 'criminal history' 0, 'separate request' 0. The section 'This is not the general sealing chapter' survives only as a clause; its content that 12-60.1's waiting periods, clear-and-convincing burden and 45-day hearing rule do not apply here is absent from this route's pages.",
+      "whyThePlainReadingIsTheWrongOne": "The same artifact tells the participant three times, on the three Chapter 12-60.1 routes, that sealing does not reach BCI criminal history record information. On the marijuana route it says only that this seal is irreversible and 'stronger than Chapter 12-60.1 sealing'. A reader comparing the two is invited to conclude the stronger seal reaches at least as far.",
+      "assignment": "VA11-ND-MJ-LEGAL-EFFECT-001"
+    },
+    {
+      "familyId": "tx_nd_dwi_probation-set",
+      "obligations": ["SELF_HELP_STOP","PROTECTED_FIELDS"],
+      "shortStatement": "Three of eight committed self-help stop conditions never reach the participant, and a field the packet declares must be blank because filling it would make the document false is delivered carrying a date.",
+      "selfHelpStop": {
+        "registryConditions": 8,
+        "present": 5,
+        "absentFromBothFixturesAndFromTheInstructionsFile": [
+          "The prosecutor opposes the petition or requests a hearing.",
+          "Any dispute about whether the sentence, fines, costs or restitution were completed.",
+          "Any question whether the offence was violent or sexual in nature, which is a court determination under Gov't Code 411.0735."
+        ],
+        "grepEvidence": "'411.0735' 0 in canonical, 0 in boundary, 0 in participant-instructions.md. 'violent' 0/0/0. 'opposes' 0/0/0. 'dispute' 0/0/0. The two 'sexual' hits in the artifact are offence titles inside the OCA form's own § 411.074 exclusion list, which answers a different question.",
+        "narrowedNotAbsent": "Two further conditions are present only in narrowed form: the registry stops on a family violence finding OR ALLEGATION and the packet stops only on an affirmative finding; the registry stops on any accident ALLEGATION in the offence report and the packet stops only where the offence RESULTED IN a collision. A stop exists to catch the participant before the question is resolved against them, so narrowing from allegation to established fact runs the wrong way.",
+        "cause": "The stop list is hard-coded as seven bullets at scripts/build-census-v1-tx_nd_dwi_probation-set.mjs lines 721-728 rather than derived from the registry."
+      },
+      "protectedFields": {
+        "field": "tx_nd_dwi_probation-fee-waiver-statement-4.Today",
+        "declaredRefusalClass": "signature_or_date_participant_completion",
+        "declaredReason": "a date written before the Statement is actually sworn would be false",
+        "whatIsOnTheBytes": "'12/15/2022' at xMin 99.75 yMin 474.52 xMax 159.80 yMax 485.62 on packet page 20, inside the field's own widget rect (x 97.75 y 302.31 w 150 h 22, source page 11) on every edge, directly above the caption 'Date (month, day, year) / Fecha (mes, día, año)' and beside the participant's signature line, on the page that is the declaration sworn under penalty of perjury. Present in both fixtures.",
+        "whereItComesFrom": "Not from this build. The same string is present in the byte-exact official source PDF private/human-source-returns/TX/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf (SHA-256 bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d, rehashed byte-exact in this lane) as that form's own baked appearance for its 'Today' field.",
+        "whyNoCounterSeesIt": "refusedFieldsWithInk and protectedWrites count ink the finalizer added. Neither can see ink the official source carried.",
+        "theDefect": "The packet's own declaration and its own delivered bytes disagree about the same field, and nothing tells the participant: 'Things the platform deliberately left blank' names the Statement's financial facts and its cause number and says nothing about a date already printed on the sworn declaration. A participant following these instructions signs a sworn statement bearing a date three and a half years stale.",
+        "classificationHonesty": "Three other refused fields whose boxes contain glyphs — Choice 1, Group10, Group12 — contain only U+F06F, the source form's own unmarked-checkbox glyph. That is the box, not a mark. They are correct and are not part of this failure."
+      },
+      "assignment": "VA11-TX-DWI-STOPS-AND-SWORN-DATE-001"
+    }
+  ],
+
+  "positiveFindingsARepairLaneMustNotUndo": {
+    "why": "The brief asked this lane to record a correct refusal either way, so a repair lane does not undo it. Four correct DET-FEE-AND-WAIVER-001-A3 refusals were found, one of them the Mississippi refusal the brief named.",
+    "findings": [
+      {
+        "familyId": "ms-diversion-set",
+        "theRefusal": "The compiled profile src/lib/rcap-engine/compiled/profiles/MS-mississippi.json holds a $150 filing fee in packetGenerator.feeRules, keyed in its own words to 'each petition to expunge an offense under 99-19-71' via Miss. Code Ann. § 99-19-72. This family's routes are §§ 99-15-123(3) and 9-23-23. The packet reads the figure and refuses it by name: 'The $150 filing fee you may have read about is levied by Miss. Code Ann. Sec. 99-19-72 on petitions to expunge an offense under Sec. 99-19-71. NEITHER SECTION IN THIS PACKET IS SEC. 99-19-71.' It then names the clerk of the administering court as the authority for both fee and waiver.",
+        "confirmedHere": "Yes. The profile's fee lines were read in this lane and every one is keyed to 99-19-71; neither 99-15-123 nor 9-23-23 carries a fee statement anywhere in the profile.",
+        "doNotRepairThisBy": "importing the $150 into this packet."
+      },
+      {
+        "familyId": "ct-decriminalized-set",
+        "theRefusal": "The compiled profile src/lib/rcap-engine/compiled/profiles/CT-connecticut.json says 'Connecticut erasure is free' and '$0 No fee charged (§ 54-142a)'. The string '54-142d' does not appear in that profile at all. This family's route is a § 54-142d petition for physical DESTRUCTION, a different section and a different remedy. The packet quotes the committed registry's own non-establishment verbatim — 'Unresolved. Sec. 54-142a(k) bars a fee on petitions under that section; Sec. 54-142d is a different section and whether the bar reaches it has not been established.' — and names the clerk's office with the registry's venue string attached.",
+        "confirmedHere": "Yes, by reading the profile in this lane.",
+        "doNotRepairThisBy": "publishing '$0, Connecticut erasure is free' for a § 54-142d filing. That is the sign-flipped California trap A3 was written for."
+      },
+      {
+        "familyId": "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
+        "theRefusal": "The compiled Illinois profile carries a fee table — '~$120-$160 per Request', 'Circuit clerk filing fee ~$60', 'Fee waiver $0 Application for Waiver of Court Fees' — and the route census names that profile as a requiredSourceId for this route, so under A2 it is in scope. Under A3 it does not answer this route: every line is scoped in the profile's own words to the Request to Expunge and/or Seal form set, whose form 4 is the Fee Waiver Application 'for petitioners who cannot afford the filing and State Police fees'. This route is a verified petition to a chief judge, and the profile separately records the Wilma rule that a mistaken-identity fact pattern routes AWAY from ordinary expungement or sealing. The same reasoning carries the service question: the profile's clerk-service and 60-day objection rules are recorded under 'Step 4 - Service and objections' of the Request process.",
+        "confirmedHere": "Yes, by reading both the profile and the committed route contract src/lib/legal-authority/routes/route-splits.json#IL:criminal-identity-theft-mistaken-identity-relief in this lane. The route contract records no fee, no service and no destination term.",
+        "doNotRepairThisBy": "importing $120-$160, or importing the Request's clerk-service rule."
+      },
+      {
+        "familyId": "tx_nd_dwi_probation-set",
+        "theRefusal": "The strongest of the four. The packet names the figure the participant will have seen elsewhere and tells them whose route it belongs to: 'NOW THE NUMBER TO IGNORE: $28... It belongs only to the no-petition route under Government Code Sec. 411.072(c)... This is a petition route under Sec. 411.0731. Do not arrive at the clerk's window with $28.' It then states what is held — § 411.0745(b) sets the type of fee and not an amount, OCA describes the total as typically about $280 varying by county, call the clerk — and delivers the Rule 145 Statement of Inability as a component rather than as a sentence.",
+        "confirmedHere": "Yes. The registry's rules.fees records exactly this, including that the $28 belongs to § 411.072(c) and is not a filing fee, and the registry carries a releaseBlocker on the county figure so that no single county number is invented.",
+        "doNotRepairThisBy": "replacing the OCA range with a single county figure, or deleting the $28 paragraph. This family fails on two other obligations and neither of them is the fee."
+      }
+    ]
+  },
+
+  "captainsBlindSpotAnswered": {
+    "list": "data/rcap-grade-a/packet-completeness/UNCLASSIFIED_BLANKS_BLIND_SPOT.json",
+    "familiesOfThisRosterOnIt": ["composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief","ct-decriminalized-set","ms-diversion-set","rcap-nd-custom-pleading"],
+    "familiesOfThisRosterNotOnIt": ["tx_nd_dwi_probation-set"],
+    "shapeConfirmedOnAllFour": "Each build script pushes 'IN THE ...... COURT' as a hard-coded literal dot run rather than through the DOTS() placeholder — IL line 90, CT line 103, MS line 178, ND lines 203, 509, 573, 745, 1016 and more — and each blank ledger is built from canonicalRefusals only. Captain's structural generalisation holds on all four.",
+    "answerToTheQuestionCaptainAsked": "On none of the four is a participant left to supply a court nobody told them to. This was read on the delivered bytes, not inferred from the zero. IL: the dot run is followed on the next printed line by '(the Illinois judicial circuit where the arrest occurred, addressed to its chief judge)', the destination is stated twice more, and item C2 collects the arrest circuit. CT: '(Superior Court, or the Judicial Department records center for older courts - see the filing instructions in this packet)', and the instructions page carries the full destination and the registry's venue string. ND: every one of the eighteen components' captions carries a parenthetical naming its clerk, and three of the five routes register a court-type blank in the ledger besides. MS goes further than the others: its field map registers caption_court and caption_county as refusals in their own right, so both blanks DO enter the blanks report and the instruction table on all three filing components, and the caption also carries its own parenthetical.",
+    "whatThisDoesNotSay": "It says nothing about the other 36 families on Captain's list. It also does not say the counter is fixed: unclassifiedBlanks still cannot see these caption blanks on IL, CT and ND, and a later reader must keep reading the caption rather than the zero."
+  },
+
+  "contradictingACommittedRecord": [
+    {
+      "where": "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json versus data/record-clearing/legal-design-track-registry.json",
+      "what": "The MASTER_QUEUE row for ct-decriminalized-set records legalInputStatus SETTLED with legalInputBasis null and laneReturnLegalHold null. The registry entry ct-decriminalized records legalStatus legal_review_pending and carries three entries in buildBlockers, each with impact 'build_blocker': the current scope of 'decriminalized' after State v. Menditto, whether the § 54-142a(k) fee bar reaches § 54-142d, and the accepted filing practice for a § 54-142d petition.",
+      "whyNoVerdictHereTurnsOnIt": "Under AGENTS.md's build-first review model counsel review is not a blocker through state_built, the registry's releaseBlockers array is empty, and its legalDesignStatus is legal_design_approved_with_limitations. The packet does not depend on any of the three open answers: it refuses to assert decriminalization and carries it as the participant's own position, it states the fee question as unresolved in the registry's own words, and it names the authority for filing practice. The family passes on what it delivers.",
+      "forCaptain": "The two records disagree in words a reader will act on. Reconciling them is not this lane's to do, but it should not sit unrecorded before any promotion decision on this family."
+    },
+    {
+      "where": "data/rcap-all50/overlays/census-v1/nd/rcap-nd-custom-pleading--custom-pleading/production-field-map.json versus its own reports/rendered-artifacts.json",
+      "what": "The field map records the instrument for the marijuana route as '...legal_effect_explanation: nd-marijuana-first-offense-seal-legal-effect-explanation-3'. The rendered componentSet in the same directory ships nd-marijuana-first-offense-seal-filing-instructions-3. The family's own two files disagree about which component it contains.",
+      "consequence": "This is the COMPONENT_SET failure recorded above, from the inside. It is listed here as well because a reader auditing consistency between a family's own artefacts would find it without reading any external manifest."
+    },
+    {
+      "where": "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-probation-set--official-pdf-fill/reports/actual-writes.json",
+      "what": "The report's own note says 'Every written fact value was read back from the extracted text of its component's own pages in the saved packet bytes, not from this builder's intent.' It then records expected \"\" — an empty string — for all 13 AcroForm writes, with foundInOutputBytes true. A read-back of an empty string against extracted text is satisfied by any document at all.",
+      "whyItIsNotScoredAsAFailure": "The obligation is about the packet's prefills, and this lane measured them directly: all 13 values are present inside their own widget rectangles in both fixtures. The packet is correct; the evidence file is not load-bearing as written.",
+      "forCaptain": "Any lane or gate that treats actual-writes.json as proof of a known prefill is, on this family, treating nothing as proof. Worth fixing in the same build script's write-reporting path, and worth checking whether other official_pdf_fill families share the pattern."
+    },
+    {
+      "where": "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json, all five rows",
+      "what": "Each rasterReceipt records documentsCovered: ['canonical.pdf'] with documentsNotCovered: [] and coversTheWholeFamily: true, while documentsMeasured is 2 and pagesMeasured equals the sum of BOTH fixtures' page counts on all five families (IL 8 = 4+4, CT 8 = 4+4, MS 18 = 9+9, ND 69 = 34+35, TX 48 = 24+24).",
+      "reading": "Both fixtures were measured; the documentsCovered list under-reports by omitting boundary.pdf. A minor bookkeeping inconsistency, recorded because a reader checking whether the boundary fixture was rastered would get the wrong answer from that field and the right one from pagesMeasured.",
+      "noVerdictTurnsOnIt": true
+    }
+  ],
+
+  "observationsNotScoredAsDefects": [
+    "ct-decriminalized-set writes fixture mailing address '42 Magnolia Street, Springfield 62704' — an Illinois postcode — onto a Connecticut Superior Court petition. Sibling families localise their fixture participant (Mississippi Hattiesburg MS 39401, Texas Austin TX 78702), so this is a fixture-realism gap rather than a delivery defect: production writes the participant's own address. Recorded because a visual reviewer will notice it.",
+    "ct-decriminalized-set delivers one component more than its committed packet-set manifest declares: the manifest names only ct-decriminalized-primary-filing-1, and the packet also ships ct-decriminalized-filing-instructions-2. The surplus is what carries this family's filing destination, fee, waiver, service and stop content, so it is additive and is what makes four other obligations passable. The opposite direction — a manifest-required component absent — is what failed North Dakota.",
+    "rcap-nd-custom-pleading's boundary fixture flows the petitioner contact block across a page break under maximal-length data: the mailing address ends '...Fort Saint Clairsville' at the foot of page 3 and resumes '39501-2214' at the head of page 4, with telephone and email following, on the felony petition and again on the marijuana motion. The value is complete and inside its own component. Recorded because a naive per-page read-back reports it as a missing prefill, and this lane's first pass did exactly that before re-measuring.",
+    "rcap-nd-custom-pleading's felony route prints its registry's own stop condition 'Every felony petition, which the controlling review makes an attorney handoff', so the packet ships a felony petition while telling the participant that every felony petition is an attorney handoff. That is the committed record faithfully carried and the honest thing to print, not a contradiction the packet invented.",
+    "pdftotext emits 'XObject subtype is missing or wrong type' twice on each Texas fixture (objects 1129625 and 1129879). Extraction is unaffected and all 24 pages extract. It is inherited from the 6.6 MB official Statement of Inability. Recorded so a later lane running the same tool does not read it as new damage."
+  ],
+
+  "onThisLanesOwnHistory": {
+    "whatTheBriefSaid": "VF11 as a lane has had verdicts overturned by later re-measurement — one of its Utah failures did not survive a repair, and another lane found its page-18 collision gone at a newer base.",
+    "howThisLaneTreatedThat": "As a reason to measure carefully, not as a reason to distrust the lane and not as a reason to soften a verdict. Every one of the five families was scored from zero at this base. The two failures recorded here each rest on something a later reader can re-run in a minute against a named commit: a grep for '411.0735' and a grep for 'other agencies' returning zero on named page ranges, and a word box at named coordinates lying inside a widget rect at named coordinates. If a repair makes any of them false, the verdict should be overturned, and the evidence is written so that overturning it is cheap."
+  },
+
+  "whatThisReturnGrants": "Nothing. An independent PASS proves a packet is complete; it approves no output, promotes no family and opens no commercial route. A FAIL is a verdict and a repair assignment, never an edit.",
+  "overlayDirectoriesModified": 0,
+  "packetPdfsModified": 0,
+  "fixturesModified": 0,
+  "fieldMapsModified": 0,
+  "buildScriptsModified": 0,
+  "queuesOrRoutesOrPricesModified": 0,
+  "otherLanesWorktreesTouched": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "ledgerHandEdited": false,
+  "filesWrittenByThisLane": [
+    "data/rcap-grade-a/packet-factory-24h/vf11/rows.json — 5 rows appended and one new top-level key va11Read added; all 16 pre-existing rows and all 16 pre-existing top-level keys preserved byte-for-byte, proved by diff against git show HEAD: (1281 insertions, 0 deletions)",
+    "data/rcap-grade-a/packet-factory-24h/vf11/repair-assignments.json — 2 assignments appended beside the pre-existing one and one new top-level key va11Note added; the pre-existing assignment and every top-level key preserved byte-for-byte, the single diff deletion being the closing bracket line that moved. Assignment ids are prefixed VA11- because ids are reused across shifts and this file already held another roster's return.",
+    "data/rcap-grade-a/fable-packet-factory/returns/FABLE_VA11_VERIFICATION.json — this file"
+  ]
+}
